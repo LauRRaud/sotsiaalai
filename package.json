@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-three/fiber": "^9.1.2",
+    "express": "^5.1.0",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

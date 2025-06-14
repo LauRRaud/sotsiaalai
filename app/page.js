@@ -20,23 +20,43 @@ export default function HomePage() {
                       <span className="headline-bold">
                         Sotsiaaltöö<br />spetsialistile
                       </span>
-                      <span className="card-description">
-                        Info, seadused ja nõuanded.
-                      </span>
-                    </div>
-                    <div className="card-note">
-                      <em>
-                        Sinu usaldusväärne töövahend<br />
-                        sotsiaalvaldkonna küsimustes.
-                      </em>
+                      <div className="card-info-bottom" style={{marginTop: "1.6em"}}>
+                        <span className="card-description" style={{
+                          display: "block",
+                          fontWeight: 500
+                        }}>
+                          Info, seadused ja nõuanded.
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              {/* Vasaku kaardi tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-light left-card-primary centered-back">
-                  <div className="card-title">
-                    <span className="brand-title brand-title-left">Küsi nõu</span>
+             <div
+  className="card-title"
+  style={{
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+margin: 0,
+padding: 0,
+marginTop: "2.5em",
+  }}
+>
+  <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
+</div>
+                  <div className="card-note" style={{
+      fontStyle: "italic",
+      fontSize: "1.35rem",
+      marginTop: "2.5em",
+      color: "#888",
+      textAlign: "center"
+    }}>
+                    Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
                 </div>
               </div>
@@ -58,23 +78,42 @@ export default function HomePage() {
                       <span className="headline-bold">
                         Eluküsimusega<br />pöördujale
                       </span>
-                      <span className="card-description">
+                      <span className="card-description" style={{
+                        display: "block",
+                        fontWeight: 300
+                      }}>
                         Õigused, võimalused ja tugi.
                       </span>
-                    </div>
-                    <div className="card-note">
-                      <em>
-                        Leia selgus ja kindlustunne<br />
-                        elulistes sotsiaalküsimustes.
-                      </em>
                     </div>
                   </div>
                 </div>
               </div>
+              {/* Parema kaardi tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-dark right-card-primary centered-back">
-                  <div className="card-title">
-                    <span className="brand-title brand-title-right">Küsi nõu</span>
+                  <div
+                    className="card-title"
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+margin: 0,
+padding: 0,
+marginTop: "2.5em", // <-- SEE TÕSTAB "Küsi nõu" ALLAPOOLE TAGAKÜLJEL!
+                    }}
+                  >
+                    <span className="brand-title brand-title-right" style={{margin: 0}}>Küsi nõu</span>
+                  </div>
+                  <div className="card-note" style={{
+                    fontStyle: "italic",
+                    fontSize: "1.35rem",  // <-- Suurem!
+                    marginTop: "2.5em",
+                    color: "#e0e0e0",
+                    textAlign: "center"
+                  }}>
+                    Leia selgus ja kindlustunne<br />
+                    elulistes sotsiaalküsimustes.
                   </div>
                 </div>
               </div>
@@ -84,12 +123,12 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-<div className="footer-row">
-  <div className="footer-left">sotsiaal.ai © 2025</div>
-  <div className="footer-right">
-    <a href="about.html" className="footer-link">Meist</a>
-  </div>
-</div>
+      <div className="footer-row">
+        <div className="footer-left">sotsiaal.ai © 2025</div>
+        <div className="footer-right">
+          <a href="about.html" className="footer-link">Meist</a>
+        </div>
+      </div>
     </>
   );
 }
