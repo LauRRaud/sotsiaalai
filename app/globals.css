@@ -204,7 +204,9 @@ body {
 
 .left-card-primary .headline-bold {
   font-size: 1.6rem;  /* või mis soovid */
-   font-weight: 600;     /* Näiteks vasakul boldim (700) */
+   font-weight: 700;     /* Näiteks vasakul boldim (700) */
+     color: #1f1f1fdf !important;
+  text-shadow: none;
 }
 
 .right-card-primary .headline-bold {
@@ -224,7 +226,10 @@ body {
   line-height: 1.32;
   display: block;
 }
-
+.left-card-primary .card-description {
+  color: #141414 !important;
+  font-weight: 800;
+}
 .card-note {
   font-size: 1.5rem;
   opacity: 1;
