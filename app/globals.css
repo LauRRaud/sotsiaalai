@@ -56,7 +56,7 @@ body {
   width: 100%;
   max-width: 400px;
   min-width: 370px;
-  min-height: 340px;
+  min-height: 250px;
   perspective: 1200px;
   margin: 0 auto;
   display: flex;
@@ -105,7 +105,7 @@ body {
 .glass-card {
   width: 100%;
   max-width: 400px;
-  min-height: 340px;
+ max-height: 300px !important;
   border-radius: 2.2rem;
   margin: 0 auto;
   box-shadow: 0 8px 44px 0 rgba(40,44,66,0.11), 0 2px 8px 0 rgba(10,10,20,0.07);
