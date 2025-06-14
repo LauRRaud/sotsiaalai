@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+
+/* Universaalne reset */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  background: #ededed;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* --- Paigutus --- */
+.main-content {
+  display: flex;
+  width: 100vw;
+}
+
+.side {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.2rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.side.left {
+  background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
+  color: #181818;
+}
+.side.right {
+  background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2 100%);
+  color: #181818b4;
+  border-left: 1px solid #e0e0e0;
+}
+
+/* --- Flip-wrapper ja glass-card mõõdud --- */
+.three-d-card {
+  width: 100%;
+  max-width: 420px;
+  min-width: 370px;
+  min-height: 370px;
+  perspective: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-wrapper {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1.1s cubic-bezier(.6,.1,.3,1.1);
+  position: relative;
+}
+.three-d-card:hover .card-wrapper,
+.three-d-card:focus-within .card-wrapper {
+  transform: rotateY(180deg);
+}
+/* Parem kaart - flipib paremale */
+.three-d-card.right:hover .card-wrapper,
+.three-d-card.right:focus-within .card-wrapper {
+  transform: rotateY(-180deg);
+}
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2.2rem;
+  top: 0;
+  left: 0;
+}
+.card-face.front {
+  transform: rotateY(0deg);
+}
+.card-face.back {
+  transform: rotateY(180deg);
+}
+.three-d-card.right .card-face.back {
+  transform: rotateY(-180deg);
+}
+/* --- Glasscardid --- */
+.glass-card {
+  width: 100%;
+  max-width: 420px;
+  min-height: 370px;
+  border-radius: 2.2rem;
+  margin: 0 auto;
+  box-shadow: 0 8px 44px 0 rgba(40,44,66,0.11), 0 2px 8px 0 rgba(10,10,20,0.07);
+  padding: 2.3em 2.1em 2.1em 2.1em;
+  transition:
+    box-shadow 0.28s cubic-bezier(.5,1.7,.71,1.26),
+    background 0.18s,
+    border 0.19s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+z-index: 1;
+}
+
+.glass-card-light {
+  background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2 100%);
+  border: 2.5px solid #ffffffcc;
+  box-shadow: 0 8px 54px 0 #dadada4d, 0 2px 10px 0 #eaeaea44;
+}
+.glass-card-light:hover {
+  box-shadow: 0 14px 70px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
+}
+.glass-card-dark {
+  background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
+  border: 2.5px solid #23232b;
+  box-shadow: 0 10px 54px 0 #19191dbe, 0 2px 10px 0 #29293c7a;
+}
+.glass-card-dark:hover {
+  box-shadow: 0 4px 16px 0 #11131e7a, 0 0px 2px 0 #242428a0;
+}
+.left-card-primary * {
+  color: #444444 !important;
+}
+.right-card-primary * {
+  color: #f2f3f8 !important;
+}
+
+/* --- Kaardi sisu keskele --- */
+.card-title,
+.card-content,
+.card-headline,
+.card-description,
+.card-note,
+.card-cta {
+  width: 100%;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.card-title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: 0rem;
+}
+.brand-title {
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: #7a7a7a;
+  letter-spacing: 0.03em;
+  text-align: center;
+  margin-bottom: 0.1rem;
+}
+.headline-bold {
+  font-weight: 700; /* Peenem, mitte bold */
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  color: inherit;
+  margin-bottom: 0.9em;
+  display: block;
+}
+.card-description {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: inherit;
+  margin-bottom: 1.2em;
+  margin-top: 0.25em;
+  line-height: 1.32;
+  display: block;
+}
+.card-note {
+  font-size: 1.5rem;
+  opacity: 1;
+  margin: 2em 0 0.0em 0;
+  color: inherit;
+  font-style: italic;
+  font-weight: 520;
+}
+.card-cta {
+  margin-top: 0em;
+}
+.cta-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: inherit;
+}
+
+/* --- Footer --- */
+.footer-row {
+  display: flex;
+  width: 100vw;
+  min-height: 2.6em;
+  font-size: 1.4rem;
+  margin: 0;
+  line-height: 2.6em;
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+.footer-left {
+  flex: 1;
+  color: #fff;
+  background: #1a1a1c;
+  text-align: right;
+  padding-right: 1.1em;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+.footer-right {
+  flex: 1;
+  background: linear-gradient(180deg, #e2e2e2 0%, #dadada 100%);
+  text-align: left;
+  padding-left: 1.1em;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+.footer-right a.footer-link {
+  color: #181818;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700; /* või 600 kui soovid veidi kergemat */
+  transition: none;
+}
+
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    min-height: unset;
+  }
+  .side {
+    min-height: 56vh;
+    padding: 1.5rem 0.7rem;
+    width: 100vw;
+  }
+  .brand-title { font-size: 1.1rem; }
+  .glass-card, .three-d-card {
+    min-height: 220px;
+    padding: 1.3em 0.7em 1em 0.7em;
+    max-width: 100vw;
+  }
+}
+@media (max-width: 600px) {
+  .side {
+    padding: 1.1rem 0.3rem;
+    width: 100vw;
+  }
+  .brand-title { font-size: 1rem; }
+  .glass-card, .three-d-card {
+    min-height: 110px;
+    padding: 0.7em 0.1em 0.6em 0.1em;
+    max-width: 100vw;
+  }
+}
+.centered-back {
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100%;
+}
+.centered-back .card-title {
+  margin: 0 !important;
+  width: 100%;
+}
+@keyframes float-vertical {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-card {
+  animation: float-vertical 7s ease-in-out infinite;
+}
+/* Parem kaart (tume taust) */
+.glass-card-dark,
+.glass-card-dark:hover {
+  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
+}
+
+/* Vasak kaart (hele kuma all) */
+.glass-card-light,
+.glass-card-light:hover {
+  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
+}
+@keyframes gradientWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.brand-title-left,
+.brand-title-right {
+  background: linear-gradient(
+    270deg,
+    #4851fa,
+    #a133e1,
+    #4851fa
+  );
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+  animation: gradientWave 7s ease-in-out infinite;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+.right-card-primary .brand-title,
+.right-card-primary .headline-bold,
+.right-card-primary .card-description,
+.right-card-primary .card-note {
+  font-weight: 500; /* Kasuta toetatud väärtust */
+}
+
+.right-card-primary .headline-bold {
+  font-size: 1.6rem;
+  font-weight: 500; /* Veidi tugevam kui normaalne */
+}
+
+.right-card-primary .card-description {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.right-card-primary .card-note {
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 300;
+}
