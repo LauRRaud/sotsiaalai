@@ -30,32 +30,36 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
+                  {/* Küsi nõu nupp mobiilis */}
+                  <a href="/kysi-nou" className="mobile-ask-btn">
+                    Küsi nõu
+                  </a>
                 </div>
               </div>
               {/* Vasaku kaardi tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-light left-card-primary centered-back">
-             <div
-  className="card-title"
-  style={{
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-margin: 0,
-padding: 0,
-marginTop: "2.5em",
-  }}
->
-  <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
-</div>
+                  <div
+                    className="card-title"
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      margin: 0,
+                      padding: 0,
+                      marginTop: "2.5em",
+                    }}
+                  >
+                    <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
+                  </div>
                   <div className="card-note" style={{
-      fontStyle: "italic",
-      fontSize: "1.35rem",
-      marginTop: "2.5em",
-      color: "#888",
-      textAlign: "center"
-    }}>
+                    fontStyle: "italic",
+                    fontSize: "1.45rem",
+                    marginTop: "2.5em",
+                    color: "#888",
+                    textAlign: "center"
+                  }}>
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
                 </div>
@@ -86,6 +90,10 @@ marginTop: "2.5em",
                       </span>
                     </div>
                   </div>
+                  {/* Küsi nõu nupp mobiilis */}
+                  <a href="/kysi-nou" className="mobile-ask-btn">
+                    Küsi nõu
+                  </a>
                 </div>
               </div>
               {/* Parema kaardi tagakülg */}
@@ -98,16 +106,16 @@ marginTop: "2.5em",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-margin: 0,
-padding: 0,
-marginTop: "2.5em", // <-- SEE TÕSTAB "Küsi nõu" ALLAPOOLE TAGAKÜLJEL!
+                      margin: 0,
+                      padding: 0,
+                      marginTop: "2.5em",
                     }}
                   >
                     <span className="brand-title brand-title-right" style={{margin: 0}}>Küsi nõu</span>
                   </div>
                   <div className="card-note" style={{
                     fontStyle: "italic",
-                    fontSize: "1.35rem",  // <-- Suurem!
+                    fontSize: "1.45rem",
                     marginTop: "2.5em",
                     color: "#e0e0e0",
                     textAlign: "center"
