@@ -514,3 +514,13 @@ body {
     text-align: center;
   }
 }
+@media (max-width: 600px) {
+  .glass-card, .three-d-card {
+    width: 70vw;
+    max-width: 70vw;
+    min-width: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em 0.5em;
+  }
+}
