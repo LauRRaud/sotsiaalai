@@ -481,7 +481,7 @@ body {
     font-size: 0.97rem !important;
   }
   .glass-card, .three-d-card {
-    max-width: 99vw;
+    max-width: 70vw;
     padding: 0.7em 0.1em 1em 0.1em !important;
   }
   .mobile-ask-btn {
