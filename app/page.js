@@ -10,6 +10,7 @@ export default function HomePage() {
         <div className="side left">
           <div className="three-d-card float-card">
             <div className="card-wrapper">
+              {/* Esikülg */}
               <div className="card-face front">
                 <div className="glass-card glass-card-light left-card-primary">
                   <div className="card-title">
@@ -29,33 +30,36 @@ export default function HomePage() {
                         </span>
                       </div>
                     </div>
+                    {/* Mobiilinupp */}
+                    <a href="/kysi-nou" className="mobile-ask-btn">
+                      Küsi nõu
+                    </a>
                   </div>
                 </div>
               </div>
-              {/* Vasaku kaardi tagakülg */}
+              {/* Tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-light left-card-primary centered-back">
-             <div
-  className="card-title"
-  style={{
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-margin: 0,
-padding: 0,
-marginTop: "2.5em",
-  }}
->
-  <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
-</div>
+                  <div
+                    className="card-title"
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      margin: 0,
+                      padding: 0
+                    }}
+                  >
+                    <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
+                  </div>
                   <div className="card-note" style={{
-      fontStyle: "italic",
-      fontSize: "1.35rem",
-      marginTop: "2.5em",
-      color: "#888",
-      textAlign: "center"
-    }}>
+                    fontStyle: "italic",
+                    fontSize: "1.4rem",
+                    marginTop: "2.5em",
+                    color: "#888",
+                    textAlign: "center"
+                  }}>
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
                 </div>
@@ -68,6 +72,7 @@ marginTop: "2.5em",
         <div className="side right">
           <div className="three-d-card right float-card">
             <div className="card-wrapper">
+              {/* Esikülg */}
               <div className="card-face front">
                 <div className="glass-card glass-card-dark right-card-primary">
                   <div className="card-title">
@@ -80,15 +85,19 @@ marginTop: "2.5em",
                       </span>
                       <span className="card-description" style={{
                         display: "block",
-                        fontWeight: 300
+                        fontWeight: 400
                       }}>
                         Õigused, võimalused ja tugi.
                       </span>
                     </div>
+                    {/* Mobiilinupp */}
+                    <a href="/kysi-nou" className="mobile-ask-btn">
+                      Küsi nõu
+                    </a>
                   </div>
                 </div>
               </div>
-              {/* Parema kaardi tagakülg */}
+              {/* Tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-dark right-card-primary centered-back">
                   <div
@@ -98,16 +107,15 @@ marginTop: "2.5em",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-margin: 0,
-padding: 0,
-marginTop: "2.5em", // <-- SEE TÕSTAB "Küsi nõu" ALLAPOOLE TAGAKÜLJEL!
+                      margin: 0,
+                      padding: 0
                     }}
                   >
                     <span className="brand-title brand-title-right" style={{margin: 0}}>Küsi nõu</span>
                   </div>
                   <div className="card-note" style={{
                     fontStyle: "italic",
-                    fontSize: "1.35rem",  // <-- Suurem!
+                    fontSize: "1.5rem",
                     marginTop: "2.5em",
                     color: "#e0e0e0",
                     textAlign: "center"
