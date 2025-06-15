@@ -20,7 +20,7 @@ export default function HomePage() {
                       <span className="headline-bold">
                         Sotsiaaltöö<br />spetsialistile
                       </span>
-                      <div className="card-info-bottom" style={{marginTop: "1.6em"}}>
+                      <div className="card-info-bottom" style={{ marginTop: "1.6em" }}>
                         <span className="card-description" style={{
                           display: "block",
                           fontWeight: 500
@@ -30,7 +30,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Küsi nõu nupp mobiilis */}
+                  {/* Küsi nõu nupp ainult mobiilivaates */}
                   <a href="/kysi-nou" className="mobile-ask-btn">
                     Küsi nõu
                   </a>
@@ -51,11 +51,11 @@ export default function HomePage() {
                       marginTop: "2.5em",
                     }}
                   >
-                    <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
+                    <span className="brand-title brand-title-left" style={{ margin: 0 }}>Küsi nõu</span>
                   </div>
                   <div className="card-note" style={{
                     fontStyle: "italic",
-                    fontSize: "1.45rem",
+                    fontSize: "1.35rem",
                     marginTop: "2.5em",
                     color: "#888",
                     textAlign: "center"
@@ -90,7 +90,7 @@ export default function HomePage() {
                       </span>
                     </div>
                   </div>
-                  {/* Küsi nõu nupp mobiilis */}
+                  {/* Küsi nõu nupp ainult mobiilivaates */}
                   <a href="/kysi-nou" className="mobile-ask-btn">
                     Küsi nõu
                   </a>
@@ -111,11 +111,11 @@ export default function HomePage() {
                       marginTop: "2.5em",
                     }}
                   >
-                    <span className="brand-title brand-title-right" style={{margin: 0}}>Küsi nõu</span>
+                    <span className="brand-title brand-title-right" style={{ margin: 0 }}>Küsi nõu</span>
                   </div>
                   <div className="card-note" style={{
                     fontStyle: "italic",
-                    fontSize: "1.45rem",
+                    fontSize: "1.35rem",
                     marginTop: "2.5em",
                     color: "#e0e0e0",
                     textAlign: "center"

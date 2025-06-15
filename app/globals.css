@@ -27,6 +27,7 @@ body {
 .main-content {
   display: flex;
   width: 100vw;
+  flex: 1 0 auto;
 }
 
 .side {
@@ -62,7 +63,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
+
 .card-wrapper {
   width: 100%;
   height: 100%;
@@ -70,15 +75,17 @@ body {
   transition: transform 1.1s cubic-bezier(.6,.1,.3,1.1);
   position: relative;
 }
+
 .three-d-card:hover .card-wrapper,
 .three-d-card:focus-within .card-wrapper {
   transform: rotateY(180deg);
 }
-/* Parem kaart - flipib paremale */
 .three-d-card.right:hover .card-wrapper,
 .three-d-card.right:focus-within .card-wrapper {
   transform: rotateY(-180deg);
 }
+
+/* Kaardi näod - ÄRA PANE backgroundi! */
 .card-face {
   position: absolute;
   width: 100%;
@@ -91,6 +98,8 @@ body {
   border-radius: 2.2rem;
   top: 0;
   left: 0;
+  background: transparent;   /* See on KRIITILINE */
+  overflow: visible;
 }
 .card-face.front {
   transform: rotateY(0deg);
@@ -101,14 +110,15 @@ body {
 .three-d-card.right .card-face.back {
   transform: rotateY(-180deg);
 }
+
 /* --- Glasscardid --- */
 .glass-card {
   width: 100%;
   max-width: 400px;
- max-height: 300px !important;
+  max-height: 300px !important;
   border-radius: 2.2rem;
   margin: 0 auto;
-  box-shadow: 0 8px 44px 0 rgba(40,44,66,0.11), 0 2px 8px 0 rgba(10,10,20,0.07);
+  box-shadow: 0 40px 60px 0 rgba(40,44,66,0.11), 0 2px 8px 0 rgba(10,10,20,0.07);
   padding: 2.3em 2.1em 2.1em 2.1em;
   transition:
     box-shadow 0.28s cubic-bezier(.5,1.7,.71,1.26),
@@ -121,23 +131,25 @@ body {
   justify-content: center;
   position: relative;
   z-index: 1;
+  background-clip: padding-box; /* vari ei lõigata ära */
+  overflow: visible;
 }
 
 .glass-card-light {
   background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2 100%);
   border: 2.5px solid #ffffffcc;
-  box-shadow: 0 8px 54px 0 #dadada4d, 0 2px 10px 0 #eaeaea44;
+  box-shadow: 0 40px 60px 0 #dadada4d, 0 2px 10px 0 #eaeaea44;
 }
 .glass-card-light:hover {
-  box-shadow: 0 14px 70px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
+  box-shadow: 0 44px 90px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
 }
 .glass-card-dark {
   background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
   border: 2.5px solid #23232b;
-  box-shadow: 0 10px 54px 0 #19191dbe, 0 2px 10px 0 #29293c7a;
+  box-shadow: 0 40px 60px 0 #19191dbe, 0 2px 10px 0 #29293c7a;
 }
 .glass-card-dark:hover {
-  box-shadow: 0 4px 16px 0 #11131e7a, 0 0px 2px 0 #242428a0;
+  box-shadow: 0 44px 90px 0 #11131e7a, 0 0px 2px 0 #242428a0;
 }
 .left-card-primary * {
   color: #444444 !important;
@@ -185,8 +197,7 @@ body {
   );
   background-size: 200% 200%;
   background-repeat: no-repeat;
-  animation: gradientWave 6s ease-in-out infinite;
-
+  animation: gradientWave 7s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -201,20 +212,17 @@ body {
   margin-bottom: 2.4em;
   display: block;
 }
-
 .left-card-primary .headline-bold {
-  font-size: 1.6rem;  /* või mis soovid */
-   font-weight: 700;     /* Näiteks vasakul boldim (700) */
-     color: #1f1f1fdf !important;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1f1f1fdf !important;
   text-shadow: none;
 }
-
 .right-card-primary .headline-bold {
-  font-size: 1.6rem;  /* või mis soovid */
-    font-weight: 500;     /* Näiteks paremal pehmem (500) */
+  font-size: 1.6rem;
+  font-weight: 500;
 }
 
-/* --- MUUDETUD! Kaardi alumine tekst mõlemal poolel sama suurusega --- */
 .card-description,
 .left-card-primary .card-description,
 .right-card-primary .card-description {
@@ -283,179 +291,69 @@ body {
   color: #252525;
   text-decoration: none;
   font-size: 1.4rem;
-  font-weight: 600; /* või 600 kui soovid veidi kergemat */
+  font-weight: 600;
   transition: none;
 }
 
-/* --- Responsive --- */
+/* --- Responsive: mobiil --- */
+.mobile-ask-btn {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .main-content {
     flex-direction: column;
     min-height: unset;
-  }
-  .side {
-    min-height: 56vh;
-    padding: 1.5rem 0.7rem;
-    width: 100vw;
-  }
-  .brand-title { font-size: 1.1rem; }
-  .glass-card, .three-d-card {
-    min-height: 220px;
-    padding: 1.3em 0.7em 1em 0.7em;
-    max-width: 100vw;
-  }
-}
-@media (max-width: 600px) {
-  .side {
-    padding: 1.1rem 0.3rem;
-    width: 100vw;
-  }
-  .brand-title { font-size: 1rem; }
-  .glass-card, .three-d-card {
-    min-height: 110px;
-    padding: 0.7em 0.1em 0.6em 0.1em;
-    max-width: 100vw;
-  }
-}
-.centered-back {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 100%;
-  min-height: 370px;      /* Võta sama mis .glass-card või .three-d-card */
-  padding: 2.5em 1em;     /* Annab ruumi üles ja alla */
-  box-sizing: border-box;
-}
-.centered-back .brand-title,
-.centered-back .brand-title-left,
-.centered-back .brand-title-right {
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  display: block;
-}
-@keyframes float-vertical {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-.float-card {
-  animation: float-vertical 6s ease-in-out infinite;
-}
-/* Parem kaart (tume taust) */
-.glass-card-dark,
-.glass-card-dark:hover {
-  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
-}
-
-/* Vasak kaart (hele kuma all) */
-.glass-card-light,
-.glass-card-light:hover {
-  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
-}
-@keyframes gradientWave {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-/* --- MOBIIL: kaardid väiksemaks, ruumi ümber, nupp poolikult kaardi sees --- */
-@media (max-width: 900px) {
-  .main-content {
-    flex-direction: column;
     align-items: center !important;
-    gap: 2.3em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    min-height: unset;
+    gap: 1.2em;
+    padding: 0.3em 0 0.7em 0 !important;
+    width: 100vw !important;
+    overflow-x: hidden;
   }
   .side {
-    padding: 0.6em 0 0.1em 0 !important;
-    min-height: unset !important;
-    width: 100vw;
+    min-height: auto !important;
+    width: 100vw !important;
     align-items: center !important;
     justify-content: flex-start !important;
+    padding: 3em 0.8em !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box;
+  }
+  .side.right {
+    border-left: none !important;
   }
   .three-d-card,
   .glass-card {
-    max-width: 98vw !important;
+    max-width: 75vw !important;
+    width: 75vw !important;
     min-width: 0 !important;
-    width: 93vw !important;
-    min-height: 210px !important;
-    margin: 0 auto 2em auto !important;
-  }
-  .glass-card {
-    padding-top: 1.2em !important;
-    padding-bottom: 2.5em !important; /* rohkem ruumi nuppudele */
-  }
-  /* Pealkirjad suuremaks, rohkem alla */
-  .brand-title,
-  .brand-title-left,
-  .brand-title-right {
-    font-size: 2.1rem !important;
-    margin-top: 0.8em !important;
-    margin-bottom: 1.1em !important;
-    line-height: 1.13;
-    text-align: center !important;
-    display: block;
-  }
-  /* Kaardi headline allapoole */
-  .card-title {
-    margin-bottom: 0.5em !important;
-    margin-top: 0.1em !important;
-  }
-  .headline-bold {
-    font-size: 1.3rem !important;
-    margin-bottom: 1.2em !important;
-    margin-top: 0.1em !important;
-  }
-  /* --- NUpp poolikult kaardil --- */
-  .mobile-ask-btn {
-    display: block !important;
-    position: absolute;
-    left: 50%;
-    bottom: -1.5em;
-    transform: translateX(-50%);
-    z-index: 2;
-    background: linear-gradient(90deg, #4851fa, #a133e1);
-    color: #fff !important;
-    font-size: 1.22rem;
-    font-weight: 700;
-    padding: 0.55em 2.2em;
-    border-radius: 1.8em;
-    box-shadow: 0 2px 12px #a133e173;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    width: auto;
-    min-width: 130px;
-    max-width: 80vw;
-    white-space: nowrap;
-    transition: filter 0.15s;
-  }
-  .glass-card {
+    max-height: unset !important;
+    padding: 0.6em 0.4em 2em 0.4em !important;
+    margin: 0 auto !important;
+    box-shadow: 0 4px 18px 0 rgba(40,44,66,0.17) !important;
     position: relative !important;
     overflow: visible !important;
   }
-  /* Muud nupud ära peida */
-  .mobile-ask-btn:active {
-    filter: brightness(0.92);
+  .brand-title,
+  .brand-title-left,
+  .brand-title-right {
+    font-size: 1.25rem !important;
+    margin-top: 0.3em !important;
+    margin-bottom: 0.4em !important;
+    line-height: 1.1;
+    text-align: center !important;
+    display: block;
   }
-  /* Flippimine keelatud */
+  .headline-bold {
+    font-size: 1rem !important;
+    margin-bottom: 0.5em !important;
+    margin-top: 0.1em !important;
+  }
+  .card-description,
+  .card-note {
+    font-size: 0.95rem !important;
+  }
+  /* Kaardid ei flippi mobiilis */
   .three-d-card:hover .card-wrapper,
   .three-d-card:focus-within .card-wrapper,
   .three-d-card.right:hover .card-wrapper,
@@ -465,43 +363,70 @@ body {
   .card-face.back {
     display: none !important;
   }
-  /* Footer vastupidises järjekorras */
+  .mobile-ask-btn {
+    display: block !important;
+    position: absolute;
+    left: 50%;
+    bottom: -1.3em;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: linear-gradient(90deg, #4851fa, #a133e1);
+    color: #fff !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.5em 1.2em;
+    border-radius: 1.8em;
+    box-shadow: 0 4px 18px 0 rgba(40,44,66,0.17);
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    min-width: 80px;
+    max-width: 70vw;
+    white-space: nowrap;
+    transition: filter 0.15s;
+  }
+  .mobile-ask-btn:active {
+    filter: brightness(0.92);
+  }
   .footer-row {
     flex-direction: column-reverse !important;
-    font-size: 1.1rem;
+    font-size: 1.0rem;
     align-items: stretch;
     margin-top: 0 !important;
   }
   .footer-left, .footer-right {
     width: 100% !important;
-    padding: 0.45em 0.15em !important;
+    padding: 0.2em 0.15em !important;
     text-align: center !important;
   }
 }
 
-/* --- Veel väiksemad telefonid --- */
 @media (max-width: 600px) {
-  .three-d-card,
-  .glass-card {
-    width: 97vw !important;
-    max-width: 99vw !important;
-    min-width: 0 !important;
-    min-height: 180px !important;
+  .side {
+    padding: 1.2em 0.2em !important;
   }
-  .brand-title,
-  .brand-title-left,
-  .brand-title-right {
-    font-size: 1.5rem !important;
-    margin-top: 0.5em !important;
-    margin-bottom: 0.8em !important;
-  }
-  .headline-bold {
-    font-size: 1.0rem !important;
+  .three-d-card, .glass-card {
+    max-width: 92vw !important;
+    width: 92vw !important;
+    padding: 0.2em 0.1em 1.3em 0.1em !important;
   }
   .mobile-ask-btn {
-    font-size: 1.07rem;
-    padding: 0.45em 1.8em;
-    bottom: -1.2em;
-    min-width: 110px;
+    font-size: 0.92rem;
+    padding: 0.35em 0.7em;
+    bottom: -0.9em;
   }
+}
+
+/* --- Kaartide animatsioon --- */
+@keyframes float-vertical {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+.float-card { animation: float-vertical 6s ease-in-out infinite; }
+
+@keyframes gradientWave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
