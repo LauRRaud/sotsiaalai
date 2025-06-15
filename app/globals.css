@@ -373,51 +373,70 @@ body {
     background-position: 0% 50%;
   }
 }
-/* Küsi nõu nupp ainult mobiilis */
-.mobile-ask-btn {
-  display: none;
-}
+/* Mobiilis väiksemad kaardid ja padding */
 @media (max-width: 900px) {
-  .mobile-ask-btn {
-    display: block;
-    margin: 2em auto 0.5em auto;
-    background: linear-gradient(90deg, #4851fa, #a133e1);
-    color: #fff !important;
-    font-size: 1.15rem;
-    font-weight: 700;
-    padding: 0.9em 2.2em;
-    border-radius: 1.5em;
-    text-align: center;
-    text-decoration: none;
-    box-shadow: 0 2px 14px #a133e14a;
-    transition: filter 0.15s, background 0.2s;
-    width: fit-content;
-    border: none;
-    outline: none;
-    cursor: pointer;
+  .glass-card,
+  .three-d-card {
+    min-height: 210px !important;
+    max-width: 98vw;
+    padding: 1.3em 0.7em 1.2em 0.7em !important;
   }
-  .mobile-ask-btn:active {
-    filter: brightness(0.9);
+}
+@media (max-width: 600px) {
+  .glass-card,
+  .three-d-card {
+    min-height: 160px !important;
+    max-width: 100vw;
+    padding: 0.6em 0.1em 0.8em 0.1em !important;
   }
 }
 
-/* Mobiilis pealkirjad suuremaks ja õiges proportsioonis */
+/* Mobiilis pealkirjad väiksemaks ja korrektne vahe */
 @media (max-width: 900px) {
   .brand-title,
   .brand-title-left,
   .brand-title-right {
-    font-size: 2.2rem !important;
-    margin-top: 0.8em !important;
-    margin-bottom: 0.9em !important;
+    font-size: 1.4rem !important;
+    margin-top: 0.7em !important;
+    margin-bottom: 0.7em !important;
   }
 }
 @media (max-width: 600px) {
   .brand-title,
   .brand-title-left,
   .brand-title-right {
-    font-size: 2.5rem !important;
-    margin-top: 0.5em !important;
-    margin-bottom: 0.8em !important;
+    font-size: 1.1rem !important;
+    margin-top: 0.4em !important;
+    margin-bottom: 0.4em !important;
+  }
+}
+
+/* Küsi nõu nupp ainult mobiilis ja alati kaardi allserva */
+.mobile-ask-btn {
+  display: none;
+}
+@media (max-width: 900px) {
+  .mobile-ask-btn {
+    display: block;
+    margin: 1.6em auto 0.3em auto !important;
+    background: linear-gradient(90deg, #4851fa, #a133e1);
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.8em 1.8em;
+    border-radius: 1.5em;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 2px 14px #a133e14a;
+    transition: filter 0.15s, background 0.2s;
+    width: 90%;
+    max-width: 270px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .mobile-ask-btn:active {
+    filter: brightness(0.9);
   }
 }
 
