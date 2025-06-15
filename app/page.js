@@ -130,11 +130,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Jalus - uus järjekord */}
       <div className="footer-row">
-        <div className="footer-left">sotsiaal.ai © 2025</div>
         <div className="footer-right">
           <a href="about.html" className="footer-link">Meist</a>
+        </div>
+        <div className="footer-center">
+          2025
+        </div>
+        <div className="footer-left">
+          sotsiaal.ai ©
         </div>
       </div>
     </>
