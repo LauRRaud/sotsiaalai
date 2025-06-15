@@ -10,7 +10,6 @@ export default function HomePage() {
         <div className="side left">
           <div className="three-d-card float-card">
             <div className="card-wrapper">
-              {/* Esikülg */}
               <div className="card-face front">
                 <div className="glass-card glass-card-light left-card-primary">
                   <div className="card-title">
@@ -30,36 +29,33 @@ export default function HomePage() {
                         </span>
                       </div>
                     </div>
-                    {/* Mobiilinupp */}
-                    <a href="/kysi-nou" className="mobile-ask-btn">
-                      Küsi nõu
-                    </a>
                   </div>
                 </div>
               </div>
-              {/* Tagakülg */}
+              {/* Vasaku kaardi tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-light left-card-primary centered-back">
-                  <div
-                    className="card-title"
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      margin: 0,
-                      padding: 0
-                    }}
-                  >
-                    <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
-                  </div>
+             <div
+  className="card-title"
+  style={{
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+margin: 0,
+padding: 0,
+marginTop: "2.5em",
+  }}
+>
+  <span className="brand-title brand-title-left" style={{margin: 0}}>Küsi nõu</span>
+</div>
                   <div className="card-note" style={{
-                    fontStyle: "italic",
-                    fontSize: "1.4rem",
-                    marginTop: "2.5em",
-                    color: "#888",
-                    textAlign: "center"
-                  }}>
+      fontStyle: "italic",
+      fontSize: "1.35rem",
+      marginTop: "2.5em",
+      color: "#888",
+      textAlign: "center"
+    }}>
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
                 </div>
@@ -72,7 +68,6 @@ export default function HomePage() {
         <div className="side right">
           <div className="three-d-card right float-card">
             <div className="card-wrapper">
-              {/* Esikülg */}
               <div className="card-face front">
                 <div className="glass-card glass-card-dark right-card-primary">
                   <div className="card-title">
@@ -85,19 +80,15 @@ export default function HomePage() {
                       </span>
                       <span className="card-description" style={{
                         display: "block",
-                        fontWeight: 400
+                        fontWeight: 300
                       }}>
                         Õigused, võimalused ja tugi.
                       </span>
                     </div>
-                    {/* Mobiilinupp */}
-                    <a href="/kysi-nou" className="mobile-ask-btn">
-                      Küsi nõu
-                    </a>
                   </div>
                 </div>
               </div>
-              {/* Tagakülg */}
+              {/* Parema kaardi tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-dark right-card-primary centered-back">
                   <div
@@ -107,15 +98,16 @@ export default function HomePage() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      margin: 0,
-                      padding: 0
+margin: 0,
+padding: 0,
+marginTop: "2.5em", // <-- SEE TÕSTAB "Küsi nõu" ALLAPOOLE TAGAKÜLJEL!
                     }}
                   >
                     <span className="brand-title brand-title-right" style={{margin: 0}}>Küsi nõu</span>
                   </div>
                   <div className="card-note" style={{
                     fontStyle: "italic",
-                    fontSize: "1.5rem",
+                    fontSize: "1.35rem",  // <-- Suurem!
                     marginTop: "2.5em",
                     color: "#e0e0e0",
                     textAlign: "center"
@@ -130,16 +122,11 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Jalus - uus järjekord */}
+      {/* Footer */}
       <div className="footer-row">
+        <div className="footer-left">sotsiaal.ai © 2025</div>
         <div className="footer-right">
           <a href="about.html" className="footer-link">Meist</a>
-        </div>
-        <div className="footer-center">
-          2025
-        </div>
-        <div className="footer-left">
-          sotsiaal.ai ©
         </div>
       </div>
     </>
