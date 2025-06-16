@@ -315,7 +315,6 @@ body {
     border-radius: 1.7em !important;
     padding: 1em 0.7em 2.1em 0.7em !important;
   }
-  /* Esimesele kaardile lisa margin-top! */
   .three-d-card:first-child, .glass-card:first-child {
     margin-top: 2.4em !important;
   }
@@ -354,10 +353,9 @@ body {
     max-width: 95vw !important;
     padding: 1.2em 0.3em !important;
   }
-  /* Peida back-face */
   .card-face.back { display: none !important; }
 
-  /* ÄRA FLIPPI! */
+  /* Ära flippi mobiilis! */
   .three-d-card:hover .card-wrapper,
   .three-d-card:focus-within .card-wrapper,
   .three-d-card.right:hover .card-wrapper,
@@ -365,12 +363,17 @@ body {
     transform: none !important;
   }
 
+  /* Ära hõlju mobiilis! */
+  .float-card {
+    animation: none !important;
+  }
+
   /* Ainult mobiilis nupp nähtav */
   .mobile-ask-btn {
     display: block !important;
     position: absolute;
     left: 50%;
-    bottom: 0.7em;
+    bottom: 0.25em; /* VEIDI allpool */
     transform: translateX(-50%);
     z-index: 2;
     background: linear-gradient(90deg, #4851fa, #a133e1);
@@ -389,6 +392,9 @@ body {
     transition: filter 0.15s;
   }
   .mobile-ask-btn:active { filter: brightness(0.92); }
+}
+@media (max-width: 900px) {
+  .float-card { animation: none !important; }
 }
 
 /* ANIMATSIOONID */
