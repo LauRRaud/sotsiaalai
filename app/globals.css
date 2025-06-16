@@ -124,33 +124,23 @@ body {
 .glass-card-light {
   background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2 100%);
   border: 2.5px solid #ffffffcc;
-  box-shadow: 0 8px 54px 0 #dadada4d, 0 2px 10px 0 #eaeaea44;
+  box-shadow: 0 40px 60px rgba(255,255,255,0.288);
 }
 .glass-card-light:hover {
-  box-shadow: 0 14px 70px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
+  box-shadow: 0 44px 90px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
 }
 .glass-card-dark {
   background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
   border: 2.5px solid #23232b;
-  box-shadow: 0 10px 54px 0 #19191dbe, 0 2px 10px 0 #29293c7a;
+  box-shadow: 0 40px 60px rgba(0,0,0,0.607);
 }
 .glass-card-dark:hover {
-  box-shadow: 0 4px 16px 0 #11131e7a, 0 0px 2px 0 #242428a0;
+  box-shadow: 0 44px 90px 0 #11131e7a, 0 0px 2px 0 #242428a0;
 }
-/* TUGEVAD VARJUD - SÄILITAN KAARDI FLIPI AJAL */
-.glass-card-dark,
-.glass-card-dark:hover {
-  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
-}
-.glass-card-light,
-.glass-card-light:hover {
-  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
-}
-
 .left-card-primary * { color: #444444 !important; }
 .right-card-primary * { color: #f2f3f8 !important; }
 
-/* TAGUMINE KAART */
+/* TAGUMINE KAART - centered-back */
 .centered-back {
   display: flex !important;
   flex-direction: column;
@@ -291,6 +281,7 @@ body {
   font-weight: 600;
   transition: none;
 }
+
 /* MOBIIL - Responsive */
 .mobile-ask-btn { display: none; }
 @media (max-width: 900px) {
@@ -365,6 +356,39 @@ body {
   }
   /* Peida back-face */
   .card-face.back { display: none !important; }
+
+  /* ÄRA FLIPPI! */
+  .three-d-card:hover .card-wrapper,
+  .three-d-card:focus-within .card-wrapper,
+  .three-d-card.right:hover .card-wrapper,
+  .three-d-card.right:focus-within .card-wrapper {
+    transform: none !important;
+  }
+
+  /* Ainult mobiilis nupp nähtav */
+  .mobile-ask-btn {
+    display: block !important;
+    position: absolute;
+    left: 50%;
+    bottom: 0.7em;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: linear-gradient(90deg, #4851fa, #a133e1);
+    color: #fff !important;
+    font-size: 1.12rem;
+    font-weight: 700;
+    padding: 0.55em 1.2em;
+    border-radius: 1.8em;
+    box-shadow: 0 4px 18px 0 rgba(40,44,66,0.17);
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    min-width: 80px;
+    max-width: 70vw;
+    white-space: nowrap;
+    transition: filter 0.15s;
+  }
+  .mobile-ask-btn:active { filter: brightness(0.92); }
 }
 
 /* ANIMATSIOONID */
@@ -380,20 +404,11 @@ body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-@media (max-width: 900px) {
-  /* ÄRA FLIPPI KAARTE MOBIILIS! */
-  .three-d-card:hover .card-wrapper,
-  .three-d-card:focus-within .card-wrapper,
-  .three-d-card.right:hover .card-wrapper,
-  .three-d-card.right:focus-within .card-wrapper {
-    transform: none !important;
-  }
-  .card-face.back { 
-    display: none !important; 
-  }
-
-  /* Kui nupp on esiküljel HTML-is (card-cta klass), siis peida mobiilis: */
-  .card-face.front .card-cta {
-    display: none !important;
-  }
+.glass-card-light,
+.glass-card-light:hover {
+  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
+}
+.glass-card-dark,
+.glass-card-dark:hover {
+  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
 }
