@@ -291,16 +291,15 @@ body {
   font-weight: 600;
   transition: none;
 }
-
 /* MOBIIL - Responsive */
 .mobile-ask-btn { display: none; }
 @media (max-width: 900px) {
   .main-content {
     flex-direction: column;
     min-height: unset;
-    align-items: center !important;
-    gap: 1.2em;
-    padding: 0.3em 0 0.7em 0 !important;
+    align-items: stretch !important;
+    gap: 0;
+    padding: 0 !important;
     width: 100vw !important;
     overflow-x: hidden;
   }
@@ -309,28 +308,31 @@ body {
     width: 100vw !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    padding: 2.2em 0.5em !important;
-    margin-bottom: 0 !important;
+    padding: 2em 0.2em 2em 0.2em !important;
+    margin: 0 !important;
     box-sizing: border-box;
   }
-  .side.right { border-left: none !important; }
   .three-d-card, .glass-card {
-    max-width: 65vw !important;
-    width: 65vw !important;
+    max-width: 95vw !important;
+    width: 95vw !important;
     min-width: 0 !important;
-    max-height: unset !important;
-    min-height: 320px !important;
-    padding: 0.7em 0.2em 2.7em 0.2em !important;
-    margin: 0 auto !important;
-    box-shadow: 0 8px 28px 0 rgba(40,44,66,0.16) !important;
+    min-height: 180px !important;
+    margin: 2.5em auto 2.5em auto !important;
+    box-shadow: 0 8px 32px 0 rgba(40,44,66,0.17) !important;
     position: relative !important;
     overflow: visible !important;
+    border-radius: 1.7em !important;
+    padding: 1em 0.7em 2.1em 0.7em !important;
+  }
+  /* Esimesele kaardile lisa margin-top! */
+  .three-d-card:first-child, .glass-card:first-child {
+    margin-top: 2.4em !important;
   }
   .brand-title,
   .brand-title-left,
   .brand-title-right {
-    font-size: 1.5rem !important;
-    margin-top: 0.6em !important;
+    font-size: 1.6rem !important;
+    margin-top: 0.5em !important;
     margin-bottom: 0.7em !important;
     line-height: 1.2;
     text-align: center !important;
@@ -338,44 +340,13 @@ body {
   }
   .headline-bold {
     font-size: 1.35rem !important;
-    margin-bottom: 1.5em !important;
-    margin-top: 0.3em !important;
+    margin-bottom: 1.4em !important;
+    margin-top: 0.4em !important;
   }
   .card-description,
   .card-note {
-    font-size: 1.25rem !important;
+    font-size: 1.15rem !important;
   }
-  /* Kaardid ei flippi mobiilis */
-  .three-d-card:hover .card-wrapper,
-  .three-d-card:focus-within .card-wrapper,
-  .three-d-card.right:hover .card-wrapper,
-  .three-d-card.right:focus-within .card-wrapper {
-    transform: none !important;
-  }
-  .card-face.back { display: none !important; }
-  .mobile-ask-btn {
-    display: block !important;
-    position: absolute;
-    left: 50%;
-    bottom: 0.7em;
-    transform: translateX(-50%);
-    z-index: 2;
-    background: linear-gradient(90deg, #4851fa, #a133e1);
-    color: #fff !important;
-    font-size: 1.12rem;
-    font-weight: 700;
-    padding: 0.55em 1.2em;
-    border-radius: 1.8em;
-    box-shadow: 0 4px 18px 0 rgba(40,44,66,0.17);
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    min-width: 80px;
-    max-width: 70vw;
-    white-space: nowrap;
-    transition: filter 0.15s;
-  }
-  .mobile-ask-btn:active { filter: brightness(0.92); }
   .footer-row {
     flex-direction: column-reverse !important;
     font-size: 1.0rem;
@@ -388,39 +359,12 @@ body {
     text-align: center !important;
   }
   .centered-back {
-    min-height: 200px !important;
-    max-width: 65vw !important;
-    width: 100%;
-    padding: 1.5em 0.7em !important;
-  }
-  /* EEMALDA VALGE RUUT: */
-  .three-d-card,
-  .three-d-card > *,
-  .three-d-card .card-face,
-  .card-face {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-}
-@media (max-width: 600px) {
-  .side { padding: 0.9em 0.1em !important; }
-  .three-d-card, .glass-card {
-    max-width: 92vw !important;
-    width: 92vw !important;
-    min-height: 200px !important;
-    padding: 0.3em 0.01em 1.2em 0.01em !important;
-  }
-  .mobile-ask-btn {
-    font-size: 1rem;
-    padding: 0.42em 0.8em;
-    bottom: 0.35em;
-  }
-  .centered-back {
     min-height: 120px !important;
-    max-width: 92vw !important;
-    padding: 0.5em 0.05em !important;
+    max-width: 95vw !important;
+    padding: 1.2em 0.3em !important;
   }
+  /* Peida back-face */
+  .card-face.back { display: none !important; }
 }
 
 /* ANIMATSIOONID */
