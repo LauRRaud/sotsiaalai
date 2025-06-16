@@ -241,7 +241,14 @@ body {
   letter-spacing: 0.01em;
   color: inherit;
 }
-
+@keyframes float-vertical {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+.float-card {
+  animation: float-vertical 6s ease-in-out infinite;
+}
 /* FOOTER */
 .footer-row {
   display: flex;
@@ -282,9 +289,10 @@ body {
 }
 
 @media (max-width: 900px) {
-  .main-content {
+    .main-content {
     flex-direction: column;
-    min-height: unset;
+    min-height: unset !important;
+    height: auto !important;
     align-items: stretch !important;
     gap: 0;
     padding: 0 !important;
@@ -292,25 +300,22 @@ body {
     overflow-x: hidden;
   }
   .side {
-    min-height: auto !important;
+    min-height: unset !important;
+    height: auto !important;
     width: 100vw !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    padding: 2em 0.2em 2em 0.2em !important;
+    padding: 1.2em 0.1em !important;
     margin: 0 !important;
     box-sizing: border-box;
   }
   .three-d-card, .glass-card {
-    max-width: 90vw !important;
-    width: 90vw !important;
+    max-width: 92vw !important;
+    width: 92vw !important;
     min-width: 0 !important;
-    min-height: 180px !important;
-    margin: 2.5em auto 2.5em auto !important;
-    box-shadow: none !important;
-    position: relative !important;
-    overflow: visible !important;
-    border-radius: 1.7em !important;
-    padding: 1em 0.7em 2.1em 0.7em !important;
+    min-height: 140px !important;
+    margin: 1.2em auto 1.2em auto !important;
+    padding: 0.7em 0.3em 1.1em 0.3em !important;
   }
   .brand-title,
   .brand-title-left,
@@ -363,18 +368,23 @@ body {
   .three-d-card.right:focus-within .card-wrapper {
     transform: none !important;
   }
-
-  /* Footer fix */
-  .footer-row {
+  }
+@media (max-width: 900px) {
+  .home-footer-row {
     flex-direction: column-reverse !important;
-    align-items: stretch !important;
-    font-size: 1.1rem !important;
+    font-size: 1.0rem;
+    align-items: stretch;
     margin-top: 0 !important;
   }
-  .footer-left, .footer-right {
+  .home-footer-row .footer-left,
+  .home-footer-row .footer-right {
     width: 100% !important;
+    padding: 0.2em 0.15em !important;
     text-align: center !important;
-    padding: 0.3em 0 !important;
-    line-height: 1.6 !important;
+  }
+}
+@media (max-width: 900px) {
+  .float-card {
+    animation: none !important;
   }
 }
