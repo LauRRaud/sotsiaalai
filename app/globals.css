@@ -123,25 +123,22 @@ body {
   background-clip: padding-box;
   overflow: visible;
 }
-.glass-card-light {
+.glass-card-light,
+.glass-card-light:hover {
   background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2 100%);
   border: 2.5px solid #ffffffcc;
   box-shadow: 0 40px 60px rgba(255,255,255,0.288);
 }
-.glass-card-light:hover {
-  box-shadow: 0 44px 90px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
-}
-.glass-card-dark {
+
+.glass-card-dark,
+.glass-card-dark:hover {
   background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
   border: 2.5px solid #23232b;
   box-shadow: 0 40px 60px rgba(0,0,0,0.607);
 }
-.glass-card-dark:hover {
-  box-shadow: 0 44px 90px 0 #11131e7a, 0 0px 2px 0 #242428a0;
-}
+
 .left-card-primary * { color: #444444 !important; }
 .right-card-primary * { color: #f2f3f8 !important; }
-
 /* TAGUMINE KAART - centered-back */
 .centered-back {
   display: flex !important;
@@ -309,7 +306,6 @@ body {
     min-width: 0 !important;
     min-height: 180px !important;
     margin: 2.5em auto 2.5em auto !important;
-    /* JÄTA VÕI EEMALDA VARJU, SÕLTUVALT SOOVIST */
     box-shadow: none !important;
     position: relative !important;
     overflow: visible !important;
@@ -319,7 +315,7 @@ body {
   .brand-title,
   .brand-title-left,
   .brand-title-right {
-    font-size: 2rem !important; /* või veel suurem */
+    font-size: 2rem !important;
     margin-top: 0.5em !important;
     margin-bottom: 0.7em !important;
     line-height: 1.2;
@@ -335,7 +331,6 @@ body {
   .card-note {
     font-size: 1.2rem !important;
   }
-  /* Nupp mobiilis */
   .mobile-ask-btn {
     display: block !important;
     position: absolute;
@@ -359,29 +354,27 @@ body {
     transition: filter 0.15s;
   }
   .mobile-ask-btn:active { filter: brightness(0.92); }
+
   .float-card { animation: none !important; }
   .card-face.back { display: none !important; }
-}
+  .three-d-card:hover .card-wrapper,
+  .three-d-card:focus-within .card-wrapper,
+  .three-d-card.right:hover .card-wrapper,
+  .three-d-card.right:focus-within .card-wrapper {
+    transform: none !important;
+  }
 
-
-/* ANIMATSIOONID */
-@keyframes float-vertical {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0px); }
-}
-.float-card { animation: float-vertical 6s ease-in-out infinite; }
-
-@keyframes gradientWave {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.glass-card-light,
-.glass-card-light:hover {
-  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
-}
-.glass-card-dark,
-.glass-card-dark:hover {
-  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
+  /* Footer fix */
+  .footer-row {
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    font-size: 1.1rem !important;
+    margin-top: 0 !important;
+  }
+  .footer-left, .footer-right {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 0.3em 0 !important;
+    line-height: 1.6 !important;
+  }
 }
