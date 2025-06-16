@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
-/* Universaalne reset */
+/* RESET */
 html, body {
   height: 100%;
   margin: 0;
@@ -11,7 +11,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 body {
   min-height: 100vh;
   width: 100vw;
@@ -23,13 +22,12 @@ body {
   overflow-x: hidden;
 }
 
-/* --- Paigutus --- */
+/* PAIGUTUS */
 .main-content {
   display: flex;
   width: 100vw;
   flex: 1 0 auto;
 }
-
 .side {
   flex: 1 1 0;
   min-width: 0;
@@ -41,7 +39,6 @@ body {
   padding: 2.2rem 1.5rem;
   box-sizing: border-box;
 }
-
 .side.left {
   background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
   color: #181818;
@@ -52,7 +49,7 @@ body {
   border-left: 1px solid #e0e0e0;
 }
 
-/* --- Flip-wrapper ja glass-card mõõdud --- */
+/* 3D KAARDID JA FLIP */
 .three-d-card {
   width: 100%;
   max-width: 400px;
@@ -63,11 +60,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
+  background: transparent;
+  box-shadow: none;
+  border: none;
 }
-
 .card-wrapper {
   width: 100%;
   height: 100%;
@@ -75,7 +71,6 @@ body {
   transition: transform 1.1s cubic-bezier(.6,.1,.3,1.1);
   position: relative;
 }
-
 .three-d-card:hover .card-wrapper,
 .three-d-card:focus-within .card-wrapper {
   transform: rotateY(180deg);
@@ -84,8 +79,6 @@ body {
 .three-d-card.right:focus-within .card-wrapper {
   transform: rotateY(-180deg);
 }
-
-/* Kaardi näod - ÄRA PANE backgroundi! */
 .card-face {
   position: absolute;
   width: 100%;
@@ -98,7 +91,7 @@ body {
   border-radius: 2.2rem;
   top: 0;
   left: 0;
-  background: transparent;   /* See on KRIITILINE */
+  background: transparent;
   overflow: visible;
 }
 .card-face.front {
@@ -111,14 +104,14 @@ body {
   transform: rotateY(-180deg);
 }
 
-/* --- Glasscardid --- */
+/* GLASSCARD */
 .glass-card {
   width: 100%;
   max-width: 400px;
   max-height: 300px !important;
   border-radius: 2.2rem;
   margin: 0 auto;
-  box-shadow: 0 40px 60px 0 rgba(40,44,66,0.11), 0 2px 8px 0 rgba(10,10,20,0.07);
+  box-shadow: 0 8px 44px 0 rgba(40,44,66,0.11), 0 2px 8px 0 rgba(10,10,20,0.07);
   padding: 2.3em 2.1em 2.1em 2.1em;
   transition:
     box-shadow 0.28s cubic-bezier(.5,1.7,.71,1.26),
@@ -131,25 +124,24 @@ body {
   justify-content: center;
   position: relative;
   z-index: 1;
-  background-clip: padding-box; /* vari ei lõigata ära */
+  background-clip: padding-box;
   overflow: visible;
 }
-
 .glass-card-light {
   background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2 100%);
   border: 2.5px solid #ffffffcc;
-  box-shadow: 0 40px 60px 0 #dadada4d, 0 2px 10px 0 #eaeaea44;
+  box-shadow: 0 8px 54px 0 #dadada4d, 0 2px 10px 0 #eaeaea44;
 }
 .glass-card-light:hover {
-  box-shadow: 0 44px 90px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
+  box-shadow: 0 14px 70px 0 #d1d1d1b7, 0 4px 18px 0 #f2f2f29c;
 }
 .glass-card-dark {
   background: linear-gradient(180deg, #303136 0%, #1a1a1c 100%);
   border: 2.5px solid #23232b;
-  box-shadow: 0 40px 60px 0 #19191dbe, 0 2px 10px 0 #29293c7a;
+  box-shadow: 0 10px 54px 0 #19191dbe, 0 2px 10px 0 #29293c7a;
 }
 .glass-card-dark:hover {
-  box-shadow: 0 44px 90px 0 #11131e7a, 0 0px 2px 0 #242428a0;
+  box-shadow: 0 4px 16px 0 #11131e7a, 0 0px 2px 0 #242428a0;
 }
 .left-card-primary * {
   color: #444444 !important;
@@ -158,7 +150,20 @@ body {
   color: #f2f3f8 !important;
 }
 
-/* --- Kaardi sisu keskele --- */
+/* TAGUMINE KAART - centered-back */
+.centered-back {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 370px;      /* Sama või veidi rohkem kui glass-card */
+  padding: 2.5em 1em;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* KAARDI SISU */
 .card-title,
 .card-content,
 .card-headline,
@@ -222,7 +227,6 @@ body {
   font-size: 1.6rem;
   font-weight: 500;
 }
-
 .card-description,
 .left-card-primary .card-description,
 .right-card-primary .card-description {
@@ -256,7 +260,7 @@ body {
   color: inherit;
 }
 
-/* --- Footer --- */
+/* FOOTER */
 .footer-row {
   display: flex;
   width: 100vw;
@@ -295,11 +299,8 @@ body {
   transition: none;
 }
 
-/* --- Responsive: mobiil --- */
-.mobile-ask-btn {
-  display: none;
-}
-
+/* MOBIIL - Responsive */
+.mobile-ask-btn { display: none; }
 @media (max-width: 900px) {
   .main-content {
     flex-direction: column;
@@ -319,11 +320,8 @@ body {
     margin-bottom: 0 !important;
     box-sizing: border-box;
   }
-  .side.right {
-    border-left: none !important;
-  }
-  .three-d-card,
-  .glass-card {
+  .side.right { border-left: none !important; }
+  .three-d-card, .glass-card {
     max-width: 75vw !important;
     width: 75vw !important;
     min-width: 0 !important;
@@ -385,9 +383,7 @@ body {
     white-space: nowrap;
     transition: filter 0.15s;
   }
-  .mobile-ask-btn:active {
-    filter: brightness(0.92);
-  }
+  .mobile-ask-btn:active { filter: brightness(0.92); }
   .footer-row {
     flex-direction: column-reverse !important;
     font-size: 1.0rem;
@@ -399,12 +395,15 @@ body {
     padding: 0.2em 0.15em !important;
     text-align: center !important;
   }
-}
-
-@media (max-width: 600px) {
-  .side {
-    padding: 1.2em 0.2em !important;
+  .centered-back {
+    min-height: 240px !important; /* et mobiilis poleks liiga kõrge */
+    max-width: 75vw !important;
+    width: 100%;
+    padding: 1.5em 0.7em !important;
   }
+}
+@media (max-width: 600px) {
+  .side { padding: 1.2em 0.2em !important; }
   .three-d-card, .glass-card {
     max-width: 92vw !important;
     width: 92vw !important;
@@ -415,9 +414,14 @@ body {
     padding: 0.35em 0.7em;
     bottom: -0.9em;
   }
+  .centered-back {
+    min-height: 130px !important;
+    max-width: 92vw !important;
+    padding: 0.7em 0.1em !important;
+  }
 }
 
-/* --- Kaartide animatsioon --- */
+/* ANIMATSIOONID */
 @keyframes float-vertical {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-12px); }
@@ -429,4 +433,14 @@ body {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+@media (max-width: 900px) {
+  .three-d-card,
+  .three-d-card > *,
+  .three-d-card .card-face,
+  .card-face {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
 }
