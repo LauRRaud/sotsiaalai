@@ -94,15 +94,9 @@ body {
   background: transparent;
   overflow: visible;
 }
-.card-face.front {
-  transform: rotateY(0deg);
-}
-.card-face.back {
-  transform: rotateY(180deg);
-}
-.three-d-card.right .card-face.back {
-  transform: rotateY(-180deg);
-}
+.card-face.front { transform: rotateY(0deg); }
+.card-face.back { transform: rotateY(180deg); }
+.three-d-card.right .card-face.back { transform: rotateY(-180deg); }
 
 /* GLASSCARD */
 .glass-card {
@@ -143,14 +137,20 @@ body {
 .glass-card-dark:hover {
   box-shadow: 0 4px 16px 0 #11131e7a, 0 0px 2px 0 #242428a0;
 }
-.left-card-primary * {
-  color: #444444 !important;
+/* TUGEVAD VARJUD - SÄILITAN KAARDI FLIPI AJAL */
+.glass-card-dark,
+.glass-card-dark:hover {
+  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
 }
-.right-card-primary * {
-  color: #f2f3f8 !important;
+.glass-card-light,
+.glass-card-light:hover {
+  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
 }
 
-/* TAGUMINE KAART - centered-back */
+.left-card-primary * { color: #444444 !important; }
+.right-card-primary * { color: #f2f3f8 !important; }
+
+/* TAGUMINE KAART */
 .centered-back {
   display: flex !important;
   flex-direction: column;
@@ -163,7 +163,7 @@ body {
   max-width: 400px;
 }
 
-/* KAARDI SISU */
+/* KAARDI TEKSTID JA ASUKOHAD */
 .card-title,
 .card-content,
 .card-headline,
@@ -183,8 +183,6 @@ body {
   margin-bottom: 2rem;
   margin-top: 0rem;
 }
-
-/* Sinu mõõdud ja asukohad siit edasi */
 .brand-title {
   font-size: 2.9rem;
   font-weight: 800;
@@ -196,12 +194,7 @@ body {
 }
 .brand-title-left,
 .brand-title-right {
-  background: linear-gradient(
-    270deg,
-    #4851fa,
-    #a133e1,
-    #4851fa
-  );
+  background: linear-gradient(270deg, #4851fa, #a133e1, #4851fa);
   background-size: 200% 200%;
   background-repeat: no-repeat;
   animation: gradientWave 7s ease-in-out infinite;
@@ -252,9 +245,7 @@ body {
   font-style: italic;
   font-weight: 520;
 }
-.card-cta {
-  margin-top: 0em;
-}
+.card-cta { margin-top: 0em; }
 .cta-text {
   font-size: 1.5rem;
   font-weight: 600;
@@ -329,7 +320,7 @@ body {
     min-width: 0 !important;
     max-height: unset !important;
     min-height: 320px !important;
-    padding: 0.7em 0.2em 2.7em 0.2em !important; /* alumine padding nupu jaoks */
+    padding: 0.7em 0.2em 2.7em 0.2em !important;
     margin: 0 auto !important;
     box-shadow: 0 8px 28px 0 rgba(40,44,66,0.16) !important;
     position: relative !important;
@@ -444,14 +435,4 @@ body {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-/* VARJUD TUGEVAMALT KAARDEL */
-.glass-card-dark,
-.glass-card-dark:hover {
-  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.607);
-}
-.glass-card-light,
-.glass-card-light:hover {
-  box-shadow: 0 40px 60px rgba(255, 255, 255, 0.288);
 }
