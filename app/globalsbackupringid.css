@@ -244,7 +244,7 @@ body {
 .left-card-primary .card-description,
 .right-card-primary .card-description {
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 500;
   color: inherit;
   margin-bottom: 0.1em;
   margin-top: 2em;
@@ -253,7 +253,7 @@ body {
 }
 .left-card-primary .card-description {
   color: #141414 !important;
-  font-weight: 400;
+  font-weight: 800;
 }
 .card-note {
   font-size: 1.5rem;
@@ -442,7 +442,7 @@ body {
 }
 
 .card-info-bottom {
-  margin-top: -2em !important;
+  margin-top: -3em !important;
 }
 
 .card-content {
@@ -510,67 +510,63 @@ body {
   height: 390px !important;
   padding-top: 2.2em !important;
 }
-/* --- PEALKIRI/HEADLINE --- */
+.brand-title {
+  font-size: 2.9rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.03em;
+  margin-top: 2.4rem !important;      /* Veidi allapoole esiküljel */
+  margin-bottom: 2.3rem !important;
+}
+.brand-title-left,
+.brand-title-right {
+  font-size: 2.9rem !important;
+  font-weight: 800 !important;
+  /* gradient jm efektid jäävad, kui on määratud mujal */
+}
+
+/* Esikülje headline veidi suurema marginaaliga all */
+.headline-bold {
+  font-size: 1.6rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em;
+  margin-bottom: 2.4em !important;
+  display: block;
+}
 .left-card-primary .headline-bold {
   font-size: 1.6rem !important;
   font-weight: 700 !important;
-  color: #1f1f1fc7 !important;
+  color: #1f1f1fdf !important;
   text-shadow: none;
-  letter-spacing: 0.1em;
-  margin-bottom: 2.4em !important;
-  display: block;
 }
-
 .right-card-primary .headline-bold {
   font-size: 1.6rem !important;
   font-weight: 500 !important;
-  color: #f0f1f7e8 !important;
-  letter-spacing: 0.1em;
-  margin-bottom: 2.4em !important;
-  display: block;
 }
 
-/* --- ALUMINE TEKST (esikülg) --- */
-.left-card-primary .card-description {
-  font-size: 1.55rem !important;
-  font-weight: 450 !important;
-  color: #0f0f0fd0 !important;
-  margin-bottom: 0em !important;
-  margin-top: 0em !important;
-  line-height: 1.32 !important;
-  display: block;
-}
-
+/* Alumine tekst: alati tavaline font-weight */
+.card-description,
+.left-card-primary .card-description,
 .right-card-primary .card-description {
-  font-size: 1.50rem !important;
-  font-weight: 300 !important;
-  color: #f2f3f8e6 !important;
-  margin-bottom: 0em !important;
-  margin-top: 0em !important;
+  font-size: 1.5rem !important;
+  font-weight: 500 !important;      /* MITTE BOLD! */
+  color: inherit;
+  margin-bottom: 1em !important;
+  margin-top: 1em !important;
   line-height: 1.32 !important;
   display: block;
 }
-
-/* --- TAGAKÜLJE "SLOGAN"/NOTE --- */
-.card-note.left-back {
-  font-style: italic;
-  font-size: 1.35rem !important;
-  margin-top: 2.5em;
-  color: #373737f2 !important;
-  text-align: center;
-  font-weight: 600 !important;
+.left-card-primary .card-description {
+  color: #141414 !important;
 }
 
-.card-note.right-back {
+/* Slogan/tagakülje tekst */
+.card-note {
+  font-size: 1.3rem !important;
   font-style: italic;
-  font-size: 1.35rem !important;
-  margin-top: 2.5em;
-  color: #f5f5f5f0 !important;
-  text-align: center;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
+  opacity: 1;
+  color: inherit;
 }
-
-/* --- Kui vaja ühtlustada ka card-title.back paigutus --- */
 .card-title.back {
   width: 100%;
   display: flex;
@@ -579,4 +575,38 @@ body {
   margin: 0;
   padding: 0;
   margin-top: 2.5em;
+}
+
+.card-note.left-back {
+  font-style: italic;
+  font-size: 1.35rem;
+  margin-top: 2.5em;
+  color: #888;
+  text-align: center;
+}
+
+.card-note.right-back {
+  font-style: italic;
+  font-size: 1.35rem;
+  margin-top: 2.5em;
+  color: #e0e0e0;
+  text-align: center;
+}
+.card-face.front .left-card-primary .card-description {
+  color: #181818 !important;
+  font-weight: 5 !important;
+}
+.card-face.back .left-card-primary .card-note {
+  color: #232323 !important;
+  font-weight: 5 !important;
+  opacity: 0.92;
+}
+.card-face.front .right-card-primary .card-description {
+  color: #fff !important;
+  font-weight: 500 !important;
+}
+.card-face.back .right-card-primary .card-note {
+  color: #e0e0e0 !important;
+  font-weight: 400 !important;
+  opacity: 0.96;
 }

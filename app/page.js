@@ -1,15 +1,39 @@
 "use client";
+import dynamic from "next/dynamic";
 import SplashCursor from '@/components/SplashCursor';
+
+// Osakeste taust, ainult kliendis (Next.js dynamic import)
+const Particles = dynamic(() => import('@/components/backgrounds/Particles'), { ssr: false });
 
 export default function HomePage() {
   return (
     <>
-      <SplashCursor />
+      {/* Osakeste taust kõige taga */}
+      <Particles
+        particleColors={[
+          "#4851fa",     // sinine
+          "#a133e1",     // purpur
+          "#18181866",   // poolläbipaistev mustjas
+          "#e2e2e2",     // helehall 2
+        ]}
+        particleCount={170}
+        particleSpread={25}
+        speed={0.04}
+        particleBaseSize={700}
+        sizeRandomness={0.9}
+        alphaParticles={true}
+        moveParticlesOnHover={false}
+        disableRotation={false}
+        className="particles-container"
+      />
+
+      {/* Sisu */}
       <div className="main-content">
-        {/* Vasak kaart */}
+        {/* Vasak pool – tume taust */}
         <div className="side left">
           <div className="three-d-card float-card">
             <div className="card-wrapper">
+              {/* Esikülg */}
               <div className="card-face front">
                 <div className="glass-card glass-card-light left-card-primary">
                   <div className="card-title">
@@ -20,46 +44,22 @@ export default function HomePage() {
                       <span className="headline-bold">
                         Sotsiaaltöö<br />spetsialistile
                       </span>
-                      <div className="card-info-bottom" style={{ marginTop: "1.6em" }}>
-                        <span className="card-description" style={{
-                          display: "block",
-                          fontWeight: 500
-                        }}>
-                          Info, seadused ja nõuanded.
-                        </span>
-                      </div>
+                    </div>
+                    <div className="card-info-bottom">
+                      <span className="card-description left-front-desc">
+                        Info, seadused ja nõuanded.
+                      </span>
                     </div>
                   </div>
-                  {/* Küsi nõu nupp ainult mobiilivaates */}
-                  <a href="/kysi-nou" className="mobile-ask-btn">
-                    Küsi nõu
-                  </a>
                 </div>
               </div>
-              {/* Vasaku kaardi tagakülg */}
+              {/* Tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-light left-card-primary centered-back">
-                  <div
-                    className="card-title"
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      margin: 0,
-                      padding: 0,
-                      marginTop: "2.5em",
-                    }}
-                  >
-                    <span className="brand-title brand-title-left" style={{ margin: 0 }}>Küsi nõu</span>
+                  <div className="card-title back">
+                    <span className="brand-title brand-title-left">Küsi nõu</span>
                   </div>
-                  <div className="card-note" style={{
-                    fontStyle: "italic",
-                    fontSize: "1.35rem",
-                    marginTop: "2.5em",
-                    color: "#888",
-                    textAlign: "center"
-                  }}>
+                  <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
                 </div>
@@ -68,10 +68,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Parem kaart */}
+        {/* Parem pool – hele taust */}
         <div className="side right">
-          <div className="three-d-card right float-card">
+          <div className="three-d-card float-card right">
             <div className="card-wrapper">
+              {/* Esikülg */}
               <div className="card-face front">
                 <div className="glass-card glass-card-dark right-card-primary">
                   <div className="card-title">
@@ -82,44 +83,22 @@ export default function HomePage() {
                       <span className="headline-bold">
                         Eluküsimusega<br />pöördujale
                       </span>
-                      <span className="card-description" style={{
-                        display: "block",
-                        fontWeight: 300
-                      }}>
+                    </div>
+                    <div className="card-info-bottom">
+                      <span className="card-description right-front-desc">
                         Õigused, võimalused ja tugi.
                       </span>
                     </div>
                   </div>
-                  {/* Küsi nõu nupp ainult mobiilivaates */}
-                  <a href="/kysi-nou" className="mobile-ask-btn">
-                    Küsi nõu
-                  </a>
                 </div>
               </div>
-              {/* Parema kaardi tagakülg */}
+              {/* Tagakülg */}
               <div className="card-face back">
                 <div className="glass-card glass-card-dark right-card-primary centered-back">
-                  <div
-                    className="card-title"
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      margin: 0,
-                      padding: 0,
-                      marginTop: "2.5em",
-                    }}
-                  >
-                    <span className="brand-title brand-title-right" style={{ margin: 0 }}>Küsi nõu</span>
+                  <div className="card-title back">
+                    <span className="brand-title brand-title-right">Küsi nõu</span>
                   </div>
-                  <div className="card-note" style={{
-                    fontStyle: "italic",
-                    fontSize: "1.35rem",
-                    marginTop: "2.5em",
-                    color: "#e0e0e0",
-                    textAlign: "center"
-                  }}>
+                  <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />
                     elulistes sotsiaalküsimustes.
                   </div>
@@ -137,6 +116,9 @@ export default function HomePage() {
           <a href="about.html" className="footer-link">Meist</a>
         </div>
       </div>
+
+      {/* SplashCursor kõige ees */}
+      <SplashCursor />
     </>
   );
 }
