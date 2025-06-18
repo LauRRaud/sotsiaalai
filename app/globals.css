@@ -142,14 +142,14 @@ body {
 }
 .glass-card-light,
 .glass-card-light:hover {
-  background: linear-gradient(180deg, rgba(245,245,245,0.82) 0%, rgba(226,226,226,0.82) 100%);
+  background: linear-gradient(180deg, rgba(245,245,245,0.75) 0%, rgba(226,226,226,0.82) 100%);
   border: 2.5px solid #ffffffcc;
   box-shadow: none;
 }
 
 .glass-card-dark,
 .glass-card-dark:hover {
-  background: linear-gradient(180deg, rgba(48,49,54,0.0.90) 0%, rgba(26,26,28,0.90) 100%);
+  background: linear-gradient(180deg, rgba(48,49,54,0.0.81) 0%, rgba(26,26,28,0.90) 100%);
   border: 2.5px solid #23232b;
   box-shadow: none;
 }
