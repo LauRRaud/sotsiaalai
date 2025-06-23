@@ -78,3 +78,27 @@
     display: none !important;
   }
 }
+.glass-card-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 0;
+  pointer-events: none;
+  z-index: 2;
+  /* gradient serva ja natuke highlighti vasakule üles */
+  background: linear-gradient(120deg, #fff8 10%, #fff2 40%, #fff0 70%);
+  mix-blend-mode: lighten;
+}
+.glass-card-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 0;
+  pointer-events: none;
+  z-index: 2;
+  /* tume kaart, gradient servas heledam, diagonaal */
+  background: linear-gradient(120deg, #a0a8c5aa 12%, #40476433 50%, #23232b00 80%);
+  mix-blend-mode: lighten; /* Võid testida ka soft-light või screen */
+}
