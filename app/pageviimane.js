@@ -1,0 +1,134 @@
+"use client";
+import dynamic from "next/dynamic";
+import SplashCursor from '@/components/SplashCursor';
+import Magnet from '@/components/Animations/Magnet/Magnet';
+
+// Osakeste taust ainult kliendis
+const Particles = dynamic(() => import('@/components/backgrounds/Particles'), { ssr: false });
+
+export default function HomePage() {
+  return (
+    <>
+      {/* Osakeste taust */}
+      <Particles
+        particleColors={[
+          "#4851fa", "#a133e1", "#18181866", "#e2e2e2"
+        ]}
+        particleCount={170}
+        particleSpread={25}
+        speed={0.04}
+        particleBaseSize={700}
+        sizeRandomness={0.9}
+        alphaParticles={true}
+        moveParticlesOnHover={false}
+        disableRotation={false}
+        className="particles-container"
+      />
+
+      {/* Sisu */}
+      <div className="main-content">
+        {/* Vasak kaart */}
+        <div className="side left">
+          <Magnet padding={80} magnetStrength={18}>
+            {({ isActive }) => (
+              <div className="three-d-card float-card left">
+                <div className="card-wrapper">
+                  {/* Esikülg */}
+                  <div className="card-face front">
+                    <div className={`glass-card glass-card-light left-card-primary card-fadein${isActive ? " glow-active" : ""}`}>
+                      <div className="card-title">
+                        <span className="brand-title brand-title-left">SotsiaalAI</span>
+                      </div>
+                      <div className="card-content">
+                        <div className="card-headline">
+                          <span className="headline-bold">
+                            Sotsiaaltöö<br />spetsialistile
+                          </span>
+                          <div className="card-info-bottom">
+                            <span className="card-description">
+                              Info, seadused ja nõuanded.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Tagakülg */}
+                  <div className="card-face back">
+                    <div className="glass-card glass-card-light left-card-primary centered-back card-fadein">
+                      {/* Kuma väiksele tagakettale */}
+                      <div className={`centered-back-outer${isActive ? " glow-active" : ""}`}></div>
+                      <div className="card-title back">
+                        <span className="brand-title brand-title-left">Küsi nõu</span>
+                      </div>
+                      <div className="card-note left-back">
+                        Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Magnet>
+        </div>
+
+        {/* Parem kaart */}
+        <div className="side right">
+          <Magnet padding={80} magnetStrength={18}>
+            {({ isActive }) => (
+              <div className="three-d-card float-card right">
+                <div className="card-wrapper">
+                  {/* Esikülg */}
+                  <div className="card-face front">
+                    <div className={`glass-card glass-card-dark right-card-primary card-fadein${isActive ? " glow-active" : ""}`}>
+                      <div className="card-title">
+                        <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
+                      </div>
+                      <div className="card-content">
+                        <div className="card-headline">
+                          <span className="headline-bold">
+                            Eluküsimusega<br />pöördujale
+                          </span>
+                          <div className="card-info-bottom">
+                            <span className="card-description">
+                              Õigused, võimalused ja tugi.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Tagakülg */}
+                  <div className="card-face back">
+                    <div className="glass-card glass-card-dark right-card-primary centered-back card-fadein">
+                      {/* Kuma väiksele tagakettale */}
+                      <div className={`centered-back-outer${isActive ? " glow-active" : ""}`}></div>
+                      <div className="card-title back">
+                        <span className="brand-title brand-title-right">Küsi nõu</span>
+                      </div>
+                      <div className="card-note right-back">
+                        Leia selgus ja kindlustunne<br />
+                        elulistes sotsiaalküsimustes.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Magnet>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="footer-row">
+        <div className="footer-left">sotsiaal.ai © 2025</div>
+        <div className="footer-right">
+          <a href="about.html" className="footer-link">Meist</a>
+        </div>
+      </div>
+
+      {/* SplashCursor kõige ees */}
+      <SplashCursor />
+    </>
+  );
+}
