@@ -18,7 +18,7 @@ function SplashCursor({
   SPLAT_FORCE = 5500,
   SHADING = true,
   COLOR_UPDATE_SPEED = 7,
-  BACK_COLOR = { r: 0.5, g: 0, b: 0 },
+  BACK_COLOR = { r: 0.35, g: 0.15, b: 0.45 },
   TRANSPARENT = true
 }) {
   const canvasRef = useRef(null);
