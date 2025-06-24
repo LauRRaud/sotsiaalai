@@ -81,7 +81,7 @@ body {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 1.2s cubic-bezier(.6,.1,.3,1.1);
+  transition: transform 1s cubic-bezier(.6,.1,.3,1.1);
  pointer-events: none;
 }
 
@@ -127,26 +127,26 @@ body {
   padding: 2em;
   background-clip: padding-box;
   overflow: hidden;
-  border: 2.5px solid #ffffffd0;
+  border: none;
   background: linear-gradient(180deg, #fffffff0 0%, #ffffffa4 100%);
   cursor: pointer;
 
 }
 .glass-card-dark {
   background:linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%);
-  border: 2.5px solid #131313cd;
+  border: none
 }
 
 /* Vasaku kaardi tagakülg */
 .centered-back.left-back {
   background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
-  border: 2.5px solid #e0e0e0;
+  border: none
 }
 
 /* Parema kaardi tagakülg */
 .centered-back.right-back {
   background: linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%);
-  border: 2.5px solid #23232b;
+  border: none;
 }
 
 /* Üldine centered-back struktuur (ILMA background ja border!) */
@@ -197,7 +197,7 @@ body {
   background: linear-gradient(270deg, #4851fa, #a133e1, #4851fa);
   background-size: 200% 200%;
   background-repeat: no-repeat;
-  animation: gradientWave 6s ease-in-out infinite;
+  animation: gradientWave 6.7s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -276,6 +276,8 @@ body {
   line-height: 2.6em;
   position: relative;
   z-index: 23;
+  /* Lisa see juurde: */
+  align-items: center;
 }
 .footer-left {
   flex: 1;
@@ -284,6 +286,7 @@ body {
   text-align: right;
   padding-right: 1.1em;
   user-select: none;
+  
 }
 .footer-right {
   flex: 1;
@@ -334,8 +337,8 @@ body {
 }
 .three-d-card.glow-active {
   box-shadow:
-    0 0 25px 4px #4851fa3e,
-    0 0 60px 8px #a133e12f;
+  0 0 60px 0px #4851fa60,
+  0 0 120px 0px #a133e120;
   transition: box-shadow 0.4s cubic-bezier(.5,0,.1,1);
 }
 
@@ -369,8 +372,8 @@ body {
 .glass-card.glow-active,
 .centered-back-outer.glow-active {
   box-shadow:
-    0 0 25px 8px #4851fa71,
-    0 0 50px 16px #a133e161;
+    0 0 25px 8px #4851fa65,
+    0 0 50px 16px #a133e176;
   transition: box-shadow 0.33s cubic-bezier(.5,0,.1,1);
 }
 @media (max-width: 900px) {
