@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import SplashCursor from '@/components/SplashCursor';
 import Magnet from '@/components/Animations/Magnet/Magnet';
@@ -7,13 +8,30 @@ import Magnet from '@/components/Animations/Magnet/Magnet';
 const Particles = dynamic(() => import('@/components/backgrounds/Particles'), { ssr: false });
 
 export default function HomePage() {
+  // Fade-in ainult esmakordsel mountimisel
+  const [fadeInDone, setFadeInDone] = useState(false);
+  const leftCardRef = useRef(null);
+  const rightCardRef = useRef(null);
+
+  useEffect(() => {
+    // Kui vasak või parem kaart lõpetab animatsiooni, pane fadeInDone true
+    const handle = () => setFadeInDone(true);
+    if (leftCardRef.current) leftCardRef.current.addEventListener('animationend', handle);
+    if (rightCardRef.current) rightCardRef.current.addEventListener('animationend', handle);
+    return () => {
+      if (leftCardRef.current) leftCardRef.current.removeEventListener('animationend', handle);
+      if (rightCardRef.current) rightCardRef.current.removeEventListener('animationend', handle);
+    };
+  }, []);
+
+  // fade-in klass on ainult seni, kuni animatsioon on tehtud
+  const fadeClass = !fadeInDone ? "fade-in" : "";
+
   return (
     <>
       {/* Osakeste taust */}
       <Particles
-        particleColors={[
-          "#4851fa", "#a133e1", "#18181866", "#e2e2e2"
-        ]}
+        particleColors={["#4851fa", "#a133e1", "#18181866", "#e2e2e2"]}
         particleCount={170}
         particleSpread={25}
         speed={0.04}
@@ -25,7 +43,6 @@ export default function HomePage() {
         className="particles-container"
       />
 
-      {/* Sisu */}
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -33,9 +50,15 @@ export default function HomePage() {
             {({ isActive }) => (
               <div className="three-d-card float-card left">
                 <div className="card-wrapper">
-                  {/* Esikülg */}
                   <div className="card-face front">
-                    <div className={`glass-card glass-card-light left-card-primary card-fadein${isActive ? " glow-active" : ""}`}>
+                    <div
+                      ref={leftCardRef}
+                      className={[
+                        "glass-card glass-card-light left-card-primary",
+                        fadeClass,
+                        isActive ? "glow-active" : ""
+                      ].join(" ")}
+                    >
                       <div className="card-title">
                         <span className="brand-title brand-title-left">SotsiaalAI</span>
                       </div>
@@ -53,11 +76,15 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Tagakülg */}
                   <div className="card-face back">
-                    <div className="glass-card glass-card-light left-card-primary centered-back card-fadein">
-                      {/* Kuma väiksele tagakettale */}
-                      <div className={`centered-back-outer${isActive ? " glow-active" : ""}`}></div>
+                    <div className={[
+                      "glass-card glass-card-light left-card-primary centered-back",
+                      fadeClass
+                    ].join(" ")}>
+                      <div className={[
+                        "centered-back-outer",
+                        isActive ? "glow-active" : ""
+                      ].join(" ")}></div>
                       <div className="card-title back">
                         <span className="brand-title brand-title-left">Küsi nõu</span>
                       </div>
@@ -71,16 +98,21 @@ export default function HomePage() {
             )}
           </Magnet>
         </div>
-
         {/* Parem kaart */}
         <div className="side right">
           <Magnet padding={80} magnetStrength={18}>
             {({ isActive }) => (
               <div className="three-d-card float-card right">
                 <div className="card-wrapper">
-                  {/* Esikülg */}
                   <div className="card-face front">
-                    <div className={`glass-card glass-card-dark right-card-primary card-fadein${isActive ? " glow-active" : ""}`}>
+                    <div
+                      ref={rightCardRef}
+                      className={[
+                        "glass-card glass-card-dark right-card-primary",
+                        fadeClass,
+                        isActive ? "glow-active" : ""
+                      ].join(" ")}
+                    >
                       <div className="card-title">
                         <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
                       </div>
@@ -98,11 +130,15 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Tagakülg */}
                   <div className="card-face back">
-                    <div className="glass-card glass-card-dark right-card-primary centered-back card-fadein">
-                      {/* Kuma väiksele tagakettale */}
-                      <div className={`centered-back-outer${isActive ? " glow-active" : ""}`}></div>
+                    <div className={[
+                      "glass-card glass-card-dark right-card-primary centered-back",
+                      fadeClass
+                    ].join(" ")}>
+                      <div className={[
+                        "centered-back-outer",
+                        isActive ? "glow-active" : ""
+                      ].join(" ")}></div>
                       <div className="card-title back">
                         <span className="brand-title brand-title-right">Küsi nõu</span>
                       </div>
@@ -118,7 +154,6 @@ export default function HomePage() {
           </Magnet>
         </div>
       </div>
-
       {/* Footer */}
       <div className="footer-row">
         <div className="footer-left">sotsiaal.ai © 2025</div>
@@ -126,7 +161,6 @@ export default function HomePage() {
           <a href="about.html" className="footer-link">Meist</a>
         </div>
       </div>
-
       {/* SplashCursor kõige ees */}
       <SplashCursor />
     </>

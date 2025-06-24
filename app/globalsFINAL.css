@@ -197,7 +197,7 @@ body {
   background: linear-gradient(270deg, #4851fa, #a133e1, #4851fa);
   background-size: 200% 200%;
   background-repeat: no-repeat;
-  animation: gradientWave 6s ease-in-out infinite;
+  animation: gradientWave 6.7s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -302,23 +302,6 @@ body {
   font-weight: 600;
   cursor: pointer;
 }
-@keyframes cardFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.85);
-    filter: blur(14px);
-  }
-  80% {
-    opacity: 1;
-    filter: blur(1.2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0px);
-  }
-}
-
 @keyframes float-vertical {
   0%   { transform: translateY(0px);}
   50%  { transform: translateY(-13px);}
@@ -327,21 +310,8 @@ body {
 
 /* Hõljub ainult .three-d-card ümbris */
 .float-card {
-  animation: float-vertical 6.5s ease-in-out 0s infinite;
+  animation: float-vertical 6.7s ease-in-out 0s infinite;
 }
-
-/* Kaart ilmub (fade/blur/scale) ainult kaardile, mitte sisule */
-.glass-card {
-  opacity: 0;
-  animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards;
-}
-.three-d-card.glow-active {
-  box-shadow:
-  0 0 60px 0px #4851fa60,
-  0 0 120px 0px #a133e120;
-  transition: box-shadow 0.4s cubic-bezier(.5,0,.1,1);
-}
-
 /* Kuma väikesele kettale tagaküljel */
 .centered-back-outer {
   width: 100%;
@@ -367,14 +337,7 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 2; /* tõsta kõrgemale kui muu sisu */
-}
 
-.glass-card.glow-active,
-.centered-back-outer.glow-active {
-  box-shadow:
-    0 0 25px 8px #4851fa65,
-    0 0 50px 16px #a133e176;
-  transition: box-shadow 0.33s cubic-bezier(.5,0,.1,1);
 }
 @media (max-width: 900px) {
   .main-content {
@@ -452,4 +415,45 @@ body {
   .centered-back {
     padding: 0.55em;
   }
+}
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(14px);
+  }
+  80% {
+    opacity: 1;
+    filter: blur(1.2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Kuma – sujuv värvi üleminek samade toonidega ja ajaga nagu gradientWave */
+@keyframes brandGlow {
+  0%   { box-shadow: 0 0 30px 10px #6c42f8ab; }
+  50%  { box-shadow: 0 0 30px 10px #a133e1bb; }
+  100% { box-shadow: 0 0 30px 10px #6c42f8ab; }
+}
+
+.glass-card {
+  opacity: 1;
+  /* EI OLE animatsiooni siin! */
+}
+
+.glass-card.fade-in {
+  opacity: 0;
+  animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards;
+}
+
+.glass-card.glow-active {
+  animation: brandGlow 6.7s ease-in-out infinite;
+}
+
+.centered-back-outer.glow-active {
+  animation: brandGlow 6.7s ease-in-out infinite;
 }
