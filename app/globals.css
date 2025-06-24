@@ -335,9 +335,9 @@ body {
 }
 .three-d-card.glow-active {
   box-shadow:
-    0 0 32px 8px #4851fa77,
-    0 0 80px 18px #a133e155;
-  transition: box-shadow 0.33s cubic-bezier(.5,0,.1,1);
+    0 0 25px 4px #4851fa3e,
+    0 0 60px 8px #a133e12f;
+  transition: box-shadow 0.4s cubic-bezier(.5,0,.1,1);
 }
 
 /* Kuma väikesele kettale tagaküljel */
@@ -370,8 +370,8 @@ body {
 .glass-card.glow-active,
 .centered-back-outer.glow-active {
   box-shadow:
-    0 0 32px 8px #4851fa77,
-    0 0 80px 18px #a133e155;
+    0 0 25px 8px #4851fa71,
+    0 0 50px 16px #a133e161;
   transition: box-shadow 0.33s cubic-bezier(.5,0,.1,1);
 }
 @media (max-width: 900px) {
@@ -424,6 +424,7 @@ body {
     font-size: 1.02rem;
     flex-direction: column;
     line-height: 1.9em;
+    position: relative;
   }
   .footer-left, .footer-right {
     padding: 0.5em 0.7em;
@@ -449,13 +450,4 @@ body {
   .centered-back {
     padding: 0.55em;
   }
-}
-.footer-row {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100vw;
-  z-index: 100;
-  /* Soovi korral veel taust: */
-  background: linear-gradient(180deg, #e2e2e2 0%, #dadada 100%);
 }
