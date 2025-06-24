@@ -151,8 +151,8 @@ body {
 
 /* Üldine centered-back struktuur (ILMA background ja border!) */
 .centered-back {
-  width: 90%;
-  height: 90%;
+  width: 95%;
+  height: 95%;
   aspect-ratio: 1/1;
   border-radius: 50%;
   margin: 0 auto;
@@ -165,9 +165,8 @@ body {
   background-clip: padding-box;
   overflow: hidden;
   position: relative;
-  cursor: pointer
+  cursor: pointer;
 }
-/* TEKSTI JA STRUKTUURI KLASSID */
 .card-title,
 .card-content,
 .card-headline,
