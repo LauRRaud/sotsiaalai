@@ -1,30 +1,27 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import SplashCursor from '@/components/SplashCursor';
-import Magnet from '@/components/Animations/Magnet/Magnet';
+import SplashCursor from "@/components/SplashCursor";
+import Magnet from "@/components/Animations/Magnet/Magnet";
 
 // Osakeste taust ainult kliendis
-const Particles = dynamic(() => import('@/components/backgrounds/Particles'), { ssr: false });
+const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
-  // Fade-in ainult esmakordsel mountimisel
   const [fadeInDone, setFadeInDone] = useState(false);
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
   useEffect(() => {
-    // Kui vasak või parem kaart lõpetab animatsiooni, pane fadeInDone true
     const handle = () => setFadeInDone(true);
-    if (leftCardRef.current) leftCardRef.current.addEventListener('animationend', handle);
-    if (rightCardRef.current) rightCardRef.current.addEventListener('animationend', handle);
+    if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", handle);
+    if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", handle);
     return () => {
-      if (leftCardRef.current) leftCardRef.current.removeEventListener('animationend', handle);
-      if (rightCardRef.current) rightCardRef.current.removeEventListener('animationend', handle);
+      if (leftCardRef.current) leftCardRef.current.removeEventListener("animationend", handle);
+      if (rightCardRef.current) rightCardRef.current.removeEventListener("animationend", handle);
     };
   }, []);
 
-  // fade-in klass on ainult seni, kuni animatsioon on tehtud
   const fadeClass = !fadeInDone ? "fade-in" : "";
 
   return (
@@ -50,41 +47,57 @@ export default function HomePage() {
             {({ isActive }) => (
               <div className="three-d-card float-card left">
                 <div className="card-wrapper">
+                  {/* Esikülg */}
                   <div className="card-face front">
                     <div
                       ref={leftCardRef}
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         fadeClass,
-                        isActive ? "glow-active" : ""
+                        isActive ? "glow-active" : "",
                       ].join(" ")}
+                      style={{ position: "relative" }}
                     >
+                      {/* S-logo esiküljel */}
+                      <img
+                        src="/logo/Smust.svg"
+                        alt="S logo"
+                        className="card-logo-bg card-logo-bg-left"
+                      />
                       <div className="card-title">
                         <span className="brand-title brand-title-left">SotsiaalAI</span>
                       </div>
                       <div className="card-content">
                         <div className="card-headline">
-                          <span className="headline-bold">
-                            Sotsiaaltöö<br />spetsialistile
-                          </span>
+                          <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
                           <div className="card-info-bottom">
-                            <span className="card-description">
-                              Info, seadused ja nõuanded.
-                            </span>
+                            <span className="card-description">Info, seadused ja nõuanded.</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  {/* Tagakülg */}
                   <div className="card-face back">
-                    <div className={[
-                      "glass-card glass-card-light left-card-primary centered-back",
-                      fadeClass
-                    ].join(" ")}>
-                      <div className={[
-                        "centered-back-outer",
-                        isActive ? "glow-active" : ""
-                      ].join(" ")}></div>
+                    <div
+                      className={[
+                        "glass-card glass-card-light left-card-primary centered-back",
+                        fadeClass,
+                      ].join(" ")}
+                      style={{ position: "relative" }}
+                    >
+                      {/* S-logo tagaküljel */}
+                      <img
+                        src="/logo/Saimust.svg"
+                        alt="S logo"
+                        className="card-logo-bg card-logo-bg-left-back"
+                      />
+                      <div
+                        className={[
+                          "centered-back-outer",
+                          isActive ? "glow-active" : "",
+                        ].join(" ")}
+                      />
                       <div className="card-title back">
                         <span className="brand-title brand-title-left">Küsi nõu</span>
                       </div>
@@ -98,53 +111,69 @@ export default function HomePage() {
             )}
           </Magnet>
         </div>
+
         {/* Parem kaart */}
         <div className="side right">
           <Magnet padding={80} magnetStrength={18}>
             {({ isActive }) => (
               <div className="three-d-card float-card right">
                 <div className="card-wrapper">
+                  {/* Esikülg */}
                   <div className="card-face front">
                     <div
                       ref={rightCardRef}
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         fadeClass,
-                        isActive ? "glow-active" : ""
+                        isActive ? "glow-active" : "",
                       ].join(" ")}
+                      style={{ position: "relative" }}
                     >
+                      {/* AI-logo esiküljel */}
+                      <img
+                        src="/logo/AI.svg"
+                        alt="AI logo"
+                        className="card-logo-bg card-logo-bg-right"
+                      />
                       <div className="card-title">
                         <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
                       </div>
                       <div className="card-content">
                         <div className="card-headline">
-                          <span className="headline-bold">
-                            Eluküsimusega<br />pöördujale
-                          </span>
+                          <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
                           <div className="card-info-bottom">
-                            <span className="card-description">
-                              Õigused, võimalused ja tugi.
-                            </span>
+                            <span className="card-description">Õigused, võimalused ja tugi.</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  {/* Tagakülg */}
                   <div className="card-face back">
-                    <div className={[
-                      "glass-card glass-card-dark right-card-primary centered-back",
-                      fadeClass
-                    ].join(" ")}>
-                      <div className={[
-                        "centered-back-outer",
-                        isActive ? "glow-active" : ""
-                      ].join(" ")}></div>
+                    <div
+                      className={[
+                        "glass-card glass-card-dark right-card-primary centered-back",
+                        fadeClass,
+                      ].join(" ")}
+                      style={{ position: "relative" }}
+                    >
+                      {/* AI-logo tagaküljel */}
+                      <img
+                        src="/logo/Saixx.svg"
+                        alt="SAI logo"
+                        className="card-logo-bg card-logo-bg-right-back"
+                      />
+                      <div
+                        className={[
+                          "centered-back-outer",
+                          isActive ? "glow-active" : "",
+                        ].join(" ")}
+                      />
                       <div className="card-title back">
                         <span className="brand-title brand-title-right">Küsi nõu</span>
                       </div>
                       <div className="card-note right-back">
-                        Leia selgus ja kindlustunne<br />
-                        elulistes sotsiaalküsimustes.
+                        Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                       </div>
                     </div>
                   </div>
@@ -154,6 +183,7 @@ export default function HomePage() {
           </Magnet>
         </div>
       </div>
+
       {/* Footer */}
       <div className="footer-row">
         <div className="footer-left">sotsiaal.ai © 2025</div>
@@ -161,6 +191,14 @@ export default function HomePage() {
           <a href="about.html" className="footer-link">Meist</a>
         </div>
       </div>
+
+      {/* Logo all paremas nurgas */}
+      <img
+        src="/logo/SAImust.svg"
+        alt="Logo"
+        className="logo-corner"
+      />
+
       {/* SplashCursor kõige ees */}
       <SplashCursor />
     </>

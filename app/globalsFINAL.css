@@ -128,7 +128,7 @@ body {
   background-clip: padding-box;
   overflow: hidden;
   border: none;
-  background: linear-gradient(180deg, #fffffff0 0%, #ffffffa4 100%);
+  background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2d8 100%);
   cursor: pointer;
 
 }
@@ -250,7 +250,6 @@ body {
 }
 .card-note {
   font-size: 1.4rem;
-  font-style: italic;
   opacity: 1;
   color: inherit;
 }
@@ -263,8 +262,8 @@ body {
   font-weight: 400;
 }
 .card-title.back {
-  margin-top: -3.5em;
-  margin-bottom:1em;
+  margin-top: -6em;
+  margin-bottom:0.8em;
   justify-content: center;
   align-items: center;
 }
@@ -373,7 +372,7 @@ body {
     margin-bottom: 1.1rem;
   }
   .headline-bold {
-    font-size: 1.12rem !important;
+    font-size: 1.5rem !important;
   }
   .card-note {
     font-size: 1.04rem;
@@ -456,4 +455,53 @@ body {
 
 .centered-back-outer.glow-active {
   animation: brandGlow 6.7s ease-in-out infinite;
+}
+.logo-corner {
+  position: fixed;
+  right: 0.7vw; /* kaugus paremast äärest */
+  bottom: 0.5vw; /* kaugus alumisest äärest */
+  width: 90px; /* muuda suurust vastavalt soovile */
+  opacity: 0; /* vajadusel läbipaistvus */
+  z-index: 3;
+  pointer-events: none; /* et logo alt ei saaks linke/elemente klikkida */
+  }
+.card-logo-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0.05;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+.card-logo-bg-left {
+  width: 52%;
+  opacity: 0.08;
+  transform: translate(-50%, -50%);
+}
+.card-logo-bg-right {
+  width: 65%;
+  opacity: 0.06;
+  transform: translate(-55%, -50%);
+}
+.card-logo-bg-left-back {
+  position: absolute;
+  top: 82%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  width: 22%;
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-logo-bg-right-back {
+  position: absolute;
+  top: 82%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  width: 22%;
+  opacity: 0.7;
+  pointer-events: none;
+  user-select: none;
 }
