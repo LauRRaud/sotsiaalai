@@ -60,7 +60,7 @@ export default function HomePage() {
                     >
                       {/* S-logo esiküljel */}
                       <img
-                        src="/logo/smust.svg"
+                        src="/logo/ssmust.svg"
                         alt="smust logo"
                         className="card-logo-bg card-logo-bg-left"
                       />
