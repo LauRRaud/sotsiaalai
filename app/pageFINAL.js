@@ -60,7 +60,7 @@ export default function HomePage() {
                     >
                       {/* S-logo esiküljel */}
                       <img
-                        src="/logo/Smust.svg"
+                        src="/logo/smust.svg"
                         alt="S logo"
                         className="card-logo-bg card-logo-bg-left"
                       />
@@ -88,7 +88,7 @@ export default function HomePage() {
                     >
                       {/* S-logo tagaküljel */}
                       <img
-                        src="/logo/Saimust.svg"
+                        src="/logo/saimust.svg"
                         alt="S logo"
                         className="card-logo-bg card-logo-bg-left-back"
                       />
@@ -131,7 +131,7 @@ export default function HomePage() {
                     >
                       {/* AI-logo esiküljel */}
                       <img
-                        src="/logo/AI.svg"
+                        src="/logo/aivalge.svg"
                         alt="AI logo"
                         className="card-logo-bg card-logo-bg-right"
                       />
@@ -159,7 +159,7 @@ export default function HomePage() {
                     >
                       {/* AI-logo tagaküljel */}
                       <img
-                        src="/logo/Saixx.svg"
+                        src="/logo/saivalge.svg"
                         alt="SAI logo"
                         className="card-logo-bg card-logo-bg-right-back"
                       />
@@ -191,14 +191,6 @@ export default function HomePage() {
           <a href="about.html" className="footer-link">Meist</a>
         </div>
       </div>
-
-      {/* Logo all paremas nurgas */}
-      <img
-        src="/logo/SAImust.svg"
-        alt="Logo"
-        className="logo-corner"
-      />
-
       {/* SplashCursor kõige ees */}
       <SplashCursor />
     </>

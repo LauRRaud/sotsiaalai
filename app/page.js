@@ -61,7 +61,7 @@ export default function HomePage() {
                       {/* S-logo esiküljel */}
                       <img
                         src="/logo/smust.svg"
-                        alt="S logo"
+                        alt="smust logo"
                         className="card-logo-bg card-logo-bg-left"
                       />
                       <div className="card-title">
@@ -88,8 +88,8 @@ export default function HomePage() {
                     >
                       {/* S-logo tagaküljel */}
                       <img
-                        src="/logo/saimust.svg"
-                        alt="S logo"
+                        src="/logo/ssaimust.svg"
+                        alt="saimust logo"
                         className="card-logo-bg card-logo-bg-left-back"
                       />
                       <div
@@ -132,7 +132,7 @@ export default function HomePage() {
                       {/* AI-logo esiküljel */}
                       <img
                         src="/logo/aivalge.svg"
-                        alt="AI logo"
+                        alt="aivalge logo"
                         className="card-logo-bg card-logo-bg-right"
                       />
                       <div className="card-title">
@@ -160,7 +160,7 @@ export default function HomePage() {
                       {/* AI-logo tagaküljel */}
                       <img
                         src="/logo/saivalge.svg"
-                        alt="SAI logo"
+                        alt="saivalge logo"
                         className="card-logo-bg card-logo-bg-right-back"
                       />
                       <div
