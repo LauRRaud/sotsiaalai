@@ -1,12 +1,10 @@
+
 .particles-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 4;
+  z-index: 1;     /* üle jaluse ja main-content'i, AGA alla kaartide */
   pointer-events: none;
-}
-.footer-row {
-  z-index: 3;
 }
