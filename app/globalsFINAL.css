@@ -304,18 +304,9 @@ body {
 /* Hõljub ainult .three-d-card ümbris */
 .float-card {
   animation: float-vertical 6.7s ease-in-out 0s infinite;
+
 }
-/* Kuma väikesele kettale tagaküljel */
-.centered-back-outer {
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
+
 .centered-back {
   position: relative;
   overflow: visible;
@@ -330,6 +321,7 @@ body {
   pointer-events: none;
   z-index: 2; /* tõsta kõrgemale kui muu sisu */
 }
+
 @keyframes cardFadeIn {
   0% {
     opacity: 0;
@@ -461,4 +453,7 @@ body {
 .footer-right,
 .footer-link {
   font-size: 1.4rem;
+}
+.card-face.back {
+  pointer-events: auto;
 }

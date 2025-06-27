@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import SplashCursor from "@/components/SplashCursor";
 import Magnet from "@/components/Animations/Magnet/Magnet";
-import LoginModal from "@/components/LoginModal"; // Lisa see!
+import LoginModal from "@/components/LoginModal";
 
 // Osakeste taust ainult kliendis
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
@@ -176,7 +176,9 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="footer-row">
         <div className="footer-left">sotsiaal.ai © 2025</div>
-        <div className="footer-right"><a href="/about" className="footer-link">Meist</a></div>
+        <div className="footer-right">
+          <a href="/meist" className="footer-link">Meist</a>
+        </div>
       </footer>
 
       {/* SplashCursor kõige ees */}

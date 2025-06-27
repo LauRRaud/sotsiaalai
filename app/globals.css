@@ -457,3 +457,58 @@ body {
 .card-face.back {
   pointer-events: auto;
 }
+.meist-container {
+  background: #18181b; /* Väga tume hall */
+  color: #f5f5f7;       /* Hele tekst */
+  padding: 2.5em 1em 3em 1em;
+  border-radius: 18px;
+  max-width: 800px;
+  margin: 3em auto 2em auto;
+  box-shadow: 0 8px 36px rgba(20, 20, 40, 0.16);
+  line-height: 1.6;
+  font-size: 1.06rem;
+}
+
+.meist-container h1,
+.meist-container h2 {
+  color: #a9b4ff; /* Hele violetne pealkirjadele */
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  font-weight: 700;
+}
+
+.meist-container section {
+  margin-bottom: 2em;
+}
+
+.meist-container ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.meist-container ul li {
+  margin-bottom: 0.6em;
+}
+
+.meist-link {
+  color: #8b91f8; /* Brändi lilla */
+  text-decoration: underline dotted;
+  transition: color 0.15s, background 0.15s, padding 0.15s;
+}
+
+.meist-link:hover,
+.meist-link:focus {
+  color: #c48dfa;
+  background: #26234e70;
+  text-decoration: underline;
+  border-radius: 3px;
+  padding: 0.1em 0.2em;
+}
+
+.meist-footer {
+  font-size: 1.05em;
+  color: #d4d8fa;
+  margin-top: 3em;
+  text-align: center;
+}
