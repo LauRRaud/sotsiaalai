@@ -3,12 +3,14 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import SplashCursor from "@/components/SplashCursor";
 import Magnet from "@/components/Animations/Magnet/Magnet";
+import LoginModal from "@/components/LoginModal"; // Lisa see!
 
 // Osakeste taust ainult kliendis
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
   const [fadeInDone, setFadeInDone] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false); // MODALI STATE
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
@@ -75,8 +77,14 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Tagakülg */}
-                  <div className="card-face back">
+                  {/* Tagakülg - KOGU TAGAKÜLG ON KLIKITAV */}
+                  <div
+                    className="card-face back"
+                    onClick={() => setIsLoginOpen(true)}
+                    tabIndex={0}
+                    style={{ cursor: "pointer" }}
+                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+                  >
                     <div
                       className={[
                         "glass-card glass-card-light left-card-primary centered-back",
@@ -130,8 +138,14 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Tagakülg */}
-                  <div className="card-face back">
+                  {/* Tagakülg - KOGU TAGAKÜLG ON KLIKITAV */}
+                  <div
+                    className="card-face back"
+                    onClick={() => setIsLoginOpen(true)}
+                    tabIndex={0}
+                    style={{ cursor: "pointer" }}
+                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+                  >
                     <div
                       className={[
                         "glass-card glass-card-dark right-card-primary centered-back",
@@ -155,6 +169,9 @@ export default function HomePage() {
           </Magnet>
         </div>
       </div>
+
+      {/* Sisselogimise modal */}
+      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
 
       {/* Footer */}
       <footer className="footer-row">

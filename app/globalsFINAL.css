@@ -315,6 +315,7 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
+}
 .centered-back {
   position: relative;
   overflow: visible;
@@ -328,7 +329,6 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 2; /* tõsta kõrgemale kui muu sisu */
-}
 }
 @keyframes cardFadeIn {
   0% {
