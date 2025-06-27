@@ -457,58 +457,151 @@ body {
 .card-face.back {
   pointer-events: auto;
 }
-.meist-container {
-  background: #18181b; /* Väga tume hall */
-  color: #f5f5f7;       /* Hele tekst */
-  padding: 2.5em 1em 3em 1em;
-  border-radius: 18px;
-  max-width: 800px;
-  margin: 3em auto 2em auto;
-  box-shadow: 0 8px 36px rgba(20, 20, 40, 0.16);
-  line-height: 1.6;
-  font-size: 1.06rem;
+.meist-hero,
+.tingimused-hero {
+  background: linear-gradient(145deg, #1c1c22, #131318);
+  color: #d0d1dc;
+  min-height: 100vh;
+  padding: 4em 1em 2em 1em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.meist-container h1,
-.meist-container h2 {
-  color: #a9b4ff; /* Hele violetne pealkirjadele */
-  margin-top: 0.5em;
-  margin-bottom: 0.6em;
+/* Sisu inner konteiner */
+.meist-inner,
+.tingimused-inner {
+  width: 100%;
+  max-width: 900px;
+  padding: 0 1em;
+}
+
+/* Sisu kast */
+.meist-box,
+.tingimused-box {
+  background: rgba(30, 30, 38, 0.88);
+  border-radius: 1.4em;
+  padding: 2.5em;
+  box-shadow: 0 10px 40px rgba(10, 10, 20, 0.4);
+  font-size: 1.15rem;
+}
+
+/* Pealkiri */
+.meist-title,
+.tingimused-title {
+  font-size: 2.6em;
+  color: rgba(127, 42, 177, 0.97);
+  margin-bottom: 1.2em;
+}
+
+.centered {
+  text-align: center;
+}
+
+/* Sektsioonid */
+.meist-section,
+.tingimused-section {
+  margin-bottom: 2.5em;
+  line-height: 1.75;
+}
+.meist-section p,
+.tingimused-section p {
+  margin-bottom: 1.2em;
+}
+
+/* Sektsiooni alampealkiri (nt Privaatsus lehel) */
+.meist-heading {
+  font-size: 1.6em;
+  color: rgba(127, 42, 177, 0.97);
+  margin-bottom: 1em;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-.meist-container section {
-  margin-bottom: 2em;
+/* Ühtlustatud lingid (üldine) */
+a,
+.meist-section a,
+.tingimused-section a,
+.meist-contact a,
+.meist-links a,
+.tingimused-box a {
+  color: rgba(132, 51, 180, 0.97);
+  font-size: 1.13em;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.2s, background 0.18s, padding 0.18s;
+  outline: none;
+}
+a:hover,
+.meist-section a:hover,
+.tingimused-section a:hover,
+.meist-contact a:hover,
+.meist-links a:hover,
+.tingimused-box a:hover {
+  color: #e3d2ff;
+  background: #342a50;
+  border-radius: 3px;
+  padding: 0.08em 0.15em;
+  text-decoration: none;
 }
 
-.meist-container ul {
+/* Tagasi lingi stiil – alati keskel, ilma alljooneta */
+.back-link {
+  display: block;
+  margin: 2em auto 1.5em auto;
+  color: #7f2ab1;
+  font-size: 1.13em;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  text-align: center;
+  max-width: max-content;
+  transition: color 0.2s;
+}
+.back-link:hover {
+  color: #c48dfa;
+  text-decoration: none;
+}
+
+/* Loetelude punktideta kastides */
+.meist-section ul,
+.tingimused-section ul,
+.meist-box ul,
+.tingimused-box ul,
+.meist-contact,
+.meist-links {
   list-style: none;
   padding-left: 0;
-  margin: 0;
+  margin: 0 0 1.2em 0;
 }
 
-.meist-container ul li {
+.meist-section li,
+.tingimused-section li,
+.meist-box li,
+.tingimused-box li,
+.meist-contact li,
+.meist-links li {
   margin-bottom: 0.6em;
 }
 
-.meist-link {
-  color: #8b91f8; /* Brändi lilla */
-  text-decoration: underline dotted;
-  transition: color 0.15s, background 0.15s, padding 0.15s;
-}
-
-.meist-link:hover,
-.meist-link:focus {
-  color: #c48dfa;
-  background: #26234e70;
-  text-decoration: underline;
-  border-radius: 3px;
-  padding: 0.1em 0.2em;
-}
-
-.meist-footer {
-  font-size: 1.05em;
-  color: #d4d8fa;
-  margin-top: 3em;
+/* Footer kõigil alalehtedel */
+.meist-footer,
+.tingimused-footer,
+.privaatsus-footer {
   text-align: center;
+  font-size: 1.2rem;
+  color: rgba(127, 42, 177, 0.97);
+  margin-top: 3em;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.privaatsus-number,
+.privaatsus-pealkiri {
+  color: rgba(127, 42, 177, 0.97);
+  font-weight: 700;
+  font-size: 1.3em;
+}
+.privaatsus-pealkiri {
+  margin-left: 0.2em;
 }

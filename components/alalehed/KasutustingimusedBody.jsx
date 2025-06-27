@@ -22,63 +22,15 @@ export default function KasutustingimusedBody() {
             </p>
           </section>
 
+          <div>
+            <a href="/meist" className="back-link">&larr; Tagasi</a>
+          </div>
+
           <footer className="tingimused-footer">
             &copy; 2025 sotsiaal.ai
           </footer>
         </div>
       </div>
-
-      <style jsx>{`
-        .tingimused-hero {
-          background: linear-gradient(145deg, #1c1c22, #131318);
-          color: #d0d1dc;
-          min-height: 100vh;
-          padding: 4em 1em 2em 1em;
-          display: flex;
-          justify-content: center;
-          align-items: flex-start;
-        }
-
-        .tingimused-inner {
-          width: 100%;
-          max-width: 900px;
-          padding: 0 1em;
-        }
-
-        .tingimused-box {
-          background: rgba(30, 30, 38, 0.88);
-          border-radius: 1.4em;
-          padding: 2.5em;
-          box-shadow: 0 10px 40px rgba(10, 10, 20, 0.4);
-          font-size: 1.15rem;
-        }
-
-        .tingimused-title {
-          font-size: 2.6em;
-          color: rgba(127, 42, 177, 0.97);
-          margin-bottom: 1.2em;
-        }
-
-        .centered {
-          text-align: center;
-        }
-
-        .tingimused-section {
-          margin-bottom: 2.5em;
-          line-height: 1.75;
-        }
-
-        .tingimused-section p {
-          margin-bottom: 1.2em;
-        }
-
-        .tingimused-footer {
-          text-align: center;
-          font-size: 1em;
-          color: rgba(127, 42, 177, 0.97);
-          margin-top: 3em;
-        }
-      `}</style>
     </div>
   );
 }
