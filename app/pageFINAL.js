@@ -26,6 +26,9 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Fikseeritud taust (gradient) ainult CSS klassiga */}
+      <div className="background-gradient" aria-hidden="true" />
+
       {/* Osakeste taust */}
       <Particles
         particleColors={["#4851fa", "#a133e1", "#18181866", "#e2e2e2"]}
@@ -40,8 +43,9 @@ export default function HomePage() {
         className="particles-container"
       />
 
+      {/* Lehe põhisisu */}
       <div className="main-content">
-        {/* Vasak kaart */}
+        {/* Vasak pool */}
         <div className="side left">
           <Magnet padding={80} magnetStrength={18}>
             {({ isActive }) => (
@@ -54,16 +58,10 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         fadeClass,
-                        isActive ? "glow-active" : "",
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
-                      style={{ position: "relative" }}
                     >
-                      {/* S-logo esiküljel */}
-                      <img
-                        src="/logo/smust.svg"
-                        alt="S logo"
-                        className="card-logo-bg card-logo-bg-left"
-                      />
+                      <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
                       <div className="card-title">
                         <span className="brand-title brand-title-left">SotsiaalAI</span>
                       </div>
@@ -83,21 +81,11 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-light left-card-primary centered-back",
                         fadeClass,
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
-                      style={{ position: "relative" }}
                     >
-                      {/* S-logo tagaküljel */}
-                      <img
-                        src="/logo/saimust.svg"
-                        alt="S logo"
-                        className="card-logo-bg card-logo-bg-left-back"
-                      />
-                      <div
-                        className={[
-                          "centered-back-outer",
-                          isActive ? "glow-active" : "",
-                        ].join(" ")}
-                      />
+                      <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
+                      <div className={["centered-back-outer", fadeInDone && isActive ? "glow-active" : ""].join(" ")} />
                       <div className="card-title back">
                         <span className="brand-title brand-title-left">Küsi nõu</span>
                       </div>
@@ -112,7 +100,7 @@ export default function HomePage() {
           </Magnet>
         </div>
 
-        {/* Parem kaart */}
+        {/* Parem pool */}
         <div className="side right">
           <Magnet padding={80} magnetStrength={18}>
             {({ isActive }) => (
@@ -125,16 +113,10 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         fadeClass,
-                        isActive ? "glow-active" : "",
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
-                      style={{ position: "relative" }}
                     >
-                      {/* AI-logo esiküljel */}
-                      <img
-                        src="/logo/aivalge.svg"
-                        alt="AI logo"
-                        className="card-logo-bg card-logo-bg-right"
-                      />
+                      <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
                       <div className="card-title">
                         <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
                       </div>
@@ -154,21 +136,11 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-dark right-card-primary centered-back",
                         fadeClass,
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
-                      style={{ position: "relative" }}
                     >
-                      {/* AI-logo tagaküljel */}
-                      <img
-                        src="/logo/saivalge.svg"
-                        alt="SAI logo"
-                        className="card-logo-bg card-logo-bg-right-back"
-                      />
-                      <div
-                        className={[
-                          "centered-back-outer",
-                          isActive ? "glow-active" : "",
-                        ].join(" ")}
-                      />
+                      <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
+                      <div className={["centered-back-outer", fadeInDone && isActive ? "glow-active" : ""].join(" ")} />
                       <div className="card-title back">
                         <span className="brand-title brand-title-right">Küsi nõu</span>
                       </div>
@@ -185,12 +157,11 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <div className="footer-row">
+      <footer className="footer-row">
         <div className="footer-left">sotsiaal.ai © 2025</div>
-        <div className="footer-right">
-          <a href="about.html" className="footer-link">Meist</a>
-        </div>
-      </div>
+        <div className="footer-right"><a href="/about" className="footer-link">Meist</a></div>
+      </footer>
+
       {/* SplashCursor kõige ees */}
       <SplashCursor />
     </>

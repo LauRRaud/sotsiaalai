@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import SplashCursor from "@/components/SplashCursor";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 
+// Osakeste taust ainult kliendis
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
@@ -25,7 +26,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Fikseeritud taust gradient - ainult CSS klass! */}
+      {/* Fikseeritud taust (gradient) ainult CSS klassiga */}
       <div className="background-gradient" aria-hidden="true" />
 
       {/* Osakeste taust */}
@@ -57,7 +58,7 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         fadeClass,
-                        isActive ? "glow-active" : "",
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                     >
                       <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
@@ -80,10 +81,11 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-light left-card-primary centered-back",
                         fadeClass,
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                     >
                       <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
-                      <div className={["centered-back-outer", isActive ? "glow-active" : ""].join(" ")} />
+                      <div className={["centered-back-outer", fadeInDone && isActive ? "glow-active" : ""].join(" ")} />
                       <div className="card-title back">
                         <span className="brand-title brand-title-left">Küsi nõu</span>
                       </div>
@@ -111,7 +113,7 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         fadeClass,
-                        isActive ? "glow-active" : "",
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                     >
                       <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
@@ -134,10 +136,11 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-dark right-card-primary centered-back",
                         fadeClass,
+                        fadeInDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                     >
                       <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
-                      <div className={["centered-back-outer", isActive ? "glow-active" : ""].join(" ")} />
+                      <div className={["centered-back-outer", fadeInDone && isActive ? "glow-active" : ""].join(" ")} />
                       <div className="card-title back">
                         <span className="brand-title brand-title-right">Küsi nõu</span>
                       </div>
@@ -159,7 +162,7 @@ export default function HomePage() {
         <div className="footer-right"><a href="/about" className="footer-link">Meist</a></div>
       </footer>
 
-      {/* SplashCursor */}
+      {/* SplashCursor kõige ees */}
       <SplashCursor />
     </>
   );
