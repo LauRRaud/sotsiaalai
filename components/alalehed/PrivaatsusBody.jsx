@@ -20,7 +20,7 @@ export default function PrivaatsusBody() {
               <span className="privaatsus-pealkiri">Kogutavad andmed</span>
             </p>
             <p>2.1 Kasutajakonto info: nimi, e-posti aadress, krüpteeritud parool.</p>
-            <p>2.2 Tellimused ja maksed: makseandmed, tellimuse tüüp, ajatemperatuur.</p>
+            <p>2.2 Tellimused ja maksed: makseandmed, tellimuse tüüp.</p>
             <p>2.3 Tehnilised metaandmed: IP-aadress, brauseri tüüp, logid turbe- ja tõrkeotstarbel.</p>
 
             <p>
