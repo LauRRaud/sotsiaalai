@@ -20,7 +20,7 @@ export default function MeistBody() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                OSKA raport
+                OSKA raport (2025)
               </a>
               . Sellises keskkonnas on kvaliteetne ja kättesaadav nõuandeplatvorm hädavajalik. Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda toetust nii professionaalidele kui ka abi otsivatele inimestele.
             </p>

@@ -564,24 +564,27 @@ a:hover,
   text-decoration: none;
 }
 
-/* Loetelude punktideta kastides */
+/* Loetelude punktid ja taanestus tingimuste sektsioonis */
+.tingimused-section ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin: 0 0 1.2em 0;
+}
+
+.tingimused-section li {
+  margin-bottom: 0.6em;
+}
+
+/* Loetelude punktideta kastides (meist-sektsioon ja teised) */
 .meist-section ul,
-.tingimused-section ul,
+.meist-section li,
 .meist-box ul,
-.tingimused-box ul,
+.meist-box li,
 .meist-contact,
 .meist-links {
   list-style: none;
   padding-left: 0;
   margin: 0 0 1.2em 0;
-}
-
-.meist-section li,
-.tingimused-section li,
-.meist-box li,
-.tingimused-box li,
-.meist-contact li,
-.meist-links li {
   margin-bottom: 0.6em;
 }
 
@@ -596,6 +599,8 @@ a:hover,
   font-weight: 600;
   letter-spacing: 0.03em;
 }
+
+/* Privaatsuse peatükkide pealkirjade stiil */
 .privaatsus-number,
 .privaatsus-pealkiri {
   color: rgba(127, 42, 177, 0.97);
@@ -604,4 +609,13 @@ a:hover,
 }
 .privaatsus-pealkiri {
   margin-left: 0.2em;
+}
+
+/* Tingimuste peatükkide pealkirjad */
+.tingimused-section h2 {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: rgba(127, 42, 177, 0.97);
+  margin-bottom: 1em;
+  letter-spacing: 0.02em;
 }
