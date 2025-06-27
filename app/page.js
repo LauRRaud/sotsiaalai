@@ -49,7 +49,7 @@ export default function HomePage() {
       <div className="main-content">
         {/* Vasak pool */}
         <div className="side left">
-          <Magnet padding={80} magnetStrength={18}>
+          <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
             {({ isActive }) => (
               <div className="three-d-card float-card left">
                 <div className="card-wrapper">
@@ -110,7 +110,7 @@ export default function HomePage() {
 
         {/* Parem pool */}
         <div className="side right">
-          <Magnet padding={80} magnetStrength={18}>
+          <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
             {({ isActive }) => (
               <div className="three-d-card float-card right">
                 <div className="card-wrapper">
