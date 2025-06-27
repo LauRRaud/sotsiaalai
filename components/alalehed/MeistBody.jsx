@@ -22,7 +22,7 @@ export default function MeistBody() {
               >
                 OSKA raport
               </a>
-              . Sellises keskkonnas on kvaliteetne ja kättesaadav nõuandeplatvorm hädavajalik. Meie eesmärk on pakkuda selgust, lihtsustada igapäevatööd ning toetada otsuste langetamist nii professionaalide kui abivajajate jaoks.
+              . Sellises keskkonnas on kvaliteetne ja kättesaadav nõuandeplatvorm hädavajalik. Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda toetust nii professionaalidele kui ka abi otsivatele inimestele.
             </p>
             <p>
               Sotsiaal.AI-d arendab ja haldab SotsiaalAI OÜ. Platvorm areneb pidevalt, et tagada ajakohane ja praktiline tugi kõigile kasutajatele.
