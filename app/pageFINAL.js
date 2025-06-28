@@ -3,12 +3,14 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import SplashCursor from "@/components/SplashCursor";
 import Magnet from "@/components/Animations/Magnet/Magnet";
+import LoginModal from "@/components/LoginModal";
 
 // Osakeste taust ainult kliendis
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
   const [fadeInDone, setFadeInDone] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false); // MODALI STATE
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
@@ -47,7 +49,7 @@ export default function HomePage() {
       <div className="main-content">
         {/* Vasak pool */}
         <div className="side left">
-          <Magnet padding={80} magnetStrength={18}>
+          <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
             {({ isActive }) => (
               <div className="three-d-card float-card left">
                 <div className="card-wrapper">
@@ -75,8 +77,14 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Tagakülg */}
-                  <div className="card-face back">
+                  {/* Tagakülg - KOGU TAGAKÜLG ON KLIKITAV */}
+                  <div
+                    className="card-face back"
+                    onClick={() => setIsLoginOpen(true)}
+                    tabIndex={0}
+                    style={{ cursor: "pointer" }}
+                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+                  >
                     <div
                       className={[
                         "glass-card glass-card-light left-card-primary centered-back",
@@ -102,7 +110,7 @@ export default function HomePage() {
 
         {/* Parem pool */}
         <div className="side right">
-          <Magnet padding={80} magnetStrength={18}>
+          <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
             {({ isActive }) => (
               <div className="three-d-card float-card right">
                 <div className="card-wrapper">
@@ -130,8 +138,14 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  {/* Tagakülg */}
-                  <div className="card-face back">
+                  {/* Tagakülg - KOGU TAGAKÜLG ON KLIKITAV */}
+                  <div
+                    className="card-face back"
+                    onClick={() => setIsLoginOpen(true)}
+                    tabIndex={0}
+                    style={{ cursor: "pointer" }}
+                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+                  >
                     <div
                       className={[
                         "glass-card glass-card-dark right-card-primary centered-back",
@@ -156,10 +170,15 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Sisselogimise modal */}
+      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+
       {/* Footer */}
       <footer className="footer-row">
         <div className="footer-left">sotsiaal.ai © 2025</div>
-        <div className="footer-right"><a href="/about" className="footer-link">Meist</a></div>
+        <div className="footer-right">
+          <a href="/meist" className="footer-link">Meist</a>
+        </div>
       </footer>
 
       {/* SplashCursor kõige ees */}
