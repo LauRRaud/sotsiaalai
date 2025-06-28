@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation"; // <-- lisa see!
 
 export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
+  const router = useRouter(); // <-- lisa see!
 
   useEffect(() => {
     if (open && boxRef.current) {
@@ -66,6 +68,7 @@ export default function LoginModal({ open, onClose }) {
 
             alert("Sisselogitud! (demo)");
             onClose();
+            router.push("/vestlus"); // <-- see viib vestluslehele!
           }}
         >
           <label>
