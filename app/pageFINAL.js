@@ -175,7 +175,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="footer-row">
-        <div className="footer-left">sotsiaal.ai © 2025</div>
+        <div className="footer-left">Sotsiaal.AI &copy; 2025</div>
         <div className="footer-right">
           <a href="/meist" className="footer-link">Meist</a>
         </div>

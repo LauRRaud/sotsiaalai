@@ -66,8 +66,6 @@ export default function LoginModal({ open, onClose }) {
               return;
             }
 
-            alert("Sisselogitud! (demo)");
-            onClose();
             router.push("/vestlus"); // <-- see viib vestluslehele!
           }}
         >
@@ -92,8 +90,8 @@ export default function LoginModal({ open, onClose }) {
           </button>
         </form>
         <div className="login-modal-links">
-          <Link href="/registreeru" tabIndex={open ? 0 : -1}>
-            <span className="login-modal-link-large">Registreeru</span>
+<Link href="/registreerimine" tabIndex={open ? 0 : -1}>
+  <span className="login-modal-link-large">Registreeru</span>
           </Link>
           <Link href="/unustasin-parooli" tabIndex={open ? 0 : -1}>
             <span className="login-modal-link-large">Unustasid parooli?</span>

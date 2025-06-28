@@ -397,7 +397,7 @@ body {
   left: 48%;
   transform: translate(-50%, -50%);
   width: 23%;
-  opacity: 0.7;
+  opacity: 0.88;
   pointer-events: none;
   user-select: none;
 }
@@ -408,7 +408,7 @@ body {
   left: 48%;
   transform: translate(-50%, -50%);
   width: 23%;
-  opacity: 0.6;
+  opacity: 0.67;
   pointer-events: none;
   user-select: none;
 }
@@ -479,9 +479,9 @@ body {
 .alaleht-box {
   background: rgba(30, 30, 38, 0.88);
   border-radius: 1.4em;
-  padding: 2.5em;
+  padding: 2em;
   box-shadow: 0 10px 40px rgba(10, 10, 20, 0.4);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 /* --- Põhipealkiri (h1) --- */
@@ -536,7 +536,7 @@ body {
   margin-bottom: 0.6em;
 }
 
-/* --- Tagasi/lingid --- */
+/* --- Üldine lingi disain, KÕIKIDELE LINKIDELE --- */
 a,
 .alaleht-section a,
 .alaleht-box a {
@@ -551,44 +551,592 @@ a,
 a:hover,
 .alaleht-section a:hover,
 .alaleht-box a:hover {
-  color: #e3d2ff;
+  color: #b990fc;
   background: #342a50;
   border-radius: 3px;
   padding: 0.08em 0.15em;
   text-decoration: none;
 }
 
-/* Tagasi lingi stiil – alati keskel, ilma alljooneta */
+/* --- Tagasi link, EI OLE KASTI, EI HOVER BACKGROUNDi --- */
+.back-link,
+.back-link:focus,
+.back-link:active {
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
 .back-link {
   display: block;
-  margin: 2em auto 1.5em auto;
-  color: #7f2ab1;
-  font-size: 1.13em;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: 0.01em;
+  margin: 1em auto 0 auto;
   text-align: center;
-  max-width: max-content;
-  transition: color 0.2s;
-}
-.back-link:hover {
-  color: #c48dfa;
+  color: #b990fc;
+  font-size: 1.13em;
+  font-weight: 500;
   text-decoration: none;
+  transition: color 0.14s;
+  max-width: 330px;
+}
+.back-link:hover,
+.back-link:focus {
+  color: #fff;
+  text-decoration: none;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
-/* --- Footer kõigil alalehtedel --- */
+.profiil-hero {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: #201e28;
+  /* Lisa allapoole rohkem paddingut */
+  padding-bottom: 5vh;
+}
+
+.profiil-inner {
+  flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Lisa min kõrgus, et kast ei jääks liiga lühikeseks */
+.profiil-box {
+  min-height: 530px;   /* või katseta kõrgemat väärtust */
+}
+
+/* Profiiliblokk/kast */
+.profiil-box {
+  max-width: 520px;
+  width: 100%;
+  margin: 4vh auto 0 auto;
+  background: rgba(46, 43, 62, 0.97);
+  border-radius: 2.3em;
+  box-shadow: 0 8px 32px 0 rgba(40, 32, 62, 0.36);
+  padding: 3em 2.3em 2.3em 2.3em;
+  border: 1.5px solid #322d44;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 1.3rem;
+}
+
+/* Profiili vorm */
+.profiil-block {
+  width: 100%;
+  max-width: 370px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.profile-label {
+  font-size: 1.13em;
+  font-weight: 500;
+  color: #d0b8f6;
+  margin: 1.2em 0 0.18em;
+  text-align: left;
+  padding-left: 2px;
+}
+.profile-input {
+  width: 100%;
+  font-size: 1.09em;
+  background: #2c2941;
+  color: #fff;
+  border: 1.5px solid #4e3667;
+  border-radius: 0.9em;
+  padding: 0.52em 1em;
+  margin-bottom: 0.33em;
+  outline: none;
+  transition: border 0.15s;
+  box-sizing: border-box;
+}
+.profile-input:focus {
+  border: 1.5px solid #b990fc;
+}
+/* Tellimuse nupp */
+.profile-subscription {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 1.3em 0 1.4em 0;
+}
+.profile-vieworder {
+  width: 100%;
+  max-width: 330px;
+  background: #39364d;
+  color: #bba6d6;
+  border: none;
+  border-radius: 0.8em;
+  padding: 0.7em 0;
+  font-size: 1.11em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.16s;
+  text-align: center;
+  margin-bottom: 0.7em;
+  display: block;
+}
+.profile-vieworder:hover {
+  background: #57437a;
+}
+
+/* Nupud */
+.profile-actions {
+  display: flex;
+  gap: 1em;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0.1em;
+  margin-top: 2em;
+}
+.profile-save,
+.profile-logout {
+  width: 100%;
+  max-width: 150px;
+  font-weight: 500;
+  font-size: 1.10em;
+  border: none;
+  border-radius: 0.95em;
+  padding: 0.75em 0;
+  cursor: pointer;
+  transition: background 0.18s;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+.profile-save {
+  background: #8838e3;
+  color: #fff;
+}
+.profile-save:hover {
+  background: #7f2ab1;
+}
+.profile-logout {
+  background: #39364d;
+  color: #cbb8e0;
+}
+.profile-logout:hover {
+  background: #57437a;
+}
+
+/* Kustuta konto nupp */
+.profile-delete {
+  width: 100%;
+  max-width: 200px;
+  margin: 0.3em auto 0;
+  margin-top: 3em;
+  background: #c73b3b;
+  color: #fff;
+  font-size: 1.09em;
+  font-weight: 500;
+  border: none;
+  border-radius: 0.9em;
+  padding: 0.75em 0;
+  cursor: pointer;
+  transition: background 0.17s;
+  text-align: center;
+  letter-spacing: 0.01em;
+  display: block;
+}
+.profile-delete:hover {
+  background: #b92626;
+}
+
+/* Kustutamise modaal */
+.profile-delete-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(22, 18, 33, 0.64);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile-delete-content {
+  background: #221c2f;
+  color: #f2e9ff;
+  border-radius: 1.2em;
+  padding: 2.2em 1.6em 1.5em;
+  box-shadow: 0 8px 32px rgba(24, 18, 40, 0.30);
+  max-width: 340px;
+  text-align: center;
+}
+.profile-delete-confirm,
+.profile-delete-cancel {
+  font-size: 1.09em;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.8em;
+  padding: 0.8em 2em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.profile-delete-confirm {
+  background: #e94b4b;
+  color: #fff;
+  margin-right: 1em;
+}
+.profile-delete-confirm:hover {
+  background: #b92626;
+}
+.profile-delete-cancel {
+  background: #362a49;
+  color: #fff;
+}
+.profile-delete-cancel:hover {
+  background: #57437a;
+}
+
+/* --- CHAT LEHE KONTEINERID JA KASTID --- */
+.alaleht-hero, .alaleht-inner, .alaleht-box {
+  width: 100%;
+  min-height: 100vh;
+}
+.alaleht-box {
+  max-width: 900px;
+  margin: 0em auto 0em auto;
+  background: rgba(33, 31, 40, 0.99);
+  border-radius: 2.1em;
+  box-shadow: 0 8px 32px rgba(44, 41, 65, 0.32);
+  padding: 3em 2.6em 2.6em 2.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+/* VESTLUSE AKEN */
+.alaleht-box.chatbox-override {
+  max-width: 700px;
+  width: 100%;
+  margin: -1.6em auto 0 auto;
+  background: rgba(44, 41, 65, 0.97);
+  border-radius: 2.2em;
+  box-shadow: 0 8px 32px rgba(44, 41, 65, 0.24);
+  padding: 1.3em 2em 2em 2em;
+  border: 1.5px solid #2a2640;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.alaleht-box.chatbox-override .alaleht-title {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+/* CHAT KOMPONENDID */
+.chat-profile {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.4em;
+}
+.chat-avatar,
+.chat-avatar:focus,
+.chat-avatar:active {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #2c2941;
+  object-fit: cover;
+  border: 2px solid #a68fc9;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.16s;
+}
+
+.chat-avatar:hover {
+  border-color: #b990fc;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.chat-profile a,
+.chat-profile a:focus,
+.chat-profile a:active {
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  border: none !important;
+}
+.chatbox-override {
+  position: relative;
+  padding-top: 1.2em;
+  min-height: 340px;
+}
+.chat-window {
+  min-height: 200px;
+  max-height: 340px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  margin-bottom: 2em;
+}
+.chat-msg-ai {
+  align-self: flex-start;
+  background: #5e4ab1;
+  color: #f3f3f3f8;
+  padding: 0.7em 1.2em;
+  border-radius: 1.2em 1.2em 1.2em 0.4em;
+  max-width: 85%;
+  font-size: 1em;
+}
+.chat-msg-user {
+  align-self: flex-end;
+  background: #7f2ab1;
+  color: #f3f3f3f8;
+  padding: 0.7em 1.2em;
+  border-radius: 1.2em 1.2em 0.4em 1.2em;
+  max-width: 85%;
+  font-size: 1em;
+}
+.chat-inputbar {
+  display: flex; gap: 0.6em; margin-top: 1.4em;
+}
+.chat-inputbar input {
+  flex: 1;
+  border-radius: 1em;
+  border: none;
+  padding: 0.8em 1.1em;
+  font-size: 1em;
+  background: #29263a;
+  color: #f3f3f3f8;
+  outline: none;
+}
+.chat-inputbar button {
+  padding: 0.8em 1.7em;
+  border-radius: 1em;
+  border: none;
+  background: #7f2ab1;
+  color: #f3f3f3f8;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+.chat-inputbar button:hover {
+  background: #953ed4;
+}
+
+/* --- Jalus --- */
 .alaleht-footer {
+  width: 100%;
   text-align: center;
   font-size: 1.2rem;
   color: rgba(127, 42, 177, 0.97);
   margin-top: 3em;
   font-weight: 600;
   letter-spacing: 0.03em;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
-.alaleht-h2-number {
-  color: rgb(149, 77, 212); /* või rgba(127, 42, 177, 0.97) */
+.registreeru-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to right,
+    #303136 0%,
+    #303136 50%,
+    #f5f5f5 50%,
+    #e2e2e2 100%
+  );
+  pointer-events: none;
+}
+html, body {
+  height: auto;
+  min-height: 100%;
+}
+
+/* LEHE STRUKTUUR */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: none;
+}
+
+.registreeru-leht {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  width: 100%;
+  padding: 2vh 0 2vh 0; /* Üleval ja all ruumi */
+  box-sizing: border-box;
+}
+
+/* KAST */
+.registreeru-box {
+  position: relative;
+  z-index: 3;
+  background: rgba(30, 30, 38, 0.91);
+  border-radius: 1.5em;
+  box-shadow: 0 10px 40px rgba(10, 10, 20, 0.21);
+  padding: 2em;
+  width: 100%;
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 500px;
+  margin-bottom: 1vh;
+}
+
+/* PEALKIRI */
+.registreeru-title {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 1em;
+  color: rgb(149, 77, 212);
   font-weight: 700;
-  font-size: 1.3em; /* kui tahad veidi suuremat, muuda siin */
-  margin-right: 0.1em;
-  vertical-align: baseline;
+  letter-spacing: 0.01em;
+}
+
+/* VORM */
+.registreeru-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 100%;
+}
+
+.registreeru-label {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #d0b8f6;
+  margin: 1em 0 0.22em 2px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.registreeru-input {
+  width: 100%;
+  font-size: 1.2em;
+  background: #2c2941;
+  color: #fff;
+  border: 1.4px solid #4e3667;
+  border-radius: 0.9em;
+  padding: 0.52em 1em;
+  margin-top: 0.3em;
+  outline: none;
+  transition: border 0.15s;
+  box-sizing: border-box;
+}
+.registreeru-input:focus {
+  border: 1.4px solid #b990fc;
+}
+
+/* ROLLID */
+.registreeru-rollid {
+  display: flex;
+  gap: 2.5em;
+  margin-bottom: 0.8em;
+  margin-top: 0.1em;
+  width: 100%;
+}
+.registreeru-rollid label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.2em;
+  color: #e2d0fa;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+.registreeru-rollid input[type="radio"] {
+  accent-color: #953ed4;
+  width: 1.13em;
+  height: 1.13em;
+}
+
+/* NÕUSTUMINE */
+.registreeru-noustun {
+  color: #d0b8f6;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 1.2em;
+  margin-bottom: 1.5em;
+  font-size: 1.2em;
+  line-height: 1.38;
+  word-break: break-word;
+}
+.registreeru-noustun input[type="checkbox"] {
+  accent-color: #9237d2;
+  width: 1.1em;
+  height: 1.1em;
+}
+.registreeru-noustun a {
+  color: #be69f7;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.17s;
+}
+.registreeru-noustun a:hover {
+  color: #b990fc;
+}
+
+/* NUPP */
+.registreeru-submit {
+  width: 100%;
+  background: linear-gradient(90deg, #7f2ab1, #482682 86%);
+  color: rgba(246, 239, 255, 0.993);
+  font-weight: 500;
+  font-size: 1.3em;
+  border: none;
+  border-radius: 1em;
+  padding: 1em 0;
+  margin: 0.7em 0 0 0;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(50, 30, 77, 0.11);
+  transition: background 0.18s, color 0.14s;
+  letter-spacing: 0.04em;
+}
+.registreeru-submit:hover {
+  background: linear-gradient(90deg, #8e39d6, #54308a 90%);
+  color: #fff;
+}
+
+/* ALL LINK */
+.registreeru-bottom-link {
+  width: 100%;
+  margin-top: 2em;
+  text-align: center;
+  color: #ac6af7;
+  font-size: 1.2em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25em;
+}
+.registreeru-login-link {
+  background: none;
+  border: none;
+  color: #a55bf8;
+  font-weight: 500;
+  font-size: 1.1em;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 0.2em;
+  transition: color 0.16s;
+  padding: 0;
+}
+.registreeru-login-link:hover {
+  color: #c89cfa;
 }

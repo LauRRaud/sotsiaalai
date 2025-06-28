@@ -32,17 +32,18 @@ export default function ProfiilBody() {
               className="profile-input"
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <div className="profile-label">Uus parool</div>
             <input
               className="profile-input"
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Jäta tühjaks, kui ei muuda"
             />
 
+            {/* Salvesta ja Logi välja nupud */}
             <div className="profile-actions">
               <button type="submit" className="profile-save">
                 Salvesta
@@ -56,6 +57,7 @@ export default function ProfiilBody() {
               </button>
             </div>
 
+            {/* Vaata tellimust nupp */}
             <div className="profile-subscription">
               <button
                 type="button"
@@ -66,9 +68,12 @@ export default function ProfiilBody() {
               </button>
             </div>
 
+            {/* Tagasi vestlusesse link – nüüd ENNE kustutamise nuppu */}
             <Link href="/vestlus" className="back-link">
               &larr; Tagasi vestlusesse
             </Link>
+
+            {/* Kustuta konto nupp kõige lõpus */}
             <button
               type="button"
               className="profile-delete"
@@ -78,11 +83,13 @@ export default function ProfiilBody() {
             </button>
           </form>
 
+          {/* Konto kustutamise modaal */}
           {showDelete && (
             <div className="profile-delete-modal">
               <div className="profile-delete-content">
                 <p>
-                  Oled ikka kindel, et soovid oma konto kustutada? Seda ei saa tagasi võtta.
+                  Oled ikka kindel, et soovid oma konto kustutada? Seda ei saa
+                  tagasi võtta.
                 </p>
                 <div
                   style={{
