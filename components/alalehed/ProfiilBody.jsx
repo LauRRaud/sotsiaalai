@@ -43,16 +43,6 @@ export default function ProfiilBody() {
               placeholder="Jäta tühjaks, kui ei muuda"
             />
 
-            <div className="profile-subscription">
-              <button
-                type="button"
-                className="profile-vieworder"
-                onClick={() => alert("Tellimuse detailid (demo)!")}
-              >
-                Vaata tellimust
-              </button>
-            </div>
-
             <div className="profile-actions">
               <button type="submit" className="profile-save">
                 Salvesta
@@ -66,6 +56,19 @@ export default function ProfiilBody() {
               </button>
             </div>
 
+            <div className="profile-subscription">
+              <button
+                type="button"
+                className="profile-vieworder"
+                onClick={() => alert("Tellimuse detailid (demo)!")}
+              >
+                Vaata tellimust
+              </button>
+            </div>
+
+            <Link href="/vestlus" className="back-link">
+              &larr; Tagasi vestlusesse
+            </Link>
             <button
               type="button"
               className="profile-delete"
@@ -78,8 +81,17 @@ export default function ProfiilBody() {
           {showDelete && (
             <div className="profile-delete-modal">
               <div className="profile-delete-content">
-                <p>Oled ikka kindel, et soovid oma konto kustutada? Seda ei saa tagasi võtta.</p>
-                <div style={{ display: "flex", justifyContent: "center", gap: "1em", marginTop: "1.2em" }}>
+                <p>
+                  Oled ikka kindel, et soovid oma konto kustutada? Seda ei saa tagasi võtta.
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "1em",
+                    marginTop: "1.2em",
+                  }}
+                >
                   <button
                     className="profile-delete-confirm"
                     onClick={handleDelete}
@@ -96,10 +108,6 @@ export default function ProfiilBody() {
               </div>
             </div>
           )}
-
-          <Link href="/vestlus" className="back-link">
-            &larr; Tagasi vestlusesse
-          </Link>
         </div>
       </div>
     </div>
