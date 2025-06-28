@@ -397,7 +397,7 @@ body {
   left: 48%;
   transform: translate(-50%, -50%);
   width: 23%;
-  opacity: 0.85;
+  opacity: 0.88;
   pointer-events: none;
   user-select: none;
 }
@@ -479,9 +479,9 @@ body {
 .alaleht-box {
   background: rgba(30, 30, 38, 0.88);
   border-radius: 1.4em;
-  padding: 2.5em;
+  padding: 2em;
   box-shadow: 0 10px 40px rgba(10, 10, 20, 0.4);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 /* --- Põhipealkiri (h1) --- */
@@ -551,7 +551,7 @@ a,
 a:hover,
 .alaleht-section a:hover,
 .alaleht-box a:hover {
-  color: #e3d2ff;
+  color: #b990fc;
   background: #342a50;
   border-radius: 3px;
   padding: 0.08em 0.15em;
@@ -572,7 +572,7 @@ a:hover,
   transition: color 0.2s;
 }
 .back-link:hover {
-  color: #c48dfa;
+  color: #b990fc;
   text-decoration: none;
 }
 
@@ -591,4 +591,15 @@ a:hover,
   font-size: 1.3em; /* kui tahad veidi suuremat, muuda siin */
   margin-right: 0.1em;
   vertical-align: baseline;
+}
+a.oska-link {
+  font-size: 1em !important;
+  font-weight: 400 !important;
+  color: rgb(149, 77, 212) !important;
+}
+a.oska-link:hover {
+  color: #b990fc !important;        /* Sama hele toon nagu teistel linkidel */
+  background: #342a50;              /* Sama taust */
+  border-radius: 3px;
+  padding: 0.08em 0.15em;
 }

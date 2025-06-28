@@ -20,6 +20,7 @@ export default function MeistBody() {
               Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
               <a
                 href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande"
+                className="oska-link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -32,13 +33,13 @@ export default function MeistBody() {
             </p>
           </section>
 
-<section className="alaleht-section">
-  <h2 className="alaleht-h2">Kontakt</h2>
-  <p>
-    <strong>E-post:</strong>{" "}
-    <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>
-  </p>
-</section>
+          <section className="alaleht-section">
+            <h2 className="alaleht-h2">Kontakt</h2>
+            <p>
+              <strong>E-post:</strong>{" "}
+              <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>
+            </p>
+          </section>
 
           <section className="alaleht-section">
             <p>
