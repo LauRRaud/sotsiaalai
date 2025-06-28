@@ -90,7 +90,7 @@ export default function PrivaatsusBody() {
           </div>
 
           <footer className="alaleht-footer">
-            &copy; 2025 sotsiaal.ai
+            Sotsiaal.AI &copy; 2025
           </footer>
         </div>
       </div>
