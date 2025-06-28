@@ -1,17 +1,20 @@
 "use client";
 
+import Link from "next/link";
+
 export default function MeistBody() {
   return (
-    <div className="meist-hero">
-      <div className="meist-inner">
-        <div className="meist-box">
-          <h1 className="meist-title centered">Meist</h1>
-          <section className="meist-section">
+    <div className="alaleht-hero">
+      <div className="alaleht-inner">
+        <div className="alaleht-box">
+          <h1 className="alaleht-title">Meist</h1>
+
+          <section className="alaleht-section">
             <p>
               Sotsiaal.AI on kaasaegne tehisintellektil põhinev platvorm, loodud selleks, et pakkuda kiiret, usaldusväärset ja selgelt mõistetavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
             </p>
             <p>
-              Meie AI-assistendid — SotsiaalAI ja SotsiaalA&lt;B&gt;I — töötavad ööpäevaringselt ning aitavad leida vastuseid seadustest, toetustest ja sotsiaalteenustest, tuginedes nii õigusaktidele kui ka praktilistele lahendustele. Teenus on anonüümne, kasutajasõbralik ning ligipääsetav kõigile.
+              Meie AI-assistendid — <strong>SotsiaalAI</strong> ja <strong>SotsiaalA&#60;B&#62;I</strong> — töötavad ööpäevaringselt ning aitavad leida vastuseid seadustest, toetustest ja sotsiaalteenustest, tuginedes nii õigusaktidele kui ka praktilistele lahendustele. Teenus on anonüümne, kasutajasõbralik ning ligipääsetav kõigile.
             </p>
             <p>
               Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
@@ -29,35 +32,33 @@ export default function MeistBody() {
             </p>
           </section>
 
-          <section className="meist-section">
-            <h2 className="meist-heading">Kontakt</h2>
-            <ul className="meist-contact">
-              <li>
-                <strong>E-post:</strong>{" "}
-                <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>
-              </li>
-            </ul>
-          </section>
+<section className="alaleht-section">
+  <h2 className="alaleht-h2">Kontakt</h2>
+  <p>
+    <strong>E-post:</strong>{" "}
+    <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>
+  </p>
+</section>
 
-          <section className="meist-section">
-            <p className="meist-disclaimer">
+          <section className="alaleht-section">
+            <p>
               <strong>Enne lehe kasutamist tutvu kindlasti:</strong>
             </p>
-            <ul className="meist-links">
+            <ul className="alaleht-list">
               <li>
-                <a href="/privaatsus">Privaatsuspoliitika</a>
+                <Link href="/privaatsustingimused">Privaatsuspoliitika</Link>
               </li>
               <li>
-                <a href="/kasutustingimused">Kasutustingimused</a>
+                <Link href="/kasutustingimused">Kasutustingimused</Link>
               </li>
             </ul>
           </section>
 
           <div>
-            <a href="/" className="back-link">&larr; Tagasi</a>
+            <Link href="/" className="back-link">&larr; Tagasi</Link>
           </div>
 
-          <footer className="meist-footer">
+          <footer className="alaleht-footer">
             &copy; 2025 sotsiaal.ai
           </footer>
         </div>

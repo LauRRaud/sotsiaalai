@@ -457,8 +457,8 @@ body {
 .card-face.back {
   pointer-events: auto;
 }
-.meist-hero,
-.tingimused-hero {
+/* --- Alalehtede üldine hero taust ja paigutus --- */
+.alaleht-hero {
   background: linear-gradient(145deg, #1c1c22, #131318);
   color: #d0d1dc;
   min-height: 100vh;
@@ -468,17 +468,15 @@ body {
   align-items: flex-start;
 }
 
-/* Sisu inner konteiner */
-.meist-inner,
-.tingimused-inner {
+/* --- Sisu inner konteiner --- */
+.alaleht-inner {
   width: 100%;
   max-width: 900px;
   padding: 0 1em;
 }
 
-/* Sisu kast */
-.meist-box,
-.tingimused-box {
+/* --- Sisu kast --- */
+.alaleht-box {
   background: rgba(30, 30, 38, 0.88);
   border-radius: 1.4em;
   padding: 2.5em;
@@ -486,46 +484,63 @@ body {
   font-size: 1.15rem;
 }
 
-/* Pealkiri */
-.meist-title,
-.tingimused-title {
+/* --- Põhipealkiri (h1) --- */
+.alaleht-title {
   font-size: 2.6em;
-  color: rgba(127, 42, 177, 0.97);
+  color: rgb(149, 77, 212);
   margin-bottom: 1.2em;
-}
-
-.centered {
   text-align: center;
-}
-
-/* Sektsioonid */
-.meist-section,
-.tingimused-section {
-  margin-bottom: 2.5em;
-  line-height: 1.75;
-}
-.meist-section p,
-.tingimused-section p {
-  margin-bottom: 1.2em;
-}
-
-/* Sektsiooni alampealkiri (nt Privaatsus lehel) */
-.meist-heading {
-  font-size: 1.6em;
-  color: rgba(127, 42, 177, 0.97);
-  margin-bottom: 1em;
   font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* --- Sektsiooni/peatüki pealkiri (h2) --- */
+.alaleht-h2 {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: rgb(149, 77, 212);
+  margin-bottom: 1em;
   letter-spacing: 0.02em;
 }
 
-/* Ühtlustatud lingid (üldine) */
+/* --- Privaatsuse number ja pealkiri --- */
+.alaleht-h2-number {
+  color: rgb(149, 77, 212);
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-right: 0.1em;
+}
+.alaleht-h2-span {
+  color: rgb(149, 77, 212);
+  font-weight: 700;
+  font-size: 1.3em;
+  margin-left: 0.1em;
+}
+
+/* --- Sektsioon --- */
+.alaleht-section {
+  margin-bottom: 2.5em;
+  line-height: 1.75;
+}
+.alaleht-section p {
+  margin-bottom: 1.2em;
+}
+
+/* --- Loetelud --- */
+.alaleht-list {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin: 0 0 1.2em 0;
+}
+.alaleht-list li {
+  margin-bottom: 0.6em;
+}
+
+/* --- Tagasi/lingid --- */
 a,
-.meist-section a,
-.tingimused-section a,
-.meist-contact a,
-.meist-links a,
-.tingimused-box a {
-  color: rgba(132, 51, 180, 0.97);
+.alaleht-section a,
+.alaleht-box a {
+  color: rgb(149, 77, 212);
   font-size: 1.13em;
   font-weight: 600;
   text-decoration: none;
@@ -534,11 +549,8 @@ a,
   outline: none;
 }
 a:hover,
-.meist-section a:hover,
-.tingimused-section a:hover,
-.meist-contact a:hover,
-.meist-links a:hover,
-.tingimused-box a:hover {
+.alaleht-section a:hover,
+.alaleht-box a:hover {
   color: #e3d2ff;
   background: #342a50;
   border-radius: 3px;
@@ -564,34 +576,8 @@ a:hover,
   text-decoration: none;
 }
 
-/* Loetelude punktid ja taanestus tingimuste sektsioonis */
-.tingimused-section ul {
-  list-style-type: disc;
-  padding-left: 1.5em;
-  margin: 0 0 1.2em 0;
-}
-
-.tingimused-section li {
-  margin-bottom: 0.6em;
-}
-
-/* Loetelude punktideta kastides (meist-sektsioon ja teised) */
-.meist-section ul,
-.meist-section li,
-.meist-box ul,
-.meist-box li,
-.meist-contact,
-.meist-links {
-  list-style: none;
-  padding-left: 0;
-  margin: 0 0 1.2em 0;
-  margin-bottom: 0.6em;
-}
-
-/* Footer kõigil alalehtedel */
-.meist-footer,
-.tingimused-footer,
-.privaatsus-footer {
+/* --- Footer kõigil alalehtedel --- */
+.alaleht-footer {
   text-align: center;
   font-size: 1.2rem;
   color: rgba(127, 42, 177, 0.97);
@@ -599,23 +585,10 @@ a:hover,
   font-weight: 600;
   letter-spacing: 0.03em;
 }
-
-/* Privaatsuse peatükkide pealkirjade stiil */
-.privaatsus-number,
-.privaatsus-pealkiri {
-  color: rgba(127, 42, 177, 0.97);
+.alaleht-h2-number {
+  color: rgb(149, 77, 212); /* või rgba(127, 42, 177, 0.97) */
   font-weight: 700;
-  font-size: 1.3em;
-}
-.privaatsus-pealkiri {
-  margin-left: 0.2em;
-}
-
-/* Tingimuste peatükkide pealkirjad */
-.tingimused-section h2 {
-  font-size: 1.3em;
-  font-weight: 700;
-  color: rgba(127, 42, 177, 0.97);
-  margin-bottom: 1em;
-  letter-spacing: 0.02em;
+  font-size: 1.3em; /* kui tahad veidi suuremat, muuda siin */
+  margin-right: 0.1em;
+  vertical-align: baseline;
 }
