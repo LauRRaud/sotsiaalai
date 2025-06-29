@@ -9,9 +9,9 @@
   z-index: 0;
   background: linear-gradient(
     to right,
-    #303136 0%,
-    #303136 50%,
-    #f5f5f5 50%,
+    #000000 0%,
+    #434343 50%,
+    #434343 50%,
     #e2e2e2 100%
   );
   pointer-events: none;
@@ -158,12 +158,16 @@ body {
   background-clip: padding-box;
   overflow: hidden;
   border: none;
-  background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2d8 100%);
+background: linear-gradient(
+  to left,
+  #f5f5f5 0%,
+  #e2e2e2d8 100%
+);
   cursor: pointer;
 
 }
 .glass-card-dark {
-  background:linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%);
+  background:linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef3 100%);
   border: none
 }
 
@@ -437,13 +441,13 @@ body {
 
 .footer-right {
   text-align: left;  /* Paremas servas */
-  color: #222222e0;
+  color: #fffffff0;
 }
 
 .footer-link {
-  color: #222222e0;
+  color: #fffffff0;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   margin-left: 0;
   margin-right: 0em;
   text-transform: uppercase;
