@@ -8,10 +8,11 @@
   height: 100vh;
   z-index: 0;
   background: linear-gradient(
-    to right,
-    #000000 0%,
-    #434343 46%,
-    #f6f6f6 100%
+  to right,
+  #000000 0%,
+  #232323 10%,
+  #434343 50%,
+  #f6f6f6 100%
   );
   pointer-events: none;
 }
@@ -339,9 +340,9 @@ background: linear-gradient(
 
 /* Kuma – sujuv värvi üleminek samade toonidega ja ajaga nagu gradientWave */
 @keyframes brandGlow {
-  0%   { box-shadow: 0 0 30px 10px #6c42f8ab; }
-  50%  { box-shadow: 0 0 30px 10px #a133e1bb; }
-  100% { box-shadow: 0 0 30px 10px #6c42f8ab; }
+  0%   { box-shadow: 0 0 25px 8px #6c42f884; }
+  50%  { box-shadow: 0 0 25px 8px #9c26e0bb; }
+  100% { box-shadow: 0 0 25px 8px #6c42f884; }
 }
 
 .glass-card {
