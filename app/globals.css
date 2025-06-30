@@ -10,9 +10,8 @@
   background: linear-gradient(
     to right,
     #000000 0%,
-    #434343 50%,
-    #434343 50%,
-    #ffffff 100%
+    #434343 46%,
+    #f6f6f6 100%
   );
   pointer-events: none;
 }
@@ -86,11 +85,6 @@ body {
   position: relative;
   /* Z-index pole siin vajalik, pärib main-contentilt */
 }
-
-/* Vasak ja parem pool */
-.side.left { color: #181818; }
-.side.right { color: #181818b4; }
-
 .three-d-card {
   width: 430px;
   height: 430px;
