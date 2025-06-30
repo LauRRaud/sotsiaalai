@@ -151,20 +151,16 @@ body {
   padding: 2em;
   background-clip: padding-box;
   overflow: hidden;
-  border: none;
   background: linear-gradient(
     to top,
-    rgba(240, 240, 240, 0.76) 0%,     /* alt: veidi tumedam */    /* ülemine: heledam */
+    rgba(240, 240, 240, 0.76) 0%,
     rgba(255, 255, 255, 0.927) 100%
   );
   -webkit-backdrop-filter: blur(9px);
   backdrop-filter: blur(9px);
   cursor: pointer;
-  border: 1.2px solid #ededed60;
-  box-shadow: 0 6px 32px 0 rgba(22,22,38,0.13);
 }
 
-/* Tume klaaskaart */
 .glass-card-dark {
   width: 100%;
   height: 100%;
@@ -179,16 +175,14 @@ body {
   padding: 2em;
   background-clip: padding-box;
   overflow: hidden;
-  border: none;
   background: linear-gradient(
     to top,
-    rgba(17, 17, 20, 0.959) 0%,      /* alt: tumedam */
-    rgba(36, 36, 43, 0.888) 100%     /* ülemine: veidi heledam */
+    rgba(17, 17, 20, 0.959) 0%,
+    rgba(36, 36, 43, 0.888) 100%
   );
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  border: 1.2px solid #4444;
-  box-shadow: 0 6px 32px 0 rgba(16,16,22,0.15);
+  cursor: pointer;
 }
 
 /* Vasaku kaardi tagakülg */
