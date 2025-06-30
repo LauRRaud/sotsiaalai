@@ -368,9 +368,9 @@ body {
 }
 
 @keyframes brandGlow {
-  0%   { box-shadow: 0 0 18px 4px #a133e160; }
-  50%  { box-shadow: 0 0 26px 8px #6c42f880; }
-  100% { box-shadow: 0 0 18px 4px #a133e160; }
+  0%   { box-shadow: 0 0 14px 3.5px #a133e1a0; }
+  50%  { box-shadow: 0 0 20px 6px #6c42f888; }
+  100% { box-shadow: 0 0 14px 3.5px #a133e1a0; }
 }
 .glass-card {
   opacity: 1;
