@@ -34,20 +34,19 @@ export default function RegistreerimineBody({ openLoginModal }) {
   }
 
   return (
-    <div className="registreeru-leht">
-      <div className="registreeru-bg" />
-
-      <div className="registreeru-box" role="main" aria-labelledby="registreeru-title">
-        <h1 id="registreeru-title" className="registreeru-title">Loo konto</h1>
-
-        <form className="registreeru-form" autoComplete="off" onSubmit={handleSubmit}>
-          <label className="registreeru-label" htmlFor="email">
+    <div className="page-bg-gradient">
+      <div className="glass-box" role="main" aria-labelledby="registreeru-title">
+        <h1 id="registreeru-title" className="glass-title">
+          Loo konto
+        </h1>
+        <form className="glass-form" autoComplete="off" onSubmit={handleSubmit}>
+          <label htmlFor="email" className="glass-label">
             E-post
             <input
               type="email"
               id="email"
               name="email"
-              className="registreeru-input"
+              className="input-modern"
               placeholder="sinu@email.ee"
               value={form.email}
               onChange={handleChange}
@@ -56,13 +55,13 @@ export default function RegistreerimineBody({ openLoginModal }) {
             />
           </label>
 
-          <label className="registreeru-label" htmlFor="password">
+          <label htmlFor="password" className="glass-label">
             Parool
             <input
               type="password"
               id="password"
               name="password"
-              className="registreeru-input"
+              className="input-modern"
               placeholder="Vali parool"
               value={form.password}
               onChange={handleChange}
@@ -71,10 +70,14 @@ export default function RegistreerimineBody({ openLoginModal }) {
             />
           </label>
 
-          <div className="registreeru-label" style={{ marginBottom: "0.55em", marginTop: "1.1em" }}>
+          <div className="glass-label" style={{ margin: "1.1em 0 0.55em" }}>
             Roll:
           </div>
-          <div className="registreeru-rollid" role="radiogroup" aria-labelledby="registreeru-title">
+          <div
+            className="glass-radio-group"
+            role="radiogroup"
+            aria-labelledby="registreeru-title"
+          >
             <label>
               <input
                 type="radio"
@@ -97,7 +100,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
             </label>
           </div>
 
-          <label className="registreeru-noustun">
+          <label className="glass-checkbox" style={{ margin: "1.3em 0 1.6em" }}>
             <input
               type="checkbox"
               name="agree"
@@ -110,6 +113,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
               href="/kasutustingimused"
               target="_blank"
               rel="noopener noreferrer"
+              className="link-brand"
             >
               kasutajatingimustega
             </a>
@@ -118,21 +122,22 @@ export default function RegistreerimineBody({ openLoginModal }) {
               href="/privaatsustingimused"
               target="_blank"
               rel="noopener noreferrer"
+              className="link-brand"
             >
               privaatsuspoliitikaga
             </a>
           </label>
 
-          <button className="registreeru-submit" type="submit">
+          <button className="btn-primary" type="submit">
             Registreeru
           </button>
         </form>
 
-        <div className="registreeru-bottom-link">
+        <div className="glass-bottom-link">
           <span>Mul on juba konto?</span>
           <button
             type="button"
-            className="registreeru-login-link"
+            className="link-brand"
             onClick={openLoginModal}
             tabIndex={0}
           >

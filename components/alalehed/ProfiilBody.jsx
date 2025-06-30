@@ -22,100 +22,96 @@ export default function ProfiilBody() {
   }
 
   return (
-    <div className="profiil-hero">
-      <div className="profiil-inner">
-        <div className="profiil-box">
-          <h1 className="alaleht-title">Minu profiil</h1>
-          <form className="profiil-block" onSubmit={handleSave}>
-            <div className="profile-label">E-post</div>
-            <input
-              className="profile-input"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <div className="profile-label">Uus parool</div>
-            <input
-              className="profile-input"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Jäta tühjaks, kui ei muuda"
-            />
+    <div className="page-bg-gradient">
+      <div className="glass-box" role="main" aria-labelledby="profile-title">
+        <h1 id="profile-title" className="glass-title">
+          Minu profiil
+        </h1>
+        <form
+          className="profile-form-vertical"
+          onSubmit={handleSave}
+          autoComplete="off"
+        >
+          <label htmlFor="email" className="glass-label">
+            E-post
+          </label>
+          <input
+            id="email"
+            className="input-modern profile-input"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
 
-            {/* Salvesta ja Logi välja nupud */}
-            <div className="profile-actions">
-              <button type="submit" className="profile-save">
-                Salvesta
-              </button>
-              <button
-                type="button"
-                className="profile-logout"
-                onClick={handleLogout}
-              >
-                Logi välja
-              </button>
-            </div>
+          <label htmlFor="password" className="glass-label">
+            Uus parool
+          </label>
+          <input
+            id="password"
+            className="input-modern profile-input"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Jäta tühjaks, kui ei muuda"
+          />
 
-            {/* Vaata tellimust nupp */}
-            <div className="profile-subscription">
-              <button
-                type="button"
-                className="profile-vieworder"
-                onClick={() => alert("Tellimuse detailid (demo)!")}
-              >
-                Vaata tellimust
-              </button>
-            </div>
-
-            {/* Tagasi vestlusesse link – nüüd ENNE kustutamise nuppu */}
-            <Link href="/vestlus" className="back-link">
-              &larr; Tagasi vestlusesse
-            </Link>
-
-            {/* Kustuta konto nupp kõige lõpus */}
+          <div className="profile-btn-row">
+            <button type="submit" className="btn-primary">
+              Salvesta
+            </button>
             <button
               type="button"
-              className="profile-delete"
-              onClick={() => setShowDelete(true)}
+              className="btn-secondary"
+              onClick={handleLogout}
             >
-              Kustuta konto
+              Logi välja
             </button>
-          </form>
+          </div>
 
-          {/* Konto kustutamise modaal */}
-          {showDelete && (
-            <div className="profile-delete-modal">
-              <div className="profile-delete-content">
-                <p>
-                  Oled ikka kindel, et soovid oma konto kustutada? Seda ei saa
-                  tagasi võtta.
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "1em",
-                    marginTop: "1.2em",
-                  }}
+          <button
+            type="button"
+            className="btn-tertiary profile-order-btn"
+            onClick={() => alert("Tellimuse detailid (demo)!")}
+          >
+            Vaata tellimust
+          </button>
+
+          <Link href="/vestlus" className="back-link profile-back-link">
+            &larr; Tagasi vestlusesse
+          </Link>
+
+          <button
+            type="button"
+            className="btn-danger profile-delete-btn"
+            onClick={() => setShowDelete(true)}
+          >
+            Kustuta konto
+          </button>
+        </form>
+
+        {/* Konto kustutamise modaal */}
+        {showDelete && (
+          <div className="modal-overlay">
+            <div className="glass-modal modal-confirm">
+              <p>
+                Oled ikka kindel, et soovid oma konto kustutada? Seda ei saa tagasi võtta.
+              </p>
+              <div className="btn-row" style={{ marginTop: "1.3em" }}>
+                <button className="btn-danger" onClick={handleDelete}>
+                  Jah, kustuta
+                </button>
+                <button
+                  className="btn-secondary"
+                  onClick={() => setShowDelete(false)}
                 >
-                  <button
-                    className="profile-delete-confirm"
-                    onClick={handleDelete}
-                  >
-                    Jah, kustuta
-                  </button>
-                  <button
-                    className="profile-delete-cancel"
-                    onClick={() => setShowDelete(false)}
-                  >
-                    Loobu
-                  </button>
-                </div>
+                  Loobu
+                </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+        <footer className="alaleht-footer">Sotsiaal.AI &copy; 2025</footer>
       </div>
     </div>
   );

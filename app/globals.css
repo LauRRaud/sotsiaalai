@@ -477,686 +477,461 @@ body {
 .card-face.back {
   pointer-events: auto;
 }
-/* --- Alalehtede üldine hero taust ja paigutus --- */
+/* ---- LEHE PEAMINE TAUST ---- */
+.page-bg-gradient,
 .alaleht-hero {
-  background: linear-gradient(145deg, #1c1c22, #131318);
-  color: #d0d1dc;
-  min-height: 100vh;
-  padding: 4em 1em 2em 1em;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-/* --- Sisu inner konteiner --- */
-.alaleht-inner {
-  width: 100%;
-  max-width: 900px;
-  padding: 0 1em;
-}
-
-/* --- Sisu kast --- */
-.alaleht-box {
-  background: rgba(30, 30, 38, 0.88);
-  border-radius: 1.4em;
-  padding: 2em;
-  box-shadow: 0 10px 40px rgba(10, 10, 20, 0.4);
-  font-size: 1.3rem;
-}
-
-/* --- Põhipealkiri (h1) --- */
-.alaleht-title {
-  font-size: 2.6em;
-  color: rgb(149, 77, 212);
-  margin-bottom: 1.2em;
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-/* --- Sektsiooni/peatüki pealkiri (h2) --- */
-.alaleht-h2 {
-  font-size: 1.3em;
-  font-weight: 700;
-  color: rgb(149, 77, 212);
-  margin-bottom: 1em;
-  letter-spacing: 0.02em;
-}
-
-/* --- Privaatsuse number ja pealkiri --- */
-.alaleht-h2-number {
-  color: rgb(149, 77, 212);
-  font-weight: 700;
-  font-size: 1.1em;
-  margin-right: 0.1em;
-}
-.alaleht-h2-span {
-  color: rgb(149, 77, 212);
-  font-weight: 700;
-  font-size: 1.3em;
-  margin-left: 0.1em;
-}
-
-/* --- Sektsioon --- */
-.alaleht-section {
-  margin-bottom: 2.5em;
-  line-height: 1.75;
-}
-.alaleht-section p {
-  margin-bottom: 1.2em;
-}
-
-/* --- Loetelud --- */
-.alaleht-list {
-  list-style-type: disc;
-  padding-left: 1.5em;
-  margin: 0 0 1.2em 0;
-}
-.alaleht-list li {
-  margin-bottom: 0.6em;
-}
-
-/* --- Üldine lingi disain, KÕIKIDELE LINKIDELE --- */
-a,
-.alaleht-section a,
-.alaleht-box a {
-  color: rgb(149, 77, 212);
-  font-size: 1.13em;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  transition: color 0.2s, background 0.18s, padding 0.18s;
-  outline: none;
-}
-a:hover,
-.alaleht-section a:hover,
-.alaleht-box a:hover {
-  color: #b990fc;
-  background: #342a50;
-  border-radius: 3px;
-  padding: 0.08em 0.15em;
-  text-decoration: none;
-}
-
-/* --- Tagasi link, EI OLE KASTI, EI HOVER BACKGROUNDi --- */
-.back-link,
-.back-link:focus,
-.back-link:active {
-  outline: none !important;
-  box-shadow: none !important;
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
-}
-.back-link {
-  display: block;
-  margin: 1em auto 0 auto;
-  text-align: center;
-  color: #b990fc;
-  font-size: 1.13em;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.14s;
-  max-width: 330px;
-}
-.back-link:hover,
-.back-link:focus {
-  color: #fff;
-  text-decoration: none;
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
-}
-
-.profiil-hero {
   min-height: 100vh;
   width: 100vw;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background: #201e28;
-  /* Lisa allapoole rohkem paddingut */
-  padding-bottom: 5vh;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4em 1em 2em 1em;
+  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
 }
 
-.profiil-inner {
-  flex: 1 0 auto;
+/* ---- SISEKONTEINER ---- */
+.alaleht-inner {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Lisa min kõrgus, et kast ei jääks liiga lühikeseks */
-.profiil-box {
-  min-height: 530px;   /* või katseta kõrgemat väärtust */
-}
-
-/* Profiiliblokk/kast */
-.profiil-box {
-  max-width: 520px;
-  width: 100%;
-  margin: 4vh auto 0 auto;
-  background: rgba(46, 43, 62, 0.97);
-  border-radius: 2.3em;
-  box-shadow: 0 8px 32px 0 rgba(40, 32, 62, 0.36);
-  padding: 3em 2.3em 2.3em 2.3em;
-  border: 1.5px solid #322d44;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  font-size: 1.3rem;
-}
-
-/* Profiili vorm */
-.profiil-block {
-  width: 100%;
-  max-width: 370px;
+  max-width: 920px;
+  padding: 0 1.2em;
   margin: 0 auto;
+}
+
+/* ---- KLAASKASTID: ÜHTNE STIIL KÕIGILE ---- */
+.glass-box,
+.glass-modal,
+.login-modal-box,
+.modal-confirm,
+.chatbox-override {
+  background: rgba(255,255,255,0.10);
+  border-radius: 1.5em;
+  box-shadow: 0 10px 48px 0 rgba(40,32,56,0.13);
+  border: 1.2px solid rgba(255,255,255,0.16);
+  color: #e6e6ec;
+  padding: 2.4em 2.2em 2em 2.2em;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  font-size: 1.16rem;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-}
-.profile-label {
-  font-size: 1.13em;
-  font-weight: 500;
-  color: #d0b8f6;
-  margin: 1.2em 0 0.18em;
-  text-align: left;
-  padding-left: 2px;
-}
-.profile-input {
-  width: 100%;
-  font-size: 1.09em;
-  background: #2c2941;
-  color: #fff;
-  border: 1.5px solid #4e3667;
-  border-radius: 0.9em;
-  padding: 0.52em 1em;
-  margin-bottom: 0.33em;
-  outline: none;
-  transition: border 0.15s;
-  box-sizing: border-box;
-}
-.profile-input:focus {
-  border: 1.5px solid #b990fc;
-}
-/* Tellimuse nupp */
-.profile-subscription {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 1.3em 0 1.4em 0;
-}
-.profile-vieworder {
-  width: 100%;
-  max-width: 330px;
-  background: #39364d;
-  color: #bba6d6;
-  border: none;
-  border-radius: 0.8em;
-  padding: 0.7em 0;
-  font-size: 1.11em;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.16s;
-  text-align: center;
-  margin-bottom: 0.7em;
-  display: block;
-}
-.profile-vieworder:hover {
-  background: #57437a;
+  gap: 1.15em;
+  position: static;
+  left: auto; top: auto;
+  transform: none;
 }
 
-/* Nupud */
-.profile-actions {
-  display: flex;
-  gap: 1em;
-  width: 100%;
-  justify-content: center;
-  margin-bottom: 0.1em;
-  margin-top: 2em;
-}
-.profile-save,
-.profile-logout {
-  width: 100%;
-  max-width: 150px;
-  font-weight: 500;
-  font-size: 1.10em;
-  border: none;
-  border-radius: 0.95em;
-  padding: 0.75em 0;
-  cursor: pointer;
-  transition: background 0.18s;
-  text-align: center;
-  letter-spacing: 0.01em;
-}
-.profile-save {
-  background: #8838e3;
-  color: #fff;
-}
-.profile-save:hover {
-  background: #7f2ab1;
-}
-.profile-logout {
-  background: #39364d;
-  color: #cbb8e0;
-}
-.profile-logout:hover {
-  background: #57437a;
+/* MODAALID: Keskele */
+.glass-modal, .login-modal-box, .modal-confirm {
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  animation: modalSlideIn 0.26s;
+  max-width: 420px;
+  gap: 1.2em;
 }
 
-/* Kustuta konto nupp */
-.profile-delete {
-  width: 100%;
-  max-width: 200px;
-  margin: 0.3em auto 0;
-  margin-top: 3em;
-  background: #c73b3b;
-  color: #fff;
-  font-size: 1.09em;
-  font-weight: 500;
-  border: none;
-  border-radius: 0.9em;
-  padding: 0.75em 0;
-  cursor: pointer;
-  transition: background 0.17s;
-  text-align: center;
-  letter-spacing: 0.01em;
-  display: block;
-}
-.profile-delete:hover {
-  background: #b92626;
-}
-
-/* Kustutamise modaal */
-.profile-delete-modal {
+/* MODAAL OVERLAY */
+.login-modal-overlay, .modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9000;
-  background: rgba(22, 18, 33, 0.64);
+  z-index: 9999;
+  background: rgba(22, 18, 33, 0.73);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.profile-delete-content {
-  background: #221c2f;
-  color: #f2e9ff;
-  border-radius: 1.2em;
-  padding: 2.2em 1.6em 1.5em;
-  box-shadow: 0 8px 32px rgba(24, 18, 40, 0.30);
-  max-width: 340px;
-  text-align: center;
-}
-.profile-delete-confirm,
-.profile-delete-cancel {
-  font-size: 1.09em;
-  font-weight: 600;
-  border: none;
-  border-radius: 0.8em;
-  padding: 0.8em 2em;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-.profile-delete-confirm {
-  background: #e94b4b;
-  color: #fff;
-  margin-right: 1em;
-}
-.profile-delete-confirm:hover {
-  background: #b92626;
-}
-.profile-delete-cancel {
-  background: #362a49;
-  color: #fff;
-}
-.profile-delete-cancel:hover {
-  background: #57437a;
-}
-
-/* --- CHAT LEHE KONTEINERID JA KASTID --- */
-.alaleht-hero, .alaleht-inner, .alaleht-box {
-  width: 100%;
   min-height: 100vh;
-}
-.alaleht-box {
-  max-width: 900px;
-  margin: 0em auto 0em auto;
-  background: rgba(33, 31, 40, 0.99);
-  border-radius: 2.1em;
-  box-shadow: 0 8px 32px rgba(44, 41, 65, 0.32);
-  padding: 3em 2.6em 2.6em 2.6em;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-/* VESTLUSE AKEN */
-.alaleht-box.chatbox-override {
-  max-width: 700px;
-  width: 100%;
-  margin: -1.6em auto 0 auto;
-  background: rgba(44, 41, 65, 0.97);
-  border-radius: 2.2em;
-  box-shadow: 0 8px 32px rgba(44, 41, 65, 0.24);
-  padding: 1.3em 2em 2em 2em;
-  border: 1.5px solid #2a2640;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-.alaleht-box.chatbox-override .alaleht-title {
-  margin-top: 0;
-  margin-bottom: 1em;
+  min-width: 100vw;
 }
 
-/* CHAT KOMPONENDID */
-.chat-profile {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1.4em;
-}
-.chat-avatar,
-.chat-avatar:focus,
-.chat-avatar:active {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #2c2941;
-  object-fit: cover;
-  border: 2px solid #a68fc9;
-  outline: none !important;
-  box-shadow: none !important;
-  transition: border-color 0.16s;
-}
-
-.chat-avatar:hover {
-  border-color: #b990fc;
-  outline: none !important;
-  box-shadow: none !important;
-}
-.chat-profile a,
-.chat-profile a:focus,
-.chat-profile a:active {
-  outline: none !important;
-  box-shadow: none !important;
-  background: none !important;
-  border: none !important;
-}
-.chatbox-override {
-  position: relative;
-  padding-top: 1.2em;
-  min-height: 340px;
-}
-.chat-window {
-  min-height: 200px;
-  max-height: 340px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8em;
-  margin-bottom: 2em;
-}
-.chat-msg-ai {
-  align-self: flex-start;
-  background: #5e4ab1;
-  color: #f3f3f3f8;
-  padding: 0.7em 1.2em;
-  border-radius: 1.2em 1.2em 1.2em 0.4em;
-  max-width: 85%;
-  font-size: 1em;
-}
-.chat-msg-user {
-  align-self: flex-end;
-  background: #7f2ab1;
-  color: #f3f3f3f8;
-  padding: 0.7em 1.2em;
-  border-radius: 1.2em 1.2em 0.4em 1.2em;
-  max-width: 85%;
-  font-size: 1em;
-}
-.chat-inputbar {
-  display: flex; gap: 0.6em; margin-top: 1.4em;
-}
-.chat-inputbar input {
-  flex: 1;
-  border-radius: 1em;
+/* MODAAL CLOSE BUTTON */
+.login-modal-close {
+  position: absolute;
+  top: 0.7em;
+  right: 1.2em;
+  background: none;
   border: none;
-  padding: 0.8em 1.1em;
-  font-size: 1em;
-  background: #29263a;
-  color: #f3f3f3f8;
+  color: #9f7dda;
+  font-size: 2.2em;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.19s;
   outline: none;
 }
-.chat-inputbar button {
-  padding: 0.8em 1.7em;
-  border-radius: 1em;
-  border: none;
-  background: #7f2ab1;
-  color: #f3f3f3f8;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background 0.2s;
+.login-modal-close:hover,
+.login-modal-close:focus { color: #7a4edd; }
+
+/* ---- PEALKIRJAD ---- */
+.glass-title, .alaleht-title {
+  font-size: 2.15em;
+  font-weight: 900;
+  color: #a133e1;
+  margin-bottom: 1em;
+  letter-spacing: -0.01em;
+  text-align: center;
 }
-.chat-inputbar button:hover {
-  background: #953ed4;
+.glass-h2, .glass-h2-span, .glass-h2-number {
+  color: #a133e1;
+  font-size: 1.18em;
+  font-weight: 700;
+  margin-right: 0.11em;
+  letter-spacing: 0.01em;
 }
 
-/* --- Jalus --- */
-.alaleht-footer {
-  width: 100%;
-  text-align: center;
-  font-size: 1.2rem;
-  color: rgba(127, 42, 177, 0.97);
-  margin-top: 3em;
+/* ---- LABELID & INPUTID ---- */
+.glass-label, .glass-form label, .login-modal-form label, .alaleht-box label {
+  display: block;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  color: #a133e1;
+  font-size: 1.13em;
+  margin-bottom: 0.22em;
+  margin-top: 1.05em;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+.glass-form label:first-child, .login-modal-form label:first-child, .alaleht-box label:first-child { margin-top: 0; }
+
+/* ---- INPUTID ---- */
+.input-modern,
+.login-modal-form input[type="email"],
+.login-modal-form input[type="password"] {
+  width: 100%;
+  max-width: 410px;
+  font-size: 1.13em;
+  background: rgba(36,36,44,0.13);
+  color: #e7e7f1;
+  border: 1.4px solid #bda0ef;
+  border-radius: 0.98em;
+  padding: 0.85em 1.1em;
+  margin-bottom: 1.1em;
+  outline: none;
+  font-weight: 400;
+  transition: border 0.14s, background 0.13s;
+  box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
   display: block;
 }
-.registreeru-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(
-    to right,
-    #303136 0%,
-    #303136 50%,
-    #f5f5f5 50%,
-    #e2e2e2 100%
-  );
-  pointer-events: none;
+.input-modern:focus,
+.login-modal-form input:focus {
+  border: 1.4px solid #a133e1;
+  background: #232133;
+  color: #fff;
 }
-html, body {
-  height: auto;
-  min-height: 100%;
+.input-modern::placeholder,
+.login-modal-form input::placeholder {
+  color: #aa9bd2;
+  font-weight: 400;
+  opacity: 1;
 }
 
-/* LEHE STRUKTUUR */
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  background: none;
+/* ---- BUTTONID ---- */
+.btn-primary, .btn-secondary, .btn-tertiary, .btn-danger {
+  border-radius: 0.9em;
+  padding: 0.8em 1.8em;
+  border: none;
+  font-size: 1.13em;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 12px 0 rgba(88,62,187,0.08);
+  transition: background 0.16s, color 0.14s, box-shadow 0.14s;
+  outline: none;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  max-width: 320px;
 }
-
-.registreeru-leht {
-  position: relative;
-  z-index: 2;
+.btn-primary {
+  background: linear-gradient(90deg, #a133e1, #4851fa 100%);
+  color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background: linear-gradient(90deg, #4851fa, #a133e1 100%);
+  color: #fff;
+}
+.btn-secondary {
+  background: #282043;
+  color: #fff;
+}
+.btn-secondary:hover, .btn-secondary:focus {
+  background: #4851fa;
+}
+.btn-tertiary {
+  background: #f2f1f8;
+  color: #a133e1;
+}
+.btn-tertiary:hover {
+  background: #ede4fa;
+  color: #4851fa;
+}
+.btn-danger {
+  background: #e25757;
+  color: #fff;
+}
+.btn-danger:hover {
+  background: #a133e1;
+  color: #fff;
+}
+.btn-row, .profile-btn-row {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  width: 100%;
-  padding: 2vh 0 2vh 0; /* Üleval ja all ruumi */
-  box-sizing: border-box;
-}
-
-/* KAST */
-.registreeru-box {
-  position: relative;
-  z-index: 3;
-  background: rgba(30, 30, 38, 0.91);
-  border-radius: 1.5em;
-  box-shadow: 0 10px 40px rgba(10, 10, 20, 0.21);
-  padding: 2em;
-  width: 100%;
-  max-width: 410px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 500px;
-  margin-bottom: 1vh;
-}
-
-/* PEALKIRI */
-.registreeru-title {
-  font-size: 2em;
-  text-align: center;
-  margin-bottom: 1em;
-  color: rgb(149, 77, 212);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-/* VORM */
-.registreeru-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  width: 100%;
-}
-
-.registreeru-label {
-  font-size: 1.2em;
-  font-weight: 500;
-  color: #d0b8f6;
-  margin: 1em 0 0.22em 2px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-}
-
-.registreeru-input {
-  width: 100%;
-  font-size: 1.2em;
-  background: #2c2941;
-  color: #fff;
-  border: 1.4px solid #4e3667;
-  border-radius: 0.9em;
-  padding: 0.52em 1em;
-  margin-top: 0.3em;
-  outline: none;
-  transition: border 0.15s;
-  box-sizing: border-box;
-}
-.registreeru-input:focus {
-  border: 1.4px solid #b990fc;
-}
-
-/* ROLLID */
-.registreeru-rollid {
-  display: flex;
-  gap: 2.5em;
-  margin-bottom: 0.8em;
-  margin-top: 0.1em;
-  width: 100%;
-}
-.registreeru-rollid label {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 1.2em;
-  color: #e2d0fa;
-  font-weight: 500;
-  cursor: pointer;
-  user-select: none;
-}
-.registreeru-rollid input[type="radio"] {
-  accent-color: #953ed4;
-  width: 1.13em;
-  height: 1.13em;
-}
-
-/* NÕUSTUMINE */
-.registreeru-noustun {
-  color: #d0b8f6;
-  font-weight: 600;
-  display: flex;
+  gap: 1.1em;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5em;
-  margin-top: 1.2em;
-  margin-bottom: 1.5em;
-  font-size: 1.2em;
-  line-height: 1.38;
-  word-break: break-word;
 }
-.registreeru-noustun input[type="checkbox"] {
-  accent-color: #9237d2;
-  width: 1.1em;
-  height: 1.1em;
-}
-.registreeru-noustun a {
-  color: #be69f7;
-  font-weight: 500;
+
+/* ---- ÜHTLUSTATUD LINK ---- */
+a, .link-brand {
+  color: #a133e1;
+  font-weight: 600;
   text-decoration: none;
   transition: color 0.17s;
+  cursor: pointer;
+  font-size: 1.13em;
 }
-.registreeru-noustun a:hover {
-  color: #b990fc;
+a:hover, a:focus, .link-brand:hover, .link-brand:focus {
+  color: #4851fa;
+  text-decoration: none;
 }
 
-/* NUPP */
-.registreeru-submit {
-  width: 100%;
-  background: linear-gradient(90deg, #7f2ab1, #482682 86%);
-  color: rgba(246, 239, 255, 0.993);
+/* ---- TAGASI LINK ---- */
+.back-link, .profile-back-link {
+  display: block;
+  margin: 1.5em auto 0 auto;
+  text-align: center;
+  color: #a133e1;
+  font-size: 1.15em;
   font-weight: 500;
-  font-size: 1.3em;
   border: none;
-  border-radius: 1em;
-  padding: 1em 0;
-  margin: 0.7em 0 0 0;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(50, 30, 77, 0.11);
-  transition: background 0.18s, color 0.14s;
-  letter-spacing: 0.04em;
+  background: none;
+  transition: color 0.13s;
 }
-.registreeru-submit:hover {
-  background: linear-gradient(90deg, #8e39d6, #54308a 90%);
+.back-link:hover, .back-link:focus,
+.profile-back-link:hover, .profile-back-link:focus {
+  color: #7a4edd;
+}
+
+/* ---- JALUS ---- */
+.alaleht-footer {
+  width: 100%;
+  text-align: center;
+  font-size: 1.13rem;
+  color: #7a4edd;
+  margin-top: 2.2em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ---- CHAT SÕNUMITE AKEN ---- */
+.chat-window {
+  min-height: 240px;
+  max-height: 390px;
+  overflow-y: auto;
+  background: rgba(30,27,38,0.16);
+  border-radius: 1.2em;
+  padding: 1.5em 1.1em 1.3em 1.1em;
+  margin-bottom: 1.1em;
+  box-shadow: 0 2px 10px 0 rgba(30,27,38,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  align-items: stretch;
+}
+
+/* ---- CHAT SÕNUMITE KUJU ---- */
+.chat-msg {
+  max-width: 81%;
+  padding: 0.75em 1.25em;
+  border-radius: 1.19em;
+  word-break: break-word;
+  font-size: 1.12em;
+  line-height: 1.54;
+  background: #23213318;
+  color: #e7e7f1;
+  margin-bottom: 0.07em;
+  margin-top: 0.07em;
+}
+.chat-msg-ai {
+  background: rgba(210, 191, 255, 0.14);
+  color: #a133e1;
+  align-self: flex-start;
+  text-align: left;
+  border-bottom-left-radius: 0.63em;
+}
+.chat-msg-user {
+  background: linear-gradient(90deg, #a133e1 0%, #4851fa 100%);
+  color: #fff;
+  align-self: flex-end;
+  text-align: right;
+  border-bottom-right-radius: 0.63em;
+  box-shadow: 0 2px 8px 0 #19155b12;
+}
+
+/* ---- CHAT SISEND JA NUPP ---- */
+.chat-inputbar {
+  display: flex;
+  gap: 1em;
+  margin-top: 0.3em;
+  align-items: flex-end;
+}
+.chat-input {
+  flex: 1;
+  border-radius: 1em;
+  border: 1.3px solid #d7cdf2;
+  padding: 1.02em 1.23em;
+  font-size: 1.16em;
+  outline: none;
+  background: #232133;
+  color: #e7e7f1;
+  font-weight: 400;
+  box-shadow: 0 1px 3px 0 #23213314;
+  transition: border 0.14s, background 0.15s, color 0.13s;
+}
+.chat-input:focus {
+  border-color: #a133e1;
+  background: #282053;
+  color: #fff;
+}
+.chat-input::placeholder {
+  color: #ac95de;
+  opacity: 1;
+}
+.chat-send-btn {
+  border-radius: 1em;
+  background: linear-gradient(90deg, #a133e1 0%, #4851fa 100%);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  font-size: 1.13em;
+  padding: 1.01em 2.1em;
+  cursor: pointer;
+  transition: background 0.18s, color 0.14s, box-shadow 0.13s;
+  box-shadow: 0 2px 9px 0 #a133e123;
+  align-self: stretch;
+  margin-left: 0.1em;
+}
+.chat-send-btn:hover {
+  background: linear-gradient(90deg, #4851fa, #a133e1 100%);
   color: #fff;
 }
 
-/* ALL LINK */
-.registreeru-bottom-link {
-  width: 100%;
-  margin-top: 2em;
-  text-align: center;
-  color: #ac6af7;
-  font-size: 1.2em;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+/* ---- PROFIILILEHT VERTIKAALNE ---- */
+.profile-form-vertical {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 0.25em;
+  gap: 1.2em;
+  width: 100%;
+  max-width: 410px;
+  margin: 0 auto;
 }
-.registreeru-login-link {
-  background: none;
-  border: none;
-  color: #a55bf8;
-  font-weight: 500;
-  font-size: 1.1em;
-  cursor: pointer;
+.profile-form-vertical .glass-label {
+  align-self: flex-start;
+  margin-bottom: 0.22em;
+  font-size: 1.11em;
+  color: #a133e1;
+  font-weight: 600;
+}
+.profile-input {
+  width: 100%;
+  font-size: 1.15em;
+  padding: 0.68em 1.1em;
+  margin-bottom: 0.7em;
+  border-radius: 0.95em;
+  border: 1.2px solid #d7cdf2;
+  background: #232133;
+  color: #e7e7f1;
+  outline: none;
+  transition: border 0.14s, background 0.13s;
+  box-sizing: border-box;
+}
+.profile-input:focus {
+  border-color: #a133e1;
+  background: #28253b;
+  color: #fff;
+}
+.profile-btn-row {
+  display: flex;
+  width: 100%;
+  gap: 1em;
+  margin: 1em 0 0 0;
+  justify-content: center;
+}
+.profile-btn-row button {
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 1.13em;
+  padding: 0.8em 0;
+  max-width: 190px;
+}
+.profile-order-btn,
+.profile-delete-btn {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 1.1em auto 0 auto;
+  font-size: 1.13em;
+  text-align: center;
+}
+.profile-delete-btn {
+  margin-top: 2.1em;
+  color: #fff;
+}
+
+/* ---- AVATAR ---- */
+.chat-profile {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1.5em;
+  margin-top: -2em;
+}
+.chat-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #a133e1;
+  box-shadow: 0 2px 10px 0 #23213333;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .glass-box, .glass-modal, .chatbox-override { max-width: 99vw; padding: 1.1em 0.6em 1.2em 0.6em; }
+  .glass-title { font-size: 1.55em; }
+  .chat-window { max-height: 310px; padding: 1.1em 0.5em 1em 0.7em; }
+  .profile-form-vertical { max-width: 96vw; }
+}
+@media (max-width: 650px) {
+  .glass-box, .glass-modal, .chatbox-override { padding: 0.7em 0.1em 1em 0.1em; font-size: 1rem; }
+  .chat-input { font-size: 1em; padding: 0.7em 0.8em; }
+  .chat-send-btn { font-size: 1em; padding: 0.8em 1.3em; }
+  .profile-input { font-size: 1.07em; }
+  .profile-btn-row { flex-direction: column; gap: 0.8em; }
+  .profile-btn-row button, .profile-order-btn, .profile-delete-btn { max-width: 97vw; }
+}
+
+/* ---- MODAL ANIMATSIOON ---- */
+@keyframes modalSlideIn {
+  from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
+  to { transform: translate(-50%, -50%); opacity: 1; }
+}
+.login-modal-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.1em;
+  gap: 1.5em;
+  font-size: 1.07em;
+}
+
+.login-modal-links a {
+  color: #a133e1;
+  font-weight: 600;
   text-decoration: none;
-  margin-left: 0.2em;
   transition: color 0.16s;
-  padding: 0;
 }
-.registreeru-login-link:hover {
-  color: #c89cfa;
+
+.login-modal-links a:hover,
+.login-modal-links a:focus {
+  color: #4851fa;
 }
