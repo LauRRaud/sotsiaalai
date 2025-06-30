@@ -80,15 +80,17 @@ export default function ProfiilBody() {
           <Link href="/vestlus" className="back-link profile-back-link">
             &larr; Tagasi vestlusesse
           </Link>
-
-          <button
-            type="button"
-            className="btn-danger profile-delete-btn"
-            onClick={() => setShowDelete(true)}
-          >
-            Kustuta konto
-          </button>
         </form>
+
+        {/* Kustuta konto link */}
+        <button
+          type="button"
+          className="delete-link"
+          onClick={() => setShowDelete(true)}
+          tabIndex={0}
+        >
+          Kustuta konto
+        </button>
 
         {/* Konto kustutamise modaal */}
         {showDelete && (

@@ -497,53 +497,48 @@ body {
   margin: 0 auto;
 }
 
-/* ---- KLAASKASTID: ÜHTNE STIIL KÕIGILE ---- */
+/* ---- KLAASKASTID ---- */
 .glass-box,
-.glass-modal,
-.login-modal-box,
-.modal-confirm,
 .chatbox-override {
-  background: rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03); /* Õrnalt valge/hallikas klaas */
   border-radius: 1.5em;
   box-shadow: 0 10px 48px 0 rgba(40,32,56,0.13);
   border: 1.2px solid rgba(255,255,255,0.16);
   color: #e6e6ec;
   padding: 2.4em 2.2em 2em 2.2em;
   width: 100%;
-  max-width: 860px;
+  max-width: 750px;
   margin: 0 auto;
-  font-size: 1.16rem;
+  font-size: 1.22rem;
   display: flex;
   flex-direction: column;
   gap: 1.15em;
   position: static;
-  left: auto; top: auto;
-  transform: none;
 }
 
-/* MODAALID: Keskele */
-.glass-modal, .login-modal-box, .modal-confirm {
+/* ---- MODAALID ---- */
+.glass-modal,
+.login-modal-box,
+.modal-confirm {
+  background: rgba(32,30,41,0.70);  /* Mustjam, läbipaistvam */
+  border-radius: 1.5em;
+  box-shadow: 0 10px 48px 0 rgba(40,32,56,0.17);
+  border: 1.2px solid rgba(255,255,255,0.13);
+  color: #e6e6ec;
+  padding: 2.4em 2.2em 2em 2.2em;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  font-size: 1.13rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15em;
   position: fixed;
   left: 50vw;
   top: 50vh;
   transform: translate(-50%, -50%);
   z-index: 10000;
   animation: modalSlideIn 0.26s;
-  max-width: 420px;
-  gap: 1.2em;
-}
-
-/* MODAAL OVERLAY */
-.login-modal-overlay, .modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(22, 18, 33, 0.73);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  min-width: 100vw;
 }
 
 /* MODAAL CLOSE BUTTON */
@@ -600,9 +595,9 @@ body {
   width: 100%;
   max-width: 410px;
   font-size: 1.13em;
-  background: rgba(36,36,44,0.13);
+  background: rgba(36,36,44,0.13); /* mustjas/tume lilla taust */
   color: #e7e7f1;
-  border: 1.4px solid #bda0ef;
+  border: 1.4px solid #bda0ef;     /* hele lilla serv */
   border-radius: 0.98em;
   padding: 0.85em 1.1em;
   margin-bottom: 1.1em;
@@ -634,7 +629,7 @@ body {
   border: none;
   font-size: 1.13em;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 400;
   box-shadow: 0 2px 12px 0 rgba(88,62,187,0.08);
   transition: background 0.16s, color 0.14s, box-shadow 0.14s;
   outline: none;
@@ -645,7 +640,8 @@ body {
 }
 .btn-primary {
   background: linear-gradient(90deg, #a133e1, #4851fa 100%);
-  color: #fff;
+  color: #fffffff4;
+  font-weight: 500;
 }
 .btn-primary:hover, .btn-primary:focus {
   background: linear-gradient(90deg, #4851fa, #a133e1 100%);
@@ -754,18 +750,19 @@ a:hover, a:focus, .link-brand:hover, .link-brand:focus {
 }
 .chat-msg-ai {
   background: rgba(210, 191, 255, 0.14);
-  color: #a133e1;
+  color: #dddadf;
   align-self: flex-start;
   text-align: left;
   border-bottom-left-radius: 0.63em;
 }
 .chat-msg-user {
-  background: linear-gradient(90deg, #a133e1 0%, #4851fa 100%);
-  color: #fff;
+  background: #232133;           /* Tume, mitte gradient! */
+  color: #dddadf;
   align-self: flex-end;
   text-align: right;
-  border-bottom-right-radius: 0.63em;
-  box-shadow: 0 2px 8px 0 #19155b12;
+  border-bottom-right-radius: 0.6em;
+  box-shadow: 0 2px 8px 0 #19155b0a;
+  font-weight: 500;
 }
 
 /* ---- CHAT SISEND JA NUPP ---- */
@@ -778,20 +775,20 @@ a:hover, a:focus, .link-brand:hover, .link-brand:focus {
 .chat-input {
   flex: 1;
   border-radius: 1em;
-  border: 1.3px solid #d7cdf2;
+  border: 1.3px solid #474649;
   padding: 1.02em 1.23em;
   font-size: 1.16em;
   outline: none;
   background: #232133;
-  color: #e7e7f1;
+  color: #dddadf;
   font-weight: 400;
   box-shadow: 0 1px 3px 0 #23213314;
   transition: border 0.14s, background 0.15s, color 0.13s;
 }
 .chat-input:focus {
-  border-color: #a133e1;
-  background: #282053;
-  color: #fff;
+  border-color: #0e0514d7;
+  background: #131315ce;
+  color: #dddadf;
 }
 .chat-input::placeholder {
   color: #ac95de;
@@ -800,8 +797,8 @@ a:hover, a:focus, .link-brand:hover, .link-brand:focus {
 .chat-send-btn {
   border-radius: 1em;
   background: linear-gradient(90deg, #a133e1 0%, #4851fa 100%);
-  color: #fff;
-  font-weight: 700;
+  color: #f2f1f3;
+  font-weight: 500;
   border: none;
   font-size: 1.13em;
   padding: 1.01em 2.1em;
@@ -883,15 +880,40 @@ a:hover, a:focus, .link-brand:hover, .link-brand:focus {
 .chat-profile {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: -1.5em;
-  margin-top: -2em;
+  margin-bottom: 1em;
+  margin-top: -0.4em;
 }
 .chat-avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 2px solid #a133e1;
+  border: none;
   box-shadow: 0 2px 10px 0 #23213333;
+}
+
+/* ---- MODAALI LINGID ---- */
+.login-modal-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.1em;
+  gap: 1.5em;
+  font-size: 1.07em;
+}
+.login-modal-links a {
+  color: #a133e1;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.16s;
+}
+.login-modal-links a:hover,
+.login-modal-links a:focus {
+  color: #4851fa;
+}
+.link-small {
+  font-size: 1em;
+  font-weight: 500;
+  opacity: 1;
 }
 
 /* ---- RESPONSIVE ---- */
@@ -915,23 +937,21 @@ a:hover, a:focus, .link-brand:hover, .link-brand:focus {
   from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
   to { transform: translate(-50%, -50%); opacity: 1; }
 }
-.login-modal-links {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.1em;
-  gap: 1.5em;
-  font-size: 1.07em;
-}
-
-.login-modal-links a {
-  color: #a133e1;
-  font-weight: 600;
-  text-decoration: none;
+.delete-link {
+  display: block;
+  color: #e25757;
+  background: none;
+  border: none;
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+  margin: 1.9em auto 0 auto;
+  cursor: pointer;
+  padding: 0.6em 1.2em;
   transition: color 0.16s;
 }
-
-.login-modal-links a:hover,
-.login-modal-links a:focus {
-  color: #4851fa;
+.delete-link:hover,
+.delete-link:focus {
+  color: #a133e1;
+  text-decoration: none;
 }

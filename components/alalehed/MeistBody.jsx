@@ -19,14 +19,14 @@ export default function MeistBody() {
           </p>
           <p>
             Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
-            <a
-              href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-brand"
-            >
-              OSKA raport (2025)
-            </a>
+<a
+  href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="link-brand link-small"
+>
+  OSKA raport (2025)
+</a>
             . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
           </p>
           <p>
