@@ -500,11 +500,11 @@ body {
 /* ---- KLAASKASTID ---- */
 .glass-box,
 .chatbox-override {
-  background: rgba(255,255,255,0.03); /* Õrnalt valge/hallikas klaas */
+  background: rgba(255, 255, 255, 0.066); /* Õrnalt valge/hallikas klaas */
   border-radius: 1.5em;
   box-shadow: 0 10px 48px 0 rgba(40,32,56,0.13);
   border: 1.2px solid rgba(255,255,255,0.16);
-  color: #e6e6ec;
+  color: #f2f2f2f3;
   padding: 2.4em 2.2em 2em 2.2em;
   width: 100%;
   max-width: 750px;
@@ -516,11 +516,10 @@ body {
   position: static;
 }
 
-/* ---- MODAALID ---- */
 .glass-modal,
 .login-modal-box,
 .modal-confirm {
-  background: rgba(32,30,41,0.70);  /* Mustjam, läbipaistvam */
+  background: rgba(25, 25, 25, 0.683); /* Mustjashall, õrn läbipaistvus */
   border-radius: 1.5em;
   box-shadow: 0 10px 48px 0 rgba(40,32,56,0.17);
   border: 1.2px solid rgba(255,255,255,0.13);
@@ -537,8 +536,14 @@ body {
   left: 50vw;
   top: 50vh;
   transform: translate(-50%, -50%);
-  z-index: 10000;
-  animation: modalSlideIn 0.26s;
+  z-index: 23;
+  animation: modalSlideIn 0.4s;
+}
+.login-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 23; /* Väiksem kui modal, suurem kui muu sisu */
+  background: rgba(22, 21, 22, 0.463); /* Õrn tume-lilla/must efekt */
 }
 
 /* MODAAL CLOSE BUTTON */
@@ -939,7 +944,7 @@ a:hover, a:focus, .link-brand:hover, .link-brand:focus {
 }
 .delete-link {
   display: block;
-  color: #e25757;
+  color: #b12a2a;
   background: none;
   border: none;
   font-size: 1em;
