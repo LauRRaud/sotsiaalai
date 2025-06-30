@@ -434,7 +434,7 @@ body {
   left: 48%;
   transform: translate(-50%, -50%);
   width: 23%;
-  opacity: 0.67;
+  opacity: 0.6;
   pointer-events: none;
   user-select: none;
 }
