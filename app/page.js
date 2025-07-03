@@ -27,25 +27,31 @@ function isTouchDevice() {
 }
 
 export default function HomePage() {
-  const [fadeInDone, setFadeInDone] = useState(false);
+  const [leftFadeDone, setLeftFadeDone] = useState(false);
+  const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [touchDevice, setTouchDevice] = useState(false);
+
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
   useEffect(() => {
     setTouchDevice(isTouchDevice());
 
-    const handle = () => setFadeInDone(true);
-    if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", handle);
-    if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", handle);
+    const leftHandler = () => setLeftFadeDone(true);
+    const rightHandler = () => setRightFadeDone(true);
+
+    if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", leftHandler);
+    if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", rightHandler);
+
     return () => {
-      if (leftCardRef.current) leftCardRef.current.removeEventListener("animationend", handle);
-      if (rightCardRef.current) rightCardRef.current.removeEventListener("animationend", handle);
+      if (leftCardRef.current) leftCardRef.current.removeEventListener("animationend", leftHandler);
+      if (rightCardRef.current) rightCardRef.current.removeEventListener("animationend", rightHandler);
     };
   }, []);
 
-  const fadeClass = !fadeInDone ? "fade-in" : "";
+  const flipAllowed = leftFadeDone && rightFadeDone;
+  const flipClass = flipAllowed ? "flip-allowed" : "";
 
   return (
     <>
@@ -67,18 +73,18 @@ export default function HomePage() {
         {/* Vasak kaart */}
         <div className="side left">
           <div
-            className="three-d-card float-card left"
-            tabIndex={0}
+            className={`three-d-card float-card left ${flipClass}`}
+            tabIndex={flipAllowed ? 0 : -1}
             aria-label="SotsiaalAI – Sotsiaaltöö spetsialistile"
             onKeyDown={e => {
-              if ((e.key === "Enter" || e.key === " ") && !isLoginOpen) {
+              if ((e.key === "Enter" || e.key === " ") && !isLoginOpen && flipAllowed) {
                 setIsLoginOpen(true);
               }
             }}
           >
             <div className="card-wrapper">
               {/* Esikülg */}
-              <div className="card-face front" style={{ pointerEvents: isLoginOpen ? "none" : "auto" }}>
+              <div className="card-face front" style={{ pointerEvents: isLoginOpen || !flipAllowed ? "none" : "auto" }}>
                 <Magnet
                   padding={80}
                   magnetStrength={18}
@@ -89,8 +95,8 @@ export default function HomePage() {
                       ref={leftCardRef}
                       className={[
                         "glass-card glass-card-light left-card-primary",
-                        fadeClass,
-                        fadeInDone && isActive ? "glow-active" : ""
+                        !leftFadeDone ? "fade-in" : "",
+                        leftFadeDone && isActive ? "glow-active" : ""
                       ].join(" ")}
                       tabIndex={-1}
                     >
@@ -124,6 +130,7 @@ export default function HomePage() {
                   onClick={() => setIsLoginOpen(true)}
                   tabIndex={0}
                   aria-label="Ava vestlus – küsi nõu"
+                  disabled={!flipAllowed}
                 >
                   Küsi nõu
                 </button>
@@ -132,12 +139,13 @@ export default function HomePage() {
               <div
                 className="card-face back"
                 tabIndex={0}
-                onClick={() => setIsLoginOpen(true)}
-                onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+                onClick={() => flipAllowed && setIsLoginOpen(true)}
+                onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
+                style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={[
                   "glass-card glass-card-light left-card-primary centered-back",
-                  fadeClass,
+                  !leftFadeDone ? "fade-in" : "",
                   "glow-static"
                 ].join(" ")}>
                   <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
@@ -157,18 +165,18 @@ export default function HomePage() {
         {/* Parem kaart */}
         <div className="side right">
           <div
-            className="three-d-card float-card right"
-            tabIndex={0}
+            className={`three-d-card float-card right ${flipClass}`}
+            tabIndex={flipAllowed ? 0 : -1}
             aria-label="SotsiaalA<B>I – Eluküsimusega pöördujale"
             onKeyDown={e => {
-              if ((e.key === "Enter" || e.key === " ") && !isLoginOpen) {
+              if ((e.key === "Enter" || e.key === " ") && !isLoginOpen && flipAllowed) {
                 setIsLoginOpen(true);
               }
             }}
           >
             <div className="card-wrapper">
               {/* Esikülg */}
-              <div className="card-face front" style={{ pointerEvents: isLoginOpen ? "none" : "auto" }}>
+              <div className="card-face front" style={{ pointerEvents: isLoginOpen || !flipAllowed ? "none" : "auto" }}>
                 <Magnet
                   padding={80}
                   magnetStrength={18}
@@ -179,8 +187,8 @@ export default function HomePage() {
                       ref={rightCardRef}
                       className={[
                         "glass-card glass-card-dark right-card-primary",
-                        fadeClass,
-                        fadeInDone && isActive ? "glow-active" : ""
+                        !rightFadeDone ? "fade-in" : "",
+                        rightFadeDone && isActive ? "glow-active" : ""
                       ].join(" ")}
                       tabIndex={-1}
                     >
@@ -214,6 +222,7 @@ export default function HomePage() {
                   onClick={() => setIsLoginOpen(true)}
                   tabIndex={0}
                   aria-label="Ava vestlus – küsi nõu"
+                  disabled={!flipAllowed}
                 >
                   Küsi nõu
                 </button>
@@ -222,12 +231,13 @@ export default function HomePage() {
               <div
                 className="card-face back"
                 tabIndex={0}
-                onClick={() => setIsLoginOpen(true)}
-                onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+                onClick={() => flipAllowed && setIsLoginOpen(true)}
+                onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
+                style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={[
                   "glass-card glass-card-dark right-card-primary centered-back",
-                  fadeClass,
+                  !rightFadeDone ? "fade-in" : "",
                   "glow-static"
                 ].join(" ")}>
                   <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />

@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
@@ -10,7 +9,6 @@ export default function ChatBody() {
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
-  const chatBoxRef = useRef(null);
 
   function sendMessage(e) {
     e.preventDefault();
@@ -24,85 +22,63 @@ export default function ChatBody() {
     }, 700);
   }
 
-  // Scrollib alla, kui sõnumid muutuvad (vestlus jätkub)
+  // Scrollib alla, kui sõnumid muutuvad
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
-  // Pane fookus ainult desktopil JA ainult kui chatbox mahub aknasse (vältimaks scrollimist)
+  // Fookus inputile
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.innerWidth > 800 &&
-      chatBoxRef.current &&
-      inputRef.current
-    ) {
-      const rect = chatBoxRef.current.getBoundingClientRect();
-      if (rect.bottom <= window.innerHeight) {
-        inputRef.current.focus();
-      }
-    }
-  }, []); // ainult mountimisel
+    inputRef.current?.focus();
+  }, []);
 
   return (
-    <div className="page-bg-gradient">
-      <div
-        className="glass-box chatbox-override"
-        role="main"
-        aria-labelledby="chat-title"
-        ref={chatBoxRef}
-      >
-        <div className="chat-profile">
-          <Link href="/profiil" aria-label="Ava profiil">
-            <img
-              src="data:image/svg+xml;utf8,<svg width='44' height='44' xmlns='http://www.w3.org/2000/svg'><circle cx='22' cy='22' r='22' fill='%238a60e1'/><circle cx='22' cy='16' r='7' fill='%23e3d2ff'/><ellipse cx='22' cy='31' rx='12' ry='7' fill='%23e3d2ff'/></svg>"
-              alt="Profiil"
-              className="chat-avatar"
-              draggable={false}
+    <div className="chat-root">
+      <div className="chat-container">
+        <header className="chat-header">
+          <div className="chat-title-wrapper">
+            <h1 className="chat-title">SotsiaalAI</h1>
+          </div>
+          <div className="chat-profile">
+            <Link href="/profiil" aria-label="Ava profiil">
+              <img
+                src="data:image/svg+xml;utf8,<svg width='44' height='44' xmlns='http://www.w3.org/2000/svg'><circle cx='22' cy='22' r='22' fill='%238a60e1'/><circle cx='22' cy='16' r='7' fill='%23e3d2ff'/><ellipse cx='22' cy='31' rx='12' ry='7' fill='%23e3d2ff'/></svg>"
+                alt="Profiil"
+                className="chat-avatar"
+                draggable={false}
+              />
+            </Link>
+          </div>
+        </header>
+        <main className="chat-main">
+          <div className="chat-window">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`chat-msg ${msg.role === "user" ? "chat-msg-user" : "chat-msg-ai"}`}
+                aria-live="polite"
+              >
+                {msg.text}
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+          <form className="chat-inputbar" onSubmit={sendMessage} autoComplete="off">
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="Kirjuta siia oma küsimus..."
+              className="chat-input"
             />
-          </Link>
-        </div>
-
-        <h1 id="chat-title" className="glass-title" style={{ marginTop: 0 }}>
-          SotsiaalAI
-        </h1>
-
-        <div className="chat-window" tabIndex={0}>
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`chat-msg ${msg.role === "user" ? "chat-msg-user" : "chat-msg-ai"}`}
-              aria-live="polite"
-            >
-              {msg.text}
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
-
-        <form className="chat-inputbar" onSubmit={sendMessage} autoComplete="off">
-          <input
-            ref={inputRef}
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            placeholder="Kirjuta siia oma küsimus..."
-            className="chat-input"
-            onKeyDown={e => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                sendMessage(e);
-              }
-            }}
-          />
-          <button type="submit" className="chat-send-btn">
-            Saada
-          </button>
-        </form>
-
-        <Link href="/" className="back-link" tabIndex={0}>
-          &larr; Avalehele
-        </Link>
-        <footer className="alaleht-footer">
-          Sotsiaal.AI &copy; 2025
+            <button type="submit" className="chat-send-btn">
+              Saada
+            </button>
+          </form>
+        </main>
+        <footer className="chat-footer">
+          <Link href="/" className="back-link">&larr; Avalehele</Link>
+          <div className="alaleht-footer">Sotsiaal.AI &copy; 2025</div>
         </footer>
       </div>
     </div>

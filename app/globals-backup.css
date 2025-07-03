@@ -901,7 +901,7 @@ body.modal-open {
   width: 100%; /* täidab selle ala */
   box-sizing: border-box;
   }
-  .three-d-card:not(.flip-allowed):hover .card-wrapper,
+.three-d-card:not(.flip-allowed):hover .card-wrapper,
 .three-d-card:not(.flip-allowed):focus-within .card-wrapper {
   /* Ära pööra */
   transform: none !important;
