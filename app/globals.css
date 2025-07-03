@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
-/* Tausta gradient – eraldi kiht, Z-index kõige madalam */
+/* --- TAUST, PARTIKLID, PÕHI --- */
 .background-gradient {
   position: fixed;
   inset: 0;
@@ -9,69 +9,45 @@
   z-index: 0;
   background: linear-gradient(
     to right,
-    #000000 0%,
+    #303136 0%,
     #434343 46%,
     #f6f6f6 100%
   );
   pointer-events: none;
 }
-
-/* Osakeste kiht gradient-tausta peal */
 .particles-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 1; pointer-events: none;
 }
-
-/* SplashCursor alati kõige ees */
 .splash-cursor {
-  position: fixed !important;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 100 !important;
+  position: fixed !important; left: 0; top: 0; width: 100vw; height: 100vh;
+  pointer-events: none; z-index: 80
 }
-
-/* HTML/BODY ei vaja enam taustavärvi ega z-indexi! */
 html, body {
-  min-height: 100vh;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  min-height: 100vh; height: 100%;
+  margin: 0; padding: 0;
   font-family: 'Nunito', sans-serif;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* EEMALDA background, background-repeat, z-index */
 }
-
-/* Lehe põhisisu */
 body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  display: flex; min-height: 100vh;
+  flex-direction: column; justify-content: flex-start; align-items: stretch;
   overflow-x: hidden;
 }
 
-/* Main-content ja kaardid Z-indexiga üle osakeste */
+/* --- PÕHISISU, LAYOUT --- */
 .main-content {
   display: flex;
-  width: 100%;
-  max-width: 100vw;
+  width: 100%; max-width: 100vw;
   position: relative;
   flex: 1 0 auto;
   box-sizing: border-box;
   z-index: 2;
 }
-
 .side {
   flex: 1 1 0;
   min-height: 100vh;
@@ -83,176 +59,116 @@ body {
   padding: 2rem 1.5rem;
   box-sizing: border-box;
   position: relative;
-  /* Z-index pole siin vajalik, pärib main-contentilt */
 }
+.side.left { color: #181818; }
+.side.right { color: #181818b4; }
+
+/* --- 3D-KAARDID --- */
 .three-d-card {
-  width: 430px;
-  height: 430px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background: transparent;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  z-index: 22;
-  box-sizing: border-box;
-  cursor: pointer
+  width: 430px; height: 430px; aspect-ratio: 1/1;
+  border-radius: 50%; background: transparent;
+  position: relative; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto; z-index: 22; box-sizing: border-box;
 }
 .card-wrapper {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 1s cubic-bezier(.6,.1,.3,1.1);
- pointer-events: none;
 }
-
 .three-d-card:hover .card-wrapper,
-.three-d-card:focus-within .card-wrapper {
-  transform: rotateY(180deg);
-}
+.three-d-card:focus-within .card-wrapper { transform: rotateY(180deg); }
 .three-d-card.right:hover .card-wrapper,
-.three-d-card.right:focus-within .card-wrapper {
-  transform: rotateY(-180deg);
-}
+.three-d-card.right:focus-within .card-wrapper { transform: rotateY(-180deg); }
 
 .card-face {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0; left: 0;
-  box-sizing: border-box;
-  backface-visibility: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  overflow: visible;
-  z-index: 23;
-  pointer-events: none
+  width: 100%; height: 100%; top: 0; left: 0;
+  box-sizing: border-box; backface-visibility: hidden;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; overflow: visible; z-index: 23;
 }
 .card-face.front { transform: rotateY(0deg); }
-.card-face.back { transform: rotateY(180deg); }
+.card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
 .three-d-card.right .card-face.back { transform: rotateY(-180deg); }
 
 .glass-card {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 2em;
-  background-clip: padding-box;
-  overflow: hidden;
-  background: linear-gradient(
-    to top,
-    rgba(240, 240, 240, 0.76) 0%,
-    rgba(255, 255, 255, 0.927) 100%
-  );
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
-  cursor: pointer;
+  width: 100%; height: 100%; aspect-ratio: 1/1;
+  border-radius: 50%; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-sizing: border-box; padding: 2em; background-clip: padding-box;
+  overflow: hidden; border: none;
+  background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2d8 100%);
+  opacity: 1;
 }
-
 .glass-card-dark {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 2em;
-  background-clip: padding-box;
-  overflow: hidden;
-  background: linear-gradient(
-    to top,
-    rgba(17, 17, 20, 0.959) 0%,
-    rgba(36, 36, 43, 0.888) 100%
-  );
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-}
-
-/* Vasaku kaardi tagakülg */
-.centered-back.left-back {
-  background: linear-gradient(
-    to left,
-    #f5f5f5 0%,
-    #e2e2e2d8 100%
-  );
-  border: none;
-}
-
-/* Parema kaardi tagakülg */
-.centered-back.right-back {
   background: linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%);
   border: none;
 }
+
+/* --- KAARDI TAGAKÜLG --- */
 .centered-back {
-  width: 95%;
-  height: 95%;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 2em;
-  background-clip: padding-box;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
+  width: 95%; height: 95%; aspect-ratio: 1/1;
+  border-radius: 50%; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-sizing: border-box; padding: 2em; background-clip: padding-box;
+  overflow: hidden; position: relative;
 }
-.card-title,
-.card-content,
-.card-headline,
-.card-description,
-.card-note,
-.card-cta {
-  width: 100%;
-  text-align: center;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.centered-back.left-back  { background: linear-gradient(180deg, #fff 0%, #fff 100%); }
+.centered-back.right-back { background: linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%); }
+.centered-back-outer {
+  width: 100%; height: 100%; left: 0; top: 0;
+  position: absolute; border-radius: 50%; z-index: 2;
 }
-.card-title {
-  display: flex;
-  justify-content: center;
-  margin: 0.5rem 0;
+
+/* --- KAARDI KUMA / ANIMATSIOON --- */
+.three-d-card:hover .card-face.back .glass-card,
+.three-d-card:focus-within .card-face.back .glass-card {
+  animation: brandGlow 6.7s ease-in-out infinite;
 }
+@keyframes brandGlow {
+  0%   { box-shadow: 0 0 30px 10px #6c42f8ab; }
+  50%  { box-shadow: 0 0 30px 10px #a133e1bb; }
+  100% { box-shadow: 0 0 30px 10px #6c42f8ab; }
+}
+.float-card {
+  animation: float-vertical 6.7s ease-in-out 0s infinite;
+}
+@keyframes float-vertical {
+  0%   { transform: translateY(0px);}
+  50%  { transform: translateY(-13px);}
+  100% { transform: translateY(0px);}
+}
+@keyframes cardFadeIn {
+  0% { opacity: 0; transform: scale(0.85); filter: blur(14px);}
+  80% { opacity: 1; filter: blur(1.2px);}
+  100% { opacity: 1; transform: scale(1); filter: blur(0px);}
+}
+.glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
+.glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
+
+/* --- LOGOD KAARDIL --- */
+.card-logo-bg         { position: absolute; top: 50%; left: 50%; opacity: 0.05; z-index: 2; user-select: none; }
+.card-logo-bg-left    { width: 53%; opacity: 0.08; transform: translate(-50%, -50%);}
+.card-logo-bg-right   { width: 65%; opacity: 0.06; transform: translate(-55%, -50%);}
+.card-logo-bg-left-back  { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.88;}
+.card-logo-bg-right-back { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.67;}
+
+/* --- TEKSTID KAARDIL --- */
+.card-title, .card-content, .card-headline, .card-description, .card-note, .card-cta {
+  width: 100%; text-align: center; display: block; margin-left: auto; margin-right: auto;
+}
+.card-title { display: flex; justify-content: center; margin: 0.5rem 0; }
 .brand-title {
-  font-size: 2.9rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-align: center;
-  margin-top: 3rem;
-  margin-bottom: 1.5rem;
+  font-size: 2.9rem; font-weight: 800; letter-spacing: 0.03em;
+  text-align: center; margin-top: 3rem; margin-bottom: 1.5rem;
 }
-.brand-title-left,
-.brand-title-right {
+.brand-title-left, .brand-title-right {
   background: linear-gradient(270deg, #4851fa, #a133e1, #4851fa);
-  background-size: 200% 200%;
-  background-repeat: no-repeat;
+  background-size: 200% 200%; background-repeat: no-repeat;
   animation: gradientWave 6.7s ease-in-out infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  font-weight: 800;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; color: transparent; font-weight: 800;
 }
 @keyframes gradientWave {
   0% { background-position: 0% 50%; }
@@ -260,352 +176,118 @@ body {
   100% { background-position: 0% 50%; }
 }
 .left-card-primary .headline-bold {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #1f1f1fc7;
-  margin-bottom: 0.3em;
-  margin-top: 1em;
-  letter-spacing: 0.1em;
-  text-shadow: none;
-  text-transform: uppercase;
+  font-size: 1.6rem; font-weight: 600; color: #1f1f1fc7;
+  margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em;
+  text-shadow: none; text-transform: uppercase;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.6rem;
-  font-weight: 400;
-  color: #f0f1f7e8;
-  margin-bottom: 0.3em;
-  margin-top: 1em;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 1.6rem; font-weight: 400; color: #f0f1f7e8;
+  margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em; text-transform: uppercase;
 }
 .left-card-primary .card-description {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #131313d5;
-  margin: 0 0;
-  line-height: 1.32;
-  margin-bottom: 2em;
-  margin-top: 1.4em;
-  text-transform: uppercase;
+  font-size: 1.2rem; font-weight: 500; color: #131313d5;
+  margin: 0 0; line-height: 1.32; margin-bottom: 2em; margin-top: 1.4em; text-transform: uppercase;
 }
 .right-card-primary .card-description {
-  font-size: 1.2rem;
-  font-weight: 300;
-  color: #f2f3f8e6;
-  margin: 0 0;
-  line-height: 1.32;
-  margin-bottom: 2em;
-  margin-top: 1.4em;
-  text-transform: uppercase;
+  font-size: 1.2rem; font-weight: 300; color: #f2f3f8e6;
+  margin: 0 0; line-height: 1.32; margin-bottom: 2em; margin-top: 1.4em; text-transform: uppercase;
 }
-.card-note {
-  font-size: 1.4rem;
-  opacity: 1;
-  color: inherit;
-}
-.card-note.left-back {
-  color: #373737f2;
-  font-weight: 600;
-}
-.card-note.right-back {
-  color: #f5f5f5f0;
-  font-weight: 400;
-}
-.card-title.back {
-  margin-top: -6em;
-  margin-bottom:0.8em;
-  justify-content: center;
-  align-items: center;
-}
-@keyframes float-vertical {
-  0%   { transform: translateY(0px);}
-  50%  { transform: translateY(-13px);}
-  100% { transform: translateY(0px);}
-}
+.card-note { font-size: 1.4rem; opacity: 1; color: inherit;}
+.card-note.left-back { color: #373737f2; font-weight: 600;}
+.card-note.right-back { color: #f5f5f5f0; font-weight: 400;}
+.card-title.back { margin-top: -6em; margin-bottom:0.8em; justify-content: center; align-items: center; }
 
-/* Hõljub ainult .three-d-card ümbris */
-.float-card {
-  animation: float-vertical 6.7s ease-in-out 0s infinite;
-
-}
-
-.centered-back {
-  position: relative;
-  overflow: visible;
-}
-.centered-back-outer {
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 2; /* tõsta kõrgemale kui muu sisu */
-}
-
-@keyframes cardFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.85);
-    filter: blur(14px);
-  }
-  80% {
-    opacity: 1;
-    filter: blur(1.2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0px);
-  }
-}
-
-@keyframes brandGlow {
-  0%   { box-shadow: 0 0 14px 3.5px #a133e1a0; }
-  50%  { box-shadow: 0 0 20px 6px #6c42f888; }
-  100% { box-shadow: 0 0 14px 3.5px #a133e1a0; }
-}
-.glass-card {
-  opacity: 1;
-  /* EI OLE animatsiooni siin! */
-}
-
-.glass-card.fade-in {
-  opacity: 0;
-  animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards;
-}
-
-.glass-card.glow-active {
-  animation: brandGlow 6.7s ease-in-out infinite;
-}
-
-.centered-back-outer.glow-active {
-  animation: brandGlow 6.7s ease-in-out infinite;
-}
-.logo-corner {
-  position: fixed;
-  right: 0.7vw; /* kaugus paremast äärest */
-  bottom: 0.5vw; /* kaugus alumisest äärest */
-  width: 90px; /* muuda suurust vastavalt soovile */
-  opacity: 0; /* vajadusel läbipaistvus */
-  z-index: 3;
-  pointer-events: none; /* et logo alt ei saaks linke/elemente klikkida */
-  }
-.card-logo-bg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  opacity: 0.05;
-  z-index: 2;
-  pointer-events: none;
-  user-select: none;
-}
-.card-logo-bg-left {
-  width: 53%;
-  opacity: 0.08;
-  transform: translate(-50%, -50%);
-}
-.card-logo-bg-right {
-  width: 65%;
-  opacity: 0.06;
-  transform: translate(-55%, -50%);
-}
-.card-logo-bg-left-back {
-  position: absolute;
-  top: 82%;
-  left: 48%;
-  transform: translate(-50%, -50%);
-  width: 23%;
-  opacity: 0.88;
-  pointer-events: none;
-  user-select: none;
-}
-
-.card-logo-bg-right-back {
-  position: absolute;
-  top: 82%;
-  left: 48%;
-  transform: translate(-50%, -50%);
-  width: 23%;
-  opacity: 0.6;
-  pointer-events: none;
-  user-select: none;
-}
+/* --- JALUS --- */
 .footer-row {
   display: flex;
   width: 100vw;
   align-items: center;
   padding: 0.15em 0 0.12em 0;
   background: transparent;
-  z-index: 2
+  z-index: 2;
+  font-size: 1.4rem;     /* <-- SUUREM TEKST! (või 1.3rem, proovi!) */
 }
+.footer-left, .footer-right {
+  flex: 1; padding: 0 0.7em; user-select: none; background: transparent; margin: 0;
+}
+.footer-left  { text-align: right;  color: #fffffff0; }
+.footer-right { text-align: left;}
+.footer-link  { color: #e8e8e8f3; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.4rem; }
 
-.footer-left,
-.footer-right {
-  flex: 1;
-  padding: 0.0em 0.7em;
-  user-select: none;
-  background: transparent;
-  margin: 0;
-}
-
-.footer-left {
-  text-align: right;   /* Nüüd täiesti vasakul! */
-  color: #fffffff0;
-}
-
-.footer-right {
-  text-align: left;  /* Paremas servas */
-  color: #fffffff0;
-}
-
-.footer-link {
-  color: #fffffff0;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 0;
-  margin-right: 0em;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.footer-left,
-.footer-right,
-.footer-link {
-  font-size: 1.4rem;
-}
-.card-face.back {
-  pointer-events: auto;
-}
-/* ---- LEHE PEAMINE TAUST ---- */
-.page-bg-gradient,
-.alaleht-hero {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 4em 1em 2em 1em;
-  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
-}
-
-/* ---- SISEKONTEINER ---- */
-.alaleht-inner {
-  width: 100%;
-  max-width: 920px;
-  padding: 0 1.2em;
-  margin: 0 auto;
-}
-
-/* ---- KLAASKASTID ---- */
-.glass-box,
-.chatbox-override {
-  background: rgba(255, 255, 255, 0.066); /* Õrnalt valge/hallikas klaas */
-  border-radius: 1.5em;
-  box-shadow: 0 10px 48px 0 rgba(40,32,56,0.13);
-  border: 1.2px solid rgba(255,255,255,0.16);
-  color: #f2f2f2f3;
-  padding: 2.4em 2.2em 2em 2.2em;
-  width: 100%;
-  max-width: 750px;
-  margin: 0 auto;
-  font-size: 1.22rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.15em;
-  position: static;
-}
-
-.glass-modal,
-.login-modal-box,
-.modal-confirm {
-  background: rgba(25, 25, 25, 0.683); /* Mustjashall, õrn läbipaistvus */
-  border-radius: 1.5em;
-  box-shadow: 0 10px 48px 0 rgba(40,32,56,0.17);
-  border: 1.2px solid rgba(255,255,255,0.13);
-  color: #e6e6ec;
-  padding: 2.4em 2.2em 2em 2.2em;
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  font-size: 1.13rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.15em;
-  position: fixed;
-  left: 50vw;
-  top: 50vh;
+/* --- MODAAL, VORMID, NUPUD --- */
+.glass-modal, .login-modal-box, .modal-confirm {
+  background: rgba(25,25,25,0.829);
+  border-radius: 1.5em; color: #e6e6ec;
+  padding: 2.4em 2.2em 2em 2.2em; width: 100%; max-width: 420px;
+  margin: 0 auto; font-size: 1.13rem;
+  display: flex; flex-direction: column; gap: 1.15em;
+  position: fixed; left: 50vw; top: 50vh;
   transform: translate(-50%, -50%);
-  z-index: 23;
-  animation: modalSlideIn 0.4s;
+  z-index: 100; animation: modalSlideIn 0.4s;
 }
-.login-modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 23; /* Väiksem kui modal, suurem kui muu sisu */
-  background: rgba(22, 21, 22, 0.463); /* Õrn tume-lilla/must efekt */
+@keyframes modalSlideIn {
+  from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
+  to   { transform: translate(-50%, -50%); opacity: 1; }
 }
-
-/* MODAAL CLOSE BUTTON */
+.login-modal-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.1em;
+  font-size: 1.07em;
+  padding: 0 0.2em;
+}
+.login-modal-links a {
+  min-width: 0;
+  color: #a133e1;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.16s;
+  text-align: left;
+}
+.login-modal-links a:last-child { text-align: right; }
 .login-modal-close {
-  position: absolute;
-  top: 0.7em;
-  right: 1.2em;
-  background: none;
-  border: none;
-  color: #9f7dda;
-  font-size: 2.2em;
-  cursor: pointer;
-  z-index: 10;
-  transition: color 0.19s;
-  outline: none;
+  position: absolute; top: 0.7em; right: 1.2em;
+  background: none; border: none; color: #9f7dda;
+  font-size: 2.2em; cursor: pointer; transition: color 0.19s; outline: none;
 }
-.login-modal-close:hover,
-.login-modal-close:focus { color: #7a4edd; }
+.login-modal-close:hover, .login-modal-close:focus { color: #7a4edd; }
 
-/* ---- PEALKIRJAD ---- */
-.glass-title, .alaleht-title {
-  font-size: 2.15em;
-  font-weight: 900;
-  color: #a133e1;
-  margin-bottom: 1em;
-  letter-spacing: -0.01em;
-  text-align: center;
-}
-.glass-h2, .glass-h2-span, .glass-h2-number {
-  color: #a133e1;
-  font-size: 1.18em;
-  font-weight: 700;
-  margin-right: 0.11em;
-  letter-spacing: 0.01em;
+.glass-title {
+  font-size: 2.15em; font-weight: 900; color: #a133e1;
+  margin-bottom: 0.3em; letter-spacing: -0.01em; text-align: center;
 }
 
-/* ---- LABELID & INPUTID ---- */
+/* --- VORMID, INPUTID, LABELID --- */
 .glass-label, .glass-form label, .login-modal-form label, .alaleht-box label {
   display: block;
   font-weight: 600;
   color: #a133e1;
   font-size: 1.13em;
-  margin-bottom: 0.22em;
-  margin-top: 1.05em;
+  margin-bottom: 0.18em;
+  margin-top: 1em;
   letter-spacing: 0.01em;
   text-align: left;
 }
-.glass-form label:first-child, .login-modal-form label:first-child, .alaleht-box label:first-child { margin-top: 0; }
 
-/* ---- INPUTID ---- */
+.glass-form label:first-child,
+.login-modal-form label:first-child,
+.alaleht-box label:first-child {
+  margin-top: 0;
+}
+
 .input-modern,
 .login-modal-form input[type="email"],
 .login-modal-form input[type="password"] {
   width: 100%;
   max-width: 410px;
   font-size: 1.13em;
-  background: rgba(36,36,44,0.13); /* mustjas/tume lilla taust */
+  background: rgba(36,36,44,0.13);
   color: #e7e7f1;
-  border: 1.4px solid #bda0ef;     /* hele lilla serv */
-  border-radius: 0.98em;
-  padding: 0.85em 1.1em;
-  margin-bottom: 1.1em;
+  border: 1.4px solid #bda0ef;
+  border-radius: 1em;              /* ühtne ümardus! */
+  padding: 0.75em 1.1em;           /* madalamad kastid */
+  margin-bottom: 0.6em;            /* väiksem vahe */
   outline: none;
   font-weight: 400;
   transition: border 0.14s, background 0.13s;
@@ -614,12 +296,14 @@ body {
   margin-right: auto;
   display: block;
 }
+
 .input-modern:focus,
 .login-modal-form input:focus {
   border: 1.4px solid #a133e1;
   background: #232133;
   color: #fff;
 }
+
 .input-modern::placeholder,
 .login-modal-form input::placeholder {
   color: #aa9bd2;
@@ -627,14 +311,14 @@ body {
   opacity: 1;
 }
 
-/* ---- BUTTONID ---- */
+/* Kõik nupud ühtlaseks ja kõrgemaks */
 .btn-primary, .btn-secondary, .btn-tertiary, .btn-danger {
-  border-radius: 0.9em;
-  padding: 0.8em 1.8em;
+  border-radius: 1em;              /* Sama raadius mis inputil */
+  padding: 0.75em 1.3em;           /* Kõrgus võrdne inputiga */
   border: none;
   font-size: 1.13em;
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 500;
   box-shadow: 0 2px 12px 0 rgba(88,62,187,0.08);
   transition: background 0.16s, color 0.14s, box-shadow 0.14s;
   outline: none;
@@ -643,320 +327,339 @@ body {
   display: block;
   max-width: 320px;
 }
+
+.profile-btn-row .btn-primary,
+.profile-btn-row .btn-secondary {
+  margin: 0;
+  display: inline-block;
+  max-width: none;
+}
+
 .btn-primary {
-  background: linear-gradient(90deg, #a133e1, #4851fa 100%);
+  background: linear-gradient(90deg, #a133e1d4, #4851fac9 100%);
   color: #fffffff4;
   font-weight: 500;
 }
 .btn-primary:hover, .btn-primary:focus {
-  background: linear-gradient(90deg, #4851fa, #a133e1 100%);
+  background: linear-gradient(90deg, #4851fadc, #a133e1d6 100%);
   color: #fff;
-}
-.btn-secondary {
-  background: #282043;
-  color: #fff;
-}
-.btn-secondary:hover, .btn-secondary:focus {
-  background: #4851fa;
-}
-.btn-tertiary {
-  background: #f2f1f8;
-  color: #a133e1;
-}
-.btn-tertiary:hover {
-  background: #ede4fa;
-  color: #4851fa;
-}
-.btn-danger {
-  background: #e25757;
-  color: #fff;
-}
-.btn-danger:hover {
-  background: #a133e1;
-  color: #fff;
-}
-.btn-row, .profile-btn-row {
-  display: flex;
-  justify-content: center;
-  gap: 1.1em;
-  flex-wrap: wrap;
 }
 
-/* ---- ÜHTLUSTATUD LINK ---- */
+
+/* --- ALAPLATVORMI KONTEINERID --- */
+.page-bg-gradient,
+.alaleht-hero {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.4em 1em 2em 1em;
+  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
+  box-sizing: border-box;
+}
+.alaleht-inner {
+  width: 100%;
+  max-width: 920px;
+  padding: 0 1.2em;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.glass-box {
+  background: rgba(255, 255, 255, 0.078);
+  border-radius: 1.5em;
+  color: #f2f2f2f3;
+  padding: 2.4em 2.2em 2em 2.2em;
+  max-width: 850px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.22rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15em;
+  position: static;
+  box-sizing: border-box;
+}
+.alaleht-footer {
+  width: 100%; text-align: center; font-size: 1.2rem;
+  color: #f2f2f2f3; margin-top: 2.2em; font-weight: 500; letter-spacing: 0.03em;
+}
+
+/* --- LINGID --- */
+/* TAVALISED LINGID: */
 a, .link-brand {
   color: #a133e1;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.17s;
+  transition:
+    color 0.17s,
+    background 0.15s,
+    box-shadow 0.13s,
+    border-radius 0.12s,
+    padding 0.13s;
   cursor: pointer;
   font-size: 1.13em;
-}
-a:hover, a:focus, .link-brand:hover, .link-brand:focus {
-  color: #4851fa;
-  text-decoration: none;
+  display: inline-block;
 }
 
-/* ---- TAGASI LINK ---- */
+/* TAGASILINK, PROFILI TAGASILINK – ALATI KESKEL */
 .back-link, .profile-back-link {
   display: block;
-  margin: 1.5em auto 0 auto;
+  width: max-content;
+  margin: 2.1em auto 0 auto;
   text-align: center;
-  color: #a133e1;
-  font-size: 1.15em;
-  font-weight: 500;
+  color: #ac3bed;
+  font-size: 1.2em;
+  font-weight: 600;
   border: none;
   background: none;
-  transition: color 0.13s;
+  transition:
+    color 0.13s,
+    background 0.15s,
+    box-shadow 0.13s,
+    border-radius 0.12s,
+    padding 0.13s;
+  cursor: pointer;
+  /* paddingu siit eemaldame, see tuleb hoveril! */
 }
+
+/* HOVER/FOCUS – KÕIK LINGID */
+a:hover, a:focus,
+.link-brand:hover, .link-brand:focus {
+  color: #fff;
+  background: #a133e173;
+  border-radius: 0.17em;
+  text-decoration: none;
+  box-shadow: 0 2px 7px 0 #a133e127;
+  padding: 0.06em 0.32em;
+}
+
+/* HOVER/FOCUS – KESKEL LINGID */
 .back-link:hover, .back-link:focus,
 .profile-back-link:hover, .profile-back-link:focus {
-  color: #7a4edd;
+  color: #fff;
+  background: #a133e173;
+  border-radius: 0.17em;
+  text-decoration: none;
+  box-shadow: 0 2px 7px 0 #a133e127;
+  padding: 0.06em 0.32em;
+  /* jäävad keskjoonduseks */
 }
 
-/* ---- JALUS ---- */
-.alaleht-footer {
-  width: 100%;
-  text-align: center;
-  font-size: 1.13rem;
-  color: #7a4edd;
-  margin-top: 2.2em;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
 
-/* ---- CHAT SÕNUMITE AKEN ---- */
+
+/* --- CHATBOX --- */
+.chatbox-override {
+  max-width: 850px;                            /* Suurem kast */
+  min-height: 450px;
+  padding: 3.3em 3em 2.6em 3em;                /* Rohkem ruumi */
+  border-radius: 2.2em;
+  box-shadow: 0 2px 50px 0 rgba(62,40,126,0.14);
+  background: linear-gradient(120deg, #24232aef 44%, #373742e6 100%);
+  color: #f1eefd;
+  position: relative;
+  gap: 1.2em;                                  /* Veidi suurem spacing */
+  align-items: flex-start;                     /* Vasakjoondus sisu sees */
+}
+.chatbox-override > .glass-title {
+  align-self: center;         /* Keskendab ainult pealkirja */
+  text-align: center;         /* Tekst keskele */
+  width: 100%;                /* Võtab kogu saadava laiuse */
+  margin-top: 0.6em;          /* Sama spacing ülevalt kui teistel alalehtedel */
+  margin-bottom: 1.8em;       /* Sama spacing alt kui teistel alalehtedel */
+  font-size: 2.15em;          /* Sama font-size kui teistel alalehtedel */
+  font-weight: 900;
+  color: #a133e1;
+  letter-spacing: -0.01em;
+}
+.chat-profile {
+  position: absolute;
+  top: 1.2em;
+  right: 1.6em;
+  z-index: 3;
+  margin: 0;
+}
 .chat-window {
-  min-height: 240px;
-  max-height: 390px;
+  width: 100%;
+  min-height: 200px;
+  max-height: 360px;
   overflow-y: auto;
-  background: rgba(30,27,38,0.16);
-  border-radius: 1.2em;
-  padding: 1.5em 1.1em 1.3em 1.1em;
-  margin-bottom: 1.1em;
-  box-shadow: 0 2px 10px 0 rgba(30,27,38,0.07);
+  margin-bottom: 2.3em;
+  padding: 0.3em 0.4em 0 0.4em;
   display: flex;
   flex-direction: column;
-  gap: 0.75em;
-  align-items: stretch;
+  gap: 1.1em;
+  scroll-behavior: smooth;
 }
-
-/* ---- CHAT SÕNUMITE KUJU ---- */
 .chat-msg {
-  max-width: 81%;
-  padding: 0.75em 1.25em;
-  border-radius: 1.19em;
+  padding: 0.9em 1.4em;
+  border-radius: 1.1em;
+  font-size: 1.16em;
+  line-height: 1.5;
+  max-width: 85%;
   word-break: break-word;
-  font-size: 1.12em;
-  line-height: 1.54;
-  background: #23213318;
-  color: #e7e7f1;
-  margin-bottom: 0.07em;
-  margin-top: 0.07em;
-}
-.chat-msg-ai {
-  background: rgba(210, 191, 255, 0.14);
-  color: #dddadf;
-  align-self: flex-start;
-  text-align: left;
-  border-bottom-left-radius: 0.63em;
+  box-shadow: 0 2px 15px 0 #a989ff11;
+  background: rgba(255,255,255,0.09);
 }
 .chat-msg-user {
-  background: #232133;           /* Tume, mitte gradient! */
-  color: #dddadf;
+  background: linear-gradient(95deg, #5434b9c2 60%, #9182d7ad 100%);
+  color: #f6efff;
   align-self: flex-end;
-  text-align: right;
-  border-bottom-right-radius: 0.6em;
-  box-shadow: 0 2px 8px 0 #19155b0a;
-  font-weight: 500;
+  border-bottom-right-radius: 0.28em;
 }
-
-/* ---- CHAT SISEND JA NUPP ---- */
+.chat-msg-ai {
+  background: linear-gradient(92deg, #2d2c3a 80%, #473f70 100%);
+  color: #f6eefd;
+  align-self: flex-start;
+  border-bottom-left-radius: 0.28em;
+}
 .chat-inputbar {
   display: flex;
-  gap: 1em;
-  margin-top: 0.3em;
-  align-items: flex-end;
+  align-items: center;
+  gap: 0.7em;
+  width: 100%;
+  margin-bottom: 1.6em;
 }
 .chat-input {
   flex: 1;
-  border-radius: 1em;
-  border: 1.3px solid #474649;
-  padding: 1.02em 1.23em;
-  font-size: 1.16em;
+  border-radius: 0.9em;
+  padding: 0.89em 1.2em;
+  border: 1.2px solid #b49de7;
+  font-size: 1.14em;
+  background: rgba(36,36,44,0.19);
+  color: #f7efff;
   outline: none;
-  background: #232133;
-  color: #dddadf;
-  font-weight: 400;
-  box-shadow: 0 1px 3px 0 #23213314;
-  transition: border 0.14s, background 0.15s, color 0.13s;
+  font-family: inherit;
+  box-sizing: border-box;
 }
 .chat-input:focus {
-  border-color: #0e0514d7;
-  background: #131315ce;
-  color: #dddadf;
-}
-.chat-input::placeholder {
-  color: #ac95de;
-  opacity: 1;
+  border: 1.5px solid #a133e1;
+  background: #181722;
 }
 .chat-send-btn {
-  border-radius: 1em;
-  background: linear-gradient(90deg, #a133e1 0%, #4851fa 100%);
-  color: #f2f1f3;
-  font-weight: 500;
+  background: linear-gradient(90deg, #a133e1c7, #4851fac9 100%);
+  color: #fff;
+  border-radius: 0.9em;
   border: none;
-  font-size: 1.13em;
-  padding: 1.01em 2.1em;
+  font-size: 1.09em;
+  padding: 0.8em 1.4em;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.18s, color 0.14s, box-shadow 0.13s;
-  box-shadow: 0 2px 9px 0 #a133e123;
-  align-self: stretch;
-  margin-left: 0.1em;
+  transition: background 0.17s;
 }
-.chat-send-btn:hover {
-  background: linear-gradient(90deg, #4851fa, #a133e1 100%);
+.chat-send-btn:hover, .chat-send-btn:focus {
+  background: linear-gradient(90deg, #4851fae2, #a133e1db 100%);
   color: #fff;
 }
 
-/* ---- PROFIILILEHT VERTIKAALNE ---- */
+/* --- PROFIILELEMENTID --- */
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.25em;
+  margin-bottom: 1.6em;
+}
+.profile-role-label {
+  font-weight: 700;
+  color: #a133e1;
+  margin-right: 0.35em;
+}
+.profile-role-value {
+  color: #fff;
+  font-weight: 500;
+}
 .profile-form-vertical {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.2em;
+  gap: 0.2em;
   width: 100%;
   max-width: 410px;
-  margin: 0 auto;
-}
-.profile-form-vertical .glass-label {
-  align-self: flex-start;
-  margin-bottom: 0.22em;
-  font-size: 1.11em;
-  color: #a133e1;
-  font-weight: 600;
-}
-.profile-input {
-  width: 100%;
-  font-size: 1.15em;
-  padding: 0.68em 1.1em;
-  margin-bottom: 0.7em;
-  border-radius: 0.95em;
-  border: 1.2px solid #d7cdf2;
-  background: #232133;
-  color: #e7e7f1;
-  outline: none;
-  transition: border 0.14s, background 0.13s;
-  box-sizing: border-box;
-}
-.profile-input:focus {
-  border-color: #a133e1;
-  background: #28253b;
-  color: #fff;
+  margin: 0 auto 2.5em auto;
 }
 .profile-btn-row {
   display: flex;
-  width: 100%;
-  gap: 1em;
-  margin: 1em 0 0 0;
   justify-content: center;
+  gap: 0.6em;
+  margin: 1.1em 0 0.4em 0;
 }
-.profile-btn-row button {
-  flex: 1 1 0;
-  min-width: 0;
-  font-size: 1.13em;
-  padding: 0.8em 0;
-  max-width: 190px;
-}
-.profile-order-btn,
-.profile-delete-btn {
+.profile-order-btn {
   display: block;
   width: 100%;
   max-width: 300px;
-  margin: 1.1em auto 0 auto;
-  font-size: 1.13em;
+  margin: -2em auto 0 auto;
+  background: #5b567b;
+  color: #f5f4f5;
+  border: none;
+  border-radius: 0.8em;
+  padding: 0.7em 0;
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.16s;
   text-align: center;
 }
-.profile-delete-btn {
-  margin-top: 2.1em;
+.profile-order-btn:hover,
+.profile-order-btn:focus {
+  background: #463662;
   color: #fff;
-}
-
-/* ---- AVATAR ---- */
-.chat-profile {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1em;
-  margin-top: -0.4em;
-}
-.chat-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  box-shadow: 0 2px 10px 0 #23213333;
-}
-
-/* ---- MODAALI LINGID ---- */
-.login-modal-links {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.1em;
-  gap: 1.5em;
-  font-size: 1.07em;
-}
-.login-modal-links a {
-  color: #a133e1;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.16s;
-}
-.login-modal-links a:hover,
-.login-modal-links a:focus {
-  color: #4851fa;
-}
-.link-small {
-  font-size: 1em;
-  font-weight: 500;
-  opacity: 1;
-}
-
-/* ---- RESPONSIVE ---- */
-@media (max-width: 900px) {
-  .glass-box, .glass-modal, .chatbox-override { max-width: 99vw; padding: 1.1em 0.6em 1.2em 0.6em; }
-  .glass-title { font-size: 1.55em; }
-  .chat-window { max-height: 310px; padding: 1.1em 0.5em 1em 0.7em; }
-  .profile-form-vertical { max-width: 96vw; }
-}
-@media (max-width: 650px) {
-  .glass-box, .glass-modal, .chatbox-override { padding: 0.7em 0.1em 1em 0.1em; font-size: 1rem; }
-  .chat-input { font-size: 1em; padding: 0.7em 0.8em; }
-  .chat-send-btn { font-size: 1em; padding: 0.8em 1.3em; }
-  .profile-input { font-size: 1.07em; }
-  .profile-btn-row { flex-direction: column; gap: 0.8em; }
-  .profile-btn-row button, .profile-order-btn, .profile-delete-btn { max-width: 97vw; }
-}
-
-/* ---- MODAL ANIMATSIOON ---- */
-@keyframes modalSlideIn {
-  from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
-  to { transform: translate(-50%, -50%); opacity: 1; }
 }
 .delete-link {
   display: block;
   color: #b12a2a;
   background: none;
   border: none;
-  font-size: 1em;
+  font-size: 1.12em;
   font-weight: 500;
   text-align: center;
-  margin: 1.9em auto 0 auto;
+  margin: 1em auto 0 auto;     /* VÄIKSEM VAHE! */
   cursor: pointer;
   padding: 0.6em 1.2em;
   transition: color 0.16s;
+    margin-bottom: -0.8em;  
 }
 .delete-link:hover,
 .delete-link:focus {
-  color: #a133e1;
+  color: #ad4b4b;
   text-decoration: none;
+}
+.avatar-image {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* --- ALAPEALKIRJAD / LOETELUD --- */
+.glass-h2 {
+  color: #954dd4;
+  font-weight: 600;
+  font-size: 1.29em;
+  margin: 2.1em 0 0.7em 0;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: baseline;
+  line-height: 1.1;
+}
+
+/* --- MUUD --- */
+.link-small {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 650px) {
+  .chatbox-override { padding: 2em 0.5em; border-radius: 1.2em; }
+  .chat-window { min-height: 130px; max-height: 250px; }
+  .chat-profile { left: 1em; top: 1em; }
+  .three-d-card { width: 98vw; height: 98vw; min-width: 0; min-height: 0; max-width: 430px; max-height: 430px; }
+  .glass-box, .chatbox-override { padding: 1.2em 0.7em 1em 0.7em; }
+  .glass-title { font-size: 1.45em; }
 }

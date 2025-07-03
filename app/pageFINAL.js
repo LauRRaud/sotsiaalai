@@ -5,16 +5,16 @@ import SplashCursor from "@/components/SplashCursor";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 
-// Osakeste taust ainult kliendis
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
   const [fadeInDone, setFadeInDone] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false); // MODALI STATE
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
   useEffect(() => {
+    // Fade-in lõpp peale animatsiooni
     const handle = () => setFadeInDone(true);
     if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", handle);
     if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", handle);
@@ -28,10 +28,10 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Fikseeritud taust (gradient) ainult CSS klassiga */}
+      {/* Tausta gradient */}
       <div className="background-gradient" aria-hidden="true" />
 
-      {/* Osakeste taust */}
+      {/* Osakeste kiht */}
       <Particles
         particleColors={["#4851fa", "#a133e1", "#18181866", "#e2e2e2"]}
         particleCount={170}
@@ -45,23 +45,23 @@ export default function HomePage() {
         className="particles-container"
       />
 
-      {/* Lehe põhisisu */}
       <div className="main-content">
-        {/* Vasak pool */}
+        {/* Vasak kaart */}
         <div className="side left">
-          <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
-            {({ isActive }) => (
-              <div className="three-d-card float-card left">
-                <div className="card-wrapper">
-                  {/* Esikülg */}
-                  <div className="card-face front">
+          <div className="three-d-card float-card left">
+            <div className="card-wrapper">
+              {/* Esikülg – Magnet ainult siin */}
+              <div className="card-face front" style={{ pointerEvents: isLoginOpen ? "none" : "auto" }}>
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
+                  {({ isActive }) => (
                     <div
                       ref={leftCardRef}
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         fadeClass,
-                        fadeInDone && isActive ? "glow-active" : "",
+                        fadeInDone && isActive ? "glow-active" : ""
                       ].join(" ")}
+                      tabIndex={-1}
                     >
                       <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
                       <div className="card-title">
@@ -76,53 +76,51 @@ export default function HomePage() {
                         </div>
                       </div>
                     </div>
+                  )}
+                </Magnet>
+              </div>
+              {/* Tagakülg – ilma Magnetita, ilma JS või style'deta */}
+              <div
+                className="card-face back"
+                tabIndex={0}
+                onClick={() => setIsLoginOpen(true)}
+                onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+              >
+                <div className={[
+                  "glass-card glass-card-light left-card-primary centered-back",
+                  fadeClass,
+                  "glow-static"
+                ].join(" ")}>
+                  <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
+                  <div className="centered-back-outer" />
+                  <div className="card-title back">
+                    <span className="brand-title brand-title-left">Küsi nõu</span>
                   </div>
-                  {/* Tagakülg - KOGU TAGAKÜLG ON KLIKITAV */}
-                  <div
-                    className="card-face back"
-                    onClick={() => setIsLoginOpen(true)}
-                    tabIndex={0}
-                    style={{ cursor: "pointer" }}
-                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
-                  >
-                    <div
-                      className={[
-                        "glass-card glass-card-light left-card-primary centered-back",
-                        fadeClass,
-                        fadeInDone && isActive ? "glow-active" : "",
-                      ].join(" ")}
-                    >
-                      <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
-                      <div className={["centered-back-outer", fadeInDone && isActive ? "glow-active" : ""].join(" ")} />
-                      <div className="card-title back">
-                        <span className="brand-title brand-title-left">Küsi nõu</span>
-                      </div>
-                      <div className="card-note left-back">
-                        Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
-                      </div>
-                    </div>
+                  <div className="card-note left-back">
+                    Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
                 </div>
               </div>
-            )}
-          </Magnet>
+            </div>
+          </div>
         </div>
 
-        {/* Parem pool */}
+        {/* Parem kaart */}
         <div className="side right">
-          <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
-            {({ isActive }) => (
-              <div className="three-d-card float-card right">
-                <div className="card-wrapper">
-                  {/* Esikülg */}
-                  <div className="card-face front">
+          <div className="three-d-card float-card right">
+            <div className="card-wrapper">
+              {/* Esikülg – Magnet ainult siin */}
+              <div className="card-face front" style={{ pointerEvents: isLoginOpen ? "none" : "auto" }}>
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
+                  {({ isActive }) => (
                     <div
                       ref={rightCardRef}
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         fadeClass,
-                        fadeInDone && isActive ? "glow-active" : "",
+                        fadeInDone && isActive ? "glow-active" : ""
                       ].join(" ")}
+                      tabIndex={-1}
                     >
                       <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
                       <div className="card-title">
@@ -137,43 +135,37 @@ export default function HomePage() {
                         </div>
                       </div>
                     </div>
+                  )}
+                </Magnet>
+              </div>
+              {/* Tagakülg – ilma Magnetita, ilma JS või style'deta */}
+              <div
+                className="card-face back"
+                tabIndex={0}
+                onClick={() => setIsLoginOpen(true)}
+                onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
+              >
+                <div className={[
+                  "glass-card glass-card-dark right-card-primary centered-back",
+                  fadeClass,
+                  "glow-static"
+                ].join(" ")}>
+                  <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
+                  <div className="centered-back-outer" />
+                  <div className="card-title back">
+                    <span className="brand-title brand-title-right">Küsi nõu</span>
                   </div>
-                  {/* Tagakülg - KOGU TAGAKÜLG ON KLIKITAV */}
-                  <div
-                    className="card-face back"
-                    onClick={() => setIsLoginOpen(true)}
-                    tabIndex={0}
-                    style={{ cursor: "pointer" }}
-                    onKeyDown={e => (e.key === "Enter" || e.key === " ") && setIsLoginOpen(true)}
-                  >
-                    <div
-                      className={[
-                        "glass-card glass-card-dark right-card-primary centered-back",
-                        fadeClass,
-                        fadeInDone && isActive ? "glow-active" : "",
-                      ].join(" ")}
-                    >
-                      <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
-                      <div className={["centered-back-outer", fadeInDone && isActive ? "glow-active" : ""].join(" ")} />
-                      <div className="card-title back">
-                        <span className="brand-title brand-title-right">Küsi nõu</span>
-                      </div>
-                      <div className="card-note right-back">
-                        Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
-                      </div>
-                    </div>
+                  <div className="card-note right-back">
+                    Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                   </div>
                 </div>
               </div>
-            )}
-          </Magnet>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Sisselogimise modal */}
-      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-
-      {/* Footer */}
+      {/* Jalus */}
       <footer className="footer-row">
         <div className="footer-left">Sotsiaal.AI &copy; 2025</div>
         <div className="footer-right">
@@ -181,8 +173,11 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* SplashCursor kõige ees */}
+      {/* SplashCursor – alati pärast kaarte ja enne modali */}
       <SplashCursor />
+
+      {/* LoginModal – kõige ees */}
+      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
 }

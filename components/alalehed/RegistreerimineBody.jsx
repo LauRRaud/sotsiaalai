@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function RegistreerimineBody({ openLoginModal }) {
   const [form, setForm] = useState({
@@ -39,7 +40,14 @@ export default function RegistreerimineBody({ openLoginModal }) {
         <h1 id="registreeru-title" className="glass-title">
           Loo konto
         </h1>
-        <form className="glass-form" autoComplete="off" onSubmit={handleSubmit}>
+
+        <form
+          className="glass-form"
+          autoComplete="off"
+          onSubmit={handleSubmit}
+          role="form"
+          aria-labelledby="registreeru-title"
+        >
           <label htmlFor="email" className="glass-label">
             E-post
             <input
@@ -144,6 +152,14 @@ export default function RegistreerimineBody({ openLoginModal }) {
             Logi sisse
           </button>
         </div>
+
+        <Link href="/" className="back-link">
+          &larr; Avalehele
+        </Link>
+
+        <footer className="alaleht-footer">
+          Sotsiaal.AI &copy; 2025
+        </footer>
       </div>
     </div>
   );

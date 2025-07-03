@@ -13,10 +13,7 @@ export default function ChatBody() {
   function sendMessage(e) {
     e.preventDefault();
     if (!input.trim()) return;
-    setMessages(msgs => [
-      ...msgs,
-      { role: "user", text: input }
-    ]);
+    setMessages(msgs => [...msgs, { role: "user", text: input }]);
     setInput("");
     setTimeout(() => {
       setMessages(msgs =>
@@ -25,7 +22,6 @@ export default function ChatBody() {
     }, 700);
   }
 
-  // Automaatne kerimine viimase sõnumi juurde
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -33,6 +29,7 @@ export default function ChatBody() {
   return (
     <div className="page-bg-gradient">
       <div className="glass-box chatbox-override" role="main" aria-labelledby="chat-title">
+        {/* Profiili avatar paremas ülanurgas */}
         <div className="chat-profile">
           <Link href="/profiil" aria-label="Ava profiil">
             <img
@@ -61,11 +58,7 @@ export default function ChatBody() {
           <div ref={messagesEndRef} />
         </div>
 
-        <form
-          className="chat-inputbar"
-          onSubmit={sendMessage}
-          autoComplete="off"
-        >
+        <form className="chat-inputbar" onSubmit={sendMessage} autoComplete="off">
           <input
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -83,10 +76,13 @@ export default function ChatBody() {
           </button>
         </form>
 
-        <Link href="/" className="back-link" tabIndex={0}>
-          &larr; Avalehele
-        </Link>
-      </div>
-    </div>
-  );
+ <Link href="/" className="back-link" tabIndex={0}>
+      &larr; Avalehele
+    </Link>
+    <footer className="alaleht-footer">
+      Sotsiaal.AI &copy; 2025
+    </footer>
+  </div> {/* <-- siin lõpeb glass-box */}
+</div>
+);
 }

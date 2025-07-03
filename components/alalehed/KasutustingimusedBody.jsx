@@ -62,7 +62,7 @@ export default function KasutustingimusedBody() {
 
           <h2 className="glass-h2">7. Tingimuste muutmine</h2>
           <p>
-            Platvormi haldajal on õigus kasutustingimusi igal ajal muuta, avaldades uue versiooni Platvormil. Muudatused jõustuvad avaldamise hetkest.
+            Platvormi haldajal on õigus kasutustingimusi igal ajal muuta, avaldades uue versiooni Platvormil.
           </p>
         </section>
 
