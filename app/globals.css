@@ -7,12 +7,13 @@
   width: 100vw;
   height: 100vh;
   z-index: 0;
-  background: linear-gradient(
-    to right,
-    #303136 0%,
-    #434343 46%,
-    #f6f6f6 100%
-  );
+background: linear-gradient(
+  to right,
+  #000000 0%,
+  rgb(45, 45, 45)30%,
+  #808080 60%,
+  #ffffff 100%
+);
   pointer-events: none;
 }
 .particles-container {
@@ -68,7 +69,7 @@ body {
   width: 430px; height: 430px; aspect-ratio: 1/1;
   border-radius: 50%; background: transparent;
   position: relative; display: flex; align-items: center; justify-content: center;
-  margin: 0 auto; z-index: 22; box-sizing: border-box;
+  margin: 0 auto; z-index: 22; box-sizing: border-box; cursor: pointer;
 }
 .card-wrapper {
   width: 100%; height: 100%;
@@ -212,7 +213,7 @@ body {
 }
 .footer-left  { text-align: right;  color: #fffffff0; }
 .footer-right { text-align: left;}
-.footer-link  { color: #e8e8e8f3; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.4rem; }
+.footer-link  { color: #f1f1f1; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.4rem; }
 
 /* --- MODAAL, VORMID, NUPUD --- */
 .glass-modal, .login-modal-box, .modal-confirm {
@@ -654,12 +655,99 @@ a:hover, a:focus,
   font-weight: 600;
 }
 
-/* --- MEDIA QUERIES --- */
+/* --- 750px: TAHVEL --- */
+@media (max-width: 750px) {
+  .main-content {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+  }
+  .side {
+    min-height: auto;
+    padding: 1.5em 0.6em;
+  }
+  .three-d-card {
+    width: 97vw;
+    height: 97vw;
+    min-width: 0;
+    min-height: 0;
+    max-width: 360px;
+    max-height: 360px;
+    margin: 0 auto 2.2em auto;
+  }
+  .glass-card,
+  .glass-card-dark,
+  .centered-back {
+    padding: 1.2em;
+  }
+  .brand-title {
+    font-size: 2.1em;
+    margin-top: 1em;
+    margin-bottom: 0.7em;
+  }
+}
+
+/* --- 650px: TELEFON --- */
 @media (max-width: 650px) {
-  .chatbox-override { padding: 2em 0.5em; border-radius: 1.2em; }
+  .chatbox-override { padding: 1.2em 0.7em 1em 0.7em; border-radius: 1.2em; }
   .chat-window { min-height: 130px; max-height: 250px; }
   .chat-profile { left: 1em; top: 1em; }
-  .three-d-card { width: 98vw; height: 98vw; min-width: 0; min-height: 0; max-width: 430px; max-height: 430px; }
-  .glass-box, .chatbox-override { padding: 1.2em 0.7em 1em 0.7em; }
-  .glass-title { font-size: 1.45em; }
+  .three-d-card { width: 98vw; height: 98vw; max-width: 340px; max-height: 340px; }
+  .glass-title, .alaleht-title { font-size: 1.31em; }
+}
+
+/* --- 540px: VÄIKE TELEFON --- */
+@media (max-width: 540px) {
+  .glass-box,
+  .chatbox-override {
+    padding: 1.1em 0.3em 1.1em 0.3em;
+    max-width: 98vw;
+    border-radius: 1em;
+    font-size: 1.01rem;
+  }
+  .alaleht-footer {
+    font-size: 1.02em;
+    margin-top: 1.1em;
+    margin-bottom: 0.2em;  /* väiksem vahe, üle kirjutab eelmist */
+    position: relative;
+    bottom: 0;
+    width: 100vw;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: none;
+    color: #bcb6d0;
+    z-index: 10;
+  }
+  .glass-title, .alaleht-title {
+    font-size: 1.17em;
+    margin-bottom: 0.7em;
+    margin-top: 0.3em;
+  }
+  .footer-row {
+    padding: 0.23em 0 0.17em 0;
+    font-size: 1.08em;
+  }
+  .login-modal-box, .glass-modal, .modal-confirm {
+    padding: 1.2em 0.6em 1.1em 0.6em;
+    max-width: 95vw;
+    left: 50vw; top: 55vh;
+    border-radius: 1.2em;
+  }
+  .login-modal-close {
+    right: 0.5em;
+    top: 0.5em;
+    font-size: 2em;
+  }
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
 }

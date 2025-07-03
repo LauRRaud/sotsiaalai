@@ -6,8 +6,8 @@
 import { useEffect, useRef } from 'react';
 
 function SplashCursor({
-  SIM_RESOLUTION = 80,
-  DYE_RESOLUTION = 800,
+  SIM_RESOLUTION = 75,
+  DYE_RESOLUTION = 700,
   CAPTURE_RESOLUTION = 256,
   DENSITY_DISSIPATION = 3,
   VELOCITY_DISSIPATION = 2,
