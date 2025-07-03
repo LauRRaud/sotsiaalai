@@ -910,3 +910,63 @@ body.modal-open {
 .three-d-card.flip-allowed:focus-within .card-wrapper {
   transform: rotateY(180deg);
 }
+@media (max-width: 600px) {
+  .main-content {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5em 0 2.2em 0;
+  }
+  .side {
+    min-height: unset;
+    padding: 0.7em 0.2em;
+  }
+  .three-d-card {
+    width: 97vw;
+    max-width: 360px;
+    height: auto;
+    aspect-ratio: unset;
+    border-radius: 1.4em;
+    margin-bottom: 1.4em;
+    box-shadow: 0 4px 22px #00000013;
+    background: #fff;
+  }
+  .card-wrapper {
+    transform: none !important;
+    transition: none !important;
+  }
+  .card-face.front, .card-face.back {
+    position: static;
+    width: 100%; height: auto;
+    min-height: 165px;
+    border-radius: 1.4em;
+    box-shadow: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-face.back {
+    display: none; /* flip ei toimu üldse */
+  }
+  .glass-card {
+    border-radius: 1.4em;
+    min-height: 165px;
+    padding: 1.2em 0.8em;
+  }
+  .brand-title {
+    font-size: 1.3rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .headline-bold, .card-description {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.3em;
+    margin-top: 0.7em;
+  }
+  .mobile-ask-btn {
+    display: block !important;
+    width: 95%;
+    margin-top: 1.1em;
+    font-size: 1.07em;
+    padding: 0.85em 0;
+  }
+}
