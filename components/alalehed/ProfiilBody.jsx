@@ -74,9 +74,9 @@ export default function ProfiilBody() {
           Vaata tellimust
         </button>
 
-        <Link href="/" className="back-link">
-          ← Tagasi avalehele
-        </Link>
+<Link href="/vestlus" className="back-link" tabIndex={0}>
+  &larr; Tagasi vestlusesse
+</Link>
 
         <button
           className="delete-link"

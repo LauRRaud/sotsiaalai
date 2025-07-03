@@ -9,6 +9,8 @@ export default function ChatBody() {
   ]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
+  const chatBoxRef = useRef(null);
 
   function sendMessage(e) {
     e.preventDefault();
@@ -22,14 +24,34 @@ export default function ChatBody() {
     }, 700);
   }
 
+  // Scrollib alla, kui sõnumid muutuvad (vestlus jätkub)
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Pane fookus ainult desktopil JA ainult kui chatbox mahub aknasse (vältimaks scrollimist)
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.innerWidth > 800 &&
+      chatBoxRef.current &&
+      inputRef.current
+    ) {
+      const rect = chatBoxRef.current.getBoundingClientRect();
+      if (rect.bottom <= window.innerHeight) {
+        inputRef.current.focus();
+      }
+    }
+  }, []); // ainult mountimisel
+
   return (
     <div className="page-bg-gradient">
-      <div className="glass-box chatbox-override" role="main" aria-labelledby="chat-title">
-        {/* Profiili avatar paremas ülanurgas */}
+      <div
+        className="glass-box chatbox-override"
+        role="main"
+        aria-labelledby="chat-title"
+        ref={chatBoxRef}
+      >
         <div className="chat-profile">
           <Link href="/profiil" aria-label="Ava profiil">
             <img
@@ -60,10 +82,10 @@ export default function ChatBody() {
 
         <form className="chat-inputbar" onSubmit={sendMessage} autoComplete="off">
           <input
+            ref={inputRef}
             value={input}
             onChange={e => setInput(e.target.value)}
             placeholder="Kirjuta siia oma küsimus..."
-            autoFocus
             className="chat-input"
             onKeyDown={e => {
               if (e.key === "Enter" && !e.shiftKey) {
@@ -76,13 +98,13 @@ export default function ChatBody() {
           </button>
         </form>
 
- <Link href="/" className="back-link" tabIndex={0}>
-      &larr; Avalehele
-    </Link>
-    <footer className="alaleht-footer">
-      Sotsiaal.AI &copy; 2025
-    </footer>
-  </div> {/* <-- siin lõpeb glass-box */}
-</div>
-);
+        <Link href="/" className="back-link" tabIndex={0}>
+          &larr; Avalehele
+        </Link>
+        <footer className="alaleht-footer">
+          Sotsiaal.AI &copy; 2025
+        </footer>
+      </div>
+    </div>
+  );
 }

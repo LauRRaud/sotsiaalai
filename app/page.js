@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
-// ÄRA impordi SplashCursor siia!
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 
@@ -18,13 +17,25 @@ const srOnlyStyles = {
   border: 0,
 };
 
+function isTouchDevice() {
+  if (typeof window === "undefined") return false;
+  return (
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  );
+}
+
 export default function HomePage() {
   const [fadeInDone, setFadeInDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [touchDevice, setTouchDevice] = useState(false);
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
   useEffect(() => {
+    setTouchDevice(isTouchDevice());
+
     const handle = () => setFadeInDone(true);
     if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", handle);
     if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", handle);
@@ -66,9 +77,13 @@ export default function HomePage() {
             }}
           >
             <div className="card-wrapper">
-              {/* Esikülg – Magnet ainult siin */}
+              {/* Esikülg */}
               <div className="card-face front" style={{ pointerEvents: isLoginOpen ? "none" : "auto" }}>
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || touchDevice}
+                >
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
@@ -91,7 +106,7 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                      {/* SR-only ligipääsetav nupp */}
+                      {/* SR-only nupp */}
                       <button
                         style={srOnlyStyles}
                         tabIndex={0}
@@ -103,6 +118,15 @@ export default function HomePage() {
                     </div>
                   )}
                 </Magnet>
+                {/* Mobiilis nähtav nupp */}
+                <button
+                  className="mobile-ask-btn"
+                  onClick={() => setIsLoginOpen(true)}
+                  tabIndex={0}
+                  aria-label="Ava vestlus – küsi nõu"
+                >
+                  Küsi nõu
+                </button>
               </div>
               {/* Tagakülg */}
               <div
@@ -143,9 +167,13 @@ export default function HomePage() {
             }}
           >
             <div className="card-wrapper">
-              {/* Esikülg – Magnet ainult siin */}
+              {/* Esikülg */}
               <div className="card-face front" style={{ pointerEvents: isLoginOpen ? "none" : "auto" }}>
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || touchDevice}
+                >
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
@@ -168,7 +196,7 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                      {/* SR-only ligipääsetav nupp */}
+                      {/* SR-only nupp */}
                       <button
                         style={srOnlyStyles}
                         tabIndex={0}
@@ -180,6 +208,15 @@ export default function HomePage() {
                     </div>
                   )}
                 </Magnet>
+                {/* Mobiilis nähtav nupp */}
+                <button
+                  className="mobile-ask-btn"
+                  onClick={() => setIsLoginOpen(true)}
+                  tabIndex={0}
+                  aria-label="Ava vestlus – küsi nõu"
+                >
+                  Küsi nõu
+                </button>
               </div>
               {/* Tagakülg */}
               <div
@@ -214,8 +251,6 @@ export default function HomePage() {
           <a href="/meist" className="footer-link">Meist</a>
         </div>
       </footer>
-
-      {/* SplashCursor pole siin! */}
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>

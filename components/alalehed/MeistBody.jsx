@@ -61,7 +61,7 @@ export default function MeistBody() {
 
         <div>
           <Link href="/" className="back-link">
-            &larr; Tagasi
+            &larr; Avalehele
           </Link>
         </div>
 
