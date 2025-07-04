@@ -6,17 +6,6 @@ import LoginModal from "@/components/LoginModal";
 
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
-const srOnlyStyles = {
-  position: "absolute",
-  width: "1px",
-  height: "1px",
-  padding: 0,
-  margin: "-1px",
-  overflow: "hidden",
-  clip: "rect(0,0,0,0)",
-  border: 0,
-};
-
 function isTouchDevice() {
   if (typeof window === "undefined") return false;
   return (
@@ -50,8 +39,34 @@ export default function HomePage() {
     };
   }, []);
 
-  const flipAllowed = leftFadeDone && rightFadeDone;
+  // flipClass ainult desktopis (hoveri ja animatsiooniga)
+  const flipAllowed = leftFadeDone && rightFadeDone && !touchDevice;
   const flipClass = flipAllowed ? "flip-allowed" : "";
+
+  // SR-only nupp ainult desktopil!
+  const SrOnlyButton = (
+    <button
+      className="sr-only"
+      tabIndex={0}
+      aria-label="Ava vestlus – küsi nõu"
+      onClick={() => setIsLoginOpen(true)}
+    >
+      Küsi nõu
+    </button>
+  );
+
+  // Mobiilivaate nupp ainult mobiilis!
+  const MobileAskButton = (
+    <button
+      className="mobile-ask-btn"
+      onClick={() => setIsLoginOpen(true)}
+      tabIndex={0}
+      aria-label="Ava vestlus – küsi nõu"
+      disabled={false}
+    >
+      Küsi nõu
+    </button>
+  );
 
   return (
     <>
@@ -73,7 +88,7 @@ export default function HomePage() {
         {/* Vasak kaart */}
         <div className="side left">
           <div
-            className={`three-d-card float-card left ${flipClass}`}
+            className={`three-d-card left ${flipClass}`}
             tabIndex={flipAllowed ? 0 : -1}
             aria-label="SotsiaalAI – Sotsiaaltöö spetsialistile"
             onKeyDown={e => {
@@ -84,7 +99,7 @@ export default function HomePage() {
           >
             <div className="card-wrapper">
               {/* Esikülg */}
-              <div className="card-face front" style={{ pointerEvents: isLoginOpen || !flipAllowed ? "none" : "auto" }}>
+              <div className="card-face front" style={{ pointerEvents: isLoginOpen || (!flipAllowed && !touchDevice) ? "none" : "auto" }}>
                 <Magnet
                   padding={80}
                   magnetStrength={18}
@@ -96,7 +111,7 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         !leftFadeDone ? "fade-in" : "",
-                        leftFadeDone && isActive ? "glow-active" : ""
+                        leftFadeDone && isActive && !touchDevice ? "glow-active" : ""
                       ].join(" ")}
                       tabIndex={-1}
                     >
@@ -112,28 +127,13 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                      {/* SR-only nupp */}
-                      <button
-                        style={srOnlyStyles}
-                        tabIndex={0}
-                        aria-label="Ava vestlus – küsi nõu"
-                        onClick={() => setIsLoginOpen(true)}
-                      >
-                        Küsi nõu
-                      </button>
+                      {/* Ainult desktopil SR-only nupp */}
+                      {!touchDevice && SrOnlyButton}
                     </div>
                   )}
                 </Magnet>
-                {/* Mobiilis nähtav nupp */}
-                <button
-                  className="mobile-ask-btn"
-                  onClick={() => setIsLoginOpen(true)}
-                  tabIndex={0}
-                  aria-label="Ava vestlus – küsi nõu"
-                  disabled={!flipAllowed}
-                >
-                  Küsi nõu
-                </button>
+                {/* Ainult mobiilis nähtav nupp */}
+                {touchDevice && MobileAskButton}
               </div>
               {/* Tagakülg */}
               <div
@@ -165,7 +165,7 @@ export default function HomePage() {
         {/* Parem kaart */}
         <div className="side right">
           <div
-            className={`three-d-card float-card right ${flipClass}`}
+            className={`three-d-card right ${flipClass}`}
             tabIndex={flipAllowed ? 0 : -1}
             aria-label="SotsiaalA<B>I – Eluküsimusega pöördujale"
             onKeyDown={e => {
@@ -176,7 +176,7 @@ export default function HomePage() {
           >
             <div className="card-wrapper">
               {/* Esikülg */}
-              <div className="card-face front" style={{ pointerEvents: isLoginOpen || !flipAllowed ? "none" : "auto" }}>
+              <div className="card-face front" style={{ pointerEvents: isLoginOpen || (!flipAllowed && !touchDevice) ? "none" : "auto" }}>
                 <Magnet
                   padding={80}
                   magnetStrength={18}
@@ -188,7 +188,7 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         !rightFadeDone ? "fade-in" : "",
-                        rightFadeDone && isActive ? "glow-active" : ""
+                        rightFadeDone && isActive && !touchDevice ? "glow-active" : ""
                       ].join(" ")}
                       tabIndex={-1}
                     >
@@ -204,28 +204,13 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                      {/* SR-only nupp */}
-                      <button
-                        style={srOnlyStyles}
-                        tabIndex={0}
-                        aria-label="Ava vestlus – küsi nõu"
-                        onClick={() => setIsLoginOpen(true)}
-                      >
-                        Küsi nõu
-                      </button>
+                      {/* Ainult desktopil SR-only nupp */}
+                      {!touchDevice && SrOnlyButton}
                     </div>
                   )}
                 </Magnet>
-                {/* Mobiilis nähtav nupp */}
-                <button
-                  className="mobile-ask-btn"
-                  onClick={() => setIsLoginOpen(true)}
-                  tabIndex={0}
-                  aria-label="Ava vestlus – küsi nõu"
-                  disabled={!flipAllowed}
-                >
-                  Küsi nõu
-                </button>
+                {/* Ainult mobiilis nähtav nupp */}
+                {touchDevice && MobileAskButton}
               </div>
               {/* Tagakülg */}
               <div
