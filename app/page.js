@@ -33,7 +33,18 @@ export default function HomePage() {
   return (
     <>
       <div className="background-gradient" aria-hidden="true" />
-      <Particles className="particles-container" />
+      <Particles
+        className="particles-container"
+        particleColors={["#4851fa", "#a133e1", "#18181866", "#e2e2e2"]}
+        particleCount={170}
+        particleSpread={25}
+        speed={0.04}
+        particleBaseSize={700}
+        sizeRandomness={0.9}
+        alphaParticles={true}
+        moveParticlesOnHover={false}
+        disableRotation={false}
+      />
 
       <div className="main-content">
         {/* Vasak kaart */}
@@ -41,7 +52,11 @@ export default function HomePage() {
           <div className={`three-d-card float-card left ${flipClass}`}>
             <div className="card-wrapper">
               <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || !flipAllowed}
+                >
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
@@ -59,17 +74,18 @@ export default function HomePage() {
                         <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
                         <span className="card-description">Info, seadused ja nõuanded.</span>
                       </div>
-                      {/* NUPPU EI OLE */}
                     </div>
                   )}
                 </Magnet>
               </div>
               {/* Tagakülg */}
-              <div className="card-face back"
-                   tabIndex={0}
-                   onClick={() => flipAllowed && setIsLoginOpen(true)}
-                   onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
-                   style={!flipAllowed ? { pointerEvents: "none" } : {}}>
+              <div
+                className="card-face back"
+                tabIndex={0}
+                onClick={() => flipAllowed && setIsLoginOpen(true)}
+                onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
+                style={!flipAllowed ? { pointerEvents: "none" } : {}}
+              >
                 <div className={[
                   "glass-card glass-card-light left-card-primary centered-back",
                   !leftFadeDone ? "fade-in" : "",
@@ -83,6 +99,7 @@ export default function HomePage() {
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
+                  {/* NUPPU EI OLE */}
                 </div>
               </div>
             </div>
@@ -94,7 +111,11 @@ export default function HomePage() {
           <div className={`three-d-card float-card right ${flipClass}`}>
             <div className="card-wrapper">
               <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || !flipAllowed}
+                >
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
@@ -112,17 +133,18 @@ export default function HomePage() {
                         <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
                         <span className="card-description">Õigused, võimalused ja tugi.</span>
                       </div>
-                      {/* NUPPU EI OLE */}
                     </div>
                   )}
                 </Magnet>
               </div>
               {/* Tagakülg */}
-              <div className="card-face back"
-                   tabIndex={0}
-                   onClick={() => flipAllowed && setIsLoginOpen(true)}
-                   onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
-                   style={!flipAllowed ? { pointerEvents: "none" } : {}}>
+              <div
+                className="card-face back"
+                tabIndex={0}
+                onClick={() => flipAllowed && setIsLoginOpen(true)}
+                onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
+                style={!flipAllowed ? { pointerEvents: "none" } : {}}
+              >
                 <div className={[
                   "glass-card glass-card-dark right-card-primary centered-back",
                   !rightFadeDone ? "fade-in" : "",
@@ -136,6 +158,7 @@ export default function HomePage() {
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                   </div>
+                  {/* NUPPU EI OLE */}
                 </div>
               </div>
             </div>

@@ -226,12 +226,11 @@ body {
 
 /* MODAAL, VORMID, NUPUD */
 .glass-modal, .login-modal-box, .modal-confirm {
-  background: rgba(25,25,25,0.92);
+  background: rgba(25, 25, 25, 0.92);
   border-radius: 1.5em;
   color: #e6e6ec;
-  width: auto;              /* OLULINE MUUDATUS */
-  max-width: 420px;
-  max-width: 98vw;          /* OLULINE MUUDATUS */
+  width: auto;
+  max-width: 98vw;            /* Mugavam modaal mobiilis ja väiksematel ekraanidel */
   margin: 0 auto;
   font-size: 1.13rem;
   display: flex;
@@ -243,11 +242,11 @@ body {
   transform: translate(-50%, -50%);
   z-index: 100;
   padding: 2.4em 2.2em 2em 2.2em;
-  overflow-y: auto;
-  box-sizing: border-box;   /* OLULINE MUUDATUS */
-  animation: modalSlideIn 0.4s;
   padding-bottom: calc(2em + env(safe-area-inset-bottom, 0px));
-  overflow-x: hidden;       /* Lisa see, kui tõesti kerib! */
+  overflow-y: auto;
+  overflow-x: hidden;         /* Kui laiusest üle läheb, ära lase horisontaalset kerimist */
+  box-sizing: border-box;
+  animation: modalSlideIn 0.4s;
 }
 @keyframes modalSlideIn {
   from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
