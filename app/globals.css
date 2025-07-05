@@ -1,34 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
-/* --- TAUST, PARTIKLID, PÕHI --- */
-.background-gradient {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-background: linear-gradient(
-  to right,
-  #000000 0%,
-  rgb(45, 45, 45) 30%, 
-  #808080 60%,
-  #ffffff 100%
-);
-  pointer-events: none;
-}
-.particles-container {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: 1; pointer-events: none;
-}
-.splash-cursor {
-  position: fixed !important; left: 0; top: 0; width: 100vw; height: 100vh;
-  pointer-events: none; z-index: 80
+
+html {
+  background: linear-gradient(
+    to right,
+    #000000 0%,
+    rgb(45, 45, 45) 30%, 
+    #808080 60%,
+    #ffffff 100%
+  ) fixed; /* 'fixed' keeps the background from scrolling */
+
 }
 html, body {
   min-height: 100vh;
-  height: auto;         /* Ära pane height: 100%! */
+  height: auto;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -38,16 +23,14 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
-  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
 }
 body {
-  /* ÄRA pane min-height või height uuesti üle! */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
   overflow-x: hidden;
-  /* Taust jääb HTML peale, ei sega midagi */
+  background: transparent;
 }
 /* --- PÕHISISU, LAYOUT --- */
 .main-content {
@@ -56,7 +39,6 @@ body {
   position: relative;
   flex: 1 0 auto;
   box-sizing: border-box;
-  z-index: 2;
 }
 .side {
   flex: 1 1 0;
@@ -103,17 +85,29 @@ body {
 .three-d-card.right .card-face.back { transform: rotateY(-180deg); }
 
 .glass-card {
-  width: 100%; height: 100%; aspect-ratio: 1/1;
-  border-radius: 50%; margin: 0 auto;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  box-sizing: border-box; padding: 2em; background-clip: padding-box;
-  overflow: hidden; border: none;
-  background: linear-gradient(180deg, #f5f5f5 0%, #e2e2e2d8 100%);
-  opacity: 1;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2em;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.667); /* A subtle border helps definition */
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px); /* For Safari */
 }
+
+.glass-card-light {
+  background: rgba(238, 242, 245, 0.059); /* A light, glassy tint */
+}
+
 .glass-card-dark {
-  background: linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%);
-  border: none;
+  background: rgba(30, 23, 50, 0.119); /* A dark, glassy tint */
 }
 
 /* --- KAARDI TAGAKÜLG --- */
@@ -124,8 +118,7 @@ body {
   box-sizing: border-box; padding: 2em; background-clip: padding-box;
   overflow: hidden; position: relative;
 }
-.centered-back.left-back  { background: linear-gradient(180deg, #fff 0%, #fff 100%); }
-.centered-back.right-back { background: linear-gradient(180deg, #1a1a1ccb 0%, #0e0e0ef6 100%); }
+
 .centered-back-outer {
   width: 100%; height: 100%; left: 0; top: 0;
   position: absolute; border-radius: 50%; z-index: 2;
@@ -150,9 +143,9 @@ body {
   100% { transform: translateY(0px);}
 }
 @keyframes cardFadeIn {
-  0% { opacity: 0; transform: scale(0.85); filter: blur(14px);}
+  0% { opacity: 0; transform: scale(0.85);}
   80% { opacity: 1; filter: blur(1.2px);}
-  100% { opacity: 1; transform: scale(1); filter: blur(0px);}
+  100% { opacity: 1; transform: scale(1);}
 }
 .glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
 .glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
@@ -226,11 +219,12 @@ body {
 
 /* MODAAL, VORMID, NUPUD */
 .glass-modal, .login-modal-box, .modal-confirm {
-  background: rgba(25, 25, 25, 0.92);
+  background: rgba(25,25,25,0.92);
   border-radius: 1.5em;
   color: #e6e6ec;
-  width: auto;
-  max-width: 98vw;            /* Mugavam modaal mobiilis ja väiksematel ekraanidel */
+  width: auto;              /* OLULINE MUUDATUS */
+  max-width: 420px;
+  max-width: 98vw;          /* OLULINE MUUDATUS */
   margin: 0 auto;
   font-size: 1.13rem;
   display: flex;
@@ -242,11 +236,11 @@ body {
   transform: translate(-50%, -50%);
   z-index: 100;
   padding: 2.4em 2.2em 2em 2.2em;
-  padding-bottom: calc(2em + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
-  overflow-x: hidden;         /* Kui laiusest üle läheb, ära lase horisontaalset kerimist */
-  box-sizing: border-box;
+  box-sizing: border-box;   /* OLULINE MUUDATUS */
   animation: modalSlideIn 0.4s;
+  padding-bottom: calc(2em + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;       /* Lisa see, kui tõesti kerib! */
 }
 @keyframes modalSlideIn {
   from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
@@ -786,6 +780,40 @@ a:hover, a:focus,
   font-size: 1em;
   font-weight: 600;
 }
+/* --- MOBILE ASK BUTTON --- */
+.mobile-ask-btn {
+  display: none;
+  width: 90%;
+  margin: 1.1em auto 0 auto;
+  background: linear-gradient(90deg, #a133e1d4, #4851fac9 100%);
+  color: #fff;
+  font-size: 1.14em;
+  font-weight: 600;
+  border: none;
+  border-radius: 1.2em;
+  padding: 0.86em 0;
+  box-shadow: 0 2px 12px 0 rgba(88,62,187,0.11);
+  text-align: center;
+  transition: background 0.17s, color 0.13s;
+}
+.mobile-ask-btn:active,
+.mobile-ask-btn:focus {
+  background: linear-gradient(90deg, #4851fae2, #a133e1db 100%);
+  color: #fff;
+}
+
+/* --- SR-ONLY / ekraanilugeja jaoks peitmine --- */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
 /* --- MODAL OPEN (body scroll disable) --- */
 body.modal-open {
   overflow: hidden !important;
@@ -866,7 +894,7 @@ body.modal-open {
   width: 100%; /* täidab selle ala */
   box-sizing: border-box;
   }
-  .three-d-card:not(.flip-allowed):hover .card-wrapper,
+.three-d-card:not(.flip-allowed):hover .card-wrapper,
 .three-d-card:not(.flip-allowed):focus-within .card-wrapper {
   /* Ära pööra */
   transform: none !important;

@@ -32,20 +32,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="background-gradient" aria-hidden="true" />
-      <Particles
-        className="particles-container"
-        particleColors={["#4851fa", "#a133e1", "#18181866", "#e2e2e2"]}
-        particleCount={170}
-        particleSpread={25}
-        speed={0.04}
-        particleBaseSize={700}
-        sizeRandomness={0.9}
-        alphaParticles={true}
-        moveParticlesOnHover={false}
-        disableRotation={false}
-      />
-
+<Particles className="particles-container" />
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -99,7 +86,6 @@ export default function HomePage() {
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
-                  {/* NUPPU EI OLE */}
                 </div>
               </div>
             </div>
@@ -158,7 +144,6 @@ export default function HomePage() {
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                   </div>
-                  {/* NUPPU EI OLE */}
                 </div>
               </div>
             </div>

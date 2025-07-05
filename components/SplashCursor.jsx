@@ -1,6 +1,3 @@
-/*
-	Installed from https://reactbits.dev/default/
-*/
 
 'use client';
 import { useEffect, useRef } from 'react';
@@ -1190,7 +1187,7 @@ function SplashCursor({
         position: 'fixed',
         top: 0,
         left: 0,
-        zIndex: 50,
+        zIndex: 3,
         pointerEvents: 'none',
         width: '100%',
         height: '100%',

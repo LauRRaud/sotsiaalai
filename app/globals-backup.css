@@ -24,11 +24,11 @@ background: linear-gradient(
 }
 .splash-cursor {
   position: fixed !important; left: 0; top: 0; width: 100vw; height: 100vh;
-  pointer-events: none; z-index: 80
+  pointer-events: none; z-index: 5
 }
 html, body {
   min-height: 100vh;
-  height: auto;         /* Ära pane height: 100%! */
+  height: auto;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -38,16 +38,14 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
-  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
 }
 body {
-  /* ÄRA pane min-height või height uuesti üle! */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
   overflow-x: hidden;
-  /* Taust jääb HTML peale, ei sega midagi */
+  background: transparent;
 }
 /* --- PÕHISISU, LAYOUT --- */
 .main-content {

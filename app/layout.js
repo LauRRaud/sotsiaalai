@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import SplashCursor from "@/components/SplashCursor";
 import "./globals.css";
+import dynamic from "next/dynamic";
+
+const SplashCursor = dynamic(() => import("@/components/SplashCursor"), { ssr: false });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,21 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export default function RootLayout({ children }) {
-  const [showCursor, setShowCursor] = useState(false);
-
-  useEffect(() => {
-    // Ainult desktopil näita SplashCursorit
-    const isTouchDevice =
-      "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0 ||
-      navigator.msMaxTouchPoints > 0;
-    setShowCursor(!isTouchDevice);
-  }, []);
-
   return (
     <html lang="et">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {showCursor && <SplashCursor />}
+        <SplashCursor />
         {children}
       </body>
     </html>
