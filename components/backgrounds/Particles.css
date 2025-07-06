@@ -5,6 +5,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1; /* This places it above the html background (z-index: 0) */
+  z-index: -1; /* This places it above the html background (z-index: 0) */
   pointer-events: none;
 }
