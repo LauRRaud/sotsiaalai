@@ -124,10 +124,11 @@ body {
 .glass-card,
 .centered-back-left {
   background: rgba(251, 251, 251, 0.895);
-  }
+}
 .glass-card-dark,
 .centered-back-right {
   background: rgba(0, 0, 0, 0.7);
+  border: 3px solid #3d3a37;  /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
@@ -164,22 +165,17 @@ body {
 .float-card {
   animation: float-vertical 6.7s ease-in-out 0s infinite;
 }
-@keyframes float-vertical {
-  0%   { transform: translateY(0px);}
-  50%  { transform: translateY(-13px);}
-  100% { transform: translateY(0px);}
-}
 @keyframes cardFadeIn {
-  0% { opacity: 0; transform: scale(0.85); filter: blur(14px);}
-  80% { opacity: 1; filter: blur(1.2px);}
-  100% { opacity: 1; transform: scale(1); filter: blur(0px);}
+  0%   { opacity: 0; transform: scale(0.85); }
+  80%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); }
 }
 .glass-card.fade-in { opacity: 0; animation: cardFadeIn 2s cubic-bezier(.61,0,.19,1) 0.5s forwards; }
 .glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
 
 /* --- LOGOD KAARDIL --- */
 .card-logo-bg         { position: absolute; top: 50%; left: 50%; opacity: 0.05; z-index: 2; user-select: none; }
-.card-logo-bg-left    { width: 53%; opacity: 0.08; transform: translate(-50%, -50%);}
+.card-logo-bg-left    { width: 53%; opacity: 0.35; transform: translate(-50%, -50%);}
 .card-logo-bg-right   { width: 65%; opacity: 0.05; transform: translate(-55%, -50%);}
 .card-logo-bg-left-back  { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.8;}
 .card-logo-bg-right-back { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.8;}
@@ -194,13 +190,13 @@ body {
   text-align: center; margin-top: 3rem; margin-bottom: 1.5rem;
 }
 .brand-title-left {
-  color: #b08d57;  /* tumedam kuldne */
+  color: #bfa177;  /* tumedam kuldne */
   font-weight: 800;
   z-index: 3;
 }
 
 .brand-title-right {
-  color: #b08d57; /* heledam kuldne */
+  color: #bfa177; /* heledam kuldne */
   font-weight: 800;
   z-index: 3;
 }

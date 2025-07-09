@@ -90,7 +90,7 @@ particleColors = [
   "#fff9f3", // peaaegu valge
   "#b4a199", // taupe-hallikas
   "#f2f2f2",
-  "#2a2016",
+    "#32281c", // lisatud mustjas tume taupe
   "#ae9880"  // veidi tumedam, neutraalne beež
 ],
   moveParticlesOnHover = false,            
