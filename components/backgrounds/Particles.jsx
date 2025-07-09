@@ -84,7 +84,15 @@ const Particles = ({
   particleCount = 170,                
   particleSpread = 25,                   
   speed = 0.04,                          
-  particleColors = ["#4851fa", "#a133e1", "#18181866", "#e2e2e2"],
+particleColors = [
+  "#e2d1c3", // šampanja / glass-box taust
+  "#f4e8db", // hele beež
+  "#fff9f3", // peaaegu valge
+  "#b4a199", // taupe-hallikas
+  "#f2f2f2",
+  "#2a2016",
+  "#ae9880"  // veidi tumedam, neutraalne beež
+],
   moveParticlesOnHover = false,            
   particleHoverFactor = 1,               
   alphaParticles = true,        

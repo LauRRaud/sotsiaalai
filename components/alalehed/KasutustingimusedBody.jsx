@@ -1,8 +1,9 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function KasutustingimusedBody() {
+    const router = useRouter();
   return (
     <div className="page-bg-gradient">
       <div className="glass-box" role="main" aria-labelledby="kasutustingimused-title">
@@ -66,9 +67,16 @@ export default function KasutustingimusedBody() {
           </p>
         </section>
 
-        <div>
-          <Link href="/meist" className="back-link">&larr; Tagasi</Link>
-        </div>
+<div className="back-btn-wrapper">
+  <button
+    type="button"
+    className="back-arrow-btn"
+    onClick={() => router.push("/meist")}
+    aria-label="Tagasi Meist lehele"
+  >
+    <span className="back-arrow-circle"></span>
+  </button>
+</div>
 
         <footer className="alaleht-footer">
           Sotsiaal.AI &copy; 2025

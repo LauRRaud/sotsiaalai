@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function RegistreerimineBody({ openLoginModal }) {
+  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -41,7 +42,6 @@ export default function RegistreerimineBody({ openLoginModal }) {
           <h1 className="glass-title">Loo konto</h1>
           <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
             <label htmlFor="email" className="glass-label">
-              E-post
               <input
                 type="email"
                 id="email"
@@ -55,7 +55,6 @@ export default function RegistreerimineBody({ openLoginModal }) {
               />
             </label>
             <label htmlFor="password" className="glass-label">
-              Parool
               <input
                 type="password"
                 id="password"
@@ -101,28 +100,30 @@ export default function RegistreerimineBody({ openLoginModal }) {
                 onChange={handleChange}
                 required
               />
-              <span className="text-muted">Nõustun&nbsp;</span>
-              <a
-                href="/kasutustingimused"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-brand"
-              >
-                kasutajatingimustega
-              </a>
-              <span className="text-muted">&nbsp;ja&nbsp;</span>
-              <a
-                href="/privaatsustingimused"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-brand"
-                style={{ whiteSpace: "nowrap" }}
-              >
-                privaatsuspoliitikaga
-              </a>
+              <span>
+                Nõustun{" "}
+                <a
+                  href="/kasutustingimused"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-brand"
+                >
+                  kasutajatingimustega
+                </a>
+                {" ja "}
+                <a
+                  href="/privaatsustingimused"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-brand"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  privaatsuspoliitikaga
+                </a>
+              </span>
             </label>
-            <button className="btn-primary" type="submit">
-              Registreeru
+            <button className="btn-primary">
+              <span>Registreeru</span>
             </button>
           </form>
           <div className="glass-bottom-link">
@@ -138,9 +139,19 @@ export default function RegistreerimineBody({ openLoginModal }) {
               Logi sisse
             </a>
           </div>
-          <Link href="/" className="back-link">
-            &larr; Avalehele
-          </Link>
+
+          {/* Tagasi avalehele noole-nupp */}
+          <div className="back-btn-wrapper">
+            <button
+              type="button"
+              className="back-arrow-btn"
+              onClick={() => router.push("/")}
+              aria-label="Tagasi avalehele"
+            >
+              <span className="back-arrow-circle"></span>
+            </button>
+          </div>
+
           <footer className="alaleht-footer">
             Sotsiaal.AI &copy; 2025
           </footer>

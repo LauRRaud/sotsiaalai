@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -9,15 +7,9 @@ export default function LoginModal({ open, onClose }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (open && boxRef.current) {
-      boxRef.current.focus();
-    }
-    // Body scroll disable kui modal avatud (soovi korral)
-    if (open) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
+    if (open && boxRef.current) boxRef.current.focus();
+    if (open) document.body.classList.add("modal-open");
+    else document.body.classList.remove("modal-open");
     return () => document.body.classList.remove("modal-open");
   }, [open]);
 
@@ -62,12 +54,10 @@ export default function LoginModal({ open, onClose }) {
             alert("Palun sisesta parool.");
             return;
           }
-
           router.push("/vestlus");
         }}
       >
         <label>
-          E-post
           <input
             className="input-modern"
             type="email"
@@ -77,27 +67,36 @@ export default function LoginModal({ open, onClose }) {
             tabIndex={open ? 0 : -1}
           />
         </label>
-        <label>
-          Parool
-          <input
-            className="input-modern"
-            type="password"
-            name="password"
-            placeholder="Sisesta parool"
-            autoComplete="current-password"
+        <div className="login-password-field">
+          <label>
+            <input
+              className="input-modern"
+              type="password"
+              name="password"
+              placeholder="Sisesta parool"
+              autoComplete="current-password"
+              tabIndex={open ? 0 : -1}
+            />
+          </label>
+          <Link
+            href="/unustasin-parooli"
             tabIndex={open ? 0 : -1}
-          />
-        </label>
+            className="unustasid-parooli-link"
+          >
+            Unustasid parooli?
+          </Link>
+        </div>
         <button type="submit" className="btn-primary" tabIndex={open ? 0 : -1}>
-          Sisenen
+          <span>Sisenen</span>
         </button>
       </form>
-      <div className="login-modal-links">
-        <Link href="/registreerimine" tabIndex={open ? 0 : -1} className="link-brand">
+      <div className="login-modal-bottom-link">
+        <Link
+          href="/registreerimine"
+          tabIndex={open ? 0 : -1}
+          className="link-brand"
+        >
           Registreeru
-        </Link>
-        <Link href="/unustasin-parooli" tabIndex={open ? 0 : -1} className="link-brand">
-          Unustasid parooli?
         </Link>
       </div>
     </div>

@@ -32,7 +32,7 @@ export default function HomePage() {
 
   return (
     <>
-<Particles className="particles-container" />
+      <Particles className="particles-container" />
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -53,7 +53,7 @@ export default function HomePage() {
                         leftFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                     >
-                      <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
+                      {/* KÕIK TEKSTID ENNE */}
                       <div className="card-title">
                         <span className="brand-title brand-title-left">SotsiaalAI</span>
                       </div>
@@ -61,6 +61,8 @@ export default function HomePage() {
                         <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
                         <span className="card-description">Info, seadused ja nõuanded.</span>
                       </div>
+                      {/* LOGO VIIMASENA */}
+                      <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
                     </div>
                   )}
                 </Magnet>
@@ -74,18 +76,20 @@ export default function HomePage() {
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={[
-                  "glass-card glass-card-light left-card-primary centered-back",
+                  "centered-back-left",
                   !leftFadeDone ? "fade-in" : "",
                   "glow-static"
                 ].join(" ")}>
-                  <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
-                  <div className="centered-back-outer" />
+                  {/* Tekstid kõige ees ka tagaküljel */}
                   <div className="card-title back">
                     <span className="brand-title brand-title-left">Küsi nõu</span>
                   </div>
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
+                  {/* Logo VIIMASENA */}
+                  <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
+                  <div className="centered-back-outer" />
                 </div>
               </div>
             </div>
@@ -111,7 +115,7 @@ export default function HomePage() {
                         rightFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                     >
-                      <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
+                      {/* KÕIK TEKSTID ENNE */}
                       <div className="card-title">
                         <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
                       </div>
@@ -119,6 +123,8 @@ export default function HomePage() {
                         <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
                         <span className="card-description">Õigused, võimalused ja tugi.</span>
                       </div>
+                      {/* LOGO VIIMASENA */}
+                      <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
                     </div>
                   )}
                 </Magnet>
@@ -132,18 +138,20 @@ export default function HomePage() {
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={[
-                  "glass-card glass-card-dark right-card-primary centered-back",
+                  "centered-back-right",
                   !rightFadeDone ? "fade-in" : "",
                   "glow-static"
                 ].join(" ")}>
-                  <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
-                  <div className="centered-back-outer" />
+                  {/* Tekstid kõige ees ka tagaküljel */}
                   <div className="card-title back">
                     <span className="brand-title brand-title-right">Küsi nõu</span>
                   </div>
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                   </div>
+                  {/* Logo VIIMASENA */}
+                  <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
+                  <div className="centered-back-outer" />
                 </div>
               </div>
             </div>

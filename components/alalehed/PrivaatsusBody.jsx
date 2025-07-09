@@ -1,8 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function PrivaatsusBody() {
+  const router = useRouter();
+
   return (
     <div className="page-bg-gradient">
       <div className="glass-box" role="main" aria-labelledby="privacy-title">
@@ -51,9 +53,16 @@ export default function PrivaatsusBody() {
           <h2 className="glass-h2">11. Tingimuste muudatused</h2>
           <p>11.1 Platvormi haldaja võib privaatsustingimusi ajakohastada. Olulistest muudatustest teavitatakse kasutajaid mõistliku aja jooksul.</p>
         </section>
-        <div>
-          <Link href="/meist" className="back-link">&larr; Tagasi</Link>
-        </div>
+<div className="back-btn-wrapper">
+  <button
+    type="button"
+    className="back-arrow-btn"
+    onClick={() => router.push("/meist")}
+    aria-label="Tagasi Meist lehele"
+  >
+    <span className="back-arrow-circle"></span>
+  </button>
+</div>
         <footer className="alaleht-footer">
           Sotsiaal.AI &copy; 2025
         </footer>

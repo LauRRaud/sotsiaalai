@@ -59,11 +59,11 @@ export default function MeistBody() {
           </ul>
         </section>
 
-        <div>
-          <Link href="/" className="back-link">
-            &larr; Avalehele
-          </Link>
-        </div>
+<div className="back-btn-wrapper">
+  <Link href="/" className="back-arrow-btn" aria-label="Tagasi avalehele">
+    <span className="back-arrow-circle"></span>
+  </Link>
+</div>
 
         <footer className="alaleht-footer">
           Sotsiaal.AI &copy; 2025
