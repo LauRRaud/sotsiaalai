@@ -672,7 +672,7 @@ a, .link-brand {
   box-shadow: 0 2px 12px 0 #e2d1c385;
 }
 .chat-msg-ai {
-  background: linear-gradient(93deg, #e4dac7 85%, #e8d8bc 100%);
+  background: linear-gradient(93deg, #e4d6c7 85%, #ead3b8 100%);
   color: #27201a;
   align-self: flex-start;
   border-radius: 1.2em 1.2em 1.2em 0.28em;
