@@ -31,11 +31,9 @@ export default function ProfiilBody() {
           Minu profiil
         </h1>
 
-        <form onSubmit={handleSave} className="glass-form profile-form-vertical">
-          <label className="glass-label" style={{ marginTop: 0 }}>Roll</label>
-          <div className="input-modern static" style={{ marginBottom: "1.1em" }}>
-            {userRole}
-          </div>
+<form onSubmit={handleSave} className="glass-form profile-form-vertical">
+  <label className="glass-label">Roll</label>
+  <div className="input-modern static profile-role-input">{userRole}</div>
           <label htmlFor="email" className="glass-label">E-post</label>
           <input
             className="input-modern"
@@ -46,7 +44,7 @@ export default function ProfiilBody() {
             onChange={e => setEmail(e.target.value)}
             required
           />
-          <label htmlFor="password" className="glass-label">Uus parool (soovi korral)</label>
+          <label htmlFor="password" className="glass-label">Uus parool (soovil)</label>
           <input
             className="input-modern"
             type="password"

@@ -126,19 +126,19 @@ export default function RegistreerimineBody({ openLoginModal }) {
               <span>Registreeru</span>
             </button>
           </form>
-          <div className="glass-bottom-link">
-            Mul on juba konto?{" "}
-            <a
-              href="#"
-              className="link-brand"
-              onClick={(e) => {
-                e.preventDefault();
-                openLoginModal();
-              }}
-            >
-              Logi sisse
-            </a>
-          </div>
+<div className="glass-bottom-link">
+  <span className="midtext">Mul on juba konto?</span>{" "}
+  <a
+    href="#"
+    className="link-brand"
+    onClick={(e) => {
+      e.preventDefault();
+      openLoginModal();
+    }}
+  >
+    Logi sisse
+  </a>
+</div>
 
           {/* Tagasi avalehele noole-nupp */}
           <div className="back-btn-wrapper">

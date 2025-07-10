@@ -84,14 +84,14 @@ export default function ChatBody() {
             <div ref={messagesEndRef} />
           </div>
           <form className="chat-inputbar" onSubmit={isGenerating ? handleStop : sendMessage} autoComplete="off">
-<input
-  ref={inputRef}
-  value={input}
-  onChange={e => setInput(e.target.value)}
-  placeholder="Kirjuta siia oma küsimus..."
-  className="input-modern"
-  disabled={isGenerating}
-/>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="Kirjuta siia oma küsimus..."
+              className="chat-input-field"
+              disabled={isGenerating}
+            />
             <button
               type="submit"
               className={`chat-send-btn${isGenerating ? " stop" : ""}`}
