@@ -4,7 +4,7 @@ html {
   background: linear-gradient(
     90deg,
 #000000,
-#383838
+#7a7a7a
   ) fixed;
 }
 .particles-container {
@@ -127,7 +127,7 @@ body {
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.75);
   border: 3px solid #3d3a37;  /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
@@ -196,7 +196,7 @@ body {
   font-size: 2.9rem;
   letter-spacing: 0.04em;
   text-align: center;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
   margin-bottom: 1.5rem;
 }
 
@@ -238,7 +238,7 @@ body {
 .card-note { font-size: 1.41rem; opacity: 1; color: inherit;}
 .card-note.left-back { color: #000000db;font-size: 1.48rem; font-weight: 600;letter-spacing: 0.02em;}
 .card-note.right-back { color: #f5f5f5db;font-size: 1.5rem; font-weight: 400;letter-spacing: 0.02em;}
-.card-title.back { margin-top: -4em; margin-bottom:1em; justify-content: center; align-items: center; }
+.card-title.back { margin-top: -5em; margin-bottom:1em; justify-content: center; align-items: center; }
 
 /* --- JALUS --- */
 .footer-row {
@@ -255,7 +255,7 @@ body {
 }
 .footer-left  { text-align: right;  color: #ffffffe6; letter-spacing: 0.05em;}
 .footer-right { text-align: left;}
-.footer-link  { color: #ffffffe6; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; font-size: 1.5rem; }
+.footer-link  { color: #ffffffe6; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; font-size: 1.5rem; }
 .footer-link:hover,
 .footer-link:focus {
   color: #e3d2ab;
@@ -271,7 +271,7 @@ body {
   max-width: 410px;   /* ← Muuda nt 410px või 420px. 500px on liiga lai! */
   min-width: 320px;
   margin: 0 auto;
-  font-size: 1.13rem;
+  font-size: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 1.15em;
@@ -582,7 +582,7 @@ a, .link-brand {
   align-items: center;
   gap: 0.7em;
   width: 100%;
-  margin-bottom: 2em;
+  margin-bottom: 3.5em;
 }
 
 /* Chat input – profiili lahtri stiilidega */
