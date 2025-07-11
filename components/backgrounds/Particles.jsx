@@ -81,26 +81,23 @@ const fragment = /* glsl */ `
 `;
 
 const Particles = ({
-  particleCount = 170,                
-  particleSpread = 25,                   
+  particleCount = 100,                
+  particleSpread = 22.5,                   
   speed = 0.04,                          
-particleColors = [
-  "#e2d1c3", // šampanja / glass-box taust
-  "#f4e8db", // hele beež
-  "#fff9f3", // peaaegu valge
-  "#b4a199", // taupe-hallikas
-  "#f2f2f2",
-    "#32281c", // lisatud mustjas tume taupe
-  "#ae9880"  // veidi tumedam, neutraalne beež
-],
+  particleColors = [
+    "#e2d1c3", // šampanja
+    "#f4e8db", // hele beež
+    "#ae9880", // veidi tumedam, neutraalne beež
+    "#181818", // must, tumedam toon
+  ],
   moveParticlesOnHover = false,            
   particleHoverFactor = 1,               
   alphaParticles = true,        
   particleBaseSize = 700,                
-  sizeRandomness = 0.9,                 
+  sizeRandomness = 0.5,                 
   cameraDistance = 20,                      
   disableRotation = false,                    
-  className,
+  className = "",
 }) => {
   const containerRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
@@ -238,7 +235,7 @@ particleColors = [
   return (
     <div
       ref={containerRef}
-      className={`particles-container ${className}`}
+      className={`particles-container${className ? " " + className : ""}`}
     />
   );
 };
