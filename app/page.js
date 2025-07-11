@@ -173,13 +173,11 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
-      <footer className="footer-row">
-        <div className="footer-left">Sotsiaal.AI &copy; 2025</div>
-        <div className="footer-right">
-          <a href="/meist" className="footer-link">Meist</a>
-        </div>
-      </footer>
+<footer className="footer-row">
+  <span className="footer-side left">Sotsiaal.AI©</span>
+  <span className="footer-center">2025</span>
+  <a href="/meist" className="footer-side right footer-link">MEIST</a>
+</footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
