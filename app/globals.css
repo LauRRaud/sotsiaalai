@@ -527,10 +527,10 @@ background: #f2f2f2e3;
 }
 .btn-primary {
   background: #181818;                   /* must taust */
-  color: #f6f3f0f1 !important;             /* hele tekst */
+  color: #fffffff2 !important;  
   border: 2px solid #e2d1c3;             /* hele/kuldne ääris */
   border-radius: 1.3em;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 1.2em;
   letter-spacing: 0.05em;
   padding: 0.58em 1.55em;
@@ -547,15 +547,15 @@ background: #f2f2f2e3;
 .btn-primary:hover,
 .btn-primary:focus {
   background: #222;                      /* veidi heledam must hoveril */
-  color: #fffde9 !important;             /* täiesti valge või šampanja */
+color: #fff !important;  
   border: 2px solid #f5e8db;             /* veidi heledam border */
   box-shadow: 0 2px 12px 0 #e2d1c140;
 }
 
 .btn-primary span {
   color: inherit !important;             /* Võtab nupu teksti värvi */
-  font-weight: 500;
-  letter-spacing: .1rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
   white-space: nowrap;
   background: none;
 }
@@ -1172,12 +1172,12 @@ margin: 0em 0 1em 0;
   font-size: 1.15em;
   color: #f0eeea;
   line-height: 1.56;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   font-weight: 400
 }
 strong, b {
   font-weight: 600; /* Või 700 – vali! */
-  letter-spacing: 0.07em;
+  letter-spacing: 0.05em;
 }
 .glass-list {
   font-size: 1.15em;
