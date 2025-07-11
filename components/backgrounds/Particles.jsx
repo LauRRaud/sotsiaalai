@@ -81,7 +81,7 @@ const fragment = /* glsl */ `
 `;
 
 const Particles = ({
-  particleCount = 100,                
+  particleCount = 110,                
   particleSpread = 22.5,                   
   speed = 0.04,                          
   particleColors = [

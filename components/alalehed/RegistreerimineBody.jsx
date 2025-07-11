@@ -127,7 +127,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
             </button>
           </form>
 <div className="glass-bottom-link">
-  <span className="midtext">Mul on juba konto?</span>{" "}
+  <span className="midtext" style={{marginRight: '0.17em'}}>Mul on juba konto?</span>
   <a
     href="#"
     className="link-brand"
