@@ -127,7 +127,7 @@ body {
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.78);
   border: 3px solid #3d3a37;  /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
@@ -166,21 +166,97 @@ body {
   animation: float-vertical 6.7s ease-in-out 0s infinite;
 }
 @keyframes cardFadeIn {
-  0%   { opacity: 0; transform: scale(0.85); }
-  80%  { opacity: 1; }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(14px);
+  }
+  80% {
+    opacity: 1;
+    filter: blur(1.2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
 }
-.glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.5s cubic-bezier(.61,0,.19,1) 0.5s forwards; }
-.glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
+.glass-card.fade-in {
+  opacity: 0;
+  animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards;
+}
 
-/* --- LOGOD KAARDIL --- */
-.card-logo-bg         { position: absolute; top: 50%; left: 50%; opacity: 0.05; z-index: 2; user-select: none; }
-.card-logo-bg-left    { width: 53%; opacity: 0.35; transform: translate(-50%, -50%);}
-.card-logo-bg-right   { width: 65%; opacity: 0.15; transform: translate(-55%, -50%);}
-.card-logo-bg-left-back  { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.9;}
-.card-logo-bg-right-back { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.78;}
+.glass-card.glow-active {
+  animation: brandGlow 6.7s ease-in-out infinite;
+}
+@keyframes cardFadeIn {
+  0% { opacity: 0; transform: scale(0.85); filter: blur(5px);}
+  80% { opacity: 1; filter: blur(1px);}
+  100% { opacity: 1; transform: scale(1); filter: blur(0px);}
+}
+.glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.4s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
 
-/* --- TEKSTID KAARDIL --- */
+/* LOGOD: alati 100% kaardi sees ja skaleeruvad kaasa */
+.glass-card, .centered-back-left, .centered-back-right {
+  position: relative; /* et logo oleks alati selles parentis täpselt */
+}
+
+.card-logo-bg-left {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 53%;
+  opacity: 0.35;
+  z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
+  pointer-events: none;
+  user-select: none;
+  display: block;
+}
+
+.card-logo-bg-right {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  width: 66%;
+  opacity: 0.15;
+  z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
+  pointer-events: none;
+  user-select: none;
+  display: block;
+}
+
+.card-logo-bg-left-back {
+  position: absolute;
+  top: 82%;
+  left: 48%;
+  width: 23%;
+  opacity: 0.9;
+  transform: translate(-50%, -50%);
+}
+
+.card-logo-bg-right-back {
+  position: absolute;
+  top: 82%;
+  left: 48%;
+  width: 23%;
+  opacity: 0.78;
+  transform: translate(-50%, -50%);
+}
+.card-logo-bg-left,
+.card-logo-bg-right {
+  z-index: 1;  /* logo taustale */
+}
+
+/* Lisa see klass tekstidele */
+.card-title,
+.card-content,
+.headline-bold,
+.card-description {
+  position: relative;
+  z-index: 2;
+}
 .card-content, .card-headline, .card-description, .card-note, .card-cta {
   width: 100%; text-align: center; display: block; margin-left: auto; margin-right: auto; z-index: 3;
 }

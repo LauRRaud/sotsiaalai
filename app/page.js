@@ -52,8 +52,8 @@ export default function HomePage() {
                         !leftFadeDone ? "fade-in" : "",
                         leftFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
+                      style={{ position: "relative" }} // OLULINE
                     >
-                      {/* KÕIK TEKSTID ENNE */}
                       <div className="card-title">
                         <span className="brand-title brand-title-left">SotsiaalAI</span>
                       </div>
@@ -61,8 +61,13 @@ export default function HomePage() {
                         <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
                         <span className="card-description">Info, seadused ja nõuanded.</span>
                       </div>
-                      {/* LOGO VIIMASENA */}
-                      <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
+                      {/* LOGO alati täpselt kaardi keskel */}
+                      <img
+                        src="/logo/smust.svg"
+                        alt="smust logo"
+                        className="card-logo-bg card-logo-bg-left"
+                        draggable={false}
+                      />
                     </div>
                   )}
                 </Magnet>
@@ -79,16 +84,19 @@ export default function HomePage() {
                   "centered-back-left",
                   !leftFadeDone ? "fade-in" : "",
                   "glow-static"
-                ].join(" ")}>
-                  {/* Tekstid kõige ees ka tagaküljel */}
+                ].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-left">Küsi nõu</span>
                   </div>
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
-                  {/* Logo VIIMASENA */}
-                  <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
+                  <img
+                    src="/logo/saimust.svg"
+                    alt="saimust logo"
+                    className="card-logo-bg card-logo-bg-left-back"
+                    draggable={false}
+                  />
                   <div className="centered-back-outer" />
                 </div>
               </div>
@@ -114,8 +122,8 @@ export default function HomePage() {
                         !rightFadeDone ? "fade-in" : "",
                         rightFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
+                      style={{ position: "relative" }} // OLULINE
                     >
-                      {/* KÕIK TEKSTID ENNE */}
                       <div className="card-title">
                         <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
                       </div>
@@ -123,8 +131,12 @@ export default function HomePage() {
                         <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
                         <span className="card-description">Õigused, võimalused ja tugi.</span>
                       </div>
-                      {/* LOGO VIIMASENA */}
-                      <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
+                      <img
+                        src="/logo/aivalge.svg"
+                        alt="aivalge logo"
+                        className="card-logo-bg card-logo-bg-right"
+                        draggable={false}
+                      />
                     </div>
                   )}
                 </Magnet>
@@ -141,16 +153,19 @@ export default function HomePage() {
                   "centered-back-right",
                   !rightFadeDone ? "fade-in" : "",
                   "glow-static"
-                ].join(" ")}>
-                  {/* Tekstid kõige ees ka tagaküljel */}
+                ].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-right">Küsi nõu</span>
                   </div>
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                   </div>
-                  {/* Logo VIIMASENA */}
-                  <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
+                  <img
+                    src="/logo/saivalge.svg"
+                    alt="saivalge logo"
+                    className="card-logo-bg card-logo-bg-right-back"
+                    draggable={false}
+                  />
                   <div className="centered-back-outer" />
                 </div>
               </div>
