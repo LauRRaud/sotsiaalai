@@ -124,9 +124,15 @@ export default function HomePage() {
                       ].join(" ")}
                       style={{ position: "relative" }} // OLULINE
                     >
-                      <div className="card-title">
-                        <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
-                      </div>
+<div className="card-title">
+  <span className="brand-title brand-title-right">
+    SotsiaalA
+    <span className="triangle-mark">{'<'}</span>
+    <span className="golden-b">B</span>
+    <span className="triangle-mark">{'>'}</span>
+    I
+  </span>
+</div>
                       <div className="card-content">
                         <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
                         <span className="card-description">Õigused, võimalused ja tugi.</span>

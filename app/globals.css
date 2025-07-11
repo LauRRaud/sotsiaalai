@@ -293,6 +293,19 @@ body {
   display: inline-block;
   overflow: hidden;
 }
+.brand-title-right .golden-b {
+  color: #c2ab8b;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.brand-title-right .triangle-mark {
+  color: #c2ab8b;
+  font-weight: 700;
+  font-size: 1.9rem;
+  vertical-align: baseline;
+  vertical-align: 0.2em;
+}
 .left-card-primary .headline-bold {
   font-size: 1.6rem; font-weight: 700; color: #000000ed;
   margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em;
