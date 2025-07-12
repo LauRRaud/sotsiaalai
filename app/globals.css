@@ -202,30 +202,28 @@ body {
   position: relative; /* et logo oleks alati selles parentis täpselt */
 }
 
-.card-logo-bg-left {
+.card-logo-bg-right {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 53%;
-  opacity: 0.35;
+  opacity: 0.22;
   z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
   pointer-events: none;
   user-select: none;
   display: block;
 }
 
-.card-logo-bg-right {
+.card-logo-bg-left {
   position: absolute;
   top: 50%;
   left: 47%;
   transform: translate(-50%, -50%);
   width: 66%;
-  opacity: 0.15;
+  opacity: 0.4;
   z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
-  pointer-events: none;
-  user-select: none;
-  display: block;
+
 }
 
 .card-logo-bg-left-back {
@@ -294,13 +292,13 @@ body {
   overflow: hidden;
 }
 .brand-title-right .golden-b {
-  color: #c2ab8b;
+  color: #f7f7f7dc;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 .brand-title-right .triangle-mark {
-  color: #c2ab8b;
+  color: #b49d7b;
   font-weight: 700;
   font-size: 1.9rem;
   vertical-align: baseline;

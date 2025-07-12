@@ -15,30 +15,28 @@
         fill: url(#linear-gradient);
       }
     </style>
-    <linearGradient id="linear-gradient" x1="38.94" y1="4879.14" x2="38.94" y2="4998.84" gradientTransform="translate(0 -4879.14)" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient" x1="38.95" y1="5838.18" x2="38.95" y2="5957.88" gradientTransform="translate(0 -5839.14)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#003c6a"/>
-      <stop offset="0" stop-color="#003761"/>
       <stop offset="0" stop-color="#f1f1f1"/>
-      <stop offset="0" stop-color="#ebebeb"/>
-      <stop offset="0" stop-color="#dadada"/>
-      <stop offset="0" stop-color="silver"/>
-      <stop offset="0" stop-color="#003965"/>
-      <stop offset="0" stop-color="#ecd9ba"/>
-      <stop offset="0" stop-color="#dfc6a0"/>
-      <stop offset="1" stop-color="#bfa177"/>
+      <stop offset="0" stop-color="#fcf1e0"/>
+      <stop offset=".26" stop-color="#ead6b6"/>
+      <stop offset=".59" stop-color="#dfc6a0"/>
+      <stop offset=".89" stop-color="#bfa177"/>
     </linearGradient>
-    <linearGradient id="linear-gradient1" x1="65.99" y1="4880.17" x2="44.28" y2="4916.69" gradientTransform="translate(0 -4879.14)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ead7b7"/>
-      <stop offset="1" stop-color="#bfa177"/>
-      <stop offset="1" stop-color="#7c7967"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient2" x1="26.79" y1="4958.82" x2="5.08" y2="4995.34" gradientTransform="translate(0 -4879.14)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ead7b7"/>
+    <linearGradient id="linear-gradient1" x1="26.79" y1="5918.82" x2="5.08" y2="5955.34" gradientTransform="translate(0 -5839.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".27" stop-color="#f4e3cb"/>
+      <stop offset=".7" stop-color="#c1a379"/>
       <stop offset="1" stop-color="#91703b"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="66.08" y1="5840.17" x2="44.37" y2="5876.69" gradientTransform="translate(0 -5839.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".49" stop-color="#f4e3cb"/>
       <stop offset="1" stop-color="#c1a379"/>
+      <stop offset="1" stop-color="#91703b"/>
     </linearGradient>
   </defs>
   <path class="st2" d="M27.82,1.22c-8.6,3.2-11.77,12.49-10.26,21.05,4.8,27.18,56.5,20.25,60.15,54.43,1.45,13.68-6,27-17.23,34.5-4.54,3.04-10.44,6.39-16,5.9,8.48-5.13,12.34-16.69,11.27-26.17-2.85-25.35-44.58-20.73-53.51-46C-4.97,24.54,5.85,5.97,26.24,0l1.57,1.21h.01Z"/>
-  <path class="st1" d="M55.58,3.26c16.89-1.66,20.02,24.57,3.5,26.77-19.26,2.57-21.98-24.96-3.5-26.77Z"/>
-  <path class="st0" d="M16.38,81.91c16.89-1.66,20.02,24.57,3.5,26.77-19.26,2.57-21.98-24.96-3.5-26.77Z"/>
+  <path class="st1" d="M16.38,81.91c16.89-1.66,20.02,24.57,3.5,26.77-19.26,2.57-21.98-24.96-3.5-26.77Z"/>
+  <path class="st0" d="M55.67,3.26c16.89-1.66,20.02,24.57,3.5,26.77-19.26,2.57-21.98-24.96-3.5-26.77Z"/>
 </svg>

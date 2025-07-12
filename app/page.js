@@ -63,8 +63,8 @@ export default function HomePage() {
                       </div>
                       {/* LOGO alati täpselt kaardi keskel */}
                       <img
-                        src="/logo/smust.svg"
-                        alt="smust logo"
+                        src="/logo/aivalge.svg"
+                        alt="aivalge logo"
                         className="card-logo-bg card-logo-bg-left"
                         draggable={false}
                       />
@@ -138,8 +138,8 @@ export default function HomePage() {
                         <span className="card-description">Õigused, võimalused ja tugi.</span>
                       </div>
                       <img
-                        src="/logo/aivalge.svg"
-                        alt="aivalge logo"
+                        src="/logo/smust.svg"
+                        alt="smust logo"
                         className="card-logo-bg card-logo-bg-right"
                         draggable={false}
                       />
