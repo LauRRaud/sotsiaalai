@@ -108,7 +108,7 @@ body {
   width: 100%; height: 100%; top: 0; left: 0;
   box-sizing: border-box; backface-visibility: hidden;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%);
+  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(5px) saturate(130%);
 }
 .card-face.front { transform: rotateY(0deg); }
 .card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
@@ -128,8 +128,8 @@ body {
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.78);
-  border: 3px solid #3d3a37;  /* mustjas tumehall piirjoon */
+  background: rgba(0, 0, 0, 0.68);
+  border: 3px solid #3e3b38c9; /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {

@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
 html {
-background: #0f0c29;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: linear-gradient(
+    90deg,
+#000000,
+#7a7a7a
+  ) fixed;
 }
 .particles-container {
   position: fixed;
@@ -26,7 +27,6 @@ html, body {
   box-sizing: border-box;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
 }
 body {
@@ -36,15 +36,39 @@ body {
   align-items: stretch;
   overflow-x: hidden;
   background: transparent;
+  -webkit-font-smoothing: antialiased;
 }
 /* --- PÕHISISU, LAYOUT --- */
 .main-content {
   display: flex;
-  width: 100%; max-width: 100vw;
   position: relative;
   flex: 1 0 auto;
   box-sizing: border-box;
   z-index: 2;
+  /* Soovi korral lisa väike default gap ka nt 40px, kui muidu on kaardid liiga koos */
+}
+
+/* 16"–21" läpakad, monitorid (alates 1200px aknalaiusest) */
+@media (min-width: 1200px) {
+  .main-content {
+    max-width: 1200px;
+    gap: 240px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 2000px) {
+  .main-content {
+    max-width: 2000px;
+    gap: 380px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 2560px) {
+  .main-content {
+    max-width: 2560px;
+    gap: 450px;
+    margin: 0 auto;
+  }
 }
 .side {
   flex: 1 1 0;
@@ -84,7 +108,7 @@ body {
   width: 100%; height: 100%; top: 0; left: 0;
   box-sizing: border-box; backface-visibility: hidden;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(5px) saturate(100%);
+  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%);
 }
 .card-face.front { transform: rotateY(0deg); }
 .card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
@@ -100,11 +124,12 @@ body {
 }
 .glass-card,
 .centered-back-left {
-  background: rgba(245,245,245,0.65);
-  }
+  background: rgba(251, 251, 251, 0.75);
+}
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(26,26,28,0.65);
+  background: rgba(0, 0, 0, 0.78);
+  border: 3px solid #3d3a37;  /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
@@ -134,113 +159,251 @@ body {
 
 }
 @keyframes brandGlow {
-  0%   { box-shadow: 0 0 30px 10px #6c42f8ab; }
-  50%  { box-shadow: 0 0 30px 10px #a133e1bb; }
-  100% { box-shadow: 0 0 30px 10px #6c42f8ab; }
+  0%   { box-shadow: 0 0 20px 7px #bfa177b2; }
+  50%  { box-shadow: 0 0 24px 9px #e1cbb9c7; }
+  100% { box-shadow: 0 0 20px 7px #bfa177b2; }
 }
 .float-card {
   animation: float-vertical 6.7s ease-in-out 0s infinite;
 }
 @keyframes float-vertical {
-  0%   { transform: translateY(0px);}
-  50%  { transform: translateY(-13px);}
-  100% { transform: translateY(0px);}
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-13px); }
+  100% { transform: translateY(0px); }
 }
 @keyframes cardFadeIn {
-  0% { opacity: 0; transform: scale(0.85); filter: blur(14px);}
-  80% { opacity: 1; filter: blur(1.2px);}
-  100% { opacity: 1; transform: scale(1); filter: blur(0px);}
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(10px);
+  }
+  80% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
 }
-.glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.3s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
-.glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
-
-/* --- LOGOD KAARDIL --- */
-.card-logo-bg         { position: absolute; top: 50%; left: 50%; opacity: 0.05; z-index: 2; user-select: none; }
-.card-logo-bg-left    { width: 53%; opacity: 0.08; transform: translate(-50%, -50%);}
-.card-logo-bg-right   { width: 65%; opacity: 0.06; transform: translate(-55%, -50%);}
-.card-logo-bg-left-back  { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.88;}
-.card-logo-bg-right-back { position: absolute; top: 82%; left: 48%; transform: translate(-50%, -50%); width: 23%; opacity: 0.67;}
-
-/* --- TEKSTID KAARDIL --- */
-.card-title, .card-content, .card-headline, .card-description, .card-note, .card-cta {
-  width: 100%; text-align: center; display: block; margin-left: auto; margin-right: auto;
+.glass-card.fade-in {
+  opacity: 0;
+  animation: cardFadeIn 1.5s cubic-bezier(.61,0,.19,1) 0.19s forwards;
 }
-.card-title { display: flex; justify-content: center; margin: 0.5rem 0; }
+
+.glass-card.glow-active {
+  animation: brandGlow 6.7s ease-in-out infinite;
+}
+.glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.4s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
+
+/* LOGOD: alati 100% kaardi sees ja skaleeruvad kaasa */
+.glass-card, .centered-back-left, .centered-back-right {
+  position: relative; /* et logo oleks alati selles parentis täpselt */
+}
+
+.card-logo-bg-right {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 53%;
+  opacity: 0.22;
+  z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
+  pointer-events: none;
+  user-select: none;
+  display: block;
+}
+
+.card-logo-bg-left {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  width: 66%;
+  opacity: 0.4;
+  z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
+
+}
+
+.card-logo-bg-left-back {
+  position: absolute;
+  top: 82%;
+  left: 48%;
+  width: 23%;
+  opacity: 0.9;
+  transform: translate(-50%, -50%);
+}
+
+.card-logo-bg-right-back {
+  position: absolute;
+  top: 82%;
+  left: 48%;
+  width: 23%;
+  opacity: 0.78;
+  transform: translate(-50%, -50%);
+}
+.card-logo-bg-left,
+.card-logo-bg-right {
+  z-index: 1;  /* logo taustale */
+}
+
+/* Lisa see klass tekstidele */
+.card-title,
+.card-content,
+.headline-bold,
+.card-description {
+  position: relative;
+  z-index: 2;
+}
+.card-content, .card-headline, .card-description, .card-note, .card-cta {
+  width: 100%; text-align: center; display: block; margin-left: auto; margin-right: auto; z-index: 3;
+}
+.card-title {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+  width: 100%;
+  z-index: 3;
+}
 .brand-title {
-  font-size: 2.9rem; font-weight: 800; letter-spacing: 0.03em;
-  text-align: center; margin-top: 3rem; margin-bottom: 1.5rem;
+  font-size: 2.9rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
 }
-.brand-title-left,
+.brand-title-left {
+  color: #222222;
+  font-weight: 700;
+  z-index: 3;
+  opacity: 1;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
 .brand-title-right {
-  background: linear-gradient(
-    270deg,
-    #136a8a,
-    #267871,
-    #136a8a
-  );
-  background-size: 200% 200%;
-  background-repeat: no-repeat;
-  animation: gradientWave 6.7s ease-in-out infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  font-weight: 800;
+  color: #f7f7f7dc;
+  font-weight: 600;
+  z-index: 3;
+  opacity: 1;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
 }
-@keyframes gradientWave {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.brand-title-right .golden-b {
+  color: #f7f7f7dc;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.brand-title-right .triangle-mark {
+  color: #a48e6e;
+  font-weight: 700;
+  font-size: 1.9rem;
+  vertical-align: baseline;
+  vertical-align: 0.2em;
+  letter-spacing: 0.01em;
 }
 .left-card-primary .headline-bold {
-  font-size: 1.6rem; font-weight: 600; color: #000000b7;
+  font-size: 1.6rem; font-weight: 700; color: #000000ed;
   margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em;
-  text-shadow: none; text-transform: uppercase;
+  text-shadow: none; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.6rem; font-weight: 300; color: #fffffff5;
-  margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 1.6rem; font-weight: 400; color: #fffffffa;
+  margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .left-card-primary .card-description {
-  font-size: 1.2rem; font-weight: 600; color: #000000b7;
-  margin: 0 0; line-height: 1.32; margin-bottom: 2em; margin-top: 1.4em; text-transform: uppercase;
+  font-size: 1.25rem; font-weight: 700; color: #000000ed;
+  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 2em; margin-top: 1.65em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.2rem; font-weight: 300; color: #fffffff5;
-  margin: 0 0; line-height: 1.32; margin-bottom: 2em; margin-top: 1.4em; text-transform: uppercase;
+  font-size: 1.25rem; font-weight: 600; color: #fffffffa;
+  margin: 0 0; line-height: 1.32; margin-bottom: 2em; letter-spacing: 0.04em; margin-top: 1.65em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
-.card-note { font-size: 1.4rem; opacity: 1; color: inherit;}
-.card-note.left-back { color: #373737f2; font-weight: 600;}
-.card-note.right-back { color: #f5f5f5f0; font-weight: 400;}
-.card-title.back { margin-top: -6em; margin-bottom:0.8em; justify-content: center; align-items: center; }
+.card-note { font-size: 1.41rem; opacity: 1; color: inherit;}
+.card-note.left-back { color: #000000e5;font-size: 1.48rem; font-weight: 600;letter-spacing: 0.02em;}
+.card-note.right-back { color: #f5f5f5eb;font-size: 1.5rem; font-weight: 400;letter-spacing: 0.02em;}
+.card-title.back { margin-top: -5em; margin-bottom:1em; justify-content: center; align-items: center; }
 
-/* --- JALUS --- */
 .footer-row {
-  display: flex;
-  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 0.15em 0 0.12em 0;
+  width: 100%;
+  min-height: 2.5em;
+  font-size: 1.28rem;
   background: transparent;
+  position: relative;
   z-index: 2;
-  font-size: 1.4rem;     /* <-- SUUREM TEKST! (või 1.3rem, proovi!) */
+  column-gap: 1em;
 }
-.footer-left, .footer-right {
-  flex: 1; padding: 0 0.7em; user-select: none; background: transparent; margin: 0;
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  padding: 0.7em 0 0.45em 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 99;
 }
-.footer-left  { text-align: right;  color: #fffffff0; }
-.footer-right { text-align: left;}
-.footer-link  { color: #f1f1f1; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.4rem; }
+.footer-link {
+  opacity: 0.9;
+  display: inline-block;
+  font-family: 'Nunito', sans-serif;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  border: 2px solid transparent;
+  padding: 0.02em 0.2em;   
+  border-radius: 0.32em;
+  margin-bottom: 0.18em;
+  background: none;
+  transition:
+    color 0.16s,
+    border 0.17s,
+    background 0.15s,
+    box-shadow 0.13s;
+}
+a.footer-link, .footer-link {
+  text-decoration: none !important;
+}
+.footer-link:hover,
+.footer-link:focus {
+  color: #ded4bf;
+  border: 2px solid #ded4bf;
+  background: rgba(227, 210, 171, 0.11);
+  box-shadow: 0 0 7px 0 #e3d2ab66;
+  text-decoration: none;
+}
 
+.footer-meta {
+  font-family: 'Nunito', sans-serif;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  opacity: 0.95;
+}
 /* MODAAL, VORMID, NUPUD */
-.glass-modal, .login-modal-box, .modal-confirm {
-  background: rgba(25,25,25,0.92);
+.glass-modal,
+.login-modal-box,
+.modal-confirm {
+  background: rgba(34, 34, 34, 0.6);
   border-radius: 1.5em;
   color: #e6e6ec;
-  width: auto;              /* OLULINE MUUDATUS */
-  max-width: 420px;
-  max-width: 98vw;          /* OLULINE MUUDATUS */
+  width: 100%;
+  max-width: 410px;   /* ← Muuda nt 410px või 420px. 500px on liiga lai! */
+  min-width: 320px;
   margin: 0 auto;
-  font-size: 1.13rem;
+  font-size: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 1.15em;
@@ -251,161 +414,215 @@ body {
   z-index: 100;
   padding: 2.4em 2.2em 2em 2.2em;
   overflow-y: auto;
-  box-sizing: border-box;   /* OLULINE MUUDATUS */
+  box-sizing: border-box;
   animation: modalSlideIn 0.4s;
   padding-bottom: calc(2em + env(safe-area-inset-bottom, 0px));
-  overflow-x: hidden;       /* Lisa see, kui tõesti kerib! */
+  overflow-x: hidden;
+  /* --- BLUR --- */
+  backdrop-filter: blur(9px) saturate(180%);
+}
+.modal-confirm p {
+  font-size: 1.22em;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.23em;
+}
+
+.modal-confirm .btn-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-top: 0;
+  flex-wrap: wrap;
 }
 @keyframes modalSlideIn {
   from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
   to   { transform: translate(-50%, -50%); opacity: 1; }
 }
-.login-modal-links {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.1em;
-  font-size: 1.07em;
-  padding: 0 0.2em;
-}
-.login-modal-links a {
-  min-width: 0;
-  color: #a133e1;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.16s;
-  text-align: left;
-}
 .login-modal-links a:last-child { text-align: right; }
 .login-modal-close {
-  position: absolute; top: 0.7em; right: 1.2em;
-  background: none; border: none; color: #9f7dda;
+  position: absolute; top: 0.5em; right: 0.5em;
+  background: none; border: none; color: #c1a379;
   font-size: 2.2em; cursor: pointer; transition: color 0.19s; outline: none;
 }
-.login-modal-close:hover, .login-modal-close:focus { color: #7a4edd; }
+.login-modal-close:hover, .login-modal-close:focus { color: #e1cbb9; }
 
 .glass-title {
-  font-size: 2.15em; font-weight: 900; color: #a133e1;
-  margin-bottom: 0.7em; letter-spacing: -0.01em; text-align: center;
+  font-size: 2.15em;
+  font-weight: 900;
+background: #f2f2f2e3;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.7em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  color: #dabe9e;
+  background: none;
 }
-
-/* --- VORMID, INPUTID, LABELID --- */
-.glass-label,
-.glass-form label,
-.login-modal-form label,
-.alaleht-box label {
+/* --- LABELID --- */
+.glass-label {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
   max-width: 410px;
+  font-weight: 600;
+  color: #f2f2f2f3;
+  font-size: 1em;
   margin-bottom: 0.2em;
   margin-top: 0.2em;
-  text-align: left;
-  font-weight: 600;
-  color: #267871;           /* Näiteks brändi roheline */
-  font-size: 1.15em;
   letter-spacing: 0.01em;
+  text-align: left;
 }
-
-.glass-form label:first-child,
-.login-modal-form label:first-child,
-.alaleht-box label:first-child {
+.glass-label:first-child {
   margin-top: 0;
 }
-
-.input-modern,
-.login-modal-form input[type="email"],
-.login-modal-form input[type="password"] {
+.glass-form,
+.login-modal-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 410px;
-  font-size: 1.13em;
-  background: rgba(36,36,44,0.13);
-  color: #e7e7f1;
-  border: 1.4px solid #bda0ef;
-  border-radius: 1em;              /* ühtne ümardus! */
-  padding: 0.75em 1.1em;           /* madalamad kastid */
-  margin-bottom: 0.6em;            /* väiksem vahe */
+  margin: 0 auto;
+}
+/* Ja erista ainult erinevad omadused: */
+.glass-form { max-width: 410px; gap: 0.5em; }
+.login-modal-form { max-width: 100%; gap: 1em; }
+.input-modern,
+.glass-form input,
+.login-modal-form input,
+.chat-input {
+  width: 100%;         
+  max-width: 500px;    /* SAMA mis modalil! */
+  font-size: 1.3em;   /* Soovi korral muuda */
+  font-family: 'Nunito', sans-serif;
+  background: rgba(255, 255, 255, 0.822);
+  color: #181818;
+  border: 1.3px solid #e1cbb9;
+  border-radius: 1.2em;
+  padding: 0.75em 1.1em;
+  margin-bottom: 0.6em;
   outline: none;
   font-weight: 400;
   transition: border 0.14s, background 0.13s;
   box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
   display: block;
+  box-shadow: 0 2px 8px 0 #e2d1c140;
+}
+/* Statically loetav input */
+.input-modern.static {
+  color: #32281c !important;
+  font-weight: 500 !important;
+  background: rgba(255, 255, 255, 0.822);
+  cursor: default;
+  user-select: text;
 }
 
+/* Login modal input erimarginaal */
+.login-modal-form .input-modern {
+  margin-bottom: 0.22em !important;
+  margin-top: 0;
+}
+
+/* Nuppude marginaalid */
+.login-modal-form button {
+  margin-top: 0.7em;
+  margin-bottom: -0.7;
+}
+
+/* Input fookus */
 .input-modern:focus,
 .login-modal-form input:focus {
-  border: 1.4px solid #a133e1;
-  background: #232133;
-  color: #fff;
+  border: 1.3px solid #bfa177;
+  background: rgba(255, 255, 255, 0.822);
+  color: #181818;
 }
 
+/* Placeholder */
 .input-modern::placeholder,
-.login-modal-form input::placeholder {
-  color: #aa9bd2;
+.glass-form input::placeholder,
+.login-modal-form input::placeholder,
+.chat-input::placeholder {
+  color: #181818;
   font-weight: 400;
   opacity: 1;
 }
-
-/* --- ÜHTLASED NUPUD --- */
-.btn-primary, .btn-secondary, .btn-tertiary, .btn-danger {
-  border-radius: 1em;
-  padding: 0.75em 1.3em;
-  margin-top: 1.7em;
-  border: none;
-  font-size: 1.13em;
+.glass-list .link-brand {
+  font-size: 1.1em;
+  color: #e1c6af !important;
+}
+.glass-checkbox .link-brand {
+  font-size: 1em;     /* või 0.97em vmt, kui soovid väiksemat */
+  font-weight: 400;   /* või 400, kui tahad vähem paksu */
+}
+.login-modal-bottom-link {
+  width: 100%;
+  text-align: center;
+  margin-top: 1.3em;
+}
+.login-modal-bottom-link .link-brand {
+  display: inline-block;
+  font-size: 1.35em;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.06em;
+  color: #e1cbb9;
+  border: 2px solid transparent;
+  padding: 0.02em 0.2em;   
+  border-radius: 0.32em;
+  background: none;
+  transition:
+    color 0.16s,
+    border 0.17s,
+    background 0.15s,
+    box-shadow 0.13s;
   cursor: pointer;
-  font-weight: 500;
-  box-shadow: 0 2px 12px 0 rgba(88,62,187,0.08);
-  transition: background 0.16s, color 0.14s, box-shadow 0.14s;
-  outline: none;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  max-width: 320px;
+  margin-left: auto;   /* ← lisa need kaks */
+  margin-right: auto;  /* ← */
 }
 
-.btn-primary {
-  background: linear-gradient(90deg, #a133e1d4, #4851fac9 100%);
-  color: #fffffff4;
-  font-weight: 500;
+.login-modal-bottom-link .link-brand:hover,
+.login-modal-bottom-link .link-brand:focus {
+  color: #ded4bf;
+  border: 2px solid #ded4bf;
+  background: rgba(227, 210, 171, 0.11);
+  box-shadow: 0 0 7px 0 #e3d2ab66;
+  text-decoration: none;
 }
+.btn-primary {
+  background: #181818;                   /* must taust */
+  color: #fffffff2 !important;  
+  border: 2px solid #e2d1c3;             /* hele/kuldne ääris */
+  border-radius: 1.3em;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  font-size: 1.2em;
+padding: 0.40em 0.80em;
+  margin: 0;
+  outline: none;
+  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
+  box-shadow: 0 2px 10px 0 #bfa17725;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn-primary:hover,
 .btn-primary:focus {
-  background: linear-gradient(90deg, #4851fadc, #a133e1d6 100%);
-  color: #fff;
+  background: #222;                      /* veidi heledam must hoveril */
+color: #fff !important;  
+  border: 2px solid #f5e8db;             /* veidi heledam border */
+  box-shadow: 0 2px 12px 0 #e2d1c140;
 }
 
-/* Profiilinuppude rida – kõrval asetus, ilma automaatse marginta */
-.profile-btn-row .btn-primary,
-.profile-btn-row .btn-secondary {
-  display: flex;
-  gap: 0.5em; /* või sobiv vahe */
-  justify-content: flex-start; /* või center */
-  margin-bottom:1.6em;
-  margin-top:0.5em;
-}
-
-/* Modal-nupp allpool */
-.login-modal-box .btn-primary,
-.glass-modal .btn-primary,
-.modal-confirm .btn-primary {
-  margin-top: 1.4em;
-  margin-bottom: 0.8em;
-}
-/* --- ALAPLATVORMI KONTEINERID --- */
-.page-bg-gradient,
-.alaleht-hero {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1.4em 1em 2em 1em;
-  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
-  box-sizing: border-box;
+.btn-primary span {
+  color: inherit !important;             /* Võtab nupu teksti värvi */
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  white-space: nowrap;
+  background: none;
 }
 .alaleht-inner {
   width: 100%;
@@ -419,195 +636,62 @@ body {
   align-items: center;
 }
 .glass-box {
-  background: rgba(255, 255, 255, 0.078);
+  background: rgba(34, 34, 34, 1);
   border-radius: 1.5em;
   color: #f2f2f2f3;
   padding: 2.4em 2.2em 2em 2.2em;
   max-width: 850px;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 2em auto 2em auto;
   font-size: 1.22rem;
   display: flex;
   flex-direction: column;
   gap: 1.15em;
   position: static;
   box-sizing: border-box;
-  justify-content: flex-start; /* ← Lisa see rida */
+  justify-content: flex-start;
 }
 .alaleht-footer {
   width: 100%;
   text-align: center;
-  font-size: 1.2rem;
-  color: #f2f2f2f3;
+  font-size: 1.4rem;
+  color: #ffffffde;
   margin-top: auto;          /* ← see paneb jaluse klaaskasti põhja */
   font-weight: 500;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   margin-top: auto;
-  padding-top: 1.1em;
+  padding-top: 2em;
   padding-bottom: 0.9em;
 }
-
-/* --- LINGID --- */
-/* TAVALISED LINGID: */
-a, .link-brand {
-  color: #a133e1;
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    color 0.17s,
-    background 0.15s,
-    box-shadow 0.13s,
-    border-radius 0.12s,
-    padding 0.13s;
-  cursor: pointer;
-  font-size: 1.13em;
-  display: inline-block;
-}
-
-/* TAGASILINK, PROFILI TAGASILINK – ALATI KESKEL */
-.back-link, .profile-back-link {
-  display: block;
-  width: max-content;
-  margin: 1em auto 0 auto;
-  text-align: center;
-  color: #ac3bed;
-  font-size: 1.22em;
-  font-weight: 600;
-  border: none;
-  background: none;
-  transition:
-    color 0.13s,
-    background 0.15s,
-    box-shadow 0.13s,
-    border-radius 0.12s,
-    padding 0.13s;
-  cursor: pointer;
-  margin-bottom: 1.2em;
- 
-}
-
-/* HOVER/FOCUS – KÕIK LINGID */
-a:hover, a:focus,
-.link-brand:hover, .link-brand:focus {
-  color: #fff;
-  background: #a133e173;
-  border-radius: 0.17em;
-  text-decoration: none;
-  box-shadow: 0 2px 7px 0 #a133e127;
-  padding: 0.06em 0.32em;
-}
-
-/* HOVER/FOCUS – KESKEL LINGID */
-.back-link:hover, .back-link:focus,
-.profile-back-link:hover, .profile-back-link:focus {
-  color: #fff;
-  background: #a133e173;
-  border-radius: 0.17em;
-  text-decoration: none;
-  box-shadow: 0 2px 7px 0 #a133e127;
-  padding: 0.06em 0.32em;
-  /* jäävad keskjoonduseks */
-}
-/* --- CHATBOX --- */
-.chat-root {
-  min-height: 100vh;
-  background: linear-gradient(to right, #141216 0%, #393a3f 100%);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2em 0;
-}
-
-.chat-container {
-  background: rgba(255, 255, 255, 0.078);
-  border-radius: 1.5em;
-  max-width: 740px;      /* LAIEM! (soovitan) */
-  width: 100%;
-  min-height: 700px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 50px 0 rgba(62,40,126,0.13);
-  overflow: hidden;
-   font-size: 1.22rem;
-}
+/* --- SCROLLBAR (Chrome) --- */
 .chat-window::-webkit-scrollbar {
   width: 12px;
   background: transparent;
 }
-
 .chat-window::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #7b18a9 20%, #a133e1 100%);
+  background: linear-gradient(135deg, #e2d1c3 20%, #cfc2b2 100%);
   border-radius: 8px;
   min-height: 40px;
-  box-shadow: 0 1px 8px 0 #a133e180;
-  border: 2px solid #2a1a3f;
+  box-shadow: 0 1px 8px 0 #e2d1c170;
+  border: 2px solid #d2c1b2;
 }
-
 .chat-window::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #a133e1 0%, #7b18a9 100%);
+  background: linear-gradient(135deg, #cfc2b2 0%, #e2d1c3 100%);
 }
-
 .chat-window::-webkit-scrollbar-track {
-  background: rgba(55,24,66,0.12);
+  background: rgba(226, 209, 195, 0.13);
   border-radius: 10px;
 }
-
-/* Firefox */
+/* --- SCROLLBAR (Firefox) --- */
 .chat-window {
   scrollbar-width: thin;
-  scrollbar-color: #7b18a9 #23102d;
-}
-.chat-header {
-  padding: 2em 1.7em 2em 1.7em; /* ← 2em all serva! */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-top: 2em;
-}
-
-.chat-title-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;   /* Pealkiri alati keskel */
-}
-
-.chat-title {
-  font-size: 2em;
-  font-weight: 900;
-  color: #a133e1;
-  margin: 0;
-  text-align: center;
-}
-
-.chat-profile {
-  position: absolute;
-  right: 1.7em;
-  top: 1em;
-  display: flex;
-  align-items: center;
-}
-.chat-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-}
-
-.chat-main {
+  scrollbar-color: #e2d1c3 #cfc2b2;
   flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 0 1.7em 0 1.7em;
-  min-height: 0; /* lubab chat-window flexis kokku tõmmata */
-}
-.chat-window {
-  flex: 1 1 auto;
-  min-height: 270px;
-  max-height: 320px;
+  min-height: 300px;
+  max-height: 560px;
   overflow-y: auto;
   margin-bottom: 0.5em;
-  padding: 0.6em 10px 0 0.6em; /* paremale 20px rohkem! */
+  padding: 0.6em 10px 0 0.6em;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
@@ -615,185 +699,350 @@ a:hover, a:focus,
   background: none;
 }
 
-/* Chat messages */
-.chat-msg {
-  padding: 0.9em 1.4em;
-  border-radius: 1.1em;
-  font-size: 1.1em;
-  word-break: break-word;
-  background: rgba(255,255,255,0.09);
-  max-width: 85%;
-}
-.chat-msg-user {
-  background: linear-gradient(95deg, #5434b9c2 60%, #9182d7ad 100%);
-  color: #f6efff;
-  align-self: flex-end;
-  border-bottom-right-radius: 0.28em;
-}
-.chat-msg-ai {
-  background: linear-gradient(92deg, #2d2c3a 80%, #473f70 100%);
-  color: #f6eefd;
-  align-self: flex-start;
-  border-bottom-left-radius: 0.28em;
-}
-
-/* Input bar */
 .chat-inputbar {
   display: flex;
   align-items: center;
   gap: 0.7em;
-  margin-bottom: 3em;
+  width: 100%;
+  margin-bottom: 3.5em;
 }
 
-.chat-input {
-  flex: 1;
-  border-radius: 0.9em;
-  padding: 0.89em 1.2em;
-  border: 1.2px solid #b49de7;
-  font-size: 1.07em;
-  background: rgba(36,36,44,0.19);
-  color: #f7efff;
+/* Chat input – profiili lahtri stiilidega */
+.chat-inputbar .chat-input-field {
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
+  font-size: 1.2em;                  /* Profiilil kasutusel! */
+  font-family: 'Nunito', sans-serif;
+  background: #f2f2f2f1;             /* Täpselt sama! */
+  color: #222;                       /* Profiilil! */
+  border: 1.3px solid #e1cbb9;
+  border-radius: 1.2em;
+  padding: 0.82em 1.13em;            /* Profiili inputi padding */
+  margin: 0;
   outline: none;
-}
-
-.chat-send-btn {
-  background: linear-gradient(90deg, #a133e1c7, #4851fac9 100%);
-  color: #fff;
-  border-radius: 0.9em;
-  border: none;
-  font-size: 1.09em;
-  padding: 0.8em 1.4em;
   font-weight: 500;
-  cursor: pointer;
+  transition: border 0.14s, background 0.13s;
+  box-sizing: border-box;
+  display: block;
+  box-shadow: 0 2px 8px 0 #e2d1c140;
 }
 
+.chat-inputbar .chat-input-field:focus {
+  border: 1.3px solid #bfa177;
+  background: rgba(255, 255, 255, 0.911); /* Profiilil! */
+  color: #181818;
+}
 
-/* Footer */
-.chat-footer {
-  padding: 0.6em 1.7em 1.2em 1.7em;
+.chat-inputbar .chat-input-field::placeholder {
+  color: #181818;
+  font-weight: 400;
+  opacity: 1;
+}
+.chat-send-btn {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px 0 #e2d1c367;
+  cursor: pointer;
+  transition: box-shadow 0.14s, filter 0.12s, background 0.15s;
+}
+
+.chat-send-btn svg {
+  width: 52px;
+  height: 52px;
+  display: block;
+}
+
+.chat-send-btn:hover,
+.chat-send-btn:focus {
+  box-shadow: 0 2px 15px 0 #bfa17793;
+  filter: brightness(1.08);
+}
+
+.chat-send-btn:active {
+  filter: brightness(0.97);
+}
+
+.chat-send-btn.stop {
+  background: none;
+}
+/* --- CHAT BUBBLES --- */
+.chat-msg {
+  padding: 0.95em 1.4em;
+  font-size: 1.15em;
+  word-break: break-word;
+  border-radius: 1.12em;
+  max-width: 85%;
+  box-shadow: 0 2px 6px 0 #e2d1c235;
+  background: none;
+}
+.chat-msg-user {
+  background: linear-gradient(94deg, #edd5bb 80%, #d9af7f 100%);
+  color: #2f2a25;
+  align-self: flex-end;
+  border-radius: 1.2em 1.2em 0.28em 1.2em;
+  box-shadow: 0 2px 6px 0 #e2d1c385;
+}
+.chat-msg-ai {
+  background: linear-gradient(93deg, #45413d 85%, #2c2722 100%);
+  color: #f0ece9;
+  align-self: flex-start;
+  border-radius: 1.2em 1.2em 1.2em 0.28em;
+  box-shadow: 0 2px 6px 0 #e2d1c375;
+}
+
+/* --- CHAT MAIN CONTAINER --- */
+.chat-main {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 0 1.7em 0 1.7em;
+  min-height: 0;
 }
-.chat-link {
-  display: block;
-  width: max-content;
-  margin: 2em auto 0 auto;
-  text-align: center;
-  color: #a133e1;
-  font-size: 1.2em;
-  font-weight: 700;
-  border: none;
-  background: none;
-  transition:
-    color 0.13s,
-    background 0.15s,
-    box-shadow 0.13s,
-    border-radius 0.12s,
-    padding 0.13s;
-  cursor: pointer;
-  margin-bottom: 1.7em;
-  letter-spacing: 0.01em;
-}
-
-.chat-link:hover, .chat-link:focus {
-  color: #fff;
-  background: #a133e173;
-  border-radius: 0.17em;
-  text-decoration: none;
-  box-shadow: 0 2px 7px 0 #a133e127;
-  padding: 0.06em 0.32em;
-}
-/* --- PROFIILELEMENTID --- */
-.profile-row {
+.chat-back-btn-wrapper {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.5em;
-  font-size: 1.25em;
-  margin-bottom: 1.6em;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 1.1em auto;
 }
-.profile-role-label {
-  font-weight: 700;
-  color: #a133e1;
-  margin-right: 0.35em;
-}
-.profile-role-value {
-  color: #fff;
+.profile-role-input {
+  text-align: left;
+  background: #f2f2f2ef;
+  color: #33251a;
+  font-size: 1.2em;
   font-weight: 500;
+  border-radius: 1.2em;
+  padding: 0.52em 1.25em;
+  border: 1.7px solid #dedede;
+  box-shadow: 0 2px 10px 0 #1a1a1a26;
+  width: auto;
+  margin-bottom: 0.6em;
 }
+.input-modern.profile-role-input {
+  width: auto !important;
+  min-width: unset !important;
+  max-width: unset !important;
+  /* display: inline-block !important; ← EEMALDA, pole vaja! */
+}
+/* Ainult rolli labelile */
 .profile-form-vertical {
   display: flex;
   flex-direction: column;
-  gap: 0.2em;
+  gap: 0.42em;
   width: 100%;
   max-width: 410px;
-  margin: 0 auto 2.5em auto;
+  margin: 0 auto 0em auto;
+  align-items: flex-start;   /* ← SEE ON VAJA */
 }
+.profile-form-vertical .glass-label {
+  font-size: 1.2em;      /* Või 1.2em */
+  font-weight: 600;
+  color: #f2f2f2ef;
+  margin-bottom: 0.1em;
+  margin-top: 0.6em;
+  text-align: left;
+}
+
+/* E-post ja parool vasakule */
+.profile-form-vertical .glass-label:not(:first-child) {
+  text-align: left;
+  margin-left: 0.1em;
+}
+
+/* Inputid (e-post, parool): */
+.input-modern:not(.static):not(.profile-role-input) {
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+  font-size: 1.2em;
+  padding: 0.82em 1.13em;
+  border-radius: 1.2em;
+  border: 1.3px solid #e1cbb9;
+  background: #f2f2f2ef;
+  color: #222;
+  margin-bottom: 1.1em;
+  box-sizing: border-box;
+}
+
 .profile-btn-row {
   display: flex;
   justify-content: center;
-  gap: 0.6em;
-  margin: 1.1em 0 0.4em 0;
+  gap: 0.85em;
+margin: 1em 0 0em 0;
+  flex-wrap: wrap;
 }
-.profile-order-btn {
-  display: block;
-  width: 100%;
-  max-width: 300px;
-  margin: -2em auto 0 auto;
-  margin-bottom: 2em;
-  background: #5b567b;
-  color: #f5f4f5;
-  border: none;
-  border-radius: 0.8em;
-  padding: 0.7em 0;
-  font-size: 1.1em;
+.profile-btn-row .btn-primary {
+  background: #181818;               /* must taust */
+  color: #f8f6f3 !important;         /* hele tekst */
+  border: 2px solid #e2d1c3;         /* hele/kuldne ääris */
+  border-radius: 1.3em;
   font-weight: 500;
-  cursor: pointer;
-  transition: background 0.16s;
-  text-align: center;
-}
-.profile-order-btn:hover,
-.profile-order-btn:focus {
-  background: #463662;
-  color: #fff;
-}
-.delete-link {
-  display: block;
-  color: #b12a2a;
-  background: none;
-  border: none;
-  font-size: 1.12em;
-  font-weight: 500;
-  text-align: center;
-  margin: 1em auto 0 auto;
-  cursor: pointer;
-  padding: 0.6em 1.2em;
-  transition: color 0.16s;
-  margin-bottom: 0.4em;
-}
-.delete-link:hover,
-.delete-link:focus {
-  color: #ad4b4b;
-  text-decoration: none;
-}
-.avatar-image {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  font-size: 1.15em;
+padding: 0.40em 0.80em;
+margin: 0em 0 0.6em 0;
+  outline: none;
+  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
 }
 
+/* Hover */
+.profile-btn-row .btn-primary:hover,
+.profile-btn-row .btn-primary:focus {
+  background: #222;                 /* natuke heledam must hoveril */
+  color: #fffde9 !important;        /* täiesti valge või šampanja */
+  border: 2px solid #f5e8db;        /* veidi heledam border */
+  box-shadow: 0 2px 10px 0 #deccbdb0;
+}
+
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(190, 33, 33);
+  border: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: .3s;
+  overflow: hidden;
+  position: relative;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: .3s;
+}
+
+.svgIcon path {
+  fill: rgb(228, 228, 228);
+}
+
+.button:hover {
+  width: 140px;
+  border-radius: 50px;
+  transition-duration: .3s;
+  background-color: rgb(190, 33, 33);
+  align-items: center;
+}
+
+.button:hover .svgIcon {
+  width: 50px;
+  transition-duration: .5s;
+  transform: translateY(60%);
+}
+
+.button::before {
+  position: absolute;
+  top: -25px;
+  content: "Kustuta konto";
+  color: rgba(255, 255, 255, 0.888);
+  transition-duration: .5s;
+  font-size: 4px;
+}
+
+.button:hover::before {
+  font-size: 18px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: .5s;
+}
+.back-arrow-btn {
+  display: inline-block;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.back-arrow-circle {
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  border: 3.7px solid #e1c6af;  /* hele kuldne */
+  border-radius: 50%;
+  position: relative;
+  transition:
+    border-color 0.16s,
+    width 0.19s cubic-bezier(.64,.09,.32,.98),
+    height 0.19s cubic-bezier(.64,.09,.32,.98),
+    border-width 0.19s cubic-bezier(.64,.09,.32,.98);
+}
+
+.back-arrow-circle::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 11px;
+  left: 13px;
+  width: 17px;
+  height: 17px;
+  border-top: 3.7px solid #e1c6af;   /* hele kuldne */
+  border-right: 3.7px solid #e1c6af;  /* hele kuldne */
+  transform: rotate(-135deg);
+  transition:
+    border-top 0.16s,
+    border-right 0.16s,
+    width 0.19s cubic-bezier(.64,.09,.32,.98),
+    height 0.19s cubic-bezier(.64,.09,.32,.98),
+    border-top-width 0.19s cubic-bezier(.64,.09,.32,.98),
+    border-right-width 0.19s cubic-bezier(.64,.09,.32,.98),
+    top 0.19s cubic-bezier(.64,.09,.32,.98),
+    left 0.19s cubic-bezier(.64,.09,.32,.98);
+}
+
+.back-arrow-btn:hover .back-arrow-circle,
+.back-arrow-btn:focus .back-arrow-circle {
+  border-color: #e1c6af;   /* tumedam kuldne hoveril */
+  width: 46px;
+  height: 46px;
+  border-width: 4.2px;
+}
+
+.back-arrow-btn:hover .back-arrow-circle::after,
+.back-arrow-btn:focus .back-arrow-circle::after {
+  border-top: 4.2px solid #e1c6af;   /* tumedam kuldne hoveril */
+  border-right: 4.2px solid #e1c6af; /* tumedam kuldne hoveril */
+  width: 19px;
+  height: 19px;
+  top: 13px;
+  left: 14px;
+}
+
+.back-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 52px;
+ margin: 2em auto 2em auto;
+}
 /* --- ALAPEALKIRJAD / LOETELUD --- */
 .glass-h2 {
-  color: #954dd4;
   font-weight: 600;
-  font-size: 1.29em;
+  font-size: 1.35em;
   margin: 2.1em 0 0.7em 0;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.04em;
   display: flex;
   align-items: baseline;
   line-height: 1.1;
+    color: #e1c6af;
+  background: none;
 }
 
 /* --- MUUD --- */
@@ -806,7 +1055,7 @@ a:hover, a:focus,
   display: none;
   width: 90%;
   margin: 1.1em auto 0 auto;
-  background: linear-gradient(90deg, #a133e1d4, #4851fac9 100%);
+  background: #228794;
   color: #fff;
   font-size: 1.14em;
   font-weight: 600;
@@ -819,7 +1068,7 @@ a:hover, a:focus,
 }
 .mobile-ask-btn:active,
 .mobile-ask-btn:focus {
-  background: linear-gradient(90deg, #4851fae2, #a133e1db 100%);
+  background: #228794;
   color: #fff;
 }
 
@@ -835,63 +1084,79 @@ a:hover, a:focus,
   border: 0;
   white-space: nowrap;
 }
-/* --- MODAL OPEN (body scroll disable) --- */
-body.modal-open {
-  overflow: hidden !important;
-}
-.glass-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 410px;
-  margin: 0 auto;
-  gap: 0.5em;
-}
 .glass-label-radio {
   display: block;
-  width: 410px; /* sobita sisendite laiusega */
+  width: 410px;
   font-weight: 600;
-  color: #a133e1;
-   margin-bottom: 0.2em;
-  margin-top: 0.2;
+  color: #f2f2f2f3;
+  margin-bottom: 0.2em;
+  margin-top: 0.2em;
   text-align: left;
 }
 
+/* --- RAADIOD --- */
 .glass-radio-group {
   display: flex;
   flex-direction: column;
   gap: 0.7em;
-  width: 410px; /* sama laius */
+  width: 410px;
   margin-bottom: 0.2em;
+  align-items: flex-start;
 }
-
+.glass-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: 1.13em;
+  font-weight: 500;
+  color: #f2f2f2ec;
+  letter-spacing: 0.05em;
+}
 .glass-radio-group input[type="radio"] {
-  flex-shrink: 0;       /* Radio kast ei veni */
-  width: 1.15em;
-  height: 1.15em;
+  accent-color: #bfa177;    /* Kuldne raadiotäpp */
+  background: none;
+  box-shadow: none !important;  /* Eemaldab musta varju, kui mingi globaalne reegel on peal */
+  border: none;
+  outline: none;
+  width: 1.18em;
+  height: 1.18em;
+  margin: 0 0.25em 0 0;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
+/* --- CHECKBOX ja TEKST SAMAL REAL --- */
 .glass-checkbox {
   display: flex;
-  align-items: center;      /* Checkbox ja tekst joondatud vertikaalselt keskele */
-  justify-content: center;  /* Keskendab kogu rea horisontaalselt */
-  gap: 0.5em;               /* Vahe checkboxi ja teksti vahel */
-  flex-wrap: wrap;          /* Tekst murrab uuele reale kitsal ekraanil */
-  max-width: 600px;         /* Piira maksimaalne laius */
-  margin: 1.3em auto 1.6em auto; /* Vertikaalne vahe ja tsentreeritud horisontaalselt */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.3em;
+  flex-wrap: nowrap;        /* Ära lase tekstil murduda – jääb samale reale */
+  width: 100%;
+  max-width: 100%;          /* Väldi kärpimist */
+  margin: 1.3em 0 1.6em 0;
+  line-height: 1.45;
+  white-space: normal;
+  font-size: 1.15em; /* või nt 1.1em või 1rem – vali ise */
 }
-
+.midtext {
+  color: #f2f2f2ec;  /* või mis tahad */
+  font-size: 1.15em;
+  margin-right: 0.22em;
+  font-weight: 400;
+}
 .glass-checkbox input[type="checkbox"] {
+  accent-color: #bfa177;
+  margin-right: 0.32em;
   width: 1.22em;
   height: 1.22em;
-  accent-color: #a133e1;   /* Checkboxi värv */
+  flex-shrink: 0;
+  vertical-align: middle;
 }
-
 .glass-bottom-link {
   text-align: center;
   margin: 1.3em 0 0.7em 0;
-  font-size: 1.09em;
+  font-size: 1.15em;
   font-weight: 500;
 }
 .text-muted {
@@ -912,4 +1177,175 @@ body.modal-open {
 .three-d-card.flip-allowed:hover .card-wrapper,
 .three-d-card.flip-allowed:focus-within .card-wrapper {
   transform: rotateY(180deg);
+}
+.unustasid-parooli-link {
+  display: inline-block;
+  text-align: right;
+  font-weight: 500;
+  color: #e1cbb9;
+  margin-top: 0.55em;
+  letter-spacing: 0.05em;
+  font-size: 1.2em;
+  border: 2px solid transparent;
+  padding: 0.02em 0.2em;   /* ← Väiksem kast, väiksemad vahed külgedel */
+  border-radius: 0.32em;
+  background: none;
+  transition:
+    color 0.16s,
+    border 0.17s,
+    background 0.15s,
+    box-shadow 0.13s;
+  cursor: pointer;
+  margin-left: auto;
+}
+.unustasid-parooli-link:hover,
+.unustasid-parooli-link:focus {
+  color: #ded4bf;
+  border: 2px solid #ded4bf;
+  background: rgba(227, 210, 171, 0.11);
+  box-shadow: 0 0 7px 0 #e3d2ab66;
+  text-decoration: none;
+}
+.login-password-field {
+  text-align: right;
+}
+.glass-box p,
+.glass-section p {
+  font-size: 1.15em;
+  color: #f0eeea;
+  line-height: 1.56;
+  letter-spacing: 0.008em;
+  font-weight: 400
+}
+strong, b {
+  font-weight: 600; /* Või 700 – vali! */
+  letter-spacing: 0.05em;
+}
+.glass-list {
+  font-size: 1.15em;
+  color: #f0eeea;
+  font-weight: 400;   /* Ära pane 300 – see teeb liiga heledaks */
+  line-height: 1.56;
+  letter-spacing: 0.02em;
+}
+.link-brand {
+  color: #e1c6af !important;
+  font-weight: 400;
+  transition:
+    color 0.16s,
+    border 0.17s,
+    background 0.15s,
+    box-shadow 0.13s;
+  font-size: 1em;
+  border: 2px solid transparent;
+  padding: 0.02em 0.2em;   /* ← Väiksem kast, väiksemad vahed külgedel */
+  border-radius: 0.32em;
+  background: none;
+}
+
+.link-brand:hover,
+.link-brand:focus {
+  color: #ded4bf !important;
+  border: 2px solid #ded4bf;
+  background: rgba(227, 210, 171, 0.11);
+  box-shadow: 0 0 7px 0 #e3d2ab66;
+  text-decoration: none;
+}
+a.link-brand, .link-brand {
+  color: #e9e9e9f3;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color 0.17s,
+    background 0.15s,
+    box-shadow 0.13s,
+    border-radius 0.12s,
+    padding 0.13s,
+    border 0.15s;
+  cursor: pointer;
+  font-size: 1.13em;
+  display: inline-block;
+  letter-spacing: 0.03em;
+
+  border: 2px solid transparent;
+  border-radius: 0.32em;      /* väiksem ümarus */
+  padding: 0.02em 0.2em;      /* väiksem kast */
+  background: none;
+}
+
+a.link-brand:hover,
+a.link-brand:focus,
+.link-brand:hover,
+.link-brand:focus {
+  color: #ded4bf !important;
+  border: 2px solid #ded4bf;
+  background: rgba(227, 210, 171, 0.11);
+  box-shadow: 0 0 7px 0 #e3d2ab66;
+  text-decoration: none;
+
+  }
+.meist-external-link {
+  font-size: 0.97em;
+  font-weight: 600;
+  color: #e1c6af !important;
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  letter-spacing: 0.03em;
+  text-decoration: none;        /* Kui tahad allajoont, eemalda see rida */
+  transition: color 0.15s;
+  display: inline;
+}
+
+.meist-external-link:hover,
+.meist-external-link:focus {
+  color: #dbcdc1 !important;    /* Või jätta samaks, kui ei taha efekti */
+  border: none;
+  background: none;
+  box-shadow: none;
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+}
+.avatar-link {
+  position: absolute;
+  top: 1.1em;
+  right: 1.1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 4;
+  text-decoration: none; /* lingil pole alla joont */
+}
+
+.chat-avatar-abs {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid #e2d1c3;
+  background: #fff9f3;
+  box-shadow: 0 0 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: box-shadow 0.18s, border 0.14s;
+  display: block;
+}
+
+.chat-avatar-abs:hover,
+.avatar-link:focus .chat-avatar-abs {
+  box-shadow: 0 0 14px 2px #e2d1c380;
+  border-color: #bfa177;
+}
+
+.avatar-label {
+  margin-top: 0.16em;
+  font-size: 1.1em;
+  color: #e1c6af;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-align: center;
+  user-select: none;
+  pointer-events: none; /* ei sega avatari klikkimist */
 }

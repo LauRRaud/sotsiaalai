@@ -32,7 +32,7 @@ export default function HomePage() {
 
   return (
     <>
-<Particles className="particles-container" />
+      <Particles className="particles-container" />
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -52,8 +52,8 @@ export default function HomePage() {
                         !leftFadeDone ? "fade-in" : "",
                         leftFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
+                      style={{ position: "relative" }} // OLULINE
                     >
-                      <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-left" />
                       <div className="card-title">
                         <span className="brand-title brand-title-left">SotsiaalAI</span>
                       </div>
@@ -61,6 +61,13 @@ export default function HomePage() {
                         <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
                         <span className="card-description">Info, seadused ja nõuanded.</span>
                       </div>
+                      {/* LOGO alati täpselt kaardi keskel */}
+                      <img
+                        src="/logo/aivalge.svg"
+                        alt="aivalge logo"
+                        className="card-logo-bg card-logo-bg-left"
+                        draggable={false}
+                      />
                     </div>
                   )}
                 </Magnet>
@@ -74,18 +81,23 @@ export default function HomePage() {
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={[
-                  "glass-card glass-card-light left-card-primary centered-back",
+                  "centered-back-left",
                   !leftFadeDone ? "fade-in" : "",
                   "glow-static"
-                ].join(" ")}>
-                  <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" />
-                  <div className="centered-back-outer" />
+                ].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-left">Küsi nõu</span>
                   </div>
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
                   </div>
+                  <img
+                    src="/logo/saimust.svg"
+                    alt="saimust logo"
+                    className="card-logo-bg card-logo-bg-left-back"
+                    draggable={false}
+                  />
+                  <div className="centered-back-outer" />
                 </div>
               </div>
             </div>
@@ -110,15 +122,27 @@ export default function HomePage() {
                         !rightFadeDone ? "fade-in" : "",
                         rightFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
+                      style={{ position: "relative" }} // OLULINE
                     >
-                      <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-right" />
-                      <div className="card-title">
-                        <span className="brand-title brand-title-right">SotsiaalA&lt;B&gt;I</span>
-                      </div>
+<div className="card-title">
+  <span className="brand-title brand-title-right">
+    SotsiaalA
+    <span className="triangle-mark">{'<'}</span>
+    <span className="golden-b">B</span>
+    <span className="triangle-mark">{'>'}</span>
+    I
+  </span>
+</div>
                       <div className="card-content">
                         <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
                         <span className="card-description">Õigused, võimalused ja tugi.</span>
                       </div>
+                      <img
+                        src="/logo/smust.svg"
+                        alt="smust logo"
+                        className="card-logo-bg card-logo-bg-right"
+                        draggable={false}
+                      />
                     </div>
                   )}
                 </Magnet>
@@ -132,31 +156,33 @@ export default function HomePage() {
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={[
-                  "glass-card glass-card-dark right-card-primary centered-back",
+                  "centered-back-right",
                   !rightFadeDone ? "fade-in" : "",
                   "glow-static"
-                ].join(" ")}>
-                  <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" />
-                  <div className="centered-back-outer" />
+                ].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-right">Küsi nõu</span>
                   </div>
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
                   </div>
+                  <img
+                    src="/logo/saivalge.svg"
+                    alt="saivalge logo"
+                    className="card-logo-bg card-logo-bg-right-back"
+                    draggable={false}
+                  />
+                  <div className="centered-back-outer" />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <footer className="footer-row">
-        <div className="footer-left">Sotsiaal.AI &copy; 2025</div>
-        <div className="footer-right">
-          <a href="/meist" className="footer-link">Meist</a>
-        </div>
-      </footer>
+<footer className="footer-column">
+  <a href="/meist" className="footer-link">MEIST</a>
+  <span className="footer-meta">Sotsiaal.AI © 2025</span>
+</footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
