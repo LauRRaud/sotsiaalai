@@ -270,7 +270,7 @@ body {
   font-size: 2.9rem;
   letter-spacing: 0.04em;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 0.7rem;
   margin-bottom: 1.5rem;
 }
 .brand-title-left {
@@ -298,7 +298,7 @@ body {
 }
 
 .brand-title-right .triangle-mark {
-  color: #a48e6e;
+  color: #ac9683;
   font-weight: 700;
   font-size: 1.9rem;
   vertical-align: baseline;
@@ -316,11 +316,11 @@ body {
 }
 .left-card-primary .card-description {
   font-size: 1.25rem; font-weight: 700; color: #000000ed;
-  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 2em; margin-top: 1.65em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.8em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
   font-size: 1.25rem; font-weight: 600; color: #fffffffa;
-  margin: 0 0; line-height: 1.32; margin-bottom: 2em; letter-spacing: 0.04em; margin-top: 1.65em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.8em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.41rem; opacity: 1; color: inherit;}
 .card-note.left-back { color: #000000e5;font-size: 1.48rem; font-weight: 600;letter-spacing: 0.02em;}
@@ -712,13 +712,14 @@ color: #fff !important;
   flex: 1 1 0;
   width: 100%;
   min-width: 0;
-  font-size: 1.2em;                  /* Profiilil kasutusel! */
+  font-size: 1.1em;
+  letter-spacing: 0.02em;
   font-family: 'Nunito', sans-serif;
-  background: #f2f2f2f1;             /* Täpselt sama! */
-  color: #222;                       /* Profiilil! */
+  background: #303030;         /* ← SEE ON SU "Painti" hall */
+  color: #ececf1;              /* ← Hele tekst tumedal taustal */
   border: 1.3px solid #e1cbb9;
   border-radius: 1.2em;
-  padding: 0.82em 1.13em;            /* Profiili inputi padding */
+  padding: 0.7em 0.7em;
   margin: 0;
   outline: none;
   font-weight: 500;
@@ -730,14 +731,13 @@ color: #fff !important;
 
 .chat-inputbar .chat-input-field:focus {
   border: 1.3px solid #bfa177;
-  background: rgba(255, 255, 255, 0.911); /* Profiilil! */
-  color: #181818;
+  background: #414141;         /* Võid soovi korral jätta ka #303030 või kasutada teist tumedat */
+  color: #ececf1;
 }
-
 .chat-inputbar .chat-input-field::placeholder {
-  color: #181818;
-  font-weight: 400;
-  opacity: 1;
+  color: #ffffff;
+  font-weight: 300;
+  opacity: 0.8;
 }
 .chat-send-btn {
   width: 52px;
@@ -787,18 +787,18 @@ color: #fff !important;
   background: none;
 }
 .chat-msg-user {
-  background: linear-gradient(94deg, #edd5bb 80%, #d9af7f 100%);
-  color: #2f2a25;
+background: #303030;
+  color: #ECECF1;
   align-self: flex-end;
   border-radius: 1.2em 1.2em 0.28em 1.2em;
   box-shadow: 0 2px 6px 0 #e2d1c385;
 }
 .chat-msg-ai {
-  background: linear-gradient(93deg, #45413d 85%, #2c2722 100%);
+ background: rgba(34, 34, 34, 0.5);
   color: #f0ece9;
   align-self: flex-start;
-  border-radius: 1.2em 1.2em 1.2em 0.28em;
-  box-shadow: 0 2px 6px 0 #e2d1c375;
+  border-radius: 1.2em 1.2em 1.2em 0.5em;
+  box-shadow: 0 2px 4px 0 #e2d1c375;
 }
 
 /* --- CHAT MAIN CONTAINER --- */
