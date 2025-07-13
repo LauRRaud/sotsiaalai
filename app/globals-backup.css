@@ -108,7 +108,7 @@ body {
   width: 100%; height: 100%; top: 0; left: 0;
   box-sizing: border-box; backface-visibility: hidden;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%);
+  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(5px) saturate(130%);
 }
 .card-face.front { transform: rotateY(0deg); }
 .card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
@@ -128,8 +128,8 @@ body {
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.78);
-  border: 3px solid #3d3a37;  /* mustjas tumehall piirjoon */
+  background: rgba(0, 0, 0, 0.68);
+  border: 3px solid #3e3b38c9; /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
@@ -270,7 +270,7 @@ body {
   font-size: 2.9rem;
   letter-spacing: 0.04em;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 0.7rem;
   margin-bottom: 1.5rem;
 }
 .brand-title-left {
@@ -298,11 +298,11 @@ body {
 }
 
 .brand-title-right .triangle-mark {
-  color: #a48e6e;
-  font-weight: 700;
-  font-size: 1.9rem;
+  color: #ac9683;
+  font-weight: 900;
+  font-size: 2.2rem;
   vertical-align: baseline;
-  vertical-align: 0.2em;
+  vertical-align: 0.15em;
   letter-spacing: 0.01em;
 }
 .left-card-primary .headline-bold {
@@ -316,11 +316,11 @@ body {
 }
 .left-card-primary .card-description {
   font-size: 1.25rem; font-weight: 700; color: #000000ed;
-  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 2em; margin-top: 1.65em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.8em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
   font-size: 1.25rem; font-weight: 600; color: #fffffffa;
-  margin: 0 0; line-height: 1.32; margin-bottom: 2em; letter-spacing: 0.04em; margin-top: 1.65em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.8em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.41rem; opacity: 1; color: inherit;}
 .card-note.left-back { color: #000000e5;font-size: 1.48rem; font-weight: 600;letter-spacing: 0.02em;}
@@ -591,14 +591,14 @@ background: #f2f2f2e3;
   text-decoration: none;
 }
 .btn-primary {
-  background: #181818;                   /* must taust */
-  color: #fffffff2 !important;  
-  border: 2px solid #e2d1c3;             /* hele/kuldne ääris */
+  background: #181818;
+  color: #fffffff2 !important;
+  border: 2px solid #e2d1c3;
   border-radius: 1.3em;
   letter-spacing: 0.05em;
   font-weight: 500;
   font-size: 1.2em;
-padding: 0.40em 0.80em;
+  padding: 0.5em 0.9em;
   margin: 0;
   outline: none;
   transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
@@ -608,7 +608,6 @@ padding: 0.40em 0.80em;
   align-items: center;
   justify-content: center;
 }
-
 .btn-primary:hover,
 .btn-primary:focus {
   background: #222;                      /* veidi heledam must hoveril */
@@ -616,7 +615,6 @@ color: #fff !important;
   border: 2px solid #f5e8db;             /* veidi heledam border */
   box-shadow: 0 2px 12px 0 #e2d1c140;
 }
-
 .btn-primary span {
   color: inherit !important;             /* Võtab nupu teksti värvi */
   font-weight: 400;
@@ -712,13 +710,14 @@ color: #fff !important;
   flex: 1 1 0;
   width: 100%;
   min-width: 0;
-  font-size: 1.2em;                  /* Profiilil kasutusel! */
+  font-size: 1.1em;
+  letter-spacing: 0.02em;
   font-family: 'Nunito', sans-serif;
-  background: #f2f2f2f1;             /* Täpselt sama! */
-  color: #222;                       /* Profiilil! */
+  background: #303030;         /* ← SEE ON SU "Painti" hall */
+  color: #ececf1;              /* ← Hele tekst tumedal taustal */
   border: 1.3px solid #e1cbb9;
   border-radius: 1.2em;
-  padding: 0.82em 1.13em;            /* Profiili inputi padding */
+  padding: 0.7em 0.7em;
   margin: 0;
   outline: none;
   font-weight: 500;
@@ -730,14 +729,13 @@ color: #fff !important;
 
 .chat-inputbar .chat-input-field:focus {
   border: 1.3px solid #bfa177;
-  background: rgba(255, 255, 255, 0.911); /* Profiilil! */
-  color: #181818;
+  background: #414141;         /* Võid soovi korral jätta ka #303030 või kasutada teist tumedat */
+  color: #ececf1;
 }
-
 .chat-inputbar .chat-input-field::placeholder {
-  color: #181818;
-  font-weight: 400;
-  opacity: 1;
+  color: #ffffff;
+  font-weight: 300;
+  opacity: 0.8;
 }
 .chat-send-btn {
   width: 52px;
@@ -787,18 +785,18 @@ color: #fff !important;
   background: none;
 }
 .chat-msg-user {
-  background: linear-gradient(94deg, #edd5bb 80%, #d9af7f 100%);
-  color: #2f2a25;
+background: #303030;
+  color: #ECECF1;
   align-self: flex-end;
   border-radius: 1.2em 1.2em 0.28em 1.2em;
   box-shadow: 0 2px 6px 0 #e2d1c385;
 }
 .chat-msg-ai {
-  background: linear-gradient(93deg, #45413d 85%, #2c2722 100%);
+ background: rgba(34, 34, 34, 0.5);
   color: #f0ece9;
   align-self: flex-start;
-  border-radius: 1.2em 1.2em 1.2em 0.28em;
-  box-shadow: 0 2px 6px 0 #e2d1c375;
+  border-radius: 1.2em 1.2em 1.2em 0.5em;
+  box-shadow: 0 2px 4px 0 #e2d1c375;
 }
 
 /* --- CHAT MAIN CONTAINER --- */
@@ -817,94 +815,6 @@ color: #fff !important;
   height: 52px;
   margin: 0 auto 1.1em auto;
 }
-.profile-role-input {
-  text-align: left;
-  background: #f2f2f2ef;
-  color: #33251a;
-  font-size: 1.2em;
-  font-weight: 500;
-  border-radius: 1.2em;
-  padding: 0.52em 1.25em;
-  border: 1.7px solid #dedede;
-  box-shadow: 0 2px 10px 0 #1a1a1a26;
-  width: auto;
-  margin-bottom: 0.6em;
-}
-.input-modern.profile-role-input {
-  width: auto !important;
-  min-width: unset !important;
-  max-width: unset !important;
-  /* display: inline-block !important; ← EEMALDA, pole vaja! */
-}
-/* Ainult rolli labelile */
-.profile-form-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 0.42em;
-  width: 100%;
-  max-width: 410px;
-  margin: 0 auto 0em auto;
-  align-items: flex-start;   /* ← SEE ON VAJA */
-}
-.profile-form-vertical .glass-label {
-  font-size: 1.2em;      /* Või 1.2em */
-  font-weight: 600;
-  color: #f2f2f2ef;
-  margin-bottom: 0.1em;
-  margin-top: 0.6em;
-  text-align: left;
-}
-
-/* E-post ja parool vasakule */
-.profile-form-vertical .glass-label:not(:first-child) {
-  text-align: left;
-  margin-left: 0.1em;
-}
-
-/* Inputid (e-post, parool): */
-.input-modern:not(.static):not(.profile-role-input) {
-  width: 100%;
-  min-width: 0;
-  text-align: left;
-  font-size: 1.2em;
-  padding: 0.82em 1.13em;
-  border-radius: 1.2em;
-  border: 1.3px solid #e1cbb9;
-  background: #f2f2f2ef;
-  color: #222;
-  margin-bottom: 1.1em;
-  box-sizing: border-box;
-}
-
-.profile-btn-row {
-  display: flex;
-  justify-content: center;
-  gap: 0.85em;
-margin: 1em 0 0em 0;
-  flex-wrap: wrap;
-}
-.profile-btn-row .btn-primary {
-  background: #181818;               /* must taust */
-  color: #f8f6f3 !important;         /* hele tekst */
-  border: 2px solid #e2d1c3;         /* hele/kuldne ääris */
-  border-radius: 1.3em;
-  font-weight: 500;
-  font-size: 1.15em;
-padding: 0.40em 0.80em;
-margin: 0em 0 0.6em 0;
-  outline: none;
-  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
-}
-
-/* Hover */
-.profile-btn-row .btn-primary:hover,
-.profile-btn-row .btn-primary:focus {
-  background: #222;                 /* natuke heledam must hoveril */
-  color: #fffde9 !important;        /* täiesti valge või šampanja */
-  border: 2px solid #f5e8db;        /* veidi heledam border */
-  box-shadow: 0 2px 10px 0 #deccbdb0;
-}
-
 .button {
   width: 50px;
   height: 50px;
@@ -1348,4 +1258,118 @@ a {
   text-align: center;
   user-select: none;
   pointer-events: none; /* ei sega avatari klikkimist */
+}
+/* Profiili päis: roll + tellimus keskelt, üksteise all */
+.profile-header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.2em;
+  margin-top: 0.3em;
+}
+
+/* Roll suurem, silmapaistev */
+.profile-role-pill {
+  font-size: 1.35em;
+  font-weight: 600;
+  margin-bottom: 0.22em;
+  color: #ececf1;
+}
+
+/* Tellimuslink, kasutab olemasolevat .link-brand */
+.profile-tellimus-link {
+  margin-top: 0.2em;
+  font-size: 1.12em;
+  font-weight: 600;
+  color: #e1c6af !important;
+  text-align: center;
+}
+.profile-tellimus-link:hover,
+.profile-tellimus-link:focus {
+  color: #ded4bf !important;
+  border: 2px solid #ded4bf;
+  background: rgba(227, 210, 171, 0.11);
+}
+
+/* Profiilivorm */
+.profile-form-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 100%;
+  max-width: 410px;
+  margin: 0 auto 0em auto;
+  align-items: flex-start;
+}
+
+.profile-form-vertical .glass-label {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #f2f2f2ef;
+  margin-bottom: 0.1em;
+  margin-top: 0.35em;
+  text-align: left;
+}
+
+.profile-form-vertical .glass-label:not(:first-child) {
+  text-align: left;
+  margin-left: 0.1em;
+}
+.profile-form-vertical input[type="email"] {
+  margin-bottom: 1em; /* E-maili ja parooli vahel suurem vahe */
+}
+/* Nupud all (Salvesta, Logi välja) */
+.profile-btn-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin: 1.2em 0 0em 0;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.btn-profile-save {
+  background: #181818;
+  color: #fffffff2 !important;
+  border: 2px solid #e2d1c3;
+  border-radius: 1.3em;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  font-size: 1.2em;
+  padding: 0.5em 1em;
+  margin: 0;
+  outline: none;
+  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
+  box-shadow: 0 2px 10px 0 #bfa17725;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-profile-logout {
+  background: #181818;
+  color: #fffffff2 !important;
+  border: 2px solid #e2d1c3;
+  border-radius: 1.3em;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  font-size: 1.2em;
+  padding: 0.5em 1em;
+  margin: 0;
+  outline: none;
+  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
+  box-shadow: 0 2px 10px 0 #bfa17725;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-profile-save:hover,
+.btn-profile-save:focus,
+.btn-profile-logout:hover,
+.btn-profile-logout:focus {
+  background: #222;
+  color: #fffde9 !important;
+  border: 2px solid #f5e8db;
+  box-shadow: 0 2px 10px 0 #deccbdb0;
 }

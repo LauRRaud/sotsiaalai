@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ProfiilBody() {
   const [email, setEmail] = useState("email@domeen.ee");
   const [password, setPassword] = useState("");
   const [showDelete, setShowDelete] = useState(false);
-  const userRole = "Spetsialist";
+  const userRole = "Spetsialist"; // Või "Eluküsimusega pöörduja"
   const router = useRouter();
 
   function handleSave(e) {
@@ -31,9 +32,16 @@ export default function ProfiilBody() {
           Minu profiil
         </h1>
 
-<form onSubmit={handleSave} className="glass-form profile-form-vertical">
-  <label className="glass-label">Roll</label>
-  <div className="input-modern static profile-role-input">{userRole}</div>
+        {/* ROLL üleval, selle all tellimuslink */}
+        <div className="profile-header-center">
+          <span className="profile-role-pill">{userRole}</span>
+          <Link href="/tellimus" className="link-brand profile-tellimus-link">
+            Vaata tellimust
+          </Link>
+        </div>
+
+        {/* Vorm – E-post ja parool */}
+        <form onSubmit={handleSave} className="glass-form profile-form-vertical">
           <label htmlFor="email" className="glass-label">E-post</label>
           <input
             className="input-modern"
@@ -54,17 +62,19 @@ export default function ProfiilBody() {
             onChange={e => setPassword(e.target.value)}
             placeholder="••••••••"
           />
-          <div className="profile-btn-row">
-            <button type="submit" className="btn-primary">Salvesta</button>
-            <button type="button" className="btn-primary" onClick={handleLogout}>Logi välja</button>
-            <button
-              type="button"
-              className="btn-primary"
-              onClick={() => alert("Tellimuse info (demo)!")}
-            >
-              Vaata tellimust
-            </button>
-          </div>
+
+<div className="profile-btn-row">
+  <button type="submit" className="btn-primary btn-profile-save">
+    Salvesta
+  </button>
+  <button
+    type="button"
+    className="btn-primary btn-profile-logout"
+    onClick={handleLogout}
+  >
+    Logi välja
+  </button>
+</div>
         </form>
 
         {/* Tagasi vestlusesse nupp */}
