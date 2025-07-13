@@ -7,7 +7,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    role: "specialist",
+    role: "specialist", // vaikimisi spetsialist
     agree: false,
   });
 
@@ -29,10 +29,10 @@ export default function RegistreerimineBody({ openLoginModal }) {
       alert("Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga!");
       return;
     }
-    alert(
-      "Registreerimine õnnestus! (demo)\nRoll: " +
-        (form.role === "specialist" ? "Spetsialist" : "Abivajaja")
-    );
+    // Salvesta roll ja e-post localStorage'i
+    localStorage.setItem("saai_roll", form.role);
+    localStorage.setItem("saai_email", form.email);
+    router.push("/tellimus");
   }
 
   return (
@@ -85,8 +85,8 @@ export default function RegistreerimineBody({ openLoginModal }) {
                 <input
                   type="radio"
                   name="role"
-                  value="abivajaja"
-                  checked={form.role === "abivajaja"}
+                  value="eluküsimusega"
+                  checked={form.role === "eluküsimusega"}
                   onChange={handleChange}
                 />
                 Eluküsimusega pöörduja
@@ -126,20 +126,19 @@ export default function RegistreerimineBody({ openLoginModal }) {
               <span>Registreeru</span>
             </button>
           </form>
-<div className="glass-bottom-link">
-  <span className="midtext" style={{marginRight: '0.17em'}}>Mul on juba konto?</span>
-  <a
-    href="#"
-    className="link-brand"
-    onClick={(e) => {
-      e.preventDefault();
-      openLoginModal();
-    }}
-  >
-    Logi sisse
-  </a>
-</div>
-
+          <div className="glass-bottom-link">
+            <span className="midtext" style={{ marginRight: '0.17em' }}>Mul on juba konto?</span>
+            <a
+              href="#"
+              className="link-brand"
+              onClick={(e) => {
+                e.preventDefault();
+                openLoginModal();
+              }}
+            >
+              Logi sisse
+            </a>
+          </div>
           {/* Tagasi avalehele noole-nupp */}
           <div className="back-btn-wrapper">
             <button
@@ -151,7 +150,6 @@ export default function RegistreerimineBody({ openLoginModal }) {
               <span className="back-arrow-circle"></span>
             </button>
           </div>
-
           <footer className="alaleht-footer">
             Sotsiaal.AI &copy; 2025
           </footer>

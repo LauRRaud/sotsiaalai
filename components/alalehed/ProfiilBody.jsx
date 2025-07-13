@@ -1,28 +1,41 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function ProfiilBody() {
+  // DEMO: Loe roll ja email localStorage-st (või kasuta defaulti)
   const [email, setEmail] = useState("email@domeen.ee");
   const [password, setPassword] = useState("");
   const [showDelete, setShowDelete] = useState(false);
-  const userRole = "Spetsialist"; // Või "Eluküsimusega pöörduja"
+  const [userRole, setUserRole] = useState("specialist"); // "specialist" | "eluküsimusega"
   const router = useRouter();
+
+  useEffect(() => {
+    // Loe localStorage-st, kui komponent mountib
+    const storedRole = localStorage.getItem("saai_roll");
+    if (storedRole) setUserRole(storedRole);
+    const storedEmail = localStorage.getItem("saai_email");
+    if (storedEmail) setEmail(storedEmail);
+  }, []);
 
   function handleSave(e) {
     e.preventDefault();
+    // DEMO: Salvesta localStorage'i email (päris elus teeks API päringu)
+    localStorage.setItem("saai_email", email);
     alert("Muudatused salvestatud! (demo)");
     setPassword("");
   }
 
   function handleLogout() {
     alert("Logitud välja! (demo)");
+    // Soovi korral localStorage.removeItem(...) või router.push('/')
   }
 
   function handleDelete() {
     setShowDelete(false);
     alert("Konto kustutatud! (demo)");
+    // Soovi korral kustuta localStorage-st ka email/roll
   }
 
   return (
@@ -34,9 +47,11 @@ export default function ProfiilBody() {
 
         {/* ROLL üleval, selle all tellimuslink */}
         <div className="profile-header-center">
-          <span className="profile-role-pill">{userRole}</span>
+          <span className="profile-role-pill">
+            {userRole === "specialist" ? "Spetsialist" : "Eluküsimusega pöörduja"}
+          </span>
           <Link href="/tellimus" className="link-brand profile-tellimus-link">
-            Vaata tellimust
+            Halda tellimust
           </Link>
         </div>
 
@@ -63,18 +78,18 @@ export default function ProfiilBody() {
             placeholder="••••••••"
           />
 
-<div className="profile-btn-row">
-  <button type="submit" className="btn-primary btn-profile-save">
-    Salvesta
-  </button>
-  <button
-    type="button"
-    className="btn-primary btn-profile-logout"
-    onClick={handleLogout}
-  >
-    Logi välja
-  </button>
-</div>
+          <div className="profile-btn-row">
+            <button type="submit" className="btn-primary btn-profile-save">
+              Salvesta
+            </button>
+            <button
+              type="button"
+              className="btn-primary btn-profile-logout"
+              onClick={handleLogout}
+            >
+              Logi välja
+            </button>
+          </div>
         </form>
 
         {/* Tagasi vestlusesse nupp */}
@@ -107,7 +122,7 @@ export default function ProfiilBody() {
         </footer>
       </div>
 
-      {/* MODAL RENDERDUB KLAASKASTIST VÄLJAS! */}
+      {/* MODAL */}
       {showDelete && (
         <div className="modal-confirm">
           <p>Kas oled kindel, et soovid konto kustutada?</p>

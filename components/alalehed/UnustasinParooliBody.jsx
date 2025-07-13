@@ -43,7 +43,7 @@ export default function UnustasinParooliBody() {
                   autoComplete="username"
                 />
               </label>
-              <button className="btn-primary">
+              <button className="btn-primary" type="submit">
                 <span>Saada taastelink</span>
               </button>
             </form>
