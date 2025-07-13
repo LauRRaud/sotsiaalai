@@ -14,28 +14,27 @@ export default function UnustasinParooliBody() {
       return;
     }
     // Tulevikus: API-päring taastelinki saatmiseks
-    console.log("Taastelink saadetud:", email);
     setSubmitted(true);
   }
 
   return (
     <div className="page-bg-gradient">
-      <div className="alaleht-inner">
-        <div className="glass-box">
-          <h1 className="glass-title">Parooli taastamine</h1>
+      <div className="alaleht-inner reset-center-outer">
+        <div className="glass-box reset-box">
+          <h1 className="glass-title reset-title">Parooli taastamine</h1>
           {submitted ? (
-            <p className="midtext" style={{marginTop: "2em"}}>
+            <p className="midtext reset-info">
               Kui sisestasid kehtiva aadressi, saadeti sinna taastelink.<br />
               Kontrolli ka rämpsposti kausta!
             </p>
           ) : (
-            <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
-              <label htmlFor="email" className="glass-label">
+            <form className="reset-form" onSubmit={handleSubmit} autoComplete="off">
+              <label htmlFor="email" className="reset-label">
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  className="input-modern"
+                  className="reset-input"
                   placeholder="sinu@email.ee"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -43,27 +42,11 @@ export default function UnustasinParooliBody() {
                   autoComplete="username"
                 />
               </label>
-              <button className="btn-primary" type="submit">
+              <button className="reset-btn" type="submit">
                 <span>Saada taastelink</span>
               </button>
             </form>
           )}
-
-          <div className="glass-bottom-link">
-            <span className="midtext" style={{marginRight: '0.17em'}}>Tead parooli?</span>
-            <a
-              href="#"
-              className="link-brand"
-              onClick={(e) => {
-                e.preventDefault();
-                router.push("/");
-              }}
-            >
-              Tagasi avalehele
-            </a>
-          </div>
-
-          {/* Tagasi avalehele noole-nupp */}
           <div className="back-btn-wrapper">
             <button
               type="button"
@@ -75,7 +58,7 @@ export default function UnustasinParooliBody() {
             </button>
           </div>
 
-          <footer className="alaleht-footer">
+          <footer className="alaleht-footer reset-footer">
             Sotsiaal.AI &copy; 2025
           </footer>
         </div>

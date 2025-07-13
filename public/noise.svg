@@ -1,4 +1,0 @@
-background: 
-  linear-gradient(to top, rgba(240,240,240,0.76) 0%, rgba(255,255,255,0.927) 100%),
-  url('/noise-purple.svg');
-background-blend-mode: lighten;

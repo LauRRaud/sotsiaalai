@@ -485,6 +485,7 @@ background: #f2f2f2e3;
   align-items: center;
   width: 100%;
   margin: 0 auto;
+  
 }
 /* Ja erista ainult erinevad omadused: */
 .glass-form { max-width: 410px; gap: 0.5em; }
@@ -494,6 +495,7 @@ background: #f2f2f2e3;
 .login-modal-form input,
 .chat-input {
   width: 100%;         
+    justify-content: center;
   max-width: 500px;    /* SAMA mis modalil! */
   font-size: 1.3em;   /* Soovi korral muuda */
   font-family: 'Nunito', sans-serif;
