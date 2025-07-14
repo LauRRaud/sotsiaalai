@@ -59,7 +59,7 @@ export default function HomePage() {
                       </div>
                       <div className="card-content">
                         <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
-                        <span className="card-description">Info, seadused ja nõuanded.</span>
+                        <span className="card-description">Seadused, praktika<br />ja nõuanded.</span>
                       </div>
                       {/* LOGO alati täpselt kaardi keskel */}
                       <img
@@ -135,7 +135,7 @@ export default function HomePage() {
 </div>
                       <div className="card-content">
                         <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
-                        <span className="card-description">Õigused, võimalused ja tugi.</span>
+                        <span className="card-description">Õigused, juhised<br />ja võimalused.</span>
                       </div>
                       <img
                         src="/logo/smust.svg"

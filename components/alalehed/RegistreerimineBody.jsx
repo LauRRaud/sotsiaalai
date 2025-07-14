@@ -7,7 +7,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    role: "specialist", // vaikimisi spetsialist
+    role: "specialist",
     agree: false,
   });
 
@@ -29,7 +29,6 @@ export default function RegistreerimineBody({ openLoginModal }) {
       alert("Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga!");
       return;
     }
-    // Salvesta roll ja e-post localStorage'i
     localStorage.setItem("saai_roll", form.role);
     localStorage.setItem("saai_email", form.email);
     router.push("/tellimus");
@@ -41,13 +40,13 @@ export default function RegistreerimineBody({ openLoginModal }) {
         <div className="glass-box">
           <h1 className="glass-title">Loo konto</h1>
           <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
-            <label htmlFor="email" className="glass-label">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="input-modern"
-                placeholder="sinu@email.ee"
+<label htmlFor="email" className="glass-label first-input-label">
+<input
+  type="email"
+  id="email"
+  name="email"
+  className="input-modern input-email-top"
+                placeholder="Sinu@email.ee"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -60,13 +59,14 @@ export default function RegistreerimineBody({ openLoginModal }) {
                 id="password"
                 name="password"
                 className="input-modern"
-                placeholder="Vali parool"
+                placeholder="Parool"
                 value={form.password}
                 onChange={handleChange}
                 required
                 autoComplete="new-password"
               />
             </label>
+
             <div className="glass-label glass-label-radio">
               Roll:
             </div>
@@ -92,40 +92,42 @@ export default function RegistreerimineBody({ openLoginModal }) {
                 Eluküsimusega pöörduja
               </label>
             </div>
-            <label className="glass-checkbox">
-              <input
-                type="checkbox"
-                name="agree"
-                checked={form.agree}
-                onChange={handleChange}
-                required
-              />
-              <span>
-                Nõustun{" "}
-                <a
-                  href="/kasutustingimused"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-brand"
-                >
-                  kasutajatingimustega
-                </a>
-                {" ja "}
-                <a
-                  href="/privaatsustingimused"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-brand"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  privaatsuspoliitikaga
-                </a>
-              </span>
-            </label>
-            <button className="btn-primary">
+<label className="glass-checkbox">
+  <input
+    type="checkbox"
+    name="agree"
+    checked={form.agree}
+    onChange={handleChange}
+    required
+  />
+  <span className="checkbox-text">
+    <span>
+      <span className="agree-word">Nõustun </span>
+      <a
+        href="/kasutustingimused"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-brand"
+      >
+        kasutajatingimustega
+      </a>
+      <span className="and-word"> ja </span>
+      <a
+        href="/privaatsustingimused"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-brand"
+      >
+        privaatsuspoliitikaga
+      </a>
+    </span>
+  </span>
+</label>
+            <button className="btn-primary" type="submit">
               <span>Registreeru</span>
             </button>
           </form>
+
           <div className="glass-bottom-link">
             <span className="midtext" style={{ marginRight: '0.17em' }}>Mul on juba konto?</span>
             <a
@@ -139,7 +141,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
               Logi sisse
             </a>
           </div>
-          {/* Tagasi avalehele noole-nupp */}
+
           <div className="back-btn-wrapper">
             <button
               type="button"
@@ -150,6 +152,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
               <span className="back-arrow-circle"></span>
             </button>
           </div>
+
           <footer className="alaleht-footer">
             Sotsiaal.AI &copy; 2025
           </footer>

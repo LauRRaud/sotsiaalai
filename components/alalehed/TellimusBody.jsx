@@ -2,14 +2,18 @@
 import { useState, useEffect } from "react";
 
 export default function TellimusBody() {
-  // Staatus on alguses "puudub"
   const [status, setStatus] = useState("puudub");
   const [role, setRole] = useState("specialist");
+  const [email, setEmail] = useState("");
   const [showCancel, setShowCancel] = useState(false);
 
   useEffect(() => {
-    const storedRole = localStorage.getItem("saai_roll");
-    if (storedRole) setRole(storedRole);
+    if (typeof window !== "undefined") {
+      const storedRole = localStorage.getItem("saai_roll");
+      if (storedRole) setRole(storedRole);
+      const storedEmail = localStorage.getItem("saai_email");
+      if (storedEmail) setEmail(storedEmail);
+    }
   }, []);
 
   function handleMaksa() {
@@ -56,7 +60,7 @@ export default function TellimusBody() {
             </div>
             <div>
               <b>E-post:</b>{" "}
-              {localStorage.getItem("saai_email") || "kasutaja@email.ee"}
+              {email || "kasutaja@email.ee"}
             </div>
           </div>
 
@@ -67,9 +71,11 @@ export default function TellimusBody() {
           )}
 
           {status === "aktiivne" && (
-            <button className="btn-danger" onClick={handleCancel}>
-              Tühista tellimus
-            </button>
+            <div className="btn-danger-wrapper">
+              <button className="btn-danger" onClick={handleCancel}>
+                Tühista tellimus
+              </button>
+            </div>
           )}
 
           <div className="back-btn-wrapper">

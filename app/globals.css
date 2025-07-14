@@ -260,9 +260,10 @@ body {
   width: 100%; text-align: center; display: block; margin-left: auto; margin-right: auto; z-index: 3;
 }
 .card-title {
+  margin-top: 2.2em;    /* PROOVI 4em–7em, vali endale sobiv! */
+  margin-bottom: 0.2em;
   display: flex;
   justify-content: center;
-  margin: 0.5rem 0;
   width: 100%;
   z-index: 3;
 }
@@ -298,7 +299,7 @@ body {
 }
 
 .brand-title-right .triangle-mark {
-  color: #ac9683;
+  color: #ac9683c3;
   font-weight: 900;
   font-size: 2.2rem;
   vertical-align: baseline;
@@ -307,20 +308,20 @@ body {
 }
 .left-card-primary .headline-bold {
   font-size: 1.6rem; font-weight: 700; color: #000000ed;
-  margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em;
+  margin-bottom: 0.3em; margin-top: 0.8em; letter-spacing: 0.1em;
   text-shadow: none; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .headline-bold {
   font-size: 1.6rem; font-weight: 400; color: #fffffffa;
-  margin-bottom: 0.3em; margin-top: 1em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin-bottom: 0.3em; margin-top: 0.8em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .left-card-primary .card-description {
   font-size: 1.25rem; font-weight: 700; color: #000000ed;
-  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.8em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.5em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
   font-size: 1.25rem; font-weight: 600; color: #fffffffa;
-  margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.8em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.5em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.41rem; opacity: 1; color: inherit;}
 .card-note.left-back { color: #000000e5;font-size: 1.48rem; font-weight: 600;letter-spacing: 0.02em;}
@@ -428,7 +429,7 @@ color: #fff !important;
 .alaleht-inner {
   width: 100%;
   max-width: 920px;
-  padding: 0 1.2em;
+  padding: 0.7em 0.5em 0 0.5em;  /* ← Ülaserva ruum lisatud */
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
@@ -450,7 +451,7 @@ color: #fff !important;
   gap: 1.15em;
   position: static;
   box-sizing: border-box;
-  justify-content: flex-start;
+  justify-content: flex-start; /* <-- VORM JÄÄB ÜLES */
 }
 .alaleht-footer {
   width: 100%;
@@ -633,6 +634,7 @@ background: #303030;
   transition-duration: .3s;
   overflow: hidden;
   position: relative;
+  margin-top: 1.5em;
 }
 
 .svgIcon {
@@ -797,75 +799,6 @@ background: #303030;
   border: 0;
   white-space: nowrap;
 }
-.glass-label-radio {
-  display: block;
-  width: 410px;
-  font-weight: 600;
-  color: #f2f2f2f3;
-  margin-bottom: 0.2em;
-  margin-top: 0.2em;
-  text-align: left;
-}
-
-/* --- RAADIOD --- */
-.glass-radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7em;
-  width: 410px;
-  margin-bottom: 0.2em;
-  align-items: flex-start;
-}
-.glass-radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.45em;
-  font-size: 1.13em;
-  font-weight: 500;
-  color: #f2f2f2ec;
-  letter-spacing: 0.05em;
-}
-.glass-radio-group input[type="radio"] {
-  accent-color: #bfa177;    /* Kuldne raadiotäpp */
-  background: none;
-  box-shadow: none !important;  /* Eemaldab musta varju, kui mingi globaalne reegel on peal */
-  border: none;
-  outline: none;
-  width: 1.18em;
-  height: 1.18em;
-  margin: 0 0.25em 0 0;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
-
-/* --- CHECKBOX ja TEKST SAMAL REAL --- */
-.glass-checkbox {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.3em;
-  flex-wrap: nowrap;        /* Ära lase tekstil murduda – jääb samale reale */
-  width: 100%;
-  max-width: 100%;          /* Väldi kärpimist */
-  margin: 1.3em 0 1.6em 0;
-  line-height: 1.45;
-  white-space: normal;
-  font-size: 1.15em; /* või nt 1.1em või 1rem – vali ise */
-}
-.midtext {
-  color: #f2f2f2ec;  /* või mis tahad */
-  font-size: 1.15em;
-  margin-right: 0.22em;
-  font-weight: 400;
-}
-.glass-checkbox input[type="checkbox"] {
-  accent-color: #bfa177;
-  margin-right: 0.32em;
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
 .glass-bottom-link {
   text-align: center;
   margin: 1.3em 0 0.7em 0;
@@ -942,7 +875,7 @@ a.link-brand, .link-brand {
     padding 0.13s,
     border 0.15s;
   cursor: pointer;
-  font-size: 1.13em;
+  font-size: 1em;
   display: inline-block;
   letter-spacing: 0.03em;
 
@@ -1161,83 +1094,6 @@ a {
 .status-aktiivne { background: #e8fae0; color: #217a2e; }
 .status-lõppenud { background: #ffe2e0; color: #bb3333; }
 .status-puudub { background: #f8f4f0; color: #937145; }
-
-.btn-tertiary,
-.btn-danger {
-  display: inline-block;
-  width: auto;
-  min-width: 0;
-  max-width: 100%;
-  font-family: inherit;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  border-radius: 1.2em;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition: background 0.17s, color 0.13s, border 0.13s;
-}
-
-/* Peamine punane nupp */
-.btn-danger {
-  background: #a72424;
-  color: #fff;
-  border: none;
-  font-size: 1.15em;
-  padding: 0.4em 1em;
-  margin-top: 0.5em;
-  box-shadow: 0 2px 8px #c5404033;
-  align-self: flex-start;
-}
-
-.btn-danger:hover,
-.btn-danger:focus {
-  background: #ad3636;
-  color: #fffbe0;
-}
-
-/* Heleda äärisega nupp, nt "Katkesta" */
-.btn-tertiary {
-  background: #ffffffe8;
-  color: #27211a;
-  border: none;
-  font-size: 1.15em;
-  padding: 0.53em 1.15em;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0.5em;
-  box-shadow: 0 2px 8px #e2d1c326;
-  font-weight: 600;
-}
-
-.btn-tertiary:hover,
-.btn-tertiary:focus {
-  background: #dededee8;
-  border-color: none;
-  color: #151515f6;
-}
-
-.modal-confirm .btn-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7em;
-  align-items: center;   /* <-- muudab nupud keskjoondatuks */
-  width: 100%;
-  margin-top: 0.5em;
-}
-
-.modal-confirm .btn-danger,
-.modal-confirm .btn-tertiary {
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: 100%;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  font-size: 1.15em;
-  padding: 0.47em 1.12em;
-  box-sizing: border-box;
-  align-self: center !important;
-}
-/* --- LOGIN MODAL UUS KUJUNDUS --- */
 
 /* MODAAL, VORMID, NUPUD */
 .login-modal-box,
@@ -1625,7 +1481,7 @@ margin-bottom: 0.05em !important;
   border: 1.2px solid #e1cbb9;
   border-radius: 1.2em;
   padding: 0.55em 1em;
-  margin-bottom: 0.05em !important;
+  margin-bottom: 1em !important;
   margin-top: 2em;
   outline: none;
   font-weight: 400;
@@ -1705,6 +1561,240 @@ text-align: left;
 
 /* Tagasi noole nupu vahe */
 .back-btn-wrapper {
-  margin-top: 2em;
   margin-bottom: 0.2em;
+}
+.glass-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  gap: 0.7em;
+}
+
+.glass-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 400px;
+  font-weight: 600;
+  color: #f2f2f2f3;
+  font-size: 1.15em;
+  margin-bottom: 0.7em;
+  margin-top: 0.2em;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+.first-input-label {
+  margin-top: 1.8em; /* Või nt 32px või 1.7em, timmi täpselt kui suurt ruumi soovid */
+}
+.input-modern {
+  width: 100%;
+  max-width: 100%;
+  font-size: 1em;
+  background: rgba(255,255,255,0.822);
+  color: #181818;
+  border: 1.3px solid #e2d1c9;
+  border-radius: 1.2em;
+  padding: 0.75em 1em;   /* <-- just see määrab lahtri kõrguse */
+  margin-bottom: 0.4em;
+  outline: none;
+  box-shadow: 0 2px 8px 0 #e2d1c140;
+  box-sizing: border-box;
+}
+
+.glass-label-radio {
+  display: block;
+  width: 410px;
+  font-weight: 600;
+  color: #f2f2f2f3;
+  margin-bottom: 0.2em;
+  margin-top: 1em;
+  text-align: left;
+  font-size: 1.15em;
+}
+
+.glass-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  width: 410px;
+  margin-bottom: 0.5em;
+  align-items: flex-start;
+}
+
+.glass-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: 1.15em;
+  font-weight: 500;
+  color: #f2f2f2ec;
+  letter-spacing: 0.05em;
+}
+
+.glass-radio-group input[type="radio"] {
+  accent-color: #bfa177;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.glass-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-size: 1.15em;
+  margin: 1em 0;
+  width: 100%;
+  line-height: 1.5;
+}
+
+.glass-checkbox input[type="checkbox"] {
+  accent-color: #bfa177;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  vertical-align: text-top;
+  margin-left: 7px;
+  margin-top: -1px;
+}
+
+.checkbox-text {
+  display: inline;
+  white-space: normal;
+}
+
+.agree-word {
+  font-size: 1em;
+  font-weight: 500;
+  margin-left: 0.1em;
+}
+
+.and-word {
+  font-size: 1em;
+  font-weight: 500;
+}
+.input-email-top {
+  margin-bottom: 3em;
+  width: 100%;
+  max-width: 100%;
+  font-size: 1em;
+  background: rgba(255,255,255,0.822);
+  color: #181818;
+  border: 1.3px solid #e2d1c9;
+  border-radius: 1.2em;
+  padding: 0.75em 0.75em;   /* <-- just see määrab lahtri kõrguse */
+  margin-bottom: 0.4em;
+  outline: none;
+  box-shadow: 0 2px 8px 0 #e2d1c140;
+  box-sizing: border-box;
+}
+.modal-confirm {
+  background: rgba(34, 34, 34, 0.6);
+  border-radius: 1.5em;
+  color: #e6e6ec;
+  width: 100%;
+  max-width: 410px;
+  min-width: 320px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15em;
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  padding: 2.4em 2.2em 2em 2.2em;
+  overflow-y: auto;
+  box-sizing: border-box;
+  animation: modalSlideIn 0.4s;
+  padding-bottom: calc(2em + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  /* --- BLUR --- */
+  backdrop-filter: blur(9px) saturate(180%);
+}
+.modal-confirm p {
+  font-size: 1.22em;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.23em;
+}
+
+.modal-confirm-title {
+  font-size: 1.12em;
+  font-weight: 600;
+  margin-bottom: 1.5em;
+  color: #b9915e;
+  letter-spacing: 0.02em;
+}
+.btn-danger-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.glass-box .btn-danger {
+  margin-left: 0;
+  margin-right: auto;
+  align-self: flex-start;
+}
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5em;
+}
+
+.btn-danger,
+.btn-tertiary {
+  display: inline-block;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 1.2em;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.17s, color 0.13s, border 0.13s;
+  font-size: 1.15em;
+  padding: 0.47em 1.12em;
+  align-self: center !important;
+}
+
+.btn-danger {
+  background: #a72424;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px #c5404033;
+  margin-top: 0.5em;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background: #ad3636;
+  color: #fffbe0;
+}
+
+.btn-tertiary {
+  background: #ffffffe8;
+  color: #27211a;
+  border: none;
+  box-shadow: 0 2px 8px #e2d1c326;
+  font-weight: 600;
+  margin-top: 0.5em;
+}
+
+.btn-tertiary:hover,
+.btn-tertiary:focus {
+  background: #dededee8;
+  color: #151515f6;
 }
