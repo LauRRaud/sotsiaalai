@@ -35,24 +35,32 @@ export default function TellimusBody() {
     <div className="page-bg-gradient">
       <div className="alaleht-inner">
         <div className="glass-box">
+
+          {/* Lehe pealkiri */}
           <h1 className="glass-title">Halda tellimust</h1>
+
+          {/* Tellimuse staatus */}
+          <div className="tellimus-status-center">
+            <div className="tellimus-status-label">Tellimuse staatus</div>
+            <span className={`tellimus-status-pill status-${status}`}>
+              {status === "aktiivne"
+                ? "Aktiivne"
+                : status === "lõppenud"
+                ? "Lõppenud"
+                : "Puudub"}
+            </span>
+          </div>
+
+          {/* Tellimuse detailid */}
           <div className="tellimus-info-list">
             <div>
-              <b>Tellimuse staatus:</b>{" "}
-              <span className={`tellimus-status-pill status-${status}`}>
-                {status === "aktiivne"
-                  ? "Aktiivne"
-                  : status === "lõppenud"
-                  ? "Lõppenud"
-                  : "Pole tellimust"}
-              </span>
-            </div>
-            <div>
               <b>Roll:</b>{" "}
-              {role === "specialist" ? "Spetsialist" : "Eluküsimusega pöörduja"}
+              {role === "specialist"
+                ? "Spetsialist"
+                : "Eluküsimusega pöörduja"}
             </div>
             <div>
-              <b>Kuutasu:</b> 7.99 € / kuu
+              <b>Kuutasu:</b> 7.99 €
             </div>
             <div>
               <b>Kehtiv kuni:</b>{" "}
@@ -64,20 +72,20 @@ export default function TellimusBody() {
             </div>
           </div>
 
-          {status !== "aktiivne" && (
-            <button className="btn-primary" onClick={handleMaksa}>
-              Maksa ja aktiveeri tellimus
-            </button>
-          )}
-
-          {status === "aktiivne" && (
-            <div className="btn-danger-wrapper">
+          {/* Peamine nupp keskel */}
+          <div className="tellimus-btn-center">
+            {status !== "aktiivne" ? (
+              <button className="btn-primary" onClick={handleMaksa}>
+                Alusta tellimist
+              </button>
+            ) : (
               <button className="btn-danger" onClick={handleCancel}>
                 Tühista tellimus
               </button>
-            </div>
-          )}
+            )}
+          </div>
 
+          {/* Tagasi-nupp */}
           <div className="back-btn-wrapper">
             <button
               type="button"
@@ -89,7 +97,9 @@ export default function TellimusBody() {
             </button>
           </div>
 
-          <footer className="alaleht-footer">Sotsiaal.AI &copy; 2025</footer>
+          <footer className="alaleht-footer">
+            Sotsiaal.AI &copy; 2025
+          </footer>
         </div>
       </div>
 

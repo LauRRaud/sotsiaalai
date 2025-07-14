@@ -393,39 +393,6 @@ a.footer-link, .footer-link {
   letter-spacing: 0.07em;
   opacity: 0.95;
 }
-.btn-primary {
-  background: #181818;
-  color: #fffffff2 !important;
-  border: 2px solid #e2d1c3;
-  border-radius: 1.3em;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-  font-size: 1.2em;
-  padding: 0.5em 0.9em;
-  margin: 0;
-  outline: none;
-  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
-  box-shadow: 0 2px 10px 0 #bfa17725;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-    align-self: center;
-}
-.btn-primary:hover,
-.btn-primary:focus {
-  background: #222;                      /* veidi heledam must hoveril */
-color: #fff !important;  
-  border: 2px solid #f5e8db;             /* veidi heledam border */
-  box-shadow: 0 2px 12px 0 #e2d1c140;
-}
-.btn-primary span {
-  color: inherit !important;             /* Võtab nupu teksti värvi */
-  font-weight: 400;
-  letter-spacing: 0.1rem;
-  white-space: nowrap;
-  background: none;
-}
 .alaleht-inner {
   width: 100%;
   max-width: 920px;
@@ -1075,25 +1042,6 @@ a {
   border: 2px solid #f5e8db;
   box-shadow: 0 2px 10px 0 #deccbdb0;
 }
-.tellimus-info-list {
-  margin-bottom: 1em;
-  margin-top: 2em;
-  font-size: 1.08em;
-  line-height: 1.7;
-  padding-left: 0.3em;
-}
-
-.tellimus-status-pill {
-  display: inline-block;
-  margin-left: 0.7em;
-  padding: 0.13em 1.2em;
-  border-radius: 1em;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.status-aktiivne { background: #e8fae0; color: #217a2e; }
-.status-lõppenud { background: #ffe2e0; color: #bb3333; }
-.status-puudub { background: #f8f4f0; color: #937145; }
 
 /* MODAAL, VORMID, NUPUD */
 .login-modal-box,
@@ -1176,15 +1124,6 @@ a {
   pointer-events: none;
   user-select: none;
 }
-/* --- EMAIL/PAROOL VORMI INPUT --- */
-.login-modal-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100%;
-  gap: 1em;
-  width: 100%;
-}
 .login-modal-form button.btn-primary {
   margin-top: 0em;    /* Väiksem vahe ülevalt! */
   margin-bottom: 0em;
@@ -1252,8 +1191,6 @@ margin-bottom: 0.05em !important;
   box-shadow: 0 0 7px 0 #e3d2ab66;
   text-decoration: none;
 }
-
-/* --- SISENEN NUPP --- */
 .btn-primary {
   background: #181818;
   color: #fffffff2 !important;
@@ -1271,10 +1208,8 @@ margin-bottom: 0.05em !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: center;
-  margin-top: 0.44em;
+    align-self: center
 }
-
 .btn-primary:hover,
 .btn-primary:focus {
   background: #222;
@@ -1732,17 +1667,6 @@ text-align: left;
   color: #b9915e;
   letter-spacing: 0.02em;
 }
-.btn-danger-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.glass-box .btn-danger {
-  margin-left: 0;
-  margin-right: auto;
-  align-self: flex-start;
-}
 .btn-row {
   display: flex;
   flex-direction: column;
@@ -1797,4 +1721,78 @@ text-align: left;
 .btn-tertiary:focus {
   background: #dededee8;
   color: #151515f6;
+}
+.tellimus-info-list {
+  max-width: 420px;
+  margin: 0.7em auto 0.8em auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.36em;
+  text-align: left;
+  margin-top: -1em;
+}
+
+/* Staatus blokk (üleval keskel) */
+.tellimus-status-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.1em;
+  margin-top: 0.2em;
+}
+
+.tellimus-status-label {
+  font-size: 1.2em;
+  color: #e1c6af;
+  font-weight: 700;
+  margin-bottom: 0.25em;
+  letter-spacing: 0.04em;
+}
+
+.tellimus-status-pill {
+  display: inline-block;
+  border-radius: 1.4em;
+  font-size: 1.16em;          /* Suurem tekst */
+  padding: 0.18em 1.35em;     /* Veidi kõrgem ja laiem pill */
+  min-width: 0;
+  text-align: center;
+  font-weight: 700;
+  box-shadow: 0 2px 8px 0 #bfa1771e;
+  letter-spacing: 0.012em;
+  margin: 0.7em 0;
+  margin-bottom: 1em;
+}
+
+/* Pill staatused */
+.status-aktiivne  { background: #e8fae0; color: #217a2e; }
+.status-lõppenud  { background: #ffe2e0; color: #bb3333; }
+.status-puudub    { background: #f8f4f0; color: #343434; }
+
+.tellimus-btn-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+  margin-top: 0.3em;
+  margin-bottom: 0;
+}
+
+.tellimus-pay-info {
+  color: #e1cbb9;
+  font-size: 0.98em;
+  text-align: center;
+  margin-top: 0.13em;
+  font-weight: 400;
+  opacity: 0.88;
+  letter-spacing: 0.02em;
+}
+.tellimus-btn-center,
+.btn-danger-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+  margin-top: 0.3em;
+  margin-bottom: 0;
+  width: 100%;
 }
