@@ -33,6 +33,7 @@ export default function HomePage() {
   return (
     <>
       <Particles className="particles-container" />
+    
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -54,11 +55,8 @@ export default function HomePage() {
                       ].join(" ")}
                       style={{ position: "relative" }} // OLULINE
                     >
-                      <div className="card-title">
-                        <span className="brand-title brand-title-left">SotsiaalAI</span>
-                      </div>
                       <div className="card-content">
-                        <span className="headline-bold">Sotsiaaltöö<br />spetsialistile</span>
+<span className="headline-bold"><strong>Sotsiaaltöö</strong><br />spetsialistile</span>
                         <span className="card-description">Seadused, praktika<br />ja nõuanded.</span>
                       </div>
                       {/* LOGO alati täpselt kaardi keskel */}
@@ -124,17 +122,8 @@ export default function HomePage() {
                       ].join(" ")}
                       style={{ position: "relative" }} // OLULINE
                     >
-<div className="card-title">
-  <span className="brand-title brand-title-right">
-    SotsiaalA
-    <span className="triangle-mark">{'<'}</span>
-    <span className="golden-b">B</span>
-    <span className="triangle-mark">{'>'}</span>
-    I
-  </span>
-</div>
                       <div className="card-content">
-                        <span className="headline-bold">Eluküsimusega<br />pöördujale</span>
+<span className="headline-bold"><strong>Eluküsimusega</strong><br />pöördujale</span>
                         <span className="card-description">Õigused, juhised<br />ja võimalused.</span>
                       </div>
                       <img
@@ -180,8 +169,8 @@ export default function HomePage() {
         </div>
       </div>
 <footer className="footer-column">
-  <a href="/meist" className="footer-link">MEIST</a>
-  <span className="footer-meta">Sotsiaal.AI © 2025</span>
+  <a href="/meist" className="footer-link footer-link-headline">MEIST</a>
+  <img src="/logomust.svg" alt="Sotsiaal.AI logo" className="footer-logo-img" />
 </footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
