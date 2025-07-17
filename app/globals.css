@@ -81,7 +81,7 @@ p, ul, li, .glass-list, .glass-section, .alaleht-inner, .card-note, .btn-primary
 
 /* Bold */
 b, strong {
-  font-family: 'Aino Headline', 'Aino', Arial, sans-serif !important;
+  font-family: 'Aino', Arial, sans-serif !important;
 }
 .headline-bold strong {
   font-weight: 700;
@@ -89,8 +89,7 @@ b, strong {
   display: inline-block;
 }
 h2, .glass-h2 {
-  font-family: 'Aino Bold', 'Aino', Arial, sans-serif !important;
-  font-weight: bold;
+  font-family: 'Aino', Arial, sans-serif !important;
   /* muu stiil */
 }
 /* Linkide stiil */
@@ -329,32 +328,36 @@ a,
   justify-content: center;
 }
 .brand-title {
-  font-size: 2.9rem;
+  font-size: 2.7rem;
   letter-spacing: 0.04em;
   text-align: center;
   margin-top: 0rem;
   margin-bottom: 0rem;
 }
 .left-card-primary .headline-bold {
-  font-size: 1.8rem; color: #000000e0;
-  margin-bottom: 0.3em; margin-top: 1.6em; letter-spacing: 0.1em;
-  text-shadow: none; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  font-size: 1.75rem;
+  color: #000000;
+  margin-bottom: 0.3em;
+  margin-top: 1.6em;
+  letter-spacing: 0.1em;
+  text-shadow: 0.8px 0.8px 2px rgba(0, 0, 0, 0.4);
+  z-index: 3;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.8rem; color: #ffffffea;
-  margin-bottom: 0.3em; margin-top: 1.6em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  font-size: 1.7rem; color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.3em; margin-top: 1.6em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3;
 }
 .left-card-primary .card-description {
-  font-size: 1.5rem; color: #000000e0;
+  font-size: 1.4rem; color: rgba(0, 0, 0, 0.85); text-shadow: 0.8px 0.8px 2px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.45em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.5rem; color: #ffffffea;
+  font-size: 1.4rem; color: rgba(255, 255, 255, 0.85); font-weight: normal;
   margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.45em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
-.card-note.left-back { color: #000000e0; font-size: 1.4rem; letter-spacing: 0.02em;}
-.card-note.right-back { color: #ffffffd2; font-size: 1.4rem; letter-spacing: 0.02em;}
+.card-note.left-back { color: #000000e0; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em;}
+.card-note.right-back { color: #ffffffd2; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em;}
 .card-title.back { color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
 .centered-back-right .card-title.back {
   color: #ffffffd2;           /* paremal kaart: valge */
@@ -383,7 +386,7 @@ a,
   bottom: 0;
   background: transparent;
   z-index: 99;
-  gap: 0.4em;
+  gap: 1em;
 }
 .footer-link-headline {
   font-family: 'Aino Headline', 'Aino', Arial, sans-serif !important;
@@ -412,7 +415,7 @@ a,
 }
 .footer-logo-img {
   height: auto;        /* väiksem kõrgus */
-  max-width: 370px;    /* väiksem laius */
+  max-width: 300px;    /* väiksem laius */
   width: auto;
   display: block;
   margin: 0em 0 0m 0;
@@ -741,10 +744,9 @@ background: #303030;
 }
 /* --- ALAPEALKIRJAD / LOETELUD --- */
 .glass-h2 {
-  font-weight: 600;
-  font-size: 1.35em;
+  font-size: 1.15em;
   margin: 2.1em 0 0.7em 0;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   display: flex;
   align-items: baseline;
   line-height: 1.1;
@@ -816,7 +818,7 @@ background: #303030;
 }
 .glass-box p,
 .glass-section p {
-  font-size: 1em;
+  font-size: 1.05em;
   color: #f0eeea;
   line-height: 1.56;
   letter-spacing: 0.008em;
@@ -824,10 +826,10 @@ background: #303030;
 }
 strong, b {
   font-weight: 600; /* Või 700 – vali! */
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 .glass-list {
-  font-size: 1.15em;
+  font-size: 1.05em;
   color: #f0eeea;
   font-weight: 400;   /* Ära pane 300 – see teeb liiga heledaks */
   line-height: 1.56;
@@ -835,7 +837,6 @@ strong, b {
 }
 .link-brand {
   color: #e1c6af !important;
-  font-weight: 400;
   transition:
     color 0.16s,
     border 0.17s,
@@ -858,7 +859,6 @@ strong, b {
 }
 a.link-brand, .link-brand {
   color: #e9e9e9f3;
-  font-weight: 600;
   text-decoration: none;
   transition:
     color 0.17s,
@@ -868,7 +868,7 @@ a.link-brand, .link-brand {
     padding 0.13s,
     border 0.15s;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1.1em;
   display: inline-block;
   letter-spacing: 0.03em;
 
@@ -890,8 +890,7 @@ a.link-brand:focus,
 
   }
 .meist-external-link {
-  font-size: 0.97em;
-  font-weight: 600;
+  font-size: 1.05em;
   color: #e1c6af !important;
   background: none;
   border: none;
@@ -975,7 +974,7 @@ a {
 /* Tellimuslink, kasutab olemasolevat .link-brand */
 .profile-tellimus-link {
   margin-top: 0.2em;
-  font-size: 1.12em;
+  font-size: 1.15em;
   font-weight: 600;
   color: #e1c6af !important;
   text-align: center;
@@ -1000,7 +999,7 @@ a {
 }
 
 .profile-form-vertical .glass-label {
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 500;
   color: #f2f2f2ef;
   margin-bottom: 0.1em;
@@ -1033,7 +1032,7 @@ a {
   border-radius: 1.3em;
   letter-spacing: 0.05em;
   font-weight: 500;
-  font-size: 1.2em;
+  font-size: 1.1em !important;
   padding: 0.5em 1em;
   margin: 0;
   outline: none;
@@ -1051,7 +1050,7 @@ a {
   border-radius: 1.3em;
   letter-spacing: 0.05em;
   font-weight: 500;
-  font-size: 1.2em;
+  font-size: 1.1em !important;
   padding: 0.5em 1em;
   margin: 0;
   outline: none;
@@ -1576,6 +1575,7 @@ text-align: left;
   margin-top: 1em;
   text-align: left;
   font-size: 1.15em;
+    letter-spacing: 0.07em;
 }
 
 .glass-radio-group {
@@ -1585,6 +1585,7 @@ text-align: left;
   width: 410px;
   margin-bottom: 0.5em;
   align-items: flex-start;
+    vertical-align: text-top;
 }
 
 .glass-radio-group label {
@@ -1595,17 +1596,18 @@ text-align: left;
   font-weight: 500;
   color: #f2f2f2ec;
   letter-spacing: 0.05em;
+    vertical-align: text-top;
 }
 
 .glass-radio-group input[type="radio"] {
   accent-color: #bfa177;
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
+  width: 28px;
+  height: 28px;
+  vertical-align: text-top;
   cursor: pointer;
 }
 .glass-checkbox {
-  display: flex;
+  display: inline-flex;
   align-items: flex-start;
   gap: 0.4em;
   font-size: 1.15em;
@@ -1613,7 +1615,14 @@ text-align: left;
   width: 100%;
   line-height: 1.5;
 }
-
+.glass-checkbox .link-brand {
+  font-size: 1em !important;    /* või nt 0.98em või 0.95em */
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0 0.1em;
+  border-width: 1.2px;
+  vertical-align: center;
+}
 .glass-checkbox input[type="checkbox"] {
   accent-color: #bfa177;
   width: 38px;
@@ -1633,11 +1642,19 @@ text-align: left;
   font-size: 1em;
   font-weight: 500;
   margin-left: 0.1em;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: center;
+  letter-spacing: 0.06em;
 }
 
 .and-word {
   font-size: 1em;
   font-weight: 500;
+    line-height: 1;
+  display: inline-block;
+  vertical-align: center;
+  letter-spacing: 0.06em;
 }
 .input-email-top {
   margin-bottom: 3em;
@@ -1653,6 +1670,12 @@ text-align: left;
   outline: none;
   box-shadow: 0 2px 8px 0 #e2d1c140;
   box-sizing: border-box;
+}
+.glass-bottom-link .midtext {
+  font-size: 1em;    /* või nt 0.93em väiksemaks, 1.07em suuremaks */
+  font-weight: 500;
+  vertical-align: text-top;
+  letter-spacing: 0.06em;
 }
 .modal-confirm {
   background: rgba(34, 34, 34, 0.6);

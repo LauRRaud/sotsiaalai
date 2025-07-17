@@ -56,7 +56,7 @@ export default function HomePage() {
                       style={{ position: "relative" }} // OLULINE
                     >
                       <div className="card-content">
-<span className="headline-bold"><strong>Sotsiaaltöö</strong><br />spetsialistile</span>
+<span className="headline-bold">SOTSIAALTÖÖ<br />SPETSIALISTILE</span>
                         <span className="card-description">Seadused, praktika<br />ja nõuanded.</span>
                       </div>
                       {/* LOGO alati täpselt kaardi keskel */}
@@ -123,7 +123,7 @@ export default function HomePage() {
                       style={{ position: "relative" }} // OLULINE
                     >
                       <div className="card-content">
-<span className="headline-bold"><strong>Eluküsimusega</strong><br />pöördujale</span>
+<span className="headline-bold">ELUKÜSIMUSEGA<br />PÖÖRDUJALE</span>
                         <span className="card-description">Õigused, juhised<br />ja võimalused.</span>
                       </div>
                       <img

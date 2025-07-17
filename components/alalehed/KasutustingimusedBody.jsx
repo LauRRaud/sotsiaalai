@@ -32,13 +32,6 @@ export default function KasutustingimusedBody() {
           <p>
             Vestlused edastatakse töötlemiseks vastava teenuse serveritesse, mis võivad paikneda väljaspool Euroopa Liitu. Platvormi haldaja ei vastuta kolmandate osapoolte teenuste ega nende poolt kogutud ja töödeldud andmete eest.
           </p>
-          <p>
-            Andmete töötlemise põhimõtted on täpsemalt kirjeldatud{" "}
-            <Link href="/privaatsustingimused" className="link-brand">
-              privaatsuspoliitikas
-            </Link>
-            .
-          </p>
 
           <h2 className="glass-h2">4. Kasutaja õigused ja kohustused</h2>
           <ul className="glass-list">

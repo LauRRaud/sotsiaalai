@@ -41,17 +41,17 @@ export default function MeistBody() {
 
 <section className="glass-section">
   <p>
-    <b>SotsiaalAI</b> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
+    <strong>SotsiaalAI</strong> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
   </p>
   <p>
-    Platvormil töötavad kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
+    Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
   </p>
   <p>
-    Sotsiaalvaldkonnas on info killustunud ja orienteerumine keeruline — seda kinnitab ka{" "}
+    Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
     <a href="https://oskareport.ee" className="meist-external-link" target="_blank" rel="noopener noreferrer">
       OSKA raport (2025)
     </a>
-    . SotsiaalAI aitab seda barjääri vähendada, pakkudes tuge nii professionaalide tööprotsessis kui ka abi vajavatele inimestele.
+    . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
   </p>
   <p>
     Platvormi arendab ja haldab SotsiaalAI OÜ. Teenus täiustub pidevalt, et tagada ajakohane ning praktiline kasutajakogemus kõigile.
