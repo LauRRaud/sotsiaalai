@@ -87,16 +87,17 @@ const Particles = ({
   particleColors = [
     "#e2d1c3", // šampanja
     "#f4e8db", // hele beež
-    "#ae9880", // veidi tumedam, neutraalne beež
-    "#181818", // must, tumedam toon
+    "#ae9880", // neutraalne beež
+    "#181818", // must
+    "#232323", // veel üks tumehall
   ],
   moveParticlesOnHover = false,            
-  particleHoverFactor = 1,               
+  particleHoverFactor = 1,                
   alphaParticles = true,        
-  particleBaseSize = 700,                
-  sizeRandomness = 0.5,                 
-  cameraDistance = 20,                      
-  disableRotation = false,                    
+  particleBaseSize = 1000,         // SUUREMAD OSADOMINEERIVAMAD
+  sizeRandomness = 0.3,           // väiksem randomness, rohkem suuri
+  cameraDistance = 20,                     
+  disableRotation = false,                   
   className = "",
 }) => {
   const containerRef = useRef(null);

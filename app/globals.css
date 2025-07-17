@@ -328,7 +328,7 @@ a,
   justify-content: center;
 }
 .brand-title {
-  font-size: 2.7rem;
+  font-size: 2rem;
   letter-spacing: 0.04em;
   text-align: center;
   margin-top: 0rem;
@@ -337,30 +337,30 @@ a,
 .left-card-primary .headline-bold {
   font-size: 1.75rem;
   color: #000000;
-  margin-bottom: 0.3em;
-  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+  margin-top: 1.2em;
   letter-spacing: 0.1em;
-  text-shadow: 0.8px 0.8px 2px rgba(0, 0, 0, 0.4);
+  text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
   z-index: 3;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.7rem; color: rgba(255, 255, 255, 0.85);   text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.4);
-  margin-bottom: 0.3em; margin-top: 1.6em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3;
+  font-size: 1.7rem; color: rgba(255, 255, 255, 0.85);   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
+  margin-bottom: 0.5em; margin-top: 1.2em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3;
 }
 .left-card-primary .card-description {
-  font-size: 1.45rem; color: rgba(0, 0, 0, 0.85); text-shadow: 0.8px 0.8px 2px rgba(0, 0, 0, 0.4);
-  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.45em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  font-size: 1.45rem; color: rgba(0, 0, 0, 0.85); text-shadow: 0.6px 0.6px 2px rgba(0, 0, 0, 0.4);
+  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.5em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.4rem; color: rgba(255, 255, 255, 0.85); font-weight: normal; text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.4);
-  margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.45em; text-transform: uppercase; z-index: 3; opacity: 0.9;
+  font-size: 1.4rem; color: rgba(255, 255, 255, 0.85); font-weight: normal;  text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);
+  margin: 0 0; line-height: 1.32; margin-bottom: 1.5em; letter-spacing: 0.04em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
-.card-note.left-back { color: #000000e0; font-size: 1.45rem; font-weight: normal; letter-spacing: 0.02em;}
-.card-note.right-back { color: #ffffffd2; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em;}
-.card-title.back { color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
+.card-note.left-back { color: #000000e0; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 0.2px 0.2px 2px rgba(0, 0, 0, 0.4);line-height: 1.2em;}
+.card-note.right-back { color: #ffffffd2; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);line-height: 1.2em; }
+.card-title.back {text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43); text-align: center; color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
 .centered-back-right .card-title.back {
-  color: #ffffffd2;           /* paremal kaart: valge */
+  color: #ffffffd2;   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
 }
 .footer-row {
   display: grid;
@@ -436,9 +436,9 @@ a,
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+  }
 .glass-box {
-  background: rgba(34, 34, 34, 1);
+  background: rgba(34, 34, 34, 0.6);      /* natuke heledam, et blur paistaks paremini */
   border-radius: 1.5em;
   color: #f2f2f2f3;
   padding: 2.4em 2.2em 2em 2.2em;
@@ -451,7 +451,8 @@ a,
   gap: 1.15em;
   position: static;
   box-sizing: border-box;
-  justify-content: flex-start; /* <-- VORM JÄÄB ÜLES */
+  justify-content: flex-start;
+  border: 1.5px solid rgba(227, 210, 171, 0.11);
 }
 .alaleht-footer {
   width: 100%;

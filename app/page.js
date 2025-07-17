@@ -83,7 +83,7 @@ export default function HomePage() {
                   "glow-static"
                 ].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
-                    <span className="brand-title brand-title-left">Küsi nõu</span>
+                    <span className="brand-title brand-title-left">KÜSI NÕU</span>
                   </div>
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend<br />sotsiaalvaldkonna küsimustes.
@@ -149,7 +149,7 @@ export default function HomePage() {
                   "glow-static"
                 ].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
-                    <span className="brand-title brand-title-right">Küsi nõu</span>
+                    <span className="brand-title brand-title-right">KÜSI NÕU</span>
                   </div>
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne<br />elulistes sotsiaalküsimustes.
