@@ -46,16 +46,21 @@ html, body {
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
-
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   overflow-x: hidden;
   background: transparent;
-    font-family: 'Aino', Arial, sans-serif;
+  font-family: 'Aino', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* Flex keskjoondus */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* <-- muuta flex-start → center */
+  align-items: center;       /* <-- lisada center */
 }
 
 .glass-title,
@@ -143,7 +148,14 @@ a,
 }
 .side.left { color: #181818; }
 .side.right { color: #181818b4; }
-
+.page-bg-gradient {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Vertikaalselt keskele */
+  align-items: center;      /* Horisontaalselt keskele */
+  width: 100vw;
+}
 /* --- 3D-KAARDID --- */
 .three-d-card {
   width: 430px; height: 430px; aspect-ratio: 1/1;
@@ -352,12 +364,12 @@ a,
   margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.5em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.4rem; color: rgba(255, 255, 255, 0.85); font-weight: normal;  text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);
+  font-size: 1.4rem; color: rgba(255, 255, 255, 0.911); font-weight: normal;  text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; margin-bottom: 1.5em; letter-spacing: 0.04em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
 .card-note.left-back { color: #000000e0; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 0.2px 0.2px 2px rgba(0, 0, 0, 0.4);line-height: 1.2em;}
-.card-note.right-back { color: #ffffffd2; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);line-height: 1.2em; }
+.card-note.right-back { color: #ffffffe3; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);line-height: 1.2em; }
 .card-title.back {text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43); text-align: center; color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
 .centered-back-right .card-title.back {
   color: #ffffffd2;   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
@@ -490,11 +502,11 @@ a,
   scrollbar-width: thin;
   scrollbar-color: #e2d1c3 #cfc2b2;
   flex: 1 1 auto;
-  min-height: 300px;
-  max-height: 560px;
+  min-height: 370px;
+  max-height: 70vh; 
   overflow-y: auto;
   margin-bottom: 0.5em;
-  padding: 0.6em 10px 0 0.6em;
+  padding: 0.6em 5px 0 0.6em;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
@@ -609,7 +621,7 @@ background: #303030;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  padding: 0 1.7em 0 1.7em;
+  padding: 0 1em 0 1em;
   min-height: 0;
 }
 .chat-back-btn-wrapper {
