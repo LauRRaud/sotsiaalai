@@ -133,7 +133,7 @@ export default function ChatBody() {
               <span className="back-arrow-circle"></span>
             </button>
           </div>
-          <div className="alaleht-footer">Sotsiaal.AI &copy; 2025</div>
+          <div className="alaleht-footer">SotsiaalAI &copy; 2025</div>
         </footer>
       </div>
     </div>

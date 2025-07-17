@@ -344,19 +344,19 @@ a,
   z-index: 3;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.7rem; color: rgba(255, 255, 255, 0.85);
+  font-size: 1.7rem; color: rgba(255, 255, 255, 0.85);   text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.4);
   margin-bottom: 0.3em; margin-top: 1.6em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3;
 }
 .left-card-primary .card-description {
-  font-size: 1.4rem; color: rgba(0, 0, 0, 0.85); text-shadow: 0.8px 0.8px 2px rgba(0, 0, 0, 0.4);
+  font-size: 1.45rem; color: rgba(0, 0, 0, 0.85); text-shadow: 0.8px 0.8px 2px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.8em; margin-top: 1.45em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.4rem; color: rgba(255, 255, 255, 0.85); font-weight: normal;
+  font-size: 1.4rem; color: rgba(255, 255, 255, 0.85); font-weight: normal; text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.4);
   margin: 0 0; line-height: 1.32; margin-bottom: 1.8em; letter-spacing: 0.04em; margin-top: 1.45em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
-.card-note.left-back { color: #000000e0; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em;}
+.card-note.left-back { color: #000000e0; font-size: 1.45rem; font-weight: normal; letter-spacing: 0.02em;}
 .card-note.right-back { color: #ffffffd2; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em;}
 .card-title.back { color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
 .centered-back-right .card-title.back {
@@ -387,35 +387,40 @@ a,
   background: transparent;
   z-index: 99;
   gap: 1em;
-}
+  }
 .footer-link-headline {
   font-family: 'Aino Headline', 'Aino', Arial, sans-serif !important;
-  font-weight: 700;
   font-size: 1.6rem;
   letter-spacing: 0.10em;
   text-transform: uppercase;
   color: #e1cbb9;
   background: none;
   border: 2px solid transparent;
-  padding: 0.07em 0.35em;
+  padding: 0.1em 0.25em;
   border-radius: 0.32em;
+  text-shadow:
+    0 0 1.5px #e3d2abcc,  /* pehme kuldne halo */
+    0 0 1.5px #c9ae85;   /* veidi soojem tuum */
+  box-shadow: 0 0 8px #e3d2ab26,   /* väga pehme, hele kuldne (madal alfa) */
+    0 0 4px #c9ae8523;   /* soojem tuum, veel tagasihoidlikum */
   transition:
     color 0.18s,
     border 0.18s,
     background 0.17s,
-    box-shadow 0.13s;
+    text-shadow 0.16s;
 }
 .footer-link-headline:hover,
 .footer-link-headline:focus {
-  color: #ded4bf;
-  border: 2px solid #ded4bf;
+  color: #e7d5af;
+  border: 2px solid #c2b8a1d8;
   background: rgba(227, 210, 171, 0.09);
-  box-shadow: 0 0 7px 0 #e3d2ab66;
+  box-shadow:     0 0 5px rgb(170, 159, 136),  /* tugevam kuldne kuma */
+    0 0 5px #9c896d;   /* veidi laiem tuum */
   text-decoration: none;
 }
 .footer-logo-img {
   height: auto;        /* väiksem kõrgus */
-  max-width: 300px;    /* väiksem laius */
+  max-width: 320px;    /* väiksem laius */
   width: auto;
   display: block;
   margin: 0em 0 0m 0;

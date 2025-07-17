@@ -59,7 +59,7 @@ export default function UnustasinParooliBody() {
           </div>
 
           <footer className="alaleht-footer reset-footer">
-            Sotsiaal.AI &copy; 2025
+            SotsiaalAI &copy; 2025
           </footer>
         </div>
       </div>

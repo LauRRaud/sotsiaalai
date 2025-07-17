@@ -33,7 +33,6 @@ export default function HomePage() {
   return (
     <>
       <Particles className="particles-container" />
-    
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -56,8 +55,8 @@ export default function HomePage() {
                       style={{ position: "relative" }} // OLULINE
                     >
                       <div className="card-content">
-<span className="headline-bold">SOTSIAALTÖÖ<br />SPETSIALISTILE</span>
-                        <span className="card-description">Seadused, praktika<br />ja nõuanded.</span>
+<span className="headline-bold">SOTSIAALTÖÖ<br/>SPETSIALISTILE</span>
+                        <span className="card-description">Seadused, praktika<br/>ja nõuanded.</span>
                       </div>
                       {/* LOGO alati täpselt kaardi keskel */}
                       <img
@@ -123,8 +122,8 @@ export default function HomePage() {
                       style={{ position: "relative" }} // OLULINE
                     >
                       <div className="card-content">
-<span className="headline-bold">ELUKÜSIMUSEGA<br />PÖÖRDUJALE</span>
-                        <span className="card-description">Õigused, juhised<br />ja võimalused.</span>
+<span className="headline-bold">ELUKÜSIMUSEGA<br/>PÖÖRDUJALE</span>
+                        <span className="card-description">Õigused, juhised<br/>ja võimalused.</span>
                       </div>
                       <img
                         src="/logo/smust.svg"
