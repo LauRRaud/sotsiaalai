@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@react-three/fiber": "^9.1.2",
@@ -24,10 +23,6 @@
     "three": "^0.177.0"
   },
   "devDependencies": {
-    "@eslint/css": "^0.10.0",
-    "@eslint/eslintrc": "^3",
-    "@svgr/webpack": "^8.1.0",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.3"
+    "@svgr/webpack": "^8.1.0"
   }
 }
