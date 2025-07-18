@@ -109,7 +109,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
         rel="noopener noreferrer"
         className="link-brand"
       >
-        kasutajatingimustega
+        kasutajatingimuste
       </a>
       <span className="and-word"> ja </span>
       <a
