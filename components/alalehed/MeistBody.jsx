@@ -5,34 +5,14 @@ import Link from "next/link";
 export default function MeistBody() {
   return (
     <>
-      <Head>
-        <title>Meist – SotsiaalAI</title>
-        <meta
-          name="description"
-          content="SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna abiks. Anonüümne, lihtne, usaldusväärne."
-        />
-        <link
-          rel="preload"
-          href="/fonts/Aino-Headline.otf"
-          as="font"
-          type="font/otf"
-          crossOrigin=""
-        />
-        <link
-          rel="preload"
-          href="/fonts/Aino-Regular.otf"
-          as="font"
-          type="font/otf"
-          crossOrigin=""
-        />
-        <link
-          rel="preload"
-          href="/fonts/Aino-Bold.otf"
-          as="font"
-          type="font/otf"
-          crossOrigin=""
-        />
-      </Head>
+ <Head>
+  <title>Meist – SotsiaalAI</title>
+  <meta
+    name="description"
+    content="SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna abiks. Anonüümne, lihtne, usaldusväärne."
+  />
+</Head>
+
       <div className="page-bg-gradient">
         <div className="glass-box" role="main" aria-labelledby="meist-title">
           <h1 id="meist-title" className="glass-title">
@@ -57,14 +37,13 @@ export default function MeistBody() {
     Platvormi arendab ja haldab SotsiaalAI OÜ. Teenus täiustub pidevalt, et tagada ajakohane ning praktiline kasutajakogemus kõigile.
   </p>
 </section>
-          <section className="glass-section">
-            <h2 className="glass-h2">Kontakt</h2>
-            <p>
-              <b>E-post:</b>{" "}
-              <a href="mailto:info@sotsiaal.ai" className="link-brand">info@sotsiaal.ai</a>
-            </p>
-          </section>
-
+<section className="glass-section">
+  <h2 className="glass-h2">Kontakt</h2>
+  <p className="epost-row">
+    <b>E-post:</b>{" "}
+    <a href="mailto:info@sotsiaal.ai" className="link-brand">info@sotsiaal.ai</a>
+  </p>
+</section>
           <section className="glass-section">
             <p>
               <strong>Enne lehe kasutamist tutvu kindlasti:</strong>
