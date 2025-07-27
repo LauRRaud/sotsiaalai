@@ -3,9 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
-
+import DarkMode from "@/components/DarkMode";
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
-
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
@@ -30,10 +29,11 @@ export default function HomePage() {
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
 
-  return (
-    <>
-      <Particles className="particles-container" />
-      <div className="main-content">
+return (
+  <>
+    <DarkMode />
+    <Particles className="particles-container" />
+    <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
           <div className={`three-d-card float-card left ${flipClass}`}>
@@ -47,18 +47,13 @@ export default function HomePage() {
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
-                      className={[
-                        "glass-card glass-card-light left-card-primary",
-                        !leftFadeDone ? "fade-in" : "",
-                        leftFadeDone && isActive ? "glow-active" : "",
-                      ].join(" ")}
-                      style={{ position: "relative" }} // OLULINE
+                      className={["glass-card glass-card-light left-card-primary", !leftFadeDone ? "fade-in" : "", leftFadeDone && isActive ? "glow-active" : ""].join(" ")}
+                      style={{ position: "relative" }}
                     >
                       <div className="card-content">
-<span className="headline-bold">SOTSIAALTÖÖ<br/>SPETSIALISTILE</span>
+                        <span className="headline-bold">SOTSIAALTÖÖ<br/>SPETSIALISTILE</span>
                         <span className="card-description">Seadused, praktika<br/>ja nõuanded.</span>
                       </div>
-                      {/* LOGO alati täpselt kaardi keskel */}
                       <img
                         src="/logo/aivalge.svg"
                         alt="aivalge logo"
@@ -69,7 +64,6 @@ export default function HomePage() {
                   )}
                 </Magnet>
               </div>
-              {/* Tagakülg */}
               <div
                 className="card-face back"
                 tabIndex={0}
@@ -77,11 +71,7 @@ export default function HomePage() {
                 onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div className={[
-                  "centered-back-left",
-                  !leftFadeDone ? "fade-in" : "",
-                  "glow-static"
-                ].join(" ")} style={{ position: "relative" }}>
+                <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-left">KÜSI NÕU</span>
                   </div>
@@ -114,15 +104,11 @@ export default function HomePage() {
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
-                      className={[
-                        "glass-card glass-card-dark right-card-primary",
-                        !rightFadeDone ? "fade-in" : "",
-                        rightFadeDone && isActive ? "glow-active" : "",
-                      ].join(" ")}
-                      style={{ position: "relative" }} // OLULINE
+                      className={["glass-card glass-card-dark right-card-primary", !rightFadeDone ? "fade-in" : "", rightFadeDone && isActive ? "glow-active" : ""].join(" ")}
+                      style={{ position: "relative" }}
                     >
                       <div className="card-content">
-<span className="headline-bold">ELUKÜSIMUSEGA<br/>PÖÖRDUJALE</span>
+                        <span className="headline-bold">ELUKÜSIMUSEGA<br/>PÖÖRDUJALE</span>
                         <span className="card-description">Õigused, juhised<br/>ja võimalused.</span>
                       </div>
                       <img
@@ -135,7 +121,6 @@ export default function HomePage() {
                   )}
                 </Magnet>
               </div>
-              {/* Tagakülg */}
               <div
                 className="card-face back"
                 tabIndex={0}
@@ -143,11 +128,7 @@ export default function HomePage() {
                 onKeyDown={e => (e.key === "Enter" || e.key === " ") && flipAllowed && setIsLoginOpen(true)}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div className={[
-                  "centered-back-right",
-                  !rightFadeDone ? "fade-in" : "",
-                  "glow-static"
-                ].join(" ")} style={{ position: "relative" }}>
+                <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-right">KÜSI NÕU</span>
                   </div>
@@ -167,10 +148,10 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-<footer className="footer-column">
-  <a href="/meist" className="footer-link footer-link-headline">MEIST</a>
-  <img src="/logomust.svg" alt="Sotsiaal.AI logo" className="footer-logo-img" />
-</footer>
+      <footer className="footer-column">
+        <a href="/meist" className="footer-link footer-link-headline">MEIST</a>
+        <img src="/logomust.svg" alt="Sotsiaal.AI logo" className="footer-logo-img" />
+      </footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
