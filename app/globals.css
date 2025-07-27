@@ -347,24 +347,24 @@ a, .link-brand, .meist-external-link {
   margin-bottom: 0rem;
 }
 .left-card-primary .headline-bold {
-  font-size: 1.9rem;
-  color: #000000;
+  font-size: 1.85rem;
+  color: #1f1f1f;
   margin-bottom: 0.5em;
   margin-top: 1.2em;
   letter-spacing: 0.1em;
-  text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
+  text-shadow: 2px 2px 2.7px rgba(36, 36, 36, 0.695);
   z-index: 3;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.85rem; color: rgba(255, 255, 255, 0.85);   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
+  font-size: 1.8rem; color: rgba(255, 255, 255, 0.85);   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
   margin-bottom: 0.5em; margin-top: 1.2em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3;
 }
 .left-card-primary .card-description {
-  font-size: 1.55rem; color: rgba(0, 0, 0, 0.85); text-shadow: 0.6px 0.6px 2px rgba(0, 0, 0, 0.4);
+  font-size: 1.5rem; color: rgb(39, 39, 39); text-shadow: 0.3px 0.3px 1px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.5em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.5rem; color: rgba(255, 255, 255, 0.911); font-weight: normal;  text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);
+  font-size: 1.45rem; color: rgba(255, 255, 255, 0.911); font-weight: normal;  text-shadow: 1px 1px 1.7px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; margin-bottom: 1.5em; letter-spacing: 0.04em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
