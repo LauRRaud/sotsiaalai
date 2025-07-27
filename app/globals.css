@@ -1115,7 +1115,7 @@ a {
   top: 50vh;
   transform: translate(-50%, -50%);
   z-index: 100;
-  padding: 2.3em 2em 1.7em 2em;
+  padding: 2.3em 1em 1.7em 1em;
   box-sizing: border-box;
   animation: modalSlideIn 0.4s;
   padding-bottom: 1.7em;
@@ -1183,13 +1183,14 @@ a {
 .input-modern,
 .login-modal-form input {
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
+  max-width: 700px;
   font-size: 1.15em;
   background: rgba(255, 255, 255, 0.822);
   color: #181818;
   border: 1.2px solid #e1cbb9;
   border-radius: 1.2em;
-  padding: 0.55em 1em;
+  padding: 0.7em 1em;
 margin-bottom: 0.325em !important;
   outline: none;
   font-weight: 400;
@@ -1314,7 +1315,7 @@ margin-bottom: 0.325em !important;
 
 .login-modal-form {
   width: 100%;
-  max-width: 300px;        /* Tee kitsamaks, nt 290px või 300px */
+  max-width: 325px;        /* Tee kitsamaks, nt 290px või 300px */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1622,8 +1623,8 @@ text-align: left;
 }
 .glass-radio-group input[type="radio"] {
   accent-color: #bfa177;
-  width: 28px;
-  height: 28px;
+  width: 23px;
+  height: 23px;
   cursor: pointer;
   position: relative;
   top: -3px;  /* vajadusel timmi väärtust -1px kuni +2px */
@@ -1646,11 +1647,11 @@ text-align: left;
 }
 .glass-checkbox input[type="checkbox"] {
   accent-color: #bfa177;
-  width: 38px;
-  height: 38px;
+  width: 33px;
+  height: 33px;
   cursor: pointer;
   margin-left: 9px;
-  margin-top: -4.5px;
+  margin-top: -1.5px;
 }
 
 .checkbox-text {
@@ -1867,4 +1868,60 @@ padding: 2.4em 2.2em calc(2em + env(safe-area-inset-bottom, 0px)) 2.2em;
   margin-top: 0.3em;
   margin-bottom: 0;
   width: 100%;
+}
+.btn-primary,
+.btn-primary span,
+.btn-danger,
+.btn-tertiary,
+.chat-send-btn,
+.chat-send-btn.stop,
+.login-icon-btn,
+.reset-btn,
+.button, /* prügikast/kustuta */
+.btn-profile-save,
+.btn-profile-logout {
+  font-family: 'Aino', Arial, sans-serif !important;
+  letter-spacing: 0.03em;
+}
+input,
+textarea,
+select,
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="radio"],
+input[type="checkbox"],
+.chat-input-field,
+.input-modern,
+.reset-input {
+  font-family: 'Aino', Arial, sans-serif !important;
+}
+input::placeholder,
+textarea::placeholder,
+.chat-input-field::placeholder,
+.input-modern::placeholder,
+.reset-input::placeholder {
+  font-family: 'Aino', Arial, sans-serif !important;
+}
+
+/* Labelid (vormis, profiilis, taastamisel jms) */
+label,
+.glass-label,
+.reset-label {
+  font-family: 'Aino', Arial, sans-serif !important;
+}
+input,
+textarea,
+select,
+button,
+label {
+  font-family: 'Aino', Arial, sans-serif !important;
+}
+.input-modern,
+.reset-input,
+.chat-input-field,
+.input-email-top {
+  padding: 0.6em 1em;   /* ↑ muudab kõrgemaks, nt 1em või 1.1em või isegi 1.2em */
+  font-size: 1.11em;    /* Võid fonti natuke suurendada kui tahad */
+  /* muud omadused jäävad samaks */
 }
