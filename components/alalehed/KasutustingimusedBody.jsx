@@ -6,7 +6,7 @@ export default function KasutustingimusedBody() {
     const router = useRouter();
   return (
     <div className="page-bg-gradient">
-      <div className="glass-box" role="main" aria-labelledby="kasutustingimused-title">
+<div className="glass-box" role="main" aria-labelledby="kasutustingimused-title" lang="et">
         <h1 id="kasutustingimused-title" className="glass-title">
           Kasutustingimused
         </h1>

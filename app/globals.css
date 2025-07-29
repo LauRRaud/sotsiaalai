@@ -87,13 +87,14 @@ body {
   font-weight: 400; /* Kui sul Headline only 400, muidu 700, kui olemas */
 }
 
-body, p, ul, li, .glass-list, .glass-section, .alaleht-inner, .card-note, .card-description {
+body, p, ul, li, .glass-list, .glass-section, .alaleht-inner, .card-note {
   font-family: 'Aino', Arial, sans-serif;
   font-weight: 400;
 }
 b, strong {
   font-family: 'Aino', Arial, sans-serif;
   font-weight: 700;
+  letter-spacing: 0.03em;
 }
 h2, .glass-h2, .glass-label {
   font-family: 'Aino', Arial, sans-serif;
@@ -102,6 +103,12 @@ h2, .glass-h2, .glass-label {
 a, .link-brand, .meist-external-link {
   font-family: 'Aino', Arial, sans-serif;
   font-weight: 400;
+}
+.card-description, .card-note.left-back,
+.card-note.right-back  {
+  font-family: 'Aino', Arial, sans-serif;
+  font-weight: 400;
+  font-style: italic; /* vajadusel, kui soovid italic versiooni */
 }
 .main-content {
   display: flex;
@@ -179,7 +186,7 @@ a, .link-brand, .meist-external-link {
   width: 100%; height: 100%; top: 0; left: 0;
   box-sizing: border-box; backface-visibility: hidden;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(5px) saturate(100%);
+  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%);
 }
 .card-face.front { transform: rotateY(0deg); }
 .card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
@@ -199,7 +206,7 @@ a, .link-brand, .meist-external-link {
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   border: 3px solid #3e3b38c9; /* mustjas tumehall piirjoon */
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
@@ -351,25 +358,25 @@ a, .link-brand, .meist-external-link {
   color: #1f1f1f;
   margin-bottom: 0.5em;
   margin-top: 1.2em;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.075em;
   text-shadow: 2px 2px 2.7px rgba(36, 36, 36, 0.695);
   z-index: 3;
 }
 .right-card-primary .headline-bold {
-  font-size: 1.8rem; color: rgba(255, 255, 255, 0.85);   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
-  margin-bottom: 0.5em; margin-top: 1.2em; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3;
+  font-size: 1.8rem; color: #d8d8d8;   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
+  margin-bottom: 0.5em; margin-top: 1.2em; letter-spacing: 0.075em; text-transform: uppercase; z-index: 3;
 }
 .left-card-primary .card-description {
-  font-size: 1.5rem; color: rgb(39, 39, 39); text-shadow: 0.3px 0.3px 1px rgba(0, 0, 0, 0.4);
+  font-size: 1.45rem; color: #232323; text-shadow: 0.3px 0.3px 1px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.5em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .right-card-primary .card-description {
-  font-size: 1.45rem; color: rgba(255, 255, 255, 0.911); font-weight: normal;  text-shadow: 1px 1px 1.7px rgba(0, 0, 0, 0.4);
+  font-size: 1.4rem; color: #d8d8d8; font-weight: normal;  text-shadow: 1px 1px 1.7px rgba(0, 0, 0, 0.4);
   margin: 0 0; line-height: 1.32; margin-bottom: 1.5em; letter-spacing: 0.04em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0.9;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
-.card-note.left-back { color: #000000e0; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 0.2px 0.2px 2px rgba(0, 0, 0, 0.4);line-height: 1.2em;}
-.card-note.right-back { color: #ffffffe3; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.02em; text-align: center;text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);line-height: 1.2em; }
+.card-note.left-back { color: #232323; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.03em; text-align: center;text-shadow: 0.2px 0.2px 2px rgba(0, 0, 0, 0.4);line-height: 1.2em;}
+.card-note.right-back { color: #d8d8d8; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.04em; text-align: center;text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.4);line-height: 1.2em; }
 .card-title.back {text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43); text-align: center; color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
 .centered-back-right .card-title.back {
   color: #ffffffd2;   text-shadow: 2px 2px 2.7px rgba(0, 0, 0, 0.43);
@@ -469,11 +476,11 @@ a, .link-brand, .meist-external-link {
 .alaleht-footer {
   width: 100%;
   text-align: center;
-  font-size: 1.4rem;
-  color: #ffffffde;
+  font-size: 1.3rem;
+  color: #dedede;
   margin-top: auto;          /* ← see paneb jaluse klaaskasti põhja */
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   margin-top: auto;
   padding-top: 2em;
   padding-bottom: 0.9em;
@@ -533,8 +540,8 @@ a, .link-brand, .meist-external-link {
   flex: 1 1 0;
   width: 100%;
   min-width: 0;
-  font-size: 1.1em;
-  letter-spacing: 0.02em;
+  font-size: 1.15em;
+  letter-spacing: 0.03em;
   background: #303030;         /* ← SEE ON SU "Painti" hall */
   color: #ececf1;              /* ← Hele tekst tumedal taustal */
   border: 1.3px solid #e1cbb9;
@@ -770,7 +777,7 @@ background: #303030;
 .glass-h2 {
   font-size: 1.15em;
   margin: 2.1em 0 0.7em 0;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.03em;
   display: flex;
   align-items: baseline;
   line-height: 1.1;
@@ -845,7 +852,7 @@ background: #303030;
   font-size: 1.05em;
   color: #f0eeea;
   line-height: 1.56;
-  letter-spacing: 0.008em;
+  letter-spacing: 0.03em;
   font-weight: 300
 }
 .glass-list {
@@ -853,7 +860,7 @@ background: #303030;
   color: #f0eeea;
   font-weight: 400;   /* Ära pane 300 – see teeb liiga heledaks */
   line-height: 1.56;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 .link-brand {
   color: #e1c6af !important;
@@ -938,6 +945,7 @@ a {
   align-items: center;
   gap: 0.2em;
   flex-wrap: wrap;
+  letter-spacing: 0.03em;
 }
 .avatar-link {
   position: absolute;
@@ -993,7 +1001,7 @@ a {
   font-weight: 500;
   margin-bottom: 0.22em;
   color: #ececf1;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
 /* Tellimuslink, kasutab olemasolevat .link-brand */
@@ -1003,7 +1011,7 @@ a {
   font-weight: 600;
   color: #e1c6af !important;
   text-align: center;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.3em;
 }
 .profile-tellimus-link:hover,
 .profile-tellimus-link:focus {
@@ -1030,7 +1038,7 @@ a {
   margin-bottom: 0.1em;
   margin-top: 0.35em;
   text-align: left;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
 .profile-form-vertical .glass-label:not(:first-child) {
@@ -1141,7 +1149,7 @@ a {
   background: none;
   color: #dabe9e;
   margin-bottom: 0.4em;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   text-align: center;
 }
 .login-icon-btn {
@@ -1185,11 +1193,12 @@ a {
   width: 100%;
   max-width: 100%;
   max-width: 700px;
-  font-size: 1.15em;
+  font-size: 1.2em;
   background: rgba(255, 255, 255, 0.822);
   color: #181818;
   border: 1.2px solid #e1cbb9;
   border-radius: 1.2em;
+   line-height: 1.3em; 
   padding: 0.7em 1em;
 margin-bottom: 0.325em !important;
   outline: none;
@@ -1198,6 +1207,7 @@ margin-bottom: 0.325em !important;
   box-sizing: border-box;
   display: block;
   box-shadow: 0 2px 8px 0 #e2d1c140;
+  line-height: 1.4;
 }
 
 .input-modern:focus,
@@ -1223,7 +1233,7 @@ margin-bottom: 0.325em !important;
   margin-top: 0em;
   margin-bottom: 0.5em;
   letter-spacing: 0.05em;
-  font-size: 1em;
+  font-size: 1.1em;
   border: 2px solid transparent;
   padding: 0.02em 0.2em;
   border-radius: 0.32em;
@@ -1286,7 +1296,7 @@ margin-bottom: 0.325em !important;
 }
 .login-modal-bottom-link .link-brand {
   display: inline-block;
-  font-size: 1.15em;
+  font-size: 1.2em;
   font-weight: 500;
   text-align: center;
   letter-spacing: 0.06em;
@@ -1424,8 +1434,7 @@ margin-bottom: 0.325em !important;
   text-align: center;
   width: 100%;
   font-size: 2.05em;
-  font-weight: 900;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: #dabe9e;
   margin-bottom: 0.65em;
 }
@@ -1437,7 +1446,7 @@ margin-bottom: 0.325em !important;
   font-size: 1.1em;
   color: #f0eeea;
   line-height: 1.56;
-  letter-spacing: 0.008em;
+  letter-spacing: 0.03em;
   font-weight: 300;
 }
 
@@ -1467,7 +1476,7 @@ margin-bottom: 0.325em !important;
   color: #181818;
   border: 1.2px solid #e1cbb9;
   border-radius: 1.2em;
-  padding: 0.55em 1em;
+  padding: 0.9em 1em;
   margin-bottom: 1em !important;
   margin-top: 2em;
   outline: none;
@@ -1477,6 +1486,7 @@ margin-bottom: 0.325em !important;
   display: block;
   box-shadow: 0 2px 8px 0 #e2d1c140;
 text-align: left;
+line-height: 1.4;
 }
 
 /* Fookus */
@@ -1601,7 +1611,7 @@ text-align: left;
   margin-top: 1em;
   text-align: left;
   font-size: 1.15em;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.03em;
     
 }
 
@@ -1619,7 +1629,7 @@ text-align: left;
   font-size: 1.15em;
   font-weight: 500;
   color: #f2f2f2ec;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 .glass-radio-group input[type="radio"] {
   accent-color: #bfa177;
@@ -1641,7 +1651,7 @@ text-align: left;
 .glass-checkbox .link-brand {
   font-size: 1em !important;    /* või nt 0.98em või 0.95em */
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   padding: 0 0.1em;
   border-width: 1.2px;
 }
@@ -1667,7 +1677,7 @@ text-align: left;
   line-height: 1;
   display: inline-block;
   vertical-align: center;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
 }
 
 .and-word {
@@ -1676,7 +1686,7 @@ text-align: left;
     line-height: 1;
   display: inline-block;
   vertical-align: center;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   margin-right: 0.2em;
   margin-left: 0.3em;
 }
@@ -1699,7 +1709,7 @@ text-align: left;
   font-size: 1em;    /* või nt 0.93em väiksemaks, 1.07em suuremaks */
   font-weight: 500;
   vertical-align: text-top;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
 }
 .modal-confirm {
   background: rgba(34, 34, 34, 0.6);
@@ -1738,7 +1748,7 @@ padding: 2.4em 2.2em calc(2em + env(safe-area-inset-bottom, 0px)) 2.2em;
   font-weight: 600;
   margin-bottom: 1.5em;
   color: #b9915e;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 .btn-row {
   display: flex;
@@ -1757,7 +1767,7 @@ padding: 2.4em 2.2em calc(2em + env(safe-area-inset-bottom, 0px)) 2.2em;
   max-width: 100%;
   font-family: inherit;
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   border-radius: 1.2em;
   cursor: pointer;
   box-sizing: border-box;
@@ -1857,7 +1867,7 @@ padding: 2.4em 2.2em calc(2em + env(safe-area-inset-bottom, 0px)) 2.2em;
   margin-top: 0.13em;
   font-weight: 400;
   opacity: 0.88;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 .tellimus-btn-center,
 .btn-danger-wrapper {
@@ -1921,7 +1931,15 @@ label {
 .reset-input,
 .chat-input-field,
 .input-email-top {
-  padding: 0.6em 1em;   /* ↑ muudab kõrgemaks, nt 1em või 1.1em või isegi 1.2em */
-  font-size: 1.11em;    /* Võid fonti natuke suurendada kui tahad */
-  /* muud omadused jäävad samaks */
+  padding: 0.7em 1em;   /* ↑ muudab kõrgemaks, nt 1em või 1.1em või isegi 1.2em */
+  font-size: 1.2em;    /* Võid fonti natuke suurendada kui tahad */
+line-height: 1.4;
+}
+.glass-box,
+.glass-box p,
+.meist-body,
+.meist-body p {
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }

@@ -14,7 +14,12 @@ export default function MeistBody() {
 </Head>
 
       <div className="page-bg-gradient">
-        <div className="glass-box" role="main" aria-labelledby="meist-title">
+<div
+  className="glass-box"
+  role="main"
+  aria-labelledby="meist-title"
+  lang="et"
+>
           <h1 id="meist-title" className="glass-title">
             Meist
           </h1>

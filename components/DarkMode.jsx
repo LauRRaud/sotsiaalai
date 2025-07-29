@@ -59,7 +59,7 @@ const StyledWrapper = styled.div`
   top: -2.5rem;
   left: 51%;
   transform: translateX(-50%);
-  z-index: 110;
+  z-index: 5;
 
   .themeToggle {
     color: #bbb;

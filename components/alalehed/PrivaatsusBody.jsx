@@ -7,7 +7,12 @@ export default function PrivaatsusBody() {
 
   return (
     <div className="page-bg-gradient">
-      <div className="glass-box" role="main" aria-labelledby="privacy-title">
+<div
+  className="glass-box"
+  role="main"
+  aria-labelledby="privacy-title"
+  lang="et"
+>
         <h1 id="privacy-title" className="glass-title">
           Privaatsustingimused
         </h1>
