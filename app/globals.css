@@ -35,9 +35,11 @@
 }
 html {
   background: linear-gradient(
-    90deg,
-#161616,
-#6f6f6f
+   180deg,
+#111111,
+#606060
+
+
   ) fixed;
 }
 .particles-container {
@@ -202,12 +204,11 @@ a, .link-brand, .meist-external-link {
 }
 .glass-card,
 .centered-back-left {
-  background: rgba(251, 251, 251, 0.7);
+  background: rgba(251, 251, 251, 0.67);
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.7);
-  border: 3px solid #3e3b38c9; /* mustjas tumehall piirjoon */
+  background: rgba(0, 0, 0, 0.67);
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
@@ -234,12 +235,41 @@ a, .link-brand, .meist-external-link {
 .three-d-card:hover .card-face.back > *,
 .three-d-card:focus-within .card-face.back > * {
   animation: brandGlow 6.7s ease-in-out infinite;
-
 }
 @keyframes brandGlow {
-  0%   { box-shadow: 0 0 20px 7px #bfa177b2; }
-  50%  { box-shadow: 0 0 24px 9px #e1cbb9c7; }
-  100% { box-shadow: 0 0 20px 7px #bfa177b2; }
+  0% {
+    box-shadow:
+      inset 0 0 4px 0px rgba(0,0,0,0.8),
+      inset 0 0 40px 20px rgba(0,0,0,0.5),
+      0 0 20px 7px #bfa177b2;
+  }
+  50% {
+    box-shadow:
+      inset 0 0 4px 0px rgba(0,0,0,0.8),
+      inset 0 0 40px 20px rgba(0,0,0,0.5),
+      0 0 24px 9px #e1cbb9c7;
+  }
+  100% {
+    box-shadow:
+      inset 0 0 4px 0px rgba(0,0,0,0.8),
+      inset 0 0 40px 20px rgba(0,0,0,0.5),
+      0 0 20px 7px #bfa177b2;
+  }
+}
+.glass-card,
+.centered-back-left {
+box-shadow: 
+  inset 0 0 4px 0px rgba(0,0,0,0.8),   /* KITSAS, TUMEDAM SERV */
+  inset 0 0 40px 20px rgba(0,0,0,0.5);  /* LAIEM, PEHMEM VARI */
+}
+.glass-card-dark,
+.centered-back-right {
+  box-shadow: 
+    inset 0 0 4px 0px rgba(37, 37, 37, 0.8),    /* KITSAS, HELE SERV */
+    inset 0 0 40px 20px rgba(0, 0, 0, 0.5);   /* LAIEM, PEHMEM HELENDUS */
+}
+.glass-card.glow-active {
+  animation: brandGlow 6.7s ease-in-out infinite;
 }
 .float-card {
   animation: float-vertical 6.7s ease-in-out 0s infinite;
@@ -270,9 +300,6 @@ a, .link-brand, .meist-external-link {
   animation: cardFadeIn 1.5s cubic-bezier(.61,0,.19,1) 0.19s forwards;
 }
 
-.glass-card.glow-active {
-  animation: brandGlow 6.7s ease-in-out infinite;
-}
 .glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.4s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
 
 /* LOGOD: alati 100% kaardi sees ja skaleeruvad kaasa */
@@ -282,10 +309,10 @@ a, .link-brand, .meist-external-link {
 
 .card-logo-bg-right {
   position: absolute;
-  top: 50%;
+  top: 51%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 53%;
+  width: 47%;
   opacity: 0.22;
   z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
   pointer-events: none;
@@ -297,7 +324,7 @@ a, .link-brand, .meist-external-link {
   top: 50%;
   left: 47%;
   transform: translate(-50%, -50%);
-  width: 66%;
+  width: 58%;
   opacity: 0.4;
   z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
 
@@ -308,7 +335,7 @@ a, .link-brand, .meist-external-link {
   top: 82%;
   left: 48%;
   width: 23%;
-  opacity: 0.9;
+  opacity: 0.75;
   transform: translate(-50%, -50%);
 }
 
@@ -317,7 +344,7 @@ a, .link-brand, .meist-external-link {
   top: 82%;
   left: 48%;
   width: 23%;
-  opacity: 0.78;
+  opacity: 0.58;
   transform: translate(-50%, -50%);
 }
 .card-logo-bg-left,
@@ -443,7 +470,7 @@ a, .link-brand, .meist-external-link {
   width: auto;
   display: block;
   margin: 0em 0 0m 0;
-  opacity: 0.4;
+  opacity: 0.55;
 }
 .alaleht-inner {
   width: 100%;
