@@ -204,11 +204,11 @@ a, .link-brand, .meist-external-link {
 }
 .glass-card,
 .centered-back-left {
-  background: rgba(251, 251, 251, 0.6);
+  background: rgba(251, 251, 251, 0.55);
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
