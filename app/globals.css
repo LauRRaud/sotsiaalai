@@ -1957,7 +1957,7 @@ label {
 .chat-input-field,
 .input-email-top {
   padding: 0.7em 1em;   /* ↑ muudab kõrgemaks, nt 1em või 1.1em või isegi 1.2em */
-  font-size: 1.2em;    /* Võid fonti natuke suurendada kui tahad */
+  font-size: 1em;    /* Võid fonti natuke suurendada kui tahad */
 line-height: 1.4;
 }
 .glass-box,
