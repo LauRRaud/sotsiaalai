@@ -6,6 +6,7 @@ import LoginModal from "@/components/LoginModal";
 import DarkMode from "@/components/DarkMode";
 const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
+
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);

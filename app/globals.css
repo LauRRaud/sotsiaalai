@@ -38,8 +38,6 @@ html {
    180deg,
 #111111,
 #606060
-
-
   ) fixed;
 }
 .particles-container {
@@ -240,19 +238,19 @@ a, .link-brand, .meist-external-link {
   0% {
     box-shadow:
       inset 0 0 4px 0px rgba(0,0,0,0.8),
-      inset 0 0 40px 20px rgba(0,0,0,0.5),
+      inset 0 0 30px 12px rgba(0,0,0,0.5),
       0 0 20px 7px #bfa177b2;
   }
   50% {
     box-shadow:
       inset 0 0 4px 0px rgba(0,0,0,0.8),
-      inset 0 0 40px 20px rgba(0,0,0,0.5),
+      inset 0 0 30px 12px rgba(0,0,0,0.5),
       0 0 24px 9px #e1cbb9c7;
   }
   100% {
     box-shadow:
       inset 0 0 4px 0px rgba(0,0,0,0.8),
-      inset 0 0 40px 20px rgba(0,0,0,0.5),
+      inset 0 0 30px 12px rgba(0,0,0,0.5),
       0 0 20px 7px #bfa177b2;
   }
 }
@@ -260,13 +258,13 @@ a, .link-brand, .meist-external-link {
 .centered-back-left {
 box-shadow: 
   inset 0 0 4px 0px rgba(0,0,0,0.8),   /* KITSAS, TUMEDAM SERV */
-  inset 0 0 40px 20px rgba(0,0,0,0.5);  /* LAIEM, PEHMEM VARI */
+  inset 0 0 30px 12px rgba(0,0,0,0.5);  /* LAIEM, PEHMEM VARI */
 }
 .glass-card-dark,
 .centered-back-right {
   box-shadow: 
     inset 0 0 4px 0px rgba(37, 37, 37, 0.8),    /* KITSAS, HELE SERV */
-    inset 0 0 40px 20px rgba(0, 0, 0, 0.5);   /* LAIEM, PEHMEM HELENDUS */
+    inset 0 0 30px 12px rgba(0, 0, 0, 0.5);   /* LAIEM, PEHMEM HELENDUS */
 }
 .glass-card.glow-active {
   animation: brandGlow 6.7s ease-in-out infinite;
