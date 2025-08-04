@@ -4,7 +4,7 @@ const Magnet = ({
   children,
   padding = 100,
   disabled = false,
-  magnetStrength = 2,
+  magnetStrength = 100,
   activeTransition = "transform 0.8s ease-out",
   inactiveTransition = "transform 0.8s ease-in-out",
   wrapperClassName = "",
@@ -22,26 +22,33 @@ const Magnet = ({
       setPosition({ x: 0, y: 0 });
       return;
     }
+const maxMove = 150; // px - kui palju kaart võib liikuda max
 
-    const handleMouseMove = (e) => {
-      if (!magnetRef.current) return;
-      const { left, top, width, height } = magnetRef.current.getBoundingClientRect();
-      const centerX = left + width / 2;
-      const centerY = top + height / 2;
+const handleMouseMove = (e) => {
+  if (!magnetRef.current) return;
+  const { left, top, width, height } = magnetRef.current.getBoundingClientRect();
+  const centerX = left + width / 2;
+  const centerY = top + height / 2;
 
-      const distX = Math.abs(centerX - e.clientX);
-      const distY = Math.abs(centerY - e.clientY);
+  const distX = Math.abs(centerX - e.clientX);
+  const distY = Math.abs(centerY - e.clientY);
 
-      if (distX < width / 2 + padding && distY < height / 2 + padding) {
-        setIsActive(true);
-        const offsetX = (e.clientX - centerX) / magnetStrength;
-        const offsetY = (e.clientY - centerY) / magnetStrength;
-        setPosition({ x: offsetX, y: offsetY });
-      } else {
-        setIsActive(false);
-        setPosition({ x: 0, y: 0 });
-      }
-    };
+  if (distX < width / 2 + padding && distY < height / 2 + padding) {
+    setIsActive(true);
+    // Võimenda, AGA PIIRA!
+    let offsetX = (e.clientX - centerX) * 0.1; // 1.4x kaugemale
+    let offsetY = (e.clientY - centerY) * 0.1;
+
+    // Limiteeri liikumist, et kaart ei “lenda” liiga kaugele
+    offsetX = Math.max(-maxMove, Math.min(offsetX, maxMove));
+    offsetY = Math.max(-maxMove, Math.min(offsetY, maxMove));
+
+    setPosition({ x: offsetX, y: offsetY });
+  } else {
+    setIsActive(false);
+    setPosition({ x: 0, y: 0 });
+  }
+};
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
