@@ -35,7 +35,6 @@ export default function HomePage() {
     <>
       <DarkMode />
       <Particles className="particles-container" />
-
       <div className="main-content">
         {/* Vasak kaart */}
         <div className="side left">
@@ -196,11 +195,11 @@ export default function HomePage() {
         <a href="/meist" className="footer-link footer-link-headline">
           MEIST
         </a>
-        <img
-          src="/logomust.svg"
-          alt="Sotsiaal.AI logo"
-          className="footer-logo-img"
-        />
+<img
+  src="/logo/logomust.svg"
+  alt="SotsiaalAI logo"
+  className="footer-logo-img"
+/>
       </footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />

@@ -35,9 +35,9 @@
 }
 html {
   background: linear-gradient(
-   180deg,
-#111111,
-#606060
+    180deg,
+#161616,
+#6f6f6f
   ) fixed;
 }
 .particles-container {
@@ -45,7 +45,7 @@ html {
   top: 0; left: 0;
   width: 100vw; height: 100vh;
   z-index: 1; pointer-events: none;
-  }
+}
 .splash-cursor {
   position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
   pointer-events: none; z-index: 5;
@@ -987,8 +987,8 @@ a {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  border: 2px solid #e2d1c3;
-  background: #fff9f3;
+  border: none;
+  background: none;
   box-shadow: 0 0 8px rgba(0,0,0,0.18);
   cursor: pointer;
   transition: box-shadow 0.18s, border 0.14s;

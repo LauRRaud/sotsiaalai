@@ -33,7 +33,6 @@ export default function ChatBody() {
   function handleStop(e) {
     e.preventDefault();
     setIsGenerating(false);
-    // soovi korral saad lisada päris fetch-i katkestuse siia
   }
 
   useEffect(() => {
@@ -47,26 +46,16 @@ export default function ChatBody() {
   return (
     <div className="page-bg-gradient">
       <div className="glass-box chat-container" style={{ position: "relative" }}>
-{/* Avatar + tekst – paremas ülanurgas */}
-<Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
-  <img
-    src={`data:image/svg+xml;utf8,<svg width='64' height='64' xmlns='http://www.w3.org/2000/svg'>
-      <defs>
-        <linearGradient id='btnGrad' x1='0' y1='0' x2='1' y2='0'>
-          <stop offset='60%' stop-color='%23e2d1c3'/>
-          <stop offset='100%' stop-color='%23bfa177'/>
-        </linearGradient>
-      </defs>
-      <circle cx='32' cy='32' r='32' fill='url(%23btnGrad)'/>
-      <circle cx='32' cy='23' r='11' fill='%23fff9f3'/>
-      <ellipse cx='32' cy='45' rx='18' ry='10' fill='%23d1b894'/>
-    </svg>`}
-    alt="Profiil"
-    className="chat-avatar-abs"
-    draggable={false}
-  />
-  <span className="avatar-label">Profiil</span>
-</Link>
+        {/* Avatar + tekst – paremas ülanurgas */}
+        <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
+          <img
+            src="/logo/User-circle.svg"
+            alt="Profiil"
+            className="chat-avatar-abs"
+            draggable={false}
+          />
+          <span className="avatar-label">Profiil</span>
+        </Link>
 
         {/* Pealkiri */}
         <h1 className="glass-title">SotsiaalAI</h1>
