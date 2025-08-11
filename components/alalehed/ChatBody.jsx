@@ -10,34 +10,67 @@ export default function ChatBody() {
   ]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const messagesEndRef = useRef(null);
+  const [showScrollDown, setShowScrollDown] = useState(false);
+
+  const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
+  const isUserAtBottom = useRef(true);
 
   function sendMessage(e) {
     e.preventDefault();
     if (!input.trim() || isGenerating) return;
-    setMessages((msgs) => [...msgs, { role: "user", text: input }]);
+
+    setMessages(msgs => [...msgs, { role: "user", text: input }]);
     setInput("");
     setIsGenerating(true);
 
-    // Demo: “AI vastus”
+    requestAnimationFrame(() => inputRef.current?.focus());
+
     setTimeout(() => {
-      setMessages((msgs) => [
+      setMessages(msgs => [
         ...msgs,
-        { role: "ai", text: "See oleks koht, kus AI vastaks kasutajale!" }
+        { role: "ai", text: "Tere! Väga meeldiv Sinuga vestelda. Peagi oskan rohkem aidata." }
       ]);
       setIsGenerating(false);
+      requestAnimationFrame(() => inputRef.current?.focus());
     }, 1300);
   }
 
-  // Kui vajutatakse “stop”, katkestame vastuse (simuleeritud)
   function handleStop(e) {
     e.preventDefault();
     setIsGenerating(false);
   }
 
+  function scrollToBottom() {
+    chatWindowRef.current?.scrollTo({
+      top: chatWindowRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+
+  // Jälgi kerimist
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const chatNode = chatWindowRef.current;
+    if (!chatNode) return;
+
+function handleScroll() {
+  const chatNode = chatWindowRef.current;
+  const atBottom =
+    chatNode.scrollHeight - chatNode.scrollTop - chatNode.clientHeight <= 50;
+  isUserAtBottom.current = atBottom;
+  setShowScrollDown(!atBottom); // lihtsam loogika – näita, kui pole all
+}
+
+    chatNode.addEventListener("scroll", handleScroll);
+    return () => chatNode.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Kui uus sõnum ja kasutaja on all, kerime ainult chat akent
+  useEffect(() => {
+    const chatNode = chatWindowRef.current;
+    if (chatNode && isUserAtBottom.current) {
+      chatNode.scrollTop = chatNode.scrollHeight;
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -47,7 +80,6 @@ export default function ChatBody() {
   return (
     <div className="page-bg-gradient">
       <div className="glass-box chat-container" style={{ position: "relative" }}>
-        {/* Avatar + tekst – paremas ülanurgas */}
         <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
           <img
             src="/logo/User-circle.svg"
@@ -58,24 +90,35 @@ export default function ChatBody() {
           <span className="avatar-label">Profiil</span>
         </Link>
 
-        {/* Pealkiri */}
         <h1 className="glass-title">SotsiaalAI</h1>
 
-        <main className="chat-main">
-          <div className="chat-window">
+        <main className="chat-main" style={{ position: "relative" }}>
+          <div className="chat-window" ref={chatWindowRef}>
             {messages.map((msg, i) => (
               <div
                 key={i}
                 className={`chat-msg ${msg.role === "user" ? "chat-msg-user" : "chat-msg-ai"}`}
-                aria-live="polite"
               >
                 {msg.text}
               </div>
             ))}
-            <div ref={messagesEndRef} />
           </div>
+{showScrollDown && (
+  <button
+    className="scroll-down-btn"
+    onClick={scrollToBottom}
+    aria-label="Kerige chati lõppu"
+  >
+    <svg viewBox="0 0 24 24">
+      <path
+        d="M4 9l8 8 8-8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </button>
+)}
 
-          {/* SISEND + NUpp (nupp renderdatakse lahtri sisse CSS-iga) */}
           <form
             className="chat-inputbar"
             onSubmit={isGenerating ? handleStop : sendMessage}
@@ -94,26 +137,23 @@ export default function ChatBody() {
               className={`chat-send-btn${isGenerating ? " stop" : ""}`}
               aria-label={isGenerating ? "Peata vastus" : "Saada"}
               title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
-              tabIndex={0}
             >
-{isGenerating ? (
-  // STOP-ikoon
-  <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-    <rect x="5" y="5" width="14" height="14" rx="2.5" fill="#1a1a1a" />
-  </svg>
-) : (
-  // ÜLESNOOL
-<svg width="38" height="38" viewBox="0 0 24 24" aria-hidden="true">
-  <path
-    d="M4 15l8-8 8 8"
-    fill="none"
-    stroke="#2a1b07"
-    strokeWidth="4"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    />
-  </svg>
-)}
+              {isGenerating ? (
+                <svg width="28" height="28" viewBox="0 0 24 24">
+                  <rect x="5" y="5" width="14" height="14" rx="2.5" fill="#1a1a1a" />
+                </svg>
+              ) : (
+                <svg width="38" height="38" viewBox="0 0 24 24">
+                  <path
+                    d="M4 15l8-8 8 8"
+                    fill="none"
+                    stroke="#2a1b07"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
             </button>
           </form>
         </main>
@@ -129,7 +169,6 @@ export default function ChatBody() {
               <span className="back-arrow-circle"></span>
             </button>
           </div>
-          <div className="alaleht-footer">SotsiaalAI &copy; 2025</div>
         </footer>
       </div>
     </div>

@@ -516,82 +516,13 @@ box-shadow:
   gap: 0.2em;
   flex-wrap: wrap;
 }
-/* --- SCROLLBAR (Chrome) --- */
-.chat-window::-webkit-scrollbar {
-  width: 12px;
-  background: transparent;
-}
-.chat-window::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #e2d1c3 20%, #cfc2b2 100%);
-  border-radius: 8px;
-  min-height: 40px;
-  box-shadow: 0 1px 8px 0 #e2d1c170;
-  border: 2px solid #d2c1b2;
-}
-.chat-window::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #cfc2b2 0%, #e2d1c3 100%);
-}
-.chat-window::-webkit-scrollbar-track {
-  background: rgba(226, 209, 195, 0.13);
-  border-radius: 10px;
-}
-/* --- SCROLLBAR (Firefox) --- */
-.chat-window {
-  scrollbar-width: thin;
-  scrollbar-color: #e2d1c3 #cfc2b2;
-  flex: 1 1 auto;
-  min-height: 370px;
-  max-height: 70vh; 
-  overflow-y: auto;
-  margin-bottom: 0.5em;
-  padding: 0.6em 5px 0 0.6em;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  scroll-behavior: smooth;
-  background: none;
-}
-/* --- CHAT BUBBLES --- */
-.chat-msg {
-  padding: 0.95em 1.4em;
-  font-size: 1.15em;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  border-radius: 1.12em;
-  max-width: 85%;
-  box-shadow: 0 2px 6px 0 #e2d1c235;
-  background: none;
-}
-.chat-msg-user {
-background: #303030;
-  color: #ECECF1;
-  align-self: flex-end;
-  border-radius: 1.2em 1.2em 0.28em 1.2em;
-  box-shadow: 0 2px 6px 0 #e2d1c385;
-}
-.chat-msg-ai {
- background: rgba(34, 34, 34, 0.5);
-  color: #f0ece9;
-  align-self: flex-start;
-  border-radius: 1.2em 1.2em 1.2em 0.5em;
-  box-shadow: 0 2px 4px 0 #e2d1c375;
-}
-
-/* --- CHAT MAIN CONTAINER --- */
-.chat-main {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 0 1em 0 1em;
-  min-height: 0;
-}
 .chat-back-btn-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 52px;
   height: 52px;
-  margin: 0 auto 1.1em auto;
+  margin: 0 auto 0em auto;
 }
 .button {
   width: 50px;
@@ -1889,149 +1820,165 @@ line-height: 1.4;
   hyphens: auto;
   word-break: break-word;
   overflow-wrap: break-word;
+  }
+:root{
+  --gold-dark:#bfa177;
+  --gold-light:#e1c6af;
 }
-/* Ühine kapsel (jäta nii nagu eelmine kord) */
+
+/* --- LAYOUT --- */
+.glass-box.chat-container{
+  display:flex;
+  flex-direction:column;
+  height:96vh;
+  max-height:96vh;
+  box-sizing:border-box;
+  margin:0;
+}
+
+.chat-main{
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+
+/* --- CHAT WINDOW (Ainult see kerib) --- */
+.chat-window{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:.5em;
+
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:6px 8px 8px 8px;
+}
+
+/* Scrollbar – üks selge komplekt */
+.chat-window{
+  scrollbar-width: auto;                 /* Firefox */
+  scrollbar-color: #cdb286 #2b2a28;
+}
+.chat-window::-webkit-scrollbar{ width:14px; }
+.chat-window::-webkit-scrollbar-track{
+  background:#2b2a28; border-radius:10px; box-shadow:inset 0 0 6px #0006;
+}
+.chat-window::-webkit-scrollbar-thumb{
+  background:linear-gradient(135deg,#bfa177,#e1c6af);
+  border-radius:10px; border:3px solid #2b2a28; box-shadow:0 1px 6px #0009;
+}
+.chat-window::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(135deg,#e1c6af,#d8c0a6);
+}
+
+/* --- MESSAGES --- */
+.chat-msg{ 
+  max-width:85%; 
+  line-height:1.45;
+  margin-bottom:1em;
+  align-self:flex-start;        /* vaikimisi vasakul */
+}
+.chat-msg-user{
+  align-self:flex-end;          /* kasutaja paremal */
+  display:inline-block;
+  max-width:72ch;
+  background:#2f2f2f;
+  color:#ECECF1;
+  border:1px solid #494949;
+  border-radius:1em 1em .35em 1em;
+  padding:.55em .9em;
+  font-size:1.15em;
+  line-height:1.35;
+  box-shadow:0 2px 4px #00000033;
+}
+.chat-msg-ai{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  padding:.25em 0 !important;
+  color:#f0eeea;
+  max-width:70ch;
+  font-size:1.15em;
+  line-height:1.35;
+}
+.chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
+
+/* --- INPUT BAR --- */
 .chat-inputbar{
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: stretch;
-  height: 52px;
-  border: 1.5px solid #bfa177;   /* tumedam kuld */
-  border-radius: 999px;
-  background: #3a3a3a;
-  overflow: hidden;
-}
-:root {
-  --gold-dark: #bfa177;
-  --gold-light: #e1c6af;
-}
-.chat-inputbar {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: stretch;
-  width: 100%;
-  height: 56px; /* kapsli kõrgus */
-  border: 1.5px solid var(--gold-dark);
-  border-radius: 999px;
-  background: #303030;
-  overflow: hidden;
-  margin-bottom: 3.5em;
+  /* fikseeri kõrgus ja keela kahanemine */
+  flex:0 0 66px;
+  height:66px;
+
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+
+  padding: 0 6px 0 10px; 
+  column-gap:5px;
+  border:1.5px solid var(--gold-dark);
+  border-radius:999px;
+  background:#303030;
+  overflow:hidden;
+  margin-bottom:0.5em;
 }
 
-/* Input */
-.chat-inputbar .chat-input-field {
-  all: unset;
-  display: block;
-  width: 100%;
-  padding: 0 16px;
-  font: 500 1.25rem system-ui, -apple-system, Segoe UI, Roboto, Aino, sans-serif;
-  letter-spacing: 0.03em;
-  color: #ececf1;
-  caret-color: #ececf1;
-  background: transparent;
+.chat-inputbar .chat-input-field{
+  all:unset;
+  width:100%;
+  height:100%;
+  padding:0 10px;
+  color:#ececf1; caret-color:#ececf1;
+  font:500 1.3rem/1.35 system-ui,-apple-system,Segoe UI,Roboto,Aino,sans-serif;
+}
+.chat-inputbar .chat-input-field::placeholder{
+  color:#fff; font-weight:300; opacity:.8;
 }
 
-.chat-inputbar .chat-input-field::placeholder {
-  color: #ffffff;
-  font-weight: 300;
-  opacity: 0.8;
+/* --- SEND BUTTON --- */
+.chat-send-btn{
+  flex:0 0 56px;            /* ei kahane */
+  width:56px; height:56px;
+  border:0; border-radius:50%;
+  background:var(--gold-dark);
+  display:flex; align-items:center; justify-content:center;
+  justify-self:end; align-self:center;
+  transition:background .16s, transform .06s;
+  cursor:pointer;
 }
-
-/* Saada nupp */
-.chat-send-btn {
-  height: 56px; /* sama mis kapsli kõrgus */
-  width: 56px;  /* sama kui kõrgus → ruut */
+.chat-send-btn:hover, .chat-send-btn:focus{ background:var(--gold-light); }
+.chat-send-btn:active{ transform:scale(.97); }
+.chat-send-btn svg{ width:22px; height:22px; display:block; }
+.chat-send-btn.stop{ background:var(--gold-dark); }
+.chat-back-btn-wrapper {
+  transform: translateY(12px); /* visuaalne nihe allapoole */
+}
+.scroll-down-btn {
+  position: absolute;
+  bottom: 80px; /* jääb input bari kohale */
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
   border: none;
-  border-radius: 50%;
-  background: var(--gold-dark);
+  cursor: pointer;
+  padding: 6px;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background 0.16s, transform 0.06s;
+  transition: transform 0.15s ease;
 }
 
-.chat-send-btn:hover,
-.chat-send-btn:focus {
-  background: var(--gold-light);
+.scroll-down-btn:hover {
+  transform: translateX(-50%) scale(1.15);
 }
 
-.chat-send-btn:active {
-  transform: scale(0.97);
-}
-
-.chat-send-btn svg {
-  width: 22px;
-  height: 22px;
-  display: block;
-}
-
-.chat-send-btn.stop {
-  background: var(--gold-dark);
-}
-/* baasmull (jäta nii nagu on) */
-.chat-msg{
-  max-width: 85%;
-  line-height: 1.45;
-}
-
-/* kasutaja – mull jääb */
-.chat-msg-user{
-  align-self: flex-end;
-  display: inline-block;         /* lase laiusel järgida sisu */
-  max-width: 72ch;               /* ära lase liiga laiaks (timmita 60–80ch) */
-
-  background: #2f2f2f;
-  color: #ECECF1;
-  border: 1px solid #494949;
-  border-radius: 1em 1em .35em 1em;   /* veidi väiksem ümarus */
-
-  padding: .55em .9em;           /* ⟵ VÄHEM RUUMI ümber teksti */
-  font-size: 1.2em;             /* oli ~1.15em – teeme veidi väiksemaks */
-  line-height: 1.35;             /* tihedam, et vertikaalset õhku oleks vähem */
-
-  box-shadow: 0 2px 4px #00000033;  /* pehmem vari, eemaldasin sisemise joone */
-}
-
-/* AI – ilma mullita */
-.chat-msg-ai{
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: .25em 0 !important;
-  color: #f0eeea;
-  align-self: flex-start;
-  /* veidi parem loetavus laiadel ekraanidel */
-  max-width: 70ch;
-}
-
-/* väike rütm järjestikuste AI ridade vahel */
-.chat-msg-ai + .chat-msg-ai{ margin-top: .3em; }
-
-.chat-window{
-  scrollbar-width: auto;                 /* laiem */
-  scrollbar-color: #cdb286 #2b2a28;      /* pöidla/raja värv */
-}
-
-/* WebKit (Chrome, Edge, Safari) */
-.chat-window::-webkit-scrollbar{
-  width: 14px;                           /* laiem */
-}
-
-.chat-window::-webkit-scrollbar-track{
-  background: #2b2a28;                   /* tume raja taust */
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px #00000040;
-}
-
-.chat-window::-webkit-scrollbar-thumb{
-  background: linear-gradient(135deg, #bfa177, #e1c6af);
-  border-radius: 10px;
-  border: 3px solid #2b2a28;             /* “padjand” ümber pöidla */
-  box-shadow: 0 1px 6px #00000055;
-}
-
-.chat-window::-webkit-scrollbar-thumb:hover{
-  background: linear-gradient(135deg, #e1c6af, #d8c0a6);
+.scroll-down-btn svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--gold-dark);
+  stroke-width: 3;
+  fill: none;
 }
