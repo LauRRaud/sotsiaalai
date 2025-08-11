@@ -16,15 +16,16 @@ export default function ChatBody() {
   function sendMessage(e) {
     e.preventDefault();
     if (!input.trim() || isGenerating) return;
-    setMessages(msgs => [...msgs, { role: "user", text: input }]);
+    setMessages((msgs) => [...msgs, { role: "user", text: input }]);
     setInput("");
     setIsGenerating(true);
 
     // Demo: “AI vastus”
     setTimeout(() => {
-      setMessages(msgs =>
-        [...msgs, { role: "ai", text: "See oleks koht, kus AI vastaks kasutajale!" }]
-      );
+      setMessages((msgs) => [
+        ...msgs,
+        { role: "ai", text: "See oleks koht, kus AI vastaks kasutajale!" }
+      ]);
       setIsGenerating(false);
     }, 1300);
   }
@@ -73,11 +74,17 @@ export default function ChatBody() {
             ))}
             <div ref={messagesEndRef} />
           </div>
-          <form className="chat-inputbar" onSubmit={isGenerating ? handleStop : sendMessage} autoComplete="off">
+
+          {/* SISEND + NUpp (nupp renderdatakse lahtri sisse CSS-iga) */}
+          <form
+            className="chat-inputbar"
+            onSubmit={isGenerating ? handleStop : sendMessage}
+            autoComplete="off"
+          >
             <input
               ref={inputRef}
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="Kirjuta siia oma küsimus..."
               className="chat-input-field"
               disabled={isGenerating}
@@ -86,27 +93,27 @@ export default function ChatBody() {
               type="submit"
               className={`chat-send-btn${isGenerating ? " stop" : ""}`}
               aria-label={isGenerating ? "Peata vastus" : "Saada"}
+              title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
               tabIndex={0}
             >
-              {isGenerating ? (
-                // Must ruut SVG
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="12" fill="#181818"/>
-                  <rect x="7" y="7" width="10" height="10" rx="2.5" fill="#fff6e0"/>
-                </svg>
-              ) : (
-                // Ülesnool SVG
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="12" fill="url(#btnGrad)"/>
-                  <path d="M7 13l5-5 5 5" stroke="#332000" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                  <defs>
-                    <linearGradient id="btnGrad" x1="0" y1="12" x2="24" y2="12" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#e2d1c3"/>
-                      <stop offset="1" stopColor="#bfa177"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              )}
+{isGenerating ? (
+  // STOP-ikoon
+  <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="5" y="5" width="14" height="14" rx="2.5" fill="#1a1a1a" />
+  </svg>
+) : (
+  // ÜLESNOOL
+<svg width="38" height="38" viewBox="0 0 24 24" aria-hidden="true">
+  <path
+    d="M4 15l8-8 8 8"
+    fill="none"
+    stroke="#2a1b07"
+    strokeWidth="4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    />
+  </svg>
+)}
             </button>
           </form>
         </main>

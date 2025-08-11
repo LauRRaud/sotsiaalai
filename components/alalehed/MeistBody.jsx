@@ -33,14 +33,14 @@ export default function MeistBody() {
   </p>
   <p>
     Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
-    <a href="https://oskareport.ee" className="meist-external-link" target="_blank" rel="noopener noreferrer">
-      OSKA raport (2025)
-    </a>
-    . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
-  </p>
-  <p>
-    Platvormi arendab ja haldab SotsiaalAI OÜ. Teenus täiustub pidevalt, et tagada ajakohane ning praktiline kasutajakogemus kõigile.
-  </p>
+<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" className="meist-external-link" target="_blank" rel="noopener noreferrer">
+  OSKA raport (2025)
+</a>
+  . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
+</p>
+<p>
+Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mille eesmärk ei ole kasumi maksimeerimine, vaid ühiskondliku probleemi lahendamine ja positiivse mõju loomine. Sotsiaalne ettevõtlus ühendab äritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse. Teenus täiustub pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kõigile.
+</p>
 </section>
 <section className="glass-section">
   <h2 className="glass-h2">Kontakt</h2>
