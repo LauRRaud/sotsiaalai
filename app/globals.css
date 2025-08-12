@@ -38,12 +38,12 @@
 }
 .space-backdrop .fog .fog-blob {
   position: absolute;
-top: 80%;
+top: 30%;
 transform: translateY(-50%);
   width: var(--fogBlobSize, 85vmax);
   height: var(--fogBlobSize, 85vmax);
   border-radius: 9999px;
-  filter: blur(120px) saturate(115%);
+  filter: blur(110px) saturate(115%);
   background: radial-gradient(
     50% 50% at 50% 50%,
     rgba(235, 243, 255, var(--fogStrengthAlpha, 0.90)) 0%,
@@ -498,7 +498,7 @@ box-shadow:
   width: auto;
   display: block;
   margin: 0em 0 0m 0;
-  opacity: 0.55;
+  opacity: 0.2;
 }
 .alaleht-inner {
   width: 100%;

@@ -46,9 +46,9 @@ return (
   fog
   fogStrength={0.3}
   fogHeightVmax={20}
-  fogOffsetVmax={-10}
+  fogOffsetVmax={0}
   fogBlobSizeVmax={70}   // blobi suurus
-  fogPairSpreadVmax={22} // kui kaugel on kaks palli
+  fogPairSpreadVmax={24} // kui kaugel on kaks palli
   fogHorizontalShiftVmax={-35}
 />
 <Particles className="particles-container" />
