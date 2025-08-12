@@ -4,8 +4,9 @@ import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import DarkMode from "@/components/DarkMode";
-const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
+import Space from "@/components/Space";  
 
+const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
@@ -31,12 +32,28 @@ export default function HomePage() {
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
 
-  return (
-    <>
-      <DarkMode />
-      <Particles className="particles-container" />
-      <div className="main-content">
-        {/* Vasak kaart */}
+return (
+  <>
+<Space
+  palette={{
+    baseTop: "#070b16",
+    baseBottom: "#070b16",
+    accentA: "#0a1224",
+    accentB: "#0a1224",
+  }}
+  intensity={0.4}
+  grain
+  fog
+  fogStrength={0.3}
+  fogHeightVmax={20}
+  fogOffsetVmax={-10}
+  fogBlobSizeVmax={70}   // blobi suurus
+  fogPairSpreadVmax={22} // kui kaugel on kaks palli
+  fogHorizontalShiftVmax={-35}
+/>
+<Particles className="particles-container" />
+   <DarkMode />
+    <div className="main-content">
         <div className="side left">
           <div className={`three-d-card float-card left ${flipClass}`}>
             <div className="card-wrapper">
@@ -190,16 +207,17 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      {/* Footer väljaspool main-content */}
+
+      {/* Footer */}
       <footer className="footer-column">
         <a href="/meist" className="footer-link footer-link-headline">
           MEIST
         </a>
-<img
-  src="/logo/logomust.svg"
-  alt="SotsiaalAI logo"
-  className="footer-logo-img"
-/>
+        <img
+          src="/logo/logomust.svg"
+          alt="SotsiaalAI logo"
+          className="footer-logo-img"
+        />
       </footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />

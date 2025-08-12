@@ -32,24 +32,52 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  }
+.space-backdrop {
+  z-index: 0;
 }
-html {
-  background: linear-gradient(
-    180deg,
-#161616,
-#6f6f6f
-  ) fixed;
+.space-backdrop .fog .fog-blob {
+  position: absolute;
+top: 80%;
+transform: translateY(-50%);
+  width: var(--fogBlobSize, 85vmax);
+  height: var(--fogBlobSize, 85vmax);
+  border-radius: 9999px;
+  filter: blur(120px) saturate(115%);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(235, 243, 255, var(--fogStrengthAlpha, 0.90)) 0%,
+    rgba(180, 200, 235, 0.35) 55%,
+    rgba(0, 0, 0, 0) 80%
+  );
 }
 .particles-container {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: 1; pointer-events: none;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
 }
+
+/* Põhisisu kiht */
+.main-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* SplashCursor (kui kasutad) kõige peal */
 .splash-cursor {
-  position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
-  pointer-events: none; z-index: 5;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
 }
+
+/* Põhistruktuur */
 html, body {
   min-height: 100vh;
   width: 100%;
@@ -60,6 +88,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
+
 body {
   min-height: 100vh;
   width: 100vw;
@@ -67,14 +96,15 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  background: transparent;
+  background: transparent; /* Space-komponent teeb visuaali */
   font-family: 'Aino', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+
   /* Flex keskjoondus */
   display: flex;
   flex-direction: column;
-  justify-content: center;   /* <-- muuta flex-start → center */
-  align-items: center;       /* <-- lisada center */
+  justify-content: center; /* kui vajad ülaossa, muuda 'flex-start' */
+  align-items: center;
 }
 .glass-title,
 .headline,
@@ -202,11 +232,11 @@ a, .link-brand, .meist-external-link {
 }
 .glass-card,
 .centered-back-left {
-  background: rgba(251, 251, 251, 0.55);
+  background: rgba(251, 251, 251, 0.6);
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.6);
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
