@@ -4,15 +4,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function ProfiilBody() {
-  // DEMO: Loe roll ja email localStorage-st (või kasuta defaulti)
   const [email, setEmail] = useState("email@domeen.ee");
   const [password, setPassword] = useState("");
   const [showDelete, setShowDelete] = useState(false);
-  const [userRole, setUserRole] = useState("specialist"); // "specialist" | "eluküsimusega"
+  const [userRole, setUserRole] = useState("specialist");
   const router = useRouter();
 
   useEffect(() => {
-    // Loe localStorage-st, kui komponent mountib
     const storedRole = localStorage.getItem("saai_roll");
     if (storedRole) setUserRole(storedRole);
     const storedEmail = localStorage.getItem("saai_email");
@@ -21,7 +19,6 @@ export default function ProfiilBody() {
 
   function handleSave(e) {
     e.preventDefault();
-    // DEMO: Salvesta localStorage'i email (päris elus teeks API päringu)
     localStorage.setItem("saai_email", email);
     alert("Muudatused salvestatud! (demo)");
     setPassword("");
@@ -29,52 +26,60 @@ export default function ProfiilBody() {
 
   function handleLogout() {
     alert("Logitud välja! (demo)");
-    // Soovi korral localStorage.removeItem(...) või router.push('/')
   }
 
   function handleDelete() {
     setShowDelete(false);
     alert("Konto kustutatud! (demo)");
-    // Soovi korral kustuta localStorage-st ka email/roll
   }
 
   return (
-    <div className="page-bg-gradient">
-      <div className="glass-box" role="main" aria-labelledby="profile-title">
+<main className="main-content profile-page">
+      <div
+        className="glass-box"
+        role="main"
+        aria-labelledby="profile-title"
+        lang="et"
+      >
         <h1 id="profile-title" className="glass-title">
           Minu profiil
         </h1>
 
-        {/* ROLL üleval, selle all tellimuslink */}
         <div className="profile-header-center">
           <span className="profile-role-pill">
-            {userRole === "specialist" ? "Spetsialist" : "Eluküsimusega pöörduja"}
+            {userRole === "specialist"
+              ? "Spetsialist"
+              : "Eluküsimusega pöörduja"}
           </span>
           <Link href="/tellimus" className="link-brand profile-tellimus-link">
             Halda tellimust
           </Link>
         </div>
 
-        {/* Vorm – E-post ja parool */}
         <form onSubmit={handleSave} className="glass-form profile-form-vertical">
-          <label htmlFor="email" className="glass-label">E-post</label>
+          <label htmlFor="email" className="glass-label">
+            E-post
+          </label>
           <input
             className="input-modern"
             type="email"
             id="email"
             autoComplete="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <label htmlFor="password" className="glass-label">Uus parool (soovil)</label>
+
+          <label htmlFor="password" className="glass-label">
+            Uus parool (soovil)
+          </label>
           <input
             className="input-modern"
             type="password"
             id="password"
             autoComplete="new-password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
           />
 
@@ -92,7 +97,6 @@ export default function ProfiilBody() {
           </div>
         </form>
 
-        {/* Tagasi vestlusesse nupp */}
         <div className="back-btn-wrapper">
           <button
             type="button"
@@ -104,7 +108,6 @@ export default function ProfiilBody() {
           </button>
         </div>
 
-        {/* Kustuta konto nupp */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button
             className="button"
@@ -117,21 +120,25 @@ export default function ProfiilBody() {
           </button>
         </div>
 
-        <footer className="alaleht-footer">
-          SotsiaalAI &copy; 2025
-        </footer>
-      </div>
+        <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
 
-      {/* MODAL */}
-      {showDelete && (
-        <div className="modal-confirm">
-          <p>Kas oled kindel, et soovid konto kustutada?</p>
-          <div className="btn-row">
-            <button className="btn-danger" onClick={handleDelete}>Jah, kustuta</button>
-            <button className="btn-tertiary" onClick={() => setShowDelete(false)}>Katkesta</button>
+        {showDelete && (
+          <div className="modal-confirm">
+            <p>Kas oled kindel, et soovid konto kustutada?</p>
+            <div className="btn-row">
+              <button className="btn-danger" onClick={handleDelete}>
+                Jah, kustuta
+              </button>
+              <button
+                className="btn-tertiary"
+                onClick={() => setShowDelete(false)}
+              >
+                Katkesta
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </main>
   );
 }

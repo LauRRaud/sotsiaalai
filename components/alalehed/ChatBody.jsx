@@ -78,8 +78,7 @@ function handleScroll() {
   }, []);
 
   return (
-    <div className="page-bg-gradient">
-      <div className="glass-box chat-container" style={{ position: "relative" }}>
+<div className="main-content glass-box chat-container" style={{ position: "relative" }}>
         <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
           <img
             src="/logo/User-circle.svg"
@@ -171,6 +170,5 @@ function handleScroll() {
           </div>
         </footer>
       </div>
-    </div>
   );
 }

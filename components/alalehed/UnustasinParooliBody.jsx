@@ -18,9 +18,7 @@ export default function UnustasinParooliBody() {
   }
 
   return (
-    <div className="page-bg-gradient">
-      <div className="alaleht-inner reset-center-outer">
-        <div className="glass-box reset-box">
+<div className="main-content glass-box reset-box">
           <h1 className="glass-title reset-title">Parooli taastamine</h1>
           {submitted ? (
             <p className="midtext reset-info">
@@ -62,7 +60,5 @@ export default function UnustasinParooliBody() {
             SotsiaalAI &copy; 2025
           </footer>
         </div>
-      </div>
-    </div>
   );
 }

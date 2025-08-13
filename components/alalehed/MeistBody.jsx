@@ -12,14 +12,7 @@ export default function MeistBody() {
     content="SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna abiks. Anonüümne, lihtne, usaldusväärne."
   />
 </Head>
-
-      <div className="page-bg-gradient">
-<div
-  className="glass-box"
-  role="main"
-  aria-labelledby="meist-title"
-  lang="et"
->
+<div className="main-content glass-box glass-left" role="main" aria-labelledby="meist-title" lang="et">
           <h1 id="meist-title" className="glass-title">
             Meist
           </h1>
@@ -77,7 +70,6 @@ Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mil
             SotsiaalAI &copy; 2025
           </footer>
         </div>
-      </div>
     </>
   );
 }

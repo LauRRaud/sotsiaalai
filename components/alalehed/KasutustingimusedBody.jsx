@@ -5,8 +5,7 @@ import Link from "next/link";
 export default function KasutustingimusedBody() {
     const router = useRouter();
   return (
-    <div className="page-bg-gradient">
-<div className="glass-box" role="main" aria-labelledby="kasutustingimused-title" lang="et">
+<div className="main-content glass-box">
         <h1 id="kasutustingimused-title" className="glass-title">
           Kasutustingimused
         </h1>
@@ -75,6 +74,5 @@ export default function KasutustingimusedBody() {
           SotsiaalAI &copy; 2025
         </footer>
       </div>
-    </div>
   );
 }

@@ -1978,3 +1978,10 @@ line-height: 1.4;
   word-break: break-word;
   overflow-wrap: break-word;
 }
+.profile-page .glass-box {
+  max-width: 850px !important;
+}
+
+.profile-page .profile-form-vertical {
+  max-width: 410px;
+}

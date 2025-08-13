@@ -3,10 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
-import DarkMode from "@/components/DarkMode";
-import Space from "@/components/Space";  
-
-const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
 
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
@@ -34,31 +30,12 @@ export default function HomePage() {
 
 return (
   <>
-<Space
-  palette={{
-    baseTop: "#070b16",
-    baseBottom: "#070b16",
-    accentA: "#0a1224",
-    accentB: "#0a1224",
-  }}
-  intensity={0.4}
-  grain
-  fog
-  fogStrength={0.3}
-  fogHeightVmax={20}
-  fogOffsetVmax={0}
-  fogBlobSizeVmax={70}   // blobi suurus
-  fogPairSpreadVmax={24} // kui kaugel on kaks palli
-  fogHorizontalShiftVmax={-35}
-/>
-<Particles className="particles-container" />
-   <DarkMode />
     <div className="main-content">
-        <div className="side left">
-          <div className={`three-d-card float-card left ${flipClass}`}>
-            <div className="card-wrapper">
-              <div className="card-face front">
-                <Magnet
+      <div className="side left">
+        <div className={`three-d-card float-card left ${flipClass}`}>
+          <div className="card-wrapper">
+            <div className="card-face front">
+              <Magnet
                   padding={80}
                   magnetStrength={18}
                   disabled={isLoginOpen || !flipAllowed}

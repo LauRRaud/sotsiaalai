@@ -85,11 +85,11 @@ const Particles = ({
   particleSpread = 22.5,                   
   speed = 0.04,                          
   particleColors = [
-    "#e2d1c3", // šampanja
-    "#f4e8db", // hele beež
-    "#ae9880", // neutraalne beež
-    "#181818", // must
-    "#232323", // veel üks tumehall
+  "#cfd6e3", // hõbe
+  "#e0e6f3", // hele hõbe
+  "#aeb6c2", // neutraalne hall-hõbe
+  "#181818", // must
+  "#232323", // tumehall
   ],
   moveParticlesOnHover = false,            
   particleHoverFactor = 1,                
