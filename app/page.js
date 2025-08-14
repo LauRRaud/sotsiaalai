@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
+import Link from "next/link";
 
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
@@ -184,18 +185,16 @@ return (
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="footer-column">
-        <a href="/meist" className="footer-link footer-link-headline">
-          MEIST
-        </a>
-        <img
-          src="/logo/logomust.svg"
-          alt="SotsiaalAI logo"
-          className="footer-logo-img"
-        />
-      </footer>
+<footer className="footer-column">
+  <Link href="/meist" className="footer-link footer-link-headline">
+    MEIST
+  </Link>
+  <img
+    src="/logo/logomust.svg"
+    alt="SotsiaalAI logo"
+    className="footer-logo-img"
+  />
+</footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>

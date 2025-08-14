@@ -1,20 +1,12 @@
 import "./globals.css";
-import BackgroundLayer from "./BackgroundLayer";
-
-export const metadata = {
-  title: "SotsiaalAI",
-  description: "Sotsiaalvaldkonna AI assistendid",
-};
+import BackgroundLayer from "../components/backgrounds/BackgroundLayer";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="et">
       <body>
-        {/* Globaalne taust kõigil lehtedel */}
-        <BackgroundLayer />
-
-        {/* Lehe sisu */}
-        {children}
+        <BackgroundLayer />           {/* mount 1× kogu äpi ajal */}
+        <main className="relative z-0">{children}</main>
       </body>
     </html>
   );

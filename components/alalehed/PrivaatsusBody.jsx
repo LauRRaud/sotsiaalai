@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 
 export default function PrivaatsusBody() {
@@ -18,8 +17,14 @@ export default function PrivaatsusBody() {
 
       <section className="glass-section">
         <h2 className="glass-h2">1. Üldsätted</h2>
-        <p>1.1 Sotsiaal.AI platvorm (haldaja: SotsiaalAI OÜ) järgib Eesti ja Euroopa Liidu isikuandmete kaitse seadusi (sh GDPR).</p>
-        <p>1.2 Tingimused kirjeldavad, kuidas me kogume, kasutame ja kaitseme isikuandmeid.</p>
+        <p>
+          1.1 Sotsiaal.AI platvorm (haldaja: SotsiaalAI OÜ) järgib Eesti ja Euroopa
+          Liidu isikuandmete kaitse seadusi (sh GDPR).
+        </p>
+        <p>
+          1.2 Tingimused kirjeldavad, kuidas me kogume, kasutame ja kaitseme
+          isikuandmeid.
+        </p>
 
         <h2 className="glass-h2">2. Kogutavad andmed</h2>
         <p>2.1 Kasutajakonto info: nimi, e-posti aadress, krüpteeritud parool.</p>
@@ -63,8 +68,14 @@ export default function PrivaatsusBody() {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push("/meist")}
-          aria-label="Tagasi Meist lehele"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.history.length > 1) {
+              router.back();
+            } else {
+              router.push("/meist");
+            }
+          }}
+          aria-label="Tagasi eelmisele lehele"
         >
           <span className="back-arrow-circle"></span>
         </button>

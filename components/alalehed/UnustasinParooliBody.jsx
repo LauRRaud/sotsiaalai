@@ -33,7 +33,7 @@ export default function UnustasinParooliBody() {
                   id="email"
                   name="email"
                   className="reset-input"
-                  placeholder="sinu@email.ee"
+                  placeholder="Sinu@email.ee"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

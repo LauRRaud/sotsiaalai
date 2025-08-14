@@ -94,6 +94,7 @@ html, body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
+  background-color: #070b16; /* ühtlane tume sinine */
 }
 body {
   min-height: 100vh;
@@ -102,7 +103,6 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  background: transparent;
   font-family: 'Aino', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   /* Flex keskjoondus */

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegistreerimineBody({ openLoginModal }) {
   const router = useRouter();
@@ -35,13 +36,10 @@ export default function RegistreerimineBody({ openLoginModal }) {
   }
 
   return (
-<div className="main-content glass-box">
+    <div className="main-content glass-box">
       <h1 className="glass-title">Loo konto</h1>
 
       <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
-        <label htmlFor="email" className="glass-label first-input-label">
-          E-post
-        </label>
         <input
           type="email"
           id="email"
@@ -54,9 +52,6 @@ export default function RegistreerimineBody({ openLoginModal }) {
           autoComplete="username"
         />
 
-        <label htmlFor="password" className="glass-label">
-          Parool
-        </label>
         <input
           type="password"
           id="password"
@@ -103,23 +98,13 @@ export default function RegistreerimineBody({ openLoginModal }) {
           />
           <span className="checkbox-text">
             Nõustun{" "}
-            <a
-              href="/kasutustingimused"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-brand"
-            >
+            <Link href="/kasutustingimused" className="link-brand-inline">
               kasutajatingimustega
-            </a>{" "}
+            </Link>{" "}
             ja{" "}
-            <a
-              href="/privaatsustingimused"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-brand"
-            >
+            <Link href="/privaatsustingimused" className="link-brand-inline">
               privaatsuspoliitikaga
-            </a>
+            </Link>
           </span>
         </label>
 
