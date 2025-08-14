@@ -337,7 +337,7 @@ box-shadow:
   left: 50%;
   transform: translate(-50%, -50%);
   width: 47%;
-  opacity: 0.22;
+  opacity: 0.3;
   z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
   pointer-events: none;
   display: block;
@@ -349,7 +349,7 @@ box-shadow:
   left: 47%;
   transform: translate(-50%, -50%);
   width: 58%;
-  opacity: 0.4;
+  opacity: 0.45;
   z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
 
 }
@@ -368,7 +368,7 @@ box-shadow:
   top: 82%;
   left: 48%;
   width: 23%;
-  opacity: 0.55;
+  opacity: 0.5;
   transform: translate(-50%, -50%);
 }
 .card-logo-bg-left,
@@ -488,7 +488,7 @@ box-shadow:
   width: auto;
   display: block;
   margin: 0em 0 0m 0;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 .glass-box {
   background: rgba(34, 34, 38, 0.5); /* veidi vähem läbipaistev */
@@ -1060,21 +1060,6 @@ color: var(--silver-light);
   font: inherit;
   color: #5f6368;
   opacity: 0.9;
-}
-.link-brand,
-.unustasid-parooli-link {
-  color: #e1c6af !important;
-  text-decoration: none;
-  border: 2px solid transparent;
-  border-radius: 0.32em;
-  padding: 0.02em 0.2em;
-  background: none;
-  display: inline-block;
-  transition:
-    color 0.16s,
-    border 0.16s,
-    background 0.15s,
-    box-shadow 0.13s;
 }
 .btn-primary {
   background: #181818;
@@ -1880,8 +1865,8 @@ label {
   grid-template-columns: 1fr auto;
   align-items: center;
 
-  padding: 0 6px 0 10px;
-  column-gap: 5px;
+  padding: 0 4px 0 8px;
+  column-gap: 2px;
 
   /* hõbedane piir */
   border: 1.5px solid #c0c0c0;
