@@ -712,7 +712,7 @@ box-shadow:
   border-radius: 0.32em;
   padding: 0.02em 0.2em;
   background: none;
-  font-size: 0.95em;
+  font-size: 1.1em;
   letter-spacing: 0.03em;
   display: inline-block;
   text-decoration: none;
@@ -1131,7 +1131,7 @@ color: var(--silver-light);
 }
 .login-modal-bottom-link .link-brand {
   display: inline-block;
-  font-size: 1.2em;
+  font-size: 1.3em;
   font-weight: 500;
   text-align: center;
   letter-spacing: 0.06em;
@@ -1480,11 +1480,12 @@ color: var(--silver-light);
 }
 .glass-radio-group input[type="radio"] {
   accent-color: #bfa177;
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
   position: relative;
-  top: -3px;  /* vajadusel timmi väärtust -1px kuni +2px */
+  top: -2px;  /* vajadusel timmi väärtust -1px kuni +2px */
+  right: -3px;
 }
 .glass-checkbox {
   display: inline-flex;
@@ -1504,11 +1505,12 @@ color: var(--silver-light);
 }
 .glass-checkbox input[type="checkbox"] {
   accent-color: #bfa177;
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-  margin-left: 9px;
-  margin-top: -1.5px;
+  margin-left: 10px;
+  margin-top: 0px;
+  margin-right: 3.5px;
 }
 
 .checkbox-text {
@@ -1536,21 +1538,6 @@ color: var(--silver-light);
   letter-spacing: 0.04em;
   margin-right: 0.2em;
   margin-left: 0.3em;
-}
-.input-email-top {
-  margin-bottom: 3em;
-  width: 100%;
-  max-width: 100%;
-  font-size: 1em;
-  background: rgba(255,255,255,0.822);
-  color: #181818;
-  border: 1.3px solid #e2d1c9;
-  border-radius: 1.2em;
-  padding: 0.75em 0.75em;   /* <-- just see määrab lahtri kõrguse */
-  margin-bottom: 0.4em;
-  outline: none;
-  box-shadow: 0 2px 8px 0 #e2d1c140;
-  box-sizing: border-box;
 }
 .glass-bottom-link .midtext {
   font-size: 1em;    /* või nt 0.93em väiksemaks, 1.07em suuremaks */
@@ -1773,13 +1760,6 @@ select,
 button,
 label {
   font-family: 'Aino', Arial, sans-serif !important;
-}
-.input-modern,
-.reset-input,
-.input-email-top {
-  padding: 0.7em 1em;   /* ↑ muudab kõrgemaks, nt 1em või 1.1em või isegi 1.2em */
-  font-size: 1em;    /* Võid fonti natuke suurendada kui tahad */
-line-height: 1.4;
 }
 .glass-box,
 .glass-box p,
