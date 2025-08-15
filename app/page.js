@@ -70,9 +70,7 @@ export default function HomePage() {
                         className="card-logo-bg card-logo-bg-left"
                         draggable={false}
                       />
-
-                      {/* ringlev valguskaar ESIKÜLJEL */}
-                      <div className="centered-front-outer" aria-hidden="true" />
+                                            <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
@@ -154,8 +152,6 @@ export default function HomePage() {
                         className="card-logo-bg card-logo-bg-right"
                         draggable={false}
                       />
-
-                      {/* ringlev valguskaar ESIKÜLJEL */}
                       <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}

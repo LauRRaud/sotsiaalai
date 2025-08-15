@@ -227,11 +227,11 @@ a, .link-brand, .meist-external-link {
 }
 .glass-card,
 .centered-back-left {
-  background: rgba(251, 251, 251, 0.6);
+  background: rgba(251, 251, 251, 0.55);
 }
 .glass-card-dark,
 .centered-back-right {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
 }
 /* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
 .centered-back-left {
@@ -328,8 +328,9 @@ box-shadow:
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
-  /* Kuma lisatakse just siia */
+  /* Kuma: alumine tumedam ja väiksem, peal heledam ja laiem */
   box-shadow:
+    0 0 10px 3px rgba(0, 0, 0, 0.2),   /* tumedam, väiksem */
     0 0 20px 10px rgba(205,205,230,0.09);
 }
 .glass-card, .centered-back-left, .centered-back-right {
