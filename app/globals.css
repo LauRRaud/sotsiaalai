@@ -224,7 +224,6 @@ a, .link-brand, .meist-external-link {
   border-radius: 50%; margin: 0 auto;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   box-sizing: border-box; padding: 2em; background-clip: padding-box;
-  overflow: hidden; border: none;
 }
 .glass-card,
 .centered-back-left {
@@ -321,12 +320,18 @@ box-shadow:
 }
 .glass-card.fade-in {
   opacity: 0;
-  animation: cardFadeIn 1.5s cubic-bezier(.61,0,.19,1) 0.19s forwards;
+  animation: cardFadeIn 1.5s cubic-bezier(.61,.0,.19,1) 0.19s forwards;
 }
-
-.glass-card.fade-in { opacity: 0; animation: cardFadeIn 1.4s cubic-bezier(.61,0,.19,1) 0.19s forwards; }
-
-/* LOGOD: alati 100% kaardi sees ja skaleeruvad kaasa */
+.centered-front-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  /* Kuma lisatakse just siia */
+  box-shadow:
+    0 0 20px 10px rgba(205,205,230,0.09);
+}
 .glass-card, .centered-back-left, .centered-back-right {
   position: relative; /* et logo oleks alati selles parentis täpselt */
 }
@@ -359,7 +364,7 @@ box-shadow:
   top: 82%;
   left: 48%;
   width: 23%;
-  opacity: 0.6;
+  opacity: 0.5;
   transform: translate(-50%, -50%);
 }
 
@@ -368,7 +373,7 @@ box-shadow:
   top: 82%;
   left: 48%;
   width: 23%;
-  opacity: 0.5;
+  opacity: 0.4;
   transform: translate(-50%, -50%);
 }
 .card-logo-bg-left,
@@ -488,7 +493,7 @@ box-shadow:
   width: auto;
   display: block;
   margin: 0em 0 0m 0;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 .glass-box {
   background: rgba(34, 34, 38, 0.5); /* veidi vähem läbipaistev */

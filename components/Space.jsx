@@ -16,11 +16,11 @@ export default function Space({
 
   // udu parameetrid (jäävad samad, mis sul on)
   fogStrength = 0.3,
-  fogHeightVmax = 20,
+  fogHeightVmax = 30,
   fogOffsetVmax = 0,
-  fogBlobSizeVmax = 70,
+  fogBlobSizeVmax = 65,
   fogPairSpreadVmax = 22,
-  fogHorizontalShiftVmax = -35,
+  fogHorizontalShiftVmax = -32.5,
 
   // kas teha udule aeglane ilmumine (fade-in)
   animateFog = true,

@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
@@ -17,26 +16,31 @@ export default function HomePage() {
     const leftHandler = () => setLeftFadeDone(true);
     const rightHandler = () => setRightFadeDone(true);
 
-    if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", leftHandler);
-    if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", rightHandler);
+    const lc = leftCardRef.current;
+    const rc = rightCardRef.current;
+
+    if (lc) lc.addEventListener("animationend", leftHandler);
+    if (rc) rc.addEventListener("animationend", rightHandler);
 
     return () => {
-      if (leftCardRef.current) leftCardRef.current.removeEventListener("animationend", leftHandler);
-      if (rightCardRef.current) rightCardRef.current.removeEventListener("animationend", rightHandler);
+      if (lc) lc.removeEventListener("animationend", leftHandler);
+      if (rc) rc.removeEventListener("animationend", rightHandler);
     };
   }, []);
 
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
 
-return (
-  <>
-    <div className="main-content">
-      <div className="side left">
-        <div className={`three-d-card float-card left ${flipClass}`}>
-          <div className="card-wrapper">
-            <div className="card-face front">
-              <Magnet
+  return (
+    <>
+      <div className="main-content">
+        {/* VASAK KAART */}
+        <div className="side left">
+          <div className={`three-d-card float-card left ${flipClass}`}>
+            <div className="card-wrapper">
+              {/* front */}
+              <div className="card-face front">
+                <Magnet
                   padding={80}
                   magnetStrength={18}
                   disabled={isLoginOpen || !flipAllowed}
@@ -59,25 +63,31 @@ return (
                           Seadused, praktika<br />ja nõuanded.
                         </span>
                       </div>
+
                       <img
                         src="/logo/aivalge.svg"
                         alt="aivalge logo"
                         className="card-logo-bg card-logo-bg-left"
                         draggable={false}
                       />
+
+                      {/* ringlev valguskaar ESIKÜLJEL */}
+                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
               </div>
+
+              {/* back */}
               <div
                 className="card-face back"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
-                onKeyDown={e =>
-                  (e.key === "Enter" || e.key === " ") &&
-                  flipAllowed &&
-                  setIsLoginOpen(true)
-                }
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
+                    setIsLoginOpen(true);
+                  }
+                }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div
@@ -108,10 +118,11 @@ return (
           </div>
         </div>
 
-        {/* Parem kaart */}
+        {/* PAREM KAART */}
         <div className="side right">
           <div className={`three-d-card float-card right ${flipClass}`}>
             <div className="card-wrapper">
+              {/* front */}
               <div className="card-face front">
                 <Magnet
                   padding={80}
@@ -136,25 +147,31 @@ return (
                           Õigused, juhised<br />ja võimalused.
                         </span>
                       </div>
+
                       <img
                         src="/logo/smust.svg"
                         alt="smust logo"
                         className="card-logo-bg card-logo-bg-right"
                         draggable={false}
                       />
+
+                      {/* ringlev valguskaar ESIKÜLJEL */}
+                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
               </div>
+
+              {/* back */}
               <div
                 className="card-face back"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
-                onKeyDown={e =>
-                  (e.key === "Enter" || e.key === " ") &&
-                  flipAllowed &&
-                  setIsLoginOpen(true)
-                }
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
+                    setIsLoginOpen(true);
+                  }
+                }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div
@@ -185,16 +202,18 @@ return (
           </div>
         </div>
       </div>
-<footer className="footer-column">
-  <Link href="/meist" className="footer-link footer-link-headline">
-    MEIST
-  </Link>
-  <img
-    src="/logo/logomust.svg"
-    alt="SotsiaalAI logo"
-    className="footer-logo-img"
-  />
-</footer>
+
+      {/* Jalus */}
+      <footer className="footer-column">
+        <Link href="/meist" className="footer-link footer-link-headline">
+          MEIST
+        </Link>
+        <img
+          src="/logo/logomust.svg"
+          alt="SotsiaalAI logo"
+          className="footer-logo-img"
+        />
+      </footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
