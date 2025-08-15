@@ -24,7 +24,7 @@ export default function Space({
 
   // kas teha udule aeglane ilmumine (fade-in)
   animateFog = true,
-  fogAppearDurMs = 4500,
+  fogAppearDurMs = 3000,
   fogAppearDelayMs = 900,
 } = {}) {
   const opacity1 = clamp(0.25 * intensity, 0, 0.8);

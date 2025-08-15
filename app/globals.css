@@ -335,7 +335,7 @@ box-shadow:
 }
 .centered-front-outer {
   opacity: 0;
-  animation: fadeIn 11s cubic-bezier(.61,.0,.19,1) forwards;
+  animation: fadeIn 8s cubic-bezier(.61,.0,.19,1) forwards;
 }
 
 @keyframes fadeIn {

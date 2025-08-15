@@ -70,7 +70,7 @@ export default function HomePage() {
                         className="card-logo-bg card-logo-bg-left"
                         draggable={false}
                       />
-                                            <div className="centered-front-outer" aria-hidden="true" />
+ <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
