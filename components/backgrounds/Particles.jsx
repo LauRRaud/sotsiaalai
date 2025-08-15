@@ -81,21 +81,16 @@ const fragment = /* glsl */ `
 `;
 
 const Particles = ({
-  particleCount = 110,                
+  particleCount = 85,                
   particleSpread = 22.5,                   
   speed = 0.04,                          
   particleColors = [
   "#cfd6e3", // hõbe
-  "#e0e6f3", // hele hõbe
   "#aeb6c2", // neutraalne hall-hõbe
-
-  "#181818", // must
   "#232323", // tumehall
   "#2e2e2e", // hallikas must
-
   "#ffb3a2", // hele brändivärv
   "#ff7043", // oranž brändivärv
-  "#c62828", // tume punakas brändivärv
   ],
   moveParticlesOnHover = false,            
   particleHoverFactor = 1,                

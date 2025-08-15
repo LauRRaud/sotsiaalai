@@ -127,19 +127,19 @@ export default function Space({
           animation: none !important;
         }
 
-        /* Fade-in: peenelt kasvav, lineaarne */
-        @keyframes fogAppear {
-          0%   { opacity: 0.001; }
-          10%  { opacity: calc(var(--fogOpacity) * 0.03); }
-          20%  { opacity: calc(var(--fogOpacity) * 0.06); }
-          30%  { opacity: calc(var(--fogOpacity) * 0.10); }
-          40%  { opacity: calc(var(--fogOpacity) * 0.16); }
-          55%  { opacity: calc(var(--fogOpacity) * 0.26); }
-          70%  { opacity: calc(var(--fogOpacity) * 0.42); }
-          85%  { opacity: calc(var(--fogOpacity) * 0.65); }
-          95%  { opacity: calc(var(--fogOpacity) * 0.85); }
-          100% { opacity: var(--fogOpacity); }
-        }
+@keyframes fogAppear {
+  0%   { opacity: 0.001; }
+  10%  { opacity: calc(var(--fogOpacity) * 0.03); }
+  20%  { opacity: calc(var(--fogOpacity) * 0.06); }
+  30%  { opacity: calc(var(--fogOpacity) * 0.10); }
+  40%  { opacity: calc(var(--fogOpacity) * 0.16); }
+  55%  { opacity: calc(var(--fogOpacity) * 0.26); }
+  70%  { opacity: calc(var(--fogOpacity) * 0.42); }
+  85%  { opacity: calc(var(--fogOpacity) * 0.75); }
+  92%  { opacity: calc(var(--fogOpacity) * 0.89); }
+  97%  { opacity: calc(var(--fogOpacity) * 0.96); }
+  100% { opacity: var(--fogOpacity); }
+}
 
         /* BLOBS — sinu CSS; blend on blobidel, mitte konteineril */
         .fog-blob {
