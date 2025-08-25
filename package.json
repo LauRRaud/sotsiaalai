@@ -13,6 +13,7 @@
     "express": "^5.1.0",
     "framer-motion": "^12.18.1",
     "liquid-glass-react": "^1.1.1",
+    "motion": "^12.23.12",
     "next": "15.3.3",
     "next-auth": "^4.24.11",
     "ogl": "^1.0.11",

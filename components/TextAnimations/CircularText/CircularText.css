@@ -1,0 +1,54 @@
+.circular-text-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 3; /* kihistus: logo < ring < pealkiri */
+}
+
+/* Pöörame ainult <text>-i, mitte kogu SVG-d */
+.circular-text-line {
+  /* Aino Headline esimesena */
+  font-family: 'Aino Headline', 'Aino', Arial, sans-serif;
+  font-weight: 400;                 /* Headline on 1 kaal – hoia 400 peal */
+  font-synthesis: none;             /* ära loo sünteetilist bold/italic'ut */
+  text-transform: uppercase;
+  fill: currentColor;               /* fallback, kui per-sõna fill puudub */
+
+  /* animatsioon */
+  animation-name: saai-rotate;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 50%;
+
+  /* teravuse parandused */
+  font-variant-ligatures: none;
+  text-rendering: geometricPrecision;   /* või optimizeLegibility */
+  -webkit-font-smoothing: antialiased;
+  will-change: transform;
+}
+
+@keyframes saai-rotate { to { transform: rotate(360deg); } }
+
+/* lubab varjul üle SVG piiri minna */
+.circular-text-svg { overflow: visible; }
+
+.left-card-primary .desc-ring-left > g,
+.left-card-primary .desc-ring-left .circular-text-line,
+.right-card-primary .desc-ring-right > g,
+.right-card-primary .desc-ring-right .circular-text-line { filter: none; }
+
+/* VASAK kaart – peen hele kontuur */
+.left-card-primary .desc-ring-left .circular-text-line {
+  paint-order: stroke fill;
+  stroke: rgba(255,255,255,.35);
+  stroke-width: 0.22px;
+}
+
+/* PAREM kaart – peen tume kontuur */
+.right-card-primary .desc-ring-right .circular-text-line {
+  paint-order: stroke fill;
+  stroke: rgba(0,0,0,.45);
+  stroke-width: 0.22px;
+}

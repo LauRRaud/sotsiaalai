@@ -1,49 +1,94 @@
 /**
  * Space — starless cosmic background under your particle layer.
- * Symmetric left/right fog (no center blob). Fog fades in slowly (if animateFog=true).
- * Hydration-safe: styles are in <style jsx global>.
+ * Now with light/dark mode via `mode` prop.
  */
 export default function Space({
-  palette = {
-    baseTop: "#070b16",
-    baseBottom: "#070b16",
-    accentA: "#0a1224",
-    accentB: "#0a1224",
-  },
-  intensity = 0.4,
+  mode = "dark", // NEW (light mode): "dark" | "light"
+  palette,
+  intensity,     // visual intensity scaler (per-mode defaults below)
   grain = true,
   fog = true,
 
-  // udu parameetrid (jäävad samad, mis sul on)
-  fogStrength = 0.3,
+  // fog params
+  fogStrength,
   fogHeightVmax = 30,
   fogOffsetVmax = 0,
   fogBlobSizeVmax = 65,
   fogPairSpreadVmax = 22,
   fogHorizontalShiftVmax = -32.5,
 
-  // kas teha udule aeglane ilmumine (fade-in)
   animateFog = true,
   fogAppearDurMs = 3000,
   fogAppearDelayMs = 900,
 } = {}) {
-  const opacity1 = clamp(0.25 * intensity, 0, 0.8);
-  const opacity2 = clamp(0.18 * intensity, 0, 0.7);
+  // ---- PRESETS ----
+const PRESETS = {
+  dark: {
+    // Tumesinine taust + heledam udu
+    palette: {
+      baseTop: "#070b16",
+      baseBottom: "#0d111b",
+      accentA: "#0a1224",
+      accentB: "#0a1224",
+    },
+    intensity: 0.45,
+    fogStrength: 0.30,
+    fogBlend: "screen",
+    grainOpacity: 0.06,
+    blob2Opacity: 0.05,
+    fogInnerRGBA: (alphaBase) => [
+      `rgba(235,243,255,${alphaBase})`,
+      "rgba(180,200,235,0.35)",
+    ],
+  },
+
+  light: {
+    // Hele ühtlane taust + sinine udu
+    palette: {
+      baseTop: "#070b16",
+      baseBottom: "#0d111b",
+      accentA: "#E4E5E6",   // aktsendid hoian neutraalsed
+      accentB: "#E4E5E6",
+    },
+    intensity: 0.3,
+    fogStrength: 0.4,          // tugevam, et sinine udu välja paistaks
+    fogBlend: "multiply",       // tumedam udu heledal taustal
+    grainOpacity: 0.02,
+    blob2Opacity: 0.05,
+    fogInnerRGBA: (alphaBase) => [
+      "#88aed8ff",
+      "#71a1cfff",
+    ],
+  },
+};
+
+  const cfg = PRESETS[mode] || PRESETS.dark;
+
+  // allow prop overrides
+  const pal = { ...(cfg.palette), ...(palette || {}) };
+  const inten = intensity ?? cfg.intensity;
+  const fogStr = clamp(fogStrength ?? cfg.fogStrength, 0, 0.7);
+
+  const opacity1 = clamp(0.25 * inten, 0, 0.8);
+  const opacity2 = clamp(0.18 * inten, 0, 0.7);
+
+  // derive fog gradient stops per mode
+  const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
 
   return (
     <div
       className="space-backdrop"
       suppressHydrationWarning
+      data-mode={mode} // NEW
       style={{
-        // custom property’d STRINGINA — stabiilne SSR/CSR
-        "--baseTop": String(palette.baseTop),
-        "--baseBottom": String(palette.baseBottom),
-        "--accentA": String(hexWithAlpha(palette.accentA, 0.55)),
-        "--accentB": String(hexWithAlpha(palette.accentB, 0.6)),
+        "--baseTop": String(pal.baseTop),
+        "--baseBottom": String(pal.baseBottom),
+        "--accentA": String(hexWithAlpha(pal.accentA, mode === "light" ? 0.9 : 0.55)),
+        "--accentB": String(hexWithAlpha(pal.accentB, mode === "light" ? 0.9 : 0.6)),
         "--opacity1": String(opacity1),
         "--opacity2": String(opacity2),
 
-        "--fogOpacity": String(clamp(fogStrength, 0, 0.7)),
+        "--fogOpacity": String(fogStr),
         "--fogHeight": `${fogHeightVmax}vmax`,
         "--fogOffset": `${fogOffsetVmax}vmax`,
         "--fogBlobSize": `${fogBlobSizeVmax}vmax`,
@@ -52,30 +97,29 @@ export default function Space({
 
         "--fogAppearDur": `${fogAppearDurMs}ms`,
         "--fogAppearDelay": `${fogAppearDelayMs}ms`,
+
+        // NEW (light mode)
+        "--fogBlend": cfg.fogBlend,
+        "--grainOpacity": cfg.grainOpacity,
+        "--blob2Opacity": cfg.blob2Opacity,
+        "--fogStop0": fogStop0,
+        "--fogStop1": fogStop1,
       }}
       aria-hidden
     >
-      {/* Tume ühtlane baas */}
       <div className="sb-base" />
-
-      {/* Väga tagasihoidlik alumine aktsent */}
-      <div className="sb-blob sb-blob-2" style={{ opacity: 0.05 }} />
-
-      {/* Sümmeetriline udu (fade-in ainult siis, kui animateFog=true) */}
+      <div className="sb-blob sb-blob-2" />
       {fog && <FogLayer animateFog={animateFog} />}
-
       {grain && <GrainOverlay />}
 
-      {/* ——— STYLES ——— */}
       <style jsx global>{`
-        /* BACKDROP */
         .space-backdrop {
           position: fixed;
           inset: 0;
           z-index: 0;
           overflow: hidden;
           pointer-events: none;
-          isolation: isolate; /* hoiab blendid kapslis */
+          isolation: isolate;
           background: transparent;
         }
 
@@ -100,9 +144,10 @@ export default function Space({
             rgba(0, 0, 0, 0) 70%
           );
           filter: blur(70px) saturate(125%);
+          opacity: var(--blob2Opacity); /* NEW: per-mode */
         }
 
-        /* FOG LAYER — fade ainult konteineril; blend on blobidel */
+        /* FOG LAYER */
         .fog {
           position: absolute;
           left: calc(50% + var(--fogHorizontalShift));
@@ -112,36 +157,33 @@ export default function Space({
           height: var(--fogHeight);
           pointer-events: none;
 
-          /* baseline */
-          opacity: 0.001; /* mitte päris 0 → vältida külmkäivituse klõpsu */
+          opacity: 0.001;
           will-change: opacity;
           backface-visibility: hidden;
         }
-        /* Kui tahame fade-in'i */
         .fog[data-animate="1"] {
           animation: fogAppear var(--fogAppearDur) linear var(--fogAppearDelay) both;
         }
-        /* Kui EI taha fade-in'i (nt teistel lehtedel) */
         .fog[data-animate="0"] {
           opacity: var(--fogOpacity) !important;
           animation: none !important;
         }
 
-@keyframes fogAppear {
-  0%   { opacity: 0.001; }
-  10%  { opacity: calc(var(--fogOpacity) * 0.03); }
-  20%  { opacity: calc(var(--fogOpacity) * 0.06); }
-  30%  { opacity: calc(var(--fogOpacity) * 0.10); }
-  40%  { opacity: calc(var(--fogOpacity) * 0.16); }
-  55%  { opacity: calc(var(--fogOpacity) * 0.26); }
-  70%  { opacity: calc(var(--fogOpacity) * 0.42); }
-  85%  { opacity: calc(var(--fogOpacity) * 0.75); }
-  92%  { opacity: calc(var(--fogOpacity) * 0.89); }
-  97%  { opacity: calc(var(--fogOpacity) * 0.96); }
-  100% { opacity: var(--fogOpacity); }
-}
+        @keyframes fogAppear {
+          0%   { opacity: 0.001; }
+          10%  { opacity: calc(var(--fogOpacity) * 0.03); }
+          20%  { opacity: calc(var(--fogOpacity) * 0.06); }
+          30%  { opacity: calc(var(--fogOpacity) * 0.10); }
+          40%  { opacity: calc(var(--fogOpacity) * 0.16); }
+          55%  { opacity: calc(var(--fogOpacity) * 0.26); }
+          70%  { opacity: calc(var(--fogOpacity) * 0.42); }
+          85%  { opacity: calc(var(--fogOpacity) * 0.75); }
+          92%  { opacity: calc(var(--fogOpacity) * 0.89); }
+          97%  { opacity: calc(var(--fogOpacity) * 0.96); }
+          100% { opacity: var(--fogOpacity); }
+        }
 
-        /* BLOBS — sinu CSS; blend on blobidel, mitte konteineril */
+        /* BLOBS — blend per-mode */
         .fog-blob {
           position: absolute;
           top: 30%;
@@ -152,11 +194,11 @@ export default function Space({
           filter: blur(110px) saturate(115%);
           background: radial-gradient(
             50% 50% at 50% 50%,
-            rgba(235, 243, 255, var(--fogStrengthAlpha, 0.90)) 0%,
-            rgba(180, 200, 235, 0.35) 55%,
+            var(--fogStop0) 0%,
+            var(--fogStop1) 55%,
             rgba(0, 0, 0, 0) 80%
           );
-          mix-blend-mode: screen;
+          mix-blend-mode: var(--fogBlend); /* NEW */
         }
         .fb1 { left: calc(50% - var(--fogSpread)); }
         .fb3 { left: calc(50% + var(--fogSpread)); }
@@ -169,7 +211,7 @@ export default function Space({
         .sb-grain {
           position: absolute;
           inset: 0;
-          opacity: 0.06;
+          opacity: var(--grainOpacity); /* NEW */
           mix-blend-mode: overlay;
           pointer-events: none;
         }
@@ -203,9 +245,7 @@ function GrainOverlay() {
 }
 
 /* utils */
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v));
-}
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 function hexWithAlpha(hex, a = 1) {
   if (!hex || hex[0] !== "#") return hex;
   const h = hex.slice(1);

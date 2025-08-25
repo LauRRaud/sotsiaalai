@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 332.64 195.12">
+  <defs>
+    <style>
+      .st0,.st1,.st2,.st3{
+        stroke:#000; stroke-miterlimit:10; stroke-opacity:.5; stroke-width:.1px;
+      }
+      /* S ja alumine täpp – pronks (vertikaalne, ülalt heledam) */
+      .st2,.st3{ fill:url(#bronzeGloss); }
+      /* Ülemine täpp – HÕBEDANE (muutmata) */
+      .st0{ fill:url(#linear-gradient2); }
+      /* AI – PRONKS (diagonaalne, sama nurk nagu sinu hõbedasel AI-l) */
+      .st1{ fill:url(#aiBronzeDiag); }
+    </style>
+
+    <!-- Pronks S-ile ja alumisele täpile (ülalt heledam) -->
+    <linearGradient id="bronzeGloss" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0"    stop-color="#FBE5DF"/>
+      <stop offset="0.20" stop-color="#F3C6B5"/>
+      <stop offset="0.45" stop-color="#E09780"/>
+      <stop offset="0.70" stop-color="#C66A4E"/>
+      <stop offset="1"    stop-color="#843722"/>
+    </linearGradient>
+
+    <!-- Ülemine täpp – HÕBEDANE (nagu originaalis) -->
+    <linearGradient id="linear-gradient2" x1="79.28" y1="908.27" x2="79.28" y2="1067.54"
+      gradientTransform="translate(0 -882)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f6f9fe"/>
+      <stop offset=".18" stop-color="#e0e6f1"/>
+      <stop offset=".48" stop-color="#aeb6c2"/>
+      <stop offset=".75" stop-color="#cfd6e3"/>
+    </linearGradient>
+
+    <!-- AI – PRONKS diagonaal (kasutab sama suunda/nurka) -->
+    <linearGradient id="aiBronzeDiag" x1="216.99" y1="-16.39" x2="319.17" y2="202.81" gradientUnits="userSpaceOnUse">
+      <stop offset="0"    stop-color="#FBE5DF"/>
+      <stop offset="0.20" stop-color="#F3C6B5"/>
+      <stop offset="0.45" stop-color="#E09780"/>
+      <stop offset="0.70" stop-color="#C66A4E"/>
+      <stop offset="1"    stop-color="#843722"/>
+    </linearGradient>
+  </defs>
+
+  <!-- S-täht (pronks), ülemine täpp (hõbe), alumine täpp (pronks) -->
+  <g>
+    <!-- Alumine täpp (pronks) -->
+    <path class="st2" d="M20.2,144.88c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+    <!-- S-kuju (pronks) -->
+    <path class="st3" d="M39.69,26.36c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57,12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,60.23,8.37,33.27,37.44,24.59l2.23,1.76h0v.03h.03,0Z"/>
+    <!-- Ülemine täpp (HÕBE) -->
+    <path class="st0" d="M75.38,33c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+  </g>
+
+  <!-- AI plokk – PRONKS diagonaal -->
+  <path class="st1" d="M327.35,1.9c6.41,2.28,4.98,8.8,5.19,21.04v20.56c0,36.14.16,112.3-.11,140.07.37,14.89-19.71,10.6-30,11.08-9.49-.53-16.06-1.54-15.58-12.61.74-35.77-1.7-134.45.95-174.57,3.13-9.86,31.27-7.68,39-5.78l.53.21h0ZM261.16,193.63c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73-9.75-22.52-33.39-77.59-43.3-101.12-2.07-5.3-3.71-10.55-3.87-15.9-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05Z"/>
+</svg>

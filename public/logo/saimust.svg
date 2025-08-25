@@ -1,55 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 324 195.73">
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 332.64 195.12">
+  <!-- Generator: Adobe Illustrator 29.5.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 137)  -->
   <defs>
     <style>
-      .st0 { fill: url(#linear-gradient2); }
-      .st1 { fill: url(#linear-gradient1); }
-      .st2 { fill: url(#linear-gradient4); }
-      .st3 { fill: url(#linear-gradient3); }
-      .st4 { fill: url(#linear-gradient); }
+      .st0 {
+        fill: url(#linear-gradient2);
+      }
+
+      .st0, .st1, .st2, .st3 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-opacity: .5;
+        stroke-width: .1px;
+      }
+
+      .st1 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st2 {
+        fill: url(#linear-gradient3);
+      }
+
+      .st3 {
+        fill: url(#linear-gradient);
+      }
     </style>
-
-    <!-- Peamine külggradient (I-täht) — VERTIKAALNE -->
-    <linearGradient id="linear-gradient" x1="250" y1="0" x2="250" y2="195.73" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#ffb3a2"/>  <!-- hele -->
-      <stop offset="0.5" stop-color="#ff7043"/>  <!-- oranž -->
-      <stop offset="1"   stop-color="#c62828"/>  <!-- tume -->
+    <linearGradient id="linear-gradient" x1="23.94" y1="144.77" x2="23.94" y2="184.01" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#666"/>
+      <stop offset=".5" stop-color="#383838"/>
+      <stop offset=".81" stop-color="#1c1c1c"/>
+      <stop offset="1" stop-color="#111"/>
     </linearGradient>
-
-    <!-- Pikem peenikene külg -->
-    <linearGradient id="linear-gradient1" x1="145.84" y1="0" x2="145.84" y2="195.73" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#ffb3a2"/>
-      <stop offset="0.5" stop-color="#ff7043"/>
-      <stop offset="1"   stop-color="#c62828"/>
+    <linearGradient id="linear-gradient1" x1="-1571.22" y1="5.18" x2="-1571.22" y2="6.18" gradientTransform="translate(174429.38 -857.71) scale(110.98 170.15)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbe5df"/>
+      <stop offset=".2" stop-color="#f3c6b5"/>
+      <stop offset=".45" stop-color="#e09780"/>
+      <stop offset=".7" stop-color="#c66a4e"/>
+      <stop offset="1" stop-color="#843722"/>
     </linearGradient>
-
-    <!-- Suur ümar osa -->
-    <linearGradient id="linear-gradient2" x1="50.34" y1="0" x2="50.34" y2="195.73" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#ffb3a2"/>
-      <stop offset="0.63" stop-color="#ff7043"/>
-      <stop offset="1"   stop-color="#c62828"/>
+    <linearGradient id="linear-gradient2" x1="79.28" y1="1790.27" x2="79.28" y2="1949.54" gradientTransform="translate(0 -1764)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f6f9fe"/>
+      <stop offset=".18" stop-color="#e0e6f1"/>
+      <stop offset=".48" stop-color="#aeb6c2"/>
+      <stop offset=".75" stop-color="#cfd6e3"/>
     </linearGradient>
-
-    <!-- Väiksem sisemine ümmargune detail -->
-    <linearGradient id="linear-gradient3" x1="84.36" y1="0" x2="84.36" y2="195.73" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#ffb3a2"/>
-      <stop offset="1"   stop-color="#c62828"/>
-    </linearGradient>
-
-    <!-- Teine väiksem sisemine detail -->
-    <linearGradient id="linear-gradient4" x1="33.66" y1="0" x2="33.66" y2="195.73" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#ffb3a2"/>
-      <stop offset="1"   stop-color="#c62828"/>
+    <linearGradient id="linear-gradient3" x1="217" y1="865.61" x2="319.18" y2="1084.81" gradientTransform="translate(0 -882)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#757575"/>
+      <stop offset=".21" stop-color="#4c4c4c"/>
+      <stop offset=".45" stop-color="#353535"/>
+      <stop offset=".73" stop-color="#1e1e1e"/>
+      <stop offset="1" stop-color="#0c0c0c"/>
     </linearGradient>
   </defs>
-
   <g>
-    <path class="st4" d="M318.6,194.53c-6.17,1.55-11.49.94-19.2,1.13-6.39-.36-20.42,1.22-22.14-3.86-1.74-35.73-.09-142.83-.61-181.37.1-5.1.41-7.78,4.77-9.03,6.88-1.64,17.88-1.39,25.64-1.19,3.98.2,7.77.23,11.41,1.49,3.8,1.44,3.81,4.45,3.9,9.87.02,8.03,0,15.77,0,24v117.21c-.01,15.24.03,27.64-.02,34.53,0,3.02-.3,6.27-3.67,7.18l-.09.03h.01Z"/>
-    <path class="st1" d="M249.59,194.79c-3.77.99-8.07.8-12.08.91-7.02.03-16.35.06-23.33-.02-5.82-.1-10.07-.37-12.82-1.45-4.39-1.64-5.72-6.09-7.55-10.16-9.86-23.71-34.75-83.24-45.38-108.93-1.49-3.71-2.61-7.31-2.59-11.14.4-9.51,4.74-18.53,7.96-28.69,2.11-5.2,11.48-36.88,16.33-35.25,1.68.55,3.08,4.64,5.37,10,17.44,41.53,43.69,104.02,61.51,146.48,6.02,14.37,10.87,25.84,13.45,32.07.84,2.18,2.33,5.25-.8,6.16l-.08.03h.01Z"/>
+    <path class="st3" d="M22.57,144.88c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+    <path class="st1" d="M39.69,26.36c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57,12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,60.23,8.37,33.27,37.44,24.59l2.23,1.76h0v.03h.03v-.02h0Z"/>
+    <path class="st0" d="M75.38,33c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
   </g>
-  <g>
-    <path class="st0" d="M36.42,47.84c-10.77,4.08-14.74,15.93-12.84,26.86,6,34.68,70.72,25.83,75.28,69.44,1.82,17.45-7.51,34.45-21.56,44.01-5.69,3.88-13.07,8.15-20.03,7.53,10.62-6.54,15.44-21.29,14.1-33.39-3.56-32.34-55.79-26.45-66.98-58.69-9.02-26.01,4.52-49.7,30.05-57.32l1.96,1.54h0v.02Z"/>
-    <path class="st3" d="M71.16,50.44c21.14-2.12,25.06,31.35,4.39,34.15-24.11,3.28-27.51-31.84-4.39-34.15Z"/>
-    <path class="st2" d="M20.45,150.79c21.14-2.12,25.06,31.35,4.39,34.15-24.11,3.28-27.51-31.84-4.39-34.15h0Z"/>
-  </g>
+  <path class="st2" d="M327.35,1.9c6.41,2.28,4.98,8.8,5.19,21.04v20.56c0,36.14.16,112.3-.11,140.07.37,14.89-19.71,10.6-30,11.08-9.49-.53-16.06-1.54-15.58-12.61.74-35.77-1.7-134.45.95-174.57,3.13-9.86,31.27-7.68,39-5.78l.53.21h.02,0ZM261.16,193.63c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73-9.75-22.52-33.39-77.59-43.3-101.12-2.07-5.3-3.71-10.55-3.87-15.9-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
 </svg>

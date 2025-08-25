@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 const DarkMode = () => {
   const [dark, setDark] = useState(false);
@@ -18,24 +18,41 @@ const DarkMode = () => {
   useEffect(() => {
     if (!mounted) return;
     document.documentElement.classList.toggle("dark-mode", dark);
+
     try {
       localStorage.setItem("theme", dark ? "dark" : "light");
     } catch {}
+
+    // dispatch event for BackgroundLayer
+    try {
+      window.dispatchEvent(new CustomEvent("themechange", { detail: { dark } }));
+    } catch {}
   }, [dark, mounted]);
 
-  if (!mounted) return null; // ← väldib vale SSR renderdust
+  if (!mounted) return null; // väldib vale SSR renderdust
 
   return (
     <StyledWrapper>
-      <label htmlFor="themeToggle" className="themeToggle st-sunMoonThemeToggleBtn" aria-label={dark ? "Lülita hele režiim" : "Lülita tume režiim"}>
+      <label
+        htmlFor="themeToggle"
+        className="themeToggle st-sunMoonThemeToggleBtn"
+        aria-label={dark ? "Lülita hele režiim" : "Lülita tume režiim"}
+      >
         <input
           type="checkbox"
           id="themeToggle"
           className="themeToggleInput"
           checked={dark}
-          onChange={() => setDark(v => !v)}
+          onChange={() => setDark((v) => !v)}
         />
-        <svg width={32} height={32} viewBox="0 0 20 20" fill="currentColor" stroke="none" aria-hidden="true">
+        <svg
+          width={32}
+          height={32}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          stroke="none"
+          aria-hidden="true"
+        >
           <mask id="moon-mask">
             <rect x={0} y={0} width={20} height={20} fill="white" />
             <circle cx={11} cy={3} r={8} fill="black" />
@@ -54,12 +71,10 @@ const DarkMode = () => {
     </StyledWrapper>
   );
 };
+
 const StyledWrapper = styled.div`
-  position: fixed;
-  top: -2.5rem;
-  left: 51%;
-  transform: translateX(-50%);
-  z-index: 5;
+  /* NB: enam ei sea positsiooni! Parent (layout.js) juhib asukohta */
+  z-index: auto;
 
   .themeToggle {
     color: #bbb;
@@ -75,21 +90,20 @@ const StyledWrapper = styled.div`
     opacity: 0;
     width: 100%;
     aspect-ratio: 1;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
   }
 
   .st-sunMoonThemeToggleBtn svg {
-    position: relative;   /* ← Jääb õigesse kohta */
-    top: 0;
-    left: 0;
+    position: relative;
     width: 32px;
     height: 32px;
     transition: transform 0.4s ease;
     transform: rotate(40deg);
     background: none;
     border-radius: 50%;
-    box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0);
   }
-
 
   .st-sunMoonThemeToggleBtn svg .sunMoon {
     transform-origin: center center;
@@ -134,4 +148,5 @@ const StyledWrapper = styled.div`
     100% { transform: scale(1); }
   }
 `;
+
 export default DarkMode;

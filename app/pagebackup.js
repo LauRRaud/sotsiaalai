@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
-import DarkMode from "@/components/DarkMode";
-const Particles = dynamic(() => import("@/components/backgrounds/Particles"), { ssr: false });
+import Link from "next/link";
+import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
 
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
@@ -18,41 +17,47 @@ export default function HomePage() {
     const leftHandler = () => setLeftFadeDone(true);
     const rightHandler = () => setRightFadeDone(true);
 
-    if (leftCardRef.current) leftCardRef.current.addEventListener("animationend", leftHandler);
-    if (rightCardRef.current) rightCardRef.current.addEventListener("animationend", rightHandler);
+    const lc = leftCardRef.current;
+    const rc = rightCardRef.current;
+
+    if (lc) lc.addEventListener("animationend", leftHandler);
+    if (rc) rc.addEventListener("animationend", rightHandler);
 
     return () => {
-      if (leftCardRef.current) leftCardRef.current.removeEventListener("animationend", leftHandler);
-      if (rightCardRef.current) rightCardRef.current.removeEventListener("animationend", rightHandler);
+      if (lc) lc.removeEventListener("animationend", leftHandler);
+      if (rc) rc.removeEventListener("animationend", rightHandler);
     };
   }, []);
+
+  // lisa/korja body klass modali ajal (kui mujal CSS-iga vaja reageerida)
+  useEffect(() => {
+    document.body.classList.toggle("modal-open", isLoginOpen);
+    return () => document.body.classList.remove("modal-open");
+  }, [isLoginOpen]);
 
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
 
   return (
     <>
-      <DarkMode />
-      <Particles className="particles-container" />
+      {/* Dark Mode nupp – ainult avalehel, keskel üleval, peidetakse modali ajal */}
+      <DarkModeToggleWrapper position="top-center" top="0.5rem" hidden={isLoginOpen} />
 
       <div className="main-content">
-        {/* Vasak kaart */}
+        {/* VASAK KAART */}
         <div className="side left">
           <div className={`three-d-card float-card left ${flipClass}`}>
             <div className="card-wrapper">
+              {/* front */}
               <div className="card-face front">
-                <Magnet
-                  padding={80}
-                  magnetStrength={18}
-                  disabled={isLoginOpen || !flipAllowed}
-                >
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !flipAllowed}>
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         !leftFadeDone ? "fade-in" : "",
-                        leftFadeDone && isActive ? "glow-active" : ""
+                        leftFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                       style={{ position: "relative" }}
                     >
@@ -64,32 +69,36 @@ export default function HomePage() {
                           Seadused, praktika<br />ja nõuanded.
                         </span>
                       </div>
+
                       <img
                         src="/logo/aivalge.svg"
                         alt="aivalge logo"
                         className="card-logo-bg card-logo-bg-left"
                         draggable={false}
                       />
+                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
               </div>
+
+              {/* back */}
               <div
                 className="card-face back"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
-                onKeyDown={e =>
-                  (e.key === "Enter" || e.key === " ") &&
-                  flipAllowed &&
-                  setIsLoginOpen(true)
-                }
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
+                    setIsLoginOpen(true);
+                  }
+                }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div
                   className={[
                     "centered-back-left",
                     !leftFadeDone ? "fade-in" : "",
-                    "glow-static"
+                    "glow-static",
                   ].join(" ")}
                   style={{ position: "relative" }}
                 >
@@ -113,23 +122,20 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Parem kaart */}
+        {/* PAREM KAART */}
         <div className="side right">
           <div className={`three-d-card float-card right ${flipClass}`}>
             <div className="card-wrapper">
+              {/* front */}
               <div className="card-face front">
-                <Magnet
-                  padding={80}
-                  magnetStrength={18}
-                  disabled={isLoginOpen || !flipAllowed}
-                >
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !flipAllowed}>
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         !rightFadeDone ? "fade-in" : "",
-                        rightFadeDone && isActive ? "glow-active" : ""
+                        rightFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                       style={{ position: "relative" }}
                     >
@@ -141,32 +147,36 @@ export default function HomePage() {
                           Õigused, juhised<br />ja võimalused.
                         </span>
                       </div>
+
                       <img
                         src="/logo/smust.svg"
                         alt="smust logo"
                         className="card-logo-bg card-logo-bg-right"
                         draggable={false}
                       />
+                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
               </div>
+
+              {/* back */}
               <div
                 className="card-face back"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
-                onKeyDown={e =>
-                  (e.key === "Enter" || e.key === " ") &&
-                  flipAllowed &&
-                  setIsLoginOpen(true)
-                }
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
+                    setIsLoginOpen(true);
+                  }
+                }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div
                   className={[
                     "centered-back-right",
                     !rightFadeDone ? "fade-in" : "",
-                    "glow-static"
+                    "glow-static",
                   ].join(" ")}
                   style={{ position: "relative" }}
                 >
@@ -190,14 +200,15 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      {/* Footer väljaspool main-content */}
+
+      {/* Jalus */}
       <footer className="footer-column">
-        <a href="/meist" className="footer-link footer-link-headline">
+        <Link href="/meist" className="footer-link footer-link-headline">
           MEIST
-        </a>
+        </Link>
         <img
-          src="/logomust.svg"
-          alt="Sotsiaal.AI logo"
+          src="/logo/logomust.svg"
+          alt="SotsiaalAI logo"
           className="footer-logo-img"
         />
       </footer>

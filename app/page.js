@@ -3,6 +3,13 @@ import { useEffect, useState, useRef } from "react";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
+import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
+
+/** SVG-põhine ringtekst (nimed samad, nii et muud importi pole vaja) */
+import {
+  CircularRingLeft,
+  CircularRingRight,
+} from "@/components/TextAnimations/CircularText/CircularText";
 
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
@@ -28,11 +35,22 @@ export default function HomePage() {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle("modal-open", isLoginOpen);
+    return () => document.body.classList.remove("modal-open");
+  }, [isLoginOpen]);
+
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
 
   return (
     <>
+      <DarkModeToggleWrapper
+        position="top-center"
+        top="0.5rem"
+        hidden={isLoginOpen}
+      />
+
       <div className="main-content">
         {/* VASAK KAART */}
         <div className="side left">
@@ -51,18 +69,27 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-light left-card-primary",
                         !leftFadeDone ? "fade-in" : "",
-                        leftFadeDone && isActive ? "glow-active" : ""
+                        leftFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                       style={{ position: "relative" }}
                     >
                       <div className="card-content">
                         <span className="headline-bold">
-                          SOTSIAALTÖÖ<br />SPETSIALISTILE
+                          SOTSIAALTÖÖ
+                          <br />
+                          SPETSIALISTILE
                         </span>
+
+                        {/* Kaardi kirjeldus (tasapinnaline tekst) */}
                         <span className="card-description">
-                          Seadused, praktika<br />ja nõuanded.
+                          Seadused, praktika
+                          <br />
+                          ja nõuanded.
                         </span>
                       </div>
+
+                      {/* ✅ SVG ringtekst – vasak kaart */}
+                      <CircularRingLeft />
 
                       <img
                         src="/logo/aivalge.svg"
@@ -70,7 +97,7 @@ export default function HomePage() {
                         className="card-logo-bg card-logo-bg-left"
                         draggable={false}
                       />
- <div className="centered-front-outer" aria-hidden="true" />
+                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
@@ -92,7 +119,7 @@ export default function HomePage() {
                   className={[
                     "centered-back-left",
                     !leftFadeDone ? "fade-in" : "",
-                    "glow-static"
+                    "glow-static",
                   ].join(" ")}
                   style={{ position: "relative" }}
                 >
@@ -100,7 +127,8 @@ export default function HomePage() {
                     <span className="brand-title brand-title-left">KÜSI NÕU</span>
                   </div>
                   <div className="card-note left-back">
-                    Sinu usaldusväärne töövahend<br />
+                    Sinu usaldusväärne töövahend
+                    <br />
                     sotsiaalvaldkonna küsimustes.
                   </div>
                   <img
@@ -133,18 +161,27 @@ export default function HomePage() {
                       className={[
                         "glass-card glass-card-dark right-card-primary",
                         !rightFadeDone ? "fade-in" : "",
-                        rightFadeDone && isActive ? "glow-active" : ""
+                        rightFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                       style={{ position: "relative" }}
                     >
                       <div className="card-content">
                         <span className="headline-bold">
-                          ELUKÜSIMUSEGA<br />PÖÖRDUJALE
+                          ELUKÜSIMUSEGA
+                          <br />
+                          PÖÖRDUJALE
                         </span>
+
+                        {/* Kaardi kirjeldus (tasapinnaline tekst) */}
                         <span className="card-description">
-                          Õigused, juhised<br />ja võimalused.
+                          Õigused, juhised
+                          <br />
+                          ja võimalused.
                         </span>
                       </div>
+
+                      {/* ✅ SVG ringtekst – parem kaart */}
+                      <CircularRingRight />
 
                       <img
                         src="/logo/smust.svg"
@@ -174,7 +211,7 @@ export default function HomePage() {
                   className={[
                     "centered-back-right",
                     !rightFadeDone ? "fade-in" : "",
-                    "glow-static"
+                    "glow-static",
                   ].join(" ")}
                   style={{ position: "relative" }}
                 >
@@ -182,7 +219,8 @@ export default function HomePage() {
                     <span className="brand-title brand-title-right">KÜSI NÕU</span>
                   </div>
                   <div className="card-note right-back">
-                    Leia selgus ja kindlustunne<br />
+                    Leia selgus ja kindlustunne
+                    <br />
                     elulistes sotsiaalküsimustes.
                   </div>
                   <img

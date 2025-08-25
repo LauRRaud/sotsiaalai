@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.89 117.15">
+  <defs>
+    <!-- S-tähe koralligradient -->
+    <linearGradient id="s-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffccbc"/>   <!-- hele korall -->
+      <stop offset="0.5" stop-color="#ffab91"/> <!-- brändi pehme korall -->
+      <stop offset="1" stop-color="#ff7043"/>   <!-- tumedam korall -->
+    </linearGradient>
+
+    <!-- Ülemine täpp: väga hele hõbe -->
+    <linearGradient id="silver-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#f5f5f5"/>
+      <stop offset="1" stop-color="#dcdcdc"/>
+    </linearGradient>
+
+    <!-- Alumine täpp: heledam korall -->
+    <linearGradient id="light-coral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffccbc"/>  <!-- hele korall -->
+      <stop offset="1" stop-color="#ff7043"/>  <!-- korall -->
+    </linearGradient>
+  </defs>
+
+  <!-- Alumine täpp (heledam korall) -->
+  <path fill="url(#light-coral)" 
+        d="M16.38,81.91c16.89-1.66,20.02,24.57,3.5,26.77-19.26,2.57-21.98-24.96-3.5-26.77Z"/>
+  
+  <!-- Keskmine põhikuju (S-täht koralligradient) -->
+  <path fill="url(#s-gradient)" 
+        d="M27.82,1.22c-8.6,3.2-11.77,12.49-10.26,21.05,4.8,27.18,56.5,20.25,60.15,54.43,1.45,13.68-6,27-17.23,34.5-4.54,3.04-10.44,6.39-16,5.9,8.48-5.13,12.34-16.69,11.27-26.17-2.85-25.35-44.58-20.73-53.51-46C-4.97,24.54,5.85,5.97,26.24,0l1.57,1.21h.01Z"/>
+  
+  <!-- Ülemine täpp (heledam hõbe) -->
+  <path fill="url(#silver-gradient)" 
+        d="M53.92,3.42c19.21-3.18,22.71,26.37,2.72,26.77-17.09.34-17.82-24.27-2.72-26.77Z"/>
+</svg>
