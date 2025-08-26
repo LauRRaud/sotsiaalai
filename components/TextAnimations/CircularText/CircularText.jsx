@@ -110,17 +110,16 @@ export function CircularRingLeft() {
     <CircularText
       text="SEADUSED PRAKTIKA NÕUANDED"
       size={440}
-      duration={90}
-      clockwise={true}
-      fontSize={25}
+      duration={120}
+      clockwise={false}
+      fontSize={32}
       weight={400}
       letterSpacing={6}
       className="desc-ring-left"
       startAtTop={true}
       offsetDeg={0}
-      // Kui soovid ühevärvilist, kustuta wordColors ja kasuta ringColor
-      // ringColor="rgba(19,20,43,1)"
-      wordColors={["#1B2A5A", "#1B2A5A", "#1B2A5A"]}
+      ringColor="rgba(57, 57, 57, 0.6)"
+
     />
   );
 }
@@ -130,16 +129,15 @@ export function CircularRingRight() {
     <CircularText
       text="ÕIGUSED JUHISED VÕIMALUSED"
       size={440}
-      duration={90}
-      clockwise={true}
-      fontSize={24}
+      duration={120}
+      clockwise={false}
+      fontSize={32}
       weight={400}
       letterSpacing={6}
       className="desc-ring-right"
       startAtTop={true}
       offsetDeg={0}
-      // ringColor="rgba(255,255,255,1)"
-      wordColors={["#BFC3C9", "#BFC3C9", "#BFC3C9"]}
+      ringColor="rgba(213, 121, 105, 0.4)"
     />
   );
 }

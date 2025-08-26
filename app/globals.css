@@ -459,61 +459,35 @@ html:not(.dark-mode) .centered-front-outer {
   position: relative;
   z-index: 4;                         /* pealkiri jääb ringist ja logost ettepoole */
   font-family: 'Aino Headline','Aino',Arial,sans-serif;
-  font-size: 1.9rem;                 /* veidi suurem ja väärikam */
-  line-height: 1.4;
-  color: #1e2140;                     /* sügavam tumesinine */
+  font-size: 1.825rem;                 /* veidi suurem ja väärikam */
+  line-height: 1.6;
+  color: #323232;                     /* sügavam tumesinine */
   text-transform: uppercase;
-  letter-spacing: 0.12em;             /* pisut avaram kerning */
+  letter-spacing: 0.1em;             /* pisut avaram kerning */
   font-weight: 500;                   /* tugevam kaal */
-  margin-top: 4em;                  /* väiksem õhk üleval */
+  margin-top: 5.1em;                  /* väiksem õhk üleval */
   margin-bottom: 0.35em;
-
-  /* krõbedam renderdus klaasil */
+  text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: none;
-
-.left-card-primary .headline-bold{
-  text-shadow:
-    /* õrn pealmine helk */
-    0 1px 0 rgba(255,255,255,.55),
-    /* tihedam alusvari – lühike ja väikse bluriga */
-    0 1.6px 0.9px rgba(0,0,0,.22);
-  /* peen stroke hoiab serva terava */
-  paint-order: stroke fill;
-  -webkit-text-stroke: 0.2px rgba(255,255,255,.22);
-}
 }
 .right-card-primary .headline-bold {
   position: relative;
   z-index: 4;  /* pealkiri ringist ettepoole */
   font-family: 'Aino Headline','Aino',Arial,sans-serif;
-  font-size: 1.9rem;
-  line-height: 1.4;
-  color: #dfdfdf;              /* hele tekst tumedal klaasil */
+  font-size: 1.75rem;
+  line-height: 1.6;
+  color: #d0d4da;              /* hele tekst tumedal klaasil */
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   font-weight: 500;            /* sama kaal kui vasakul */
-  margin-top: 4em;
+  margin-top: 5.1em;
   margin-bottom: 0.35em;
-
-  /* krõbedus */
+text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.45);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: none;
-
-  /* õrn reljeef tumedal taustal – ei tee uduseks */
-  text-shadow:
-    0 0.5px 0 rgba(0,0,0,.35),
-    0 0.5px .5px rgba(0,0,0,.18);
-}
-
-/* WebKit: pisike stroke hoiab valge ääre terava */
-@supports (-webkit-text-stroke: 1px black) {
-  .right-card-primary .headline-bold{
-    paint-order: stroke fill;
-    -webkit-text-stroke: 0.2px rgba(0,0,0,.45);
-  }
 }
 .left-card-primary .card-description {
   font-size: 1.45rem; color: #232323; text-shadow: 0.3px 0.3px 1px rgba(0, 0, 0, 0.4);

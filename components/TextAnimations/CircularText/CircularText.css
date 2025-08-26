@@ -35,20 +35,10 @@
 .circular-text-svg { overflow: visible; }
 
 .left-card-primary .desc-ring-left > g,
-.left-card-primary .desc-ring-left .circular-text-line,
-.right-card-primary .desc-ring-right > g,
-.right-card-primary .desc-ring-right .circular-text-line { filter: none; }
-
-/* VASAK kaart – peen hele kontuur */
-.left-card-primary .desc-ring-left .circular-text-line {
-  paint-order: stroke fill;
-  stroke: rgba(255,255,255,.35);
-  stroke-width: 0.22px;
+.left-card-primary .desc-ring-left .circular-text-line{
+  filter: drop-shadow(0 2px 2px rgba(29, 29, 29, 0.2));
 }
-
-/* PAREM kaart – peen tume kontuur */
-.right-card-primary .desc-ring-right .circular-text-line {
-  paint-order: stroke fill;
-  stroke: rgba(0,0,0,.45);
-  stroke-width: 0.22px;
+.right-card-primary .desc-ring-right > g,
+.right-card-primary .desc-ring-right .circular-text-line{
+  filter: drop-shadow(0 2px 2px rgba(255, 255, 255, 0.2));
 }
