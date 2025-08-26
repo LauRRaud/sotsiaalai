@@ -498,11 +498,23 @@ text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.45);
   margin: 0 0; line-height: 1.32; margin-bottom: 1.5em; letter-spacing: 0.04em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
-.card-note.left-back { color: #232323; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.03em; text-align: center;line-height: 1.2em;}
-.card-note.right-back { color: #d8d8d8; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.04em; text-align: center;line-height: 1.2em; }
-.card-title.back {text-align: center; color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center; }
+.card-note.left-back { color: #323232; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.03em; text-align: center;line-height: 1.2em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none;}
+.card-note.right-back { color: #d0d4da; font-size: 1.4rem; font-weight: normal; letter-spacing: 0.04em; text-align: center;line-height: 1.2em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none;}
+.card-title.back {text-align: center; color: #000000e0; margin-top: -3em; margin-bottom:2.5em; justify-content: center; align-items: center;  text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none; }
 .centered-back-right .card-title.back {
-  color: #ffffffd2;
+  color: #d0d4da; text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.45);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none;
 }
 .footer-row {
   display: grid;
