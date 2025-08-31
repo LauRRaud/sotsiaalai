@@ -5,7 +5,8 @@ import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
 
-/** SVG-põhine ringtekst (nimed samad, nii et muud importi pole vaja) */
+
+/** SVG-põhine ringtekst */
 import {
   CircularRingLeft,
   CircularRingRight,
@@ -45,13 +46,15 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ülemine teema-lüliti */}
       <DarkModeToggleWrapper
         position="top-center"
         top="0.5rem"
         hidden={isLoginOpen}
       />
 
-      <div className="main-content">
+      {/* sisu (taust on layoutis -z-10 peal) */}
+      <div className="main-content relative z-0">
         {/* VASAK KAART */}
         <div className="side left">
           <div className={`three-d-card float-card left ${flipClass}`}>
@@ -79,16 +82,9 @@ export default function HomePage() {
                           <br />
                           SPETSIALISTILE
                         </span>
-
-                        {/* Kaardi kirjeldus (tasapinnaline tekst) */}
-                        <span className="card-description">
-                          Seadused, praktika
-                          <br />
-                          ja nõuanded.
-                        </span>
                       </div>
 
-                      {/* ✅ SVG ringtekst – vasak kaart */}
+                      {/* SVG ringtekst – vasak */}
                       <CircularRingLeft />
 
                       <img
@@ -171,16 +167,9 @@ export default function HomePage() {
                           <br />
                           PÖÖRDUJALE
                         </span>
-
-                        {/* Kaardi kirjeldus (tasapinnaline tekst) */}
-                        <span className="card-description">
-                          Õigused, juhised
-                          <br />
-                          ja võimalused.
-                        </span>
                       </div>
 
-                      {/* ✅ SVG ringtekst – parem kaart */}
+                      {/* SVG ringtekst – parem */}
                       <CircularRingRight />
 
                       <img
@@ -238,7 +227,7 @@ export default function HomePage() {
       </div>
 
       {/* Jalus */}
-      <footer className="footer-column">
+      <footer className="footer-column relative z-0">
         <Link href="/meist" className="footer-link footer-link-headline">
           MEIST
         </Link>

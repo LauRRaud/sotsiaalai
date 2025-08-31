@@ -465,7 +465,7 @@ html:not(.dark-mode) .centered-front-outer {
   text-transform: uppercase;
   letter-spacing: 0.1em;             /* pisut avaram kerning */
   font-weight: 500;                   /* tugevam kaal */
-  margin-top: 5.1em;                  /* väiksem õhk üleval */
+  margin-top: 0em;                  /* väiksem õhk üleval */
   margin-bottom: 0.35em;
   text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
   text-rendering: geometricPrecision;
@@ -482,20 +482,12 @@ html:not(.dark-mode) .centered-front-outer {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 500;            /* sama kaal kui vasakul */
-  margin-top: 5.1em;
+  margin-top: 0em;
   margin-bottom: 0.35em;
-text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.45);
+text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.293);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: none;
-}
-.left-card-primary .card-description {
-  font-size: 1.45rem; color: #232323; text-shadow: 0.3px 0.3px 1px rgba(0, 0, 0, 0.4);
-  margin: 0 0; line-height: 1.32; letter-spacing: 0.04em; margin-bottom: 1.5em; margin-top: 1.4em; text-transform: uppercase; z-index: 3; opacity: 0;
-}
-.right-card-primary .card-description {
-  font-size: 1.4rem; color: #d8d8d8; font-weight: normal;  text-shadow: 1px 1px 1.7px rgba(0, 0, 0, 0.4);
-  margin: 0 0; line-height: 1.32; margin-bottom: 1.5em; letter-spacing: 0.04em; margin-top: 1.7em; text-transform: uppercase; z-index: 3; opacity: 0;
 }
 .card-note { font-size: 1.4rem; opacity: 1;}
 .card-note.left-back { color: #323232; font-size: 1.42rem; font-weight: normal; letter-spacing: 0.03em; text-align: center;line-height: 1.2em;
@@ -511,7 +503,7 @@ text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.45);
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: none; }
 .centered-back-right .card-title.back {
-  color: #d0d4da; text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.45);
+  color: #d0d4da; text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.293);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: none;

@@ -5,6 +5,12 @@ import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
 
+/** SVG-põhine ringtekst (nimed samad, nii et muud importi pole vaja) */
+import {
+  CircularRingLeft,
+  CircularRingRight,
+} from "@/components/TextAnimations/CircularText/CircularText";
+
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
@@ -29,7 +35,6 @@ export default function HomePage() {
     };
   }, []);
 
-  // lisa/korja body klass modali ajal (kui mujal CSS-iga vaja reageerida)
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
@@ -40,8 +45,11 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Dark Mode nupp – ainult avalehel, keskel üleval, peidetakse modali ajal */}
-      <DarkModeToggleWrapper position="top-center" top="0.5rem" hidden={isLoginOpen} />
+      <DarkModeToggleWrapper
+        position="top-center"
+        top="0.5rem"
+        hidden={isLoginOpen}
+      />
 
       <div className="main-content">
         {/* VASAK KAART */}
@@ -50,7 +58,11 @@ export default function HomePage() {
             <div className="card-wrapper">
               {/* front */}
               <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !flipAllowed}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || !flipAllowed}
+                >
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
@@ -63,12 +75,21 @@ export default function HomePage() {
                     >
                       <div className="card-content">
                         <span className="headline-bold">
-                          SOTSIAALTÖÖ<br />SPETSIALISTILE
+                          SOTSIAALTÖÖ
+                          <br />
+                          SPETSIALISTILE
                         </span>
+
+                        {/* Kaardi kirjeldus (tasapinnaline tekst) */}
                         <span className="card-description">
-                          Seadused, praktika<br />ja nõuanded.
+                          Seadused, praktika
+                          <br />
+                          ja nõuanded.
                         </span>
                       </div>
+
+                      {/* ✅ SVG ringtekst – vasak kaart */}
+                      <CircularRingLeft />
 
                       <img
                         src="/logo/aivalge.svg"
@@ -106,7 +127,8 @@ export default function HomePage() {
                     <span className="brand-title brand-title-left">KÜSI NÕU</span>
                   </div>
                   <div className="card-note left-back">
-                    Sinu usaldusväärne töövahend<br />
+                    Sinu usaldusväärne töövahend
+                    <br />
                     sotsiaalvaldkonna küsimustes.
                   </div>
                   <img
@@ -128,7 +150,11 @@ export default function HomePage() {
             <div className="card-wrapper">
               {/* front */}
               <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !flipAllowed}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || !flipAllowed}
+                >
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
@@ -141,12 +167,21 @@ export default function HomePage() {
                     >
                       <div className="card-content">
                         <span className="headline-bold">
-                          ELUKÜSIMUSEGA<br />PÖÖRDUJALE
+                          ELUKÜSIMUSEGA
+                          <br />
+                          PÖÖRDUJALE
                         </span>
+
+                        {/* Kaardi kirjeldus (tasapinnaline tekst) */}
                         <span className="card-description">
-                          Õigused, juhised<br />ja võimalused.
+                          Õigused, juhised
+                          <br />
+                          ja võimalused.
                         </span>
                       </div>
+
+                      {/* ✅ SVG ringtekst – parem kaart */}
+                      <CircularRingRight />
 
                       <img
                         src="/logo/smust.svg"
@@ -184,7 +219,8 @@ export default function HomePage() {
                     <span className="brand-title brand-title-right">KÜSI NÕU</span>
                   </div>
                   <div className="card-note right-back">
-                    Leia selgus ja kindlustunne<br />
+                    Leia selgus ja kindlustunne
+                    <br />
                     elulistes sotsiaalküsimustes.
                   </div>
                   <img
