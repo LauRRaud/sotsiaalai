@@ -6,8 +6,12 @@ import { useRouter } from "next/navigation";
 export default function ChatBody() {
   const router = useRouter();
 
+  // Üks koht, kust automaatvastuse teksti juhtida
+  const AUTO_REPLY =
+    "Tere! SotsiaalAI assistendi andmebaas on arendamisel. Vastused on piiratud.";
+
   const [messages, setMessages] = useState([
-    { role: "ai", text: "Tere tulemast SotsiaalAI vestlusesse! Kuidas saan aidata?" }
+    { role: "ai", text: AUTO_REPLY } // algne tervitus asendatud
   ]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -32,10 +36,7 @@ export default function ChatBody() {
 
     // Näidis-AI vastus (asenda reaalse API-kõnega)
     setTimeout(() => {
-      setMessages((msgs) => [
-        ...msgs,
-        { role: "ai", text: "Tere! Väga meeldiv Sinuga vestelda. Peagi oskan rohkem aidata." }
-      ]);
+      setMessages((msgs) => [...msgs, { role: "ai", text: AUTO_REPLY }]); // vastus asendatud
       setIsGenerating(false);
       requestAnimationFrame(() => inputRef.current?.focus());
     }, 1200);
