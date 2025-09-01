@@ -1,15 +1,12 @@
+// server.js (lihtne test, mitte tootmises kasutamiseks)
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
-// Avalik kaust staatiliste failide jaoks (nt HTML, CSS)
-app.use(express.static('public'));
-
-// Test-route
 app.get('/', (req, res) => {
-  res.send('Tere! Sinu server töötab edukalt 🚀');
+  res.send('Test server töötab! Aga Next.js käivita npm start kaudu.');
 });
 
 app.listen(PORT, () => {
-  console.log(`Server töötab: http://localhost:${PORT}`);
+  console.log(`Express server: http://localhost:${PORT}`);
 });
