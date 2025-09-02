@@ -1,7 +1,8 @@
-// app/components/LoginModal.jsx  (või kus iganes sul fail on)
+// app/components/LoginModal.jsx
 "use client";
 
 import Link from "next/link";
+import NextImage from "next/image"; // ⬅️ nimetasime ringi
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,16 @@ export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
 
+  // Preload login-ikoonid brauseri cache'i, et modal avaneks koheselt piltidega
+  useEffect(() => {
+    const sources = ["/login/google1.png", "/login/smart.svg", "/login/mobiil.png"];
+    sources.forEach((src) => {
+      const img = new window.Image(); // ⬅️ kasuta window.Image
+      img.src = src;
+    });
+  }, []);
+
+  // Fookus ja <body> klass modali oleku järgi
   useEffect(() => {
     if (open && boxRef.current) boxRef.current.focus();
     if (open) document.body.classList.add("modal-open");
@@ -19,14 +30,20 @@ export default function LoginModal({ open, onClose }) {
 
   if (!open) return null;
 
-  // Demo funktsioonid (võid jätta nagu olid)
-  function handleGoogleLogin() { alert("Google login pole veel seadistatud."); }
-  function handleSmartID() { alert("Smart-ID login pole veel seadistatud."); }
-  function handleMobileID() { alert("Mobiil-ID login pole veel seadistatud."); }
+  // Demo-handlers — asenda päris autentimisega, kui valmis
+  function handleGoogleLogin() {
+    alert("Google login pole veel seadistatud.");
+  }
+  function handleSmartID() {
+    alert("Smart-ID login pole veel seadistatud.");
+  }
+  function handleMobileID() {
+    alert("Mobiil-ID login pole veel seadistatud.");
+  }
 
   const modalContent = (
     <>
-      {/* Backdrop */}
+      {/* Backdrop (klõps sulgeb) */}
       <div className="login-modal-backdrop" onClick={onClose} />
 
       {/* Modal box */}
@@ -37,7 +54,9 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         role="dialog"
         style={{ outline: "none" }}
-        onKeyDown={(e) => { if (e.key === "Escape") onClose?.(); }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") onClose?.();
+        }}
         aria-label="Logi sisse"
       >
         <button
@@ -51,27 +70,49 @@ export default function LoginModal({ open, onClose }) {
 
         <div className="glass-title">Logi sisse</div>
 
+        {/* SSO ikoonid */}
         <div className="login-social-icons-row">
-          <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google">
-            <img src="/google1.png" alt="Google" />
+          <button
+            className="login-icon-btn"
+            onClick={handleGoogleLogin}
+            type="button"
+            aria-label="Google"
+          >
+            <NextImage src="/login/google1.png" alt="Google" width={40} height={40} priority />
           </button>
-          <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID">
-            <img src="/smart.svg" alt="Smart-ID" />
+
+          <button
+            className="login-icon-btn"
+            onClick={handleSmartID}
+            type="button"
+            aria-label="Smart-ID"
+          >
+            <NextImage src="/login/smart.svg" alt="Smart-ID" width={40} height={40} priority />
           </button>
-          <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID">
-            <img src="/mobiil.png" alt="Mobiil-ID" />
+
+          <button
+            className="login-icon-btn"
+            onClick={handleMobileID}
+            type="button"
+            aria-label="Mobiil-ID"
+          >
+            <NextImage src="/login/mobiil.png" alt="Mobiil-ID" width={40} height={40} priority />
           </button>
         </div>
 
-        <div className="login-or-divider"><span>või</span></div>
+        <div className="login-or-divider">
+          <span>või</span>
+        </div>
 
+        {/* Demo-vorm (lihtne valideerimine) */}
         <form
           className="login-modal-form"
           autoComplete="off"
           onSubmit={(e) => {
             e.preventDefault();
-            const email = e.target.email.value.trim();
-            const password = e.target.password.value.trim();
+            const email = e.currentTarget.email.value.trim();
+            const password = e.currentTarget.password.value.trim();
+
             if (!email) {
               alert("Palun sisesta e-posti aadress.");
               return;
@@ -85,6 +126,8 @@ export default function LoginModal({ open, onClose }) {
               alert("Palun sisesta parool.");
               return;
             }
+
+            // Demo: suuna vestlusesse
             router.push("/vestlus");
             onClose?.();
           }}
@@ -96,6 +139,7 @@ export default function LoginModal({ open, onClose }) {
               name="email"
               placeholder="Sinu@email.ee"
               autoComplete="username"
+              inputMode="email"
             />
           </label>
 
@@ -109,8 +153,17 @@ export default function LoginModal({ open, onClose }) {
             />
           </label>
 
-          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
-            <Link href="/unustasin-parooli" className="unustasid-parooli-link">Unustasid parooli?</Link>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "right",
+              marginTop: "-0.4em",
+              marginBottom: "0.6em",
+            }}
+          >
+            <Link href="/unustasin-parooli" className="unustasid-parooli-link">
+              Unustasid parooli?
+            </Link>
           </div>
 
           <button type="submit" className="btn-primary">
@@ -119,12 +172,15 @@ export default function LoginModal({ open, onClose }) {
         </form>
 
         <div className="login-modal-bottom-link">
-          <Link href="/registreerimine" className="link-brand">Registreeru</Link>
+          <Link href="/registreerimine" className="link-brand">
+            Registreeru
+          </Link>
         </div>
       </div>
     </>
   );
 
+  // SSR guard: portaali saab teha vaid brauseris
   if (typeof document === "undefined") return null;
   return createPortal(modalContent, document.body);
 }

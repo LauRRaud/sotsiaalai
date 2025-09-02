@@ -1,15 +1,11 @@
-"use client";
-import { useState } from "react";
-import RegistreerimineBody from "@/components/alalehed/RegistreerimineBody";
-import LoginModal from "@/components/LoginModal";
+export const metadata = {
+  title: "Loo konto – SotsiaalAI",
+  description:
+    "Registreeru SotsiaalAI platvormile, vali roll (spetsialist või abivajaja) ja saa ligipääs vestlustele.",
+};
 
-export default function RegistreeriminePage() {
-  const [loginOpen, setLoginOpen] = useState(false);
+import RegistreeriminePageClient from "@/components/pages/RegistreeriminePageClient";
 
-  return (
-    <>
-      <RegistreerimineBody openLoginModal={() => setLoginOpen(true)} />
-      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
-    </>
-  );
+export default function Page() {
+  return <RegistreeriminePageClient />;
 }

@@ -1,9 +1,10 @@
-import KasutustingimusedBody from '@/components/alalehed/KasutustingimusedBody';
+export const metadata = {
+  title: "Kasutustingimused – SotsiaalAI",
+  description: "Tutvu SotsiaalAI platvormi kasutustingimustega.",
+};
 
-export default function KasutustingimusedLeht() {
-  return (
-    <main className="tingimused-container">
-      <KasutustingimusedBody />
-    </main>
-  );
+import KasutustingimusedBody from "@/components/alalehed/KasutustingimusedBody";
+
+export default function Page() {
+  return <KasutustingimusedBody />;
 }

@@ -1,9 +1,10 @@
-import PrivaatsusBody from '@/components/alalehed/PrivaatsusBody';
+export const metadata = {
+  title: "Privaatsustingimused – SotsiaalAI",
+  description: "Loe, kuidas SotsiaalAI töötleb ja kaitseb sinu andmeid.",
+};
 
-export default function PrivaatsusLeht() {
-  return (
-    <main className="tingimused-container">
-      <PrivaatsusBody />
-    </main>
-  );
+import PrivaatsusBody from "@/components/alalehed/PrivaatsusBody";
+
+export default function Page() {
+  return <PrivaatsusBody />;
 }

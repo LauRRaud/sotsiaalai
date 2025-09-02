@@ -1,15 +1,11 @@
-import MeistBody from "@/components/alalehed/MeistBody";
-
 export const metadata = {
   title: "Meist – SotsiaalAI",
   description:
-    "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna abiks. Anonüümne, lihtne, usaldusväärne.",
+    "SotsiaalAI on sotsiaalne ettevõte, mis pakub tehisintellekti-põhist tuge sotsiaaltöö spetsialistidele ja eluküsimusega pöördujatele.",
 };
 
-export default function MeistLeht() {
-  return (
-    <main>
-      <MeistBody />
-    </main>
-  );
+import MeistBody from "@/components/alalehed/MeistBody";
+
+export default function Page() {
+  return <MeistBody />;
 }
