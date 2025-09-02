@@ -1,3 +1,5 @@
+// app/page.js
+
 export const metadata = {
   title: "SotsiaalAI – Tehisintellekt sotsiaaltööks ja elulisteks küsimusteks",
   description:
@@ -9,7 +11,7 @@ import HomePage from "@/components/HomePage";
 export default function Page() {
   return (
     <>
-      {/* Organization JSON-LD (valikuline) */}
+      {/* Organization JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -23,6 +25,25 @@ export default function Page() {
           }),
         }}
       />
+
+      {/* WebSite + SearchAction JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "SotsiaalAI",
+            url: "https://sotsiaal.ai",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://sotsiaal.ai/vestlus?q={search_term_string}",
+              "query-input": "required name=search_term_string",
+            },
+          }),
+        }}
+      />
+
       <HomePage />
     </>
   );
