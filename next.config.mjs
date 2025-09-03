@@ -1,6 +1,9 @@
-// next.config.mjs
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Siia lisa oma next seaded, kui vaja.
+  images: {
+    unoptimized: true,
+  },
+  // reactStrictMode: true,
+  // swcMinify: true,
 };
-
 export default nextConfig;

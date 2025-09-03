@@ -1,4 +1,4 @@
-// app/layout.js
+
 import "./globals.css";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import Script from "next/script";
@@ -31,7 +31,28 @@ export default function RootLayout({ children }) {
       <head>
         {/* Favicon */}
         <link rel="icon" href="/logo/favicon.svg" type="image/svg+xml" />
-        {/* No-flash: vali teema enne kui React hydrates */}
+
+        <link
+          rel="preload"
+          href="/fonts/Aino-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Aino-Headline.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Aino-Bold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <Script id="set-theme" strategy="beforeInteractive">
           {`
             (function () {

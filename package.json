@@ -1,8 +1,10 @@
 {
-  "name": "sotsiaali-veeb",
-  "version": "0.1.0",
+  "name": "SotsiaalAI",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
+  "author": "SotsiaalAI OÜ",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -26,5 +28,12 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "not ie <= 11"
+  ]
 }
