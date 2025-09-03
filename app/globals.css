@@ -197,25 +197,30 @@ a, .link-brand, .meist-external-link {
   width: 430px; height: 430px; aspect-ratio: 1/1;
   border-radius: 50%; background: transparent;
   position: relative; display: flex; align-items: center; justify-content: center;
-  margin: 0 auto; z-index: 22; box-sizing: border-box; cursor: pointer;
+  margin: 0 auto; z-index: 22; box-sizing: border-box; cursor: pointer;  perspective: 1000px;
 }
 .card-wrapper {
   width: 100%; height: 100%;
   position: relative;
   transform-style: preserve-3d;
+  transition: transform 480ms ease-out;
+  will-change: auto;
   transition: transform 1s cubic-bezier(.6,.1,.3,1.1);
 }
 .three-d-card:hover .card-wrapper,
 .three-d-card:focus-within .card-wrapper { transform: rotateY(180deg); }
 .three-d-card.right:hover .card-wrapper,
 .three-d-card.right:focus-within .card-wrapper { transform: rotateY(-180deg); }
-
+.three-d-card:hover .card-wrapper,
+.three-d-card.is-flipping .card-wrapper {
+  will-change: transform;
+}
 .card-face {
   position: absolute;
   width: 100%; height: 100%; top: 0; left: 0;
-  box-sizing: border-box; backface-visibility: hidden;
+  box-sizing: border-box; backface-visibility: hidden; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%);
+  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%); transform: translateZ(0);
 }
 .card-face.front { transform: rotateY(0deg); }
 .card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
@@ -312,7 +317,18 @@ html:not(.dark-mode) .centered-back-right {
 .glass-card.glow-active {
   animation: brandGlow 6.7s ease-in-out infinite;
 }
-
+.three-d-card.is-flipping .glow-active {
+  animation-play-state: paused;
+}
+.three-d-card.is-flipping .glass-card {
+  backdrop-filter: blur(2px);
+}
+.card-face,
+.glass-card {
+  transition-property: transform, opacity;
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+}
 /* --- Kaardi hõljumine --- */
 .float-card {
   animation: float-vertical 6.7s ease-in-out infinite;

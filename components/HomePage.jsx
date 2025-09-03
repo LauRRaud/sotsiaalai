@@ -11,6 +11,16 @@ export default function HomePage() {
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
+  // Flip throttling lipud
+  const [leftFlipping, setLeftFlipping] = useState(false);
+  const [rightFlipping, setRightFlipping] = useState(false);
+  const flipEndMs = 500;
+
+  function onLeftEnter() { setLeftFlipping(true); }
+  function onLeftLeave() { setTimeout(() => setLeftFlipping(false), flipEndMs); }
+  function onRightEnter() { setRightFlipping(true); }
+  function onRightLeave() { setTimeout(() => setRightFlipping(false), flipEndMs); }
+
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
@@ -38,13 +48,22 @@ export default function HomePage() {
   return (
     <>
       <DarkModeToggleWrapper position="top-center" top="0.5rem" hidden={isLoginOpen} />
+
       <div className="main-content relative z-0">
         {/* VASAK KAART */}
         <div className="side left">
-          <div className={`three-d-card float-card left ${flipClass}`}>
+          <div
+            className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""}`}
+            onMouseEnter={onLeftEnter}
+            onMouseLeave={onLeftLeave}
+          >
             <div className="card-wrapper">
               <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !flipAllowed}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || !flipAllowed || leftFlipping}
+                >
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
@@ -63,7 +82,12 @@ export default function HomePage() {
                         </span>
                       </div>
                       <CircularRingLeft />
-                      <img src="/logo/aivalge.svg" alt="aivalge logo" className="card-logo-bg card-logo-bg-left" draggable={false} />
+                      <img
+                        src="/logo/aivalge.svg"
+                        alt="aivalge logo"
+                        className="card-logo-bg card-logo-bg-left"
+                        draggable={false}
+                      />
                       <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
@@ -79,7 +103,10 @@ export default function HomePage() {
                 }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")} style={{ position: "relative" }}>
+                <div
+                  className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}
+                  style={{ position: "relative" }}
+                >
                   <div className="card-title back">
                     <span className="brand-title brand-title-left">KÜSI NÕU</span>
                   </div>
@@ -88,7 +115,12 @@ export default function HomePage() {
                     <br />
                     sotsiaalvaldkonna küsimustes.
                   </div>
-                  <img src="/logo/saimust.svg" alt="saimust logo" className="card-logo-bg card-logo-bg-left-back" draggable={false} />
+                  <img
+                    src="/logo/saimust.svg"
+                    alt="saimust logo"
+                    className="card-logo-bg card-logo-bg-left-back"
+                    draggable={false}
+                  />
                   <div className="centered-back-outer" />
                 </div>
               </div>
@@ -98,10 +130,18 @@ export default function HomePage() {
 
         {/* PAREM KAART */}
         <div className="side right">
-          <div className={`three-d-card float-card right ${flipClass}`}>
+          <div
+            className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""}`}
+            onMouseEnter={onRightEnter}
+            onMouseLeave={onRightLeave}
+          >
             <div className="card-wrapper">
               <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !flipAllowed}>
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={isLoginOpen || !flipAllowed || rightFlipping}
+                >
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
@@ -120,7 +160,12 @@ export default function HomePage() {
                         </span>
                       </div>
                       <CircularRingRight />
-                      <img src="/logo/smust.svg" alt="smust logo" className="card-logo-bg card-logo-bg-right" draggable={false} />
+                      <img
+                        src="/logo/smust.svg"
+                        alt="smust logo"
+                        className="card-logo-bg card-logo-bg-right"
+                        draggable={false}
+                      />
                       <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
@@ -136,7 +181,10 @@ export default function HomePage() {
                 }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")} style={{ position: "relative" }}>
+                <div
+                  className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}
+                  style={{ position: "relative" }}
+                >
                   <div className="card-title back">
                     <span className="brand-title brand-title-right">KÜSI NÕU</span>
                   </div>
@@ -145,7 +193,12 @@ export default function HomePage() {
                     <br />
                     elulistes sotsiaalküsimustes.
                   </div>
-                  <img src="/logo/saivalge.svg" alt="saivalge logo" className="card-logo-bg card-logo-bg-right-back" draggable={false} />
+                  <img
+                    src="/logo/saivalge.svg"
+                    alt="saivalge logo"
+                    className="card-logo-bg card-logo-bg-right-back"
+                    draggable={false}
+                  />
                   <div className="centered-back-outer" />
                 </div>
               </div>
