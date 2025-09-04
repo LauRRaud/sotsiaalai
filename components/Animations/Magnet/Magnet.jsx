@@ -35,7 +35,7 @@ export default function Magnet({
 
     const getElsOk = () => wrapperRef.current && innerRef.current;
 
-    const maxMove = 160; // px – liikumise piir
+    const maxMove = 145; // px – liikumise piir
     const clamp = (v) => Math.max(-maxMove, Math.min(maxMove, v));
 
     const update = (x, y) => {
@@ -54,8 +54,8 @@ export default function Magnet({
           activeRef.current = true;
           setIsActive(true);
         }
-        let ox = (x - cx) * 0.15;
-        let oy = (y - cy) * 0.15;
+        let ox = (x - cx) * 0.12;
+        let oy = (y - cy) * 0.12;
         innerRef.current.style.transform  = `translate3d(${clamp(ox)}px, ${clamp(oy)}px, 0)`;
         innerRef.current.style.transition = activeTransition;
         innerRef.current.style.willChange = "transform";

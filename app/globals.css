@@ -359,7 +359,7 @@ html:not(.dark-mode) .centered-back-right {
 .card-face,
 .glass-card {
   transition-property: transform, opacity;
-  transition-duration: 333ms;
+  transition-duration: 600ms;
   transition-timing-function: ease-out;
 }
 /* --- Kaardi hõljumine --- */
@@ -2292,7 +2292,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder {
 .defer-fade {
   --end-op: 1;                 /* vaikimisi lõppnähtavus */
   --fade-dur: 3000ms;          /* aeglasem-sujuvam */
-  --fade-delay: 4300ms;        /* millal alustada */
+  --fade-delay: 3800ms;        /* millal alustada */
 
   opacity: 0;                  /* 🔒 peidus enne animatsiooni */
   visibility: hidden;          /* 🔒 ei võta ka ruumi/klikke */
@@ -2304,8 +2304,8 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder {
 }
 
 /* individuaalsed viited */
-.defer-fade.delay-1 { --fade-delay: 4300ms; } /* MEIST */
-.defer-fade.delay-2 { --fade-delay: 4300ms; } /* logo */
+.defer-fade.delay-1 { --fade-delay: 3800ms; } /* MEIST */
+.defer-fade.delay-2 { --fade-delay: 3800ms; } /* logo */
 
 /* logo lõpeb 0.5 peal */
 .footer-logo-img.defer-fade.dim { --end-op: 0.4; }
