@@ -1,3 +1,4 @@
+// components/HomePage.jsx
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Magnet from "@/components/Animations/Magnet/Magnet";
@@ -11,32 +12,39 @@ export default function HomePage() {
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  // Flip throttling lipud
+  // Magneti ja flipi väravad
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
-  const flipEndMs = 500;
-
-  function onLeftEnter() { setLeftFlipping(true); }
-  function onLeftLeave() { setTimeout(() => setLeftFlipping(false), flipEndMs); }
-  function onRightEnter() { setRightFlipping(true); }
-  function onRightLeave() { setTimeout(() => setRightFlipping(false), flipEndMs); }
+  const [magnetReady, setMagnetReady] = useState(false);
 
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
+  // võta fade-in lõpud event'iga
   useEffect(() => {
-    const leftHandler = () => setLeftFadeDone(true);
-    const rightHandler = () => setRightFadeDone(true);
-    const lc = leftCardRef.current;
-    const rc = rightCardRef.current;
-    if (lc) lc.addEventListener("animationend", leftHandler);
-    if (rc) rc.addEventListener("animationend", rightHandler);
+    const onLeftEnd = () => setLeftFadeDone(true);
+    const onRightEnd = () => setRightFadeDone(true);
+
+    const l = leftCardRef.current;
+    const r = rightCardRef.current;
+    l?.addEventListener("animationend", onLeftEnd);
+    r?.addEventListener("animationend", onRightEnd);
     return () => {
-      if (lc) lc.removeEventListener("animationend", leftHandler);
-      if (rc) rc.removeEventListener("animationend", rightHandler);
+      l?.removeEventListener("animationend", onLeftEnd);
+      r?.removeEventListener("animationend", onRightEnd);
     };
   }, []);
 
+  // magnetReady → alles siis, kui mõlemad fade'id valmis + 150ms puhver
+  useEffect(() => {
+    if (leftFadeDone && rightFadeDone) {
+      const t = setTimeout(() => setMagnetReady(true), 150);
+      return () => clearTimeout(t);
+    }
+    setMagnetReady(false);
+  }, [leftFadeDone, rightFadeDone]);
+
+  // body klass modali jaoks
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
@@ -44,6 +52,12 @@ export default function HomePage() {
 
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
+
+  const flipEndMs = 333;
+  const onLeftEnter = () => setLeftFlipping(true);
+  const onLeftLeave = () => setTimeout(() => setLeftFlipping(false), flipEndMs);
+  const onRightEnter = () => setRightFlipping(true);
+  const onRightLeave = () => setTimeout(() => setRightFlipping(false), flipEndMs);
 
   return (
     <>
@@ -62,7 +76,7 @@ export default function HomePage() {
                 <Magnet
                   padding={80}
                   magnetStrength={18}
-                  disabled={isLoginOpen || !flipAllowed || leftFlipping}
+                  disabled={isLoginOpen || !magnetReady || leftFlipping}
                 >
                   {({ isActive }) => (
                     <div
@@ -140,7 +154,7 @@ export default function HomePage() {
                 <Magnet
                   padding={80}
                   magnetStrength={18}
-                  disabled={isLoginOpen || !flipAllowed || rightFlipping}
+                  disabled={isLoginOpen || !magnetReady || rightFlipping}
                 >
                   {({ isActive }) => (
                     <div
@@ -207,10 +221,23 @@ export default function HomePage() {
         </div>
       </div>
 
-      <footer className="footer-column relative z-0">
-        <Link href="/meist" className="footer-link footer-link-headline">MEIST</Link>
-        <img src="/logo/logomust.svg" alt="SotsiaalAI logo" className="footer-logo-img" />
-      </footer>
+      {/* Jalus + Meist link – lisa defer-fade klassid */}
+<footer className="footer-column relative z-0">
+  <Link
+    href="/meist"
+    className="footer-link footer-link-headline defer-fade delay-1"
+    style={{ opacity: 0, visibility: "hidden" }}   // ← sama loogika mis logol
+  >
+    MEIST
+  </Link>
+
+  <img
+    src="/logo/logomust.svg"
+    alt="SotsiaalAI logo"
+    className="footer-logo-img defer-fade delay-2 dim"
+    style={{ opacity: 0, visibility: "hidden" }}   // ← identne algseis
+  />
+</footer>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>

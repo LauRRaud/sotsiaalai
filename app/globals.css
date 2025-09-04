@@ -193,38 +193,74 @@ a, .link-brand, .meist-external-link {
   position: relative;
 }
 /* --- 3D-KAARDID --- */
-.three-d-card {
-  width: 430px; height: 430px; aspect-ratio: 1/1;
-  border-radius: 50%; background: transparent;
-  position: relative; display: flex; align-items: center; justify-content: center;
-  margin: 0 auto; z-index: 22; box-sizing: border-box; cursor: pointer;  perspective: 1000px;
+:root{
+  /* Suurus ja animatsiooni tunde reguleerimiseks: */
+  --card-size: clamp(260px, 42vw, 430px);
+  --flip-ms: 1100ms;                                  /* kiirus (750–1100ms) */
+  --flip-ease: cubic-bezier(.22,.61,.36,1);          /* pehme ease-out      */
 }
-.card-wrapper {
-  width: 100%; height: 100%;
+
+.three-d-card{
+  width: var(--card-size);
+  aspect-ratio: 1 / 1;
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 480ms ease-out;
-  will-change: auto;
-  transition: transform 1s cubic-bezier(.6,.1,.3,1.1);
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  perspective: 1000px;
+    backdrop-filter: blur(5px) saturate(110%);
 }
-.three-d-card:hover .card-wrapper,
-.three-d-card:focus-within .card-wrapper { transform: rotateY(180deg); }
-.three-d-card.right:hover .card-wrapper,
-.three-d-card.right:focus-within .card-wrapper { transform: rotateY(-180deg); }
-.three-d-card:hover .card-wrapper,
-.three-d-card.is-flipping .card-wrapper {
+
+/* wrapper: ainult transform anim */
+.card-wrapper{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition-property: transform;
+  transition-duration: var(--flip-ms);
+  transition-timing-function: var(--flip-ease);
+  will-change: auto; /* vaikimisi mitte peal */
+}
+
+/* ✅ will-change ainult siis, kui flip on lubatud ja käimas */
+.three-d-card.flip-allowed:hover .card-wrapper,
+.three-d-card.flip-allowed:focus-within .card-wrapper,
+.three-d-card.flip-allowed.is-flipping .card-wrapper{
   will-change: transform;
 }
-.card-face {
+
+/* pooled */
+.card-face{
   position: absolute;
-  width: 100%; height: 100%; top: 0; left: 0;
-  box-sizing: border-box; backface-visibility: hidden; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; overflow: visible; z-index: 23; backdrop-filter: blur(6px) saturate(100%); transform: translateZ(0);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  border-radius: inherit;
 }
-.card-face.front { transform: rotateY(0deg); }
-.card-face.back  { transform: rotateY(180deg); pointer-events: auto; }
-.three-d-card.right .card-face.back { transform: rotateY(-180deg); }
+.card-face.front{ transform: rotateY(0deg); }
+.card-face.back { transform: rotateY(180deg); pointer-events: auto; }
+
+/* ⛔ kui flip pole lubatud, ära pööra üldse ja näita “tavalist” kursorit */
+.three-d-card:not(.flip-allowed) .card-wrapper { transform: none !important; }
+.three-d-card:not(.flip-allowed) { cursor: default; }
+
+/* ✅ pööra ainult siis, kui flip on lubatud */
+.three-d-card.flip-allowed.left:hover .card-wrapper,
+.three-d-card.flip-allowed.left:focus-within .card-wrapper,
+.three-d-card.flip-allowed.left.is-flipping .card-wrapper{
+  transform: rotateY(180deg);
+}
+
+.three-d-card.flip-allowed.right:hover .card-wrapper,
+.three-d-card.flip-allowed.right:focus-within .card-wrapper,
+.three-d-card.flip-allowed.right.is-flipping .card-wrapper{
+  transform: rotateY(-180deg);
+}
 
 /* HELE klaas (kaardi esikülg) */
 .glass-card {
@@ -302,15 +338,15 @@ html:not(.dark-mode) .centered-back-right {
 .glass-card,
 .centered-back-left {
   box-shadow:
-    inset 0 0 4px 0px rgba(0,0,0,0.8),   /* kitsas, tumedam serv */
-    inset 0 0 30px 12px rgba(0,0,0,0.5); /* laiem, pehmem vari */
+    inset 0 0 4px 0px rgba(0,0,0,0.8),
+    inset 0 0 30px 12px rgba(0,0,0,0.5);
 }
 
 .glass-card-dark,
 .centered-back-right {
   box-shadow:
-    inset 0 0 4px 0px rgba(37,37,37,0.8), /* kitsas, hele serv */
-    inset 0 0 30px 12px rgba(0,0,0,0.5);  /* laiem, pehmem helendus */
+    inset 0 0 8px 0px rgba(37,37,37,0.8),
+    inset 0 0 30px 12px rgba(0,0,0,0.5);
 }
 
 /* --- Aktiivne kuma klass --- */
@@ -320,13 +356,10 @@ html:not(.dark-mode) .centered-back-right {
 .three-d-card.is-flipping .glow-active {
   animation-play-state: paused;
 }
-.three-d-card.is-flipping .glass-card {
-  backdrop-filter: blur(2px);
-}
 .card-face,
 .glass-card {
   transition-property: transform, opacity;
-  transition-duration: 300ms;
+  transition-duration: 333ms;
   transition-timing-function: ease-out;
 }
 /* --- Kaardi hõljumine --- */
@@ -589,7 +622,6 @@ text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.293);
   width: auto;
   display: block;
   margin: 0em 0 0m 0;
-  opacity: 0.5;
 }
 .glass-box {
   background: rgba(31, 31, 31, 0.6); /* veidi vähem läbipaistev */
@@ -758,16 +790,6 @@ text-shadow: 0px 5px 8px rgba(255, 255, 255, 0.293);
   font-weight: 500;
   font-size: 1em;
   white-space: normal;    /* lase sõnadel murda kui vaja */
-
-  }
-.three-d-card:not(.flip-allowed):hover .card-wrapper,
-.three-d-card:not(.flip-allowed):focus-within .card-wrapper {
-  /* Ära pööra */
-  transform: none;
-}
-.three-d-card.flip-allowed:hover .card-wrapper,
-.three-d-card.flip-allowed:focus-within .card-wrapper {
-  transform: rotateY(180deg);
 }
 .glass-box p,
 .glass-section p {
@@ -2265,4 +2287,51 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field {
 
 html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder {
   color: #ffffff;
+}
+/* sujuv, aeglane fade-in, peidus kuni start */
+.defer-fade {
+  --end-op: 1;                 /* vaikimisi lõppnähtavus */
+  --fade-dur: 3000ms;          /* aeglasem-sujuvam */
+  --fade-delay: 4300ms;        /* millal alustada */
+
+  opacity: 0;                  /* 🔒 peidus enne animatsiooni */
+  visibility: hidden;          /* 🔒 ei võta ka ruumi/klikke */
+  transform: translateY(12px) scale(0.992);
+
+  animation: dfade-in var(--fade-dur) cubic-bezier(.16,.84,.44,1) forwards;
+  animation-delay: var(--fade-delay);
+  will-change: opacity, transform;
+}
+
+/* individuaalsed viited */
+.defer-fade.delay-1 { --fade-delay: 4300ms; } /* MEIST */
+.defer-fade.delay-2 { --fade-delay: 4300ms; } /* logo */
+
+/* logo lõpeb 0.5 peal */
+.footer-logo-img.defer-fade.dim { --end-op: 0.4; }
+
+@keyframes dfade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.992);
+    visibility: hidden;     /* 👈 jääb peidetuks */
+  }
+  1% {
+    visibility: visible;    /* 👈 alles nüüd toome DOM-is nähtavale */
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: var(--end-op);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .defer-fade {
+    animation: none !important;
+    opacity: var(--end-op, 1) !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
 }

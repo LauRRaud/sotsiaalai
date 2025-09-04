@@ -234,7 +234,7 @@ export function CircularRingLeft() {
     <CircularText
       text="SEADUSED PRAKTIKA NÕUANDED"
       size={440}
-      duration={121}
+      duration={130}
       clockwise={false}
       fontSize={32}
       weight={400}
@@ -243,7 +243,7 @@ export function CircularRingLeft() {
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(57,57,57,0.6)"
-      startDelaySec={3}
+      startDelaySec={4}
       gapRatio={0.14}
     />
   );
@@ -254,7 +254,7 @@ export function CircularRingRight() {
     <CircularText
       text="ÕIGUSED JUHISED VÕIMALUSED"
       size={440}
-      duration={121}
+      duration={130}
       clockwise={false}
       fontSize={32}
       weight={400}
@@ -263,7 +263,7 @@ export function CircularRingRight() {
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(213,121,105,0.4)"
-      startDelaySec={3}
+      startDelaySec={4}
       gapRatio={0.14}
     />
   );

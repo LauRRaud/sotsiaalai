@@ -56,69 +56,47 @@
   transform: rotate(180deg);
 }
 
-/* === Ajastusvariandid (muutujad) ===
-   fade = 1.25s
-   hold = 8s
-   stagger = 4s (start offsets 0s, 4s, 8s)
-   pause after last fade = 3s
-   cycle = 21.5s
-*/
-
-/* vaikimisi peidetud */
 .word1, .word2, .word3 { opacity: 0; }
 
-/* iga sõna kasutab sama tsüklit; JS lisab --ct-delay */
+/* Word1 (0–~15s, kustub 1s pärast 3. sõna ilmumist) */
 .word1 {
-  animation: ct-word1 21.5s linear infinite;
+  animation: ct-word1 27s linear infinite;
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
-.word2 {
-  animation: ct-word2 21.5s linear infinite;
-  animation-delay: calc(var(--ct-delay, 0s) + 3s);
-}
-.word3 {
-  animation: ct-word3 21.5s linear infinite;
-  animation-delay: calc(var(--ct-delay, 0s) + 3s);
-}
-
-/* Protsendid arvutatud 21.5s tsükli põhjal */
-/* ==== word1 ====
-   fade-in end: 1.25s  -> 5.814%
-   hold end:     9.25s  -> 43.023%
-   fade-out end: 10.5s  -> 48.837% */
 @keyframes ct-word1 {
   0%        { opacity: 0; }
-  5.814%    { opacity: 1; }    /* fade-in lõpp (~1.25s) */
-  43.023%   { opacity: 1; }    /* nähtav kuni (~9.25s) */
-  48.837%   { opacity: 0; }    /* fade-out lõpp (~10.5s) */
+  3.7%      { opacity: 1; }   /* fade-in 0–1s */
+  55.5%     { opacity: 1; }   /* nähtav kuni ~15s */
+  59.2%     { opacity: 0; }   /* fade-out 15–16s */
+  100%      { opacity: 0; }   /* paus kuni 27s */
+}
+
+/* Word2 (start ~4s, fade-out ~19s) */
+.word2 {
+  animation: ct-word2 27s linear infinite;
+  animation-delay: calc(var(--ct-delay, 0s) + 3s);
+}
+@keyframes ct-word2 {
+  0%, 14.8% { opacity: 0; }   /* enne starti (~4s) */
+  18.5%     { opacity: 1; }   /* fade-in 4–5s */
+  70.3%     { opacity: 1; }   /* nähtav kuni ~19s */
+  74.0%     { opacity: 0; }   /* fade-out 19–20s */
   100%      { opacity: 0; }
 }
 
-/* ==== word2 ====
-   start 4.0s -> fade-in end 5.25s (24.419%)
-   hold end 13.25s -> 61.628%
-   fade-out end 14.5s -> 67.442% */
-@keyframes ct-word2 {
-  0%, 18.605% { opacity: 0; }   /* enne start (4s) */
-  24.419%     { opacity: 1; }   /* fade-in lõpp (5.25s) */
-  61.628%     { opacity: 1; }   /* hold kuni (13.25s) */
-  67.442%     { opacity: 0; }   /* fade-out lõpp (14.5s) */
-  100%        { opacity: 0; }
+/* Word3 (start ~8s, fade-out ~23s) */
+.word3 {
+  animation: ct-word3 27s linear infinite;
+  animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
-
-/* ==== word3 ====
-   start 8.0s -> fade-in end 9.25s (43.023%)
-   hold end 17.25s -> 80.233%
-   fade-out end 18.5s -> 86.047% ; pause kuni 21.5s */
 @keyframes ct-word3 {
-  0%, 37.209% { opacity: 0; }   /* enne start (8s) */
-  43.023%     { opacity: 1; }   /* fade-in lõpp (9.25s) */
-  80.233%     { opacity: 1; }   /* hold kuni (17.25s) */
-  86.047%     { opacity: 0; }   /* fade-out lõpp (18.5s) */
-  100%        { opacity: 0; }
+  0%, 29.6% { opacity: 0; }   /* enne starti (~8s) */
+  33.3%     { opacity: 1; }   /* fade-in 8–9s */
+  85.1%     { opacity: 1; }   /* nähtav kuni ~23s */
+  88.8%     { opacity: 0; }   /* fade-out 23–24s */
+  100%      { opacity: 0; }   /* paus 24–27s */
 }
-
-/* ligipääsetavus: kui kasutaja eelistab vähendatud animatsioone */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .circular-text-line,
   .word1, .word2, .word3,

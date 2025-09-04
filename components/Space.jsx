@@ -1,11 +1,11 @@
 /**
  * Space — starless cosmic background under your particle layer.
- * Now with light/dark mode via `mode` prop.
+ * Now with light/dark mode via `mode` prop and intro-skip via `skipIntro`.
  */
 export default function Space({
-  mode = "dark", // NEW (light mode): "dark" | "light"
+  mode = "dark",        // "dark" | "light"
   palette,
-  intensity,     // visual intensity scaler (per-mode defaults below)
+  intensity,            // visual intensity scaler (per-mode defaults below)
   grain = true,
   fog = true,
 
@@ -17,50 +17,53 @@ export default function Space({
   fogPairSpreadVmax = 22,
   fogHorizontalShiftVmax = -32.5,
 
-  animateFog = true,
+  animateFog = true,    // plays intro fade if true
   fogAppearDurMs = 3000,
   fogAppearDelayMs = 900,
+
+  // NEW: if true, skip the intro fade on this render (e.g., subpages)
+  skipIntro = false,
 } = {}) {
   // ---- PRESETS ----
-const PRESETS = {
-  dark: {
-    // Tumesinine taust + heledam udu
-    palette: {
-      baseTop: "#070b16",
-      baseBottom: "#0d111b",
-      accentA: "#0a1224",
-      accentB: "#0a1224",
+  const PRESETS = {
+    dark: {
+      // Tumesinine taust + heledam udu
+      palette: {
+        baseTop: "#070b16",
+        baseBottom: "#0d111b",
+        accentA: "#0a1224",
+        accentB: "#0a1224",
+      },
+      intensity: 0.45,
+      fogStrength: 0.30,
+      fogBlend: "screen",
+      grainOpacity: 0.06,
+      blob2Opacity: 0.05,
+      fogInnerRGBA: (alphaBase) => [
+        `rgba(235,243,255,${alphaBase})`,
+        "rgba(180,200,235,0.35)",
+      ],
     },
-    intensity: 0.45,
-    fogStrength: 0.30,
-    fogBlend: "screen",
-    grainOpacity: 0.06,
-    blob2Opacity: 0.05,
-    fogInnerRGBA: (alphaBase) => [
-      `rgba(235,243,255,${alphaBase})`,
-      "rgba(180,200,235,0.35)",
-    ],
-  },
 
-  light: {
-    // Hele ühtlane taust + sinine udu
-    palette: {
-      baseTop: "#070b16",
-      baseBottom: "#0d111b",
-      accentA: "#E4E5E6",   // aktsendid hoian neutraalsed
-      accentB: "#E4E5E6",
+    light: {
+      // Hele ühtlane taust + sinine udu
+      palette: {
+        baseTop: "#070b16",
+        baseBottom: "#0d111b",
+        accentA: "#E4E5E6",   // aktsendid hoian neutraalsed
+        accentB: "#E4E5E6",
+      },
+      intensity: 0.3,
+      fogStrength: 0.4,          // tugevam, et sinine udu välja paistaks
+      fogBlend: "multiply",       // tumedam udu heledal taustal
+      grainOpacity: 0.02,
+      blob2Opacity: 0.05,
+      fogInnerRGBA: (alphaBase) => [
+        "#88aed8ff",
+        "#71a1cfff",
+      ],
     },
-    intensity: 0.3,
-    fogStrength: 0.4,          // tugevam, et sinine udu välja paistaks
-    fogBlend: "multiply",       // tumedam udu heledal taustal
-    grainOpacity: 0.02,
-    blob2Opacity: 0.05,
-    fogInnerRGBA: (alphaBase) => [
-      "#88aed8ff",
-      "#71a1cfff",
-    ],
-  },
-};
+  };
 
   const cfg = PRESETS[mode] || PRESETS.dark;
 
@@ -75,11 +78,14 @@ const PRESETS = {
   // derive fog gradient stops per mode
   const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
 
+  // NEW: effective animate flag (skipIntro disables the fade-in)
+  const animateFogEff = animateFog && !skipIntro;
+
   return (
     <div
       className="space-backdrop"
       suppressHydrationWarning
-      data-mode={mode} // NEW
+      data-mode={mode}
       style={{
         "--baseTop": String(pal.baseTop),
         "--baseBottom": String(pal.baseBottom),
@@ -98,7 +104,7 @@ const PRESETS = {
         "--fogAppearDur": `${fogAppearDurMs}ms`,
         "--fogAppearDelay": `${fogAppearDelayMs}ms`,
 
-        // NEW (light mode)
+        // per-mode visuals
         "--fogBlend": cfg.fogBlend,
         "--grainOpacity": cfg.grainOpacity,
         "--blob2Opacity": cfg.blob2Opacity,
@@ -109,7 +115,7 @@ const PRESETS = {
     >
       <div className="sb-base" />
       <div className="sb-blob sb-blob-2" />
-      {fog && <FogLayer animateFog={animateFog} />}
+      {fog && <FogLayer animateFog={animateFogEff} />}
       {grain && <GrainOverlay />}
 
       <style jsx global>{`
@@ -144,7 +150,7 @@ const PRESETS = {
             rgba(0, 0, 0, 0) 70%
           );
           filter: blur(70px) saturate(125%);
-          opacity: var(--blob2Opacity); /* NEW: per-mode */
+          opacity: var(--blob2Opacity);
         }
 
         /* FOG LAYER */
@@ -198,7 +204,7 @@ const PRESETS = {
             var(--fogStop1) 55%,
             rgba(0, 0, 0, 0) 80%
           );
-          mix-blend-mode: var(--fogBlend); /* NEW */
+          mix-blend-mode: var(--fogBlend);
         }
         .fb1 { left: calc(50% - var(--fogSpread)); }
         .fb3 { left: calc(50% + var(--fogSpread)); }
@@ -211,7 +217,7 @@ const PRESETS = {
         .sb-grain {
           position: absolute;
           inset: 0;
-          opacity: var(--grainOpacity); /* NEW */
+          opacity: var(--grainOpacity);
           mix-blend-mode: overlay;
           pointer-events: none;
         }
