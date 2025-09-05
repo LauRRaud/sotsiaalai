@@ -1,3 +1,4 @@
+// components/backgrounds/BackgroundLayer.jsx
 "use client";
 
 import { useEffect, useState, memo } from "react";
@@ -59,7 +60,6 @@ function BackgroundLayer() {
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
-  // intro kontroll
   const [skipIntro, setSkipIntro] = useState(true);
   const prefersReduced = usePrefersReducedMotion();
 
@@ -79,8 +79,8 @@ function BackgroundLayer() {
     } catch {}
 
     if (pathname === "/") {
-      const shouldSkip = alreadyDone && !isReload ? true : false;
-      setSkipIntro(shouldSkip ? true : false);
+      const shouldSkip = alreadyDone && !isReload;
+      setSkipIntro(!!shouldSkip);
       try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
     } else {
       setSkipIntro(true);
@@ -106,45 +106,19 @@ function BackgroundLayer() {
       return;
     }
 
-    const cancelBgVis = whenVisible(() => {
-      const cancelBgIdle = onIdle(() => setBgReady(true), 200);
-      return () => cancelBgIdle?.();
-    });
-
-    const cancelParticlesVis = whenVisible(() => {
-      const cancelParticlesIdle = onIdle(() => setParticlesReady(true), 800);
-      return () => cancelParticlesIdle?.();
-    });
-
-    const cancelCurVis = whenVisible(() => {
-      const cancelCurIdle = onIdle(() => setCursorReady(true), 1400);
-      return () => cancelCurIdle?.();
-    });
+    const cancelBgVis = whenVisible(() => onIdle(() => setBgReady(true), 200));
+    const cancelParticlesVis = whenVisible(() => onIdle(() => setParticlesReady(true), 800));
+    const cancelCurVis = whenVisible(() => onIdle(() => setCursorReady(true), 1400));
 
     return () => {
-      cancelBgVis?.();
-      cancelParticlesVis?.();
-      cancelCurVis?.();
+      typeof cancelBgVis === "function" && cancelBgVis();
+      typeof cancelParticlesVis === "function" && cancelParticlesVis();
+      typeof cancelCurVis === "function" && cancelCurVis();
     };
   }, [mounted, prefersReduced]);
 
-  // SSR placeholder
-  if (!mounted) {
-    return (
-      <div
-        className="space-backdrop"
-        data-mode="dark"
-        style={{
-          background: "linear-gradient(180deg, #070b16 0%, #0d111b 100%)",
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-        aria-hidden
-      />
-    );
-  }
+  // ⛔️ SSR placeholder eemaldatud – enne mount’i ei renderda midagi
+  if (!mounted) return null;
 
   return (
     <>

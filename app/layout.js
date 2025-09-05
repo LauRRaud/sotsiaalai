@@ -25,8 +25,14 @@ const ainoHeadline = localFont({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="et" suppressHydrationWarning>
+    <html
+      lang="et"
+      suppressHydrationWarning
+      className="dark-mode"           // esialgne oletus – skript korrigeerib kohe
+      data-theme="dark"
+    >
       <head>
+        <meta name="color-scheme" content="dark light" />
         <link rel="icon" href="/logo/favicon.svg" type="image/svg+xml" />
         <Script id="set-theme" strategy="beforeInteractive">
           {`
@@ -37,16 +43,23 @@ export default function RootLayout({ children }) {
                 var saved = (ls === 'dark' || ls === 'light') ? ls : null;
                 var dark = saved ? (saved === 'dark')
                   : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                el.classList.toggle('dark-mode', dark);
-                el.dataset.theme = dark ? 'dark' : 'light';
+
+                // kirjuta mõlemad ühekorraga, et vältida reflow'd mitme sammuga
+                if (dark) {
+                  el.classList.add('dark-mode');
+                  el.dataset.theme = 'dark';
+                } else {
+                  el.classList.remove('dark-mode');
+                  el.dataset.theme = 'light';
+                }
               } catch (e) {}
             })();
           `}
         </Script>
       </head>
-      <body className={`${aino.variable} ${ainoHeadline.variable}`}>
+      <body className={`${aino.variable} ${ainoHeadline.variable} antialiased`}>
         <BackgroundLayer />
-        <main className="relative z-0">{children}</main>
+        <main className="relative z-10">{children}</main>
       </body>
     </html>
   );
