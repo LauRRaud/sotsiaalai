@@ -1,4 +1,4 @@
-/* CircularText.css — kõik sõnad: hold = 8s; fade = 1.25s; stagger = 4s; pause = 3s; cycle = 21.5s */
+/* CircularText.css — SVG versioon */
 
 /* === Paigutus / baas === */
 .circular-text-svg {
@@ -27,12 +27,11 @@
   -webkit-font-smoothing: antialiased;
   will-change: transform;
 
-  /* loop algab +3s (kooskõlas JSX-iga) */
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
 @keyframes saai-rotate { to { transform: rotate(360deg); } }
 
-/* Varjud / välimus */
+/* Varjud */
 .left-card-primary .desc-ring-left > g,
 .left-card-primary .desc-ring-left .circular-text-line {
   filter: drop-shadow(0 2px 2px rgba(29,29,29,0.2));
@@ -42,61 +41,59 @@
   filter: drop-shadow(0 2px 2px rgba(255,255,255,0.2));
 }
 
-/* ct-cycle — hoia nähtav; sõnade animatsioonid töötavad eraldi */
+/* ct-cycle — nähtav */
 .ct-cycle {
   opacity: 1;
   visibility: visible;
   animation: none;
 }
 
-/* Alumise kaare „flip” */
+/* Flip alumisel kaarel */
 .ct-flip {
   transform-box: fill-box;
   transform-origin: center;
   transform: rotate(180deg);
 }
 
+/* Nähtavus-rütm */
 .word1, .word2, .word3 { opacity: 0; }
 
-/* Word1 (0–~15s, kustub 1s pärast 3. sõna ilmumist) */
 .word1 {
   animation: ct-word1 27s linear infinite;
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
 @keyframes ct-word1 {
-  0%        { opacity: 0; }
-  3.7%      { opacity: 1; }   /* fade-in 0–1s */
-  55.5%     { opacity: 1; }   /* nähtav kuni ~15s */
-  59.2%     { opacity: 0; }   /* fade-out 15–16s */
-  100%      { opacity: 0; }   /* paus kuni 27s */
+  0% { opacity: 0; }
+  3.7% { opacity: 1; }
+  55.5% { opacity: 1; }
+  59.2% { opacity: 0; }
+  100% { opacity: 0; }
 }
 
-/* Word2 (start ~4s, fade-out ~19s) */
 .word2 {
   animation: ct-word2 27s linear infinite;
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
 @keyframes ct-word2 {
-  0%, 14.8% { opacity: 0; }   /* enne starti (~4s) */
-  18.5%     { opacity: 1; }   /* fade-in 4–5s */
-  70.3%     { opacity: 1; }   /* nähtav kuni ~19s */
-  74.0%     { opacity: 0; }   /* fade-out 19–20s */
-  100%      { opacity: 0; }
+  0%, 14.8% { opacity: 0; }
+  18.5% { opacity: 1; }
+  70.3% { opacity: 1; }
+  74.0% { opacity: 0; }
+  100% { opacity: 0; }
 }
 
-/* Word3 (start ~8s, fade-out ~23s) */
 .word3 {
   animation: ct-word3 27s linear infinite;
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
 @keyframes ct-word3 {
-  0%, 29.6% { opacity: 0; }   /* enne starti (~8s) */
-  33.3%     { opacity: 1; }   /* fade-in 8–9s */
-  85.1%     { opacity: 1; }   /* nähtav kuni ~23s */
-  88.8%     { opacity: 0; }   /* fade-out 23–24s */
-  100%      { opacity: 0; }   /* paus 24–27s */
+  0%, 29.6% { opacity: 0; }
+  33.3% { opacity: 1; }
+  85.1% { opacity: 1; }
+  88.8% { opacity: 0; }
+  100% { opacity: 0; }
 }
-/* Reduced motion */
+
 @media (prefers-reduced-motion: reduce) {
   .circular-text-line,
   .word1, .word2, .word3,
@@ -105,3 +102,7 @@
     opacity: 1 !important;
   }
 }
+
+/* abiks renderdusele */
+.circular-text-svg text { paint-order: stroke fill; }
+.circular-text-svg textPath { overflow: visible; }

@@ -51,40 +51,47 @@ function usePrefersReducedMotion() {
 }
 
 function BackgroundLayer() {
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState("dark");
 
-  // kihid
   const [bgReady, setBgReady] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
-  // 🔑 kriitiline: algväärtus = false → SSR ja 1. kliendirender täpselt samad
-  const [animateFog, setAnimateFog] = useState(false);
-
+  // kontroll intro jaoks
+  const [skipIntro, setSkipIntro] = useState(true);
   const prefersReduced = usePrefersReducedMotion();
-  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
     setMode(getHtmlMode());
 
-    // otsusta, kas mängida udu intro vaid esimesel avalehe laadimisel
+    // ⏱️ kas leht laaditi refreshiga?
+    let isReload = false;
     try {
-      const already = sessionStorage.getItem("saai-bg-intro-done") === "1";
-      const onHome = pathname === "/";
-      const shouldAnimate = onHome && !already && !prefersReduced;
+      const nav = performance.getEntriesByType?.("navigation")?.[0];
+      isReload = nav ? nav.type === "reload" : performance?.navigation?.type === 1; // fallback
+    } catch {}
 
-      // Sel hetkel on esimene kliendirender juba toimunud (false),
-      // nüüd tohib turvaliselt muuta → ei teki hydration mismatch’i.
-      setAnimateFog(shouldAnimate);
+    // sessiooni-lipp (vältida korduvat intro't samas TAB-is)
+    let alreadyDone = false;
+    try {
+      alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1";
+    } catch {}
 
-      if (shouldAnimate) {
-        sessionStorage.setItem("saai-bg-intro-done", "1");
-      }
-    } catch {
-      // kui sessionStorage puudub, ärme animatsiooni esimesel korral käivita
-      setAnimateFog(false);
+    // ✅ Avalehel:
+    // - esmane laadimine: intro ON
+    // - refresh: intro ON
+    // - hilisemad SPA navigeerimised samas tabis: intro OFF
+    // ✅ Alalehtedel: intro OFF
+    if (pathname === "/") {
+      const shouldSkip = alreadyDone && !isReload ? true : false;
+      setSkipIntro(shouldSkip ? true : false); // false → mängi intro
+      // märgi sessioon “tehtud”, et sisemistel navidel intro't mitte uuesti lasta
+      try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
+    } else {
+      setSkipIntro(true); // alalehed: alati skip
     }
 
     const onThemeChange = () => setMode(getHtmlMode());
@@ -95,23 +102,30 @@ function BackgroundLayer() {
       window.removeEventListener("themechange", onThemeChange);
       window.removeEventListener("storage", onStorage);
     };
-  }, [pathname, prefersReduced]);
+  }, [pathname]);
 
   useEffect(() => {
-    if (!mounted || prefersReduced) return;
+    if (!mounted) return;
+
+    if (prefersReduced) {
+      setBgReady(false);
+      setParticlesReady(false);
+      setCursorReady(false);
+      return;
+    }
 
     const cancelBgVis = whenVisible(() => {
-      const cancelBgIdle = onIdle(() => setBgReady(true), 200); // laadime kiiremini
+      const cancelBgIdle = onIdle(() => setBgReady(true), 200);
       return () => cancelBgIdle?.();
     });
 
     const cancelParticlesVis = whenVisible(() => {
-      const cancelParticlesIdle = onIdle(() => setParticlesReady(true), 900);
+      const cancelParticlesIdle = onIdle(() => setParticlesReady(true), 800);
       return () => cancelParticlesIdle?.();
     });
 
     const cancelCurVis = whenVisible(() => {
-      const cancelCurIdle = onIdle(() => setCursorReady(true), 1300);
+      const cancelCurIdle = onIdle(() => setCursorReady(true), 1400);
       return () => cancelCurIdle?.();
     });
 
@@ -122,11 +136,34 @@ function BackgroundLayer() {
     };
   }, [mounted, prefersReduced]);
 
-  if (!mounted) return null;
+  // SSR placeholder → kohe gradient, ei mingit vilkumist
+  if (!mounted) {
+    return (
+      <div
+        className="space-backdrop"
+        data-mode="dark"
+        style={{
+          background: "linear-gradient(180deg, #070b16 0%, #0d111b 100%)",
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+        aria-hidden
+      />
+    );
+  }
 
   return (
     <>
-      {bgReady && <Space key={`space-${mode}`} mode={mode} animateFog={animateFog} />}
+      {bgReady && (
+        <Space
+          key={`space-${mode}`}
+          mode={mode}
+          animateFog={true}     // Space otsustab lõplikult skipIntro põhjal
+          skipIntro={skipIntro} // avalehe refresh = false → animatsioon ON
+        />
+      )}
       {particlesReady && <Particles key={`particles-${mode}`} mode={mode} />}
       {cursorReady && <SplashCursor key={`cursor-${mode}`} />}
     </>

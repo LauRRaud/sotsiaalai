@@ -2,47 +2,51 @@
 import React, { useMemo, useId, useEffect, useState, useRef } from "react";
 import "./CircularText.css";
 
-const VIEWBOX = 500;       // SVG viewBox suurus
-const R = 200;             // ringi raadius viewBox ühikutes
-const TOP_FRAC = 0.25;     // 12:00 on pathil 25%
+const VIEWBOX = 500;
+const R = 200;                   // ringi raadius viewBox ühikutes
+const TOP_FRAC = 0.25;           // 12:00 = 25% ringist
+const TAU = Math.PI * 2;
 
-export function CircularText({
+export default function CircularText({
   text,
-  size = 440,              // renderi px mõõt
-  duration = 120,          // pideva pöörde täisring (s)
-  clockwise = false,       // pöörde suund
+  size = 440,
+  duration = 120,
+  clockwise = false,
   fontSize = 28,
   weight = 400,
-  letterSpacing = 6,       // px
+  letterSpacing = 6,             // px
   className = "",
-  startAtTop = true,       // ankur 12:00
-  offsetDeg = 0,           // staatiline nihutus kraadides
+  startAtTop = true,
+  offsetDeg = 0,
   ringColor,
-  wordColors,              // nt ["#ccc","#f88","#9cf"]
-  startDelaySec = 0,       // sinuenda oma fade/flip algust
-  gapRatio = 0.14,         // hetkel ei kasuta – jätame võrdsed vahed
-  bottomStartDeg = 120,    // alumise sektori algus (kell 4)
-  bottomEndDeg = 240,      // alumise sektori lõpp (kell 8)
+  wordColors,
+  startDelaySec = 0,
+  bottomStartDeg = 120,
+  bottomEndDeg = 240,
 }) {
-  // Sõnad järjestuses: 1., 2., 3. – neile määrame .word1/.word2/.word3
+  // --- sõnad ---
   const words = useMemo(
     () => (text || "").trim().split(/\s+/).filter(Boolean),
     [text]
   );
   const n = Math.max(1, words.length);
 
-  const L = 2 * Math.PI * R;      // ümbermõõt viewBox ühikutes
-  const pxToVB = VIEWBOX / size;  // px -> viewBox teisendus
+  // --- geomeetria ---
+  const L = TAU * R;                 // ühe ringi ümbermõõt (viewBox ühikutes)
+  const pxToVB = VIEWBOX / size;     // px → viewBox teisendus
   const dir = clockwise ? 1 : -1;
 
   const uid = useId();
-  const pathId = `circlePath-${className || "ring"}-${uid}`;
+  const pathId = `circlePath3x-${(className || "ring").replace(/\s+/g, "-")}-${uid}`;
 
-  // Mõõdetud algpositsioonid ja laiused protsendina ringi pikkusest
-  const [startOffsetsPct, setStartOffsetsPct] = useState(null);
+  // mõõdetud stardid (%) FLIP’i jaoks ja laiused (%)
+  const [startsPct, setStartsPct] = useState(null);
   const [widthsPct, setWidthsPct] = useState(null);
+  // absoluut-stardid (viewBox ühikud) – nendega renderdame textPathi
+  const [startsAbs, setStartsAbs] = useState(null);
+  const [widthsAbs, setWidthsAbs] = useState(null);
 
-  // Mõõda sõnade laius (font + letterSpacing) ja jaga ringile võrdsed vahed
+  // --- mõõda laiused ja arvuta stardid (ühtlased vahed) ---
   useEffect(() => {
     let cancelled = false;
 
@@ -53,6 +57,7 @@ export function CircularText({
         }
       } catch (_) {}
 
+      if (typeof document === "undefined") return;
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
@@ -61,68 +66,65 @@ export function CircularText({
       ctx.font = `${weightStr} ${fontSize}px 'Aino Headline','Aino',Arial,sans-serif`;
 
       const ls = Number(letterSpacing) || 0; // px
+
+      // sõna laius viewBox ühikutes
       const widthsVB = words.map((w) => {
         const s = ("" + w).toUpperCase();
         const base = ctx.measureText(s).width;
         const extra = ls * Math.max(s.length - 1, 0);
-        return (base + extra) * pxToVB; // viewBox ühikutes
+        return (base + extra) * pxToVB;
       });
 
       const totalWords = widthsVB.reduce((a, b) => a + b, 0);
       const gap = Math.max(0, (L - totalWords) / n); // võrdsed vahed
 
-      // Ankurda 1. sõna algus nii, et selle keskpunkt oleks 12:00
+      // 1. sõna keskkoht TOP_FRAC juures
       const anchorU = (startAtTop ? TOP_FRAC : 0) * L;
-      let firstStart = anchorU - widthsVB[0] / 2;
-      firstStart = ((firstStart % L) + L) % L;
+      const firstStartInLap = ((anchorU - widthsVB[0] / 2) % L + L) % L;
 
-      const startsU = new Array(n);
-      startsU[0] = firstStart;
+      // teeme ABSOLUUT järjestuse keskmisele ringile [L, 2L)
+      const startsAbsLocal = new Array(n);
+      startsAbsLocal[0] = firstStartInLap + L; // keskmise ringi algus
       for (let i = 1; i < n; i++) {
-        startsU[i] = (startsU[i - 1] + widthsVB[i - 1] + gap) % L;
+        startsAbsLocal[i] = startsAbsLocal[i - 1] + widthsVB[i - 1] + gap;
       }
 
-      const pctStarts = startsU.map((u) => (u / L) * 100);
-      const pctWidths = widthsVB.map((w) => (w / L) * 100);
+      // FLIP jaoks (%) – arvuta keskpunkt percent vaates
+      const startsPctLocal = startsAbsLocal.map((u) => ((u % L) / L) * 100);
+      const widthsPctLocal = widthsVB.map((w) => (w / L) * 100);
 
       if (!cancelled) {
-        setStartOffsetsPct(pctStarts);
-        setWidthsPct(pctWidths);
+        setStartsAbs(startsAbsLocal);
+        setWidthsAbs(widthsVB);
+        setStartsPct(startsPctLocal);
+        setWidthsPct(widthsPctLocal);
       }
     };
 
     measure();
     return () => { cancelled = true; };
+    // NB! ära pane "words" massiivi otse dependencyks – stabiilsuse jaoks piisab text-ist
   }, [text, fontSize, weight, letterSpacing, size, startAtTop, n, L, pxToVB]);
 
-  const getWordFill = (i) =>
-    Array.isArray(wordColors) && wordColors.length
-      ? wordColors[i % wordColors.length]
-      : undefined;
+  // Fallback enne mõõtmist – võrdsed sektorid keskmisel ringil
+  const fallback = useMemo(() => {
+    const seg = L / n;
+    const first = (startAtTop ? TOP_FRAC * L - seg / 2 : 0) + L;
+    const starts = Array.from({ length: n }, (_, i) => first + i * seg);
+    const startsPct_ = starts.map((u) => ((u % L) / L) * 100);
+    const widthsVB_ = Array.from({ length: n }, () => seg * 0.6);
+    const widthsPct_ = widthsVB_.map((w) => (w / L) * 100);
+    return { startsAbs: starts, startsPct: startsPct_, widthsAbs: widthsVB_, widthsPct: widthsPct_ };
+  }, [n, L, startAtTop]);
 
-  // Fallback enne mõõtmist: jaota keskpunktid võrdselt
-  const fallbackStarts = useMemo(() => {
-    return Array.from({ length: n }, (_, i) => {
-      const centerPct = ((TOP_FRAC * 100 + (i * 100) / n) % 100 + 100) % 100;
-      // textAnchor="start" ⇒ nihuta algust poole "sektori" võrra tagasi
-      return ((centerPct - (50 / n)) + 100) % 100;
-    });
-  }, [n]);
+  const _startsAbs = startsAbs || fallback.startsAbs;
+  const _startsPct = startsPct || fallback.startsPct;
+  const _widthsPct = widthsPct || fallback.widthsPct;
 
-  // 🔄 LIVE FLIP: pööra alumises sektoris 180°
+  // --- FLIP alumisel kaarel ---
   const wordRefs = useRef([]);
-  const startsRef = useRef([]);
-  const widthsRef = useRef([]);
   const animStartRef = useRef(null);
   const rafRef = useRef(null);
-
-  useEffect(() => {
-    startsRef.current = (startOffsetsPct || fallbackStarts).slice();
-  }, [startOffsetsPct, fallbackStarts]);
-
-  useEffect(() => {
-    widthsRef.current = (widthsPct || Array.from({ length: n }, () => 100 / n)).slice();
-  }, [widthsPct, n]);
 
   useEffect(() => {
     const bottomStart = bottomStartDeg;
@@ -131,27 +133,19 @@ export function CircularText({
 
     const tick = (t) => {
       if (animStartRef.current == null) animStartRef.current = t;
-      // CSS-is on +3s baas-delay → peegelda siin ka
       const elapsedSec = Math.max(0, (t - animStartRef.current) / 1000 - (startDelaySec + 3));
-      const spinDeg = (elapsedSec / duration) * 360 * dir;
+      const spinDeg = (elapsedSec / duration) * 360 * (dir);
 
-      const starts = startsRef.current;
-      const widths = widthsRef.current;
-
-      for (let i = 0; i < starts.length; i++) {
+      for (let i = 0; i < _startsPct.length; i++) {
         const el = wordRefs.current[i];
         if (!el) continue;
 
-        // sõna keskpunkt: start + width/2 (protsent)
-        const centerPct = (starts[i] + widths[i] / 2) % 100;
-        let angle = centerPct * 3.6 - 90;   // 0%=9:00 → -90° nihutame 12:00-ks
-
-        // lisa staatiline offset + live spin
+        const centerPct = (_startsPct[i] + _widthsPct[i] / 2) % 100;
+        let angle = centerPct * 3.6 - 90;   // 0%=9:00 → -90° = 12:00
         angle += offsetDeg + spinDeg;
 
-        const vis = norm(angle); // 0..360, 0=12:00
+        const vis = norm(angle);
         const isBottom = vis >= bottomStart && vis <= bottomEnd;
-
         if (isBottom) el.classList.add("ct-flip");
         else el.classList.remove("ct-flip");
       }
@@ -165,16 +159,12 @@ export function CircularText({
       rafRef.current = null;
       animStartRef.current = null;
     };
-  }, [duration, dir, offsetDeg, startDelaySec, bottomStartDeg, bottomEndDeg]);
+  }, [_startsPct, _widthsPct, duration, dir, offsetDeg, startDelaySec, bottomStartDeg, bottomEndDeg]);
 
-  // .word1 / .word2 / .word3 klassid esimesetele kolmele sõnale
-  const getWordClass = (i) => {
-    if (i === 0) return "word1";
-    if (i === 1) return "word2";
-    if (i === 2) return "word3";
-    // kui on rohkem kui 3 sõna, anna neile sama rütm nagu word3
-    return "word3";
-  };
+  const getWordFill = (i) =>
+    Array.isArray(wordColors) && wordColors.length ? wordColors[i % wordColors.length] : undefined;
+
+  const wordClass = (i) => (i === 0 ? "word1" : i === 1 ? "word2" : "word3");
 
   return (
     <svg
@@ -185,16 +175,28 @@ export function CircularText({
       aria-hidden="true"
     >
       <defs>
+        {/* TEEN 3× ringi ühele pathile: kogupikkus 3L.
+           Sõnad paigutame KESKMISELE ringile [L, 2L). */}
         <path
           id={pathId}
-          d={`M${VIEWBOX / 2},${VIEWBOX / 2} m-${R},0
-              a ${R},${R} 0 1,1 ${R * 2},0
-              a ${R},${R} 0 1,1 -${R * 2},0`}
+          d={[
+            // 1. ring
+            `M${VIEWBOX / 2},${VIEWBOX / 2} m-${R},0`,
+            `a ${R},${R} 0 1,1 ${R * 2},0`,
+            `a ${R},${R} 0 1,1 -${R * 2},0`,
+            // 2. ring
+            `m0,0`,
+            `a ${R},${R} 0 1,1 ${R * 2},0`,
+            `a ${R},${R} 0 1,1 -${R * 2},0`,
+            // 3. ring
+            `m0,0`,
+            `a ${R},${R} 0 1,1 ${R * 2},0`,
+            `a ${R},${R} 0 1,1 -${R * 2},0`,
+          ].join(" ")}
         />
       </defs>
 
-      {/* Fade-wrapper: peidus kuni delay läbi; SPIN ootab sama delay'd (CSS-is +3s sees) */}
-      <g className="ct-cycle" style={{ "--ct-delay": `${startDelaySec}s` }}>
+      <g className="ct-cycle" style={{ ["--ct-delay"]: `${startDelaySec}s` }}>
         <g style={{ transformOrigin: "50% 50%", transform: `rotate(${offsetDeg}deg)` }}>
           <text
             className="circular-text-line"
@@ -205,16 +207,16 @@ export function CircularText({
               letterSpacing: `${letterSpacing}px`,
               animationDuration: `${duration}s`,
               animationDirection: dir === 1 ? "normal" : "reverse",
-              animationDelay: "calc(var(--ct-delay, 0s) + 3s)", // kooskõlas CSS-iga
+              animationDelay: "calc(var(--ct-delay, 0s) + 3s)",
             }}
           >
-            {(startOffsetsPct || fallbackStarts).map((startPct, i) => (
+            {_startsAbs.map((startU, i) => (
               <textPath
                 key={`${words[i] ?? "w"}-${i}`}
                 href={`#${pathId}`}
-                startOffset={`${startPct}%`}
+                startOffset={startU}         // ABSOLUUT: alati keskmisel ringil
                 textAnchor="start"
-                className={getWordClass(i)}
+                className={wordClass(i)}
                 style={getWordFill(i) ? { fill: getWordFill(i) } : undefined}
                 ref={(el) => (wordRefs.current[i] = el)}
               >
@@ -228,7 +230,7 @@ export function CircularText({
   );
 }
 
-/* Näidised – samad propsid, klassid tulevad järjekorrast */
+/* Mugavad eelkonfid – sama API */
 export function CircularRingLeft() {
   return (
     <CircularText
@@ -236,15 +238,14 @@ export function CircularRingLeft() {
       size={440}
       duration={130}
       clockwise={false}
-      fontSize={28}
+      fontSize={27}
       weight={400}
       letterSpacing={6}
       className="desc-ring-left"
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(57,57,57,0.6)"
-      startDelaySec={4}
-      gapRatio={0.14}
+      startDelaySec={3}
     />
   );
 }
@@ -256,17 +257,14 @@ export function CircularRingRight() {
       size={440}
       duration={130}
       clockwise={false}
-      fontSize={28}
+      fontSize={27}
       weight={400}
       letterSpacing={6}
       className="desc-ring-right"
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(213,121,105,0.4)"
-      startDelaySec={4}
-      gapRatio={0.14}
+      startDelaySec={3}
     />
   );
 }
-
-export default CircularText;
