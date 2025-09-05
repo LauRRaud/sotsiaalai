@@ -11,7 +11,7 @@ export function CircularText({
   size = 440,              // renderi px mõõt
   duration = 120,          // pideva pöörde täisring (s)
   clockwise = false,       // pöörde suund
-  fontSize = 32,
+  fontSize = 28,
   weight = 400,
   letterSpacing = 6,       // px
   className = "",
@@ -236,7 +236,7 @@ export function CircularRingLeft() {
       size={440}
       duration={130}
       clockwise={false}
-      fontSize={32}
+      fontSize={28}
       weight={400}
       letterSpacing={6}
       className="desc-ring-left"
@@ -256,7 +256,7 @@ export function CircularRingRight() {
       size={440}
       duration={130}
       clockwise={false}
-      fontSize={32}
+      fontSize={28}
       weight={400}
       letterSpacing={6}
       className="desc-ring-right"

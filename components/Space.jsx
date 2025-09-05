@@ -1,11 +1,11 @@
 /**
  * Space — starless cosmic background under your particle layer.
- * Now with light/dark mode via `mode` prop and intro-skip via `skipIntro`.
+ * Light/Dark režiim `mode` abil ja intro-skippimine `skipIntro` abil.
  */
 export default function Space({
   mode = "dark",        // "dark" | "light"
   palette,
-  intensity,            // visual intensity scaler (per-mode defaults below)
+  intensity,            // visual intensity scaler (per-mode defaults all)
   grain = true,
   fog = true,
 
@@ -17,17 +17,18 @@ export default function Space({
   fogPairSpreadVmax = 22,
   fogHorizontalShiftVmax = -32.5,
 
-  animateFog = true,    // plays intro fade if true
+  // ⚠️ Vaikimisi false, et SSR ja 1. kliendirender oleksid samad.
+  // Pane true ainult siis, kui tahad selle renderi ajal intro-fade’i (nt avalehe esmane laadimine).
+  animateFog = false,
   fogAppearDurMs = 3000,
   fogAppearDelayMs = 900,
 
-  // NEW: if true, skip the intro fade on this render (e.g., subpages)
+  // Kui true, jäta antud renderil intro vahele (nt alalehed, teine külastus jms)
   skipIntro = false,
 } = {}) {
   // ---- PRESETS ----
   const PRESETS = {
     dark: {
-      // Tumesinine taust + heledam udu
       palette: {
         baseTop: "#070b16",
         baseBottom: "#0d111b",
@@ -46,29 +47,25 @@ export default function Space({
     },
 
     light: {
-      // Hele ühtlane taust + sinine udu
       palette: {
         baseTop: "#070b16",
         baseBottom: "#0d111b",
-        accentA: "#E4E5E6",   // aktsendid hoian neutraalsed
+        accentA: "#E4E5E6",
         accentB: "#E4E5E6",
       },
       intensity: 0.3,
-      fogStrength: 0.4,          // tugevam, et sinine udu välja paistaks
-      fogBlend: "multiply",       // tumedam udu heledal taustal
+      fogStrength: 0.4,
+      fogBlend: "multiply",
       grainOpacity: 0.02,
       blob2Opacity: 0.05,
-      fogInnerRGBA: (alphaBase) => [
-        "#88aed8ff",
-        "#71a1cfff",
-      ],
+      fogInnerRGBA: () => ["#88aed8ff", "#71a1cfff"],
     },
   };
 
   const cfg = PRESETS[mode] || PRESETS.dark;
 
   // allow prop overrides
-  const pal = { ...(cfg.palette), ...(palette || {}) };
+  const pal = { ...cfg.palette, ...(palette || {}) };
   const inten = intensity ?? cfg.intensity;
   const fogStr = clamp(fogStrength ?? cfg.fogStrength, 0, 0.7);
 
@@ -78,8 +75,8 @@ export default function Space({
   // derive fog gradient stops per mode
   const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
 
-  // NEW: effective animate flag (skipIntro disables the fade-in)
-  const animateFogEff = animateFog && !skipIntro;
+  // Intro mängib ainult siis, kui mõlemad tingimused on tõesed
+  const animateFogEff = !!(animateFog && !skipIntro);
 
   return (
     <div
@@ -229,7 +226,11 @@ export default function Space({
 
 function FogLayer({ animateFog }) {
   return (
-    <div className="fog" data-animate={animateFog ? "1" : "0"}>
+    <div
+      className="fog"
+      data-animate={animateFog ? "1" : "0"}
+      suppressHydrationWarning
+    >
       <div className="fog-blob fb1" />
       <div className="fog-blob fb3" />
     </div>

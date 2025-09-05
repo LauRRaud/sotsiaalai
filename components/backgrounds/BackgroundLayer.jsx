@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState, useMemo, memo } from "react";
+import { useEffect, useState, memo } from "react";
 import dynamic from "next/dynamic";
-import Space from "../Space"; // SSR-import → kohe nähtav
+import { usePathname } from "next/navigation";
 
+const Space = dynamic(() => import("../Space"), { ssr: false });
 const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false });
-const Particles    = dynamic(() => import("./Particles"), { ssr: false });
+const Particles = dynamic(() => import("./Particles"), { ssr: false });
 
 function getHtmlMode() {
   return document.documentElement.classList.contains("dark-mode") ? "dark" : "light";
 }
 
-// idle helper
-function onIdle(cb, timeout = 800) {
+function onIdle(cb, timeout = 1200) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
     const id = window.requestIdleCallback(cb, { timeout });
@@ -20,6 +20,22 @@ function onIdle(cb, timeout = 800) {
   }
   const t = window.setTimeout(cb, timeout);
   return () => window.clearTimeout(t);
+}
+
+function whenVisible(cb) {
+  if (typeof document === "undefined") return () => {};
+  if (document.visibilityState === "visible") {
+    cb();
+    return () => {};
+  }
+  const onVis = () => {
+    if (document.visibilityState === "visible") {
+      document.removeEventListener("visibilitychange", onVis);
+      cb();
+    }
+  };
+  document.addEventListener("visibilitychange", onVis);
+  return () => document.removeEventListener("visibilitychange", onVis);
 }
 
 function usePrefersReducedMotion() {
@@ -35,60 +51,84 @@ function usePrefersReducedMotion() {
 }
 
 function BackgroundLayer() {
+  const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState("dark");
 
-  // loe lipp enne esimest renderit (et vältida vale hetkeks animatsiooni)
-  const [skipIntro, setSkipIntro] = useState(() => {
-    try {
-      return sessionStorage.getItem("saai-bg-intro-done") === "1";
-    } catch {
-      return false;
-    }
-  });
-
+  // kihid
+  const [bgReady, setBgReady] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
+  // 🔑 kriitiline: algväärtus = false → SSR ja 1. kliendirender täpselt samad
+  const [animateFog, setAnimateFog] = useState(false);
+
   const prefersReduced = usePrefersReducedMotion();
+  const pathname = usePathname();
 
   useEffect(() => {
-    // märgi esimene külastus selles sakis
+    setMounted(true);
+    setMode(getHtmlMode());
+
+    // otsusta, kas mängida udu intro vaid esimesel avalehe laadimisel
     try {
-      if (!skipIntro) {
+      const already = sessionStorage.getItem("saai-bg-intro-done") === "1";
+      const onHome = pathname === "/";
+      const shouldAnimate = onHome && !already && !prefersReduced;
+
+      // Sel hetkel on esimene kliendirender juba toimunud (false),
+      // nüüd tohib turvaliselt muuta → ei teki hydration mismatch’i.
+      setAnimateFog(shouldAnimate);
+
+      if (shouldAnimate) {
         sessionStorage.setItem("saai-bg-intro-done", "1");
       }
-    } catch {}
-  }, [skipIntro]);
+    } catch {
+      // kui sessionStorage puudub, ärme animatsiooni esimesel korral käivita
+      setAnimateFog(false);
+    }
 
-  useEffect(() => {
-    const sync = () => setMode(getHtmlMode());
-    sync();
-    window.addEventListener("themechange", sync);
-    window.addEventListener("storage", sync);
+    const onThemeChange = () => setMode(getHtmlMode());
+    const onStorage = () => setMode(getHtmlMode());
+    window.addEventListener("themechange", onThemeChange);
+    window.addEventListener("storage", onStorage);
     return () => {
-      window.removeEventListener("themechange", sync);
-      window.removeEventListener("storage", sync);
+      window.removeEventListener("themechange", onThemeChange);
+      window.removeEventListener("storage", onStorage);
     };
-  }, []);
+  }, [pathname, prefersReduced]);
 
-  // lae kergemad efektid hiljem
   useEffect(() => {
-    if (prefersReduced) return;
-    const cancelP = onIdle(() => setParticlesReady(true), 600);
-    const cancelC = onIdle(() => setCursorReady(true), 1000);
-    return () => { cancelP?.(); cancelC?.(); };
-  }, [prefersReduced]);
+    if (!mounted || prefersReduced) return;
 
-  // udu animeerub ainult esimesel renderil samas sakis
-  const animateFog = useMemo(() => !skipIntro && !prefersReduced, [skipIntro, prefersReduced]);
+    const cancelBgVis = whenVisible(() => {
+      const cancelBgIdle = onIdle(() => setBgReady(true), 200); // laadime kiiremini
+      return () => cancelBgIdle?.();
+    });
+
+    const cancelParticlesVis = whenVisible(() => {
+      const cancelParticlesIdle = onIdle(() => setParticlesReady(true), 900);
+      return () => cancelParticlesIdle?.();
+    });
+
+    const cancelCurVis = whenVisible(() => {
+      const cancelCurIdle = onIdle(() => setCursorReady(true), 1300);
+      return () => cancelCurIdle?.();
+    });
+
+    return () => {
+      cancelBgVis?.();
+      cancelParticlesVis?.();
+      cancelCurVis?.();
+    };
+  }, [mounted, prefersReduced]);
+
+  if (!mounted) return null;
 
   return (
     <>
-      {/* Taust on kohe olemas; ei kasuta key'd → ei remount'i teema vahetusel */}
-      <Space mode={mode} animateFog={animateFog} />
-
-      {particlesReady && <Particles mode={mode} />}
-      {cursorReady && <SplashCursor />}
+      {bgReady && <Space key={`space-${mode}`} mode={mode} animateFog={animateFog} />}
+      {particlesReady && <Particles key={`particles-${mode}`} mode={mode} />}
+      {cursorReady && <SplashCursor key={`cursor-${mode}`} />}
     </>
   );
 }
