@@ -1,27 +1,15 @@
-// components/backgrounds/BackgroundLayer.jsx
 "use client";
 
 import { useEffect, useState, memo } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
-const Space = dynamic(() => import("../Space"), { ssr: false, loading: () => null });
-const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false, loading: () => null });
-const Particles = dynamic(() => import("./Particles"), { ssr: false, loading: () => null });
+const Space = dynamic(() => import("../Space"), { ssr: false });
+const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false });
+const Particles = dynamic(() => import("./Particles"), { ssr: false });
 
-function detectMode() {
-  try {
-    const ls = (localStorage.getItem("theme") || "").toLowerCase();
-    if (ls === "dark" || ls === "light") return ls;
-
-    const ds = (document.documentElement.dataset.theme || "").toLowerCase();
-    if (ds === "dark" || ds === "light") return ds;
-
-    if (document.documentElement.classList.contains("dark-mode")) return "dark";
-
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  } catch {}
-  return "light";
+function getHtmlMode() {
+  return document.documentElement.classList.contains("dark-mode") ? "dark" : "light";
 }
 
 function onIdle(cb, timeout = 1200) {
@@ -34,26 +22,20 @@ function onIdle(cb, timeout = 1200) {
   return () => window.clearTimeout(t);
 }
 
-/** whenVisible: käivitab cb alles siis, kui sakk on nähtav; toetab ka cleanup'i */
 function whenVisible(cb) {
   if (typeof document === "undefined") return () => {};
-  let innerCleanup = null;
-
   if (document.visibilityState === "visible") {
-    innerCleanup = cb() || null;
-    return () => { if (typeof innerCleanup === "function") innerCleanup(); };
+    cb();
+    return () => {};
   }
   const onVis = () => {
     if (document.visibilityState === "visible") {
       document.removeEventListener("visibilitychange", onVis);
-      innerCleanup = cb() || null;
+      cb();
     }
   };
   document.addEventListener("visibilitychange", onVis);
-  return () => {
-    document.removeEventListener("visibilitychange", onVis);
-    if (typeof innerCleanup === "function") innerCleanup();
-  };
+  return () => document.removeEventListener("visibilitychange", onVis);
 }
 
 function usePrefersReducedMotion() {
@@ -77,13 +59,13 @@ function BackgroundLayer() {
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
+  // intro kontroll
   const [skipIntro, setSkipIntro] = useState(true);
   const prefersReduced = usePrefersReducedMotion();
 
-  // Mount + intro reegel
   useEffect(() => {
     setMounted(true);
-    setMode(detectMode());
+    setMode(getHtmlMode());
 
     let isReload = false;
     try {
@@ -92,61 +74,28 @@ function BackgroundLayer() {
     } catch {}
 
     let alreadyDone = false;
-    try { alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
+    try {
+      alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1";
+    } catch {}
 
     if (pathname === "/") {
-      setSkipIntro(!!(alreadyDone && !isReload));
+      const shouldSkip = alreadyDone && !isReload ? true : false;
+      setSkipIntro(shouldSkip ? true : false);
       try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
     } else {
       setSkipIntro(true);
     }
+
+    const onThemeChange = () => setMode(getHtmlMode());
+    const onStorage = () => setMode(getHtmlMode());
+    window.addEventListener("themechange", onThemeChange);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("themechange", onThemeChange);
+      window.removeEventListener("storage", onStorage);
+    };
   }, [pathname]);
 
-  // Teema muutuse kindel jälgimine
-  useEffect(() => {
-    if (!mounted) return;
-
-    let rafId = 0;
-    const updateFromDom = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const next = detectMode();
-        setMode((curr) => (curr === next ? curr : next));
-      });
-    };
-
-    // 1) <html> klassid / data-theme
-    const mo = new MutationObserver((muts) => {
-      for (const m of muts) {
-        if (m.type === "attributes") { updateFromDom(); break; }
-      }
-    });
-    mo.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class", "data-theme"],
-    });
-
-    // 2) OS teema
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const onMql = () => updateFromDom();
-    try { mql.addEventListener("change", onMql); } catch { mql.addListener?.(onMql); }
-
-    // 3) custom event (kui sinu toggle seda saadab)
-    const onThemeEvt = () => updateFromDom();
-    window.addEventListener("themechange", onThemeEvt);
-
-    // 4) esmaseks sünkroniseerimiseks
-    updateFromDom();
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      mo.disconnect();
-      try { mql.removeEventListener("change", onMql); } catch { mql.removeListener?.(onMql); }
-      window.removeEventListener("themechange", onThemeEvt);
-    };
-  }, [mounted]);
-
-  // Lazy-init efektid (ja korrektne cleanup)
   useEffect(() => {
     if (!mounted) return;
 
@@ -157,9 +106,20 @@ function BackgroundLayer() {
       return;
     }
 
-    const cancelBgVis = whenVisible(() => onIdle(() => setBgReady(true), 200));
-    const cancelParticlesVis = whenVisible(() => onIdle(() => setParticlesReady(true), 800));
-    const cancelCurVis = whenVisible(() => onIdle(() => setCursorReady(true), 1400));
+    const cancelBgVis = whenVisible(() => {
+      const cancelBgIdle = onIdle(() => setBgReady(true), 200);
+      return () => cancelBgIdle?.();
+    });
+
+    const cancelParticlesVis = whenVisible(() => {
+      const cancelParticlesIdle = onIdle(() => setParticlesReady(true), 800);
+      return () => cancelParticlesIdle?.();
+    });
+
+    const cancelCurVis = whenVisible(() => {
+      const cancelCurIdle = onIdle(() => setCursorReady(true), 1400);
+      return () => cancelCurIdle?.();
+    });
 
     return () => {
       cancelBgVis?.();
@@ -168,7 +128,7 @@ function BackgroundLayer() {
     };
   }, [mounted, prefersReduced]);
 
-  // SSR placeholder (pole ühtegi hook’i allpool)
+  // SSR placeholder
   if (!mounted) {
     return (
       <div
@@ -190,14 +150,13 @@ function BackgroundLayer() {
     <>
       {bgReady && (
         <Space
-          key={`space-${mode}`}
           mode={mode}
           animateFog={true}
           skipIntro={skipIntro}
         />
       )}
-      {particlesReady && <Particles key={`particles-${mode}`} mode={mode} />}
-      {cursorReady && <SplashCursor key={`cursor-${mode}`} />}
+      {particlesReady && <Particles mode={mode} />}
+      {cursorReady && <SplashCursor />}
     </>
   );
 }
