@@ -1,15 +1,27 @@
+// components/backgrounds/BackgroundLayer.jsx
 "use client";
 
 import { useEffect, useState, memo } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
-const Space = dynamic(() => import("../Space"), { ssr: false });
-const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false });
-const Particles = dynamic(() => import("./Particles"), { ssr: false });
+const Space = dynamic(() => import("../Space"), { ssr: false, loading: () => null });
+const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false, loading: () => null });
+const Particles = dynamic(() => import("./Particles"), { ssr: false, loading: () => null });
 
-function getHtmlMode() {
-  return document.documentElement.classList.contains("dark-mode") ? "dark" : "light";
+function detectMode() {
+  try {
+    const ls = (localStorage.getItem("theme") || "").toLowerCase();
+    if (ls === "dark" || ls === "light") return ls;
+
+    const ds = (document.documentElement.dataset.theme || "").toLowerCase();
+    if (ds === "dark" || ds === "light") return ds;
+
+    if (document.documentElement.classList.contains("dark-mode")) return "dark";
+
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+  } catch {}
+  return "light";
 }
 
 function onIdle(cb, timeout = 1200) {
@@ -22,20 +34,26 @@ function onIdle(cb, timeout = 1200) {
   return () => window.clearTimeout(t);
 }
 
+/** whenVisible: käivitab cb alles siis, kui sakk on nähtav; toetab ka cleanup'i */
 function whenVisible(cb) {
   if (typeof document === "undefined") return () => {};
+  let innerCleanup = null;
+
   if (document.visibilityState === "visible") {
-    cb();
-    return () => {};
+    innerCleanup = cb() || null;
+    return () => { if (typeof innerCleanup === "function") innerCleanup(); };
   }
   const onVis = () => {
     if (document.visibilityState === "visible") {
       document.removeEventListener("visibilitychange", onVis);
-      cb();
+      innerCleanup = cb() || null;
     }
   };
   document.addEventListener("visibilitychange", onVis);
-  return () => document.removeEventListener("visibilitychange", onVis);
+  return () => {
+    document.removeEventListener("visibilitychange", onVis);
+    if (typeof innerCleanup === "function") innerCleanup();
+  };
 }
 
 function usePrefersReducedMotion() {
@@ -59,51 +77,76 @@ function BackgroundLayer() {
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
-  // kontroll intro jaoks
   const [skipIntro, setSkipIntro] = useState(true);
   const prefersReduced = usePrefersReducedMotion();
 
+  // Mount + intro reegel
   useEffect(() => {
     setMounted(true);
-    setMode(getHtmlMode());
+    setMode(detectMode());
 
-    // ⏱️ kas leht laaditi refreshiga?
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
-      isReload = nav ? nav.type === "reload" : performance?.navigation?.type === 1; // fallback
+      isReload = nav ? nav.type === "reload" : performance?.navigation?.type === 1;
     } catch {}
 
-    // sessiooni-lipp (vältida korduvat intro't samas TAB-is)
     let alreadyDone = false;
-    try {
-      alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1";
-    } catch {}
+    try { alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
 
-    // ✅ Avalehel:
-    // - esmane laadimine: intro ON
-    // - refresh: intro ON
-    // - hilisemad SPA navigeerimised samas tabis: intro OFF
-    // ✅ Alalehtedel: intro OFF
     if (pathname === "/") {
-      const shouldSkip = alreadyDone && !isReload ? true : false;
-      setSkipIntro(shouldSkip ? true : false); // false → mängi intro
-      // märgi sessioon “tehtud”, et sisemistel navidel intro't mitte uuesti lasta
+      setSkipIntro(!!(alreadyDone && !isReload));
       try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
     } else {
-      setSkipIntro(true); // alalehed: alati skip
+      setSkipIntro(true);
     }
-
-    const onThemeChange = () => setMode(getHtmlMode());
-    const onStorage = () => setMode(getHtmlMode());
-    window.addEventListener("themechange", onThemeChange);
-    window.addEventListener("storage", onStorage);
-    return () => {
-      window.removeEventListener("themechange", onThemeChange);
-      window.removeEventListener("storage", onStorage);
-    };
   }, [pathname]);
 
+  // Teema muutuse kindel jälgimine
+  useEffect(() => {
+    if (!mounted) return;
+
+    let rafId = 0;
+    const updateFromDom = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const next = detectMode();
+        setMode((curr) => (curr === next ? curr : next));
+      });
+    };
+
+    // 1) <html> klassid / data-theme
+    const mo = new MutationObserver((muts) => {
+      for (const m of muts) {
+        if (m.type === "attributes") { updateFromDom(); break; }
+      }
+    });
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"],
+    });
+
+    // 2) OS teema
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const onMql = () => updateFromDom();
+    try { mql.addEventListener("change", onMql); } catch { mql.addListener?.(onMql); }
+
+    // 3) custom event (kui sinu toggle seda saadab)
+    const onThemeEvt = () => updateFromDom();
+    window.addEventListener("themechange", onThemeEvt);
+
+    // 4) esmaseks sünkroniseerimiseks
+    updateFromDom();
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      mo.disconnect();
+      try { mql.removeEventListener("change", onMql); } catch { mql.removeListener?.(onMql); }
+      window.removeEventListener("themechange", onThemeEvt);
+    };
+  }, [mounted]);
+
+  // Lazy-init efektid (ja korrektne cleanup)
   useEffect(() => {
     if (!mounted) return;
 
@@ -114,20 +157,9 @@ function BackgroundLayer() {
       return;
     }
 
-    const cancelBgVis = whenVisible(() => {
-      const cancelBgIdle = onIdle(() => setBgReady(true), 200);
-      return () => cancelBgIdle?.();
-    });
-
-    const cancelParticlesVis = whenVisible(() => {
-      const cancelParticlesIdle = onIdle(() => setParticlesReady(true), 800);
-      return () => cancelParticlesIdle?.();
-    });
-
-    const cancelCurVis = whenVisible(() => {
-      const cancelCurIdle = onIdle(() => setCursorReady(true), 1400);
-      return () => cancelCurIdle?.();
-    });
+    const cancelBgVis = whenVisible(() => onIdle(() => setBgReady(true), 200));
+    const cancelParticlesVis = whenVisible(() => onIdle(() => setParticlesReady(true), 800));
+    const cancelCurVis = whenVisible(() => onIdle(() => setCursorReady(true), 1400));
 
     return () => {
       cancelBgVis?.();
@@ -136,7 +168,7 @@ function BackgroundLayer() {
     };
   }, [mounted, prefersReduced]);
 
-  // SSR placeholder → kohe gradient, ei mingit vilkumist
+  // SSR placeholder (pole ühtegi hook’i allpool)
   if (!mounted) {
     return (
       <div
@@ -160,8 +192,8 @@ function BackgroundLayer() {
         <Space
           key={`space-${mode}`}
           mode={mode}
-          animateFog={true}     // Space otsustab lõplikult skipIntro põhjal
-          skipIntro={skipIntro} // avalehe refresh = false → animatsioon ON
+          animateFog={true}
+          skipIntro={skipIntro}
         />
       )}
       {particlesReady && <Particles key={`particles-${mode}`} mode={mode} />}
