@@ -1,58 +1,37 @@
+// components/Space.jsx
 /**
  * Space — starless cosmic background under your particle layer.
  * Light/Dark režiim `mode` abil ja intro-skippimine `skipIntro` abil.
  */
 export default function Space({
-  mode = "dark",        // "dark" | "light"
+  mode = "dark",
   palette,
-  intensity,            // visual intensity scaler (per-mode defaults all)
+  intensity,
   grain = true,
   fog = true,
-
-  // fog params
   fogStrength,
   fogHeightVmax = 30,
   fogOffsetVmax = 0,
   fogBlobSizeVmax = 65,
   fogPairSpreadVmax = 22,
   fogHorizontalShiftVmax = -32.5,
-
-  // ⚠️ Vaikimisi false, et SSR ja 1. kliendirender oleksid samad.
-  // Pane true ainult siis, kui tahad selle renderi ajal intro-fade’i (nt avalehe esmane laadimine).
   animateFog = false,
   fogAppearDurMs = 3000,
   fogAppearDelayMs = 900,
-
-  // Kui true, jäta antud renderil intro vahele (nt alalehed, teine külastus jms)
   skipIntro = false,
 } = {}) {
-  // ---- PRESETS ----
   const PRESETS = {
     dark: {
-      palette: {
-        baseTop: "#070b16",
-        baseBottom: "#0d111b",
-        accentA: "#0a1224",
-        accentB: "#0a1224",
-      },
+      palette: { baseTop: "#070b16", baseBottom: "#0d111b", accentA: "#0a1224", accentB: "#0a1224" },
       intensity: 0.45,
       fogStrength: 0.30,
       fogBlend: "screen",
       grainOpacity: 0.06,
       blob2Opacity: 0.05,
-      fogInnerRGBA: (alphaBase) => [
-        `rgba(235,243,255,${alphaBase})`,
-        "rgba(180,200,235,0.35)",
-      ],
+      fogInnerRGBA: (alphaBase) => [`rgba(235,243,255,${alphaBase})`, "rgba(180,200,235,0.35)"],
     },
-
     light: {
-      palette: {
-        baseTop: "#070b16",
-        baseBottom: "#0d111b",
-        accentA: "#E4E5E6",
-        accentB: "#E4E5E6",
-      },
+      palette: { baseTop: "#070b16", baseBottom: "#0d111b", accentA: "#E4E5E6", accentB: "#E4E5E6" },
       intensity: 0.3,
       fogStrength: 0.4,
       fogBlend: "multiply",
@@ -63,19 +42,13 @@ export default function Space({
   };
 
   const cfg = PRESETS[mode] || PRESETS.dark;
-
-  // allow prop overrides
   const pal = { ...cfg.palette, ...(palette || {}) };
   const inten = intensity ?? cfg.intensity;
   const fogStr = clamp(fogStrength ?? cfg.fogStrength, 0, 0.7);
 
   const opacity1 = clamp(0.25 * inten, 0, 0.8);
   const opacity2 = clamp(0.18 * inten, 0, 0.7);
-
-  // derive fog gradient stops per mode
   const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
-
-  // Intro mängib ainult siis, kui mõlemad tingimused on tõesed
   const animateFogEff = !!(animateFog && !skipIntro);
 
   return (
@@ -84,24 +57,21 @@ export default function Space({
       suppressHydrationWarning
       data-mode={mode}
       style={{
+        // CSS muutujad
         "--baseTop": String(pal.baseTop),
         "--baseBottom": String(pal.baseBottom),
         "--accentA": String(hexWithAlpha(pal.accentA, mode === "light" ? 0.9 : 0.55)),
         "--accentB": String(hexWithAlpha(pal.accentB, mode === "light" ? 0.9 : 0.6)),
         "--opacity1": String(opacity1),
         "--opacity2": String(opacity2),
-
         "--fogOpacity": String(fogStr),
         "--fogHeight": `${fogHeightVmax}vmax`,
         "--fogOffset": `${fogOffsetVmax}vmax`,
         "--fogBlobSize": `${fogBlobSizeVmax}vmax`,
         "--fogSpread": `${fogPairSpreadVmax}vmax`,
         "--fogHorizontalShift": `${fogHorizontalShiftVmax}vmax`,
-
         "--fogAppearDur": `${fogAppearDurMs}ms`,
         "--fogAppearDelay": `${fogAppearDelayMs}ms`,
-
-        // per-mode visuals
         "--fogBlend": cfg.fogBlend,
         "--grainOpacity": cfg.grainOpacity,
         "--blob2Opacity": cfg.blob2Opacity,
@@ -110,7 +80,7 @@ export default function Space({
       }}
       aria-hidden
     >
-      <div className="sb-base" />
+      {/* NB: eemaldatud .sb-base – gradient on nüüd wrapperil */}
       <div className="sb-blob sb-blob-2" />
       {fog && <FogLayer animateFog={animateFogEff} />}
       {grain && <GrainOverlay />}
@@ -123,13 +93,10 @@ export default function Space({
           overflow: hidden;
           pointer-events: none;
           isolation: isolate;
-          background: transparent;
-        }
-
-        .sb-base {
-          position: absolute;
-          inset: 0;
+          /* OLULINE: mitte kunagi läbipaistev – alati gradient */
           background: linear-gradient(180deg, var(--baseTop) 0%, var(--baseBottom) 100%);
+          /* väldi üllatuslikke tausta-animatsioone */
+          transition: none;
         }
 
         .sb-blob {
@@ -150,7 +117,7 @@ export default function Space({
           opacity: var(--blob2Opacity);
         }
 
-        /* FOG LAYER */
+        /* FOG */
         .fog {
           position: absolute;
           left: calc(50% + var(--fogHorizontalShift));
@@ -159,7 +126,6 @@ export default function Space({
           width: 100%;
           height: var(--fogHeight);
           pointer-events: none;
-
           opacity: 0.001;
           will-change: opacity;
           backface-visibility: hidden;
@@ -167,26 +133,15 @@ export default function Space({
         .fog[data-animate="1"] {
           animation: fogAppear var(--fogAppearDur) linear var(--fogAppearDelay) both;
         }
-        .fog[data-animate="0"] {
-          opacity: var(--fogOpacity) !important;
-          animation: none !important;
-        }
+        .fog[data-animate="0"] { opacity: var(--fogOpacity) !important; animation: none !important; }
 
         @keyframes fogAppear {
-          0%   { opacity: 0.001; }
-          10%  { opacity: calc(var(--fogOpacity) * 0.03); }
-          20%  { opacity: calc(var(--fogOpacity) * 0.06); }
-          30%  { opacity: calc(var(--fogOpacity) * 0.10); }
-          40%  { opacity: calc(var(--fogOpacity) * 0.16); }
-          55%  { opacity: calc(var(--fogOpacity) * 0.26); }
-          70%  { opacity: calc(var(--fogOpacity) * 0.42); }
-          85%  { opacity: calc(var(--fogOpacity) * 0.75); }
-          92%  { opacity: calc(var(--fogOpacity) * 0.89); }
-          97%  { opacity: calc(var(--fogOpacity) * 0.96); }
+          0% { opacity: 0.001; }
+          55% { opacity: calc(var(--fogOpacity) * 0.26); }
+          85% { opacity: calc(var(--fogOpacity) * 0.75); }
           100% { opacity: var(--fogOpacity); }
         }
 
-        /* BLOBS — blend per-mode */
         .fog-blob {
           position: absolute;
           top: 30%;
@@ -211,13 +166,7 @@ export default function Space({
         }
 
         /* GRAIN */
-        .sb-grain {
-          position: absolute;
-          inset: 0;
-          opacity: var(--grainOpacity);
-          mix-blend-mode: overlay;
-          pointer-events: none;
-        }
+        .sb-grain { position: absolute; inset: 0; opacity: var(--grainOpacity); mix-blend-mode: overlay; pointer-events: none; }
         .sb-grain-svg { width: 100%; height: 100%; display: block; }
       `}</style>
     </div>
@@ -226,11 +175,7 @@ export default function Space({
 
 function FogLayer({ animateFog }) {
   return (
-    <div
-      className="fog"
-      data-animate={animateFog ? "1" : "0"}
-      suppressHydrationWarning
-    >
+    <div className="fog" data-animate={animateFog ? "1" : "0"} suppressHydrationWarning>
       <div className="fog-blob fb1" />
       <div className="fog-blob fb3" />
     </div>
@@ -251,7 +196,6 @@ function GrainOverlay() {
   );
 }
 
-/* utils */
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 function hexWithAlpha(hex, a = 1) {
   if (!hex || hex[0] !== "#") return hex;
