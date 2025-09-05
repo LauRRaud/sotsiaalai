@@ -6,13 +6,12 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
-const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
+const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false });
 
 function getHtmlMode() {
   return document.documentElement.classList.contains("dark-mode") ? "dark" : "light";
 }
-
 function onIdle(cb, timeout = 1200) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -22,13 +21,9 @@ function onIdle(cb, timeout = 1200) {
   const t = window.setTimeout(cb, timeout);
   return () => window.clearTimeout(t);
 }
-
 function whenVisible(cb) {
   if (typeof document === "undefined") return () => {};
-  if (document.visibilityState === "visible") {
-    cb();
-    return () => {};
-  }
+  if (document.visibilityState === "visible") { cb(); return () => {}; }
   const onVis = () => {
     if (document.visibilityState === "visible") {
       document.removeEventListener("visibilitychange", onVis);
@@ -38,7 +33,6 @@ function whenVisible(cb) {
   document.addEventListener("visibilitychange", onVis);
   return () => document.removeEventListener("visibilitychange", onVis);
 }
-
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
@@ -56,7 +50,7 @@ function BackgroundLayer() {
   const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState("dark");
 
-  const [bgReady, setBgReady] = useState(false);
+  // NB: Space ei ole enam gated – ainult efektid on
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
@@ -67,6 +61,7 @@ function BackgroundLayer() {
     setMounted(true);
     setMode(getHtmlMode());
 
+    // intro reegel
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
@@ -74,9 +69,7 @@ function BackgroundLayer() {
     } catch {}
 
     let alreadyDone = false;
-    try {
-      alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1";
-    } catch {}
+    try { alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
 
     if (pathname === "/") {
       const shouldSkip = alreadyDone && !isReload;
@@ -97,38 +90,26 @@ function BackgroundLayer() {
   }, [pathname]);
 
   useEffect(() => {
-    if (!mounted) return;
-
-    if (prefersReduced) {
-      setBgReady(false);
-      setParticlesReady(false);
-      setCursorReady(false);
-      return;
-    }
-
-    const cancelBgVis = whenVisible(() => onIdle(() => setBgReady(true), 200));
-    const cancelParticlesVis = whenVisible(() => onIdle(() => setParticlesReady(true), 800));
-    const cancelCurVis = whenVisible(() => onIdle(() => setCursorReady(true), 1400));
-
+    if (!mounted || prefersReduced) return;
+    const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
+    const cancelCursor    = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => {
-      typeof cancelBgVis === "function" && cancelBgVis();
-      typeof cancelParticlesVis === "function" && cancelParticlesVis();
-      typeof cancelCurVis === "function" && cancelCurVis();
+      typeof cancelParticles === "function" && cancelParticles();
+      typeof cancelCursor === "function" && cancelCursor();
     };
   }, [mounted, prefersReduced]);
 
-  // ⛔️ SSR placeholder eemaldatud – enne mount’i ei renderda midagi
   if (!mounted) return null;
 
   return (
     <>
-      {bgReady && (
-        <Space
-          mode={mode}
-          animateFog={true}
-          skipIntro={skipIntro}
-        />
-      )}
+      {/* Fog animeeri ainult avalehe esmasel külastusel — ja viivitus 0, vt #2 */}
+      <Space
+        mode={mode}
+        animateFog={!skipIntro}
+        skipIntro={skipIntro}
+        fogAppearDelayMs={0}
+      />
       {particlesReady && <Particles mode={mode} />}
       {cursorReady && <SplashCursor />}
     </>
