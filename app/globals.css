@@ -45,7 +45,7 @@
   z-index: 2;                 /* taustast kõrgemal, sisu all */
   pointer-events: none;
 }
-
+body { font-size-adjust: from-font; }
 /* === SISU KIHID === */
 .glass-box,
 .glass-left,
@@ -245,11 +245,9 @@ a, .link-brand, .meist-external-link {
 .card-face.front{ transform: rotateY(0deg); }
 .card-face.back { transform: rotateY(180deg); pointer-events: auto; }
 
-/* ⛔ kui flip pole lubatud, ära pööra üldse ja näita “tavalist” kursorit */
 .three-d-card:not(.flip-allowed) .card-wrapper { transform: none !important; }
 .three-d-card:not(.flip-allowed) { cursor: default; }
 
-/* ✅ pööra ainult siis, kui flip on lubatud */
 .three-d-card.flip-allowed.left:hover .card-wrapper,
 .three-d-card.flip-allowed.left:focus-within .card-wrapper,
 .three-d-card.flip-allowed.left.is-flipping .card-wrapper{

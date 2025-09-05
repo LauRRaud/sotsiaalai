@@ -1,7 +1,7 @@
 // app/page.js
 
 export const metadata = {
-  title: "SotsiaalAI – Tehisintellekt sotsiaaltööks ja elulisteks küsimusteks",
+  title: "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
   description:
     "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele.",
 };
