@@ -8,8 +8,15 @@ export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
   icons: {
-    icon: "/logo/favicon.png",
-    apple: "/logo/favicon.png",
+    icon: [
+      { url: "/favicon.png", type: "image/png" },       // app/ favicon.png
+      { url: "/favicon.png", type: "image/png" },       // public/ favicon.png
+      { url: "/logo/favicon.png", type: "image/png" },  // public/logo/favicon.png
+    ],
+    apple: [
+      { url: "/favicon.png" },                          // app/ või public/
+      { url: "/logo/favicon.png" },                     // public/logo/
+    ],
   },
 };
 
@@ -40,8 +47,6 @@ export default function RootLayout({ children }) {
     >
       <head>
         <meta name="color-scheme" content="dark light" />
-        <link rel="icon" href="/logo/favicon.png" sizes="any" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo/favicon.png" />
         <Script id="set-theme" strategy="beforeInteractive">
           {`
             (function () {
