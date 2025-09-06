@@ -459,7 +459,21 @@ html:not(.dark-mode) .centered-back-right {
 .glass-card, .centered-back-left, .centered-back-right {
   position: relative; /* et logo oleks alati selles parentis täpselt */
 }
-
+.headline-bold { 
+  font-weight: 400;
+  line-height: 1.4;            /* jätsid juba – hea */
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  transform: translateZ(0);    /* oma kiht */
+}
+.card-content { will-change: transform, opacity; }    /* või konkreetne px, nt 32px */
+.glass-card.fade-in { position: relative; overflow: hidden; }
+.glass-card.fade-in::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius: inherit;
+}
 .card-logo-bg-right {
   position: absolute;
   top: 51%;
@@ -541,7 +555,7 @@ html:not(.dark-mode) .centered-back-right {
   color: #323232;                     /* sügavam tumesinine */
   text-transform: uppercase;
   letter-spacing: 0.1em;             /* pisut avaram kerning */
-  font-weight: 500;                   /* tugevam kaal */
+  font-weight: 400;                   /* tugevam kaal */
   margin-top: 0em;                  /* väiksem õhk üleval */
   margin-bottom: 0.35em;
   text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
@@ -558,7 +572,7 @@ html:not(.dark-mode) .centered-back-right {
   color: var(--pt-200); /* õrn platinum tekst tumedal taustal */
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-weight: 500; /* sama kaal kui vasakul */
+  font-weight: 400; /* sama kaal kui vasakul */
   margin-top: 0em;
   margin-bottom: 0.35em;
   text-shadow: 0px 5px 8px rgba(241,241,240,0.35); /* pehme platinum kuma */

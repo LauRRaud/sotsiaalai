@@ -139,6 +139,7 @@ body {
 :root {
   --pt-50:  #F8F8F7; /* väga hele, pea valge */
   --pt-100: #ECEBE9; /* hele */
+  --pt-150: #E6E5E3; /* veidi heledam */
   --pt-200: #DFDEDA; /* õrn, aga loetav */
   --pt-300: #C9C7C2; /* põhitekst – pehme platinum */
   --pt-400: #AFAAA3; /* tugevam, pealkirjad */
@@ -146,10 +147,10 @@ body {
   --pt-600: #55514C; /* kõige tumedam */
 
   /* alias’d */
-  --pt-light: var(--pt-200); /* enne oli 100 – nüüd tumedam */
-  --pt:       var(--pt-300); /* põhitekstid */
-  --pt-mid:   var(--pt-400); /* pealkirjad, raamid */
-  --pt-dark:  var(--pt-500); /* rõhutused */
+  --pt-light: var(--pt-200); 
+  --pt:       var(--pt-300); 
+  --pt-mid:   var(--pt-400); 
+  --pt-dark:  var(--pt-500);
 }
 .glass-title,
 .headline,
@@ -861,7 +862,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
 .glass-box p,
 .glass-section p {
   font-size: 1.05em;
-  color: var(--pt-200);   /* heledam platinum (DFDEDA) */
+  color: var(--pt-150);
   line-height: 1.56;
   letter-spacing: 0.03em;
   font-weight: 300;
@@ -1588,7 +1589,7 @@ html:not(.dark-mode) .avatar-label {
   display: block;
   width: 410px;
   font-weight: 500;
-  color: var(--pt-200);     /* sama platinum toon mis .glass-label */
+  color: var(--pt-150);     /* sama platinum toon mis .glass-label */
   margin-bottom: -0.3em;
   margin-top: 1em;
   text-align: left;
@@ -1602,14 +1603,17 @@ html:not(.dark-mode) .avatar-label {
   gap: 0.7em;
   width: 410px;
 }
-
+.glass-checkbox,
+.glass-checkbox .checkbox-text {
+  color: var(--pt-150);
+}
 .glass-radio-group label {
   display: flex;
-  align-items: column;  /* keskele, mitte flex-start */
+  align-items: center;  /* keskele, mitte flex-start */
   gap: 0.6em;               /* veidi õhku nupu ja teksti vahel */
   font-size: 1.15em;
   font-weight: 500;
-  color: var(--pt-200);
+  color: var(--pt-150);
   letter-spacing: 0.03em;
   line-height: 1.35;
   cursor: pointer;
@@ -1622,7 +1626,7 @@ html:not(.dark-mode) .avatar-label {
   cursor: pointer;
   margin: 0;
   flex: 0 0 auto;           /* ära lase venida */
-  transform: translateY(0.25em);
+  transform: translateY(-0.1em);
 }
 
 /* --- CHECKBOX --- */
@@ -1671,6 +1675,7 @@ html:not(.dark-mode) .avatar-label {
   vertical-align: baseline;
   letter-spacing: 0.04em;
   margin-right: 0.2em;
+    color: var(--pt-150);
 }
 .and-word { margin-left: 0.3em; }
 
@@ -1679,6 +1684,7 @@ html:not(.dark-mode) .avatar-label {
   font-weight: 500;
   vertical-align: text-top;
   letter-spacing: 0.04em;
+    color: var(--pt-150);   /* või --pt-150 kui soovid vahepealset */
 }
 .modal-confirm {
   background: rgba(34, 34, 34, 0.6);
@@ -2004,7 +2010,7 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
   border: none !important;
   box-shadow: none !important;
   padding: .25em 0 !important;
-  color: var(--pt-200);              /* pehme hele platinum tekst */
+  color: var(--pt-150);              /* pehme hele platinum tekst */
   max-width: 70ch;
   font-size: 1.15em;
   line-height: 1.35;
