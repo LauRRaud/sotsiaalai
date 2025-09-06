@@ -4,12 +4,19 @@ import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import Script from "next/script";
 import localFont from "next/font/local";
 
-export const metadata = { /* ... sinu metadata ... */ };
+export const metadata = {
+  title: "SotsiaalAI",
+  description: "SotsiaalAI platvorm",
+  icons: {
+    icon: "/logo/favicon.png",
+    apple: "/logo/favicon.png",
+  },
+};
 
 const aino = localFont({
   src: [
     { path: "./fonts/Aino-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/Aino-Bold.woff2",    weight: "700", style: "normal" },
+    { path: "./fonts/Aino-Bold.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-aino",
   display: "swap",
@@ -28,12 +35,13 @@ export default function RootLayout({ children }) {
     <html
       lang="et"
       suppressHydrationWarning
-      className="dark-mode"           // esialgne oletus – skript korrigeerib kohe
+      className="dark-mode"
       data-theme="dark"
     >
       <head>
         <meta name="color-scheme" content="dark light" />
-        <link rel="icon" href="/logo/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/logo/favicon.png" sizes="any" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo/favicon.png" />
         <Script id="set-theme" strategy="beforeInteractive">
           {`
             (function () {
@@ -44,7 +52,6 @@ export default function RootLayout({ children }) {
                 var dark = saved ? (saved === 'dark')
                   : window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-                // kirjuta mõlemad ühekorraga, et vältida reflow'd mitme sammuga
                 if (dark) {
                   el.classList.add('dark-mode');
                   el.dataset.theme = 'dark';

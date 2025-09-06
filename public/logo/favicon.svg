@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 111.08 170.25">
-  <!-- Generator: Adobe Illustrator 29.5.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 137)  -->
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 111.08 170.25">
   <defs>
     <style>
-      .st0 {
-        fill: url(#linear-gradient2);
-      }
+      /* Täpi jaoks: ilma kontuurita, et serv ei läheks tumedaks */
+      .st0 { fill: url(#linear-gradient2); stroke: none; }
 
-      .st1 {
-        fill: url(#linear-gradient1);
-      }
-
-      .st2 {
-        fill: url(#linear-gradient);
-      }
+      /* Teised kihid jäävad nagu enne */
+      .st1 { fill: url(#linear-gradient1); }
+      .st2 { fill: url(#linear-gradient); }
     </style>
+
+    <!-- Alumine osa (originaal) -->
     <linearGradient id="linear-gradient" x1="24.11" y1="120.24" x2="24.11" y2="159.48" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#303030"/>
       <stop offset=".47" stop-color="#111"/>
       <stop offset="1" stop-color="#000"/>
     </linearGradient>
+
+    <!-- Keskmine aktsendi gradient (originaal) -->
     <linearGradient id="linear-gradient1" x1="-2575.09" y1="631.21" x2="-2575.09" y2="630.21" gradientTransform="translate(285839.05 107400.27) scale(110.98 -170.15)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fbe5df"/>
       <stop offset=".2" stop-color="#f3c6b5"/>
@@ -27,13 +25,18 @@
       <stop offset=".7" stop-color="#c66a4e"/>
       <stop offset="1" stop-color="#843722"/>
     </linearGradient>
-    <linearGradient id="linear-gradient2" x1="79.28" y1="-1602.15" x2="79.28" y2="-1637.33" gradientTransform="translate(0 -1592) scale(1 -1)" gradientUnits="userSpaceOnUse">
-      <stop offset=".3" stop-color="#fafcff"/>
-      <stop offset=".5" stop-color="#e9edf4"/>
-      <stop offset=".77" stop-color="#b3bac6"/>
-      <stop offset="1" stop-color="#9299a5"/>
+
+    <!-- Ülemine täpp: SOE, HELEDAM PLATINUM (tumedus vähem ja hajutatud varem) -->
+    <linearGradient id="linear-gradient2" x1="79.28" y1="-1602.15" x2="79.28" y2="-1637.33"
+      gradientTransform="translate(0 -1592) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0"    stop-color="#F5F5F4"/>
+      <stop offset=".22"  stop-color="#EEEDEC"/>
+      <stop offset=".48"  stop-color="#DAD9D6"/>
+      <stop offset=".72"  stop-color="#C7C5C1"/>
+      <stop offset="1"    stop-color="#A8A59E"/> <!-- heledam lõpp (pole enam tume) -->
     </linearGradient>
   </defs>
+
   <path class="st2" d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
   <path class="st1" d="M63.43,170.14c12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,35.7,8.37,8.74,37.44.06l2.23,1.76h0v.03h.03v-.02h0c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57"/>
   <path class="st0" d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>

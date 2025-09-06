@@ -6,7 +6,7 @@
       .st0, .st1, .st2 {
         stroke: #000;
         stroke-miterlimit: 10;
-        stroke-opacity: .5;
+        stroke-opacity: .4;
         stroke-width: .1px;
       }
       .st1 { fill: url(#linear-gradient1); }
@@ -14,17 +14,16 @@
       .st3 { fill: url(#linear-gradient); }
     </style>
 
-    <!-- PLAATINUM (soojem, tumedus algab varem ja hajub pehmemalt) -->
+    <!-- PLAATINUM (plakativersioon: heledam lõpp) -->
     <linearGradient id="linear-gradient" x1="217.27" y1="-825.72" x2="319.36" y2="-1044.73"
       gradientTransform="translate(0 -842) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0"   stop-color="#F1F1F0"/>
-      <stop offset=".28" stop-color="#E6E5E3"/>
-      <stop offset=".55" stop-color="#C3C1BC"/>
-      <stop offset=".75" stop-color="#8D8980"/>
-      <stop offset="1"   stop-color="#5F5B55"/>
+      <stop offset=".32" stop-color="#E6E5E3"/>
+      <stop offset=".62" stop-color="#C7C5C1"/>
+      <stop offset="1"   stop-color="#8D8980"/> <!-- kergem lõpp -->
     </linearGradient>
 
-    <!-- Tähtede originaalne gradient -->
+    <!-- Tähed -->
     <linearGradient id="linear-gradient1" x1="23.89" y1="145.15" x2="23.89" y2="184.39" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#666"/>
       <stop offset=".5" stop-color="#383838"/>
@@ -32,7 +31,7 @@
       <stop offset="1" stop-color="#111"/>
     </linearGradient>
 
-    <!-- Aktsent jääb muutmata -->
+    <!-- Aktsent jääb samaks -->
     <linearGradient id="linear-gradient2" x1="-1571.22" y1="5.18" x2="-1571.22" y2="6.18"
       gradientTransform="translate(174429.38 -857.71) scale(110.98 170.15)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fbe5df"/>
@@ -42,14 +41,13 @@
       <stop offset="1" stop-color="#843722"/>
     </linearGradient>
 
-    <!-- PLAATINUM teine ala (hajutatud tumedus) -->
+    <!-- PLAATINUM teine ala (plakativersioon) -->
     <linearGradient id="linear-gradient3" x1="79.24" y1="1790.65" x2="79.24" y2="1949.92"
       gradientTransform="translate(0 -1764)" gradientUnits="userSpaceOnUse">
       <stop offset="0"   stop-color="#F1F1F0"/>
-      <stop offset=".2"  stop-color="#E2E1DF"/>
-      <stop offset=".48" stop-color="#C3C1BC"/>
-      <stop offset=".68" stop-color="#8D8980"/>
-      <stop offset="1"   stop-color="#5F5B55"/>
+      <stop offset=".25" stop-color="#E6E5E3"/>
+      <stop offset=".55" stop-color="#C7C5C1"/>
+      <stop offset="1"   stop-color="#8D8980"/>
     </linearGradient>
   </defs>
 
