@@ -1,13 +1,12 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
      xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Platinum stroke (soe, tumedus hajub lõpu poole) -->
+    <!-- Platinum gradient (rohkem sooja tooni, vähem puhast valget) -->
     <linearGradient id="platinum-stroke" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#F1F1F0"/>
-      <stop offset=".28" stop-color="#E6E5E3"/>
-      <stop offset=".55" stop-color="#C3C1BC"/>
-      <stop offset=".75" stop-color="#8D8980"/>
-      <stop offset="1"   stop-color="#5F5B55"/>
+      <stop offset="0"   stop-color="#E9E7E4"/>  <!-- soe hele platinum -->
+      <stop offset=".35" stop-color="#D6D3CE"/>  <!-- pehme hallikas beež -->
+      <stop offset=".7"  stop-color="#B9B4AC"/>  <!-- klassikaline platinum toon -->
+      <stop offset="1"   stop-color="#938E85"/>  <!-- kergelt tumedam lõpp -->
     </linearGradient>
   </defs>
 

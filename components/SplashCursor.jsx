@@ -2,20 +2,20 @@
 import { useEffect, useRef } from 'react';
 
 export default function SplashCursor({
-  SIM_RESOLUTION = 100,
-  DYE_RESOLUTION = 1000,
-  CAPTURE_RESOLUTION = 300,
-  DENSITY_DISSIPATION = 3,
-  VELOCITY_DISSIPATION = 2,
-  PRESSURE = 0.15,
-  PRESSURE_ITERATIONS = 15,
-  CURL = 2.5,
-  SPLAT_RADIUS = 0.0035,
-  SPLAT_FORCE = 6500,
-  SHADING = true,
-  COLOR_UPDATE_SPEED = 8,
-  BACK_COLOR = { r: 0.35, g: 0.15, b: 0.45 },
-  TRANSPARENT = true,
+  SIM_RESOLUTION=150,
+  DYE_RESOLUTION=1024,
+  CAPTURE_RESOLUTION=512,
+  DENSITY_DISSIPATION=2.5,
+  VELOCITY_DISSIPATION=1,
+  PRESSURE=0.1,
+  PRESSURE_ITERATIONS=20,
+  CURL=2,
+  SPLAT_RADIUS=0.0055,
+  SPLAT_FORCE=6600,
+  SHADING=true,
+  COLOR_UPDATE_SPEED=5,
+  BACK_COLOR={ r: 0.0, g: 0.0, b: 0.0 }, // täiesti must
+  TRANSPARENT=true
 }) {
   const canvasRef = useRef(null);
 
@@ -732,7 +732,7 @@ export default function SplashCursor({
 
     function generateColor() {
       let c = HSVtoRGB(Math.random(), 1.0, 1.0);
-      c.r *= 0.15; c.g *= 0.15; c.b *= 0.15;
+      c.r *= 0.11; c.g *= 0.11; c.b *= 0.11;
       return c;
     }
 
