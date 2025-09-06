@@ -873,18 +873,23 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   white-space: normal;
 }
 
-.glass-box p,
-.glass-section p {
+.glass-box p {
   font-size: 1.05em;
   color: var(--pt-150);
   line-height: 1.56;
   letter-spacing: 0.03em;
   font-weight: 300;
 }
-
+.glass-section p {
+  font-size: 1.05em;
+  color: var(--pt-150);
+  line-height: 1.56;
+  letter-spacing: 0.03em;
+  font-weight: 300;
+  }
 .glass-list {
   font-size: 1.05em;
-  color: var(--pt-200);   /* sama toon mis p */
+  color: var(--pt-150);   /* sama toon mis p */
   font-weight: 400;
   line-height: 1.56;
   letter-spacing: 0.03em;
@@ -989,7 +994,12 @@ a {
   gap: 0.2em;
   flex-wrap: wrap;
   letter-spacing: 0.03em;
+  color: var(--pt-150);
   }
+  .glass-section p strong {
+  color: var(--pt-200);   /* sama toon mis ülal */
+  font-weight: 600;
+}
 .avatar-link {
   position: absolute;
   top: 1.7em;
@@ -2224,6 +2234,10 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
 .reset-bottom-text,
 .modal-confirm-title {
   color: var(--brand-primary);
+}
+.glass-box .epost-row {
+  color: var(--pt-200);
+  font-weight: 500;
 }
 
 /* Modal X nupp */
