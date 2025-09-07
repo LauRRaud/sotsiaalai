@@ -3,6 +3,7 @@ import "./globals.css";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import Script from "next/script";
 import localFont from "next/font/local";
+import BodyWrapper from "@/components/BodyWrapper";
 
 export const metadata = {
   title: "SotsiaalAI",
@@ -13,7 +14,6 @@ export const metadata = {
   },
 };
 
-// Body font – preload ainult Regular + Bold
 const aino = localFont({
   src: [
     { path: "./fonts/Aino-Regular.woff2", weight: "400", style: "normal" },
@@ -26,7 +26,6 @@ const aino = localFont({
   preload: true,
 });
 
-// Headline font (pole kriitiline CLS mõttes, preload false)
 const ainoHeadline = localFont({
   src: [{ path: "./fonts/Aino-Headline.woff2", weight: "400", style: "normal" }],
   variable: "--font-aino-headline",
@@ -44,30 +43,25 @@ export default function RootLayout({ children }) {
     >
       <head>
         <meta name="color-scheme" content="dark light" />
+        <Script id="set-theme" strategy="beforeInteractive">{`
+          (function () {
+            try {
+              var el = document.documentElement;
+              var ls = localStorage.getItem('theme');
+              var saved = (ls === 'dark' || ls === 'light') ? ls : null;
+              var dark = saved ? (saved === 'dark')
+                : window.matchMedia('(prefers-color-scheme: dark)').matches;
+              if (dark) {
+                el.classList.add('dark-mode');
+                el.dataset.theme = 'dark';
+              } else {
+                el.classList.remove('dark-mode');
+                el.dataset.theme = 'light';
+              }
+            } catch (e) {}
+          })();
+        `}</Script>
 
-        {/* Early theme to avoid flash */}
-        <Script id="set-theme" strategy="beforeInteractive">
-          {`
-            (function () {
-              try {
-                var el = document.documentElement;
-                var ls = localStorage.getItem('theme');
-                var saved = (ls === 'dark' || ls === 'light') ? ls : null;
-                var dark = saved ? (saved === 'dark')
-                  : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (dark) {
-                  el.classList.add('dark-mode');
-                  el.dataset.theme = 'dark';
-                } else {
-                  el.classList.remove('dark-mode');
-                  el.dataset.theme = 'light';
-                }
-              } catch (e) {}
-            })();
-          `}
-        </Script>
-
-        {/* ✅ Preload suured logod ja modali ikoonid */}
         <link rel="preload" as="image" href="/logo/aivalge.svg" />
         <link rel="preload" as="image" href="/logo/saimust.svg" />
         <link rel="preload" as="image" href="/logo/smust.svg" />
@@ -78,10 +72,10 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/login/mobiil.png" />
       </head>
 
-      <body className="antialiased">
+      <BodyWrapper>
         <BackgroundLayer />
         <main className="relative z-10">{children}</main>
-      </body>
+      </BodyWrapper>
     </html>
   );
 }
