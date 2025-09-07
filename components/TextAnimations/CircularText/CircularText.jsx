@@ -164,7 +164,7 @@ export function CircularRingLeft() {
       size={440}
       duration={130}
       clockwise={false}
-      fontSize={27}
+      fontSize={34}
       weight={400}
       letterSpacing={6}
       className="desc-ring-left"
@@ -183,7 +183,7 @@ export function CircularRingRight() {
       size={440}
       duration={130}
       clockwise={false}
-      fontSize={27}
+      fontSize={34}
       weight={400}
       letterSpacing={6}
       className="desc-ring-right"

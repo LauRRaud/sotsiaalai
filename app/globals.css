@@ -45,7 +45,6 @@
   z-index: 2;                 /* taustast kõrgemal, sisu all */
   pointer-events: none;
 }
-body { font-size-adjust: from-font; }
 /* === SISU KIHID === */
 .glass-box,
 .glass-left,
@@ -98,11 +97,6 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-/* Päranda box-sizing kõigile */
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-
 body {
   min-height: 100vh;         /* või 100dvh, kui tahad mobiilil täpsemat kõrgust */
   margin: 0;
@@ -116,14 +110,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-
-  /* Laius 100% on ohutum kui 100vw (vältib horis. kerimisriba) */
   width: 100%;
 }
 :root{
-  --brand-primary: #D9A392; /* ainus brändivärv: pealkirjad, lingid, aktsendid */
-
-  /* Tagasiühilduvuse alias’ed (vanad viited jätkuvalt töötavad) */
+  --brand-primary: #D9A392;
   --brand-accent: var(--brand-primary);
   --brand-light:  var(--brand-primary);
 
@@ -229,14 +219,13 @@ a, .link-brand, .meist-external-link {
   box-sizing: border-box;
   position: relative;
 }
-/* --- 3D-KAARDID --- */
 :root{
   /* Suurus ja animatsiooni tunde reguleerimiseks: */
   --card-size: clamp(260px, 42vw, 430px);
-  --flip-ms: 1100ms;                                  /* kiirus (750–1100ms) */
-  --flip-ease: cubic-bezier(.22,.61,.36,1);          /* pehme ease-out      */
+  --flip-ms: 1100ms;
+  --fade-ms: 300ms;
+  --flip-ease: cubic-bezier(.22,.61,.36,1);
 }
-
 .three-d-card{
   width: var(--card-size);
   aspect-ratio: 1 / 1;
@@ -276,11 +265,10 @@ a, .link-brand, .meist-external-link {
   display: grid;
   place-items: center;
   backface-visibility: hidden;
-  transform: translateZ(0);
   border-radius: inherit;
 }
 .card-face.front{ transform: rotateY(0deg); }
-.card-face.back { transform: rotateY(180deg); pointer-events: auto; }
+.card-face.back { transform: rotateY(180deg); }
 
 .three-d-card:not(.flip-allowed) .card-wrapper { transform: none !important; }
 .three-d-card:not(.flip-allowed) { cursor: default; }
@@ -296,9 +284,10 @@ a, .link-brand, .meist-external-link {
 .three-d-card.flip-allowed.right.is-flipping .card-wrapper{
   transform: rotateY(-180deg);
 }
-
-/* HELE klaas (kaardi esikülg) */
 .glass-card {
+  transform: translate3d(0,0,0);
+  transform-origin: 50% 50%;
+  transition: opacity var(--fade-ms) ease;
   width: 100%; height: 100%; aspect-ratio: 1/1;
   border-radius: 50%; margin: 0 auto;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -347,6 +336,13 @@ html:not(.dark-mode) .centered-back-right {
   width: 100%; height: 100%; left: 0; top: 0;
   position: absolute; border-radius: 50%; z-index: 2;
 }
+.card-face.back { pointer-events: none; }
+.three-d-card.flip-allowed.left:hover .card-face.back,
+.three-d-card.flip-allowed.left:focus-within .card-face.back,
+.three-d-card.flip-allowed.right:hover .card-face.back,
+.three-d-card.flip-allowed.right:focus-within .card-face.back{
+  pointer-events: auto;
+}
 .three-d-card:hover .card-face.back > *,
 .three-d-card:focus-within .card-face.back > * {
   animation: brandGlow 6.7s ease-in-out infinite;
@@ -393,29 +389,21 @@ html:not(.dark-mode) .centered-back-right {
 .three-d-card.is-flipping .glow-active {
   animation-play-state: paused;
 }
-.card-face,
-.glass-card {
-  transition-property: transform, opacity;
-  transition-duration: 600ms;
-  transition-timing-function: ease-out;
-}
-/* --- Kaardi hõljumine --- */
 .float-card {
   animation: float-vertical 6.7s ease-in-out infinite;
+   will-change: transform;
 }
-
 @keyframes float-vertical {
   0%   { transform: translateY(0px); }
   50%  { transform: translateY(-13px); }
   100% { transform: translateY(0px); }
 }
-
-/* --- Fade-in animatsioon (ainult opacity, blur, scale) --- */
+/* --- Väike scale + blur fade-in --- */
 @keyframes cardFadeIn {
   0% {
     opacity: 0;
-    transform: scale(0.85);
     filter: blur(10px);
+    transform: translate3d(0,0,0) scale(0.85); /* ⟵ mikro-scale */
   }
   70% {
     opacity: 1;
@@ -423,49 +411,29 @@ html:not(.dark-mode) .centered-back-right {
   }
   100% {
     opacity: 1;
-    transform: scale(1);
     filter: blur(0);
+    transform: translate3d(0,0,0) scale(1);     /* ⟵ mitte 'none' */
   }
 }
-
-/* --- Fade-in rakendamine --- */
 .glass-card.fade-in {
   opacity: 0;
   animation: cardFadeIn 2.8s cubic-bezier(.61,.0,.19,1) 0.5s forwards;
 }
-
-/* --- Esikülje välimine kuma --- */
 .centered-front-outer {
   position: absolute;
   inset: 0;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
-
-
-  /* fade-in ainult läbipaistvusele */
-  opacity: 0;
-  animation: fadeInShadow 3s ease forwards;
-}
-
-@keyframes fadeInShadow {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 .glass-card, .centered-back-left, .centered-back-right {
   position: relative; /* et logo oleks alati selles parentis täpselt */
 }
 .headline-bold { 
   font-weight: 400;
-  line-height: 1.4;            /* jätsid juba – hea */
   font-synthesis: none;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
-  transform: translateZ(0);    /* oma kiht */
 }
 .card-content { will-change: transform, opacity; }    /* või konkreetne px, nt 32px */
 .glass-card.fade-in { position: relative; overflow: hidden; }
@@ -474,50 +442,58 @@ html:not(.dark-mode) .centered-back-right {
   position:absolute; inset:0;
   border-radius: inherit;
 }
-.card-logo-bg-right {
+/* BAAS: kehtib kõigile kaardi logodele */
+.card-logo-bg {
   position: absolute;
-  top: 51%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  top: 50%;                          /* vaikimisi keskele */
+  transform: translate3d(-50%, -50%, 0);
+  transform-origin: 50% 50%;
+  display: block;
+  pointer-events: none;
+  backface-visibility: hidden;       /* flipi ajal ei vilgu */
+  will-change: transform, opacity;
+  transition: none !important;       /* väldi juhuslikke transitione */
+  z-index: 1;                        /* tekstid jäävad peale */
+}
+
+/* === ESIKÜLJED === */
+
+/* Parem kaart – esikülje logo */
+.card-logo-bg-right {
+  top: 51%;
+  /* left jääb 50% baasist */
   width: 47%;
   opacity: 0.3;
-  z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
-  pointer-events: none;
-  display: block;
 }
 
+/* Vasak kaart – esikülje logo */
 .card-logo-bg-left {
-  position: absolute;
   top: 50%;
-  left: 47%;
-  transform: translate(-50%, -50%);
+  /* left: 50% (baas) — kui vajad 47% offsetit, lisa siia: left: 47%; */
   width: 58%;
   opacity: 0.45;
-  z-index: 1;            /* Taustale, tekstid peal (vajadusel kohenda) */
-
+    left: 47%;   
 }
 
-.card-logo-bg-left-back {
-  position: absolute;
+/* === TAGAKÜLJED === */
+
+/* Vasak kaart – tagakülje logo */
+.centered-back-left .card-logo-bg-left-back {
   top: 78%;
-  left: 48%;
+  /* left: 50% baasist */
   width: 24%;
   opacity: 0.7;
-  transform: translate(-50%, -50%);
 }
 
-.card-logo-bg-right-back {
-  position: absolute;
+/* Parem kaart – tagakülje logo */
+.centered-back-right .card-logo-bg-right-back {
   top: 78%;
-  left: 48%;
+  /* left: 50% baasist */
   width: 24%;
   opacity: 0.55;
-  transform: translate(-50%, -50%);
 }
-.card-logo-bg-left,
-.card-logo-bg-right {
-  z-index: 1;  /* logo taustale */
-}
+
 /* Lisa see klass tekstidele */
 .card-title,
 .card-content,
@@ -726,7 +702,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   margin-top: auto;          /* ← see paneb jaluse klaaskasti põhja */
   font-weight: 500;
   letter-spacing: 0.04em;
-  margin-top: auto;
   padding-top: 2em;
   padding-bottom: 0.9em;
 }
@@ -2154,30 +2129,39 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 62px;             
-  height: 62px;
+  inline-size: 62px;     /* = width */
+  block-size: 62px;      /* = height */
+  padding: 0;
+  line-height: 0;        /* et tekst ei mõjutaks mõõte */
   border: 0;
   background: transparent;
   cursor: pointer;
+  flex: 0 0 auto;        /* ära lase venida */
 }
 
 .back-arrow-circle {
   position: relative;
-  width: 50px;
-  height: 50px;
-  border: 3.2px solid #bfa177;   /* kuldne raam */
+  inline-size: 50px;
+  aspect-ratio: 1 / 1;   /* alati ruut → border-radius 50% = ring */
+  block-size: auto;      /* kõrgus tuleb aspect-ratio’st */
+  box-sizing: content-box;
+  border: 3.2px solid #bfa177;
   border-radius: 50%;
   transition: transform .18s ease, border-color .16s ease;
+  transform-origin: center center;
+  will-change: transform;
+  flex: none;            /* lisagarantii: ära venita */
+  transform: translateZ(0); /* väldi alampikslite “mõlgutamist” */
 }
 
 .back-arrow-circle::after {
   content: "";
   position: absolute;
-  left: 60%;           /* horisontaalne kesk */
-  top: 50%;            /* vertikaalne kesk */
-  width: 16px;         /* ← väiksem nool */
-  height: 16px;        /* ← väiksem nool */
-  transform: translate(-52%, -50%) rotate(45deg); /* ← x-positsiooni ja nurka korrigeeri */
+  left: 56%;
+  top: 50%;
+  inline-size: 16px;
+  block-size: 16px;
+  transform: translate(-52%, -50%) rotate(45deg);
   border-left: 3.2px solid #bfa177;
   border-bottom: 3.2px solid #bfa177;
   box-sizing: content-box;
@@ -2185,8 +2169,8 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
 
 .back-arrow-btn:hover .back-arrow-circle,
 .back-arrow-btn:focus .back-arrow-circle {
-  transform: scale(1.08);
-  border-color: #f2d7bf;  /* veidi heledam kuld hoveril */
+  transform: scale(1.08); /* ühtlane scale → ei muuda ringi ellipsiks */
+  border-color: #f2d7bf;
 }
 
 .back-arrow-btn:hover .back-arrow-circle::after,
@@ -2200,6 +2184,7 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
   align-items: center;
   margin: 2em auto;
 }
+
 .glass-h2,
 .reset-title,
 .glass-title,

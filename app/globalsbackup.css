@@ -414,7 +414,6 @@ html:not(.dark-mode) .centered-back-right {
 @keyframes cardFadeIn {
   0% {
     opacity: 0;
-    transform: scale(0.85);
     filter: blur(10px);
   }
   70% {
@@ -423,7 +422,6 @@ html:not(.dark-mode) .centered-back-right {
   }
   100% {
     opacity: 1;
-    transform: scale(1);
     filter: blur(0);
   }
 }
