@@ -118,6 +118,20 @@ body {
     --card-size: clamp(200px, 80vw, 280px);
   }
 }
+body.modal-open {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Modal kast paigutub ekraani keskele ja on alati keritav, kui sisu on liiga pikk */
+.login-modal-root {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 90vh;
+  overflow-y: auto;
+}
 .glass-title,
 .headline,
 .reset-title,
@@ -2381,5 +2395,11 @@ textarea::placeholder,
   .footer-link-headline {
     font-size: 1.1rem !important;
     padding: 0.1em 0.3em !important;
+  }
+}
+@media (max-width: 768px) {
+  .float-card {
+    animation: none !important;
+    transform: none !important;
   }
 }

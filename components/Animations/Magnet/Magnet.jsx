@@ -1,3 +1,4 @@
+// Magnet.jsx
 "use client";
 import { useState, useEffect, useRef } from "react";
 
@@ -5,7 +6,7 @@ export default function Magnet({
   children,
   padding = 100,
   disabled = false,
-  magnetStrength = 100,               // jääb API-sse tuleviku tarbeks
+  magnetStrength = 100,
   activeTransition = "transform 1.1s ease-out",
   inactiveTransition = "transform 1.1s ease-in-out",
   wrapperClassName = "",
@@ -19,10 +20,19 @@ export default function Magnet({
   const activeRef  = useRef(false);
 
   const [isActive, setIsActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // kui keelatud, nulli transformid
-    if (disabled) {
+    // ✅ detect mobiil ekraan
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    // kui keelatud või mobiil, nulli transformid
+    if (disabled || isMobile) {
       activeRef.current = false;
       setIsActive(false);
       if (innerRef.current) {
@@ -34,8 +44,7 @@ export default function Magnet({
     }
 
     const getElsOk = () => wrapperRef.current && innerRef.current;
-
-    const maxMove = 145; // px – liikumise piir
+    const maxMove = 145;
     const clamp = (v) => Math.max(-maxMove, Math.min(maxMove, v));
 
     const update = (x, y) => {
@@ -44,7 +53,6 @@ export default function Magnet({
       const cx = box.left + box.width / 2;
       const cy = box.top  + box.height / 2;
 
-      // tõmme ka siis, kui kursor on wrapperist veidi väljas
       const inPad =
         Math.abs(x - cx) < box.width / 2 + padding &&
         Math.abs(y - cy) < box.height / 2 + padding;
@@ -71,8 +79,8 @@ export default function Magnet({
     };
 
     const onMove = (e) => {
-      if (!getElsOk()) return;            // null-safe
-      if (rafRef.current) return;         // RAF throttle
+      if (!getElsOk()) return;
+      if (rafRef.current) return;
       const { clientX: x, clientY: y } = e;
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0;
@@ -89,7 +97,6 @@ export default function Magnet({
       innerRef.current.style.willChange = "auto";
     };
 
-    // kuulame globaalselt, et “tõmme” tekiks ka wrapperist väljas
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerleave", onLeave);
 
@@ -99,7 +106,7 @@ export default function Magnet({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
     };
-  }, [disabled, padding, activeTransition, inactiveTransition]);
+  }, [disabled, isMobile, padding, activeTransition, inactiveTransition]);
 
   const child = typeof children === "function" ? children({ isActive }) : children;
 
@@ -115,8 +122,6 @@ export default function Magnet({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // NB: wrapper peab saama pointer-sündmusi
-        // ära pane siia pointerEvents: "none"
       }}
       {...props}
     >
@@ -132,7 +137,7 @@ export default function Magnet({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          pointerEvents: "none", // et sisemine sisu ei varjaks hoverit
+          pointerEvents: "none",
         }}
       >
         {child}

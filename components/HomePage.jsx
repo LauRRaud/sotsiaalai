@@ -168,7 +168,7 @@ export default function HomePage() {
             }`}
             onMouseEnter={onLeftEnter}
             onMouseLeave={onLeftLeave}
-            onClick={handleMobileTap} // 👈 mobiilis avab login
+            onClick={handleMobileTap}
           >
             <div className="card-wrapper">
               <div className="card-face front">
@@ -251,7 +251,7 @@ export default function HomePage() {
                     aria-hidden="true"
                     className="card-logo-bg card-logo-bg-left-back"
                     draggable={false}
-                    loading="lazy"
+                    loading="eager"
                     width={300}
                     height={300}
                   />
@@ -271,7 +271,7 @@ export default function HomePage() {
             }`}
             onMouseEnter={onRightEnter}
             onMouseLeave={onRightLeave}
-            onClick={handleMobileTap} // 👈 mobiilis avab login
+            onClick={handleMobileTap}
           >
             <div className="card-wrapper">
               <div className="card-face front">
@@ -356,7 +356,7 @@ export default function HomePage() {
                     aria-hidden="true"
                     className="card-logo-bg card-logo-bg-right-back"
                     draggable={false}
-                    loading="lazy"
+                    loading="eager"
                     width={300}
                     height={300}
                   />
@@ -380,14 +380,15 @@ export default function HomePage() {
         </Link>
 
         <Image
-          src="/logo/logomust.svg"
-          alt="SotsiaalAI logo"
-          className="footer-logo-img defer-fade delay-2 dim"
-          draggable={false}
-          loading="lazy"
-          width={240}
-          height={80}
-          style={{ opacity: 0, visibility: "hidden" }}
+  src="/logo/logomust.svg"
+  alt="SotsiaalAI logo"
+  className="footer-logo-img defer-fade delay-2 dim"
+  draggable={false}
+  loading="eager"        // ✅ laeb kohe
+  fetchPriority="high"   // ✅ annab brauserile prioriteedi vihje
+  width={240}
+  height={80}
+  style={{ opacity: 0, visibility: "hidden" }}
         />
       </footer>
 

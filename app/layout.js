@@ -13,21 +13,20 @@ export const metadata = {
   },
 };
 
-// Body font – preload ainult Regular + Bold, et vältida esimese rea jõnksu
+// Body font – preload ainult Regular + Bold
 const aino = localFont({
   src: [
     { path: "./fonts/Aino-Regular.woff2", weight: "400", style: "normal" },
     { path: "./fonts/Aino-Bold.woff2", weight: "700", style: "normal" },
-    // Italic variandid jäävad swap, neid kasutatakse harvemini
     { path: "./fonts/Aino-Italic.woff2", weight: "400", style: "italic" },
     { path: "./fonts/Aino-BoldItalic.woff2", weight: "700", style: "italic" },
   ],
   variable: "--font-aino",
   display: "swap",
-  preload: true, // ✅ preloadib Regular + Bold
+  preload: true,
 });
 
-// Headline font (pole kriitiline CLS-i mõttes, preload false)
+// Headline font (pole kriitiline CLS mõttes, preload false)
 const ainoHeadline = localFont({
   src: [{ path: "./fonts/Aino-Headline.woff2", weight: "400", style: "normal" }],
   variable: "--font-aino-headline",
@@ -45,6 +44,7 @@ export default function RootLayout({ children }) {
     >
       <head>
         <meta name="color-scheme" content="dark light" />
+
         {/* Early theme to avoid flash */}
         <Script id="set-theme" strategy="beforeInteractive">
           {`
@@ -66,7 +66,18 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
+
+        {/* ✅ Preload suured logod ja modali ikoonid */}
+        <link rel="preload" as="image" href="/logo/aivalge.svg" />
+        <link rel="preload" as="image" href="/logo/saimust.svg" />
+        <link rel="preload" as="image" href="/logo/smust.svg" />
+        <link rel="preload" as="image" href="/logo/saivalge.svg" />
+        <link rel="preload" as="image" href="/logo/logomust.svg" />
+        <link rel="preload" as="image" href="/login/google1.png" />
+        <link rel="preload" as="image" href="/login/smart.svg" />
+        <link rel="preload" as="image" href="/login/mobiil.png" />
       </head>
+
       <body className="antialiased">
         <BackgroundLayer />
         <main className="relative z-10">{children}</main>

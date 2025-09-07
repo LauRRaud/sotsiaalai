@@ -9,17 +9,6 @@ export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
 
-  // Preload login-ikoonid ainult siis, kui modal avatakse
-  useEffect(() => {
-    if (!open) return;
-    ["/login/google1.png", "/login/smart.svg", "/login/mobiil.png"].forEach((src) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.loading = "eager";
-      img.src = src;
-    });
-  }, [open]);
-
   // Fookus + <body> klass modali oleku järgi
   useEffect(() => {
     if (open && boxRef.current) {
@@ -93,9 +82,9 @@ export default function LoginModal({ open, onClose }) {
               alt="Google"
               width="40"
               height="40"
-              loading="lazy"
+              loading="eager"
               decoding="async"
-              fetchPriority="low"
+              fetchPriority="high"
             />
           </button>
 
@@ -110,9 +99,9 @@ export default function LoginModal({ open, onClose }) {
               alt="Smart-ID"
               width="40"
               height="40"
-              loading="lazy"
+              loading="eager"
               decoding="async"
-              fetchPriority="low"
+              fetchPriority="high"
             />
           </button>
 
@@ -127,9 +116,9 @@ export default function LoginModal({ open, onClose }) {
               alt="Mobiil-ID"
               width="40"
               height="40"
-              loading="lazy"
+              loading="eager"
               decoding="async"
-              fetchPriority="low"
+              fetchPriority="high"
             />
           </button>
         </div>

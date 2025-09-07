@@ -100,18 +100,20 @@
     letter-spacing: 4px !important;
   }
   .circular-text-svg {
-    width: 75% !important;
+    width: 95% !important;   /* 👈 suurendatud ring */
+    max-width: none !important;
     height: auto !important;
   }
 }
 
 @media (max-width: 480px) {
   .circular-text-line {
-    font-size: 18px !important;
+    font-size: 20px !important;
     letter-spacing: 3px !important;
   }
   .circular-text-svg {
-    width: 65% !important;
+    width: 100% !important;  /* 👈 väikestel ekraanidel täislaius */
+    max-width: none !important;
     height: auto !important;
   }
 }
