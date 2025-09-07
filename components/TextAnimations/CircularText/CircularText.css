@@ -1,17 +1,16 @@
 /* CircularText.css — SVG versioon */
 
-/* === Paigutus / baas === */
 .circular-text-svg {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;         /* täidab kogu kaardi wrapperi */
+  margin: auto;     /* hoiab keskel */
+  width: 100%;      /* venib proportsionaalselt */
+  height: 100%;
+  max-width: none;  /* ei kärbi */
   pointer-events: none;
-  z-index: 3;
-  overflow: visible;
-  max-width: 100%;
-  height: auto;
+  z-index: 3;       /* alati teksti/logode kohal */
 }
+
 
 .circular-text-line {
   font-family: 'Aino Headline','Aino',Arial,sans-serif;
@@ -93,27 +92,10 @@
 .circular-text-svg text { paint-order: stroke fill; }
 .circular-text-svg textPath { overflow: visible; }
 
-/* === Mobiili optimeerimine === */
 @media (max-width: 768px) {
-  .circular-text-line {
-    font-size: 22px !important;
-    letter-spacing: 4px !important;
-  }
   .circular-text-svg {
-    width: 95% !important;   /* 👈 suurendatud ring */
-    max-width: none !important;
-    height: auto !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .circular-text-line {
-    font-size: 20px !important;
-    letter-spacing: 3px !important;
-  }
-  .circular-text-svg {
-    width: 100% !important;  /* 👈 väikestel ekraanidel täislaius */
-    max-width: none !important;
-    height: auto !important;
+    width: 100%;
+    height: 100%;
+    inset: 0;
   }
 }

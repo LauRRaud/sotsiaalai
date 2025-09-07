@@ -118,20 +118,6 @@ body {
     --card-size: clamp(200px, 80vw, 280px);
   }
 }
-body.modal-open {
-  overflow: hidden;
-  height: 100vh;
-}
-
-/* Modal kast paigutub ekraani keskele ja on alati keritav, kui sisu on liiga pikk */
-.login-modal-root {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-height: 90vh;
-  overflow-y: auto;
-}
 .glass-title,
 .headline,
 .reset-title,
@@ -2402,4 +2388,87 @@ textarea::placeholder,
     animation: none !important;
     transform: none !important;
   }
+}
+.login-modal-root {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  overscroll-behavior: contain;
+}
+
+/* Desktop: fikseeritud, ei kerita */
+@media (min-width: 769px) {
+  .login-modal-root {
+    width: 420px;
+    max-width: 90vw;
+    max-height: none;      /* ära piira kõrgust */
+    overflow: hidden;      /* ei kerita */
+  }
+}
+
+/* Mobiil: täisekraaniline ja vajadusel keritav */
+@media (max-width: 768px) {
+  .login-modal-root {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    overflow-y: auto;      /* kerib ainult modal */
+  }
+}
+/* === Avalehe ja alalehtede kerimisprobleemi fix === */
+html, body {
+  height: 100%;              /* täpne kõrgus */
+  overflow-x: hidden;        /* horisontaalne kerimine keelatud */
+}
+
+body {
+  overflow-y: auto;          /* kerib ainult kui sisu on pikem */
+  min-height: 100dvh;        /* uus viewport unit – täpsem mobiilis */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Avalehel kaardid – mobiilis ära tee topeltkõrgust */
+@media (max-width: 768px) {
+  .side {
+    min-height: auto !important; /* ⬅️ enne oli 100vh, tegi tühja ala */
+  }
+}
+
+/* Footer – ära kasuta fixed, muidu surub alla lisapinda */
+.footer-column {
+  position: relative !important; /* enne fixed */
+  bottom: auto !important;
+  left: auto !important;
+  width: 100%;
+}
+
+/* === Klaaskastid joondusse === */
+.glass-box {
+  margin: 2em auto;           /* keskele horisontaalselt */
+  align-self: center;         /* flex-vanema sees keskele */
+  max-width: 850px;
+}
+
+/* Spetsiifilised – alalehed */
+.alaleht-inner,
+.meist-body,
+.chat-container {
+  margin: 0 auto;             /* keskele */
+  max-width: 850px;
+}
+
+/* Chat erand – täiskõrgus */
+.chat-container {
+  flex: 1 1 auto;
+  height: 100dvh;             /* täidab kogu ekraani */
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
