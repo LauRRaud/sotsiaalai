@@ -30,14 +30,15 @@ export default function Space({
       grainOpacity: 0.06,
       fogInnerRGBA: (alphaBase) => [`rgba(235,243,255,${alphaBase})`, "rgba(180,200,235,0.35)"],
     },
- light: {
-  palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
-  intensity: 0.3,
-  fogStrength: 0.4,
-  fogBlend: "screen",
-  grainOpacity: 0.05,
-  fogInnerRGBA: () => ["#88aed8ff", "#71a1cfff"], // ← FLAT, mitte [[...]]
-},
+    light: {
+      palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
+      intensity: 0.3,
+      fogStrength: 0.4,
+      fogBlend: "screen",
+      grainOpacity: 0.05,
+      // NB: flat array, mitte [[...]]
+      fogInnerRGBA: () => ["#88aed8ff", "#71a1cfff"],
+    },
   };
 
   const cfg = PRESETS[mode] || PRESETS.dark;
@@ -45,11 +46,15 @@ export default function Space({
   const inten = intensity ?? cfg.intensity;
   const fogStr = clamp(fogStrength ?? cfg.fogStrength, 0, 0.7);
 
-  // (jäetud kui tahad tulevikus kihtide läbipaistvust siduda intensiivsusega)
+  // võimalik tulevikus siduda kihte intensiivsusega
   const opacity1 = clamp(0.25 * inten, 0, 0.8);
   const opacity2 = clamp(0.18 * inten, 0, 0.7);
 
   const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
+
+  // ARMED = millal üldse tohib udu nähtavaks minna
+  // ANIMATE = kas udu ilmumine toimub animatsiooniga
+  const fogArmed = !!(animateFog || skipIntro);
   const animateFogEff = !!(animateFog && !skipIntro);
 
   return (
@@ -77,8 +82,8 @@ export default function Space({
       }}
       aria-hidden
     >
-      {/* PLEKK EEMALDATUD: enam ei renderda .sb-blob-2 */}
-      {fog && <FogLayer animateFog={animateFogEff} />}
+      {/* PLEKK EEMALDATUD: .sb-blob-2 ei renderda */}
+      {fog && <FogLayer armed={fogArmed} animateFog={animateFogEff} />}
       {grain && <GrainOverlay />}
 
       <style jsx global>{`
@@ -93,7 +98,7 @@ export default function Space({
           transition: none;
         }
 
-        /* FOG */
+        /* === FOG === */
         .fog {
           position: absolute;
           left: calc(50% + var(--fogHorizontalShift));
@@ -102,22 +107,26 @@ export default function Space({
           width: 100%;
           height: var(--fogHeight);
           pointer-events: none;
-          opacity: 0.001;
+          opacity: 0.001;                 /* vaikimisi peidus */
           will-change: opacity;
           backface-visibility: hidden;
         }
-        .fog[data-animate="1"] {
+
+        /* ARMED + ANIMATED → tee animatsioon */
+        .fog[data-armed="1"][data-animate="1"] {
           animation: fogAppear var(--fogAppearDur) linear var(--fogAppearDelay) both;
         }
-        .fog[data-animate="0"] {
-          opacity: var(--fogOpacity) !important;
-          animation: none !important;
+
+        /* ARMED + NOT ANIMATED → kohe lõpp-opacity */
+        .fog[data-armed="1"][data-animate="0"] {
+          opacity: var(--fogOpacity);
+          animation: none;
         }
 
         @keyframes fogAppear {
-          0% { opacity: 0.001; }
-          55% { opacity: calc(var(--fogOpacity) * 0.26); }
-          85% { opacity: calc(var(--fogOpacity) * 0.75); }
+          0%   { opacity: 0.001; }
+          55%  { opacity: calc(var(--fogOpacity) * 0.26); }
+          85%  { opacity: calc(var(--fogOpacity) * 0.75); }
           100% { opacity: var(--fogOpacity); }
         }
 
@@ -141,10 +150,13 @@ export default function Space({
         .fb3 { left: calc(50% + var(--fogSpread)); }
 
         @media (prefers-reduced-motion: reduce) {
-          .fog { animation: none !important; opacity: var(--fogOpacity) !important; }
+          .fog[data-armed="1"] {
+            animation: none !important;
+            opacity: var(--fogOpacity) !important;
+          }
         }
 
-        /* GRAIN */
+        /* === GRAIN === */
         .sb-grain { position: absolute; inset: 0; opacity: var(--grainOpacity); mix-blend-mode: overlay; pointer-events: none; }
         .sb-grain-svg { width: 100%; height: 100%; display: block; }
       `}</style>
@@ -152,9 +164,14 @@ export default function Space({
   );
 }
 
-function FogLayer({ animateFog }) {
+function FogLayer({ armed, animateFog }) {
   return (
-    <div className="fog" data-animate={animateFog ? "1" : "0"} suppressHydrationWarning>
+    <div
+      className="fog"
+      data-armed={armed ? "1" : "0"}
+      data-animate={animateFog ? "1" : "0"}
+      suppressHydrationWarning
+    >
       <div className="fog-blob fb1" />
       <div className="fog-blob fb3" />
     </div>

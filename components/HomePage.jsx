@@ -6,6 +6,7 @@ import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
+import Space from "@/components/Space";
 import {
   CircularRingLeft,
   CircularRingRight,
@@ -16,15 +17,46 @@ export default function HomePage() {
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  // Magneti ja flipi väravad
+  // Magnet/flip lippud
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
 
+  // Udu/tera “armimine” (millal lubame taustal animatsiooni alustada)
+  const [bgArmed, setBgArmed] = useState(false);
+
+  // Intro animatsioon ainult esimesel külastusel (sama tab)
+  const [skipIntro, setSkipIntro] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) {
+      setSkipIntro(true);
+      return;
+    }
+    const seen = sessionStorage.getItem("seenIntro");
+    if (seen) {
+      setSkipIntro(true);   // ära mängi intro't
+    } else {
+      setSkipIntro(false);  // mängi intro't
+      sessionStorage.setItem("seenIntro", "1");
+    }
+  }, []);
+
+  // Dark/Light režiimi tuvastus (<html> klass)
+  const [mode, setMode] = useState("dark"); // turvaline vaikimisi SSR-i vastu
+  useEffect(() => {
+    const html = document.documentElement;
+    const update = () => setMode(html.classList.contains("dark-mode") ? "dark" : "light");
+    const mo = new MutationObserver(update);
+    mo.observe(html, { attributes: true, attributeFilter: ["class"] });
+    update();
+    return () => mo.disconnect();
+  }, []);
+
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
-  // võta fade-in lõpud event'iga
+  // Võta fade-in lõpud event'iga
   useEffect(() => {
     const onLeftEnd = (e) => {
       if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
@@ -52,6 +84,32 @@ export default function HomePage() {
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
 
+  // Udu/tera aktiveerimine pärast kaartide fade’i + fontide valmidust
+  useEffect(() => {
+    let r1, r2, timer;
+    const arm = () => {
+      r1 = requestAnimationFrame(() => {
+        r2 = requestAnimationFrame(() => {
+          timer = setTimeout(() => setBgArmed(true), 400); // 300–600ms “magus koht”
+        });
+      });
+    };
+    if (leftFadeDone && rightFadeDone) {
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(arm);
+      } else {
+        arm();
+      }
+    } else {
+      setBgArmed(false);
+    }
+    return () => {
+      cancelAnimationFrame(r1);
+      cancelAnimationFrame(r2);
+      clearTimeout(timer);
+    };
+  }, [leftFadeDone, rightFadeDone]);
+
   // body klass modali jaoks
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
@@ -69,9 +127,20 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Taust: udu/grain on alati DOM-is; animatsioon käivitub, kui bgArmed === true */}
+      <Space
+        mode={mode}               // "dark" | "light"
+        fog={true}                // hoia udu DOM-is stabiilsuse huvides
+        animateFog={bgArmed}      // animatsiooni trigger (pärast kaartide fade'i)
+        grain={bgArmed}           // tera samamoodi
+        fogAppearDelayMs={180}    // sisemine delay
+        fogAppearDurMs={2000}     // sujuv udu tõus
+        skipIntro={skipIntro}     // mängi ainult esimesel külastusel
+      />
+
       <DarkModeToggleWrapper position="top-center" top="0.5rem" hidden={isLoginOpen} />
 
-      <div className="main-content relative z-0">
+      <div className="main-content relative">
         {/* VASAK KAART */}
         <div className="side left">
           <div
@@ -253,8 +322,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Jalus + Meist link – lisa defer-fade klassid */}
-      <footer className="footer-column relative z-0">
+      {/* Jalus + Meist link – defer-fade klassid jäävad */}
+      <footer className="footer-column relative">
         <Link
           href="/meist"
           className="footer-link footer-link-headline defer-fade delay-1"

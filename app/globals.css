@@ -223,7 +223,7 @@ a, .link-brand, .meist-external-link {
   /* Suurus ja animatsiooni tunde reguleerimiseks: */
   --card-size: clamp(260px, 42vw, 430px);
   --flip-ms: 1100ms;
-  --fade-ms: 300ms;
+  --fade-ms: 600ms;
   --flip-ease: cubic-bezier(.22,.61,.36,1);
 }
 .three-d-card{
@@ -236,10 +236,8 @@ a, .link-brand, .meist-external-link {
   border-radius: 50%;
   cursor: pointer;
   perspective: 1000px;
-    backdrop-filter: blur(5px) saturate(110%);
+    backdrop-filter: blur(6px) saturate(110%);
 }
-
-/* wrapper: ainult transform anim */
 .card-wrapper{
   position: relative;
   width: 100%;
@@ -403,7 +401,7 @@ html:not(.dark-mode) .centered-back-right {
   0% {
     opacity: 0;
     filter: blur(10px);
-    transform: translate3d(0,0,0) scale(0.85); /* ⟵ mikro-scale */
+    transform: translate3d(0,0,0) scale(0.88); /* ⟵ mikro-scale */
   }
   70% {
     opacity: 1;
@@ -417,7 +415,7 @@ html:not(.dark-mode) .centered-back-right {
 }
 .glass-card.fade-in {
   opacity: 0;
-  animation: cardFadeIn 2.8s cubic-bezier(.61,.0,.19,1) 0.5s forwards;
+  animation: cardFadeIn 2.4s cubic-bezier(.61,.0,.19,1) 0.5s forwards;
 }
 .centered-front-outer {
   position: absolute;
