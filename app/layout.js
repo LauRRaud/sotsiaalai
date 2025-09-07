@@ -8,33 +8,31 @@ export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },       // app/ favicon.png
-      { url: "/favicon.png", type: "image/png" },       // public/ favicon.png
-      { url: "/logo/favicon.png", type: "image/png" },  // public/logo/favicon.png
-    ],
-    apple: [
-      { url: "/favicon.png" },                          // app/ või public/
-      { url: "/logo/favicon.png" },                     // public/logo/
-    ],
+    icon: [{ url: "/logo/favicon.png", type: "image/png" }],
+    apple: [{ url: "/logo/favicon.png" }],
   },
 };
 
+// Body font – preload ainult Regular + Bold, et vältida esimese rea jõnksu
 const aino = localFont({
   src: [
     { path: "./fonts/Aino-Regular.woff2", weight: "400", style: "normal" },
     { path: "./fonts/Aino-Bold.woff2", weight: "700", style: "normal" },
+    // Italic variandid jäävad swap, neid kasutatakse harvemini
+    { path: "./fonts/Aino-Italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/Aino-BoldItalic.woff2", weight: "700", style: "italic" },
   ],
   variable: "--font-aino",
   display: "swap",
-  preload: true,
+  preload: true, // ✅ preloadib Regular + Bold
 });
 
+// Headline font (pole kriitiline CLS-i mõttes, preload false)
 const ainoHeadline = localFont({
   src: [{ path: "./fonts/Aino-Headline.woff2", weight: "400", style: "normal" }],
   variable: "--font-aino-headline",
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 export default function RootLayout({ children }) {
@@ -42,11 +40,12 @@ export default function RootLayout({ children }) {
     <html
       lang="et"
       suppressHydrationWarning
-      className="dark-mode"
+      className={`dark-mode ${aino.variable} ${ainoHeadline.variable}`}
       data-theme="dark"
     >
       <head>
         <meta name="color-scheme" content="dark light" />
+        {/* Early theme to avoid flash */}
         <Script id="set-theme" strategy="beforeInteractive">
           {`
             (function () {
@@ -56,7 +55,6 @@ export default function RootLayout({ children }) {
                 var saved = (ls === 'dark' || ls === 'light') ? ls : null;
                 var dark = saved ? (saved === 'dark')
                   : window.matchMedia('(prefers-color-scheme: dark)').matches;
-
                 if (dark) {
                   el.classList.add('dark-mode');
                   el.dataset.theme = 'dark';
@@ -69,7 +67,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body className={`${aino.variable} ${ainoHeadline.variable} antialiased`}>
+      <body className="antialiased">
         <BackgroundLayer />
         <main className="relative z-10">{children}</main>
       </body>

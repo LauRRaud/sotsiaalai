@@ -1,4 +1,3 @@
-// app/components/LoginModal.jsx
 "use client";
 
 import Link from "next/link";
@@ -10,34 +9,46 @@ export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
 
-  // Preload login-ikoonid ainult siis, kui modal päriselt avatakse
+  // Preload login-ikoonid ainult siis, kui modal avatakse
   useEffect(() => {
     if (!open) return;
-    const sources = ["/login/google1.png", "/login/smart.svg", "/login/mobiil.png"];
-    const imgs = sources.map((src) => {
-      const img = new window.Image();
+    ["/login/google1.png", "/login/smart.svg", "/login/mobiil.png"].forEach((src) => {
+      const img = new Image();
       img.decoding = "async";
       img.loading = "eager";
       img.src = src;
-      return img;
     });
-    return () => { imgs.length = 0; };
   }, [open]);
 
   // Fookus + <body> klass modali oleku järgi
   useEffect(() => {
-    if (open && boxRef.current) boxRef.current.focus();
-    if (open) document.body.classList.add("modal-open");
-    else document.body.classList.remove("modal-open");
+    if (open && boxRef.current) {
+      boxRef.current.focus();
+    }
+    document.body.classList.toggle("modal-open", open);
     return () => document.body.classList.remove("modal-open");
   }, [open]);
 
   if (!open) return null;
 
   // Demo-handlers
-  function handleGoogleLogin() { alert("Google login pole veel seadistatud."); }
-  function handleSmartID() { alert("Smart-ID login pole veel seadistatud."); }
-  function handleMobileID() { alert("Mobiil-ID login pole veel seadistatud."); }
+  const handleGoogleLogin = () => alert("Google login pole veel seadistatud.");
+  const handleSmartID = () => alert("Smart-ID login pole veel seadistatud.");
+  const handleMobileID = () => alert("Mobiil-ID login pole veel seadistatud.");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const email = e.currentTarget.email.value.trim();
+    const password = e.currentTarget.password.value.trim();
+
+    if (!email) return alert("Palun sisesta e-posti aadress.");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return alert("Palun sisesta korrektne e-posti aadress.");
+    if (!password) return alert("Palun sisesta parool.");
+
+    router.push("/vestlus");
+    onClose?.();
+  };
 
   const modalContent = (
     <>
@@ -52,18 +63,31 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         role="dialog"
         style={{ outline: "none" }}
-        onKeyDown={(e) => { if (e.key === "Escape") onClose?.(); }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") onClose?.();
+        }}
         aria-label="Logi sisse"
       >
-        <button className="login-modal-close" onClick={onClose} aria-label="Sulge" type="button">
+        {/* Close button */}
+        <button
+          className="login-modal-close"
+          onClick={onClose}
+          aria-label="Sulge"
+          type="button"
+        >
           ×
         </button>
 
         <div className="glass-title">Logi sisse</div>
 
-        {/* SSO ikoonid (tavaline <img>, laisalt) */}
+        {/* SSO ikoonid */}
         <div className="login-social-icons-row">
-          <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google">
+          <button
+            className="login-icon-btn"
+            onClick={handleGoogleLogin}
+            type="button"
+            aria-label="Google"
+          >
             <img
               src="/login/google1.png"
               alt="Google"
@@ -75,7 +99,12 @@ export default function LoginModal({ open, onClose }) {
             />
           </button>
 
-          <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID">
+          <button
+            className="login-icon-btn"
+            onClick={handleSmartID}
+            type="button"
+            aria-label="Smart-ID"
+          >
             <img
               src="/login/smart.svg"
               alt="Smart-ID"
@@ -87,7 +116,12 @@ export default function LoginModal({ open, onClose }) {
             />
           </button>
 
-          <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID">
+          <button
+            className="login-icon-btn"
+            onClick={handleMobileID}
+            type="button"
+            aria-label="Mobiil-ID"
+          >
             <img
               src="/login/mobiil.png"
               alt="Mobiil-ID"
@@ -102,20 +136,11 @@ export default function LoginModal({ open, onClose }) {
 
         <div className="login-or-divider"><span>või</span></div>
 
+        {/* Email + password form */}
         <form
           className="login-modal-form"
           autoComplete="off"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const email = e.currentTarget.email.value.trim();
-            const password = e.currentTarget.password.value.trim();
-            if (!email) return alert("Palun sisesta e-posti aadress.");
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) return alert("Palun sisesta korrektne e-posti aadress.");
-            if (!password) return alert("Palun sisesta parool.");
-            router.push("/vestlus");
-            onClose?.();
-          }}
+          onSubmit={handleSubmit}
         >
           <label style={{ width: "100%", display: "block" }}>
             <input
@@ -138,15 +163,31 @@ export default function LoginModal({ open, onClose }) {
             />
           </label>
 
-          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
-            <Link href="/unustasin-parooli" className="unustasid-parooli-link">Unustasid parooli?</Link>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "right",
+              marginTop: "-0.4em",
+              marginBottom: "0.6em",
+            }}
+          >
+            <Link
+              href="/unustasin-parooli"
+              className="unustasid-parooli-link"
+            >
+              Unustasid parooli?
+            </Link>
           </div>
 
-          <button type="submit" className="btn-primary"><span>Sisenen</span></button>
+          <button type="submit" className="btn-primary">
+            <span>Sisenen</span>
+          </button>
         </form>
 
         <div className="login-modal-bottom-link">
-          <Link href="/registreerimine" className="link-brand">Registreeru</Link>
+          <Link href="/registreerimine" className="link-brand">
+            Registreeru
+          </Link>
         </div>
       </div>
     </>

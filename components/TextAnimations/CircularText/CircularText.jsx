@@ -10,7 +10,7 @@ const TAU = Math.PI * 2;
 export default function CircularText({
   text,
   size = 440,
-  duration = 130,          // sinu ringi pöörlemise kestus (jäta nagu sul on)
+  duration = 130,
   clockwise = false,
   fontSize = 28,
   weight = 400,
@@ -28,15 +28,43 @@ export default function CircularText({
   );
   const n = Math.max(1, words.length);
 
+  // --- ✅ Responsive suurus ---
+  const [responsiveSize, setResponsiveSize] = useState(size);
+  const [responsiveFontSize, setResponsiveFontSize] = useState(fontSize);
+  const [responsiveLetterSpacing, setResponsiveLetterSpacing] = useState(letterSpacing);
+
+  useEffect(() => {
+    function updateSize() {
+      const w = window.innerWidth;
+
+      if (w < 400) {
+        setResponsiveSize(280);
+        setResponsiveFontSize(20);
+        setResponsiveLetterSpacing(3);
+      } else if (w < 768) {
+        setResponsiveSize(340);
+        setResponsiveFontSize(26);
+        setResponsiveLetterSpacing(4);
+      } else {
+        setResponsiveSize(size);
+        setResponsiveFontSize(fontSize);
+        setResponsiveLetterSpacing(letterSpacing);
+      }
+    }
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [size, fontSize, letterSpacing]);
+
   const L = TAU * R;
-  const pxToVB = VIEWBOX / size;
+  const pxToVB = VIEWBOX / responsiveSize;
   const dir = clockwise ? 1 : -1;
 
   const uid = useId();
   const pathId = `circlePath3x-${(className || "ring").replace(/\s+/g, "-")}-${uid}`;
 
   const [startsAbs, setStartsAbs] = useState(null);
-  const [widthsAbs, setWidthsAbs] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -53,8 +81,8 @@ export default function CircularText({
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      ctx.font = `${weight} ${fontSize}px 'Aino Headline','Aino',Arial,sans-serif`;
-      const ls = Number(letterSpacing) || 0;
+      ctx.font = `${weight} ${responsiveFontSize}px 'Aino Headline','Aino',Arial,sans-serif`;
+      const ls = Number(responsiveLetterSpacing) || 0;
 
       const widthsVB = words.map((w) => {
         const s = ("" + w).toUpperCase();
@@ -70,20 +98,21 @@ export default function CircularText({
       const firstStartInLap = ((anchorU - widthsVB[0] / 2) % L + L) % L;
 
       const startsAbsLocal = new Array(n);
-      startsAbsLocal[0] = firstStartInLap + L; // paigutame keskmisele ringile [L,2L)
+      startsAbsLocal[0] = firstStartInLap + L;
       for (let i = 1; i < n; i++) {
         startsAbsLocal[i] = startsAbsLocal[i - 1] + widthsVB[i - 1] + gap;
       }
 
       if (!cancelled) {
         setStartsAbs(startsAbsLocal);
-        setWidthsAbs(widthsVB);
       }
     };
 
     measure();
-    return () => { cancelled = true; };
-  }, [text, fontSize, weight, letterSpacing, size, startAtTop, n, L, pxToVB]);
+    return () => {
+      cancelled = true;
+    };
+  }, [words, responsiveFontSize, responsiveLetterSpacing, responsiveSize, startAtTop, n, L, pxToVB, weight]);
 
   // Fallback enne mõõtmist
   const seg = L / n;
@@ -100,13 +129,12 @@ export default function CircularText({
   return (
     <svg
       viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
-      width={size}
-      height={size}
+      width={responsiveSize}
+      height={responsiveSize}
       className={`circular-text-svg ${className}`}
       aria-hidden="true"
     >
       <defs>
-        {/* 3× ring ühel pathil – paigutame tekstid keskmisele ringile */}
         <path
           id={pathId}
           d={[
@@ -129,9 +157,9 @@ export default function CircularText({
             className="circular-text-line"
             style={{
               color: ringColor,
-              fontSize,
+              fontSize: responsiveFontSize,
               fontWeight: weight,
-              letterSpacing: `${letterSpacing}px`,
+              letterSpacing: `${responsiveLetterSpacing}px`,
               animationDuration: `${duration}s`,
               animationDirection: dir === 1 ? "normal" : "reverse",
               animationDelay: "calc(var(--ct-delay, 0s) + 3s)",
@@ -156,7 +184,7 @@ export default function CircularText({
   );
 }
 
-/* Sinu eelkonfid jäävad samaks */
+/* --- Kasutusnäited --- */
 export function CircularRingLeft() {
   return (
     <CircularText

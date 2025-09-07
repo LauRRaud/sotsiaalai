@@ -6,12 +6,11 @@ import { useRouter } from "next/navigation";
 export default function ChatBody() {
   const router = useRouter();
 
-  // Üks koht, kust automaatvastuse teksti juhtida
   const AUTO_REPLY =
     "Tere! SotsiaalAI assistendi andmebaas on arendamisel. Vastused on piiratud.";
 
   const [messages, setMessages] = useState([
-    { role: "ai", text: AUTO_REPLY } // algne tervitus asendatud
+    { role: "ai", text: AUTO_REPLY }
   ]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -21,7 +20,6 @@ export default function ChatBody() {
   const inputRef = useRef(null);
   const isUserAtBottom = useRef(true);
 
-  // ---- Sõnumi saatmine (näidis/placeholder AI) ----
   function sendMessage(e) {
     e?.preventDefault();
     if (!input.trim() || isGenerating) return;
@@ -31,12 +29,10 @@ export default function ChatBody() {
     setInput("");
     setIsGenerating(true);
 
-    // Hoia fokus inputil
     requestAnimationFrame(() => inputRef.current?.focus());
 
-    // Näidis-AI vastus (asenda reaalse API-kõnega)
     setTimeout(() => {
-      setMessages((msgs) => [...msgs, { role: "ai", text: AUTO_REPLY }]); // vastus asendatud
+      setMessages((msgs) => [...msgs, { role: "ai", text: AUTO_REPLY }]);
       setIsGenerating(false);
       requestAnimationFrame(() => inputRef.current?.focus());
     }, 1200);
@@ -44,7 +40,6 @@ export default function ChatBody() {
 
   function handleStop(e) {
     e?.preventDefault();
-    // Simuleeri peatamist
     setIsGenerating(false);
   }
 
@@ -54,7 +49,6 @@ export default function ChatBody() {
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }
 
-  // ---- Kerimise jälgimine ----
   useEffect(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -67,13 +61,10 @@ export default function ChatBody() {
     }
 
     node.addEventListener("scroll", handleScroll, { passive: true });
-    // algseisu arvutamine
     handleScroll();
-
     return () => node.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Kui tekitatakse uus sõnum ja kasutaja on all, kerime automaatselt lõppu
   useEffect(() => {
     const node = chatWindowRef.current;
     if (node && isUserAtBottom.current) {
@@ -81,7 +72,6 @@ export default function ChatBody() {
     }
   }, [messages]);
 
-  // keskendu inputile mountimisel
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -106,6 +96,7 @@ export default function ChatBody() {
           ref={chatWindowRef}
           role="region"
           aria-label="Chat messages"
+          aria-live="polite"
         >
           {messages.map((msg, i) => (
             <div
@@ -135,34 +126,35 @@ export default function ChatBody() {
           onSubmit={isGenerating ? handleStop : sendMessage}
           autoComplete="off"
         >
+          <label htmlFor="chat-input" className="sr-only">
+            Kirjuta sõnum
+          </label>
           <input
+            id="chat-input"
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Kirjuta siia oma küsimus..."
             className="chat-input-field"
             disabled={isGenerating}
-            aria-label="Kirjuta sõnum"
           />
 
-          <button
-            type="submit"
-            className={`chat-send-btn${isGenerating ? " stop" : ""}`}
-            aria-label={isGenerating ? "Peata vastus" : "Saada sõnum"}
-            title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
-          >
-            {isGenerating ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-                {/* stop-ruut */}
-                <rect x="5" y="5" width="14" height="14" rx="2.5" />
-              </svg>
-            ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-                {/* saatmisnoolekujuline ikoon */}
-                <path d="M4 15l8-8 8 8" />
-              </svg>
-            )}
-          </button>
+<button
+  type="submit"
+  className={`chat-send-btn${isGenerating ? " stop" : ""}`}
+  aria-label={isGenerating ? "Peata vastus" : "Saada sõnum"}
+  title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
+>
+  {isGenerating ? (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+      <rect x="5" y="5" width="14" height="14" rx="2.5" />
+    </svg>
+  ) : (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <path d="M4 15l8-8 8 8" />
+    </svg>
+  )}
+</button>
         </form>
       </main>
 

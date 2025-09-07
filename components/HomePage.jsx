@@ -1,52 +1,60 @@
-// components/HomePage.jsx
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
-import Space from "@/components/Space";
 import {
   CircularRingLeft,
   CircularRingRight,
 } from "@/components/TextAnimations/CircularText/CircularText";
+import Image from "next/image";
+
+// Load Space only on the client, after hydration
+const Space = dynamic(() => import("@/components/Space"), { ssr: false });
 
 export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  // Magnet/flip lippud
+  // Magnet/flip flags
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
 
-  // Udu/tera “armimine” (millal lubame taustal animatsiooni alustada)
+  // Background anim gating
   const [bgArmed, setBgArmed] = useState(false);
 
-  // Intro animatsioon ainult esimesel külastusel (sama tab)
+  // Intro animation only on first visit (tab scope)
   const [skipIntro, setSkipIntro] = useState(true);
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
+    try {
+      const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (mq.matches) {
+        setSkipIntro(true);
+        return;
+      }
+      const seen = sessionStorage.getItem("seenIntro");
+      if (seen) {
+        setSkipIntro(true);
+      } else {
+        setSkipIntro(false);
+        sessionStorage.setItem("seenIntro", "1");
+      }
+    } catch {
       setSkipIntro(true);
-      return;
-    }
-    const seen = sessionStorage.getItem("seenIntro");
-    if (seen) {
-      setSkipIntro(true);   // ära mängi intro't
-    } else {
-      setSkipIntro(false);  // mängi intro't
-      sessionStorage.setItem("seenIntro", "1");
     }
   }, []);
 
-  // Dark/Light režiimi tuvastus (<html> klass)
-  const [mode, setMode] = useState("dark"); // turvaline vaikimisi SSR-i vastu
+  // Dark/Light mode detection via <html> class
+  const [mode, setMode] = useState("dark");
   useEffect(() => {
     const html = document.documentElement;
-    const update = () => setMode(html.classList.contains("dark-mode") ? "dark" : "light");
+    const update = () =>
+      setMode(html.classList.contains("dark-mode") ? "dark" : "light");
     const mo = new MutationObserver(update);
     mo.observe(html, { attributes: true, attributeFilter: ["class"] });
     update();
@@ -56,7 +64,7 @@ export default function HomePage() {
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
-  // Võta fade-in lõpud event'iga
+  // Capture fade-in end events
   useEffect(() => {
     const onLeftEnd = (e) => {
       if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
@@ -75,7 +83,7 @@ export default function HomePage() {
     };
   }, []);
 
-  // magnetReady → alles siis, kui mõlemad fade'id valmis + 150ms puhver
+  // Enable magnet once both fades done (+small buffer)
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
@@ -84,13 +92,13 @@ export default function HomePage() {
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
 
-  // Udu/tera aktiveerimine pärast kaartide fade’i + fontide valmidust
+  // Arm background after card fades and fonts settle (if any)
   useEffect(() => {
     let r1, r2, timer;
     const arm = () => {
       r1 = requestAnimationFrame(() => {
         r2 = requestAnimationFrame(() => {
-          timer = setTimeout(() => setBgArmed(true), 400); // 300–600ms “magus koht”
+          timer = setTimeout(() => setBgArmed(true), 400);
         });
       });
     };
@@ -110,7 +118,7 @@ export default function HomePage() {
     };
   }, [leftFadeDone, rightFadeDone]);
 
-  // body klass modali jaoks
+  // Body class for modal state
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
@@ -125,28 +133,42 @@ export default function HomePage() {
   const onRightEnter = () => setRightFlipping(true);
   const onRightLeave = () => setTimeout(() => setRightFlipping(false), flipEndMs);
 
+  // Helper: open modal on mobile tap
+  const handleMobileTap = () => {
+    if (window.innerWidth <= 768) {
+      setIsLoginOpen(true);
+    }
+  };
+
   return (
     <>
-      {/* Taust: udu/grain on alati DOM-is; animatsioon käivitub, kui bgArmed === true */}
+      {/* Background */}
       <Space
-        mode={mode}               // "dark" | "light"
-        fog={true}                // hoia udu DOM-is stabiilsuse huvides
-        animateFog={bgArmed}      // animatsiooni trigger (pärast kaartide fade'i)
-        grain={bgArmed}           // tera samamoodi
-        fogAppearDelayMs={180}    // sisemine delay
-        fogAppearDurMs={2000}     // sujuv udu tõus
-        skipIntro={skipIntro}     // mängi ainult esimesel külastusel
+        mode={mode}
+        fog={true}
+        animateFog={bgArmed}
+        grain={bgArmed}
+        fogAppearDelayMs={180}
+        fogAppearDurMs={2000}
+        skipIntro={skipIntro}
       />
 
-      <DarkModeToggleWrapper position="top-center" top="0.5rem" hidden={isLoginOpen} />
+      <DarkModeToggleWrapper
+        position="top-center"
+        top="0.5rem"
+        hidden={isLoginOpen}
+      />
 
       <div className="main-content relative">
-        {/* VASAK KAART */}
+        {/* LEFT CARD */}
         <div className="side left">
           <div
-            className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""}`}
+            className={`three-d-card float-card left ${flipClass} ${
+              leftFlipping ? "is-flipping" : ""
+            }`}
             onMouseEnter={onLeftEnter}
             onMouseLeave={onLeftLeave}
+            onClick={handleMobileTap} // 👈 mobiilis avab login
           >
             <div className="card-wrapper">
               <div className="card-face front">
@@ -175,14 +197,15 @@ export default function HomePage() {
 
                       <CircularRingLeft />
 
-                      <img
+                      <Image
                         src="/logo/aivalge.svg"
-                        alt="Aivalge logo"
+                        alt=""
+                        aria-hidden="true"
                         className="card-logo-bg card-logo-bg-left"
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="sync"
                         draggable={false}
+                        priority
+                        width={300}
+                        height={300}
                       />
 
                       <div className="centered-front-outer" aria-hidden="true" />
@@ -191,17 +214,25 @@ export default function HomePage() {
                 </Magnet>
               </div>
 
+              {/* Back */}
               <div
                 className="card-face back"
+                role="button"
+                aria-label="Logi sisse spetsialistina"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
                 onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed)
+                    setIsLoginOpen(true);
                 }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div
-                  className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}
+                  className={[
+                    "centered-back-left",
+                    !leftFadeDone ? "fade-in" : "",
+                    "glow-static",
+                  ].join(" ")}
                   style={{ position: "relative" }}
                 >
                   <div className="card-title back">
@@ -214,14 +245,15 @@ export default function HomePage() {
                     sotsiaalvaldkonna küsimustes.
                   </div>
 
-                  <img
+                  <Image
                     src="/logo/saimust.svg"
-                    alt="Saimust logo"
+                    alt=""
+                    aria-hidden="true"
                     className="card-logo-bg card-logo-bg-left-back"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
                     draggable={false}
+                    loading="lazy"
+                    width={300}
+                    height={300}
                   />
 
                   <div className="centered-back-outer" />
@@ -231,12 +263,15 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* PAREM KAART */}
+        {/* RIGHT CARD */}
         <div className="side right">
           <div
-            className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""}`}
+            className={`three-d-card float-card right ${flipClass} ${
+              rightFlipping ? "is-flipping" : ""
+            }`}
             onMouseEnter={onRightEnter}
             onMouseLeave={onRightLeave}
+            onClick={handleMobileTap} // 👈 mobiilis avab login
           >
             <div className="card-wrapper">
               <div className="card-face front">
@@ -265,14 +300,15 @@ export default function HomePage() {
 
                       <CircularRingRight />
 
-                      <img
+                      <Image
                         src="/logo/smust.svg"
-                        alt="Smust logo"
+                        alt=""
+                        aria-hidden="true"
                         className="card-logo-bg card-logo-bg-right"
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="sync"
                         draggable={false}
+                        priority
+                        width={300}
+                        height={300}
                       />
 
                       <div className="centered-front-outer" aria-hidden="true" />
@@ -281,21 +317,31 @@ export default function HomePage() {
                 </Magnet>
               </div>
 
+              {/* Back */}
               <div
                 className="card-face back"
+                role="button"
+                aria-label="Logi sisse pöördujana"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
                 onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed)
+                    setIsLoginOpen(true);
                 }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div
-                  className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}
+                  className={[
+                    "centered-back-right",
+                    !rightFadeDone ? "fade-in" : "",
+                    "glow-static",
+                  ].join(" ")}
                   style={{ position: "relative" }}
                 >
                   <div className="card-title back">
-                    <span className="brand-title brand-title-right">KÜSI NÕU</span>
+                    <span className="brand-title brand-title-right">
+                      KÜSI NÕU
+                    </span>
                   </div>
 
                   <div className="card-note right-back">
@@ -304,14 +350,15 @@ export default function HomePage() {
                     elulistes sotsiaalküsimustes.
                   </div>
 
-                  <img
+                  <Image
                     src="/logo/saivalge.svg"
-                    alt="Saivalge logo"
+                    alt=""
+                    aria-hidden="true"
                     className="card-logo-bg card-logo-bg-right-back"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
                     draggable={false}
+                    loading="lazy"
+                    width={300}
+                    height={300}
                   />
 
                   <div className="centered-back-outer" />
@@ -322,7 +369,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Jalus + Meist link – defer-fade klassid jäävad */}
+      {/* Footer */}
       <footer className="footer-column relative">
         <Link
           href="/meist"
@@ -332,13 +379,14 @@ export default function HomePage() {
           MEIST
         </Link>
 
-        <img
+        <Image
           src="/logo/logomust.svg"
           alt="SotsiaalAI logo"
           className="footer-logo-img defer-fade delay-2 dim"
-          loading="eager"
-          fetchPriority="high"
-          decoding="sync"
+          draggable={false}
+          loading="lazy"
+          width={240}
+          height={80}
           style={{ opacity: 0, visibility: "hidden" }}
         />
       </footer>

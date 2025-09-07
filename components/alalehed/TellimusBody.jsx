@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import ModalConfirm from "@/components/ui/ModalConfirm";
 
 export default function TellimusBody() {
   const [status, setStatus] = useState("puudub");
@@ -7,16 +8,30 @@ export default function TellimusBody() {
   const [email, setEmail] = useState("");
   const [showCancel, setShowCancel] = useState(false);
 
+  // Rolli kuvamise map
+  const roleMap = {
+    specialist: "Spetsialist",
+    user: "Eluküsimusega pöörduja",
+  };
+
   useEffect(() => {
     const storedRole = localStorage.getItem("saai_roll");
     if (storedRole) setRole(storedRole);
+
     const storedEmail = localStorage.getItem("saai_email");
     if (storedEmail) setEmail(storedEmail);
   }, []);
 
+  // Dünaamiline kehtivuse kuupäev – kuu aega tänasest
+  function getExpiryDate() {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 1);
+    return d.toLocaleDateString("et-EE");
+  }
+
   function handleMaksa() {
     setStatus("aktiivne");
-    alert("Maksekeskuse makseleht avaneks siin! (demo)");
+    console.log("Maksekeskuse makseleht avaneks siin! (demo)");
   }
 
   function handleCancel() {
@@ -26,42 +41,44 @@ export default function TellimusBody() {
   function confirmCancel() {
     setShowCancel(false);
     setStatus("lõppenud");
-    alert("Tellimus tühistatud! (demo)");
+    console.log("Tellimus tühistatud! (demo)");
   }
 
   return (
     <>
-<div className="main-content glass-box">
-        {/* Lehe pealkiri */}
+      <div className="main-content glass-box">
+        {/* Pealkiri */}
         <h1 className="glass-title">Halda tellimust</h1>
 
-        {/* Tellimuse staatus */}
+        {/* Staatus */}
         <div className="tellimus-status-center">
           <div className="tellimus-status-label">Tellimuse staatus</div>
           <span className={`tellimus-status-pill status-${status}`}>
-            {status === "aktiivne" ? "Aktiivne" : status === "lõppenud" ? "Lõppenud" : "Puudub"}
+            {status === "aktiivne"
+              ? "Aktiivne"
+              : status === "lõppenud"
+              ? "Lõppenud"
+              : "Puudub"}
           </span>
         </div>
 
-        {/* Tellimuse detailid */}
+        {/* Detailid */}
         <div className="tellimus-info-list">
           <div>
-            <b>Roll:</b>{" "}
-            {role === "specialist" ? "Spetsialist" : "Eluküsimusega pöörduja"}
+            <b>Roll:</b> {roleMap[role] || "—"}
           </div>
           <div>
             <b>Kuutasu:</b> 7.99 €
           </div>
           <div>
-            <b>Kehtiv kuni:</b>{" "}
-            {status === "aktiivne" ? "30.08.2025" : "—"}
+            <b>Kehtiv kuni:</b> {status === "aktiivne" ? getExpiryDate() : "—"}
           </div>
           <div>
             <b>E-post:</b> {email || "kasutaja@email.ee"}
           </div>
         </div>
 
-        {/* Peamine nupp keskel */}
+        {/* Nupud */}
         <div className="tellimus-btn-center">
           {status !== "aktiivne" ? (
             <button className="btn-primary" onClick={handleMaksa}>
@@ -74,7 +91,7 @@ export default function TellimusBody() {
           )}
         </div>
 
-        {/* Tagasi-nupp */}
+        {/* Tagasi */}
         <div className="back-btn-wrapper">
           <button
             type="button"
@@ -86,26 +103,18 @@ export default function TellimusBody() {
           </button>
         </div>
 
-        <footer className="alaleht-footer">
-          SotsiaalAI &copy; 2025
-        </footer>
+        <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
       </div>
 
+      {/* Modal eraldi komponendina */}
       {showCancel && (
-        <div className="modal-confirm" role="dialog" aria-modal="true">
-          <p>Kas oled kindel, et soovid tellimuse tühistada?</p>
-          <div className="btn-row">
-            <button className="btn-danger" onClick={confirmCancel}>
-              Jah, tühista
-            </button>
-            <button
-              className="btn-tertiary"
-              onClick={() => setShowCancel(false)}
-            >
-              Katkesta
-            </button>
-          </div>
-        </div>
+        <ModalConfirm
+          message="Kas oled kindel, et soovid tellimuse tühistada?"
+          confirmLabel="Jah, tühista"
+          cancelLabel="Katkesta"
+          onConfirm={confirmCancel}
+          onCancel={() => setShowCancel(false)}
+        />
       )}
     </>
   );

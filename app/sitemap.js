@@ -1,7 +1,7 @@
 // app/sitemap.js
 export default function sitemap() {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://sotsiaal.ai";
-  const now = new Date();
+  const now = new Date().toISOString();
 
   const paths = [
     "/",
@@ -9,7 +9,7 @@ export default function sitemap() {
     "/profiil",
     "/registreerimine",
     "/kasutustingimused",
-    "/privaatsustingimused",
+    "/privaatsus",          // ✅ kontrolli, et see on tegelik route
     "/meist",
     "/unustasin-parooli",
     "/tellimus",

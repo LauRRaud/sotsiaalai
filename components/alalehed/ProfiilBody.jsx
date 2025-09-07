@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ModalConfirm from "@/components/ui/ModalConfirm";
 
 export default function ProfiilBody() {
   const [email, setEmail] = useState("email@domeen.ee");
@@ -10,9 +11,16 @@ export default function ProfiilBody() {
   const [userRole, setUserRole] = useState("specialist");
   const router = useRouter();
 
+  // Rolli kuvamise map
+  const roleMap = {
+    specialist: "Spetsialist",
+    user: "Eluküsimusega pöörduja",
+  };
+
   useEffect(() => {
     const storedRole = localStorage.getItem("saai_roll");
     if (storedRole) setUserRole(storedRole);
+
     const storedEmail = localStorage.getItem("saai_email");
     if (storedEmail) setEmail(storedEmail);
   }, []);
@@ -34,7 +42,7 @@ export default function ProfiilBody() {
   }
 
   return (
-<main className="main-content profile-page">
+    <main className="main-content profile-page">
       <div
         className="glass-box"
         role="main"
@@ -46,11 +54,7 @@ export default function ProfiilBody() {
         </h1>
 
         <div className="profile-header-center">
-          <span className="profile-role-pill">
-            {userRole === "specialist"
-              ? "Spetsialist"
-              : "Eluküsimusega pöörduja"}
-          </span>
+          <span className="profile-role-pill">{roleMap[userRole] || "—"}</span>
           <Link href="/tellimus" className="link-brand profile-tellimus-link">
             Halda tellimust
           </Link>
@@ -71,7 +75,7 @@ export default function ProfiilBody() {
           />
 
           <label htmlFor="password" className="glass-label">
-            Uus parool (soovil)
+            Uus parool (soovi korral)
           </label>
           <input
             className="input-modern"
@@ -97,6 +101,7 @@ export default function ProfiilBody() {
           </div>
         </form>
 
+        {/* Tagasi vestlusesse */}
         <div className="back-btn-wrapper">
           <button
             type="button"
@@ -108,6 +113,7 @@ export default function ProfiilBody() {
           </button>
         </div>
 
+        {/* Kustuta konto */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button
             className="button"
@@ -115,28 +121,22 @@ export default function ProfiilBody() {
             onClick={() => setShowDelete(true)}
           >
             <svg viewBox="0 0 448 512" className="svgIcon">
-              <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+              <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
             </svg>
           </button>
         </div>
 
         <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
 
+        {/* Modal korduvkasutatava komponendiga */}
         {showDelete && (
-          <div className="modal-confirm">
-            <p>Kas oled kindel, et soovid konto kustutada?</p>
-            <div className="btn-row">
-              <button className="btn-danger" onClick={handleDelete}>
-                Jah, kustuta
-              </button>
-              <button
-                className="btn-tertiary"
-                onClick={() => setShowDelete(false)}
-              >
-                Katkesta
-              </button>
-            </div>
-          </div>
+          <ModalConfirm
+            message="Kas oled kindel, et soovid konto kustutada?"
+            confirmLabel="Jah, kustuta"
+            cancelLabel="Katkesta"
+            onConfirm={handleDelete}
+            onCancel={() => setShowDelete(false)}
+          />
         )}
       </div>
     </main>
