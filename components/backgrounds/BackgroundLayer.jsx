@@ -7,8 +7,10 @@ import { usePathname } from "next/navigation";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
-const SplashCursor = dynamic(() => import("../SplashCursor"), { ssr: false });
+// SplashCursor asemel kasutame tingimuslikku wrapperit
+const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 
+/* --- utiliidid --- */
 function getHtmlMode() {
   return document.documentElement.classList.contains("dark-mode") ? "dark" : "light";
 }
@@ -45,23 +47,26 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
+/* --- komponent --- */
 function BackgroundLayer() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState("dark");
 
-  // NB: Space ei ole enam gated – ainult efektid on
+  // Efektide laisk laadimine
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
+  // Avalehe „intro” animatsiooni vahelejätmine korduvkülastusel
   const [skipIntro, setSkipIntro] = useState(true);
+
   const prefersReduced = usePrefersReducedMotion();
 
   useEffect(() => {
     setMounted(true);
     setMode(getHtmlMode());
 
-    // intro reegel
+    // Intro/skip loogika
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
@@ -89,6 +94,7 @@ function BackgroundLayer() {
     };
   }, [pathname]);
 
+  // Lae taustaefektid alles siis, kui leht on nähtav + idle
   useEffect(() => {
     if (!mounted || prefersReduced) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
@@ -103,15 +109,19 @@ function BackgroundLayer() {
 
   return (
     <>
-      {/* Fog animeeri ainult avalehe esmasel külastusel — ja viivitus 0, vt #2 */}
+      {/* Udu/fog animeeri ainult avalehe esmakülastusel; viivitus 0 */}
       <Space
         mode={mode}
-        animateFog={!skipIntro}
+        animateFog={!skipIntro && !prefersReduced}
         skipIntro={skipIntro}
         fogAppearDelayMs={0}
       />
-      {particlesReady && <Particles mode={mode} />}
-      {cursorReady && <SplashCursor />}
+
+      {/* Osakesed: keelame kui kasutaja eelistab vähendatud animatsioone */}
+      {particlesReady && !prefersReduced && <Particles mode={mode} />}
+
+      {/* SplashCursor ainult desktopil (MaybeSplash otsustab laiuse järgi) ja kui pole reduced-motion'i */}
+      {cursorReady && !prefersReduced && <MaybeSplash />}
     </>
   );
 }
