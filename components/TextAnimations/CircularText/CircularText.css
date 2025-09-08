@@ -2,15 +2,13 @@
 
 .circular-text-svg {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  margin: auto;
   width: 100%;
   height: 100%;
   max-width: none;
   pointer-events: none;
   z-index: 3;
-  overflow: visible;
 }
 
 
@@ -90,18 +88,35 @@
 .circular-text-svg text { paint-order: stroke fill; }
 .circular-text-svg textPath { overflow: visible; }
 
-/* Desktop – vaikimisi */
-@media (min-width: 769px) {
+@media (max-width: 768px) {
+  .circular-text-svg {
+    width: 100%;      /* täpselt kaardi suurus */
+    height: 100%;
+    transform: none;  /* ei nihuta */
+  }
+
   .circular-text-line {
-    font-size: 24px;
-    letter-spacing: 5px;
+    font-size: 16px !important;
+    letter-spacing: 2px !important;
   }
 }
 
-/* Mobiil – suurendame ainult teksti */
+@media (max-width: 480px) {
+  .circular-text-line {
+    font-size: 14px !important;
+    letter-spacing: 1.5px !important;
+  }
+}
 @media (max-width: 768px) {
   .circular-text-line {
-    font-size: 32px !important;
-    letter-spacing: 6px !important;
+    animation: none !important;
+  }
+
+  .word1,
+  .word2,
+  .word3 {
+    opacity: 1 !important;
+    animation: none !important;
+    visibility: visible !important;
   }
 }
