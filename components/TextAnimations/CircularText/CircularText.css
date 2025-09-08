@@ -88,27 +88,23 @@
 .circular-text-svg text { paint-order: stroke fill; }
 .circular-text-svg textPath { overflow: visible; }
 
+/* Desktop – animatsioon töötab (fade in/out) */
+.word1, .word2, .word3 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Mobiil: kõik kolm korraga nähtaval, ilma animatsioonita */
+@media (max-width: 768px) {
+  .circular-text-line {
+    font-size: clamp(30px, 10.4vw, 50px) !important; /* ~2× */
+    letter-spacing: 0.12em;
+    animation: none !important;
+  }
+
   .word1, .word2, .word3 {
     opacity: 1 !important;
     visibility: visible !important;
     animation: none !important;
-  
+  }
 }
-
-/* Mobiil: ~2× suurem, animatsioon välja (kui soovid staatikat) */
-@media (max-width: 768px) {
-  .circular-text-svg {
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    width: 100%;
-    height: 100%;
-      pointer-events: none;
-  z-index: 3;
-  }
-  .circular-text-line {
-    font-size: clamp(32px, 10.4vw, 52px) !important;  /* ~2× */
-    letter-spacing: 0.12em;                            /* vajadusel kohenda */
-    animation: none !important;                        /* kui tahad staatikat */
-  }
-  }
