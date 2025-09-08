@@ -81,11 +81,10 @@
 
 /* ====== MOBIIL (≤768px) ====== */
 @media (max-width: 768px) {
-  /* animatsioon maas, kohe kõik sõnad nähtaval */
   .circular-text-line {
+    font-size: clamp(34px, 10vw, 48px) !important; /* ~2× */
+    letter-spacing: 0.16em !important;
     animation: none !important;
-    font-size: clamp(18px, 5.2vw, 26px) !important;
-    letter-spacing: 0.18em !important;
   }
   .word1, .word2, .word3 {
     opacity: 1 !important;
@@ -94,11 +93,19 @@
   }
 }
 
-/* Väiksemad telefonid */
+/* väiksemad telefonid */
 @media (max-width: 480px) {
   .circular-text-line {
-    font-size: clamp(16px, 5vw, 22px) !important;
-    letter-spacing: 0.15em !important;
+    font-size: clamp(28px, 11.5vw, 38px) !important; /* veidi tagasi */
+    letter-spacing: 0.14em !important;
+  }
+}
+
+/* eriti väikesed (nt 320–360px lai) */
+@media (max-width: 360px) {
+  .circular-text-line {
+    font-size: clamp(24px, 12.5vw, 32px) !important; /* ei lõika serva */
+    letter-spacing: 0.12em !important;
   }
 }
 
