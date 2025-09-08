@@ -2358,6 +2358,7 @@ textarea::placeholder,
   }
 }
 
+/* --- sinu olemasolev plokk jääb täpselt nii --- */
 @media (prefers-reduced-motion: reduce) {
   .defer-fade {
     animation: none !important;
@@ -2399,16 +2400,6 @@ textarea::placeholder,
     width: 100% !important;
     padding: 1.5rem 1rem;
   }
-
-  /* 5. Tekstid väiksemaks */
-  .headline-bold,
-  .brand-title {
-    font-size: 1.3rem !important;
-    letter-spacing: 0.05em !important;
-  }
-  .card-note { font-size: 1.1rem !important; }
-
-  /* 6. Footer kompaktsemaks ja sisu alla */
   body.avalht .footer-column {
     position: relative !important;
     bottom: auto !important;
@@ -2502,3 +2493,119 @@ body.avalht { overflow-y: hidden; }
 }
 .avatar-link, .back-btn-wrapper, .chat-avatar-abs { z-index: 50; }
 .centered-front-outer { z-index: 1; pointer-events: none; }
+
+/* ================================
+   MOBIILITÄIENDUSED (taust + safe areas + chat)
+   Pane need LÕPPU
+===================================*/
+
+/* notch / safe-area */
+:root {
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* 2) Klaaskasti ja jaluse kooseksisteerimine mobiilis (ei lõikaks ära) */
+@media (max-width: 768px) {
+  .glass-box {
+    margin: 1.2em auto calc(1.4em + var(--safe-bottom)) !important;
+    padding-bottom: max(1em, calc(0.9em + var(--safe-bottom)));
+  }
+  .alaleht-footer {
+    padding-bottom: calc(0.9em + var(--safe-bottom));
+  }
+}
+
+/* 3) Chat: stabiilne kõrgus/kerimine mobiilis (ilma 100vh lõksuta) */
+@media (max-width: 768px) {
+  .glass-box.chat-container {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 70dvh; /* piisavalt kõrge, kuid mitte lukus */
+    margin: 0.8em auto calc(1.2em + var(--safe-bottom)) !important;
+  }
+  .chat-main   { min-height: 50dvh; }
+  .chat-window { padding-bottom: calc(10px + var(--safe-bottom)); }
+  .chat-inputbar { margin-bottom: calc(8px + var(--safe-bottom)); }
+  .scroll-down-btn { bottom: calc(72px + var(--safe-bottom)); }
+}
+
+/* 4) Tagasi-nupp püsib klaaskasti sees, ei “ujuks” välja */
+@media (max-width: 768px) {
+  .back-btn-wrapper {
+    margin: 1.2em auto 0.6em;
+    position: relative; /* hoiab wrapperi klaaskasti voos */
+  }
+  .back-arrow-btn { inline-size: 56px; block-size: 56px; }
+  .back-arrow-circle { inline-size: 46px; }
+}
+
+/* 5) iOS 100vh → 100dvh ja kummi-kerimise tõrje */
+*[style*="100vh"] { height: 100dvh !important; }
+@media (max-width: 768px) {
+  html, body { overscroll-behavior-y: none; }
+}
+
+/* 6) Vormisisestus iOS-is (väldi auto-zoom’i) */
+@media (max-width: 768px) {
+  input, select, textarea { font-size: 16px; }
+}
+
+/* 7) Desktop-režiimi taastus (kui mõni mobiilireegel pressib üle) */
+@media (min-width: 769px) {
+  .glass-box.chat-container {
+    height: 96vh !important;
+    max-height: 96vh !important;
+    margin: 0.6em auto !important;
+  }
+}
+@media (max-width: 768px) {
+  html.dark-mode body {
+    background: linear-gradient(
+      to bottom,
+      #070b16 0%,
+      #1a2137 45%,
+      #4c5263 100%
+    ) !important;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+/* Light mode – heledam metallikgradient */
+@media (max-width: 768px) {
+  html:not(.dark-mode) body {
+    background: linear-gradient(
+      to bottom,
+      #f2f2f2 0%,
+      #e0dfdd 40%,
+      #c7c5c1 100%
+    ) !important;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+/* eemaldame segavad taustakihid mobiilis */
+@media (max-width: 768px) {
+  .bg-space,
+  .bg-udu,
+  .background-layer,
+  .background-canvas,
+  body::before,
+  body::after {
+    display: none !important;
+    background: none !important;
+    content: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .headline-bold,
+  .brand-title,
+  .card-note {
+    font-size: inherit !important;
+    letter-spacing: inherit !important;
+  }
+}
