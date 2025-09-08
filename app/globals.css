@@ -2486,17 +2486,3 @@ body.avalht { overflow-y: hidden; }
   display: flex;
   flex-direction: column;
 }
-
-/* Main – sisu võtab ülejäänud ruumi */
-
-main { flex: 1 0 auto; }
-  .circular-text-line {
-    font-size: 50px !important;
-    letter-spacing: 2px !important;
-  }
-@media (max-width: 480px) {
-  .circular-text-line {
-    font-size: 40px !important;
-    letter-spacing: 1.5px !important;
-  }
-}
