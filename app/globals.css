@@ -2328,16 +2328,13 @@ textarea::placeholder,
 @media (prefers-reduced-motion: reduce){
   .float-card, .glass-card.glow-active, .three-d-card:hover .card-face.back>*{ animation: none !important; }
 }
+/* === MOBIILI SPETSIAALNE KÄITUMINE === */
 @media (max-width: 768px) {
   /* 1. Splash cursor peidetud */
-  .splash-cursor {
-    display: none !important;
-  }
+  .splash-cursor { display: none !important; }
 
   /* 2. Particles peidetud */
-  .particles-container {
-    display: none !important;
-  }
+  .particles-container { display: none !important; }
 
   /* 3. Kaardid: hover/flip keelatud */
   .three-d-card {
@@ -2349,7 +2346,7 @@ textarea::placeholder,
     will-change: auto !important;
   }
 
-  /* 4. Paigutus: kaardid vertikaalselt, mitte kõrvuti */
+  /* 4. Paigutus: kaardid vertikaalselt */
   .main-content {
     flex-direction: column !important;
     gap: 2rem !important;
@@ -2362,17 +2359,19 @@ textarea::placeholder,
     padding: 1.5rem 1rem;
   }
 
-  /* 5. Tekstid väiksemaks (et mobiilil ära mahuksid) */
+  /* 5. Tekstid väiksemaks */
   .headline-bold,
   .brand-title {
     font-size: 1.3rem !important;
     letter-spacing: 0.05em !important;
   }
-  .card-note {
-    font-size: 1.1rem !important;
-  }
+  .card-note { font-size: 1.1rem !important; }
 
-  /* 6. Footer kompaktsemaks */
+  /* 6. Footer kompaktsemaks ja sisu alla */
+  body.avalht .footer-column {
+    position: relative !important;
+    bottom: auto !important;
+  }
   .footer-column {
     position: static !important;
     padding: 0.5em 0 !important;
@@ -2399,17 +2398,17 @@ textarea::placeholder,
   overscroll-behavior: contain;
 }
 
-/* Desktop: fikseeritud, ei kerita */
+/* Desktop modal */
 @media (min-width: 769px) {
   .login-modal-root {
     width: 420px;
     max-width: 90vw;
-    max-height: none;   /* ära piira kõrgust */
-    overflow: hidden;   /* ei kerita */
+    max-height: none;
+    overflow: hidden;
   }
 }
 
-/* Mobiil: täisekraaniline ja vajadusel keritav */
+/* Mobiil modal */
 @media (max-width: 768px) {
   .login-modal-root {
     width: 100vw;
@@ -2419,66 +2418,66 @@ textarea::placeholder,
     left: 0;
     transform: none;
     border-radius: 0;
-    overflow-y: auto;   /* kerib ainult modal */
+    overflow-y: auto;
   }
 }
 
-/* === Avalehe ja alalehtede kerimisprobleemi fix === */
+/* === Avaleht ja alalehed kerimisprobleemid === */
 html, body {
   height: 100%;
   overflow-x: hidden;
 }
 
 body {
-  overflow-y: auto;             /* kerib ainult kui sisu on pikem */
+  overflow-y: auto;             /* kerib vaid kui vaja */
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
 
-  /* Scrollbar peitmine */
-  -ms-overflow-style: none;     /* IE/Edge */
-  scrollbar-width: none;        /* Firefox */
+  /* Scrollbar peidetud */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-body::-webkit-scrollbar {
-  display: none;                /* Chrome/Safari/Edge */
-}
+body::-webkit-scrollbar { display: none; }
 
-/* Avalehel – desktopil kerimine keelatud */
-body.avalht {
-  overflow-y: hidden;
-}
-
-/* Avalehel – mobiilis kerimine lubatud */
+/* Avaleht – desktopil kerimine keelatud */
+body.avalht { overflow-y: hidden; }
 @media (max-width: 768px) {
-  body.avalht {
-    overflow-y: auto;
-  }
+  body.avalht { overflow-y: auto; }
 }
 
-/* Footer – mitte fixed, muidu tekib lisapinda */
+/* Jalus */
 .footer-column {
   position: relative !important;
   bottom: auto !important;
   left: auto !important;
   width: 100%;
+  flex-shrink: 0;
 }
 
-/* Klaaskastid keskele */
+/* Avaleht – desktopil jalus alati põhjas */
+@media (min-width: 769px) {
+  body.avalht .footer-column {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100%;
+    z-index: 99;
+  }
+}
+
+/* Klaaskastid ja alalehed */
 .glass-box {
   margin: 2em auto;
   align-self: center;
   max-width: 850px;
 }
-
-/* Alalehed keskele */
 .alaleht-inner,
 .meist-body,
 .chat-container {
   margin: 0 auto;
   max-width: 850px;
 }
-
-/* Chat erand – täiskõrgus */
 .chat-container {
   flex: 1 1 auto;
   height: 100dvh;
@@ -2486,10 +2485,6 @@ body.avalht {
   display: flex;
   flex-direction: column;
 }
-body.avalht .footer-column {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100%;
-  z-index: 99;
-}
+
+/* Main – sisu võtab ülejäänud ruumi */
+main { flex: 1 0 auto; }
