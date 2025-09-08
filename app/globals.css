@@ -2398,7 +2398,7 @@ textarea::placeholder,
   overscroll-behavior: contain;
 }
 
-/* Desktop modal */
+/* Desktop: fikseeritud, ei kerita */
 @media (min-width: 769px) {
   .login-modal-root {
     width: 420px;
@@ -2408,19 +2408,20 @@ textarea::placeholder,
   }
 }
 
-/* Mobiil modal */
+/* Mobiil: kohe täisekraaniline */
 @media (max-width: 768px) {
   .login-modal-root {
+    top: 0;               /* ⬅️ algusest peale ekraani ülaossa */
+    left: 0;
     width: 100vw;
     height: 100vh;
     max-height: 100vh;
-    top: 0;
-    left: 0;
-    transform: none;
+    transform: none;       /* ⬅️ ei kasuta translate */
     border-radius: 0;
     overflow-y: auto;
   }
 }
+
 
 /* === Avaleht ja alalehed kerimisprobleemid === */
 html, body {
@@ -2487,4 +2488,15 @@ body.avalht { overflow-y: hidden; }
 }
 
 /* Main – sisu võtab ülejäänud ruumi */
+
 main { flex: 1 0 auto; }
+  .circular-text-line {
+    font-size: 32px !important;
+    letter-spacing: 2px !important;
+  }
+@media (max-width: 480px) {
+  .circular-text-line {
+    font-size: 25px !important;
+    letter-spacing: 1.5px !important;
+  }
+}
