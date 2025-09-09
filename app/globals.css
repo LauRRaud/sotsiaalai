@@ -66,7 +66,6 @@ body {
   min-height: 100vh;         /* või 100dvh, kui tahad mobiilil täpsemat kõrgust */
   margin: 0;
   overflow-x: hidden;
-  background-color: #070b16;
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* enne oli center */
@@ -686,12 +685,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   letter-spacing: 0.04em;
   padding-top: 2em;
   padding-bottom: 0.9em;
-}
-.epost-row {
-  display: flex;
-  align-items: center;
-  gap: 0.2em;
-  flex-wrap: wrap;
 }
 .chat-back-btn-wrapper {
   display: flex;
@@ -2315,7 +2308,6 @@ textarea::placeholder,
     transform: translateY(0) scale(1);
   }
 }
-
 /* --- sinu olemasolev plokk jääb täpselt nii --- */
 @media (prefers-reduced-motion: reduce) {
   .defer-fade {
@@ -2326,9 +2318,13 @@ textarea::placeholder,
   }
 }
 
-html, body { background-color: transparent !important; }
-
-@media (max-width: 768px){
+/* ===============================
+   MOBILE FIX PACK — ONLY ≤768px
+=================================*/
+/* ===============================
+   MOBILE FIX PACK — ONLY ≤768px
+=================================*/
+@media (max-width: 768px) {
 
   /* 0) Kerimine: lubatud; scrollbar peidus */
   html, body { height: 100%; overflow-x: hidden; }
@@ -2350,14 +2346,7 @@ html, body { background-color: transparent !important; }
     box-shadow: none !important;
   }
 
-  /* nulli varasemad taustad (ka Next.js wrapper) */
-  html, body, #___next, #__next {
-    background-image: none !important;
-    background-attachment: scroll !important;
-    background-color: transparent !important;
-  }
-
-  /* HELEREŽIIM – tumesinine → hallikam sinine */
+  /* HELEREŽIIM – gradient */
   html:not(.dark-mode), html:not(.dark-mode) body,
   [data-theme="light"], [data-theme="light"] body {
     background: linear-gradient(
@@ -2370,7 +2359,7 @@ html, body { background-color: transparent !important; }
     background-size: cover !important;
   }
 
-  /* TUMEREŽIIM */
+  /* TUMEREŽIIM – gradient */
   html.dark-mode, html.dark-mode body,
   [data-theme="dark"], [data-theme="dark"] body {
     background: linear-gradient(
@@ -2383,13 +2372,15 @@ html, body { background-color: transparent !important; }
     background-size: cover !important;
   }
 
-  /* 2) Paigutus: kaardid vertikaali, jaluseni saab kerida */
+  /* 2) Paigutus */
   .main-content {
     display: flex;
     flex-direction: column !important;
     gap: 1.2rem !important;
     padding: 1rem !important;
     max-width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
     padding-bottom: 0 !important; /* must auk eemaldatud */
   }
 
@@ -2405,9 +2396,12 @@ html, body { background-color: transparent !important; }
   }
 
   /* jalus scrollib koos sisuga */
-  .footer-column { position: static !important; width: 100% !important; }
+  .footer-column {
+    position: static !important;
+    width: 100% !important;
+  }
 
-  /* 3) Kaardid: lülita float/glow/3D välja */
+  /* 3) Kaardid */
   .three-d-card { perspective: none !important; cursor: default !important; }
   .three-d-card .card-wrapper { transform: none !important; transition: none !important; will-change: auto !important; }
   .float-card,
@@ -2415,17 +2409,17 @@ html, body { background-color: transparent !important; }
   .three-d-card:hover .card-face.back > *,
   .three-d-card:focus-within .card-face.back > * { animation: none !important; }
 
-  /* 4) KAARTIDE PEALKIRJAD — väiksemaks */
+  /* 4) Kaartide pealkirjad */
   .left-card-primary .headline-bold,
   .right-card-primary .headline-bold {
-    font-size: clamp(18px, 6vw, 28px) !important;
+    font-size: clamp(16px, 5vw, 24px) !important;
     line-height: 1.25 !important;
     letter-spacing: 0.06em !important;
     margin: .25em 0 .35em !important;
     text-shadow: none !important;
   }
 
-  /* 5) Login-modal: täisekraan */
+  /* 5) Login-modal */
   .login-modal-backdrop { position: fixed; inset: 0; }
   .login-modal-root,
   .login-modal-box,
@@ -2442,18 +2436,20 @@ html, body { background-color: transparent !important; }
     animation: none !important;
     padding: 2.2em 1.2em calc(1.2em + env(safe-area-inset-bottom,0px)) 1.2em !important;
     backdrop-filter: blur(8px) saturate(120%) !important;
+    overscroll-behavior: contain;
   }
 
   body.modal-open {
     overflow: hidden !important;
-    position: fixed;  /* iOS lukustus */
+    position: fixed !important;  /* iOS lukustus */
+    inset: 0;
     width: 100%;
     height: 100dvh;
     touch-action: none;
   }
 
   /* 6) Chat */
-  .glass-box.chat-container{
+  .glass-box.chat-container {
     height: auto !important;
     max-height: none !important;
     min-height: 70dvh;
@@ -2462,5 +2458,29 @@ html, body { background-color: transparent !important; }
   .chat-window {
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     overscroll-behavior: contain;
+  }
+
+  /* 7) Avatar */
+  .chat-container .avatar-link {
+    position: absolute;
+    top: 0.6em !important;
+    right: 1em !important;
+    left: auto !important;
+    z-index: 10;
+  }
+
+  /* 8) Nulli muu taust mobiilis */
+  html, body {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+}
+
+/* ===============================
+   DESKTOP DEFAULTS — >768px
+=================================*/
+@media (min-width: 769px) {
+  html, body {
+    background: #070b16 !important; /* tumerežiimi baasvärv */
   }
 }
