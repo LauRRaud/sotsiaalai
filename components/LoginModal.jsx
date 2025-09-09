@@ -15,7 +15,19 @@ export default function LoginModal({ open, onClose }) {
       boxRef.current.focus();
     }
     document.body.classList.toggle("modal-open", open);
-    return () => document.body.classList.remove("modal-open");
+
+    // ⬇️ UUS: keelame tausta touch-scroll’i (iOS)
+    const stopTouchMove = (e) => {
+      if (open && boxRef.current && !boxRef.current.contains(e.target)) {
+        e.preventDefault();
+      }
+    };
+    if (open) document.addEventListener("touchmove", stopTouchMove, { passive: false });
+
+    return () => {
+      document.body.classList.remove("modal-open");
+      document.removeEventListener("touchmove", stopTouchMove);
+    };
   }, [open]);
 
   if (!open) return null;
@@ -52,10 +64,10 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         role="dialog"
         style={{ outline: "none" }}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") onClose?.();
-        }}
+        onKeyDown={(e) => { if (e.key === "Escape") onClose?.(); }}
         aria-label="Logi sisse"
+        onClick={(e) => e.stopPropagation()}            // ⬅️ UUS: ära lase klikki backdro pile
+        onTouchStart={(e) => e.stopPropagation()}        // ⬅️ UUS: sama touchile
       >
         {/* Close button */}
         <button
@@ -71,66 +83,21 @@ export default function LoginModal({ open, onClose }) {
 
         {/* SSO ikoonid */}
         <div className="login-social-icons-row">
-          <button
-            className="login-icon-btn"
-            onClick={handleGoogleLogin}
-            type="button"
-            aria-label="Google"
-          >
-            <img
-              src="/login/google1.png"
-              alt="Google"
-              width="40"
-              height="40"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
+          <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google">
+            <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" decoding="async" fetchPriority="high" />
           </button>
-
-          <button
-            className="login-icon-btn"
-            onClick={handleSmartID}
-            type="button"
-            aria-label="Smart-ID"
-          >
-            <img
-              src="/login/smart.svg"
-              alt="Smart-ID"
-              width="40"
-              height="40"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
+          <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID">
+            <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" decoding="async" fetchPriority="high" />
           </button>
-
-          <button
-            className="login-icon-btn"
-            onClick={handleMobileID}
-            type="button"
-            aria-label="Mobiil-ID"
-          >
-            <img
-              src="/login/mobiil.png"
-              alt="Mobiil-ID"
-              width="40"
-              height="40"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
+          <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID">
+            <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" decoding="async" fetchPriority="high" />
           </button>
         </div>
 
         <div className="login-or-divider"><span>või</span></div>
 
         {/* Email + password form */}
-        <form
-          className="login-modal-form"
-          autoComplete="off"
-          onSubmit={handleSubmit}
-        >
+        <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
           <label style={{ width: "100%", display: "block" }}>
             <input
               className="input-modern"
@@ -152,18 +119,8 @@ export default function LoginModal({ open, onClose }) {
             />
           </label>
 
-          <div
-            style={{
-              width: "100%",
-              textAlign: "right",
-              marginTop: "-0.4em",
-              marginBottom: "0.6em",
-            }}
-          >
-            <Link
-              href="/unustasin-parooli"
-              className="unustasid-parooli-link"
-            >
+          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
+            <Link href="/unustasin-parooli" className="unustasid-parooli-link">
               Unustasid parooli?
             </Link>
           </div>
