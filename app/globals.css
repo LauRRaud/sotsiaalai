@@ -75,6 +75,15 @@ body {
   text-rendering: optimizeLegibility;
   width: 100%;
 }
+html, body {
+  overflow-y: auto;              /* kerimine jääb */
+  -ms-overflow-style: none;      /* IE/Edge legacy */
+  scrollbar-width: none;         /* Firefox */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                 /* Chrome, Safari */
+}
 :root {
   /* === Bränd === */
   --brand-primary: #D9A392;
@@ -2321,22 +2330,20 @@ textarea::placeholder,
 /* ===============================
    MOBILE FIX PACK — ONLY ≤768px
 =================================*/
-/* ===============================
-   MOBILE FIX PACK — ONLY ≤768px
-=================================*/
 @media (max-width: 768px) {
 
-  /* 0) Kerimine: lubatud; scrollbar peidus */
-  html, body { height: 100%; overflow-x: hidden; }
+  /* 0) Kerimine OK, scrollbar peidus, “põrget” vähem */
+  html, body { height: auto; min-height: 100%; overflow-x: hidden; }
   body {
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;  /* vähendab enne-lõppu tagasilööki */
   }
   body::-webkit-scrollbar { width: 0; height: 0; }
 
-  /* 1) Taust: tapa kõik “space/udu” kihid ja sunni gradient */
+  /* 1) Taust: peida Space/udu/grain; kasuta mobiili gradienti */
   .space-backdrop, .bg-space, .bg-udu, .background-layer, .background-canvas,
   .particles-container, .splash-cursor,
   body::before, body::after {
@@ -2346,33 +2353,23 @@ textarea::placeholder,
     box-shadow: none !important;
   }
 
-  /* HELEREŽIIM – gradient */
+  /* HELEREŽIIM – mobiili gradient */
   html:not(.dark-mode), html:not(.dark-mode) body,
   [data-theme="light"], [data-theme="light"] body {
-    background: linear-gradient(
-      to bottom,
-      #101726 0%,
-      #1e2a40 45%,
-      #5a6578 100%
-    ) !important;
+    background: linear-gradient(to bottom, #101726 0%, #1e2a40 45%, #5a6578 100%) !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
   }
 
-  /* TUMEREŽIIM – gradient */
+  /* TUMEREŽIIM – mobiili gradient */
   html.dark-mode, html.dark-mode body,
   [data-theme="dark"], [data-theme="dark"] body {
-    background: linear-gradient(
-      to bottom,
-      #070b16 0%,
-      #1a2137 45%,
-      #4c5263 100%
-    ) !important;
+    background: linear-gradient(to bottom, #070b16 0%, #1a2137 45%, #4c5263 100%) !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
   }
 
-  /* 2) Paigutus */
+  /* 2) Paigutus: sisu kerib jaluseni, must auk puudub */
   .main-content {
     display: flex;
     flex-direction: column !important;
@@ -2381,7 +2378,7 @@ textarea::placeholder,
     max-width: 100% !important;
     min-height: auto !important;
     height: auto !important;
-    padding-bottom: 0 !important; /* must auk eemaldatud */
+    padding-bottom: calc(3.2em + env(safe-area-inset-bottom, 0px)) !important; /* ruum jaluse jaoks */
   }
 
   .hero, .section, .fold, .viewport, [style*="100vh"] {
@@ -2395,13 +2392,14 @@ textarea::placeholder,
     padding: 1.25rem 1rem !important;
   }
 
-  /* jalus scrollib koos sisuga */
+  /* jalus liigub koos sisuga */
   .footer-column {
     position: static !important;
     width: 100% !important;
+    padding-bottom: calc(1em + env(safe-area-inset-bottom, 0px)) !important;
   }
 
-  /* 3) Kaardid */
+  /* 3) Kaardid: animad maha */
   .three-d-card { perspective: none !important; cursor: default !important; }
   .three-d-card .card-wrapper { transform: none !important; transition: none !important; will-change: auto !important; }
   .float-card,
@@ -2409,7 +2407,7 @@ textarea::placeholder,
   .three-d-card:hover .card-face.back > *,
   .three-d-card:focus-within .card-face.back > * { animation: none !important; }
 
-  /* 4) Kaartide pealkirjad */
+  /* 4) Kaartide pealkirjad – (jätame sinu töötava variandi) */
   .left-card-primary .headline-bold,
   .right-card-primary .headline-bold {
     font-size: clamp(16px, 5vw, 24px) !important;
@@ -2419,7 +2417,7 @@ textarea::placeholder,
     text-shadow: none !important;
   }
 
-  /* 5) Login-modal */
+  /* 5) Login-modal – full-screen ja bounce’ita */
   .login-modal-backdrop { position: fixed; inset: 0; }
   .login-modal-root,
   .login-modal-box,
@@ -2438,7 +2436,6 @@ textarea::placeholder,
     backdrop-filter: blur(8px) saturate(120%) !important;
     overscroll-behavior: contain;
   }
-
   body.modal-open {
     overflow: hidden !important;
     position: fixed !important;  /* iOS lukustus */
@@ -2448,26 +2445,42 @@ textarea::placeholder,
     touch-action: none;
   }
 
-  /* 6) Chat */
+  /* 6) Chat – suurem kõrgus, akna sees scroll */
   .glass-box.chat-container {
-    height: auto !important;
+    min-height: 95dvh !important;   /* sinu soov */
     max-height: none !important;
-    min-height: 70dvh;
+    height: auto !important;
     margin: .8em auto calc(1.2em + env(safe-area-inset-bottom, 0px)) !important;
+    position: relative; /* et avatar absoluutjoondus toimiks kindlalt */
+  }
+  .chat-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
   .chat-window {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     overscroll-behavior: contain;
   }
 
-  /* 7) Avatar */
+  /* 7) Avatar – paremas ülanurgas, silt alati nähtav */
   .chat-container .avatar-link {
     position: absolute;
-    top: 0.6em !important;
+    top: 0.35em !important;  /* veidi kõrgem kui enne */
     right: 1em !important;
     left: auto !important;
     z-index: 10;
   }
+  .avatar-label {
+    opacity: 1 !important;
+    transform: translateY(10px) !important;
+    pointer-events: none; /* ei sega klikke avatarile */
+  }
+  /* pealkirjale veidi õhku, et avatariga ei kattuks */
+  .chat-container .glass-title { margin-top: 2.4em !important; }
 
   /* 8) Nulli muu taust mobiilis */
   html, body {
@@ -2478,9 +2491,10 @@ textarea::placeholder,
 
 /* ===============================
    DESKTOP DEFAULTS — >768px
+   (fallback; Space.jsx teeb päris tausta+udu)
 =================================*/
 @media (min-width: 769px) {
   html, body {
-    background: #070b16 !important; /* tumerežiimi baasvärv */
+    background: #070b16 !important; /* tume sinine varutaust, kui Space ei mounti */
   }
 }

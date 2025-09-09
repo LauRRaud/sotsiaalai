@@ -18,27 +18,30 @@ export default function Space({
   noiseUrl = "/textures/noise.webp",
   fogBlurPx = 80,
 } = {}) {
-  const PRESETS = {
-    dark: {
-      palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
-      intensity: 0.48,
-      fogStrength: 0.42,
-      fogBlend: "screen",
-      grainOpacity: 0.065,
-      fogInnerRGBA: (alphaBase) => [
-        `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
-        "rgba(185,210,245,0.30)",
-      ],
-    },
-    light: {
-      palette: { baseTop: "#f2f2f2", baseBottom: "#c7c5c1" },
-      intensity: 0.28,
-      fogStrength: 0.30,
-      fogBlend: "screen",
-      grainOpacity: 0.05,
-      fogInnerRGBA: () => ["#c6e0ffdd", "#b1d2ffbb"],
-    },
-  };
+const PRESETS = {
+  dark: {
+    palette: { baseTop: "#070b16", baseBottom: "#0d111b" }, // sama tume
+    intensity: 0.48,
+    fogStrength: 0.42,
+    fogBlend: "screen",
+    grainOpacity: 0.065,
+    fogInnerRGBA: (alphaBase) => [
+      `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
+      "rgba(185,210,245,0.30)",
+    ],
+  },
+  light: {
+    palette: { baseTop: "#070b16", baseBottom: "#0d111b" }, // JÄÄB TUMEDAKS
+    intensity: 0.28,        // veidi kergem kui dark
+    fogStrength: 0.30,      // nõrgem fog
+    fogBlend: "screen",
+    grainOpacity: 0.05,     // vähem mürataset
+    fogInnerRGBA: () => [
+      "#c6e0ffdd",          // heledam sinine fog
+      "#b1d2ffbb"
+    ],
+  },
+};
 
   const cfg = PRESETS[mode] || PRESETS.dark;
   const pal = { ...cfg.palette, ...(palette || {}) };
