@@ -9,20 +9,22 @@ export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
 
-  // Fookus + <body> klass modali oleku järgi
+  // Body klass ja touch-scroll keelamine modali taustal
   useEffect(() => {
     if (open && boxRef.current) {
       boxRef.current.focus();
     }
     document.body.classList.toggle("modal-open", open);
 
-    // ⬇️ UUS: keelame tausta touch-scroll’i (iOS)
     const stopTouchMove = (e) => {
       if (open && boxRef.current && !boxRef.current.contains(e.target)) {
         e.preventDefault();
       }
     };
-    if (open) document.addEventListener("touchmove", stopTouchMove, { passive: false });
+
+    if (open) {
+      document.addEventListener("touchmove", stopTouchMove, { passive: false });
+    }
 
     return () => {
       document.body.classList.remove("modal-open");
@@ -64,10 +66,10 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         role="dialog"
         style={{ outline: "none" }}
-        onKeyDown={(e) => { if (e.key === "Escape") onClose?.(); }}
         aria-label="Logi sisse"
-        onClick={(e) => e.stopPropagation()}            // ⬅️ UUS: ära lase klikki backdro pile
-        onTouchStart={(e) => e.stopPropagation()}        // ⬅️ UUS: sama touchile
+        onKeyDown={(e) => e.key === "Escape" && onClose?.()}
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
@@ -84,13 +86,13 @@ export default function LoginModal({ open, onClose }) {
         {/* SSO ikoonid */}
         <div className="login-social-icons-row">
           <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google">
-            <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" decoding="async" fetchPriority="high" />
+            <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" />
           </button>
           <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID">
-            <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" decoding="async" fetchPriority="high" />
+            <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" />
           </button>
           <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID">
-            <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" decoding="async" fetchPriority="high" />
+            <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" />
           </button>
         </div>
 
