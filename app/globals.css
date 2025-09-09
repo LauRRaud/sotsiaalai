@@ -2326,180 +2326,197 @@ textarea::placeholder,
   }
 }
 /* ===============================
-   MOBILE + ACCESSIBILITY FIX PACK
-=================================*/
+/* ===============================
+   MOBILE PACK (<=768px)
+   =============================== */
 
-/* 0) Baas: kerib (scrollbar peidus), X-scroll keelatud */
+/* --- Baas: kerib, scrollbar peidus --- */
 html, body { height: 100%; overflow-x: hidden; }
-body { overflow-y: auto; }
+body{
+  overflow-y: auto;
+  -ms-overflow-style: none;          /* IE/Edge legacy */
+  scrollbar-width: none;             /* Firefox */
+  -webkit-overflow-scrolling: touch; /* iOS momentum */
+}
+body::-webkit-scrollbar { width:0; height:0; }
 
-/* Erandid */
+/* Kui vaja lukku (nt modal avatud vms) */
 body.no-page-scroll,
-body.modal-open { overflow: hidden !important; }  /* lukusta kui vaja */
-body.page-chat   { overflow-y: auto !important; } /* chatis haldab konteiner */
+body.modal-open { overflow: hidden !important; }
 
-/* Peida scrollbar, kerimine jääb */
-body, .no-scrollbar {
-  -ms-overflow-style: none;           /* IE/legacy Edge */
-  scrollbar-width: none;              /* Firefox */
-  -webkit-overflow-scrolling: touch;  /* iOS touch-scroll */
-}
-body::-webkit-scrollbar,
-.no-scrollbar::-webkit-scrollbar { width:0 !important; height:0 !important; }
+/* Avaleht peab kerima; jalus ei ole fixed */
+body.avalht { overflow-y:auto !important; }
+.footer-column { position: static !important; }
+.main-content { padding-bottom: 160px !important; }
+@media (max-width:768px){ .main-content { padding-bottom: 140px !important; } }
 
-/* Vältida layout-hüpet kui riba tekib/kaob */
-html { scrollbar-gutter: stable both-edges; }
+/* ======================================
+   1) TAPAME KÕIK SPACE/UDU LAYERID
+   JA URL-TAUSTAD, SIIS SUNDIME GRADIENTI
+   ====================================== */
+@media (max-width: 768px){
+  /* kill overlays/layers/pseudo */
+  .bg-space, .bg-udu, .background-layer, .background-canvas,
+  .particles-container, .splash-cursor,
+  [data-bg*="space"], [class*="space-bg"], [class*="spaceLayer"],
+  body::before, body::after {
+    display: none !important;
+    background: none !important;
+    content: none !important;
+    box-shadow: none !important;
+  }
 
-/* Safe-area muutujad */
-:root{
-  --safe-top:    env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
+  /* nuke any background-image set anywhere on root */
+  html, body {
+    background-image: none !important;   /* clears url(...) */
+    background-attachment: scroll !important; /* iOS fix */
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+  }
 
-/* ---------- MOBILE LAYOUT ---------- */
-@media (max-width:768px){
-  .main-content{ flex-direction:column !important; gap:1.4rem !important; padding:1rem; max-width:100% !important; }
-  .side{ min-height:auto !important; width:100% !important; padding:1.25rem 1rem; }
+  /* DARK */
+  :is(html, body).dark-mode,
+  :is(html, body).dark,
+  [data-theme="dark"] {
+    background-color: #070b16 !important;
+    background-image: linear-gradient(
+      to bottom, #070b16 0%, #1a2137 45%, #4c5263 100%
+    ) !important;
+  }
 
-  .glass-box{ margin:1.2em auto calc(1.4em + var(--safe-bottom)) !important; padding-bottom:max(1em, calc(0.9em + var(--safe-bottom))); }
-  .alaleht-footer{ padding-bottom:calc(0.9em + var(--safe-bottom)); }
-
-  /* jalus scrollib sisuga mobiilis */
-  .footer-column{ position:static !important; padding:0.5em 0 0.6em; margin-top:0.4em; }
-}
-
-/* Avatar/pealkiri vahe mobiilis */
-@media (max-width:768px){
-  .avatar-link{ position:relative !important; align-self:flex-end; margin:0.3em 0 0.2em !important; top:0; right:0; }
-  .chat-container .brand-title,
-  .chat-container .headline-bold{ margin-top:0.2em !important; margin-bottom:0.6em !important; font-size:1.8rem !important; }
-}
-
-/* ---------- CHAT (ainult aken kerib) ---------- */
-@media (max-width:768px){
-  .glass-box.chat-container{ height:auto !important; max-height:none !important; min-height:70dvh; margin:0.8em auto calc(1.2em + var(--safe-bottom)) !important; }
-  .chat-main{ min-height:50dvh; }
-  .chat-window{ padding-bottom:calc(10px + var(--safe-bottom)); overscroll-behavior:contain; }
-  .chat-inputbar{ margin-bottom:calc(8px + var(--safe-bottom)); }
-  .scroll-down-btn{ bottom:calc(72px + var(--safe-bottom)); }
-}
-
-/* ---------- LOGIN MODAL (mobiil: full-screen) ---------- */
-@media (max-width:768px){
-  .login-modal-backdrop{ position:fixed; inset:0; }
-  .login-modal-root,
-  .login-modal-box,
-  .glass-modal{
-    position:fixed !important;
-    inset:0 !important;
-    width:100vw !important;
-    height:100dvh !important;
-    max-height:100dvh !important;
-    border-radius:0 !important;
-    overflow-y:auto !important;
-    animation:none !important;
-    padding:2.2em 1.2em calc(1.2em + env(safe-area-inset-bottom,0px)) 1.2em !important;
-    backdrop-filter:blur(8px) saturate(120%) !important;
+  /* LIGHT (default) */
+  :is(html, body):not(.dark-mode):not(.dark),
+  [data-theme="light"] {
+    background-color: #f4f4f4 !important;
+    background-image: linear-gradient(
+      to bottom, #f2f2f2 0%, #e0dfdd 40%, #c7c5c1 100%
+    ) !important;
   }
 }
-/* kui modal on avatud, väldi body kerimist */
-body.modal-open { overflow:hidden !important; }
 
-/* ---------- BACK BTN mõõdud mobiilis ---------- */
+/* ======================================
+   2) LOGIN-MODAL – keskendus, ei “vaju” ekraanist välja
+   ====================================== */
+.login-modal-backdrop{ position: fixed !important; inset: 0 !important; z-index: 40; }
+
 @media (max-width:768px){
-  .back-btn-wrapper{ margin:1.2em auto 0.6em; position:relative; }
-  .back-arrow-btn{ inline-size:56px; block-size:56px; }
-  .back-arrow-circle{ inline-size:46px; }
+  .login-modal-root{
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: env(safe-area-inset-top,16px) 16px calc(16px + env(safe-area-inset-bottom,0px)) 16px !important;
+    overflow: hidden !important;     /* kerib kasti sees, mitte body */
+    z-index: 50;
+  }
+
+  .login-modal-box,
+  .glass-modal{
+    position: relative !important;
+    left: auto !important; top: auto !important;
+    transform: none !important;
+    width: min(420px, 92vw) !important;
+    max-height: min(620px, 90dvh) !important;
+    overflow: auto !important;
+    border-radius: 1.2em !important;
+    animation: none !important;
+  }
+
+  /* Väikestel ekraanidel lubame vajadusel täisekraani paneeli */
+  @media (max-width:480px){
+    .login-modal-box, .glass-modal{
+      width: 100vw !important;
+      height: 100dvh !important;
+      max-height: 100dvh !important;
+      border-radius: 0 !important;
+    }
+  }
+
+  /* kui modal on avatud, ära lase body'l kerida */
+  body.modal-open{ overflow: hidden !important; }
 }
 
-/* ---------- iOS 100vh lõks + form-zoom fix ---------- */
-*[style*="100vh"]{ height:100dvh !important; }
+/* ======================================
+   3) PEALKIRJAD – mobiilis poole väiksemaks
+   ====================================== */
+@media (max-width:480px){
+  .left-card-primary .headline-bold,
+  .right-card-primary .headline-bold{
+    font-size: 1.5rem !important;   /* 3rem → 1.5rem */
+    line-height: 1.35 !important;
+    margin-top: .2em !important;
+    margin-bottom: .35em !important;
+  }
+  .brand-title{
+    font-size: 1.5rem !important;   /* 3rem → 1.5rem */
+    line-height: 1.3 !important;
+    margin-top: .15em !important;
+    margin-bottom: .4em !important;
+  }
+}
+
+/* ======================================
+   4) CHAT – kerib ainult akna sees
+   ====================================== */
 @media (max-width:768px){
-  html, body{ overscroll-behavior-y:none; }
-  input, select, textarea{ font-size:16px; }
+  .glass-box.chat-container{
+    height: auto !important;
+    max-height: none !important;
+    min-height: 70dvh;
+    margin: .8em auto calc(1.2em + env(safe-area-inset-bottom,0px)) !important;
+  }
+  .chat-main{ min-height: 50dvh; }
+  .chat-window{
+    padding-bottom: calc(10px + env(safe-area-inset-bottom,0px));
+    overscroll-behavior: contain;
+  }
+  .chat-inputbar{ margin-bottom: calc(8px + env(safe-area-inset-bottom,0px)); }
+  .scroll-down-btn{ bottom: calc(72px + env(safe-area-inset-bottom,0px)); }
 }
 
-/* ---------- Desktopi taastused (kui vaja) ---------- */
-@media (min-width:769px){
-  .glass-box.chat-container{ height:96vh !important; max-height:96vh !important; margin:0.6em auto !important; }
+/* ======================================
+   5) AVATAR vs PEALEKIRI – kompaktsem
+   ====================================== */
+@media (max-width:768px){
+  .avatar-link{
+    position: relative !important;
+    align-self: flex-end;
+    margin: .3em 0 .2em 0 !important;
+    top: 0; right: 0;
+  }
 }
 
-/* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion: reduce){
-  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; scroll-behavior:auto !important; }
+/* ======================================
+   6) Mobiilis rasked efektid välja
+   ====================================== */
+@media (max-width:768px){
+  .splash-cursor, .particles-container { display:none !important; }
+  .three-d-card { perspective: none !important; cursor: default !important; }
+  .three-d-card .card-wrapper { transform:none !important; transition:none !important; will-change:auto !important; }
+
   .float-card,
   .glass-card.glow-active,
   .three-d-card:hover .card-face.back > *,
   .three-d-card:focus-within .card-face.back > *,
   .glass-card.fade-in,
-  .defer-fade{ animation:none !important; }
-  .three-d-card .card-wrapper{ transition:none !important; will-change:auto !important; transform:none !important; }
-  .glass-card.fade-in, .defer-fade{ opacity:1 !important; visibility:visible !important; filter:none !important; transform:none !important; }
-}
-
-/* ---------- Mobiilis keelame rasked efektid ---------- */
-@media (max-width:768px){
-  .splash-cursor, .particles-container{ display:none !important; }
-  .three-d-card{ perspective:none !important; cursor:default !important; }
-  .three-d-card .card-wrapper{ transform:none !important; transition:none !important; will-change:auto !important; }
-  .float-card, .glass-card.glow-active,
-  .three-d-card:hover .card-face.back > *,
-  .three-d-card:focus-within .card-face.back > *,
-  .glass-card.fade-in, .defer-fade{
-    animation:none !important; opacity:1 !important; visibility:visible !important; filter:none !important; transform:none !important;
+  .defer-fade{
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    transform: none !important;
   }
 }
 
-/* ---------- Avalehe pealkirjad (mobiilis tagasihoidlikumad) ---------- */
-@media (max-width:768px){
-  .left-card-primary .headline-bold,
-  .right-card-primary .headline-bold{ font-size:2.2rem !important; line-height:1.4 !important; margin-top:0.3em !important; margin-bottom:0.4em !important; }
-  .brand-title{ font-size:2.2rem !important; margin-top:0.2em !important; margin-bottom:0.5em !important; }
-}
-@media (max-width:480px){
-  .left-card-primary .headline-bold,
-  .right-card-primary .headline-bold,
-  .brand-title{ font-size:1.8rem !important; line-height:1.3 !important; }
-}
-
-/* ---------- Avaleht: kerib; scrollbar peidus; jalus fixed ---------- */
-body.avalht{
-  overflow-y:auto !important;
-  -ms-overflow-style:none;
-  scrollbar-width:none;
-}
-body.avalht::-webkit-scrollbar{ display:none; }
-body.avalht .footer-column{
-  position:fixed; bottom:0; left:0; width:100%; z-index:99;
-}
-
-/* ---------- MOBILE BG GRADIENT (space-kihid maha) ---------- */
-@media (max-width:768px){
-  /* tapame kõik kosmose-kihid */
-  .bg-space, .bg-udu, .background-layer, .background-canvas,
-  .particles-container, .splash-cursor,
-  [data-bg*="space"], [class*="space-bg"],
-  body::before, body::after{
-    display:none !important; background:none !important; content:none !important; box-shadow:none !important;
-  }
-  /* nulli võimalikud url-taustad */
-  html, body{ background-image:none !important; background-attachment:scroll !important; }
-
-  /* DARK */
-  :is(html, body).dark-mode,
-  :is(html, body).dark,
-  [data-theme="dark"]{
-    background-color:#070b16 !important;
-    background-image:linear-gradient(to bottom,#070b16 0%,#1a2137 45%,#4c5263 100%) !important;
-    background-repeat:no-repeat !important;
-    background-size:cover !important;
-  }
-  /* LIGHT */
-  :is(html, body):not(.dark-mode):not(.dark),
-  [data-theme="light"]{
-    background-color:#f4f4f4 !important;
-    background-image:linear-gradient(to bottom,#f2f2f2 0%,#e0dfdd 40%,#c7c5c1 100%) !important;
-    background-repeat:no-repeat !important;
-    background-size:cover !important;
+/* ======================================
+   7) Reduced-motion austus (globaalne)
+   ====================================== */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
   }
 }
