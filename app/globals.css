@@ -2326,175 +2326,143 @@ textarea::placeholder,
     visibility: visible !important;
   }
 }
-
 /* ===============================
-   MOBILE FIX PACK — ONLY ≤768px
+   MOBILE — ≤768px
 =================================*/
-@media (max-width: 768px) {
+@media (max-width: 768px){
 
-  /* 0) Kerimine OK, scrollbar peidus, “põrget” vähem */
-  html, body { height: auto; min-height: 100%; overflow-x: hidden; }
-  body {
+  /* Viewport & kerimine (scrollbar peidus, aga töötab) */
+  html, body{
+    min-height: 100svh;
+    overflow-x: hidden;
     overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;  /* vähendab enne-lõppu tagasilööki */
+    overscroll-behavior-y: contain;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
   }
-  body::-webkit-scrollbar { width: 0; height: 0; }
+  body::-webkit-scrollbar{ width:0; height:0; }
 
-  /* 1) Taust: peida Space/udu/grain; kasuta mobiili gradienti */
+  /* LIGHT gradient mobiilis */
+  html:not(.dark-mode), html:not(.dark-mode) body,
+  [data-theme="light"], [data-theme="light"] body{
+    background-image: linear-gradient(
+      to bottom,
+      #18233a 0%,
+      #283957 45%,
+      #6e7d96 100%
+    ) !important;
+    background-color: #5a6578 !important; /* alumise tooni varu */
+  }
+
+  /* DARK gradient mobiilis */
+  html.dark-mode, html.dark-mode body,
+  [data-theme="dark"], [data-theme="dark"] body{
+    background-image: linear-gradient(
+      to bottom,
+      #070b16 0%,
+      #151b2c 45%,
+      #333743 100%
+    ) !important;
+    background-color: #1c1e24 !important;
+  }
+
+  /* Kata kogu kõrgus, et gradient ei lõppeks enne sisu */
+  #__next, #___next{ min-height:100%; display:block; }
+
+  /* Tapa rasked taustakihid mobiilis */
   .space-backdrop, .bg-space, .bg-udu, .background-layer, .background-canvas,
   .particles-container, .splash-cursor,
-  body::before, body::after {
-    display: none !important;
-    background: none !important;
-    content: none !important;
-    box-shadow: none !important;
+  body::before, body::after{
+    display:none !important;
+    background:none !important;
+    content:none !important;
+    box-shadow:none !important;
   }
 
-  /* HELEREŽIIM – mobiili gradient */
-  html:not(.dark-mode), html:not(.dark-mode) body,
-  [data-theme="light"], [data-theme="light"] body {
-    background: linear-gradient(to bottom, #101726 0%, #1e2a40 45%, #5a6578 100%) !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
+  /* Layout – ära sunni 100vh blokke */
+  .hero, .section, .fold, .viewport, [style*="100vh"]{
+    min-height:auto !important;
+    height:auto !important;
   }
 
-  /* TUMEREŽIIM – mobiili gradient */
-  html.dark-mode, html.dark-mode body,
-  [data-theme="dark"], [data-theme="dark"] body {
-    background: linear-gradient(to bottom, #070b16 0%, #1a2137 45%, #4c5263 100%) !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
+  .main-content{
+    display:flex;
+    flex-direction:column !important;
+    gap:1.2rem !important;
+    padding:1rem !important;
+    max-width:100% !important;
+    min-height:auto !important;
+    height:auto !important;
+    padding-bottom:0 !important;
   }
 
-  /* 2) Paigutus: sisu kerib jaluseni, must auk puudub */
-  .main-content {
-    display: flex;
-    flex-direction: column !important;
-    gap: 1.2rem !important;
-    padding: 1rem !important;
-    max-width: 100% !important;
-    min-height: auto !important;
-    height: auto !important;
-    padding-bottom: calc(3.2em + env(safe-area-inset-bottom, 0px)) !important; /* ruum jaluse jaoks */
+  .side{
+    min-height:auto !important;
+    width:100% !important;
+    padding:1.25rem 1rem !important;
   }
 
-  .hero, .section, .fold, .viewport, [style*="100vh"] {
-    min-height: auto !important;
-    height: auto !important;
-  }
+  /* Jalus scrollib koos sisuga (pole fikseeritud) */
+  .footer-column{ position:static !important; width:100% !important; }
 
-  .side {
-    min-height: auto !important;
-    width: 100% !important;
-    padding: 1.25rem 1rem !important;
-  }
-
-  /* jalus liigub koos sisuga */
-  .footer-column {
-    position: static !important;
-    width: 100% !important;
-    padding-bottom: calc(1em + env(safe-area-inset-bottom, 0px)) !important;
-  }
-
-  /* 3) Kaardid: animad maha */
-  .three-d-card { perspective: none !important; cursor: default !important; }
-  .three-d-card .card-wrapper { transform: none !important; transition: none !important; will-change: auto !important; }
+  /* Kaartidel raske animatsioon maha */
+  .three-d-card{ perspective:none !important; cursor:default !important; }
+  .three-d-card .card-wrapper{ transform:none !important; transition:none !important; will-change:auto !important; }
   .float-card,
   .glass-card.glow-active,
   .three-d-card:hover .card-face.back > *,
-  .three-d-card:focus-within .card-face.back > * { animation: none !important; }
+  .three-d-card:focus-within .card-face.back > *{ animation:none !important; }
 
-  /* 4) Kaartide pealkirjad – (jätame sinu töötava variandi) */
-  .left-card-primary .headline-bold,
-  .right-card-primary .headline-bold {
-    font-size: clamp(16px, 5vw, 24px) !important;
-    line-height: 1.25 !important;
-    letter-spacing: 0.06em !important;
-    margin: .25em 0 .35em !important;
-    text-shadow: none !important;
-  }
-
-  /* 5) Login-modal – full-screen ja bounce’ita */
-  .login-modal-backdrop { position: fixed; inset: 0; }
+  /* Login-modal – täisekraan (kui vaja) */
+  .login-modal-backdrop{ position:fixed; inset:0; }
   .login-modal-root,
   .login-modal-box,
-  .glass-modal {
-    position: fixed !important;
-    inset: 0 !important;
-    transform: none !important;
-    border-radius: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    animation: none !important;
-    padding: 2.2em 1.2em calc(1.2em + env(safe-area-inset-bottom,0px)) 1.2em !important;
+  .glass-modal{
+    position:fixed !important;
+    inset:0 !important;
+    transform:none !important;
+    border-radius:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+    padding:2.2em 1.2em calc(1.2em + env(safe-area-inset-bottom,0px)) 1.2em !important;
     backdrop-filter: blur(8px) saturate(120%) !important;
     overscroll-behavior: contain;
   }
-  body.modal-open {
-    overflow: hidden !important;
-    position: fixed !important;  /* iOS lukustus */
-    inset: 0;
-    width: 100%;
-    height: 100dvh;
-    touch-action: none;
+  body.modal-open{
+    overflow:hidden !important;
+    position:fixed !important;
+    inset:0; width:100%; height:100dvh;
+    touch-action:none;
   }
 
-  /* 6) Chat – suurem kõrgus, akna sees scroll */
-  .glass-box.chat-container {
-    min-height: 95dvh !important;   /* sinu soov */
-    max-height: none !important;
-    height: auto !important;
-    margin: .8em auto calc(1.2em + env(safe-area-inset-bottom, 0px)) !important;
-    position: relative; /* et avatar absoluutjoondus toimiks kindlalt */
+  /* CHAT – suur aken */
+  .glass-box.chat-container{
+    display:flex;
+    flex-direction:column;
+    height:auto !important;
+    max-height:none !important;
+    min-height:98svh; /* soovisid 95dvh */
+    margin:.8em auto calc(1.2em + env(safe-area-inset-bottom,0px)) !important;
   }
-  .chat-main {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-  .chat-window {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  .chat-window{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom,0px));
     overscroll-behavior: contain;
   }
 
-  /* 7) Avatar – paremas ülanurgas, silt alati nähtav */
-  .chat-container .avatar-link {
-    position: absolute;
-    top: 0.35em !important;  /* veidi kõrgem kui enne */
-    right: 1em !important;
-    left: auto !important;
-    z-index: 10;
-  }
-  .avatar-label {
-    opacity: 1 !important;
-    transform: translateY(10px) !important;
-    pointer-events: none; /* ei sega klikke avatarile */
-  }
-  /* pealkirjale veidi õhku, et avatariga ei kattuks */
-  .chat-container .glass-title { margin-top: 2.4em !important; }
-
-  /* 8) Nulli muu taust mobiilis */
-  html, body {
-    background-color: transparent !important;
-    background-image: none !important;
-  }
-}
-
-/* ===============================
-   DESKTOP DEFAULTS — >768px
-   (fallback; Space.jsx teeb päris tausta+udu)
-=================================*/
-@media (min-width: 769px) {
-  html, body {
-    background: #070b16 !important; /* tume sinine varutaust, kui Space ei mounti */
+  /* Avatar paremas ülanurgas (sümmeetriline vahe) */
+  .chat-container .avatar-link{
+    position:absolute !important;
+    top:.2rem !important;
+    right:.2rem !important;
+    left:auto !important;
+    z-index:10;
   }
 }
