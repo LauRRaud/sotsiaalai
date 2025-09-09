@@ -2325,73 +2325,107 @@ textarea::placeholder,
     visibility: visible !important;
   }
 }
-@media (prefers-reduced-motion: reduce){
-  .float-card, .glass-card.glow-active, .three-d-card:hover .card-face.back>*{ animation: none !important; }
-}
-/* ================================
-   MOBIIL: paigutus, chat, modalid,
-   jalus, avatar, taustad
-   (KOPEERI FAILI LÕPPU)
-===================================*/
+/* ===============================
+   MOBILE + ACCESSIBILITY FIX PACK
+   (cleaned + deduped)
+=================================*/
 
-/* Safe-area muutujad (notch) */
+/* 0) Baas: kerib (scrollbar peidus), horisontaalne scroll keelatud */
+html, body { height: 100%; overflow-x: hidden; }
+body { overflow-y: auto; }
+
+/* 0.1) Erandid */
+body.no-page-scroll,
+body.modal-open {                     /* lukusta, kui vaja */
+  overflow: hidden !important;
+}
+body.page-chat {                      /* chatis kerib ainult sisemine aken */
+  overflow-y: auto !important;
+}
+
+/* 0.2) Peida scrollbar visuaalselt (kerimine jääb) */
+body,
+.no-scrollbar {                       /* kasuta .no-scrollbar lokaalselt konteineritel */
+  -ms-overflow-style: none;           /* IE/Edge legacy */
+  scrollbar-width: none;              /* Firefox */
+  -webkit-overflow-scrolling: touch;  /* iOS touch-scroll */
+}
+body::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 0.3) Vältida layout-hüpet, kui OS lisab/kaotab riba */
+html { scrollbar-gutter: stable both-edges; }
+
+/* 1) Safe-area muutujad */
 :root{
   --safe-top:    env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* ---------- TAUST (dark / light) ----------
-   NB: kasutame background-image, mitte 'background' shorthandi,
-   et mitte kirjutada üle body background-color’i. */
-html.dark-mode body{
-  background-color:#070b16; /* fallback */
-  background-image: linear-gradient(to bottom,#070b16 0%,#1a2137 45%,#4c5263 100%) !important;
-  background-repeat:no-repeat !important;
-  background-attachment:fixed !important;
-  background-size:cover !important;
-}
-html:not(.dark-mode) body{
-  background-color:#f4f4f4; /* õrn hele fallback */
-  background-image: linear-gradient(to bottom,#f2f2f2 0%,#e0dfdd 40%,#c7c5c1 100%) !important;
-  background-repeat:no-repeat !important;
-  background-attachment:fixed !important;
-  background-size:cover !important;
-}
+/* 2) Mobiili taustagradient (dark / light) */
+@media (max-width: 768px){
+  /* Dark */
+  html.dark-mode,
+  html.dark-mode body { background-color:#070b16 !important; }
+  html.dark-mode{
+    background-image: linear-gradient(to bottom,#070b16 0%,#1a2137 45%,#4c5263 100%) !important;
+    background-repeat:no-repeat !important;
+    background-attachment:fixed !important;
+    background-size:cover !important;
+  }
 
-/* Eemalda muud taustakihid mobiilis (et gradient paistaks) */
-@media (max-width:768px){
-  .bg-space,.bg-udu,.background-layer,.background-canvas,
-  body::before,body::after{ display:none !important; background:none !important; content:none !important; }
-}
+  /* Light */
+  html:not(.dark-mode),
+  html:not(.dark-mode) body { background-color:#f4f4f4 !important; }
+  html:not(.dark-mode){
+    background-image: linear-gradient(to bottom,#f2f2f2 0%,#e0dfdd 40%,#c7c5c1 100%) !important;
+    background-repeat:no-repeat !important;
+    background-attachment:fixed !important;
+    background-size:cover !important;
+  }
 
-/* ---------- AVAL/ELEMENDI PAIGUTUS ---------- */
-@media (max-width:768px){
-  /* Üldine veerg ja vahed */
-  .main-content{ flex-direction:column !important; gap:1.4rem !important; padding:1rem; max-width:100% !important; }
-  .side{ min-height:auto !important; width:100% !important; padding:1.25rem 1rem; }
-
-  /* Klaaskast + jalus ei lõikaks: lisa alumine padi safe-area järgi */
-  .glass-box{ margin:1.2em auto calc(1.4em + var(--safe-bottom)) !important; padding-bottom:max(1em, calc(0.9em + var(--safe-bottom))); }
-  .alaleht-footer{ padding-bottom:calc(0.9em + var(--safe-bottom)); }
-
-  /* Jalus pole fixed mobiilis (scrollib sisuga) */
-  .footer-column{ position:static !important; padding:0.5em 0 0.6em; margin-top:0.4em; }
-  /* Avalehe fixed-jalus (desktop) jääb; mobiilis lubame lehel kerida */
-  body.avalht{ overflow-y:auto; }
-}
-
-/* ---------- AVATAR vs PEALEKIRI (mobiil) ----------
-   Vältime kattumist: tõstame avatar-link absolute → voogu */
-@media (max-width:768px){
-  .avatar-link{
-    position:static !important;
-    align-self:flex-end;
-    margin: .4em 0 0.2em 0;
-    z-index: 3; /* pealkirja all, sisuga kooskõlas */
+  /* Parallax/udu/canvas kihid peitu, et gradient paistaks */
+  .bg-space, .bg-udu, .background-layer, .background-canvas,
+  body::before, body::after {
+    display:none !important; background:none !important; content:none !important;
   }
 }
 
-/* ---------- CHAT (ainult aken kerib, mitte kogu leht) ---------- */
+/* 3) Mobiili paigutus (kaardid, jalus) */
+@media (max-width:768px){
+  .main-content { flex-direction:column !important; gap:1.4rem !important; padding:1rem; max-width:100% !important; }
+  .side { min-height:auto !important; width:100% !important; padding:1.25rem 1rem; }
+
+  .glass-box { margin:1.2em auto calc(1.4em + var(--safe-bottom)) !important; padding-bottom:max(1em, calc(0.9em + var(--safe-bottom))); }
+  .alaleht-footer { padding-bottom:calc(0.9em + var(--safe-bottom)); }
+
+  /* jalus scrollib sisuga mobiilis */
+  .footer-column { position:static !important; padding:0.5em 0 0.6em; margin-top:0.4em; }
+
+  /* avaleht võib kerida mobiilis */
+  body.avalht { overflow-y:auto; }
+}
+
+/* 4) Avatar vs pealkiri mobiilis (vähem vahet, ei kattu) */
+@media (max-width:768px){
+  .avatar-link{
+    position:relative !important;
+    align-self:flex-end;
+    margin:0.3em 0 0.2em 0 !important;
+    top:0; right:0;
+  }
+  .chat-container .brand-title,
+  .chat-container .headline-bold{
+    margin-top:0.2em !important;
+    margin-bottom:0.6em !important;
+    font-size:1.8rem !important;
+  }
+}
+
+/* 5) Chat – ainult akna sees kerimine */
 @media (max-width:768px){
   .glass-box.chat-container{
     height:auto !important;
@@ -2399,51 +2433,47 @@ html:not(.dark-mode) body{
     min-height:70dvh;
     margin:0.8em auto calc(1.2em + var(--safe-bottom)) !important;
   }
-  .chat-main{ min-height:50dvh; }
-  .chat-window{ padding-bottom:calc(10px + var(--safe-bottom)); overscroll-behavior:contain; }
-  .chat-inputbar{ margin-bottom:calc(8px + var(--safe-bottom)); }
-  .scroll-down-btn{ bottom:calc(72px + var(--safe-bottom)); }
+  .chat-main { min-height:50dvh; }
+  .chat-window { padding-bottom:calc(10px + var(--safe-bottom)); overscroll-behavior:contain; }
+  .chat-inputbar { margin-bottom:calc(8px + var(--safe-bottom)); }
+  .scroll-down-btn { bottom:calc(72px + var(--safe-bottom)); }
 }
 
-/* ---------- LOGIN MODAL ----------
-   Keskjoondatud klaaskast ka mobiilis (mitte full-screen).
-   Kui lisad <body class="modal-open"> JS-ist, siis keelame lehe kerimise. */
-body.modal-open{ overflow:hidden; }
-
-@media (max-width:768px){
+/* 6) Login modal – mobiilis täisekraan, kerib vaid vajadusel */
+@media (max-width: 768px){
+  .login-modal-backdrop{ position:fixed; inset:0; }
   .login-modal-root,
   .login-modal-box,
   .glass-modal{
     position:fixed !important;
-    left:50% !important; top:50% !important;
-    transform:translate(-50%,-50%) !important;
-    width:min(94vw, 420px) !important;
-    max-height:90dvh !important;
-    border-radius:1.2em !important;
-    overflow:auto !important;         /* modal ise kerib, mitte leht */
-    animation:none !important;        /* stabiilsem mobiilis */
-    padding-bottom:calc(1em + var(--safe-bottom)) !important;
+    inset:0 !important;                 /* full-screen */
+    transform:none !important;
+    width:100vw !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    border-radius:0 !important;
+    overflow-y:auto !important;
+    animation:none !important;
+    padding:2.2em 1.2em calc(1.2em + env(safe-area-inset-bottom,0px)) 1.2em !important;
+    backdrop-filter:blur(8px) saturate(120%) !important;
   }
-  /* taust – klikitav backdrop */
-  .login-modal-backdrop{ position:fixed; inset:0; }
 }
 
-/* ---------- TAGASI-NUPP klaaskastis ---------- */
+/* 7) Tagasi-nupp klaaskastis */
 @media (max-width:768px){
   .back-btn-wrapper{ margin:1.2em auto 0.6em; position:relative; }
   .back-arrow-btn{ inline-size:56px; block-size:56px; }
   .back-arrow-circle{ inline-size:46px; }
 }
 
-/* ---------- iOS 100vh lõksud ja zoom ----------
-   Väldi 100vh, piira kummikerimist, ja iOS auto-zoom formidel */
+/* 8) iOS 100vh lõksud + sisestuse auto-zoom fix */
 *[style*="100vh"]{ height:100dvh !important; }
 @media (max-width:768px){
-  html,body{ overscroll-behavior-y:none; }
-  input,select,textarea{ font-size:16px; } /* iOS zoom fix */
+  html, body { overscroll-behavior-y:none; }
+  input, select, textarea { font-size:16px; }
 }
 
-/* ---------- Desktopi taastused (kui mobiil reegel pressis üle) ---------- */
+/* 9) Desktopi taastused (kui mobiilireegel kuskil pressis üle) */
 @media (min-width:769px){
   .glass-box.chat-container{
     height:96vh !important;
@@ -2452,17 +2482,78 @@ body.modal-open{ overflow:hidden; }
   }
 }
 
-/* ---------- Avalehe kaartide pealkiri (desktop & tablet) ----------
-   Suurendame tagasi, mobiili tüpograafiat EI muuda. */
-@media (min-width:769px){
-  .left-card-primary .headline-bold{ font-size:2.1rem; letter-spacing:.1em; }
-  .right-card-primary .headline-bold{ font-size:2rem;   letter-spacing:.1em; }
+/* 10) Reduced motion – globaalselt */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+  .float-card,
+  .glass-card.glow-active,
+  .three-d-card:hover .card-face.back > *,
+  .three-d-card:focus-within .card-face.back > *,
+  .glass-card.fade-in,
+  .defer-fade{ animation:none !important; }
+
+  .three-d-card .card-wrapper{
+    transition:none !important;
+    will-change:auto !important;
+    transform:none !important;
+  }
+
+  .glass-card.fade-in,
+  .defer-fade{
+    opacity:1 !important;
+    visibility:visible !important;
+    filter:none !important;
+    transform:none !important;
+  }
 }
 
-/* ---------- Mobiili: ära puutu tüpograafiat ---------- */
+/* 11) Mobiilis lülita rasked efektid välja (isegi kui reduced-motion pole peal) */
 @media (max-width:768px){
-  .headline-bold,.brand-title,.card-note{
-    font-size:inherit !important;
-    letter-spacing:inherit !important;
+  .splash-cursor, .particles-container { display:none !important; }
+  .three-d-card { perspective:none !important; cursor:default !important; }
+  .three-d-card .card-wrapper { transform:none !important; transition:none !important; will-change:auto !important; }
+
+  .float-card,
+  .glass-card.glow-active,
+  .three-d-card:hover .card-face.back > *,
+  .three-d-card:focus-within .card-face.back > *,
+  .glass-card.fade-in,
+  .defer-fade{
+    animation:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    filter:none !important;
+    transform:none !important;
   }
+}
+
+/* 12) Avalehe kaardipealkirjad + brändi pealkiri mobiilis suuremaks */
+@media (max-width:768px){
+  .left-card-primary .headline-bold,
+  .right-card-primary .headline-bold{
+    font-size:3rem !important;
+    line-height:1.5 !important;
+    margin-top:0.3em !important;
+    margin-bottom:0.4em !important;
+  }
+  .brand-title{
+    font-size:3rem !important;
+    margin-top:0.2em !important;
+    margin-bottom:0.5em !important;
+  }
+}
+
+/* 13) Avaleht: kerib, scrollbar peidus; jalus fikseeritud (nagu soovisid) */
+body.avalht { overflow-y: auto; }
+body.avalht .footer-column {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
 }
