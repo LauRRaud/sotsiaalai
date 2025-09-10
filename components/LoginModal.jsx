@@ -7,22 +7,29 @@ import { useRouter } from "next/navigation";
 
 export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
-  const emailRef = useRef(null);
-
   const router = useRouter();
+  const scrollYRef = useRef(0);
 
-  // ====== Taustakerimise lukustamine + fookus + ESC ======
+  // ====== Tausta lukustus + fookuse/kerimise käitumine ======
   useEffect(() => {
     if (!open) return;
 
-    // lisa body-le lukustusklass
+    // Lukusta body (iOS-sõbralik)
+    scrollYRef.current = window.scrollY || 0;
     document.body.classList.add("modal-open");
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollYRef.current}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
 
-    // sea fookus (eelistatult emailile, muidu kastile)
-    const focusTarget = emailRef.current || boxRef.current;
-    focusTarget?.focus?.();
+    // iOS kipub esimest inputit fokusseerima – eemaldame automaatfookuse
+    setTimeout(() => {
+      const ae = document.activeElement;
+      if (ae && typeof ae.blur === "function") ae.blur();
+    }, 0);
 
-    // Blokeeri tausta kerimine (touch + wheel), kui event ei tule modali seest
+    // Väljaspool modali kerimist ei luba
     const stopScroll = (e) => {
       if (boxRef.current && !boxRef.current.contains(e.target)) {
         e.preventDefault();
@@ -33,6 +40,25 @@ export default function LoginModal({ open, onClose }) {
     // ESC sulgeb
     const onKeydown = (e) => {
       if (e.key === "Escape") onClose?.();
+      // Tab-fookuse lõks (lihtne wrap)
+      if (e.key === "Tab" && boxRef.current) {
+        const nodes = boxRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        const focusables = Array.from(nodes);
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement;
+
+        if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        } else if (e.shiftKey && active === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      }
     };
 
     document.addEventListener("touchmove", stopScroll, { passive: false });
@@ -41,6 +67,13 @@ export default function LoginModal({ open, onClose }) {
 
     return () => {
       document.body.classList.remove("modal-open");
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollYRef.current);
+
       document.removeEventListener("touchmove", stopScroll);
       document.removeEventListener("wheel", stopScroll);
       document.removeEventListener("keydown", onKeydown);
@@ -49,30 +82,24 @@ export default function LoginModal({ open, onClose }) {
 
   if (!open) return null;
 
-  // ====== Demo-handlerid (asenda reaalse autentikaga hiljem) ======
+  // ====== Demo-auth handlerid ======
   const handleGoogleLogin = () => alert("Google login pole veel seadistatud.");
-  const handleSmartID = () => alert("Smart-ID login pole veel seadistatud.");
-  const handleMobileID = () => alert("Mobiil-ID login pole veel seadistatud.");
+  const handleSmartID   = () => alert("Smart-ID login pole veel seadistatud.");
+  const handleMobileID  = () => alert("Mobiil-ID login pole veel seadistatud.");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.currentTarget.email.value.trim();
     const password = e.currentTarget.password.value.trim();
-
     if (!email) return alert("Palun sisesta e-posti aadress.");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return alert("Palun sisesta korrektne e-posti aadress.");
     if (!password) return alert("Palun sisesta parool.");
-
-    // NAV → vestlus (demo)
     router.push("/vestlus");
     onClose?.();
   };
 
-  // Backdrop klik sulgeb; modali sees click/touch ei mullita
-  const stopInside = (e) => {
-    e.stopPropagation();
-  };
+  const stopInside = (e) => e.stopPropagation();
 
   const modal = (
     <>
@@ -84,7 +111,7 @@ export default function LoginModal({ open, onClose }) {
         aria-hidden="true"
       />
 
-      {/* Modal box */}
+      {/* Modal */}
       <div
         ref={boxRef}
         className="login-modal-root login-modal-box glass-modal"
@@ -95,7 +122,6 @@ export default function LoginModal({ open, onClose }) {
         onClick={stopInside}
         onTouchStart={stopInside}
       >
-        {/* X nupp */}
         <button
           className="login-modal-close"
           onClick={onClose}
@@ -109,28 +135,13 @@ export default function LoginModal({ open, onClose }) {
 
         {/* SSO ikoonid */}
         <div className="login-social-icons-row">
-          <button
-            className="login-icon-btn"
-            onClick={handleGoogleLogin}
-            type="button"
-            aria-label="Google"
-          >
+          <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google">
             <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" />
           </button>
-          <button
-            className="login-icon-btn"
-            onClick={handleSmartID}
-            type="button"
-            aria-label="Smart-ID"
-          >
+          <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID">
             <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" />
           </button>
-          <button
-            className="login-icon-btn"
-            onClick={handleMobileID}
-            type="button"
-            aria-label="Mobiil-ID"
-          >
+          <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID">
             <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" />
           </button>
         </div>
@@ -141,7 +152,6 @@ export default function LoginModal({ open, onClose }) {
         <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
           <label style={{ width: "100%", display: "block" }}>
             <input
-              ref={emailRef}
               className="input-modern"
               type="email"
               name="email"
@@ -161,14 +171,7 @@ export default function LoginModal({ open, onClose }) {
             />
           </label>
 
-          <div
-            style={{
-              width: "100%",
-              textAlign: "right",
-              marginTop: "-0.4em",
-              marginBottom: "0.6em",
-            }}
-          >
+          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
             <Link href="/unustasin-parooli" className="unustasid-parooli-link">
               Unustasid parooli?
             </Link>
@@ -188,7 +191,6 @@ export default function LoginModal({ open, onClose }) {
     </>
   );
 
-  // SSR-safe portaal
   if (typeof document === "undefined") return null;
   return createPortal(modal, document.body);
 }

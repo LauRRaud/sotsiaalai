@@ -2331,55 +2331,52 @@ textarea::placeholder,
 =================================*/
 @media (max-width: 768px) {
 
-  /* 0) Kerimine: lubatud; scrollbar peidus */
-  html, body { height: 100%; overflow-x: hidden; }
-  html, body {
+  /* 0) Kerimine: lubatud; scrollbar peidus; ära sunni scroll-snap'i */
+  html, body { height: 100%; overflow-x: hidden; -webkit-text-size-adjust:100%; touch-action: pan-y; }
+  body {
     overflow-y: auto;
-    -ms-overflow-style: none;      /* IE/Edge legacy */
-    scrollbar-width: none;         /* Firefox */
+    -ms-overflow-style: none;           /* IE/Edge legacy */
+    scrollbar-width: none;              /* Firefox */
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
   }
   html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+  html, body, main, .viewport, .page, .page-wrap { scroll-snap-type: none !important; }
 
-  /* 1) Rasked taustakihid kinni (gradient jääb Space’ist) */
+  /* 1) Rasked taustakihid kinni (gradient tuleb Space.jsx'ist) */
   .particles-container,
-  .splash-cursor {
-    display: none !important;
-  }
+  .splash-cursor { display: none !important; }
+  /* NB! Ära peida .space-backdrop'i */
 
   /* 2) Paigutus: kaardid alla-alla, pole 100vh sundi */
-  .main-content {
+  main, .main-content, .page, .page-wrap {
     display: flex;
     flex-direction: column !important;
     gap: 1rem !important;
     padding: 1rem !important;
-    max-width: 100% !important;
-    min-height: auto !important;
     height: auto !important;
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)) !important;
+    min-height: auto !important;
     box-sizing: border-box;
   }
-  .side {
-    min-height: auto !important;
-    width: 100% !important;
-    padding: 1.25rem 1rem !important;
-  }
-  /* nulli kõik 100vh jäänukid */
-  .hero, .section, .fold, .viewport, [style*="100vh"] {
-    min-height: auto !important;
-    height: auto !important;
+  .side { min-height: auto !important; width: 100% !important; padding: 1.25rem 1rem !important; }
+  /* nulli kõik 100vh/svh/dvh jäänukid */
+  .hero, .section, .fold, .viewport, [style*="100vh"], [style*="100svh"], [style*="100dvh"] {
+    min-height: auto !important; height: auto !important;
   }
 
-  /* 3) Footer ei ole fikseeritud → kaob must “auk” */
-  .footer-column {
+  /* 3) Footer voolab koos sisuga – kättesaadav; lõpus ei teki suurt tühja ruumi */
+  .footer-column, footer, .site-footer {
     position: static !important;
-    left: auto !important;
-    bottom: auto !important;
+    left: auto !important; bottom: auto !important;
     width: 100% !important;
     background: transparent !important;
-    padding-bottom: 0.2em !important;
     z-index: 1 !important;
+    margin-top: auto !important;
+    padding-bottom: env(safe-area-inset-bottom, 8px) !important;
   }
+  /* piira viimase elemendi järel ruumi, et Chrome'is ei tekiks “must auk” */
+  .main-content > :last-child,
+  main > :last-child { margin-bottom: 8px !important; }
 
   /* 4) Avalehe kaardieffektid maha (float / glow / flip) */
   .three-d-card { perspective: none !important; cursor: default !important; }
@@ -2393,32 +2390,21 @@ textarea::placeholder,
   /* 5) Kaartide pealkirjad veidi väiksemaks */
   .left-card-primary .headline-bold,
   .right-card-primary .headline-bold {
-    font-size: clamp(16px, 5.2vw, 22px) !important;
+    font-size: clamp(16px, 5vw, 22px) !important;
     line-height: 1.25 !important;
     letter-spacing: 0.06em !important;
     margin: .25em 0 .35em !important;
     text-shadow: none !important;
   }
 
-  /* 6) Avatar: ühtlaselt paremas ülanurgas, ei kattu pealkirjaga */
-  .chat-container .avatar-link,
-  .avatar-link {
-    position: absolute !important;
-    top: 0.6rem !important;
-    right: 0.6rem !important;   /* sama offset mõlemast servast */
-    left: auto !important;
-    z-index: 10 !important;
-    transform: none !important;
-  }
-
-  /* 7) Chat-konteiner: ära suru mõõte; lase desktop-defaultil, väldi overflow’i */
+  /* 6) Chat – ära suru mõõte; hoia overflow kontrolli all */
   .glass-box.chat-container,
   .chat-container {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
     max-height: none !important;
-    margin: 0 auto 1rem auto !important;
+    margin: 0 auto 1rem !important;
     box-sizing: border-box !important;
     overflow: visible !important;
   }
@@ -2426,8 +2412,6 @@ textarea::placeholder,
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     overscroll-behavior: contain;
   }
-
-  /* 8) Väldi horisontaalset ülevoolu klaaskastidel */
   .glass-box {
     max-width: 100% !important;
     width: 100% !important;
@@ -2437,9 +2421,33 @@ textarea::placeholder,
     margin-right: 0 !important;
   }
 
-  /* 9) Mobiilis tausta värvi ei sunni — html/body jäägu läbipaistvaks */
-  html, body {
-    background-color: transparent !important;
-    background-image: none !important;
+  /* 7) Login-modal: täisekraan + sisemine kerimine */
+  .login-modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+  .login-modal-root,
+  .login-modal-box,
+  .glass-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    animation: none !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    padding: 2rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)) 1rem !important;
+    overscroll-behavior: contain;
   }
+  body.modal-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    touch-action: none;
+  }
+
+  /* 8) Mobiilis html/body jäävad läbipaistvaks – gradient tuleb Space.jsx'ist */
+  html, body { background-color: transparent !important; background-image: none !important; }
 }
