@@ -1,13 +1,12 @@
 // components/backgrounds/BackgroundLayer.jsx
 "use client";
 
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useRef } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
-// SplashCursor asemel kasutame tingimuslikku wrapperit
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 
 /* --- utiliidid --- */
@@ -46,12 +45,25 @@ function usePrefersReducedMotion() {
   }, []);
   return reduced;
 }
+function useIsMobile() {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 768px)");
+    const onChange = () => setM(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return m;
+}
 
 /* --- komponent --- */
 function BackgroundLayer() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState("dark");
+  const modeObsRef = useRef(null);
 
   // Efektide laisk laadimine
   const [particlesReady, setParticlesReady] = useState(false);
@@ -61,6 +73,7 @@ function BackgroundLayer() {
   const [skipIntro, setSkipIntro] = useState(true);
 
   const prefersReduced = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setMounted(true);
@@ -84,44 +97,60 @@ function BackgroundLayer() {
       setSkipIntro(true);
     }
 
+    // teema muutus – kuula custom event’i ja className muutust
     const onThemeChange = () => setMode(getHtmlMode());
     const onStorage = () => setMode(getHtmlMode());
     window.addEventListener("themechange", onThemeChange);
     window.addEventListener("storage", onStorage);
+
+    // jälgi <html class="..."> muutusi (nt toggle nupp)
+    if (typeof MutationObserver !== "undefined") {
+      modeObsRef.current = new MutationObserver(() => setMode(getHtmlMode()));
+      modeObsRef.current.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    }
+
     return () => {
       window.removeEventListener("themechange", onThemeChange);
       window.removeEventListener("storage", onStorage);
+      modeObsRef.current?.disconnect?.();
     };
   }, [pathname]);
 
   // Lae taustaefektid alles siis, kui leht on nähtav + idle
   useEffect(() => {
-    if (!mounted || prefersReduced) return;
+    if (!mounted || prefersReduced || isMobile) return; // mobiilis ei lae rasked efektid
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     const cancelCursor    = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => {
       typeof cancelParticles === "function" && cancelParticles();
       typeof cancelCursor === "function" && cancelCursor();
     };
-  }, [mounted, prefersReduced]);
+  }, [mounted, prefersReduced, isMobile]);
 
   if (!mounted) return null;
 
+  const desktop = !isMobile && !prefersReduced;
+
   return (
     <>
-      {/* Udu/fog animeeri ainult avalehe esmakülastusel; viivitus 0 */}
+      {/* Space:
+          - desktop: fog/grain sees, anim ainult avalehe esmakülastusel
+          - mobile või reduced-motion: fog/grain välja, anim välja */}
       <Space
+        key={mode} // forceeri gradienti uuesti arvutamist teema vahetusel
         mode={mode}
-        animateFog={!skipIntro && !prefersReduced}
-        skipIntro={skipIntro}
+        fog={desktop}
+        grain={desktop}
+        animateFog={desktop && !skipIntro}
+        skipIntro={!desktop || skipIntro}
         fogAppearDelayMs={0}
       />
 
-      {/* Osakesed: keelame kui kasutaja eelistab vähendatud animatsioone */}
-      {particlesReady && !prefersReduced && <Particles mode={mode} />}
+      {/* Osakesed ainult desktopil ja kui reduced-motion pole */}
+      {desktop && particlesReady && <Particles mode={mode} />}
 
-      {/* SplashCursor ainult desktopil (MaybeSplash otsustab laiuse järgi) ja kui pole reduced-motion'i */}
-      {cursorReady && !prefersReduced && <MaybeSplash />}
+      {/* SplashCursor ainult desktopil */}
+      {desktop && cursorReady && <MaybeSplash />}
     </>
   );
 }

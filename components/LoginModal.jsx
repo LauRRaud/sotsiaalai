@@ -7,34 +7,49 @@ import { useRouter } from "next/navigation";
 
 export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
+  const emailRef = useRef(null);
+
   const router = useRouter();
 
-  // Body klass ja touch-scroll keelamine modali taustal
+  // ====== Taustakerimise lukustamine + fookus + ESC ======
   useEffect(() => {
-    if (open && boxRef.current) {
-      boxRef.current.focus();
-    }
-    document.body.classList.toggle("modal-open", open);
+    if (!open) return;
 
-    const stopTouchMove = (e) => {
-      if (open && boxRef.current && !boxRef.current.contains(e.target)) {
+    // lisa body-le lukustusklass
+    document.body.classList.add("modal-open");
+
+    // sea fookus (eelistatult emailile, muidu kastile)
+    const focusTarget = emailRef.current || boxRef.current;
+    focusTarget?.focus?.();
+
+    // Blokeeri tausta kerimine (touch + wheel), kui event ei tule modali seest
+    const stopScroll = (e) => {
+      if (boxRef.current && !boxRef.current.contains(e.target)) {
         e.preventDefault();
+        e.stopPropagation();
       }
     };
 
-    if (open) {
-      document.addEventListener("touchmove", stopTouchMove, { passive: false });
-    }
+    // ESC sulgeb
+    const onKeydown = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+
+    document.addEventListener("touchmove", stopScroll, { passive: false });
+    document.addEventListener("wheel", stopScroll, { passive: false });
+    document.addEventListener("keydown", onKeydown);
 
     return () => {
       document.body.classList.remove("modal-open");
-      document.removeEventListener("touchmove", stopTouchMove);
+      document.removeEventListener("touchmove", stopScroll);
+      document.removeEventListener("wheel", stopScroll);
+      document.removeEventListener("keydown", onKeydown);
     };
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open) return null;
 
-  // Demo-handlers
+  // ====== Demo-handlerid (asenda reaalse autentikaga hiljem) ======
   const handleGoogleLogin = () => alert("Google login pole veel seadistatud.");
   const handleSmartID = () => alert("Smart-ID login pole veel seadistatud.");
   const handleMobileID = () => alert("Mobiil-ID login pole veel seadistatud.");
@@ -49,29 +64,38 @@ export default function LoginModal({ open, onClose }) {
     if (!emailRegex.test(email)) return alert("Palun sisesta korrektne e-posti aadress.");
     if (!password) return alert("Palun sisesta parool.");
 
+    // NAV → vestlus (demo)
     router.push("/vestlus");
     onClose?.();
   };
 
-  const modalContent = (
+  // Backdrop klik sulgeb; modali sees click/touch ei mullita
+  const stopInside = (e) => {
+    e.stopPropagation();
+  };
+
+  const modal = (
     <>
       {/* Backdrop */}
-      <div className="login-modal-backdrop" onClick={onClose} />
+      <div
+        className="login-modal-backdrop"
+        onClick={onClose}
+        role="presentation"
+        aria-hidden="true"
+      />
 
-      {/* Modal */}
+      {/* Modal box */}
       <div
         ref={boxRef}
         className="login-modal-root login-modal-box glass-modal"
         tabIndex={-1}
-        aria-modal="true"
         role="dialog"
-        style={{ outline: "none" }}
+        aria-modal="true"
         aria-label="Logi sisse"
-        onKeyDown={(e) => e.key === "Escape" && onClose?.()}
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
+        onClick={stopInside}
+        onTouchStart={stopInside}
       >
-        {/* Close button */}
+        {/* X nupp */}
         <button
           className="login-modal-close"
           onClick={onClose}
@@ -85,23 +109,39 @@ export default function LoginModal({ open, onClose }) {
 
         {/* SSO ikoonid */}
         <div className="login-social-icons-row">
-          <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google">
+          <button
+            className="login-icon-btn"
+            onClick={handleGoogleLogin}
+            type="button"
+            aria-label="Google"
+          >
             <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" />
           </button>
-          <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID">
+          <button
+            className="login-icon-btn"
+            onClick={handleSmartID}
+            type="button"
+            aria-label="Smart-ID"
+          >
             <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" />
           </button>
-          <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID">
+          <button
+            className="login-icon-btn"
+            onClick={handleMobileID}
+            type="button"
+            aria-label="Mobiil-ID"
+          >
             <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" />
           </button>
         </div>
 
         <div className="login-or-divider"><span>või</span></div>
 
-        {/* Email + password form */}
+        {/* Vorm */}
         <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
           <label style={{ width: "100%", display: "block" }}>
             <input
+              ref={emailRef}
               className="input-modern"
               type="email"
               name="email"
@@ -121,7 +161,14 @@ export default function LoginModal({ open, onClose }) {
             />
           </label>
 
-          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "right",
+              marginTop: "-0.4em",
+              marginBottom: "0.6em",
+            }}
+          >
             <Link href="/unustasin-parooli" className="unustasid-parooli-link">
               Unustasid parooli?
             </Link>
@@ -141,6 +188,7 @@ export default function LoginModal({ open, onClose }) {
     </>
   );
 
+  // SSR-safe portaal
   if (typeof document === "undefined") return null;
-  return createPortal(modalContent, document.body);
+  return createPortal(modal, document.body);
 }

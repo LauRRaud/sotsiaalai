@@ -3,7 +3,6 @@ import "./globals.css";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import Script from "next/script";
 import localFont from "next/font/local";
-import BodyWrapper from "@/components/BodyWrapper";
 
 export const metadata = {
   title: "SotsiaalAI",
@@ -71,11 +70,13 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/login/smart.svg" />
         <link rel="preload" as="image" href="/login/mobiil.png" />
       </head>
-
-      <BodyWrapper>
+      
+      <body className="antialiased min-h-screen w-full overflow-x-hidden">
+        {/* Taustakihid */}
         <BackgroundLayer />
+        {/* Sisu */}
         <main className="relative z-10">{children}</main>
-      </BodyWrapper>
+      </body>
     </html>
   );
 }

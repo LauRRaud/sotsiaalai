@@ -1,4 +1,4 @@
-// components/Space.jsx — gradient only on mobile
+// components/Space.jsx — desktop: fog+grain; mobile: gradient only
 export default function Space({
   mode = "dark",
   palette,
@@ -18,46 +18,45 @@ export default function Space({
   noiseUrl = "/textures/noise.webp",
   fogBlurPx = 80,
 } = {}) {
-const PRESETS = {
-  dark: {
-    palette: { baseTop: "#070b16", baseBottom: "#0d111b" }, // sama tume
-    intensity: 0.48,
-    fogStrength: 0.42,
-    fogBlend: "screen",
-    grainOpacity: 0.065,
-    fogInnerRGBA: (alphaBase) => [
-      `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
-      "rgba(185,210,245,0.30)",
-    ],
-  },
-  light: {
-    palette: { baseTop: "#070b16", baseBottom: "#0d111b" }, // JÄÄB TUMEDAKS
-    intensity: 0.28,        // veidi kergem kui dark
-    fogStrength: 0.30,      // nõrgem fog
-    fogBlend: "screen",
-    grainOpacity: 0.05,     // vähem mürataset
-    fogInnerRGBA: () => [
-      "#c6e0ffdd",          // heledam sinine fog
-      "#b1d2ffbb"
-    ],
-  },
-};
+  // Mõlemad režiimid jäävad tumeda gradiga; lightil lihtsalt kergem udu
+  const PRESETS = {
+    dark: {
+      palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
+      intensity: 0.48,
+      fogStrength: 0.42,
+      fogBlend: "screen",
+      grainOpacity: 0.065,
+      fogInnerRGBA: (alphaBase) => [
+        `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
+        "rgba(185,210,245,0.30)",
+      ],
+    },
+    light: {
+      palette: { baseTop: "#070b16", baseBottom: "#0d111b" }, // jääb tume
+      intensity: 0.28,
+      fogStrength: 0.30,
+      fogBlend: "screen",
+      grainOpacity: 0.05,
+      fogInnerRGBA: () => ["#c6e0ffdd", "#b1d2ffbb"],
+    },
+  };
 
   const cfg = PRESETS[mode] || PRESETS.dark;
   const pal = { ...cfg.palette, ...(palette || {}) };
   const inten = intensity ?? cfg.intensity;
   const fogStr = clamp(fogStrength ?? cfg.fogStrength, 0, 0.7);
 
+  // hoian valmis, kui tahad neid kuskil kasutada
   const opacity1 = clamp(0.25 * inten, 0, 0.8);
   const opacity2 = clamp(0.18 * inten, 0, 0.7);
-
   const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
 
-  const fogArmed = !!(animateFog || skipIntro);
+  // Animatsioon ainult siis, kui lubatud; renderdamine ei sõltu sellest
   const animateFogEff = !!(animateFog && !skipIntro);
 
-  const shouldRenderFog = fog && fogArmed;
-  const shouldRenderGrain = grain && fogArmed;
+  // NB! Mountime fog/grain alati (desktop), mobiil peidab CSS-iga
+  const shouldRenderFog = !!fog;
+  const shouldRenderGrain = !!grain;
 
   return (
     <div
@@ -85,9 +84,7 @@ const PRESETS = {
       }}
       aria-hidden
     >
-      {/* rasked kihid mountime ainult siis, kui lubatud — 
-          kuid mobiilis peidab allpool olev @media need igal juhul */}
-      {shouldRenderFog && <FogLayer armed={fogArmed} animateFog={animateFogEff} />}
+      {shouldRenderFog && <FogLayer animateFog={animateFogEff} />}
       {shouldRenderGrain &&
         (noiseUrl ? <BitmapGrainOverlay noiseUrl={noiseUrl} /> : <SvgGrainOverlay />)}
 
@@ -108,10 +105,10 @@ const PRESETS = {
           pointer-events:none; opacity:.001; will-change:opacity;
           backface-visibility:hidden;
         }
-        .fog[data-armed="1"][data-animate="1"]{
+        .fog[data-animate="1"]{
           animation:fogAppear var(--fogAppearDur) linear var(--fogAppearDelay) both;
         }
-        .fog[data-armed="1"][data-animate="0"]{ opacity:var(--fogOpacity); animation:none; }
+        .fog[data-animate="0"]{ opacity:var(--fogOpacity); animation:none; }
         @keyframes fogAppear{
           0%{opacity:.001} 55%{opacity:calc(var(--fogOpacity)*.26)}
           85%{opacity:calc(var(--fogOpacity)*.75)} 100%{opacity:var(--fogOpacity)}
@@ -146,9 +143,9 @@ const PRESETS = {
   );
 }
 
-function FogLayer({ armed, animateFog }) {
+function FogLayer({ animateFog }) {
   return (
-    <div className="fog" data-armed={armed ? "1" : "0"} data-animate={animateFog ? "1" : "0"} suppressHydrationWarning>
+    <div className="fog" data-animate={animateFog ? "1" : "0"} suppressHydrationWarning>
       <div className="fog-blob fb1" />
       <div className="fog-blob fb3" />
     </div>

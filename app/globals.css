@@ -2326,3 +2326,120 @@ textarea::placeholder,
     visibility: visible !important;
   }
 }
+/* ===============================
+   MOBILE FIX PACK — ONLY ≤768px
+=================================*/
+@media (max-width: 768px) {
+
+  /* 0) Kerimine: lubatud; scrollbar peidus */
+  html, body { height: 100%; overflow-x: hidden; }
+  html, body {
+    overflow-y: auto;
+    -ms-overflow-style: none;      /* IE/Edge legacy */
+    scrollbar-width: none;         /* Firefox */
+    -webkit-overflow-scrolling: touch;
+  }
+  html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+  /* 1) Rasked taustakihid kinni (gradient jääb Space’ist) */
+  .particles-container,
+  .splash-cursor {
+    display: none !important;
+  }
+
+  /* 2) Paigutus: kaardid alla-alla, pole 100vh sundi */
+  .main-content {
+    display: flex;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box;
+  }
+  .side {
+    min-height: auto !important;
+    width: 100% !important;
+    padding: 1.25rem 1rem !important;
+  }
+  /* nulli kõik 100vh jäänukid */
+  .hero, .section, .fold, .viewport, [style*="100vh"] {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* 3) Footer ei ole fikseeritud → kaob must “auk” */
+  .footer-column {
+    position: static !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    background: transparent !important;
+    padding-bottom: 0.2em !important;
+    z-index: 1 !important;
+  }
+
+  /* 4) Avalehe kaardieffektid maha (float / glow / flip) */
+  .three-d-card { perspective: none !important; cursor: default !important; }
+  .three-d-card .card-wrapper { transform: none !important; transition: none !important; will-change: auto !important; }
+  .float-card,
+  .glass-card.glow-active,
+  .three-d-card:hover .card-face.back > *,
+  .three-d-card:focus-within .card-face.back > * { animation: none !important; }
+  .card-face.back { pointer-events: none !important; }
+
+  /* 5) Kaartide pealkirjad veidi väiksemaks */
+  .left-card-primary .headline-bold,
+  .right-card-primary .headline-bold {
+    font-size: clamp(16px, 5.2vw, 22px) !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.06em !important;
+    margin: .25em 0 .35em !important;
+    text-shadow: none !important;
+  }
+
+  /* 6) Avatar: ühtlaselt paremas ülanurgas, ei kattu pealkirjaga */
+  .chat-container .avatar-link,
+  .avatar-link {
+    position: absolute !important;
+    top: 0.6rem !important;
+    right: 0.6rem !important;   /* sama offset mõlemast servast */
+    left: auto !important;
+    z-index: 10 !important;
+    transform: none !important;
+  }
+
+  /* 7) Chat-konteiner: ära suru mõõte; lase desktop-defaultil, väldi overflow’i */
+  .glass-box.chat-container,
+  .chat-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto 1rem auto !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+  .chat-window {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    overscroll-behavior: contain;
+  }
+
+  /* 8) Väldi horisontaalset ülevoolu klaaskastidel */
+  .glass-box {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 9) Mobiilis tausta värvi ei sunni — html/body jäägu läbipaistvaks */
+  html, body {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+}
