@@ -1,7 +1,7 @@
 // components/backgrounds/BackgroundLayer.jsx
 "use client";
 
-import { useEffect, useState, memo, useRef } from "react";
+import { useEffect, useState, useRef, memo, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
@@ -9,11 +9,13 @@ const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 
-/* --- utiliidid --- */
-function getHtmlMode() {
-  return document.documentElement.classList.contains("dark-mode") ? "dark" : "light";
+/* utils */
+function getDomTheme() {
+  if (typeof document === "undefined") return "dark";
+  const el = document.documentElement;
+  return el.dataset?.theme === "light" ? "light" : "dark";
 }
-function onIdle(cb, timeout = 1200) {
+function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
     const id = window.requestIdleCallback(cb, { timeout });
@@ -45,113 +47,89 @@ function usePrefersReducedMotion() {
   }, []);
   return reduced;
 }
-function useIsMobile() {
-  const [m, setM] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(max-width: 768px)");
-    const onChange = () => setM(mq.matches);
-    onChange();
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-  return m;
-}
 
-/* --- komponent --- */
 function BackgroundLayer() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-  const [mode, setMode] = useState("dark");
-  const modeObsRef = useRef(null);
 
-  // Efektide laisk laadimine
+  // SSR-safe wrapper: me EI tagasta enam nulli – struktuur on püsiv
+  const [mounted, setMounted] = useState(false);
+
+  // teema võetakse <html data-theme> pealt; default "dark"
+  const [mode, setMode] = useState("dark");
+
+  // sekundaar-efektid (laeme hiljem)
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
 
-  // Avalehe „intro” animatsiooni vahelejätmine korduvkülastusel
-  const [skipIntro, setSkipIntro] = useState(true);
+  // udu animatsiooni lipp – arvutame KORRA ja ei toggelda
+  const [animateFog, setAnimateFog] = useState(false);
+  const hasDecidedRef = useRef(false);
 
   const prefersReduced = usePrefersReducedMotion();
-  const isMobile = useIsMobile();
 
+  // 1) mount + esialgne teema
   useEffect(() => {
     setMounted(true);
-    setMode(getHtmlMode());
+    setMode(getDomTheme());
+    const onThemeChange = () => setMode(getDomTheme());
+    window.addEventListener("themechange", onThemeChange);
+    window.addEventListener("storage", onThemeChange);
+    return () => {
+      window.removeEventListener("themechange", onThemeChange);
+      window.removeEventListener("storage", onThemeChange);
+    };
+  }, []);
 
-    // Intro/skip loogika
+  // 2) otsusta üks kord, kas udu animatsioon käivitub (ainult avalehel esmakülastusel)
+  useEffect(() => {
+    if (hasDecidedRef.current) return;
+
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
       isReload = nav ? nav.type === "reload" : performance?.navigation?.type === 1;
     } catch {}
 
-    let alreadyDone = false;
-    try { alreadyDone = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
+    let already = false;
+    try { already = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
 
-    if (pathname === "/") {
-      const shouldSkip = alreadyDone && !isReload;
-      setSkipIntro(!!shouldSkip);
-      try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
-    } else {
-      setSkipIntro(true);
-    }
+    const shouldAnimate = pathname === "/" && !already && !isReload && !prefersReduced;
+    setAnimateFog(shouldAnimate);
 
-    // teema muutus – kuula custom event’i ja className muutust
-    const onThemeChange = () => setMode(getHtmlMode());
-    const onStorage = () => setMode(getHtmlMode());
-    window.addEventListener("themechange", onThemeChange);
-    window.addEventListener("storage", onStorage);
+    // märgi intro tehtuks, et mitte restartida järgmistel kordadel
+    try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
+    hasDecidedRef.current = true;
+  }, [pathname, prefersReduced]);
 
-    // jälgi <html class="..."> muutusi (nt toggle nupp)
-    if (typeof MutationObserver !== "undefined") {
-      modeObsRef.current = new MutationObserver(() => setMode(getHtmlMode()));
-      modeObsRef.current.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    }
-
-    return () => {
-      window.removeEventListener("themechange", onThemeChange);
-      window.removeEventListener("storage", onStorage);
-      modeObsRef.current?.disconnect?.();
-    };
-  }, [pathname]);
-
-  // Lae taustaefektid alles siis, kui leht on nähtav + idle
+  // 3) lae Particles / Splash alles siis, kui leht nähtav ja idle
   useEffect(() => {
-    if (!mounted || prefersReduced || isMobile) return; // mobiilis ei lae rasked efektid
+    if (!mounted || prefersReduced) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
-    const cancelCursor    = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
+    const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => {
-      typeof cancelParticles === "function" && cancelParticles();
-      typeof cancelCursor === "function" && cancelCursor();
+      cancelParticles?.();
+      cancelCursor?.();
     };
-  }, [mounted, prefersReduced, isMobile]);
+  }, [mounted, prefersReduced]);
 
-  if (!mounted) return null;
-
-  const desktop = !isMobile && !prefersReduced;
-
+  // ——— RENDER ———
+  // NB! Jätame alati maha püsiva konteineri, et SSR/CSR struktuur oleks sama.
   return (
-    <>
-      {/* Space:
-          - desktop: fog/grain sees, anim ainult avalehe esmakülastusel
-          - mobile või reduced-motion: fog/grain välja, anim välja */}
-      <Space
-        key={mode} // forceeri gradienti uuesti arvutamist teema vahetusel
-        mode={mode}
-        fog={desktop}
-        grain={desktop}
-        animateFog={desktop && !skipIntro}
-        skipIntro={!desktop || skipIntro}
-        fogAppearDelayMs={0}
-      />
+    <div id="bg-layer" aria-hidden="true" suppressHydrationWarning>
+      {/* Space: SSR-is null (ssr:false), aga <Suspense> on mõlemal poolel olemas */}
+      <Suspense fallback={null}>
+        <Space
+          mode={mode}
+          animateFog={animateFog}
+          skipIntro={!animateFog}
+          fogAppearDelayMs={0}
+        />
+      </Suspense>
 
-      {/* Osakesed ainult desktopil ja kui reduced-motion pole */}
-      {desktop && particlesReady && <Particles mode={mode} />}
-
-      {/* SplashCursor ainult desktopil */}
-      {desktop && cursorReady && <MaybeSplash />}
-    </>
+      {/* kerged efektid, alles pärast idle+visible ja kui pole reduced-motion */}
+      {particlesReady && !prefersReduced && <Particles mode={mode} />}
+      {cursorReady && !prefersReduced && <MaybeSplash />}
+    </div>
   );
 }
 

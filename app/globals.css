@@ -2398,6 +2398,22 @@ textarea::placeholder,
   }
 
   /* 6) Chat – ära suru mõõte; hoia overflow kontrolli all */
+  .chat-container .avatar-link,
+.avatar-link {
+  position: absolute !important;
+  top: max(10px, env(safe-area-inset-top, 0px) + 8px) !important;
+  right: 12px !important;         /* sama kaugus paremast servast */
+  left: auto !important;
+  z-index: 10 !important;
+  transform: none !important;
+}
+
+/* kui pealkiri asub samas kastis, anna talle “ruumi” avatarile */
+.chat-container .glass-title,
+.chat-container .title,
+.chat-container h1 {
+  padding-right: clamp(44px, 10vw, 64px) !important;
+}
   .glass-box.chat-container,
   .chat-container {
     width: 100% !important;
@@ -2447,7 +2463,67 @@ textarea::placeholder,
     height: 100dvh;
     touch-action: none;
   }
-
+@media (max-width: 768px){
   /* 8) Mobiilis html/body jäävad läbipaistvaks – gradient tuleb Space.jsx'ist */
   html, body { background-color: transparent !important; background-image: none !important; }
 }
+  main, .page, .page-wrap{
+    padding-left: max(12px, env(safe-area-inset-left)) !important;
+    padding-right: max(12px, env(safe-area-inset-right)) !important;
+  }
+  /* kõik klaaskastid v.a. chat */
+  .glass-box:not(.chat-container){
+    width: calc(100% - max(24px, env(safe-area-inset-left) + env(safe-area-inset-right))) !important;
+    max-width: 100% !important;
+    margin: 0.75rem auto 0.75rem !important;
+  }
+  /* vähenda pealkirja ülemist marginit kastis */
+  .glass-box h1,
+  .glass-box .page-title{
+    margin-top: .2em !important;
+  }
+
+  /* B) Chat-kast: normaalne laius/kõrgus, kaob suur tühi ala */
+  .glass-box.chat-container,
+  .chat-container{
+    width: calc(100% - max(24px, env(safe-area-inset-left) + env(safe-area-inset-right))) !important;
+    max-width: 100% !important;
+    margin: 0.75rem auto .5rem !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 65dvh !important; /* piisav tööruum */
+    overflow: visible !important;
+  }
+  .chat-window{
+    max-height: none !important;
+    overflow: visible !important;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom,0px)) !important;
+    overscroll-behavior: contain;
+  }
+  /* kui sul on eraldi inputi rida/holder, ära ankurdada ekraani külge */
+  .chat-input-row, .chat-inputbar, .chat-input-holder{
+    position: static !important;
+    inset: auto !important;
+  }
+
+  /* C) Jaluseni kerimine iOS Chrome’is */
+  .viewport, .page, .page-wrap, main{
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+  body, main{
+    min-height: calc(100dvh - 1px) !important; /* annab kerimisruumi */
+  }
+  footer, .site-footer, .footer-column{
+    position: static !important;
+    margin-top: .75rem !important;
+    padding-bottom: env(safe-area-inset-bottom,8px) !important;
+    background: transparent !important;
+  }
+  /* viimane element ei jäta põhjatus süvendit */
+  main > :last-child,
+  .main-content > :last-child{
+    margin-bottom: 8px !important;
+  }
+
+ }

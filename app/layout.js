@@ -7,10 +7,7 @@ import localFont from "next/font/local";
 export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
-  icons: {
-    icon: [{ url: "/logo/favicon.png", type: "image/png" }],
-    apple: [{ url: "/logo/favicon.png" }],
-  },
+  // Ikonid määrame käsitsi <head> sees
 };
 
 const aino = localFont({
@@ -42,6 +39,8 @@ export default function RootLayout({ children }) {
     >
       <head>
         <meta name="color-scheme" content="dark light" />
+
+        {/* Teema eelhäälestus enne Reacti */}
         <Script id="set-theme" strategy="beforeInteractive">{`
           (function () {
             try {
@@ -61,6 +60,24 @@ export default function RootLayout({ children }) {
           })();
         `}</Script>
 
+        {/* Faviconid – failid public/ kaustas */}
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+
+        {/* PWA ja Safari (valikuline) */}
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/favicon.svg" color="#0d111b" />
+
+        {/* UX mobiilis */}
+        <meta name="theme-color" content="#0d111b" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+
+        {/* Preload logodele ja loginipiltidele */}
         <link rel="preload" as="image" href="/logo/aivalge.svg" />
         <link rel="preload" as="image" href="/logo/saimust.svg" />
         <link rel="preload" as="image" href="/logo/smust.svg" />
@@ -70,7 +87,7 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/login/smart.svg" />
         <link rel="preload" as="image" href="/login/mobiil.png" />
       </head>
-      
+
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
         {/* Taustakihid */}
         <BackgroundLayer />
