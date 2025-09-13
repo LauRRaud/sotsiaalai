@@ -1,20 +1,16 @@
 // components/backgrounds/BackgroundLayer.jsx
 "use client";
 
-import { useEffect, useState, useRef, memo, Suspense } from "react";
+import { useEffect, useState, memo, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
+const LaserFlowOverlay = dynamic(() => import("./LaserFlowOverlay"), { ssr: false });
 
-/* utils */
-function getDomTheme() {
-  if (typeof document === "undefined") return "dark";
-  const el = document.documentElement;
-  return el.dataset?.theme === "light" ? "light" : "dark";
-}
+/* utils: idle/visibility/motion */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -50,85 +46,80 @@ function usePrefersReducedMotion() {
 
 function BackgroundLayer() {
   const pathname = usePathname();
-
-  // SSR-safe wrapper: me EI tagasta enam nulli – struktuur on püsiv
-  const [mounted, setMounted] = useState(false);
-
-  // teema võetakse <html data-theme> pealt; default "dark"
-  const [mode, setMode] = useState("dark");
-
-  // sekundaar-efektid (laeme hiljem)
-  const [particlesReady, setParticlesReady] = useState(false);
-  const [cursorReady, setCursorReady] = useState(false);
-
-  // udu animatsiooni lipp – arvutame KORRA ja ei toggelda
-  const [animateFog, setAnimateFog] = useState(false);
-  const hasDecidedRef = useRef(false);
-
   const prefersReduced = usePrefersReducedMotion();
 
-  // 1) mount + esialgne teema
-  useEffect(() => {
-    setMounted(true);
-    setMode(getDomTheme());
-    const onThemeChange = () => setMode(getDomTheme());
-    window.addEventListener("themechange", onThemeChange);
-    window.addEventListener("storage", onThemeChange);
-    return () => {
-      window.removeEventListener("themechange", onThemeChange);
-      window.removeEventListener("storage", onThemeChange);
-    };
-  }, []);
+  const [mounted, setMounted] = useState(false);
+  const [particlesReady, setParticlesReady] = useState(false);
+  const [cursorReady, setCursorReady] = useState(false);
+  const [animateFog, setAnimateFog] = useState(false);
 
-  // 2) otsusta üks kord, kas udu animatsioon käivitub (ainult avalehel esmakülastusel)
-  useEffect(() => {
-    if (hasDecidedRef.current) return;
+  useEffect(() => { setMounted(true); }, []);
 
+  // otsusta Space fog intro iga lehevahetuse korral
+  useEffect(() => {
+    if (prefersReduced) {
+      setAnimateFog(false);
+      return;
+    }
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
       isReload = nav ? nav.type === "reload" : performance?.navigation?.type === 1;
     } catch {}
-
     let already = false;
     try { already = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
 
-    const shouldAnimate = pathname === "/" && !already && !isReload && !prefersReduced;
-    setAnimateFog(shouldAnimate);
+    const should = pathname === "/" && !already && !isReload;
+    setAnimateFog(should);
 
-    // märgi intro tehtuks, et mitte restartida järgmistel kordadel
+    // märgi tehtuks, et mitte uuesti intro't mängida
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
-    hasDecidedRef.current = true;
   }, [pathname, prefersReduced]);
 
-  // 3) lae Particles / Splash alles siis, kui leht nähtav ja idle
+  // lae Particles/MaybeSplash siis, kui tab on nähtav ja idle
   useEffect(() => {
     if (!mounted || prefersReduced) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
-    return () => {
-      cancelParticles?.();
-      cancelCursor?.();
-    };
+    return () => { cancelParticles?.(); cancelCursor?.(); };
   }, [mounted, prefersReduced]);
 
-  // ——— RENDER ———
-  // NB! Jätame alati maha püsiva konteineri, et SSR/CSR struktuur oleks sama.
   return (
-    <div id="bg-layer" aria-hidden="true" suppressHydrationWarning>
-      {/* Space: SSR-is null (ssr:false), aga <Suspense> on mõlemal poolel olemas */}
-      <Suspense fallback={null}>
-        <Space
-          mode={mode}
-          animateFog={animateFog}
-          skipIntro={!animateFog}
-          fogAppearDelayMs={0}
-        />
-      </Suspense>
+    <div
+      id="bg-layer"
+      aria-hidden="true"
+      suppressHydrationWarning
+      style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
+    >
+      {/* SPACE — kõige taga (z:0) */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+        <Suspense fallback={null}>
+          <Space
+            animateFog={animateFog}
+            skipIntro={!animateFog}
+            fogAppearDelayMs={0}
+          />
+        </Suspense>
+      </div>
 
-      {/* kerged efektid, alles pärast idle+visible ja kui pole reduced-motion */}
-      {particlesReady && !prefersReduced && <Particles mode={mode} />}
-      {cursorReady && !prefersReduced && <MaybeSplash />}
+      {/* LASERFLOW — Space'i peal (z:1), ainult avalehel ja mitte reduced-motion */}
+      {pathname === "/" && !prefersReduced && (
+        <LaserFlowOverlay zIndex={1} />
+      )}
+
+      {/* PARTICLES — LaserFlow'st eespool (z:2) */}
+      {particlesReady && !prefersReduced && (
+        <div className="particles-container">
+          <Particles />
+        </div>
+      )}
+
+      {/* MaybeSplash — kõige ees taustakihtidest (z:3) */}
+      {cursorReady && !prefersReduced && (
+        <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
+          <MaybeSplash />
+        </div>
+      )}
     </div>
   );
 }

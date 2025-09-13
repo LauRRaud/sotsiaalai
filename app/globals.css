@@ -35,14 +35,6 @@ html { font-family: var(--font-aino), Arial, sans-serif; }        /* jääb alle
   pointer-events: none;
   z-index: 30;                /* sisu kohal, modali all */
 }
-
-/* === MODALID === */
-.login-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 40;                /* modali taust */
-  pointer-events: auto;
-}
 .login-modal-root,
 .login-modal-box,
 .glass-modal {
@@ -129,7 +121,6 @@ body::-webkit-scrollbar {
 .glass-title,
 .headline,
 .reset-title,
-.brand-title,
 .glass-label,
 .right-card-primary .headline-bold,
 .left-card-primary .headline-bold {
@@ -156,13 +147,6 @@ h2, .glass-h2, .glass-label {
 a, .link-brand, .meist-external-link {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
-}
-
-.card-description, .card-note.left-back,
-.card-note.right-back {
-  font-family: var(--font-aino), Arial, sans-serif;
-  font-weight: 400;
-  font-style: italic; /* töötab, kui Aino-Italic on localFont-is */
 }
 
 .main-content {
@@ -230,8 +214,6 @@ a, .link-brand, .meist-external-link {
   transition-timing-function: var(--flip-ease);
   will-change: auto; /* vaikimisi mitte peal */
 }
-
-/* ✅ will-change ainult siis, kui flip on lubatud ja käimas */
 .three-d-card.flip-allowed:hover .card-wrapper,
 .three-d-card.flip-allowed:focus-within .card-wrapper,
 .three-d-card.flip-allowed.is-flipping .card-wrapper{
@@ -264,6 +246,9 @@ a, .link-brand, .meist-external-link {
 .three-d-card.flip-allowed.right.is-flipping .card-wrapper{
   transform: rotateY(-180deg);
 }
+.three-d-card.is-flipping .card-face.front > .glass-card {
+  animation-play-state: paused;
+}
 .glass-card {
   transform: translate3d(0,0,0); /* GPU layer */
   transform-origin: 50% 50%;
@@ -291,35 +276,22 @@ a, .link-brand, .meist-external-link {
 .centered-back-right {
  background: rgba(22, 22, 22, 0.65);
 }
-
-/* Light-mode korrigeerimised */
-html:not(.dark-mode) .glass-card,
-html:not(.dark-mode) .centered-back-left {
-  background: rgba(243, 243, 243, 0.6); /* var(--pt-200) + läbipaistvus */
-}
-
-html:not(.dark-mode) .glass-card-dark,
-html:not(.dark-mode) .centered-back-right {
-  background: rgba(22, 22, 22, 0.65);
-}
-/* TAGAKÜLG - hele variant (95% suurus, sama taust mis .glass-card) */
-.centered-back-left {
-  width: 95%; height: 95%; aspect-ratio: 1/1;
-  border-radius: 50%; margin: 0 auto;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  box-sizing: border-box; padding: 2em; background-clip: padding-box;
-  overflow: hidden; position: relative;
-}
-
-/* TAGAKÜLG - tume variant (95% suurus, sama taust mis .glass-card-dark) */
+.centered-back-left,
 .centered-back-right {
-  width: 95%; height: 95%; aspect-ratio: 1/1;
-  border-radius: 50%; margin: 0 auto;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  box-sizing: border-box; padding: 2em; background-clip: padding-box;
-  overflow: hidden; position: relative;
+  width: 95% !important;
+  height: 95% !important;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2em;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden; /* hoiab halo/tausta ringi sees; kui tahad halo välja, pane visible */
 }
-
 .centered-back-outer {
   width: 100%; height: 100%; left: 0; top: 0;
   position: absolute; border-radius: 50%; z-index: 2;
@@ -331,50 +303,60 @@ html:not(.dark-mode) .centered-back-right {
 .three-d-card.flip-allowed.right:focus-within .card-face.back{
   pointer-events: auto;
 }
-.three-d-card:hover .card-face.back > *,
-.three-d-card:focus-within .card-face.back > * {
-  animation: brandGlow 6.7s ease-in-out infinite;
-}
-@keyframes brandGlow{
-  0%{
-    box-shadow:
-      inset 0 0 4px 0px rgba(0,0,0,0.8),
-      inset 0 0 30px 12px rgba(0,0,0,0.5),
-      0 0 20px 7px rgba(195,193,188,0.70);  /* #C3C1BC */
-  }
-  50%{
-    box-shadow:
-      inset 0 0 4px 0px rgba(0,0,0,0.8),
-      inset 0 0 30px 12px rgba(0,0,0,0.5),
-      0 0 24px 9px rgba(230,229,227,0.85);  /* #E6E5E3 */
-  }
-  100%{
-    box-shadow:
-      inset 0 0 4px 0px rgba(0,0,0,0.8),
-      inset 0 0 30px 12px rgba(0,0,0,0.5),
-      0 0 20px 7px rgba(195,193,188,0.70);
-  }
-}
-/* --- Esikülje varjud --- */
 .glass-card,
 .centered-back-left {
-  box-shadow:
-    inset 0 0 4px 0px rgba(0,0,0,0.8),
+  --base-shadow:
+    inset 0 0 4px rgba(0,0,0,0.8),
     inset 0 0 30px 12px rgba(0,0,0,0.5);
+  box-shadow: var(--base-shadow);
 }
 
 .glass-card-dark,
 .centered-back-right {
-  box-shadow:
-    inset 0 0 8px 0px rgba(37,37,37,0.8),
+  --base-shadow:
+    inset 0 0 8px rgba(37,37,37,0.8),
     inset 0 0 30px 12px rgba(0,0,0,0.5);
+  box-shadow: var(--base-shadow);
+}
+/* Vasak kaart – veidi heledam halo */
+.side.left .glass-card,
+.side.left .centered-back-left {
+  --halo-start: 0 0 30px 12px rgba(54, 62, 105, 0.60);
+  --halo-mid:   0 0 48px 20px rgba(42, 53, 104, 0.65);
 }
 
-/* --- Aktiivne kuma klass --- */
-.glass-card.glow-active {
+/* Parem kaart – sama toon */
+.side.right .glass-card-dark,
+.side.right .centered-back-right {
+  --halo-start: 0 0 30px 12px rgba(54, 62, 105, 0.60);
+  --halo-mid:   0 0 48px 20px rgba(42, 53, 104, 0.65);
+}
+
+@keyframes brandGlow {
+  0%   { box-shadow: var(--base-shadow), var(--halo-start); }
+  50%  { box-shadow: var(--base-shadow), var(--halo-mid); }
+  100% { box-shadow: var(--base-shadow), var(--halo-start); }
+}
+.three-d-card:hover .card-face.front > .glass-card,
+.three-d-card:focus-within .card-face.front > .glass-card {
   animation: brandGlow 6.7s ease-in-out infinite;
 }
-.three-d-card.is-flipping .glow-active {
+
+/* Back – mõlemad variandid */
+.three-d-card:hover .card-face.back > .centered-back-left,
+.three-d-card:focus-within .card-face.back > .centered-back-left,
+.three-d-card:hover .card-face.back > .centered-back-right,
+.three-d-card:focus-within .card-face.back > .centered-back-right {
+  animation: brandGlow 6.7s ease-in-out infinite;
+}
+
+/* Magneti klassiga jätkub endiselt: */
+.glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
+
+/* Flipi ajal paus (et ei virvendaks) */
+.three-d-card.is-flipping .glow-active,
+.three-d-card.is-flipping .card-face.back > .centered-back-left,
+.three-d-card.is-flipping .card-face.back > .centered-back-right {
   animation-play-state: paused;
 }
 .float-card {
@@ -417,12 +399,6 @@ html:not(.dark-mode) .centered-back-right {
 .glass-card, .centered-back-left, .centered-back-right {
   position: relative; /* et logo oleks alati selles parentis täpselt */
 }
-.headline-bold { 
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-}
 .card-content { will-change: transform, opacity; }    /* või konkreetne px, nt 32px */
 .glass-card.fade-in { position: relative; overflow: hidden; }
 .glass-card.fade-in::before{
@@ -450,152 +426,66 @@ html:not(.dark-mode) .centered-back-right {
 .card-logo-bg-right {
   top: 51%;
   /* left jääb 50% baasist */
-  width: 47%;
-  opacity: 0.3;
+  width: 45%;
+  opacity: 0.45;
 }
 
 /* Vasak kaart – esikülje logo */
 .card-logo-bg-left {
   top: 50%;
   /* left: 50% (baas) — kui vajad 47% offsetit, lisa siia: left: 47%; */
-  width: 58%;
-  opacity: 0.45;
+  width: 56%;
+  opacity: 0.5;
     left: 47%;   
 }
-
-/* === TAGAKÜLJED === */
-
-/* Vasak kaart – tagakülje logo */
 .centered-back-left .card-logo-bg-left-back {
-  top: 78%;
-  /* left: 50% baasist */
+  position: absolute;
+  bottom: -12%;            /* kaugus alumisest servast */
+  left: 50%;
+  transform: translateX(-50%); /* ainult X, mitte Y! */
   width: 24%;
   opacity: 0.7;
+  top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
 
 /* Parem kaart – tagakülje logo */
 .centered-back-right .card-logo-bg-right-back {
-  top: 78%;
-  /* left: 50% baasist */
+  position: absolute;
+  bottom: -12%;            /* kaugus alumisest servast */
+  left: 50%;
+  transform: translateX(-50%);
   width: 24%;
   opacity: 0.55;
+  top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
-
-/* Lisa see klass tekstidele */
-.card-title,
-.card-content,
-.headline-bold,
-.card-description {
-  position: relative;
-  z-index: 2;
-}
-.card-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;            /* või 90%, kui liiga lai */
-  text-align: center;
-  z-index: 4;             /* pealkiri on kõigist peal */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.brand-title {
-  font-size: 2rem;
-  letter-spacing: 0.04em;
-  text-align: center;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-}
-.left-card-primary .headline-bold {
-  position: relative;
-  z-index: 4;                         /* pealkiri jääb ringist ja logost ettepoole */
+.headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-size: 1.9rem;                 /* veidi suurem ja väärikam */
-  line-height: 1.6;
-  color: #323232;                     /* sügavam tumesinine */
-  text-transform: uppercase;
-  letter-spacing: 0.1em;             /* pisut avaram kerning */
-  font-weight: 400;                   /* Headline on 400; kui lisad 700, võid ka tõsta */
-  margin-top: 0em;                    /* väiksem õhk üleval */
-  margin-bottom: 0.35em;
-  text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  font-variant-ligatures: none;
-}
-
-.right-card-primary .headline-bold {
-  position: relative;
-  z-index: 4;  /* pealkiri ringist ettepoole */
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-size: 1.8rem;
-  line-height: 1.6;
-  color: var(--pt-200); /* õrn platinum tekst tumedal taustal */
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-weight: 400; /* sama kaal kui vasakul */
-  margin-top: 0em;
-  margin-bottom: 0.35em;
-  text-shadow: 0px 5px 8px rgba(241,241,240,0.35); /* pehme platinum kuma */
+  line-height: 1.6;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: none;
-}
-
-.card-note { 
-  font-size: 1.4rem; 
-  opacity: 1;
-}
-
-.card-note.left-back { 
-  color: #323232; /* jääb must/ süsimust tekst, mitte hõbedane */
-  font-size: 1.42rem; 
-  font-weight: normal; 
-  letter-spacing: 0.03em; 
+  margin: 0;
+  z-index: 4;
+  position: relative;
   text-align: center;
-  line-height: 1.2em;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  font-variant-ligatures: none;
-    margin-top: 0.1em; 
+    margin-top: -1em; 
 }
 
-.card-note.right-back { 
-  color: var(--pt-200); /* pehme platinum hõbe */
-  font-size: 1.4rem; 
-  font-weight: normal; 
-  letter-spacing: 0.04em; 
-  text-align: center;
-  line-height: 1.2em;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  font-variant-ligatures: none;
-    margin-top: 0.1em; 
-}
-
-.card-title.back {
-  text-align: center; 
-  color: #000000e0; /* must jääb samaks */
-  margin-top: -5em; 
-  margin-bottom: 3em; 
-  justify-content: center; 
-  align-items: center;  
+.centered-back-left .headline-bold {
+  font-size: 1.9rem;
+  color: #323232;
   text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  font-variant-ligatures: none; 
 }
 
-.centered-back-right .card-title.back {
-  color: var(--pt-300); /* platinum-heledam (nt #C9C7C2) */
-  text-shadow: 0px 5px 8px rgba(241, 241, 240, 0.33); /* platinum kuma */
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  font-variant-ligatures: none;
+.centered-back-right .headline-bold {
+  font-size: 1.8rem;
+  color: var(--pt-200);
+  text-shadow: 0px 5px 8px rgba(241, 241, 240, 0.35);
 }
+
 .footer-row {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -614,7 +504,7 @@ html:not(.dark-mode) .centered-back-right {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  padding: 0.7em 0 0.45em 0;
+  padding: 0.7em 0 0.15em 0;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -623,41 +513,42 @@ html:not(.dark-mode) .centered-back-right {
   gap: 0.5em;
   }
 .footer-link-headline {
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif !important;
+  font-family: var(--font-aino-headline), var(--font-aino);
   font-size: 1.45rem;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--pt-200); /* pehme platinum tekst */
-  background: none;
-  border: 2px solid var(--pt-400); /* tugevam platinum raam */
-  padding: 0.1em 0.4em;
-  border-radius: 0.35em;
+  color: var(--pt-150); /* pehme platinum tekst */
+
+  padding: 0.2em 0.25em;
+  border-radius: 0.4em;
+
   text-shadow: 
-    0 0 2px rgba(0,0,0,0.65),
-    0 0 6px rgba(255,255,255,0.15);
+    0 0 3px rgba(0,0,0,0.45),
+    0 0 6px rgba(255,255,255,0.4);
 
   box-shadow: 
-    inset 0 0 2px rgba(255,255,255,0.2),
-    inset 0 0 6px rgba(255,255,255,0.05);
+    inset 0 0 3px rgba(255,255,255,0.25),
+    inset 0 0 8px rgba(255,255,255,0.08);
 
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s,
-    color 0.2s;
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
 }
 
 .footer-link-headline:hover,
 .footer-link-headline:focus {
-  border-color: var(--pt-light);   /* nt #ECEBE9, hele platinum */
-  color: var(--pt-200);            /* õrn, aga loetav platinum (#DFDEDA) */
-  box-shadow: 0 0 8px rgba(201,199,194,0.55),   /* platinum halo */
-              inset 0 0 3px rgba(255,255,255,0.3);
-  text-decoration: none;
+  color: var(--pt-light); /* heledam platinum */
+  border-color: var(--pt-light);
+  box-shadow: 
+    0 0 10px rgba(201,199,194,0.6),
+    inset 0 0 4px rgba(255,255,255,0.3);
+  transform: translateY(-1px); /* väike tõstefekt */
 }
-
 .footer-logo-img {
   height: auto;        /* väiksem kõrgus */
-  max-width: 310px;    /* väiksem laius */
+  max-width: 330px;    /* väiksem laius */
   width: auto;
   display: block;
 margin: 0;
@@ -688,7 +579,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   width: 100%;
   text-align: center;
   font-size: 1.3rem;
-  color: #dedede;
+  color: var(--pt-500) !important;
   margin-top: auto;          /* ← see paneb jaluse klaaskasti põhja */
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -2279,36 +2170,58 @@ textarea::placeholder,
   color: var(--pt-100) !important; /* väga hele platinum */
   opacity: 0.9 !important;
 }
-/* sujuv, aeglane fade-in, peidus kuni start */
-.defer-fade {
-  --end-op: 1;                 /* vaikimisi lõppnähtavus */
-  --fade-dur: 3000ms;          /* aeglasem-sujuvam */
-  --fade-delay: 3800ms;        /* millal alustada */
+.top-center-nav {
+  position: fixed;
+  top: max(6px, env(safe-area-inset-top, 0px) + 1px);
+  left: 0;
+  right: 0;
+  z-index: 35;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
 
-  opacity: 0;                  /* 🔒 peidus enne animatsiooni */
-  visibility: hidden;          /* 🔒 ei võta ka ruumi/klikke */
-  transform: translateY(12px) scale(0.992);
+.top-center-nav a {
+  pointer-events: auto;
+}
+/* Üldine fade */
+.defer-fade {
+  --end-op: 1;                 /* vaikimisi täisnähtavus */
+  --fade-dur: 3000ms;          /* kestus */
+  --fade-delay: 3500ms;        /* viivitus */
+  --start-ty: 12px;            /* +12px = alt üles; -12px = ülevalt alla */
+
+  opacity: 0;                  
+  visibility: hidden;          
+  transform: translateY(var(--start-ty)) scale(0.992);
 
   animation: dfade-in var(--fade-dur) cubic-bezier(.16,.84,.44,1) forwards;
   animation-delay: var(--fade-delay);
   will-change: opacity, transform;
 }
 
-/* individuaalsed viited */
+/* suunad */
+.defer-from-top    { --start-ty: -12px; }  
+.defer-from-bottom { --start-ty:  12px; }  
+
+/* viivitused */
 .defer-fade.delay-1 { --fade-delay: 3800ms; } /* MEIST */
 .defer-fade.delay-2 { --fade-delay: 3800ms; } /* logo */
 
-/* logo lõpeb 0.5 peal */
-.footer-logo-img.defer-fade.dim { --end-op: 0.4; }
+/* logo lõpp-opacity */
+.footer-logo-img.defer-fade.dim { --end-op: .55; }
+
+/* lingi lõpp-opacity */
+.top-center-link.defer-fade.dim { --end-op: .8; }
 
 @keyframes dfade-in {
   0% {
     opacity: 0;
-    transform: translateY(12px) scale(0.992);
-    visibility: hidden;     /* 👈 jääb peidetuks */
+    transform: translateY(var(--start-ty)) scale(0.992);
+    visibility: hidden;
   }
   1% {
-    visibility: visible;    /* 👈 alles nüüd toome DOM-is nähtavale */
+    visibility: visible;
     opacity: 0;
   }
   100% {
@@ -2317,7 +2230,7 @@ textarea::placeholder,
     transform: translateY(0) scale(1);
   }
 }
-/* --- sinu olemasolev plokk jääb täpselt nii --- */
+
 @media (prefers-reduced-motion: reduce) {
   .defer-fade {
     animation: none !important;
@@ -2326,6 +2239,8 @@ textarea::placeholder,
     visibility: visible !important;
   }
 }
+
+
 /* ===============================
    MOBILE FIX PACK — ONLY ≤768px
 =================================*/

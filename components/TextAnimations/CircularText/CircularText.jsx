@@ -199,7 +199,7 @@ export function CircularRingLeft() {
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(57,57,57,0.6)"
-      startDelaySec={3}
+      startDelaySec={2.7}
     />
   );
 }
@@ -218,7 +218,7 @@ export function CircularRingRight() {
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(213,121,105,0.4)"
-      startDelaySec={3}
+      startDelaySec={2.7}
     />
   );
 }

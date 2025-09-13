@@ -1,22 +1,18 @@
-// components/HomePage.jsx
+// components/home/ClientHomeShell.jsx
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
-import DarkModeToggleWrapper from "@/components/DarkModeToggleWrapper";
-import {
-  CircularRingLeft,
-  CircularRingRight,
-} from "@/components/TextAnimations/CircularText/CircularText";
+import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
+import Image from "next/image";
 
-export default function HomePage() {
+export default function ClientHomeShell() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  // Magneti ja flipi väravad
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
@@ -24,17 +20,10 @@ export default function HomePage() {
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
-  // võta fade-in lõpud event'iga
   useEffect(() => {
-    const onLeftEnd = (e) => {
-      if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
-    };
-    const onRightEnd = (e) => {
-      if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true);
-    };
-
-    const l = leftCardRef.current;
-    const r = rightCardRef.current;
+    const onLeftEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true); };
+    const onRightEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true); };
+    const l = leftCardRef.current, r = rightCardRef.current;
     l?.addEventListener("animationend", onLeftEnd);
     r?.addEventListener("animationend", onRightEnd);
     return () => {
@@ -43,7 +32,6 @@ export default function HomePage() {
     };
   }, []);
 
-  // magnetReady → alles siis, kui mõlemad fade'id valmis + 150ms puhver
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
@@ -52,7 +40,6 @@ export default function HomePage() {
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
 
-  // body klass modali jaoks
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
@@ -60,32 +47,41 @@ export default function HomePage() {
 
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
-
   const flipEndMs = 333;
+
   const onLeftEnter = () => setLeftFlipping(true);
   const onLeftLeave = () => setTimeout(() => setLeftFlipping(false), flipEndMs);
   const onRightEnter = () => setRightFlipping(true);
   const onRightLeave = () => setTimeout(() => setRightFlipping(false), flipEndMs);
 
+  const handleMobileTap = () => {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) setIsLoginOpen(true);
+  };
+
   return (
     <>
-      <DarkModeToggleWrapper position="top-center" top="0.5rem" hidden={isLoginOpen} />
+      {/* Ülaserva MEIST link (keskel, fade from top, 0.5 nähtavus) */}
+      <nav className="top-center-nav" aria-label="Peamenüü">
+        <Link
+          href="/meist"
+          className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
+        >
+          MEIST
+        </Link>
+      </nav>
 
-      <div className="main-content relative z-0">
-        {/* VASAK KAART */}
+      <div className="main-content relative">
+        {/* LEFT CARD */}
         <div className="side left">
           <div
             className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""}`}
             onMouseEnter={onLeftEnter}
             onMouseLeave={onLeftLeave}
+            onClick={handleMobileTap}
           >
             <div className="card-wrapper">
               <div className="card-face front">
-                <Magnet
-                  padding={80}
-                  magnetStrength={18}
-                  disabled={isLoginOpen || !magnetReady || leftFlipping}
-                >
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || leftFlipping}>
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
@@ -106,14 +102,15 @@ export default function HomePage() {
 
                       <CircularRingLeft />
 
-                      <img
+                      <Image
                         src="/logo/aivalge.svg"
-                        alt="Aivalge logo"
+                        alt=""
+                        aria-hidden="true"
                         className="card-logo-bg card-logo-bg-left"
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="sync"
                         draggable={false}
+                        priority
+                        width={300}
+                        height={300}
                       />
 
                       <div className="centered-front-outer" aria-hidden="true" />
@@ -122,37 +119,35 @@ export default function HomePage() {
                 </Magnet>
               </div>
 
+              {/* Back */}
               <div
                 className="card-face back"
+                role="button"
+                aria-label="Logi sisse spetsialistina"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
-                }}
+                onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div
-                  className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}
-                  style={{ position: "relative" }}
-                >
+                <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-left">KÜSI NÕU</span>
                   </div>
-
                   <div className="card-note left-back">
                     Sinu usaldusväärne töövahend
                     <br />
                     sotsiaalvaldkonna küsimustes.
                   </div>
 
-                  <img
+                  <Image
                     src="/logo/saimust.svg"
-                    alt="Saimust logo"
+                    alt=""
+                    aria-hidden="true"
                     className="card-logo-bg card-logo-bg-left-back"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
                     draggable={false}
+                    loading="eager"
+                    width={300}
+                    height={300}
                   />
 
                   <div className="centered-back-outer" />
@@ -162,20 +157,17 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* PAREM KAART */}
+        {/* RIGHT CARD */}
         <div className="side right">
           <div
             className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""}`}
             onMouseEnter={onRightEnter}
             onMouseLeave={onRightLeave}
+            onClick={handleMobileTap}
           >
             <div className="card-wrapper">
               <div className="card-face front">
-                <Magnet
-                  padding={80}
-                  magnetStrength={18}
-                  disabled={isLoginOpen || !magnetReady || rightFlipping}
-                >
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || rightFlipping}>
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
@@ -196,14 +188,15 @@ export default function HomePage() {
 
                       <CircularRingRight />
 
-                      <img
+                      <Image
                         src="/logo/smust.svg"
-                        alt="Smust logo"
+                        alt=""
+                        aria-hidden="true"
                         className="card-logo-bg card-logo-bg-right"
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="sync"
                         draggable={false}
+                        priority
+                        width={300}
+                        height={300}
                       />
 
                       <div className="centered-front-outer" aria-hidden="true" />
@@ -212,37 +205,35 @@ export default function HomePage() {
                 </Magnet>
               </div>
 
+              {/* Back */}
               <div
                 className="card-face back"
+                role="button"
+                aria-label="Logi sisse pöördujana"
                 tabIndex={0}
                 onClick={() => flipAllowed && setIsLoginOpen(true)}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
-                }}
+                onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div
-                  className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}
-                  style={{ position: "relative" }}
-                >
+                <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")} style={{ position: "relative" }}>
                   <div className="card-title back">
                     <span className="brand-title brand-title-right">KÜSI NÕU</span>
                   </div>
-
                   <div className="card-note right-back">
                     Leia selgus ja kindlustunne
                     <br />
                     elulistes sotsiaalküsimustes.
                   </div>
 
-                  <img
+                  <Image
                     src="/logo/saivalge.svg"
-                    alt="Saivalge logo"
+                    alt=""
+                    aria-hidden="true"
                     className="card-logo-bg card-logo-bg-right-back"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
                     draggable={false}
+                    loading="eager"
+                    width={300}
+                    height={300}
                   />
 
                   <div className="centered-back-outer" />
@@ -253,24 +244,17 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Jalus + Meist link – lisa defer-fade klassid */}
-      <footer className="footer-column relative z-0">
-        <Link
-          href="/meist"
-          className="footer-link footer-link-headline defer-fade delay-1"
-          style={{ opacity: 0, visibility: "hidden" }}
-        >
-          MEIST
-        </Link>
-
-        <img
+      {/* Footer (ainult logo, alt fade, 0.5 nähtavus) */}
+      <footer className="footer-column relative">
+        <Image
           src="/logo/logomust.svg"
           alt="SotsiaalAI logo"
-          className="footer-logo-img defer-fade delay-2 dim"
+          className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
+          draggable={false}
           loading="eager"
           fetchPriority="high"
-          decoding="sync"
-          style={{ opacity: 0, visibility: "hidden" }}
+          width={240}
+          height={80}
         />
       </footer>
 

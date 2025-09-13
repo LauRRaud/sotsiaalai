@@ -16,6 +16,19 @@
   transform-style: preserve-3d;
 }
 
+/* --- Nähtavuse gating ringile (alguses peidus) --- */
+.circular-text-svg.circular-ring {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .8s ease;
+}
+
+/* Kui kaart on valmis: tee ring nähtavaks */
+.circular-text-svg.circular-ring.is-visible {
+  opacity: 0.9;              /* sinu “toon” – soovi korral 1 */
+  visibility: visible;
+}
+
 .circular-text-line {
   font-family: 'Aino Headline','Aino',Arial,sans-serif;
   font-weight: 400;
@@ -45,6 +58,7 @@
 /* ct-cycle — nähtav konteiner */
 .ct-cycle { opacity: 1; visibility: visible; }
 
+/* Sõnade tsüklid – vaikimisi peidus */
 .word1, .word2, .word3 { opacity: 0; } /* NB: visibility't ei kasuta */
 
 /* WORD 1 */
@@ -100,12 +114,20 @@
     opacity: 1 !important;
     animation: none !important;
   }
+
+  /* Mobiilil võib olla mõistlik täisnähtavus */
+  .circular-text-svg.circular-ring.is-visible {
+    opacity: 1;
+  }
 }
 
-/* Liikumis-eelistus: animatsioonid välja */
+/* Liikumis-eelistus: animatsioonid (ja üleminek) välja */
 @media (prefers-reduced-motion: reduce) {
   .circular-text-line,
   .word1, .word2, .word3 {
     animation: none !important;
+  }
+  .circular-text-svg.circular-ring {
+    transition: none !important;
   }
 }
