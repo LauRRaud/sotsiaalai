@@ -6,9 +6,22 @@ import localFont from "next/font/local";
 export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
 };
 
-// ⬅️ Next 15+ API: themeColor pannakse viewport'i
+// Next 15+: themeColor läheb viewporti kaudu
 export const viewport = {
   themeColor: "#0d111b",
 };
@@ -40,18 +53,7 @@ export default function RootLayout({ children }) {
       className={`${aino.variable} ${ainoHeadline.variable}`}
     >
       <head>
-        {/* Favicons */}
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/favicon.svg" color="#0d111b" />
-
-        {/* Apple meta */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-        {/* Preload olulised logod */}
+        {/* Valikuline: preloadi sagedasti kasutatavad pildid/logod */}
         <link rel="preload" as="image" href="/logo/aivalge.svg" />
         <link rel="preload" as="image" href="/logo/saimust.svg" />
         <link rel="preload" as="image" href="/logo/smust.svg" />

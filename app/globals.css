@@ -321,15 +321,15 @@ a, .link-brand, .meist-external-link {
 /* Vasak kaart – veidi heledam halo */
 .side.left .glass-card,
 .side.left .centered-back-left {
-  --halo-start: 0 0 30px 12px rgba(54, 62, 105, 0.60);
-  --halo-mid:   0 0 48px 20px rgba(42, 53, 104, 0.65);
+  --halo-start: 0 0 24px 16px rgba(55, 63, 108, 0.6);
+  --halo-mid:   0 0 32px 26px rgba(52, 64, 119, 0.65);
 }
 
 /* Parem kaart – sama toon */
 .side.right .glass-card-dark,
 .side.right .centered-back-right {
-  --halo-start: 0 0 30px 12px rgba(54, 62, 105, 0.60);
-  --halo-mid:   0 0 48px 20px rgba(42, 53, 104, 0.65);
+  --halo-start: 0 0 24px 16px rgba(55, 63, 108, 0.6);
+  --halo-mid:   0 0 32px 26px rgba(52, 64, 119, 0.65);
 }
 
 @keyframes brandGlow {
