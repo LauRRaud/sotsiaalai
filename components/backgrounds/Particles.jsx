@@ -6,13 +6,22 @@ import { useEffect, useRef } from "react";
 import { Renderer, Camera, Geometry, Program, Mesh } from "ogl";
 import "./Particles.css";
 
-const defaultColors = ["#ffffff", "#ffffff", "#ffffff"];
+// sinu varasem palett
+const defaultColors = ["#cfd6e3", "#aeb6c2", "#232323", "#2e2e2e", "#E6B4A5", "#B86C57"];
 
-const hexToRgb = (hex) => {
-  hex = hex.replace(/^#/, "");
-  if (hex.length === 3) hex = hex.split("").map((c) => c + c).join("");
-  const int = parseInt(hex, 16);
-  return [((int >> 16) & 255) / 255, ((int >> 8) & 255) / 255, (int & 255) / 255];
+// rgb/rgba/#hex -> [r,g,b] (0..1)
+const parseColor = (c) => {
+  if (!c) return [1, 1, 1];
+  const s = String(c).trim();
+  if (s.startsWith("#")) {
+    let hex = s.replace(/^#/, "");
+    if (hex.length === 3) hex = hex.split("").map((ch) => ch + ch).join("");
+    const int = parseInt(hex, 16);
+    return [((int >> 16) & 255) / 255, ((int >> 8) & 255) / 255, (int & 255) / 255];
+  }
+  const m = s.match(/^rgba?\s*\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i);
+  if (m) return [Number(m[1]) / 255, Number(m[2]) / 255, Number(m[3]) / 255];
+  return [1, 1, 1];
 };
 
 const vertex = /* glsl */`
@@ -66,22 +75,17 @@ const fragment = /* glsl */`
   }
 `;
 
-/**
- * Props:
- * - mode: "dark" | "light"  ← UUS (valib paleti / alpha)
- */
 const Particles = ({
-  mode = "dark",
-  particleCount = 85,
-  particleSpread = 22.5,
-  speed = 0.04,
-  particleColors, // kui annad sisse, kasutame seda (üle sõidab mode presetist)
+  particleCount = 75,
+  particleSpread = 22,
+  speed = 0.035,
+  particleColors = ["#cfd6e3","#aeb6c2","#232323","#2e2e2e","#E6B4A5","#B86C57"],
   moveParticlesOnHover = false,
   particleHoverFactor = 1,
-  alphaParticles, // kui undefined, seame vastavalt mode’ile
-  particleBaseSize = 1000,
+  alphaParticles,              // vaikimisi = true
+  particleBaseSize = 1100,
   sizeRandomness = 0.3,
-  cameraDistance = 20,
+  cameraDistance = 15,
   disableRotation = false,
   className = "",
 }) => {
@@ -91,34 +95,16 @@ const Particles = ({
     const container = containerRef.current;
     if (!container) return;
 
-    // --- per-mode presetid ---
-    const PRESETS = {
-      dark: {
-        colors: [
-          "#cfd6e3", "#aeb6c2", "#232323", "#2e2e2e", "#E6B4A5", "#B86C57",
-        ],
-        alpha: true,           // õrnad läbipaistvad täpid
-      },
-      light: {
-        // jahedam hele palett, vähem musta
-        colors: [
-          "#cfd6e3", "#aeb6c2", "#232323", "#2e2e2e", "#E6B4A5", "#B86C57"
-        ],
-        alpha: true,           // jätame läbipaistvuse, sobib heleda taustaga
-      },
-    };
-    const preset = PRESETS[mode] || PRESETS.dark;
-
-    const palette = (particleColors && particleColors.length > 0)
+    // vali palett: prop või fallback
+    const palette = Array.isArray(particleColors) && particleColors.length
       ? particleColors
-      : (preset.colors?.length ? preset.colors : defaultColors);
+      : defaultColors;
 
     const renderer = new Renderer({ depth: false, alpha: true, antialias: true });
     const gl = renderer.gl;
     container.appendChild(gl.canvas);
     gl.clearColor(0, 0, 0, 0);
 
-    // retina skaleering
     renderer.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const camera = new Camera(gl, { fov: 15 });
@@ -159,7 +145,8 @@ const Particles = ({
       positions.set([x * r, y * r, z * r], i * 3);
       randoms.set([Math.random(), Math.random(), Math.random(), Math.random()], i * 4);
 
-      const col = hexToRgb(palette[Math.floor(Math.random() * palette.length)]);
+      const picked = palette[Math.floor(Math.random() * palette.length)];
+      const col = parseColor(picked);
       colors.set(col, i * 3);
     }
 
@@ -170,13 +157,14 @@ const Particles = ({
     });
 
     const program = new Program(gl, {
-      vertex, fragment,
+      vertex,
+      fragment,
       uniforms: {
         uTime: { value: 0 },
         uSpread: { value: particleSpread },
         uBaseSize: { value: particleBaseSize },
         uSizeRandomness: { value: sizeRandomness },
-        uAlphaParticles: { value: (alphaParticles ?? preset.alpha) ? 1 : 0 },
+        uAlphaParticles: { value: (typeof alphaParticles === "boolean" ? alphaParticles : true) ? 1 : 0 },
       },
       transparent: true,
       depthTest: false,
@@ -195,7 +183,8 @@ const Particles = ({
         particles.position.x = -mouse.x * particleHoverFactor;
         particles.position.y = -mouse.y * particleHoverFactor;
       } else {
-        particles.position.x = 0; particles.position.y = 0;
+        particles.position.x = 0;
+        particles.position.y = 0;
       }
 
       if (!disableRotation) {
@@ -214,17 +203,19 @@ const Particles = ({
       cancelAnimationFrame(raf);
       try { container.contains(gl.canvas) && container.removeChild(gl.canvas); } catch {}
     };
-  // NB: remountime `BackgroundLayer`is key={mode}, aga paneme siia ka sõltuvuse,
-  // et vajadusel ise uuesti initsialiseeritaks.
   }, [
-    mode,
     particleCount, particleSpread, speed,
     moveParticlesOnHover, particleHoverFactor,
     alphaParticles, particleBaseSize, sizeRandomness,
     cameraDistance, disableRotation, particleColors
   ]);
 
-  return <div ref={containerRef} className={`particles-container${className ? " " + className : ""}`} />;
+  return (
+    <div
+      ref={containerRef}
+      className={`particles-container${className ? " " + className : ""}`}
+    />
+  );
 };
 
 export default Particles;
