@@ -14,9 +14,6 @@ void main(){
 `;
 
 const FRAG = `
-#ifdef GL_ES
-#extension GL_OES_standard_derivatives : enable
-#endif
 precision highp float;
 precision mediump int;
 
@@ -37,7 +34,19 @@ uniform float uDecay;
 uniform float uFalloffStart;
 uniform vec3  uColor;
 uniform float uFade;
-uniform float uBaseLift;   // ainult “jala” Y-nihe (uvc ühikutes ~px)
+uniform float uBaseLift;
+
+/* WebGL1-s: massiivi asemel 8 eraldi uniformi */
+uniform vec3  uWisp0;
+uniform vec3  uWisp1;
+uniform vec3  uWisp2;
+uniform vec3  uWisp3;
+uniform vec3  uWisp4;
+uniform vec3  uWisp5;
+uniform vec3  uWisp6;
+uniform vec3  uWisp7;
+uniform int   uWispCount;   // 0..8
+uniform float uWispTint;    // 0..1
 
 // Core beam/flare shaping and dynamics
 #define PI 3.14159265359
@@ -56,25 +65,20 @@ uniform float uBaseLift;   // ainult “jala” Y-nihe (uvc ühikutes ~px)
 #define FLOW_PERIOD 0.5
 #define FLOW_SHARPNESS 1.5
 
-// Wisps
+// Wisps (kompromiss – ei ruuduline)
 #define W_BASE_X 1.5
 #define W_LAYER_GAP 0.25
 #define W_LANES 55
 #define W_SIDE_DECAY 0.5
-#define W_HALF 0.01
-#define W_AA 0.22
-#define W_CELL 16.0
-#define W_SEG_MIN 0.08
-#define W_SEG_MAX 0.70
+#define W_HALF 0.0095      // ⟵ paksus (oli 0.006) – veidi laiem, vähem aliasingut
+#define W_AA   0.18        // ⟵ pehmendus (oli 0.08) – pehmem serv
+#define W_CELL 18.0        // ⟵ veidi suurem raku kõrgus, korduvmuster kaob
+#define W_SEG_MIN 0.15   // varem nt 0.075
+#define W_SEG_MAX 0.35   // varem nt 0.52
 #define W_CURVE_AMOUNT 15.0
 #define W_CURVE_RANGE (FLARE_HEIGHT - 3.0)
 
-// Edge mask OFF + pehmem dither
-#define EDGE_X0 0.0
-#define EDGE_X1 1.001
-#define EDGE_X_GAMMA 2.0
-#define EDGE_LUMA_T0 0.0
-#define EDGE_LUMA_T1 1.0
+// Dither
 #define DITHER_STRENGTH 0.35
 
 float g(float x){ return x<=0.00031308?12.92*x:1.055*pow(x,1.0/2.4)-0.055; }
@@ -87,14 +91,31 @@ float bsa(vec2 p,vec2 q,float powr,vec2 s){
   return powr*min(1.0,r);
 }
 float tri01(float x){ float f=fract(x); return 1.0-abs(f*2.0-1.0); }
-float tauWf(float t,float tmin,float tmax){ float a=smoothstep(tmin,tmin+EDGE_SOFT,t),b=1.0-smoothstep(tmax-EDGE_SOFT,tmax,t); return max(0.0,a*b); } 
+float tauWf(float t,float tmin,float tmax){ float a=smoothstep(tmin,tmin+EDGE_SOFT,t),b=1.0-smoothstep(tmax-EDGE_SOFT,tmax,t); return max(0.0,a*b); }
 float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+34.123); return fract(p.x*p.y); }
 float flareY(float y){ float t=clamp(1.0-(clamp(y,0.0,FLARE_HEIGHT)/max(FLARE_HEIGHT,EPS)),0.0,1.0); return pow(t,FLARE_EXP); }
-
 float rGate(float x,float l){ float a=smoothstep(0.0,W_AA,x),b=1.0-smoothstep(l,l+W_AA,x); return max(0.0,a*b); }
 
-// ——— Wisps ———
-float vWisps(vec2 uv,float topF){
+/* vali paletist toon ilma massiivi indeksita */
+vec3 getWispColor(int idx){
+  if (uWispCount <= 0) return uColor;
+  int i = idx;
+  if (i < 0) i = 0;
+  if (i >= uWispCount) i = uWispCount - 1;
+  vec3 c = uColor;
+  if (i == 0) c = uWisp0;
+  else if (i == 1) c = uWisp1;
+  else if (i == 2) c = uWisp2;
+  else if (i == 3) c = uWisp3;
+  else if (i == 4) c = uWisp4;
+  else if (i == 5) c = uWisp5;
+  else if (i == 6) c = uWisp6;
+  else if (i == 7) c = uWisp7;
+  return c;
+}
+
+/* ——— Wisps (värviga) ——— */
+vec4 vWispsCol(vec2 uv,float topF){
   float y=uv.y, yf=(y+uFlowTime*uWSpeed)/W_CELL;
 
   float dRaw=clamp(uWispDensity,0.0,2.0),d=dRaw<=0.0?1.0:dRaw;
@@ -104,20 +125,18 @@ float vWisps(vec2 uv,float topF){
 
   float fm=flareY(max(y,0.0)),rm=clamp(1.0-(y/max(W_CURVE_RANGE,EPS)),0.0,1.0),cm=fm*rm;
 
-  // Visuaalne kaar, rada ei muuda (väldib “jõnksu”)
   const float G = 0.05;
   float xS = 1.0 + (FLARE_AMOUNT * W_CURVE_AMOUNT * G) * cm;
 
-  // Jalal: pehmem kahanemine + nähtavuse boost
-  float baseN     = smoothstep(5.0, 20.0, y);       // 0 ülal → 1 jalal
-  float jalalFunnel = mix(1.0, exp(-W_BASE_X * 0.65), baseN); // leebem kitsendus
-  float baseBoost = mix(1.10, 1.35, baseN);        // jalal pisut heledam
+  float baseN= smoothstep(5.0, 20.0, y);
+float baseBoost = mix(1.00, 1.10, baseN); // varem 1.10 → 1.35
 
-  // kuni nüüd oli (1 - y/R_V)^10 → teeme pehmemaks, et jalal ei kaoks
   float sPix=clamp(y/R_V,0.0,1.0);
-  float bGain=pow(1.0 - sPix, 6.0);                 // pehmem kui enne
+  float bGain=pow(1.0 - sPix, 6.0);
 
   float sum=0.0;
+  vec3 acc=vec3(0.0);
+
   for(int s=0;s<2;++s){
     float sgn=s==0?-1.0:1.0;
     for(int i=0;i<W_LANES;++i){
@@ -129,16 +148,13 @@ float vWisps(vec2 uv,float topF){
       float dx=abs(uv.x-xc);
       float lat=1.0-smoothstep(W_HALF,W_HALF+W_AA,dx);
 
-      // külgede loomulik kahanemine + jalal leebe funnel + nähtavuse boost
       float amp=exp(-off*W_SIDE_DECAY) * mix(1.0, exp(-off*0.85), baseN) * baseBoost;
 
       float seed=h21(vec2(off,sgn*17.0));
       float yf2=yf+seed*7.0;
       float ci=floor(yf2);
       float fy=fract(yf2);
-
-      // väike jitter, et “kuubikuread” ei tekiks
-      fy += (h21(vec2(ci*1.7, off*9.1)) - 0.5) * 0.06;
+fy += (h21(vec2(ci*1.7, off*9.1)) - 0.5) * 0.10;
 
       float seg=mix(W_SEG_MIN,W_SEG_MAX,h21(vec2(ci,off*2.3)));
       float spR=h21(vec2(ci,off+sgn*31.0));
@@ -149,12 +165,26 @@ float vWisps(vec2 uv,float topF){
         seg1+=rGate(f2,seg*0.9)*step(spR2,ep);
       }
 
-      sum+=amp*lat*seg1;
+      float contrib = amp*lat*seg1;
+      sum += contrib;
+
+      int idx = 0;
+      if (uWispCount > 0) {
+        float pick = h21(vec2(off*11.3 + float(i)*0.7, ci*3.1 + sgn*5.0));
+        idx = int(floor(mod(pick*float(uWispCount), float(uWispCount))));
+      }
+      vec3 palCol = getWispColor(idx);
+      vec3 wc = mix(uColor, palCol, clamp(uWispTint, 0.0, 1.0));
+
+      acc += contrib * wc;
     }
   }
 
   float span=smoothstep(-3.0,0.0,y)*(1.0-smoothstep(R_V-6.0,R_V,y));
-  return uWIntensity*sum*topF*bGain*span;
+  acc *= uWIntensity*topF*bGain*span;
+  float a = uWIntensity*sum*topF*bGain*span;
+
+  return vec4(acc, a);
 }
 
 void mainImage(out vec4 fc,in vec2 frag){
@@ -175,7 +205,7 @@ void mainImage(out vec4 fc,in vec2 frag){
     a+=wt*bs(uvc,p,env*spd);
   }
 
-  // vertikaalne kaar (juga) — vähendame pulsi mõju jalal
+  // vertikaalne kaar (juga)
   float yPix=uvc.y,cy=clamp(-yPix/(R_V*uVLenFactor),-1.0,1.0),tV=clamp(TWO_PI-acos(cy),tauMin,tauMax);
   for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
     float tu=tV+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax); if(wt<=0.0) continue;
@@ -187,8 +217,7 @@ void mainImage(out vec4 fc,in vec2 frag){
     float ph=s/max(FLOW_PERIOD,EPS)+uFlowTime*uFlowSpeed;
     float fl=pow(tri01(ph),FLOW_SHARPNESS);
 
-    // y-sõltuv pulse strength: ülal tugevam, jalal palju nõrgem
-    float fs = uFlowStrength * (1.0 - smoothstep(0.82, 1.00, s)); // s≈1 jalal → ~0
+    float fs = uFlowStrength * (1.0 - smoothstep(0.82, 1.00, s));
     env *= mix(1.0 - fs, 1.0, fl);
 
     float yp=(-R_V*uVLenFactor)*cos(tu),m=pow(smoothstep(FLARE_HEIGHT,0.0,yp),FLARE_EXP),wx=1.0+FLARE_AMOUNT*m;
@@ -200,18 +229,15 @@ void mainImage(out vec4 fc,in vec2 frag){
   float sPix=clamp(yPix/R_V,0.0,1.0),topA=pow(1.0-smoothstep(TOP_FADE_START,1.0,sPix),TOP_FADE_EXP);
   float L=a+b*topA;
 
-  // wisps
-  float w=vWisps(vec2(uvc.x,yPix),topA);
+  // wisps – värviline summa
+  vec4 wC = vWispsCol(vec2(uvc.x,yPix), topA);
 
-  // toon + dithering
   float dith=(h21(frag)-0.5)*(DITHER_STRENGTH/255.0);
-  float tone=g(L+w);
-  vec3 col=tone*uColor+dith;
-  float alpha=clamp(g(L+w*0.6)+dith*0.6,0.0,1.0);
+  float toneBeam = g(L);
+  vec3 col = toneBeam * uColor + wC.rgb + dith;
 
-  // servavignetid OFF
-  float eM = 1.0;
-  col*=eM; alpha*=eM;
+  float alpha = clamp(g(L + wC.a*0.6) + dith*0.6, 0.0, 1.0);
+
   col*=uFade; alpha*=uFade;
 
   fc=vec4(col,alpha);
@@ -244,8 +270,12 @@ export const LaserFlow = ({
   color                = "#22129a",
   baseLift             = 0.0,
 
+  /* wispi värvid */
+  wispColors = [],
+  wispTint   = 1.0,
+
   /* max FPS throttle */
-  maxFps               = 30,
+  maxFps     = 30,
 }) => {
   const mountRef     = useRef(null);
   const hasFadedRef  = useRef(false);
@@ -304,6 +334,18 @@ export const LaserFlow = ({
       uFade:        { value: hasFadedRef.current ? 1 : 0 },
 
       uBaseLift:    { value: baseLift },
+
+      // 8 eraldi wispi uniformi
+      uWisp0: { value: new THREE.Vector3(1,1,1) },
+      uWisp1: { value: new THREE.Vector3(1,1,1) },
+      uWisp2: { value: new THREE.Vector3(1,1,1) },
+      uWisp3: { value: new THREE.Vector3(1,1,1) },
+      uWisp4: { value: new THREE.Vector3(1,1,1) },
+      uWisp5: { value: new THREE.Vector3(1,1,1) },
+      uWisp6: { value: new THREE.Vector3(1,1,1) },
+      uWisp7: { value: new THREE.Vector3(1,1,1) },
+      uWispCount: { value: 0 },
+      uWispTint:  { value: wispTint },
     };
 
     const material = new THREE.RawShaderMaterial({
@@ -319,6 +361,29 @@ export const LaserFlow = ({
 
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+
+    // helper: HEX -> Vector3
+    const hexToV3 = (hex) => {
+      let c = (hex || "#ffffff").trim();
+      if (c[0] === "#") c = c.slice(1);
+      if (c.length === 3) c = c.split("").map(x => x + x).join("");
+      let n = parseInt(c, 16);
+      if (Number.isNaN(n)) n = 0xffffff;
+      return new THREE.Vector3(((n>>16)&255)/255, ((n>>8)&255)/255, (n&255)/255);
+    };
+
+    // Seadista kuni 8 värvi
+    {
+      const maxPal = 8;
+      const src = Array.isArray(wispColors) ? wispColors.slice(0, maxPal) : [];
+      const names = ["uWisp0","uWisp1","uWisp2","uWisp3","uWisp4","uWisp5","uWisp6","uWisp7"];
+      for (let i = 0; i < maxPal; i++) {
+        const v3 = src[i] ? hexToV3(src[i]) : new THREE.Vector3(1,1,1);
+        uniforms[names[i]].value.copy(v3);
+      }
+      uniforms.uWispCount.value = src.length;
+      uniforms.uWispTint.value  = wispTint;
+    }
 
     // DPI / suurus
     const setSize = () => {
@@ -382,13 +447,11 @@ export const LaserFlow = ({
       uniforms.uFalloffStart.value = falloffStart;
       uniforms.uBaseLift.value     = baseLift;
 
-      // anima kella samm
       const cdt = Math.min(0.05, Math.max(0.001, dt || frameDtMs / 1000));
       flowTime += cdt;
       uniforms.uFlowTime.value = flowTime;
       uniforms.iTime.value     = t;
 
-      // üks pehme sissefade
       if (!hasFadedRef.current) {
         const fadeDur = 1.0;
         fade = Math.min(1, fade + cdt / fadeDur);
@@ -439,6 +502,8 @@ export const LaserFlow = ({
     color,
     baseLift,
     maxFps,
+    wispColors,
+    wispTint,
   ]);
 
   return (

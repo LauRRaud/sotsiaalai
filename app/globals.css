@@ -484,49 +484,6 @@ a, .link-brand, .meist-external-link {
   color: var(--pt-200);
   text-shadow: 0px 5px 8px rgba(241, 241, 240, 0.35);
 }
-.font-planor    { font-family: var(--font-planor); }
-.font-shadows   { font-family: var(--font-shadows); }
-.font-neon      { font-family: var(--font-neonretro); letter-spacing:.08em; text-transform:uppercase; }
-.font-iomanoid  { font-family: var(--font-iomanoid); }
-.font-labirin   { font-family: var(--font-labirin); }
-.font-karniv    { font-family: var(--font-karnivbl); text-transform:uppercase; }
-.font-karniv-ol { font-family: var(--font-karnivod); text-transform:uppercase; }
-
-/* baas jääb ainoks */
-.card-title {
-  font-family: var(--font-shadows);}
-  /* muu stiil... */
-
-/* ÜLEKIRJUTUSED pealkirjale – võid panna kohe .card-title järel */
-.card-title.font-shadows   { font-family: var(--font-shadows); }
-.card-title.font-neon      { font-family: var(--font-neonretro); }
-.card-title.font-iomanoid  { font-family: var(--font-iomanoid); }
-.card-title.font-labirin   { font-family: var(--font-labirin); }
-.card-title.font-karniv    { font-family: var(--font-karnivbl); }
-.card-title.font-karniv-ol { font-family: var(--font-karnivod); }
-
-.card-title { 
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  line-height: 1.6;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  font-variant-ligatures: none;
-  margin: 0;
-  z-index: 4;
-  position: relative;
-  text-align: center;
-  margin-top: -1em; 
-  opacity: 0.5;
-}
-
-.left-card-primary .card-title { 
-  font-size: 2.5rem;
-  color: #323232;
-  text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
-}
-
 .right-card-primary .card-title { 
   font-size: 2.5rem;
   color: var(--pt-200);
@@ -2255,7 +2212,7 @@ textarea::placeholder,
 .defer-fade.delay-2 { --fade-delay: 3800ms; } /* logo */
 
 /* logo lõpp-opacity */
-.footer-logo-img.defer-fade.dim { --end-op: .5; }
+.footer-logo-img.defer-fade.dim { --end-op: .55; }
 
 /* lingi lõpp-opacity */
 .top-center-link.defer-fade.dim { --end-op: .8; }
