@@ -26,6 +26,7 @@ export const viewport = {
   themeColor: "#0d111b",
 };
 
+// Põhikirja font (Aino)
 const aino = localFont({
   src: [
     { path: "./fonts/Aino-Regular.woff2", weight: "400", style: "normal" },
@@ -50,7 +51,10 @@ export default function RootLayout({ children }) {
     <html
       lang="et"
       suppressHydrationWarning
-      className={`${aino.variable} ${ainoHeadline.variable}`}
+      className={[
+        aino.variable,
+        ainoHeadline.variable,
+      ].join(" ")}
     >
       <head>
         {/* Valikuline: preloadi sagedasti kasutatavad pildid/logod */}

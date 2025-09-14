@@ -75,6 +75,7 @@ export default function ClientHomeShell() {
       {/* Ülaserva MEIST link */}
       <nav className="top-center-nav" aria-label="Peamenüü">
         <Link
+          id="nav-meist"
           href="/meist"
           className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
         >
@@ -127,9 +128,6 @@ export default function ClientHomeShell() {
                         width={300}
                         height={300}
                       />
-
-                      {/* pehme välimine halo, mis ise ka fade’ib sisse */}
-                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
@@ -216,8 +214,6 @@ export default function ClientHomeShell() {
                         width={300}
                         height={300}
                       />
-
-                      <div className="centered-front-outer" aria-hidden="true" />
                     </div>
                   )}
                 </Magnet>
@@ -267,6 +263,7 @@ export default function ClientHomeShell() {
         <Image
           src="/logo/logomust.svg"
           alt="SotsiaalAI logo"
+          id="footer-logo-img"
           className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
           draggable={false}
           loading="eager"

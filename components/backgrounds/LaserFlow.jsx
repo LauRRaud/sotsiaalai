@@ -37,6 +37,7 @@ uniform float uDecay;
 uniform float uFalloffStart;
 uniform vec3  uColor;
 uniform float uFade;
+uniform float uBaseLift;   // ainult “jala” Y-nihe (uvc ühikutes ~px)
 
 // Core beam/flare shaping and dynamics
 #define PI 3.14159265359
@@ -61,21 +62,20 @@ uniform float uFade;
 #define W_LANES 55
 #define W_SIDE_DECAY 0.5
 #define W_HALF 0.01
-#define W_AA 0.15
-#define W_CELL 20.0
-#define W_SEG_MIN 0.01
-#define W_SEG_MAX 0.55
+#define W_AA 0.22
+#define W_CELL 16.0
+#define W_SEG_MIN 0.08
+#define W_SEG_MAX 0.70
 #define W_CURVE_AMOUNT 15.0
 #define W_CURVE_RANGE (FLARE_HEIGHT - 3.0)
-#define W_BOTTOM_EXP 10.0
 
-// Beam extents and edge masking
-#define EDGE_X0 0.22
-#define EDGE_X1 0.995
-#define EDGE_X_GAMMA 1.25
+// Edge mask OFF + pehmem dither
+#define EDGE_X0 0.0
+#define EDGE_X1 1.001
+#define EDGE_X_GAMMA 2.0
 #define EDGE_LUMA_T0 0.0
-#define EDGE_LUMA_T1 2.0
-#define DITHER_STRENGTH 1.0
+#define EDGE_LUMA_T1 1.0
+#define DITHER_STRENGTH 0.35
 
 float g(float x){ return x<=0.00031308?12.92*x:1.055*pow(x,1.0/2.4)-0.055; }
 float bs(vec2 p,vec2 q,float powr){
@@ -93,28 +93,66 @@ float flareY(float y){ float t=clamp(1.0-(clamp(y,0.0,FLARE_HEIGHT)/max(FLARE_HE
 
 float rGate(float x,float l){ float a=smoothstep(0.0,W_AA,x),b=1.0-smoothstep(l,l+W_AA,x); return max(0.0,a*b); }
 
+// ——— Wisps ———
 float vWisps(vec2 uv,float topF){
-  float y=uv.y,yf=(y+uFlowTime*uWSpeed)/W_CELL;
+  float y=uv.y, yf=(y+uFlowTime*uWSpeed)/W_CELL;
+
   float dRaw=clamp(uWispDensity,0.0,2.0),d=dRaw<=0.0?1.0:dRaw;
   float lanesF=floor(float(W_LANES)*min(d,1.0)+0.5);
   int lanes=int(max(1.0,lanesF));
   float sp=min(d,1.0),ep=max(d-1.0,0.0);
+
   float fm=flareY(max(y,0.0)),rm=clamp(1.0-(y/max(W_CURVE_RANGE,EPS)),0.0,1.0),cm=fm*rm;
-  const float G=0.05; float xS=1.0+(FLARE_AMOUNT*W_CURVE_AMOUNT*G)*cm;
-  float sPix=clamp(y/R_V,0.0,1.0),bGain=pow(1.0-sPix,W_BOTTOM_EXP),sum=0.0;
+
+  // Visuaalne kaar, rada ei muuda (väldib “jõnksu”)
+  const float G = 0.05;
+  float xS = 1.0 + (FLARE_AMOUNT * W_CURVE_AMOUNT * G) * cm;
+
+  // Jalal: pehmem kahanemine + nähtavuse boost
+  float baseN     = smoothstep(5.0, 20.0, y);       // 0 ülal → 1 jalal
+  float jalalFunnel = mix(1.0, exp(-W_BASE_X * 0.65), baseN); // leebem kitsendus
+  float baseBoost = mix(1.10, 1.35, baseN);        // jalal pisut heledam
+
+  // kuni nüüd oli (1 - y/R_V)^10 → teeme pehmemaks, et jalal ei kaoks
+  float sPix=clamp(y/R_V,0.0,1.0);
+  float bGain=pow(1.0 - sPix, 6.0);                 // pehmem kui enne
+
+  float sum=0.0;
   for(int s=0;s<2;++s){
     float sgn=s==0?-1.0:1.0;
     for(int i=0;i<W_LANES;++i){
       if(i>=lanes) break;
-      float off=W_BASE_X+float(i)*W_LAYER_GAP,xc=sgn*(off*xS);
-      float dx=abs(uv.x-xc),lat=1.0-smoothstep(W_HALF,W_HALF+W_AA,dx),amp=exp(-off*W_SIDE_DECAY);
-      float seed=h21(vec2(off,sgn*17.0)),yf2=yf+seed*7.0,ci=floor(yf2),fy=fract(yf2);
+
+      float off=W_BASE_X+float(i)*W_LAYER_GAP;
+      float xc=sgn*(off*xS);
+
+      float dx=abs(uv.x-xc);
+      float lat=1.0-smoothstep(W_HALF,W_HALF+W_AA,dx);
+
+      // külgede loomulik kahanemine + jalal leebe funnel + nähtavuse boost
+      float amp=exp(-off*W_SIDE_DECAY) * mix(1.0, exp(-off*0.85), baseN) * baseBoost;
+
+      float seed=h21(vec2(off,sgn*17.0));
+      float yf2=yf+seed*7.0;
+      float ci=floor(yf2);
+      float fy=fract(yf2);
+
+      // väike jitter, et “kuubikuread” ei tekiks
+      fy += (h21(vec2(ci*1.7, off*9.1)) - 0.5) * 0.06;
+
       float seg=mix(W_SEG_MIN,W_SEG_MAX,h21(vec2(ci,off*2.3)));
-      float spR=h21(vec2(ci,off+sgn*31.0)),seg1=rGate(fy,seg)*step(spR,sp);
-      if(ep>0.0){ float spR2=h21(vec2(ci*3.1+7.0,off*5.3+sgn*13.0)); float f2=fract(fy+0.5); seg1+=rGate(f2,seg*0.9)*step(spR2,ep); }
+      float spR=h21(vec2(ci,off+sgn*31.0));
+      float seg1=rGate(fy,seg)*step(spR,sp);
+      if(ep>0.0){
+        float spR2=h21(vec2(ci*3.1+7.0,off*5.3+sgn*13.0));
+        float f2=fract(fy+0.5);
+        seg1+=rGate(f2,seg*0.9)*step(spR2,ep);
+      }
+
       sum+=amp*lat*seg1;
     }
   }
+
   float span=smoothstep(-3.0,0.0,y)*(1.0-smoothstep(R_V-6.0,R_V,y));
   return uWIntensity*sum*topF*bGain*span;
 }
@@ -128,25 +166,31 @@ void mainImage(out vec4 fc,in vec2 frag){
   float a=0.0,b=0.0;
   float basePhase=1.5*PI+uDecay*.5; float tauMin=basePhase-uDecay; float tauMax=basePhase;
 
-  // horisontaalne kaar
+  // horisontaalne kaar (põhi/jalg)
   float cx=clamp(uvc.x/(R_H*uHLenFactor),-1.0,1.0),tH=clamp(TWO_PI-acos(cx),tauMin,tauMax);
   for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
     float tu=tH+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax); if(wt<=0.0) continue;
     float spd=max(abs(sin(tu)),0.02),u=clamp((basePhase-tu)/max(uDecay,EPS),0.0,1.0),env=pow(1.0-abs(u*2.0-1.0),0.8);
-    vec2 p=vec2((R_H*uHLenFactor)*cos(tu),0.0);
+    vec2 p=vec2((R_H*uHLenFactor)*cos(tu), uBaseLift);
     a+=wt*bs(uvc,p,env*spd);
   }
 
-  // vertikaalne kaar
+  // vertikaalne kaar (juga) — vähendame pulsi mõju jalal
   float yPix=uvc.y,cy=clamp(-yPix/(R_V*uVLenFactor),-1.0,1.0),tV=clamp(TWO_PI-acos(cy),tauMin,tauMax);
   for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
     float tu=tV+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax); if(wt<=0.0) continue;
     float yb=(-R_V)*cos(tu),s=clamp(yb/R_V,0.0,1.0),spd=max(abs(sin(tu)),0.02);
+
     float env=pow(1.0-s,0.6)*spd;
     float cap=1.0-smoothstep(TOP_FADE_START,1.0,s); cap=pow(cap,TOP_FADE_EXP); env*=cap;
+
     float ph=s/max(FLOW_PERIOD,EPS)+uFlowTime*uFlowSpeed;
     float fl=pow(tri01(ph),FLOW_SHARPNESS);
-    env*=mix(1.0-uFlowStrength,1.0,fl);
+
+    // y-sõltuv pulse strength: ülal tugevam, jalal palju nõrgem
+    float fs = uFlowStrength * (1.0 - smoothstep(0.82, 1.00, s)); // s≈1 jalal → ~0
+    env *= mix(1.0 - fs, 1.0, fl);
+
     float yp=(-R_V*uVLenFactor)*cos(tu),m=pow(smoothstep(FLARE_HEIGHT,0.0,yp),FLARE_EXP),wx=1.0+FLARE_AMOUNT*m;
     vec2 sig=vec2(wx,1.0),p=vec2(0.0,yp);
     float mask=step(0.0,yp);
@@ -165,13 +209,8 @@ void mainImage(out vec4 fc,in vec2 frag){
   vec3 col=tone*uColor+dith;
   float alpha=clamp(g(L+w*0.6)+dith*0.6,0.0,1.0);
 
-  // servavignetid
-  vec2 C2=iResolution.xy*.5;
-  float invW=1.0/max(C2.x,1.0);
-  float nxE=abs((frag.x-C2.x)*invW),xF=pow(clamp(1.0-smoothstep(EDGE_X0,EDGE_X1,nxE),0.0,1.0),EDGE_X_GAMMA);
-  float scene=L+max(0.0,w)*0.5,hi=smoothstep(EDGE_LUMA_T0,EDGE_LUMA_T1,scene);
-  float eM=mix(xF,1.0,hi);
-
+  // servavignetid OFF
+  float eM = 1.0;
   col*=eM; alpha*=eM;
   col*=uFade; alpha*=uFade;
 
@@ -191,7 +230,7 @@ export const LaserFlow = ({
 
   /* basic props */
   wispDensity = 1,
-  dpr,                         // kui annad, piirame selle väärtusega; muidu seadmest
+  dpr,
   horizontalBeamOffset = 0.1,
   verticalBeamOffset   = 0.0,
   flowSpeed            = 0.35,
@@ -203,8 +242,9 @@ export const LaserFlow = ({
   decay                = 1.1,
   falloffStart         = 1.2,
   color                = "#22129a",
+  baseLift             = 0.0,
 
-  /* 🆕: max FPS throttle (0 või <1 = piirang puudub) */
+  /* max FPS throttle */
   maxFps               = 30,
 }) => {
   const mountRef     = useRef(null);
@@ -213,11 +253,10 @@ export const LaserFlow = ({
   useEffect(() => {
     const mount = mountRef.current;
 
-    // Fullscreen-quad: AA pole vajalik → säästame GPU'd
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
-      alpha: true,                  // läbipaistev canvas
-      powerPreference: "low-power", // säästurežiim
+      alpha: true,
+      powerPreference: "low-power",
       premultipliedAlpha: false,
       stencil: false,
       depth: false,
@@ -263,6 +302,8 @@ export const LaserFlow = ({
 
       uColor:       { value: new THREE.Vector3(1, 1, 1) },
       uFade:        { value: hasFadedRef.current ? 1 : 0 },
+
+      uBaseLift:    { value: baseLift },
     };
 
     const material = new THREE.RawShaderMaterial({
@@ -283,7 +324,7 @@ export const LaserFlow = ({
     const setSize = () => {
       const { clientWidth: w, clientHeight: h } = mount;
       const deviceDpr = typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1;
-      const pixelRatio = Math.min(dpr ?? deviceDpr, 1.5); // cap 1.5 → veel säästlikum
+      const pixelRatio = Math.min(dpr ?? deviceDpr, 1.5);
       renderer.setPixelRatio(pixelRatio);
       renderer.setSize(w, h, false);
       uniforms.iResolution.value.set(w * pixelRatio, h * pixelRatio, pixelRatio);
@@ -306,7 +347,7 @@ export const LaserFlow = ({
       raf = requestAnimationFrame(animate);
 
       const now = performance.now();
-      if (minFrameMs > 0 && (now - lastNow) < minFrameMs) return; // throttle
+      if (minFrameMs > 0 && (now - lastNow) < minFrameMs) return;
       const frameDtMs = now - lastNow;
       lastNow = now;
 
@@ -339,8 +380,9 @@ export const LaserFlow = ({
       uniforms.uFlowStrength.value = flowStrength;
       uniforms.uDecay.value        = decay;
       uniforms.uFalloffStart.value = falloffStart;
+      uniforms.uBaseLift.value     = baseLift;
 
-      // anima kella samm (klamber, et suurel vahel ei "hüppaks")
+      // anima kella samm
       const cdt = Math.min(0.05, Math.max(0.001, dt || frameDtMs / 1000));
       flowTime += cdt;
       uniforms.uFlowTime.value = flowTime;
@@ -360,7 +402,6 @@ export const LaserFlow = ({
     };
     raf = requestAnimationFrame(animate);
 
-    // Tab peidus → peata; nähtavale tulles jätka
     const onVis = () => {
       if (document.visibilityState !== "visible") {
         cancelAnimationFrame(raf);
@@ -396,6 +437,7 @@ export const LaserFlow = ({
     decay,
     falloffStart,
     color,
+    baseLift,
     maxFps,
   ]);
 
