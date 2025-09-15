@@ -53,11 +53,10 @@ export default function Space({
 
   // --- keskkonna lipud (CSR) ---
   const isMobile = useIsMobile(); // ≤768px
-  const prefersReduced = usePrefersReducedMotion();
 
-  // Desktopil (ja kui pole reduced motion) renderdame udu+grain
-  const shouldRenderFog = fog && !isMobile && !prefersReduced;
-  const shouldRenderGrain = grain && !isMobile && !prefersReduced;
+  // Desktopil renderdame alati udu+grain (ignoreerime OS reduced-motion’i)
+  const shouldRenderFog = fog && !isMobile;
+  const shouldRenderGrain = grain && !isMobile;
   const animateFogEff = shouldRenderFog && !!(animateFog && !skipIntro);
 
   return (
@@ -124,18 +123,10 @@ export default function Space({
           animation: none;
         }
         @keyframes fogAppear {
-          0% {
-            opacity: 0.001;
-          }
-          55% {
-            opacity: calc(var(--fogOpacity) * 0.26);
-          }
-          85% {
-            opacity: calc(var(--fogOpacity) * 0.75);
-          }
-          100% {
-            opacity: var(--fogOpacity);
-          }
+          0% { opacity: 0.001; }
+          55% { opacity: calc(var(--fogOpacity) * 0.26); }
+          85% { opacity: calc(var(--fogOpacity) * 0.75); }
+          100% { opacity: var(--fogOpacity); }
         }
 
         .fog-blob {
@@ -155,16 +146,10 @@ export default function Space({
           mix-blend-mode: var(--fogBlend);
         }
         @supports (mix-blend-mode: plus-lighter) {
-          [data-mode="dark"] .fog-blob {
-            mix-blend-mode: plus-lighter;
-          }
+          [data-mode="dark"] .fog-blob { mix-blend-mode: plus-lighter; }
         }
-        .fb1 {
-          left: calc(50% - var(--fogSpread));
-        }
-        .fb3 {
-          left: calc(50% + var(--fogSpread));
-        }
+        .fb1 { left: calc(50% - var(--fogSpread)); }
+        .fb3 { left: calc(50% + var(--fogSpread)); }
 
         /* === GRAIN === */
         .sb-grain {
@@ -185,18 +170,9 @@ export default function Space({
           background-size: auto;
         }
 
-        /* Mobiilis ja reduced-motion: ainult gradient */
+        /* Mobiilis: ainult gradient (peidame udu+grain) */
         @media (max-width: 768px) {
           .fog,
-          .sb-grain {
-            display: none !important;
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .fog {
-            animation: none !important;
-            opacity: 0 !important; /* udu peidetud; gradient jääb */
-          }
           .sb-grain {
             display: none !important;
           }
@@ -239,23 +215,9 @@ function SvgGrainOverlay() {
   );
 }
 
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v));
-}
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
 /* ------- hooks ------- */
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = () => setReduced(mql.matches);
-    handler();
-    mql.addEventListener?.("change", handler);
-    return () => mql.removeEventListener?.("change", handler);
-  }, []);
-  return reduced;
-}
 function useIsMobile() {
   const [mobile, setMobile] = useState(false);
   useEffect(() => {

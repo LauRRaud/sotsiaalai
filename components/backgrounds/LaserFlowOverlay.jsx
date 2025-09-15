@@ -1,4 +1,3 @@
-// components/backgrounds/LaserFlowOverlay.jsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -53,12 +52,14 @@ function useIdleMount(enabled, timeout = 900) {
     let cancelled = false;
     const done = () => { if (!cancelled) setReady(true); };
     if (typeof window.requestIdleCallback === "function") {
+      // @ts-ignore
       idleId = window.requestIdleCallback(done, { timeout });
     } else {
       timeoutId = window.setTimeout(done, timeout);
     }
     return () => {
       cancelled = true;
+      // @ts-ignore
       if (idleId && typeof window.cancelIdleCallback === "function") {
         window.cancelIdleCallback(idleId);
       }
@@ -88,6 +89,7 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
 
   // px-offset (mõõdetakse 1x)
   const [beamPx, setBeamPx] = useState({ x: 0, y: 0 });
+
 
   // ——— TUNING / LUKUSTUS ———
   const TOP_AIR_PX       = 3;

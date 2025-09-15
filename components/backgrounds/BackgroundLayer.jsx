@@ -10,7 +10,7 @@ const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 const LaserFlowOverlay = dynamic(() => import("./LaserFlowOverlay"), { ssr: false });
 
-/* utils: idle/visibility/motion */
+/* utils: idle/visibility */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -32,21 +32,15 @@ function whenVisible(cb) {
   document.addEventListener("visibilitychange", onVis);
   return () => document.removeEventListener("visibilitychange", onVis);
 }
+
+/** Reduced motion kill-switch: tagasta alati false. */
 function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = () => setReduced(mql.matches);
-    handler();
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
-  return reduced;
+  return false;
 }
 
 function BackgroundLayer() {
   const pathname = usePathname();
-  const prefersReduced = usePrefersReducedMotion();
+  const prefersReduced = usePrefersReducedMotion(); // alati false
 
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
@@ -55,12 +49,8 @@ function BackgroundLayer() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // otsusta Space fog intro iga lehevahetuse korral
+  // Otsusta Space’u fog intro iga lehevahetuse korral
   useEffect(() => {
-    if (prefersReduced) {
-      setAnimateFog(false);
-      return;
-    }
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
@@ -72,17 +62,17 @@ function BackgroundLayer() {
     const should = pathname === "/" && !already && !isReload;
     setAnimateFog(should);
 
-    // märgi tehtuks, et mitte uuesti intro't mängida
+    // märgi tehtuks, et mitte uuesti intro’t mängida
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
   }, [pathname, prefersReduced]);
 
-  // lae Particles/MaybeSplash siis, kui tab on nähtav ja idle
+  // Lae Particles/MaybeSplash siis, kui tab on nähtav ja idle
   useEffect(() => {
-    if (!mounted || prefersReduced) return;
+    if (!mounted) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => { cancelParticles?.(); cancelCursor?.(); };
-  }, [mounted, prefersReduced]);
+  }, [mounted]);
 
   return (
     <div
@@ -102,20 +92,20 @@ function BackgroundLayer() {
         </Suspense>
       </div>
 
-      {/* LASERFLOW — Space'i peal (z:1), ainult avalehel ja mitte reduced-motion */}
-      {pathname === "/" && !prefersReduced && (
+      {/* LASERFLOW — Space'i peal (z:1), ainult avalehel */}
+      {pathname === "/" && (
         <LaserFlowOverlay zIndex={1} />
       )}
 
       {/* PARTICLES — LaserFlow'st eespool (z:2) */}
-      {particlesReady && !prefersReduced && (
+      {particlesReady && (
         <div className="particles-container">
           <Particles />
         </div>
       )}
 
       {/* MaybeSplash — kõige ees taustakihtidest (z:3) */}
-      {cursorReady && !prefersReduced && (
+      {cursorReady && (
         <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
           <MaybeSplash />
         </div>
