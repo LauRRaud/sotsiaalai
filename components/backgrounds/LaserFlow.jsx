@@ -20,10 +20,15 @@ precision mediump int;
 uniform float iTime;
 uniform vec3  iResolution;
 
-uniform float uWispDensity;
-uniform float uFlowTime;
+/* tala positsioneerimine */
+uniform float uUsePx;
+uniform float uBeamOffXPx;
+uniform float uBeamOffYPx;
 uniform float uBeamXFrac;
 uniform float uBeamYFrac;
+
+uniform float uWispDensity;
+uniform float uFlowTime;
 uniform float uFlowSpeed;
 uniform float uVLenFactor;
 uniform float uHLenFactor;
@@ -36,7 +41,10 @@ uniform vec3  uColor;
 uniform float uFade;
 uniform float uBaseLift;
 
-/* WebGL1-s: massiivi asemel 8 eraldi uniformi */
+/* dither tugevus (bandingu vastu) */
+uniform float uDitherAmp;
+
+/* WebGL1: palett eraldi uniformid */
 uniform vec3  uWisp0;
 uniform vec3  uWisp1;
 uniform vec3  uWisp2;
@@ -45,16 +53,18 @@ uniform vec3  uWisp4;
 uniform vec3  uWisp5;
 uniform vec3  uWisp6;
 uniform vec3  uWisp7;
-uniform int   uWispCount;   // 0..8
-uniform float uWispTint;    // 0..1
+uniform int   uWispCount;
+uniform float uWispTint;
 
-// Core beam/flare shaping and dynamics
+// --- konstandid ---
 #define PI 3.14159265359
 #define TWO_PI 6.28318530718
 #define EPS 1e-6
 #define EDGE_SOFT (DT_LOCAL*4.0)
 #define DT_LOCAL 0.0038
-#define TAP_RADIUS 6
+/* NB: int-konstant, et for-tsüklid kompileeruks WebGL1-s */
+const int TAP_R = 6;
+
 #define R_H 150.0
 #define R_V 150.0
 #define FLARE_HEIGHT 16.0
@@ -65,21 +75,18 @@ uniform float uWispTint;    // 0..1
 #define FLOW_PERIOD 0.5
 #define FLOW_SHARPNESS 1.5
 
-// Wisps (kompromiss – ei ruuduline)
+// Wisps
 #define W_BASE_X 1.5
 #define W_LAYER_GAP 0.25
 #define W_LANES 55
 #define W_SIDE_DECAY 0.5
-#define W_HALF 0.0095      // ⟵ paksus (oli 0.006) – veidi laiem, vähem aliasingut
-#define W_AA   0.18        // ⟵ pehmendus (oli 0.08) – pehmem serv
-#define W_CELL 18.0        // ⟵ veidi suurem raku kõrgus, korduvmuster kaob
-#define W_SEG_MIN 0.15   // varem nt 0.075
-#define W_SEG_MAX 0.35   // varem nt 0.52
+#define W_HALF 0.0095
+#define W_AA   0.18
+#define W_CELL 18.0
+#define W_SEG_MIN 0.15
+#define W_SEG_MAX 0.35
 #define W_CURVE_AMOUNT 15.0
 #define W_CURVE_RANGE (FLARE_HEIGHT - 3.0)
-
-// Dither
-#define DITHER_STRENGTH 0.35
 
 float g(float x){ return x<=0.00031308?12.92*x:1.055*pow(x,1.0/2.4)-0.055; }
 float bs(vec2 p,vec2 q,float powr){
@@ -96,7 +103,7 @@ float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+34.123); return fr
 float flareY(float y){ float t=clamp(1.0-(clamp(y,0.0,FLARE_HEIGHT)/max(FLARE_HEIGHT,EPS)),0.0,1.0); return pow(t,FLARE_EXP); }
 float rGate(float x,float l){ float a=smoothstep(0.0,W_AA,x),b=1.0-smoothstep(l,l+W_AA,x); return max(0.0,a*b); }
 
-/* vali paletist toon ilma massiivi indeksita */
+/* paletist toon */
 vec3 getWispColor(int idx){
   if (uWispCount <= 0) return uColor;
   int i = idx;
@@ -114,7 +121,7 @@ vec3 getWispColor(int idx){
   return c;
 }
 
-/* ——— Wisps (värviga) ——— */
+/* Wisps (värviga) */
 vec4 vWispsCol(vec2 uv,float topF){
   float y=uv.y, yf=(y+uFlowTime*uWSpeed)/W_CELL;
 
@@ -124,12 +131,11 @@ vec4 vWispsCol(vec2 uv,float topF){
   float sp=min(d,1.0),ep=max(d-1.0,0.0);
 
   float fm=flareY(max(y,0.0)),rm=clamp(1.0-(y/max(W_CURVE_RANGE,EPS)),0.0,1.0),cm=fm*rm;
-
   const float G = 0.05;
   float xS = 1.0 + (FLARE_AMOUNT * W_CURVE_AMOUNT * G) * cm;
 
   float baseN= smoothstep(5.0, 20.0, y);
-float baseBoost = mix(1.00, 1.10, baseN); // varem 1.10 → 1.35
+  float baseBoost = mix(1.00, 1.10, baseN);
 
   float sPix=clamp(y/R_V,0.0,1.0);
   float bGain=pow(1.0 - sPix, 6.0);
@@ -154,7 +160,7 @@ float baseBoost = mix(1.00, 1.10, baseN); // varem 1.10 → 1.35
       float yf2=yf+seed*7.0;
       float ci=floor(yf2);
       float fy=fract(yf2);
-fy += (h21(vec2(ci*1.7, off*9.1)) - 0.5) * 0.10;
+      fy += (h21(vec2(ci*1.7, off*9.1)) - 0.5) * 0.10;
 
       float seg=mix(W_SEG_MIN,W_SEG_MAX,h21(vec2(ci,off*2.3)));
       float spR=h21(vec2(ci,off+sgn*31.0));
@@ -190,7 +196,13 @@ fy += (h21(vec2(ci*1.7, off*9.1)) - 0.5) * 0.10;
 void mainImage(out vec4 fc,in vec2 frag){
   vec2 C=iResolution.xy*.5;
   float sc=512.0/iResolution.x*.4;
-  vec2 uv=(frag-C)*sc,off=vec2(uBeamXFrac*iResolution.x*sc,uBeamYFrac*iResolution.y*sc);
+  vec2 uv=(frag-C)*sc;
+
+  // nihke valik: px või fraktsioon
+  vec2 offFrac = vec2(uBeamXFrac*iResolution.x*sc, uBeamYFrac*iResolution.y*sc);
+  vec2 offPx   = vec2(uBeamOffXPx*sc,            uBeamOffYPx*sc);
+  vec2 off     = mix(offFrac, offPx, clamp(uUsePx, 0.0, 1.0));
+
   vec2 uvc = uv - off;
 
   float a=0.0,b=0.0;
@@ -198,7 +210,7 @@ void mainImage(out vec4 fc,in vec2 frag){
 
   // horisontaalne kaar (põhi/jalg)
   float cx=clamp(uvc.x/(R_H*uHLenFactor),-1.0,1.0),tH=clamp(TWO_PI-acos(cx),tauMin,tauMax);
-  for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
+  for(int k=-TAP_R;k<=TAP_R;++k){
     float tu=tH+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax); if(wt<=0.0) continue;
     float spd=max(abs(sin(tu)),0.02),u=clamp((basePhase-tu)/max(uDecay,EPS),0.0,1.0),env=pow(1.0-abs(u*2.0-1.0),0.8);
     vec2 p=vec2((R_H*uHLenFactor)*cos(tu), uBaseLift);
@@ -207,7 +219,7 @@ void mainImage(out vec4 fc,in vec2 frag){
 
   // vertikaalne kaar (juga)
   float yPix=uvc.y,cy=clamp(-yPix/(R_V*uVLenFactor),-1.0,1.0),tV=clamp(TWO_PI-acos(cy),tauMin,tauMax);
-  for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
+  for(int k=-TAP_R;k<=TAP_R;++k){
     float tu=tV+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax); if(wt<=0.0) continue;
     float yb=(-R_V)*cos(tu),s=clamp(yb/R_V,0.0,1.0),spd=max(abs(sin(tu)),0.02);
 
@@ -232,7 +244,9 @@ void mainImage(out vec4 fc,in vec2 frag){
   // wisps – värviline summa
   vec4 wC = vWispsCol(vec2(uvc.x,yPix), topA);
 
-  float dith=(h21(frag)-0.5)*(DITHER_STRENGTH/255.0);
+  // dither skaleeritult
+  float dith=(h21(frag)-0.5)*(uDitherAmp/255.0);
+
   float toneBeam = g(L);
   vec3 col = toneBeam * uColor + wC.rgb + dith;
 
@@ -254,11 +268,15 @@ export const LaserFlow = ({
   className,
   style,
 
+  /* px offset (võidab frac) */
+  beamOffsetXPx,
+  beamOffsetYPx,
+  horizontalBeamOffset = 0,
+  verticalBeamOffset   = 0,
+
   /* basic props */
   wispDensity = 1,
   dpr,
-  horizontalBeamOffset = 0.1,
-  verticalBeamOffset   = 0.0,
   flowSpeed            = 0.35,
   verticalSizing       = 2.0,
   horizontalSizing     = 0.5,
@@ -274,8 +292,11 @@ export const LaserFlow = ({
   wispColors = [],
   wispTint   = 1.0,
 
+  /* bandingu dither */
+  ditherAmp           = 0.0,   // 0..0.2
+
   /* max FPS throttle */
-  maxFps     = 30,
+  maxFps              = 30,
 }) => {
   const mountRef     = useRef(null);
   const hasFadedRef  = useRef(false);
@@ -313,11 +334,14 @@ export const LaserFlow = ({
       iTime:        { value: 0 },
       iResolution:  { value: new THREE.Vector3(1, 1, 1) },
 
-      uWispDensity: { value: wispDensity },
-      uFlowTime:    { value: 0 },
-
+      uUsePx:       { value: (Number.isFinite(beamOffsetXPx) && Number.isFinite(beamOffsetYPx)) ? 1 : 0 },
+      uBeamOffXPx:  { value: beamOffsetXPx ?? 0 },
+      uBeamOffYPx:  { value: beamOffsetYPx ?? 0 },
       uBeamXFrac:   { value: horizontalBeamOffset },
       uBeamYFrac:   { value: verticalBeamOffset },
+
+      uWispDensity: { value: wispDensity },
+      uFlowTime:    { value: 0 },
 
       uFlowSpeed:   { value: flowSpeed },
       uVLenFactor:  { value: verticalSizing },
@@ -334,8 +358,9 @@ export const LaserFlow = ({
       uFade:        { value: hasFadedRef.current ? 1 : 0 },
 
       uBaseLift:    { value: baseLift },
+      uDitherAmp:   { value: ditherAmp },
 
-      // 8 eraldi wispi uniformi
+      // palett
       uWisp0: { value: new THREE.Vector3(1,1,1) },
       uWisp1: { value: new THREE.Vector3(1,1,1) },
       uWisp2: { value: new THREE.Vector3(1,1,1) },
@@ -362,7 +387,7 @@ export const LaserFlow = ({
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // helper: HEX -> Vector3
+    // HEX -> Vector3
     const hexToV3 = (hex) => {
       let c = (hex || "#ffffff").trim();
       if (c[0] === "#") c = c.slice(1);
@@ -434,9 +459,13 @@ export const LaserFlow = ({
       }
 
       // live propide uuendus
+      uniforms.uUsePx.value      = (Number.isFinite(beamOffsetXPx) && Number.isFinite(beamOffsetYPx)) ? 1 : 0;
+      uniforms.uBeamOffXPx.value = beamOffsetXPx ?? 0;
+      uniforms.uBeamOffYPx.value = beamOffsetYPx ?? 0;
+      uniforms.uBeamXFrac.value  = horizontalBeamOffset;
+      uniforms.uBeamYFrac.value  = verticalBeamOffset;
+
       uniforms.uWispDensity.value  = wispDensity;
-      uniforms.uBeamXFrac.value    = horizontalBeamOffset;
-      uniforms.uBeamYFrac.value    = verticalBeamOffset;
       uniforms.uFlowSpeed.value    = flowSpeed;
       uniforms.uVLenFactor.value   = verticalSizing;
       uniforms.uHLenFactor.value   = horizontalSizing;
@@ -446,6 +475,7 @@ export const LaserFlow = ({
       uniforms.uDecay.value        = decay;
       uniforms.uFalloffStart.value = falloffStart;
       uniforms.uBaseLift.value     = baseLift;
+      uniforms.uDitherAmp.value    = ditherAmp;
 
       const cdt = Math.min(0.05, Math.max(0.001, dt || frameDtMs / 1000));
       flowTime += cdt;
@@ -487,23 +517,10 @@ export const LaserFlow = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    wispDensity,
-    dpr,
-    horizontalBeamOffset,
-    verticalBeamOffset,
-    flowSpeed,
-    verticalSizing,
-    horizontalSizing,
-    wispSpeed,
-    wispIntensity,
-    flowStrength,
-    decay,
-    falloffStart,
-    color,
-    baseLift,
-    maxFps,
-    wispColors,
-    wispTint,
+    beamOffsetXPx, beamOffsetYPx, horizontalBeamOffset, verticalBeamOffset,
+    wispDensity, dpr, flowSpeed, verticalSizing, horizontalSizing,
+    wispSpeed, wispIntensity, flowStrength, decay, falloffStart,
+    color, baseLift, ditherAmp, maxFps, wispColors, wispTint,
   ]);
 
   return (

@@ -5,16 +5,15 @@ import { useEffect, useRef, useState } from "react";
 
 /* ——— Wispi palett: oranžikas, must, hall ——— */
 const WISP_PALETTE = [
-  "#7E7970",                 // hall (pt-500)
-  "#232323",                 // must
-  "#B86C57",                 // oranžikas / burnt orange
-  "#996757", // brand ~60%
-  "#862406", // brand ~45%
-  "#1f1010", // brand ~35%
-  "#221714", // brand ~25%
+  "#7E7970",  // hall (pt-500)
+  "#232323",  // must
+  "#B86C57",  // oranžikas
+  "#996757",  // brand ~60%
+  "#862406",  // brand ~45%
+  "#1f1010",  // brand ~35%
+  "#221714",  // brand ~25%
 ];
 
-/* ——— utils ——— */
 function useIsDesktop() {
   const [ok, setOk] = useState(false);
   useEffect(() => {
@@ -52,9 +51,7 @@ function useIdleMount(enabled, timeout = 900) {
     let idleId = null;
     let timeoutId = null;
     let cancelled = false;
-    const done = () => {
-      if (!cancelled) setReady(true);
-    };
+    const done = () => { if (!cancelled) setReady(true); };
     if (typeof window.requestIdleCallback === "function") {
       idleId = window.requestIdleCallback(done, { timeout });
     } else {
@@ -71,13 +68,12 @@ function useIdleMount(enabled, timeout = 900) {
   return ready;
 }
 
-/* ——— komponent ——— */
 export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
   const wrapRef = useRef(null);
 
   const isDesktop = useIsDesktop();
-  const reduced = usePrefersReducedMotion();
-  const ready = useIdleMount(isDesktop && !reduced, 900);
+  const reduced   = usePrefersReducedMotion();
+  const ready     = useIdleMount(isDesktop && !reduced, 900);
 
   // laeme LaserFlow alles siis, kui idle
   const [LaserFlow, setLaserFlow] = useState(null);
@@ -87,27 +83,19 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
     import("./LaserFlow").then((m) => {
       if (alive) setLaserFlow(() => m.default);
     });
-    return () => {
-      alive = false;
-    };
+    return () => { alive = false; };
   }, [isDesktop, ready, reduced]);
 
-  // 🧭 Tala uniformid (state)
-  const [beam, setBeam] = useState({
-    xFrac: 0, // horizontalBeamOffset
-    yFrac: 0, // verticalBeamOffset (DOM Y invertitakse shaderi jaoks)
-    vSize: 0.7, // verticalSizing (pikkus) – lõplik tuleb allpool
-    hSize: 0.5, // horizontalSizing (laius) – lõplik tuleb allpool
-  });
+  // px-offset (mõõdetakse 1x)
+  const [beamPx, setBeamPx] = useState({ x: 0, y: 0 });
 
   // ——— TUNING / LUKUSTUS ———
-  const TOP_AIR_PX = 3; // kui palju õhku MEIST all
-  const TOP_CENTER_FRAC = 0.97; // keha kui sügaval algusest
-  const V_SIZE_FIXED = 1.2; // ↓ väiksem = lühem juga, ↑ suurem = pikem
-  const H_SIZE_FIXED = 0.38; // ↑ suurem = laiem
-  const BASE_LIFT = 0.8; // ainult “jala” (põhja) tõstmine
+  const TOP_AIR_PX       = 3;
+  const TOP_CENTER_FRAC  = 1.12;
+  const V_SIZE_FIXED     = 1.2;
+  const H_SIZE_FIXED     = 0.38;
+  const BASE_LIFT        = 0.8;
 
-  // ⛳️ Ankurdamine: ülemine ots LUKUS MEIST juures
   useEffect(() => {
     if (!isDesktop || reduced) return;
 
@@ -120,93 +108,79 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
     if (!topEl || !botEl) return;
 
     const getWH = () => {
-      const w =
-        wrapRef.current?.clientWidth ??
-        document.documentElement.clientWidth ??
-        window.innerWidth ??
-        1;
-      const h =
-        wrapRef.current?.clientHeight ??
-        document.documentElement.clientHeight ??
-        window.innerHeight ??
-        1;
+      const w = wrapRef.current?.clientWidth  ?? document.documentElement.clientWidth  ?? window.innerWidth  ?? 1;
+      const h = wrapRef.current?.clientHeight ?? document.documentElement.clientHeight ?? window.innerHeight ?? 1;
       return { W: w, H: h };
     };
 
-    // vSize lukustatakse esimesel mõõtmisel fikseerituks
-    const vSizeRef = { current: NaN };
-
-    const update = () => {
+    let t1, t2, r1;
+    const measureOnce = () => {
       const { W, H } = getWH();
       const t = topEl.getBoundingClientRect();
       const b = botEl.getBoundingClientRect();
 
-      // ankrud
       const topX = t.left + t.width / 2;
       const topY = t.bottom + TOP_AIR_PX;
       const botX = b.left + b.width / 2;
 
-      // X = ankrute keskkoht (vajadusel lisa X-bias px)
       const cx = (topX + botX) / 2;
-      const xFrac = (cx - W / 2) / W;
 
-      // vSize – FIKSEERITUD
-      const vSize = Number.isFinite(vSizeRef.current)
-        ? vSizeRef.current
-        : (vSizeRef.current = V_SIZE_FIXED);
+      const xPx = cx - W / 2;
 
-      // ÜLEMINE OTS LUKKU
+      const vSize = V_SIZE_FIXED;
       const topCenterOffset = (H * TOP_CENTER_FRAC) / vSize;
       const centerY = topY + topCenterOffset;
-      const yFrac = -((centerY - H / 2) / H); // DOM→shader (Y invert)
 
-      // hSize – FIKSEERITUD
-      const hSize = H_SIZE_FIXED;
+      // NB: shaderis +Y üles → invert
+      const yPx = -(centerY - H / 2);
 
-      setBeam({ xFrac, yFrac, vSize, hSize });
+      setBeamPx({ x: xPx, y: yPx });
     };
 
-    const r1 = requestAnimationFrame(update);
-    const t1 = setTimeout(update, 120);
-    const t2 = setTimeout(update, 600);
-    const t3 = setTimeout(update, 1800);
-
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update, { passive: true });
-    const ro = new ResizeObserver(update);
-    ro.observe(topEl);
-    ro.observe(botEl);
-    if (document.fonts?.ready) document.fonts.ready.then(update);
+    r1 = requestAnimationFrame(() => {
+      measureOnce();
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(() => { t1 = setTimeout(measureOnce, 60); });
+      }
+      t2 = setTimeout(measureOnce, 300);
+    });
 
     return () => {
       cancelAnimationFrame(r1);
       clearTimeout(t1);
       clearTimeout(t2);
-      clearTimeout(t3);
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update);
-      ro.disconnect();
     };
   }, [isDesktop, reduced]);
 
   if (!isDesktop || reduced || !ready || !LaserFlow) return null;
 
   const preset = {
-    color: "#262b47",
-    horizontalBeamOffset: beam.xFrac,
-    verticalBeamOffset: beam.yFrac,
-    verticalSizing: beam.vSize, // fikseeritud pikkus
-    horizontalSizing: beam.hSize, // fikseeritud laius
-    baseLift: BASE_LIFT, // kasuta konstantset väärtust
-    flowSpeed: 0.2,
+    color: "#202235",
+
+    // PX-OFFSET lukus
+    beamOffsetXPx: beamPx.x,
+    beamOffsetYPx: beamPx.y,
+
+    // Geomeetria
+    verticalSizing:   V_SIZE_FIXED,
+    horizontalSizing: H_SIZE_FIXED,
+    baseLift:         BASE_LIFT,
+
+    // Dünaamika
+    flowSpeed:    0.2,
     flowStrength: 0.2,
-    wispDensity: 0.15,
-    wispSpeed: 4,
-    wispIntensity: 6, // ↓ varem 15 – veidi tuhmim
-    /* NEW: wispi värvid ja tindi tugevus */
-    wispColors: WISP_PALETTE,
-    wispTint: 0.6, // ↓ varem 1.0 – segab tala tooniga
-    dpr: 1,
+
+    // Wisps
+    wispDensity:   0.15,
+    wispSpeed:     4,
+    wispIntensity: 6,
+    wispColors:    WISP_PALETTE,
+    wispTint:      0.6,
+
+    // ——— UUS: dither bandingu vastu ———
+    ditherAmp:   0.08,   // ↑ tõstsid 0.0 → 0.08
+
+    dpr: 1.2,
     maxFps: 24,
   };
 
