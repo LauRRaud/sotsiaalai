@@ -173,12 +173,12 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
     // Wisps
     wispDensity:   0.15,
     wispSpeed:     4,
-    wispIntensity: 6,
+    wispIntensity: 5,
     wispColors:    WISP_PALETTE,
-    wispTint:      0.6,
+    wispTint:      0.5,
 
     // ——— UUS: dither bandingu vastu ———
-    ditherAmp:   0.08,   // ↑ tõstsid 0.0 → 0.08
+    ditherAmp:   0.1,   // ↑ tõstsid 0.0 → 0.08
 
     dpr: 1.2,
     maxFps: 24,

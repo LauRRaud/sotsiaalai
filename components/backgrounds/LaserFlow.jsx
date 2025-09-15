@@ -81,7 +81,7 @@ const int TAP_R = 6;
 #define W_LANES 55
 #define W_SIDE_DECAY 0.5
 #define W_HALF 0.0095
-#define W_AA   0.18
+#define W_AA   0.26
 #define W_CELL 18.0
 #define W_SEG_MIN 0.15
 #define W_SEG_MAX 0.35
