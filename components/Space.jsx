@@ -19,7 +19,7 @@ export default function Space({
   fogAppearDurMs = 3200,
   fogAppearDelayMs = 700,
   skipIntro = false,
-  noiseUrl = "/textures/noise.webp",
+  noiseUrl = "",
   fogBlurPx = 80,
 } = {}) {
   // Mõlemad režiimid jäävad tumeda gradiga; lightil lihtsalt kergem udu
