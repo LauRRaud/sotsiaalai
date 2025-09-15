@@ -48,21 +48,20 @@ function useForceMotion() {
   const [force, setForce] = useState(false);
   useEffect(() => {
     const read = () => {
-      try {
-        return localStorage.getItem("saai-force-motion") === "1";
-      } catch { return false; }
+      try { return localStorage.getItem("saai-force-motion") === "1"; }
+      catch { return false; }
     };
-    setForce(read());
-    // hoia data-atribuut html peal
     const html = document.documentElement;
-    html.setAttribute("data-force-motion", read() ? "1" : "0");
-    // väike helper konsooliks: window.saaiForceMotion(true/false)
-    // et saaksid kiiresti sisse/välja lülitada
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    const apply = (on) => html.setAttribute("data-force-motion", on ? "1" : "0");
+
+    const initial = read();
+    setForce(initial);
+    apply(initial);
+
+    // @ts-ignore mini-helper konsooli jaoks
     window.saaiForceMotion = (on = true) => {
       try { localStorage.setItem("saai-force-motion", on ? "1" : "0"); } catch {}
-      html.setAttribute("data-force-motion", on ? "1" : "0");
+      apply(!!on);
       setForce(!!on);
     };
   }, []);
@@ -74,7 +73,7 @@ function BackgroundLayer() {
 
   const prefersReduced = usePrefersReducedMotion();
   const forceMotion = useForceMotion();
-  const reducedEffective = prefersReduced && !forceMotion; // kui force on, siis reduced=FALSE
+  const reducedEffective = prefersReduced && !forceMotion;
 
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
@@ -83,7 +82,7 @@ function BackgroundLayer() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // otsusta Space fog intro iga lehevahetuse korral
+  // Space fog intro otsus
   useEffect(() => {
     if (reducedEffective) { setAnimateFog(false); return; }
     let isReload = false;
@@ -98,13 +97,19 @@ function BackgroundLayer() {
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
   }, [pathname, reducedEffective]);
 
-  // lae taustad idle + nähtaval
+  // Lae PARTICLES idle + nähtaval (järgib reducedEffective)
   useEffect(() => {
     if (!mounted || reducedEffective) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
-    const cancelCursor    = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
-    return () => { cancelParticles?.(); cancelCursor?.(); };
+    return () => { cancelParticles?.(); };
   }, [mounted, reducedEffective]);
+
+  // Lae MaybeSplash idle + nähtaval (EI järgi reducedEffective)
+  useEffect(() => {
+    if (!mounted) return;
+    const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
+    return () => { cancelCursor?.(); };
+  }, [mounted]);
 
   return (
     <div
@@ -124,18 +129,18 @@ function BackgroundLayer() {
         </Suspense>
       </div>
 
-      {/* LASERFLOW — ainult avalehel */}
+      {/* LASERFLOW — ainult avalehel, järgib reducedEffective */}
       {pathname === "/" && !reducedEffective && <LaserFlowOverlay zIndex={1} />}
 
-      {/* PARTICLES */}
+      {/* PARTICLES — järgib reducedEffective */}
       {particlesReady && !reducedEffective && (
         <div className="particles-container">
           <Particles />
         </div>
       )}
 
-      {/* MaybeSplash */}
-      {cursorReady && !reducedEffective && (
+      {/* MaybeSplash — ALATI (idle + visible), ei sõltu reducedEffective */}
+      {cursorReady && (
         <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
           <MaybeSplash />
         </div>

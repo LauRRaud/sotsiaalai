@@ -1,3 +1,4 @@
+// components/backgrounds/LaserFlowOverlay.jsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -13,33 +14,17 @@ const WISP_PALETTE = [
   "#221714",  // brand ~25%
 ];
 
+/* desktop = ainult laiuse järgi, mitte pointer */
 function useIsDesktop() {
   const [ok, setOk] = useState(false);
   useEffect(() => {
     const mqW = window.matchMedia("(min-width: 1024px)");
-    const mqP = window.matchMedia("(pointer: fine)");
-    const update = () => setOk(mqW.matches && mqP.matches);
+    const update = () => setOk(mqW.matches);
     update();
     mqW.addEventListener("change", update);
-    mqP.addEventListener("change", update);
-    return () => {
-      mqW.removeEventListener("change", update);
-      mqP.removeEventListener("change", update);
-    };
+    return () => mqW.removeEventListener("change", update);
   }, []);
   return ok;
-}
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const on = () => setReduced(mq.matches);
-    on();
-    mq.addEventListener?.("change", on);
-    return () => mq.removeEventListener?.("change", on);
-  }, []);
-  return reduced;
 }
 
 /** Mount ainult siis, kui brauser on idle. */
@@ -73,23 +58,21 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
   const wrapRef = useRef(null);
 
   const isDesktop = useIsDesktop();
-  const reduced   = usePrefersReducedMotion();
-  const ready     = useIdleMount(isDesktop && !reduced, 900);
+  const ready     = useIdleMount(isDesktop, 900); // ⟵ eemaldatud "reduced" gating
 
   // laeme LaserFlow alles siis, kui idle
   const [LaserFlow, setLaserFlow] = useState(null);
   useEffect(() => {
-    if (!isDesktop || !ready || reduced) return;
+    if (!isDesktop || !ready) return; // ⟵ eemaldatud "reduced" gating
     let alive = true;
     import("./LaserFlow").then((m) => {
       if (alive) setLaserFlow(() => m.default);
     });
     return () => { alive = false; };
-  }, [isDesktop, ready, reduced]);
+  }, [isDesktop, ready]);
 
   // px-offset (mõõdetakse 1x)
   const [beamPx, setBeamPx] = useState({ x: 0, y: 0 });
-
 
   // ——— TUNING / LUKUSTUS ———
   const TOP_AIR_PX       = 3;
@@ -99,7 +82,7 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
   const BASE_LIFT        = 0.8;
 
   useEffect(() => {
-    if (!isDesktop || reduced) return;
+    if (!isDesktop) return; // ⟵ eemaldatud "reduced" gating
 
     const topEl =
       document.querySelector("#nav-meist") ||
@@ -152,9 +135,9 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
       clearTimeout(t1);
       clearTimeout(t2);
     };
-  }, [isDesktop, reduced]);
+  }, [isDesktop]);
 
-  if (!isDesktop || reduced || !ready || !LaserFlow) return null;
+  if (!isDesktop || !ready || !LaserFlow) return null; // ⟵ eemaldatud "reduced"
 
   const preset = {
     color: "#202235",
@@ -179,8 +162,8 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
     wispColors:    WISP_PALETTE,
     wispTint:      0.5,
 
-    // ——— UUS: dither bandingu vastu ———
-    ditherAmp:   0.1,   // ↑ tõstsid 0.0 → 0.08
+    // bandingu vastu
+    ditherAmp:   0.1,
 
     dpr: 1.2,
     maxFps: 24,
