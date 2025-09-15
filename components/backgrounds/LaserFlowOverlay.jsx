@@ -76,7 +76,7 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
 
   // ——— TUNING / LUKUSTUS ———
   const TOP_AIR_PX       = 3;
-  const TOP_CENTER_FRAC  = 1.12;
+  const TOP_CENTER_FRAC  = 1.11;
   const V_SIZE_FIXED     = 1.2;
   const H_SIZE_FIXED     = 0.38;
   const BASE_LIFT        = 0.8;
