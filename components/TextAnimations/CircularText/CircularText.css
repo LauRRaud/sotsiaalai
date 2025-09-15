@@ -14,18 +14,19 @@
   transform: translateZ(0.1px);
   backface-visibility: hidden;
   transform-style: preserve-3d;
+
+  /* võimaldab animatsiooni jooksvalt välja lülitada */
+  /* nt <svg data-animate="0"> … */
 }
 
-/* --- Nähtavuse gating ringile (alguses peidus) --- */
+/* --- Nähtavuse gating ringile (valikuline) --- */
 .circular-text-svg.circular-ring {
   opacity: 0;
   visibility: hidden;
   transition: opacity .8s ease;
 }
-
-/* Kui kaart on valmis: tee ring nähtavaks */
 .circular-text-svg.circular-ring.is-visible {
-  opacity: 0.9;              /* sinu “toon” – soovi korral 1 */
+  opacity: 0.9;              /* soovi korral 1 */
   visibility: visible;
 }
 
@@ -43,6 +44,12 @@
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
 
+/* kui soovid animatsiooni peatada attribuudiga */
+.circular-text-svg[data-animate="0"] .circular-text-line {
+  animation: none !important;
+}
+
+/* Pidev pöörlemine */
 @keyframes saai-rotate { to { transform: rotate(360deg); } }
 
 /* Varjud */
@@ -58,8 +65,8 @@
 /* ct-cycle — nähtav konteiner */
 .ct-cycle { opacity: 1; visibility: visible; }
 
-/* Sõnade tsüklid – vaikimisi peidus */
-.word1, .word2, .word3 { opacity: 0; } /* NB: visibility't ei kasuta */
+/* Sõnade tsüklid – vaikimisi peidus, kuni nende animatsiooni aken on käes */
+.word1, .word2, .word3 { opacity: 0; }
 
 /* WORD 1 */
 .word1 {
@@ -100,6 +107,14 @@
   100% { opacity: 0; }
 }
 
+/* kui data-animate="0", näita kõiki sõnu korraga, ilma animatsioonita */
+.circular-text-svg[data-animate="0"] .word1,
+.circular-text-svg[data-animate="0"] .word2,
+.circular-text-svg[data-animate="0"] .word3 {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
 .circular-text-svg text { paint-order: stroke fill; }
 .circular-text-svg textPath { overflow: visible; }
 
@@ -114,20 +129,8 @@
     opacity: 1 !important;
     animation: none !important;
   }
-
-  /* Mobiilil võib olla mõistlik täisnähtavus */
-  .circular-text-svg.circular-ring.is-visible {
-    opacity: 1;
-  }
+  .circular-text-svg.circular-ring.is-visible { opacity: 1; }
 }
 
-/* Liikumis-eelistus: animatsioonid (ja üleminek) välja */
-@media (prefers-reduced-motion: reduce) {
-  .circular-text-line,
-  .word1, .word2, .word3 {
-    animation: none !important;
-  }
-  .circular-text-svg.circular-ring {
-    transition: none !important;
-  }
-}
+/* NB: reduced-motion’i keeldu ei rakenda; ringid on alati nähtaval.
+   Vajadusel kasuta runtime-lülitit: <svg data-animate="0"> … */
