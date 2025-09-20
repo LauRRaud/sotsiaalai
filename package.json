@@ -1,46 +1,48 @@
 {
-  "name": "sotsiaalai",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "description": "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
-  "author": "SotsiaalAI OÜ",
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start -p 3000",
-    "serve": "NODE_ENV=production pm2 start npm --name \"sotsiaalai\" -- start",
-    "analyze": "cross-env BUNDLE_ANALYZE=true next build",
-    "analyze:dev": "cross-env BUNDLE_ANALYZE=true next dev --turbopack",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@react-three/fiber": "^8.17.10",
-    "framer-motion": "^11.3.0",
-    "gsap": "^3.12.5",
-    "next": "^15.5.3",
-    "next-auth": "^4.24.7",
-    "ogl": "^1.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-parallax-tilt": "^1.7.245",
-    "styled-components": "^6.1.11",
-    "three": "^0.160.1"
-  },
-  "devDependencies": {
-    "@next/bundle-analyzer": "^15.5.2",
-    "cross-env": "^10.0.0",
-    "eslint": "^9.9.0",
-    "eslint-config-next": "^15.0.0"
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions",
-    "last 2 Edge versions",
-    "not ie <= 11"
-  ],
-  "engines": {
-    "node": ">=18.18 <23"
-  }
+    "name":  "sotsiaalai",
+    "version":  "1.0.0",
+    "private":  true,
+    "type":  "module",
+    "description":  "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
+    "author":  "SotsiaalAI OÜ",
+    "scripts":  {
+                    "dev":  "next dev --turbopack",
+                    "build":  "next build",
+                    "start":  "next start -p 3000",
+                    "serve":  "NODE_ENV=production pm2 start npm --name \"sotsiaalai\" -- start",
+                    "analyze":  "cross-env BUNDLE_ANALYZE=true next build",
+                    "analyze:dev":  "cross-env BUNDLE_ANALYZE=true next dev --turbopack",
+                    "lint":  "next lint"
+                },
+    "dependencies":  {
+                         "@react-three/fiber":  "^8.17.10",
+                         "framer-motion":  "^11.3.0",
+                         "gsap":  "^3.12.5",
+                         "next":  "^15.5.3",
+                         "next-auth":  "^4.24.7",
+                         "ogl":  "^1.0.0",
+                         "react":  "^18.3.1",
+                         "react-dom":  "^18.3.1",
+                         "react-parallax-tilt":  "^1.7.245",
+                         "styled-components":  "^6.1.11",
+                         "three":  "^0.160.1",
+                         "@prisma/client":  "^6.16.2"
+                     },
+    "devDependencies":  {
+                            "@next/bundle-analyzer":  "^15.5.2",
+                            "cross-env":  "^10.0.0",
+                            "eslint":  "^9.9.0",
+                            "eslint-config-next":  "^15.0.0",
+                            "prisma":  "^6.16.2"
+                        },
+    "browserslist":  [
+                         "last 2 Chrome versions",
+                         "last 2 Firefox versions",
+                         "last 2 Safari versions",
+                         "last 2 Edge versions",
+                         "not ie \u003c= 11"
+                     ],
+    "engines":  {
+                    "node":  "\u003e=18.18 \u003c23"
+                }
 }
