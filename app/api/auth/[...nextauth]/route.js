@@ -2,19 +2,14 @@
 export const runtime = "nodejs";
 
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma.js";
+import { prisma } from "../../../../lib/prisma.js";
 import { compare } from "bcrypt";
 
-// --- eID stubid: asenda päris SK API-ga hiljem ---
-async function verifySmartId(personalCode) {
-  return Boolean(personalCode && personalCode.length >= 6);
-}
-async function verifyMobileId(personalCode, phone) {
-  return Boolean(personalCode && phone);
-}
+// --- eID stubid: asenda hiljem SK API-ga ---
+async function verifySmartId(code) { return Boolean(code && code.length >= 6); }
+async function verifyMobileId(code, phone) { return Boolean(code && phone); }
 
 async function getOrCreateUserByAccount(provider, providerAccountId) {
   const account = await prisma.account.findUnique({
@@ -35,7 +30,7 @@ const auth = NextAuth({
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
-    // Email + parool
+    // 1) Email + parool
     Credentials({
       id: "credentials",
       name: "Email & Password",
@@ -52,7 +47,7 @@ const auth = NextAuth({
       },
     }),
 
-    // eID (Smart-ID / Mobiil-ID) — stub
+    // 2) Estonian eID (Smart-ID / Mobiil-ID) — stub
     Credentials({
       id: "estonian_eid",
       name: "Estonian eID",
@@ -63,36 +58,27 @@ const auth = NextAuth({
       },
       authorize: async (creds) => {
         const method = String(creds?.method || "");
-        const personalCode = String(creds?.personalCode || "");
+        const code = String(creds?.personalCode || "");
         const phone = String(creds?.phone || "");
 
         if (method === "smart_id") {
-          const ok = await verifySmartId(personalCode);
-          if (!ok) return null;
-          return await getOrCreateUserByAccount("smart_id", personalCode);
+          const ok = await verifySmartId(code);
+          return ok ? getOrCreateUserByAccount("smart_id", code) : null;
         }
         if (method === "mobiil_id") {
-          const ok = await verifyMobileId(personalCode, phone);
-          if (!ok) return null;
-          return await getOrCreateUserByAccount("mobiil_id", personalCode);
+          const ok = await verifyMobileId(code, phone);
+          return ok ? getOrCreateUserByAccount("mobiil_id", code) : null;
         }
         return null;
       },
     }),
 
-    // Google OAuth (pane .env võtmed)
-    Google({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    }),
+    // Google lisame hiljem, kui build on roheline ja .env võtmed valmis
+    // Google({ clientId: process.env.GOOGLE_ID, clientSecret: process.env.GOOGLE_SECRET }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-      }
+      if (user) { token.id = user.id; token.role = user.role; }
       return token;
     },
     async session({ session, token }) {
@@ -106,5 +92,4 @@ const auth = NextAuth({
   },
 });
 
-// NextAuth v5 handlers:
 export const { GET, POST } = auth.handlers;
