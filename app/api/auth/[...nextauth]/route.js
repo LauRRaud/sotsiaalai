@@ -1,15 +1,25 @@
 // app/api/auth/[...nextauth]/route.js
 export const runtime = "nodejs";
 
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "../../../../lib/prisma.js";
+import NextAuthImport from "next-auth";
+import GoogleImport from "next-auth/providers/google";
+import CredentialsImport from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "@/lib/prisma.js";
 import { compare } from "bcrypt";
 
-// --- eID stubid: asenda hiljem SK API-ga ---
-async function verifySmartId(code) { return Boolean(code && code.length >= 6); }
-async function verifyMobileId(code, phone) { return Boolean(code && phone); }
+const asProvider = (mod) => mod?.default?.default ?? mod?.default ?? mod;
+const NextAuth = asProvider(NextAuthImport);
+const Google = asProvider(GoogleImport);
+const Credentials = asProvider(CredentialsImport);
+
+async function verifySmartId(personalCode) {
+  return Boolean(personalCode && personalCode.length >= 6);
+}
+
+async function verifyMobileId(personalCode, phone) {
+  return Boolean(personalCode && phone);
+}
 
 async function getOrCreateUserByAccount(provider, providerAccountId) {
   const account = await prisma.account.findUnique({
@@ -25,60 +35,71 @@ async function getOrCreateUserByAccount(provider, providerAccountId) {
   return user;
 }
 
-const auth = NextAuth({
+const providers = [
+  Credentials({
+    id: "credentials",
+    name: "Email & Password",
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Password", type: "password" },
+    },
+    authorize: async (creds) => {
+      if (!creds?.email || !creds?.password) return null;
+      const user = await prisma.user.findUnique({ where: { email: String(creds.email) } });
+      if (!user?.passwordHash) return null;
+      const ok = await compare(String(creds.password), user.passwordHash);
+      return ok ? user : null;
+    },
+  }),
+  Credentials({
+    id: "estonian_eid",
+    name: "Estonian eID",
+    credentials: {
+      method: { label: "Method", type: "text" },
+      personalCode: { label: "Personal Code", type: "text" },
+      phone: { label: "Phone", type: "text" },
+    },
+    authorize: async (creds) => {
+      const method = String(creds?.method || "");
+      const personalCode = String(creds?.personalCode || "");
+      const phone = String(creds?.phone || "");
+
+      if (method === "smart_id") {
+        const ok = await verifySmartId(personalCode);
+        if (!ok) return null;
+        return await getOrCreateUserByAccount("smart_id", personalCode);
+      }
+      if (method === "mobiil_id") {
+        const ok = await verifyMobileId(personalCode, phone);
+        if (!ok) return null;
+        return await getOrCreateUserByAccount("mobiil_id", personalCode);
+      }
+      return null;
+    },
+  }),
+];
+
+if (process.env.GOOGLE_ID && process.env.GOOGLE_SECRET) {
+  providers.push(
+    Google({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    })
+  );
+}
+
+const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
-  providers: [
-    // 1) Email + parool
-    Credentials({
-      id: "credentials",
-      name: "Email & Password",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (creds) => {
-        if (!creds?.email || !creds?.password) return null;
-        const user = await prisma.user.findUnique({ where: { email: String(creds.email) } });
-        if (!user?.passwordHash) return null;
-        const ok = await compare(String(creds.password), user.passwordHash);
-        return ok ? user : null;
-      },
-    }),
-
-    // 2) Estonian eID (Smart-ID / Mobiil-ID) — stub
-    Credentials({
-      id: "estonian_eid",
-      name: "Estonian eID",
-      credentials: {
-        method: { label: "Method", type: "text" }, // "smart_id" | "mobiil_id"
-        personalCode: { label: "Personal Code", type: "text" },
-        phone: { label: "Phone", type: "text" },
-      },
-      authorize: async (creds) => {
-        const method = String(creds?.method || "");
-        const code = String(creds?.personalCode || "");
-        const phone = String(creds?.phone || "");
-
-        if (method === "smart_id") {
-          const ok = await verifySmartId(code);
-          return ok ? getOrCreateUserByAccount("smart_id", code) : null;
-        }
-        if (method === "mobiil_id") {
-          const ok = await verifyMobileId(code, phone);
-          return ok ? getOrCreateUserByAccount("mobiil_id", code) : null;
-        }
-        return null;
-      },
-    }),
-
-    // Google lisame hiljem, kui build on roheline ja .env võtmed valmis
-    // Google({ clientId: process.env.GOOGLE_ID, clientSecret: process.env.GOOGLE_SECRET }),
-  ],
+  providers,
   callbacks: {
     async jwt({ token, user }) {
-      if (user) { token.id = user.id; token.role = user.role; }
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
       return token;
     },
     async session({ session, token }) {
@@ -90,6 +111,8 @@ const auth = NextAuth({
       return session;
     },
   },
-});
+};
 
-export const { GET, POST } = auth.handlers;
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
