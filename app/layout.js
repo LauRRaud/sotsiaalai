@@ -1,5 +1,6 @@
 // app/layout.js
 import "./globals.css";
+import ViewportLayoutSetter from "@/components/ViewportLayoutSetter";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import localFont from "next/font/local";
 
@@ -69,6 +70,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
+        <ViewportLayoutSetter />
         <BackgroundLayer />
         <main className="relative z-10">{children}</main>
       </body>

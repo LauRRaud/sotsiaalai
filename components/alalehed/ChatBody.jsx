@@ -77,7 +77,7 @@ export default function ChatBody() {
   }, []);
 
   return (
-    <div className="main-content glass-box chat-container" style={{ position: "relative" }}>
+    <div className="main-content glass-box chat-container chat-container--mobile u-mobile-pane" style={{ position: "relative" }}>
       <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
         <img
           src="/logo/User-circle.svg"
@@ -92,7 +92,7 @@ export default function ChatBody() {
 
       <main className="chat-main" style={{ position: "relative" }}>
         <div
-          className="chat-window"
+          className="chat-window u-mobile-scroll u-mobile-safe-pad"
           ref={chatWindowRef}
           role="region"
           aria-label="Chat messages"
@@ -122,7 +122,7 @@ export default function ChatBody() {
         )}
 
         <form
-          className="chat-inputbar"
+          className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position"
           onSubmit={isGenerating ? handleStop : sendMessage}
           autoComplete="off"
         >

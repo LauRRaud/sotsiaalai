@@ -105,7 +105,7 @@ export default function LoginModal({ open, onClose }) {
     <>
       {/* Backdrop */}
       <div
-        className="login-modal-backdrop"
+        className="login-modal-backdrop login-modal-backdrop--mobile u-mobile-modal-backdrop"
         onClick={onClose}
         role="presentation"
         aria-hidden="true"
@@ -114,7 +114,7 @@ export default function LoginModal({ open, onClose }) {
       {/* Modal */}
       <div
         ref={boxRef}
-        className="login-modal-root login-modal-box glass-modal"
+        className="login-modal-root login-modal-box glass-modal login-modal--mobile u-mobile-modal"
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
