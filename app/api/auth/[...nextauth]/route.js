@@ -106,6 +106,7 @@ const authOptions = {
       if (token?.id) {
         session.userId = token.id;
         session.user = session.user || {};
+        session.user.id = token.id;
         session.user.role = token.role;
       }
       return session;
