@@ -127,6 +127,7 @@ model Subscription {
 model Payment {
   id                  String          @id @default(cuid())
   subscriptionId      String
+  userId              String                         // ← lisatud
   provider            PaymentProvider @default(MAKSEKESKUS)
   providerPaymentId   String
   amount              Decimal         @db.Decimal(10, 2)
@@ -137,7 +138,9 @@ model Payment {
   createdAt           DateTime        @default(now())
 
   subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)   // ← lisatud
 
   @@unique([provider, providerPaymentId])
   @@index([subscriptionId])
+  @@index([userId])                 // ← lisatud
 }
