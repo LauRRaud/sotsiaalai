@@ -9,8 +9,7 @@ yarn-error.log*
 out/
 dist/
 
-# Env failid (hoia ainult serveris)
-.env
+# Env failid (ei lähe GitHubi, hoia serveris käsitsi)
 .env.local
 .env.development.local
 .env.test.local
@@ -21,10 +20,3 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
-
-# Lockfile – kui ei taha GitHubi lükata
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-/app/generated/prisma
