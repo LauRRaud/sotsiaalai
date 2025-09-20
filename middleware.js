@@ -1,5 +1,7 @@
-// middleware.js (NextAuth v4)
-export { default } from "next-auth/middleware";
+// middleware.js
+import NextAuthMiddleware from "next-auth/middleware";
+
+export default NextAuthMiddleware;
 
 export const config = {
   matcher: ["/profiil/:path*", "/vestlus/:path*"],
