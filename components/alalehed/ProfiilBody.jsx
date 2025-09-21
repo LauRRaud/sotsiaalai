@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import ModalConfirm from "@/components/ui/ModalConfirm";
@@ -23,6 +23,9 @@ export default function ProfiilBody() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const searchParams = useSearchParams();
+  const registrationReason = searchParams?.get("reason");
 
   useEffect(() => {
     if (status === "loading") return;
@@ -91,15 +94,20 @@ export default function ProfiilBody() {
   }
 
   if (status !== "authenticated") {
+    const reason = registrationReason || "not-logged-in";
+    const reasonText = reason === "no-sub"
+      ? "Logi sisse ja aktiveeri tellimus, et profiili vaadata."
+      : "Profiili vaatamiseks logi sisse.";
+
     return (
       <div className="main-content glass-box">
         <h1 className="glass-title">Minu profiil</h1>
-        <p style={{ padding: "1rem" }}>Profiili vaatamiseks logi sisse.</p>
+        <p style={{ padding: "1rem" }}>{reasonText}</p>
         <div className="back-btn-wrapper">
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/registreerimine")}
             aria-label="Logi sisse"
           >
             <span className="back-arrow-circle" />
@@ -210,3 +218,4 @@ export default function ProfiilBody() {
     </div>
   );
 }
+
