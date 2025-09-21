@@ -1,4 +1,3 @@
-// middleware.js
 import NextAuthMiddleware from "next-auth/middleware";
 
 export default NextAuthMiddleware;
