@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 
@@ -12,6 +13,10 @@ const STATUS_LABELS = {
 };
 
 export default function TellimusBody() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextUrl = searchParams?.get("next") || "/vestlus";
+
   const { data: session, status: sessionStatus } = useSession();
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,6 +35,7 @@ export default function TellimusBody() {
 
   const statusKey = subscription?.status ?? (session?.user?.subActive ? "ACTIVE" : "NONE");
   const statusLabel = STATUS_LABELS[statusKey] ?? STATUS_LABELS.NONE;
+  const hasActiveSub = statusKey === "ACTIVE";
 
   const expiryLabel = useMemo(() => {
     if (!subscription?.validUntil) return "—";
@@ -62,6 +68,14 @@ export default function TellimusBody() {
     fetchSubscription();
   }, [fetchSubscription]);
 
+  const refreshSession = useCallback(async () => {
+    try {
+      await fetch("/api/auth/session?update", { cache: "no-store" });
+    } catch (err) {
+      console.warn("session refresh failed", err);
+    }
+  }, []);
+
   async function startSubscription() {
     setMutating(true);
     setError("");
@@ -77,6 +91,9 @@ export default function TellimusBody() {
         return;
       }
       setSubscription(payload.subscription ?? null);
+      await refreshSession();
+      router.replace(nextUrl);
+      router.refresh();
     } catch (err) {
       console.error("subscription POST", err);
       setError("Server ei vasta. Palun proovi uuesti.");
@@ -96,6 +113,7 @@ export default function TellimusBody() {
         return;
       }
       setSubscription(payload.subscription ?? null);
+      await refreshSession();
     } catch (err) {
       console.error("subscription DELETE", err);
       setError("Server ei vasta. Palun proovi uuesti.");
@@ -128,6 +146,21 @@ export default function TellimusBody() {
       <div className="main-content glass-box">
         <h1 className="glass-title">Halda tellimust</h1>
 
+        {hasActiveSub && (
+          <div className="tellimus-status-center" style={{ marginBottom: "1rem" }}>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => {
+                router.replace(nextUrl);
+                router.refresh();
+              }}
+            >
+              Jätka {nextUrl === "/vestlus" ? "vestluses" : "tagasi"}
+            </button>
+          </div>
+        )}
+
         <div className="tellimus-status-center">
           <div className="tellimus-status-label">Tellimuse staatus</div>
           <span className={`tellimus-status-pill status-${statusKey?.toLowerCase?.()}`}>
@@ -143,7 +176,7 @@ export default function TellimusBody() {
             <b>Kuutasu:</b> 7.99 €
           </div>
           <div>
-            <b>Kehtiv kuni:</b> {statusKey === "ACTIVE" ? expiryLabel : "—"}
+            <b>Kehtiv kuni:</b> {hasActiveSub ? expiryLabel : "—"}
           </div>
           <div>
             <b>E-post:</b> {email}
@@ -157,7 +190,7 @@ export default function TellimusBody() {
         )}
 
         <div className="tellimus-btn-center">
-          {statusKey === "ACTIVE" ? (
+          {hasActiveSub ? (
             <button className="btn-danger" onClick={() => setShowCancel(true)} disabled={mutating}>
               {mutating ? "Tühistan…" : "Tühista tellimus"}
             </button>
@@ -172,7 +205,7 @@ export default function TellimusBody() {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => window.history.back()}
+            onClick={() => router.back()}
             aria-label="Tagasi"
           >
             <span className="back-arrow-circle"></span>

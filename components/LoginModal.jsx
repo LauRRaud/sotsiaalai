@@ -3,18 +3,19 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextUrl = searchParams?.get("next") || "/vestlus";
   const scrollYRef = useRef(0);
 
   const [loading, setLoading] = useState(null); // "credentials" | "google" | "smart_id" | "mobiil_id"
   const [error, setError] = useState(null);
 
-  // ====== Tausta lukustus + fookuse/kerimise käitumine ======
   useEffect(() => {
     if (!open) return;
 
@@ -80,18 +81,16 @@ export default function LoginModal({ open, onClose }) {
 
   if (!open) return null;
 
-  // ====== Auth handlerid ======
   const handleGoogleLogin = async () => {
     setError(null);
     setLoading("google");
     try {
-      await signIn("google"); // redirect Google OAuth voogu
+      await signIn("google", { callbackUrl: nextUrl });
     } finally {
       setLoading(null);
     }
   };
 
-  // NB! Smart-ID / Mobiil-ID on praegu stubid (serveri authorize kontrollib sisendi).
   const handleSmartID = async () => {
     setError(null);
     setLoading("smart_id");
@@ -101,11 +100,12 @@ export default function LoginModal({ open, onClose }) {
         method: "smart_id",
         personalCode,
         redirect: false,
+        callbackUrl: nextUrl,
       });
       if (res?.error) setError("Smart-ID sisselogimine ebaõnnestus.");
-      if (res?.ok) {
+      if (res?.ok && res.url) {
         onClose?.();
-        router.push("/vestlus");
+        router.replace(res.url);
         router.refresh();
       }
     } finally {
@@ -124,11 +124,12 @@ export default function LoginModal({ open, onClose }) {
         personalCode,
         phone,
         redirect: false,
+        callbackUrl: nextUrl,
       });
       if (res?.error) setError("Mobiil-ID sisselogimine ebaõnnestus.");
-      if (res?.ok) {
+      if (res?.ok && res.url) {
         onClose?.();
-        router.push("/vestlus");
+        router.replace(res.url);
         router.refresh();
       }
     } finally {
@@ -162,16 +163,21 @@ export default function LoginModal({ open, onClose }) {
       return;
     }
 
-    const res = await signIn("credentials", { email, password, redirect: false });
+    const res = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: nextUrl,
+      redirect: false,
+    });
     setLoading(null);
 
     if (res?.error) {
       setError("Vale e-post või parool.");
       return;
     }
-    if (res?.ok) {
+    if (res?.ok && res.url) {
       onClose?.();
-      router.push("/vestlus");
+      router.replace(res.url);
       router.refresh();
     }
   };
@@ -180,7 +186,6 @@ export default function LoginModal({ open, onClose }) {
 
   const modal = (
     <>
-      {/* Backdrop */}
       <div
         className="login-modal-backdrop login-modal-backdrop--mobile u-mobile-modal-backdrop"
         onClick={onClose}
@@ -188,7 +193,6 @@ export default function LoginModal({ open, onClose }) {
         aria-hidden="true"
       />
 
-      {/* Modal */}
       <div
         ref={boxRef}
         className="login-modal-root login-modal-box glass-modal login-modal--mobile u-mobile-modal"
@@ -205,7 +209,6 @@ export default function LoginModal({ open, onClose }) {
 
         <div className="glass-title">Logi sisse</div>
 
-        {/* SSO ikoonid */}
         <div className="login-social-icons-row">
           <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google" disabled={loading === "google"}>
             <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" />
@@ -220,14 +223,12 @@ export default function LoginModal({ open, onClose }) {
 
         <div className="login-or-divider"><span>või</span></div>
 
-        {/* Veateade */}
         {error && (
           <div role="alert" aria-live="assertive" className="glass-note" style={{ width: "100%", marginBottom: "0.6rem" }}>
             {error}
           </div>
         )}
 
-        {/* Vorm */}
         <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
           <label style={{ width: "100%", display: "block" }}>
             <input className="input-modern" type="email" name="email" placeholder="Sinu@email.ee" autoComplete="username" inputMode="email" />
@@ -247,7 +248,7 @@ export default function LoginModal({ open, onClose }) {
         </form>
 
         <div className="login-modal-bottom-link">
-          <Link href="/registreerimine" className="link-brand">Registreeru</Link>
+          <Link href={`/registreerimine?next=${encodeURIComponent(nextUrl)}`} className="link-brand">Registreeru</Link>
         </div>
       </div>
     </>

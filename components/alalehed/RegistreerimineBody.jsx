@@ -1,38 +1,80 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export default function RegistreerimineBody({ openLoginModal }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextUrl = searchParams?.get("next") || "/vestlus";
+
   const [form, setForm] = useState({
     email: "",
     password: "",
-    role: "specialist",
+    role: "SOCIAL_WORKER",
     agree: false,
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
-    setForm((f) => ({
-      ...f,
+    setForm((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (!form.email || !form.password) {
-      alert("Palun täida kõik väljad!");
-      return;
-    }
+    setError("");
+
     if (!form.agree) {
-      alert("Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga!");
+      setError("Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.");
       return;
     }
-    localStorage.setItem("saai_roll", form.role);
-    localStorage.setItem("saai_email", form.email);
-    router.push("/tellimus");
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          role: form.role,
+        }),
+      });
+
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(payload?.error || "Registreerimine ebaõnnestus.");
+        return;
+      }
+
+      const login = await signIn("credentials", {
+        redirect: false,
+        callbackUrl: nextUrl,
+        email: form.email,
+        password: form.password,
+      });
+
+      if (login?.error) {
+        setError("Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida.");
+        router.replace(`/registreerimine?next=${encodeURIComponent(nextUrl)}`);
+        return;
+      }
+
+      router.replace(`/tellimus?next=${encodeURIComponent(nextUrl)}`);
+      router.refresh();
+    } catch (err) {
+      console.error("Register error", err);
+      setError("Server ei vasta. Palun proovi uuesti.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -61,6 +103,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
           value={form.password}
           onChange={handleChange}
           required
+          minLength={6}
           autoComplete="new-password"
         />
 
@@ -70,8 +113,8 @@ export default function RegistreerimineBody({ openLoginModal }) {
             <input
               type="radio"
               name="role"
-              value="specialist"
-              checked={form.role === "specialist"}
+              value="SOCIAL_WORKER"
+              checked={form.role === "SOCIAL_WORKER"}
               onChange={handleChange}
             />
             Sotsiaaltöö spetsialist
@@ -80,8 +123,8 @@ export default function RegistreerimineBody({ openLoginModal }) {
             <input
               type="radio"
               name="role"
-              value="eluküsimusega"
-              checked={form.role === "eluküsimusega"}
+              value="CLIENT"
+              checked={form.role === "CLIENT"}
               onChange={handleChange}
             />
             Eluküsimusega pöörduja
@@ -108,8 +151,14 @@ export default function RegistreerimineBody({ openLoginModal }) {
           </span>
         </label>
 
-        <button className="btn-primary" type="submit">
-          <span>Registreeru</span>
+        {error && (
+          <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
+            {error}
+          </div>
+        )}
+
+        <button className="btn-primary" type="submit" disabled={submitting}>
+          <span>{submitting ? "Loome kontot…" : "Registreeru"}</span>
         </button>
       </form>
 
@@ -122,7 +171,13 @@ export default function RegistreerimineBody({ openLoginModal }) {
           className="link-brand"
           onClick={(e) => {
             e.preventDefault();
-            openLoginModal();
+            const url = `/registreerimine?next=${encodeURIComponent(nextUrl)}`;
+            if (openLoginModal) {
+              router.replace(url);
+              openLoginModal();
+            } else {
+              router.push(url);
+            }
           }}
         >
           Logi sisse
