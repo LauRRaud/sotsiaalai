@@ -100,6 +100,20 @@ const authOptions = {
         token.id = user.id;
         token.role = user.role;
       }
+      if (token?.id) {
+        const activeSub = await prisma.subscription.findFirst({
+          where: {
+            userId: token.id,
+            status: "ACTIVE",
+            OR: [
+              { validUntil: null },
+              { validUntil: { gt: new Date() } },
+            ],
+          },
+          select: { id: true },
+        });
+        token.subActive = Boolean(activeSub);
+      }
       return token;
     },
     async session({ session, token }) {
@@ -108,6 +122,8 @@ const authOptions = {
         session.user = session.user || {};
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.subActive =
+          token.subActive === true || token.subActive === "true";
       }
       return session;
     },
