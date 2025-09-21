@@ -86,7 +86,7 @@ export default function ProfiilBody() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="main-content glass-box">
+      <div className="main-content glass-box glass-left">
         <h1 className="glass-title">Minu profiil</h1>
         <p style={{ padding: "1rem" }}>Laen profiili…</p>
       </div>
@@ -100,7 +100,7 @@ export default function ProfiilBody() {
       : "Profiili vaatamiseks logi sisse.";
 
     return (
-      <div className="main-content glass-box">
+      <div className="main-content glass-box glass-left">
         <h1 className="glass-title">Minu profiil</h1>
         <p style={{ padding: "1rem" }}>{reasonText}</p>
         <div className="back-btn-wrapper">
@@ -120,7 +120,7 @@ export default function ProfiilBody() {
   const roleLabel = ROLE_MAP[session?.user?.role] ?? "—";
 
   return (
-    <div className="main-content glass-box" role="main" aria-labelledby="profile-title" lang="et">
+    <div className="main-content glass-box glass-left" role="main" aria-labelledby="profile-title" lang="et">
       <h1 id="profile-title" className="glass-title">
         Minu profiil
       </h1>
@@ -218,4 +218,3 @@ export default function ProfiilBody() {
     </div>
   );
 }
-

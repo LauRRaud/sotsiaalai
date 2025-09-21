@@ -1,11 +1,12 @@
-// components/Space.jsx — desktop: fog+grain; mobile: gradient only
+// components/Space.jsx — desktop: fog+grain; mobile: gradient only (dark-only)
 "use client";
 
 import { useEffect, useState } from "react";
 
 export default function Space({
-  mode = "dark",
+  // Dark-only. Desktopil saab palette't kohandada; mobiilis vaikimisi lukus.
   palette,
+  allowMobileCustom = false, // kui true ja palette sisaldab mõlemat tooni, lubame mobiilis custom värvid
   intensity,
   grain = true,
   fog = true,
@@ -22,39 +23,40 @@ export default function Space({
   noiseUrl = "",
   fogBlurPx = 80,
 } = {}) {
-  // Mõlemad režiimid jäävad tumeda gradiga; lightil lihtsalt kergem udu
-  const PRESETS = {
-    dark: {
-      palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
-      intensity: 0.48,
-      fogStrength: 0.42,
-      fogBlend: "screen",
-      grainOpacity: 0.065,
-      fogInnerRGBA: (alphaBase) => [
-        `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
-        "rgba(185,210,245,0.30)",
-      ],
-    },
-    light: {
-      palette: { baseTop: "#070b16", baseBottom: "#0d111b" }, // jääb tume
-      intensity: 0.28,
-      fogStrength: 0.30,
-      fogBlend: "screen",
-      grainOpacity: 0.05,
-      fogInnerRGBA: () => ["#c6e0ffdd", "#b1d2ffbb"],
-    },
+  // --- Dark preset (desktop) ---
+  const PRESET = {
+    palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
+    intensity: 0.48,
+    fogStrength: 0.42,
+    fogBlend: "screen",
+    grainOpacity: 0.065,
+    fogInnerRGBA: (alphaBase) => [
+      `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
+      "rgba(185,210,245,0.30)",
+    ],
   };
 
-  const cfg = PRESETS[mode] || PRESETS.dark;
-  const pal = { ...cfg.palette, ...(palette || {}) };
-  const inten = intensity ?? cfg.intensity;
-  const fogStr = clamp(fogStrength ?? cfg.fogStrength, 0, 0.7);
-  const [fogStop0, fogStop1] = cfg.fogInnerRGBA(0.9);
+  // --- Mobiili lukustatud toonid: ÜLEVAL TUMESININE → ALL HALL ---
+  const MOBILE_LOCK = { baseTop: "#0d2346", baseBottom: "#8f949f" }; // deep navy → cool gray
 
   // --- keskkonna lipud (CSR) ---
   const isMobile = useIsMobile(); // ≤768px
 
-  // Desktopil renderdame alati udu+grain (ignoreerime OS reduced-motion’i)
+  const hasFullCustom = !!(palette && palette.baseTop && palette.baseBottom);
+
+  // Desktop: preset + optional custom; Mobiil: lukus toonid, kui just ei luba ja ei anta mõlemat customit
+  const pal = isMobile
+    ? (allowMobileCustom && hasFullCustom ? palette : MOBILE_LOCK)
+    : { ...PRESET.palette, ...(palette || {}) };
+
+  const inten = intensity ?? PRESET.intensity;
+  const fogStr = clamp(fogStrength ?? PRESET.fogStrength, 0, 0.7);
+  const [fogStop0, fogStop1] = PRESET.fogInnerRGBA(0.9);
+
+  // Mobiili keskmine stop — pisut heledam sinine, et gradient oleks nähtav OLEDidel
+  const baseMid = isMobile ? mixHex(pal.baseTop, "#3a5ea0", 0.35) : pal.baseTop;
+
+  // Desktopil renderdame udu+grain; mobiilis ainult gradient
   const shouldRenderFog = fog && !isMobile;
   const shouldRenderGrain = grain && !isMobile;
   const animateFogEff = shouldRenderFog && !!(animateFog && !skipIntro);
@@ -63,9 +65,10 @@ export default function Space({
     <div
       className="space-backdrop"
       suppressHydrationWarning
-      data-mode={mode}
+      data-mode="dark"
       style={{
         "--baseTop": String(pal.baseTop),
+        "--baseMid": String(baseMid),
         "--baseBottom": String(pal.baseBottom),
         "--fogOpacity": String(fogStr),
         "--fogHeight": `${fogHeightVmax}vmax`,
@@ -75,8 +78,8 @@ export default function Space({
         "--fogHorizontalShift": `${fogHorizontalShiftVmax}vmax`,
         "--fogAppearDur": `${fogAppearDurMs}ms`,
         "--fogAppearDelay": `${fogAppearDelayMs}ms`,
-        "--fogBlend": cfg.fogBlend,
-        "--grainOpacity": cfg.grainOpacity,
+        "--fogBlend": PRESET.fogBlend,
+        "--grainOpacity": PRESET.grainOpacity,
         "--fogStop0": fogStop0,
         "--fogStop1": fogStop1,
         "--fogBlurPx": `${fogBlurPx}px`,
@@ -170,11 +173,35 @@ export default function Space({
           background-size: auto;
         }
 
-        /* Mobiilis: ainult gradient (peidame udu+grain) */
+        /* === MOBIIL: ainult gradient, 3-stop + õrn dither === */
         @media (max-width: 768px) {
           .fog,
-          .sb-grain {
-            display: none !important;
+          .sb-grain { display: none !important; }
+
+          .space-backdrop {
+            background-image:
+              linear-gradient(
+                180deg,
+                var(--baseTop) 0%,
+                var(--baseMid) 52%,
+                var(--baseBottom) 100%
+              );
+          }
+
+          .space-backdrop::after {
+            content: "";
+            position: absolute; inset: 0;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            opacity: 0.03; /* väga õrn dither bandingu vastu */
+            background-image:
+              repeating-linear-gradient(
+                0deg,
+                rgba(255,255,255,0.02) 0px,
+                rgba(255,255,255,0.02) 1px,
+                rgba(0,0,0,0.02) 2px,
+                rgba(0,0,0,0.02) 3px
+              );
           }
         }
       `}</style>
@@ -182,6 +209,7 @@ export default function Space({
   );
 }
 
+/* ------- kihid ------- */
 function FogLayer({ animateFog }) {
   return (
     <div className="fog" data-animate={animateFog ? "1" : "0"} suppressHydrationWarning>
@@ -215,7 +243,26 @@ function SvgGrainOverlay() {
   );
 }
 
+/* ------- utils ------- */
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+function hexToRgb(hex) {
+  const s = hex.replace("#", "");
+  const b = s.length === 3 ? s.split("").map((c) => c + c).join("") : s.padEnd(6, "0");
+  const n = parseInt(b, 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+function rgbToHex({ r, g, b }) {
+  const to = (x) => x.toString(16).padStart(2, "0");
+  return `#${to(r)}${to(g)}${to(b)}`;
+}
+/** mix a toward b by t (0..1) */
+function mixHex(a, b, t = 0.5) {
+  const A = hexToRgb(a);
+  const B = hexToRgb(b);
+  const m = (x, y) => Math.round(x + (y - x) * t);
+  return rgbToHex({ r: m(A.r, B.r), g: m(A.g, B.g), b: m(A.b, B.b) });
+}
 
 /* ------- hooks ------- */
 function useIsMobile() {

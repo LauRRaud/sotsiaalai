@@ -19,6 +19,7 @@ export default function ClientHomeShell() {
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
+  const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
@@ -56,6 +57,11 @@ export default function ClientHomeShell() {
     return () => document.body.classList.remove("modal-open");
   }, [isLoginOpen]);
 
+  useEffect(() => {
+    if (!isLoginOpen) return;
+    setMobileFlipReady({ left: false, right: false });
+  }, [isLoginOpen]);
+
   const flipAllowed = leftFadeDone && rightFadeDone;
   const flipClass = flipAllowed ? "flip-allowed" : "";
   const flipEndMs = 333;
@@ -65,9 +71,37 @@ export default function ClientHomeShell() {
   const onRightEnter = () => setRightFlipping(true);
   const onRightLeave = () => setTimeout(() => setRightFlipping(false), flipEndMs);
 
-  const handleMobileTap = () => {
-    if (typeof window !== "undefined" && window.innerWidth <= 768)
+  const handleCardBackClick = (side) => (e) => {
+    if (!flipAllowed) return;
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+    if (!isMobile) {
       setIsLoginOpen(true);
+      return;
+    }
+    e?.stopPropagation?.();
+    if (!mobileFlipReady[side]) {
+      setMobileFlipReady({ left: side === "left", right: side === "right" });
+      e?.currentTarget?.focus?.();
+      return;
+    }
+    setMobileFlipReady({ left: false, right: false });
+    setIsLoginOpen(true);
+  };
+
+  const handleCardBackBlur = (side) => () => {
+    setMobileFlipReady((prev) => ({ ...prev, [side]: false }));
+  };
+
+  const handleCardTap = (side) => () => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+    if (!isMobile) {
+      setIsLoginOpen(true);
+      return;
+    }
+    setMobileFlipReady((prev) => {
+      if (!prev[side]) return { left: side === "left", right: side === "right" };
+      return { left: false, right: false };
+    });
   };
 
   return (
@@ -89,10 +123,10 @@ export default function ClientHomeShell() {
           <div
             className={`three-d-card float-card left ${flipClass} ${
               leftFlipping ? "is-flipping" : ""
-            }`}
+            } ${mobileFlipReady.left ? "mobile-flipped-left" : ""}`}
             onMouseEnter={onLeftEnter}
             onMouseLeave={onLeftLeave}
-            onClick={handleMobileTap}
+            onClick={handleCardTap("left")}
           >
             <div className="card-wrapper">
               {/* FRONT */}
@@ -139,7 +173,8 @@ export default function ClientHomeShell() {
                 role="button"
                 aria-label="Logi sisse spetsialistina"
                 tabIndex={0}
-                onClick={() => flipAllowed && setIsLoginOpen(true)}
+                onClick={handleCardBackClick("left")}
+                onBlur={handleCardBackBlur("left")}
                 onKeyDown={(e) => {
                   if ((e.key === "Enter" || e.key === " ") && flipAllowed)
                     setIsLoginOpen(true);
@@ -176,10 +211,10 @@ export default function ClientHomeShell() {
           <div
             className={`three-d-card float-card right ${flipClass} ${
               rightFlipping ? "is-flipping" : ""
-            }`}
+            } ${mobileFlipReady.right ? "mobile-flipped-right" : ""}`}
             onMouseEnter={onRightEnter}
             onMouseLeave={onRightLeave}
-            onClick={handleMobileTap}
+            onClick={handleCardTap("right")}
           >
             <div className="card-wrapper">
               {/* FRONT */}
@@ -225,7 +260,8 @@ export default function ClientHomeShell() {
                 role="button"
                 aria-label="Logi sisse pöördujana"
                 tabIndex={0}
-                onClick={() => flipAllowed && setIsLoginOpen(true)}
+                onClick={handleCardBackClick("right")}
+                onBlur={handleCardBackBlur("right")}
                 onKeyDown={(e) => {
                   if ((e.key === "Enter" || e.key === " ") && flipAllowed)
                     setIsLoginOpen(true);
