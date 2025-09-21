@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
-const LaserFlowOverlay = dynamic(() => import("./LaserFlowOverlay"), { ssr: false });
 
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -129,8 +128,6 @@ function BackgroundLayer() {
         </Suspense>
       </div>
 
-      {/* LASERFLOW — ainult avalehel, järgib reducedEffective */}
-      {pathname === "/" && !reducedEffective && <LaserFlowOverlay zIndex={1} />}
 
       {/* PARTICLES — järgib reducedEffective */}
       {particlesReady && !reducedEffective && (
