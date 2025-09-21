@@ -7,6 +7,7 @@ import CredentialsImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma.js";
 import { compare } from "bcrypt";
+import { SubscriptionStatus } from "@prisma/client";
 
 const asProvider = (mod) => mod?.default?.default ?? mod?.default ?? mod;
 const NextAuth = asProvider(NextAuthImport);
@@ -89,6 +90,20 @@ if (process.env.GOOGLE_ID && process.env.GOOGLE_SECRET) {
   );
 }
 
+async function hasActiveSubscription(userId) {
+  if (!userId) return false;
+  const now = new Date();
+  const sub = await prisma.subscription.findFirst({
+    where: {
+      userId,
+      status: SubscriptionStatus.ACTIVE,
+      OR: [{ validUntil: null }, { validUntil: { gt: now } }],
+    },
+    select: { id: true },
+  });
+  return Boolean(sub);
+}
+
 const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -99,20 +114,10 @@ const authOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.isAdmin = user.isAdmin === true;
       }
       if (token?.id) {
-        const activeSub = await prisma.subscription.findFirst({
-          where: {
-            userId: token.id,
-            status: "ACTIVE",
-            OR: [
-              { validUntil: null },
-              { validUntil: { gt: new Date() } },
-            ],
-          },
-          select: { id: true },
-        });
-        token.subActive = Boolean(activeSub);
+        token.subActive = await hasActiveSubscription(token.id);
       }
       return token;
     },
@@ -122,8 +127,8 @@ const authOptions = {
         session.user = session.user || {};
         session.user.id = token.id;
         session.user.role = token.role;
-        session.user.subActive =
-          token.subActive === true || token.subActive === "true";
+        session.user.isAdmin = token.isAdmin === true;
+        session.user.subActive = token.subActive === true;
       }
       return session;
     },
@@ -131,5 +136,4 @@ const authOptions = {
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
