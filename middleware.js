@@ -3,7 +3,8 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
-  const isProtected = pathname.startsWith("/profiil") || pathname.startsWith("/vestlus");
+  const isProtected =
+    pathname.startsWith("/profiil") || pathname.startsWith("/vestlus");
   if (!isProtected) return NextResponse.next();
 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -14,8 +15,7 @@ export async function middleware(req) {
     return NextResponse.redirect(url);
   }
 
-  const hasActiveSub = token.subActive === true || token.subActive === "true";
-  if (!hasActiveSub) {
+  if (token.subActive !== true) {
     const url = req.nextUrl.clone();
     url.pathname = "/tellimus";
     url.searchParams.set("reason", "no-sub");
