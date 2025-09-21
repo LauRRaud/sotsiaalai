@@ -1,17 +1,14 @@
-// components/home/ClientHomeShell.jsx
+// components/HomePage.jsx
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
-import {
-  CircularRingLeft,
-  CircularRingRight,
-} from "@/components/TextAnimations/CircularText/CircularText";
+import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import Image from "next/image";
 
-export default function ClientHomeShell() {
+export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -24,7 +21,7 @@ export default function ClientHomeShell() {
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
-  // kui kaardi .fade-in animatsioon lõpeb, märgime done
+  // .fade-in animatsioonide lõpumärgid
   useEffect(() => {
     const onLeftEnd = (e) => {
       if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
@@ -32,8 +29,7 @@ export default function ClientHomeShell() {
     const onRightEnd = (e) => {
       if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true);
     };
-    const l = leftCardRef.current,
-      r = rightCardRef.current;
+    const l = leftCardRef.current, r = rightCardRef.current;
     l?.addEventListener("animationend", onLeftEnd);
     r?.addEventListener("animationend", onRightEnd);
     return () => {
@@ -42,7 +38,7 @@ export default function ClientHomeShell() {
     };
   }, []);
 
-  // aktiveeri Magnet väike viive pärast mõlema fade-in’i
+  // aktiveeri Magnet pärast mõlema fade-in’i
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
@@ -121,9 +117,9 @@ export default function ClientHomeShell() {
         {/* LEFT CARD */}
         <div className="side left">
           <div
-            className={`three-d-card float-card left ${flipClass} ${
-              leftFlipping ? "is-flipping" : ""
-            } ${mobileFlipReady.left ? "mobile-flipped-left" : ""}`}
+            className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
+              mobileFlipReady.left ? "mobile-flipped-left" : ""
+            }`}
             onMouseEnter={onLeftEnter}
             onMouseLeave={onLeftLeave}
             onClick={handleCardTap("left")}
@@ -131,11 +127,7 @@ export default function ClientHomeShell() {
             <div className="card-wrapper">
               {/* FRONT */}
               <div className="card-face front">
-                <Magnet
-                  padding={80}
-                  magnetStrength={18}
-                  disabled={isLoginOpen || !magnetReady || leftFlipping}
-                >
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || leftFlipping}>
                   {({ isActive }) => (
                     <div
                       ref={leftCardRef}
@@ -143,15 +135,11 @@ export default function ClientHomeShell() {
                         "glass-card glass-card-light left-card-primary",
                         !leftFadeDone ? "fade-in" : "",
                         leftFadeDone ? "fade-in-done" : "",
-                        // ⬇️ helendus ainult kui magnet aktiivne JA fade tehtud
                         leftFadeDone && isActive ? "glow-active" : "",
                       ].join(" ")}
                       style={{ position: "relative" }}
                     >
-                      {/* ringtekst – näitame sujuvalt alles pärast fade-in’i */}
                       <CircularRingLeft className={leftFadeDone ? "ct-visible" : ""} />
-
-                      {/* esikülje logo (nähtavust saad CSS-iga juhtida) */}
                       <Image
                         src="/logo/aivalge.svg"
                         alt=""
@@ -167,7 +155,7 @@ export default function ClientHomeShell() {
                 </Magnet>
               </div>
 
-              {/* BACK (pealkiri tagaküljel) */}
+              {/* BACK */}
               <div
                 className="card-face back"
                 role="button"
@@ -176,20 +164,12 @@ export default function ClientHomeShell() {
                 onClick={handleCardBackClick("left")}
                 onBlur={handleCardBackBlur("left")}
                 onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed)
-                    setIsLoginOpen(true);
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
                 }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div
-                  className={[
-                    "centered-back-left",
-                    !leftFadeDone ? "fade-in" : "",
-                    "glow-static",
-                  ].join(" ")}
-                >
+                <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
                   <span className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</span>
-
                   <Image
                     src="/logo/saimust.svg"
                     alt=""
@@ -209,9 +189,9 @@ export default function ClientHomeShell() {
         {/* RIGHT CARD */}
         <div className="side right">
           <div
-            className={`three-d-card float-card right ${flipClass} ${
-              rightFlipping ? "is-flipping" : ""
-            } ${mobileFlipReady.right ? "mobile-flipped-right" : ""}`}
+            className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
+              mobileFlipReady.right ? "mobile-flipped-right" : ""
+            }`}
             onMouseEnter={onRightEnter}
             onMouseLeave={onRightLeave}
             onClick={handleCardTap("right")}
@@ -219,11 +199,7 @@ export default function ClientHomeShell() {
             <div className="card-wrapper">
               {/* FRONT */}
               <div className="card-face front">
-                <Magnet
-                  padding={80}
-                  magnetStrength={18}
-                  disabled={isLoginOpen || !magnetReady || rightFlipping}
-                >
+                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || rightFlipping}>
                   {({ isActive }) => (
                     <div
                       ref={rightCardRef}
@@ -235,10 +211,7 @@ export default function ClientHomeShell() {
                       ].join(" ")}
                       style={{ position: "relative" }}
                     >
-                      <CircularRingRight
-                        className={rightFadeDone ? "ct-visible" : ""}
-                      />
-
+                      <CircularRingRight className={rightFadeDone ? "ct-visible" : ""} />
                       <Image
                         src="/logo/smust.svg"
                         alt=""
@@ -254,7 +227,7 @@ export default function ClientHomeShell() {
                 </Magnet>
               </div>
 
-              {/* BACK (pealkiri tagaküljel) */}
+              {/* BACK */}
               <div
                 className="card-face back"
                 role="button"
@@ -263,20 +236,12 @@ export default function ClientHomeShell() {
                 onClick={handleCardBackClick("right")}
                 onBlur={handleCardBackBlur("right")}
                 onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed)
-                    setIsLoginOpen(true);
+                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
                 }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
-                <div
-                  className={[
-                    "centered-back-right",
-                    !rightFadeDone ? "fade-in" : "",
-                    "glow-static",
-                  ].join(" ")}
-                >
+                <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
                   <span className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</span>
-
                   <Image
                     src="/logo/saivalge.svg"
                     alt=""

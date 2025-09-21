@@ -1,12 +1,12 @@
 // app/page.js
+import { Suspense } from "react";
+import HomePage from "@/components/HomePage";
 
 export const metadata = {
   title: "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
   description:
     "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele.",
 };
-
-import HomePage from "@/components/HomePage";
 
 export default function Page() {
   return (
@@ -44,7 +44,10 @@ export default function Page() {
         }}
       />
 
-      <HomePage />
+      {/* Mähi HomePage Suspense'iga */}
+      <Suspense fallback={null}>
+        <HomePage />
+      </Suspense>
     </>
   );
 }
