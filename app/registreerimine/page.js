@@ -1,11 +1,16 @@
+// app/registreerimine/page.js
+import { Suspense } from "react";
+import RegistreeriminePageClient from "@/components/RegistreeriminePageClient";
+
 export const metadata = {
   title: "Loo konto – SotsiaalAI",
-  description:
-    "Registreeru SotsiaalAI platvormile, vali roll (spetsialist või abivajaja) ja saa ligipääs vestlustele.",
+  description: "Registreeru SotsiaalAI platvormil ja saa ligipääs rollipõhisele tehisintellektile.",
 };
 
-import RegistreeriminePageClient from "@/components/pages/RegistreeriminePageClient";
-
 export default function Page() {
-  return <RegistreeriminePageClient />;
+  return (
+    <Suspense fallback={null}>
+      <RegistreeriminePageClient />
+    </Suspense>
+  );
 }
