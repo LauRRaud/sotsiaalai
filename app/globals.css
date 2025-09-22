@@ -1783,8 +1783,9 @@ label {
 .glass-box.chat-container {
   display: flex;
   flex-direction: column;
-  height: 96vh;
-  max-height: 96vh;
+  min-height: clamp(460px, 70vh, 780px);
+  height: auto;
+  max-height: min(96vh, 860px);
   box-sizing: border-box;
   margin: 0.6em auto; /* ← toob tagasi ülemise ja alumise vahe */
   width: 100%;
@@ -2390,31 +2391,32 @@ textarea::placeholder,
     padding-bottom: clamp(2.8em, 8vw, 3.6em);
     gap: 0.6em;
   }
-
   body[data-layout="mobile"] .centered-back-left .headline-bold,
   body[data-layout="mobile"] .centered-back-right .headline-bold {
     display: block;
     margin: 0 auto 0.45em;
     max-width: 88%;
-    font-size: clamp(1rem, 3.9vw, 1.35rem);
-    line-height: 1.38;
-    letter-spacing: 0.07em;
+    font-size: clamp(1.18rem, 4.6vw, 1.72rem);
+    line-height: 1.32;
+    letter-spacing: 0.065em;
   }
 
   body[data-layout="mobile"] .centered-back-left .card-logo-bg-left-back,
   body[data-layout="mobile"] .centered-back-right .card-logo-bg-right-back {
-    bottom: clamp(-34%, -23.5vw, -18.5%);
-    width: clamp(24%, 17vw, 30%);
-    opacity: 0.55;
+    top: clamp(18%, 24vw, 30%);
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: clamp(28%, 32vw, 38%);
+    opacity: 0.6;
   }
 
   body[data-layout="mobile"] .chat-container--mobile .avatar-link {
     position: absolute;
     left: auto;
     z-index: 12;
-    top: clamp(10px, 2.8vw, 18px);
-    right: clamp(14px, 4vw, 28px);
-    transform: translateY(-45%);
+    top: clamp(14px, 3.6vw, 26px);
+    right: clamp(16px, 4.5vw, 30px);
+    transform: none;
   }
 
   body[data-layout="mobile"] .chat-inputbar {
