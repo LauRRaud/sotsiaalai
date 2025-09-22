@@ -1783,9 +1783,8 @@ label {
 .glass-box.chat-container {
   display: flex;
   flex-direction: column;
-  min-height: clamp(460px, 70vh, 780px);
-  height: auto;
-  max-height: min(96vh, 860px);
+  height: 96vh;
+  max-height: 96vh;
   box-sizing: border-box;
   margin: 0.6em auto; /* ← toob tagasi ülemise ja alumise vahe */
   width: 100%;
@@ -2391,7 +2390,7 @@ textarea::placeholder,
     padding-bottom: clamp(2.8em, 8vw, 3.6em);
     gap: 0.6em;
   }
-  body[data-layout="mobile"] .centered-back-left .headline-bold,
+ body[data-layout="mobile"] .centered-back-left .headline-bold,
   body[data-layout="mobile"] .centered-back-right .headline-bold {
     display: block;
     margin: 0 auto 0.45em;
@@ -2403,18 +2402,18 @@ textarea::placeholder,
 
   body[data-layout="mobile"] .centered-back-left .card-logo-bg-left-back,
   body[data-layout="mobile"] .centered-back-right .card-logo-bg-right-back {
-    top: clamp(18%, 24vw, 30%);
+    top: 22% !important;
     bottom: auto;
-    transform: translate(-50%, -50%);
-    width: clamp(28%, 32vw, 38%);
-    opacity: 0.6;
+    transform: translate(-50%, -48%);
+    width: clamp(26%, 34vw, 38%);
+    opacity: 0.65;
   }
 
   body[data-layout="mobile"] .chat-container--mobile .avatar-link {
     position: absolute;
     left: auto;
     z-index: 12;
-    top: clamp(14px, 3.6vw, 26px);
+    top: clamp(10px, 3.2vw, 20px);
     right: clamp(16px, 4.5vw, 30px);
     transform: none;
   }
@@ -2553,5 +2552,13 @@ textarea::placeholder,
   body[data-layout="mobile"] main > :last-child,
   body[data-layout="mobile"] .main-content > :last-child {
     margin-bottom: 8px !important;
+  }
+  body[data-layout="mobile"] .chat-container--mobile {
+    padding-top: clamp(2.6rem, 8vw, 3.4rem);
+    gap: clamp(1.1rem, 3.6vw, 1.5rem);
+  }
+  body[data-layout="mobile"] .glass-box.chat-container {
+    min-height: clamp(340px, 92vw, 520px);
+    max-height: min(84vh, 640px);
   }
 }
