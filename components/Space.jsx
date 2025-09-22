@@ -4,9 +4,8 @@
 import { useEffect, useState } from "react";
 
 export default function Space({
-  // Dark-only. Desktopil saab palette't kohandada; mobiilis vaikimisi lukus.
   palette,
-  allowMobileCustom = false, // kui true ja palette sisaldab mõlemat tooni, lubame mobiilis custom värvid
+  allowMobileCustom = false,
   intensity,
   grain = true,
   fog = true,
@@ -36,15 +35,12 @@ export default function Space({
     ],
   };
 
-  // --- Mobiili lukustatud toonid: ÜLEVAL TUMESININE → ALL HALL ---
-  const MOBILE_LOCK = { baseTop: "#0d2346", baseBottom: "#8f949f" }; // deep navy → cool gray
+  // Mobiil: ÜLEVAL SAMA mis desktopi top (#070b16), ALL tumedam hall
+  const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: "#2b2e33" };
 
-  // --- keskkonna lipud (CSR) ---
   const isMobile = useIsMobile(); // ≤768px
-
   const hasFullCustom = !!(palette && palette.baseTop && palette.baseBottom);
 
-  // Desktop: preset + optional custom; Mobiil: lukus toonid, kui just ei luba ja ei anta mõlemat customit
   const pal = isMobile
     ? (allowMobileCustom && hasFullCustom ? palette : MOBILE_LOCK)
     : { ...PRESET.palette, ...(palette || {}) };
@@ -53,10 +49,6 @@ export default function Space({
   const fogStr = clamp(fogStrength ?? PRESET.fogStrength, 0, 0.7);
   const [fogStop0, fogStop1] = PRESET.fogInnerRGBA(0.9);
 
-  // Mobiili keskmine stop — pisut heledam sinine, et gradient oleks nähtav OLEDidel
-  const baseMid = isMobile ? mixHex(pal.baseTop, "#3a5ea0", 0.35) : pal.baseTop;
-
-  // Desktopil renderdame udu+grain; mobiilis ainult gradient
   const shouldRenderFog = fog && !isMobile;
   const shouldRenderGrain = grain && !isMobile;
   const animateFogEff = shouldRenderFog && !!(animateFog && !skipIntro);
@@ -68,7 +60,6 @@ export default function Space({
       data-mode="dark"
       style={{
         "--baseTop": String(pal.baseTop),
-        "--baseMid": String(baseMid),
         "--baseBottom": String(pal.baseBottom),
         "--fogOpacity": String(fogStr),
         "--fogHeight": `${fogHeightVmax}vmax`,
@@ -173,36 +164,10 @@ export default function Space({
           background-size: auto;
         }
 
-        /* === MOBIIL: ainult gradient, 3-stop + õrn dither === */
+        /* Mobiilis: ainult gradient */
         @media (max-width: 768px) {
           .fog,
           .sb-grain { display: none !important; }
-
-          .space-backdrop {
-            background-image:
-              linear-gradient(
-                180deg,
-                var(--baseTop) 0%,
-                var(--baseMid) 52%,
-                var(--baseBottom) 100%
-              );
-          }
-
-          .space-backdrop::after {
-            content: "";
-            position: absolute; inset: 0;
-            pointer-events: none;
-            mix-blend-mode: overlay;
-            opacity: 0.03; /* väga õrn dither bandingu vastu */
-            background-image:
-              repeating-linear-gradient(
-                0deg,
-                rgba(255,255,255,0.02) 0px,
-                rgba(255,255,255,0.02) 1px,
-                rgba(0,0,0,0.02) 2px,
-                rgba(0,0,0,0.02) 3px
-              );
-          }
         }
       `}</style>
     </div>
@@ -245,24 +210,6 @@ function SvgGrainOverlay() {
 
 /* ------- utils ------- */
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-
-function hexToRgb(hex) {
-  const s = hex.replace("#", "");
-  const b = s.length === 3 ? s.split("").map((c) => c + c).join("") : s.padEnd(6, "0");
-  const n = parseInt(b, 16);
-  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
-}
-function rgbToHex({ r, g, b }) {
-  const to = (x) => x.toString(16).padStart(2, "0");
-  return `#${to(r)}${to(g)}${to(b)}`;
-}
-/** mix a toward b by t (0..1) */
-function mixHex(a, b, t = 0.5) {
-  const A = hexToRgb(a);
-  const B = hexToRgb(b);
-  const m = (x, y) => Math.round(x + (y - x) * t);
-  return rgbToHex({ r: m(A.r, B.r), g: m(A.g, B.g), b: m(A.b, B.b) });
-}
 
 /* ------- hooks ------- */
 function useIsMobile() {
