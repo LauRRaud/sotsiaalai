@@ -78,3 +78,18 @@ export async function PUT(request) {
     return jsonError("Profiili uuendamine ebaõnnestus.", 500);
   }
 }
+export async function DELETE() {
+  const ctx = await requireUser();
+  if (!ctx) return jsonError("Unauthorized", 401);
+
+  try {
+    await prisma.user.delete({ where: { id: ctx.userId } });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("profile DELETE error", error);
+    if (error?.code === "P2025") {
+      return jsonError("Kasutajat ei leitud.", 404);
+    }
+    return jsonError("Konto kustutamine ebaõnnestus.", 500);
+  }
+}

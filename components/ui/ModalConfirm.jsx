@@ -7,17 +7,20 @@ export default function ModalConfirm({
   cancelLabel = "Katkesta",
   onConfirm,
   onCancel,
+  disabled = false,
 }) {
   return (
     <div className="modal-confirm" role="dialog" aria-modal="true">
       <p>{message}</p>
       <div className="btn-row">
-        <button className="btn-danger" onClick={onConfirm}>
+        <button className="btn-danger" onClick={onConfirm} disabled={disabled}>
           {confirmLabel}
         </button>
-        <button className="btn-tertiary" onClick={onCancel}>
-          {cancelLabel}
-        </button>
+        {cancelLabel ? (
+          <button className="btn-tertiary" onClick={onCancel} disabled={disabled}>
+            {cancelLabel}
+          </button>
+        ) : null}
       </div>
     </div>
   );
