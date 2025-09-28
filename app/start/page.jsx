@@ -1,6 +1,8 @@
-﻿import Link from "next/link";
+// app/start/page.jsx — NextAuth v4
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
 
 export const metadata = {
   title: "Järgmine samm — SotsiaalAI",
@@ -28,7 +30,7 @@ function StartCard({ href, title, children }) {
 }
 
 export default async function StartPage() {
-  const session = await auth();
+  const session = await getServerSession(authConfig);
 
   if (!session?.user) {
     redirect("/registreerimine?reason=not-logged-in");
@@ -36,18 +38,29 @@ export default async function StartPage() {
 
   const role = session.user.role || (session.user.isAdmin ? "ADMIN" : null);
 
+  // mitte-adminid suuname otse vestlusesse
   if (role !== "ADMIN") {
     redirect("/vestlus");
   }
 
   return (
-    <div className="main-content glass-box glass-left" aria-labelledby="start-title" lang="et">
+    <div
+      className="main-content glass-box glass-left"
+      aria-labelledby="start-title"
+      lang="et"
+    >
       <h1 id="start-title" className="glass-title">Tere tulemast tagasi</h1>
       <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
         Vali, millise tööriistaga jätkad.
       </p>
 
-      <div style={{ display: "grid", gap: "1.5rem", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+      <div
+        style={{
+          display: "grid",
+          gap: "1.5rem",
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        }}
+      >
         <StartCard href="/admin/rag" title="RAG andmebaasi haldus">
           Laadi üles uusi materjale, halda allikaid ja jälgi indeksi staatust.
         </StartCard>

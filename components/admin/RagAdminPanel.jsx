@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -41,7 +41,7 @@ function formatBytes(bytes) {
   const units = ["B", "KB", "MB", "GB", "TB"];
   const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   const value = bytes / Math.pow(1024, index);
-  return ${value.toFixed(value >= 10 || index === 0 ? 0 : 1)} ;
+  return `${value.toFixed(value >= 10 || index === 0 ? 0 : 1)} ${units[index]}`;
 }
 
 function formatDateTime(value) {
@@ -206,7 +206,7 @@ export default function RagAdminPanel() {
       resetMessage();
       setReindexingId(docId);
       try {
-        const res = await fetch(/api/rag/documents//reindex, { method: "POST" });
+        const res = await fetch(`/api/rag/documents/${docId}/reindex`, { method: "POST" });
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data?.message || "Taasingestus ebaõnnestus.");
@@ -230,7 +230,7 @@ export default function RagAdminPanel() {
 
   const fileHint = useMemo(() => {
     if (!fileInfo.name) return "Valitud faili ei ole.";
-    return ${fileInfo.name} ();
+    return `${fileInfo.name} (${formatBytes(fileInfo.size)})`;
   }, [fileInfo]);
 
   return (

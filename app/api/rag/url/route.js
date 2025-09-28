@@ -1,5 +1,7 @@
-﻿import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+// app/api/rag/url/route.js
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/authz";
 import { pushUrlToRag } from "@/lib/ragClient";
@@ -35,7 +37,7 @@ function sanitizeUrl(value) {
     const parsed = new URL(String(value).trim());
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
     return parsed.toString();
-  } catch (_) {
+  } catch {
     return null;
   }
 }
@@ -56,60 +58,48 @@ function isPrivateAddress(address) {
 
   const lower = address.toLowerCase();
   if (lower === "::1" || lower === "::") return true;
-  if (lower.startsWith("fe80")) return true;
-  if (lower.startsWith("fd")) return true;
-
+  if (lower.startsWith("fe80")) return true; // link-local
+  if (lower.startsWith("fd")) return true;   // unique local
   return false;
 }
 
 async function assertPublicUrl(urlString) {
   const parsed = new URL(urlString);
   const hostname = parsed.hostname;
-  if (!hostname) {
-    throw new UrlSafetyError("URL-l puudub host.");
-  }
+  if (!hostname) throw new UrlSafetyError("URL-l puudub host.");
 
   if (isIP(hostname)) {
-    if (isPrivateAddress(hostname)) {
-      throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
-    }
+    if (isPrivateAddress(hostname)) throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
     return;
   }
 
   try {
     const records = await dns.lookup(hostname, { all: true });
     const forbidden = records.some((record) => isPrivateAddress(record.address));
-    if (forbidden) {
-      throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
-    }
+    if (forbidden) throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
   } catch (err) {
     if (err?.code === "ENOTFOUND" || err?.code === "EAI_AGAIN") {
       throw new UrlSafetyError("URL hosti ei õnnestunud lahendada.");
     }
-    if (err instanceof UrlSafetyError) {
-      throw err;
-    }
+    if (err instanceof UrlSafetyError) throw err;
     throw new UrlSafetyError("URL-i kontroll ebaõnnestus.", 400, { code: err?.code });
   }
 }
 
 export async function POST(req) {
-  const session = await auth();
-  if (!isAdmin(session)) {
-    return makeError("Ligipääs keelatud", 403);
-  }
+  const session = await getServerSession(authConfig);
+  if (!session) return makeError("Pole sisse logitud", 401);
+  if (!isAdmin(session)) return makeError("Ligipääs keelatud", 403);
 
   let payload;
   try {
     payload = await req.json();
-  } catch (_) {
+  } catch {
     return makeError("Keha peab olema JSON.");
   }
 
   const url = sanitizeUrl(payload?.url);
-  if (!url) {
-    return makeError("Palun sisesta korrektne URL.");
-  }
+  if (!url) return makeError("Palun sisesta korrektne URL.");
 
   try {
     await assertPublicUrl(url);
@@ -123,9 +113,9 @@ export async function POST(req) {
   const title = String(payload?.title || url).trim().slice(0, 255);
   const description = payload?.description ? String(payload.description).trim().slice(0, 2000) : null;
   const audience = normalizeAudience(payload?.audience);
-  if (!audience) {
-    return makeError("Palun vali sihtgrupp.");
-  }
+  if (!audience) return makeError("Palun vali sihtgrupp.");
+
+  const adminId = session?.user?.id || session?.userId || null;
 
   const doc = await prisma.ragDocument.create({
     data: {
@@ -134,7 +124,7 @@ export async function POST(req) {
       type: "URL",
       status: "PENDING",
       sourceUrl: url,
-      adminId: session?.userId || session?.user?.id || null,
+      adminId,
       audience,
       metadata: {
         origin: "url",
@@ -160,7 +150,11 @@ export async function POST(req) {
         error: ragResult?.message || "RAG server ei vastanud.",
       },
     });
-    return makeError(ragResult?.message || "RAG serveriga ühendus ebaõnnestus.", ragResult?.status || 502, { doc: failed });
+    return makeError(
+      ragResult?.message || "RAG serveriga ühendus ebaõnnestus.",
+      ragResult?.status || 502,
+      { doc: failed }
+    );
   }
 
   const updated = await prisma.ragDocument.update({

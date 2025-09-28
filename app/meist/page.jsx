@@ -1,15 +1,18 @@
-﻿import { auth } from "@/auth";
+// app/meist/page.jsx — serverikomponent (NextAuth v4)
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
 import MeistBody from "@/components/alalehed/MeistBody";
 
 export const metadata = {
-  title: "Meist – SotsiaalAI",
+  title: "Meist — SotsiaalAI",
   description:
-    "SotsiaalAI on sotsiaalne ettevõte, mis pakub tehisintellekti-põhist tuge sotsiaaltöö spetsialistidele ja eluküsimusega pöördujatele.",
+    "SotsiaalAI on tehisintellekti toel töötav platvorm sotsiaalvaldkonna spetsialistidele ja abiotsijatele.",
 };
 
-export default async function Page() {
-  const session = await auth();
-  const isAdmin = session?.user?.role === "ADMIN";
+export default async function MeistPage() {
+  const session = await getServerSession(authConfig);
+  const isAdmin =
+    session?.user?.role === "ADMIN" || session?.user?.isAdmin === true;
 
   return <MeistBody isAdmin={isAdmin} />;
 }

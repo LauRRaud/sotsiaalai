@@ -1,20 +1,19 @@
-﻿// auth.js (NextAuth v5 / JS)
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
+// auth.js — NextAuth v4 konfiguratsioon (JS)
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./lib/prisma.js";
 import { compare } from "bcrypt";
 
-// --- eID stubid: asenda päris SK API-ga, kui valmis ---
+/** -------- eID stubid (asenda hiljem päris SK integratsiooniga) -------- */
 async function verifySmartId(personalCode) {
-  return Boolean(personalCode && personalCode.length >= 6);
+  return Boolean(personalCode && String(personalCode).trim().length >= 6);
 }
 async function verifyMobileId(personalCode, phone) {
   return Boolean(personalCode && phone);
 }
 
-// Leia olemasolev Account või loo User + Account
+/** Leia olemasolev Account või loo User + Account */
 async function getOrCreateUserByAccount(provider, providerAccountId) {
   const account = await prisma.account.findUnique({
     where: { provider_providerAccountId: { provider, providerAccountId } },
@@ -29,32 +28,48 @@ async function getOrCreateUserByAccount(provider, providerAccountId) {
   return user;
 }
 
+/** --------- v4 authConfig (kasutab JWT sessioone) --------- */
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
+
+  // v4: JWT strateegia – sobib App Routeri serverikomponentidega
   session: { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-  },
+
+  // Kui soovid custom login-lehte, määra siia; muidu kasuta NextAuth defaulti:
+  // pages: { signIn: "/api/auth/signin" },
+
   providers: [
-    // 1) Email + parool
-    Credentials({
+    /** 1) Email + parool (Credentials) */
+    CredentialsProvider({
       id: "credentials",
       name: "Email & Password",
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       authorize: async (creds) => {
-        if (!creds?.email || !creds?.password) return null;
-        const user = await prisma.user.findUnique({ where: { email: String(creds.email) } });
+        const email = String(creds?.email || "").trim();
+        const password = String(creds?.password || "");
+        if (!email || !password) return null;
+
+        const user = await prisma.user.findUnique({ where: { email } });
         if (!user?.passwordHash) return null;
-        const ok = await compare(String(creds.password), user.passwordHash);
-        return ok ? user : null;
+
+        const ok = await compare(password, user.passwordHash);
+        if (!ok) return null;
+
+        // Tagasta minimaalselt id + roll; NextAuth paneb selle JWT-sse
+        return {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          isAdmin: user.isAdmin,
+        };
       },
     }),
 
-    // 2) eID (Smart-ID / Mobiil-ID) — stub
-    Credentials({
+    /** 2) Eesti eID (Smart-ID / Mobiil-ID) – stub autoriseerimine */
+    CredentialsProvider({
       id: "estonian_eid",
       name: "Estonian eID",
       credentials: {
@@ -70,59 +85,76 @@ export const authConfig = {
         if (method === "smart_id") {
           const ok = await verifySmartId(personalCode);
           if (!ok) return null;
-          return await getOrCreateUserByAccount("smart_id", personalCode);
+          const user = await getOrCreateUserByAccount("smart_id", personalCode);
+          return { id: user.id, email: user.email, role: user.role, isAdmin: user.isAdmin };
         }
+
         if (method === "mobiil_id") {
           const ok = await verifyMobileId(personalCode, phone);
           if (!ok) return null;
-          return await getOrCreateUserByAccount("mobiil_id", personalCode);
+          const user = await getOrCreateUserByAccount("mobiil_id", personalCode);
+          return { id: user.id, email: user.email, role: user.role, isAdmin: user.isAdmin };
         }
+
         return null;
       },
     }),
 
-    // 3) Google OAuth
-    Google({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+    /** 3) Google OAuth (toetab nii *_CLIENT_* kui ka legacy *_ID_* env’e) */
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
   ],
 
   callbacks: {
+    /** JWT – salvestame rolli, isAdmin’i ning subActive lippu */
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
-      } else if (token?.id) {
-        if (!token.role) {
-          const dbUser = await prisma.user.findUnique({
-            where: { id: token.id },
-            select: { role: true },
-          });
-          token.role = dbUser?.role || "CLIENT";
-        }
+        token.role = user.role ?? "CLIENT";
+        token.isAdmin = Boolean(user.isAdmin);
       }
-      if (!token.role) token.role = "CLIENT";
+
+      // Lisa / värskenda aktiivse tellimuse lipp
+      if (token.id) {
+        try {
+          const active = await prisma.subscription.findFirst({
+            where: { userId: String(token.id), status: "ACTIVE" },
+            select: { id: true },
+          });
+          token.subActive = Boolean(active);
+        } catch {
+          token.subActive = false;
+        }
+      } else {
+        token.subActive = false;
+      }
+
       return token;
     },
+
+    /** Session – peegelda JWT väärtused sessiooni */
     async session({ session, token }) {
-      if (token?.id) {
-        session.userId = token.id;
-        if (!session.user) session.user = {};
-        session.user.role = token.role || "CLIENT";
-      }
+      session.user = session.user || {};
+      if (token?.id) session.user.id = token.id;
+      session.user.role = token?.role || "CLIENT";
+      session.user.isAdmin = Boolean(token?.isAdmin);
+      session.subActive = Boolean(token?.subActive);
       return session;
     },
+
+    /** Redirect – austa callbackUrl’i; muidu mine /start */
     async redirect({ url, baseUrl }) {
-      if (!url) return `${baseUrl}/start`;
-      if (url.startsWith(baseUrl)) return url;
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      try {
+        const u = new URL(url);
+        if (u.origin === baseUrl) return url;
+      } catch {}
+      if (url?.startsWith?.("/")) return `${baseUrl}${url}`;
       return `${baseUrl}/start`;
     },
   },
+
+  secret: process.env.NEXTAUTH_SECRET,
 };
-
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
-
-

@@ -1,6 +1,5 @@
-﻿import NextAuth from "next-auth";
+// pages/api/auth/[...nextauth].js
+import NextAuth from "next-auth";
 import { authConfig } from "@/auth";
 
-const handler = NextAuth(authConfig);
-
-export default handler;
+export default NextAuth(authConfig);

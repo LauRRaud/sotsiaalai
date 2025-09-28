@@ -1,23 +1,39 @@
-﻿"use client";
+"use client";
 import { useState, useRef, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const INTRO_MESSAGE = "Tere! SotsiaalAI assistent otsib vastuseid usaldusväärsetest allikatest. Küsi julgelt ja ma teen parima, et aidata.";
+const INTRO_MESSAGE =
+  "Tere! SotsiaalAI assistent otsib vastuseid usaldusväärsetest allikatest. Küsi julgelt ja ma teen parima, et aidata.";
 const MAX_HISTORY = 8;
+
+/** Normaliseeri serveri allikad üheks kuju(ks): { key, label, url?, page? } */
+function normalizeSources(sources) {
+  if (!Array.isArray(sources)) return [];
+  return sources.map((src, idx) => {
+    const url = src?.url || src?.source || null;
+    const page = typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
+    const label = src?.title || src?.file || src?.source || "Allikas";
+    const key = src?.id || url || `${label}-${idx}`;
+    return { key, label, url, page };
+  });
+}
 
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
+
+  // Roll, mida API-le kaasa anda
   const sessionRole = session?.user?.role;
-  const userRole = sessionRole === "ADMIN"
-    ? "ADMIN"
-    : sessionRole
-    ? sessionRole
-    : session?.user?.isAdmin
-    ? "ADMIN"
-    : "CLIENT";
+  const userRole =
+    sessionRole === "ADMIN"
+      ? "ADMIN"
+      : sessionRole
+      ? sessionRole
+      : session?.user?.isAdmin
+      ? "ADMIN"
+      : "CLIENT";
 
   const [messages, setMessages] = useState([{ role: "ai", text: INTRO_MESSAGE }]);
   const [input, setInput] = useState("");
@@ -57,6 +73,13 @@ export default function ChatBody() {
         signal: controller.signal,
       });
 
+      // Kui sessioon on aegunud või õigus puudub → suuna loginile
+      if (res.status === 401 || res.status === 403) {
+        const params = new URLSearchParams({ callbackUrl: "/vestlus" });
+        window.location.href = `/api/auth/signin?${params.toString()}`;
+        return;
+      }
+
       if (!res.ok) {
         let errorMessage = "Assistent ei vastanud.";
         try {
@@ -69,21 +92,22 @@ export default function ChatBody() {
       }
 
       const data = await res.json();
-      const replyText = data?.reply || "Vabandust, ma ei saanud praegu vastust koostada.";
+      // toeta nii `answer` kui ka ajaloolist `reply` võtit
+      const replyText =
+        (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
+      const sources = normalizeSources(data?.sources);
+
       setMessages((prev) => [
         ...prev,
         {
           role: "ai",
           text: replyText,
-          sources: Array.isArray(data?.sources) ? data.sources : undefined,
+          sources,
         },
       ]);
     } catch (err) {
       if (err?.name === "AbortError") {
-        setMessages((prev) => [
-          ...prev,
-          { role: "ai", text: "Vastuse genereerimine peatati." },
-        ]);
+        setMessages((prev) => [...prev, { role: "ai", text: "Vastuse genereerimine peatati." }]);
       } else {
         const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
         setMessages((prev) => [
@@ -170,32 +194,38 @@ export default function ChatBody() {
             return (
               <div key={i} className={`chat-msg ${variant}`}>
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
-                {msg.sources?.length ? (
+
+                {Array.isArray(msg.sources) && msg.sources.length > 0 ? (
                   <ul
                     className="chat-msg-sources"
                     aria-label="Allikad"
-                    style={{ marginTop: "0.5rem", paddingLeft: "1.1rem", fontSize: "0.8rem", opacity: 0.85 }}
+                    style={{
+                      marginTop: "0.5rem",
+                      paddingLeft: "1.1rem",
+                      fontSize: "0.8rem",
+                      opacity: 0.85,
+                    }}
                   >
-                    {msg.sources.map((src, idx) => {
-                      const label = src?.title || src?.url || src?.file || "Allikas";
-                      const key = src?.id || src?.url || `${label}-${idx}`;
-                      return (
-                        <li key={key}>
-                          {src?.url ? (
-                            <a
-                              href={src.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="chat-source-link"
-                            >
-                              {label}
-                            </a>
-                          ) : (
-                            <span>{label}</span>
-                          )}
-                        </li>
-                      );
-                    })}
+                    {msg.sources.map((src) => (
+                      <li key={src.key}>
+                        {src.url ? (
+                          <a
+                            href={src.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="chat-source-link"
+                          >
+                            {src.label}
+                            {src.page ? ` (lk ${src.page})` : ""}
+                          </a>
+                        ) : (
+                          <span>
+                            {src.label}
+                            {src.page ? ` (lk ${src.page})` : ""}
+                          </span>
+                        )}
+                      </li>
+                    ))}
                   </ul>
                 ) : null}
               </div>
@@ -296,7 +326,3 @@ export default function ChatBody() {
     </div>
   );
 }
-
-
-
-
