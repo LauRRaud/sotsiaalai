@@ -79,39 +79,40 @@ function buildContextBlocks(matches) {
     .join("\n\n");
 }
 
+/**
+ * OpenAI Responses API kasutus – stabiilsem Next 15 all kui chat.completions.
+ */
 async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const client = getOpenAIClient();
 
   const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
-  const roleBehaviour =
-    ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
+  const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
 
-  const messages = [];
-  const systemPrompt = `Sa oled SotsiaalAI tehisassistendina toimiv abivahend. Vestluspartner on ${roleLabel}. ${roleBehaviour} Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt ja soovita sobivaid järgmisi samme.`;
-  messages.push({ role: "system", content: systemPrompt });
+  const systemPrompt =
+    `Sa oled SotsiaalAI tehisassistendina toimiv abivahend. ` +
+    `Vestluspartner on ${roleLabel}. ${roleBehaviour} ` +
+    `Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt ja ` +
+    `soovita sobivaid järgmisi samme.`;
 
-  if (context) {
-    messages.push({
-      role: "system",
-      content: `Kontekst vastamiseks:\n\n${context}`,
-    });
-  }
+  const input = [
+    { role: "system", content: systemPrompt },
+    ...(context ? [{ role: "system", content: `Kontekst vastamiseks:\n\n${context}` }] : []),
+    ...(Array.isArray(history) ? history : []),
+    { role: "user", content: userMessage },
+  ];
 
-  if (history.length) messages.push(...history);
-  messages.push({ role: "user", content: userMessage });
-
-  const completion = await client.chat.completions.create({
+  const resp = await client.responses.create({
     model: DEFAULT_MODEL,
-    messages,
+    input,
     temperature: 0.3,
-    presence_penalty: 0,
-    frequency_penalty: 0,
   });
 
-  const choice = completion?.choices?.[0]?.message?.content?.trim();
-  return {
-    reply: choice || "Vabandust, ma ei saanud praegu vastust koostada.",
-  };
+  const text =
+    resp.output_text?.trim() ||
+    resp.output?.[0]?.content?.[0]?.text?.trim() ||
+    "Vabandust, ma ei saanud praegu vastust koostada.";
+
+  return { reply: text };
 }
 
 export async function POST(req) {
@@ -131,8 +132,7 @@ export async function POST(req) {
   // (2) loe sessioon v4 mustriga
   const session = await getServerSession(authConfig);
 
-  // (3) rolli normaliseerimine: kui sessioon on olemas, eelistame seda.
-  // ADMIN → käitu nagu SOCIAL_WORKER (sisuvastustes), kuid RAG filtreid ei piirata (või kasuta [SOCIAL_WORKER, BOTH]).
+  // (3) roll – sessioon eelistab payloadi, ADMIN käitub nagu SOCIAL_WORKER
   const payloadRole =
     typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
   const allowedRoles = new Set(["CLIENT", "SOCIAL_WORKER", "ADMIN"]);
@@ -144,18 +144,16 @@ export async function POST(req) {
     ? String(sessionRoleRaw).toUpperCase()
     : null;
 
-  const role = sessionRole || claimedRole; // sessiooni roll override’b payloadi
+  const role = sessionRole || claimedRole;
   const normalizedRole = role === "ADMIN" ? "SOCIAL_WORKER" : role;
 
-  // (4) RAG filtrid rolli järgi
-  // ADMIN: kui soovid full-katvust, jäta filter undefined;
-  // muidu kasuta [SOCIAL_WORKER, BOTH] / [CLIENT, BOTH]
+  // (4) RAG filtrid rolli järgi (ADMIN -> piiranguta)
   const audienceFilter =
     role === "ADMIN"
       ? undefined
       : { audience: { $in: [normalizedRole, "BOTH"] } };
 
-  // (5) otsi kontekst RAG-ist
+  // (5) Otsi kontekst RAG-ist
   const ragResponse = await searchRag({
     query: message,
     topK: 5,
@@ -176,14 +174,14 @@ export async function POST(req) {
       history,
       userMessage: message,
       context,
-      effectiveRole: normalizedRole, // ADMIN → SOCIAL_WORKER
+      effectiveRole: normalizedRole,
     });
   } catch (err) {
     const errMessage = err?.message || "OpenAI päring ebaõnnestus.";
     return makeError(errMessage, 502, { code: err?.name });
   }
 
-  // (7) tagasta vastus + allikad
+  // (7) Tagasta vastus + allikad
   const sources = matches.map((match) => ({
     id: match.id,
     title:
@@ -196,11 +194,10 @@ export async function POST(req) {
     page: match?.metadata?.page ?? match?.page ?? null,
   }));
 
-  // tagasta nii `reply` kui ka `answer` (UI toetab mõlemat)
   return NextResponse.json({
     ok: true,
     reply: aiResult.reply,
-    answer: aiResult.reply,
+    answer: aiResult.reply, // UI backward-compat
     sources,
   });
 }
