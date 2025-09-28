@@ -2,11 +2,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import OpenAI from "openai";
 import { searchRag } from "@/lib/ragClient";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 const ROLE_LABELS = {
   CLIENT: "eluküsimusega pöörduja",
@@ -21,15 +22,18 @@ const ROLE_BEHAVIOUR = {
     "Vasta professionaalselt, lisa asjakohased viited ja rõhuta, et tegu on toetusinfoga (mitte lõpliku õigusnõuga).",
 };
 
+// Kui ENV-is pole mudelit, kasutame vaikimisi turvalist mini varianti
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 
-let openaiClient = null;
-function getOpenAIClient() {
-  if (openaiClient) return openaiClient;
+let _openaiClient = null;
+async function getOpenAIClient() {
+  if (_openaiClient) return _openaiClient;
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-  openaiClient = new OpenAI({ apiKey });
-  return openaiClient;
+  // Dünaamiline import väldib ESM/CJS kokkupõrkeid buildi ajal
+  const OpenAI = (await import("openai")).default;
+  _openaiClient = new OpenAI({ apiKey });
+  return _openaiClient;
 }
 
 function makeError(message, status = 400, extras = {}) {
@@ -80,10 +84,10 @@ function buildContextBlocks(matches) {
 }
 
 /**
- * OpenAI Responses API kasutus – stabiilsem Next 15 all kui chat.completions.
+ * Proovi esmalt Responses API; kui puudub, kasuta chat.completions.
  */
 async function callOpenAI({ history, userMessage, context, effectiveRole }) {
-  const client = getOpenAIClient();
+  const client = await getOpenAIClient();
 
   const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
   const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
@@ -94,29 +98,43 @@ async function callOpenAI({ history, userMessage, context, effectiveRole }) {
     `Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt ja ` +
     `soovita sobivaid järgmisi samme.`;
 
-  const input = [
+  const messages = [
     { role: "system", content: systemPrompt },
     ...(context ? [{ role: "system", content: `Kontekst vastamiseks:\n\n${context}` }] : []),
     ...(Array.isArray(history) ? history : []),
     { role: "user", content: userMessage },
   ];
 
-  const resp = await client.responses.create({
+  // 1) Responses API (kui saadaval selles SDK versioonis)
+  if (client.responses && typeof client.responses.create === "function") {
+    const resp = await client.responses.create({
+      model: DEFAULT_MODEL,
+      input: messages, // Responses API aktsepteerib rollipõhiseid sisendeid
+      temperature: 0.3,
+    });
+    const text =
+      resp.output_text?.trim() ||
+      resp.output?.[0]?.content?.[0]?.text?.trim() ||
+      "Vabandust, ma ei saanud praegu vastust koostada.";
+    return { reply: text };
+  }
+
+  // 2) Tagavara: Chat Completions API
+  const comp = await client.chat.completions.create({
     model: DEFAULT_MODEL,
-    input,
+    messages,
     temperature: 0.3,
+    presence_penalty: 0,
+    frequency_penalty: 0,
   });
-
   const text =
-    resp.output_text?.trim() ||
-    resp.output?.[0]?.content?.[0]?.text?.trim() ||
+    comp?.choices?.[0]?.message?.content?.trim() ||
     "Vabandust, ma ei saanud praegu vastust koostada.";
-
   return { reply: text };
 }
 
 export async function POST(req) {
-  // (1) loe payload
+  // (1) payload
   let payload;
   try {
     payload = await req.json();
@@ -129,10 +147,10 @@ export async function POST(req) {
   const historyInput = Array.isArray(payload?.history) ? payload.history : [];
   const history = toOpenAiMessages(historyInput);
 
-  // (2) loe sessioon v4 mustriga
+  // (2) sessioon
   const session = await getServerSession(authConfig);
 
-  // (3) roll – sessioon eelistab payloadi, ADMIN käitub nagu SOCIAL_WORKER
+  // (3) roll – sessioon > payload; ADMIN käitub nagu SOCIAL_WORKER
   const payloadRole =
     typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
   const allowedRoles = new Set(["CLIENT", "SOCIAL_WORKER", "ADMIN"]);
@@ -147,13 +165,13 @@ export async function POST(req) {
   const role = sessionRole || claimedRole;
   const normalizedRole = role === "ADMIN" ? "SOCIAL_WORKER" : role;
 
-  // (4) RAG filtrid rolli järgi (ADMIN -> piiranguta)
+  // (4) RAG filtrid
   const audienceFilter =
     role === "ADMIN"
       ? undefined
       : { audience: { $in: [normalizedRole, "BOTH"] } };
 
-  // (5) Otsi kontekst RAG-ist
+  // (5) RAG otsing
   const ragResponse = await searchRag({
     query: message,
     topK: 5,
@@ -181,7 +199,7 @@ export async function POST(req) {
     return makeError(errMessage, 502, { code: err?.name });
   }
 
-  // (7) Tagasta vastus + allikad
+  // (7) allikad
   const sources = matches.map((match) => ({
     id: match.id,
     title:
@@ -197,7 +215,7 @@ export async function POST(req) {
   return NextResponse.json({
     ok: true,
     reply: aiResult.reply,
-    answer: aiResult.reply, // UI backward-compat
+    answer: aiResult.reply,
     sources,
   });
 }
