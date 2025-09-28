@@ -1,9 +1,13 @@
 // auth.js — NextAuth v4 konfiguratsioon (JS)
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProviderImport from "next-auth/providers/google";
+import CredentialsProviderImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./lib/prisma.js";
 import { compare } from "bcrypt";
+
+const GoogleProvider = GoogleProviderImport?.default ?? GoogleProviderImport;
+const CredentialsProvider =
+  CredentialsProviderImport?.default ?? CredentialsProviderImport;
 
 /** -------- eID stubid (asenda hiljem päris SK integratsiooniga) -------- */
 async function verifySmartId(personalCode) {
