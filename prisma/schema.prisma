@@ -1,5 +1,4 @@
-﻿// prisma/schema.prisma
-generator client {
+﻿generator client {
   provider = "prisma-client-js"
 }
 
@@ -50,7 +49,7 @@ model User {
   profile       Profile?
   subscriptions Subscription[]
   payments      Payment[]
-  ragDocuments RagDocument[]
+   ragDocuments RagDocument[]
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -192,6 +191,7 @@ model RagDocument {
   @@index([type])
   @@index([createdAt])
 }
+
 
 
 
