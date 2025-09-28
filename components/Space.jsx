@@ -36,7 +36,7 @@ export default function Space({
   };
 
   // Mobiil: ÜLEVAL SAMA mis desktopi top (#070b16), ALL tumedam hall
-  const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: "#2b2e33" };
+  const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: "#3c3c3cff" };
 
   const isMobile = useIsMobile(); // ≤768px
   const hasFullCustom = !!(palette && palette.baseTop && palette.baseBottom);

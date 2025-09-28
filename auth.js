@@ -1,8 +1,8 @@
-// auth.js (NextAuth v5 / JS)
+﻿// auth.js (NextAuth v5 / JS)
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./lib/prisma.js";
 import { compare } from "bcrypt";
 
@@ -29,7 +29,7 @@ async function getOrCreateUserByAccount(provider, providerAccountId) {
   return user;
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authConfig = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: {
@@ -94,16 +94,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
+      } else if (token?.id) {
+        if (!token.role) {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id },
+            select: { role: true },
+          });
+          token.role = dbUser?.role || "CLIENT";
+        }
       }
+      if (!token.role) token.role = "CLIENT";
       return token;
     },
     async session({ session, token }) {
       if (token?.id) {
         session.userId = token.id;
         if (!session.user) session.user = {};
-        session.user.role = token.role;
+        session.user.role = token.role || "CLIENT";
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      if (!url) return `${baseUrl}/start`;
+      if (url.startsWith(baseUrl)) return url;
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      return `${baseUrl}/start`;
+    },
   },
-});
+};
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+
+

@@ -1,57 +1,70 @@
-"use client";
-import Link from "next/link";
+﻿import Link from "next/link";
 
-export default function MeistBody() {
+export default function MeistBody({ isAdmin = false }) {
   return (
-    <>
-      <div className="main-content glass-box glass-left" role="main" aria-labelledby="meist-title" lang="et">
-        <h1 id="meist-title" className="glass-title">Meist</h1>
+    <div className="main-content glass-box glass-left" role="main" aria-labelledby="meist-title" lang="et">
+      <h1 id="meist-title" className="glass-title">Meist</h1>
 
-        <section className="glass-section">
-          <p>
-            <strong>SotsiaalAI</strong> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
-          </p>
-          <p>
-            Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
-          </p>
-          <p>
-            Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
-            <a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" className="meist-external-link" target="_blank" rel="noopener noreferrer">
-              OSKA raport (2025)
-            </a>
-            . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
-          </p>
-          <p>
-            Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mille eesmärk ei ole kasumi maksimeerimine, vaid ühiskondliku probleemi lahendamine ja positiivse mõju loomine. Sotsiaalne ettevõtlus ühendab äritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse.
-          </p>
-          <p>Teenus täiustub pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kõigile.
-          </p>
-        </section>
+      <section className="glass-section">
+        <p>
+          <strong>SotsiaalAI</strong> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
+        </p>
+        <p>
+          Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
+        </p>
+        <p>
+          Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
+          <a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" className="meist-external-link" target="_blank" rel="noopener noreferrer">
+            OSKA raport (2025)
+          </a>
+          . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
+        </p>
+        <p>
+          Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mille eesmärk ei ole kasumi maksimeerimine, vaid ühiskondliku probleemi lahendamine ja positiivse mõju loomine. Sotsiaalne ettevõtlus ühendab äritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse.
+        </p>
+        <p>
+          Teenus täiustub pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kõigile.
+        </p>
+      </section>
 
-        <section className="glass-section">
-          <h2 className="glass-h2">Kontakt</h2>
-          <p className="epost-row">
-            <b>E-post:</b>{" "}
-            <a href="mailto:info@sotsiaal.ai" className="link-brand">info@sotsiaal.ai</a>
-          </p>
-        </section>
+      <section className="glass-section">
+        <h2 className="glass-h2">Kontakt</h2>
+        <p className="epost-row">
+          <b>E-post:</b>{" "}
+          <a href="mailto:info@sotsiaal.ai" className="link-brand">info@sotsiaal.ai</a>
+        </p>
+      </section>
 
-        <section className="glass-section">
-          <p><strong>Enne lehe kasutamist tutvu kindlasti:</strong></p>
-          <ul className="glass-list">
-            <li><Link href="/privaatsustingimused" className="link-brand">Privaatsuspoliitika</Link></li>
-            <li><Link href="/kasutustingimused" className="link-brand">Kasutustingimused</Link></li>
-          </ul>
-        </section>
+      <section className="glass-section">
+        <p><strong>Enne lehe kasutamist tutvu kindlasti:</strong></p>
+        <ul className="glass-list">
+          <li>
+            <Link href="/privaatsustingimused" className="link-brand">
+              Privaatsuspoliitika
+            </Link>
+          </li>
+          <li>
+            <Link href="/kasutustingimused" className="link-brand">
+              Kasutustingimused
+            </Link>
+          </li>
+          {isAdmin ? (
+            <li>
+              <Link href="/admin/rag" className="link-brand">
+                RAG andmebaasi haldus
+              </Link>
+            </li>
+          ) : null}
+        </ul>
+      </section>
 
-        <div className="back-btn-wrapper">
-          <Link href="/" className="back-arrow-btn" aria-label="Tagasi avalehele">
-            <span className="back-arrow-circle"></span>
-          </Link>
-        </div>
-
-        <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+      <div className="back-btn-wrapper">
+        <Link href="/" className="back-arrow-btn" aria-label="Tagasi avalehele">
+          <span className="back-arrow-circle" />
+        </Link>
       </div>
-    </>
+
+      <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+    </div>
   );
 }
