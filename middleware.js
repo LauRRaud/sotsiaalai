@@ -38,12 +38,18 @@ export async function middleware(req) {
   }
 
   // Vestluse jaoks nõua aktiivset tellimust
-  if (pathname.startsWith("/vestlus") && token.subActive !== true) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/tellimus";
-    url.searchParams.set("reason", "no-sub");
-    url.searchParams.set("callbackUrl", pathname + search);
-    return NextResponse.redirect(url);
+  if (pathname.startsWith("/vestlus")) {
+    if (token.role === "ADMIN" || token.isAdmin === true) {
+      return NextResponse.next();
+    }
+
+    if (token.subActive !== true) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/tellimus";
+      url.searchParams.set("reason", "no-sub");
+      url.searchParams.set("callbackUrl", pathname + search);
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();

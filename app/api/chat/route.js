@@ -19,7 +19,7 @@ const ROLE_BEHAVIOUR = {
     "Vasta professionaalselt, lisa asjakohased viited ja rõhuta, et tegu on toetusinfoga (mitte lõpliku õigusnõuga).",
 };
 
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini"; // pane siia päris mudel, mis sul on
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini"; // pane siia päris mudel, mis sul on
 
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
