@@ -8,7 +8,7 @@ export const metadata = {
   description:
     "SotsiaalAI on tehisintellekti toel töötav platvorm sotsiaalvaldkonna spetsialistidele ja abiotsijatele.",
 };
-
+export const dynamic = "force-dynamic";
 export default async function MeistPage() {
   const session = await getServerSession(authConfig);
   const isAdmin =

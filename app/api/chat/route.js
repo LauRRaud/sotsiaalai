@@ -165,7 +165,8 @@ export async function POST(req) {
   });
   if (!ragResponse?.ok) {
     const ragMessage = ragResponse?.message || "RAG teenus ei vastanud.";
-    return makeError(ragMessage, ragResponse?.status || 502);
+    const status = ragResponse?.auth ? 502 : ragResponse?.status || 502;
+    return makeError(ragMessage, status);
   }
 
   const matches = ragResponse?.data?.matches || [];

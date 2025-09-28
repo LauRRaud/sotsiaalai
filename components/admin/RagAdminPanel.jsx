@@ -85,7 +85,15 @@ export default function RagAdminPanel() {
     setLoadingList(true);
     try {
       const res = await fetch("/api/rag/documents?limit=50", { cache: "no-store" });
-      const data = await res.json();
+      const raw = await res.text();
+      let data = null;
+      if (raw) {
+        try {
+          data = JSON.parse(raw);
+        } catch (_) {
+          throw new Error("Server tagastas tundmatu vastuse.");
+        }
+      }
       if (!res.ok) {
         throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
       }
