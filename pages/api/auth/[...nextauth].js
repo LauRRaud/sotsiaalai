@@ -1,5 +1,5 @@
-// pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
-import { authConfig } from "@/auth";
+import { authConfig } from "@/auth"; // sinu juurkausta auth.js
 
-export default NextAuth(authConfig);
+export const authOptions = authConfig;   // nii saavad vanad importid töötada
+export default NextAuth(authOptions);
