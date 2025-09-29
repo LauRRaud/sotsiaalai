@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma.js";
+import { prisma } from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { SubscriptionStatus } from "@prisma/client";
 

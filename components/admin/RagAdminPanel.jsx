@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+/* ---------- Konstandid & sildid ---------- */
+
 const STATUS_LABELS = {
   PENDING: "Ootel",
   PROCESSING: "Töötlemisel",
@@ -16,10 +18,7 @@ const STATUS_STYLES = {
   FAILED: { backgroundColor: "rgba(231, 76, 60, 0.16)", color: "#ff8a8a" },
 };
 
-const TYPE_LABELS = {
-  FILE: "Fail",
-  URL: "URL",
-};
+const TYPE_LABELS = { FILE: "Fail", URL: "URL" };
 
 const AUDIENCE_OPTIONS = [
   { value: "SOCIAL_WORKER", label: "Sotsiaaltöö spetsialist" },
@@ -33,27 +32,56 @@ const AUDIENCE_LABELS = {
   BOTH: "Mõlemad",
 };
 
-const MAX_UPLOAD_HINT_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
+/* ---------- Avalikud .env sätted (brauseris loetavad) ---------- */
+
+const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
+const RAW_ALLOWED_MIME = String(
+  process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
+    "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+);
+
+// puhastame ja teeme komplekti kiireks võrdlemiseks
+const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const ALLOWED_MIME_SET = new Set(ALLOWED_MIME_LIST);
+
+// püüame tuletada `accept` atribuudi (lisame ka levinud laiendid)
+const ACCEPT_ATTR = [
+  ...new Set(
+    ALLOWED_MIME_LIST.flatMap((m) => {
+      if (m === "application/pdf") return [m, ".pdf"];
+      if (m === "text/plain") return [m, ".txt"];
+      if (m === "text/markdown") return [m, ".md", ".markdown"];
+      if (m === "text/html") return [m, ".html", ".htm"];
+      if (m === "application/msword") return [m, ".doc"];
+      if (m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        return [m, ".docx"];
+      return [m];
+    })
+  ),
+].join(",");
+
+/* ---------- Abifunktsioonid ---------- */
 
 function formatBytes(bytes) {
   if (bytes === 0) return "0 B";
   if (!bytes || Number.isNaN(bytes)) return "-";
   const units = ["B", "KB", "MB", "GB", "TB"];
-  const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  const value = bytes / Math.pow(1024, index);
-  return `${value.toFixed(value >= 10 || index === 0 ? 0 : 1)} ${units[index]}`;
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const val = bytes / Math.pow(1024, i);
+  return `${val.toFixed(val >= 10 || i === 0 ? 0 : 1)} ${units[i]}`;
 }
 
 function formatDateTime(value) {
   if (!value) return "-";
   try {
-    return new Intl.DateTimeFormat("et-EE", {
-      dateStyle: "short",
-      timeStyle: "short",
-    }).format(new Date(value));
-  } catch (_) {
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? "-" : date.toLocaleString();
+    return new Intl.DateTimeFormat("et-EE", { dateStyle: "short", timeStyle: "short" }).format(
+      new Date(value)
+    );
+  } catch {
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? "-" : d.toLocaleString();
   }
 }
 
@@ -61,83 +89,130 @@ function statusBadgeStyle(status) {
   return STATUS_STYLES[status] || { backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff" };
 }
 
+/* ---------- Komponent ---------- */
+
 export default function RagAdminPanel() {
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
+
+  // fail
   const [fileBusy, setFileBusy] = useState(false);
-  const [fileInfo, setFileInfo] = useState({ name: "", size: 0 });
+  const [fileInfo, setFileInfo] = useState({ name: "", size: 0, type: "" });
   const [fileAudience, setFileAudience] = useState("BOTH");
+
+  // url
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlAudience, setUrlAudience] = useState("BOTH");
+
+  // tegevused
   const [reindexingId, setReindexingId] = useState(null);
 
   const fileFormRef = useRef(null);
   const fileInputRef = useRef(null);
   const urlFormRef = useRef(null);
 
+  /* ----- utils ----- */
+
+  const resetMessage = useCallback(() => setMessage(null), []);
+
   const getAudienceLabel = useCallback(
     (value) => AUDIENCE_LABELS[value] || (value ? value : "-"),
     []
   );
+
+  const showError = useCallback((text) => setMessage({ type: "error", text }), []);
+  const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
+
+  /* ----- laadimine + automaatne värskendus ----- */
 
   const fetchDocuments = useCallback(async () => {
     setLoadingList(true);
     try {
       const res = await fetch("/api/rag/documents?limit=50", { cache: "no-store" });
       const raw = await res.text();
-      let data = null;
-      if (raw) {
-        try {
-          data = JSON.parse(raw);
-        } catch (_) {
-          throw new Error("Server tagastas tundmatu vastuse.");
-        }
-      }
+      const data = raw ? JSON.parse(raw) : null;
+
       if (!res.ok) {
         throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
       }
-      setDocs(Array.isArray(data.docs) ? data.docs : []);
+      setDocs(Array.isArray(data?.docs) ? data.docs : []);
     } catch (err) {
-      setMessage({ type: "error", text: err?.message || "Dokumentide laadimine ebaõnnestus." });
+      showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
     } finally {
       setLoadingList(false);
     }
-  }, []);
+  }, [showError]);
 
   useEffect(() => {
     fetchDocuments();
   }, [fetchDocuments]);
 
-  const resetMessage = useCallback(() => setMessage(null), []);
+  // Kui on PENDING/PROCESSING, värskenda iga 5 sek
+  useEffect(() => {
+    const hasWork = docs.some((d) => d.status === "PENDING" || d.status === "PROCESSING");
+    if (!hasWork) return;
+    const t = setInterval(fetchDocuments, 5000);
+    return () => clearInterval(t);
+  }, [docs, fetchDocuments]);
+
+  /* ----- faililaadimine ----- */
 
   const onFileChange = useCallback(
     (event) => {
       resetMessage();
       const file = event.target.files && event.target.files[0];
       if (!file) {
-        setFileInfo({ name: "", size: 0 });
+        setFileInfo({ name: "", size: 0, type: "" });
         return;
       }
-      setFileInfo({ name: file.name, size: file.size });
+      setFileInfo({ name: file.name, size: file.size, type: file.type });
+      // Kui tiitel on tühi, eeltäida failinimega
+      const form = fileFormRef.current;
+      if (form && !form.title?.value) {
+        form.title.value = file.name.replace(/\.[^.]+$/, "");
+      }
     },
     [resetMessage]
   );
+
+  function validateFileBeforeUpload(file) {
+    const maxBytes = MAX_UPLOAD_MB * 1024 * 1024;
+    if (file.size > maxBytes) {
+      throw new Error(
+        `Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`
+      );
+    }
+    // Kui brauser ei anna MIME’i, püüame laiendi järgi lubada (leebem)
+    if (file.type && !ALLOWED_MIME_SET.has(file.type)) {
+      // lubame edasi, kui kasutaja valis sobiva laiendi ja accept juba filtreeris
+      // kui tahad rangemalt: throw new Error("See failitüüp pole lubatud.");
+    }
+  }
 
   const handleFileSubmit = useCallback(
     async (event) => {
       event.preventDefault();
       resetMessage();
+
       const fileInput = fileInputRef.current;
       const file = fileInput?.files?.[0];
       if (!file) {
-        setMessage({ type: "error", text: "Vali fail enne saatmist." });
+        showError("Vali fail enne saatmist.");
+        return;
+      }
+
+      try {
+        validateFileBeforeUpload(file);
+      } catch (err) {
+        showError(err.message);
         return;
       }
 
       const form = event.currentTarget;
       const formData = new FormData();
       formData.append("file", file);
+
       const title = form.title?.value?.trim();
       const description = form.description?.value?.trim();
       if (title) formData.append("title", title);
@@ -146,27 +221,31 @@ export default function RagAdminPanel() {
 
       setFileBusy(true);
       try {
-        const res = await fetch("/api/rag/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
+        const res = await fetch("/api/rag/upload", { method: "POST", body: formData });
+        const data = await res.json().catch(() => ({}));
+
         if (!res.ok) {
+          // erista levinud vead
+          if (res.status === 413) throw new Error("Fail on liiga suur serveri jaoks (413).");
+          if (res.status === 415) throw new Error("Faili tüüp pole lubatud (415).");
           throw new Error(data?.message || "Faili laadimine ebaõnnestus.");
         }
-        setMessage({ type: "success", text: "Fail saadeti RAG andmebaasi." });
-        setFileInfo({ name: "", size: 0 });
+
+        showOk("Fail saadeti RAG andmebaasi.");
+        setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
         form.reset();
         await fetchDocuments();
       } catch (err) {
-        setMessage({ type: "error", text: err?.message || "Faili laadimine ebaõnnestus." });
+        showError(err?.message || "Faili laadimine ebaõnnestus.");
       } finally {
         setFileBusy(false);
       }
     },
-    [fetchDocuments, resetMessage, fileAudience]
+    [fetchDocuments, fileAudience, resetMessage, showError, showOk]
   );
+
+  /* ----- URL lisamine ----- */
 
   const handleUrlSubmit = useCallback(
     async (event) => {
@@ -175,7 +254,7 @@ export default function RagAdminPanel() {
       const form = event.currentTarget;
       const urlValue = form.url?.value?.trim();
       if (!urlValue) {
-        setMessage({ type: "error", text: "Sisesta URL." });
+        showError("Sisesta URL.");
         return;
       }
 
@@ -192,22 +271,26 @@ export default function RagAdminPanel() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
+
         if (!res.ok) {
           throw new Error(data?.message || "URL lisamine ebaõnnestus.");
         }
-        setMessage({ type: "success", text: "URL saadeti RAG andmebaasi." });
+
+        showOk("URL saadeti RAG andmebaasi.");
         setUrlAudience("BOTH");
         form.reset();
         await fetchDocuments();
       } catch (err) {
-        setMessage({ type: "error", text: err?.message || "URL lisamine ebaõnnestus." });
+        showError(err?.message || "URL lisamine ebaõnnestus.");
       } finally {
         setUrlBusy(false);
       }
     },
-    [fetchDocuments, resetMessage, urlAudience]
+    [fetchDocuments, resetMessage, urlAudience, showError, showOk]
   );
+
+  /* ----- Taasingestus ----- */
 
   const handleReindex = useCallback(
     async (docId) => {
@@ -215,20 +298,20 @@ export default function RagAdminPanel() {
       setReindexingId(docId);
       try {
         const res = await fetch(`/api/rag/documents/${docId}/reindex`, { method: "POST" });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         if (!res.ok) {
           throw new Error(data?.message || "Taasingestus ebaõnnestus.");
         }
-        setMessage({ type: "success", text: "Taasingestus algatatud." });
+        showOk("Taasingestus algatatud.");
         setDocs((prev) => prev.map((doc) => (doc.id === docId ? { ...doc, ...data.doc } : doc)));
         await fetchDocuments();
       } catch (err) {
-        setMessage({ type: "error", text: err?.message || "Taasingestus ebaõnnestus." });
+        showError(err?.message || "Taasingestus ebaõnnestus.");
       } finally {
         setReindexingId(null);
       }
     },
-    [fetchDocuments, resetMessage]
+    [fetchDocuments, resetMessage, showError, showOk]
   );
 
   const manualRefresh = useCallback(() => {
@@ -238,8 +321,10 @@ export default function RagAdminPanel() {
 
   const fileHint = useMemo(() => {
     if (!fileInfo.name) return "Valitud faili ei ole.";
-    return `${fileInfo.name} (${formatBytes(fileInfo.size)})`;
+    return `${fileInfo.name} (${formatBytes(fileInfo.size)}${fileInfo.type ? `, ${fileInfo.type}` : ""})`;
   }, [fileInfo]);
+
+  /* ---------- UI ---------- */
 
   return (
     <section
@@ -253,7 +338,12 @@ export default function RagAdminPanel() {
           RAG andmebaasi haldus
         </h2>
         <p style={{ maxWidth: "720px", fontSize: "0.95rem", opacity: 0.85 }}>
-          Lae turvaliselt materjale RAG indeksisse või lisa veebilehti, et assistent saaks neid allikana kasutada.
+          Lae turvaliselt materjale RAG indeksisse või lisa veebilehti, et assistent saaks neid
+          allikana kasutada.
+        </p>
+        <p style={{ fontSize: "0.85rem", opacity: 0.65, marginTop: "0.35rem" }}>
+          Maksimaalne faili suurus: <strong>{MAX_UPLOAD_MB} MB</strong> • Lubatud tüübid:{" "}
+          <span title={RAW_ALLOWED_MIME}>{ALLOWED_MIME_LIST.join(", ")}</span>
         </p>
       </div>
 
@@ -264,8 +354,12 @@ export default function RagAdminPanel() {
             padding: "0.85rem 1rem",
             borderRadius: "10px",
             fontSize: "0.9rem",
-            border: message.type === "error" ? "1px solid rgba(231,76,60,0.4)" : "1px solid rgba(46,204,113,0.3)",
-            backgroundColor: message.type === "error" ? "rgba(231,76,60,0.12)" : "rgba(46,204,113,0.12)",
+            border:
+              message.type === "error"
+                ? "1px solid rgba(231,76,60,0.4)"
+                : "1px solid rgba(46,204,113,0.3)",
+            backgroundColor:
+              message.type === "error" ? "rgba(231,76,60,0.12)" : "rgba(46,204,113,0.12)",
             color: message.type === "error" ? "#ff9c9c" : "#7be2a4",
           }}
         >
@@ -280,6 +374,7 @@ export default function RagAdminPanel() {
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
         }}
       >
+        {/* --- Faili vorm --- */}
         <form
           ref={fileFormRef}
           onSubmit={handleFileSubmit}
@@ -295,22 +390,16 @@ export default function RagAdminPanel() {
           <div>
             <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa fail</h3>
             <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-              PDF, TXT või DOCX failid (kuni {Math.round(MAX_UPLOAD_HINT_MB * 10) / 10} MB).
+              Lubatud: {ALLOWED_MIME_LIST.join(", ")} (kuni {MAX_UPLOAD_MB} MB).
             </p>
           </div>
 
-          <label
-            style={{
-              display: "grid",
-              gap: "0.5rem",
-              fontSize: "0.88rem",
-            }}
-          >
+          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Pealkiri</span>
             <input
               name="title"
               type="text"
-              placeholder="Valikuline"
+              placeholder="Valikuline (täidetakse vaikimisi failinimega)"
               style={{
                 padding: "0.55rem 0.65rem",
                 borderRadius: "10px",
@@ -361,12 +450,12 @@ export default function RagAdminPanel() {
           </label>
 
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>Fail</span>
+            <span>Fail *</span>
             <input
               ref={fileInputRef}
               name="file"
               type="file"
-              accept=".pdf,.txt,.doc,.docx,.md,.html,.htm"
+              accept={ACCEPT_ATTR}
               onChange={onFileChange}
               style={{
                 padding: "0.5rem",
@@ -387,7 +476,9 @@ export default function RagAdminPanel() {
               padding: "0.6rem 0.9rem",
               borderRadius: "999px",
               border: "none",
-              background: fileBusy ? "rgba(255,255,255,0.08)" : "linear-gradient(135deg, #7757ff, #9b6dff)",
+              background: fileBusy
+                ? "rgba(255,255,255,0.08)"
+                : "linear-gradient(135deg, #7757ff, #9b6dff)",
               color: "#fefeff",
               fontWeight: 600,
               cursor: fileBusy ? "wait" : "pointer",
@@ -399,6 +490,7 @@ export default function RagAdminPanel() {
           </button>
         </form>
 
+        {/* --- URL-i vorm --- */}
         <form
           ref={urlFormRef}
           onSubmit={handleUrlSubmit}
@@ -497,7 +589,9 @@ export default function RagAdminPanel() {
               padding: "0.6rem 0.9rem",
               borderRadius: "999px",
               border: "none",
-              background: urlBusy ? "rgba(255,255,255,0.08)" : "linear-gradient(135deg, #ff6b8a, #ff8ba6)",
+              background: urlBusy
+                ? "rgba(255,255,255,0.08)"
+                : "linear-gradient(135deg, #ff6b8a, #ff8ba6)",
               color: "#fefeff",
               fontWeight: 600,
               cursor: urlBusy ? "wait" : "pointer",
@@ -510,6 +604,7 @@ export default function RagAdminPanel() {
         </form>
       </div>
 
+      {/* --- loetelu --- */}
       <div style={{ display: "grid", gap: "0.75rem" }}>
         <div
           style={{
@@ -561,7 +656,14 @@ export default function RagAdminPanel() {
                     gap: "0.75rem",
                   }}
                 >
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "space-between" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.75rem",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <div style={{ minWidth: 0 }}>
                       <strong style={{ display: "block", fontSize: "1rem", wordBreak: "break-word" }}>
                         {doc.title || doc.fileName || doc.sourceUrl || "Materjal"}
@@ -574,7 +676,12 @@ export default function RagAdminPanel() {
                           href={doc.sourceUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ fontSize: "0.85rem", opacity: 0.75, color: "#9ed0ff", wordBreak: "break-all" }}
+                          style={{
+                            fontSize: "0.85rem",
+                            opacity: 0.75,
+                            color: "#9ed0ff",
+                            wordBreak: "break-all",
+                          }}
                         >
                           {doc.sourceUrl}
                         </a>
@@ -604,37 +711,57 @@ export default function RagAdminPanel() {
                     }}
                   >
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Tüüp</dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>{TYPE_LABELS[doc.type] || doc.type}</dd>
+                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        Tüüp
+                      </dt>
+                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
+                        {TYPE_LABELS[doc.type] || doc.type}
+                      </dd>
                     </div>
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Sihtgrupp</dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>{getAudienceLabel(docAudience || "BOTH")}</dd>
+                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        Sihtgrupp
+                      </dt>
+                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
+                        {getAudienceLabel(docAudience || "BOTH")}
+                      </dd>
                     </div>
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Lisatud</dt>
+                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        Lisatud
+                      </dt>
                       <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatDateTime(doc.createdAt)}</dd>
                     </div>
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Uuendatud</dt>
+                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        Uuendatud
+                      </dt>
                       <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatDateTime(doc.updatedAt)}</dd>
                     </div>
                     {doc.fileSize ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Maht</dt>
+                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                          Maht
+                        </dt>
                         <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatBytes(doc.fileSize)}</dd>
                       </div>
                     ) : null}
                     {doc.admin?.email ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Lisaja</dt>
+                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                          Lisaja
+                        </dt>
                         <dd style={{ margin: 0, fontSize: "0.88rem" }}>{doc.admin.email}</dd>
                       </div>
                     ) : null}
                     {doc.remoteId ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>Remote ID</dt>
-                        <dd style={{ margin: 0, fontSize: "0.88rem", wordBreak: "break-all" }}>{doc.remoteId}</dd>
+                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                          Remote ID
+                        </dt>
+                        <dd style={{ margin: 0, fontSize: "0.88rem", wordBreak: "break-all" }}>
+                          {doc.remoteId}
+                        </dd>
                       </div>
                     ) : null}
                   </dl>
@@ -652,7 +779,8 @@ export default function RagAdminPanel() {
                         padding: "0.45rem 0.9rem",
                         borderRadius: "999px",
                         border: "1px solid rgba(255,255,255,0.18)",
-                        background: reindexingId === doc.id ? "rgba(255,255,255,0.08)" : "transparent",
+                        background:
+                          reindexingId === doc.id ? "rgba(255,255,255,0.08)" : "transparent",
                         color: "#f3f6ff",
                         fontSize: "0.82rem",
                         cursor: reindexingId === doc.id ? "wait" : "pointer",

@@ -1,5 +1,6 @@
 // app/api/chat/route.js
 import { NextResponse } from "next/server";
+import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,12 +20,13 @@ const ROLE_BEHAVIOUR = {
     "Vasta professionaalselt, lisa asjakohased viited ja rõhuta, et tegu on toetusinfoga (mitte lõpliku õigusnõuga).",
 };
 
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini"; // pane siia päris mudel, mis sul on
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
 
+/** UI-ajaloo -> OpenAI rollid (assistant/user) */
 function toOpenAiMessages(history) {
   if (!Array.isArray(history) || history.length === 0) return [];
   return history
@@ -36,6 +38,7 @@ function toOpenAiMessages(history) {
     }));
 }
 
+/** RAG vasted üheks kontekstiplokiks */
 function buildContextBlocks(matches) {
   if (!Array.isArray(matches) || matches.length === 0) return "";
   return matches
@@ -68,50 +71,65 @@ function buildContextBlocks(matches) {
     .join("\n\n");
 }
 
-async function callOpenAI({ history, userMessage, context, effectiveRole }) {
-  // 🔧 dünaamiline import – väldib bundleri “e is not a function” viga
-  const { default: OpenAI } = await import("openai");
+/** Koosta Responses API jaoks üks sisend-string (system + kontekst + ajalugu + kasutaja) */
+function toResponsesInput({ history, userMessage, context, effectiveRole }) {
+  const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
+  const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
 
+  const sys = `Sa oled SotsiaalAI tehisassistendina toimiv abivahend.
+Vestluspartner on ${roleLabel}. ${roleBehaviour}
+Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt ja soovita sobivaid järgmisi samme.`;
+
+  const lines = [];
+  if (context && context.trim()) {
+    lines.push(`KONTEKST:\n${context.trim()}\n`);
+  }
+  for (const m of Array.isArray(history) ? history : []) {
+    const r = m.role === "assistant" ? "AI" : "USER";
+    lines.push(`${r}: ${m.content}`);
+  }
+  lines.push(`USER: ${userMessage}`);
+
+  return `${sys}\n\n${lines.join("\n")}\nAI:`;
+}
+
+/** OpenAI Responses API kutse (sobib gpt-5-mini'le) */
+async function callOpenAI({ history, userMessage, context, effectiveRole }) {
+  const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
 
   const client = new OpenAI({ apiKey });
+  const input = toResponsesInput({ history, userMessage, context, effectiveRole });
 
-  const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
-  const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
-
-  const systemPrompt =
-    `Sa oled SotsiaalAI tehisassistendina toimiv abivahend. ` +
-    `Vestluspartner on ${roleLabel}. ${roleBehaviour} ` +
-    `Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt ` +
-    `ja soovita sobivaid järgmisi samme.`;
-
-  const messages = [
-    { role: "system", content: systemPrompt },
-    ...(context ? [{ role: "system", content: `Kontekst vastamiseks:\n\n${context}` }] : []),
-    ...(Array.isArray(history) ? history : []),
-    { role: "user", content: userMessage },
-  ];
-
-  const completion = await client.chat.completions.create({
+  const resp = await client.responses.create({
     model: DEFAULT_MODEL,
-    messages,
+    input,
     temperature: 0.3,
-    presence_penalty: 0,
-    frequency_penalty: 0,
   });
 
   const reply =
-    completion?.choices?.[0]?.message?.content?.trim() ||
+    (resp.output_text && resp.output_text.trim()) ||
     "Vabandust, ma ei saanud praegu vastust koostada.";
+
   return { reply };
 }
 
 export async function POST(req) {
-  // 🔧 dünaamilised importid – next-auth ja authOptions
+  // Auth ja RAG dünaamiliselt (väldib bundleri jamasid)
   const { getServerSession } = await import("next-auth/next");
-  const { authOptions } = await import("@/pages/api/auth/[...nextauth]");
-  // 🔧 rag-kliendi dünaamiline import
+  let authOptions;
+  try {
+    ({ authOptions } = await import("@/pages/api/auth/[...nextauth]"));
+  } catch {
+    // kui kasutad App Routeri authi (auth.js)
+    try {
+      const mod = await import("@/auth");
+      authOptions = mod.authConfig || mod.authOptions || mod.default;
+    } catch {
+      authOptions = undefined;
+    }
+  }
   const { searchRag } = await import("@/lib/ragClient");
 
   // 1) payload
@@ -128,36 +146,40 @@ export async function POST(req) {
     Array.isArray(payload?.history) ? payload.history : []
   );
 
-  // 2) sessioon (v4)
+  // 2) sessioon (lubame ka anonüümselt, aga vestluseks nõuame login'i)
   let session = null;
   try {
     session = await getServerSession(authOptions);
   } catch {
-    // lubame anonüümselt jätkata
+    // jätkame; requireSubscription käsitleb vajadusel 401
   }
 
-  // 3) roll – sessioon > payload; ADMIN käitub nagu SOCIAL_WORKER
+  // 3) roll: sessioonist tuletatud roll > payload.role; ADMIN normaliseeritakse SOCIAL_WORKER-iks
+  const sessionRole = roleFromSession(session); // ADMIN / SOCIAL_WORKER / CLIENT
   const payloadRole =
     typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
-  const allowedRoles = new Set(["CLIENT", "SOCIAL_WORKER", "ADMIN"]);
-  const claimedRole = allowedRoles.has(payloadRole) ? payloadRole : "CLIENT";
+  const pickedRole = sessionRole || payloadRole || "CLIENT";
+  const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
 
-  const sessionRoleRaw =
-    session?.user?.role || (session?.user?.isAdmin ? "ADMIN" : null);
-  const sessionRole = sessionRoleRaw
-    ? String(sessionRoleRaw).toUpperCase()
-    : null;
+  // 4) nõua tellimust (ADMIN erand)
+  const gate = await requireSubscription(session, normalizedRole);
+  if (!gate.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: gate.message,
+        requireSubscription: gate.requireSubscription,
+        redirect: gate.redirect,
+      },
+      { status: gate.status }
+    );
+  }
 
-  const role = sessionRole || claimedRole;
-  const normalizedRole = role === "ADMIN" ? "SOCIAL_WORKER" : role;
-
-  // 4) RAG filtrid
+  // 5) RAG filtrid: kliendile ainult CLIENT/BOTH; sots.töötaja/ADMIN näevad kõike
   const audienceFilter =
-    role === "ADMIN"
-      ? undefined
-      : { audience: { $in: [normalizedRole, "BOTH"] } };
+    normalizedRole === "CLIENT" ? { audience: { $in: ["CLIENT", "BOTH"] } } : undefined;
 
-  // 5) RAG otsing
+  // 6) RAG otsing
   const ragResponse = await searchRag({
     query: message,
     topK: 5,
@@ -168,11 +190,10 @@ export async function POST(req) {
     const status = ragResponse?.auth ? 502 : ragResponse?.status || 502;
     return makeError(ragMessage, status);
   }
-
   const matches = ragResponse?.data?.matches || [];
   const context = buildContextBlocks(matches);
 
-  // 6) OpenAI vastus
+  // 7) OpenAI vastus
   let aiResult;
   try {
     aiResult = await callOpenAI({
@@ -186,7 +207,7 @@ export async function POST(req) {
     return makeError(errMessage, 502, { code: err?.name });
   }
 
-  // 7) allikad
+  // 8) allikad vastusesse
   const sources = matches.map((m) => ({
     id: m.id,
     title: m?.metadata?.title || m?.metadata?.fileName || m?.metadata?.url,

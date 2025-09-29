@@ -1,8 +1,13 @@
-// app/admin/rag/page.jsx  (NextAuth v4)
+// app/admin/rag/page.jsx
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import RagAdminPanel from "@/components/admin/RagAdminPanel";
+
+// ⬇️ vali õige import vastavalt failinimele
+// import RagAdminPanel from "@/components/admin/RagAdminPanel";
+import RagAdminPanel from "@/components/admin/ragadminpanel";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "RAG andmebaasi haldus — SotsiaalAI",
@@ -11,8 +16,19 @@ export const metadata = {
 
 export default async function AdminRagPage() {
   const session = await getServerSession(authOptions);
-  if (!session || session.user?.role !== "ADMIN") {
-    redirect("/");
+
+  // Pole sisse logitud -> suuna loginile ja tagasi siia
+  if (!session) {
+    const params = new URLSearchParams({ callbackUrl: "/admin/rag" });
+    redirect(`/api/auth/signin?${params.toString()}`);
+  }
+
+  const isAdmin =
+    session.user?.isAdmin === true ||
+    String(session.user?.role || "").toUpperCase() === "ADMIN";
+
+  if (!isAdmin) {
+    redirect("/"); // sisse logitud, aga pole admin
   }
 
   return (
