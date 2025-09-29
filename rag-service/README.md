@@ -10,7 +10,7 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install --upgrade pip
 pip install -r requirements.txt
-uvicorn main:app --host 0.0.0.0 --port 8080
+uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
 ## Environment variables
@@ -42,8 +42,11 @@ User=ubuntu
 WorkingDirectory=/home/ubuntu/rag-service
 Environment="RAG_SERVICE_API_KEY=supersecret"
 Environment="RAG_STORAGE_DIR=/home/ubuntu/rag-storage"
-ExecStart=/home/ubuntu/rag-service/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8080
+ExecStart=/home/ubuntu/rag-service/.venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
 Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
 
 [Install]
 WantedBy=multi-user.target
