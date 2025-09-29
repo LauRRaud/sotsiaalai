@@ -30,7 +30,7 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 2. Create a virtualenv and install requirements.
 3. Start the API with `uvicorn` or create a `systemd` unit. Example:
 
-```ini
+ini
 # /etc/systemd/system/rag.service
 [Unit]
 Description=SotsiaalAI RAG service
@@ -48,16 +48,10 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 
-[Install]
-WantedBy=multi-user.target
-```
-
-```
+bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now rag.service
 ```
-
-4. Expose port 8080 (or put the service behind an existing reverse proxy).
 
 ## API responses
 
@@ -65,7 +59,7 @@ sudo systemctl enable --now rag.service
 POST /ingest/file    -> {"status":"COMPLETED","remoteId":"...","insertedAt":"2025-09-27T12:34:56+00:00"}
 POST /ingest/url     -> {"status":"COMPLETED","remoteId":"...","insertedAt":"..."}
 POST /ingest/reindex -> {"status":"COMPLETED","remoteId":"...","insertedAt":"..."}
-POST /search        -> {"matches":[{"id":"doc::0","text":"..."}]}
+POST /search         -> {"matches":[{"id":"doc::0","text":"..."}]}
 GET  /health         -> {"status":"ok","documents":"5"}
 ```
 
