@@ -2,10 +2,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-
-// ⬇️ vali õige import vastavalt failinimele
-// import RagAdminPanel from "@/components/admin/RagAdminPanel";
-import RagAdminPanel from "@/components/admin/ragadminpanel";
+import RagAdminPanel from "@/components/admin/RagAdminPanel";
 
 export const dynamic = "force-dynamic";
 
