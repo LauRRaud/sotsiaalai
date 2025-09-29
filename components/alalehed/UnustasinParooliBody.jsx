@@ -8,11 +8,9 @@ export default function UnustasinParooliBody() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
-
+        setError("");
     if (!email) {
       setError("Palun sisesta oma e-posti aadress.");
       return;
@@ -43,7 +41,7 @@ export default function UnustasinParooliBody() {
   }
 
   return (
-    <div className="main-content glass-box reset-box">
+ <div className="main-content glass-box reset-box">
       <h1 className="glass-title reset-title">Parooli taastamine</h1>
       {submitted ? (
         <p className="midtext reset-info">
@@ -67,14 +65,12 @@ export default function UnustasinParooliBody() {
               disabled={loading}
             />
           </label>
-
           {error && (
             <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
               {error}
             </div>
           )}
-
-          <button className="reset-btn" type="submit" disabled={loading}>
+        <button className="reset-btn" type="submit" disabled={loading}>
             <span>{loading ? "Saadame…" : "Saada taastelink"}</span>
           </button>
         </form>
