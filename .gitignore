@@ -21,3 +21,7 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
+rag-service/.venv/
+rag-service/__pycache__/
+.env
+.next/
