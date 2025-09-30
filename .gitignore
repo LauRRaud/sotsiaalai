@@ -10,12 +10,20 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+# NEW: ignoreeri .env kõikides kaustades (sh rag-service/.env)
+**/.env
+**/.env.*
 
 # Logid
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# NEW: üldised varukoopiad/jäägid
+*.bak
+*.tmp
+*.patch
+*.tgz
 
 # Node.js
 node_modules/
@@ -33,10 +41,40 @@ rag-service/**/__pycache__/
 rag-service/.mypy_cache/
 rag-service/.pytest_cache/
 rag-service/**/*.py[cod]
+rag-service/.ruff_cache/
+rag-service/.ipynb_checkpoints/
+rag-service/.python-version
+# NEW: kui on logide kaust
+rag-service/logs/
 
 # (valikuline) PM2 lokaalsed logid/andmed
 .pm2/
 
-# (valikuline) rakenduse lokaalne storage
-# Uncomment, kui ei soovi andmeid versioneerida
-# storage/
+# OS/editori rämps
+*.swp
+*.swo
+*.orig
+.eslintcache
+
+# Test/katvus
+coverage/
+.nyc_output/
+
+# Next/ehitusvahendid
+.vercel/
+.turbo/
+
+# Prisma (kui kasutad SQLite arendusandmebaasi)
+prisma/dev.db
+prisma/dev.db-journal
+
+# RAG lokaalsed andmed (Chroma jms)
+storage/
+storage/**
+# NEW: kui RAG salvestab teenuse kausta
+rag-service/storage/
+rag-service/storage/**
+
+# Lokaalsed npm/pnpm cache'd
+.pnpm-store/
+.npm/

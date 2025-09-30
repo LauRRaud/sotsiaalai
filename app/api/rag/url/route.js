@@ -1,9 +1,8 @@
 // app/api/rag/url/route.js
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
+import { getServerSession } from "next-auth"; // jääme sinu variandi juurde
+import { authConfig } from "@/auth";          // kui sul on authOptions, võib ka seda kasutada
 import { prisma } from "@/lib/prisma";
-import { isAdmin } from "@/lib/authz";
 import { pushUrlToRag } from "@/lib/ragClient";
 import dns from "node:dns/promises";
 import { isIP } from "node:net";
@@ -87,10 +86,15 @@ async function assertPublicUrl(urlString) {
 }
 
 export async function POST(req) {
+  // Auth: ainult admin
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
-  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
+  const isAdmin =
+    session.user?.isAdmin === true ||
+    String(session.user?.role || "").toUpperCase() === "ADMIN";
+  if (!isAdmin) return makeError("Ligipääs keelatud", 403);
 
+  // Body
   let payload;
   try {
     payload = await req.json();
@@ -110,19 +114,21 @@ export async function POST(req) {
     throw err;
   }
 
-  const title = String(payload?.title || url).trim().slice(0, 255);
+  const rawTitle = String(payload?.title || "").trim();
+  const title = rawTitle ? rawTitle.slice(0, 255) : null;
   const description = payload?.description ? String(payload.description).trim().slice(0, 2000) : null;
   const audience = normalizeAudience(payload?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
   const adminId = session?.user?.id || session?.userId || null;
 
+  // 1) Loo kirje STAATUS: PROCESSING (mitte PENDING)
   const doc = await prisma.ragDocument.create({
     data: {
-      title,
+      title: title,
       description,
       type: "URL",
-      status: "PENDING",
+      status: "PROCESSING",
       sourceUrl: url,
       adminId,
       audience,
@@ -134,11 +140,12 @@ export async function POST(req) {
     },
   });
 
+  // 2) Lükka RAG teenusesse
   const ragResult = await pushUrlToRag({
     docId: doc.id,
     url,
-    title,
-    description,
+    title: title || undefined,
+    description: description || undefined,
     audience,
   });
 
@@ -147,7 +154,7 @@ export async function POST(req) {
       where: { id: doc.id },
       data: {
         status: "FAILED",
-        error: ragResult?.message || "RAG server ei vastanud.",
+        error: ragResult?.message || ragResult?.response?.message || "RAG server ei vastanud.",
       },
     });
     return makeError(
@@ -157,15 +164,16 @@ export async function POST(req) {
     );
   }
 
+  // 3) Märgi COMPLETED + insertedAt + remoteId (ühtlane UI/loogika)
   const updated = await prisma.ragDocument.update({
     where: { id: doc.id },
     data: {
-      status: ragResult.data?.status || "PROCESSING",
-      remoteId: ragResult.data?.remoteId || null,
-      insertedAt: ragResult.data?.insertedAt ? new Date(ragResult.data.insertedAt) : null,
+      status: "COMPLETED",
+      insertedAt: new Date(),
       error: null,
+      remoteId: ragResult.data?.id ?? ragResult.data?.docId ?? null,
     },
   });
 
-  return NextResponse.json({ ok: true, doc: updated, rag: ragResult.data });
+  return NextResponse.json({ ok: true, doc: updated });
 }

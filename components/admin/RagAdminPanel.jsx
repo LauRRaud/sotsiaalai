@@ -107,6 +107,7 @@ export default function RagAdminPanel() {
 
   // tegevused
   const [reindexingId, setReindexingId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   const fileFormRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -115,12 +116,10 @@ export default function RagAdminPanel() {
   /* ----- utils ----- */
 
   const resetMessage = useCallback(() => setMessage(null), []);
-
   const getAudienceLabel = useCallback(
     (value) => AUDIENCE_LABELS[value] || (value ? value : "-"),
     []
   );
-
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
 
@@ -183,10 +182,8 @@ export default function RagAdminPanel() {
         `Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`
       );
     }
-    // Kui brauser ei anna MIME’i, püüame laiendi järgi lubada (leebem)
     if (file.type && !ALLOWED_MIME_SET.has(file.type)) {
-      // lubame edasi, kui kasutaja valis sobiva laiendi ja accept juba filtreeris
-      // kui tahad rangemalt: throw new Error("See failitüüp pole lubatud.");
+      // leebe: lubame, kui accept juba filtreeris
     }
   }
 
@@ -225,7 +222,6 @@ export default function RagAdminPanel() {
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
-          // erista levinud vead
           if (res.status === 413) throw new Error("Fail on liiga suur serveri jaoks (413).");
           if (res.status === 415) throw new Error("Faili tüüp pole lubatud (415).");
           throw new Error(data?.message || "Faili laadimine ebaõnnestus.");
@@ -312,6 +308,31 @@ export default function RagAdminPanel() {
       }
     },
     [fetchDocuments, resetMessage, showError, showOk]
+  );
+
+  /* ----- Kustutamine ----- */
+
+  const canDelete = (doc) => doc?.status === "COMPLETED" || doc?.status === "FAILED";
+
+  const handleDelete = useCallback(
+    async (docId) => {
+      resetMessage();
+      if (!docId) return;
+      if (!confirm("Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta.")) return;
+      setDeletingId(docId);
+      try {
+        const res = await fetch(`/api/rag/documents/${docId}`, { method: "DELETE" });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data?.message || "Kustutamine ebaõnnestus.");
+        showOk("Dokument kustutatud.");
+        setDocs((prev) => prev.filter((d) => d.id !== docId));
+      } catch (err) {
+        showError(err?.message || "Kustutamine ebaõnnestus.");
+      } finally {
+        setDeletingId(null);
+      }
+    },
+    [resetMessage, showOk, showError]
   );
 
   const manualRefresh = useCallback(() => {
@@ -644,6 +665,8 @@ export default function RagAdminPanel() {
               const statusLabel = STATUS_LABELS[doc.status] || doc.status;
               const badgeStyle = statusBadgeStyle(doc.status);
               const docAudience = doc.audience || doc.metadata?.audience;
+              const deletable = canDelete(doc);
+
               return (
                 <li
                   key={doc.id}
@@ -789,6 +812,28 @@ export default function RagAdminPanel() {
                     >
                       {reindexingId === doc.id ? "Töötlen..." : "Taasindekseerin"}
                     </button>
+
+                    {deletable && (
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(doc.id)}
+                        disabled={deletingId === doc.id}
+                        style={{
+                          padding: "0.45rem 0.9rem",
+                          borderRadius: "999px",
+                          border: "1px solid rgba(255,255,255,0.18)",
+                          background:
+                            deletingId === doc.id ? "rgba(255,255,255,0.08)" : "transparent",
+                          color: "#ff9c9c",
+                          fontSize: "0.82rem",
+                          cursor: deletingId === doc.id ? "wait" : "pointer",
+                          opacity: deletingId === doc.id ? 0.7 : 1,
+                        }}
+                      >
+                        {deletingId === doc.id ? "Kustutan..." : "Kustuta"}
+                      </button>
+                    )}
+
                     {doc.insertedAt && (
                       <span style={{ fontSize: "0.78rem", opacity: 0.65 }}>
                         Sünkroonitud: {formatDateTime(doc.insertedAt)}

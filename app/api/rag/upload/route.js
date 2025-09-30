@@ -1,4 +1,4 @@
-// app/api/rag/upload/route.js  (NB! tee kindlaks, et see fail on rag/ kaustas)
+// app/api/rag/upload/route.js
 import { NextResponse } from "next/server";
 import { Buffer } from "node:buffer";
 import { getServerSession } from "next-auth";
@@ -27,9 +27,7 @@ const DOCX_SIGNATURE = Buffer.from([0x50, 0x4b, 0x03, 0x04]);
 function sanitizeFileName(name) {
   if (!name) return "fail";
   const base = String(name).split(/[\\/]/).pop() || "fail";
-  const cleaned = base
-    .normalize("NFC")
-    .replace(/[^a-zA-Z0-9._-]+/g, "_");
+  const cleaned = base.normalize("NFC").replace(/[^a-zA-Z0-9._-]+/g, "_");
   const trimmed = cleaned.replace(/^_+|_+$/g, "") || "fail";
   return trimmed.slice(-120);
 }
@@ -41,21 +39,16 @@ function normalizeAudience(value) {
 }
 
 function validateMagicType(buffer, mime) {
-  if (!buffer || !Buffer.isBuffer(buffer))
-    return "Faili sisu ei õnnestunud lugeda.";
+  if (!buffer || !Buffer.isBuffer(buffer)) return "Faili sisu ei õnnestunud lugeda.";
 
-  if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") {
-    return null;
-  }
+  if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") return null;
+
   if (mime === "application/pdf") {
     return buffer.slice(0, 4).toString("utf8") === "%PDF"
       ? null
       : "Fail ei paista olevat kehtiv PDF.";
   }
-  if (
-    mime ===
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
+  if (mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
     return buffer.slice(0, DOCX_SIGNATURE.length).equals(DOCX_SIGNATURE)
       ? null
       : "DOCX fail on vigane või vale tüübiga.";
@@ -70,7 +63,7 @@ function makeError(message, status = 400, extras = {}) {
 export async function POST(req) {
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
- if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
+  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
   const form = await req.formData();
   const file = form.get("file");
@@ -79,59 +72,45 @@ export async function POST(req) {
   }
 
   const audience = normalizeAudience(form.get("audience"));
-  if (!audience) {
-    return makeError("Palun vali sihtgrupp.");
-  }
+  if (!audience) return makeError("Palun vali sihtgrupp.");
 
   const safeFileName = sanitizeFileName(file.name);
   const titleRaw = form.get("title");
   const descriptionRaw = form.get("description");
-  const title =
-    String(titleRaw || safeFileName).trim().slice(0, 255) || safeFileName;
-  const description = descriptionRaw
-    ? String(descriptionRaw).trim().slice(0, 2000)
-    : null;
+  const title = (String(titleRaw || safeFileName).trim().slice(0, 255)) || safeFileName;
+  const description = descriptionRaw ? String(descriptionRaw).trim().slice(0, 2000) : null;
 
   if (typeof file.size === "number" && file.size > MAX_SIZE_BYTES) {
     const limitMb = Math.round((MAX_SIZE_BYTES / 1024 / 1024) * 10) / 10;
-    return makeError(
-      `Fail on liiga suur. Lubatud maksimaalselt ${limitMb} MB.`,
-      413
-    );
+    return makeError(`Fail on liiga suur. Lubatud maksimaalselt ${limitMb} MB.`, 413);
   }
 
   const type = file.type || "application/octet-stream";
   if (ALLOWED_TYPES.length && !ALLOWED_TYPES.includes(type)) {
-    return makeError(
-      "Seda failitüüpi ei saa üles laadida RAG andmebaasi.",
-      415,
-      { type }
-    );
+    return makeError("Seda failitüüpi ei saa üles laadida RAG andmebaasi.", 415, { type });
   }
 
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
   const magicError = validateMagicType(buffer, type);
-  if (magicError) {
-    return makeError(magicError, 415);
-  }
+  if (magicError) return makeError(magicError, 415);
 
-  const now = new Date();
   const adminId = session?.user?.id || session?.userId || null;
 
+  // 1) Loo kirje kohe PROCESSING staatusega (mitte PENDING)
   const doc = await prisma.ragDocument.create({
     data: {
       title,
       description,
       type: "FILE",
-      status: "PENDING",
+      status: "PROCESSING",
       fileName: safeFileName,
       mimeType: type,
       fileSize: buffer.length,
       adminId,
       audience,
       metadata: {
-        uploadedAt: now.toISOString(),
+        uploadedAt: new Date().toISOString(),
         origin: "file",
         audience,
         originalFileName: file.name,
@@ -139,6 +118,7 @@ export async function POST(req) {
     },
   });
 
+  // 2) Push RAG-teenusesse
   const ragResult = await pushFileToRag({
     docId: doc.id,
     fileName: safeFileName,
@@ -152,30 +132,21 @@ export async function POST(req) {
   if (!ragResult?.ok) {
     const failed = await prisma.ragDocument.update({
       where: { id: doc.id },
-      data: {
-        status: "FAILED",
-        error:
-          ragResult?.message || "RAG serveriga ühenduse loomine ebaõnnestus.",
-      },
+      data: { status: "FAILED", error: ragResult?.message || ragResult?.response?.message || "RAG serveriga ühenduse loomine ebaõnnestus." },
     });
-    return makeError(
-      ragResult?.message || "RAG server ei vastanud.",
-      ragResult?.status || 502,
-      { doc: failed }
-    );
+    return makeError(ragResult?.message || "RAG server ei vastanud.", ragResult?.status || 502, { doc: failed });
   }
 
-  const updated = await prisma.ragDocument.update({
+  // 3) Märgi COMPLETED + insertedAt + remoteId (ühtlane UI/loogika)
+  const completed = await prisma.ragDocument.update({
     where: { id: doc.id },
     data: {
-      status: ragResult.data?.status || "PROCESSING",
-      remoteId: ragResult.data?.remoteId || null,
-      insertedAt: ragResult.data?.insertedAt
-        ? new Date(ragResult.data.insertedAt)
-        : null,
+      status: "COMPLETED",
+      insertedAt: new Date(),
       error: null,
+      remoteId: ragResult.data?.id ?? ragResult.data?.docId ?? null,
     },
   });
 
-  return NextResponse.json({ ok: true, doc: updated, rag: ragResult.data });
+  return NextResponse.json({ ok: true, doc: completed });
 }
