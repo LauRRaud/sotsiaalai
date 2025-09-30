@@ -40,6 +40,10 @@ const RAW_ALLOWED_MIME = String(
     "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 );
 
+// Pollingu intervall (ms) – juhitav .env kaudu
+const DEFAULT_POLL_MS = 15000;
+const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
+
 // puhastame ja teeme komplekti kiireks võrdlemiseks
 const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",")
   .map((s) => s.trim())
@@ -147,12 +151,37 @@ export default function RagAdminPanel() {
     fetchDocuments();
   }, [fetchDocuments]);
 
-  // Kui on PENDING/PROCESSING, värskenda iga 5 sek
+  // Kui on PENDING/PROCESSING, värskenda intervalliga (POLL_MS) ja peata taustal
   useEffect(() => {
     const hasWork = docs.some((d) => d.status === "PENDING" || d.status === "PROCESSING");
     if (!hasWork) return;
-    const t = setInterval(fetchDocuments, 5000);
-    return () => clearInterval(t);
+
+    let timer = null;
+
+    const start = () => {
+      if (!document.hidden) {
+        // kohe uuenda esiplaanil
+        fetchDocuments();
+        timer = setInterval(fetchDocuments, POLL_MS);
+      }
+    };
+    const stop = () => {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+    const onVis = () => {
+      stop();
+      start();
+    };
+
+    start();
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, [docs, fetchDocuments]);
 
   /* ----- faililaadimine ----- */

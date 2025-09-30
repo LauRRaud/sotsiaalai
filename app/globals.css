@@ -1546,49 +1546,6 @@ html:not(.dark-mode) .avatar-label {
   letter-spacing: 0.04em;
     color: var(--pt-150);   /* või --pt-150 kui soovid vahepealset */
 }
-.modal-confirm {
-  background: rgba(34, 34, 34, 0.6);
-  border: 1.5px solid var(--pt-300); /* platinum piirjoon */
-  border-radius: 1.5em;
-  color: var(--pt-200);              /* platinum hele tekst */
-  width: 100%;
-  max-width: 410px;
-  min-width: 320px;
-  margin: 0 auto;
-  font-size: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.15em;
-  position: fixed;
-  left: 50vw;
-  top: 50vh;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  padding: 2.4em 2.2em calc(2em + env(safe-area-inset-bottom, 0px)) 2.2em;
-  overflow-y: auto;
-  box-sizing: border-box;
-  animation: modalSlideIn 0.4s;
-  overflow-x: hidden;
-
-  /* --- BLUR --- */
-  backdrop-filter: blur(9px) saturate(180%);
-  box-shadow: 0 2px 12px rgba(195,193,188,0.35); /* platinum kuma */
-}
-
-.modal-confirm p {
-  font-size: 1.22em;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 0.23em;
-}
-
-.modal-confirm-title {
-  font-size: 1.12em;
-  font-weight: 600;
-  margin-bottom: 1.5em;
-  color: #b9915e;
-  letter-spacing: 0.03em;
-}
 .btn-row {
   display: flex;
   flex-direction: column;
@@ -1884,6 +1841,7 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
 
 .chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
 
+/* === CHAT INPUT BAR (uuendatud) === */
 .chat-inputbar {
   position: absolute;
   left: 1.6rem;
@@ -1891,8 +1849,11 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
   bottom: 1.6rem;
   z-index: 3;
 
-  flex: 0 0 66px;
-  height: 66px;
+  /* hoia konteineri kõrgust muutujas (kasutame placeholderi tsentreerimisel) */
+  --input-h: 66px;
+
+  flex: 0 0 var(--input-h);
+  height: var(--input-h);
 
   display: grid;
   grid-template-columns: 1fr auto;
@@ -1921,17 +1882,50 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
   border-color: var(--pt-light); /* heledam platinum, nt #ECEBE9 */
   box-shadow: 0 0 8px rgba(195, 193, 188, 0.6); /* pehme platinum kuma */
 }
-/* sisestusväli */
+
+/* === SISENDVÄLI (textarea) — uuendatud === */
 .chat-inputbar .chat-input-field {
+  /* all: unset nullib palju — taastame vajaliku */
   all: unset;
+
+  display: block;            /* ← oluline, et height:100% toimiks täpselt */
+  box-sizing: border-box;
+
   width: 100%;
   height: 100%;
-  padding: 0 10px;
+
+  /* tavaline padjendus PÄRAST kirjutamist (mitmerealine sisu) */
+  padding: 14px 12px;
+
   color: var(--pt-100);      /* hele platinum tekst, nt #ECEBE9 */
   caret-color: var(--pt-100);
-  font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+  /* 1.3rem font, line-height 1.4 = 1 rea optiline kõrgus */
+  font: 500 1.3rem/1.4 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+  /* mitmerealise korral võib sisu kasvada (JS autoheightiga) — muidu kerib */
+  overflow-y: auto;
 }
 
+/* --- PLACEHOLDER vertikaalselt keskele ühe rea puhul --- */
+.chat-inputbar .chat-input-field:placeholder-shown {
+  /* arvutus: (konteineri kõrgus − 1.4em rea kõrgus) / 2 */
+  padding-top: calc((var(--input-h) - 1.4em) / 2);
+  padding-bottom: calc((var(--input-h) - 1.4em) / 2);
+}
+
+/* Safari/WebKit väike korrigeerimine (optikaks) */
+@supports (-webkit-touch-callout: none) {
+  .chat-inputbar .chat-input-field:placeholder-shown {
+    line-height: 1.35;
+  }
+}
+
+/* placeholderi toon ühtseks */
+.chat-inputbar .chat-input-field::placeholder {
+  color: var(--pt-100) !important;
+  opacity: 0.9 !important;
+}
 /* --- SAATMISNUPP --- */
 .chat-send-btn {
   flex: 0 0 56px;
@@ -2061,7 +2055,59 @@ html:not(.dark-mode) .centered-front-outer { box-shadow:none !important; }
   align-items: center;
   margin: 2em auto;
 }
+/* --- backdrop --- */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
 
+/* --- modal --- */
+.modal-confirm{
+  position: fixed;               /* joondub viewporti järgi */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+
+  width: min(92vw, 520px);
+  max-width: 92vw;
+
+  background: rgba(31,31,31,.6);
+  border: .5px solid var(--pt-600);
+  border-radius: 1.5em;
+  color: var(--pt-200);
+  padding: 2.2em 1.6em 1.6em;
+  box-sizing: border-box;
+
+  backdrop-filter: blur(9px) saturate(180%);
+  box-shadow: 0 2px 12px rgba(195,193,188,.35);
+}
+
+/* tekst + nupurea joondus */
+.modal-confirm p,
+.modal-confirm-text{
+  font-size: 1.22em;
+  font-weight: 600;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+.modal-confirm .btn-row{
+  display: flex;
+  gap: .7em;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: .8em;
+}
+
+@media (max-width:480px){
+  .modal-confirm{ width:94vw; padding:1.6em 1.1em 1.2em; }
+  .modal-confirm p,
+  .modal-confirm-text{ font-size:1.1em; }
+}
 .glass-h2,
 .reset-title,
 .glass-title,
