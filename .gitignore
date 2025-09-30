@@ -41,3 +41,5 @@ rag-service/**/*.py[cod]
 # Uncomment, kui ei soovi andmeid versioneerida
 # storage/
 
+rag-service/storage/
+rag-service/main.py.bak.*
