@@ -4,8 +4,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const INTRO_MESSAGE =
-  "Tere! SotsiaalAI assistent otsib vastuseid usaldusväärsetest allikatest. Küsi julgelt ja ma teen parima, et aidata.";
+const INTRO_MESSAGE = 
+  "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
 const MAX_HISTORY = 8;
 
 /** Normaliseeri serveri allikad üheks kuju(ks): { key, label, url?, page? } */
@@ -311,7 +311,7 @@ export default function ChatBody() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Kirjuta siia oma küsimus... (Shift+Enter = uus rida)"
+            placeholder="Kirjuta siia oma küsimus..."
             className="chat-input-field"
             disabled={isGenerating}
             rows={1}
