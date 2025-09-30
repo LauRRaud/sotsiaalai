@@ -1,36 +1,43 @@
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# OS & editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 
-# Next.js build
-.next/
-out/
-dist/
-
-# Env failid (ei lähe GitHubi, hoia serveris käsitsi)
+# Env failid (ära pane GitHubi)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# OS & editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
+# Logid
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node.js
+node_modules/
+
+# Next.js
+.next/
+out/
+# Kui sul on mõni pakett, mis vajab dist/ commit’imist, kommenteeri järgmine rida välja
+# dist/
+
+# Python (rag-service)
 rag-service/.venv/
 rag-service/__pycache__/
-.env
-.next/
-rag-service/.venv/
 rag-service/**/__pycache__/
 rag-service/.mypy_cache/
 rag-service/.pytest_cache/
 rag-service/**/*.py[cod]
-.env
-.next/
-node_modules/
-*.log
+
+# (valikuline) PM2 lokaalsed logid/andmed
+.pm2/
+
+# (valikuline) rakenduse lokaalne storage
+# Uncomment, kui ei soovi andmeid versioneerida
+# storage/
+

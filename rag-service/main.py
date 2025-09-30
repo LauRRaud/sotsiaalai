@@ -50,7 +50,7 @@ app.add_middleware(
     allow_origins=os.environ.get("RAG_ALLOWED_ORIGINS", "*").split(","),
     allow_credentials=False,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 def now_iso() -> str:
@@ -95,6 +95,11 @@ class UrlIngestRequest(BaseModel):
 class ReindexRequest(BaseModel):
     docId: str
 
+class SearchRequest(BaseModel):
+    query: str
+    top_k: Optional[int] = 4
+    where: Optional[Dict[str, str]] = None
+
 def chunk_text(text: str, chunk_size: int = 1200, overlap: int = 200) -> list[str]:
     if not text:
         return []
@@ -113,8 +118,7 @@ def chunk_text(text: str, chunk_size: int = 1200, overlap: int = 200) -> list[st
     return chunks
 
 def ensure_utf8(text: str) -> str:
-    return "
-".join(line.strip() for line in text.splitlines() if line.strip())
+    return "\n".join(line.strip() for line in text.splitlines() if line.strip())
 
 def normalize_audience(value: Optional[str]) -> Optional[str]:
     if not value:
@@ -130,8 +134,7 @@ def extract_pdf_text(data: bytes) -> Optional[str]:
     try:
         reader = PdfReader(BytesIO(data))
         pages = [page.extract_text() or "" for page in reader.pages]
-        return "
-".join(pages)
+        return "\n".join(pages).strip() or None
     except Exception:
         return None
 
@@ -162,8 +165,7 @@ def extract_text_from_bytes(data: bytes, mime: str) -> Optional[str]:
             return data.decode("latin-1", errors="ignore")
     if mime in {"text/html", "application/xhtml+xml"}:
         soup = BeautifulSoup(data.decode("utf-8", errors="ignore"), "html.parser")
-        return soup.get_text("
-", strip=True)
+        return soup.get_text("\n", strip=True)
     if mime == "application/pdf":
         return extract_pdf_text(data)
     if mime in {"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}:
@@ -176,8 +178,7 @@ def fetch_url_text(url: str) -> Tuple[str, str]:
     response.raise_for_status()
     html = response.text
     soup = BeautifulSoup(html, "html.parser")
-    text = soup.get_text("
-", strip=True)
+    text = soup.get_text("\n", strip=True)
     return text, html
 
 def write_raw_file(doc_id: str, file_name: str, data: bytes) -> str:
@@ -256,14 +257,6 @@ async def ingest_file(payload: FileIngestRequest, _: None = Depends(require_api_
     }
     if audience:
         source_meta["audience"] = audience
-
-    result = upsert_document(
-        doc_id=payload.docId,
-        title=payload.title,
-        description=payload.description,
-        text=text,
-        source_meta=source_meta,
-    )
 
     result = upsert_document(
         doc_id=payload.docId,
@@ -351,6 +344,7 @@ async def search(payload: SearchRequest, _: None = Depends(require_api_key)):
         })
 
     return {"matches": docs}
+
 @app.post("/ingest/reindex")
 async def reindex(payload: ReindexRequest, _: None = Depends(require_api_key)):
     entry = registry.get(payload.docId)
@@ -403,9 +397,3 @@ async def reindex(payload: ReindexRequest, _: None = Depends(require_api_key)):
 @app.get("/health")
 async def health() -> Dict[str, str]:
     return {"status": "ok", "documents": str(len(registry))}
-
-
-
-
-
-
