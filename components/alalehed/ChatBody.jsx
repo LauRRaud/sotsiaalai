@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,120 +24,41 @@ export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  // Roll, mida API-le kaasa anda
-  const sessionRole = session?.user?.role;
-  const userRole =
-    sessionRole === "ADMIN"
-      ? "ADMIN"
-      : sessionRole
-      ? sessionRole
-      : session?.user?.isAdmin
-      ? "ADMIN"
-      : "CLIENT";
+  // Roll API-le (admin möödub subActive kontrollist middleware’is)
+  const userRole = useMemo(() => {
+    const raw =
+      session?.user?.role ??
+      (session?.user?.isAdmin ? "ADMIN" : null);
+    const up = String(raw || "").toUpperCase();
+    return up || "CLIENT";
+  }, [session]);
 
   const [messages, setMessages] = useState([{ role: "ai", text: INTRO_MESSAGE }]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
+  const [errorBanner, setErrorBanner] = useState(null);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
+  const mountedRef = useRef(false);
 
-  async function sendMessage(e) {
-    e?.preventDefault();
-    if (isGenerating) return;
+  const historyPayload = useMemo(
+    () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
+    [messages]
+  );
 
-    const trimmed = input.trim();
-    if (!trimmed) return;
-
-    const historyPayload = messages
-      .slice(-MAX_HISTORY)
-      .map((msg) => ({ role: msg.role, text: msg.text }));
-
-    setMessages((prev) => [...prev, { role: "user", text: trimmed }]);
-    setInput("");
-    setIsGenerating(true);
-
+  const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
+  }, []);
 
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+  const appendMessage = useCallback((msg) => {
+    setMessages((prev) => [...prev, msg]);
+  }, []);
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed, history: historyPayload, role: userRole }),
-        signal: controller.signal,
-      });
-
-      // Kui sessioon on aegunud või õigus puudub → suuna loginile
-      if (res.status === 401 || res.status === 403) {
-        const params = new URLSearchParams({ callbackUrl: "/vestlus" });
-        window.location.href = `/api/auth/signin?${params.toString()}`;
-        return;
-      }
-
-      if (!res.ok) {
-        let errorMessage = "Assistent ei vastanud.";
-        try {
-          const errJson = await res.json();
-          if (errJson?.message) errorMessage = errJson.message;
-        } catch (_) {
-          // ignore json parse errors
-        }
-        throw new Error(errorMessage);
-      }
-
-      const data = await res.json();
-      // toeta nii `answer` kui ka ajaloolist `reply` võtit
-      const replyText =
-        (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
-      const sources = normalizeSources(data?.sources);
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "ai",
-          text: replyText,
-          sources,
-        },
-      ]);
-    } catch (err) {
-      if (err?.name === "AbortError") {
-        setMessages((prev) => [...prev, { role: "ai", text: "Vastuse genereerimine peatati." }]);
-      } else {
-        const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "ai",
-            text: `Viga: ${errText}`,
-          },
-        ]);
-      }
-    } finally {
-      setIsGenerating(false);
-      abortControllerRef.current = null;
-      requestAnimationFrame(() => inputRef.current?.focus());
-    }
-  }
-
-  function handleStop(e) {
-    e?.preventDefault();
-    abortControllerRef.current?.abort();
-    abortControllerRef.current = null;
-    setIsGenerating(false);
-  }
-
-  function scrollToBottom() {
-    const node = chatWindowRef.current;
-    if (!node) return;
-    node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
-  }
-
+  // Kerimise abi
   useEffect(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -154,6 +75,7 @@ export default function ChatBody() {
   }, []);
 
   useEffect(() => {
+    if (!mountedRef.current) return;
     const node = chatWindowRef.current;
     if (node && isUserAtBottom.current) {
       node.scrollTop = node.scrollHeight;
@@ -161,7 +83,109 @@ export default function ChatBody() {
   }, [messages]);
 
   useEffect(() => {
-    inputRef.current?.focus();
+    mountedRef.current = true;
+    focusInput();
+    return () => {
+      mountedRef.current = false;
+      abortControllerRef.current?.abort();
+    };
+  }, [focusInput]);
+
+  const sendMessage = useCallback(
+    async (e) => {
+      e?.preventDefault();
+      if (isGenerating) return;
+
+      const trimmed = input.trim();
+      if (!trimmed) return;
+
+      setErrorBanner(null);
+      appendMessage({ role: "user", text: trimmed });
+      setInput("");
+      setIsGenerating(true);
+      focusInput();
+
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: trimmed, history: historyPayload, role: userRole }),
+          signal: controller.signal,
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          const params = new URLSearchParams({ callbackUrl: "/vestlus" });
+          window.location.href = `/api/auth/signin?${params.toString()}`;
+          return;
+        }
+
+        let data = null;
+        try {
+          data = await res.json();
+        } catch {
+          // kui tuli tühi vms
+        }
+
+        if (!res.ok) {
+          const msg =
+            data?.message ||
+            (res.status === 429
+              ? "Liiga palju päringuid korraga. Palun proovi hetke pärast uuesti."
+              : res.statusText || "Assistent ei vastanud.");
+          throw new Error(msg);
+        }
+
+        const replyText =
+          (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
+        const sources = normalizeSources(data?.sources);
+
+        appendMessage({ role: "ai", text: replyText, sources });
+      } catch (err) {
+        if (err?.name === "AbortError") {
+          appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
+        } else {
+          const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
+          setErrorBanner(errText);
+          appendMessage({ role: "ai", text: `Viga: ${errText}` });
+        }
+      } finally {
+        setIsGenerating(false);
+        abortControllerRef.current = null;
+        focusInput();
+      }
+    },
+    [appendMessage, focusInput, historyPayload, input, isGenerating, userRole]
+  );
+
+  const handleStop = useCallback(
+    (e) => {
+      e?.preventDefault();
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = null;
+      setIsGenerating(false);
+    },
+    []
+  );
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (!isGenerating && input.trim()) {
+          void sendMessage();
+        }
+      }
+    },
+    [input, isGenerating, sendMessage]
+  );
+
+  const scrollToBottom = useCallback(() => {
+    const node = chatWindowRef.current;
+    if (!node) return;
+    node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
 
   return (
@@ -180,6 +204,23 @@ export default function ChatBody() {
       </Link>
 
       <h1 className="glass-title">SotsiaalAI</h1>
+
+      {errorBanner ? (
+        <div
+          role="alert"
+          style={{
+            margin: "0.5rem 0 0.75rem",
+            padding: "0.7rem 0.9rem",
+            borderRadius: 10,
+            border: "1px solid rgba(231,76,60,0.35)",
+            background: "rgba(231,76,60,0.12)",
+            color: "#ff9c9c",
+            fontSize: "0.9rem",
+          }}
+        >
+          {errorBanner}
+        </div>
+      ) : null}
 
       <main className="chat-main" style={{ position: "relative" }}>
         <div
@@ -264,14 +305,17 @@ export default function ChatBody() {
           <label htmlFor="chat-input" className="sr-only">
             Kirjuta sõnum
           </label>
-          <input
+          <textarea
             id="chat-input"
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Kirjuta siia oma küsimus..."
+            onKeyDown={handleKeyDown}
+            placeholder="Kirjuta siia oma küsimus... (Shift+Enter = uus rida)"
             className="chat-input-field"
             disabled={isGenerating}
+            rows={1}
+            style={{ resize: "none" }}
           />
 
           <button
@@ -279,6 +323,7 @@ export default function ChatBody() {
             className={`chat-send-btn${isGenerating ? " stop" : ""}`}
             aria-label={isGenerating ? "Peata vastus" : "Saada sõnum"}
             title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
+            disabled={!isGenerating && !input.trim()}
           >
             {isGenerating ? (
               <svg

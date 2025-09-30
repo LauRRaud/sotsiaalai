@@ -3,397 +3,507 @@ from __future__ import annotations
 import base64
 import json
 import os
+import re
 import hashlib
 from io import BytesIO
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional
+
+# --- optional libmagic (fall back if missing) ---
+try:
+    import magic  # type: ignore
+    _MAGIC_OK = True
+except Exception:
+    magic = None  # type: ignore
+    _MAGIC_OK = False
 
 import requests
 from bs4 import BeautifulSoup
 from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from starlette.middleware.cors import CORSMiddleware
 
 import chromadb
-from chromadb.utils.embedding_functions import FastEmbedEmbeddingFunction
+from chromadb.config import Settings
 
-try:
-    from pypdf import PdfReader
-except ImportError:  # pragma: no cover
-    PdfReader = None
+# OpenAI embeddings (better quality than lite local models)
+from openai import OpenAI
 
-try:
-    import docx2txt
-except ImportError:  # pragma: no cover
-    docx2txt = None
+# --------------------
+# ENV & GLOBALS
+# --------------------
+RAG_SERVICE_API_KEY = os.getenv("RAG_SERVICE_API_KEY", "")
+STORAGE_DIR = Path(os.getenv("RAG_STORAGE_DIR", "./storage")).resolve()
+REGISTRY_PATH = STORAGE_DIR / "registry.json"
+COLLECTION_NAME = os.getenv("RAG_COLLECTION", "sotsiaalai")
 
-MAX_UPLOAD_MB = float(os.environ.get("RAG_SERVER_MAX_MB", "25"))
-STORAGE_ROOT = Path(os.environ.get("RAG_STORAGE_DIR", "./storage")).resolve()
-RAW_DIR = STORAGE_ROOT / "raw"
-HTML_DIR = STORAGE_ROOT / "urls"
-REGISTRY_PATH = STORAGE_ROOT / "registry.json"
+# OpenAI embeddings (default to high-quality model)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-embedding-3-large"))
 
-EMBED_MODEL = os.environ.get("RAG_EMBED_MODEL", "intfloat/multilingual-e5-small")
-COLLECTION_NAME = os.environ.get("RAG_COLLECTION", "sotsiaalai")
+MAX_MB = int(os.getenv("RAG_SERVER_MAX_MB", "20"))
+ALLOWED_MIME = set([m.strip() for m in os.getenv("RAG_ALLOWED_MIME", "").split(",") if m.strip()])
+ALLOWED_ORIGINS = [o.strip() for o in os.getenv("RAG_ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 
-for folder in (STORAGE_ROOT, RAW_DIR, HTML_DIR):
-    folder.mkdir(parents=True, exist_ok=True)
+if not OPENAI_API_KEY:
+    raise RuntimeError("OPENAI_API_KEY is missing for RAG embeddings")
 
-client = chromadb.PersistentClient(path=str(STORAGE_ROOT / "chroma"))
-embedding_fn = FastEmbedEmbeddingFunction(model_name=EMBED_MODEL)
-collection = client.get_or_create_collection(name=COLLECTION_NAME, embedding_function=embedding_fn)
+STORAGE_DIR.mkdir(parents=True, exist_ok=True)
 
-app = FastAPI(title="SotsiaalAI RAG Service", version="0.1.0")
+# Chroma client (persistent) – we send precomputed OpenAI embeddings
+client = chromadb.Client(Settings(persist_directory=str(STORAGE_DIR / "chroma")))
+collection = client.get_or_create_collection(name=COLLECTION_NAME)
+
+# OpenAI client
+oa = OpenAI(api_key=OPENAI_API_KEY)
+
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.2")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.environ.get("RAG_ALLOWED_ORIGINS", "*").split(","),
-    allow_credentials=False,
+    allow_origins=ALLOWED_ORIGINS or ["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# --------------------
+# Utils
+# --------------------
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
-def load_registry() -> Dict[str, Dict]:
-    if not REGISTRY_PATH.exists():
-        return {}
+def _load_registry() -> Dict[str, Dict]:
+    if REGISTRY_PATH.exists():
+        try:
+            return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+def _save_registry(data: Dict[str, Dict]) -> None:
+    REGISTRY_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def _require_key(x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")) -> None:
+    if not RAG_SERVICE_API_KEY:
+        return  # auth disabled
+    if not x_api_key or x_api_key != RAG_SERVICE_API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid or missing X-API-Key")
+
+def _bytes_mb(b: bytes) -> float:
+    return len(b) / (1024 * 1024)
+
+def _detect_mime(name: str, data: bytes, declared: Optional[str]) -> str:
+    if declared:
+        return declared
+    if _MAGIC_OK:
+        try:
+            return magic.from_buffer(data, mime=True)  # type: ignore
+        except Exception:
+            pass
+    import mimetypes
+    return mimetypes.guess_type(name)[0] or "application/octet-stream"
+
+def _clean_text(s: str) -> str:
+    return re.sub(r"\s+", " ", s).strip()
+
+def _extract_text_from_pdf(buff: bytes) -> str:
+    from pypdf import PdfReader
     try:
-        return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
+        reader = PdfReader(BytesIO(buff))
+        pages = []
+        for p in reader.pages:
+            t = p.extract_text() or ""
+            pages.append(t)
+        return "\n".join(pages)
+    except Exception as e:
+        raise HTTPException(422, f"PDF parse failed: {e}")
 
-def save_registry(data: Dict[str, Dict]) -> None:
-    tmp_path = REGISTRY_PATH.with_suffix(".tmp")
-    tmp_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-    tmp_path.replace(REGISTRY_PATH)
+def _extract_text_from_docx(buff: bytes) -> str:
+    import tempfile, docx2txt
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".docx", delete=True) as tf:
+            tf.write(buff)
+            tf.flush()
+            text = docx2txt.process(tf.name) or ""
+        return text
+    except Exception as e:
+        raise HTTPException(422, f"DOCX parse failed: {e}")
 
-registry = load_registry()
+def _extract_text_from_html(html: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["script", "style", "noscript"]):
+        t.decompose()
+    txt = soup.get_text(separator=" ")
+    return _clean_text(txt)
 
-def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> None:
-    expected = os.environ.get("RAG_SERVICE_API_KEY")
-    if expected and x_api_key != expected:
-        raise HTTPException(status_code=401, detail="Invalid API key")
+def _split_chunks(text: str, max_chars: int = 1600, stride: int = 1000) -> List[str]:
+    chunks: List[str] = []
+    i = 0
+    while i < len(text):
+        chunk = text[i:i+max_chars]
+        chunk = _clean_text(chunk)
+        if chunk:
+            chunks.append(chunk)
+        i += stride
+    return chunks
 
-class FileIngestRequest(BaseModel):
+def _doc_dir_hashed(doc_id: str) -> Path:
+    return STORAGE_DIR / "docs" / hashlib.sha1(doc_id.encode("utf-8")).hexdigest()[:12]
+
+def _doc_dir(doc_id: str) -> Path:
+    d = _doc_dir_hashed(doc_id)
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+# --- OpenAI embedding helpers ---
+def _embed_batch(texts: List[str]) -> List[List[float]]:
+    if not texts:
+        return []
+    resp = oa.embeddings.create(model=EMBED_MODEL, input=texts)
+    return [d.embedding for d in resp.data]
+
+# --------------------
+# Schemas
+# --------------------
+class IngestFile(BaseModel):
     docId: str
     fileName: str
-    mimeType: str
-    data: str
+    mimeType: Optional[str] = None
+    data: str  # base64
     title: Optional[str] = None
     description: Optional[str] = None
-    audience: Optional[str] = None
+    audience: Optional[str] = None  # NEW
 
-class UrlIngestRequest(BaseModel):
+class IngestURL(BaseModel):
     docId: str
     url: str
     title: Optional[str] = None
     description: Optional[str] = None
-    audience: Optional[str] = None
+    audience: Optional[str] = None  # NEW
 
-class ReindexRequest(BaseModel):
-    docId: str
-
-class SearchRequest(BaseModel):
+class SearchIn(BaseModel):
     query: str
-    top_k: Optional[int] = 4
-    where: Optional[Dict[str, str]] = None
+    top_k: int = 5
+    filterDocId: Optional[str] = None
+    where: Optional[dict] = None  # NEW: generic filters (e.g. {"audience": {"$in": ["CLIENT","BOTH"]}})
 
-def chunk_text(text: str, chunk_size: int = 1200, overlap: int = 200) -> list[str]:
-    if not text:
-        return []
-    chunks: list[str] = []
-    length = len(text)
-    start = 0
-    step = max(1, chunk_size - overlap)
-    while start < length:
-        end = min(length, start + chunk_size)
-        chunk = text[start:end].strip()
-        if chunk:
-            chunks.append(chunk)
-        if end >= length:
-            break
-        start += step
-    return chunks
-
-def ensure_utf8(text: str) -> str:
-    return "\n".join(line.strip() for line in text.splitlines() if line.strip())
-
-def normalize_audience(value: Optional[str]) -> Optional[str]:
-    if not value:
-        return None
-    upper = str(value).upper().strip()
-    if upper in {"SOCIAL_WORKER", "CLIENT", "BOTH"}:
-        return upper
-    return None
-
-def extract_pdf_text(data: bytes) -> Optional[str]:
-    if PdfReader is None:
-        return None
-    try:
-        reader = PdfReader(BytesIO(data))
-        pages = [page.extract_text() or "" for page in reader.pages]
-        return "\n".join(pages).strip() or None
-    except Exception:
-        return None
-
-def extract_docx_text(data: bytes) -> Optional[str]:
-    if docx2txt is None:
-        return None
-    tmp_dir = RAW_DIR / "_tmp"
-    tmp_dir.mkdir(exist_ok=True)
-    tmp_file = tmp_dir / "temp.docx"
-    tmp_file.write_bytes(data)
-    try:
-        text = docx2txt.process(str(tmp_file))
-        return text
-    except Exception:
-        return None
-    finally:
-        try:
-            tmp_file.unlink()
-        except Exception:
-            pass
-
-def extract_text_from_bytes(data: bytes, mime: str) -> Optional[str]:
-    mime = (mime or "").lower()
-    if mime.startswith("text/") or mime in {"application/json", "application/xml"}:
-        try:
-            return data.decode("utf-8", errors="ignore")
-        except Exception:
-            return data.decode("latin-1", errors="ignore")
-    if mime in {"text/html", "application/xhtml+xml"}:
-        soup = BeautifulSoup(data.decode("utf-8", errors="ignore"), "html.parser")
-        return soup.get_text("\n", strip=True)
-    if mime == "application/pdf":
-        return extract_pdf_text(data)
-    if mime in {"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}:
-        return extract_docx_text(data)
-    return None
-
-def fetch_url_text(url: str) -> Tuple[str, str]:
-    headers = {"User-Agent": os.environ.get("RAG_USER_AGENT", "SotsiaalAI-RAG/0.1")}
-    response = requests.get(url, headers=headers, timeout=30)
-    response.raise_for_status()
-    html = response.text
-    soup = BeautifulSoup(html, "html.parser")
-    text = soup.get_text("\n", strip=True)
-    return text, html
-
-def write_raw_file(doc_id: str, file_name: str, data: bytes) -> str:
-    doc_dir = RAW_DIR / doc_id
-    doc_dir.mkdir(parents=True, exist_ok=True)
-    target = doc_dir / file_name
-    target.write_bytes(data)
-    return str(target.relative_to(STORAGE_ROOT))
-
-def write_html_file(doc_id: str, html: str) -> str:
-    target = HTML_DIR / f"{doc_id}.html"
-    target.write_text(html, encoding="utf-8")
-    return str(target.relative_to(STORAGE_ROOT))
-
-def upsert_document(doc_id: str, title: Optional[str], description: Optional[str], text: str, source_meta: Dict[str, str]) -> Dict:
-    prepared = ensure_utf8(text)
-    chunks = chunk_text(prepared)
+# --------------------
+# Core ingest
+# --------------------
+def _ingest_text(doc_id: str, text: str, meta_common: Dict) -> int:
+    text = _clean_text(text)
+    chunks = _split_chunks(text)
     if not chunks:
-        raise HTTPException(status_code=422, detail="Text content is empty after processing.")
+        return 0
 
-    collection.delete(where={"docId": doc_id})
+    # Generate unique ids
+    base = hashlib.sha1(f"{doc_id}-{now_iso()}".encode()).hexdigest()[:10]
+    ids = [f"{doc_id}:{base}:{i}" for i in range(len(chunks))]
 
-    ids = [f"{doc_id}::{i}" for i in range(len(chunks))]
     metadatas = []
-    for index in range(len(chunks)):
-        meta = {"docId": doc_id, "chunk": index}
-        meta.update(source_meta)
-        if title:
-            meta["title"] = title
-        if description:
-            meta["description"] = description
-        metadatas.append(meta)
+    for _ in chunks:
+        m = {
+            "doc_id": doc_id,
+            "title": meta_common.get("title"),
+            "description": meta_common.get("description"),
+            "source": meta_common.get("source"),
+            "mimeType": meta_common.get("mimeType"),
+            "audience": meta_common.get("audience"),  # NEW
+            "createdAt": now_iso(),
+        }
+        metadatas.append(m)
 
-    collection.add(ids=ids, documents=chunks, metadatas=metadatas)
+    embeddings = _embed_batch(chunks)
+    collection.upsert(documents=chunks, metadatas=metadatas, ids=ids, embeddings=embeddings)
+    return len(chunks)
 
-    inserted = now_iso()
-    registry[doc_id] = {
-        "docId": doc_id,
-        "title": title,
-        "description": description,
-        "source": source_meta,
-        "chunks": len(chunks),
-        "lastIngested": inserted,
-        "audience": source_meta.get("audience"),
-    }
-    save_registry(registry)
+def _register(doc_id: str, entry: Dict) -> None:
+    reg = _load_registry()
+    e = reg.get(doc_id, {})
+    if not e.get("createdAt"):
+        e["createdAt"] = now_iso()
+    e.update(entry)
+    e["docId"] = doc_id
+    e["updatedAt"] = now_iso()
+    reg[doc_id] = e
+    _save_registry(reg)
 
-    return {"status": "COMPLETED", "remoteId": doc_id, "insertedAt": inserted}
-
-@app.post("/ingest/file")
-async def ingest_file(payload: FileIngestRequest, _: None = Depends(require_api_key)):
+# --------------------
+# Routes
+# --------------------
+@app.get("/health")
+def health():
+    reg = _load_registry()
     try:
-        raw = base64.b64decode(payload.data)
-    except Exception as exc:
-        raise HTTPException(status_code=400, detail="Failed to decode base64 payload.") from exc
+        n = collection.count()
+    except Exception:
+        n = -1
+    return {
+        "ok": True,
+        "vectors": n,
+        "documents": len(reg),
+        "embed_model": EMBED_MODEL,
+        "collection": COLLECTION_NAME,
+    }
 
-    max_bytes = int(MAX_UPLOAD_MB * 1024 * 1024)
-    if len(raw) > max_bytes:
-        raise HTTPException(status_code=413, detail=f"File exceeds limit of {MAX_UPLOAD_MB} MB.")
+@app.post("/ingest/file", dependencies=[Depends(_require_key)])
+def ingest_file(payload: IngestFile):
+    raw = base64.b64decode(payload.data)
+    size_mb = _bytes_mb(raw)
+    if size_mb > MAX_MB:
+        raise HTTPException(413, f"File too large ({size_mb:.1f}MB > {MAX_MB}MB)")
 
-    text = extract_text_from_bytes(raw, payload.mimeType)
-    if not text:
-        raise HTTPException(status_code=422, detail="Unsupported or unreadable file format.")
+    mime = _detect_mime(payload.fileName, raw, payload.mimeType)
+    if ALLOWED_MIME and mime not in ALLOWED_MIME:
+        raise HTTPException(415, f"MIME not allowed: {mime}")
 
-    stored_file = write_raw_file(payload.docId, payload.fileName, raw)
-    file_hash = hashlib.sha256(raw).hexdigest()
+    # save raw
+    d = _doc_dir(payload.docId)
+    raw_path = d / payload.fileName
+    raw_path.write_bytes(raw)
 
-    audience = normalize_audience(payload.audience)
+    # extract text
+    if mime == "application/pdf":
+        text = _extract_text_from_pdf(raw)
+    elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        text = _extract_text_from_docx(raw)
+    elif mime == "text/html":
+        text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
+    else:
+        text = raw.decode("utf-8", errors="ignore")
 
-    source_meta = {
+    inserted = _ingest_text(
+        payload.docId,
+        text,
+        meta_common={
+            "title": payload.title,
+            "description": payload.description,
+            "source": {"type": "file", "path": str(raw_path)},
+            "mimeType": mime,
+            "audience": payload.audience,  # NEW
+        },
+    )
+
+    reg_entry = {
         "type": "FILE",
         "fileName": payload.fileName,
-        "mimeType": payload.mimeType,
-        "storedFile": stored_file,
-        "hash": file_hash,
+        "mimeType": mime,
+        "lastIngested": now_iso(),
+        "path": str(raw_path),
+        "title": payload.title,
+        "description": payload.description,
+        "audience": payload.audience,  # NEW
     }
-    if audience:
-        source_meta["audience"] = audience
+    _register(payload.docId, reg_entry)
 
-    result = upsert_document(
-        doc_id=payload.docId,
-        title=payload.title,
-        description=payload.description,
-        text=text,
-        source_meta=source_meta,
-    )
-    return result
+    return {"ok": True, "inserted": inserted, "docId": payload.docId}
 
-@app.post("/ingest/url")
-async def ingest_url(payload: UrlIngestRequest, _: None = Depends(require_api_key)):
+@app.post("/ingest/url", dependencies=[Depends(_require_key)])
+def ingest_url(payload: IngestURL):
     try:
-        text, html = fetch_url_text(payload.url)
-    except requests.HTTPError as exc:
-        raise HTTPException(status_code=exc.response.status_code, detail=f"Failed to fetch URL: {exc.response.reason}") from exc
-    except Exception as exc:
-        raise HTTPException(status_code=502, detail="Failed to fetch URL content.") from exc
+        r = requests.get(payload.url, timeout=30, headers={"User-Agent": "SotsiaalAI-RAG/1.0"})
+        r.raise_for_status()
+    except Exception as e:
+        raise HTTPException(422, f"Fetch failed: {e}")
 
-    if not text.strip():
-        raise HTTPException(status_code=422, detail="Fetched page did not contain readable text.")
+    html = r.text
+    text = _extract_text_from_html(html)
 
-    stored_html = write_html_file(payload.docId, html)
+    # save html dump
+    d = _doc_dir(payload.docId)
+    html_path = d / "source.html"
+    html_path.write_text(html, encoding="utf-8")
 
-    audience = normalize_audience(payload.audience)
+    inserted = _ingest_text(
+        payload.docId,
+        text,
+        meta_common={
+            "title": payload.title,
+            "description": payload.description,
+            "source": {"type": "url", "url": payload.url, "path": str(html_path)},
+            "mimeType": "text/html",
+            "audience": payload.audience,  # NEW
+        },
+    )
 
-    source_meta = {
+    reg_entry = {
         "type": "URL",
         "url": payload.url,
-        "storedHtml": stored_html,
+        "lastIngested": now_iso(),
+        "path": str(html_path),
+        "title": payload.title,
+        "description": payload.description,
+        "audience": payload.audience,  # NEW
     }
-    if audience:
-        source_meta["audience"] = audience
+    _register(payload.docId, reg_entry)
 
-    result = upsert_document(
-        doc_id=payload.docId,
-        title=payload.title,
-        description=payload.description,
-        text=text,
-        source_meta=source_meta,
-    )
-    registry[payload.docId]["lastFetched"] = now_iso()
-    if audience:
-        registry[payload.docId]["audience"] = audience
-    save_registry(registry)
-    return result
+    return {"ok": True, "inserted": inserted, "docId": payload.docId}
 
-@app.post("/search")
-async def search(payload: SearchRequest, _: None = Depends(require_api_key)):
-    if not payload.query or not payload.query.strip():
-        raise HTTPException(status_code=400, detail="Query is required.")
-
-    top_k = payload.top_k or 4
-    try:
-        top_k = max(1, min(int(top_k), 20))
-    except Exception:
-        top_k = 4
-
-    query_result = collection.query(
-        query_texts=[payload.query],
-        n_results=top_k,
-        where=payload.where or None,
-    )
-
-    ids = query_result.get("ids") or []
-    if not ids:
-        return {"matches": []}
-
-    docs = []
-    documents = query_result.get("documents") or []
-    metadatas = query_result.get("metadatas") or []
-    distances = query_result.get("distances") or []
-
-    first_ids = ids[0] if ids else []
-    first_docs = documents[0] if documents else []
-    first_metas = metadatas[0] if metadatas else []
-    first_distances = distances[0] if distances else []
-
-    for idx, match_id in enumerate(first_ids):
-        docs.append({
-            "id": match_id,
-            "text": first_docs[idx] if idx < len(first_docs) else None,
-            "metadata": first_metas[idx] if idx < len(first_metas) else None,
-            "distance": first_distances[idx] if idx < len(first_distances) else None,
+@app.get("/documents", dependencies=[Depends(_require_key)])
+def documents():
+    reg = _load_registry()
+    out = []
+    for doc_id, meta in sorted(reg.items(), key=lambda x: x[0]):
+        try:
+            ids = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000).get("ids", [])
+            count = len(ids)
+        except Exception:
+            count = 0
+        out.append({
+            "id": doc_id,            # UI ootab 'id'
+            "docId": doc_id,
+            "chunks": count,
+            "title": meta.get("title"),
+            "description": meta.get("description"),
+            "type": meta.get("type") or "FILE",
+            "fileName": meta.get("fileName"),
+            "sourceUrl": meta.get("url"),
+            "mimeType": meta.get("mimeType"),
+            "audience": meta.get("audience"),
+            "createdAt": meta.get("createdAt"),
+            "updatedAt": meta.get("updatedAt"),
+            "lastIngested": meta.get("lastIngested"),
+            **{k: v for k, v in meta.items() if k not in {
+                "title","description","type","fileName","url","mimeType",
+                "audience","createdAt","updatedAt","lastIngested"
+            }},
         })
+    return out
 
-    return {"matches": docs}
-
-@app.post("/ingest/reindex")
-async def reindex(payload: ReindexRequest, _: None = Depends(require_api_key)):
-    entry = registry.get(payload.docId)
+@app.post("/documents/{doc_id}/reindex", dependencies=[Depends(_require_key)])
+def reindex(doc_id: str):
+    reg = _load_registry()
+    entry = reg.get(doc_id)
     if not entry:
-        raise HTTPException(status_code=404, detail="Document not found in registry.")
+        raise HTTPException(404, "Document not in registry")
 
-    source = entry.get("source", {})
-    doc_type = source.get("type")
+    # delete old vectors for this doc
+    try:
+        collection.delete(where={"doc_id": doc_id})
+    except Exception:
+        pass
 
-    if doc_type == "FILE":
-        relative_path = source.get("storedFile")
-        if not relative_path:
-            raise HTTPException(status_code=400, detail="Stored file path missing.")
-        file_path = STORAGE_ROOT / relative_path
-        if not file_path.exists():
-            raise HTTPException(status_code=404, detail="Stored file is missing from disk.")
-        raw = file_path.read_bytes()
-        text = extract_text_from_bytes(raw, source.get("mimeType") or "")
-        if not text:
-            raise HTTPException(status_code=422, detail="Could not re-extract text from stored file.")
-        result = upsert_document(
-            doc_id=payload.docId,
-            title=entry.get("title"),
-            description=entry.get("description"),
-            text=text,
-            source_meta=source,
-        )
-        return result
+    # re-ingest from stored source
+    if entry.get("type") == "FILE":
+        p = Path(entry["path"])
+        raw = p.read_bytes()
+        mime = entry.get("mimeType") or _detect_mime(p.name, raw, None)
+        if mime == "application/pdf":
+            text = _extract_text_from_pdf(raw)
+        elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            text = _extract_text_from_docx(raw)
+        elif mime == "text/html":
+            text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
+        else:
+            text = raw.decode("utf-8", errors="ignore")
 
-    if doc_type == "URL":
-        url = source.get("url")
-        if not url:
-            raise HTTPException(status_code=400, detail="URL missing from registry entry.")
-        text, html = fetch_url_text(url)
-        stored_html = write_html_file(payload.docId, html)
-        source["storedHtml"] = stored_html
-        result = upsert_document(
-            doc_id=payload.docId,
-            title=entry.get("title"),
-            description=entry.get("description"),
-            text=text,
-            source_meta=source,
-        )
-        registry[payload.docId]["lastFetched"] = now_iso()
-        save_registry(registry)
-        return result
+        inserted = _ingest_text(doc_id, text, meta_common={
+            "title": entry.get("title"),
+            "description": entry.get("description"),
+            "source": {"type": "file", "path": entry.get("path")},
+            "mimeType": mime,
+            "audience": entry.get("audience"),  # NEW
+        })
+        entry["lastIngested"] = now_iso()
+        _register(doc_id, entry)
+        return {"ok": True, "inserted": inserted, "doc": entry}
 
-    raise HTTPException(status_code=400, detail="Unsupported registry entry type.")
+    if entry.get("type") == "URL":
+        html_path = Path(entry["path"])
+        html = html_path.read_text(encoding="utf-8")
+        text = _extract_text_from_html(html)
+        inserted = _ingest_text(doc_id, text, meta_common={
+            "title": entry.get("title"),
+            "description": entry.get("description"),
+            "source": {"type": "url", "url": entry.get("url"), "path": entry.get("path")},
+            "mimeType": "text/html",
+            "audience": entry.get("audience"),  # NEW
+        })
+        entry["lastIngested"] = now_iso()
+        _register(doc_id, entry)
+        return {"ok": True, "inserted": inserted, "doc": entry}
 
-@app.get("/health")
-async def health() -> Dict[str, str]:
-    return {"status": "ok", "documents": str(len(registry))}
+    raise HTTPException(400, "Unsupported registry entry type")
+
+@app.delete("/documents/{doc_id}", dependencies=[Depends(_require_key)])
+def delete_doc(doc_id: str):
+    # delete vectors
+    try:
+        collection.delete(where={"doc_id": doc_id})
+    except Exception:
+        pass
+
+    # delete registry entry and files
+    reg = _load_registry()
+    had = doc_id in reg
+    if had:
+        reg.pop(doc_id, None)
+        _save_registry(reg)
+
+    # remove files directory
+    try:
+        sub = _doc_dir_hashed(doc_id)
+        if sub.exists():
+            for p in sub.glob("*"):
+                try:
+                    p.unlink(missing_ok=True)
+                except Exception:
+                    pass
+            sub.rmdir()
+    except Exception:
+        pass
+
+    return {"ok": True, "deleted": doc_id, "hadEntry": had}
+
+@app.post("/search", dependencies=[Depends(_require_key)])
+def search(payload: SearchIn):
+    # Build Chroma metadata filter
+    md_where: Dict[str, object] = {}
+
+    # Legacy single-doc filter
+    if payload.filterDocId:
+        md_where["doc_id"] = payload.filterDocId
+
+    # New: accept {"audience": "..."} or {"audience": {"$in": [...]}}
+    if isinstance(payload.where, dict):
+        aud = payload.where.get("audience")
+        if isinstance(aud, dict) and "$in" in aud:
+            md_where["audience"] = {"$in": list(aud["$in"])}
+        elif isinstance(aud, str):
+            md_where["audience"] = aud
+
+        # allow direct doc_id in where
+        if "doc_id" in payload.where and isinstance(payload.where["doc_id"], str):
+            md_where["doc_id"] = payload.where["doc_id"]
+
+    # Embed the query with OpenAI and use query_embeddings
+    q_emb = _embed_batch([payload.query])[0]
+    res = collection.query(
+        query_embeddings=[q_emb],
+        n_results=max(1, min(50, payload.top_k or 5)),
+        where=md_where or None,
+        include=["documents", "metadatas", "ids"],
+    )
+    docs = res.get("documents", [[]])[0]
+    metas = res.get("metadatas", [[]])[0]
+    ids = res.get("ids", [[]])[0]
+
+    out = []
+    for i, ch in enumerate(docs):
+        md = metas[i] if i < len(metas) else {}
+        src = md.get("source") or {}
+        out.append({
+            "id": ids[i] if i < len(ids) else None,
+            "doc_id": md.get("doc_id"),
+            "title": md.get("title"),
+            "description": md.get("description"),
+            "audience": md.get("audience"),
+            "chunk": ch,
+            # convenience mirrors
+            "url": src.get("url"),
+            "filePath": src.get("path"),
+            "page": md.get("page"),
+        })
+    return {"results": out}

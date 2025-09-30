@@ -38,34 +38,42 @@ function toOpenAiMessages(history) {
     }));
 }
 
+/** Ühtlusta RAG vaste: toeta nii vana (metadata+text) kui uut (chunk+väljad) kuju */
+function normalizeMatch(m, idx) {
+  const md = m?.metadata || {};
+  const title =
+    md.title || m?.title || md.fileName || md.url || "Allikas";
+  const body = m?.text || m?.chunk || "";
+  const audience = md.audience || m?.audience || null;
+  const url = md.url || null;
+  const file = (md.source && md.source.path) || md.storedFile || null;
+  const page = m?.page ?? md.page ?? null;
+  const score =
+    typeof m?.distance === "number" ? (1 - m.distance) : null;
+
+  return {
+    id: m?.id || `${title}-${idx}`,
+    title,
+    body: (body || "").trim(),
+    audience,
+    url,
+    file,
+    page,
+    score,
+  };
+}
+
 /** RAG vasted üheks kontekstiplokiks */
 function buildContextBlocks(matches) {
   if (!Array.isArray(matches) || matches.length === 0) return "";
-  return matches
-    .map((match, idx) => {
-      const header = `(${idx + 1})`;
-      const title =
-        match?.metadata?.title ||
-        match?.metadata?.fileName ||
-        match?.metadata?.url ||
-        "Allikas";
-      const source =
-        match?.metadata?.url ||
-        match?.metadata?.storedHtml ||
-        match?.metadata?.storedFile ||
-        "";
-      const audience = match?.metadata?.audience;
-      const body = (match?.text || "").trim();
-      const distance =
-        typeof match?.distance === "number"
-          ? ` (score: ${(1 - match.distance).toFixed(3)})`
-          : "";
-      const lines = [
-        `${header} ${title}${distance}`,
-        body ? body : "(sisukokkuvõte puudub)",
-      ];
-      if (audience) lines.push(`Sihtgrupp: ${audience}`);
-      if (source) lines.push(`Viide: ${source}`);
+  const items = matches.map(normalizeMatch);
+  return items
+    .map((it, i) => {
+      const header = `(${i + 1}) ${it.title}${typeof it.score === "number" ? ` (score: ${it.score.toFixed(3)})` : ""}`;
+      const lines = [header, it.body || "(sisukokkuvõte puudub)"];
+      if (it.audience) lines.push(`Sihtgrupp: ${it.audience}`);
+      if (it.url) lines.push(`Viide: ${it.url}`);
+      if (!it.url && it.file) lines.push(`Fail: ${it.file}`);
       return lines.join("\n");
     })
     .join("\n\n");
@@ -146,7 +154,7 @@ export async function POST(req) {
     Array.isArray(payload?.history) ? payload.history : []
   );
 
-  // 2) sessioon (lubame ka anonüümselt, aga vestluseks nõuame login'i)
+  // 2) sessioon
   let session = null;
   try {
     session = await getServerSession(authOptions);
@@ -179,18 +187,23 @@ export async function POST(req) {
   const audienceFilter =
     normalizedRole === "CLIENT" ? { audience: { $in: ["CLIENT", "BOTH"] } } : undefined;
 
-  // 6) RAG otsing
-  const ragResponse = await searchRag({
-    query: message,
-    topK: 5,
-    filters: audienceFilter,
-  });
-  if (!ragResponse?.ok) {
-    const ragMessage = ragResponse?.message || "RAG teenus ei vastanud.";
-    const status = ragResponse?.auth ? 502 : ragResponse?.status || 502;
-    return makeError(ragMessage, status);
+  // 6) RAG otsing (robustne: kui RAG kukub, jätkame ilma kontekstita)
+  let matches = [];
+  try {
+    const ragResponse = await searchRag({
+      query: message,
+      topK: 5,
+      filters: audienceFilter, // töötab, kui uuendasid RAG serveri /search 'where' toe peale
+    });
+
+    if (ragResponse?.ok) {
+      // toeta nii uue kuju 'results' kui vana 'matches'
+      matches = ragResponse?.data?.results || ragResponse?.data?.matches || [];
+    }
+  } catch {
+    // ignore – vastame ilma kontekstita
   }
-  const matches = ragResponse?.data?.matches || [];
+
   const context = buildContextBlocks(matches);
 
   // 7) OpenAI vastus
@@ -207,15 +220,20 @@ export async function POST(req) {
     return makeError(errMessage, 502, { code: err?.name });
   }
 
-  // 8) allikad vastusesse
-  const sources = matches.map((m) => ({
-    id: m.id,
-    title: m?.metadata?.title || m?.metadata?.fileName || m?.metadata?.url,
-    url: m?.metadata?.url,
-    file: m?.metadata?.storedFile,
-    audience: m?.metadata?.audience,
-    page: m?.metadata?.page ?? m?.page ?? null,
-  }));
+  // 8) allikad vastusesse (kui RAG andis minimaalse kuju)
+  const sources = Array.isArray(matches)
+    ? matches.map((m, i) => {
+        const n = normalizeMatch(m, i);
+        return {
+          id: n.id,
+          title: n.title,
+          url: n.url || undefined,
+          file: n.file || undefined,
+          audience: n.audience || undefined,
+          page: n.page ?? null,
+        };
+      })
+    : [];
 
   return NextResponse.json({
     ok: true,

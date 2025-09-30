@@ -40,6 +40,3 @@ rag-service/**/*.py[cod]
 # (valikuline) rakenduse lokaalne storage
 # Uncomment, kui ei soovi andmeid versioneerida
 # storage/
-
-rag-service/storage/
-rag-service/main.py.bak.*

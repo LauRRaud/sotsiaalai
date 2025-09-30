@@ -45,11 +45,11 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  // Sinu ?riloogika
+  // Äri
   profile       Profile?
   subscriptions Subscription[]
   payments      Payment[]
-   ragDocuments RagDocument[]
+  ragDocuments  RagDocument[]
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -99,7 +99,7 @@ model Session {
 
 model VerificationToken {
   identifier String
-  token      String @unique
+  token      String
   expires    DateTime
 
   @@unique([identifier, token])
@@ -127,7 +127,7 @@ model Subscription {
 model Payment {
   id                  String          @id @default(cuid())
   subscriptionId      String
-  userId              String                         // ? lisatud
+  userId              String
   provider            PaymentProvider @default(MAKSEKESKUS)
   providerPaymentId   String
   amount              Decimal         @db.Decimal(10, 2)
@@ -138,11 +138,11 @@ model Payment {
   createdAt           DateTime        @default(now())
 
   subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)   // ? lisatud
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerPaymentId])
   @@index([subscriptionId])
-  @@index([userId])                 // ? lisatud
+  @@index([userId])
 }
 
 enum RagSourceType {
@@ -164,26 +164,26 @@ enum Audience {
 }
 
 model RagDocument {
-  id         String        @id @default(cuid())
-  adminId    String?
-  admin      User?         @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  id          String        @id @default(cuid())
+  adminId     String?
+  admin       User?         @relation(fields: [adminId], references: [id], onDelete: SetNull)
 
-  title      String
+  title       String?
   description String?
-  type       RagSourceType
-  status     RagStatus     @default(PENDING)
-  audience   Audience @default(BOTH)
-  sourceUrl  String?
-  fileName   String?
-  mimeType   String?
-  fileSize   Int?
-  remoteId   String?
-  error      String?
-  metadata   Json?
-  insertedAt DateTime?
+  type        RagSourceType
+  status      RagStatus     @default(PENDING)
+  audience    Audience      @default(BOTH)
+  sourceUrl   String?
+  fileName    String?
+  mimeType    String?
+  fileSize    Int?
+  remoteId    String?
+  error       String?
+  metadata    Json?
+  insertedAt  DateTime?
 
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@index([adminId])
   @@index([status])
@@ -191,9 +191,3 @@ model RagDocument {
   @@index([type])
   @@index([createdAt])
 }
-
-
-
-
-
-
