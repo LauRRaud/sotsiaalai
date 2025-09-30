@@ -208,12 +208,17 @@ def _ingest_text(doc_id: str, text: str, meta_common: Dict) -> int:
             "doc_id": doc_id,
             "title": meta_common.get("title"),
             "description": meta_common.get("description"),
-            "source": meta_common.get("source"),
+            # ---- FLATTENED SOURCE FIELDS (no dicts!) ----
+            "source_type": meta_common.get("source_type"),
+            "source_path": meta_common.get("source_path"),
+            "source_url": meta_common.get("source_url"),
+            # ---------------------------------------------
             "mimeType": meta_common.get("mimeType"),
             "audience": meta_common.get("audience"),  # NEW
             "createdAt": now_iso(),
         }
-        metadatas.append(m)
+        # remove None values to keep metadata tidy
+        metadatas.append({k: v for k, v in m.items() if v is not None})
 
     embeddings = _embed_batch(chunks)
     collection.upsert(documents=chunks, metadatas=metadatas, ids=ids, embeddings=embeddings)
@@ -280,7 +285,9 @@ def ingest_file(payload: IngestFile):
         meta_common={
             "title": payload.title,
             "description": payload.description,
-            "source": {"type": "file", "path": str(raw_path)},
+            # FLATTENED:
+            "source_type": "file",
+            "source_path": str(raw_path),
             "mimeType": mime,
             "audience": payload.audience,  # NEW
         },
@@ -322,7 +329,10 @@ def ingest_url(payload: IngestURL):
         meta_common={
             "title": payload.title,
             "description": payload.description,
-            "source": {"type": "url", "url": payload.url, "path": str(html_path)},
+            # FLATTENED:
+            "source_type": "url",
+            "source_url": payload.url,
+            "source_path": str(html_path),
             "mimeType": "text/html",
             "audience": payload.audience,  # NEW
         },
@@ -402,7 +412,8 @@ def reindex(doc_id: str):
         inserted = _ingest_text(doc_id, text, meta_common={
             "title": entry.get("title"),
             "description": entry.get("description"),
-            "source": {"type": "file", "path": entry.get("path")},
+            "source_type": "file",
+            "source_path": entry.get("path"),
             "mimeType": mime,
             "audience": entry.get("audience"),  # NEW
         })
@@ -417,7 +428,9 @@ def reindex(doc_id: str):
         inserted = _ingest_text(doc_id, text, meta_common={
             "title": entry.get("title"),
             "description": entry.get("description"),
-            "source": {"type": "url", "url": entry.get("url"), "path": entry.get("path")},
+            "source_type": "url",
+            "source_url": entry.get("url"),
+            "source_path": entry.get("path"),
             "mimeType": "text/html",
             "audience": entry.get("audience"),  # NEW
         })
@@ -493,7 +506,6 @@ def search(payload: SearchIn):
     out = []
     for i, ch in enumerate(docs):
         md = metas[i] if i < len(metas) else {}
-        src = md.get("source") or {}
         out.append({
             "id": ids[i] if i < len(ids) else None,
             "doc_id": md.get("doc_id"),
@@ -501,9 +513,10 @@ def search(payload: SearchIn):
             "description": md.get("description"),
             "audience": md.get("audience"),
             "chunk": ch,
-            # convenience mirrors
-            "url": src.get("url"),
-            "filePath": src.get("path"),
+            # flattened source mirrors
+            "url": md.get("source_url"),
+            "filePath": md.get("source_path"),
+            "source_type": md.get("source_type"),
             "page": md.get("page"),
         })
     return {"results": out}
