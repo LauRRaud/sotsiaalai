@@ -89,7 +89,7 @@ async function assertPublicUrl(urlString) {
 export async function POST(req) {
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
-  if (!isAdmin(session)) return makeError("Ligipääs keelatud", 403);
+  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
   let payload;
   try {

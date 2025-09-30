@@ -15,7 +15,7 @@ function makeError(message, status = 400, extras = {}) {
 export async function GET(req) {
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
-  if (!isAdmin(session)) return makeError("Ligipääs keelatud", 403);
+  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
   const { searchParams } = new URL(req.url);
   const limitParam = Number(searchParams.get("limit") || 25);

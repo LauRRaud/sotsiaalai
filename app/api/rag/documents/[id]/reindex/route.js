@@ -16,7 +16,7 @@ function makeError(message, status = 400, extras = {}) {
 export async function POST(_req, { params }) {
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
-  if (!isAdmin(session)) return makeError("Ligipääs keelatud", 403);
+if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
   const docId = params?.id;
   if (!docId) return makeError("ID puudub.");

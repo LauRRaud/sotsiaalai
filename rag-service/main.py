@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 
 import chromadb
-from chromadb.utils import embedding_functions
+from chromadb.utils.embedding_functions import FastEmbedEmbeddingFunction
 
 try:
     from pypdf import PdfReader
@@ -34,14 +34,14 @@ RAW_DIR = STORAGE_ROOT / "raw"
 HTML_DIR = STORAGE_ROOT / "urls"
 REGISTRY_PATH = STORAGE_ROOT / "registry.json"
 
-EMBED_MODEL = os.environ.get("RAG_EMBED_MODEL", "all-MiniLM-L6-v2")
+EMBED_MODEL = os.environ.get("RAG_EMBED_MODEL", "intfloat/multilingual-e5-small")
 COLLECTION_NAME = os.environ.get("RAG_COLLECTION", "sotsiaalai")
 
 for folder in (STORAGE_ROOT, RAW_DIR, HTML_DIR):
     folder.mkdir(parents=True, exist_ok=True)
 
 client = chromadb.PersistentClient(path=str(STORAGE_ROOT / "chroma"))
-embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=EMBED_MODEL)
+embedding_fn = FastEmbedEmbeddingFunction(model_name=EMBED_MODEL)
 collection = client.get_or_create_collection(name=COLLECTION_NAME, embedding_function=embedding_fn)
 
 app = FastAPI(title="SotsiaalAI RAG Service", version="0.1.0")
