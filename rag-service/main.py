@@ -58,7 +58,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 # OpenAI client
 oa = OpenAI(api_key=OPENAI_API_KEY)
 
-app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.2")
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.3")
 
 app.add_middleware(
     CORSMiddleware,
@@ -497,11 +497,12 @@ def search(payload: SearchIn):
         query_embeddings=[q_emb],
         n_results=max(1, min(50, payload.top_k or 5)),
         where=md_where or None,
-        include=["documents", "metadatas", "ids"],
+        include=["documents", "metadatas"],  # 'ids' ei ole lubatud include'is
     )
+
     docs = res.get("documents", [[]])[0]
     metas = res.get("metadatas", [[]])[0]
-    ids = res.get("ids", [[]])[0]
+    ids = res.get("ids", [[]])[0]  # Chroma tagastab selle niikuinii, lihtsalt mitte include'i kaudu
 
     out = []
     for i, ch in enumerate(docs):
