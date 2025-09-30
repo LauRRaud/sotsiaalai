@@ -41,15 +41,13 @@ function toOpenAiMessages(history) {
 /** Ühtlusta RAG vaste: toeta nii vana (metadata+text) kui uut (chunk+väljad) kuju */
 function normalizeMatch(m, idx) {
   const md = m?.metadata || {};
-  const title =
-    md.title || m?.title || md.fileName || md.url || "Allikas";
+  const title = md.title || m?.title || md.fileName || md.url || "Allikas";
   const body = m?.text || m?.chunk || "";
   const audience = md.audience || m?.audience || null;
   const url = md.url || null;
   const file = (md.source && md.source.path) || md.storedFile || null;
   const page = m?.page ?? md.page ?? null;
-  const score =
-    typeof m?.distance === "number" ? (1 - m.distance) : null;
+  const score = typeof m?.distance === "number" ? 1 - m.distance : null;
 
   return {
     id: m?.id || `${title}-${idx}`,
@@ -69,7 +67,9 @@ function buildContextBlocks(matches) {
   const items = matches.map(normalizeMatch);
   return items
     .map((it, i) => {
-      const header = `(${i + 1}) ${it.title}${typeof it.score === "number" ? ` (score: ${it.score.toFixed(3)})` : ""}`;
+      const header = `(${i + 1}) ${it.title}${
+        typeof it.score === "number" ? ` (score: ${it.score.toFixed(3)})` : ""
+      }`;
       const lines = [header, it.body || "(sisukokkuvõte puudub)"];
       if (it.audience) lines.push(`Sihtgrupp: ${it.audience}`);
       if (it.url) lines.push(`Viide: ${it.url}`);
@@ -101,7 +101,7 @@ Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt 
   return `${sys}\n\n${lines.join("\n")}\nAI:`;
 }
 
-/** OpenAI Responses API kutse (sobib gpt-5-mini'le) */
+/** OpenAI Responses API kutse (ilma 'temperature' parameetrita) */
 async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -113,7 +113,7 @@ async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const resp = await client.responses.create({
     model: DEFAULT_MODEL,
     input,
-    temperature: 0.3,
+    // NB: ära saada 'temperature' — mitmed mudelid (sh gpt-5-mini) ei toeta seda Responses API-s
   });
 
   const reply =
@@ -130,7 +130,6 @@ export async function POST(req) {
   try {
     ({ authOptions } = await import("@/pages/api/auth/[...nextauth]"));
   } catch {
-    // kui kasutad App Routeri authi (auth.js)
     try {
       const mod = await import("@/auth");
       authOptions = mod.authConfig || mod.authOptions || mod.default;
@@ -150,9 +149,7 @@ export async function POST(req) {
   const message = String(payload?.message || "").trim();
   if (!message) return makeError("Sõnum on kohustuslik.");
 
-  const history = toOpenAiMessages(
-    Array.isArray(payload?.history) ? payload.history : []
-  );
+  const history = toOpenAiMessages(Array.isArray(payload?.history) ? payload.history : []);
 
   // 2) sessioon
   let session = null;
@@ -193,11 +190,10 @@ export async function POST(req) {
     const ragResponse = await searchRag({
       query: message,
       topK: 5,
-      filters: audienceFilter, // töötab, kui uuendasid RAG serveri /search 'where' toe peale
+      filters: audienceFilter,
     });
 
     if (ragResponse?.ok) {
-      // toeta nii uue kuju 'results' kui vana 'matches'
       matches = ragResponse?.data?.results || ragResponse?.data?.matches || [];
     }
   } catch {
@@ -216,11 +212,16 @@ export async function POST(req) {
       effectiveRole: normalizedRole,
     });
   } catch (err) {
-    const errMessage = err?.message || "OpenAI päring ebaõnnestus.";
+    // proovi võtta OpenAI errorist selgem sõnum
+    const errMessage =
+      (err?.response?.data?.error?.message ||
+        err?.error?.message ||
+        err?.message) ??
+      "OpenAI päring ebaõnnestus.";
     return makeError(errMessage, 502, { code: err?.name });
   }
 
-  // 8) allikad vastusesse (kui RAG andis minimaalse kuju)
+  // 8) allikad vastusesse
   const sources = Array.isArray(matches)
     ? matches.map((m, i) => {
         const n = normalizeMatch(m, i);
