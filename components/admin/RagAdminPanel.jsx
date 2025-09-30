@@ -300,13 +300,13 @@ export default function RagAdminPanel() {
         const res = await fetch(`/api/rag/documents/${docId}/reindex`, { method: "POST" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(data?.message || "Taasingestus ebaõnnestus.");
+          throw new Error(data?.message || "Taasindekseerimine ebaõnnestus.");
         }
         showOk("Taasingestus algatatud.");
         setDocs((prev) => prev.map((doc) => (doc.id === docId ? { ...doc, ...data.doc } : doc)));
         await fetchDocuments();
       } catch (err) {
-        showError(err?.message || "Taasingestus ebaõnnestus.");
+        showError(err?.message || "Taasindekseerimine ebaõnnestus.");
       } finally {
         setReindexingId(null);
       }
@@ -787,7 +787,7 @@ export default function RagAdminPanel() {
                         opacity: reindexingId === doc.id ? 0.7 : 1,
                       }}
                     >
-                      {reindexingId === doc.id ? "Töötlen..." : "Taasingesta"}
+                      {reindexingId === doc.id ? "Töötlen..." : "Taasindekseerin"}
                     </button>
                     {doc.insertedAt && (
                       <span style={{ fontSize: "0.78rem", opacity: 0.65 }}>

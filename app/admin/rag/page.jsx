@@ -32,7 +32,7 @@ export default async function AdminRagPage() {
     <div className="main-content glass-box glass-left" aria-labelledby="rag-admin-title" lang="et">
       <h1 id="rag-admin-title" className="glass-title">RAG andmebaasi haldus</h1>
       <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
-        Lisa, uuenda ja taasingesta materjale, mida vestlusassistent kasutab.
+        Lisa, uuenda ja taasindekseeri materjale, mida vestlusassistent kasutab.
       </p>
       <RagAdminPanel />
     </div>
