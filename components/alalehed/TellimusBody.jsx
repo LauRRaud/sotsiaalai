@@ -1,230 +1,136 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
-import ModalConfirm from "@/components/ui/ModalConfirm";
-
-const STATUS_LABELS = {
-  ACTIVE: "Aktiivne",
-  CANCELED: "Lõppenud",
-  PAST_DUE: "Maksmata",
-  NONE: "Puudub",
-};
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function TellimusBody() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const nextUrl = searchParams?.get("next") || "/vestlus";
-
-  const { data: session, status: sessionStatus } = useSession();
-  const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [subActive, setSubActive] = useState(false);
   const [error, setError] = useState("");
-  const [showCancel, setShowCancel] = useState(false);
-  const [mutating, setMutating] = useState(false);
-
-  const roleLabel = useMemo(() => {
-    const role = session?.user?.role;
-    if (role === "SOCIAL_WORKER") return "Spetsialist";
-    if (role === "ADMIN") return "Administraator";
-    return "Eluküsimusega pöörduja";
-  }, [session?.user?.role]);
-
-  const email = session?.user?.email ?? session?.user?.name ?? "kasutaja@email.ee";
-
-  const statusKey = subscription?.status ?? (session?.user?.subActive ? "ACTIVE" : "NONE");
-  const statusLabel = STATUS_LABELS[statusKey] ?? STATUS_LABELS.NONE;
-  const hasActiveSub = statusKey === "ACTIVE";
-
-  const expiryLabel = useMemo(() => {
-    if (!subscription?.validUntil) return "—";
-    return new Date(subscription.validUntil).toLocaleDateString("et-EE");
-  }, [subscription?.validUntil]);
-
-  const fetchSubscription = useCallback(async () => {
-    if (sessionStatus !== "authenticated") return;
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/subscription", { cache: "no-store" });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(payload?.error || "Tellimuse andmete laadimine ebaõnnestus.");
-        setSubscription(null);
-      } else {
-        setSubscription(payload.subscription ?? null);
-      }
-    } catch (err) {
-      console.error("subscription GET", err);
-      setError("Server ei vasta. Palun proovi uuesti.");
-      setSubscription(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [sessionStatus]);
+  const [success, setSuccess] = useState("");
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
-    fetchSubscription();
-  }, [fetchSubscription]);
-
-  const refreshSession = useCallback(async () => {
-    try {
-      await fetch("/api/auth/session?update", { cache: "no-store" });
-    } catch (err) {
-      console.warn("session refresh failed", err);
-    }
+    (async () => {
+      try {
+        const res = await fetch("/api/subscription", { cache: "no-store" });
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setError(payload?.error || "Tellimuse oleku laadimine ebaõnnestus.");
+          return;
+        }
+        setSubActive(payload?.subscription?.status === "active");
+      } catch (err) {
+        console.error("subscription GET", err);
+        setError("Server ei vasta. Palun proovi uuesti.");
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
-  async function startSubscription() {
-    setMutating(true);
-    setError("");
+  async function handleActivate() {
     try {
-      const res = await fetch("/api/subscription", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: "kuutellimus" }),
-      });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(payload?.error || "Tellimuse käivitamine ebaõnnestus.");
-        return;
-      }
-      setSubscription(payload.subscription ?? null);
-      await refreshSession();
-      router.replace(nextUrl);
-      router.refresh();
+      setProcessing(true);
+      setError("");
+      setSuccess("");
+      // DEMO: redirect to Maksekeskus
+      alert("Suuname Maksekeskuse makselehele (demo)...");
+      router.push("/tellimus?status=demo");
     } catch (err) {
-      console.error("subscription POST", err);
-      setError("Server ei vasta. Palun proovi uuesti.");
+      console.error("activate", err);
+      setError("Makse algatamine ebaõnnestus.");
     } finally {
-      setMutating(false);
+      setProcessing(false);
     }
   }
 
-  async function cancelSubscription() {
-    setMutating(true);
-    setError("");
-    try {
-      const res = await fetch("/api/subscription", { method: "DELETE" });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(payload?.error || "Tellimuse tühistamine ebaõnnestus.");
-        return;
-      }
-      setSubscription(payload.subscription ?? null);
-      await refreshSession();
-    } catch (err) {
-      console.error("subscription DELETE", err);
-      setError("Server ei vasta. Palun proovi uuesti.");
-    } finally {
-      setMutating(false);
-      setShowCancel(false);
-    }
-  }
-
-  if (sessionStatus === "loading" || loading) {
+  if (loading) {
     return (
-      <div className="main-content glass-box">
-        <h1 className="glass-title">Halda tellimust</h1>
-        <p style={{ padding: "1rem" }}>Laen tellimuse andmeid…</p>
-      </div>
-    );
-  }
-
-  if (sessionStatus !== "authenticated") {
-    return (
-      <div className="main-content glass-box">
-        <h1 className="glass-title">Halda tellimust</h1>
-        <p style={{ padding: "1rem" }}>Peate esmalt sisse logima.</p>
+      <div className="main-content glass-box glass-left">
+        <h1 className="glass-title">Tellimus</h1>
+        <p style={{ padding: "1rem" }}>Laen tellimuse infot…</p>
       </div>
     );
   }
 
   return (
-    <>
-      <div className="main-content glass-box">
-        <h1 className="glass-title">Halda tellimust</h1>
+    <div className="main-content glass-box glass-left" role="main" lang="et">
+      <h1 className="glass-title">Tellimus</h1>
 
-        {hasActiveSub && (
-          <div className="tellimus-status-center" style={{ marginBottom: "1rem" }}>
+      {subActive ? (
+        <>
+          <p className="glass-text">
+            Sinu tellimus on aktiivne. Kuutasu: <strong>7,99 € / kuu</strong>.
+          </p>
+          <p className="glass-text">
+            Kui soovid, saad tellimuse igal ajal tühistada oma profiililehelt
+            või kirjutades e-posti aadressile{" "}
+            <a href="mailto:info@sotsiaal.ai" className="link-brand">
+              info@sotsiaal.ai
+            </a>.
+          </p>
+
+          <div className="tellimus-btn-center">
+            <Link href="/profiil" className="btn-primary">
+              Ava profiil
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="glass-text">
+            SotsiaalAI teenus põhineb <strong>igakuise püsimaksega tellimusel</strong>.
+            Kuutasu on <strong>7,99 €</strong>. Makse sooritatakse automaatselt
+            valitud makseviisil (nt kaart või pangalink) läbi Maksekeskuse.
+          </p>
+
+          <div className="glass-note" style={{ margin: "1.25rem 0", textAlign: "center" }}>
+            <p>
+              Tellimust saab igal ajal tühistada oma profiililehel või
+              kirjutades aadressile{" "}
+              <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>.
+            </p>
+          </div>
+
+          {error && (
+            <div role="alert" className="glass-note">
+              {error}
+            </div>
+          )}
+          {success && !error && (
+            <div role="status" className="glass-note glass-note--success">
+              {success}
+            </div>
+          )}
+
+          <div className="tellimus-btn-center">
             <button
               type="button"
               className="btn-primary"
-              onClick={() => {
-                router.replace(nextUrl);
-                router.refresh();
-              }}
+              disabled={processing}
+              onClick={handleActivate}
             >
-              Jätka {nextUrl === "/vestlus" ? "vestluses" : "tagasi"}
+              {processing ? "Suunan maksele…" : "Maksa ja aktiveeri tellimus"}
             </button>
           </div>
-        )}
+        </>
+      )}
 
-        <div className="tellimus-status-center">
-          <div className="tellimus-status-label">Tellimuse staatus</div>
-          <span className={`tellimus-status-pill status-${statusKey?.toLowerCase?.()}`}>
-            {statusLabel}
-          </span>
-        </div>
-
-        <div className="tellimus-info-list">
-          <div>
-            <b>Roll:</b> {roleLabel}
-          </div>
-          <div>
-            <b>Kuutasu:</b> 7.99 €
-          </div>
-          <div>
-            <b>Kehtiv kuni:</b> {hasActiveSub ? expiryLabel : "—"}
-          </div>
-          <div>
-            <b>E-post:</b> {email}
-          </div>
-        </div>
-
-        {error && (
-          <div role="alert" className="glass-note" style={{ marginBottom: "1rem" }}>
-            {error}
-          </div>
-        )}
-
-        <div className="tellimus-btn-center">
-          {hasActiveSub ? (
-            <button className="btn-danger" onClick={() => setShowCancel(true)} disabled={mutating}>
-              {mutating ? "Tühistan…" : "Tühista tellimus"}
-            </button>
-          ) : (
-            <button className="btn-primary" onClick={startSubscription} disabled={mutating}>
-              {mutating ? "Käivitan…" : "Alusta tellimist"}
-            </button>
-          )}
-        </div>
-
-        <div className="back-btn-wrapper">
-          <button
-            type="button"
-            className="back-arrow-btn"
-            onClick={() => router.back()}
-            aria-label="Tagasi"
-          >
-            <span className="back-arrow-circle"></span>
-          </button>
-        </div>
-
-        <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+      <div className="back-btn-wrapper">
+        <button
+          type="button"
+          className="back-arrow-btn"
+          onClick={() => router.push("/")}
+          aria-label="Tagasi avalehele"
+        >
+          <span className="back-arrow-circle" />
+        </button>
       </div>
 
-      {showCancel && (
-        <ModalConfirm
-          message="Kas oled kindel, et soovid tellimuse tühistada?"
-          confirmLabel={mutating ? "Tühistan…" : "Jah, tühista"}
-          cancelLabel="Katkesta"
-          onConfirm={cancelSubscription}
-          onCancel={() => setShowCancel(false)}
-          disabled={mutating}
-        />
-      )}
-    </>
+      <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+    </div>
   );
 }

@@ -35,8 +35,8 @@ export default function Space({
     ],
   };
 
-  // Mobiil: ÜLEVAL SAMA mis desktopi top (#070b16), ALL tumedam hall
-  const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: "#3c3c3cff" };
+  // Mobiil: lukusta gradient tumedale sinakas toonile (sama tipp, veidi heledam põhi)
+  const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: PRESET.palette.baseBottom };
 
   const isMobile = useIsMobile(); // ≤768px
   const hasFullCustom = !!(palette && palette.baseTop && palette.baseBottom);
@@ -58,6 +58,7 @@ export default function Space({
       className="space-backdrop"
       suppressHydrationWarning
       data-mode="dark"
+      data-viewport={isMobile ? "mobile" : "desktop"}
       style={{
         "--baseTop": String(pal.baseTop),
         "--baseBottom": String(pal.baseBottom),
@@ -94,6 +95,30 @@ export default function Space({
           pointer-events: none;
           isolation: isolate;
           background: linear-gradient(180deg, var(--baseTop) 0%, var(--baseBottom) 100%);
+        }
+
+        .space-backdrop::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.6s ease;
+        }
+
+        .space-backdrop[data-viewport="mobile"]::before {
+          opacity: 1;
+          background:
+            radial-gradient(118% 70% at 50% 28%, rgba(134, 158, 210, 0.22) 0%, rgba(8, 12, 22, 0.0) 60%),
+            radial-gradient(128% 84% at 50% 82%, rgba(164, 176, 205, 0.26) 0%, rgba(8, 12, 22, 0.0) 72%),
+            radial-gradient(195% 130% at 50% 76%, rgba(24, 38, 68, 0.32) 0%, rgba(8, 12, 22, 0.0) 86%);
+          mix-blend-mode: screen;
+          filter: saturate(0.94);
+        }
+
+        .space-backdrop[data-viewport="desktop"]::before {
+          opacity: 0;
+          background: none;
         }
 
         /* === FOG === */

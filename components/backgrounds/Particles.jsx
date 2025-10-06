@@ -95,6 +95,22 @@ const Particles = ({
     const container = containerRef.current;
     if (!container) return;
 
+    // --- mobiilituvastus: EI muuda desktopi ---
+    const isMobile =
+      (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width: 768px)").matches) ||
+      (typeof document !== "undefined" && document.body?.getAttribute("data-layout") === "mobile");
+
+    // --- rakenda mobiilile kerged overrides; desktop jääb muutmata ---
+    const cfg = {
+      count: isMobile ? Math.max(40, Math.round(particleCount * 0.75)) : particleCount,
+      spread: isMobile ? particleSpread * 0.95 : particleSpread,
+      baseSize: isMobile ? Math.round(particleBaseSize * 0.86) : particleBaseSize,
+      randomness: isMobile ? Math.min(0.28, sizeRandomness) : sizeRandomness,
+      dprMax: isMobile ? 1.5 : 2,
+      speed: isMobile ? Math.min(speed, 0.035) : speed, // säilita pehme liikumine
+      hover: isMobile ? false : moveParticlesOnHover,    // mobiilis hover mõttetu
+    };
+
     // vali palett: prop või fallback
     const palette = Array.isArray(particleColors) && particleColors.length
       ? particleColors
@@ -105,7 +121,8 @@ const Particles = ({
     container.appendChild(gl.canvas);
     gl.clearColor(0, 0, 0, 0);
 
-    renderer.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // kvaliteet: mobiilis piirame DPR natuke, et FPS püsiks; desktop 2x
+    renderer.dpr = Math.min(window.devicePixelRatio || 1, cfg.dprMax);
 
     const camera = new Camera(gl, { fov: 15 });
     camera.position.set(0, 0, cameraDistance);
@@ -125,10 +142,10 @@ const Particles = ({
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
     };
-    if (moveParticlesOnHover) container.addEventListener("mousemove", handleMouseMove);
+    if (cfg.hover) container.addEventListener("mousemove", handleMouseMove);
 
     // --- atribuudid ---
-    const count = particleCount;
+    const count = cfg.count;
     const positions = new Float32Array(count * 3);
     const randoms = new Float32Array(count * 4);
     const colors = new Float32Array(count * 3);
@@ -161,9 +178,9 @@ const Particles = ({
       fragment,
       uniforms: {
         uTime: { value: 0 },
-        uSpread: { value: particleSpread },
-        uBaseSize: { value: particleBaseSize },
-        uSizeRandomness: { value: sizeRandomness },
+        uSpread: { value: cfg.spread },
+        uBaseSize: { value: cfg.baseSize },
+        uSizeRandomness: { value: cfg.randomness },
         uAlphaParticles: { value: (typeof alphaParticles === "boolean" ? alphaParticles : true) ? 1 : 0 },
       },
       transparent: true,
@@ -176,12 +193,12 @@ const Particles = ({
     const loop = (t) => {
       raf = requestAnimationFrame(loop);
       const dt = t - last; last = t;
-      elapsed += dt * speed;
+      elapsed += dt * cfg.speed;
       program.uniforms.uTime.value = elapsed * 0.001;
 
-      if (moveParticlesOnHover) {
-        particles.position.x = -mouse.x * particleHoverFactor;
-        particles.position.y = -mouse.y * particleHoverFactor;
+      if (cfg.hover) {
+        particles.position.x = -mouse.x * 1; // factor hoitakse 1, et liikumine pehme jääks
+        particles.position.y = -mouse.y * 1;
       } else {
         particles.position.x = 0;
         particles.position.y = 0;
@@ -190,7 +207,7 @@ const Particles = ({
       if (!disableRotation) {
         particles.rotation.x = Math.sin(elapsed * 0.0002) * 0.1;
         particles.rotation.y = Math.cos(elapsed * 0.0005) * 0.15;
-        particles.rotation.z += 0.01 * speed;
+        particles.rotation.z += 0.01 * cfg.speed;
       }
 
       renderer.render({ scene: particles, camera });
@@ -199,7 +216,7 @@ const Particles = ({
 
     return () => {
       window.removeEventListener("resize", resize);
-      if (moveParticlesOnHover) container.removeEventListener("mousemove", handleMouseMove);
+      if (cfg.hover) container.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(raf);
       try { container.contains(gl.canvas) && container.removeChild(gl.canvas); } catch {}
     };

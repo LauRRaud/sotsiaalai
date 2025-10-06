@@ -16,52 +16,129 @@ export default function PrivaatsusBody() {
       </h1>
 
       <section className="glass-section">
-        <h2 className="glass-h2">1. Üldsätted</h2>
-        <p>
-          1.1 Sotsiaal.AI platvorm (haldaja: SotsiaalAI OÜ) järgib Eesti ja Euroopa
-          Liidu isikuandmete kaitse seadusi (sh GDPR).
-        </p>
-        <p>
-          1.2 Tingimused kirjeldavad, kuidas me kogume, kasutame ja kaitseme
-          isikuandmeid.
-        </p>
+   <h2 className="glass-h2">1. Üldsätted</h2>
+<p>
+  Käesolevad privaatsustingimused kehtivad <strong>SotsiaalAI OÜ</strong> hallatava veebiplatvormi 
+  (edaspidi <strong>SotsiaalAI</strong> või <strong>Platvorm</strong>) kasutamisel. 
+  Privaatsustingimused selgitavad, kuidas SotsiaalAI kogub, kasutab ja kaitseb isikuandmeid 
+  vastavalt Eesti ja Euroopa Liidu õigusaktidele.
+</p>
+<p>
+  SotsiaalAI töötleb isikuandmeid kooskõlas Eesti isikuandmete kaitse{" "}
+  <a
+    className="link-brand"
+    href="https://www.riigiteataja.ee/akt/112072025014"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    seadusega
+  </a>{" "}
+  ning Euroopa Liidu isikuandmete kaitse{" "}
+  <a
+    className="link-brand"
+    href="https://eur-lex.europa.eu/legal-content/ET/TXT/HTML/?uri=CELEX:02016R0679-20160504"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    üldmäärusega
+  </a>
+  .
+</p>
 
         <h2 className="glass-h2">2. Kogutavad andmed</h2>
-        <p>2.1 Kasutajakonto info: nimi, e-posti aadress, krüpteeritud parool.</p>
-        <p>2.2 Tellimused ja maksed: makseandmed, tellimuse tüüp.</p>
-        <p>2.3 Tehnilised metaandmed: IP-aadress, brauseri tüüp, logid turbe- ja tõrkeotstarbel.</p>
+        <p>
+          <strong>2.1 Kasutajakonto andmed.</strong> E-posti aadress, roll (spetsialist või pöörduja),
+          autentimisviis (nt Google, Smart-ID, Mobiil-ID). Nime ega isikukoodi ei koguta ega salvestata.
+        </p>
+        <p>
+          <strong>2.2 Tellimused ja maksed.</strong> Tellimuse tüüp ja staatus, makse-ID. Makseid töötleb
+          Maksekeskus AS; SotsiaalAI ei salvesta kaardi- ega pangakontoandmeid.
+        </p>
+        <p>
+          <strong>2.3 Tehnilised metaandmed.</strong> IP-aadress, brauseri tüüp, seadmeinfo ja logiteave
+          turbe ning tõrke diagnoosimise eesmärgil.
+        </p>
 
-        <h2 className="glass-h2">3. Andmete kasutamine</h2>
-        <p>3.1 Kasutajakonto haldus ja autentimine.</p>
-        <p>3.2 Tellimuste töötlemine ja teenuste pakkumine.</p>
-        <p>3.3 Platvormi arendus ja tehniline turvalisus.</p>
-        <p>3.4 Kasutajatoe pakkumine.</p>
+        <h2 className="glass-h2">3. Eesmärgid ja õiguslikud alused</h2>
+        <ul className="glass-list">
+          <li>
+            Teenuse osutamine (vestluse vahendamine, ligipääs kontole) — lepingu täitmine (GDPR art 6(1)(b)).
+          </li>
+          <li>
+            Maksete töötlemine — lepingu täitmine ja õigustatud huvi pettuste ennetamiseks (art 6(1)(b),(f)).
+          </li>
+          <li>
+            Turvalisus, veatuvastus ja töökindlus — õigustatud huvi (art 6(1)(f)).
+          </li>
+          <li>
+            Õigusnõuete kaitse ja aruandlus — õiguslik kohustus/õigustatud huvi (art 6(1)(c),(f)).
+          </li>
+        </ul>
 
         <h2 className="glass-h2">4. Vestluste privaatsus</h2>
-        <p>4.1 Vestluste sisu ei salvestata, logita ega kasutata turunduse või analüütika eesmärgil.</p>
+        <p>
+          Vestluste sisu ei salvestata püsivalt ega kasutata turundus- või analüütikaks. Vestluste
+          tehniline töötlemine võib toimuda volitatud teenusepakkuja kaudu (nt vastuse koostamise teenus).
+        </p>
 
-        <h2 className="glass-h2">5. Tehisintellekti teenused</h2>
-        <p>5.1 Kasutame kolmanda osapoole teenuseid (nt OpenAI), mis võivad töödelda teksti serverites väljaspool EL-i.</p>
+        <h2 className="glass-h2">5. Volitatud töötlejad</h2>
+        <p>
+          SotsiaalAI võib kasutada volitatud töötlejaid, kes töötlevad andmeid SotsiaalAI juhiste alusel,
+          sh makseteenuse pakkuja (Maksekeskus AS) ja tehisintellekti teenusepakkuja. Volitatud töötlejatega
+          sõlmitakse lepingud, mis tagavad andmekaitse taseme ning konfidentsiaalsuse.
+        </p>
 
-        <h2 className="glass-h2">6. Andmete jagamine</h2>
-        <p>6.1 Andmeid ei edastata kolmandatele isikutele, välja arvatud seadusest tulenevatel juhtudel.</p>
-        <p>6.2 Makseandmeid haldab Maksekeskus AS; platvorm neid ei salvesta.</p>
+        <h2 className="glass-h2">6. Andmete edastamine ja jagamine</h2>
+        <p>
+          Isikuandmeid ei edastata kolmandatele isikutele, v.a kui see on vajalik teenuse osutamiseks,
+          tuleneb seadusest või on selleks kasutaja nõusolek. Makseandmeid töötleb Maksekeskus AS vastavalt
+          oma tingimustele.
+        </p>
 
-        <h2 className="glass-h2">7. Andmete säilitamine</h2>
-        <p>7.1 Andmeid säilitatakse kuni konto kustutamiseni või seaduses sätestatud perioodi lõpuni.</p>
+        <h2 className="glass-h2">7. Säilitamine</h2>
+        <p>
+          Kontoandmeid säilitatakse kuni konto kustutamiseni või kasutaja taotluseni. Arveldusandmeid
+          säilitatakse raamatupidamise seadusest tuleneva kohustuse ulatuses. Tehnilisi logisid säilitatakse
+          lühiajaliselt turbe ja tõrke diagnoosimise eesmärgil.
+        </p>
 
         <h2 className="glass-h2">8. Kasutaja õigused</h2>
-        <p>8.1 Õigus tutvuda, parandada või kustutada oma andmed.</p>
-        <p>8.2 Õigus võtta tagasi nõusolek ja esitada kaebus Andmekaitse Inspektsioonile.</p>
+<ul className="glass-list">
+  <li>Õigus tutvuda enda andmetega ja saada koopia.</li>
+  <li>Õigus parandada ebaõigeid või mittetäielikke andmeid.</li>
+  <li>Õigus nõuda andmete kustutamist (“õigus olla unustatud”).</li>
+  <li>Õigus piirata töötlemist või esitada vastuväiteid.</li>
+  <li>
+    Õigus esitada kaebus{" "}
+    <a
+      className="link-brand"
+      href="https://www.aki.ee"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Andmekaitse Inspektsioonile
+    </a>
+    .
+  </li>
+</ul>
+
 
         <h2 className="glass-h2">9. Küpsised</h2>
-        <p>9.1 Kasutame ainult vajalikke küpsiseid (nt sisselogimiseks või sessioonihalduseks).</p>
+        <p>
+          Kasutame üksnes vajalikke küpsiseid (sisselogimine, sessioon, keele-eelistus). Reklaami-, jälgimis-
+          ega analüütikaküpsiseid ei kasutata.
+        </p>
 
         <h2 className="glass-h2">10. Turvalisus</h2>
-        <p>10.1 Kasutame asjakohaseid tehnilisi ja organisatsioonilisi meetmeid andmete kaitsmiseks.</p>
+        <p>
+          Rakendame tehnilisi ja korralduslikke meetmeid (HTTPS, juurdepääsu piiramine, logimine ja varundus),
+          et kaitsta andmeid loata juurdepääsu, muutmise või hävimise eest.
+        </p>
 
-        <h2 className="glass-h2">11. Tingimuste muudatused</h2>
-        <p>11.1 Platvormi haldaja võib privaatsustingimusi ajakohastada. Olulistest muudatustest teavitatakse kasutajaid mõistliku aja jooksul.</p>
+        <h2 className="glass-h2">11. Muudatused</h2>
+        <p>
+          Privaatsustingimusi võidakse ajakohastada. Olulistest muudatustest teavitatakse platvormis või e-posti teel.
+        </p>
       </section>
 
       <div className="back-btn-wrapper">

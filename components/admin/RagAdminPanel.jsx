@@ -875,6 +875,13 @@ export default function RagAdminPanel() {
           </ul>
         )}
       </div>
+      <div className="chat-footer">
+  <div className="back-btn-wrapper">
+    <Link href="/meist" className="back-btn glass-btn" aria-label="Tagasi Meist lehele">
+      ← Tagasi Meist lehele
+    </Link>
+  </div>
+</div>
     </section>
   );
 }

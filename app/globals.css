@@ -447,7 +447,7 @@ a, .link-brand, .meist-external-link {
   z-index: 4;
   position: relative;
   text-align: center;
-    margin-top: -1em; 
+    margin-top: -1em;
 }
 
 .centered-back-left .headline-bold {
@@ -493,39 +493,91 @@ a, .link-brand, .meist-external-link {
   gap: 0.5em;
   }
 .footer-link-headline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   font-family: var(--font-aino-headline), var(--font-aino);
   font-size: 1.45rem;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--pt-150); /* pehme platinum tekst */
 
-  padding: 0.2em 0.25em;
-  border-radius: 0.4em;
+  /* kompaktsem kapsel – vähendame vaid nupu mõõtu, mitte teksti */
+  color: var(--pt-150);
+  padding: 0.4em 0.78em; /* veidi väiksem kui sul oli */
+  border-radius: 999px;
+  border: 1px solid rgba(196,212,255,0.26); /* õrn jahe serv */
 
-  text-shadow: 
-    0 0 3px rgba(0,0,0,0.45),
-    0 0 6px rgba(255,255,255,0.4);
+  /* klaas – läbipaistvam + kerge sinakas toon */
+  background:
+    linear-gradient(to bottom right,
+      rgba(255,255,255,0.05),
+      rgba(140,165,235,0.045)
+    );
+  backdrop-filter: blur(9px) saturate(100%);
 
-  box-shadow: 
-    inset 0 0 3px rgba(255,255,255,0.25),
-    inset 0 0 8px rgba(255,255,255,0.08);
+  box-shadow:
+    inset 0 0 2px rgba(255,255,255,0.12),
+    0 6px 16px rgba(0,0,0,0.14);
+  text-shadow: 0 1px 2px rgba(10,15,25,0.22);
+
+  position: relative;
+  overflow: hidden;
 
   transition:
-    border-color 0.35s ease,
-    box-shadow 0.35s ease,
-    color 0.35s ease,
-    transform 0.35s ease;
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease;
+}
+
+/* õrn “liquid” läige */
+.footer-link-headline::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 80% at 25% 0%, rgba(255,255,255,0.14), transparent 60%),
+    linear-gradient(to bottom, rgba(255,255,255,0.04), transparent 45%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* väga õrn tumesinine kuma (sama keele kui nupul) */
+.footer-link-headline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(60% 100% at 100% 0%, rgba(48,72,140,0.05), transparent 60%);
+  pointer-events: none;
 }
 
 .footer-link-headline:hover,
 .footer-link-headline:focus {
-  color: var(--pt-light); /* heledam platinum */
-  border-color: var(--pt-light);
-  box-shadow: 
-    0 0 10px rgba(201,199,194,0.6),
-    inset 0 0 4px rgba(255,255,255,0.3);
-  transform: translateY(-1px); /* väike tõstefekt */
+  color: var(--pt-light);
+  background:
+    linear-gradient(to bottom right,
+      rgba(255,255,255,0.085),
+      rgba(140,165,235,0.06)
+    );
+  border-color: rgba(206,220,255,0.32);
+  box-shadow:
+    0 0 10px rgba(206,220,255,0.16),
+    0 10px 22px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+  transform: translateY(-1px) scale(1.02);
 }
+
+.footer-link-headline:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
 .footer-logo-img {
   height: auto;        /* väiksem kõrgus */
   max-width: 330px;    /* väiksem laius */
@@ -1116,33 +1168,95 @@ html:not(.dark-mode) .avatar-label {
   color: #101010;
   box-shadow: 0 0 0 3px rgba(201,199,194,0.25); /* ≈ --pt-300 halo */
 }
-.btn-primary{
-  background: #181818;
-  color: var(--pt-200);                      /* kergelt soe platinum tekst */
-  border: 2px solid var(--pt-mid);           /* platinum raam */
-  border-radius: 1.3em;
-  letter-spacing: 0.05em;
+.btn-primary {
+  font-family: inherit;
   font-weight: 500;
   font-size: 1.2em;
-  padding: 0.5em 0.9em;
-  margin: 0;
-  outline: none;
-  cursor: pointer;
+  letter-spacing: 0.05em;
+  padding: 0.6em 1.05em;
+  border-radius: 1.6em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: center;
-  transition: border .15s, box-shadow .17s, color .17s, background .15s;
-  box-shadow: 0 0 4px 0 rgba(201,199,194,0.28); /* ≈ --pt-300 */
-}
-.btn-primary:hover,
-.btn-primary:focus {
-  background: #1f1f1f;                          /* veidi heledam must taust */
-  color: var(--pt-100);                         /* hele platinum tekst */
-  border: 2px solid var(--pt-light);            /* hele raam */
-  box-shadow: 0 0 6px 2px rgba(201,199,194,0.42); /* ≈ --pt-300 halo */
+  margin: 0 auto;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+
+  color: var(--pt-130);
+  background:
+    linear-gradient(to bottom right,
+      rgba(255,255,255,0.04),
+      rgba(140,165,235,0.045)      /* õrn sinakas, väiksem alpha */
+    );
+  border: 1px solid rgba(196,212,255,0.22);   /* õhem/õrnem raam */
+  backdrop-filter: blur(9px) saturate(120%);
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
+  box-shadow:
+    inset 0 0 2px rgba(255,255,255,0.10),
+    0 6px 16px rgba(0,0,0,0.10);              /* kergem varjund */
+  text-shadow: 0 1px 2px rgba(10,15,25,0.20);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease;
 }
 
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 80% at 25% 0%, rgba(255,255,255,0.14), transparent 60%),
+    linear-gradient(to bottom, rgba(255,255,255,0.035), transparent 45%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* väga õrn tumesinine kuma */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(60% 100% at 100% 0%, rgba(48,72,140,0.05), transparent 60%);
+  pointer-events: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  color: var(--pt-80);
+  background:
+    linear-gradient(to bottom right,
+      rgba(255,255,255,0.08),
+      rgba(140,165,235,0.06)       /* veidi rõhutatum, endiselt õrn */
+    );
+  border-color: rgba(206,220,255,0.30);
+  box-shadow:
+    0 0 10px rgba(206,220,255,0.16),
+    0 10px 22px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.btn-primary:focus-visible {
+  box-shadow:
+    0 0 0 2px rgba(196,212,255,0.20),
+    0 10px 22px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow:
+    0 5px 14px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.09);
+}
 
 .btn-primary span {
   color: inherit;
@@ -2267,69 +2381,48 @@ textarea::placeholder,
     transform: translateY(0) scale(1);
   }
 }
-/* ===============================
-   MOBILE FIX PACK — ONLY ≤768px
-=================================*/
+
 @media (min-width: 1600px) {
-  :root {
-    --card-size: clamp(320px, 28vw, 560px);
-  }
+  :root { --card-size: clamp(320px, 28vw, 560px); }
 
   .glass-card,
   .centered-back-left,
-  .centered-back-right {
-    padding: clamp(2.4em, 1.6vw, 3.4em);
-  }
+  .centered-back-right { padding: clamp(2.4em, 1.6vw, 3.4em); }
 
-  .centered-back-left .headline-bold {
-    font-size: clamp(2.2rem, 1.6vw, 3rem);
-  }
-
-  .centered-back-right .headline-bold {
-    font-size: clamp(2rem, 1.5vw, 2.8rem);
-  }
+  .centered-back-left .headline-bold { font-size: clamp(2.2rem, 1.6vw, 3rem); }
+  .centered-back-right .headline-bold { font-size: clamp(2rem, 1.5vw, 2.8rem); }
 
   .left-card-primary .headline-bold,
-  .right-card-primary .card-title {
-    font-size: clamp(2.6rem, 1.8vw, 3.4rem);
-  }
+  .right-card-primary .card-title { font-size: clamp(2.6rem, 1.8vw, 3.4rem); }
 
-  .card-logo-bg-right {
-    width: clamp(50%, 18vw, 64%);
-  }
-
-  .card-logo-bg-left {
-    width: clamp(60%, 20vw, 74%);
-  }
+  .card-logo-bg-right { width: clamp(50%, 18vw, 64%); }
+  .card-logo-bg-left  { width: clamp(60%, 20vw, 74%); }
 
   .centered-back-left .card-logo-bg-left-back,
-  .centered-back-right .card-logo-bg-right-back {
-    width: clamp(28%, 12vw, 36%);
-  }
+  .centered-back-right .card-logo-bg-right-back { width: clamp(28%, 12vw, 36%); }
 
-  .footer-logo-img {
-    max-width: clamp(360px, 20vw, 480px);
-  }
-
-  .footer-link-headline {
-    font-size: clamp(1.6rem, 1.1vw, 2.1rem);
-  }
+  .footer-logo-img { max-width: clamp(360px, 20vw, 480px); }
+  .footer-link-headline { font-size: clamp(1.6rem, 1.1vw, 2.1rem); }
 }
 
+/* ===============================
+   MOBILE FIX PACK — ONLY ≤768px
+   (kogu plokk kleebi 1:1)
+=================================*/
 @media (max-width: 768px) {
-
-  /* 0) Kerimine: lubatud; scrollbar peidus; ära sunni scroll-snap'i */
+  /* 0) Kerimine / reset / snap maha */
   html[data-layout="mobile"],
   body[data-layout="mobile"] {
-    height: 100%;
+    height: auto !important;                /* <-- varem 100%; tegi "ankru" ekraani põhja */
+    position: relative;                      /* et .top-center-nav saaks ankurduda dokumendi põhja külge */
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
     touch-action: pan-y;
   }
   body[data-layout="mobile"] {
     overflow-y: auto;
-    -ms-overflow-style: none;      /* IE/Edge legacy */
-    scrollbar-width: none;         /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: auto;
   }
@@ -2342,12 +2435,9 @@ textarea::placeholder,
   body[data-layout="mobile"] .page,
   body[data-layout="mobile"] .page-wrap { scroll-snap-type: none !important; }
 
-  /* 1) Rasked taustakihid kinni (gradient tuleb Space.jsx'ist) */
-  body[data-layout="mobile"] .particles-container,
   body[data-layout="mobile"] .splash-cursor { display: none !important; }
-  /* NB! Ära peida .space-backdrop'i */
 
-  /* 2) Paigutus: kaardid alla-alla, pole 100vh sundi */
+  /* 1) Üldpaigutus: vertikaalne stack */
   body[data-layout="mobile"] main,
   body[data-layout="mobile"] .main-content,
   body[data-layout="mobile"] .page,
@@ -2360,8 +2450,12 @@ textarea::placeholder,
     min-height: auto !important;
     box-sizing: border-box;
   }
-  body[data-layout="mobile"] .side { min-height: auto !important; width: 100% !important; padding: 1.25rem 1rem !important; }
-  /* nulli kõik 100vh/svh/dvh jäänukid */
+  body[data-layout="mobile"] .side {
+    min-height: auto !important;
+    width: 100% !important;
+    padding: 1.25rem 1rem !important;
+  }
+  /* nulli vanad 100vh jäänukid */
   body[data-layout="mobile"] .hero,
   body[data-layout="mobile"] .section,
   body[data-layout="mobile"] .fold,
@@ -2373,7 +2467,7 @@ textarea::placeholder,
     height: auto !important;
   }
 
-  /* 3) Footer voolab koos sisuga */
+  /* 2) Footer voolab sisuga (õige kaugus kaartidest) */
   body[data-layout="mobile"] .footer-column,
   body[data-layout="mobile"] footer,
   body[data-layout="mobile"] .site-footer {
@@ -2383,146 +2477,73 @@ textarea::placeholder,
     width: 100% !important;
     background: transparent !important;
     z-index: 1 !important;
-    margin-top: auto !important;
+    margin-top: 1rem !important;            /* pehme vahe kaartidest */
     padding-bottom: env(safe-area-inset-bottom, 8px) !important;
   }
   body[data-layout="mobile"] .main-content > :last-child,
   body[data-layout="mobile"] main > :last-child { margin-bottom: 8px !important; }
 
-  /* 4) Avalehe kaardieffektid (mobiilis lubatud) */
+  /* 3) Avalehe kaardieffektid */
   body[data-layout="mobile"] .three-d-card,
-  body[data-layout="mobile"] .glass-card {
-    transform-style: preserve-3d;
-  }
-  /* 5) Pealkirjad veidi väiksemaks */
-  body[data-layout="mobile"] .left-card-primary .headline-bold,
-  body[data-layout="mobile"] .right-card-primary .headline-bold {
-    font-size: clamp(16px, 5vw, 22px) !important;
-    line-height: 1.25 !important;
-    letter-spacing: 0.06em !important;
-    margin: .25em 0 .35em !important;
-    text-shadow: none !important;
-  }
+  body[data-layout="mobile"] .glass-card { transform-style: preserve-3d; }
+  body[data-layout="mobile"] .float-card { animation: none !important; transform: none !important; }
 
-  /* 6) Chat paigutus */
-  /* ==== CHAT HEADER STACK (avatar üleval paremal, pealkiri all) ==== */
-  .chat-container .glass-title {
-    margin-top: 3.2rem;
-    text-align: left;
-    padding-right: 4.2rem;
-  }
-
-  body[data-layout="mobile"] .chat-container .glass-title {
-    margin-top: 3.2rem;
-    text-align: left;
-    padding-right: 4.2rem;
-  }
-  body[data-layout="mobile"] .glass-box {
-    width: min(100%, calc(92vw - (env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px))));
-    max-width: min(100%, calc(92vw - (env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px))));
-    min-width: 0;
-    margin: 1rem auto 1.25rem;
-    padding: clamp(1.5rem, 4.8vw, 2.1rem);
-    box-sizing: border-box;
-  }
-
-  body[data-layout="mobile"] .float-card {
-    animation: none !important;
-    transform: none !important;
-  }
-
-  body[data-layout="mobile"] .three-d-card.mobile-flipped-left .card-wrapper {
-    transform: rotateY(180deg);
-  }
-  body[data-layout="mobile"] .three-d-card.mobile-flipped-right .card-wrapper {
-    transform: rotateY(-180deg);
-  }
-  body[data-layout="mobile"] .three-d-card.mobile-flipped-left .card-face.back,
-  body[data-layout="mobile"] .three-d-card.mobile-flipped-right .card-face.back {
-    pointer-events: auto;
-  }
-  body[data-layout="mobile"] .three-d-card.mobile-flipped-left .card-face.front,
-  body[data-layout="mobile"] .three-d-card.mobile-flipped-right .card-face.front {
-    pointer-events: none;
-  }
-
+  /* 4) Avalehe kaardi BACK: tekst+logo joondus ja nihked (mobiil) */
   body[data-layout="mobile"] .centered-back-left,
   body[data-layout="mobile"] .centered-back-right {
     width: 88%;
     height: 88%;
-    padding: clamp(1.1em, 4.8vw, 1.6em);
-    padding-bottom: clamp(2.8em, 8vw, 3.6em);
-    gap: 0.6em;
+    padding: clamp(1.2em, 4.8vw, 1.7em);
+    padding-bottom: clamp(1.7em, 5.4vw, 2.2em);
+    display: grid;
+    grid-template-rows: 1.75fr auto auto 0.25fr; /* spacer | title | logo | spacer */
+    justify-items: center;
+    align-items: center;
+    row-gap: clamp(1rem, 3.2vw, 1.7rem);
   }
-  /* ==== CARD BACK — MOBILE TWEAKS (logo teksti alla) ==== */
-  body[data-layout="mobile"] .centered-back-left .headline-bold {
-    display: block;
-    margin: 0 auto;
-    max-width: 88%;
-    font-size: 2.1rem;
-    line-height: 1.32;
-    letter-spacing: 0.065em;
-  }
-
+  body[data-layout="mobile"] .centered-back-left .headline-bold,
   body[data-layout="mobile"] .centered-back-right .headline-bold {
-    display: block;
-    margin: 0 auto;
-    max-width: 88%;
-    font-size: 2.05rem;
-    line-height: 1.32;
-    letter-spacing: 0.065em;
+    grid-row: 2;
+    margin: 0;
+    width: 100%;
+    max-width: 86%;
+    font-size: clamp(1.04rem, 3.6vw, 1.32rem);
+    line-height: 1.25;
+    letter-spacing: 0.07em;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    font-variant-ligatures: none;
+    text-align: center;
   }
+  /* logo ~10% väiksem ja teksti all */
   body[data-layout="mobile"] .centered-back-left .card-logo-bg-left-back,
   body[data-layout="mobile"] .centered-back-right .card-logo-bg-right-back {
+    grid-row: 3;
     position: static !important;
+    top: auto !important;
+    left: auto !important;
     transform: none !important;
     display: block;
-    width: 28%;
-    margin: 0.9rem auto 0;
-    opacity: 0.7;
-  }
-  body[data-layout="mobile"] .chat-container--mobile .avatar-link {
-    position: absolute;
-    left: auto;
-    z-index: 12;
-    top: clamp(10px, 3.2vw, 20px);
-    right: clamp(16px, 4.5vw, 30px);
-    transform: none;
+    width: clamp(65px, 28.8%, 99px);
+    height: auto;
+    margin-top: clamp(0.7rem, 2.1vw, 1rem);
+    opacity: 0.72;
   }
 
-  body[data-layout="mobile"] .chat-inputbar {
-    height: clamp(58px, 13vw, 66px);
-    padding: 0 clamp(4px, 2vw, 10px) 0 clamp(12px, 4vw, 16px);
-    column-gap: clamp(4px, 1.4vw, 10px);
-    left: 1.2rem;
-    right: 1.2rem;
-    bottom: 1.2rem;
-  }
-  body[data-layout="mobile"] .chat-window {
-    padding-bottom: 110px;
-  }
-  body[data-layout="mobile"] .chat-inputbar .chat-input-field {
-    padding: 0 clamp(6px, 2.5vw, 12px);
-    font-size: clamp(1rem, 3.7vw, 1.18rem);
-    line-height: 1.4;
-  }
-
-  body[data-layout="mobile"] .chat-inputbar .chat-input-field::placeholder {
-    font-size: inherit;
-    line-height: inherit;
-  }
-
-  body[data-layout="mobile"] .chat-send-btn {
-    flex: 0 0 clamp(44px, 11vw, 52px);
-    width: clamp(44px, 11vw, 52px);
-    height: clamp(44px, 11vw, 52px);
-  }
-
-  body[data-layout="mobile"] .chat-send-btn svg {
-    width: clamp(18px, 5.2vw, 22px);
-    height: clamp(18px, 5.2vw, 22px);
-  }
-
+  /* 5) Mobiili flip (puudutusega) + animatsioonid välja */
+  body[data-layout="mobile"] .three-d-card.mobile-flipped-left  .card-wrapper { transform: rotateY(180deg); }
+  body[data-layout="mobile"] .three-d-card.mobile-flipped-right .card-wrapper { transform: rotateY(-180deg); }
+  body[data-layout="mobile"] .three-d-card.mobile-flipped-left  .card-face.back,
+  body[data-layout="mobile"] .three-d-card.mobile-flipped-right .card-face.back { pointer-events: auto; }
+  body[data-layout="mobile"] .three-d-card.mobile-flipped-left  .card-face.front,
+  body[data-layout="mobile"] .three-d-card.mobile-flipped-right .card-face.front { pointer-events: none; }
+  body[data-layout="mobile"] .glass-card.glow-active,
+  body[data-layout="mobile"] .three-d-card:hover .card-face.front > .glass-card,
+  body[data-layout="mobile"] .three-d-card:focus-within .card-face.front > .glass-card,
+  body[data-layout="mobile"] .three-d-card:hover .card-face.back > .centered-back-left,
+  body[data-layout="mobile"] .three-d-card:hover .card-face.back > .centered-back-right,
+  body[data-layout="mobile"] .three-d-card:focus-within .card-face.back > .centered-back-left,
+  body[data-layout="mobile"] .three-d-card:focus-within .card-face.back > .centered-back-right { animation: none !important; }
   body[data-layout="mobile"] .side.left .glass-card,
   body[data-layout="mobile"] .side.left .centered-back-left,
   body[data-layout="mobile"] .side.right .glass-card,
@@ -2532,111 +2553,206 @@ textarea::placeholder,
     box-shadow: var(--base-shadow);
   }
 
-  body[data-layout="mobile"] .glass-card.glow-active,
-  body[data-layout="mobile"] .three-d-card:hover .card-face.front > .glass-card,
-  body[data-layout="mobile"] .three-d-card:focus-within .card-face.front > .glass-card,
-  body[data-layout="mobile"] .three-d-card:hover .card-face.back > .centered-back-left,
-  body[data-layout="mobile"] .three-d-card:hover .card-face.back > .centered-back-right,
-  body[data-layout="mobile"] .three-d-card:focus-within .card-face.back > .centered-back-left,
-  body[data-layout="mobile"] .three-d-card:focus-within .card-face.back > .centered-back-right {
-    animation: none !important;
+  /* 6) Pealkirjad veidi kompaktsemaks avalehel (mitte chat) */
+  body[data-layout="mobile"] .left-card-primary .headline-bold,
+  body[data-layout="mobile"] .right-card-primary .headline-bold {
+    font-size: clamp(16px, 5vw, 22px) !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.06em !important;
+    margin: .25em 0 .35em !important;
+    text-shadow: none !important;
   }
 
-  /* Utility helpers */
-  body[data-layout="mobile"] .u-mobile-pane {
-    margin: 0.75rem auto 0.5rem;
-    height: auto;
-    max-height: none;
-    min-height: 65dvh;
-    overflow: visible;
+  /* 7) CHAT – paigutus */
+  body[data-layout="mobile"] .glass-box.chat-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(12px, 3.6vw, 16px);
+    padding: clamp(1.2rem, 4.8vw, 1.8rem) clamp(1rem, 4vw, 1.4rem);
+    padding-top: clamp(3.8rem, 12vw, 4.6rem); /* ruum avatarile */
   }
-  body[data-layout="mobile"] .u-mobile-scroll {
-    max-height: none;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+  body[data-layout="mobile"] .chat-container .glass-title {
+    order: 0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
   }
-  body[data-layout="mobile"] .u-mobile-safe-pad {
-    padding-bottom: calc(10px + env(safe-area-inset-bottom,0px));
-  }
-  body[data-layout="mobile"] .u-mobile-reset-position {
-    position: static;
-    inset: auto;
-  }
-
-  /* 7) Login-modal: täisekraan + sisemine kerimine */
-  body[data-layout="mobile"] .u-mobile-modal,
-  body[data-layout="mobile"] .login-modal--mobile {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    animation: none;
+  body[data-layout="mobile"] .chat-container--mobile .avatar-link {
+    position: absolute;
+    top: clamp(10px, 3.2vw, 16px);
+    right: clamp(10px, 3.2vw, 16px);
+    left: auto;
     transform: none;
-    border-radius: 0;
-    padding: 2rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)) 1rem;
-    overscroll-behavior: contain;
+    z-index: 12;
   }
-  body[data-layout="mobile"] .u-mobile-modal-backdrop,
-  body[data-layout="mobile"] .login-modal-backdrop--mobile { position: fixed; inset: 0; background: rgba(0,0,0,.45); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
-  body[data-layout="mobile"].modal-open {
-    overflow: hidden;
-    position: fixed;
-    inset: 0;
+  body[data-layout="mobile"] .chat-main {
+    order: 1;
+    display: grid;
+    grid-template-rows: 1fr auto; /* chat-window | chat-inputbar */
+    row-gap: clamp(10px, 3vw, 14px);
+    min-height: clamp(300px, 50vh, 560px);
+  }
+  body[data-layout="mobile"] .chat-window {
+    min-height: 0;
+    overflow-y: auto;
+  }
+  body[data-layout="mobile"] .chat-inputbar {
     width: 100%;
-    height: 100dvh;
-    touch-action: none;
+    margin: 0;
+    height: clamp(58px, 13vw, 66px);
+    padding: 0 clamp(4px, 2vw, 10px) 0 clamp(12px, 4vw, 16px);
+    column-gap: clamp(4px, 1.4vw, 10px);
+  }
+  body[data-layout="mobile"] .chat-inputbar .chat-input-field {
+    padding: 0 clamp(6px, 2.5vw, 12px);
+    font-size: clamp(1rem, 3.7vw, 1.18rem);
+    line-height: 1.4;
+  }
+  body[data-layout="mobile"] .chat-inputbar .chat-input-field::placeholder {
+    font-size: inherit;
+    line-height: inherit;
+  }
+  body[data-layout="mobile"] .chat-send-btn {
+    flex: 0 0 clamp(44px, 11vw, 52px);
+    width: clamp(44px, 11vw, 52px);
+    height: clamp(44px, 11vw, 52px);
+  }
+  body[data-layout="mobile"] .chat-send-btn svg {
+    width: clamp(18px, 5.2vw, 22px);
+    height: clamp(18px, 5.2vw, 22px);
+  }
+  body[data-layout="mobile"] .chat-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(10px, 3vw, 14px);
+    width: 100%;
+  }
+  body[data-layout="mobile"] .back-btn-wrapper {
+    order: 2;
+    margin: 0.5rem auto 0;
+    justify-content: center;
   }
 
-  /* 8) Mobiilis html/body läbipaistev – gradient tuleb Space.jsx'ist */
+  /* 8) Läbipaistev taust; turvapadjad servades */
   html[data-layout="mobile"],
   body[data-layout="mobile"] { background-color: transparent !important; background-image: none !important; }
-
   main, .page, .page-wrap {
     padding-left: max(12px, env(safe-area-inset-left)) !important;
     padding-right: max(12px, env(safe-area-inset-right)) !important;
   }
+  /* kui tahad linki logole lähemale/kaugemale, muuda ainult seda */
+  body[data-layout="mobile"] { 
+    --meist-gap: clamp(2px, 1vw, 10px);
+  }
 
-  /* kõik klaaskastid v.a. chat */
-  body[data-layout="mobile"] .glass-box:not(.chat-container){
-    margin: 1rem auto 1.25rem;
+  /* jaluse logo (kasuta sama kõrgust, mis <Image height={...}>) */
+  #footer-logo-img {
+    --footer-logo-h: 80px;
+    display: block;
   }
-  body[data-layout="mobile"] .glass-box h1,
-  body[data-layout="mobile"] .glass-box .page-title { margin-top: .2em !important; }
+  body[data-layout="mobile"] .top-center-nav {
+    position: absolute; /* ilmub alles jaluse piirkonnas */
+    left: 0; right: 0; top: auto !important;
+    bottom: calc(
+      var(--footer-logo-h, 80px) + var(--meist-gap) + env(safe-area-inset-bottom, 0px)
+    ) !important;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 3;
+    pointer-events: none; /* klikk ainult lingil */
+  }
 
-  /* Jaluseni kerimine iOS Chrome’is */
-  body[data-layout="mobile"] .viewport,
-  body[data-layout="mobile"] .page,
-  body[data-layout="mobile"] .page-wrap,
-  body[data-layout="mobile"] main {
-    overflow: visible !important;
-    scroll-snap-type: none !important;
+  body[data-layout="mobile"] .top-center-nav .top-center-link {
+    pointer-events: auto;
+
+    /* mõõdud: sarnane desktop kapsel, veidi kompaktsem */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.42em 0.9em;
+    border-radius: 999px;
+
+    /* klaas — läbipaistvam + väga õrn tumesinine toon */
+    color: var(--pt-150);
+    background:
+      linear-gradient(to bottom right,
+        rgba(255,255,255,0.05),
+        rgba(140,165,235,0.045) /* peen sinakas */
+      );
+    border: 1px solid rgba(196,212,255,0.28); /* jahe õhuke serv */
+    backdrop-filter: blur(9px) saturate(120%);
+    box-shadow:
+      inset 0 0 2px rgba(255,255,255,0.12),
+      0 6px 16px rgba(0,0,0,0.16);
+    text-shadow: 0 1px 2px rgba(10,15,25,0.22);
+    letter-spacing: 0.06em;
+
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform .22s ease,
+      box-shadow .22s ease,
+      background .22s ease,
+      color .22s ease,
+      border-color .22s ease;
   }
-  body[data-layout="mobile"],
-  body[data-layout="mobile"] main {
-    min-height: calc(100dvh - 1px) !important;
+
+  /* sisemine “liquid” läige */
+  body[data-layout="mobile"] .top-center-nav .top-center-link::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background:
+      radial-gradient(120% 80% at 25% 0%, rgba(255,255,255,0.14), transparent 60%),
+      linear-gradient(to bottom, rgba(255,255,255,0.04), transparent 45%);
+    mix-blend-mode: screen;
+    pointer-events: none;
   }
-  body[data-layout="mobile"] footer,
-  body[data-layout="mobile"] .site-footer,
-  body[data-layout="mobile"] .footer-column {
-    position: static !important;
-    margin-top: .75rem !important;
-    padding-bottom: env(safe-area-inset-bottom,8px) !important;
-    background: transparent !important;
+
+  /* väga õrn tumesinine kuma */
+  body[data-layout="mobile"] .top-center-nav .top-center-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(60% 100% at 100% 0%, rgba(48,72,140,0.05), transparent 60%);
+    pointer-events: none;
   }
-  body[data-layout="mobile"] main > :last-child,
-  body[data-layout="mobile"] .main-content > :last-child {
-    margin-bottom: 8px !important;
+
+  body[data-layout="mobile"] .top-center-nav .top-center-link:hover,
+  body[data-layout="mobile"] .top-center-nav .top-center-link:focus {
+    color: var(--pt-light);
+    background:
+      linear-gradient(to bottom right,
+        rgba(255,255,255,0.085),
+        rgba(140,165,235,0.06)
+      );
+    border-color: rgba(206,220,255,0.34);
+    box-shadow:
+      0 0 10px rgba(206,220,255,0.16),
+      0 10px 22px rgba(0,0,0,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.14);
+    transform: translateY(-1px) scale(1.02);
   }
-  body[data-layout="mobile"] .chat-container--mobile {
-    padding-top: clamp(2.6rem, 8vw, 3.4rem);
-    gap: clamp(1.1rem, 3.6vw, 1.5rem);
+
+  body[data-layout="mobile"] .top-center-nav .top-center-link:active {
+    transform: translateY(0) scale(0.99);
+    box-shadow:
+      0 6px 16px rgba(0,0,0,0.20),
+      inset 0 1px 0 rgba(255,255,255,0.12);
   }
-  body[data-layout="mobile"] .glass-box.chat-container {
-    min-height: clamp(340px, 92vw, 520px);
-    max-height: min(84vh, 640px);
+
+  /* et link ei kattuks sisuga — kasuta sama logo kõrgust (80/88px) */
+  body[data-layout="mobile"] .main-content {
+    padding-bottom: calc(
+      var(--footer-logo-h, 30px) + max(var(--meist-gap, 8px), 8px) + env(safe-area-inset-bottom, 0px)
+    ) !important;
   }
 }
 
+/* 420–768 px: kui kasutad kõrgemat logo varianti */
+@media (min-width: 420px) and (max-width: 768px) {
+  #footer-logo-img { --footer-logo-h: 88px; }
+}
