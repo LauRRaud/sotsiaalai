@@ -1,129 +1,256 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import ModalConfirm from "@/components/ui/ModalConfirm";
+
+const ROLE_MAP = {
+  ADMIN: "Administraator",
+  SOCIAL_WORKER: "Spetsialist",
+  CLIENT: "Eluküsimusega pöörduja",
+};
 
 export default function ProfiilBody() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showDelete, setShowDelete] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [subActive, setSubActive] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [statusMsg, setStatusMsg] = useState("");
-  const [cancelling, setCancelling] = useState(false);
+  const [success, setSuccess] = useState("");
+const [deleting, setDeleting] = useState(false);
+  const searchParams = useSearchParams();
+  const registrationReason = searchParams?.get("reason");
 
   useEffect(() => {
+    if (status === "loading") return;
+    if (status !== "authenticated") {
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       try {
-        setError("");
-        const res = await fetch("/api/subscription", { cache: "no-store" });
+        const res = await fetch("/api/profile", { cache: "no-store" });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || "Tellimuse oleku päring ebaõnnestus.");
+          setError(payload?.error || "Profiili laadimine ebaõnnestus.");
           return;
         }
-        setSubActive(payload?.subscription?.status === "active");
-      } catch (e) {
-        console.error("profile/subscription GET", e);
-        setError("Server ei vastanud. Palun proovi hiljem uuesti.");
+        setEmail(payload?.user?.email ?? "");
+      } catch (err) {
+        console.error("profile GET", err);
+        setError("Server ei vasta. Palun proovi uuesti.");
       } finally {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [status]);
 
-  async function handleCancel() {
+  async function handleSave(e) {
+    e.preventDefault();
+    if (status !== "authenticated") return;
+
+    setSaving(true);
+    setError("");
+    setSuccess("");
     try {
-      setCancelling(true);
-      setError("");
-      setStatusMsg("");
-
-      // NB! Kui sul on päris API, siis kasuta:
-      // const res = await fetch("/api/subscription/cancel", { method: "POST" });
-      // const data = await res.json();
-      // if (!res.ok) throw new Error(data?.error || "Tühistamine ebaõnnestus.");
-
-      // Demo-/mock-käitumine:
-      await new Promise((r) => setTimeout(r, 700));
-      setSubActive(false);
-      setStatusMsg("Tellimus on tühistatud. Juurdepääs kestab kuni arveldusperioodi lõpuni.");
-    } catch (e) {
-      console.error("subscription/cancel", e);
-      setError("Tellimuse tühistamine ebaõnnestus. Palun proovi uuesti või kirjuta info@sotsiaal.ai.");
+      const res = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password: password || undefined,
+        }),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(payload?.error || "Profiili uuendamine ebaõnnestus.");
+        return;
+      }
+      setSuccess("Muudatused salvestatud.");
+      setPassword("");
+      router.refresh();
+    } catch (err) {
+      console.error("profile PUT", err);
+      setError("Server ei vasta. Palun proovi uuesti.");
     } finally {
-      setCancelling(false);
+      setSaving(false);
     }
   }
 
+  if (status === "loading" || loading) {
+    return (
+      <div className="main-content glass-box glass-left">
+        <h1 className="glass-title">Minu profiil</h1>
+        <p style={{ padding: "1rem" }}>Laen profiili…</p>
+      </div>
+    );
+  }
+
+  if (status !== "authenticated") {
+    const reason = registrationReason || "not-logged-in";
+    const reasonText = reason === "no-sub"
+      ? "Logi sisse ja aktiveeri tellimus, et profiili vaadata."
+      : "Profiili vaatamiseks logi sisse.";
+
+    return (
+      <div className="main-content glass-box glass-left">
+        <h1 className="glass-title">Minu profiil</h1>
+        <p style={{ padding: "1rem" }}>{reasonText}</p>
+        <div className="back-btn-wrapper">
+          <button
+            type="button"
+            className="back-arrow-btn"
+            onClick={() => router.push("/registreerimine")}
+            aria-label="Logi sisse"
+          >
+            <span className="back-arrow-circle" />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const roleLabel = ROLE_MAP[session?.user?.role] ?? "—";
+
   return (
-    <div className="main-content glass-box glass-left" role="main" lang="et">
-      <h1 className="glass-title">Profiil</h1>
+    <div className="main-content glass-box glass-left" role="main" aria-labelledby="profile-title" lang="et">
+      <h1 id="profile-title" className="glass-title">
+        Minu profiil
+      </h1>
 
-      <Link href="/tellimus" className="link-brand profile-tellimus-link">
-        Halda tellimust
-      </Link>
+      <div className="profile-header-center">
+        <span className="profile-role-pill">{roleLabel}</span>
+        <Link href="/tellimus" className="link-brand profile-tellimus-link">
+          Halda tellimust
+        </Link>
+      </div>
 
-      {/* Maksekeskuse läbipaistvusnõue – selge, nähtav tekst */}
-      <p className="glass-note" style={{ marginTop: "1rem", textAlign: "center" }}>
-        Sinu SotsiaalAI tellimus on <strong>igakuine püsimakse</strong> hinnaga <strong>7,99 € / kuu</strong>.
-        Tellimust saab igal ajal tühistada siinsamas profiililehel või kirjutades
-        aadressile <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>.
-      </p>
+      <form onSubmit={handleSave} className="glass-form profile-form-vertical">
+        <label htmlFor="email" className="glass-label">
+          E-post
+        </label>
+        <input
+          className="input-modern"
+          type="email"
+          id="email"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-      {loading ? (
-        <p style={{ padding: "1rem" }}>Laen profiili andmeid…</p>
-      ) : (
-        <>
-          {error && (
-            <div role="alert" className="glass-note">
-              {error}
-            </div>
-          )}
+        <label htmlFor="password" className="glass-label">
+          Uus parool (soovi korral)
+        </label>
+        <input
+          className="input-modern"
+          type="password"
+          id="password"
+          autoComplete="new-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          minLength={6}
+        />
 
-          {statusMsg && !error && (
-            <div role="status" className="glass-note glass-note--success">
-              {statusMsg}
-            </div>
-          )}
+        {error && (
+          <div role="alert" className="glass-note" style={{ marginTop: "0.75rem" }}>
+            {error}
+          </div>
+        )}
+        {success && !error && (
+          <div role="status" className="glass-note glass-note--success" style={{ marginTop: "0.75rem" }}>
+            {success}
+          </div>
+        )}
 
-          {subActive ? (
-            <div className="profile-subscription-block">
-              <p className="glass-text">
-                Tellimuse staatus: <strong>aktiivne</strong>. Kuutasu: <strong>7,99 €</strong>.
-              </p>
-              <div className="tellimus-btn-center" style={{ gap: ".75rem" }}>
-                <Link href="/tellimus" className="btn-secondary">
-                  Muuda makseviisi / vaata arveldust
-                </Link>
-                <button
-                  type="button"
-                  className="btn-danger"
-                  onClick={handleCancel}
-                  disabled={cancelling}
-                  aria-busy={cancelling}
-                >
-                  {cancelling ? "Tühistan…" : "Tühista tellimus"}
-                </button>
-              </div>
-              <p className="glass-muted" style={{ marginTop: ".75rem", textAlign: "center" }}>
-                Tühistamisel peatub automaatne püsimakse alates <em>järgmise arveldusperioodi algusest</em>.
-              </p>
-            </div>
-          ) : (
-            <div className="profile-subscription-block">
-              <p className="glass-text">
-                Sul ei ole aktiivset tellimust. SotsiaalAI täisvõimalused avanevad
-                igakuise püsimaksega (7,99 € / kuu).
-              </p>
-              <div className="tellimus-btn-center">
-                <Link href="/tellimus" className="btn-primary">
-                  Aktiveeri tellimus
-                </Link>
-              </div>
-            </div>
-          )}
-        </>
-      )}
+        <div className="profile-btn-row">
+          <button type="submit" className="btn-primary btn-profile-save" disabled={saving}>
+            {saving ? "Salvestan…" : "Salvesta"}
+          </button>
+          <button
+            type="button"
+            className="btn-primary btn-profile-logout"
+            onClick={() => signOut({ callbackUrl: "/" })}
+          >
+            Logi välja
+          </button>
+        </div>
+      </form>
+
+      <div className="back-btn-wrapper">
+        <button
+          type="button"
+          className="back-arrow-btn"
+          onClick={() => router.push("/vestlus")}
+          aria-label="Tagasi vestlusesse"
+        >
+          <span className="back-arrow-circle"></span>
+        </button>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          className="button"
+          type="button"
+          onClick={() => {
+            setError("");
+            setSuccess("");
+            setDeleting(false);
+            setShowDelete(true);
+          }}
+        >
+          <svg viewBox="0 0 448 512" className="svgIcon">
+            <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+          </svg>
+        </button>
+      </div>
 
       <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+
+      {showDelete && (
+        <ModalConfirm
+           message="Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta."
+          confirmLabel={deleting ? "Kustutan…" : "Kustuta konto"}
+          cancelLabel="Katkesta"
+          onConfirm={async () => {
+            if (deleting) return;
+            setError("");
+            setSuccess("");
+            setDeleting(true);
+            try {
+              const res = await fetch("/api/profile", { method: "DELETE" });
+              const payload = await res.json().catch(() => ({}));
+              if (!res.ok) {
+                setError(payload?.error || "Konto kustutamine ebaõnnestus.");
+                setDeleting(false);
+                return;
+              }
+
+              setShowDelete(false);
+              const signOutResult = await signOut({ redirect: false, callbackUrl: "/" });
+              const redirectUrl = signOutResult?.url || "/";
+              window.location.href = redirectUrl;
+            } catch (err) {
+              console.error("profile DELETE", err);
+              setError("Server ei vasta. Palun proovi uuesti.");
+              setDeleting(false);
+            }
+          }}
+          onCancel={() => {
+            if (deleting) return;
+            setShowDelete(false);
+          }}
+          disabled={deleting}
+        />
+      )}
     </div>
   );
 }
