@@ -105,6 +105,7 @@ export default function HomePage() {
 
   return (
     <>
+      <div className="homepage-root">
       {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
       <nav className="top-center-nav" aria-label="Peamenüü">
         <Link
@@ -272,6 +273,8 @@ export default function HomePage() {
           height={80}
         />
       </footer>
+      </div>
+
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>

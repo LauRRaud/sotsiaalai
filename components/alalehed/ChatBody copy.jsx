@@ -8,92 +8,7 @@ const INTRO_MESSAGE =
   "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
 const MAX_HISTORY = 8;
 
-/* ---------- Brauseri püsivus (sessionStorage) ---------- */
-function makeChatStorage(key = "sotsiaalai:chat:v1") {
-  const storage = typeof window !== "undefined" ? window.sessionStorage : null;
-
-  function load() {
-    if (!storage) return null;
-    try {
-      const raw = storage.getItem(key);
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed?.messages) ? parsed.messages : null;
-    } catch {
-      return null;
-    }
-  }
-
-  function save(messages) {
-    if (!storage) return;
-    try {
-      const maxMsgs = 30;
-      const maxChars = 10000;
-      let total = 0;
-      const trimmed = messages.slice(-maxMsgs).map((m) => {
-        const t = String(m.text || "");
-        if (total >= maxChars) return { ...m, text: "" };
-        const room = maxChars - total;
-        const cut = t.length > room ? t.slice(0, room) : t;
-        total += cut.length;
-        return { ...m, text: cut };
-      });
-      storage.setItem(key, JSON.stringify({ messages: trimmed }));
-    } catch {}
-  }
-
-  function clear() {
-    storage?.removeItem(key);
-  }
-
-  return { load, save, clear };
-}
-
-/* ---------- SSE parser: CRLF→LF, mitu data: rida, flush ---------- */
-function createSSEReader(stream) {
-  const reader = stream.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-  const queue = [];
-
-  function feed(chunk) {
-    buffer += chunk;
-    buffer = buffer.replace(/\r\n/g, "\n"); // CRLF → LF
-    let idx;
-    while ((idx = buffer.indexOf("\n\n")) !== -1) {
-      const rawEvent = buffer.slice(0, idx);
-      buffer = buffer.slice(idx + 2);
-
-      let event = "message";
-      const dataLines = [];
-      for (const line of rawEvent.split("\n")) {
-        if (!line) continue;
-        if (line.startsWith(":")) continue; // heartbeat/comment
-        if (line.startsWith("event:")) event = line.slice(6).trim();
-        else if (line.startsWith("data:")) dataLines.push(line.slice(5));
-      }
-      queue.push({ event, data: dataLines.join("\n") });
-    }
-  }
-
-  return {
-    async *[Symbol.asyncIterator]() {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        feed(decoder.decode(value, { stream: true }));
-        while (queue.length) yield queue.shift();
-      }
-      // flush kui viimane plokk jäi ilma \n\n
-      if (buffer) {
-        feed("\n\n");
-        while (queue.length) yield queue.shift();
-      }
-    },
-  };
-}
-
-/** Normaliseeri serveri allikad üheks kujuks: { key, label, url?, page? } */
+/** Normaliseeri serveri allikad üheks kuju(ks): { key, label, url?, page? } */
 function normalizeSources(sources) {
   if (!Array.isArray(sources)) return [];
   return sources.map((src, idx) => {
@@ -103,6 +18,51 @@ function normalizeSources(sources) {
     const key = src?.id || url || `${label}-${idx}`;
     return { key, label, url, page };
   });
+}
+
+/** Lihtne SSE parser fetch() streami jaoks */
+function createSSEReader(stream) {
+  const reader = stream.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  function parseAndYield(chunk, push) {
+    buffer += chunk;
+    // SSE plokk eraldub tühja reaga "\n\n" (või "\r\n\r\n")
+    let idx;
+    while ((idx = buffer.search(/\r?\n\r?\n/)) !== -1) {
+      const rawEvent = buffer.slice(0, idx);
+      buffer = buffer.slice(idx + (buffer[idx] === "\r" ? 4 : 2));
+
+      let event = "message";
+      let data = "";
+      for (const line of rawEvent.split(/\r?\n/)) {
+        if (line.startsWith("event:")) event = line.slice(6).trim();
+        else if (line.startsWith("data:")) data += line.slice(5).trim();
+      }
+      if (data) push({ event, data });
+    }
+  }
+
+  return {
+    async *[Symbol.asyncIterator]() {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        parseAndYield(decoder.decode(value, { stream: true }), (ev) => this.queue.push(ev));
+        // tühjenda queue järjest
+        while (this.queue.length) yield this.queue.shift();
+      }
+      // lõpp – kui bufferisse midagi jäi (harv juht)
+      if (buffer.trim()) {
+        const event = "message";
+        const data = buffer.trim();
+        buffer = "";
+        yield { event, data };
+      }
+    },
+    queue: [],
+  };
 }
 
 export default function ChatBody() {
@@ -116,16 +76,6 @@ export default function ChatBody() {
     return up || "CLIENT";
   }, [session]);
 
-  // püsivusvõti kasutaja & rolli kaupa
-  const storageKey = useMemo(() => {
-    const uid = session?.user?.id || "anon";
-    return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:v1`;
-  }, [session]);
-  const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
-
-  // vestluse ID (serveri persist jaoks)
-  const [convId, setConvId] = useState(null);
-
   const [messages, setMessages] = useState(() => [{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -138,7 +88,6 @@ export default function ChatBody() {
   const abortControllerRef = useRef(null);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
-  const saveTimerRef = useRef(null);
 
   const historyPayload = useMemo(
     () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
@@ -184,7 +133,6 @@ export default function ChatBody() {
     return () => node.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // autoscroll, kui lisandub sõnumeid ja kasutaja on all
   useEffect(() => {
     if (!mountedRef.current) return;
     const node = chatWindowRef.current;
@@ -193,111 +141,14 @@ export default function ChatBody() {
     }
   }, [messages]);
 
-  // esmane mount: focus, rehüdratsioon & convId
   useEffect(() => {
     mountedRef.current = true;
     focusInput();
-
-    // lae talletatud vestlus
-    const stored = chatStore.load();
-    if (stored && stored.length) {
-      let nextId = 1;
-      const hydrated = stored.map((m) => ({ ...m, id: nextId++ }));
-      messageIdRef.current = nextId;
-      setMessages(hydrated);
-    }
-
-    // convId
-    const idFromStorage =
-      typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
-    const initialConvId =
-      idFromStorage ||
-      (typeof window !== "undefined" && window.crypto?.randomUUID
-        ? window.crypto.randomUUID()
-        : String(Date.now()));
-    setConvId(initialConvId);
-    if (!idFromStorage && typeof window !== "undefined") {
-      window.sessionStorage.setItem(`${storageKey}:convId`, initialConvId);
-    }
-
     return () => {
       mountedRef.current = false;
       abortControllerRef.current?.abort();
     };
-  }, [chatStore, focusInput, storageKey]);
-
-  // salvestus (debounce 250ms)
-  useEffect(() => {
-    if (!mountedRef.current) return;
-    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-    saveTimerRef.current = setTimeout(() => {
-      chatStore.save(messages);
-    }, 250);
-    return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
-  }, [messages, chatStore]);
-
-  /* ---------- TAASTA SERVERIST: kui paneel oli kinni ---------- */
-  useEffect(() => {
-    if (!convId) return;
-    let cancelled = false;
-
-    async function hydrateFromServer() {
-      try {
-        const r = await fetch(`/api/chat/run?convId=${encodeURIComponent(convId)}`, { cache: "no-store" });
-        if (!r.ok) return;
-        const data = await r.json();
-        if (!data?.ok || cancelled) return;
-
-        const serverText = String(data.text || "");
-        const serverSources = normalizeSources(data.sources ?? []);
-
-        setMessages((prev) => {
-          const next = [...prev];
-          // leia VIIMANE AI-sõnum
-          let aiIdx = -1;
-          for (let i = next.length - 1; i >= 0; i--) {
-            if (next[i].role === "ai") {
-              aiIdx = i;
-              break;
-            }
-          }
-          if (aiIdx === -1) {
-            // kui AI-sõnum puudub, lisa uus
-            next.push({
-              id: (next.at(-1)?.id ?? 0) + 1,
-              role: "ai",
-              text: serverText,
-              sources: serverSources,
-              isStreaming: false,
-            });
-          } else {
-            // kui serveris on pikem tekst, uuenda
-            const cur = next[aiIdx];
-            if ((serverText || "").length > (cur.text || "").length) {
-              next[aiIdx] = { ...cur, text: serverText, sources: serverSources, isStreaming: false };
-            }
-          }
-          return next;
-        });
-      } catch {}
-    }
-
-    // 1) kohe mountil
-    hydrateFromServer();
-
-    // 2) kui tab tuleb fookusesse vms, värskenda
-    function onFocusOrVisible() {
-      if (document.visibilityState === "visible") hydrateFromServer();
-    }
-    window.addEventListener("focus", onFocusOrVisible);
-    document.addEventListener("visibilitychange", onFocusOrVisible);
-
-    return () => {
-      cancelled = true;
-      window.removeEventListener("focus", onFocusOrVisible);
-      document.removeEventListener("visibilitychange", onFocusOrVisible);
-    };
-  }, [convId]);
+  }, [focusInput]);
 
   const sendMessage = useCallback(
     async (e) => {
@@ -327,8 +178,6 @@ export default function ChatBody() {
             history: historyPayload,
             role: userRole,
             stream: true,
-            persist: true, // lase serveril salvestada ja jätkata ka siis, kui paneel suletakse
-            convId,        // püsiv vestluse ID
           }),
           signal: controller.signal,
         });
@@ -339,15 +188,6 @@ export default function ChatBody() {
           return;
         }
 
-        if (res.status === 429) {
-          const retry = res.headers.get("retry-after");
-          throw new Error(
-            retry
-              ? `Liiga palju päringuid. Proovi ~${retry}s pärast.`
-              : "Liiga palju päringuid. Proovi varsti uuesti."
-          );
-        }
-
         const contentType = res.headers.get("content-type") || "";
 
         // --- A) Kui server EI striimi (tagasi JSON) ---
@@ -355,9 +195,15 @@ export default function ChatBody() {
           let data = null;
           try {
             data = await res.json();
-          } catch {}
+          } catch {
+            // tühi/vale json
+          }
           if (!res.ok) {
-            const msg = data?.message || res.statusText || "Assistent ei vastanud.";
+            const msg =
+              data?.message ||
+              (res.status === 429
+                ? "Liiga palju päringuid korraga. Palun proovi hetke pärast uuesti."
+                : res.statusText || "Assistent ei vastanud.");
             throw new Error(msg);
           }
           const replyText =
@@ -368,13 +214,14 @@ export default function ChatBody() {
         }
 
         // --- B) SSE striim: uuenda jooksvalt ---
-        if (!res.body) throw new Error("Assistent ei saatnud voogu.");
+        if (!res.body) {
+          throw new Error("Assistent ei saatnud voogu.");
+        }
 
         const reader = createSSEReader(res.body);
         streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
         let acc = "";
         let sources = [];
-
         for await (const ev of reader) {
           if (ev.event === "meta") {
             try {
@@ -383,15 +230,20 @@ export default function ChatBody() {
                 sources = normalizeSources(payload.sources);
                 mutateMessage(streamingMessageId, (msg) => ({ ...msg, sources }));
               }
-            } catch {}
+            } catch {
+              // ignore
+            }
           } else if (ev.event === "delta") {
             try {
               const payload = JSON.parse(ev.data);
               if (payload?.t) {
                 acc += payload.t;
-                mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: acc }));
+                const nextText = acc;
+                mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: nextText }));
               }
-            } catch {}
+            } catch {
+              // ignore
+            }
           } else if (ev.event === "error") {
             let msg = "Voo viga.";
             try {
@@ -447,7 +299,7 @@ export default function ChatBody() {
         focusInput();
       }
     },
-    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId]
+    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole]
   );
 
   const handleStop = useCallback(
@@ -514,7 +366,6 @@ export default function ChatBody() {
           role="region"
           aria-label="Chat messages"
           aria-live="polite"
-          aria-busy={isGenerating ? "true" : "false"}
         >
           {messages.map((msg, i) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
@@ -650,3 +501,4 @@ export default function ChatBody() {
     </div>
   );
 }
+

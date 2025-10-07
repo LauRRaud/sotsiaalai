@@ -146,6 +146,12 @@ a, .link-brand, .meist-external-link {
   z-index: 20;
   /* Soovi korral lisa väike default gap ka nt 40px, kui muidu on kaardid liiga koos */
 }
+.homepage-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .side {
   flex: 1 1 0;
   min-height: 100vh;
@@ -2352,7 +2358,6 @@ textarea::placeholder,
   z-index: 120;
 }
 .top-center-nav .top-center-link{ pointer-events: auto; }
-body.modal-open .top-center-nav{ display:none !important; }
 /* ---- Tellimuse leht: kitsam veerg + suurem sisepadding, vasakjoon ---- */
 .glass-box.tellimus-box{
   padding: clamp(1.6rem, 4.5vw, 2.8rem) clamp(1.8rem, 5.2vw, 3.2rem);
@@ -2396,18 +2401,12 @@ body.modal-open .top-center-nav{ display:none !important; }
   .main-content{
     display: flex;
     flex-direction: column !important;
-    gap: clamp(16px, 4vw, 24px) !important;
-    padding: 1rem !important;
+    gap: clamp(4px, 2vw, 5px) !important;
+    padding: 0.5rem !important;
     min-height: auto !important;
 
-    /* ruum lingi + logo jaoks, et alumine kaart ei kattuks */
-    padding-bottom: calc(
-      var(--footer-logo-h, 56px) +
-      var(--meist-gap, 10px) +
-      var(--meist-link-h, 40px) +
-      16px +
-      env(safe-area-inset-bottom, 0px)
-    ) !important;
+    /* ruum jaluse jaoks, sisu kerimiseks */
+    padding-bottom: clamp(0.5rem, 3vw, 0.5rem) !important;
   }
   .side{
     min-height: auto !important;
@@ -2419,8 +2418,8 @@ body.modal-open .top-center-nav{ display:none !important; }
   .float-card{ animation: none !important; transform: none !important; }
 
   /* Flip mobiilis ainult klassidega (1. puudutus = flip, 2. puudutus tagaküljel = login) */
-  .three-d-card.mobile-flipped-left  .card-wrapper { transform: rotateY(180deg); }
-  .three-d-card.mobile-flipped-right .card-wrapper { transform: rotateY(-180deg); }
+  .three-d-card.mobile-flipped-left  .card-wrapper { transform: rotateY(180deg) !important; }
+  .three-d-card.mobile-flipped-right .card-wrapper { transform: rotateY(-180deg) !important; }
   .three-d-card.mobile-flipped-left  .card-face.back,
   .three-d-card.mobile-flipped-right .card-face.back { pointer-events: auto; }
   .three-d-card.mobile-flipped-left  .card-face.front,
@@ -2443,24 +2442,50 @@ body.modal-open .top-center-nav{ display:none !important; }
     box-shadow: var(--base-shadow);
   }
 
-  /* --- MEIST link: fixed logo kohal (all servas) --- */
-  .top-center-nav{
-    position: fixed !important;
+  .homepage-root{
+    min-height: 100dvh;
+  }
+  .homepage-root > .main-content{
+    order: 1;
+  }
+
+  /* --- MEIST link: voolab sisu sees, ei kata kaarte --- */
+  .homepage-root > .top-center-nav{
+    position: static !important;
     top: auto !important;
-    left: 0; right: 0;
-    bottom: calc(
-      var(--footer-logo-h, 56px) +
-      var(--meist-gap, 10px) +
-      env(safe-area-inset-bottom, 0px)
-    ) !important;
-    display: flex; justify-content: center; align-items: center;
-    pointer-events: none;   /* klikk ainult lingil */
-    z-index: 120;
+    left: auto;
+    right: auto;
+    bottom: auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+    width: 100%;
+    order: 2;
+    margin-top: 0.4em;
+    padding-top: 0.4em;
+    margin-bottom: -1em;
+    z-index: auto;
   }
   .top-center-nav .top-center-link{
     pointer-events: auto;
-    padding: 0.36em 0.78em;
-    line-height: 1.1;
+    padding: 0.44em 0.8em;
+    line-height: 1.15;
+  }
+
+  /* --- Jalus: mobiilis ei ole fixed --- */
+  .homepage-root > .footer-column{
+    order: 3;
+  }
+  .footer-column{
+    position: static;
+    width: 100%;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
+    padding: clamp(0.5rem, 4vw, 1.5rem) 0 clamp(0.6rem, 2vw, 1rem);
+    gap: clamp(0.5rem, 3vw, 0.5rem);
   }
 
   /* --- Kaardi BACK sisu mõõdud --- */
@@ -2549,3 +2574,57 @@ body.modal-open .top-center-nav{ display:none !important; }
   }
   .chat-inputbar .chat-input-field::-webkit-scrollbar{ display: none; }
 }
+@media (min-width: 769px) {
+  body.modal-open .top-center-nav,
+  body.modal-open .top-center-nav .top-center-link {
+    display: none !important;
+  }
+}
+/* === LOGIN MODAL: 100% fullscreen mobiilis === */
+@media (max-width: 768px) {
+  .login-modal-box,
+  .glass-modal {
+    position: fixed !important;
+    inset: 0 !important;          /* katab kogu ekraani */
+    left: auto !important;        /* tühista desktopi keskjoondus */
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;   /* vältida nihkumist ekraanilt välja */
+    animation: none !important;   /* sinu @keyframes kasutab transformi */
+
+    width: 100vw !important;
+    height: 100svh !important;    /* iOS/Android turvaline kõrgus */
+    min-height: 100dvh;           /* fallback */
+
+    border-radius: 0 !important;  /* pole „klaaskasti“ servi */
+    margin: 0 !important;
+    box-shadow: none !important;  /* kui serva vari jääb nähtavale, eemalda */
+
+    /* jäta sinu klaasi taust/blur alles */
+    background: rgba(31,31,31,0.6) !important;
+    backdrop-filter: blur(10px) saturate(110%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(110%) !important;
+
+    z-index: 1002 !important;     /* backdropist kõrgemal */
+    overflow: auto !important;    /* sisu kerib modalisse */
+    -webkit-overflow-scrolling: touch;
+    
+    /* ohutsoonid – vaid väike sisemine padi servadeks */
+    padding: max(12px, env(safe-area-inset-top))
+             max(12px, env(safe-area-inset-right))
+             max(14px, env(safe-area-inset-bottom))
+             max(12px, env(safe-area-inset-left)) !important;
+  }
+
+  /* X-nupp turvalisse tsooni */
+  .login-modal-close {
+    position: absolute !important;
+    top: max(8px, env(safe-area-inset-top, 0px)) !important;
+    right: max(8px, env(safe-area-inset-right, 0px)) !important;
+    z-index: 1010 !important;
+  }
+}
+
+/* tausta kerimine kinni modali ajal */
+body.modal-open { overflow: hidden; height: 100%; }

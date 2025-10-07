@@ -1,7 +1,6 @@
 // app/api/chat/route.js
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
-import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,15 +14,12 @@ const ROLE_LABELS = {
 };
 
 const ROLE_BEHAVIOUR = {
-  CLIENT:
-    "Selgita lihtsas eesti keeles, too praktilisi järgmisi samme, kontaktandmeid ja hoiatusi.",
+  CLIENT: "Selgita lihtsas eesti keeles, too praktilisi järgmisi samme, kontaktandmeid ja hoiatusi.",
   SOCIAL_WORKER:
     "Vasta professionaalselt, lisa asjakohased viited ja rõhuta, et tegu on toetusinfoga (mitte lõpliku õigusnõuga).",
 };
 
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
-
-/* ------------------------- Helpers ------------------------- */
 
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
@@ -100,9 +96,7 @@ Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt 
   return `${sys}\n\n${lines.join("\n")}\nAI:`;
 }
 
-/* ------------------------- OpenAI Calls ------------------------- */
-
-// non-stream
+// --- OpenAI: tavaline mitte-streamiv ---
 async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -123,7 +117,7 @@ async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   return { reply };
 }
 
-// stream (Responses Stream API)
+// --- OpenAI: streamiv (SSE) ---
 async function streamOpenAI({ history, userMessage, context, effectiveRole }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -132,11 +126,13 @@ async function streamOpenAI({ history, userMessage, context, effectiveRole }) {
   const client = new OpenAI({ apiKey });
   const input = toResponsesInput({ history, userMessage, context, effectiveRole });
 
+  // Kasutame Responses Stream API-t ja loeme ainult tekstideltade sündmusi.
   const stream = await client.responses.stream({
     model: DEFAULT_MODEL,
     input,
   });
 
+  // Tagastame lihtsa async iteratori, mis annab {type:"delta", text} ja lõpus "done".
   async function* iterator() {
     for await (const event of stream) {
       if (event.type === "response.output_text.delta") {
@@ -151,8 +147,7 @@ async function streamOpenAI({ history, userMessage, context, effectiveRole }) {
   return iterator();
 }
 
-/* ------------------------- RAG search ------------------------- */
-
+// --- OTSE RAG teenuse kutsumine ---
 async function searchRagDirect({ query, topK = 5, filters }) {
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
@@ -179,35 +174,6 @@ async function searchRagDirect({ query, topK = 5, filters }) {
   }
   return Array.isArray(data?.results) ? data.results : [];
 }
-
-/* ------------------------- Persistence (Prisma) ------------------------- */
-
-async function persistInit({ convId, userId, role, sources }) {
-  if (!convId || !userId) return;
-  await prisma.conversationRun.upsert({
-    where: { id: convId },
-    update: { userId, role, sources: sources ?? null, status: "RUNNING" },
-    create: { id: convId, userId, role, sources: sources ?? null, status: "RUNNING" },
-  });
-}
-
-async function persistAppend({ convId, userId, fullText }) {
-  if (!convId || !userId) return;
-  await prisma.conversationRun.update({
-    where: { id: convId },
-    data: { text: fullText },
-  });
-}
-
-async function persistDone({ convId, userId, status = "COMPLETED" }) {
-  if (!convId || !userId) return;
-  await prisma.conversationRun.update({
-    where: { id: convId },
-    data: { status },
-  });
-}
-
-/* ------------------------- Route Handler ------------------------- */
 
 export async function POST(req) {
   // Auth loader
@@ -236,15 +202,12 @@ export async function POST(req) {
 
   const history = toOpenAiMessages(Array.isArray(payload?.history) ? payload.history : []);
   const wantStream = !!payload?.stream;
-  const persist = !!payload?.persist;
-  const convId = (payload?.convId && String(payload.convId)) || null;
 
   // 2) sessioon
   let session = null;
   try {
     session = await getServerSession(authOptions);
   } catch {}
-  const userId = session?.user?.id || null;
 
   // 3) roll
   const sessionRole = roleFromSession(session); // ADMIN / SOCIAL_WORKER / CLIENT
@@ -256,12 +219,7 @@ export async function POST(req) {
   const gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: gate.message,
-        requireSubscription: gate.requireSubscription,
-        redirect: gate.redirect,
-      },
+      { ok: false, message: gate.message, requireSubscription: gate.requireSubscription, redirect: gate.redirect },
       { status: gate.status }
     );
   }
@@ -294,11 +252,7 @@ export async function POST(req) {
       })
     : [];
 
-  if (persist && convId && userId) {
-    await persistInit({ convId, userId, role: normalizedRole, sources });
-  }
-
-  // --- A) JSON (mitte-streamiv) ---
+  // --- A) JSON (vanakool) ---
   if (!wantStream) {
     try {
       const aiResult = await callOpenAI({
@@ -307,79 +261,27 @@ export async function POST(req) {
         context,
         effectiveRole: normalizedRole,
       });
-      if (persist && convId && userId) {
-        await persistAppend({ convId, userId, fullText: aiResult.reply });
-        await persistDone({ convId, userId, status: "COMPLETED" });
-      }
       return NextResponse.json({
         ok: true,
         reply: aiResult.reply,
         answer: aiResult.reply,
         sources,
-        convId: convId || undefined,
       });
     } catch (err) {
       const errMessage =
         (err?.response?.data?.error?.message || err?.error?.message || err?.message) ??
         "OpenAI päring ebaõnnestus.";
-      if (persist && convId && userId) await persistDone({ convId, userId, status: "ERROR" });
       return makeError(errMessage, 502, { code: err?.name });
     }
   }
 
-  // --- B) STREAM (SSE) meta/delta/done + jätka ka siis, kui klient lahkub ---
+  // --- B) STREAM (SSE) meta/delta/done ---
   const enc = new TextEncoder();
-  let clientGone = false;
-  let heartbeatTimer = null;
-
-  // throttled persist
-  let accumulated = "";
-  let lastFlush = 0;
-  const maybeFlush = async () => {
-    const now = Date.now();
-    if (now - lastFlush >= 700) {
-      lastFlush = now;
-      if (persist && convId && userId) {
-        await persistAppend({ convId, userId, fullText: accumulated });
-      }
-    }
-  };
 
   const sse = new ReadableStream({
     async start(controller) {
-      // kui klient katkestab, ära tapa OpenAI striimi; lõpetame ainult SSE kirjutamise
-      try {
-        req.signal?.addEventListener("abort", () => {
-          clientGone = true;
-          if (heartbeatTimer) {
-            clearInterval(heartbeatTimer);
-            heartbeatTimer = null;
-          }
-          // NB! ära tee controller.close() siin
-        });
-      } catch {}
-
-      // keepalive iga 15s
-      heartbeatTimer = setInterval(() => {
-        if (!clientGone) {
-          try {
-            controller.enqueue(enc.encode(`: keepalive\n\n`));
-          } catch {
-            clientGone = true;
-            clearInterval(heartbeatTimer);
-            heartbeatTimer = null;
-          }
-        }
-      }, 15000);
-
-      // saada meta alguses
-      if (!clientGone) {
-        try {
-          controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources })}\n\n`));
-        } catch {
-          clientGone = true;
-        }
-      }
+      // meta (allikad) kohe alguses
+      controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources })}\n\n`));
 
       try {
         const iter = await streamOpenAI({
@@ -391,53 +293,17 @@ export async function POST(req) {
 
         for await (const ev of iter) {
           if (ev.type === "delta" && ev.text) {
-            accumulated += ev.text;
-
-            if (!clientGone) {
-              try {
-                controller.enqueue(
-                  enc.encode(`event: delta\ndata: ${JSON.stringify({ t: ev.text })}\n\n`)
-                );
-              } catch {
-                clientGone = true;
-              }
-            }
-
-            await maybeFlush();
+            controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: ev.text })}\n\n`));
           } else if (ev.type === "done") {
-            // viimane flush
-            if (persist && convId && userId) {
-              await persistAppend({ convId, userId, fullText: accumulated });
-              await persistDone({ convId, userId, status: "COMPLETED" });
-            }
-            if (!clientGone) {
-              try {
-                controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
-              } catch {}
-            }
+            controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
           }
         }
       } catch (e) {
-        if (!clientGone) {
-          try {
-            controller.enqueue(
-              enc.encode(
-                `event: error\ndata: ${JSON.stringify({ message: e?.message || "stream error" })}\n\n`
-              )
-            );
-          } catch {}
-        }
-        if (persist && convId && userId) await persistDone({ convId, userId, status: "ERROR" });
+        controller.enqueue(
+          enc.encode(`event: error\ndata: ${JSON.stringify({ message: e?.message || "stream error" })}\n\n`)
+        );
       } finally {
-        if (heartbeatTimer) {
-          clearInterval(heartbeatTimer);
-          heartbeatTimer = null;
-        }
-        if (!clientGone) {
-          try {
-            controller.close();
-          } catch {}
-        }
+        controller.close();
       }
     },
   });

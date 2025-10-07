@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/* ---------- Enums ---------- */
+
 enum Role {
   ADMIN
   SOCIAL_WORKER
@@ -33,6 +35,32 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum RagSourceType {
+  FILE
+  URL
+}
+
+enum RagStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum Audience {
+  SOCIAL_WORKER
+  CLIENT
+  BOTH
+}
+
+enum RunStatus {
+  RUNNING
+  COMPLETED
+  ERROR
+}
+
+/* ---------- Models ---------- */
+
 model User {
   id            String      @id @default(cuid())
   email         String?     @unique
@@ -50,6 +78,9 @@ model User {
   subscriptions Subscription[]
   payments      Payment[]
   ragDocuments  RagDocument[]
+
+  // Chat / runs
+  conversationRuns ConversationRun[]
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -145,24 +176,6 @@ model Payment {
   @@index([userId])
 }
 
-enum RagSourceType {
-  FILE
-  URL
-}
-
-enum RagStatus {
-  PENDING
-  PROCESSING
-  COMPLETED
-  FAILED
-}
-
-enum Audience {
-  SOCIAL_WORKER
-  CLIENT
-  BOTH
-}
-
 model RagDocument {
   id          String        @id @default(cuid())
   adminId     String?
@@ -190,4 +203,23 @@ model RagDocument {
   @@index([audience])
   @@index([type])
   @@index([createdAt])
+}
+
+model ConversationRun {
+  /// Frontendi saadetud convId (nt randomUUID). Hoidke see stabiilsena sama vestluse jooksul.
+  id        String    @id
+  userId    String
+  role      Role
+  text      String    @default("") @db.Text
+  sources   Json?
+  status    RunStatus @default(RUNNING)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // seos kasutajaga
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@index([status])
 }
