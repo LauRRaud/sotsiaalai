@@ -1,3 +1,4 @@
+// app/api/register/route.js
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
@@ -5,39 +6,47 @@ import { prisma } from "@/lib/prisma";
 import { hash } from "bcrypt";
 import { Role } from "@prisma/client";
 
+// lubatud sisendvormid -> Prisma Role
 const ROLE_MAP = {
   specialist: Role.SOCIAL_WORKER,
-  "eluküsimusega": Role.CLIENT,
+  "sotsiaaltöö": Role.SOCIAL_WORKER,
+  "sotsiaaltöötaja": Role.SOCIAL_WORKER,
+  "social_worker": Role.SOCIAL_WORKER,
   client: Role.CLIENT,
+  "eluküsimusega": Role.CLIENT,
+  "eluküsimusega pöörduja": Role.CLIENT,
 };
+
+// --- ühtlased vastused ---
+function ok(payload = {}, status = 200) {
+  return NextResponse.json({ ok: true, ...payload }, { status });
+}
+function err(message, status = 400, extras = {}) {
+  return NextResponse.json({ ok: false, message, ...extras }, { status });
+}
 
 function normalizeRole(input) {
   if (!input) return Role.CLIENT;
-  const key = String(input).toLowerCase();
-  return ROLE_MAP[key] ?? Role.CLIENT;
+  const key = String(input).trim().toLowerCase();
+  // ära võimalda ADMIN-it läbi registreerimisvormi
+  const mapped = ROLE_MAP[key] ?? Role.CLIENT;
+  return mapped === Role.ADMIN ? Role.CLIENT : mapped;
 }
 
 export async function POST(request) {
   try {
-    const body = await request.json();
+    const body = await request.json().catch(() => ({}));
+
     const email = String(body?.email || "").trim().toLowerCase();
     const password = String(body?.password || "").trim();
     const role = normalizeRole(body?.role);
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "Puudub e-post või parool." }, { status: 400 });
-    }
-    if (!email.includes("@")) {
-      return NextResponse.json({ error: "E-posti aadress pole korrektne." }, { status: 400 });
-    }
-    if (password.length < 6) {
-      return NextResponse.json({ error: "Parool peab olema vähemalt 6 märki." }, { status: 400 });
-    }
+    if (!email || !password) return err("Puudub e-post või parool.");
+    if (!email.includes("@")) return err("E-posti aadress pole korrektne.");
+    if (password.length < 6) return err("Parool peab olema vähemalt 6 märki.");
 
     const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json({ error: "See e-post on juba kasutusel." }, { status: 409 });
-    }
+    if (existing) return err("See e-post on juba kasutusel.", 409);
 
     const passwordHash = await hash(password, 12);
 
@@ -45,14 +54,16 @@ export async function POST(request) {
       data: {
         email,
         passwordHash,
-        role,
+        role, // CLIENT või SOCIAL_WORKER
+        // loob vaikimisi Subscriptioni (status=NONE) — sinu skeema default teeb ülejäänu
         subscriptions: { create: {} },
       },
     });
 
-    return NextResponse.json({ ok: true }, { status: 201 });
+    // kliendile ei tagasta tundlikke andmeid
+    return ok({}, 201);
   } catch (error) {
     console.error("register POST error", error);
-    return NextResponse.json({ error: "Registreerimine ebaõnnestus." }, { status: 500 });
+    return err("Registreerimine ebaõnnestus.", 500);
   }
 }

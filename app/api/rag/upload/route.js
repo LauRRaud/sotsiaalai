@@ -1,11 +1,10 @@
 // app/api/rag/upload/route.js
 import { NextResponse } from "next/server";
 import { Buffer } from "node:buffer";
+import { randomUUID } from "node:crypto";            // ⬅️ lisatud
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/authz";
-import { pushFileToRag } from "@/lib/ragClient";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -24,6 +23,9 @@ const AUDIENCE_VALUES = new Set(["SOCIAL_WORKER", "CLIENT", "BOTH"]);
 const TEXT_LIKE_MIME = new Set(["text/plain", "text/markdown", "text/html"]);
 const DOCX_SIGNATURE = Buffer.from([0x50, 0x4b, 0x03, 0x04]);
 
+function makeError(message, status = 400, extras = {}) {
+  return NextResponse.json({ ok: false, message, ...extras }, { status });
+}
 function sanitizeFileName(name) {
   if (!name) return "fail";
   const base = String(name).split(/[\\/]/).pop() || "fail";
@@ -31,22 +33,16 @@ function sanitizeFileName(name) {
   const trimmed = cleaned.replace(/^_+|_+$/g, "") || "fail";
   return trimmed.slice(-120);
 }
-
 function normalizeAudience(value) {
   if (!value) return null;
   const str = String(value).toUpperCase().trim();
   return AUDIENCE_VALUES.has(str) ? str : null;
 }
-
 function validateMagicType(buffer, mime) {
   if (!buffer || !Buffer.isBuffer(buffer)) return "Faili sisu ei õnnestunud lugeda.";
-
   if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") return null;
-
   if (mime === "application/pdf") {
-    return buffer.slice(0, 4).toString("utf8") === "%PDF"
-      ? null
-      : "Fail ei paista olevat kehtiv PDF.";
+    return buffer.slice(0, 4).toString("utf8") === "%PDF" ? null : "Fail ei paista olevat kehtiv PDF.";
   }
   if (mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
     return buffer.slice(0, DOCX_SIGNATURE.length).equals(DOCX_SIGNATURE)
@@ -56,10 +52,6 @@ function validateMagicType(buffer, mime) {
   return null;
 }
 
-function makeError(message, status = 400, extras = {}) {
-  return NextResponse.json({ ok: false, message, ...extras }, { status });
-}
-
 export async function POST(req) {
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
@@ -67,86 +59,97 @@ export async function POST(req) {
 
   const form = await req.formData();
   const file = form.get("file");
-  if (!file || typeof file.name !== "string") {
-    return makeError("Fail puudub või on vigane.");
-  }
+  if (!file || typeof file.name !== "string") return makeError("Fail puudub või on vigane.");
 
   const audience = normalizeAudience(form.get("audience"));
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
   const safeFileName = sanitizeFileName(file.name);
-  const titleRaw = form.get("title");
-  const descriptionRaw = form.get("description");
-  const title = (String(titleRaw || safeFileName).trim().slice(0, 255)) || safeFileName;
-  const description = descriptionRaw ? String(descriptionRaw).trim().slice(0, 2000) : null;
+  const type = file.type || "application/octet-stream";
 
   if (typeof file.size === "number" && file.size > MAX_SIZE_BYTES) {
     const limitMb = Math.round((MAX_SIZE_BYTES / 1024 / 1024) * 10) / 10;
     return makeError(`Fail on liiga suur. Lubatud maksimaalselt ${limitMb} MB.`, 413);
   }
-
-  const type = file.type || "application/octet-stream";
   if (ALLOWED_TYPES.length && !ALLOWED_TYPES.includes(type)) {
     return makeError("Seda failitüüpi ei saa üles laadida RAG andmebaasi.", 415, { type });
   }
 
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const ab = await file.arrayBuffer();
+  const buffer = Buffer.from(ab);
   const magicError = validateMagicType(buffer, type);
   if (magicError) return makeError(magicError, 415);
 
-  const adminId = session?.user?.id || session?.userId || null;
+  const titleRaw = form.get("title");
+  const descriptionRaw = form.get("description");
+  const title = (String(titleRaw || safeFileName).trim().slice(0, 255)) || safeFileName;
+  const description = descriptionRaw ? String(descriptionRaw).trim().slice(0, 2000) : null;
 
-  // 1) Loo kirje kohe PROCESSING staatusega (mitte PENDING)
-  const doc = await prisma.ragDocument.create({
-    data: {
-      title,
-      description,
-      type: "FILE",
-      status: "PROCESSING",
-      fileName: safeFileName,
-      mimeType: type,
-      fileSize: buffer.length,
-      adminId,
-      audience,
-      metadata: {
-        uploadedAt: new Date().toISOString(),
-        origin: "file",
-        audience,
-        originalFileName: file.name,
-      },
-    },
-  });
+  // --- RAG /ingest/file ---
+  const ragBase = process.env.RAG_API_BASE;
+  const apiKey = process.env.RAG_API_KEY || "";
+  if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
-  // 2) Push RAG-teenusesse
-  const ragResult = await pushFileToRag({
-    docId: doc.id,
+  const payload = {
+    docId: randomUUID(),                // ⬅️ UUID siit
     fileName: safeFileName,
     mimeType: type,
-    data: buffer,
-    audience,
+    data: buffer.toString("base64"),
     title,
     description,
-  });
+    audience,
+  };
 
-  if (!ragResult?.ok) {
-    const failed = await prisma.ragDocument.update({
-      where: { id: doc.id },
-      data: { status: "FAILED", error: ragResult?.message || ragResult?.response?.message || "RAG serveriga ühenduse loomine ebaõnnestus." },
+  try {
+    const controller = new AbortController();        // ⬅️ timeoutiga
+    const timeout = setTimeout(() => controller.abort(), 30_000);
+
+    const res = await fetch(`${ragBase}/ingest/file`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": apiKey,
+      },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+      signal: controller.signal,
     });
-    return makeError(ragResult?.message || "RAG server ei vastanud.", ragResult?.status || 502, { doc: failed });
+
+    clearTimeout(timeout);
+
+    const raw = await res.text();
+    const data = raw ? JSON.parse(raw) : null;
+
+    if (!res.ok) {
+      const msg = data?.detail || data?.message || `RAG viga (${res.status})`;
+      const status = res.status === 413 ? 413 : res.status === 415 ? 415 : 502;
+      return makeError(msg, status, { response: data });
+    }
+
+    return NextResponse.json({
+      ok: true,
+      doc: {
+        id: payload.docId,
+        title,
+        description,
+        type: "FILE",
+        status: "COMPLETED",
+        fileName: safeFileName,
+        mimeType: type,
+        fileSize: buffer.length,
+        audience,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        insertedAt: new Date().toISOString(),
+        remoteId: payload.docId,
+      },
+      rag: data,
+    });
+  } catch (err) {
+    const message =
+      err?.name === "AbortError"
+        ? "RAG päring aegus (timeout)."
+        : `RAG ühenduse viga: ${err?.message || String(err)}`;
+    return makeError(message, 502);
   }
-
-  // 3) Märgi COMPLETED + insertedAt + remoteId (ühtlane UI/loogika)
-  const completed = await prisma.ragDocument.update({
-    where: { id: doc.id },
-    data: {
-      status: "COMPLETED",
-      insertedAt: new Date(),
-      error: null,
-      remoteId: ragResult.data?.id ?? ragResult.data?.docId ?? null,
-    },
-  });
-
-  return NextResponse.json({ ok: true, doc: completed });
 }

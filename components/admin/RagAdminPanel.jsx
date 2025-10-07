@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 
 /* ---------- Konstandid & sildid ---------- */
 
@@ -93,6 +94,14 @@ function statusBadgeStyle(status) {
   return STATUS_STYLES[status] || { backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff" };
 }
 
+// Kui RAG ei halda staatust, eelda COMPLETED
+function deriveStatus(doc) {
+  return (doc && doc.status) ? doc.status : "COMPLETED";
+}
+function deriveSyncedAt(doc) {
+  return doc?.insertedAt || doc?.lastIngested || doc?.updatedAt || doc?.createdAt || null;
+}
+
 /* ---------- Komponent ---------- */
 
 export default function RagAdminPanel() {
@@ -136,10 +145,14 @@ export default function RagAdminPanel() {
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : null;
 
-      if (!res.ok) {
-        throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
-      }
-      setDocs(Array.isArray(data?.docs) ? data.docs : []);
+      if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
+
+      // API vorm: { ok, docs } või otse massiiv (kaitse juhuks)
+      const list = Array.isArray(data)
+        ? data
+        : (Array.isArray(data?.docs) ? data.docs : []);
+
+      setDocs(list);
     } catch (err) {
       showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
     } finally {
@@ -153,14 +166,16 @@ export default function RagAdminPanel() {
 
   // Kui on PENDING/PROCESSING, värskenda intervalliga (POLL_MS) ja peata taustal
   useEffect(() => {
-    const hasWork = docs.some((d) => d.status === "PENDING" || d.status === "PROCESSING");
+    const hasWork = docs.some((d) => {
+      const st = deriveStatus(d);
+      return st === "PENDING" || st === "PROCESSING";
+    });
     if (!hasWork) return;
 
     let timer = null;
 
     const start = () => {
       if (!document.hidden) {
-        // kohe uuenda esiplaanil
         fetchDocuments();
         timer = setInterval(fetchDocuments, POLL_MS);
       }
@@ -195,7 +210,6 @@ export default function RagAdminPanel() {
         return;
       }
       setFileInfo({ name: file.name, size: file.size, type: file.type });
-      // Kui tiitel on tühi, eeltäida failinimega
       const form = fileFormRef.current;
       if (form && !form.title?.value) {
         form.title.value = file.name.replace(/\.[^.]+$/, "");
@@ -260,6 +274,8 @@ export default function RagAdminPanel() {
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
         form.reset();
+
+        // soovi korral võiks siia push'ida data.doc (kui API tagastab) — praegu teeme värskenduse
         await fetchDocuments();
       } catch (err) {
         showError(err?.message || "Faili laadimine ebaõnnestus.");
@@ -341,7 +357,11 @@ export default function RagAdminPanel() {
 
   /* ----- Kustutamine ----- */
 
-  const canDelete = (doc) => doc?.status === "COMPLETED" || doc?.status === "FAILED";
+  // RAG-teenus lubab kustutamist sõltumata staatusest; kui staatus puudub, luba ikkagi
+  const canDelete = (doc) => {
+    const st = deriveStatus(doc);
+    return st === "COMPLETED" || st === "FAILED" || !doc?.status;
+  };
 
   const handleDelete = useCallback(
     async (docId) => {
@@ -691,10 +711,12 @@ export default function RagAdminPanel() {
         ) : (
           <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "1rem" }}>
             {docs.map((doc) => {
-              const statusLabel = STATUS_LABELS[doc.status] || doc.status;
-              const badgeStyle = statusBadgeStyle(doc.status);
+              const status = deriveStatus(doc);
+              const statusLabel = STATUS_LABELS[status] || status;
+              const badgeStyle = statusBadgeStyle(status);
               const docAudience = doc.audience || doc.metadata?.audience;
               const deletable = canDelete(doc);
+              const syncedAt = deriveSyncedAt(doc);
 
               return (
                 <li
@@ -863,9 +885,9 @@ export default function RagAdminPanel() {
                       </button>
                     )}
 
-                    {doc.insertedAt && (
+                    {syncedAt && (
                       <span style={{ fontSize: "0.78rem", opacity: 0.65 }}>
-                        Sünkroonitud: {formatDateTime(doc.insertedAt)}
+                        Sünkroonitud: {formatDateTime(syncedAt)}
                       </span>
                     )}
                   </div>
@@ -875,13 +897,14 @@ export default function RagAdminPanel() {
           </ul>
         )}
       </div>
+
       <div className="chat-footer">
-  <div className="back-btn-wrapper">
-    <Link href="/meist" className="back-btn glass-btn" aria-label="Tagasi Meist lehele">
-      ← Tagasi Meist lehele
-    </Link>
-  </div>
-</div>
+        <div className="back-btn-wrapper">
+          <Link href="/meist" className="back-btn glass-btn" aria-label="Tagasi Meist lehele">
+            ← Tagasi Meist lehele
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }

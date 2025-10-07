@@ -1,7 +1,7 @@
 // app/admin/rag/page.jsx
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { authConfig } from "@/auth";
 import RagAdminPanel from "@/components/admin/RagAdminPanel";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function AdminRagPage() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authConfig);
 
   // Pole sisse logitud -> suuna loginile ja tagasi siia
   if (!session) {

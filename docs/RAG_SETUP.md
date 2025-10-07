@@ -1,15 +1,41 @@
 ﻿# RAG admin checklist
 
-1. Set the environment variables listed in `env.example`.
-2. Point `RAG_API_BASE` to the FastAPI instance running on the VPS (for example `https://rag.sotsiaal.ai`).
-3. If you want shared-secret protection, set `RAG_API_KEY` both in the web app and the RAG service so the `X-API-Key` header is verified.
-4. Keep `RAG_MAX_UPLOAD_MB` and `NEXT_PUBLIC_RAG_MAX_UPLOAD_MB` in sync (default 20 MB).
-5. Deploy the service located in `rag-service/` to the VPS and start it (see that folder's README for detailed steps).
-6. When uploading content in the admin UI, choose the **Sihtgrupp** (“Sotsiaaltöö spetsialist”, “Eluküsimusega pöörduja” või “Mõlemad”); vestlusassistent filtreerib tulemusi selle järgi.
-7. Open the chosen port on the VPS firewall or expose it through an existing reverse proxy.
-8. Test connectivity with `curl https://rag.your-domain.tld/health` and verify it returns `{ "status": "ok" }`.
+See projekt kasutab eraldi FastAPI RAG-teenust (Chroma püsisalvestus) ja veebirakendus suhtleb temaga HTTP kaudu.
+RAG-teenus loob **OpenAI embeddings** (serveris), veebirakendus kasutab **OpenAI chat** mudelit vastuste koostamiseks.
 
-> VPS access: `ubuntu@uvn-72-147.tll01.zonevs.eu` (add the provided public key to `~/.ssh/authorized_keys`).
 
-9. Verify that the `/search` endpoint responds: `curl -X POST "$RAG_API_BASE/search" -H "Content-Type: application/json" -H "X-API-Key: ..." -d '{"query":"test"}'`.
-10. Add the OpenAI keys (`OPENAI_API_KEY`, `OPENAI_MODEL`) on the server so `/api/chat` can call OpenAI.
+- `RAG_API_BASE` – RAG-teenuse täielik URL (nt `https://rag.sotsiaal.ai`)
+- `RAG_API_KEY` – *sama* jagatud saladus, mis RAG-teenusel (päisesse `X-API-Key`)
+- `RAG_MAX_UPLOAD_MB` – serveri uploadi limiit MB (nt `20`)
+- `NEXT_PUBLIC_RAG_MAX_UPLOAD_MB` – sama limiit brauseri UI-teabeks
+- `NEXT_PUBLIC_RAG_ALLOWED_MIME` – lubatud MIME-d UI-s (komaeraldatud)
+- `OPENAI_API_KEY` – **vestluse** jaoks (api/chat)
+- `OPENAI_MODEL` – vastuse mudel (nt `gpt-5-mini`)
+
+> Jäta `RAG_ALLOWED_MIME` veebile .env-i vaid siis, kui tahad serveripoolselt piirata (upload route kontrollib seda).
+
+
+- `RAG_SERVICE_API_KEY` – jagatud saladus; kui seatud, nõuab päist `X-API-Key`
+- `RAG_STORAGE_DIR` – failide ja Chroma püsikataloog (vaikimisi `./storage`)
+- `RAG_COLLECTION` – Chroma kollektsiooni nimi (vaikimisi `sotsiaalai`)
+- `RAG_SERVER_MAX_MB` – faili max suurus MB (nt `20`)
+- `RAG_ALLOWED_MIME` – lubatud MIME-d (komaeraldatud)*
+- `RAG_ALLOWED_ORIGINS` – CORS päritolud (komaeraldatud, nt `https://sinu.domeen.ee`)
+- `OPENAI_API_KEY` – **embeddings** jaoks (RAG-teenus)
+- `RAG_EMBED_MODEL` – embeddings mudel, nt:
+  - `text-embedding-3-small` (odavam, piisav) **soovitus**
+  - `text-embedding-3-large` (kallim, täpsem)
+
+\* Kui jätad tühjaks, on RAG-teenuse poolt MIME piirang välja lülitatud (UI ikka filtreerib).
+
+---
+
+
+```bash
+cd rag-service
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip wheel
+pip install -r requirements.txt
+# Sea .env vastavalt ülaltoodule (või ekspordi env-id)
+uvicorn main:app --host 0.0.0.0 --port 8000

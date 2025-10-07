@@ -7,7 +7,7 @@ import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcrypt";
 
-/** Loeb sisseloginud kasutaja serverisessioonist (NextAuth v4). */
+/** Sisseloginud kasutaja (NextAuth v4 serverisessioonist) */
 async function requireUser() {
   const session = await getServerSession(authConfig);
   const userId = session?.user?.id;
@@ -15,55 +15,58 @@ async function requireUser() {
   return { session, userId };
 }
 
-function jsonError(message, status = 400, extras = {}) {
-  return NextResponse.json({ error: message, ...extras }, { status });
+function makeError(message, status = 400, extras = {}) {
+  return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
 
 export async function GET() {
   const ctx = await requireUser();
-  if (!ctx) return jsonError("Unauthorized", 401);
+  if (!ctx) return makeError("Unauthorized", 401);
 
   const user = await prisma.user.findUnique({
     where: { id: ctx.userId },
     select: { email: true, role: true },
   });
+  if (!user) return makeError("User not found", 404);
 
-  if (!user) return jsonError("User not found", 404);
-
-  return NextResponse.json({ user });
+  return NextResponse.json({ ok: true, user });
 }
 
 export async function PUT(request) {
   const ctx = await requireUser();
-  if (!ctx) return jsonError("Unauthorized", 401);
+  if (!ctx) return makeError("Unauthorized", 401);
 
   try {
     const body = await request.json();
-    const email = body?.email ? String(body.email).trim().toLowerCase() : undefined;
-    const password = body?.password ? String(body.password).trim() : undefined;
+    const nextEmail = body?.email ? String(body.email).trim().toLowerCase() : undefined;
+    const nextPassword = body?.password ? String(body.password).trim() : undefined;
 
-    if (!email && !password) {
-      return jsonError("Midagi pole uuendada.", 400);
+    if (!nextEmail && !nextPassword) {
+      return makeError("Midagi pole uuendada.", 400);
     }
 
     const data = {};
+    let requiresReauth = false;
 
-    if (email) {
-      if (!email.includes("@")) {
-        return jsonError("E-posti aadress pole korrektne.", 400);
+    if (nextEmail) {
+      if (!nextEmail.includes("@")) {
+        return makeError("E-posti aadress pole korrektne.", 400);
       }
-      const existing = await prisma.user.findUnique({ where: { email } });
+      // kontrolli unikaalsust
+      const existing = await prisma.user.findUnique({ where: { email: nextEmail } });
       if (existing && existing.id !== ctx.userId) {
-        return jsonError("See e-post on juba kasutusel.", 409);
+        return makeError("See e-post on juba kasutusel.", 409);
       }
-      data.email = email;
+      data.email = nextEmail;
+      requiresReauth = true;
     }
 
-    if (password) {
-      if (password.length < 6) {
-        return jsonError("Parool peab olema vähemalt 6 märki.", 400);
+    if (nextPassword) {
+      if (nextPassword.length < 6) {
+        return makeError("Parool peab olema vähemalt 6 märki.", 400);
       }
-      data.passwordHash = await hash(password, 12);
+      data.passwordHash = await hash(nextPassword, 12);
+      requiresReauth = true;
     }
 
     const user = await prisma.user.update({
@@ -72,24 +75,26 @@ export async function PUT(request) {
       select: { email: true, role: true },
     });
 
-    return NextResponse.json({ user });
+    return NextResponse.json({ ok: true, user, requiresReauth });
   } catch (error) {
     console.error("profile PUT error", error);
-    return jsonError("Profiili uuendamine ebaõnnestus.", 500);
+    return makeError("Profiili uuendamine ebaõnnestus.", 500);
   }
 }
+
 export async function DELETE() {
   const ctx = await requireUser();
-  if (!ctx) return jsonError("Unauthorized", 401);
+  if (!ctx) return makeError("Unauthorized", 401);
 
   try {
     await prisma.user.delete({ where: { id: ctx.userId } });
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ ok: true, deleted: true });
   } catch (error) {
     console.error("profile DELETE error", error);
+    // Prisma P2025: record not found
     if (error?.code === "P2025") {
-      return jsonError("Kasutajat ei leitud.", 404);
+      return makeError("Kasutajat ei leitud.", 404);
     }
-    return jsonError("Konto kustutamine ebaõnnestus.", 500);
+    return makeError("Konto kustutamine ebaõnnestus.", 500);
   }
 }

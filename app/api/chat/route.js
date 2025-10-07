@@ -41,11 +41,12 @@ function toOpenAiMessages(history) {
 /** Ühtlusta RAG vaste: toeta nii vana (metadata+text) kui uut (chunk+väljad) kuju */
 function normalizeMatch(m, idx) {
   const md = m?.metadata || {};
-  const title = md.title || m?.title || md.fileName || md.url || "Allikas";
+  const title =
+    md.title || m?.title || md.fileName || m?.fileName || md.url || m?.url || "Allikas";
   const body = m?.text || m?.chunk || "";
   const audience = md.audience || m?.audience || null;
-  const url = md.url || null;
-  const file = (md.source && md.source.path) || md.storedFile || null;
+  const url = m?.url || md.source_url || md.url || null;
+  const file = m?.filePath || (md.source && md.source.path) || md.storedFile || null;
   const page = m?.page ?? md.page ?? null;
   const score = typeof m?.distance === "number" ? 1 - m.distance : null;
 
@@ -180,9 +181,13 @@ export async function POST(req) {
     );
   }
 
-  // 5) RAG filtrid: kliendile ainult CLIENT/BOTH; sots.töötaja/ADMIN näevad kõike
+  // 5) RAG filtrid (rangem variant):
+  // - kliendile: CLIENT + BOTH
+  // - sotsiaaltöötajale/adminile: SOCIAL_WORKER + BOTH
   const audienceFilter =
-    normalizedRole === "CLIENT" ? { audience: { $in: ["CLIENT", "BOTH"] } } : undefined;
+    normalizedRole === "CLIENT"
+      ? { audience: { $in: ["CLIENT", "BOTH"] } }
+      : { audience: { $in: ["SOCIAL_WORKER", "BOTH"] } };
 
   // 6) RAG otsing (robustne: kui RAG kukub, jätkame ilma kontekstita)
   let matches = [];
@@ -212,12 +217,10 @@ export async function POST(req) {
       effectiveRole: normalizedRole,
     });
   } catch (err) {
-    // proovi võtta OpenAI errorist selgem sõnum
     const errMessage =
       (err?.response?.data?.error?.message ||
         err?.error?.message ||
-        err?.message) ??
-      "OpenAI päring ebaõnnestus.";
+        err?.message) ?? "OpenAI päring ebaõnnestus.";
     return makeError(errMessage, 502, { code: err?.name });
   }
 

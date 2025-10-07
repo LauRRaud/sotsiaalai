@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/authz";
 
 export const dynamic = "force-dynamic";
@@ -17,29 +16,52 @@ export async function GET(req) {
   if (!session) return makeError("Pole sisse logitud", 401);
   if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
+  // piirang URL-ist (UI saadab ?limit=50)
   const { searchParams } = new URL(req.url);
   const limitParam = Number(searchParams.get("limit") || 25);
   const limit = Number.isNaN(limitParam) ? 25 : Math.min(Math.max(limitParam, 1), 100);
 
-  const status = searchParams.get("status") || undefined;   // PENDING|PROCESSING|COMPLETED|FAILED
-  const type = searchParams.get("type") || undefined;       // FILE|URL
-  const audience = searchParams.get("audience") || undefined; // SOCIAL_WORKER|CLIENT|BOTH
+  // RAG baas-URL ja API võti
+  const ragBase = process.env.RAG_API_BASE;
+  const apiKey = process.env.RAG_API_KEY || "";
 
-  const where = {};
-  if (status) where.status = status;
-  if (type) where.type = type;
-  if (audience) where.audience = audience;
+  if (!ragBase) {
+    return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
+  }
 
-  const docs = await prisma.ragDocument.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-    take: limit,
-    include: {
-      admin: {
-        select: { id: true, email: true },
-      },
-    },
-  });
+  try {
+    const ragRes = await fetch(`${ragBase}/documents`, {
+      headers: { "X-API-Key": apiKey },
+      cache: "no-store",
+    });
 
-  return NextResponse.json({ ok: true, docs });
+    const raw = await ragRes.text();
+    const data = raw ? JSON.parse(raw) : null;
+
+    if (!ragRes.ok) {
+      const msg = data?.detail || data?.message || `RAG /documents vastus ${ragRes.status}`;
+      return makeError(msg, ragRes.status);
+    }
+
+    // toeta nii [] kui {docs: []}; null -> []
+    const docs = Array.isArray(data)
+      ? data
+      : Array.isArray(data?.docs)
+      ? data.docs
+      : [];
+
+    // Staatuse heuristika:
+    // - kui on error, siis FAILED
+    // - kui chunks > 0, siis COMPLETED
+    // - muidu PENDING
+    const withStatus = docs.slice(0, limit).map((d) => {
+      let status = d?.chunks && d.chunks > 0 ? "COMPLETED" : "PENDING";
+      if (d?.error) status = "FAILED";
+      return { ...d, status };
+    });
+
+    return NextResponse.json({ ok: true, docs: withStatus });
+  } catch (err) {
+    return makeError(`RAG /documents viga: ${err?.message || String(err)}`, 502);
+  }
 }

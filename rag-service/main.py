@@ -40,10 +40,23 @@ COLLECTION_NAME = os.getenv("RAG_COLLECTION", "sotsiaalai")
 
 # OpenAI embeddings (default to high-quality model)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-embedding-3-large"))
+EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"))
 
 MAX_MB = int(os.getenv("RAG_SERVER_MAX_MB", "20"))
-ALLOWED_MIME = set([m.strip() for m in os.getenv("RAG_ALLOWED_MIME", "").split(",") if m.strip()])
+
+# Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
+_DEFAULT_ALLOWED = (
+    "application/pdf,"
+    "text/plain,"
+    "text/markdown,"
+    "text/html,"
+    "application/msword,"
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+)
+ALLOWED_MIME = set(
+    m.strip() for m in (os.getenv("RAG_ALLOWED_MIME", _DEFAULT_ALLOWED).split(",")) if m.strip()
+)
+
 ALLOWED_ORIGINS = [o.strip() for o in os.getenv("RAG_ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 
 if not OPENAI_API_KEY:
@@ -58,7 +71,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 # OpenAI client
 oa = OpenAI(api_key=OPENAI_API_KEY)
 
-app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.3")
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.4")
 
 app.add_middleware(
     CORSMiddleware,
@@ -71,6 +84,14 @@ app.add_middleware(
 # --------------------
 # Utils
 # --------------------
+AUDIENCE_VALUES = {"SOCIAL_WORKER", "CLIENT", "BOTH"}
+
+def normalize_audience(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return "BOTH"
+    v = str(value).strip().upper()
+    return v if v in AUDIENCE_VALUES else "BOTH"
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -214,10 +235,9 @@ def _ingest_text(doc_id: str, text: str, meta_common: Dict) -> int:
             "source_url": meta_common.get("source_url"),
             # ---------------------------------------------
             "mimeType": meta_common.get("mimeType"),
-            "audience": meta_common.get("audience"),  # NEW
+            "audience": normalize_audience(meta_common.get("audience")),  # normalized
             "createdAt": now_iso(),
         }
-        # remove None values to keep metadata tidy
         metadatas.append({k: v for k, v in m.items() if v is not None})
 
     embeddings = _embed_batch(chunks)
@@ -247,6 +267,7 @@ def health():
         n = -1
     return {
         "ok": True,
+        "status": "ok",           # ← lisatud
         "vectors": n,
         "documents": len(reg),
         "embed_model": EMBED_MODEL,
@@ -277,6 +298,7 @@ def ingest_file(payload: IngestFile):
     elif mime == "text/html":
         text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
     else:
+        # text/plain, text/markdown, application/msword (best effort), etc.
         text = raw.decode("utf-8", errors="ignore")
 
     inserted = _ingest_text(
@@ -285,11 +307,10 @@ def ingest_file(payload: IngestFile):
         meta_common={
             "title": payload.title,
             "description": payload.description,
-            # FLATTENED:
             "source_type": "file",
             "source_path": str(raw_path),
             "mimeType": mime,
-            "audience": payload.audience,  # NEW
+            "audience": normalize_audience(payload.audience),
         },
     )
 
@@ -301,7 +322,7 @@ def ingest_file(payload: IngestFile):
         "path": str(raw_path),
         "title": payload.title,
         "description": payload.description,
-        "audience": payload.audience,  # NEW
+        "audience": normalize_audience(payload.audience),
     }
     _register(payload.docId, reg_entry)
 
@@ -329,12 +350,11 @@ def ingest_url(payload: IngestURL):
         meta_common={
             "title": payload.title,
             "description": payload.description,
-            # FLATTENED:
             "source_type": "url",
             "source_url": payload.url,
             "source_path": str(html_path),
             "mimeType": "text/html",
-            "audience": payload.audience,  # NEW
+            "audience": normalize_audience(payload.audience),
         },
     )
 
@@ -345,7 +365,7 @@ def ingest_url(payload: IngestURL):
         "path": str(html_path),
         "title": payload.title,
         "description": payload.description,
-        "audience": payload.audience,  # NEW
+        "audience": normalize_audience(payload.audience),
     }
     _register(payload.docId, reg_entry)
 
@@ -355,15 +375,21 @@ def ingest_url(payload: IngestURL):
 def documents():
     reg = _load_registry()
     out = []
-    for doc_id, meta in sorted(reg.items(), key=lambda x: x[0]):
+    # sort updatedAt desc (kui olemas), muidu doc_id järgi
+    def _key(item):
+        _meta = item[1]
+        return (_meta.get("updatedAt") or _meta.get("createdAt") or "", item[0])
+    for doc_id, meta in sorted(reg.items(), key=_key, reverse=True):
         try:
-            ids = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000).get("ids", [])
+            got = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000)
+            ids = got.get("ids", []) or []
             count = len(ids)
         except Exception:
             count = 0
         out.append({
             "id": doc_id,            # UI ootab 'id'
             "docId": doc_id,
+            "status": "COMPLETED",   # ← vaikimisi valmis (teenus ei halda töövoo staatusi)
             "chunks": count,
             "title": meta.get("title"),
             "description": meta.get("description"),
@@ -415,7 +441,7 @@ def reindex(doc_id: str):
             "source_type": "file",
             "source_path": entry.get("path"),
             "mimeType": mime,
-            "audience": entry.get("audience"),  # NEW
+            "audience": normalize_audience(entry.get("audience")),
         })
         entry["lastIngested"] = now_iso()
         _register(doc_id, entry)
@@ -432,7 +458,7 @@ def reindex(doc_id: str):
             "source_url": entry.get("url"),
             "source_path": entry.get("path"),
             "mimeType": "text/html",
-            "audience": entry.get("audience"),  # NEW
+            "audience": normalize_audience(entry.get("audience")),
         })
         entry["lastIngested"] = now_iso()
         _register(doc_id, entry)
@@ -483,26 +509,33 @@ def search(payload: SearchIn):
     if isinstance(payload.where, dict):
         aud = payload.where.get("audience")
         if isinstance(aud, dict) and "$in" in aud:
-            md_where["audience"] = {"$in": list(aud["$in"])}
+            md_where["audience"] = {"$in": [normalize_audience(a) for a in list(aud["$in"])]}
         elif isinstance(aud, str):
-            md_where["audience"] = aud
+            md_where["audience"] = normalize_audience(aud)
 
         # allow direct doc_id in where
         if "doc_id" in payload.where and isinstance(payload.where["doc_id"], str):
             md_where["doc_id"] = payload.where["doc_id"]
 
     # Embed the query with OpenAI and use query_embeddings
-    q_emb = _embed_batch([payload.query])[0]
-    res = collection.query(
-        query_embeddings=[q_emb],
-        n_results=max(1, min(50, payload.top_k or 5)),
-        where=md_where or None,
-        include=["documents", "metadatas"],  # 'ids' ei ole lubatud include'is
-    )
+    q_embeds = _embed_batch([payload.query])
+    if not q_embeds:
+        return {"results": []}
+    q_emb = q_embeds[0]
 
-    docs = res.get("documents", [[]])[0]
-    metas = res.get("metadatas", [[]])[0]
-    ids = res.get("ids", [[]])[0]  # Chroma tagastab selle niikuinii, lihtsalt mitte include'i kaudu
+    try:
+        res = collection.query(
+            query_embeddings=[q_emb],
+            n_results=max(1, min(50, payload.top_k or 5)),
+            where=md_where or None,
+            include=["documents", "metadatas"],  # 'ids' ei ole lubatud include'is
+        )
+    except Exception:
+        return {"results": []}
+
+    docs = (res.get("documents") or [[]])[0] if res.get("documents") else []
+    metas = (res.get("metadatas") or [[]])[0] if res.get("metadatas") else []
+    ids = (res.get("ids") or [[]])[0] if res.get("ids") else []
 
     out = []
     for i, ch in enumerate(docs):

@@ -1,11 +1,11 @@
 // app/api/rag/url/route.js
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth"; // jääme sinu variandi juurde
-import { authConfig } from "@/auth";          // kui sul on authOptions, võib ka seda kasutada
-import { prisma } from "@/lib/prisma";
-import { pushUrlToRag } from "@/lib/ragClient";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
+import { isAdmin } from "@/lib/authz";
 import dns from "node:dns/promises";
 import { isIP } from "node:net";
+import { randomUUID } from "node:crypto"; // ⬅️ lisatud
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -20,16 +20,14 @@ class UrlSafetyError extends Error {
   }
 }
 
+function makeError(message, status = 400, extras = {}) {
+  return NextResponse.json({ ok: false, message, ...extras }, { status });
+}
 function normalizeAudience(value) {
   if (!value) return null;
   const str = String(value).toUpperCase().trim();
   return AUDIENCE_VALUES.has(str) ? str : null;
 }
-
-function makeError(message, status = 400, extras = {}) {
-  return NextResponse.json({ ok: false, message, ...extras }, { status });
-}
-
 function sanitizeUrl(value) {
   try {
     if (!value) return null;
@@ -40,7 +38,6 @@ function sanitizeUrl(value) {
     return null;
   }
 }
-
 function isPrivateAddress(address) {
   if (!address) return false;
   if (address.startsWith("127.")) return true;
@@ -61,7 +58,6 @@ function isPrivateAddress(address) {
   if (lower.startsWith("fd")) return true;   // unique local
   return false;
 }
-
 async function assertPublicUrl(urlString) {
   const parsed = new URL(urlString);
   const hostname = parsed.hostname;
@@ -71,10 +67,9 @@ async function assertPublicUrl(urlString) {
     if (isPrivateAddress(hostname)) throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
     return;
   }
-
   try {
     const records = await dns.lookup(hostname, { all: true });
-    const forbidden = records.some((record) => isPrivateAddress(record.address));
+    const forbidden = records.some((r) => isPrivateAddress(r.address));
     if (forbidden) throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
   } catch (err) {
     if (err?.code === "ENOTFOUND" || err?.code === "EAI_AGAIN") {
@@ -86,94 +81,98 @@ async function assertPublicUrl(urlString) {
 }
 
 export async function POST(req) {
-  // Auth: ainult admin
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
-  const isAdmin =
-    session.user?.isAdmin === true ||
-    String(session.user?.role || "").toUpperCase() === "ADMIN";
-  if (!isAdmin) return makeError("Ligipääs keelatud", 403);
+  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
-  // Body
-  let payload;
+  // loe body
+  let body;
   try {
-    payload = await req.json();
+    body = await req.json();
   } catch {
     return makeError("Keha peab olema JSON.");
   }
 
-  const url = sanitizeUrl(payload?.url);
+  const url = sanitizeUrl(body?.url);
   if (!url) return makeError("Palun sisesta korrektne URL.");
-
   try {
     await assertPublicUrl(url);
   } catch (err) {
     if (err instanceof UrlSafetyError) {
       return makeError(err.message, err.status, err.extras);
     }
-    throw err;
+    return makeError("URL-i kontroll ebaõnnestus.");
   }
 
-  const rawTitle = String(payload?.title || "").trim();
-  const title = rawTitle ? rawTitle.slice(0, 255) : null;
-  const description = payload?.description ? String(payload.description).trim().slice(0, 2000) : null;
-  const audience = normalizeAudience(payload?.audience);
+  const title = body?.title ? String(body.title).trim().slice(0, 255) : null;
+  const description = body?.description ? String(body.description).trim().slice(0, 2000) : null;
+  const audience = normalizeAudience(body?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  const adminId = session?.user?.id || session?.userId || null;
+  // --- saade RAG teenusele ---
+  const ragBase = process.env.RAG_API_BASE;
+  const apiKey = process.env.RAG_API_KEY || "";
+  if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
-  // 1) Loo kirje STAATUS: PROCESSING (mitte PENDING)
-  const doc = await prisma.ragDocument.create({
-    data: {
-      title: title,
-      description,
-      type: "URL",
-      status: "PROCESSING",
-      sourceUrl: url,
-      adminId,
-      audience,
-      metadata: {
-        origin: "url",
-        requestedAt: new Date().toISOString(),
+  const docId = randomUUID(); // ⬅️ UUID siit
+
+  try {
+    const controller = new AbortController();                 // ⬅️ timeout
+    const timeout = setTimeout(() => controller.abort(), 30_000);
+
+    const res = await fetch(`${ragBase}/ingest/url`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": apiKey,
+      },
+      body: JSON.stringify({
+        docId,
+        url,
+        title: title || undefined,
+        description: description || undefined,
         audience,
-      },
-    },
-  });
-
-  // 2) Lükka RAG teenusesse
-  const ragResult = await pushUrlToRag({
-    docId: doc.id,
-    url,
-    title: title || undefined,
-    description: description || undefined,
-    audience,
-  });
-
-  if (!ragResult?.ok) {
-    const failed = await prisma.ragDocument.update({
-      where: { id: doc.id },
-      data: {
-        status: "FAILED",
-        error: ragResult?.message || ragResult?.response?.message || "RAG server ei vastanud.",
-      },
+      }),
+      cache: "no-store",
+      signal: controller.signal,
     });
-    return makeError(
-      ragResult?.message || "RAG serveriga ühendus ebaõnnestus.",
-      ragResult?.status || 502,
-      { doc: failed }
-    );
+
+    clearTimeout(timeout);
+
+    const raw = await res.text();
+    const data = raw ? JSON.parse(raw) : null;
+
+    if (!res.ok) {
+      const msg = data?.detail || data?.message || `RAG viga (${res.status})`;
+      return makeError(msg, res.status >= 400 && res.status < 600 ? res.status : 502, {
+        response: data,
+      });
+    }
+
+    // Tagastame UI-le "sünteetilise" kirje (ilma Prisma DB-ta)
+    const now = new Date().toISOString();
+    return NextResponse.json({
+      ok: true,
+      doc: {
+        id: docId,
+        title,
+        description,
+        type: "URL",
+        status: "COMPLETED",
+        sourceUrl: url,
+        audience,
+        createdAt: now,
+        updatedAt: now,
+        insertedAt: now,
+        remoteId: docId,
+      },
+      rag: data,
+    });
+  } catch (err) {
+    const message =
+      err?.name === "AbortError"
+        ? "RAG päring aegus (timeout)."
+        : `RAG ühenduse viga: ${err?.message || String(err)}`;
+    return makeError(message, 502);
   }
-
-  // 3) Märgi COMPLETED + insertedAt + remoteId (ühtlane UI/loogika)
-  const updated = await prisma.ragDocument.update({
-    where: { id: doc.id },
-    data: {
-      status: "COMPLETED",
-      insertedAt: new Date(),
-      error: null,
-      remoteId: ragResult.data?.id ?? ragResult.data?.docId ?? null,
-    },
-  });
-
-  return NextResponse.json({ ok: true, doc: updated });
 }

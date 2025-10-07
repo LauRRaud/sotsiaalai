@@ -2,7 +2,7 @@
 import GoogleProviderImport from "next-auth/providers/google";
 import CredentialsProviderImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "./lib/prisma.js";
+import { prisma } from "./lib/prisma";
 import { compare } from "bcrypt";
 
 const GoogleProvider = GoogleProviderImport?.default ?? GoogleProviderImport;
