@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
-export default function RegistreerimineBody({ openLoginModal }) {
+export default function RegistreerimineBody() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next") || "/vestlus";
@@ -42,7 +42,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: form.email,
+          email: form.email.trim(),
           password: form.password,
           role: form.role,
         }),
@@ -50,7 +50,7 @@ export default function RegistreerimineBody({ openLoginModal }) {
 
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        // NB! route.js tagastab 'message', mitte 'error'
+        // /api/register/route.js tagastab 'message'
         setError(payload?.message || payload?.error || "Registreerimine ebaõnnestus.");
         return;
       }
@@ -162,23 +162,6 @@ export default function RegistreerimineBody({ openLoginModal }) {
           <span>{submitting ? "Loome kontot…" : "Registreeru"}</span>
         </button>
       </form>
-
-      <div className="glass-bottom-link">
-        <span className="midtext" style={{ marginRight: "0.17em" }}>
-          Mul on juba konto?
-        </span>
-        <a
-          href="#"
-          className="link-brand"
-          onClick={(e) => {
-            e.preventDefault();
-            // Ava lihtsalt modal, ära muuda URL-i:
-            openLoginModal?.();
-          }}
-        >
-          Logi sisse
-        </a>
-      </div>
 
       <div className="back-btn-wrapper">
         <button

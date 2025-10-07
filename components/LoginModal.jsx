@@ -19,6 +19,7 @@ export default function LoginModal({ open, onClose }) {
   useEffect(() => {
     if (!open) return;
 
+    // Lock body scroll
     scrollYRef.current = window.scrollY || 0;
     document.body.classList.add("modal-open");
     document.body.style.position = "fixed";
@@ -27,9 +28,14 @@ export default function LoginModal({ open, onClose }) {
     document.body.style.right = "0";
     document.body.style.width = "100%";
 
+    // ⬇️ Parandus: ära bluri pimesi; kui fookus pole modalis, fokusseeri esimene sisend
     setTimeout(() => {
       const ae = document.activeElement;
-      if (ae && typeof ae.blur === "function") ae.blur();
+      if (boxRef.current && ae && boxRef.current.contains(ae)) return;
+      const first = boxRef.current?.querySelector(
+        'input, textarea, select, button, [tabindex]:not([tabindex="-1"])'
+      );
+      if (first && typeof first.focus === "function") first.focus();
     }, 0);
 
     const stopScroll = (e) => {
@@ -195,12 +201,14 @@ export default function LoginModal({ open, onClose }) {
 
       <div
         ref={boxRef}
+        id="login-modal"
         className="login-modal-root login-modal-box glass-modal login-modal--mobile u-mobile-modal"
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-label="Logi sisse"
         onClick={stopInside}
+        onMouseDown={stopInside}   // ⬅️ aitab vältida fookuse kaotust mousedownil
         onTouchStart={stopInside}
       >
         <button className="login-modal-close" onClick={onClose} aria-label="Sulge" type="button">
@@ -231,11 +239,25 @@ export default function LoginModal({ open, onClose }) {
 
         <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
           <label style={{ width: "100%", display: "block" }}>
-            <input className="input-modern" type="email" name="email" placeholder="Sinu@email.ee" autoComplete="username" inputMode="email" />
+            <input
+              className="input-modern"
+              type="email"
+              name="email"
+              placeholder="Sinu@email.ee"
+              autoComplete="username"
+              inputMode="email"
+              autoFocus
+            />
           </label>
 
           <label style={{ width: "100%", display: "block" }}>
-            <input className="input-modern" type="password" name="password" placeholder="Parool" autoComplete="current-password" />
+            <input
+              className="input-modern"
+              type="password"
+              name="password"
+              placeholder="Parool"
+              autoComplete="current-password"
+            />
           </label>
 
           <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
