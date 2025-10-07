@@ -26,7 +26,6 @@ function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
 
-/** UI-ajaloo -> OpenAI rollid (assistant/user) */
 function toOpenAiMessages(history) {
   if (!Array.isArray(history) || history.length === 0) return [];
   return history
@@ -38,15 +37,13 @@ function toOpenAiMessages(history) {
     }));
 }
 
-/** Ühtlusta RAG vaste: toeta nii vana (metadata+text) kui uut (chunk+väljad) kuju */
 function normalizeMatch(m, idx) {
   const md = m?.metadata || {};
-  const title =
-    md.title || m?.title || md.fileName || m?.fileName || md.url || m?.url || "Allikas";
+  const title = md.title || m?.title || md.fileName || m?.url || "Allikas";
   const body = m?.text || m?.chunk || "";
   const audience = md.audience || m?.audience || null;
-  const url = m?.url || md.source_url || md.url || null;
-  const file = m?.filePath || (md.source && md.source.path) || md.storedFile || null;
+  const url = md.url || m?.url || null;
+  const file = md.source_path || (md.source && md.source.path) || m?.filePath || null;
   const page = m?.page ?? md.page ?? null;
   const score = typeof m?.distance === "number" ? 1 - m.distance : null;
 
@@ -62,7 +59,6 @@ function normalizeMatch(m, idx) {
   };
 }
 
-/** RAG vasted üheks kontekstiplokiks */
 function buildContextBlocks(matches) {
   if (!Array.isArray(matches) || matches.length === 0) return "";
   const items = matches.map(normalizeMatch);
@@ -80,7 +76,6 @@ function buildContextBlocks(matches) {
     .join("\n\n");
 }
 
-/** Koosta Responses API jaoks üks sisend-string (system + kontekst + ajalugu + kasutaja) */
 function toResponsesInput({ history, userMessage, context, effectiveRole }) {
   const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
   const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
@@ -102,7 +97,6 @@ Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt 
   return `${sys}\n\n${lines.join("\n")}\nAI:`;
 }
 
-/** OpenAI Responses API kutse (ilma 'temperature' parameetrita) */
 async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -114,7 +108,6 @@ async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const resp = await client.responses.create({
     model: DEFAULT_MODEL,
     input,
-    // NB: ära saada 'temperature' — mitmed mudelid (sh gpt-5-mini) ei toeta seda Responses API-s
   });
 
   const reply =
@@ -124,8 +117,41 @@ async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   return { reply };
 }
 
+// --- OTSE RAG teenuse kutsumine (ilma '@/lib/ragClient' failita) ---
+async function searchRagDirect({ query, topK = 5, filters }) {
+  const ragBase = process.env.RAG_API_BASE;
+  const apiKey = process.env.RAG_API_KEY || "";
+  if (!ragBase) throw new Error("RAG_API_BASE puudub .env failist");
+
+  const body = {
+    query,
+    top_k: topK,
+    where: filters || undefined,
+  };
+
+  const res = await fetch(`${ragBase}/search`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(apiKey ? { "X-API-Key": apiKey } : {}),
+    },
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
+
+  const raw = await res.text();
+  const data = raw ? JSON.parse(raw) : null;
+
+  if (!res.ok) {
+    const msg = data?.detail || data?.message || `RAG /search viga (${res.status})`;
+    throw new Error(msg);
+  }
+  // teenus tagastab { results: [...] }
+  return Array.isArray(data?.results) ? data.results : [];
+}
+
 export async function POST(req) {
-  // Auth ja RAG dünaamiliselt (väldib bundleri jamasid)
+  // Auth loader (v4)
   const { getServerSession } = await import("next-auth/next");
   let authOptions;
   try {
@@ -138,7 +164,6 @@ export async function POST(req) {
       authOptions = undefined;
     }
   }
-  const { searchRag } = await import("@/lib/ragClient");
 
   // 1) payload
   let payload;
@@ -156,11 +181,9 @@ export async function POST(req) {
   let session = null;
   try {
     session = await getServerSession(authOptions);
-  } catch {
-    // jätkame; requireSubscription käsitleb vajadusel 401
-  }
+  } catch {}
 
-  // 3) roll: sessioonist tuletatud roll > payload.role; ADMIN normaliseeritakse SOCIAL_WORKER-iks
+  // 3) roll
   const sessionRole = roleFromSession(session); // ADMIN / SOCIAL_WORKER / CLIENT
   const payloadRole =
     typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
@@ -181,28 +204,16 @@ export async function POST(req) {
     );
   }
 
-  // 5) RAG filtrid (rangem variant):
-  // - kliendile: CLIENT + BOTH
-  // - sotsiaaltöötajale/adminile: SOCIAL_WORKER + BOTH
+  // 5) RAG filtrid: kliendile ainult CLIENT/BOTH; spets/admin näevad kõike
   const audienceFilter =
-    normalizedRole === "CLIENT"
-      ? { audience: { $in: ["CLIENT", "BOTH"] } }
-      : { audience: { $in: ["SOCIAL_WORKER", "BOTH"] } };
+    normalizedRole === "CLIENT" ? { audience: { $in: ["CLIENT", "BOTH"] } } : undefined;
 
-  // 6) RAG otsing (robustne: kui RAG kukub, jätkame ilma kontekstita)
+  // 6) RAG otsing (robustne)
   let matches = [];
   try {
-    const ragResponse = await searchRag({
-      query: message,
-      topK: 5,
-      filters: audienceFilter,
-    });
-
-    if (ragResponse?.ok) {
-      matches = ragResponse?.data?.results || ragResponse?.data?.matches || [];
-    }
+    matches = await searchRagDirect({ query: message, topK: 5, filters: audienceFilter });
   } catch {
-    // ignore – vastame ilma kontekstita
+    // jätkame ilma kontekstita
   }
 
   const context = buildContextBlocks(matches);
@@ -218,13 +229,12 @@ export async function POST(req) {
     });
   } catch (err) {
     const errMessage =
-      (err?.response?.data?.error?.message ||
-        err?.error?.message ||
-        err?.message) ?? "OpenAI päring ebaõnnestus.";
+      (err?.response?.data?.error?.message || err?.error?.message || err?.message) ??
+      "OpenAI päring ebaõnnestus.";
     return makeError(errMessage, 502, { code: err?.name });
   }
 
-  // 8) allikad vastusesse
+  // 8) allikad
   const sources = Array.isArray(matches)
     ? matches.map((m, i) => {
         const n = normalizeMatch(m, i);
