@@ -36,9 +36,9 @@ export default function TellimusBody() {
       setProcessing(true);
       setError("");
       setSuccess("");
-      // DEMO: redirect to Maksekeskus
       alert("Suuname Maksekeskuse makselehele (demo)...");
       router.push("/tellimus?status=demo");
+      router.refresh();
     } catch (err) {
       console.error("activate", err);
       setError("Makse algatamine ebaõnnestus.");
@@ -49,9 +49,9 @@ export default function TellimusBody() {
 
   if (loading) {
     return (
-      <div className="main-content glass-box glass-left">
+      <div className="main-content glass-box glass-left" role="main" lang="et">
         <h1 className="glass-title">Tellimus</h1>
-        <p style={{ padding: "1rem" }}>Laen tellimuse infot…</p>
+        <p className="glass-text" aria-live="polite">Laen tellimuse infot…</p>
       </div>
     );
   }
@@ -63,45 +63,57 @@ export default function TellimusBody() {
       {subActive ? (
         <>
           <p className="glass-text">
-            Sinu tellimus on aktiivne. Kuutasu: <strong>7,99 € / kuu</strong>.
+            Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.
           </p>
-          <p className="glass-text">
-            Kui soovid, saad tellimuse igal ajal tühistada oma profiililehelt
-            või kirjutades e-posti aadressile{" "}
+          <p className="glass-text" id="cancel-note">
+            Tellimuse saad igal ajal tühistada oma profiililehelt või
+            kirjutades aadressile{" "}
             <a href="mailto:info@sotsiaal.ai" className="link-brand">
               info@sotsiaal.ai
-            </a>.
+            </a>
+            .
           </p>
 
           <div className="tellimus-btn-center">
-            <Link href="/profiil" className="btn-primary">
+            <Link
+              href="/profiil"
+              className="btn-primary"
+              aria-describedby="cancel-note"
+            >
               Ava profiil
             </Link>
           </div>
         </>
       ) : (
         <>
-          <p className="glass-text">
-            SotsiaalAI teenus põhineb <strong>igakuise püsimaksega tellimusel</strong>.
-            Kuutasu on <strong>7,99 €</strong>. Makse sooritatakse automaatselt
-            valitud makseviisil (nt kaart või pangalink) läbi Maksekeskuse.
+          <p className="glass-text" id="billing-info">
+            SotsiaalAI teenus põhineb igakuise püsimaksega tellimusel.
+            Kuutasu on 7,99 €. Makse sooritatakse automaatselt valitud
+            makseviisil (nt kaart või pangalink) läbi Maksekeskuse.
           </p>
 
-          <div className="glass-note" style={{ margin: "1.25rem 0", textAlign: "center" }}>
-            <p>
-              Tellimust saab igal ajal tühistada oma profiililehel või
+          <div
+            className="glass-note"
+            style={{ margin: "1.25rem 0", textAlign: "center" }}
+            id="cancel-note"
+          >
+            <p className="glass-text" style={{ margin: 0 }}>
+              Tellimuse saad igal ajal tühistada oma profiililehelt või
               kirjutades aadressile{" "}
-              <a href="mailto:info@sotsiaal.ai">info@sotsiaal.ai</a>.
+              <a href="mailto:info@sotsiaal.ai" className="link-brand">
+                info@sotsiaal.ai
+              </a>
+              .
             </p>
           </div>
 
           {error && (
-            <div role="alert" className="glass-note">
+            <div role="alert" aria-live="assertive" className="glass-note">
               {error}
             </div>
           )}
           {success && !error && (
-            <div role="status" className="glass-note glass-note--success">
+            <div role="status" aria-live="polite" className="glass-note glass-note--success">
               {success}
             </div>
           )}
@@ -111,6 +123,9 @@ export default function TellimusBody() {
               type="button"
               className="btn-primary"
               disabled={processing}
+              aria-disabled={processing}
+              aria-busy={processing}
+              aria-describedby="billing-info cancel-note"
               onClick={handleActivate}
             >
               {processing ? "Suunan maksele…" : "Maksa ja aktiveeri tellimus"}
@@ -130,7 +145,7 @@ export default function TellimusBody() {
         </button>
       </div>
 
-      <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+      <footer className="alaleht-footer">SotsiaalAI © 2025</footer>
     </div>
   );
 }

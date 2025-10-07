@@ -14,8 +14,7 @@ const ROLE_LABELS = {
 };
 
 const ROLE_BEHAVIOUR = {
-  CLIENT:
-    "Selgita lihtsas eesti keeles, too praktilisi järgmisi samme, kontaktandmeid ja hoiatusi.",
+  CLIENT: "Selgita lihtsas eesti keeles, too praktilisi järgmisi samme, kontaktandmeid ja hoiatusi.",
   SOCIAL_WORKER:
     "Vasta professionaalselt, lisa asjakohased viited ja rõhuta, et tegu on toetusinfoga (mitte lõpliku õigusnõuga).",
 };
@@ -97,6 +96,7 @@ Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt 
   return `${sys}\n\n${lines.join("\n")}\nAI:`;
 }
 
+// --- OpenAI: tavaline mitte-streamiv ---
 async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -117,17 +117,43 @@ async function callOpenAI({ history, userMessage, context, effectiveRole }) {
   return { reply };
 }
 
-// --- OTSE RAG teenuse kutsumine (ilma '@/lib/ragClient' failita) ---
+// --- OpenAI: streamiv (SSE) ---
+async function streamOpenAI({ history, userMessage, context, effectiveRole }) {
+  const { default: OpenAI } = await import("openai");
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
+
+  const client = new OpenAI({ apiKey });
+  const input = toResponsesInput({ history, userMessage, context, effectiveRole });
+
+  // Kasutame Responses Stream API-t ja loeme ainult tekstideltade sündmusi.
+  const stream = await client.responses.stream({
+    model: DEFAULT_MODEL,
+    input,
+  });
+
+  // Tagastame lihtsa async iteratori, mis annab {type:"delta", text} ja lõpus "done".
+  async function* iterator() {
+    for await (const event of stream) {
+      if (event.type === "response.output_text.delta") {
+        yield { type: "delta", text: event.delta || "" };
+      } else if (event.type === "response.error") {
+        throw new Error(event.error?.message || "OpenAI stream error");
+      } else if (event.type === "response.completed") {
+        yield { type: "done" };
+      }
+    }
+  }
+  return iterator();
+}
+
+// --- OTSE RAG teenuse kutsumine ---
 async function searchRagDirect({ query, topK = 5, filters }) {
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
   if (!ragBase) throw new Error("RAG_API_BASE puudub .env failist");
 
-  const body = {
-    query,
-    top_k: topK,
-    where: filters || undefined,
-  };
+  const body = { query, top_k: topK, where: filters || undefined };
 
   const res = await fetch(`${ragBase}/search`, {
     method: "POST",
@@ -146,12 +172,11 @@ async function searchRagDirect({ query, topK = 5, filters }) {
     const msg = data?.detail || data?.message || `RAG /search viga (${res.status})`;
     throw new Error(msg);
   }
-  // teenus tagastab { results: [...] }
   return Array.isArray(data?.results) ? data.results : [];
 }
 
 export async function POST(req) {
-  // Auth loader (v4)
+  // Auth loader
   const { getServerSession } = await import("next-auth/next");
   let authOptions;
   try {
@@ -176,6 +201,7 @@ export async function POST(req) {
   if (!message) return makeError("Sõnum on kohustuslik.");
 
   const history = toOpenAiMessages(Array.isArray(payload?.history) ? payload.history : []);
+  const wantStream = !!payload?.stream;
 
   // 2) sessioon
   let session = null;
@@ -185,8 +211,7 @@ export async function POST(req) {
 
   // 3) roll
   const sessionRole = roleFromSession(session); // ADMIN / SOCIAL_WORKER / CLIENT
-  const payloadRole =
-    typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
+  const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
 
@@ -194,47 +219,25 @@ export async function POST(req) {
   const gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: gate.message,
-        requireSubscription: gate.requireSubscription,
-        redirect: gate.redirect,
-      },
+      { ok: false, message: gate.message, requireSubscription: gate.requireSubscription, redirect: gate.redirect },
       { status: gate.status }
     );
   }
 
-  // 5) RAG filtrid: kliendile ainult CLIENT/BOTH; spets/admin näevad kõike
+  // 5) RAG filtrid
   const audienceFilter =
     normalizedRole === "CLIENT" ? { audience: { $in: ["CLIENT", "BOTH"] } } : undefined;
 
-  // 6) RAG otsing (robustne)
+  // 6) RAG otsing
   let matches = [];
   try {
     matches = await searchRagDirect({ query: message, topK: 5, filters: audienceFilter });
   } catch {
     // jätkame ilma kontekstita
   }
-
   const context = buildContextBlocks(matches);
 
-  // 7) OpenAI vastus
-  let aiResult;
-  try {
-    aiResult = await callOpenAI({
-      history,
-      userMessage: message,
-      context,
-      effectiveRole: normalizedRole,
-    });
-  } catch (err) {
-    const errMessage =
-      (err?.response?.data?.error?.message || err?.error?.message || err?.message) ??
-      "OpenAI päring ebaõnnestus.";
-    return makeError(errMessage, 502, { code: err?.name });
-  }
-
-  // 8) allikad
+  // 7) allikad (meta)
   const sources = Array.isArray(matches)
     ? matches.map((m, i) => {
         const n = normalizeMatch(m, i);
@@ -249,11 +252,68 @@ export async function POST(req) {
       })
     : [];
 
-  return NextResponse.json({
-    ok: true,
-    reply: aiResult.reply,
-    answer: aiResult.reply,
-    sources,
+  // --- A) JSON (vanakool) ---
+  if (!wantStream) {
+    try {
+      const aiResult = await callOpenAI({
+        history,
+        userMessage: message,
+        context,
+        effectiveRole: normalizedRole,
+      });
+      return NextResponse.json({
+        ok: true,
+        reply: aiResult.reply,
+        answer: aiResult.reply,
+        sources,
+      });
+    } catch (err) {
+      const errMessage =
+        (err?.response?.data?.error?.message || err?.error?.message || err?.message) ??
+        "OpenAI päring ebaõnnestus.";
+      return makeError(errMessage, 502, { code: err?.name });
+    }
+  }
+
+  // --- B) STREAM (SSE) meta/delta/done ---
+  const enc = new TextEncoder();
+
+  const sse = new ReadableStream({
+    async start(controller) {
+      // meta (allikad) kohe alguses
+      controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources })}\n\n`));
+
+      try {
+        const iter = await streamOpenAI({
+          history,
+          userMessage: message,
+          context,
+          effectiveRole: normalizedRole,
+        });
+
+        for await (const ev of iter) {
+          if (ev.type === "delta" && ev.text) {
+            controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: ev.text })}\n\n`));
+          } else if (ev.type === "done") {
+            controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
+          }
+        }
+      } catch (e) {
+        controller.enqueue(
+          enc.encode(`event: error\ndata: ${JSON.stringify({ message: e?.message || "stream error" })}\n\n`)
+        );
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(sse, {
+    headers: {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+    },
   });
 }
 

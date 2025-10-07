@@ -169,7 +169,7 @@ export default function HomePage() {
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                  <span className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</span>
+<h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
                   <Image
                     src="/logo/saimust.svg"
                     alt=""
@@ -241,7 +241,7 @@ export default function HomePage() {
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                  <span className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</span>
+<h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
                   <Image
                     src="/logo/saivalge.svg"
                     alt=""

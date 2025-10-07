@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const INTRO_MESSAGE = 
+const INTRO_MESSAGE =
   "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
 const MAX_HISTORY = 8;
 
@@ -20,15 +20,58 @@ function normalizeSources(sources) {
   });
 }
 
+/** Lihtne SSE parser fetch() streami jaoks */
+function createSSEReader(stream) {
+  const reader = stream.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  function parseAndYield(chunk, push) {
+    buffer += chunk;
+    // SSE plokk eraldub tühja reaga "\n\n" (või "\r\n\r\n")
+    let idx;
+    while ((idx = buffer.search(/\r?\n\r?\n/)) !== -1) {
+      const rawEvent = buffer.slice(0, idx);
+      buffer = buffer.slice(idx + (buffer[idx] === "\r" ? 4 : 2));
+
+      let event = "message";
+      let data = "";
+      for (const line of rawEvent.split(/\r?\n/)) {
+        if (line.startsWith("event:")) event = line.slice(6).trim();
+        else if (line.startsWith("data:")) data += line.slice(5).trim();
+      }
+      if (data) push({ event, data });
+    }
+  }
+
+  return {
+    async *[Symbol.asyncIterator]() {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        parseAndYield(decoder.decode(value, { stream: true }), (ev) => this.queue.push(ev));
+        // tühjenda queue järjest
+        while (this.queue.length) yield this.queue.shift();
+      }
+      // lõpp – kui bufferisse midagi jäi (harv juht)
+      if (buffer.trim()) {
+        const event = "message";
+        const data = buffer.trim();
+        buffer = "";
+        yield { event, data };
+      }
+    },
+    queue: [],
+  };
+}
+
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
 
   // Roll API-le (admin möödub subActive kontrollist middleware’is)
   const userRole = useMemo(() => {
-    const raw =
-      session?.user?.role ??
-      (session?.user?.isAdmin ? "ADMIN" : null);
+    const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
     const up = String(raw || "").toUpperCase();
     return up || "CLIENT";
   }, [session]);
@@ -109,10 +152,16 @@ export default function ChatBody() {
       abortControllerRef.current = controller;
 
       try {
+        // 1) proovi STRIIMI (SSE)
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: trimmed, history: historyPayload, role: userRole }),
+          body: JSON.stringify({
+            message: trimmed,
+            history: historyPayload,
+            role: userRole,
+            stream: true,
+          }),
           signal: controller.signal,
         });
 
@@ -122,27 +171,64 @@ export default function ChatBody() {
           return;
         }
 
-        let data = null;
-        try {
-          data = await res.json();
-        } catch {
-          // kui tuli tühi vms
+        const contentType = res.headers.get("content-type") || "";
+
+        // --- A) Kui server EI striimi (tagasi JSON) ---
+        if (!contentType.includes("text/event-stream")) {
+          let data = null;
+          try {
+            data = await res.json();
+          } catch {
+            // tühi/vale json
+          }
+          if (!res.ok) {
+            const msg =
+              data?.message ||
+              (res.status === 429
+                ? "Liiga palju päringuid korraga. Palun proovi hetke pärast uuesti."
+                : res.statusText || "Assistent ei vastanud.");
+            throw new Error(msg);
+          }
+          const replyText =
+            (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
+          const sources = normalizeSources(data?.sources);
+          appendMessage({ role: "ai", text: replyText, sources });
+          return;
         }
 
-        if (!res.ok) {
-          const msg =
-            data?.message ||
-            (res.status === 429
-              ? "Liiga palju päringuid korraga. Palun proovi hetke pärast uuesti."
-              : res.statusText || "Assistent ei vastanud.");
-          throw new Error(msg);
+        // --- B) SSE striim: kogume tükid, näitame LÕPUS ---
+        const reader = createSSEReader(res.body);
+        let acc = "";
+        let sources = [];
+        for await (const ev of reader) {
+          if (ev.event === "meta") {
+            try {
+              const payload = JSON.parse(ev.data);
+              if (Array.isArray(payload?.sources)) sources = normalizeSources(payload.sources);
+            } catch {
+              // ignore
+            }
+          } else if (ev.event === "delta") {
+            try {
+              const payload = JSON.parse(ev.data);
+              if (payload?.t) acc += payload.t;
+            } catch {
+              // ignore
+            }
+          } else if (ev.event === "error") {
+            let msg = "Voo viga.";
+            try {
+              const payload = JSON.parse(ev.data);
+              if (payload?.message) msg = payload.message;
+            } catch {}
+            throw new Error(msg);
+          } else if (ev.event === "done") {
+            break;
+          }
         }
 
-        const replyText =
-          (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
-        const sources = normalizeSources(data?.sources);
-
-        appendMessage({ role: "ai", text: replyText, sources });
+        const finalText = acc.trim() || "Vabandust, ma ei saanud praegu vastust koostada.";
+        appendMessage({ role: "ai", text: finalText, sources });
       } catch (err) {
         if (err?.name === "AbortError") {
           appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
@@ -194,12 +280,7 @@ export default function ChatBody() {
       style={{ position: "relative" }}
     >
       <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
-        <img
-          src="/logo/User-circle.svg"
-          alt="Profiil"
-          className="chat-avatar-abs"
-          draggable={false}
-        />
+        <img src="/logo/User-circle.svg" alt="Profiil" className="chat-avatar-abs" draggable={false} />
         <span className="avatar-label">Profiil</span>
       </Link>
 
@@ -326,14 +407,7 @@ export default function ChatBody() {
             disabled={!isGenerating && !input.trim()}
           >
             {isGenerating ? (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                focusable="false"
-              >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
                 <rect x="5" y="5" width="14" height="14" rx="2.5" />
               </svg>
             ) : (
