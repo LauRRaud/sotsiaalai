@@ -31,35 +31,48 @@ function whenVisible(cb) {
   return () => document.removeEventListener("visibilitychange", onVis);
 }
 
-/* --- reduced-motion + force override --- */
+/* --- (JÄETUD ALLES, AGA ÜLEKIRJUTAME) reduced-motion + force override --- */
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const on = () => setReduced(mql.matches);
-    on();
-    mql.addEventListener("change", on);
-    return () => mql.removeEventListener("change", on);
+    // loe küll eelistus, aga me ei kasuta seda efektiivses otsuses
+    try {
+      const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const on = () => setReduced(mql.matches);
+      on();
+      mql.addEventListener("change", on);
+      return () => mql.removeEventListener("change", on);
+    } catch {}
   }, []);
   return reduced;
 }
-function useForceMotion() {
-  const [force, setForce] = useState(false);
+function useForceMotionDefaultOn() {
+  // vaikimisi "sisse lülitatud" – kõigil külalistel kohe efektid sees
+  const [force, setForce] = useState(true);
   useEffect(() => {
-    const read = () => {
-      try { return localStorage.getItem("saai-force-motion") === "1"; }
-      catch { return false; }
-    };
     const html = document.documentElement;
     const apply = (on) => html.setAttribute("data-force-motion", on ? "1" : "0");
 
-    const initial = read();
+    const readLS = () => {
+      try { return localStorage.getItem("saai-force-motion"); } catch { return null; }
+    };
+    const writeLS = (on) => {
+      try { localStorage.setItem("saai-force-motion", on ? "1" : "0"); } catch {}
+    };
+
+    // kui LS on tühi, kirjuta "1"; kui olemas, kasuta seda
+    const existing = readLS();
+    const initial = existing == null ? true : existing === "1";
+    if (existing == null) writeLS(true);
+
     setForce(initial);
     apply(initial);
 
-    // @ts-ignore mini-helper konsooli jaoks
+    // dev-helper konsooli jaoks (saad käsitsi välja/välja lülitada)
+    // nt: saaiForceMotion(false)
+    // @ts-ignore
     window.saaiForceMotion = (on = true) => {
-      try { localStorage.setItem("saai-force-motion", on ? "1" : "0"); } catch {}
+      writeLS(!!on);
       apply(!!on);
       setForce(!!on);
     };
@@ -70,9 +83,12 @@ function useForceMotion() {
 function BackgroundLayer() {
   const pathname = usePathname();
 
-  const prefersReduced = usePrefersReducedMotion();
-  const forceMotion = useForceMotion();
-  const reducedEffective = prefersReduced && !forceMotion;
+  // loe küll, kuid ignoreerime: tahame, et kõik efektid töötaksid
+  const _prefersReduced = usePrefersReducedMotion();
+  const _forceMotion = useForceMotionDefaultOn();
+
+  // kriitiline rida: EFEKTID ALATI LUBATUD
+  const reducedEffective = false;
 
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
@@ -81,9 +97,9 @@ function BackgroundLayer() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Space fog intro otsus
+  // Space fog intro otsus — jätame loogika alles (esilehel, mitte reload, mitte juba tehtud)
+  // NB! enam ei peata reducedEffective seda
   useEffect(() => {
-    if (reducedEffective) { setAnimateFog(false); return; }
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
@@ -94,16 +110,16 @@ function BackgroundLayer() {
     const should = pathname === "/" && !already && !isReload;
     setAnimateFog(should);
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
-  }, [pathname, reducedEffective]);
+  }, [pathname]);
 
-  // Lae PARTICLES idle + nähtaval (järgib reducedEffective)
+  // Lae PARTICLES idle + nähtaval (ALATI, enam mitte reducedEffective põhine)
   useEffect(() => {
-    if (!mounted || reducedEffective) return;
+    if (!mounted) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     return () => { cancelParticles?.(); };
-  }, [mounted, reducedEffective]);
+  }, [mounted]);
 
-  // Lae MaybeSplash idle + nähtaval (EI järgi reducedEffective)
+  // Lae MaybeSplash idle + nähtaval (nagu varemki – ALATI)
   useEffect(() => {
     if (!mounted) return;
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
@@ -121,22 +137,21 @@ function BackgroundLayer() {
       <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
         <Suspense fallback={null}>
           <Space
-            animateFog={animateFog}
+            animateFog={animateFog}   // intro animatsioon lubatud vastavalt esmakülastuse loogikale
             skipIntro={!animateFog}
             fogAppearDelayMs={0}
           />
         </Suspense>
       </div>
 
-
-      {/* PARTICLES — järgib reducedEffective */}
-      {particlesReady && !reducedEffective && (
+      {/* PARTICLES — ALATI (idle + visible) */}
+      {particlesReady && (
         <div className="particles-container">
           <Particles />
         </div>
       )}
 
-      {/* MaybeSplash — ALATI (idle + visible), ei sõltu reducedEffective */}
+      {/* MaybeSplash — ALATI (idle + visible) */}
       {cursorReady && (
         <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
           <MaybeSplash />

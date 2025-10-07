@@ -1,3 +1,4 @@
+// components/ViewportLayoutSetter.jsx
 "use client";
 
 import { useEffect } from "react";
@@ -17,36 +18,53 @@ function applyLayoutFlag(matches) {
   }
 }
 
+function applyVhVar() {
+  // iOS/safe-area sõbralik 1vh
+  const vh =
+    (typeof window !== "undefined" && window.visualViewport
+      ? window.visualViewport.height
+      : typeof window !== "undefined"
+      ? window.innerHeight
+      : 0) * 0.01;
+  if (vh) document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
 export default function ViewportLayoutSetter() {
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return undefined;
-    }
+    if (typeof window === "undefined") return;
 
-    const mediaQueryList = window.matchMedia(MOBILE_QUERY);
+    const mql = window.matchMedia(MOBILE_QUERY);
 
-    const applyFromMatches = (value) => {
-      const matches = typeof value === "boolean" ? value : value.matches;
-      applyLayoutFlag(matches);
+    // esmane rakendus
+    applyLayoutFlag(mql.matches);
+    applyVhVar();
+
+    // kuulajad
+    const onMqChange = (e) => applyLayoutFlag(e.matches);
+    const onResize = () => {
+      // rAF vähendab resize-spämmi
+      window.requestAnimationFrame(() => applyVhVar());
+    };
+    const onPageShow = () => {
+      // bfcache tagasitulekul rakenda uuesti
+      applyLayoutFlag(mql.matches);
+      applyVhVar();
     };
 
-    applyFromMatches(mediaQueryList.matches);
-
-    const listener = (event) => applyFromMatches(event);
-
-    if (typeof mediaQueryList.addEventListener === "function") {
-      mediaQueryList.addEventListener("change", listener);
-    } else if (typeof mediaQueryList.addListener === "function") {
-      mediaQueryList.addListener(listener);
-    }
+    mql.addEventListener?.("change", onMqChange);
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    window.addEventListener("pageshow", onPageShow);
+    window.visualViewport?.addEventListener("resize", onResize);
 
     return () => {
-      if (typeof mediaQueryList.removeEventListener === "function") {
-        mediaQueryList.removeEventListener("change", listener);
-      } else if (typeof mediaQueryList.removeListener === "function") {
-        mediaQueryList.removeListener(listener);
-      }
+      mql.removeEventListener?.("change", onMqChange);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+      window.removeEventListener("pageshow", onPageShow);
+      window.visualViewport?.removeEventListener("resize", onResize);
 
+      // puhasta atribuudi jalajälg
       applyLayoutFlag(false);
     };
   }, []);
