@@ -18,17 +18,23 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
+  const [isMobile, setIsMobile] = useState(false); // ← NEW
+
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
 
-  // .fade-in animatsioonide lõpumärgid
+  // detect mobile once + on resize
   useEffect(() => {
-    const onLeftEnd = (e) => {
-      if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
-    };
-    const onRightEnd = (e) => {
-      if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true);
-    };
+    const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // .fade-in end flags
+  useEffect(() => {
+    const onLeftEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true); };
+    const onRightEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true); };
     const l = leftCardRef.current, r = rightCardRef.current;
     l?.addEventListener("animationend", onLeftEnd);
     r?.addEventListener("animationend", onRightEnd);
@@ -38,7 +44,7 @@ export default function HomePage() {
     };
   }, []);
 
-  // aktiveeri Magnet pärast mõlema fade-in’i
+  // enable Magnet after both fade-ins
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
@@ -47,7 +53,7 @@ export default function HomePage() {
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
 
-  // lukusta body kerimine modaliga
+  // lock body scroll when modal open
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
@@ -59,21 +65,19 @@ export default function HomePage() {
   }, [isLoginOpen]);
 
   const flipAllowed = leftFadeDone && rightFadeDone;
-  const flipClass = flipAllowed ? "flip-allowed" : "";
+  // IMPORTANT: desktop gets hover flip; mobile does not
+  const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
   const flipEndMs = 333;
 
-  const onLeftEnter = () => setLeftFlipping(true);
-  const onLeftLeave = () => setTimeout(() => setLeftFlipping(false), flipEndMs);
-  const onRightEnter = () => setRightFlipping(true);
-  const onRightLeave = () => setTimeout(() => setRightFlipping(false), flipEndMs);
+  // desktop hover handlers – no-op on mobile
+  const onLeftEnter  = () => { if (!isMobile) setLeftFlipping(true); };
+  const onLeftLeave  = () => { if (!isMobile) setTimeout(() => setLeftFlipping(false), flipEndMs); };
+  const onRightEnter = () => { if (!isMobile) setRightFlipping(true); };
+  const onRightLeave = () => { if (!isMobile) setTimeout(() => setRightFlipping(false), flipEndMs); };
 
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
-    const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
-    if (!isMobile) {
-      setIsLoginOpen(true);
-      return;
-    }
+    if (!isMobile) { setIsLoginOpen(true); return; }
     e?.stopPropagation?.();
     if (!mobileFlipReady[side]) {
       setMobileFlipReady({ left: side === "left", right: side === "right" });
@@ -88,21 +92,20 @@ export default function HomePage() {
     setMobileFlipReady((prev) => ({ ...prev, [side]: false }));
   };
 
+  // tap: mobile → toggle flip; desktop → open modal immediately
   const handleCardTap = (side) => () => {
-    const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
-    if (!isMobile) {
-      setIsLoginOpen(true);
-      return;
-    }
-    setMobileFlipReady((prev) => {
-      if (!prev[side]) return { left: side === "left", right: side === "right" };
-      return { left: false, right: false };
-    });
+    if (!flipAllowed) return;
+    if (!isMobile) { setIsLoginOpen(true); return; }
+    setMobileFlipReady((prev) =>
+      !prev[side]
+        ? { left: side === "left", right: side === "right" } // 1st tap → flip
+        : { left: false, right: false }                      // 2nd tap on same side → reset (back-side handler opens modal)
+    );
   };
 
   return (
     <>
-      {/* Ülaserva MEIST link */}
+      {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
       <nav className="top-center-nav" aria-label="Peamenüü">
         <Link
           id="nav-meist"
@@ -163,13 +166,11 @@ export default function HomePage() {
                 tabIndex={0}
                 onClick={handleCardBackClick("left")}
                 onBlur={handleCardBackBlur("left")}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
-                }}
+                onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-<h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
+                  <h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
                   <Image
                     src="/logo/saimust.svg"
                     alt=""
@@ -235,13 +236,11 @@ export default function HomePage() {
                 tabIndex={0}
                 onClick={handleCardBackClick("right")}
                 onBlur={handleCardBackBlur("right")}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true);
-                }}
+                onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
                 style={!flipAllowed ? { pointerEvents: "none" } : {}}
               >
                 <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-<h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
+                  <h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
                   <Image
                     src="/logo/saivalge.svg"
                     alt=""

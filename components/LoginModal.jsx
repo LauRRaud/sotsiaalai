@@ -11,7 +11,6 @@ export default function LoginModal({ open, onClose }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next") || "/vestlus";
-  const scrollYRef = useRef(0);
 
   const [loading, setLoading] = useState(null); // "credentials" | "google" | "smart_id" | "mobiil_id"
   const [error, setError] = useState(null);
@@ -19,39 +18,22 @@ export default function LoginModal({ open, onClose }) {
   useEffect(() => {
     if (!open) return;
 
-    // Lock body scroll
-    scrollYRef.current = window.scrollY || 0;
+    // Lisa ainult klass (CSS võib sellele reageerida), kuid ära fikseeri body stiile
     document.body.classList.add("modal-open");
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollYRef.current}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
 
-    // ⬇️ Parandus: ära bluri pimesi; kui fookus pole modalis, fokusseeri esimene sisend
-    setTimeout(() => {
-      const ae = document.activeElement;
-      if (boxRef.current && ae && boxRef.current.contains(ae)) return;
-      const first = boxRef.current?.querySelector(
-        'input, textarea, select, button, [tabindex]:not([tabindex="-1"])'
-      );
-      if (first && typeof first.focus === "function") first.focus();
-    }, 0);
-
-    const stopScroll = (e) => {
-      if (boxRef.current && !boxRef.current.contains(e.target)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
+    // Klahvikäsitleja: Escape sulgemiseks ja Tab-tsükli hoidmiseks
     const onKeydown = (e) => {
-      if (e.key === "Escape") onClose?.();
+      if (e.key === "Escape") {
+        onClose?.();
+      }
       if (e.key === "Tab" && boxRef.current) {
         const nodes = boxRef.current.querySelectorAll(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         );
-        const focusables = Array.from(nodes);
+        const focusables = Array.from(nodes).filter((n) => {
+          // ignore elements that are hidden or not focusable
+          return (n.offsetWidth > 0 || n.offsetHeight > 0) && !n.hasAttribute("disabled");
+        });
         if (!focusables.length) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
@@ -67,20 +49,10 @@ export default function LoginModal({ open, onClose }) {
       }
     };
 
-    document.addEventListener("touchmove", stopScroll, { passive: false });
-    document.addEventListener("wheel", stopScroll, { passive: false });
     document.addEventListener("keydown", onKeydown);
 
     return () => {
       document.body.classList.remove("modal-open");
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-      window.scrollTo(0, scrollYRef.current);
-      document.removeEventListener("touchmove", stopScroll);
-      document.removeEventListener("wheel", stopScroll);
       document.removeEventListener("keydown", onKeydown);
     };
   }, [open, onClose]);
@@ -208,7 +180,7 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         aria-label="Logi sisse"
         onClick={stopInside}
-        onMouseDown={stopInside}   // ⬅️ aitab vältida fookuse kaotust mousedownil
+        onMouseDown={stopInside}   // aitab vältida fookuse kaotust mousedown'il
         onTouchStart={stopInside}
       >
         <button className="login-modal-close" onClick={onClose} aria-label="Sulge" type="button">
@@ -217,19 +189,39 @@ export default function LoginModal({ open, onClose }) {
 
         <div className="glass-title">Logi sisse</div>
 
-        <div className="login-social-icons-row">
-          <button className="login-icon-btn" onClick={handleGoogleLogin} type="button" aria-label="Google" disabled={loading === "google"}>
+        <div className="login-social-icons-row" style={{ display: "flex", gap: "0.6rem" }}>
+          <button
+            className="login-icon-btn"
+            onClick={handleGoogleLogin}
+            type="button"
+            aria-label="Google"
+            disabled={loading === "google"}
+          >
             <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" />
           </button>
-          <button className="login-icon-btn" onClick={handleSmartID} type="button" aria-label="Smart-ID" disabled={loading === "smart_id"}>
+          <button
+            className="login-icon-btn"
+            onClick={handleSmartID}
+            type="button"
+            aria-label="Smart-ID"
+            disabled={loading === "smart_id"}
+          >
             <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" />
           </button>
-          <button className="login-icon-btn" onClick={handleMobileID} type="button" aria-label="Mobiil-ID" disabled={loading === "mobiil_id"}>
+          <button
+            className="login-icon-btn"
+            onClick={handleMobileID}
+            type="button"
+            aria-label="Mobiil-ID"
+            disabled={loading === "mobiil_id"}
+          >
             <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" />
           </button>
         </div>
 
-        <div className="login-or-divider"><span>või</span></div>
+        <div className="login-or-divider" style={{ textAlign: "center" }}>
+          <span>või</span>
+        </div>
 
         {error && (
           <div role="alert" aria-live="assertive" className="glass-note" style={{ width: "100%", marginBottom: "0.6rem" }}>
@@ -246,7 +238,7 @@ export default function LoginModal({ open, onClose }) {
               placeholder="Sinu@email.ee"
               autoComplete="username"
               inputMode="email"
-              autoFocus
+              // autoFocus removed to avoid forcing immediate typing/focus
             />
           </label>
 
