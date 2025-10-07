@@ -50,7 +50,8 @@ export default function RegistreerimineBody({ openLoginModal }) {
 
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.error || "Registreerimine ebaõnnestus.");
+        // NB! route.js tagastab 'message', mitte 'error'
+        setError(payload?.message || payload?.error || "Registreerimine ebaõnnestus.");
         return;
       }
 
@@ -171,13 +172,8 @@ export default function RegistreerimineBody({ openLoginModal }) {
           className="link-brand"
           onClick={(e) => {
             e.preventDefault();
-            const url = `/registreerimine?next=${encodeURIComponent(nextUrl)}`;
-            if (openLoginModal) {
-              router.replace(url);
-              openLoginModal();
-            } else {
-              router.push(url);
-            }
+            // Ava lihtsalt modal, ära muuda URL-i:
+            openLoginModal?.();
           }}
         >
           Logi sisse
