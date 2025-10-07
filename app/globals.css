@@ -2746,3 +2746,43 @@ textarea::placeholder,
 @media (min-width: 420px) and (max-width: 768px) {
   #footer-logo-img { --footer-logo-h: 88px; }
 }
+@media (max-width: 768px) {
+  /* 1) Kõrgused vabaks + iOS fix */
+  body, .side,
+  .glass-box.chat-container {
+    min-height: auto !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  body { min-height: calc(var(--vh, 1vh) * 100) !important; } /* kui --vh on seadistatud */
+
+  /* 2) Fixed kihid ümber või peidetud */
+  .particles-container,
+  .splash-cursor {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .footer-column { position: static !important; }  /* jalus voolab sisuga */
+  .top-center-nav { position: absolute !important; top: auto !important; } /* viime logo juurde (nagu eelblokk) */
+
+  /* 3) Kaardi/hoveri efektid maha */
+  .float-card { animation: none !important; transform: none !important; }
+  .three-d-card:not(.mobile-flipped-left):not(.mobile-flipped-right) .card-wrapper {
+    transform: none !important;
+  }
+
+  /* 4) Teksti suurused/kaardid kompaktsemaks */
+  .headline-bold,
+  .right-card-primary .card-title { font-size: clamp(16px, 5vw, 22px) !important; text-shadow: none !important; }
+
+  /* 5) Chat: inputbar mõõdud ja paigutus mobiilile */
+  .chat-inputbar {
+    left: max(12px, env(safe-area-inset-left)) !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    --input-h: 62px;
+  }
+  .chat-window { padding-bottom: calc(var(--input-h) + 24px) !important; }
+}
