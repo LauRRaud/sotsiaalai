@@ -1886,85 +1886,92 @@ label {
   background:linear-gradient(135deg,var(--pt-400),var(--pt-200));
   border-radius:10px; border:3px solid transparent;
 }
+.chat-inputbar {
+  position: absolute;
+  left: 1.6rem;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  z-index: 3;
 
-/* fikseeritud sisendiriba .chat-main sees */
-.chat-inputbar{
-  position:absolute;
-  left: clamp(12px, 2.4vw, 24px);
-  right: clamp(12px, 2.4vw, 24px);
-  bottom: clamp(12px, 2.4vw, 24px);
-  z-index:3;
+  flex: 0 0 66px;
+  height: 66px;
 
-  height:var(--chat-input-h);
-  display:grid;
+  display: grid;
   grid-template-columns: 1fr auto;
-  align-items:center;
-  column-gap:10px;
+  align-items: center;
 
-  padding:8px 10px;
-  border-radius:18px;
-  border:1.5px solid var(--pt-mid);
-  background: rgba(37,44,59,0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 6px 14px rgba(0,0,0,.18);
-}
-.chat-inputbar:focus-within{
-  border-color: var(--pt-100);
-  box-shadow: 0 0 8px rgba(195,193,188,.6);
-}
+  padding: 0 4px 0 8px;
+  column-gap: 2px;
 
-/* textarea – tekst ja placeholder vertikaalselt keskel */
-.chat-inputbar .chat-input-field{
-  all:unset;
-  display:block;
-  box-sizing:border-box;
-  width:100%; height:100%;
-  padding:14px 16px;            /* sümmeetriline y-padding = keskjoondus */
-  border-radius:999px;
-  background: rgba(255,255,255,0.06);
-  color: var(--pt-50);
-  caret-color: var(--pt-50);
-  font: 500 1.15rem/1.5 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  /* piir platinumist */
+  border: 1.5px solid var(--pt-mid);     /* nt #AFAAA3 */
+  border-radius: 999px;
 
-  overflow-y:auto;
-  scrollbar-width:none;
-}
-.chat-inputbar .chat-input-field::-webkit-scrollbar{ display:none; }
-.chat-inputbar .chat-input-field::placeholder{
-  color: var(--pt-100); opacity:.9;
-  line-height:1.5;               /* hoiab visuaalselt keskel */
+  /* taust jääb sinakashall, aga veidi läbikumav */
+  background: rgba(37, 44, 59, 0.92);    /* #252c3b → läbipaistvam */
+
+  overflow: hidden;
+  margin: 0;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* saada/stop nupp – ühtne mõõt mõlemal platvormil */
-.chat-send-btn{
-  width:56px; height:56px;
-  border:0; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background: var(--pt-300);
-  color:#222;
-  box-shadow: 0 0 8px rgba(175,170,163,.45);
-  cursor:pointer;
-  transition: background .16s, transform .06s, box-shadow .16s;
-}
-.chat-send-btn:hover{ background:#BFBBAF; box-shadow:0 0 10px rgba(201,199,194,.55);}
-.chat-send-btn:active{ transform: scale(.96); }
-.chat-send-btn svg{ width:24px; height:24px; stroke: var(--pt-600); stroke-width:2.4; }
+.chat-inputbar,
+.chat-inputbar--mobile { position: absolute !important; }
 
-/* “keri lõppu” nupp – paremas alanurgas, sisendriba kohal */
-.scroll-down-btn{
-  position:absolute;
-  right: clamp(16px, 2.4vw, 24px);
-  bottom: calc(var(--chat-input-h) + 16px);
-  width:36px; height:36px;
-  border:0; border-radius:50%;
-  background: rgba(255,255,255,.10);
-  color:#fff; cursor:pointer;
-  transition: transform .2s ease, opacity .2s ease;
-  z-index:4;
+.chat-inputbar:focus-within {
+  border-color: var(--pt-light); /* heledam platinum, nt #ECEBE9 */
+  box-shadow: 0 0 8px rgba(195, 193, 188, 0.6); /* pehme platinum kuma */
 }
-.scroll-down-btn:hover{ transform: translateY(-1px); }
+/* sisestusväli */
+.chat-inputbar .chat-input-field {
+  all: unset;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  color: var(--pt-100);      /* hele platinum tekst, nt #ECEBE9 */
+  caret-color: var(--pt-100);
+  font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+.scroll-down-btn {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
 
+.scroll-down-btn:hover {
+  transform: translateX(-50%) scale(1.15);
+}
+
+.scroll-down-btn svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--pt-400);   /* tumedam platinum (#AFAAA3) */
+  stroke-width: 3;
+  fill: none;
+  transition: stroke 0.2s ease;
+}
+.chat-send-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--pt-600);  /* kõige tumedam platinum (#55514C) */
+  stroke-width: 2.6;      /* veidi peenem kui enne */
+  fill: none;
+}
+.scroll-down-btn:hover svg,
+.scroll-down-btn:focus svg {
+  stroke: var(--pt-200);   /* heledam platinum (#DFDEDA) */
+}
 /* kolme täpi “AI mõtleb” mull */
 .typing-bubble{
   display:inline-flex; align-items:center; gap:6px;
@@ -2305,27 +2312,16 @@ textarea::placeholder,
   text-align: left;
   line-height: 1.56;
 }
-/* =========================================================
-   GLOBAL: modal avamisel taust ei keriks
-   ========================================================= */
 body.modal-open {
   overflow: hidden;
   height: 100%;
 }
-
-/* =========================================================
-   DESKTOP ONLY: peida “Meist” modali ajal
-   ========================================================= */
 @media (min-width: 769px) {
   body.modal-open .top-center-nav,
   body.modal-open .top-center-nav .top-center-link {
     display: none !important;
   }
 }
-
-/* =========================================================
-   MOBILE ONLY (≤768px): paigutus, kerimise fix, kaardid, chat input, modal
-   ========================================================= */
 @media (max-width: 768px) {
   /* --- üldine kerimise vabastamine --- */
   html, body {
@@ -2491,10 +2487,6 @@ body.modal-open {
     z-index: 1010 !important;
   }
 }
-
-/* =========================================================
-   CHAT INPUT teksti toon (mõlemad vaated)
-   ========================================================= */
 .chat-inputbar .chat-input-field {
   color: var(--pt-100) !important;
   caret-color: var(--pt-100) !important;
@@ -2503,19 +2495,12 @@ body.modal-open {
   color: var(--pt-100) !important;
   opacity: 0.9 !important;
 }
-
-/* =========================================================
-   “AI mõtleb …” mull: suurem tekst + suuremad punktid
-   ========================================================= */
 .chat-msg-ai.typing-bubble {
   font-size: 1.05rem;
   line-height: 1.4;
   color: var(--pt-100);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 0.85rem 1.1rem;
-  backdrop-filter: blur(8px);
+  background: transparent;
+  border: none;
 }
 .chat-msg-ai.typing-bubble .typing-label {
   font-weight: 500;
@@ -2537,10 +2522,6 @@ body.modal-open {
   0%, 80%, 100% { transform: translateY(0); opacity: 0.6; }
   40% { transform: translateY(-5px); opacity: 1; }
 }
-
-/* =========================================================
-   Profiili lehe nupud keskele (mõlemad vaated)
-   ========================================================= */
 .profile-btn-row {
   display: flex !important;
   justify-content: center !important;
