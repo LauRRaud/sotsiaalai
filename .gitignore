@@ -78,3 +78,4 @@ rag-service/storage/**
 # Lokaalsed npm/pnpm cache'd
 .pnpm-store/
 .npm/
+prisma/_backup_old/
