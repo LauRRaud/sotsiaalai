@@ -7,7 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/* ---------- Enums ---------- */
+/**
+ * ---------- Enums ----------
+ */
 
 enum Role {
   ADMIN
@@ -59,19 +61,21 @@ enum RunStatus {
   ERROR
 }
 
-/* ---------- Models ---------- */
+/**
+ * ---------- Models ----------
+ */
 
 model User {
-  id            String      @id @default(cuid())
-  email         String?     @unique
+  id            String    @id @default(cuid())
+  email         String?   @unique
   emailVerified DateTime?
   passwordHash  String?
-  role          Role        @default(CLIENT)
-  isAdmin       Boolean     @default(false)
+  role          Role      @default(CLIENT)
+  isAdmin       Boolean   @default(false)
 
   // NextAuth
-  accounts      Account[]
-  sessions      Session[]
+  accounts Account[]
+  sessions Session[]
 
   // Äri
   profile       Profile?
@@ -82,13 +86,13 @@ model User {
   // Chat / runs
   conversationRuns ConversationRun[]
 
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Profile {
-  id        String @id @default(cuid())
-  userId    String @unique
+  id        String  @id @default(cuid())
+  userId    String  @unique
   firstName String?
   lastName  String?
   phone     String?
@@ -97,19 +101,19 @@ model Profile {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String @id @default(cuid())
   userId            String
   type              String
-  provider          String   // "google" | "smart_id" | "mobiil_id" | "email_password"
-  providerAccountId String   // Google sub / isikukood / vms
+  provider          String // "google" | "smart_id" | "mobiil_id" | "email_password"
+  providerAccountId String // Google sub / isikukood / vms
 
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
+  refresh_token String?
+  access_token  String?
+  expires_at    Int?
+  token_type    String?
+  scope         String?
+  id_token      String?
+  session_state String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -137,15 +141,15 @@ model VerificationToken {
 }
 
 model Subscription {
-  id               String             @id @default(cuid())
-  userId           String
-  status           SubscriptionStatus @default(NONE)
-  plan             String             @default("kuutellimus")
-  validUntil       DateTime?
-  nextBilling      DateTime?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  canceledAt       DateTime?
+  id          String             @id @default(cuid())
+  userId      String
+  status      SubscriptionStatus @default(NONE)
+  plan        String             @default("kuutellimus")
+  validUntil  DateTime?
+  nextBilling DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  canceledAt  DateTime?
 
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   payments Payment[]
@@ -156,17 +160,17 @@ model Subscription {
 }
 
 model Payment {
-  id                  String          @id @default(cuid())
-  subscriptionId      String
-  userId              String
-  provider            PaymentProvider @default(MAKSEKESKUS)
-  providerPaymentId   String
-  amount              Decimal         @db.Decimal(10, 2)
-  currency            String          @default("EUR")
-  status              PaymentStatus
-  paidAt              DateTime?
-  raw                 Json?
-  createdAt           DateTime        @default(now())
+  id                String          @id @default(cuid())
+  subscriptionId    String
+  userId            String
+  provider          PaymentProvider @default(MAKSEKESKUS)
+  providerPaymentId String
+  amount            Decimal         @db.Decimal(10, 2)
+  currency          String          @default("EUR")
+  status            PaymentStatus
+  paidAt            DateTime?
+  raw               Json?
+  createdAt         DateTime        @default(now())
 
   subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -177,9 +181,9 @@ model Payment {
 }
 
 model RagDocument {
-  id          String        @id @default(cuid())
-  adminId     String?
-  admin       User?         @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  id      String  @id @default(cuid())
+  adminId String?
+  admin   User?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
 
   title       String?
   description String?
@@ -195,8 +199,8 @@ model RagDocument {
   metadata    Json?
   insertedAt  DateTime?
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([adminId])
   @@index([status])
@@ -207,15 +211,15 @@ model RagDocument {
 
 model ConversationRun {
   /// Frontendi saadetud convId (nt randomUUID). Hoidke see stabiilsena sama vestluse jooksul.
-  id        String    @id
-  userId    String
-  role      Role
-  text      String    @default("") @db.Text
-  sources   Json?
-  status    RunStatus @default(RUNNING)
+  id      String    @id
+  userId  String
+  role    Role
+  text    String    @default("") @db.Text
+  sources Json?
+  status  RunStatus @default(RUNNING)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // seos kasutajaga
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
