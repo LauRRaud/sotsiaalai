@@ -1090,7 +1090,16 @@ html:not(.dark-mode) .avatar-label {
   transition: border 0.17s, box-shadow 0.15s, background 0.13s;
   outline: none;
 }
-
+.login-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .login-icon-btn:hover,
 .login-icon-btn:focus {
   background: var(--pt-200);                /* samm tumedam platinum */
@@ -1266,10 +1275,12 @@ html:not(.dark-mode) .avatar-label {
   white-space: nowrap;
   background: none;
 }
-.login-modal-bottom-link .link-brand {
+.login-modal-bottom-link {
   width: 100%;
   text-align: center;
   margin-top: 0.5em;
+  }
+  .login-modal-bottom-link .link-brand {
   display: inline-block;
   font-size: 1.3em;
   font-weight: 500;
@@ -2508,4 +2519,8 @@ textarea::placeholder,
 
 /* tausta kerimine kinni modali ajal */
 body.modal-open { overflow: hidden; height: 100%; }
+}
+body.modal-open .top-center-nav,
+body.modal-open .top-center-nav .top-center-link {
+  display: none !important;
 }
