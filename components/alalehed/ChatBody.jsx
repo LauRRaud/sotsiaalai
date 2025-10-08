@@ -141,8 +141,13 @@ export default function ChatBody() {
   const saveTimerRef = useRef(null);
 
   const historyPayload = useMemo(
-    () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
+    () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })), // ainult möödunud vähendatud ajalugu
     [messages]
+  );
+
+  const isStreamingAny = useMemo(
+    () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
+    [isGenerating, messages]
   );
 
   const focusInput = useCallback(() => {
@@ -262,7 +267,6 @@ export default function ChatBody() {
             }
           }
           if (aiIdx === -1) {
-            // kui AI-sõnum puudub, lisa uus
             next.push({
               id: (next.at(-1)?.id ?? 0) + 1,
               role: "ai",
@@ -271,7 +275,6 @@ export default function ChatBody() {
               isStreaming: false,
             });
           } else {
-            // kui serveris on pikem tekst, uuenda
             const cur = next[aiIdx];
             if ((serverText || "").length > (cur.text || "").length) {
               next[aiIdx] = { ...cur, text: serverText, sources: serverSources, isStreaming: false };
@@ -282,10 +285,8 @@ export default function ChatBody() {
       } catch {}
     }
 
-    // 1) kohe mountil
     hydrateFromServer();
 
-    // 2) kui tab tuleb fookusesse vms, värskenda
     function onFocusOrVisible() {
       if (document.visibilityState === "visible") hydrateFromServer();
     }
@@ -328,7 +329,7 @@ export default function ChatBody() {
             role: userRole,
             stream: true,
             persist: true, // lase serveril salvestada ja jätkata ka siis, kui paneel suletakse
-            convId,        // püsiv vestluse ID
+            convId, // püsiv vestluse ID
           }),
           signal: controller.signal,
         });
@@ -342,9 +343,7 @@ export default function ChatBody() {
         if (res.status === 429) {
           const retry = res.headers.get("retry-after");
           throw new Error(
-            retry
-              ? `Liiga palju päringuid. Proovi ~${retry}s pärast.`
-              : "Liiga palju päringuid. Proovi varsti uuesti."
+            retry ? `Liiga palju päringuid. Proovi ~${retry}s pärast.` : "Liiga palju päringuid. Proovi varsti uuesti."
           );
         }
 
@@ -514,7 +513,7 @@ export default function ChatBody() {
           role="region"
           aria-label="Chat messages"
           aria-live="polite"
-          aria-busy={isGenerating ? "true" : "false"}
+          aria-busy={isStreamingAny ? "true" : "false"}
         >
           {messages.map((msg, i) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
@@ -558,6 +557,18 @@ export default function ChatBody() {
               </div>
             );
           })}
+
+          {/* Tippimisindikaator — “AI mõtleb …” (kuvatakse ainult genereerimise ajal) */}
+          {isStreamingAny && (
+            <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
+              <span className="typing-label">AI mõtleb</span>
+              <span className="dots" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+          )}
         </div>
 
         {showScrollDown && (
@@ -647,6 +658,57 @@ export default function ChatBody() {
           </button>
         </div>
       </footer>
+
+      {/* Tippimisindikaatori stiilid */}
+      <style jsx>{`
+        .typing-bubble {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          margin-top: 0.4rem;
+          padding: 0.7rem 1rem;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 0.9rem;
+          backdrop-filter: blur(6px);
+          max-width: 80%;
+        }
+        .typing-label {
+          opacity: 0.8;
+        }
+        .dots {
+          display: inline-flex;
+          gap: 4px;
+        }
+        .dots span {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: currentColor;
+          opacity: 0.5;
+          animation: typingDot 1.4s infinite ease-in-out;
+        }
+        .dots span:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        .dots span:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+        @keyframes typingDot {
+          0%,
+          80%,
+          100% {
+            transform: translateY(0);
+            opacity: 0.5;
+          }
+          40% {
+            transform: translateY(-4px);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
 }

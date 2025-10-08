@@ -18,10 +18,12 @@ const ROLE_BEHAVIOUR = {
   CLIENT:
     "Selgita lihtsas eesti keeles, too praktilisi järgmisi samme, kontaktandmeid ja hoiatusi.",
   SOCIAL_WORKER:
-    "Vasta professionaalselt, lisa asjakohased viited ja rõhuta, et tegu on toetusinfoga (mitte lõpliku õigusnõuga).",
+    "Vasta professionaalselt, lisa asjakohased viited.",
 };
 
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
+const NO_CONTEXT_MSG =
+  "Vabandust, RAG-andmebaasist ei leitud selle teema kohta sobivaid allikaid. Proovi palun täpsustada küsimust või kasutada teistsuguseid märksõnu.";
 
 /* ------------------------- Helpers ------------------------- */
 
@@ -70,7 +72,10 @@ function buildContextBlocks(matches) {
       const header = `(${i + 1}) ${it.title}${
         typeof it.score === "number" ? ` (score: ${it.score.toFixed(3)})` : ""
       }`;
-      const lines = [header, it.body || "(sisukokkuvõte puudub)"];
+      const lines = [
+        header,
+        it.body || "(sisukokkuvõte puudub)",
+      ];
       if (it.audience) lines.push(`Sihtgrupp: ${it.audience}`);
       if (it.url) lines.push(`Viide: ${it.url}`);
       if (!it.url && it.file) lines.push(`Fail: ${it.file}`);
@@ -85,7 +90,7 @@ function toResponsesInput({ history, userMessage, context, effectiveRole }) {
 
   const sys = `Sa oled SotsiaalAI tehisassistendina toimiv abivahend.
 Vestluspartner on ${roleLabel}. ${roleBehaviour}
-Kasuta üksnes allolevat konteksti; kui kontekstist ei piisa, ütle seda ausalt ja soovita sobivaid järgmisi samme.`;
+Kasuta AINULT allolevat konteksti. ÄRA KASUTA ühtegi muud teadmist ega oletust. Kui kontekstist ei piisa, ütle ausalt, et ei saa vastata, ning soovita järgmisi samme (nt täpsustavaid märksõnu).`;
 
   const lines = [];
   if (context && context.trim()) {
@@ -275,7 +280,7 @@ export async function POST(req) {
   try {
     matches = await searchRagDirect({ query: message, topK: 5, filters: audienceFilter });
   } catch {
-    // jätkame ilma kontekstita
+    // ÄRA tee fallback'i – kasutame ainult andmebaasi sisu
   }
   const context = buildContextBlocks(matches);
 
@@ -294,6 +299,49 @@ export async function POST(req) {
       })
     : [];
 
+  // 7.5) RANGE KONTROLL — kui konteksti ei leitud, ära kutsu OpenAI-d
+  if (!context || !context.trim()) {
+    if (persist && convId && userId) {
+      await persistInit({ convId, userId, role: normalizedRole, sources });
+      await persistAppend({ convId, userId, fullText: NO_CONTEXT_MSG });
+      await persistDone({ convId, userId, status: "COMPLETED" });
+    }
+
+    // JSON vs SSE
+    if (!wantStream) {
+      return NextResponse.json({
+        ok: true,
+        reply: NO_CONTEXT_MSG,
+        answer: NO_CONTEXT_MSG,
+        sources,
+        convId: convId || undefined,
+      });
+    }
+
+    // SSE: saada kohe teade ja lõpeta
+    const enc = new TextEncoder();
+    const sse = new ReadableStream({
+      async start(controller) {
+        try {
+          controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources })}\n\n`));
+          controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: NO_CONTEXT_MSG })}\n\n`));
+          controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
+        } finally {
+          try { controller.close(); } catch {}
+        }
+      },
+    });
+
+    return new Response(sse, {
+      headers: {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      },
+    });
+  }
+
+  // Kui kontekst on olemas, võime jätkata OpenAI-ga
   if (persist && convId && userId) {
     await persistInit({ convId, userId, role: normalizedRole, sources });
   }
@@ -347,7 +395,6 @@ export async function POST(req) {
 
   const sse = new ReadableStream({
     async start(controller) {
-      // kui klient katkestab, ära tapa OpenAI striimi; lõpetame ainult SSE kirjutamise
       try {
         req.signal?.addEventListener("abort", () => {
           clientGone = true;
@@ -355,11 +402,10 @@ export async function POST(req) {
             clearInterval(heartbeatTimer);
             heartbeatTimer = null;
           }
-          // NB! ära tee controller.close() siin
+          // ära sulge kohe – jätkame serveris
         });
       } catch {}
 
-      // keepalive iga 15s
       heartbeatTimer = setInterval(() => {
         if (!clientGone) {
           try {
@@ -372,7 +418,7 @@ export async function POST(req) {
         }
       }, 15000);
 
-      // saada meta alguses
+      // meta alguses
       if (!clientGone) {
         try {
           controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources })}\n\n`));
