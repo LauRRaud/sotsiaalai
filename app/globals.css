@@ -2634,12 +2634,6 @@ body.modal-open {
     background: rgba(31, 31, 31, 0.496); /* veidi läbipaistmatu fallback */
   }
 }
-
-}
-html { box-sizing: border-box; }
-*, *::before, *::after { box-sizing: inherit; }
-
-/* 2) Defineeri puuduolevad toonid (vali väärtused brändi järgi) */
 :root {
   --pt-80:  #F2F1EF;     /* nt heledam kui --pt-100 */
   --pt-130: #EDEAE6;     /* nt --pt-100 ja --pt-150 vahepealne */
