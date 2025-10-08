@@ -558,10 +558,10 @@ export default function ChatBody() {
             );
           })}
 
-          {/* Tippimisindikaator — “AI mõtleb …” (kuvatakse ainult genereerimise ajal) */}
+          {/* Tippimisindikaator — “Mõtleb…” (kuvatakse ainult genereerimise ajal) */}
           {isStreamingAny && (
             <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
-              <span className="typing-label">AI mõtleb</span>
+              <span className="typing-label">Mõtleb</span>
               <span className="dots" aria-hidden="true">
                 <span></span>
                 <span></span>
