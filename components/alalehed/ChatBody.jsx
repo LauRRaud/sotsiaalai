@@ -667,8 +667,7 @@ export default function ChatBody() {
           gap: 8px;
           margin-top: 0.4rem;
           padding: 0.85rem 1.1rem;
-          border-radius: 14px;
-          background:none;
+          background: transparent;
           border: none;
           color: var(--pt-100);
           font-size: 1.05rem;

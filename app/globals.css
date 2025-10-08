@@ -1989,7 +1989,6 @@ label {
 .scroll-down-btn:focus svg {
   stroke: var(--pt-200);   /* heledam platinum (#DFDEDA) */
 }
- 40%{transform:translateY(-4px);opacity:1;} }
 
 /* heledas režiimis samad värvitoonid */
 html:not(.dark-mode) .chat-inputbar{
