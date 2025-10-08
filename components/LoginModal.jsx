@@ -18,8 +18,22 @@ export default function LoginModal({ open, onClose }) {
   useEffect(() => {
     if (!open) return;
 
-    // Lisa ainult klass (CSS võib sellele reageerida), kuid ära fikseeri body stiile
-    document.body.classList.add("modal-open");
+    const body = document.body;
+    const previousStyles = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      width: body.style.width,
+      top: body.style.top,
+      touchAction: body.style.touchAction,
+    };
+    const scrollY = typeof window !== "undefined" ? window.scrollY || 0 : 0;
+
+    body.classList.add("modal-open");
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    body.style.touchAction = "none";
 
     // Klahvikäsitleja: Escape sulgemiseks ja Tab-tsükli hoidmiseks
     const onKeydown = (e) => {
@@ -52,8 +66,14 @@ export default function LoginModal({ open, onClose }) {
     document.addEventListener("keydown", onKeydown);
 
     return () => {
-      document.body.classList.remove("modal-open");
+      body.classList.remove("modal-open");
       document.removeEventListener("keydown", onKeydown);
+      body.style.overflow = previousStyles.overflow;
+      body.style.position = previousStyles.position;
+      body.style.width = previousStyles.width;
+      body.style.top = previousStyles.top;
+      body.style.touchAction = previousStyles.touchAction;
+      window.scrollTo(0, scrollY);
     };
   }, [open, onClose]);
 

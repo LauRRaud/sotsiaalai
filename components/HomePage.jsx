@@ -1,7 +1,7 @@
 // components/HomePage.jsx
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
@@ -102,180 +102,189 @@ export default function HomePage() {
         : { left: false, right: false }                      // 2nd tap on same side → reset (back-side handler opens modal)
     );
   };
+  const resetMobileCards = useCallback(() => {
+    setMobileFlipReady({ left: false, right: false });
+  }, []);
+
+  const handleBackgroundTap = useCallback((event) => {
+    if (!isMobile) return;
+    const target = event.target instanceof Element ? event.target : null;
+    if (target?.closest?.(".three-d-card")) return;
+    resetMobileCards();
+  }, [isMobile, resetMobileCards]);
+
 
   return (
     <>
-      <div className="homepage-root">
-      {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
-      <nav className="top-center-nav" aria-label="Peamenüü">
-        <Link
-          id="nav-meist"
-          href="/meist"
-          className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
-        >
-          MEIST
-        </Link>
-      </nav>
-
-      <div className="main-content relative">
-        {/* LEFT CARD */}
-        <div className="side left">
-          <div
-            className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
-              mobileFlipReady.left ? "mobile-flipped-left" : ""
-            }`}
-            onMouseEnter={onLeftEnter}
-            onMouseLeave={onLeftLeave}
-            onClick={handleCardTap("left")}
+      <div className="homepage-root" onClick={handleBackgroundTap}>
+        {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
+        <nav className="top-center-nav" aria-label="Peamenüü">
+          <Link
+            id="nav-meist"
+            href="/meist"
+            className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
           >
-            <div className="card-wrapper">
-              {/* FRONT */}
-              <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || leftFlipping}>
-                  {({ isActive }) => (
-                    <div
-                      ref={leftCardRef}
-                      className={[
-                        "glass-card glass-card-light left-card-primary",
-                        !leftFadeDone ? "fade-in" : "",
-                        leftFadeDone ? "fade-in-done" : "",
-                        leftFadeDone && isActive ? "glow-active" : "",
-                      ].join(" ")}
-                      style={{ position: "relative" }}
-                    >
-                      <CircularRingLeft className={leftFadeDone ? "ct-visible" : ""} />
-                      <Image
-                        src="/logo/aivalge.svg"
-                        alt=""
-                        aria-hidden="true"
-                        className="card-logo-bg card-logo-bg-left"
-                        draggable={false}
-                        priority
-                        width={300}
-                        height={300}
-                      />
-                    </div>
-                  )}
-                </Magnet>
+            MEIST
+          </Link>
+        </nav>
+  
+        <div className="main-content relative">
+          {/* LEFT CARD */}
+          <div className="side left">
+            <div
+              className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
+                mobileFlipReady.left ? "mobile-flipped-left" : ""
+              }`}
+              onMouseEnter={onLeftEnter}
+              onMouseLeave={onLeftLeave}
+              onClick={handleCardTap("left")}
+            >
+              <div className="card-wrapper">
+                {/* FRONT */}
+                <div className="card-face front">
+                  <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || leftFlipping}>
+                    {({ isActive }) => (
+                      <div
+                        ref={leftCardRef}
+                        className={[
+                          "glass-card glass-card-light left-card-primary",
+                          !leftFadeDone ? "fade-in" : "",
+                          leftFadeDone ? "fade-in-done" : "",
+                          leftFadeDone && isActive ? "glow-active" : "",
+                        ].join(" ")}
+                        style={{ position: "relative" }}
+                      >
+                        <CircularRingLeft className={leftFadeDone ? "ct-visible" : ""} />
+                        <Image
+                          src="/logo/aivalge.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className="card-logo-bg card-logo-bg-left"
+                          draggable={false}
+                          priority
+                          width={300}
+                          height={300}
+                        />
+                      </div>
+                    )}
+                  </Magnet>
+                </div>
+  
+                {/* BACK */}
+                <div
+                  className="card-face back"
+                  role="button"
+                  aria-label="Logi sisse spetsialistina"
+                  tabIndex={0}
+                  onClick={handleCardBackClick("left")}
+                  onBlur={handleCardBackBlur("left")}
+                  onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
+                  style={!flipAllowed ? { pointerEvents: "none" } : {}}
+                >
+                  <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
+                    <h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
+                    <Image
+                      src="/logo/saimust.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="card-logo-bg card-logo-bg-left-back"
+                      draggable={false}
+                      loading="eager"
+                      width={300}
+                      height={300}
+                    />
+                  </div>
+                </div>
               </div>
-
-              {/* BACK */}
-              <div
-                className="card-face back"
-                role="button"
-                aria-label="Logi sisse spetsialistina"
-                tabIndex={0}
-                onClick={handleCardBackClick("left")}
-                onBlur={handleCardBackBlur("left")}
-                onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
-                style={!flipAllowed ? { pointerEvents: "none" } : {}}
-              >
-                <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                  <h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
-                  <Image
-                    src="/logo/saimust.svg"
-                    alt=""
-                    aria-hidden="true"
-                    className="card-logo-bg card-logo-bg-left-back"
-                    draggable={false}
-                    loading="eager"
-                    width={300}
-                    height={300}
-                  />
+            </div>
+          </div>
+  
+          {/* RIGHT CARD */}
+          <div className="side right">
+            <div
+              className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
+                mobileFlipReady.right ? "mobile-flipped-right" : ""
+              }`}
+              onMouseEnter={onRightEnter}
+              onMouseLeave={onRightLeave}
+              onClick={handleCardTap("right")}
+            >
+              <div className="card-wrapper">
+                {/* FRONT */}
+                <div className="card-face front">
+                  <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || rightFlipping}>
+                    {({ isActive }) => (
+                      <div
+                        ref={rightCardRef}
+                        className={[
+                          "glass-card glass-card-dark right-card-primary",
+                          !rightFadeDone ? "fade-in" : "",
+                          rightFadeDone ? "fade-in-done" : "",
+                          rightFadeDone && isActive ? "glow-active" : "",
+                        ].join(" ")}
+                        style={{ position: "relative" }}
+                      >
+                        <CircularRingRight className={rightFadeDone ? "ct-visible" : ""} />
+                        <Image
+                          src="/logo/smust.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className="card-logo-bg card-logo-bg-right"
+                          draggable={false}
+                          priority
+                          width={300}
+                          height={300}
+                        />
+                      </div>
+                    )}
+                  </Magnet>
+                </div>
+  
+                {/* BACK */}
+                <div
+                  className="card-face back"
+                  role="button"
+                  aria-label="Logi sisse pöördujana"
+                  tabIndex={0}
+                  onClick={handleCardBackClick("right")}
+                  onBlur={handleCardBackBlur("right")}
+                  onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
+                  style={!flipAllowed ? { pointerEvents: "none" } : {}}
+                >
+                  <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
+                    <h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
+                    <Image
+                      src="/logo/saivalge.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="card-logo-bg card-logo-bg-right-back"
+                      draggable={false}
+                      loading="eager"
+                      width={300}
+                      height={300}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* RIGHT CARD */}
-        <div className="side right">
-          <div
-            className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
-              mobileFlipReady.right ? "mobile-flipped-right" : ""
-            }`}
-            onMouseEnter={onRightEnter}
-            onMouseLeave={onRightLeave}
-            onClick={handleCardTap("right")}
-          >
-            <div className="card-wrapper">
-              {/* FRONT */}
-              <div className="card-face front">
-                <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || rightFlipping}>
-                  {({ isActive }) => (
-                    <div
-                      ref={rightCardRef}
-                      className={[
-                        "glass-card glass-card-dark right-card-primary",
-                        !rightFadeDone ? "fade-in" : "",
-                        rightFadeDone ? "fade-in-done" : "",
-                        rightFadeDone && isActive ? "glow-active" : "",
-                      ].join(" ")}
-                      style={{ position: "relative" }}
-                    >
-                      <CircularRingRight className={rightFadeDone ? "ct-visible" : ""} />
-                      <Image
-                        src="/logo/smust.svg"
-                        alt=""
-                        aria-hidden="true"
-                        className="card-logo-bg card-logo-bg-right"
-                        draggable={false}
-                        priority
-                        width={300}
-                        height={300}
-                      />
-                    </div>
-                  )}
-                </Magnet>
-              </div>
-
-              {/* BACK */}
-              <div
-                className="card-face back"
-                role="button"
-                aria-label="Logi sisse pöördujana"
-                tabIndex={0}
-                onClick={handleCardBackClick("right")}
-                onBlur={handleCardBackBlur("right")}
-                onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
-                style={!flipAllowed ? { pointerEvents: "none" } : {}}
-              >
-                <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                  <h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
-                  <Image
-                    src="/logo/saivalge.svg"
-                    alt=""
-                    aria-hidden="true"
-                    className="card-logo-bg card-logo-bg-right-back"
-                    draggable={false}
-                    loading="eager"
-                    width={300}
-                    height={300}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  
+        {/* Footer (logo) */}
+        <footer className="footer-column relative">
+          <Image
+            src="/logo/logomust.svg"
+            alt="SotsiaalAI logo"
+            id="footer-logo-img"
+            className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
+            draggable={false}
+            loading="eager"
+            fetchPriority="high"
+            width={240}
+            height={80}
+          />
+        </footer>
       </div>
-
-      {/* Footer (logo) */}
-      <footer className="footer-column relative">
-        <Image
-          src="/logo/logomust.svg"
-          alt="SotsiaalAI logo"
-          id="footer-logo-img"
-          className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
-          draggable={false}
-          loading="eager"
-          fetchPriority="high"
-          width={240}
-          height={80}
-        />
-      </footer>
-      </div>
-
-
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
