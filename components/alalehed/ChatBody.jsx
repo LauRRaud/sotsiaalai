@@ -608,7 +608,7 @@ export default function ChatBody() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Kirjuta siia oma küsimus..."
+            placeholder="Kirjuta siia küsimus..."
             className="chat-input-field"
             disabled={isGenerating}
             rows={1}
@@ -664,31 +664,34 @@ export default function ChatBody() {
         .typing-bubble {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           margin-top: 0.4rem;
-          padding: 0.7rem 1rem;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.9);
-          font-size: 0.9rem;
-          backdrop-filter: blur(6px);
-          max-width: 80%;
+          padding: 0.85rem 1.1rem;
+          border-radius: 14px;
+          background:none;
+          border: none;
+          color: var(--pt-100);
+          font-size: 1.05rem;
+          line-height: 1.4;
+          max-width: 90%;
         }
         .typing-label {
-          opacity: 0.8;
+          margin-right: 0.3rem;
+          font-weight: 500;
+          opacity: 1;
         }
         .dots {
           display: inline-flex;
-          gap: 4px;
+          align-items: center;
+          gap: 5px;
         }
         .dots span {
-          width: 6px;
-          height: 6px;
+          width: 9px;
+          height: 9px;
           border-radius: 50%;
           background: currentColor;
-          opacity: 0.5;
-          animation: typingDot 1.4s infinite ease-in-out;
+          opacity: 0.8;
+          animation: typingDot 1.2s ease-in-out infinite;
         }
         .dots span:nth-child(2) {
           animation-delay: 0.2s;
@@ -701,7 +704,7 @@ export default function ChatBody() {
           80%,
           100% {
             transform: translateY(0);
-            opacity: 0.5;
+            opacity: 0.8;
           }
           40% {
             transform: translateY(-4px);
