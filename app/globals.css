@@ -184,7 +184,7 @@ a, .link-brand, .meist-external-link {
   transition-property: transform;
   transition-duration: var(--flip-ms);
   transition-timing-function: var(--flip-ease);
-  will-change: auto; /* vaikimisi mitte peal */
+  will-change: auto;
 }
 .three-d-card.flip-allowed:hover .card-wrapper,
 .three-d-card.flip-allowed:focus-within .card-wrapper,
@@ -1075,13 +1075,11 @@ html:not(.dark-mode) .avatar-label {
   letter-spacing: 0.03em;
   text-align: center;
 }
-.login-icon-btn {
-  background: var(--pt-200);                /* õrn platinum, mitte valge */
+.login-icon-btn {              /* õrn platinum, mitte valge */
   border-radius: 50%;
   width: 49px;
   height: 49px;
-  padding: 0.35em;
-  border: 1.5px solid var(--pt-400);        /* tugevam platinum raam */
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1089,16 +1087,9 @@ html:not(.dark-mode) .avatar-label {
   box-shadow: 0 2px 8px 0 rgba(175,170,163,0.35); /* pehme vari */
   transition: border 0.17s, box-shadow 0.15s, background 0.13s;
   outline: none;
-}
-.login-icon-btn {
   background: none;
-  border: none;
   padding: 0;
   margin: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .login-icon-btn:hover,
 .login-icon-btn:focus {
@@ -2108,13 +2099,9 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: var(-
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
-
   width: min(92vw, 520px);
   max-width: 92vw;
-
-  /* important: never overflow screen on mobile */
-  max-height: 90svh;                 /* iOS/modern */
-  /* fallbacks */
+  max-height: 90svh;            
   max-height: 90dvh;
   overflow: auto;
   overscroll-behavior: contain;
@@ -2149,7 +2136,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: var(-
 }
 
 /* mobiil – kompaktsem ja turvaline */
-@media (max-width:480px){
+@media (max-width:748px){
   .modal-confirm{
     width: 94vw;
     padding: 1.6em 1.1em calc(1.2em + env(safe-area-inset-bottom, 0px));
@@ -2318,39 +2305,57 @@ textarea::placeholder,
   text-align: left;
   line-height: 1.56;
 }
-/* ===================================================
-   MOBILE ONLY (≤768px) — puhas, kattuvusteta
-   =================================================== */
-@media (max-width:768px){
+/* =========================================================
+   GLOBAL: modal avamisel taust ei keriks
+   ========================================================= */
+body.modal-open {
+  overflow: hidden;
+  height: 100%;
+}
 
-  /* Visuaalne logo kõrgus ja vahed – timmi kui vaja */
-  #footer-logo-img{ --footer-logo-h: clamp(44px, 10vw, 64px); }
-  :root{
-    --meist-gap: 10px;      /* vahe lingi ja logo vahel */
-    --meist-link-h: 40px;   /* lingi kapsli umbkaudne kõrgus */
+/* =========================================================
+   DESKTOP ONLY: peida “Meist” modali ajal
+   ========================================================= */
+@media (min-width: 769px) {
+  body.modal-open .top-center-nav,
+  body.modal-open .top-center-nav .top-center-link {
+    display: none !important;
+  }
+}
+
+/* =========================================================
+   MOBILE ONLY (≤768px): paigutus, kerimise fix, kaardid, chat input, modal
+   ========================================================= */
+@media (max-width: 768px) {
+  /* --- üldine kerimise vabastamine --- */
+  html, body {
+    overscroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch;
+    height: auto !important;
   }
 
-  /* --- Layout: kaardid alla-alla, õhk sees --- */
-  .main-content{
+  /* --- avalehe layout --- */
+  #footer-logo-img { --footer-logo-h: clamp(44px, 10vw, 64px); }
+  :root {
+    --meist-gap: 10px;
+    --meist-link-h: 40px;
+  }
+  .main-content {
     display: flex;
     flex-direction: column !important;
     gap: clamp(4px, 2vw, 5px) !important;
     padding: 0.5rem !important;
     min-height: auto !important;
-
-    /* ruum jaluse jaoks, sisu kerimiseks */
     padding-bottom: clamp(0.5rem, 3vw, 0.5rem) !important;
   }
-  .side{
+  .side {
     min-height: auto !important;
     width: 100% !important;
     padding: 1.25rem 1rem !important;
   }
+  .float-card { animation: none !important; transform: none !important; }
 
-  /* Kaardid ei „uju“ kerides */
-  .float-card{ animation: none !important; transform: none !important; }
-
-  /* Flip mobiilis ainult klassidega (1. puudutus = flip, 2. puudutus tagaküljel = login) */
+  /* flip ainult klassidega */
   .three-d-card.mobile-flipped-left  .card-wrapper { transform: rotateY(180deg) !important; }
   .three-d-card.mobile-flipped-right .card-wrapper { transform: rotateY(-180deg) !important; }
   .three-d-card.mobile-flipped-left  .card-face.back,
@@ -2358,7 +2363,7 @@ textarea::placeholder,
   .three-d-card.mobile-flipped-left  .card-face.front,
   .three-d-card.mobile-flipped-right .card-face.front { pointer-events: none; }
 
-  /* Helendused/hover-animatsioonid maha */
+  /* halo animatsioonid maha mobiilis */
   .glass-card.glow-active,
   .three-d-card:hover .card-face.front > .glass-card,
   .three-d-card:focus-within .card-face.front > .glass-card,
@@ -2366,6 +2371,7 @@ textarea::placeholder,
   .three-d-card:hover .card-face.back > .centered-back-right,
   .three-d-card:focus-within .card-face.back > .centered-back-left,
   .three-d-card:focus-within .card-face.back > .centered-back-right { animation: none !important; }
+
   .side.left .glass-card,
   .side.left .centered-back-left,
   .side.right .glass-card,
@@ -2375,140 +2381,109 @@ textarea::placeholder,
     box-shadow: var(--base-shadow);
   }
 
-  .homepage-root{
-    min-height: 100dvh;
-  }
-  .homepage-root > .main-content{
-    order: 1;
-  }
+  .homepage-root { min-height: 100dvh; }
+  .homepage-root > .main-content { order: 1; }
 
-  /* --- MEIST link: voolab sisu sees, ei kata kaarte --- */
-  .homepage-root > .top-center-nav{
+  /* “Meist” link voolab sisu sees, mitte fixed */
+  .homepage-root > .top-center-nav {
     position: static !important;
-    top: auto !important;
-    left: auto;
-    right: auto;
-    bottom: auto !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: auto;
-    width: 100%;
-    order: 2;
-    margin-top: 0.4em;
-    padding-top: 0.4em;
-    margin-bottom: -1em;
-    z-index: auto;
+    top: auto !important; left: auto; right: auto; bottom: auto !important;
+    display: flex; justify-content: center; align-items: center;
+    pointer-events: auto; width: 100%;
+    order: 2; margin-top: 0.4em; padding-top: 0.4em; margin-bottom: -1em; z-index: auto;
   }
-  .top-center-nav .top-center-link{
+  .top-center-nav .top-center-link {
     pointer-events: auto;
     padding: 0.44em 0.8em;
     line-height: 1.15;
   }
 
-  /* --- Jalus: mobiilis ei ole fixed --- */
-  .homepage-root > .footer-column{
-    order: 3;
-  }
-  .footer-column{
-    position: static;
-    width: 100%;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    z-index: auto;
+  /* jalus pole fixed */
+  .homepage-root > .footer-column { order: 3; }
+  .footer-column {
+    position: static; width: 100%;
+    left: auto; right: auto; bottom: auto; z-index: auto;
     padding: clamp(0.5rem, 4vw, 1.5rem) 0 clamp(0.6rem, 2vw, 1rem);
     gap: clamp(0.5rem, 3vw, 0.5rem);
   }
 
-  /* --- Kaardi BACK sisu mõõdud --- */
+  /* kaardi BACK sisu */
   .centered-back-left,
-  .centered-back-right{
-    width: 88%;
-    height: 88%;
+  .centered-back-right {
+    width: 88%; height: 88%;
     padding: clamp(1.2em, 4.8vw, 1.7em);
     padding-bottom: clamp(1.7em, 5.4vw, 2.2em);
     display: grid;
     grid-template-rows: 1.75fr auto auto .25fr;
-    justify-items: center;
-    align-items: center;
+    justify-items: center; align-items: center;
     row-gap: clamp(1rem, 3.2vw, 1.7rem);
     text-align: center;
   }
+
+  /* +~20% pealkirjad tagaküljel */
   .centered-back-left .headline-bold,
-  .centered-back-right .headline-bold{
-    grid-row: 2;
-    margin: 0;
-    width: 100%;
-    max-width: 86%;
-    font-size: clamp(1.04rem, 3.6vw, 1.32rem);
-    line-height: 1.25;
-    letter-spacing: .07em;
-    transform: translateY(-4%);
-    text-align: center;
-  }
-  .centered-back-left .card-logo-bg-left-back,
-  .centered-back-right .card-logo-bg-right-back{
-    grid-row: 3;
-    position: static !important;
-    transform: none !important;
-    display: block;
-    width: clamp(65px, 28.8%, 99px);
-    height: auto;
-    margin-top: clamp(.7rem, 2.1vw, 1rem);
-    opacity: .72;
+  .centered-back-right .headline-bold {
+    grid-row: 2; margin: 0; width: 100%; max-width: 86%;
+    font-size: clamp(1.25rem, 4.2vw, 1.6rem) !important;
+    line-height: 1.25; letter-spacing: .07em; transform: translateY(-4%); text-align: center;
   }
 
-  /* Väikesed UI-detailid */
+  .centered-back-left .card-logo-bg-left-back,
+  .centered-back-right .card-logo-bg-right-back {
+    grid-row: 3; position: static !important; transform: none !important; display: block;
+    width: clamp(65px, 28.8%, 99px); height: auto; margin-top: clamp(.7rem, 2.1vw, 1rem); opacity: .72;
+  }
+
+  /* väikesed UI detailid */
   .splash-cursor { display: none !important; }
-  .avatar-link{
+  .avatar-link {
     top: calc(env(safe-area-inset-top, 0px) + 8px) !important;
     right: clamp(10px, 3.2vw, 16px) !important;
-    left: auto;
-    transform: none;
-    z-index: 12;
+    left: auto; transform: none; z-index: 12;
   }
-@media (min-width: 769px) {
-  body.modal-open .top-center-nav,
-  body.modal-open .top-center-nav .top-center-link {
-    display: none !important;
+
+  /* chat input: mobiilis ümardus ja läbipaistev taust */
+  .chat-inputbar { border-radius: 22px !important; -webkit-overflow-scrolling: touch; }
+  .chat-inputbar .chat-input-field {
+    background: transparent !important;
+    border-radius: inherit !important;
+    -webkit-appearance: none;
   }
-}
-/* === LOGIN MODAL: 100% fullscreen mobiilis === */
-@media (max-width: 768px) {
+
+  /* klaaskastidel rohkem sisepadjaid, et tekst ei oleks vastu serva */
+  .glass-box {
+    padding-left: clamp(16px, 4.5vw, 22px) !important;
+    padding-right: clamp(16px, 4.5vw, 22px) !important;
+  }
+
+  /* LOGIN MODAL: päris täisekraan mobiilis */
   .login-modal-box,
   .glass-modal {
     position: fixed !important;
     inset: 0 !important;
-    left: auto !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-    animation: none !important;
+    left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+    transform: none !important; animation: none !important;
 
     width: 100vw !important;
-    height: 100svh !important;
-    min-height: 100dvh;
+    height: 100svh !important;   /* iOS/Android turvaline */
+    min-height: 100dvh !important;
 
-    border-radius: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
+    border-radius: 0 !important; margin: 0 !important; box-shadow: none !important;
 
     background: rgba(31,31,31,0.6) !important;
     backdrop-filter: blur(10px) saturate(110%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(110%) !important;
 
     z-index: 1002 !important;
     overflow: auto !important;
     -webkit-overflow-scrolling: touch;
 
-    padding: max(12px, env(safe-area-inset-top))
-             max(12px, env(safe-area-inset-right))
-             max(14px, env(safe-area-inset-bottom))
-             max(12px, env(safe-area-inset-left)) !important;
+    padding:
+      max(12px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      max(14px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left)) !important;
   }
-
-  /* X-nupp turvalisse tsooni */
   .login-modal-close {
     position: absolute !important;
     top: max(8px, env(safe-area-inset-top, 0px)) !important;
@@ -2517,10 +2492,77 @@ textarea::placeholder,
   }
 }
 
-/* tausta kerimine kinni modali ajal */
-body.modal-open { overflow: hidden; height: 100%; }
+/* =========================================================
+   CHAT INPUT teksti toon (mõlemad vaated)
+   ========================================================= */
+.chat-inputbar .chat-input-field {
+  color: var(--pt-100) !important;
+  caret-color: var(--pt-100) !important;
 }
-body.modal-open .top-center-nav,
-body.modal-open .top-center-nav .top-center-link {
-  display: none !important;
+.chat-inputbar .chat-input-field::placeholder {
+  color: var(--pt-100) !important;
+  opacity: 0.9 !important;
+}
+
+/* =========================================================
+   “AI mõtleb …” mull: suurem tekst + suuremad punktid
+   ========================================================= */
+.chat-msg-ai.typing-bubble {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: var(--pt-100);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 0.85rem 1.1rem;
+  backdrop-filter: blur(8px);
+}
+.chat-msg-ai.typing-bubble .typing-label {
+  font-weight: 500;
+  opacity: 1;
+  margin-right: 0.3rem;
+}
+.chat-msg-ai.typing-bubble .dots { gap: 5px; }
+.chat-msg-ai.typing-bubble .dots span {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.8;
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+.chat-msg-ai.typing-bubble .dots span:nth-child(2) { animation-delay: 0.2s; }
+.chat-msg-ai.typing-bubble .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.6; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* =========================================================
+   Profiili lehe nupud keskele (mõlemad vaated)
+   ========================================================= */
+.profile-btn-row {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+}
+.btn-profile-save,
+.btn-profile-logout {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+@supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))) {
+  .glass-box,
+  .glass-modal,
+  .chat-inputbar {
+    background: rgba(31, 31, 31, 0.496); /* veidi läbipaistmatu fallback */
+  }
+}
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+/* 2) Defineeri puuduolevad toonid (vali väärtused brändi järgi) */
+:root {
+  --pt-80:  #F2F1EF;     /* nt heledam kui --pt-100 */
+  --pt-130: #EDEAE6;     /* nt --pt-100 ja --pt-150 vahepealne */
 }
