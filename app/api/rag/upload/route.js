@@ -1,7 +1,8 @@
 // app/api/rag/upload/route.js
 import { NextResponse } from "next/server";
 import { Buffer } from "node:buffer";
-import { randomUUID } from "node:crypto";            // ⬅️ lisatud
+import { randomUUID } from "node:crypto";
+import crypto from "node:crypto";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { isAdmin } from "@/lib/authz";
@@ -22,37 +23,72 @@ const ALLOWED_TYPES = (process.env.RAG_ALLOWED_MIME ||
 const AUDIENCE_VALUES = new Set(["SOCIAL_WORKER", "CLIENT", "BOTH"]);
 const TEXT_LIKE_MIME = new Set(["text/plain", "text/markdown", "text/html"]);
 const DOCX_SIGNATURE = Buffer.from([0x50, 0x4b, 0x03, 0x04]);
+const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
+
 function sanitizeFileName(name) {
   if (!name) return "fail";
-  const base = String(name).split(/[\\/]/).pop() || "fail";
+  let base = String(name).split(/[\\/]/).pop() || "fail";
+  if (base === "." || base === "..") base = "fail";
   const cleaned = base.normalize("NFC").replace(/[^a-zA-Z0-9._-]+/g, "_");
   const trimmed = cleaned.replace(/^_+|_+$/g, "") || "fail";
-  return trimmed.slice(-120);
+  // viimane 120 märki ilma negatiivse indeksita
+  return trimmed.length > 120 ? trimmed.substring(trimmed.length - 120) : trimmed;
 }
+
 function normalizeAudience(value) {
   if (!value) return null;
   const str = String(value).toUpperCase().trim();
   return AUDIENCE_VALUES.has(str) ? str : null;
 }
-function validateMagicType(buffer, mime) {
-  if (!buffer || !Buffer.isBuffer(buffer)) return "Faili sisu ei õnnestunud lugeda.";
-  if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") return null;
-  if (mime === "application/pdf") {
-    return buffer.slice(0, 4).toString("utf8") === "%PDF" ? null : "Fail ei paista olevat kehtiv PDF.";
-  }
-  if (mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-    return buffer.slice(0, DOCX_SIGNATURE.length).equals(DOCX_SIGNATURE)
-      ? null
-      : "DOCX fail on vigane või vale tüübiga.";
+
+function parseTags(raw) {
+  if (!raw) return null;
+  try {
+    if (typeof raw === "string") {
+      if (!raw.trim()) return null;
+      if (raw.trim().startsWith("[")) {
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr.map(String).map((s) => s.trim()).filter(Boolean).slice(0, 20) : null;
+      }
+      return raw
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, 20);
+    }
+  } catch {
+    // ignore parse error – tags stay null
   }
   return null;
 }
 
+function validateMagicType(buffer, mime) {
+  if (!buffer || !Buffer.isBuffer(buffer)) return "Faili sisu ei õnnestunud lugeda.";
+  if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") return null;
+
+  if (mime === "application/pdf") {
+    // subarray, mitte slice
+    return buffer.subarray(0, 4).toString("utf8") === "%PDF"
+      ? null
+      : "Fail ei paista olevat kehtiv PDF.";
+  }
+
+  if (mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+    return buffer.subarray(0, DOCX_SIGNATURE.length).equals(DOCX_SIGNATURE)
+      ? null
+      : "DOCX fail on vigane või vale tüübiga.";
+  }
+
+  return null;
+}
+
 export async function POST(req) {
+  const t0 = Date.now();
+
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
   if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
@@ -60,19 +96,41 @@ export async function POST(req) {
   const form = await req.formData();
   const file = form.get("file");
   if (!file || typeof file.name !== "string") return makeError("Fail puudub või on vigane.");
+  if (typeof file.size !== "number" || file.size <= 0) {
+    return makeError("Fail on tühi või vigane (0 B).");
+  }
 
   const audience = normalizeAudience(form.get("audience"));
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
   const safeFileName = sanitizeFileName(file.name);
   const type = file.type || "application/octet-stream";
+  const ext = (safeFileName.split(".").pop() || "").toLowerCase();
+
+  // Mime vs laiend – hoiatus (mitte blocker)
+  const extOk =
+    (type === "application/pdf" && ext === "pdf") ||
+    (type === "text/plain" && ext === "txt") ||
+    (type === "text/markdown" && (ext === "md" || ext === "markdown")) ||
+    (type === "text/html" && (ext === "html" || ext === "htm")) ||
+    (type === "application/msword" && ext === "doc") ||
+    (type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" && ext === "docx") ||
+    // fallback: lubame muu sisu, kui MIME on lubatud ja magic test hiljem kinnitab
+    false;
+
+  if (!extOk) {
+    console.warn(`[RAG upload] Laiend ei vasta MIME-le: ${safeFileName} (${type})`);
+  }
 
   if (typeof file.size === "number" && file.size > MAX_SIZE_BYTES) {
     const limitMb = Math.round((MAX_SIZE_BYTES / 1024 / 1024) * 10) / 10;
     return makeError(`Fail on liiga suur. Lubatud maksimaalselt ${limitMb} MB.`, 413);
   }
   if (ALLOWED_TYPES.length && !ALLOWED_TYPES.includes(type)) {
-    return makeError("Seda failitüüpi ei saa üles laadida RAG andmebaasi.", 415, { type });
+    return makeError("Seda failitüüpi ei saa üles laadida RAG andmebaasi.", 415, {
+      type,
+      allowed: ALLOWED_TYPES,
+    });
   }
 
   const ab = await file.arrayBuffer();
@@ -80,58 +138,98 @@ export async function POST(req) {
   const magicError = validateMagicType(buffer, type);
   if (magicError) return makeError(magicError, 415);
 
+  // meta
   const titleRaw = form.get("title");
   const descriptionRaw = form.get("description");
-  const title = (String(titleRaw || safeFileName).trim().slice(0, 255)) || safeFileName;
-  const description = descriptionRaw ? String(descriptionRaw).trim().slice(0, 2000) : null;
+  const tagsRaw = form.get("tags");
 
-  // --- RAG /ingest/file ---
+  const titleCandidate = (titleRaw && String(titleRaw)) || safeFileName;
+  const descCandidate = descriptionRaw ? String(descriptionRaw) : null;
+
+  const title = titleCandidate.trim().substring(0, 255) || safeFileName;
+  const description = descCandidate ? descCandidate.trim().substring(0, 2000) : null;
+  const tags = parseTags(tagsRaw);
+
+  // sisu hash (idempotentsuse/duplikaadi tuvastamiseks)
+  const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
+
+  // RAG endpoint
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
   const payload = {
-    docId: randomUUID(),                // ⬅️ UUID siit
+    docId: randomUUID(),
+    contentSha256: sha256,
     fileName: safeFileName,
     mimeType: type,
     data: buffer.toString("base64"),
     title,
     description,
     audience,
+    ...(Array.isArray(tags) ? { tags } : {}),
   };
 
   try {
-    const controller = new AbortController();        // ⬅️ timeoutiga
-    const timeout = setTimeout(() => controller.abort(), 30_000);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
 
-    const res = await fetch(`${ragBase}/ingest/file`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": apiKey,
-      },
-      body: JSON.stringify(payload),
-      cache: "no-store",
-      signal: controller.signal,
-    });
+    const doFetch = () =>
+      fetch(`${ragBase}/ingest/file`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": apiKey,
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+        signal: controller.signal,
+      });
+
+    // 1 kiire retry väikese backoffiga
+    let res;
+    try {
+      res = await doFetch();
+    } catch (e) {
+      await new Promise((r) => setTimeout(r, 300));
+      res = await doFetch();
+    }
 
     clearTimeout(timeout);
 
+    // loe vastus turvaliselt
     const raw = await res.text();
-    const data = raw ? JSON.parse(raw) : null;
+    let data = null;
+    try {
+      data = raw ? JSON.parse(raw) : null;
+    } catch {
+      // kui backend saatis mitte-JSON, paneme selle diagnosti kohta
+      data = { raw };
+    }
 
     if (!res.ok) {
       const msg = data?.detail || data?.message || `RAG viga (${res.status})`;
       const status = res.status === 413 ? 413 : res.status === 415 ? 415 : 502;
-      return makeError(msg, status, { response: data });
+      const code =
+        res.status === 413
+          ? "FILE_TOO_LARGE"
+          : res.status === 415
+          ? "UNSUPPORTED_MIME"
+          : "RAG_BACKEND_ERROR";
+      console.warn(
+        `[RAG upload] FAIL(${status}, ${code}) ${safeFileName} in ${Date.now() - t0}ms: ${msg}`
+      );
+      return makeError(msg, status, { code, response: data });
     }
 
-    return NextResponse.json({
+    const out = NextResponse.json({
       ok: true,
       doc: {
         id: payload.docId,
+        contentSha256: sha256,
         title,
         description,
+        tags: Array.isArray(tags) ? tags : undefined,
         type: "FILE",
         status: "COMPLETED",
         fileName: safeFileName,
@@ -145,11 +243,15 @@ export async function POST(req) {
       },
       rag: data,
     });
+
+    console.info(`[RAG upload] OK ${safeFileName} in ${Date.now() - t0}ms`);
+    return out;
   } catch (err) {
     const message =
       err?.name === "AbortError"
         ? "RAG päring aegus (timeout)."
         : `RAG ühenduse viga: ${err?.message || String(err)}`;
+    console.warn(`[RAG upload] FAIL (${safeFileName}) in ${Date.now() - t0}ms: ${message}`);
     return makeError(message, 502);
   }
 }

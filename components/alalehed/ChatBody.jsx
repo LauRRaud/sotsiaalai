@@ -105,6 +105,36 @@ function normalizeSources(sources) {
   });
 }
 
+/* ---------- Throttle abifunktsioon sündmustele ---------- */
+function throttle(fn, waitMs) {
+  let last = 0;
+  let timer = null;
+  let lastArgs = null;
+
+  return function throttled(...args) {
+    const now = Date.now();
+    const remaining = waitMs - (now - last);
+    lastArgs = args;
+
+    if (remaining <= 0) {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      last = now;
+      fn(...lastArgs);
+      lastArgs = null;
+    } else if (!timer) {
+      timer = setTimeout(() => {
+        last = Date.now();
+        fn(...(lastArgs || []));
+        lastArgs = null;
+        timer = null;
+      }, remaining);
+    }
+  };
+}
+
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -141,7 +171,7 @@ export default function ChatBody() {
   const saveTimerRef = useRef(null);
 
   const historyPayload = useMemo(
-    () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })), // ainult möödunud vähendatud ajalugu
+    () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
     [messages]
   );
 
@@ -241,14 +271,16 @@ export default function ChatBody() {
     return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
   }, [messages, chatStore]);
 
-  /* ---------- TAASTA SERVERIST: kui paneel oli kinni ---------- */
+  /* ---------- TAASTA SERVERIST: throttled ---------- */
   useEffect(() => {
     if (!convId) return;
     let cancelled = false;
 
     async function hydrateFromServer() {
       try {
-        const r = await fetch(`/api/chat/run?convId=${encodeURIComponent(convId)}`, { cache: "no-store" });
+        const r = await fetch(`/api/chat/run?convId=${encodeURIComponent(convId)}`, {
+          cache: "no-store",
+        });
         if (!r.ok) return;
         const data = await r.json();
         if (!data?.ok || cancelled) return;
@@ -285,18 +317,21 @@ export default function ChatBody() {
       } catch {}
     }
 
+    // kohe üks kord
     hydrateFromServer();
 
-    function onFocusOrVisible() {
+    // throttled handler (1 kord ~2.5 s)
+    const throttled = throttle(() => {
       if (document.visibilityState === "visible") hydrateFromServer();
-    }
-    window.addEventListener("focus", onFocusOrVisible);
-    document.addEventListener("visibilitychange", onFocusOrVisible);
+    }, 2500);
+
+    window.addEventListener("focus", throttled);
+    document.addEventListener("visibilitychange", throttled);
 
     return () => {
       cancelled = true;
-      window.removeEventListener("focus", onFocusOrVisible);
-      document.removeEventListener("visibilitychange", onFocusOrVisible);
+      window.removeEventListener("focus", throttled);
+      document.removeEventListener("visibilitychange", throttled);
     };
   }, [convId]);
 
@@ -314,7 +349,9 @@ export default function ChatBody() {
       setIsGenerating(true);
       focusInput();
 
+      // AbortController + 60s kliendipoolne timeout
       const controller = new AbortController();
+      const clientTimeout = setTimeout(() => controller.abort(), 60000);
       abortControllerRef.current = controller;
 
       let streamingMessageId = null;
@@ -333,6 +370,8 @@ export default function ChatBody() {
           }),
           signal: controller.signal,
         });
+
+        clearTimeout(clientTimeout);
 
         if (res.status === 401 || res.status === 403) {
           const params = new URLSearchParams({ callbackUrl: "/vestlus" });
@@ -412,6 +451,7 @@ export default function ChatBody() {
         }));
         streamingMessageId = null;
       } catch (err) {
+        clearTimeout(clientTimeout);
         if (err?.name === "AbortError") {
           if (streamingMessageId != null) {
             mutateMessage(streamingMessageId, (msg) => ({
@@ -525,6 +565,7 @@ export default function ChatBody() {
 
       <main className="chat-main" style={{ position: "relative" }}>
         <div
+          id="chat-window"
           className="chat-window u-mobile-scroll u-mobile-safe-pad"
           ref={chatWindowRef}
           role="region"
@@ -594,6 +635,7 @@ export default function ChatBody() {
             onClick={scrollToBottom}
             aria-label="Kerige chati lõppu"
             title="Kerige lõppu"
+            aria-controls="chat-window"
           >
             <svg
               viewBox="0 0 24 24"

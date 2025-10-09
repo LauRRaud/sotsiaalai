@@ -1857,6 +1857,9 @@ label {
   width:100%;
   max-width:850px;
 }
+.glass-box.chat-container .glass-title {
+  margin-top: clamp(0.4rem, 1.6vw, 0.9rem);
+}
 .chat-main{
   position: relative;
   flex: 1 1 auto;
@@ -2424,8 +2427,8 @@ body.modal-open {
     right: auto;
     bottom: auto;
     z-index: auto;
-    padding: clamp(1.2rem, 5vw, 2rem) 0 clamp(1rem, 4vw, 1.8rem);
-    gap: clamp(0.6rem, 3vw, 1rem);
+    padding: clamp(0.7rem, 3vw, 1.2rem) 0 clamp(0.55rem, 2.5vw, 1.1rem);
+    gap: clamp(0.4rem, 2.2vw, 0.75rem);
   }
 
   /* Kaardi BACK sisu proportsioonid */
@@ -2469,7 +2472,7 @@ body.modal-open {
   /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
   .avatar-link {
-    top: calc(env(safe-area-inset-top, 0px) + 8px) !important;
+    top: max(6px, calc(env(safe-area-inset-top, 0px) - 10px)) !important;
     right: clamp(10px, 3.2vw, 16px) !important;
     left: auto;
     transform: none;
@@ -2550,6 +2553,9 @@ body.modal-open {
     height: calc(100dvh - 2 * var(--chat-mobile-edge));
     max-height: calc(100dvh - 2 * var(--chat-mobile-edge));
   }
+  body[data-layout="mobile"] .glass-box.chat-container .glass-title {
+    margin-top: clamp(1.2rem, 5vw, 2.1rem);
+  }
 
   body[data-layout="mobile"] .chat-window {
     flex: 1 1 auto;
@@ -2562,20 +2568,20 @@ body.modal-open {
     overscroll-behavior: contain;
     max-height: none;
     padding: clamp(0.7rem, 3.6vw, 1.15rem) clamp(0.75rem, 4vw, 1.35rem)
-      calc(clamp(70px, 14vw, 92px) + env(safe-area-inset-bottom, 0px));
+      calc(clamp(2.8rem, 10vw, 3.6rem) + env(safe-area-inset-bottom, 0px));
     scrollbar-width: thin;
     scrollbar-color: var(--pt-mid) transparent;
   }
 
   body[data-layout="mobile"] .chat-inputbar {
-    position: sticky;
+    position: static;
     left: auto;
     right: auto;
-    bottom: max(12px, env(safe-area-inset-bottom));
-    margin: clamp(0.6rem, 3vw, 1rem) auto 0;
-    max-width: none;
+    bottom: auto;
+    width: 100%;
+    margin: clamp(0.7rem, 3.2vw, 1.1rem) auto clamp(0.45rem, 2.6vw, 0.85rem);
+    max-width: 100%;
     height: clamp(58px, 14vw, 80px);
-    z-index: 1003;
   }
 
   body[data-layout="mobile"] .chat-inputbar .chat-input-field {
@@ -2607,8 +2613,8 @@ body.modal-open {
   body[data-layout="mobile"] .chat-footer {
     display: flex;
     justify-content: center;
-    margin-top: clamp(0.6rem, 3vw, 1rem);
-    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    margin-top: clamp(0.4rem, 2.6vw, 0.8rem);
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
   }
   body[data-layout="mobile"] .chat-footer .chat-back-btn-wrapper {
     margin-top: 0;

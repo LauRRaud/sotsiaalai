@@ -5,12 +5,15 @@ import { authConfig } from "@/auth";
 import { isAdmin } from "@/lib/authz";
 import dns from "node:dns/promises";
 import { isIP } from "node:net";
-import { randomUUID } from "node:crypto"; // ⬅️ lisatud
+import { randomUUID } from "node:crypto";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const AUDIENCE_VALUES = new Set(["SOCIAL_WORKER", "CLIENT", "BOTH"]);
+const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
+
+/* ------------------------- Helpers ------------------------- */
 
 class UrlSafetyError extends Error {
   constructor(message, status = 400, extras = {}) {
@@ -23,23 +26,41 @@ class UrlSafetyError extends Error {
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
+
 function normalizeAudience(value) {
   if (!value) return null;
   const str = String(value).toUpperCase().trim();
   return AUDIENCE_VALUES.has(str) ? str : null;
 }
+
 function sanitizeUrl(value) {
   try {
     if (!value) return null;
     const parsed = new URL(String(value).trim());
+    // lubame ainult http/https
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
+
+    // keelame localhosti/loopbacki hostid nimede järgi (IP kontroll allpool)
+    const hostLower = parsed.hostname.toLowerCase();
+    if (
+      hostLower === "localhost" ||
+      hostLower === "ip6-localhost" ||
+      hostLower.endsWith(".localhost")
+    ) {
+      return null;
+    }
+
+    // stripime fragmenti (pole sisu jaoks oluline; hoiab deduplit puhtamana)
+    parsed.hash = "";
     return parsed.toString();
   } catch {
     return null;
   }
 }
+
 function isPrivateAddress(address) {
   if (!address) return false;
+  // IPv4 loopback/erivõrgud
   if (address.startsWith("127.")) return true;
   if (address === "0.0.0.0" || address === "255.255.255.255") return true;
 
@@ -49,24 +70,41 @@ function isPrivateAddress(address) {
     if (a === 10) return true;
     if (a === 172 && b >= 16 && b <= 31) return true;
     if (a === 192 && b === 168) return true;
-    if (a === 169 && b === 254) return true;
+    if (a === 169 && b === 254) return true; // link-local
   }
 
+  // IPv6
   const lower = address.toLowerCase();
-  if (lower === "::1" || lower === "::") return true;
-  if (lower.startsWith("fe80")) return true; // link-local
-  if (lower.startsWith("fd")) return true;   // unique local
+  if (lower === "::1" || lower === "::") return true;           // loopback/unspecified
+  if (lower.startsWith("fe80")) return true;                    // link-local
+  if (lower.startsWith("fd") || lower.startsWith("fc")) return true; // unique local
   return false;
 }
+
 async function assertPublicUrl(urlString) {
   const parsed = new URL(urlString);
   const hostname = parsed.hostname;
   if (!hostname) throw new UrlSafetyError("URL-l puudub host.");
 
+  // Kui on IP otse, kontrollime privaatset vahemikku
   if (isIP(hostname)) {
-    if (isPrivateAddress(hostname)) throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
+    if (isPrivateAddress(hostname)) {
+      throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
+    }
     return;
   }
+
+  // Nime põhised keelud (localhost jms)
+  const hostLower = hostname.toLowerCase();
+  if (
+    hostLower === "localhost" ||
+    hostLower === "ip6-localhost" ||
+    hostLower.endsWith(".localhost")
+  ) {
+    throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
+  }
+
+  // DNS lookup – kui mõni A/AAAA lahendub privaatvõrku, keelame
   try {
     const records = await dns.lookup(hostname, { all: true });
     const forbidden = records.some((r) => isPrivateAddress(r.address));
@@ -80,12 +118,17 @@ async function assertPublicUrl(urlString) {
   }
 }
 
+/* ------------------------- Route ------------------------- */
+
 export async function POST(req) {
+  const t0 = Date.now();
+
+  // Auth
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
   if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
-  // loe body
+  // Body
   let body;
   try {
     body = await req.json();
@@ -93,6 +136,7 @@ export async function POST(req) {
     return makeError("Keha peab olema JSON.");
   }
 
+  // URL & publikud
   const url = sanitizeUrl(body?.url);
   if (!url) return makeError("Palun sisesta korrektne URL.");
   try {
@@ -104,53 +148,85 @@ export async function POST(req) {
     return makeError("URL-i kontroll ebaõnnestus.");
   }
 
-  const title = body?.title ? String(body.title).trim().slice(0, 255) : null;
-  const description = body?.description ? String(body.description).trim().slice(0, 2000) : null;
+  const title =
+    body?.title && typeof body.title === "string"
+      ? body.title.trim().substring(0, 255)
+      : null;
+
+  const description =
+    body?.description && typeof body.description === "string"
+      ? body.description.trim().substring(0, 2000)
+      : null;
+
   const audience = normalizeAudience(body?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  // --- saade RAG teenusele ---
+  // RAG backend
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
-  const docId = randomUUID(); // ⬅️ UUID siit
+  const docId = randomUUID();
 
   try {
-    const controller = new AbortController();                 // ⬅️ timeout
-    const timeout = setTimeout(() => controller.abort(), 30_000);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
 
-    const res = await fetch(`${ragBase}/ingest/url`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": apiKey,
-      },
-      body: JSON.stringify({
-        docId,
-        url,
-        title: title || undefined,
-        description: description || undefined,
-        audience,
-      }),
-      cache: "no-store",
-      signal: controller.signal,
-    });
+    const payload = {
+      docId,
+      url,
+      title: title || undefined,
+      description: description || undefined,
+      audience,
+    };
+
+    const doFetch = () =>
+      fetch(`${ragBase}/ingest/url`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": apiKey,
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+        signal: controller.signal,
+      });
+
+    // 1 kiire retry väikese backoffiga (võrgukrambi vastu)
+    let res;
+    try {
+      res = await doFetch();
+    } catch (e) {
+      await new Promise((r) => setTimeout(r, 300));
+      res = await doFetch();
+    }
 
     clearTimeout(timeout);
 
     const raw = await res.text();
-    const data = raw ? JSON.parse(raw) : null;
+    let data = null;
+    try {
+      data = raw ? JSON.parse(raw) : null;
+    } catch {
+      data = { raw }; // mitte-JSON vastus diagnostikaks
+    }
 
     if (!res.ok) {
       const msg = data?.detail || data?.message || `RAG viga (${res.status})`;
-      return makeError(msg, res.status >= 400 && res.status < 600 ? res.status : 502, {
-        response: data,
-      });
+      const status = res.status >= 400 && res.status < 600 ? res.status : 502;
+      const code =
+        status === 413
+          ? "PAYLOAD_TOO_LARGE"
+          : status === 415
+          ? "UNSUPPORTED_MIME"
+          : "RAG_BACKEND_ERROR";
+      console.warn(`[RAG url] FAIL(${status}, ${code}) ${url} in ${Date.now() - t0}ms: ${msg}`);
+      return makeError(msg, status, { code, response: data });
     }
 
-    // Tagastame UI-le "sünteetilise" kirje (ilma Prisma DB-ta)
+    // Tagasta UI-le hetkeline kirje (kui Prisma logi ei tehta siin)
     const now = new Date().toISOString();
+    console.info(`[RAG url] OK ${url} in ${Date.now() - t0}ms`);
     return NextResponse.json({
       ok: true,
       doc: {
@@ -173,6 +249,7 @@ export async function POST(req) {
       err?.name === "AbortError"
         ? "RAG päring aegus (timeout)."
         : `RAG ühenduse viga: ${err?.message || String(err)}`;
+    console.warn(`[RAG url] FAIL ${url} in ${Date.now() - t0}ms: ${message}`);
     return makeError(message, 502);
   }
 }
