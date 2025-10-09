@@ -1894,6 +1894,7 @@ label {
   align-self: stretch;
   margin: clamp(0.6rem, 2vw, 1rem) auto clamp(0.6rem, 2vw, 1.2rem);
   max-width: min(760px, 100%);
+  width: min(760px, 100%);
 
   flex: 0 0 66px;
   height: 66px;
@@ -2427,8 +2428,23 @@ body.modal-open {
     right: auto;
     bottom: auto;
     z-index: auto;
-    padding: clamp(0.7rem, 3vw, 1.2rem) 0 clamp(0.55rem, 2.5vw, 1.1rem);
-    gap: clamp(0.4rem, 2.2vw, 0.75rem);
+    padding: clamp(0.45rem, 2.4vw, 0.9rem) 0 clamp(0.45rem, 2.1vw, 0.85rem);
+    gap: clamp(0.3rem, 1.8vw, 0.6rem);
+    margin-top: clamp(0.2rem, 1.6vw, 0.45rem);
+  }
+  .footer-column.footer-column-mobile {
+    padding-top: clamp(0.3rem, 1.6vw, 0.6rem);
+    padding-bottom: clamp(0.35rem, 1.8vw, 0.65rem);
+    gap: clamp(0.25rem, 1.5vw, 0.45rem);
+  }
+  .footer-bottom-nav {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(-0.1rem, -0.8vw, 0rem);
+    margin-bottom: clamp(0.15rem, 1.2vw, 0.3rem);
+  }
+  .footer-bottom-nav .footer-link-headline {
+    padding: 0.38em 1em;
   }
 
   /* Kaardi BACK sisu proportsioonid */
@@ -2544,14 +2560,15 @@ body.modal-open {
   body[data-layout="mobile"] .chat-main {
     flex: 1 1 auto;
     min-height: calc(100dvh - clamp(70px, 14vw, 92px));
+    padding-bottom: clamp(0.8rem, 3vw, 1.6rem);
   }
 
   body[data-layout="mobile"] .glass-box.chat-container {
     --chat-mobile-edge: clamp(0.8rem, 3vw, 1.2rem);
     margin: var(--chat-mobile-edge) auto;
     min-height: calc(100dvh - 2 * var(--chat-mobile-edge));
-    height: calc(100dvh - 2 * var(--chat-mobile-edge));
-    max-height: calc(100dvh - 2 * var(--chat-mobile-edge));
+    height: auto;
+    max-height: none;
   }
   body[data-layout="mobile"] .glass-box.chat-container .glass-title {
     margin-top: clamp(1.2rem, 5vw, 2.1rem);
@@ -2574,14 +2591,15 @@ body.modal-open {
   }
 
   body[data-layout="mobile"] .chat-inputbar {
-    position: static;
-    left: auto;
-    right: auto;
-    bottom: auto;
+    position: sticky;
+    left: 0;
+    right: 0;
+    bottom: clamp(0.6rem, 4vw, 1.2rem);
     width: 100%;
-    margin: clamp(0.7rem, 3.2vw, 1.1rem) auto clamp(0.45rem, 2.6vw, 0.85rem);
-    max-width: 100%;
+    margin: clamp(0.6rem, 3vw, 1rem) auto clamp(0.3rem, 2.2vw, 0.6rem);
+    max-width: calc(100% - clamp(12px, 6vw, 32px));
     height: clamp(58px, 14vw, 80px);
+    z-index: 3;
   }
 
   body[data-layout="mobile"] .chat-inputbar .chat-input-field {
