@@ -7,8 +7,20 @@ export const metadata = {
     "Vestle SotsiaalAI rollipõhise AI-assistendiga, kes aitab leida infot õiguste, toetuste ja teenuste kohta.",
 };
 
+import ConversationDrawer from "@/components/ConversationDrawer";
+import ChatSidebar from "@/components/ChatSidebar";
 import ChatBody from "@/components/alalehed/ChatBody";
 
 export default function Page() {
-  return <ChatBody />;
+  return (
+    <>
+      {/* Ülekatte sahtel, mis avaneb “☰ Vestlused” nupust */}
+      <ConversationDrawer>
+        <ChatSidebar />
+      </ConversationDrawer>
+
+      {/* Põhisisu: ChatBody (vestlusaken, sisestus, nupud jms) */}
+      <ChatBody />
+    </>
+  );
 }
