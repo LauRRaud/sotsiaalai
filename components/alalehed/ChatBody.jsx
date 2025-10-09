@@ -477,6 +477,23 @@ export default function ChatBody() {
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
 
+  const handleBackClick = useCallback(() => {
+    router.push("/");
+  }, [router]);
+
+  const BackButton = () => (
+    <div className="chat-back-btn-wrapper">
+      <button
+        type="button"
+        className="back-arrow-btn"
+        onClick={handleBackClick}
+        aria-label="Tagasi avalehele"
+      >
+        <span className="back-arrow-circle" />
+      </button>
+    </div>
+  );
+
   return (
     <div
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
@@ -647,16 +664,7 @@ export default function ChatBody() {
       </main>
 
       <footer className="chat-footer">
-        <div className="chat-back-btn-wrapper">
-          <button
-            type="button"
-            className="back-arrow-btn"
-            onClick={() => router.push("/")}
-            aria-label="Tagasi avalehele"
-          >
-            <span className="back-arrow-circle" />
-          </button>
-        </div>
+        <BackButton />
       </footer>
 
       {/* Tippimisindikaatori stiilid */}

@@ -118,15 +118,17 @@ export default function HomePage() {
     <>
       <div className="homepage-root" onClick={handleBackgroundTap}>
         {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
-        <nav className="top-center-nav" aria-label="Peamenüü">
-          <Link
-            id="nav-meist"
-            href="/meist"
-            className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
-          >
-            MEIST
-          </Link>
-        </nav>
+        {!isMobile && (
+          <nav className="top-center-nav" aria-label="Peamenüü">
+            <Link
+              id="nav-meist"
+              href="/meist"
+              className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
+            >
+              MEIST
+            </Link>
+          </nav>
+        )}
   
         <div className="main-content relative">
           {/* LEFT CARD */}
@@ -271,7 +273,18 @@ export default function HomePage() {
         </div>
   
         {/* Footer (logo) */}
-        <footer className="footer-column relative">
+        <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
+          {isMobile && (
+            <nav className="footer-bottom-nav" aria-label="Peamenüü">
+              <Link
+                id="nav-meist"
+                href="/meist"
+                className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
+              >
+                MEIST
+              </Link>
+            </nav>
+          )}
           <Image
             src="/logo/logomust.svg"
             alt="SotsiaalAI logo"

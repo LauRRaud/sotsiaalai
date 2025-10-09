@@ -8,7 +8,7 @@ import hashlib
 from io import BytesIO
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 # --- optional libmagic (fall back if missing) ---
 try:
@@ -27,7 +27,7 @@ from pydantic import BaseModel
 import chromadb
 from chromadb.config import Settings
 
-# OpenAI embeddings
+# OpenAI embeddings (better quality than lite local models)
 from openai import OpenAI
 
 # --------------------
@@ -43,10 +43,6 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"))
 
 MAX_MB = int(os.getenv("RAG_SERVER_MAX_MB", "20"))
-
-# Chunking from ENV (defaults 1200 / 200)
-CHUNK_SIZE = int(os.getenv("RAG_CHUNK_SIZE", "1200"))
-CHUNK_OVERLAP = int(os.getenv("RAG_CHUNK_OVERLAP", "200"))
 
 # Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
 _DEFAULT_ALLOWED = (
@@ -75,7 +71,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 # OpenAI client
 oa = OpenAI(api_key=OPENAI_API_KEY)
 
-app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.5")
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.4")
 
 app.add_middleware(
     CORSMiddleware,
@@ -133,17 +129,15 @@ def _detect_mime(name: str, data: bytes, declared: Optional[str]) -> str:
 def _clean_text(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip()
 
-# --- PDF / DOCX / HTML extractors ---
-def _extract_text_from_pdf(buff: bytes) -> List[Tuple[int, str]]:
-    """Tagasta list (page_no, text)."""
+def _extract_text_from_pdf(buff: bytes) -> str:
     from pypdf import PdfReader
     try:
         reader = PdfReader(BytesIO(buff))
-        out: List[Tuple[int, str]] = []
-        for i, p in enumerate(reader.pages, start=1):
+        pages = []
+        for p in reader.pages:
             t = p.extract_text() or ""
-            out.append((i, t))
-        return out
+            pages.append(t)
+        return "\n".join(pages)
     except Exception as e:
         raise HTTPException(422, f"PDF parse failed: {e}")
 
@@ -165,40 +159,15 @@ def _extract_text_from_html(html: str) -> str:
     txt = soup.get_text(separator=" ")
     return _clean_text(txt)
 
-# --- Chunking ---
-def _split_chunks(text: str, max_chars: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> List[str]:
-    """
-    Lõiguja, mis püüab hoida lausepiire:
-    - lõikame kuni max_chars
-    - kui võimalik, nihutame lõpu lähima lauselõpu ('. ', '! ', '? ') juurde
-    - katvus (overlap) tagatakse stardisammu vähendamisega
-    """
-    text = _clean_text(text)
-    if not text:
-        return []
-
+def _split_chunks(text: str, max_chars: int = 1600, stride: int = 1000) -> List[str]:
     chunks: List[str] = []
-    n = len(text)
-    step = max(1, max_chars - max(0, overlap))
-    start = 0
-
-    while start < n:
-        end = min(n, start + max_chars)
-        window = text[start:end]
-        cut = len(window)
-
-        # proovi leida lause lõpp akna teises pooles (et mitte liiga varakult lõigata)
-        candidates = [window.rfind(". "), window.rfind("! "), window.rfind("? ")]
-        best = max(candidates)
-        if best != -1 and best > len(window) * 0.5:
-            cut = best + 1  # hoia punkt sees
-
-        chunk = _clean_text(window[:cut])
+    i = 0
+    while i < len(text):
+        chunk = text[i:i+max_chars]
+        chunk = _clean_text(chunk)
         if chunk:
             chunks.append(chunk)
-
-        start += step
-
+        i += stride
     return chunks
 
 def _doc_dir_hashed(doc_id: str) -> Path:
@@ -239,69 +208,39 @@ class SearchIn(BaseModel):
     query: str
     top_k: int = 5
     filterDocId: Optional[str] = None
-    where: Optional[dict] = None  # NEW
+    where: Optional[dict] = None  # NEW: generic filters (e.g. {"audience": {"$in": ["CLIENT","BOTH"]}})
 
 # --------------------
 # Core ingest
 # --------------------
-def _split_chunks_with_pages(pages: List[Tuple[Optional[int], str]]) -> Tuple[List[str], List[Optional[int]]]:
-    docs: List[str] = []
-    pnums: List[Optional[int]] = []
-    for page_no, txt in pages:
-        for ch in _split_chunks(txt):
-            docs.append(ch)
-            pnums.append(page_no)
-    return docs, pnums
-
-def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
-    """
-    text_or_pages:
-      - plain string (HTML/TXT/DOCX)
-      - List[(page_no:int|None, text:str)] (PDF)
-    Lisame TITLE/DESCRIPTION prefiksi igale chunkile enne embeddingut.
-    """
-    title = (meta_common.get("title") or "").strip()
-    description = (meta_common.get("description") or "").strip()
-    prefix = ""
-    if title:
-        prefix += f"[TITLE] {title}\n"
-    if description:
-        prefix += f"[DESC] {description}\n"
-
-    if isinstance(text_or_pages, list) and text_or_pages and isinstance(text_or_pages[0], tuple):
-        chunks, page_nums = _split_chunks_with_pages(text_or_pages)  # PDF
-    else:
-        text = _clean_text(str(text_or_pages or ""))
-        chunks = _split_chunks(text)                                 # muu
-        page_nums = [None] * len(chunks)
-
+def _ingest_text(doc_id: str, text: str, meta_common: Dict) -> int:
+    text = _clean_text(text)
+    chunks = _split_chunks(text)
     if not chunks:
         return 0
-
-    # lisa prefix embeddimise tekstile
-    embed_inputs = [(prefix + ch).strip() if prefix else ch for ch in chunks]
 
     # Generate unique ids
     base = hashlib.sha1(f"{doc_id}-{now_iso()}".encode()).hexdigest()[:10]
     ids = [f"{doc_id}:{base}:{i}" for i in range(len(chunks))]
 
     metadatas = []
-    for i, _ in enumerate(chunks):
+    for _ in chunks:
         m = {
             "doc_id": doc_id,
-            "title": title or None,
-            "description": description or None,
+            "title": meta_common.get("title"),
+            "description": meta_common.get("description"),
+            # ---- FLATTENED SOURCE FIELDS (no dicts!) ----
             "source_type": meta_common.get("source_type"),
             "source_path": meta_common.get("source_path"),
             "source_url": meta_common.get("source_url"),
+            # ---------------------------------------------
             "mimeType": meta_common.get("mimeType"),
-            "audience": normalize_audience(meta_common.get("audience")),
-            "page": page_nums[i],
+            "audience": normalize_audience(meta_common.get("audience")),  # normalized
             "createdAt": now_iso(),
         }
         metadatas.append({k: v for k, v in m.items() if v is not None})
 
-    embeddings = _embed_batch(embed_inputs)
+    embeddings = _embed_batch(chunks)
     collection.upsert(documents=chunks, metadatas=metadatas, ids=ids, embeddings=embeddings)
     return len(chunks)
 
@@ -328,13 +267,11 @@ def health():
         n = -1
     return {
         "ok": True,
-        "status": "ok",
+        "status": "ok",           # ← lisatud
         "vectors": n,
         "documents": len(reg),
         "embed_model": EMBED_MODEL,
         "collection": COLLECTION_NAME,
-        "chunk_size": CHUNK_SIZE,
-        "chunk_overlap": CHUNK_OVERLAP,
     }
 
 @app.post("/ingest/file", dependencies=[Depends(_require_key)])
@@ -355,18 +292,18 @@ def ingest_file(payload: IngestFile):
 
     # extract text
     if mime == "application/pdf":
-        text_or_pages = _extract_text_from_pdf(raw)  # List[(page_no, text)]
+        text = _extract_text_from_pdf(raw)
     elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        text_or_pages = _extract_text_from_docx(raw)
+        text = _extract_text_from_docx(raw)
     elif mime == "text/html":
-        text_or_pages = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
+        text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
     else:
         # text/plain, text/markdown, application/msword (best effort), etc.
-        text_or_pages = raw.decode("utf-8", errors="ignore")
+        text = raw.decode("utf-8", errors="ignore")
 
     inserted = _ingest_text(
         payload.docId,
-        text_or_pages,
+        text,
         meta_common={
             "title": payload.title,
             "description": payload.description,
@@ -452,7 +389,7 @@ def documents():
         out.append({
             "id": doc_id,            # UI ootab 'id'
             "docId": doc_id,
-            "status": "COMPLETED",
+            "status": "COMPLETED",   # ← vaikimisi valmis (teenus ei halda töövoo staatusi)
             "chunks": count,
             "title": meta.get("title"),
             "description": meta.get("description"),
@@ -490,15 +427,15 @@ def reindex(doc_id: str):
         raw = p.read_bytes()
         mime = entry.get("mimeType") or _detect_mime(p.name, raw, None)
         if mime == "application/pdf":
-            text_or_pages = _extract_text_from_pdf(raw)
+            text = _extract_text_from_pdf(raw)
         elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-            text_or_pages = _extract_text_from_docx(raw)
+            text = _extract_text_from_docx(raw)
         elif mime == "text/html":
-            text_or_pages = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
+            text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
         else:
-            text_or_pages = raw.decode("utf-8", errors="ignore")
+            text = raw.decode("utf-8", errors="ignore")
 
-        inserted = _ingest_text(doc_id, text_or_pages, meta_common={
+        inserted = _ingest_text(doc_id, text, meta_common={
             "title": entry.get("title"),
             "description": entry.get("description"),
             "source_type": "file",
@@ -568,7 +505,7 @@ def search(payload: SearchIn):
     if payload.filterDocId:
         md_where["doc_id"] = payload.filterDocId
 
-    # New: accept {"audience": "..."} or {"audience": {"$in": [...]} }
+    # New: accept {"audience": "..."} or {"audience": {"$in": [...]}}
     if isinstance(payload.where, dict):
         aud = payload.where.get("audience")
         if isinstance(aud, dict) and "$in" in aud:
@@ -591,7 +528,7 @@ def search(payload: SearchIn):
             query_embeddings=[q_emb],
             n_results=max(1, min(50, payload.top_k or 5)),
             where=md_where or None,
-            include=["documents", "metadatas"],  # ids pole garanteeritud include'is
+            include=["documents", "metadatas"],  # 'ids' ei ole lubatud include'is
         )
     except Exception:
         return {"results": []}

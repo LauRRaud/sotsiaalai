@@ -1762,7 +1762,7 @@ html:not(.dark-mode) .avatar-label {
   flex-direction: column;
   align-items: center;
   gap: 0.25em;
-  margin-top: clamp(1.2rem, 3.6vw, 1.9rem);
+  margin-top: clamp(1.8rem, 4.6vw, 2.6rem);
   margin-bottom: 0;
 }
 
@@ -1781,7 +1781,7 @@ html:not(.dark-mode) .avatar-label {
   flex-direction: column;
   align-items: center;
   gap: 0.25em;
-  margin-top: clamp(1.2rem, 3.6vw, 1.9rem);
+  margin-top: clamp(1.8rem, 4.6vw, 2.6rem);
   margin-bottom: 0;
   width: 100%;
 }
@@ -2544,9 +2544,11 @@ body.modal-open {
   }
 
   body[data-layout="mobile"] .glass-box.chat-container {
-    height: auto;
-    max-height: none;
-    margin: clamp(0.8rem, 3vw, 1.2rem) auto;
+    --chat-mobile-edge: clamp(0.8rem, 3vw, 1.2rem);
+    margin: var(--chat-mobile-edge) auto;
+    min-height: calc(100dvh - 2 * var(--chat-mobile-edge));
+    height: calc(100dvh - 2 * var(--chat-mobile-edge));
+    max-height: calc(100dvh - 2 * var(--chat-mobile-edge));
   }
 
   body[data-layout="mobile"] .chat-window {
@@ -2555,22 +2557,22 @@ body.modal-open {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: .65em;
+    gap: clamp(0.55rem, 2.6vw, 0.9rem);
     overflow-y: auto;
     overscroll-behavior: contain;
     max-height: none;
-    padding: clamp(0.8rem, 4vw, 1.3rem) clamp(0.8rem, 4vw, 1.4rem)
+    padding: clamp(0.7rem, 3.6vw, 1.15rem) clamp(0.75rem, 4vw, 1.35rem)
       calc(clamp(70px, 14vw, 92px) + env(safe-area-inset-bottom, 0px));
     scrollbar-width: thin;
     scrollbar-color: var(--pt-mid) transparent;
   }
 
   body[data-layout="mobile"] .chat-inputbar {
-    position: fixed;
-    left: max(12px, env(safe-area-inset-left));
-    right: max(12px, env(safe-area-inset-right));
+    position: sticky;
+    left: auto;
+    right: auto;
     bottom: max(12px, env(safe-area-inset-bottom));
-    margin: 0;
+    margin: clamp(0.6rem, 3vw, 1rem) auto 0;
     max-width: none;
     height: clamp(58px, 14vw, 80px);
     z-index: 1003;
@@ -2601,6 +2603,15 @@ body.modal-open {
   body[data-layout="mobile"] .u-mobile-reset-position:not(.chat-inputbar) {
     position: static;
     inset: auto;
+  }
+  body[data-layout="mobile"] .chat-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(0.6rem, 3vw, 1rem);
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+  body[data-layout="mobile"] .chat-footer .chat-back-btn-wrapper {
+    margin-top: 0;
   }
   body[data-layout="mobile"].modal-open {
     overflow: hidden;
