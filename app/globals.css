@@ -1892,7 +1892,7 @@ label {
 }
 .chat-inputbar{
   align-self: stretch;
-  margin: clamp(0.6rem, 2vw, 1rem) auto clamp(0.6rem, 2vw, 1.2rem);
+  margin: clamp(0.6rem, 2vw, 1rem) clamp(0.6rem, 1.8vw, 1rem) clamp(0.6rem, 2vw, 1.2rem);
   max-width: min(760px, 100%);
   width: min(760px, 100%);
 
@@ -1921,12 +1921,14 @@ label {
 /* sisestusväli */
 .chat-inputbar .chat-input-field {
   all: unset;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: clamp(0.35rem, 1.2vw, 0.6rem) 12px;
+  padding: clamp(0.55rem, 1.6vw, 0.85rem) clamp(14px, 4vw, 18px);
   color: var(--pt-100);      /* hele platinum tekst, nt #ECEBE9 */
   caret-color: var(--pt-100);
   font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  line-height: 1.45;
 }
 .scroll-down-btn {
   position: absolute;
@@ -2428,20 +2430,20 @@ body.modal-open {
     right: auto;
     bottom: auto;
     z-index: auto;
-    padding: clamp(0.45rem, 2.4vw, 0.9rem) 0 clamp(0.45rem, 2.1vw, 0.85rem);
-    gap: clamp(0.3rem, 1.8vw, 0.6rem);
-    margin-top: clamp(0.2rem, 1.6vw, 0.45rem);
+  padding: clamp(0.2rem, 1vw, 0.9rem) 0 clamp(0.35rem, 1vw, 1.2rem);
+  gap: clamp(0.4rem, 2vw, 1rem);      /* kaugus MEIST ja logo vahel */
+  margin-top: clamp(-0.4rem, -1.5vw, 0.2rem);
   }
-  .footer-column.footer-column-mobile {
-    padding-top: clamp(0.3rem, 1.6vw, 0.6rem);
-    padding-bottom: clamp(0.35rem, 1.8vw, 0.65rem);
-    gap: clamp(0.25rem, 1.5vw, 0.45rem);
-  }
+.footer-column.footer-column-mobile {
+  padding-top: clamp(0.25rem, 1vw, 0.7rem);
+  padding-bottom: clamp(0.3rem, 1vw, 0.8rem);
+  gap: clamp(0.45rem, 1vw, 1.2rem);
+}
   .footer-bottom-nav {
     display: flex;
     justify-content: center;
-    margin-top: clamp(-0.1rem, -0.8vw, 0rem);
-    margin-bottom: clamp(0.15rem, 1.2vw, 0.3rem);
+  margin-top: clamp(-2rem, -5vw, -6rem);  /* tõstab MEIST üles, kuid jätab vahe */
+  margin-bottom: clamp(0.25rem, 1vw, 0.6rem);
   }
   .footer-bottom-nav .footer-link-headline {
     padding: 0.38em 1em;
@@ -2488,8 +2490,8 @@ body.modal-open {
   /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
   .avatar-link {
-    top: max(6px, calc(env(safe-area-inset-top, 0px) - 10px)) !important;
-    right: clamp(10px, 3.2vw, 16px) !important;
+    top: max(0px, calc(env(safe-area-inset-top, 0px) - 6px)) !important;
+    right: clamp(6px, 2.4vw, 12px) !important;
     left: auto;
     transform: none;
     z-index: 12;
@@ -2559,16 +2561,16 @@ body.modal-open {
   /* Utiliidid – rakenduvad ViewportLayoutSetteri data-layout abil */
   body[data-layout="mobile"] .chat-main {
     flex: 1 1 auto;
-    min-height: calc(100dvh - clamp(70px, 14vw, 92px));
-    padding-bottom: clamp(0.8rem, 3vw, 1.6rem);
+    min-height: 0;
+    padding-bottom: clamp(0.8rem, 3vw, 1.4rem);
   }
 
   body[data-layout="mobile"] .glass-box.chat-container {
-    --chat-mobile-edge: clamp(0.8rem, 3vw, 1.2rem);
+    --chat-mobile-edge: clamp(0.7rem, 2.6vw, 1.1rem);
     margin: var(--chat-mobile-edge) auto;
     min-height: calc(100dvh - 2 * var(--chat-mobile-edge));
-    height: auto;
-    max-height: none;
+    height: calc(100dvh - 2 * var(--chat-mobile-edge));
+    max-height: calc(100dvh - 2 * var(--chat-mobile-edge));
   }
   body[data-layout="mobile"] .glass-box.chat-container .glass-title {
     margin-top: clamp(1.2rem, 5vw, 2.1rem);
@@ -2583,21 +2585,20 @@ body.modal-open {
     gap: clamp(0.55rem, 2.6vw, 0.9rem);
     overflow-y: auto;
     overscroll-behavior: contain;
-    max-height: none;
+    max-height: calc(100dvh - clamp(10rem, 32vw, 12.5rem));
     padding: clamp(0.7rem, 3.6vw, 1.15rem) clamp(0.75rem, 4vw, 1.35rem)
-      calc(clamp(2.8rem, 10vw, 3.6rem) + env(safe-area-inset-bottom, 0px));
+      calc(clamp(4.8rem, 16vw, 5.8rem) + env(safe-area-inset-bottom, 0px));
     scrollbar-width: thin;
     scrollbar-color: var(--pt-mid) transparent;
   }
 
   body[data-layout="mobile"] .chat-inputbar {
     position: sticky;
-    left: 0;
-    right: 0;
-    bottom: clamp(0.6rem, 4vw, 1.2rem);
-    width: 100%;
-    margin: clamp(0.6rem, 3vw, 1rem) auto clamp(0.3rem, 2.2vw, 0.6rem);
-    max-width: calc(100% - clamp(12px, 6vw, 32px));
+    left: clamp(16px, 4.5vw, 22px);
+    right: clamp(16px, 4.5vw, 22px);
+    bottom: clamp(0.5rem, 3.6vw, 1rem);
+    width: auto;
+    margin: clamp(0.5rem, 3vw, 0.9rem) 0 clamp(0.4rem, 2.5vw, 0.7rem);
     height: clamp(58px, 14vw, 80px);
     z-index: 3;
   }

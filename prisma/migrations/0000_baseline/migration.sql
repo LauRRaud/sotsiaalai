@@ -22,6 +22,9 @@ CREATE TYPE "public"."Role" AS ENUM ('ADMIN', 'SOCIAL_WORKER', 'CLIENT');
 -- CreateEnum
 CREATE TYPE "public"."SubscriptionStatus" AS ENUM ('NONE', 'ACTIVE', 'CANCELED', 'PAST_DUE');
 
+-- NEW: RunStatus enum (sh DELETED, kui tahad pehme kustutamise liputust)
+CREATE TYPE "public"."RunStatus" AS ENUM ('RUNNING', 'COMPLETED', 'ERROR', 'DELETED');
+
 -- CreateTable
 CREATE TABLE "public"."Account" (
     "id" TEXT NOT NULL,
@@ -137,6 +140,20 @@ CREATE TABLE "public"."VerificationToken" (
     "expires" TIMESTAMP(3) NOT NULL
 );
 
+-- NEW: ConversationRun (vestluse “run”)
+CREATE TABLE "public"."ConversationRun" (
+    "id" TEXT NOT NULL,                             -- frontendi convId (UUID)
+    "userId" TEXT NOT NULL,
+    "role" "public"."Role" NOT NULL,
+    "text" TEXT NOT NULL DEFAULT '',
+    "sources" JSONB,
+    "status" "public"."RunStatus" NOT NULL DEFAULT 'RUNNING',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ConversationRun_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "public"."Account"("provider" ASC, "providerAccountId" ASC);
 
@@ -194,6 +211,11 @@ CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "public"."Verifi
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_token_key" ON "public"."VerificationToken"("token" ASC);
 
+-- NEW: ConversationRun indeksid
+CREATE INDEX "ConversationRun_userId_updatedAt_idx" ON "public"."ConversationRun"("userId" ASC, "updatedAt" ASC);
+CREATE INDEX "ConversationRun_status_idx" ON "public"."ConversationRun"("status" ASC);
+CREATE INDEX "ConversationRun_userId_status_updatedAt_idx" ON "public"."ConversationRun"("userId" ASC, "status" ASC, "updatedAt" DESC);
+
 -- AddForeignKey
 ALTER TABLE "public"."Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -215,3 +237,5 @@ ALTER TABLE "public"."Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY 
 -- AddForeignKey
 ALTER TABLE "public"."Subscription" ADD CONSTRAINT "Subscription_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
+-- NEW: ConversationRun FK
+ALTER TABLE "public"."ConversationRun" ADD CONSTRAINT "ConversationRun_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

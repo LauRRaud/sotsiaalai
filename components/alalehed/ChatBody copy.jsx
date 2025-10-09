@@ -84,6 +84,7 @@ function createSSEReader(stream) {
         feed(decoder.decode(value, { stream: true }));
         while (queue.length) yield queue.shift();
       }
+      // flush kui viimane plokk jäi ilma \n\n
       if (buffer) {
         feed("\n\n");
         while (queue.length) yield queue.shift();
@@ -145,27 +146,21 @@ export default function ChatBody() {
     return up || "CLIENT";
   }, [session]);
 
-  // --- Vestluse ID (serveri persist jaoks) ---
-  const [convId, setConvId] = useState(null);
-
-  // püsivusvõti kasutaja & rolli kaupa (NB! mitte convId-põhine; lihtsuse huvides)
+  // püsivusvõti kasutaja & rolli kaupa
   const storageKey = useMemo(() => {
     const uid = session?.user?.id || "anon";
     return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:v1`;
   }, [session]);
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
-  // UI state
+  // vestluse ID (serveri persist jaoks)
+  const [convId, setConvId] = useState(null);
+
   const [messages, setMessages] = useState(() => [{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
-
-  // külgriba vestlused
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [loadingConvs, setLoadingConvs] = useState(false);
-  const [conversations, setConversations] = useState([]);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
@@ -208,7 +203,7 @@ export default function ChatBody() {
     });
   }, []);
 
-  // Kerimine
+  // Kerimise abi
   useEffect(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -224,7 +219,7 @@ export default function ChatBody() {
     return () => node.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // autoscroll
+  // autoscroll, kui lisandub sõnumeid ja kasutaja on all
   useEffect(() => {
     if (!mountedRef.current) return;
     const node = chatWindowRef.current;
@@ -339,98 +334,6 @@ export default function ChatBody() {
       document.removeEventListener("visibilitychange", throttled);
     };
   }, [convId]);
-
-  // --- KÜLGRIBA: laadimine ---
-  const loadConversations = useCallback(async () => {
-    setLoadingConvs(true);
-    try {
-      const r = await fetch("/api/chat/conversations", { cache: "no-store" });
-      const data = await r.json();
-      if (data?.ok) setConversations(Array.isArray(data.conversations) ? data.conversations : []);
-    } catch {
-      // ignore
-    } finally {
-      setLoadingConvs(false);
-    }
-  }, []);
-
-  const toggleSidebar = useCallback(() => {
-    setSidebarOpen((v) => {
-      const next = !v;
-      if (next) void loadConversations();
-      return next;
-    });
-  }, [loadConversations]);
-
-  // --- UUS VESTLUS ---
-  const handleNewConversation = useCallback(async () => {
-    const newId =
-      (typeof window !== "undefined" && window.crypto?.randomUUID?.()) || String(Date.now());
-
-    try {
-      await fetch("/api/chat/conversations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: newId, role: userRole }),
-      });
-    } catch {}
-
-    // reset lokaalne vaade
-    setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
-    setInput("");
-    setErrorBanner(null);
-
-    setConvId(newId);
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(`${storageKey}:convId`, newId);
-    }
-  }, [storageKey, userRole]);
-
-  // --- KUSTUTA JOOKSEV ---
-  const handleDeleteConversation = useCallback(async () => {
-    if (!convId) return;
-    try {
-      await fetch(`/api/chat/conversations/${encodeURIComponent(convId)}`, {
-        method: "DELETE",
-      });
-    } catch {}
-    // loo koheselt uus tühi
-    const newId =
-      (typeof window !== "undefined" && window.crypto?.randomUUID?.()) || String(Date.now());
-    try {
-      await fetch("/api/chat/conversations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: newId, role: userRole }),
-      });
-    } catch {}
-
-    setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
-    setInput("");
-    setErrorBanner(null);
-
-    setConvId(newId);
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(`${storageKey}:convId`, newId);
-    }
-  }, [convId, storageKey, userRole]);
-
-  // --- AVA OLEMASOLEV VESTLUS KÜLGRIBALT ---
-  const handleOpenConversation = useCallback(
-    async (id) => {
-      if (!id) return;
-      setSidebarOpen(false);
-      setConvId(id);
-      if (typeof window !== "undefined") {
-        window.sessionStorage.setItem(`${storageKey}:convId`, id);
-      }
-      // puhasta vaade ja lase hydrateFromServer hook’il sisu tuua
-      setMessages([{ id: 0, role: "ai", text: "Laen vestlust…" }]);
-      setInput("");
-      setErrorBanner(null);
-    },
-    [storageKey]
-  );
 
   const sendMessage = useCallback(
     async (e) => {
@@ -636,41 +539,10 @@ export default function ChatBody() {
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
-      {/* Ülemine riba: vasakul profiil + “Vestlused”, paremal Uus/Kustuta */}
-      <div className="chat-topbar" style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "space-between", marginBottom: 6 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <button
-            type="button"
-            className="sidebar-toggle-btn"
-            aria-label="Ava vestluste loetelu"
-            aria-controls="chat-sidebar"
-            aria-expanded={sidebarOpen ? "true" : "false"}
-            onClick={toggleSidebar}
-          >
-            ☰ Vestlused
-          </button>
-
-          <Link href="/profiil" aria-label="Ava profiil" className="avatar-link" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-            <img src="/logo/User-circle.svg" alt="Profiil" className="chat-avatar-abs" draggable={false} />
-            <span className="avatar-label">Profiil</span>
-          </Link>
-        </div>
-
-        <div style={{ display: "flex", gap: 8 }}>
-          <button type="button" className="btn-slim" onClick={handleNewConversation} aria-label="Alusta uut vestlust">
-            Uus vestlus
-          </button>
-          <button
-            type="button"
-            className="btn-slim danger"
-            onClick={handleDeleteConversation}
-            aria-label="Kustuta praegune vestlus"
-            disabled={!convId}
-          >
-            Kustuta
-          </button>
-        </div>
-      </div>
+      <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
+        <img src="/logo/User-circle.svg" alt="Profiil" className="chat-avatar-abs" draggable={false} />
+        <span className="avatar-label">Profiil</span>
+      </Link>
 
       <h1 className="glass-title">SotsiaalAI</h1>
 
@@ -690,64 +562,6 @@ export default function ChatBody() {
           {errorBanner}
         </div>
       ) : null}
-
-      {/* KÜLGRIBA (overlay) */}
-      {sidebarOpen && (
-        <aside
-          id="chat-sidebar"
-          aria-label="Vestluste loetelu"
-          className="chat-sidebar-overlay"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="chat-sidebar-panel">
-            <div className="chat-sidebar-header">
-              <strong>Minu vestlused</strong>
-              <button
-                type="button"
-                className="btn-slim"
-                onClick={() => setSidebarOpen(false)}
-                aria-label="Sulge vestluste loetelu"
-              >
-                Sulge
-              </button>
-            </div>
-
-            <div className="chat-sidebar-body">
-              {loadingConvs ? (
-                <div className="muted">Laen…</div>
-              ) : conversations.length === 0 ? (
-                <div className="muted">Vestlusi ei leitud.</div>
-              ) : (
-                <ul className="conv-list">
-                  {conversations.map((c) => (
-                    <li key={c.id}>
-                      <button
-                        type="button"
-                        className={`conv-item${c.id === convId ? " active" : ""}`}
-                        onClick={() => handleOpenConversation(c.id)}
-                        aria-current={c.id === convId ? "true" : "false"}
-                      >
-                        <span className="conv-title">{c.title || "Vestlus"}</span>
-                        <span className="conv-meta">
-                          {new Date(c.updatedAt).toLocaleString()}
-                          {c.status && ` · ${c.status}`}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <div className="chat-sidebar-footer">
-              <button type="button" className="btn-slim" onClick={handleNewConversation}>
-                + Uus vestlus
-              </button>
-            </div>
-          </div>
-        </aside>
-      )}
 
       <main className="chat-main" style={{ position: "relative" }}>
         <div
@@ -802,7 +616,7 @@ export default function ChatBody() {
             );
           })}
 
-          {/* Tippimisindikaator */}
+          {/* Tippimisindikaator — “Mõtleb…” (kuvatakse ainult genereerimise ajal) */}
           {isStreamingAny && (
             <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
               <span className="typing-label">Mõtleb</span>
@@ -895,89 +709,8 @@ export default function ChatBody() {
         <BackButton />
       </footer>
 
-      {/* Tippimisindikaatori + külgriba stiilid (lihtsad, et kohe töötaks) */}
+      {/* Tippimisindikaatori stiilid */}
       <style jsx>{`
-        .chat-topbar .btn-slim {
-          padding: 6px 10px;
-          border-radius: 8px;
-          border: 1px solid rgba(255,255,255,0.2);
-          background: rgba(255,255,255,0.06);
-          color: inherit;
-        }
-        .btn-slim.danger {
-          border-color: rgba(231,76,60,0.5);
-          background: rgba(231,76,60,0.15);
-        }
-        .sidebar-toggle-btn {
-          padding: 6px 10px;
-          border-radius: 8px;
-          border: 1px solid rgba(255,255,255,0.2);
-          background: rgba(255,255,255,0.06);
-          color: inherit;
-        }
-
-        .chat-sidebar-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0,0,0,0.35);
-          backdrop-filter: blur(2px);
-          z-index: 50;
-          display: flex;
-          justify-content: flex-start;
-        }
-        .chat-sidebar-panel {
-          width: min(92vw, 380px);
-          height: 100%;
-          background: rgba(255,255,255,0.06);
-          border-right: 1px solid rgba(255,255,255,0.15);
-          padding: 12px;
-          overflow: auto;
-        }
-        .chat-sidebar-header, .chat-sidebar-footer {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 8px;
-          gap: 8px;
-        }
-        .chat-sidebar-body {
-          padding: 6px 0;
-        }
-        .muted {
-          opacity: 0.85;
-          font-size: 0.9rem;
-        }
-        .conv-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: grid;
-          gap: 6px;
-        }
-        .conv-item {
-          width: 100%;
-          text-align: left;
-          padding: 8px 10px;
-          border-radius: 10px;
-          border: 1px solid rgba(255,255,255,0.15);
-          background: rgba(0,0,0,0.15);
-          color: inherit;
-        }
-        .conv-item.active {
-          border-color: rgba(88, 190, 255, 0.65);
-          background: rgba(88, 190, 255, 0.12);
-        }
-        .conv-title {
-          display: block;
-          font-weight: 600;
-          margin-bottom: 2px;
-        }
-        .conv-meta {
-          display: block;
-          font-size: 0.8rem;
-          opacity: 0.85;
-        }
-
         .typing-bubble {
           display: inline-flex;
           align-items: center;
@@ -1016,8 +749,16 @@ export default function ChatBody() {
           animation-delay: 0.4s;
         }
         @keyframes typingDot {
-          0%, 80%, 100% { transform: translateY(0); opacity: 0.8; }
-          40% { transform: translateY(-4px); opacity: 1; }
+          0%,
+          80%,
+          100% {
+            transform: translateY(0);
+            opacity: 0.8;
+          }
+          40% {
+            transform: translateY(-4px);
+            opacity: 1;
+          }
         }
       `}</style>
     </div>

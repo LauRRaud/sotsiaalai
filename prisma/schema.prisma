@@ -59,6 +59,7 @@ enum RunStatus {
   RUNNING
   COMPLETED
   ERROR
+  DELETED  // ← lisatud
 }
 
 /**
@@ -226,4 +227,5 @@ model ConversationRun {
 
   @@index([userId, updatedAt])
   @@index([status])
+  @@index([userId, status, updatedAt]) // kasulik päringutele: oma vestlused, mitte-deleted, sort ajas
 }

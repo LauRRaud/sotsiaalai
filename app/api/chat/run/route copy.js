@@ -28,14 +28,7 @@ export async function GET(req) {
   if (!convId) {
     return NextResponse.json(
       { ok: false, message: "convId on kohustuslik" },
-      {
-        status: 400,
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      }
+      { status: 400, headers: { "Cache-Control": "no-store" } }
     );
   }
 
@@ -49,43 +42,19 @@ export async function GET(req) {
   if (!userId) {
     return NextResponse.json(
       { ok: false, message: "Unauthorized" },
-      {
-        status: 401,
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      }
+      { status: 401, headers: { "Cache-Control": "no-store" } }
     );
   }
 
-  // Võta jooksva run'i seis — loe ainult vajalikud väljad
+  // Võta jooksva run'i seis
   const run = await prisma.conversationRun.findUnique({
     where: { id: convId },
-    select: {
-      id: true,
-      userId: true,
-      status: true,     // RUNNING | COMPLETED | ERROR
-      role: true,       // CLIENT | SOCIAL_WORKER | ADMIN (normaliseeritud serveris)
-      text: true,
-      sources: true,
-      updatedAt: true,
-      createdAt: true,
-    },
   });
 
   if (!run) {
     return NextResponse.json(
       { ok: false, message: "Not found" },
-      {
-        status: 404,
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      }
+      { status: 404, headers: { "Cache-Control": "no-store" } }
     );
   }
 
@@ -93,14 +62,7 @@ export async function GET(req) {
   if (!isAdmin && run.userId !== userId) {
     return NextResponse.json(
       { ok: false, message: "Forbidden" },
-      {
-        status: 403,
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      }
+      { status: 403, headers: { "Cache-Control": "no-store" } }
     );
   }
 
@@ -108,20 +70,12 @@ export async function GET(req) {
     {
       ok: true,
       convId: run.id,
-      status: run.status,
-      role: run.role,
+      status: run.status,        // RUNNING | COMPLETED | ERROR
+      role: run.role,            // CLIENT | SOCIAL_WORKER | ADMIN(normaliseeritud serveris)
       text: run.text || "",
       sources: Array.isArray(run.sources) ? run.sources : run.sources ?? [],
       updatedAt: run.updatedAt,
-      createdAt: run.createdAt, // ← lisatud, kasulik kliendipoolselt järjestamiseks
     },
-    {
-      status: 200,
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    }
+    { status: 200, headers: { "Cache-Control": "no-store" } }
   );
 }
