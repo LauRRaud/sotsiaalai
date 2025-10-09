@@ -7,7 +7,7 @@ export const metadata = {
     "Vestle SotsiaalAI rollipõhise AI-assistendiga, kes aitab leida infot õiguste, toetuste ja teenuste kohta.",
 };
 
-import ConversationDrawer from "@/components/ConversationDrawer";
+import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatBody from "@/components/alalehed/ChatBody";
 
