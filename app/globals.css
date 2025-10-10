@@ -899,8 +899,8 @@ a {
 .chat-avatar-abs {
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
-  width: var(--hud-icon);
-  height: var(--hud-icon);
+  inline-size: calc(var(--hud-icon) + 6px);
+  block-size:  calc(var(--hud-icon) + 6px);
   border-radius: 50%;
   border: none;
   background: none;
@@ -2680,7 +2680,6 @@ html:not(.dark-mode) .chat-inputbar{
 }
 html:not(.dark-mode) .chat-inputbar .chat-input-field{ color: var(--pt-50); caret-color: var(--pt-50); }
 html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8ff; }
-
 /* ============ MOBIIL (≤768px) ============ */
 @media (max-width: 768px){
   .glass-box.chat-container{
@@ -2689,15 +2688,22 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0px));
     --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0px));
     --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0px));
-    gap:.35rem; padding-top:.5rem; padding-bottom:.6rem;
+    gap:.35rem;
+    padding-top:.5rem;
+    /* väiksem põhi-padi, et back-nupp oleks kastis madalamal */
+    padding-bottom: clamp(0.1rem, 0.8vw, 0.25rem);
   }
 
-  .chat-window{ padding-top:.25rem; padding-bottom:.35rem; max-height:none; }
+  .chat-window{
+    padding-top:.25rem;
+    padding-bottom:.25rem;   /* veidi väiksem kui enne */
+    max-height:none;
+  }
 
   /* Sisendiriba kompaktsem allserv + kõrgus mobiilis */
   .chat-inputbar{
     --inputbar-h: clamp(58px, 14vw, 80px);
-    margin-bottom:.35rem !important;
+    margin-bottom:.24rem !important;   /* enne .35rem */
     height: var(--inputbar-h);
     min-height: var(--inputbar-h);
     flex-basis: var(--inputbar-h);
@@ -2708,9 +2714,11 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
     padding-bottom:calc((var(--inputbar-h) - 1.35em)/2);
   }
 
-  /* Tagasi-nupp mobiilis: pool väiksem buffer all */
-  .chat-footer{ margin-top:.15rem; }
-  .chat-back-btn-wrapper{ margin:.1em auto calc(env(safe-area-inset-bottom, 0px) + .10em); }
+  /* Tagasi-nupp mobiilis: veel väiksem buffer all */
+  .chat-footer{ margin-top:.06rem; }
+  .chat-back-btn-wrapper{
+    margin:.06em auto max(env(safe-area-inset-bottom, 0px), 4px);
+  }
   .back-arrow-btn{ inline-size:56px; block-size:56px; }
 }
 
@@ -2724,6 +2732,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
 
 /* Väike alias nupuvärvidele */
 :root{ --pt-80:#F2F1EF; --pt-130:#EDEAE6; }
+
 
 /* ==========================================
    HAMBURGER (kolm kriipsu) – vasak ülanurk
