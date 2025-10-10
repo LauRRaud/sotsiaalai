@@ -893,7 +893,7 @@ a {
   overflow: visible;
   z-index: 4;
   text-decoration: none;
-  transform: translateY(0px);
+  transform: translateY(-3px);
 }
 @media (max-width:768px){
   .avatar-link{
