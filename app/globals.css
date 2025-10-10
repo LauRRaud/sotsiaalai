@@ -897,8 +897,8 @@ a {
 }
 @media (max-width:768px){
   .avatar-link{
-    right: calc(var(--hud-edge-right) + 29px); /* enne oli +15px → +8px vasakule */
-    transform: translateY(-5px);
+    right: calc(var(--hud-edge-right) + 22px); /* enne oli +15px → +8px vasakule */
+    transform: translateY(5px);
   }
 }
 
