@@ -560,6 +560,7 @@ export default function ChatBody() {
         <span className="chat-menu-icon" aria-hidden="true">
           <span></span><span></span><span></span>
         </span>
+        <span className="chat-menu-label" aria-hidden="true">Vestlused</span>
       </button>
 
       {/* Profiili avatar – parem ülanurk */}
