@@ -893,12 +893,12 @@ a {
   overflow: visible;
   z-index: 4;
   text-decoration: none;
-  transform: translateY(-3px);
+  transform: translateY(-3.5px);
 }
 @media (max-width:768px){
   .avatar-link{
     right: calc(var(--hud-edge-right) + 10px); /* enne oli +15px → +8px vasakule */
-    transform: translateY(-2px);
+    transform: translateY(-4px);
   }
 }
 
