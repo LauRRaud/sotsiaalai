@@ -109,7 +109,7 @@ export default function ResetPasswordForm({ token }) {
             </div>
           )}
 
-          <button className="reset-btn" type="submit" disabled={loading}>
+          <button className="btn-primary reset-btn" type="submit" disabled={loading}>
             <span>{loading ? "Uuendame…" : "Uuenda parool"}</span>
           </button>
         </form>

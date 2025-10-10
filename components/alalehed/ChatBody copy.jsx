@@ -667,7 +667,7 @@ export default function ChatBody() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Kirjuta siia küsimus..."
+            placeholder="Kirjuta siia."
             className="chat-input-field"
             disabled={isGenerating}
             rows={1}

@@ -70,9 +70,9 @@ export default function UnustasinParooliBody() {
               {error}
             </div>
           )}
-        <button className="reset-btn" type="submit" disabled={loading}>
-            <span>{loading ? "Saadame…" : "Saada taastelink"}</span>
-          </button>
+        <button className="btn-primary reset-btn" type="submit" disabled={loading}>
+          <span>{loading ? "Saadame…" : "Saada taastelink"}</span>
+        </button>
         </form>
       )}
       <div className="back-btn-wrapper">

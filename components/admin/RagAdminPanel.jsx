@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 /* ---------- Konstandid & sildid ---------- */
 
@@ -105,6 +105,7 @@ function deriveSyncedAt(doc) {
 /* ---------- Komponent ---------- */
 
 export default function RagAdminPanel() {
+  const router = useRouter();
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
@@ -900,9 +901,14 @@ export default function RagAdminPanel() {
 
       <div className="chat-footer">
         <div className="back-btn-wrapper">
-          <Link href="/meist" className="back-btn glass-btn" aria-label="Tagasi Meist lehele">
-            ← Tagasi Meist lehele
-          </Link>
+          <button
+            type="button"
+            className="back-arrow-btn"
+            onClick={() => router.push("/")}
+            aria-label="Tagasi avalehele"
+          >
+            <span className="back-arrow-circle" />
+          </button>
         </div>
       </div>
     </section>

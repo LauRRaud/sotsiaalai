@@ -886,26 +886,28 @@ a {
 .avatar-link {
   position: absolute;
   top: var(--hud-edge-safe);
-  right: calc(var(--hud-edge-right) + 15px);
+  right: calc(var(--hud-edge-right) + 13px);
   left: auto;
   display: grid;
   place-items: center;
   overflow: visible;
   z-index: 4;
   text-decoration: none;
+  transform: translateY(-3.5px);
 }
 @media (max-width:768px){
   .avatar-link{
-    right: calc(var(--hud-edge-right) + 23px); /* enne oli +15px → +8px vasakule */
+    right: calc(var(--hud-edge-right) + 10px); /* enne oli +15px → +8px vasakule */
+    transform: translateY(-4px);
   }
 }
-.avatar-link{ transform: translateY(-4px); }
+
 /* Avatar ring */
 .chat-avatar-abs {
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
-  inline-size: calc(var(--hud-icon) + 3px);
-  block-size:  calc(var(--hud-icon) + 3px);
+  inline-size: calc(var(--hud-icon) + 7px);
+  block-size:  calc(var(--hud-icon) + 7px);
   border-radius: 50%;
   border: none;
   background: none;
@@ -1446,31 +1448,15 @@ html:not(.dark-mode) .avatar-label {
 /* Nupp */
 .reset-btn {
   min-width: 170px;
-  max-width: 220px;
-  margin: 0.15em auto 0.0em auto;
-  background: #181818;
-  color: var(--pt-200);               /* hele, kuid mitte puhas valge */
-  border: 2px solid var(--pt-mid);    /* platinum raam */
-  border-radius: 1.3em;
-  font-weight: 500;
-  font-size: 1.2em;
-  padding: 0.5em 0.9em;
-  outline: none;
-  box-shadow: 0 2px 10px 0 var(--pt-200);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 230px;
+  margin: 0.25em auto 0;
   align-self: center;
-  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
 }
 
-.reset-btn:hover,
-.reset-btn:focus {
-  background: #222;
-  color: var(--pt-light);             /* veidi heledam platinum */
-  border: 2px solid var(--pt-light);  /* rõhutatud heledam raam */
-  box-shadow: 0 2px 12px 0 var(--pt-300);
+.reset-btn[disabled] {
+  cursor: wait;
+  opacity: 0.82;
+  transition: opacity 0.2s ease;
 }
 
 
@@ -2085,6 +2071,16 @@ textarea::placeholder,
 .defer-fade.delay-2{ --fade-delay:3800ms; }
 .footer-logo-img.defer-fade.dim{ --end-op:.55; }
 .top-center-link.defer-fade.dim{ --end-op:.8; }
+/* Mobile: show logo/link instantly (no delayed fade) */
+@media (max-width: 768px){
+  .footer-logo-img.defer-fade,
+  .top-center-link.defer-fade{
+    animation: none;
+    opacity: var(--end-op, 1);
+    visibility: visible;
+    transform: none;
+  }
+}
 @keyframes dfade-in{
   0%{ opacity:0; transform:translateY(var(--start-ty)) scale(.992); visibility:hidden; }
   1%{ visibility:visible; opacity:0; }
@@ -2156,34 +2152,34 @@ body.modal-open {
     display: none !important;
   }
 }
-@media (max-width: 768px) {
-  /* Üldine kerimisvabadus + parem touch-käitlus */
-  html, body {
-    overscroll-behavior: auto !important;
-    -webkit-overflow-scrolling: touch;
-    min-height: 100dvh;
+@media (max-width: 768px){
+  /* Üldine kerimine vabaks (ära lukusta kõrgusi) */
+  html, body{
+    overscroll-behavior: auto !important;  /* ära kasuta contain/none */
+    min-height: 100dvh;                     /* stabiilne viewport-kõrgus */
+    /* ÄRA pane -webkit-overflow-scrolling siia – pane päris keritavatele plokkidele */
   }
 
-  /* Taustakiht ei püüa puute- ega kerimissündmusi */
-  #bg-layer {
-    pointer-events: none !important;
-  }
+  /* Vertikaalne touch – väldib horisontaalseid “kinni jooksmisi” */
+  body{ touch-action: pan-y; }
 
-  /* iOS & Android touch-scroll reageerimine ainult vertikaalis */
-  body {
-    touch-action: pan-y;
-  }
   /* Avalehe põhistruktuur mobiilis */
-  .homepage-root {
+  .homepage-root{
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     gap: clamp(1.4rem, 5vw, 2.2rem);
     touch-action: pan-y;
+    -webkit-overflow-scrolling: touch; /* inertne kerimine iOS-is */
   }
-  .homepage-root > .main-content {
-    order: 1;
-     }
+
+  .homepage-root > .main-content{ order: 1; }
+
+  /* Kui taustakiht võib puute sündmusi kinni püüda */
+  #bg-layer{ pointer-events: none !important; }
+
+  /* Kui jalus oli varem fixed, lülita mobiilis vabaks, et topelt-scrolli ei tekiks */
+  .footer-column{ position: static !important; }
   .main-content {
     display: flex;
     flex-direction: column !important;
@@ -2192,17 +2188,10 @@ body.modal-open {
     min-height: auto !important;
     padding-bottom: clamp(2.4rem, 10vw, 3.4rem) !important;
   }
-
   .side {
     min-height: auto !important;
     width: 100% !important;
     padding: 1.25rem 1rem !important;
-  }
-
-  /* need kaks REEGLIT peavad olema ERALDI, mitte .side ploki sees */
-  .homepage-root .side,
-  .homepage-root .main-content {
-    min-height: auto !important;
   }
   .float-card { animation: none !important; transform: none !important; }
 
@@ -2324,13 +2313,6 @@ body.modal-open {
 
   /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
-  .avatar-link {
-    top: var(--hud-edge-safe) !important;
-    right: var(--hud-edge-right) !important;
-    left: auto;
-    transform: none;
-    z-index: 12;
-  }
   .chat-menu-btn{
 left: calc(var(--hud-edge-left) + 15px)
   }
@@ -2641,7 +2623,11 @@ left: calc(var(--hud-edge-left) + 15px)
 }
 .chat-send-btn:active{ transform: scale(.96); }
 .chat-send-btn svg{ width:26px; height:26px; stroke:var(--pt-600); stroke-width:2.6; fill:none; }
-
+@media (max-width: 768px) {
+  .chat-send-btn {
+    margin-right: -4px; /* nihutab saatmisnupu 1 mm võrra paremale */
+  }
+}
 /* “Kerige lõppu” nupp */
 .scroll-down-btn{
   position:absolute; bottom:80px; left:50%; transform:translateX(-50%);
@@ -2727,17 +2713,18 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
     flex-basis: var(--inputbar-h);
   }
   .chat-inputbar .chat-input-field{
-    font-size: clamp(1.40rem, 5.2vw, 1.69rem); /* ↑ ~30% võrreldes varasemaga */
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
     padding-top:   calc((var(--inputbar-h) - 1.35em)/2);
     padding-bottom:calc((var(--inputbar-h) - 1.35em)/2);
-    /* vertikaalne tsenter jääb toimima, kui sul on (var(--inputbar-h) - 1.35em)/2) arvutus */
   }
+
   /* Tagasi-nupp mobiilis: veel väiksem buffer all */
   .chat-footer{ margin-top:.06rem; }
   .chat-back-btn-wrapper{
     margin:.06em auto max(env(safe-area-inset-bottom, 0px), 4px);
   }
   .back-arrow-btn{ inline-size:56px; block-size:56px; }
+}
 
 /* High-contrast */
 @media (forced-colors: active){ .chat-window{ scrollbar-color: ButtonText ButtonFace; } }
@@ -2749,6 +2736,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
 
 /* Väike alias nupuvärvidele */
 :root{ --pt-80:#F2F1EF; --pt-130:#EDEAE6; }
+
 
 /* ==========================================
    HAMBURGER (kolm kriipsu) – vasak ülanurk
@@ -2806,5 +2794,4 @@ left: calc(var(--hud-edge-left) + 15px);
 
 @media (max-width:768px){
   .chat-menu-label, .avatar-label{ font-size:1rem; }
-}
 }

@@ -1448,31 +1448,15 @@ html:not(.dark-mode) .avatar-label {
 /* Nupp */
 .reset-btn {
   min-width: 170px;
-  max-width: 220px;
-  margin: 0.15em auto 0.0em auto;
-  background: #181818;
-  color: var(--pt-200);               /* hele, kuid mitte puhas valge */
-  border: 2px solid var(--pt-mid);    /* platinum raam */
-  border-radius: 1.3em;
-  font-weight: 500;
-  font-size: 1.2em;
-  padding: 0.5em 0.9em;
-  outline: none;
-  box-shadow: 0 2px 10px 0 var(--pt-200);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 230px;
+  margin: 0.25em auto 0;
   align-self: center;
-  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
 }
 
-.reset-btn:hover,
-.reset-btn:focus {
-  background: #222;
-  color: var(--pt-light);             /* veidi heledam platinum */
-  border: 2px solid var(--pt-light);  /* rõhutatud heledam raam */
-  box-shadow: 0 2px 12px 0 var(--pt-300);
+.reset-btn[disabled] {
+  cursor: wait;
+  opacity: 0.82;
+  transition: opacity 0.2s ease;
 }
 
 
@@ -2087,6 +2071,16 @@ textarea::placeholder,
 .defer-fade.delay-2{ --fade-delay:3800ms; }
 .footer-logo-img.defer-fade.dim{ --end-op:.55; }
 .top-center-link.defer-fade.dim{ --end-op:.8; }
+/* Mobile: show logo/link instantly (no delayed fade) */
+@media (max-width: 768px){
+  .footer-logo-img.defer-fade,
+  .top-center-link.defer-fade{
+    animation: none;
+    opacity: var(--end-op, 1);
+    visibility: visible;
+    transform: none;
+  }
+}
 @keyframes dfade-in{
   0%{ opacity:0; transform:translateY(var(--start-ty)) scale(.992); visibility:hidden; }
   1%{ visibility:visible; opacity:0; }
