@@ -885,19 +885,22 @@ a {
 }
 .avatar-link {
   position: absolute;
-  top: 1.7em;
-  right: 1.95em;
+  top: var(--hud-edge);
+  right: var(--hud-edge);
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.25rem;
   z-index: 4;
   text-decoration: none;
 }
 
 /* Avatar ring */
 .chat-avatar-abs {
-  width: 50px;
-  height: 50px;
+  inline-size: var(--hud-icon);
+  block-size: var(--hud-icon);
+  width: var(--hud-icon);
+  height: var(--hud-icon);
   border-radius: 50%;
   border: none;
   background: none;
@@ -2032,7 +2035,7 @@ label {
 .back-arrow-btn:focus .back-arrow-circle::after { border-color: var(--brand-primary); }
 
 /* === Chat input värvid (dark/light) === */
-html.dark-mode .chat-inputbar .chat-input-field::placeholder { color: rgba(255, 255, 255, 0.7); }
+html.dark-mode .chat-inputbar .chat-input-field::placeholder { color: rgba(255, 255, 255, 0.82); }
 
 html:not(.dark-mode) .chat-inputbar{
   background: rgba(35,53,80,0.72);
@@ -2043,7 +2046,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field{
   color: var(--pt-50);
   caret-color: var(--pt-50);
 }
-html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(16, 24, 36, 0.65); }
+html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(16, 24, 36, 0.5); }
 
 input::placeholder,
 textarea::placeholder,
@@ -2496,7 +2499,8 @@ body.modal-open {
 /* Klaaskast, pealkiri, rütm */
 .glass-box.chat-container{
   --chat-hpad: clamp(0.6rem, 1.8vw, 1rem);
-  --hud-edge: clamp(6px, 1.6vw, 12px);
+  --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
+  --hud-icon: clamp(3rem, 5vw, 3.3rem);
   position: relative; z-index:20;
 
   display:flex; flex-direction:column; box-sizing:border-box;
@@ -2554,9 +2558,10 @@ body.modal-open {
   color: var(--pt-100); caret-color: var(--pt-100);
   font: 500 1.3rem/1.3 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   line-height:1.4;
+  text-align:left;
 }
 /* Heledam placeholder (desktop + mobiil) ja vertikaalselt keskel */
-.chat-inputbar .chat-input-field::placeholder{ color: rgba(255,255,255,.75); opacity:1; }
+.chat-inputbar .chat-input-field::placeholder{ color: rgba(255,255,255,.85); opacity:1; }
 
 /* Saatmisnupp */
 .chat-send-btn{
@@ -2627,18 +2632,18 @@ html:not(.dark-mode) .chat-inputbar{
   border: 1.5px solid var(--pt-mid);
 }
 html:not(.dark-mode) .chat-inputbar .chat-input-field{ color: var(--pt-50); caret-color: var(--pt-50); }
-html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(16,24,36,.65); }
+html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(16,24,36,.5); }
 
 /* ============ MOBIIL (≤768px) ============ */
 @media (max-width: 768px){
-  .glass-box.chat-container{ gap:.35rem; padding-top:.5rem; padding-bottom:.6rem; }
-  .glass-box.chat-container .glass-title{ margin-top:1.5rem !important; margin-bottom:.24em !important; }
-
-  /* avatar kõrgemal, nupp sümmeetriliselt vasakul */
-  .avatar-link{
-    top: clamp(.4rem, 2.5vw, .8rem) !important;
-    right: clamp(.6rem, 3vw, 1rem) !important;
+  .glass-box.chat-container{
+    --hud-edge: clamp(.55rem, 3vw, .95rem);
+    --hud-icon: clamp(2.65rem, 12vw, 3rem);
+    gap:.35rem;
+    padding-top:.5rem;
+    padding-bottom:.6rem;
   }
+  .glass-box.chat-container .glass-title{ margin-top:1.5rem !important; margin-bottom:.24em !important; }
 
   .chat-window{
     padding-top:.25rem; padding-bottom:.35rem;
@@ -2651,11 +2656,11 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(
   .chat-inputbar .chat-input-field{
     font-size: clamp(1.08rem, 4vw, 1.3rem);
     padding-top: clamp(.55rem, 2.4vw, .85rem);
-    padding-bottom: clamp(.45rem, 1.8vw, .75rem); /* ⟵ hoiab teksti visuaalselt keskel */
+    padding-bottom: clamp(.55rem, 2.4vw, .85rem); /* hoiab placeholderi vertikaalselt keskel */
   }
 
   .chat-footer{ margin-top:.2rem; }
-  .chat-back-btn-wrapper{ margin:.2em auto .1em; }
+  .chat-back-btn-wrapper{ margin:.35em auto .22em; }
 }
 
 /* High-contrast */
@@ -2675,30 +2680,38 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(
    HAMBURGER (kolm kriipsu) – vasak ülanurk
    ========================================== */
 .chat-menu-btn{
-  position:absolute; top: var(--hud-edge); left: var(--hud-edge);
-  inline-size:42px; block-size:42px; border-radius:999px;
-  border:1.5px solid var(--pt-mid);
-  background:rgba(255,255,255,.06); color:var(--pt-100);
-  display:grid; place-items:center; cursor:pointer;
+  position:absolute;
+  top: var(--hud-edge);
+  left: var(--hud-edge);
+  inline-size: var(--hud-icon);
+  block-size: var(--hud-icon);
+  border-radius:50%;
+  border:1.6px solid rgba(236,235,233,.7);
+  background:rgba(37,44,59,.55);
+  color:var(--pt-80);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  box-shadow:inset 0 0 0 1px rgba(16,22,32,.35);
   transition: background .18s, border-color .18s, transform .06s, box-shadow .18s;
 }
-.chat-menu-btn:hover{
-  background:rgba(255,255,255,.10);
+.chat-menu-btn:hover,
+.chat-menu-btn:focus-visible{
+  background:rgba(47,56,72,.62);
   border-color:var(--brand-primary);
-  box-shadow:0 0 10px rgba(201,199,194,.28);
+  box-shadow:0 0 12px rgba(175,170,163,.6);
 }
 
 /* kolm kriipsu ikoon */
-.chat-menu-icon{ width:22px; height:22px; display:block; }
-.chat-menu-icon span{
-  display:block; height:2px; margin:4px 0;
-  background: currentColor; border-radius:2px;
+.chat-menu-icon{
+  width: calc(var(--hud-icon) * .46);
+  height: calc(var(--hud-icon) * .46);
+  display:block;
 }
-
-/* mobiilis hoia sümmeetria avatariga */
-@media (max-width:768px){
-  .chat-menu-btn{
-    top: clamp(.4rem, 2.5vw, .8rem);
-    left: clamp(.6rem, 3vw, 1rem);
-  }
+.chat-menu-icon span{
+  display:block;
+  height:2px;
+  margin: calc(var(--hud-icon) * .09) 0;
+  background: currentColor;
+  border-radius:2px;
 }
