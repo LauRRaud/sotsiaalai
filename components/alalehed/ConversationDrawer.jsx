@@ -33,14 +33,12 @@ export default function ConversationDrawer({ children }) {
     const body = document.body;
     if (open) {
       body.classList.add("modal-open");
-      // fookus paneeli sisse
       const t = setTimeout(() => focusFirst(panelRef.current), 0);
       return () => {
         clearTimeout(t);
         body.classList.remove("modal-open");
       };
     } else {
-      // taasta fookus nupule, mis avas
       if (lastOpenerRef.current instanceof HTMLElement) {
         lastOpenerRef.current.focus?.();
       }
@@ -83,7 +81,7 @@ export default function ConversationDrawer({ children }) {
       )}
 
       <aside
-        className={`drawer-panel ${open ? "open" : ""}`}
+        className={`drawer-panel cs-scroll ${open ? "open" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="drawer-title"
@@ -103,7 +101,9 @@ export default function ConversationDrawer({ children }) {
           </button>
         </header>
 
-        <div style={{ padding: 12 }}>{children}</div>
+        <div className="cs-container" style={{ padding: 12 }}>
+          {children}
+        </div>
       </aside>
     </>
   );
