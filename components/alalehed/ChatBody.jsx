@@ -557,11 +557,11 @@ export default function ChatBody() {
           className="chat-avatar-abs"
           draggable={false}
         />
-        <span className="avatar-label">Kasutaja</span>
+        <span className="avatar-label">Profiil</span>
       </Link>
 
       {/* Pealkiri */}
-  <h1 className="glass-title">SotsiaalAI</h1>
+      <h1 className="glass-title">SotsiaalAI</h1>
 
       {/* VESTLUSED nupp (pealkirja all, enne chati akent, vasakul) */}
       <div className="chat-actions">

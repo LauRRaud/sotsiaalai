@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 
 function uuid() {
   return (
@@ -12,23 +12,40 @@ export default function ChatSidebar() {
   const [items, setItems] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const abortRef = useRef(null);
 
   const fetchList = useCallback(async () => {
     setError("");
+    abortRef.current?.abort();                         // tühista eelmine
+    const ac = new AbortController();
+    abortRef.current = ac;
+
     try {
-      const r = await fetch("/api/chat/conversations", { cache: "no-store" });
-      const data = await r.json();
+      const r = await fetch("/api/chat/conversations", {
+        cache: "no-store",
+        signal: ac.signal,
+      });
+      const data = await r.json().catch(() => ({}));
       if (!r.ok || !data?.ok) {
         throw new Error(data?.message || "Laadimine ebaõnnestus");
       }
       setItems(Array.isArray(data.conversations) ? data.conversations : []);
     } catch (e) {
-      setError(e?.message || "Laadimine ebaõnnestus");
+      if (e?.name !== "AbortError") {
+        setError(e?.message || "Laadimine ebaõnnestus");
+      }
     }
   }, []);
 
   useEffect(() => {
     fetchList();
+    // võimalda teistelt komponentidelt värskendada
+    const onExternalRefresh = () => fetchList();
+    window.addEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+    return () => {
+      window.removeEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+      abortRef.current?.abort();
+    };
   }, [fetchList]);
 
   const onPick = useCallback((id) => {
@@ -41,15 +58,20 @@ export default function ChatSidebar() {
   }, []);
 
   const onNew = useCallback(async () => {
+    if (busy) return;
     setBusy(true);
     setError("");
     const id = uuid();
     try {
-      await fetch("/api/chat/conversations", {
+      const r = await fetch("/api/chat/conversations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, role: "CLIENT" }),
       });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || data?.ok === false) {
+        throw new Error(data?.message || "Uue vestluse loomine ebaõnnestus");
+      }
       onPick(id);
       fetchList();
     } catch (e) {
@@ -57,7 +79,7 @@ export default function ChatSidebar() {
     } finally {
       setBusy(false);
     }
-  }, [fetchList, onPick]);
+  }, [busy, fetchList, onPick]);
 
   const onDelete = useCallback(
     async (id) => {
@@ -89,14 +111,13 @@ export default function ChatSidebar() {
   );
 
   return (
-    <nav className="cs-container cs-scroll" aria-label="Vestluste loend">
+    <nav className="cs-container" aria-label="Vestluste loend" aria-busy={busy ? "true" : "false"}>
       {/* Ülariba: Uus vestlus + Refresh */}
       <div className="cs-actions">
         <button
           className="cs-btn cs-btn--primary"
           onClick={onNew}
           disabled={busy}
-          aria-busy={busy ? "true" : "false"}
         >
           Uus vestlus
         </button>
@@ -133,9 +154,19 @@ export default function ChatSidebar() {
         </div>
       )}
 
-      <ul className="cs-list cs-scroll" role="list" aria-live="polite">
+      <ul className="cs-list" role="list" aria-live="polite">
         {sorted.length === 0 ? (
-          <li className="cs-empty">Vestlusi pole.</li>
+          <li className="cs-empty">
+            Vestlusi pole.{" "}
+            <button
+              className="cs-btn cs-btn--primary"
+              onClick={onNew}
+              disabled={busy}
+              style={{ marginLeft: 8 }}
+            >
+              Loo esimene
+            </button>
+          </li>
         ) : (
           sorted.map((c) => (
             <li key={c.id} className="cs-item">
@@ -155,6 +186,7 @@ export default function ChatSidebar() {
                 onClick={() => onDelete(c.id)}
                 aria-label="Kustuta vestlus"
                 title="Kustuta"
+                disabled={busy}
               >
                 <svg
                   className="cs-trash-icon"

@@ -2535,7 +2535,7 @@ body.modal-open {
     right: max(8px, env(safe-area-inset-right, 0px)) !important;
     z-index: 1010 !important;
   }
-
+}
 /* ===========================
    Drawer (klaas + hele tekst)
    =========================== */
@@ -2551,7 +2551,8 @@ body.modal-open {
   width:340px; max-width:85vw;
   transform:translateX(-105%);
   transition:transform .22s ease;
-  z-index:41; overflow:auto;
+  z-index:41;
+  overflow:auto;
 
   background:rgba(31,31,31,.60);
   border-right:.5px solid var(--pt-600);
@@ -2572,11 +2573,11 @@ body.modal-open {
   font-weight:700; letter-spacing:.03em;
 }
 
-/* Drawer X – minimalistlik, ilma ruudu/kapslita */
+/* X-nupp */
 .drawer-close{
   appearance:none;
   background:transparent;
-  border:none;                 /* nähtavat raami pole */
+  border:none;
   padding:2px 6px;
   font:inherit;
   font-size:22px;
@@ -2604,7 +2605,7 @@ body.modal-open {
 .cs-container{ display:block; }
 .cs-actions{ display:flex; gap:8px; margin-bottom:10px; }
 
-/* “Uus vestlus” – kompaktne klaasnupp */
+/* Uus vestlus */
 .cs-btn{ font:inherit; }
 .cs-btn.cs-btn--primary{
   font-weight:600; letter-spacing:.03em;
@@ -2629,7 +2630,7 @@ body.modal-open {
 }
 .cs-btn.cs-btn--primary:active{ transform:translateY(1px); }
 
-/* “Värskenda” – ümmargune ikoonnupp kerge pöördega */
+/* Värskenda */
 .cs-refresh{
   inline-size:36px; block-size:36px;
   display:grid; place-items:center;
@@ -2652,7 +2653,7 @@ body.modal-open {
 .cs-refresh-icon{ transition: transform .35s ease; }
 .cs-refresh:hover .cs-refresh-icon{ transform: rotate(120deg); }
 
-/* Loend + elemendid */
+/* Loend */
 .cs-list{ list-style:none; padding:0; margin:0; }
 .cs-item{
   display:flex; justify-content:space-between; align-items:center; gap:8px;
@@ -2668,7 +2669,7 @@ body.modal-open {
 .cs-time{ color:var(--pt-300); opacity:.9; font-size:12px; }
 .cs-empty{ color:var(--pt-300); opacity:.9; font-size:14px; }
 
-/* “Kustuta” – selge prügikast */
+/* Kustuta */
 .cs-delete{
   inline-size:36px; block-size:36px;
   display:grid; place-items:center;
@@ -2690,7 +2691,7 @@ body.modal-open {
 .cs-delete:active{ transform: scale(.96); }
 .cs-trash-icon{ width:20px; height:20px; }
 
-/* Sidebarile läbipaistev scrollbar (nagu chatil) */
+/* Rullid */
 .drawer-panel,
 .cs-list{
   scrollbar-width:thin;
@@ -2706,6 +2707,9 @@ body.modal-open {
   border-radius:10px; border:3px solid transparent;
 }
 
+/* abiklass – piirab loendi kõrgust */
+.cs-scroll{ overflow:auto; max-height:calc(100vh - 140px); }
+
 /* ===========================
    Chat – nupud ja tihendused
    =========================== */
@@ -2714,7 +2718,7 @@ body.modal-open {
   margin:8px 0 6px;
 }
 
-/* Üldine ghost-kapselnupp */
+/* Ghost-kapselnupp */
 .btn-ghost-soft{
   --bdr:1.5px; --bg:rgba(255,255,255,0.06); --bg-hover:rgba(255,255,255,0.10);
   --bdr-col:var(--pt-mid,#AFAAA3); --txt:var(--pt-100,#EDEAE5);
@@ -2735,29 +2739,27 @@ body.modal-open {
 .btn-ghost-soft:active{ transform: translateY(1px); }
 .btn-ghost-dot{ width:1.15em; height:1.15em; display:inline-grid; place-items:center; line-height:1; opacity:.9; }
 
-/* Chat-lehe tihendatud rütm */
+/* Chat rütm */
 .glass-box.chat-container{
-  gap: .4rem !important;
-  padding-top: .6rem !important;
-  padding-bottom: .7rem !important;
+  position:relative;   /* vajalik sticky lastele */
+  z-index: 20;
+  gap:.4rem !important;
+  padding-top:.6rem !important;
+  padding-bottom:.7rem !important;
 }
 .glass-box.chat-container .glass-title{
-  margin: .14em 0 .28em 0 !important;
-  line-height: 1.12;
+  margin:.14em 0 .28em 0 !important;
+  line-height:1.12;
 }
+.chat-actions{ margin:.08rem 0 .28rem 0 !important; }
+.chat-main{ gap:.5rem !important; }
+.chat-window{ padding-top:.3rem !important; padding-bottom:.4rem !important; }
 
-/* “Vestlused” nupp pealkirjale lähemale */
-.chat-actions{ margin: .08rem 0 .28rem 0 !important; }
+/* Tagasi nupp */
+.chat-footer{ margin-top:.22rem !important; }
+.chat-back-btn-wrapper{ margin:.35em auto .22em !important; }
 
-/* Chat sisu – väiksemad püstvahed */
-.chat-main{ gap: .5rem !important; }
-.chat-window{ padding-top: .3rem !important; padding-bottom: .4rem !important; }
-
-/* Tagasi-nupp – väiksemad vahed */
-.chat-footer{ margin-top: .22rem !important; }
-.chat-back-btn-wrapper{ margin: .35em auto .22em !important; }
-
-/* “Mõtleb…” mull (jääb samaks) */
+/* “Mõtleb…” mull */
 .chat-container .typing-bubble{ display:inline-flex; align-items:center; gap:8px; margin-top:.4rem; padding:.85rem 1.1rem; background:transparent; border:none; color:var(--pt-100); font-size:1.05rem; line-height:1.4; max-width:90%; }
 .chat-container .typing-label{ margin-right:.3rem; font-weight:500; opacity:1; }
 .chat-container .dots{ display:inline-flex; align-items:center; gap:5px; }
@@ -2766,28 +2768,23 @@ body.modal-open {
 .chat-container .dots span:nth-child(3){ animation-delay:.4s; }
 @keyframes typingDot{ 0%,80%,100%{ transform:translateY(0); opacity:.8; } 40%{ transform:translateY(-4px); opacity:1; } }
 
-/* ===========================
-   Chat input – sama lai kui vestlus
-   =========================== */
-/* Seadistame ühtse külgpadja, mida kasutame nii aknas kui sisestuses */
+/* sama laius kui vestlus */
 .glass-box.chat-container{ --chat-hpad: clamp(0.6rem, 1.8vw, 1rem); }
 .chat-window{
   padding-left: var(--chat-hpad) !important;
   padding-right: var(--chat-hpad) !important;
 }
 .chat-inputbar{
-  align-self: stretch;           /* võtab rea laiuse */
-  max-width: none;               /* mitte klaaskasti täielik max-width piirang */
+  align-self:stretch;
+  max-width:none;
   margin-left: var(--chat-hpad) !important;
   margin-right: var(--chat-hpad) !important;
-  width: auto;                   /* sama optiline laius kui chat-window */
+  width:auto;
 }
-
-/* Teksti vertikaalne tunnetus – lase tekstil olla visuaalselt keskel */
 .chat-inputbar .chat-input-field{
-  padding-top: .75rem !important;
-  padding-bottom: .55rem !important;
-  line-height: 1.4 !important;
+  padding-top:.75rem !important;
+  padding-bottom:.55rem !important;
+  line-height:1.4 !important;
 }
 
 /* Scroll-down ikooni toon */
@@ -2795,49 +2792,55 @@ body.modal-open {
 .scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
 
 /* ===========================
-   Mobiili peenlihvid
+   Mobiil
    =========================== */
 @media (max-width: 768px){
-  /* Chat-kompakt */
+  /* kompakt */
   .glass-box.chat-container{
-    gap: .35rem !important;
-    padding-top: .5rem !important;
-    padding-bottom: .6rem !important;
+    gap:.35rem !important;
+    padding-top:.5rem !important;
+    padding-bottom:.6rem !important;
   }
-  /* Pealkiri mitte liiga ülal servas */
   .glass-box.chat-container .glass-title{
-    margin-top: .25rem !important;
-    margin-bottom: .24em !important;
+    margin-top:.25rem !important;
+    margin-bottom:.24em !important;
   }
-  /* Avatar veidi kõrgemale, et pealkiri tuleks allapoole nähtavamalt */
   .avatar-link{
     top: clamp(.4rem, 2.5vw, .8rem) !important;
     right: clamp(.6rem, 3vw, 1rem) !important;
   }
-  /* Chat-aken bufferid */
   .chat-window{
-    padding-top: .25rem !important;
-    padding-bottom: .35rem !important;
+    padding-top:.25rem !important;
+    padding-bottom:.35rem !important;
   }
-  /* Input püsib klaaskasti sees ja sama lai kui vestlus */
-  .chat-inputbar{
+
+  /* input + tagasi-nupp kleepuvad klaaskasti sisse */
+  .glass-box.chat-container .chat-inputbar{
     position: sticky;
-    left: auto; right: auto;
+    bottom: max(.6rem, env(safe-area-inset-bottom, 0px));
     margin: clamp(.4rem, 3vw, .7rem) 0 clamp(.35rem, 2.5vw, .6rem) 0 !important;
     height: clamp(58px, 14vw, 80px) !important;
+    z-index:4;
   }
-  .chat-inputbar .chat-input-field{
+  .glass-box.chat-container .chat-inputbar .chat-input-field{
     font-size: clamp(1.08rem, 4vw, 1.3rem);
     padding-top: clamp(.55rem, 2.4vw, .85rem) !important;
     padding-bottom: clamp(.45rem, 1.8vw, .75rem) !important;
   }
-  /* Tagasi-nupu vahed */
-  .chat-footer{ margin-top: .18rem !important; }
-  .chat-back-btn-wrapper{ margin: .28em auto .18em !important; }
+  .glass-box.chat-container .chat-footer{
+    position: sticky;
+    bottom: calc(max(.6rem, env(safe-area-inset-bottom, 0px)) + clamp(58px, 14vw, 80px) + .35rem);
+    z-index:3;
+    margin-top:.2rem !important;
+  }
+  .glass-box.chat-container .chat-back-btn-wrapper{ margin:.2em auto .1em !important; }
+
+  /* peitke globaalne fixed-footer, kui chat on lehel */
+  .glass-box.chat-container ~ .footer-column{ display:none !important; }
 }
 
 /* ===========================
-   Layout utiliidid (mobiili alusel)
+   Layout utiliidid (mobiil)
    =========================== */
 html[data-layout="mobile"], body[data-layout="mobile"]{
   background-color: transparent !important;
@@ -2848,7 +2851,7 @@ body[data-layout="mobile"] .glass-box:not(.chat-container){
 }
 body[data-layout="mobile"] .glass-box h1,
 body[data-layout="mobile"] .glass-box .page-title{
-  margin-top: .2em !important;
+  margin-top:.2em !important;
 }
 body[data-layout="mobile"] main,
 body[data-layout="mobile"] .viewport,
@@ -2894,13 +2897,13 @@ body[data-layout="mobile"] .chat-window{
   scrollbar-width: thin; scrollbar-color: var(--pt-mid) transparent;
 }
 
-/* Inputbar mobiilis */
+/* Inputbar mobiilis (layouti režiimis) */
 body[data-layout="mobile"] .chat-inputbar{
   position: sticky;
   left: clamp(16px, 4.5vw, 22px);
   right: clamp(16px, 4.5vw, 22px);
   bottom: clamp(.5rem, 3.6vw, 1rem);
-  width: auto;
+  width:auto;
   margin: clamp(.5rem, 3vw, .9rem) 0 clamp(.4rem, 2.5vw, .7rem);
   height: clamp(58px, 14vw, 80px);
   z-index:3;
@@ -2930,7 +2933,5 @@ body[data-layout="mobile"].modal-open{ overflow:hidden; width:100%; touch-action
 @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
   .glass-box, .glass-modal, .chat-inputbar{ background: rgba(31,31,31,.496); }
 }
-
-/* Lisavärvi alias’d – kasutusel nuppudes */
+/* Väike alias nupuvärvidele */
 :root{ --pt-80:#F2F1EF; --pt-130:#EDEAE6; }
-}

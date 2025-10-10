@@ -1,64 +1,60 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 
 export default function ConversationDrawer({ children }) {
   const [open, setOpen] = useState(false);
 
-  // luba teistelt komponentidelt (nt ChatBody) avada/sulgeda
+  // kuula välist toggle event'i
   useEffect(() => {
     function onToggle(e) {
       const want = e?.detail?.open;
-      setOpen((prev) => (typeof want === "boolean" ? want : !prev));
+      setOpen(prev => (typeof want === "boolean" ? want : !prev));
     }
     window.addEventListener("sotsiaalai:toggle-conversations", onToggle);
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
   }, []);
 
+  // lukusta body scroll kui avatud
+  useEffect(() => {
+    if (open) document.body.classList.add("modal-open");
+    else document.body.classList.remove("modal-open");
+    return () => document.body.classList.remove("modal-open");
+  }, [open]);
+
+  // ESC sulgeb
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   const close = useCallback(() => setOpen(false), []);
 
   return (
     <>
-      {/* taust */}
-      {open && (
-        <div
-          onClick={close}
-          style={{
-            position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 40,
-          }}
-          aria-hidden="true"
-        />
-      )}
+      {open && <div className="drawer-overlay" onClick={close} aria-hidden="true" />}
 
-      {/* sahtel */}
       <aside
         role="dialog"
         aria-label="Vestlused"
         aria-modal="true"
-        style={{
-          position: "fixed",
-          top: 0,
-          bottom: 0,
-          left: 0,
-          width: 340,
-          maxWidth: "85vw",
-          transform: open ? "translateX(0)" : "translateX(-105%)",
-          transition: "transform .22s ease",
-          background: "var(--glass-800, #0f1218)",
-          borderRight: "1px solid rgba(255,255,255,.07)",
-          zIndex: 41,
-          overflow: "auto",
-        }}
+        className={`drawer-panel ${open ? "open" : ""}`}
       >
-        <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: 12 }}>
+        <header className="drawer-header">
           <strong>Vestlused</strong>
-          <button onClick={close} className="btn ghost small" aria-label="Sulge">✕</button>
+          <button onClick={close} className="drawer-close" aria-label="Sulge">✕</button>
         </header>
 
         <div style={{ padding: 12 }}>
-          {/* Pane siia sisu (ChatSidebar) */}
           {children}
         </div>
       </aside>
     </>
   );
 }
+
+ConversationDrawer.propTypes = {
+  children: PropTypes.node
+};
