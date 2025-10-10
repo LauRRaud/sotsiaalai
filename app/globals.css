@@ -2674,4 +2674,167 @@ body.modal-open {
   --pt-80:  #F2F1EF;     /* nt heledam kui --pt-100 */
   --pt-130: #EDEAE6;     /* nt --pt-100 ja --pt-150 vahepealne */
 }
+.chat-container .chat-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:8px 0 6px;
+}
+
+.chat-container .btn-ghost-soft{
+  --bdr:1.5px;
+  --bg:rgba(255,255,255,0.06);
+  --bg-hover:rgba(255,255,255,0.1);
+  --bdr-col:var(--pt-mid, #AFAAA3);
+  --txt:var(--pt-100, #EDEAE5);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:var(--bdr) solid var(--bdr-col);
+  background:var(--bg);
+  color:var(--txt);
+  font-weight:540;
+  letter-spacing:0.01em;
+  transition:background .18s ease, border-color .18s ease, transform .06s ease;
+  backdrop-filter:blur(4px);
+}
+.chat-container .btn-ghost-soft:hover{
+  background:var(--bg-hover);
+  border-color:var(--pt-80, #C9C4BC);
+}
+.chat-container .btn-ghost-soft:active{ transform:translateY(1px); }
+
+.chat-container .btn-ghost-dot{
+  width:1.1em; height:1.1em;
+  display:inline-grid; place-items:center;
+  line-height:1; opacity:.9;
+}
+
+/* “Mõtleb…” mull */
+.chat-container .typing-bubble{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:.4rem; padding:.85rem 1.1rem;
+  background:transparent; border:none;
+  color:var(--pt-100); font-size:1.05rem; line-height:1.4; max-width:90%;
+}
+.chat-container .typing-label{ margin-right:.3rem; font-weight:500; opacity:1; }
+.chat-container .dots{ display:inline-flex; align-items:center; gap:5px; }
+.chat-container .dots span{
+  width:9px; height:9px; border-radius:50%;
+  background:currentColor; opacity:.8;
+  animation:typingDot 1.2s ease-in-out infinite;
+}
+.chat-container .dots span:nth-child(2){ animation-delay:.2s; }
+.chat-container .dots span:nth-child(3){ animation-delay:.4s; }
+
+@keyframes typingDot{
+  0%,80%,100%{ transform:translateY(0); opacity:.8; }
+  40%{ transform:translateY(-4px); opacity:1; }
+}
+.btn-ghost-soft {
+  --bdr: 1.5px;
+  --bg: rgba(255, 255, 255, 0.06);
+  --bg-hover: rgba(255, 255, 255, 0.1);
+  --bdr-col: var(--pt-mid, #AFAAA3);
+  --txt: var(--pt-100, #EDEAE5);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: var(--bdr) solid var(--bdr-col);
+  background: var(--bg);
+  color: var(--txt);
+
+  font-weight: 540;
+  letter-spacing: 0.01em;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.06s ease;
+  backdrop-filter: blur(4px);
+}
+
+.btn-ghost-soft:hover {
+  background: var(--bg-hover);
+  border-color: var(--pt-80, #C9C4BC);
+}
+
+.btn-ghost-soft:active {
+  transform: translateY(1px);
+}
+
+/* Väike ikoon (☰) nupu sees */
+.btn-ghost-dot {
+  width: 1.1em;
+  height: 1.1em;
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+  opacity: 0.9;
+}
+/* === ConversationDrawer (ühtlustatud SotsiaalAI paletiga) === */
+.drawer-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  z-index: 40;
+}
+
+.drawer-panel{
+  position: fixed;
+  top: 0; bottom: 0; left: 0;
+  width: 340px; max-width: 85vw;
+  transform: translateX(-105%);
+  transition: transform .22s ease;
+  z-index: 41;
+  overflow: auto;
+
+  /* klaas + platinum raam (kooskõlas .glass-box’iga) */
+  background: rgba(31,31,31,0.60);
+  border-right: 0.5px solid var(--pt-600);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  backdrop-filter: blur(10px) saturate(110%);
+  color: var(--pt-200);
+  box-shadow: 0 0 30px rgba(0,0,0,.35);
+}
+.drawer-panel.open{ transform: translateX(0); }
+
+.drawer-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.drawer-header strong{
+  font-weight: 700;
+  letter-spacing: .03em;
+  color: var(--brand-primary);
+}
+
+/* X-nupp samamoodi nagu teised ghost-nupud */
+.drawer-close{
+  background: none;
+  border: 1px solid var(--pt-mid);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--pt-100);
+  cursor: pointer;
+  transition: border .18s ease, background .18s ease, transform .06s ease;
+}
+.drawer-close:hover,
+.drawer-close:focus{
+  border-color: var(--brand-primary);
+  background: rgba(255,255,255,0.06);
+}
+.drawer-close:active { transform: translateY(1px); }
+.cs-actions { display: flex; gap: 8px; margin-bottom: 10px; }
+.cs-list { list-style: none; padding: 0; margin: 0; }
+.cs-item { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cs-link { text-align: left; flex: 1; background: none; border: none; cursor: pointer; }
+.cs-title { font-weight: 600; }
+.cs-time { opacity: 0.75; font-size: 12px; }
+.cs-empty { opacity: 0.8; font-size: 14px; }
 

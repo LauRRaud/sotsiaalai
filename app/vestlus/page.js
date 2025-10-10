@@ -15,12 +15,14 @@ export default function Page() {
   return (
     <>
       {/* Ülekatte sahtel, mis avaneb “☰ Vestlused” nupust */}
-      <ConversationDrawer>
+      <ConversationDrawer aria-label="Vestluste sahtel">
         <ChatSidebar />
       </ConversationDrawer>
 
-      {/* Põhisisu: ChatBody (vestlusaken, sisestus, nupud jms) */}
-      <ChatBody />
+      {/* Põhisisu */}
+      <main role="main">
+        <ChatBody />
+      </main>
     </>
   );
 }

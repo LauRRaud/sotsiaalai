@@ -1,7 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const INTRO_MESSAGE =
@@ -49,7 +48,7 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
   return { load, save, clear };
 }
 
-/* ---------- SSE parser: CRLF→LF, mitu data: rida, flush ---------- */
+/* ---------- SSE parser ---------- */
 function createSSEReader(stream) {
   const reader = stream.getReader();
   const decoder = new TextDecoder();
@@ -58,7 +57,7 @@ function createSSEReader(stream) {
 
   function feed(chunk) {
     buffer += chunk;
-    buffer = buffer.replace(/\r\n/g, "\n"); // CRLF → LF
+    buffer = buffer.replace(/\r\n/g, "\n");
     let idx;
     while ((idx = buffer.indexOf("\n\n")) !== -1) {
       const rawEvent = buffer.slice(0, idx);
@@ -68,7 +67,7 @@ function createSSEReader(stream) {
       const dataLines = [];
       for (const line of rawEvent.split("\n")) {
         if (!line) continue;
-        if (line.startsWith(":")) continue; // heartbeat/comment
+        if (line.startsWith(":")) continue;
         if (line.startsWith("event:")) event = line.slice(6).trim();
         else if (line.startsWith("data:")) dataLines.push(line.slice(5));
       }
@@ -84,7 +83,6 @@ function createSSEReader(stream) {
         feed(decoder.decode(value, { stream: true }));
         while (queue.length) yield queue.shift();
       }
-      // flush kui viimane plokk jäi ilma \n\n
       if (buffer) {
         feed("\n\n");
         while (queue.length) yield queue.shift();
@@ -93,19 +91,20 @@ function createSSEReader(stream) {
   };
 }
 
-/** Normaliseeri serveri allikad üheks kujuks: { key, label, url?, page? } */
+/** Normaliseeri serveri allikad  */
 function normalizeSources(sources) {
   if (!Array.isArray(sources)) return [];
   return sources.map((src, idx) => {
     const url = src?.url || src?.source || null;
-    const page = typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
+    const page =
+      typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
     const label = src?.title || src?.file || src?.source || "Allikas";
     const key = src?.id || url || `${label}-${idx}`;
     return { key, label, url, page };
   });
 }
 
-/* ---------- Throttle abifunktsioon sündmustele ---------- */
+/* ---------- Throttle ---------- */
 function throttle(fn, waitMs) {
   let last = 0;
   let timer = null;
@@ -139,23 +138,19 @@ export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  // Roll API-le (admin möödub subActive kontrollist middleware’is)
   const userRole = useMemo(() => {
     const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
     const up = String(raw || "").toUpperCase();
     return up || "CLIENT";
   }, [session]);
 
-  // püsivusvõti kasutaja & rolli kaupa
   const storageKey = useMemo(() => {
     const uid = session?.user?.id || "anon";
     return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:v1`;
   }, [session]);
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
-  // vestluse ID (serveri persist jaoks)
   const [convId, setConvId] = useState(null);
-
   const [messages, setMessages] = useState(() => [{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -202,26 +197,27 @@ export default function ChatBody() {
       return next;
     });
   }, []);
-useEffect(() => {
-  function onSwitch(e) {
-    const newId = e?.detail?.convId;
-    if (!newId) return;
-    // salvesta sama võtme alla, mida ChatBody kasutab
-    try {
-      window.sessionStorage.setItem(`${storageKey}:convId`, newId);
-    } catch {}
-    setConvId(newId);
-    setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
-    chatStore.save([{ role: "ai", text: INTRO_MESSAGE }]);
-    // sulgeme drawer'i (igaks juhuks)
-    try {
-      window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: false } }));
-    } catch {}
-  }
-  window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
-  return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-}, [chatStore, storageKey]);
-  // Kerimise abi
+
+  useEffect(() => {
+    function onSwitch(e) {
+      const newId = e?.detail?.convId;
+      if (!newId) return;
+      try {
+        window.sessionStorage.setItem(`${storageKey}:convId`, newId);
+      } catch {}
+      setConvId(newId);
+      setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
+      chatStore.save([{ role: "ai", text: INTRO_MESSAGE }]);
+      try {
+        window.dispatchEvent(
+          new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: false } })
+        );
+      } catch {}
+    }
+    window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
+    return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
+  }, [chatStore, storageKey]);
+
   useEffect(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -237,7 +233,6 @@ useEffect(() => {
     return () => node.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // autoscroll, kui lisandub sõnumeid ja kasutaja on all
   useEffect(() => {
     if (!mountedRef.current) return;
     const node = chatWindowRef.current;
@@ -246,12 +241,10 @@ useEffect(() => {
     }
   }, [messages]);
 
-  // esmane mount: focus, rehüdratsioon & convId
   useEffect(() => {
     mountedRef.current = true;
     focusInput();
 
-    // lae talletatud vestlus
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
@@ -260,7 +253,6 @@ useEffect(() => {
       setMessages(hydrated);
     }
 
-    // convId
     const idFromStorage =
       typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
     const initialConvId =
@@ -279,7 +271,6 @@ useEffect(() => {
     };
   }, [chatStore, focusInput, storageKey]);
 
-  // salvestus (debounce 250ms)
   useEffect(() => {
     if (!mountedRef.current) return;
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
@@ -289,7 +280,7 @@ useEffect(() => {
     return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
   }, [messages, chatStore]);
 
-  /* ---------- TAASTA SERVERIST: throttled ---------- */
+  /* ---------- TAASTA SERVERIST ---------- */
   useEffect(() => {
     if (!convId) return;
     let cancelled = false;
@@ -308,7 +299,6 @@ useEffect(() => {
 
         setMessages((prev) => {
           const next = [...prev];
-          // leia VIIMANE AI-sõnum
           let aiIdx = -1;
           for (let i = next.length - 1; i >= 0; i--) {
             if (next[i].role === "ai") {
@@ -335,10 +325,8 @@ useEffect(() => {
       } catch {}
     }
 
-    // kohe üks kord
     hydrateFromServer();
 
-    // throttled handler (1 kord ~2.5 s)
     const throttled = throttle(() => {
       if (document.visibilityState === "visible") hydrateFromServer();
     }, 2500);
@@ -367,14 +355,12 @@ useEffect(() => {
       setIsGenerating(true);
       focusInput();
 
-      // AbortController + 60s kliendipoolne timeout
       const controller = new AbortController();
       const clientTimeout = setTimeout(() => controller.abort(), 60000);
       abortControllerRef.current = controller;
 
       let streamingMessageId = null;
       try {
-        // 1) proovi STRIIMI (SSE)
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -383,8 +369,8 @@ useEffect(() => {
             history: historyPayload,
             role: userRole,
             stream: true,
-            persist: true, // lase serveril salvestada ja jätkata ka siis, kui paneel suletakse
-            convId, // püsiv vestluse ID
+            persist: true,
+            convId,
           }),
           signal: controller.signal,
         });
@@ -400,13 +386,14 @@ useEffect(() => {
         if (res.status === 429) {
           const retry = res.headers.get("retry-after");
           throw new Error(
-            retry ? `Liiga palju päringuid. Proovi ~${retry}s pärast.` : "Liiga palju päringuid. Proovi varsti uuesti."
+            retry
+              ? `Liiga palju päringuid. Proovi ~${retry}s pärast.`
+              : "Liiga palju päringuid. Proovi varsti uuesti."
           );
         }
 
         const contentType = res.headers.get("content-type") || "";
 
-        // --- A) Kui server EI striimi (tagasi JSON) ---
         if (!contentType.includes("text/event-stream")) {
           let data = null;
           try {
@@ -423,7 +410,6 @@ useEffect(() => {
           return;
         }
 
-        // --- B) SSE striim: uuenda jooksvalt ---
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
 
         const reader = createSSEReader(res.body);
@@ -507,15 +493,12 @@ useEffect(() => {
     [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId]
   );
 
-  const handleStop = useCallback(
-    (e) => {
-      e?.preventDefault();
-      abortControllerRef.current?.abort();
-      abortControllerRef.current = null;
-      setIsGenerating(false);
-    },
-    []
-  );
+  const handleStop = useCallback((e) => {
+    e?.preventDefault();
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
+    setIsGenerating(false);
+  }, []);
 
   const handleKeyDown = useCallback(
     (e) => {
@@ -539,35 +522,13 @@ useEffect(() => {
     router.push("/");
   }, [router]);
 
-  // --- UI lisad: Vestlused / Uus vestlus ---
   const openConversations = useCallback(() => {
-    // teavita külgriba avamist (peidetud drawer kuulab seda)
     try {
-      window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: true } }));
+      window.dispatchEvent(
+        new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: true } })
+      );
     } catch {}
   }, []);
-
-  const createNewConversation = useCallback(async () => {
-    // tee uus convId, salvesta sessionStorage ja init API-s
-    const newId =
-      (typeof window !== "undefined" && window.crypto?.randomUUID?.()) || `conv-${Date.now()}`;
-
-    try {
-      await fetch("/api/chat/conversations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: newId, role: userRole }),
-      });
-    } catch {}
-
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(`${storageKey}:convId`, newId);
-    }
-    setConvId(newId);
-    setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
-    chatStore.save([{ role: "ai", text: INTRO_MESSAGE }]);
-    focusInput();
-  }, [chatStore, focusInput, storageKey, userRole]);
 
   const BackButton = () => (
     <div className="chat-back-btn-wrapper">
@@ -587,25 +548,21 @@ useEffect(() => {
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
-      {/* Ülariba: vasakul “Vestlused”, paremal “Uus vestlus” + profiil */}
-      <div className="chat-topbar" style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-        <button type="button" className="btn ghost small" onClick={openConversations} aria-haspopup="dialog">
-          ☰ Vestlused
-        </button>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <button type="button" className="btn primary small" onClick={createNewConversation}>
-            Uus vestlus
-          </button>
-
-          <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
-            <img src="/logo/User-circle.svg" alt="Profiil" className="chat-avatar-abs" draggable={false} />
-            <span className="avatar-label">Kasutaja</span>
-          </Link>
-        </div>
-      </div>
-
+      {/* Pealkiri */}
       <h1 className="glass-title" style={{ marginTop: 12 }}>SotsiaalAI</h1>
+
+      {/* VESTLUSED nupp (pealkirja all, enne chati akent, vasakul) */}
+      <div className="chat-actions">
+        <button
+          type="button"
+          className="btn-ghost-soft"
+          onClick={openConversations}
+          aria-haspopup="dialog"
+        >
+          <span className="btn-ghost-dot" aria-hidden="true">☰</span>
+          Vestlused
+        </button>
+      </div>
 
       {errorBanner ? (
         <div
@@ -634,10 +591,10 @@ useEffect(() => {
           aria-live="polite"
           aria-busy={isStreamingAny ? "true" : "false"}
         >
-          {messages.map((msg, i) => {
+          {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
             return (
-              <div key={msg.id ?? i} className={`chat-msg ${variant}`}>
+              <div key={msg.id} className={`chat-msg ${variant}`}>
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
 
                 {Array.isArray(msg.sources) && msg.sources.length > 0 ? (
@@ -677,7 +634,6 @@ useEffect(() => {
             );
           })}
 
-          {/* Tippimisindikaator — “Mõtleb…” (kuvatakse ainult genereerimise ajal) */}
           {isStreamingAny && (
             <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
               <span className="typing-label">Mõtleb</span>
@@ -769,53 +725,6 @@ useEffect(() => {
       <footer className="chat-footer">
         <BackButton />
       </footer>
-
-      {/* Tippimisindikaatori stiilid (näidis) */}
-      <style jsx>{`
-        .typing-bubble {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          margin-top: 0.4rem;
-          padding: 0.85rem 1.1rem;
-          background: transparent;
-          border: none;
-          color: var(--pt-100);
-          font-size: 1.05rem;
-          line-height: 1.4;
-          max-width: 90%;
-        }
-        .typing-label {
-          margin-right: 0.3rem;
-          font-weight: 500;
-          opacity: 1;
-        }
-        .dots {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-        }
-        .dots span {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          background: currentColor;
-          opacity: 0.8;
-          animation: typingDot 1.2s ease-in-out infinite;
-        }
-        .dots span:nth-child(2) {
-          animation-delay: 0.2s;
-        }
-        .dots span:nth-child(3) {
-          animation-delay: 0.4s;
-        }
-        @keyframes typingDot {
-          0%,
-          80%,
-          100% { transform: translateY(0); opacity: 0.8; }
-          40% { transform: translateY(-4px); opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 }
