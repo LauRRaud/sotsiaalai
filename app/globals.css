@@ -1845,204 +1845,6 @@ label {
   word-break: break-word;
   overflow-wrap: break-word;
 }
-/* === CHAT: konteiner + kerimine + sisendiriba (desktop + mobiil) === */
-
-.glass-box.chat-container{
-  display:flex;
-  flex-direction:column;
-  height:96vh;
-  max-height:96vh;
-  box-sizing:border-box;
-  margin:0.6em auto;
-  width:100%;
-  max-width:850px;
-}
-.glass-box.chat-container .glass-title {
-  margin-top: clamp(0.4rem, 1.6vw, 0.9rem);
-}
-.chat-main{
-  --chat-pad-x: clamp(0.6rem, 1.8vw, 1rem);
-  position: relative;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  gap: clamp(1rem, 2vw, 1.6rem);
-}
-
-/* --- CHAT WINDOW (Ainult see kerib) --- */
-.chat-window{
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: .65em;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: clamp(0.75rem, 2vw, 1.2rem) var(--chat-pad-x) clamp(1rem, 3vw, 1.6rem);
-  scrollbar-width: thin;
-  scrollbar-color: var(--pt-mid) transparent;
-}
-/* WebKit Scrollbar kosmeetika */
-.chat-window::-webkit-scrollbar{ width:12px; }
-.chat-window::-webkit-scrollbar-track{ background:transparent; }
-.chat-window::-webkit-scrollbar-thumb{
-  background:linear-gradient(135deg,var(--pt-400),var(--pt-200));
-  border-radius:10px; border:3px solid transparent;
-}
-.chat-inputbar{
-  align-self: stretch;
-  margin: clamp(0.6rem, 2vw, 1rem) var(--chat-pad-x) clamp(0.6rem, 2vw, 1.2rem);
-  width: calc(100% - 2 * var(--chat-pad-x));
-  max-width: min(760px, calc(100% - 2 * var(--chat-pad-x)));
-
-  flex: 0 0 66px;
-  height: 66px;
-
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-
-  padding: 0 6px 0 10px;
-  column-gap: 4px;
-
-  border: 1.5px solid var(--pt-mid);
-  border-radius: 999px;
-  background: rgba(37, 44, 59, 0.92);
-
-  overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.chat-inputbar:focus-within {
-  border-color: var(--pt-light); /* heledam platinum, nt #ECEBE9 */
-  box-shadow: 0 0 8px rgba(195, 193, 188, 0.6); /* pehme platinum kuma */
-}
-/* sisestusväli */
-.chat-inputbar .chat-input-field {
-  all: unset;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: clamp(0.6rem, 1.8vw, 0.95rem) clamp(14px, 4vw, 18px);
-  color: var(--pt-100);      /* hele platinum tekst, nt #ECEBE9 */
-  caret-color: var(--pt-100);
-  font: 500 1.3rem/1.3 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  line-height: 1.4;
-}
-.scroll-down-btn {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.15s ease;
-}
-
-.scroll-down-btn:hover {
-  transform: translateX(-50%) scale(1.15);
-}
-
-.scroll-down-btn svg {
-  width: 36px;
-  height: 36px;
-  stroke: var(--pt-400);   /* tumedam platinum (#AFAAA3) */
-  stroke-width: 3;
-  fill: none;
-  transition: stroke 0.2s ease;
-}
-.chat-send-btn {
-  flex: 0 0 56px;
-  width: 56px;
-  height: 56px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--pt-300);     /* pehme platinum (#C9C7C2) */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: end;
-  align-self: center;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(175, 170, 163, 0.45); /* platinum halo */
-  transition: background 0.16s, transform 0.06s, box-shadow 0.16s;
-}
-
-.chat-send-btn:hover,
-.chat-send-btn:focus {
- background: var(--pt-350, #BFBBAF); /* custom toon keset 300 ja 400 */
-  box-shadow: 0 0 10px rgba(201,199,194,0.55);
-}
-
-.chat-send-btn:active {
-  transform: scale(0.96);
-}
-.chat-send-btn svg {
-  width: 26px;
-  height: 26px;
-  stroke: var(--pt-600);  /* kõige tumedam platinum (#55514C) */
-  stroke-width: 2.6;      /* veidi peenem kui enne */
-  fill: none;
-}
-.scroll-down-btn:hover svg,
-.scroll-down-btn:focus svg {
-  stroke: var(--pt-200);   /* heledam platinum (#DFDEDA) */
-}
-
-/* heledas režiimis samad värvitoonid */
-html:not(.dark-mode) .chat-inputbar{
-  background: rgba(35,53,80,0.72);
-  border: 1.5px solid var(--pt-mid);
-}
-
-html:not(.dark-mode) .chat-inputbar .chat-input-field{ color: var(--pt-50); caret-color: var(--pt-50); }
-html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(16, 24, 36, 0.65); }
-
-/* High-contrast režiimi tugi */
-@media (forced-colors: active) {
-  .chat-window { scrollbar-color: ButtonText ButtonFace; }
-}
-/* --- MESSAGES --- */
-.chat-msg{ 
-  max-width:85%; 
-  line-height:1.45;
-  margin-bottom:1em;
-  align-self:flex-start;        /* vaikimisi vasakul */
-}
-.chat-msg-user {
-  align-self: flex-end;
-  display: inline-block;
-  max-width: 72ch;
-  background: rgba(35, 53, 80, 0.72);  /* sinakas tume taust */
-  color: var(--pt-100);                /* hele platinum tekst */
-  border: 1px solid var(--pt-400);     /* pehme platinum raam */
-  border-radius: 1em 1em .35em 1em;
-  padding: .55em .9em;
-  font-size: 1.15em;
-  line-height: 1.35;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.33);
-}
-.chat-msg-ai {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: .25em 0 !important;
-  color: var(--pt-150);              /* pehme hele platinum tekst */
-  max-width: 70ch;
-  font-size: 1.15em;
-  line-height: 1.35;
-}
-
-.chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
-
 .back-arrow-btn {
   display: inline-flex;
   justify-content: center;
@@ -2709,18 +2511,167 @@ body.modal-open {
 
 /* abiklass – piirab loendi kõrgust */
 .cs-scroll{ overflow:auto; max-height:calc(100vh - 140px); }
+/* ============ CHAT: baas-layout (desktop + mobiil) ============ */
 
-/* ===========================
-   Chat – nupud ja tihendused
-   =========================== */
-.chat-container .chat-actions{
-  display:flex; align-items:center; gap:10px;
-  margin:8px 0 6px;
+/* Klaaskast, pealkiri, rütm */
+.glass-box.chat-container{
+  --chat-hpad: clamp(0.6rem, 1.8vw, 1rem);
+  position: relative;
+  z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  width: 100%;
+  max-width: 850px;
+  height: 96vh;                 /* klaaskast täidab vaate kõrguse */
+  max-height: 96vh;
+
+  margin: .6em auto;
+  gap: .4rem;                   /* tihendatud rütm */
+  padding-top: .6rem;
+  padding-bottom: .7rem;
+}
+.glass-box.chat-container .glass-title{
+  /* pealkiri allapoole */
+  margin-top: 2.2rem !important;
 }
 
-/* Ghost-kapselnupp */
+/* Üla-rea nupud (nt “Vestlused”) */
+.chat-container .chat-actions{
+  display: flex; align-items: center; gap: 10px;
+  margin: .08rem 0 .28rem 0;
+}
+
+/* Põhikolonn: aken kerib, input on all */
+.chat-main{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: .5rem;
+}
+
+/* ---- CHAT WINDOW (ainus keritav plokk) ---- */
+.chat-window{
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .65em;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(.75rem, 2vw, 1.2rem) var(--chat-hpad) clamp(1rem, 3vw, 1.6rem);
+  padding-left: var(--chat-hpad);
+  padding-right: var(--chat-hpad);
+  scrollbar-width: thin;
+  scrollbar-color: var(--pt-mid) transparent;
+}
+.chat-window::-webkit-scrollbar{ width:12px; }
+.chat-window::-webkit-scrollbar-track{ background:transparent; }
+.chat-window::-webkit-scrollbar-thumb{
+  background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
+  border-radius:10px; border:3px solid transparent;
+}
+/* ---- SISENDIRIBA (mitte-sticky) ---- */
+.chat-inputbar{
+  align-self: stretch;
+  width: auto;
+  max-width: none;
+  margin-left: var(--chat-hpad);
+  margin-right: var(--chat-hpad);
+  margin-top: .6rem;
+  margin-bottom: .7rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 4px;
+  height: 66px;
+  border: 1.5px solid var(--pt-mid);
+  border-radius: 999px;
+  background: rgba(37,44,59,.92);
+  padding: 0 6px 0 10px;
+  overflow: hidden;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.chat-inputbar:focus-within{
+  border-color: var(--pt-light);
+  box-shadow: 0 0 8px rgba(195,193,188,.6);
+}
+.chat-inputbar .chat-input-field{
+  all: unset;
+  box-sizing: border-box;
+  width: 100%; height: 100%;
+  padding: clamp(.6rem, 1.8vw, .95rem) clamp(14px, 4vw, 18px);
+  color: var(--pt-100);
+  caret-color: var(--pt-100);
+  font: 500 1.3rem/1.3 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  line-height: 1.4;
+}
+.chat-inputbar .chat-input-field::placeholder{
+  color: var(--pt-100); opacity: .9;
+}
+
+/* Saatmisnupp */
+.chat-send-btn{
+  flex: 0 0 56px; width:56px; height:56px;
+  border:0; border-radius:50%;
+  background: var(--pt-300);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  box-shadow: 0 0 8px rgba(175,170,163,.45);
+  transition: background .16s, transform .06s, box-shadow .16s;
+}
+.chat-send-btn:hover,
+.chat-send-btn:focus{
+  background: var(--pt-350, #BFBBAF);
+  box-shadow: 0 0 10px rgba(201,199,194,.55);
+}
+.chat-send-btn:active{ transform: scale(.96); }
+.chat-send-btn svg{
+  width:26px; height:26px;
+  stroke: var(--pt-600); stroke-width:2.6; fill:none;
+}
+
+/* “Kerige lõppu” nupp (valikuline) */
+.scroll-down-btn{
+  position:absolute; bottom:80px; left:50%;
+  transform: translateX(-50%);
+  background:none; border:none; padding:6px; cursor:pointer;
+  z-index:5; display:flex; align-items:center; justify-content:center;
+  transition: transform .15s ease;
+}
+.scroll-down-btn:hover{ transform: translateX(-50%) scale(1.15); }
+.scroll-down-btn svg{ width:36px; height:36px; stroke: var(--pt-400); stroke-width:3; fill:none; transition: stroke .2s; }
+.scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
+
+/* Tagasi-nupu ümber olev koht */
+.chat-footer{ margin-top: .22rem; }
+.chat-back-btn-wrapper{ margin: .35em auto .22em; }
+
+/* “Mõtleb…” mull */
+.chat-container .typing-bubble{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:.4rem; padding:.85rem 1.1rem;
+  background:transparent; border:none; color:var(--pt-100);
+  font-size:1.05rem; line-height:1.4; max-width:90%;
+}
+.chat-container .typing-label{ margin-right:.3rem; font-weight:500; }
+.chat-container .dots{ display:inline-flex; align-items:center; gap:5px; }
+.chat-container .dots span{
+  width:9px; height:9px; border-radius:50%; background:currentColor; opacity:.8;
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+.chat-container .dots span:nth-child(2){ animation-delay:.2s; }
+.chat-container .dots span:nth-child(3){ animation-delay:.4s; }
+@keyframes typingDot{ 0%,80%,100%{ transform:translateY(0); opacity:.8; } 40%{ transform:translateY(-4px); opacity:1; } }
+
+/* Ghost/“Vestlused” kapselnupp */
 .btn-ghost-soft{
-  --bdr:1.5px; --bg:rgba(255,255,255,0.06); --bg-hover:rgba(255,255,255,0.10);
+  --bdr:1.5px; --bg:rgba(255,255,255,.06); --bg-hover:rgba(255,255,255,.10);
   --bdr-col:var(--pt-mid,#AFAAA3); --txt:var(--pt-100,#EDEAE5);
   display:inline-flex; align-items:center; gap:8px;
   padding:10px 14px; border-radius:999px;
@@ -2728,7 +2679,7 @@ body.modal-open {
   background:var(--bg); color:var(--txt);
   font-weight:600; letter-spacing:.02em;
   transition: background .18s, border-color .18s, transform .06s, color .18s, box-shadow .18s;
-  backdrop-filter:blur(4px);
+  backdrop-filter: blur(4px);
 }
 .btn-ghost-soft:hover{
   background:var(--bg-hover);
@@ -2739,199 +2690,78 @@ body.modal-open {
 .btn-ghost-soft:active{ transform: translateY(1px); }
 .btn-ghost-dot{ width:1.15em; height:1.15em; display:inline-grid; place-items:center; line-height:1; opacity:.9; }
 
-/* Chat rütm */
-.glass-box.chat-container{
-  position:relative;   /* vajalik sticky lastele */
-  z-index: 20;
-  gap:.4rem !important;
-  padding-top:.6rem !important;
-  padding-bottom:.7rem !important;
+/* ---- SÕNUMID ---- */
+.chat-msg{ max-width:85%; line-height:1.45; margin-bottom:1em; align-self:flex-start; }
+.chat-msg-user{
+  align-self:flex-end; display:inline-block; max-width:72ch;
+  background: rgba(35,53,80,.72); color: var(--pt-100);
+  border: 1px solid var(--pt-400);
+  border-radius: 1em 1em .35em 1em;
+  padding: .55em .9em; font-size: 1.15em; line-height: 1.35;
+  box-shadow: 0 2px 4px rgba(0,0,0,.33);
 }
-.glass-box.chat-container .glass-title{
-  margin:.14em 0 .28em 0 !important;
-  line-height:1.12;
+.chat-msg-ai{
+  background:transparent !important; border:none !important; box-shadow:none !important;
+  padding:.25em 0 !important; color:var(--pt-150);
+  max-width:70ch; font-size:1.15em; line-height:1.35;
 }
-.chat-actions{ margin:.08rem 0 .28rem 0 !important; }
-.chat-main{ gap:.5rem !important; }
-.chat-window{ padding-top:.3rem !important; padding-bottom:.4rem !important; }
+.chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
 
-/* Tagasi nupp */
-.chat-footer{ margin-top:.22rem !important; }
-.chat-back-btn-wrapper{ margin:.35em auto .22em !important; }
-
-/* “Mõtleb…” mull */
-.chat-container .typing-bubble{ display:inline-flex; align-items:center; gap:8px; margin-top:.4rem; padding:.85rem 1.1rem; background:transparent; border:none; color:var(--pt-100); font-size:1.05rem; line-height:1.4; max-width:90%; }
-.chat-container .typing-label{ margin-right:.3rem; font-weight:500; opacity:1; }
-.chat-container .dots{ display:inline-flex; align-items:center; gap:5px; }
-.chat-container .dots span{ width:9px; height:9px; border-radius:50%; background:currentColor; opacity:.8; animation:typingDot 1.2s ease-in-out infinite; }
-.chat-container .dots span:nth-child(2){ animation-delay:.2s; }
-.chat-container .dots span:nth-child(3){ animation-delay:.4s; }
-@keyframes typingDot{ 0%,80%,100%{ transform:translateY(0); opacity:.8; } 40%{ transform:translateY(-4px); opacity:1; } }
-
-/* sama laius kui vestlus */
-.glass-box.chat-container{ --chat-hpad: clamp(0.6rem, 1.8vw, 1rem); }
-.chat-window{
-  padding-left: var(--chat-hpad) !important;
-  padding-right: var(--chat-hpad) !important;
+/* ---- Heledas režiimis inputi toonid ---- */
+html:not(.dark-mode) .chat-inputbar{
+  background: rgba(35,53,80,.72);
+  border: 1.5px solid var(--pt-mid);
 }
-.chat-inputbar{
-  align-self:stretch;
-  max-width:none;
-  margin-left: var(--chat-hpad) !important;
-  margin-right: var(--chat-hpad) !important;
-  width:auto;
+html:not(.dark-mode) .chat-inputbar .chat-input-field{
+  color: var(--pt-50); caret-color: var(--pt-50);
 }
-.chat-inputbar .chat-input-field{
-  padding-top:.75rem !important;
-  padding-bottom:.55rem !important;
-  line-height:1.4 !important;
+html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{
+  color: rgba(16,24,36,.65);
 }
 
-/* Scroll-down ikooni toon */
-.scroll-down-btn svg{ stroke: var(--pt-400); }
-.scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
-
-/* ===========================
-   Mobiil
-   =========================== */
+/* ============ MOBIIL (≤768px) ============ */
 @media (max-width: 768px){
-  /* kompakt */
   .glass-box.chat-container{
-    gap:.35rem !important;
-    padding-top:.5rem !important;
-    padding-bottom:.6rem !important;
+    gap:.35rem;
+    padding-top:.5rem;
+    padding-bottom:.6rem;
   }
   .glass-box.chat-container .glass-title{
-    margin-top:.25rem !important;
-    margin-bottom:.24em !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: .24em !important;
   }
   .avatar-link{
     top: clamp(.4rem, 2.5vw, .8rem) !important;
     right: clamp(.6rem, 3vw, 1rem) !important;
   }
   .chat-window{
-    padding-top:.25rem !important;
-    padding-bottom:.35rem !important;
+    padding-top:.25rem;
+    padding-bottom:.35rem;   /* akna sees väike buffer; input on all */
+    max-height: none;        /* puudub välise calc(...) piirang */
   }
-
-  /* input + tagasi-nupp kleepuvad klaaskasti sisse */
-  .glass-box.chat-container .chat-inputbar{
-    position: sticky;
-    bottom: max(.6rem, env(safe-area-inset-bottom, 0px));
-    margin: clamp(.4rem, 3vw, .7rem) 0 clamp(.35rem, 2.5vw, .6rem) 0 !important;
-    height: clamp(58px, 14vw, 80px) !important;
-    z-index:4;
+  .chat-inputbar{
+    /* mitte-sticky – lihtsalt marginaalid/line-height mobiiliks */
+    margin: clamp(.4rem, 3vw, .7rem) var(--chat-hpad) clamp(.5rem, 3vw, .8rem);
+    height: clamp(58px, 14vw, 80px);
   }
-  .glass-box.chat-container .chat-inputbar .chat-input-field{
+  .chat-inputbar .chat-input-field{
     font-size: clamp(1.08rem, 4vw, 1.3rem);
-    padding-top: clamp(.55rem, 2.4vw, .85rem) !important;
-    padding-bottom: clamp(.45rem, 1.8vw, .75rem) !important;
+    padding-top: clamp(.55rem, 2.4vw, .85rem);
+    padding-bottom: clamp(.45rem, 1.8vw, .75rem);
   }
-  .glass-box.chat-container .chat-footer{
-    position: sticky;
-    bottom: calc(max(.6rem, env(safe-area-inset-bottom, 0px)) + clamp(58px, 14vw, 80px) + .35rem);
-    z-index:3;
-    margin-top:.2rem !important;
-  }
-  .glass-box.chat-container .chat-back-btn-wrapper{ margin:.2em auto .1em !important; }
-
-  /* peitke globaalne fixed-footer, kui chat on lehel */
-  .glass-box.chat-container ~ .footer-column{ display:none !important; }
+  .chat-footer{ margin-top: .2rem; }
+  .chat-back-btn-wrapper{ margin: .2em auto .1em; }
 }
 
-/* ===========================
-   Layout utiliidid (mobiil)
-   =========================== */
-html[data-layout="mobile"], body[data-layout="mobile"]{
-  background-color: transparent !important;
-  background-image: none !important;
-}
-body[data-layout="mobile"] .glass-box:not(.chat-container){
-  margin: clamp(.9rem, 3vw, 1.4rem) auto clamp(1rem, 3vw, 1.4rem);
-}
-body[data-layout="mobile"] .glass-box h1,
-body[data-layout="mobile"] .glass-box .page-title{
-  margin-top:.2em !important;
-}
-body[data-layout="mobile"] main,
-body[data-layout="mobile"] .viewport,
-body[data-layout="mobile"] .page,
-body[data-layout="mobile"] .page-wrap{
-  overflow: visible !important;
-  scroll-snap-type: none !important;
-}
-body[data-layout="mobile"],
-body[data-layout="mobile"] main{
-  min-height: calc(100dvh - 1px) !important;
+/* High-contrast */
+@media (forced-colors: active){
+  .chat-window{ scrollbar-color: ButtonText ButtonFace; }
 }
 
-/* Chat-main buffer */
-body[data-layout="mobile"] .chat-main{
-  flex:1 1 auto; min-height:0;
-  padding-bottom: clamp(.8rem, 3vw, 1.4rem);
-}
-
-/* Klaaskast mõõdud mobiilis */
-body[data-layout="mobile"] .glass-box.chat-container{
-  --chat-mobile-edge: clamp(.7rem, 2.6vw, 1.1rem);
-  margin: var(--chat-mobile-edge) auto;
-  min-height: calc(100dvh - 2 * var(--chat-mobile-edge));
-  height: calc(100dvh - 2 * var(--chat-mobile-edge));
-  max-height: calc(100dvh - 2 * var(--chat-mobile-edge));
-}
-body[data-layout="mobile"] .glass-box.chat-container .glass-title{
-  margin-top: clamp(1.2rem, 5vw, 2.1rem);
-}
-
-/* Chat-aken (scroll) */
-body[data-layout="mobile"] .chat-window{
-  flex:1 1 auto; min-height:0;
-  display:flex; flex-direction:column; align-items:flex-start;
-  gap: clamp(.55rem, 2.6vw, .9rem);
-  overflow-y:auto; overscroll-behavior:contain;
-  max-height: calc(100dvh - clamp(10rem, 32vw, 12.5rem));
-  padding:
-    clamp(.7rem, 3.6vw, 1.15rem)
-    clamp(.75rem, 4vw, 1.35rem)
-    calc(clamp(4.8rem, 16vw, 5.8rem) + env(safe-area-inset-bottom, 0px));
-  scrollbar-width: thin; scrollbar-color: var(--pt-mid) transparent;
-}
-
-/* Inputbar mobiilis (layouti režiimis) */
-body[data-layout="mobile"] .chat-inputbar{
-  position: sticky;
-  left: clamp(16px, 4.5vw, 22px);
-  right: clamp(16px, 4.5vw, 22px);
-  bottom: clamp(.5rem, 3.6vw, 1rem);
-  width:auto;
-  margin: clamp(.5rem, 3vw, .9rem) 0 clamp(.4rem, 2.5vw, .7rem);
-  height: clamp(58px, 14vw, 80px);
-  z-index:3;
-}
-body[data-layout="mobile"] .chat-inputbar .chat-input-field{
-  font-size: clamp(1.08rem, 4vw, 1.3rem);
-  padding: clamp(.45rem, 2vw, .8rem) clamp(14px, 4vw, 18px);
-}
-
-/* Muu mobiili utiliit */
-body[data-layout="mobile"] .u-mobile-pane{
-  margin: clamp(.75rem, 3vw, 1.2rem) auto clamp(.6rem, 2.5vw, 1rem);
-  height:auto; max-height:none; min-height:65dvh; overflow:visible;
-}
-body[data-layout="mobile"] .u-mobile-scroll{ max-height:none; overflow-y:auto; -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain; }
-body[data-layout="mobile"] .u-mobile-safe-pad{ padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
-body[data-layout="mobile"] .u-mobile-reset-position:not(.chat-inputbar){ position:static; inset:auto; }
-body[data-layout="mobile"] .chat-footer{ display:flex; justify-content:center; margin-top: clamp(.4rem, 2.6vw, .8rem); padding-bottom: max(10px, env(safe-area-inset-bottom, 0px)); }
-body[data-layout="mobile"] .chat-footer .chat-back-btn-wrapper{ margin-top:0; }
-body[data-layout="mobile"].modal-open{ overflow:hidden; width:100%; touch-action:none; }
-
-/* Placeholderi kontrast chatis */
-.chat-inputbar .chat-input-field{ color:var(--pt-100) !important; caret-color:var(--pt-100) !important; }
-.chat-inputbar .chat-input-field::placeholder{ color:var(--pt-100) !important; opacity:.9 !important; }
-
-/* Fallback, kui blur puudub */
+/* Fallback kui blur puudub */
 @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
   .glass-box, .glass-modal, .chat-inputbar{ background: rgba(31,31,31,.496); }
 }
+
 /* Väike alias nupuvärvidele */
 :root{ --pt-80:#F2F1EF; --pt-130:#EDEAE6; }
