@@ -886,18 +886,18 @@ a {
 .avatar-link {
   position: absolute;
   top: var(--hud-edge-safe);
-  right: calc(var(--hud-edge-right) + 14px);
+  right: calc(var(--hud-edge-right) + 13px);
   left: auto;
   display: grid;
   place-items: center;
   overflow: visible;
   z-index: 4;
   text-decoration: none;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 @media (max-width:768px){
   .avatar-link{
-    right: calc(var(--hud-edge-right) + 15px); /* enne oli +15px → +8px vasakule */
+    right: calc(var(--hud-edge-right) + 13px); /* enne oli +15px → +8px vasakule */
     transform: translateY(-3px);
   }
 }
