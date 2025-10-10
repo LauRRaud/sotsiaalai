@@ -1,8 +1,24 @@
 {
   "compilerOptions": {
+    /* --- Importide ja alias'e seaded --- */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
-    }
-  }
+    },
+
+    /* --- JavaScripti ja Nexti toetus --- */
+    "checkJs": false,
+    "jsx": "react-jsx",
+
+    /* --- Node ja kaasaegne moduleerimine --- */
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "types": ["node"]
+  },
+
+  /* --- Milliseid faile arvesse võtta --- */
+  "include": ["**/*.js", "**/*.jsx", "next-env.d.ts"],
+
+  /* --- Välista build'i kaustad --- */
+  "exclude": ["node_modules", ".next", "dist"]
 }
