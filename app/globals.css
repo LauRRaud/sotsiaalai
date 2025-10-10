@@ -920,7 +920,7 @@ a {
   position: absolute;
   top: calc(100% + 0.25rem);
   left: 50%;
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-align: center;
@@ -932,7 +932,7 @@ a {
   line-height: 1.1;
   display: inline-block;
   transform: translate(-50%, 4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 /* Hoveril nähtavaks ja alla väike liikumine */
@@ -2063,6 +2063,11 @@ textarea::placeholder,
   color: var(--pt-600) !important;
   opacity: .85 !important;
 }
+.chat-container input::placeholder,
+.chat-container textarea::placeholder {
+  color: var(--pt-200) !important;  /* hele platinum */
+  opacity: 0.85 !important;
+}
 /* Fade utiliidid (jätame alles) */
 .defer-fade{ --end-op:1; --fade-dur:3000ms; --fade-delay:3500ms; --start-ty:12px;
   opacity:0; visibility:hidden; transform:translateY(var(--start-ty)) scale(.992);
@@ -2552,47 +2557,51 @@ body.modal-open {
 
 /* ---- SISENDIRIBA (mitte-sticky) ---- */
 .chat-inputbar{
+  /* Kõrgus muutujasse, et saada täpne vertikaalne tsentreerimine */
+  --inputbar-h: 66px;
+
   align-self:stretch; width:auto; max-width:none;
   margin: .6rem var(--chat-hpad) .7rem;
   display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:4px;
-  height:66px; border:1.5px solid var(--pt-mid); border-radius:999px;
+
+  height: var(--inputbar-h);                    /* originaalne madal riba */
+  border:1.5px solid var(--pt-mid); border-radius:999px;
   background: rgba(37,44,59,.92);
   padding:0 6px 0 10px;
-  overflow:hidden; transition: border-color .2s ease, box-shadow .2s ease;
+  overflow:hidden;                               /* väldi sisemist scrollbar'i */
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
 .chat-inputbar:focus-within{
   border-color: var(--pt-light);
   box-shadow: 0 0 8px rgba(195,193,188,.6);
 }
+
 .chat-inputbar .chat-input-field{
   all:unset; box-sizing:border-box; width:100%; height:100%;
-  padding: clamp(.6rem, 1.8vw, .95rem) clamp(14px, 4vw, 18px);
+  /* vertikaalne keskjoondus: padjad arvutatakse kõrgusest */
+  padding-block: calc((var(--inputbar-h) - 1.35em)/2);
+  padding-inline: clamp(14px, 4vw, 18px);
+
   color: var(--pt-100); caret-color: var(--pt-100);
-  font: 500 1.3rem/1.3 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  line-height:1.4;
-  text-align:left;
-  overflow-y:auto;
+  font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  text-align:left; line-height:1.35;
+
+  overflow-y:hidden;        /* ära näita textareas scrollbar'i, hoiab kuju */
   scrollbar-width:thin;
   scrollbar-color: var(--pt-mid) transparent;
 }
-/* Heledam placeholder (desktop + mobiil) ja vertikaalselt keskel */
-.chat-inputbar .chat-input-field::placeholder{ color: #f6f9ff; opacity:1; }
-.chat-inputbar .chat-input-field::-webkit-scrollbar{
-  width:8px;
-}
-.chat-inputbar .chat-input-field::-webkit-scrollbar-track{
-  background:transparent;
-}
+
+/* Placeholder – hele ja sama “keskes” (kaitse üldise !important reegli vastu) */
+.chat-inputbar .chat-input-field::placeholder{ color:#f6f9ff; opacity:1; }
+.chat-container .chat-input-field::placeholder{ color:#f6f9ff !important; opacity:1 !important; }
+
+.chat-inputbar .chat-input-field::-webkit-scrollbar{ width:8px; }
+.chat-inputbar .chat-input-field::-webkit-scrollbar-track{ background:transparent; }
 .chat-inputbar .chat-input-field::-webkit-scrollbar-thumb{
   background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
-  border-radius:999px;
-  border:3px solid transparent;
+  border-radius:999px; border:3px solid transparent;
 }
-.chat-inputbar .chat-input-field::-webkit-scrollbar-button{
-  display:none;
-  width:0;
-  height:0;
-}
+.chat-inputbar .chat-input-field::-webkit-scrollbar-button{ display:none; width:0; height:0; }
 
 /* Saatmisnupp */
 .chat-send-btn{
@@ -2606,6 +2615,7 @@ body.modal-open {
   background: var(--pt-350, #BFBBAF);
   box-shadow:0 0 10px rgba(201,199,194,.55);
 }
+/* Saatmisnupp */
 .chat-send-btn:active{ transform: scale(.96); }
 .chat-send-btn svg{ width:26px; height:26px; stroke:var(--pt-600); stroke-width:2.6; fill:none; }
 
@@ -2620,9 +2630,10 @@ body.modal-open {
 .scroll-down-btn svg{ width:36px; height:36px; stroke: var(--pt-400); stroke-width:3; fill:none; transition: stroke .2s; }
 .scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
 
-/* Tagasi-nupp */
-.chat-footer{ margin-top:.22rem; }
-.chat-back-btn-wrapper{ margin:.35em auto .22em; }
+/* Tagasi-nupp – desktop (vaikimisi) */
+.chat-footer{ margin-top:.25rem; }
+.chat-back-btn-wrapper{ margin:.28em auto .25em; }
+.back-arrow-btn{ inline-size:62px; block-size:62px; }
 
 /* “Mõtleb…” mull */
 .chat-container .typing-bubble{
@@ -2673,32 +2684,22 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0px));
     --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0px));
     --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0px));
-    gap:.35rem;
-    padding-top:.5rem;
-    padding-bottom:.6rem;
-  }
-  .glass-box.chat-container .glass-title{ margin-top:1.5rem !important; margin-bottom:.24em !important; }
-
-  .chat-window{
-    padding-top:.25rem; padding-bottom:.35rem;
-    max-height:none; /* pole calc(...) piiranguid */
-  }
-  .chat-inputbar{
-    margin: clamp(.4rem, 3vw, .7rem) var(--chat-hpad) clamp(.5rem, 3vw, .8rem);
-    height: clamp(58px, 14vw, 80px);
-  }
-  .chat-inputbar .chat-input-field{
-    font-size: clamp(1.08rem, 4vw, 1.3rem);
+    gap:.35rem; padding-top:.5rem; padding-bottom:.6rem;
   }
 
-  .chat-footer{ margin-top:0; }
-  .chat-back-btn-wrapper{ margin:.06em auto -0.03em; }
+  .chat-window{ padding-top:.25rem; padding-bottom:.35rem; max-height:none; }
+
+  /* Sisendiriba kompaktsem allserv: */
+  .chat-inputbar{ margin-bottom:.35rem !important; }
+
+  /* Tagasi-nupp mobiilis: väiksemad vahed + safe-area */
+  .chat-footer{ margin-top:.15rem; }
+  .chat-back-btn-wrapper{ margin:.18em auto calc(env(safe-area-inset-bottom, 0px) + .24em); }
+  .back-arrow-btn{ inline-size:56px; block-size:56px; }
 }
 
 /* High-contrast */
-@media (forced-colors: active){
-  .chat-window{ scrollbar-color: ButtonText ButtonFace; }
-}
+@media (forced-colors: active){ .chat-window{ scrollbar-color: ButtonText ButtonFace; } }
 
 /* Fallback kui blur puudub */
 @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
@@ -2711,62 +2712,42 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
 /* ==========================================
    HAMBURGER (kolm kriipsu) – vasak ülanurk
    ========================================== */
-.chat-menu-btn{
-  position:absolute;
+.chat-menu-btn {
+  position: absolute;
   top: var(--hud-edge-safe);
   left: var(--hud-edge-left);
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
-  border-radius:50%;
-  border:2.2px solid rgba(236,235,233,.78);
-  background:rgba(37,44,59,.55);
-  color:var(--pt-80);
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  overflow: visible;
-  box-shadow:inset 0 0 0 1px rgba(16,22,32,.35);
-  transition: background .18s, border-color .18s, transform .06s, box-shadow .18s;
+  border-radius: 50%;
+  border: 2.8px solid rgba(236,235,233,0.78);
+  background: rgba(37,44,59,0.55);
+  color: var(--pt-150);
+  display: grid; place-items: center; cursor: pointer; overflow: visible;
+  box-shadow: inset 0 0 0 1px rgba(16,22,32,0.35);
+  transition: background 0.18s, border-color 0.18s, transform 0.08s ease, box-shadow 0.18s;
   z-index: 4;
 }
 .chat-menu-btn:hover,
-.chat-menu-btn:focus-visible{
-  border-color:var(--brand-primary);
-  box-shadow:0 0 12px rgba(175,170,163,.6);
+.chat-menu-btn:focus-visible {
+  border-color: var(--pt-light);
+  box-shadow: 0 0 10px rgba(175,170,163,0.65);
+  background: rgba(37,44,59,0.65);
 }
+.chat-menu-btn:active { transform: scale(0.94); box-shadow: 0 0 6px rgba(175,170,163,0.45); }
 
-/* kolm kriipsu ikoon */
-.chat-menu-icon{
-  width: calc(var(--hud-icon) * .46);
-  height: calc(var(--hud-icon) * .46);
-  display:block;
-}
+.chat-menu-icon { width: calc(var(--hud-icon) * 0.46); height: calc(var(--hud-icon) * 0.46); display: block; }
 .chat-menu-icon span{
-  display:block;
-  height:2px;
-  margin: calc(var(--hud-icon) * .09) 0;
-  background: currentColor;
-  border-radius:2px;
+  display:block; height:2px; margin: calc(var(--hud-icon) * 0.09) 0;
+  background: var(--pt-200); border-radius:2px; transition: background 0.25s ease;
 }
+.chat-menu-btn:hover .chat-menu-icon span,
+.chat-menu-btn:focus-visible .chat-menu-icon span{ background: var(--pt-100); }
+
 .chat-menu-label{
-  position:absolute;
-  top: calc(100% + 0.25rem);
-  left:50%;
-  transform: translate(-50%, 4px);
-  font-size: 0.88rem;
-  font-weight:500;
-  letter-spacing:0.04em;
-  text-align:center;
-  color: var(--pt-light);
-  pointer-events:none;
-  opacity:0;
-  white-space: nowrap;
-  line-height:1.1;
-  display:inline-block;
-  transition: opacity .25s ease, transform .25s ease;
+  position:absolute; top: calc(100% + 0.25rem); left:50%; transform: translate(-50%, 4px);
+  font-size:1.02rem; font-weight:500; letter-spacing:0.05em; text-align:center;
+  color: var(--pt-light); pointer-events:none; opacity:0; white-space:nowrap; line-height:1.1; display:inline-block;
+  transition: opacity .3s ease, transform .3s ease, color .3s ease;
 }
 .chat-menu-btn:hover .chat-menu-label,
-.chat-menu-btn:focus-visible .chat-menu-label{
-  opacity:1;
-  transform: translate(-50%, 12px);
-}
+.chat-menu-btn:focus-visible .chat-menu-label{ opacity:1; transform: translate(-50%, 14px); color: var(--pt-100); }
