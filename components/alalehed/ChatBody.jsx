@@ -549,7 +549,20 @@ export default function ChatBody() {
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
-      {/* Profiili avatar paremas ülanurgas */}
+      {/* Hamburger / Vestlused – vasak ülanurk (sümmeetriline avatariga) */}
+      <button
+        type="button"
+        className="chat-menu-btn"
+        onClick={openConversations}
+        aria-label="Ava vestlused"
+        aria-haspopup="dialog"
+      >
+        <span className="chat-menu-icon" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
+      {/* Profiili avatar – parem ülanurk */}
       <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
         <img
           src="/logo/User-circle.svg"
@@ -562,19 +575,6 @@ export default function ChatBody() {
 
       {/* Pealkiri */}
       <h1 className="glass-title">SotsiaalAI</h1>
-
-      {/* VESTLUSED nupp (pealkirja all, enne chati akent, vasakul) */}
-      <div className="chat-actions">
-        <button
-          type="button"
-          className="btn-ghost-soft chat-vestlused-btn"
-          onClick={openConversations}
-          aria-haspopup="dialog"
-        >
-          <span className="btn-ghost-dot" aria-hidden="true">☰</span>
-          Vestlused
-        </button>
-      </div>
 
       {errorBanner ? (
         <div
