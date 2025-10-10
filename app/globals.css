@@ -1861,6 +1861,7 @@ label {
   margin-top: clamp(0.4rem, 1.6vw, 0.9rem);
 }
 .chat-main{
+  --chat-pad-x: clamp(0.6rem, 1.8vw, 1rem);
   position: relative;
   flex: 1 1 auto;
   display: flex;
@@ -1879,7 +1880,7 @@ label {
   gap: .65em;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: clamp(0.75rem, 2vw, 1.2rem) clamp(0.6rem, 1.8vw, 1rem) clamp(1rem, 3vw, 1.6rem);
+  padding: clamp(0.75rem, 2vw, 1.2rem) var(--chat-pad-x) clamp(1rem, 3vw, 1.6rem);
   scrollbar-width: thin;
   scrollbar-color: var(--pt-mid) transparent;
 }
@@ -1892,9 +1893,9 @@ label {
 }
 .chat-inputbar{
   align-self: stretch;
-  margin: clamp(0.6rem, 2vw, 1rem) clamp(0.6rem, 1.8vw, 1rem) clamp(0.6rem, 2vw, 1.2rem);
-  max-width: min(760px, 100%);
-  width: min(760px, 100%);
+  margin: clamp(0.6rem, 2vw, 1rem) var(--chat-pad-x) clamp(0.6rem, 2vw, 1.2rem);
+  width: calc(100% - 2 * var(--chat-pad-x));
+  max-width: min(760px, calc(100% - 2 * var(--chat-pad-x)));
 
   flex: 0 0 66px;
   height: 66px;
@@ -1924,11 +1925,11 @@ label {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: clamp(0.55rem, 1.6vw, 0.85rem) clamp(14px, 4vw, 18px);
+  padding: clamp(0.6rem, 1.8vw, 0.95rem) clamp(14px, 4vw, 18px);
   color: var(--pt-100);      /* hele platinum tekst, nt #ECEBE9 */
   caret-color: var(--pt-100);
-  font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  line-height: 1.45;
+  font: 500 1.3rem/1.3 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  line-height: 1.4;
 }
 .scroll-down-btn {
   position: absolute;
@@ -2733,108 +2734,208 @@ body.modal-open {
   0%,80%,100%{ transform:translateY(0); opacity:.8; }
   40%{ transform:translateY(-4px); opacity:1; }
 }
-.btn-ghost-soft {
-  --bdr: 1.5px;
-  --bg: rgba(255, 255, 255, 0.06);
-  --bg-hover: rgba(255, 255, 255, 0.1);
-  --bdr-col: var(--pt-mid, #AFAAA3);
-  --txt: var(--pt-100, #EDEAE5);
+/* === Ghost-kapselnupp (üldine) — kasutusel mujal */
+.btn-ghost-soft{
+  --bdr:1.5px;
+  --bg:rgba(255,255,255,0.06);
+  --bg-hover:rgba(255,255,255,0.10);
+  --bdr-col:var(--pt-mid,#AFAAA3);
+  --txt:var(--pt-100,#EDEAE5);
 
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: var(--bdr) solid var(--bdr-col);
-  background: var(--bg);
-  color: var(--txt);
-
-  font-weight: 540;
-  letter-spacing: 0.01em;
-  transition: background 0.18s ease, border-color 0.18s ease, transform 0.06s ease;
-  backdrop-filter: blur(4px);
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:var(--bdr) solid var(--bdr-col);
+  background:var(--bg); color:var(--txt);
+  font-weight:540; letter-spacing:.01em;
+  backdrop-filter:blur(4px);
+  transition:background .18s,border-color .18s,transform .06s,box-shadow .18s;
 }
-
-.btn-ghost-soft:hover {
-  background: var(--bg-hover);
-  border-color: var(--pt-80, #C9C4BC);
+.btn-ghost-soft:hover{
+  background:var(--bg-hover);
+  border-color:var(--brand-primary,#D9A392);
+  box-shadow:0 0 10px rgba(201,199,194,.28);
 }
+.btn-ghost-soft:active{ transform:translateY(1px); }
+.btn-ghost-dot{ width:1.1em; height:1.1em; display:inline-grid; place-items:center; line-height:1; opacity:.9; }
 
-.btn-ghost-soft:active {
-  transform: translateY(1px);
+/* ChatBody lehe “☰ Vestlused” – peenem tekst, parem rütm */
+.chat-vestlused-btn{
+  font-weight:600;
+  letter-spacing:.02em;            /* ühtlasem kiri */
+  font-variant-ligatures:none;
+  text-transform:none;
+  padding:10px 16px;               /* veidi avaram */
 }
+.chat-vestlused-btn .btn-ghost-dot{ margin-right:2px; }
 
-/* Väike ikoon (☰) nupu sees */
-.btn-ghost-dot {
-  width: 1.1em;
-  height: 1.1em;
-  display: inline-grid;
-  place-items: center;
-  line-height: 1;
-  opacity: 0.9;
-}
-/* === ConversationDrawer (ühtlustatud SotsiaalAI paletiga) === */
+/* === ConversationDrawer (klaas + hele tekst) === */
 .drawer-overlay{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  z-index: 40;
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.45);
+  -webkit-backdrop-filter:blur(2px);
+  backdrop-filter:blur(2px);
+  z-index:40;
 }
-
 .drawer-panel{
-  position: fixed;
-  top: 0; bottom: 0; left: 0;
-  width: 340px; max-width: 85vw;
-  transform: translateX(-105%);
-  transition: transform .22s ease;
-  z-index: 41;
-  overflow: auto;
+  position:fixed; top:0; bottom:0; left:0;
+  width:340px; max-width:85vw;
+  transform:translateX(-105%);
+  transition:transform .22s ease;
+  z-index:41; overflow:auto;
 
-  /* klaas + platinum raam (kooskõlas .glass-box’iga) */
-  background: rgba(31,31,31,0.60);
-  border-right: 0.5px solid var(--pt-600);
-  -webkit-backdrop-filter: blur(10px) saturate(110%);
-  backdrop-filter: blur(10px) saturate(110%);
-  color: var(--pt-200);
-  box-shadow: 0 0 30px rgba(0,0,0,.35);
+  background:rgba(31,31,31,.60);
+  border-right:.5px solid var(--pt-600);
+  -webkit-backdrop-filter:blur(10px) saturate(110%);
+  backdrop-filter:blur(10px) saturate(110%);
+  color:var(--pt-100);
+  box-shadow:0 0 30px rgba(0,0,0,.35);
 }
-.drawer-panel.open{ transform: translateX(0); }
+.drawer-panel.open{ transform:translateX(0); }
 
 .drawer-header{
   display:flex; align-items:center; justify-content:space-between;
-  padding: 12px;
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  padding:12px;
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
 .drawer-header strong{
-  font-weight: 700;
-  letter-spacing: .03em;
-  color: var(--brand-primary);
+  color:var(--brand-primary);
+  font-weight:700; letter-spacing:.03em;
 }
 
-/* X-nupp samamoodi nagu teised ghost-nupud */
+/* X-nupp – lihtne ruut-ghost, pole kapslit */
 .drawer-close{
-  background: none;
-  border: 1px solid var(--pt-mid);
-  border-radius: 999px;
-  padding: 6px 10px;
-  color: var(--pt-100);
-  cursor: pointer;
-  transition: border .18s ease, background .18s ease, transform .06s ease;
+  appearance:none;
+  background:transparent;
+  border:1px solid transparent;    /* vaikimisi nähtamatu raam */
+  border-radius:8px;                /* kerge ümardus, mitte kapsel */
+  padding:4px 8px;
+  font-size:20px; line-height:1;
+  color:var(--pt-100);
+  cursor:pointer;
+  transition:background .18s,border-color .18s,color .18s,transform .1s;
 }
 .drawer-close:hover,
-.drawer-close:focus{
-  border-color: var(--brand-primary);
-  background: rgba(255,255,255,0.06);
+.drawer-close:focus-visible{
+  background:rgba(255,255,255,.06);
+  border-color:var(--brand-primary);
+  color:var(--brand-primary);
+  outline:none;
 }
-.drawer-close:active { transform: translateY(1px); }
-.cs-actions { display: flex; gap: 8px; margin-bottom: 10px; }
-.cs-list { list-style: none; padding: 0; margin: 0; }
-.cs-item { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.cs-link { text-align: left; flex: 1; background: none; border: none; cursor: pointer; }
-.cs-title { font-weight: 600; }
-.cs-time { opacity: 0.75; font-size: 12px; }
-.cs-empty { opacity: 0.8; font-size: 14px; }
+.drawer-close:active{ transform:scale(.96); }
 
+/* === ChatSidebar nupud ja loend === */
+.cs-actions{ display:flex; gap:8px; margin-bottom:10px; }
+
+/* primaarne: “Uus vestlus” – kompaktne klaasnupp */
+.cs-actions .cs-btn.cs-btn--primary{
+  font: inherit; font-weight:600;
+  letter-spacing:.03em;
+  padding:.5em .9em;
+  border-radius:1.1em;
+  color:var(--pt-130);
+  background:linear-gradient(to bottom right, rgba(255,255,255,.05), rgba(140,165,235,.045));
+  border:1px solid rgba(196,212,255,.24);
+  backdrop-filter:blur(9px) saturate(120%);
+  box-shadow:inset 0 0 2px rgba(255,255,255,.10), 0 6px 16px rgba(0,0,0,.10);
+  transition:transform .18s, box-shadow .18s, border-color .18s, background .18s, color .18s;
+}
+.cs-actions .cs-btn.cs-btn--primary:hover,
+.cs-actions .cs-btn.cs-btn--primary:focus-visible{
+  color:var(--pt-80);
+  background:linear-gradient(to bottom right, rgba(255,255,255,.085), rgba(140,165,235,.06));
+  border-color:rgba(206,220,255,.30);
+  box-shadow:0 0 10px rgba(206,220,255,.16), 0 10px 22px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
+  outline:none;
+}
+.cs-actions .cs-btn.cs-btn--primary:active{ transform:translateY(1px); }
+
+/* ikoonnupp: “Värskenda” */
+.cs-actions .cs-refresh{
+  inline-size:36px; block-size:36px;
+  display:grid; place-items:center;
+  border-radius:50%;
+  font-size:18px; line-height:1;
+  color:var(--pt-100);
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--pt-600);
+  cursor:pointer;
+  transition:background .18s,border-color .18s,transform .1s,color .18s, box-shadow .18s;
+}
+.cs-actions .cs-refresh:hover,
+.cs-actions .cs-refresh:focus-visible{
+  background:rgba(255,255,255,.12);
+  border-color:var(--brand-primary);
+  color:var(--brand-primary);
+  box-shadow:0 0 10px rgba(201,199,194,.28);
+  outline:none;
+}
+.cs-actions .cs-refresh:active{ transform:scale(.94); }
+
+/* loetav nimekiri */
+.cs-list{ list-style:none; padding:0; margin:0; }
+.cs-item{ display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 6px; border-bottom:1px solid rgba(255,255,255,.08); }
+.cs-link{ text-align:left; flex:1; background:none; border:none; cursor:pointer; padding:6px 4px; border-radius:8px; transition:background .15s; }
+.cs-link:hover{ background:rgba(255,255,255,.05); }
+.cs-title{ font-weight:700; letter-spacing:.02em; color:var(--pt-150); }
+.cs-time{ color:var(--pt-300); opacity:.9; font-size:12px; }
+.cs-empty{ color:var(--pt-300); opacity:.9; font-size:14px; }
+/* === Chat-lehe tihendatud layout === */
+.glass-box.chat-container {
+  gap: 0.4rem !important;
+  padding-top: 0.6rem !important;
+  padding-bottom: 0.7rem !important;
+}
+
+/* Pealkiri – minimaalne vahe */
+.glass-box.chat-container .glass-title {
+  margin: 0.1em 0 0.25em 0 !important;
+  line-height: 1.1;
+}
+
+/* “Vestlused” nupp – pealkirjale hästi lähedal */
+.chat-actions {
+  margin: 0.1rem 0 0.3rem 0 !important;
+}
+
+/* Chat-sisu ploki sisemine vahe ja rütm */
+.chat-main {
+  gap: 0.5rem !important;
+}
+.chat-window {
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.4rem !important;
+}
+
+/* Tagasi-nupp (footeris) – väiksemad vahed */
+.chat-footer {
+  margin-top: 0.25rem !important;
+}
+.chat-back-btn-wrapper {
+  margin: 0.4em auto 0.25em !important;
+}
+
+/* Mobiilil veel kompaktsem, aga mitte kokkusurutud */
+@media (max-width: 768px) {
+  .glass-box.chat-container {
+    gap: 0.35rem !important;
+    padding-top: 0.45rem !important;
+    padding-bottom: 0.55rem !important;
+  }
+  .glass-box.chat-container .glass-title {
+    margin-bottom: 0.22em !important;
+  }
+  .chat-actions {
+    margin: 0.08rem 0 0.28rem 0 !important;
+  }
+  .chat-window {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.35rem !important;
+  }
+  .chat-footer {
+    margin-top: 0.2rem !important;
+  }
+  .chat-back-btn-wrapper {
+    margin: 0.3em auto 0.2em !important;
+  }
+}

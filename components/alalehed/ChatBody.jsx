@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const INTRO_MESSAGE =
   "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
@@ -548,14 +549,25 @@ export default function ChatBody() {
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
+      {/* Profiili avatar paremas ülanurgas */}
+      <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
+        <img
+          src="/logo/User-circle.svg"
+          alt="Profiil"
+          className="chat-avatar-abs"
+          draggable={false}
+        />
+        <span className="avatar-label">Kasutaja</span>
+      </Link>
+
       {/* Pealkiri */}
-      <h1 className="glass-title" style={{ marginTop: 12 }}>SotsiaalAI</h1>
+  <h1 className="glass-title">SotsiaalAI</h1>
 
       {/* VESTLUSED nupp (pealkirja all, enne chati akent, vasakul) */}
       <div className="chat-actions">
         <button
           type="button"
-          className="btn-ghost-soft"
+          className="btn-ghost-soft chat-vestlused-btn"
           onClick={openConversations}
           aria-haspopup="dialog"
         >
