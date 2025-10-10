@@ -897,7 +897,7 @@ a {
 }
 @media (max-width:768px){
   .avatar-link{
-    right: calc(var(--hud-edge-right) + 13px); /* enne oli +15px → +8px vasakule */
+    right: calc(var(--hud-edge-right) + 12px); /* enne oli +15px → +8px vasakule */
     transform: translateY(-3px);
   }
 }
@@ -906,8 +906,8 @@ a {
 .chat-avatar-abs {
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
-  inline-size: calc(var(--hud-icon) + 6px);
-  block-size:  calc(var(--hud-icon) + 6px);
+  inline-size: calc(var(--hud-icon) + 7px);
+  block-size:  calc(var(--hud-icon) + 7px);
   border-radius: 50%;
   border: none;
   background: none;
