@@ -886,7 +886,7 @@ a {
 .avatar-link {
   position: absolute;
   top: var(--hud-edge-safe);
-  right: var(--hud-edge-right);
+  right: calc(var(--hud-edge-right) + 15px);
   left: auto;
   display: grid;
   place-items: center;
@@ -2314,7 +2314,7 @@ body.modal-open {
     z-index: 12;
   }
   .chat-menu-btn{
-    left: var(--hud-edge-left);
+left: calc(var(--hud-edge-left) + 15px)
   }
 
   /* Klaaskastid saavad vaikimisi külgmised padjad */
@@ -2636,7 +2636,7 @@ body.modal-open {
 .scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
 
 /* Tagasi-nupp – desktop (vaikimisi) */
-.chat-footer{ margin-top:.25rem; }
+.chat-footer{ margin-top:.15rem; }
 .chat-back-btn-wrapper{ margin:.28em auto .25em; }
 .back-arrow-btn{ inline-size:62px; block-size:62px; }
 
@@ -2710,7 +2710,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
 
   /* Tagasi-nupp mobiilis: pool väiksem buffer all */
   .chat-footer{ margin-top:.15rem; }
-  .chat-back-btn-wrapper{ margin:.18em auto calc(env(safe-area-inset-bottom, 0px) + .12em); }
+  .chat-back-btn-wrapper{ margin:.1em auto calc(env(safe-area-inset-bottom, 0px) + .10em); }
   .back-arrow-btn{ inline-size:56px; block-size:56px; }
 }
 
@@ -2731,7 +2731,7 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8
 .chat-menu-btn {
   position: absolute;
   top: var(--hud-edge-safe);
-  left: var(--hud-edge-left);
+left: calc(var(--hud-edge-left) + 15px);
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
   border-radius: 50%;

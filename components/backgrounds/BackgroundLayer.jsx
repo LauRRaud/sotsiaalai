@@ -4,6 +4,7 @@
 import { useEffect, useState, memo, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
+import { createPortal } from "react-dom";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
@@ -31,11 +32,10 @@ function whenVisible(cb) {
   return () => document.removeEventListener("visibilitychange", onVis);
 }
 
-/* --- (JÄETUD ALLES, AGA ÜLEKIRJUTAME) reduced-motion + force override --- */
+/* --- (jäetud alles) reduced-motion + force override --- */
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
-    // loe küll eelistus, aga me ei kasuta seda efektiivses otsuses
     try {
       const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
       const on = () => setReduced(mql.matches);
@@ -47,20 +47,13 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 function useForceMotionDefaultOn() {
-  // vaikimisi "sisse lülitatud" – kõigil külalistel kohe efektid sees
   const [force, setForce] = useState(true);
   useEffect(() => {
     const html = document.documentElement;
     const apply = (on) => html.setAttribute("data-force-motion", on ? "1" : "0");
+    const readLS = () => { try { return localStorage.getItem("saai-force-motion"); } catch { return null; } };
+    const writeLS = (on) => { try { localStorage.setItem("saai-force-motion", on ? "1" : "0"); } catch {} };
 
-    const readLS = () => {
-      try { return localStorage.getItem("saai-force-motion"); } catch { return null; }
-    };
-    const writeLS = (on) => {
-      try { localStorage.setItem("saai-force-motion", on ? "1" : "0"); } catch {}
-    };
-
-    // kui LS on tühi, kirjuta "1"; kui olemas, kasuta seda
     const existing = readLS();
     const initial = existing == null ? true : existing === "1";
     if (existing == null) writeLS(true);
@@ -68,8 +61,7 @@ function useForceMotionDefaultOn() {
     setForce(initial);
     apply(initial);
 
-    // dev-helper konsooli jaoks (saad käsitsi välja/välja lülitada)
-    // nt: saaiForceMotion(false)
+    // dev-helper: window.saaiForceMotion(true/false)
     // @ts-ignore
     window.saaiForceMotion = (on = true) => {
       writeLS(!!on);
@@ -83,11 +75,9 @@ function useForceMotionDefaultOn() {
 function BackgroundLayer() {
   const pathname = usePathname();
 
-  // loe küll, kuid ignoreerime: tahame, et kõik efektid töötaksid
+  // loeme küll, aga efektiivne otsus on alati "animatsioonid sees"
   const _prefersReduced = usePrefersReducedMotion();
   const _forceMotion = useForceMotionDefaultOn();
-
-  // kriitiline rida: EFEKTID ALATI LUBATUD
   const reducedEffective = false;
 
   const [mounted, setMounted] = useState(false);
@@ -97,8 +87,7 @@ function BackgroundLayer() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Space fog intro otsus — jätame loogika alles (esilehel, mitte reload, mitte juba tehtud)
-  // NB! enam ei peata reducedEffective seda
+  // Space fog intro (avaleht, mitte reload, mitte juba tehtud)
   useEffect(() => {
     let isReload = false;
     try {
@@ -112,14 +101,14 @@ function BackgroundLayer() {
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
   }, [pathname]);
 
-  // Lae PARTICLES idle + nähtaval (ALATI, enam mitte reducedEffective põhine)
+  // Particles: idle + visible (alati)
   useEffect(() => {
     if (!mounted) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     return () => { cancelParticles?.(); };
   }, [mounted]);
 
-  // Lae MaybeSplash idle + nähtaval (nagu varemki – ALATI)
+  // Splash cursor: idle + visible (alati)
   useEffect(() => {
     if (!mounted) return;
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
@@ -127,37 +116,43 @@ function BackgroundLayer() {
   }, [mounted]);
 
   return (
-    <div
-      id="bg-layer"
-      aria-hidden="true"
-      suppressHydrationWarning
-      style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
-    >
-      {/* SPACE — kõige taga */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-        <Suspense fallback={null}>
-          <Space
-            animateFog={animateFog}   // intro animatsioon lubatud vastavalt esmakülastuse loogikale
-            skipIntro={!animateFog}
-            fogAppearDelayMs={0}
-          />
-        </Suspense>
+    <>
+      {/* TAUST: jääb sisu alla */}
+      <div
+        id="bg-layer"
+        aria-hidden="true"
+        suppressHydrationWarning
+        style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
+      >
+        {/* SPACE — kõige taga */}
+        <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+          <Suspense fallback={null}>
+            <Space
+              animateFog={animateFog}
+              skipIntro={!animateFog}
+              fogAppearDelayMs={0}
+            />
+          </Suspense>
+        </div>
+
+        {/* PARTICLES — tausta kohal, sisu all (kasuta oma .particles-container CSS-i) */}
+        {particlesReady && (
+          <div className="particles-container">
+            <Particles />
+          </div>
+        )}
       </div>
 
-      {/* PARTICLES — ALATI (idle + visible) */}
-      {particlesReady && (
-        <div className="particles-container">
-          <Particles />
-        </div>
-      )}
-
-      {/* MaybeSplash — ALATI (idle + visible) */}
-      {cursorReady && (
-        <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
-          <MaybeSplash />
-        </div>
-      )}
-    </div>
+      {/* SPLASH CURSOR — portaalina body alla: alati sisu PEAL (z-index 30) */}
+      {mounted && cursorReady && typeof document !== "undefined" &&
+        createPortal(
+          <div className="splash-cursor" style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none" }}>
+            <MaybeSplash />
+          </div>,
+          document.body
+        )
+      }
+    </>
   );
 }
 
