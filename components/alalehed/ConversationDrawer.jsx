@@ -1,25 +1,13 @@
 "use client";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-/**
- * ConversationDrawer
- * - Ava/sulge sündmusega: new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open?: boolean, opener?: HTMLElement } })
- * - ESC sulgeb
- * - Tab/Shift+Tab fookuse lõks
- * - Overlay klikk sulgeb (sisu ei kuku läbi)
- * - Fookuse taastamine avamisnupule
- * - Body scroll-lock (lisab klassi body.modal-open)
- */
 export default function ConversationDrawer({ children }) {
   const [open, setOpen] = useState(false);
-  const panelRef = useRef(null);
-  const lastOpenerRef = useRef(null);
 
-  // Ava/sulge välise sündmusega
+  // luba teistelt komponentidelt (nt ChatBody) avada/sulgeda
   useEffect(() => {
     function onToggle(e) {
       const want = e?.detail?.open;
-      lastOpenerRef.current = e?.detail?.opener || document.activeElement || null;
       setOpen((prev) => (typeof want === "boolean" ? want : !prev));
     }
     window.addEventListener("sotsiaalai:toggle-conversations", onToggle);
@@ -28,101 +16,49 @@ export default function ConversationDrawer({ children }) {
 
   const close = useCallback(() => setOpen(false), []);
 
-  // Body scroll-lock + fookuse seadmine/taastamine
-  useEffect(() => {
-    const body = document.body;
-    if (open) {
-      body.classList.add("modal-open");
-      const t = setTimeout(() => focusFirst(panelRef.current), 0);
-      return () => {
-        clearTimeout(t);
-        body.classList.remove("modal-open");
-      };
-    } else {
-      if (lastOpenerRef.current instanceof HTMLElement) {
-        lastOpenerRef.current.focus?.();
-      }
-    }
-  }, [open]);
-
-  // ESC + Tab focus trap
-  const onKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        close();
-        return;
-      }
-      if (e.key === "Tab") {
-        const nodes = getFocusable(panelRef.current);
-        if (!nodes.length) return;
-        const first = nodes[0];
-        const last = nodes[nodes.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    },
-    [close]
-  );
-
   return (
     <>
+      {/* taust */}
       {open && (
         <div
-          className="drawer-overlay"
           onClick={close}
+          style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 40,
+          }}
           aria-hidden="true"
         />
       )}
 
+      {/* sahtel */}
       <aside
-        className={`drawer-panel cs-scroll ${open ? "open" : ""}`}
         role="dialog"
+        aria-label="Vestlused"
         aria-modal="true"
-        aria-labelledby="drawer-title"
-        ref={panelRef}
-        onKeyDown={onKeyDown}
-        onClick={(e) => e.stopPropagation()} /* väldi overlay click-through’i */
+        style={{
+          position: "fixed",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: 340,
+          maxWidth: "85vw",
+          transform: open ? "translateX(0)" : "translateX(-105%)",
+          transition: "transform .22s ease",
+          background: "var(--glass-800, #0f1218)",
+          borderRight: "1px solid rgba(255,255,255,.07)",
+          zIndex: 41,
+          overflow: "auto",
+        }}
       >
-        <header className="drawer-header">
-          <strong id="drawer-title">Vestlused</strong>
-          <button
-            type="button"
-            className="drawer-close"
-            onClick={close}
-            aria-label="Sulge"
-          >
-            ✕
-          </button>
+        <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: 12 }}>
+          <strong>Vestlused</strong>
+          <button onClick={close} className="btn ghost small" aria-label="Sulge">✕</button>
         </header>
 
-        <div className="cs-container" style={{ padding: 12 }}>
+        <div style={{ padding: 12 }}>
+          {/* Pane siia sisu (ChatSidebar) */}
           {children}
         </div>
       </aside>
     </>
   );
-}
-
-/* ===== Abifunktsioonid ===== */
-function getFocusable(root) {
-  if (!root) return [];
-  const sel =
-    'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-  return Array.from(root.querySelectorAll(sel)).filter(
-    (el) =>
-      !el.hasAttribute("disabled") &&
-      el.getAttribute("tabindex") !== "-1" &&
-      el.getAttribute("aria-hidden") !== "true"
-  );
-}
-
-function focusFirst(root) {
-  const f = getFocusable(root);
-  (f[0] || root)?.focus?.();
 }
