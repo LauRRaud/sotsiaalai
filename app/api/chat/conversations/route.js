@@ -60,17 +60,6 @@ export async function GET(req) {
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || 20);
   const limit = Math.max(1, Math.min(50, Number.isFinite(limitParam) ? limitParam : 20));
-  const cursor = url.searchParams.get("cursor"); // formaadis "<ms>:<id>"
-
-  // Kursori lahtiharutamine (järjestame updatedAt desc, id desc)
-  let cursorObj = undefined;
-  if (cursor) {
-    const [ms, id] = String(cursor).split(":");
-    const msNum = Number(ms);
-    if (id && Number.isFinite(msNum)) {
-      cursorObj = { updatedAt: new Date(msNum), id };
-    }
-  }
 
   try {
     const rows = await prisma.conversationRun.findMany({
@@ -79,8 +68,6 @@ export async function GET(req) {
         NOT: { status: "DELETED" },
       },
       orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
-      cursor: cursorObj ? { updatedAt_id: cursorObj } : undefined, // eeldab Prisma COMPOSITE kursori (@@id või @@unique)
-      skip: cursorObj ? 1 : 0,
       take: limit,
       select: { id: true, updatedAt: true, status: true, text: true, role: true },
     });
@@ -89,19 +76,15 @@ export async function GET(req) {
       const preview = (r.text || "").trim().slice(0, 120);
       return {
         id: r.id,
-        status: r.status,          // RUNNING | COMPLETED | ERROR
+        status: r.status,
         updatedAt: r.updatedAt,
-        role: r.role,              // CLIENT | SOCIAL_WORKER
+        role: r.role,
         title: preview || "Vestlus",
         preview,
       };
     });
 
-    // Järgmise kursori arvutamine
-    const last = rows.at(-1);
-    const nextCursor = last ? `${last.updatedAt.getTime()}:${last.id}` : null;
-
-    return json({ ok: true, conversations: items, nextCursor });
+    return json({ ok: true, conversations: items, nextCursor: null });
   } catch (err) {
     return json(
       { ok: false, message: "Database error while listing conversations", error: err?.message },
