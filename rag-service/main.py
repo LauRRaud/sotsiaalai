@@ -6,6 +6,7 @@ import os
 import re
 import hashlib
 from io import BytesIO
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -18,12 +19,12 @@ except Exception:
     magic = None  # type: ignore
     _MAGIC_OK = False
 
-import uuid
-import mimetypes
 import requests
 from bs4 import BeautifulSoup
-from fastapi import Depends, FastAPI, Header, HTTPException, UploadFile, File, Form
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel
 
 import chromadb
@@ -79,6 +80,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 
 # OpenAI client
 oa = OpenAI(api_key=OPENAI_API_KEY)
+logger = logging.getLogger("rag-service")
 
 app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.6")
 
@@ -89,6 +91,37 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(RequestValidationError)
+async def handle_request_validation_error(request: Request, exc: RequestValidationError):
+    body_preview = ""
+    if isinstance(exc.body, (bytes, bytearray)):
+        try:
+            body_preview = base64.b64encode(exc.body[:64]).decode("ascii")
+        except Exception:
+            body_preview = "<binary>"
+    elif isinstance(exc.body, str):
+        body_preview = exc.body[:64]
+
+    try:
+        logger.warning(
+            "Validation error on %s: %s (body preview: %s)",
+            request.url.path,
+            exc.errors(),
+            body_preview,
+        )
+    except Exception:
+        logger.warning("Validation error on %s (body preview: %s)", request.url.path, body_preview)
+
+    return JSONResponse(
+        status_code=422,
+        content={
+            "ok": False,
+            "detail": "Invalid payload. Upload endpoint expects JSON body with base64 encoded 'data'.",
+            "code": "INVALID_PAYLOAD",
+        },
+    )
 
 # --------------------
 # Utils
