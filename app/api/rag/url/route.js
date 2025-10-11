@@ -215,30 +215,24 @@ export async function POST(req) {
     // --- LOKAALNE DB LOGI ---
     let dbDoc = null;
     try {
-      dbDoc = await prisma.ragDocument.create({
-        data: {
-          adminId: session?.user?.id || null,
-          title,
-          description,
-          type: "URL",
-          status: "COMPLETED",
-          audience,
-          sourceUrl: url,
-          fileName: null,
-          mimeType: null,
-          fileSize: null,
-          remoteId: remoteDocId,
-          insertedAt: new Date(),
-          chunks:
-            typeof data?.inserted === "number"
-              ? data.inserted
-              : typeof data?.doc?.chunks === "number"
-              ? data.doc.chunks
-              : null,
-          lastIngested: new Date(),
-          metadata: data || undefined,
-        },
-      });
+      const createData = {
+        title,
+        description,
+        type: "URL",
+        status: "COMPLETED",
+        audience,
+        sourceUrl: url,
+        fileName: null,
+        mimeType: null,
+        fileSize: null,
+        remoteId: remoteDocId,
+        insertedAt: new Date(),
+        metadata: data || undefined,
+      };
+      if (session?.user?.id) {
+        createData.admin = { connect: { id: session.user.id } };
+      }
+      dbDoc = await prisma.ragDocument.create({ data: createData });
     } catch (e) {
       console.warn("[RAG url] DB create ebaõnnestus:", e?.message || e);
     }

@@ -326,26 +326,24 @@ export async function POST(req) {
     // --- LOKAALNE DB LOGI ---
     let dbDoc = null;
     try {
-      dbDoc = await prisma.ragDocument.create({
-        data: {
-          adminId: session?.user?.id || null,
-          title,
-          description,
-          type: "FILE",
-          status: "COMPLETED",
-          audience,
-          fileName: safeFileName,
-          mimeType: type,
-          fileSize: buffer.length,
-          sourceUrl: null,
-          remoteId: remoteDocId,
-          insertedAt: new Date(),
-          // proovi lugeda infot RAG vastusest
-          chunks: typeof data?.inserted === "number" ? data.inserted : null,
-          lastIngested: new Date(),
-          metadata: data || undefined,
-        },
-      });
+      const createData = {
+        title,
+        description,
+        type: "FILE",
+        status: "COMPLETED",
+        audience,
+        fileName: safeFileName,
+        mimeType: type,
+        fileSize: buffer.length,
+        sourceUrl: null,
+        remoteId: remoteDocId,
+        insertedAt: new Date(),
+        metadata: data || undefined,
+      };
+      if (session?.user?.id) {
+        createData.admin = { connect: { id: session.user.id } };
+      }
+      dbDoc = await prisma.ragDocument.create({ data: createData });
     } catch (e) {
       console.warn("[RAG upload] DB create ebaõnnestus:", e?.message || e);
     }
