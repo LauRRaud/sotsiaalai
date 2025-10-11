@@ -1,5 +1,8 @@
 "use client";
+
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+
+/* ---------- Utils ---------- */
 
 function uuid() {
   return (
@@ -8,15 +11,73 @@ function uuid() {
   );
 }
 
+function formatDateTime(iso) {
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    // lühike, kuid loetav
+    return d.toLocaleString(undefined, {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch {
+    return "";
+  }
+}
+
+function useThrottle(fn, waitMs) {
+  const lastRef = useRef(0);
+  const timerRef = useRef(null);
+  const lastArgsRef = useRef(null);
+
+  return useCallback((...args) => {
+    const now = Date.now();
+    const remaining = waitMs - (now - lastRef.current);
+    lastArgsRef.current = args;
+
+    if (remaining <= 0) {
+      lastRef.current = now;
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+      fn(...lastArgsRef.current);
+      lastArgsRef.current = null;
+    } else if (!timerRef.current) {
+      timerRef.current = setTimeout(() => {
+        lastRef.current = Date.now();
+        fn(...(lastArgsRef.current || []));
+        lastArgsRef.current = null;
+        timerRef.current = null;
+      }, remaining);
+    }
+  }, [fn, waitMs]);
+}
+
+/* ---------- Component ---------- */
+
 export default function ChatSidebar() {
   const [items, setItems] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [creating, setCreating] = useState(false);
   const abortRef = useRef(null);
+
+  // loe aktiivne vestlus (UI saab selle set’ida ChatBody-s)
+  const activeConvId = useMemo(() => {
+    try {
+      return window.sessionStorage.getItem("sotsiaalai:chat:convId") || null;
+    } catch {
+      return null;
+    }
+  }, []); // NB! värskendame valikut nupu vajutamisel allpool
 
   const fetchList = useCallback(async () => {
     setError("");
-    abortRef.current?.abort();                         // tühista eelmine
+    abortRef.current?.abort(); // tühista eelmine
     const ac = new AbortController();
     abortRef.current = ac;
 
@@ -37,18 +98,32 @@ export default function ChatSidebar() {
     }
   }, []);
 
+  // esmane laadimine + välised värskendused
   useEffect(() => {
     fetchList();
-    // võimalda teistelt komponentidelt värskendada
+
     const onExternalRefresh = () => fetchList();
     window.addEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+
+    // värskenda, kui tab aktsioonilt naaseb (throttlinguga)
+    const throttled = useThrottle(() => {
+      if (document.visibilityState === "visible") fetchList();
+    }, 2000);
+    window.addEventListener("focus", throttled);
+    document.addEventListener("visibilitychange", throttled);
+
     return () => {
       window.removeEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+      window.removeEventListener("focus", throttled);
+      document.removeEventListener("visibilitychange", throttled);
       abortRef.current?.abort();
     };
-  }, [fetchList]);
+  }, [fetchList, useThrottle]);
 
   const onPick = useCallback((id) => {
+    try {
+      window.sessionStorage.setItem("sotsiaalai:chat:convId", id);
+    } catch {}
     window.dispatchEvent(
       new CustomEvent("sotsiaalai:switch-conversation", { detail: { convId: id } })
     );
@@ -58,8 +133,8 @@ export default function ChatSidebar() {
   }, []);
 
   const onNew = useCallback(async () => {
-    if (busy) return;
-    setBusy(true);
+    if (busy || creating) return;
+    setCreating(true);
     setError("");
     const id = uuid();
     try {
@@ -73,17 +148,18 @@ export default function ChatSidebar() {
         throw new Error(data?.message || "Uue vestluse loomine ebaõnnestus");
       }
       onPick(id);
-      fetchList();
+      await fetchList();
     } catch (e) {
       setError(e?.message || "Uue vestluse loomine ebaõnnestus");
     } finally {
-      setBusy(false);
+      setCreating(false);
     }
-  }, [busy, fetchList, onPick]);
+  }, [busy, creating, fetchList, onPick]);
 
   const onDelete = useCallback(
     async (id) => {
       if (!id) return;
+      // lihtne kinnitus – UI-s saab soovi korral asendada modaaliga
       if (!confirm("Kas kustutada see vestlus?")) return;
       setBusy(true);
       setError("");
@@ -96,6 +172,14 @@ export default function ChatSidebar() {
           throw new Error(data?.message || "Kustutamine ebaõnnestus");
         }
         await fetchList();
+
+        // kui kustutati aktiivne, tühjenda valik
+        try {
+          const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
+          if (current === id) {
+            window.sessionStorage.removeItem("sotsiaalai:chat:convId");
+          }
+        } catch {}
       } catch (e) {
         setError(e?.message || "Kustutamine ebaõnnestus");
       } finally {
@@ -111,21 +195,26 @@ export default function ChatSidebar() {
   );
 
   return (
-    <nav className="cs-container" aria-label="Vestluste loend" aria-busy={busy ? "true" : "false"}>
+    <nav
+      className="cs-container"
+      aria-label="Vestluste loend"
+      aria-busy={busy || creating ? "true" : "false"}
+    >
       {/* Ülariba: Uus vestlus + Refresh */}
       <div className="cs-actions">
         <button
           className="cs-btn cs-btn--primary"
           onClick={onNew}
-          disabled={busy}
+          disabled={busy || creating}
+          aria-busy={creating ? "true" : "false"}
         >
-          Uus vestlus
+          {creating ? "Loon…" : "Uus vestlus"}
         </button>
 
         <button
           className="cs-refresh"
           onClick={fetchList}
-          disabled={busy}
+          disabled={busy || creating}
           aria-label="Värskenda"
           title="Värskenda"
         >
@@ -154,61 +243,87 @@ export default function ChatSidebar() {
         </div>
       )}
 
+      {/* Laadimise skeleton (valikuline – kui soovid, stiliseeri .cs-skeleton klassid CSS-is) */}
+      {(busy && items.length === 0) && (
+        <ul className="cs-list" role="list" aria-hidden="true">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <li key={`s-${i}`} className="cs-item cs-item--skeleton">
+              <div className="cs-skel-title" />
+              <div className="cs-skel-time" />
+            </li>
+          ))}
+        </ul>
+      )}
+
       <ul className="cs-list" role="list" aria-live="polite">
-        {sorted.length === 0 ? (
+        {!busy && sorted.length === 0 ? (
           <li className="cs-empty">
-            Vestlusi pole.{" "}
+            Vestlusi pole.
             <button
               className="cs-btn cs-btn--primary"
               onClick={onNew}
-              disabled={busy}
+              disabled={creating}
               style={{ marginLeft: 8 }}
             >
               Loo esimene
             </button>
           </li>
         ) : (
-          sorted.map((c) => (
-            <li key={c.id} className="cs-item">
-              <button
-                className="cs-link"
-                onClick={() => onPick(c.id)}
-                title={c.preview || c.title || "Vestlus"}
-              >
-                <div className="cs-title">{c.title || "Vestlus"}</div>
-                <div className="cs-time">
-                  {new Date(c.updatedAt).toLocaleString()}
-                </div>
-              </button>
+          sorted.map((c) => {
+            const isActive = (() => {
+              try {
+                const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
+                return current === c.id;
+              } catch {
+                return false;
+              }
+            })();
 
-              <button
-                className="cs-delete"
-                onClick={() => onDelete(c.id)}
-                aria-label="Kustuta vestlus"
-                title="Kustuta"
-                disabled={busy}
-              >
-                <svg
-                  className="cs-trash-icon"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
+            return (
+              <li key={c.id} className={`cs-item${isActive ? " cs-item--active" : ""}`}>
+                <button
+                  className="cs-link"
+                  onClick={() => onPick(c.id)}
+                  title={c.preview || c.title || "Vestlus"}
+                  aria-current={isActive ? "true" : undefined}
                 >
-                  <polyline points="3 6 5 6 21 6"></polyline>
-                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                  <path d="M10 11v6"></path>
-                  <path d="M14 11v6"></path>
-                  <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
-                </svg>
-              </button>
-            </li>
-          ))
+                  <div className="cs-title">
+                    {c.title || c.preview || "Vestlus"}
+                  </div>
+                  <div className="cs-time">
+                    {formatDateTime(c.updatedAt)}
+                  </div>
+                </button>
+
+                <button
+                  className="cs-delete"
+                  onClick={() => onDelete(c.id)}
+                  aria-label="Kustuta vestlus"
+                  title="Kustuta"
+                  disabled={busy || creating}
+                >
+                  <svg
+                    className="cs-trash-icon"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                    <path d="M10 11v6"></path>
+                    <path d="M14 11v6"></path>
+                    <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </li>
+            );
+          })
         )}
       </ul>
     </nav>

@@ -6,6 +6,7 @@ import crypto from "node:crypto";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { isAdmin } from "@/lib/authz";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -35,7 +36,6 @@ function sanitizeFileName(name) {
   if (base === "." || base === "..") base = "fail";
   const cleaned = base.normalize("NFC").replace(/[^a-zA-Z0-9._-]+/g, "_");
   const trimmed = cleaned.replace(/^_+|_+$/g, "") || "fail";
-  // viimane 120 märki ilma negatiivse indeksita
   return trimmed.length > 120 ? trimmed.substring(trimmed.length - 120) : trimmed;
 }
 
@@ -52,7 +52,9 @@ function parseTags(raw) {
       if (!raw.trim()) return null;
       if (raw.trim().startsWith("[")) {
         const arr = JSON.parse(raw);
-        return Array.isArray(arr) ? arr.map(String).map((s) => s.trim()).filter(Boolean).slice(0, 20) : null;
+        return Array.isArray(arr)
+          ? arr.map(String).map((s) => s.trim()).filter(Boolean).slice(0, 20)
+          : null;
       }
       return raw
         .split(",")
@@ -61,7 +63,7 @@ function parseTags(raw) {
         .slice(0, 20);
     }
   } catch {
-    // ignore parse error – tags stay null
+    // ignore
   }
   return null;
 }
@@ -147,7 +149,6 @@ function validateMagicType(buffer, mime) {
   if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") return null;
 
   if (mime === "application/pdf") {
-    // subarray, mitte slice
     return buffer.subarray(0, 4).toString("utf8") === "%PDF"
       ? null
       : "Fail ei paista olevat kehtiv PDF.";
@@ -183,7 +184,6 @@ export async function POST(req) {
   const type = file.type || "application/octet-stream";
   const ext = (safeFileName.split(".").pop() || "").toLowerCase();
 
-  // Mime vs laiend – hoiatus (mitte blocker)
   const extOk =
     (type === "application/pdf" && ext === "pdf") ||
     (type === "text/plain" && ext === "txt") ||
@@ -191,7 +191,6 @@ export async function POST(req) {
     (type === "text/html" && (ext === "html" || ext === "htm")) ||
     (type === "application/msword" && ext === "doc") ||
     (type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" && ext === "docx") ||
-    // fallback: lubame muu sisu, kui MIME on lubatud ja magic test hiljem kinnitab
     false;
 
   if (!extOk) {
@@ -247,16 +246,16 @@ export async function POST(req) {
   const pageRange =
     typeof pageRangeRaw === "string" ? pageRangeRaw.trim().slice(0, 120) : null;
 
-  // sisu hash (idempotentsuse/duplikaadi tuvastamiseks)
   const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
 
-  // RAG endpoint
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
+  const remoteDocId = randomUUID();
+
   const payload = {
-    docId: randomUUID(),
+    docId: remoteDocId,
     contentSha256: sha256,
     fileName: safeFileName,
     mimeType: type,
@@ -291,7 +290,6 @@ export async function POST(req) {
         signal: controller.signal,
       });
 
-    // 1 kiire retry väikese backoffiga
     let res;
     try {
       res = await doFetch();
@@ -302,13 +300,11 @@ export async function POST(req) {
 
     clearTimeout(timeout);
 
-    // loe vastus turvaliselt
     const raw = await res.text();
     let data = null;
     try {
       data = raw ? JSON.parse(raw) : null;
     } catch {
-      // kui backend saatis mitte-JSON, paneme selle diagnosti kohta
       data = { raw };
     }
 
@@ -327,10 +323,39 @@ export async function POST(req) {
       return makeError(msg, status, { code, response: data });
     }
 
+    // --- LOKAALNE DB LOGI ---
+    let dbDoc = null;
+    try {
+      dbDoc = await prisma.ragDocument.create({
+        data: {
+          adminId: session?.user?.id || null,
+          title,
+          description,
+          type: "FILE",
+          status: "COMPLETED",
+          audience,
+          fileName: safeFileName,
+          mimeType: type,
+          fileSize: buffer.length,
+          sourceUrl: null,
+          remoteId: remoteDocId,
+          insertedAt: new Date(),
+          // proovi lugeda infot RAG vastusest
+          chunks: typeof data?.inserted === "number" ? data.inserted : null,
+          lastIngested: new Date(),
+          metadata: data || undefined,
+        },
+      });
+    } catch (e) {
+      console.warn("[RAG upload] DB create ebaõnnestus:", e?.message || e);
+    }
+
     const out = NextResponse.json({
       ok: true,
+      warning: dbDoc ? undefined : "Dokument indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
       doc: {
-        id: payload.docId,
+        id: dbDoc?.id || remoteDocId,
+        dbId: dbDoc?.id || null,
         contentSha256: sha256,
         title,
         description,
@@ -341,10 +366,10 @@ export async function POST(req) {
         mimeType: type,
         fileSize: buffer.length,
         audience,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        insertedAt: new Date().toISOString(),
-        remoteId: payload.docId,
+        createdAt: dbDoc?.createdAt?.toISOString?.() || new Date().toISOString(),
+        updatedAt: dbDoc?.updatedAt?.toISOString?.() || new Date().toISOString(),
+        insertedAt: dbDoc?.insertedAt?.toISOString?.() || new Date().toISOString(),
+        remoteId: remoteDocId,
       },
       rag: data,
     });

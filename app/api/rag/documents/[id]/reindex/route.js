@@ -20,11 +20,11 @@ export async function POST(_req, { params }) {
   const docId = params?.id;
   if (!docId) return makeError("ID puudub.", 400);
 
-  // Kontrolli, et kirje eksisteerib
+  // 0) Kontrolli, et dokument on olemas
   const doc = await prisma.ragDocument.findUnique({ where: { id: docId } });
   if (!doc) return makeError("Dokument puudub.", 404);
 
-  // Märgi kohe PROCESSING (UI saab kohe staatust näha)
+  // 1) Märgi DB-s PROCESSING (UI saab kohe)
   await prisma.ragDocument.update({
     where: { id: docId },
     data: { status: "PROCESSING", error: null },
@@ -32,6 +32,7 @@ export async function POST(_req, { params }) {
 
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
+  if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
   try {
     const res = await fetch(`${ragBase}/documents/${encodeURIComponent(docId)}/reindex`, {
@@ -40,33 +41,40 @@ export async function POST(_req, { params }) {
       cache: "no-store",
     });
 
-    const raw = await res.text();
-    const data = raw ? JSON.parse(raw) : null;
+    const raw = await res.text().catch(() => "");
+    let data = null;
+    try { data = raw ? JSON.parse(raw) : null; } catch { data = { raw }; }
 
     if (!res.ok) {
-      // Märgi FAILED, kui RAG kukkus
+      const msg = data?.detail || data?.message || `RAG reindex viga (${res.status})`;
       await prisma.ragDocument.update({
         where: { id: docId },
-        data: { status: "FAILED", error: data?.detail || data?.message || `RAG reindex viga (${res.status})` },
+        data: { status: "FAILED", error: msg },
       });
-      const msg = data?.detail || data?.message || `RAG reindex viga (${res.status})`;
-      return makeError(msg, 502);
+      return makeError(msg, 502, { response: data });
     }
 
-    // Võid soovi korral märkida ka lastIngested'i
+    // Kui RAG vastus annab koheselt teada, et tükid valmis, võime märkida COMPLETED.
+    // Enamasti on see asünk; jätame PROCESSING-ks ja UI saab värskendada /documents kaudu.
     await prisma.ragDocument.update({
       where: { id: docId },
-      data: { /* status jääb PROCESSING; RAG töötleb veel */ },
+      data: {
+        // status: "COMPLETED", // kui tahad optimistlikult kohe lõpetatuks märkida, võta kommentaar maha
+        updatedAt: new Date(),
+      },
     });
 
-    // RAG tagastab { ok, inserted, doc }, peegeldame edasi
-    return NextResponse.json({ ok: true, ...(data || {}), doc: { id: docId, status: "PROCESSING" } });
+    return NextResponse.json({
+      ok: true,
+      doc: { id: docId, status: "PROCESSING" },
+      rag: data,
+    });
   } catch (err) {
-    // Märgi FAILED, kui võrguviga
+    const msg = `RAG ühenduse viga: ${err?.message || String(err)}`;
     await prisma.ragDocument.update({
       where: { id: docId },
-      data: { status: "FAILED", error: err?.message || "RAG ühenduse viga" },
+      data: { status: "FAILED", error: msg },
     });
-    return makeError(`RAG ühenduse viga: ${err?.message || String(err)}`, 502);
+    return makeError(msg, 502);
   }
 }

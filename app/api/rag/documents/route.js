@@ -7,6 +7,8 @@ import { isAdmin } from "@/lib/authz";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
+
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
@@ -16,52 +18,64 @@ export async function GET(req) {
   if (!session) return makeError("Pole sisse logitud", 401);
   if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
-  // piirang URL-ist (UI saadab ?limit=50)
-  const { searchParams } = new URL(req.url);
-  const limitParam = Number(searchParams.get("limit") || 25);
-  const limit = Number.isNaN(limitParam) ? 25 : Math.min(Math.max(limitParam, 1), 100);
+  const url = new URL(req.url);
+  const limitParam = Number(url.searchParams.get("limit") || 25);
+  const limit = Number.isFinite(limitParam)
+    ? Math.min(Math.max(limitParam, 1), 100)
+    : 25;
 
-  // RAG baas-URL ja API võti
   const ragBase = process.env.RAG_API_BASE;
-  const apiKey = process.env.RAG_API_KEY || "";
-
-  if (!ragBase) {
-    return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
-  }
+  if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
   try {
-    const ragRes = await fetch(`${ragBase}/documents`, {
-      headers: { "X-API-Key": apiKey },
-      cache: "no-store",
-    });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
 
-    const raw = await ragRes.text();
-    const data = raw ? JSON.parse(raw) : null;
+    const doFetch = () =>
+      fetch(`${ragBase.replace(/\/+$/, "")}/documents`, {
+        // X-API-Key lisab Nginx
+        cache: "no-store",
+        signal: controller.signal,
+      });
 
-    if (!ragRes.ok) {
-      const msg = data?.detail || data?.message || `RAG /documents vastus ${ragRes.status}`;
-      return makeError(msg, ragRes.status);
+    let res;
+    try {
+      res = await doFetch();
+    } catch {
+      // 1× kiire retry
+      await new Promise((r) => setTimeout(r, 250));
+      res = await doFetch();
     }
 
-    // toeta nii [] kui {docs: []}; null -> []
-    const docs = Array.isArray(data)
-      ? data
-      : Array.isArray(data?.docs)
-      ? data.docs
-      : [];
+    clearTimeout(timeout);
 
-    // Staatuse heuristika:
-    // - kui on error, siis FAILED
-    // - kui chunks > 0, siis COMPLETED
-    // - muidu PENDING
-    const withStatus = docs.slice(0, limit).map((d) => {
+    const raw = await res.text();
+    let data = null;
+    try {
+      data = raw ? JSON.parse(raw) : null;
+    } catch {
+      return makeError("RAG /documents tagastas vigase JSON-i.", 502, { raw: raw?.slice?.(0, 300) });
+    }
+
+    if (!res.ok) {
+      const msg = data?.detail || data?.message || `RAG /documents viga (${res.status})`;
+      return makeError(msg, res.status);
+    }
+
+    // Toeta nii [] kui { docs: [] }
+    const docs = Array.isArray(data) ? data : Array.isArray(data?.docs) ? data.docs : [];
+
+    // Lisa UI-le mugav 'status' väli; kärbi limiidini
+    const out = docs.slice(0, limit).map((d) => {
       let status = d?.chunks && d.chunks > 0 ? "COMPLETED" : "PENDING";
       if (d?.error) status = "FAILED";
       return { ...d, status };
     });
 
-    return NextResponse.json({ ok: true, docs: withStatus });
+    // ⚠️ Tagasta paljas massiiv (UI ootab [])
+    return NextResponse.json(out);
   } catch (err) {
-    return makeError(`RAG /documents viga: ${err?.message || String(err)}`, 502);
+    const msg = err?.name === "AbortError" ? "RAG /documents aegus (timeout)" : err?.message || String(err);
+    return makeError(`RAG /documents viga: ${msg}`, 502);
   }
 }

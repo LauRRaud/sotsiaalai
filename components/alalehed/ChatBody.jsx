@@ -122,17 +122,38 @@ function collapsePages(pages) {
   return out.join(", ");
 }
 
+/* --- autorite normaliseerija: toetab array / JSON-string / komad/semikoolonid --- */
+function asAuthorArray(v) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.map(String).map((s) => s.trim()).filter(Boolean);
+  if (typeof v === "string") {
+    const s = v.trim();
+    if (!s) return [];
+    try {
+      const arr = JSON.parse(s);
+      if (Array.isArray(arr)) return arr.map(String).map((x) => x.trim()).filter(Boolean);
+    } catch {}
+    return s.split(/[;,]/).map((x) => x.trim()).filter(Boolean);
+  }
+  return [];
+}
+
+/* --- kui backend andis short_ref, eelistame seda, muidu vormindame --- */
 function formatSourceLabel(src) {
-  const authors = Array.isArray(src?.authors) ? src.authors.filter(Boolean) : [];
+  if (src?.short_ref && typeof src.short_ref === "string") {
+    return src.short_ref.trim();
+  }
+
+  const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
   const title = src?.title || src?.fileName || src?.url || "Allikas";
-  const issue = src?.issueLabel || src?.issueId || null;
+  const issue = src?.issueLabel || src?.issueId || src?.issue || null;
   const year = src?.year;
-  const pages =
+  const pagesCombined =
     src?.pageRange ||
     collapsePages([
       ...(Array.isArray(src?.pages) ? src.pages : []),
-      src?.page,
+      ...(typeof src?.page === "number" ? [src.page] : []),
     ]);
   const parts = [];
   if (authorText) parts.push(authorText);
@@ -141,7 +162,7 @@ function formatSourceLabel(src) {
     const meta = [issue, year].filter(Boolean).join(", ");
     if (meta) parts.push(meta);
   }
-  if (pages) parts.push(`lk ${pages}`);
+  if (pagesCombined) parts.push(`lk ${pagesCombined}`);
   if (src?.section) parts.push(src.section);
   return parts.join(". ") || title || "Allikas";
 }
@@ -164,6 +185,7 @@ function normalizeSources(sources) {
       page,
       pageRange: pageLabel || undefined,
       fileName: src?.fileName,
+      short_ref: typeof src?.short_ref === "string" ? src.short_ref : undefined,
     };
   });
 }
@@ -485,8 +507,14 @@ export default function ChatBody() {
           if (ev.event === "meta") {
             try {
               const payload = JSON.parse(ev.data);
-              if (Array.isArray(payload?.sources)) {
-                sources = normalizeSources(payload.sources);
+              // toeta nii {sources: [...]} kui {groups: [...]}
+              const rawSources = Array.isArray(payload?.sources)
+                ? payload.sources
+                : Array.isArray(payload?.groups)
+                ? payload.groups
+                : null;
+              if (rawSources) {
+                sources = normalizeSources(rawSources);
                 mutateMessage(streamingMessageId, (msg) => ({ ...msg, sources }));
               }
             } catch {}
@@ -772,7 +800,7 @@ export default function ChatBody() {
             className={`chat-send-btn${isGenerating ? " stop" : ""}`}
             aria-label={isGenerating ? "Peata vastus" : "Saada sõnum"}
             title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
-            disabled={!isGenerating && !input.trim()}
+            disabled={!isGenerating ? !input.trim() : false}
           >
             {isGenerating ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">

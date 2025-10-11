@@ -6,6 +6,7 @@ import { isAdmin } from "@/lib/authz";
 import dns from "node:dns/promises";
 import { isIP } from "node:net";
 import { randomUUID } from "node:crypto";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -37,10 +38,8 @@ function sanitizeUrl(value) {
   try {
     if (!value) return null;
     const parsed = new URL(String(value).trim());
-    // lubame ainult http/https
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
 
-    // keelame localhosti/loopbacki hostid nimede järgi (IP kontroll allpool)
     const hostLower = parsed.hostname.toLowerCase();
     if (
       hostLower === "localhost" ||
@@ -50,7 +49,6 @@ function sanitizeUrl(value) {
       return null;
     }
 
-    // stripime fragmenti (pole sisu jaoks oluline; hoiab deduplit puhtamana)
     parsed.hash = "";
     return parsed.toString();
   } catch {
@@ -60,7 +58,6 @@ function sanitizeUrl(value) {
 
 function isPrivateAddress(address) {
   if (!address) return false;
-  // IPv4 loopback/erivõrgud
   if (address.startsWith("127.")) return true;
   if (address === "0.0.0.0" || address === "255.255.255.255") return true;
 
@@ -70,14 +67,13 @@ function isPrivateAddress(address) {
     if (a === 10) return true;
     if (a === 172 && b >= 16 && b <= 31) return true;
     if (a === 192 && b === 168) return true;
-    if (a === 169 && b === 254) return true; // link-local
+    if (a === 169 && b === 254) return true;
   }
 
-  // IPv6
   const lower = address.toLowerCase();
-  if (lower === "::1" || lower === "::") return true;           // loopback/unspecified
-  if (lower.startsWith("fe80")) return true;                    // link-local
-  if (lower.startsWith("fd") || lower.startsWith("fc")) return true; // unique local
+  if (lower === "::1" || lower === "::") return true;
+  if (lower.startsWith("fe80")) return true;
+  if (lower.startsWith("fd") || lower.startsWith("fc")) return true;
   return false;
 }
 
@@ -86,7 +82,6 @@ async function assertPublicUrl(urlString) {
   const hostname = parsed.hostname;
   if (!hostname) throw new UrlSafetyError("URL-l puudub host.");
 
-  // Kui on IP otse, kontrollime privaatset vahemikku
   if (isIP(hostname)) {
     if (isPrivateAddress(hostname)) {
       throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
@@ -94,7 +89,6 @@ async function assertPublicUrl(urlString) {
     return;
   }
 
-  // Nime põhised keelud (localhost jms)
   const hostLower = hostname.toLowerCase();
   if (
     hostLower === "localhost" ||
@@ -104,7 +98,6 @@ async function assertPublicUrl(urlString) {
     throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
   }
 
-  // DNS lookup – kui mõni A/AAAA lahendub privaatvõrku, keelame
   try {
     const records = await dns.lookup(hostname, { all: true });
     const forbidden = records.some((r) => isPrivateAddress(r.address));
@@ -123,12 +116,10 @@ async function assertPublicUrl(urlString) {
 export async function POST(req) {
   const t0 = Date.now();
 
-  // Auth
   const session = await getServerSession(authConfig);
   if (!session) return makeError("Pole sisse logitud", 401);
   if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
 
-  // Body
   let body;
   try {
     body = await req.json();
@@ -136,7 +127,6 @@ export async function POST(req) {
     return makeError("Keha peab olema JSON.");
   }
 
-  // URL & publikud
   const url = sanitizeUrl(body?.url);
   if (!url) return makeError("Palun sisesta korrektne URL.");
   try {
@@ -161,19 +151,18 @@ export async function POST(req) {
   const audience = normalizeAudience(body?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  // RAG backend
   const ragBase = process.env.RAG_API_BASE;
   const apiKey = process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
-  const docId = randomUUID();
+  const remoteDocId = randomUUID();
 
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
 
     const payload = {
-      docId,
+      docId: remoteDocId,
       url,
       title: title || undefined,
       description: description || undefined,
@@ -192,7 +181,6 @@ export async function POST(req) {
         signal: controller.signal,
       });
 
-    // 1 kiire retry väikese backoffiga (võrgukrambi vastu)
     let res;
     try {
       res = await doFetch();
@@ -208,7 +196,7 @@ export async function POST(req) {
     try {
       data = raw ? JSON.parse(raw) : null;
     } catch {
-      data = { raw }; // mitte-JSON vastus diagnostikaks
+      data = { raw };
     }
 
     if (!res.ok) {
@@ -224,23 +212,55 @@ export async function POST(req) {
       return makeError(msg, status, { code, response: data });
     }
 
-    // Tagasta UI-le hetkeline kirje (kui Prisma logi ei tehta siin)
+    // --- LOKAALNE DB LOGI ---
+    let dbDoc = null;
+    try {
+      dbDoc = await prisma.ragDocument.create({
+        data: {
+          adminId: session?.user?.id || null,
+          title,
+          description,
+          type: "URL",
+          status: "COMPLETED",
+          audience,
+          sourceUrl: url,
+          fileName: null,
+          mimeType: null,
+          fileSize: null,
+          remoteId: remoteDocId,
+          insertedAt: new Date(),
+          chunks:
+            typeof data?.inserted === "number"
+              ? data.inserted
+              : typeof data?.doc?.chunks === "number"
+              ? data.doc.chunks
+              : null,
+          lastIngested: new Date(),
+          metadata: data || undefined,
+        },
+      });
+    } catch (e) {
+      console.warn("[RAG url] DB create ebaõnnestus:", e?.message || e);
+    }
+
     const now = new Date().toISOString();
     console.info(`[RAG url] OK ${url} in ${Date.now() - t0}ms`);
     return NextResponse.json({
       ok: true,
+      warning: dbDoc ? undefined : "URL indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
       doc: {
-        id: docId,
+        id: dbDoc?.id || remoteDocId,
+        dbId: dbDoc?.id || null,
         title,
         description,
         type: "URL",
         status: "COMPLETED",
         sourceUrl: url,
         audience,
-        createdAt: now,
-        updatedAt: now,
-        insertedAt: now,
-        remoteId: docId,
+        createdAt: dbDoc?.createdAt?.toISOString?.() || now,
+        updatedAt: dbDoc?.updatedAt?.toISOString?.() || now,
+        insertedAt: dbDoc?.insertedAt?.toISOString?.() || now,
+        remoteId: remoteDocId,
       },
       rag: data,
     });
