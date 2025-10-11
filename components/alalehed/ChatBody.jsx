@@ -92,6 +92,60 @@ function createSSEReader(stream) {
   };
 }
 
+function uniqueSortedPages(pages) {
+  if (!Array.isArray(pages)) return [];
+  const nums = pages
+    .map((p) => Number(p))
+    .filter((p) => Number.isFinite(p));
+  return [...new Set(nums)].sort((a, b) => a - b);
+}
+
+function collapsePages(pages) {
+  const sorted = uniqueSortedPages(pages);
+  if (!sorted.length) return "";
+  const out = [];
+  let start = null;
+  let prev = null;
+  for (const page of sorted) {
+    if (start === null) {
+      start = prev = page;
+      continue;
+    }
+    if (page === prev + 1) {
+      prev = page;
+      continue;
+    }
+    out.push(start === prev ? `${start}` : `${start}–${prev}`);
+    start = prev = page;
+  }
+  if (start !== null) out.push(start === prev ? `${start}` : `${start}–${prev}`);
+  return out.join(", ");
+}
+
+function formatSourceLabel(src) {
+  const authors = Array.isArray(src?.authors) ? src.authors.filter(Boolean) : [];
+  const authorText = authors.length ? authors.join("; ") : null;
+  const title = src?.title || src?.fileName || src?.url || "Allikas";
+  const issue = src?.issueLabel || src?.issueId || null;
+  const year = src?.year;
+  const pages =
+    src?.pageRange ||
+    collapsePages([
+      ...(Array.isArray(src?.pages) ? src.pages : []),
+      src?.page,
+    ]);
+  const parts = [];
+  if (authorText) parts.push(authorText);
+  if (title) parts.push(title);
+  if (issue || year) {
+    const meta = [issue, year].filter(Boolean).join(", ");
+    if (meta) parts.push(meta);
+  }
+  if (pages) parts.push(`lk ${pages}`);
+  if (src?.section) parts.push(src.section);
+  return parts.join(". ") || title || "Allikas";
+}
+
 /** Normaliseeri serveri allikad  */
 function normalizeSources(sources) {
   if (!Array.isArray(sources)) return [];
@@ -99,9 +153,18 @@ function normalizeSources(sources) {
     const url = src?.url || src?.source || null;
     const page =
       typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
-    const label = src?.title || src?.file || src?.source || "Allikas";
+    const label = formatSourceLabel(src);
     const key = src?.id || url || `${label}-${idx}`;
-    return { key, label, url, page };
+    const pages = Array.isArray(src?.pages) ? uniqueSortedPages(src.pages) : undefined;
+    const pageLabel = src?.pageRange || collapsePages([...(pages || []), page]);
+    return {
+      key,
+      label,
+      url,
+      page,
+      pageRange: pageLabel || undefined,
+      fileName: src?.fileName,
+    };
   });
 }
 

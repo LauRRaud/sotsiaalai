@@ -66,6 +66,82 @@ function parseTags(raw) {
   return null;
 }
 
+function parseStringList(raw, max = 10) {
+  if (!raw) return [];
+  try {
+    if (typeof raw === "string") {
+      const trimmed = raw.trim();
+      if (!trimmed) return [];
+      if (trimmed.startsWith("[")) {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr)) {
+          return arr
+            .map((v) => (typeof v === "string" ? v.trim() : ""))
+            .filter(Boolean)
+            .slice(0, max);
+        }
+        return [];
+      }
+      return trimmed
+        .split(/[,;\n]/)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, max);
+    }
+    if (Array.isArray(raw)) {
+      return raw
+        .map((v) => (typeof v === "string" ? v.trim() : ""))
+        .filter(Boolean)
+        .slice(0, max);
+    }
+  } catch {
+    return [];
+  }
+  return [];
+}
+
+function parsePages(raw) {
+  if (!raw) return [];
+  try {
+    if (typeof raw === "string") {
+      const trimmed = raw.trim();
+      if (!trimmed) return [];
+      if (trimmed.startsWith("[")) {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr)) {
+          return arr
+            .map((v) => Number(v))
+            .filter((n) => Number.isFinite(n))
+            .slice(0, 50);
+        }
+        return [];
+      }
+      return trimmed
+        .split(/[,;\s]+/)
+        .map((s) => Number(s))
+        .filter((n) => Number.isFinite(n))
+        .slice(0, 50);
+    }
+    if (Array.isArray(raw)) {
+      return raw
+        .map((v) => Number(v))
+        .filter((n) => Number.isFinite(n))
+        .slice(0, 50);
+    }
+  } catch {
+    return [];
+  }
+  return [];
+}
+
+function parseYear(raw) {
+  if (!raw) return null;
+  const year = Number(raw);
+  if (!Number.isFinite(year)) return null;
+  if (year < 1800 || year > 2100) return null;
+  return year;
+}
+
 function validateMagicType(buffer, mime) {
   if (!buffer || !Buffer.isBuffer(buffer)) return "Faili sisu ei õnnestunud lugeda.";
   if (TEXT_LIKE_MIME.has(mime) || mime === "application/msword") return null;
@@ -142,6 +218,14 @@ export async function POST(req) {
   const titleRaw = form.get("title");
   const descriptionRaw = form.get("description");
   const tagsRaw = form.get("tags");
+  const authorsRaw = form.get("authors");
+  const issueIdRaw = form.get("issueId");
+  const issueLabelRaw = form.get("issueLabel");
+  const yearRaw = form.get("year");
+  const articleIdRaw = form.get("articleId");
+  const sectionRaw = form.get("section");
+  const pagesRaw = form.get("pages");
+  const pageRangeRaw = form.get("pageRange");
 
   const titleCandidate = (titleRaw && String(titleRaw)) || safeFileName;
   const descCandidate = descriptionRaw ? String(descriptionRaw) : null;
@@ -149,6 +233,19 @@ export async function POST(req) {
   const title = titleCandidate.trim().substring(0, 255) || safeFileName;
   const description = descCandidate ? descCandidate.trim().substring(0, 2000) : null;
   const tags = parseTags(tagsRaw);
+  const authors = parseStringList(authorsRaw, 12);
+  const issueId =
+    typeof issueIdRaw === "string" ? issueIdRaw.trim().slice(0, 160) : null;
+  const issueLabel =
+    typeof issueLabelRaw === "string" ? issueLabelRaw.trim().slice(0, 160) : null;
+  const year = parseYear(yearRaw);
+  const articleId =
+    typeof articleIdRaw === "string" ? articleIdRaw.trim().slice(0, 200) : null;
+  const section =
+    typeof sectionRaw === "string" ? sectionRaw.trim().slice(0, 160) : null;
+  const pages = parsePages(pagesRaw);
+  const pageRange =
+    typeof pageRangeRaw === "string" ? pageRangeRaw.trim().slice(0, 120) : null;
 
   // sisu hash (idempotentsuse/duplikaadi tuvastamiseks)
   const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
@@ -168,6 +265,14 @@ export async function POST(req) {
     description,
     audience,
     ...(Array.isArray(tags) ? { tags } : {}),
+    ...(authors.length ? { authors } : {}),
+    ...(issueId ? { issueId } : {}),
+    ...(issueLabel ? { issueLabel } : {}),
+    ...(typeof year === "number" ? { year } : {}),
+    ...(articleId ? { articleId } : {}),
+    ...(section ? { section } : {}),
+    ...(pages.length ? { pages } : {}),
+    ...(pageRange ? { pageRange } : {}),
   };
 
   try {

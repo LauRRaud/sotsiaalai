@@ -2667,13 +2667,13 @@ left: calc(var(--hud-edge-left) + 15px)
   background: rgba(35,53,80,.72); color: var(--pt-100);
   border:1px solid var(--pt-400);
   border-radius: 1em 1em .35em 1em;
-  padding:.55em .9em; font-size:1.15em; line-height:1.35;
+  padding:.55em .9em; font-size:1.05em; line-height:1.32;
   box-shadow:0 2px 4px rgba(0,0,0,.33);
 }
 .chat-msg-ai{
   background:transparent !important; border:none !important; box-shadow:none !important;
   padding:.25em 0 !important; color:var(--pt-150);
-  max-width:70ch; font-size:1.15em; line-height:1.35;
+  max-width:70ch; font-size:1em; line-height:1.32;
 }
 .chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
 
