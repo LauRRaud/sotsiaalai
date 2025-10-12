@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 
 export default function ConversationDrawer({ children }) {
   const [open, setOpen] = useState(false);
+  const [drawerRoot, setDrawerRoot] = useState(null);
   const panelRef = useRef(null);
   const closeBtnRef = useRef(null);
   const overlayRef = useRef(null);
@@ -23,6 +24,8 @@ export default function ConversationDrawer({ children }) {
 
   // --- Loo / taaskasuta portaalijuurt body all ---
   useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+
     let root = document.querySelector('[data-conversation-drawer-root="true"]');
     let created = false;
     if (!root) {
@@ -32,11 +35,14 @@ export default function ConversationDrawer({ children }) {
       created = true;
     }
     drawerRootRef.current = root;
+    setDrawerRoot(root);
+
     return () => {
       if (created && root?.parentNode) {
         try { root.parentNode.removeChild(root); } catch {}
       }
       drawerRootRef.current = null;
+      setDrawerRoot(null);
     };
   }, []);
 
@@ -149,7 +155,7 @@ export default function ConversationDrawer({ children }) {
   const close = useCallback(() => setOpen(false), []);
 
   // --- Render (portal) ---
-  if (!drawerRootRef.current) return null;
+  if (!drawerRoot) return null;
 
   return createPortal(
     <>
@@ -184,7 +190,7 @@ export default function ConversationDrawer({ children }) {
         <div style={{ padding: 12 }}>{children}</div>
       </aside>
     </>,
-    drawerRootRef.current,
+    drawerRoot,
   );
 }
 

@@ -26,38 +26,6 @@ function formatDateTime(iso) {
   }
 }
 
-function useThrottle(fn, waitMs) {
-  const lastRef = useRef(0);
-  const timerRef = useRef(null);
-  const lastArgsRef = useRef(null);
-
-  return useCallback(
-    (...args) => {
-      const now = Date.now();
-      const remaining = waitMs - (now - lastRef.current);
-      lastArgsRef.current = args;
-
-      if (remaining <= 0) {
-        lastRef.current = now;
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-          timerRef.current = null;
-        }
-        fn(...lastArgsRef.current);
-        lastArgsRef.current = null;
-      } else if (!timerRef.current) {
-        timerRef.current = setTimeout(() => {
-          lastRef.current = Date.now();
-          fn(...(lastArgsRef.current || []));
-          lastArgsRef.current = null;
-          timerRef.current = null;
-        }, remaining);
-      }
-    },
-    [fn, waitMs],
-  );
-}
-
 /* ---------- Component ---------- */
 
 export default function ChatSidebar() {
@@ -66,6 +34,7 @@ export default function ChatSidebar() {
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
   const abortRef = useRef(null);
+  const visibilityThrottleRef = useRef({ timer: null, last: 0 });
 
   // (soovi korral saab seda hiljem kasutada, hetkel pole otseselt tarvis)
   const activeConvId = useMemo(() => {
@@ -106,6 +75,29 @@ export default function ChatSidebar() {
     }
   }, []);
 
+  const scheduleVisibilityRefresh = useCallback(() => {
+    const state = visibilityThrottleRef.current;
+    const now = Date.now();
+    const wait = 2000;
+    const remaining = wait - (now - state.last);
+
+    const run = () => {
+      state.last = Date.now();
+      state.timer = null;
+      fetchList();
+    };
+
+    if (remaining <= 0) {
+      if (state.timer) {
+        clearTimeout(state.timer);
+        state.timer = null;
+      }
+      run();
+    } else if (!state.timer) {
+      state.timer = setTimeout(run, remaining);
+    }
+  }, [fetchList]);
+
   // esmane laadimine + välised värskendused
   useEffect(() => {
     fetchList();
@@ -117,22 +109,30 @@ export default function ChatSidebar() {
     );
 
     // värskenda, kui tab aktsioonilt naaseb (throttlinguga)
-    const throttled = useThrottle(() => {
-      if (document.visibilityState === "visible") fetchList();
-    }, 2000);
-    window.addEventListener("focus", throttled);
-    document.addEventListener("visibilitychange", throttled);
+    const handleVisibilityEvent = () => {
+      if (typeof document === "undefined") return;
+      if (document.visibilityState === "visible") {
+        scheduleVisibilityRefresh();
+      }
+    };
+    window.addEventListener("focus", handleVisibilityEvent);
+    document.addEventListener("visibilitychange", handleVisibilityEvent);
 
     return () => {
       window.removeEventListener(
         "sotsiaalai:refresh-conversations",
         onExternalRefresh,
       );
-      window.removeEventListener("focus", throttled);
-      document.removeEventListener("visibilitychange", throttled);
+      window.removeEventListener("focus", handleVisibilityEvent);
+      document.removeEventListener("visibilitychange", handleVisibilityEvent);
+      const { timer } = visibilityThrottleRef.current;
+      if (timer) {
+        clearTimeout(timer);
+        visibilityThrottleRef.current.timer = null;
+      }
       abortRef.current?.abort();
     };
-  }, [fetchList]); // NB: mitte panna siia useThrottle viidet
+  }, [fetchList, scheduleVisibilityRefresh]); // NB: mõlemad viited on stabiilsed
 
   const onPick = useCallback((id) => {
     try {
