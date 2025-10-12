@@ -1,4 +1,4 @@
-﻿# OS & editor
+# OS & editor
 .DS_Store
 Thumbs.db
 .vscode/
@@ -6,14 +6,15 @@ Thumbs.db
 
 # Env failid (ära pane GitHubi)
 .env
+env.example
 .env.local
 .env.development.local
 .env.test.local
-.env.production.local
+.env.production
 # NEW: ignoreeri .env kõikides kaustades (sh rag-service/.env)
 **/.env
 **/.env.*
-
+!.env.example
 # Logid
 *.log
 npm-debug.log*
@@ -79,4 +80,3 @@ rag-service/storage/**
 .pnpm-store/
 .npm/
 prisma/_backup_old/
-
