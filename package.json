@@ -17,8 +17,10 @@
     "format": "prettier --write .",
     "check": "prisma generate && next lint",
     "prisma:generate": "prisma generate",
-    "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:db:push": "prisma db push",
+    "prisma:migrate:deploy": "dotenv -e .env.production -- prisma migrate deploy",
+    "migrate:prod": "dotenv -e .env.production -- prisma migrate deploy",
+    "db:push:prod": "dotenv -e .env.production -- prisma db push",
+    "prisma:studio:prod": "dotenv -e .env.production -- prisma studio",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -46,7 +48,8 @@
     "eslint": "9.9.0",
     "eslint-config-next": "15.5.3",
     "prettier": "3.3.3",
-    "prisma": "6.16.2"
+    "prisma": "6.16.2",
+    "dotenv-cli": "^7.4.2"
   },
   "browserslist": [
     "last 2 Chrome versions",
