@@ -947,18 +947,20 @@ def search(payload: SearchIn):
             query_embeddings=[q_emb],
             n_results=max(1, min(50, payload.top_k or 5)),
             where=md_where or None,
-            include=["documents", "metadatas", "ids"],
+            include=["ids", "documents", "metadatas", "distances"],
         )
-    except Exception:
-        return {"results": [], "groups": []}
+    except Exception as e:
+        return {"results": [], "groups": [], "error": f"query_failed: {e.__class__.__name__}: {e}"}
 
+    ids = (res.get("ids") or [[]])[0] if res.get("ids") else []
     docs = (res.get("documents") or [[]])[0] if res.get("documents") else []
     metas = (res.get("metadatas") or [[]])[0] if res.get("metadatas") else []
-    ids = (res.get("ids") or [[]])[0] if res.get("ids") else []
+    dists = (res.get("distances") or [[]])[0] if res.get("distances") else []
 
     flat = []
-    for i, ch in enumerate(docs):
-        md = metas[i] if i < len(metas) else {}
+    for i, _id in enumerate(ids):
+        ch = docs[i] if i < len(docs) and isinstance(docs[i], str) else ""
+        md = metas[i] if i < len(metas) and isinstance(metas[i], dict) else {}
         source_path = md.get("source_path")
         file_name = None
         if source_path:
@@ -966,15 +968,9 @@ def search(payload: SearchIn):
                 file_name = Path(source_path).name
             except Exception:
                 file_name = source_path
-        issue_val = (
-            md.get("issue_label")
-            or md.get("issueLabel")
-            or md.get("issue_id")
-            or md.get("issueId")
-            or None
-        )
+        issue_val = md.get("issue_label") or md.get("issueLabel") or md.get("issue_id") or md.get("issueId") or None
         flat.append({
-            "id": ids[i] if i < len(ids) else None,
+            "id": _id,
             "doc_id": md.get("doc_id"),
             "title": md.get("title"),
             "description": md.get("description"),
@@ -993,6 +989,7 @@ def search(payload: SearchIn):
             "fileName": file_name,
             "source_type": md.get("source_type"),
             "page": md.get("page"),
+            "distance": dists[i] if i < len(dists) else None,
         })
 
     groups_map: Dict[Tuple[str, str, str], Dict] = {}
@@ -1022,27 +1019,36 @@ def search(payload: SearchIn):
             groups_map[key] = g
         if isinstance(r.get("page"), int):
             g["pages_all"].append(r["page"])
-        pages_meta = r.get("pages")
-        if isinstance(pages_meta, list):
-            for p in pages_meta:
+        if isinstance(r.get("pages"), list):
+            for p in r["pages"]:
                 if isinstance(p, int):
                     g["pages_all"].append(p)
         if isinstance(r.get("pageRange"), str) and r["pageRange"]:
             g["page_ranges"].append(r["pageRange"])
         g["items"].append(r)
 
+    def _collapse_pages_local(pages):
+        s = sorted({p for p in pages if isinstance(p, int)})
+        if not s:
+            return ""
+        out = []
+        start = prev = None
+        for p in s:
+            if start is None:
+                start = prev = p
+                continue
+            if p == prev + 1:
+                prev = p
+                continue
+            out.append(f"{start}" if start == prev else f"{start}–{prev}")
+            start = prev = p
+        out.append(f"{start}" if start == prev else f"{start}–{prev}")
+        return ", ".join(out)
+
     groups = []
     for g in groups_map.values():
-        pages_compact = _collapse_pages(g["pages_all"])
-        if not pages_compact and g["page_ranges"]:
-            pages_compact = ", ".join(sorted(set(g["page_ranges"])))
-        meta_for_ref = {
-            "authors": g["authors"],
-            "title": g["title"],
-            "year": g["year"],
-            "issue": g["issue"],
-            "issue_id": g["issue"],
-        }
+        pages_compact = _collapse_pages_local(g["pages_all"]) or (", ".join(sorted(set(g["page_ranges"]))) if g["page_ranges"] else "")
+        meta_for_ref = {"authors": g["authors"], "title": g["title"], "year": g["year"], "issue": g["issue"], "issue_id": g["issue"]}
         short_ref = _make_short_ref(meta_for_ref, pages_compact)
         groups.append({
             "doc_id": g["doc_id"],
@@ -1063,5 +1069,4 @@ def search(payload: SearchIn):
         })
 
     groups.sort(key=lambda x: (-x["count"], x["title"] or ""))
-
     return {"results": flat, "groups": groups}

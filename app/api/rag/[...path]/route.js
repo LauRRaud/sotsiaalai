@@ -4,6 +4,7 @@ export const runtime = "nodejs";
 
 // Sisemine RAG teenus (Uvicorn/FastAPI)
 const RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
+
 // API võti, mis lisatakse X-API-Key päisesse
 const RAG_KEY =
   (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
@@ -20,6 +21,28 @@ function buildTargetUrl(req, params) {
   return `${base}${path}${incoming.search}`;
 }
 
+// Hop-by-hop päised, mida ei tohiks edasi kanda
+const HOP_BY_HOP = new Set([
+  "connection",
+  "keep-alive",
+  "proxy-authenticate",
+  "proxy-authorization",
+  "te",
+  "trailer",
+  "upgrade",
+  "transfer-encoding",
+]);
+
+// Valikuline: piirame vaikimisi ainult localhostile
+function isLocalHost(host) {
+  return /^127\.0\.0\.1(?::\d+)?$/.test(host) || /^localhost(?::\d+)?$/i.test(host);
+}
+if (!isLocalHost(RAG_HOST) && process.env.ALLOW_EXTERNAL_RAG !== "1") {
+  console.warn(
+    `[RAG PROXY] RAG_INTERNAL_HOST="${RAG_HOST}" ei ole localhost. Kui see on taotluslik, sea ALLOW_EXTERNAL_RAG=1.`
+  );
+}
+
 async function proxy(req, { params }) {
   if (!RAG_KEY) {
     return new Response(
@@ -30,16 +53,21 @@ async function proxy(req, { params }) {
 
   const target = buildTargetUrl(req, params);
 
-  // Koosta päised: X-API-Key alati, Content-Type ainult kui olemas
-  const headers = new Headers({ "X-API-Key": RAG_KEY });
-  const contentType = req.headers.get("content-type");
-  if (contentType) headers.set("Content-Type", contentType);
+  // Koosta päised: alati X-API-Key, lisaks mõistlik forward (nt Accept/Content-Type/Range)
+  const headers = new Headers();
+  headers.set("X-API-Key", RAG_KEY);
 
-  // GET/HEAD ilma body’ta; muidu tõmba binaarne body (töötab ka file uploadiga)
-  const body =
-    req.method === "GET" || req.method === "HEAD"
-      ? undefined
-      : await req.arrayBuffer();
+  const ct = req.headers.get("content-type");
+  if (ct) headers.set("Content-Type", ct);
+
+  const accept = req.headers.get("accept");
+  if (accept) headers.set("Accept", accept);
+
+  const range = req.headers.get("range");
+  if (range) headers.set("Range", range);
+
+  // Streami request-body otse (ei kopeeri mälu; sobib ka failide/MF uploadiks)
+  const body = req.method === "GET" || req.method === "HEAD" ? undefined : req.body;
 
   // Timeoutiga fetch (AbortController)
   const controller = new AbortController();
@@ -53,14 +81,29 @@ async function proxy(req, { params }) {
       cache: "no-store",
       redirect: "manual",
       signal: controller.signal,
+      // Node.js fetchiga on ReadableStream body puhul vajalik:
+      duplex: body ? "half" : undefined,
     });
 
-    // Puhasta päised, mis võivad tekitada topelt-encoding’u
-    const responseHeaders = new Headers(res.headers);
-    responseHeaders.delete("transfer-encoding");
-    responseHeaders.delete("content-encoding");
+    // Puhasta hop-by-hop päised (jäta Content-Encoding alles — muidu rikume gzip/deflate)
+    const responseHeaders = new Headers();
+    res.headers.forEach((val, key) => {
+      if (!HOP_BY_HOP.has(key.toLowerCase())) responseHeaders.set(key, val);
+    });
 
-    // Säilita sisuvoog (stream) — ära loe bufferiks
+    // SSE-le sõbralikumad päised (kui applicable)
+    const ctype = res.headers.get("content-type") || "";
+    if (ctype.includes("text/event-stream")) {
+      responseHeaders.set("Cache-Control", "no-cache, no-transform");
+      responseHeaders.set("X-Accel-Buffering", "no");
+    } else {
+      // Üldiselt ei taha proxyd midagi cache'ida
+      responseHeaders.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+      responseHeaders.set("Pragma", "no-cache");
+      responseHeaders.set("Expires", "0");
+    }
+
+    // Säilita sisuvoog (stream)
     return new Response(res.body, {
       status: res.status,
       headers: responseHeaders,
@@ -93,4 +136,18 @@ export async function PATCH(req, ctx) {
 }
 export async function DELETE(req, ctx) {
   return proxy(req, ctx);
+}
+// Kasulik CORS/preflight jaoks (kui kunagi vaja)
+export async function HEAD(req, ctx) {
+  return proxy(req, ctx);
+}
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, X-API-Key",
+      "Access-Control-Max-Age": "600",
+    },
+  });
 }

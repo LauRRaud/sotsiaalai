@@ -48,10 +48,32 @@ function normalizeRole(role) {
   return r === "ADMIN" ? "SOCIAL_WORKER" : (r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT");
 }
 
-/* ---------- GET: tagasta kasutaja vestlused (pagineeritult, v.a. DELETED) ----------
+/* ---------- Cursor helpers (epochMs:id) ---------- */
+
+function encodeCursor(d, id) {
+  try {
+    const ms = d instanceof Date ? d.getTime() : Number(new Date(d).getTime());
+    if (!Number.isFinite(ms)) return null;
+    return `${ms}:${id}`;
+  } catch {
+    return null;
+  }
+}
+
+function parseCursor(cur) {
+  if (!cur || typeof cur !== "string") return null;
+  const [msStr, id] = cur.split(":");
+  const ms = Number(msStr);
+  if (!Number.isFinite(ms) || !id) return null;
+  const date = new Date(ms);
+  if (Number.isNaN(date.getTime())) return null;
+  return { date, id };
+}
+
+/* ---------- GET: pagineeritud nimekiri (v.a. DELETED) ----------
    Query:
      - limit: 1..50 (vaikimisi 20)
-     - cursor: "timestamp_ms:id" (näiteks "1733838123456:abc-123")
+     - cursor: "epochMs:id"
 */
 export async function GET(req) {
   const auth = await requireUser();
@@ -60,19 +82,45 @@ export async function GET(req) {
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || 20);
   const limit = Math.max(1, Math.min(50, Number.isFinite(limitParam) ? limitParam : 20));
+  const cursorToken = url.searchParams.get("cursor");
+  const parsed = parseCursor(cursorToken);
+
+  // page-size + 1, et otsustada nextCursor olemasolu
+  const take = limit + 1;
 
   try {
+    const whereBase = {
+      userId: auth.userId,
+      NOT: { status: "DELETED" },
+    };
+
+    // Kursori loogika: (updatedAt < cursorDate) OR (updatedAt = cursorDate AND id < cursorId) – kuna sort on desc.
+    const where =
+      parsed
+        ? {
+            AND: [
+              whereBase,
+              {
+                OR: [
+                  { updatedAt: { lt: parsed.date } },
+                  { AND: [{ updatedAt: parsed.date }, { id: { lt: parsed.id } }] },
+                ],
+              },
+            ],
+          }
+        : whereBase;
+
     const rows = await prisma.conversationRun.findMany({
-      where: {
-        userId: auth.userId,
-        NOT: { status: "DELETED" },
-      },
+      where,
       orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
-      take: limit,
+      take,
       select: { id: true, updatedAt: true, status: true, text: true, role: true },
     });
 
-    const items = rows.map((r) => {
+    const hasMore = rows.length > limit;
+    const pageRows = hasMore ? rows.slice(0, limit) : rows;
+
+    const items = pageRows.map((r) => {
       const preview = (r.text || "").trim().slice(0, 120);
       return {
         id: r.id,
@@ -84,7 +132,10 @@ export async function GET(req) {
       };
     });
 
-    return json({ ok: true, conversations: items, nextCursor: null });
+    const last = pageRows.at(-1);
+    const nextCursor = hasMore && last ? encodeCursor(last.updatedAt, last.id) : null;
+
+    return json({ ok: true, conversations: items, nextCursor });
   } catch (err) {
     return json(
       { ok: false, message: "Database error while listing conversations", error: err?.message },

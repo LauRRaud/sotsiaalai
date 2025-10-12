@@ -2,7 +2,8 @@
 import GoogleProviderImport from "next-auth/providers/google";
 import CredentialsProviderImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "./lib/prisma";
+import prisma, { prisma as prismaNamed } from "./lib/prisma"; // mõlemad olemas, kui kuskil teises failis vajab
+
 import { compare } from "bcrypt";
 
 const GoogleProvider = GoogleProviderImport?.default ?? GoogleProviderImport;
@@ -27,7 +28,12 @@ async function getOrCreateUserByAccount(provider, providerAccountId) {
 
   const user = await prisma.user.create({ data: { role: "CLIENT" } });
   await prisma.account.create({
-    data: { userId: user.id, provider, providerAccountId, type: "oauth" },
+    data: {
+      userId: user.id,
+      provider,
+      providerAccountId,
+      type: "credentials", // eID stub login on credentials-liigiga
+    },
   });
   return user;
 }
@@ -39,8 +45,7 @@ export const authConfig = {
   // v4: JWT strateegia – sobib App Routeri serverikomponentidega
   session: { strategy: "jwt" },
 
-  // Kui soovid custom login-lehte, määra siia; muidu kasuta NextAuth defaulti:
-  // pages: { signIn: "/api/auth/signin" },
+  // Soovi korral: pages: { signIn: "/api/auth/signin" },
 
   providers: [
     /** 1) Email + parool (Credentials) */
@@ -52,7 +57,7 @@ export const authConfig = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (creds) => {
-        const email = String(creds?.email || "").trim();
+        const email = String(creds?.email || "").trim().toLowerCase();
         const password = String(creds?.password || "");
         if (!email || !password) return null;
 
@@ -62,7 +67,6 @@ export const authConfig = {
         const ok = await compare(password, user.passwordHash);
         if (!ok) return null;
 
-        // Tagasta minimaalselt id + roll; NextAuth paneb selle JWT-sse
         return {
           id: user.id,
           email: user.email,
@@ -106,14 +110,20 @@ export const authConfig = {
 
     /** 3) Google OAuth (toetab nii *_CLIENT_* kui ka legacy *_ID_* env’e) */
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_SECRET,
+      clientId:
+        process.env.GOOGLE_CLIENT_ID ||
+        process.env.GOOGLE_ID ||
+        "",
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET ||
+        process.env.GOOGLE_SECRET ||
+        "",
       allowDangerousEmailAccountLinking: true,
     }),
   ],
 
   callbacks: {
-    /** JWT – salvestame rolli, isAdmin’i ning subActive lippu */
+    /** JWT – salvestame rolli, isAdmin’i ning aktiivse tellimuse lipu */
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -121,11 +131,15 @@ export const authConfig = {
         token.isAdmin = Boolean(user.isAdmin);
       }
 
-      // Lisa / värskenda aktiivse tellimuse lipp
+      // Lisa / värskenda aktiivse tellimuse lipp (ACTIVE ja kehtiv)
       if (token.id) {
         try {
           const active = await prisma.subscription.findFirst({
-            where: { userId: String(token.id), status: "ACTIVE" },
+            where: {
+              userId: String(token.id),
+              status: "ACTIVE",
+              OR: [{ validUntil: null }, { validUntil: { gt: new Date() } }],
+            },
             select: { id: true },
           });
           token.subActive = Boolean(active);

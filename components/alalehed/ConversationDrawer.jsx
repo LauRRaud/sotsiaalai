@@ -8,7 +8,8 @@ export default function ConversationDrawer({ children }) {
   const panelRef = useRef(null);
   const closeBtnRef = useRef(null);
   const overlayRef = useRef(null);
-  const drawerRootRef = useRef(null); // hoidke overlay + panel ühes “juures”
+  const drawerRootRef = useRef(null); // overlay + paneli konteiner
+  const headerIdRef = useRef(`drawer-title-${Math.random().toString(36).slice(2, 8)}`);
 
   // --- Väline toggle event ---
   useEffect(() => {
@@ -20,97 +21,94 @@ export default function ConversationDrawer({ children }) {
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
   }, []);
 
-  // --- Loo portaalijuure DIV body alla (esmakordsel mountimisel) ---
+  // --- Loo / taaskasuta portaalijuurt body all ---
   useEffect(() => {
-    const root = document.createElement("div");
-    root.setAttribute("data-conversation-drawer-root", "true");
+    let root = document.querySelector('[data-conversation-drawer-root="true"]');
+    let created = false;
+    if (!root) {
+      root = document.createElement("div");
+      root.setAttribute("data-conversation-drawer-root", "true");
+      document.body.appendChild(root);
+      created = true;
+    }
     drawerRootRef.current = root;
-    document.body.appendChild(root);
     return () => {
-      try {
-        document.body.removeChild(root);
-      } catch {}
+      if (created && root?.parentNode) {
+        try { root.parentNode.removeChild(root); } catch {}
+      }
       drawerRootRef.current = null;
     };
   }, []);
 
-  // --- Body scroll lock + tausta inert/aria-hidden ---
+  // --- Body scroll lock (koos kerimisriba kompensatsiooniga) ---
   useEffect(() => {
+    if (!open) return;
+
     const body = document.body;
-    if (!open) {
-      body.classList.remove("modal-open");
-      unsetBackdropInert();
-      return;
+    const prevOverflow = body.style.overflow;
+    const prevPaddingRight = body.style.paddingRight;
+
+    const scrollbarWidth = getScrollbarWidth();
+    body.style.overflow = "hidden";
+    // kui kerimisriba on nähtav, kompenseeri
+    if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
+      const current = parseFloat(getComputedStyle(body).paddingRight) || 0;
+      body.style.paddingRight = `${current + scrollbarWidth}px`;
     }
-    body.classList.add("modal-open");
-    setBackdropInert();
+
     return () => {
-      body.classList.remove("modal-open");
-      unsetBackdropInert();
+      body.style.overflow = prevOverflow;
+      body.style.paddingRight = prevPaddingRight;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  function setBackdropInert() {
-    const root = drawerRootRef.current;
-    if (!root) return;
-    const children = Array.from(document.body.children);
-    for (const el of children) {
-      if (el === root) continue;
-      try {
-        el.setAttribute("aria-hidden", "true");
-        // inert on eksperimentaalne, lisame kui olemas
-        if ("inert" in el) {
-          // @ts-ignore
-          el.inert = true;
-        }
-      } catch {}
-    }
-  }
-
-  function unsetBackdropInert() {
-    const root = drawerRootRef.current;
-    if (!root) return;
-    const children = Array.from(document.body.children);
-    for (const el of children) {
-      if (el === root) continue;
-      try {
-        el.removeAttribute("aria-hidden");
-        if ("inert" in el) {
-          // @ts-ignore
-          el.inert = false;
-        }
-      } catch {}
-    }
-  }
-
-  // --- ESC sulgemine ---
+  // --- Tausta inert/aria-hidden (ainult sibling'id, portaali juur välja jäetud) ---
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const portalRoot = drawerRootRef.current;
+    if (!portalRoot) return;
+
+    const siblings = Array.from(document.body.children).filter((el) => el !== portalRoot);
+
+    if (open) {
+      for (const el of siblings) {
+        try {
+          el.setAttribute("aria-hidden", "true");
+          if ("inert" in el) {
+            // @ts-ignore
+            el.inert = true;
+          }
+        } catch {}
+      }
+      return () => {
+        for (const el of siblings) {
+          try {
+            el.removeAttribute("aria-hidden");
+            if ("inert" in el) {
+              // @ts-ignore
+              el.inert = false;
+            }
+          } catch {}
+        }
+      };
+    }
   }, [open]);
 
-  // --- Fookuse haldus (trap + esmane fookus) ---
+  // --- ESC sulgemine + TAB fookuse püünis (kuulame dokumendilt avatuna) ---
   useEffect(() => {
     if (!open) return;
 
-    // Sea esmane fookus sulgemisnupule (või esimesele fookustavale)
-    const toFocus =
-      closeBtnRef.current ||
-      panelRef.current?.querySelector(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-    // väikese viitega, et render jõuaks lõpule
-    const t = setTimeout(() => toFocus?.focus(), 0);
-
-    // Trap TAB/Shift+TAB paneeli sisse
     function onKeydown(e) {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        setOpen(false);
+        return;
+      }
       if (e.key !== "Tab") return;
-      const focusable = getFocusable(panelRef.current);
+
+      const root = panelRef.current;
+      if (!root) return;
+
+      const focusable = getFocusable(root);
       if (!focusable.length) {
         e.preventDefault();
         return;
@@ -120,23 +118,32 @@ export default function ConversationDrawer({ children }) {
       const active = document.activeElement;
 
       if (e.shiftKey) {
-        if (active === first || !panelRef.current.contains(active)) {
+        if (active === first || !root.contains(active)) {
           e.preventDefault();
           last.focus();
         }
       } else {
-        if (active === last || !panelRef.current.contains(active)) {
+        if (active === last || !root.contains(active)) {
           e.preventDefault();
           first.focus();
         }
       }
     }
 
-    panelRef.current?.addEventListener("keydown", onKeydown);
-    return () => {
-      clearTimeout(t);
-      panelRef.current?.removeEventListener("keydown", onKeydown);
-    };
+    document.addEventListener("keydown", onKeydown, true);
+    return () => document.removeEventListener("keydown", onKeydown, true);
+  }, [open]);
+
+  // --- Esmane fookus paneelis ---
+  useEffect(() => {
+    if (!open) return;
+    const toFocus =
+      closeBtnRef.current ||
+      panelRef.current?.querySelector(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+    const t = setTimeout(() => toFocus?.focus(), 0);
+    return () => clearTimeout(t);
   }, [open]);
 
   const close = useCallback(() => setOpen(false), []);
@@ -158,12 +165,12 @@ export default function ConversationDrawer({ children }) {
       <aside
         ref={panelRef}
         role="dialog"
-        aria-label="Vestlused"
-        aria-modal="true"
+        aria-labelledby={headerIdRef.current}
+        aria-modal={open ? "true" : undefined}
         className={`drawer-panel ${open ? "open" : ""}`}
       >
         <header className="drawer-header">
-          <strong>Vestlused</strong>
+          <strong id={headerIdRef.current}>Vestlused</strong>
           <button
             ref={closeBtnRef}
             onClick={close}
@@ -177,7 +184,7 @@ export default function ConversationDrawer({ children }) {
         <div style={{ padding: 12 }}>{children}</div>
       </aside>
     </>,
-    drawerRootRef.current
+    drawerRootRef.current,
   );
 }
 
@@ -198,16 +205,25 @@ function getFocusable(root) {
       "embed",
       "[contenteditable]",
       "[tabindex]:not([tabindex='-1'])",
-    ].join(",")
+    ].join(","),
   );
-  return Array.from(nodes).filter((el) => isVisible(el));
+  return Array.from(nodes).filter(isVisible);
 }
 
 function isVisible(el) {
-  return !!(
-    el.offsetWidth ||
-    el.offsetHeight ||
-    el.getClientRects().length
-  );
+  return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
 }
 
+function getScrollbarWidth() {
+  // mõõdame dünaamiliselt – töökindel kõigil platvormidel
+  const scrollDiv = document.createElement("div");
+  scrollDiv.style.width = "100px";
+  scrollDiv.style.height = "100px";
+  scrollDiv.style.overflow = "scroll";
+  scrollDiv.style.position = "absolute";
+  scrollDiv.style.top = "-9999px";
+  document.body.appendChild(scrollDiv);
+  const width = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+  document.body.removeChild(scrollDiv);
+  return width;
+}

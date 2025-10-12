@@ -14,10 +14,23 @@ const TOKEN_EXPIRY_MINUTES = Number(process.env.RESET_TOKEN_MINUTES || 60);
 
 // ----------------- utils: responses -----------------
 function ok(payload = {}) {
-  return NextResponse.json({ ok: true, ...payload });
+  return NextResponse.json({ ok: true, ...payload }, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  });
 }
 function err(message, status = 400, extras = {}) {
-  return NextResponse.json({ ok: false, message, ...extras }, { status });
+  return NextResponse.json({ ok: false, message, ...extras }, {
+    status,
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  });
 }
 
 // ----------------- base URL & reset link -----------------
@@ -50,7 +63,6 @@ function parseConnectionString(connectionString) {
 }
 function resolveSmtpConfig() {
   if (process.env.EMAIL_SERVER) return parseConnectionString(process.env.EMAIL_SERVER);
-
   if (process.env.SMTP_HOST) {
     const port = Number(process.env.SMTP_PORT || 587);
     const secure = process.env.SMTP_SECURE ? process.env.SMTP_SECURE === "true" : port === 465;
@@ -340,31 +352,26 @@ export async function PUT(request) {
     if (!token || !password) return err("Puudub token või parool.", 400);
     if (password.length < 6) return err("Parool peab olema vähemalt 6 märki.", 400);
 
-    const verificationToken = await prisma.verificationToken.findUnique({ where: { token } });
+    // NB: kasuta findFirst, ära eelda @unique tokenil
+    const verificationToken = await prisma.verificationToken.findFirst({ where: { token } });
     if (!verificationToken) return err("Token on vigane või on see juba kasutatud.", 400);
 
     if (verificationToken.expires < new Date()) {
-      await prisma.verificationToken.delete({
-        where: { identifier_token: { identifier: verificationToken.identifier, token } },
-      });
+      await prisma.verificationToken.deleteMany({ where: { token } });
       return err("Taastelink on aegunud. Palun taotle uus link.", 410);
     }
 
     const email = normalizeEmail(verificationToken.identifier);
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      await prisma.verificationToken.delete({
-        where: { identifier_token: { identifier: verificationToken.identifier, token } },
-      });
+      await prisma.verificationToken.deleteMany({ where: { token } });
       return err("Kasutajat ei leitud.", 404);
     }
 
     const passwordHash = await hash(password, 12);
     await prisma.$transaction(async (tx) => {
       await tx.user.update({ where: { id: user.id }, data: { passwordHash } });
-      await tx.verificationToken.delete({
-        where: { identifier_token: { identifier: verificationToken.identifier, token } },
-      });
+      await tx.verificationToken.deleteMany({ where: { token } });
     });
 
     return ok({ requiresReauth: true });

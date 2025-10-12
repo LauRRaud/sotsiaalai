@@ -3,60 +3,73 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
-  const { pathname, search } = req.nextUrl;
+  const url = req.nextUrl.clone();
+  const { pathname, search } = url;
 
-  // Jäta well-known (ACME, OIDC jne) rahule
-  if (pathname.startsWith("/.well-known")) {
+  // Tehnilised ja avalikud rajad: jäta puutumata
+  if (
+    pathname.startsWith("/.well-known") ||
+    pathname.startsWith("/_next") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/robots.txt" ||
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/icons/") ||
+    pathname.startsWith("/logo/")
+  ) {
     return NextResponse.next();
   }
 
-  // Ära sekku next-auth ja _next staticusse
-  if (pathname.startsWith("/api/auth") || pathname.startsWith("/_next")) {
+  // NextAuth enda API
+  if (pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
 
-  // CORS preflight (nt RAG admin fetch): lase läbi
+  // CORS preflight
   if (req.method === "OPTIONS") {
     return NextResponse.next();
   }
 
-  // Lase avalik RAG proxy (/api/rag/**) ilma authita (catch-all route tegeleb edasi)
+  // RAG proxy on avalik (edasi kontrollivad server-route'id)
   if (pathname === "/api/rag" || pathname.startsWith("/api/rag/")) {
     return NextResponse.next();
   }
 
-  const isAdminPage = pathname.startsWith("/admin");
+  // Kaitstavad lehed
+  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
   const isProtectedPage =
-    pathname.startsWith("/profiil") || pathname.startsWith("/vestlus");
+    pathname === "/profiil" ||
+    pathname.startsWith("/profiil/") ||
+    pathname === "/vestlus" ||
+    pathname.startsWith("/vestlus/");
 
-  // Lase kõik muu läbi
+  // Kõik muu jääb vabaks
   if (!isAdminPage && !isProtectedPage) {
     return NextResponse.next();
   }
 
-  let token = null;
-  if (isAdminPage || isProtectedPage) {
-    token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  }
+  // Loe token (JWT) — vajas NEXTAUTH_SECRET väärtust
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
   const role = String(token?.role ?? token?.user?.role ?? "").toUpperCase();
   const isAdmin = token?.isAdmin === true || role === "ADMIN";
   const callbackUrl = pathname + (search || "");
 
-  // --- Lehed (redirect loogika jääb samaks) ---
+  // Adminilehed: nõua admini
   if (isAdminPage && (!token || !isAdmin)) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/api/auth/signin";
-    url.searchParams.set("reason", token ? "not-authorized" : "not-logged-in");
-    url.searchParams.set("callbackUrl", callbackUrl);
-    return NextResponse.redirect(url);
+    const dest = req.nextUrl.clone();
+    dest.pathname = "/api/auth/signin";
+    dest.searchParams.set("reason", token ? "not-authorized" : "not-logged-in");
+    dest.searchParams.set("callbackUrl", callbackUrl);
+    return NextResponse.redirect(dest);
   }
 
+  // Tavalised kaitstud lehed: nõua sisselogimist
   if (isProtectedPage && !token) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/api/auth/signin";
-    url.searchParams.set("reason", "not-logged-in");
-    url.searchParams.set("callbackUrl", callbackUrl);
-    return NextResponse.redirect(url);
+    const dest = req.nextUrl.clone();
+    dest.pathname = "/api/auth/signin";
+    dest.searchParams.set("reason", "not-logged-in");
+    dest.searchParams.set("callbackUrl", callbackUrl);
+    return NextResponse.redirect(dest);
   }
 
   return NextResponse.next();

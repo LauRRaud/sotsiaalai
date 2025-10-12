@@ -126,6 +126,7 @@ export default function RagAdminPanel() {
   const fileFormRef = useRef(null);
   const fileInputRef = useRef(null);
   const urlFormRef = useRef(null);
+  const fetchAbortRef = useRef(null);
 
   /* ----- utils ----- */
 
@@ -140,9 +141,15 @@ export default function RagAdminPanel() {
   /* ----- laadimine + automaatne värskendus ----- */
 
   const fetchDocuments = useCallback(async () => {
+    fetchAbortRef.current?.abort?.();
+    const ac = new AbortController();
+    fetchAbortRef.current = ac;
     setLoadingList(true);
     try {
-      const res = await fetch("/api/rag-admin/documents?limit=50", { cache: "no-store" });
+      const res = await fetch("/api/rag-admin/documents?limit=50", {
+        cache: "no-store",
+        signal: ac.signal,
+      });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : null;
 
@@ -155,7 +162,9 @@ export default function RagAdminPanel() {
 
       setDocs(list);
     } catch (err) {
-      showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
+      if (err?.name !== "AbortError") {
+        showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
+      }
     } finally {
       setLoadingList(false);
     }
@@ -163,6 +172,7 @@ export default function RagAdminPanel() {
 
   useEffect(() => {
     fetchDocuments();
+    return () => fetchAbortRef.current?.abort?.();
   }, [fetchDocuments]);
 
   // Kui on PENDING/PROCESSING, värskenda intervalliga (POLL_MS) ja peata taustal
@@ -276,7 +286,6 @@ export default function RagAdminPanel() {
         setFileAudience("BOTH");
         form.reset();
 
-        // soovi korral võiks siia push'ida data.doc (kui API tagastab) — praegu teeme värskenduse
         await fetchDocuments();
       } catch (err) {
         showError(err?.message || "Faili laadimine ebaõnnestus.");
@@ -690,6 +699,7 @@ export default function RagAdminPanel() {
             type="button"
             onClick={manualRefresh}
             disabled={loadingList}
+            aria-busy={loadingList ? "true" : "false"}
             style={{
               padding: "0.45rem 0.9rem",
               borderRadius: "999px",
@@ -813,6 +823,14 @@ export default function RagAdminPanel() {
                       </dt>
                       <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatDateTime(doc.updatedAt)}</dd>
                     </div>
+                    {typeof doc.chunks === "number" ? (
+                      <div>
+                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                          Tükke
+                        </dt>
+                        <dd style={{ margin: 0, fontSize: "0.88rem" }}>{doc.chunks}</dd>
+                      </div>
+                    ) : null}
                     {doc.fileSize ? (
                       <div>
                         <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
@@ -850,6 +868,7 @@ export default function RagAdminPanel() {
                       type="button"
                       onClick={() => handleReindex(doc.id)}
                       disabled={reindexingId === doc.id}
+                      aria-busy={reindexingId === doc.id ? "true" : "false"}
                       style={{
                         padding: "0.45rem 0.9rem",
                         borderRadius: "999px",
@@ -870,6 +889,7 @@ export default function RagAdminPanel() {
                         type="button"
                         onClick={() => handleDelete(doc.id)}
                         disabled={deletingId === doc.id}
+                        aria-busy={deletingId === doc.id ? "true" : "false"}
                         style={{
                           padding: "0.45rem 0.9rem",
                           borderRadius: "999px",

@@ -1,11 +1,8 @@
-// app/api/rag/upload/route.js
+// app/api/rag-admin/upload/route.js
 import { NextResponse } from "next/server";
 import { Buffer } from "node:buffer";
 import { randomUUID } from "node:crypto";
 import crypto from "node:crypto";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
-import { isAdmin } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -26,6 +23,35 @@ const TEXT_LIKE_MIME = new Set(["text/plain", "text/markdown", "text/html"]);
 const DOCX_SIGNATURE = Buffer.from([0x50, 0x4b, 0x03, 0x04]);
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
+/* ---------- auth loader (kooskõlas teiste route’idega) ---------- */
+async function getAuthOptions() {
+  try {
+    const mod = await import("@/pages/api/auth/[...nextauth]");
+    return mod.authOptions || mod.default || mod.authConfig;
+  } catch {
+    try {
+      const mod = await import("@/auth");
+      return mod.authOptions || mod.default || mod.authConfig;
+    } catch {
+      return undefined;
+    }
+  }
+}
+
+async function requireAdmin() {
+  const { getServerSession } = await import("next-auth/next");
+  const authOptions = await getAuthOptions();
+  const session = await getServerSession(authOptions);
+  const isAdmin =
+    !!session?.user?.isAdmin ||
+    String(session?.user?.role || "").toUpperCase() === "ADMIN";
+
+  if (!session?.user?.id) return { ok: false, status: 401, message: "Pole sisse logitud" };
+  if (!isAdmin) return { ok: false, status: 403, message: "Ligipääs keelatud" };
+  return { ok: true, userId: session.user.id, session };
+}
+
+/* ---------- helpers ---------- */
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
@@ -163,12 +189,11 @@ function validateMagicType(buffer, mime) {
   return null;
 }
 
+/* ---------- route ---------- */
 export async function POST(req) {
   const t0 = Date.now();
-
-  const session = await getServerSession(authConfig);
-  if (!session) return makeError("Pole sisse logitud", 401);
-  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
+  const admin = await requireAdmin();
+  if (!admin.ok) return makeError(admin.message, admin.status);
 
   const form = await req.formData();
   const file = form.get("file");
@@ -248,9 +273,11 @@ export async function POST(req) {
 
   const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
 
-  const ragBase = process.env.RAG_API_BASE;
-  const apiKey = process.env.RAG_API_KEY || "";
+  const ragBase = (process.env.RAG_API_BASE || "").trim();
+  const apiKey =
+    (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
+  if (!apiKey) return makeError("RAG_SERVICE_API_KEY puudub serveri keskkonnast.", 500);
 
   const remoteDocId = randomUUID();
 
@@ -263,7 +290,7 @@ export async function POST(req) {
     title,
     description,
     audience,
-    ...(Array.isArray(tags) ? { tags } : {}),
+    ...(Array.isArray(tags) ? { tags } : {}), // (NB: praegune RAG backend ei kasuta 'tags', ohutu jätta)
     ...(authors.length ? { authors } : {}),
     ...(issueId ? { issueId } : {}),
     ...(issueLabel ? { issueLabel } : {}),
@@ -278,11 +305,13 @@ export async function POST(req) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
 
+    const base = ragBase.replace(/\/+$/, "");
     const doFetch = () =>
-      fetch(`${ragBase}/ingest/file`, {
+      fetch(`${base}/ingest/file`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
           "X-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
@@ -294,6 +323,7 @@ export async function POST(req) {
     try {
       res = await doFetch();
     } catch (e) {
+      // üks kiire retry
       await new Promise((r) => setTimeout(r, 300));
       res = await doFetch();
     }
@@ -326,11 +356,13 @@ export async function POST(req) {
     // --- LOKAALNE DB LOGI ---
     let dbDoc = null;
     try {
+      const inserted = Number.isFinite(data?.inserted) ? Number(data.inserted) : null;
+      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED"; // hoia completed; vajadusel muuda PROCESSING-uks
       const createData = {
         title,
         description,
         type: "FILE",
-        status: "COMPLETED",
+        status,
         audience,
         fileName: safeFileName,
         mimeType: type,
@@ -340,15 +372,16 @@ export async function POST(req) {
         insertedAt: new Date(),
         metadata: data || undefined,
       };
-      if (session?.user?.id) {
-        createData.admin = { connect: { id: session.user.id } };
+      if (admin.userId) {
+        createData.admin = { connect: { id: admin.userId } };
       }
       dbDoc = await prisma.ragDocument.create({ data: createData });
     } catch (e) {
       console.warn("[RAG upload] DB create ebaõnnestus:", e?.message || e);
     }
 
-    const out = NextResponse.json({
+    console.info(`[RAG upload] OK ${safeFileName} in ${Date.now() - t0}ms`);
+    return NextResponse.json({
       ok: true,
       warning: dbDoc ? undefined : "Dokument indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
       doc: {
@@ -359,7 +392,7 @@ export async function POST(req) {
         description,
         tags: Array.isArray(tags) ? tags : undefined,
         type: "FILE",
-        status: "COMPLETED",
+        status: dbDoc?.status || "COMPLETED",
         fileName: safeFileName,
         mimeType: type,
         fileSize: buffer.length,
@@ -371,9 +404,6 @@ export async function POST(req) {
       },
       rag: data,
     });
-
-    console.info(`[RAG upload] OK ${safeFileName} in ${Date.now() - t0}ms`);
-    return out;
   } catch (err) {
     const message =
       err?.name === "AbortError"

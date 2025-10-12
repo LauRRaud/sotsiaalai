@@ -7,6 +7,7 @@ import Link from "next/link";
 const INTRO_MESSAGE =
   "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
 const MAX_HISTORY = 8;
+const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
@@ -94,9 +95,7 @@ function createSSEReader(stream) {
 
 function uniqueSortedPages(pages) {
   if (!Array.isArray(pages)) return [];
-  const nums = pages
-    .map((p) => Number(p))
-    .filter((p) => Number.isFinite(p));
+  const nums = pages.map((p) => Number(p)).filter((p) => Number.isFinite(p));
   return [...new Set(nums)].sort((a, b) => a - b);
 }
 
@@ -122,7 +121,7 @@ function collapsePages(pages) {
   return out.join(", ");
 }
 
-/* --- autorite normaliseerija: toetab array / JSON-string / komad/semikoolonid --- */
+/* --- autorite normaliseerija --- */
 function asAuthorArray(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.map(String).map((s) => s.trim()).filter(Boolean);
@@ -138,7 +137,7 @@ function asAuthorArray(v) {
   return [];
 }
 
-/* --- kui backend andis short_ref, eelistame seda, muidu vormindame --- */
+/* --- kui backend andis short_ref, eelistame seda --- */
 function formatSourceLabel(src) {
   if (src?.short_ref && typeof src.short_ref === "string") {
     return src.short_ref.trim();
@@ -290,6 +289,7 @@ export default function ChatBody() {
       if (!newId) return;
       try {
         window.sessionStorage.setItem(`${storageKey}:convId`, newId);
+        window.sessionStorage.setItem(GLOBAL_CONV_KEY, newId);
       } catch {}
       setConvId(newId);
       setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
@@ -339,16 +339,22 @@ export default function ChatBody() {
       setMessages(hydrated);
     }
 
-    const idFromStorage =
+    const idFromGlobal =
+      typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
+    const idFromPerUser =
       typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
+
     const initialConvId =
-      idFromStorage ||
+      idFromGlobal ||
+      idFromPerUser ||
       (typeof window !== "undefined" && window.crypto?.randomUUID
         ? window.crypto.randomUUID()
         : String(Date.now()));
+
     setConvId(initialConvId);
-    if (!idFromStorage && typeof window !== "undefined") {
-      window.sessionStorage.setItem(`${storageKey}:convId`, initialConvId);
+    if (typeof window !== "undefined") {
+      if (!idFromGlobal) window.sessionStorage.setItem(GLOBAL_CONV_KEY, initialConvId);
+      if (!idFromPerUser) window.sessionStorage.setItem(`${storageKey}:convId`, initialConvId);
     }
 
     return () => {
@@ -379,6 +385,11 @@ export default function ChatBody() {
         if (!r.ok) return;
         const data = await r.json();
         if (!data?.ok || cancelled) return;
+
+        // Kui kasutaja jõudis vahepeal vestlust vahetada, ära kirjuta üle
+        const currentGlobalId =
+          typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
+        if (convId !== currentGlobalId) return;
 
         const serverText = String(data.text || "");
         const serverSources = normalizeSources(data.sources ?? []);
@@ -718,7 +729,7 @@ export default function ChatBody() {
                           <a
                             href={src.url}
                             target="_blank"
-                            rel="noopener noreferrer"
+                            rel="noopener noreferrer nofollow"
                             className="chat-source-link"
                           >
                             {src.label}

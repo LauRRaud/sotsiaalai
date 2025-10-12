@@ -21,11 +21,19 @@ const ROLE_BEHAVIOUR = {
     "Vasta professionaalselt, lisa asjakohased viited.",
 };
 
+// ---- Konfig (turvalised vaikimisi) ----
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 const RAG_TOP_K = Number(process.env.RAG_TOP_K || 5);
 const RAG_CTX_MAX_CHARS = Number(process.env.RAG_CTX_MAX_CHARS || 4000);
 const NO_CONTEXT_MSG =
   "Vabandust, RAG-andmebaasist ei leitud selle teema kohta sobivaid allikaid. Proovi palun täpsustada küsimust või kasutada teistsuguseid märksõnu.";
+
+const RAG_BASE = process.env.RAG_API_BASE || "http://127.0.0.1:8000";
+// toeta mõlemat võtmenime
+const RAG_KEY =
+  process.env.RAG_SERVICE_API_KEY ||
+  process.env.RAG_API_KEY ||
+  "";
 
 /* ------------------------- Helpers ------------------------- */
 
@@ -275,20 +283,16 @@ async function streamOpenAI({ history, userMessage, context, effectiveRole }) {
 /* ------------------------- RAG search ------------------------- */
 
 async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
-  const ragBase = process.env.RAG_API_BASE;
-  const apiKey = process.env.RAG_API_KEY || "";
-  if (!ragBase) throw new Error("RAG_API_BASE puudub .env failist");
-
   const body = { query, top_k: topK, where: filters || undefined };
 
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), 15000); // 15s timeout
 
-  const res = await fetch(`${ragBase}/search`, {
+  const res = await fetch(`${RAG_BASE}/search`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(apiKey ? { "X-API-Key": apiKey } : {}),
+      ...(RAG_KEY ? { "X-API-Key": RAG_KEY } : {}),
     },
     body: JSON.stringify(body),
     cache: "no-store",
@@ -401,7 +405,7 @@ export async function POST(req) {
   try {
     matches = await searchRagDirect({ query: message, topK: RAG_TOP_K, filters: audienceFilter });
   } catch {
-    // ÄRA tee fallback'i – kasutame ainult andmebaasi sisu
+    // Ainult andmebaasi sisu – pole fallback'i
   }
   const context = buildContextBlocks(matches);
 
@@ -409,9 +413,7 @@ export async function POST(req) {
   const sources = Array.isArray(matches)
     ? matches.map((m, i) => {
         const n = normalizeMatch(m, i);
-        const pageNumbers = Array.isArray(n.pages)
-          ? n.pages.filter(Number.isFinite)
-          : [];
+        const pageNumbers = Array.isArray(n.pages) ? n.pages.filter(Number.isFinite) : [];
         if (Number.isFinite(n.page)) pageNumbers.push(Number(n.page));
         const pageText = n.pageRange || collapsePages(pageNumbers);
         return {
@@ -581,6 +583,7 @@ export async function POST(req) {
             }
             await maybeFlush();
           } else if (ev.type === "done") {
+            // tee kindel lõpp-flush enne done'i
             if (persist && convId && userId) {
               await persistAppend({ convId, userId, fullText: accumulated });
               await persistDone({ convId, userId, status: "COMPLETED" });

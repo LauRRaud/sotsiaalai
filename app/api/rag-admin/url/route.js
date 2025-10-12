@@ -1,4 +1,4 @@
-// app/api/rag/url/route.js
+// app/api/rag-admin/url/route.js
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
@@ -151,9 +151,12 @@ export async function POST(req) {
   const audience = normalizeAudience(body?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  const ragBase = process.env.RAG_API_BASE;
-  const apiKey = process.env.RAG_API_KEY || "";
+  const ragBaseRaw = (process.env.RAG_API_BASE || "").trim();
+  const ragBase = ragBaseRaw.replace(/\/+$/, "");
+  const apiKey =
+    (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
+  if (!apiKey) return makeError("RAG_SERVICE_API_KEY puudub serveri keskkonnast.", 500);
 
   const remoteDocId = randomUUID();
 
@@ -174,6 +177,8 @@ export async function POST(req) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
+          "User-Agent": "SotsiaalAI-RAG-Admin/1.0",
           "X-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
@@ -185,6 +190,7 @@ export async function POST(req) {
     try {
       res = await doFetch();
     } catch (e) {
+      // üks kiire retry
       await new Promise((r) => setTimeout(r, 300));
       res = await doFetch();
     }
@@ -219,7 +225,7 @@ export async function POST(req) {
         title,
         description,
         type: "URL",
-        status: "COMPLETED",
+        status: "COMPLETED", // või "PROCESSING" kui soovid taustaindekseerimist peegeldada
         audience,
         sourceUrl: url,
         fileName: null,
@@ -248,7 +254,7 @@ export async function POST(req) {
         title,
         description,
         type: "URL",
-        status: "COMPLETED",
+        status: dbDoc?.status || "COMPLETED",
         sourceUrl: url,
         audience,
         createdAt: dbDoc?.createdAt?.toISOString?.() || now,

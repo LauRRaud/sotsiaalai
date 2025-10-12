@@ -5,17 +5,15 @@ import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 /* ---------- Utils ---------- */
 
 function uuid() {
-  return (
-    (typeof window !== "undefined" && window.crypto?.randomUUID?.()) ||
-    `conv-${Date.now()}`
-  );
+  const rnd =
+    (typeof window !== "undefined" && window.crypto?.randomUUID?.()) || null;
+  return rnd ? `conv-${rnd}` : `conv-${Date.now()}`;
 }
 
 function formatDateTime(iso) {
   try {
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return "";
-    // lühike, kuid loetav
     return d.toLocaleString(undefined, {
       year: "numeric",
       month: "2-digit",
@@ -33,28 +31,31 @@ function useThrottle(fn, waitMs) {
   const timerRef = useRef(null);
   const lastArgsRef = useRef(null);
 
-  return useCallback((...args) => {
-    const now = Date.now();
-    const remaining = waitMs - (now - lastRef.current);
-    lastArgsRef.current = args;
+  return useCallback(
+    (...args) => {
+      const now = Date.now();
+      const remaining = waitMs - (now - lastRef.current);
+      lastArgsRef.current = args;
 
-    if (remaining <= 0) {
-      lastRef.current = now;
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-      fn(...lastArgsRef.current);
-      lastArgsRef.current = null;
-    } else if (!timerRef.current) {
-      timerRef.current = setTimeout(() => {
-        lastRef.current = Date.now();
-        fn(...(lastArgsRef.current || []));
+      if (remaining <= 0) {
+        lastRef.current = now;
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
+        fn(...lastArgsRef.current);
         lastArgsRef.current = null;
-        timerRef.current = null;
-      }, remaining);
-    }
-  }, [fn, waitMs]);
+      } else if (!timerRef.current) {
+        timerRef.current = setTimeout(() => {
+          lastRef.current = Date.now();
+          fn(...(lastArgsRef.current || []));
+          lastArgsRef.current = null;
+          timerRef.current = null;
+        }, remaining);
+      }
+    },
+    [fn, waitMs],
+  );
 }
 
 /* ---------- Component ---------- */
@@ -66,27 +67,31 @@ export default function ChatSidebar() {
   const [creating, setCreating] = useState(false);
   const abortRef = useRef(null);
 
-  // loe aktiivne vestlus (UI saab selle set’ida ChatBody-s)
+  // (soovi korral saab seda hiljem kasutada, hetkel pole otseselt tarvis)
   const activeConvId = useMemo(() => {
     try {
       return window.sessionStorage.getItem("sotsiaalai:chat:convId") || null;
     } catch {
       return null;
     }
-  }, []); // NB! värskendame valikut nupu vajutamisel allpool
+  }, []);
 
   const fetchList = useCallback(async () => {
     setError("");
-    abortRef.current?.abort(); // tühista eelmine
+    // tühista eelmine
+    abortRef.current?.abort();
     const ac = new AbortController();
     abortRef.current = ac;
 
+    setBusy(true);
     try {
       const r = await fetch("/api/chat/conversations", {
         cache: "no-store",
         signal: ac.signal,
       });
-      const data = await r.json().catch(() => ({}));
+      const data = await r
+        .json()
+        .catch(() => ({ ok: false, conversations: [] }));
       if (!r.ok || !data?.ok) {
         throw new Error(data?.message || "Laadimine ebaõnnestus");
       }
@@ -95,6 +100,9 @@ export default function ChatSidebar() {
       if (e?.name !== "AbortError") {
         setError(e?.message || "Laadimine ebaõnnestus");
       }
+    } finally {
+      if (abortRef.current === ac) abortRef.current = null;
+      setBusy(false);
     }
   }, []);
 
@@ -103,7 +111,10 @@ export default function ChatSidebar() {
     fetchList();
 
     const onExternalRefresh = () => fetchList();
-    window.addEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+    window.addEventListener(
+      "sotsiaalai:refresh-conversations",
+      onExternalRefresh,
+    );
 
     // värskenda, kui tab aktsioonilt naaseb (throttlinguga)
     const throttled = useThrottle(() => {
@@ -113,60 +124,68 @@ export default function ChatSidebar() {
     document.addEventListener("visibilitychange", throttled);
 
     return () => {
-      window.removeEventListener("sotsiaalai:refresh-conversations", onExternalRefresh);
+      window.removeEventListener(
+        "sotsiaalai:refresh-conversations",
+        onExternalRefresh,
+      );
       window.removeEventListener("focus", throttled);
       document.removeEventListener("visibilitychange", throttled);
       abortRef.current?.abort();
     };
-  }, [fetchList, useThrottle]);
+  }, [fetchList]); // NB: mitte panna siia useThrottle viidet
 
   const onPick = useCallback((id) => {
     try {
       window.sessionStorage.setItem("sotsiaalai:chat:convId", id);
     } catch {}
     window.dispatchEvent(
-      new CustomEvent("sotsiaalai:switch-conversation", { detail: { convId: id } })
+      new CustomEvent("sotsiaalai:switch-conversation", { detail: { convId: id } }),
     );
     window.dispatchEvent(
-      new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: false } })
+      new CustomEvent("sotsiaalai:toggle-conversations", {
+        detail: { open: false },
+      }),
     );
   }, []);
 
-  const onNew = useCallback(async () => {
-    if (busy || creating) return;
-    setCreating(true);
-    setError("");
-    const id = uuid();
-    try {
-      const r = await fetch("/api/chat/conversations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, role: "CLIENT" }),
-      });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok || data?.ok === false) {
-        throw new Error(data?.message || "Uue vestluse loomine ebaõnnestus");
+  const onNew = useCallback(
+    async () => {
+      if (busy || creating) return;
+      setCreating(true);
+      setError("");
+      const id = uuid();
+      try {
+        const r = await fetch("/api/chat/conversations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, role: "CLIENT" }),
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok || data?.ok === false) {
+          throw new Error(data?.message || "Uue vestluse loomine ebaõnnestus");
+        }
+        onPick(id);
+        await fetchList();
+      } catch (e) {
+        setError(e?.message || "Uue vestluse loomine ebaõnnestus");
+      } finally {
+        setCreating(false);
       }
-      onPick(id);
-      await fetchList();
-    } catch (e) {
-      setError(e?.message || "Uue vestluse loomine ebaõnnestus");
-    } finally {
-      setCreating(false);
-    }
-  }, [busy, creating, fetchList, onPick]);
+    },
+    [busy, creating, fetchList, onPick],
+  );
 
   const onDelete = useCallback(
     async (id) => {
       if (!id) return;
-      // lihtne kinnitus – UI-s saab soovi korral asendada modaaliga
       if (!confirm("Kas kustutada see vestlus?")) return;
       setBusy(true);
       setError("");
       try {
-        const r = await fetch(`/api/chat/conversations/${encodeURIComponent(id)}`, {
-          method: "DELETE",
-        });
+        const r = await fetch(
+          `/api/chat/conversations/${encodeURIComponent(id)}`,
+          { method: "DELETE" },
+        );
         const data = await r.json().catch(() => ({}));
         if (!r.ok || data?.ok === false) {
           throw new Error(data?.message || "Kustutamine ebaõnnestus");
@@ -186,12 +205,18 @@ export default function ChatSidebar() {
         setBusy(false);
       }
     },
-    [fetchList]
+    [fetchList],
   );
 
+  const safeDate = (v) => {
+    const t = new Date(v).getTime();
+    return Number.isFinite(t) ? t : 0;
+    // 0 nihutab puuduva updatedAt-i lõppu
+  };
+
   const sorted = useMemo(
-    () => [...items].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
-    [items]
+    () => [...items].sort((a, b) => safeDate(b?.updatedAt) - safeDate(a?.updatedAt)),
+    [items],
   );
 
   return (
@@ -243,7 +268,6 @@ export default function ChatSidebar() {
         </div>
       )}
 
-      {/* Laadimise skeleton (valikuline – kui soovid, stiliseeri .cs-skeleton klassid CSS-is) */}
       {(busy && items.length === 0) && (
         <ul className="cs-list" role="list" aria-hidden="true">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -280,7 +304,11 @@ export default function ChatSidebar() {
             })();
 
             return (
-              <li key={c.id} className={`cs-item${isActive ? " cs-item--active" : ""}`}>
+              <li
+                key={c.id}
+                className={`cs-item${isActive ? " cs-item--active" : ""}`}
+                aria-selected={isActive ? "true" : "false"}
+              >
                 <button
                   className="cs-link"
                   onClick={() => onPick(c.id)}

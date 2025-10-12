@@ -2795,3 +2795,67 @@ left: calc(var(--hud-edge-left) + 15px);
 @media (max-width:768px){
   .chat-menu-label, .avatar-label{ font-size:1rem; }
 }
+.cs-error {
+  background: color-mix(in srgb, var(--danger) 15%, transparent);
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--danger) 50%, var(--border));
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+
+/* Kui vestlusi pole */
+.cs-empty {
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- Aktiivne vestlus --- */
+.cs-item--active {
+  border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+  background: var(--bg);
+}
+
+/* --- Skeleton-laadimise olek --- */
+.cs-item--skeleton {
+  overflow: hidden;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.cs-skel-title,
+.cs-skel-time {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--bg-soft) 92%, #fff 8%),
+    color-mix(in srgb, var(--bg) 92%, #fff 8%),
+    color-mix(in srgb, var(--bg-soft) 92%, #fff 8%)
+  );
+  background-size: 200% 100%;
+  animation: skel 1.2s linear infinite;
+}
+
+.cs-skel-title {
+  height: 14px;
+  width: 70%;
+  margin-bottom: 6px;
+}
+
+.cs-skel-time {
+  height: 10px;
+  width: 40%;
+}
+
+/* --- Skeleton animatsioon --- */
+@keyframes skel {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
