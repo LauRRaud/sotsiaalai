@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 
 export default function ConversationDrawer({ children }) {
@@ -212,6 +211,3 @@ function isVisible(el) {
   );
 }
 
-ConversationDrawer.propTypes = {
-  children: PropTypes.node,
-};
