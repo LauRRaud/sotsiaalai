@@ -142,7 +142,7 @@ export default function RagAdminPanel() {
   const fetchDocuments = useCallback(async () => {
     setLoadingList(true);
     try {
-      const res = await fetch("/api/rag/documents?limit=50", { cache: "no-store" });
+      const res = await fetch("/api/rag-admin/documents?limit=50", { cache: "no-store" });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : null;
 
@@ -262,7 +262,7 @@ export default function RagAdminPanel() {
 
       setFileBusy(true);
       try {
-        const res = await fetch("/api/rag/upload", { method: "POST", body: formData });
+        const res = await fetch("/api/rag-admin/upload", { method: "POST", body: formData });
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
@@ -308,7 +308,7 @@ export default function RagAdminPanel() {
 
       setUrlBusy(true);
       try {
-        const res = await fetch("/api/rag/url", {
+        const res = await fetch("/api/rag-admin/url", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -339,7 +339,7 @@ export default function RagAdminPanel() {
       resetMessage();
       setReindexingId(docId);
       try {
-        const res = await fetch(`/api/rag/documents/${docId}/reindex`, { method: "POST" });
+        const res = await fetch(`/api/rag-admin/documents/${docId}/reindex`, { method: "POST" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
           throw new Error(data?.message || "Taasindekseerimine ebaõnnestus.");
@@ -371,7 +371,7 @@ export default function RagAdminPanel() {
       if (!confirm("Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta.")) return;
       setDeletingId(docId);
       try {
-        const res = await fetch(`/api/rag/documents/${docId}`, { method: "DELETE" });
+        const res = await fetch(`/api/rag-admin/documents/${docId}`, { method: "DELETE" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data?.message || "Kustutamine ebaõnnestus.");
         showOk("Dokument kustutatud.");

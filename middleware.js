@@ -20,8 +20,8 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
-  // Lase kogu /api/rag/* Next.js API-l endal auth'i teha (route kontrollib ise sessiooni)
-  if (pathname.startsWith("/api/rag")) {
+  // Lase avalik RAG proxy (/api/rag/**) ilma authita (catch-all route tegeleb edasi)
+  if (pathname === "/api/rag" || pathname.startsWith("/api/rag/")) {
     return NextResponse.next();
   }
 
