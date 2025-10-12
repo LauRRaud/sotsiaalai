@@ -1,4 +1,4 @@
-# OS & editor
+﻿# OS & editor
 .DS_Store
 Thumbs.db
 .vscode/
@@ -79,3 +79,4 @@ rag-service/storage/**
 .pnpm-store/
 .npm/
 prisma/_backup_old/
+
