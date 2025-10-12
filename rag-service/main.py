@@ -947,7 +947,7 @@ def search(payload: SearchIn):
             query_embeddings=[q_emb],
             n_results=max(1, min(50, payload.top_k or 5)),
             where=md_where or None,
-            include=["ids", "documents", "metadatas", "distances"],
+            include=["documents", "metadatas", "distances"],
         )
     except Exception as e:
         return {"results": [], "groups": [], "error": f"query_failed: {e.__class__.__name__}: {e}"}
