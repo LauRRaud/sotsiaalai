@@ -27,7 +27,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 import chromadb
 from chromadb.config import Settings
@@ -426,11 +426,33 @@ class IngestURL(BaseModel):
     pages: Optional[List[int]] = None
     pageRange: Optional[str] = None
 
+ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
+
+
+def clean_include(include):
+    if not isinstance(include, list):
+        return []
+    cleaned = []
+    for item in include:
+        item = str(item).strip()
+        if not item or item == "ids":
+            continue
+        if item in ALLOWED_INCLUDE:
+            cleaned.append(item)
+    return cleaned
+
+
 class SearchIn(BaseModel):
     query: str
     top_k: int = 5
     filterDocId: Optional[str] = None
     where: Optional[dict] = None
+    include: Optional[List[str]] = None
+
+    @field_validator("include")
+    @classmethod
+    def validate_include(cls, value):
+        return clean_include(value)
 
 # --------------------
 # Core ingest (shared)
@@ -943,11 +965,13 @@ def search(payload: SearchIn):
     q_emb = q_embeds[0]
 
     try:
+        include_items = payload.include or ["documents", "metadatas", "distances"]
+
         res = collection.query(
             query_embeddings=[q_emb],
             n_results=max(1, min(50, payload.top_k or 5)),
             where=md_where or None,
-            include=["documents", "metadatas", "distances"],
+            include=include_items,
         )
     except Exception as e:
         return {"results": [], "groups": [], "error": f"query_failed: {e.__class__.__name__}: {e}"}
