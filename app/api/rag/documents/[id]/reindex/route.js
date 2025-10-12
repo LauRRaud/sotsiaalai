@@ -31,7 +31,7 @@ export async function POST(_req, { params }) {
   });
 
   const ragBase = process.env.RAG_API_BASE;
-  const apiKey = process.env.RAG_API_KEY || "";
+  const apiKey = process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
   try {
@@ -78,3 +78,4 @@ export async function POST(_req, { params }) {
     return makeError(msg, 502);
   }
 }
+

@@ -5,6 +5,11 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req) {
   const { pathname, search } = req.nextUrl;
 
+  // Jäta well-known (ACME, OIDC jne) rahule
+  if (pathname.startsWith("/.well-known")) {
+    return NextResponse.next();
+  }
+
   // Ära sekku next-auth ja _next staticusse
   if (pathname.startsWith("/api/auth") || pathname.startsWith("/_next")) {
     return NextResponse.next();
@@ -15,33 +20,34 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
+  // Lase kogu /api/rag/* Next.js API-l endal auth'i teha (route kontrollib ise sessiooni)
+  if (pathname.startsWith("/api/rag")) {
+    return NextResponse.next();
+  }
+
   const isAdminPage = pathname.startsWith("/admin");
-  const isAdminApi  = pathname.startsWith("/api/rag");
   const isProtectedPage =
     pathname.startsWith("/profiil") || pathname.startsWith("/vestlus");
 
   // Lase kõik muu läbi
-  if (!isAdminPage && !isAdminApi && !isProtectedPage) {
+  if (!isAdminPage && !isProtectedPage) {
     return NextResponse.next();
   }
 
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  let token = null;
+  if (isAdminPage || isProtectedPage) {
+    token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  }
   const role = String(token?.role ?? token?.user?.role ?? "").toUpperCase();
   const isAdmin = token?.isAdmin === true || role === "ADMIN";
-
-  // --- API ( /api/rag/* ) -> TAGASTA JSON, mitte redirect ---
-  if (isAdminApi) {
-    if (!token)  return NextResponse.json({ error: "not-logged-in" },  { status: 401 });
-    if (!isAdmin) return NextResponse.json({ error: "not-authorized" }, { status: 403 });
-    return NextResponse.next();
-  }
+  const callbackUrl = pathname + (search || "");
 
   // --- Lehed (redirect loogika jääb samaks) ---
   if (isAdminPage && (!token || !isAdmin)) {
     const url = req.nextUrl.clone();
     url.pathname = "/api/auth/signin";
     url.searchParams.set("reason", token ? "not-authorized" : "not-logged-in");
-    url.searchParams.set("callbackUrl", pathname + (search || ""));
+    url.searchParams.set("callbackUrl", callbackUrl);
     return NextResponse.redirect(url);
   }
 
@@ -49,7 +55,7 @@ export async function middleware(req) {
     const url = req.nextUrl.clone();
     url.pathname = "/api/auth/signin";
     url.searchParams.set("reason", "not-logged-in");
-    url.searchParams.set("callbackUrl", pathname + (search || ""));
+    url.searchParams.set("callbackUrl", callbackUrl);
     return NextResponse.redirect(url);
   }
 
@@ -62,6 +68,5 @@ export const config = {
     "/vestlus/:path*",
     "/admin",
     "/admin/:path*",
-    "/api/rag/:path*", // kaitse RAG API-d
   ],
 };

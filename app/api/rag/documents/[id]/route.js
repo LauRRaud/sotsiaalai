@@ -21,7 +21,7 @@ export async function DELETE(_req, { params }) {
   if (!id) return makeError("ID on kohustuslik.", 400);
 
   const ragBase = process.env.RAG_API_BASE;
-  const apiKey = process.env.RAG_API_KEY || "";
+  const apiKey = process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
 
   // 1) proovi kustutada RAG-ist (idempotentne: 404 = OK)
@@ -52,3 +52,4 @@ export async function DELETE(_req, { params }) {
 
   return NextResponse.json({ ok: true, deleted: id });
 }
+

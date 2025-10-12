@@ -25,7 +25,9 @@ export async function GET(req) {
     : 25;
 
   const ragBase = process.env.RAG_API_BASE;
+  const apiKey = process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "";
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
+  if (!apiKey) return makeError("RAG_SERVICE_API_KEY puudub serveri keskkonnast.", 500);
 
   try {
     const controller = new AbortController();
@@ -33,7 +35,7 @@ export async function GET(req) {
 
     const doFetch = () =>
       fetch(`${ragBase.replace(/\/+$/, "")}/documents`, {
-        // X-API-Key lisab Nginx
+        headers: { "X-API-Key": apiKey },
         cache: "no-store",
         signal: controller.signal,
       });
