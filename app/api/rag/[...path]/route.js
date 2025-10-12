@@ -15,7 +15,11 @@ const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 // Väike util, et koostada siht-URL ilma topelt kaldkriipsudeta
 function buildTargetUrl(req, params) {
   const incoming = new URL(req.url);
-  const subPath = Array.isArray(params?.path) ? params.path.join("/") : "";
+  const segments = Array.isArray(params?.path) ? [...params.path] : [];
+  if (segments.length && segments[0] === "query") {
+    segments[0] = "search";
+  }
+  const subPath = segments.join("/");
   const base = `http://${RAG_HOST}`.replace(/\/+$/, "");
   const path = `/${subPath}`.replace(/\/{2,}/g, "/");
   return `${base}${path}${incoming.search}`;
