@@ -90,23 +90,12 @@ export default function TellimusBody() {
           </>
         ) : (
           <>
-            <p className="glass-text" id="billing-info">
-              SotsiaalAI teenus põhineb igakuise püsimaksega tellimusel.
-              Kuutasu on 7,99 €. Makse sooritatakse automaatselt valitud
-              makseviisil (nt kaart või pangalink) läbi Maksekeskuse.
-            </p>
-
-            <div className="glass-note" style={{ margin: "1.0rem 0" }} id="cancel-note">
-              <p className="glass-text" style={{ margin: 0 }}>
-                Tellimuse saad igal ajal tühistada oma profiililehelt või
-                kirjutades aadressile{" "}
-                <a href="mailto:info@sotsiaal.ai" className="link-brand">
-                  info@sotsiaal.ai
-                </a>
-                .
-              </p>
-            </div>
-
+<div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
+  <p className="glass-text" style={{ margin: 0 }}>
+    SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma
+    profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.
+  </p>
+</div>
             {error && (
               <div role="alert" aria-live="assertive" className="glass-note">
                 {error}

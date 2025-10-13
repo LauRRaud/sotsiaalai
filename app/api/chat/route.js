@@ -134,44 +134,169 @@ function normalizeMatch(m, idx) {
   };
 }
 
-function buildContextBlocks(matches) {
-  if (!Array.isArray(matches) || matches.length === 0) return "";
-  const seen = new Set();
+function groupMatches(matches) {
+  if (!Array.isArray(matches) || matches.length === 0) return [];
+  const seenSnippets = new Set();
+  const order = [];
   const grouped = new Map();
-  for (const m of matches.map(normalizeMatch)) {
-    if (!m.body) continue;
-    const key = `${m.title}|${m.page ?? ""}|${m.body.slice(0, 120)}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    const groupKey = m.articleId || m.docId || `${m.title}|${m.fileName || ""}`;
-    if (!grouped.has(groupKey)) {
-      grouped.set(groupKey, {
-        ...m,
+
+  matches.forEach((raw, idx) => {
+    const m = normalizeMatch(raw, idx);
+    if (!m.body) return;
+    const snippetKey = `${m.title}|${m.page ?? ""}|${m.body.slice(0, 120)}`;
+    if (seenSnippets.has(snippetKey)) return;
+    seenSnippets.add(snippetKey);
+
+    const groupKey =
+      m.articleId ||
+      m.docId ||
+      (m.title ? `${m.title}|${m.fileName || ""}` : m.id || `match-${idx}`);
+
+    let entry = grouped.get(groupKey);
+    if (!entry) {
+      entry = {
+        key: groupKey,
+        docId: m.docId || null,
+        articleId: m.articleId || null,
+        title: m.title || null,
+        url: m.url || null,
+        fileName: m.fileName || null,
+        audience: m.audience || null,
+        issueLabel: m.issueLabel || null,
+        issueId: m.issueId || null,
+        section: m.section || null,
+        year: m.year || null,
         bodies: [],
+        authors: new Set(),
         pages: new Set(),
+        pageRanges: new Set(),
         scores: [],
-      });
+      };
+      grouped.set(groupKey, entry);
+      order.push(groupKey);
     }
-    const entry = grouped.get(groupKey);
+
     entry.bodies.push(m.body);
+    if (Array.isArray(m.authors)) {
+      for (const author of m.authors) {
+        if (author) entry.authors.add(author);
+      }
+    }
     if (Array.isArray(m.pages)) {
       for (const p of m.pages) {
         if (Number.isFinite(p)) entry.pages.add(Number(p));
       }
     }
     if (Number.isFinite(m.page)) entry.pages.add(Number(m.page));
-    if (m.pageRange && !entry.pageRange) entry.pageRange = m.pageRange;
-    entry.scores.push(m.score);
-  }
-  const entries = Array.from(grouped.values());
-  if (entries.length === 0) return "";
+    if (m.pageRange) entry.pageRanges.add(m.pageRange);
+    if (typeof m.score === "number") entry.scores.push(m.score);
 
-  return entries
+    if (!entry.url && m.url) entry.url = m.url;
+    if (!entry.fileName && m.fileName) entry.fileName = m.fileName;
+    if (!entry.title && m.title) entry.title = m.title;
+    if (!entry.audience && m.audience) entry.audience = m.audience;
+    if (!entry.section && m.section) entry.section = m.section;
+    if (!entry.issueLabel && m.issueLabel) entry.issueLabel = m.issueLabel;
+    if (!entry.issueId && m.issueId) entry.issueId = m.issueId;
+    if (!entry.year && m.year) entry.year = m.year;
+    if (!entry.docId && m.docId) entry.docId = m.docId;
+    if (!entry.articleId && m.articleId) entry.articleId = m.articleId;
+  });
+
+  return order
+    .map((key) => {
+      const entry = grouped.get(key);
+      if (!entry) return null;
+      const authors = Array.from(entry.authors);
+      const pages = Array.from(entry.pages).sort((a, b) => a - b);
+      const pageRanges = Array.from(entry.pageRanges);
+      const bestScore = entry.scores
+        .filter((s) => typeof s === "number")
+        .sort((a, b) => b - a)[0];
+      return {
+        ...entry,
+        authors,
+        pages,
+        pageRanges,
+        bestScore: typeof bestScore === "number" ? bestScore : null,
+      };
+    })
+    .filter(Boolean);
+}
+
+function firstAuthor(authors) {
+  if (!Array.isArray(authors) || authors.length === 0) return null;
+  for (const author of authors) {
+    if (typeof author === "string" && author.trim()) return author.trim();
+  }
+  return null;
+}
+
+function shortIssue(entry) {
+  const rawIssue =
+    (typeof entry.issueLabel === "string" && entry.issueLabel.trim()) ||
+    (typeof entry.issueId === "string" && entry.issueId.trim()) ||
+    "";
+  if (rawIssue) return rawIssue;
+  const { year } = entry;
+  if (typeof year === "number" && Number.isFinite(year)) {
+    return String(year).slice(-2);
+  }
+  if (typeof year === "string") {
+    const trimmed = year.trim();
+    if (!trimmed) return "";
+    const parsed = Number(trimmed);
+    if (Number.isFinite(parsed)) return String(Math.trunc(parsed)).slice(-2);
+    return trimmed;
+  }
+  return "";
+}
+
+function makeShortRef(entry, pagesCompact) {
+  const author = firstAuthor(entry.authors);
+  const title = (entry.title || entry.fileName || entry.url || "").trim();
+  const year =
+    typeof entry.year === "number"
+      ? String(entry.year)
+      : typeof entry.year === "string"
+      ? entry.year.trim()
+      : "";
+  const issue = shortIssue(entry);
+  const issueStr = issue ? `Sotsiaaltöö ${issue}` : "Sotsiaaltöö";
+  const pagesStr = pagesCompact ? `lk ${pagesCompact}` : "";
+
+  if (author && year && title && pagesCompact) {
+    return `${author} (${year}) — ${title}. ${issueStr}${pagesStr ? `, ${pagesStr}` : ""}.`;
+  }
+  if (author && title) {
+    return `${author} — ${title} (${issueStr}).`;
+  }
+  if (author && (issue || pagesCompact)) {
+    const parts = [author];
+    if (issue) parts.push(issueStr);
+    if (pagesStr) parts.push(pagesStr);
+    return `${parts.join(", ")}.`;
+  }
+  if (title && (issue || pagesCompact)) {
+    const parts = [title];
+    if (issue) parts.push(issueStr);
+    if (pagesStr) parts.push(pagesStr);
+    return `${parts.join(", ")}.`;
+  }
+  return `${issueStr}${pagesStr ? `, ${pagesStr}` : ""}.`;
+}
+
+function renderContextBlocks(groups) {
+  if (!Array.isArray(groups) || groups.length === 0) return "";
+
+  return groups
     .map((entry, i) => {
       const authors = Array.isArray(entry.authors) ? entry.authors : [];
       const authorText = authors.length ? authors.join("; ") : null;
-      const pageText =
-        entry.pageRange || collapsePages(Array.from(entry.pages ?? []));
+      const pageRangeText = Array.isArray(entry.pageRanges)
+        ? Array.from(new Set(entry.pageRanges.filter(Boolean))).join(", ")
+        : "";
+      const pageText = pageRangeText || collapsePages(entry.pages);
       const issueText = entry.issueLabel || entry.issueId || null;
       const issueYear =
         issueText && entry.year ? `${issueText}, ${entry.year}` : issueText || entry.year;
@@ -181,9 +306,7 @@ function buildContextBlocks(matches) {
       if (issueYear) headerParts.push(issueYear);
       if (pageText) headerParts.push(`lk ${pageText}`);
       if (entry.section) headerParts.push(entry.section);
-      const scoreValue = entry.scores
-        .filter((s) => typeof s === "number")
-        .sort((a, b) => b - a)[0];
+      const scoreValue = entry.bestScore;
       const header =
         `(${i + 1}) ` +
         (headerParts.length ? headerParts.join(". ") : entry.title || "Allikas") +
@@ -407,33 +530,37 @@ export async function POST(req) {
   } catch {
     // Ainult andmebaasi sisu – pole fallback'i
   }
-  const context = buildContextBlocks(matches);
+  const groupedMatches = groupMatches(matches);
+  const context = renderContextBlocks(groupedMatches);
 
   // 7) allikad (meta)
-  const sources = Array.isArray(matches)
-    ? matches.map((m, i) => {
-        const n = normalizeMatch(m, i);
-        const pageNumbers = Array.isArray(n.pages) ? n.pages.filter(Number.isFinite) : [];
-        if (Number.isFinite(n.page)) pageNumbers.push(Number(n.page));
-        const pageText = n.pageRange || collapsePages(pageNumbers);
-        return {
-          id: n.id,
-          title: n.title,
-          url: n.url || undefined,
-          file: n.fileName || undefined,
-          fileName: n.fileName || undefined,
-          audience: n.audience || undefined,
-          page: n.page ?? null,
-          pageRange: pageText || undefined,
-          authors: Array.isArray(n.authors) && n.authors.length ? n.authors : undefined,
-          issueLabel: n.issueLabel || undefined,
-          issueId: n.issueId || undefined,
-          section: n.section || undefined,
-          year: n.year || undefined,
-          pages: pageNumbers.length ? Array.from(new Set(pageNumbers)).sort((a, b) => a - b) : undefined,
-        };
-      })
-    : [];
+  const sources = groupedMatches.map((entry, idx) => {
+    const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
+    const pageRanges = Array.isArray(entry.pageRanges)
+      ? Array.from(new Set(entry.pageRanges.filter(Boolean)))
+      : [];
+    const pageText = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
+    const leadAuthor = firstAuthor(entry.authors);
+    const hasMeaningfulRef =
+      !!leadAuthor || (typeof entry.title === "string" && entry.title.trim().length > 0);
+    const shortRef = hasMeaningfulRef ? makeShortRef(entry, pageText) : "";
+    return {
+      id: entry.key || entry.docId || entry.articleId || entry.url || entry.fileName || `source-${idx}`,
+      title: entry.title,
+      url: entry.url || undefined,
+      file: entry.fileName || undefined,
+      fileName: entry.fileName || undefined,
+      audience: entry.audience || undefined,
+      pageRange: pageText || undefined,
+      authors: Array.isArray(entry.authors) && entry.authors.length ? entry.authors : undefined,
+      issueLabel: entry.issueLabel || undefined,
+      issueId: entry.issueId || undefined,
+      section: entry.section || undefined,
+      year: entry.year || undefined,
+      pages: pageNumbers.length ? pageNumbers : undefined,
+      short_ref: shortRef || undefined,
+    };
+  });
 
   // 7.5) Kui konteksti ei leitud, ära kutsu OpenAI-d
   if (!context || !context.trim()) {

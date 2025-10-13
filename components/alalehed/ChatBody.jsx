@@ -712,39 +712,6 @@ export default function ChatBody() {
               <div key={msg.id} className={`chat-msg ${variant}`}>
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
 
-                {Array.isArray(msg.sources) && msg.sources.length > 0 ? (
-                  <ul
-                    className="chat-msg-sources"
-                    aria-label="Allikad"
-                    style={{
-                      marginTop: "0.5rem",
-                      paddingLeft: "1.1rem",
-                      fontSize: "0.8rem",
-                      opacity: 0.85,
-                    }}
-                  >
-                    {msg.sources.map((src) => (
-                      <li key={src.key}>
-                        {src.url ? (
-                          <a
-                            href={src.url}
-                            target="_blank"
-                            rel="noopener noreferrer nofollow"
-                            className="chat-source-link"
-                          >
-                            {src.label}
-                            {src.page ? ` (lk ${src.page})` : ""}
-                          </a>
-                        ) : (
-                          <span>
-                            {src.label}
-                            {src.page ? ` (lk ${src.page})` : ""}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
               </div>
             );
           })}
