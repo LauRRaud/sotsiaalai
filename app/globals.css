@@ -2403,10 +2403,10 @@ left: calc(var(--hud-edge-left) + 15px)
   font:inherit;
   font-weight:600;
   letter-spacing:.03em;
-  padding:.55rem 1.4rem;
+  padding:.48rem 1.2rem;
   border-radius:999px;
   cursor:pointer;
-  min-width:120px;
+  min-width:110px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -2432,6 +2432,12 @@ left: calc(var(--hud-edge-left) + 15px)
   background:linear-gradient(to bottom right, rgba(255,255,255,.1), rgba(140,165,235,.1));
   border-color:rgba(206,220,255,.35);
   box-shadow:0 0 0 1px rgba(99,130,246,.35), 0 6px 18px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.chat-sources-btn--mini{
+  padding:.4rem 1rem;
+  min-width:96px;
+  font-size:.85rem;
+  letter-spacing:.02em;
 }
 .drawer-panel .cs-refresh:hover .cs-refresh-icon{ transform:rotate(120deg); }
 /* ===========================

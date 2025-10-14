@@ -141,6 +141,12 @@ function asAuthorArray(v) {
 }
 
 /* --- kui backend andis short_ref, eelistame seda --- */
+function prettifyFileName(name) {
+  if (typeof name !== "string" || !name.trim()) return "";
+  const noExt = name.replace(/\.[a-z0-9]+$/i, "");
+  return noExt.replace(/[_-]+/g, " ").trim();
+}
+
 function formatSourceLabel(src) {
   if (src?.short_ref && typeof src.short_ref === "string") {
     return src.short_ref.trim();
@@ -148,15 +154,23 @@ function formatSourceLabel(src) {
 
   const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
-  const title = src?.title || src?.fileName || src?.url || "Allikas";
-
-  // UUS: võta ka ajakirja nimi (journalTitle) ja number/issue ning aasta
-  const journal = (src?.journalTitle || "").trim() || null;
-  const issue = src?.issueLabel || src?.issueId || src?.issue || null;
-  const year = src?.year;
+  const titleText = typeof src?.title === "string" ? src.title.trim() : "";
+  const journal = typeof src?.journalTitle === "string" ? src.journalTitle.trim() : "";
+  const issue =
+    typeof src?.issueLabel === "string"
+      ? src.issueLabel.trim()
+      : typeof src?.issueId === "string"
+      ? src.issueId.trim()
+      : "";
+  const year =
+    typeof src?.year === "number"
+      ? String(src.year)
+      : typeof src?.year === "string"
+      ? src.year.trim()
+      : "";
 
   const pagesCombined =
-    src?.pageRange ||
+    (typeof src?.pageRange === "string" && src.pageRange.trim()) ||
     collapsePages([
       ...(Array.isArray(src?.pages) ? src.pages : []),
       ...(typeof src?.page === "number" ? [src.page] : []),
@@ -164,17 +178,28 @@ function formatSourceLabel(src) {
 
   const parts = [];
   if (authorText) parts.push(authorText);
-  if (title) parts.push(title);
-
-  // kuvame: ajakiri + number/issue + aasta, kui olemas
-  if (journal || issue || year) {
+  if (titleText) {
+    parts.push(titleText);
+  } else if (journal || issue || year) {
     const meta = [journal, issue, year].filter(Boolean).join(" ");
     if (meta) parts.push(meta);
   }
 
+  if (!titleText && !journal && !issue && !year && src?.fileName) {
+    const neat = prettifyFileName(src.fileName);
+    if (neat) parts.push(neat);
+  }
+
   if (pagesCombined) parts.push(`lk ${pagesCombined}`);
-  if (src?.section) parts.push(src.section);
-  return parts.join(". ") || title || "Allikas";
+  if (typeof src?.section === "string" && src.section.trim()) parts.push(src.section.trim());
+
+  const label = parts.join(". ");
+  if (label) return label;
+
+  const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
+  if (url) return url;
+
+  return "Allikas";
 }
 
 /** Normaliseeri serveri allikad  */
@@ -452,11 +477,17 @@ export default function ChatBody() {
             ? entry.shortRef.trim()
             : null;
 
+        const prettyFileName = entry.fileName ? prettifyFileName(entry.fileName) : "";
+
         const label =
           shortRefText ||
           (labelFromList && labelFromList.trim()) ||
           (computedLabel && computedLabel.trim()) ||
-          (entry.fileName || (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas"));
+          (prettyFileName
+            ? prettyFileName
+            : primaryUrl
+            ? primaryUrl.replace(/^https?:\/\//, "")
+            : "Allikas");
 
         return {
           key: entry.key,
@@ -1091,31 +1122,28 @@ export default function ChatBody() {
         </form>
       </main>
 
-      <footer className="chat-footer" style={{ marginTop: "1rem" }}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "0.85rem",
-          }}
-        >
-          <BackButton />
+      <footer
+        className="chat-footer"
+        style={{ marginTop: "1rem", position: "relative", display: "flex", justifyContent: "center" }}
+      >
+        {hasConversationSources ? (
+          <button
+            type="button"
+            ref={sourcesButtonRef}
+            onClick={toggleSourcesPanel}
+            className={`chat-sources-btn chat-sources-btn--mini${
+              showSourcesPanel ? " chat-sources-btn--active" : ""
+            }`}
+            aria-haspopup="dialog"
+            aria-expanded={showSourcesPanel ? "true" : "false"}
+            aria-controls="chat-sources-panel"
+            style={{ position: "absolute", left: 0, bottom: 0 }}
+          >
+            Allikad ({conversationSources.length})
+          </button>
+        ) : null}
 
-          {hasConversationSources ? (
-            <button
-              type="button"
-              ref={sourcesButtonRef}
-              onClick={toggleSourcesPanel}
-              className={`chat-sources-btn${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
-              aria-haspopup="dialog"
-              aria-expanded={showSourcesPanel ? "true" : "false"}
-              aria-controls="chat-sources-panel"
-            >
-              Allikad ({conversationSources.length})
-            </button>
-          ) : null}
-        </div>
+        <BackButton />
       </footer>
 
       {showSourcesPanel ? (
