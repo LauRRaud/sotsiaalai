@@ -77,6 +77,7 @@ export async function GET(req) {
         role: true,       // CLIENT | SOCIAL_WORKER
         text: true,
         sources: true,
+        isCrisis: true,
         updatedAt: true,
         createdAt: true,
       },
@@ -103,6 +104,7 @@ export async function GET(req) {
       role: run.role,
       text: run.text || "",
       sources: normalizeSources(run.sources),
+      isCrisis: !!run.isCrisis,
       updatedAt: run.updatedAt,
       createdAt: run.createdAt,
     });

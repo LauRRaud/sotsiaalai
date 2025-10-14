@@ -6,11 +6,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-/**
- * ---------- Enums ----------
- */
-
 enum Role {
   ADMIN
   SOCIAL_WORKER
@@ -212,20 +207,21 @@ model RagDocument {
 
 model ConversationRun {
   /// Frontendi saadetud convId (nt randomUUID). Hoidke see stabiilsena sama vestluse jooksul.
-  id      String    @id
-  userId  String
-  role    Role
-  text    String    @default("") @db.Text
-  sources Json?
-  status  RunStatus @default(RUNNING)
+  id       String    @id
+  userId   String
+  role     Role
+  text     String    @default("") @db.Text
+  sources  Json?
+  status   RunStatus @default(RUNNING)
+  isCrisis Boolean   @default(false) // ← UUS: vastab route.js isCrisis väljalekirjutusele
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // seos kasutajaga
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, updatedAt])
   @@index([status])
   @@index([userId, status, updatedAt]) // kasulik päringutele: oma vestlused, mitte-deleted, sort ajas
+  @@index([isCrisis, updatedAt])       // kiire ülevaade kriisijuhtudest (valikuline, aga kasulik)
 }

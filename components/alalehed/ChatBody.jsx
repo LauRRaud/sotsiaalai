@@ -9,6 +9,9 @@ const INTRO_MESSAGE =
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 
+const CRISIS_TEXT =
+  "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi).";
+
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
@@ -146,21 +149,29 @@ function formatSourceLabel(src) {
   const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
   const title = src?.title || src?.fileName || src?.url || "Allikas";
+
+  // UUS: võta ka ajakirja nimi (journalTitle) ja number/issue ning aasta
+  const journal = (src?.journalTitle || "").trim() || null;
   const issue = src?.issueLabel || src?.issueId || src?.issue || null;
   const year = src?.year;
+
   const pagesCombined =
     src?.pageRange ||
     collapsePages([
       ...(Array.isArray(src?.pages) ? src.pages : []),
       ...(typeof src?.page === "number" ? [src.page] : []),
     ]);
+
   const parts = [];
   if (authorText) parts.push(authorText);
   if (title) parts.push(title);
-  if (issue || year) {
-    const meta = [issue, year].filter(Boolean).join(", ");
+
+  // kuvame: ajakiri + number/issue + aasta, kui olemas
+  if (journal || issue || year) {
+    const meta = [journal, issue, year].filter(Boolean).join(" ");
     if (meta) parts.push(meta);
   }
+
   if (pagesCombined) parts.push(`lk ${pagesCombined}`);
   if (src?.section) parts.push(src.section);
   return parts.join(". ") || title || "Allikas";
@@ -185,6 +196,7 @@ function normalizeSources(sources) {
       pageRange: pageLabel || undefined,
       fileName: src?.fileName,
       short_ref: typeof src?.short_ref === "string" ? src.short_ref : undefined,
+      journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : undefined, // valikuline
     };
   });
 }
@@ -219,6 +231,37 @@ function throttle(fn, waitMs) {
   };
 }
 
+/* ---------- Allikate list ---------- */
+function SourceList({ sources }) {
+  if (!Array.isArray(sources) || sources.length === 0) return null;
+  return (
+    <details className="sources-list" style={{ marginTop: "0.5rem" }}>
+      <summary style={{ cursor: "pointer", fontWeight: 600 }}>
+        Allikad ({sources.length})
+      </summary>
+      <ul style={{ margin: "0.4rem 0 0", paddingLeft: "1rem", lineHeight: 1.35 }}>
+        {sources.map((s) => (
+          <li key={s.key} style={{ marginBottom: "0.25rem" }}>
+            <span>{s.label}</span>{" "}
+            {s.url ? (
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{ textDecoration: "underline" }}
+              >
+                Ava
+              </a>
+            ) : s.fileName ? (
+              <span style={{ opacity: 0.8 }}>({s.fileName})</span>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -241,6 +284,7 @@ export default function ChatBody() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
+  const [isCrisis, setIsCrisis] = useState(false);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
@@ -294,6 +338,7 @@ export default function ChatBody() {
       setConvId(newId);
       setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
       chatStore.save([{ role: "ai", text: INTRO_MESSAGE }]);
+      setIsCrisis(false);
       try {
         window.dispatchEvent(
           new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: false } })
@@ -393,6 +438,9 @@ export default function ChatBody() {
 
         const serverText = String(data.text || "");
         const serverSources = normalizeSources(data.sources ?? []);
+        const serverCrisis = !!data.isCrisis;
+
+        setIsCrisis(serverCrisis);
 
         setMessages((prev) => {
           const next = [...prev];
@@ -447,6 +495,7 @@ export default function ChatBody() {
       if (!trimmed) return;
 
       setErrorBanner(null);
+      setIsCrisis(false); // lähtesta, kuni server meta saadab
       appendMessage({ role: "user", text: trimmed });
       setInput("");
       setIsGenerating(true);
@@ -503,6 +552,7 @@ export default function ChatBody() {
           const replyText =
             (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
           const sources = normalizeSources(data?.sources);
+          setIsCrisis(!!data?.isCrisis);
           appendMessage({ role: "ai", text: replyText, sources });
           return;
         }
@@ -527,6 +577,9 @@ export default function ChatBody() {
               if (rawSources) {
                 sources = normalizeSources(rawSources);
                 mutateMessage(streamingMessageId, (msg) => ({ ...msg, sources }));
+              }
+              if (typeof payload?.isCrisis !== "undefined") {
+                setIsCrisis(!!payload.isCrisis);
               }
             } catch {}
           } else if (ev.event === "delta") {
@@ -679,6 +732,23 @@ export default function ChatBody() {
       {/* Pealkiri */}
       <h1 className="glass-title">SotsiaalAI</h1>
 
+      {isCrisis ? (
+        <div
+          role="alert"
+          style={{
+            margin: "0.35rem 0 0.75rem",
+            padding: "0.65rem 0.9rem",
+            borderRadius: 10,
+            border: "1px solid rgba(231,76,60,0.35)",
+            background: "rgba(231,76,60,0.12)",
+            color: "#ff9c9c",
+            fontSize: "0.92rem",
+          }}
+        >
+          {CRISIS_TEXT}
+        </div>
+      ) : null}
+
       {errorBanner ? (
         <div
           role="alert"
@@ -712,6 +782,9 @@ export default function ChatBody() {
               <div key={msg.id} className={`chat-msg ${variant}`}>
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
 
+                {msg.role === "ai" && Array.isArray(msg.sources) && msg.sources.length > 0 ? (
+                  <SourceList sources={msg.sources} />
+                ) : null}
               </div>
             );
           })}

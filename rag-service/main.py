@@ -43,9 +43,9 @@ STORAGE_DIR = Path(os.getenv("RAG_STORAGE_DIR", "./storage")).resolve()
 REGISTRY_PATH = STORAGE_DIR / "registry.json"
 COLLECTION_NAME = os.getenv("RAG_COLLECTION", "sotsiaalai")
 
-# OpenAI embeddings (default to high-quality model)
+# OpenAI embeddings — hoia kooskõlas olemasoleva kollektsiooniga
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"))
+EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-embedding-3-large"))
 
 MAX_MB = int(os.getenv("RAG_SERVER_MAX_MB", "20"))
 
@@ -84,7 +84,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 oa = OpenAI(api_key=OPENAI_API_KEY)
 logger = logging.getLogger("rag-service")
 
-app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.6")
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.8")
 
 app.add_middleware(
     CORSMiddleware,
@@ -140,7 +140,6 @@ def normalize_authors(value) -> List[str]:
     if not value:
         return []
     if isinstance(value, str):
-        # toeta nii JSON massiivi kui komaeraldust
         s = value.strip()
         if not s:
             return []
@@ -246,15 +245,16 @@ def _first_author(authors):
     return str(authors).strip() or None
 
 def _short_issue(meta):
+    """Return issue id/label/year for display (no hard-coded journal)."""
     issue = (meta.get("issue") or meta.get("issue_id") or "").strip()
     if issue:
         return issue
     year = meta.get("year")
     if isinstance(year, int):
-        return str(year)[-2:]
+        return str(year)
     try:
         yy = int(str(year))
-        return str(yy)[-2:]
+        return str(yy)
     except Exception:
         return ""
 
@@ -263,27 +263,24 @@ def _make_short_ref(meta, pages_compact):
     title = (meta.get("title") or "").strip()
     year = meta.get("year")
     issue = _short_issue(meta)
-    issue_str = f"Sotsiaaltöö {issue}" if issue else "Sotsiaaltöö"
+    journal = (meta.get("journal_title") or meta.get("journalTitle") or "").strip()
+    issue_str = " ".join([p for p in [journal, issue] if p]).strip()
     pages_str = f"lk {pages_compact}" if pages_compact else ""
-    if author and year and title and pages_compact:
-        return f"{author} ({year}) — {title}. {issue_str}, {pages_str}."
-    if author and title:
-        return f"{author} — {title} ({issue_str})."
-    if author and (issue or pages_compact):
-        parts = [author]
-        if issue:
-            parts.append(issue_str)
-        if pages_str:
-            parts.append(pages_str)
-        return ", ".join(parts) + "."
-    if title and (issue or pages_compact):
-        parts = [title]
-        if issue:
-            parts.append(issue_str)
-        if pages_str:
-            parts.append(pages_str)
-        return ", ".join(parts) + "."
-    return issue_str + (f", {pages_str}" if pages_str else "") + "."
+    # Compose
+    parts = []
+    if author and year and title:
+        parts.append(f"{author} ({year}) — {title}")
+    elif author and title:
+        parts.append(f"{author} — {title}")
+    elif title:
+        parts.append(title)
+    elif author:
+        parts.append(author)
+    if issue_str:
+        parts.append(issue_str)
+    if pages_str:
+        parts.append(pages_str)
+    return (". ".join(parts).strip() + ".") if parts else ""
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -319,7 +316,23 @@ def _detect_mime(name: str, data: bytes, declared: Optional[str]) -> str:
     return mimetypes.guess_type(name)[0] or "application/octet-stream"
 
 def _clean_text(s: str) -> str:
-    return re.sub(r"\s+", " ", s).strip()
+    """
+    Normaliseeri tekst:
+    - CRLF/CR -> LF
+    - Eemalda hüüdega poolitused: 'sotsiaal-\\ntöö' -> 'sotsiaaltöö' (väike+väike)
+    - Jäta hüüdega sidekriips alles muudel juhtudel: 'COVID-\\n19' -> 'COVID-19'
+    - Ülejäänud reavahetused -> tühik; mitmik-tühikud -> üks
+    """
+    s = s.replace("\r\n", "\n").replace("\r", "\n")
+    # 1) poolitus: väiketäht + '-\\n' + väiketäht  => liida kokku ilma kriipsuta
+    s = re.sub(r"([a-zäöüõ])-\s*\n\s*([a-zäöüõ])", r"\1\2", s, flags=re.IGNORECASE)
+    # 2) muu '-\\n' jääb sidekriipsuga (nt COVID-\\n19)
+    s = re.sub(r"-\s*\n\s*", "-", s)
+    # 3) ülejäänud reavahetused tühikuks
+    s = re.sub(r"\s*\n\s*", " ", s)
+    # 4) mitmik-tühikud üheks
+    s = re.sub(r"[ \t]+", " ", s)
+    return s.strip()
 
 # --- PDF / DOCX / HTML extractors ---
 def _extract_text_from_pdf(buff: bytes) -> List[Tuple[int, str]]:
@@ -410,6 +423,7 @@ class IngestFile(BaseModel):
     section: Optional[str] = None
     pages: Optional[List[int]] = None
     pageRange: Optional[str] = None
+    journalTitle: Optional[str] = None  # UUS
 
 class IngestURL(BaseModel):
     docId: str
@@ -425,22 +439,21 @@ class IngestURL(BaseModel):
     section: Optional[str] = None
     pages: Optional[List[int]] = None
     pageRange: Optional[str] = None
+    journalTitle: Optional[str] = None  # UUS
 
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
-
 
 def clean_include(include):
     if not isinstance(include, list):
         return []
     cleaned = []
     for item in include:
-        item = str(item).strip()
-        if not item or item == "ids":
+        s = str(item).strip()
+        if not s or s == "ids":
             continue
-        if item in ALLOWED_INCLUDE:
-            cleaned.append(item)
+        if s in ALLOWED_INCLUDE:
+            cleaned.append(s)
     return cleaned
-
 
 class SearchIn(BaseModel):
     query: str
@@ -452,7 +465,14 @@ class SearchIn(BaseModel):
     @field_validator("include")
     @classmethod
     def validate_include(cls, value):
-        return clean_include(value)
+        if not value:
+            return []
+        out = []
+        for v in value:
+            s = str(v).strip()
+            if s and s != "ids" and s in ALLOWED_INCLUDE:
+                out.append(s)
+        return out
 
 # --------------------
 # Core ingest (shared)
@@ -477,18 +497,22 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
     year = normalize_year(meta_common.get("year"))
     page_range = (meta_common.get("pageRange") or meta_common.get("page_range") or "").strip() or None
     pages_list = normalize_pages(meta_common.get("pages"))
+    journal_title = (meta_common.get("journal_title") or meta_common.get("journalTitle") or "").strip() or None
 
+    # PREFIKS – lisame chunk’i teksti ette (autor/pealkiri/jne saavad embeddingusse)
     prefix_lines: List[str] = []
-    if title: prefix_lines.append(f"[TITLE] {title}")
-    if description: prefix_lines.append(f"[DESC] {description}")
-    if authors: prefix_lines.append(f"[AUTHORS] {', '.join(authors)}")
-    if issue_label: prefix_lines.append(f"[ISSUE] {issue_label}")
-    elif issue_id: prefix_lines.append(f"[ISSUE] {issue_id}")
-    if section: prefix_lines.append(f"[SECTION] {section}")
-    if year: prefix_lines.append(f"[YEAR] {year}")
-    if page_range: prefix_lines.append(f"[PAGES] {page_range}")
+    if title:         prefix_lines.append(f"[TITLE] {title}")
+    if description:   prefix_lines.append(f"[DESC] {description}")
+    if authors:       prefix_lines.append(f"[AUTHORS] {', '.join(authors)}")
+    if journal_title: prefix_lines.append(f"[JOURNAL] {journal_title}")
+    if issue_label:   prefix_lines.append(f"[ISSUE] {issue_label}")
+    elif issue_id:    prefix_lines.append(f"[ISSUE] {issue_id}")
+    if section:       prefix_lines.append(f"[SECTION] {section}")
+    if year:          prefix_lines.append(f"[YEAR] {year}")
+    if page_range:    prefix_lines.append(f"[PAGES] {page_range}")
     prefix = ("\n".join(prefix_lines) + "\n") if prefix_lines else ""
 
+    # Teksti tükeldamine
     if isinstance(text_or_pages, list) and text_or_pages and isinstance(text_or_pages[0], tuple):
         full_text = _clean_text(" ".join(t or "" for _, t in text_or_pages))
         if len(full_text) <= SINGLE_CHUNK_CHAR_LIMIT:
@@ -511,8 +535,11 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
 
     final_texts = [(prefix + ch).strip() if prefix else ch for ch in chunks]
 
-    base = hashlib.sha1(f"{doc_id}-{now_iso()}".encode()).hexdigest()[:10]
-    ids = [f"{doc_id}:{base}:{i}" for i in range(len(final_texts))]
+    # STABIILNE ID: doc_id + jrk + 8-kohaline hash chunkist
+    ids = []
+    for i, txt in enumerate(final_texts):
+        h = hashlib.sha1(txt.encode("utf-8")).hexdigest()[:8]
+        ids.append(f"{doc_id}:{i}:{h}")
 
     metadatas = []
     for i, _ in enumerate(final_texts):
@@ -528,6 +555,8 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             "year": year,
             "pages": pages_list if pages_list else None,
             "pageRange": page_range,
+            "journal_title": journal_title,
+            "journalTitle": journal_title,
             "source_type": meta_common.get("source_type"),
             "source_path": meta_common.get("source_path"),
             "source_url": meta_common.get("source_url"),
@@ -634,6 +663,7 @@ def _process_ingest_file(
         "section": normalize_section(meta.get("section")),
         "pages": normalize_pages(meta.get("pages")),
         "pageRange": (meta.get("pageRange") or "").strip() or None,
+        "journalTitle": (meta.get("journal_title") or meta.get("journalTitle") or None),
     }
     _register(doc_id, reg_entry)
 
@@ -665,6 +695,8 @@ def ingest_file(payload: _IngestFileModel):
             "pages": payload.pages,
             "pageRange": payload.pageRange,
             "audience": payload.audience,
+            "journal_title": payload.journalTitle,
+            "journalTitle": payload.journalTitle,
         },
     )
 
@@ -683,6 +715,7 @@ async def upload(
     section: Optional[str] = Form(None),
     pages: Optional[str] = Form(None),
     pageRange: Optional[str] = Form(None),
+    journalTitle: Optional[str] = Form(None),
     docId: Optional[str] = Form(None),
     fileName: Optional[str] = Form(None),
     mimeType: Optional[str] = Form(None),
@@ -719,6 +752,8 @@ async def upload(
             "pages": normalize_pages(pages),
             "pageRange": pageRange,
             "audience": audience,
+            "journal_title": journalTitle,
+            "journalTitle": journalTitle,
         },
     )
 
@@ -751,6 +786,8 @@ def ingest_url(payload: IngestURL):
             "section": payload.section,
             "pages": payload.pages,
             "pageRange": payload.pageRange,
+            "journal_title": payload.journalTitle,
+            "journalTitle": payload.journalTitle,
             "source_type": "url",
             "source_url": payload.url,
             "source_path": str(html_path),
@@ -775,6 +812,7 @@ def ingest_url(payload: IngestURL):
         "section": normalize_section(payload.section),
         "pages": normalize_pages(payload.pages),
         "pageRange": (payload.pageRange or "").strip() or None,
+        "journalTitle": payload.journalTitle,
     }
     _register(payload.docId, reg_entry)
 
@@ -813,12 +851,13 @@ def documents(limit: Optional[int] = None):
             "mimeType": meta.get("mimeType"),
             "audience": meta.get("audience"),
             "authors": meta.get("authors"),
+            "journalTitle": meta.get("journalTitle"),
             "createdAt": meta.get("createdAt"),
             "updatedAt": meta.get("updatedAt"),
             "lastIngested": meta.get("lastIngested"),
             **{k: v for k, v in meta.items() if k not in {
                 "title","description","type","fileName","url","mimeType",
-                "audience","createdAt","updatedAt","lastIngested"
+                "audience","createdAt","updatedAt","lastIngested","journalTitle"
             }},
         })
     return out
@@ -878,6 +917,8 @@ def reindex(doc_id: str):
             "section": entry.get("section"),
             "pages": entry.get("pages"),
             "pageRange": entry.get("pageRange"),
+            "journal_title": entry.get("journalTitle"),
+            "journalTitle": entry.get("journalTitle"),
             "source_type": "file",
             "source_path": entry.get("path"),
             "mimeType": mime,
@@ -902,6 +943,8 @@ def reindex(doc_id: str):
             "section": entry.get("section"),
             "pages": entry.get("pages"),
             "pageRange": entry.get("pageRange"),
+            "journal_title": entry.get("journalTitle"),
+            "journalTitle": entry.get("journalTitle"),
             "source_type": "url",
             "source_url": entry.get("url"),
             "source_path": entry.get("path"),
@@ -1008,6 +1051,7 @@ def search(payload: SearchIn):
             "section": md.get("section"),
             "pages": md.get("pages"),
             "pageRange": md.get("pageRange"),
+            "journalTitle": md.get("journal_title") or md.get("journalTitle"),
             "chunk": ch,
             "url": md.get("source_url"),
             "fileName": file_name,
@@ -1036,6 +1080,7 @@ def search(payload: SearchIn):
                 "fileName": r.get("fileName"),
                 "section": r.get("section"),
                 "articleId": r.get("articleId"),
+                "journalTitle": r.get("journalTitle"),
                 "pages_all": [],
                 "page_ranges": [],
                 "items": [],
@@ -1072,7 +1117,14 @@ def search(payload: SearchIn):
     groups = []
     for g in groups_map.values():
         pages_compact = _collapse_pages_local(g["pages_all"]) or (", ".join(sorted(set(g["page_ranges"]))) if g["page_ranges"] else "")
-        meta_for_ref = {"authors": g["authors"], "title": g["title"], "year": g["year"], "issue": g["issue"], "issue_id": g["issue"]}
+        meta_for_ref = {
+            "authors": g["authors"],
+            "title": g["title"],
+            "year": g["year"],
+            "issue": g["issue"],
+            "issue_id": g["issue"],
+            "journal_title": g.get("journalTitle"),
+        }
         short_ref = _make_short_ref(meta_for_ref, pages_compact)
         groups.append({
             "doc_id": g["doc_id"],
@@ -1086,6 +1138,7 @@ def search(payload: SearchIn):
             "fileName": g["fileName"],
             "section": g["section"],
             "articleId": g["articleId"],
+            "journalTitle": g["journalTitle"],
             "pages": pages_compact,
             "short_ref": short_ref,
             "count": len(g["items"]),
