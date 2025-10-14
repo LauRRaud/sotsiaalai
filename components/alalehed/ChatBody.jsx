@@ -154,7 +154,10 @@ function formatSourceLabel(src) {
 
   const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
-  const titleText = typeof src?.title === "string" ? src.title.trim() : "";
+  const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
+  const titleText = typeof src?.title === "string" && src.title.trim()
+    ? src.title.trim()
+    : filePretty;
   const journal = typeof src?.journalTitle === "string" ? src.journalTitle.trim() : "";
   const issue =
     typeof src?.issueLabel === "string"
@@ -196,6 +199,7 @@ function formatSourceLabel(src) {
   const label = parts.join(". ");
   if (label) return label;
 
+  if (filePretty) return filePretty;
   const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
   if (url) return url;
 
@@ -422,72 +426,31 @@ export default function ChatBody() {
         const pageSegments = [numericPagesText, rangeText].filter((seg) => seg && seg.trim());
         const pageText = pageSegments.length ? pageSegments.join(", ") : null;
 
-        const trim = (val) => (typeof val === "string" ? val.trim() : "");
-
-        const labelFromList = Array.from(entry.labels).find((l) => typeof l === "string" && trim(l));
-
-        const authorText = (() => {
-          const arr = Array.from(entry.authors).map((a) => trim(a));
-          const clean = arr.filter(Boolean);
-          return clean.length ? clean.join("; ") : null;
-        })();
-
-        const sanitizedFile =
-          typeof entry.fileName === "string" ? entry.fileName.trim().toLowerCase() : null;
-        const looksLikeFile = (str) => /\.[a-z0-9]{2,5}$/i.test(str) || str.includes("_");
-        const titleText = (() => {
-          const raw = trim(entry.title);
-          if (
-            raw &&
-            (!sanitizedFile || raw.toLowerCase() !== sanitizedFile) &&
-            !looksLikeFile(raw)
-          ) {
-            return raw;
-          }
-          const labelCandidate = labelFromList ? trim(labelFromList) : "";
-          if (labelCandidate && !looksLikeFile(labelCandidate)) return labelCandidate;
-          if (entry.journalTitle) {
-            const journalName = trim(entry.journalTitle);
-            if (journalName) return journalName;
-          }
-          if (entry.fileName && !looksLikeFile(entry.fileName)) return entry.fileName;
-          if (primaryUrl) return primaryUrl.replace(/^https?:\/\//, "");
-          return null;
-        })();
-
-        const issueText = trim(entry.issueLabel) || trim(entry.issueId) || null;
-        const yearText =
-          typeof entry.year === "number"
-            ? String(entry.year)
-            : trim(entry.year);
-        const journalParts = [trim(entry.journalTitle), issueText, yearText].filter(Boolean);
-        const journalText = journalParts.length ? journalParts.join(" ") : null;
-
-        const composedParts = [];
-        if (authorText) composedParts.push(authorText);
-        if (titleText) composedParts.push(titleText);
-        if (journalText) composedParts.push(journalText);
-        if (pageText) composedParts.push(`lk ${pageText}`);
-        if (entry.section) composedParts.push(entry.section);
-
-        const computedLabel = composedParts.join(". ");
+        const formattedLabel = formatSourceLabel({
+          short_ref: entry.shortRef,
+          authors: Array.from(entry.authors),
+          title: entry.title || Array.from(entry.labels).find((l) => typeof l === "string"),
+          journalTitle: entry.journalTitle,
+          issueLabel: entry.issueLabel || entry.issueId,
+          issueId: entry.issueId,
+          year: entry.year,
+          section: entry.section,
+          pageRange: pageText || undefined,
+          pages: pageNumbers,
+          fileName: entry.fileName,
+          url: primaryUrl,
+        });
 
         const shortRefText =
           typeof entry.shortRef === "string" && entry.shortRef.trim()
             ? entry.shortRef.trim()
             : null;
 
-        const prettyFileName = entry.fileName ? prettifyFileName(entry.fileName) : "";
-
         const label =
+          (formattedLabel && formattedLabel.trim()) ||
           shortRefText ||
-          (labelFromList && labelFromList.trim()) ||
-          (computedLabel && computedLabel.trim()) ||
-          (prettyFileName
-            ? prettyFileName
-            : primaryUrl
-            ? primaryUrl.replace(/^https?:\/\//, "")
-            : "Allikas");
+          prettifyFileName(entry.fileName || "") ||
+          (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas");
 
         return {
           key: entry.key,
@@ -1137,7 +1100,7 @@ export default function ChatBody() {
             aria-haspopup="dialog"
             aria-expanded={showSourcesPanel ? "true" : "false"}
             aria-controls="chat-sources-panel"
-            style={{ position: "absolute", left: 0, bottom: 0 }}
+            style={{ position: "absolute", left: 0, top: "50%", transform: "translateY(-50%)" }}
           >
             Allikad ({conversationSources.length})
           </button>
