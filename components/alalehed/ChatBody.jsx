@@ -188,6 +188,16 @@ function normalizeSources(sources) {
     const key = src?.id || url || `${label}-${idx}`;
     const pages = Array.isArray(src?.pages) ? uniqueSortedPages(src.pages) : undefined;
     const pageLabel = src?.pageRange || collapsePages([...(pages || []), page]);
+    const authors = asAuthorArray(src?.authors);
+    const issueLabel =
+      typeof src?.issueLabel === "string"
+        ? src.issueLabel
+        : typeof src?.issueId === "string"
+        ? src.issueId
+        : undefined;
+    const year =
+      typeof src?.year === "number" || typeof src?.year === "string" ? src.year : undefined;
+
     return {
       key,
       label,
@@ -197,6 +207,13 @@ function normalizeSources(sources) {
       fileName: src?.fileName,
       short_ref: typeof src?.short_ref === "string" ? src.short_ref : undefined,
       journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : undefined, // valikuline
+      authors,
+      title: typeof src?.title === "string" ? src.title : undefined,
+      issueLabel,
+      issueId: typeof src?.issueId === "string" ? src.issueId : undefined,
+      year,
+      section: typeof src?.section === "string" ? src.section : undefined,
+      pages,
     };
   });
 }
@@ -301,10 +318,18 @@ export default function ChatBody() {
             order: order++,
             occurrences: 0,
             shortRef: typeof src.short_ref === "string" ? src.short_ref.trim() : null,
-            label: typeof src.label === "string" ? src.label : null,
+            labels: new Set(),
             fileName: src.fileName || null,
             urls: new Set(),
             pageRanges: new Set(),
+            pages: new Set(),
+            authors: new Set(),
+            title: typeof src.title === "string" ? src.title : null,
+            journalTitle: typeof src.journalTitle === "string" ? src.journalTitle : null,
+            issueLabel: typeof src.issueLabel === "string" ? src.issueLabel : null,
+            issueId: typeof src.issueId === "string" ? src.issueId : null,
+            year: src.year ?? null,
+            section: typeof src.section === "string" ? src.section : null,
           };
           map.set(key, entry);
         }
@@ -313,8 +338,8 @@ export default function ChatBody() {
         if (!entry.shortRef && typeof src.short_ref === "string") {
           entry.shortRef = src.short_ref.trim();
         }
-        if (!entry.label && typeof src.label === "string") {
-          entry.label = src.label;
+        if (typeof src.label === "string" && src.label.trim()) {
+          entry.labels.add(src.label.trim());
         }
         if (!entry.fileName && src.fileName) {
           entry.fileName = src.fileName;
@@ -325,6 +350,38 @@ export default function ChatBody() {
         if (src.pageRange) {
           entry.pageRanges.add(src.pageRange);
         }
+        if (Array.isArray(src.pages)) {
+          for (const p of src.pages) {
+            const num = Number(p);
+            if (Number.isFinite(num)) entry.pages.add(num);
+          }
+        }
+        const pageNum = Number(src.page);
+        if (Number.isFinite(pageNum)) entry.pages.add(pageNum);
+
+        if (Array.isArray(src.authors)) {
+          for (const author of src.authors) {
+            if (author && typeof author === "string") entry.authors.add(author);
+          }
+        }
+        if (!entry.title && typeof src.title === "string" && src.title.trim()) {
+          entry.title = src.title.trim();
+        }
+        if (!entry.journalTitle && typeof src.journalTitle === "string" && src.journalTitle.trim()) {
+          entry.journalTitle = src.journalTitle.trim();
+        }
+        if (!entry.issueLabel && typeof src.issueLabel === "string" && src.issueLabel.trim()) {
+          entry.issueLabel = src.issueLabel.trim();
+        }
+        if (!entry.issueId && typeof src.issueId === "string" && src.issueId.trim()) {
+          entry.issueId = src.issueId.trim();
+        }
+        if (entry.year == null && (typeof src.year === "number" || typeof src.year === "string")) {
+          entry.year = src.year;
+        }
+        if (!entry.section && typeof src.section === "string" && src.section.trim()) {
+          entry.section = src.section.trim();
+        }
       }
     }
 
@@ -332,27 +389,54 @@ export default function ChatBody() {
       .sort((a, b) => a.order - b.order)
       .map((entry) => {
         const urlList = Array.from(entry.urls);
-        const pageList = Array.from(entry.pageRanges);
+        const pageRangeList = Array.from(entry.pageRanges);
+        const pageNumbers = Array.from(entry.pages).sort((a, b) => a - b);
         const primaryUrl = urlList[0] || null;
-        const pageText = pageList.length ? [...new Set(pageList)].join(", ") : null;
-        const baseLabel =
-          (entry.shortRef && entry.shortRef.trim()) ||
-          (entry.label && entry.label.trim()) ||
+        const numericPagesText = pageNumbers.length ? collapsePages(pageNumbers) : "";
+        const rangeText = pageRangeList.length ? [...new Set(pageRangeList)].join(", ") : "";
+        const pageSegments = [numericPagesText, rangeText].filter((seg) => seg && seg.trim());
+        const pageText = pageSegments.length ? pageSegments.join(", ") : null;
+
+        const formattedLabel = formatSourceLabel({
+          short_ref: entry.shortRef,
+          authors: Array.from(entry.authors),
+          title:
+            entry.title ||
+            Array.from(entry.labels)[0] ||
+            entry.fileName ||
+            (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas"),
+          journalTitle: entry.journalTitle,
+          issueLabel: entry.issueLabel,
+          issueId: entry.issueId,
+          year: entry.year,
+          section: entry.section,
+          pageRange: pageText || undefined,
+          pages: pageNumbers,
+          fileName: entry.fileName,
+        });
+
+        const label =
+          (formattedLabel && formattedLabel.trim()) ||
+          entry.shortRef ||
+          Array.from(entry.labels)[0] ||
           entry.fileName ||
           primaryUrl ||
           "Allikas";
-        const label =
-          entry.occurrences > 1 ? `${baseLabel} (×${entry.occurrences})` : baseLabel;
 
         return {
           key: entry.key,
           label,
-          baseLabel,
           url: primaryUrl,
           allUrls: urlList,
           pageText,
           fileName: entry.fileName,
           occurrences: entry.occurrences,
+          authors: Array.from(entry.authors),
+          journalTitle: entry.journalTitle,
+          issueLabel: entry.issueLabel,
+          issueId: entry.issueId,
+          year: entry.year,
+          section: entry.section,
         };
       });
   }, [messages]);
@@ -831,48 +915,6 @@ export default function ChatBody() {
       {/* Pealkiri */}
       <h1 className="glass-title">SotsiaalAI</h1>
 
-      {hasConversationSources ? (
-        <div
-          className="chat-sources-toggle"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            margin: "0.35rem 0 0.75rem",
-          }}
-        >
-          <button
-            type="button"
-            ref={sourcesButtonRef}
-            onClick={toggleSourcesPanel}
-            className="chat-sources-btn"
-            aria-haspopup="dialog"
-            aria-expanded={showSourcesPanel ? "true" : "false"}
-            aria-controls="chat-sources-panel"
-            style={{
-              borderRadius: 999,
-              border: "1px solid rgba(255,255,255,0.25)",
-              background: showSourcesPanel ? "rgba(59,130,246,0.22)" : "rgba(15,23,42,0.65)",
-              color: "#fff",
-              padding: "0.42rem 0.9rem",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.4rem",
-              transition: "background 0.2s ease, border 0.2s ease",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{ display: "inline-flex", alignItems: "center", fontSize: "1rem" }}
-            >
-              📚
-            </span>
-            Allikad ({conversationSources.length})
-          </button>
-        </div>
-      ) : null}
-
       {isCrisis ? (
         <div
           role="alert"
@@ -1014,8 +1056,50 @@ export default function ChatBody() {
         </form>
       </main>
 
-      <footer className="chat-footer">
-        <BackButton />
+      <footer
+        className="chat-footer"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+          marginTop: "1rem",
+        }}
+      >
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
+          {hasConversationSources ? (
+            <button
+              type="button"
+              ref={sourcesButtonRef}
+              onClick={toggleSourcesPanel}
+              className="chat-sources-btn"
+              aria-haspopup="dialog"
+              aria-expanded={showSourcesPanel ? "true" : "false"}
+              aria-controls="chat-sources-panel"
+              style={{
+                borderRadius: 14,
+                border: "1px solid rgba(255,255,255,0.25)",
+                background: showSourcesPanel ? "rgba(99,102,241,0.25)" : "rgba(15,23,42,0.75)",
+                color: "#fff",
+                padding: "0.55rem 1.15rem",
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                display: "inline-flex",
+                alignItems: "center",
+                transition: "background 0.2s ease, border 0.2s ease",
+                boxShadow: showSourcesPanel
+                  ? "0 0 0 1px rgba(99,102,241,0.35)"
+                  : "0 4px 16px rgba(15,23,42,0.35)",
+              }}
+            >
+              Allikad ({conversationSources.length})
+            </button>
+          ) : null}
+        </div>
+        <div style={{ flexShrink: 0 }}>
+          <BackButton />
+        </div>
       </footer>
 
       {showSourcesPanel ? (
@@ -1089,15 +1173,28 @@ export default function ChatBody() {
                 {conversationSources.map((src, idx) => (
                   <li
                     key={src.key || idx}
-                    style={{ marginBottom: "0.85rem", lineHeight: 1.45 }}
+                    style={{ marginBottom: "1rem", lineHeight: 1.5 }}
                   >
-                    <div style={{ fontWeight: 500 }}>{src.baseLabel || src.label}</div>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        fontSize: "0.95rem",
+                        color: "#f8fafc",
+                      }}
+                    >
+                      {src.label}
+                    </div>
                     {src.occurrences > 1 ? (
-                      <div style={{ fontSize: "0.8rem", opacity: 0.65 }}>
+                      <div style={{ fontSize: "0.8rem", opacity: 0.7 }}>
                         Kasutatud {src.occurrences} vestluse lõigus.
                       </div>
                     ) : null}
-                    {src.pageText ? (
+                    {src.section ? (
+                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                        Sektsioon: {src.section}
+                      </div>
+                    ) : null}
+                    {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
                       <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
                         Leheküljed: {src.pageText}
                       </div>
@@ -1108,7 +1205,7 @@ export default function ChatBody() {
                           display: "flex",
                           flexWrap: "wrap",
                           gap: "0.5rem",
-                          marginTop: "0.35rem",
+                          marginTop: "0.45rem",
                         }}
                       >
                         {src.allUrls.map((url, urlIdx) => (

@@ -126,8 +126,8 @@ function normalizeMatch(m, idx) {
   const pageRange = md.pageRange || md.page_range || m?.pageRange || null;
   const issueLabel = md.issueLabel || md.issue_label || m?.issueLabel || null;
   const issueId = md.issueId || md.issue_id || m?.issueId || null;
-const journalTitle =
-  md.journal_title || md.journalTitle || m?.journal_title || m?.journalTitle || null;
+  const journalTitle =
+    md.journal_title || md.journalTitle || m?.journal_title || m?.journalTitle || null;
   const articleId = md.articleId || md.article_id || m?.articleId || null;
   const section = md.section || m?.section || null;
   const year = md.year || m?.year || null;
@@ -363,6 +363,19 @@ function detectCrisis(text = "") {
     /lapse\s*(vägivald|ahistamine|ohus)/,
   ];
   return hits.some((re) => re.test(t));
+}
+
+// Tervituse tuvastus (lühisõnumid)
+function isGreeting(text = "") {
+  const t = (text || "").toLowerCase().trim();
+  // lubame ka lõpunihmärke
+  if (/^(tere|tsau|tšau|hei|hey|hello|hi|tere päevast|tere õhtust|hommikust|õhtust)[.!?]*$/.test(t)) {
+    return true;
+  }
+  // väga lühikesed esimesed pöördumised (nt "mul oleks", "küsimus")
+  const wordCount = t.split(/\s+/).filter(Boolean).length;
+  if (wordCount <= 3) return true;
+  return false;
 }
 
 /* ------------------------- Prompt builder ------------------------- */
@@ -644,6 +657,59 @@ export async function POST(req) {
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
 
+  // 3.5) varajane tervitusfiltri haru — ENNE RAG-i
+  const greeting = isGreeting(message);
+  const isCrisis = detectCrisis(message);
+  if (greeting || rawHistory.length === 0) {
+    const reply =
+      normalizedRole === "SOCIAL_WORKER"
+        ? "Tere! Millise teema või juhtumi fookusega saan täna toeks olla?"
+        : "Tere! Millega saan täna toeks olla?";
+
+    if (persist && convId && userId) {
+      await persistInit({ convId, userId, role: normalizedRole, sources: [], isCrisis });
+      await persistAppend({ convId, userId, fullText: reply });
+      await persistDone({ convId, userId, status: "COMPLETED" });
+    }
+
+    if (!wantStream) {
+      return NextResponse.json({
+        ok: true,
+        reply,
+        answer: reply,
+        sources: [],
+        isCrisis,
+        convId: convId || undefined,
+      });
+    }
+
+    const enc = new TextEncoder();
+    const sse = new ReadableStream({
+      async start(controller) {
+        try {
+          controller.enqueue(
+            enc.encode(`event: meta\ndata: ${JSON.stringify({ sources: [], isCrisis })}\n\n`)
+          );
+          controller.enqueue(
+            enc.encode(`event: delta\ndata: ${JSON.stringify({ t: reply })}\n\n`)
+          );
+          controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
+        } finally {
+          try { controller.close(); } catch {}
+        }
+      },
+    });
+
+    return new Response(sse, {
+      headers: {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+        "X-Accel-Buffering": "no",
+      },
+    });
+  }
+
   // 4) nõua tellimust (ADMIN erand)
   const gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok) {
@@ -674,7 +740,6 @@ export async function POST(req) {
   const groupedMatches = groupMatches(matches);
   const context = renderContextBlocks(groupedMatches);
   const grounding = groundingStrength(groupedMatches);
-  const isCrisis = detectCrisis(message);
 
   // 7) allikad (meta) – UI-le
   const sources = groupedMatches.map((entry, idx) => {
