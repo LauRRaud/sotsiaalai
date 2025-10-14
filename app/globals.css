@@ -2398,6 +2398,41 @@ left: calc(var(--hud-edge-left) + 15px)
 }
 .drawer-panel .cs-refresh:active{ transform:scale(.94); }
 .drawer-panel .cs-refresh-icon{ width:18px; height:18px; transition:transform .35s ease; }
+
+.chat-sources-btn{
+  font:inherit;
+  font-weight:600;
+  letter-spacing:.03em;
+  padding:.55rem 1.4rem;
+  border-radius:999px;
+  cursor:pointer;
+  min-width:120px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--pt-130);
+  background:linear-gradient(to bottom right, rgba(255,255,255,.06), rgba(140,165,235,.05));
+  border:1px solid rgba(196,212,255,.24);
+  backdrop-filter:blur(9px) saturate(120%);
+  -webkit-backdrop-filter:blur(9px) saturate(120%);
+  box-shadow:inset 0 0 2px rgba(255,255,255,.10), 0 6px 16px rgba(0,0,0,.10);
+  transition:background .18s, border-color .18s, color .18s, box-shadow .18s, transform .06s;
+}
+.chat-sources-btn:hover,
+.chat-sources-btn:focus-visible{
+  color:var(--pt-80);
+  background:linear-gradient(to bottom right, rgba(255,255,255,.09), rgba(140,165,235,.07));
+  border-color:rgba(206,220,255,.30);
+  box-shadow:0 0 10px rgba(206,220,255,.16), 0 10px 22px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
+  outline:none;
+}
+.chat-sources-btn:active{ transform:translateY(1px); }
+.chat-sources-btn--active{
+  color:var(--pt-80);
+  background:linear-gradient(to bottom right, rgba(255,255,255,.1), rgba(140,165,235,.1));
+  border-color:rgba(206,220,255,.35);
+  box-shadow:0 0 0 1px rgba(99,130,246,.35), 0 6px 18px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.15);
+}
 .drawer-panel .cs-refresh:hover .cs-refresh-icon{ transform:rotate(120deg); }
 /* ===========================
    Drawer (klaas + hele tekst)

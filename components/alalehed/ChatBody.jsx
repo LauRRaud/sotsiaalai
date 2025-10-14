@@ -397,31 +397,66 @@ export default function ChatBody() {
         const pageSegments = [numericPagesText, rangeText].filter((seg) => seg && seg.trim());
         const pageText = pageSegments.length ? pageSegments.join(", ") : null;
 
-        const formattedLabel = formatSourceLabel({
-          short_ref: entry.shortRef,
-          authors: Array.from(entry.authors),
-          title:
-            entry.title ||
-            Array.from(entry.labels)[0] ||
-            entry.fileName ||
-            (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas"),
-          journalTitle: entry.journalTitle,
-          issueLabel: entry.issueLabel,
-          issueId: entry.issueId,
-          year: entry.year,
-          section: entry.section,
-          pageRange: pageText || undefined,
-          pages: pageNumbers,
-          fileName: entry.fileName,
-        });
+        const trim = (val) => (typeof val === "string" ? val.trim() : "");
+
+        const labelFromList = Array.from(entry.labels).find((l) => typeof l === "string" && trim(l));
+
+        const authorText = (() => {
+          const arr = Array.from(entry.authors).map((a) => trim(a));
+          const clean = arr.filter(Boolean);
+          return clean.length ? clean.join("; ") : null;
+        })();
+
+        const sanitizedFile =
+          typeof entry.fileName === "string" ? entry.fileName.trim().toLowerCase() : null;
+        const looksLikeFile = (str) => /\.[a-z0-9]{2,5}$/i.test(str) || str.includes("_");
+        const titleText = (() => {
+          const raw = trim(entry.title);
+          if (
+            raw &&
+            (!sanitizedFile || raw.toLowerCase() !== sanitizedFile) &&
+            !looksLikeFile(raw)
+          ) {
+            return raw;
+          }
+          const labelCandidate = labelFromList ? trim(labelFromList) : "";
+          if (labelCandidate && !looksLikeFile(labelCandidate)) return labelCandidate;
+          if (entry.journalTitle) {
+            const journalName = trim(entry.journalTitle);
+            if (journalName) return journalName;
+          }
+          if (entry.fileName && !looksLikeFile(entry.fileName)) return entry.fileName;
+          if (primaryUrl) return primaryUrl.replace(/^https?:\/\//, "");
+          return null;
+        })();
+
+        const issueText = trim(entry.issueLabel) || trim(entry.issueId) || null;
+        const yearText =
+          typeof entry.year === "number"
+            ? String(entry.year)
+            : trim(entry.year);
+        const journalParts = [trim(entry.journalTitle), issueText, yearText].filter(Boolean);
+        const journalText = journalParts.length ? journalParts.join(" ") : null;
+
+        const composedParts = [];
+        if (authorText) composedParts.push(authorText);
+        if (titleText) composedParts.push(titleText);
+        if (journalText) composedParts.push(journalText);
+        if (pageText) composedParts.push(`lk ${pageText}`);
+        if (entry.section) composedParts.push(entry.section);
+
+        const computedLabel = composedParts.join(". ");
+
+        const shortRefText =
+          typeof entry.shortRef === "string" && entry.shortRef.trim()
+            ? entry.shortRef.trim()
+            : null;
 
         const label =
-          (formattedLabel && formattedLabel.trim()) ||
-          entry.shortRef ||
-          Array.from(entry.labels)[0] ||
-          entry.fileName ||
-          primaryUrl ||
-          "Allikas";
+          shortRefText ||
+          (labelFromList && labelFromList.trim()) ||
+          (computedLabel && computedLabel.trim()) ||
+          (entry.fileName || (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas"));
 
         return {
           key: entry.key,
@@ -1056,49 +1091,30 @@ export default function ChatBody() {
         </form>
       </main>
 
-      <footer
-        className="chat-footer"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "1rem",
-          marginTop: "1rem",
-        }}
-      >
-        <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
+      <footer className="chat-footer" style={{ marginTop: "1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "0.85rem",
+          }}
+        >
+          <BackButton />
+
           {hasConversationSources ? (
             <button
               type="button"
               ref={sourcesButtonRef}
               onClick={toggleSourcesPanel}
-              className="chat-sources-btn"
+              className={`chat-sources-btn${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
               aria-haspopup="dialog"
               aria-expanded={showSourcesPanel ? "true" : "false"}
               aria-controls="chat-sources-panel"
-              style={{
-                borderRadius: 14,
-                border: "1px solid rgba(255,255,255,0.25)",
-                background: showSourcesPanel ? "rgba(99,102,241,0.25)" : "rgba(15,23,42,0.75)",
-                color: "#fff",
-                padding: "0.55rem 1.15rem",
-                fontSize: "0.95rem",
-                fontWeight: 600,
-                letterSpacing: "0.02em",
-                display: "inline-flex",
-                alignItems: "center",
-                transition: "background 0.2s ease, border 0.2s ease",
-                boxShadow: showSourcesPanel
-                  ? "0 0 0 1px rgba(99,102,241,0.35)"
-                  : "0 4px 16px rgba(15,23,42,0.35)",
-              }}
             >
               Allikad ({conversationSources.length})
             </button>
           ) : null}
-        </div>
-        <div style={{ flexShrink: 0 }}>
-          <BackButton />
         </div>
       </footer>
 
