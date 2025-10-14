@@ -232,36 +232,6 @@ function throttle(fn, waitMs) {
 }
 
 /* ---------- Allikate list ---------- */
-function SourceList({ sources }) {
-  if (!Array.isArray(sources) || sources.length === 0) return null;
-  return (
-    <details className="sources-list" style={{ marginTop: "0.5rem" }}>
-      <summary style={{ cursor: "pointer", fontWeight: 600 }}>
-        Allikad ({sources.length})
-      </summary>
-      <ul style={{ margin: "0.4rem 0 0", paddingLeft: "1rem", lineHeight: 1.35 }}>
-        {sources.map((s) => (
-          <li key={s.key} style={{ marginBottom: "0.25rem" }}>
-            <span>{s.label}</span>{" "}
-            {s.url ? (
-              <a
-                href={s.url}
-                target="_blank"
-                rel="noreferrer"
-                style={{ textDecoration: "underline" }}
-              >
-                Ava
-              </a>
-            ) : s.fileName ? (
-              <span style={{ opacity: 0.8 }}>({s.fileName})</span>
-            ) : null}
-          </li>
-        ))}
-      </ul>
-    </details>
-  );
-}
-
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -285,9 +255,11 @@ export default function ChatBody() {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
+  const [showSourcesPanel, setShowSourcesPanel] = useState(false);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
+  const sourcesButtonRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
   const mountedRef = useRef(false);
@@ -303,6 +275,113 @@ export default function ChatBody() {
     () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, messages]
   );
+
+  const conversationSources = useMemo(() => {
+    const map = new Map();
+    let order = 0;
+    let fallbackCounter = 0;
+
+    for (const msg of messages) {
+      if (msg?.role !== "ai" || !Array.isArray(msg?.sources)) continue;
+      for (const src of msg.sources) {
+        if (!src) continue;
+
+        const key =
+          (src.key && String(src.key)) ||
+          (src.url ? `url:${src.url}` : null) ||
+          (src.short_ref ? `short:${src.short_ref}` : null) ||
+          (src.label ? `label:${src.label}` : null) ||
+          (src.fileName ? `file:${src.fileName}` : null) ||
+          `auto-${fallbackCounter++}`;
+
+        let entry = map.get(key);
+        if (!entry) {
+          entry = {
+            key,
+            order: order++,
+            occurrences: 0,
+            shortRef: typeof src.short_ref === "string" ? src.short_ref.trim() : null,
+            label: typeof src.label === "string" ? src.label : null,
+            fileName: src.fileName || null,
+            urls: new Set(),
+            pageRanges: new Set(),
+          };
+          map.set(key, entry);
+        }
+
+        entry.occurrences += 1;
+        if (!entry.shortRef && typeof src.short_ref === "string") {
+          entry.shortRef = src.short_ref.trim();
+        }
+        if (!entry.label && typeof src.label === "string") {
+          entry.label = src.label;
+        }
+        if (!entry.fileName && src.fileName) {
+          entry.fileName = src.fileName;
+        }
+        if (src.url) {
+          entry.urls.add(src.url);
+        }
+        if (src.pageRange) {
+          entry.pageRanges.add(src.pageRange);
+        }
+      }
+    }
+
+    return Array.from(map.values())
+      .sort((a, b) => a.order - b.order)
+      .map((entry) => {
+        const urlList = Array.from(entry.urls);
+        const pageList = Array.from(entry.pageRanges);
+        const primaryUrl = urlList[0] || null;
+        const pageText = pageList.length ? [...new Set(pageList)].join(", ") : null;
+        const baseLabel =
+          (entry.shortRef && entry.shortRef.trim()) ||
+          (entry.label && entry.label.trim()) ||
+          entry.fileName ||
+          primaryUrl ||
+          "Allikas";
+        const label =
+          entry.occurrences > 1 ? `${baseLabel} (×${entry.occurrences})` : baseLabel;
+
+        return {
+          key: entry.key,
+          label,
+          baseLabel,
+          url: primaryUrl,
+          allUrls: urlList,
+          pageText,
+          fileName: entry.fileName,
+          occurrences: entry.occurrences,
+        };
+      });
+  }, [messages]);
+
+  const hasConversationSources = conversationSources.length > 0;
+
+  const focusSourcesButton = useCallback(() => {
+    setTimeout(() => {
+      try {
+        sourcesButtonRef.current?.focus?.();
+      } catch {
+        /* ignore */
+      }
+    }, 0);
+  }, []);
+
+  const toggleSourcesPanel = useCallback(() => {
+    if (!hasConversationSources) return;
+    setShowSourcesPanel((prev) => {
+      const next = !prev;
+      if (!next) focusSourcesButton();
+      return next;
+    });
+  }, [hasConversationSources, focusSourcesButton]);
+
+  const closeSourcesPanel = useCallback(() => {
+    setShowSourcesPanel(false);
+    focusSourcesButton();
+  }, [focusSourcesButton]);
 
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
@@ -416,6 +495,26 @@ export default function ChatBody() {
     }, 250);
     return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
   }, [messages, chatStore]);
+
+  useEffect(() => {
+    if (!hasConversationSources && showSourcesPanel) {
+      closeSourcesPanel();
+    }
+  }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
+
+  useEffect(() => {
+    if (!showSourcesPanel) return;
+
+    function onKeyDown(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeSourcesPanel();
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showSourcesPanel, closeSourcesPanel]);
 
   /* ---------- TAASTA SERVERIST ---------- */
   useEffect(() => {
@@ -732,6 +831,48 @@ export default function ChatBody() {
       {/* Pealkiri */}
       <h1 className="glass-title">SotsiaalAI</h1>
 
+      {hasConversationSources ? (
+        <div
+          className="chat-sources-toggle"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            margin: "0.35rem 0 0.75rem",
+          }}
+        >
+          <button
+            type="button"
+            ref={sourcesButtonRef}
+            onClick={toggleSourcesPanel}
+            className="chat-sources-btn"
+            aria-haspopup="dialog"
+            aria-expanded={showSourcesPanel ? "true" : "false"}
+            aria-controls="chat-sources-panel"
+            style={{
+              borderRadius: 999,
+              border: "1px solid rgba(255,255,255,0.25)",
+              background: showSourcesPanel ? "rgba(59,130,246,0.22)" : "rgba(15,23,42,0.65)",
+              color: "#fff",
+              padding: "0.42rem 0.9rem",
+              fontSize: "0.85rem",
+              fontWeight: 500,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              transition: "background 0.2s ease, border 0.2s ease",
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{ display: "inline-flex", alignItems: "center", fontSize: "1rem" }}
+            >
+              📚
+            </span>
+            Allikad ({conversationSources.length})
+          </button>
+        </div>
+      ) : null}
+
       {isCrisis ? (
         <div
           role="alert"
@@ -781,10 +922,6 @@ export default function ChatBody() {
             return (
               <div key={msg.id} className={`chat-msg ${variant}`}>
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
-
-                {msg.role === "ai" && Array.isArray(msg.sources) && msg.sources.length > 0 ? (
-                  <SourceList sources={msg.sources} />
-                ) : null}
               </div>
             );
           })}
@@ -880,6 +1017,128 @@ export default function ChatBody() {
       <footer className="chat-footer">
         <BackButton />
       </footer>
+
+      {showSourcesPanel ? (
+        <div
+          id="chat-sources-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Vestluse allikad"
+          onClick={closeSourcesPanel}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 40,
+            background: "rgba(9, 14, 25, 0.55)",
+            backdropFilter: "blur(2px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "rgba(12, 19, 35, 0.95)",
+              borderRadius: 14,
+              width: "100%",
+              maxWidth: "520px",
+              maxHeight: "80vh",
+              padding: "1.25rem 1.4rem",
+              overflowY: "auto",
+              boxShadow: "0 18px 40px rgba(0,0,0,0.45)",
+              border: "1px solid rgba(148, 163, 184, 0.15)",
+              color: "#f8fafc",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "0.75rem",
+                marginBottom: "0.85rem",
+              }}
+            >
+              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>Vestluse allikad</h2>
+              <button
+                type="button"
+                onClick={closeSourcesPanel}
+                style={{
+                  border: "none",
+                  background: "rgba(148,163,184,0.15)",
+                  color: "#f1f5f9",
+                  borderRadius: 999,
+                  padding: "0.3rem 0.75rem",
+                  fontSize: "0.8rem",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                }}
+              >
+                Sulge
+              </button>
+            </div>
+
+            {conversationSources.length === 0 ? (
+              <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.75 }}>
+                Vestluses ei ole allikaid.
+              </p>
+            ) : (
+              <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
+                {conversationSources.map((src, idx) => (
+                  <li
+                    key={src.key || idx}
+                    style={{ marginBottom: "0.85rem", lineHeight: 1.45 }}
+                  >
+                    <div style={{ fontWeight: 500 }}>{src.baseLabel || src.label}</div>
+                    {src.occurrences > 1 ? (
+                      <div style={{ fontSize: "0.8rem", opacity: 0.65 }}>
+                        Kasutatud {src.occurrences} vestluse lõigus.
+                      </div>
+                    ) : null}
+                    {src.pageText ? (
+                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                        Leheküljed: {src.pageText}
+                      </div>
+                    ) : null}
+                    {src.allUrls && src.allUrls.length ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: "0.5rem",
+                          marginTop: "0.35rem",
+                        }}
+                      >
+                        {src.allUrls.map((url, urlIdx) => (
+                          <a
+                            key={`${src.key || idx}-url-${urlIdx}`}
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              color: "#93c5fd",
+                              textDecoration: "underline",
+                              fontSize: "0.85rem",
+                            }}
+                          >
+                            Ava {src.allUrls.length > 1 ? `(${urlIdx + 1})` : "allikas"}
+                          </a>
+                        ))}
+                      </div>
+                    ) : src.fileName ? (
+                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.35rem" }}>
+                        Fail: {src.fileName}
+                      </div>
+                    ) : null}
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
