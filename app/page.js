@@ -44,12 +44,10 @@ export default function Page() {
         }}
       />
 
-      {/* Lihtne teade avalehel */}
-      <main className="flex justify-center pt-32 md:pt-40">
-        <h1 className="text-4xl md:text-5xl font-semibold text-brand-primary select-none">
-          Peagi avame!
-        </h1>
-      </main>
+      {/* Mähi HomePage Suspense'iga */}
+      <Suspense fallback={null}>
+        <HomePage />
+      </Suspense>
     </>
   );
 }
