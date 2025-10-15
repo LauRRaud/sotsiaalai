@@ -289,10 +289,20 @@ function shortIssue(entry) {
   return "";
 }
 
+function prettifyFileName(name = "") {
+  if (typeof name !== "string" || !name.trim()) return "";
+  const noExt = name.replace(/\.[a-z0-9]+$/i, "");
+  return noExt.replace(/[_-]+/g, " ").trim();
+}
+
 // ÄRA EELDA ajakirja nime – kasuta journalTitle, kui on, muidu jäta välja.
 function makeShortRef(entry, pagesCompact) {
   const author = firstAuthor(entry.authors);
-  const title = (entry.title || entry.fileName || entry.url || "").trim();
+  const rawTitle = typeof entry.title === "string" ? entry.title.trim() : "";
+  const neatFile = prettifyFileName(entry.fileName);
+  const fallbackUrl =
+    typeof entry.url === "string" ? entry.url.replace(/^https?:\/\//, "").trim() : "";
+  const title = rawTitle || neatFile || fallbackUrl;
   const year =
     typeof entry.year === "number"
       ? String(entry.year)

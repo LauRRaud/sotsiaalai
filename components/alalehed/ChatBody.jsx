@@ -1100,7 +1100,12 @@ export default function ChatBody() {
             aria-haspopup="dialog"
             aria-expanded={showSourcesPanel ? "true" : "false"}
             aria-controls="chat-sources-panel"
-            style={{ position: "absolute", left: 0, top: "50%", transform: "translateY(-50%)" }}
+            style={{
+              position: "absolute",
+              left: "clamp(16px, 4.5vw, 24px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
           >
             Allikad ({conversationSources.length})
           </button>

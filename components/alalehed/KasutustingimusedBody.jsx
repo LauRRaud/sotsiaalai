@@ -20,19 +20,21 @@ export default function KasutustingimusedBody() {
         <h2 className="glass-h2">2. Teenuse kirjeldus</h2>
         <p>
           Platvorm pakub tehisintellektil põhinevat infotuge sotsiaalvaldkonnas.
-          Vastused koostatakse automaatselt ning võivad sisaldada ebatäpsusi.
-          Teenus ei asenda ametlikku, juriidilist ega professionaalset nõustamist.
+          Vastused luuakse Eestis majutatud SotsiaalAI teadmistebaasi põhjal, mis koondab
+          usaldusväärseid allikaid (nt seadused, juhendid, teenuste kirjeldused ja muu
+          valdkondlik teave).
         </p>
 
         <h2 className="glass-h2">3. Konto ja ligipääs</h2>
         <ul className="glass-list">
-          <li>Kasutaja vastutab oma konto turvalisuse ja tegevuste eest kontol.</li>
-          <li>Kasutaja hoiab andmed ajakohased ja ei jaga ligipääsuõigusi loata.</li>
+          <li>Kasutaja hoiab oma konto turvalisena ja parooli enda teada.</li>
+          <li>Kasutaja ei jaga oma kontot ega sisselogimisandmeid kolmandatele isikutele.</li>
+          <li>Kasutaja hoiab kontakt- ja makseandmed ajakohasena.</li>
         </ul>
 
         <h2 className="glass-h2">4. Lubatud kasutus</h2>
         <ul className="glass-list">
-          <li>Keelatud on turbe rikkumine, pahavara levitamine ja masspäringud.</li>
+          <li>Keelatud on turbe rikkumine, pahavara levitamine ja masspäringute esitamine.</li>
           <li>Keelatud on ebaseadusliku sisu edastamine või teiste õiguste rikkumine.</li>
         </ul>
 
@@ -42,27 +44,41 @@ export default function KasutustingimusedBody() {
           Maksekeskus AS vahendusel valitud makseviisilt.
         </p>
         <p>
-          Tellimust saab igal ajal tühistada profiililehel (“Halda tellimust”) või kirjutades
+          Tellimust saab igal ajal hallata profiililehel (“Halda tellimust”) või kirjutades
           <a className="link-brand" href="mailto:info@sotsiaal.ai"> info@sotsiaal.ai</a>.
           Tühistamisel peatub arveldamine alates järgmise arveldusperioodi algusest.
         </p>
 
         <h2 className="glass-h2">6. Kättesaadavus ja hooldus</h2>
         <p>
-          Teeme mõistlikke pingutusi töökindluse tagamiseks, kuid katkestustevaba toimimist ei
-          garanteerita. Hooldustööd ja uuendused võivad teenust ajutiselt piirata.
+          Teeme mõistlikke pingutusi töökindluse ja pideva kättesaadavuse tagamiseks.
+          Hooldustööd ja uuendused võivad teenust ajutiselt piirata, kuid püüame katkestused
+          hoida võimalikult lühikesed.
         </p>
 
-        <h2 className="glass-h2">7. Vastutuse piirang</h2>
+        <h2 className="glass-h2">7. Töökindlus ja täpsus</h2>
         <p>
-          Platvormi kasutamine toimub kasutaja omal vastutusel. SotsiaalAI OÜ ei vastuta otsese
-          ega kaudse kahju eest (sh saamata jäänud tulu, andmekadu), mis tuleneb teenuse kasutamisest.
+          SotsiaalAI eesmärk on pakkuda täpset ja ajakohast teavet. Kui süsteemis tekib viga või
+          ebatäpsus, parandame selle esimesel võimalusel.
         </p>
 
         <h2 className="glass-h2">8. Tingimuste muutmine</h2>
         <p>
-          Võime tingimusi ajakohastada, avaldades uue versiooni platvormil. Olulistest muudatustest
-          teavitatakse mõistliku aja jooksul e-posti või platvormisisese teate kaudu.
+          Kasutustingimusi võidakse ajakohastada, avaldades uue versiooni platvormil. Olulistest
+          muudatustest teavitatakse kasutajaid e-posti või platvormisisese teate kaudu.
+        </p>
+
+        <h2 className="glass-h2">9. Tehisintellekti kasutus ja andmetöötlus</h2>
+        <p>
+          <strong>SotsiaalAI</strong> kasutab <strong>OpenAI</strong> arendatud keeletehnoloogiat (GPT-mudel),
+          mis loob vastuseid kasutaja poolt sisestatud keeles, tuginedes Eestis majutatud
+          SotsiaalAI teadmistebaasile.
+        </p>
+        <p>
+          OpenAI teenust kasutatakse üksnes tekstitöötluseks. Vestluste sisu ei kasutata
+          mudelite arendamiseks ega koolitamiseks ning püsivalt talletatud andmed
+          (kasutajakonto, tellimus ja vestluste kokkuvõtted) säilitatakse turvaliselt
+          SotsiaalAI hallatavates Eesti serverites.
         </p>
       </section>
 
@@ -70,7 +86,9 @@ export default function KasutustingimusedBody() {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => (window.history.length > 1 ? router.back() : router.push("/meist"))}
+          onClick={() =>
+            window.history.length > 1 ? router.back() : router.push("/meist")
+          }
           aria-label="Tagasi"
         >
           <span className="back-arrow-circle" />
