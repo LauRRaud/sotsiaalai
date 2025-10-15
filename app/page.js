@@ -1,6 +1,7 @@
 // app/page.js
 import { Suspense } from "react";
 import HomePage from "@/components/HomePage";
+import OpeningBanner from "@/components/OpeningBanner";
 
 export const metadata = {
   title: "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
@@ -43,6 +44,9 @@ export default function Page() {
           }),
         }}
       />
+
+      {/* AVAMISTEADE – renderdatakse portaalina body alla, ei muuda layout'i */}
+      <OpeningBanner text="Peagi avame!" top={96} />
 
       {/* Mähi HomePage Suspense'iga */}
       <Suspense fallback={null}>

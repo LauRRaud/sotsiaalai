@@ -129,11 +129,6 @@ export default function HomePage() {
             </Link>
           </nav>
         )}
-  <div className="flex justify-center pt-28 md:pt-36">
-        <h1 className="text-4xl md:text-5xl font-semibold text-brand-primary">
-          Peagi avame!
-        </h1>
-      </div>
         <div className="main-content relative">
           {/* LEFT CARD */}
           <div className="side left">
