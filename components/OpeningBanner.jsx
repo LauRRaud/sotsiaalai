@@ -39,7 +39,7 @@ export default function OpeningBanner({ text = "Peagi avame!" }) {
             "var(--font-aino-headline), var(--font-aino), Arial, sans-serif",
           fontWeight: 400,
           fontSize: isMobile
-            ? "clamp(12px, 4vw, 30px)"   // mobiilivaade
+            ? "clamp(14px, 6vw, 36px)"   // mobiilivaade
             : "clamp(15px, 5vw, 40px)",  // desktopivaade
           letterSpacing: "0.02em",
           textAlign: "center",
