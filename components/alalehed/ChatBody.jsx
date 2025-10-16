@@ -202,8 +202,7 @@ function formatSourceLabel(src) {
 
   const label = parts.join(". ");
   if (label) return label;
-
-  if (filePretty) return filePretty;
+  // Ära kasuta faili nime peamise sildina
   const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
   if (url) return url;
 
@@ -1239,10 +1238,6 @@ export default function ChatBody() {
                             Ava {src.allUrls.length > 1 ? `(${urlIdx + 1})` : "allikas"}
                           </a>
                         ))}
-                      </div>
-                    ) : src.fileName ? (
-                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.35rem" }}>
-                        Fail: {src.fileName}
                       </div>
                     ) : null}
                   </li>
