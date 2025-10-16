@@ -25,7 +25,7 @@ export default function OpeningBanner({ text = "Peagi avame!" }) {
         right: 0,
         top: !isMobile ? 96 : "auto",    // ülaosas desktopis
         bottom: isMobile ? 48 : "auto",  // all mobiilis
-        zIndex: 2147483647,
+        zIndex: 40,                      // hoia üle sisu, kuid modali all
         pointerEvents: "none",
         display: "flex",
         justifyContent: "center",
