@@ -250,6 +250,7 @@ export async function POST(req) {
   const sectionRaw = form.get("section");
   const pagesRaw = form.get("pages");
   const pageRangeRaw = form.get("pageRange");
+  const journalTitleRaw = form.get("journalTitle");
 
   const titleCandidate = (titleRaw && String(titleRaw)) || safeFileName;
   const descCandidate = descriptionRaw ? String(descriptionRaw) : null;
@@ -270,6 +271,8 @@ export async function POST(req) {
   const pages = parsePages(pagesRaw);
   const pageRange =
     typeof pageRangeRaw === "string" ? pageRangeRaw.trim().slice(0, 120) : null;
+  const journalTitle =
+    typeof journalTitleRaw === "string" ? journalTitleRaw.trim().slice(0, 255) : null;
 
   const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
 
@@ -299,6 +302,7 @@ export async function POST(req) {
     ...(section ? { section } : {}),
     ...(pages.length ? { pages } : {}),
     ...(pageRange ? { pageRange } : {}),
+    ...(journalTitle ? { journalTitle } : {}),
   };
 
   try {

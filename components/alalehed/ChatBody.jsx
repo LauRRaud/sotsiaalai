@@ -148,6 +148,10 @@ function prettifyFileName(name) {
 }
 
 function formatSourceLabel(src) {
+  // Kui server andis valmis lühiviite, kasuta seda esmavalikuna
+  if (typeof src?.short_ref === "string" && src.short_ref.trim()) {
+    return src.short_ref.trim();
+  }
   if (src?.short_ref && typeof src.short_ref === "string") {
     return src.short_ref.trim();
   }
