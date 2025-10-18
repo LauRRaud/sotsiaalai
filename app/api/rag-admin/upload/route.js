@@ -96,9 +96,7 @@ function parseTags(raw) {
         .filter(Boolean)
         .slice(0, 20);
     }
-  } catch {
-    // ignore
-  }
+  } catch {}
   return null;
 }
 
@@ -195,6 +193,12 @@ function validateMagicType(buffer, mime) {
   }
 
   return null;
+}
+
+function normalizeBase(raw) {
+  const t = String(raw || "").trim().replace(/\/+$/, "");
+  if (!t) return "";
+  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
 }
 
 async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) {
@@ -309,7 +313,8 @@ export async function POST(req) {
 
   const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
 
-  const ragBase = (process.env.RAG_API_BASE || "").trim();
+  const ragBaseRaw = (process.env.RAG_API_BASE || "").trim();
+  const ragBase = normalizeBase(ragBaseRaw);
   const apiKey =
     (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
@@ -338,6 +343,10 @@ export async function POST(req) {
     ...(journalTitle ? { journalTitle } : {}),
   };
 
+  // kanna edasi X-Request-Id / X-Client-Id kui olemas
+  const fwdReqId = req.headers.get("x-request-id");
+  const fwdClientId = req.headers.get("x-client-id");
+
   try {
     const base = ragBase.replace(/\/+$/, "");
     const res = await fetchWithRetry(
@@ -348,6 +357,8 @@ export async function POST(req) {
           "Content-Type": "application/json",
           Accept: "application/json",
           "X-API-Key": apiKey,
+          ...(fwdReqId ? { "X-Request-Id": fwdReqId } : {}),
+          ...(fwdClientId ? { "X-Client-Id": fwdClientId } : {}),
         },
         body: JSON.stringify(payload),
         cache: "no-store",
@@ -361,7 +372,7 @@ export async function POST(req) {
     try {
       data = raw ? JSON.parse(raw) : null;
     } catch {
-      data = { raw };
+      data = { raw: typeof raw === "string" ? raw.slice(0, 500) : null };
     }
 
     if (!res.ok) {
@@ -383,7 +394,7 @@ export async function POST(req) {
     let dbDoc = null;
     try {
       const inserted = Number.isFinite(data?.inserted) ? Number(data.inserted) : null;
-      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED"; // hoia COMPLETED; vajadusel muuda PROCESSING
+      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED"; // vajadusel muuda PROCESSING
       const createData = {
         title,
         description,

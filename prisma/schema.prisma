@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/* ---------- Enums ---------- */
+
 enum Role {
   ADMIN
   SOCIAL_WORKER
@@ -58,9 +60,7 @@ enum RunStatus {
   DELETED
 }
 
-/**
- * ---------- Models ----------
- */
+/* ---------- Models ---------- */
 
 model User {
   id            String    @id @default(cuid())
@@ -202,30 +202,40 @@ model RagDocument {
   metadata     Json?
   insertedAt   DateTime?
 
-  // --- Ajakirja/Artikli meta (toetab lühiviidet & filtreid) ---
-  authors      String[]      @default([]) // PostgreSQL: text[]
+  // --- Ajakirja/Artikli meta ---
+  authors      String[]      @default([]) // Postgres: text[]
   issueId      String?
   issueLabel   String?
   year         Int?
   articleId    String?
   section      String?
-  pages        Int[]         @default([]) // PostgreSQL: integer[]
+  pages        Int[]         @default([]) // Postgres: integer[]
   pageRange    String?
   journalTitle String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // --- Indeksid ---
   @@index([adminId])
   @@index([status])
   @@index([audience])
   @@index([type])
   @@index([createdAt])
+  @@index([updatedAt])
   @@index([insertedAt])
   @@index([journalTitle])
   @@index([issueLabel])
   @@index([year])
   @@index([articleId])
+
+  // kiired otsingud/loetelud
+  @@index([sourceUrl])
+  @@index([fileName])
+  @@index([mimeType])
+
+  // kombineeritud sort/filtri muster admin-paneelile
+  @@index([status, updatedAt, createdAt])
 }
 
 model ConversationRun {

@@ -49,11 +49,16 @@ function clampLimit(n, min = 1, max = 100, fallback = 25) {
   return Math.min(Math.max(x, min), max);
 }
 
+function normalizeBase(raw) {
+  const t = String(raw || "").trim().replace(/\/+$/, "");
+  if (!t) return "";
+  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
+}
+
 function buildEndpoint(base, limit) {
-  const b = String(base || "").trim().replace(/\/+$/, "");
+  const b = normalizeBase(base);
   const qs = new URLSearchParams();
   if (Number.isFinite(limit)) qs.set("limit", String(limit));
-  // /documents toetab meil ?limit=; kui ei toeta, server lihtsalt ignoreerib
   return `${b}/documents${qs.toString() ? `?${qs.toString()}` : ""}`;
 }
 
@@ -75,7 +80,6 @@ async function fetchWithRetry(url, { headers, timeoutMs, tries = 2 }) {
       clearTimeout(timer);
       lastErr = err;
       if (i < tries - 1) {
-        // kiire backoff
         await new Promise((r) => setTimeout(r, 250));
       }
     }
@@ -112,7 +116,6 @@ export async function GET(req) {
     try {
       data = raw ? JSON.parse(raw) : null;
     } catch {
-      // tagasta arusaadav viga + väike raw lõik debuggiks
       return json(
         {
           ok: false,
@@ -131,7 +134,7 @@ export async function GET(req) {
     // Toeta nii [] kui { docs: [...] }
     const docs = Array.isArray(data) ? data : Array.isArray(data?.docs) ? data.docs : [];
 
-    // Lisa lihtne status tuletus UI jaoks (kui backend ei anna); ära muuda olemasolevat status-välja
+    // Lisa lihtne status tuletus UI jaoks (kui backend ei anna)
     const out = docs.map((d) => {
       let status = d?.status;
       if (!status) {
@@ -140,7 +143,6 @@ export async function GET(req) {
       return { ...d, status };
     });
 
-    // Tagasta massiiv (UI ootab [])
     return json(out, 200);
   } catch (err) {
     const msg =

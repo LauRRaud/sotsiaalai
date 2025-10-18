@@ -4,8 +4,8 @@
   - A unique constraint covering the columns `[remoteId]` on the table `RagDocument` will be added. If there are existing duplicate values, this will fail.
 
 */
--- DropIndex
-DROP INDEX "public"."ConversationRun_userId_status_updatedAt_idx";
+-- DropIndex (use IF EXISTS to stay idempotent across environments)
+DROP INDEX IF EXISTS "ConversationRun_userId_status_updatedAt_idx";
 
 -- AlterTable
 ALTER TABLE "public"."RagDocument" ADD COLUMN     "articleId" TEXT,

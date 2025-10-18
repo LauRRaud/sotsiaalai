@@ -4,8 +4,8 @@ export const runtime = "nodejs";
 
 /* -------------------- Config -------------------- */
 
-// Sisemine RAG teenus (Uvicorn/FastAPI)
-const RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
+// Sisemine RAG teenus (Uvicorn/FastAPI) — võib olla "127.0.0.1:8000" või "http://127.0.0.1:8000" vms
+const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 
 // API võti, mis lisatakse X-API-Key päisesse
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
@@ -18,8 +18,27 @@ const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
 
 /* -------------------- Utils -------------------- */
 
-function isLocalHost(host) {
-  return /^127\.0\.0\.1(?::\d+)?$/i.test(host) || /^localhost(?::\d+)?$/i.test(host);
+function normalizeBaseFromHost(host) {
+  // kui antakse täis-URL, kasuta seda; muidu eelda http://
+  const trimmed = String(host || "").trim().replace(/\/+$/, "");
+  if (!trimmed) return "http://127.0.0.1:8000";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `http://${trimmed}`;
+}
+
+function isLocalHostHostPort(hp) {
+  // lubame 127.0.0.1, localhost, ::1 (kõik valikulise :port’iga)
+  return /^(127\.0\.0\.1|localhost|\[?::1\]?)(:\d+)?$/i.test(hp || "");
+}
+
+function isLocalBaseUrl(u) {
+  try {
+    const url = new URL(u);
+    const hostport = url.host; // sisaldab porti kui olemas
+    return isLocalHostHostPort(hostport);
+  } catch {
+    return false;
+  }
 }
 
 // Väike util, et koostada siht-URL ilma topelt kaldkriipsudeta
@@ -31,7 +50,7 @@ function buildTargetUrl(req, params) {
   if (segments[0] === "query") segments[0] = "search";
 
   const subPath = segments.join("/");
-  const base = `http://${RAG_HOST}`.replace(/\/+$/, "");
+  const base = normalizeBaseFromHost(RAW_RAG_HOST).replace(/\/+$/, "");
   const path = ("/" + subPath).replace(/\/{2,}/g, "/");
   return `${base}${path}${incoming.search}`;
 }
@@ -51,10 +70,12 @@ const HOP_BY_HOP = new Set([
 // Sissetulevatest päistest, mida võib turvaliselt edasi anda RAG-ile
 const SAFE_FORWARD_REQ_HEADERS = [
   "accept",
+  "accept-language",
   "content-type",
   "range",
   "if-none-match",
   "if-modified-since",
+  "if-range",
 ];
 
 // Kas päringul on sisuline body (väldi GET/HEAD või Content-Length: 0 juhtudel)
@@ -75,7 +96,9 @@ async function proxy(req, { params }) {
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
-  if (!ALLOW_EXTERNAL && !isLocalHost(RAG_HOST)) {
+
+  const base = normalizeBaseFromHost(RAW_RAG_HOST);
+  if (!ALLOW_EXTERNAL && !isLocalBaseUrl(base)) {
     return new Response(
       JSON.stringify({
         ok: false,
@@ -96,7 +119,6 @@ async function proxy(req, { params }) {
     const v = req.headers.get(name);
     if (v) headers.set(name, v);
   }
-
   // NB: ära forwardi Cookie / Authorization – RAG ei peaks neist sõltuma
 
   // Streami body otse (sobib ka multipartile)
@@ -115,6 +137,7 @@ async function proxy(req, { params }) {
       redirect: "manual",
       signal: controller.signal,
       // Node fetch: vajalik, kui body on ReadableStream
+      // (Next Node runtime toetab seda; brauseris seda ei kasutata)
       duplex: body ? "half" : undefined,
     });
 
@@ -124,7 +147,7 @@ async function proxy(req, { params }) {
       if (!HOP_BY_HOP.has(key.toLowerCase())) responseHeaders.set(key, val);
     });
 
-    // SSE-le sobivad päised
+    // SSE-le sobivad päised (ära lase vahekihtidel puskida)
     const ctype = (res.headers.get("content-type") || "").toLowerCase();
     if (ctype.includes("text/event-stream")) {
       responseHeaders.set("Cache-Control", "no-cache, no-transform");
@@ -159,14 +182,15 @@ export async function POST(req, ctx)  { return proxy(req, ctx); }
 export async function PUT(req, ctx)   { return proxy(req, ctx); }
 export async function PATCH(req, ctx) { return proxy(req, ctx); }
 export async function DELETE(req, ctx){ return proxy(req, ctx); }
-// Kasulik CORS/preflight jaoks (kui kunagi vaja)
 export async function HEAD(req, ctx)  { return proxy(req, ctx); }
+
+// Kasulik CORS/preflight jaoks (kui kunagi vaja)
 export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
       "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, X-API-Key, Range, If-None-Match, If-Modified-Since",
+      "Access-Control-Allow-Headers": "Content-Type, X-API-Key, Range, If-None-Match, If-Modified-Since, If-Range, Accept-Language",
       "Access-Control-Max-Age": "600",
     },
   });

@@ -23,7 +23,7 @@ except Exception:
 
 import requests
 from bs4 import BeautifulSoup
-from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile, File, Form
+from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile, File, Form, Path as FastPath
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -84,7 +84,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 oa = OpenAI(api_key=OPENAI_API_KEY)
 logger = logging.getLogger("rag-service")
 
-app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.8")
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.9")
 
 app.add_middleware(
     CORSMiddleware,
@@ -441,6 +441,25 @@ class IngestURL(BaseModel):
     pageRange: Optional[str] = None
     journalTitle: Optional[str] = None  # UUS
 
+class IngestArticle(BaseModel):
+    title: str
+    pageRange: Optional[str] = None
+    offset: Optional[int] = None
+    startPage: Optional[int] = None
+    endPage: Optional[int] = None
+    authors: Optional[List[str]] = None
+    section: Optional[str] = None
+    description: Optional[str] = None
+    year: Optional[int] = None
+    journalTitle: Optional[str] = None
+    issueLabel: Optional[str] = None
+    articleId: Optional[str] = None
+    audience: Optional[str] = None
+
+class IngestArticlesIn(BaseModel):
+    docId: Optional[str] = None
+    articles: List[IngestArticle]
+
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
 
 def clean_include(include):
@@ -601,6 +620,8 @@ def health():
         "collection": COLLECTION_NAME,
         "chunk_size": CHUNK_SIZE,
         "chunk_overlap": CHUNK_OVERLAP,
+        "allowed_mime": sorted(list(ALLOWED_MIME)),
+        "storage_dir": str(STORAGE_DIR),
     }
 
 # --- shared worker for file ingestion (used by JSON + multipart) ---
@@ -818,6 +839,129 @@ def ingest_url(payload: IngestURL):
 
     return {"ok": True, "inserted": inserted, "docId": payload.docId}
 
+# ------------- Ingest ARTICLES (magazine workflow) ----------------
+def _parse_range(range_str: str) -> Optional[Tuple[int, int]]:
+    if not range_str:
+        return None
+    s = str(range_str).strip()
+    # accept hyphen, en dash, em dash
+    s = s.replace("—", "-").replace("–", "-")
+    m = re.match(r"^\s*(\d+)\s*-\s*(\d+)\s*$", s)
+    if not m:
+        # single page like "7"
+        m1 = re.match(r"^\s*(\d+)\s*$", s)
+        if m1:
+            n = int(m1.group(1))
+            return (n, n)
+        return None
+    a, b = int(m.group(1)), int(m.group(2))
+    if a <= 0 or b <= 0:
+        return None
+    if b < a:
+        a, b = b, a
+    return (a, b)
+
+def _subset_pages(pdf_pages: List[Tuple[int, str]], start: int, end: int) -> List[Tuple[int, str]]:
+    return [(pno, txt) for (pno, txt) in pdf_pages if isinstance(pno, int) and start <= pno <= end]
+
+def _require_pdf_registry(entry: Dict):
+    if not entry:
+        raise HTTPException(404, "Document not in registry")
+    if entry.get("type") != "FILE":
+        raise HTTPException(400, "Articles ingest requires a FILE (PDF) document.")
+    if (entry.get("mimeType") or "").lower() != "application/pdf":
+        raise HTTPException(400, "Articles ingest requires a PDF source.")
+
+def _load_pdf_pages(entry: Dict) -> List[Tuple[int, str]]:
+    p = Path(entry["path"])
+    raw = p.read_bytes()
+    return _extract_text_from_pdf(raw)
+
+def _article_meta_common(entry: Dict, a: IngestArticle) -> Dict:
+    return {
+        "title": a.title,
+        "description": (a.description or "").strip() or None,
+        "authors": normalize_authors(a.authors),
+        "section": normalize_section(a.section),
+        "year": normalize_year(a.year) or normalize_year(entry.get("year")),
+        "issue_label": normalize_issue_label(a.issueLabel) or normalize_issue_label(entry.get("issueLabel")),
+        "issueId": entry.get("issueId"),
+        "issue_id": entry.get("issueId"),
+        "journal_title": a.journalTitle or entry.get("journalTitle"),
+        "journalTitle": a.journalTitle or entry.get("journalTitle"),
+        "article_id": normalize_article_id(a.articleId),
+        "articleId": normalize_article_id(a.articleId),
+        "pages": None,  # we set pageRange instead
+        "pageRange": (a.pageRange or "").strip() or None,
+        "source_type": "file",
+        "source_path": entry.get("path"),
+        "mimeType": entry.get("mimeType"),
+        "audience": normalize_audience(a.audience or entry.get("audience")),
+    }
+
+@app.post("/ingest/articles", dependencies=[Depends(_require_key)])
+def ingest_articles(payload: IngestArticlesIn):
+    if not payload.docId:
+        raise HTTPException(400, "docId is required.")
+    if not payload.articles:
+        raise HTTPException(400, "articles array is required.")
+
+    reg = _load_registry()
+    entry = reg.get(payload.docId)
+    _require_pdf_registry(entry)
+
+    pdf_pages = _load_pdf_pages(entry)
+    total_inserted = 0
+    inserted_per_article: List[Dict] = []
+
+    for art in payload.articles:
+        # determine PDF page range
+        sp: Optional[int] = art.startPage if isinstance(art.startPage, int) else None
+        ep: Optional[int] = art.endPage if isinstance(art.endPage, int) else None
+
+        if sp is None or ep is None:
+            pr = _parse_range(art.pageRange or "")
+            if pr:
+                off = int(art.offset) if art.offset is not None else None
+                if off is not None:
+                    sp, ep = pr[0] + off, pr[1] + off
+                else:
+                    sp, ep = pr
+        if sp is None or ep is None:
+            raise HTTPException(400, f"Article '{art.title}': provide pageRange(+offset) or startPage/endPage.")
+
+        if sp <= 0 or ep <= 0:
+            raise HTTPException(400, f"Article '{art.title}': invalid page numbers.")
+
+        subset = _subset_pages(pdf_pages, sp, ep)
+        if not subset:
+            raise HTTPException(400, f"Article '{art.title}': no PDF text found for pages {sp}–{ep}.")
+
+        meta = _article_meta_common(entry, art)
+        # store human-readable trükis range even if offset used
+        if not meta.get("pageRange"):
+            # prefer original declared range if any
+            meta["pageRange"] = f"{sp}–{ep}"
+
+        inserted = _ingest_text(payload.docId, subset, meta)
+        total_inserted += inserted
+        inserted_per_article.append({"title": art.title, "inserted": inserted, "startPage": sp, "endPage": ep})
+
+    # touch lastIngested
+    entry["lastIngested"] = now_iso()
+    _register(payload.docId, entry)
+
+    return {"ok": True, "count": total_inserted, "inserted": inserted_per_article, "docId": payload.docId}
+
+@app.post("/ingest/articles/{doc_id}", dependencies=[Depends(_require_key)])
+def ingest_articles_path(doc_id: str = FastPath(...), payload: IngestArticlesIn = None):
+    # support :docId in path (Next.js config)
+    if payload is None:
+        raise HTTPException(400, "Body is required.")
+    payload.docId = payload.docId or doc_id
+    return ingest_articles(payload)
+
+# ---------------- Documents -----------------
 @app.get("/documents", dependencies=[Depends(_require_key)])
 def documents(limit: Optional[int] = None):
     reg = _load_registry()

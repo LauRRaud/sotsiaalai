@@ -141,7 +141,7 @@ export default function RagAdminPanel() {
   const [pageRange, setPageRange] = useState("");
 
   // pärast ajakirja PDF uploadi
-  const [lastUploadedDocId, setLastUploadedDocId] = useState(null);
+  const [lastUploadedDocId, setLastUploadedDocId] = useState(null); // RAG remoteId!
   const [lastUploadedFileName, setLastUploadedFileName] = useState(null);
 
   // artiklite koostaja
@@ -274,10 +274,7 @@ export default function RagAdminPanel() {
     if (file.size > maxBytes) {
       throw new Error(`Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`);
     }
-    // MIME kontroll leebe — brauseri accept juba filtreerib
-    if (file.type && !ALLOWED_MIME_SET.has(file.type)) {
-      // lubame siiski
-    }
+    // MIME kontroll leebe — brauseri accept juba filtreerib; server teeb lõpliku kontrolli
   }
 
   const handleFileSubmit = useCallback(
@@ -320,7 +317,8 @@ export default function RagAdminPanel() {
       setFileBusy(true);
       try {
         const res = await fetch("/api/rag-admin/upload", { method: "POST", body: formData });
-        const data = await res.json().catch(() => ({}));
+        const raw = await res.text();
+        const data = raw ? JSON.parse(raw) : {};
 
         if (!res.ok) {
           if (res.status === 413) throw new Error("Fail on liiga suur serveri jaoks (413).");
@@ -331,10 +329,21 @@ export default function RagAdminPanel() {
         showOk("Fail saadeti RAG andmebaasi.");
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
-        setLastUploadedDocId(data?.docId || null);
-        setLastUploadedFileName(file.name || null);
-        form.reset();
 
+        // !!! kasuta remoteId-d (või id fallbackina)
+        const remoteId = data?.doc?.remoteId ?? null;
+        const fallbackId = data?.doc?.id ?? null;
+        const useId = remoteId || fallbackId;
+
+        if (docKind === "MAGAZINE") {
+          setLastUploadedDocId(useId);
+          setLastUploadedFileName(file.name || null);
+        } else {
+          setLastUploadedDocId(null);
+          setLastUploadedFileName(null);
+        }
+
+        form.reset();
         await fetchDocuments();
       } catch (err) {
         showError(err?.message || "Faili laadimine ebaõnnestus.");
@@ -354,6 +363,7 @@ export default function RagAdminPanel() {
       section,
       authors,
       pageRange,
+      docKind,
     ]
   );
 
@@ -381,8 +391,8 @@ export default function RagAdminPanel() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const data = await res.json().catch(() => ({}));
-
+        const raw = await res.text();
+        const data = raw ? JSON.parse(raw) : {};
         if (!res.ok) {
           throw new Error(data?.message || "URL lisamine ebaõnnestus.");
         }
@@ -410,7 +420,8 @@ export default function RagAdminPanel() {
       setReindexingId(docId);
       try {
         const res = await fetch(`/api/rag-admin/documents/${docId}/reindex`, { method: "POST" });
-        const data = await res.json().catch(() => ({}));
+        const raw = await res.text();
+        const data = raw ? JSON.parse(raw) : {};
         if (!res.ok) {
           throw new Error(data?.message || "Taasindekseerimine ebaõnnestus.");
         }
@@ -434,7 +445,8 @@ export default function RagAdminPanel() {
       setDeletingId(docId);
       try {
         const res = await fetch(`/api/rag-admin/documents/${docId}`, { method: "DELETE" });
-        const data = await res.json().catch(() => ({}));
+        const raw = await res.text();
+        const data = raw ? JSON.parse(raw) : {};
         if (!res.ok) throw new Error(data?.message || "Kustutamine ebaõnnestus.");
         showOk("Dokument kustutatud.");
         setDocs((prev) => prev.filter((d) => d.id !== docId));
@@ -496,10 +508,10 @@ export default function RagAdminPanel() {
       docId: lastUploadedDocId,
       articles: drafts.map((d) => {
         const obj = {
-          title: d.title.trim(),
+          title: d.title?.trim(),
           authors: splitAuthors(d.authors),
           section: d.section?.trim() || undefined,
-          pageRange: d.pageRange.trim(),
+          pageRange: d.pageRange?.trim(),
           offset: offsetNum ?? undefined,
           year: year.trim() ? Number(year.trim()) : undefined,
           journalTitle: journalTitle.trim() || undefined,
@@ -530,11 +542,12 @@ export default function RagAdminPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await res.json().catch(() => ({}));
+      const raw = await res.text();
+      const data = raw ? JSON.parse(raw) : {};
       if (!res.ok) {
         throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
       }
-      showOk(`Lisati ${data?.count ?? drafts.length} artiklit.`);
+      showOk(`Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`);
       setDrafts([]);
       setArticleOffset("");
       await fetchDocuments();
@@ -704,7 +717,7 @@ export default function RagAdminPanel() {
             </select>
           </label>
 
-          {/* Ajakirja täiendavad väljad (saadetakse backendile; ei ole kohustuslikud) */}
+          {/* Ajakirja täiendavad väljad (valikuline, kuid kasulik artiklite jaoks) */}
           {docKind === "MAGAZINE" && (
             <div
               style={{

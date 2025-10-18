@@ -223,6 +223,12 @@ function parseYear(raw) {
   return year;
 }
 
+function normalizeBase(raw) {
+  const t = String(raw || "").trim().replace(/\/+$/, "");
+  if (!t) return "";
+  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
+}
+
 async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) {
   let lastErr;
   for (let i = 0; i < Math.max(1, tries); i++) {
@@ -303,13 +309,17 @@ export async function POST(req) {
     typeof body?.journalTitle === "string" ? body.journalTitle.trim().slice(0, 255) : null;
 
   const ragBaseRaw = (process.env.RAG_API_BASE || "").trim();
-  const ragBase = ragBaseRaw.replace(/\/+$/, "");
+  const ragBase = normalizeBase(ragBaseRaw);
   const apiKey =
     (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
   if (!apiKey) return makeError("RAG_SERVICE_API_KEY puudub serveri keskkonnast.", 500);
 
   const remoteDocId = formDocId || randomUUID();
+
+  // forward trace headers kui olemas
+  const fwdReqId = req.headers.get("x-request-id");
+  const fwdClientId = req.headers.get("x-client-id");
 
   try {
     const payload = {
@@ -330,7 +340,7 @@ export async function POST(req) {
     };
 
     const res = await fetchWithRetry(
-      `${ragBase}/ingest/url`,
+      `${ragBase.replace(/\/+$/, "")}/ingest/url`,
       {
         method: "POST",
         headers: {
@@ -338,6 +348,8 @@ export async function POST(req) {
           Accept: "application/json",
           "User-Agent": "SotsiaalAI-RAG-Admin/1.0",
           "X-API-Key": apiKey,
+          ...(fwdReqId ? { "X-Request-Id": fwdReqId } : {}),
+          ...(fwdClientId ? { "X-Client-Id": fwdClientId } : {}),
         },
         body: JSON.stringify(payload),
         cache: "no-store",
@@ -351,7 +363,7 @@ export async function POST(req) {
     try {
       data = raw ? JSON.parse(raw) : null;
     } catch {
-      data = { raw };
+      data = { raw: typeof raw === "string" ? raw.slice(0, 500) : null };
     }
 
     if (!res.ok) {
