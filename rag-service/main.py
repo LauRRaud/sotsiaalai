@@ -217,6 +217,24 @@ def normalize_pages(value) -> List[int]:
                 continue
     return out[:50]
 
+def _stringify_meta(value) -> Optional[str]:
+    """
+    Chroma metadata does not accept arrays; flatten lists/sets to comma separated strings.
+    Keep None as None, other scalars unchanged.
+    """
+    if value is None:
+        return None
+    if isinstance(value, (list, tuple, set)):
+        parts = []
+        for item in value:
+            if item is None:
+                continue
+            s = str(item).strip()
+            if s:
+                parts.append(s)
+        return ", ".join(parts) if parts else None
+    return value
+
 # --- Helpers for short references -------------------------------------------
 def _collapse_pages(pages):
     """[3,4,28,30,33] -> '3–4, 28, 30, 33'"""
@@ -566,13 +584,12 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             "doc_id": doc_id,
             "title": title or None,
             "description": description or None,
-            "authors": authors or None,
+            "authors": _stringify_meta(authors),
             "issue_id": issue_id or None,
             "issue_label": issue_label or None,
             "article_id": article_id or None,
             "section": section or None,
             "year": year,
-            "pages": pages_list if pages_list else None,
             "pageRange": page_range,
             "journal_title": journal_title,
             "journalTitle": journal_title,
