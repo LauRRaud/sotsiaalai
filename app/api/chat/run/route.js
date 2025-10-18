@@ -7,7 +7,42 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+/* ---------- common headers & helpers ---------- */
+
+const noStoreHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0",
+};
+
+function json(data, status = 200) {
+  return NextResponse.json(data, { status, headers: noStoreHeaders });
+}
+
+function isDbOffline(err) {
+  return (
+    err?.code === "P1001" ||
+    err?.code === "P1017" ||
+    err?.name === "PrismaClientInitializationError" ||
+    err?.name === "PrismaClientRustPanicError"
+  );
+}
+
+// vestluse id on string; kerge sanity check
+function isPlausibleId(id) {
+  if (!id || typeof id !== "string") return false;
+  return id.length >= 8 && id.length <= 200;
+}
+
+// tee kõigest igal juhul massiiv
+function normalizeSources(s) {
+  if (!s) return [];
+  if (Array.isArray(s)) return s;
+  return [s]; // Prisma JSON võib olla objekt – pane massiivi
+}
+
 /* ---------- Auth loader ---------- */
+
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -22,49 +57,35 @@ async function getAuthOptions() {
   }
 }
 
-/* ---------- Small helpers ---------- */
-const noStoreHeaders = {
-  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-  Pragma: "no-cache",
-  Expires: "0",
-};
-
-function json(data, status = 200) {
-  return NextResponse.json(data, { status, headers: noStoreHeaders });
+async function requireUser() {
+  try {
+    const { getServerSession } = await import("next-auth/next");
+    const authOptions = await getAuthOptions();
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) return { ok: false, status: 401, message: "Unauthorized" };
+    return { ok: true, userId: session.user.id, isAdmin: !!session.user.isAdmin };
+  } catch {
+    return { ok: false, status: 401, message: "Unauthorized" };
+  }
 }
 
-// vestluse id on sul string; teeme kerge sanity checki
-function isPlausibleId(id) {
-  if (!id || typeof id !== "string") return false;
-  return id.length >= 8 && id.length <= 200;
-}
+/* ---------- GET: loe ühe run'i hetkeseis ----------
 
-// tee kõigest igal juhul massiiv
-function normalizeSources(s) {
-  if (!s) return [];
-  if (Array.isArray(s)) return s;
-  // kui Prisma Json tuli objektina, pane ühele reale
-  return [s];
-}
+Query:
+  - convId: string (kohustuslik)
 
-/* ---------- GET ---------- */
+Vastus:
+  { ok, convId, status, role, text, sources[], isCrisis, updatedAt, createdAt }
+-------------------------------------------------------------------------- */
 export async function GET(req) {
+  const auth = await requireUser();
+  if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
+
   const url = new URL(req.url);
   const convId = (url.searchParams.get("convId") || "").trim();
 
   if (!isPlausibleId(convId)) {
     return json({ ok: false, message: "convId on kohustuslik või vigane" }, 400);
-  }
-
-  // Auth (NextAuth server-session)
-  const { getServerSession } = await import("next-auth/next");
-  const authOptions = await getAuthOptions();
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id || null;
-  const isAdmin = !!session?.user?.isAdmin;
-
-  if (!userId) {
-    return json({ ok: false, message: "Unauthorized" }, 401);
   }
 
   try {
@@ -88,7 +109,7 @@ export async function GET(req) {
     }
 
     // Omaniku või Admini kontroll
-    if (!isAdmin && run.userId !== userId) {
+    if (!auth.isAdmin && run.userId !== auth.userId) {
       return json({ ok: false, message: "Forbidden" }, 403);
     }
 
@@ -109,6 +130,12 @@ export async function GET(req) {
       createdAt: run.createdAt,
     });
   } catch (err) {
+    if (isDbOffline(err)) {
+      return json(
+        { ok: false, degraded: true, message: "Andmebaas pole kättesaadav." },
+        503
+      );
+    }
     return json(
       { ok: false, message: "Database error while reading run", error: err?.message },
       500

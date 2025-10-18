@@ -1,8 +1,11 @@
 "use client";
+
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+/* ---------- Tekstid ---------- */
 
 const INTRO_MESSAGE =
   "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
@@ -96,6 +99,7 @@ function createSSEReader(stream) {
   };
 }
 
+/* ---------- Allikate abifunktsioonid ---------- */
 function uniqueSortedPages(pages) {
   if (!Array.isArray(pages)) return [];
   const nums = pages.map((p) => Number(p)).filter((p) => Number.isFinite(p));
@@ -124,7 +128,6 @@ function collapsePages(pages) {
   return out.join(", ");
 }
 
-/* --- autorite normaliseerija --- */
 function asAuthorArray(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.map(String).map((s) => s.trim()).filter(Boolean);
@@ -140,7 +143,6 @@ function asAuthorArray(v) {
   return [];
 }
 
-/* --- kui backend andis short_ref, eelistame seda --- */
 function prettifyFileName(name) {
   if (typeof name !== "string" || !name.trim()) return "";
   const noExt = name.replace(/\.[a-z0-9]+$/i, "");
@@ -148,20 +150,15 @@ function prettifyFileName(name) {
 }
 
 function formatSourceLabel(src) {
-  // Kui server andis valmis lühiviite, kasuta seda esmavalikuna
+  // Eelistame serveri lühiviidet, kui see olemas
   if (typeof src?.short_ref === "string" && src.short_ref.trim()) {
-    return src.short_ref.trim();
-  }
-  if (src?.short_ref && typeof src.short_ref === "string") {
     return src.short_ref.trim();
   }
 
   const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
-  const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
-  const titleText = typeof src?.title === "string" && src.title.trim()
-    ? src.title.trim()
-    : filePretty;
+  const titleText =
+    typeof src?.title === "string" && src.title.trim() ? src.title.trim() : "";
   const journal = typeof src?.journalTitle === "string" ? src.journalTitle.trim() : "";
   const issue =
     typeof src?.issueLabel === "string"
@@ -182,34 +179,59 @@ function formatSourceLabel(src) {
       ...(Array.isArray(src?.pages) ? src.pages : []),
       ...(typeof src?.page === "number" ? [src.page] : []),
     ]);
+  const section = typeof src?.section === "string" ? src.section.trim() : "";
+  const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
 
-  const parts = [];
-  if (authorText) parts.push(authorText);
-  if (titleText) {
-    parts.push(titleText);
-  } else if (journal || issue || year) {
-    const meta = [journal, issue, year].filter(Boolean).join(" ");
-    if (meta) parts.push(meta);
+  const issueSegment = [journal, issue && issue !== year ? issue : ""]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+
+  const contextSegments = [];
+  if (issueSegment) contextSegments.push(issueSegment);
+  if (year && !contextSegments.some((part) => part.includes(String(year)))) {
+    contextSegments.push(String(year));
   }
 
-  if (!titleText && !journal && !issue && !year && src?.fileName) {
-    const neat = prettifyFileName(src.fileName);
-    if (neat) parts.push(neat);
+  const tailSegments = [];
+  if (contextSegments.length) tailSegments.push(contextSegments.join(", "));
+  if (pagesCombined) tailSegments.push(`lk ${pagesCombined}`);
+  if (section) tailSegments.push(section);
+
+  const mainSegments = [];
+  if (authorText && titleText) {
+    mainSegments.push(`${authorText}. ${titleText}`);
+  } else {
+    if (authorText) mainSegments.push(authorText);
+    if (titleText) mainSegments.push(titleText);
   }
 
-  if (pagesCombined) parts.push(`lk ${pagesCombined}`);
-  if (typeof src?.section === "string" && src.section.trim()) parts.push(src.section.trim());
+  const labelParts = [...mainSegments, ...tailSegments].filter(Boolean);
+  let label = labelParts.join(". ").trim();
 
-  const label = parts.join(". ");
-  if (label) return label;
-  // Ära kasuta faili nime peamise sildina
-  const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
-  if (url) return url;
+  if (!label && filePretty) {
+    const fallbackParts = [
+      filePretty,
+      contextSegments.join(", ") || null,
+      pagesCombined ? `lk ${pagesCombined}` : null,
+      section || null,
+    ].filter(Boolean);
+    label = fallbackParts.join(", ").trim();
+  }
 
-  return "Allikas";
+  if (!label) {
+    const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
+    label = url || "Allikas";
+  }
+
+  if (label && !/[.!?]$/.test(label)) {
+    label = `${label}.`;
+  }
+
+  return label;
 }
 
-/** Normaliseeri serveri allikad  */
+/** Normaliseeri serveri allikad */
 function normalizeSources(sources) {
   if (!Array.isArray(sources)) return [];
   return sources.map((src, idx) => {
@@ -238,7 +260,7 @@ function normalizeSources(sources) {
       pageRange: pageLabel || undefined,
       fileName: src?.fileName,
       short_ref: typeof src?.short_ref === "string" ? src.short_ref : undefined,
-      journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : undefined, // valikuline
+      journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : undefined,
       authors,
       title: typeof src?.title === "string" ? src.title : undefined,
       issueLabel,
@@ -280,7 +302,7 @@ function throttle(fn, waitMs) {
   };
 }
 
-/* ---------- Allikate list ---------- */
+/* ---------- Komponent ---------- */
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -325,6 +347,7 @@ export default function ChatBody() {
     [isGenerating, messages]
   );
 
+  // Koonda kogu vestluse vältel kasutatud allikad (for “Allikad” paneel)
   const conversationSources = useMemo(() => {
     const map = new Map();
     let order = 0;
@@ -475,13 +498,12 @@ export default function ChatBody() {
 
   const hasConversationSources = conversationSources.length > 0;
 
+  /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
     setTimeout(() => {
       try {
         sourcesButtonRef.current?.focus?.();
-      } catch {
-        /* ignore */
-      }
+      } catch {}
     }, 0);
   }, []);
 
@@ -522,6 +544,7 @@ export default function ChatBody() {
     });
   }, []);
 
+  /* ---------- Vestluse vahetus sündmus ---------- */
   useEffect(() => {
     function onSwitch(e) {
       const newId = e?.detail?.convId;
@@ -544,6 +567,7 @@ export default function ChatBody() {
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
   }, [chatStore, storageKey]);
 
+  /* ---------- Scrolli state ---------- */
   useEffect(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -567,6 +591,7 @@ export default function ChatBody() {
     }
   }, [messages]);
 
+  /* ---------- Mount + püsivuse taastamine ---------- */
   useEffect(() => {
     mountedRef.current = true;
     focusInput();
@@ -603,6 +628,7 @@ export default function ChatBody() {
     };
   }, [chatStore, focusInput, storageKey]);
 
+  /* ---------- Autosalvestus ---------- */
   useEffect(() => {
     if (!mountedRef.current) return;
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
@@ -612,27 +638,27 @@ export default function ChatBody() {
     return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
   }, [messages, chatStore]);
 
+  /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
 
+  /* ---------- ESC sulgemiseks ---------- */
   useEffect(() => {
     if (!showSourcesPanel) return;
-
     function onKeyDown(e) {
       if (e.key === "Escape") {
         e.preventDefault();
         closeSourcesPanel();
       }
     }
-
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [showSourcesPanel, closeSourcesPanel]);
 
-  /* ---------- TAASTA SERVERIST ---------- */
+  /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {
     if (!convId) return;
     let cancelled = false;
@@ -646,7 +672,7 @@ export default function ChatBody() {
         const data = await r.json();
         if (!data?.ok || cancelled) return;
 
-        // Kui kasutaja jõudis vahepeal vestlust vahetada, ära kirjuta üle
+        // kui kasutaja vahetas vestlust, ära kirjuta üle
         const currentGlobalId =
           typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
         if (convId !== currentGlobalId) return;
@@ -701,6 +727,7 @@ export default function ChatBody() {
     };
   }, [convId]);
 
+  /* ---------- Sõnumi saatmine ---------- */
   const sendMessage = useCallback(
     async (e) => {
       e?.preventDefault();
@@ -755,6 +782,7 @@ export default function ChatBody() {
 
         const contentType = res.headers.get("content-type") || "";
 
+        // Mitte-streamiv vastus
         if (!contentType.includes("text/event-stream")) {
           let data = null;
           try {
@@ -772,6 +800,7 @@ export default function ChatBody() {
           return;
         }
 
+        // Streamiv vastus (SSE)
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
 
         const reader = createSSEReader(res.body);
@@ -783,7 +812,6 @@ export default function ChatBody() {
           if (ev.event === "meta") {
             try {
               const payload = JSON.parse(ev.data);
-              // toeta nii {sources: [...]} kui {groups: [...]}
               const rawSources = Array.isArray(payload?.sources)
                 ? payload.sources
                 : Array.isArray(payload?.groups)
@@ -914,12 +942,13 @@ export default function ChatBody() {
     </div>
   );
 
+  /* ---------- Render ---------- */
   return (
     <div
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
-      {/* Hamburger / Vestlused – vasak ülanurk (sümmeetriline avatariga) */}
+      {/* Hamburger / Vestlused – vasak ülanurk */}
       <button
         type="button"
         className="chat-menu-btn"
@@ -1081,6 +1110,7 @@ export default function ChatBody() {
                 aria-hidden="true"
                 focusable="false"
               >
+                {/* Saatmise noole asemel (üles) kasutame “M4 15l8-8 8 8” – sobib teie stiiliga */}
                 <path d="M4 15l8-8 8 8" />
               </svg>
             )}

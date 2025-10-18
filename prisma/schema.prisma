@@ -6,6 +6,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 enum Role {
   ADMIN
   SOCIAL_WORKER
@@ -54,7 +55,7 @@ enum RunStatus {
   RUNNING
   COMPLETED
   ERROR
-  DELETED  // ← lisatud
+  DELETED
 }
 
 /**
@@ -100,8 +101,8 @@ model Account {
   id                String @id @default(cuid())
   userId            String
   type              String
-  provider          String // "google" | "smart_id" | "mobiil_id" | "email_password"
-  providerAccountId String // Google sub / isikukood / vms
+  provider          String
+  providerAccountId String
 
   refresh_token String?
   access_token  String?
@@ -177,23 +178,40 @@ model Payment {
 }
 
 model RagDocument {
-  id      String  @id @default(cuid())
-  adminId String?
-  admin   User?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  id       String  @id @default(cuid())
+  adminId  String?
+  admin    User?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
 
-  title       String?
-  description String?
-  type        RagSourceType
-  status      RagStatus     @default(PENDING)
-  audience    Audience      @default(BOTH)
-  sourceUrl   String?
-  fileName    String?
-  mimeType    String?
-  fileSize    Int?
-  remoteId    String?
-  error       String?
-  metadata    Json?
-  insertedAt  DateTime?
+  title        String?
+  description  String?
+  type         RagSourceType
+  status       RagStatus     @default(PENDING)
+  audience     Audience      @default(BOTH)
+
+  // Päritolu
+  sourceUrl    String?
+  fileName     String?
+  mimeType     String?
+  fileSize     Int?
+
+  // RAG backendi dokument (stabiilne id) – hoia unikaalsena
+  remoteId     String?       @unique
+
+  // Veahaldus ja toor-meta
+  error        String?
+  metadata     Json?
+  insertedAt   DateTime?
+
+  // --- Ajakirja/Artikli meta (toetab lühiviidet & filtreid) ---
+  authors      String[]      @default([]) // PostgreSQL: text[]
+  issueId      String?
+  issueLabel   String?
+  year         Int?
+  articleId    String?
+  section      String?
+  pages        Int[]         @default([]) // PostgreSQL: integer[]
+  pageRange    String?
+  journalTitle String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -203,17 +221,22 @@ model RagDocument {
   @@index([audience])
   @@index([type])
   @@index([createdAt])
+  @@index([insertedAt])
+  @@index([journalTitle])
+  @@index([issueLabel])
+  @@index([year])
+  @@index([articleId])
 }
 
 model ConversationRun {
-  /// Frontendi saadetud convId (nt randomUUID). Hoidke see stabiilsena sama vestluse jooksul.
+  /// Frontendi saadetud convId (nt randomUUID). Hoia stabiilsena sama vestluse jooksul.
   id       String    @id
   userId   String
   role     Role
   text     String    @default("") @db.Text
   sources  Json?
   status   RunStatus @default(RUNNING)
-  isCrisis Boolean   @default(false) // ← UUS: vastab route.js isCrisis väljalekirjutusele
+  isCrisis Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -222,6 +245,6 @@ model ConversationRun {
 
   @@index([userId, updatedAt])
   @@index([status])
-  @@index([userId, status, updatedAt]) // kasulik päringutele: oma vestlused, mitte-deleted, sort ajas
-  @@index([isCrisis, updatedAt])       // kiire ülevaade kriisijuhtudest (valikuline, aga kasulik)
+  @@index([userId, status, updatedAt])
+  @@index([isCrisis, updatedAt])
 }

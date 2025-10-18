@@ -1,8 +1,5 @@
 // app/api/rag-admin/url/route.js
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
-import { isAdmin } from "@/lib/authz";
 import dns from "node:dns/promises";
 import { isIP } from "node:net";
 import { randomUUID } from "node:crypto";
@@ -11,8 +8,45 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+/* ------------------------- Consts ------------------------- */
+
 const AUDIENCE_VALUES = new Set(["SOCIAL_WORKER", "CLIENT", "BOTH"]);
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
+
+const NO_STORE = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0",
+};
+
+/* ------------------------- Auth loader (joondatud teistega) ------------------------- */
+
+async function getAuthOptions() {
+  try {
+    const mod = await import("@/pages/api/auth/[...nextauth]");
+    return mod.authOptions || mod.default || mod.authConfig;
+  } catch {
+    try {
+      const mod = await import("@/auth");
+      return mod.authOptions || mod.default || mod.authConfig;
+    } catch {
+      return undefined;
+    }
+  }
+}
+
+async function requireAdmin() {
+  const { getServerSession } = await import("next-auth/next");
+  const authOptions = await getAuthOptions();
+  const session = await getServerSession(authOptions);
+  const isAdmin =
+    !!session?.user?.isAdmin ||
+    String(session?.user?.role || "").toUpperCase() === "ADMIN";
+
+  if (!session?.user?.id) return { ok: false, status: 401, message: "Pole sisse logitud" };
+  if (!isAdmin) return { ok: false, status: 403, message: "Ligipääs keelatud" };
+  return { ok: true, userId: session.user.id, session };
+}
 
 /* ------------------------- Helpers ------------------------- */
 
@@ -25,7 +59,7 @@ class UrlSafetyError extends Error {
 }
 
 function makeError(message, status = 400, extras = {}) {
-  return NextResponse.json({ ok: false, message, ...extras }, { status });
+  return NextResponse.json({ ok: false, message, ...extras }, { status, headers: NO_STORE });
 }
 
 function normalizeAudience(value) {
@@ -49,7 +83,7 @@ function sanitizeUrl(value) {
       return null;
     }
 
-    parsed.hash = "";
+    parsed.hash = ""; // ära kanna #fragmenti
     return parsed.toString();
   } catch {
     return null;
@@ -61,6 +95,7 @@ function isPrivateAddress(address) {
   if (address.startsWith("127.")) return true;
   if (address === "0.0.0.0" || address === "255.255.255.255") return true;
 
+  // IPv4 RFC1918 + link-local
   const parts = address.split(".").map((p) => Number(p));
   if (parts.length === 4 && parts.every((n) => Number.isInteger(n) && n >= 0 && n <= 255)) {
     const [a, b] = parts;
@@ -70,6 +105,7 @@ function isPrivateAddress(address) {
     if (a === 169 && b === 254) return true;
   }
 
+  // IPv6 lokaalsed
   const lower = address.toLowerCase();
   if (lower === "::1" || lower === "::") return true;
   if (lower.startsWith("fe80")) return true;
@@ -111,14 +147,109 @@ async function assertPublicUrl(urlString) {
   }
 }
 
+function parseStringList(raw, max = 12) {
+  if (!raw) return [];
+  try {
+    if (typeof raw === "string") {
+      const trimmed = raw.trim();
+      if (!trimmed) return [];
+      if (trimmed.startsWith("[")) {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr)) {
+          return arr
+            .map((v) => (typeof v === "string" ? v.trim() : ""))
+            .filter(Boolean)
+            .slice(0, max);
+        }
+        return [];
+      }
+      return trimmed
+        .split(/[,;\n]/)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, max);
+    }
+    if (Array.isArray(raw)) {
+      return raw
+        .map((v) => (typeof v === "string" ? v.trim() : ""))
+        .filter(Boolean)
+        .slice(0, max);
+    }
+  } catch {
+    return [];
+  }
+  return [];
+}
+
+function parsePages(raw) {
+  if (!raw) return [];
+  try {
+    if (typeof raw === "string") {
+      const trimmed = raw.trim();
+      if (!trimmed) return [];
+      if (trimmed.startsWith("[")) {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr)) {
+          return arr
+            .map((v) => Number(v))
+            .filter((n) => Number.isFinite(n))
+            .slice(0, 50);
+        }
+        return [];
+      }
+      return trimmed
+        .split(/[,;\s]+/)
+        .map((s) => Number(s))
+        .filter((n) => Number.isFinite(n))
+        .slice(0, 50);
+    }
+    if (Array.isArray(raw)) {
+      return raw
+        .map((v) => Number(v))
+        .filter((n) => Number.isFinite(n))
+        .slice(0, 50);
+    }
+  } catch {
+    return [];
+  }
+  return [];
+}
+
+function parseYear(raw) {
+  if (!raw) return null;
+  const year = Number(raw);
+  if (!Number.isFinite(year)) return null;
+  if (year < 1800 || year > 2100) return null;
+  return year;
+}
+
+async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) {
+  let lastErr;
+  for (let i = 0; i < Math.max(1, tries); i++) {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { ...init, signal: controller.signal });
+      clearTimeout(t);
+      return res;
+    } catch (err) {
+      clearTimeout(t);
+      lastErr = err;
+      if (i < tries - 1) {
+        await new Promise((r) => setTimeout(r, 250));
+      }
+    }
+  }
+  throw lastErr;
+}
+
 /* ------------------------- Route ------------------------- */
 
 export async function POST(req) {
   const t0 = Date.now();
 
-  const session = await getServerSession(authConfig);
-  if (!session) return makeError("Pole sisse logitud", 401);
-  if (!isAdmin(session?.user)) return makeError("Ligipääs keelatud", 403);
+  const admin = await requireAdmin();
+  if (!admin.ok) return makeError(admin.message, admin.status);
 
   let body;
   try {
@@ -151,6 +282,26 @@ export async function POST(req) {
   const audience = normalizeAudience(body?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
+  // valikulised meta + docId
+  const formDocId =
+    body?.docId && typeof body.docId === "string" ? body.docId.trim() : null;
+
+  const authors = parseStringList(body?.authors, 12);
+  const issueId =
+    typeof body?.issueId === "string" ? body.issueId.trim().slice(0, 160) : null;
+  const issueLabel =
+    typeof body?.issueLabel === "string" ? body.issueLabel.trim().slice(0, 160) : null;
+  const year = parseYear(body?.year);
+  const articleId =
+    typeof body?.articleId === "string" ? body.articleId.trim().slice(0, 200) : null;
+  const section =
+    typeof body?.section === "string" ? body.section.trim().slice(0, 160) : null;
+  const pages = parsePages(body?.pages);
+  const pageRange =
+    typeof body?.pageRange === "string" ? body.pageRange.trim().slice(0, 120) : null;
+  const journalTitle =
+    typeof body?.journalTitle === "string" ? body.journalTitle.trim().slice(0, 255) : null;
+
   const ragBaseRaw = (process.env.RAG_API_BASE || "").trim();
   const ragBase = ragBaseRaw.replace(/\/+$/, "");
   const apiKey =
@@ -158,44 +309,42 @@ export async function POST(req) {
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
   if (!apiKey) return makeError("RAG_SERVICE_API_KEY puudub serveri keskkonnast.", 500);
 
-  const remoteDocId = randomUUID();
+  const remoteDocId = formDocId || randomUUID();
 
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
-
     const payload = {
       docId: remoteDocId,
       url,
       title: title || undefined,
       description: description || undefined,
       audience,
+      ...(authors.length ? { authors } : {}),
+      ...(issueId ? { issueId } : {}),
+      ...(issueLabel ? { issueLabel } : {}),
+      ...(typeof year === "number" ? { year } : {}),
+      ...(articleId ? { articleId } : {}),
+      ...(section ? { section } : {}),
+      ...(pages.length ? { pages } : {}),
+      ...(pageRange ? { pageRange } : {}),
+      ...(journalTitle ? { journalTitle } : {}),
     };
 
-    const doFetch = () =>
-      fetch(`${ragBase}/ingest/url`, {
+    const res = await fetchWithRetry(
+      `${ragBase}/ingest/url`,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
           "User-Agent": "SotsiaalAI-RAG-Admin/1.0",
           "X-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
         cache: "no-store",
-        signal: controller.signal,
-      });
-
-    let res;
-    try {
-      res = await doFetch();
-    } catch (e) {
-      // üks kiire retry
-      await new Promise((r) => setTimeout(r, 300));
-      res = await doFetch();
-    }
-
-    clearTimeout(timeout);
+      },
+      2,
+      RAG_TIMEOUT_MS
+    );
 
     const raw = await res.text();
     let data = null;
@@ -225,7 +374,7 @@ export async function POST(req) {
         title,
         description,
         type: "URL",
-        status: "COMPLETED", // või "PROCESSING" kui soovid taustaindekseerimist peegeldada
+        status: "COMPLETED", // või "PROCESSING" kui soovid peegeldada taustaindekseerimist
         audience,
         sourceUrl: url,
         fileName: null,
@@ -233,10 +382,23 @@ export async function POST(req) {
         fileSize: null,
         remoteId: remoteDocId,
         insertedAt: new Date(),
-        metadata: data || undefined,
+        metadata: {
+          ...data,
+          _uploadMeta: {
+            authors,
+            issueId,
+            issueLabel,
+            year,
+            articleId,
+            section,
+            pages,
+            pageRange,
+            journalTitle,
+          },
+        },
       };
-      if (session?.user?.id) {
-        createData.admin = { connect: { id: session.user.id } };
+      if (admin.userId) {
+        createData.admin = { connect: { id: admin.userId } };
       }
       dbDoc = await prisma.ragDocument.create({ data: createData });
     } catch (e) {
@@ -245,25 +407,30 @@ export async function POST(req) {
 
     const now = new Date().toISOString();
     console.info(`[RAG url] OK ${url} in ${Date.now() - t0}ms`);
-    return NextResponse.json({
-      ok: true,
-      warning: dbDoc ? undefined : "URL indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
-      doc: {
-        id: dbDoc?.id || remoteDocId,
-        dbId: dbDoc?.id || null,
-        title,
-        description,
-        type: "URL",
-        status: dbDoc?.status || "COMPLETED",
-        sourceUrl: url,
-        audience,
-        createdAt: dbDoc?.createdAt?.toISOString?.() || now,
-        updatedAt: dbDoc?.updatedAt?.toISOString?.() || now,
-        insertedAt: dbDoc?.insertedAt?.toISOString?.() || now,
-        remoteId: remoteDocId,
+    return NextResponse.json(
+      {
+        ok: true,
+        warning: dbDoc
+          ? undefined
+          : "URL indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
+        doc: {
+          id: dbDoc?.id || remoteDocId,
+          dbId: dbDoc?.id || null,
+          title,
+          description,
+          type: "URL",
+          status: dbDoc?.status || "COMPLETED",
+          sourceUrl: url,
+          audience,
+          createdAt: dbDoc?.createdAt?.toISOString?.() || now,
+          updatedAt: dbDoc?.updatedAt?.toISOString?.() || now,
+          insertedAt: dbDoc?.insertedAt?.toISOString?.() || now,
+          remoteId: remoteDocId,
+        },
+        rag: data,
       },
-      rag: data,
-    });
+      { headers: NO_STORE }
+    );
   } catch (err) {
     const message =
       err?.name === "AbortError"

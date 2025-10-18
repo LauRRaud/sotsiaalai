@@ -1,4 +1,4 @@
-// app/api/chat/route.js
+// app/api/chat/route.js (UPDATED)
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
@@ -66,7 +66,7 @@ function toOpenAiMessages(history) {
     .slice(-8)
     .map((msg) => ({
       role: msg.role === "ai" ? "assistant" : "user",
-      content: msg.text,
+      content: String(msg.text).slice(0, 2000), // trim overly long turns
     }));
 }
 
@@ -298,38 +298,72 @@ function prettifyFileName(name = "") {
 // ÄRA EELDA ajakirja nime – kasuta journalTitle, kui on, muidu jäta välja.
 function makeShortRef(entry, pagesCompact) {
   const author = firstAuthor(entry.authors);
-  const rawTitle = typeof entry.title === "string" ? entry.title.trim() : "";
-  const neatFile = prettifyFileName(entry.fileName);
-  const fallbackUrl =
-    typeof entry.url === "string" ? entry.url.replace(/^https?:\/\//, "").trim() : "";
-  const title = rawTitle || neatFile || fallbackUrl;
+  const title = typeof entry.title === "string" ? entry.title.trim() : "";
+  const journal =
+    (typeof entry.journalTitle === "string" && entry.journalTitle.trim()) || "";
+  const issueRaw = shortIssue(entry);
   const year =
     typeof entry.year === "number"
       ? String(entry.year)
       : typeof entry.year === "string"
       ? entry.year.trim()
       : "";
-  const issue = shortIssue(entry); // võib olla nt "2023/2" või "2023"
-  const journal =
-    (typeof entry.journalTitle === "string" && entry.journalTitle.trim()) || "";
-  const issueStr = [journal, issue].filter(Boolean).join(" ");
   const pagesStr = pagesCompact ? `lk ${pagesCompact}` : "";
+  const section =
+    typeof entry.section === "string" && entry.section.trim() ? entry.section.trim() : "";
 
-  const join = (...parts) => parts.filter(Boolean).join(". ");
+  const fallbackName =
+    prettifyFileName(entry.fileName) ||
+    (typeof entry.url === "string"
+      ? entry.url.replace(/^https?:\/\/(www\.)?/, "").trim()
+      : "");
 
-  if (author && year && title && pagesCompact) {
-    return join(`${author} (${year}) — ${title}`, issueStr, pagesStr) + ".";
+  const issue =
+    issueRaw && year && issueRaw === year
+      ? "" // ära dubleeri aastat
+      : issueRaw;
+  const journalPart = [journal, issue].filter(Boolean).join(" ").trim();
+
+  const headParts = [];
+  if (author && title && year) {
+    headParts.push(`${author} (${year}) — ${title}`);
+  } else if (author && title) {
+    headParts.push(`${author} — ${title}`);
+  } else if (author && year) {
+    headParts.push(`${author} (${year})`);
+  } else if (title) {
+    headParts.push(title);
+  } else if (author) {
+    headParts.push(author);
   }
-  if (author && title) {
-    return join(`${author} — ${title}`, issueStr) + ".";
+
+  const tailParts = [];
+  if (journalPart) tailParts.push(journalPart);
+  if (year && !tailParts.some((part) => part.includes(year))) {
+    tailParts.push(year);
   }
-  if (author && (issueStr || pagesStr)) {
-    return [author, [issueStr, pagesStr].filter(Boolean).join(", ")].filter(Boolean).join(", ") + ".";
+  if (pagesStr) tailParts.push(pagesStr);
+  if (section) tailParts.push(section);
+
+  let ref = "";
+  if (headParts.length) {
+    ref = headParts[0];
+    if (tailParts.length) {
+      ref = `${ref}. ${tailParts.join(", ")}`;
+    }
+  } else if (tailParts.length) {
+    ref = tailParts.join(", ");
   }
-  if (title && (issueStr || pagesStr)) {
-    return [title, [issueStr, pagesStr].filter(Boolean).join(", ")].filter(Boolean).join(", ") + ".";
+
+  if (!ref && fallbackName) {
+    ref = [fallbackName, pagesStr].filter(Boolean).join(", ");
   }
-  return [issueStr, pagesStr].filter(Boolean).join(", ") + (issueStr || pagesStr ? "." : "");
+
+  ref = (ref || "").trim();
+  if (ref && !ref.endsWith(".")) {
+    ref += ".";
+  }
+  return ref;
 }
 
 function renderContextBlocks(groups) {
@@ -434,6 +468,8 @@ function detectSourcesRequest(rawHistory = [], latestMessage = "") {
     /too\s+allikad/,
     /kus\s+on\s+allikad/,
     /palun\s+allikad/,
+    /viit(e|ed)\s*palun/,
+    /lisa\s+viited/,
   ];
   return patterns.some((re) => re.test(haystack));
 }
@@ -585,7 +621,7 @@ async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
   const body = { query, top_k: topK, where: filters || undefined };
 
   const controller = new AbortController();
-  const t = setTimeout(() => controller.abort(), 15000); // 15s timeout
+  const t = setTimeout(() => controller.abort(), 12000); // pehmem/kiirem timeout
 
   const res = await fetch(`${RAG_BASE}/search`, {
     method: "POST",
@@ -599,12 +635,17 @@ async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
   });
   clearTimeout(t);
 
-  const raw = await res.text();
-  const data = raw ? JSON.parse(raw) : null;
+  let data = null;
+  try {
+    const raw = await res.text();
+    data = raw ? JSON.parse(raw) : null;
+  } catch {
+    data = null;
+  }
 
   if (!res.ok) {
-    const msg = data?.detail || data?.message || `RAG /search viga (${res.status})`;
-    throw new Error(msg);
+    // pehme fallback — ülemine loogika käsitleb "no context"
+    return [];
   }
   return Array.isArray(data?.results) ? data.results : [];
 }
@@ -646,6 +687,11 @@ async function persistDone({ convId, userId, status = "COMPLETED" }) {
   } catch (err) {
     console.error("[chat] persistDone failed", { convId, err });
   }
+}
+
+/* ------------------------- Page range normalizer ------------------------- */
+function normalizePageRangeString(s = "") {
+  return s.replace(/\s*[-–—]\s*/g, "–").trim();
 }
 
 /* ------------------------- Route Handler ------------------------- */
@@ -697,7 +743,21 @@ export async function POST(req) {
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
 
-  // 3.5) varajane tervitusfiltri haru — ENNE RAG-i
+  // 4) nõua tellimust (ADMIN erand jms on requireSubscription sees)
+  const gate = await requireSubscription(session, normalizedRole);
+  if (!gate.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: gate.message,
+        requireSubscription: gate.requireSubscription,
+        redirect: gate.redirect,
+      },
+      { status: gate.status }
+    );
+  }
+
+  // 4.5) varajane tervitusfiltri haru — nüüd pärast subsi-kontrolli
   const greeting = isGreeting(message);
   const isCrisis = detectCrisis(message);
   if ((greeting || rawHistory.length === 0) && !isCrisis) {
@@ -750,23 +810,9 @@ export async function POST(req) {
     });
   }
 
-  // 4) nõua tellimust (ADMIN erand)
-  const gate = await requireSubscription(session, normalizedRole);
-  if (!gate.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: gate.message,
-        requireSubscription: gate.requireSubscription,
-        redirect: gate.redirect,
-      },
-      { status: gate.status }
-    );
-  }
-
-  // 5) RAG filtrid – kummalegi rollile oma sihtrühm
+  // 5) RAG filtrid – kummalegi rollile oma sihtrühm; ADMIN saab payloadiga vahetada
   const audienceFilter =
-    normalizedRole === "CLIENT"
+    (payload?.audience === "CLIENT" || normalizedRole === "CLIENT")
       ? { audience: { $in: ["CLIENT", "BOTH"] } }
       : { audience: { $in: ["SOCIAL_WORKER", "BOTH"] } };
 
@@ -787,17 +833,15 @@ export async function POST(req) {
     const pageRanges = Array.isArray(entry.pageRanges)
       ? Array.from(new Set(entry.pageRanges.filter(Boolean)))
       : [];
-    const pageText = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
-    const leadAuthor = firstAuthor(entry.authors);
-    const hasMeaningfulRef =
-      !!leadAuthor || (typeof entry.title === "string" && entry.title.trim().length > 0);
-    const short_ref = hasMeaningfulRef ? makeShortRef(entry, pageText) : "";
+    const pageTextRaw = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
+    const pageText = normalizePageRangeString(pageTextRaw);
+    const short_ref_text = (makeShortRef(entry, pageText) || "").trim();
     return {
       id: entry.key || entry.docId || entry.articleId || entry.url || entry.fileName || `source-${idx}`,
       title: entry.title,
       url: entry.url || undefined,
       file: undefined, // ära saada faili nime "Allikatesse"
-      fileName: undefined,
+      fileName: entry.fileName || undefined,
       audience: entry.audience || undefined,
       pageRange: pageText || undefined,
       authors: Array.isArray(entry.authors) && entry.authors.length ? entry.authors : undefined,
@@ -807,25 +851,29 @@ export async function POST(req) {
       section: entry.section || undefined,
       year: entry.year || undefined,
       pages: pageNumbers.length ? pageNumbers : undefined,
-      short_ref: short_ref || undefined,
+      short_ref: short_ref_text || undefined,
     };
   });
 
   // 7.5) Kui konteksti ei leitud (või see tühi), ära kutsu OpenAI-d
   if (!context || !context.trim()) {
+    const out = detectCrisis(message)
+      ? "Kui keegi on otseses ohus või räägid enesevigastusest, helista kohe 112. Kui on turvaline, võid võtta ühendust ka lähedasega või kriisiabiga. Kirjelda lühidalt, mis juhtus ja kus sa oled."
+      : NO_CONTEXT_MSG;
+
     if (persist && convId && userId) {
-      await persistInit({ convId, userId, role: normalizedRole, sources, isCrisis });
-      await persistAppend({ convId, userId, fullText: NO_CONTEXT_MSG });
+      await persistInit({ convId, userId, role: normalizedRole, sources, isCrisis: detectCrisis(message) });
+      await persistAppend({ convId, userId, fullText: out });
       await persistDone({ convId, userId, status: "COMPLETED" });
     }
 
     if (!wantStream) {
       return NextResponse.json({
         ok: true,
-        reply: NO_CONTEXT_MSG,
-        answer: NO_CONTEXT_MSG,
+        reply: out,
+        answer: out,
         sources,
-        isCrisis,
+        isCrisis: detectCrisis(message),
         convId: convId || undefined,
       });
     }
@@ -835,10 +883,10 @@ export async function POST(req) {
       async start(controller) {
         try {
           controller.enqueue(
-            enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis })}\n\n`)
+            enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis: detectCrisis(message) })}\n\n`)
           );
           controller.enqueue(
-            enc.encode(`event: delta\ndata: ${JSON.stringify({ t: NO_CONTEXT_MSG })}\n\n`)
+            enc.encode(`event: delta\ndata: ${JSON.stringify({ t: out })}\n\n`)
           );
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {

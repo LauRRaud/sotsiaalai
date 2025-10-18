@@ -2,26 +2,37 @@
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+/* -------------------- Config -------------------- */
+
 // Sisemine RAG teenus (Uvicorn/FastAPI)
 const RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 
 // API võti, mis lisatakse X-API-Key päisesse
-const RAG_KEY =
-  (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 
 // Proxy timeout (ms)
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
+
+// Lubame väljapoole localhosti ainult, kui admin on nii otsustanud
+const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
+
+/* -------------------- Utils -------------------- */
+
+function isLocalHost(host) {
+  return /^127\.0\.0\.1(?::\d+)?$/i.test(host) || /^localhost(?::\d+)?$/i.test(host);
+}
 
 // Väike util, et koostada siht-URL ilma topelt kaldkriipsudeta
 function buildTargetUrl(req, params) {
   const incoming = new URL(req.url);
   const segments = Array.isArray(params?.path) ? [...params.path] : [];
-  if (segments.length && segments[0] === "query") {
-    segments[0] = "search";
-  }
+
+  // backward-compat: /api/rag/query -> /search
+  if (segments[0] === "query") segments[0] = "search";
+
   const subPath = segments.join("/");
   const base = `http://${RAG_HOST}`.replace(/\/+$/, "");
-  const path = `/${subPath}`.replace(/\/{2,}/g, "/");
+  const path = ("/" + subPath).replace(/\/{2,}/g, "/");
   return `${base}${path}${incoming.search}`;
 }
 
@@ -37,43 +48,61 @@ const HOP_BY_HOP = new Set([
   "transfer-encoding",
 ]);
 
-// Valikuline: piirame vaikimisi ainult localhostile
-function isLocalHost(host) {
-  return /^127\.0\.0\.1(?::\d+)?$/.test(host) || /^localhost(?::\d+)?$/i.test(host);
-}
-if (!isLocalHost(RAG_HOST) && process.env.ALLOW_EXTERNAL_RAG !== "1") {
-  console.warn(
-    `[RAG PROXY] RAG_INTERNAL_HOST="${RAG_HOST}" ei ole localhost. Kui see on taotluslik, sea ALLOW_EXTERNAL_RAG=1.`
-  );
+// Sissetulevatest päistest, mida võib turvaliselt edasi anda RAG-ile
+const SAFE_FORWARD_REQ_HEADERS = [
+  "accept",
+  "content-type",
+  "range",
+  "if-none-match",
+  "if-modified-since",
+];
+
+// Kas päringul on sisuline body (väldi GET/HEAD või Content-Length: 0 juhtudel)
+function requestHasBody(req) {
+  if (req.method === "GET" || req.method === "HEAD") return false;
+  const cl = req.headers.get("content-length");
+  if (cl && Number(cl) === 0) return false;
+  return true;
 }
 
+/* -------------------- Core proxy -------------------- */
+
 async function proxy(req, { params }) {
+  // turvaventiilid
   if (!RAG_KEY) {
     return new Response(
       JSON.stringify({ ok: false, message: "RAG_SERVICE_API_KEY missing on frontend" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
+  if (!ALLOW_EXTERNAL && !isLocalHost(RAG_HOST)) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        message:
+          'RAG_INTERNAL_HOST ei ole localhost. Luba välise hosti kasutus seadistusega ALLOW_EXTERNAL_RAG=1.',
+      }),
+      { status: 503, headers: { "Content-Type": "application/json" } }
+    );
+  }
 
   const target = buildTargetUrl(req, params);
 
-  // Koosta päised: alati X-API-Key, lisaks mõistlik forward (nt Accept/Content-Type/Range)
+  // Koosta päised: alati X-API-Key + ohutud forwarditavad päised
   const headers = new Headers();
   headers.set("X-API-Key", RAG_KEY);
 
-  const ct = req.headers.get("content-type");
-  if (ct) headers.set("Content-Type", ct);
+  for (const name of SAFE_FORWARD_REQ_HEADERS) {
+    const v = req.headers.get(name);
+    if (v) headers.set(name, v);
+  }
 
-  const accept = req.headers.get("accept");
-  if (accept) headers.set("Accept", accept);
+  // NB: ära forwardi Cookie / Authorization – RAG ei peaks neist sõltuma
 
-  const range = req.headers.get("range");
-  if (range) headers.set("Range", range);
+  // Streami body otse (sobib ka multipartile)
+  const body = requestHasBody(req) ? req.body : undefined;
 
-  // Streami request-body otse (ei kopeeri mälu; sobib ka failide/MF uploadiks)
-  const body = req.method === "GET" || req.method === "HEAD" ? undefined : req.body;
-
-  // Timeoutiga fetch (AbortController)
+  // Timeout (AbortController)
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
 
@@ -85,40 +114,37 @@ async function proxy(req, { params }) {
       cache: "no-store",
       redirect: "manual",
       signal: controller.signal,
-      // Node.js fetchiga on ReadableStream body puhul vajalik:
+      // Node fetch: vajalik, kui body on ReadableStream
       duplex: body ? "half" : undefined,
     });
 
-    // Puhasta hop-by-hop päised (jäta Content-Encoding alles — muidu rikume gzip/deflate)
+    // Puhasta hop-by-hop päised
     const responseHeaders = new Headers();
     res.headers.forEach((val, key) => {
       if (!HOP_BY_HOP.has(key.toLowerCase())) responseHeaders.set(key, val);
     });
 
-    // SSE-le sõbralikumad päised (kui applicable)
-    const ctype = res.headers.get("content-type") || "";
+    // SSE-le sobivad päised
+    const ctype = (res.headers.get("content-type") || "").toLowerCase();
     if (ctype.includes("text/event-stream")) {
       responseHeaders.set("Cache-Control", "no-cache, no-transform");
       responseHeaders.set("X-Accel-Buffering", "no");
+      // connection keep-alive on hop-by-hop – ei sea seda ise
     } else {
-      // Üldiselt ei taha proxyd midagi cache'ida
+      // Ära lase Nextil/vahekihil response'i cache'ida
       responseHeaders.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
       responseHeaders.set("Pragma", "no-cache");
       responseHeaders.set("Expires", "0");
     }
 
-    // Säilita sisuvoog (stream)
-    return new Response(res.body, {
-      status: res.status,
-      headers: responseHeaders,
-    });
+    // Säilita sisuvoog (stream passthrough)
+    return new Response(res.body, { status: res.status, headers: responseHeaders });
   } catch (err) {
-    const msg =
-      err?.name === "AbortError"
-        ? "RAG proxy timeout"
-        : err?.message || "RAG proxy error";
+    const isAbort = err?.name === "AbortError";
+    const msg = isAbort ? "RAG proxy timeout" : (err?.message || "RAG proxy error");
+    const code = isAbort ? 504 : 502;
     return new Response(JSON.stringify({ ok: false, message: msg }), {
-      status: 502,
+      status: code,
       headers: { "Content-Type": "application/json" },
     });
   } finally {
@@ -126,31 +152,21 @@ async function proxy(req, { params }) {
   }
 }
 
-export async function GET(req, ctx) {
-  return proxy(req, ctx);
-}
-export async function POST(req, ctx) {
-  return proxy(req, ctx);
-}
-export async function PUT(req, ctx) {
-  return proxy(req, ctx);
-}
-export async function PATCH(req, ctx) {
-  return proxy(req, ctx);
-}
-export async function DELETE(req, ctx) {
-  return proxy(req, ctx);
-}
+/* -------------------- Route exports -------------------- */
+
+export async function GET(req, ctx)   { return proxy(req, ctx); }
+export async function POST(req, ctx)  { return proxy(req, ctx); }
+export async function PUT(req, ctx)   { return proxy(req, ctx); }
+export async function PATCH(req, ctx) { return proxy(req, ctx); }
+export async function DELETE(req, ctx){ return proxy(req, ctx); }
 // Kasulik CORS/preflight jaoks (kui kunagi vaja)
-export async function HEAD(req, ctx) {
-  return proxy(req, ctx);
-}
+export async function HEAD(req, ctx)  { return proxy(req, ctx); }
 export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
       "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, X-API-Key",
+      "Access-Control-Allow-Headers": "Content-Type, X-API-Key, Range, If-None-Match, If-Modified-Since",
       "Access-Control-Max-Age": "600",
     },
   });

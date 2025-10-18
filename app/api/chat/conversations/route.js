@@ -7,30 +7,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-/* ---------- Auth loader ---------- */
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
-  }
-}
-
-async function requireUser() {
-  const { getServerSession } = await import("next-auth/next");
-  const authOptions = await getAuthOptions();
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return { ok: false, status: 401, message: "Unauthorized" };
-  }
-  return { ok: true, userId: session.user.id, isAdmin: !!session.user.isAdmin };
-}
+/* ---------- tiny utils ---------- */
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -45,7 +22,45 @@ function json(data, status = 200) {
 
 function normalizeRole(role) {
   const r = String(role || "CLIENT").toUpperCase().trim();
-  return r === "ADMIN" ? "SOCIAL_WORKER" : (r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT");
+  if (r === "ADMIN") return "SOCIAL_WORKER"; // ADMIN mapitakse mudelis sotsiaaltöötajaks
+  return r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT";
+}
+
+/* ---------- Auth loader ---------- */
+
+async function getAuthOptions() {
+  // Püüa esmalt NextAuth klassikaline asukoht
+  try {
+    const mod = await import("@/pages/api/auth/[...nextauth]");
+    return mod.authOptions || mod.default || mod.authConfig;
+  } catch {
+    // App routeri /auth fallback
+    try {
+      const mod = await import("@/auth");
+      return mod.authOptions || mod.default || mod.authConfig;
+    } catch {
+      return undefined;
+    }
+  }
+}
+
+async function requireUser() {
+  try {
+    const { getServerSession } = await import("next-auth/next");
+    const authOptions = await getAuthOptions();
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return { ok: false, status: 401, message: "Unauthorized" };
+    }
+    return {
+      ok: true,
+      userId: session.user.id,
+      isAdmin: !!session.user.isAdmin,
+    };
+  } catch {
+    // Kui NextAuth pole üldse konfitud
+    return { ok: false, status: 401, message: "Unauthorized" };
+  }
 }
 
 /* ---------- Cursor helpers (epochMs:id) ---------- */
@@ -70,11 +85,25 @@ function parseCursor(cur) {
   return { date, id };
 }
 
-/* ---------- GET: pagineeritud nimekiri (v.a. DELETED) ----------
+/* ---------- Prisma error guard ---------- */
+
+function isDbOffline(err) {
+  return (
+    err?.code === "P1001" || // Can't reach database server
+    err?.code === "P1017" || // Server closed the connection
+    err?.name === "PrismaClientInitializationError" ||
+    err?.name === "PrismaClientRustPanicError"
+  );
+}
+
+/* =========================================================================
+   GET: pagineeritud nimekiri (v.a. DELETED)
    Query:
      - limit: 1..50 (vaikimisi 20)
      - cursor: "epochMs:id"
-*/
+     - role: CLIENT | SOCIAL_WORKER | ADMIN (valikuline filter – ADMIN->SOCIAL_WORKER)
+   ========================================================================= */
+
 export async function GET(req) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
@@ -85,36 +114,46 @@ export async function GET(req) {
   const cursorToken = url.searchParams.get("cursor");
   const parsed = parseCursor(cursorToken);
 
-  // page-size + 1, et otsustada nextCursor olemasolu
+  const roleParam = url.searchParams.get("role");
+  const roleFilter = roleParam ? normalizeRole(roleParam) : null;
+
+  // page-size + 1, et tuvastada kas on nextCursor
   const take = limit + 1;
 
   try {
-    const whereBase = {
+    const baseWhere = {
       userId: auth.userId,
       NOT: { status: "DELETED" },
+      ...(roleFilter ? { role: roleFilter } : {}),
     };
 
-    // Kursori loogika: (updatedAt < cursorDate) OR (updatedAt = cursorDate AND id < cursorId) – kuna sort on desc.
-    const where =
-      parsed
-        ? {
-            AND: [
-              whereBase,
-              {
-                OR: [
-                  { updatedAt: { lt: parsed.date } },
-                  { AND: [{ updatedAt: parsed.date }, { id: { lt: parsed.id } }] },
-                ],
-              },
-            ],
-          }
-        : whereBase;
+    // Kursori loogika: sort on (updatedAt desc, id desc).
+    // Järgmise lehe jaoks võtame ridu, mille (updatedAt,id) < kursori (lexicographic desc).
+    const where = parsed
+      ? {
+          AND: [
+            baseWhere,
+            {
+              OR: [
+                { updatedAt: { lt: parsed.date } },
+                { AND: [{ updatedAt: parsed.date }, { id: { lt: parsed.id } }] },
+              ],
+            },
+          ],
+        }
+      : baseWhere;
 
     const rows = await prisma.conversationRun.findMany({
       where,
       orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
       take,
-      select: { id: true, updatedAt: true, status: true, text: true, role: true },
+      select: {
+        id: true,
+        updatedAt: true,
+        status: true,
+        text: true,
+        role: true,
+      },
     });
 
     const hasMore = rows.length > limit;
@@ -137,6 +176,17 @@ export async function GET(req) {
 
     return json({ ok: true, conversations: items, nextCursor });
   } catch (err) {
+    console.error("[chat/conversations GET] failed", err);
+    if (isDbOffline(err)) {
+      // Degraaditud režiim – tagasta tühi komplekt, et UI jätkaks tööga
+      return json({
+        ok: true,
+        conversations: [],
+        nextCursor: null,
+        degraded: true,
+        message: "Vestlusi ei õnnestu andmebaasist laadida (ühendus puudub).",
+      });
+    }
     return json(
       { ok: false, message: "Database error while listing conversations", error: err?.message },
       500,
@@ -144,11 +194,13 @@ export async function GET(req) {
   }
 }
 
-/* ---------- POST: loo/registreeri (idempotent) vestlus ----------
+/* =========================================================================
+   POST: loo/registreeri (idempotent) vestlus
    Body: { id?: string, role?: "CLIENT"|"SOCIAL_WORKER"|"ADMIN" }
-   - Kui id puudub, luuakse serveris random UUID.
+   - Kui id puudub, luuakse serveris UUID (fallbackina timestamp).
    - ADMIN normaliseeritakse SOCIAL_WORKER-iks.
-*/
+   ========================================================================= */
+
 export async function POST(req) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
@@ -164,7 +216,6 @@ export async function POST(req) {
   const role = normalizeRole(body?.role);
 
   if (!convId) {
-    // serveripoolne fallback
     try {
       const { randomUUID } = await import("node:crypto");
       convId = randomUUID();
@@ -176,8 +227,19 @@ export async function POST(req) {
   try {
     const row = await prisma.conversationRun.upsert({
       where: { id: convId },
-      update: { userId: auth.userId, role, status: "RUNNING", updatedAt: new Date() },
-      create: { id: convId, userId: auth.userId, role, status: "RUNNING", text: "" },
+      update: {
+        userId: auth.userId,
+        role,
+        status: "RUNNING",
+        updatedAt: new Date(),
+      },
+      create: {
+        id: convId,
+        userId: auth.userId,
+        role,
+        status: "RUNNING",
+        text: "",
+      },
       select: { id: true, updatedAt: true, status: true, role: true, text: true },
     });
 
@@ -192,6 +254,7 @@ export async function POST(req) {
       },
     });
   } catch (err) {
+    console.error("[chat/conversations POST] failed", err);
     return json(
       { ok: false, message: "Database error while creating conversation", error: err?.message },
       500,

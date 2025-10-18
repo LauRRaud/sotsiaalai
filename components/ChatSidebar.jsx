@@ -65,6 +65,9 @@ export default function ChatSidebar() {
         throw new Error(data?.message || "Laadimine ebaõnnestus");
       }
       setItems(Array.isArray(data.conversations) ? data.conversations : []);
+      if (data?.degraded) {
+        setError(data.message || "Vestluste ajalugu ei ole praegu saadaval.");
+      }
     } catch (e) {
       if (e?.name !== "AbortError") {
         setError(e?.message || "Laadimine ebaõnnestus");

@@ -33,6 +33,11 @@ const AUDIENCE_LABELS = {
   BOTH: "Mõlemad",
 };
 
+const DOC_KIND_OPTIONS = [
+  { value: "NORMAL", label: "Tavaline dokument" },
+  { value: "MAGAZINE", label: "Ajakiri (artiklite kaupa)" },
+];
+
 /* ---------- Avalikud .env sätted (brauseris loetavad) ---------- */
 
 const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
@@ -41,7 +46,7 @@ const RAW_ALLOWED_MIME = String(
     "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 );
 
-// Pollingu intervall (ms) – juhitav .env kaudu
+// Pollingu intervall (ms)
 const DEFAULT_POLL_MS = 15000;
 const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
 
@@ -91,15 +96,26 @@ function formatDateTime(value) {
 }
 
 function statusBadgeStyle(status) {
-  return STATUS_STYLES[status] || { backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff" };
+  return STATUS_STYLES[status] || {
+    backgroundColor: "rgba(255,255,255,0.12)",
+    color: "#ffffff",
+  };
 }
 
-// Kui RAG ei halda staatust, eelda COMPLETED
 function deriveStatus(doc) {
-  return (doc && doc.status) ? doc.status : "COMPLETED";
+  return doc && doc.status ? doc.status : "COMPLETED";
 }
 function deriveSyncedAt(doc) {
   return doc?.insertedAt || doc?.lastIngested || doc?.updatedAt || doc?.createdAt || null;
+}
+
+function splitAuthors(input) {
+  if (!input) return [];
+  return input
+    .split(/[,;\n]+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 12);
 }
 
 /* ---------- Komponent ---------- */
@@ -114,10 +130,30 @@ export default function RagAdminPanel() {
   const [fileBusy, setFileBusy] = useState(false);
   const [fileInfo, setFileInfo] = useState({ name: "", size: 0, type: "" });
   const [fileAudience, setFileAudience] = useState("BOTH");
+  const [docKind, setDocKind] = useState("NORMAL");
+
+  // ajakirja meta (faili uploadi ajal)
+  const [journalTitle, setJournalTitle] = useState("");
+  const [issueLabel, setIssueLabel] = useState("");
+  const [year, setYear] = useState("");
+  const [section, setSection] = useState("");
+  const [authors, setAuthors] = useState("");
+  const [pageRange, setPageRange] = useState("");
+
+  // pärast ajakirja PDF uploadi
+  const [lastUploadedDocId, setLastUploadedDocId] = useState(null);
+  const [lastUploadedFileName, setLastUploadedFileName] = useState(null);
+
+  // artiklite koostaja
+  const [articleOffset, setArticleOffset] = useState(""); // nt "2"
+  const [drafts, setDrafts] = useState([]);
+  const [articlesBusy, setArticlesBusy] = useState(false);
 
   // url
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlAudience, setUrlAudience] = useState("BOTH");
+  const [urlTitle, setUrlTitle] = useState("");
+  const [urlDescription, setUrlDescription] = useState("");
 
   // tegevused
   const [reindexingId, setReindexingId] = useState(null);
@@ -138,6 +174,16 @@ export default function RagAdminPanel() {
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
 
+  const canReindex = useCallback((doc) => {
+    const st = deriveStatus(doc);
+    return st === "COMPLETED" || st === "FAILED";
+  }, []);
+
+  const canDelete = useCallback((doc) => {
+    const st = deriveStatus(doc);
+    return st === "COMPLETED" || st === "FAILED" || !doc?.status;
+  }, []);
+
   /* ----- laadimine + automaatne värskendus ----- */
 
   const fetchDocuments = useCallback(async () => {
@@ -152,14 +198,9 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : null;
-
       if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
 
-      // API vorm: { ok, docs } või otse massiiv (kaitse juhuks)
-      const list = Array.isArray(data)
-        ? data
-        : (Array.isArray(data?.docs) ? data.docs : []);
-
+      const list = Array.isArray(data) ? data : Array.isArray(data?.docs) ? data.docs : [];
       setDocs(list);
     } catch (err) {
       if (err?.name !== "AbortError") {
@@ -175,7 +216,7 @@ export default function RagAdminPanel() {
     return () => fetchAbortRef.current?.abort?.();
   }, [fetchDocuments]);
 
-  // Kui on PENDING/PROCESSING, värskenda intervalliga (POLL_MS) ja peata taustal
+  // Kui on PENDING/PROCESSING, värskenda intervalliga (POLL_MS)
   useEffect(() => {
     const hasWork = docs.some((d) => {
       const st = deriveStatus(d);
@@ -184,9 +225,8 @@ export default function RagAdminPanel() {
     if (!hasWork) return;
 
     let timer = null;
-
     const start = () => {
-      if (!document.hidden) {
+      if (!document.hidden && !timer) {
         fetchDocuments();
         timer = setInterval(fetchDocuments, POLL_MS);
       }
@@ -198,8 +238,8 @@ export default function RagAdminPanel() {
       }
     };
     const onVis = () => {
-      stop();
-      start();
+      if (document.hidden) stop();
+      else start();
     };
 
     start();
@@ -232,12 +272,11 @@ export default function RagAdminPanel() {
   function validateFileBeforeUpload(file) {
     const maxBytes = MAX_UPLOAD_MB * 1024 * 1024;
     if (file.size > maxBytes) {
-      throw new Error(
-        `Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`
-      );
+      throw new Error(`Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`);
     }
+    // MIME kontroll leebe — brauseri accept juba filtreerib
     if (file.type && !ALLOWED_MIME_SET.has(file.type)) {
-      // leebe: lubame, kui accept juba filtreeris
+      // lubame siiski
     }
   }
 
@@ -270,6 +309,14 @@ export default function RagAdminPanel() {
       if (description) formData.append("description", description);
       formData.append("audience", fileAudience);
 
+      // lisa ajakirja meta — need on backendis toetatud
+      if (journalTitle.trim()) formData.append("journalTitle", journalTitle.trim());
+      if (issueLabel.trim()) formData.append("issueLabel", issueLabel.trim());
+      if (year.trim()) formData.append("year", year.trim());
+      if (section.trim()) formData.append("section", section.trim());
+      if (authors.trim()) formData.append("authors", authors.trim());
+      if (pageRange.trim()) formData.append("pageRange", pageRange.trim());
+
       setFileBusy(true);
       try {
         const res = await fetch("/api/rag-admin/upload", { method: "POST", body: formData });
@@ -284,6 +331,8 @@ export default function RagAdminPanel() {
         showOk("Fail saadeti RAG andmebaasi.");
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
+        setLastUploadedDocId(data?.docId || null);
+        setLastUploadedFileName(file.name || null);
         form.reset();
 
         await fetchDocuments();
@@ -293,7 +342,19 @@ export default function RagAdminPanel() {
         setFileBusy(false);
       }
     },
-    [fetchDocuments, fileAudience, resetMessage, showError, showOk]
+    [
+      fetchDocuments,
+      fileAudience,
+      resetMessage,
+      showError,
+      showOk,
+      journalTitle,
+      issueLabel,
+      year,
+      section,
+      authors,
+      pageRange,
+    ]
   );
 
   /* ----- URL lisamine ----- */
@@ -310,10 +371,8 @@ export default function RagAdminPanel() {
       }
 
       const payload = { url: urlValue, audience: urlAudience };
-      const title = form.urlTitle?.value?.trim();
-      const description = form.urlDescription?.value?.trim();
-      if (title) payload.title = title;
-      if (description) payload.description = description;
+      if (urlTitle.trim()) payload.title = urlTitle.trim();
+      if (urlDescription.trim()) payload.description = urlDescription.trim();
 
       setUrlBusy(true);
       try {
@@ -330,6 +389,8 @@ export default function RagAdminPanel() {
 
         showOk("URL saadeti RAG andmebaasi.");
         setUrlAudience("BOTH");
+        setUrlTitle("");
+        setUrlDescription("");
         form.reset();
         await fetchDocuments();
       } catch (err) {
@@ -338,10 +399,10 @@ export default function RagAdminPanel() {
         setUrlBusy(false);
       }
     },
-    [fetchDocuments, resetMessage, urlAudience, showError, showOk]
+    [fetchDocuments, resetMessage, urlAudience, showError, showOk, urlTitle, urlDescription]
   );
 
-  /* ----- Taasingestus ----- */
+  /* ----- Taasingestus / kustutus ----- */
 
   const handleReindex = useCallback(
     async (docId) => {
@@ -364,14 +425,6 @@ export default function RagAdminPanel() {
     },
     [fetchDocuments, resetMessage, showError, showOk]
   );
-
-  /* ----- Kustutamine ----- */
-
-  // RAG-teenus lubab kustutamist sõltumata staatusest; kui staatus puudub, luba ikkagi
-  const canDelete = (doc) => {
-    const st = deriveStatus(doc);
-    return st === "COMPLETED" || st === "FAILED" || !doc?.status;
-  };
 
   const handleDelete = useCallback(
     async (docId) => {
@@ -403,6 +456,106 @@ export default function RagAdminPanel() {
     if (!fileInfo.name) return "Valitud faili ei ole.";
     return `${fileInfo.name} (${formatBytes(fileInfo.size)}${fileInfo.type ? `, ${fileInfo.type}` : ""})`;
   }, [fileInfo]);
+
+  /* ----- Artiklite koostaja (ajakirja workflow) ----- */
+
+  const addDraft = useCallback(() => {
+    setDrafts((prev) => [
+      ...prev,
+      { title: "", authors: "", section: "", pageRange: "", audience: fileAudience },
+    ]);
+  }, [fileAudience]);
+
+  const updateDraft = useCallback((idx, patch) => {
+    setDrafts((prev) => prev.map((d, i) => (i === idx ? { ...d, ...patch } : d)));
+  }, []);
+
+  const removeDraft = useCallback((idx) => {
+    setDrafts((prev) => prev.filter((_, i) => i !== idx));
+  }, []);
+
+  const ingestArticles = useCallback(async () => {
+    resetMessage();
+
+    if (!lastUploadedDocId) {
+      showError("Ajakirja PDF puudub või upload ei andnud docId-d.");
+      return;
+    }
+    if (drafts.length === 0) {
+      showError("Lisa vähemalt üks artikkel.");
+      return;
+    }
+
+    const offsetNum = articleOffset.trim() ? Number(articleOffset.trim()) : null;
+    if (articleOffset.trim() && Number.isNaN(offsetNum)) {
+      showError("Offset peab olema täisarv (nt 2).");
+      return;
+    }
+
+    const payload = {
+      docId: lastUploadedDocId,
+      articles: drafts.map((d) => {
+        const obj = {
+          title: d.title.trim(),
+          authors: splitAuthors(d.authors),
+          section: d.section?.trim() || undefined,
+          pageRange: d.pageRange.trim(),
+          offset: offsetNum ?? undefined,
+          year: year.trim() ? Number(year.trim()) : undefined,
+          journalTitle: journalTitle.trim() || undefined,
+          issueLabel: issueLabel.trim() || undefined,
+          audience: d.audience || fileAudience,
+          description: d.description?.trim() || undefined,
+        };
+        const hasStart = typeof d.startPage === "string" ? d.startPage.trim() : d.startPage;
+        const hasEnd = typeof d.endPage === "string" ? d.endPage.trim() : d.endPage;
+        if (hasStart || hasEnd) {
+          const s = Number(d.startPage);
+          const e = Number(d.endPage);
+          if (Number.isNaN(s) || Number.isNaN(e)) {
+            throw new Error("startPage/endPage peavad olema täisarvud.");
+          }
+          obj.startPage = s;
+          obj.endPage = e;
+          delete obj.offset;
+        }
+        return obj;
+      }),
+    };
+
+    setArticlesBusy(true);
+    try {
+      const res = await fetch("/api/rag-admin/ingest-articles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
+      }
+      showOk(`Lisati ${data?.count ?? drafts.length} artiklit.`);
+      setDrafts([]);
+      setArticleOffset("");
+      await fetchDocuments();
+    } catch (err) {
+      showError(err?.message || "Artiklite ingest ebaõnnestus.");
+    } finally {
+      setArticlesBusy(false);
+    }
+  }, [
+    lastUploadedDocId,
+    drafts,
+    articleOffset,
+    showError,
+    resetMessage,
+    showOk,
+    fetchDocuments,
+    year,
+    journalTitle,
+    issueLabel,
+    fileAudience,
+  ]);
 
   /* ---------- UI ---------- */
 
@@ -451,7 +604,7 @@ export default function RagAdminPanel() {
         style={{
           display: "grid",
           gap: "1.25rem",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
         }}
       >
         {/* --- Faili vorm --- */}
@@ -473,6 +626,28 @@ export default function RagAdminPanel() {
               Lubatud: {ALLOWED_MIME_LIST.join(", ")} (kuni {MAX_UPLOAD_MB} MB).
             </p>
           </div>
+
+          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
+            <span>Dokumendi tüüp *</span>
+            <select
+              value={docKind}
+              onChange={(e) => setDocKind(e.target.value)}
+              required
+              style={{
+                padding: "0.55rem 0.65rem",
+                borderRadius: "10px",
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(10,12,20,0.6)",
+                color: "#f3f6ff",
+              }}
+            >
+              {DOC_KIND_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Pealkiri</span>
@@ -529,6 +704,91 @@ export default function RagAdminPanel() {
             </select>
           </label>
 
+          {/* Ajakirja täiendavad väljad (saadetakse backendile; ei ole kohustuslikud) */}
+          {docKind === "MAGAZINE" && (
+            <div
+              style={{
+                borderTop: "1px dashed rgba(255,255,255,0.12)",
+                paddingTop: "0.75rem",
+                display: "grid",
+                gap: "0.6rem",
+              }}
+            >
+              <div style={{ fontSize: "0.88rem", opacity: 0.85, fontWeight: 600 }}>
+                Ajakirja meta (valikuline, kuid soovituslik)
+              </div>
+
+              <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
+                <span>Ajakiri (journalTitle)</span>
+                <input
+                  value={journalTitle}
+                  onChange={(e) => setJournalTitle(e.target.value)}
+                  type="text"
+                  placeholder="nt Sotsiaaltöö"
+                  style={inputStyle()}
+                />
+              </label>
+
+              <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr 1fr" }}>
+                <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
+                  <span>Väljalase (issueLabel)</span>
+                  <input
+                    value={issueLabel}
+                    onChange={(e) => setIssueLabel(e.target.value)}
+                    type="text"
+                    placeholder="nt 2/2023"
+                    style={inputStyle()}
+                  />
+                </label>
+                <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
+                  <span>Aasta</span>
+                  <input
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                    type="number"
+                    inputMode="numeric"
+                    placeholder="nt 2023"
+                    style={inputStyle()}
+                  />
+                </label>
+              </div>
+
+              <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr 1fr" }}>
+                <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
+                  <span>Rubriik (section)</span>
+                  <input
+                    value={section}
+                    onChange={(e) => setSection(e.target.value)}
+                    type="text"
+                    placeholder="nt Persoon"
+                    style={inputStyle()}
+                  />
+                </label>
+                <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
+                  <span>Autorid</span>
+                  <input
+                    value={authors}
+                    onChange={(e) => setAuthors(e.target.value)}
+                    type="text"
+                    placeholder="nt Kadri Kuupak"
+                    style={inputStyle()}
+                  />
+                </label>
+              </div>
+
+              <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
+                <span>Lehekülgede vahemik (pageRange)</span>
+                <input
+                  value={pageRange}
+                  onChange={(e) => setPageRange(e.target.value)}
+                  type="text"
+                  placeholder="nt 3–8"
+                  style={inputStyle()}
+                />
+              </label>
+            </div>
+          )}
+
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Fail *</span>
             <input
@@ -552,19 +812,7 @@ export default function RagAdminPanel() {
           <button
             type="submit"
             disabled={fileBusy}
-            style={{
-              padding: "0.6rem 0.9rem",
-              borderRadius: "999px",
-              border: "none",
-              background: fileBusy
-                ? "rgba(255,255,255,0.08)"
-                : "linear-gradient(135deg, #7757ff, #9b6dff)",
-              color: "#fefeff",
-              fontWeight: 600,
-              cursor: fileBusy ? "wait" : "pointer",
-              transition: "opacity 0.2s ease",
-              opacity: fileBusy ? 0.7 : 1,
-            }}
+            style={ctaStyle(fileBusy, "#7757ff", "#9b6dff")}
           >
             {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
           </button>
@@ -597,13 +845,7 @@ export default function RagAdminPanel() {
               type="url"
               required
               placeholder="https://..."
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
+              style={inputStyle()}
             />
           </label>
 
@@ -612,14 +854,10 @@ export default function RagAdminPanel() {
             <input
               name="urlTitle"
               type="text"
+              value={urlTitle}
+              onChange={(e) => setUrlTitle(e.target.value)}
               placeholder="Valikuline"
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
+              style={inputStyle()}
             />
           </label>
 
@@ -627,14 +865,12 @@ export default function RagAdminPanel() {
             <span>Kirjeldus</span>
             <textarea
               name="urlDescription"
+              value={urlDescription}
+              onChange={(e) => setUrlDescription(e.target.value)}
               placeholder="Valikuline kokkuvõte või märksõnad"
               rows={3}
               style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
+                ...inputStyle(),
                 resize: "vertical",
               }}
             />
@@ -646,13 +882,7 @@ export default function RagAdminPanel() {
               value={urlAudience}
               onChange={(e) => setUrlAudience(e.target.value)}
               required
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
+              style={inputStyle()}
             >
               {AUDIENCE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -665,24 +895,219 @@ export default function RagAdminPanel() {
           <button
             type="submit"
             disabled={urlBusy}
-            style={{
-              padding: "0.6rem 0.9rem",
-              borderRadius: "999px",
-              border: "none",
-              background: urlBusy
-                ? "rgba(255,255,255,0.08)"
-                : "linear-gradient(135deg, #ff6b8a, #ff8ba6)",
-              color: "#fefeff",
-              fontWeight: 600,
-              cursor: urlBusy ? "wait" : "pointer",
-              transition: "opacity 0.2s ease",
-              opacity: urlBusy ? 0.7 : 1,
-            }}
+            style={ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6")}
           >
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
           </button>
         </form>
       </div>
+
+      {/* --- Artiklite koostaja (kuvatakse kui ajakirja upload õnnestus) --- */}
+      {docKind === "MAGAZINE" && lastUploadedDocId && (
+        <div
+          style={{
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: "16px",
+            padding: "1rem 1.2rem",
+            background: "rgba(13,16,24,0.62)",
+            display: "grid",
+            gap: "0.9rem",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem" }}>
+            <div>
+              <h3 style={{ fontSize: "1rem", margin: 0 }}>Artiklite ingest</h3>
+              <p style={{ fontSize: "0.86rem", opacity: 0.75, marginTop: "0.25rem" }}>
+                Viimati laetud ajakirja PDF:{" "}
+                <strong>{lastUploadedFileName || "—"}</strong> • docId:{" "}
+                <code style={{ opacity: 0.8 }}>{lastUploadedDocId}</code>
+              </p>
+            </div>
+            <button type="button" onClick={addDraft} style={smallGhostBtn()}>
+              Lisa artikkel
+            </button>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: "0.6rem",
+              gridTemplateColumns: "1fr",
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                gap: "0.6rem",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              }}
+            >
+              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                <span>Üldine offset (valikuline)</span>
+                <input
+                  value={articleOffset}
+                  onChange={(e) => setArticleOffset(e.target.value)}
+                  type="number"
+                  inputMode="numeric"
+                  placeholder="nt 2 (PDF-leht = trükileht + 2)"
+                  style={inputStyle()}
+                />
+              </label>
+              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                <span>Ajakiri</span>
+                <input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} type="text" placeholder="Sotsiaaltöö" style={inputStyle()} />
+              </label>
+              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                <span>Väljalase</span>
+                <input value={issueLabel} onChange={(e) => setIssueLabel(e.target.value)} type="text" placeholder="2/2023" style={inputStyle()} />
+              </label>
+              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                <span>Aasta</span>
+                <input value={year} onChange={(e) => setYear(e.target.value)} type="number" inputMode="numeric" placeholder="2023" style={inputStyle()} />
+              </label>
+            </div>
+
+            {drafts.length === 0 ? (
+              <p style={{ fontSize: "0.9rem", opacity: 0.8, marginTop: "0.5rem" }}>
+                Lisa vähemalt üks artikkel.
+              </p>
+            ) : (
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.75rem" }}>
+                {drafts.map((d, i) => (
+                  <li
+                    key={i}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      borderRadius: "12px",
+                      padding: "0.75rem",
+                      display: "grid",
+                      gap: "0.65rem",
+                      background: "rgba(15,18,26,0.55)",
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
+                      <strong style={{ fontSize: "0.95rem" }}>Artikkel #{i + 1}</strong>
+                      <button type="button" onClick={() => removeDraft(i)} style={smallDangerBtn()}>
+                        Eemalda
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gap: "0.6rem",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                      }}
+                    >
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>Pealkiri *</span>
+                        <input
+                          value={d.title}
+                          onChange={(e) => updateDraft(i, { title: e.target.value })}
+                          type="text"
+                          placeholder="nt Eessõna"
+                          style={inputStyle()}
+                        />
+                      </label>
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>Autorid</span>
+                        <input
+                          value={d.authors}
+                          onChange={(e) => updateDraft(i, { authors: e.target.value })}
+                          type="text"
+                          placeholder="nt Kadri Kuupak"
+                          style={inputStyle()}
+                        />
+                      </label>
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>Rubriik</span>
+                        <input
+                          value={d.section}
+                          onChange={(e) => updateDraft(i, { section: e.target.value })}
+                          type="text"
+                          placeholder="nt Persoon"
+                          style={inputStyle()}
+                        />
+                      </label>
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>Lehekülgede vahemik (trükis) *</span>
+                        <input
+                          value={d.pageRange}
+                          onChange={(e) => updateDraft(i, { pageRange: e.target.value })}
+                          type="text"
+                          placeholder="nt 3–8"
+                          style={inputStyle()}
+                        />
+                      </label>
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>PDF startPage</span>
+                        <input
+                          value={d.startPage || ""}
+                          onChange={(e) => updateDraft(i, { startPage: e.target.value })}
+                          type="number"
+                          inputMode="numeric"
+                          placeholder="nt 5 (kui offsetit ei kasuta)"
+                          style={inputStyle()}
+                        />
+                      </label>
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>PDF endPage</span>
+                        <input
+                          value={d.endPage || ""}
+                          onChange={(e) => updateDraft(i, { endPage: e.target.value })}
+                          type="number"
+                          inputMode="numeric"
+                          placeholder="nt 10"
+                          style={inputStyle()}
+                        />
+                      </label>
+                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                        <span>Sihtgrupp</span>
+                        <select
+                          value={d.audience || fileAudience}
+                          onChange={(e) => updateDraft(i, { audience: e.target.value })}
+                          style={inputStyle()}
+                        >
+                          {AUDIENCE_OPTIONS.map((o) => (
+                            <option key={o.value} value={o.value}>
+                              {o.label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
+
+                    <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                      <span>Kirjeldus</span>
+                      <textarea
+                        value={d.description || ""}
+                        onChange={(e) => updateDraft(i, { description: e.target.value })}
+                        rows={2}
+                        placeholder="Valikuline lühikokkuvõte"
+                        style={{ ...inputStyle(), resize: "vertical" }}
+                      />
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end" }}>
+              <button type="button" onClick={addDraft} style={smallGhostBtn()}>
+                Lisa artikkel
+              </button>
+              <button
+                type="button"
+                disabled={articlesBusy}
+                onClick={ingestArticles}
+                style={ctaStyle(articlesBusy, "#00b37a", "#18c08a")}
+              >
+                {articlesBusy ? "Saadan..." : "Ingesti artiklid"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* --- loetelu --- */}
       <div style={{ display: "grid", gap: "0.75rem" }}>
@@ -727,6 +1152,7 @@ export default function RagAdminPanel() {
               const badgeStyle = statusBadgeStyle(status);
               const docAudience = doc.audience || doc.metadata?.audience;
               const deletable = canDelete(doc);
+              const reindexable = canReindex(doc);
               const syncedAt = deriveSyncedAt(doc);
 
               return (
@@ -867,19 +1293,10 @@ export default function RagAdminPanel() {
                     <button
                       type="button"
                       onClick={() => handleReindex(doc.id)}
-                      disabled={reindexingId === doc.id}
+                      disabled={reindexingId === doc.id || !reindexable}
                       aria-busy={reindexingId === doc.id ? "true" : "false"}
-                      style={{
-                        padding: "0.45rem 0.9rem",
-                        borderRadius: "999px",
-                        border: "1px solid rgba(255,255,255,0.18)",
-                        background:
-                          reindexingId === doc.id ? "rgba(255,255,255,0.08)" : "transparent",
-                        color: "#f3f6ff",
-                        fontSize: "0.82rem",
-                        cursor: reindexingId === doc.id ? "wait" : "pointer",
-                        opacity: reindexingId === doc.id ? 0.7 : 1,
-                      }}
+                      style={ghostBtn(reindexingId === doc.id || !reindexable)}
+                      title={reindexable ? "Taasindekseeri" : "Reindekseerimine pole selles staatuses saadaval"}
                     >
                       {reindexingId === doc.id ? "Töötlen..." : "Taasindekseerin"}
                     </button>
@@ -890,17 +1307,7 @@ export default function RagAdminPanel() {
                         onClick={() => handleDelete(doc.id)}
                         disabled={deletingId === doc.id}
                         aria-busy={deletingId === doc.id ? "true" : "false"}
-                        style={{
-                          padding: "0.45rem 0.9rem",
-                          borderRadius: "999px",
-                          border: "1px solid rgba(255,255,255,0.18)",
-                          background:
-                            deletingId === doc.id ? "rgba(255,255,255,0.08)" : "transparent",
-                          color: "#ff9c9c",
-                          fontSize: "0.82rem",
-                          cursor: deletingId === doc.id ? "wait" : "pointer",
-                          opacity: deletingId === doc.id ? 0.7 : 1,
-                        }}
+                        style={dangerGhostBtn(deletingId === doc.id)}
                       >
                         {deletingId === doc.id ? "Kustutan..." : "Kustuta"}
                       </button>
@@ -933,4 +1340,80 @@ export default function RagAdminPanel() {
       </div>
     </section>
   );
+}
+
+/* ---------- stiili helperid ---------- */
+
+function inputStyle() {
+  return {
+    padding: "0.55rem 0.65rem",
+    borderRadius: "10px",
+    border: "1px solid rgba(255,255,255,0.08)",
+    background: "rgba(10,12,20,0.6)",
+    color: "#f3f6ff",
+  };
+}
+
+function ctaStyle(busy, c1, c2) {
+  return {
+    padding: "0.6rem 0.9rem",
+    borderRadius: "999px",
+    border: "none",
+    background: busy ? "rgba(255,255,255,0.08)" : `linear-gradient(135deg, ${c1}, ${c2})`,
+    color: "#fefeff",
+    fontWeight: 600,
+    cursor: busy ? "wait" : "pointer",
+    transition: "opacity 0.2s ease",
+    opacity: busy ? 0.7 : 1,
+  };
+}
+
+function smallGhostBtn() {
+  return {
+    padding: "0.45rem 0.9rem",
+    borderRadius: "999px",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "transparent",
+    color: "#f3f6ff",
+    fontSize: "0.82rem",
+    cursor: "pointer",
+  };
+}
+
+function smallDangerBtn() {
+  return {
+    padding: "0.35rem 0.7rem",
+    borderRadius: "999px",
+    border: "1px solid rgba(255,120,120,0.35)",
+    background: "transparent",
+    color: "#ff9c9c",
+    fontSize: "0.8rem",
+    cursor: "pointer",
+  };
+}
+
+function ghostBtn(busy) {
+  return {
+    padding: "0.45rem 0.9rem",
+    borderRadius: "999px",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: busy ? "rgba(255,255,255,0.08)" : "transparent",
+    color: "#f3f6ff",
+    fontSize: "0.82rem",
+    cursor: busy ? "wait" : "pointer",
+    opacity: busy ? 0.7 : 1,
+  };
+}
+
+function dangerGhostBtn(busy) {
+  return {
+    padding: "0.45rem 0.9rem",
+    borderRadius: "999px",
+    border: "1px solid rgba(255,120,120,0.35)",
+    background: busy ? "rgba(255,255,255,0.08)" : "transparent",
+    color: "#ff9c9c",
+    fontSize: "0.82rem",
+    cursor: busy ? "wait" : "pointer",
+    opacity: busy ? 0.7 : 1,
+  };
 }

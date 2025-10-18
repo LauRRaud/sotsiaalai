@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+/* ---------- limiidid & tüübid ---------- */
 const DEFAULT_MAX_MB = 20;
 const MAX_SIZE_BYTES =
   Number(process.env.RAG_MAX_UPLOAD_MB || DEFAULT_MAX_MB) * 1024 * 1024;
@@ -23,7 +24,14 @@ const TEXT_LIKE_MIME = new Set(["text/plain", "text/markdown", "text/html"]);
 const DOCX_SIGNATURE = Buffer.from([0x50, 0x4b, 0x03, 0x04]);
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
-/* ---------- auth loader (kooskõlas teiste route’idega) ---------- */
+/* ---------- no-store päised ---------- */
+const NO_STORE = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0",
+};
+
+/* ---------- auth loader (joondatud teistega) ---------- */
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -51,9 +59,9 @@ async function requireAdmin() {
   return { ok: true, userId: session.user.id, session };
 }
 
-/* ---------- helpers ---------- */
+/* ---------- utils ---------- */
 function makeError(message, status = 400, extras = {}) {
-  return NextResponse.json({ ok: false, message, ...extras }, { status });
+  return NextResponse.json({ ok: false, message, ...extras }, { status, headers: NO_STORE });
 }
 
 function sanitizeFileName(name) {
@@ -94,7 +102,7 @@ function parseTags(raw) {
   return null;
 }
 
-function parseStringList(raw, max = 10) {
+function parseStringList(raw, max = 12) {
   if (!raw) return [];
   try {
     if (typeof raw === "string") {
@@ -189,6 +197,26 @@ function validateMagicType(buffer, mime) {
   return null;
 }
 
+async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) {
+  let lastErr;
+  for (let i = 0; i < Math.max(1, tries); i++) {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { ...init, signal: controller.signal });
+      clearTimeout(t);
+      return res;
+    } catch (err) {
+      clearTimeout(t);
+      lastErr = err;
+      if (i < tries - 1) {
+        await new Promise((r) => setTimeout(r, 250));
+      }
+    }
+  }
+  throw lastErr;
+}
+
 /* ---------- route ---------- */
 export async function POST(req) {
   const t0 = Date.now();
@@ -205,10 +233,16 @@ export async function POST(req) {
   const audience = normalizeAudience(form.get("audience"));
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  const safeFileName = sanitizeFileName(file.name);
-  const type = file.type || "application/octet-stream";
+  // valikulised ülekirjutused (joondus RAG backendiga)
+  const formDocId = (form.get("docId") && String(form.get("docId")).trim()) || null;
+  const formFileName = (form.get("fileName") && String(form.get("fileName")).trim()) || null;
+  const formMimeType = (form.get("mimeType") && String(form.get("mimeType")).trim()) || null;
+
+  const safeFileName = sanitizeFileName(formFileName || file.name);
+  const type = formMimeType || file.type || "application/octet-stream";
   const ext = (safeFileName.split(".").pop() || "").toLowerCase();
 
+  // leebe, aga logime – MIME ↔ laiend
   const extOk =
     (type === "application/pdf" && ext === "pdf") ||
     (type === "text/plain" && ext === "txt") ||
@@ -217,7 +251,6 @@ export async function POST(req) {
     (type === "application/msword" && ext === "doc") ||
     (type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" && ext === "docx") ||
     false;
-
   if (!extOk) {
     console.warn(`[RAG upload] Laiend ei vasta MIME-le: ${safeFileName} (${type})`);
   }
@@ -238,7 +271,7 @@ export async function POST(req) {
   const magicError = validateMagicType(buffer, type);
   if (magicError) return makeError(magicError, 415);
 
-  // meta
+  /* --- meta --- */
   const titleRaw = form.get("title");
   const descriptionRaw = form.get("description");
   const tagsRaw = form.get("tags");
@@ -282,7 +315,7 @@ export async function POST(req) {
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
   if (!apiKey) return makeError("RAG_SERVICE_API_KEY puudub serveri keskkonnast.", 500);
 
-  const remoteDocId = randomUUID();
+  const remoteDocId = formDocId || randomUUID();
 
   const payload = {
     docId: remoteDocId,
@@ -293,7 +326,7 @@ export async function POST(req) {
     title,
     description,
     audience,
-    ...(Array.isArray(tags) ? { tags } : {}), // (NB: praegune RAG backend ei kasuta 'tags', ohutu jätta)
+    ...(Array.isArray(tags) ? { tags } : {}),
     ...(authors.length ? { authors } : {}),
     ...(issueId ? { issueId } : {}),
     ...(issueLabel ? { issueLabel } : {}),
@@ -306,33 +339,22 @@ export async function POST(req) {
   };
 
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
-
     const base = ragBase.replace(/\/+$/, "");
-    const doFetch = () =>
-      fetch(`${base}/ingest/file`, {
+    const res = await fetchWithRetry(
+      `${base}/ingest/file`,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
           "X-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
         cache: "no-store",
-        signal: controller.signal,
-      });
-
-    let res;
-    try {
-      res = await doFetch();
-    } catch (e) {
-      // üks kiire retry
-      await new Promise((r) => setTimeout(r, 300));
-      res = await doFetch();
-    }
-
-    clearTimeout(timeout);
+      },
+      2,
+      RAG_TIMEOUT_MS
+    );
 
     const raw = await res.text();
     let data = null;
@@ -357,11 +379,11 @@ export async function POST(req) {
       return makeError(msg, status, { code, response: data });
     }
 
-    // --- LOKAALNE DB LOGI ---
+    /* --- lokaalne DB logi (idempotentne kõrvaltvaates) --- */
     let dbDoc = null;
     try {
       const inserted = Number.isFinite(data?.inserted) ? Number(data.inserted) : null;
-      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED"; // hoia completed; vajadusel muuda PROCESSING-uks
+      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED"; // hoia COMPLETED; vajadusel muuda PROCESSING
       const createData = {
         title,
         description,
@@ -374,7 +396,21 @@ export async function POST(req) {
         sourceUrl: null,
         remoteId: remoteDocId,
         insertedAt: new Date(),
-        metadata: data || undefined,
+        metadata: {
+          ...data,
+          _uploadMeta: {
+            authors,
+            issueId,
+            issueLabel,
+            year,
+            articleId,
+            section,
+            pages,
+            pageRange,
+            journalTitle,
+            contentSha256: sha256,
+          },
+        },
       };
       if (admin.userId) {
         createData.admin = { connect: { id: admin.userId } };
@@ -385,29 +421,34 @@ export async function POST(req) {
     }
 
     console.info(`[RAG upload] OK ${safeFileName} in ${Date.now() - t0}ms`);
-    return NextResponse.json({
-      ok: true,
-      warning: dbDoc ? undefined : "Dokument indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
-      doc: {
-        id: dbDoc?.id || remoteDocId,
-        dbId: dbDoc?.id || null,
-        contentSha256: sha256,
-        title,
-        description,
-        tags: Array.isArray(tags) ? tags : undefined,
-        type: "FILE",
-        status: dbDoc?.status || "COMPLETED",
-        fileName: safeFileName,
-        mimeType: type,
-        fileSize: buffer.length,
-        audience,
-        createdAt: dbDoc?.createdAt?.toISOString?.() || new Date().toISOString(),
-        updatedAt: dbDoc?.updatedAt?.toISOString?.() || new Date().toISOString(),
-        insertedAt: dbDoc?.insertedAt?.toISOString?.() || new Date().toISOString(),
-        remoteId: remoteDocId,
+    return NextResponse.json(
+      {
+        ok: true,
+        warning: dbDoc
+          ? undefined
+          : "Dokument indekseeriti, kuid lokaalsesse andmebaasi salvestus ebaõnnestus.",
+        doc: {
+          id: dbDoc?.id || remoteDocId,
+          dbId: dbDoc?.id || null,
+          contentSha256: sha256,
+          title,
+          description,
+          tags: Array.isArray(tags) ? tags : undefined,
+          type: "FILE",
+          status: dbDoc?.status || "COMPLETED",
+          fileName: safeFileName,
+          mimeType: type,
+          fileSize: buffer.length,
+          audience,
+          createdAt: dbDoc?.createdAt?.toISOString?.() || new Date().toISOString(),
+          updatedAt: dbDoc?.updatedAt?.toISOString?.() || new Date().toISOString(),
+          insertedAt: dbDoc?.insertedAt?.toISOString?.() || new Date().toISOString(),
+          remoteId: remoteDocId,
+        },
+        rag: data,
       },
-      rag: data,
-    });
+      { headers: NO_STORE }
+    );
   } catch (err) {
     const message =
       err?.name === "AbortError"
