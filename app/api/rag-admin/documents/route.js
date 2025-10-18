@@ -95,7 +95,8 @@ export async function GET(req) {
   const url = new URL(req.url);
   const limit = clampLimit(url.searchParams.get("limit"));
 
-  const ragBase = (process.env.RAG_API_BASE || "").trim();
+  const ragBaseEnv = (process.env.RAG_API_BASE || "").trim();
+  const ragBase = normalizeBase(ragBaseEnv);
   const apiKey =
     (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 
@@ -104,9 +105,17 @@ export async function GET(req) {
 
   const endpoint = buildEndpoint(ragBase, limit);
 
+  // kanna edasi X-Request-Id (kui olemas) debugiks
+  const fwdReqId = req.headers.get("x-request-id");
+  const headers = {
+    "X-API-Key": apiKey,
+    Accept: "application/json",
+    ...(fwdReqId ? { "X-Request-Id": fwdReqId } : {}),
+  };
+
   try {
     const res = await fetchWithRetry(endpoint, {
-      headers: { "X-API-Key": apiKey, Accept: "application/json" },
+      headers,
       timeoutMs: RAG_TIMEOUT_MS,
       tries: 2,
     });

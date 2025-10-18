@@ -94,24 +94,26 @@ export async function DELETE(_req, { params }) {
   const auth = await requireAdmin();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
 
-  const id = params?.id ? String(params.id).trim() : "";
-  if (!isPlausibleId(id)) {
+  const pathId = params?.id ? String(params.id).trim() : "";
+  if (!isPlausibleId(pathId)) {
     return json({ ok: false, message: "ID on kohustuslik või vigane." }, 400);
   }
 
-  // Leia lokaalne kirje, et saada remoteId
-  let existing;
+  // 1) Leia lokaalne kirje id VÕI remoteId järgi (kui on)
+  let existing = null;
   try {
-    existing = await prisma.ragDocument.findUnique({ where: { id } });
+    existing = await prisma.ragDocument.findFirst({
+      where: { OR: [{ id: pathId }, { remoteId: pathId }] },
+    });
   } catch (err) {
     return json(
       { ok: false, message: "Andmebaasi viga dokumendi leidmisel.", error: err?.message },
       500
     );
   }
-  if (!existing) return json({ ok: false, message: "Dokument puudub." }, 404);
 
-  const ragId = existing.remoteId ?? id;
+  // Kui leidus, kasuta remoteId; muidu eelda, et pathId ongi RAG-i ID
+  const ragId = existing?.remoteId ?? pathId;
 
   const ragBaseEnv = (process.env.RAG_API_BASE || "").trim();
   const ragBase = normalizeBase(ragBaseEnv);
@@ -125,7 +127,7 @@ export async function DELETE(_req, { params }) {
     return json({ ok: false, message: "RAG API võti puudub serveri keskkonnast." }, 500);
   }
 
-  // 1) Kustuta RAG-ist (idempotent: 404 = OK)
+  // 2) Kustuta RAG-ist (idempotent: 404 = OK)
   const endpoint = buildRagUrl(ragBase, ragId);
   try {
     const res = await fetchDeleteWithRetries(endpoint, {
@@ -137,8 +139,11 @@ export async function DELETE(_req, { params }) {
     if (!res.ok && res.status !== 404) {
       const raw = await res.text().catch(() => "");
       let data = null;
-      try { data = raw ? JSON.parse(raw) : null; } catch {}
-      const msg = data?.detail || data?.message || `RAG /documents/${ragId} viga (${res.status})`;
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch {}
+      const msg =
+        data?.detail || data?.message || `RAG /documents/${ragId} viga (${res.status})`;
       return json({ ok: false, message: msg, response: data || raw }, 502);
     }
   } catch (err) {
@@ -147,9 +152,11 @@ export async function DELETE(_req, { params }) {
     return json({ ok: false, message: `RAG ühenduse viga: ${msg}` }, 502);
   }
 
-  // 2) Kustuta lokaalne kirje idempotentselt
+  // 3) Kustuta lokaalne kirje idempotentselt (nii id kui remoteId variandid)
   try {
-    await prisma.ragDocument.deleteMany({ where: { id } });
+    await prisma.ragDocument.deleteMany({
+      where: { OR: [{ id: pathId }, { remoteId: pathId }, { remoteId: ragId }] },
+    });
   } catch (err) {
     return json(
       { ok: false, message: "Andmebaasi viga dokumendi kustutamisel", error: err?.message },
@@ -157,5 +164,10 @@ export async function DELETE(_req, { params }) {
     );
   }
 
-  return json({ ok: true, deleted: id, usedRemoteId: ragId !== id ? ragId : null });
+  return json({
+    ok: true,
+    deleted: pathId,
+    usedRemoteId: ragId !== pathId ? ragId : null,
+    hadLocal: !!existing,
+  });
 }

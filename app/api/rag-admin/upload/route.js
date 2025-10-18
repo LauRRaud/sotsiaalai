@@ -31,7 +31,7 @@ const NO_STORE = {
   Expires: "0",
 };
 
-/* ---------- auth loader (joondatud teistega) ---------- */
+/* ---------- auth loader ---------- */
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");

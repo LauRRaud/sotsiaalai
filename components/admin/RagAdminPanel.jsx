@@ -38,7 +38,7 @@ const DOC_KIND_OPTIONS = [
   { value: "MAGAZINE", label: "Ajakiri (artiklite kaupa)" },
 ];
 
-/* ---------- Avalikud .env sätted (brauseris loetavad) ---------- */
+/* ---------- Avalikud .env sätted ---------- */
 
 const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
 const RAW_ALLOWED_MIME = String(
@@ -96,10 +96,12 @@ function formatDateTime(value) {
 }
 
 function statusBadgeStyle(status) {
-  return STATUS_STYLES[status] || {
-    backgroundColor: "rgba(255,255,255,0.12)",
-    color: "#ffffff",
-  };
+  return (
+    STATUS_STYLES[status] || {
+      backgroundColor: "rgba(255,255,255,0.12)",
+      color: "#ffffff",
+    }
+  );
 }
 
 function deriveStatus(doc) {
@@ -164,6 +166,46 @@ export default function RagAdminPanel() {
   const urlFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
 
+  /* ----- localStorage püsivus (ajakirja seanss + docKind) ----- */
+
+  // loe seanss mountimisel
+  useEffect(() => {
+    try {
+      const savedDocId = localStorage.getItem("rag.magazine.lastDocId");
+      const savedFileName = localStorage.getItem("rag.magazine.lastFileName");
+      const savedKind = localStorage.getItem("rag.docKind");
+      if (savedDocId) setLastUploadedDocId(savedDocId);
+      if (savedFileName) setLastUploadedFileName(savedFileName);
+      if (savedKind && (savedKind === "NORMAL" || savedKind === "MAGAZINE")) setDocKind(savedKind);
+    } catch {}
+  }, []);
+
+  // kirjuta seanss muutustel
+  useEffect(() => {
+    try {
+      if (lastUploadedDocId) localStorage.setItem("rag.magazine.lastDocId", String(lastUploadedDocId));
+      else localStorage.removeItem("rag.magazine.lastDocId");
+      if (lastUploadedFileName)
+        localStorage.setItem("rag.magazine.lastFileName", String(lastUploadedFileName));
+      else localStorage.removeItem("rag.magazine.lastFileName");
+    } catch {}
+  }, [lastUploadedDocId, lastUploadedFileName]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("rag.docKind", String(docKind));
+    } catch {}
+  }, [docKind]);
+
+  const endMagazineSession = useCallback(() => {
+    setLastUploadedDocId(null);
+    setLastUploadedFileName(null);
+    try {
+      localStorage.removeItem("rag.magazine.lastDocId");
+      localStorage.removeItem("rag.magazine.lastFileName");
+    } catch {}
+  }, []);
+
   /* ----- utils ----- */
 
   const resetMessage = useCallback(() => setMessage(null), []);
@@ -197,7 +239,12 @@ export default function RagAdminPanel() {
         signal: ac.signal,
       });
       const raw = await res.text();
-      const data = raw ? JSON.parse(raw) : null;
+      let data = null;
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
+      }
       if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
 
       const list = Array.isArray(data) ? data : Array.isArray(data?.docs) ? data.docs : [];
@@ -272,7 +319,9 @@ export default function RagAdminPanel() {
   function validateFileBeforeUpload(file) {
     const maxBytes = MAX_UPLOAD_MB * 1024 * 1024;
     if (file.size > maxBytes) {
-      throw new Error(`Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`);
+      throw new Error(
+        `Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`
+      );
     }
     // MIME kontroll leebe — brauseri accept juba filtreerib; server teeb lõpliku kontrolli
   }
@@ -330,7 +379,7 @@ export default function RagAdminPanel() {
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
 
-        // !!! kasuta remoteId-d (või id fallbackina)
+        // kasuta remoteId-d (või id fallbackina)
         const remoteId = data?.doc?.remoteId ?? null;
         const fallbackId = data?.doc?.id ?? null;
         const useId = remoteId || fallbackId;
@@ -338,9 +387,12 @@ export default function RagAdminPanel() {
         if (docKind === "MAGAZINE") {
           setLastUploadedDocId(useId);
           setLastUploadedFileName(file.name || null);
+          try {
+            localStorage.setItem("rag.magazine.lastDocId", String(useId));
+            localStorage.setItem("rag.magazine.lastFileName", String(file.name || ""));
+          } catch {}
         } else {
-          setLastUploadedDocId(null);
-          setLastUploadedFileName(null);
+          endMagazineSession();
         }
 
         form.reset();
@@ -364,6 +416,7 @@ export default function RagAdminPanel() {
       authors,
       pageRange,
       docKind,
+      endMagazineSession,
     ]
   );
 
@@ -466,7 +519,9 @@ export default function RagAdminPanel() {
 
   const fileHint = useMemo(() => {
     if (!fileInfo.name) return "Valitud faili ei ole.";
-    return `${fileInfo.name} (${formatBytes(fileInfo.size)}${fileInfo.type ? `, ${fileInfo.type}` : ""})`;
+    return `${fileInfo.name} (${formatBytes(fileInfo.size)}${
+      fileInfo.type ? `, ${fileInfo.type}` : ""
+    })`;
   }, [fileInfo]);
 
   /* ----- Artiklite koostaja (ajakirja workflow) ----- */
@@ -547,7 +602,9 @@ export default function RagAdminPanel() {
       if (!res.ok) {
         throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
       }
-      showOk(`Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`);
+      showOk(
+        `Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`
+      );
       setDrafts([]);
       setArticleOffset("");
       await fetchDocuments();
@@ -596,6 +653,7 @@ export default function RagAdminPanel() {
       {message && (
         <div
           role="status"
+          aria-live="polite"
           style={{
             padding: "0.85rem 1rem",
             borderRadius: "10px",
@@ -633,11 +691,18 @@ export default function RagAdminPanel() {
             gap: "0.75rem",
           }}
         >
-          <div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa fail</h3>
-            <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-              Lubatud: {ALLOWED_MIME_LIST.join(", ")} (kuni {MAX_UPLOAD_MB} MB).
-            </p>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
+            <div>
+              <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa fail</h3>
+              <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+                Lubatud: {ALLOWED_MIME_LIST.join(", ")} (kuni {MAX_UPLOAD_MB} MB).
+              </p>
+            </div>
+            {docKind === "MAGAZINE" && lastUploadedDocId && (
+              <button type="button" onClick={endMagazineSession} style={smallGhostBtn()}>
+                Lõpeta ajakirja seanss
+              </button>
+            )}
           </div>
 
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
@@ -802,7 +867,7 @@ export default function RagAdminPanel() {
             </div>
           )}
 
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
+          <label style={{ display: "grid", gap: "0.5rem, 0.25rem", fontSize: "0.88rem" }}>
             <span>Fail *</span>
             <input
               ref={fileInputRef}
@@ -853,13 +918,7 @@ export default function RagAdminPanel() {
 
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>URL *</span>
-            <input
-              name="url"
-              type="url"
-              required
-              placeholder="https://..."
-              style={inputStyle()}
-            />
+            <input name="url" type="url" required placeholder="https://..." style={inputStyle()} />
           </label>
 
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
@@ -882,10 +941,7 @@ export default function RagAdminPanel() {
               onChange={(e) => setUrlDescription(e.target.value)}
               placeholder="Valikuline kokkuvõte või märksõnad"
               rows={3}
-              style={{
-                ...inputStyle(),
-                resize: "vertical",
-              }}
+              style={{ ...inputStyle(), resize: "vertical" }}
             />
           </label>
 
@@ -931,9 +987,8 @@ export default function RagAdminPanel() {
             <div>
               <h3 style={{ fontSize: "1rem", margin: 0 }}>Artiklite ingest</h3>
               <p style={{ fontSize: "0.86rem", opacity: 0.75, marginTop: "0.25rem" }}>
-                Viimati laetud ajakirja PDF:{" "}
-                <strong>{lastUploadedFileName || "—"}</strong> • docId:{" "}
-                <code style={{ opacity: 0.8 }}>{lastUploadedDocId}</code>
+                Viimati laetud ajakirja PDF: <strong>{lastUploadedFileName || "—"}</strong> •
+                docId: <code style={{ opacity: 0.8 }}>{lastUploadedDocId}</code>
               </p>
             </div>
             <button type="button" onClick={addDraft} style={smallGhostBtn()}>
@@ -941,13 +996,7 @@ export default function RagAdminPanel() {
             </button>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gap: "0.6rem",
-              gridTemplateColumns: "1fr",
-            }}
-          >
+          <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr" }}>
             <div
               style={{
                 display: "grid",
@@ -968,15 +1017,34 @@ export default function RagAdminPanel() {
               </label>
               <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
                 <span>Ajakiri</span>
-                <input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} type="text" placeholder="Sotsiaaltöö" style={inputStyle()} />
+                <input
+                  value={journalTitle}
+                  onChange={(e) => setJournalTitle(e.target.value)}
+                  type="text"
+                  placeholder="Sotsiaaltöö"
+                  style={inputStyle()}
+                />
               </label>
               <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
                 <span>Väljalase</span>
-                <input value={issueLabel} onChange={(e) => setIssueLabel(e.target.value)} type="text" placeholder="2/2023" style={inputStyle()} />
+                <input
+                  value={issueLabel}
+                  onChange={(e) => setIssueLabel(e.target.value)}
+                  type="text"
+                  placeholder="2/2023"
+                  style={inputStyle()}
+                />
               </label>
               <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
                 <span>Aasta</span>
-                <input value={year} onChange={(e) => setYear(e.target.value)} type="number" inputMode="numeric" placeholder="2023" style={inputStyle()} />
+                <input
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  type="number"
+                  inputMode="numeric"
+                  placeholder="2023"
+                  style={inputStyle()}
+                />
               </label>
             </div>
 
@@ -985,7 +1053,15 @@ export default function RagAdminPanel() {
                 Lisa vähemalt üks artikkel.
               </p>
             ) : (
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.75rem" }}>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "grid",
+                  gap: "0.75rem",
+                }}
+              >
                 {drafts.map((d, i) => (
                   <li
                     key={i}
@@ -998,9 +1074,15 @@ export default function RagAdminPanel() {
                       background: "rgba(15,18,26,0.55)",
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
+                    <div
+                      style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}
+                    >
                       <strong style={{ fontSize: "0.95rem" }}>Artikkel #{i + 1}</strong>
-                      <button type="button" onClick={() => removeDraft(i)} style={smallDangerBtn()}>
+                      <button
+                        type="button"
+                        onClick={() => removeDraft(i)}
+                        style={smallDangerBtn()}
+                      >
                         Eemalda
                       </button>
                     </div>
@@ -1158,7 +1240,15 @@ export default function RagAdminPanel() {
         ) : docs.length === 0 ? (
           <p style={{ fontSize: "0.9rem", opacity: 0.75 }}>RAG andmebaasis pole veel kirjeid.</p>
         ) : (
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "1rem" }}>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              display: "grid",
+              gap: "1rem",
+            }}
+          >
             {docs.map((doc) => {
               const status = deriveStatus(doc);
               const statusLabel = STATUS_LABELS[status] || status;
@@ -1189,7 +1279,13 @@ export default function RagAdminPanel() {
                     }}
                   >
                     <div style={{ minWidth: 0 }}>
-                      <strong style={{ display: "block", fontSize: "1rem", wordBreak: "break-word" }}>
+                      <strong
+                        style={{
+                          display: "block",
+                          fontSize: "1rem",
+                          wordBreak: "break-word",
+                        }}
+                      >
                         {doc.title || doc.fileName || doc.sourceUrl || "Materjal"}
                       </strong>
                       {doc.type === "FILE" && doc.fileName && (
@@ -1235,7 +1331,13 @@ export default function RagAdminPanel() {
                     }}
                   >
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                      <dt
+                        style={{
+                          fontSize: "0.72rem",
+                          textTransform: "uppercase",
+                          opacity: 0.6,
+                        }}
+                      >
                         Tüüp
                       </dt>
                       <dd style={{ margin: 0, fontSize: "0.88rem" }}>
@@ -1243,7 +1345,13 @@ export default function RagAdminPanel() {
                       </dd>
                     </div>
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                      <dt
+                        style={{
+                          fontSize: "0.72rem",
+                          textTransform: "uppercase",
+                          opacity: 0.6,
+                        }}
+                      >
                         Sihtgrupp
                       </dt>
                       <dd style={{ margin: 0, fontSize: "0.88rem" }}>
@@ -1251,20 +1359,42 @@ export default function RagAdminPanel() {
                       </dd>
                     </div>
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                      <dt
+                        style={{
+                          fontSize: "0.72rem",
+                          textTransform: "uppercase",
+                          opacity: 0.6,
+                        }}
+                      >
                         Lisatud
                       </dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatDateTime(doc.createdAt)}</dd>
+                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
+                        {formatDateTime(doc.createdAt)}
+                      </dd>
                     </div>
                     <div>
-                      <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                      <dt
+                        style={{
+                          fontSize: "0.72rem",
+                          textTransform: "uppercase",
+                          opacity: 0.6,
+                        }}
+                      >
                         Uuendatud
                       </dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatDateTime(doc.updatedAt)}</dd>
+                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
+                        {formatDateTime(doc.updatedAt)}
+                      </dd>
                     </div>
                     {typeof doc.chunks === "number" ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        <dt
+                          style={{
+                            fontSize: "0.72rem",
+                            textTransform: "uppercase",
+                            opacity: 0.6,
+                          }}
+                        >
                           Tükke
                         </dt>
                         <dd style={{ margin: 0, fontSize: "0.88rem" }}>{doc.chunks}</dd>
@@ -1272,15 +1402,29 @@ export default function RagAdminPanel() {
                     ) : null}
                     {doc.fileSize ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        <dt
+                          style={{
+                            fontSize: "0.72rem",
+                            textTransform: "uppercase",
+                            opacity: 0.6,
+                          }}
+                        >
                           Maht
                         </dt>
-                        <dd style={{ margin: 0, fontSize: "0.88rem" }}>{formatBytes(doc.fileSize)}</dd>
+                        <dd style={{ margin: 0, fontSize: "0.88rem" }}>
+                          {formatBytes(doc.fileSize)}
+                        </dd>
                       </div>
                     ) : null}
                     {doc.admin?.email ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        <dt
+                          style={{
+                            fontSize: "0.72rem",
+                            textTransform: "uppercase",
+                            opacity: 0.6,
+                          }}
+                        >
                           Lisaja
                         </dt>
                         <dd style={{ margin: 0, fontSize: "0.88rem" }}>{doc.admin.email}</dd>
@@ -1288,10 +1432,22 @@ export default function RagAdminPanel() {
                     ) : null}
                     {doc.remoteId ? (
                       <div>
-                        <dt style={{ fontSize: "0.72rem", textTransform: "uppercase", opacity: 0.6 }}>
+                        <dt
+                          style={{
+                            fontSize: "0.72rem",
+                            textTransform: "uppercase",
+                            opacity: 0.6,
+                          }}
+                        >
                           Remote ID
                         </dt>
-                        <dd style={{ margin: 0, fontSize: "0.88rem", wordBreak: "break-all" }}>
+                        <dd
+                          style={{
+                            margin: 0,
+                            fontSize: "0.88rem",
+                            wordBreak: "break-all",
+                          }}
+                        >
                           {doc.remoteId}
                         </dd>
                       </div>
@@ -1299,17 +1455,30 @@ export default function RagAdminPanel() {
                   </dl>
 
                   {doc.error && (
-                    <p style={{ margin: 0, fontSize: "0.88rem", color: "#ff9c9c" }}>{doc.error}</p>
+                    <p style={{ margin: 0, fontSize: "0.88rem", color: "#ff9c9c" }}>
+                      {doc.error}
+                    </p>
                   )}
 
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", alignItems: "center" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.75rem",
+                      alignItems: "center",
+                    }}
+                  >
                     <button
                       type="button"
                       onClick={() => handleReindex(doc.id)}
                       disabled={reindexingId === doc.id || !reindexable}
                       aria-busy={reindexingId === doc.id ? "true" : "false"}
                       style={ghostBtn(reindexingId === doc.id || !reindexable)}
-                      title={reindexable ? "Taasindekseeri" : "Reindekseerimine pole selles staatuses saadaval"}
+                      title={
+                        reindexable
+                          ? "Taasindekseeri"
+                          : "Reindekseerimine pole selles staatuses saadaval"
+                      }
                     >
                       {reindexingId === doc.id ? "Töötlen..." : "Taasindekseerin"}
                     </button>
