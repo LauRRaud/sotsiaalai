@@ -1,4 +1,6 @@
 // app/api/rag/[...path]/route.js
+import { normalizeRagBase } from "@/lib/rag";
+
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
@@ -19,11 +21,9 @@ const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
 /* -------------------- Utils -------------------- */
 
 function normalizeBaseFromHost(host) {
-  // kui antakse täis-URL, kasuta seda; muidu eelda http://
-  const trimmed = String(host || "").trim().replace(/\/+$/, "");
-  if (!trimmed) return "http://127.0.0.1:8000";
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `http://${trimmed}`;
+  const trimmed = String(host || "").trim();
+  if (!trimmed) return normalizeRagBase("127.0.0.1:8000");
+  return normalizeRagBase(trimmed);
 }
 
 function isLocalHostHostPort(hp) {

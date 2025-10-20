@@ -38,6 +38,24 @@ const DOC_KIND_OPTIONS = [
   { value: "MAGAZINE", label: "Ajakiri (artiklite kaupa)" },
 ];
 
+const MESSAGE_STYLES = {
+  success: {
+    border: "1px solid rgba(46,204,113,0.3)",
+    backgroundColor: "rgba(46,204,113,0.12)",
+    color: "#7be2a4",
+  },
+  error: {
+    border: "1px solid rgba(231,76,60,0.4)",
+    backgroundColor: "rgba(231,76,60,0.12)",
+    color: "#ff9c9c",
+  },
+  warning: {
+    border: "1px solid rgba(243,156,18,0.4)",
+    backgroundColor: "rgba(243,156,18,0.14)",
+    color: "#ffcb6b",
+  },
+};
+
 /* ---------- Avalikud .env sätted ---------- */
 
 const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
@@ -54,7 +72,6 @@ const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
 const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",")
   .map((s) => s.trim())
   .filter(Boolean);
-const ALLOWED_MIME_SET = new Set(ALLOWED_MIME_LIST);
 
 // püüame tuletada `accept` atribuudi (lisame ka levinud laiendid)
 const ACCEPT_ATTR = [
@@ -114,10 +131,7 @@ function deriveSyncedAt(doc) {
 function splitAuthors(input) {
   if (!input) return [];
   return input
-    .split(/[,;\n]+/)
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .slice(0, 12);
+    .split(/[,;\n]+/).map((s) => s.trim()).filter(Boolean).slice(0, 12);
 }
 
 /* ---------- Komponent ---------- */
@@ -151,6 +165,10 @@ export default function RagAdminPanel() {
   const [drafts, setDrafts] = useState([]);
   const [articlesBusy, setArticlesBusy] = useState(false);
 
+  // Auto TOC
+  const [tocBusy, setTocBusy] = useState(false);
+  const [tocInfo, setTocInfo] = useState(null);
+
   // url
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlAudience, setUrlAudience] = useState("BOTH");
@@ -166,9 +184,12 @@ export default function RagAdminPanel() {
   const urlFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
 
+  // drag & drop
+  const [dropping, setDropping] = useState(false);
+  const dropRef = useRef(null);
+
   /* ----- localStorage püsivus (ajakirja seanss + docKind) ----- */
 
-  // loe seanss mountimisel
   useEffect(() => {
     try {
       const savedDocId = localStorage.getItem("rag.magazine.lastDocId");
@@ -180,7 +201,6 @@ export default function RagAdminPanel() {
     } catch {}
   }, []);
 
-  // kirjuta seanss muutustel
   useEffect(() => {
     try {
       if (lastUploadedDocId) localStorage.setItem("rag.magazine.lastDocId", String(lastUploadedDocId));
@@ -215,6 +235,7 @@ export default function RagAdminPanel() {
   );
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
+  const showWarn = useCallback((text) => setMessage({ type: "warning", text }), []);
 
   const canReindex = useCallback((doc) => {
     const st = deriveStatus(doc);
@@ -297,6 +318,50 @@ export default function RagAdminPanel() {
     };
   }, [docs, fetchDocuments]);
 
+  /* ----- drag & drop failile ----- */
+
+  useEffect(() => {
+    const el = dropRef.current;
+    if (!el) return;
+
+    const onPrevent = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+    const onDragOver = (e) => {
+      onPrevent(e);
+      setDropping(true);
+    };
+    const onDragLeave = (e) => {
+      onPrevent(e);
+      setDropping(false);
+    };
+    const onDrop = (e) => {
+      onPrevent(e);
+      setDropping(false);
+      const file = e.dataTransfer?.files?.[0];
+      if (file && fileInputRef.current) {
+        fileInputRef.current.files = e.dataTransfer.files;
+        setFileInfo({ name: file.name, size: file.size, type: file.type });
+        const form = fileFormRef.current;
+        if (form && !form.title?.value) {
+          form.title.value = file.name.replace(/\.[^.]+$/, "");
+        }
+      }
+    };
+
+    el.addEventListener("dragenter", onDragOver);
+    el.addEventListener("dragover", onDragOver);
+    el.addEventListener("dragleave", onDragLeave);
+    el.addEventListener("drop", onDrop);
+    return () => {
+      el.removeEventListener("dragenter", onDragOver);
+      el.removeEventListener("dragover", onDragOver);
+      el.removeEventListener("dragleave", onDragLeave);
+      el.removeEventListener("drop", onDrop);
+    };
+  }, []);
+
   /* ----- faililaadimine ----- */
 
   const onFileChange = useCallback(
@@ -323,7 +388,6 @@ export default function RagAdminPanel() {
         `Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`
       );
     }
-    // MIME kontroll leebe — brauseri accept juba filtreerib; server teeb lõpliku kontrolli
   }
 
   const handleFileSubmit = useCallback(
@@ -389,7 +453,7 @@ export default function RagAdminPanel() {
           setLastUploadedFileName(file.name || null);
           try {
             localStorage.setItem("rag.magazine.lastDocId", String(useId));
-            localStorage.setItem("rag.magazine.lastFileName", String(file.name || ""));
+            localStorage.setItem("rag.magazine.lastFileName", String(file.name || "")); // eslint-disable-line
           } catch {}
         } else {
           endMagazineSession();
@@ -524,7 +588,79 @@ export default function RagAdminPanel() {
     })`;
   }, [fileInfo]);
 
-  /* ----- Artiklite koostaja (ajakirja workflow) ----- */
+  /* ----- AUTO TOC (ajakirja workflow) ----- */
+
+  const autoDetectToc = useCallback(async () => {
+    if (!lastUploadedDocId) return;
+    setTocBusy(true);
+    setMessage(null);
+    setTocInfo(null);
+    try {
+      const res = await fetch("/api/rag-admin/parse-issue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ docId: lastUploadedDocId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data?.ok) throw new Error(data?.message || "Sisukorra tuvastus ebaõnnestus.");
+
+      const usingOffset = typeof data.usingOffset === "number" ? data.usingOffset : null;
+      if (typeof usingOffset === "number") setArticleOffset(String(usingOffset));
+
+      const draftsFromToc = Array.isArray(data.drafts) ? data.drafts : [];
+      const mapped = draftsFromToc.map((d) => ({
+        title: d.title || "",
+        authors: Array.isArray(d.authors) ? d.authors.join(", ") : d.authors || "",
+        section: d.section || "",
+        pageRange: d.pageRange || "",
+        startPage: d.startPage ?? "",
+        endPage: d.endPage ?? "",
+        audience: d.audience || fileAudience,
+        description: d.description || "",
+      }));
+      setDrafts(mapped);
+
+      const foundCount = Number.isFinite(data.foundTocItems)
+        ? Number(data.foundTocItems)
+        : draftsFromToc.length;
+      const preview = draftsFromToc.slice(0, 5).map((draft) => {
+        const coerce = (value) => {
+          if (typeof value === "number" && Number.isFinite(value)) return value;
+          if (typeof value === "string" && value.trim()) {
+            const parsed = Number(value.trim());
+            return Number.isFinite(parsed) ? parsed : null;
+          }
+          return null;
+        };
+        return {
+          title: draft.title || "",
+          pageRange: draft.pageRange || "",
+          startPage: coerce(draft.startPage),
+          endPage: coerce(draft.endPage),
+        };
+      });
+
+      setTocInfo({
+        found: foundCount,
+        autoOffset: Number.isFinite(data.autoOffset) ? Number(data.autoOffset) : null,
+        usingOffset,
+        preview,
+      });
+
+      if (foundCount === 0) {
+        showWarn("Sisukorda ei leitud – kontrolli käsitsi või kohanda offset'i.");
+      } else {
+        showOk(`Leiti ${foundCount} sisukorra rida.`);
+      }
+    } catch (e) {
+      showError(e?.message || "Sisukorra tuvastus ebaõnnestus.");
+      setTocInfo(null);
+    } finally {
+      setTocBusy(false);
+    }
+  }, [lastUploadedDocId, fileAudience, showError, showOk, showWarn]);
+
+  /* ----- Artiklite ingest ----- */
 
   const addDraft = useCallback(() => {
     setDrafts((prev) => [
@@ -602,11 +738,10 @@ export default function RagAdminPanel() {
       if (!res.ok) {
         throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
       }
-      showOk(
-        `Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`
-      );
+      showOk(`Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`);
       setDrafts([]);
       setArticleOffset("");
+      setTocInfo(null);
       await fetchDocuments();
     } catch (err) {
       showError(err?.message || "Artiklite ingest ebaõnnestus.");
@@ -658,13 +793,7 @@ export default function RagAdminPanel() {
             padding: "0.85rem 1rem",
             borderRadius: "10px",
             fontSize: "0.9rem",
-            border:
-              message.type === "error"
-                ? "1px solid rgba(231,76,60,0.4)"
-                : "1px solid rgba(46,204,113,0.3)",
-            backgroundColor:
-              message.type === "error" ? "rgba(231,76,60,0.12)" : "rgba(46,204,113,0.12)",
-            color: message.type === "error" ? "#ff9c9c" : "#7be2a4",
+            ...(MESSAGE_STYLES[message.type] || MESSAGE_STYLES.success),
           }}
         >
           {message.text}
@@ -782,7 +911,7 @@ export default function RagAdminPanel() {
             </select>
           </label>
 
-          {/* Ajakirja täiendavad väljad (valikuline, kuid kasulik artiklite jaoks) */}
+          {/* Ajakirja täiendavad väljad */}
           {docKind === "MAGAZINE" && (
             <div
               style={{
@@ -867,25 +996,37 @@ export default function RagAdminPanel() {
             </div>
           )}
 
-          <label style={{ display: "grid", gap: "0.5rem, 0.25rem", fontSize: "0.88rem" }}>
-            <span>Fail *</span>
-            <input
-              ref={fileInputRef}
-              name="file"
-              type="file"
-              accept={ACCEPT_ATTR}
-              onChange={onFileChange}
-              style={{
-                padding: "0.5rem",
-                borderRadius: "10px",
-                border: "1px dashed rgba(255,255,255,0.15)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
-              required
-            />
-            <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>{fileHint}</span>
-          </label>
+          <div
+            ref={dropRef}
+            style={{
+              border: `1px dashed ${dropping ? "rgba(120,180,255,0.6)" : "rgba(255,255,255,0.15)"}`,
+              borderRadius: "12px",
+              padding: "0.85rem",
+              background: "rgba(10,12,20,0.4)",
+              transition: "border-color 0.15s ease",
+            }}
+            aria-label="Lohista fail siia või vali allolevast sisendist"
+          >
+            <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
+              <span>Fail *</span>
+              <input
+                ref={fileInputRef}
+                name="file"
+                type="file"
+                accept={ACCEPT_ATTR}
+                onChange={onFileChange}
+                style={{
+                  padding: "0.5rem",
+                  borderRadius: "10px",
+                  border: "1px dashed rgba(255,255,255,0.15)",
+                  background: "rgba(10,12,20,0.6)",
+                  color: "#f3f6ff",
+                }}
+                required
+              />
+              <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>{fileHint}</span>
+            </label>
+          </div>
 
           <button
             type="submit"
@@ -991,9 +1132,14 @@ export default function RagAdminPanel() {
                 docId: <code style={{ opacity: 0.8 }}>{lastUploadedDocId}</code>
               </p>
             </div>
-            <button type="button" onClick={addDraft} style={smallGhostBtn()}>
-              Lisa artikkel
-            </button>
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+              <button type="button" onClick={addDraft} style={smallGhostBtn()}>
+                Lisa artikkel
+              </button>
+              <button type="button" onClick={autoDetectToc} disabled={tocBusy} style={smallGhostBtn()}>
+                {tocBusy ? "Tuvastan..." : "Tuvasta sisukord (Auto)"}
+              </button>
+            </div>
           </div>
 
           <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr" }}>
@@ -1048,6 +1194,80 @@ export default function RagAdminPanel() {
               </label>
             </div>
 
+            {tocInfo && (
+              <div
+                style={{
+                  border: `1px solid ${
+                    tocInfo.found ? "rgba(120,180,255,0.35)" : "rgba(243,156,18,0.45)"
+                  }`,
+                  background:
+                    tocInfo.found > 0 ? "rgba(30,48,80,0.35)" : "rgba(70,48,12,0.35)",
+                  borderRadius: "12px",
+                  padding: "0.75rem 0.9rem",
+                  display: "grid",
+                  gap: "0.45rem",
+                  fontSize: "0.85rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "space-between",
+                    gap: "0.5rem",
+                    fontWeight: 600,
+                    color: tocInfo.found ? "#a8c6ff" : "#ffd087",
+                  }}
+                >
+                  <span>Auto sisukorra kokkuvõte</span>
+                  <span>
+                    Leitud ridu: {tocInfo.found} • Auto offset:{" "}
+                    {typeof tocInfo.autoOffset === "number" ? tocInfo.autoOffset : "—"} • Rakendatud:{" "}
+                    {typeof tocInfo.usingOffset === "number" ? tocInfo.usingOffset : "—"}
+                  </span>
+                </div>
+                {Array.isArray(tocInfo.preview) && tocInfo.preview.length > 0 ? (
+                  <ul
+                    style={{
+                      margin: 0,
+                      paddingLeft: "1.1rem",
+                      listStyle: "disc",
+                      display: "grid",
+                      gap: "0.3rem",
+                      opacity: 0.85,
+                    }}
+                  >
+                    {tocInfo.preview.map((item, idx) => {
+                      const pdfRange =
+                        typeof item.startPage === "number"
+                          ? `${item.startPage}${
+                              typeof item.endPage === "number" && item.endPage !== item.startPage
+                                ? `–${item.endPage}`
+                                : ""
+                            }`
+                          : null;
+                      return (
+                        <li key={`${idx}-${item.title || "toc"}`} style={{ lineHeight: 1.45 }}>
+                          <strong>{item.title || `Artikkel ${idx + 1}`}</strong>{" "}
+                          {item.pageRange ? `(trükis ${item.pageRange})` : ""}
+                          {pdfRange ? ` • PDF ${pdfRange}` : ""}
+                        </li>
+                      );
+                    })}
+                    {tocInfo.found > tocInfo.preview.length && (
+                      <li style={{ opacity: 0.7 }}>
+                        … +{tocInfo.found - tocInfo.preview.length} lisarida
+                      </li>
+                    )}
+                  </ul>
+                ) : (
+                  <p style={{ margin: 0, opacity: 0.8 }}>
+                    Sisukorra ridu ei leitud – lisa artiklid käsitsi või kohanda offset'i.
+                  </p>
+                )}
+              </div>
+            )}
+
             {drafts.length === 0 ? (
               <p style={{ fontSize: "0.9rem", opacity: 0.8, marginTop: "0.5rem" }}>
                 Lisa vähemalt üks artikkel.
@@ -1062,114 +1282,145 @@ export default function RagAdminPanel() {
                   gap: "0.75rem",
                 }}
               >
-                {drafts.map((d, i) => (
-                  <li
-                    key={i}
-                    style={{
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      borderRadius: "12px",
-                      padding: "0.75rem",
-                      display: "grid",
-                      gap: "0.65rem",
-                      background: "rgba(15,18,26,0.55)",
-                    }}
-                  >
-                    <div
-                      style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}
-                    >
-                      <strong style={{ fontSize: "0.95rem" }}>Artikkel #{i + 1}</strong>
-                      <button
-                        type="button"
-                        onClick={() => removeDraft(i)}
-                        style={smallDangerBtn()}
-                      >
-                        Eemalda
-                      </button>
-                    </div>
-
-                    <div
+                {drafts.map((d, i) => {
+                  const coercePage = (value) => {
+                    if (typeof value === "number" && Number.isFinite(value)) return value;
+                    if (typeof value === "string" && value.trim()) {
+                      const parsed = Number(value.trim());
+                      return Number.isFinite(parsed) ? parsed : null;
+                    }
+                    return null;
+                  };
+                  const pdfStart = coercePage(d.startPage);
+                  const pdfEnd = coercePage(d.endPage);
+                  return (
+                    <li
+                      key={i}
                       style={{
+                        border: "1px solid rgba(255,255,255,0.12)",
+                        borderRadius: "12px",
+                        padding: "0.75rem",
                         display: "grid",
-                        gap: "0.6rem",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                        gap: "0.65rem",
+                        background: "rgba(15,18,26,0.55)",
                       }}
                     >
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Pealkiri *</span>
-                        <input
-                          value={d.title}
-                          onChange={(e) => updateDraft(i, { title: e.target.value })}
-                          type="text"
-                          placeholder="nt Eessõna"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Autorid</span>
-                        <input
-                          value={d.authors}
-                          onChange={(e) => updateDraft(i, { authors: e.target.value })}
-                          type="text"
-                          placeholder="nt Kadri Kuupak"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Rubriik</span>
-                        <input
-                          value={d.section}
-                          onChange={(e) => updateDraft(i, { section: e.target.value })}
-                          type="text"
-                          placeholder="nt Persoon"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Lehekülgede vahemik (trükis) *</span>
-                        <input
-                          value={d.pageRange}
-                          onChange={(e) => updateDraft(i, { pageRange: e.target.value })}
-                          type="text"
-                          placeholder="nt 3–8"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>PDF startPage</span>
-                        <input
-                          value={d.startPage || ""}
-                          onChange={(e) => updateDraft(i, { startPage: e.target.value })}
-                          type="number"
-                          inputMode="numeric"
-                          placeholder="nt 5 (kui offsetit ei kasuta)"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>PDF endPage</span>
-                        <input
-                          value={d.endPage || ""}
-                          onChange={(e) => updateDraft(i, { endPage: e.target.value })}
-                          type="number"
-                          inputMode="numeric"
-                          placeholder="nt 10"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Sihtgrupp</span>
-                        <select
-                          value={d.audience || fileAudience}
-                          onChange={(e) => updateDraft(i, { audience: e.target.value })}
-                          style={inputStyle()}
-                        >
-                          {AUDIENCE_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>
-                              {o.label}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
+                        <strong style={{ fontSize: "0.95rem" }}>Artikkel #{i + 1}</strong>
+                        <div style={{ display: "flex", gap: "0.5rem" }}>
+                          {pdfStart && pdfEnd ? (
+                            <a
+                              href={`/api/rag-admin/article-pdf?docId=${encodeURIComponent(
+                                lastUploadedDocId
+                              )}&start=${pdfStart}&end=${pdfEnd}&filename=${encodeURIComponent(
+                                (d.title || "artikkel") + ".pdf"
+                              )}`}
+                              style={{ fontSize: "0.82rem", opacity: 0.85 }}
+                            >
+                              Laadi alla PDF
+                            </a>
+                          ) : null}
+                          <button type="button" onClick={() => removeDraft(i)} style={smallDangerBtn()}>
+                            Eemalda
+                          </button>
+                        </div>
+                      </div>
+
+                      {(d.pageRange || pdfStart || pdfEnd) && (
+                        <div style={{ fontSize: "0.82rem", opacity: 0.75 }}>
+                          {d.pageRange && <span>Trükis: {d.pageRange}</span>}
+                          {pdfStart && (
+                            <span style={{ marginLeft: d.pageRange ? "0.65rem" : 0 }}>
+                              PDF: {pdfStart}
+                              {pdfEnd && pdfEnd !== pdfStart ? `–${pdfEnd}` : ""}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      <div
+                        style={{
+                          display: "grid",
+                          gap: "0.6rem",
+                          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                        }}
+                      >
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>Pealkiri *</span>
+                          <input
+                            value={d.title}
+                            onChange={(e) => updateDraft(i, { title: e.target.value })}
+                            type="text"
+                            placeholder="nt Eessõna"
+                            style={inputStyle()}
+                          />
+                        </label>
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>Autorid</span>
+                          <input
+                            value={d.authors}
+                            onChange={(e) => updateDraft(i, { authors: e.target.value })}
+                            type="text"
+                            placeholder="nt Kadri Kuupak"
+                            style={inputStyle()}
+                          />
+                        </label>
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>Rubriik</span>
+                          <input
+                            value={d.section}
+                            onChange={(e) => updateDraft(i, { section: e.target.value })}
+                            type="text"
+                            placeholder="nt Persoon"
+                            style={inputStyle()}
+                          />
+                        </label>
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>Lehekülgede vahemik (trükis) *</span>
+                          <input
+                            value={d.pageRange}
+                            onChange={(e) => updateDraft(i, { pageRange: e.target.value })}
+                            type="text"
+                            placeholder="nt 3–8"
+                            style={inputStyle()}
+                          />
+                        </label>
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>PDF startPage</span>
+                          <input
+                            value={d.startPage || ""}
+                            onChange={(e) => updateDraft(i, { startPage: e.target.value })}
+                            type="number"
+                            inputMode="numeric"
+                            placeholder="nt 5 (kui offsetit ei kasuta)"
+                            style={inputStyle()}
+                          />
+                        </label>
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>PDF endPage</span>
+                          <input
+                            value={d.endPage || ""}
+                            onChange={(e) => updateDraft(i, { endPage: e.target.value })}
+                            type="number"
+                            inputMode="numeric"
+                            placeholder="nt 10"
+                            style={inputStyle()}
+                          />
+                        </label>
+                        <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
+                          <span>Sihtgrupp</span>
+                          <select
+                            value={d.audience || fileAudience}
+                            onChange={(e) => updateDraft(i, { audience: e.target.value })}
+                            style={inputStyle()}
+                          >
+                            {AUDIENCE_OPTIONS.map((o) => (
+                              <option key={o.value} value={o.value}>
+                                {o.label}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
                     </div>
 
                     <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>

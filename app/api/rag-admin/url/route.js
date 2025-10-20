@@ -1,5 +1,6 @@
 // app/api/rag-admin/url/route.js
 import { NextResponse } from "next/server";
+import { normalizeRagBase } from "@/lib/rag";
 import dns from "node:dns/promises";
 import { isIP } from "node:net";
 import { randomUUID } from "node:crypto";
@@ -9,7 +10,6 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 /* ------------------------- Consts ------------------------- */
-
 const AUDIENCE_VALUES = new Set(["SOCIAL_WORKER", "CLIENT", "BOTH"]);
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
@@ -19,8 +19,7 @@ const NO_STORE = {
   Expires: "0",
 };
 
-/* ------------------------- Auth loader (joondatud teistega) ------------------------- */
-
+/* ------------------------- Auth loader ------------------------- */
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -49,7 +48,6 @@ async function requireAdmin() {
 }
 
 /* ------------------------- Helpers ------------------------- */
-
 class UrlSafetyError extends Error {
   constructor(message, status = 400, extras = {}) {
     super(message);
@@ -57,45 +55,35 @@ class UrlSafetyError extends Error {
     this.extras = extras;
   }
 }
-
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status, headers: NO_STORE });
 }
-
 function normalizeAudience(value) {
   if (!value) return null;
   const str = String(value).toUpperCase().trim();
   return AUDIENCE_VALUES.has(str) ? str : null;
 }
-
 function sanitizeUrl(value) {
   try {
     if (!value) return null;
     const parsed = new URL(String(value).trim());
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
-
     const hostLower = parsed.hostname.toLowerCase();
     if (
       hostLower === "localhost" ||
       hostLower === "ip6-localhost" ||
       hostLower.endsWith(".localhost")
-    ) {
-      return null;
-    }
-
-    parsed.hash = ""; // ära kanna #fragmenti
+    ) return null;
+    parsed.hash = "";
     return parsed.toString();
   } catch {
     return null;
   }
 }
-
 function isPrivateAddress(address) {
   if (!address) return false;
   if (address.startsWith("127.")) return true;
   if (address === "0.0.0.0" || address === "255.255.255.255") return true;
-
-  // IPv4 RFC1918 + link-local
   const parts = address.split(".").map((p) => Number(p));
   if (parts.length === 4 && parts.every((n) => Number.isInteger(n) && n >= 0 && n <= 255)) {
     const [a, b] = parts;
@@ -104,27 +92,22 @@ function isPrivateAddress(address) {
     if (a === 192 && b === 168) return true;
     if (a === 169 && b === 254) return true;
   }
-
-  // IPv6 lokaalsed
   const lower = address.toLowerCase();
   if (lower === "::1" || lower === "::") return true;
   if (lower.startsWith("fe80")) return true;
   if (lower.startsWith("fd") || lower.startsWith("fc")) return true;
   return false;
 }
-
 async function assertPublicUrl(urlString) {
   const parsed = new URL(urlString);
   const hostname = parsed.hostname;
   if (!hostname) throw new UrlSafetyError("URL-l puudub host.");
-
   if (isIP(hostname)) {
     if (isPrivateAddress(hostname)) {
       throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
     }
     return;
   }
-
   const hostLower = hostname.toLowerCase();
   if (
     hostLower === "localhost" ||
@@ -133,7 +116,6 @@ async function assertPublicUrl(urlString) {
   ) {
     throw new UrlSafetyError("Privaatvõrgu URL-e ei saa indekseerida.");
   }
-
   try {
     const records = await dns.lookup(hostname, { all: true });
     const forbidden = records.some((r) => isPrivateAddress(r.address));
@@ -146,7 +128,6 @@ async function assertPublicUrl(urlString) {
     throw new UrlSafetyError("URL-i kontroll ebaõnnestus.", 400, { code: err?.code });
   }
 }
-
 function parseStringList(raw, max = 12) {
   if (!raw) return [];
   try {
@@ -180,7 +161,6 @@ function parseStringList(raw, max = 12) {
   }
   return [];
 }
-
 function parsePages(raw) {
   if (!raw) return [];
   try {
@@ -214,7 +194,6 @@ function parsePages(raw) {
   }
   return [];
 }
-
 function parseYear(raw) {
   if (!raw) return null;
   const year = Number(raw);
@@ -222,13 +201,6 @@ function parseYear(raw) {
   if (year < 1800 || year > 2100) return null;
   return year;
 }
-
-function normalizeBase(raw) {
-  const t = String(raw || "").trim().replace(/\/+$/, "");
-  if (!t) return "";
-  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
-}
-
 async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) {
   let lastErr;
   for (let i = 0; i < Math.max(1, tries); i++) {
@@ -250,10 +222,8 @@ async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) 
 }
 
 /* ------------------------- Route ------------------------- */
-
 export async function POST(req) {
   const t0 = Date.now();
-
   const admin = await requireAdmin();
   if (!admin.ok) return makeError(admin.message, admin.status);
 
@@ -288,7 +258,6 @@ export async function POST(req) {
   const audience = normalizeAudience(body?.audience);
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  // valikulised meta + docId
   const formDocId =
     body?.docId && typeof body.docId === "string" ? body.docId.trim() : null;
 
@@ -309,7 +278,7 @@ export async function POST(req) {
     typeof body?.journalTitle === "string" ? body.journalTitle.trim().slice(0, 255) : null;
 
   const ragBaseRaw = (process.env.RAG_API_BASE || "").trim();
-  const ragBase = normalizeBase(ragBaseRaw);
+  const ragBase = normalizeRagBase(ragBaseRaw);
   const apiKey =
     (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
@@ -317,7 +286,6 @@ export async function POST(req) {
 
   const remoteDocId = formDocId || randomUUID();
 
-  // forward trace headers kui olemas
   const fwdReqId = req.headers.get("x-request-id");
   const fwdClientId = req.headers.get("x-client-id");
 
@@ -379,14 +347,13 @@ export async function POST(req) {
       return makeError(msg, status, { code, response: data });
     }
 
-    // --- LOKAALNE DB LOGI ---
     let dbDoc = null;
     try {
       const createData = {
         title,
         description,
         type: "URL",
-        status: "COMPLETED", // või "PROCESSING" kui soovid peegeldada taustaindekseerimist
+        status: "COMPLETED",
         audience,
         sourceUrl: url,
         fileName: null,

@@ -17,6 +17,7 @@
     "format": "prettier --write .",
     "check": "prisma generate && next lint",
     "prisma:generate": "prisma generate",
+    "rag:sync-meta": "node scripts/sync-rag-meta.js",
     "prisma:migrate:deploy": "dotenv -e .env.production -- prisma migrate deploy",
     "migrate:prod": "dotenv -e .env.production -- prisma migrate deploy",
     "db:push:prod": "dotenv -e .env.production -- prisma db push",

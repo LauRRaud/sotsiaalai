@@ -7,15 +7,13 @@ export const runtime = "nodejs";
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
 /* ---------- utils ---------- */
-const noStoreHeaders = {
+const NO_STORE = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
   Pragma: "no-cache",
   Expires: "0",
 };
-
-function json(data, status = 200) {
-  return NextResponse.json(data, { status, headers: noStoreHeaders });
-}
+const json = (data, status = 200) =>
+  NextResponse.json(data, { status, headers: NO_STORE });
 
 async function getAuthOptions() {
   try {
@@ -30,7 +28,6 @@ async function getAuthOptions() {
     }
   }
 }
-
 async function requireAdmin() {
   const { getServerSession } = await import("next-auth/next");
   const authOptions = await getAuthOptions();
@@ -38,7 +35,6 @@ async function requireAdmin() {
   const isAdmin =
     !!session?.user?.isAdmin ||
     String(session?.user?.role || "").toUpperCase() === "ADMIN";
-
   if (!session?.user?.id) return { ok: false, status: 401, message: "Pole sisse logitud" };
   if (!isAdmin) return { ok: false, status: 403, message: "Ligipääs keelatud" };
   return { ok: true, userId: session.user.id };
@@ -47,16 +43,13 @@ async function requireAdmin() {
 function isPlausibleId(id) {
   if (!id || typeof id !== "string") return false;
   const s = id.trim();
-  return s.length >= 8 && s.length <= 200; // piisavalt leebe, aga välistab tühjad
+  return s.length >= 8 && s.length <= 200;
 }
-
 function buildRagEndpoint(base, docId) {
   const b = (base || "").trim().replace(/\/+$/, "");
   return `${b}/documents/${encodeURIComponent(docId)}/reindex`;
 }
-
 async function fetchWithRetries(url, { headers, timeoutMs, tries = 3 }) {
-  // 3 proovikat (nt RAG restart), backoff: 150ms, 350ms
   let lastErr;
   for (let i = 0; i < Math.max(1, tries); i++) {
     const controller = new AbortController();
@@ -177,7 +170,7 @@ export async function POST(_req, { params }) {
     return json({ ok: false, message: detail, response: data, responseStatus: res.status }, 502);
   }
 
-  // Kui RAG tagastas inserted, kasutame seda optimistlikult
+  // Kui RAG tagastas inserted, kasuta seda optimistlikult
   const inserted = Number.isFinite(data?.inserted) ? Number(data.inserted) : null;
   const nextStatus = inserted && inserted > 0 ? "COMPLETED" : "PROCESSING";
 
@@ -205,6 +198,6 @@ export async function POST(_req, { params }) {
     doc: updated,
     rag: data,
     responseStatus: res.status,
-    usedRemoteId: ragId !== docId ? ragId : null, // väike abi-debug UI jaoks
+    usedRemoteId: ragId !== docId ? ragId : null,
   });
 }

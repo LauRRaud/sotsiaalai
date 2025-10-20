@@ -1,6 +1,6 @@
 // app/api/rag-admin/documents/[id]/route.js
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { normalizeRagBase } from "@/lib/rag";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -13,10 +13,8 @@ const NO_STORE = {
   Pragma: "no-cache",
   Expires: "0",
 };
-
-function json(data, status = 200) {
-  return NextResponse.json(data, { status, headers: NO_STORE });
-}
+const json = (data, status = 200) =>
+  NextResponse.json(data, { status, headers: NO_STORE });
 
 /* ---------- Auth helpers ---------- */
 async function getAuthOptions() {
@@ -32,7 +30,6 @@ async function getAuthOptions() {
     }
   }
 }
-
 async function requireAdmin() {
   const { getServerSession } = await import("next-auth/next");
   const authOptions = await getAuthOptions();
@@ -51,19 +48,11 @@ function isPlausibleId(id) {
   const s = id.trim();
   return s.length >= 8 && s.length <= 200;
 }
-
-function normalizeBase(raw) {
-  const t = String(raw || "").trim().replace(/\/+$/, "");
-  if (!t) return "";
-  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
-}
-
 function buildRagUrl(base, id) {
-  const b = normalizeBase(base);
+  const b = normalizeRagBase(base);
   if (!b) return "";
   return `${b}/documents/${encodeURIComponent(id)}`;
 }
-
 async function fetchDeleteWithRetries(url, { headers, timeoutMs, tries = 3 }) {
   let lastErr;
   for (let i = 0; i < Math.max(1, tries); i++) {
@@ -99,6 +88,8 @@ export async function DELETE(_req, { params }) {
     return json({ ok: false, message: "ID on kohustuslik või vigane." }, 400);
   }
 
+  const { prisma } = await import("@/lib/prisma");
+
   // 1) Leia lokaalne kirje id VÕI remoteId järgi (kui on)
   let existing = null;
   try {
@@ -116,7 +107,7 @@ export async function DELETE(_req, { params }) {
   const ragId = existing?.remoteId ?? pathId;
 
   const ragBaseEnv = (process.env.RAG_API_BASE || "").trim();
-  const ragBase = normalizeBase(ragBaseEnv);
+  const ragBase = normalizeRagBase(ragBaseEnv);
   const apiKey =
     (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 

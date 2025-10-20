@@ -1,21 +1,20 @@
 // app/api/rag-admin/ingest-articles/route.js
 import { NextResponse } from "next/server";
+import { normalizeRagBase } from "@/lib/rag";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
-/* ---------- utils ---------- */
+/* ---------- helpers ---------- */
 const NO_STORE = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
   Pragma: "no-cache",
   Expires: "0",
 };
-
-function json(data, status = 200) {
-  return NextResponse.json(data, { status, headers: NO_STORE });
-}
+const json = (data, status = 200) =>
+  NextResponse.json(data, { status, headers: NO_STORE });
 
 async function getAuthOptions() {
   try {
@@ -44,7 +43,6 @@ async function requireAdmin() {
   return { ok: true, userId: session.user.id };
 }
 
-/* ---------- small helpers ---------- */
 function isPlainObject(v) {
   return v && typeof v === "object" && !Array.isArray(v);
 }
@@ -53,13 +51,13 @@ function isPlausibleId(id) {
   const s = id.trim();
   return s.length >= 8 && s.length <= 200;
 }
-function normalizeBase(raw) {
-  const t = String(raw || "").trim().replace(/\/+$/, "");
-  if (!t) return "";
-  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
-}
-
 /* ---------- validators ---------- */
+const AUDIENCE_VALUES = new Set(["SOCIAL_WORKER", "CLIENT", "BOTH"]);
+function normAudience(v) {
+  if (!v || typeof v !== "string") return undefined;
+  const s = v.trim().toUpperCase();
+  return AUDIENCE_VALUES.has(s) ? s : undefined;
+}
 function sanitizeArticle(a) {
   if (!isPlainObject(a)) return null;
 
@@ -81,9 +79,10 @@ function sanitizeArticle(a) {
   if (typeof a.description === "string" && a.description.trim())
     out.description = a.description.trim();
 
-  if (Number.isFinite(a.year)) out.year = a.year;
-  else if (typeof a.year === "string" && a.year.trim() && Number.isFinite(Number(a.year)))
-    out.year = Number(a.year);
+  if (a.year != null) {
+    const y = Number(a.year);
+    if (Number.isFinite(y) && y >= 1800 && y <= 2100) out.year = y;
+  }
 
   if (typeof a.journalTitle === "string" && a.journalTitle.trim())
     out.journalTitle = a.journalTitle.trim();
@@ -91,21 +90,20 @@ function sanitizeArticle(a) {
   if (typeof a.issueLabel === "string" && a.issueLabel.trim())
     out.issueLabel = a.issueLabel.trim();
 
-  if (typeof a.audience === "string" && a.audience.trim())
-    out.audience = a.audience.trim().toUpperCase();
+  const aud = normAudience(a.audience);
+  if (aud) out.audience = aud;
 
-  // kas offset või startPage+endPage
   if (
     (typeof a.startPage === "number" || typeof a.startPage === "string") &&
     (typeof a.endPage === "number" || typeof a.endPage === "string")
   ) {
     const s = Number(a.startPage);
     const e = Number(a.endPage);
-    if (Number.isFinite(s) && Number.isFinite(e)) {
+    if (Number.isFinite(s) && Number.isFinite(e) && s > 0 && e > 0) {
       out.startPage = s;
       out.endPage = e;
     }
-  } else if (typeof a.offset === "number" || typeof a.offset === "string") {
+  } else if (a.offset != null) {
     const n = Number(a.offset);
     if (Number.isFinite(n)) out.offset = n;
   }
@@ -114,19 +112,39 @@ function sanitizeArticle(a) {
 }
 
 /* ---------- RAG target helpers ---------- */
-function buildTargetUrl({ ragBase, docId }) {
-  const base = normalizeBase(ragBase);
-  const path = (process.env.RAG_INGEST_ARTICLES_PATH || "/ingest/articles").trim();
-
-  if (path.includes(":docId")) {
-    return `${base}${path.startsWith("/") ? "" : "/"}${path.replace(":docId", encodeURIComponent(docId))}`;
+function getArticlesPathTemplate() {
+  return (process.env.RAG_INGEST_ARTICLES_PATH || "/ingest/articles").trim();
+}
+function buildTargetUrl({ ragBase, docId, pathTpl }) {
+  const base = normalizeRagBase(ragBase);
+  const withSlash = pathTpl.startsWith("/") ? pathTpl : `/${pathTpl}`;
+  if (withSlash.includes(":docId")) {
+    return `${base}${withSlash.replace(":docId", encodeURIComponent(docId))}`;
   }
-  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+  return `${base}${withSlash}`;
+}
+function buildPayload({ pathTpl, docId, articles }) {
+  const pathHasDocId = pathTpl.includes(":docId");
+  return pathHasDocId ? { articles } : { docId, articles };
 }
 
-function buildPayload({ pathHasDocId, docId, articles }) {
-  // kui teel on :docId, enamik backendeid EI oota docId kehas
-  return pathHasDocId ? { articles } : { docId, articles };
+/* ---------- fetch with small retry ---------- */
+async function fetchWithRetry(makeReq, tries = 2) {
+  let lastErr;
+  for (let i = 0; i < Math.max(1, tries); i++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
+    try {
+      const res = await makeReq(controller.signal);
+      clearTimeout(timer);
+      return res;
+    } catch (err) {
+      clearTimeout(timer);
+      lastErr = err;
+      if (i < tries - 1) await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  throw lastErr;
 }
 
 /* ---------- POST /api/rag-admin/ingest-articles ---------- */
@@ -151,6 +169,9 @@ export async function POST(req) {
   if (!articles.length) {
     return json({ ok: false, message: "Artiklite väljad on vigased või puudulikud." }, 400);
   }
+  if (articles.length > 200) {
+    return json({ ok: false, message: "Maksimaalselt 200 artiklit korraga." }, 400);
+  }
 
   const ragBase = (process.env.RAG_API_BASE || "").trim();
   const apiKey =
@@ -159,75 +180,93 @@ export async function POST(req) {
   if (!ragBase) return json({ ok: false, message: "RAG_API_BASE puudub serveri keskkonnast." }, 500);
   if (!apiKey) return json({ ok: false, message: "RAG_SERVICE_API_KEY puudub serveri keskkonnast." }, 500);
 
-  const pathTpl = (process.env.RAG_INGEST_ARTICLES_PATH || "/ingest/articles").trim();
-  const pathHasDocId = pathTpl.includes(":docId");
-  const targetUrl = buildTargetUrl({ ragBase, docId });
-  const payload = buildPayload({ pathHasDocId, docId, articles });
+  // --- DB: märgi PROCESSING kõik kirjed, mille remoteId = docId ---
+  const { prisma } = await import("@/lib/prisma");
+  try {
+    await prisma.ragDocument.updateMany({
+      where: { remoteId: docId },
+      data: { status: "PROCESSING", error: null, updatedAt: new Date() },
+    });
+  } catch {
+    // mitte-kriitiline; jätkame
+  }
 
-  // Timeout + üks kiire retry
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
+  const pathTpl = getArticlesPathTemplate();
+  const targetUrl = buildTargetUrl({ ragBase, docId, pathTpl });
+  const payload = buildPayload({ pathTpl, docId, articles });
 
-  // kanna edasi X-Request-Id (kui olemas) ja valikuline X-Client-Id
   const fwdReqId = req.headers.get("x-request-id");
   const fwdClientId = req.headers.get("x-client-id");
 
-  const doFetch = () =>
-    fetch(targetUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "X-API-Key": apiKey,
-        ...(fwdReqId ? { "X-Request-Id": fwdReqId } : {}),
-        ...(fwdClientId ? { "X-Client-Id": fwdClientId } : {}),
-      },
-      body: JSON.stringify(payload),
-      cache: "no-store",
-      signal: controller.signal,
-    });
-
-  let res;
   try {
+    const res = await fetchWithRetry(
+      (signal) =>
+        fetch(targetUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-API-Key": apiKey,
+            ...(fwdReqId ? { "X-Request-Id": fwdReqId } : {}),
+            ...(fwdClientId ? { "X-Client-Id": fwdClientId } : {}),
+          },
+          body: JSON.stringify(payload),
+          cache: "no-store",
+          signal,
+        }),
+      2
+    );
+
+    const raw = await res.text().catch(() => "");
+    let data = null;
     try {
-      res = await doFetch();
+      data = raw ? JSON.parse(raw) : null;
     } catch {
-      await new Promise((r) => setTimeout(r, 250));
-      res = await doFetch();
+      data = { raw: typeof raw === "string" ? raw.slice(0, 500) : null };
     }
+
+    if (!res.ok) {
+      const msg = data?.detail || data?.message || `RAG ingest viga (${res.status})`;
+      try {
+        await prisma.ragDocument.updateMany({
+          where: { remoteId: docId },
+          data: { status: "FAILED", error: msg, updatedAt: new Date() },
+        });
+      } catch {}
+      const status = res.status >= 400 && res.status < 600 ? res.status : 502;
+      return json({ ok: false, message: msg, response: data }, status);
+    }
+
+    const count =
+      Number.isFinite(data?.count) ? Number(data.count)
+      : Array.isArray(data?.inserted) ? data.inserted.length
+      : articles.length;
+
+    const nextStatus = count > 0 ? "COMPLETED" : "PROCESSING";
+    try {
+      await prisma.ragDocument.updateMany({
+        where: { remoteId: docId },
+        data: {
+          status: nextStatus,
+          error: null,
+          updatedAt: new Date(),
+          insertedAt: nextStatus === "COMPLETED" ? new Date() : undefined,
+        },
+      });
+    } catch {}
+
+    return json({ ok: true, count, rag: data });
   } catch (err) {
-    clearTimeout(timer);
     const msg =
       err?.name === "AbortError"
         ? "RAG päring aegus (timeout)."
         : `RAG ühenduse viga: ${err?.message || String(err)}`;
+    try {
+      await prisma.ragDocument.updateMany({
+        where: { remoteId: docId },
+        data: { status: "FAILED", error: msg, updatedAt: new Date() },
+      });
+    } catch {}
     return json({ ok: false, message: msg }, 502);
-  } finally {
-    clearTimeout(timer);
   }
-
-  const raw = await res.text().catch(() => "");
-  let data = null;
-  try {
-    data = raw ? JSON.parse(raw) : null;
-  } catch {
-    data = { raw: typeof raw === "string" ? raw.slice(0, 500) : null };
-  }
-
-  if (!res.ok) {
-    const msg = data?.detail || data?.message || `RAG ingest viga (${res.status})`;
-    const status = res.status >= 400 && res.status < 600 ? res.status : 502;
-    return json({ ok: false, message: msg, response: data }, status);
-  }
-
-  const count =
-    Number.isFinite(data?.count) ? Number(data.count)
-    : Array.isArray(data?.inserted) ? data.inserted.length
-    : articles.length;
-
-  return json({
-    ok: true,
-    count,
-    rag: data,
-  });
 }

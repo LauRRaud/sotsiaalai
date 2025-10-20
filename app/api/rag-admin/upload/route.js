@@ -1,5 +1,6 @@
 // app/api/rag-admin/upload/route.js
 import { NextResponse } from "next/server";
+import { normalizeRagBase } from "@/lib/rag";
 import { Buffer } from "node:buffer";
 import { randomUUID } from "node:crypto";
 import crypto from "node:crypto";
@@ -195,12 +196,6 @@ function validateMagicType(buffer, mime) {
   return null;
 }
 
-function normalizeBase(raw) {
-  const t = String(raw || "").trim().replace(/\/+$/, "");
-  if (!t) return "";
-  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
-}
-
 async function fetchWithRetry(url, init, tries = 2, timeoutMs = RAG_TIMEOUT_MS) {
   let lastErr;
   for (let i = 0; i < Math.max(1, tries); i++) {
@@ -237,7 +232,6 @@ export async function POST(req) {
   const audience = normalizeAudience(form.get("audience"));
   if (!audience) return makeError("Palun vali sihtgrupp.");
 
-  // valikulised ülekirjutused (joondus RAG backendiga)
   const formDocId = (form.get("docId") && String(form.get("docId")).trim()) || null;
   const formFileName = (form.get("fileName") && String(form.get("fileName")).trim()) || null;
   const formMimeType = (form.get("mimeType") && String(form.get("mimeType")).trim()) || null;
@@ -246,7 +240,6 @@ export async function POST(req) {
   const type = formMimeType || file.type || "application/octet-stream";
   const ext = (safeFileName.split(".").pop() || "").toLowerCase();
 
-  // leebe, aga logime – MIME ↔ laiend
   const extOk =
     (type === "application/pdf" && ext === "pdf") ||
     (type === "text/plain" && ext === "txt") ||
@@ -314,7 +307,7 @@ export async function POST(req) {
   const sha256 = crypto.createHash("sha256").update(buffer).digest("hex");
 
   const ragBaseRaw = (process.env.RAG_API_BASE || "").trim();
-  const ragBase = normalizeBase(ragBaseRaw);
+  const ragBase = normalizeRagBase(ragBaseRaw);
   const apiKey =
     (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
   if (!ragBase) return makeError("RAG_API_BASE puudub serveri keskkonnast.", 500);
@@ -343,7 +336,6 @@ export async function POST(req) {
     ...(journalTitle ? { journalTitle } : {}),
   };
 
-  // kanna edasi X-Request-Id / X-Client-Id kui olemas
   const fwdReqId = req.headers.get("x-request-id");
   const fwdClientId = req.headers.get("x-client-id");
 
@@ -390,11 +382,10 @@ export async function POST(req) {
       return makeError(msg, status, { code, response: data });
     }
 
-    /* --- lokaalne DB logi (idempotentne kõrvaltvaates) --- */
     let dbDoc = null;
     try {
       const inserted = Number.isFinite(data?.inserted) ? Number(data.inserted) : null;
-      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED"; // vajadusel muuda PROCESSING
+      const status = inserted && inserted > 0 ? "COMPLETED" : "COMPLETED";
       const createData = {
         title,
         description,

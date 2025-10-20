@@ -1,22 +1,22 @@
 // app/api/rag-admin/documents/route.js
 import { NextResponse } from "next/server";
+import { normalizeRagBase } from "@/lib/rag";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
+const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 12_000);
 
-/* ---------- utils ---------- */
+/* ---------- headers & json helper ---------- */
 const NO_STORE = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
   Pragma: "no-cache",
   Expires: "0",
 };
+const json = (data, status = 200) =>
+  NextResponse.json(data, { status, headers: NO_STORE });
 
-function json(data, status = 200) {
-  return NextResponse.json(data, { status, headers: NO_STORE });
-}
-
+/* ---------- Auth helpers ---------- */
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -30,7 +30,6 @@ async function getAuthOptions() {
     }
   }
 }
-
 async function requireAdmin() {
   const { getServerSession } = await import("next-auth/next");
   const authOptions = await getAuthOptions();
@@ -38,53 +37,32 @@ async function requireAdmin() {
   const isAdmin =
     !!session?.user?.isAdmin ||
     String(session?.user?.role || "").toUpperCase() === "ADMIN";
-  if (!session?.user?.id) return { ok: false, status: 401, message: "Pole sisse logitud" };
-  if (!isAdmin) return { ok: false, status: 403, message: "Ligipääs keelatud" };
-  return { ok: true };
+  if (!session?.user?.id) return { ok: false, status: 401, message: "Logi sisse." };
+  if (!isAdmin) return { ok: false, status: 403, message: "Pole õigusi." };
+  return { ok: true, userId: session.user.id, session };
 }
 
-function clampLimit(n, min = 1, max = 100, fallback = 25) {
-  const x = Number(n);
-  if (!Number.isFinite(x)) return fallback;
-  return Math.min(Math.max(x, min), max);
-}
-
-function normalizeBase(raw) {
-  const t = String(raw || "").trim().replace(/\/+$/, "");
-  if (!t) return "";
-  return /^https?:\/\//i.test(t) ? t : `http://${t}`;
-}
-
-function buildEndpoint(base, limit) {
-  const b = normalizeBase(base);
-  const qs = new URLSearchParams();
-  if (Number.isFinite(limit)) qs.set("limit", String(limit));
-  return `${b}/documents${qs.toString() ? `?${qs.toString()}` : ""}`;
-}
-
-async function fetchWithRetry(url, { headers, timeoutMs, tries = 2 }) {
-  let lastErr;
-  for (let i = 0; i < Math.max(1, tries); i++) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
-    try {
-      const res = await fetch(url, {
-        method: "GET",
-        headers,
-        cache: "no-store",
-        signal: controller.signal,
-      });
-      clearTimeout(timer);
-      return res;
-    } catch (err) {
-      clearTimeout(timer);
-      lastErr = err;
-      if (i < tries - 1) {
-        await new Promise((r) => setTimeout(r, 250));
-      }
-    }
+/* ---------- RAG helpers (valikuline chunkide toomine) ---------- */
+const normBase = normalizeRagBase;
+async function fetchDocCountFromRag(ragBase, apiKey, remoteId) {
+  if (!ragBase || !apiKey || !remoteId) return null;
+  const url = `${ragBase}/documents/${encodeURIComponent(remoteId)}`;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, {
+      headers: { "X-API-Key": apiKey, Accept: "application/json" },
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return Number.isFinite(data?.chunks) ? data.chunks : null;
+  } catch {
+    clearTimeout(timer);
+    return null;
   }
-  throw lastErr;
 }
 
 /* ---------- GET ---------- */
@@ -92,72 +70,80 @@ export async function GET(req) {
   const auth = await requireAdmin();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
 
-  const url = new URL(req.url);
-  const limit = clampLimit(url.searchParams.get("limit"));
+  const { searchParams } = new URL(req.url);
+  const limit = Math.min(
+    100,
+    Math.max(1, Number(searchParams.get("limit") || 50))
+  );
 
-  const ragBaseEnv = (process.env.RAG_API_BASE || "").trim();
-  const ragBase = normalizeBase(ragBaseEnv);
-  const apiKey =
-    (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+  const { prisma } = await import("@/lib/prisma");
 
-  if (!ragBase) return json({ ok: false, message: "RAG_API_BASE puudub serveri keskkonnast." }, 500);
-  if (!apiKey) return json({ ok: false, message: "RAG_SERVICE_API_KEY puudub serveri keskkonnast." }, 500);
-
-  const endpoint = buildEndpoint(ragBase, limit);
-
-  // kanna edasi X-Request-Id (kui olemas) debugiks
-  const fwdReqId = req.headers.get("x-request-id");
-  const headers = {
-    "X-API-Key": apiKey,
-    Accept: "application/json",
-    ...(fwdReqId ? { "X-Request-Id": fwdReqId } : {}),
-  };
-
+  let rows = [];
   try {
-    const res = await fetchWithRetry(endpoint, {
-      headers,
-      timeoutMs: RAG_TIMEOUT_MS,
-      tries: 2,
+    rows = await prisma.ragDocument.findMany({
+      take: limit,
+      orderBy: [{ updatedAt: "desc" }],
+      include: {
+        admin: { select: { email: true } }, // kui seos on olemas; kui mitte, ei tee paha
+      },
     });
-
-    const raw = await res.text();
-    let data = null;
-    try {
-      data = raw ? JSON.parse(raw) : null;
-    } catch {
-      return json(
-        {
-          ok: false,
-          message: "RAG /documents tagastas vigase JSON-i.",
-          raw: typeof raw === "string" ? raw.slice(0, 400) : null,
-        },
-        502
-      );
-    }
-
-    if (!res.ok) {
-      const msg = data?.detail || data?.message || `RAG /documents viga (${res.status})`;
-      return json({ ok: false, message: msg }, res.status);
-    }
-
-    // Toeta nii [] kui { docs: [...] }
-    const docs = Array.isArray(data) ? data : Array.isArray(data?.docs) ? data.docs : [];
-
-    // Lisa lihtne status tuletus UI jaoks (kui backend ei anna)
-    const out = docs.map((d) => {
-      let status = d?.status;
-      if (!status) {
-        status = d?.error ? "FAILED" : (d?.chunks && d.chunks > 0 ? "COMPLETED" : "PENDING");
-      }
-      return { ...d, status };
-    });
-
-    return json(out, 200);
   } catch (err) {
-    const msg =
-      err?.name === "AbortError"
-        ? "RAG /documents aegus (timeout)"
-        : err?.message || String(err);
-    return json({ ok: false, message: `RAG /documents viga: ${msg}` }, 502);
+    return json(
+      { ok: false, message: "Andmebaasi viga dokumentide laadimisel.", error: err?.message },
+      500
+    );
   }
+
+  // Valikuline: proovi tuua chunkide arv RAG-ist (kui env on olemas).
+  const ragBaseEnv = normBase(process.env.RAG_API_BASE || "");
+  const ragKey = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
+
+  // Piira samaaegseid RAG päringuid (lihtne throttling)
+  const CONCURRENCY = 4;
+  const queue = rows.map((row) => async () => {
+    const remoteId = row.remoteId || row.id;
+    const chunks = await fetchDocCountFromRag(ragBaseEnv, ragKey, remoteId);
+    return { id: row.id, chunks };
+  });
+
+  const results = [];
+  const workers = Array.from({ length: Math.min(CONCURRENCY, queue.length) }, async () => {
+    while (queue.length) {
+      const job = queue.shift();
+      if (!job) break;
+      results.push(await job());
+    }
+  });
+  await Promise.all(workers);
+  const chunksMap = new Map(results.map((r) => [r.id, r.chunks]));
+
+  const out = rows.map((d) => {
+    const status = d.status || "COMPLETED";
+    const base = {
+      id: d.id,
+      docId: d.id,
+      remoteId: d.remoteId || null,
+      status,
+      title: d.title || null,
+      description: d.description || null,
+      type: d.type || (d.sourceUrl ? "URL" : "FILE"),
+      fileName: d.fileName || null,
+      sourceUrl: d.sourceUrl || d.url || null,
+      mimeType: d.mimeType || null,
+      audience: d.audience || "BOTH",
+      authors: d.authors || null,
+      journalTitle: d.journalTitle || null,
+      createdAt: d.createdAt || null,
+      updatedAt: d.updatedAt || null,
+      lastIngested: d.insertedAt || d.lastIngested || null,
+      insertedAt: d.insertedAt || null,
+      fileSize: d.fileSize || null,
+      error: d.error || null,
+      admin: d.admin ? { email: d.admin.email } : null,
+    };
+    const chunks = chunksMap.get(d.id);
+    return typeof chunks === "number" ? { ...base, chunks } : base;
+  });
+
+  return json(out);
 }

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import uuid
+import copy
 import json
 import os
 import re
@@ -11,7 +12,8 @@ import logging
 import mimetypes
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from threading import Lock
+from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
 # --- optional libmagic (fall back if missing) ---
 try:
@@ -23,9 +25,9 @@ except Exception:
 
 import requests
 from bs4 import BeautifulSoup
-from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile, File, Form, Path as FastPath
+from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile, File, Form, Path as FastPath, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, field_validator
 
@@ -35,6 +37,9 @@ from chromadb.config import Settings
 # OpenAI embeddings
 from openai import OpenAI
 
+# PDF utils
+from pypdf import PdfReader, PdfWriter
+
 # --------------------
 # ENV & GLOBALS
 # --------------------
@@ -42,6 +47,8 @@ RAG_SERVICE_API_KEY = os.getenv("RAG_SERVICE_API_KEY", "")
 STORAGE_DIR = Path(os.getenv("RAG_STORAGE_DIR", "./storage")).resolve()
 REGISTRY_PATH = STORAGE_DIR / "registry.json"
 COLLECTION_NAME = os.getenv("RAG_COLLECTION", "sotsiaalai")
+REGISTRY_LOCK = Lock()
+T = TypeVar("T")
 
 # OpenAI embeddings — hoia kooskõlas olemasoleva kollektsiooniga
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -84,7 +91,7 @@ collection = client.get_or_create_collection(name=COLLECTION_NAME)
 oa = OpenAI(api_key=OPENAI_API_KEY)
 logger = logging.getLogger("rag-service")
 
-app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="3.9")
+app = FastAPI(title="SotsiaalAI RAG Service (OpenAI embeddings)", version="4.0-clean")
 
 app.add_middleware(
     CORSMiddleware,
@@ -303,16 +310,34 @@ def _make_short_ref(meta, pages_compact):
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
-def _load_registry() -> Dict[str, Dict]:
+def _read_registry_file() -> Dict[str, Dict]:
     if REGISTRY_PATH.exists():
         try:
-            return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+            with REGISTRY_PATH.open("r", encoding="utf-8") as fh:
+                return json.load(fh)
         except Exception:
             pass
     return {}
 
+
 def _save_registry(data: Dict[str, Dict]) -> None:
-    REGISTRY_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = REGISTRY_PATH.with_suffix(".tmp")
+    tmp_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp_path, REGISTRY_PATH)
+
+
+def _load_registry() -> Dict[str, Dict]:
+    with REGISTRY_LOCK:
+        return copy.deepcopy(_read_registry_file())
+
+
+def _update_registry(mutator: Callable[[Dict[str, Dict]], T]) -> T:
+    with REGISTRY_LOCK:
+        data = _read_registry_file()
+        result = mutator(data)
+        _save_registry(data)
+        return result
 
 def _require_key(x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")) -> None:
     if not RAG_SERVICE_API_KEY:
@@ -355,7 +380,6 @@ def _clean_text(s: str) -> str:
 # --- PDF / DOCX / HTML extractors ---
 def _extract_text_from_pdf(buff: bytes) -> List[Tuple[int, str]]:
     """Tagasta list (page_no, text)."""
-    from pypdf import PdfReader
     try:
         reader = PdfReader(BytesIO(buff))
         out: List[Tuple[int, str]] = []
@@ -415,12 +439,16 @@ def _doc_dir(doc_id: str) -> Path:
     d.mkdir(parents=True, exist_ok=True)
     return d
 
-# --- OpenAI embedding helpers ---
-def _embed_batch(texts: List[str]) -> List[List[float]]:
+# --- OpenAI embedding helpers (batched) ---
+def _embed_batch(texts: List[str], batch_size: int = 64) -> List[List[float]]:
     if not texts:
         return []
-    resp = oa.embeddings.create(model=EMBED_MODEL, input=texts)
-    return [d.embedding for d in resp.data]
+    out: List[List[float]] = []
+    for i in range(0, len(texts), max(1, batch_size)):
+        chunk = texts[i:i + batch_size]
+        resp = oa.embeddings.create(model=EMBED_MODEL, input=chunk)
+        out.extend([d.embedding for d in resp.data])
+    return out
 
 # --------------------
 # Schemas
@@ -477,6 +505,23 @@ class IngestArticle(BaseModel):
 class IngestArticlesIn(BaseModel):
     docId: Optional[str] = None
     articles: List[IngestArticle]
+
+class DocumentMetaUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    audience: Optional[str] = None
+    authors: Optional[List[str]] = None
+    journalTitle: Optional[str] = None
+    issueTitle: Optional[str] = None  # backwards compat alias
+    issueLabel: Optional[str] = None
+    issueId: Optional[str] = None
+    year: Optional[int] = None
+    section: Optional[str] = None
+    pageRange: Optional[str] = None
+    articleId: Optional[str] = None
+    sourceUrl: Optional[str] = None
+    fileName: Optional[str] = None
+    mimeType: Optional[str] = None
 
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
 
@@ -608,15 +653,17 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
     return len(final_texts)
 
 def _register(doc_id: str, entry: Dict) -> None:
-    reg = _load_registry()
-    e = reg.get(doc_id, {})
-    if not e.get("createdAt"):
-        e["createdAt"] = now_iso()
-    e.update(entry)
-    e["docId"] = doc_id
-    e["updatedAt"] = now_iso()
-    reg[doc_id] = e
-    _save_registry(reg)
+    def mutator(registry: Dict[str, Dict]) -> Dict:
+        existing = dict(registry.get(doc_id, {}))
+        if not existing.get("createdAt"):
+            existing["createdAt"] = now_iso()
+        existing.update(entry)
+        existing["docId"] = doc_id
+        existing["updatedAt"] = now_iso()
+        registry[doc_id] = existing
+        return existing
+
+    _update_registry(mutator)
 
 # --------------------
 # Routes
@@ -957,7 +1004,6 @@ def ingest_articles(payload: IngestArticlesIn):
         meta = _article_meta_common(entry, art)
         # store human-readable trükis range even if offset used
         if not meta.get("pageRange"):
-            # prefer original declared range if any
             meta["pageRange"] = f"{sp}–{ep}"
 
         inserted = _ingest_text(payload.docId, subset, meta)
@@ -994,7 +1040,7 @@ def documents(limit: Optional[int] = None):
 
     for doc_id, meta in items:
         try:
-            got = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000)
+            got = collection.get(where={"doc_id": doc_id}, include=["ids"], limit=100000)
             ids = got.get("ids", []) or []
             count = len(ids)
         except Exception:
@@ -1030,7 +1076,7 @@ def get_document(doc_id: str):
     if not meta:
         raise HTTPException(404, "Document not in registry")
     try:
-        got = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000)
+        got = collection.get(where={"doc_id": doc_id}, include=["ids"], limit=100000)
         count = len(got.get("ids", []) or [])
     except Exception:
         count = 0
@@ -1041,6 +1087,62 @@ def get_document(doc_id: str):
         "chunks": count,
         **meta,
     }
+
+@app.put("/documents/{doc_id}/meta", dependencies=[Depends(_require_key)])
+def update_document_meta(doc_id: str, patch: DocumentMetaUpdate):
+    snapshot = _load_registry()
+    if doc_id not in snapshot:
+        raise HTTPException(404, "Document not in registry")
+
+    data = patch.model_dump(exclude_unset=True)
+    if "issueTitle" in data and "issueLabel" not in data:
+        data["issueLabel"] = data.pop("issueTitle")
+
+    if "audience" in data:
+        data["audience"] = normalize_audience(data["audience"])
+    if "authors" in data:
+        data["authors"] = normalize_authors(data["authors"])
+    if "issueLabel" in data:
+        data["issueLabel"] = normalize_issue_label(data["issueLabel"])
+    if "issueId" in data:
+        data["issueId"] = normalize_issue_id(data["issueId"])
+    if "journalTitle" in data and data["journalTitle"]:
+        data["journalTitle"] = data["journalTitle"].strip()
+    if "year" in data:
+        normalized_year = normalize_year(data["year"])
+        data["year"] = normalized_year
+    if "section" in data:
+        data["section"] = normalize_section(data["section"])
+    if "pageRange" in data and data["pageRange"]:
+        data["pageRange"] = str(data["pageRange"]).strip()
+    if "articleId" in data:
+        data["articleId"] = normalize_article_id(data["articleId"])
+    if "mimeType" in data and data["mimeType"]:
+        data["mimeType"] = str(data["mimeType"])
+
+    def mutator(registry: Dict[str, Dict]) -> Dict[str, object]:
+        entry = dict(registry.get(doc_id, {}))
+        for key, value in data.items():
+            if value is None:
+                continue
+            if key == "issueId":
+                entry["issueId"] = value
+                entry["issue_id"] = value
+            elif key == "issueLabel":
+                entry["issueLabel"] = value
+                entry["issue_label"] = value
+            elif key == "journalTitle":
+                entry["journalTitle"] = value
+                entry["journal_title"] = value
+            else:
+                entry[key] = value
+        entry["updatedAt"] = now_iso()
+        registry[doc_id] = entry
+        return entry
+
+    updated_entry = _update_registry(mutator)
+    logger.info("Document meta updated via admin sync: %s", doc_id)
+    return {"ok": True, "docId": doc_id, "meta": updated_entry}
 
 @app.post("/documents/{doc_id}/reindex", dependencies=[Depends(_require_key)])
 def reindex(doc_id: str):
@@ -1125,11 +1227,10 @@ def delete_doc(doc_id: str):
     except Exception:
         pass
 
-    reg = _load_registry()
-    had = doc_id in reg
-    if had:
-        reg.pop(doc_id, None)
-        _save_registry(reg)
+    def remover(registry: Dict[str, Dict]) -> bool:
+        return registry.pop(doc_id, None) is not None
+
+    had = _update_registry(remover)
 
     try:
         sub = _doc_dir_hashed(doc_id)
@@ -1145,6 +1246,7 @@ def delete_doc(doc_id: str):
 
     return {"ok": True, "deleted": doc_id, "hadEntry": had}
 
+# ---------------- Search -----------------
 @app.post("/search", dependencies=[Depends(_require_key)])
 def search(payload: SearchIn):
     md_where: Dict[str, object] = {}
@@ -1308,3 +1410,212 @@ def search(payload: SearchIn):
 
     groups.sort(key=lambda x: (-x["count"], x["title"] or ""))
     return {"results": flat, "groups": groups}
+
+# ---------------- Auto TOC + Article PDF -----------------
+
+_TOCTITLE_RX = re.compile(r"\b(sisukord|sisukorra|contents|toc)\b", re.IGNORECASE)
+_PAGENUM_AT_END_RX = re.compile(r"(.+?)\s+(\d{1,4})$")  # "Pealkiri .... 12"
+_AUTHOR_SPLIT_RX = re.compile(r"\s*[–—-]\s*")  # en dash/em dash/hyphen as title-author separator
+
+def _is_likely_toc_page(txt: str) -> bool:
+    """Heuristics: contains 'Sisukord' OR many lines ending with page numbers."""
+    if _TOCTITLE_RX.search(txt):
+        return True
+    lines = [l.strip() for l in txt.splitlines() if l.strip()]
+    has = sum(1 for l in lines if _PAGENUM_AT_END_RX.search(l))
+    return has >= 6  # at least 6 entries look like "..... 12"
+
+def _extract_toc_items(txt: str) -> List[Dict]:
+    """
+    Return [{title, authors[], page}], where page is *print* page (human).
+    We try to parse lines ending with a page number.
+    Supports a few common patterns:
+      - 'Pealkiri — Autor 12'
+      - 'Rubriik: Pealkiri 12'
+      - 'Pealkiri 12'
+    """
+    items = []
+    for raw in txt.splitlines():
+        line = " ".join(raw.strip().split())
+        if not line:
+            continue
+        m = _PAGENUM_AT_END_RX.search(line)
+        if not m:
+            continue
+        left, pnum = m.group(1).strip(), int(m.group(2))
+        title = left
+        authors: List[str] = []
+
+        # try split "Title — Author"
+        parts = _AUTHOR_SPLIT_RX.split(left)
+        # if looks like "Title — Authors", take last chunk as authors if it contains a space and is short-ish
+        if len(parts) >= 2:
+            maybe_auth = parts[-1].strip()
+            if len(maybe_auth.split()) <= 6 and any(c.isalpha() for c in maybe_auth):
+                title = " — ".join(parts[:-1]).strip()
+                authors = [a.strip() for a in re.split(r"[;,/]+", maybe_auth) if a.strip()]
+
+        # clean dotted leaders "........"
+        title = re.sub(r"\.{3,}", " ", title).strip(" .–—-")
+        if title:
+            items.append({"title": title, "authors": authors, "page": pnum})
+    # dedupe by (title,page)
+    uniq = []
+    seen = set()
+    for it in items:
+        k = (it["title"].lower(), it["page"])
+        if k in seen:
+            continue
+        seen.add(k)
+        uniq.append(it)
+    return uniq
+
+def _guess_offset_by_search(pdf_pages: List[Tuple[int, str]], toc_items: List[Dict]) -> Optional[int]:
+    """
+    Try to infer PDF offset automatically:
+    For the first reliable title, find the first PDF page that contains that title words,
+    then offset = pdf_page - print_page.
+    """
+    for it in toc_items:
+        title = it["title"]
+        if not title or len(title) < 5:
+            continue
+        # build a loose search string (first 4-7 words)
+        words = [w for w in re.split(r"\W+", title) if w]
+        if len(words) < 2:
+            continue
+        probe = " ".join(words[: min(7, max(4, len(words))) ])
+        probe = re.sub(r"\s+", " ", probe).strip()
+        if not probe:
+            continue
+        # find in PDF pages
+        for (pno, txt) in pdf_pages:
+            t = _clean_text(txt or "")
+            if probe.lower() in t.lower():
+                # offset = pdf_page - print_page
+                return int(pno) - int(it["page"])
+    return None
+
+def _build_ranges_from_toc(toc: List[Dict]) -> List[Tuple[Dict, Optional[int], Optional[int]]]:
+    """
+    From sorted TOC items by print page, derive (item, start_print_page, end_print_page).
+    End page is next item's start-1; last item has None as end (caller can fill or leave None).
+    """
+    if not toc:
+        return []
+    toc_sorted = sorted(toc, key=lambda x: int(x["page"]))
+    out = []
+    for i, it in enumerate(toc_sorted):
+        startp = int(it["page"])
+        endp = None
+        if i + 1 < len(toc_sorted):
+            endp = int(toc_sorted[i+1]["page"]) - 1 if int(toc_sorted[i+1]["page"]) > startp else None
+        out.append((it, startp, endp))
+    return out
+
+# --- Endpoint: parse issue (TOC) --------------------------------------------
+class ParseIssueIn(BaseModel):
+    docId: str
+    offset: Optional[int] = None  # optional override
+    maxItems: Optional[int] = None
+
+@app.post("/parse/issue", dependencies=[Depends(_require_key)])
+def parse_issue(payload: ParseIssueIn):
+    reg = _load_registry()
+    entry = reg.get(payload.docId)
+    _require_pdf_registry(entry)
+    pdf_pages = _load_pdf_pages(entry)
+
+    # find likely TOC pages
+    candidates = []
+    for (pno, txt) in pdf_pages:
+        if _is_likely_toc_page(txt or ""):
+            candidates.append((pno, txt))
+    # if none matched, also try first 6 pages (many magazines place TOC early)
+    if not candidates:
+        for (pno, txt) in pdf_pages[:6]:
+            if txt and len(txt) > 1000:  # somewhat dense page
+                candidates.append((pno, txt))
+
+    toc_items: List[Dict] = []
+    for _, txt in candidates:
+        toc_items.extend(_extract_toc_items(txt or ""))
+
+    if not toc_items:
+        logger.warning("parse_issue: no TOC items detected for docId=%s", payload.docId)
+
+    # heuristic offset
+    auto_offset = _guess_offset_by_search(pdf_pages, toc_items) if toc_items else None
+    use_offset = payload.offset if payload.offset is not None else auto_offset
+
+    # propose article ranges in *print* pages
+    ranges = _build_ranges_from_toc(toc_items)
+    max_items = max(1, min(200, int(payload.maxItems or 0))) if payload.maxItems else None
+    if max_items:
+        ranges = ranges[:max_items]
+
+    # build drafts with both print and (if offset known) PDF start/end
+    drafts = []
+    for (it, start_print, end_print) in ranges:
+        item = {
+            "title": it.get("title"),
+            "authors": it.get("authors") or [],
+            "pageRange": f"{start_print}–{end_print}" if end_print else str(start_print),
+            "startPage": None,
+            "endPage": None,
+            "section": None,
+            "audience": entry.get("audience") or "BOTH",
+            "description": None,
+        }
+        if isinstance(use_offset, int):
+            item["startPage"] = start_print + use_offset
+            item["endPage"] = (end_print + use_offset) if isinstance(end_print, int) else None
+        drafts.append(item)
+
+    return {
+        "ok": True,
+        "docId": payload.docId,
+        "foundTocItems": len(toc_items),
+        "autoOffset": auto_offset,
+        "usingOffset": use_offset,
+        "drafts": drafts,
+    }
+
+# --- Endpoint: slice article PDF --------------------------------------------
+@app.get("/article/pdf/{doc_id}", dependencies=[Depends(_require_key)])
+def article_pdf(doc_id: str, start: int = Query(..., ge=1), end: int = Query(..., ge=1), filename: Optional[str] = None):
+    if start <= 0 or end <= 0:
+        raise HTTPException(400, "Invalid start/end")
+    if end < start:
+        start, end = end, start
+
+    reg = _load_registry()
+    entry = reg.get(doc_id)
+    _require_pdf_registry(entry)
+    p = Path(entry["path"])
+    raw = p.read_bytes()
+    try:
+        reader = PdfReader(BytesIO(raw))
+        writer = PdfWriter()
+        # PDF pages are 1-based in our metadata; PyPDF uses 0-based
+        s, e = start - 1, end - 1
+        n = len(reader.pages)
+        if s < 0 or e >= n:
+            raise HTTPException(400, f"Page out of range: PDF has {n} pages")
+        for i in range(s, e + 1):
+            writer.add_page(reader.pages[i])
+        buff = BytesIO()
+        writer.write(buff)
+        buff.seek(0)
+        fname = (filename or f"article_{start}-{end}.pdf").strip()
+        if not fname.lower().endswith(".pdf"):
+            fname += ".pdf"
+        headers = {
+            "Content-Disposition": f'attachment; filename="{fname}"',
+            "X-Source-Doc": p.name,
+        }
+        return StreamingResponse(buff, media_type="application/pdf", headers=headers)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, f"PDF slice failed: {e}")
