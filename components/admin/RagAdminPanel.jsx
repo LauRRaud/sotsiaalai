@@ -1434,7 +1434,8 @@ export default function RagAdminPanel() {
                       />
                     </label>
                   </li>
-                ))}
+                );
+              })}
               </ul>
             )}
 
