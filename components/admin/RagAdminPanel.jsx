@@ -804,7 +804,8 @@ export default function RagAdminPanel() {
         style={{
           display: "grid",
           gap: "1.25rem",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+          alignItems: "start",
         }}
       >
         {/* --- Faili vorm --- */}
@@ -818,6 +819,7 @@ export default function RagAdminPanel() {
             background: "rgba(12,14,22,0.6)",
             display: "grid",
             gap: "0.75rem",
+            height: "100%",
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
@@ -840,13 +842,7 @@ export default function RagAdminPanel() {
               value={docKind}
               onChange={(e) => setDocKind(e.target.value)}
               required
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
+              style={inputStyle()}
             >
               {DOC_KIND_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
@@ -862,13 +858,7 @@ export default function RagAdminPanel() {
               name="title"
               type="text"
               placeholder="Valikuline (täidetakse vaikimisi failinimega)"
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
+              style={inputStyle()}
             />
           </label>
 
@@ -878,14 +868,7 @@ export default function RagAdminPanel() {
               name="description"
               placeholder="Valikuline kokkuvõte või märksõnad"
               rows={3}
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-                resize: "vertical",
-              }}
+              style={{ ...inputStyle(), resize: "vertical" }}
             />
           </label>
 
@@ -895,13 +878,7 @@ export default function RagAdminPanel() {
               value={fileAudience}
               onChange={(e) => setFileAudience(e.target.value)}
               required
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
+              style={inputStyle()}
             >
               {AUDIENCE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -1015,13 +992,7 @@ export default function RagAdminPanel() {
                 type="file"
                 accept={ACCEPT_ATTR}
                 onChange={onFileChange}
-                style={{
-                  padding: "0.5rem",
-                  borderRadius: "10px",
-                  border: "1px dashed rgba(255,255,255,0.15)",
-                  background: "rgba(10,12,20,0.6)",
-                  color: "#f3f6ff",
-                }}
+                style={{ ...inputStyle(), padding: "0.5rem", border: "1px dashed rgba(255,255,255,0.15)" }}
                 required
               />
               <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>{fileHint}</span>
@@ -1048,6 +1019,7 @@ export default function RagAdminPanel() {
             background: "rgba(12,14,22,0.6)",
             display: "grid",
             gap: "0.75rem",
+            height: "100%",
           }}
         >
           <div>
@@ -1785,6 +1757,8 @@ function inputStyle() {
     border: "1px solid rgba(255,255,255,0.08)",
     background: "rgba(10,12,20,0.6)",
     color: "#f3f6ff",
+    width: "100%",
+    boxSizing: "border-box",
   };
 }
 
@@ -1799,6 +1773,10 @@ function ctaStyle(busy, c1, c2) {
     cursor: busy ? "wait" : "pointer",
     transition: "opacity 0.2s ease",
     opacity: busy ? 0.7 : 1,
+    width: "100%",
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
   };
 }
 

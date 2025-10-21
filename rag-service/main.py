@@ -379,13 +379,63 @@ def _clean_text(s: str) -> str:
 
 # --- PDF / DOCX / HTML extractors ---
 def _extract_text_from_pdf(buff: bytes) -> List[Tuple[int, str]]:
-    """Tagasta list (page_no, text)."""
+    """
+    Proovi järjest:
+      1) PyMuPDF – kõige töökindlam uute ajakirja PDF-idega
+      2) pdfminer.six – hea fallback keeruliste fontidega
+      3) pypdf – viimane varuvariant
+    Tagasta: [(page_no, text), ...], page_no on 1-based.
+    """
+    # --- 1) PyMuPDF (fitz) ---
     try:
-        reader = PdfReader(BytesIO(buff))
+        import fitz  # type: ignore
+
+        doc = fitz.open(stream=buff, filetype="pdf")
+        out_fitx: List[Tuple[int, str]] = []
+        for i, page in enumerate(doc, start=1):
+            text = page.get_text("text") or ""
+            out_fitx.append((i, _clean_text(text)))
+        doc.close()
+        if any(text for _, text in out_fitx):
+            return out_fitx
+    except Exception:
+        pass
+
+    # --- 2) pdfminer.six ---
+    try:
+        from io import StringIO
+        from pdfminer.high_level import extract_text_to_fp  # type: ignore
+        from pdfminer.layout import LAParams  # type: ignore
+        from pypdf import PdfReader as _PdfReader  # type: ignore
+
+        reader = _PdfReader(BytesIO(buff))
+        out_pdfminer: List[Tuple[int, str]] = []
+        for page_index in range(len(reader.pages)):
+            sio = StringIO()
+            extract_text_to_fp(
+                BytesIO(buff),
+                sio,
+                laparams=LAParams(),
+                page_numbers=[page_index],
+                output_type="text",
+                codec=None,
+            )
+            txt = sio.getvalue() or ""
+            out_pdfminer.append((page_index + 1, _clean_text(txt)))
+        if any(text for _, text in out_pdfminer):
+            return out_pdfminer
+    except Exception:
+        pass
+
+    # --- 3) pypdf (praegune fallback) ---
+    try:
+        from pypdf import PdfReader as _FallbackReader  # type: ignore
+
+        reader = _FallbackReader(BytesIO(buff))
         out: List[Tuple[int, str]] = []
-        for i, p in enumerate(reader.pages, start=1):
-            t = p.extract_text() or ""
-            out.append((i, t))
+        for i, page in enumerate(reader.pages, start=1):
+            text = page.extract_text() or ""
+            out.append((i, _clean_text(text)))
         return out
     except Exception as e:
         raise HTTPException(422, f"PDF parse failed: {e}")
