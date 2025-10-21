@@ -113,12 +113,20 @@ function formatDateTime(value) {
 }
 
 function statusBadgeStyle(status) {
-  return (
+  const base =
     STATUS_STYLES[status] || {
       backgroundColor: "rgba(255,255,255,0.12)",
       color: "#ffffff",
-    }
-  );
+    };
+  return {
+    ...base,
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: "72px",
+    paddingInline: "0.65rem",
+    textAlign: "center",
+  };
 }
 
 function deriveStatus(doc) {
@@ -822,18 +830,11 @@ export default function RagAdminPanel() {
             height: "100%",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
-            <div>
-              <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa fail</h3>
-              <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-                Lubatud: {ALLOWED_MIME_LIST.join(", ")} (kuni {MAX_UPLOAD_MB} MB).
-              </p>
-            </div>
-            {docKind === "MAGAZINE" && lastUploadedDocId && (
-              <button type="button" onClick={endMagazineSession} style={smallGhostBtn()}>
-                Lõpeta ajakirja seanss
-              </button>
-            )}
+          <div style={{ display: "grid", gap: "0.35rem" }}>
+            <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa fail</h3>
+            <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+              Lubatud: {ALLOWED_MIME_LIST.join(", ")} (kuni {MAX_UPLOAD_MB} MB).
+            </p>
           </div>
 
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
@@ -999,13 +1000,20 @@ export default function RagAdminPanel() {
             </label>
           </div>
 
-          <button
-            type="submit"
-            disabled={fileBusy}
-            style={ctaStyle(fileBusy, "#7757ff", "#9b6dff")}
-          >
-            {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
-          </button>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", justifyContent: "flex-end" }}>
+            {docKind === "MAGAZINE" && lastUploadedDocId && (
+              <button type="button" onClick={endMagazineSession} style={smallGhostBtn()}>
+                Lõpeta ajakirja seanss
+              </button>
+            )}
+            <button
+              type="submit"
+              disabled={fileBusy}
+              style={{ ...ctaStyle(fileBusy, "#7757ff", "#9b6dff"), width: "auto" }}
+            >
+              {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
+            </button>
+          </div>
         </form>
 
         {/* --- URL-i vorm --- */}
@@ -1077,7 +1085,7 @@ export default function RagAdminPanel() {
           <button
             type="submit"
             disabled={urlBusy}
-            style={ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6")}
+            style={{ ...ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6"), alignSelf: "flex-start", width: "auto" }}
           >
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
           </button>
@@ -1105,9 +1113,6 @@ export default function RagAdminPanel() {
               </p>
             </div>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <button type="button" onClick={addDraft} style={smallGhostBtn()}>
-                Lisa artikkel
-              </button>
               <button type="button" onClick={autoDetectToc} disabled={tocBusy} style={smallGhostBtn()}>
                 {tocBusy ? "Tuvastan..." : "Tuvasta sisukord (Auto)"}
               </button>
