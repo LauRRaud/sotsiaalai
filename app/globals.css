@@ -42,6 +42,19 @@ html {
   box-sizing: border-box;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-size: 100%;
+}
+
+html[data-fs="md"] {
+  font-size: 100%;
+}
+
+html[data-fs="lg"] {
+  font-size: 112.5%;
+}
+
+html[data-fs="xl"] {
+  font-size: 125%;
 }
 
 body {
@@ -1263,10 +1276,13 @@ html[data-contrast="high"] .onboarding-form__choice {
   background: #ffffff;
   border: 2px solid #000000;
   box-shadow: none;
+  color: #000000;
 }
 
 html[data-contrast="high"] .onboarding-form__choice--active {
   border-width: 3px;
+  transform: none;
+  box-shadow: none;
 }
 
 html[data-contrast="high"] .onboarding-form__locale-button {
@@ -3281,38 +3297,29 @@ left: calc(var(--hud-edge-left) + 15px);
 }
 
 .onboarding-form__choice {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(17, 24, 39, 0.12);
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.05);
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  cursor: pointer;
-}
-
-.onboarding-form__choice input {
-  accent-color: var(--brand-primary);
-}
-
-.onboarding-form__choice:hover {
-  border-color: rgba(17, 24, 39, 0.28);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-  background: color-mix(in srgb, #ffffff 94%, rgba(17, 24, 39, 0.06));
+  justify-content: center;
+  gap: 0.35em;
+  width: 100%;
+  min-height: 3.25rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 .onboarding-form__choice--active {
-  border-color: color-mix(in srgb, var(--brand-primary) 55%, rgba(17, 24, 39, 0.35));
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
-  background: color-mix(in srgb, var(--brand-alpha-10) 55%, rgba(255, 255, 255, 0.9));
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 0 0 2px rgba(206, 220, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .onboarding-form__choice span {
-  font-size: 0.98rem;
-  font-weight: 500;
-  color: rgba(12, 16, 24, 0.88);
+  color: inherit;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .onboarding-form__group--locales {
@@ -3333,42 +3340,30 @@ left: calc(var(--hud-edge-left) + 15px);
 }
 
 .onboarding-form__locale-button {
-  appearance: none;
-  border: 1px solid rgba(17, 24, 39, 0.18);
-  background: rgba(255, 255, 255, 0.82);
-  border-radius: 18px;
-  padding: 16px;
+  width: 100%;
+  min-height: 3.25rem;
+  margin: 0;
   text-transform: uppercase;
-  font-size: 1.02rem;
   letter-spacing: 0.08em;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: rgba(12, 16, 24, 0.9);
-  position: relative;
-  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  cursor: pointer;
+  justify-content: center;
 }
 
-.onboarding-form__locale-button:hover,
-.onboarding-form__locale-button:focus {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--brand-primary) 55%, rgba(17, 24, 39, 0.35));
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
-  outline: none;
-}
-
-.onboarding-form__locale-button:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 65%, rgba(255, 255, 255, 0.4));
+.onboarding-form__locale-button span {
+  color: inherit;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .onboarding-form__locale-button--current {
-  border-color: color-mix(in srgb, var(--brand-primary) 65%, rgba(17, 24, 39, 0.3));
-  background: color-mix(in srgb, var(--brand-alpha-15) 60%, rgba(255, 255, 255, 0.85));
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 0 0 2px rgba(206, 220, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .onboarding-form__locale-button--disabled {
-  opacity: 0.4;
   cursor: wait;
-  transform: none;
 }
 
 .onboarding-form__status {
@@ -3389,32 +3384,18 @@ left: calc(var(--hud-edge-left) + 15px);
   pointer-events: none;
 }
 
-.onboarding-form__choice input:disabled + span,
-.onboarding-form__locale-button[disabled] {
-  opacity: 0.7;
+.onboarding-form__choice:disabled,
+.onboarding-form__locale-button:disabled,
+.onboarding-form__locale-button--disabled {
+  opacity: 0.55;
+  transform: none;
 }
 
-.onboarding-form__choice input {
-  width: 18px;
-  height: 18px;
-}
-
-.onboarding-form__choice input:focus-visible + span {
-  outline: 2px solid color-mix(in srgb, var(--brand-primary) 55%, rgba(17, 24, 39, 0.3));
-  outline-offset: 4px;
-  border-radius: 4px;
-}
-
-.onboarding-form__locale-button:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-.onboarding-form__locale-button:disabled::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
+.onboarding-form__choice:focus-visible,
+.onboarding-form__locale-button:focus-visible {
+  box-shadow:
+    0 0 0 2px rgba(206, 220, 255, 0.45),
+    0 0 0 6px rgba(12, 16, 24, 0.35);
 }
 
 /* ---------- Onboarding Modal ---------- */

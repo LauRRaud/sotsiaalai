@@ -9,6 +9,7 @@ import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations
 import Image from "next/image";
 import OnboardingModal from "@/components/OnboardingModal";
 import { useTranslations } from "next-intl";
+import { useMotionPreference } from "@/components/preferences/hooks";
 
 export default function HomePage() {
   const t = useTranslations();
@@ -23,6 +24,8 @@ export default function HomePage() {
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
   const [isMobile, setIsMobile] = useState(false); // ← NEW
+  const motionPreference = useMotionPreference();
+  const reduceMotion = motionPreference === "reduce";
 
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
@@ -50,12 +53,18 @@ export default function HomePage() {
 
   // enable Magnet after both fade-ins
   useEffect(() => {
+    if (reduceMotion) {
+      setMagnetReady(false);
+      return undefined;
+    }
+
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
       return () => clearTimeout(t);
     }
     setMagnetReady(false);
-  }, [leftFadeDone, rightFadeDone]);
+    return undefined;
+  }, [leftFadeDone, rightFadeDone, reduceMotion]);
 
   // lock body scroll when modal open
   useEffect(() => {
@@ -68,16 +77,20 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
   }, [isLoginOpen]);
 
-  const flipAllowed = leftFadeDone && rightFadeDone;
+  const flipAllowed = leftFadeDone && rightFadeDone && !reduceMotion;
   // IMPORTANT: desktop gets hover flip; mobile does not
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
   const flipEndMs = 333;
 
   // desktop hover handlers – no-op on mobile
-  const onLeftEnter  = () => { if (!isMobile) setLeftFlipping(true); };
-  const onLeftLeave  = () => { if (!isMobile) setTimeout(() => setLeftFlipping(false), flipEndMs); };
-  const onRightEnter = () => { if (!isMobile) setRightFlipping(true); };
-  const onRightLeave = () => { if (!isMobile) setTimeout(() => setRightFlipping(false), flipEndMs); };
+  const onLeftEnter  = () => { if (!isMobile && !reduceMotion) setLeftFlipping(true); };
+  const onLeftLeave  = () => {
+    if (!isMobile && !reduceMotion) setTimeout(() => setLeftFlipping(false), flipEndMs);
+  };
+  const onRightEnter = () => { if (!isMobile && !reduceMotion) setRightFlipping(true); };
+  const onRightLeave = () => {
+    if (!isMobile && !reduceMotion) setTimeout(() => setRightFlipping(false), flipEndMs);
+  };
 
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
@@ -117,6 +130,13 @@ export default function HomePage() {
     resetMobileCards();
   }, [isMobile, resetMobileCards]);
 
+  useEffect(() => {
+    if (!reduceMotion) return;
+    setLeftFlipping(false);
+    setRightFlipping(false);
+    setMobileFlipReady({ left: false, right: false });
+  }, [reduceMotion]);
+
 
   return (
     <>
@@ -154,7 +174,13 @@ export default function HomePage() {
               <div className="card-wrapper">
                 {/* FRONT */}
                 <div className="card-face front">
-                  <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || leftFlipping}>
+                  <Magnet
+                    padding={80}
+                    magnetStrength={18}
+                    disabled={
+                      reduceMotion || isLoginOpen || !magnetReady || leftFlipping
+                    }
+                  >
                     {({ isActive }) => (
                       <div
                         ref={leftCardRef}
@@ -224,7 +250,13 @@ export default function HomePage() {
               <div className="card-wrapper">
                 {/* FRONT */}
                 <div className="card-face front">
-                  <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || rightFlipping}>
+                  <Magnet
+                    padding={80}
+                    magnetStrength={18}
+                    disabled={
+                      reduceMotion || isLoginOpen || !magnetReady || rightFlipping
+                    }
+                  >
                     {({ isActive }) => (
                       <div
                         ref={rightCardRef}

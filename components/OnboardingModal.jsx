@@ -39,10 +39,64 @@ export default function OnboardingModal({
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      applyHtmlAttributes({ contrast, fontSize, motion });
+    if (!isMounted) return;
+
+    const body = document.body;
+    if (!body) return;
+
+    body.classList.toggle("language-overlay-open", isOpen);
+
+    return () => {
+      body.classList.remove("language-overlay-open");
+    };
+  }, [isMounted, isOpen]);
+
+  useEffect(() => {
+    if (!isMounted) return undefined;
+
+    const original = htmlOriginalRef.current;
+    const initial = initialValuesRef.current;
+    const restore = () => {
+      applyHtmlAttributes({
+        contrast: original.contrast ?? initial.contrast,
+        fontSize: original.fontSize ?? initial.fontSize,
+        motion: original.motion ?? initial.motion,
+      });
+    };
+
+    if (!isOpen) {
+      restore();
+      return undefined;
     }
-  }, [contrast, fontSize, motion, isOpen]);
+
+    applyHtmlAttributes({ contrast, fontSize, motion });
+
+    return restore;
+  }, [contrast, fontSize, motion, isMounted, isOpen]);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    if (!html || !body) return;
+
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+
+    if (isOpen) {
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+    }
+
+    return () => {
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+    };
+  }, [isMounted, isOpen]);
 
   const resetPreview = useCallback(() => {
     const original = htmlOriginalRef.current;
@@ -86,7 +140,11 @@ export default function OnboardingModal({
         fs: fontSize,
         motion,
       };
-      const sanitizedNext = sanitizeNextPath(nextPath, window.location?.origin ?? undefined);
+      const sanitizedNext = sanitizeNextPath(
+        nextPath,
+        typeof window !== "undefined" ? window.location?.origin ?? undefined : undefined,
+      );
+      const fallbackRedirect = sanitizedNext ?? `/${locale}`;
       if (sanitizedNext) payload.next = sanitizedNext;
 
       try {
@@ -100,12 +158,22 @@ export default function OnboardingModal({
           redirect: "manual",
         });
 
+        if (response.type === "opaqueredirect") {
+          window.location.href = fallbackRedirect;
+          return;
+        }
+
         if (response.status === 303) {
           const location = response.headers.get("Location") ?? response.headers.get("location");
           if (location) {
-            window.location.href = location;
+            const resolved = /^https?:/i.test(location)
+              ? location
+              : new URL(location, window.location.origin).toString();
+            window.location.href = resolved;
             return;
           }
+          window.location.href = fallbackRedirect;
+          return;
         }
 
         if (response.ok) {
@@ -135,11 +203,6 @@ export default function OnboardingModal({
     },
     [contrast, fontSize, motion, nextPath, router, submittingLocale, resetPreview, isMounted]
   );
-
-  const handleRadioChange = (setter) => (event) => {
-    if (disableControls) return;
-    setter(event.target.value);
-  };
 
   const safeClose = useCallback(() => {
     try {
@@ -208,27 +271,33 @@ export default function OnboardingModal({
             <h2 id="contrast-group-label" className="onboarding-form__group-title">
               Kontrast
             </h2>
-            <div className="onboarding-form__choices">
+            <div
+              className="onboarding-form__choices"
+              role="radiogroup"
+              aria-labelledby="contrast-group-label"
+              aria-disabled={disableControls}
+            >
               {CONTRAST_OPTIONS.map((option) => (
-                <label
+                <button
                   key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={contrast === option.value}
                   className={[
+                    "btn-primary",
                     "onboarding-form__choice",
                     contrast === option.value ? "onboarding-form__choice--active" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
+                  onClick={() => {
+                    if (disableControls) return;
+                    setContrast(option.value);
+                  }}
+                  disabled={disableControls}
                 >
-                  <input
-                    type="radio"
-                    name="contrastChoice"
-                    value={option.value}
-                    checked={contrast === option.value}
-                    onChange={handleRadioChange(setContrast)}
-                    disabled={disableControls}
-                  />
                   <span>{option.label}</span>
-                </label>
+                </button>
               ))}
             </div>
           </section>
@@ -237,27 +306,33 @@ export default function OnboardingModal({
             <h2 id="fontsize-group-label" className="onboarding-form__group-title">
               Kirjasuurus
             </h2>
-            <div className="onboarding-form__choices">
+            <div
+              className="onboarding-form__choices"
+              role="radiogroup"
+              aria-labelledby="fontsize-group-label"
+              aria-disabled={disableControls}
+            >
               {FONT_SIZE_OPTIONS.map((option) => (
-                <label
+                <button
                   key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={fontSize === option.value}
                   className={[
+                    "btn-primary",
                     "onboarding-form__choice",
                     fontSize === option.value ? "onboarding-form__choice--active" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
+                  onClick={() => {
+                    if (disableControls) return;
+                    setFontSize(option.value);
+                  }}
+                  disabled={disableControls}
                 >
-                  <input
-                    type="radio"
-                    name="fontSizeChoice"
-                    value={option.value}
-                    checked={fontSize === option.value}
-                    onChange={handleRadioChange(setFontSize)}
-                    disabled={disableControls}
-                  />
                   <span>{option.label}</span>
-                </label>
+                </button>
               ))}
             </div>
           </section>
@@ -266,27 +341,33 @@ export default function OnboardingModal({
             <h2 id="motion-group-label" className="onboarding-form__group-title">
               Animatsioonid
             </h2>
-            <div className="onboarding-form__choices">
+            <div
+              className="onboarding-form__choices"
+              role="radiogroup"
+              aria-labelledby="motion-group-label"
+              aria-disabled={disableControls}
+            >
               {MOTION_OPTIONS.map((option) => (
-                <label
+                <button
                   key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={motion === option.value}
                   className={[
+                    "btn-primary",
                     "onboarding-form__choice",
                     motion === option.value ? "onboarding-form__choice--active" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
+                  onClick={() => {
+                    if (disableControls) return;
+                    setMotion(option.value);
+                  }}
+                  disabled={disableControls}
                 >
-                  <input
-                    type="radio"
-                    name="motionChoice"
-                    value={option.value}
-                    checked={motion === option.value}
-                    onChange={handleRadioChange(setMotion)}
-                    disabled={disableControls}
-                  />
                   <span>{option.label}</span>
-                </label>
+                </button>
               ))}
             </div>
           </section>
@@ -309,6 +390,7 @@ export default function OnboardingModal({
                   name="locale"
                   value={option.value}
                   className={[
+                    "btn-primary",
                     "onboarding-form__locale-button",
                     preferredLocale === option.value ? "onboarding-form__locale-button--current" : "",
                     submittingLocale && submittingLocale !== option.value
@@ -320,7 +402,7 @@ export default function OnboardingModal({
                   disabled={disableControls && submittingLocale !== option.value}
                   aria-pressed={preferredLocale === option.value}
                 >
-                  {submittingLocale === option.value ? "Salvestan…" : option.label}
+                  <span>{submittingLocale === option.value ? "Salvestan…" : option.label}</span>
                 </button>
               ))}
             </div>

@@ -8,7 +8,7 @@ import HomePage from "@/components/HomePage";
 import OnboardingModal from "@/components/OnboardingModal";
 
 export const metadata = {
-  title: "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
+  title: "SotsiaalAI",
   description:
     "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele.",
 };
