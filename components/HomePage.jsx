@@ -7,7 +7,6 @@ import LoginModal from "@/components/LoginModal";
 import { Link } from "@/i18n/navigation";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import Image from "next/image";
-import OnboardingModal from "@/components/OnboardingModal";
 import { useTranslations } from "next-intl";
 
 export default function HomePage() {
@@ -15,7 +14,6 @@ export default function HomePage() {
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
@@ -131,13 +129,6 @@ export default function HomePage() {
             >
               {t("home.nav.about")}
             </Link>
-            <button
-              onClick={() => setIsOnboardingOpen(true)}
-              className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
-              style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
-            >
-              Keel & ligipääsetavus
-            </button>
           </nav>
         )}
         <div className="main-content relative">
@@ -293,13 +284,6 @@ export default function HomePage() {
               >
                 {t("home.nav.about")}
               </Link>
-              <button
-                onClick={() => setIsOnboardingOpen(true)}
-                className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
-                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
-              >
-                Keel & ligipääsetavus
-              </button>
             </nav>
           )}
           <Image
@@ -316,14 +300,6 @@ export default function HomePage() {
         </footer>
       </div>
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      <OnboardingModal 
-        isOpen={isOnboardingOpen} 
-        onClose={() => setIsOnboardingOpen(false)}
-        preferredLocale="et"
-        initialContrast="normal"
-        initialFontSize="md"
-        initialMotion="normal"
-      />
     </>
   );
 }

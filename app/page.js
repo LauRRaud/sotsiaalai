@@ -1,19 +1,18 @@
-// app/page.js  (server-komponent – ära lisa "use client")
+// app/page.js (juurekülastus → suuna keele prefiksiga teele)
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { NextIntlClientProvider } from "next-intl";
-import { loadMessages } from "@/i18n/i18n";
-import HomePage from "@/components/HomePage";
-import OnboardingModal from "@/components/OnboardingModal";
+import { normalizeLocale, DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/lib/preferences";
 
-export const metadata = {
-  title: "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
-  description:
-    "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele.",
-};
+const SUPPORTED_LOCALE_SET = new Set(SUPPORTED_LOCALES);
 
-// turvaline Cookie päise parsimine
+function pickSupportedLocale(value) {
+  const normalized = normalizeLocale(value);
+  if (normalized && SUPPORTED_LOCALE_SET.has(normalized)) {
+    return normalized;
+  }
+  return null;
+}
+
 function readCookieFromHeader(name, cookieHeader) {
   if (!cookieHeader || typeof cookieHeader !== "string") return null;
   const found = cookieHeader
@@ -29,81 +28,44 @@ function readCookieFromHeader(name, cookieHeader) {
   }
 }
 
-export default async function Page() {
-  // ---- 1) loe päised (async API Next 16-s)
-  const h = await headers();
-
-  // ---- 2) proovi lugeda 'locale' Cookie päisest
-  const cookieHeader = (h.get("cookie") || "").toString();
-  const locale = readCookieFromHeader("locale", cookieHeader);
-
-  // Kui keel on juba valitud → suuna keele avalehele
-  if (locale) {
-    redirect(`/${locale}`);
+function parseAcceptLanguage(headerValue) {
+  if (!headerValue || typeof headerValue !== "string") {
+    return null;
   }
 
-  // ---- 3) vali modali vaikimisi keel Accept-Language'ist
-  const accept = (h.get("accept-language") || "").toString().toLowerCase();
-  const preferredLocale = accept.includes("et")
-    ? "et"
-    : accept.includes("ru")
-    ? "ru"
-    : "en";
+  const candidates = headerValue
+    .split(",")
+    .map((entry) => entry.split(";")[0]?.trim()?.toLowerCase())
+    .filter(Boolean);
 
-  // ---- 4) lae i18n sõnumid (et HomePage saaks useTranslations() kasutada ka juurel)
-  const messages = await loadMessages(preferredLocale);
+  for (const candidate of candidates) {
+    const directMatch = pickSupportedLocale(candidate);
+    if (directMatch) {
+      return directMatch;
+    }
 
-  return (
-    <>
-      {/* Organization JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "SotsiaalAI",
-            url: "https://sotsiaal.ai",
-            logo: "https://sotsiaal.ai/logo/logomust.svg",
-            sameAs: [],
-          }),
-        }}
-      />
+    const base = candidate.split("-")[0];
+    const baseMatch = pickSupportedLocale(base);
+    if (baseMatch) {
+      return baseMatch;
+    }
+  }
 
-      {/* WebSite + SearchAction JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "SotsiaalAI",
-            url: "https://sotsiaal.ai",
-            potentialAction: {
-              "@type": "SearchAction",
-              target: "https://sotsiaal.ai/vestlus?q={search_term_string}",
-              "query-input": "required name=search_term_string",
-            },
-          }),
-        }}
-      />
+  return null;
+}
 
-      {/* Avalehe sisu – wrapime i18n Provideriga */}
-      <NextIntlClientProvider locale={preferredLocale} messages={messages}>
-        <Suspense fallback={null}>
-          <HomePage />
-        </Suspense>
+export default async function Page() {
+  const h = await headers();
 
-        {/* Esmakülastuse modal – salvestab prefsid ja 303/200 → /{locale} */}
-        <OnboardingModal
-          isOpen
-          preferredLocale={preferredLocale}
-          initialContrast="normal"
-          initialFontSize="md"
-          initialMotion="normal"
-          nextPath={null}
-        />
-      </NextIntlClientProvider>
-    </>
-  );
+  const cookieHeader = (h.get("cookie") || "").toString();
+  const cookieLocale = pickSupportedLocale(readCookieFromHeader("locale", cookieHeader));
+  if (cookieLocale) {
+    redirect(`/${cookieLocale}`);
+  }
+
+  const acceptHeader = (h.get("accept-language") || "").toString();
+  const acceptLocale = parseAcceptLanguage(acceptHeader);
+  const targetLocale = acceptLocale ?? DEFAULT_LOCALE;
+
+  redirect(`/${targetLocale}`);
 }
