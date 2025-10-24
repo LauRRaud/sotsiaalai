@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import HomePage from "@/components/HomePage";
 import OpeningBanner from "@/components/OpeningBanner";
 
-export default function LocalePage({ params }) {
-  const { locale } = params; // 'et' | 'ru' | 'en'
+export default async function LocalePage({ params }) {
+  const { locale } = await params; // 'et' | 'ru' | 'en'
 
   return (
     <>
