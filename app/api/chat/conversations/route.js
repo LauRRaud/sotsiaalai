@@ -31,16 +31,10 @@ function normalizeRole(role) {
 async function getAuthOptions() {
   // Püüa esmalt NextAuth klassikaline asukoht
   try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
+    const mod = await import("@/auth");
     return mod.authOptions || mod.default || mod.authConfig;
   } catch {
-    // App routeri /auth fallback
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
+    return undefined;
   }
 }
 

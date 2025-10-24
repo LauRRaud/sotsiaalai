@@ -3,7 +3,7 @@
 
 import { useEffect, useState, memo, Suspense } from "react";
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { createPortal } from "react-dom";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
@@ -96,7 +96,7 @@ function BackgroundLayer() {
     } catch {}
     let already = false;
     try { already = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
-    const should = pathname === "/" && !already && !isReload;
+const should = /^\/(et|en|ru)?\/?$/.test(pathname) && !already && !isReload;
     setAnimateFog(should);
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
   }, [pathname]);
@@ -157,3 +157,4 @@ function BackgroundLayer() {
 }
 
 export default memo(BackgroundLayer);
+

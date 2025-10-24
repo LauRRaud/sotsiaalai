@@ -2,8 +2,7 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hash, compare } from "bcrypt";
 
@@ -21,7 +20,7 @@ function json(data, status = 200) {
 
 /** Sisseloginud kasutaja (NextAuth v4 serverisessioonist) */
 async function requireUser() {
-  const session = await getServerSession(authConfig);
+  const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return null;
   return { session, userId };

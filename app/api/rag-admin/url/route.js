@@ -20,11 +20,7 @@ const NO_STORE = {
 };
 
 /* ------------------------- Auth loader ------------------------- */
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
+  async function getAuthOptions() {
     try {
       const mod = await import("@/auth");
       return mod.authOptions || mod.default || mod.authConfig;
@@ -32,7 +28,6 @@ async function getAuthOptions() {
       return undefined;
     }
   }
-}
 
 async function requireAdmin() {
   const { getServerSession } = await import("next-auth/next");

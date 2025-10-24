@@ -45,15 +45,10 @@ function normalizeSources(s) {
 
 async function getAuthOptions() {
   try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
+    const mod = await import("@/auth");
     return mod.authOptions || mod.default || mod.authConfig;
   } catch {
-    try {
-      const mod = await import("@/auth");
-      return mod.authOptions || mod.default || mod.authConfig;
-    } catch {
-      return undefined;
-    }
+    return undefined;
   }
 }
 

@@ -1,14 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 export default function RegistreerimineBody() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next") || "/vestlus";
+  const t = useTranslations();
+  const locale = useLocale();
 
   const [form, setForm] = useState({
     email: "",
@@ -17,7 +21,14 @@ export default function RegistreerimineBody() {
     agree: false,
   });
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
+
+  const errorText =
+    error && typeof error === "object"
+      ? error.key
+        ? t(error.key, error.values)
+        : error.message ?? ""
+      : error || "";
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -29,10 +40,10 @@ export default function RegistreerimineBody() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
+    setError(null);
 
     if (!form.agree) {
-      setError("Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.");
+      setError({ key: "auth.register.error.agree_required" });
       return;
     }
 
@@ -50,8 +61,9 @@ export default function RegistreerimineBody() {
 
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        // /api/register/route.js tagastab 'message'
-        setError(payload?.message || payload?.error || "Registreerimine ebaõnnestus.");
+        setError({
+          message: payload?.message || payload?.error || t("auth.register.error.failed"),
+        });
         return;
       }
 
@@ -63,7 +75,7 @@ export default function RegistreerimineBody() {
       });
 
       if (login?.error) {
-        setError("Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida.");
+        setError({ key: "auth.register.error.auto_login" });
         router.replace(`/registreerimine?next=${encodeURIComponent(nextUrl)}`);
         return;
       }
@@ -72,15 +84,15 @@ export default function RegistreerimineBody() {
       router.refresh();
     } catch (err) {
       console.error("Register error", err);
-      setError("Server ei vasta. Palun proovi uuesti.");
+      setError({ message: t("profile.server_unreachable") });
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="main-content glass-box">
-      <h1 className="glass-title">Loo konto</h1>
+    <div className="main-content glass-box" lang={locale}>
+      <h1 className="glass-title">{t("auth.register.title")}</h1>
 
       <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
         <input
@@ -88,7 +100,7 @@ export default function RegistreerimineBody() {
           id="email"
           name="email"
           className="input-modern input-email-top"
-          placeholder="Sinu@email.ee"
+          placeholder={t("auth.email_placeholder")}
           value={form.email}
           onChange={handleChange}
           required
@@ -100,7 +112,7 @@ export default function RegistreerimineBody() {
           id="password"
           name="password"
           className="input-modern"
-          placeholder="Parool"
+          placeholder={t("auth.password_placeholder")}
           value={form.password}
           onChange={handleChange}
           required
@@ -108,7 +120,7 @@ export default function RegistreerimineBody() {
           autoComplete="new-password"
         />
 
-        <div className="glass-label glass-label-radio">Roll:</div>
+        <div className="glass-label glass-label-radio">{t("auth.register.role_label")}</div>
         <div className="glass-radio-group" role="radiogroup">
           <label>
             <input
@@ -118,7 +130,7 @@ export default function RegistreerimineBody() {
               checked={form.role === "SOCIAL_WORKER"}
               onChange={handleChange}
             />
-            Sotsiaaltöö spetsialist
+            {t("role.worker")}
           </label>
           <label>
             <input
@@ -128,7 +140,7 @@ export default function RegistreerimineBody() {
               checked={form.role === "CLIENT"}
               onChange={handleChange}
             />
-            Eluküsimusega pöörduja
+            {t("role.client")}
           </label>
         </div>
 
@@ -141,25 +153,37 @@ export default function RegistreerimineBody() {
             required
           />
           <span className="checkbox-text">
-            Nõustun{" "}
-            <Link href="/kasutustingimused" className="link-brand-inline">
-              kasutajatingimustega
-            </Link>{" "}
-            ja{" "}
-            <Link href="/privaatsustingimused" className="link-brand-inline">
-              privaatsuspoliitikaga
-            </Link>
+            {t.rich("auth.register.agreement", {
+              terms: (chunks) => (
+                <Link
+                  key="register-terms"
+                  href="/kasutustingimused"
+                  className="link-brand-inline"
+                >
+                  {chunks}
+                </Link>
+              ),
+              privacy: (chunks) => (
+                <Link
+                  key="register-privacy"
+                  href="/privaatsustingimused"
+                  className="link-brand-inline"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
           </span>
         </label>
 
-        {error && (
+        {errorText && (
           <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
-            {error}
+            {errorText}
           </div>
         )}
 
         <button className="btn-primary" type="submit" disabled={submitting}>
-          <span>{submitting ? "Loome kontot…" : "Registreeru"}</span>
+          <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
       </form>
 
@@ -168,7 +192,7 @@ export default function RegistreerimineBody() {
           type="button"
           className="back-arrow-btn"
           onClick={() => router.push("/")}
-          aria-label="Tagasi avalehele"
+          aria-label={t("common.back_home")}
         >
           <span className="back-arrow-circle"></span>
         </button>

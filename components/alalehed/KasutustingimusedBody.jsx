@@ -1,85 +1,84 @@
 "use client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { Fragment } from "react";
+import { useRouter } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function KasutustingimusedBody() {
   const router = useRouter();
+  const t = useTranslations();
+  const locale = useLocale();
+
+  const renderRich = (key, overrides = {}) => {
+    let pIndex = 0;
+    let liIndex = 0;
+    return t.rich(key, {
+      p: (chunks) => {
+        const idx = pIndex++;
+        return (
+          <p key={`${key}-p-${idx}`} className="mb-4">
+            {chunks}
+          </p>
+        );
+      },
+      strong: (chunks) => <strong>{chunks}</strong>,
+      li: (chunks) => {
+        const idx = liIndex++;
+        return (
+          <li key={`${key}-li-${idx}`}>
+            {chunks}
+          </li>
+        );
+      },
+      aEmail: (chunks) => (
+        <a
+          key={`${key}-email`}
+          href="mailto:info@sotsiaal.ai"
+          className="link-brand"
+        >
+          {chunks}
+        </a>
+      ),
+      ...overrides,
+    });
+  };
+
+  const renderRichBlock = (key) => (
+    <Fragment key={key}>{renderRich(key)}</Fragment>
+  );
 
   return (
-    <div className="main-content glass-box">
-      <h1 className="glass-title">Kasutustingimused</h1>
+    <div className="main-content glass-box" lang={locale}>
+      <h1 className="glass-title">{t("legal.terms.title")}</h1>
 
       <section className="glass-section">
-        <h2 className="glass-h2">1. Üldsätted</h2>
-        <p>
-          Käesolevad kasutustingimused reguleerivad <strong>SotsiaalAI</strong> platvormi
-          (haldaja: <strong>SotsiaalAI OÜ</strong>; edaspidi <strong>Platvorm</strong>) kasutamist.
-          Platvormi kasutades kinnitab kasutaja, et on tingimustega tutvunud ja nendega nõus.
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section1.heading")}</h2>
+        {renderRichBlock("legal.terms.section1.body")}
 
-        <h2 className="glass-h2">2. Teenuse kirjeldus</h2>
-        <p>
-          Platvorm pakub tehisintellektil põhinevat infotuge sotsiaalvaldkonnas.
-          Vastused luuakse Eestis majutatud SotsiaalAI teadmistebaasi põhjal, mis koondab
-          usaldusväärseid allikaid (nt seadused, juhendid, teenuste kirjeldused ja muu
-          valdkondlik teave).
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section2.heading")}</h2>
+        {renderRichBlock("legal.terms.section2.body")}
 
-        <h2 className="glass-h2">3. Konto ja ligipääs</h2>
-        <ul className="glass-list">
-          <li>Kasutaja hoiab oma konto turvalisena ja parooli enda teada.</li>
-          <li>Kasutaja ei jaga oma kontot ega sisselogimisandmeid kolmandatele isikutele.</li>
-          <li>Kasutaja hoiab kontakt- ja makseandmed ajakohasena.</li>
-        </ul>
+        <h2 className="glass-h2">{t("legal.terms.section3.heading")}</h2>
+        <ul className="glass-list">{renderRich("legal.terms.section3.items")}</ul>
 
-        <h2 className="glass-h2">4. Lubatud kasutus</h2>
-        <ul className="glass-list">
-          <li>Keelatud on turbe rikkumine, pahavara levitamine ja masspäringute esitamine.</li>
-          <li>Keelatud on ebaseadusliku sisu edastamine või teiste õiguste rikkumine.</li>
-        </ul>
+        <h2 className="glass-h2">{t("legal.terms.section4.heading")}</h2>
+        <ul className="glass-list">{renderRich("legal.terms.section4.items")}</ul>
 
-        <h2 className="glass-h2">5. Tellimus, maksed ja tühistamine</h2>
-        <p>
-          Teenus põhineb igakuisel tellimusel (kuutasu 7,99 €). Arveldamine toimub
-          Maksekeskus AS vahendusel valitud makseviisilt.
-        </p>
-        <p>
-          Tellimust saab igal ajal hallata profiililehel (“Halda tellimust”) või kirjutades
-          <a className="link-brand" href="mailto:info@sotsiaal.ai"> info@sotsiaal.ai</a>.
-          Tühistamisel peatub arveldamine alates järgmise arveldusperioodi algusest.
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section5.heading")}</h2>
+        {renderRichBlock("legal.terms.section5.paragraph1")}
+        {renderRichBlock("legal.terms.section5.paragraph2")}
 
-        <h2 className="glass-h2">6. Kättesaadavus ja hooldus</h2>
-        <p>
-          Teeme mõistlikke pingutusi töökindluse ja pideva kättesaadavuse tagamiseks.
-          Hooldustööd ja uuendused võivad teenust ajutiselt piirata, kuid püüame katkestused
-          hoida võimalikult lühikesed.
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section6.heading")}</h2>
+        {renderRichBlock("legal.terms.section6.body")}
 
-        <h2 className="glass-h2">7. Töökindlus ja täpsus</h2>
-        <p>
-          SotsiaalAI eesmärk on pakkuda täpset ja ajakohast teavet. Kui süsteemis tekib viga või
-          ebatäpsus, parandame selle esimesel võimalusel.
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section7.heading")}</h2>
+        {renderRichBlock("legal.terms.section7.body")}
 
-        <h2 className="glass-h2">8. Tingimuste muutmine</h2>
-        <p>
-          Kasutustingimusi võidakse ajakohastada, avaldades uue versiooni platvormil. Olulistest
-          muudatustest teavitatakse kasutajaid e-posti või platvormisisese teate kaudu.
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section8.heading")}</h2>
+        {renderRichBlock("legal.terms.section8.body")}
 
-        <h2 className="glass-h2">9. Tehisintellekti kasutus ja andmetöötlus</h2>
-        <p>
-          <strong>SotsiaalAI</strong> kasutab <strong>OpenAI</strong> arendatud keeletehnoloogiat (GPT-mudel),
-          mis loob vastuseid kasutaja poolt sisestatud keeles, tuginedes Eestis majutatud
-          SotsiaalAI teadmistebaasile.
-        </p>
-        <p>
-          OpenAI teenust kasutatakse üksnes tekstitöötluseks. Vestluste sisu ei kasutata
-          mudelite arendamiseks ega koolitamiseks ning püsivalt talletatud andmed
-          (kasutajakonto, tellimus ja vestluste kokkuvõtted) säilitatakse turvaliselt
-          SotsiaalAI hallatavates Eesti serverites.
-        </p>
+        <h2 className="glass-h2">{t("legal.terms.section9.heading")}</h2>
+        {renderRichBlock("legal.terms.section9.paragraph1")}
+        {renderRichBlock("legal.terms.section9.paragraph2")}
       </section>
 
       <div className="back-btn-wrapper">
@@ -89,7 +88,7 @@ export default function KasutustingimusedBody() {
           onClick={() =>
             window.history.length > 1 ? router.back() : router.push("/meist")
           }
-          aria-label="Tagasi"
+          aria-label={t("legal.common.back")}
         >
           <span className="back-arrow-circle" />
         </button>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 /* ---------- Konstandid & sildid ---------- */
 
@@ -145,7 +146,8 @@ function splitAuthors(input) {
 /* ---------- Komponent ---------- */
 
 export default function RagAdminPanel() {
-  const router = useRouter();
+const router = useRouter();
+const tCommon = useTranslations("common");
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
@@ -1742,8 +1744,8 @@ export default function RagAdminPanel() {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push("/")}
-            aria-label="Tagasi avalehele"
+            onClick={() => router.push(`/${router.locale}`)}
+            aria-label={tCommon("back_home")}
           >
             <span className="back-arrow-circle" />
           </button>
@@ -1834,3 +1836,6 @@ function dangerGhostBtn(busy) {
     opacity: busy ? 0.7 : 1,
   };
 }
+
+
+

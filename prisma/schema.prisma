@@ -60,6 +60,22 @@ enum RunStatus {
   DELETED
 }
 
+enum AccessibilityContrast {
+  NORMAL @map("normal")
+  HIGH @map("high")
+}
+
+enum AccessibilityFontSize {
+  MD @map("md")
+  LG @map("lg")
+  XL @map("xl")
+}
+
+enum AccessibilityMotion {
+  NORMAL @map("normal")
+  REDUCE @map("reduce")
+}
+
 /* ---------- Models ---------- */
 
 model User {
@@ -82,6 +98,8 @@ model User {
 
   // Chat / runs
   conversationRuns ConversationRun[]
+
+  accessibilityPreference UserPreference?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -257,4 +275,19 @@ model ConversationRun {
   @@index([status])
   @@index([userId, status, updatedAt])
   @@index([isCrisis, updatedAt])
+}
+
+model UserPreference {
+  id        String                @id @default(cuid())
+  userId    String                @unique
+  locale    String?
+  contrast  AccessibilityContrast @default(NORMAL)
+  fontSize  AccessibilityFontSize @default(MD)
+  motion    AccessibilityMotion   @default(NORMAL)
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("t_user_prefs")
 }

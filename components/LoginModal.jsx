@@ -1,19 +1,32 @@
 "use client";
 
-import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import { Link, useRouter } from "@/i18n/navigation";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next") || "/vestlus";
+  const t = useTranslations();
 
   const [loading, setLoading] = useState(null); // "credentials" | "google" | "smart_id" | "mobiil_id"
   const [error, setError] = useState(null);
+
+  const clearError = useCallback(() => setError(null), []);
+  const setErrorKey = useCallback((key, values) => setError({ key, values }), []);
+  const setErrorMessage = useCallback((message) => setError(message ? { message } : null), []);
+
+  const errorText =
+    error && typeof error === "object"
+      ? error.key
+        ? t(error.key, error.values)
+        : error.message ?? ""
+      : error || "";
 
   useEffect(() => {
     if (!open) return;
@@ -44,10 +57,7 @@ export default function LoginModal({ open, onClose }) {
         const nodes = boxRef.current.querySelectorAll(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         );
-        const focusables = Array.from(nodes).filter((n) => {
-          // ignore elements that are hidden or not focusable
-          return (n.offsetWidth > 0 || n.offsetHeight > 0) && !n.hasAttribute("disabled");
-        });
+        const focusables = Array.from(nodes).filter((node) => (node.offsetWidth > 0 || node.offsetHeight > 0) && !node.hasAttribute("disabled"));
         if (!focusables.length) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
@@ -80,7 +90,7 @@ export default function LoginModal({ open, onClose }) {
   if (!open) return null;
 
   const handleGoogleLogin = async () => {
-    setError(null);
+    clearError();
     setLoading("google");
     try {
       await signIn("google", { callbackUrl: nextUrl });
@@ -90,17 +100,17 @@ export default function LoginModal({ open, onClose }) {
   };
 
   const handleSmartID = async () => {
-    setError(null);
+    clearError();
     setLoading("smart_id");
     try {
-      const personalCode = window.prompt("Sisesta isikukood (SMART-ID):") ?? "";
+      const personalCode = window.prompt(t("auth.login.prompt.smart_id")) ?? "";
       const res = await signIn("estonian_eid", {
         method: "smart_id",
         personalCode,
         redirect: false,
         callbackUrl: nextUrl,
       });
-      if (res?.error) setError("Smart-ID sisselogimine ebaõnnestus.");
+      if (res?.error) setErrorKey("auth.login.error.smart_id");
       if (res?.ok && res.url) {
         onClose?.();
         router.replace(res.url);
@@ -112,11 +122,11 @@ export default function LoginModal({ open, onClose }) {
   };
 
   const handleMobileID = async () => {
-    setError(null);
+    clearError();
     setLoading("mobiil_id");
     try {
-      const personalCode = window.prompt("Sisesta isikukood (Mobiil-ID):") ?? "";
-      const phone = window.prompt("Sisesta telefon (+372...):") ?? "";
+      const personalCode = window.prompt(t("auth.login.prompt.mobile_id_code")) ?? "";
+      const phone = window.prompt(t("auth.login.prompt.mobile_id_phone")) ?? "";
       const res = await signIn("estonian_eid", {
         method: "mobiil_id",
         personalCode,
@@ -124,7 +134,7 @@ export default function LoginModal({ open, onClose }) {
         redirect: false,
         callbackUrl: nextUrl,
       });
-      if (res?.error) setError("Mobiil-ID sisselogimine ebaõnnestus.");
+      if (res?.error) setErrorKey("auth.login.error.mobile_id");
       if (res?.ok && res.url) {
         onClose?.();
         router.replace(res.url);
@@ -137,7 +147,7 @@ export default function LoginModal({ open, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    clearError();
     setLoading("credentials");
 
     const fd = new FormData(e.currentTarget);
@@ -146,18 +156,18 @@ export default function LoginModal({ open, onClose }) {
 
     if (!email) {
       setLoading(null);
-      setError("Palun sisesta e-posti aadress.");
+      setErrorKey("auth.login.error.email_required");
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setLoading(null);
-      setError("Palun sisesta korrektne e-posti aadress.");
+      setErrorKey("auth.login.error.email_invalid");
       return;
     }
     if (!password) {
       setLoading(null);
-      setError("Palun sisesta parool.");
+      setErrorKey("auth.login.error.password_required");
       return;
     }
 
@@ -170,14 +180,17 @@ export default function LoginModal({ open, onClose }) {
     setLoading(null);
 
     if (res?.error) {
-      setError("Vale e-post või parool.");
+      setErrorKey("auth.login.error.credentials");
       return;
     }
     if (res?.ok && res.url) {
       onClose?.();
       router.replace(res.url);
       router.refresh();
+      return;
     }
+
+    setErrorKey("auth.login.error.generic");
   };
 
   const stopInside = (e) => e.stopPropagation();
@@ -198,54 +211,54 @@ export default function LoginModal({ open, onClose }) {
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        aria-label="Logi sisse"
+        aria-label={t("auth.login.title")}
         onClick={stopInside}
-        onMouseDown={stopInside}   // aitab vältida fookuse kaotust mousedown'il
+        onMouseDown={stopInside} // aitab vältida fookuse kaotust mousedown'il
         onTouchStart={stopInside}
       >
-        <button className="login-modal-close" onClick={onClose} aria-label="Sulge" type="button">
+        <button className="login-modal-close" onClick={onClose} aria-label={t("common.close")} type="button">
           ×
         </button>
 
-        <div className="glass-title">Logi sisse</div>
+        <div className="glass-title">{t("auth.login.title")}</div>
 
         <div className="login-social-icons-row" style={{ display: "flex", gap: "0.6rem" }}>
           <button
             className="login-icon-btn"
             onClick={handleGoogleLogin}
             type="button"
-            aria-label="Google"
+            aria-label={t("auth.login.google")}
             disabled={loading === "google"}
           >
-            <img src="/login/google1.png" alt="Google" width="40" height="40" loading="eager" />
+            <img src="/login/google1.png" alt={t("auth.login.google")} width="40" height="40" loading="eager" />
           </button>
           <button
             className="login-icon-btn"
             onClick={handleSmartID}
             type="button"
-            aria-label="Smart-ID"
+            aria-label={t("auth.login.smart_id")}
             disabled={loading === "smart_id"}
           >
-            <img src="/login/smart.svg" alt="Smart-ID" width="40" height="40" loading="eager" />
+            <img src="/login/smart.svg" alt={t("auth.login.smart_id")} width="40" height="40" loading="eager" />
           </button>
           <button
             className="login-icon-btn"
             onClick={handleMobileID}
             type="button"
-            aria-label="Mobiil-ID"
+            aria-label={t("auth.login.mobile_id")}
             disabled={loading === "mobiil_id"}
           >
-            <img src="/login/mobiil.png" alt="Mobiil-ID" width="40" height="40" loading="eager" />
+            <img src="/login/mobiil.png" alt={t("auth.login.mobile_id")} width="40" height="40" loading="eager" />
           </button>
         </div>
 
         <div className="login-or-divider" style={{ textAlign: "center" }}>
-          <span>või</span>
+          <span>{t("common.or")}</span>
         </div>
 
-        {error && (
+        {errorText && (
           <div role="alert" aria-live="assertive" className="glass-note" style={{ width: "100%", marginBottom: "0.6rem" }}>
-            {error}
+            {errorText}
           </div>
         )}
 
@@ -255,10 +268,9 @@ export default function LoginModal({ open, onClose }) {
               className="input-modern"
               type="email"
               name="email"
-              placeholder="Sinu@email.ee"
+              placeholder={t("auth.email_placeholder")}
               autoComplete="username"
               inputMode="email"
-              // autoFocus removed to avoid forcing immediate typing/focus
             />
           </label>
 
@@ -267,22 +279,26 @@ export default function LoginModal({ open, onClose }) {
               className="input-modern"
               type="password"
               name="password"
-              placeholder="Parool"
+              placeholder={t("auth.password_placeholder")}
               autoComplete="current-password"
             />
           </label>
 
           <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
-            <Link href="/unustasin-parooli" className="unustasid-parooli-link">Unustasid parooli?</Link>
+            <Link href="/unustasin-parooli" className="unustasid-parooli-link">
+              {t("auth.login.forgot")}
+            </Link>
           </div>
 
           <button type="submit" className="btn-primary" disabled={loading === "credentials"}>
-            <span>{loading === "credentials" ? "Sisenen…" : "Sisenen"}</span>
+            <span>{loading === "credentials" ? t("auth.login.submitting") : t("auth.login.submit")}</span>
           </button>
         </form>
 
         <div className="login-modal-bottom-link">
-          <Link href={`/registreerimine?next=${encodeURIComponent(nextUrl)}`} className="link-brand">Registreeru</Link>
+          <Link href={`/registreerimine?next=${encodeURIComponent(nextUrl)}`} className="link-brand">
+            {t("auth.login.register_link")}
+          </Link>
         </div>
       </div>
     </>

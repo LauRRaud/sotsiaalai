@@ -1,18 +1,30 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function UnustasinParooliBody() {
   const router = useRouter();
+  const t = useTranslations();
+  const locale = useLocale();
+
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
+
+  const errorText =
+    error && typeof error === "object"
+      ? error.key
+        ? t(error.key, error.values)
+        : error.message ?? ""
+      : error || "";
+
   async function handleSubmit(e) {
     e.preventDefault();
-        setError("");
+    setError(null);
     if (!email) {
-      setError("Palun sisesta oma e-posti aadress.");
+      setError({ key: "auth.reset.error.required" });
       return;
     }
 
@@ -27,29 +39,41 @@ export default function UnustasinParooliBody() {
       const payload = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        setError(payload?.error || "Taastelinki ei õnnestunud saata.");
+        setError({
+          message: payload?.error || t("auth.reset.error.failed"),
+        });
         return;
       }
 
       setSubmitted(true);
     } catch (err) {
       console.error("password reset request error", err);
-      setError("Serveriga tekis ühenduse viga. Palun proovi uuesti.");
+      setError({ message: t("auth.reset.error.server") });
     } finally {
       setLoading(false);
     }
   }
 
   return (
- <div className="main-content glass-box reset-box">
-      <h1 className="glass-title reset-title">Parooli taastamine</h1>
-      {submitted ? (
-        <p className="midtext reset-info">
-          Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.
-          <br />
-          Kontrolli ka rämpsposti kausta!
-        </p>
-      ) : (
+    <div className="main-content glass-box reset-box" lang={locale}>
+      <h1 className="glass-title reset-title">{t("auth.reset.title")}</h1>
+        {submitted ? (
+          <div className="midtext reset-info">
+            {(() => {
+              let pIndex = 0;
+              return t.rich("auth.reset.success", {
+                p: (chunks) => {
+                  const idx = pIndex++;
+                  return (
+                    <p key={`reset-success-${idx}`}>
+                      {chunks}
+                    </p>
+                  );
+                },
+              });
+            })()}
+          </div>
+        ) : (
         <form className="reset-form" onSubmit={handleSubmit} autoComplete="off">
           <label htmlFor="email" className="reset-label">
             <input
@@ -57,7 +81,7 @@ export default function UnustasinParooliBody() {
               id="email"
               name="email"
               className="reset-input"
-              placeholder="Sinu@email.ee"
+              placeholder={t("auth.email_placeholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -65,14 +89,14 @@ export default function UnustasinParooliBody() {
               disabled={loading}
             />
           </label>
-          {error && (
+          {errorText && (
             <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
-              {error}
+              {errorText}
             </div>
           )}
-        <button className="btn-primary reset-btn" type="submit" disabled={loading}>
-          <span>{loading ? "Saadame…" : "Saada taastelink"}</span>
-        </button>
+          <button className="btn-primary reset-btn" type="submit" disabled={loading}>
+            <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
+          </button>
         </form>
       )}
       <div className="back-btn-wrapper">
@@ -80,7 +104,7 @@ export default function UnustasinParooliBody() {
           type="button"
           className="back-arrow-btn"
           onClick={() => router.push("/")}
-          aria-label="Tagasi avalehele"
+          aria-label={t("common.back_home")}
         >
           <span className="back-arrow-circle"></span>
         </button>

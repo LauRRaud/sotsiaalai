@@ -1,16 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useRouter, Link } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function TellimusBody() {
   const router = useRouter();
+  const t = useTranslations();
+  const locale = useLocale();
+
   const [loading, setLoading] = useState(true);
   const [subActive, setSubActive] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [processing, setProcessing] = useState(false);
+
+  const errorText =
+    error && typeof error === "object"
+      ? error.key
+        ? t(error.key, error.values)
+        : error.message ?? ""
+      : error || "";
+  const successText =
+    success && typeof success === "object"
+      ? success.key
+        ? t(success.key, success.values)
+        : success.message ?? ""
+      : success || "";
 
   useEffect(() => {
     (async () => {
@@ -18,31 +34,32 @@ export default function TellimusBody() {
         const res = await fetch("/api/subscription", { cache: "no-store" });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || "Tellimuse oleku laadimine ebaõnnestus.");
+          setError({
+            message: payload?.error || t("subscription.error.load_failed"),
+          });
           return;
         }
         setSubActive(payload?.subscription?.status === "active");
       } catch (err) {
         console.error("subscription GET", err);
-        setError("Server ei vasta. Palun proovi uuesti.");
+        setError({ message: t("profile.server_unreachable") });
       } finally {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [t]);
 
   async function handleActivate() {
     try {
       setProcessing(true);
-      setError("");
-      setSuccess("");
-      // DEMO: suuname “makselehele”
-      alert("Suuname Maksekeskuse makselehele (demo)...");
+      setError(null);
+      setSuccess(null);
+      window.alert(t("subscription.payment.redirect_demo"));
       router.push("/tellimus?status=demo");
       router.refresh();
     } catch (err) {
       console.error("activate", err);
-      setError("Makse algatamine ebaõnnestus.");
+      setError({ key: "subscription.error.payment_start" });
     } finally {
       setProcessing(false);
     }
@@ -50,60 +67,60 @@ export default function TellimusBody() {
 
   if (loading) {
     return (
-      <div className="main-content glass-box glass-left tellimus-box" role="main" lang="et">
-        <h1 className="glass-title">Tellimus</h1>
+      <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
+        <h1 className="glass-title">{t("subscription.title")}</h1>
         <div className="content-narrow">
-          <p className="glass-text" aria-live="polite">Laen tellimuse infot…</p>
+          <p className="glass-text" aria-live="polite">
+            {t("subscription.loading")}
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="main-content glass-box glass-left tellimus-box" role="main" lang="et">
-      <h1 className="glass-title">Tellimus</h1>
+    <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
+      <h1 className="glass-title">{t("subscription.title")}</h1>
 
       <div className="content-narrow">
         {subActive ? (
           <>
-            <p className="glass-text">
-              Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.
-            </p>
+            <p className="glass-text">{t("subscription.active.summary")}</p>
             <p className="glass-text" id="cancel-note">
-              Tellimuse saad igal ajal tühistada oma profiililehelt või
-              kirjutades aadressile{" "}
-              <a href="mailto:info@sotsiaal.ai" className="link-brand">
-                info@sotsiaal.ai
-              </a>
-              .
+              {t.rich("subscription.active.cancel_note", {
+                email: (chunks) => (
+                  <a
+                    key="subscription-email"
+                    href="mailto:info@sotsiaal.ai"
+                    className="link-brand"
+                  >
+                    {chunks}
+                  </a>
+                ),
+              })}
             </p>
 
             <div className="tellimus-btn-center">
-              <Link
-                href="/profiil"
-                className="btn-primary"
-                aria-describedby="cancel-note"
-              >
-                Ava profiil
+              <Link href="/profiil" className="btn-primary" aria-describedby="cancel-note">
+                {t("subscription.button.open_profile")}
               </Link>
             </div>
           </>
         ) : (
           <>
-<div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
-  <p className="glass-text" style={{ margin: 0 }}>
-    SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma
-    profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.
-  </p>
-</div>
-            {error && (
+            <div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
+              <p className="glass-text" style={{ margin: 0 }}>
+                {t("subscription.info")}
+              </p>
+            </div>
+            {errorText && (
               <div role="alert" aria-live="assertive" className="glass-note">
-                {error}
+                {errorText}
               </div>
             )}
-            {success && !error && (
+            {successText && !errorText && (
               <div role="status" aria-live="polite" className="glass-note glass-note--success">
-                {success}
+                {successText}
               </div>
             )}
 
@@ -114,10 +131,10 @@ export default function TellimusBody() {
                 disabled={processing}
                 aria-disabled={processing}
                 aria-busy={processing}
-                aria-describedby="billing-info cancel-note"
+                aria-describedby="billing-info"
                 onClick={handleActivate}
               >
-                {processing ? "Suunan maksele…" : "Maksa ja aktiveeri tellimus"}
+                {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
               </button>
             </div>
           </>
@@ -129,7 +146,7 @@ export default function TellimusBody() {
           type="button"
           className="back-arrow-btn"
           onClick={() => router.push("/")}
-          aria-label="Tagasi avalehele"
+          aria-label={t("common.back_home")}
         >
           <span className="back-arrow-circle" />
         </button>

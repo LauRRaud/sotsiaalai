@@ -46,9 +46,24 @@ export default function Magnet({
     const getElsOk = () => wrapperRef.current && innerRef.current;
     const maxMove = 145;
     const clamp = (v) => Math.max(-maxMove, Math.min(maxMove, v));
+    const resetTransform = () => {
+      if (!innerRef.current) return;
+      activeRef.current = false;
+      setIsActive(false);
+      innerRef.current.style.transform = "translate3d(0,0,0)";
+      innerRef.current.style.transition = inactiveTransition;
+      innerRef.current.style.willChange = "auto";
+    };
+    const overlayActive = () =>
+      typeof document !== "undefined" &&
+      document.body?.classList?.contains?.("language-overlay-open");
 
     const update = (x, y) => {
       if (!getElsOk()) return;
+      if (overlayActive()) {
+        resetTransform();
+        return;
+      }
       const box = wrapperRef.current.getBoundingClientRect();
       const cx = box.left + box.width / 2;
       const cy = box.top  + box.height / 2;
@@ -68,18 +83,16 @@ export default function Magnet({
         innerRef.current.style.transition = activeTransition;
         innerRef.current.style.willChange = "transform";
       } else {
-        if (activeRef.current) {
-          activeRef.current = false;
-          setIsActive(false);
-        }
-        innerRef.current.style.transform  = "translate3d(0,0,0)";
-        innerRef.current.style.transition = inactiveTransition;
-        innerRef.current.style.willChange = "auto";
+        resetTransform();
       }
     };
 
     const onMove = (e) => {
       if (!getElsOk()) return;
+      if (overlayActive()) {
+        if (activeRef.current) resetTransform(); // overlay blocks interaction
+        return;
+      }
       if (rafRef.current) return;
       const { clientX: x, clientY: y } = e;
       rafRef.current = requestAnimationFrame(() => {
@@ -89,12 +102,7 @@ export default function Magnet({
     };
 
     const onLeave = () => {
-      if (!innerRef.current) return;
-      activeRef.current = false;
-      setIsActive(false);
-      innerRef.current.style.transform  = "translate3d(0,0,0)";
-      innerRef.current.style.transition = inactiveTransition;
-      innerRef.current.style.willChange = "auto";
+      resetTransform();
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });

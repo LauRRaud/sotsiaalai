@@ -17,11 +17,7 @@ const json = (data, status = 200) =>
   NextResponse.json(data, { status, headers: NO_STORE });
 
 /* ---------- Auth helpers ---------- */
-async function getAuthOptions() {
-  try {
-    const mod = await import("@/pages/api/auth/[...nextauth]");
-    return mod.authOptions || mod.default || mod.authConfig;
-  } catch {
+  async function getAuthOptions() {
     try {
       const mod = await import("@/auth");
       return mod.authOptions || mod.default || mod.authConfig;
@@ -29,7 +25,6 @@ async function getAuthOptions() {
       return undefined;
     }
   }
-}
 async function requireAdmin() {
   const { getServerSession } = await import("next-auth/next");
   const authOptions = await getAuthOptions();

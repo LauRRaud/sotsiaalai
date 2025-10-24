@@ -1,14 +1,10 @@
-// auth.js — NextAuth v4 konfiguratsioon (JS)
-import GoogleProviderImport from "next-auth/providers/google";
-import CredentialsProviderImport from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma, { prisma as prismaNamed } from "./lib/prisma"; // mõlemad olemas, kui kuskil teises failis vajab
-
+// auth.js — Auth.js (NextAuth v5) konfiguratsioon
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "./lib/prisma";
 import { compare } from "bcrypt";
-
-const GoogleProvider = GoogleProviderImport?.default ?? GoogleProviderImport;
-const CredentialsProvider =
-  CredentialsProviderImport?.default ?? CredentialsProviderImport;
 
 /** -------- eID stubid (asenda hiljem päris SK integratsiooniga) -------- */
 async function verifySmartId(personalCode) {
@@ -38,18 +34,14 @@ async function getOrCreateUserByAccount(provider, providerAccountId) {
   return user;
 }
 
-/** --------- v4 authConfig (kasutab JWT sessioone) --------- */
+/** --------- v5 authConfig (JWT sessioon) --------- */
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
 
-  // v4: JWT strateegia – sobib App Routeri serverikomponentidega
   session: { strategy: "jwt" },
 
-  // Soovi korral: pages: { signIn: "/api/auth/signin" },
-
   providers: [
-    /** 1) Email + parool (Credentials) */
-    CredentialsProvider({
+    Credentials({
       id: "credentials",
       name: "Email & Password",
       credentials: {
@@ -76,8 +68,7 @@ export const authConfig = {
       },
     }),
 
-    /** 2) Eesti eID (Smart-ID / Mobiil-ID) – stub autoriseerimine */
-    CredentialsProvider({
+    Credentials({
       id: "estonian_eid",
       name: "Estonian eID",
       credentials: {
@@ -108,22 +99,22 @@ export const authConfig = {
       },
     }),
 
-    /** 3) Google OAuth (toetab nii *_CLIENT_* kui ka legacy *_ID_* env’e) */
-    GoogleProvider({
+    Google({
       clientId:
-        process.env.GOOGLE_CLIENT_ID ||
-        process.env.GOOGLE_ID ||
+        process.env.AUTH_GOOGLE_ID ??
+        process.env.GOOGLE_CLIENT_ID ??
+        process.env.GOOGLE_ID ??
         "",
       clientSecret:
-        process.env.GOOGLE_CLIENT_SECRET ||
-        process.env.GOOGLE_SECRET ||
+        process.env.AUTH_GOOGLE_SECRET ??
+        process.env.GOOGLE_CLIENT_SECRET ??
+        process.env.GOOGLE_SECRET ??
         "",
       allowDangerousEmailAccountLinking: true,
     }),
   ],
 
   callbacks: {
-    /** JWT – salvestame rolli, isAdmin’i ning aktiivse tellimuse lipu */
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -131,7 +122,6 @@ export const authConfig = {
         token.isAdmin = Boolean(user.isAdmin);
       }
 
-      // Lisa / värskenda aktiivse tellimuse lipp (ACTIVE ja kehtiv)
       if (token.id) {
         try {
           const active = await prisma.subscription.findFirst({
@@ -153,7 +143,6 @@ export const authConfig = {
       return token;
     },
 
-    /** Session – peegelda JWT väärtused sessiooni */
     async session({ session, token }) {
       session.user = session.user || {};
       if (token?.id) session.user.id = token.id;
@@ -163,7 +152,6 @@ export const authConfig = {
       return session;
     },
 
-    /** Redirect – austa callbackUrl’i; muidu mine /start */
     async redirect({ url, baseUrl }) {
       try {
         const u = new URL(url);
@@ -176,3 +164,13 @@ export const authConfig = {
 
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+const authInstance = NextAuth(authConfig);
+
+export const { handlers, auth, signIn, signOut } = authInstance;
+export const { GET, POST } = handlers;
+
+// Ühilduvus varem authOptions/authConfig otsijatele
+export const authOptions = authConfig;
+
+export default authInstance;

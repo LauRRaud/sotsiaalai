@@ -1,8 +1,12 @@
 // next.config.mjs
 import { fileURLToPath } from "url";
 import path from "path";
+import createNextIntlPlugin from "next-intl/plugin";
 
-/** @type {import('next').NextConfig} */
+/** 
+ * @type {import('next').NextConfig} 
+ * Põhikonfiguratsioon SotsiaalAI jaoks
+ */
 const baseConfig = {
   reactStrictMode: true,
 
@@ -20,4 +24,7 @@ const baseConfig = {
   },
 };
 
-export default baseConfig;
+// Integreeri next-intl (kasutab juurkaustas olevat next-intl.config.js ja vaikimisi i18n/request.js)
+const withNextIntl = createNextIntlPlugin();
+
+export default withNextIntl(baseConfig);

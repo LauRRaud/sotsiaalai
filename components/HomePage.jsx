@@ -4,14 +4,18 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import Image from "next/image";
+import OnboardingModal from "@/components/OnboardingModal";
+import { useTranslations } from "next-intl";
 
 export default function HomePage() {
+  const t = useTranslations();
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
@@ -119,14 +123,21 @@ export default function HomePage() {
       <div className="homepage-root" onClick={handleBackgroundTap}>
         {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
         {!isMobile && (
-          <nav className="top-center-nav" aria-label="Peamenüü">
+          <nav className="top-center-nav" aria-label={t("home.nav.aria_main")}>
             <Link
               id="nav-meist"
               href="/meist"
               className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
             >
-              MEIST
+              {t("home.nav.about")}
             </Link>
+            <button
+              onClick={() => setIsOnboardingOpen(true)}
+              className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
+              style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+            >
+              Keel & ligipääsetavus
+            </button>
           </nav>
         )}
         <div className="main-content relative">
@@ -175,7 +186,7 @@ export default function HomePage() {
                 <div
                   className="card-face back"
                   role="button"
-                  aria-label="Logi sisse spetsialistina"
+                  aria-label={t("home.card.specialist.aria")}
                   tabIndex={0}
                   onClick={handleCardBackClick("left")}
                   onBlur={handleCardBackBlur("left")}
@@ -183,7 +194,7 @@ export default function HomePage() {
                   style={!flipAllowed ? { pointerEvents: "none" } : {}}
                 >
                   <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                    <h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
+                    <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
                     <Image
                       src="/logo/saimust.svg"
                       alt=""
@@ -245,7 +256,7 @@ export default function HomePage() {
                 <div
                   className="card-face back"
                   role="button"
-                  aria-label="Logi sisse pöördujana"
+                  aria-label={t("home.card.client.aria")}
                   tabIndex={0}
                   onClick={handleCardBackClick("right")}
                   onBlur={handleCardBackBlur("right")}
@@ -253,7 +264,7 @@ export default function HomePage() {
                   style={!flipAllowed ? { pointerEvents: "none" } : {}}
                 >
                   <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                    <h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
+                    <h2 className="headline-bold">{t("home.card.client.title")}</h2>
                     <Image
                       src="/logo/saivalge.svg"
                       alt=""
@@ -274,19 +285,26 @@ export default function HomePage() {
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
           {isMobile && (
-            <nav className="footer-bottom-nav" aria-label="Peamenüü">
+            <nav className="footer-bottom-nav" aria-label={t("home.nav.aria_main")}>
               <Link
                 id="nav-meist"
                 href="/meist"
                 className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
               >
-                MEIST
+                {t("home.nav.about")}
               </Link>
+              <button
+                onClick={() => setIsOnboardingOpen(true)}
+                className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
+                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              >
+                Keel & ligipääsetavus
+              </button>
             </nav>
           )}
           <Image
             src="/logo/logomust.svg"
-            alt="SotsiaalAI logo"
+            alt={t("home.footer.logo_alt")}
             id="footer-logo-img"
             className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
             draggable={false}
@@ -298,6 +316,14 @@ export default function HomePage() {
         </footer>
       </div>
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <OnboardingModal 
+        isOpen={isOnboardingOpen} 
+        onClose={() => setIsOnboardingOpen(false)}
+        preferredLocale="et"
+        initialContrast="normal"
+        initialFontSize="md"
+        initialMotion="normal"
+      />
     </>
   );
 }

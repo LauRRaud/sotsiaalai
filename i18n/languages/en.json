@@ -1,0 +1,401 @@
+{
+    "profile":  {
+                    "title":  "My profile",
+                    "loading":  "Loading profile…",
+                    "login_to_manage_sub":  "Sign in and activate a subscription to view your profile.",
+                    "login_to_view":  "Sign in to view your profile.",
+                    "login":  "Sign in",
+                    "manage_subscription":  "Manage subscription",
+                    "ui_language":  "Interface language",
+                    "email":  "Email",
+                    "new_password_optional":  "New password (optional)",
+                    "saving":  "Saving…",
+                    "save":  "Save",
+                    "logout":  "Sign out",
+                    "back_to_chat":  "Back to chat",
+                    "delete_confirm":  "Are you sure you want to permanently delete your account? This cannot be undone.",
+                    "deleting":  "Deleting…",
+                    "delete_account":  "Delete account",
+                    "load_failed":  "Failed to load profile.",
+                    "update_failed":  "Failed to update profile.",
+                    "delete_failed":  "Failed to delete account.",
+                    "saved_ok":  "Changes saved.",
+                    "server_unreachable":  "Server is not responding. Please try again.",
+                    "preferences": {
+                        "title": "Language & accessibility",
+                        "hint": "Choose your preferred language and accessibility options. Changes apply immediately.",
+                        "sections": {
+                            "locale": "Default language",
+                            "contrast": "Contrast",
+                            "fontSize": "Font size",
+                            "motion": "Motion"
+                        },
+                        "reset": "Reset",
+                        "save": "Save changes",
+                        "saving": "Saving…",
+                        "saved": "Preferences saved.",
+                        "save_failed": "Failed to save preferences. Please try again."
+                    }
+                },
+    "role":  {
+                 "admin":  "Administrator",
+                 "worker":  "Specialist",
+                 "client":  "Citizen seeking help",
+                 "unknown":  "—"
+             },
+    "common":  {
+                   "cancel":  "Cancel",
+                   "close":  "Close",
+                   "back_home":  "Back to homepage",
+                   "or":  "or"
+               },
+    "notFound":  {
+                     "title":  "Page not found",
+                     "description":  "Sorry, the page you were looking for doesn’t exist or has been removed."
+                 },
+    "error":  {
+                  "title":  "Something went wrong",
+                  "description":  "Sorry, an unexpected error occurred. Please try again or go back to the homepage.",
+                  "retry":  "Try again"
+              },
+    "about":  {
+                  "title":  "About",
+                  "intro":  {
+                                "paragraph1":  "\u003cp\u003e\u003cstrong\u003eSotsiaalAI\u003c/strong\u003e is an AI-powered platform designed to provide reliable and easy-to-understand support for both social-sector professionals and people seeking help with everyday social questions.\u003c/p\u003e",
+                                "paragraph2":  "\u003cp\u003eThe platform offers two role-based AI assistants: one for professionals and one for people reaching out with personal matters. Both are built to deliver needs-based assistance—whether it concerns legislation, benefits, services, or work-related situations. The answers draw on trusted sources, simplified explanations, and practical guidance.\u003c/p\u003e",
+                                "paragraph3":  "\u003cp\u003eThe social sector is characterised by heavy workloads, fragmented information, and a complex system landscape—something also confirmed by \u003coska\u003ethe OSKA report (2025)\u003c/oska\u003e. Our aim is to bring clarity, simplify daily work, and support both professionals and people seeking help.\u003c/p\u003e",
+                                "paragraph4":  "\u003cp\u003eThe platform is developed and operated by SotsiaalAI OÜ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.\u003c/p\u003e",
+                                "paragraph5":  "\u003cp\u003eWe continuously enhance the service to ensure a timely and practical experience for everyone.\u003c/p\u003e"
+                            },
+                  "contact":  {
+                                  "title":  "Contact",
+                                  "email_label":  "Email"
+                              },
+                  "cta":  {
+                              "title":  "Before using the site, make sure to review:"
+                          },
+                  "links":  {
+                                "privacy":  "Privacy Policy",
+                                "terms":  "Terms of Use",
+                                "admin":  "RAG knowledge base management",
+                                "back_home":  "Back to homepage"
+                            },
+                  "footer":  {
+                                 "note":  "SotsiaalAI © 2025"
+                             }
+              },
+    "legal":  {
+                  "common":  {
+                                 "back":  "Back",
+                                 "back_to_previous":  "Back to previous page"
+                             },
+                  "terms":  {
+                                "title":  "Terms of Use",
+                                "section1":  {
+                                                 "heading":  "1. General Provisions",
+                                                 "body":  "\u003cp\u003eThese Terms of Use govern the use of the \u003cstrong\u003eSotsiaalAI\u003c/strong\u003e platform (operated by \u003cstrong\u003eSotsiaalAI OÜ\u003c/strong\u003e; hereinafter the \u003cstrong\u003ePlatform\u003c/strong\u003e). By using the Platform you confirm that you have reviewed the terms and agree to them.\u003c/p\u003e"
+                                             },
+                                "section2":  {
+                                                 "heading":  "2. Service Description",
+                                                 "body":  "\u003cp\u003eThe platform provides AI-powered information support in the social sector. Responses are generated based on the SotsiaalAI knowledge base hosted in Estonia, which brings together reliable sources (for example laws, guidelines, service descriptions and other sector-specific information).\u003c/p\u003e"
+                                             },
+                                "section3":  {
+                                                 "heading":  "3. Account and Access",
+                                                 "items":  "\u003cli\u003eKeep your account secure and your password private.\u003c/li\u003e\u003cli\u003eDo not share your account or login credentials with third parties.\u003c/li\u003e\u003cli\u003eKeep your contact and payment details up to date.\u003c/li\u003e"
+                                             },
+                                "section4":  {
+                                                 "heading":  "4. Permitted Use",
+                                                 "items":  "\u003cli\u003eIt is prohibited to breach security, distribute malware or send mass requests.\u003c/li\u003e\u003cli\u003eIt is prohibited to transmit unlawful content or violate the rights of others.\u003c/li\u003e"
+                                             },
+                                "section5":  {
+                                                 "heading":  "5. Subscription, Payments and Cancellation",
+                                                 "paragraph1":  "\u003cp\u003eThe service is based on a monthly subscription (fee €7.99). Billing is carried out via Maksekeskus AS using the payment method you selected.\u003c/p\u003e",
+                                                 "paragraph2":  "\u003cp\u003eYou can manage your subscription at any time on the profile page (\"Manage subscription\") or by emailing \u003caEmail\u003einfo@sotsiaal.ai\u003c/aEmail\u003e. When cancelled, billing stops from the start of the next billing period.\u003c/p\u003e"
+                                             },
+                                "section6":  {
+                                                 "heading":  "6. Availability and Maintenance",
+                                                 "body":  "\u003cp\u003eWe make reasonable efforts to ensure reliability and continuous availability. Maintenance and updates may temporarily limit the service, but we aim to keep interruptions as short as possible.\u003c/p\u003e"
+                                             },
+                                "section7":  {
+                                                 "heading":  "7. Reliability and Accuracy",
+                                                 "body":  "\u003cp\u003eSotsiaalAI aims to provide accurate and up-to-date information. If an error or inaccuracy occurs, we will correct it as soon as possible.\u003c/p\u003e"
+                                             },
+                                "section8":  {
+                                                 "heading":  "8. Changes to the Terms",
+                                                 "body":  "\u003cp\u003eThe Terms of Use may be updated by publishing a new version on the platform. Users will be informed of significant changes via email or in-product notifications.\u003c/p\u003e"
+                                             },
+                                "section9":  {
+                                                 "heading":  "9. Use of AI and Data Processing",
+                                                 "paragraph1":  "\u003cp\u003e\u003cstrong\u003eSotsiaalAI\u003c/strong\u003e uses language technology developed by \u003cstrong\u003eOpenAI\u003c/strong\u003e (GPT model) to generate answers in the language provided by the user, relying on the SotsiaalAI knowledge base hosted in Estonia.\u003c/p\u003e",
+                                                 "paragraph2":  "\u003cp\u003eThe OpenAI service is used exclusively for text processing. Conversation content is not used for model training or improvement, and data stored permanently (user account, subscription and conversation summaries) is kept securely on servers operated by SotsiaalAI in Estonia.\u003c/p\u003e"
+                                             }
+                            },
+                  "privacy":  {
+                                  "title":  "Privacy Policy",
+                                  "section1":  {
+                                                   "heading":  "1. General Provisions",
+                                                   "paragraph1":  "\u003cp\u003eThis privacy policy applies to the web platform operated by \u003cstrong\u003eSotsiaalAI OÜ\u003c/strong\u003e (hereinafter \u003cstrong\u003eSotsiaalAI\u003c/strong\u003e or the \u003cstrong\u003ePlatform\u003c/strong\u003e). It explains how SotsiaalAI collects, uses and protects personal data in accordance with Estonian and European Union law.\u003c/p\u003e",
+                                                   "paragraph2":  "\u003cp\u003eSotsiaalAI processes personal data in compliance with the Estonian Personal Data Protection \u003caLawEst\u003eAct\u003c/aLawEst\u003e and the EU General Data Protection \u003caGdpr\u003eRegulation\u003c/aGdpr\u003e.\u003c/p\u003e"
+                                               },
+                                  "section2":  {
+                                                   "heading":  "2. Data We Collect",
+                                                   "paragraph1":  "\u003cp\u003e\u003cstrong\u003e2.1 Account data.\u003c/strong\u003e Email address, role (specialist or client), authentication method (e.g. Google, Smart-ID, Mobile-ID). Name and personal ID are not collected or stored.\u003c/p\u003e",
+                                                   "paragraph2":  "\u003cp\u003e\u003cstrong\u003e2.2 Subscription and payment data.\u003c/strong\u003e Subscription type and status, payment ID. Payments are processed by Maksekeskus AS; SotsiaalAI does not store card or bank account details.\u003c/p\u003e",
+                                                   "paragraph3":  "\u003cp\u003e\u003cstrong\u003e2.3 Technical metadata.\u003c/strong\u003e IP address, browser type, device information and logs for security and troubleshooting purposes.\u003c/p\u003e"
+                                               },
+                                  "section3":  {
+                                                   "heading":  "3. Purposes and Legal Bases",
+                                                   "items":  "\u003cli\u003eService delivery (providing conversations, account access) - performance of a contract (GDPR Art. 6(1)(b)).\u003c/li\u003e\u003cli\u003ePayment processing - performance of a contract and legitimate interest to prevent fraud (Art. 6(1)(b),(f)).\u003c/li\u003e\u003cli\u003eSecurity, error detection and reliability - legitimate interest (Art. 6(1)(f)).\u003c/li\u003e\u003cli\u003eLegal claims and reporting - legal obligation/legitimate interest (Art. 6(1)(c),(f)).\u003c/li\u003e"
+                                               },
+                                  "section4":  {
+                                                   "heading":  "4. Conversation Privacy",
+                                                   "body":  "\u003cp\u003eConversation content is not stored permanently or used for marketing or analytics. Technical processing of conversations may take place via an authorised service provider (e.g. answer generation).\u003c/p\u003e"
+                                               },
+                                  "section5":  {
+                                                   "heading":  "5. Processors",
+                                                   "body":  "\u003cp\u003eSotsiaalAI may use processors who handle data under SotsiaalAI\u0027s instructions, including the payment service provider (Maksekeskus AS) and the AI service provider. Contracts are in place with processors to ensure the level of data protection and confidentiality.\u003c/p\u003e"
+                                               },
+                                  "section6":  {
+                                                   "heading":  "6. Data Disclosure and Sharing",
+                                                   "body":  "\u003cp\u003ePersonal data is not shared with third parties unless required to provide the service, mandated by law or based on user consent. Payment data is processed by Maksekeskus AS under its own terms.\u003c/p\u003e"
+                                               },
+                                  "section7":  {
+                                                   "heading":  "7. Retention",
+                                                   "body":  "\u003cp\u003eAccount data is retained until the account is deleted or upon user request. Billing data is retained as required by accounting laws. Technical logs are stored for a short time for security and troubleshooting purposes.\u003c/p\u003e"
+                                               },
+                                  "section8":  {
+                                                   "heading":  "8. Your Rights",
+                                                   "items":  "\u003cli\u003eRight to access your data and obtain a copy.\u003c/li\u003e\u003cli\u003eRight to rectify inaccurate or incomplete data.\u003c/li\u003e\u003cli\u003eRight to request erasure (\"right to be forgotten\").\u003c/li\u003e\u003cli\u003eRight to restrict processing or object to it.\u003c/li\u003e\u003cli\u003eRight to lodge a complaint with the \u003caDpa\u003eData Protection Inspectorate\u003c/aDpa\u003e.\u003c/li\u003e"
+                                               },
+                                  "section9":  {
+                                                   "heading":  "9. Cookies",
+                                                   "body":  "\u003cp\u003eWe only use essential cookies (login, session, language preference). No advertising, tracking or analytics cookies are used.\u003c/p\u003e"
+                                               },
+                                  "section10":  {
+                                                    "heading":  "10. Security",
+                                                    "body":  "\u003cp\u003eWe implement technical and organisational measures (HTTPS, access controls, logging and backups) to protect data against unauthorised access, alteration or destruction.\u003c/p\u003e"
+                                                },
+                                  "section11":  {
+                                                    "heading":  "11. Changes",
+                                                    "body":  "\u003cp\u003eThis privacy policy may be updated. Significant changes will be communicated within the product or via email.\u003c/p\u003e"
+                                                }
+                              }
+              },
+    "home":  {
+                 "nav":  {
+                             "aria_main":  "Main menu",
+                             "about":  "ABOUT US"
+                         },
+                 "card":  {
+                              "specialist":  {
+                                                 "aria":  "Sign in as specialist",
+                                                 "title":  "FOR SOCIAL WORKERS"
+                                             },
+                              "client":  {
+                                             "aria":  "Sign in as citizen",
+                                             "title":  "FOR PEOPLE SEEKING HELP"
+                                         }
+                          },
+                 "footer":  {
+                                "logo_alt":  "SotsiaalAI logo"
+                            },
+                 "circular":  {
+                                  "left_text":  "LAWS PRACTICE GUIDANCE",
+                                  "right_text":  "RIGHTS GUIDELINES OPPORTUNITIES"
+                              }
+             },
+    "chat":  {
+                 "title":  "SotsiaalAI",
+                 "intro":  {
+                               "message":  "Hello! SotsiaalAI assists you with information based on trusted sources. Ask your question."
+                           },
+                 "crisis":  {
+                                "notice":  "CRISIS: If you are in immediate danger, call 112. For children and families, the free 24/7 helpline is 116111 (Child Helpline)."
+                            },
+                 "error":  {
+                               "rate_limit_retry":  "Too many requests. Try again in about {seconds}s.",
+                               "rate_limit_generic":  "Too many requests. Please try again soon.",
+                               "no_response":  "The assistant did not respond.",
+                               "no_answer":  "Sorry, I couldn’t generate an answer right now.",
+                               "stream_missing":  "The assistant did not send a stream.",
+                               "stream_failed":  "Stream error.",
+                               "interrupted":  "Answer generation was stopped.",
+                               "interrupted_suffix":  "(Answer generation was stopped.)",
+                               "generic":  "Sorry, something went wrong while getting the answer.",
+                               "with_detail":  "Error: {message}"
+                           },
+                 "menu":  {
+                              "open":  "Open conversations",
+                              "label":  "Conversations"
+                          },
+                 "profile":  {
+                                 "open":  "Open profile",
+                                 "alt":  "Profile",
+                                 "label":  "Profile"
+                             },
+                 "aria":  {
+                              "messages":  "Chat messages"
+                          },
+                 "typing":  {
+                                "label":  "Thinking"
+                            },
+                 "scroll_to_bottom":  "Scroll to bottom of chat",
+                 "scroll_to_bottom_title":  "Scroll to bottom",
+                 "input":  {
+                               "label":  "Write a message",
+                               "placeholder":  "Type your question…"
+                           },
+                 "send":  {
+                              "stop":  "Stop answer",
+                              "send":  "Send message",
+                              "title_send":  "Send (Enter)",
+                              "title_stop":  "Stop answer"
+                          },
+                 "back_to_home":  "Back to homepage",
+                 "sources":  {
+                                 "button":  "Sources ({count})",
+                                 "dialog_label":  "Conversation sources",
+                                 "heading":  "Conversation sources",
+                                 "empty":  "No sources in this conversation.",
+                                 "used_multiple":  "Used in {count} parts of the conversation.",
+                                 "section":  "Section: {section}",
+                                 "pages":  "Pages: {pages}",
+                                 "open_single":  "Open source",
+                                 "open_indexed":  "Open ({index})",
+                                 "fallback_label":  "Source",
+                                 "page_prefix":  "pp."
+                             },
+                 "sidebar":  {
+                                 "error":  {
+                                               "load":  "Failed to load conversations.",
+                                               "history":  "Conversation history is currently unavailable.",
+                                               "create":  "Could not create a new conversation.",
+                                               "delete":  "Could not delete the conversation."
+                                           },
+                                 "confirm":  {
+                                                 "delete":  "Delete this conversation?"
+                                             },
+                                 "aria_list":  "Conversation list",
+                                 "button":  {
+                                                "creating":  "Creating…",
+                                                "new":  "New conversation",
+                                                "refresh":  "Refresh"
+                                            },
+                                 "empty":  "No conversations yet.",
+                                 "empty_cta":  "Create the first one",
+                                 "item":  {
+                                              "fallback_title":  "Conversation",
+                                              "delete":  "Delete conversation",
+                                              "delete_title":  "Delete"
+                                          }
+                             }
+             },
+    "auth":  {
+                 "email_placeholder":  "you@example.com",
+                 "password_placeholder":  "Password",
+                 "login":  {
+                               "title":  "Sign in",
+                               "google":  "Google",
+                               "smart_id":  "Smart-ID",
+                               "mobile_id":  "Mobile-ID",
+                               "or":  "or",
+                               "prompt":  {
+                                              "smart_id":  "Enter personal ID (SMART-ID):",
+                                              "mobile_id_code":  "Enter personal ID (Mobile-ID):",
+                                              "mobile_id_phone":  "Enter phone number (+372…):"
+                                          },
+                               "error":  {
+                                             "smart_id":  "Smart-ID login failed.",
+                                             "mobile_id":  "Mobile-ID login failed.",
+                                             "credentials":  "Incorrect email or password.",
+                                             "email_required":  "Please enter your email address.",
+                                             "email_invalid":  "Please enter a valid email address.",
+                                             "password_required":  "Please enter your password.",
+                                             "generic":  "Sign-in failed. Please try again."
+                                         },
+                               "submit":  "Sign in",
+                               "submitting":  "Signing in…",
+                               "forgot":  "Forgot password?",
+                               "register_link":  "Create account"
+                           },
+                 "register":  {
+                                  "title":  "Create account",
+                                  "role_label":  "Role:",
+                                  "agreement":  "I agree to the \u003cterms\u003eTerms of Use\u003c/terms\u003e and the \u003cprivacy\u003ePrivacy Policy\u003c/privacy\u003e.",
+                                  "error":  {
+                                                "agree_required":  "You must agree to the terms of use and privacy policy.",
+                                                "failed":  "Registration failed.",
+                                                "auto_login":  "Automatic sign-in failed. Please sign in manually."
+                                            },
+                                  "submit":  "Create account",
+                                  "submitting":  "Creating account…"
+                              },
+                 "reset":  {
+                               "title":  "Reset password",
+                               "success":  "\u003cp\u003eIf the address you entered is valid, we sent you an email with a reset link.\u003c/p\u003e\u003cp\u003eCheck your spam folder too!\u003c/p\u003e",
+                               "error":  {
+                                             "required":  "Please enter your email address.",
+                                             "failed":  "We couldn’t send the reset link.",
+                                             "server":  "A connection error occurred. Please try again."
+                                         },
+                               "submit":  "Send reset link",
+                               "submitting":  "Sending…"
+                           },
+                 "resetForm":  {
+                                   "title":  "Set a new password",
+                                   "success":  "Your password has been updated. You can now log in with your new password.",
+                                   "submit":  "Update password",
+                                   "submitting":  "Updating...",
+                                   "fields":  {
+                                                  "password":  "New password",
+                                                  "confirm":  "Confirm password"
+                                              },
+                                   "errors":  {
+                                                  "required":  "Please fill in both password fields.",
+                                                  "mismatch":  "The passwords do not match.",
+                                                  "minLength":  "Password must be at least 6 characters long.",
+                                                  "updateFailed":  "We couldn\u0027t update the password.",
+                                                  "server":  "A server error occurred. Please try again."
+                                              }
+                               }
+             },
+    "subscription":  {
+                         "title":  "Subscription",
+                         "loading":  "Loading subscription details…",
+                         "error":  {
+                                       "load_failed":  "Failed to load subscription status.",
+                                       "payment_start":  "Could not start the payment."
+                                   },
+                         "payment":  {
+                                         "redirect_demo":  "Redirecting to Maksekeskus payment page (demo)…"
+                                     },
+                         "active":  {
+                                        "summary":  "Your subscription is active. Monthly price: €7.99.",
+                                        "cancel_note":  "You can cancel your subscription any time on the profile page or by emailing \u003cemail\u003einfo@sotsiaal.ai\u003c/email\u003e."
+                                    },
+                         "button":  {
+                                        "open_profile":  "Open profile",
+                                        "activate":  "Pay and activate subscription",
+                                        "processing":  "Redirecting to payment…"
+                                    },
+                         "info":  "To use SotsiaalAI you need a monthly subscription priced at €7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
+                     },
+    "start":  {
+                  "heading":  "Welcome back",
+                  "lead":  "Pick the tool you want to continue with.",
+                  "cards":  {
+                                "rag":  {
+                                            "title":  "Manage the RAG knowledge base",
+                                            "description":  "Upload new materials, manage sources and monitor indexing status."
+                                        },
+                                "chat":  {
+                                             "title":  "Chat assistant",
+                                             "description":  "Test the assistant and run conversations using the role-specific RAG context."
+                                         }
+                            },
+                  "metadata":  {
+                                   "title":  "Next step — SotsiaalAI",
+                                   "description":  "Choose where to go after signing in."
+                               }
+              }
+}

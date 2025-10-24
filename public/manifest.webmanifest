@@ -1,0 +1,23 @@
+{
+  "name": "SotsiaalAI",
+  "short_name": "SotsiaalAI",
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#0d111b",
+  "background_color": "#0d111b",
+  "icons": [
+    {
+      "src": "/logo/logomust.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/saivalge.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
