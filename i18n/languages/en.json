@@ -77,8 +77,16 @@
                   "links":  {
                                 "privacy":  "Privacy Policy",
                                 "terms":  "Terms of Use",
+                                "install":  "Download SotsiaalAI for desktop",
                                 "admin":  "RAG knowledge base management",
                                 "back_home":  "Back to homepage"
+                            },
+                  "install_prompt":  {
+                                "title":  "Would you like to install the app on your computer?",
+                                "body":  "The installed app opens in a separate window without the browser chrome.",
+                                "help":  "To install, use the “Install app” option from your browser menu or the install icon next to the address bar.",
+                                "yes":  "Yes",
+                                "no":  "No"
                             },
                   "footer":  {
                                  "note":  "SotsiaalAI © 2025"

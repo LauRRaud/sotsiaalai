@@ -1,8 +1,7 @@
-// app/api/chat/route.js (UPDATED, hardened)
+// app/api/chat/route.js (UPDATED, hardened, no zod)
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
-import { z } from "zod";
 
 /* ------------------------- Runtime/Cache ------------------------- */
 
@@ -453,6 +452,73 @@ function isGreeting(text = "") {
   return false;
 }
 
+/* ------------------------- Payload validation (no zod) ------------------------- */
+
+function parsePayload(raw) {
+  const err = (m) => {
+    const e = new Error(m);
+    e.status = 400;
+    throw e;
+  };
+  const isObj = (v) => v && typeof v === "object" && !Array.isArray(v);
+
+  if (!isObj(raw)) err("Vigane päringukeha.");
+
+  const out = {};
+
+  // message: string(1..2000)
+  if (typeof raw.message !== "string" || !raw.message.trim()) err("Puudub sõnum.");
+  if (raw.message.length > 2000) err("Sõnum liiga pikk.");
+  out.message = raw.message;
+
+  // history?: {role?, text?}[] (max 12)
+  if (raw.history != null) {
+    if (!Array.isArray(raw.history)) err("history peab olema massiiv.");
+    if (raw.history.length > 12) err("history on liiga pikk.");
+    out.history = raw.history.map((h) => {
+      if (!isObj(h)) err("vigane history kirje.");
+      const item = {};
+      if (h.role != null) {
+        const r = String(h.role).toLowerCase();
+        if (!["user", "ai"].includes(r)) err("vigane history.role.");
+        item.role = r;
+      }
+      if (h.text != null) {
+        if (typeof h.text !== "string") err("history.text peab olema string.");
+        if (h.text.length > 2000) err("history.text liiga pikk.");
+        item.text = h.text;
+      }
+      return item;
+    });
+  }
+
+  // role?: string
+  if (raw.role != null) out.role = String(raw.role);
+
+  // stream?/persist?/includeSources?/forceSources?: boolean
+  for (const k of ["stream", "persist", "includeSources", "forceSources"]) {
+    if (raw[k] != null) {
+      if (typeof raw[k] !== "boolean") err(`${k} peab olema boolean.`);
+      out[k] = raw[k];
+    }
+  }
+
+  // convId?: string(<=80)
+  if (raw.convId != null) {
+    if (typeof raw.convId !== "string" || raw.convId.length > 80) err("vigane convId.");
+    out.convId = raw.convId;
+  }
+
+  // audience?: "CLIENT" | "SOCIAL_WORKER"
+  if (raw.audience != null) {
+    const a = String(raw.audience).toUpperCase();
+    if (!["CLIENT", "SOCIAL_WORKER"].includes(a)) err("vigane audience.");
+    out.audience = a;
+  }
+
+  return out;
+}
+
 /* ------------------------- Prompt builder ------------------------- */
 
 function detectSourcesRequest(rawHistory = [], latestMessage = "") {
@@ -710,28 +776,6 @@ function normalizePageRangeString(s = "") {
   return s.replace(/\s*[-–—]\s*/g, "–").trim();
 }
 
-/* ------------------------- Payload validation ------------------------- */
-
-const PayloadSchema = z.object({
-  message: z.string().min(1).max(2000),
-  history: z
-    .array(
-      z.object({
-        role: z.enum(["user", "ai"]).optional(),
-        text: z.string().max(2000).optional(),
-      })
-    )
-    .max(12)
-    .optional(),
-  role: z.string().optional(),
-  stream: z.boolean().optional(),
-  persist: z.boolean().optional(),
-  convId: z.string().max(80).optional(),
-  includeSources: z.boolean().optional(),
-  forceSources: z.boolean().optional(),
-  audience: z.enum(["CLIENT", "SOCIAL_WORKER"]).optional(),
-});
-
 /* ------------------------- Simple rate-limit (per user) ------------------------- */
 // 20 requests / 60s per userId (replace with Redis/Upstash in prod)
 function rateLimitCheck(userId) {
@@ -761,9 +805,9 @@ export async function POST(req) {
   // 1) payload
   let payload;
   try {
-    payload = PayloadSchema.parse(await req.json());
+    payload = parsePayload(await req.json());
   } catch (e) {
-    return makeError("Vigane päring.", 400, { detail: String(e?.message || e) });
+    return makeError("Vigane päring.", e?.status || 400, { detail: String(e?.message || e) });
   }
   const message = String(payload?.message || "").trim();
 

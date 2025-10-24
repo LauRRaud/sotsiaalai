@@ -1,19 +1,27 @@
-// app/page.js  (server-komponent – ära lisa "use client")
+// app/page.js (juurekülastus → suuna keele prefiksiga teele)
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { NextIntlClientProvider } from "next-intl";
-import { loadMessages } from "@/i18n/i18n";
-import HomePage from "@/components/HomePage";
-import OnboardingModal from "@/components/OnboardingModal";
+import { normalizeLocale, DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/lib/preferences";
 
+// Meta (kuvatakse / lehe kohta)
 export const metadata = {
   title: "SotsiaalAI",
   description:
     "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele.",
 };
 
-// turvaline Cookie päise parsimine
+// Keele utiliidid
+const SUPPORTED_LOCALE_SET = new Set(SUPPORTED_LOCALES);
+
+function pickSupportedLocale(value) {
+  const normalized = normalizeLocale(value);
+  if (normalized && SUPPORTED_LOCALE_SET.has(normalized)) {
+    return normalized;
+  }
+  return null;
+}
+
+// Turvaline Cookie päise parsimine
 function readCookieFromHeader(name, cookieHeader) {
   if (!cookieHeader || typeof cookieHeader !== "string") return null;
   const found = cookieHeader
@@ -29,81 +37,42 @@ function readCookieFromHeader(name, cookieHeader) {
   }
 }
 
-export default async function Page() {
-  // ---- 1) loe päised (async API Next 16-s)
-  const h = await headers();
+// Accept-Language -> eelistatud supported locale
+function parseAcceptLanguage(headerValue) {
+  if (!headerValue || typeof headerValue !== "string") return null;
 
-  // ---- 2) proovi lugeda 'locale' Cookie päisest
+  const candidates = headerValue
+    .split(",")
+    .map((entry) => entry.split(";")[0]?.trim()?.toLowerCase())
+    .filter(Boolean);
+
+  for (const candidate of candidates) {
+    const direct = pickSupportedLocale(candidate);
+    if (direct) return direct;
+
+    const base = candidate.split("-")[0];
+    const baseMatch = pickSupportedLocale(base);
+    if (baseMatch) return baseMatch;
+  }
+  return null;
+}
+
+export default function Page() {
+  const h = headers();
+
+  // 1) cookie 'locale' → ülimuslik
   const cookieHeader = (h.get("cookie") || "").toString();
-  const locale = readCookieFromHeader("locale", cookieHeader);
-
-  // Kui keel on juba valitud → suuna keele avalehele
-  if (locale) {
-    redirect(`/${locale}`);
+  const cookieLocale = pickSupportedLocale(readCookieFromHeader("locale", cookieHeader));
+  if (cookieLocale) {
+    redirect(`/${cookieLocale}`);
   }
 
-  // ---- 3) vali modali vaikimisi keel Accept-Language'ist
-  const accept = (h.get("accept-language") || "").toString().toLowerCase();
-  const preferredLocale = accept.includes("et")
-    ? "et"
-    : accept.includes("ru")
-    ? "ru"
-    : "en";
+  // 2) Accept-Language → fallback
+  const acceptHeader = (h.get("accept-language") || "").toString();
+  const acceptLocale = parseAcceptLanguage(acceptHeader);
 
-  // ---- 4) lae i18n sõnumid (et HomePage saaks useTranslations() kasutada ka juurel)
-  const messages = await loadMessages(preferredLocale);
+  // 3) viimane fallback → DEFAULT_LOCALE
+  const targetLocale = acceptLocale ?? DEFAULT_LOCALE;
 
-  return (
-    <>
-      {/* Organization JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "SotsiaalAI",
-            url: "https://sotsiaal.ai",
-            logo: "https://sotsiaal.ai/logo/logomust.svg",
-            sameAs: [],
-          }),
-        }}
-      />
-
-      {/* WebSite + SearchAction JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "SotsiaalAI",
-            url: "https://sotsiaal.ai",
-            potentialAction: {
-              "@type": "SearchAction",
-              target: "https://sotsiaal.ai/vestlus?q={search_term_string}",
-              "query-input": "required name=search_term_string",
-            },
-          }),
-        }}
-      />
-
-      {/* Avalehe sisu – wrapime i18n Provideriga */}
-      <NextIntlClientProvider locale={preferredLocale} messages={messages}>
-        <Suspense fallback={null}>
-          <HomePage />
-        </Suspense>
-
-        {/* Esmakülastuse modal – salvestab prefsid ja 303/200 → /{locale} */}
-        <OnboardingModal
-          isOpen
-          preferredLocale={preferredLocale}
-          initialContrast="normal"
-          initialFontSize="md"
-          initialMotion="normal"
-          nextPath={null}
-        />
-      </NextIntlClientProvider>
-    </>
-  );
+  redirect(`/${targetLocale}`);
 }

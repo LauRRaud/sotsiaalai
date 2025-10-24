@@ -80,6 +80,14 @@ export default function MeistBody({ isAdmin = false }) {
               {t("links.terms")}
             </Link>
           </li>
+          <InstallPromptGlass
+            linkLabel={t("links.install")}
+            title={t("install_prompt.title")}
+            body={t("install_prompt.body")}
+            yes={t("install_prompt.yes")}
+            no={t("install_prompt.no")}
+            help={t("install_prompt.help")}
+          />
           {isAdmin ? (
             <li>
               <Link href="/admin/rag" className="link-brand">
@@ -89,8 +97,6 @@ export default function MeistBody({ isAdmin = false }) {
           ) : null}
         </ul>
       </section>
-
-      <InstallPromptGlass />
 
       <div className="back-btn-wrapper">
         <Link

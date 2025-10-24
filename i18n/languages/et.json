@@ -77,8 +77,16 @@
                   "links":  {
                                 "privacy":  "Privaatsuspoliitika",
                                 "terms":  "Kasutustingimused",
+                                "install":  "Lae SotsiaalAI arvutisse alla",
                                 "admin":  "RAG andmebaasi haldus",
                                 "back_home":  "Tagasi avalehele"
+                            },
+                  "install_prompt":  {
+                                "title":  "Kas soovid rakenduse installida arvutisse?",
+                                "body":  "Installitud rakendus avaneb eraldi aknas, ilma brauseriribata.",
+                                "help":  "Installimiseks ava oma brauseri menüüst käsu „Install app” või kasuta aadressiriba installi ikooni.",
+                                "yes":  "Jah",
+                                "no":  "Ei"
                             },
                   "footer":  {
                                  "note":  "SotsiaalAI © 2025"

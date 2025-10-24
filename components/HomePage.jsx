@@ -13,6 +13,7 @@ import { useMotionPreference } from "@/components/preferences/hooks";
 
 export default function HomePage() {
   const t = useTranslations();
+
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -23,7 +24,7 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
-  const [isMobile, setIsMobile] = useState(false); // ← NEW
+  const [isMobile, setIsMobile] = useState(false);
   const motionPreference = useMotionPreference();
   const reduceMotion = motionPreference === "reduce";
 
@@ -57,7 +58,6 @@ export default function HomePage() {
       setMagnetReady(false);
       return undefined;
     }
-
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
       return () => clearTimeout(t);
@@ -66,11 +66,11 @@ export default function HomePage() {
     return undefined;
   }, [leftFadeDone, rightFadeDone, reduceMotion]);
 
-  // lock body scroll when modal open
+  // lock body scroll when any modal open
   useEffect(() => {
-    document.body.classList.toggle("modal-open", isLoginOpen);
+    document.body.classList.toggle("modal-open", isLoginOpen || isOnboardingOpen);
     return () => document.body.classList.remove("modal-open");
-  }, [isLoginOpen]);
+  }, [isLoginOpen, isOnboardingOpen]);
 
   useEffect(() => {
     if (!isLoginOpen) return;
@@ -78,19 +78,14 @@ export default function HomePage() {
   }, [isLoginOpen]);
 
   const flipAllowed = leftFadeDone && rightFadeDone && !reduceMotion;
-  // IMPORTANT: desktop gets hover flip; mobile does not
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
   const flipEndMs = 333;
 
   // desktop hover handlers – no-op on mobile
   const onLeftEnter  = () => { if (!isMobile && !reduceMotion) setLeftFlipping(true); };
-  const onLeftLeave  = () => {
-    if (!isMobile && !reduceMotion) setTimeout(() => setLeftFlipping(false), flipEndMs);
-  };
+  const onLeftLeave  = () => { if (!isMobile && !reduceMotion) setTimeout(() => setLeftFlipping(false), flipEndMs); };
   const onRightEnter = () => { if (!isMobile && !reduceMotion) setRightFlipping(true); };
-  const onRightLeave = () => {
-    if (!isMobile && !reduceMotion) setTimeout(() => setRightFlipping(false), flipEndMs);
-  };
+  const onRightLeave = () => { if (!isMobile && !reduceMotion) setTimeout(() => setRightFlipping(false), flipEndMs); };
 
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
@@ -116,9 +111,10 @@ export default function HomePage() {
     setMobileFlipReady((prev) =>
       !prev[side]
         ? { left: side === "left", right: side === "right" } // 1st tap → flip
-        : { left: false, right: false }                      // 2nd tap on same side → reset (back-side handler opens modal)
+        : { left: false, right: false }                      // 2nd tap → reset (back-side handler opens modal)
     );
   };
+
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({ left: false, right: false });
   }, []);
@@ -137,11 +133,10 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
   }, [reduceMotion]);
 
-
   return (
     <>
       <div className="homepage-root" onClick={handleBackgroundTap}>
-        {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
+        {/* Desktop: MEIST ülal keskel */}
         {!isMobile && (
           <nav className="top-center-nav" aria-label={t("home.nav.aria_main")}>
             <Link
@@ -151,22 +146,14 @@ export default function HomePage() {
             >
               {t("home.nav.about")}
             </Link>
-            <button
-              onClick={() => setIsOnboardingOpen(true)}
-              className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
-              style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
-            >
-              Keel & ligipääsetavus
-            </button>
           </nav>
         )}
+
         <div className="main-content relative">
           {/* LEFT CARD */}
           <div className="side left">
             <div
-              className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
-                mobileFlipReady.left ? "mobile-flipped-left" : ""
-              }`}
+              className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${mobileFlipReady.left ? "mobile-flipped-left" : ""}`}
               onMouseEnter={onLeftEnter}
               onMouseLeave={onLeftLeave}
               onClick={handleCardTap("left")}
@@ -177,9 +164,7 @@ export default function HomePage() {
                   <Magnet
                     padding={80}
                     magnetStrength={18}
-                    disabled={
-                      reduceMotion || isLoginOpen || !magnetReady || leftFlipping
-                    }
+                    disabled={reduceMotion || isLoginOpen || !magnetReady || leftFlipping}
                   >
                     {({ isActive }) => (
                       <div
@@ -207,7 +192,7 @@ export default function HomePage() {
                     )}
                   </Magnet>
                 </div>
-  
+
                 {/* BACK */}
                 <div
                   className="card-face back"
@@ -236,13 +221,11 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-  
+
           {/* RIGHT CARD */}
           <div className="side right">
             <div
-              className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
-                mobileFlipReady.right ? "mobile-flipped-right" : ""
-              }`}
+              className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${mobileFlipReady.right ? "mobile-flipped-right" : ""}`}
               onMouseEnter={onRightEnter}
               onMouseLeave={onRightLeave}
               onClick={handleCardTap("right")}
@@ -253,9 +236,7 @@ export default function HomePage() {
                   <Magnet
                     padding={80}
                     magnetStrength={18}
-                    disabled={
-                      reduceMotion || isLoginOpen || !magnetReady || rightFlipping
-                    }
+                    disabled={reduceMotion || isLoginOpen || !magnetReady || rightFlipping}
                   >
                     {({ isActive }) => (
                       <div
@@ -283,7 +264,7 @@ export default function HomePage() {
                     )}
                   </Magnet>
                 </div>
-  
+
                 {/* BACK */}
                 <div
                   className="card-face back"
@@ -313,7 +294,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-  
+
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
           {isMobile && (
@@ -325,13 +306,6 @@ export default function HomePage() {
               >
                 {t("home.nav.about")}
               </Link>
-              <button
-                onClick={() => setIsOnboardingOpen(true)}
-                className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
-                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
-              >
-                Keel & ligipääsetavus
-              </button>
             </nav>
           )}
           <Image
@@ -347,15 +321,10 @@ export default function HomePage() {
           />
         </footer>
       </div>
+
+      {/* Modals */}
+      <OnboardingModal open={isOnboardingOpen} onClose={() => setIsOnboardingOpen(false)} />
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      <OnboardingModal 
-        isOpen={isOnboardingOpen} 
-        onClose={() => setIsOnboardingOpen(false)}
-        preferredLocale="et"
-        initialContrast="normal"
-        initialFontSize="md"
-        initialMotion="normal"
-      />
     </>
   );
 }
