@@ -79,7 +79,8 @@ export default function HomePage() {
 
   const flipAllowed = leftFadeDone && rightFadeDone;
   // IMPORTANT: desktop gets hover flip; mobile does not
-  const flipClass = !isMobile && flipAllowed && !prefs.reduceMotion ? "flip-allowed" : "";
+  // Reduced motion: allow flipping, but transitions are globally minimized by CSS
+  const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
   const flipEndMs = 333;
 
   // desktop hover handlers – no-op on mobile

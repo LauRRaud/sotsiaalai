@@ -62,7 +62,22 @@ export default function I18nProvider({ initialLocale = "et", messages = {}, chil
     announce(template.replace("{language}", languageName));
   }, [locale, dict, announce]);
 
-  const value = useMemo(() => ({ locale, messages: dict, t, setLocale }), [locale, dict, t, setLocale]);
+  // Allow consumers to update messages immediately on the client (for instant UI switch)
+  const setMessages = useCallback((nextMessages) => {
+    setDict(nextMessages || {});
+  }, []);
+
+  // If server provided messages or initialLocale changes on refresh, sync local state
+  React.useEffect(() => {
+    setDict(messages || {});
+  }, [messages]);
+  React.useEffect(() => {
+    if (!initialLocale) return;
+    setLocaleState(initialLocale);
+    try { document.documentElement.setAttribute("lang", initialLocale); } catch {}
+  }, [initialLocale]);
+
+  const value = useMemo(() => ({ locale, messages: dict, t, setLocale, setMessages }), [locale, dict, t, setLocale, setMessages]);
 
   return (
     <I18nContext.Provider value={value}>

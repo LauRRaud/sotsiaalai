@@ -75,6 +75,12 @@ const Label = styled.label`
     color: var(--pt, #C9C7C2);
     font: inherit;
   }
+
+  /* A11Y modal: scale controls and text slightly larger */
+  .a11y-modal & { gap: 0.75rem; }
+  .a11y-modal & .box { width: 32px; height: 32px; }
+  .a11y-modal & .svg { width: 22px; height: 22px; }
+  .a11y-modal & .text { font-size: 1.12rem; }
 `;
 
 const FancyCheckbox = forwardRef(function FancyCheckbox(
@@ -108,4 +114,3 @@ const FancyCheckbox = forwardRef(function FancyCheckbox(
 });
 
 export default FancyCheckbox;
-

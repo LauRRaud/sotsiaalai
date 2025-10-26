@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function AccessibilityModal({ onClose, prefs, onSave }) {
   const boxRef = useRef(null);
   const firstFocusRef = useRef(null);
-  const { t, locale, setLocale } = useI18n();
+  const { t, locale, setLocale, setMessages } = useI18n();
   const router = useRouter();
 
   const [textScale, setTextScale] = useState(prefs.textScale || "md");
@@ -60,15 +60,25 @@ export default function AccessibilityModal({ onClose, prefs, onSave }) {
 
   const stopInside = (e) => e.stopPropagation();
 
-  const save = () => {
+  const save = async () => {
     onSave?.({ textScale, contrast, reduceMotion });
-    // Change language if needed; keep current path and let SSR pick up cookie
+    // Change language if needed: update cookie + client messages immediately, then refresh SSR
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
+      // Load messages client-side for instant update (no full reload flicker)
       try {
-        const current = `${window.location.pathname}${window.location.search || ""}${window.location.hash || ""}`;
-        router.replace(current);
-      } catch { router.refresh?.(); }
+        const LOADERS = {
+          et: () => import("@/messages/et.json"),
+          ru: () => import("@/messages/ru.json"),
+          en: () => import("@/messages/en.json"),
+        };
+        const mod = await (LOADERS[lang] ? LOADERS[lang]() : LOADERS.et());
+        const msgs = mod?.default || {};
+        setMessages(msgs);
+      } catch {}
+      try {
+        router.refresh();
+      } catch {}
     }
     onClose?.();
   };

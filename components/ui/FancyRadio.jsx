@@ -58,6 +58,14 @@ const Label = styled.label`
     color: var(--pt-150, #E6E5E3);
     font: inherit;
   }
+
+  /* A11Y modal: scale controls and text slightly larger */
+  .a11y-modal & {
+    gap: 0.7rem;
+  }
+  .a11y-modal & .outer { width: 24px; height: 24px; }
+  .a11y-modal & .dot { width: 12px; height: 12px; }
+  .a11y-modal & .text { font-size: 1.12rem; }
 `;
 
 const FancyRadio = forwardRef(function FancyRadio(
@@ -87,4 +95,3 @@ const FancyRadio = forwardRef(function FancyRadio(
 });
 
 export default FancyRadio;
-

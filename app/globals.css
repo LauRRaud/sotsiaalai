@@ -3004,6 +3004,17 @@ html[data-reduce-motion="1"] .defer-fade{
   animation: none !important;
 }
 
+/* Reduced motion: keep circular text visible but not moving */
+html[data-reduce-motion="1"] .circular-text-line{
+  animation: none !important;
+}
+html[data-reduce-motion="1"] .circular-text-svg .word1,
+html[data-reduce-motion="1"] .circular-text-svg .word2,
+html[data-reduce-motion="1"] .circular-text-svg .word3{
+  opacity: 1 !important;
+  animation: none !important;
+}
+
 /* === A11Y: target-size (valitud võtmekohad; vajadusel lisa) === */
 .login-icon-btn,
 .back-arrow-btn,
@@ -3027,13 +3038,17 @@ html[data-reduce-motion="1"] .defer-fade{
 .a11y-modal{
   position:fixed; left:50%; top:50%; transform: translate(-50%, -50%);
   z-index:50; outline:none; pointer-events:auto;
-  max-width:min(760px, 94vw); width:100%; padding:1.1rem 1.25rem 1.35rem; border-radius:16px;
+  max-width:min(900px, 96vw); width:100%; padding:1.35rem 1.6rem 1.7rem; border-radius:16px;
   background: rgba(31,31,31,.72); border:1px solid rgba(255,255,255,.12);
   backdrop-filter: blur(10px) saturate(130%);
 }
 .a11y-modal .glass-title{ margin-top:.25rem; }
-.a11y-modal .a11y-fieldset{ margin:1rem 0 1.1rem; border:none; padding:0; }
-.a11y-modal .a11y-options{ display:flex; flex-wrap:wrap; gap:1rem 1.1rem; }
+.a11y-modal .a11y-title{ font-size: clamp(1.8rem, 3.8vw, 2.4rem); color: var(--pt-100); }
+.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.12rem; }
+.a11y-modal .a11y-fieldset{ margin:1.2rem 0 1.35rem; border:none; padding:0; }
+.a11y-modal .a11y-legend{ color: var(--pt-100); font-size: 1.2rem; }
+.a11y-modal .text, .a11y-modal label{ color: var(--pt-150); font-size: 1.12rem; }
+.a11y-modal .a11y-options{ display:flex; flex-wrap:wrap; gap:1rem 1.25rem; }
 .a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
 
 .a11y-modal .a11y-close{
