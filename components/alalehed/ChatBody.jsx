@@ -353,11 +353,13 @@ export default function ChatBody() {
     [isGenerating, messages]
   );
 
-  // Kui keel muutub ja tegu on ainult introga, värskenda intro teksti
+  // Kui keel muutub, värskenda esimest AI-intro sõnumit (id=0) ka siis, kui vestluses on muid sõnumeid
   useEffect(() => {
     setMessages((prev) => {
-      if (Array.isArray(prev) && prev.length === 1 && prev[0]?.role === "ai" && prev[0]?.id === 0) {
-        return [{ ...prev[0], text: introText }];
+      if (Array.isArray(prev) && prev.length >= 1 && prev[0]?.role === "ai" && prev[0]?.id === 0) {
+        if (prev[0].text === introText) return prev; // juba värske
+        const next = [{ ...prev[0], text: introText }, ...prev.slice(1)];
+        return next;
       }
       return prev;
     });

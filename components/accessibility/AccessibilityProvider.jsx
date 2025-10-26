@@ -62,14 +62,29 @@ function AccessibilityProvider({ children }) {
   const promptedOnceRef = useRef(false);
   const initialIsHomeRef = useRef(pathname === "/");
 
-  // Initialize from SSR dataset / cookie
+  // Initialize from cookie (preferred) or SSR dataset
   useEffect(() => {
-    const initial = readInitialPrefsFromDom();
+    function fromCookie() {
+      try {
+        const raw = getCookie("a11y_prefs");
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
+        const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
+        const reduceMotion = !!obj?.reduceMotion;
+        return { textScale, contrast, reduceMotion };
+      } catch {
+        return null;
+      }
+    }
+
+    const cookiePrefs = fromCookie();
+    const initial = cookiePrefs || readInitialPrefsFromDom();
     setPrefsState(initial);
     applyPrefsToDom(initial);
 
     // Auto-open only on Home ("/") and only if no cookie yet
-    const hasCookie = !!getCookie("a11y_prefs");
+    const hasCookie = !!cookiePrefs;
     if (!hasCookie && initialIsHomeRef.current) {
       promptedOnceRef.current = true;
       setTimeout(() => setOpen(true), 50);
@@ -84,6 +99,11 @@ function AccessibilityProvider({ children }) {
       setOpen(true);
     }
   }, [pathname]);
+
+  // Re-apply current prefs on route changes to keep attributes persistent
+  useEffect(() => {
+    applyPrefsToDom(prefs);
+  }, [prefs, pathname]);
 
   const announce = useCallback((msg) => {
     if (!msg) return;

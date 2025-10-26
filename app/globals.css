@@ -2980,6 +2980,22 @@ html[data-contrast="hc"] .alaleht-footer{
   color: #7E7970 !important; /* sama mis vaikimisi --pt-500 */
 }
 
+/* HC: “Meist” link (top-center-link) peaks olema selgelt nähtav */
+html[data-contrast="hc"] .top-center-link,
+html[data-contrast="hc"] .footer-link-headline{
+  color:#FFFFFF !important;
+  opacity:1 !important;
+  text-shadow: 0 0 0 transparent, 0 1px 1px rgba(0,0,0,0.6);
+}
+
+/* HC: CircularText – tugevam kontrast (kirjad ja kontuur) */
+html[data-contrast="hc"] .circular-text-line{
+  color:#FFFFFF !important;       /* overrides inline color */
+  fill:#FFFFFF !important;        /* SVG text fill */
+  stroke: rgba(0,0,0,0.55) !important; /* subtle outline for readability */
+  stroke-width: 1 !important;
+}
+
 /* === A11Y: vähenda liikumist === */
 html[data-reduce-motion="1"] *,
 html[data-reduce-motion="1"] *::before,
