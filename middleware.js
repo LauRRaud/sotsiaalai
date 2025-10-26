@@ -10,8 +10,10 @@ export async function middleware(req) {
     const locale = m[1];
     const rest = m[2] || "/";
 
-    const dest = req.nextUrl.clone();
-    dest.pathname = rest; // kanoniline rada ilma prefiksita
+    // Build redirect target using the incoming request URL as base to preserve host.
+    // This avoids accidentally redirecting to http://localhost:3000 on non-local hosts.
+    const dest = new URL(req.url);
+    dest.pathname = rest; // canonical path without the locale prefix
 
     const res = NextResponse.redirect(dest, 308);
     res.cookies.set("NEXT_LOCALE", locale, {

@@ -5,7 +5,6 @@ import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import FancyRadio from "@/components/ui/FancyRadio";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
-import { localizePath } from "@/lib/localizePath";
 
 export default function AccessibilityModal({ onClose, prefs, onSave }) {
   const boxRef = useRef(null);
@@ -63,12 +62,12 @@ export default function AccessibilityModal({ onClose, prefs, onSave }) {
 
   const save = () => {
     onSave?.({ textScale, contrast, reduceMotion });
-    // Change language if needed and navigate to locale-prefixed path
+    // Change language if needed; keep current path and let SSR pick up cookie
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
       try {
         const current = `${window.location.pathname}${window.location.search || ""}${window.location.hash || ""}`;
-        router.replace(localizePath(current, lang));
+        router.replace(current);
       } catch { router.refresh?.(); }
     }
     onClose?.();
@@ -95,7 +94,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave }) {
         </button>
 
         <h2 id="a11y-title" className="glass-title a11y-title" style={{ marginBottom: ".25rem" }}>
-          {t("accessibility.title")}
+          {t("profile.preferences.title")}
         </h2>
         <p id="a11y-desc" className="glass-note a11y-desc" style={{ marginBottom: ".75rem" }}>
           {t("accessibility.description")}

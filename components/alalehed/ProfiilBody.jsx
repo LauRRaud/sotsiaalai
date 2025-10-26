@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
@@ -94,12 +93,6 @@ const [deleting, setDeleting] = useState(false);
     return (
       <div className="main-content glass-box glass-left" lang={locale}>
         <h1 className="glass-title">{t("profile.title")}</h1>
-        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
-          <LanguageSwitcher />
-          <button type="button" className="btn-tertiary" onClick={() => openA11y?.()}>
-            {t("buttons.open_accessibility")}
-          </button>
-        </div>
         <p style={{ padding: "1rem" }}>{t("profile.loading")}</p>
       </div>
     );
@@ -114,12 +107,6 @@ const [deleting, setDeleting] = useState(false);
     return (
       <div className="main-content glass-box glass-left" lang={locale}>
         <h1 className="glass-title">{t("profile.title")}</h1>
-        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
-          <LanguageSwitcher />
-          <button type="button" className="btn-tertiary" onClick={() => openA11y?.()}>
-            {t("buttons.open_accessibility")}
-          </button>
-        </div>
         <p style={{ padding: "1rem" }}>{reasonText}</p>
         <div className="back-btn-wrapper">
           <button
@@ -143,13 +130,6 @@ const [deleting, setDeleting] = useState(false);
         {t("profile.title")}
       </h1>
 
-      <div style={{ display:"flex", gap:"0.75rem", alignItems:"center", justifyContent:"flex-end", marginBottom:"0.5rem" }}>
-        <LanguageSwitcher />
-        <button type="button" className="btn-tertiary" onClick={() => openA11y?.()}>
-          {t("buttons.open_accessibility")}
-        </button>
-      </div>
-
       <div className="profile-header-center">
         <span className="profile-role-pill">{roleLabel}</span>
         <Link href="/tellimus" className="link-brand profile-tellimus-link">
@@ -158,6 +138,13 @@ const [deleting, setDeleting] = useState(false);
       </div>
 
       <form onSubmit={handleSave} className="glass-form profile-form-vertical">
+        {/* Keel ja ligipääsetavus nupp (samal kujundusel kui Salvesta/Logi välja) */}
+        <div className="profile-btn-row" style={{ marginBottom: "0.5rem" }}>
+          <button type="button" className="btn-primary btn-profile-save" onClick={() => openA11y?.()}>
+            {t("profile.preferences.title")}
+          </button>
+        </div>
+
         <label htmlFor="email" className="glass-label">
           {t("profile.email")}
         </label>
