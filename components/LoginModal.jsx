@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -221,7 +222,7 @@ export default function LoginModal({ open, onClose }) {
             aria-label={t("auth.login.google")}
             disabled={loading === "google"}
           >
-            <img src="/login/google1.png" alt={t("auth.login.google")} width="40" height="40" loading="eager" />
+            <Image src="/login/google1.png" alt={t("auth.login.google")} width={40} height={40} priority />
           </button>
           <button
             className="login-icon-btn"
@@ -230,7 +231,7 @@ export default function LoginModal({ open, onClose }) {
             aria-label={t("auth.login.smart_id")}
             disabled={loading === "smart_id"}
           >
-            <img src="/login/smart.svg" alt={t("auth.login.smart_id")} width="40" height="40" loading="eager" />
+            <Image src="/login/smart.svg" alt={t("auth.login.smart_id")} width={40} height={40} priority />
           </button>
           <button
             className="login-icon-btn"
@@ -239,7 +240,7 @@ export default function LoginModal({ open, onClose }) {
             aria-label={t("auth.login.mobile_id")}
             disabled={loading === "mobiil_id"}
           >
-            <img src="/login/mobiil.png" alt={t("auth.login.mobile_id")} width="40" height="40" loading="eager" />
+            <Image src="/login/mobiil.png" alt={t("auth.login.mobile_id")} width={40} height={40} priority />
           </button>
         </div>
 

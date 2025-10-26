@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ---------- Tekstid ---------- */
 
@@ -964,12 +965,16 @@ export default function ChatBody() {
 
       {/* Profiili avatar – parem ülanurk */}
       <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
-        <img
+        <Image
           src="/logo/User-circle.svg"
           alt="Profiil"
           className="chat-avatar-abs"
+          width={48}
+          height={48}
           draggable={false}
         />
+        <span className="avatar-label">Profiil</span>
+      </Link>
         <span className="avatar-label">Profiil</span>
       </Link>
 
