@@ -3043,7 +3043,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   backdrop-filter: blur(10px) saturate(130%);
 }
 .a11y-modal .glass-title{ margin-top:.25rem; }
-.a11y-modal .a11y-title{ font-size: clamp(1.8rem, 3.8vw, 2.4rem); color: var(--pt-100); }
+.a11y-modal .a11y-title{ font-size: clamp(1.8rem, 3.8vw, 2.4rem); color: #dabe9e; }
 .a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.12rem; }
 .a11y-modal .a11y-fieldset{ margin:1.2rem 0 1.35rem; border:none; padding:0; }
 .a11y-modal .a11y-legend{ color: var(--pt-100); font-size: 1.2rem; }

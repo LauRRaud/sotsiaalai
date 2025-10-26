@@ -951,7 +951,7 @@ export default function ChatBody() {
         type="button"
         className="back-arrow-btn"
         onClick={handleBackClick}
-        aria-label="Tagasi avalehele"
+        aria-label={t("chat.back_to_home", "Tagasi avalehele")}
       >
         <span className="back-arrow-circle" />
       </button>
@@ -964,31 +964,31 @@ export default function ChatBody() {
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
-      {/* Hamburger / Vestlused – vasak ülanurk */}
+      {/* Hamburger / Conversations – vasak ülanurk */}
       <button
         type="button"
         className="chat-menu-btn"
         onClick={openConversations}
-        aria-label="Ava vestlused"
+        aria-label={t("chat.menu.open", "Ava vestlused")}
         aria-haspopup="dialog"
       >
         <span className="chat-menu-icon" aria-hidden="true">
           <span></span><span></span><span></span>
         </span>
-        <span className="chat-menu-label" aria-hidden="true">Vestlused</span>
+        <span className="chat-menu-label" aria-hidden="true">{t("chat.menu.label", "Vestlused")}</span>
       </button>
 
       {/* Profiili avatar – parem ülanurk */}
-      <Link href="/profiil" aria-label="Ava profiil" className="avatar-link">
+      <Link href="/profiil" aria-label={t("chat.profile.open", "Ava profiil")} className="avatar-link">
         <Image
           src="/logo/User-circle.svg"
-          alt="Profiil"
+          alt={t("chat.profile.alt", "Profiil")}
           className="chat-avatar-abs"
           width={48}
           height={48}
           draggable={false}
         />
-        <span className="avatar-label">Profiil</span>
+        <span className="avatar-label">{t("chat.profile.label", "Profiil")}</span>
       </Link>
 
       {/* Pealkiri */}
