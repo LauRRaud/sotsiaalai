@@ -11,7 +11,14 @@ export default function RegistreerimineBody() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, locale } = useI18n();
-  const nextUrl = searchParams?.get("next") || localizePath("/vestlus", locale);
+  const toRelative = (u) => {
+    try {
+      const base = typeof window !== "undefined" ? window.location.origin : "http://local";
+      const url = new URL(u, base);
+      return `${url.pathname}${url.search}${url.hash}`;
+    } catch { return String(u || "/"); }
+  };
+  const nextUrl = toRelative(searchParams?.get("next") || localizePath("/vestlus", locale));
 
   const [form, setForm] = useState({
     email: "",

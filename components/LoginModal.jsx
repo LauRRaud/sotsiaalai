@@ -15,7 +15,14 @@ export default function LoginModal({ open, onClose }) {
   const searchParams = useSearchParams();
   const { t, locale } = useI18n();
   const defaultNextUrl = localizePath("/vestlus", locale);
-  const nextUrl = searchParams?.get("next") || defaultNextUrl;
+  const toRelative = (u) => {
+    try {
+      const base = typeof window !== "undefined" ? window.location.origin : "http://local";
+      const url = new URL(u, base);
+      return `${url.pathname}${url.search}${url.hash}`;
+    } catch { return typeof u === "string" ? u : defaultNextUrl; }
+  };
+  const nextUrl = toRelative(searchParams?.get("next") || defaultNextUrl);
 
   const [loading, setLoading] = useState(null); // "credentials" | "google" | "smart_id" | "mobiil_id"
   const [error, setError] = useState(null);
@@ -108,7 +115,7 @@ export default function LoginModal({ open, onClose }) {
       if (res?.error) setError(t("auth.login.error.smart_id"));
       if (res?.ok && res.url) {
         onClose?.();
-        router.replace(res.url);
+        router.replace(toRelative(res.url));
         router.refresh();
       }
     } finally {
@@ -132,7 +139,7 @@ export default function LoginModal({ open, onClose }) {
       if (res?.error) setError(t("auth.login.error.mobile_id"));
       if (res?.ok && res.url) {
         onClose?.();
-        router.replace(res.url);
+        router.replace(toRelative(res.url));
         router.refresh();
       }
     } finally {
@@ -180,7 +187,7 @@ export default function LoginModal({ open, onClose }) {
     }
     if (res?.ok && res.url) {
       onClose?.();
-      router.replace(res.url);
+      router.replace(toRelative(res.url));
       router.refresh();
     }
   };

@@ -30,7 +30,12 @@ export default function Error({ error, reset }) {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push(localizePath("/", locale))}
+            onClick={() => {
+              try {
+                if (typeof window !== "undefined" && window.history.length > 1) return router.back();
+              } catch {}
+              return router.push(localizePath("/", locale));
+            }}
             aria-label={t("buttons.back_home")}
           >
             <span className="back-arrow-circle" />

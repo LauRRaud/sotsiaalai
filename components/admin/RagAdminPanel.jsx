@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import { localizePath } from "@/lib/localizePath";
 
 /* ---------- Konstandid & sildid ---------- */
 
@@ -124,6 +126,7 @@ function splitAuthors(input) {
 
 export default function RagAdminPanel() {
   const router = useRouter();
+  const { t, locale } = useI18n();
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
@@ -1568,8 +1571,8 @@ export default function RagAdminPanel() {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push("/")}
-            aria-label="Tagasi avalehele"
+            onClick={() => router.push(localizePath("/", locale))}
+            aria-label={t?.("buttons.back_home") || "Tagasi avalehele"}
           >
             <span className="back-arrow-circle" />
           </button>

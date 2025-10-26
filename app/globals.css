@@ -671,7 +671,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
 .button::before {
   position: absolute;
   top: -25px;
-  content: "Kustuta konto";
+  content: attr(data-label);
   color: var(--pt-200);            /* hele, aga mitte kriiskav valge */
   transition-duration: .5s;
   font-size: 4px;
@@ -2988,7 +2988,8 @@ html[data-reduce-motion="1"] *::after{
   transition: none !important;
   scroll-behavior: auto !important;
 }
-html[data-reduce-motion="1"] .three-d-card.flip-allowed:hover .card-wrapper{ transform: none !important; }
+/* Reduced motion: keep flips, but without transitions (instant switch) */
+/* (No transform override here so hover still flips front/back.) */
 html[data-reduce-motion="1"] .glow-active{ box-shadow: none !important; }
 /* Ensure content that normally fades-in becomes visible statically */
 html[data-reduce-motion="1"] .glass-card.fade-in{
