@@ -106,6 +106,15 @@ function AccessibilityProvider({ children }) {
     announce(t("profile.preferences.saved", "Eelistused salvestatud."));
   }, [prefs, announce, t]);
 
+  const previewPrefs = useCallback((partial) => {
+    const preview = { ...DEFAULT_PREFS, ...prefs, ...partial };
+    applyPrefsToDom(preview);
+  }, [prefs]);
+
+  const resetPreview = useCallback(() => {
+    applyPrefsToDom(prefs);
+  }, [prefs]);
+
   const openModal = useCallback(() => {
     try { lastOpenerRef.current = document.activeElement; } catch {}
     setOpen(true);
@@ -113,6 +122,7 @@ function AccessibilityProvider({ children }) {
 
   const closeModal = useCallback(() => {
     setOpen(false);
+    resetPreview();
     // Restore focus back to the element that opened the modal
     setTimeout(() => {
       const el = lastOpenerRef.current;
@@ -120,7 +130,7 @@ function AccessibilityProvider({ children }) {
         try { el.focus(); } catch {}
       }
     }, 0);
-  }, []);
+  }, [resetPreview]);
 
   // While modal is open, lock background from SR and interaction
   useEffect(() => {
@@ -193,7 +203,13 @@ function AccessibilityProvider({ children }) {
 
       {/* Modaal: SSR-i väliselt, kliendis */}
       {open && (
-        <AccessibilityModal onClose={closeModal} prefs={prefs} onSave={setPrefs} />
+        <AccessibilityModal
+          onClose={closeModal}
+          prefs={prefs}
+          onSave={setPrefs}
+          onPreview={previewPrefs}
+          onPreviewEnd={resetPreview}
+        />
       )}
     </A11yContext.Provider>
   );

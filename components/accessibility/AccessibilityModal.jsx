@@ -6,7 +6,7 @@ import FancyRadio from "@/components/ui/FancyRadio";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
 
-export default function AccessibilityModal({ onClose, prefs, onSave }) {
+export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, onPreviewEnd }) {
   const boxRef = useRef(null);
   const firstFocusRef = useRef(null);
   const { t, locale, setLocale, setMessages } = useI18n();
@@ -77,11 +77,22 @@ export default function AccessibilityModal({ onClose, prefs, onSave }) {
         setMessages(msgs);
       } catch {}
       try {
+        const current = `${window.location.pathname}${window.location.search || ""}${window.location.hash || ""}`;
+        router.replace(current, { scroll: false });
         router.refresh();
       } catch {}
     }
+    onPreviewEnd?.();
     onClose?.();
   };
+
+  useEffect(() => {
+    onPreview?.({ textScale, contrast, reduceMotion });
+  }, [textScale, contrast, reduceMotion, onPreview]);
+
+  useEffect(() => () => {
+    onPreviewEnd?.();
+  }, [onPreviewEnd]);
 
   return (
     <>

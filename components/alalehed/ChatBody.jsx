@@ -5,16 +5,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
-/* ---------- Tekstid ---------- */
-
-const INTRO_MESSAGE =
-  "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus.";
+/* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
-
-const CRISIS_TEXT =
-  "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi).";
 
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
@@ -307,6 +302,16 @@ function throttle(fn, waitMs) {
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
+  const { t } = useI18n();
+
+  const introText = t(
+    "chat.intro.message",
+    "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus."
+  );
+  const crisisText = t(
+    "chat.crisis.notice",
+    "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
+  );
 
   const userRole = useMemo(() => {
     const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
@@ -321,7 +326,7 @@ export default function ChatBody() {
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
   const [convId, setConvId] = useState(null);
-  const [messages, setMessages] = useState(() => [{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
+  const [messages, setMessages] = useState(() => [{ id: 0, role: "ai", text: introText }]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
@@ -347,6 +352,16 @@ export default function ChatBody() {
     () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, messages]
   );
+
+  // Kui keel muutub ja tegu on ainult introga, värskenda intro teksti
+  useEffect(() => {
+    setMessages((prev) => {
+      if (Array.isArray(prev) && prev.length === 1 && prev[0]?.role === "ai" && prev[0]?.id === 0) {
+        return [{ ...prev[0], text: introText }];
+      }
+      return prev;
+    });
+  }, [introText]);
 
   // Koonda kogu vestluse vältel kasutatud allikad (for “Allikad” paneel)
   const conversationSources = useMemo(() => {
@@ -977,7 +992,7 @@ export default function ChatBody() {
       </Link>
 
       {/* Pealkiri */}
-      <h1 className="glass-title">SotsiaalAI</h1>
+      <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
 
       {isCrisis ? (
         <div
@@ -992,7 +1007,7 @@ export default function ChatBody() {
             fontSize: "0.92rem",
           }}
         >
-          {CRISIS_TEXT}
+          {crisisText}
         </div>
       ) : null}
 
@@ -1019,7 +1034,7 @@ export default function ChatBody() {
           className="chat-window u-mobile-scroll u-mobile-safe-pad"
           ref={chatWindowRef}
           role="region"
-          aria-label="Chat messages"
+          aria-label={t("chat.aria.messages", "Chat messages")}
           aria-live="polite"
           aria-busy={isStreamingAny ? "true" : "false"}
         >
@@ -1034,7 +1049,7 @@ export default function ChatBody() {
 
           {isStreamingAny && (
             <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
-              <span className="typing-label">Mõtleb</span>
+              <span className="typing-label">{t("chat.typing.label", "Mõtleb")}</span>
               <span className="dots" aria-hidden="true">
                 <span></span>
                 <span></span>
@@ -1048,8 +1063,8 @@ export default function ChatBody() {
           <button
             className="scroll-down-btn"
             onClick={scrollToBottom}
-            aria-label="Kerige chati lõppu"
-            title="Kerige lõppu"
+            aria-label={t("chat.scroll_to_bottom", "Kerige chati lõppu")}
+            title={t("chat.scroll_to_bottom_title", "Kerige lõppu")}
             aria-controls="chat-window"
           >
             <svg
@@ -1074,7 +1089,7 @@ export default function ChatBody() {
           autoComplete="off"
         >
           <label htmlFor="chat-input" className="sr-only">
-            Kirjuta sõnum
+            {t("chat.input.label", "Kirjuta sõnum")}
           </label>
           <textarea
             id="chat-input"
@@ -1082,7 +1097,7 @@ export default function ChatBody() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Kirjuta siia küsimus..."
+            placeholder={t("chat.input.placeholder", "Kirjuta siia küsimus...")}
             className="chat-input-field"
             disabled={isGenerating}
             rows={1}
@@ -1092,8 +1107,8 @@ export default function ChatBody() {
           <button
             type="submit"
             className={`chat-send-btn${isGenerating ? " stop" : ""}`}
-            aria-label={isGenerating ? "Peata vastus" : "Saada sõnum"}
-            title={isGenerating ? "Peata vastus" : "Saada (Enter)"}
+            aria-label={isGenerating ? t("chat.send.stop", "Peata vastus") : t("chat.send.send", "Saada sõnum")}
+            title={isGenerating ? t("chat.send.title_stop", "Peata vastus") : t("chat.send.title_send", "Saada (Enter)")}
             disabled={!isGenerating ? !input.trim() : false}
           >
             {isGenerating ? (
@@ -1143,7 +1158,7 @@ export default function ChatBody() {
               transform: "translateY(-50%)",
             }}
           >
-            Allikad ({conversationSources.length})
+            {t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length))}
           </button>
         ) : null}
 
@@ -1155,7 +1170,7 @@ export default function ChatBody() {
           id="chat-sources-panel"
           role="dialog"
           aria-modal="true"
-          aria-label="Vestluse allikad"
+          aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
           onClick={closeSourcesPanel}
           style={{
             position: "fixed",
@@ -1193,7 +1208,7 @@ export default function ChatBody() {
                 marginBottom: "0.85rem",
               }}
             >
-              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>Vestluse allikad</h2>
+              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>{t("chat.sources.heading", "Vestluse allikad")}</h2>
               <button
                 type="button"
                 onClick={closeSourcesPanel}
@@ -1208,13 +1223,13 @@ export default function ChatBody() {
                   cursor: "pointer",
                 }}
               >
-                Sulge
+                {t("buttons.close", "Sulge")}
               </button>
             </div>
 
             {conversationSources.length === 0 ? (
               <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.75 }}>
-                Vestluses ei ole allikaid.
+                {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
               </p>
             ) : (
               <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
@@ -1234,17 +1249,17 @@ export default function ChatBody() {
                     </div>
                     {src.occurrences > 1 ? (
                       <div style={{ fontSize: "0.8rem", opacity: 0.7 }}>
-                        Kasutatud {src.occurrences} vestluse lõigus.
+                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
                       </div>
                     ) : null}
                     {src.section ? (
                       <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        Sektsioon: {src.section}
+                        {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
                       </div>
                     ) : null}
                     {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
                       <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        Leheküljed: {src.pageText}
+                        {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
                       </div>
                     ) : null}
                     {src.allUrls && src.allUrls.length ? (
@@ -1268,7 +1283,9 @@ export default function ChatBody() {
                               fontSize: "0.85rem",
                             }}
                           >
-                            Ava {src.allUrls.length > 1 ? `(${urlIdx + 1})` : "allikas"}
+                            {src.allUrls.length > 1
+                              ? t("chat.sources.open_indexed", "Ava ({index})").replace("{index}", String(urlIdx + 1))
+                              : t("chat.sources.open_single", "Ava allikas")}
                           </a>
                         ))}
                       </div>

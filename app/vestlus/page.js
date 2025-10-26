@@ -29,7 +29,7 @@ export default function Page() {
   return (
     <>
       {/* Ülekatte sahtel, mis avaneb “☰ Vestlused” nupust */}
-      <ConversationDrawer aria-label="Vestluste sahtel">
+      <ConversationDrawer>
         <ChatSidebar />
       </ConversationDrawer>
 
