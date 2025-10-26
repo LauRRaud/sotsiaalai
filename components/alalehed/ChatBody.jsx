@@ -975,8 +975,6 @@ export default function ChatBody() {
         />
         <span className="avatar-label">Profiil</span>
       </Link>
-        <span className="avatar-label">Profiil</span>
-      </Link>
 
       {/* Pealkiri */}
       <h1 className="glass-title">SotsiaalAI</h1>
