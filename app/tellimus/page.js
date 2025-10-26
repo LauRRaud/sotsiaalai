@@ -1,10 +1,22 @@
 import { Suspense } from "react";
+import { cookies } from "next/headers";
 import TellimusBody from "@/components/alalehed/TellimusBody";
+import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
+import { buildLocalizedMetadata } from "@/lib/metadata";
 
-export const metadata = {
-  title: "Halda tellimust – SotsiaalAI",
-  description: "Käivita või tühista oma SotsiaalAI kuutellimus.",
-};
+export async function generateMetadata() {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
+  const messages = getMessagesSync(locale);
+  const meta = messages?.meta?.subscription || {};
+
+  return buildLocalizedMetadata({
+    locale,
+    pathname: "/tellimus",
+    title: meta.title || "Halda tellimust – SotsiaalAI",
+    description: meta.description || "",
+  });
+}
 
 export default function Page() {
   return (

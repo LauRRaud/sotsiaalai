@@ -42,7 +42,9 @@ Ole professionaalne partner ja reflektiivne kaasamõtleja, mitte käsuandja.`,
 /* ------------------------- Config ------------------------- */
 
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
-const RAG_TOP_K = Number(process.env.RAG_TOP_K || 5);
+const RAG_TOP_K = Number(process.env.RAG_TOP_K || 12);
+const CONTEXT_GROUPS_MAX = Number(process.env.RAG_CONTEXT_GROUPS_MAX || 6);
+const DIVERSIFY_LAMBDA = Number(process.env.RAG_MMR_LAMBDA || 0.5);
 const RAG_CTX_MAX_CHARS = Number(process.env.RAG_CTX_MAX_CHARS || 4000);
 const NO_CONTEXT_MSG =
   "Vabandust, RAG-andmebaasist ei leitud selle teema kohta sobivaid allikaid. Proovi palun täpsustada küsimust või kasutada teistsuguseid märksõnu.";
@@ -252,15 +254,71 @@ function groupMatches(matches) {
       const bestScore = entry.scores
         .filter((s) => typeof s === "number")
         .sort((a, b) => b - a)[0];
+      const bodyPreview = entry.bodies.length ? entry.bodies[0] : "";
       return {
         ...entry,
         authors,
         pages,
         pageRanges,
         bestScore: typeof bestScore === "number" ? bestScore : null,
+        __sig: [entry.title || "", bodyPreview].join("\n").toLowerCase(),
       };
     })
     .filter(Boolean);
+}
+
+// Väike MMR-diversifikatsioon grupeeritud tulemustele
+function diversifyGroupsMMR(groups, k = CONTEXT_GROUPS_MAX, lambda = DIVERSIFY_LAMBDA) {
+  if (!Array.isArray(groups) || groups.length === 0) return [];
+  const K = Math.max(1, Math.min(k, groups.length));
+
+  const tokenize = (s) => new Set(String(s || "").toLowerCase().split(/[^a-zäöüõü0-9]+/i).filter(Boolean));
+  const cacheTokens = new Map();
+  const tok = (g) => {
+    const key = g.key || g.docId || g.articleId || g.title || "";
+    if (cacheTokens.has(key)) return cacheTokens.get(key);
+    const t = tokenize(g.__sig || g.title || "");
+    cacheTokens.set(key, t);
+    return t;
+  };
+  const jaccard = (a, b) => {
+    if (!a || !b || a.size === 0 || b.size === 0) return 0;
+    let inter = 0;
+    for (const x of a) if (b.has(x)) inter++;
+    const uni = a.size + b.size - inter;
+    return uni > 0 ? inter / uni : 0;
+  };
+
+  const remaining = [...groups];
+  // esialgne sort: kõrgem bestScore ees
+  remaining.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+
+  const selected = [];
+  while (selected.length < K && remaining.length) {
+    let bestIdx = 0;
+    let bestVal = -Infinity;
+    for (let i = 0; i < remaining.length; i++) {
+      const g = remaining[i];
+      const rel = typeof g.bestScore === "number" ? g.bestScore : 0.3;
+      let div = 0;
+      if (selected.length) {
+        const gt = tok(g);
+        let maxSim = 0;
+        for (const s of selected) {
+          const sim = jaccard(gt, tok(s));
+          if (sim > maxSim) maxSim = sim;
+        }
+        div = maxSim;
+      }
+      const mmr = lambda * rel - (1 - lambda) * div;
+      if (mmr > bestVal) {
+        bestVal = mmr;
+        bestIdx = i;
+      }
+    }
+    selected.push(remaining.splice(bestIdx, 1)[0]);
+  }
+  return selected;
 }
 
 function firstAuthor(authors) {
@@ -824,11 +882,12 @@ export async function POST(req) {
     // ainult andmebaasi sisu – pole fallback'i
   }
   const groupedMatches = groupMatches(matches);
-  const context = renderContextBlocks(groupedMatches);
+  const chosen = diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
+  const context = renderContextBlocks(chosen);
   const grounding = groundingStrength(groupedMatches);
 
   // 7) allikad (meta) – UI-le
-  const sources = groupedMatches.map((entry, idx) => {
+  const sources = chosen.map((entry, idx) => {
     const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
     const pageRanges = Array.isArray(entry.pageRanges)
       ? Array.from(new Set(entry.pageRanges.filter(Boolean)))

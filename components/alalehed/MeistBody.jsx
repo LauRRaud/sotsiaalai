@@ -1,70 +1,81 @@
+"use client";
+
 import Link from "next/link";
+import InstallAppLink from "@/components/pwa/InstallAppLink";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import RichText from "@/components/i18n/RichText";
 
 export default function MeistBody({ isAdmin = false }) {
+  const { t, locale } = useI18n();
+  const introParagraphs = [
+    { key: "p1", value: t("about.intro.paragraph1") },
+    { key: "p2", value: t("about.intro.paragraph2") },
+    {
+      key: "p3",
+      value: t("about.intro.paragraph3"),
+      replacements: {
+        oska: {
+          open: '<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" class="meist-external-link" target="_blank" rel="noopener noreferrer">',
+          close: "</a>",
+        },
+      },
+    },
+    { key: "p4", value: t("about.intro.paragraph4") },
+    { key: "p5", value: t("about.intro.paragraph5") },
+  ];
+
   return (
-    <div className="main-content glass-box glass-left" role="main" aria-labelledby="meist-title" lang="et">
-      <h1 id="meist-title" className="glass-title">Meist</h1>
+    <div className="main-content glass-box glass-left" role="main" aria-labelledby="meist-title" lang={locale}>
+      <h1 id="meist-title" className="glass-title">{t("about.title")}</h1>
 
       <section className="glass-section">
-        <p>
-          <strong>SotsiaalAI</strong> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
-        </p>
-        <p>
-          Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
-        </p>
-        <p>
-          Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
-          <a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" className="meist-external-link" target="_blank" rel="noopener noreferrer">
-            OSKA raport (2025)
-          </a>
-          . Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
-        </p>
-        <p>
-          Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mille eesmärk ei ole kasumi maksimeerimine, vaid ühiskondliku probleemi lahendamine ja positiivse mõju loomine. Sotsiaalne ettevõtlus ühendab äritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse.
-        </p>
-        <p>
-          Teenus täiustub pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kõigile.
-        </p>
+        {introParagraphs.map(({ key, value, replacements }) => (
+          <RichText key={key} as="div" value={value} replacements={replacements} />
+        ))}
       </section>
 
       <section className="glass-section">
-        <h2 className="glass-h2">Kontakt</h2>
+        <h2 className="glass-h2">{t("about.contact.title")}</h2>
         <p className="epost-row">
-          <b>E-post:</b>{" "}
-          <a href="mailto:info@sotsiaal.ai" className="link-brand">info@sotsiaal.ai</a>
+          <b>{t("about.contact.email_label")}</b>{" "}
+          <a href="mailto:info@sotsiaal.ai" className="link-brand">
+            {t("about.contact.email_value")}
+          </a>
         </p>
       </section>
 
       <section className="glass-section">
-        <p><strong>Enne lehe kasutamist tutvu kindlasti:</strong></p>
-        <ul className="glass-list">
+        <p><strong>{t("about.cta.title")}</strong></p>
+        <ul className="glass-list glass-list--compact">
           <li>
             <Link href="/privaatsustingimused" className="link-brand">
-              Privaatsuspoliitika
+              {t("about.links.privacy")}
             </Link>
           </li>
           <li>
             <Link href="/kasutustingimused" className="link-brand">
-              Kasutustingimused
+              {t("about.links.terms")}
             </Link>
           </li>
           {isAdmin ? (
             <li>
               <Link href="/admin/rag" className="link-brand">
-                RAG andmebaasi haldus
+                {t("about.links.admin")}
               </Link>
             </li>
           ) : null}
         </ul>
       </section>
 
+      <InstallAppLink variant="section" />
+
       <div className="back-btn-wrapper">
-        <Link href="/" className="back-arrow-btn" aria-label="Tagasi avalehele">
+        <Link href="/" className="back-arrow-btn" aria-label={t("buttons.back_home")}>
           <span className="back-arrow-circle" />
         </Link>
       </div>
 
-      <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>
   );
 }

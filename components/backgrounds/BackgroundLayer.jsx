@@ -5,6 +5,7 @@ import { useEffect, useState, memo, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
+import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
@@ -74,6 +75,7 @@ function useForceMotionDefaultOn() {
 
 function BackgroundLayer() {
   const pathname = usePathname();
+  const { prefs } = useAccessibility();
 
   // loeme küll, aga efektiivne otsus on alati "animatsioonid sees"
   const _prefersReduced = usePrefersReducedMotion();
@@ -128,15 +130,15 @@ function BackgroundLayer() {
         <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
           <Suspense fallback={null}>
             <Space
-              animateFog={animateFog}
-              skipIntro={!animateFog}
+              animateFog={animateFog && !prefs?.reduceMotion}
+              skipIntro={!animateFog || !!prefs?.reduceMotion}
               fogAppearDelayMs={0}
             />
           </Suspense>
         </div>
 
         {/* PARTICLES — tausta kohal, sisu all (kasuta oma .particles-container CSS-i) */}
-        {particlesReady && (
+        {particlesReady && !prefs?.reduceMotion && (
           <div className="particles-container">
             <Particles />
           </div>
@@ -144,9 +146,9 @@ function BackgroundLayer() {
       </div>
 
       {/* SPLASH CURSOR — portaalina body alla: alati sisu PEAL (z-index 30) */}
-      {mounted && cursorReady && typeof document !== "undefined" &&
+      {mounted && cursorReady && typeof document !== "undefined" && !prefs?.reduceMotion &&
         createPortal(
-          <div className="splash-cursor" style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none" }}>
+          <div className="splash-cursor" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none" }}>
             <MaybeSplash />
           </div>,
           document.body

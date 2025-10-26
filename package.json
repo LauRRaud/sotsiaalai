@@ -7,7 +7,7 @@
   "author": "SotsiaalAI OÜ",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run i18n:check && next build",
     "start": "next start -p 3000",
     "serve": "cross-env NODE_ENV=production pm2 start npm --name \"sotsiaalai\" -- start",
     "analyze": "cross-env BUNDLE_ANALYZE=true next build",
@@ -15,14 +15,18 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
-    "check": "prisma generate && next lint",
+    "check": "prisma generate && npm run i18n:check && next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate:deploy": "dotenv -e .env.production -- prisma migrate deploy",
     "migrate:prod": "dotenv -e .env.production -- prisma migrate deploy",
     "db:push:prod": "dotenv -e .env.production -- prisma db push",
     "prisma:studio:prod": "dotenv -e .env.production -- prisma studio",
     "postinstall": "prisma generate",
-    "uuenda": "git add -A && git commit -m \"uuendus\" || echo \"(pole midagi commitida)\"; git push origin main"
+    "dev:create-admin": "node scripts/create-admin.mjs --email admin@localhost --password Parool123 --role ADMIN --admin",
+    "uuenda": "git add -A && git commit -m \"uuendus\" || echo \"(pole midagi commitida)\"; git push origin main",
+    "i18n:types": "node scripts/generate-message-types.mjs",
+    "i18n:check": "node scripts/check-messages.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "1.0.7",
@@ -43,6 +47,7 @@
     "three": "0.160.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.48.2",
     "@next/bundle-analyzer": "15.5.3",
     "@types/node": "^24.5.2",
     "cross-env": "10.0.0",

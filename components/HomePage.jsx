@@ -7,8 +7,11 @@ import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import Image from "next/image";
+import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import useT from "@/components/i18n/useT";
 
 export default function HomePage() {
+  const { prefs } = useAccessibility();
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -22,6 +25,7 @@ export default function HomePage() {
 
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
+  const t = useT();
 
   // detect mobile once + on resize
   useEffect(() => {
@@ -43,6 +47,15 @@ export default function HomePage() {
       r?.removeEventListener("animationend", onRightEnd);
     };
   }, []);
+
+  // Reduced-motion: mark fade completed immediately
+  useEffect(() => {
+    if (prefs.reduceMotion) {
+      setLeftFadeDone(true);
+      setRightFadeDone(true);
+      setMagnetReady(false);
+    }
+  }, [prefs.reduceMotion]);
 
   // enable Magnet after both fade-ins
   useEffect(() => {
@@ -66,7 +79,7 @@ export default function HomePage() {
 
   const flipAllowed = leftFadeDone && rightFadeDone;
   // IMPORTANT: desktop gets hover flip; mobile does not
-  const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+  const flipClass = !isMobile && flipAllowed && !prefs.reduceMotion ? "flip-allowed" : "";
   const flipEndMs = 333;
 
   // desktop hover handlers – no-op on mobile
@@ -119,13 +132,13 @@ export default function HomePage() {
       <div className="homepage-root" onClick={handleBackgroundTap}>
         {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
         {!isMobile && (
-          <nav className="top-center-nav" aria-label="Peamenüü">
+          <nav className="top-center-nav" aria-label={t("nav.main")}>
             <Link
               id="nav-meist"
               href="/meist"
               className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
             >
-              MEIST
+              {t("nav.about")}
             </Link>
           </nav>
         )}
@@ -143,7 +156,7 @@ export default function HomePage() {
               <div className="card-wrapper">
                 {/* FRONT */}
                 <div className="card-face front">
-                  <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || leftFlipping}>
+                  <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
                     {({ isActive }) => (
                       <div
                         ref={leftCardRef}
@@ -175,7 +188,7 @@ export default function HomePage() {
                 <div
                   className="card-face back"
                   role="button"
-                  aria-label="Logi sisse spetsialistina"
+                  aria-label={t("home.card.specialist.aria")}
                   tabIndex={0}
                   onClick={handleCardBackClick("left")}
                   onBlur={handleCardBackBlur("left")}
@@ -183,7 +196,7 @@ export default function HomePage() {
                   style={!flipAllowed ? { pointerEvents: "none" } : {}}
                 >
                   <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                    <h2 className="headline-bold">SOTSIAALTÖÖ SPETSIALISTILE</h2>
+                    <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
                     <Image
                       src="/logo/saimust.svg"
                       alt=""
@@ -213,7 +226,7 @@ export default function HomePage() {
               <div className="card-wrapper">
                 {/* FRONT */}
                 <div className="card-face front">
-                  <Magnet padding={80} magnetStrength={18} disabled={isLoginOpen || !magnetReady || rightFlipping}>
+                  <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
                     {({ isActive }) => (
                       <div
                         ref={rightCardRef}
@@ -245,7 +258,7 @@ export default function HomePage() {
                 <div
                   className="card-face back"
                   role="button"
-                  aria-label="Logi sisse pöördujana"
+                  aria-label={t("home.card.client.aria")}
                   tabIndex={0}
                   onClick={handleCardBackClick("right")}
                   onBlur={handleCardBackBlur("right")}
@@ -253,7 +266,7 @@ export default function HomePage() {
                   style={!flipAllowed ? { pointerEvents: "none" } : {}}
                 >
                   <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                    <h2 className="headline-bold">ELUKÜSIMUSEGA PÖÖRDUJALE</h2>
+                    <h2 className="headline-bold">{t("home.card.client.title")}</h2>
                     <Image
                       src="/logo/saivalge.svg"
                       alt=""
@@ -274,19 +287,19 @@ export default function HomePage() {
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
           {isMobile && (
-            <nav className="footer-bottom-nav" aria-label="Peamenüü">
+            <nav className="footer-bottom-nav" aria-label={t("nav.main")}>
               <Link
                 id="nav-meist"
                 href="/meist"
                 className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
               >
-                MEIST
+                {t("nav.about")}
               </Link>
             </nav>
           )}
           <Image
             src="/logo/logomust.svg"
-            alt="SotsiaalAI logo"
+            alt={t("home.footer.logo_alt")}
             id="footer-logo-img"
             className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
             draggable={false}

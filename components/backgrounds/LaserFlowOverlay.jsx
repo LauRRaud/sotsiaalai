@@ -177,6 +177,7 @@ export default function LaserFlowOverlay({ zIndex = 1, opacity = 0.6 }) {
       clearTimeout(t1);
       clearTimeout(t2);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDesktop]);
 
   if (!isDesktop || !ready || !LaserFlow) return null; // ⟵ eemaldatud "reduced"

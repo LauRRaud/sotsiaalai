@@ -35,6 +35,14 @@ from chromadb.config import Settings
 # OpenAI embeddings
 from openai import OpenAI
 
+# Optional tiktoken for token-aware chunking
+try:
+    import tiktoken  # type: ignore
+    _TIKTOKEN_OK = True
+except Exception:
+    tiktoken = None  # type: ignore
+    _TIKTOKEN_OK = False
+
 # --------------------
 # ENV & GLOBALS
 # --------------------
@@ -49,12 +57,23 @@ EMBED_MODEL = os.getenv("RAG_EMBED_MODEL", os.getenv("EMBEDDING_MODEL", "text-em
 
 MAX_MB = int(os.getenv("RAG_SERVER_MAX_MB", "20"))
 
-# Chunking from ENV (defaults 1200 / 200)
+# Chunking config
+# Mode: "tokens" (default) uses tiktoken if available, otherwise falls back to char-based.
+#       Set RAG_CHUNK_MODE=chars to force char-based splitting.
+CHUNK_MODE = os.getenv("RAG_CHUNK_MODE", "tokens").strip().lower()
+
+# Char-based (fallback) config
 CHUNK_SIZE = int(os.getenv("RAG_CHUNK_SIZE", "1200"))
 CHUNK_OVERLAP = int(os.getenv("RAG_CHUNK_OVERLAP", "200"))
-SINGLE_CHUNK_CHAR_LIMIT = int(
-    os.getenv("RAG_SINGLE_CHUNK_CHAR_LIMIT", str(max(4000, CHUNK_SIZE * 2)))
-)
+SINGLE_CHUNK_CHAR_LIMIT = int(os.getenv("RAG_SINGLE_CHUNK_CHAR_LIMIT", str(max(3000, CHUNK_SIZE * 2))))
+
+# Token-based config
+CHUNK_TOKENS = int(os.getenv("RAG_CHUNK_TOKENS", "700"))
+CHUNK_TOKENS_OVERLAP = int(os.getenv("RAG_CHUNK_TOKENS_OVERLAP", "120"))
+SINGLE_CHUNK_TOKEN_LIMIT = int(os.getenv("RAG_SINGLE_CHUNK_TOKEN_LIMIT", "1200"))
+
+# Force chunking even for shorter texts
+ALWAYS_CHUNK = os.getenv("RAG_ALWAYS_CHUNK", "0").strip() in {"1", "true", "yes"}
 
 # Lubatud MIME – kui env on tühi, kasuta mõistlikku vaikimisi komplekti
 _DEFAULT_ALLOWED = (
@@ -385,7 +404,27 @@ def _extract_text_from_html(html: str) -> str:
     return _clean_text(txt)
 
 # --- Chunking ---
-def _split_chunks(text: str, max_chars: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> List[str]:
+_TOKEN_ENCODER_CACHE = None
+
+def _get_token_encoder():
+    global _TOKEN_ENCODER_CACHE
+    if _TOKEN_ENCODER_CACHE:
+        return _TOKEN_ENCODER_CACHE
+    if not _TIKTOKEN_OK:
+        return None
+    enc = None
+    try:
+        # Prefer model-specific encoding if available
+        enc = tiktoken.encoding_for_model(EMBED_MODEL)
+    except Exception:
+        try:
+            enc = tiktoken.get_encoding("cl100k_base")
+        except Exception:
+            enc = None
+    _TOKEN_ENCODER_CACHE = enc
+    return enc
+
+def _split_chunks_chars(text: str, max_chars: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> List[str]:
     text = _clean_text(text)
     if not text:
         return []
@@ -400,12 +439,46 @@ def _split_chunks(text: str, max_chars: int = CHUNK_SIZE, overlap: int = CHUNK_O
         candidates = [window.rfind(". "), window.rfind("! "), window.rfind("? "), window.rfind("\n\n")]
         best = max(candidates)
         if best != -1 and best > len(window) * 0.5:
-            cut = best + 1  # hoia punkt sees
+            cut = best + 1
         chunk = _clean_text(window[:cut])
         if chunk:
             chunks.append(chunk)
         start += step
     return chunks
+
+def _split_chunks_tokens(text: str, max_tokens: int = CHUNK_TOKENS, overlap_tokens: int = CHUNK_TOKENS_OVERLAP) -> List[str]:
+    enc = _get_token_encoder()
+    if enc is None:
+        # Fallback if tiktoken unavailable
+        approx_chars = max_tokens * 4
+        approx_overlap = overlap_tokens * 4
+        return _split_chunks_chars(text, approx_chars, approx_overlap)
+    cleaned = _clean_text(text)
+    if not cleaned:
+        return []
+    toks = enc.encode(cleaned)
+    if not toks:
+        return []
+    chunks: List[str] = []
+    step = max(1, max_tokens - max(0, overlap_tokens))
+    for start in range(0, len(toks), step):
+        end = min(len(toks), start + max_tokens)
+        piece = toks[start:end]
+        if not piece:
+            continue
+        chunk = enc.decode(piece)
+        chunk = _clean_text(chunk)
+        if chunk:
+            chunks.append(chunk)
+    return chunks
+
+def _split_chunks(text: str) -> List[str]:
+    """Choose token- or char-based chunking based on env and availability."""
+    mode = CHUNK_MODE
+    if mode == "tokens" and _TIKTOKEN_OK:
+        return _split_chunks_tokens(text)
+    # fallback
+    return _split_chunks_chars(text)
 
 def _doc_dir_hashed(doc_id: str) -> Path:
     return STORAGE_DIR / "docs" / hashlib.sha1(doc_id.encode("utf-8")).hexdigest()[:12]
@@ -550,9 +623,28 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
     prefix = ("\n".join(prefix_lines) + "\n") if prefix_lines else ""
 
     # Teksti tükeldamine
+    def _token_len(s: str) -> int:
+        if not s:
+            return 0
+        if CHUNK_MODE == "tokens" and _TIKTOKEN_OK:
+            enc = _get_token_encoder()
+            if enc is not None:
+                try:
+                    return len(enc.encode(s))
+                except Exception:
+                    pass
+        # rough approximation when not using tokens
+        return max(1, len(s) // 4)
     if isinstance(text_or_pages, list) and text_or_pages and isinstance(text_or_pages[0], tuple):
         full_text = _clean_text(" ".join(t or "" for _, t in text_or_pages))
-        if len(full_text) <= SINGLE_CHUNK_CHAR_LIMIT:
+        # Decide based on mode+limit unless ALWAYS_CHUNK is set
+        should_single = False
+        if not ALWAYS_CHUNK:
+            if CHUNK_MODE == "tokens" and _TIKTOKEN_OK:
+                should_single = _token_len(full_text) <= SINGLE_CHUNK_TOKEN_LIMIT
+            else:
+                should_single = len(full_text) <= SINGLE_CHUNK_CHAR_LIMIT
+        if should_single:
             chunks = [full_text]
             first_page = next((p for p, _ in text_or_pages if p is not None), None)
             page_nums = [first_page]
@@ -560,7 +652,13 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             chunks, page_nums = _split_chunks_with_pages(text_or_pages)
     else:
         text = _clean_text(str(text_or_pages or ""))
-        if len(text) <= SINGLE_CHUNK_CHAR_LIMIT:
+        should_single = False
+        if not ALWAYS_CHUNK:
+            if CHUNK_MODE == "tokens" and _TIKTOKEN_OK:
+                should_single = _token_len(text) <= SINGLE_CHUNK_TOKEN_LIMIT
+            else:
+                should_single = len(text) <= SINGLE_CHUNK_CHAR_LIMIT
+        if should_single:
             chunks = [text]
             page_nums = [None]
         else:

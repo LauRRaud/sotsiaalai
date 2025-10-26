@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import RichText from "@/components/i18n/RichText";
+import { localizePath } from "@/lib/localizePath";
 
 export default function UnustasinParooliBody() {
   const router = useRouter();
@@ -8,11 +11,12 @@ export default function UnustasinParooliBody() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t, locale } = useI18n();
   async function handleSubmit(e) {
     e.preventDefault();
-        setError("");
+    setError("");
     if (!email) {
-      setError("Palun sisesta oma e-posti aadress.");
+      setError(t("auth.reset.error.required"));
       return;
     }
 
@@ -27,28 +31,24 @@ export default function UnustasinParooliBody() {
       const payload = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        setError(payload?.error || "Taastelinki ei õnnestunud saata.");
+        setError(payload?.error || t("auth.reset.error.failed"));
         return;
       }
 
       setSubmitted(true);
     } catch (err) {
       console.error("password reset request error", err);
-      setError("Serveriga tekis ühenduse viga. Palun proovi uuesti.");
+      setError(t("auth.reset.error.server"));
     } finally {
       setLoading(false);
     }
   }
 
   return (
- <div className="main-content glass-box reset-box">
-      <h1 className="glass-title reset-title">Parooli taastamine</h1>
+    <div className="main-content glass-box reset-box" lang={locale}>
+      <h1 className="glass-title reset-title">{t("auth.reset.title")}</h1>
       {submitted ? (
-        <p className="midtext reset-info">
-          Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.
-          <br />
-          Kontrolli ka rämpsposti kausta!
-        </p>
+        <RichText className="midtext reset-info" as="div" value={t("auth.reset.success")} />
       ) : (
         <form className="reset-form" onSubmit={handleSubmit} autoComplete="off">
           <label htmlFor="email" className="reset-label">
@@ -57,7 +57,7 @@ export default function UnustasinParooliBody() {
               id="email"
               name="email"
               className="reset-input"
-              placeholder="Sinu@email.ee"
+              placeholder={t("auth.email_placeholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -65,13 +65,13 @@ export default function UnustasinParooliBody() {
               disabled={loading}
             />
           </label>
-          {error && (
-            <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
-              {error}
-            </div>
-          )}
+        {error && (
+          <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
+            {error}
+          </div>
+        )}
         <button className="btn-primary reset-btn" type="submit" disabled={loading}>
-          <span>{loading ? "Saadame…" : "Saada taastelink"}</span>
+          <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
         </button>
         </form>
       )}
@@ -79,14 +79,18 @@ export default function UnustasinParooliBody() {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push("/")}
-          aria-label="Tagasi avalehele"
+          onClick={() =>
+            typeof window !== "undefined" && window.history.length > 1
+              ? router.back()
+              : router.push(localizePath("/", locale))
+          }
+          aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle"></span>
         </button>
       </div>
 
-      <footer className="alaleht-footer reset-footer">SotsiaalAI &copy; 2025</footer>
+      <footer className="alaleht-footer reset-footer">{t("about.footer.note")}</footer>
     </div>
   );
 }

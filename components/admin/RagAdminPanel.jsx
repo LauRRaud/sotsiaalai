@@ -127,6 +127,8 @@ export default function RagAdminPanel() {
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
+  const [selftestBusy, setSelftestBusy] = useState(false);
+  const [selftestSteps, setSelftestSteps] = useState(null);
 
   // fail
   const [fileBusy, setFileBusy] = useState(false);
@@ -215,6 +217,28 @@ export default function RagAdminPanel() {
   );
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
+
+  const runSelftest = useCallback(async () => {
+    if (selftestBusy) return;
+    setSelftestBusy(true);
+    setSelftestSteps(null);
+    try {
+      const res = await fetch("/api/rag-admin/selftest", { method: "POST", cache: "no-store" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data || data.ok === false) {
+        setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
+        setMessage({ type: "error", text: data?.message || "Isetest ebaõnnestus." });
+      } else {
+        setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
+        setMessage({ type: "success", text: "Isetest lõpetatud." });
+        try { await fetchDocuments(); } catch {}
+      }
+    } catch (e) {
+      setMessage({ type: "error", text: "Isetest katkestus." });
+    } finally {
+      setSelftestBusy(false);
+    }
+  }, [selftestBusy, fetchDocuments]);
 
   const canReindex = useCallback((doc) => {
     const st = deriveStatus(doc);
@@ -648,6 +672,37 @@ export default function RagAdminPanel() {
           Maksimaalne faili suurus: <strong>{MAX_UPLOAD_MB} MB</strong> • Lubatud tüübid:{" "}
           <span title={RAW_ALLOWED_MIME}>{ALLOWED_MIME_LIST.join(", ")}</span>
         </p>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginTop: "0.5rem" }}>
+          <button
+            type="button"
+            onClick={runSelftest}
+            disabled={selftestBusy}
+            style={{
+              border: "1px solid rgba(148,163,184,0.25)",
+              background: selftestBusy ? "rgba(148,163,184,0.12)" : "rgba(12,14,22,0.5)",
+              color: "#e2e8f0",
+              borderRadius: 10,
+              padding: "0.45rem 0.8rem",
+              cursor: selftestBusy ? "default" : "pointer",
+            }}
+          >
+            {selftestBusy ? "Kontrollin…" : "Tee isetest (RAG + vestlus)"}
+          </button>
+          {Array.isArray(selftestSteps) && selftestSteps.length ? (
+            <span style={{ fontSize: "0.85rem", opacity: 0.8 }}>
+              {selftestSteps.filter((s) => s.ok).length}/{selftestSteps.length} sammu OK
+            </span>
+          ) : null}
+        </div>
+        {Array.isArray(selftestSteps) && selftestSteps.length ? (
+          <div style={{ marginTop: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+            {selftestSteps.map((s, i) => (
+              <div key={`${s.name}-${i}`}>
+                {s.ok ? "✅" : "❌"} {s.name}
+              </div>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       {message && (

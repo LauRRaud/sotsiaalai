@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const MOBILE_QUERY = "(max-width: 768px)";
 
@@ -30,6 +31,7 @@ function applyVhVar() {
 }
 
 export default function ViewportLayoutSetter() {
+  const pathname = usePathname();
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -68,6 +70,15 @@ export default function ViewportLayoutSetter() {
       applyLayoutFlag(false);
     };
   }, []);
+
+  // Route-vahetusel sea fookus #main peale
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const main = document.getElementById("main");
+    if (main) {
+      try { main.focus(); } catch {}
+    }
+  }, [pathname]);
 
   return null;
 }

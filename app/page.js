@@ -1,57 +1,23 @@
-// app/page.js
-import { Suspense } from "react";
+// app/page.js – Avaleht (public landing)
+import { cookies } from "next/headers";
 import HomePage from "@/components/HomePage";
-import OpeningBanner from "@/components/OpeningBanner";
+import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
+import { buildLocalizedMetadata } from "@/lib/metadata";
 
-export const metadata = {
-  title: "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
-  description:
-    "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele.",
-};
+export async function generateMetadata() {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
+  const messages = getMessagesSync(locale);
+  const meta = messages?.meta?.home || {};
 
-export default function Page() {
-  return (
-    <>
-      {/* Organization JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "SotsiaalAI",
-            url: "https://sotsiaal.ai",
-            logo: "https://sotsiaal.ai/logo/logomust.svg",
-            sameAs: [],
-          }),
-        }}
-      />
+  return buildLocalizedMetadata({
+    locale,
+    pathname: "/",
+    title: meta.title || "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
+    description: meta.description || "",
+  });
+}
 
-      {/* WebSite + SearchAction JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "SotsiaalAI",
-            url: "https://sotsiaal.ai",
-            potentialAction: {
-              "@type": "SearchAction",
-              target: "https://sotsiaal.ai/vestlus?q={search_term_string}",
-              "query-input": "required name=search_term_string",
-            },
-          }),
-        }}
-      />
-
-      {/* AVAMISTEADE – renderdatakse portaalina body alla, ei muuda layout'i */}
-      <OpeningBanner text="Peagi avame!" top={96} />
-
-      {/* Mähi HomePage Suspense'iga */}
-      <Suspense fallback={null}>
-        <HomePage />
-      </Suspense>
-    </>
-  );
+export default function HomeRoot() {
+  return <HomePage />;
 }

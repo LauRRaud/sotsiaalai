@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export default function ConversationDrawer({ children }) {
   const [open, setOpen] = useState(false);
@@ -11,6 +12,7 @@ export default function ConversationDrawer({ children }) {
   const overlayRef = useRef(null);
   const drawerRootRef = useRef(null); // overlay + paneli konteiner
   const headerIdRef = useRef(`drawer-title-${Math.random().toString(36).slice(2, 8)}`);
+  const { t } = useI18n();
 
   // --- Väline toggle event ---
   useEffect(() => {
@@ -176,12 +178,12 @@ export default function ConversationDrawer({ children }) {
         className={`drawer-panel ${open ? "open" : ""}`}
       >
         <header className="drawer-header">
-          <strong id={headerIdRef.current}>Vestlused</strong>
+          <strong id={headerIdRef.current}>{t("chat.menu.label")}</strong>
           <button
             ref={closeBtnRef}
             onClick={close}
             className="drawer-close"
-            aria-label="Sulge"
+            aria-label={t("buttons.close")}
           >
             ✕
           </button>

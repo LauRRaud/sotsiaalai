@@ -1,0 +1,53 @@
+
+        <div className="login-or-divider" style={{ textAlign: "center" }}>
+          <span>või</span>
+        </div>
+
+        {error && (
+          <div role="alert" aria-live="assertive" className="glass-note" style={{ width: "100%", marginBottom: "0.6rem" }}>
+            {error}
+          </div>
+        )}
+
+        <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
+          <label style={{ width: "100%", display: "block" }}>
+            <input
+              className="input-modern"
+              type="email"
+              name="email"
+              placeholder="Sinu@email.ee"
+              autoComplete="username"
+              inputMode="email"
+              // autoFocus removed to avoid forcing immediate typing/focus
+            />
+          </label>
+
+          <label style={{ width: "100%", display: "block" }}>
+            <input
+              className="input-modern"
+              type="password"
+              name="password"
+              placeholder="Parool"
+              autoComplete="current-password"
+            />
+          </label>
+
+          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
+            <Link href="/unustasin-parooli" className="unustasid-parooli-link">Unustasid parooli?</Link>
+          </div>
+
+          <button type="submit" className="btn-primary" disabled={loading === "credentials"}>
+            <span>{loading === "credentials" ? "Sisenen…" : "Sisenen"}</span>
+          </button>
+        </form>
+
+        <div className="login-modal-bottom-link">
+          <Link href={`/registreerimine?next=${encodeURIComponent(nextUrl)}`} className="link-brand">Registreeru</Link>
+        </div>
+      </div>
+    </>
+  );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(modal, document.body);
+}

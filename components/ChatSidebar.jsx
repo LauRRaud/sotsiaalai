@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 /* ---------- Utils ---------- */
 
@@ -35,6 +36,7 @@ export default function ChatSidebar() {
   const [creating, setCreating] = useState(false);
   const abortRef = useRef(null);
   const visibilityThrottleRef = useRef({ timer: null, last: 0 });
+  const { t } = useI18n();
 
   // (soovi korral saab seda hiljem kasutada, hetkel pole otseselt tarvis)
   const activeConvId = useMemo(() => {
@@ -62,21 +64,21 @@ export default function ChatSidebar() {
         .json()
         .catch(() => ({ ok: false, conversations: [] }));
       if (!r.ok || !data?.ok) {
-        throw new Error(data?.message || "Laadimine ebaõnnestus");
+        throw new Error(data?.message || t("chat.sidebar.error.load"));
       }
       setItems(Array.isArray(data.conversations) ? data.conversations : []);
       if (data?.degraded) {
-        setError(data.message || "Vestluste ajalugu ei ole praegu saadaval.");
+        setError(data.message || t("chat.sidebar.error.history"));
       }
     } catch (e) {
       if (e?.name !== "AbortError") {
-        setError(e?.message || "Laadimine ebaõnnestus");
+        setError(e?.message || t("chat.sidebar.error.load"));
       }
     } finally {
       if (abortRef.current === ac) abortRef.current = null;
       setBusy(false);
     }
-  }, []);
+  }, [t]);
 
   const scheduleVisibilityRefresh = useCallback(() => {
     const state = visibilityThrottleRef.current;
@@ -103,6 +105,7 @@ export default function ChatSidebar() {
 
   // esmane laadimine + välised värskendused
   useEffect(() => {
+    const throttleState = visibilityThrottleRef.current;
     fetchList();
 
     const onExternalRefresh = () => fetchList();
@@ -128,10 +131,9 @@ export default function ChatSidebar() {
       );
       window.removeEventListener("focus", handleVisibilityEvent);
       document.removeEventListener("visibilitychange", handleVisibilityEvent);
-      const { timer } = visibilityThrottleRef.current;
-      if (timer) {
-        clearTimeout(timer);
-        visibilityThrottleRef.current.timer = null;
+      if (throttleState?.timer) {
+        clearTimeout(throttleState.timer);
+        throttleState.timer = null;
       }
       abortRef.current?.abort();
     };
@@ -165,23 +167,23 @@ export default function ChatSidebar() {
         });
         const data = await r.json().catch(() => ({}));
         if (!r.ok || data?.ok === false) {
-          throw new Error(data?.message || "Uue vestluse loomine ebaõnnestus");
+          throw new Error(data?.message || t("chat.sidebar.error.create"));
         }
         onPick(id);
         await fetchList();
       } catch (e) {
-        setError(e?.message || "Uue vestluse loomine ebaõnnestus");
+        setError(e?.message || t("chat.sidebar.error.create"));
       } finally {
         setCreating(false);
       }
     },
-    [busy, creating, fetchList, onPick],
+    [busy, creating, fetchList, onPick, t],
   );
 
   const onDelete = useCallback(
     async (id) => {
       if (!id) return;
-      if (!confirm("Kas kustutada see vestlus?")) return;
+      if (!confirm(t("chat.sidebar.confirm.delete"))) return;
       setBusy(true);
       setError("");
       try {
@@ -191,7 +193,7 @@ export default function ChatSidebar() {
         );
         const data = await r.json().catch(() => ({}));
         if (!r.ok || data?.ok === false) {
-          throw new Error(data?.message || "Kustutamine ebaõnnestus");
+          throw new Error(data?.message || t("chat.sidebar.error.delete"));
         }
         await fetchList();
 
@@ -203,12 +205,12 @@ export default function ChatSidebar() {
           }
         } catch {}
       } catch (e) {
-        setError(e?.message || "Kustutamine ebaõnnestus");
+        setError(e?.message || t("chat.sidebar.error.delete"));
       } finally {
         setBusy(false);
       }
     },
-    [fetchList],
+    [fetchList, t],
   );
 
   const safeDate = (v) => {
@@ -225,7 +227,7 @@ export default function ChatSidebar() {
   return (
     <nav
       className="cs-container"
-      aria-label="Vestluste loend"
+      aria-label={t("chat.sidebar.aria_list")}
       aria-busy={busy || creating ? "true" : "false"}
     >
       {/* Ülariba: Uus vestlus + Refresh */}
@@ -236,15 +238,15 @@ export default function ChatSidebar() {
           disabled={busy || creating}
           aria-busy={creating ? "true" : "false"}
         >
-          {creating ? "Loon…" : "Uus vestlus"}
+          {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
         </button>
 
         <button
           className="cs-refresh"
           onClick={fetchList}
           disabled={busy || creating}
-          aria-label="Värskenda"
-          title="Värskenda"
+          aria-label={t("chat.sidebar.button.refresh")}
+          title={t("chat.sidebar.button.refresh")}
         >
           <svg
             className="cs-refresh-icon"
@@ -285,14 +287,14 @@ export default function ChatSidebar() {
       <ul className="cs-list" role="list" aria-live="polite">
         {!busy && sorted.length === 0 ? (
           <li className="cs-empty">
-            Vestlusi pole.
+            {t("chat.sidebar.empty")}
             <button
               className="cs-btn cs-btn--primary"
               onClick={onNew}
               disabled={creating}
               style={{ marginLeft: 8 }}
             >
-              Loo esimene
+              {t("chat.sidebar.empty_cta")}
             </button>
           </li>
         ) : (
@@ -310,7 +312,6 @@ export default function ChatSidebar() {
               <li
                 key={c.id}
                 className={`cs-item${isActive ? " cs-item--active" : ""}`}
-                aria-selected={isActive ? "true" : "false"}
               >
                 <button
                   className="cs-link"
@@ -319,7 +320,7 @@ export default function ChatSidebar() {
                   aria-current={isActive ? "true" : undefined}
                 >
                   <div className="cs-title">
-                    {c.title || c.preview || "Vestlus"}
+                    {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
                   </div>
                   <div className="cs-time">
                     {formatDateTime(c.updatedAt)}
@@ -329,8 +330,8 @@ export default function ChatSidebar() {
                 <button
                   className="cs-delete"
                   onClick={() => onDelete(c.id)}
-                  aria-label="Kustuta vestlus"
-                  title="Kustuta"
+                  aria-label={t("chat.sidebar.item.delete")}
+                  title={t("chat.sidebar.item.delete_title")}
                   disabled={busy || creating}
                 >
                   <svg

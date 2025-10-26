@@ -4,17 +4,23 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ModalConfirm from "@/components/ui/ModalConfirm";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import { localizePath } from "@/lib/localizePath";
 
-const ROLE_MAP = {
-  ADMIN: "Administraator",
-  SOCIAL_WORKER: "Spetsialist",
-  CLIENT: "Eluküsimusega pöörduja",
+const ROLE_KEYS = {
+  ADMIN: "role.admin",
+  SOCIAL_WORKER: "role.worker",
+  CLIENT: "role.client",
 };
 
 export default function ProfiilBody() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { openModal: openA11y } = useAccessibility();
+  const { t, locale } = useI18n();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,18 +45,18 @@ const [deleting, setDeleting] = useState(false);
         const res = await fetch("/api/profile", { cache: "no-store" });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || "Profiili laadimine ebaõnnestus.");
+          setError(payload?.error || t("profile.load_failed"));
           return;
         }
         setEmail(payload?.user?.email ?? "");
       } catch (err) {
         console.error("profile GET", err);
-        setError("Server ei vasta. Palun proovi uuesti.");
+        setError(t("profile.server_unreachable"));
       } finally {
         setLoading(false);
       }
     })();
-  }, [status]);
+  }, [status, t]);
 
   async function handleSave(e) {
     e.preventDefault();
@@ -70,15 +76,15 @@ const [deleting, setDeleting] = useState(false);
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.error || "Profiili uuendamine ebaõnnestus.");
+        setError(payload?.error || t("profile.update_failed"));
         return;
       }
-      setSuccess("Muudatused salvestatud.");
+      setSuccess(t("profile.saved_ok"));
       setPassword("");
       router.refresh();
     } catch (err) {
       console.error("profile PUT", err);
-      setError("Server ei vasta. Palun proovi uuesti.");
+      setError(t("profile.server_unreachable"));
     } finally {
       setSaving(false);
     }
@@ -86,9 +92,15 @@ const [deleting, setDeleting] = useState(false);
 
   if (status === "loading" || loading) {
     return (
-      <div className="main-content glass-box glass-left">
-        <h1 className="glass-title">Minu profiil</h1>
-        <p style={{ padding: "1rem" }}>Laen profiili…</p>
+      <div className="main-content glass-box glass-left" lang={locale}>
+        <h1 className="glass-title">{t("profile.title")}</h1>
+        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
+          <LanguageSwitcher />
+          <button type="button" className="btn-tertiary" onClick={() => openA11y?.()}>
+            {t("buttons.open_accessibility")}
+          </button>
+        </div>
+        <p style={{ padding: "1rem" }}>{t("profile.loading")}</p>
       </div>
     );
   }
@@ -96,19 +108,25 @@ const [deleting, setDeleting] = useState(false);
   if (status !== "authenticated") {
     const reason = registrationReason || "not-logged-in";
     const reasonText = reason === "no-sub"
-      ? "Logi sisse ja aktiveeri tellimus, et profiili vaadata."
-      : "Profiili vaatamiseks logi sisse.";
+      ? t("profile.login_to_manage_sub")
+      : t("profile.login_to_view");
 
     return (
-      <div className="main-content glass-box glass-left">
-        <h1 className="glass-title">Minu profiil</h1>
+      <div className="main-content glass-box glass-left" lang={locale}>
+        <h1 className="glass-title">{t("profile.title")}</h1>
+        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
+          <LanguageSwitcher />
+          <button type="button" className="btn-tertiary" onClick={() => openA11y?.()}>
+            {t("buttons.open_accessibility")}
+          </button>
+        </div>
         <p style={{ padding: "1rem" }}>{reasonText}</p>
         <div className="back-btn-wrapper">
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push("/registreerimine")}
-            aria-label="Logi sisse"
+            onClick={() => router.push(localizePath("/registreerimine", locale))}
+            aria-label={t("auth.login.title")}
           >
             <span className="back-arrow-circle" />
           </button>
@@ -117,24 +135,31 @@ const [deleting, setDeleting] = useState(false);
     );
   }
 
-  const roleLabel = ROLE_MAP[session?.user?.role] ?? "—";
+  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
 
   return (
-    <div className="main-content glass-box glass-left" role="main" aria-labelledby="profile-title" lang="et">
+    <div className="main-content glass-box glass-left" role="main" aria-labelledby="profile-title" lang={locale}>
       <h1 id="profile-title" className="glass-title">
-        Minu profiil
+        {t("profile.title")}
       </h1>
+
+      <div style={{ display:"flex", gap:"0.75rem", alignItems:"center", justifyContent:"flex-end", marginBottom:"0.5rem" }}>
+        <LanguageSwitcher />
+        <button type="button" className="btn-tertiary" onClick={() => openA11y?.()}>
+          {t("buttons.open_accessibility")}
+        </button>
+      </div>
 
       <div className="profile-header-center">
         <span className="profile-role-pill">{roleLabel}</span>
         <Link href="/tellimus" className="link-brand profile-tellimus-link">
-          Halda tellimust
+          {t("profile.manage_subscription")}
         </Link>
       </div>
 
       <form onSubmit={handleSave} className="glass-form profile-form-vertical">
         <label htmlFor="email" className="glass-label">
-          E-post
+          {t("profile.email")}
         </label>
         <input
           className="input-modern"
@@ -147,7 +172,7 @@ const [deleting, setDeleting] = useState(false);
         />
 
         <label htmlFor="password" className="glass-label">
-          Uus parool (soovi korral)
+          {t("profile.new_password_optional")}
         </label>
         <input
           className="input-modern"
@@ -173,14 +198,14 @@ const [deleting, setDeleting] = useState(false);
 
         <div className="profile-btn-row">
           <button type="submit" className="btn-primary btn-profile-save" disabled={saving}>
-            {saving ? "Salvestan…" : "Salvesta"}
+            {saving ? t("profile.saving") : t("profile.save")}
           </button>
           <button
             type="button"
             className="btn-primary btn-profile-logout"
-            onClick={() => signOut({ callbackUrl: "/" })}
+            onClick={() => signOut({ callbackUrl: localizePath("/", locale) })}
           >
-            Logi välja
+            {t("profile.logout")}
           </button>
         </div>
       </form>
@@ -189,8 +214,8 @@ const [deleting, setDeleting] = useState(false);
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push("/vestlus")}
-          aria-label="Tagasi vestlusesse"
+          onClick={() => router.push(localizePath("/vestlus", locale))}
+          aria-label={t("profile.back_to_chat")}
         >
           <span className="back-arrow-circle"></span>
         </button>
@@ -213,13 +238,13 @@ const [deleting, setDeleting] = useState(false);
         </button>
       </div>
 
-      <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
 
       {showDelete && (
         <ModalConfirm
-           message="Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta."
-          confirmLabel={deleting ? "Kustutan…" : "Kustuta konto"}
-          cancelLabel="Katkesta"
+          message={t("profile.delete_confirm")}
+          confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")}
+          cancelLabel={t("buttons.cancel")}
           onConfirm={async () => {
             if (deleting) return;
             setError("");
@@ -229,18 +254,18 @@ const [deleting, setDeleting] = useState(false);
               const res = await fetch("/api/profile", { method: "DELETE" });
               const payload = await res.json().catch(() => ({}));
               if (!res.ok) {
-                setError(payload?.error || "Konto kustutamine ebaõnnestus.");
+                setError(payload?.error || t("profile.delete_failed"));
                 setDeleting(false);
                 return;
               }
 
               setShowDelete(false);
-              const signOutResult = await signOut({ redirect: false, callbackUrl: "/" });
-              const redirectUrl = signOutResult?.url || "/";
+              const signOutResult = await signOut({ redirect: false, callbackUrl: localizePath("/", locale) });
+              const redirectUrl = signOutResult?.url || localizePath("/", locale);
               window.location.href = redirectUrl;
             } catch (err) {
               console.error("profile DELETE", err);
-              setError("Server ei vasta. Palun proovi uuesti.");
+              setError(t("profile.server_unreachable"));
               setDeleting(false);
             }
           }}

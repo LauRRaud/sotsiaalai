@@ -777,6 +777,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   line-height: 1.56;
   letter-spacing: 0.03em;
 }
+.glass-list--compact { margin-bottom: 0.25rem; }
 .link-brand {
   color: #e1c6af; /* kuldne tekst */
   border: 2px solid transparent;
@@ -799,6 +800,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   background: none;
   box-shadow: 0 0 7px 0 rgba(175,170,163,0.40); /* sama toon kumana */
 }
+
+/* Install-ploki kompaktsem spacing ja pealkirja sobitus */
+.install-section { margin-top: 0.6rem; }
+.install-section p { margin: 0.25em 0; }
 
 /* "Unustasid parooli?" link */
 .unustasid-parooli-link {
@@ -2900,3 +2905,106 @@ left: calc(var(--hud-edge-left) + 15px);
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* === A11Y modal enhanced visual tweaks (override) === */
+.a11y-modal{ max-width:min(760px, 94vw); padding:1.25rem 1.25rem 1.6rem; border-radius:18px; color: var(--pt-150); }
+.a11y-modal .a11y-title{ font-size: clamp(1.6rem, 3.4vw, 2.2rem); color: var(--pt-100); }
+.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.05rem; }
+.a11y-modal .a11y-fieldset{ margin:.9rem 0 1.1rem; }
+.a11y-modal .a11y-legend{ color: var(--pt-100); font-size: 1.12rem; }
+.a11y-modal .text, .a11y-modal label{ color: var(--pt-150); font-size: 1.05rem; }
+.a11y-actions{ display:flex; justify-content:center; margin-top:1.1rem; }
+
+/* === A11Y: skip-link === */
+.skip-link{
+  position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus{
+  left:1rem; top:1rem; width:auto; height:auto; padding:.5rem .75rem;
+  background:#000; color:#fff; border-radius:.25rem; z-index:10000;
+}
+
+/* === A11Y: universaalne fookusrõngas (≥3:1) === */
+:where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible{
+  outline:3px solid var(--focus-ring, #ffd24d);
+  outline-offset:3px;
+}
+html[data-contrast="hc"] :where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible{
+  outline-color:#ffea00;
+}
+
+/* === A11Y: teksti suurus skaalal === */
+html[data-text-scale="sm"] { font-size: 15px; }
+html[data-text-scale="md"] { font-size: 16px; }
+html[data-text-scale="lg"] { font-size: 18px; }
+html[data-text-scale="xl"] { font-size: 20px; }
+
+/* === A11Y: kõrge kontrasti override’id (hoia tagasihoidlik, vajadusel täienda) === */
+html[data-contrast="hc"]{
+  --pt-50:#FFFFFF; --pt-100:#F2F2F2; --pt-150:#E8E8E8; --pt-200:#DFDEDA;
+  --pt-300:#FFFFFF; --pt-400:#E6E6E6; --pt-500:#111111; --pt-600:#000000;
+  --pt-light: #EFEFEF; --pt: #FFFFFF; --pt-mid: #E6E6E6; --pt-dark: #000000;
+  --brand-primary: #ffd24d; /* kuldne aktsent paremaks kontrastiks */
+}
+
+/* === A11Y: vähenda liikumist === */
+html[data-reduce-motion="1"] *,
+html[data-reduce-motion="1"] *::before,
+html[data-reduce-motion="1"] *::after{
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+html[data-reduce-motion="1"] .three-d-card.flip-allowed:hover .card-wrapper{ transform: none !important; }
+html[data-reduce-motion="1"] .glow-active{ box-shadow: none !important; }
+/* Ensure content that normally fades-in becomes visible statically */
+html[data-reduce-motion="1"] .glass-card.fade-in{
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+html[data-reduce-motion="1"] .defer-fade{
+  opacity: var(--end-op, 1) !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* === A11Y: target-size (valitud võtmekohad; vajadusel lisa) === */
+.login-icon-btn,
+.back-arrow-btn,
+.btn-primary,
+.btn-tertiary,
+.chat-menu-btn{
+  min-width:44px; min-height:44px;
+}
+
+/* === A11Y: ligipääsetavuse ujuv nupp === */
+.a11y-open-btn{
+  display: none; /* floating button removed; kept class reserved */
+}
+.a11y-open-btn:hover, .a11y-open-btn:focus-visible{ }
+
+/* === A11Y: modaal (klaasikarp stiil) === */
+.a11y-modal-backdrop{
+  position:fixed; inset:0; background: rgba(0,0,0,.45); backdrop-filter: blur(2px);
+  z-index:49;
+}
+.a11y-modal{
+  position:fixed; left:50%; top:50%; transform: translate(-50%, -50%);
+  z-index:50; outline:none; pointer-events:auto;
+  max-width:min(640px, 92vw); width:100%; padding:1rem 1rem 1.1rem; border-radius:16px;
+  background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(8px) saturate(130%);
+}
+.a11y-modal .glass-title{ margin-top:.25rem; }
+.a11y-modal .a11y-fieldset{ margin:.5rem 0 .75rem; border:none; padding:0; }
+.a11y-modal .a11y-options{ display:flex; flex-wrap:wrap; gap:.75rem 1rem; }
+.a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
+
+.a11y-modal .a11y-close{
+  position:absolute; top:.5rem; right:.6rem; background:none; border:none; color:var(--pt-100);
+  font-size:1.4rem; min-width:44px; min-height:44px; line-height:1; cursor:pointer;
+}
+.a11y-modal .a11y-close:hover{ color:var(--pt); }

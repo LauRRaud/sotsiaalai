@@ -6,9 +6,7 @@ import path from "path";
 const baseConfig = {
   reactStrictMode: true,
 
-  compiler: {
-    styledComponents: true,
-  },
+  compiler: { styledComponents: true },
 
   images: {
     formats: ["image/avif", "image/webp"],

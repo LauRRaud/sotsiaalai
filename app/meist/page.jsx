@@ -1,18 +1,23 @@
-// app/meist/page.jsx — serverikomponent (NextAuth v4)
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
+// app/meist/page.jsx
+import { cookies } from "next/headers";
 import MeistBody from "@/components/alalehed/MeistBody";
+import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
+import { buildLocalizedMetadata } from "@/lib/metadata";
 
-export const metadata = {
-  title: "Meist — SotsiaalAI",
-  description:
-    "SotsiaalAI on tehisintellekti toel töötav platvorm sotsiaalvaldkonna spetsialistidele ja abiotsijatele.",
-};
-export const dynamic = "force-dynamic";
+export async function generateMetadata() {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
+  const messages = getMessagesSync(locale);
+  const meta = messages?.meta?.about || {};
+
+  return buildLocalizedMetadata({
+    locale,
+    pathname: "/meist",
+    title: meta.title || (locale === "ru" ? "О нас — SotsiaalAI" : locale === "en" ? "About — SotsiaalAI" : "Meist — SotsiaalAI"),
+    description: meta.description || "",
+  });
+}
+
 export default async function MeistPage() {
-  const session = await getServerSession(authConfig);
-  const isAdmin =
-    session?.user?.role === "ADMIN" || session?.user?.isAdmin === true;
-
-  return <MeistBody isAdmin={isAdmin} />;
+  return <MeistBody />;
 }

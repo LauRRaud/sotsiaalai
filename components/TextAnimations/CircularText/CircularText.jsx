@@ -1,6 +1,7 @@
 "use client";
 import React, { useMemo, useId, useEffect, useState } from "react";
 import "./CircularText.css";
+import useT from "@/components/i18n/useT";
 
 const VIEWBOX = 500;
 const R = 200;
@@ -218,9 +219,10 @@ export default function CircularText({
 
 /* --- Kasutusnäited --- */
 export function CircularRingLeft() {
+  const t = useT();
   return (
     <CircularText
-      text="SEADUSED PRAKTIKA NÕUANDED"
+      text={t("home.ring.left", "SEADUSED PRAKTIKA NÕUANDED")}
       size={440}
       duration={130}
       clockwise={false}
@@ -237,9 +239,10 @@ export function CircularRingLeft() {
 }
 
 export function CircularRingRight() {
+  const t = useT();
   return (
     <CircularText
-      text="ÕIGUSED JUHISED VÕIMALUSED"
+      text={t("home.ring.right", "ÕIGUSED JUHISED VÕIMALUSED")}
       size={440}
       duration={130}
       clockwise={false}

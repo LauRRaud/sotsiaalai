@@ -1,14 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import RichText from "@/components/i18n/RichText";
+import { localizePath } from "@/lib/localizePath";
 
 export default function RegistreerimineBody() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const nextUrl = searchParams?.get("next") || "/vestlus";
+  const { t, locale } = useI18n();
+  const nextUrl = searchParams?.get("next") || localizePath("/vestlus", locale);
 
   const [form, setForm] = useState({
     email: "",
@@ -32,7 +35,7 @@ export default function RegistreerimineBody() {
     setError("");
 
     if (!form.agree) {
-      setError("Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.");
+      setError(t("auth.register.error.agree_required"));
       return;
     }
 
@@ -51,7 +54,7 @@ export default function RegistreerimineBody() {
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
         // /api/register/route.js tagastab 'message'
-        setError(payload?.message || payload?.error || "Registreerimine ebaõnnestus.");
+        setError(payload?.message || payload?.error || t("auth.register.error.failed"));
         return;
       }
 
@@ -63,24 +66,24 @@ export default function RegistreerimineBody() {
       });
 
       if (login?.error) {
-        setError("Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida.");
-        router.replace(`/registreerimine?next=${encodeURIComponent(nextUrl)}`);
+        setError(t("auth.register.error.auto_login"));
+        router.replace(`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`);
         return;
       }
 
-      router.replace(`/tellimus?next=${encodeURIComponent(nextUrl)}`);
+      router.replace(`${localizePath("/tellimus", locale)}?next=${encodeURIComponent(nextUrl)}`);
       router.refresh();
     } catch (err) {
       console.error("Register error", err);
-      setError("Server ei vasta. Palun proovi uuesti.");
+      setError(t("profile.server_unreachable"));
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="main-content glass-box">
-      <h1 className="glass-title">Loo konto</h1>
+    <div className="main-content glass-box" lang={locale}>
+      <h1 className="glass-title">{t("auth.register.title")}</h1>
 
       <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
         <input
@@ -88,7 +91,7 @@ export default function RegistreerimineBody() {
           id="email"
           name="email"
           className="input-modern input-email-top"
-          placeholder="Sinu@email.ee"
+          placeholder={t("auth.email_placeholder")}
           value={form.email}
           onChange={handleChange}
           required
@@ -100,7 +103,7 @@ export default function RegistreerimineBody() {
           id="password"
           name="password"
           className="input-modern"
-          placeholder="Parool"
+          placeholder={t("auth.password_placeholder")}
           value={form.password}
           onChange={handleChange}
           required
@@ -108,7 +111,7 @@ export default function RegistreerimineBody() {
           autoComplete="new-password"
         />
 
-        <div className="glass-label glass-label-radio">Roll:</div>
+        <div className="glass-label glass-label-radio">{t("auth.register.role_label")}</div>
         <div className="glass-radio-group" role="radiogroup">
           <label>
             <input
@@ -118,7 +121,7 @@ export default function RegistreerimineBody() {
               checked={form.role === "SOCIAL_WORKER"}
               onChange={handleChange}
             />
-            Sotsiaaltöö spetsialist
+            {t("role.worker")}
           </label>
           <label>
             <input
@@ -128,7 +131,7 @@ export default function RegistreerimineBody() {
               checked={form.role === "CLIENT"}
               onChange={handleChange}
             />
-            Eluküsimusega pöörduja
+            {t("role.client")}
           </label>
         </div>
 
@@ -141,14 +144,19 @@ export default function RegistreerimineBody() {
             required
           />
           <span className="checkbox-text">
-            Nõustun{" "}
-            <Link href="/kasutustingimused" className="link-brand-inline">
-              kasutajatingimustega
-            </Link>{" "}
-            ja{" "}
-            <Link href="/privaatsustingimused" className="link-brand-inline">
-              privaatsuspoliitikaga
-            </Link>
+            <RichText
+              value={t("auth.register.agreement")}
+              replacements={{
+                terms: {
+                  open: `<a class="link-brand-inline" href="${localizePath("/kasutustingimused", locale)}">`,
+                  close: "</a>",
+                },
+                privacy: {
+                  open: `<a class="link-brand-inline" href="${localizePath("/privaatsustingimused", locale)}">`,
+                  close: "</a>",
+                },
+              }}
+            />
           </span>
         </label>
 
@@ -159,7 +167,7 @@ export default function RegistreerimineBody() {
         )}
 
         <button className="btn-primary" type="submit" disabled={submitting}>
-          <span>{submitting ? "Loome kontot…" : "Registreeru"}</span>
+          <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
       </form>
 
@@ -167,14 +175,18 @@ export default function RegistreerimineBody() {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push("/")}
-          aria-label="Tagasi avalehele"
+          onClick={() =>
+            typeof window !== "undefined" && window.history.length > 1
+              ? router.back()
+              : router.push(localizePath("/", locale))
+          }
+          aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle"></span>
         </button>
       </div>
 
-      <footer className="alaleht-footer">SotsiaalAI &copy; 2025</footer>
+      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>
   );
 }

@@ -3,14 +3,24 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import RichText from "@/components/i18n/RichText";
+import { localizePath } from "@/lib/localizePath";
+
+const emailReplacement = {
+  email: {
+    open: '<a href="mailto:info@sotsiaal.ai" class="link-brand">',
+    close: "</a>",
+  },
+};
 
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [subActive, setSubActive] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [processing, setProcessing] = useState(false);
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     (async () => {
@@ -18,31 +28,29 @@ export default function TellimusBody() {
         const res = await fetch("/api/subscription", { cache: "no-store" });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || "Tellimuse oleku laadimine ebaõnnestus.");
+          setError(payload?.error || t("subscription.error.load_failed"));
           return;
         }
         setSubActive(payload?.subscription?.status === "active");
       } catch (err) {
         console.error("subscription GET", err);
-        setError("Server ei vasta. Palun proovi uuesti.");
+        setError(t("profile.server_unreachable"));
       } finally {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [t]);
 
   async function handleActivate() {
     try {
       setProcessing(true);
       setError("");
-      setSuccess("");
-      // DEMO: suuname “makselehele”
-      alert("Suuname Maksekeskuse makselehele (demo)...");
-      router.push("/tellimus?status=demo");
+      alert(t("subscription.payment.redirect_demo"));
+      router.push(localizePath("/tellimus?status=demo", locale));
       router.refresh();
     } catch (err) {
       console.error("activate", err);
-      setError("Makse algatamine ebaõnnestus.");
+      setError(t("subscription.error.payment_start"));
     } finally {
       setProcessing(false);
     }
@@ -50,60 +58,41 @@ export default function TellimusBody() {
 
   if (loading) {
     return (
-      <div className="main-content glass-box glass-left tellimus-box" role="main" lang="et">
-        <h1 className="glass-title">Tellimus</h1>
+      <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
+        <h1 className="glass-title">{t("subscription.title")}</h1>
         <div className="content-narrow">
-          <p className="glass-text" aria-live="polite">Laen tellimuse infot…</p>
+          <p className="glass-text" aria-live="polite">{t("subscription.loading")}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="main-content glass-box glass-left tellimus-box" role="main" lang="et">
-      <h1 className="glass-title">Tellimus</h1>
+    <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
+      <h1 className="glass-title">{t("subscription.title")}</h1>
 
       <div className="content-narrow">
         {subActive ? (
           <>
-            <p className="glass-text">
-              Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.
-            </p>
+            <p className="glass-text">{t("subscription.active.summary")}</p>
             <p className="glass-text" id="cancel-note">
-              Tellimuse saad igal ajal tühistada oma profiililehelt või
-              kirjutades aadressile{" "}
-              <a href="mailto:info@sotsiaal.ai" className="link-brand">
-                info@sotsiaal.ai
-              </a>
-              .
+              <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
             </p>
 
             <div className="tellimus-btn-center">
-              <Link
-                href="/profiil"
-                className="btn-primary"
-                aria-describedby="cancel-note"
-              >
-                Ava profiil
+              <Link href="/profiil" className="btn-primary" aria-describedby="cancel-note">
+                {t("subscription.button.open_profile")}
               </Link>
             </div>
           </>
         ) : (
           <>
-<div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
-  <p className="glass-text" style={{ margin: 0 }}>
-    SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma
-    profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni.
-  </p>
-</div>
+            <div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
+              <RichText as="div" className="glass-text" value={t("subscription.info")} replacements={emailReplacement} />
+            </div>
             {error && (
               <div role="alert" aria-live="assertive" className="glass-note">
                 {error}
-              </div>
-            )}
-            {success && !error && (
-              <div role="status" aria-live="polite" className="glass-note glass-note--success">
-                {success}
               </div>
             )}
 
@@ -117,7 +106,7 @@ export default function TellimusBody() {
                 aria-describedby="billing-info cancel-note"
                 onClick={handleActivate}
               >
-                {processing ? "Suunan maksele…" : "Maksa ja aktiveeri tellimus"}
+                {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
               </button>
             </div>
           </>
@@ -128,14 +117,18 @@ export default function TellimusBody() {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push("/")}
-          aria-label="Tagasi avalehele"
+          onClick={() =>
+            typeof window !== "undefined" && window.history.length > 1
+              ? router.back()
+              : router.push(localizePath("/", locale))
+          }
+          aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle" />
         </button>
       </div>
 
-      <footer className="alaleht-footer">SotsiaalAI © 2025</footer>
+      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>
   );
 }
