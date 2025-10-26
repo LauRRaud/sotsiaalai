@@ -1,6 +1,13 @@
 // middleware.js
 import { NextResponse } from "next/server";
 
+function getForwardedHeader(req, name) {
+  const raw = req.headers.get(name);
+  if (!raw) return null;
+  const first = raw.split(",")[0]?.trim();
+  return first || null;
+}
+
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
@@ -10,9 +17,13 @@ export async function middleware(req) {
     const locale = m[1];
     const rest = m[2] || "/";
 
-    // Build redirect target using the incoming request URL as base to preserve host.
-    // This avoids accidentally redirecting to http://localhost:3000 on non-local hosts.
+    // Rekonstrueeri siht-URL kasutades X-Forwarded-* päiseid, et säilitada õige domeen/proto.
     const dest = new URL(req.url);
+    const forwardedProto = getForwardedHeader(req, "x-forwarded-proto");
+    const forwardedHost = getForwardedHeader(req, "x-forwarded-host");
+    const fallbackHost = req.headers.get("host");
+    if (forwardedProto) dest.protocol = `${forwardedProto}:`;
+    if (forwardedHost || fallbackHost) dest.host = forwardedHost || fallbackHost;
     dest.pathname = rest; // canonical path without the locale prefix
 
     const res = NextResponse.redirect(dest, 308);

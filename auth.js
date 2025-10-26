@@ -10,6 +10,55 @@ const GoogleProvider = GoogleProviderImport?.default ?? GoogleProviderImport;
 const CredentialsProvider =
   CredentialsProviderImport?.default ?? CredentialsProviderImport;
 
+const LOCALHOST_RE = /^https?:\/\/(?:localhost|127(?:\.\d{1,3}){1,3})(?::\d+)?$/i;
+
+function normalizeBaseUrl(value) {
+  if (!value) return "";
+  const trimmed = String(value).trim();
+  if (!trimmed) return "";
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  return withProtocol.replace(/\/+$/, "");
+}
+
+function computeBaseUrl() {
+  const rawCandidates = [
+    process.env.NEXTAUTH_URL,
+    process.env.AUTH_URL,
+    process.env.APP_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "",
+  ];
+  const normalized = rawCandidates.map(normalizeBaseUrl).filter(Boolean);
+
+  if (process.env.NODE_ENV !== "development") {
+    const firstNonLocal = normalized.find((url) => !LOCALHOST_RE.test(url));
+    if (firstNonLocal) return firstNonLocal;
+  }
+
+  return (
+    normalized.find((url) => LOCALHOST_RE.test(url)) ||
+    normalized[0] ||
+    "http://localhost:3000"
+  );
+}
+
+const APP_BASE_URL = computeBaseUrl();
+
+function toInternalDestination(targetUrl) {
+  try {
+    const parsed = new URL(targetUrl, APP_BASE_URL);
+    if (parsed.origin === APP_BASE_URL || LOCALHOST_RE.test(parsed.origin)) {
+      return `${APP_BASE_URL}${parsed.pathname}${parsed.search}${parsed.hash}`;
+    }
+  } catch {}
+
+  if (typeof targetUrl === "string" && targetUrl.startsWith("/")) {
+    return `${APP_BASE_URL}${targetUrl}`;
+  }
+
+  return `${APP_BASE_URL}/start`;
+}
+
 /** -------- eID stubid (asenda hiljem päris SK integratsiooniga) -------- */
 async function verifySmartId(personalCode) {
   return Boolean(personalCode && String(personalCode).trim().length >= 6);
@@ -164,13 +213,8 @@ export const authConfig = {
     },
 
     /** Redirect – austa callbackUrl’i; muidu mine /start */
-    async redirect({ url, baseUrl }) {
-      try {
-        const u = new URL(url);
-        if (u.origin === baseUrl) return url;
-      } catch {}
-      if (url?.startsWith?.("/")) return `${baseUrl}${url}`;
-      return `${baseUrl}/start`;
+    async redirect({ url }) {
+      return toInternalDestination(url);
     },
   },
 

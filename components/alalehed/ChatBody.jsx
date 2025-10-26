@@ -353,15 +353,19 @@ export default function ChatBody() {
     [isGenerating, messages]
   );
 
-  // Kui keel muutub, värskenda esimest AI-intro sõnumit (id=0) ka siis, kui vestluses on muid sõnumeid
+  // Kui keel muutub, värskenda või lisa esimene AI-intro sõnum (isegi kui ID on muutunud)
   useEffect(() => {
     setMessages((prev) => {
-      if (Array.isArray(prev) && prev.length >= 1 && prev[0]?.role === "ai" && prev[0]?.id === 0) {
-        if (prev[0].text === introText) return prev; // juba värske
-        const next = [{ ...prev[0], text: introText }, ...prev.slice(1)];
-        return next;
+      if (!Array.isArray(prev) || prev.length === 0) {
+        return [{ id: 0, role: "ai", text: introText }];
       }
-      return prev;
+      const first = prev[0];
+      if (first?.role !== "ai") {
+        return [{ id: 0, role: "ai", text: introText }, ...prev];
+      }
+      if (first.text === introText) return prev; // juba värske
+      const next = [{ ...first, text: introText }, ...prev.slice(1)];
+      return next;
     });
   }, [introText]);
 
@@ -572,8 +576,8 @@ export default function ChatBody() {
         window.sessionStorage.setItem(GLOBAL_CONV_KEY, newId);
       } catch {}
       setConvId(newId);
-      setMessages([{ id: 0, role: "ai", text: INTRO_MESSAGE }]);
-      chatStore.save([{ role: "ai", text: INTRO_MESSAGE }]);
+      setMessages([{ id: 0, role: "ai", text: introText }]);
+      chatStore.save([{ role: "ai", text: introText }]);
       setIsCrisis(false);
       try {
         window.dispatchEvent(
@@ -583,7 +587,7 @@ export default function ChatBody() {
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-  }, [chatStore, storageKey]);
+  }, [chatStore, storageKey, introText]);
 
   /* ---------- Scrolli state ---------- */
   useEffect(() => {
