@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import RagAdminPanel from "@/components/admin/RagAdminPanel";
+import dynamic from "next/dynamic";
 import { unstable_noStore as noStore } from "next/cache";
 
 export const dynamic = "force-dynamic";
@@ -12,19 +12,20 @@ export const revalidate = 0;
 export const metadata = {
   title: "RAG andmebaasi haldus — SotsiaalAI",
   description: "Laadi üles ja halda RAG materjale.",
-  robots: {
-    index: false,
-    follow: false,
-    nocache: true,
-  },
+  robots: { index: false, follow: false, nocache: true },
 };
 
+// Lae kliendipaneel ilma SSR-ita, et vältida minifitseeritud SSR vigu
+const RagAdminPanel = dynamic(() => import("@/components/admin/RagAdminPanel"), {
+  ssr: false,
+});
+
 export default async function AdminRagPage() {
-  noStore(); // väldi SSR cache’i (nt Vercel Edge)
+  noStore(); // väldi SSR cache’i
 
   const session = await getServerSession(authConfig);
 
-  // Pole sisse logitud -> suuna loginile ja tagasi siia
+  // Pole sisse logitud → suuna loginile ja tagasi siia
   if (!session) {
     const params = new URLSearchParams({ callbackUrl: "/admin/rag" });
     redirect(`/api/auth/signin?${params.toString()}`);
@@ -34,9 +35,7 @@ export default async function AdminRagPage() {
     session.user?.isAdmin === true ||
     String(session.user?.role || "").toUpperCase() === "ADMIN";
 
-  if (!isAdmin) {
-    redirect("/"); // sisse logitud, aga pole admin
-  }
+  if (!isAdmin) redirect("/"); // sisse logitud, aga pole admin
 
   return (
     <div

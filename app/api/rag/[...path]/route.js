@@ -2,21 +2,21 @@
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-/* -------------------- Config -------------------- */
+/* ===================== Config ===================== */
 
-// Sisemine RAG teenus (Uvicorn/FastAPI) — võib olla "127.0.0.1:8000" või "http://127.0.0.1:8000" vms
+// Sisemine RAG teenus (Uvicorn/FastAPI). Võib olla "127.0.0.1:8000" või "http://127.0.0.1:8000"
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 
-// API võti, mis lisatakse X-API-Key päisesse
+// API võti, mis lisatakse X-API-Key päisesse (sama mis RAG backendis)
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 
-// Proxy timeout (ms)
+// Proxy timeout millisekundites
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 
 // Lubame väljapoole localhosti ainult, kui admin on nii otsustanud
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
 
-/* -------------------- Utils -------------------- */
+/* ===================== Utils ===================== */
 
 function normalizeBaseFromHost(host) {
   // kui antakse täis-URL, kasuta seda; muidu eelda http://
@@ -86,7 +86,7 @@ function requestHasBody(req) {
   return true;
 }
 
-/* -------------------- Core proxy -------------------- */
+/* ===================== Core proxy ===================== */
 
 async function proxy(req, { params }) {
   // turvaventiilid
@@ -138,7 +138,7 @@ async function proxy(req, { params }) {
       signal: controller.signal,
       // Node fetch: vajalik, kui body on ReadableStream
       // (Next Node runtime toetab seda; brauseris seda ei kasutata)
-      duplex: body ? "half" : undefined,
+      ...(body ? { duplex: "half" } : {}),
     });
 
     // Puhasta hop-by-hop päised
@@ -175,14 +175,14 @@ async function proxy(req, { params }) {
   }
 }
 
-/* -------------------- Route exports -------------------- */
+/* ===================== Route exports ===================== */
 
-export async function GET(req, ctx)   { return proxy(req, ctx); }
-export async function POST(req, ctx)  { return proxy(req, ctx); }
-export async function PUT(req, ctx)   { return proxy(req, ctx); }
-export async function PATCH(req, ctx) { return proxy(req, ctx); }
-export async function DELETE(req, ctx){ return proxy(req, ctx); }
-export async function HEAD(req, ctx)  { return proxy(req, ctx); }
+export async function GET(req, ctx)    { return proxy(req, ctx); }
+export async function POST(req, ctx)   { return proxy(req, ctx); }
+export async function PUT(req, ctx)    { return proxy(req, ctx); }
+export async function PATCH(req, ctx)  { return proxy(req, ctx); }
+export async function DELETE(req, ctx) { return proxy(req, ctx); }
+export async function HEAD(req, ctx)   { return proxy(req, ctx); }
 
 // Kasulik CORS/preflight jaoks (kui kunagi vaja)
 export async function OPTIONS() {
@@ -190,7 +190,8 @@ export async function OPTIONS() {
     status: 204,
     headers: {
       "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, X-API-Key, Range, If-None-Match, If-Modified-Since, If-Range, Accept-Language",
+      "Access-Control-Allow-Headers":
+        "Content-Type, X-API-Key, Range, If-None-Match, If-Modified-Since, If-Range, Accept-Language",
       "Access-Control-Max-Age": "600",
     },
   });

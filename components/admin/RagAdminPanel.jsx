@@ -221,12 +221,48 @@ export default function RagAdminPanel() {
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
 
+  const fetchDocuments = useCallback(async () => {
+    fetchAbortRef.current?.abort?.();
+    const ac = new AbortController();
+    fetchAbortRef.current = ac;
+    setLoadingList(true);
+    try {
+      const res = await fetch("/api/rag/documents?limit=50", {
+        cache: "no-store",
+        signal: ac.signal,
+      });
+      const raw = await res.text();
+      let data = null;
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
+      }
+      if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
+
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.documents)
+        ? data.documents
+        : Array.isArray(data?.docs)
+        ? data.docs
+        : [];
+      setDocs(list);
+    } catch (err) {
+      if (err?.name !== "AbortError") {
+        showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
+      }
+    } finally {
+      setLoadingList(false);
+    }
+  }, [showError]);
+
   const runSelftest = useCallback(async () => {
     if (selftestBusy) return;
     setSelftestBusy(true);
     setSelftestSteps(null);
     try {
-      const res = await fetch("/api/rag-admin/selftest", { method: "POST", cache: "no-store" });
+      const res = await fetch("/api/rag/selftest", { method: "POST", cache: "no-store" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data || data.ok === false) {
         setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
@@ -234,7 +270,9 @@ export default function RagAdminPanel() {
       } else {
         setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
         setMessage({ type: "success", text: "Isetest lõpetatud." });
-        try { await fetchDocuments(); } catch {}
+        try {
+          await fetchDocuments();
+        } catch {}
       }
     } catch (e) {
       setMessage({ type: "error", text: "Isetest katkestus." });
@@ -254,36 +292,6 @@ export default function RagAdminPanel() {
   }, []);
 
   /* ----- laadimine + automaatne värskendus ----- */
-
-  const fetchDocuments = useCallback(async () => {
-    fetchAbortRef.current?.abort?.();
-    const ac = new AbortController();
-    fetchAbortRef.current = ac;
-    setLoadingList(true);
-    try {
-      const res = await fetch("/api/rag-admin/documents?limit=50", {
-        cache: "no-store",
-        signal: ac.signal,
-      });
-      const raw = await res.text();
-      let data = null;
-      try {
-        data = raw ? JSON.parse(raw) : null;
-      } catch (e) {
-        throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
-      }
-      if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
-
-      const list = Array.isArray(data) ? data : Array.isArray(data?.docs) ? data.docs : [];
-      setDocs(list);
-    } catch (err) {
-      if (err?.name !== "AbortError") {
-        showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
-      }
-    } finally {
-      setLoadingList(false);
-    }
-  }, [showError]);
 
   useEffect(() => {
     fetchDocuments();
@@ -392,7 +400,7 @@ export default function RagAdminPanel() {
 
       setFileBusy(true);
       try {
-        const res = await fetch("/api/rag-admin/upload", { method: "POST", body: formData });
+        const res = await fetch("/api/rag/upload", { method: "POST", body: formData });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
 
@@ -466,7 +474,7 @@ export default function RagAdminPanel() {
 
       setUrlBusy(true);
       try {
-        const res = await fetch("/api/rag-admin/url", {
+        const res = await fetch("/api/rag/ingest/url", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -499,7 +507,7 @@ export default function RagAdminPanel() {
       resetMessage();
       setReindexingId(docId);
       try {
-        const res = await fetch(`/api/rag-admin/documents/${docId}/reindex`, { method: "POST" });
+        const res = await fetch(`/api/rag/documents/${docId}/reindex`, { method: "POST" });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
         if (!res.ok) {
@@ -524,7 +532,7 @@ export default function RagAdminPanel() {
       if (!confirm("Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta.")) return;
       setDeletingId(docId);
       try {
-        const res = await fetch(`/api/rag-admin/documents/${docId}`, { method: "DELETE" });
+        const res = await fetch(`/api/rag/documents/${docId}`, { method: "DELETE" });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
         if (!res.ok) throw new Error(data?.message || "Kustutamine ebaõnnestus.");
@@ -619,7 +627,7 @@ export default function RagAdminPanel() {
 
     setArticlesBusy(true);
     try {
-      const res = await fetch("/api/rag-admin/ingest-articles", {
+      const res = await fetch("/api/rag/ingest/articles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -700,9 +708,7 @@ export default function RagAdminPanel() {
         {Array.isArray(selftestSteps) && selftestSteps.length ? (
           <div style={{ marginTop: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
             {selftestSteps.map((s, i) => (
-              <div key={`${s.name}-${i}`}>
-                {s.ok ? "✅" : "❌"} {s.name}
-              </div>
+              <div key={`${s.name}-${i}`}>{s.ok ? "✅" : "❌"} {s.name}</div>
             ))}
           </div>
         ) : null}
@@ -925,7 +931,7 @@ export default function RagAdminPanel() {
             </div>
           )}
 
-          <label style={{ display: "grid", gap: "0.5rem, 0.25rem", fontSize: "0.88rem" }}>
+          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Fail *</span>
             <input
               ref={fileInputRef}
@@ -945,11 +951,7 @@ export default function RagAdminPanel() {
             <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>{fileHint}</span>
           </label>
 
-          <button
-            type="submit"
-            disabled={fileBusy}
-            style={ctaStyle(fileBusy, "#7757ff", "#9b6dff")}
-          >
+          <button type="submit" disabled={fileBusy} style={ctaStyle(fileBusy, "#7757ff", "#9b6dff")}>
             {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
           </button>
         </form>
@@ -1019,11 +1021,7 @@ export default function RagAdminPanel() {
             </select>
           </label>
 
-          <button
-            type="submit"
-            disabled={urlBusy}
-            style={ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6")}
-          >
+          <button type="submit" disabled={urlBusy} style={ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6")}>
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
           </button>
         </form>
@@ -1132,15 +1130,9 @@ export default function RagAdminPanel() {
                       background: "rgba(15,18,26,0.55)",
                     }}
                   >
-                    <div
-                      style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}
-                    >
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
                       <strong style={{ fontSize: "0.95rem" }}>Artikkel #{i + 1}</strong>
-                      <button
-                        type="button"
-                        onClick={() => removeDraft(i)}
-                        style={smallDangerBtn()}
-                      >
+                      <button type="button" onClick={() => removeDraft(i)} style={smallDangerBtn()}>
                         Eemalda
                       </button>
                     </div>
