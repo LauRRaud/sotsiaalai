@@ -1,3 +1,4 @@
+// components/LoginModal.jsx
 "use client";
 
 import Link from "next/link";
@@ -5,7 +6,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 
@@ -13,20 +14,37 @@ export default function LoginModal({ open, onClose }) {
   const boxRef = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { status, data: session } = useSession();
   const { t, locale } = useI18n();
+
   const defaultNextUrl = localizePath("/vestlus", locale);
+
   const toRelative = (u) => {
     try {
       const base = typeof window !== "undefined" ? window.location.origin : "http://local";
       const url = new URL(u, base);
       return `${url.pathname}${url.search}${url.hash}`;
-    } catch { return typeof u === "string" ? u : defaultNextUrl; }
+    } catch {
+      return typeof u === "string" ? u : defaultNextUrl;
+    }
   };
+
   const nextUrl = toRelative(searchParams?.get("next") || defaultNextUrl);
 
   const [loading, setLoading] = useState(null); // "credentials" | "google" | "smart_id" | "mobiil_id"
   const [error, setError] = useState(null);
 
+  // Kui modaal on avatud ja kasutaja on juba autentitud → sulge ja suuna
+  useEffect(() => {
+    if (!open) return;
+    if (status === "authenticated" && session) {
+      onClose?.();
+      router.replace(nextUrl); // või "/vestlus"
+      router.refresh();
+    }
+  }, [open, status, session, nextUrl, router, onClose]);
+
+  // Body scroll lock + fookuse lõks
   useEffect(() => {
     if (!open) return;
 
@@ -47,19 +65,17 @@ export default function LoginModal({ open, onClose }) {
     body.style.width = "100%";
     body.style.touchAction = "none";
 
-    // Klahvikäsitleja: Escape sulgemiseks ja Tab-tsükli hoidmiseks
     const onKeydown = (e) => {
-      if (e.key === "Escape") {
-        onClose?.();
-      }
+      if (e.key === "Escape") onClose?.();
+
+      // Tab-fookuse lõks modalis
       if (e.key === "Tab" && boxRef.current) {
         const nodes = boxRef.current.querySelectorAll(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         );
-        const focusables = Array.from(nodes).filter((n) => {
-          // ignore elements that are hidden or not focusable
-          return (n.offsetWidth > 0 || n.offsetHeight > 0) && !n.hasAttribute("disabled");
-        });
+        const focusables = Array.from(nodes).filter(
+          (n) => (n.offsetWidth > 0 || n.offsetHeight > 0) && !n.hasAttribute("disabled")
+        );
         if (!focusables.length) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
@@ -95,7 +111,7 @@ export default function LoginModal({ open, onClose }) {
     setError(null);
     setLoading("google");
     try {
-      await signIn("google", { callbackUrl: nextUrl });
+      await signIn("google", { callbackUrl: nextUrl }); // teeb redirect'i
     } finally {
       setLoading(null);
     }
@@ -203,6 +219,7 @@ export default function LoginModal({ open, onClose }) {
         aria-hidden="true"
       />
 
+      {/* NB! Kommentaar viidud atribuutide VAHELT välja */}
       <div
         ref={boxRef}
         id="login-modal"
@@ -212,7 +229,7 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         aria-label={t("auth.login.title")}
         onClick={stopInside}
-        onMouseDown={stopInside}   // aitab vältida fookuse kaotust mousedown'il
+        onMouseDown={stopInside}  // aitab vältida fookuse kaotust mousedown'il
         onTouchStart={stopInside}
       >
         <button className="login-modal-close" onClick={onClose} aria-label={t("buttons.close")} type="button">
@@ -270,7 +287,6 @@ export default function LoginModal({ open, onClose }) {
               placeholder={t("auth.email_placeholder")}
               autoComplete="username"
               inputMode="email"
-              // autoFocus removed to avoid forcing immediate typing/focus
             />
           </label>
 
@@ -285,7 +301,9 @@ export default function LoginModal({ open, onClose }) {
           </label>
 
           <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
-            <Link href="/unustasin-parooli" className="unustasid-parooli-link">{t("auth.login.forgot")}</Link>
+            <Link href="/unustasin-parooli" className="unustasid-parooli-link">
+              {t("auth.login.forgot")}
+            </Link>
           </div>
 
           <button type="submit" className="btn-primary" disabled={loading === "credentials"}>

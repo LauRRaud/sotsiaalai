@@ -2,6 +2,8 @@
 "use client";
 
 import { useCallback, useEffect, useState, useRef } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
@@ -11,6 +13,9 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import useT from "@/components/i18n/useT";
 
 export default function HomePage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
   const { prefs } = useAccessibility();
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
@@ -21,11 +26,20 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
-  const [isMobile, setIsMobile] = useState(false); // ← NEW
+  const [isMobile, setIsMobile] = useState(false);
 
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
   const t = useT();
+
+  // Kui juba sees, suuna vestlusesse; tagastab true, kui suunati
+  const goChatIfAuthed = () => {
+    if (status === "authenticated" && session) {
+      router.push("/vestlus");
+      return true;
+    }
+    return false;
+  };
 
   // detect mobile once + on resize
   useEffect(() => {
@@ -77,9 +91,15 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
   }, [isLoginOpen]);
 
+  // Kui modaal on lahti ja sessioon muutub authenticated → sulge ja suuna
+  useEffect(() => {
+    if (isLoginOpen && status === "authenticated" && session) {
+      setIsLoginOpen(false);
+      router.push("/vestlus");
+    }
+  }, [isLoginOpen, status, session, router]);
+
   const flipAllowed = leftFadeDone && rightFadeDone;
-  // IMPORTANT: desktop gets hover flip; mobile does not
-  // Reduced motion: allow flipping, but transitions are globally minimized by CSS
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
   const flipEndMs = 333;
 
@@ -91,7 +111,12 @@ export default function HomePage() {
 
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
-    if (!isMobile) { setIsLoginOpen(true); return; }
+    if (status === "loading") return;     // väldi vilkumist
+    if (goChatIfAuthed()) return;         // juba sees → kohe vestlus
+    if (!isMobile) {                      // desktop, mitte sees → ava modal
+      setIsLoginOpen(true);
+      return;
+    }
     e?.stopPropagation?.();
     if (!mobileFlipReady[side]) {
       setMobileFlipReady({ left: side === "left", right: side === "right" });
@@ -106,16 +131,22 @@ export default function HomePage() {
     setMobileFlipReady((prev) => ({ ...prev, [side]: false }));
   };
 
-  // tap: mobile → toggle flip; desktop → open modal immediately
+  // tap: mobile → toggle flip; desktop → auth-check ja modal
   const handleCardTap = (side) => () => {
     if (!flipAllowed) return;
-    if (!isMobile) { setIsLoginOpen(true); return; }
+    if (!isMobile) {
+      if (status === "loading") return;
+      if (goChatIfAuthed()) return;   // juba sees → kohe vestlus
+      setIsLoginOpen(true);           // mitte sees → modal
+      return;
+    }
     setMobileFlipReady((prev) =>
       !prev[side]
         ? { left: side === "left", right: side === "right" } // 1st tap → flip
         : { left: false, right: false }                      // 2nd tap on same side → reset (back-side handler opens modal)
     );
   };
+
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({ left: false, right: false });
   }, []);
@@ -126,7 +157,6 @@ export default function HomePage() {
     if (target?.closest?.(".three-d-card")) return;
     resetMobileCards();
   }, [isMobile, resetMobileCards]);
-
 
   return (
     <>
@@ -184,7 +214,7 @@ export default function HomePage() {
                     )}
                   </Magnet>
                 </div>
-  
+
                 {/* BACK */}
                 <div
                   className="card-face back"
@@ -193,7 +223,11 @@ export default function HomePage() {
                   tabIndex={0}
                   onClick={handleCardBackClick("left")}
                   onBlur={handleCardBackBlur("left")}
-                  onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
+                      if (status !== "loading" && !goChatIfAuthed()) setIsLoginOpen(true);
+                    }
+                  }}
                   style={!flipAllowed ? { pointerEvents: "none" } : {}}
                 >
                   <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
@@ -213,7 +247,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-  
+
           {/* RIGHT CARD */}
           <div className="side right">
             <div
@@ -254,7 +288,7 @@ export default function HomePage() {
                     )}
                   </Magnet>
                 </div>
-  
+
                 {/* BACK */}
                 <div
                   className="card-face back"
@@ -263,7 +297,11 @@ export default function HomePage() {
                   tabIndex={0}
                   onClick={handleCardBackClick("right")}
                   onBlur={handleCardBackBlur("right")}
-                  onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && flipAllowed) setIsLoginOpen(true); }}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
+                      if (status !== "loading" && !goChatIfAuthed()) setIsLoginOpen(true);
+                    }
+                  }}
                   style={!flipAllowed ? { pointerEvents: "none" } : {}}
                 >
                   <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
@@ -284,7 +322,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-  
+
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
           {isMobile && (
@@ -311,6 +349,7 @@ export default function HomePage() {
           />
         </footer>
       </div>
+
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
