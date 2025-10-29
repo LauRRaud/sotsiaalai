@@ -619,99 +619,76 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   align-items: center;
   margin-top: 0em;
 }
-.profile-delete .button{
-  inline-size: 50px;
-  block-size: 50px;
-  border-radius: 50%;
-  background: #181818;
-  border: 2px solid var(--pt-mid);
-  color: var(--pt-200);
-  display: grid;
-  place-items: center;
-  position: relative;
-  overflow: visible;                 /* et silt mahuks nupu kohale */
-  box-shadow: 0 0 4px 0 rgba(175,170,163,0.35);
-  cursor: pointer;
-  /* hoia ainult väikesed üleminekud, mitte laiuse animatsiooni */
-  transition: background .2s, border-color .2s, box-shadow .2s, transform .06s;
+.button{
+  width:50px; height:50px;
+  border-radius:50%;
+  background:#181818;
+  border:2px solid var(--pt-mid);
+  color:var(--pt-200);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 4px 0 rgba(175,170,163,.35);
+  cursor:pointer;
+  position:relative;
+  overflow:visible;            /* et tooltip mahuks */
+  margin-top:1.5em;
+  transition: border .2s, box-shadow .2s;
 }
 
-/* Tühista globaalsed laiuse/raadiuse hover-animatsioonid ainult siin */
-.profile-delete .button:hover,
-.profile-delete .button:focus-visible{
-  inline-size: 50px;                 /* EI veni laiaks */
-  border-radius: 50%;                /* jääb ringiks */
-  background: #181818;
-  border-color: var(--pt-light);
-  box-shadow: 0 0 5px 2px rgba(201,199,194,0.55);
+/* HC: ainult kollane raam */
+html[data-contrast="hc"] .button{
+  background:#181818;
+  border:2px solid #ffea00 !important;
+  box-shadow:none;
 }
 
-/* Prügikasti ikoon */
-.profile-delete .button .svgIcon{
-  width: 20px;
-  height: 20px;
-  transition: transform .12s;
-}
-.profile-delete .button:active .svgIcon{ transform: scale(.94); }
-.profile-delete .button .svgIcon path{ fill: currentColor; }
+/* SVG jääb paigale ja kasutab currentColor'i */
+.svgIcon{ width:18px; height:auto; }
+.svgIcon path{ fill: currentColor; }
 
-/* Tekst ikooni kohale – kasutame sinu olemasolevat data-label’i */
-.profile-delete .button::before{
+/* Tooltip: peidus vaikimisi (ilma "valge ruuduta") */
+.button::before{
   content: attr(data-label);
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 6px);
-  transform: translateX(-50%) translateY(4px);
-  padding: .28em .6em;
-  font-size: .95rem;
-  font-weight: 600;
-  white-space: nowrap;
-  border-radius: 999px;
-
-  color: var(--pt-130);
-  background: linear-gradient(to bottom right, rgba(255,255,255,.06), rgba(140,165,235,.05));
-  border: 1px solid rgba(196,212,255,.24);
-  box-shadow: inset 0 0 2px rgba(255,255,255,.10), 0 6px 16px rgba(0,0,0,.10);
-
-  pointer-events: none;
-  opacity: 0; visibility: hidden;
-  transition: opacity .18s, transform .18s;
+  position:absolute;
+  left:50%; transform:translate(-50%, 0);
+  bottom:52px;                 /* ikoonist üles */
+  background:rgba(0,0,0,.85);
+  color:#fff;
+  padding:.3rem .5rem;
+  border-radius:.4rem;
+  white-space:nowrap;
+  font-size:.85rem;
+  line-height:1;
+  opacity:0;                   /* <-- peidus */
+  pointer-events:none;
+  transition:opacity .15s ease;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
 }
 
-/* Nähtav hover/focus */
-.profile-delete .button:hover::before,
-.profile-delete .button:focus-visible::before{
-  opacity: 1; visibility: visible;
-  transform: translateX(-50%) translateY(0);
+/* Väike kolmnurk all */
+.button::after{
+  content:"";
+  position:absolute;
+  left:50%; transform:translateX(-50%);
+  bottom:44px;
+  border:6px solid transparent;
+  border-top-color:rgba(0,0,0,.85);
+  opacity:0; transition:opacity .15s ease;
+  pointer-events:none;
 }
 
-/* Mobiilis (hover puudub) hoia silt alati nähtav */
-@media (max-width:768px){
-  .profile-delete .button::before{
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translateX(-50%) translateY(0) !important;
-  }
+/* Hoveril näita ainult tooltip'i (nupp ei kasva ega nihuta SVG-d) */
+.button:hover::before,
+.button:focus-visible::before,
+.button:hover::after,
+.button:focus-visible::after{
+  opacity:1;
 }
 
-/* High-contrast: ainult kollane raam (nupp + silt) */
-html[data-contrast="hc"] .profile-delete .button{
-  background: transparent !important;
-  color: var(--pt-50) !important;
-  border: 2px solid #ffea00 !important;
-  box-shadow: none !important;
-}
-html[data-contrast="hc"] .profile-delete .button::before{
-  background: transparent !important;
-  color: var(--pt-50) !important;
-  border: 2px solid #ffea00 !important;
-  box-shadow: none !important;
-}
+/* Eemalda varasemad laiendused/nihked */
+.button:hover{ width:50px; border-radius:50%; }
+.button:hover .svgIcon{ width:18px; transform:none; }
 
-/* Reduced motion */
-html[data-reduce-motion="1"] .profile-delete .button::before{
-  transition: none !important;
-}
 .chat-send-btn {
   transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
 }
