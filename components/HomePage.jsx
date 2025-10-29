@@ -11,6 +11,7 @@ import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations
 import Image from "next/image";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
+import OpeningBanner from "@/components/OpeningBanner";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -160,6 +161,7 @@ export default function HomePage() {
 
   return (
     <>
+      <OpeningBanner text={t("home.opening_banner")} top={"70%"} />
       <div className="homepage-root" onClick={handleBackgroundTap}>
         {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
         {!isMobile && (

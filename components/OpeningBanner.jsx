@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import useT from "@/components/i18n/useT";
 
-export default function OpeningBanner({ text }) {
+export default function OpeningBanner({ text = "Peagi avame!" }) {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const t = useT();
-  const bannerText = text || t("home.banner");
 
   useEffect(() => {
     setMounted(true);
@@ -48,7 +45,7 @@ export default function OpeningBanner({ text }) {
           textAlign: "center",
         }}
       >
-        {bannerText}
+        {text}
       </h1>
     </div>,
     document.body

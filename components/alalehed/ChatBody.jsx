@@ -146,7 +146,6 @@ function prettifyFileName(name) {
 }
 
 function formatSourceLabel(src) {
-  // Eelistame serveri lühiviidet, kui see olemas
   if (typeof src?.short_ref === "string" && src.short_ref.trim()) {
     return src.short_ref.trim();
   }
@@ -302,11 +301,11 @@ function throttle(fn, waitMs) {
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   const introText = t(
     "chat.intro.message",
-    "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus."
+    "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes."
   );
   const crisisText = t(
     "chat.crisis.notice",
@@ -319,14 +318,18 @@ export default function ChatBody() {
     return up || "CLIENT";
   }, [session]);
 
+  // ⬇️ UUS: lisa locale võtmele, et eri keelte ajalugu ei seguneks
   const storageKey = useMemo(() => {
     const uid = session?.user?.id || "anon";
-    return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:v1`;
-  }, [session]);
+    const loc = locale || "et";
+    return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:${loc}:v1`;
+  }, [session, locale]);
+
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
   const [convId, setConvId] = useState(null);
-  const [messages, setMessages] = useState(() => [{ id: 0, role: "ai", text: introText }]);
+  // ⬇️ UUS: vestluse ajalugu algab TÜHJALT (intro ei ole enam osa ajaloost)
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
@@ -353,21 +356,8 @@ export default function ChatBody() {
     [isGenerating, messages]
   );
 
-  // Kui keel muutub, värskenda või lisa esimene AI-intro sõnum (isegi kui ID on muutunud)
-  useEffect(() => {
-    setMessages((prev) => {
-      if (!Array.isArray(prev) || prev.length === 0) {
-        return [{ id: 0, role: "ai", text: introText }];
-      }
-      const first = prev[0];
-      if (first?.role !== "ai") {
-        return [{ id: 0, role: "ai", text: introText }, ...prev];
-      }
-      if (first.text === introText) return prev; // juba värske
-      const next = [{ ...first, text: introText }, ...prev.slice(1)];
-      return next;
-    });
-  }, [introText]);
+  // ⬇️ EEMALDATUD: introText-i põhine efekt, mis varem asendas esimese AI-sõnumi.
+  // Tervitusrida renderdatakse nüüd väljaspool sõnumi-ajalugu.
 
   // Koonda kogu vestluse vältel kasutatud allikad (for “Allikad” paneel)
   const conversationSources = useMemo(() => {
@@ -576,8 +566,9 @@ export default function ChatBody() {
         window.sessionStorage.setItem(GLOBAL_CONV_KEY, newId);
       } catch {}
       setConvId(newId);
-      setMessages([{ id: 0, role: "ai", text: introText }]);
-      chatStore.save([{ role: "ai", text: introText }]);
+      // ⬇️ UUS: puhasta nähtav ajalugu; intro renderdub eraldi t() kaudu
+      setMessages([]);
+      chatStore.save([]);
       setIsCrisis(false);
       try {
         window.dispatchEvent(
@@ -587,7 +578,7 @@ export default function ChatBody() {
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-  }, [chatStore, storageKey, introText]);
+  }, [chatStore, storageKey]);
 
   /* ---------- Scrolli state ---------- */
   useEffect(() => {
@@ -939,10 +930,6 @@ export default function ChatBody() {
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
 
-  const handleBackClick = useCallback(() => {
-    router.push("/");
-  }, [router]);
-
   const openConversations = useCallback(() => {
     try {
       window.dispatchEvent(
@@ -956,7 +943,7 @@ export default function ChatBody() {
       <button
         type="button"
         className="back-arrow-btn"
-        onClick={handleBackClick}
+        onClick={() => router.push("/")}
         aria-label={t("chat.back_to_home", "Tagasi avalehele")}
       >
         <span className="back-arrow-circle" />
@@ -1000,6 +987,7 @@ export default function ChatBody() {
       {/* Pealkiri */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
 
+      {/* Kriisi teavitus */}
       {isCrisis ? (
         <div
           role="alert"
@@ -1017,6 +1005,7 @@ export default function ChatBody() {
         </div>
       ) : null}
 
+      {/* Vea teavitus */}
       {errorBanner ? (
         <div
           role="alert"
@@ -1044,6 +1033,14 @@ export default function ChatBody() {
           aria-live="polite"
           aria-busy={isStreamingAny ? "true" : "false"}
         >
+          {/* ⬇️ UUS: Intro-rida väljaspool sõnumi-ajalugu (tõlgib kohe keelevahetusel) */}
+          {messages.length === 0 && (
+            <div className="chat-msg chat-msg-ai" style={{ opacity: 0.9 }}>
+              <div style={{ whiteSpace: "pre-wrap" }}>{introText}</div>
+            </div>
+          )}
+
+          {/* Päris vestluse sõnumid */}
           {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
             return (
@@ -1134,7 +1131,6 @@ export default function ChatBody() {
                 aria-hidden="true"
                 focusable="false"
               >
-                {/* Saatmise noole asemel (üles) kasutame “M4 15l8-8 8 8” – sobib teie stiiliga */}
                 <path d="M4 15l8-8 8 8" />
               </svg>
             )}

@@ -122,7 +122,7 @@
                                }
              },
     "home":  {
-                 "banner":  "Peagi avame!",
+                 "opening_banner":  "Peagi avame!",
                  "nav":  {
                              "aria_main":  "Peamenüü",
                              "about":  "MEIST"
@@ -310,7 +310,7 @@
     "chat":  {
                  "title":  "SotsiaalAI",
                  "intro":  {
-                               "message":  "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes. Küsi oma küsimus."
+                               "message":  "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes."
                            },
                  "crisis":  {
                                 "notice":  "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."

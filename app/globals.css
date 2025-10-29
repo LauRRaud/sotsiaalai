@@ -619,70 +619,98 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   align-items: center;
   margin-top: 0em;
 }
-.button {
-  width: 50px;
-  height: 50px;
+.profile-delete .button{
+  inline-size: 50px;
+  block-size: 50px;
   border-radius: 50%;
-  background: #181818;                     /* tume taust jääb */
-  border: 2px solid var(--pt-mid);         /* platinum keskmine ääris (#AFAAA3) */
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 4px 0 rgba(175,170,163,0.35); /* pehmem platinum halo */
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    box-shadow 0.3s,
-    border 0.3s,
-    width 0.3s,
-    border-radius 0.3s;
-  overflow: hidden;
+  background: #181818;
+  border: 2px solid var(--pt-mid);
+  color: var(--pt-200);
+  display: grid;
+  place-items: center;
   position: relative;
-  margin-top: 1.5em;
-  color: var(--pt-200); /* hele, kuid platinumtoonil tekst/ikoon */
-}
-.svgIcon {
-  width: 12px;
-  transition-duration: .3s;
-}
-
-.svgIcon path {
-  fill: rgb(228, 228, 228);
+  overflow: visible;                 /* et silt mahuks nupu kohale */
+  box-shadow: 0 0 4px 0 rgba(175,170,163,0.35);
+  cursor: pointer;
+  /* hoia ainult väikesed üleminekud, mitte laiuse animatsiooni */
+  transition: background .2s, border-color .2s, box-shadow .2s, transform .06s;
 }
 
-.button:hover {
-  width: 140px;
-  border-radius: 50px;
-  transition-duration: .3s;
-  background: #181818;             /* sama tume taust */
-  border: 2px solid var(--pt-light); /* heledam platinum (#ECEBE9) */
-  color: var(--pt-light);          /* hele platinum tekst */
-  align-items: center;
-  box-shadow: 0 0 5px 2px rgba(201,199,194,0.55); /* platinum halo */
+/* Tühista globaalsed laiuse/raadiuse hover-animatsioonid ainult siin */
+.profile-delete .button:hover,
+.profile-delete .button:focus-visible{
+  inline-size: 50px;                 /* EI veni laiaks */
+  border-radius: 50%;                /* jääb ringiks */
+  background: #181818;
+  border-color: var(--pt-light);
+  box-shadow: 0 0 5px 2px rgba(201,199,194,0.55);
 }
 
-.button:hover .svgIcon {
-  width: 50px;
-  transition-duration: .5s;
-  transform: translateY(60%);
+/* Prügikasti ikoon */
+.profile-delete .button .svgIcon{
+  width: 20px;
+  height: 20px;
+  transition: transform .12s;
 }
+.profile-delete .button:active .svgIcon{ transform: scale(.94); }
+.profile-delete .button .svgIcon path{ fill: currentColor; }
 
-.button::before {
-  position: absolute;
-  top: -25px;
+/* Tekst ikooni kohale – kasutame sinu olemasolevat data-label’i */
+.profile-delete .button::before{
   content: attr(data-label);
-  color: var(--pt-200);            /* hele, aga mitte kriiskav valge */
-  transition-duration: .5s;
-  font-size: 4px;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%) translateY(4px);
+  padding: .28em .6em;
+  font-size: .95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+
+  color: var(--pt-130);
+  background: linear-gradient(to bottom right, rgba(255,255,255,.06), rgba(140,165,235,.05));
+  border: 1px solid rgba(196,212,255,.24);
+  box-shadow: inset 0 0 2px rgba(255,255,255,.10), 0 6px 16px rgba(0,0,0,.10);
+
+  pointer-events: none;
+  opacity: 0; visibility: hidden;
+  transition: opacity .18s, transform .18s;
 }
 
+/* Nähtav hover/focus */
+.profile-delete .button:hover::before,
+.profile-delete .button:focus-visible::before{
+  opacity: 1; visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
 
-.button:hover::before {
-  font-size: 18px;
-  opacity: 1;
-  transform: translateY(30px);
-  transition-duration: .5s;
+/* Mobiilis (hover puudub) hoia silt alati nähtav */
+@media (max-width:768px){
+  .profile-delete .button::before{
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+
+/* High-contrast: ainult kollane raam (nupp + silt) */
+html[data-contrast="hc"] .profile-delete .button{
+  background: transparent !important;
+  color: var(--pt-50) !important;
+  border: 2px solid #ffea00 !important;
+  box-shadow: none !important;
+}
+html[data-contrast="hc"] .profile-delete .button::before{
+  background: transparent !important;
+  color: var(--pt-50) !important;
+  border: 2px solid #ffea00 !important;
+  box-shadow: none !important;
+}
+
+/* Reduced motion */
+html[data-reduce-motion="1"] .profile-delete .button::before{
+  transition: none !important;
 }
 .chat-send-btn {
   transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
@@ -2979,21 +3007,20 @@ html[data-contrast="hc"] .btn-tertiary:focus-visible{
 html[data-contrast="hc"] .alaleht-footer{
   color: #7E7970 !important; /* sama mis vaikimisi --pt-500 */
 }
-
-/* HC: “Meist” link (top-center-link) peaks olema selgelt nähtav */
 html[data-contrast="hc"] .top-center-link,
-html[data-contrast="hc"] .footer-link-headline{
-  color:#FFFFFF !important;
-  opacity:1 !important;
-  text-shadow: 0 0 0 transparent, 0 1px 1px rgba(0,0,0,0.6);
+html[data-contrast="hc"] .footer-link-headline {
+  border: 2px solid #ffea00 !important; /* ainult raam */
+  border-radius: 0.4em; /* valikuline, et raam oleks pehmem */
 }
-
-/* HC: CircularText – tugevam kontrast (kirjad ja kontuur) */
-html[data-contrast="hc"] .circular-text-line{
-  color:#FFFFFF !important;       /* overrides inline color */
-  fill:#FFFFFF !important;        /* SVG text fill */
-  stroke: rgba(0,0,0,0.55) !important; /* subtle outline for readability */
-  stroke-width: 1 !important;
+html[data-contrast="hc"] .side.left .circular-text-line {
+  color:#000 !important;
+  fill:#000 !important;
+  stroke:none !important;
+}
+html[data-contrast="hc"] .side.right .circular-text-line {
+  color:#fff !important;
+  fill:#fff !important;
+  stroke: rgba(0,0,0,0.55) !important; /* kui tahad õrna kontuuri tumedal taustal */
 }
 
 /* === A11Y: vähenda liikumist === */
