@@ -131,6 +131,37 @@
   }
   .circular-text-svg.circular-ring.is-visible { opacity: 1; }
 }
+html[data-contrast="hc"] .circular-text-svg,
+html[data-contrast="hc"] .left-card-primary .desc-ring-left > g,
+html[data-contrast="hc"] .right-card-primary .desc-ring-right > g {
+  filter: none !important; /* eemaldab udused varjud */
+}
 
-/* NB: reduced-motion’i keeldu ei rakenda; ringid on alati nähtaval.
-   Vajadusel kasuta runtime-lülitit: <svg data-animate="0"> … */
+html[data-contrast="hc"] .side.left .circular-text-line,
+html[data-contrast="hc"] .left-card-primary .circular-text-line {
+  color: var(--pt-600) !important; /* tumehall, mitte must */
+  fill:  var(--pt-600) !important;
+  stroke: none !important;
+  stroke-width: 0 !important;
+  text-shadow: none !important;
+  -webkit-font-smoothing: auto !important;
+  font-smooth: auto !important;
+  paint-order: normal !important;
+}
+
+html[data-contrast="hc"] .side.right .circular-text-line,
+html[data-contrast="hc"] .right-card-primary .circular-text-line {
+  color: var(--pt-100) !important; /* helehall, mitte täiesti valge */
+  fill:  var(--pt-100) !important;
+  stroke: none !important;
+  stroke-width: 0 !important;
+  text-shadow: none !important;
+  -webkit-font-smoothing: auto !important;
+  font-smooth: auto !important;
+  paint-order: normal !important;
+}
+
+/* tugevam nähtavus, kui muidu udune */
+html[data-contrast="hc"] .circular-text-svg.circular-ring.is-visible {
+  opacity: 1 !important;
+}
