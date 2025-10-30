@@ -12,9 +12,7 @@ const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
 
-import "./ColorBends.css";
-
-/* --- utiliidid --- */
+/* ---------- utiliidid ---------- */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -37,47 +35,7 @@ function whenVisible(cb) {
   return () => document.removeEventListener("visibilitychange", onVis);
 }
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    try {
-      const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const on = () => setReduced(mql.matches);
-      on();
-      mql.addEventListener("change", on);
-      return () => mql.removeEventListener("change", on);
-    } catch {}
-  }, []);
-  return reduced;
-}
-
-function useForceMotionDefaultOn() {
-  const [force, setForce] = useState(true);
-  useEffect(() => {
-    const html = document.documentElement;
-    const apply = (on) => html.setAttribute("data-force-motion", on ? "1" : "0");
-    const readLS = () => { try { return localStorage.getItem("saai-force-motion"); } catch { return null; } };
-    const writeLS = (on) => { try { localStorage.setItem("saai-force-motion", on ? "1" : "0"); } catch {} };
-
-    const existing = readLS();
-    const initial = existing == null ? true : existing === "1";
-    if (existing == null) writeLS(true);
-
-    setForce(initial);
-    apply(initial);
-
-    // dev-helper: window.saaiForceMotion(true/false)
-    // @ts-ignore
-    window.saaiForceMotion = (on = true) => {
-      writeLS(!!on);
-      apply(!!on);
-      setForce(!!on);
-    };
-  }, []);
-  return force;
-}
-
-/* --- põhi --- */
+/* ---------- põhi ---------- */
 function BackgroundLayer() {
   const pathname = usePathname();
   const { prefs } = useAccessibility();
@@ -89,7 +47,7 @@ function BackgroundLayer() {
 
   useEffect(() => setMounted(true), []);
 
-  // ainult avalehel udu intro
+  // Space fog intro ainult avalehel (mitte reload; 1x per sessioon)
   useEffect(() => {
     let isReload = false;
     try {
@@ -103,12 +61,14 @@ function BackgroundLayer() {
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
   }, [pathname]);
 
+  // Particles lae rahulikult, kui tabu on nähtav
   useEffect(() => {
     if (!mounted) return;
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     return () => cancelParticles?.();
   }, [mounted]);
 
+  // Splash-cursor sama loogikaga
   useEffect(() => {
     if (!mounted) return;
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
@@ -117,14 +77,14 @@ function BackgroundLayer() {
 
   return (
     <>
-      {/* TAUST: kõik kihid sisu all */}
+      {/* TAUSTAKIHID (sisu all) */}
       <div
         id="bg-layer"
         aria-hidden="true"
         suppressHydrationWarning
         style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
       >
-        {/* Space – kõige taga */}
+        {/* SPACE – kõige taga */}
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
           <Suspense fallback={null}>
             <Space
@@ -135,22 +95,24 @@ function BackgroundLayer() {
           </Suspense>
         </div>
 
-        {/* ColorBends – teine kiht (visuaal määratakse CSS-is) */}
-        <div className="color-bends-bg" style={{ position: "absolute", inset: 0, zIndex: 1 }}>
-          <Suspense fallback={null}>
-            <ColorBends />
-          </Suspense>
-        </div>
+        {/* COLOR BENDS – ainult siis, kui reduced motion pole sees */}
+        {!prefs?.reduceMotion && (
+          <div className="color-bends-bg" style={{ position: "absolute", inset: 0, zIndex: 1 }}>
+            <Suspense fallback={null}>
+              <ColorBends />
+            </Suspense>
+          </div>
+        )}
 
-        {/* Particles – kõige peal enne sisu */}
+        {/* PARTICLES – tausta kohal, enne sisu */}
         {particlesReady && !prefs?.reduceMotion && (
-          <div className="particles-container" style={{ zIndex: 2 }}>
+          <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 2 }}>
             <Particles />
           </div>
         )}
       </div>
 
-      {/* Splash cursor portaalina body alla */}
+      {/* SPLASH CURSOR – portaalina, alati sisu peal */}
       {mounted && cursorReady && typeof document !== "undefined" && !prefs?.reduceMotion &&
         createPortal(
           <div className="splash-cursor" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none" }}>

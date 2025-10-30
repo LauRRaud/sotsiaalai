@@ -619,84 +619,72 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   align-items: center;
   margin-top: 0em;
 }
-.delete-button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #181818;
-  border: 2px solid var(--pt-mid);
-  color: var(--pt-200);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 4px 0 rgba(175,170,163,.35);
-  cursor: pointer;
-  position: relative;
-  overflow: visible;
-  margin-top: 1.5em;
-  transition: border .2s, box-shadow .2s;
-}
+.delete-icon{ width:18px; height:auto; }
+.delete-icon path{ fill: currentColor; }
 
-/* HC: kollane raam (kuju jääb samaks) */
-html[data-contrast="hc"] .delete-button {
-  background: #181818;
-  border: 2px solid #ffea00 !important;
-  box-shadow: none;
-}
-
-/* Ikoon */
-.delete-icon {
-  width: 18px;
-  height: auto;
-}
-.delete-icon path {
-  fill: currentColor;
-}
-
-/* Tooltip (tavaline režiim): ainult tekst, ilma taustata */
-.delete-button::before {
+/* Tooltip kaugemale + suurem (1.25rem) + pehme alt->üles fade */
+.delete-button::before{
   content: attr(data-label);
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 4px); /* algasend veidi all */
-  bottom: 52px;
-  color: var(--pt-150);
-  font-size: 1.25rem;
-  line-height: 1;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
+  position:absolute;
+  left:50%;
+  bottom:66px;                     /* ↑ enne 52px */
+  transform:translate(-50%, 10px); /* algasend veidi allpool */
+  background:rgba(0,0,0,.85);
+  color:#fff;
+  padding:.35rem .6rem;
+  border-radius:.45rem;
+  white-space:nowrap;
+  font-size:1.25rem;               /* ↑ nõutud suurus */
+  line-height:1;
+  opacity:0;
+  pointer-events:none;
   transition: opacity .25s ease, transform .25s ease;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
 }
-.delete-button::after {
-  display: none;
+.delete-button::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:56px;                     /* ↑ nihutatud koos before’iga (10px vahe) */
+  transform:translateX(-50%);
+  border:6px solid transparent;
+  border-top-color:rgba(0,0,0,.85);
+  opacity:0;
+  transition:opacity .25s ease;
+  pointer-events:none;
 }
-
 .delete-button:hover::before,
-.delete-button:focus-visible::before {
-  opacity: 1;
-  transform: translate(-50%, 0);
+.delete-button:focus-visible::before{
+  opacity:1; transform:translate(-50%, 0);
+}
+.delete-button:hover::after,
+.delete-button:focus-visible::after{
+  opacity:1;
 }
 
-/* HC: samuti ainult tekst (taustata, sama suurus) */
-html[data-contrast="hc"] .delete-button::after {
-  display: none !important;
-}
-html[data-contrast="hc"] .delete-button::before {
+/* HC: tekst ilma taustata, sama 1.25rem, nooleke peidus, sama kaugus */
+html[data-contrast="hc"] .delete-button::after{ display:none !important; }
+html[data-contrast="hc"] .delete-button::before{
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: var(--pt-100) !important; /* helehall tekst */
-  font-size: 1.25rem !important;
-  transform: translate(-50%, 6px) !important;
+  color: var(--pt-80) !important;           /* helehall */
+  bottom:66px !important;
+  transform: translate(-50%, 10px) !important;
+  font-size:1.25rem !important;
 }
 html[data-contrast="hc"] .delete-button:hover::before,
-html[data-contrast="hc"] .delete-button:focus-visible::before {
-  opacity: 1 !important;
-  transform: translate(-50%, 0) !important;
+html[data-contrast="hc"] .delete-button:focus-visible::before{
+  opacity:1 !important; transform:translate(-50%, 0) !important;
+}
+
+/* (soovi korral vähenda animatsiooni kasutaja eelistuse korral) */
+@media (prefers-reduced-motion: reduce){
+  .delete-button::before,
+  .delete-button::after{
+    transition: none;
+  }
 }
 .chat-send-btn {
   transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
