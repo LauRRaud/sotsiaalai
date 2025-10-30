@@ -1,4 +1,4 @@
-// app/api/chat/route.js (UPDATED)
+// app/api/chat/route.js
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
@@ -78,6 +78,16 @@ function asArray(value) {
     return trimmed ? [trimmed] : [];
   }
   return [];
+}
+
+/** Kasutaja küsib allikaid/viiteid? (et/ru/en võtmesõnad) */
+function detectSourcesRequest(history = [], message = "") {
+  const txt = `${message} ${(Array.isArray(history) ? history : [])
+    .map(h => (h?.text || h?.content || ""))
+    .join(" ")}`.toLowerCase();
+
+  // eesti: allik, viide; inglise: source, cite, citation; vene: источник, ссылк
+  return /\b(allik|viide|source|cite|citation|источник|ссылк)\w*\b/.test(txt);
 }
 
 /* ---- Language detection & strings ---------------------------------- */
@@ -510,7 +520,7 @@ function toResponsesInput({
   effectiveRole,
   grounding = "ok",
   includeSources = false,
-  replyLang = "et", // <<<<<< lisatud
+  replyLang = "et",
 }) {
   const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
   const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
@@ -584,7 +594,7 @@ async function callOpenAI({
   effectiveRole,
   grounding,
   includeSources,
-  replyLang, // <<<<< lisatud
+  replyLang,
 }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -598,7 +608,7 @@ async function callOpenAI({
     effectiveRole,
     grounding,
     includeSources,
-    replyLang, // <<<<<
+    replyLang,
   });
 
   const resp = await client.responses.create({
@@ -620,7 +630,7 @@ async function streamOpenAI({
   effectiveRole,
   grounding,
   includeSources,
-  replyLang, // <<<<< lisatud
+  replyLang,
 }) {
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
@@ -634,7 +644,7 @@ async function streamOpenAI({
     effectiveRole,
     grounding,
     includeSources,
-    replyLang, // <<<<<
+    replyLang,
   });
 
   const stream = await client.responses.stream({
@@ -766,7 +776,7 @@ export async function POST(req) {
   const wantStream = !!payload?.stream;
   const persist = !!payload?.persist;
   const convId = (payload?.convId && String(payload.convId)) || null;
-  const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined; // <<<<<
+  const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined;
   const forceSources =
     payload?.forceSources === true || payload?.includeSources === true || payload?.showSources === true;
   const includeSources = forceSources || detectSourcesRequest(rawHistory, message);
@@ -799,8 +809,8 @@ export async function POST(req) {
   }
 
   // 4.1) keeleotsus (VÄGA OLULINE)
-  const replyLang = pickReplyLang({ userMessage: message, uiLocale }); // <<<<<
-  const L = langStrings(replyLang); // <<<<<
+  const replyLang = pickReplyLang({ userMessage: message, uiLocale });
+  const L = langStrings(replyLang);
   const isCrisis = detectCrisis(message);
 
   // 4.5) varajane tervitusfiltri haru — nüüd õiges keeles
@@ -957,7 +967,7 @@ export async function POST(req) {
         effectiveRole: normalizedRole,
         grounding,
         includeSources,
-        replyLang, // <<<<<
+        replyLang,
       });
       if (persist && convId && userId) {
         await persistAppend({ convId, userId, fullText: aiResult.reply });
@@ -1040,7 +1050,7 @@ export async function POST(req) {
           effectiveRole: normalizedRole,
           grounding,
           includeSources,
-          replyLang, // <<<<<
+          replyLang,
         });
 
         for await (const ev of iter) {
