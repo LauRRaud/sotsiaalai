@@ -3094,24 +3094,25 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   border: 2px solid var(--pt-100);
   box-shadow: 0 2px 12px 0 rgba(201,199,194,0.25);
 }
-html[data-contrast="hc"] .desc-ring-left,
-html[data-contrast="hc"] .desc-ring-right,
-html[data-contrast="hc"] .desc-ring-left *,
-html[data-contrast="hc"] .desc-ring-right * {
+html[data-contrast="hc"] .circular-text-svg,
+html[data-contrast="hc"] .circular-text-svg * {
   filter: none !important;
   text-shadow: none !important;
+  mix-blend-mode: normal !important;
 }
 
-/* 2) Set the actual text tone via parent color (currentColor) */
-html[data-contrast="hc"] .desc-ring-left {
-color: var(--pt-500) !important;
+/* 1) Sea toon otse SVG-le (seal, kus currentColor loetakse) */
+html[data-contrast="hc"] .side.left  .circular-text-svg {
+  color: #1f1f1f !important;        /* pehme tumehall, mitte must */
 }
-html[data-contrast="hc"] .desc-ring-right {
-  color: var(--pt-150) !important;   /* right = soft light grey (not pure white) */
+html[data-contrast="hc"] .side.right .circular-text-svg {
+  color: var(--pt-100) !important;   /* helehall, mitte puhas valge */
 }
 
-/* 3) Make sure the <text> itself doesn’t re-introduce halo/ordering */
-html[data-contrast="hc"] .circular-text-line {
+/* 2) Kindlusta, et tekst kasutab currentColor'i, mitte pärand/inline fill'i */
+html[data-contrast="hc"] .circular-text-svg .circular-text-line,
+html[data-contrast="hc"] .circular-text-svg text,
+html[data-contrast="hc"] .circular-text-svg tspan {
   fill: currentColor !important;
   stroke: none !important;
   stroke-width: 0 !important;
@@ -3120,7 +3121,7 @@ html[data-contrast="hc"] .circular-text-line {
   font-smooth: auto !important;
 }
 
-/* 4) If the SVG wrapper had extra opacity, make it fully visible */
+/* 3) Kui wrapper oli poolläbipaistev, tee täielikult nähtavaks */
 html[data-contrast="hc"] .circular-text-svg.circular-ring.is-visible {
   opacity: 1 !important;
 }
