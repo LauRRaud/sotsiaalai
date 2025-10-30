@@ -656,7 +656,7 @@ html[data-contrast="hc"] .delete-button{
   padding:.3rem .5rem;
   border-radius:.4rem;
   white-space:nowrap;
-  font-size:.85rem; line-height:1;
+  font-size:1rem; line-height:1;
   opacity:0; pointer-events:none;
   transition:opacity .25s ease, transform .25s ease;
   border:1px solid rgba(255,255,255,.15);
@@ -3094,37 +3094,33 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   border: 2px solid var(--pt-100);
   box-shadow: 0 2px 12px 0 rgba(201,199,194,0.25);
 }
-html[data-contrast="hc"] .circular-text-svg,
-html[data-contrast="hc"] .glass-card .circular-text-svg,
-html[data-contrast="hc"] .desc-ring-left > g,
-html[data-contrast="hc"] .desc-ring-right > g {
+html[data-contrast="hc"] .desc-ring-left,
+html[data-contrast="hc"] .desc-ring-right,
+html[data-contrast="hc"] .desc-ring-left *,
+html[data-contrast="hc"] .desc-ring-right * {
   filter: none !important;
   text-shadow: none !important;
 }
 
-/* Vasak kaart – pehme tumehall (mitte must) */
-html[data-contrast="hc"] .side.left  .circular-text-line,
-html[data-contrast="hc"] .left-card-primary .circular-text-line {
-  color: var(--pt-600) !important;
-  fill:  var(--pt-600) !important;
-  stroke: none !important;
-  stroke-width: 0 !important;
-  -webkit-font-smoothing: auto !important;
-  paint-order: normal !important;
+/* 2) Set the actual text tone via parent color (currentColor) */
+html[data-contrast="hc"] .desc-ring-left {
+color: var(--pt-500) !important;
+}
+html[data-contrast="hc"] .desc-ring-right {
+  color: var(--pt-150) !important;   /* right = soft light grey (not pure white) */
 }
 
-/* Parem kaart – pehme helehall (mitte puhas valge) */
-html[data-contrast="hc"] .side.right .circular-text-line,
-html[data-contrast="hc"] .right-card-primary .circular-text-line {
-  color: var(--pt-100) !important;
-  fill:  var(--pt-100) !important;
+/* 3) Make sure the <text> itself doesn’t re-introduce halo/ordering */
+html[data-contrast="hc"] .circular-text-line {
+  fill: currentColor !important;
   stroke: none !important;
   stroke-width: 0 !important;
-  -webkit-font-smoothing: auto !important;
   paint-order: normal !important;
+  -webkit-font-smoothing: auto !important;
+  font-smooth: auto !important;
 }
 
-/* Kui ring on HC-s liiga läbipaistev, tee täisnähtavaks */
+/* 4) If the SVG wrapper had extra opacity, make it fully visible */
 html[data-contrast="hc"] .circular-text-svg.circular-ring.is-visible {
   opacity: 1 !important;
 }
