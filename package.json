@@ -36,7 +36,7 @@
     "framer-motion": "11.3.0",
     "gsap": "3.12.5",
     "next": "15.5.3",
-    "next-auth": "4.24.11",
+    "next-auth": "^4.24.13",
     "ogl": "1.0.0",
     "openai": "4.104.0",
     "react": "18.3.1",
@@ -44,18 +44,18 @@
     "react-parallax-tilt": "1.7.245",
     "sharp": "0.34.4",
     "styled-components": "6.1.11",
-    "three": "0.160.1"
+    "three": "^0.167.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
     "@next/bundle-analyzer": "15.5.3",
+    "@playwright/test": "^1.48.2",
     "@types/node": "^24.5.2",
     "cross-env": "10.0.0",
+    "dotenv-cli": "^7.4.2",
     "eslint": "9.9.0",
     "eslint-config-next": "15.5.3",
     "prettier": "3.3.3",
-    "prisma": "6.16.2",
-    "dotenv-cli": "^7.4.2"
+    "prisma": "6.16.2"
   },
   "browserslist": [
     "last 2 Chrome versions",

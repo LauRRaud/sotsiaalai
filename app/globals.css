@@ -619,77 +619,84 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   align-items: center;
   margin-top: 0em;
 }
-.delete-button{
-  width:50px; height:50px;
-  border-radius:50%;
-  background:#181818;
-  border:2px solid var(--pt-mid);
-  color:var(--pt-200);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 4px 0 rgba(175,170,163,.35);
-  cursor:pointer;
-  position:relative;
-  overflow:visible;
-  margin-top:1.5em;
+.delete-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #181818;
+  border: 2px solid var(--pt-mid);
+  color: var(--pt-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 4px 0 rgba(175,170,163,.35);
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  margin-top: 1.5em;
   transition: border .2s, box-shadow .2s;
 }
 
-/* HC: kollane raam (kuju ja taust jäävad samaks) */
-html[data-contrast="hc"] .delete-button{
-  background:#181818;
-  border:2px solid #ffea00 !important;
-  box-shadow:none;
+/* HC: kollane raam (kuju jääb samaks) */
+html[data-contrast="hc"] .delete-button {
+  background: #181818;
+  border: 2px solid #ffea00 !important;
+  box-shadow: none;
 }
 
 /* Ikoon */
-.delete-icon{ width:18px; height:auto; }
-.delete-icon path{ fill: currentColor; }
+.delete-icon {
+  width: 18px;
+  height: auto;
+}
+.delete-icon path {
+  fill: currentColor;
+}
 
-/* Tooltip (tavalrežiim): kast + nooleke, fade */
-.delete-button::before{
+/* Tooltip (tavaline režiim): ainult tekst, ilma taustata */
+.delete-button::before {
   content: attr(data-label);
-  position:absolute;
-  left:50%; transform:translate(-50%, 4px); /* algasend veidi all */
-  bottom:52px;
-  background:rgba(0,0,0,.85);
-  color:#fff;
-  padding:.3rem .5rem;
-  border-radius:.4rem;
-  white-space:nowrap;
-  font-size:1rem; line-height:1;
-  opacity:0; pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
-  border:1px solid rgba(255,255,255,.15);
-  box-shadow:0 2px 8px rgba(0,0,0,.35);
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 4px); /* algasend veidi all */
+  bottom: 52px;
+  color: var(--pt-150);
+  font-size: 1.25rem;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
-.delete-button::after{
-  content:"";
-  position:absolute;
-  left:50%; transform:translateX(-50%);
-  bottom:44px;
-  border:6px solid transparent;
-  border-top-color:rgba(0,0,0,.85);
-  opacity:0; transition:opacity .25s ease; pointer-events:none;
+.delete-button::after {
+  display: none;
 }
-.delete-button:hover::before,
-.delete-button:focus-visible::before{
-  opacity:1; transform:translate(-50%, 0);
-}
-.delete-button:hover::after,
-.delete-button:focus-visible::after{ opacity:1; }
 
-/* HC: ainult tekst (taustata), nooleke peidus, pehme toon */
-html[data-contrast="hc"] .delete-button::after{ display:none !important; }
-html[data-contrast="hc"] .delete-button::before{
+.delete-button:hover::before,
+.delete-button:focus-visible::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* HC: samuti ainult tekst (taustata, sama suurus) */
+html[data-contrast="hc"] .delete-button::after {
+  display: none !important;
+}
+html[data-contrast="hc"] .delete-button::before {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: var(--pt-80) !important;          /* helehall tekst */
+  color: var(--pt-100) !important; /* helehall tekst */
+  font-size: 1.25rem !important;
   transform: translate(-50%, 6px) !important;
 }
 html[data-contrast="hc"] .delete-button:hover::before,
-html[data-contrast="hc"] .delete-button:focus-visible::before{
-  opacity:1 !important; transform:translate(-50%, 0) !important;
+html[data-contrast="hc"] .delete-button:focus-visible::before {
+  opacity: 1 !important;
+  transform: translate(-50%, 0) !important;
 }
 .chat-send-btn {
   transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
@@ -3094,34 +3101,30 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   border: 2px solid var(--pt-100);
   box-shadow: 0 2px 12px 0 rgba(201,199,194,0.25);
 }
-html[data-contrast="hc"] .circular-text-svg,
-html[data-contrast="hc"] .circular-text-svg * {
+html[data-contrast="hc"] .desc-ring-left .circular-text-line {
+  color: #222 !important;               /* tumehall */
+  fill: currentColor !important;
+  stroke: rgba(0,0,0,0.35) !important;
+  stroke-width: 1px !important;
+  filter: none !important;
+    text-shadow: none !important;
+}
+
+html[data-contrast="hc"] .desc-ring-right .circular-text-line {
+  color: #E6E6E6 !important;            /* helehall */
+  fill: currentColor !important;
+  stroke: rgba(0,0,0,0.4) !important;
+  stroke-width: 1px !important;
+  filter: none !important;
+    text-shadow: none !important;
+}
+html[data-contrast="hc"] .desc-ring-left,
+html[data-contrast="hc"] .desc-ring-right,
+html[data-contrast="hc"] .desc-ring-left *,
+html[data-contrast="hc"] .desc-ring-right * {
   filter: none !important;
   text-shadow: none !important;
-  mix-blend-mode: normal !important;
-}
-
-/* 1) Sea toon otse SVG-le (seal, kus currentColor loetakse) */
-html[data-contrast="hc"] .side.left  .circular-text-svg {
-  color: #1f1f1f !important;        /* pehme tumehall, mitte must */
-}
-html[data-contrast="hc"] .side.right .circular-text-svg {
-  color: var(--pt-100) !important;   /* helehall, mitte puhas valge */
-}
-
-/* 2) Kindlusta, et tekst kasutab currentColor'i, mitte pärand/inline fill'i */
-html[data-contrast="hc"] .circular-text-svg .circular-text-line,
-html[data-contrast="hc"] .circular-text-svg text,
-html[data-contrast="hc"] .circular-text-svg tspan {
-  fill: currentColor !important;
-  stroke: none !important;
-  stroke-width: 0 !important;
-  paint-order: normal !important;
   -webkit-font-smoothing: auto !important;
   font-smooth: auto !important;
-}
-
-/* 3) Kui wrapper oli poolläbipaistev, tee täielikult nähtavaks */
-html[data-contrast="hc"] .circular-text-svg.circular-ring.is-visible {
-  opacity: 1 !important;
+  paint-order: stroke fill !important;
 }
