@@ -619,39 +619,77 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   align-items: center;
   margin-top: 0em;
 }
-/* Tooltip: ilma tausta, õrn alt-üles ilmumine */
-.button::before {
+.delete-button{
+  width:50px; height:50px;
+  border-radius:50%;
+  background:#181818;
+  border:2px solid var(--pt-mid);
+  color:var(--pt-200);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 4px 0 rgba(175,170,163,.35);
+  cursor:pointer;
+  position:relative;
+  overflow:visible;
+  margin-top:1.5em;
+  transition: border .2s, box-shadow .2s;
+}
+
+/* HC: kollane raam (kuju ja taust jäävad samaks) */
+html[data-contrast="hc"] .delete-button{
+  background:#181818;
+  border:2px solid #ffea00 !important;
+  box-shadow:none;
+}
+
+/* Ikoon */
+.delete-icon{ width:18px; height:auto; }
+.delete-icon path{ fill: currentColor; }
+
+/* Tooltip (tavalrežiim): kast + nooleke, fade */
+.delete-button::before{
   content: attr(data-label);
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 4px); /* algasend – veidi allpool */
-  bottom: 52px;
-  background: transparent;        /* ⬅️ taust eemaldatud */
-  color: #fff;
-  padding: 0;                     /* ⬅️ pole taustapuhvrit */
-  border-radius: 0;
-  white-space: nowrap;
-  font-size: 1rem;
-  line-height: 1;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;         /* ⬅️ sujuv liikumine */
-  border: none;                   /* ⬅️ pole raami */
-  box-shadow: none;               /* ⬅️ pole varju */
+  position:absolute;
+  left:50%; transform:translate(-50%, 4px); /* algasend veidi all */
+  bottom:52px;
+  background:rgba(0,0,0,.85);
+  color:#fff;
+  padding:.3rem .5rem;
+  border-radius:.4rem;
+  white-space:nowrap;
+  font-size:.85rem; line-height:1;
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
 }
-
-/* Väike kolmnurk eemaldame üldse */
-.button::after {
-  display: none;
+.delete-button::after{
+  content:"";
+  position:absolute;
+  left:50%; transform:translateX(-50%);
+  bottom:44px;
+  border:6px solid transparent;
+  border-top-color:rgba(0,0,0,.85);
+  opacity:0; transition:opacity .25s ease; pointer-events:none;
 }
+.delete-button:hover::before,
+.delete-button:focus-visible::before{
+  opacity:1; transform:translate(-50%, 0);
+}
+.delete-button:hover::after,
+.delete-button:focus-visible::after{ opacity:1; }
 
-/* Hoveril ilmub nähtavale ja liigub üles */
-.button:hover::before,
-.button:focus-visible::before {
-  opacity: 1;
-  transform: translate(-50%, 0); /* liigub alt üles */
+/* HC: ainult tekst (taustata), nooleke peidus, pehme toon */
+html[data-contrast="hc"] .delete-button::after{ display:none !important; }
+html[data-contrast="hc"] .delete-button::before{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--pt-80) !important;          /* helehall tekst */
+  transform: translate(-50%, 6px) !important;
+}
+html[data-contrast="hc"] .delete-button:hover::before,
+html[data-contrast="hc"] .delete-button:focus-visible::before{
+  opacity:1 !important; transform:translate(-50%, 0) !important;
 }
 .chat-send-btn {
   transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
@@ -2948,14 +2986,16 @@ html[data-contrast="hc"] .btn-tertiary:focus-visible{
 html[data-contrast="hc"] .alaleht-footer{
   color: #7E7970 !important; /* sama mis vaikimisi --pt-500 */
 }
-html[data-contrast="hc"] .top-center-link,
-html[data-contrast="hc"] .footer-link-headline {
-  /* säilitab sama kuju ja kõik olemasolevad taustad */
-  border: 2px solid #ffea00 !important;  /* ainult serv muutub kollaseks */
-  border-radius: 999px !important;       /* hoiab pilli kuju */
-  background: inherit !important;        /* hoiab olemasoleva klaas-tausta */
-  color: inherit !important;             /* hoiab sama teksti tooni */
-  box-shadow: inherit !important;        /* hoiab sama varju */
+html[data-contrast="hc"] #nav-meist {
+  border: 2px solid #ffea00 !important;
+  border-radius: 999px !important;
+  color: var(--pt-150) !important;       /* sama hele toon mis tavarežiimis */
+  background: inherit !important;
+  box-shadow: inherit !important;
+}
+html[data-contrast="hc"] #nav-meist:hover,
+html[data-contrast="hc"] #nav-meist:focus-visible {
+  color: var(--pt-light) !important;     /* hoveril/foocusel veidi heledam */
 }
 /* === A11Y: vähenda liikumist === */
 html[data-reduce-motion="1"] *,
@@ -3053,4 +3093,38 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   color: var(--pt-light);
   border: 2px solid var(--pt-100);
   box-shadow: 0 2px 12px 0 rgba(201,199,194,0.25);
+}
+html[data-contrast="hc"] .circular-text-svg,
+html[data-contrast="hc"] .glass-card .circular-text-svg,
+html[data-contrast="hc"] .desc-ring-left > g,
+html[data-contrast="hc"] .desc-ring-right > g {
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* Vasak kaart – pehme tumehall (mitte must) */
+html[data-contrast="hc"] .side.left  .circular-text-line,
+html[data-contrast="hc"] .left-card-primary .circular-text-line {
+  color: var(--pt-600) !important;
+  fill:  var(--pt-600) !important;
+  stroke: none !important;
+  stroke-width: 0 !important;
+  -webkit-font-smoothing: auto !important;
+  paint-order: normal !important;
+}
+
+/* Parem kaart – pehme helehall (mitte puhas valge) */
+html[data-contrast="hc"] .side.right .circular-text-line,
+html[data-contrast="hc"] .right-card-primary .circular-text-line {
+  color: var(--pt-100) !important;
+  fill:  var(--pt-100) !important;
+  stroke: none !important;
+  stroke-width: 0 !important;
+  -webkit-font-smoothing: auto !important;
+  paint-order: normal !important;
+}
+
+/* Kui ring on HC-s liiga läbipaistev, tee täisnähtavaks */
+html[data-contrast="hc"] .circular-text-svg.circular-ring.is-visible {
+  opacity: 1 !important;
 }
