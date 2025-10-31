@@ -8,7 +8,7 @@ export default function Space({
   allowMobileCustom = false,
   intensity,
   grain = true,
-  fog = false,
+  fog = true,
   fogStrength,
   fogHeightVmax = 30,
   fogOffsetVmax = 0,
@@ -20,18 +20,19 @@ export default function Space({
   fogAppearDelayMs = 700,
   skipIntro = false,
   noiseUrl = "",
-  fogBlurPx = 80,
+  fogBlurPx = 60, // ↓ enne 80 — pehmem, vähem “mass”
 } = {}) {
   // --- Dark preset (desktop) ---
   const PRESET = {
     palette: { baseTop: "#070b16", baseBottom: "#0d111b" },
     intensity: 0.48,
-    fogStrength: 0.42,
+    fogStrength: 0.26, // ↓ ~38% nõrgem kui 0.42
     fogBlend: "screen",
     grainOpacity: 0.065,
+    // vähem valget/sinakat; neutraalsem hall, pehmem alfa
     fogInnerRGBA: (alphaBase) => [
-      `rgba(230,242,255,${Math.max(0.65, alphaBase * 0.8)})`,
-      "rgba(185,210,245,0.30)",
+      `rgba(215,220,230,${Math.max(0.45, alphaBase * 0.70)})`,
+      "rgba(150,160,180,0.22)",
     ],
   };
 

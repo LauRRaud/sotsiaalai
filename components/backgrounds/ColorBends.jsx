@@ -104,11 +104,11 @@ export default function ColorBends({
   className,
   style,
     rotation = -58,        // ⟵ sinu pildi järgi
-  speed = 0.17,
+  speed = 0.12,
   colors = ["#b17c7c"],  // ⟵ üksik tume toon
   transparent = true,
   autoRotate = 0,
-  scale = 0.5,
+  scale = 0.8,
   frequency = 1,
   warpStrength = 1,
   mouseInfluence = 0,
