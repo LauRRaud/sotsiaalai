@@ -8,7 +8,7 @@ export default function Space({
   allowMobileCustom = false,
   intensity,
   grain = true,
-  fog = true,
+  fog = false,
   fogStrength,
   fogHeightVmax = 30,
   fogOffsetVmax = 0,
