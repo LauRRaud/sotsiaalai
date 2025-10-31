@@ -103,17 +103,17 @@ void main() {
 export default function ColorBends({
   className,
   style,
-  rotation = 45,
+    rotation = -58,        // ⟵ sinu pildi järgi
   speed = 0.2,
-  colors = [],
+  colors = ["#b17c7c"],  // ⟵ üksik tume toon
   transparent = true,
   autoRotate = 0,
   scale = 1,
   frequency = 1,
   warpStrength = 1,
-  mouseInfluence = 1,
-  parallax = 0.5,
-  noise = 0.1
+  mouseInfluence = 0,
+  parallax = 0,
+  noise = 0,
 }) {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);

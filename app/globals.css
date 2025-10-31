@@ -2781,7 +2781,7 @@ left: calc(var(--hud-edge-left) + 15px);
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
   border-radius: 50%;
-   border: 3.2px solid rgba(236,235,233,0.78);
+   border: 3px solid rgba(236,235,233,0.78);
   background: rgba(37,44,59,0.55);
   color: var(--pt-150);
   display: grid; place-items: center; cursor: pointer; overflow: visible;
