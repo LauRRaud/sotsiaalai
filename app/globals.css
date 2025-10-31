@@ -619,6 +619,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary);
   align-items: center;
   margin-top: 0em;
 }
+/* === Kustuta konto nupp + tooltip ikooni kohal === */
 .delete-button{
   width:50px; height:50px;
   border-radius:50%;
@@ -644,42 +645,39 @@ html[data-contrast="hc"] .delete-button{
 .delete-icon{ width:18px; height:auto; }
 .delete-icon path{ fill: currentColor; }
 
-/* Tooltip — **ilma taustata** (ka tava­režiimis) */
+/* Tooltip — ikooni kohal, taustata */
 .delete-button::before{
   content: attr(data-label);
   position:absolute;
   left:50%;
-  bottom:-46px;                      /* selge vahe ikoonist */
-  transform:translate(-50%, 6px);
-  color: var(--pt-80, #eaeaea);      /* hele neutraalne toon */
+  top:-38px;
+  transform:translateX(-50%);
+  color: var(--pt-80, #eaeaea);
   font-size:1.15rem;
   line-height:1.25;
   white-space:nowrap;
-  opacity:0; pointer-events:none;
+  opacity:0;
+  pointer-events:none;
   transition:opacity .22s ease, transform .22s ease;
   border:none; box-shadow:none; background:transparent;
 }
 .delete-button:hover::before,
-.delete-button:focus-visible::before{
-  opacity:1; transform:translate(-50%, 0);
+.delete-button:focus-visible::before,
+.delete-button.tooltip-active::before { /* tooltip-active = mobiili klikk */
+  opacity:1;
+  transform:translate(-50%, -2px);
 }
 
-/* Nooleke pole vaja, peida täielikult */
-.delete-button::after{ display:none !important; }
-
-/* HC — sama loogika (puhtalt tekst) */
+/* HC */
 html[data-contrast="hc"] .delete-button::before{
   color: var(--pt-80, #eaeaea) !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  font-size:1.25rem !important;
+  font-size:1.15rem !important;
 }
+.delete-button::after{ display:none !important; }
 
-/* Mobiilis/puute­seadmetel peida tooltip üldse */
-@media (pointer: coarse), (max-width: 768px){
-  .delete-button::before{ display:none !important; }
-}
 .chat-send-btn {
   transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
 }
