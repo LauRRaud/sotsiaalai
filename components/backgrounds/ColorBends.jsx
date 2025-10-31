@@ -108,7 +108,7 @@ export default function ColorBends({
   colors = ["#b17c7c"],  // ⟵ üksik tume toon
   transparent = true,
   autoRotate = 0,
-  scale = 0.8,
+  scale = 1,
   frequency = 1,
   warpStrength = 1,
   mouseInfluence = 0,

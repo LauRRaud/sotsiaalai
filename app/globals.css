@@ -290,18 +290,18 @@ a, .link-brand, .meist-external-link {
     inset 0 0 30px 12px rgba(0,0,0,0.5);
   box-shadow: var(--base-shadow);
 }
-/* Vasak kaart – veidi heledam halo */
+/* Vasak kaart – soe roosakas-platinum halo */
 .side.left .glass-card,
 .side.left .centered-back-left {
-  --halo-start: 0 0 20px 14px rgba(65, 71, 101, 0.6);
-  --halo-mid:   0 0 28px 22px rgba(64, 71, 99, 0.65);
+  --halo-start: 0 0 18px 10px rgba(177,124,124,0.55); /* sisemine, veidi kitsam */
+  --halo-mid:   0 0 24px 16px rgba(167,116,116,0.60); /* väline, natuke tumedam toon */
 }
 
-/* Parem kaart – sama toon */
+/* Parem kaart – sama palett ja kitsam laius */
 .side.right .glass-card-dark,
 .side.right .centered-back-right {
-  --halo-start: 0 0 20px 14px rgba(65, 71, 101, 0.6);
-  --halo-mid:   0 0 28px 22px rgba(64, 71, 99, 0.65);
+  --halo-start: 0 0 18px 10px rgba(177,124,124,0.55);
+  --halo-mid:   0 0 24px 16px rgba(167,116,116,0.60);
 }
 
 @keyframes brandGlow {
