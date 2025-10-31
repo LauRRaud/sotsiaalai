@@ -914,13 +914,6 @@ a {
   display: block;
   transition: box-shadow 0.25s ease;
 }
-
-/* Hoveril avatarile kerge kuma */
-.avatar-link:hover .chat-avatar-abs {
-  box-shadow: 0 0 10px rgba(175,170,163,0.65); /* platinum kuma */
-}
-
-
 /* Profiili tekst (vaikimisi peidus) */
 .avatar-label {
   position: absolute;
@@ -2788,7 +2781,7 @@ left: calc(var(--hud-edge-left) + 15px);
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
   border-radius: 50%;
-  border: 2.8px solid rgba(236,235,233,0.78);
+   border: 3.2px solid rgba(236,235,233,0.78);
   background: rgba(37,44,59,0.55);
   color: var(--pt-150);
   display: grid; place-items: center; cursor: pointer; overflow: visible;
@@ -2799,7 +2792,6 @@ left: calc(var(--hud-edge-left) + 15px);
 .chat-menu-btn:hover,
 .chat-menu-btn:focus-visible {
   border-color: var(--pt-light);
-  box-shadow: 0 0 10px rgba(175,170,163,0.65);
   background: rgba(37,44,59,0.65);
 }
 .chat-menu-btn:active { transform: scale(0.94); box-shadow: 0 0 6px rgba(175,170,163,0.45); }
