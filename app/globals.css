@@ -293,15 +293,15 @@ a, .link-brand, .meist-external-link {
 /* Vasak kaart – soe roosakas-platinum halo */
 .side.left .glass-card,
 .side.left .centered-back-left {
-  --halo-start: 0 0 18px 10px rgba(177,124,124,0.55); /* sisemine, veidi kitsam */
-  --halo-mid:   0 0 24px 16px rgba(167,116,116,0.60); /* väline, natuke tumedam toon */
+  --halo-start: 0 0 18px 10px rgba(150,100,100,0.45); /* sisemine – veidi punakas-pruun */
+  --halo-mid:   0 0 24px 16px rgba(135,90,90,0.50);   /* välimine – tumedam ja mahedam */
 }
 
-/* Parem kaart – sama palett ja kitsam laius */
+/* Parem kaart – sama toon */
 .side.right .glass-card-dark,
 .side.right .centered-back-right {
-  --halo-start: 0 0 18px 10px rgba(177,124,124,0.55);
-  --halo-mid:   0 0 24px 16px rgba(167,116,116,0.60);
+  --halo-start: 0 0 18px 10px rgba(150,100,100,0.45);
+  --halo-mid:   0 0 24px 16px rgba(135,90,90,0.50);
 }
 
 @keyframes brandGlow {
