@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useRef, useState } from "react";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import FancyRadio from "@/components/ui/FancyRadio";
@@ -101,10 +101,10 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         <button type="button" className="a11y-close" aria-label={t("buttons.close")} onClick={onClose}>
           ×
         </button>
-        <h2 id="a11y-title" className="glass-title a11y-title" style={{ marginBottom: ".25rem" }}>
+        <h2 id="a11y-title" className="glass-title">
           {t("profile.preferences.title")}
         </h2>
-        <p id="a11y-desc" className="glass-note a11y-desc" style={{ marginBottom: ".75rem" }}>
+        <p id="a11y-desc" className="glass-note a11y-desc">
           {t("accessibility.description")}
         </p>
         {/* Keel */}
@@ -144,7 +144,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
           />
         </fieldset>
         <div className="a11y-actions">
-          <button type="button" className="btn-primary" onClick={save} aria-label={t("accessibility.save")}>
+          <button type="button" className="btn-primary btn-spacing-accessibility" onClick={save} aria-label={t("accessibility.save")}>
             {t("accessibility.save")}
           </button>
         </div>

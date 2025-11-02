@@ -1077,7 +1077,7 @@ html:not(.dark-mode) .avatar-label {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(0.35rem, 1.6vw, 0.6rem);
+  gap: clamp(0.55rem, 2vw, 0.95rem);
   flex-wrap: wrap;            /* kui ekraan kitsas, võivad murduda KÕRVUTI ridadeks */
   margin: 0.8em auto 0 auto;  /* vähenda vahet alumise reaga */
   align-self: center;
@@ -1093,7 +1093,7 @@ html:not(.dark-mode) .avatar-label {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  gap: clamp(0.35rem, 1.6vw, 0.6rem); /* sama kui alumisel real */
+  gap: clamp(0.55rem, 2vw, 0.95rem); /* sama kui alumisel real */
   width: 100%;
   max-width: 420px; /* ära mine e‑posti välja servast laiemaks */
   align-self: center;
@@ -1103,14 +1103,21 @@ html:not(.dark-mode) .avatar-label {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: clamp(0.3rem, 1.4vw, 0.6rem);
+  gap: clamp(0.55rem, 2vw, 0.95rem);
   justify-content: center;
   width: 100%;
+  max-width: 420px;
   margin-top: clamp(0.02rem, 0.3vw, 0.12rem);
   margin-bottom: clamp(0.1rem, 0.8vw, 0.28rem);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .profile-email-links .link-brand {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 140px;
   font-size: 1.12em;
   padding: 0.08em 0.30em;
 }
@@ -1144,7 +1151,7 @@ html:not(.dark-mode) .avatar-label {
 }
 
 .profile-btn-row .btn-profile-save + .btn-profile-logout {
-  margin-left: clamp(0.45rem, 2vw, 0.75rem); /* suurem vahe kahe nupu vahel */
+  margin-left: 0;
 }
 
 /* Eemalda alumise rea vähendused – jäta samas mõõdus nagu ligipääsetavuse nupp */
@@ -1994,7 +2001,7 @@ backdrop-filter: none;
 .btn-profile-save,
 .btn-profile-logout {
   font-family: var(--font-aino), Arial, sans-serif !important;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
 }
 input,
 textarea,
@@ -2822,24 +2829,90 @@ backdrop-filter: none;
 }
 .chat-inputbar .chat-input-field::-webkit-scrollbar-button{ display:none; width:0; height:0; }
 /* Saatmisnupp */
-.chat-send-btn{
-  flex:0 0 56px; width:56px; height:56px; border:0; border-radius:50%;
-  background: var(--pt-300);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  box-shadow:0 0 8px rgba(175,170,163,.45);
-  transition: background .16s, transform .06s, box-shadow .16s;
+/* 💬 Saatmisnupp */
+.chat-send-btn {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.6px solid rgba(236, 235, 233, 0.78);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ← tagab vertikaalse ja horisontaalse keskuse */
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(175, 170, 163, 0.35);
+  transition: border-color 0.16s, transform 0.06s, box-shadow 0.16s, background 0.16s;
+  position: relative;
+  overflow: visible;
 }
-.chat-send-btn:hover,.chat-send-btn:focus{
-  background: var(--pt-350, #BFBBAF);
-  box-shadow:0 0 10px rgba(201,199,194,.55);
+
+/* Hover / focus efekt */
+.chat-send-btn:hover,
+.chat-send-btn:focus {
+  background: transparent;
+  border-color: var(--pt-light);
+  box-shadow: 0 0 10px rgba(201, 199, 194, 0.45);
 }
-.chat-send-btn:active{ transform: scale(.96); }
-.chat-send-btn svg{ width:26px; height:26px; stroke:var(--pt-600); stroke-width:2.6; fill:none; }
+
+/* Klõpsu efekt */
+.chat-send-btn:active {
+  transform: scale(0.96);
+}
+
+/* 🔹 Loaderi konteiner nupu sees */
+.chat-send-btn .stage {
+  display: grid;
+  align-items: center;
+  pointer-events: none; /* ei sega klikke */
+  overflow: visible; /* lase kuma nähtavale */
+}
+
+/* 🔹 SVG (loaderi enda konteiner) */
+.chat-send-btn .svg {
+  display: block;
+  width: 75%;   /* ← kontrollib loaderi suurust */
+  height: 75%;
+  overflow: visible;
+}
+
+/* 🔹 Kui kasutatakse fallback SVG-ikooni */
+.chat-send-btn svg:not(.svg) {
+  width: 26px;
+  height: 26px;
+  stroke: var(--pt-600);
+  stroke-width: 2.6;
+  fill: none;
+}
+
+/* 📱 Mobiil */
 @media (max-width: 768px) {
   .chat-send-btn {
-    margin-right: -4px; /* nihutab saatmisnupu 1 mm võrra paremale */
+    margin-right: -4px;
   }
 }
+.chat-send-btn {
+  position: relative;     /* ⟵ vajalik, et absolute laps joondada nupu suhtes */
+  overflow: visible;      /* ⟵ lase üle servade nokitseda */
+}
+
+/* loaderi absoluutne wrapper nupu sees */
+.chat-send-btn .send-loader-wrap {
+  position: absolute;
+  inset: 0;               /* täidab nupu pinna */
+  display: grid;
+  place-items: center;    /* joonda keskele */
+  pointer-events: none;   /* ei sega klikki */
+}
+
+/* ÄRA sunni .stage mõõte 100% peale – lase komponendil ise otsustada */
+.chat-send-btn .stage {
+  /* width/height EI pane siia! */
+  overflow: visible;
+  display: grid;
+  place-items: center;
+}
+
 /* “Kerige lõppu” nupp */
 .scroll-down-btn{
   position:absolute; bottom:80px; left:50%; transform:translateX(-50%);
@@ -3091,7 +3164,7 @@ left: calc(var(--hud-edge-left) + 15px);
 }
 /* === A11Y modal enhanced visual tweaks (override) === */
 .a11y-modal{ max-width:min(760px, 94vw); padding:1.25rem 1.4rem 1.7rem; border-radius:18px; color: var(--pt-150); }
-.a11y-modal .a11y-title{ font-size: clamp(1.6rem, 3.4vw, 2.2rem); color: var(--pt-100); }
+
 .a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.05rem; }
 .a11y-modal .a11y-fieldset{ margin:.9rem 0 1.1rem; }
 .a11y-modal .a11y-legend{ color: var(--pt-100); font-size: 1.12rem; }
@@ -3251,12 +3324,12 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 .a11y-modal{
   position:fixed; left:50%; top:50%; transform: translate(-50%, -50%);
   z-index:50; outline:none; pointer-events:auto;
-  max-width:min(900px, 96vw); width:100%; padding:1.35rem 1.6rem 1.7rem; border-radius:16px;
+  max-width:min(760px, 94vw); width:100%; padding:1.35rem 1.6rem 1.7rem; border-radius:18px;
   background: rgba(31,31,31,.72); border:1px solid rgba(255,255,255,.12);
-backdrop-filter: none;
+  backdrop-filter: blur(10px);
 }
 .a11y-modal .glass-title{ margin-top:.25rem; }
-.a11y-modal .a11y-title{ font-size: clamp(1.8rem, 3.8vw, 2.4rem); color: #dabe9e; }
+
 .a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.12rem; }
 .a11y-modal .a11y-fieldset{ margin:1.2rem 0 1.35rem; border:none; padding:0; }
 .a11y-modal .a11y-legend{ color: var(--pt-100); font-size: 1.2rem; }
@@ -3270,26 +3343,9 @@ backdrop-filter: none;
 .a11y-modal .a11y-close:hover{ color:var(--pt); }
 /* Tee a11y modali nupu stiil profiili nuppudega samaks */
 .a11y-actions .btn-primary{
-  background: #181818;
-  color: var(--pt-200);
-  border: 2px solid var(--pt-mid);
-  border-radius: 1.3em;
-  letter-spacing: 0.5em !important;
-  font-weight: 500;
-  font-size: 1.1em !important;
-  padding: 0.5em 1em;
   margin: 0;
-  outline: none;
-  transition: background 0.16s, color 0.15s, border 0.15s, box-shadow 0.17s;
-  box-shadow: 0 2px 10px 0 rgba(201,199,194,0.15);
 }
-.a11y-actions .btn-primary:hover,
-.a11y-actions .btn-primary:focus{
-  background:#222;
-  color: var(--pt-light);
-  border: 2px solid var(--pt-100);
-  box-shadow: 0 2px 12px 0 rgba(201,199,194,0.25);
-}
+
 html[data-contrast="hc"] .desc-ring-left .circular-text-line {
   color: #222 !important;               /* tumehall */
   fill: currentColor !important;
@@ -3328,8 +3384,19 @@ html[data-contrast="hc"] .desc-ring-right * {
 .three-d-card:has(.centered-back-right.fade-in){
   pointer-events: none;
 }
+/* === A11Y modal: button letter spacing === */
+.btn-spacing-accessibility,
+.btn-spacing-accessibility span { letter-spacing: 0.05em !important; }
 
-
-
-
-
+:global {
+  .btn-spacing-login,
+  .btn-spacing-login span { letter-spacing: 0.06em !important; }
+  .btn-spacing-register,
+  .btn-spacing-register span { letter-spacing: 0.06em !important; }
+  .btn-spacing-profile-save,
+  .btn-spacing-profile-save span { letter-spacing: 0.06em !important; }
+  .btn-spacing-profile-logout,
+  .btn-spacing-profile-logout span { letter-spacing: 0.06em !important; }
+  .btn-spacing-accessibility,
+  .btn-spacing-accessibility span { letter-spacing: 0.06em !important; }
+}

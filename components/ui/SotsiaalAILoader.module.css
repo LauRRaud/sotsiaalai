@@ -1,55 +1,80 @@
-.stage{
-  width: var(--size);
-  height: var(--size);
+/* ============================================
+   💫 SotsiaalAI Loader
+   – animatsioon ja staatiline variant
+   – kasutab globaalselt määratavat CSS muutujat
+     (--sotsiaalai-loader-size) kui vaikimisi mõõtu
+   ============================================ */
+
+.stage {
+  width: var(--size, var(--sotsiaalai-loader-size));
+  height: var(--size, var(--sotsiaalai-loader-size));
   overflow: visible;
   display: grid;
   place-items: center;
+  pointer-events: none; /* väldi klikkide blokeerimist nupu sees */
 }
 
-.svg{
+/* SVG konteiner */
+.svg {
   width: 100%;
   height: 100%;
   display: block;
   overflow: visible;
 }
 
-/* Hingamine */
-.ball{
+/* 💨 Hingav efekt pallidele */
+.ball {
   transform-box: fill-box;
   transform-origin: center;
   transform: scale(var(--minScale));
   animation: scalePulse var(--pulse) ease-in-out infinite both;
 }
 
-.top{
-  animation-delay: calc(var(--pulse)/-2);
+/* Ülemise palli nihkega animatsioon (tekitab vahelduse) */
+.top {
+  animation-delay: calc(var(--pulse) / -2);
 }
 
-/* Pehmem, sünkroonne glow */
-.glow{
+/* ✨ Glow (valguse kuma) */
+.glow {
   fill: var(--glow);
-  opacity: .08;  /* baasvalgus */
+  opacity: var(--glow-opacity-base, 0.08);
   animation: glowPulse var(--pulse) ease-in-out infinite both;
   pointer-events: none;
 }
 
-.top .glow{
-  animation-delay: calc(var(--pulse)/-2);
+/* Ülemisel pallil nihutame kuma sama loogikaga */
+.top .glow {
+  animation-delay: calc(var(--pulse) / -2);
 }
 
-/* väiksemaks → suuremaks → väiksemaks */
-@keyframes scalePulse{
+/* Skaala: väiksemaks → suuremaks → väiksemaks */
+@keyframes scalePulse {
   0%   { transform: scale(var(--minScale)); }
   50%  { transform: scale(var(--maxScale)); }
   100% { transform: scale(var(--minScale)); }
 }
 
-/* valgus on sünkroonne skaalaga */
-@keyframes glowPulse{
-  0%,100% { opacity: .08; }
-  50%     { opacity: .75; }
+/* Glow muutub sünkroonselt skaalaga */
+@keyframes glowPulse {
+  0%, 100% { opacity: var(--glow-opacity-base, 0.08); }
+  50%      { opacity: var(--glow-opacity-peak, 0.75); }
 }
 
-@media (prefers-reduced-motion: reduce){
-  .ball, .glow { animation: none !important; }
+/* Aeglustatud režiim (kui kasutaja eelistab vähem liikumist) */
+@media (prefers-reduced-motion: reduce) {
+  .ball, .glow {
+    animation: none !important;
+  }
+}
+
+/* 🪷 Staatiline režiim – animatsioonid välja */
+.static .ball {
+  animation: none !important;
+  transform: scale(1) !important;
+}
+
+.static .glow {
+  animation: none !important;
+  opacity: 0 !important;
 }

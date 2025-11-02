@@ -994,18 +994,7 @@ export default function ChatBody() {
               </div>
             );
           })}
-          {messages.length > 0 && (isGenerating || isStreamingAny) && (
-            <div
-              className="chat-msg chat-msg-ai"
-              aria-live="polite"
-              style={{ background: "transparent", boxShadow: "none", padding: 0 }}
-            >
-              <div style={{ display: "inline-flex", alignItems: "center", minHeight: 24, lineHeight: 0 }}>
-                <SotsiaalAILoader ariaLabel={t("chat.typing.aria", "Assistent koostab vastust")} />
-                <span className="sr-only">{t("chat.typing.label", "Mõtleb")}</span>
-              </div>
-            </div>
-          )}
+          {/* Typing orb moved into send button; remove legacy inline orb */}
         </div>
         {showScrollDown && (
           <button
@@ -1049,34 +1038,24 @@ export default function ChatBody() {
             disabled={isGenerating}
             rows={1}
           />
-          <button
-            type="submit"
-            className={`chat-send-btn${isGenerating ? " stop" : ""}`}
-            aria-label={isGenerating ? t("chat.send.stop", "Peata vastus") : t("chat.send.send", "Saada sõnum")}
-            title={isGenerating ? t("chat.send.title_stop", "Peata vastus") : t("chat.send.title_send", "Saada (Enter)")}
-            disabled={!isGenerating ? !input.trim() : false}
-          >
-            {isGenerating ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-                <rect x="5" y="5" width="14" height="14" rx="2.5" />
-              </svg>
-            ) : (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path d="M4 15l8-8 8 8" />
-              </svg>
-            )}
-          </button>
+<button
+  type="submit"
+  className="chat-send-btn"
+  aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
+  title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
+  disabled={!isGenerating ? !input.trim() : false}
+>
+  {(() => {
+    const thinking = isGenerating || isStreamingAny;
+    return (
+      <SotsiaalAILoader
+        animated={thinking}
+        ariaHidden
+        className="send-loader"
+      />
+    );
+  })()}
+</button>
         </form>
       </main>
       <footer
