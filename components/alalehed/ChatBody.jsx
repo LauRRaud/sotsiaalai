@@ -806,7 +806,7 @@ export default function ChatBody() {
         focusInput();
       }
     },
-    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId]
+    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId, locale]
   );
   const handleStop = useCallback((e) => {
     e?.preventDefault();
