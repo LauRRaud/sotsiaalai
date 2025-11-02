@@ -11,6 +11,7 @@ export default function UnustasinParooliBody() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { t, locale } = useI18n();
+  const errorId = error ? "reset-error" : undefined;
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -44,7 +45,12 @@ export default function UnustasinParooliBody() {
       {submitted ? (
         <RichText className="midtext reset-info" as="div" value={t("auth.reset.success")} />
       ) : (
-        <form className="reset-form" onSubmit={handleSubmit} autoComplete="off">
+        <form
+          className="reset-form"
+          onSubmit={handleSubmit}
+          autoComplete="off"
+          aria-busy={loading ? "true" : "false"}
+        >
           <label htmlFor="email" className="reset-label">
             <input
               type="email"
@@ -57,10 +63,17 @@ export default function UnustasinParooliBody() {
               required
               autoComplete="username"
               disabled={loading}
+              aria-invalid={error ? "true" : "false"}
+              aria-describedby={errorId}
             />
           </label>
         {error && (
-          <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
+          <div
+            id={errorId}
+            role="alert"
+            className="glass-note"
+            style={{ marginBottom: "0.75rem" }}
+          >
             {error}
           </div>
         )}

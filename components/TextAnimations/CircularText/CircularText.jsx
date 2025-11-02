@@ -224,7 +224,7 @@ export function CircularRingRight() {
       className="desc-ring-right"
       startAtTop={true}
       offsetDeg={6}
-      ringColor="rgba(213,121,105,0.4)"
+      ringColor="rgba(177, 124, 124, 0.4)"
       startDelaySec={2.7}
     />
   );

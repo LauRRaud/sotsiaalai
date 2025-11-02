@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -18,13 +18,14 @@ export default function ProfiilBody({ initialProfile = null }) {
   const { openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
   const [email, setEmail] = useState(initialProfile?.email || "");
-  const [password, setPassword] = useState("");
+  const [hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
   // Kui serverist tuli profiil, siis väldi kliendi "loading" vaadet
   const [loading, setLoading] = useState(!initialProfile);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-parooli)
   const [deleting, setDeleting] = useState(false);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
@@ -38,6 +39,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     // Kui server andis juba profiili, kasuta seda ja väldi lisapäringut
     if (initialProfile && (typeof initialProfile.email === "string")) {
       setEmail(initialProfile.email || "");
+      setHasPassword(!!initialProfile.hasPassword);
       setLoading(false);
       return;
     }
@@ -46,10 +48,11 @@ export default function ProfiilBody({ initialProfile = null }) {
         const res = await fetch("/api/profile", { cache: "no-store" });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || t("profile.load_failed"));
+          setError(payload?.error || payload?.message || t("profile.load_failed"));
           return;
         }
         setEmail(payload?.user?.email ?? "");
+        setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
         setError(t("profile.server_unreachable"));
@@ -68,18 +71,14 @@ export default function ProfiilBody({ initialProfile = null }) {
       const res = await fetch("/api/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password: password || undefined,
-        }),
+        body: JSON.stringify({ email }),
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.error || t("profile.update_failed"));
+        setError(payload?.error || payload?.message || t("profile.update_failed"));
         return;
       }
       setSuccess(t("profile.saved_ok"));
-      setPassword("");
       router.refresh();
     } catch (err) {
       console.error("profile PUT", err);
@@ -88,6 +87,35 @@ export default function ProfiilBody({ initialProfile = null }) {
       setSaving(false);
     }
   }
+
+  // Uuenda ainult e-post (eraldi nupust), sama loogika kui submit
+  async function handleUpdateEmail() {
+    if (status !== "authenticated") return;
+    setSaving(true);
+    setError("");
+    setSuccess("");
+    try {
+      const res = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(payload?.error || payload?.message || t("profile.update_failed"));
+        return;
+      }
+      setSuccess(t("profile.saved_ok"));
+      router.refresh();
+    } catch (err) {
+      console.error("profile PUT", err);
+      setError(t("profile.server_unreachable"));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  // Parooli muutmine: suuname parooli taastamise lehele, kus küsitakse e-post
   if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
     return (
       <div className="main-content glass-box glass-left" lang={locale}>
@@ -163,19 +191,26 @@ export default function ProfiilBody({ initialProfile = null }) {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <label htmlFor="password" className="glass-label">
-          {t("profile.new_password_optional")}
-        </label>
-        <input
-          className="input-modern"
-          type="password"
-          id="password"
-          autoComplete="new-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          minLength={6}
-        />
+        <div className="profile-email-links">
+          <a
+            href="#"
+            className="link-brand"
+            onClick={(e) => {
+              e.preventDefault();
+              if (!saving) handleUpdateEmail();
+            }}
+            aria-label={t("profile.update_email_cta", "Uuenda epost")}
+          >
+            {t("profile.update_email_cta", "Uuenda epost")}
+          </a>
+          <Link
+            href={localizePath("/unustasin-parooli", locale)}
+            className="link-brand"
+            aria-label={t("profile.change_password_cta", "Uuenda parool")}
+          >
+            {t("profile.change_password_cta", "Uuenda parool")}
+          </Link>
+        </div>
         {error && (
           <div
             role="alert"
@@ -273,7 +308,7 @@ export default function ProfiilBody({ initialProfile = null }) {
               const res = await fetch("/api/profile", { method: "DELETE" });
               const payload = await res.json().catch(() => ({}));
               if (!res.ok) {
-                setError(payload?.error || t("profile.delete_failed"));
+                setError(payload?.error || payload?.message || t("profile.delete_failed"));
                 setDeleting(false);
                 return;
               }

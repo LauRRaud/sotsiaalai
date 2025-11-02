@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 175.19 195.11">
-  <!-- Generator: Adobe Illustrator 29.5.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 137)  -->
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1"
+     viewBox="0 0 175.19 195.11">
   <defs>
     <style>
       .st0 {
-        fill: url(#linear-gradient);
+        fill: url(#warmclay);
         stroke: #000;
         stroke-miterlimit: 10;
         stroke-opacity: .5;
         stroke-width: .1px;
       }
     </style>
-    <linearGradient id="linear-gradient" x1="57.22" y1="860.04" x2="164.53" y2="1092.63" gradientTransform="translate(0 -882.62)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fbe5df"/>
-      <stop offset=".2" stop-color="#f3c6b5"/>
-      <stop offset=".45" stop-color="#e09780"/>
-      <stop offset=".7" stop-color="#c66a4e"/>
-    </linearGradient>
+
+    <!-- 🔸 SotsiaalAI Warm Clay (brändipalett) -->
+<linearGradient id="warmclay" x1="57.22" y1="860.04" x2="164.53" y2="1092.63"
+  gradientTransform="translate(0 -882.62)" gradientUnits="userSpaceOnUse">
+  <stop offset="0"   stop-color="#f5e9e8"/>   <!-- hele -->
+  <stop offset=".25" stop-color="#d6a8a8"/>   <!-- õrn roosakas -->
+  <stop offset=".5"  stop-color="#b17c7c"/>   <!-- põhitoon -->
+  <stop offset=".75" stop-color="#8a5f5f"/>   <!-- varju eel -->
+  <stop offset="1"   stop-color="#704b4b"/>   <!-- *uuendatud* alumine toon, veidi heledam -->
+</linearGradient>
   </defs>
-  <path class="st0" d="M169.9,1.89c6.41,2.28,4.98,8.8,5.19,21.04v20.56c0,36.14.16,112.3-.11,140.07.37,14.89-19.71,10.6-30,11.08-9.49-.53-16.06-1.54-15.58-12.61.74-35.77-1.7-134.45.95-174.57,3.13-9.86,31.27-7.68,39-5.78l.53.21s.02,0,.02,0ZM103.71,193.62c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.47,157.8,13.83,102.73,3.92,79.2,1.85,73.9.21,68.65.05,63.3c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01,0Z"/>
+
+  <path class="st0"
+    d="M169.9,1.89c6.41,2.28,4.98,8.8,5.19,21.04v20.56c0,36.14.16,112.3-.11,140.07
+       .37,14.89-19.71,10.6-30,11.08-9.49-.53-16.06-1.54-15.58-12.61.74-35.77-1.7-134.45.95-174.57
+       3.13-9.86,31.27-7.68,39-5.78l.53.21ZM103.71,193.62
+       c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73
+       C37.47,157.8,13.83,102.73,3.92,79.2,1.85,73.9.21,68.65.05,63.3
+       c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82
+       4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22
+       13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16Z"/>
 </svg>

@@ -9,6 +9,7 @@
     "dev": "next dev --turbopack -p 3000",
     "dev:webpack": "next dev -p 3000",
     "dev:no-turbo": "next dev -p 3000",
+    "portaal": "npm run dev:webpack",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",
     "dev:create-admin:sotsiaalai": "node scripts/create-admin.mjs --email \"admin@sotsiaal.ai\" --password \"sotsiaalai1\" --role ADMIN --admin",

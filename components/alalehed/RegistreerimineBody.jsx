@@ -113,7 +113,7 @@ export default function RegistreerimineBody() {
               checked={form.role === "SOCIAL_WORKER"}
               onChange={handleChange}
             />
-            {t("role.worker")}
+            <span className="glass-radio-label-text">{t("role.worker")}</span>
           </label>
           <label>
             <input
@@ -123,7 +123,7 @@ export default function RegistreerimineBody() {
               checked={form.role === "CLIENT"}
               onChange={handleChange}
             />
-            {t("role.client")}
+            <span className="glass-radio-label-text">{t("role.client")}</span>
           </label>
         </div>
         <label className="glass-checkbox">

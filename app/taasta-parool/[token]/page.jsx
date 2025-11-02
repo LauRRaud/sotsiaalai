@@ -1,7 +1,7 @@
 import ResetPasswordForm from "./ResetPasswordForm";
 export const metadata = {
-  title: "Sea uus parool – SotsiaalAI",
-  description: "Taasta oma SotsiaalAI konto turvalise parooli taastamise vormi abil.",
+  title: "Uuenda parool – SotsiaalAI",
+  description: "Uuenda oma SotsiaalAI konto parool turvalise vormi abil.",
 };
 export default async function ResetPasswordPage({ params }) {
   const resolvedParams = await params;

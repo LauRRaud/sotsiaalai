@@ -27,9 +27,10 @@ export default async function Page() {
     if (session?.user?.id) {
       const user = await prisma.user.findUnique({
         where: { id: String(session.user.id) },
-        select: { email: true, role: true },
+        // do not send hash to client; derive boolean
+        select: { email: true, role: true, passwordHash: true },
       });
-      if (user) initialProfile = { email: user.email || "", role: user.role || null };
+      if (user) initialProfile = { email: user.email || "", role: user.role || null, hasPassword: !!user.passwordHash };
     }
   } catch {}
   return <ProfiilBody initialProfile={initialProfile} />;

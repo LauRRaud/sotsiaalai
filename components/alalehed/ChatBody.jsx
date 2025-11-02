@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
+// Tüpograafi-voo kiirus: sõnad sekundis (vähendatud ~poole võrra)
+const TYPEWRITER_WORDS_PER_SECOND = 4; // tõsta/langeta vajadusel
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
@@ -303,6 +306,7 @@ export default function ChatBody() {
   const sourcesButtonRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
+  const typingTimerRef = useRef(null);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
   const saveTimerRef = useRef(null);
@@ -724,8 +728,48 @@ export default function ChatBody() {
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
         const reader = createSSEReader(res.body);
         streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
-        let acc = "";
+        let visibleText = ""; // kuvatav (tüüti) tekst
+        let pendingBuffer = ""; // saabuvad tükid, mida aeglaselt kuvame
         let sources = [];
+        let streamEnded = false;
+        let finalized = false;
+
+        const intervalMs = Math.max(40, Math.round(1000 / TYPEWRITER_WORDS_PER_SECOND));
+        function finalizeIfNeeded() {
+          if (finalized) return;
+          if (streamEnded && pendingBuffer.length === 0) {
+            const finalText = (visibleText || "").trim() ||
+              "Vabandust, ma ei saanud praegu vastust koostada.";
+            mutateMessage(streamingMessageId, (msg) => ({
+              ...msg,
+              text: finalText,
+              sources,
+              isStreaming: false,
+            }));
+            finalized = true;
+            if (typingTimerRef.current) {
+              clearInterval(typingTimerRef.current);
+              typingTimerRef.current = null;
+            }
+          }
+        }
+
+        function startTypewriter() {
+          if (typingTimerRef.current) return;
+          typingTimerRef.current = setInterval(() => {
+            if (!pendingBuffer) {
+              // Pole midagi kuvada — kui voog on lõppenud, lõpeta
+              if (streamEnded) finalizeIfNeeded();
+              return;
+            }
+            const m = pendingBuffer.match(/^\s*\S+/);
+            const take = m ? m[0] : pendingBuffer.charAt(0);
+            visibleText += take;
+            pendingBuffer = pendingBuffer.slice(take.length);
+            mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: visibleText }));
+            finalizeIfNeeded();
+          }, intervalMs);
+        }
         for await (const ev of reader) {
           if (ev.event === "meta") {
             try {
@@ -747,8 +791,8 @@ export default function ChatBody() {
             try {
               const payload = JSON.parse(ev.data);
               if (payload?.t) {
-                acc += payload.t;
-                mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: acc }));
+                pendingBuffer += payload.t;
+                startTypewriter();
               }
             } catch {}
           } else if (ev.event === "error") {
@@ -759,20 +803,20 @@ export default function ChatBody() {
             } catch {}
             throw new Error(msg);
           } else if (ev.event === "done") {
+            streamEnded = true;
+            finalizeIfNeeded();
             break;
           }
         }
-        const finalText = acc.trim() || "Vabandust, ma ei saanud praegu vastust koostada.";
-        mutateMessage(streamingMessageId, (msg) => ({
-          ...msg,
-          text: finalText,
-          sources,
-          isStreaming: false,
-        }));
-        streamingMessageId = null;
+        finalizeIfNeeded();
+        if (finalized) streamingMessageId = null;
       } catch (err) {
         clearTimeout(clientTimeout);
         if (err?.name === "AbortError") {
+          if (typingTimerRef.current) {
+            clearInterval(typingTimerRef.current);
+            typingTimerRef.current = null;
+          }
           if (streamingMessageId != null) {
             mutateMessage(streamingMessageId, (msg) => ({
               ...msg,
@@ -786,6 +830,10 @@ export default function ChatBody() {
             appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
           }
         } else {
+          if (typingTimerRef.current) {
+            clearInterval(typingTimerRef.current);
+            typingTimerRef.current = null;
+          }
           const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
           setErrorBanner(errText);
           if (streamingMessageId != null) {
@@ -801,6 +849,10 @@ export default function ChatBody() {
           }
         }
       } finally {
+        if (typingTimerRef.current) {
+          clearInterval(typingTimerRef.current);
+          typingTimerRef.current = null;
+        }
         setIsGenerating(false);
         abortControllerRef.current = null;
         focusInput();
@@ -925,6 +977,7 @@ export default function ChatBody() {
           aria-label={t("chat.aria.messages", "Chat messages")}
           aria-live="polite"
           aria-busy={isStreamingAny ? "true" : "false"}
+          style={{ position: "relative" }}
         >
           {/* ⬇️ UUS: Intro-rida väljaspool sõnumi-ajalugu (tõlgib kohe keelevahetusel) */}
           {messages.length === 0 && (
@@ -941,14 +994,16 @@ export default function ChatBody() {
               </div>
             );
           })}
-          {isStreamingAny && (
-            <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
-              <span className="typing-label">{t("chat.typing.label", "Mõtleb")}</span>
-              <span className="dots" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-              </span>
+          {messages.length > 0 && (isGenerating || isStreamingAny) && (
+            <div
+              className="chat-msg chat-msg-ai"
+              aria-live="polite"
+              style={{ background: "transparent", boxShadow: "none", padding: 0 }}
+            >
+              <div style={{ display: "inline-flex", alignItems: "center", minHeight: 24, lineHeight: 0 }}>
+                <SotsiaalAILoader ariaLabel={t("chat.typing.aria", "Assistent koostab vastust")} />
+                <span className="sr-only">{t("chat.typing.label", "Mõtleb")}</span>
+              </div>
             </div>
           )}
         </div>
@@ -993,7 +1048,6 @@ export default function ChatBody() {
             className="chat-input-field"
             disabled={isGenerating}
             rows={1}
-            style={{ resize: "none" }}
           />
           <button
             type="submit"

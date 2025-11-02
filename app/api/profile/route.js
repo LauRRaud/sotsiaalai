@@ -31,10 +31,12 @@ export async function GET() {
   if (!ctx) return makeError("Unauthorized", 401);
   const user = await prisma.user.findUnique({
     where: { id: ctx.userId },
-    select: { email: true, role: true },
+    // do not return passwordHash to client; derive a boolean instead
+    select: { email: true, role: true, passwordHash: true },
   });
   if (!user) return makeError("User not found", 404);
-  return json({ ok: true, user });
+  const { email, role, passwordHash } = user;
+  return json({ ok: true, user: { email, role, hasPassword: !!passwordHash } });
 }
 export async function PUT(request) {
   const ctx = await requireUser();

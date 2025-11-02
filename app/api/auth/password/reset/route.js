@@ -291,7 +291,13 @@ export async function POST(request) {
       await tx.verificationToken.create({ data: { identifier: email, token, expires } });
     });
     const resetUrl = buildResetUrl(token);
-    await sendResetEmail(email, resetUrl);
+    try {
+      await sendResetEmail(email, resetUrl);
+    } catch (sendErr) {
+      // Ära paljasta saatmise vigu kliendile (väldi konto-enumeratsiooni ja SMTP lekkimist)
+      console.error("password reset email send failed", sendErr);
+      // jätka siiski OK vastusega
+    }
     return ok();
   } catch (e) {
     console.error("password reset POST error", e);

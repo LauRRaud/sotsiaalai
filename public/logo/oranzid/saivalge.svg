@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1"
-     viewBox="0 0 332.64 195.12">
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 332.64 195.12">
   <defs>
     <style>
-      .st0 { fill: url(#warmclay); }
+      .st0 { fill: url(#linear-gradient2); }
       .st0, .st1, .st2 {
         stroke: #000;
         stroke-miterlimit: 10;
@@ -15,7 +14,7 @@
       .st3 { fill: url(#linear-gradient); }
     </style>
 
-    <!-- 🩶 PLAATINUM (soojem, tumedus algab varem ja hajub pehmemalt) -->
+    <!-- PLAATINUM (soojem, tumedus algab varem ja hajub pehmemalt) -->
     <linearGradient id="linear-gradient" x1="217.27" y1="-825.72" x2="319.36" y2="-1044.73"
       gradientTransform="translate(0 -842) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0"   stop-color="#F1F1F0"/>
@@ -25,7 +24,7 @@
       <stop offset="1"   stop-color="#5F5B55"/>
     </linearGradient>
 
-    <!-- ⚫ Tähtede gradient (must-hall varjund) -->
+    <!-- Tähtede originaalne gradient -->
     <linearGradient id="linear-gradient1" x1="23.89" y1="145.15" x2="23.89" y2="184.39" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#666"/>
       <stop offset=".5" stop-color="#383838"/>
@@ -33,17 +32,17 @@
       <stop offset="1" stop-color="#111"/>
     </linearGradient>
 
-    <!-- 🔸 SotsiaalAI Warm Clay -->
-<linearGradient id="warmclay" x1="57.22" y1="860.04" x2="164.53" y2="1092.63"
-  gradientTransform="translate(0 -882.62)" gradientUnits="userSpaceOnUse">
-  <stop offset="0"   stop-color="#f5e9e8"/>   <!-- hele -->
-  <stop offset=".25" stop-color="#d6a8a8"/>   <!-- õrn roosakas -->
-  <stop offset=".5"  stop-color="#b17c7c"/>   <!-- põhitoon -->
-  <stop offset=".75" stop-color="#8a5f5f"/>   <!-- varju eel -->
-  <stop offset="1"   stop-color="#704b4b"/>   <!-- *uuendatud* alumine toon, veidi heledam -->
-</linearGradient>
+    <!-- Aktsent jääb muutmata -->
+    <linearGradient id="linear-gradient2" x1="-1571.22" y1="5.18" x2="-1571.22" y2="6.18"
+      gradientTransform="translate(174429.38 -857.71) scale(110.98 170.15)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbe5df"/>
+      <stop offset=".2" stop-color="#f3c6b5"/>
+      <stop offset=".45" stop-color="#e09780"/>
+      <stop offset=".7" stop-color="#c66a4e"/>
+      <stop offset="1" stop-color="#843722"/>
+    </linearGradient>
 
-    <!-- 🩶 PLAATINUM teine ala (hajutatud tumedus) -->
+    <!-- PLAATINUM teine ala (hajutatud tumedus) -->
     <linearGradient id="linear-gradient3" x1="79.24" y1="1790.65" x2="79.24" y2="1949.92"
       gradientTransform="translate(0 -1764)" gradientUnits="userSpaceOnUse">
       <stop offset="0"   stop-color="#F1F1F0"/>
