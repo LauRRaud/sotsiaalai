@@ -1,7 +1,6 @@
 // Magnet.jsx
 "use client";
 import { useState, useEffect, useRef } from "react";
-
 export default function Magnet({
   children,
   padding = 100,
@@ -18,10 +17,8 @@ export default function Magnet({
   const innerRef   = useRef(null);
   const rafRef     = useRef(0);
   const activeRef  = useRef(false);
-
   const [isActive, setIsActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     // ✅ detect mobiil ekraan
     const check = () => setIsMobile(window.innerWidth <= 768);
@@ -29,7 +26,6 @@ export default function Magnet({
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-
   useEffect(() => {
     // kui keelatud või mobiil, nulli transformid
     if (disabled || isMobile) {
@@ -42,21 +38,17 @@ export default function Magnet({
       }
       return;
     }
-
     const getElsOk = () => wrapperRef.current && innerRef.current;
     const maxMove = 145;
     const clamp = (v) => Math.max(-maxMove, Math.min(maxMove, v));
-
     const update = (x, y) => {
       if (!getElsOk()) return;
       const box = wrapperRef.current.getBoundingClientRect();
       const cx = box.left + box.width / 2;
       const cy = box.top  + box.height / 2;
-
       const inPad =
         Math.abs(x - cx) < box.width / 2 + padding &&
         Math.abs(y - cy) < box.height / 2 + padding;
-
       if (inPad) {
         if (!activeRef.current) {
           activeRef.current = true;
@@ -77,7 +69,6 @@ export default function Magnet({
         innerRef.current.style.willChange = "auto";
       }
     };
-
     const onMove = (e) => {
       if (!getElsOk()) return;
       if (rafRef.current) return;
@@ -87,7 +78,6 @@ export default function Magnet({
         update(x, y);
       });
     };
-
     const onLeave = () => {
       if (!innerRef.current) return;
       activeRef.current = false;
@@ -96,10 +86,8 @@ export default function Magnet({
       innerRef.current.style.transition = inactiveTransition;
       innerRef.current.style.willChange = "auto";
     };
-
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerleave", onLeave);
-
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerleave", onLeave);
@@ -107,9 +95,7 @@ export default function Magnet({
       rafRef.current = 0;
     };
   }, [disabled, isMobile, padding, activeTransition, inactiveTransition]);
-
   const child = typeof children === "function" ? children({ isActive }) : children;
-
   return (
     <div
       ref={wrapperRef}

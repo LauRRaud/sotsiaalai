@@ -1,5 +1,4 @@
 "use client";
-
 export default function RichText({
   value,
   as: Component = "span",
@@ -18,6 +17,5 @@ export default function RichText({
     const closeRe = new RegExp(`</${tag}>`, "g");
     html = html.replace(openRe, open).replace(closeRe, close);
   });
-
   return <Component className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }

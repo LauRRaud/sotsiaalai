@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import useT from "@/components/i18n/useT";
-
 export default function InstallAppLink({ variant = "list", heading }) {
   const [canInstall, setCanInstall] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -13,13 +12,11 @@ export default function InstallAppLink({ variant = "list", heading }) {
   const installCta = t("pwa.cta");
   const iosHint = t("pwa.instructions.ios");
   const macHint = t("pwa.instructions.mac");
-
   useEffect(() => {
     const standalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone === true;
     setIsStandalone(standalone);
-
     // Environment detection for fallbacks (iOS Safari and macOS Safari)
     try {
       const ua = navigator.userAgent || "";
@@ -31,14 +28,12 @@ export default function InstallAppLink({ variant = "list", heading }) {
       setIsIOS(likelyIOS);
       setIsMacSafari(Boolean(likelyMac && isSafariEngine));
     } catch {}
-
     // Use a global bucket so navigation between pages doesn't lose the prompt
     const existing = typeof window !== "undefined" ? window.__deferredPWAInstallPrompt : undefined;
     if (existing) {
       setDeferredPrompt(existing);
       setCanInstall(true);
     }
-
     const onBeforeInstall = (e) => {
       e.preventDefault();
       try { window.__deferredPWAInstallPrompt = e; } catch {}
@@ -49,7 +44,6 @@ export default function InstallAppLink({ variant = "list", heading }) {
       setCanInstall(false);
       setDeferredPrompt(null);
     };
-
     window.addEventListener("beforeinstallprompt", onBeforeInstall);
     window.addEventListener("appinstalled", onInstalled);
     return () => {
@@ -57,7 +51,6 @@ export default function InstallAppLink({ variant = "list", heading }) {
       window.removeEventListener("appinstalled", onInstalled);
     };
   }, []);
-
   const handleClick = useCallback(async (e) => {
     e.preventDefault();
     if (!deferredPrompt) return;
@@ -69,12 +62,9 @@ export default function InstallAppLink({ variant = "list", heading }) {
       setCanInstall(false);
     }
   }, [deferredPrompt]);
-
   const showInstallLink = !isStandalone && canInstall;
   const showFallback = !isStandalone && !canInstall && (isIOS || isMacSafari);
-
   if (!showInstallLink && !showFallback) return null;
-
   if (variant === "section") {
     return (
       <section className="glass-section install-section">
@@ -94,7 +84,6 @@ export default function InstallAppLink({ variant = "list", heading }) {
       </section>
     );
   }
-
   // default: render inside a list
   return (
     <li>

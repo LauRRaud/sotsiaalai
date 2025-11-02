@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
-
 const lawLinkReplacements = {
   aLawEst: {
     open: '<a class="link-brand" href="https://www.riigiteataja.ee/akt/112072025014" target="_blank" rel="noopener noreferrer">',
@@ -18,7 +17,6 @@ const lawLinkReplacements = {
     close: "</a>",
   },
 };
-
 export default function PrivaatsusBody() {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -75,13 +73,11 @@ export default function PrivaatsusBody() {
       content: [{ value: t("privacy.section11.body") }],
     },
   ];
-
   return (
     <article className="main-content glass-box" aria-labelledby="privacy-title" lang={locale}>
       <h1 id="privacy-title" className="glass-title">
         {t("privacy.title")}
       </h1>
-
       <section className="glass-section">
         {sections.map((section) => (
           <div key={section.heading}>
@@ -107,7 +103,6 @@ export default function PrivaatsusBody() {
           </div>
         ))}
       </section>
-
       <div className="back-btn-wrapper">
         <button
           type="button"
@@ -124,7 +119,6 @@ export default function PrivaatsusBody() {
           <span className="back-arrow-circle"></span>
         </button>
       </div>
-
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </article>
   );

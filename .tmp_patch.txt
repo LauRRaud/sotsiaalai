@@ -1,0 +1,144 @@
+*** Begin Patch
+*** Update File: components/HomePage.jsx
+@@
+-// components/HomePage.jsx
++// components/HomePage.jsx
+ "use client";
+ 
+-import { useCallback, useEffect, useState, useRef } from "react";
++import { useCallback, useEffect, useState, useRef, useMemo } from "react";
+@@
+   const [leftFlipping, setLeftFlipping] = useState(false);
+   const [rightFlipping, setRightFlipping] = useState(false);
+   const [magnetReady, setMagnetReady] = useState(false);
+   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
++  // Ühtne faasiloogika (front | flippingToBack | back | flippingToFront)
++  const [leftPhase, setLeftPhase] = useState("front");
++  const [rightPhase, setRightPhase] = useState("front");
+@@
+   const rightCardRef = useRef(null);
++  const left3DRef = useRef(null);
++  const right3DRef = useRef(null);
+   const t = useT();
+@@
+   const flipAllowed = leftFadeDone && rightFadeDone;
+   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+@@
+-  const onLeftEnter = () => { if (!isMobile) { setLeftFlipping(true); setTimeout(() => setLeftFlipping(false), flipEndMs); } };
+-  const onLeftLeave = () => { if (!isMobile) { setLeftFlipping(true); setTimeout(() => setLeftFlipping(false), flipEndMs); } };
+-  const onRightEnter = () => { if (!isMobile) { setRightFlipping(true); setTimeout(() => setRightFlipping(false), flipEndMs); } };
+-  const onRightLeave = () => { if (!isMobile) { setRightFlipping(true); setTimeout(() => setRightFlipping(false), flipEndMs); } };
++  const onLeftEnter = () => {
++    if (!isMobile) {
++      setLeftFlipping(true);
++      setLeftPhase((p) => (p === "front" || p === "flippingToFront" ? "flippingToBack" : p));
++      setTimeout(() => setLeftFlipping(false), flipEndMs);
++    }
++  };
++  const onLeftLeave = () => {
++    if (!isMobile) {
++      setLeftFlipping(true);
++      setLeftPhase((p) => (p === "back" || p === "flippingToBack" ? "flippingToFront" : p));
++      setTimeout(() => setLeftFlipping(false), flipEndMs);
++    }
++  };
++  const onRightEnter = () => {
++    if (!isMobile) {
++      setRightFlipping(true);
++      setRightPhase((p) => (p === "front" || p === "flippingToFront" ? "flippingToBack" : p));
++      setTimeout(() => setRightFlipping(false), flipEndMs);
++    }
++  };
++  const onRightLeave = () => {
++    if (!isMobile) {
++      setRightFlipping(true);
++      setRightPhase((p) => (p === "back" || p === "flippingToBack" ? "flippingToFront" : p));
++      setTimeout(() => setRightFlipping(false), flipEndMs);
++    }
++  };
+@@
+   const handleCardTap = (side) => () => {
+     if (!flipAllowed) return;
+     if (!isMobile) {
+       if (status === "loading") return;
+       if (goChatIfAuthed()) return;
+       setIsLoginOpen(true);
+       return;
+     }
+-    const setFlip = side === "left" ? setLeftFlipping : setRightFlipping;
+-    setFlip(true);
+-    setTimeout(() => setFlip(false), flipEndMs);
+-    setMobileFlipReady((prev) =>
+-      !prev[side]
+-        ? { left: side === "left", right: side === "right" }
+-        : { left: false, right: false }
+-    );
++    const setFlip = side === "left" ? setLeftFlipping : setRightFlipping;
++    setFlip(true);
++    setTimeout(() => setFlip(false), flipEndMs);
++    setMobileFlipReady((prev) => {
++      const next = !prev[side]
++        ? { left: side === "left", right: side === "right" }
++        : { left: false, right: false };
++      if (side === "left") {
++        setLeftPhase(!prev[side] ? "flippingToBack" : "flippingToFront");
++      } else {
++        setRightPhase(!prev[side] ? "flippingToBack" : "flippingToFront");
++      }
++      return next;
++    });
+   };
+@@
+   }, [isMobile, resetMobileCards]);
++
++  // Phase → final states on transform end
++  const onLeftTransitionEnd = (e) => {
++    if (e?.propertyName !== "transform") return;
++    setLeftPhase((p) => (p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p));
++  };
++  const onRightTransitionEnd = (e) => {
++    if (e?.propertyName !== "transform") return;
++    setRightPhase((p) => (p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p));
++  };
++
++  // Kas mõni kaart pole "front" faasis? → juhime tausta overlay’d
++  const anyBack = useMemo(() => {
++    const arr = [leftPhase, rightPhase];
++    return arr.some((p) => p === "back" || p === "flippingToBack" || p === "flippingToFront");
++  }, [leftPhase, rightPhase]);
+@@
+-      <div className="homepage-root" onClick={handleBackgroundTap}>
++      <div className="homepage-root" onClick={handleBackgroundTap}>
++        {/* TAUSTA BLUR OVERLAY (ei kaardi sees) */}
++        <div className="bg-blur-overlay" data-on={anyBack ? "false" : "true"} aria-hidden />
+@@
+-          <div className="side left">
++          <div className="side left">
+             <div
+-              className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
++              ref={left3DRef}
++              className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
+                 mobileFlipReady.left ? "mobile-flipped-left" : ""
+               }`}
+               onMouseEnter={onLeftEnter}
+               onMouseLeave={onLeftLeave}
+               onClick={handleCardTap("left")}
+             >
+-              <div className="card-wrapper">
++              <div className="card-wrapper" data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd}>
+@@
+-          <div className="side right">
++          <div className="side right">
+             <div
+-              className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
++              ref={right3DRef}
++              className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
+                 mobileFlipReady.right ? "mobile-flipped-right" : ""
+               }`}
+               onMouseEnter={onRightEnter}
+               onMouseLeave={onRightLeave}
+               onClick={handleCardTap("right")}
+             >
+-              <div className="card-wrapper">
++              <div className="card-wrapper" data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd}>
+*** End Patch

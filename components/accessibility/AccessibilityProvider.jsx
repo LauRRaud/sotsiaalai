@@ -1,30 +1,24 @@
 "use client";
-
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import AccessibilityModal from "./AccessibilityModal";
 import { useI18n } from "@/components/i18n/I18nProvider";
-
 const A11yContext = createContext(null);
-
 const DEFAULT_PREFS = {
   textScale: "md", // sm | md | lg | xl
   contrast: "normal", // normal | hc
   reduceMotion: false, // true | false
 };
-
 function getCookie(name) {
   if (typeof document === "undefined") return null;
   const v = document.cookie.split("; ").find((row) => row.startsWith(name + "="));
   return v ? decodeURIComponent(v.split("=")[1]) : null;
 }
-
 function setCookie(name, value, maxAgeSec = 60 * 60 * 24 * 365) {
   if (typeof document === "undefined") return;
   const encoded = encodeURIComponent(value);
   document.cookie = `${name}=${encoded}; path=/; max-age=${maxAgeSec}; SameSite=Lax`;
 }
-
 function readInitialPrefsFromDom() {
   if (typeof document === "undefined") return { ...DEFAULT_PREFS };
   const html = document.documentElement;
@@ -43,7 +37,6 @@ function readInitialPrefsFromDom() {
   }
   return fromDataset;
 }
-
 function applyPrefsToDom(prefs) {
   if (typeof document === "undefined") return;
   const html = document.documentElement;
@@ -51,7 +44,6 @@ function applyPrefsToDom(prefs) {
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
 }
-
 function AccessibilityProvider({ children }) {
   const [prefs, setPrefsState] = useState(DEFAULT_PREFS);
   const [open, setOpen] = useState(false);
@@ -61,7 +53,6 @@ function AccessibilityProvider({ children }) {
   const { t } = useI18n();
   const promptedOnceRef = useRef(false);
   const initialIsHomeRef = useRef(pathname === "/");
-
   // Initialize from cookie (preferred) or SSR dataset
   useEffect(() => {
     function fromCookie() {
@@ -77,12 +68,10 @@ function AccessibilityProvider({ children }) {
         return null;
       }
     }
-
     const cookiePrefs = fromCookie();
     const initial = cookiePrefs || readInitialPrefsFromDom();
     setPrefsState(initial);
     applyPrefsToDom(initial);
-
     // Auto-open only on Home ("/") and only if no cookie yet
     const hasCookie = !!cookiePrefs;
     if (!hasCookie && initialIsHomeRef.current) {
@@ -90,7 +79,6 @@ function AccessibilityProvider({ children }) {
       setTimeout(() => setOpen(true), 50);
     }
   }, []);
-
   // Re-check on route changes: open on first arrival to Home if no cookie
   useEffect(() => {
     const hasCookie = !!getCookie("a11y_prefs");
@@ -99,12 +87,10 @@ function AccessibilityProvider({ children }) {
       setOpen(true);
     }
   }, [pathname]);
-
   // Re-apply current prefs on route changes to keep attributes persistent
   useEffect(() => {
     applyPrefsToDom(prefs);
   }, [prefs, pathname]);
-
   const announce = useCallback((msg) => {
     if (!msg) return;
     if (typeof document === "undefined") return;
@@ -116,7 +102,6 @@ function AccessibilityProvider({ children }) {
       node.textContent = msg;
     }, 50);
   }, []);
-
   const setPrefs = useCallback((next) => {
     const merged = { ...DEFAULT_PREFS, ...prefs, ...next };
     setPrefsState(merged);
@@ -125,21 +110,17 @@ function AccessibilityProvider({ children }) {
     try { setCookie("a11y_prefs", JSON.stringify(merged)); } catch {}
     announce(t("profile.preferences.saved", "Eelistused salvestatud."));
   }, [prefs, announce, t]);
-
   const previewPrefs = useCallback((partial) => {
     const preview = { ...DEFAULT_PREFS, ...prefs, ...partial };
     applyPrefsToDom(preview);
   }, [prefs]);
-
   const resetPreview = useCallback(() => {
     applyPrefsToDom(prefs);
   }, [prefs]);
-
   const openModal = useCallback(() => {
     try { lastOpenerRef.current = document.activeElement; } catch {}
     setOpen(true);
   }, []);
-
   const closeModal = useCallback(() => {
     setOpen(false);
     resetPreview();
@@ -151,7 +132,6 @@ function AccessibilityProvider({ children }) {
       }
     }, 0);
   }, [resetPreview]);
-
   // While modal is open, lock background from SR and interaction
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -180,7 +160,6 @@ function AccessibilityProvider({ children }) {
       body.style.top = `-${scrollY}px`;
       body.style.width = "100%";
       body.style.touchAction = "none";
-
       return () => {
         if (main) {
           main.removeAttribute("aria-hidden");
@@ -202,7 +181,6 @@ function AccessibilityProvider({ children }) {
       };
     }
   }, [open]);
-
   const value = useMemo(() => ({
     prefs,
     setPrefs,
@@ -211,16 +189,12 @@ function AccessibilityProvider({ children }) {
     isModalOpen: open,
     announce,
   }), [prefs, setPrefs, openModal, closeModal, open, announce]);
-
   return (
     <A11yContext.Provider value={value}>
       {/* Püsiv "polite" live region väljade/teadete kuulutamiseks */}
       <div aria-live="polite" aria-atomic="true" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }} ref={liveRef} />
-
       {/* Ujuvat nuppu ei renderda enam üldlehtedel; nupp lisatakse eraldi profiili lehel */}
-
       {children}
-
       {/* Modaal: SSR-i väliselt, kliendis */}
       {open && (
         <AccessibilityModal
@@ -234,9 +208,7 @@ function AccessibilityProvider({ children }) {
     </A11yContext.Provider>
   );
 }
-
 export default AccessibilityProvider;
-
 export function useAccessibility() {
   const ctx = useContext(A11yContext);
   if (!ctx) throw new Error("useAccessibility must be used within AccessibilityProvider");

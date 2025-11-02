@@ -1,14 +1,11 @@
 // app/api/chat/conversations/route.js
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-
 /* ---------- tiny utils ---------- */
-
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -19,15 +16,12 @@ function json(data, status = 200) {
     },
   });
 }
-
 function normalizeRole(role) {
   const r = String(role || "CLIENT").toUpperCase().trim();
   if (r === "ADMIN") return "SOCIAL_WORKER"; // ADMIN mapitakse mudelis sotsiaaltöötajaks
   return r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT";
 }
-
 /* ---------- Auth loader ---------- */
-
 async function getAuthOptions() {
   // Püüa esmalt NextAuth klassikaline asukoht
   try {
@@ -43,7 +37,6 @@ async function getAuthOptions() {
     }
   }
 }
-
 async function requireUser() {
   try {
     const { getServerSession } = await import("next-auth/next");
@@ -62,9 +55,7 @@ async function requireUser() {
     return { ok: false, status: 401, message: "Unauthorized" };
   }
 }
-
 /* ---------- Cursor helpers (epochMs:id) ---------- */
-
 function encodeCursor(d, id) {
   try {
     const ms = d instanceof Date ? d.getTime() : Number(new Date(d).getTime());
@@ -74,7 +65,6 @@ function encodeCursor(d, id) {
     return null;
   }
 }
-
 function parseCursor(cur) {
   if (!cur || typeof cur !== "string") return null;
   const [msStr, id] = cur.split(":");
@@ -84,9 +74,7 @@ function parseCursor(cur) {
   if (Number.isNaN(date.getTime())) return null;
   return { date, id };
 }
-
 /* ---------- Prisma error guard ---------- */
-
 function isDbOffline(err) {
   return (
     err?.code === "P1001" || // Can't reach database server
@@ -95,7 +83,6 @@ function isDbOffline(err) {
     err?.name === "PrismaClientRustPanicError"
   );
 }
-
 /* =========================================================================
    GET: pagineeritud nimekiri (v.a. DELETED)
    Query:
@@ -103,30 +90,24 @@ function isDbOffline(err) {
      - cursor: "epochMs:id"
      - role: CLIENT | SOCIAL_WORKER | ADMIN (valikuline filter – ADMIN->SOCIAL_WORKER)
    ========================================================================= */
-
 export async function GET(req) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || 20);
   const limit = Math.max(1, Math.min(50, Number.isFinite(limitParam) ? limitParam : 20));
   const cursorToken = url.searchParams.get("cursor");
   const parsed = parseCursor(cursorToken);
-
   const roleParam = url.searchParams.get("role");
   const roleFilter = roleParam ? normalizeRole(roleParam) : null;
-
   // page-size + 1, et tuvastada kas on nextCursor
   const take = limit + 1;
-
   try {
     const baseWhere = {
       userId: auth.userId,
       NOT: { status: "DELETED" },
       ...(roleFilter ? { role: roleFilter } : {}),
     };
-
     // Kursori loogika: sort on (updatedAt desc, id desc).
     // Järgmise lehe jaoks võtame ridu, mille (updatedAt,id) < kursori (lexicographic desc).
     const where = parsed
@@ -142,7 +123,6 @@ export async function GET(req) {
           ],
         }
       : baseWhere;
-
     const rows = await prisma.conversationRun.findMany({
       where,
       orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
@@ -155,10 +135,8 @@ export async function GET(req) {
         role: true,
       },
     });
-
     const hasMore = rows.length > limit;
     const pageRows = hasMore ? rows.slice(0, limit) : rows;
-
     const items = pageRows.map((r) => {
       const preview = (r.text || "").trim().slice(0, 120);
       return {
@@ -170,10 +148,8 @@ export async function GET(req) {
         preview,
       };
     });
-
     const last = pageRows.at(-1);
     const nextCursor = hasMore && last ? encodeCursor(last.updatedAt, last.id) : null;
-
     return json({ ok: true, conversations: items, nextCursor });
   } catch (err) {
     console.error("[chat/conversations GET] failed", err);
@@ -193,28 +169,23 @@ export async function GET(req) {
     );
   }
 }
-
 /* =========================================================================
    POST: loo/registreeri (idempotent) vestlus
    Body: { id?: string, role?: "CLIENT"|"SOCIAL_WORKER"|"ADMIN" }
    - Kui id puudub, luuakse serveris UUID (fallbackina timestamp).
    - ADMIN normaliseeritakse SOCIAL_WORKER-iks.
    ========================================================================= */
-
 export async function POST(req) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-
   let body;
   try {
     body = await req.json();
   } catch {
     body = {};
   }
-
   let convId = String(body?.id || "").trim();
   const role = normalizeRole(body?.role);
-
   if (!convId) {
     try {
       const { randomUUID } = await import("node:crypto");
@@ -223,7 +194,6 @@ export async function POST(req) {
       convId = String(Date.now());
     }
   }
-
   try {
     const row = await prisma.conversationRun.upsert({
       where: { id: convId },
@@ -242,7 +212,6 @@ export async function POST(req) {
       },
       select: { id: true, updatedAt: true, status: true, role: true, text: true },
     });
-
     return json({
       ok: true,
       conversation: {

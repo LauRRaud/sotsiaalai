@@ -7,13 +7,11 @@ import { authConfig } from "@/auth";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
 import { localizePath } from "@/lib/localizePath";
-
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
   const messages = getMessagesSync(locale);
   const meta = messages?.meta?.start || {};
-
   return buildLocalizedMetadata({
     locale,
     pathname: "/start",
@@ -21,7 +19,6 @@ export async function generateMetadata() {
     description: meta.description || "",
   });
 }
-
 const cardStyle = {
   display: "block",
   padding: "1.5rem",
@@ -32,7 +29,6 @@ const cardStyle = {
   textDecoration: "none",
   transition: "transform 0.2s ease, border-color 0.2s ease",
 };
-
 function StartCard({ href, title, children }) {
   return (
     <Link href={href} style={cardStyle}>
@@ -41,7 +37,6 @@ function StartCard({ href, title, children }) {
     </Link>
   );
 }
-
 export default async function StartPage() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -49,18 +44,14 @@ export default async function StartPage() {
   const messages = getMessagesSync(locale);
   const startCopy = messages?.start || {};
   const cards = startCopy.cards || {};
-
   if (!session?.user) {
     redirect(localizePath("/registreerimine?reason=not-logged-in", locale));
   }
-
   const role = session.user.role || (session.user.isAdmin ? "ADMIN" : null);
-
   // mitte-adminid suuname otse vestlusesse
   if (role !== "ADMIN") {
     redirect(localizePath("/vestlus", locale));
   }
-
   return (
     <div
       className="main-content glass-box glass-left"
@@ -73,7 +64,6 @@ export default async function StartPage() {
       <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
         {startCopy.lead || "Vali, millise tööriistaga jätkad."}
       </p>
-
       <div
         style={{
           display: "grid",

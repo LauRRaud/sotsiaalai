@@ -1,8 +1,6 @@
 // components/Space.jsx — desktop: fog+grain; mobile: gradient only (dark-only)
 "use client";
-
 import { useEffect, useState } from "react";
-
 export default function Space({
   palette,
   allowMobileCustom = false,
@@ -35,25 +33,19 @@ export default function Space({
       "rgba(150,160,180,0.22)",
     ],
   };
-
   // Mobiil: lukusta gradient tumedale sinakas toonile (sama tipp, veidi heledam põhi)
   const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: PRESET.palette.baseBottom };
-
   const isMobile = useIsMobile(); // ≤768px
   const hasFullCustom = !!(palette && palette.baseTop && palette.baseBottom);
-
   const pal = isMobile
     ? (allowMobileCustom && hasFullCustom ? palette : MOBILE_LOCK)
     : { ...PRESET.palette, ...(palette || {}) };
-
   const inten = intensity ?? PRESET.intensity;
   const fogStr = clamp(fogStrength ?? PRESET.fogStrength, 0, 0.7);
   const [fogStop0, fogStop1] = PRESET.fogInnerRGBA(0.9);
-
   const shouldRenderFog = fog && !isMobile;
   const shouldRenderGrain = grain && !isMobile;
   const animateFogEff = shouldRenderFog && !!(animateFog && !skipIntro);
-
   return (
     <div
       className="space-backdrop"
@@ -86,7 +78,6 @@ export default function Space({
         ) : (
           <SvgGrainOverlay />
         ))}
-
       <style jsx global>{`
         .space-backdrop {
           position: fixed;
@@ -97,7 +88,6 @@ export default function Space({
           isolation: isolate;
           background: linear-gradient(180deg, var(--baseTop) 0%, var(--baseBottom) 100%);
         }
-
         .space-backdrop::before {
           content: "";
           position: absolute;
@@ -106,7 +96,6 @@ export default function Space({
           opacity: 0;
           transition: opacity 0.6s ease;
         }
-
         .space-backdrop[data-viewport="mobile"]::before {
           opacity: 1;
           background:
@@ -116,12 +105,10 @@ export default function Space({
           mix-blend-mode: screen;
           filter: saturate(0.94);
         }
-
         .space-backdrop[data-viewport="desktop"]::before {
           opacity: 0;
           background: none;
         }
-
         /* === FOG === */
         .fog {
           position: absolute;
@@ -148,7 +135,6 @@ export default function Space({
           85% { opacity: calc(var(--fogOpacity) * 0.75); }
           100% { opacity: var(--fogOpacity); }
         }
-
         .fog-blob {
           position: absolute;
           top: 30%;
@@ -170,7 +156,6 @@ export default function Space({
         }
         .fb1 { left: calc(50% - var(--fogSpread)); }
         .fb3 { left: calc(50% + var(--fogSpread)); }
-
         /* === GRAIN === */
         .sb-grain {
           position: absolute;
@@ -189,7 +174,6 @@ export default function Space({
           background-repeat: repeat;
           background-size: auto;
         }
-
         /* Mobiilis: ainult gradient */
         @media (max-width: 768px) {
           .fog,
@@ -199,7 +183,6 @@ export default function Space({
     </div>
   );
 }
-
 /* ------- kihid ------- */
 function FogLayer({ animateFog }) {
   return (
@@ -209,7 +192,6 @@ function FogLayer({ animateFog }) {
     </div>
   );
 }
-
 function BitmapGrainOverlay({ noiseUrl }) {
   return (
     <div
@@ -219,7 +201,6 @@ function BitmapGrainOverlay({ noiseUrl }) {
     />
   );
 }
-
 function SvgGrainOverlay() {
   return (
     <div className="sb-grain" aria-hidden>
@@ -233,10 +214,8 @@ function SvgGrainOverlay() {
     </div>
   );
 }
-
 /* ------- utils ------- */
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-
 /* ------- hooks ------- */
 function useIsMobile() {
   const [mobile, setMobile] = useState(false);

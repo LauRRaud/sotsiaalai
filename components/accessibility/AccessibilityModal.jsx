@@ -1,29 +1,24 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import FancyRadio from "@/components/ui/FancyRadio";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
-
 export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, onPreviewEnd }) {
   const boxRef = useRef(null);
   const firstFocusRef = useRef(null);
   const { t, locale, setLocale, setMessages } = useI18n();
   const router = useRouter();
-
   const [textScale, setTextScale] = useState(prefs.textScale || "md");
   const [contrast, setContrast] = useState(prefs.contrast || "normal");
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
   const [lang, setLang] = useState(locale || "et");
-
   // Sync local state when modal opens with fresh prefs
   useEffect(() => {
     setTextScale(prefs.textScale || "md");
     setContrast(prefs.contrast || "normal");
     setReduceMotion(!!prefs.reduceMotion);
   }, [prefs]);
-
   // Focus trap + ESC close
   useEffect(() => {
     const onKey = (e) => {
@@ -52,14 +47,11 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
-
   // Autofocus first control on mount
   useEffect(() => {
     firstFocusRef.current?.focus?.();
   }, []);
-
   const stopInside = (e) => e.stopPropagation();
-
   const save = async () => {
     onSave?.({ textScale, contrast, reduceMotion });
     // Change language if needed: update cookie + client messages immediately, then refresh SSR
@@ -85,20 +77,16 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
     onPreviewEnd?.();
     onClose?.();
   };
-
   useEffect(() => {
     onPreview?.({ textScale, contrast, reduceMotion });
   }, [textScale, contrast, reduceMotion, onPreview]);
-
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);
-
   return (
     <>
       {/* Backdrop */}
       <div className="a11y-modal-backdrop" onClick={onClose} role="presentation" aria-hidden="true" />
-
       {/* Modal */}
       <div
         ref={boxRef}
@@ -113,14 +101,12 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         <button type="button" className="a11y-close" aria-label={t("buttons.close")} onClick={onClose}>
           ×
         </button>
-
         <h2 id="a11y-title" className="glass-title a11y-title" style={{ marginBottom: ".25rem" }}>
           {t("profile.preferences.title")}
         </h2>
         <p id="a11y-desc" className="glass-note a11y-desc" style={{ marginBottom: ".75rem" }}>
           {t("accessibility.description")}
         </p>
-
         {/* Keel */}
         <fieldset className="a11y-fieldset">
           <legend className="glass-label a11y-legend"><strong>{t("accessibility.language")}</strong></legend>
@@ -130,7 +116,6 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
             <FancyRadio id="lg-en" name="lg" value="en" label={t("accessibility.options.language.en")} checked={lang === "en"} onChange={() => setLang("en")} />
           </div>
         </fieldset>
-
         {/* Teksti suurus */}
         <fieldset className="a11y-fieldset">
           <legend className="glass-label a11y-legend"><strong>{t("accessibility.text_scale")}</strong></legend>
@@ -141,7 +126,6 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
             <FancyRadio id="ts-xl" name="ts" value="xl" label={t("accessibility.options.text_scale.xl")} checked={textScale === "xl"} onChange={() => setTextScale("xl")} />
           </div>
         </fieldset>
-
         {/* Kontrast */}
         <fieldset className="a11y-fieldset">
           <legend className="glass-label a11y-legend"><strong>{t("accessibility.contrast")}</strong></legend>
@@ -150,7 +134,6 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
             <FancyRadio id="ct-hc" name="ct" value="hc" label={t("accessibility.options.contrast.hc")} checked={contrast === "hc"} onChange={() => setContrast("hc")} />
           </div>
         </fieldset>
-
         {/* Liikumine */}
         <fieldset className="a11y-fieldset">
           <legend className="glass-label a11y-legend"><strong>{t("accessibility.motion")}</strong></legend>
@@ -160,7 +143,6 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
             onChange={(v) => setReduceMotion(v)}
           />
         </fieldset>
-
         <div className="a11y-actions">
           <button type="button" className="btn-primary" onClick={save} aria-label={t("accessibility.save")}>
             {t("accessibility.save")}

@@ -1,63 +1,50 @@
 "use client";
-
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
-
 /* ---------- Konstandid & sildid ---------- */
-
 const STATUS_LABELS = {
   PENDING: "Ootel",
   PROCESSING: "Töötlemisel",
   COMPLETED: "Valmis",
   FAILED: "Ebaõnnestus",
 };
-
 const STATUS_STYLES = {
   PENDING: { backgroundColor: "rgba(255, 215, 0, 0.16)", color: "#d4a200" },
   PROCESSING: { backgroundColor: "rgba(0, 153, 255, 0.16)", color: "#48a6ff" },
   COMPLETED: { backgroundColor: "rgba(46, 204, 113, 0.16)", color: "#58d68d" },
   FAILED: { backgroundColor: "rgba(231, 76, 60, 0.16)", color: "#ff8a8a" },
 };
-
 const TYPE_LABELS = { FILE: "Fail", URL: "URL" };
-
 const AUDIENCE_OPTIONS = [
   { value: "SOCIAL_WORKER", label: "Sotsiaaltöö spetsialist" },
   { value: "CLIENT", label: "Eluküsimusega pöörduja" },
   { value: "BOTH", label: "Mõlemad" },
 ];
-
 const AUDIENCE_LABELS = {
   SOCIAL_WORKER: "Sotsiaaltöö spetsialist",
   CLIENT: "Eluküsimusega pöörduja",
   BOTH: "Mõlemad",
 };
-
 const DOC_KIND_OPTIONS = [
   { value: "NORMAL", label: "Tavaline dokument" },
   { value: "MAGAZINE", label: "Ajakiri (artiklite kaupa)" },
 ];
-
 /* ---------- Avalikud .env sätted ---------- */
-
 const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
 const RAW_ALLOWED_MIME = String(
   process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
     "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 );
-
 // Pollingu intervall (ms)
 const DEFAULT_POLL_MS = 15000;
 const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
-
 // puhastame ja teeme komplekti kiireks võrdlemiseks
 const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",")
   .map((s) => s.trim())
   .filter(Boolean);
 const ALLOWED_MIME_SET = new Set(ALLOWED_MIME_LIST);
-
 // püüame tuletada `accept` atribuudi (lisame ka levinud laiendid)
 const ACCEPT_ATTR = [
   ...new Set(
@@ -73,9 +60,7 @@ const ACCEPT_ATTR = [
     })
   ),
 ].join(",");
-
 /* ---------- Abifunktsioonid ---------- */
-
 function formatBytes(bytes) {
   if (bytes === 0) return "0 B";
   if (!bytes || Number.isNaN(bytes)) return "-";
@@ -84,7 +69,6 @@ function formatBytes(bytes) {
   const val = bytes / Math.pow(1024, i);
   return `${val.toFixed(val >= 10 || i === 0 ? 0 : 1)} ${units[i]}`;
 }
-
 function formatDateTime(value) {
   if (!value) return "-";
   try {
@@ -96,7 +80,6 @@ function formatDateTime(value) {
     return Number.isNaN(d.getTime()) ? "-" : d.toLocaleString();
   }
 }
-
 function statusBadgeStyle(status) {
   return (
     STATUS_STYLES[status] || {
@@ -105,14 +88,12 @@ function statusBadgeStyle(status) {
     }
   );
 }
-
 function deriveStatus(doc) {
   return doc && doc.status ? doc.status : "COMPLETED";
 }
 function deriveSyncedAt(doc) {
   return doc?.insertedAt || doc?.lastIngested || doc?.updatedAt || doc?.createdAt || null;
 }
-
 function splitAuthors(input) {
   if (!input) return [];
   return input
@@ -121,9 +102,7 @@ function splitAuthors(input) {
     .filter(Boolean)
     .slice(0, 12);
 }
-
 /* ---------- Komponent ---------- */
-
 export default function RagAdminPanel() {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -132,13 +111,11 @@ export default function RagAdminPanel() {
   const [message, setMessage] = useState(null);
   const [selftestBusy, setSelftestBusy] = useState(false);
   const [selftestSteps, setSelftestSteps] = useState(null);
-
   // fail
   const [fileBusy, setFileBusy] = useState(false);
   const [fileInfo, setFileInfo] = useState({ name: "", size: 0, type: "" });
   const [fileAudience, setFileAudience] = useState("BOTH");
   const [docKind, setDocKind] = useState("NORMAL");
-
   // ajakirja meta (faili uploadi ajal)
   const [journalTitle, setJournalTitle] = useState("");
   const [issueLabel, setIssueLabel] = useState("");
@@ -146,33 +123,26 @@ export default function RagAdminPanel() {
   const [section, setSection] = useState("");
   const [authors, setAuthors] = useState("");
   const [pageRange, setPageRange] = useState("");
-
   // pärast ajakirja PDF uploadi
   const [lastUploadedDocId, setLastUploadedDocId] = useState(null); // RAG remoteId!
   const [lastUploadedFileName, setLastUploadedFileName] = useState(null);
-
   // artiklite koostaja
   const [articleOffset, setArticleOffset] = useState(""); // nt "2"
   const [drafts, setDrafts] = useState([]);
   const [articlesBusy, setArticlesBusy] = useState(false);
-
   // url
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlAudience, setUrlAudience] = useState("BOTH");
   const [urlTitle, setUrlTitle] = useState("");
   const [urlDescription, setUrlDescription] = useState("");
-
   // tegevused
   const [reindexingId, setReindexingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
-
   const fileFormRef = useRef(null);
   const fileInputRef = useRef(null);
   const urlFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
-
   /* ----- localStorage püsivus (ajakirja seanss + docKind) ----- */
-
   // loe seanss mountimisel
   useEffect(() => {
     try {
@@ -184,7 +154,6 @@ export default function RagAdminPanel() {
       if (savedKind && (savedKind === "NORMAL" || savedKind === "MAGAZINE")) setDocKind(savedKind);
     } catch {}
   }, []);
-
   // kirjuta seanss muutustel
   useEffect(() => {
     try {
@@ -195,13 +164,11 @@ export default function RagAdminPanel() {
       else localStorage.removeItem("rag.magazine.lastFileName");
     } catch {}
   }, [lastUploadedDocId, lastUploadedFileName]);
-
   useEffect(() => {
     try {
       localStorage.setItem("rag.docKind", String(docKind));
     } catch {}
   }, [docKind]);
-
   const endMagazineSession = useCallback(() => {
     setLastUploadedDocId(null);
     setLastUploadedFileName(null);
@@ -210,9 +177,7 @@ export default function RagAdminPanel() {
       localStorage.removeItem("rag.magazine.lastFileName");
     } catch {}
   }, []);
-
   /* ----- utils ----- */
-
   const resetMessage = useCallback(() => setMessage(null), []);
   const getAudienceLabel = useCallback(
     (value) => AUDIENCE_LABELS[value] || (value ? value : "-"),
@@ -220,7 +185,6 @@ export default function RagAdminPanel() {
   );
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
-
   const fetchDocuments = useCallback(async () => {
     fetchAbortRef.current?.abort?.();
     const ac = new AbortController();
@@ -239,7 +203,6 @@ export default function RagAdminPanel() {
         throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
       }
       if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
-
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data?.documents)
@@ -256,7 +219,6 @@ export default function RagAdminPanel() {
       setLoadingList(false);
     }
   }, [showError]);
-
   const runSelftest = useCallback(async () => {
     if (selftestBusy) return;
     setSelftestBusy(true);
@@ -280,24 +242,19 @@ export default function RagAdminPanel() {
       setSelftestBusy(false);
     }
   }, [selftestBusy, fetchDocuments]);
-
   const canReindex = useCallback((doc) => {
     const st = deriveStatus(doc);
     return st === "COMPLETED" || st === "FAILED";
   }, []);
-
   const canDelete = useCallback((doc) => {
     const st = deriveStatus(doc);
     return st === "COMPLETED" || st === "FAILED" || !doc?.status;
   }, []);
-
   /* ----- laadimine + automaatne värskendus ----- */
-
   useEffect(() => {
     fetchDocuments();
     return () => fetchAbortRef.current?.abort?.();
   }, [fetchDocuments]);
-
   // Kui on PENDING/PROCESSING, värskenda intervalliga (POLL_MS)
   useEffect(() => {
     const hasWork = docs.some((d) => {
@@ -305,7 +262,6 @@ export default function RagAdminPanel() {
       return st === "PENDING" || st === "PROCESSING";
     });
     if (!hasWork) return;
-
     let timer = null;
     const start = () => {
       if (!document.hidden && !timer) {
@@ -323,7 +279,6 @@ export default function RagAdminPanel() {
       if (document.hidden) stop();
       else start();
     };
-
     start();
     document.addEventListener("visibilitychange", onVis);
     return () => {
@@ -331,9 +286,7 @@ export default function RagAdminPanel() {
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [docs, fetchDocuments]);
-
   /* ----- faililaadimine ----- */
-
   const onFileChange = useCallback(
     (event) => {
       resetMessage();
@@ -350,7 +303,6 @@ export default function RagAdminPanel() {
     },
     [resetMessage]
   );
-
   function validateFileBeforeUpload(file) {
     const maxBytes = MAX_UPLOAD_MB * 1024 * 1024;
     if (file.size > maxBytes) {
@@ -360,36 +312,30 @@ export default function RagAdminPanel() {
     }
     // MIME kontroll leebe — brauseri accept juba filtreerib; server teeb lõpliku kontrolli
   }
-
   const handleFileSubmit = useCallback(
     async (event) => {
       event.preventDefault();
       resetMessage();
-
       const fileInput = fileInputRef.current;
       const file = fileInput?.files?.[0];
       if (!file) {
         showError("Vali fail enne saatmist.");
         return;
       }
-
       try {
         validateFileBeforeUpload(file);
       } catch (err) {
         showError(err.message);
         return;
       }
-
       const form = event.currentTarget;
       const formData = new FormData();
       formData.append("file", file);
-
       const title = form.title?.value?.trim();
       const description = form.description?.value?.trim();
       if (title) formData.append("title", title);
       if (description) formData.append("description", description);
       formData.append("audience", fileAudience);
-
       // lisa ajakirja meta — need on backendis toetatud
       if (journalTitle.trim()) formData.append("journalTitle", journalTitle.trim());
       if (issueLabel.trim()) formData.append("issueLabel", issueLabel.trim());
@@ -397,28 +343,23 @@ export default function RagAdminPanel() {
       if (section.trim()) formData.append("section", section.trim());
       if (authors.trim()) formData.append("authors", authors.trim());
       if (pageRange.trim()) formData.append("pageRange", pageRange.trim());
-
       setFileBusy(true);
       try {
         const res = await fetch("/api/rag/upload", { method: "POST", body: formData });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
-
         if (!res.ok) {
           if (res.status === 413) throw new Error("Fail on liiga suur serveri jaoks (413).");
           if (res.status === 415) throw new Error("Faili tüüp pole lubatud (415).");
           throw new Error(data?.message || "Faili laadimine ebaõnnestus.");
         }
-
         showOk("Fail saadeti RAG andmebaasi.");
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
-
         // kasuta remoteId-d (või id fallbackina)
         const remoteId = data?.doc?.remoteId ?? null;
         const fallbackId = data?.doc?.id ?? null;
         const useId = remoteId || fallbackId;
-
         if (docKind === "MAGAZINE") {
           setLastUploadedDocId(useId);
           setLastUploadedFileName(file.name || null);
@@ -429,7 +370,6 @@ export default function RagAdminPanel() {
         } else {
           endMagazineSession();
         }
-
         form.reset();
         await fetchDocuments();
       } catch (err) {
@@ -454,9 +394,7 @@ export default function RagAdminPanel() {
       endMagazineSession,
     ]
   );
-
   /* ----- URL lisamine ----- */
-
   const handleUrlSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -467,11 +405,9 @@ export default function RagAdminPanel() {
         showError("Sisesta URL.");
         return;
       }
-
       const payload = { url: urlValue, audience: urlAudience };
       if (urlTitle.trim()) payload.title = urlTitle.trim();
       if (urlDescription.trim()) payload.description = urlDescription.trim();
-
       setUrlBusy(true);
       try {
         const res = await fetch("/api/rag/ingest/url", {
@@ -484,7 +420,6 @@ export default function RagAdminPanel() {
         if (!res.ok) {
           throw new Error(data?.message || "URL lisamine ebaõnnestus.");
         }
-
         showOk("URL saadeti RAG andmebaasi.");
         setUrlAudience("BOTH");
         setUrlTitle("");
@@ -499,9 +434,7 @@ export default function RagAdminPanel() {
     },
     [fetchDocuments, resetMessage, urlAudience, showError, showOk, urlTitle, urlDescription]
   );
-
   /* ----- Taasingestus / kustutus ----- */
-
   const handleReindex = useCallback(
     async (docId) => {
       resetMessage();
@@ -524,7 +457,6 @@ export default function RagAdminPanel() {
     },
     [fetchDocuments, resetMessage, showError, showOk]
   );
-
   const handleDelete = useCallback(
     async (docId) => {
       resetMessage();
@@ -546,39 +478,31 @@ export default function RagAdminPanel() {
     },
     [resetMessage, showOk, showError]
   );
-
   const manualRefresh = useCallback(() => {
     resetMessage();
     fetchDocuments();
   }, [fetchDocuments, resetMessage]);
-
   const fileHint = useMemo(() => {
     if (!fileInfo.name) return "Valitud faili ei ole.";
     return `${fileInfo.name} (${formatBytes(fileInfo.size)}${
       fileInfo.type ? `, ${fileInfo.type}` : ""
     })`;
   }, [fileInfo]);
-
   /* ----- Artiklite koostaja (ajakirja workflow) ----- */
-
   const addDraft = useCallback(() => {
     setDrafts((prev) => [
       ...prev,
       { title: "", authors: "", section: "", pageRange: "", audience: fileAudience },
     ]);
   }, [fileAudience]);
-
   const updateDraft = useCallback((idx, patch) => {
     setDrafts((prev) => prev.map((d, i) => (i === idx ? { ...d, ...patch } : d)));
   }, []);
-
   const removeDraft = useCallback((idx) => {
     setDrafts((prev) => prev.filter((_, i) => i !== idx));
   }, []);
-
   const ingestArticles = useCallback(async () => {
     resetMessage();
-
     if (!lastUploadedDocId) {
       showError("Ajakirja PDF puudub või upload ei andnud docId-d.");
       return;
@@ -587,13 +511,11 @@ export default function RagAdminPanel() {
       showError("Lisa vähemalt üks artikkel.");
       return;
     }
-
     const offsetNum = articleOffset.trim() ? Number(articleOffset.trim()) : null;
     if (articleOffset.trim() && Number.isNaN(offsetNum)) {
       showError("Offset peab olema täisarv (nt 2).");
       return;
     }
-
     const payload = {
       docId: lastUploadedDocId,
       articles: drafts.map((d) => {
@@ -624,7 +546,6 @@ export default function RagAdminPanel() {
         return obj;
       }),
     };
-
     setArticlesBusy(true);
     try {
       const res = await fetch("/api/rag/ingest/articles", {
@@ -661,9 +582,7 @@ export default function RagAdminPanel() {
     issueLabel,
     fileAudience,
   ]);
-
   /* ---------- UI ---------- */
-
   return (
     <section
       id="rag-admin"
@@ -713,7 +632,6 @@ export default function RagAdminPanel() {
           </div>
         ) : null}
       </div>
-
       {message && (
         <div
           role="status"
@@ -734,7 +652,6 @@ export default function RagAdminPanel() {
           {message.text}
         </div>
       )}
-
       <div
         style={{
           display: "grid",
@@ -768,7 +685,6 @@ export default function RagAdminPanel() {
               </button>
             )}
           </div>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Dokumendi tüüp *</span>
             <select
@@ -790,7 +706,6 @@ export default function RagAdminPanel() {
               ))}
             </select>
           </label>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Pealkiri</span>
             <input
@@ -806,7 +721,6 @@ export default function RagAdminPanel() {
               }}
             />
           </label>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Kirjeldus</span>
             <textarea
@@ -823,7 +737,6 @@ export default function RagAdminPanel() {
               }}
             />
           </label>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Sihtgrupp *</span>
             <select
@@ -845,7 +758,6 @@ export default function RagAdminPanel() {
               ))}
             </select>
           </label>
-
           {/* Ajakirja täiendavad väljad (valikuline, kuid kasulik artiklite jaoks) */}
           {docKind === "MAGAZINE" && (
             <div
@@ -859,7 +771,6 @@ export default function RagAdminPanel() {
               <div style={{ fontSize: "0.88rem", opacity: 0.85, fontWeight: 600 }}>
                 Ajakirja meta (valikuline, kuid soovituslik)
               </div>
-
               <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
                 <span>Ajakiri (journalTitle)</span>
                 <input
@@ -870,7 +781,6 @@ export default function RagAdminPanel() {
                   style={inputStyle()}
                 />
               </label>
-
               <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr 1fr" }}>
                 <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
                   <span>Väljalase (issueLabel)</span>
@@ -894,7 +804,6 @@ export default function RagAdminPanel() {
                   />
                 </label>
               </div>
-
               <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr 1fr" }}>
                 <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
                   <span>Rubriik (section)</span>
@@ -917,7 +826,6 @@ export default function RagAdminPanel() {
                   />
                 </label>
               </div>
-
               <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
                 <span>Lehekülgede vahemik (pageRange)</span>
                 <input
@@ -930,7 +838,6 @@ export default function RagAdminPanel() {
               </label>
             </div>
           )}
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Fail *</span>
             <input
@@ -950,12 +857,10 @@ export default function RagAdminPanel() {
             />
             <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>{fileHint}</span>
           </label>
-
           <button type="submit" disabled={fileBusy} style={ctaStyle(fileBusy, "#7757ff", "#9b6dff")}>
             {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
           </button>
         </form>
-
         {/* --- URL-i vorm --- */}
         <form
           ref={urlFormRef}
@@ -975,12 +880,10 @@ export default function RagAdminPanel() {
               Sisesta URL, mida RAG süsteem peaks roomama ja lisama.
             </p>
           </div>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>URL *</span>
             <input name="url" type="url" required placeholder="https://..." style={inputStyle()} />
           </label>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Pealkiri</span>
             <input
@@ -992,7 +895,6 @@ export default function RagAdminPanel() {
               style={inputStyle()}
             />
           </label>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Kirjeldus</span>
             <textarea
@@ -1004,7 +906,6 @@ export default function RagAdminPanel() {
               style={{ ...inputStyle(), resize: "vertical" }}
             />
           </label>
-
           <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
             <span>Sihtgrupp *</span>
             <select
@@ -1020,13 +921,11 @@ export default function RagAdminPanel() {
               ))}
             </select>
           </label>
-
           <button type="submit" disabled={urlBusy} style={ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6")}>
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
           </button>
         </form>
       </div>
-
       {/* --- Artiklite koostaja (kuvatakse kui ajakirja upload õnnestus) --- */}
       {docKind === "MAGAZINE" && lastUploadedDocId && (
         <div
@@ -1051,7 +950,6 @@ export default function RagAdminPanel() {
               Lisa artikkel
             </button>
           </div>
-
           <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr" }}>
             <div
               style={{
@@ -1103,7 +1001,6 @@ export default function RagAdminPanel() {
                 />
               </label>
             </div>
-
             {drafts.length === 0 ? (
               <p style={{ fontSize: "0.9rem", opacity: 0.8, marginTop: "0.5rem" }}>
                 Lisa vähemalt üks artikkel.
@@ -1136,7 +1033,6 @@ export default function RagAdminPanel() {
                         Eemalda
                       </button>
                     </div>
-
                     <div
                       style={{
                         display: "grid",
@@ -1221,7 +1117,6 @@ export default function RagAdminPanel() {
                         </select>
                       </label>
                     </div>
-
                     <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
                       <span>Kirjeldus</span>
                       <textarea
@@ -1236,7 +1131,6 @@ export default function RagAdminPanel() {
                 ))}
               </ul>
             )}
-
             <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end" }}>
               <button type="button" onClick={addDraft} style={smallGhostBtn()}>
                 Lisa artikkel
@@ -1253,7 +1147,6 @@ export default function RagAdminPanel() {
           </div>
         </div>
       )}
-
       {/* --- loetelu --- */}
       <div style={{ display: "grid", gap: "0.75rem" }}>
         <div
@@ -1284,7 +1177,6 @@ export default function RagAdminPanel() {
             {loadingList ? "Laen..." : "Värskenda"}
           </button>
         </div>
-
         {loadingList ? (
           <p style={{ fontSize: "0.9rem", opacity: 0.75 }}>Laen andmeid...</p>
         ) : docs.length === 0 ? (
@@ -1307,7 +1199,6 @@ export default function RagAdminPanel() {
               const deletable = canDelete(doc);
               const reindexable = canReindex(doc);
               const syncedAt = deriveSyncedAt(doc);
-
               return (
                 <li
                   key={doc.id}
@@ -1371,7 +1262,6 @@ export default function RagAdminPanel() {
                       {statusLabel}
                     </span>
                   </div>
-
                   <dl
                     style={{
                       display: "grid",
@@ -1503,13 +1393,11 @@ export default function RagAdminPanel() {
                       </div>
                     ) : null}
                   </dl>
-
                   {doc.error && (
                     <p style={{ margin: 0, fontSize: "0.88rem", color: "#ff9c9c" }}>
                       {doc.error}
                     </p>
                   )}
-
                   <div
                     style={{
                       display: "flex",
@@ -1532,7 +1420,6 @@ export default function RagAdminPanel() {
                     >
                       {reindexingId === doc.id ? "Töötlen..." : "Taasindekseerin"}
                     </button>
-
                     {deletable && (
                       <button
                         type="button"
@@ -1544,7 +1431,6 @@ export default function RagAdminPanel() {
                         {deletingId === doc.id ? "Kustutan..." : "Kustuta"}
                       </button>
                     )}
-
                     {syncedAt && (
                       <span style={{ fontSize: "0.78rem", opacity: 0.65 }}>
                         Sünkroonitud: {formatDateTime(syncedAt)}
@@ -1557,7 +1443,6 @@ export default function RagAdminPanel() {
           </ul>
         )}
       </div>
-
       <div className="chat-footer">
         <div className="back-btn-wrapper">
           <button
@@ -1573,9 +1458,7 @@ export default function RagAdminPanel() {
     </section>
   );
 }
-
 /* ---------- stiili helperid ---------- */
-
 function inputStyle() {
   return {
     padding: "0.55rem 0.65rem",
@@ -1585,7 +1468,6 @@ function inputStyle() {
     color: "#f3f6ff",
   };
 }
-
 function ctaStyle(busy, c1, c2) {
   return {
     padding: "0.6rem 0.9rem",
@@ -1599,7 +1481,6 @@ function ctaStyle(busy, c1, c2) {
     opacity: busy ? 0.7 : 1,
   };
 }
-
 function smallGhostBtn() {
   return {
     padding: "0.45rem 0.9rem",
@@ -1611,7 +1492,6 @@ function smallGhostBtn() {
     cursor: "pointer",
   };
 }
-
 function smallDangerBtn() {
   return {
     padding: "0.35rem 0.7rem",
@@ -1623,7 +1503,6 @@ function smallDangerBtn() {
     cursor: "pointer",
   };
 }
-
 function ghostBtn(busy) {
   return {
     padding: "0.45rem 0.9rem",
@@ -1636,7 +1515,6 @@ function ghostBtn(busy) {
     opacity: busy ? 0.7 : 1,
   };
 }
-
 function dangerGhostBtn(busy) {
   return {
     padding: "0.45rem 0.9rem",

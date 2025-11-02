@@ -1,8 +1,6 @@
 "use client";
-
 import React, { forwardRef } from "react";
 import styled from "styled-components";
-
 const Label = styled.label`
   display: inline-flex;
   align-items: center;
@@ -11,12 +9,10 @@ const Label = styled.label`
   min-height: 40px;
   user-select: none;
   position: relative;
-
   &:focus-within .outer {
     outline: 3px solid var(--focus-ring, #ffd24d);
     outline-offset: 3px;
   }
-
   .visually-hidden {
     position: absolute;
     opacity: 0;
@@ -29,7 +25,6 @@ const Label = styled.label`
     border: 0;
     padding: 0;
   }
-
   .outer {
     width: 20px;
     height: 20px;
@@ -40,7 +35,6 @@ const Label = styled.label`
     border: 1px solid rgba(255,255,255,.25);
     box-sizing: border-box;
   }
-
   .dot {
     width: 10px;
     height: 10px;
@@ -49,16 +43,13 @@ const Label = styled.label`
     transform: scale(0);
     transition: transform 140ms ease;
   }
-
   input:checked + .outer .dot {
     transform: scale(1);
   }
-
   .text {
     color: var(--pt-150, #E6E5E3);
     font: inherit;
   }
-
   /* A11Y modal: scale controls and text slightly larger */
   .a11y-modal & {
     gap: 0.7rem;
@@ -67,7 +58,6 @@ const Label = styled.label`
   .a11y-modal & .dot { width: 12px; height: 12px; }
   .a11y-modal & .text { font-size: 1.12rem; }
 `;
-
 const FancyRadio = forwardRef(function FancyRadio(
   { id, label, checked, onChange, disabled, name, value }, ref
 ){
@@ -93,5 +83,4 @@ const FancyRadio = forwardRef(function FancyRadio(
     </Label>
   );
 });
-
 export default FancyRadio;

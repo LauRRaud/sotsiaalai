@@ -1,19 +1,16 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
-
 const emailReplacement = {
   email: {
     open: '<a href="mailto:info@sotsiaal.ai" class="link-brand">',
     close: "</a>",
   },
 };
-
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -21,7 +18,6 @@ export default function TellimusBody() {
   const [error, setError] = useState("");
   const [processing, setProcessing] = useState(false);
   const { t, locale } = useI18n();
-
   useEffect(() => {
     (async () => {
       try {
@@ -40,7 +36,6 @@ export default function TellimusBody() {
       }
     })();
   }, [t]);
-
   async function handleActivate() {
     try {
       setProcessing(true);
@@ -55,7 +50,6 @@ export default function TellimusBody() {
       setProcessing(false);
     }
   }
-
   if (loading) {
     return (
       <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
@@ -66,11 +60,9 @@ export default function TellimusBody() {
       </div>
     );
   }
-
   return (
     <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
       <h1 className="glass-title">{t("subscription.title")}</h1>
-
       <div className="content-narrow">
         {subActive ? (
           <>
@@ -78,7 +70,6 @@ export default function TellimusBody() {
             <p className="glass-text" id="cancel-note">
               <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
             </p>
-
             <div className="tellimus-btn-center">
               <Link href="/profiil" className="btn-primary" aria-describedby="cancel-note">
                 {t("subscription.button.open_profile")}
@@ -95,7 +86,6 @@ export default function TellimusBody() {
                 {error}
               </div>
             )}
-
             <div className="tellimus-btn-center">
               <button
                 type="button"
@@ -112,7 +102,6 @@ export default function TellimusBody() {
           </>
         )}
       </div>
-
       <div className="back-btn-wrapper">
         <button
           type="button"
@@ -127,7 +116,6 @@ export default function TellimusBody() {
           <span className="back-arrow-circle" />
         </button>
       </div>
-
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>
   );

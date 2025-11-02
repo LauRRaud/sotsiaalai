@@ -2,20 +2,16 @@
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-
 /* ------------------------- Roles ------------------------- */
-
 const ROLE_LABELS = {
   CLIENT: "eluküsimusega pöörduja",
   SOCIAL_WORKER: "sotsiaaltöö spetsialist",
   ADMIN: "administraator",
 };
-
 // NB: Rolli käitumise kirjeldus jääb eesti keeles; vastuse keel tagatakse süsteemijuhisega.
 const ROLE_BEHAVIOUR = {
   CLIENT: `
@@ -38,27 +34,21 @@ Vastus olgu argumenteeritud, kuid mitte bürokraatlik.
 Viitamine on täpne ja lühike (UI kuvab allikad eraldi).
 Ole professionaalne partner ja reflektiivne kaasamõtleja, mitte käsuandja.`,
 };
-
 /* ------------------------- Config ------------------------- */
-
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 const RAG_TOP_K = Number(process.env.RAG_TOP_K || 12);
 const CONTEXT_GROUPS_MAX = Number(process.env.RAG_CONTEXT_GROUPS_MAX || 6);
 const DIVERSIFY_LAMBDA = Number(process.env.RAG_MMR_LAMBDA || 0.5);
 const RAG_CTX_MAX_CHARS = Number(process.env.RAG_CTX_MAX_CHARS || 4000);
-
 const RAG_BASE = process.env.RAG_API_BASE || "http://127.0.0.1:8000";
 const RAG_KEY =
   process.env.RAG_SERVICE_API_KEY ||
   process.env.RAG_API_KEY ||
   "";
-
 /* ------------------------- Helpers ------------------------- */
-
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
 }
-
 function toOpenAiMessages(history) {
   if (!Array.isArray(history) || history.length === 0) return [];
   return history
@@ -69,7 +59,6 @@ function toOpenAiMessages(history) {
       content: String(msg.text).slice(0, 2000),
     }));
 }
-
 function asArray(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value.filter(Boolean).map((v) => String(v).trim()).filter(Boolean);
@@ -79,19 +68,15 @@ function asArray(value) {
   }
   return [];
 }
-
 /** Kasutaja küsib allikaid/viiteid? (et/ru/en võtmesõnad) */
 function detectSourcesRequest(history = [], message = "") {
   const txt = `${message} ${(Array.isArray(history) ? history : [])
     .map(h => (h?.text || h?.content || ""))
     .join(" ")}`.toLowerCase();
-
   // eesti: allik, viide; inglise: source, cite, citation; vene: источник, ссылк
   return /\b(allik|viide|source|cite|citation|источник|ссылк)\w*\b/.test(txt);
 }
-
 /* ---- Language detection & strings ---------------------------------- */
-
 function detectLang(text = "") {
   const s = (text || "").toLowerCase();
   const hasCyrillic = /[а-яё]/i.test(s);
@@ -102,15 +87,17 @@ function detectLang(text = "") {
   if (letters.length >= Math.max(6, Math.floor(s.length * 0.5))) return "en";
   return null;
 }
-
 function pickReplyLang({ userMessage, uiLocale }) {
-  const d = detectLang(userMessage);
   const ui = (uiLocale || "").toLowerCase();
-  if (d) return d; // prioritiseeri kasutaja sisendi keel
-  if (ui === "ru" || ui === "en" || ui === "et") return ui;
-  return "et";
+  const d = detectLang(userMessage);
+  // Kui UI-keel on teada, eelistame seda, välja arvatud selge vene sisend.
+  if (ui === "ru" || ui === "en" || ui === "et") {
+    if (d === "ru" && ui !== "ru") return "ru"; // cürillitsa puhul lülitu vene keelele
+    return ui; // vaikimisi kasuta UI keelt
+  }
+  // Kui UI-keelt pole, kasuta tuvastust või vaikimisi ET
+  return d || "et";
 }
-
 function langStrings(lang = "et") {
   if (lang === "ru") {
     return {
@@ -136,7 +123,6 @@ function langStrings(lang = "et") {
     crisisNoCtx: "Kui keegi on otseses ohus või räägid enesevigastusest, helista kohe 112. Kui on turvaline, võid võtta ühendust ka lähedasega või kriisiabiga. Kirjelda lühidalt, mis juhtus ja kus sa oled.",
   };
 }
-
 function collapsePages(pages) {
   if (!Array.isArray(pages) || pages.length === 0) return "";
   const sorted = [...new Set(pages.filter(Number.isFinite))].sort((a, b) => a - b);
@@ -159,12 +145,10 @@ function collapsePages(pages) {
   if (start !== null) out.push(start === prev ? `${start}` : `${start}–${prev}`);
   return out.join(", ");
 }
-
 function normalizeMatch(m, idx) {
   const md = m?.metadata || {};
   const title = md.title || m?.title || md.fileName || m?.url || "Allikas";
   const bodyRaw = (m?.text || m?.chunk || "" || "").trim();
-
   const synth = [];
   if (!bodyRaw) {
     if (md.title) synth.push(md.title);
@@ -176,7 +160,6 @@ function normalizeMatch(m, idx) {
     if (mix) synth.push(mix);
   }
   const body = bodyRaw || (synth.length ? synth.join(" · ") : "");
-
   const audience = md.audience || m?.audience || null;
   const url = md.source_url || md.url || m?.url || null;
   const fileName =
@@ -201,7 +184,6 @@ function normalizeMatch(m, idx) {
   const articleId = md.articleId || md.article_id || m?.articleId || null;
   const section = md.section || m?.section || null;
   const year = md.year || m?.year || null;
-
   return {
     id: m?.id || `${title}-${idx}`,
     docId: md.doc_id || m?.doc_id || null,
@@ -223,26 +205,21 @@ function normalizeMatch(m, idx) {
     year,
   };
 }
-
 function groupMatches(matches) {
   if (!Array.isArray(matches) || matches.length === 0) return [];
   const seenSnippets = new Set();
   const order = [];
   const grouped = new Map();
-
   matches.forEach((raw, idx) => {
     const m = normalizeMatch(raw, idx);
     if (!m.body) return;
-
     const snippetKey = `${m.title}|${m.page ?? ""}|${m.body.slice(0, 120)}`;
     if (seenSnippets.has(snippetKey)) return;
     seenSnippets.add(snippetKey);
-
     const groupKey =
       m.articleId ||
       m.docId ||
       (m.title ? `${m.title}|${m.fileName || ""}` : m.id || `match-${idx}`);
-
     let entry = grouped.get(groupKey);
     if (!entry) {
       entry = {
@@ -267,7 +244,6 @@ function groupMatches(matches) {
       grouped.set(groupKey, entry);
       order.push(groupKey);
     }
-
     entry.bodies.push(m.body);
     if (Array.isArray(m.authors)) {
       for (const author of m.authors) if (author) entry.authors.add(author);
@@ -278,7 +254,6 @@ function groupMatches(matches) {
     if (Number.isFinite(m.page)) entry.pages.add(Number(m.page));
     if (m.pageRange) entry.pageRanges.add(m.pageRange);
     if (typeof m.score === "number") entry.scores.push(m.score);
-
     if (!entry.url && m.url) entry.url = m.url;
     if (!entry.fileName && m.fileName) entry.fileName = m.fileName;
     if (!entry.title && m.title) entry.title = m.title;
@@ -291,7 +266,6 @@ function groupMatches(matches) {
     if (!entry.docId && m.docId) entry.docId = m.docId;
     if (!entry.articleId && m.articleId) entry.articleId = m.articleId;
   });
-
   return order
     .map((key) => {
       const entry = grouped.get(key);
@@ -312,11 +286,9 @@ function groupMatches(matches) {
     })
     .filter(Boolean);
 }
-
 function diversifyGroupsMMR(groups, k = CONTEXT_GROUPS_MAX, lambda = DIVERSIFY_LAMBDA) {
   if (!Array.isArray(groups) || groups.length === 0) return [];
   const K = Math.max(1, Math.min(k, groups.length));
-
   const tokenize = (s) =>
     new Set(String(s || "").toLowerCase().split(/[^a-zäöüõü0-9]+/i).filter(Boolean));
   const cacheTokens = new Map();
@@ -334,7 +306,6 @@ function diversifyGroupsMMR(groups, k = CONTEXT_GROUPS_MAX, lambda = DIVERSIFY_L
     const uni = a.size + b.size - inter;
     return uni > 0 ? inter / uni : 0;
   };
-
   const remaining = [...groups].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
   const selected = [];
   while (selected.length < K && remaining.length) {
@@ -363,13 +334,11 @@ function diversifyGroupsMMR(groups, k = CONTEXT_GROUPS_MAX, lambda = DIVERSIFY_L
   }
   return selected;
 }
-
 function firstAuthor(authors) {
   if (!Array.isArray(authors) || authors.length === 0) return null;
   for (const author of authors) if (typeof author === "string" && author.trim()) return author.trim();
   return null;
 }
-
 function shortIssue(entry) {
   const label =
     (typeof entry.issueLabel === "string" && entry.issueLabel.trim()) ||
@@ -385,13 +354,11 @@ function shortIssue(entry) {
   }
   return "";
 }
-
 function prettifyFileName(name = "") {
   if (typeof name !== "string" || !name.trim()) return "";
   const noExt = name.replace(/\.[a-z0-9]+$/i, "");
   return noExt.replace(/[_-]+/g, " ").trim();
 }
-
 function makeShortRef(entry, pagesCompact) {
   const author = firstAuthor(entry.authors);
   const title = typeof entry.title === "string" ? entry.title.trim() : "";
@@ -407,30 +374,25 @@ function makeShortRef(entry, pagesCompact) {
   const pagesStr = pagesCompact ? `lk ${pagesCompact}` : "";
   const section =
     typeof entry.section === "string" && entry.section.trim() ? entry.section.trim() : "";
-
   const fallbackName =
     prettifyFileName(entry.fileName) ||
     (typeof entry.url === "string"
       ? entry.url.replace(/^https?:\/\/(www\.)?/, "").trim()
       : "");
-
   const issue =
     issueRaw && year && issueRaw === year ? "" : issueRaw;
   const journalPart = [journal, issue].filter(Boolean).join(" ").trim();
-
   const headParts = [];
   if (author && title && year) headParts.push(`${author} (${year}) — ${title}`);
   else if (author && title) headParts.push(`${author} — ${title}`);
   else if (author && year) headParts.push(`${author} (${year})`);
   else if (title) headParts.push(title);
   else if (author) headParts.push(author);
-
   const tailParts = [];
   if (journalPart) tailParts.push(journalPart);
   if (year && !tailParts.some((part) => part.includes(year))) tailParts.push(year);
   if (pagesStr) tailParts.push(pagesStr);
   if (section) tailParts.push(section);
-
   let ref = "";
   if (headParts.length) {
     ref = headParts[0];
@@ -438,15 +400,12 @@ function makeShortRef(entry, pagesCompact) {
   } else if (tailParts.length) {
     ref = tailParts.join(", ");
   }
-
   ref = (ref || "").trim();
   if (ref && !ref.endsWith(".")) ref += ".";
   return ref;
 }
-
 function renderContextBlocks(groups) {
   if (!Array.isArray(groups) || groups.length === 0) return "";
-
   return groups
     .map((entry, i) => {
       const authors = Array.isArray(entry.authors) ? entry.authors : [];
@@ -461,24 +420,20 @@ function renderContextBlocks(groups) {
         jTitle && (issueText || entry.year)
           ? [jTitle, issueText || entry.year].filter(Boolean).join(" ")
           : issueText || entry.year || jTitle || null;
-
       const headerParts = [];
       if (authorText) headerParts.push(authorText);
       if (entry.title) headerParts.push(entry.title);
       if (issueYear) headerParts.push(issueYear);
       if (pageText) headerParts.push(`lk ${pageText}`);
       if (entry.section) headerParts.push(entry.section);
-
       const header = `(${i + 1}) ` + (headerParts.length ? headerParts.join(". ") : entry.title || "Allikas");
       const bodyText = entry.bodies.join("\n---\n") || "(sisukokkuvõte puudub)";
       const lines = [header, bodyText];
       if (entry.audience) lines.push(`Sihtgrupp: ${entry.audience}`);
-
       return lines.join("\n");
     })
     .join("\n\n");
 }
-
 function groundingStrength(groups) {
   if (!Array.isArray(groups) || groups.length === 0) return "weak";
   const strongHit = groups.some((g) => (g.bestScore || 0) >= 0.55);
@@ -486,7 +441,6 @@ function groundingStrength(groups) {
   if (groups.length >= 2 && strongHit) return "ok";
   return "weak";
 }
-
 function detectCrisis(text = "") {
   const t = (text || "").toLowerCase();
   const hits = [
@@ -498,7 +452,6 @@ function detectCrisis(text = "") {
   ];
   return hits.some((re) => re.test(t));
 }
-
 function isGreeting(text = "") {
   const t = (text || "").toLowerCase().trim();
   if (!t) return false;
@@ -510,9 +463,7 @@ function isGreeting(text = "") {
   if (wordCount <= 2 && /^(küsimus|palun abi|appi)$/.test(t)) return true;
   return false;
 }
-
 /* ------------------------- Prompt builder ------------------------- */
-
 function toResponsesInput({
   history,
   userMessage,
@@ -524,7 +475,6 @@ function toResponsesInput({
 }) {
   const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
   const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
-
   const groundingPolicy =
     grounding === "weak"
       ? (
@@ -536,7 +486,6 @@ function toResponsesInput({
           "KONTEKST PIISAV: iga soovitus või väide peab tuginema konkreetsele kontekstiplokile; " +
           "ära esita samme, mida allikad ei toeta."
         );
-
   const interactionPolicy =
     "VESTLUSREEGLID: " +
     "• ÄRA korda sama küsimust või lauset sõna-sõnalt järjestikustel pööretel; kohanda alati uuele sisendile. " +
@@ -545,10 +494,8 @@ function toResponsesInput({
     "• Lühikeste WHO/WHAT/definition päringute korral vasta esmalt lühidalt (1–3 lauset) kontekstist; kui infot pole, ütle ausalt. " +
     "• Enne tegevusplaani pakkumist küsi selges eesti keeles luba: 'Kas soovid, et koostan lühikese tegevusplaani?' " +
     "• Ära ütle kasutajale väljendit 'kontekst on nõrk' — kohanda lihtsalt vastus ja küsi sihitud täpsustusi. ";
-
   // >>> Keel: üks selge reegel mudelile
   const languageRule = `Always reply in ${replyLang} language. Do not switch languages unless the user explicitly asks.`;
-
   const sys =
     `You are SotsiaalAI, a retrieval-grounded assistant.\n` +
     `${languageRule}\n` +
@@ -560,7 +507,6 @@ function toResponsesInput({
     interactionPolicy + "\n" +
     groundingPolicy +
     `\n\n{"mode":"dialogue","style":"natural","citations":"none"}`;
-
   const lines = [];
   if (context && context.trim()) {
     const trimmed = context.trim().slice(0, RAG_CTX_MAX_CHARS);
@@ -571,7 +517,6 @@ function toResponsesInput({
     lines.push(`${r}: ${m.content}`);
   }
   lines.push(`USER: ${userMessage}`);
-
   if (includeSources) {
     lines.push(
       `\nNOTE: User asked for sources — append a short free-form "Sources" section at the end (author / title / journal or issue / pages). Do not add numeric brackets in text.\n`
@@ -581,12 +526,9 @@ function toResponsesInput({
       `\nNOTE: User did not ask for sources — do not append a "Sources" section. UI will show sources separately.\n`
     );
   }
-
   return `${sys}\n\n${lines.join("\n")}\nAI:`;
 }
-
 /* ------------------------- OpenAI Calls ------------------------- */
-
 async function callOpenAI({
   history,
   userMessage,
@@ -599,7 +541,6 @@ async function callOpenAI({
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-
   const client = new OpenAI({ apiKey });
   const input = toResponsesInput({
     history,
@@ -610,19 +551,15 @@ async function callOpenAI({
     includeSources,
     replyLang,
   });
-
   const resp = await client.responses.create({
     model: DEFAULT_MODEL,
     input,
   });
-
   const reply =
     (resp.output_text && resp.output_text.trim()) ||
     "Vabandust, ma ei saanud praegu vastust koostada.";
-
   return { reply };
 }
-
 async function streamOpenAI({
   history,
   userMessage,
@@ -635,7 +572,6 @@ async function streamOpenAI({
   const { default: OpenAI } = await import("openai");
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-
   const client = new OpenAI({ apiKey });
   const input = toResponsesInput({
     history,
@@ -646,12 +582,10 @@ async function streamOpenAI({
     includeSources,
     replyLang,
   });
-
   const stream = await client.responses.stream({
     model: DEFAULT_MODEL,
     input,
   });
-
   async function* iterator() {
     for await (const event of stream) {
       if (event.type === "response.output_text.delta") {
@@ -665,15 +599,11 @@ async function streamOpenAI({
   }
   return iterator();
 }
-
 /* ------------------------- RAG search ------------------------- */
-
 async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
   const body = { query, top_k: topK, where: filters || undefined };
-
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), 12000);
-
   const res = await fetch(`${RAG_BASE}/search`, {
     method: "POST",
     headers: {
@@ -685,7 +615,6 @@ async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
     signal: controller.signal,
   });
   clearTimeout(t);
-
   let data = null;
   try {
     const raw = await res.text();
@@ -693,15 +622,12 @@ async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
   } catch {
     data = null;
   }
-
   if (!res.ok) {
     return [];
   }
   return Array.isArray(data?.results) ? data.results : [];
 }
-
 /* ------------------------- Persistence (Prisma) ------------------------- */
-
 async function persistInit({ convId, userId, role, sources, isCrisis }) {
   if (!convId || !userId) return;
   try {
@@ -714,7 +640,6 @@ async function persistInit({ convId, userId, role, sources, isCrisis }) {
     console.error("[chat] persistInit failed", { convId, err });
   }
 }
-
 async function persistAppend({ convId, userId, fullText }) {
   if (!convId || !userId) return;
   try {
@@ -726,7 +651,6 @@ async function persistAppend({ convId, userId, fullText }) {
     console.error("[chat] persistAppend failed", { convId, err });
   }
 }
-
 async function persistDone({ convId, userId, status = "COMPLETED" }) {
   if (!convId || !userId) return;
   try {
@@ -738,14 +662,11 @@ async function persistDone({ convId, userId, status = "COMPLETED" }) {
     console.error("[chat] persistDone failed", { convId, err });
   }
 }
-
 /* ------------------------- Page range normalizer ------------------------- */
 function normalizePageRangeString(s = "") {
   return s.replace(/\s*[-–—]\s*/g, "–").trim();
 }
-
 /* ------------------------- Route Handler ------------------------- */
-
 export async function POST(req) {
   // Auth loader
   const { getServerSession } = await import("next-auth/next");
@@ -760,7 +681,6 @@ export async function POST(req) {
       authOptions = undefined;
     }
   }
-
   // 1) payload
   let payload;
   try {
@@ -770,7 +690,6 @@ export async function POST(req) {
   }
   const message = String(payload?.message || "").trim();
   if (!message) return makeError("Sõnum on kohustuslik.");
-
   const rawHistory = Array.isArray(payload?.history) ? payload.history : [];
   const history = toOpenAiMessages(rawHistory);
   const wantStream = !!payload?.stream;
@@ -780,20 +699,17 @@ export async function POST(req) {
   const forceSources =
     payload?.forceSources === true || payload?.includeSources === true || payload?.showSources === true;
   const includeSources = forceSources || detectSourcesRequest(rawHistory, message);
-
   // 2) sessioon
   let session = null;
   try {
     session = await getServerSession(authOptions);
   } catch {}
   const userId = session?.user?.id || null;
-
   // 3) roll
   const sessionRole = roleFromSession(session); // ADMIN / SOCIAL_WORKER / CLIENT
   const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
-
   // 4) nõua tellimust
   const gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok) {
@@ -807,24 +723,20 @@ export async function POST(req) {
       { status: gate.status }
     );
   }
-
   // 4.1) keeleotsus (VÄGA OLULINE)
   const replyLang = pickReplyLang({ userMessage: message, uiLocale });
   const L = langStrings(replyLang);
   const isCrisis = detectCrisis(message);
-
   // 4.5) varajane tervitusfiltri haru — nüüd õiges keeles
   const greeting = isGreeting(message);
   if ((greeting || rawHistory.length === 0) && !isCrisis) {
     const reply =
       normalizedRole === "SOCIAL_WORKER" ? L.greetingWorker : L.greetingClient;
-
     if (persist && convId && userId) {
       await persistInit({ convId, userId, role: normalizedRole, sources: [], isCrisis });
       await persistAppend({ convId, userId, fullText: reply });
       await persistDone({ convId, userId, status: "COMPLETED" });
     }
-
     if (!wantStream) {
       return NextResponse.json({
         ok: true,
@@ -835,7 +747,6 @@ export async function POST(req) {
         convId: convId || undefined,
       });
     }
-
     const enc = new TextEncoder();
     const sse = new ReadableStream({
       async start(controller) {
@@ -852,7 +763,6 @@ export async function POST(req) {
         }
       },
     });
-
     return new Response(sse, {
       headers: {
         "Content-Type": "text/event-stream; charset=utf-8",
@@ -862,24 +772,20 @@ export async function POST(req) {
       },
     });
   }
-
   // 5) RAG filtrid – auditoorium
   const audienceFilter =
     (payload?.audience === "CLIENT" || normalizedRole === "CLIENT")
       ? { audience: { $in: ["CLIENT", "BOTH"] } }
       : { audience: { $in: ["SOCIAL_WORKER", "BOTH"] } };
-
   // 6) RAG otsing
   let matches = [];
   try {
     matches = await searchRagDirect({ query: message, topK: RAG_TOP_K, filters: audienceFilter });
   } catch {}
-
   const groupedMatches = groupMatches(matches);
   const chosen = diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
   const context = renderContextBlocks(chosen);
   const grounding = groundingStrength(groupedMatches);
-
   // 7) allikad (meta) – UI-le
   const sources = chosen.map((entry, idx) => {
     const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
@@ -907,17 +813,14 @@ export async function POST(req) {
       short_ref: short_ref_text || undefined,
     };
   });
-
   // 7.5) Kui konteksti ei leitud, vasta õiges keeles
   if (!context || !context.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
-
     if (persist && convId && userId) {
       await persistInit({ convId, userId, role: normalizedRole, sources, isCrisis });
       await persistAppend({ convId, userId, fullText: out });
       await persistDone({ convId, userId, status: "COMPLETED" });
     }
-
     if (!wantStream) {
       return NextResponse.json({
         ok: true,
@@ -928,7 +831,6 @@ export async function POST(req) {
         convId: convId || undefined,
       });
     }
-
     const enc = new TextEncoder();
     const sse = new ReadableStream({
       async start(controller) {
@@ -941,7 +843,6 @@ export async function POST(req) {
         }
       },
     });
-
     return new Response(sse, {
       headers: {
         "Content-Type": "text/event-stream; charset=utf-8",
@@ -951,12 +852,10 @@ export async function POST(req) {
       },
     });
   }
-
   // püsitus
   if (persist && convId && userId) {
     await persistInit({ convId, userId, role: normalizedRole, sources, isCrisis });
   }
-
   // --- A) JSON (mitte-streamiv) ---
   if (!wantStream) {
     try {
@@ -989,12 +888,10 @@ export async function POST(req) {
       return makeError(errMessage, 502, { code: err?.name });
     }
   }
-
   // --- B) STREAM (SSE) ---
   const enc = new TextEncoder();
   let clientGone = false;
   let heartbeatTimer = null;
-
   let accumulated = "";
   let lastFlush = 0;
   const maybeFlush = async () => {
@@ -1006,7 +903,6 @@ export async function POST(req) {
       }
     }
   };
-
   const sse = new ReadableStream({
     async start(controller) {
       try {
@@ -1018,7 +914,6 @@ export async function POST(req) {
           }
         });
       } catch {}
-
       heartbeatTimer = setInterval(() => {
         if (!clientGone) {
           try {
@@ -1030,7 +925,6 @@ export async function POST(req) {
           }
         }
       }, 15000);
-
       // meta alguses
       if (!clientGone) {
         try {
@@ -1041,7 +935,6 @@ export async function POST(req) {
           clientGone = true;
         }
       }
-
       try {
         const iter = await streamOpenAI({
           history,
@@ -1052,11 +945,9 @@ export async function POST(req) {
           includeSources,
           replyLang,
         });
-
         for await (const ev of iter) {
           if (ev.type === "delta" && ev.text) {
             accumulated += ev.text;
-
             if (!clientGone) {
               try {
                 controller.enqueue(
@@ -1103,7 +994,6 @@ export async function POST(req) {
       }
     },
   });
-
   return new Response(sse, {
     headers: {
       "Content-Type": "text/event-stream; charset=utf-8",
@@ -1113,7 +1003,6 @@ export async function POST(req) {
     },
   });
 }
-
 export async function GET() {
   return NextResponse.json({ ok: true, route: "api/chat" });
 }

@@ -2,13 +2,10 @@
 import React, { useMemo, useId, useEffect, useState } from "react";
 import "./CircularText.css";
 import useT from "@/components/i18n/useT";
-
 const VIEWBOX = 500;
 const R = 200;
 const TOP_FRAC = 0.25; // 0 = ringi algus (parem), 0.25 = üla
-
 const TAU = Math.PI * 2;
-
 export default function CircularText({
   text,
   size = 440,
@@ -29,12 +26,10 @@ export default function CircularText({
     [text]
   );
   const n = Math.max(1, words.length);
-
   // --- Responsive suurused ---
   const [responsiveSize, setResponsiveSize] = useState(size);
   const [responsiveFontSize, setResponsiveFontSize] = useState(fontSize);
   const [responsiveLetterSpacing, setResponsiveLetterSpacing] = useState(letterSpacing);
-
   useEffect(() => {
     function updateSize() {
       const w = typeof window !== "undefined" ? window.innerWidth : 1024;
@@ -56,44 +51,34 @@ export default function CircularText({
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, [size, fontSize, letterSpacing]);
-
   const L = TAU * R;                        // ringi ümbermõõt (viewBox ühik)
   const pxToVB = VIEWBOX / responsiveSize;  // px → viewBox skaleering
   const dir = clockwise ? 1 : -1;
-
   const uid = useId();
   const pathId = `circlePath3x-${(className || "ring").replace(/\s+/g, "-")}-${uid}`;
-
   // Mõõdetud algusoffsetid (viewBox ühikutes). Null = veel mõõtmata.
   const [startsAbs, setStartsAbs] = useState(null);
-
   // Mõõda sõnade laius (px) canvas’ega → teisenda viewBox’iks → arvuta startOffset’id
   useEffect(() => {
     let cancelled = false;
-
     (async () => {
       try {
         if (typeof document !== "undefined" && document.fonts?.ready) {
           await document.fonts.ready;
         }
       } catch (_) {}
-
       if (typeof document === "undefined") return;
-
       // Canvas võib mõnes režiimis ebaõnnestuda – kaitse
       let ctx = null;
       try {
         const canvas = document.createElement("canvas");
         ctx = canvas.getContext("2d");
       } catch (_) {}
-
       // Sõnade laiused viewBox ühikutes
       const widthsVB = [];
-
       if (ctx) {
         ctx.font = `${weight} ${responsiveFontSize}px 'Aino Headline','Aino',Arial,sans-serif`;
         const ls = Number(responsiveLetterSpacing) || 0;
-
         for (let wi = 0; wi < words.length; wi++) {
           const s = String(words[wi]).toUpperCase();
           const base = ctx.measureText(s).width; // px
@@ -109,24 +94,19 @@ export default function CircularText({
           widthsVB.push(approx);
         }
       }
-
       // Vahed sõnade vahel – jaotame ühtlaselt
       const totalWords = widthsVB.reduce((a, b) => a + b, 0);
       const gap = Math.max(0, (L - totalWords) / n);
-
       // Ankurda esimene sõna üles (“TOP_FRAC”) nii, et sõna keskkoht oleks seal
       const anchorU = (startAtTop ? TOP_FRAC : 0) * L;
       const firstStartInLap = ((anchorU - (widthsVB[0] || 0) / 2) % L + L) % L;
-
       const starts = new Array(n);
       starts[0] = firstStartInLap + L; // nihutame +L, et vältida negatiivseid väärtusi
       for (let i = 1; i < n; i++) {
         starts[i] = starts[i - 1] + (widthsVB[i - 1] || 0) + gap;
       }
-
       if (!cancelled) setStartsAbs(starts);
     })();
-
     return () => {
       cancelled = true;
     };
@@ -141,21 +121,16 @@ export default function CircularText({
     pxToVB,
     weight,
   ]);
-
   // Fallback enne mõõtmist: jaota ühtlaselt ümber ringi
   const seg = L / n;
   const first = (startAtTop ? TOP_FRAC * L - seg / 2 : 0) + L;
   const fallbackStarts = Array.from({ length: n }, (_, i) => first + i * seg);
-
   const _startsAbs = startsAbs || fallbackStarts;
-
   const getWordFill = (i) =>
     Array.isArray(wordColors) && wordColors.length
       ? wordColors[i % wordColors.length]
       : undefined;
-
   const wordClass = (i) => (i === 0 ? "word1" : i === 1 ? "word2" : "word3");
-
   return (
     <svg
       viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
@@ -183,7 +158,6 @@ export default function CircularText({
           ].join(" ")}
         />
       </defs>
-
       <g className="ct-cycle">
         <g style={{ transformOrigin: "50% 50%", transform: `rotate(${offsetDeg}deg)` }}>
           <text
@@ -216,7 +190,6 @@ export default function CircularText({
     </svg>
   );
 }
-
 /* --- Kasutusnäited --- */
 export function CircularRingLeft() {
   const t = useT();
@@ -237,7 +210,6 @@ export function CircularRingLeft() {
     />
   );
 }
-
 export function CircularRingRight() {
   const t = useT();
   return (

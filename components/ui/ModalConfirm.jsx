@@ -1,8 +1,6 @@
 "use client";
-
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-
 export default function ModalConfirm({
   message,
   confirmLabel = "Jah",
@@ -17,7 +15,6 @@ export default function ModalConfirm({
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = prev; };
   }, []);
-
   // ESC sulgemiseks (kui onCancel on olemas ja pole disabled)
   useEffect(() => {
     function onKey(e) {
@@ -26,12 +23,10 @@ export default function ModalConfirm({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onCancel, disabled]);
-
   const modal =
     <>
       {/* Backdrop */}
       <div className="modal-backdrop" aria-hidden="true" />
-
       {/* Kinnitusaken */}
       <div className="modal-confirm" role="dialog" aria-modal="true">
         <p className="modal-confirm-text">{message}</p>
@@ -57,7 +52,6 @@ export default function ModalConfirm({
         </div>
       </div>
     </>;
-
   // ⟵ see on võtmetähtsusega: renderda otse <body> alla
   return createPortal(modal, document.body);
 }

@@ -1,5 +1,4 @@
 /* CircularText.css — SVG versioon */
-
 .circular-text-svg {
   position: absolute;
   inset: 0;
@@ -9,16 +8,13 @@
   max-width: none;
   pointer-events: none;
   z-index: 3;
-
   /* aitab 3D/flip kontekstis kihistust hoida */
   transform: translateZ(0.1px);
   backface-visibility: hidden;
   transform-style: preserve-3d;
-
   /* võimaldab animatsiooni jooksvalt välja lülitada */
   /* nt <svg data-animate="0"> … */
 }
-
 /* --- Nähtavuse gating ringile (valikuline) --- */
 .circular-text-svg.circular-ring {
   opacity: 0;
@@ -29,7 +25,6 @@
   opacity: 0.9;              /* soovi korral 1 */
   visibility: visible;
 }
-
 .circular-text-line {
   font-family: 'Aino Headline','Aino',Arial,sans-serif;
   font-weight: 400;
@@ -43,15 +38,12 @@
   will-change: transform;
   animation-delay: calc(var(--ct-delay, 0s) + 3s);
 }
-
 /* kui soovid animatsiooni peatada attribuudiga */
 .circular-text-svg[data-animate="0"] .circular-text-line {
   animation: none !important;
 }
-
 /* Pidev pöörlemine */
 @keyframes saai-rotate { to { transform: rotate(360deg); } }
-
 /* Varjud */
 .left-card-primary .desc-ring-left > g,
 .left-card-primary .desc-ring-left .circular-text-line {
@@ -61,13 +53,10 @@
 .right-card-primary .desc-ring-right .circular-text-line {
   filter: drop-shadow(0 2px 2px rgba(255,255,255,0.2));
 }
-
 /* ct-cycle — nähtav konteiner */
 .ct-cycle { opacity: 1; visibility: visible; }
-
 /* Sõnade tsüklid – vaikimisi peidus, kuni nende animatsiooni aken on käes */
 .word1, .word2, .word3 { opacity: 0; }
-
 /* WORD 1 */
 .word1 {
   animation: ct-word1 33s linear infinite;
@@ -80,7 +69,6 @@
   54.83% { opacity: 0; }
   100% { opacity: 0; }
 }
-
 /* WORD 2 */
 .word2 {
   animation: ct-word2 33s linear infinite;
@@ -93,7 +81,6 @@
   69.83% { opacity: 0; }
   100% { opacity: 0; }
 }
-
 /* WORD 3 */
 .word3 {
   animation: ct-word3 33s linear infinite;
@@ -106,7 +93,6 @@
   80.33% { opacity: 0; }
   100% { opacity: 0; }
 }
-
 /* kui data-animate="0", näita kõiki sõnu korraga, ilma animatsioonita */
 .circular-text-svg[data-animate="0"] .word1,
 .circular-text-svg[data-animate="0"] .word2,
@@ -114,10 +100,8 @@
   opacity: 1 !important;
   animation: none !important;
 }
-
 .circular-text-svg text { paint-order: stroke fill; }
 .circular-text-svg textPath { overflow: visible; }
-
 /* Mobiil: kõik kolm korraga nähtaval, ilma animatsioonita */
 @media (max-width: 768px) {
   .circular-text-line {

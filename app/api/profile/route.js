@@ -1,12 +1,10 @@
 // app/api/profile/route.js
 export const runtime = "nodejs";
-
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hash, compare } from "bcrypt";
-
 /** Vasta JSON-iga koos no-store päistega */
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -18,7 +16,6 @@ function json(data, status = 200) {
     },
   });
 }
-
 /** Sisseloginud kasutaja (NextAuth v4 serverisessioonist) */
 async function requireUser() {
   const session = await getServerSession(authConfig);
@@ -26,52 +23,41 @@ async function requireUser() {
   if (!userId) return null;
   return { session, userId };
 }
-
 function makeError(message, status = 400, extras = {}) {
   return json({ ok: false, message, ...extras }, status);
 }
-
 export async function GET() {
   const ctx = await requireUser();
   if (!ctx) return makeError("Unauthorized", 401);
-
   const user = await prisma.user.findUnique({
     where: { id: ctx.userId },
     select: { email: true, role: true },
   });
   if (!user) return makeError("User not found", 404);
-
   return json({ ok: true, user });
 }
-
 export async function PUT(request) {
   const ctx = await requireUser();
   if (!ctx) return makeError("Unauthorized", 401);
-
   try {
     const body = await request.json().catch(() => ({}));
-
     const nextEmail =
       typeof body?.email === "string" ? body.email.trim().toLowerCase() : undefined;
     const nextPassword =
       typeof body?.password === "string" ? body.password.trim() : undefined;
     const currentPassword =
       typeof body?.currentPassword === "string" ? body.currentPassword : undefined;
-
     if (!nextEmail && !nextPassword) {
       return makeError("Midagi pole uuendada.", 400);
     }
-
     // Loe kehtiv kasutaja (vajame emaili ja parooli kontrolliks)
     const current = await prisma.user.findUnique({
       where: { id: ctx.userId },
       select: { email: true, passwordHash: true },
     });
     if (!current) return makeError("User not found", 404);
-
     const data = {};
     let requiresReauth = false;
-
     // --- E-posti uuendamine ---
     if (nextEmail) {
       if (!nextEmail.includes("@")) {
@@ -84,12 +70,12 @@ export async function PUT(request) {
           return makeError("See e-post on juba kasutusel.", 409);
         }
         data.email = nextEmail;
-        // emaili muutmisel tühista varasem verif
+        // emaili muutmisel tühista varasem verif ja saatmise märge
         data.emailVerified = null;
+        data.emailVerificationSentAt = null;
         requiresReauth = true;
       }
     }
-
     // --- Parooli uuendamine ---
     if (nextPassword) {
       if (nextPassword.length < 6) {
@@ -110,18 +96,15 @@ export async function PUT(request) {
       data.passwordHash = await hash(nextPassword, 12);
       requiresReauth = true;
     }
-
     if (Object.keys(data).length === 0) {
       // Pole sisulist muudatust (nt email sama ja parool puudus)
       return json({ ok: true, user: { email: current.email, role: undefined }, requiresReauth: false });
     }
-
     const updated = await prisma.user.update({
       where: { id: ctx.userId },
       data,
       select: { email: true, role: true },
     });
-
     return json({ ok: true, user: updated, requiresReauth });
   } catch (error) {
     // Prisma unikaalsus vms
@@ -132,11 +115,9 @@ export async function PUT(request) {
     return makeError("Profiili uuendamine ebaõnnestus.", 500);
   }
 }
-
 export async function DELETE() {
   const ctx = await requireUser();
   if (!ctx) return makeError("Unauthorized", 401);
-
   try {
     await prisma.user.delete({ where: { id: ctx.userId } });
     return json({ ok: true, deleted: true });

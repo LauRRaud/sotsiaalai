@@ -1,17 +1,14 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
-
 const emailReplacement = {
   aEmail: {
     open: '<a class="link-brand" href="mailto:info@sotsiaal.ai">',
     close: "</a>",
   },
 };
-
 export default function KasutustingimusedBody() {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -59,11 +56,9 @@ export default function KasutustingimusedBody() {
       ],
     },
   ];
-
   return (
     <article className="main-content glass-box" aria-labelledby="terms-title" lang={locale}>
       <h1 id="terms-title" className="glass-title">{t("terms.title")}</h1>
-
       <section className="glass-section">
         {sections.map((section) => (
           <div key={section.heading}>
@@ -83,7 +78,6 @@ export default function KasutustingimusedBody() {
           </div>
         ))}
       </section>
-
       <div className="back-btn-wrapper">
         <button
           type="button"
@@ -98,7 +92,6 @@ export default function KasutustingimusedBody() {
           <span className="back-arrow-circle" />
         </button>
       </div>
-
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </article>
   );

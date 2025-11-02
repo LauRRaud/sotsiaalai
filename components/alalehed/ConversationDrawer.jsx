@@ -1,9 +1,7 @@
 "use client";
-
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/components/i18n/I18nProvider";
-
 export default function ConversationDrawer({ children }) {
   const [open, setOpen] = useState(false);
   const [drawerRoot, setDrawerRoot] = useState(null);
@@ -13,7 +11,6 @@ export default function ConversationDrawer({ children }) {
   const drawerRootRef = useRef(null); // overlay + paneli konteiner
   const headerIdRef = useRef(`drawer-title-${Math.random().toString(36).slice(2, 8)}`);
   const { t } = useI18n();
-
   // --- Väline toggle event ---
   useEffect(() => {
     function onToggle(e) {
@@ -23,11 +20,9 @@ export default function ConversationDrawer({ children }) {
     window.addEventListener("sotsiaalai:toggle-conversations", onToggle);
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
   }, []);
-
   // --- Loo / taaskasuta portaalijuurt body all ---
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
-
     let root = document.querySelector('[data-conversation-drawer-root="true"]');
     let created = false;
     if (!root) {
@@ -38,7 +33,6 @@ export default function ConversationDrawer({ children }) {
     }
     drawerRootRef.current = root;
     setDrawerRoot(root);
-
     return () => {
       if (created && root?.parentNode) {
         try { root.parentNode.removeChild(root); } catch {}
@@ -47,15 +41,12 @@ export default function ConversationDrawer({ children }) {
       setDrawerRoot(null);
     };
   }, []);
-
   // --- Body scroll lock (koos kerimisriba kompensatsiooniga) ---
   useEffect(() => {
     if (!open) return;
-
     const body = document.body;
     const prevOverflow = body.style.overflow;
     const prevPaddingRight = body.style.paddingRight;
-
     const scrollbarWidth = getScrollbarWidth();
     body.style.overflow = "hidden";
     // kui kerimisriba on nähtav, kompenseeri
@@ -63,20 +54,16 @@ export default function ConversationDrawer({ children }) {
       const current = parseFloat(getComputedStyle(body).paddingRight) || 0;
       body.style.paddingRight = `${current + scrollbarWidth}px`;
     }
-
     return () => {
       body.style.overflow = prevOverflow;
       body.style.paddingRight = prevPaddingRight;
     };
   }, [open]);
-
   // --- Tausta inert/aria-hidden (ainult sibling'id, portaali juur välja jäetud) ---
   useEffect(() => {
     const portalRoot = drawerRootRef.current;
     if (!portalRoot) return;
-
     const siblings = Array.from(document.body.children).filter((el) => el !== portalRoot);
-
     if (open) {
       for (const el of siblings) {
         try {
@@ -100,11 +87,9 @@ export default function ConversationDrawer({ children }) {
       };
     }
   }, [open]);
-
   // --- ESC sulgemine + TAB fookuse püünis (kuulame dokumendilt avatuna) ---
   useEffect(() => {
     if (!open) return;
-
     function onKeydown(e) {
       if (e.key === "Escape") {
         e.stopPropagation();
@@ -112,10 +97,8 @@ export default function ConversationDrawer({ children }) {
         return;
       }
       if (e.key !== "Tab") return;
-
       const root = panelRef.current;
       if (!root) return;
-
       const focusable = getFocusable(root);
       if (!focusable.length) {
         e.preventDefault();
@@ -124,7 +107,6 @@ export default function ConversationDrawer({ children }) {
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       const active = document.activeElement;
-
       if (e.shiftKey) {
         if (active === first || !root.contains(active)) {
           e.preventDefault();
@@ -137,11 +119,9 @@ export default function ConversationDrawer({ children }) {
         }
       }
     }
-
     document.addEventListener("keydown", onKeydown, true);
     return () => document.removeEventListener("keydown", onKeydown, true);
   }, [open]);
-
   // --- Esmane fookus paneelis ---
   useEffect(() => {
     if (!open) return;
@@ -153,12 +133,9 @@ export default function ConversationDrawer({ children }) {
     const t = setTimeout(() => toFocus?.focus(), 0);
     return () => clearTimeout(t);
   }, [open]);
-
   const close = useCallback(() => setOpen(false), []);
-
   // --- Render (portal) ---
   if (!drawerRoot) return null;
-
   return createPortal(
     <>
       {open && (
@@ -169,7 +146,6 @@ export default function ConversationDrawer({ children }) {
           aria-hidden="true"
         />
       )}
-
       <aside
         ref={panelRef}
         role="dialog"
@@ -188,16 +164,13 @@ export default function ConversationDrawer({ children }) {
             ✕
           </button>
         </header>
-
         <div style={{ padding: 12 }}>{children}</div>
       </aside>
     </>,
     drawerRoot,
   );
 }
-
 /* -------- helpers -------- */
-
 function getFocusable(root) {
   if (!root) return [];
   const nodes = root.querySelectorAll(
@@ -217,11 +190,9 @@ function getFocusable(root) {
   );
   return Array.from(nodes).filter(isVisible);
 }
-
 function isVisible(el) {
   return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
 }
-
 function getScrollbarWidth() {
   // mõõdame dünaamiliselt – töökindel kõigil platvormidel
   const scrollDiv = document.createElement("div");

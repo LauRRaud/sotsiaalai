@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import DarkMode from "./DarkMode";
-
 export default function DarkModeToggleWrapper({
   hidden = false,
   className = "",
@@ -13,7 +12,6 @@ export default function DarkModeToggleWrapper({
   const [visibleByScroll, setVisibleByScroll] = useState(true);
   const [visibleByModal, setVisibleByModal] = useState(true);
   const [mounted, setMounted] = useState(false);
-
   // Kerimisel peitmine (v.a reduced-motion)
   useEffect(() => {
     setMounted(true);
@@ -27,7 +25,6 @@ export default function DarkModeToggleWrapper({
     onScroll(); // init
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
   // Kuula body klassi "modal-open" (nt LoginModal)
   useEffect(() => {
     if (!hideOnBodyModal) return;
@@ -40,10 +37,8 @@ export default function DarkModeToggleWrapper({
     mo.observe(el, { attributes: true, attributeFilter: ["class"] });
     return () => mo.disconnect();
   }, [hideOnBodyModal]);
-
   // Lõppnähtavus
   const show = mounted && !hidden && visibleByScroll && visibleByModal;
-
   // Positsioneerimine + ühtne transform (vältimaks “hüppeid”)
   const isCenter = position === "top-center";
   const basePos =
@@ -52,10 +47,8 @@ export default function DarkModeToggleWrapper({
       : position === "top-right"
       ? { right: offsetX }
       : { left: "50%" }; // top-center
-
   const shownTransform = isCenter ? "translate(-50%, 0)" : "translateY(0)";
   const hiddenTransform = isCenter ? "translate(-50%, -1rem)" : "translateY(-1rem)";
-
   return (
     <div
       className={`dm-toggle-fixed ${className}`}

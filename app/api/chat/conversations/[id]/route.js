@@ -1,14 +1,11 @@
 // app/api/chat/conversations/[id]/route.js
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-
 /* ---------- tiny utils ---------- */
-
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -19,7 +16,6 @@ function json(data, status = 200) {
     },
   });
 }
-
 function noContent() {
   return new Response(null, {
     status: 204,
@@ -30,7 +26,6 @@ function noContent() {
     },
   });
 }
-
 function isDbOffline(err) {
   return (
     err?.code === "P1001" ||
@@ -39,22 +34,18 @@ function isDbOffline(err) {
     err?.name === "PrismaClientRustPanicError"
   );
 }
-
 // ConversationRun.id on string; lubame mõistliku pikkuse
 function isPlausibleId(id) {
   if (!id || typeof id !== "string") return false;
   return id.length >= 8 && id.length <= 200;
 }
-
 function ensureOwnedOrAdmin(row, auth) {
   if (!row) return { ok: false, status: 404, message: "not-found" };
   if (auth.isAdmin) return { ok: true };
   if (row.userId !== auth.userId) return { ok: false, status: 403, message: "forbidden" };
   return { ok: true };
 }
-
 /* ---------- Auth ---------- */
-
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -68,7 +59,6 @@ async function getAuthOptions() {
     }
   }
 }
-
 async function requireUser() {
   try {
     const { getServerSession } = await import("next-auth/next");
@@ -80,15 +70,12 @@ async function requireUser() {
     return { ok: false, status: 401, message: "Unauthorized" };
   }
 }
-
 /* ---------- GET: loe ühe vestluse meta ---------- */
 export async function GET(_req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-
   const id = params?.id ? String(params.id).trim() : "";
   if (!isPlausibleId(id)) return json({ ok: false, message: "id invalid" }, 400);
-
   try {
     const row = await prisma.conversationRun.findUnique({
       where: { id },
@@ -103,7 +90,6 @@ export async function GET(_req, { params }) {
     });
     const gate = ensureOwnedOrAdmin(row, auth);
     if (!gate.ok) return json({ ok: false, message: gate.message }, gate.status);
-
     return json({
       ok: true,
       conversation: {
@@ -128,29 +114,23 @@ export async function GET(_req, { params }) {
     );
   }
 }
-
 /* ---------- DELETE: soft-delete (idempotent) ---------- */
 export async function DELETE(_req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-
   const id = params?.id ? String(params.id).trim() : "";
   if (!isPlausibleId(id)) return json({ ok: false, message: "id invalid" }, 400);
-
   try {
     const existing = await prisma.conversationRun.findUnique({ where: { id } });
     const gate = ensureOwnedOrAdmin(existing, auth);
     if (!gate.ok) return json({ ok: false, message: gate.message }, gate.status);
-
     if (existing.status === "DELETED") {
       return noContent(); // idempotent
     }
-
     await prisma.conversationRun.update({
       where: { id },
       data: { status: "DELETED", updatedAt: new Date() },
     });
-
     return noContent();
   } catch (err) {
     if (isDbOffline(err)) {
@@ -165,20 +145,16 @@ export async function DELETE(_req, { params }) {
     );
   }
 }
-
 /* ---------- PUT: restore DELETED -> RUNNING (idempotent) ---------- */
 export async function PUT(_req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-
   const id = params?.id ? String(params.id).trim() : "";
   if (!isPlausibleId(id)) return json({ ok: false, message: "id invalid" }, 400);
-
   try {
     const existing = await prisma.conversationRun.findUnique({ where: { id } });
     const gate = ensureOwnedOrAdmin(existing, auth);
     if (!gate.ok) return json({ ok: false, message: gate.message }, gate.status);
-
     if (existing.status !== "DELETED") {
       // idempotent: juba "mitte-deleted"
       return json({
@@ -190,13 +166,11 @@ export async function PUT(_req, { params }) {
         },
       });
     }
-
     const row = await prisma.conversationRun.update({
       where: { id },
       data: { status: "RUNNING", updatedAt: new Date() },
       select: { id: true, status: true, updatedAt: true },
     });
-
     return json({ ok: true, conversation: row });
   } catch (err) {
     if (isDbOffline(err)) {

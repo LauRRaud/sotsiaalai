@@ -1,20 +1,16 @@
 "use client";
-
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useI18n } from "@/components/i18n/I18nProvider";
-
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
-
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
-
   function load() {
     if (!storage) return null;
     try {
@@ -26,7 +22,6 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
       return null;
     }
   }
-
   function save(messages) {
     if (!storage) return;
     try {
@@ -44,21 +39,17 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
       storage.setItem(key, JSON.stringify({ messages: trimmed }));
     } catch {}
   }
-
   function clear() {
     storage?.removeItem(key);
   }
-
   return { load, save, clear };
 }
-
 /* ---------- SSE parser ---------- */
 function createSSEReader(stream) {
   const reader = stream.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
   const queue = [];
-
   function feed(chunk) {
     buffer += chunk;
     buffer = buffer.replace(/\r\n/g, "\n");
@@ -66,7 +57,6 @@ function createSSEReader(stream) {
     while ((idx = buffer.indexOf("\n\n")) !== -1) {
       const rawEvent = buffer.slice(0, idx);
       buffer = buffer.slice(idx + 2);
-
       let event = "message";
       const dataLines = [];
       for (const line of rawEvent.split("\n")) {
@@ -78,7 +68,6 @@ function createSSEReader(stream) {
       queue.push({ event, data: dataLines.join("\n") });
     }
   }
-
   return {
     async *[Symbol.asyncIterator]() {
       while (true) {
@@ -94,14 +83,12 @@ function createSSEReader(stream) {
     },
   };
 }
-
 /* ---------- Allikate abifunktsioonid ---------- */
 function uniqueSortedPages(pages) {
   if (!Array.isArray(pages)) return [];
   const nums = pages.map((p) => Number(p)).filter((p) => Number.isFinite(p));
   return [...new Set(nums)].sort((a, b) => a - b);
 }
-
 function collapsePages(pages) {
   const sorted = uniqueSortedPages(pages);
   if (!sorted.length) return "";
@@ -123,7 +110,6 @@ function collapsePages(pages) {
   if (start !== null) out.push(start === prev ? `${start}` : `${start}–${prev}`);
   return out.join(", ");
 }
-
 function asAuthorArray(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.map(String).map((s) => s.trim()).filter(Boolean);
@@ -138,18 +124,15 @@ function asAuthorArray(v) {
   }
   return [];
 }
-
 function prettifyFileName(name) {
   if (typeof name !== "string" || !name.trim()) return "";
   const noExt = name.replace(/\.[a-z0-9]+$/i, "");
   return noExt.replace(/[_-]+/g, " ").trim();
 }
-
 function formatSourceLabel(src) {
   if (typeof src?.short_ref === "string" && src.short_ref.trim()) {
     return src.short_ref.trim();
   }
-
   const authors = asAuthorArray(src?.authors);
   const authorText = authors.length ? authors.join("; ") : null;
   const titleText =
@@ -167,7 +150,6 @@ function formatSourceLabel(src) {
       : typeof src?.year === "string"
       ? src.year.trim()
       : "";
-
   const pagesCombined =
     (typeof src?.pageRange === "string" && src.pageRange.trim()) ||
     collapsePages([
@@ -176,23 +158,19 @@ function formatSourceLabel(src) {
     ]);
   const section = typeof src?.section === "string" ? src.section.trim() : "";
   const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
-
   const issueSegment = [journal, issue && issue !== year ? issue : ""]
     .filter(Boolean)
     .join(" ")
     .trim();
-
   const contextSegments = [];
   if (issueSegment) contextSegments.push(issueSegment);
   if (year && !contextSegments.some((part) => part.includes(String(year)))) {
     contextSegments.push(String(year));
   }
-
   const tailSegments = [];
   if (contextSegments.length) tailSegments.push(contextSegments.join(", "));
   if (pagesCombined) tailSegments.push(`lk ${pagesCombined}`);
   if (section) tailSegments.push(section);
-
   const mainSegments = [];
   if (authorText && titleText) {
     mainSegments.push(`${authorText}. ${titleText}`);
@@ -200,10 +178,8 @@ function formatSourceLabel(src) {
     if (authorText) mainSegments.push(authorText);
     if (titleText) mainSegments.push(titleText);
   }
-
   const labelParts = [...mainSegments, ...tailSegments].filter(Boolean);
   let label = labelParts.join(". ").trim();
-
   if (!label && filePretty) {
     const fallbackParts = [
       filePretty,
@@ -213,19 +189,15 @@ function formatSourceLabel(src) {
     ].filter(Boolean);
     label = fallbackParts.join(", ").trim();
   }
-
   if (!label) {
     const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
     label = url || "Allikas";
   }
-
   if (label && !/[.!?]$/.test(label)) {
     label = `${label}.`;
   }
-
   return label;
 }
-
 /** Normaliseeri serveri allikad */
 function normalizeSources(sources) {
   if (!Array.isArray(sources)) return [];
@@ -246,7 +218,6 @@ function normalizeSources(sources) {
         : undefined;
     const year =
       typeof src?.year === "number" || typeof src?.year === "string" ? src.year : undefined;
-
     return {
       key,
       label,
@@ -266,18 +237,15 @@ function normalizeSources(sources) {
     };
   });
 }
-
 /* ---------- Throttle ---------- */
 function throttle(fn, waitMs) {
   let last = 0;
   let timer = null;
   let lastArgs = null;
-
   return function throttled(...args) {
     const now = Date.now();
     const remaining = waitMs - (now - last);
     lastArgs = args;
-
     if (remaining <= 0) {
       if (timer) {
         clearTimeout(timer);
@@ -296,13 +264,11 @@ function throttle(fn, waitMs) {
     }
   };
 }
-
 /* ---------- Komponent ---------- */
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
-
   const introText = t(
     "chat.intro.message",
     "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes."
@@ -311,22 +277,18 @@ export default function ChatBody() {
     "chat.crisis.notice",
     "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
   );
-
   const userRole = useMemo(() => {
     const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
     const up = String(raw || "").toUpperCase();
     return up || "CLIENT";
   }, [session]);
-
   // ⬇️ UUS: lisa locale võtmele, et eri keelte ajalugu ei seguneks
   const storageKey = useMemo(() => {
     const uid = session?.user?.id || "anon";
     const loc = locale || "et";
     return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:${loc}:v1`;
   }, [session, locale]);
-
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
-
   const [convId, setConvId] = useState(null);
   // ⬇️ UUS: vestluse ajalugu algab TÜHJALT (intro ei ole enam osa ajaloost)
   const [messages, setMessages] = useState([]);
@@ -336,7 +298,6 @@ export default function ChatBody() {
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
-
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
   const sourcesButtonRef = useRef(null);
@@ -345,31 +306,25 @@ export default function ChatBody() {
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
   const saveTimerRef = useRef(null);
-
   const historyPayload = useMemo(
     () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
     [messages]
   );
-
   const isStreamingAny = useMemo(
     () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, messages]
   );
-
   // ⬇️ EEMALDATUD: introText-i põhine efekt, mis varem asendas esimese AI-sõnumi.
   // Tervitusrida renderdatakse nüüd väljaspool sõnumi-ajalugu.
-
   // Koonda kogu vestluse vältel kasutatud allikad (for “Allikad” paneel)
   const conversationSources = useMemo(() => {
     const map = new Map();
     let order = 0;
     let fallbackCounter = 0;
-
     for (const msg of messages) {
       if (msg?.role !== "ai" || !Array.isArray(msg?.sources)) continue;
       for (const src of msg.sources) {
         if (!src) continue;
-
         const key =
           (src.key && String(src.key)) ||
           (src.url ? `url:${src.url}` : null) ||
@@ -377,7 +332,6 @@ export default function ChatBody() {
           (src.label ? `label:${src.label}` : null) ||
           (src.fileName ? `file:${src.fileName}` : null) ||
           `auto-${fallbackCounter++}`;
-
         let entry = map.get(key);
         if (!entry) {
           entry = {
@@ -400,7 +354,6 @@ export default function ChatBody() {
           };
           map.set(key, entry);
         }
-
         entry.occurrences += 1;
         if (!entry.shortRef && typeof src.short_ref === "string") {
           entry.shortRef = src.short_ref.trim();
@@ -425,7 +378,6 @@ export default function ChatBody() {
         }
         const pageNum = Number(src.page);
         if (Number.isFinite(pageNum)) entry.pages.add(pageNum);
-
         if (Array.isArray(src.authors)) {
           for (const author of src.authors) {
             if (author && typeof author === "string") entry.authors.add(author);
@@ -451,7 +403,6 @@ export default function ChatBody() {
         }
       }
     }
-
     return Array.from(map.values())
       .sort((a, b) => a.order - b.order)
       .map((entry) => {
@@ -463,7 +414,6 @@ export default function ChatBody() {
         const rangeText = pageRangeList.length ? [...new Set(pageRangeList)].join(", ") : "";
         const pageSegments = [numericPagesText, rangeText].filter((seg) => seg && seg.trim());
         const pageText = pageSegments.length ? pageSegments.join(", ") : null;
-
         const formattedLabel = formatSourceLabel({
           short_ref: entry.shortRef,
           authors: Array.from(entry.authors),
@@ -478,18 +428,15 @@ export default function ChatBody() {
           fileName: entry.fileName,
           url: primaryUrl,
         });
-
         const shortRefText =
           typeof entry.shortRef === "string" && entry.shortRef.trim()
             ? entry.shortRef.trim()
             : null;
-
         const label =
           (formattedLabel && formattedLabel.trim()) ||
           shortRefText ||
           prettifyFileName(entry.fileName || "") ||
           (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas");
-
         return {
           key: entry.key,
           label,
@@ -507,9 +454,7 @@ export default function ChatBody() {
         };
       });
   }, [messages]);
-
   const hasConversationSources = conversationSources.length > 0;
-
   /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
     setTimeout(() => {
@@ -518,7 +463,6 @@ export default function ChatBody() {
       } catch {}
     }, 0);
   }, []);
-
   const toggleSourcesPanel = useCallback(() => {
     if (!hasConversationSources) return;
     setShowSourcesPanel((prev) => {
@@ -527,22 +471,18 @@ export default function ChatBody() {
       return next;
     });
   }, [hasConversationSources, focusSourcesButton]);
-
   const closeSourcesPanel = useCallback(() => {
     setShowSourcesPanel(false);
     focusSourcesButton();
   }, [focusSourcesButton]);
-
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
-
   const appendMessage = useCallback((msg) => {
     const id = messageIdRef.current++;
     setMessages((prev) => [...prev, { ...msg, id }]);
     return id;
   }, []);
-
   const mutateMessage = useCallback((id, updater) => {
     setMessages((prev) => {
       const idx = prev.findIndex((m) => m.id === id);
@@ -555,7 +495,6 @@ export default function ChatBody() {
       return next;
     });
   }, []);
-
   /* ---------- Vestluse vahetus sündmus ---------- */
   useEffect(() => {
     function onSwitch(e) {
@@ -579,23 +518,19 @@ export default function ChatBody() {
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
   }, [chatStore, storageKey]);
-
   /* ---------- Scrolli state ---------- */
   useEffect(() => {
     const node = chatWindowRef.current;
     if (!node) return;
-
     function handleScroll() {
       const atBottom = node.scrollHeight - node.scrollTop - node.clientHeight <= 50;
       isUserAtBottom.current = atBottom;
       setShowScrollDown(!atBottom);
     }
-
     node.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => node.removeEventListener("scroll", handleScroll);
   }, []);
-
   useEffect(() => {
     if (!mountedRef.current) return;
     const node = chatWindowRef.current;
@@ -603,12 +538,10 @@ export default function ChatBody() {
       node.scrollTop = node.scrollHeight;
     }
   }, [messages]);
-
   /* ---------- Mount + püsivuse taastamine ---------- */
   useEffect(() => {
     mountedRef.current = true;
     focusInput();
-
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
@@ -616,31 +549,26 @@ export default function ChatBody() {
       messageIdRef.current = nextId;
       setMessages(hydrated);
     }
-
     const idFromGlobal =
       typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
     const idFromPerUser =
       typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
-
     const initialConvId =
       idFromGlobal ||
       idFromPerUser ||
       (typeof window !== "undefined" && window.crypto?.randomUUID
         ? window.crypto.randomUUID()
         : String(Date.now()));
-
     setConvId(initialConvId);
     if (typeof window !== "undefined") {
       if (!idFromGlobal) window.sessionStorage.setItem(GLOBAL_CONV_KEY, initialConvId);
       if (!idFromPerUser) window.sessionStorage.setItem(`${storageKey}:convId`, initialConvId);
     }
-
     return () => {
       mountedRef.current = false;
       abortControllerRef.current?.abort();
     };
   }, [chatStore, focusInput, storageKey]);
-
   /* ---------- Autosalvestus ---------- */
   useEffect(() => {
     if (!mountedRef.current) return;
@@ -650,14 +578,12 @@ export default function ChatBody() {
     }, 250);
     return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
   }, [messages, chatStore]);
-
   /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
-
   /* ---------- ESC sulgemiseks ---------- */
   useEffect(() => {
     if (!showSourcesPanel) return;
@@ -670,12 +596,10 @@ export default function ChatBody() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [showSourcesPanel, closeSourcesPanel]);
-
   /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {
     if (!convId) return;
     let cancelled = false;
-
     async function hydrateFromServer() {
       try {
         const r = await fetch(`/api/chat/run?convId=${encodeURIComponent(convId)}`, {
@@ -684,18 +608,14 @@ export default function ChatBody() {
         if (!r.ok) return;
         const data = await r.json();
         if (!data?.ok || cancelled) return;
-
         // kui kasutaja vahetas vestlust, ära kirjuta üle
         const currentGlobalId =
           typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
         if (convId !== currentGlobalId) return;
-
         const serverText = String(data.text || "");
         const serverSources = normalizeSources(data.sources ?? []);
         const serverCrisis = !!data.isCrisis;
-
         setIsCrisis(serverCrisis);
-
         setMessages((prev) => {
           const next = [...prev];
           let aiIdx = -1;
@@ -723,43 +643,34 @@ export default function ChatBody() {
         });
       } catch {}
     }
-
     hydrateFromServer();
-
     const throttled = throttle(() => {
       if (document.visibilityState === "visible") hydrateFromServer();
     }, 2500);
-
     window.addEventListener("focus", throttled);
     document.addEventListener("visibilitychange", throttled);
-
     return () => {
       cancelled = true;
       window.removeEventListener("focus", throttled);
       document.removeEventListener("visibilitychange", throttled);
     };
   }, [convId]);
-
   /* ---------- Sõnumi saatmine ---------- */
   const sendMessage = useCallback(
     async (e) => {
       e?.preventDefault();
       if (isGenerating) return;
-
       const trimmed = input.trim();
       if (!trimmed) return;
-
       setErrorBanner(null);
       setIsCrisis(false); // lähtesta, kuni server meta saadab
       appendMessage({ role: "user", text: trimmed });
       setInput("");
       setIsGenerating(true);
       focusInput();
-
       const controller = new AbortController();
       const clientTimeout = setTimeout(() => controller.abort(), 60000);
       abortControllerRef.current = controller;
-
       let streamingMessageId = null;
       try {
         const res = await fetch("/api/chat", {
@@ -772,18 +683,17 @@ export default function ChatBody() {
             stream: true,
             persist: true,
             convId,
+            // Edasta UI keel serverile, et vastus oleks õiges keeles
+            uiLocale: locale || "et",
           }),
           signal: controller.signal,
         });
-
         clearTimeout(clientTimeout);
-
         if (res.status === 401 || res.status === 403) {
           const params = new URLSearchParams({ callbackUrl: "/vestlus" });
           window.location.href = `/api/auth/signin?${params.toString()}`;
           return;
         }
-
         if (res.status === 429) {
           const retry = res.headers.get("retry-after");
           throw new Error(
@@ -792,9 +702,7 @@ export default function ChatBody() {
               : "Liiga palju päringuid. Proovi varsti uuesti."
           );
         }
-
         const contentType = res.headers.get("content-type") || "";
-
         // Mitte-streamiv vastus
         if (!contentType.includes("text/event-stream")) {
           let data = null;
@@ -812,15 +720,12 @@ export default function ChatBody() {
           appendMessage({ role: "ai", text: replyText, sources });
           return;
         }
-
         // Streamiv vastus (SSE)
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
-
         const reader = createSSEReader(res.body);
         streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
         let acc = "";
         let sources = [];
-
         for await (const ev of reader) {
           if (ev.event === "meta") {
             try {
@@ -857,7 +762,6 @@ export default function ChatBody() {
             break;
           }
         }
-
         const finalText = acc.trim() || "Vabandust, ma ei saanud praegu vastust koostada.";
         mutateMessage(streamingMessageId, (msg) => ({
           ...msg,
@@ -904,14 +808,12 @@ export default function ChatBody() {
     },
     [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId]
   );
-
   const handleStop = useCallback((e) => {
     e?.preventDefault();
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
     setIsGenerating(false);
   }, []);
-
   const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
@@ -923,13 +825,11 @@ export default function ChatBody() {
     },
     [input, isGenerating, sendMessage]
   );
-
   const scrollToBottom = useCallback(() => {
     const node = chatWindowRef.current;
     if (!node) return;
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
-
   const openConversations = useCallback(() => {
     try {
       window.dispatchEvent(
@@ -937,7 +837,6 @@ export default function ChatBody() {
       );
     } catch {}
   }, []);
-
   const BackButton = () => (
     <div className="chat-back-btn-wrapper">
       <button
@@ -950,7 +849,6 @@ export default function ChatBody() {
       </button>
     </div>
   );
-
   /* ---------- Render ---------- */
   return (
     <div
@@ -970,7 +868,6 @@ export default function ChatBody() {
         </span>
         <span className="chat-menu-label" aria-hidden="true">{t("chat.menu.label", "Vestlused")}</span>
       </button>
-
       {/* Profiili avatar – parem ülanurk */}
       <Link href="/profiil" aria-label={t("chat.profile.open", "Ava profiil")} className="avatar-link">
         <Image
@@ -983,10 +880,8 @@ export default function ChatBody() {
         />
         <span className="avatar-label">{t("chat.profile.label", "Profiil")}</span>
       </Link>
-
       {/* Pealkiri */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
-
       {/* Kriisi teavitus */}
       {isCrisis ? (
         <div
@@ -1004,7 +899,6 @@ export default function ChatBody() {
           {crisisText}
         </div>
       ) : null}
-
       {/* Vea teavitus */}
       {errorBanner ? (
         <div
@@ -1022,7 +916,6 @@ export default function ChatBody() {
           {errorBanner}
         </div>
       ) : null}
-
       <main className="chat-main" style={{ position: "relative" }}>
         <div
           id="chat-window"
@@ -1039,7 +932,6 @@ export default function ChatBody() {
               <div style={{ whiteSpace: "pre-wrap" }}>{introText}</div>
             </div>
           )}
-
           {/* Päris vestluse sõnumid */}
           {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
@@ -1049,7 +941,6 @@ export default function ChatBody() {
               </div>
             );
           })}
-
           {isStreamingAny && (
             <div className="chat-msg chat-msg-ai typing-bubble" aria-live="polite">
               <span className="typing-label">{t("chat.typing.label", "Mõtleb")}</span>
@@ -1061,7 +952,6 @@ export default function ChatBody() {
             </div>
           )}
         </div>
-
         {showScrollDown && (
           <button
             className="scroll-down-btn"
@@ -1085,7 +975,6 @@ export default function ChatBody() {
             </svg>
           </button>
         )}
-
         <form
           className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position"
           onSubmit={isGenerating ? handleStop : sendMessage}
@@ -1106,7 +995,6 @@ export default function ChatBody() {
             rows={1}
             style={{ resize: "none" }}
           />
-
           <button
             type="submit"
             className={`chat-send-btn${isGenerating ? " stop" : ""}`}
@@ -1137,7 +1025,6 @@ export default function ChatBody() {
           </button>
         </form>
       </main>
-
       <footer
         className="chat-footer"
         style={{ marginTop: "1rem", position: "relative", display: "flex", justifyContent: "center" }}
@@ -1163,10 +1050,8 @@ export default function ChatBody() {
             {t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length))}
           </button>
         ) : null}
-
         <BackButton />
       </footer>
-
       {showSourcesPanel ? (
         <div
           id="chat-sources-panel"
@@ -1228,7 +1113,6 @@ export default function ChatBody() {
                 {t("buttons.close", "Sulge")}
               </button>
             </div>
-
             {conversationSources.length === 0 ? (
               <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.75 }}>
                 {t("chat.sources.empty", "Vestluses ei ole allikaid.")}

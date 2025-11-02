@@ -1,11 +1,9 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
-
 export default function ResetPasswordForm({ token }) {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -14,26 +12,21 @@ export default function ResetPasswordForm({ token }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-
     if (!password || !confirm) {
       setError(t("auth.resetForm.errors.required"));
       return;
     }
-
     if (password !== confirm) {
       setError(t("auth.resetForm.errors.mismatch"));
       return;
     }
-
     if (password.length < 6) {
       setError(t("auth.resetForm.errors.minLength"));
       return;
     }
-
     setLoading(true);
     try {
       const response = await fetch("/api/auth/password/reset", {
@@ -41,13 +34,11 @@ export default function ResetPasswordForm({ token }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
       });
-
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
         setError(payload?.error || t("auth.resetForm.errors.updateFailed"));
         return;
       }
-
       setSuccess(true);
       setPassword("");
       setConfirm("");
@@ -59,7 +50,6 @@ export default function ResetPasswordForm({ token }) {
       setLoading(false);
     }
   }
-
   return (
     <div className="main-content glass-box reset-box" lang={locale}>
       <h1 className="glass-title reset-title">{t("auth.resetForm.title")}</h1>
@@ -93,7 +83,6 @@ export default function ResetPasswordForm({ token }) {
               disabled={loading}
             />
           </label>
-
           <label htmlFor="confirm" className="reset-label">
             <input
               type="password"
@@ -109,13 +98,11 @@ export default function ResetPasswordForm({ token }) {
               disabled={loading}
             />
           </label>
-
           {error && (
             <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
               {error}
             </div>
           )}
-
           <button className="btn-primary reset-btn" type="submit" disabled={loading}>
             <span>{loading ? t("auth.resetForm.submitting") : t("auth.resetForm.submit")}</span>
           </button>
@@ -131,7 +118,6 @@ export default function ResetPasswordForm({ token }) {
           <span className="back-arrow-circle"></span>
         </button>
       </div>
-
       <footer className="alaleht-footer reset-footer">{t("about.footer.note")}</footer>
     </div>
   );

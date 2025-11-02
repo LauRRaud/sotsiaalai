@@ -1,12 +1,9 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-
 export default function OpeningBanner({ text = "Peagi avame!" }) {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     setMounted(true);
     const check = () => setIsMobile(window.innerWidth <= 768);
@@ -14,9 +11,7 @@ export default function OpeningBanner({ text = "Peagi avame!" }) {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-
   if (!mounted || typeof document === "undefined") return null;
-
   return createPortal(
     <div
       style={{
@@ -34,7 +29,7 @@ export default function OpeningBanner({ text = "Peagi avame!" }) {
       <h1
         style={{
           margin: 0,
-          color: "#B88B7C", // veidi tumedam kui var(--brand-primary)
+          color: "var(--brand-primary)",
           fontFamily:
             "var(--font-aino-headline), var(--font-aino), Arial, sans-serif",
           fontWeight: 400,

@@ -1,10 +1,8 @@
 // app/sitemap.js
 import { localizePath, LOCALES } from "@/lib/localizePath";
-
 export default function sitemap() {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://sotsiaal.ai";
   const now = new Date().toISOString();
-
   const paths = [
     "/",
     "/vestlus",
@@ -17,7 +15,6 @@ export default function sitemap() {
     "/tellimus",
     "/start",
   ];
-
   return paths.flatMap((pathname) => {
     return LOCALES.map((locale) => {
       const localizedPath = localizePath(pathname, locale);
@@ -28,7 +25,6 @@ export default function sitemap() {
           return [loc, `${base}${locPath === "/" ? "" : locPath}`];
         }),
       );
-
       return {
         url,
         lastModified: now,

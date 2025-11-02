@@ -1,12 +1,10 @@
 "use client";
-
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
-
 export default function RegistreerimineBody() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -19,7 +17,6 @@ export default function RegistreerimineBody() {
     } catch { return String(u || "/"); }
   };
   const nextUrl = toRelative(searchParams?.get("next") || localizePath("/vestlus", locale));
-
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -28,7 +25,6 @@ export default function RegistreerimineBody() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -36,16 +32,13 @@ export default function RegistreerimineBody() {
       [name]: type === "checkbox" ? checked : value,
     }));
   }
-
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-
     if (!form.agree) {
       setError(t("auth.register.error.agree_required"));
       return;
     }
-
     setSubmitting(true);
     try {
       const res = await fetch("/api/register", {
@@ -57,27 +50,23 @@ export default function RegistreerimineBody() {
           role: form.role,
         }),
       });
-
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
         // /api/register/route.js tagastab 'message'
         setError(payload?.message || payload?.error || t("auth.register.error.failed"));
         return;
       }
-
       const login = await signIn("credentials", {
         redirect: false,
         callbackUrl: nextUrl,
         email: form.email,
         password: form.password,
       });
-
       if (login?.error) {
         setError(t("auth.register.error.auto_login"));
         router.replace(`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`);
         return;
       }
-
       router.replace(`${localizePath("/tellimus", locale)}?next=${encodeURIComponent(nextUrl)}`);
       router.refresh();
     } catch (err) {
@@ -87,11 +76,9 @@ export default function RegistreerimineBody() {
       setSubmitting(false);
     }
   }
-
   return (
     <div className="main-content glass-box" lang={locale}>
       <h1 className="glass-title">{t("auth.register.title")}</h1>
-
       <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
         <input
           type="email"
@@ -104,7 +91,6 @@ export default function RegistreerimineBody() {
           required
           autoComplete="username"
         />
-
         <input
           type="password"
           id="password"
@@ -117,7 +103,6 @@ export default function RegistreerimineBody() {
           minLength={6}
           autoComplete="new-password"
         />
-
         <div className="glass-label glass-label-radio">{t("auth.register.role_label")}</div>
         <div className="glass-radio-group" role="radiogroup">
           <label>
@@ -141,7 +126,6 @@ export default function RegistreerimineBody() {
             {t("role.client")}
           </label>
         </div>
-
         <label className="glass-checkbox">
           <input
             type="checkbox"
@@ -166,18 +150,15 @@ export default function RegistreerimineBody() {
             />
           </span>
         </label>
-
         {error && (
           <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
             {error}
           </div>
         )}
-
         <button className="btn-primary" type="submit" disabled={submitting}>
           <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
       </form>
-
       <div className="back-btn-wrapper">
         <button
           type="button"
@@ -192,7 +173,6 @@ export default function RegistreerimineBody() {
           <span className="back-arrow-circle"></span>
         </button>
       </div>
-
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>
   );

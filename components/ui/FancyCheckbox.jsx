@@ -1,8 +1,6 @@
 "use client";
-
 import React, { forwardRef } from "react";
 import styled from "styled-components";
-
 const Label = styled.label`
   display: inline-flex;
   align-items: center;
@@ -11,13 +9,11 @@ const Label = styled.label`
   min-height: 44px; /* target size */
   user-select: none;
   position: relative;
-
   /* Focus ring on the visual box when the input gets focus */
   &:focus-within .box {
     outline: 3px solid var(--focus-ring, #ffd24d);
     outline-offset: 3px;
   }
-
   .visually-hidden {
     position: absolute;
     opacity: 0;
@@ -30,7 +26,6 @@ const Label = styled.label`
     border: 0;
     padding: 0;
   }
-
   .box {
     width: 28px;
     height: 28px;
@@ -41,13 +36,11 @@ const Label = styled.label`
     border: 1px solid rgba(255,255,255,.25);
     box-sizing: border-box;
   }
-
   .svg {
     width: 20px;
     height: 20px;
     display: block;
   }
-
   .shape {
     fill: none;
     stroke: var(--pt-200, #E0E0E0);
@@ -55,7 +48,6 @@ const Label = styled.label`
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-
   .tick {
     fill: none;
     stroke: var(--brand-primary, #ffd24d);
@@ -66,23 +58,19 @@ const Label = styled.label`
     stroke-dashoffset: 40; /* hidden */
     transition: stroke-dashoffset 180ms ease;
   }
-
   input:checked + .box .tick {
     stroke-dashoffset: 0; /* revealed */
   }
-
   .text {
     color: var(--pt, #C9C7C2);
     font: inherit;
   }
-
   /* A11Y modal: scale controls and text slightly larger */
   .a11y-modal & { gap: 0.75rem; }
   .a11y-modal & .box { width: 32px; height: 32px; }
   .a11y-modal & .svg { width: 22px; height: 22px; }
   .a11y-modal & .text { font-size: 1.12rem; }
 `;
-
 const FancyCheckbox = forwardRef(function FancyCheckbox(
   { id, label, checked, onChange, disabled, name }, ref
 ){
@@ -112,5 +100,4 @@ const FancyCheckbox = forwardRef(function FancyCheckbox(
     </Label>
   );
 });
-
 export default FancyCheckbox;

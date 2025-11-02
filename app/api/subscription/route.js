@@ -1,14 +1,11 @@
 // app/api/subscription/route.js
 export const runtime = "nodejs";
-
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { SubscriptionStatus } from "@prisma/client";
-
 const ACTIVE_STATUS = SubscriptionStatus.ACTIVE;
 const CANCELED_STATUS = SubscriptionStatus.CANCELED;
-
 // --- utils: ühtlased vastused + no-store päised ---
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -26,13 +23,11 @@ function ok(payload = {}, status = 200) {
 function err(message, status = 400, extras = {}) {
   return json({ ok: false, message, ...extras }, status);
 }
-
 async function requireUser(request) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   if (!token?.id) return null;
   return { token, userId: String(token.id) };
 }
-
 function shape(subscription) {
   if (!subscription) return null;
   const now = Date.now();
@@ -53,7 +48,6 @@ function shape(subscription) {
     daysLeft,
   };
 }
-
 // lihtne plaani normaliseerimine (soovi korral piira lubatute listiga)
 const PLAN_MAX_LEN = 80;
 function normalizePlan(v) {
@@ -61,22 +55,18 @@ function normalizePlan(v) {
   if (!s) return "kuutellimus";
   return s.length > PLAN_MAX_LEN ? s.slice(0, PLAN_MAX_LEN) : s;
 }
-
 export async function GET(request) {
   const session = await requireUser(request);
   if (!session) return err("Unauthorized", 401);
-
   try {
     const user = await prisma.user.findUnique({
       where: { id: session.userId },
       select: { email: true, role: true },
     });
-
     const subscription = await prisma.subscription.findFirst({
       where: { userId: session.userId },
       orderBy: [{ updatedAt: "desc" }],
     });
-
     return ok({
       user,
       subscription: shape(subscription),
@@ -86,25 +76,20 @@ export async function GET(request) {
     return err("Tellimuse päring ebaõnnestus.", 500);
   }
 }
-
 export async function POST(request) {
   const session = await requireUser(request);
   if (!session) return err("Unauthorized", 401);
-
   try {
     const body = await request.json().catch(() => ({}));
     const plan = normalizePlan(body?.plan);
-
     const now = new Date();
     const validUntil = new Date(now);
     validUntil.setMonth(validUntil.getMonth() + 1);
-
     // Võta viimane tellimus — kui on olemas, uuenda; muidu loo
     const existing = await prisma.subscription.findFirst({
       where: { userId: session.userId },
       orderBy: [{ createdAt: "desc" }],
     });
-
     const subscription = existing
       ? await prisma.subscription.update({
           where: { id: existing.id },
@@ -125,32 +110,26 @@ export async function POST(request) {
             nextBilling: validUntil,
           },
         });
-
     return ok({ subscription: shape(subscription) });
   } catch (e) {
     console.error("subscription POST error", e);
     return err("Tellimuse aktiveerimine ebaõnnestus.", 500);
   }
 }
-
 export async function DELETE(request) {
   const session = await requireUser(request);
   if (!session) return err("Unauthorized", 401);
-
   try {
     const now = new Date();
-
     // Märgime kõik ACTIVE tellimused tühistatuks (idempotentne)
     await prisma.subscription.updateMany({
       where: { userId: session.userId, status: ACTIVE_STATUS },
       data: { status: CANCELED_STATUS, canceledAt: now },
     });
-
     const subscription = await prisma.subscription.findFirst({
       where: { userId: session.userId },
       orderBy: [{ updatedAt: "desc" }],
     });
-
     return ok({ subscription: shape(subscription) });
   } catch (e) {
     console.error("subscription DELETE error", e);

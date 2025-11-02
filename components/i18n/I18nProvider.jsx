@@ -1,9 +1,6 @@
 "use client";
-
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
-
 const I18nContext = createContext(null);
-
 function get(obj, path, fallback) {
   if (!obj) return fallback;
   const parts = String(path).split(".");
@@ -14,13 +11,11 @@ function get(obj, path, fallback) {
   }
   return cur;
 }
-
 export default function I18nProvider({ initialLocale = "et", messages = {}, children }) {
   const [locale, setLocaleState] = useState(initialLocale);
   const [dict, setDict] = useState(messages || {});
   const liveRef = useRef(null);
   const missingKeysRef = useRef(new Set());
-
   const t = useCallback(
     (key, fallback = "") => {
       const val = get(dict, key, undefined);
@@ -35,14 +30,12 @@ export default function I18nProvider({ initialLocale = "et", messages = {}, chil
     },
     [dict],
   );
-
   const announce = useCallback((msg) => {
     const el = liveRef.current;
     if (!el) return;
     el.textContent = "";
     setTimeout(() => { el.textContent = msg; }, 30);
   }, []);
-
   const setLocale = useCallback(async (nextLocale) => {
     if (!nextLocale || nextLocale === locale) return;
     try {
@@ -61,12 +54,10 @@ export default function I18nProvider({ initialLocale = "et", messages = {}, chil
     const template = get(dict, "common.language_changed", "Language changed: {language}");
     announce(template.replace("{language}", languageName));
   }, [locale, dict, announce]);
-
   // Allow consumers to update messages immediately on the client (for instant UI switch)
   const setMessages = useCallback((nextMessages) => {
     setDict(nextMessages || {});
   }, []);
-
   // If server provided messages or initialLocale changes on refresh, sync local state
   React.useEffect(() => {
     setDict(messages || {});
@@ -76,9 +67,7 @@ export default function I18nProvider({ initialLocale = "et", messages = {}, chil
     setLocaleState(initialLocale);
     try { document.documentElement.setAttribute("lang", initialLocale); } catch {}
   }, [initialLocale]);
-
   const value = useMemo(() => ({ locale, messages: dict, t, setLocale, setMessages }), [locale, dict, t, setLocale, setMessages]);
-
   return (
     <I18nContext.Provider value={value}>
       <div ref={liveRef} aria-live="polite" aria-atomic="true" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }} />
@@ -86,7 +75,6 @@ export default function I18nProvider({ initialLocale = "et", messages = {}, chil
     </I18nContext.Provider>
   );
 }
-
 export function useI18n() {
   const ctx = useContext(I18nContext);
   if (!ctx) throw new Error("useI18n must be used within I18nProvider");

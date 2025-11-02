@@ -1,11 +1,8 @@
 // components/ViewportLayoutSetter.jsx
 "use client";
-
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-
 const MOBILE_QUERY = "(max-width: 768px)";
-
 function applyLayoutFlag(matches) {
   const root = document.documentElement;
   const body = document.body;
@@ -18,7 +15,6 @@ function applyLayoutFlag(matches) {
     body.removeAttribute("data-layout");
   }
 }
-
 function applyVhVar() {
   // iOS/safe-area sõbralik 1vh
   const vh =
@@ -29,18 +25,14 @@ function applyVhVar() {
       : 0) * 0.01;
   if (vh) document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
-
 export default function ViewportLayoutSetter() {
   const pathname = usePathname();
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const mql = window.matchMedia(MOBILE_QUERY);
-
     // esmane rakendus
     applyLayoutFlag(mql.matches);
     applyVhVar();
-
     // kuulajad
     const onMqChange = (e) => applyLayoutFlag(e.matches);
     const onResize = () => {
@@ -52,25 +44,21 @@ export default function ViewportLayoutSetter() {
       applyLayoutFlag(mql.matches);
       applyVhVar();
     };
-
     mql.addEventListener?.("change", onMqChange);
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onResize);
     window.addEventListener("pageshow", onPageShow);
     window.visualViewport?.addEventListener("resize", onResize);
-
     return () => {
       mql.removeEventListener?.("change", onMqChange);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
       window.removeEventListener("pageshow", onPageShow);
       window.visualViewport?.removeEventListener("resize", onResize);
-
       // puhasta atribuudi jalajälg
       applyLayoutFlag(false);
     };
   }, []);
-
   // Route-vahetusel sea fookus #main peale
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -79,6 +67,5 @@ export default function ViewportLayoutSetter() {
       try { main.focus(); } catch {}
     }
   }, [pathname]);
-
   return null;
 }

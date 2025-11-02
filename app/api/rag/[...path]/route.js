@@ -1,23 +1,16 @@
 // app/api/rag/[...path]/route.js
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
 /* ===================== Config ===================== */
-
 // Sisemine RAG teenus (Uvicorn/FastAPI). Võib olla "127.0.0.1:8000" või "http://127.0.0.1:8000"
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
-
 // API võti, mis lisatakse X-API-Key päisesse (sama mis RAG backendis)
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
-
 // Proxy timeout millisekundites
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
-
 // Lubame väljapoole localhosti ainult, kui admin on nii otsustanud
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
-
 /* ===================== Utils ===================== */
-
 function normalizeBaseFromHost(host) {
   // kui antakse täis-URL, kasuta seda; muidu eelda http://
   const trimmed = String(host || "").trim().replace(/\/+$/, "");
@@ -25,12 +18,10 @@ function normalizeBaseFromHost(host) {
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
   return `http://${trimmed}`;
 }
-
 function isLocalHostHostPort(hp) {
   // lubame 127.0.0.1, localhost, ::1 (kõik valikulise :port’iga)
   return /^(127\.0\.0\.1|localhost|\[?::1\]?)(:\d+)?$/i.test(hp || "");
 }
-
 function isLocalBaseUrl(u) {
   try {
     const url = new URL(u);
@@ -40,21 +31,17 @@ function isLocalBaseUrl(u) {
     return false;
   }
 }
-
 // Väike util, et koostada siht-URL ilma topelt kaldkriipsudeta
 function buildTargetUrl(req, params) {
   const incoming = new URL(req.url);
   const segments = Array.isArray(params?.path) ? [...params.path] : [];
-
   // backward-compat: /api/rag/query -> /search
   if (segments[0] === "query") segments[0] = "search";
-
   const subPath = segments.join("/");
   const base = normalizeBaseFromHost(RAW_RAG_HOST).replace(/\/+$/, "");
   const path = ("/" + subPath).replace(/\/{2,}/g, "/");
   return `${base}${path}${incoming.search}`;
 }
-
 // Hop-by-hop päised, mida ei tohiks edasi kanda
 const HOP_BY_HOP = new Set([
   "connection",
@@ -66,7 +53,6 @@ const HOP_BY_HOP = new Set([
   "upgrade",
   "transfer-encoding",
 ]);
-
 // Sissetulevatest päistest, mida võib turvaliselt edasi anda RAG-ile
 const SAFE_FORWARD_REQ_HEADERS = [
   "accept",
@@ -77,7 +63,6 @@ const SAFE_FORWARD_REQ_HEADERS = [
   "if-modified-since",
   "if-range",
 ];
-
 // Kas päringul on sisuline body (väldi GET/HEAD või Content-Length: 0 juhtudel)
 function requestHasBody(req) {
   if (req.method === "GET" || req.method === "HEAD") return false;
@@ -85,9 +70,7 @@ function requestHasBody(req) {
   if (cl && Number(cl) === 0) return false;
   return true;
 }
-
 /* ===================== Core proxy ===================== */
-
 async function proxy(req, { params }) {
   // turvaventiilid
   if (!RAG_KEY) {
@@ -96,7 +79,6 @@ async function proxy(req, { params }) {
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
-
   const base = normalizeBaseFromHost(RAW_RAG_HOST);
   if (!ALLOW_EXTERNAL && !isLocalBaseUrl(base)) {
     return new Response(
@@ -108,26 +90,20 @@ async function proxy(req, { params }) {
       { status: 503, headers: { "Content-Type": "application/json" } }
     );
   }
-
   const target = buildTargetUrl(req, params);
-
   // Koosta päised: alati X-API-Key + ohutud forwarditavad päised
   const headers = new Headers();
   headers.set("X-API-Key", RAG_KEY);
-
   for (const name of SAFE_FORWARD_REQ_HEADERS) {
     const v = req.headers.get(name);
     if (v) headers.set(name, v);
   }
   // NB: ära forwardi Cookie / Authorization – RAG ei peaks neist sõltuma
-
   // Streami body otse (sobib ka multipartile)
   const body = requestHasBody(req) ? req.body : undefined;
-
   // Timeout (AbortController)
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), RAG_TIMEOUT_MS);
-
   try {
     const res = await fetch(target, {
       method: req.method,
@@ -140,13 +116,11 @@ async function proxy(req, { params }) {
       // (Next Node runtime toetab seda; brauseris seda ei kasutata)
       ...(body ? { duplex: "half" } : {}),
     });
-
     // Puhasta hop-by-hop päised
     const responseHeaders = new Headers();
     res.headers.forEach((val, key) => {
       if (!HOP_BY_HOP.has(key.toLowerCase())) responseHeaders.set(key, val);
     });
-
     // SSE-le sobivad päised (ära lase vahekihtidel puskida)
     const ctype = (res.headers.get("content-type") || "").toLowerCase();
     if (ctype.includes("text/event-stream")) {
@@ -159,7 +133,6 @@ async function proxy(req, { params }) {
       responseHeaders.set("Pragma", "no-cache");
       responseHeaders.set("Expires", "0");
     }
-
     // Säilita sisuvoog (stream passthrough)
     return new Response(res.body, { status: res.status, headers: responseHeaders });
   } catch (err) {
@@ -174,16 +147,13 @@ async function proxy(req, { params }) {
     clearTimeout(timer);
   }
 }
-
 /* ===================== Route exports ===================== */
-
 export async function GET(req, ctx)    { return proxy(req, ctx); }
 export async function POST(req, ctx)   { return proxy(req, ctx); }
 export async function PUT(req, ctx)    { return proxy(req, ctx); }
 export async function PATCH(req, ctx)  { return proxy(req, ctx); }
 export async function DELETE(req, ctx) { return proxy(req, ctx); }
 export async function HEAD(req, ctx)   { return proxy(req, ctx); }
-
 // Kasulik CORS/preflight jaoks (kui kunagi vaja)
 export async function OPTIONS() {
   return new Response(null, {

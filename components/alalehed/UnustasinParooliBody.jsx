@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
-
 export default function UnustasinParooliBody() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -19,7 +18,6 @@ export default function UnustasinParooliBody() {
       setError(t("auth.reset.error.required"));
       return;
     }
-
     setLoading(true);
     try {
       const response = await fetch("/api/auth/password/reset", {
@@ -27,14 +25,11 @@ export default function UnustasinParooliBody() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-
       const payload = await response.json().catch(() => ({}));
-
       if (!response.ok) {
         setError(payload?.error || t("auth.reset.error.failed"));
         return;
       }
-
       setSubmitted(true);
     } catch (err) {
       console.error("password reset request error", err);
@@ -43,7 +38,6 @@ export default function UnustasinParooliBody() {
       setLoading(false);
     }
   }
-
   return (
     <div className="main-content glass-box reset-box" lang={locale}>
       <h1 className="glass-title reset-title">{t("auth.reset.title")}</h1>
@@ -89,7 +83,6 @@ export default function UnustasinParooliBody() {
           <span className="back-arrow-circle"></span>
         </button>
       </div>
-
       <footer className="alaleht-footer reset-footer">{t("about.footer.note")}</footer>
     </div>
   );

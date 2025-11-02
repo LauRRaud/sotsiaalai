@@ -5,13 +5,11 @@ import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
   const messages = getMessagesSync(locale);
   const meta = messages?.meta?.about || {};
-
   return buildLocalizedMetadata({
     locale,
     pathname: "/meist",
@@ -19,7 +17,6 @@ export async function generateMetadata() {
     description: meta.description || "",
   });
 }
-
 export default async function MeistPage() {
   const session = await getServerSession(authConfig);
   const isAdmin = !!(

@@ -445,7 +445,7 @@
                 "heading":  "Soovid platvormi eraldi rakendusena?",
                 "cta":  "Paigalda mobiili või arvutisse",
                 "instructions":  {
-                                     "ios":  "iPhone/iPad: Ava Safari, vali Jaga ikoon → Lisa avalehele.",
+                                     "ios":  "iPhone/iPad: Ava Safari, vali Jaga (ekraani ülaservas) → Lisa avalehele.",
                                      "mac":  "Mac: Ava Safari ja vali menüüst File → Add to Dock…"
                                  }
             },
