@@ -1,7 +1,7 @@
 ﻿# RAG admin checklist
 
 See projekt kasutab eraldi FastAPI RAG-teenust (Chroma püsisalvestus) ja veebirakendus suhtleb temaga HTTP kaudu.
-RAG-teenus loob **OpenAI embeddings** (serveris), veebirakendus kasutab **OpenAI chat** mudelit vastuste koostamiseks.
+RAG-teenus loob **OpenAI embeddings** (serveris), veebirakendus kasutab **OpenAI chat** mudelit vastuste koostamiseks. Ojee!
 
 
 - `RAG_API_BASE` – RAG-teenuse täielik URL (nt `https://rag.sotsiaal.ai`)
