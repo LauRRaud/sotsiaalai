@@ -199,9 +199,9 @@ export default function ProfiilBody({ initialProfile = null }) {
               e.preventDefault();
               if (!saving) handleUpdateEmail();
             }}
-            aria-label={t("profile.update_email_cta", "Uuenda epost")}
+            aria-label={t("profile.update_email_cta", "Uuenda e-post")}
           >
-            {t("profile.update_email_cta", "Uuenda epost")}
+            {t("profile.update_email_cta", "Uuenda e-post")}
           </a>
           <Link
             href={localizePath("/unustasin-parooli", locale)}
