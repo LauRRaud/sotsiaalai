@@ -229,7 +229,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {success}
           </div>
         )}
-        <div className="profile-btn-row">
+        <div className="profile-btn-row profile-btn-row--duo">
           <button
             type="submit"
             className="btn-primary btn-profile-save"

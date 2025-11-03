@@ -46,16 +46,31 @@ export default function Magnet({
       const box = wrapperRef.current.getBoundingClientRect();
       const cx = box.left + box.width / 2;
       const cy = box.top  + box.height / 2;
+      const halfWidth  = box.width / 2;
+      const halfHeight = box.height / 2;
+      const dx = x - cx;
+      const dy = y - cy;
+      const insideCard = Math.abs(dx) <= halfWidth && Math.abs(dy) <= halfHeight;
       const inPad =
-        Math.abs(x - cx) < box.width / 2 + padding &&
-        Math.abs(y - cy) < box.height / 2 + padding;
+        Math.abs(dx) <= halfWidth + padding &&
+        Math.abs(dy) <= halfHeight + padding;
+      if (insideCard) {
+        if (activeRef.current) {
+          activeRef.current = false;
+          setIsActive(false);
+        }
+        innerRef.current.style.transform  = "translate3d(0,0,0)";
+        innerRef.current.style.transition = inactiveTransition;
+        innerRef.current.style.willChange = "auto";
+        return;
+      }
       if (inPad) {
         if (!activeRef.current) {
           activeRef.current = true;
           setIsActive(true);
         }
-        let ox = (x - cx) * 0.12;
-        let oy = (y - cy) * 0.12;
+        let ox = dx * 0.12;
+        let oy = dy * 0.12;
         innerRef.current.style.transform  = `translate3d(${clamp(ox)}px, ${clamp(oy)}px, 0)`;
         innerRef.current.style.transition = activeTransition;
         innerRef.current.style.willChange = "transform";

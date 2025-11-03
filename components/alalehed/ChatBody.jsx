@@ -10,7 +10,7 @@ import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 // Tüpograafi-voo kiirus: sõnad sekundis (vähendatud ~poole võrra)
-const TYPEWRITER_WORDS_PER_SECOND = 4; // tõsta/langeta vajadusel
+const TYPEWRITER_WORDS_PER_SECOND = 10; // tõsta/langeta vajadusel
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
@@ -1040,15 +1040,17 @@ export default function ChatBody() {
           />
 <button
   type="submit"
-  className="chat-send-btn"
+  className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
   aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
   title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
-  disabled={!isGenerating ? !input.trim() : false}
+  disabled={!input.trim() && !isGenerating && !isStreamingAny}
+  data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
 >
   {(() => {
     const thinking = isGenerating || isStreamingAny;
     return (
       <SotsiaalAILoader
+        size="calc(100% + 2px)"
         animated={thinking}
         ariaHidden
         className="send-loader"

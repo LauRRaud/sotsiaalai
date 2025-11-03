@@ -6,7 +6,7 @@ export default function SotsiaalAILoader({
   color = "#b17c7c",
   pulse = 2.4,
   minScale = 0.5,
-  maxScale = 1.2,
+  maxScale = 1,
   ariaLabel = "Assistent koostab vastust",
   animated = true,
   ariaHidden = false,
@@ -29,6 +29,7 @@ export default function SotsiaalAILoader({
     <div
       className={stageClass}
       {...accessibilityProps}
+      data-animated={animated ? "true" : "false"}
       style={{
         // CSS var jätkub, aga paneme KA reaalse width/height inline (üle kirjutab globaalid)
         "--size": px || "var(--sotsiaalai-loader-size, 44px)",
