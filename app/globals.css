@@ -120,7 +120,7 @@ body::-webkit-scrollbar {
 }
 @media (max-width: 480px) {
   :root {
-    --card-size: clamp(200px, 80vw, 280px);
+    --card-size: clamp(190px, 76vw, 266px); /* –5% väiksem */
   }
 }
 /* (typing indicator CSS removed; replaced by SotsiaalAILoader module styles) */
@@ -468,7 +468,7 @@ a, .link-brand, .meist-external-link {
 /* Vasak kaart – esikülje logo */
 .card-logo-bg-left {
   top: 51%;
-  opacity: 0.55;
+  opacity: 0.6;
     left: 51%;
     width: 58%;
 }
@@ -2501,17 +2501,17 @@ body.modal-open {
     transform: translateY(-4%);
     text-align: center;
   }
-  .centered-back-left .card-logo-bg-left-back,
-  .centered-back-right .card-logo-bg-right-back {
-    grid-row: 3;
-    position: static !important;
-    transform: none !important;
-    display: block;
-    width: clamp(65px, 28.8%, 99px);
-    height: auto;
-    margin-top: clamp(.7rem, 2.1vw, 1rem);
-    opacity: .72;
-  }
+.centered-back-left .card-logo-bg-left-back,
+.centered-back-right .card-logo-bg-right-back {
+  grid-row: 3;
+  position: static !important;
+  transform: none !important;
+  display: block;
+  width: clamp(61.75px, 27.4%, 94px); /* –5% väiksem */
+  height: auto;
+  margin-top: clamp(.7rem, 2.1vw, 1rem);
+  opacity: .72;
+}
   /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
   .chat-menu-btn{
