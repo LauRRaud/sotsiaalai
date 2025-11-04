@@ -8,7 +8,7 @@ const TOP_FRAC = 0.25; // 0 = ringi algus (parem), 0.25 = üla
 const TAU = Math.PI * 2;
 export default function CircularText({
   text,
-  size = 440,
+  size = 420,
   duration = 130,
   clockwise = false,
   fontSize = 28,
@@ -196,7 +196,7 @@ export function CircularRingLeft() {
   return (
     <CircularText
       text={t("home.ring.left", "SEADUSED PRAKTIKA NÕUANDED")}
-      size={440}
+      size={420}
       duration={130}
       clockwise={false}
       fontSize={34}
@@ -215,7 +215,7 @@ export function CircularRingRight() {
   return (
     <CircularText
       text={t("home.ring.right", "ÕIGUSED JUHISED VÕIMALUSED")}
-      size={440}
+      size={420}
       duration={130}
       clockwise={false}
       fontSize={34}

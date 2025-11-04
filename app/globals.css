@@ -113,7 +113,7 @@ body::-webkit-scrollbar {
   --pt-mid:   var(--pt-400); 
   --pt-dark:  var(--pt-500);
   /* === Kaartide suurused ja animatsioonid === */
-  --card-size: clamp(260px, 42vw, 430px);
+--card-size: clamp(248px, 40vw, 410px);
   --flip-ms: 1100ms;
   --fade-ms: 600ms;
   --flip-ease: cubic-bezier(.22,.61,.36,1);
@@ -313,8 +313,8 @@ a, .link-brand, .meist-external-link {
 }
 .centered-back-left,
 .centered-back-right {
-  width: 95% !important;
-  height: 95% !important;
+  width: 100% !important;
+  height: 100% !important;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   margin: 0 auto;
@@ -461,18 +461,16 @@ a, .link-brand, .meist-external-link {
   z-index: 1;                        /* tekstid jäävad peale */
 }
 .card-logo-bg-right {
-  top: 51%;
-  /* left jääb 50% baasist */
-  width: 45%;
-  opacity: 0.45;
+  top: 52%;
+  left: 52%;
+  opacity: 0.5;
 }
 /* Vasak kaart – esikülje logo */
 .card-logo-bg-left {
-  top: 50%;
-  /* left: 50% (baas) — kui vajad 47% offsetit, lisa siia: left: 47%; */
-  width: 56%;
-  opacity: 0.5;
-    left: 47%;   
+  top: 51%;
+  opacity: 0.55;
+    left: 51%;
+    width: 58%;
 }
 .centered-back-left .card-logo-bg-left-back {
   position: absolute;
