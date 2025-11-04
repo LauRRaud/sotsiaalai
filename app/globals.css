@@ -2278,7 +2278,7 @@ textarea::placeholder{
 /* Mobile: show logo/link instantly (no delayed fade) */
 @media (max-width: 768px){
   /* Tagakülje väiksem ring mobiilis */
-  .three-d-card{ --back-scale: 0.88; }
+  .three-d-card,
   .footer-logo-img.defer-fade,
   .top-center-link.defer-fade{
     animation: none;
@@ -2501,17 +2501,17 @@ body.modal-open {
     transform: translateY(-4%);
     text-align: center;
   }
-.centered-back-left .card-logo-bg-left-back,
-.centered-back-right .card-logo-bg-right-back {
-  grid-row: 3;
-  position: static !important;
-  transform: none !important;
-  display: block;
-  width: clamp(61.75px, 27.4%, 94px); /* –5% väiksem */
-  height: auto;
-  margin-top: clamp(.7rem, 2.1vw, 1rem);
-  opacity: .72;
-}
+  .centered-back-left .card-logo-bg-left-back,
+  .centered-back-right .card-logo-bg-right-back {
+    grid-row: 3;
+    position: static !important;
+    transform: none !important;
+    display: block;
+    width: clamp(65px, 28.8%, 99px);
+    height: auto;
+    margin-top: clamp(.7rem, 2.1vw, 1rem);
+    opacity: .72;
+  }
   /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
   .chat-menu-btn{
@@ -3464,4 +3464,22 @@ html[data-contrast="hc"] .desc-ring-right * {
   .btn-spacing-profile-logout span { letter-spacing: 0.06em !important; }
   .btn-spacing-accessibility,
   .btn-spacing-accessibility span { letter-spacing: 0.06em !important; }
+}
+@media (max-width: 758px) {
+  /* Vasaku kaardi esikülje logo (spetsialist) */
+  .card-logo-bg-left {
+    width: 53%;              /* enne 58% → ~10% väiksem */
+    top: 51%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;           /* veidi tugevam, et hele pind jääks nähtav */
+  }
+  /* Parema kaardi esikülje logo (abivajaja) */
+  .card-logo-bg-right {
+    width: 50%;              /* võib olla kergelt väiksem, kuna tume taust */
+    top: 52%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;           /* veidi madalam kontrast, et tasakaalustada */
+  }
 }
