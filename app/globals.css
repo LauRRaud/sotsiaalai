@@ -3474,10 +3474,10 @@ html[data-contrast="hc"] .desc-ring-right * {
   }
 .centered-back-left .card-logo-bg-left-back {
   position: absolute;
-  bottom: -25%;            /* kaugus alumisest servast */
+  bottom: -30%;            /* kaugus alumisest servast */
   left: 50%;
   transform: translateX(-50%); /* ainult X, mitte Y! */
-  width: 35%;
+  width: 32%;
   opacity: 0.7;
   top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
@@ -3485,10 +3485,10 @@ html[data-contrast="hc"] .desc-ring-right * {
 /* Parem kaart – tagakülje logo */
 .centered-back-right .card-logo-bg-right-back {
   position: absolute;
-  bottom: -25%;            /* kaugus alumisest servast */
+  bottom: -30%;            /* kaugus alumisest servast */
   left: 50%;
   transform: translateX(-50%);
-  width: 35%;
+  width: 32%;
   opacity: 0.55;
   top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
