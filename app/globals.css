@@ -1,4 +1,4 @@
-/* Reset page input: remove global yellow outline and use soft glow */
+
 .reset-input:focus-visible{
   outline: none !important;
   border-color: var(--pt-light);
@@ -48,6 +48,8 @@ html {
   box-sizing: border-box;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 body {
   min-height: 100vh;         /* või 100dvh, kui tahad mobiilil täpsemat kõrgust */
@@ -497,33 +499,7 @@ a, .link-brand, .meist-external-link {
   opacity: 0.55;
   top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
-@media (max-width: 758px) {
-  /* jäta need alles, kui vaja teksti muuta */
-  .centered-back-left .headline-bold,
-  .centered-back-right .headline-bold {
-    grid-row: 2;
-    margin: 0;
-    width: 100%;
-    max-width: 86%;
-    font-size: clamp(1.2rem, 4.2vw, 1.4rem);
-    line-height: 1.25;
-    letter-spacing: .07em;
-    transform: translateY(-4%);
-    text-align: center;
-  }
 
-  /* ⟵ kustuta see osa või asenda */
-  .centered-back-left .card-logo-bg-left-back,
-  .centered-back-right .card-logo-bg-right-back {
-    width: 30% !important;     /* sama mis desktop */
-    bottom: -12% !important;
-    position: absolute !important;
-    transform: translateX(-50%) !important;
-    left: 50% !important;
-    height: auto;
-    opacity: 0.7;
-  }
-}
 .glass-card,
 .centered-back-left,
 .glass-card-dark,
@@ -596,7 +572,7 @@ a, .link-brand, .meist-external-link {
   text-transform: uppercase;
   /* kompaktsem kapsel – vähendame vaid nupu mõõtu, mitte teksti */
   color: var(--brand-primary); /* brändi toon, kooskõlas kliendikaardi tekstiga */
-  padding: 0.4em 0.78em; /* veidi väiksem kui sul oli */
+  padding: 0.3em 0.6em; /* veidi väiksem kui sul oli */
   border-radius: 999px;
   border: 1px solid rgba(175,170,163,0.30); /* neutraalne platinum serv */
   /* klaas – läbipaistvam, neutraalne/soe toon */
@@ -664,16 +640,18 @@ a, .link-brand, .meist-external-link {
 }
 .footer-logo-img {
   height: auto;        /* väiksem kõrgus */
-  max-width: 385px;    /* väiksem laius */
+  max-width: 375px;    /* väiksem laius */
   width: auto;
   display: block;
 margin: 0;
 }
 @media (max-width: 758px) {
   .footer-logo-img {
-    width: 480px !important;       /* tee suuremaks */
-    max-width: none !important;    /* eemaldab containeri piirangu */
-    height: auto !important;
+    display: block;
+    width: calc(100vw - 12px);  /* väike “õhk” mõlemal pool */
+    max-width: none;
+    height: auto;
+    margin: 0 auto;
     opacity: 0.65;
   }
 }
@@ -3471,15 +3449,47 @@ html[data-contrast="hc"] .desc-ring-right * {
 .btn-spacing-accessibility,
 .btn-spacing-accessibility span { letter-spacing: 0.05em !important; }
 
-:global {
-  .btn-spacing-login,
-  .btn-spacing-login span { letter-spacing: 0.06em !important; }
-  .btn-spacing-register,
-  .btn-spacing-register span { letter-spacing: 0.06em !important; }
-  .btn-spacing-profile-save,
-  .btn-spacing-profile-save span { letter-spacing: 0.06em !important; }
-  .btn-spacing-profile-logout,
-  .btn-spacing-profile-logout span { letter-spacing: 0.06em !important; }
-  .btn-spacing-accessibility,
-  .btn-spacing-accessibility span { letter-spacing: 0.06em !important; }
+.btn-spacing-login,
+.btn-spacing-login span,
+.btn-spacing-register,
+.btn-spacing-register span,
+.btn-spacing-profile-save,
+.btn-spacing-profile-save span,
+.btn-spacing-profile-logout,
+.btn-spacing-profile-logout span,
+.btn-spacing-accessibility,
+.btn-spacing-accessibility span {
+  letter-spacing: 0.06em !important;
+}
+@media (max-width: 758px) {
+  :root body .card-face.back .headline-bold,
+  :root body .centered-back-left .headline-bold,
+  :root body .centered-back-right .headline-bold {
+    font-size: clamp(1.1rem, 3.9vw, 1.4rem) !important;
+    line-height: 1.25 !important;
+    letter-spacing: .08em !important;
+    max-width: 90% !important;
+    transform: translateY(75%) !important;               /* ⟵ tõstab teksti allapoole */
+    text-align: center !important;
+  }
+.centered-back-left .card-logo-bg-left-back {
+  position: absolute;
+  bottom: -35%;            /* kaugus alumisest servast */
+  left: 50%;
+  transform: translateX(-50%); /* ainult X, mitte Y! */
+  width: 35%;
+  opacity: 0.7;
+  top: auto !important;       /* ⟵ tühistab baasklassi top */
+}
+
+/* Parem kaart – tagakülje logo */
+.centered-back-right .card-logo-bg-right-back {
+  position: absolute;
+  bottom: -35%;            /* kaugus alumisest servast */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35%;
+  opacity: 0.55;
+  top: auto !important;       /* ⟵ tühistab baasklassi top */
+}
 }
