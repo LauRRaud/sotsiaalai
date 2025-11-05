@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg id="SotsiaalAI_Logo"
      xmlns="http://www.w3.org/2000/svg"
      viewBox="-30 -20 412.64 235.12"
@@ -6,71 +7,58 @@
      image-rendering="optimizeQuality"
      role="img" aria-labelledby="title desc">
   <title id="title">Sarnane logo – vari eraldi, terav põhilogo</title>
-  <desc id="desc">Vari renderdub filtriga, pealmine logo on ilma stroke’ita, et jääda mobiilis krõbe.</desc>
+  <desc id="desc">Vari filtriga, pealmine logo ilma stroke’ita.</desc>
 
   <defs>
     <style>
       .st0 { fill: url(#linear-gradient2); }
-      .st0, .st1, .st2 {
-        stroke: #000;
-        stroke-miterlimit: 10;
-        stroke-opacity: .5;
-        stroke-width: .1px;
-      }
       .st1 { fill: url(#linear-gradient1); }
       .st2 { fill: url(#linear-gradient3); }
       .st3 { fill: url(#linear-gradient); }
 
-      /* ülemise koopia jaoks – eemaldame halo */
+      /* varjukihi jaoks (õrn, ühtlane serv) */
+      .shadow-stroke .st0,
+      .shadow-stroke .st1,
+      .shadow-stroke .st2 {
+        stroke: #000;
+        stroke-opacity: .35;
+        stroke-width: .55px;
+        vector-effect: non-scaling-stroke;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+
+      /* põhilogo ilma halo’ta */
       .no-stroke .st0,
       .no-stroke .st1,
       .no-stroke .st2 { stroke: none; }
     </style>
 
-    <!-- PLAATINUM (soojem) -->
     <linearGradient id="linear-gradient" x1="217.27" y1="-825.72" x2="319.36" y2="-1044.73"
       gradientTransform="translate(0 -842) scale(1 -1)" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#F1F1F0"/>
-      <stop offset=".28" stop-color="#E6E5E3"/>
-      <stop offset=".55" stop-color="#C3C1BC"/>
-      <stop offset=".75" stop-color="#8D8980"/>
-      <stop offset="1"   stop-color="#5F5B55"/>
+      <stop offset="0" stop-color="#F1F1F0"/><stop offset=".28" stop-color="#E6E5E3"/>
+      <stop offset=".55" stop-color="#C3C1BC"/><stop offset=".75" stop-color="#8D8980"/>
+      <stop offset="1" stop-color="#5F5B55"/>
     </linearGradient>
-
-    <!-- Tähtede originaalne gradient -->
-    <linearGradient id="linear-gradient1" x1="23.89" y1="145.15" x2="23.89" y2="184.39"
-      gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#666"/>
-      <stop offset=".5" stop-color="#383838"/>
-      <stop offset=".81" stop-color="#1c1c1c"/>
-      <stop offset="1" stop-color="#111"/>
+    <linearGradient id="linear-gradient1" x1="23.89" y1="145.15" x2="23.89" y2="184.39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#666"/><stop offset=".5" stop-color="#383838"/>
+      <stop offset=".81" stop-color="#1c1c1c"/><stop offset="1" stop-color="#111"/>
     </linearGradient>
-
-    <!-- Aktsent -->
     <linearGradient id="linear-gradient2" x1="-1571.22" y1="5.18" x2="-1571.22" y2="6.18"
-      gradientTransform="translate(174429.38 -857.71) scale(110.98 170.15)"
-      gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f9eceb"/>
-      <stop offset=".25" stop-color="#e0b0af"/>
-      <stop offset=".5" stop-color="#b17c7c"/>
-      <stop offset=".75" stop-color="#a27777"/>
+      gradientTransform="translate(174429.38 -857.71) scale(110.98 170.15)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f9eceb"/><stop offset=".25" stop-color="#e0b0af"/>
+      <stop offset=".5" stop-color="#b17c7c"/><stop offset=".75" stop-color="#a27777"/>
       <stop offset="1" stop-color="#95706f"/>
     </linearGradient>
-
-    <!-- PLAATINUM teine ala -->
     <linearGradient id="linear-gradient3" x1="79.24" y1="1790.65" x2="79.24" y2="1949.92"
       gradientTransform="translate(0 -1764)" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#F1F1F0"/>
-      <stop offset=".2"  stop-color="#E2E1DF"/>
-      <stop offset=".48" stop-color="#C3C1BC"/>
-      <stop offset=".68" stop-color="#8D8980"/>
-      <stop offset="1"   stop-color="#5F5B55"/>
+      <stop offset="0" stop-color="#F1F1F0"/><stop offset=".2" stop-color="#E2E1DF"/>
+      <stop offset=".48" stop-color="#C3C1BC"/><stop offset=".68" stop-color="#8D8980"/>
+      <stop offset="1" stop-color="#5F5B55"/>
     </linearGradient>
 
-    <!-- Sama vari nagu sul -->
     <filter id="aiShadow" filterUnits="userSpaceOnUse"
-            x="-100" y="-80" width="455" height="295"
-            color-interpolation-filters="sRGB">
+            x="-100" y="-80" width="455" height="295" color-interpolation-filters="sRGB">
       <feOffset in="SourceAlpha" dx="7" dy="7" result="off"/>
       <feGaussianBlur in="off" stdDeviation="4.3" result="blur"/>
       <feColorMatrix in="blur" type="matrix"
@@ -78,13 +66,9 @@
                 0 0 0 0 0
                 0 0 0 0 0
                 0 0 0 .75 0" result="shadow"/>
-      <feMerge>
-        <feMergeNode in="shadow"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
-    <!-- Sama geomeetria lihtsa grupina (mitte <symbol>) -->
     <g id="logoShapes">
       <path class="st3" d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
       <g>
@@ -95,13 +79,13 @@
     </g>
   </defs>
 
-  <!-- 1) VARI: sama grupp filtriga (ei klipi) -->
-  <g filter="url(#aiShadow)">
-    <use href="#logoShapes"></use>
+  <!-- vari + õrn stroke -->
+  <g class="shadow-stroke" filter="url(#aiShadow)">
+    <use href="#logoShapes"/>
   </g>
 
-  <!-- 2) PÕHILOGO: sama grupp, aga ilma stroke’ita ja filtrita (terav) -->
+  <!-- põhilogo (ilma stroke’ita) -->
   <g class="no-stroke" style="filter:none">
-    <use href="#logoShapes"></use>
+    <use href="#logoShapes"/>
   </g>
 </svg>

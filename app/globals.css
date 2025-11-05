@@ -1,4 +1,6 @@
-
+.logo { shape-rendering:auto; text-rendering:auto; }
+/* ≥ 220px: teravam */
+@media (min-width:480px){ .logo{ shape-rendering:geometricPrecision; text-rendering:optimizeLegibility; } }
 .reset-input:focus-visible{
   outline: none !important;
   border-color: var(--pt-light);
@@ -39,37 +41,36 @@
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 30;                /* sisu kohal, modali all */
+  z-index: 30;    
 }
 html {
   height: 100%;
-  -webkit-font-smoothing: antialiased;
-  overscroll-behavior: none;
   box-sizing: border-box;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-    -webkit-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background-color: #0d111b;
 }
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 body {
-  min-height: 100vh;         /* või 100dvh, kui tahad mobiilil täpsemat kõrgust */
+  min-height: 100dvh;
   margin: 0;
-  overflow-x: hidden;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* enne oli center */
-  align-items: stretch;        /* enne oli center */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  width: 100%;
-  /* Fallback taust tumedale teemale – väldi valget välgatust enne
-     taustakihtide (Space/ColorBends) mountimist */
-  background-color: #0d111b;
+  justify-content: flex-start;
+  align-items: stretch;
   background-image: linear-gradient(180deg, #070b16 0%, #0d111b 100%);
-  /* NB: fixed võib tekitada 1px "triibu" renderdamise pragusid.
-     Hoia scroll-iga, sest tegelikud taustakihid on niikuinii fixed. */
+  background-color: #0d111b;
 }
+
+:root {
+  color-scheme: dark;
+}
+
 html, body {
   overflow-y: auto;              /* kerimine jääb */
   -ms-overflow-style: none;      /* IE/Edge legacy */
