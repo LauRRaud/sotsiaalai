@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1"
-     viewBox="-12 -12 199.19 219.11">
+     viewBox="-20 -20 215.19 235.11">
   <defs>
     <style>
       .st0 {
@@ -21,9 +21,9 @@
       <stop offset="1"   stop-color="#6b3938"/>
     </linearGradient>
 
-    <!-- iOS-sõbralik vari: lai tööala -->
+    <!-- suurem tööala varjule -->
     <filter id="aiShadow" filterUnits="userSpaceOnUse"
-            x="-60" y="-60" width="295" height="315"
+            x="-80" y="-80" width="335" height="355"
             color-interpolation-filters="sRGB">
       <feOffset in="SourceAlpha" dx="7" dy="7" result="off"/>
       <feGaussianBlur in="off" stdDeviation="4.3" result="blur"/>
