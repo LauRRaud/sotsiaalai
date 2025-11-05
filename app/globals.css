@@ -472,7 +472,7 @@ a, .link-brand, .meist-external-link {
 .card-logo-bg-left {
   top: 50%;
   left: 48%;
-  width: 61%;
+  width: 60.5%;
   opacity: 0.6;
     max-width: none !important;
   height: auto;
@@ -498,8 +498,31 @@ a, .link-brand, .meist-external-link {
   top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
 @media (max-width: 758px) {
-  .card-logo-bg-right { width: 56% !important; } /* sama mis desktop */
-  .card-logo-bg-left  { width: 61% !important; } /* sama mis desktop */
+  /* jäta need alles, kui vaja teksti muuta */
+  .centered-back-left .headline-bold,
+  .centered-back-right .headline-bold {
+    grid-row: 2;
+    margin: 0;
+    width: 100%;
+    max-width: 86%;
+    font-size: clamp(1.2rem, 4.2vw, 1.4rem);
+    line-height: 1.25;
+    letter-spacing: .07em;
+    transform: translateY(-4%);
+    text-align: center;
+  }
+
+  /* ⟵ kustuta see osa või asenda */
+  .centered-back-left .card-logo-bg-left-back,
+  .centered-back-right .card-logo-bg-right-back {
+    width: 30% !important;     /* sama mis desktop */
+    bottom: -12% !important;
+    position: absolute !important;
+    transform: translateX(-50%) !important;
+    left: 50% !important;
+    height: auto;
+    opacity: 0.7;
+  }
 }
 .glass-card,
 .centered-back-left,
@@ -641,10 +664,18 @@ a, .link-brand, .meist-external-link {
 }
 .footer-logo-img {
   height: auto;        /* väiksem kõrgus */
-  max-width: 330px;    /* väiksem laius */
+  max-width: 385px;    /* väiksem laius */
   width: auto;
   display: block;
 margin: 0;
+}
+@media (max-width: 758px) {
+  .footer-logo-img {
+    width: 480px !important;       /* tee suuremaks */
+    max-width: none !important;    /* eemaldab containeri piirangu */
+    height: auto !important;
+    opacity: 0.65;
+  }
 }
 .glass-box {
   background: rgba(24, 24, 24, 0.68); /* veidi tumedam klaas */
@@ -2498,29 +2529,6 @@ body.modal-open {
     align-items: center;
     row-gap: clamp(1rem, 3.2vw, 1.7rem);
     text-align: center;
-  }
-  .centered-back-left .headline-bold,
-  .centered-back-right .headline-bold {
-    grid-row: 2;
-    margin: 0;
-    width: 100%;
-    max-width: 86%;
-    font-size: clamp(1.2rem, 4.2vw, 1.52rem);
-    line-height: 1.25;
-    letter-spacing: .07em;
-    transform: translateY(-4%);
-    text-align: center;
-  }
-  .centered-back-left .card-logo-bg-left-back,
-  .centered-back-right .card-logo-bg-right-back {
-    grid-row: 3;
-    position: static !important;
-    transform: none !important;
-    display: block;
-    width: clamp(65px, 28.8%, 99px);
-    height: auto;
-    margin-top: clamp(.7rem, 2.1vw, 1rem);
-    opacity: .72;
   }
   /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
