@@ -3465,16 +3465,16 @@ html[data-contrast="hc"] .desc-ring-right * {
   :root body .card-face.back .headline-bold,
   :root body .centered-back-left .headline-bold,
   :root body .centered-back-right .headline-bold {
-    font-size: clamp(1.1rem, 3.9vw, 1.4rem) !important;
+    font-size: clamp(1.3rem, 4.1vw, 1.6rem) !important;
     line-height: 1.25 !important;
     letter-spacing: .08em !important;
     max-width: 90% !important;
-    transform: translateY(75%) !important;               /* ⟵ tõstab teksti allapoole */
+    transform: translateY(80%) !important;               /* ⟵ tõstab teksti allapoole */
     text-align: center !important;
   }
 .centered-back-left .card-logo-bg-left-back {
   position: absolute;
-  bottom: -35%;            /* kaugus alumisest servast */
+  bottom: -25%;            /* kaugus alumisest servast */
   left: 50%;
   transform: translateX(-50%); /* ainult X, mitte Y! */
   width: 35%;
@@ -3485,7 +3485,7 @@ html[data-contrast="hc"] .desc-ring-right * {
 /* Parem kaart – tagakülje logo */
 .centered-back-right .card-logo-bg-right-back {
   position: absolute;
-  bottom: -35%;            /* kaugus alumisest servast */
+  bottom: -25%;            /* kaugus alumisest servast */
   left: 50%;
   transform: translateX(-50%);
   width: 35%;
