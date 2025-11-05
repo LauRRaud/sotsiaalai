@@ -2,38 +2,41 @@
 <svg id="SotsiaalAI_Logo"
      xmlns="http://www.w3.org/2000/svg"
      viewBox="-30 -20 412.64 235.12"
-     shape-rendering="geometricPrecision"
-     text-rendering="optimizeLegibility"
-     image-rendering="optimizeQuality"
-     role="img" aria-labelledby="title desc">
-  <title id="title">Sarnane logo – vari eraldi, terav põhilogo</title>
-  <desc id="desc">Vari filtriga, pealmine logo ilma stroke’ita.</desc>
+     role="img" aria-labelledby="title desc"
+     shape-rendering="auto">
+  <title id="title">Sarnane logo – optimeeritud vari ja pehme serv</title>
+  <desc id="desc">feGaussianBlur eemaldatud; vari feDropShadow kihtidega (kaugem ja hajus); pehme serv stroke 0.75; värvid ja gradiendid muutmata.</desc>
 
   <defs>
     <style>
+      /* täitevärvide klassid jäävad samaks */
       .st0 { fill: url(#linear-gradient2); }
       .st1 { fill: url(#linear-gradient1); }
       .st2 { fill: url(#linear-gradient3); }
       .st3 { fill: url(#linear-gradient); }
 
-      /* varjukihi jaoks (õrn, ühtlane serv) */
-      .shadow-stroke .st0,
-      .shadow-stroke .st1,
-      .shadow-stroke .st2 {
-        stroke: #000;
-        stroke-opacity: .35;
-        stroke-width: .55px;
-        vector-effect: non-scaling-stroke;
-        stroke-linejoin: round;
+      /* pehme serv (eraldi renderdus samale kujule) */
+      .edge-soft path {
+        stroke: rgba(0, 0, 0, 0.14);
+        stroke-width: 0.75;
         stroke-linecap: round;
+        stroke-linejoin: round;
+        paint-order: stroke fill;
+        vector-effect: non-scaling-stroke;
+        fill: none;
+      }
+      @media (max-width: 640px) {
+        .edge-soft path {
+          stroke-width: 0.6;
+          vector-effect: none; /* vähendab aliasingut väiksel skaalal */
+        }
       }
 
-      /* põhilogo ilma halo’ta */
-      .no-stroke .st0,
-      .no-stroke .st1,
-      .no-stroke .st2 { stroke: none; }
+      /* põhilogo (täited) – ilma lisastroketeta */
+      .logo-base path { stroke: transparent; }
     </style>
 
+    <!-- gradiendid (täpselt sinu omad, muutmata) -->
     <linearGradient id="linear-gradient" x1="217.27" y1="-825.72" x2="319.36" y2="-1044.73"
       gradientTransform="translate(0 -842) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#F1F1F0"/><stop offset=".28" stop-color="#E6E5E3"/>
@@ -57,18 +60,14 @@
       <stop offset="1" stop-color="#5F5B55"/>
     </linearGradient>
 
-    <filter id="aiShadow" filterUnits="userSpaceOnUse"
-            x="-100" y="-80" width="455" height="295" color-interpolation-filters="sRGB">
-      <feOffset in="SourceAlpha" dx="7" dy="7" result="off"/>
-      <feGaussianBlur in="off" stdDeviation="4.3" result="blur"/>
-      <feColorMatrix in="blur" type="matrix"
-        values="0 0 0 0 0
-                0 0 0 0 0
-                0 0 0 0 0
-                0 0 0 .75 0" result="shadow"/>
-      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <!-- ⚡ Optimeeritud hajus vari (kaugem, pehme) – ilma GaussianBlurita -->
+    <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".60"/>
+      <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
+      <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
     </filter>
 
+    <!-- sinu kujud 1:1 -->
     <g id="logoShapes">
       <path class="st3" d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
       <g>
@@ -79,13 +78,13 @@
     </g>
   </defs>
 
-  <!-- vari + õrn stroke -->
-  <g class="shadow-stroke" filter="url(#aiShadow)">
+  <!-- üks renderdus täitega + vari -->
+  <g class="logo-base" filter="url(#shadowSoft)">
     <use href="#logoShapes"/>
   </g>
 
-  <!-- põhilogo (ilma stroke’ita) -->
-  <g class="no-stroke" style="filter:none">
+  <!-- pehme serv eraldi (sama kuju) -->
+  <g class="edge-soft">
     <use href="#logoShapes"/>
   </g>
 </svg>

@@ -1,6 +1,4 @@
-.logo { shape-rendering:auto; text-rendering:auto; }
-/* ≥ 220px: teravam */
-@media (min-width:480px){ .logo{ shape-rendering:geometricPrecision; text-rendering:optimizeLegibility; } }
+
 .reset-input:focus-visible{
   outline: none !important;
   border-color: var(--pt-light);

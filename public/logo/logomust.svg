@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
-     viewBox="-6 -6 227.51 43.61">
+<svg id="Layer_1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="-6 -6 227.51 43.61"
+     role="img" aria-label="SotsiaalAI sõnamärk"
+     shape-rendering="auto">
   <defs>
     <style>
-      .st0 { fill: url(#linear-gradient2); }
-      .st1 { fill: url(#linear-gradient13); stroke: #000; stroke-miterlimit: 10; stroke-opacity: .5; stroke-width: .1px; }
-      .st2 { fill: url(#linear-gradient10); }
-      .st3 { fill: url(#linear-gradient1); }
-      .st4 { fill: url(#linear-gradient9); }
-      .st5 { fill: url(#linear-gradient8); }
-      .st6 { fill: url(#linear-gradient11); }
-      .st7 { fill: url(#linear-gradient12); }
-      .st8 { fill: url(#linear-gradient7); }
-      .st9 { fill: url(#linear-gradient4); }
+      .st0  { fill: url(#linear-gradient2); }
+      .st1  { fill: url(#linear-gradient13); stroke: #000; stroke-miterlimit: 10; stroke-opacity: .5; stroke-width: .1px; }
+      .st2  { fill: url(#linear-gradient10); }
+      .st3  { fill: url(#linear-gradient1); }
+      .st4  { fill: url(#linear-gradient9); }
+      .st5  { fill: url(#linear-gradient8); }
+      .st6  { fill: url(#linear-gradient11); }
+      .st7  { fill: url(#linear-gradient12); }
+      .st8  { fill: url(#linear-gradient7); }
+      .st9  { fill: url(#linear-gradient4); }
       .st10 { fill: url(#linear-gradient5); }
       .st11 { fill: url(#linear-gradient3); }
       .st12 { fill: url(#linear-gradient6); }
       .st13 { fill: url(#linear-gradient); }
 
-      /* A-variant: baaskiht ilma stroketa, pealmine kiht õrna mikro-strokega */
+      /* Baaskiht: ilma stroketa (kirjutab üle ka .st1 stroke'i) */
       .base-fill path { stroke: none !important; }
+
+      /* Pealmine mikro-stroke: ainult serv (fill puudub) */
       .edge-soft path {
         paint-order: stroke fill;
-        stroke: rgba(0,0,0,.10);
-        stroke-width: 0.55;
-        vector-effect: non-scaling-stroke;
+        stroke: rgba(0,0,0,0.14);
+        stroke-width: 0.75;
         stroke-linejoin: round;
         stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+        fill: none;
+      }
+      @media (max-width:640px){
+        .edge-soft path {
+          stroke-width: 0.6;
+          vector-effect: none;
+        }
       }
     </style>
 
-    <!-- sinu gradiendid (muutmata) -->
+    <!-- Gradiendid (muutmata) -->
     <linearGradient id="linear-gradient" x1="-755.11" y1="545.17" x2="-755.11" y2="544.17" gradientTransform="translate(6897.9 19119.4) scale(8.92 -35.07)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f5e9e8"/><stop offset=".25" stop-color="#d6a8a8"/><stop offset=".5" stop-color="#b17c7c"/><stop offset=".75" stop-color="#8a5f5f"/><stop offset="1" stop-color="#704b4b"/>
     </linearGradient>
@@ -74,7 +87,7 @@
       <stop offset="0" stop-color="#666"/><stop offset=".5" stop-color="#383838"/><stop offset=".81" stop-color="#1c1c1c"/><stop offset="1" stop-color="#111"/>
     </linearGradient>
 
-    <!-- koondan kogu sõnamärgi kuju korduskasutuseks -->
+    <!-- Kuju (kõik pathid muutmata) -->
     <g id="wordmark-shape">
       <path class="st13" d="M164.61,36.49c-.72.24-1.99.29-3.31.29-2.04-.1-4.46.29-4.5-1.94-.04-5.4-.04-23.65,0-30.69-.06-1.97,1.15-2.27,2.96-2.39,1.49-.07,3.17-.12,4.6.29,1.55.46,1.24,1.78,1.29,4.28v24.14c-.19,1.81.61,5.64-.94,5.99l-.1.03Z"/>
       <path class="st3" d="M7.23.23C-.49,15.24,23.99,12.01,25.35,23.95c.52,4.26-1.73,8.61-5,11.25-.76.79-5.86,3.3-3.75.47,1.56-2.32,2.19-5.47,1.42-8.18-1.65-5.32-10.74-6.32-14.66-10.2C-.71,13.36-.73,6.23,3.31,2.28,4.07,1.46,6.3-.08,7.19.18l.04.05Z"/>
@@ -95,12 +108,12 @@
     </g>
   </defs>
 
-  <!-- Baaskiht: ilma stroketa (ülekirjutab st1 stroke'id) -->
+  <!-- Baaskiht (täited) -->
   <g class="base-fill">
     <use href="#wordmark-shape"/>
   </g>
 
-  <!-- Pealmine mikro-stroke kiht: pehmendab servad, GPU-sõbralik -->
+  <!-- Pehme serv (ainult stroke) -->
   <g class="edge-soft">
     <use href="#wordmark-shape"/>
   </g>

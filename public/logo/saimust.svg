@@ -2,12 +2,10 @@
 <svg id="SotsiaalAI_Logo"
      xmlns="http://www.w3.org/2000/svg"
      viewBox="-30 -20 412.64 235.12"
-     shape-rendering="geometricPrecision"
-     text-rendering="optimizeLegibility"
-     image-rendering="optimizeQuality"
-     role="img" aria-labelledby="title desc">
-  <title id="title">SotsiaalAI logo vari ja terav põhilogo</title>
-  <desc id="desc">Vari filtriga eraldi kihis; baaskiht ilma stroketa; peal õrn mikro-stroke.</desc>
+     role="img" aria-labelledby="title desc"
+     shape-rendering="auto">
+  <title id="title">SotsiaalAI logo – optimeeritud vari ja pehme serv</title>
+  <desc id="desc">feGaussianBlur eemaldatud; vari kolme feDropShadow kihiga (kaugem ja hajus); serv 0.75; värvid ja geomeetria muutmata.</desc>
 
   <defs>
     <style>
@@ -16,22 +14,28 @@
       .st2 { fill: url(#linear-gradient); }
       .st3 { fill: url(#linear-gradient3); }
 
-      /* baaskiht: eemaldame halo */
-      .base-fill .st0, .base-fill .st1, .base-fill .st2, .base-fill .st3 { stroke: none !important; }
-
-      /* pealmine õrn serv (GPU-sõbralik, ei skaleeri) */
-      .edge-soft path{
+      /* pehme serv (ainult stroke) */
+      .edge-soft path {
         paint-order: stroke fill;
-        stroke: rgba(0,0,0,.10);
-        stroke-width: 0.55;              /* vajadusel 0.45–0.75 */
-        vector-effect: non-scaling-stroke;
+        stroke: rgba(0,0,0,0.14);
+        stroke-width: 0.75;
         stroke-linejoin: round;
         stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
         fill: none;
       }
+      @media (max-width: 640px) {
+        .edge-soft path {
+          stroke-width: 0.6;
+          vector-effect: none;
+        }
+      }
+
+      /* täiterender ilma lisastroketeta */
+      .logo-base path { stroke: transparent; }
     </style>
 
-    <!-- Gradients -->
+    <!-- Gradients (sama mis sinu failis) -->
     <linearGradient id="linear-gradient" x1="23.93" y1="53.23" x2="23.93" y2="13.99"
       gradientTransform="translate(0 198) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#666"/><stop offset=".5" stop-color="#383838"/>
@@ -56,21 +60,11 @@
       <stop offset="1" stop-color="#a8a59e"/>
     </linearGradient>
 
-    <!-- Vari -->
-    <filter id="aiShadow" filterUnits="userSpaceOnUse"
-            x="-100" y="-80" width="455" height="295"
-            color-interpolation-filters="sRGB">
-      <feOffset in="SourceAlpha" dx="7" dy="7" result="off"/>
-      <feGaussianBlur in="off" stdDeviation="4.3" result="blur"/>
-      <feColorMatrix in="blur" type="matrix"
-        values="0 0 0 0 0
-                0 0 0 0 0
-                0 0 0 0 0
-                0 0 0 .75 0" result="shadow"/>
-      <feMerge>
-        <feMergeNode in="shadow"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <!-- ⚡ Shadow preset: kaugem ja hajus, ilma GaussianBlurita -->
+    <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".60"/>
+      <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
+      <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
     </filter>
 
     <!-- Logo geomeetria (täited) -->
@@ -82,19 +76,13 @@
     </g>
   </defs>
 
-  <!-- 1) vari -->
-  <g filter="url(#aiShadow)">
+  <!-- 1) täited + vari (üks renderdus) -->
+  <g class="logo-base" filter="url(#shadowSoft)">
     <use href="#logoShapes"/>
   </g>
 
-  <!-- 2) baaskiht ilma stroketa -->
-  <g class="base-fill">
-    <use href="#logoShapes"/>
-  </g>
-
-  <!-- 3) õrn serv (ainult stroke), sama kuju -->
+  <!-- 2) pehme serv, sama kuju (stroke ainult) -->
   <g class="edge-soft">
-    <!-- tee samad teed, kuid ainult stroke: kasutame <use> + CSS fill:none -->
     <use href="#logoShapes"/>
   </g>
 </svg>
