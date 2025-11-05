@@ -461,16 +461,17 @@ a, .link-brand, .meist-external-link {
   z-index: 1;                        /* tekstid jäävad peale */
 }
 .card-logo-bg-right {
-  top: 52%;
-  left: 52%;
+  top: 50%;
+  left: 50%;
   opacity: 0.5;
+    width: 40%;
 }
 /* Vasak kaart – esikülje logo */
 .card-logo-bg-left {
   top: 51%;
   opacity: 0.6;
-    left: 51%;
-    width: 58%;
+    left: 48%;
+    width: 40%;
 }
 .centered-back-left .card-logo-bg-left-back {
   position: absolute;
@@ -3468,17 +3469,17 @@ html[data-contrast="hc"] .desc-ring-right * {
 @media (max-width: 758px) {
   /* Vasaku kaardi esikülje logo (spetsialist) */
   .card-logo-bg-left {
-    width: 53%;              /* enne 58% → ~10% väiksem */
-    top: 51%;
-    left: 51%;
+    width: 50%;              /* enne 58% → ~10% väiksem */
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.6;           /* veidi tugevam, et hele pind jääks nähtav */
   }
   /* Parema kaardi esikülje logo (abivajaja) */
   .card-logo-bg-right {
     width: 50%;              /* võib olla kergelt väiksem, kuna tume taust */
-    top: 52%;
-    left: 52%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.5;           /* veidi madalam kontrast, et tasakaalustada */
   }
