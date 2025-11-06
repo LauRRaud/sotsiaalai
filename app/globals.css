@@ -1,11 +1,4 @@
-
-.reset-input:focus-visible{
-  outline: none !important;
-  border-color: var(--pt-light);
-  background: rgba(10,14,24,0.30);
-  color: var(--pt-30, #f7f9ff);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.40);
-}html { font-family: var(--font-aino), Arial, sans-serif; }        /* jääb alles */
+html { font-family: var(--font-aino), Arial, sans-serif; }        /* jääb alles */
 .headline, .brand-title, .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
 }
@@ -674,8 +667,6 @@ margin: 0;
   justify-content: flex-start;
   align-items: stretch;
 }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
-.avatar-link:focus-visible .avatar-label { opacity:1; transform:translate(-50%, 8px); }
 .alaleht-footer {
   width: 100%;
   text-align: center;
@@ -741,17 +732,11 @@ html[data-contrast="hc"] .delete-button{
   border:none; box-shadow:none; background:transparent;
 }
 .delete-button:hover::before,
-.delete-button:focus-visible::before,
 .delete-button.tooltip-active::before { /* tooltip-active = mobiili klikk */
   opacity:1;
   transform: translate(-50%, -9px); /* ilmub ja liigub üles, veidi kaugemale */
   color: var(--pt-100);
 }
-.delete-button:hover,
-.delete-button:focus-visible {
-  transform: translateZ(0) scale(1.08);
-}
-/* HC */
 html[data-contrast="hc"] .delete-button::before{
   color: var(--pt-80, #eaeaea) !important;
   background: transparent !important;
@@ -3491,4 +3476,13 @@ html[data-contrast="hc"] .desc-ring-right * {
   opacity: 0.55;
   top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
+}
+#main:focus { outline: none; }
+.three-d-card .card-face.back:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Või kui soovid täielikult eemaldada fookusraami ka visuaalse fookuse korral */
+.three-d-card .card-face.back:focus {
+  outline: none;
 }

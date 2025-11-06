@@ -1,4 +1,4 @@
-// components/HomePage.jsx  (PUHAS BACKUP – ilma blur-kihi muudatusteta)
+// components/HomePage.jsx  (uuendatud: TAB lukustus kuni interaktiivne)
 "use client";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
@@ -10,10 +10,12 @@ import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations
 import Image from "next/image";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
+
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { prefs } = useAccessibility();
+
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -21,13 +23,17 @@ export default function HomePage() {
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
+
   // Ühtne faasiloogika (front | flippingToBack | back | flippingToFront)
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
+
   const [isMobile, setIsMobile] = useState(false);
   const leftCardRef = useRef(null);
   const rightCardRef = useRef(null);
+
   const t = useT();
+
   // Kui juba sees, suuna vestlusesse; tagastab true, kui suunati
   const goChatIfAuthed = () => {
     if (status === "authenticated" && session) {
@@ -36,6 +42,7 @@ export default function HomePage() {
     }
     return false;
   };
+
   // detect mobile once + on resize
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
@@ -43,6 +50,7 @@ export default function HomePage() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
   // .fade-in end flags
   useEffect(() => {
     const onLeftEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true); };
@@ -55,6 +63,7 @@ export default function HomePage() {
       r?.removeEventListener("animationend", onRightEnd);
     };
   }, []);
+
   // Reduced-motion: mark fade completed immediately
   useEffect(() => {
     if (prefs.reduceMotion) {
@@ -63,6 +72,7 @@ export default function HomePage() {
       setMagnetReady(false);
     }
   }, [prefs.reduceMotion]);
+
   // enable Magnet after both fade-ins
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
@@ -71,15 +81,18 @@ export default function HomePage() {
     }
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
+
   // lock body scroll when modal open
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
   }, [isLoginOpen]);
+
   useEffect(() => {
     if (!isLoginOpen) return;
     setMobileFlipReady({ left: false, right: false });
   }, [isLoginOpen]);
+
   // Kui modaal on lahti ja sessioon muutub authenticated → sulge ja suuna
   useEffect(() => {
     if (isLoginOpen && status === "authenticated" && session) {
@@ -87,10 +100,18 @@ export default function HomePage() {
       router.push("/vestlus");
     }
   }, [isLoginOpen, status, session, router]);
+
   const flipAllowed = leftFadeDone && rightFadeDone;
+
+  // ⇢ interaktiivsuslipud: TAB on lubatud alles siis, kui kaart on ready
+  const leftInteractive  = flipAllowed && !leftFlipping  && !isLoginOpen;
+  const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
+
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+
   // Hoia sünkis CSS --flip-ms (~1100ms) + väike puhver
   const flipEndMs = 1200;
+
   // desktop hover handlers – no-op on mobile
   const onLeftEnter = () => {
     if (!isMobile) {
@@ -120,6 +141,7 @@ export default function HomePage() {
       setTimeout(() => setRightFlipping(false), flipEndMs);
     }
   };
+
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
     if (status === "loading") return;     // väldi vilkumist
@@ -137,9 +159,11 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
     setIsLoginOpen(true);
   };
+
   const handleCardBackBlur = (side) => () => {
     setMobileFlipReady((prev) => ({ ...prev, [side]: false }));
   };
+
   // tap: mobile → toggle flip; desktop → auth-check ja modal
   const handleCardTap = (side) => () => {
     if (!flipAllowed) return;
@@ -164,15 +188,18 @@ export default function HomePage() {
       return next;
     });
   };
+
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({ left: false, right: false });
   }, []);
+
   const handleBackgroundTap = useCallback((event) => {
     if (!isMobile) return;
     const target = event.target instanceof Element ? event.target : null;
     if (target?.closest?.(".three-d-card")) return;
     resetMobileCards();
   }, [isMobile, resetMobileCards]);
+
   // Phase → final states on transform end
   const onLeftTransitionEnd = (e) => {
     if (e?.propertyName !== "transform") return;
@@ -182,6 +209,7 @@ export default function HomePage() {
     if (e?.propertyName !== "transform") return;
     setRightPhase((p) => (p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p));
   };
+
   return (
     <>
       <div className="homepage-root" onClick={handleBackgroundTap}>
@@ -197,6 +225,7 @@ export default function HomePage() {
             </Link>
           </nav>
         )}
+
         <div className="main-content relative">
           {/* LEFT CARD */}
           <div className="side left">
@@ -240,40 +269,46 @@ export default function HomePage() {
                         />
                       </div>
                     </div>
-                {/* BACK */}
-                <div
-                  className="card-face back"
-                  role="button"
-                  aria-label={t("home.card.specialist.aria")}
-                  tabIndex={0}
-                  onClick={handleCardBackClick("left")}
-                  onBlur={handleCardBackBlur("left")}
-                  onKeyDown={(e) => {
-                    if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
-                      if (status !== "loading" && !goChatIfAuthed()) setIsLoginOpen(true);
-                    }
-                  }}
-                  style={!flipAllowed ? { pointerEvents: "none" } : {}}
-                >
-                  <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                    <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
-                    <Image
-                      src="/logo/saimust.svg"
-                      alt=""
-                      aria-hidden="true"
-                      className="card-logo-bg card-logo-bg-left-back"
-                      draggable={false}
-                      loading="eager"
-                      width={300}
-                      height={300}
-                    />
-                  </div>
-                </div>
+
+                    {/* BACK */}
+                    <div
+                      className="card-face back"
+                      role="button"
+                      aria-label={t("home.card.specialist.aria")}
+                      aria-disabled={!leftInteractive}
+                      aria-busy={!leftInteractive}
+                      tabIndex={leftInteractive ? 0 : -1}
+                      onClick={leftInteractive ? handleCardBackClick("left") : undefined}
+                      onBlur={handleCardBackBlur("left")}
+                      onKeyDown={(e) => {
+                        if (!leftInteractive) return;
+                        if (e.key === "Enter" || e.key === " ") {
+                          if (status !== "loading" && !goChatIfAuthed()) setIsLoginOpen(true);
+                        }
+                      }}
+                      style={!leftInteractive ? { pointerEvents: "none" } : {}}
+                      data-interactive={leftInteractive ? "true" : "false"}
+                    >
+                      <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
+                        <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
+                        <Image
+                          src="/logo/saimust.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className="card-logo-bg card-logo-bg-left-back"
+                          draggable={false}
+                          loading="eager"
+                          width={300}
+                          height={300}
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </Magnet>
             </div>
           </div>
+
           {/* RIGHT CARD */}
           <div className="side right">
             <div
@@ -316,41 +351,47 @@ export default function HomePage() {
                         />
                       </div>
                     </div>
-                {/* BACK */}
-                <div
-                  className="card-face back"
-                  role="button"
-                  aria-label={t("home.card.client.aria")}
-                  tabIndex={0}
-                  onClick={handleCardBackClick("right")}
-                  onBlur={handleCardBackBlur("right")}
-                  onKeyDown={(e) => {
-                    if ((e.key === "Enter" || e.key === " ") && flipAllowed) {
-                      if (status !== "loading" && !goChatIfAuthed()) setIsLoginOpen(true);
-                    }
-                  }}
-                  style={!flipAllowed ? { pointerEvents: "none" } : {}}
-                >
-                  <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                    <h2 className="headline-bold">{t("home.card.client.title")}</h2>
-                    <Image
-                      src="/logo/saivalge.svg"
-                      alt=""
-                      aria-hidden="true"
-                      className="card-logo-bg card-logo-bg-right-back"
-                      draggable={false}
-                      loading="eager"
-                      width={300}
-                      height={300}
-                    />
-                  </div>
-                </div>
+
+                    {/* BACK */}
+                    <div
+                      className="card-face back"
+                      role="button"
+                      aria-label={t("home.card.client.aria")}
+                      aria-disabled={!rightInteractive}
+                      aria-busy={!rightInteractive}
+                      tabIndex={rightInteractive ? 0 : -1}
+                      onClick={rightInteractive ? handleCardBackClick("right") : undefined}
+                      onBlur={handleCardBackBlur("right")}
+                      onKeyDown={(e) => {
+                        if (!rightInteractive) return;
+                        if (e.key === "Enter" || e.key === " ") {
+                          if (status !== "loading" && !goChatIfAuthed()) setIsLoginOpen(true);
+                        }
+                      }}
+                      style={!rightInteractive ? { pointerEvents: "none" } : {}}
+                      data-interactive={rightInteractive ? "true" : "false"}
+                    >
+                      <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
+                        <h2 className="headline-bold">{t("home.card.client.title")}</h2>
+                        <Image
+                          src="/logo/saivalge.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className="card-logo-bg card-logo-bg-right-back"
+                          draggable={false}
+                          loading="eager"
+                          width={300}
+                          height={300}
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </Magnet>
             </div>
           </div>
         </div>
+
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
           {isMobile && (
@@ -377,6 +418,7 @@ export default function HomePage() {
           />
         </footer>
       </div>
+
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
