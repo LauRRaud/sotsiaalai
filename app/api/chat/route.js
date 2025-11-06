@@ -2,10 +2,12 @@
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
 /* ------------------------- Roles ------------------------- */
 const ROLE_LABELS = {
   CLIENT: "eluküsimusega pöörduja",
@@ -34,6 +36,7 @@ Vastus olgu argumenteeritud, kuid mitte bürokraatlik.
 Viitamine on täpne ja lühike (UI kuvab allikad eraldi).
 Ole professionaalne partner ja reflektiivne kaasamõtleja, mitte käsuandja.`,
 };
+
 /* ------------------------- Config ------------------------- */
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 const RAG_TOP_K = Number(process.env.RAG_TOP_K || 12);
@@ -45,6 +48,7 @@ const RAG_KEY =
   process.env.RAG_SERVICE_API_KEY ||
   process.env.RAG_API_KEY ||
   "";
+
 /* ------------------------- Helpers ------------------------- */
 function makeError(message, status = 400, extras = {}) {
   return NextResponse.json({ ok: false, message, ...extras }, { status });
@@ -463,6 +467,7 @@ function isGreeting(text = "") {
   if (wordCount <= 2 && /^(küsimus|palun abi|appi)$/.test(t)) return true;
   return false;
 }
+
 /* ------------------------- Prompt builder ------------------------- */
 function toResponsesInput({
   history,
@@ -475,6 +480,7 @@ function toResponsesInput({
 }) {
   const roleLabel = ROLE_LABELS[effectiveRole] || ROLE_LABELS.CLIENT;
   const roleBehaviour = ROLE_BEHAVIOUR[effectiveRole] || ROLE_BEHAVIOUR.CLIENT;
+
   const groundingPolicy =
     grounding === "weak"
       ? (
@@ -486,6 +492,7 @@ function toResponsesInput({
           "KONTEKST PIISAV: iga soovitus või väide peab tuginema konkreetsele kontekstiplokile; " +
           "ära esita samme, mida allikad ei toeta."
         );
+
   const interactionPolicy =
     "VESTLUSREEGLID: " +
     "• ÄRA korda sama küsimust või lauset sõna-sõnalt järjestikustel pööretel; kohanda alati uuele sisendile. " +
@@ -494,8 +501,9 @@ function toResponsesInput({
     "• Lühikeste WHO/WHAT/definition päringute korral vasta esmalt lühidalt (1–3 lauset) kontekstist; kui infot pole, ütle ausalt. " +
     "• Enne tegevusplaani pakkumist küsi selges eesti keeles luba: 'Kas soovid, et koostan lühikese tegevusplaani?' " +
     "• Ära ütle kasutajale väljendit 'kontekst on nõrk' — kohanda lihtsalt vastus ja küsi sihitud täpsustusi. ";
-  // >>> Keel: üks selge reegel mudelile
+
   const languageRule = `Always reply in ${replyLang} language. Do not switch languages unless the user explicitly asks.`;
+
   const sys =
     `You are SotsiaalAI, a retrieval-grounded assistant.\n` +
     `${languageRule}\n` +
@@ -507,6 +515,7 @@ function toResponsesInput({
     interactionPolicy + "\n" +
     groundingPolicy +
     `\n\n{"mode":"dialogue","style":"natural","citations":"none"}`;
+
   const lines = [];
   if (context && context.trim()) {
     const trimmed = context.trim().slice(0, RAG_CTX_MAX_CHARS);
@@ -528,6 +537,7 @@ function toResponsesInput({
   }
   return `${sys}\n\n${lines.join("\n")}\nAI:`;
 }
+
 /* ------------------------- OpenAI Calls ------------------------- */
 async function callOpenAI({
   history,
@@ -599,6 +609,7 @@ async function streamOpenAI({
   }
   return iterator();
 }
+
 /* ------------------------- RAG search ------------------------- */
 async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
   const body = { query, top_k: topK, where: filters || undefined };
@@ -627,6 +638,7 @@ async function searchRagDirect({ query, topK = RAG_TOP_K, filters }) {
   }
   return Array.isArray(data?.results) ? data.results : [];
 }
+
 /* ------------------------- Persistence (Prisma) ------------------------- */
 async function persistInit({ convId, userId, role, sources, isCrisis }) {
   if (!convId || !userId) return;
@@ -662,10 +674,12 @@ async function persistDone({ convId, userId, status = "COMPLETED" }) {
     console.error("[chat] persistDone failed", { convId, err });
   }
 }
+
 /* ------------------------- Page range normalizer ------------------------- */
 function normalizePageRangeString(s = "") {
   return s.replace(/\s*[-–—]\s*/g, "–").trim();
 }
+
 /* ------------------------- Route Handler ------------------------- */
 export async function POST(req) {
   // Auth loader
@@ -681,6 +695,7 @@ export async function POST(req) {
       authOptions = undefined;
     }
   }
+
   // 1) payload
   let payload;
   try {
@@ -699,17 +714,20 @@ export async function POST(req) {
   const forceSources =
     payload?.forceSources === true || payload?.includeSources === true || payload?.showSources === true;
   const includeSources = forceSources || detectSourcesRequest(rawHistory, message);
+
   // 2) sessioon
   let session = null;
   try {
     session = await getServerSession(authOptions);
   } catch {}
   const userId = session?.user?.id || null;
+
   // 3) roll
   const sessionRole = roleFromSession(session); // ADMIN / SOCIAL_WORKER / CLIENT
   const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
+
   // 4) nõua tellimust
   const gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok) {
@@ -723,20 +741,24 @@ export async function POST(req) {
       { status: gate.status }
     );
   }
-  // 4.1) keeleotsus (VÄGA OLULINE)
+
+  // 4.1) keeleotsus
   const replyLang = pickReplyLang({ userMessage: message, uiLocale });
   const L = langStrings(replyLang);
   const isCrisis = detectCrisis(message);
+
   // 4.5) varajane tervitusfiltri haru — nüüd õiges keeles
   const greeting = isGreeting(message);
   if ((greeting || rawHistory.length === 0) && !isCrisis) {
     const reply =
       normalizedRole === "SOCIAL_WORKER" ? L.greetingWorker : L.greetingClient;
+
     if (persist && convId && userId) {
       await persistInit({ convId, userId, role: normalizedRole, sources: [], isCrisis });
       await persistAppend({ convId, userId, fullText: reply });
       await persistDone({ convId, userId, status: "COMPLETED" });
     }
+
     if (!wantStream) {
       return NextResponse.json({
         ok: true,
@@ -747,6 +769,7 @@ export async function POST(req) {
         convId: convId || undefined,
       });
     }
+
     const enc = new TextEncoder();
     const sse = new ReadableStream({
       async start(controller) {
@@ -757,12 +780,15 @@ export async function POST(req) {
           controller.enqueue(
             enc.encode(`event: delta\ndata: ${JSON.stringify({ t: reply })}\n\n`)
           );
+          // mikro-flush, et tervituse tükk läheks KOHE teele
+          await new Promise(r => setTimeout(r, 0));
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {
           try { controller.close(); } catch {}
         }
       },
     });
+
     return new Response(sse, {
       headers: {
         "Content-Type": "text/event-stream; charset=utf-8",
@@ -772,11 +798,13 @@ export async function POST(req) {
       },
     });
   }
+
   // 5) RAG filtrid – auditoorium
   const audienceFilter =
     (payload?.audience === "CLIENT" || normalizedRole === "CLIENT")
       ? { audience: { $in: ["CLIENT", "BOTH"] } }
       : { audience: { $in: ["SOCIAL_WORKER", "BOTH"] } };
+
   // 6) RAG otsing
   let matches = [];
   try {
@@ -786,6 +814,7 @@ export async function POST(req) {
   const chosen = diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
   const context = renderContextBlocks(chosen);
   const grounding = groundingStrength(groupedMatches);
+
   // 7) allikad (meta) – UI-le
   const sources = chosen.map((entry, idx) => {
     const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
@@ -813,14 +842,17 @@ export async function POST(req) {
       short_ref: short_ref_text || undefined,
     };
   });
+
   // 7.5) Kui konteksti ei leitud, vasta õiges keeles
   if (!context || !context.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
+
     if (persist && convId && userId) {
       await persistInit({ convId, userId, role: normalizedRole, sources, isCrisis });
       await persistAppend({ convId, userId, fullText: out });
       await persistDone({ convId, userId, status: "COMPLETED" });
     }
+
     if (!wantStream) {
       return NextResponse.json({
         ok: true,
@@ -831,18 +863,22 @@ export async function POST(req) {
         convId: convId || undefined,
       });
     }
+
     const enc = new TextEncoder();
     const sse = new ReadableStream({
       async start(controller) {
         try {
           controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis })}\n\n`));
           controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: out })}\n\n`));
+          // mikro-flush, et esimene tükk ei jääks klompi
+          await new Promise(r => setTimeout(r, 0));
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {
           try { controller.close(); } catch {}
         }
       },
     });
+
     return new Response(sse, {
       headers: {
         "Content-Type": "text/event-stream; charset=utf-8",
@@ -852,10 +888,12 @@ export async function POST(req) {
       },
     });
   }
+
   // püsitus
   if (persist && convId && userId) {
     await persistInit({ convId, userId, role: normalizedRole, sources, isCrisis });
   }
+
   // --- A) JSON (mitte-streamiv) ---
   if (!wantStream) {
     try {
@@ -888,12 +926,14 @@ export async function POST(req) {
       return makeError(errMessage, 502, { code: err?.name });
     }
   }
+
   // --- B) STREAM (SSE) ---
   const enc = new TextEncoder();
   let clientGone = false;
   let heartbeatTimer = null;
   let accumulated = "";
   let lastFlush = 0;
+
   const maybeFlush = async () => {
     const now = Date.now();
     if (now - lastFlush >= 700) {
@@ -903,6 +943,7 @@ export async function POST(req) {
       }
     }
   };
+
   const sse = new ReadableStream({
     async start(controller) {
       try {
@@ -914,6 +955,7 @@ export async function POST(req) {
           }
         });
       } catch {}
+
       heartbeatTimer = setInterval(() => {
         if (!clientGone) {
           try {
@@ -925,6 +967,7 @@ export async function POST(req) {
           }
         }
       }, 15000);
+
       // meta alguses
       if (!clientGone) {
         try {
@@ -935,6 +978,7 @@ export async function POST(req) {
           clientGone = true;
         }
       }
+
       try {
         const iter = await streamOpenAI({
           history,
@@ -945,6 +989,7 @@ export async function POST(req) {
           includeSources,
           replyLang,
         });
+
         for await (const ev of iter) {
           if (ev.type === "delta" && ev.text) {
             accumulated += ev.text;
@@ -953,6 +998,8 @@ export async function POST(req) {
                 controller.enqueue(
                   enc.encode(`event: delta\ndata: ${JSON.stringify({ t: ev.text })}\n\n`)
                 );
+                // 🔸 mikro-flush: lase igal delta-tükil kohe väljuda
+                await new Promise(r => setTimeout(r, 0));
               } catch {
                 clientGone = true;
               }
@@ -994,6 +1041,7 @@ export async function POST(req) {
       }
     },
   });
+
   return new Response(sse, {
     headers: {
       "Content-Type": "text/event-stream; charset=utf-8",
@@ -1003,6 +1051,7 @@ export async function POST(req) {
     },
   });
 }
+
 export async function GET() {
   return NextResponse.json({ ok: true, route: "api/chat" });
 }

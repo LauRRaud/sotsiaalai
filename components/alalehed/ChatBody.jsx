@@ -6,11 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
+
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
-// Tüpograafi-voo kiirus: sõnad sekundis (vähendatud ~poole võrra)
-const TYPEWRITER_WORDS_PER_SECOND = 10; // tõsta/langeta vajadusel
+
 /* ---------- Brauseri püsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
@@ -47,6 +47,7 @@ function makeChatStorage(key = "sotsiaalai:chat:v1") {
   }
   return { load, save, clear };
 }
+
 /* ---------- SSE parser ---------- */
 function createSSEReader(stream) {
   const reader = stream.getReader();
@@ -86,6 +87,7 @@ function createSSEReader(stream) {
     },
   };
 }
+
 /* ---------- Allikate abifunktsioonid ---------- */
 function uniqueSortedPages(pages) {
   if (!Array.isArray(pages)) return [];
@@ -240,6 +242,7 @@ function normalizeSources(sources) {
     };
   });
 }
+
 /* ---------- Throttle ---------- */
 function throttle(fn, waitMs) {
   let last = 0;
@@ -267,11 +270,13 @@ function throttle(fn, waitMs) {
     }
   };
 }
+
 /* ---------- Komponent ---------- */
 export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
+
   const introText = t(
     "chat.intro.message",
     "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes."
@@ -280,36 +285,40 @@ export default function ChatBody() {
     "chat.crisis.notice",
     "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
   );
+
   const userRole = useMemo(() => {
     const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
     const up = String(raw || "").toUpperCase();
     return up || "CLIENT";
   }, [session]);
-  // ⬇️ UUS: lisa locale võtmele, et eri keelte ajalugu ei seguneks
+
+  // ⬇️ locale lisatud võtmesse, et eri keelte ajalugu ei seguneks
   const storageKey = useMemo(() => {
     const uid = session?.user?.id || "anon";
     const loc = locale || "et";
     return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:${loc}:v1`;
   }, [session, locale]);
+
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
+
   const [convId, setConvId] = useState(null);
-  // ⬇️ UUS: vestluse ajalugu algab TÜHJALT (intro ei ole enam osa ajaloost)
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); // algab tühjalt
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
+
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
-  const typingTimerRef = useRef(null);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
   const saveTimerRef = useRef(null);
+
   const historyPayload = useMemo(
     () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
     [messages]
@@ -318,9 +327,8 @@ export default function ChatBody() {
     () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, messages]
   );
-  // ⬇️ EEMALDATUD: introText-i põhine efekt, mis varem asendas esimese AI-sõnumi.
-  // Tervitusrida renderdatakse nüüd väljaspool sõnumi-ajalugu.
-  // Koonda kogu vestluse vältel kasutatud allikad (for “Allikad” paneel)
+
+  // Koonda vestluse allikad
   const conversationSources = useMemo(() => {
     const map = new Map();
     let order = 0;
@@ -368,12 +376,8 @@ export default function ChatBody() {
         if (!entry.fileName && src.fileName) {
           entry.fileName = src.fileName;
         }
-        if (src.url) {
-          entry.urls.add(src.url);
-        }
-        if (src.pageRange) {
-          entry.pageRanges.add(src.pageRange);
-        }
+        if (src.url) entry.urls.add(src.url);
+        if (src.pageRange) entry.pageRanges.add(src.pageRange);
         if (Array.isArray(src.pages)) {
           for (const p of src.pages) {
             const num = Number(p);
@@ -458,7 +462,9 @@ export default function ChatBody() {
         };
       });
   }, [messages]);
+
   const hasConversationSources = conversationSources.length > 0;
+
   /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
     setTimeout(() => {
@@ -499,6 +505,7 @@ export default function ChatBody() {
       return next;
     });
   }, []);
+
   /* ---------- Vestluse vahetus sündmus ---------- */
   useEffect(() => {
     function onSwitch(e) {
@@ -509,7 +516,6 @@ export default function ChatBody() {
         window.sessionStorage.setItem(GLOBAL_CONV_KEY, newId);
       } catch {}
       setConvId(newId);
-      // ⬇️ UUS: puhasta nähtav ajalugu; intro renderdub eraldi t() kaudu
       setMessages([]);
       chatStore.save([]);
       setIsCrisis(false);
@@ -522,6 +528,7 @@ export default function ChatBody() {
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
   }, [chatStore, storageKey]);
+
   /* ---------- Scrolli state ---------- */
   useEffect(() => {
     const node = chatWindowRef.current;
@@ -542,6 +549,7 @@ export default function ChatBody() {
       node.scrollTop = node.scrollHeight;
     }
   }, [messages]);
+
   /* ---------- Mount + püsivuse taastamine ---------- */
   useEffect(() => {
     mountedRef.current = true;
@@ -573,6 +581,7 @@ export default function ChatBody() {
       abortControllerRef.current?.abort();
     };
   }, [chatStore, focusInput, storageKey]);
+
   /* ---------- Autosalvestus ---------- */
   useEffect(() => {
     if (!mountedRef.current) return;
@@ -582,12 +591,14 @@ export default function ChatBody() {
     }, 250);
     return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
   }, [messages, chatStore]);
+
   /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
+
   /* ---------- ESC sulgemiseks ---------- */
   useEffect(() => {
     if (!showSourcesPanel) return;
@@ -600,6 +611,7 @@ export default function ChatBody() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [showSourcesPanel, closeSourcesPanel]);
+
   /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {
     if (!convId) return;
@@ -612,7 +624,6 @@ export default function ChatBody() {
         if (!r.ok) return;
         const data = await r.json();
         if (!data?.ok || cancelled) return;
-        // kui kasutaja vahetas vestlust, ära kirjuta üle
         const currentGlobalId =
           typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
         if (convId !== currentGlobalId) return;
@@ -659,6 +670,7 @@ export default function ChatBody() {
       document.removeEventListener("visibilitychange", throttled);
     };
   }, [convId]);
+
   /* ---------- Sõnumi saatmine ---------- */
   const sendMessage = useCallback(
     async (e) => {
@@ -666,16 +678,21 @@ export default function ChatBody() {
       if (isGenerating) return;
       const trimmed = input.trim();
       if (!trimmed) return;
+
       setErrorBanner(null);
       setIsCrisis(false); // lähtesta, kuni server meta saadab
       appendMessage({ role: "user", text: trimmed });
       setInput("");
       setIsGenerating(true);
       focusInput();
+
       const controller = new AbortController();
-      const clientTimeout = setTimeout(() => controller.abort(), 60000);
+      // pikem klientaegumine (soovi korral eemalda üldse)
+      const clientTimeout = setTimeout(() => controller.abort(), 180000);
       abortControllerRef.current = controller;
+
       let streamingMessageId = null;
+
       try {
         const res = await fetch("/api/chat", {
           method: "POST",
@@ -687,12 +704,13 @@ export default function ChatBody() {
             stream: true,
             persist: true,
             convId,
-            // Edasta UI keel serverile, et vastus oleks õiges keeles
             uiLocale: locale || "et",
           }),
           signal: controller.signal,
         });
+
         clearTimeout(clientTimeout);
+
         if (res.status === 401 || res.status === 403) {
           const params = new URLSearchParams({ callbackUrl: "/vestlus" });
           window.location.href = `/api/auth/signin?${params.toString()}`;
@@ -706,7 +724,9 @@ export default function ChatBody() {
               : "Liiga palju päringuid. Proovi varsti uuesti."
           );
         }
+
         const contentType = res.headers.get("content-type") || "";
+
         // Mitte-streamiv vastus
         if (!contentType.includes("text/event-stream")) {
           let data = null;
@@ -724,52 +744,15 @@ export default function ChatBody() {
           appendMessage({ role: "ai", text: replyText, sources });
           return;
         }
+
         // Streamiv vastus (SSE)
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
         const reader = createSSEReader(res.body);
         streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
-        let visibleText = ""; // kuvatav (tüüti) tekst
-        let pendingBuffer = ""; // saabuvad tükid, mida aeglaselt kuvame
+        let visibleText = "";
         let sources = [];
         let streamEnded = false;
-        let finalized = false;
 
-        const intervalMs = Math.max(40, Math.round(1000 / TYPEWRITER_WORDS_PER_SECOND));
-        function finalizeIfNeeded() {
-          if (finalized) return;
-          if (streamEnded && pendingBuffer.length === 0) {
-            const finalText = (visibleText || "").trim() ||
-              "Vabandust, ma ei saanud praegu vastust koostada.";
-            mutateMessage(streamingMessageId, (msg) => ({
-              ...msg,
-              text: finalText,
-              sources,
-              isStreaming: false,
-            }));
-            finalized = true;
-            if (typingTimerRef.current) {
-              clearInterval(typingTimerRef.current);
-              typingTimerRef.current = null;
-            }
-          }
-        }
-
-        function startTypewriter() {
-          if (typingTimerRef.current) return;
-          typingTimerRef.current = setInterval(() => {
-            if (!pendingBuffer) {
-              // Pole midagi kuvada — kui voog on lõppenud, lõpeta
-              if (streamEnded) finalizeIfNeeded();
-              return;
-            }
-            const m = pendingBuffer.match(/^\s*\S+/);
-            const take = m ? m[0] : pendingBuffer.charAt(0);
-            visibleText += take;
-            pendingBuffer = pendingBuffer.slice(take.length);
-            mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: visibleText }));
-            finalizeIfNeeded();
-          }, intervalMs);
-        }
         for await (const ev of reader) {
           if (ev.event === "meta") {
             try {
@@ -791,8 +774,9 @@ export default function ChatBody() {
             try {
               const payload = JSON.parse(ev.data);
               if (payload?.t) {
-                pendingBuffer += payload.t;
-                startTypewriter();
+                // ⬇️ KOHELINE LISAMINE (ilma “typewriterita”)
+                visibleText += payload.t;
+                mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: visibleText }));
               }
             } catch {}
           } else if (ev.event === "error") {
@@ -804,19 +788,21 @@ export default function ChatBody() {
             throw new Error(msg);
           } else if (ev.event === "done") {
             streamEnded = true;
-            finalizeIfNeeded();
             break;
           }
         }
-        finalizeIfNeeded();
-        if (finalized) streamingMessageId = null;
+
+        // finalize
+        mutateMessage(streamingMessageId, (msg) => ({
+          ...msg,
+          text: (visibleText || "").trim() || "Vabandust, ma ei saanud praegu vastust koostada.",
+          sources,
+          isStreaming: false,
+        }));
+        streamingMessageId = null;
       } catch (err) {
         clearTimeout(clientTimeout);
         if (err?.name === "AbortError") {
-          if (typingTimerRef.current) {
-            clearInterval(typingTimerRef.current);
-            typingTimerRef.current = null;
-          }
           if (streamingMessageId != null) {
             mutateMessage(streamingMessageId, (msg) => ({
               ...msg,
@@ -830,10 +816,6 @@ export default function ChatBody() {
             appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
           }
         } else {
-          if (typingTimerRef.current) {
-            clearInterval(typingTimerRef.current);
-            typingTimerRef.current = null;
-          }
           const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
           setErrorBanner(errText);
           if (streamingMessageId != null) {
@@ -849,10 +831,6 @@ export default function ChatBody() {
           }
         }
       } finally {
-        if (typingTimerRef.current) {
-          clearInterval(typingTimerRef.current);
-          typingTimerRef.current = null;
-        }
         setIsGenerating(false);
         abortControllerRef.current = null;
         focusInput();
@@ -860,12 +838,14 @@ export default function ChatBody() {
     },
     [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId, locale]
   );
+
   const handleStop = useCallback((e) => {
     e?.preventDefault();
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
     setIsGenerating(false);
   }, []);
+
   const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
@@ -877,11 +857,13 @@ export default function ChatBody() {
     },
     [input, isGenerating, sendMessage]
   );
+
   const scrollToBottom = useCallback(() => {
     const node = chatWindowRef.current;
     if (!node) return;
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
+
   const openConversations = useCallback(() => {
     try {
       window.dispatchEvent(
@@ -889,6 +871,7 @@ export default function ChatBody() {
       );
     } catch {}
   }, []);
+
   const BackButton = () => (
     <div className="chat-back-btn-wrapper">
       <button
@@ -901,13 +884,14 @@ export default function ChatBody() {
       </button>
     </div>
   );
+
   /* ---------- Render ---------- */
   return (
     <div
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
       style={{ position: "relative" }}
     >
-      {/* Hamburger / Conversations – vasak ülanurk */}
+      {/* Hamburger / Conversations */}
       <button
         type="button"
         className="chat-menu-btn"
@@ -918,9 +902,12 @@ export default function ChatBody() {
         <span className="chat-menu-icon" aria-hidden="true">
           <span></span><span></span><span></span>
         </span>
-        <span className="chat-menu-label" aria-hidden="true">{t("chat.menu.label", "Vestlused")}</span>
+        <span className="chat-menu-label" aria-hidden="true">
+          {t("chat.menu.label", "Vestlused")}
+        </span>
       </button>
-      {/* Profiili avatar – parem ülanurk */}
+
+      {/* Profiili avatar */}
       <Link href="/profiil" aria-label={t("chat.profile.open", "Ava profiil")} className="avatar-link">
         <Image
           src="/logo/User-circle.svg"
@@ -932,8 +919,10 @@ export default function ChatBody() {
         />
         <span className="avatar-label">{t("chat.profile.label", "Profiil")}</span>
       </Link>
+
       {/* Pealkiri */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
+
       {/* Kriisi teavitus */}
       {isCrisis ? (
         <div
@@ -951,6 +940,7 @@ export default function ChatBody() {
           {crisisText}
         </div>
       ) : null}
+
       {/* Vea teavitus */}
       {errorBanner ? (
         <div
@@ -968,6 +958,7 @@ export default function ChatBody() {
           {errorBanner}
         </div>
       ) : null}
+
       <main className="chat-main" style={{ position: "relative" }}>
         <div
           id="chat-window"
@@ -979,13 +970,13 @@ export default function ChatBody() {
           aria-busy={isStreamingAny ? "true" : "false"}
           style={{ position: "relative" }}
         >
-          {/* ⬇️ UUS: Intro-rida väljaspool sõnumi-ajalugu (tõlgib kohe keelevahetusel) */}
+          {/* Intro-rida väljaspool ajalugu */}
           {messages.length === 0 && (
             <div className="chat-msg chat-msg-ai" style={{ opacity: 0.9 }}>
               <div style={{ whiteSpace: "pre-wrap" }}>{introText}</div>
             </div>
           )}
-          {/* Päris vestluse sõnumid */}
+          {/* Päris sõnumid */}
           {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
             return (
@@ -994,8 +985,8 @@ export default function ChatBody() {
               </div>
             );
           })}
-          {/* Typing orb moved into send button; remove legacy inline orb */}
         </div>
+
         {showScrollDown && (
           <button
             className="scroll-down-btn"
@@ -1019,6 +1010,7 @@ export default function ChatBody() {
             </svg>
           </button>
         )}
+
         <form
           className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position"
           onSubmit={isGenerating ? handleStop : sendMessage}
@@ -1038,28 +1030,29 @@ export default function ChatBody() {
             disabled={isGenerating}
             rows={1}
           />
-<button
-  type="submit"
-  className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
-  aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
-  title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
-  disabled={!input.trim() && !isGenerating && !isStreamingAny}
-  data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
->
-  {(() => {
-    const thinking = isGenerating || isStreamingAny;
-    return (
-      <SotsiaalAILoader
-        size="calc(100% + 2px)"
-        animated={thinking}
-        ariaHidden
-        className="send-loader"
-      />
-    );
-  })()}
-</button>
+          <button
+            type="submit"
+            className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
+            aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
+            title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
+            disabled={!input.trim() && !isGenerating && !isStreamingAny}
+            data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
+          >
+            {(() => {
+              const thinking = isGenerating || isStreamingAny;
+              return (
+                <SotsiaalAILoader
+                  size="calc(100% + 2px)"
+                  animated={thinking}
+                  ariaHidden
+                  className="send-loader"
+                />
+              );
+            })()}
+          </button>
         </form>
       </main>
+
       <footer
         className="chat-footer"
         style={{ marginTop: "1rem", position: "relative", display: "flex", justifyContent: "center" }}
@@ -1069,9 +1062,7 @@ export default function ChatBody() {
             type="button"
             ref={sourcesButtonRef}
             onClick={toggleSourcesPanel}
-            className={`chat-sources-btn chat-sources-btn--mini${
-              showSourcesPanel ? " chat-sources-btn--active" : ""
-            }`}
+            className={`chat-sources-btn chat-sources-btn--mini${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
             aria-haspopup="dialog"
             aria-expanded={showSourcesPanel ? "true" : "false"}
             aria-controls="chat-sources-panel"
@@ -1087,6 +1078,7 @@ export default function ChatBody() {
         ) : null}
         <BackButton />
       </footer>
+
       {showSourcesPanel ? (
         <div
           id="chat-sources-panel"
@@ -1130,7 +1122,9 @@ export default function ChatBody() {
                 marginBottom: "0.85rem",
               }}
             >
-              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>{t("chat.sources.heading", "Vestluse allikad")}</h2>
+              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>
+                {t("chat.sources.heading", "Vestluse allikad")}
+              </h2>
               <button
                 type="button"
                 onClick={closeSourcesPanel}
@@ -1148,6 +1142,7 @@ export default function ChatBody() {
                 {t("buttons.close", "Sulge")}
               </button>
             </div>
+
             {conversationSources.length === 0 ? (
               <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.75 }}>
                 {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
@@ -1155,17 +1150,8 @@ export default function ChatBody() {
             ) : (
               <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
                 {conversationSources.map((src, idx) => (
-                  <li
-                    key={src.key || idx}
-                    style={{ marginBottom: "1rem", lineHeight: 1.5 }}
-                  >
-                    <div
-                      style={{
-                        fontWeight: 600,
-                        fontSize: "0.95rem",
-                        color: "#f8fafc",
-                      }}
-                    >
+                  <li key={src.key || idx} style={{ marginBottom: "1rem", lineHeight: 1.5 }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "#f8fafc" }}>
                       {src.label}
                     </div>
                     {src.occurrences > 1 ? (

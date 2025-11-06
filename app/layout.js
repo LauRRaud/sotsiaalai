@@ -13,12 +13,8 @@ export const metadata = {
   description: "SotsiaalAI platvorm",
   manifest: "/site.webmanifest",
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
-      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-    ],
-    apple: "/apple-touch-icon.png",
+    icon: "/favicon.ico",        // ← üksik universaalne ikoon (soovi korral)
+    // apple: "/apple-touch-icon.png", // ← lisa hiljem kui fail olemas
   },
 };
 export const viewport = { themeColor: "#0d111b" };
