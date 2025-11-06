@@ -736,7 +736,7 @@ def health():
         "chunk_size": CHUNK_SIZE,
         "chunk_overlap": CHUNK_OVERLAP,
         "allowed_mime": sorted(list(ALLOWED_MIME)),
-        "storage_dir": str(STORAGE_DIR),
+        "storage_dir": os.path.realpath(str(STORAGE_DIR)),
     }
 
 # --- shared worker for file ingestion (used by JSON + multipart) ---

@@ -5,35 +5,39 @@
      role="img" aria-labelledby="title desc"
      shape-rendering="geometricPrecision"
      style="isolation:isolate">
-  <title id="title">SotsiaalAI ikoon – sisemine serv (multiply)</title>
-  <desc id="desc">Pehme hajus vari feDropShadow kihtidega. Ainult sisemine kontuur 100% opacity ja mix-blend-mode:multiply, vältimaks heledat äärt tumedal taustal.</desc>
+  <title id="title">SotsiaalAI ikoon – sisemine serv (1.35 px feather-pehmendusega)</title>
+  <desc id="desc">Täited muutmata. Sisemine serv on 1.35 px gradient-stroke, lõigatud maskiga kuju sisse ja pehmendatud feather-efektiga.</desc>
 
   <defs>
     <style>
       /* täited – nagu originaalis */
       .st0 { fill: url(#linear-gradient2); }
       .st1 { fill: url(#linear-gradient1); }
-      .st2 { fill: url(#linear-gradient);  }
+      .st2 { fill: url(#linear-gradient); }
 
-      /* baaskiht: täited ilma stroketa (vari renderdub siia) */
       .logo-base path { stroke: transparent; }
 
-      /* SISENINE joon: pealpool täidet, 100% opacity, tumendab täidet */
-      .inner-stroke {
+      /* sisemine serv – veidi paksem */
+      .edge-gradient {
         fill: none;
-        stroke: #8a6a6a;          /* soe, tuhm toon (täis-opacity) */
-        stroke-width: 0.85;       /* vajadusel 0.75–0.95 */
+        stroke: url(#edgeGradient);
+        stroke-width: 1.35;
         stroke-linecap: round;
         stroke-linejoin: round;
-        vector-effect: non-scaling-stroke;
-        paint-order: fill stroke; /* joon renderdub täite järel */
-        mix-blend-mode: multiply; /* ainult tumedamaks, ei heledaks */
+        pointer-events: none;
       }
 
       @media (max-width:640px){
-        .inner-stroke { stroke-width: 0.8; }
+        .edge-gradient { stroke-width: 1.15; }
       }
     </style>
+
+    <!-- soe tumedam gradient serva jaoks -->
+    <linearGradient id="edgeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0"   stop-color="#a06b6b"/>
+      <stop offset="0.5" stop-color="#885656"/>
+      <stop offset="1"   stop-color="#6e4040"/>
+    </linearGradient>
 
     <!-- alumine gradient -->
     <linearGradient id="linear-gradient" x1="24.11" y1="120.24" x2="24.11" y2="159.48" gradientUnits="userSpaceOnUse">
@@ -62,11 +66,16 @@
       <stop offset="1" stop-color="#A8A59E"/>
     </linearGradient>
 
-    <!-- pehme ja kaugem vari (GPU-sõbralik) -->
+    <!-- pehme ja kaugem vari -->
     <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".6"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
+    </filter>
+
+    <!-- feather-pehmendus -->
+    <filter id="innerFeather" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="0" stdDeviation="0.55" flood-color="#5c3b3b" flood-opacity="0.5"/>
     </filter>
 
     <!-- geomeetria -->
@@ -75,13 +84,19 @@
       <path class="st1" d="M63.43,170.14c12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,35.7,8.37,8.74,37.44.06l2.23,1.76c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57Z"/>
       <path class="st0" d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
     </g>
+
+    <!-- mask -->
+    <mask id="mask-inner" maskUnits="userSpaceOnUse">
+      <rect width="100%" height="100%" fill="black"/>
+      <use href="#logoShape" fill="white"/>
+    </mask>
   </defs>
 
-  <!-- 1) täited + vari -->
+  <!-- täited + vari -->
   <g class="logo-base" filter="url(#shadowSoft)">
     <use href="#logoShape"/>
   </g>
 
-  <!-- 2) ainult sisemine joon (peal, multiply) -->
-  <use href="#logoShape" class="inner-stroke"/>
+  <!-- sisemine serv -->
+  <use href="#logoShape" class="edge-gradient" mask="url(#mask-inner)" filter="url(#innerFeather)"/>
 </svg>

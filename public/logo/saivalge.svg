@@ -3,40 +3,45 @@
      xmlns="http://www.w3.org/2000/svg"
      viewBox="-30 -20 412.64 235.12"
      role="img" aria-labelledby="title desc"
-     shape-rendering="auto">
-  <title id="title">Sarnane logo – optimeeritud vari ja pehme serv</title>
-  <desc id="desc">feGaussianBlur eemaldatud; vari feDropShadow kihtidega (kaugem ja hajus); pehme serv stroke 0.75; värvid ja gradiendid muutmata.</desc>
+     shape-rendering="geometricPrecision">
+  <title id="title">Sarnane logo – edgeGradient servaga (blend-fallback)</title>
+  <desc id="desc">Sisemine joon kasutab tumedamat gradiendistroke’i, et anda pehme varjutatud serv ka keskkondades, kus mix-blend-mode ei tööta.</desc>
 
   <defs>
     <style>
-      /* täitevärvide klassid jäävad samaks */
+      /* täitevärvid */
       .st0 { fill: url(#linear-gradient2); }
       .st1 { fill: url(#linear-gradient1); }
       .st2 { fill: url(#linear-gradient3); }
       .st3 { fill: url(#linear-gradient); }
 
-      /* pehme serv (eraldi renderdus samale kujule) */
-      .edge-soft path {
-        stroke: rgba(0, 0, 0, 0.14);
-        stroke-width: 0.75;
+      /* täited ilma stroketa */
+      .logo-base path { stroke: transparent; }
+
+      /* servajoone fallback – gradient-stroke, mitte läbipaistev */
+      .edge-gradient {
+        fill: none;
+        stroke: url(#edgeGradient);  /* ⟵ uus gradiendi ID */
+        stroke-width: 0.85;
         stroke-linecap: round;
         stroke-linejoin: round;
-        paint-order: stroke fill;
         vector-effect: non-scaling-stroke;
-        fill: none;
-      }
-      @media (max-width: 640px) {
-        .edge-soft path {
-          stroke-width: 0.6;
-          vector-effect: none; /* vähendab aliasingut väiksel skaalal */
-        }
+        paint-order: fill stroke;    /* joon peal, täide all */
       }
 
-      /* põhilogo (täited) – ilma lisastroketeta */
-      .logo-base path { stroke: transparent; }
+      @media (max-width:640px){
+        .edge-gradient { stroke-width: 0.8; }
+      }
     </style>
 
-    <!-- gradiendid (täpselt sinu omad, muutmata) -->
+    <!-- 🔸 pehme Warm Clay edgeGradient – tumedam toon -->
+    <linearGradient id="edgeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0"   stop-color="#7e5a5a"/>   <!-- heledam tipp -->
+      <stop offset="0.5" stop-color="#6c4b4b"/>   <!-- kesktoon -->
+      <stop offset="1"   stop-color="#563939"/>   <!-- sügavam alumine -->
+    </linearGradient>
+
+    <!-- originaal gradiendid (muutmata) -->
     <linearGradient id="linear-gradient" x1="217.27" y1="-825.72" x2="319.36" y2="-1044.73"
       gradientTransform="translate(0 -842) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#F1F1F0"/><stop offset=".28" stop-color="#E6E5E3"/>
@@ -60,31 +65,29 @@
       <stop offset="1" stop-color="#5F5B55"/>
     </linearGradient>
 
-    <!-- ⚡ Optimeeritud hajus vari (kaugem, pehme) – ilma GaussianBlurita -->
+    <!-- pehme vari -->
     <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".60"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
     </filter>
 
-    <!-- sinu kujud 1:1 -->
+    <!-- logo kuju -->
     <g id="logoShapes">
-      <path class="st3" d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
+      <path class="st3" d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16Z"/>
       <g>
-        <path class="st1" d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
-        <path class="st0" d="M39.64,26.74c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57,12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.09,60.61,8.32,33.65,37.39,24.97l2.23,1.76h0v.03h.03v-.02h0Z"/>
+        <path class="st1" d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88Z"/>
+        <path class="st0" d="M39.64,26.74c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57,12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.09,60.61,8.32,33.65,37.39,24.97Z"/>
         <path class="st2" d="M75.33,33.38c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
       </g>
     </g>
   </defs>
 
-  <!-- üks renderdus täitega + vari -->
+  <!-- täited + vari -->
   <g class="logo-base" filter="url(#shadowSoft)">
     <use href="#logoShapes"/>
   </g>
 
-  <!-- pehme serv eraldi (sama kuju) -->
-  <g class="edge-soft">
-    <use href="#logoShapes"/>
-  </g>
+  <!-- pehme gradient-stroke serv -->
+  <use href="#logoShapes" class="edge-gradient"/>
 </svg>
