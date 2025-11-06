@@ -1137,7 +1137,8 @@ html:not(.dark-mode) .avatar-label {
   max-width: 170px;           /* väldi liigset venimist */
   font-size: 1em !important;  /* ühtlustab teksti */
   padding: 0.45em 0.85em !important; /* kitsenda horisontaalset polstrit */
-  letter-spacing: 0.015em !important;
+  /* Match global button tracking (group defined around line ~2001) */
+  letter-spacing: 0.06em !important;
 }
 .profile-btn-row--duo .btn-primary span {
   font-size: 1em !important;
@@ -2246,6 +2247,7 @@ textarea::placeholder{
   font: inherit;
   color: rgba(245,248,255,0.82) !important;
   opacity: 0.92 !important;
+  letter-spacing: 0.05em; /* unify placeholder tracking for forms */
 }
 .glass-form:not(.profile-form-vertical) .input-modern::placeholder{
   color: var(--pt-150) !important;
@@ -2255,6 +2257,7 @@ textarea::placeholder{
   font: inherit;
   color: rgba(245,248,255,0.94) !important;
   opacity: 0.98 !important;
+  letter-spacing: 0.05em; /* match registration/profile placeholders */
 }
 .reset-input::placeholder{
   font: inherit;

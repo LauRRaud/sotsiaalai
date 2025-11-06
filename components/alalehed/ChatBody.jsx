@@ -235,7 +235,7 @@ function normalizeSources(sources) {
       authors,
       title: typeof src?.title === "string" ? src.title : undefined,
       issueLabel,
-      issueId: typeof src?.issueId === "string" ? src.issueId : undefined,
+      issueId: typeof src?.issueId === "string" ? src?.issueId : undefined,
       year,
       section: typeof src?.section === "string" ? src.section : undefined,
       pages,
@@ -292,7 +292,7 @@ export default function ChatBody() {
     return up || "CLIENT";
   }, [session]);
 
-  // ⬇️ locale lisatud võtmesse, et eri keelte ajalugu ei seguneks
+  // eri keelte/pidude kaupa
   const storageKey = useMemo(() => {
     const uid = session?.user?.id || "anon";
     const loc = locale || "et";
@@ -326,6 +326,12 @@ export default function ChatBody() {
   const isStreamingAny = useMemo(
     () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, messages]
+  );
+
+  // Intro nähtav kuni on vähemalt üks mitte-tühi sõnum
+  const hasRealContent = useMemo(
+    () => messages.some((m) => typeof m?.text === "string" && m.text.trim().length > 0),
+    [messages]
   );
 
   // Koonda vestluse allikad
@@ -554,13 +560,18 @@ export default function ChatBody() {
   useEffect(() => {
     mountedRef.current = true;
     focusInput();
+
+    // Lae püsivus ja eemalda tühjad tekstid (hoiab intro nähtaval)
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
-      const hydrated = stored.map((m) => ({ ...m, id: nextId++ }));
+      const hydrated = stored
+        .filter((m) => typeof m?.text === "string" && m.text.trim().length > 0)
+        .map((m) => ({ ...m, id: nextId++ }));
       messageIdRef.current = nextId;
       setMessages(hydrated);
     }
+
     const idFromGlobal =
       typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
     const idFromPerUser =
@@ -624,13 +635,21 @@ export default function ChatBody() {
         if (!r.ok) return;
         const data = await r.json();
         if (!data?.ok || cancelled) return;
+
         const currentGlobalId =
           typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
         if (convId !== currentGlobalId) return;
+
         const serverText = String(data.text || "");
+        const serverTextTrim = serverText.trim();
         const serverSources = normalizeSources(data.sources ?? []);
         const serverCrisis = !!data.isCrisis;
+
         setIsCrisis(serverCrisis);
+
+        // Kui tekst tühi, ära lisa AI-sõnumit (intro jääb nähtavaks)
+        if (!serverTextTrim) return;
+
         setMessages((prev) => {
           const next = [...prev];
           let aiIdx = -1;
@@ -644,14 +663,19 @@ export default function ChatBody() {
             next.push({
               id: (next.at(-1)?.id ?? 0) + 1,
               role: "ai",
-              text: serverText,
+              text: serverTextTrim,
               sources: serverSources,
               isStreaming: false,
             });
           } else {
             const cur = next[aiIdx];
-            if ((serverText || "").length > (cur.text || "").length) {
-              next[aiIdx] = { ...cur, text: serverText, sources: serverSources, isStreaming: false };
+            if (serverTextTrim.length > (cur.text || "").length) {
+              next[aiIdx] = {
+                ...cur,
+                text: serverTextTrim,
+                sources: serverSources,
+                isStreaming: false,
+              };
             }
           }
           return next;
@@ -687,7 +711,6 @@ export default function ChatBody() {
       focusInput();
 
       const controller = new AbortController();
-      // pikem klientaegumine (soovi korral eemalda üldse)
       const clientTimeout = setTimeout(() => controller.abort(), 180000);
       abortControllerRef.current = controller;
 
@@ -774,8 +797,7 @@ export default function ChatBody() {
             try {
               const payload = JSON.parse(ev.data);
               if (payload?.t) {
-                // ⬇️ KOHELINE LISAMINE (ilma “typewriterita”)
-                visibleText += payload.t;
+                visibleText += payload.t; // koheline lisamine
                 mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: visibleText }));
               }
             } catch {}
@@ -970,13 +992,14 @@ export default function ChatBody() {
           aria-busy={isStreamingAny ? "true" : "false"}
           style={{ position: "relative" }}
         >
-          {/* Intro-rida väljaspool ajalugu */}
-          {messages.length === 0 && (
+          {/* Intro – nähtav kuni tekib reaalne sisu */}
+          {!hasRealContent && (
             <div className="chat-msg chat-msg-ai" style={{ opacity: 0.9 }}>
               <div style={{ whiteSpace: "pre-wrap" }}>{introText}</div>
             </div>
           )}
-          {/* Päris sõnumid */}
+
+          {/* Vestluse sõnumid */}
           {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
             return (
