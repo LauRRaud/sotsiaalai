@@ -105,7 +105,8 @@ export async function GET(req) {
     });
 
     if (!run) {
-      return json({ ok: false, message: "Not found" }, 404);
+      // Ära tekita konsooli 404-müra: tagasta 200 koos ok:false
+      return json({ ok: false, notFound: true }, 200);
     }
 
     // Omaniku või Admini kontroll
@@ -115,7 +116,8 @@ export async function GET(req) {
 
     // Kui on DELETED, kohtle nagu puuduks (UI ei peaks seda nägema)
     if (run.status === "DELETED") {
-      return json({ ok: false, message: "Not found" }, 404);
+      // Sama loogika — käsitle nagu puuduks
+      return json({ ok: false, notFound: true }, 200);
     }
 
     return json({

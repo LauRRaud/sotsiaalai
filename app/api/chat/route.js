@@ -497,6 +497,7 @@ function toResponsesInput({
     "VESTLUSREEGLID: " +
     "• ÄRA korda sama küsimust või lauset sõna-sõnalt järjestikustel pööretel; kohanda alati uuele sisendile. " +
     "• ÄRA tervita uuesti keset vestlust; tervitus ainult esimeses pöördumises. " +
+    "• Kui see on VESTLUSE ESIMENE kasutaja pöördumine ja kasutaja EI alustanud tervitusega, alusta vastust lühikese tervitusega (nt 'Tere!') ja jätka KOHE sisulise vastusega; ära vasta kunagi ainult tervitusega. " +
     "• Kui tuvastad kriisi (nt 'APPI', enese- või lapseoht), alusta kohe abistavate sammudega, mitte tervitusega. " +
     "• Lühikeste WHO/WHAT/definition päringute korral vasta esmalt lühidalt (1–3 lauset) kontekstist; kui infot pole, ütle ausalt. " +
     "• Enne tegevusplaani pakkumist küsi selges eesti keeles luba: 'Kas soovid, et koostan lühikese tegevusplaani?' " +
@@ -747,9 +748,9 @@ export async function POST(req) {
   const L = langStrings(replyLang);
   const isCrisis = detectCrisis(message);
 
-  // 4.5) varajane tervitusfiltri haru — nüüd õiges keeles
+  // 4.5) varajane tervitusfiltri haru — ainult siis, kui kasutaja ISE tervitas
   const greeting = isGreeting(message);
-  if ((greeting || rawHistory.length === 0) && !isCrisis) {
+  if (greeting && !isCrisis) {
     const reply =
       normalizedRole === "SOCIAL_WORKER" ? L.greetingWorker : L.greetingClient;
 

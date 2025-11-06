@@ -1136,7 +1136,8 @@ html:not(.dark-mode) .avatar-label {
   min-width: 130px;           /* hoia kitsam, kuid loetav */
   max-width: 170px;           /* väldi liigset venimist */
   font-size: 1em !important;  /* ühtlustab teksti */
-  padding: 0.45em 0.85em !important; /* kitsenda horisontaalset polstrit */
+  /* veidi kõrgem – lähemal .btn-primary vaikimisi padjale */
+  padding: 0.60em 1.05em !important;
   /* Match global button tracking (group defined around line ~2001) */
   letter-spacing: 0.06em !important;
 }
@@ -1157,7 +1158,8 @@ html:not(.dark-mode) .avatar-label {
   min-width: 140px;           /* veidi kitsam nupp */
   flex: 0 0 auto;             /* ära lase venida */
   font-size: 1.02em;          /* pisut väiksem tekst */
-  padding: 0.55em 1.05em;     /* compact padding */
+  /* veidi kõrgem, et meenutaks primary nuppu */
+  padding: 0.65em 1.05em;     /* compact padding */
   border-radius: 1.3em;       /* hoia ümarust */
 }
 
