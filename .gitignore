@@ -76,3 +76,18 @@ rag-service/storage/**
 
 # Prisma võimalikud varukoopiad
 prisma/_backup_old/
+.env
+.env.*
+env
+env.*
+rag.env
+rag.env.*
+.env.production
+.env.local
+.env.development
+.venv/
+backups/
+rag-service/storage
+rag-service/storage.bak.*/
+rag-service/rag.env
+rag-service/requirements.lock.before_upgrade.txt
