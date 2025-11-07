@@ -32,9 +32,9 @@ function isLocalBaseUrl(u) {
   }
 }
 // Väike util, et koostada siht-URL ilma topelt kaldkriipsudeta
-function buildTargetUrl(req, params) {
+function buildTargetUrl(req, segmentsInput) {
   const incoming = new URL(req.url);
-  const segments = Array.isArray(params?.path) ? [...params.path] : [];
+  const segments = Array.isArray(segmentsInput) ? [...segmentsInput] : [];
   // backward-compat: /api/rag/query -> /search
   if (segments[0] === "query") segments[0] = "search";
   const subPath = segments.join("/");
@@ -71,7 +71,12 @@ function requestHasBody(req) {
   return true;
 }
 /* ===================== Core proxy ===================== */
-async function proxy(req, { params }) {
+async function proxy(req, ctx = {}) {
+  let resolvedParams = ctx?.params;
+  if (resolvedParams && typeof resolvedParams.then === "function") {
+    resolvedParams = await resolvedParams;
+  }
+  const paramSegments = Array.isArray(resolvedParams?.path) ? resolvedParams.path : [];
   // turvaventiilid
   if (!RAG_KEY) {
     return new Response(
@@ -90,7 +95,7 @@ async function proxy(req, { params }) {
       { status: 503, headers: { "Content-Type": "application/json" } }
     );
   }
-  const target = buildTargetUrl(req, params);
+  const target = buildTargetUrl(req, paramSegments);
   // Koosta päised: alati X-API-Key + ohutud forwarditavad päised
   const headers = new Headers();
   headers.set("X-API-Key", RAG_KEY);
