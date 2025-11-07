@@ -3,56 +3,92 @@
      xmlns="http://www.w3.org/2000/svg"
      viewBox="-30 -20 412.64 235.12"
      role="img" aria-labelledby="title desc"
-     shape-rendering="auto">
-  <title id="title">SotsiaalAI logo – optimeeritud vari ja pehme serv</title>
-  <desc id="desc">feGaussianBlur eemaldatud; vari kolme feDropShadow kihiga (kaugem ja hajus); serv 0.75; värvid ja geomeetria muutmata.</desc>
+     shape-rendering="auto"
+     style="isolation:isolate">
+  <title id="title">SotsiaalAI logo – smust (tumedam Warm Clay + multiply serv)</title>
+  <desc id="desc">Kogu Warm Clay kuju on tumedam ja punakam; peal on multiply-stroke, mis lisab sügavust. Varjud on optimeeritud feDropShadow kihid. Kui blend ei toimi, kasutatakse gradient-stroke fallbacki.</desc>
 
   <defs>
     <style>
-      .st0 { fill: url(#linear-gradient2); }
-      .st1 { fill: url(#linear-gradient1); }
-      .st2 { fill: url(#linear-gradient); }
-      .st3 { fill: url(#linear-gradient3); }
+      /* täited */
+      .st0 { fill: url(#linear-gradient2); }  /* parem tume “post” */
+      .st1 { fill: url(#linear-gradient1); }  /* Warm Clay “S” – tumedam */
+      .st2 { fill: url(#linear-gradient);  }  /* alumine täpp */
+      .st3 { fill: url(#linear-gradient3); }  /* ülemine täpp */
 
-      /* pehme serv (ainult stroke) */
-      .edge-soft path {
-        paint-order: stroke fill;
-        stroke: rgba(0,0,0,0.14);
-        stroke-width: 0.75;
-        stroke-linejoin: round;
-        stroke-linecap: round;
-        vector-effect: non-scaling-stroke;
-        fill: none;
-      }
-      @media (max-width: 640px) {
-        .edge-soft path {
-          stroke-width: 0.6;
-          vector-effect: none;
-        }
-      }
-
-      /* täiterender ilma lisastroketeta */
+      /* baaskiht: täited ilma stroketa (vari joonistub siia) */
       .logo-base path { stroke: transparent; }
+
+      /* peamine sisemine kontuur – multiply (smust) */
+      .inner-stroke {
+        fill: none;
+        stroke: #4a2a2a;          /* sügav punakas-pruun */
+        stroke-width: 1.45;       /* smust-tundega paksem serv */
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+        paint-order: fill stroke;
+        mix-blend-mode: multiply; /* tumendab täidet */
+        pointer-events: none;
+      }
+
+      /* fallback serv – gradient-stroke (ilma blendita) */
+      .edge-gradient {
+        fill: none;
+        stroke: url(#edgeGradient);
+        stroke-width: 1.45;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+        paint-order: fill stroke;
+        pointer-events: none;
+      }
+
+      /* mobiilis veidi peenem joon */
+      @media (max-width:640px){
+        .inner-stroke, .edge-gradient { stroke-width: 1.2; }
+      }
+
+      /* nähtavus: vaikimisi BLEND peal, FALLBACK peidus */
+      .blend-layer { display: block; }
+      .edge-layer  { display: none; }
+
+      /* kui juurel on klass 'no-blend', siis kasuta fallbacki */
+      svg.no-blend .blend-layer { display: none; }
+      svg.no-blend .edge-layer  { display: block; }
     </style>
 
-    <!-- Gradients (sama mis sinu failis) -->
+    <!-- 🔸 fallbacki gradient-stroke toonid (sobitatud #4a2a2a ümber) -->
+    <linearGradient id="edgeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0"   stop-color="#5a3434"/>
+      <stop offset="0.5" stop-color="#4a2a2a"/>
+      <stop offset="1"   stop-color="#3a1e1e"/>
+    </linearGradient>
+
+    <!-- sinu gradiendid (säilitatud ID-d) -->
     <linearGradient id="linear-gradient" x1="23.93" y1="53.23" x2="23.93" y2="13.99"
       gradientTransform="translate(0 198) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#666"/><stop offset=".5" stop-color="#383838"/>
       <stop offset=".81" stop-color="#1c1c1c"/><stop offset="1" stop-color="#111"/>
     </linearGradient>
+
+    <!-- *** TUMEDAM Warm Clay “S” *** -->
     <linearGradient id="linear-gradient1" x1="-2357.07" y1="631.23" x2="-2357.07" y2="630.23"
       gradientTransform="translate(261643.52 107427.14) scale(110.98 -170.15)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f9eceb"/><stop offset=".25" stop-color="#e0b0af"/>
-      <stop offset=".5" stop-color="#b17c7c"/><stop offset=".75" stop-color="#a27777"/>
-      <stop offset="1" stop-color="#95706f"/>
+      <stop offset="0"   stop-color="#e5bebe"/>
+      <stop offset=".25" stop-color="#c88787"/>
+      <stop offset=".50" stop-color="#a45c5c"/>
+      <stop offset=".75" stop-color="#7b3b3b"/>
+      <stop offset="1"   stop-color="#3a1b1b"/>
     </linearGradient>
+
     <linearGradient id="linear-gradient2" x1="217" y1="-667.61" x2="319.18" y2="-886.81"
       gradientTransform="translate(0 -684) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#757575"/><stop offset=".21" stop-color="#4c4c4c"/>
       <stop offset=".45" stop-color="#353535"/><stop offset=".73" stop-color="#1e1e1e"/>
       <stop offset="1" stop-color="#0c0c0c"/>
     </linearGradient>
+
     <linearGradient id="linear-gradient3" x1="79.28" y1="2706.86" x2="79.28" y2="2742.04"
       gradientTransform="translate(0 -2672)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f5f5f4"/><stop offset=".22" stop-color="#eeedec"/>
@@ -60,14 +96,14 @@
       <stop offset="1" stop-color="#a8a59e"/>
     </linearGradient>
 
-    <!-- ⚡ Shadow preset: kaugem ja hajus, ilma GaussianBlurita -->
+    <!-- 🔸 pehme, kaugem vari (GPU-sõbralik) -->
     <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".60"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
     </filter>
 
-    <!-- Logo geomeetria (täited) -->
+    <!-- 🔸 logo geomeetria (JÄÄB SAMA) -->
     <g id="logoShapes">
       <path class="st2" d="M22.57,144.88c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88Z"/>
       <path class="st1" d="M39.69,26.36c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57,12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,60.23,8.37,33.27,37.44,24.59l2.23,1.76Z"/>
@@ -76,13 +112,18 @@
     </g>
   </defs>
 
-  <!-- 1) täited + vari (üks renderdus) -->
+  <!-- 1) täited + vari -->
   <g class="logo-base" filter="url(#shadowSoft)">
     <use href="#logoShapes"/>
   </g>
 
-  <!-- 2) pehme serv, sama kuju (stroke ainult) -->
-  <g class="edge-soft">
-    <use href="#logoShapes"/>
+  <!-- 2) peamine sisemine joon (multiply) -->
+  <g class="blend-layer">
+    <use href="#logoShapes" class="inner-stroke"/>
+  </g>
+
+  <!-- 3) fallback sisemine joon (gradient-stroke) -->
+  <g class="edge-layer">
+    <use href="#logoShapes" class="edge-gradient"/>
   </g>
 </svg>

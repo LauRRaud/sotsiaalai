@@ -5,53 +5,30 @@
      role="img" aria-labelledby="title desc"
      shape-rendering="geometricPrecision"
      style="isolation:isolate">
-  <title id="title">SotsiaalAI ikoon – smust (multiply-serv + fallback)</title>
-  <desc id="desc">Tumedam Warm Clay, pehme feDropShadow vari ning sisemine multiply-serv. Kui blend ei tööta, kasutatakse gradient-stroke fallbacki.</desc>
+  <title id="title">SotsiaalAI ikoon – sisemine serv (multiply, Warm Clay smust)</title>
+  <desc id="desc">Tumedama Warm Clay tooniga variant, millel on pehme vari ja sisemine serv multiply-režiimis. Efekt annab tihedama, sügavama välimuse ilma heledaid kontuure tekitamata.</desc>
 
   <defs>
     <style>
-      .fill { fill: url(#gradientWarmClay); }
+      .st0 { fill: url(#gradientWarmClay); }
 
-      /* peamine sisemine serv – multiply */
       .inner-stroke {
         fill: none;
-        stroke: #4a2a2a;            /* sügav punakas-pruun (smust) */
-        stroke-width: 0.95;
+        stroke: #704b4b;           /* soe tumedam toon */
+        stroke-width: 0.9;
         stroke-linecap: round;
         stroke-linejoin: round;
         vector-effect: non-scaling-stroke;
         paint-order: fill stroke;
-        mix-blend-mode: multiply;
-        pointer-events: none;
+        mix-blend-mode: multiply;  /* tumendab, ei lisa heledust */
       }
 
-      /* fallback serv – gradient-stroke (ilma blendita) */
-      .edge-stroke {
-        fill: none;
-        stroke: url(#edgeGradient);
-        stroke-width: 0.95;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        vector-effect: non-scaling-stroke;
-        paint-order: fill stroke;
-        pointer-events: none;
-      }
-
-      /* mobiilis veidi peenem joon */
       @media (max-width:640px){
-        .inner-stroke, .edge-stroke { stroke-width: 0.8; }
+        .inner-stroke { stroke-width: 0.8; }
       }
-
-      /* nähtavus: vaikimisi BLEND peal, FALLBACK peidus */
-      .blend-layer { display: block; }
-      .edge-layer  { display: none; }
-
-      /* kui lisad juurele klassi "no-blend", kuvatakse fallback */
-      svg.no-blend .blend-layer { display: none; }
-      svg.no-blend .edge-layer  { display: block; }
     </style>
 
-    <!-- 🔸 Warm Clay smust gradient (täide) -->
+    <!-- 🔸 tumedam Warm Clay gradient -->
     <linearGradient id="gradientWarmClay" x1="61.96" y1="-1487.75" x2="169.27" y2="-1720.34"
       gradientTransform="translate(0 -1504.98) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0"   stop-color="#e5bebe"/>
@@ -61,13 +38,6 @@
       <stop offset="1"   stop-color="#4a1f1f"/>
     </linearGradient>
 
-    <!-- 🔸 fallbacki gradient-stroke toonid (häälestatud #4a2a2a ümber) -->
-    <linearGradient id="edgeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0"   stop-color="#5a3434"/>
-      <stop offset="0.5" stop-color="#4a2a2a"/>
-      <stop offset="1"   stop-color="#3a1e1e"/>
-    </linearGradient>
-
     <!-- 🔸 pehme GPU-sõbralik vari -->
     <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".6"/>
@@ -75,7 +45,7 @@
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
     </filter>
 
-    <!-- 🔸 geomeetria (muutmata) -->
+    <!-- 🔸 geomeetria -->
     <g id="logoShape" transform="translate(20,20)">
       <path d="M169.9,1.89c6.41,2.28,4.98,8.8,5.19,21.04v20.56c0,36.14.16,112.3-.11,140.07.37,14.89-19.71,10.6-30,11.08-9.49-.53-16.06-1.54-15.58-12.61.74-35.77-1.7-134.45.95-174.57,3.13-9.86,31.27-7.68,39-5.78l.53.21ZM103.71,193.62c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.47,157.8,13.83,102.73,3.92,79.2,1.85,73.9.21,68.65.05,63.3c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16Z"/>
     </g>
@@ -83,16 +53,9 @@
 
   <!-- 1️⃣ täide + vari -->
   <g filter="url(#shadowSoft)">
-    <use href="#logoShape" class="fill"/>
+    <use href="#logoShape" class="st0"/>
   </g>
 
-  <!-- 2️⃣ sisemine joon (multiply) -->
-  <g class="blend-layer">
-    <use href="#logoShape" class="inner-stroke"/>
-  </g>
-
-  <!-- 3️⃣ sisemise joone fallback (gradient-stroke) -->
-  <g class="edge-layer">
-    <use href="#logoShape" class="edge-stroke"/>
-  </g>
+  <!-- 2️⃣ sisemine joon peal (multiply) -->
+  <use href="#logoShape" class="inner-stroke"/>
 </svg>
