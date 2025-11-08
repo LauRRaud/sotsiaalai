@@ -289,7 +289,8 @@
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
       "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee €7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
-      "paragraph2": "<p>The subscription can be managed at any time on the profile page (“Manage subscription”) or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>"
+      "paragraph2": "<p>The subscription can be managed at any time on the profile page (“Manage subscription”) or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
+      "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
@@ -307,6 +308,18 @@
       "heading": "9. Use of AI and Data Processing",
       "paragraph1": "<p><strong>SotsiaalAI</strong> uses language technology developed by <strong>OpenAI</strong> (GPT model) to generate answers in the language provided by the user, relying on the SotsiaalAI knowledge base hosted in Estonia.</p>",
       "paragraph2": "<p>The OpenAI service is used exclusively for text processing. Conversation content is not used for model training or improvement, and data stored permanently (user account, subscription and conversation summaries) is kept securely on servers operated by SotsiaalAI in Estonia.</p>"
+    },
+    "section10": {
+      "heading": "10. Intellectual Property",
+      "body": "<p>The Platform’s trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OÜ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI’s written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+    },
+    "section11": {
+      "heading": "11. Termination",
+      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform’s security.</p>"
+    },
+    "section12": {
+      "heading": "12. Governing Law and Dispute Resolution",
+      "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>Disputes will first be attempted to be resolved by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia in accordance with applicable law.</p>"
     }
   },
   "chat": {
