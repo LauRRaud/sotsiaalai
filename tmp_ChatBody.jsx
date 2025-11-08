@@ -11,43 +11,6 @@ import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 
-/* ---------- Brauseri püsivus (sessionStorage) ---------- */
-function makeChatStorage(key = "sotsiaalai:chat:v1") {
-  const storage = typeof window !== "undefined" ? window.sessionStorage : null;
-  function load() {
-    if (!storage) return null;
-    try {
-      const raw = storage.getItem(key);
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed?.messages) ? parsed.messages : null;
-    } catch {
-      return null;
-    }
-  }
-  function save(messages) {
-    if (!storage) return;
-    try {
-      const maxMsgs = 30;
-      const maxChars = 10000;
-      let total = 0;
-      const trimmed = messages.slice(-maxMsgs).map((m) => {
-        const t = String(m.text || "");
-        if (total >= maxChars) return { ...m, text: "" };
-        const room = maxChars - total;
-        const cut = t.length > room ? t.slice(0, room) : t;
-        total += cut.length;
-        return { ...m, text: cut };
-      });
-      storage.setItem(key, JSON.stringify({ messages: trimmed }));
-    } catch {}
-  }
-  function clear() {
-    storage?.removeItem(key);
-  }
-  return { load, save, clear };
-}
-
 /* ---------- SSE parser ---------- */
 function createSSEReader(stream) {
   const reader = stream.getReader();
@@ -56,7 +19,7 @@ function createSSEReader(stream) {
   const queue = [];
   function feed(chunk) {
     buffer += chunk;
-    buffer = buffer.replace(/\n/g, "\n");
+    buffer = buffer.replace(/\r\n/g, "\n");
     let idx;
     while ((idx = buffer.indexOf("\n\n")) !== -1) {
       const rawEvent = buffer.slice(0, idx);
@@ -162,7 +125,6 @@ function formatSourceLabel(src) {
       ...(typeof src?.page === "number" ? [src.page] : []),
     ]);
   const section = typeof src?.section === "string" ? src.section.trim() : "";
-  const filePretty = src?.fileName ? prettifyFileName(src.fileName) : "";
   const issueSegment = [journal, issue && issue !== year ? issue : ""]
     .filter(Boolean)
     .join(" ")
@@ -185,14 +147,18 @@ function formatSourceLabel(src) {
   }
   const labelParts = [...mainSegments, ...tailSegments].filter(Boolean);
   let label = labelParts.join(". ").trim();
-  if (!label && filePretty) {
+  if (
+    !label &&
+    (contextSegments.length || pagesCombined || section || authorText || titleText)
+  ) {
     const fallbackParts = [
-      filePretty,
+      authorText || null,
+      titleText || null,
       contextSegments.join(", ") || null,
       pagesCombined ? `lk ${pagesCombined}` : null,
       section || null,
     ].filter(Boolean);
-    label = fallbackParts.join(", ").trim();
+    label = fallbackParts.join(". ").trim();
   }
   if (!label) {
     const url = typeof src?.url === "string" ? src.url.replace(/^https?:\/\//, "") : "";
@@ -202,6 +168,24 @@ function formatSourceLabel(src) {
     label = `${label}.`;
   }
   return label;
+}
+function mapServerMessage(msg) {
+  if (!msg) return null;
+  const role =
+    msg.role === "ASSISTANT" ? "ai" : msg.role === "USER" ? "user" : "system";
+  const sources =
+    Array.isArray(msg?.metadata?.sources) && msg.metadata.sources.length
+      ? msg.metadata.sources
+      : [];
+  return {
+    id: msg.id,
+    role,
+    text: msg.content || "",
+    sources,
+    createdAt: msg.createdAt,
+    isStreaming: false,
+    isCrisis: !!msg?.metadata?.isCrisis,
+  };
 }
 /** Normaliseeri serveri allikad */
 function normalizeSources(sources) {
@@ -299,10 +283,12 @@ export default function ChatBody() {
     return `sotsiaalai:chat:${uid}:${(session?.user?.role || "CLIENT").toLowerCase()}:${loc}:v1`;
   }, [session, locale]);
 
-  const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
   const [convId, setConvId] = useState(null);
   const [messages, setMessages] = useState([]); // algab tühjalt
+  const [messagesCursor, setMessagesCursor] = useState(null);
+  const [initialMessagesLoading, setInitialMessagesLoading] = useState(false);
+  const [loadingHistory, setLoadingHistory] = useState(false);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
@@ -310,15 +296,105 @@ export default function ChatBody() {
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
 
+  // Ephemeral document analyze (Variant A)
+  const [uploadBusy, setUploadBusy] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+  const [uploadPreview, setUploadPreview] = useState(null); // { fileName, sizeMB, mimeType, preview, chunksCount }
+  const [ephemeralChunks, setEphemeralChunks] = useState([]);
+  const [useAsContext, setUseAsContext] = useState(false);
+  const [uploadUsage, setUploadUsage] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const MAX_UPLOAD_MB = useMemo(() => {
+    const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
+    return Number.isFinite(v) && v > 0 ? v : 50;
+  }, []);
+  const RAW_ALLOWED_MIME = String(
+    process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
+      "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+  const ALLOWED_MIME_LIST = useMemo(
+    () => RAW_ALLOWED_MIME.split(",").map((s) => s.trim()).filter(Boolean),
+    [RAW_ALLOWED_MIME],
+  );
+  const ACCEPT_ATTR = useMemo(() => {
+    const set = new Set();
+    ALLOWED_MIME_LIST.forEach((m) => {
+      if (m === "application/pdf") set.add(m), set.add(".pdf");
+      else if (m === "text/plain") set.add(m), set.add(".txt");
+      else if (m === "text/markdown") set.add(m), set.add(".md"), set.add(".markdown");
+      else if (m === "text/html") set.add(m), set.add(".html"), set.add(".htm");
+      else if (m === "application/msword") set.add(m), set.add(".doc");
+      else if (m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") set.add(m), set.add(".docx");
+      else set.add(m);
+    });
+    return Array.from(set).join(",");
+  }, [ALLOWED_MIME_LIST]);
+
+  const refreshUsage = useCallback(async () => {
+    if (!session?.user?.id) return;
+    try {
+      const res = await fetch("/api/chat/analyze-usage", { cache: "no-store" });
+      if (!res.ok) throw new Error("fail");
+      const data = await res.json();
+      if (data?.ok) setUploadUsage({ used: data.used ?? 0, limit: data.limit ?? 0 });
+    } catch {}
+  }, [session?.user?.id]);
+
+  useEffect(() => {
+    refreshUsage();
+  }, [refreshUsage]);
+
+  const onPickFile = useCallback(() => {
+    setUploadError(null);
+    fileInputRef.current?.click?.();
+  }, []);
+
+  const onFileChange = useCallback(async (e) => {
+    const file = e.target?.files?.[0];
+    if (!file) return;
+    setUploadError(null);
+    if (file.size / (1024 * 1024) > MAX_UPLOAD_MB) {
+      setUploadError(`Fail on liiga suur (${(file.size / (1024 * 1024)).toFixed(1)}MB > ${MAX_UPLOAD_MB}MB).`);
+      e.target.value = "";
+      return;
+    }
+    try {
+      setUploadBusy(true);
+      const fd = new FormData();
+      fd.append("file", file, file.name || "file");
+      fd.append("mimeType", file.type || "");
+      fd.append("maxChunks", "16");
+      const res = await fetch("/api/chat/analyze-file", { method: "POST", body: fd });
+      const data = await res.json().catch(() => ({ ok: false }));
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.message || `Analüüs ebaõnnestus (${res.status}).`);
+      }
+      setUploadPreview({
+        fileName: data.fileName || file.name,
+        sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number((file.size / (1024 * 1024)).toFixed(2)),
+        mimeType: data.mimeType || file.type,
+        preview: data.preview || "",
+        chunksCount: Array.isArray(data.chunks) ? data.chunks.length : 0,
+      });
+      setEphemeralChunks(Array.isArray(data.chunks) ? data.chunks : []);
+      setUseAsContext(false);
+      refreshUsage();
+    } catch (err) {
+      setUploadError(err?.message || "Analüüs ebaõnnestus.");
+    } finally {
+      setUploadBusy(false);
+      e.target.value = ""; // allow re-selecting same file
+    }
+  }, [MAX_UPLOAD_MB, refreshUsage]);
+
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
-  const fileInputRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
-  const saveTimerRef = useRef(null);
 
   const historyPayload = useMemo(
     () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
@@ -496,7 +572,7 @@ export default function ChatBody() {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
   const appendMessage = useCallback((msg) => {
-    const id = messageIdRef.current++;
+    const id = msg?.id || `local-${messageIdRef.current++}`;
     setMessages((prev) => [...prev, { ...msg, id }]);
     return id;
   }, []);
@@ -524,7 +600,7 @@ export default function ChatBody() {
       } catch {}
       setConvId(newId);
       setMessages([]);
-      chatStore.save([]);
+      setMessagesCursor(null);
       setIsCrisis(false);
       try {
         window.dispatchEvent(
@@ -534,7 +610,7 @@ export default function ChatBody() {
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
-  }, [chatStore, storageKey]);
+  }, [storageKey]);
 
   /* ---------- Scrolli state ---------- */
   useEffect(() => {
@@ -557,21 +633,10 @@ export default function ChatBody() {
     }
   }, [messages]);
 
-  /* ---------- Mount + püsivuse taastamine ---------- */
+  /* ---------- Mount ---------- */
   useEffect(() => {
     mountedRef.current = true;
     focusInput();
-
-    // Lae püsivus ja eemalda tühjad tekstid (hoiab intro nähtaval)
-    const stored = chatStore.load();
-    if (stored && stored.length) {
-      let nextId = 1;
-      const hydrated = stored
-        .filter((m) => typeof m?.text === "string" && m.text.trim().length > 0)
-        .map((m) => ({ ...m, id: nextId++ }));
-      messageIdRef.current = nextId;
-      setMessages(hydrated);
-    }
 
     const idFromGlobal =
       typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
@@ -592,17 +657,7 @@ export default function ChatBody() {
       mountedRef.current = false;
       abortControllerRef.current?.abort();
     };
-  }, [chatStore, focusInput, storageKey]);
-
-  /* ---------- Autosalvestus ---------- */
-  useEffect(() => {
-    if (!mountedRef.current) return;
-    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-    saveTimerRef.current = setTimeout(() => {
-      chatStore.save(messages);
-    }, 250);
-    return () => saveTimerRef.current && clearTimeout(saveTimerRef.current);
-  }, [messages, chatStore]);
+  }, [focusInput, storageKey]);
 
   /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {
@@ -624,77 +679,69 @@ export default function ChatBody() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [showSourcesPanel, closeSourcesPanel]);
 
-  /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
+  /* ---------- Lae serveri ajalugu ---------- */
   useEffect(() => {
     if (!convId) return;
     let cancelled = false;
-    async function hydrateFromServer() {
+    setInitialMessagesLoading(true);
+    setMessages([]);
+    setMessagesCursor(null);
+    async function loadLatest() {
       try {
-        const r = await fetch(`/api/chat/run?convId=${encodeURIComponent(convId)}`, {
-          cache: "no-store",
-        });
+        const r = await fetch(
+          `/api/chat/conversations/${encodeURIComponent(convId)}/messages?limit=50`,
+          { cache: "no-store" },
+        );
         if (!r.ok) return;
-        const data = await r.json();
-        if (!data?.ok || cancelled) return;
-
-        const currentGlobalId =
-          typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
-        if (convId !== currentGlobalId) return;
-
-        const serverText = String(data.text || "");
-        const serverTextTrim = serverText.trim();
-        const serverSources = normalizeSources(data.sources ?? []);
-        const serverCrisis = !!data.isCrisis;
-
-        setIsCrisis(serverCrisis);
-
-        // Kui tekst tühi, ära lisa AI-sõnumit (intro jääb nähtavaks)
-        if (!serverTextTrim) return;
-
-        setMessages((prev) => {
-          const next = [...prev];
-          let aiIdx = -1;
-          for (let i = next.length - 1; i >= 0; i--) {
-            if (next[i].role === "ai") {
-              aiIdx = i;
-              break;
-            }
-          }
-          if (aiIdx === -1) {
-            next.push({
-              id: (next.at(-1)?.id ?? 0) + 1,
-              role: "ai",
-              text: serverTextTrim,
-              sources: serverSources,
-              isStreaming: false,
-            });
-          } else {
-            const cur = next[aiIdx];
-            if (serverTextTrim.length > (cur.text || "").length) {
-              next[aiIdx] = {
-                ...cur,
-                text: serverTextTrim,
-                sources: serverSources,
-                isStreaming: false,
-              };
-            }
-          }
-          return next;
-        });
-      } catch {}
+        const data = await r.json().catch(() => null);
+        if (!data || cancelled) return;
+        const mapped = Array.isArray(data.items)
+          ? data.items.map(mapServerMessage).filter(Boolean)
+          : [];
+        setMessages(mapped);
+        setMessagesCursor(data.nextCursor || null);
+        const latestAi = [...mapped].reverse().find((m) => m.role === "ai");
+        if (latestAi) {
+          setIsCrisis(!!latestAi.isCrisis);
+        }
+      } catch {
+        if (!cancelled) {
+          setMessages([]);
+          setMessagesCursor(null);
+        }
+      } finally {
+        if (!cancelled) setInitialMessagesLoading(false);
+      }
     }
-    hydrateFromServer();
-    const throttled = throttle(() => {
-      if (document.visibilityState === "visible") hydrateFromServer();
-    }, 2500);
-    window.addEventListener("focus", throttled);
-    document.addEventListener("visibilitychange", throttled);
+    loadLatest();
     return () => {
       cancelled = true;
-      window.removeEventListener("focus", throttled);
-      document.removeEventListener("visibilitychange", throttled);
     };
   }, [convId]);
+
+  const loadOlderMessages = useCallback(async () => {
+    if (!convId || !messagesCursor || loadingHistory) return;
+    setLoadingHistory(true);
+    try {
+      const params = new URLSearchParams({ limit: "50", before: messagesCursor });
+      const r = await fetch(
+        `/api/chat/conversations/${encodeURIComponent(convId)}/messages?${params.toString()}`,
+        { cache: "no-store" },
+      );
+      if (!r.ok) return;
+      const data = await r.json().catch(() => null);
+      if (!data) return;
+      const mapped = Array.isArray(data.items)
+        ? data.items.map(mapServerMessage).filter(Boolean)
+        : [];
+      setMessages((prev) => [...mapped, ...prev]);
+      setMessagesCursor(data.nextCursor || null);
+    } catch {
+      // vaikne – jätame olemasoleva loendi
+    } finally {
+      setLoadingHistory(false);
+    }
+  }, [convId, messagesCursor, loadingHistory]);
 
   /* ---------- Sõnumi saatmine ---------- */
   const sendMessage = useCallback(
@@ -706,7 +753,7 @@ export default function ChatBody() {
 
       setErrorBanner(null);
       setIsCrisis(false); // lähtesta, kuni server meta saadab
-      appendMessage({ role: "user", text: trimmed });
+      appendMessage({ role: "user", text: trimmed, createdAt: new Date().toISOString() });
       setInput("");
       setIsGenerating(true);
       focusInput();
@@ -729,6 +776,9 @@ export default function ChatBody() {
             persist: true,
             convId,
             uiLocale: locale || "et",
+            ...(useAsContext && ephemeralChunks && ephemeralChunks.length
+              ? { ephemeralChunks, ephemeralSource: { fileName: uploadPreview?.fileName || undefined } }
+              : {}),
           }),
           signal: controller.signal,
         });
@@ -765,14 +815,24 @@ export default function ChatBody() {
             (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
           const sources = normalizeSources(data?.sources);
           setIsCrisis(!!data?.isCrisis);
-          appendMessage({ role: "ai", text: replyText, sources });
+          appendMessage({
+            role: "ai",
+            text: replyText,
+            sources,
+            createdAt: new Date().toISOString(),
+          });
           return;
         }
 
         // Streamiv vastus (SSE)
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
         const reader = createSSEReader(res.body);
-        streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
+        streamingMessageId = appendMessage({
+          role: "ai",
+          text: "",
+          isStreaming: true,
+          createdAt: new Date().toISOString(),
+        });
         let visibleText = "";
         let sources = [];
         let streamEnded = false;
@@ -836,7 +896,11 @@ export default function ChatBody() {
             }));
             streamingMessageId = null;
           } else {
-            appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
+            appendMessage({
+              role: "ai",
+              text: "Vastuse genereerimine peatati.",
+              createdAt: new Date().toISOString(),
+            });
           }
         } else {
           const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
@@ -850,7 +914,11 @@ export default function ChatBody() {
             }));
             streamingMessageId = null;
           } else {
-            appendMessage({ role: "ai", text: `Viga: ${errText}` });
+            appendMessage({
+              role: "ai",
+              text: `Viga: ${errText}`,
+              createdAt: new Date().toISOString(),
+            });
           }
         }
       } finally {
@@ -859,7 +927,7 @@ export default function ChatBody() {
         focusInput();
       }
     },
-    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId, locale]
+    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId, locale, useAsContext, ephemeralChunks, uploadPreview]
   );
 
   const handleStop = useCallback((e) => {
@@ -993,6 +1061,27 @@ export default function ChatBody() {
           aria-busy={isStreamingAny ? "true" : "false"}
           style={{ position: "relative" }}
         >
+          {messagesCursor && (
+            <div className="chat-history-actions">
+              <button
+                type="button"
+                className="chat-history-button"
+                onClick={loadOlderMessages}
+                disabled={loadingHistory || initialMessagesLoading}
+              >
+                {loadingHistory || initialMessagesLoading
+                  ? t("chat.history.loading", "Laen varasemaid…")
+                  : t("chat.history.load_more", "Lae varasemaid sõnumeid")}
+              </button>
+            </div>
+          )}
+
+          {initialMessagesLoading && messages.length === 0 && (
+            <div className="chat-msg chat-msg-ai" style={{ opacity: 0.8 }}>
+              {t("chat.history.initial_loading", "Laen vestlust…")}
+            </div>
+          )}
+
           {/* Intro – nähtav kuni tekib reaalne sisu */}
           {!hasRealContent && (
             <div className="chat-msg chat-msg-ai" style={{ opacity: 0.9 }}>
@@ -1012,47 +1101,71 @@ export default function ChatBody() {
         </div>
 
         {showScrollDown && (
-  <button
-    className="scroll-down-btn"
-    onClick={scrollToBottom}
-    aria-label={t("chat.scroll_to_bottom", "Kerige chati lõppu")}
-    title={t("chat.scroll_to_bottom_title", "Kerige lõppu")}
-    aria-controls="chat-window"
-  >
-    <svg
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M4 9l8 8 8-8" />
-    </svg>
-  </button>
-)}
+          <button
+            className="scroll-down-btn"
+            onClick={scrollToBottom}
+            aria-label={t("chat.scroll_to_bottom", "Kerige chati lõppu")}
+            title={t("chat.scroll_to_bottom_title", "Kerige lõppu")}
+            aria-controls="chat-window"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 9l8 8 8-8" />
+            </svg>
+          </button>
+        )}
 
         <form
-          className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position" style={{ columnGap: 0 }}
+          className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position" style={{ paddingRight: 2, columnGap: 1 }}
           onSubmit={isGenerating ? handleStop : sendMessage}
           autoComplete="off"
         >
-          {/* Left side: attach + input in one row */}
-          <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              width: "100%",
+              minWidth: 0,
+            }}
+          >
             <button
               type="button"
-              onClick={() => { try { fileInputRef.current?.click?.(); } catch {} }}
-              className="chat-attach-btn chat-send-btn chat-attach-as-send"
-              aria-label={t("chat.upload.aria", "Laadi dokument")}
-              title={t("chat.upload.tooltip", "Laadi dokument")}
+              onClick={onPickFile}
+              className="chat-attach-btn chat-attach-circle"
+              aria-label={t("chat.upload.aria", "Laadi dokument analüüsimiseks (ei salvestata)")}
+              title={t("chat.upload.tooltip", "Laadi dokument analüüsimiseks (ei salvestata)")}
+              disabled={uploadBusy || isGenerating}
+              style={{
+                border: "none",
+                background: "transparent",
+                padding: 0,
+                display: "flex",
+                alignItems: "center",
+                color: "#cbd5e1",
+                cursor: uploadBusy || isGenerating ? "not-allowed" : "pointer",
+                marginLeft: 8,
+              }}
             >
-              {/* Vertical paperclip */}
-              <img src="/logo/paperclip.svg" width="26" height="26" alt="" aria-hidden="true" decoding="async" />
+              {/* Paperclip icon (alternate style) */}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 1 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 17.05a2 2 0 1 1-2.83-2.83l8.49-8.49"/></svg>
             </button>
-            <input ref={fileInputRef} type="file" style={{ display: "none" }} />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={ACCEPT_ATTR}
+              onChange={onFileChange}
+              style={{ display: "none" }}
+            />
             <label htmlFor="chat-input" className="sr-only">
               {t("chat.input.label", "Kirjuta sõnum")}
             </label>
@@ -1066,6 +1179,7 @@ export default function ChatBody() {
               className="chat-input-field"
               disabled={isGenerating}
               rows={1}
+              style={{ flex: 1 }}
             />
           </div>
           <button
@@ -1075,6 +1189,7 @@ export default function ChatBody() {
             title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
             disabled={!input.trim() && !isGenerating && !isStreamingAny}
             data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
+            style={{ marginLeft: 8, marginRight: 0 }}
           >
             {(() => {
               const thinking = isGenerating || isStreamingAny;
@@ -1089,7 +1204,74 @@ export default function ChatBody() {
             })()}
           </button>
         </form>
-        
+
+        {/* Ephemeral analyze preview & privacy note */}
+        {(uploadPreview || uploadError || uploadBusy) ? (
+          <div className="chat-analyze-followup" style={{ marginTop: "0.6rem", fontSize: "0.9rem", color: "#e2e8f0" }}>
+            {uploadBusy ? (
+              <div style={{ opacity: 0.85 }}>{t("chat.upload.busy", "Analüüsin dokumenti…")}</div>
+            ) : null}
+            {uploadError ? (
+              <div style={{ color: "#fecaca" }}>{uploadError}</div>
+            ) : null}
+            {uploadPreview ? (
+              <div
+                style={{
+                  background: "rgba(148,163,184,0.12)",
+                  border: "1px solid rgba(148,163,184,0.2)",
+                  borderRadius: 10,
+                  padding: "10px 12px",
+                  marginTop: 6,
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                  <div style={{ fontWeight: 600 }}>
+                    {prettifyFileName(uploadPreview.fileName)}
+                    <span style={{ opacity: 0.7, marginLeft: 8 }}>{`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setUploadPreview(null); setUploadError(null); setEphemeralChunks([]); setUseAsContext(false); }}
+                    style={{ border: "none", background: "transparent", color: "#93c5fd", textDecoration: "underline", cursor: "pointer" }}
+                  >
+                    {t("buttons.cancel", "Katkesta")}
+                  </button>
+                </div>
+                {uploadPreview.preview ? (
+                  <div style={{ marginTop: 6, whiteSpace: "pre-wrap", opacity: 0.9 }}>
+                    <strong style={{ display: "block", marginBottom: 4 }}>{t("chat.upload.summary", "Dokumendi kokkuvõte")}</strong>
+                    {uploadPreview.preview}
+                  </div>
+                ) : null}
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const suggestion = t("chat.upload.ask_more", "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti.");
+                      setInput((prev) => (prev ? prev : suggestion));
+                      try { inputRef.current?.focus?.(); } catch {}
+                    }}
+                    style={{ border: "1px solid rgba(148,163,184,0.35)", background: "rgba(148,163,184,0.18)", color: "#f8fafc", borderRadius: 8, padding: "6px 10px", cursor: "pointer", fontSize: "0.88rem" }}
+                  >
+                    {t("chat.upload.ask_more_btn", "Küsi lisaks")}
+                  </button>
+                  <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: "0.88rem", cursor: "pointer" }}>
+                    <input type="checkbox" checked={useAsContext} onChange={(e) => setUseAsContext(e.target.checked)} />
+                    {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
+                  </label>
+                  <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>{t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}</span>
+                  {uploadUsage?.limit ? (
+                    <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
+                      {t("chat.upload.usage", "{used}/{limit} analüüsi täna")
+                        .replace("{used}", String(uploadUsage.used ?? 0))
+                        .replace("{limit}", String(uploadUsage.limit ?? 0))}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </main>
 
       <footer
@@ -1188,30 +1370,39 @@ export default function ChatBody() {
               </p>
             ) : (
               <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
-                {conversationSources.map((src, idx) => (
-                  <li key={src.key || idx} style={{ marginBottom: "1rem", lineHeight: 1.5 }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "#f8fafc" }}>
-                      {src.label}
-                    </div>
-                    {src.occurrences > 1 ? (
-                      <div style={{ fontSize: "0.8rem", opacity: 0.7 }}>
-                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
+                {conversationSources.map((src, idx) => {
+                  const labelLower = `${src.label || ""}`.toLowerCase();
+                  const sectionLower = typeof src.section === "string" ? src.section.toLowerCase() : "";
+                  const showSectionLine = Boolean(
+                    src.section && sectionLower && !labelLower.includes(sectionLower)
+                  );
+                  const showPageLine = Boolean(
+                    src.pageText && !labelLower.includes("lk")
+                  );
+                  return (
+                    <li key={src.key || idx} style={{ marginBottom: "1rem", lineHeight: 1.5 }}>
+                      <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "#f8fafc" }}>
+                        {src.label}
                       </div>
-                    ) : null}
-                    {src.section ? (
-                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
-                      </div>
-                    ) : null}
-                    {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
-                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
-                      </div>
-                    ) : null}
-                    {src.allUrls && src.allUrls.length ? (
-                      <div
-                        style={{
-                          display: "flex",
+                      {src.occurrences > 1 ? (
+                        <div style={{ fontSize: "0.8rem", opacity: 0.7 }}>
+                          {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
+                        </div>
+                      ) : null}
+                      {showSectionLine ? (
+                        <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                          {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
+                        </div>
+                      ) : null}
+                      {showPageLine ? (
+                        <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                          {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
+                        </div>
+                      ) : null}
+                      {src.allUrls && src.allUrls.length ? (
+                        <div
+                          style={{
+                            display: "flex",
                           flexWrap: "wrap",
                           gap: "0.5rem",
                           marginTop: "0.45rem",
@@ -1235,9 +1426,10 @@ export default function ChatBody() {
                           </a>
                         ))}
                       </div>
-                    ) : null}
-                  </li>
-                ))}
+                      ) : null}
+                    </li>
+                  );
+                })}
               </ol>
             )}
           </div>
@@ -1246,6 +1438,15 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
 
 
 

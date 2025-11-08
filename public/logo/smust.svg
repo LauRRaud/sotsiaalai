@@ -5,44 +5,24 @@
      role="img" aria-labelledby="title desc"
      shape-rendering="geometricPrecision"
      style="isolation:isolate">
-  <title id="title">SotsiaalAI ikoon – sisemine serv (multiply)</title>
-  <desc id="desc">Pehme hajus vari feDropShadow kihtidega. Ainult sisemine kontuur 100% opacity ja mix-blend-mode:multiply, vältimaks heledat äärt tumedal taustal.</desc>
+
+  <title id="title">SotsiaalAI ikoon – ilma sisemise servata</title>
+  <desc id="desc">Täited + vari, eemaldatud sisemine kontuur (stroke).</desc>
 
   <defs>
     <style>
-      /* täited – nagu originaalis */
       .st0 { fill: url(#linear-gradient2); }
       .st1 { fill: url(#linear-gradient1); }
-      .st2 { fill: url(#linear-gradient);  }
-
-      /* baaskiht: täited ilma stroketa (vari renderdub siia) */
-      .logo-base path { stroke: transparent; }
-
-      /* SISENINE joon: pealpool täidet, 100% opacity, tumendab täidet */
-      .inner-stroke {
-        fill: none;
-        stroke: #8a6a6a;          /* soe, tuhm toon (täis-opacity) */
-        stroke-width: 0.85;       /* vajadusel 0.75–0.95 */
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        vector-effect: non-scaling-stroke;
-        paint-order: fill stroke; /* joon renderdub täite järel */
-        mix-blend-mode: multiply; /* ainult tumedamaks, ei heledaks */
-      }
-
-      @media (max-width:640px){
-        .inner-stroke { stroke-width: 0.8; }
-      }
+      .st2 { fill: url(#linear-gradient); }
+      .logo-base path { stroke: none; }
     </style>
 
-    <!-- alumine gradient -->
     <linearGradient id="linear-gradient" x1="24.11" y1="120.24" x2="24.11" y2="159.48" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#303030"/>
       <stop offset=".47" stop-color="#111"/>
       <stop offset="1" stop-color="#000"/>
     </linearGradient>
 
-    <!-- keskmine aktsent -->
     <linearGradient id="linear-gradient1" x1="-2575.09" y1="631.21" x2="-2575.09" y2="630.21"
       gradientTransform="translate(285839.05 107400.27) scale(110.98 -170.15)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f6e3e1"/>
@@ -52,7 +32,6 @@
       <stop offset="1"   stop-color="#6b3938"/>
     </linearGradient>
 
-    <!-- ülemine täpp -->
     <linearGradient id="linear-gradient2" x1="79.28" y1="-1602.15" x2="79.28" y2="-1637.33"
       gradientTransform="translate(0 -1592) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#F5F5F4"/>
@@ -62,14 +41,12 @@
       <stop offset="1" stop-color="#A8A59E"/>
     </linearGradient>
 
-    <!-- pehme ja kaugem vari (GPU-sõbralik) -->
     <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".6"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
       <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
     </filter>
 
-    <!-- geomeetria -->
     <g id="logoShape">
       <path class="st2" d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88Z"/>
       <path class="st1" d="M63.43,170.14c12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,35.7,8.37,8.74,37.44.06l2.23,1.76c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57Z"/>
@@ -77,11 +54,8 @@
     </g>
   </defs>
 
-  <!-- 1) täited + vari -->
   <g class="logo-base" filter="url(#shadowSoft)">
     <use href="#logoShape"/>
   </g>
 
-  <!-- 2) ainult sisemine joon (peal, multiply) -->
-  <use href="#logoShape" class="inner-stroke"/>
 </svg>

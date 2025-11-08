@@ -7,7 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/* ---------- Enums ---------- */
+/**
+ * ---------- Enums ----------
+ */
 
 enum Role {
   ADMIN
@@ -60,16 +62,24 @@ enum RunStatus {
   DELETED
 }
 
-/* ---------- Models ---------- */
+enum ConversationMessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+/**
+ * ---------- Models ----------
+ */
 
 model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
-  emailVerified DateTime?
+  id                      String    @id @default(cuid())
+  email                   String?   @unique
+  emailVerified           DateTime?
   emailVerificationSentAt DateTime?
-  passwordHash  String?
-  role          Role      @default(CLIENT)
-  isAdmin       Boolean   @default(false)
+  passwordHash            String?
+  role                    Role      @default(CLIENT)
+  isAdmin                 Boolean   @default(false)
 
   // NextAuth
   accounts Account[]
@@ -82,7 +92,10 @@ model User {
   ragDocuments  RagDocument[]
 
   // Chat / runs
-  conversationRuns ConversationRun[]
+  conversationRuns     ConversationRun[]
+  conversationMessages ConversationMessage[]
+  conversations        Conversation[]
+  analyzeUsage         AnalyzeUsage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -179,38 +192,38 @@ model Payment {
 }
 
 model RagDocument {
-  id       String  @id @default(cuid())
-  adminId  String?
-  admin    User?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  id      String  @id @default(cuid())
+  adminId String?
+  admin   User?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
 
-  title        String?
-  description  String?
-  type         RagSourceType
-  status       RagStatus     @default(PENDING)
-  audience     Audience      @default(BOTH)
+  title       String?
+  description String?
+  type        RagSourceType
+  status      RagStatus     @default(PENDING)
+  audience    Audience      @default(BOTH)
 
   // Päritolu
-  sourceUrl    String?
-  fileName     String?
-  mimeType     String?
-  fileSize     Int?
+  sourceUrl String?
+  fileName  String?
+  mimeType  String?
+  fileSize  Int?
 
   // RAG backendi dokument (stabiilne id) – hoia unikaalsena
-  remoteId     String?       @unique
+  remoteId String? @unique
 
   // Veahaldus ja toor-meta
-  error        String?
-  metadata     Json?
-  insertedAt   DateTime?
+  error      String?
+  metadata   Json?
+  insertedAt DateTime?
 
   // --- Ajakirja/Artikli meta ---
-  authors      String[]      @default([]) // Postgres: text[]
+  authors      String[] @default([]) // Postgres: text[]
   issueId      String?
   issueLabel   String?
   year         Int?
   articleId    String?
   section      String?
-  pages        Int[]         @default([]) // Postgres: integer[]
+  pages        Int[]    @default([]) // Postgres: integer[]
   pageRange    String?
   journalTitle String?
 
@@ -229,12 +242,10 @@ model RagDocument {
   @@index([issueLabel])
   @@index([year])
   @@index([articleId])
-
   // kiired otsingud/loetelud
   @@index([sourceUrl])
   @@index([fileName])
   @@index([mimeType])
-
   // kombineeritud sort/filtri muster admin-paneelile
   @@index([status, updatedAt, createdAt])
 }
@@ -258,4 +269,55 @@ model ConversationRun {
   @@index([status])
   @@index([userId, status, updatedAt])
   @@index([isCrisis, updatedAt])
+}
+
+model Conversation {
+  id             String    @id @default(cuid())
+  userId         String
+  title          String?
+  summary        String?   @db.Text
+  role           Role
+  lastActivityAt DateTime  @default(now())
+  expiresAt      DateTime?
+  archivedAt     DateTime?
+  isPinned       Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user     User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages ConversationMessage[]
+
+  @@index([userId, isPinned, lastActivityAt])
+  @@index([userId, archivedAt])
+  @@index([expiresAt])
+}
+
+model ConversationMessage {
+  id             String                  @id @default(cuid())
+  conversationId String
+  authorId       String?
+  role           ConversationMessageRole
+  content        String                  @db.Text
+  metadata       Json?
+  createdAt      DateTime                @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  author       User?        @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([conversationId, createdAt])
+  @@index([authorId])
+}
+
+/// Päevane analüüsi kasutus per kasutaja (püsiv kvoodi arvestus)
+model AnalyzeUsage {
+  id        String   @id @default(cuid())
+  userId    String
+  day       DateTime @db.Date
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, day], name: "userId_day")
+  @@index([userId])
 }

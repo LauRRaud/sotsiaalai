@@ -1,0 +1,8 @@
+<style jsx>{\r\n          .chat-attach-btn.chat-attach-circle {
+            --btn-border-idle: rgba(220, 220, 220, 0.30);
+            --btn-border-glow: rgba(201,199,194,0.26);
+            --btn-bg-idle: rgba(10,14,24,0.22);
+            --btn-bg-hover: rgba(10,14,24,0.28);
+            width: 40px; height: 40px;
+            border-radius: 9999px;
+            border: 2px solid var(--btn-border-idle)

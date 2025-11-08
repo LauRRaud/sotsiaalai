@@ -356,10 +356,14 @@ export default function RagAdminPanel() {
         showOk("Fail saadeti RAG andmebaasi.");
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
-        // kasuta remoteId-d (või id fallbackina)
-        const remoteId = data?.doc?.remoteId ?? null;
-        const fallbackId = data?.doc?.id ?? null;
-        const useId = remoteId || fallbackId;
+        // kasuta tagastatud docId-d (uus API tagastab selle root-tasenal)
+        const docIdFromResponse =
+          data?.doc?.remoteId ??
+          data?.doc?.id ??
+          data?.docId ??
+          data?.doc?.docId ??
+          null;
+        const useId = docIdFromResponse ? String(docIdFromResponse) : null;
         if (docKind === "MAGAZINE") {
           setLastUploadedDocId(useId);
           setLastUploadedFileName(file.name || null);
@@ -654,9 +658,11 @@ export default function RagAdminPanel() {
       )}
       <div
         style={{
-          display: "grid",
+          display: "flex",
+          flexWrap: "wrap",
           gap: "1.25rem",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          alignItems: "stretch",
+          width: "100%",
         }}
       >
         {/* --- Faili vorm --- */}
@@ -670,6 +676,10 @@ export default function RagAdminPanel() {
             background: "rgba(12,14,22,0.6)",
             display: "grid",
             gap: "0.75rem",
+            boxSizing: "border-box",
+            minWidth: 0,
+            width: "100%",
+            flex: "1 1 320px",
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
@@ -781,7 +791,14 @@ export default function RagAdminPanel() {
                   style={inputStyle()}
                 />
               </label>
-              <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr 1fr" }}>
+              <div
+                style={{
+                  display: "grid",
+                  gap: "0.6rem",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
+                  minWidth: 0,
+                }}
+              >
                 <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
                   <span>Väljalase (issueLabel)</span>
                   <input
@@ -804,7 +821,14 @@ export default function RagAdminPanel() {
                   />
                 </label>
               </div>
-              <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr 1fr" }}>
+              <div
+                style={{
+                  display: "grid",
+                  gap: "0.6rem",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
+                  minWidth: 0,
+                }}
+              >
                 <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
                   <span>Rubriik (section)</span>
                   <input
@@ -872,6 +896,10 @@ export default function RagAdminPanel() {
             background: "rgba(12,14,22,0.6)",
             display: "grid",
             gap: "0.75rem",
+            boxSizing: "border-box",
+            minWidth: 0,
+            width: "100%",
+            flex: "1 1 320px",
           }}
         >
           <div>
@@ -936,6 +964,10 @@ export default function RagAdminPanel() {
             background: "rgba(13,16,24,0.62)",
             display: "grid",
             gap: "0.9rem",
+            boxSizing: "border-box",
+            minWidth: 0,
+            width: "100%",
+            flex: "1 1 100%",
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem" }}>
@@ -950,12 +982,15 @@ export default function RagAdminPanel() {
               Lisa artikkel
             </button>
           </div>
-          <div style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr" }}>
+          <div
+            style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr", minWidth: 0 }}
+          >
             <div
               style={{
                 display: "grid",
                 gap: "0.6rem",
                 gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                minWidth: 0,
               }}
             >
               <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
@@ -1038,6 +1073,7 @@ export default function RagAdminPanel() {
                         display: "grid",
                         gap: "0.6rem",
                         gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                        minWidth: 0,
                       }}
                     >
                       <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
@@ -1267,6 +1303,7 @@ export default function RagAdminPanel() {
                       display: "grid",
                       gap: "0.4rem 1rem",
                       gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                      minWidth: 0,
                       margin: 0,
                     }}
                   >

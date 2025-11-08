@@ -222,8 +222,8 @@
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>This privacy policy applies to the web platform operated by <strong>SotsiaalAI OÜ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). It explains how SotsiaalAI collects, uses and protects personal data in accordance with Estonian and European Union law.</p>",
-      "paragraph2": "<p>SotsiaalAI processes personal data in compliance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
+      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OÜ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
+      "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
     },
     "section2": {
       "heading": "2. Data We Collect",
@@ -272,7 +272,7 @@
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operated by <strong>SotsiaalAI OÜ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have reviewed the terms and agree to them.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OÜ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
@@ -288,8 +288,8 @@
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
-      "paragraph1": "<p>The service is based on a monthly subscription (fee €7.99). Billing is carried out via Maksekeskus AS using the payment method you selected.</p>",
-      "paragraph2": "<p>You can manage your subscription at any time on the profile page (\"Manage subscription\") or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the start of the next billing period.</p>"
+      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee €7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
+      "paragraph2": "<p>The subscription can be managed at any time on the profile page (“Manage subscription”) or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>"
     },
     "section6": {
       "heading": "6. Availability and Maintenance",
@@ -356,6 +356,11 @@
       "title_send": "Send (Enter)",
       "title_stop": "Stop answer"
     },
+    "history": {
+      "load_more": "Load earlier messages",
+      "loading": "Loading earlier…",
+      "initial_loading": "Loading conversation…"
+    },
     "back_to_home": "Back to homepage",
     "sources": {
       "button": "Sources ({count})",
@@ -384,7 +389,8 @@
       "button": {
         "creating": "Creating…",
         "new": "New conversation",
-        "refresh": "Refresh"
+        "refresh": "Refresh",
+        "more": "Load more"
       },
       "empty": "No conversations yet.",
       "empty_cta": "Create the first one",
@@ -393,6 +399,17 @@
         "delete": "Delete conversation",
         "delete_title": "Delete"
       }
+    },
+    "upload": {
+      "aria": "Upload a document for analysis (not stored permanently)",
+      "tooltip": "Upload a document for analysis (not stored permanently)",
+      "busy": "Analyzing document…",
+      "summary": "Document summary",
+      "privacy": "For analysis only, not stored permanently.",
+      "ask_more": "Please explain this document briefly and highlight 3–5 key points.",
+      "ask_more_btn": "Ask more",
+      "use_as_context": "Use as context for the next reply",
+      "usage": "{used}/{limit} analyses today"
     }
   },
   "about": {
@@ -420,6 +437,45 @@
     },
     "footer": {
       "note": "SotsiaalAI © 2025"
+    },
+    "guide": {
+      "jump_link": "Platform guide",
+      "title": "How to use the platform?",
+      "intro": "This guide walks you through the real SotsiaalAI flow: choosing a role, creating an account, activating a subscription, signing in, using the chat assistant and adjusting language or accessibility preferences.",
+      "sections_v2": {
+        "accessibility": {
+          "title": "1. Language and accessibility",
+          "body": "<p>On your first visit the \"Language and accessibility\" window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the \"Profile\" page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer or internet connection is slower.</li></ul>"
+        },
+        "home": {
+          "title": "2. Home page",
+          "body": "<p>The home page shows two role cards — \"For social work professionals\" and \"For people seeking help\" — plus the \"ABOUT\" link at the top, which opens the background page.</p><ul><li>If you are not signed in, clicking a card opens the sign-in/registration view.</li><li>If you are signed in, the platform checks that you have an active subscription and then opens the chat for the selected role.</li></ul>"
+        },
+        "register": {
+          "title": "3. Registration and subscription activation",
+          "body": "<p>You need an account and an active subscription to talk to the assistant.</p><p><strong>Registration</strong></p><ul><li>Pick the relevant role card and click \"Register\".</li><li>Fill in the form (email address and password).</li><li>Choose your role (specialist / person seeking help). The role determines which features and assistant you use.</li><li>Accept the terms of use and privacy policy.</li><li>Submit the form – we sign you in automatically and redirect you to the subscription view.</li></ul><p><strong>Subscription</strong></p><ul><li>After confirmation you are redirected to the subscription page.</li><li>Select a plan, review the monthly price and conditions, and confirm the payment.</li><li>Once the payment succeeds, access to the chat assistant becomes active.</li></ul>"
+        },
+        "signin": {
+          "title": "4. Sign-in and navigation by role",
+          "body": "<p>Returning users also start on the home page.</p><ul><li>Click the role card to open the sign-in dialog.</li><li>Log in with Smart-ID, Mobile-ID, Google or email + password.</li><li>If you forgot the password, use the \"Forgot password\" link.</li><li>With an active subscription you are sent to the chat page; otherwise you will see instructions to activate or renew the subscription.</li></ul>"
+        },
+        "chat": {
+          "title": "5. Chat page",
+          "body": "<p>The chat is available only when the account has an active subscription.</p><ul><li>Type your question in the message field at the bottom and send it with the button or Enter.</li><li>The \"Conversations\" button in the top-left opens your earlier chats.</li><li>The profile icon in the top-right takes you to the \"Profile\" page.</li><li>Each answer includes a Sources button so you can review the referenced documents and links.</li></ul>"
+        },
+        "profile": {
+          "title": "6. Profile",
+          "body": "<p>The \"Profile\" page combines your account, subscription and accessibility settings.</p><ul><li>See the user role.</li><li>Subscription view: review the plan, monthly price and validity.</li><li>View and update the email address.</li><li>Update the password.</li><li>Change language, text size, contrast and the amount of animation.</li></ul>"
+        },
+        "about": {
+          "title": "7. ABOUT",
+          "body": "<p>On the \"ABOUT\" page you will find:</p><ul><li>a short explanation of who SotsiaalAI is for;</li><li>contact information;</li><li>links to the terms of use and privacy policy;</li><li>a link to the \"Platform guide\" (this page).</li></ul>"
+        },
+        "quickstart": {
+          "title": "8. Quick start",
+          "body": "<ol><li>Open sotsiaal.ai and choose the preferred language/accessibility settings.</li><li>Select the role card that matches you: specialist or person seeking help.</li><li>Register – the account is ready immediately and you are redirected to the subscription page.</li><li>Complete the subscription on the subscription page.</li><li>Sign in; with an active subscription the chat page opens.</li><li>Ask your questions, manage earlier chats via \"Conversations\" and adjust preferences on the \"Profile\" page.</li></ol>"
+        }
+      }
     }
   },
   "subscription": {
@@ -522,3 +578,4 @@
     }
   }
 }
+

@@ -89,47 +89,43 @@ export async function GET(req) {
   }
 
   try {
-    const run = await prisma.conversationRun.findUnique({
+    const conversation = await prisma.conversation.findUnique({
       where: { id: convId },
       select: {
         id: true,
         userId: true,
-        status: true,     // RUNNING | COMPLETED | ERROR | DELETED
-        role: true,       // CLIENT | SOCIAL_WORKER
-        text: true,
-        sources: true,
-        isCrisis: true,
-        updatedAt: true,
+        role: true,
+        summary: true,
+        lastActivityAt: true,
         createdAt: true,
+        archivedAt: true,
       },
     });
 
-    if (!run) {
-      // Ära tekita konsooli 404-müra: tagasta 200 koos ok:false
+    if (!conversation || conversation.archivedAt) {
       return json({ ok: false, notFound: true }, 200);
     }
 
-    // Omaniku või Admini kontroll
-    if (!auth.isAdmin && run.userId !== auth.userId) {
+    if (!auth.isAdmin && conversation.userId !== auth.userId) {
       return json({ ok: false, message: "Forbidden" }, 403);
     }
 
-    // Kui on DELETED, kohtle nagu puuduks (UI ei peaks seda nägema)
-    if (run.status === "DELETED") {
-      // Sama loogika — käsitle nagu puuduks
-      return json({ ok: false, notFound: true }, 200);
-    }
+    const latestAssistant = await prisma.conversationMessage.findFirst({
+      where: { conversationId: convId, role: "ASSISTANT" },
+      orderBy: { createdAt: "desc" },
+      select: { content: true, metadata: true, createdAt: true },
+    });
 
     return json({
       ok: true,
-      convId: run.id,
-      status: run.status,
-      role: run.role,
-      text: run.text || "",
-      sources: normalizeSources(run.sources),
-      isCrisis: !!run.isCrisis,
-      updatedAt: run.updatedAt,
-      createdAt: run.createdAt,
+      convId: conversation.id,
+      status: latestAssistant ? "COMPLETED" : "RUNNING",
+      role: conversation.role,
+      text: latestAssistant?.content || conversation.summary || "",
+      sources: normalizeSources(latestAssistant?.metadata?.sources || []),
+      isCrisis: !!latestAssistant?.metadata?.isCrisis,
+      updatedAt: conversation.lastActivityAt,
+      createdAt: conversation.createdAt,
     });
   } catch (err) {
     if (isDbOffline(err)) {

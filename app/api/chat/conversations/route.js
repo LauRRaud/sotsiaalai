@@ -1,10 +1,16 @@
 // app/api/chat/conversations/route.js
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
+const CONVERSATION_TTL_DAYS = Number(process.env.CONVERSATION_TTL_DAYS || 90);
+const CONVERSATION_TTL_MS = Math.max(1, CONVERSATION_TTL_DAYS) * 24 * 60 * 60 * 1000;
+
 /* ---------- tiny utils ---------- */
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -18,17 +24,54 @@ function json(data, status = 200) {
 }
 function normalizeRole(role) {
   const r = String(role || "CLIENT").toUpperCase().trim();
-  if (r === "ADMIN") return "SOCIAL_WORKER"; // ADMIN mapitakse mudelis sotsiaaltöötajaks
+  if (r === "ADMIN") return "SOCIAL_WORKER";
   return r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT";
 }
+
+function encodeCursor(row) {
+  try {
+    const pin = row.isPinned ? 1 : 0;
+    const ms = row.lastActivityAt instanceof Date ? row.lastActivityAt.getTime() : new Date(row.lastActivityAt).getTime();
+    if (!Number.isFinite(ms)) return null;
+    return `${pin}:${ms}:${row.id}`;
+  } catch {
+    return null;
+  }
+}
+function parseCursor(token) {
+  if (!token || typeof token !== "string") return null;
+  const [pinPart, msPart, id] = token.split(":");
+  if (!id) return null;
+  const ms = Number(msPart);
+  if (!Number.isFinite(ms)) return null;
+  const date = new Date(ms);
+  if (Number.isNaN(date.getTime())) return null;
+  const isPinned = pinPart === "1";
+  return { isPinned, date, id };
+}
+function trimPreview(text = "", max = 160) {
+  if (!text) return "";
+  const normalized = String(text).replace(/\s+/g, " ").trim();
+  if (!normalized) return "";
+  return normalized.length > max ? `${normalized.slice(0, max - 1)}…` : normalized;
+}
+function fallbackTitle(text = "") {
+  const normalized = trimPreview(text, 160);
+  if (!normalized) return null;
+  const sentence = normalized.split(/[.!?]/)[0]?.trim();
+  if (sentence && sentence.length >= 3) return sentence;
+  return normalized;
+}
+function conversationExpiryDate() {
+  return new Date(Date.now() + CONVERSATION_TTL_MS);
+}
+
 /* ---------- Auth loader ---------- */
 async function getAuthOptions() {
-  // Püüa esmalt NextAuth klassikaline asukoht
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
     return mod.authOptions || mod.default || mod.authConfig;
   } catch {
-    // App routeri /auth fallback
     try {
       const mod = await import("@/auth");
       return mod.authOptions || mod.default || mod.authConfig;
@@ -51,110 +94,102 @@ async function requireUser() {
       isAdmin: !!session.user.isAdmin,
     };
   } catch {
-    // Kui NextAuth pole üldse konfitud
     return { ok: false, status: 401, message: "Unauthorized" };
   }
 }
-/* ---------- Cursor helpers (epochMs:id) ---------- */
-function encodeCursor(d, id) {
-  try {
-    const ms = d instanceof Date ? d.getTime() : Number(new Date(d).getTime());
-    if (!Number.isFinite(ms)) return null;
-    return `${ms}:${id}`;
-  } catch {
-    return null;
-  }
-}
-function parseCursor(cur) {
-  if (!cur || typeof cur !== "string") return null;
-  const [msStr, id] = cur.split(":");
-  const ms = Number(msStr);
-  if (!Number.isFinite(ms) || !id) return null;
-  const date = new Date(ms);
-  if (Number.isNaN(date.getTime())) return null;
-  return { date, id };
-}
-/* ---------- Prisma error guard ---------- */
+
 function isDbOffline(err) {
   return (
-    err?.code === "P1001" || // Can't reach database server
-    err?.code === "P1017" || // Server closed the connection
+    err?.code === "P1001" ||
+    err?.code === "P1017" ||
     err?.name === "PrismaClientInitializationError" ||
     err?.name === "PrismaClientRustPanicError"
   );
 }
+
 /* =========================================================================
-   GET: pagineeritud nimekiri (v.a. DELETED)
-   Query:
-     - limit: 1..50 (vaikimisi 20)
-     - cursor: "epochMs:id"
-     - role: CLIENT | SOCIAL_WORKER | ADMIN (valikuline filter – ADMIN->SOCIAL_WORKER)
+   GET: pagineeritud nimekiri (v.a. archived)
    ========================================================================= */
 export async function GET(req) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
+
   const url = new URL(req.url);
-  const limitParam = Number(url.searchParams.get("limit") || 20);
-  const limit = Math.max(1, Math.min(50, Number.isFinite(limitParam) ? limitParam : 20));
+  const limitParam = Number(url.searchParams.get("limit") || 30);
+  const limit = Math.max(1, Math.min(100, Number.isFinite(limitParam) ? limitParam : 30));
   const cursorToken = url.searchParams.get("cursor");
-  const parsed = parseCursor(cursorToken);
+  const parsedCursor = parseCursor(cursorToken);
   const roleParam = url.searchParams.get("role");
   const roleFilter = roleParam ? normalizeRole(roleParam) : null;
-  // page-size + 1, et tuvastada kas on nextCursor
-  const take = limit + 1;
-  try {
-    const baseWhere = {
-      userId: auth.userId,
-      NOT: { status: "DELETED" },
-      ...(roleFilter ? { role: roleFilter } : {}),
+
+  const baseWhere = {
+    userId: auth.userId,
+    archivedAt: null,
+    OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+    ...(roleFilter ? { role: roleFilter } : {}),
+  };
+
+  let where = baseWhere;
+  if (parsedCursor) {
+    const cursorFilters = [];
+    if (parsedCursor.isPinned) {
+      cursorFilters.push({ isPinned: false });
+    }
+    cursorFilters.push({
+      isPinned: parsedCursor.isPinned,
+      OR: [
+        { lastActivityAt: { lt: parsedCursor.date } },
+        {
+          AND: [{ lastActivityAt: parsedCursor.date }, { id: { lt: parsedCursor.id } }],
+        },
+      ],
+    });
+    where = {
+      AND: [baseWhere, { OR: cursorFilters }],
     };
-    // Kursori loogika: sort on (updatedAt desc, id desc).
-    // Järgmise lehe jaoks võtame ridu, mille (updatedAt,id) < kursori (lexicographic desc).
-    const where = parsed
-      ? {
-          AND: [
-            baseWhere,
-            {
-              OR: [
-                { updatedAt: { lt: parsed.date } },
-                { AND: [{ updatedAt: parsed.date }, { id: { lt: parsed.id } }] },
-              ],
-            },
-          ],
-        }
-      : baseWhere;
-    const rows = await prisma.conversationRun.findMany({
+  }
+
+  try {
+    const rows = await prisma.conversation.findMany({
       where,
-      orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
-      take,
+      orderBy: [{ isPinned: "desc" }, { lastActivityAt: "desc" }, { id: "desc" }],
+      take: limit + 1,
       select: {
         id: true,
-        updatedAt: true,
-        status: true,
-        text: true,
+        title: true,
+        summary: true,
+        lastActivityAt: true,
+        isPinned: true,
         role: true,
+        messages: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          select: { content: true },
+        },
       },
     });
+
     const hasMore = rows.length > limit;
     const pageRows = hasMore ? rows.slice(0, limit) : rows;
-    const items = pageRows.map((r) => {
-      const preview = (r.text || "").trim().slice(0, 120);
+    const items = pageRows.map((row) => {
+      const previewSource = row.messages?.[0]?.content || row.summary || "";
+      const preview = trimPreview(previewSource);
+      const title = row.title || fallbackTitle(previewSource) || "Vestlus";
       return {
-        id: r.id,
-        status: r.status,
-        updatedAt: r.updatedAt,
-        role: r.role,
-        title: preview || "Vestlus",
+        id: row.id,
+        title,
         preview,
+        lastActivityAt: row.lastActivityAt,
+        isPinned: row.isPinned,
+        role: row.role,
       };
     });
     const last = pageRows.at(-1);
-    const nextCursor = hasMore && last ? encodeCursor(last.updatedAt, last.id) : null;
+    const nextCursor = hasMore && last ? encodeCursor(last) : null;
     return json({ ok: true, conversations: items, nextCursor });
   } catch (err) {
     console.error("[chat/conversations GET] failed", err);
     if (isDbOffline(err)) {
-      // Degraaditud režiim – tagasta tühi komplekt, et UI jätkaks tööga
       return json({
         ok: true,
         conversations: [],
@@ -169,57 +204,74 @@ export async function GET(req) {
     );
   }
 }
+
 /* =========================================================================
-   POST: loo/registreeri (idempotent) vestlus
-   Body: { id?: string, role?: "CLIENT"|"SOCIAL_WORKER"|"ADMIN" }
-   - Kui id puudub, luuakse serveris UUID (fallbackina timestamp).
-   - ADMIN normaliseeritakse SOCIAL_WORKER-iks.
+   POST: loo vestlus (idempotent kasutaja piires)
    ========================================================================= */
 export async function POST(req) {
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-  let body;
+
+  let body = {};
   try {
     body = await req.json();
   } catch {
     body = {};
   }
   let convId = String(body?.id || "").trim();
-  const role = normalizeRole(body?.role);
   if (!convId) {
     try {
-      const { randomUUID } = await import("node:crypto");
       convId = randomUUID();
     } catch {
       convId = String(Date.now());
     }
   }
+  const role = normalizeRole(body?.role);
+  const title =
+    typeof body?.title === "string" && body.title.trim() ? body.title.trim().slice(0, 160) : null;
+
   try {
-    const row = await prisma.conversationRun.upsert({
+    const existing = await prisma.conversation.findUnique({
       where: { id: convId },
-      update: {
-        userId: auth.userId,
-        role,
-        status: "RUNNING",
-        updatedAt: new Date(),
-      },
-      create: {
-        id: convId,
-        userId: auth.userId,
-        role,
-        status: "RUNNING",
-        text: "",
-      },
-      select: { id: true, updatedAt: true, status: true, role: true, text: true },
+      select: { userId: true },
     });
+    if (existing && existing.userId !== auth.userId) {
+      return json({ ok: false, message: "Conversation already exists." }, 409);
+    }
+
+    const now = new Date();
+    const expiry = conversationExpiryDate();
+    const row = existing
+      ? await prisma.conversation.update({
+          where: { id: convId },
+          data: {
+            role,
+            archivedAt: null,
+            lastActivityAt: now,
+            expiresAt: expiry,
+            ...(title ? { title } : {}),
+          },
+          select: { id: true, title: true, lastActivityAt: true, role: true },
+        })
+      : await prisma.conversation.create({
+          data: {
+            id: convId,
+            userId: auth.userId,
+            role,
+            title,
+            lastActivityAt: now,
+            expiresAt: expiry,
+          },
+          select: { id: true, title: true, lastActivityAt: true, role: true },
+        });
+
     return json({
       ok: true,
       conversation: {
         id: row.id,
-        status: row.status,
-        updatedAt: row.updatedAt,
+        title: row.title || "Vestlus",
+        lastActivityAt: row.lastActivityAt,
         role: row.role,
-        title: (row.text || "").slice(0, 120) || "Vestlus",
       },
     });
   } catch (err) {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+
 export default function MeistBody({ isAdmin = false }) {
   const { t, locale } = useI18n();
   const introParagraphs = [
@@ -41,6 +42,11 @@ export default function MeistBody({ isAdmin = false }) {
       <section className="glass-section">
         <p><strong>{t("about.cta.title")}</strong></p>
         <ul className="glass-list glass-list--compact">
+          <li>
+            <Link href="/kasutusjuhend" className="link-brand">
+              {t("about.guide.jump_link")}
+            </Link>
+          </li>
           <li>
             <Link href="/privaatsustingimused" className="link-brand">
               {t("about.links.privacy")}

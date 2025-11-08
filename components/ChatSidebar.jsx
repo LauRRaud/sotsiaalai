@@ -28,26 +28,33 @@ export default function ChatSidebar() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
+  const [cursor, setCursor] = useState(null);
+  const [hasMore, setHasMore] = useState(false);
   const abortRef = useRef(null);
   const visibilityThrottleRef = useRef({ timer: null, last: 0 });
   const { t } = useI18n();
-  // (soovi korral saab seda hiljem kasutada, hetkel pole otseselt tarvis)
-  const activeConvId = useMemo(() => {
-    try {
-      return window.sessionStorage.getItem("sotsiaalai:chat:convId") || null;
-    } catch {
-      return null;
-    }
+  const pageSize = useMemo(() => {
+    if (typeof window === "undefined") return 30;
+    return window.innerWidth < 640 ? 15 : 30;
   }, []);
-  const fetchList = useCallback(async () => {
+  const fetchList = useCallback(async ({ reset } = { reset: false }) => {
     setError("");
     // tühista eelmine
     abortRef.current?.abort();
     const ac = new AbortController();
     abortRef.current = ac;
+    if (reset) {
+      setItems([]);
+      setCursor(null);
+      setHasMore(false);
+    }
     setBusy(true);
     try {
-      const r = await fetch("/api/chat/conversations", {
+      const params = new URLSearchParams({ limit: String(pageSize) });
+      if (!reset && cursor) {
+        params.set("cursor", cursor);
+      }
+      const r = await fetch(`/api/chat/conversations?${params.toString()}`, {
         cache: "no-store",
         signal: ac.signal,
       });
@@ -57,7 +64,10 @@ export default function ChatSidebar() {
       if (!r.ok || !data?.ok) {
         throw new Error(data?.message || t("chat.sidebar.error.load"));
       }
-      setItems(Array.isArray(data.conversations) ? data.conversations : []);
+      const newItems = Array.isArray(data.conversations) ? data.conversations : [];
+      setItems((prev) => (reset ? newItems : [...prev, ...newItems]));
+      setCursor(data.nextCursor || null);
+      setHasMore(Boolean(data.nextCursor));
       if (data?.degraded) {
         setError(data.message || t("chat.sidebar.error.history"));
       }
@@ -69,7 +79,7 @@ export default function ChatSidebar() {
       if (abortRef.current === ac) abortRef.current = null;
       setBusy(false);
     }
-  }, [t]);
+  }, [cursor, pageSize, t]);
   const scheduleVisibilityRefresh = useCallback(() => {
     const state = visibilityThrottleRef.current;
     const now = Date.now();
@@ -78,7 +88,7 @@ export default function ChatSidebar() {
     const run = () => {
       state.last = Date.now();
       state.timer = null;
-      fetchList();
+      fetchList({ reset: true });
     };
     if (remaining <= 0) {
       if (state.timer) {
@@ -93,8 +103,8 @@ export default function ChatSidebar() {
   // esmane laadimine + välised värskendused
   useEffect(() => {
     const throttleState = visibilityThrottleRef.current;
-    fetchList();
-    const onExternalRefresh = () => fetchList();
+    fetchList({ reset: true });
+    const onExternalRefresh = () => fetchList({ reset: true });
     window.addEventListener(
       "sotsiaalai:refresh-conversations",
       onExternalRefresh,
@@ -122,6 +132,10 @@ export default function ChatSidebar() {
       abortRef.current?.abort();
     };
   }, [fetchList, scheduleVisibilityRefresh]); // NB: mõlemad viited on stabiilsed
+  const fetchMore = useCallback(() => {
+    if (busy || creating || !hasMore) return;
+    fetchList({ reset: false });
+  }, [busy, creating, hasMore, fetchList]);
   const onPick = useCallback((id) => {
     try {
       window.sessionStorage.setItem("sotsiaalai:chat:convId", id);
@@ -151,8 +165,9 @@ export default function ChatSidebar() {
         if (!r.ok || data?.ok === false) {
           throw new Error(data?.message || t("chat.sidebar.error.create"));
         }
-        onPick(id);
-        await fetchList();
+        const nextId = data?.conversation?.id || id;
+        onPick(nextId);
+        await fetchList({ reset: true });
       } catch (e) {
         setError(e?.message || t("chat.sidebar.error.create"));
       } finally {
@@ -176,7 +191,7 @@ export default function ChatSidebar() {
         if (!r.ok || data?.ok === false) {
           throw new Error(data?.message || t("chat.sidebar.error.delete"));
         }
-        await fetchList();
+        await fetchList({ reset: true });
         // kui kustutati aktiivne, tühjenda valik
         try {
           const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
@@ -198,7 +213,7 @@ export default function ChatSidebar() {
     // 0 nihutab puuduva updatedAt-i lõppu
   };
   const sorted = useMemo(
-    () => [...items].sort((a, b) => safeDate(b?.updatedAt) - safeDate(a?.updatedAt)),
+    () => [...items].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)),
     [items],
   );
   return (
@@ -219,7 +234,7 @@ export default function ChatSidebar() {
         </button>
         <button
           className="cs-refresh"
-          onClick={fetchList}
+          onClick={() => fetchList({ reset: true })}
           disabled={busy || creating}
           aria-label={t("chat.sidebar.button.refresh")}
           title={t("chat.sidebar.button.refresh")}
@@ -294,8 +309,13 @@ export default function ChatSidebar() {
                   <div className="cs-title">
                     {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
                   </div>
+                  {c.preview ? (
+                    <div className="cs-preview">
+                      {c.preview}
+                    </div>
+                  ) : null}
                   <div className="cs-time">
-                    {formatDateTime(c.updatedAt)}
+                    {formatDateTime(c.lastActivityAt)}
                   </div>
                 </button>
                 <button
@@ -329,6 +349,17 @@ export default function ChatSidebar() {
           })
         )}
       </ul>
+      {hasMore && (
+        <div className="cs-load-more">
+          <button
+            className="cs-btn"
+            onClick={fetchMore}
+            disabled={busy || creating}
+          >
+            {t("chat.sidebar.button.more", "Lae veel")}
+          </button>
+        </div>
+      )}
     </nav>
   );
 }

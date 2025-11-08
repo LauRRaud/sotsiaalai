@@ -739,6 +739,57 @@ def health():
         "storage_dir": os.path.realpath(str(STORAGE_DIR)),
     }
 
+# --- Ephemeral analyze (no persistence) ---
+@app.post("/analyze", dependencies=[Depends(_require_key)])
+async def analyze(
+    file: UploadFile = File(...),
+    mimeType: Optional[str] = Form(None),
+    maxChunks: Optional[int] = Form(None),
+):
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(400, "Empty file")
+    size_mb = _bytes_mb(raw)
+    if size_mb > MAX_MB:
+        raise HTTPException(413, f"File too large ({size_mb:.1f}MB > {MAX_MB}MB)")
+
+    declared_mime = mimeType or file.content_type
+    mime = _detect_mime(file.filename or "file", raw, declared_mime)
+    if ALLOWED_MIME and mime not in ALLOWED_MIME:
+        raise HTTPException(415, f"MIME not allowed: {mime}")
+
+    # extract text (without saving to storage or indexing)
+    if mime == "application/pdf":
+        pages = _extract_text_from_pdf(raw)
+        texts = [t for (_, t) in pages if t]
+        text = "\n\n".join(texts)
+    elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        text = _extract_text_from_docx(raw)
+    elif mime == "text/html":
+        text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
+    else:
+        text = raw.decode("utf-8", errors="ignore")
+
+    text = _clean_text(text)
+    chunks = _split_chunks(text)
+    if maxChunks is not None:
+        try:
+            k = int(maxChunks)
+            if k > 0:
+                chunks = chunks[:k]
+        except Exception:
+            pass
+
+    preview = text[:800]
+    return {
+        "ok": True,
+        "fileName": file.filename,
+        "mimeType": mime,
+        "sizeMB": round(size_mb, 2),
+        "chunks": chunks,
+        "preview": preview,
+    }
+
 # --- shared worker for file ingestion (used by JSON + multipart) ---
 def _process_ingest_file(
     doc_id: str,

@@ -94,7 +94,6 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         role="dialog"
         aria-modal="true"
         aria-labelledby="a11y-title"
-        aria-describedby="a11y-desc"
         onClick={stopInside}
         tabIndex={-1}
       >
@@ -104,12 +103,10 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         <h2 id="a11y-title" className="glass-title">
           {t("profile.preferences.title")}
         </h2>
-        <p id="a11y-desc" className="glass-note a11y-desc">
-          {t("accessibility.description")}
-        </p>
+        {/* Description removed per request to declutter under title */}
         {/* Keel */}
         <fieldset className="a11y-fieldset">
-          <legend className="glass-label a11y-legend"><strong>{t("accessibility.language")}</strong></legend>
+          <legend className="sr-only">{t("accessibility.language")}</legend>
           <div className="a11y-options">
             <FancyRadio id="lg-et" name="lg" value="et" label={t("accessibility.options.language.et")} checked={lang === "et"} onChange={() => setLang("et")} ref={firstFocusRef} />
             <FancyRadio id="lg-ru" name="lg" value="ru" label={t("accessibility.options.language.ru")} checked={lang === "ru"} onChange={() => setLang("ru")} />
@@ -118,7 +115,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         </fieldset>
         {/* Teksti suurus */}
         <fieldset className="a11y-fieldset">
-          <legend className="glass-label a11y-legend"><strong>{t("accessibility.text_scale")}</strong></legend>
+          <legend className="glass-label a11y-legend">{t("accessibility.text_scale")}</legend>
           <div className="a11y-options">
             <FancyRadio id="ts-sm" name="ts" value="sm" label={t("accessibility.options.text_scale.sm")} checked={textScale === "sm"} onChange={() => setTextScale("sm")} />
             <FancyRadio id="ts-md" name="ts" value="md" label={t("accessibility.options.text_scale.md")} checked={textScale === "md"} onChange={() => setTextScale("md")} />
@@ -128,7 +125,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         </fieldset>
         {/* Kontrast */}
         <fieldset className="a11y-fieldset">
-          <legend className="glass-label a11y-legend"><strong>{t("accessibility.contrast")}</strong></legend>
+          <legend className="glass-label a11y-legend">{t("accessibility.contrast")}</legend>
           <div className="a11y-options">
             <FancyRadio id="ct-normal" name="ct" value="normal" label={t("accessibility.options.contrast.normal")} checked={contrast === "normal"} onChange={() => setContrast("normal")} />
             <FancyRadio id="ct-hc" name="ct" value="hc" label={t("accessibility.options.contrast.hc")} checked={contrast === "hc"} onChange={() => setContrast("hc")} />
@@ -136,7 +133,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         </fieldset>
         {/* Liikumine */}
         <fieldset className="a11y-fieldset">
-          <legend className="glass-label a11y-legend"><strong>{t("accessibility.motion")}</strong></legend>
+          <legend className="glass-label a11y-legend">{t("accessibility.motion")}</legend>
           <FancyCheckbox
             label={t("accessibility.options.motion.reduce")}
             checked={reduceMotion}

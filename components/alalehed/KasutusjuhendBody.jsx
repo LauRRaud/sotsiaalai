@@ -1,0 +1,81 @@
+"use client";
+import Link from "next/link";
+import InstallAppLink from "@/components/pwa/InstallAppLink";
+import { useI18n } from "@/components/i18n/I18nProvider";
+
+const SECTION_KEYS = [
+  "accessibility",
+  "home",
+  "register",
+  "signin",
+  "chat",
+  "profile",
+  "about",
+  "quickstart",
+];
+
+export default function KasutusjuhendBody() {
+  const { t, locale } = useI18n();
+  const guideSections = SECTION_KEYS.map((key) => ({
+    key,
+    title: t(`about.guide.sections_v2.${key}.title`),
+    body: t(`about.guide.sections_v2.${key}.body`),
+  }));
+  return (
+   <div className="main-content glass-box glass-left" role="main" aria-labelledby="kasutusjuhend-title" lang={locale}>
+      <h1 id="kasutusjuhend-title" className="glass-title">{t("about.guide.title")}</h1>
+      <section className="glass-section">
+        <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
+          {t("about.guide.intro")}
+        </p>
+      </section>
+      <section className="glass-section">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.25rem",
+            color: "rgba(235, 238, 248, 0.85)",
+          }}
+        >
+          {guideSections.map(({ key, title, body }) => (
+            <article
+              key={key}
+              className="guide-card"
+              aria-label={title}
+              style={{
+                background: "rgba(12, 19, 35, 0.5)",
+                borderRadius: 14,
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                padding: "1rem 1.25rem",
+                boxShadow: "0 8px 20px rgba(4, 7, 15, 0.25)",
+                color: "rgba(235, 238, 248, 0.9)",
+              }}
+            >
+              <h2
+                className="glass-h3"
+                style={{
+                  marginBottom: "0.5rem",
+                  color: "var(--link-gold)",
+                  fontSize: "1.35em",
+                  fontFamily: "var(--font-aino-headline), var(--font-aino), Arial, sans-serif",
+                  fontWeight: 400,
+                }}
+              >
+                {title}
+              </h2>
+              <div className="glass-text" dangerouslySetInnerHTML={{ __html: body }} />
+            </article>
+          ))}
+        </div>
+      </section>
+      <InstallAppLink variant="section" />
+      <div className="back-btn-wrapper">
+        <Link href="/meist" className="back-arrow-btn" aria-label={t("buttons.back_previous")}>
+          <span className="back-arrow-circle" />
+        </Link>
+      </div>
+      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
+    </div>
+  );
+}

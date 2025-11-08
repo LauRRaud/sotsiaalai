@@ -84,6 +84,13 @@ const FancyCheckbox = forwardRef(function FancyCheckbox(
         className="visually-hidden"
         checked={!!checked}
         onChange={(e) => onChange?.(e.target.checked, e)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            // Toggle explicitly on Enter for better keyboard support
+            onChange?.(!checked, e);
+          }
+        }}
         disabled={disabled}
         aria-checked={!!checked}
         aria-disabled={!!disabled}
