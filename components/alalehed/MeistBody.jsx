@@ -24,7 +24,9 @@ export default function MeistBody({ isAdmin = false }) {
   ];
   return (
     <div className="main-content glass-box glass-left" role="main" aria-labelledby="meist-title" lang={locale}>
-      <h1 id="meist-title" className="glass-title">{t("about.title")}</h1>
+      <h1 id="meist-title" className="glass-title">
+        {t("about.title")}
+      </h1>
       <section className="glass-section">
         {introParagraphs.map(({ key, value, replacements }) => (
           <RichText key={key} as="div" value={value} replacements={replacements} />

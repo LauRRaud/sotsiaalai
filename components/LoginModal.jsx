@@ -1,19 +1,18 @@
-// components/LoginModal.jsx
 "use client";
-import Link from "next/link";
-import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
+
 export default function LoginModal({ open, onClose }) {
-  const boxRef = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status, data: session } = useSession();
   const { t, locale } = useI18n();
+
   const defaultNextUrl = localizePath("/vestlus", locale);
   const toRelative = (u) => {
     try {
@@ -25,264 +24,276 @@ export default function LoginModal({ open, onClose }) {
     }
   };
   const nextUrl = toRelative(searchParams?.get("next") || defaultNextUrl);
-  const [loading, setLoading] = useState(null); // "credentials" | "google" | "smart_id" | "mobiil_id"
+
+  const PIN_MIN = 4;
+  const PIN_MAX = 8;
+
+  const [pinValue, setPinValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // Kui modaal on avatud ja kasutaja on juba autentitud → sulge ja suuna
+
+  const boxRef = useRef(null);
+  const hiddenInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const tid = setTimeout(() => hiddenInputRef.current?.focus?.(), 0);
+    return () => clearTimeout(tid);
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     if (status === "authenticated" && session) {
       onClose?.();
-      router.replace(nextUrl); // või "/vestlus"
+      router.replace(nextUrl);
       router.refresh();
     }
   }, [open, status, session, nextUrl, router, onClose]);
-  // Body scroll lock + fookuse lõks
-  useEffect(() => {
-    if (!open) return;
-    const body = document.body;
-    const previousStyles = {
-      overflow: body.style.overflow,
-      position: body.style.position,
-      width: body.style.width,
-      top: body.style.top,
-      touchAction: body.style.touchAction,
-    };
-    const scrollY = typeof window !== "undefined" ? window.scrollY || 0 : 0;
-    body.classList.add("modal-open");
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.width = "100%";
-    body.style.touchAction = "none";
-    const onKeydown = (e) => {
-      if (e.key === "Escape") onClose?.();
-      // Tab-fookuse lõks modalis
-      if (e.key === "Tab" && boxRef.current) {
-        const nodes = boxRef.current.querySelectorAll(
-          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-        );
-        const focusables = Array.from(nodes).filter(
-          (n) => (n.offsetWidth > 0 || n.offsetHeight > 0) && !n.hasAttribute("disabled")
-        );
-        if (!focusables.length) return;
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement;
-        if (!e.shiftKey && active === last) {
-          e.preventDefault();
-          first.focus();
-        } else if (e.shiftKey && active === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", onKeydown);
-    return () => {
-      body.classList.remove("modal-open");
-      document.removeEventListener("keydown", onKeydown);
-      body.style.overflow = previousStyles.overflow;
-      body.style.position = previousStyles.position;
-      body.style.width = previousStyles.width;
-      body.style.top = previousStyles.top;
-      body.style.touchAction = previousStyles.touchAction;
-      window.scrollTo(0, scrollY);
-    };
-  }, [open, onClose]);
-  if (!open) return null;
-  const handleGoogleLogin = async () => {
-    setError(null);
-    setLoading("google");
-    try {
-      await signIn("google", { callbackUrl: nextUrl }); // teeb redirect'i
-    } finally {
-      setLoading(null);
+
+  const onHiddenKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+      return;
+    }
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      setPinValue((p) => p.slice(0, -1));
+      return;
+    }
+    if (/^\d$/.test(e.key)) {
+      e.preventDefault();
+      setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${e.key}`));
     }
   };
-  const handleSmartID = async () => {
+
+  const appendDigit = (digit) => {
+    setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${digit}`));
+    hiddenInputRef.current?.focus();
     setError(null);
-    setLoading("smart_id");
-    try {
-      const personalCode = window.prompt(t("auth.login.prompt.smart_id")) ?? "";
-      const res = await signIn("estonian_eid", {
-        method: "smart_id",
-        personalCode,
-        redirect: false,
-        callbackUrl: nextUrl,
-      });
-      if (res?.error) setError(t("auth.login.error.smart_id"));
-      if (res?.ok && res.url) {
-        onClose?.();
-        router.replace(toRelative(res.url));
-        router.refresh();
-      }
-    } finally {
-      setLoading(null);
+    // small haptic feedback on supported devices
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try { navigator.vibrate(8); } catch (e) { /* ignore */ }
     }
   };
-  const handleMobileID = async () => {
+  const handleBackspace = () => {
+    setPinValue((p) => p.slice(0, -1));
+    hiddenInputRef.current?.focus();
     setError(null);
-    setLoading("mobiil_id");
-    try {
-      const personalCode = window.prompt(t("auth.login.prompt.mobile_id_code")) ?? "";
-      const phone = window.prompt(t("auth.login.prompt.mobile_id_phone")) ?? "";
-      const res = await signIn("estonian_eid", {
-        method: "mobiil_id",
-        personalCode,
-        phone,
-        redirect: false,
-        callbackUrl: nextUrl,
-      });
-      if (res?.error) setError(t("auth.login.error.mobile_id"));
-      if (res?.ok && res.url) {
-        onClose?.();
-        router.replace(toRelative(res.url));
-        router.refresh();
-      }
-    } finally {
-      setLoading(null);
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try { navigator.vibrate(6); } catch (e) {}
     }
   };
+  const handleClear = () => {
+    setPinValue("");
+    hiddenInputRef.current?.focus();
+    setError(null);
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try { navigator.vibrate(6); } catch (e) {}
+    }
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e?.preventDefault) e.preventDefault();
     setError(null);
-    setLoading("credentials");
-    const fd = new FormData(e.currentTarget);
-    const email = String(fd.get("email") ?? "").trim();
-    const password = String(fd.get("password") ?? "").trim();
+
+    const emailInput = boxRef.current?.querySelector('input[name="email"]');
+    const email = String(emailInput?.value || "").trim();
+    const pin = pinValue.replace(/\s+/g, "");
+
     if (!email) {
-      setLoading(null);
       setError(t("auth.login.error.email_required"));
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setLoading(null);
       setError(t("auth.login.error.email_invalid"));
       return;
     }
-    if (!password) {
-      setLoading(null);
-      setError(t("auth.login.error.password_required"));
+    if (!pin) {
+      setError(t("auth.login.error.pin_required"));
       return;
     }
-    const res = await signIn("credentials", {
-      email,
-      password,
-      callbackUrl: nextUrl,
-      redirect: false,
-    });
-    setLoading(null);
-    if (res?.error) {
-      setError(t("auth.login.error.credentials"));
+    if (!new RegExp(`^\\d{${PIN_MIN},${PIN_MAX}}$`).test(pin)) {
+      setError(t("auth.login.error.pin_invalid", { min: PIN_MIN, max: PIN_MAX }));
       return;
     }
-    if (res?.ok && res.url) {
-      onClose?.();
-      router.replace(toRelative(res.url));
-      router.refresh();
+
+    setLoading(true);
+    try {
+      const res = await signIn("credentials", {
+        email,
+        pin,
+        redirect: false,
+        callbackUrl: nextUrl,
+      });
+      if (res?.error) {
+        // NextAuth returns error string sometimes; present friendly message
+        setError(t("auth.login.error.credentials"));
+        return;
+      }
+      if (res?.ok && res.url) {
+        setPinValue("");
+        onClose?.();
+        router.replace(toRelative(res.url));
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("login error", err);
+      setError(t("auth.login.error.generic") || "Sisselogimine ebaõnnestus.");
+    } finally {
+      setLoading(false);
     }
   };
+
   const stopInside = (e) => e.stopPropagation();
-  const modal = (
+
+  if (!open) return null;
+
+  // static keypad order (1..9, back, 0, clear)
+  const keys = ["1","2","3","4","5","6","7","8","9","back","0","clear"];
+
+  return createPortal(
     <>
-      <div
-        className="login-modal-backdrop login-modal-backdrop--mobile u-mobile-modal-backdrop"
-        onClick={onClose}
-        role="presentation"
-        aria-hidden="true"
-      />
-      {/* NB! Kommentaar viidud atribuutide VAHELT välja */}
+      <div className="login-modal-backdrop" onClick={onClose} />
       <div
         ref={boxRef}
         id="login-modal"
-        className="login-modal-root login-modal-box glass-modal login-modal--mobile u-mobile-modal"
+        className="login-modal-root login-modal-box glass-modal compact-modal"
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-label={t("auth.login.title")}
         onClick={stopInside}
-        onMouseDown={stopInside}  // aitab vältida fookuse kaotust mousedown'il
-        onTouchStart={stopInside}
       >
         <button className="login-modal-close" onClick={onClose} aria-label={t("buttons.close")} type="button">
           ×
         </button>
-        <div className="glass-title">{t("auth.login.title")}</div>
-        <div className="login-social-icons-row" style={{ display: "flex", gap: "0.6rem" }}>
-          <button
-            className="login-icon-btn"
-            onClick={handleGoogleLogin}
-            type="button"
-            aria-label={t("auth.login.google")}
-            disabled={loading === "google"}
-          >
-            <Image src="/login/google1.png" alt={t("auth.login.google")} width={40} height={40} priority />
-          </button>
-          <button
-            className="login-icon-btn"
-            onClick={handleSmartID}
-            type="button"
-            aria-label={t("auth.login.smart_id")}
-            disabled={loading === "smart_id"}
-          >
-            <Image src="/login/smart.svg" alt={t("auth.login.smart_id")} width={40} height={40} priority />
-          </button>
-          <button
-            className="login-icon-btn"
-            onClick={handleMobileID}
-            type="button"
-            aria-label={t("auth.login.mobile_id")}
-            disabled={loading === "mobiil_id"}
-          >
-            <Image src="/login/mobiil.png" alt={t("auth.login.mobile_id")} width={40} height={40} priority />
-          </button>
+
+        <div className="glass-title" style={{ textAlign: "center", margin: "-0.8rem 0 18px" }}>
+          {t("auth.login.title")}
         </div>
-        <div className="login-or-divider" style={{ textAlign: "center" }}>
-          <span>{t("auth.login.or")}</span>
-        </div>
+
         {error && (
-          <div role="alert" aria-live="assertive" className="glass-note" style={{ width: "100%", marginBottom: "0.6rem" }}>
+          <div
+            role="alert"
+            aria-live="assertive"
+            className="glass-note glass-note--center"
+          >
             {error}
           </div>
         )}
-        <form className="login-modal-form" autoComplete="off" onSubmit={handleSubmit}>
-          <label style={{ width: "100%", display: "block" }}>
+
+        <form className="login-modal-form compact" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} autoComplete="off">
+          <label style={{ width: "100%", display: "block", textAlign: "center", marginBottom: 6 }}>
             <input
-              className="input-modern"
+              className="input-modern input-email-top compact-email"
               type="email"
               name="email"
               placeholder={t("auth.email_placeholder")}
               autoComplete="username"
               inputMode="email"
+              style={{ margin: "0 auto", maxWidth: 380 }}
             />
           </label>
-          <label style={{ width: "100%", display: "block" }}>
-            <input
-              className="input-modern"
-              type="password"
-              name="password"
-              placeholder={t("auth.password_placeholder")}
-              autoComplete="current-password"
-            />
-          </label>
-          <div style={{ width: "100%", textAlign: "right", marginTop: "-0.4em", marginBottom: "0.6em" }}>
-            <Link href="/unustasin-parooli" className="unustasid-parooli-link">
-              {t("auth.login.forgot")}
-            </Link>
+
+          <div className="pin-keypad-all-wrapper" aria-hidden="false">
+            <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
+              {keys.map((k, idx) => {
+                if (k === "back") {
+                  return (
+                    <button
+                      key={`back-${idx}`}
+                      type="button"
+                      className="pin-keypad__button pin-keypad__button--alt"
+                      onClick={handleBackspace}
+                      aria-label={t("auth.login.back") || "Backspace"}
+                      disabled={loading}
+                    >
+                      ⌫
+                    </button>
+                  );
+                }
+                if (k === "clear") {
+                  return (
+                    <button
+                      key={`clear-${idx}`}
+                      type="button"
+                      className="pin-keypad__button pin-keypad__button--alt"
+                      onClick={handleClear}
+                      aria-label={t("auth.login.clear") || "Clear"}
+                      disabled={loading || !pinValue}
+                    >
+                      C
+                    </button>
+                  );
+                }
+                return (
+                  <button
+                    key={`${k}-${idx}`}
+                    type="button"
+                    className="pin-keypad__button"
+                    onClick={() => appendDigit(k)}
+                    disabled={loading}
+                    aria-label={t("auth.login.key", { digit: k }) || `Digit ${k}`}
+                  >
+                    {k}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <button type="submit" className="btn-primary" disabled={loading === "credentials"}>
-            <span>{loading === "credentials" ? t("auth.login.submitting") : t("auth.login.submit")}</span>
-          </button>
+
+          <div
+            className="pin-indicator moved-below tightened-gap"
+            role="status"
+            aria-live="polite"
+            aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
+          >
+            {Array.from({ length: PIN_MAX }).map((_, i) => (
+              <span key={i} className={`pin-dot ${i < pinValue.length ? "filled" : ""}`} />
+            ))}
+          </div>
+
+          <input
+            aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
+            ref={hiddenInputRef}
+            value={pinValue}
+            onChange={(e) => {
+              const raw = String(e.target.value || "").replace(/\D/g, "");
+              setPinValue(raw.slice(0, PIN_MAX));
+            }}
+            onKeyDown={onHiddenKeyDown}
+            inputMode="numeric"
+            pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
+            maxLength={PIN_MAX}
+            className="sr-only"
+            type="text"
+          />
+
+          <div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
+            <button type="button" className="btn-primary" onClick={handleSubmit} disabled={loading}>
+              <span>{loading ? t("auth.login.submitting") : t("auth.login.submit")}</span>
+            </button>
+          </div>
         </form>
-        <div className="login-modal-bottom-link">
-          <Link href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} className="link-brand">
+
+        <div className="login-modal-bottom-link" style={{ textAlign: "center", marginTop: "0rem", marginBottom: "-0.2rem" }}>
+          <Link
+            href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`}
+            className="link-brand"
+          >
             {t("auth.login.register_link")}
           </Link>
         </div>
+
+        <div className="unustasid-parooli-link-wrapper-bottom" style={{ textAlign: "center", marginBottom: "-1rem" }}>
+          <Link href="/unustasin-pin" className="unustasid-parooli-link">
+            {t("auth.login.forgot")}
+          </Link>
+        </div>
       </div>
-    </>
+    </>,
+    document.body
   );
-  if (typeof document === "undefined") return null;
-  return createPortal(modal, document.body);
 }

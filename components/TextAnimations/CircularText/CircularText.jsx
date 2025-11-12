@@ -191,7 +191,7 @@ export default function CircularText({
   );
 }
 /* --- Kasutusnäited --- */
-export function CircularRingLeft() {
+export function CircularRingLeft({ className = "" } = {}) {
   const t = useT();
   return (
     <CircularText
@@ -202,7 +202,7 @@ export function CircularRingLeft() {
       fontSize={34}
       weight={400}
       letterSpacing={6}
-      className="desc-ring-left"
+      className={["desc-ring-left","circular-ring",className].filter(Boolean).join(" ")}
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(57,57,57,0.6)"
@@ -210,7 +210,7 @@ export function CircularRingLeft() {
     />
   );
 }
-export function CircularRingRight() {
+export function CircularRingRight({ className = "" } = {}) {
   const t = useT();
   return (
     <CircularText
@@ -221,7 +221,7 @@ export function CircularRingRight() {
       fontSize={34}
       weight={400}
       letterSpacing={6}
-      className="desc-ring-right"
+      className={["desc-ring-right","circular-ring",className].filter(Boolean).join(" ")}
       startAtTop={true}
       offsetDeg={6}
       ringColor="rgba(177, 124, 124, 0.4)"

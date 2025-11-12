@@ -261,13 +261,13 @@ async function sendResetEmail(to, resetUrl) {
   const info = await mailer.sendMail({
     to,
     from,
-    subject: "SotsiaalAI parooli taastamine",
-    text: `Tere!\n\nSaad parooli lähtestada lingi kaudu:\n${resetUrl}\n\nKui sa ei soovinud parooli taastada, võid selle kirja eirata.`,
+    subject: "SotsiaalAI PIN-i taastamine",
+    text: `Tere!\n\nSaad PIN-i lähtestada lingi kaudu:\n${resetUrl}\n\nKui sa ei soovinud PIN-i taastada, võid selle kirja eirata.`,
     html: `
       <p>Tere!</p>
-      <p>Saad parooli lähtestada lingi kaudu:</p>
+      <p>Saad PIN-i lähtestada lingi kaudu:</p>
       <p><a href="${resetUrl}">${resetUrl}</a></p>
-      <p>Kui sa ei soovinud parooli taastada, võid selle kirja eirata.</p>
+      <p>Kui sa ei soovinud PIN-i taastada, võid selle kirja eirata.</p>
     `,
   });
   if (info?.message && process.env.NODE_ENV !== "production") {
@@ -308,9 +308,10 @@ export async function PUT(request) {
   try {
     const body = await request.json().catch(() => ({}));
     const token = String(body?.token || "").trim();
-    const password = String(body?.password || "").trim();
-    if (!token || !password) return err("Puudub token või parool.", 400);
-    if (password.length < 6) return err("Parool peab olema vähemalt 6 märki.", 400);
+    const pinRaw = String(body?.pin ?? body?.password ?? "").trim();
+    const pin = pinRaw.replace(/\s+/g, "");
+    if (!token || !pin) return err("Puudub token või PIN.", 400);
+    if (!/^\d{4,8}$/.test(pin)) return err("PIN peab olema 4–8 numbrit.", 400);
     // NB: kasuta findFirst, ära eelda @unique tokenil
     const verificationToken = await prisma.verificationToken.findFirst({ where: { token } });
     if (!verificationToken) return err("Token on vigane või on see juba kasutatud.", 400);
@@ -324,14 +325,14 @@ export async function PUT(request) {
       await prisma.verificationToken.deleteMany({ where: { token } });
       return err("Kasutajat ei leitud.", 404);
     }
-    const passwordHash = await hash(password, 12);
+    const passwordHash = await hash(pin, 12); // ajalooline veeru nimi; hoiame PIN hash'i
     await prisma.$transaction(async (tx) => {
       await tx.user.update({ where: { id: user.id }, data: { passwordHash } });
       await tx.verificationToken.deleteMany({ where: { token } });
     });
     return ok({ requiresReauth: true });
   } catch (e) {
-    console.error("password reset PUT error", e);
-    return err("Parooli ei õnnestunud uuendada.", 500);
+    console.error("PIN reset PUT error", e);
+    return err("PIN-i ei õnnestunud uuendada.", 500);
   }
 }

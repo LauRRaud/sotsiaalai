@@ -1,61 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="SotsiaalAI_Logo"
+<svg id="Layer_1"
      xmlns="http://www.w3.org/2000/svg"
-     viewBox="-20 -20 151.08 210.25"
-     role="img" aria-labelledby="title desc"
-     shape-rendering="geometricPrecision"
-     style="isolation:isolate">
-
-  <title id="title">SotsiaalAI ikoon – ilma sisemise servata</title>
-  <desc id="desc">Täited + vari, eemaldatud sisemine kontuur (stroke).</desc>
-
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 111.12 170.15"
+     overflow="visible">
   <defs>
     <style>
       .st0 { fill: url(#linear-gradient2); }
-      .st1 { fill: url(#linear-gradient1); }
+      .st1 { fill: url(#red-vertical); }
       .st2 { fill: url(#linear-gradient); }
-      .logo-base path { stroke: none; }
     </style>
 
-    <linearGradient id="linear-gradient" x1="24.11" y1="120.24" x2="24.11" y2="159.48" gradientUnits="userSpaceOnUse">
+    <!-- Alumine tume täpp -->
+    <linearGradient id="linear-gradient"
+                    x1="24.12" y1="74.54"
+                    x2="24.12" y2="35.3"
+                    gradientTransform="translate(0 194.78) scale(1 -1)"
+                    gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#303030"/>
-      <stop offset=".47" stop-color="#111"/>
-      <stop offset="1" stop-color="#000"/>
+      <stop offset=".47" stop-color="#111111"/>
+      <stop offset="1" stop-color="#000000"/>
     </linearGradient>
 
-    <linearGradient id="linear-gradient1" x1="-2575.09" y1="631.21" x2="-2575.09" y2="630.21"
-      gradientTransform="translate(285839.05 107400.27) scale(110.98 -170.15)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f6e3e1"/>
-      <stop offset=".25" stop-color="#d29b9b"/>
-      <stop offset=".5"  stop-color="#b17c7c"/>
-      <stop offset=".75" stop-color="#844d4c"/>
-      <stop offset="1"   stop-color="#6b3938"/>
+    <!-- (Võid jätta varuks, kui kuskil mujal kasutad) -->
+    <linearGradient id="linear-gradient1"
+                    x1="-3468.39" y1="8.78"
+                    x2="-3468.39" y2="9.78"
+                    gradientTransform="translate(384977.26 -1494.4) scale(110.98 170.15)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbe5df"/>
+      <stop offset=".2" stop-color="#f3c6b5"/>
+      <stop offset=".45" stop-color="#e09780"/>
+      <stop offset=".7" stop-color="#c66a4e"/>
+      <stop offset="1" stop-color="#843722"/>
     </linearGradient>
 
-    <linearGradient id="linear-gradient2" x1="79.28" y1="-1602.15" x2="79.28" y2="-1637.33"
-      gradientTransform="translate(0 -1592) scale(1 -1)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F5F5F4"/>
-      <stop offset=".22" stop-color="#EEEDEC"/>
-      <stop offset=".48" stop-color="#DAD9D6"/>
-      <stop offset=".72" stop-color="#C7C5C1"/>
-      <stop offset="1" stop-color="#A8A59E"/>
+    <!-- Ülemine hele pall -->
+    <linearGradient id="linear-gradient2"
+                    x1="79.28" y1="2682.15"
+                    x2="79.28" y2="2717.33"
+                    gradientTransform="translate(0 -2672)"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f5f4"/>
+      <stop offset=".22" stop-color="#eeedec"/>
+      <stop offset=".48" stop-color="#dad9d6"/>
+      <stop offset=".72" stop-color="#c7c5c1"/>
+      <stop offset="1" stop-color="#a8a59e"/>
     </linearGradient>
 
-    <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".6"/>
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
+    <!-- Punane vertikaalne suur kujule -->
+    <linearGradient id="red-vertical"
+                    x1="0" y1="0"
+                    x2="0" y2="1"
+                    gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#E6BCB9"/>
+      <stop offset="0.142857" stop-color="#BE7877"/>
+      <stop offset="0.285714" stop-color="#9A5151"/>
+      <stop offset="0.428571" stop-color="#854343"/>
+      <stop offset="0.571429" stop-color="#6D3333"/>
+      <stop offset="0.714286" stop-color="#4C1C1C"/>
+      <stop offset="0.857143" stop-color="#391212"/>
+      <stop offset="1" stop-color="#2E0D0D"/>
+    </linearGradient>
+
+    <!-- Ühine terav, kerge udususega vari kõigile mustadele koopiatele -->
+    <filter id="shadow-all"
+            x="-40" y="-40"
+            width="260" height="260"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+      <!-- veidi terav (väiksem blur) -->
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.25" result="blur" />
+      <!-- vari lähemale (väiksem nihe) -->
+      <feOffset in="blur" dx="5" dy="6" result="offsetBlur" />
+      <!-- must, tugev, aga mitte 100% -->
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.80 0"
+        result="shadow" />
+      <feMerge>
+        <feMergeNode in="shadow" />
+      </feMerge>
     </filter>
-
-    <g id="logoShape">
-      <path class="st2" d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88Z"/>
-      <path class="st1" d="M63.43,170.14c12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,35.7,8.37,8.74,37.44.06l2.23,1.76c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57Z"/>
-      <path class="st0" d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
-    </g>
   </defs>
 
-  <g class="logo-base" filter="url(#shadowSoft)">
-    <use href="#logoShape"/>
+  <!-- VARJU: mustad koopiad (all) -->
+  <g filter="url(#shadow-all)" aria-hidden="true">
+    <!-- alumine pall -->
+    <path
+      d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+      fill="#000000"/>
+    <!-- suur keskne kuju -->
+    <path
+      d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+      fill="#000000"/>
+    <!-- ülemine pall -->
+    <path
+      d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"
+      fill="#000000"/>
   </g>
+
+  <!-- ORIGINAAL KUJUD PEAL (puhtad, ilma kumata) -->
+  <path class="st2"
+        d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+  <path class="st1"
+        d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+  <path class="st0"
+        d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
 
 </svg>

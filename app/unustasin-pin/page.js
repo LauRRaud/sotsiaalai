@@ -1,4 +1,4 @@
-// app/unustasin-parooli/page.js
+﻿// app/unustasin-pin/page.js
 import { cookies } from "next/headers";
 import UnustasinParooliBody from "@/components/alalehed/UnustasinParooliBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
@@ -10,8 +10,8 @@ export async function generateMetadata() {
   const meta = messages?.meta?.reset || {};
   return buildLocalizedMetadata({
     locale,
-    pathname: "/unustasin-parooli",
-    title: meta.title || "Parooli taastamine – SotsiaalAI",
+    pathname: "/unustasin-pin",
+    title: meta.title || "Update PIN code - SotsiaalAI",
     description: meta.description || "",
   });
 }

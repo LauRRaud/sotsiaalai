@@ -11,7 +11,7 @@ export default function sitemap() {
     "/kasutustingimused",
     "/privaatsustingimused",
     "/meist",
-    "/unustasin-parooli",
+    "/unustasin-pin",
     "/tellimus",
     "/start",
   ];

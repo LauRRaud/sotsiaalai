@@ -113,5 +113,8 @@
     opacity: 1 !important;
     animation: none !important;
   }
-  .circular-text-svg.circular-ring.is-visible { opacity: 1; }
+  .circular-text-svg.circular-ring {
+    opacity: 1;
+    visibility: visible;
+  }
 }

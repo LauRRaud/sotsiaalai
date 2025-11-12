@@ -1,4 +1,4 @@
-// components/HomePage.jsx  (uuendatud: TAB lukustus kuni interaktiivne)
+// components/HomePage.jsx
 "use client";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
@@ -7,9 +7,15 @@ import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
-import Image from "next/image";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
+
+// Inline SVG (SVGR) imports — failid peaksid olema src/assets/logo/*.svg
+import AivalgeLogo from "@/public/logo/aivalge.svg";
+import SaimustLogo from "@/public/logo/saimust.svg";
+import SmustLogo from "@/public/logo/smust.svg";
+import SaivalgeLogo from "@/public/logo/saivalge.svg";
+import Logomust from "@/public/logo/logomust.svg";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -24,7 +30,6 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
-  // Ühtne faasiloogika (front | flippingToBack | back | flippingToFront)
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
 
@@ -34,7 +39,6 @@ export default function HomePage() {
 
   const t = useT();
 
-  // Kui juba sees, suuna vestlusesse; tagastab true, kui suunati
   const goChatIfAuthed = () => {
     if (status === "authenticated" && session) {
       router.push("/vestlus");
@@ -43,7 +47,6 @@ export default function HomePage() {
     return false;
   };
 
-  // detect mobile once + on resize
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
     check();
@@ -51,7 +54,6 @@ export default function HomePage() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // .fade-in end flags
   useEffect(() => {
     const onLeftEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true); };
     const onRightEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true); };
@@ -64,7 +66,6 @@ export default function HomePage() {
     };
   }, []);
 
-  // Reduced-motion: mark fade completed immediately
   useEffect(() => {
     if (prefs.reduceMotion) {
       setLeftFadeDone(true);
@@ -73,7 +74,6 @@ export default function HomePage() {
     }
   }, [prefs.reduceMotion]);
 
-  // enable Magnet after both fade-ins
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const t = setTimeout(() => setMagnetReady(true), 150);
@@ -82,7 +82,6 @@ export default function HomePage() {
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
 
-  // lock body scroll when modal open
   useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
@@ -93,7 +92,6 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
   }, [isLoginOpen]);
 
-  // Kui modaal on lahti ja sessioon muutub authenticated → sulge ja suuna
   useEffect(() => {
     if (isLoginOpen && status === "authenticated" && session) {
       setIsLoginOpen(false);
@@ -102,17 +100,11 @@ export default function HomePage() {
   }, [isLoginOpen, status, session, router]);
 
   const flipAllowed = leftFadeDone && rightFadeDone;
-
-  // ⇢ interaktiivsuslipud: TAB on lubatud alles siis, kui kaart on ready
   const leftInteractive  = flipAllowed && !leftFlipping  && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
-
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
-
-  // Hoia sünkis CSS --flip-ms (~1100ms) + väike puhver
   const flipEndMs = 1200;
 
-  // desktop hover handlers – no-op on mobile
   const onLeftEnter = () => {
     if (!isMobile) {
       setLeftFlipping(true);
@@ -144,9 +136,9 @@ export default function HomePage() {
 
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
-    if (status === "loading") return;     // väldi vilkumist
-    if (goChatIfAuthed()) return;         // juba sees → kohe vestlus
-    if (!isMobile) {                      // desktop, mitte sees → ava modal
+    if (status === "loading") return;
+    if (goChatIfAuthed()) return;
+    if (!isMobile) {
       setIsLoginOpen(true);
       return;
     }
@@ -164,7 +156,6 @@ export default function HomePage() {
     setMobileFlipReady((prev) => ({ ...prev, [side]: false }));
   };
 
-  // tap: mobile → toggle flip; desktop → auth-check ja modal
   const handleCardTap = (side) => () => {
     if (!flipAllowed) return;
     if (!isMobile) {
@@ -200,7 +191,6 @@ export default function HomePage() {
     resetMobileCards();
   }, [isMobile, resetMobileCards]);
 
-  // Phase → final states on transform end
   const onLeftTransitionEnd = (e) => {
     if (e?.propertyName !== "transform") return;
     setLeftPhase((p) => (p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p));
@@ -213,7 +203,6 @@ export default function HomePage() {
   return (
     <>
       <div className="homepage-root" onClick={handleBackgroundTap}>
-        {/* Desktop: MEIST ülal keskel (mobiilis eraldi CSS-iga logo kohal) */}
         {!isMobile && (
           <nav className="top-center-nav" aria-label={t("nav.main")}>
             <Link
@@ -256,17 +245,9 @@ export default function HomePage() {
                         ].join(" ")}
                         style={{ position: "relative" }}
                       >
-                        <CircularRingLeft className={leftFadeDone ? "ct-visible" : ""} />
-                        <Image
-                          src="/logo/aivalge.svg"
-                          alt=""
-                          aria-hidden="true"
-                          className="card-logo-bg card-logo-bg-left"
-                          draggable={false}
-                          priority
-                          width={300}
-                          height={300}
-                        />
+                        <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
+                        {/* Inline SVG logo (front left) */}
+                        <AivalgeLogo className="card-logo-bg card-logo-bg-left" aria-hidden="true" />
                       </div>
                     </div>
 
@@ -291,16 +272,8 @@ export default function HomePage() {
                     >
                       <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
                         <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
-                        <Image
-                          src="/logo/saimust.svg"
-                          alt=""
-                          aria-hidden="true"
-                          className="card-logo-bg card-logo-bg-left-back"
-                          draggable={false}
-                          loading="eager"
-                          width={300}
-                          height={300}
-                        />
+                        {/* Inline SVG logo (back left) */}
+                        <SaimustLogo className="card-logo-bg card-logo-bg-left-back" aria-hidden="true" />
                       </div>
                     </div>
                   </div>
@@ -338,17 +311,9 @@ export default function HomePage() {
                         ].join(" ")}
                         style={{ position: "relative" }}
                       >
-                        <CircularRingRight className={rightFadeDone ? "ct-visible" : ""} />
-                        <Image
-                          src="/logo/smust.svg"
-                          alt=""
-                          aria-hidden="true"
-                          className="card-logo-bg card-logo-bg-right"
-                          draggable={false}
-                          priority
-                          width={300}
-                          height={300}
-                        />
+                        <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
+                        {/* Inline SVG logo (front right) */}
+                        <SmustLogo className="card-logo-bg card-logo-bg-right" aria-hidden="true" />
                       </div>
                     </div>
 
@@ -373,16 +338,8 @@ export default function HomePage() {
                     >
                       <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
                         <h2 className="headline-bold">{t("home.card.client.title")}</h2>
-                        <Image
-                          src="/logo/saivalge.svg"
-                          alt=""
-                          aria-hidden="true"
-                          className="card-logo-bg card-logo-bg-right-back"
-                          draggable={false}
-                          loading="eager"
-                          width={300}
-                          height={300}
-                        />
+                        {/* Inline SVG logo (back right) */}
+                        <SaivalgeLogo className="card-logo-bg card-logo-bg-right-back" aria-hidden="true" />
                       </div>
                     </div>
                   </div>
@@ -405,17 +362,8 @@ export default function HomePage() {
               </Link>
             </nav>
           )}
-          <Image
-            src="/logo/logomust.svg"
-            alt={t("home.footer.logo_alt")}
-            id="footer-logo-img"
-            className="footer-logo-img defer-fade defer-from-bottom delay-2 dim"
-            draggable={false}
-            loading="eager"
-            fetchPriority="high"
-            width={240}
-            height={80}
-          />
+          {/* Inline footer logo */}
+          <Logomust className="footer-logo-img defer-fade defer-from-bottom delay-2 dim" role="img" aria-label={t("home.footer.logo_alt")} />
         </footer>
       </div>
 

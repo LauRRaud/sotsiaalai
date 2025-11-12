@@ -8,7 +8,7 @@ function parseArgs() {
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
     if (a === "--email") out.email = args[++i];
-    else if (a === "--password") out.password = args[++i];
+    else if (a === "--pin" || a === "--password") out.pin = args[++i];
     else if (a === "--role") out.role = args[++i];
     else if (a === "--admin") out.admin = true;
   }
@@ -16,13 +16,17 @@ function parseArgs() {
 }
 
 async function main() {
-  const { email, password, role, admin } = parseArgs();
-  if (!email || !password) {
-    console.error("Usage: node scripts/create-admin.mjs --email EMAIL --password PASS [--role ADMIN] [--admin]");
+  const { email, pin, role, admin } = parseArgs();
+  if (!email || !pin) {
+    console.error("Usage: node scripts/create-admin.mjs --email EMAIL --pin PIN [--role ADMIN] [--admin]");
+    process.exit(1);
+  }
+  if (!/^\d{4,8}$/.test(pin)) {
+    console.error("PIN must be 4-8 digits.");
     process.exit(1);
   }
   const normalizedEmail = String(email).trim().toLowerCase();
-  const passwordHash = await hash(password, 12);
+  const passwordHash = await hash(pin, 12);
 
   let user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
   if (!user) {

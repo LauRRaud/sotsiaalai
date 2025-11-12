@@ -17,9 +17,11 @@ export default function RegistreerimineBody() {
     } catch { return String(u || "/"); }
   };
   const nextUrl = toRelative(searchParams?.get("next") || localizePath("/vestlus", locale));
+  const PIN_MIN = 4;
+  const PIN_MAX = 8;
   const [form, setForm] = useState({
     email: "",
-    password: "",
+    pin: "",
     role: "SOCIAL_WORKER",
     agree: false,
   });
@@ -29,7 +31,12 @@ export default function RegistreerimineBody() {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        name === "pin"
+          ? value.replace(/\D/g, "").slice(0, PIN_MAX)
+          : type === "checkbox"
+          ? checked
+          : value,
     }));
   }
   async function handleSubmit(e) {
@@ -46,7 +53,7 @@ export default function RegistreerimineBody() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: form.email.trim(),
-          password: form.password,
+          pin: form.pin,
           role: form.role,
         }),
       });
@@ -60,7 +67,7 @@ export default function RegistreerimineBody() {
         redirect: false,
         callbackUrl: nextUrl,
         email: form.email,
-        password: form.password,
+        pin: form.pin,
       });
       if (login?.error) {
         setError(t("auth.register.error.auto_login"));
@@ -93,15 +100,18 @@ export default function RegistreerimineBody() {
         />
         <input
           type="password"
-          id="password"
-          name="password"
+          id="pin"
+          name="pin"
           className="input-modern"
-          placeholder={t("auth.password_placeholder")}
-          value={form.password}
+          placeholder={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
+          value={form.pin}
           onChange={handleChange}
           required
-          minLength={6}
-          autoComplete="new-password"
+          minLength={PIN_MIN}
+          maxLength={PIN_MAX}
+          autoComplete="off"
+          inputMode="numeric"
+          pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
         />
         <div className="glass-label glass-label-radio">{t("auth.register.role_label")}</div>
         <div className="glass-radio-group" role="radiogroup">

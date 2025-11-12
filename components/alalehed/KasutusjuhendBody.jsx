@@ -57,8 +57,8 @@ export default function KasutusjuhendBody() {
                 style={{
                   marginBottom: "0.5rem",
                   color: "var(--link-gold)",
-                  fontSize: "1.35em",
-                  fontFamily: "var(--font-aino-headline), var(--font-aino), Arial, sans-serif",
+                  fontSize: "1.45em",
+                  fontFamily: "var(--font-aino), Arial, sans-serif",
                   fontWeight: 400,
                 }}
               >

@@ -54,30 +54,21 @@
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
-    "password_placeholder": "Parool",
+    "pin_placeholder": "PIN ({min}-{max} numbrit)",
     "login": {
       "title": "Logi sisse",
-      "google": "Google",
-      "smart_id": "Smart-ID",
-      "mobile_id": "Mobiil-ID",
       "or": "või",
-      "prompt": {
-        "smart_id": "Sisesta isikukood (SMART-ID):",
-        "mobile_id_code": "Sisesta isikukood (Mobiil-ID):",
-        "mobile_id_phone": "Sisesta telefon (+372...):"
-      },
       "error": {
-        "smart_id": "Smart-ID sisselogimine ebaõnnestus.",
-        "mobile_id": "Mobiil-ID sisselogimine ebaõnnestus.",
-        "credentials": "Vale e-post või parool.",
+        "credentials": "Vale e-post või PIN.",
         "email_required": "Palun sisesta e-posti aadress.",
         "email_invalid": "Palun sisesta korrektne e-posti aadress.",
-        "password_required": "Palun sisesta parool.",
+        "pin_required": "Palun sisesta PIN.",
+        "pin_invalid": "PIN peab olema {min}–{max} numbrit.",
         "generic": "Sisselogimine ebaõnnestus. Palun proovi uuesti."
       },
       "submit": "Sisenen",
       "submitting": "Sisenen…",
-      "forgot": "Unustasid parooli?",
+      "forgot": "Unustasid PIN-i?",
       "register_link": "Registreeru"
     },
     "register": {
@@ -93,7 +84,7 @@
       "submitting": "Loome kontot…"
     },
     "reset": {
-      "title": "Parooli uuendamine",
+    "title": "Uuenda PIN kood",
       "success": "<p>Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.</p><p>Kontrolli ka rämpsposti kausta!</p>",
       "error": {
         "required": "Palun sisesta oma e-posti aadress.",
@@ -104,19 +95,20 @@
       "submitting": "Saadame…"
     },
     "resetForm": {
-      "title": "Uuenda parool",
-      "success": "Parool on edukalt uuendatud. Saad nüüd sisse logida oma uue parooliga.",
-      "submit": "Uuenda parool",
+      "title": "Uuenda PIN",
+      "success": "PIN on edukalt uuendatud. Saad nüüd sisse logida oma uue PIN-iga.",
+      "submit": "Uuenda PIN",
       "submitting": "Uuendame…",
       "fields": {
-        "password": "Uus parool",
-        "confirm": "Korda parooli"
+        "pin": "Uus PIN",
+        "confirm": "Korda PIN-i"
       },
       "errors": {
-        "required": "Palun täida mõlemad parooliväljad.",
-        "mismatch": "Paroolid ei kattu.",
-        "minLength": "Parool peab olema vähemalt 6 märki.",
-        "updateFailed": "Parooli ei õnnestunud uuendada.",
+        "required": "Palun täida mõlemad PIN-väljad.",
+        "mismatch": "PIN-id ei kattu.",
+        "minLength": "PIN peab olema 4–8 numbrit.",
+        "pinLength": "PIN peab olema {min}–{max} numbrit.",
+        "updateFailed": "PIN-i ei õnnestunud uuendada.",
         "server": "Serveriga tekkis ühenduse viga. Palun proovi uuesti."
       }
     }
@@ -158,7 +150,7 @@
     "manage_subscription": "Halda tellimust",
     "ui_language": "Kasutajaliidese keel",
     "email": "E-post",
-    "new_password_optional": "Uus parool (soovi korral)",
+    "new_password_optional": "Uus PIN (soovi korral)",
     "saving": "Salvestan…",
     "save": "Salvesta",
     "logout": "Logi välja",
@@ -186,7 +178,7 @@
       "saved": "Eelistused salvestatud.",
       "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
     },
-    "change_password_cta": "Uuenda parool",
+    "change_password_cta": "Uuenda PIN",
     "update_email_cta": "Uuenda e-post"
   },
   "accessibility": {
@@ -227,7 +219,7 @@
     },
     "section2": {
       "heading": "2. Kogutavad andmed",
-      "paragraph1": "<p><strong>2.1 Kasutajakonto andmed.</strong> E-posti aadress, roll (spetsialist või pöörduja), autentimisviis (nt Google, Smart-ID, Mobiil-ID). Nime ega isikukoodi ei koguta ega salvestata.</p>",
+      "paragraph1": "<p><strong>2.1 Kasutajakonto andmed.</strong> E-posti aadress, roll (spetsialist või pöörduja) ja autentimisviis (e-post + PIN). Nime ega isikukoodi ei koguta ega salvestata.</p>",
       "paragraph2": "<p><strong>2.2 Tellimused ja maksed.</strong> Tellimuse tüüp ja staatus, makse-ID. Makseid töötleb Maksekeskus AS; SotsiaalAI ei salvesta kaardi- ega pangakontoandmeid.</p>",
       "paragraph3": "<p><strong>2.3 Tehnilised metaandmed.</strong> IP-aadress, brauseri tüüp, seadmeinfo ja logiteave turbe ning tõrke diagnoosimise eesmärgil.</p>"
     },
@@ -422,7 +414,10 @@
       "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti.",
       "ask_more_btn": "Küsi lisaks",
       "use_as_context": "Kasuta järgmisel vastusel kontekstina",
-      "usage": "{used}/{limit} analüüsi täna"
+      "usage": "{used}/{limit} analüüsi täna",
+      "error_size": "Fail on liiga suur ({size}MB > {limit}MB).",
+      "error_status": "Dokumendi analüüs ebaõnnestus (veakood {status}).",
+      "error_generic": "Dokumendi analüüs ebaõnnestus."
     }
   },
   "about": {
@@ -466,11 +461,11 @@
         },
         "register": {
           "title": "3. Registreerimine ja tellimuse aktiveerimine",
-          "body": "<p>Vestlusassistendi kasutamiseks on vaja kontot ja aktiivset tellimust.</p><p><strong>Registreerimine</strong></p><ul><li>Vali rollikaart ja klõpsa \"Registreerimine\".</li><li>Täida vorm (e-posti aadress ja parool).</li><li>Vali roll (spetsialist / eluküsimusega pöörduja). Rolli valik määrab, milliseid funktsioone ja assistenti kasutad.</li><li>Nõustu kasutus- ja privaatsustingimustega.</li><li>Saada vorm – logime sind automaatselt sisse ja suuname tellimuse vaatesse.</li></ul><p><strong>Tellimus</strong></p><ul><li>Pärast kinnitamist suunatakse sind lehele /tellimus.</li><li>Vali pakett, vaata kuumakse tingimusi ja kinnita makse.</li><li>Eduka makse järel on ligipääs vestlusassistendile aktiivne.</li></ul>"
+          "body": "<p>Vestlusassistendi kasutamiseks on vaja kontot ja aktiivset tellimust.</p><p><strong>Registreerimine</strong></p><ul><li>Vali rollikaart ja klõpsa \"Registreerimine\".</li><li>Täida vorm (e-posti aadress ja PIN-kood).</li><li>Vali roll (spetsialist / eluküsimusega pöörduja). Rolli valik määrab, milliseid funktsioone ja assistenti kasutad.</li><li>Nõustu kasutus- ja privaatsustingimustega.</li><li>Saada vorm – logime sind automaatselt sisse ja suuname tellimuse vaatesse.</li></ul><p><strong>Tellimus</strong></p><ul><li>Pärast kinnitamist suunatakse sind lehele /tellimus.</li><li>Vali pakett, vaata kuumakse tingimusi ja kinnita makse.</li><li>Eduka makse järel on ligipääs vestlusassistendile aktiivne.</li></ul>"
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",
-          "body": "<p>Korduvkasutajana alustad avalehelt.</p><ul><li>Klõpsa rollikaardil ja ava sisselogimise vaade.</li><li>Logi sisse Smart-ID, Mobiil-ID, Google või e-posti/parooli abil.</li><li>Kui parool on ununenud, kasuta linki \"Unustasin parooli\".</li><li>Aktiivse tellimuse korral suunatakse sind vestluslehele; muul juhul pakutakse võimalust tellimus vormistada või uuendada.</li></ul>"
+          "body": "<p>Korduvkasutajana alustad avalehelt.</p><ul><li>Klõpsa rollikaardil ja ava sisselogimise vaade.</li><li>Logi sisse Smart-ID, Mobiil-ID, Google või e-posti/PIN-koodi abil.</li><li>Kui PIN on ununenud, kasuta linki \"Unustasin PIN-i\".</li><li>Aktiivse tellimuse korral suunatakse sind vestluslehele; muul juhul pakutakse võimalust tellimus vormistada või uuendada.</li></ul>"
         },
         "chat": {
           "title": "5. Vestlusleht",
@@ -478,7 +473,7 @@
         },
         "profile": {
           "title": "6. Profiil",
-          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Näe kasutaja rolli.</li><li>Tellimuse vaatamine. Näed paketti, kuumakset ja kehtivust.</li><li>Vaata ja uuenda e-posti aadressi.</li><li>Uuenda parooli.</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li></ul>"
+          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Näe kasutaja rolli.</li><li>Tellimuse vaatamine. Näed paketti, kuumakset ja kehtivust.</li><li>Vaata ja uuenda e-posti aadressi.</li><li>Uuenda PIN-i.</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li></ul>"
         },
         "about": {
           "title": "7. MEIST",
@@ -578,8 +573,8 @@
       "description": "Vaata ja halda oma SotsiaalAI tellimust ja makseid."
     },
     "reset": {
-      "title": "Parooli taastamine – SotsiaalAI",
-      "description": "Taasta oma konto parool turvalise taastelingi abil."
+      "title": "PIN-i taastamine – SotsiaalAI",
+      "description": "Taasta oma konto PIN turvalise taastelingi abil."
     },
     "chat": {
       "title": "Vestlus – SotsiaalAI",

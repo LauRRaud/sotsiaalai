@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "skip_to_content": "Skip to content",
     "language_changed": "Language changed: {language}",
@@ -54,7 +54,8 @@
   },
   "auth": {
     "email_placeholder": "you@example.com",
-    "password_placeholder": "Password",
+    "password_placeholder": "PIN ({min}-{max} digits)",
+    "pin_placeholder": "PIN ({min}-{max} digits)",
     "login": {
       "title": "Sign in",
       "google": "Google",
@@ -64,20 +65,21 @@
       "prompt": {
         "smart_id": "Enter personal ID (SMART-ID):",
         "mobile_id_code": "Enter personal ID (Mobile-ID):",
-        "mobile_id_phone": "Enter phone number (+372…):"
+        "mobile_id_phone": "Enter phone number (+372ā€¦):"
       },
       "error": {
         "smart_id": "Smart-ID login failed.",
         "mobile_id": "Mobile-ID login failed.",
-        "credentials": "Incorrect email or password.",
+        "credentials": "Incorrect email or PIN.",
         "email_required": "Please enter your email address.",
         "email_invalid": "Please enter a valid email address.",
-        "password_required": "Please enter your password.",
+        "pin_required": "Please enter your PIN.",
+        "pin_invalid": "PIN must be between {min} and {max} digits.",
         "generic": "Sign-in failed. Please try again."
       },
       "submit": "Sign in",
-      "submitting": "Signing in…",
-      "forgot": "Forgot password?",
+      "submitting": "Signing inā€¦",
+      "forgot": "Forgot PIN?",
       "register_link": "Create account"
     },
     "register": {
@@ -90,33 +92,34 @@
         "auto_login": "Automatic sign-in failed. Please sign in manually."
       },
       "submit": "Create account",
-      "submitting": "Creating account…"
+      "submitting": "Creating accountā€¦"
     },
     "reset": {
-      "title": "Password update",
+      "title": "Update PIN code",
       "success": "<p>If the address you entered is valid, we sent you an email with a reset link.</p><p>Check your spam folder too!</p>",
       "error": {
         "required": "Please enter your email address.",
-        "failed": "We couldn’t send the reset link.",
+        "failed": "We couldnā€™t send the reset link.",
         "server": "A connection error occurred. Please try again."
       },
       "submit": "Send reset link",
-      "submitting": "Sending…"
+      "submitting": "Sendingā€¦"
     },
     "resetForm": {
-      "title": "Set a new password",
-      "success": "Your password has been updated. You can now log in with your new password.",
-      "submit": "Update password",
+      "title": "Set a new PIN",
+      "success": "Your PIN has been updated. You can now log in with your new PIN.",
+      "submit": "Update PIN",
       "submitting": "Updating...",
       "fields": {
-        "password": "New password",
-        "confirm": "Confirm password"
+        "pin": "New PIN",
+        "confirm": "Confirm PIN"
       },
       "errors": {
-        "required": "Please fill in both password fields.",
-        "mismatch": "The passwords do not match.",
-        "minLength": "Password must be at least 6 characters long.",
-        "updateFailed": "We couldn't update the password.",
+        "required": "Please fill in both PIN fields.",
+        "mismatch": "The PIN codes do not match.",
+        "minLength": "PIN must be between 4 and 8 digits.",
+        "pinLength": "PIN must be between {min} and {max} digits.",
+        "updateFailed": "We couldn't update the PIN.",
         "server": "A server error occurred. Please try again."
       }
     }
@@ -151,20 +154,20 @@
   },
   "profile": {
     "title": "My profile",
-    "loading": "Loading profile…",
+    "loading": "Loading profileā€¦",
     "login_to_manage_sub": "Sign in and activate a subscription to view your profile.",
     "login_to_view": "Sign in to view your profile.",
     "login": "Sign in",
     "manage_subscription": "Manage subscription",
     "ui_language": "Interface language",
     "email": "Email",
-    "new_password_optional": "New password (optional)",
-    "saving": "Saving…",
+    "new_password_optional": "New PIN (optional)",
+    "saving": "Savingā€¦",
     "save": "Save",
     "logout": "Sign out",
     "back_to_chat": "Back to chat",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
-    "deleting": "Deleting…",
+    "deleting": "Deletingā€¦",
     "delete_account": "Delete account",
     "load_failed": "Failed to load profile.",
     "update_failed": "Failed to update profile.",
@@ -182,11 +185,11 @@
       },
       "reset": "Reset",
       "save": "Save changes",
-      "saving": "Saving…",
+      "saving": "Savingā€¦",
       "saved": "Preferences saved.",
       "save_failed": "Failed to save preferences. Please try again."
     },
-    "change_password_cta": "Update password",
+    "change_password_cta": "Update PIN",
     "update_email_cta": "Update email"
   },
   "accessibility": {
@@ -222,12 +225,12 @@
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OÜ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
+      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OĆ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
       "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
     },
     "section2": {
       "heading": "2. Data We Collect",
-      "paragraph1": "<p><strong>2.1 Account data.</strong> Email address, role (specialist or client), authentication method (e.g. Google, Smart-ID, Mobile-ID). Name and personal ID are not collected or stored.</p>",
+      "paragraph1": "<p><strong>2.1 Account data.</strong> Email address, role (specialist or client), and authentication method (email + PIN). Name and personal ID are not collected or stored.</p>",
       "paragraph2": "<p><strong>2.2 Subscription and payment data.</strong> Subscription type and status, payment ID. Payments are processed by Maksekeskus AS; SotsiaalAI does not store card or bank account details.</p>",
       "paragraph3": "<p><strong>2.3 Technical metadata.</strong> IP address, browser type, device information and logs for security and troubleshooting purposes.</p>"
     },
@@ -272,7 +275,7 @@
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OÜ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OĆ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
@@ -280,7 +283,7 @@
     },
     "section3": {
       "heading": "3. Account and Access",
-      "items": "<li>Keep your account secure and your password private.</li><li>Do not share your account or login credentials with third parties.</li><li>Keep your contact and payment details up to date.</li>"
+      "items": "<li>Keep your account secure and your PIN private.</li><li>Do not share your account or login credentials with third parties.</li><li>Keep your contact and payment details up to date.</li>"
     },
     "section4": {
       "heading": "4. Permitted Use",
@@ -288,8 +291,8 @@
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
-      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee €7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
-      "paragraph2": "<p>The subscription can be managed at any time on the profile page (“Manage subscription”) or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
+      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee ā‚¬7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
+      "paragraph2": "<p>The subscription can be managed at any time on the profile page (ā€Manage subscriptionā€¯) or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
       "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
     },
     "section6": {
@@ -311,11 +314,11 @@
     },
     "section10": {
       "heading": "10. Intellectual Property",
-      "body": "<p>The Platform’s trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OÜ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI’s written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "body": "<p>The Platformā€™s trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAIā€™s written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
     },
     "section11": {
       "heading": "11. Termination",
-      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform’s security.</p>"
+      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platformā€™s security.</p>"
     },
     "section12": {
       "heading": "12. Governing Law and Dispute Resolution",
@@ -334,7 +337,7 @@
       "rate_limit_retry": "Too many requests. Try again in about {seconds}s.",
       "rate_limit_generic": "Too many requests. Please try again soon.",
       "no_response": "The assistant did not respond.",
-      "no_answer": "Sorry, I couldn’t generate an answer right now.",
+      "no_answer": "Sorry, I couldnā€™t generate an answer right now.",
       "stream_missing": "The assistant did not send a stream.",
       "stream_failed": "Stream error.",
       "interrupted": "Answer generation was stopped.",
@@ -361,7 +364,7 @@
     "scroll_to_bottom_title": "Scroll to bottom",
     "input": {
       "label": "Write a message",
-      "placeholder": "Type your question…"
+      "placeholder": "Type your questionā€¦"
     },
     "send": {
       "stop": "Stop answer",
@@ -371,8 +374,8 @@
     },
     "history": {
       "load_more": "Load earlier messages",
-      "loading": "Loading earlier…",
-      "initial_loading": "Loading conversation…"
+      "loading": "Loading earlierā€¦",
+      "initial_loading": "Loading conversationā€¦"
     },
     "back_to_home": "Back to homepage",
     "sources": {
@@ -400,7 +403,7 @@
       },
       "aria_list": "Conversation list",
       "button": {
-        "creating": "Creating…",
+        "creating": "Creatingā€¦",
         "new": "New conversation",
         "refresh": "Refresh",
         "more": "Load more"
@@ -416,22 +419,25 @@
     "upload": {
       "aria": "Upload a document for analysis (not stored permanently)",
       "tooltip": "Upload a document for analysis (not stored permanently)",
-      "busy": "Analyzing document…",
+      "busy": "Analyzing documentā€¦",
       "summary": "Document summary",
       "privacy": "For analysis only, not stored permanently.",
-      "ask_more": "Please explain this document briefly and highlight 3–5 key points.",
+      "ask_more": "Please explain this document briefly and highlight 3ā€“5 key points.",
       "ask_more_btn": "Ask more",
       "use_as_context": "Use as context for the next reply",
-      "usage": "{used}/{limit} analyses today"
+      "usage": "{used}/{limit} analyses today",
+      "error_size": "File is too large ({size}MB > {limit}MB).",
+      "error_status": "Document analysis failed ({status}).",
+      "error_generic": "Document analysis failed."
     }
   },
   "about": {
     "title": "About",
     "intro": {
       "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered platform designed to provide reliable and easy-to-understand support for both social-sector professionals and people seeking help with everyday social questions.</p>",
-      "paragraph2": "<p>The platform offers two role-based AI assistants: one for professionals and one for people reaching out with personal matters. Both are built to deliver needs-based assistance—whether it concerns legislation, benefits, services, or work-related situations. The answers draw on trusted sources, simplified explanations, and practical guidance.</p>",
-      "paragraph3": "<p>The social sector is characterised by heavy workloads, fragmented information, and a complex system landscape—something also confirmed by <oska>the OSKA report (2025)</oska>. Our aim is to bring clarity, simplify daily work, and support both professionals and people seeking help.</p>",
-      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OÜ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
+      "paragraph2": "<p>The platform offers two role-based AI assistants: one for professionals and one for people reaching out with personal matters. Both are built to deliver needs-based assistanceā€”whether it concerns legislation, benefits, services, or work-related situations. The answers draw on trusted sources, simplified explanations, and practical guidance.</p>",
+      "paragraph3": "<p>The social sector is characterised by heavy workloads, fragmented information, and a complex system landscapeā€”something also confirmed by <oska>the OSKA report (2025)</oska>. Our aim is to bring clarity, simplify daily work, and support both professionals and people seeking help.</p>",
+      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OĆ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
       "paragraph5": "<p>We continuously enhance the service to ensure a timely and practical experience for everyone.</p>"
     },
     "contact": {
@@ -449,7 +455,7 @@
       "back_home": "Back to homepage"
     },
     "footer": {
-      "note": "SotsiaalAI © 2025"
+      "note": "SotsiaalAI Ā© 2025"
     },
     "guide": {
       "jump_link": "Platform guide",
@@ -462,15 +468,15 @@
         },
         "home": {
           "title": "2. Home page",
-          "body": "<p>The home page shows two role cards — \"For social work professionals\" and \"For people seeking help\" — plus the \"ABOUT\" link at the top, which opens the background page.</p><ul><li>If you are not signed in, clicking a card opens the sign-in/registration view.</li><li>If you are signed in, the platform checks that you have an active subscription and then opens the chat for the selected role.</li></ul>"
+          "body": "<p>The home page shows two role cards ā€” \"For social work professionals\" and \"For people seeking help\" ā€” plus the \"ABOUT\" link at the top, which opens the background page.</p><ul><li>If you are not signed in, clicking a card opens the sign-in/registration view.</li><li>If you are signed in, the platform checks that you have an active subscription and then opens the chat for the selected role.</li></ul>"
         },
         "register": {
           "title": "3. Registration and subscription activation",
-          "body": "<p>You need an account and an active subscription to talk to the assistant.</p><p><strong>Registration</strong></p><ul><li>Pick the relevant role card and click \"Register\".</li><li>Fill in the form (email address and password).</li><li>Choose your role (specialist / person seeking help). The role determines which features and assistant you use.</li><li>Accept the terms of use and privacy policy.</li><li>Submit the form – we sign you in automatically and redirect you to the subscription view.</li></ul><p><strong>Subscription</strong></p><ul><li>After confirmation you are redirected to the subscription page.</li><li>Select a plan, review the monthly price and conditions, and confirm the payment.</li><li>Once the payment succeeds, access to the chat assistant becomes active.</li></ul>"
+          "body": "<p>You need an account and an active subscription to talk to the assistant.</p><p><strong>Registration</strong></p><ul><li>Pick the relevant role card and click \"Register\".</li><li>Fill in the form (email address and PIN).</li><li>Choose your role (specialist / person seeking help). The role determines which features and assistant you use.</li><li>Accept the terms of use and privacy policy.</li><li>Submit the form ā€“ we sign you in automatically and redirect you to the subscription view.</li></ul><p><strong>Subscription</strong></p><ul><li>After confirmation you are redirected to the subscription page.</li><li>Select a plan, review the monthly price and conditions, and confirm the payment.</li><li>Once the payment succeeds, access to the chat assistant becomes active.</li></ul>"
         },
         "signin": {
           "title": "4. Sign-in and navigation by role",
-          "body": "<p>Returning users also start on the home page.</p><ul><li>Click the role card to open the sign-in dialog.</li><li>Log in with Smart-ID, Mobile-ID, Google or email + password.</li><li>If you forgot the password, use the \"Forgot password\" link.</li><li>With an active subscription you are sent to the chat page; otherwise you will see instructions to activate or renew the subscription.</li></ul>"
+          "body": "<p>Returning users also start on the home page.</p><ul><li>Click the role card to open the sign-in dialog.</li><li>Log in with Smart-ID, Mobile-ID, Google or email + PIN.</li><li>If you forgot the PIN, use the \"Forgot PIN\" link.</li><li>With an active subscription you are sent to the chat page; otherwise you will see instructions to activate or renew the subscription.</li></ul>"
         },
         "chat": {
           "title": "5. Chat page",
@@ -478,7 +484,7 @@
         },
         "profile": {
           "title": "6. Profile",
-          "body": "<p>The \"Profile\" page combines your account, subscription and accessibility settings.</p><ul><li>See the user role.</li><li>Subscription view: review the plan, monthly price and validity.</li><li>View and update the email address.</li><li>Update the password.</li><li>Change language, text size, contrast and the amount of animation.</li></ul>"
+          "body": "<p>The \"Profile\" page combines your account, subscription and accessibility settings.</p><ul><li>See the user role.</li><li>Subscription view: review the plan, monthly price and validity.</li><li>View and update the email address.</li><li>Update the PIN.</li><li>Change language, text size, contrast and the amount of animation.</li></ul>"
         },
         "about": {
           "title": "7. ABOUT",
@@ -486,38 +492,38 @@
         },
         "quickstart": {
           "title": "8. Quick start",
-          "body": "<ol><li>Open sotsiaal.ai and choose the preferred language/accessibility settings.</li><li>Select the role card that matches you: specialist or person seeking help.</li><li>Register – the account is ready immediately and you are redirected to the subscription page.</li><li>Complete the subscription on the subscription page.</li><li>Sign in; with an active subscription the chat page opens.</li><li>Ask your questions, manage earlier chats via \"Conversations\" and adjust preferences on the \"Profile\" page.</li></ol>"
+          "body": "<ol><li>Open sotsiaal.ai and choose the preferred language/accessibility settings.</li><li>Select the role card that matches you: specialist or person seeking help.</li><li>Register ā€“ the account is ready immediately and you are redirected to the subscription page.</li><li>Complete the subscription on the subscription page.</li><li>Sign in; with an active subscription the chat page opens.</li><li>Ask your questions, manage earlier chats via \"Conversations\" and adjust preferences on the \"Profile\" page.</li></ol>"
         }
       }
     }
   },
   "subscription": {
     "title": "Subscription",
-    "loading": "Loading subscription details…",
+    "loading": "Loading subscription detailsā€¦",
     "error": {
       "load_failed": "Failed to load subscription status.",
       "payment_start": "Could not start the payment."
     },
     "payment": {
-      "redirect_demo": "Redirecting to Maksekeskus payment page (demo)…"
+      "redirect_demo": "Redirecting to Maksekeskus payment page (demo)ā€¦"
     },
     "active": {
-      "summary": "Your subscription is active. Monthly price: €7.99.",
+      "summary": "Your subscription is active. Monthly price: ā‚¬7.99.",
       "cancel_note": "You can cancel your subscription any time on the profile page or by emailing <email>info@sotsiaal.ai</email>."
     },
     "button": {
       "open_profile": "Open profile",
       "activate": "Pay and activate subscription",
-      "processing": "Redirecting to payment…"
+      "processing": "Redirecting to paymentā€¦"
     },
-    "info": "To use SotsiaalAI you need a monthly subscription priced at €7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
+    "info": "To use SotsiaalAI you need a monthly subscription priced at ā‚¬7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
   },
   "pwa": {
     "heading": "Want the platform as an app?",
     "cta": "Install on mobile or desktop",
     "instructions": {
-      "ios": "iPhone/iPad: open Safari, tap Share → Add to Home Screen.",
-      "mac": "Mac: open Safari and choose File → Add to Dock."
+      "ios": "iPhone/iPad: open Safari, tap Share ā†’ Add to Home Screen.",
+      "mac": "Mac: open Safari and choose File ā†’ Add to Dock."
     }
   },
   "start": {
@@ -534,61 +540,63 @@
       }
     },
     "metadata": {
-      "title": "Next step — SotsiaalAI",
+      "title": "Next step ā€” SotsiaalAI",
       "description": "Choose where to go after signing in."
     }
   },
   "notFound": {
     "title": "Page not found",
-    "description": "Sorry, the page you were looking for doesn’t exist or has been removed."
+    "description": "Sorry, the page you were looking for doesnā€™t exist or has been removed."
   },
   "role": {
     "admin": "Administrator",
     "worker": "Specialist",
     "client": "Citizen seeking help",
-    "unknown": "—"
+    "unknown": "ā€”"
   },
   "meta": {
     "home": {
-      "title": "SotsiaalAI – AI support for social care",
+      "title": "SotsiaalAI ā€“ AI support for social care",
       "description": "SotsiaalAI unifies fragmented social-sector knowledge and offers clear guidance for professionals and citizens."
     },
     "about": {
-      "title": "About us — SotsiaalAI",
-      "description": "Learn about SotsiaalAI’s mission, values, and team."
+      "title": "About us ā€” SotsiaalAI",
+      "description": "Learn about SotsiaalAIā€™s mission, values, and team."
     },
     "terms": {
-      "title": "Terms of use — SotsiaalAI",
+      "title": "Terms of use ā€” SotsiaalAI",
       "description": "Read the guidelines that govern using the SotsiaalAI platform."
     },
     "privacy": {
-      "title": "Privacy Policy — SotsiaalAI",
+      "title": "Privacy Policy ā€” SotsiaalAI",
       "description": "See how SotsiaalAI collects, uses, and protects your personal data."
     },
     "profile": {
-      "title": "My profile — SotsiaalAI",
+      "title": "My profile ā€” SotsiaalAI",
       "description": "Manage your account details, preferences, and access to SotsiaalAI."
     },
     "register": {
-      "title": "Create account — SotsiaalAI",
+      "title": "Create account ā€” SotsiaalAI",
       "description": "Register and choose your role to start using SotsiaalAI."
     },
     "subscription": {
-      "title": "Subscription — SotsiaalAI",
+      "title": "Subscription ā€” SotsiaalAI",
       "description": "Review and manage your SotsiaalAI subscription and billing."
     },
     "reset": {
-      "title": "Password reset — SotsiaalAI",
-      "description": "Reset your account password via a secure recovery link."
+      "title": "PIN code update - SotsiaalAI",
+      "description": "Update your account PIN via a secure recovery link."
     },
     "chat": {
-      "title": "Chat — SotsiaalAI",
+      "title": "Chat ā€” SotsiaalAI",
       "description": "Talk to the role-based AI assistant to get answers about social services."
     },
     "start": {
-      "title": "Next step — SotsiaalAI",
+      "title": "Next step ā€” SotsiaalAI",
       "description": "Choose where to continue after signing in."
     }
   }
 }
+
+
 

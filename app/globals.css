@@ -1,4 +1,4 @@
-html { font-family: var(--font-aino), Arial, sans-serif; }        /* jääb alles */
+html { font-family: var(--font-aino), Arial, sans-serif; }        
 .headline, .brand-title, .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
 }
@@ -6,11 +6,10 @@ html { font-family: var(--font-aino), Arial, sans-serif; }        /* jääb alle
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
-  z-index: 2;                 /* taustast kõrgemal, sisu all */
+  height: 100dvh;
+  z-index: 2;                 
   pointer-events: none;
 }
-/* === SISU KIHID === */
 .glass-box,
 .glass-left,
 .glass-right,
@@ -18,19 +17,17 @@ html { font-family: var(--font-aino), Arial, sans-serif; }        /* jääb alle
   position: relative;
   z-index: 21;
 }
-/* Väiksemad UI elemendid sisu sees */
 .back-btn-wrapper,
 .avatar-link,
 .chat-avatar-abs {
   position: relative;
   z-index: 25;
 }
-/* === SPLASH CURSOR === */
 .splash-cursor {
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
   z-index: 30;    
 }
@@ -41,11 +38,9 @@ html {
   text-size-adjust: 100%;
   background-color: #0d111b;
 }
-
 *, *::before, *::after {
   box-sizing: inherit;
 }
-
 body {
   min-height: 100dvh;
   margin: 0;
@@ -57,34 +52,116 @@ body {
   background-image: linear-gradient(180deg, #070b16 0%, #0d111b 100%);
   background-color: #0d111b;
 }
-
 :root {
   color-scheme: dark;
 }
-
 html, body {
-  overflow-y: auto;              /* kerimine jääb */
-  -ms-overflow-style: none;      /* IE/Edge legacy */
-  scrollbar-width: none;         /* Firefox */
+  overflow-y: auto;              
+  -ms-overflow-style: none;      
+  scrollbar-width: none;         
 }
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none;                 /* Chrome, Safari */
+  display: none;                 
+}
+/* PIN keypad — restored styles */
+.pin-keypad-all-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.1rem;
+  margin-bottom: 0.25rem;
+}
+.pin-keypad-all {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(3rem, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 22rem;
+}
+/* general button: slightly wider than tall */
+.pin-keypad__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.35rem;
+  min-width: 3.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  border-radius: 0.875rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  user-select: none;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(200,150,150,0.25), rgba(0,0,0,0.2));
+  border: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.95);
+  transition: transform 120ms cubic-bezier(.2,.9,.3,1), box-shadow 150ms ease, background 150ms ease;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+.pin-keypad__button--alt {
+  background: rgba(0,0,0,0.28);
+  color: rgba(191, 191, 191, 0.95);
+  border: 1px solid rgba(255,255,255,0.08);
+  opacity: 0.95;
+}
+.pin-keypad__button:hover:not(:disabled) {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.125rem 0.25rem rgba(207, 206, 206, 0.8);
+}
+.pin-keypad__button:active:not(:disabled) {
+  transform: translateY(0.0625rem) scale(0.97);
+  box-shadow: 0 0.125rem 0.25rem rgba(193, 192, 192, 0.6);
+}
+.pin-keypad__button:disabled {
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+  cursor: default;
+}
+.pin-keypad__button > svg,
+.pin-keypad__button > img {
+  display: block;
+  width: 1.05em;
+  height: 1.05em;
+}
+/* Dot indicator below keypad */
+.pin-indicator.moved-below.tightened-gap {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  height: 1.125rem;
+}
+.pin-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.3);
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.pin-dot.filled {
+  background: rgba(255,255,255,1);
+  box-shadow: 0 0 0.5rem rgba(255,255,255,0.18);
+  transform: scale(1.06);
+  border-color: rgba(255,255,255,0.85);
+}
+@media (max-width: 26.25em) { /* 420px */
+  .pin-keypad-all { gap: 0.375rem; }
+  .pin-keypad__button { height: 2.75rem; min-width: 3rem; font-size: 1rem; border-radius: 0.75rem; }
 }
 :root {
-  /* === Bränd === */
-  --brand-primary: #d0adad; /* slightly lighter brand tone for all */
+  --brand-primary: #d0adad; 
   --brand-accent: var(--brand-primary);
   --brand-light:  var(--brand-primary);
-  /* Blur intro tuning */
-          /* revert to smoother start */
-           /* keeps current speed unless overridden */
-         /* delay until near end of card fade-in */
-  /* Linkide hele kuldne toon */
-  /* Linkide toon – pealkirjadega kooskõlas */
-  --link-gold: var(--brand-primary);         /* unify links with brand */
-  --link-gold-hover: var(--brand-primary);   /* hover same tone */
-  /* Läbipaistvad variandid (tuletatud #ffab91 → rgb(255,171,145)) */
+  --link-gold: var(--brand-primary);         
+  --link-gold-hover: var(--brand-primary);   
   --brand-alpha-05: rgba(255,171,145,0.05);
   --brand-alpha-10: rgba(255,171,145,0.10);
   --brand-alpha-15: rgba(255,171,145,0.15);
@@ -92,32 +169,28 @@ body::-webkit-scrollbar {
   --brand-alpha-35: rgba(255,171,145,0.35);
   --brand-alpha-45: rgba(255,171,145,0.45);
   --brand-alpha-60: rgba(255,171,145,0.60);
-  /* === Platinum skaala === */
-  --pt-50:  #F8F8F7; /* väga hele, pea valge */
-  --pt-100: #ECEBE9; /* hele */
-  --pt-150: #E6E5E3; /* veidi heledam */
-  --pt-200: #DFDEDA; /* õrn, aga loetav */
-  --pt-300: #C9C7C2; /* põhitekst – pehme platinum */
-  --pt-400: #AFAAA3; /* tugevam, pealkirjad */
-  --pt-500: #7E7970; /* tumedam kontrast */
-  --pt-600: #55514C; /* kõige tumedam */
-  /* alias’d */
+  --pt-50:  #F8F8F7; 
+  --pt-100: #ECEBE9; 
+  --pt-150: #E6E5E3; 
+  --pt-200: #DFDEDA; 
+  --pt-300: #C9C7C2; 
+  --pt-400: #AFAAA3; 
+  --pt-500: #7E7970; 
+  --pt-600: #55514C; 
   --pt-light: var(--pt-200); 
   --pt:       var(--pt-300); 
   --pt-mid:   var(--pt-400); 
   --pt-dark:  var(--pt-500);
-  /* === Kaartide suurused ja animatsioonid === */
---card-size: clamp(248px, 40vw, 410px);
+--card-size: clamp(15.5rem, 40vw, 25.625rem);
   --flip-ms: 1100ms;
   --fade-ms: 600ms;
   --flip-ease: cubic-bezier(.22,.61,.36,1);
 }
-@media (max-width: 480px) {
+@media (max-width: 30em) {
   :root {
-    --card-size: clamp(190px, 76vw, 266px); /* –5% väiksem */
+    --card-size: clamp(11.875rem, 76vw, 16.625rem); 
   }
 }
-/* (typing indicator CSS removed; replaced by SotsiaalAILoader module styles) */
 .glass-title,
 .headline,
 .reset-title,
@@ -125,9 +198,9 @@ body::-webkit-scrollbar {
 .right-card-primary .headline-bold,
 .left-card-primary .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-weight: 400; /* kui Headline on ainult 400; kui lisad 700, võid tõsta */
+  font-weight: 400; 
 }
-body, p, ul, li, .glass-list, .glass-section, .alaleht-inner, .card-note {
+body, p, ul, li, .glass-list, .glass-section {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
@@ -138,7 +211,7 @@ b, strong {
 }
 h2, .glass-h2, .glass-label {
   font-family: var(--font-aino), Arial, sans-serif;
-  font-weight: bold; /* või 600/500, vastavalt maitsele */
+  font-weight: bold; 
 }
 a, .link-brand, .meist-external-link {
   font-family: var(--font-aino), Arial, sans-serif;
@@ -150,19 +223,18 @@ a, .link-brand, .meist-external-link {
   flex: 1 0 auto;
   box-sizing: border-box;
   z-index: 20;
-  /* Soovi korral lisa väike default gap ka nt 40px, kui muidu on kaardid liiga koos */
 }
 .top-center-nav { position: relative; z-index: 2; }
 .homepage-root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   overflow: hidden;
 }
 .side {
   flex: 1 1 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -181,8 +253,8 @@ a, .link-brand, .meist-external-link {
   place-items: center;
   border-radius: 50%;
   cursor: pointer;
-  perspective: 1000px;
-  isolation: auto; /* allow backdrop-filter to see real background */
+  perspective: 62.5rem;
+  isolation: auto; 
 }
 .card-wrapper{
   position: relative;
@@ -192,37 +264,31 @@ a, .link-brand, .meist-external-link {
   transition-property: transform;
   transition-duration: var(--flip-ms);
   transition-timing-function: var(--flip-ease);
-  will-change: auto; /* vaikimisi mitte peal */
-  border-radius: inherit; /* keep pseudo circular */
+  will-change: auto; 
+  border-radius: inherit; 
 }
-/* Rotating blur plane on wrapper – hidden until fade-in completes */
 .card-wrapper::before{
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  backdrop-filter: blur(var(--card-blur,12px)) saturate(var(--card-saturate,120%));
-  -webkit-backdrop-filter: blur(var(--card-blur,12px)) saturate(var(--card-saturate,120%));
+  backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
+  -webkit-backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
   transform: scale(1);
-  /* force circular mask across engines */
   clip-path: circle(50% at 50% 50%);
   opacity: 0;
   transition: opacity 600ms cubic-bezier(.22,.61,.36,1), transform var(--flip-ms,1100ms) var(--flip-ease,cubic-bezier(.22,.61,.36,1));
 }
-/* Fade-in: sünkrooni blur ilmumine kaardi fade-in’iga (viimasel kolmandikul, sujuv) */
 .card-wrapper:has(.glass-card.fade-in)::before,
 .card-wrapper:has(.centered-back-left.fade-in)::before,
 .card-wrapper:has(.centered-back-right.fade-in)::before{
   animation: cardBlurIntro 2.4s cubic-bezier(.22,.61,.36,1) 0.5s forwards;
 }
-/* Pärast fade-in’i: lõppolek – üleminekud lähtuvad baasreeglist */
 .card-wrapper:has(.glass-card.fade-in-done)::before,
 .card-wrapper:not(:has(.glass-card.fade-in, .centered-back-left.fade-in, .centered-back-right.fade-in))::before{
   opacity: 1;
 }
-/* Disable face-attached blur for stability (avoid double rings) */
 .glass-card::before,
 .centered-back-left::before,
 .centered-back-right::before{
@@ -235,7 +301,6 @@ a, .link-brand, .meist-external-link {
 .three-d-card.flip-allowed.is-flipping .card-wrapper{
   will-change: transform;
 }
-/* pooled */
 .card-face{
   position: absolute;
   inset: 0;
@@ -243,7 +308,7 @@ a, .link-brand, .meist-external-link {
   place-items: center;
   backface-visibility: hidden;
   border-radius: inherit;
-  z-index: 1; /* keep content above blur plane */
+  z-index: 1; 
 }
 .card-face.front{ transform: rotateY(0deg); }
 .card-face.back { transform: rotateY(180deg); }
@@ -263,7 +328,7 @@ a, .link-brand, .meist-external-link {
   animation-play-state: paused;
 }
 .glass-card {
-  transform: translate3d(0,0,0); /* GPU layer */
+  transform: translate3d(0,0,0); 
   transform-origin: 50% 50%;
   transition: opacity var(--fade-ms) ease;
   width: 100%;
@@ -278,14 +343,13 @@ a, .link-brand, .meist-external-link {
   box-sizing: border-box;
   padding: 2em;
   background-clip: padding-box;
-  position: relative; /* enable local pseudo layering */
-  isolation: isolate; /* keep ::before under content */
+  position: relative; 
+  isolation: isolate; 
 }
 .glass-card,
 .centered-back-left {
-  background: rgba(243, 243, 243, 0.6); /* var(--pt-200) + läbipaistvus */
+  background: rgba(243, 243, 243, 0.6); 
 }
-/* Parem kaart: tume klaas */
 .glass-card-dark,
 .centered-back-right {
  background: rgba(22, 22, 22, 0.65);
@@ -304,11 +368,7 @@ a, .link-brand, .meist-external-link {
   padding: 2em;
   background-clip: padding-box;
   position: relative;
-  overflow: hidden; /* hoiab halo/tausta ringi sees; kui tahad halo välja, pane visible */
-}
-.centered-back-outer {
-  width: 100%; height: 100%; left: 0; top: 0;
-  position: absolute; border-radius: 50%; z-index: 2;
+  overflow: hidden; 
 }
 .card-face.back { pointer-events: none; }
 .three-d-card.flip-allowed.left:hover .card-face.back,
@@ -320,28 +380,26 @@ a, .link-brand, .meist-external-link {
 .glass-card,
 .centered-back-left {
   --base-shadow:
-    inset 0 0 4px rgba(0,0,0,0.8),
-    inset 0 0 30px 12px rgba(0,0,0,0.5);
+    inset 0 0 0.25rem rgba(0,0,0,0.8),
+    inset 0 0 1.875rem 0.75rem rgba(0,0,0,0.5);
   box-shadow: var(--base-shadow);
 }
 .glass-card-dark,
 .centered-back-right {
   --base-shadow:
-    inset 0 0 8px rgba(37,37,37,0.8),
-    inset 0 0 30px 12px rgba(0,0,0,0.5);
+    inset 0 0 0.5rem rgba(37,37,37,0.8),
+    inset 0 0 1.875rem 0.75rem rgba(0,0,0,0.5);
   box-shadow: var(--base-shadow);
 }
-/* Vasak kaart – soe roosakas-platinum halo */
 .side.left .glass-card,
 .side.left .centered-back-left {
-  --halo-start: 0 0 18px 10px rgba(150,100,100,0.45); /* sisemine – veidi punakas-pruun */
-  --halo-mid:   0 0 24px 16px rgba(135,90,90,0.50);   /* välimine – tumedam ja mahedam */
+  --halo-start: 0 0 1.125rem 0.625rem rgba(150,100,100,0.45); 
+  --halo-mid:   0 0 1.5rem 1rem rgba(135,90,90,0.50);   
 }
-/* Parem kaart – sama toon */
 .side.right .glass-card-dark,
 .side.right .centered-back-right {
-  --halo-start: 0 0 18px 10px rgba(150,100,100,0.45);
-  --halo-mid:   0 0 24px 16px rgba(135,90,90,0.50);
+  --halo-start: 0 0 1.125rem 0.625rem rgba(150,100,100,0.45);
+  --halo-mid:   0 0 1.5rem 1rem rgba(135,90,90,0.50);
 }
 @keyframes brandGlow {
   0%   { box-shadow: var(--base-shadow), var(--halo-start); }
@@ -352,16 +410,13 @@ a, .link-brand, .meist-external-link {
 .three-d-card:focus-within .card-face.front > .glass-card {
   animation: brandGlow 6.7s ease-in-out infinite;
 }
-/* Back – mõlemad variandid */
 .three-d-card:hover .card-face.back > .centered-back-left,
 .three-d-card:focus-within .card-face.back > .centered-back-left,
 .three-d-card:hover .card-face.back > .centered-back-right,
 .three-d-card:focus-within .card-face.back > .centered-back-right {
   animation: brandGlow 6.7s ease-in-out infinite;
 }
-/* Magneti klassiga jätkub endiselt: */
 .glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
-/* Flipi ajal paus (et ei virvendaks) */
 .three-d-card.is-flipping .glow-active,
 .three-d-card.is-flipping .card-face.back > .centered-back-left,
 .three-d-card.is-flipping .card-face.back > .centered-back-right {
@@ -372,16 +427,15 @@ a, .link-brand, .meist-external-link {
    will-change: transform;
 }
 @keyframes float-vertical {
-  0%   { transform: translateY(0px); }
+  0%   { transform: translateY(0); }
   50%  { transform: translateY(-13px); }
-  100% { transform: translateY(0px); }
+  100% { transform: translateY(0); }
 }
-/* --- Väike scale + blur fade-in --- */
 @keyframes cardFadeIn {
   0% {
     opacity: 0;
-    filter: blur(10px);
-    transform: translate3d(0,0,0) scale(0.88); /* ⟵ mikro-scale */
+    filter: blur(0.625rem);
+    transform: translate3d(0,0,0) scale(0.88); 
   }
   70% {
     opacity: 1;
@@ -390,15 +444,15 @@ a, .link-brand, .meist-external-link {
   100% {
     opacity: 1;
     filter: blur(0);
-    transform: translate3d(0,0,0) scale(1);     /* ⟵ mitte 'none' */
+    transform: translate3d(0,0,0) scale(1);     
   }
 }
 .glass-card.fade-in {
   opacity: 0;
   animation: cardFadeIn 2.4s cubic-bezier(.61,.0,.19,1) 0.5s forwards;
+  position: relative;
+  overflow: hidden;
 }
-/* Blur-kihi ilmumine – hoia nähtamatuna kuni fade-in lõpu lähedale,
-   siis tõsta sujuvalt ja väikse skaalamuutusega */
 @keyframes cardBlurIntro {
   0%   { opacity: 0;   transform: scale(.96); }
   35%  { opacity: 0;   transform: scale(.974); }
@@ -409,89 +463,59 @@ a, .link-brand, .meist-external-link {
   92%  { opacity: .86; transform: scale(1); }
   100% { opacity: 1;   transform: scale(1); }
 }
-.centered-front-outer {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.glass-card,
-.centered-back-left,
-.centered-back-right {
-  position: relative; /* et logo oleks alati selles parentis täpselt */
-}
-
-.card-content {
-  will-change: transform, opacity;  /* või konkreetne px, nt 32px */
-}
-
-.glass-card.fade-in {
-  position: relative;
-  overflow: hidden;
-}
-
 .glass-card.fade-in::before {
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   inset: 0;
   border-radius: inherit;
 }
-
-/* BAAS: kehtib kõigile kaardi logodele */
 .card-logo-bg {
   position: absolute;
   left: 50%;
-  top: 50%;                         /* vaikimisi keskele */
+  top: 50%;                         
   transform: translate3d(-50%, -50%, 0);
   transform-origin: 50% 50%;
   display: block;
   pointer-events: none;
-  backface-visibility: hidden;      /* flipi ajal ei vilgu */
-  transition: none !important;      /* väldi juhuslikke transitione */
-  z-index: 1;                       /* tekstid jäävad peale */
+  backface-visibility: hidden;      
+  transition: none !important;      
+  z-index: 1;                       
 }
-
 .card-logo-bg-right {
   top: 50%;
   left: 50%;
-  width: 56%;
-  opacity: 0.5;
+  /* Reduce default size and respect inner padding */
+  width: min(42%, calc(100% - 4em));
+  opacity: 0.7;
   max-width: none !important;
   height: auto;
 }
-
-/* Vasak kaart – esikülje logo */
 .card-logo-bg-left {
   top: 50%;
   left: 48%;
-  width: 60.5%;
-  opacity: 0.6;
-    max-width: none !important;
+  /* Reduce default size and respect inner padding */
+  width: min(50%, calc(100% - 4em));
+  opacity: 0.75;
+  max-width: none !important;
   height: auto;
 }
 .centered-back-left .card-logo-bg-left-back {
   position: absolute;
-  bottom: -12%;            /* kaugus alumisest servast */
+  /* Center the back logo inside the card */
+  top: 74%;
   left: 50%;
-  transform: translateX(-50%); /* ainult X, mitte Y! */
-  width: 30%;
-  opacity: 0.7;
-  top: auto !important;       /* ⟵ tühistab baasklassi top */
+  transform: translate(-50%, -50%);
+  width: 26%;
+  opacity: 0.75;
 }
-
-/* Parem kaart – tagakülje logo */
 .centered-back-right .card-logo-bg-right-back {
   position: absolute;
-  bottom: -12%;            /* kaugus alumisest servast */
+  /* Center the back logo inside the card */
+  top: 74%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 30%;
-  opacity: 0.55;
-  top: auto !important;       /* ⟵ tühistab baasklassi top */
+  transform: translate(-50%, -50%);
+  width: 26%;
+  opacity: 0.7;
 }
-
 .glass-card,
 .centered-back-left,
 .glass-card-dark,
@@ -516,29 +540,12 @@ a, .link-brand, .meist-external-link {
 .centered-back-left .headline-bold {
   font-size: 1.9rem;
   color: #323232;
-  text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0.3125rem 0.5rem rgba(0, 0, 0, 0.5);
 }
 .centered-back-right .headline-bold {
   font-size: 1.8rem;
   color: var(--brand-primary);
-  text-shadow: 0 5px 8px rgba(255, 171, 145, 0.35);
-}
-.right-card-primary .card-title { 
-  font-size: 2.5rem;
-  color: var(--brand-primary);
-  text-shadow: 0 5px 8px rgba(255, 171, 145, 0.28);
-}
-.footer-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  width: 100%;
-  min-height: 2.5em;
-  font-size: 1.28rem;
-  background: transparent;
-  position: relative;
-  z-index: 3;
-  column-gap: 1em;
+  text-shadow: 0 0.3125rem 0.5rem rgba(255, 171, 145, 0.35);
 }
 .footer-column {
   display: flex;
@@ -562,22 +569,20 @@ a, .link-brand, .meist-external-link {
   font-size: 1.45rem;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  /* kompaktsem kapsel – vähendame vaid nupu mõõtu, mitte teksti */
-  color: var(--brand-primary); /* brändi toon, kooskõlas kliendikaardi tekstiga */
-  padding: 0.3em 0.6em; /* veidi väiksem kui sul oli */
-  border-radius: 999px;
-  border: 1px solid rgba(175,170,163,0.30); /* neutraalne platinum serv */
-  /* klaas – läbipaistvam, neutraalne/soe toon */
+  color: var(--brand-primary); 
+  padding: 0.3em 0.6em; 
+  border-radius: 62.4375rem;
+  border: 1px solid rgba(175,170,163,0.30); 
   background:
     linear-gradient(to bottom right,
       rgba(255,255,255,0.05),
       rgba(201,199,194,0.06)
     );
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(0.625rem);
+  backdrop-filter: blur(0.625rem);
   box-shadow:
     inset 0 0 2px rgba(255,255,255,0.12),
-    0 6px 16px rgba(0,0,0,0.14);
+    0 0.375rem 1rem rgba(0,0,0,0.14);
   text-shadow: 0 1px 2px rgba(10,15,25,0.22);
   position: relative;
   overflow: hidden;
@@ -588,10 +593,8 @@ a, .link-brand, .meist-external-link {
     color .22s ease,
     border-color .22s ease;
 }
-/* õrn “liquid” läige */
 .footer-link-headline::before {
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   inset: 1px;
   border-radius: inherit;
   background:
@@ -600,10 +603,8 @@ a, .link-brand, .meist-external-link {
   mix-blend-mode: screen;
   pointer-events: none;
 }
-/* neutraalne õrn kuma */
 .footer-link-headline::after {
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   inset: 0;
   border-radius: inherit;
   background: radial-gradient(60% 100% at 100% 0%, rgba(201,199,194,0.08), transparent 60%);
@@ -619,28 +620,28 @@ a, .link-brand, .meist-external-link {
     );
   border-color: rgba(201,199,194,0.38);
   box-shadow:
-    0 0 10px rgba(201,199,194,0.22),
-    0 10px 22px rgba(0,0,0,0.16),
+    0 0 0.625rem rgba(201,199,194,0.22),
+    0 0.625rem 1.375rem rgba(0,0,0,0.16),
     inset 0 1px 0 rgba(255,255,255,0.14);
   transform: translateY(-1px) scale(1.02);
 }
 .footer-link-headline:active {
   transform: translateY(0) scale(0.99);
   box-shadow:
-    0 6px 16px rgba(0,0,0,0.18),
+    0 0.375rem 1rem rgba(0,0,0,0.18),
     inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .footer-logo-img {
-  height: auto;        /* väiksem kõrgus */
-  max-width: 375px;    /* väiksem laius */
+  height: auto;        
+  max-width: 23.4375rem;    
   width: auto;
   display: block;
 margin: 0;
 }
-@media (max-width: 758px) {
+@media (max-width: 47.375em) {
   .footer-logo-img {
     display: block;
-    width: calc(100vw - 12px);  /* väike “õhk” mõlemal pool */
+    width: calc(100vw - 0.75rem);  
     max-width: none;
     height: auto;
     margin: 0 auto;
@@ -648,15 +649,15 @@ margin: 0;
   }
 }
 .glass-box {
-  background: rgba(24, 24, 24, 0.68); /* veidi tumedam klaas */
+  background: rgba(24, 24, 24, 0.68); 
   border: 0.5px solid var(--pt-600);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.625rem);
+  -webkit-backdrop-filter: blur(0.625rem);
   color: #f2f2f2;
   border-radius: 1.5em;
   padding: 2.4em 2.2em 2em 2.2em;
   width: 100%;
-  max-width: 850px;
+  max-width: 53.125rem;
   margin: 2em auto;
   font-size: 1.22rem;
   display: flex;
@@ -672,7 +673,7 @@ margin: 0;
   text-align: center;
   font-size: 1.3rem;
   color: var(--pt-500) !important;
-  margin-top: auto;          /* ← see paneb jaluse klaaskasti põhja */
+  margin-top: auto;          
   font-weight: 500;
   letter-spacing: 0.04em;
   padding-top: 2em;
@@ -684,17 +685,15 @@ margin: 0;
   align-items: center;
   margin-top: 0em;
 }
-/* === Kustuta konto nupp + tooltip ikooni kohal === */
 .delete-button{
-  width:50px; height:50px;
+  width:3.125rem; height:3.125rem;
   border-radius:50%;
-  background: transparent; /* was #181818; make transparent on profile */
+  background: transparent; 
   background-color: transparent;
-  /* Match hamburger ring width & tone */
-  border:3px solid rgba(236,235,233,0.78);
+  border:0.1875rem solid rgba(236,235,233,0.78);
   color:var(--pt-300);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 4px 0 rgba(175,170,163,.35);
+  display:flex; align-items:center; justify-content: center;
+  box-shadow:0 0 0.25rem 0 rgba(175,170,163,.35);
   cursor:pointer;
   position:relative;
   overflow:visible;
@@ -703,23 +702,20 @@ margin: 0;
   transition: border .2s, box-shadow .2s, transform .18s ease-in-out;
   z-index: 2;
 }
-html[data-contrast="hc"] .delete-button{
-  background: transparent; /* keep transparent in HC as well */
-  border:3px solid #ffea00 !important;
+html[data-contrast=] .delete-button{
+  background: transparent; 
+  border:0.1875rem solid #ffea00 !important;
   box-shadow:none;
 }
-/* Ikon */
-.delete-icon{ width:18px; height:auto; }
+.delete-icon{ width:1.125rem; height:auto; }
 .delete-icon path{ fill: currentColor; }
-/* Tooltip — ikooni kohal, taustata */
 .delete-button::before{
   content: attr(data-label);
   position:absolute;
   left:50%;
-  /* veidi kaugemale nupust */
   bottom: calc(100% + 0.22rem);
-  transform: translate(-50%, -2px); /* algasend: väga lähedal nupule, ülevalpool */
-  font-size:1.15rem; /* erisoov: 1.15rem */
+  transform: translate(-50%, -2px); 
+  font-size:1.15rem; 
   font-weight:500;
   letter-spacing:0.05em;
   text-align:center;
@@ -732,12 +728,12 @@ html[data-contrast="hc"] .delete-button{
   border:none; box-shadow:none; background:transparent;
 }
 .delete-button:hover::before,
-.delete-button.tooltip-active::before { /* tooltip-active = mobiili klikk */
+.delete-button.tooltip-active::before { 
   opacity:1;
-  transform: translate(-50%, -9px); /* ilmub ja liigub üles, veidi kaugemale */
+  transform: translate(-50%, -9px); 
   color: var(--pt-100);
 }
-html[data-contrast="hc"] .delete-button::before{
+html[data-contrast=] .delete-button::before{
   color: var(--pt-80, #eaeaea) !important;
   background: transparent !important;
   border: none !important;
@@ -745,13 +741,6 @@ html[data-contrast="hc"] .delete-button::before{
   font-size:1.15rem !important;
 }
 .delete-button::after{ display:none !important; }
-.chat-send-btn {
-  transition: transform 0.12s ease, background 0.16s, box-shadow 0.16s;
-}
-.chat-send-btn:active {
-  transform: scale(0.92);
-}
-/* --- ALAPEALKIRJAD / LOETELUD --- */
 .glass-h2 {
   font-size: 1.15em;
   margin: 2.1em 0 0.7em 0;
@@ -762,12 +751,10 @@ html[data-contrast="hc"] .delete-button::before{
     color: #f1dfcd;
   background: none;
 }
-/* --- MUUD --- */
 .link-small {
   font-size: 1em;
   font-weight: 600;
 }
-/* --- MOBILE ASK BUTTON --- */
 .mobile-ask-btn {
   display: none;
   width: 90%;
@@ -779,7 +766,7 @@ html[data-contrast="hc"] .delete-button::before{
   border: none;
   border-radius: 1.2em;
   padding: 0.86em 0;
-  box-shadow: 0 2px 12px 0 rgba(88,62,187,0.11);
+  box-shadow: 0 2px 0.75rem 0 rgba(88,62,187,0.11);
   text-align: center;
   transition: background 0.17s, color 0.13s;
 }
@@ -788,7 +775,6 @@ html[data-contrast="hc"] .delete-button::before{
   background: #228794;
   color: #fff;
 }
-/* --- SR-ONLY / ekraanilugeja jaoks peitmine --- */
 .sr-only {
   position: absolute !important;
   width: 1px;
@@ -796,7 +782,6 @@ html[data-contrast="hc"] .delete-button::before{
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  /* Vana clip: rect ... asenda sellega ↓ */
   clip-path: inset(50%);
   border: 0;
   white-space: nowrap;
@@ -808,7 +793,7 @@ html[data-contrast="hc"] .delete-button::before{
   font-weight: 500;
 }
 .text-muted {
-  color: var(--pt-300);   /* pehme platinum (C9C7C2) */
+  color: var(--pt-300);   
   font-weight: 500;
   font-size: 1em;
   white-space: normal;
@@ -826,17 +811,19 @@ html[data-contrast="hc"] .delete-button::before{
   line-height: 1.56;
   letter-spacing: 0.03em;
   font-weight: 300;
-  }
+  margin: 0 0 0.6em 0;
+}
+.glass-section p:last-child { margin-bottom: 0; }
 .glass-list {
   font-size: 1.05em;
-  color: var(--pt-150);   /* sama toon mis p */
+  color: var(--pt-150);   
   font-weight: 400;
   line-height: 1.56;
   letter-spacing: 0.03em;
 }
 .glass-list--compact { margin-bottom: 0.25rem; }
 .link-brand {
-  color: var(--link-gold); /* kuldne tekst */
+  color: var(--link-gold); 
   border: 2px solid transparent;
   border-radius: 0.32em;
   padding: 0.02em 0.2em;
@@ -851,37 +838,25 @@ html[data-contrast="hc"] .delete-button::before{
 }
 .link-brand:hover,
 .link-brand:focus {
-  color: var(--link-gold-hover);  /* veidi heledam */
-  border: 2px solid var(--pt-mid); /* platinum raam (#AFAAA3) */
+  color: var(--link-gold-hover);  
+  border: 2px solid var(--pt-mid); 
   background: none;
-  box-shadow: 0 0 7px 0 rgba(175,170,163,0.40); /* sama toon kumana */
+  box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
 }
-/* Install-ploki kompaktsem spacing ja pealkirja sobitus */
 .install-section { margin-top: 0.6rem; }
-/* === ALALEHED: tagasi mõõdukamale baasile (kehtib ka chat/profiil) === */
-/* Väiksem baas .glass-box konteineritele */
-.glass-box { font-size: 1.22rem; }
-/* Pealkirjad .glass-box sees */
 .glass-box .glass-title { font-size: 2.15em; }
 .glass-box .glass-h2 { font-size: 1.15em; }
-/* Lõigud ja loendid .glass-box sees */
-.glass-box p,
-.glass-box .glass-section p { font-size: 1.05em; }
 .glass-box .glass-list { font-size: 1.05em; }
-/* Lingid .glass-box sees (sh Meist välislink) */
 .glass-box .link-brand { font-size: 1.10em; }
 .glass-box .meist-external-link { font-size: 1.05em; }
-/* Sublehtede jalus tagasi mõõdukaks */
-.alaleht-footer { font-size: 1.30rem; }
 .install-section p { margin: 0.25em 0; }
-/* "Unustasid parooli?" link */
 .unustasid-parooli-link {
   color: var(--link-gold);
   border: 2px solid transparent;
   border-radius: 0.32em;
   padding: 0.02em 0.2em;
   background: none;
-  font-size: 1.1em;
+  font-size: 1em;
   letter-spacing: 0.03em;
   display: inline-block;
   text-decoration: none;
@@ -890,11 +865,10 @@ html[data-contrast="hc"] .delete-button::before{
 .unustasid-parooli-link:hover,
 .unustasid-parooli-link:focus {
   color: var(--link-gold-hover);
-  border: 2px solid var(--pt-mid); /* platinum raam */
+  border: 2px solid var(--pt-mid); 
   background: none;
-  box-shadow: 0 0 7px 0 rgba(175,170,163,0.40); /* platinum kuma */
+  box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
 }
-/* OSKA raporti välislink */
 .meist-external-link {
   color: var(--link-gold);
   border: 2px solid transparent;
@@ -911,13 +885,13 @@ html[data-contrast="hc"] .delete-button::before{
 }
 .meist-external-link:hover,
 .meist-external-link:focus {
-  color: var(--link-gold-hover);  /* veidi heledam */
-  border: 2px solid var(--pt-mid); /* platinum raam */
+  color: var(--link-gold-hover);  
+  border: 2px solid var(--pt-mid); 
   background: none;
-  box-shadow: 0 0 7px 0 rgba(175,170,163,0.40); /* platinum kuma */
+  box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
 }
 .link-brand-inline {
-  color: var(--link-gold); /* kuldne tekst */
+  color: var(--link-gold); 
   border: 2px solid transparent;
   border-radius: 0.32em;
   padding: 0.02em 0.18em;
@@ -930,10 +904,10 @@ html[data-contrast="hc"] .delete-button::before{
 }
 .link-brand-inline:hover,
 .link-brand-inline:focus {
-  color: var(--link-gold-hover);  /* veidi heledam */
-  border: 2px solid var(--pt-mid); /* platinum raam */
+  color: var(--link-gold-hover);  
+  border: 2px solid var(--pt-mid); 
   background: none;
-  box-shadow: 0 0 7px 0 rgba(175,170,163,0.40); /* platinum kuma */
+  box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
 }
 a {
   text-decoration: none;
@@ -957,33 +931,40 @@ a {
   color: var(--pt-150);
   }
   .glass-section p strong {
-  color: var(--pt-200);   /* sama toon mis ülal */
+  color: var(--pt-200);   
   font-weight: 600;
 }
 .avatar-link {
   position: absolute;
   top: var(--hud-edge-safe);
-  right: calc(var(--hud-edge-right) + 13px);
+  right: calc(var(--hud-edge-right) + 0.8125rem);
   left: auto;
+  /* Match hamburger button footprint */
+  inline-size: var(--hud-icon);
+  block-size: var(--hud-icon);
+  border-radius: 50%;
   display: grid;
   place-items: center;
   overflow: visible;
   z-index: 4;
   text-decoration: none;
   transform: translateY(-3.5px);
+  transition: transform 0.08s ease;
 }
-@media (max-width:768px){
+.avatar-link:active { transform: translateY(-3.5px) scale(0.94); }
+@media (max-width: 48em){
   .avatar-link{
-    right: calc(var(--hud-edge-right) + 10px); /* enne oli +15px → +8px vasakule */
+    right: calc(var(--hud-edge-right) + 0.625rem); 
     transform: translateY(-4px);
   }
 }
-/* Avatar ring */
 .chat-avatar-abs {
-  inline-size: var(--hud-icon);
-  block-size: var(--hud-icon);
-  inline-size: calc(var(--hud-icon) + 7px);
-  block-size:  calc(var(--hud-icon) + 7px);
+  /* Slightly larger avatar icon */
+  --avatar-icon-size: calc(var(--hud-icon, 4.42rem) * 1.11);
+  inline-size: var(--avatar-icon-size);
+  block-size:  var(--avatar-icon-size);
+  width: var(--avatar-icon-size) !important;
+  height: var(--avatar-icon-size) !important;
   border-radius: 50%;
   border: none;
   background: none;
@@ -991,11 +972,9 @@ a {
   display: block;
   transition: box-shadow 0.25s ease;
 }
-/* Profiili tekst (vaikimisi peidus) */
 .avatar-label {
   position: absolute;
-  /* Avatar ring on chat is +7px suurem kui hamburger → veidi kaugemale */
-  top: calc(100% + 0.10rem - 7px);
+  top: calc(100% + 0.10rem - 0.4375rem);
   left: 50%;
   font-size: 1.1rem;
   font-weight: 500;
@@ -1011,39 +990,35 @@ a {
   transform: translate(-50%, 1px);
   transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
-/* Hoveril nähtavaks ja alla väike liikumine */
 .avatar-link:hover .avatar-label {
   opacity: 1;
-  transform: translate(-50%, 8px);
+  transform: translate(-50%, 0.5rem);
 }
-/* Light mode – avatar heledamaks, tekst platinum-hele */
 html:not(.dark-mode) .chat-avatar-abs {
   filter: brightness(1.5);
   opacity: 0.85;
 }
 html:not(.dark-mode) .avatar-label {
-  color: var(--pt-100); /* #ECEBE9 – hele platinum */
+  color: var(--pt-100); 
 }
-/* Profiili päis: roll + tellimus keskelt, üksteise all */
 .profile-header-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 1.2em;
-  margin-top: 0.3em;
+  /* Tighter spacing around role/link block on profile */
+  margin-top: 0.15em;
+  margin-bottom: 0.55em;
 }
-/* Roll suurem, silmapaistev */
 .profile-role-pill {
   font-size: 1.35em;
   font-weight: 500;
   margin-bottom: 0.22em;
-  color: var(--pt-light);      /* enne oli #ececf1 → hele platinum */
+  color: var(--pt-light);      
   letter-spacing: 0.03em;
 }
-/* Tellimuslink */
 .profile-tellimus-link {
   display: inline-block;
-  font-size: 1.32em; /* veidi suurem, rõhuta linki */
+  font-size: 1.32em; 
   font-weight: 500;
   color: var(--link-gold);
   text-decoration: none;
@@ -1052,79 +1027,95 @@ html:not(.dark-mode) .avatar-label {
 }
 .profile-tellimus-link:hover,
 .profile-tellimus-link:focus {
-  color: var(--link-gold);      /* hoia sama toon */
-  transform: none;             /* väldi skaleerimisest tulenevat layouti muutust */
+  color: var(--link-gold);      
+  transform: none;             
 }
 .profile-form-vertical .glass-label:not(:first-child) {
   text-align: left;
   margin-top: 0.08em;
-  margin-bottom: 0.04em; /* vii label sisule lähemale */
-  font-size: 1.05em;    /* soovi korral veidi väiksem tekst */
+  margin-bottom: 0.04em; 
+  font-size: 1.05em;    
 }
-.profile-form-vertical input[type="email"] {
-  margin-bottom: 0.1em; /* nupud lähemale e-posti väljale */
+.profile-form-vertical input {
+  margin-bottom: 0.1em; 
   margin-top: 0.01em;
 }
-/* Profiili: tee e‑posti välja tekst sama tooniga kui label ja vähenda kõrgust */
 .profile-form-vertical .input-modern{
   color: var(--pt-200);
   caret-color: var(--pt-200);
-  padding: 0.55em 0.8em; /* veidi madalam kui .glass-form vaikimisi */
+  padding: 0.55em 0.8em; 
 }
 .profile-form-vertical .input-modern:focus{
-  color: var(--pt-200); /* ära muuda heledaks fookuses */
+  color: var(--pt-200); 
 }
-/* Nupud all (Salvesta, Logi välja) */
 .profile-btn-row {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: clamp(0.55rem, 2vw, 0.95rem);
-  flex-wrap: wrap;            /* kui ekraan kitsas, võivad murduda KÕRVUTI ridadeks */
-  margin: 0.8em auto 0 auto;  /* vähenda vahet alumise reaga */
+  flex-wrap: wrap;
+  /* Reduce top gap before the first button row on profile */
+  margin: 0.35em auto 0 auto;
   align-self: center;
   width: 100%;
-  max-width: 420px;
+  max-width: 26.25rem;
 }
-
 .profile-btn-row--duo {
-  /* tõsta nupud e‑posti väljale lähemale */
-  margin-top: clamp(0.15rem, 1vw, 0.35rem);
+  /* Bring the two bottom buttons closer to the links */
+  margin-top: clamp(0.05rem, 0.6vw, 0.22rem);
   display: flex;
   justify-content: center;
   align-items: stretch;
   flex-wrap: nowrap;
-  gap: clamp(0.55rem, 2vw, 0.95rem); /* sama kui alumisel real */
+  gap: clamp(0.55rem, 2vw, 0.95rem); 
   width: 100%;
-  max-width: 420px; /* ära mine e‑posti välja servast laiemaks */
+  max-width: 26.25rem; 
   align-self: center;
 }
-
 .profile-email-links {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: clamp(0.55rem, 2vw, 0.95rem);
+  flex-wrap: nowrap;
   justify-content: center;
-  width: 100%;
-  max-width: 420px;
-  margin-top: clamp(0.02rem, 0.3vw, 0.12rem);
-  margin-bottom: clamp(0.1rem, 0.8vw, 0.28rem);
-  margin-left: auto;
+  gap: clamp(0.4rem, 1.5vw, 1rem);
+  width: auto;
+  max-width: 26.25rem;
+  /* Bring links even closer to the email input */
+  margin-top: -0.06rem;
+  margin-bottom: 0.08rem;
+  margin-left: 1.8rem;
   margin-right: auto;
   text-align: center;
 }
-
 .profile-email-links .link-brand {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  flex: 0 0 auto;
   min-width: 0;
-  flex: 1 1 0;
   font-size: 1.12em;
-  padding: 0.08em 0.30em;
+  padding: 0.08em 0.4em;
+  text-align: center;
+  white-space: nowrap;
 }
-
+.profile-email-links .link-brand:first-child {
+  margin-left: clamp(-0.8rem, -2vw, -0.25rem);
+  margin-right: clamp(0.35rem, 1.1vw, 0.8rem);
+}
+.profile-email-links .link-brand:last-child {
+  margin-left: clamp(-0.8rem, -1vw, -0.8rem);
+}
+@media (max-width: 32.5em) {
+  .profile-email-links {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 0.35rem;
+  }
+  .profile-email-links .link-brand {
+    flex: 1 1 100%;
+  }
+}
 .profile-btn-row--duo .btn-primary,
 .profile-btn-row--duo .btn-profile-save,
 .profile-btn-row--duo .btn-profile-logout {
@@ -1132,20 +1123,17 @@ html:not(.dark-mode) .avatar-label {
   justify-content: center;
   align-items: center;
   margin: 0;
-  flex: 1 1 140px;            /* mõlemad jagavad rea laiust */
-  min-width: 130px;           /* hoia kitsam, kuid loetav */
-  max-width: 170px;           /* väldi liigset venimist */
-  font-size: 1em !important;  /* ühtlustab teksti */
-  /* veidi kõrgem – lähemal .btn-primary vaikimisi padjale */
+  flex: 1 1 8.75rem;            
+  min-width: 8.125rem;           
+  max-width: 10.625rem;           
+  font-size: 1em !important;  
   padding: 0.60em 1.05em !important;
-  /* Match global button tracking (group defined around line ~2001) */
   letter-spacing: 0.06em !important;
 }
 .profile-btn-row--duo .btn-primary span {
   font-size: 1em !important;
 }
-
-@media (max-width: 520px) {
+@media (max-width: 32.5em) {
   .profile-btn-row--duo {
     flex-wrap: wrap;
   }
@@ -1153,41 +1141,33 @@ html:not(.dark-mode) .avatar-label {
 .profile-btn-row:not(.profile-btn-row--duo) .btn-primary,
 .profile-btn-row:not(.profile-btn-row--duo) .btn-profile-save,
 .profile-btn-row:not(.profile-btn-row--duo) .btn-profile-logout {
-  display: inline-flex;       /* väldi täislaiust */
-  margin: 0;                  /* tühista .btn-primary { margin: 0 auto } */
-  min-width: 140px;           /* veidi kitsam nupp */
-  flex: 0 0 auto;             /* ära lase venida */
-  font-size: 1.02em;          /* pisut väiksem tekst */
-  /* veidi kõrgem, et meenutaks primary nuppu */
-  padding: 0.65em 1.05em;     /* compact padding */
-  border-radius: 1.3em;       /* hoia ümarust */
+  display: inline-flex;       
+  margin: 0;                  
+  min-width: 8.75rem;           
+  flex: 0 0 auto;             
+  font-size: 1.02em;          
+  padding: 0.65em 1.05em;     
+  border-radius: 1.3em;       
 }
-
 .profile-btn-row .btn-profile-save + .btn-profile-logout {
   margin-left: 0;
 }
-
-/* Eemalda alumise rea vähendused – jäta samas mõõdus nagu ligipääsetavuse nupp */
-/* Profiili nuppude hover: kasvab, aga ei nihku üles (vältida layouti visuaalset liikumist) */
-/* Luba .btn-primary default hover/active transform (kerge kasv/ vähenemine),
-   mis toimub GPU transformiga ja ei mõjuta layouti. */
-/* MODAALID – sama blur mis .glass-box */
 .login-modal-box,
 .glass-modal {
-  background: rgba(31, 31, 31, 0.6);            /* poolläbipaistev! */
-  backdrop-filter: blur(10px) saturate(110%);
-  -webkit-backdrop-filter: blur(10px);    /* BLUR */
-  border: 0.5px solid var(--pt-600);           /* tume platinum raam */
+  background: rgba(31, 31, 31, 0.6);            
+  backdrop-filter: blur(0.625rem) saturate(110%);
+  -webkit-backdrop-filter: blur(0.625rem);    
+  border: 0.5px solid var(--pt-600);           
   color: var(--pt-200);
   border-radius: 1.5em;
   position: fixed;
   left: 50vw;
-  top: 50vh;
+  top: 50dvh;
   transform: translate(-50%, -50%);
   z-index: 100;
   width: 100%;
-  max-width: 410px;
-  min-width: 320px;
+  max-width: 25.625rem;
+  min-width: 20rem;
   padding: 2.3em 1em 1.7em 1em;
   box-sizing: border-box;
   font-size: 1.2rem;
@@ -1198,35 +1178,42 @@ html:not(.dark-mode) .avatar-label {
   animation: modalSlideIn 0.4s;
 }
 @keyframes modalSlideIn {
-  from { transform: translate(-50%, calc(-50% - 40px)); opacity: 0; }
+  from { transform: translate(-50%, calc(-50% - 2.5rem)); opacity: 0; }
   to   { transform: translate(-50%, -50%); opacity: 1; }
 }
 .login-modal-close {
   position: absolute;
-  top: 0.5em; right: 0.5em;
+  top: 0.2em; right: 0.25em;
   background: none; border: none; color: #c1a379;
   font-size: 2.2em; cursor: pointer; transition: color 0.19s; outline: none;
 }
 .login-modal-close:hover, .login-modal-close:focus { color: #e1cbb9; }
 .glass-title {
   font-size: 2.15em;
-  line-height: 1.15; /* stabilize layout; avoid jump on font swap */
+  line-height: 1.15; 
   background: none;
   color: #f2e3d4;
-  margin-bottom: 0.7em;
+  margin-bottom: 1.2em;
   letter-spacing: 0.03em;
   text-align: center;
 }
-.login-icon-btn {              /* õrn platinum, mitte valge */
+#meist-title.glass-title {
+  margin-bottom: 0.2em;
+}
+#profile-title.glass-title {
+  /* Reduce gap between page title and role on profile */
+  margin-bottom: 0.5em;
+}
+.login-icon-btn {              
   border-radius: 50%;
-  width: 49px;
-  height: 49px;
+  width: 3.0625rem;
+  height: 3.0625rem;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(175,170,163,0.35); /* pehme vari */
+  box-shadow: 0 2px 0.5rem 0 rgba(175,170,163,0.35); 
   transition: border 0.17s, box-shadow 0.15s, background 0.13s;
   outline: none;
   background: none;
@@ -1235,30 +1222,43 @@ html:not(.dark-mode) .avatar-label {
 }
 .login-icon-btn:hover,
 .login-icon-btn:focus {
-  background: var(--pt-200);                /* samm tumedam platinum */
-  border-color: var(--pt-500);              /* kontrastsem raam */
-  box-shadow: 0 2px 12px 0 rgba(126,121,112,0.45);
+  background: var(--pt-200);                
+  border-color: var(--pt-500);              
+  box-shadow: 0 2px 0.75rem 0 rgba(126,121,112,0.45);
 }
 .login-modal-form button.btn-primary {
-  margin-top: 0em;    /* Väiksem vahe ülevalt! */
+  margin-top: 0em;    
   margin-bottom: 0em;
 }
-.glass-form .input-modern {
+.input-modern {
   width: 100%;
-  max-width: 700px;
-  font-size: 1.45rem;
+  max-width: 100%;
+  font-size: 1.2em;
   font-weight: 500;
   background: rgba(10,14,24,0.32);
   color: var(--pt-50);
   caret-color: var(--pt-50);
   border: 1.5px solid rgba(220,220,220,0.3);
   border-radius: 1.2em;
-  padding: 0.7em 0.8em;
-  margin-bottom: 0.2em;
+  padding: 0.75em 1em;
+  margin-bottom: 0.4em;
   outline: none;
   box-shadow: 0 0 0 1px rgba(201,199,194,0.14);
-  line-height: 1.4;
+  box-sizing: border-box;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+.input-modern:focus {
+  border-color: var(--pt-light);
+  background: rgba(10,14,24,0.48);
+  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.4);
+  color: var(--pt-30, #f7f9ff);
+}
+.glass-form .input-modern {
+  max-width: 43.75rem;
+  font-size: 1.45rem;
+  padding: 0.7em 0.8em;
+  margin-bottom: 0.2em;
+  line-height: 1.4;
 }
 .glass-form:not(.profile-form-vertical) .input-modern {
   color: var(--pt-150);
@@ -1267,12 +1267,8 @@ html:not(.dark-mode) .avatar-label {
 .profile-form-vertical.glass-form .input-modern {
   color: var(--pt-200);
   caret-color: var(--pt-200);
-}
-.glass-form .input-modern:focus {
-  border-color: var(--pt-light);
-  background: rgba(10,14,24,0.48);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.4);
-  color: var(--pt-30, #f7f9ff);
+  /* Reduce space below the email input on profile */
+  margin-bottom: 0.02em;
 }
 .glass-form:not(.profile-form-vertical) .input-modern:focus {
   color: var(--pt-150);
@@ -1280,37 +1276,34 @@ html:not(.dark-mode) .avatar-label {
 .profile-form-vertical.glass-form .input-modern:focus {
   color: var(--pt-200);
 }
-/* (vajadusel) suurem vahe e-maili ja parooli vahel */
-.glass-form .input-email-top { margin-top: 1em; }
-/* Ühtlane vahe järjestikuste inputite vahel */
-.glass-form input.input-modern + input.input-modern { margin-top: 0.4em; }
-/* Kui tahad, lisa ka vormi üldine vahe */
-.glass-form { gap: 0.5em; }
 .login-modal-form input{
   width: 100%;
-  max-width: 325px;
-  font-size: 1.4rem;
+  max-width: 20.3125rem;
+  font-size: 1.28rem;
   font-weight: 500;
   background: rgba(10,14,24,0.32);
   color: var(--pt-50);
   caret-color: var(--pt-50);
   border: 1.5px solid rgba(220,220,220,0.3);
   border-radius: 1.2em;
-  padding: 0.8em 1em;
+  padding: 0.6em 1em;
   margin-bottom: 0.5em;
   outline: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
   box-shadow: 0 0 0 1px rgba(201,199,194,0.14);
   line-height: 1.35;
 }
+.login-modal-form input:first-of-type {
+  margin-top: 0.45em;
+}
  .login-modal-form{
   width:100%;
-  max-width:325px;
+  max-width:20.3125rem;
   margin:0 auto;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:0.65em; /* katab ka varasema gap:1em */
+  gap:0.65em; 
 }
 .login-modal-form label {
   width: 100%;
@@ -1320,7 +1313,7 @@ html:not(.dark-mode) .avatar-label {
   border-color: var(--pt-light);
   color: var(--pt-30, #f7f9ff);
   background: rgba(10,14,24,0.48);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.4);
+  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.4);
 }
 .btn-primary {
   font-family: inherit;
@@ -1341,12 +1334,12 @@ html:not(.dark-mode) .avatar-label {
   background:
     linear-gradient(to bottom right,
       rgba(255,255,255,0.04),
-      rgba(201,199,194,0.06)      /* neutraalne, soe kuma (platinum) */
+      rgba(201,199,194,0.06)      
     );
-  border: 1px solid rgba(175,170,163,0.30);   /* neutraalne raam (platinum) */
+  border: 1px solid rgba(175,170,163,0.30);   
   box-shadow:
     inset 0 0 2px rgba(255,255,255,0.10),
-    0 6px 16px rgba(0,0,0,0.10);              /* kergem varjund */
+    0 0.375rem 1rem rgba(0,0,0,0.10);              
   text-shadow: 0 1px 2px rgba(10,15,25,0.20);
   transition:
     transform .22s ease,
@@ -1356,8 +1349,7 @@ html:not(.dark-mode) .avatar-label {
     border-color .22s ease;
 }
 .btn-primary::before {
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   inset: 1px;
   border-radius: inherit;
   background:
@@ -1366,10 +1358,8 @@ html:not(.dark-mode) .avatar-label {
   pointer-events: none;
   mix-blend-mode: screen;
 }
-/* neutraalne õrn kuma */
 .btn-primary::after {
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   inset: 0;
   border-radius: inherit;
   background: radial-gradient(60% 100% at 100% 0%, rgba(201,199,194,0.08), transparent 60%);
@@ -1381,25 +1371,25 @@ html:not(.dark-mode) .avatar-label {
   background:
     linear-gradient(to bottom right,
       rgba(255,255,255,0.08),
-      rgba(201,199,194,0.10)      /* veidi rõhutatum neutraalne kuma */
+      rgba(201,199,194,0.10)      
     );
   border-color: rgba(201,199,194,0.38);
   box-shadow:
-    0 0 10px rgba(201,199,194,0.22),
-    0 10px 22px rgba(0,0,0,0.12),
+    0 0 0.625rem rgba(201,199,194,0.22),
+    0 0.625rem 1.375rem rgba(0,0,0,0.12),
     inset 0 1px 0 rgba(255,255,255,0.12);
   transform: translateY(-1px) scale(1.02);
 }
 .btn-primary:focus-visible {
   box-shadow:
     0 0 0 2px rgba(201,199,194,0.28),
-    0 10px 22px rgba(0,0,0,0.12),
+    0 0.625rem 1.375rem rgba(0,0,0,0.12),
     inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .btn-primary:active {
   transform: translateY(0) scale(0.985);
   box-shadow:
-    0 5px 14px rgba(0,0,0,0.10),
+    0 0.3125rem 0.875rem rgba(0,0,0,0.10),
     inset 0 1px 0 rgba(255,255,255,0.09);
 }
 .btn-primary span {
@@ -1420,7 +1410,7 @@ html:not(.dark-mode) .avatar-label {
   font-weight: 500;
   text-align: center;
   letter-spacing: 0.06em;
-  color: var(--link-gold);                 /* kuldne tekst */
+  color: var(--link-gold);                 
   border: 2px solid transparent;
   padding: 0.02em 0.2em;
   border-radius: 0.32em;
@@ -1432,13 +1422,12 @@ html:not(.dark-mode) .avatar-label {
 }
 .login-modal-bottom-link .link-brand:hover,
 .login-modal-bottom-link .link-brand:focus {
-  color: var(--link-gold-hover); /* veidi heledam */
-  border: 2px solid var(--pt-mid); /* raam platinum tooniga */
+  color: var(--link-gold-hover); 
+  border: 2px solid var(--pt-mid); 
   background: none;
-  box-shadow: 0 0 7px 0 rgba(201,199,194,0.40); /* ≈ --pt-300 halo */
+  box-shadow: 0 0 0.4375rem 0 rgba(201,199,194,0.40); 
   text-decoration: none;
 }
-/* Parooli väljale sama laius */
 .login-password-field {
   width: 100%;
   display: flex;
@@ -1450,26 +1439,24 @@ html:not(.dark-mode) .avatar-label {
   display: block;
   margin-bottom: 0em;
 }
-/* Sots login ikoonide rida – väiksem margin ülal */
 .login-social-icons-row {
   display: flex;
   justify-content: center;
   gap: 1.4em;
-  margin-bottom: 0.3em;    /* ikoonide rea all */
-  margin-top: 0.2em;     /* väiksem vahe pealkirjaga */
+  margin-bottom: 0.3em;    
+  margin-top: 0.2em;     
 }
-/* Ikoodile margin */
 .login-icon-btn img {
-  height: 42px;   /* veel veidi väiksemad */
-  width: 42px;
-  margin-top: 1px;      /* kui tahad ühtlustada joondust */
-  margin-bottom: 0px;
+  height: 2.625rem;   
+  width: 2.625rem;
+  margin-top: 1px;      
+  margin-bottom: 0;
   display: block;
 }
 .login-or-divider {
   text-align: center;
   font-size: 1.1em;
-  color: var(--pt-mid);   /* platinum tekst */
+  color: var(--pt-mid);   
   opacity: 0.85;
   position: relative;
   font-weight: 500;
@@ -1477,13 +1464,12 @@ html:not(.dark-mode) .avatar-label {
 }
 .login-or-divider:before,
 .login-or-divider:after {
-  content: "";
-  display: inline-block;
+  content: "";display: inline-block;
   position: absolute;
   top: 50%;
   width: 38%;
   height: 1px;
-  background: var(--pt-mid); /* platinum jooned */
+  background: var(--pt-mid); 
   z-index: 1;
   opacity: 0.35;
 }
@@ -1493,20 +1479,21 @@ html:not(.dark-mode) .avatar-label {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 80dvh;
   width: 100vw;
 }
 .glass-left { 
-  align-items: flex-start;   /* vasakule */
+  align-items: flex-start;   
   text-align: left;
 }
 .glass-left > * { align-self: stretch; }
 .reset-box {
-  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  max-width: 34.375rem;
   margin: 2em auto;
-  gap: 1.13em;
+  gap: 0.9em;
 }
-/* Pealkiri */
 .reset-title {
   text-align: center;
   width: 100%;
@@ -1515,17 +1502,15 @@ html:not(.dark-mode) .avatar-label {
   color: #f2e3d4;
   margin-bottom: 0.65em;
 }
-/* Info tekst */
 .reset-info {
   margin-top: 2em;
   text-align: center;
   font-size: 1.1em;
-  color: var(--pt-light);   /* hele platinum */
+  color: var(--pt-light);   
   line-height: 1.56;
   letter-spacing: 0.03em;
   font-weight: 300;
 }
-/* Vorm */
 .reset-form {
   display: flex;
   flex-direction: column;
@@ -1533,9 +1518,8 @@ html:not(.dark-mode) .avatar-label {
   justify-content: center;
   width: 100%;
   gap: 0.7em;
-  margin-bottom: 0.2em; /* Vahe lingi ja nupu vahel */
+  margin-bottom: 0.2em; 
 }
-/* Label ja input */
 .reset-label {
   width: 100%;
   display: flex;
@@ -1543,7 +1527,7 @@ html:not(.dark-mode) .avatar-label {
 }
 .reset-input {
   width: 100%;
-  max-width: 325px;
+  max-width: 20.3125rem;
   font-size: 1.35rem;
   font-weight: 500;
   line-height: 1.35;
@@ -1566,7 +1550,7 @@ html:not(.dark-mode) .avatar-label {
   border-color: var(--pt-light);
   background: rgba(10,14,24,0.30);
   color: var(--pt-30, #f7f9ff);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.40);
+  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
 }
 .reset-input:disabled {
   opacity: 0.6;
@@ -1575,10 +1559,9 @@ html:not(.dark-mode) .avatar-label {
   color: var(--pt-200);
   box-shadow: 0 0 0 1px rgba(201,199,194,0.14);
 }
-/* Nupp */
 .reset-btn {
-  min-width: 170px;
-  max-width: 230px;
+  min-width: 10.625rem;
+  max-width: 14.375rem;
   margin: 0.25em auto 0;
   align-self: center;
 }
@@ -1587,12 +1570,11 @@ html:not(.dark-mode) .avatar-label {
   opacity: 0.82;
   transition: opacity 0.2s ease;
 }
-/* All olev link */
 .reset-bottom-link {
   width: 100%;
   text-align: center;
-  margin-top: 1.3em;   /* rohkem vahet nupu ja lingi vahel */
-  margin-bottom: 0.3em; /* vähem vahet kasti alläärega */
+  margin-top: 1.3em;   
+  margin-bottom: 0.3em; 
   font-size: 1.14em;
 }
 .reset-bottom-text {
@@ -1602,31 +1584,24 @@ html:not(.dark-mode) .avatar-label {
   font-weight: 500;
   opacity: 0.98;
 }
-/* Jalus keskelt */
 .reset-footer {
   text-align: center;
   margin-top: 1em;
   opacity: 0.96;
 }
-/* Reset-kast paigutus: jalus põhja */
-.reset-box {
-  display: flex;
-  flex-direction: column;
-}
-/* Tagasi-nupu vahe jaluse ees väiksemaks */
 .reset-box .back-btn-wrapper {
-  margin: 1em auto 0.3em;  /* enne oli suurem */
+  margin: 1em auto 0.3em;  
 }
-/* Jalus: hoia all, aga väiksema ülemise padjaga */
 .alaleht-footer.reset-footer {
-  margin-top: auto;        /* lukustab jaluse kasti põhja */
-  padding-top: 0.6em;      /* ↓ 2em → 0.6em */
-  padding-bottom: 0.8em;   /* kergelt kompaktsem */
+  margin-top: auto;        
+  padding-top: 0.6em;      
+  padding-bottom: 0.8em;   
 }
-/* (soovi korral) veidi kompaktsem üldvahe reset-kastis */
-.reset-box { gap: 0.9em; }
-/* Tagasi noole nupu vahe */
 .back-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1em auto;
   margin-bottom: 0.2em;
 }
 .glass-form {
@@ -1634,7 +1609,7 @@ html:not(.dark-mode) .avatar-label {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
   margin: 0 auto;
   gap: 1.2em;
 }
@@ -1643,9 +1618,9 @@ html:not(.dark-mode) .avatar-label {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
   font-weight: normal;
-  color: var(--pt-200);     /* platinum hele tekst */
+  color: var(--pt-200);     
   font-size: 1.15em;
   margin-bottom: 0.1em;
   margin-top: 0.2em;
@@ -1656,47 +1631,24 @@ html:not(.dark-mode) .avatar-label {
   margin-top: 3em;
   margin-bottom: 0.5em;
 }
-.input-modern {
-  width: 100%;
-  max-width: 100%;
-  font-size: 1.2em;
-  background: rgba(10,14,24,0.32);
-  color: var(--pt-50);
-  caret-color: var(--pt-50);
-  border: 1.5px solid rgba(220,220,220,0.3);
-  border-radius: 1.2em;
-  padding: 0.75em 1em;
-  margin-bottom: 0.4em;
-  outline: none;
-  box-shadow: 0 0 0 1px rgba(201,199,194,0.14);
-  box-sizing: border-box;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
-}
-.input-modern:focus {
-  border-color: var(--pt-light);
-  background: rgba(10,14,24,0.48);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.4);
-  color: var(--pt-30, #f7f9ff);
-}
 .glass-label-radio {
   display: block;
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
   font-weight: 500;
-  color: var(--pt-150);     /* sama platinum toon mis .glass-label */
+  color: var(--pt-150);     
   margin-bottom: -0.3em;
   margin-top: 1em;
   text-align: left;
   font-size: 1.3em;
   letter-spacing: 0.03em;
 }
-/* --- RADIO --- */
 .glass-radio-group {
   display: flex;
   flex-direction: column;
   gap: 0.75em;
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
 }
 .glass-radio-group label {
   display: flex;
@@ -1724,24 +1676,24 @@ html:not(.dark-mode) .avatar-label {
   background: rgba(10,14,24,0.46);
   color: var(--pt-80);
 }
-.glass-radio-group label:has(input[type="radio"]:checked) {
+.glass-radio-group label:has(input[type=radio]:checked) {
   border-color: rgba(208,173,173,0.55);
   background: rgba(208,173,173,0.16);
   color: var(--pt-50);
-  box-shadow: 0 8px 18px rgba(6,8,16,0.35);
+  box-shadow: 0 0.5rem 1.125rem rgba(6,8,16,0.35);
 }
-.glass-radio-group label:has(input[type="radio"]:checked) .glass-radio-label-text {
+.glass-radio-group label:has(input[type=radio]:checked) .glass-radio-label-text {
   color: inherit;
 }
-.glass-radio-group label:has(input[type="radio"]:focus-visible) {
+.glass-radio-group label:has(input[type=radio]:focus-visible) {
   border-color: rgba(208,173,173,0.65);
-  box-shadow: 0 0 0 3px rgba(208,173,173,0.30);
+  box-shadow: 0 0 0 0.1875rem rgba(208,173,173,0.30);
 }
-.glass-radio-group input[type="radio"] {
+.glass-radio-group input[type=radio] {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 1.375rem;
+  height: 1.375rem;
   flex: 0 0 auto;
   margin: 0;
   border-radius: 50%;
@@ -1751,41 +1703,40 @@ html:not(.dark-mode) .avatar-label {
   position: relative;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
-.glass-radio-group input[type="radio"]::after {
+.glass-radio-group input[type=radio]::after {
   content: "";
   position: absolute;
-  inset: 5px;
+  inset: 0.3125rem;
   border-radius: 50%;
   background: var(--brand-primary);
   opacity: 0;
   transform: scale(0.6);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.glass-radio-group input[type="radio"]:hover {
+.glass-radio-group input[type=radio]:hover {
   border-color: rgba(208,173,173,0.55);
 }
-.glass-radio-group input[type="radio"]:focus-visible {
+.glass-radio-group input[type=radio]:focus-visible {
   outline: none;
   border-color: rgba(208,173,173,0.65);
-  box-shadow: 0 0 0 3px rgba(208,173,173,0.28);
+  box-shadow: 0 0 0 0.1875rem rgba(208,173,173,0.28);
 }
-.glass-radio-group input[type="radio"]:checked {
+.glass-radio-group input[type=radio]:checked {
   border-color: rgba(208,173,173,0.75);
   background: rgba(12,19,35,0.75);
   box-shadow: inset 0 0 0 1px rgba(12,19,35,0.2);
 }
-.glass-radio-group input[type="radio"]:checked::after {
+.glass-radio-group input[type=radio]:checked::after {
   opacity: 1;
   transform: scale(1);
 }
-/* --- CHECKBOX --- */
 .glass-checkbox {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 0.75em;
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
   box-sizing: border-box;
   margin: 1.2em 0;
   padding: 0.55em 0.8em;
@@ -1806,20 +1757,20 @@ html:not(.dark-mode) .avatar-label {
 .glass-checkbox:hover {
   background: rgba(10,14,24,0.46);
 }
-.glass-checkbox:has(input[type="checkbox"]:checked) {
+.glass-checkbox:has(input[type=checkbox]:checked) {
   border-color: rgba(208,173,173,0.55);
   background: rgba(208,173,173,0.16);
-  box-shadow: 0 8px 18px rgba(6,8,16,0.35);
+  box-shadow: 0 0.5rem 1.125rem rgba(6,8,16,0.35);
   color: var(--pt-60);
 }
-.glass-checkbox:has(input[type="checkbox"]:checked) .checkbox-text {
+.glass-checkbox:has(input[type=checkbox]:checked) .checkbox-text {
   color: inherit;
 }
-.glass-checkbox input[type="checkbox"]{
+.glass-checkbox input[type=checkbox]{
   -webkit-appearance: none;
   appearance: none;
-  width:22px;
-  height:22px;
+  width:1.375rem;
+  height:1.375rem;
   border-radius:0.45em;
   border:1.9px solid rgba(230,226,222,0.45);
   background:rgba(12,19,35,0.55);
@@ -1828,39 +1779,38 @@ html:not(.dark-mode) .avatar-label {
   position:relative;
   transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
-.glass-checkbox input[type="checkbox"]::after{
+.glass-checkbox input[type=checkbox]::after{
   content: "";
   position: absolute;
   inset: 1.6px;
   background: var(--brand-primary);
-  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" fill="none" stroke="white" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / 92% 92% no-repeat;
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" fill="none" stroke="white" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / 92% 92% no-repeat;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 92% 92% no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 92% 92% no-repeat;
   border-radius: 0.2em;
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
-.glass-checkbox input[type="checkbox"]:hover {
+.glass-checkbox input[type=checkbox]:hover {
   border-color: rgba(208,173,173,0.55);
 }
-.glass-checkbox input[type="checkbox"]:focus-visible {
+.glass-checkbox input[type=checkbox]:focus-visible {
   outline: none;
   border-color: rgba(208,173,173,0.65);
-  box-shadow: 0 0 0 3px rgba(208,173,173,0.28);
+  box-shadow: 0 0 0 0.1875rem rgba(208,173,173,0.28);
 }
-.glass-checkbox input[type="checkbox"]:checked {
+.glass-checkbox input[type=checkbox]:checked {
   border-color: rgba(208,173,173,0.75);
   background: rgba(12,19,35,0.75);
 }
-.glass-checkbox input[type="checkbox"]:checked::after{
+.glass-checkbox input[type=checkbox]:checked::after{
   opacity: 1;
   transform: scale(1);
 }
 .checkbox-text {
-  display: inline;          /* lase tekstil mähkuda */
+  display: inline;          
   white-space: normal;
 }
-/* sõnade vaheelemendid jätame, aga joondus on nüüd korrektne */
 .agree-word,
 .and-word {
   font-size: 1em;
@@ -1874,11 +1824,11 @@ html:not(.dark-mode) .avatar-label {
 }
 .and-word { margin-left: 0.3em; }
 .glass-bottom-link .midtext {
-  font-size: 1em;    /* või nt 0.93em väiksemaks, 1.07em suuremaks */
+  font-size: 1em;    
   font-weight: 500;
   vertical-align: text-top;
   letter-spacing: 0.04em;
-    color: var(--pt-150);   /* või --pt-150 kui soovid vahepealset */
+    color: var(--pt-150);   
 }
 .btn-row {
   display: flex;
@@ -1909,7 +1859,7 @@ html:not(.dark-mode) .avatar-label {
   background: #a72424;
   color: #fff;
   border: none;
-  box-shadow: 0 2px 8px rgba(197,64,64,0.2);
+  box-shadow: 0 2px 0.5rem rgba(197,64,64,0.2);
   margin-top: 0.5em;
 }
 .btn-danger:hover,
@@ -1918,23 +1868,23 @@ html:not(.dark-mode) .avatar-label {
   color: #fffbe0;
 }
 .btn-tertiary {
-  background: var(--pt-100);  /* hele platinum */
-  color: var(--pt-600);       /* tumedam tekst */
+  background: var(--pt-100);  
+  color: var(--pt-600);       
   border: 1.5px solid var(--pt-300);
-  box-shadow: 0 2px 8px rgba(195,193,188,0.25); /* platinum halo */
+  box-shadow: 0 2px 0.5rem rgba(195,193,188,0.25); 
   font-weight: 600;
   margin-top: 0.5em;
   transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
 }
 .btn-tertiary:hover,
 .btn-tertiary:focus {
-  background: var(--pt-200);  /* veidi tumedam platinum */
+  background: var(--pt-200);  
   color: var(--pt-600);
   border-color: var(--pt-400);
-  box-shadow: 0 2px 10px rgba(175,170,163,0.35);
+  box-shadow: 0 2px 0.625rem rgba(175,170,163,0.35);
 }
 .tellimus-info-list {
-  max-width: 420px;
+  max-width: 26.25rem;
   margin: 0.7em auto 0.8em auto;
   display: flex;
   flex-direction: column;
@@ -1942,7 +1892,6 @@ html:not(.dark-mode) .avatar-label {
   text-align: left;
   margin-top: -1em;
 }
-/* Staatus blokk (üleval keskel) */
 .tellimus-status-center {
   display: flex;
   flex-direction: column;
@@ -1960,17 +1909,16 @@ html:not(.dark-mode) .avatar-label {
 .tellimus-status-pill {
   display: inline-block;
   border-radius: 1.4em;
-  font-size: 1.16em;          /* Suurem tekst */
-  padding: 0.18em 1.35em;     /* Veidi kõrgem ja laiem pill */
+  font-size: 1.16em;          
+  padding: 0.18em 1.35em;     
   min-width: 0;
   text-align: center;
   font-weight: 700;
-  box-shadow: 0 2px 8px 0 #bfa1771e;
+  box-shadow: 0 2px 0.5rem 0 #bfa1771e;
   letter-spacing: 0.012em;
   margin: 0.7em 0;
   margin-bottom: 1em;
 }
-/* Pill staatused */
 .status-aktiivne  { background: #e8fae0; color: #217a2e; }
 .status-lõppenud  { background: #ffe2e0; color: #bb3333; }
 .status-puudub    { background: #f8f4f0; color: #343434; }
@@ -2009,7 +1957,7 @@ html:not(.dark-mode) .avatar-label {
 .chat-send-btn.stop,
 .login-icon-btn,
 .reset-btn,
-.button, /* prügikast/kustuta */
+.button, 
 .btn-profile-save,
 .btn-profile-logout {
   font-family: var(--font-aino), Arial, sans-serif !important;
@@ -2018,11 +1966,11 @@ html:not(.dark-mode) .avatar-label {
 input,
 textarea,
 select,
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="radio"],
-input[type="checkbox"],
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=number],
+input[type=search],
 .chat-input-field,
 .input-modern,
 .reset-input {
@@ -2035,7 +1983,6 @@ textarea::placeholder,
 .reset-input::placeholder {
   font-family: var(--font-aino), Arial, sans-serif !important;
 }
-/* Labelid (vormis, profiilis, taastamisel jms) */
 label,
 .glass-label,
 .reset-label {
@@ -2060,67 +2007,58 @@ label {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  inline-size: 62px;     /* = width */
-  block-size: 62px;      /* = height */
+  inline-size: 3.875rem;     
+  block-size: 3.875rem;      
   padding: 0;
-  line-height: 0;        /* et tekst ei mõjutaks mõõte */
+  line-height: 0;        
   border: 0;
-  background: transparent; /* ensure no UA background */
-  background-color: transparent; /* explicit for older engines */
+  background: transparent; 
+  background-color: transparent; 
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
   box-shadow: none;
   cursor: pointer;
-  flex: 0 0 auto;        /* ära lase venida */
+  flex: 0 0 auto;        
 }
-/* keep transparent on interaction states as well */
 .back-arrow-btn:hover,
 .back-arrow-btn:focus,
 .back-arrow-btn:active { background: transparent !important; box-shadow: none !important; }
 .back-arrow-circle {
   position: relative;
-  inline-size: 50px;
-  aspect-ratio: 1 / 1;   /* alati ruut → border-radius 50% = ring */
-  block-size: auto;      /* kõrgus tuleb aspect-ratio’st */
+  inline-size: 3.125rem;
+  aspect-ratio: 1 / 1;   
+  block-size: auto;      
   box-sizing: content-box;
-  background: transparent; /* no fill inside ring */
-  border: 3.2px solid #bfa177;
+  background: transparent; 
+  border: 0.2rem solid #bfa177;
   border-radius: 50%;
   transition: transform .18s ease, border-color .16s ease;
   transform-origin: center center;
   will-change: transform;
-  flex: none;            /* lisagarantii: ära venita */
-  transform: translateZ(0); /* väldi alampikslite “mõlgutamist” */
+  flex: none;            
+  transform: translateZ(0); 
 }
 .back-arrow-circle::after {
-  content: "";
-  position: absolute;
+  content: "";position: absolute;
   left: 56%;
   top: 50%;
-  inline-size: 16px;
-  block-size: 16px;
+  inline-size: 1rem;
+  block-size: 1rem;
   transform: translate(-52%, -50%) rotate(45deg);
-  border-left: 3.2px solid #bfa177;
-  border-bottom: 3.2px solid #bfa177;
+  border-left: 0.2rem solid #bfa177;
+  border-bottom: 0.2rem solid #bfa177;
   box-sizing: content-box;
 }
 .back-arrow-btn:hover .back-arrow-circle,
 .back-arrow-btn:focus .back-arrow-circle {
-  transform: scale(1.08); /* ühtlane scale → ei muuda ringi ellipsiks */
+  transform: scale(1.08); 
   border-color: #f2d7bf;
 }
 .back-arrow-btn:hover .back-arrow-circle::after,
 .back-arrow-btn:focus .back-arrow-circle::after {
   border-color: #f2d7bf;
 }
-.back-btn-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1em auto;
-}
-/* --- backdrop --- */
 .modal-backdrop{
   position: fixed;
   inset: 0;
@@ -2129,14 +2067,13 @@ label {
   backdrop-filter: blur(2px);
   z-index: 1000;
 }
-/* ============== MODAL ============== */
 .modal-confirm{
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
-  width: min(92vw, 520px);
+  width: min(92vw, 32.5rem);
   max-width: 92vw;
   max-height: 90svh;            
   max-height: 90dvh;
@@ -2144,14 +2081,14 @@ label {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   background: rgba(31,31,31,.6);
-  border: .5px solid var(--pt-600);
+  border: 0.5px solid var(--pt-600);
   border-radius: 1.5em;
   color: var(--pt-200);
   padding: 2.2em 1.6em 1.6em;
-  padding-bottom: calc(1.6em + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(1.6em + env(safe-area-inset-bottom, 0));
   box-sizing: border-box;
 backdrop-filter: none;
-  box-shadow: 0 2px 12px rgba(195,193,188,.35);
+  box-shadow: 0 2px 0.75rem rgba(195,193,188,.35);
 }
 .modal-confirm p,
 .modal-confirm-text{
@@ -2167,29 +2104,25 @@ backdrop-filter: none;
   justify-content: flex-start;
   margin-top: .8em;
 }
-/* mobiil – kompaktsem ja turvaline */
-@media (max-width:748px){
+@media (max-width: 46.75em){
   .modal-confirm{
     width: 94vw;
-    padding: 1.6em 1.1em calc(1.2em + env(safe-area-inset-bottom, 0px));
+    padding: 1.6em 1.1em calc(1.2em + env(safe-area-inset-bottom, 0));
     border-radius: 1.1em;
-    max-height: 88svh;               /* veidi väiksem buffer */
+    max-height: 88svh;               
   }
   .modal-confirm p,
   .modal-confirm-text{ font-size: 1.1em; }
 }
-/* Modali X-nupp bränditoonides */
 .login-modal-close{ color: var(--brand-primary); }
 .login-modal-close:hover,
 .login-modal-close:focus{ color: var(--brand-primary); }
-/* Alumine link (nt „Registreeru“) ei tohi kaduda */
 .login-modal-bottom-link{
   width: 100%;
   text-align: center;
   margin-top: 0.5em;
-  margin-bottom: 0.2em; /* lisa väike põhi-buffer */
+  margin-bottom: 0.2em; 
 }
-/* === Brändi toonid olulistele elementidele === */
 .glass-h2,
 .reset-title,
 .glass-title,
@@ -2213,12 +2146,10 @@ backdrop-filter: none;
 .login-modal-bottom-link .link-brand:hover,
 .login-modal-bottom-link .link-brand:focus { color: var(--brand-primary) !important; }
 .glass-box .epost-row { color: var(--pt-200); font-weight: 500; }
-/* === Vormid/checkbox/radio brändi järgi === */
-.glass-radio-group input[type="radio"],
-.glass-checkbox input[type="checkbox"]{
+.glass-radio-group input[type=radio],
+.glass-checkbox input[type=checkbox]{
   accent-color: var(--brand-primary);
 }
-/* === Tagasi noole bränd === */
 .back-arrow-circle { border-color: var(--brand-primary); }
 .back-arrow-circle::after {
   border-left-color: var(--brand-primary);
@@ -2228,11 +2159,34 @@ backdrop-filter: none;
 .back-arrow-btn:focus .back-arrow-circle { border-color: var(--brand-primary); }
 .back-arrow-btn:hover .back-arrow-circle::after,
 .back-arrow-btn:focus .back-arrow-circle::after { border-color: var(--brand-primary); }
-/* === Chat input värvid (dark/light) === */
 html.dark-mode .chat-inputbar .chat-input-field::placeholder { color: #fafcff; }
 html:not(.dark-mode) .chat-inputbar{
   background: transparent;
   border: 1.5px solid var(--pt-mid);
+}
+
+/* Subpage back button: slightly darker tone */
+.back-btn-wrapper .back-arrow-circle,
+.chat-back-btn-wrapper .back-arrow-circle {
+  border-color: #b48d8d; /* slightly lighter than previous */
+}
+.back-btn-wrapper .back-arrow-circle::after,
+.chat-back-btn-wrapper .back-arrow-circle::after {
+  border-left-color: #b48d8d;
+  border-bottom-color: #b48d8d;
+}
+.back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle,
+.back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle,
+.chat-back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle,
+.chat-back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle {
+  border-color: #b48d8d;
+}
+.back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle::after,
+.back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle::after,
+.chat-back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle::after,
+.chat-back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle::after {
+  border-left-color: #b48d8d;
+  border-bottom-color: #b48d8d;
 }
 html:not(.dark-mode) .chat-inputbar .chat-input-field{
   color: var(--pt-50);
@@ -2249,7 +2203,7 @@ textarea::placeholder{
   font: inherit;
   color: rgba(245,248,255,0.82) !important;
   opacity: 0.92 !important;
-  letter-spacing: 0.05em; /* unify placeholder tracking for forms */
+  letter-spacing: 0.05em; 
 }
 .glass-form:not(.profile-form-vertical) .input-modern::placeholder{
   color: var(--pt-150) !important;
@@ -2259,7 +2213,7 @@ textarea::placeholder{
   font: inherit;
   color: rgba(245,248,255,0.94) !important;
   opacity: 0.98 !important;
-  letter-spacing: 0.05em; /* match registration/profile placeholders */
+  letter-spacing: 0.05em; 
 }
 .reset-input::placeholder{
   font: inherit;
@@ -2268,24 +2222,21 @@ textarea::placeholder{
 }
 .chat-container input::placeholder,
 .chat-container textarea::placeholder {
-  color: var(--pt-200) !important;  /* hele platinum */
+  color: var(--pt-200) !important;  
   opacity: 0.85 !important;
 }
-/* Fade utiliidid (jätame alles) */
-.defer-fade{ --end-op:1; --fade-dur:3000ms; --fade-delay:3500ms; --start-ty:12px;
+.defer-fade{ --end-op:1; --fade-dur:3000ms; --fade-delay:3500ms; --start-ty:0.75rem;
   opacity:0; visibility:hidden; transform:translateY(var(--start-ty)) scale(.992);
   animation: dfade-in var(--fade-dur) cubic-bezier(.16,.84,.44,1) forwards;
   animation-delay: var(--fade-delay); will-change:opacity,transform;
 }
 .defer-from-top{ --start-ty:-12px; }
-.defer-from-bottom{ --start-ty:12px; }
+.defer-from-bottom{ --start-ty:0.75rem; }
 .defer-fade.delay-1{ --fade-delay:3800ms; }
 .defer-fade.delay-2{ --fade-delay:3800ms; }
-.footer-logo-img.defer-fade.dim{ --end-op:.55; }
-.top-center-link.defer-fade.dim{ --end-op:.95; } /* tugevam nähtavus MEIST nupule */
-/* Mobile: show logo/link instantly (no delayed fade) */
-@media (max-width: 768px){
-  /* Tagakülje väiksem ring mobiilis */
+.footer-logo-img.defer-fade.dim{ --end-op:.65; }
+.top-center-link.defer-fade.dim{ --end-op:.95; } 
+@media (max-width: 48em){
   .three-d-card,
   .footer-logo-img.defer-fade,
   .top-center-link.defer-fade{
@@ -2300,31 +2251,30 @@ textarea::placeholder{
   1%{ visibility:visible; opacity:0; }
   100%{ visibility:visible; opacity:var(--end-op); transform:translateY(0) scale(1); }
 }
-/* ============== XL desktopi peenlihvid ============== */
-@media (min-width:1600px){
-  :root{ --card-size: clamp(320px, 28vw, 560px); }
+@media (min-width: 100em){
+  :root{ --card-size: clamp(20rem, 28vw, 35rem); }
   .glass-card,
   .centered-back-left,
   .centered-back-right{ padding: clamp(2.4em, 1.6vw, 3.4em); }
   .centered-back-left .headline-bold{ font-size: clamp(2.2rem, 1.6vw, 3rem); }
   .centered-back-right .headline-bold{ font-size: clamp(2rem, 1.5vw, 2.8rem); }
   .left-card-primary .headline-bold,
-  .right-card-primary .card-title{ font-size: clamp(2.6rem, 1.8vw, 3.4rem); }
-  .card-logo-bg-right{ width: clamp(50%, 18vw, 64%); }
-  .card-logo-bg-left { width: clamp(60%, 20vw, 74%); }
+  /* Slightly smaller, keep proportionate on very wide screens */
+  .card-logo-bg-right{ width: clamp(40%, 16vw, 52%); }
+  .card-logo-bg-left { width: clamp(46%, 18vw, 58%); }
   .centered-back-left .card-logo-bg-left-back,
-  .centered-back-right .card-logo-bg-right-back{ width: clamp(28%, 12vw, 36%); }
-  .footer-logo-img{ max-width: clamp(360px, 20vw, 480px); }
+  .centered-back-right .card-logo-bg-right-back{ width: clamp(28%, 12vw, 34%); }
+  .footer-logo-img{ max-width: clamp(22.5rem, 20vw, 30rem); }
   .footer-link-headline{ font-size: clamp(1.6rem, 1.1vw, 2.1rem); }
 }
 .top-center-nav{
   position: fixed !important;
   left: 0; right: 0;
-  top: max(10px, env(safe-area-inset-top, 0px) + 8px);
+  top: max(0.625rem, env(safe-area-inset-top, 0) + 0.5rem);
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;     /* klikk ainult lingil */
+  pointer-events: none;     
   z-index: 120;
 }
 .top-center-nav .top-center-link,
@@ -2338,18 +2288,16 @@ textarea::placeholder{
 .footer-bottom-nav .top-center-link:focus{
   color: var(--brand-primary);
 }
-/* ---- Tellimuse leht: kitsam veerg + suurem sisepadding, vasakjoon ---- */
 .glass-box.tellimus-box{
   padding: clamp(1.6rem, 4.5vw, 2.8rem) clamp(1.8rem, 5.2vw, 3.2rem);
-  max-width: min(820px, 92vw);
+  max-width: min(51.25rem, 92vw);
   margin-left: auto;
   margin-right: auto;
 }
 .glass-box.tellimus-box .glass-title{
-  text-align: center;             /* ⟵ pealkiri keskel */
+  text-align: center;             
   margin: 0 0 clamp(.8rem, 1.6vw, 1.2rem) 0;
 }
-/* sisu kitsamas veerus ja vasakjoones */
 .glass-box.tellimus-box .content-narrow,
 .glass-box.tellimus-box > p,
 .glass-box.tellimus-box > ul,
@@ -2367,34 +2315,28 @@ body.modal-open {
   overflow: hidden;
   height: 100%;
 }
-@media (min-width: 769px) {
+@media (min-width: 48.0625em) {
   body.modal-open .top-center-nav,
   body.modal-open .top-center-nav .top-center-link {
     display: none !important;
   }
 }
-@media (max-width: 768px){
-  /* Üldine kerimine vabaks (ära lukusta kõrgusi) */
+@media (max-width: 48em){
   html, body{
-    overscroll-behavior: auto !important;  /* ära kasuta contain/none */
-    min-height: 100dvh;                     /* stabiilne viewport-kõrgus */
-    /* ÄRA pane -webkit-overflow-scrolling siia – pane päris keritavatele plokkidele */
+    overscroll-behavior: auto !important;  
+    min-height: 100dvh;                     
   }
-  /* Vertikaalne touch – väldib horisontaalseid “kinni jooksmisi” */
   body{ touch-action: pan-y; }
-  /* Avalehe põhistruktuur mobiilis */
   .homepage-root{
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     gap: clamp(1.4rem, 5vw, 2.2rem);
     touch-action: pan-y;
-    -webkit-overflow-scrolling: touch; /* inertne kerimine iOS-is */
+    -webkit-overflow-scrolling: touch; 
   }
   .homepage-root > .main-content{ order: 1; }
-  /* Kui taustakiht võib puute sündmusi kinni püüda */
   #bg-layer{ pointer-events: none !important; }
-  /* Kui jalus oli varem fixed, lülita mobiilis vabaks, et topelt-scrolli ei tekiks */
   .footer-column{ position: static !important; }
   .main-content {
     display: flex;
@@ -2410,14 +2352,12 @@ body.modal-open {
     padding: 1.25rem 1rem !important;
   }
   .float-card { animation: none !important; transform: none !important; }
-  /* Flip mobiilis ainult klassidega */
   .three-d-card.mobile-flipped-left  .card-wrapper { transform: rotateY(180deg) !important; }
   .three-d-card.mobile-flipped-right .card-wrapper { transform: rotateY(-180deg) !important; }
   .three-d-card.mobile-flipped-left  .card-face.back,
   .three-d-card.mobile-flipped-right .card-face.back { pointer-events: auto; }
   .three-d-card.mobile-flipped-left  .card-face.front,
   .three-d-card.mobile-flipped-right .card-face.front { pointer-events: none; }
-  /* Halo animatsioonid maha mobiilis */
   .glass-card.glow-active,
   .three-d-card:hover .card-face.front > .glass-card,
   .three-d-card:focus-within .card-face.front > .glass-card,
@@ -2433,7 +2373,6 @@ body.modal-open {
     --halo-mid: 0 0 0 0 transparent;
     box-shadow: var(--base-shadow);
   }
-  /* MEIST link: voolab sisu sees */
   .homepage-root > .top-center-nav {
     position: static !important;
     top: auto !important;
@@ -2456,7 +2395,6 @@ body.modal-open {
     padding: 0.44em 1.05em;
     line-height: 1.15;
   }
-  /* Jalus pole fixed */
   .homepage-root > .footer-column { order: 3; }
   .footer-column {
     position: static;
@@ -2466,7 +2404,7 @@ body.modal-open {
     bottom: auto;
     z-index: auto;
   padding: clamp(0.2rem, 1vw, 0.9rem) 0 clamp(0.35rem, 1vw, 1.2rem);
-  gap: clamp(0.4rem, 2vw, 1rem);      /* kaugus MEIST ja logo vahel */
+  gap: clamp(0.4rem, 2vw, 1rem);      
   margin-top: clamp(-0.4rem, -1.5vw, 0.2rem);
   }
 .footer-column.footer-column-mobile {
@@ -2477,13 +2415,12 @@ body.modal-open {
   .footer-bottom-nav {
     display: flex;
     justify-content: center;
-  margin-top: clamp(-2rem, -5vw, -6rem);  /* tõstab MEIST üles, kuid jätab vahe */
+  margin-top: clamp(-2rem, -5vw, -6rem);  
   margin-bottom: clamp(0.25rem, 1vw, 0.6rem);
   }
   .footer-bottom-nav .footer-link-headline {
     padding: 0.38em 1em;
   }
-  /* Kaardi BACK sisu proportsioonid */
   .centered-back-left,
   .centered-back-right {
     width: 88%;
@@ -2497,17 +2434,14 @@ body.modal-open {
     row-gap: clamp(1rem, 3.2vw, 1.7rem);
     text-align: center;
   }
-  /* Väikesed UI detailid */
   .splash-cursor { display: none !important; }
   .chat-menu-btn{
-left: calc(var(--hud-edge-left) + 15px)
+left: calc(var(--hud-edge-left) + 0.9375rem)
   }
-  /* Klaaskastid saavad vaikimisi külgmised padjad */
   .glass-box {
-    padding-left: clamp(16px, 4.5vw, 22px) !important;
-    padding-right: clamp(16px, 4.5vw, 22px) !important;
+    padding-left: clamp(1rem, 4.5vw, 1.375rem) !important;
+    padding-right: clamp(1rem, 4.5vw, 1.375rem) !important;
   }
-  /* Login-modal täisekraan + kerimispiirang */
   .login-modal-box,
   .glass-modal {
     position: fixed !important;
@@ -2521,28 +2455,27 @@ left: calc(var(--hud-edge-left) + 15px)
     margin: 0 !important;
     box-shadow: none !important;
     background: rgba(31,31,31,0.6) !important;
-    backdrop-filter: blur(10px) saturate(110%) !important;
-    -webkit-backdrop-filter: blur(10px) saturate(110%) !important;
+    backdrop-filter: blur(0.625rem) saturate(110%) !important;
+    -webkit-backdrop-filter: blur(0.625rem) saturate(110%) !important;
     z-index: 1002 !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
     padding:
-      max(12px, env(safe-area-inset-top))
-      max(12px, env(safe-area-inset-right))
-      max(14px, env(safe-area-inset-bottom))
-      max(12px, env(safe-area-inset-left)) !important;
+      max(0.75rem, env(safe-area-inset-top))
+      max(0.75rem, env(safe-area-inset-right))
+      max(0.875rem, env(safe-area-inset-bottom))
+      max(0.75rem, env(safe-area-inset-left)) !important;
   }
   .login-modal-close {
     position: absolute !important;
-    top: max(8px, env(safe-area-inset-top, 0px)) !important;
-    right: max(8px, env(safe-area-inset-right, 0px)) !important;
+    top: max(0.5rem, env(safe-area-inset-top, 0)) !important;
+    right: max(0.5rem, env(safe-area-inset-right, 0)) !important;
     z-index: 1010 !important;
   }
 }
-/* Drawer’i ülaritta nuppude stiilid */
 .drawer-panel .cs-actions{
-  display:flex; align-items:center; gap:8px;
-  margin:10px 10px 12px;
+  display:flex; align-items:center; gap:0.5rem;
+  margin:0.625rem 0.625rem 0.75rem;
 }
 .drawer-panel .cs-btn{
   font:inherit; font-weight:600; letter-spacing:.03em;
@@ -2552,7 +2485,7 @@ left: calc(var(--hud-edge-left) + 15px)
   border:1px solid rgba(175,170,163,.30);
 backdrop-filter: none;
 -webkit-backdrop-filter: none;
-  box-shadow:inset 0 0 2px rgba(255,255,255,.10), 0 6px 16px rgba(0,0,0,.10);
+  box-shadow:inset 0 0 2px rgba(255,255,255,.10), 0 0.375rem 1rem rgba(0,0,0,.10);
   transition:background .18s, border-color .18s, color .18s, box-shadow .18s, transform .06s;
 }
 .drawer-panel .cs-btn:hover,
@@ -2560,12 +2493,12 @@ backdrop-filter: none;
   color:var(--pt-80);
   background:linear-gradient(to bottom right, rgba(255,255,255,.09), rgba(201,199,194,.10));
   border-color:rgba(201,199,194,.38);
-  box-shadow:0 0 10px rgba(201,199,194,.22), 0 10px 22px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
+  box-shadow:0 0 0.625rem rgba(201,199,194,.22), 0 0.625rem 1.375rem rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
   outline:none;
 }
 .drawer-panel .cs-btn:active{ transform:translateY(1px); }
 .drawer-panel .cs-refresh{
-  inline-size:36px; block-size:36px; display:grid; place-items:center;
+  inline-size:2.25rem; block-size:2.25rem; display:grid; place-items:center;
   border-radius:50%; color:var(--pt-100);
   background:rgba(255,255,255,.05); border:1px solid var(--pt-600);
   cursor:pointer;
@@ -2576,28 +2509,28 @@ backdrop-filter: none;
   background:rgba(255,255,255,.12);
   border-color:var(--brand-primary);
   color:var(--brand-primary);
-  box-shadow:0 0 10px rgba(201,199,194,.28);
+  box-shadow:0 0 0.625rem rgba(201,199,194,.28);
   outline:none;
 }
 .drawer-panel .cs-refresh:active{ transform:scale(.94); }
-.drawer-panel .cs-refresh-icon{ width:18px; height:18px; transition:transform .35s ease; }
+.drawer-panel .cs-refresh-icon{ width:1.125rem; height:1.125rem; transition:transform .35s ease; }
 .chat-sources-btn{
   font:inherit;
   font-weight:600;
   letter-spacing:.03em;
   padding:.48rem 1.2rem;
-  border-radius:999px;
+  border-radius:62.4375rem;
   cursor:pointer;
-  min-width:110px;
+  min-width:6.875rem;
   display:inline-flex;
   align-items:center;
-  justify-content:center;
+  justify-content: center;
   color:var(--pt-130);
   background:linear-gradient(to bottom right, rgba(255,255,255,.06), rgba(201,199,194,.06));
   border:1px solid rgba(175,170,163,.30);
 backdrop-filter: none;
 -webkit-backdrop-filter: none;
-  box-shadow:inset 0 0 2px rgba(255,255,255,.10), 0 6px 16px rgba(0,0,0,.10);
+  box-shadow:inset 0 0 2px rgba(255,255,255,.10), 0 0.375rem 1rem rgba(0,0,0,.10);
   transition:background .18s, border-color .18s, color .18s, box-shadow .18s, transform .06s;
 }
 .chat-sources-btn:hover,
@@ -2605,7 +2538,7 @@ backdrop-filter: none;
   color:var(--pt-80);
   background:linear-gradient(to bottom right, rgba(255,255,255,.09), rgba(201,199,194,.10));
   border-color:rgba(201,199,194,.38);
-  box-shadow:0 0 10px rgba(201,199,194,.22), 0 10px 22px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
+  box-shadow:0 0 0.625rem rgba(201,199,194,.22), 0 0.625rem 1.375rem rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
   outline:none;
 }
 .chat-sources-btn:active{ transform:translateY(1px); }
@@ -2613,18 +2546,15 @@ backdrop-filter: none;
   color:var(--pt-80);
   background:linear-gradient(to bottom right, rgba(255,255,255,.1), rgba(201,199,194,.12));
   border-color:rgba(201,199,194,.42);
-  box-shadow:0 0 0 1px rgba(201,199,194,.35), 0 6px 18px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.15);
+  box-shadow:0 0 0 1px rgba(201,199,194,.35), 0 0.375rem 1.125rem rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.15);
 }
 .chat-sources-btn--mini{
   padding:.4rem 1rem;
-  min-width:96px;
+  min-width:6rem;
   font-size:.85rem;
   letter-spacing:.02em;
 }
 .drawer-panel .cs-refresh:hover .cs-refresh-icon{ transform:rotate(120deg); }
-/* ===========================
-   Drawer (klaas + hele tekst)
-   =========================== */
 .drawer-overlay{
   position:fixed; inset:0;
   background:rgba(0,0,0,.45);
@@ -2634,65 +2564,60 @@ backdrop-filter: none;
 }
 .drawer-panel{
   position:fixed; top:0; bottom:0; left:0;
-  width:340px; max-width:85vw;
+  width:21.25rem; max-width:85vw;
   transform:translateX(-105%);
   transition:transform .22s ease;
   z-index:41; overflow:auto;
   background:rgba(31,31,31,.60);
-  border-right:.5px solid var(--pt-600);
+  border-right:0.5px solid var(--pt-600);
 -webkit-backdrop-filter: none;
 backdrop-filter: none;
   color:var(--pt-100);
-  box-shadow:0 0 30px rgba(0,0,0,.35);
+  box-shadow:0 0 1.875rem rgba(0,0,0,.35);
 }
 .drawer-panel.open{ transform:translateX(0); }
 .drawer-header{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px;
+  display:flex; align-items:center; justify-content: space-between;
+  padding:0.75rem;
   border-bottom:1px solid rgba(255,255,255,.07);
 }
 .drawer-header strong{
   color:var(--brand-primary);
   font-weight:700; letter-spacing:.03em;
 }
-/* X-nupp */
 .drawer-close{
   appearance:none; background:transparent; border:none;
-  padding:2px 6px; font:inherit; font-size:22px; line-height:1; color:var(--pt-100);
+  padding:2px 0.375rem; font:inherit; font-size:1.375rem; line-height:1; color:var(--pt-100);
   cursor:pointer; position:relative;
   transition:color .16s ease, transform .08s ease;
 }
 .drawer-close:hover{ color:var(--brand-primary); }
 .drawer-close:focus-visible{ outline:none; }
 .drawer-close:focus-visible::after{
-  content:""; position:absolute; left:50%; top:50%;
-  width:28px; height:28px; transform:translate(-50%,-50%); border-radius:50%;
+  content: "";position:absolute; left:50%; top:50%;
+  width:1.75rem; height:1.75rem; transform:translate(-50%,-50%); border-radius:50%;
   box-shadow:0 0 0 2px rgba(217,163,146,.35); pointer-events:none;
 }
 .drawer-close:active{ transform:scale(.96); }
-/* ===========================
-   ChatSidebar – loend (miinimum)
-   =========================== */
 .cs-container{ display:block; }
 .cs-list{ list-style:none; padding:0; margin:0; }
 .cs-item{
-  display:flex; justify-content:space-between; align-items:center; gap:8px;
-  padding:8px 6px;
+  display:flex; justify-content: space-between; align-items:center; gap:0.5rem;
+  padding:0.5rem 0.375rem;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .cs-link{
   text-align:left; flex:1; background:none; border:none; cursor:pointer;
-  padding:6px 4px; border-radius:8px; transition:background .15s; color:inherit;
+  padding:0.375rem 0.25rem; border-radius:0.5rem; transition:background .15s; color:inherit;
 }
 .cs-link:hover{ background:rgba(255,255,255,.05); }
 .cs-title{ font-weight:700; letter-spacing:.02em; color:var(--pt-150); }
-.cs-time{ color:var(--pt-300); opacity:.9; font-size:12px; }
-.cs-empty{ color:var(--pt-300); opacity:.9; font-size:14px; }
-/* Kustuta */
+.cs-time{ color:var(--pt-300); opacity:.9; font-size:0.75rem; }
+.cs-empty{ color:var(--pt-300); opacity:.9; font-size:0.875rem; }
 .cs-delete{
-  inline-size:36px; block-size:36px;
+  inline-size:2.25rem; block-size:2.25rem;
   display:grid; place-items:center;
-  border-radius:10px;
+  border-radius:0.625rem;
   background:rgba(255,255,255,.05);
   border:1px solid var(--pt-600);
   color:var(--pt-100);
@@ -2704,53 +2629,44 @@ backdrop-filter: none;
   background:rgba(255,255,255,.10);
   border-color:#C04848;
   color:#FF7B7B;
-  box-shadow:0 0 10px rgba(192,72,72,.25);
+  box-shadow:0 0 0.625rem rgba(192,72,72,.25);
   outline:none;
 }
 .cs-delete:active{ transform: scale(.96); }
-.cs-trash-icon{ width:20px; height:20px; }
-/* Scrollbarid */
+.cs-trash-icon{ width:1.25rem; height:1.25rem; }
 .drawer-panel, .cs-list{
   scrollbar-width:thin; scrollbar-color: var(--pt-mid) transparent;
 }
-.drawer-panel::-webkit-scrollbar, .cs-list::-webkit-scrollbar{ width:12px; }
+.drawer-panel::-webkit-scrollbar, .cs-list::-webkit-scrollbar{ width:0.75rem; }
 .drawer-panel::-webkit-scrollbar-track, .cs-list::-webkit-scrollbar-track{ background:transparent; }
 .drawer-panel::-webkit-scrollbar-thumb, .cs-list::-webkit-scrollbar-thumb{
   background:linear-gradient(135deg,var(--pt-400),var(--pt-200));
-  border-radius:10px; border:3px solid transparent;
+  border-radius:0.625rem; border:0.1875rem solid transparent;
 }
-/* abiklass – piirab loendi kõrgust */
-.cs-scroll{ overflow:auto; max-height:calc(100vh - 140px); }
-/* ==========================================
-   CHAT: baas-layout (desktop + mobiil), NON-sticky
-   ========================================== */
-/* Klaaskast, pealkiri, rütm */
+.cs-scroll{ overflow:auto; max-height:calc(100dvh - 8.75rem); }
 .glass-box.chat-container{
   --chat-hpad: clamp(0.6rem, 1.8vw, 1rem);
   --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
   --hud-icon: clamp(3rem, 5vw, 3.3rem);
-  --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0px));
-  --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0px));
-  --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0px));
+  --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
+  --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
+  --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
   position: relative; z-index:20;
   display:flex; flex-direction:column; box-sizing:border-box;
-  width:100%; max-width:850px;
-  height:96vh; max-height:96vh;
+  width:100%; max-width:53.125rem;
+  height:96dvh; max-height:96dvh;
   margin:.6em auto;
   gap:.4rem;
   padding-top:.6rem; padding-bottom:.7rem;
 }
 .glass-box.chat-container .glass-title{
-  margin-top: 2.2rem !important; /* pealkiri allapoole */
+  margin-top: 2.2rem !important; 
 }
-/* Ülanupud – me ei kasuta vanu ghoste, ainult hamburger (vt all) */
 .chat-container .chat-actions{ display:none; }
-/* Põhikolonn: aken kerib, input on all */
 .chat-main{
   position:relative; display:flex; flex-direction:column;
   flex:1 1 auto; min-height:0; gap:.5rem;
 }
-/* ---- CHAT WINDOW (ainus keritav plokk) ---- */
 .chat-window{
   flex:1 1 auto; min-height:0;
   display:flex; flex-direction:column; align-items:flex-start; gap:.65em;
@@ -2758,31 +2674,29 @@ backdrop-filter: none;
   padding: clamp(.75rem, 2vw, 1.2rem) var(--chat-hpad) clamp(1rem, 3vw, 1.6rem);
   scrollbar-width:thin; scrollbar-color: var(--pt-mid) transparent;
 }
-.chat-window::-webkit-scrollbar{ width:12px; }
+.chat-window::-webkit-scrollbar{ width:0.75rem; }
 .chat-window::-webkit-scrollbar-track{ background:transparent; }
 .chat-window::-webkit-scrollbar-thumb{
   background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
-  border-radius:10px; border:3px solid transparent;
+  border-radius:0.625rem; border:0.1875rem solid transparent;
 }
-/* ---- SISENDIRIBA (mitte-sticky) ---- */
 .chat-inputbar{
-  --inputbar-h: 66px;
+  --inputbar-h: 4.125rem;
   align-self:stretch; width:auto; max-width:none;
   margin: .6rem var(--chat-hpad) .7rem;
-  display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:4px;
-  /* lukusta kuju, et “lapikuks” ei vajuks */
+  display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:0.25rem;
   flex: 0 0 var(--inputbar-h);
   height: var(--inputbar-h);
   min-height: var(--inputbar-h);
   border: 2px solid rgba(220,220,220,0.3);
-  border-radius:999px;
+  border-radius:62.4375rem;
   background: rgba(10,14,24,0.22);
   box-shadow:
     0 0 0 1px rgba(10, 12, 18, 0.65),
     inset 0 0 0 1px rgba(0,0,0,0.55);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  padding:0 10px;
+  padding:0 0.625rem;
   overflow:hidden;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
@@ -2790,42 +2704,35 @@ backdrop-filter: none;
   border-color: rgba(236, 235, 233, 0.92);
   background: rgba(10,14,24,0.30);
   box-shadow:
-    0 0 0 2.6px rgba(201,199,194,0.28),
-    0 0 15px rgba(195,193,188,0.48),
+    0 0 0 0.1625rem rgba(201,199,194,0.28),
+    0 0 0.9375rem rgba(195,193,188,0.48),
     inset 0 0 0 1px rgba(0,0,0,0.45);
 }
-/* Remove default outline; wrapper shows focus glow */
 .chat-inputbar .chat-input-field:focus-visible{ outline: none; }
 .chat-inputbar .chat-input-field{
   all:unset; box-sizing:border-box; width:100%; height:100%;
-  display:flex; align-items:center;            /* vert keskjoonduse põhi */
-  /* täpne tsentreerimine: (riba kõrgus – rea kõrgus)/2 */
+  display:flex; align-items:center;            
   line-height:1.35;
   padding-top:   calc((var(--inputbar-h) - 1.35em)/2);
   padding-bottom:calc((var(--inputbar-h) - 1.35em)/2);
-  padding-inline: clamp(14px, 4vw, 18px);
+  padding-inline: clamp(0.875rem, 4vw, 1.125rem);
   color: var(--pt-100); caret-color: var(--pt-100);
   font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   text-align:left;
-  overflow-y:hidden; /* ära näita textareas kerimisriba */
+  overflow-y:hidden; 
   scrollbar-width:thin;
   scrollbar-color: var(--pt-mid) transparent;
   transition: color 0.18s ease, opacity 0.18s ease;
 }
-/* focus styles are driven by the wrapper :focus-within glow */
-/* Placeholder – hele ja kaitstud üldise !important reegli vastu */
 .chat-inputbar .chat-input-field::placeholder{ color:#c39a9a; opacity:1; }
-/* keep placeholder consistent; no extra fade on focus */
 .chat-container .chat-input-field::placeholder{ color:#c39a9a !important; opacity:1 !important; }
-.chat-inputbar .chat-input-field::-webkit-scrollbar{ width:8px; }
+.chat-inputbar .chat-input-field::-webkit-scrollbar{ width:0.5rem; }
 .chat-inputbar .chat-input-field::-webkit-scrollbar-track{ background:transparent; }
 .chat-inputbar .chat-input-field::-webkit-scrollbar-thumb{
   background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
-  border-radius:999px; border:3px solid transparent;
+  border-radius:62.4375rem; border:0.1875rem solid transparent;
 }
 .chat-inputbar .chat-input-field::-webkit-scrollbar-button{ display:none; width:0; height:0; }
-/* Saatmisnupp */
-/* 💬 Saatmisnupp */
 .chat-send-btn {
   --btn-border-idle: rgba(220, 220, 220, 0.30);
   --btn-border-glow: rgba(201, 199, 194, 0.26);
@@ -2833,15 +2740,15 @@ backdrop-filter: none;
   --btn-bg-hover: rgba(10, 14, 24, 0.30);
   --btn-shadow-outer: 0 0 0 1.2px rgba(10, 12, 18, 0.7);
   --btn-shadow-inner: inset 0 0 0 1px rgba(0,0,0,0.55);
-  flex: 0 0 56px;
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
+  flex: 0 0 3.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 62.4375rem;
   border: 2px solid var(--btn-border-idle);
   background: var(--btn-bg-idle);
   display: flex;
   align-items: center;
-  justify-content: center; /* ← tagab vertikaalse ja horisontaalse keskuse */
+  justify-content: center; 
   cursor: pointer;
   box-shadow:
     var(--btn-shadow-outer),
@@ -2851,49 +2758,42 @@ backdrop-filter: none;
   overflow: visible;
   outline: none;
 }
-
-/* Hover / focus efekt */
 .chat-send-btn:hover,
 .chat-send-btn:focus-visible {
   background: var(--btn-bg-hover);
   border-color: rgba(236,235,233,0.92);
   box-shadow:
-    0 0 0 2.4px var(--btn-border-glow),
-    0 0 16px rgba(195, 193, 188, 0.50),
+    0 0 0 0.15rem var(--btn-border-glow),
+    0 0 1rem rgba(195, 193, 188, 0.50),
     inset 0 0 0 1px rgba(0,0,0,0.5);
 }
-
-.chat-send-btn[data-loader-active="true"],
+.chat-send-btn[data-loader-active=],
 .chat-send-btn--active,
-.chat-send-btn:has(.send-loader[data-animated="true"]) {
+.chat-send-btn:has(.send-loader[data-animated=]) {
   background: rgba(10, 14, 24, 0.30);
   border-color: rgba(236,235,233,0.92);
   box-shadow:
-    0 0 0 2.4px var(--btn-border-glow),
-    0 0 16px rgba(195, 193, 188, 0.50),
+    0 0 0 0.15rem var(--btn-border-glow),
+    0 0 1rem rgba(195, 193, 188, 0.50),
     inset 0 0 0 1px rgba(0,0,0,0.5);
 }
-
-.chat-send-btn[data-loader-active="true"]:hover,
-.chat-send-btn[data-loader-active="true"]:focus-visible,
+.chat-send-btn[data-loader-active=]:hover,
+.chat-send-btn[data-loader-active=]:focus-visible,
 .chat-send-btn--active:hover,
 .chat-send-btn--active:focus-visible,
-.chat-send-btn:has(.send-loader[data-animated="true"]):hover,
-.chat-send-btn:has(.send-loader[data-animated="true"]):focus-visible {
+.chat-send-btn:has(.send-loader[data-animated=]):hover,
+.chat-send-btn:has(.send-loader[data-animated=]):focus-visible {
   background: rgba(10, 14, 24, 0.30);
   border-color: rgba(245,243,238,0.98);
   box-shadow:
-    0 0 0 3px rgba(204, 201, 196, 0.36),
-    0 0 22px rgba(203, 201, 196, 0.60),
+    0 0 0 0.1875rem rgba(204, 201, 196, 0.36),
+    0 0 1.375rem rgba(203, 201, 196, 0.60),
     inset 0 0 0 1px rgba(0,0,0,0.45);
 }
-
-/* Klõpsu efekt */
 .chat-send-btn:active {
   transform: scale(0.96);
   box-shadow: 0 0 0 1px var(--btn-border-glow);
 }
-
 .chat-send-btn:disabled {
   cursor: default;
   opacity: 0.65;
@@ -2902,15 +2802,13 @@ backdrop-filter: none;
   box-shadow: 0 0 0 1px rgba(201, 199, 194, 0.08);
   pointer-events: none;
 }
-
-/* 🔹 Loaderi konteiner nupu sees */
 .chat-send-btn .stage {
   display: grid;
+  place-items: center;
   align-items: center;
-  pointer-events: none; /* ei sega klikke */
-  overflow: visible; /* lase kuma nähtavale */
+  pointer-events: none; 
+  overflow: visible; 
 }
-
 .chat-send-btn .send-loader {
   --sotsiaalai-loader-size: calc(100% + 2px);
   --glow-opacity-base: 0.14;
@@ -2918,7 +2816,6 @@ backdrop-filter: none;
   --minScale: 0.82;
   --maxScale: 1.6;
 }
-
 .chat-send-btn .send-loader svg {
   display: block;
   width: 100%;
@@ -2927,40 +2824,46 @@ backdrop-filter: none;
   transform: scale(1.55);
   transform-origin: center;
 }
-
-/* 🔹 Kui kasutatakse fallback SVG-ikooni */
 .chat-send-btn svg:not(.svg) {
-  width: 26px;
-  height: 26px;
+  width: 1.625rem;
+  height: 1.625rem;
   stroke: var(--pt-600);
   stroke-width: 2.6;
   fill: none;
 }
-
-/* Chat input controls – align clip + send buttons */
 .chat-inputbar .chat-send-btn{
   margin-top: -2px;
-  margin-right: -6px; /* sama kaugus parema servaga nagu clip-nupul vasakul */
+  margin-right: -6px; 
 }
 .chat-inputbar .chat-attach-as-send{
   margin-top: -2px;
-  margin-left: -6px; /* tõsta klamber lähemale välise servani */
+  margin-left: -6px;
+  color: var(--pt-150);
 }
 .chat-inputbar .chat-input-field{
-  padding-inline-start: clamp(12px, 3vw, 18px); /* veidi rohkem ruumi clipi ja teksti vahel */
+  padding-inline-start: clamp(0.75rem, 3vw, 1.125rem); 
 }
 .chat-attach-as-send > img{
-  width: 26px;
-  height: 26px;
+  width: 2rem;
+  height: 2rem;
   display: block;
   filter: invert(82%) brightness(0.92) contrast(1.08);
   opacity: 0.95;
 }
-.chat-send-btn {
-  position: relative;     /* ⟵ vajalik, et absolute laps joondada nupu suhtes */
-  overflow: visible;      /* ⟵ lase üle servade nokitseda */
+.chat-attach-icon{
+  width: 1.7rem !important;
+  height: 1.7rem !important;
+  display: block;
+  color: var(--pt-80);
+  opacity: 0.95;
 }
-
+.chat-attach-btn:disabled .chat-attach-icon{
+  opacity: 0.45;
+}
+.chat-send-btn {
+  position: relative;     
+  overflow: visible;      
+}
 .chat-send-btn.chat-attach-as-send{
   --btn-border-idle: rgba(188, 186, 182, 0.24);
   --btn-border-glow: rgba(214, 212, 207, 0.14);
@@ -2970,46 +2873,30 @@ backdrop-filter: none;
     0 0 0 0.8px rgba(5, 7, 13, 0.45),
     inset 0 0 0 1px rgba(0,0,0,0.42);
 }
-
-/* loaderi absoluutne wrapper nupu sees */
 .chat-send-btn .send-loader-wrap {
   position: absolute;
-  inset: 0;               /* täidab nupu pinna */
+  inset: 0;               
   display: grid;
-  place-items: center;    /* joonda keskele */
-  pointer-events: none;   /* ei sega klikki */
+  place-items: center;    
+  pointer-events: none;   
 }
-
-/* ÄRA sunni .stage mõõte 100% peale – lase komponendil ise otsustada */
-.chat-send-btn .stage {
-  /* width/height EI pane siia! */
-  overflow: visible;
-  display: grid;
-  place-items: center;
-}
-
-/* “Kerige lõppu” nupp */
 .scroll-down-btn{
-  position:absolute; bottom:80px; left:50%; transform:translateX(-50%);
-  background:none; border:none; padding:6px; cursor:pointer; z-index:5;
-  display:flex; align-items:center; justify-content:center;
+  position:absolute; bottom:5rem; left:50%; transform:translateX(-50%);
+  background:none; border:none; padding:0.375rem; cursor:pointer; z-index:5;
+  display:flex; align-items:center; justify-content: center;
   transition: transform .15s ease;
 }
 .scroll-down-btn:hover{ transform: translateX(-50%) scale(1.15); }
-.scroll-down-btn svg{ width:36px; height:36px; stroke: var(--pt-400); stroke-width:3; fill:none; transition: stroke .2s; }
+.scroll-down-btn svg{ width:2.25rem; height:2.25rem; stroke: var(--pt-400); stroke-width:3; fill:none; transition: stroke .2s; }
 .scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
-/* Tagasi-nupp – desktop (vaikimisi) */
 .chat-footer{ margin-top:.15rem; }
 .chat-back-btn-wrapper{ margin:.28em auto .25em; }
-.back-arrow-btn{ inline-size:62px; block-size:62px; }
-/* (legacy typing bubble styles removed) */
-/* ---- SÕNUMID ---- */
+.back-arrow-btn{ inline-size:3.875rem; block-size:3.875rem; }
 .chat-msg{ max-width:85%; line-height:1.45; margin-bottom:1em; align-self:flex-start; }
 .chat-msg-user{
   align-self:flex-end;
   display:inline-block;
   max-width:72ch;
-  /* Match chat input default translucency and tone */
   background: rgba(14,20,32,0.34);
   color: var(--pt-150);
   border:1.4px solid rgba(220,220,220,0.32);
@@ -3019,7 +2906,7 @@ backdrop-filter: none;
   line-height:1.32;
   box-shadow:
     0 0 0 1px rgba(201,199,194,0.16),
-    0 10px 22px rgba(5,8,15,0.38);
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
@@ -3027,20 +2914,17 @@ backdrop-filter: none;
 .chat-msg-user:hover,
 .chat-msg-user:focus-within{
   border-color: rgba(208,173,173,0.55);
-  /* Slightly darker, keep translucency consistent with input focus */
   background: rgba(14,20,32,0.38);
   box-shadow:
     0 0 0 1px rgba(201,199,194,0.22),
-    0 14px 28px rgba(5,8,15,0.45);
+    0 0.875rem 1.75rem rgba(5,8,15,0.45);
 }
 .chat-msg-ai{
   background:transparent !important; border:none !important; box-shadow:none !important;
   padding:.25em 0 !important; color:var(--pt-150);
   max-width:70ch; font-size:1em; line-height:1.32;
 }
-/* intro sõnum kasutab vaike-suurust; eraldi skaala eemaldatud */
 .chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
-/* ---- Heledas režiimis inputi toonid ---- */
 html:not(.dark-mode) .chat-inputbar{
   background: rgba(14,20,32,0.24);
   border-color: rgba(220,220,220,0.32);
@@ -3051,40 +2935,35 @@ html:not(.dark-mode) .chat-inputbar .chat-input-field{
   caret-color: var(--pt-40, #f2f6ff);
 }
 html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(245,248,255,0.86); }
-/* Ensure focus state wins over later non-focused overrides (light mode) */
 html:not(.dark-mode) .chat-inputbar:focus-within{
   border-color: var(--pt-light);
   background: rgba(14,20,32,0.30);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.40);
+  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
 }
-/* Dark mode explicit focus state for consistency */
 html.dark-mode .chat-inputbar:focus-within{
   border-color: var(--pt-light);
   background: rgba(10,14,24,0.30);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.40);
+  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
 }
-/* ============ MOBIIL (≤768px) ============ */
-@media (max-width: 768px){
+@media (max-width: 48em){
   .glass-box.chat-container{
     --hud-edge: clamp(.55rem, 3vw, .95rem);
     --hud-icon: clamp(2.65rem, 12vw, 3rem);
-    --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0px));
-    --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0px));
-    --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0px));
+    --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
+    --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
+    --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
     gap:.35rem;
     padding-top:.5rem;
-    /* väiksem põhi-padi, et back-nupp oleks kastis madalamal */
     padding-bottom: clamp(0.1rem, 0.8vw, 0.25rem);
   }
   .chat-window{
     padding-top:.25rem;
-    padding-bottom:.25rem;   /* veidi väiksem kui enne */
+    padding-bottom:.25rem;   
     max-height:none;
   }
-  /* Sisendiriba kompaktsem allserv + kõrgus mobiilis */
   .chat-inputbar{
-    --inputbar-h: clamp(58px, 14vw, 80px);
-    margin-bottom:.24rem !important;   /* enne .35rem */
+    --inputbar-h: clamp(3.625rem, 14vw, 5rem);
+    margin-bottom:.24rem !important;   
     height: var(--inputbar-h);
     min-height: var(--inputbar-h);
     flex-basis: var(--inputbar-h);
@@ -3094,51 +2973,37 @@ html.dark-mode .chat-inputbar:focus-within{
     padding-top:   calc((var(--inputbar-h) - 1.35em)/2);
     padding-bottom:calc((var(--inputbar-h) - 1.35em)/2);
   }
-  /* Tagasi-nupp mobiilis: veel väiksem buffer all */
   .chat-footer{ margin-top:.06rem; }
   .chat-back-btn-wrapper{
-    margin:.06em auto max(env(safe-area-inset-bottom, 0px), 4px);
+    margin:.06em auto max(env(safe-area-inset-bottom, 0), 0.25rem);
   }
-  .back-arrow-btn{ inline-size:56px; block-size:56px; }
+  .back-arrow-btn{ inline-size:3.5rem; block-size:3.5rem; }
 }
-/* High-contrast */
 @media (forced-colors: active){ .chat-window{ scrollbar-color: ButtonText ButtonFace; } }
-/* Fallback kui blur puudub */
-@supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
+@supports not ((backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))){
   .glass-box, .glass-modal{ background: rgba(24,24,24,.62); }
 }
-/* ===============================
-   Chat input – placeholder color
-   =============================== */
 html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #c39a9a !important; }
 html.dark-mode .chat-inputbar .chat-input-field::placeholder{ color: #c39a9a !important; }
-/* Vendor prefixes for broader support */
 html:not(.dark-mode) .chat-inputbar .chat-input-field::-webkit-input-placeholder{ color: #c39a9a !important; }
 html.dark-mode .chat-inputbar .chat-input-field::-webkit-input-placeholder{ color: #c39a9a !important; }
 html:not(.dark-mode) .chat-inputbar .chat-input-field::-moz-placeholder{ color: #c39a9a !important; opacity:1; }
 html.dark-mode .chat-inputbar .chat-input-field::-moz-placeholder{ color: #c39a9a !important; opacity:1; }
 html:not(.dark-mode) .chat-inputbar .chat-input-field:-ms-input-placeholder{ color: #c39a9a !important; }
 html.dark-mode .chat-inputbar .chat-input-field:-ms-input-placeholder{ color: #c39a9a !important; }
-/* Chat input – typed text dimmer */
 html:not(.dark-mode) .chat-inputbar .chat-input-field{ color: var(--pt-100) !important; caret-color: var(--pt-100) !important; }
 html.dark-mode .chat-inputbar .chat-input-field{ color: var(--pt-100) !important; caret-color: var(--pt-100) !important; }
-
-/* Login modal inputs – dimmer text */
 .login-modal-form input{ color: var(--pt-150) !important; caret-color: var(--pt-150) !important; }
 .login-modal-form input:focus{ color: var(--pt-150) !important; }
-/* Väike alias nupuvärvidele */
 :root{ --pt-80:#F2F1EF; --pt-130:#EDEAE6; }
-/* ==========================================
-   HAMBURGER (kolm kriipsu) – vasak ülanurk
-   ========================================== */
 .chat-menu-btn {
   position: absolute;
   top: var(--hud-edge-safe);
-left: calc(var(--hud-edge-left) + 15px);
+left: calc(var(--hud-edge-left) + 0.9375rem);
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
   border-radius: 50%;
-   border: 3px solid rgba(236,235,233,0.78);
+   border: 0.1875rem solid rgba(236,235,233,0.78);
   background: transparent;
   color: var(--pt-150);
   display: grid; place-items: center; cursor: pointer; overflow: visible;
@@ -3151,7 +3016,7 @@ left: calc(var(--hud-edge-left) + 15px);
   border-color: var(--pt-light);
   background: transparent;
 }
-.chat-menu-btn:active { transform: scale(0.94); box-shadow: 0 0 6px rgba(175,170,163,0.45); }
+.chat-menu-btn:active { transform: scale(0.94); box-shadow: 0 0 0.375rem rgba(175,170,163,0.45); }
 .chat-menu-icon { width: calc(var(--hud-icon) * 0.46); height: calc(var(--hud-icon) * 0.46); display: block; }
 .chat-menu-icon span{
   display:block; height:2px; margin: calc(var(--hud-icon) * 0.09) 0;
@@ -3159,7 +3024,6 @@ left: calc(var(--hud-edge-left) + 15px);
 }
 .chat-menu-btn:hover .chat-menu-icon span,
 .chat-menu-btn:focus-visible .chat-menu-icon span{ background: var(--pt-100); }
-/* Hover-sildid – poole võrra lähemal, fontid: desktop 1.1rem / mobiil 1rem */
 .chat-menu-label{
   position:absolute; top: calc(100% + 0.15rem); left:50%; transform: translate(-50%, 2px);
   font-size:1.1rem; font-weight:500; letter-spacing:0.05em; text-align:center;
@@ -3167,53 +3031,49 @@ left: calc(var(--hud-edge-left) + 15px);
   transition: opacity .3s ease, transform .3s ease, color .3s ease;
 }
 .chat-menu-btn:hover .chat-menu-label,
-.chat-menu-btn:focus-visible .chat-menu-label{ opacity:1; transform: translate(-50%, 8px); color: var(--pt-100); }
-/* kui kasutad ka .avatar-label'i, ühtlusta samaks */
+.chat-menu-btn:focus-visible .chat-menu-label{ opacity:1; transform: translate(-50%, 0.5rem); color: var(--pt-100); }
 .avatar-label{
-  position:absolute; top: calc(100% + 0.10rem - 7px); left:50%; transform: translate(-50%, 1px);
+  position:absolute; top: calc(100% + 0.10rem - 0.4375rem); left:50%; transform: translate(-50%, 1px);
   font-size:1.1rem; font-weight:500; letter-spacing:0.05em; text-align:center;
   color: var(--pt-light); pointer-events:none; opacity:0; white-space:nowrap; line-height:1.1; display:inline-block;
   transition: opacity .3s ease, transform .3s ease, color .3s ease;
 }
 .avatar-link:hover .avatar-label,
-.avatar-link:focus-visible .avatar-label{ opacity:1; transform: translate(-50%, 8px); color: var(--pt-100); }
-@media (max-width:768px){
+.avatar-link:focus-visible .avatar-label{ opacity:1; transform: translate(-50%, 0.5rem); color: var(--pt-100); }
+@media (max-width: 48em){
   .chat-menu-label, .avatar-label{ font-size:1rem; }
 }
 .cs-error {
   background: color-mix(in srgb, var(--danger) 15%, transparent);
   color: var(--text);
   border: 1px solid color-mix(in srgb, var(--danger) 50%, var(--border));
-  padding: 10px 12px;
-  border-radius: 12px;
-  margin-top: 6px;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.75rem;
+  margin-top: 0.375rem;
 }
-/* Kui vestlusi pole */
 .cs-empty {
-  padding: 14px;
+  padding: 0.875rem;
   border: 1px dashed var(--border);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   color: var(--muted);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-/* --- Aktiivne vestlus --- */
 .cs-item--active {
   border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+  box-shadow: 0 0 0 0.1875rem color-mix(in srgb, var(--primary) 25%, transparent);
   background: var(--bg);
 }
-/* --- Skeleton-laadimise olek --- */
 .cs-item--skeleton {
   overflow: hidden;
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.75rem;
   background: var(--bg-soft);
 }
 .cs-skel-title,
 .cs-skel-time {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: linear-gradient(
     90deg,
     color-mix(in srgb, var(--bg-soft) 92%, #fff 8%),
@@ -3224,24 +3084,22 @@ left: calc(var(--hud-edge-left) + 15px);
   animation: skel 1.2s linear infinite;
 }
 .cs-skel-title {
-  height: 14px;
+  height: 0.875rem;
   width: 70%;
-  margin-bottom: 6px;
+  margin-bottom: 0.375rem;
 }
 .cs-skel-time {
-  height: 10px;
+  height: 0.625rem;
   width: 40%;
 }
-/* --- Skeleton animatsioon --- */
 @keyframes skel {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
-/* === A11Y modal enhanced visual tweaks (override) === */
 .a11y-modal{
-  max-width:min(760px, 94vw);
+  max-width:min(47.5rem, 94vw);
   padding:1.25rem 1.4rem 1.7rem;
-  border-radius:18px;
+  border-radius:1.125rem;
   color: var(--pt-150);
   display:flex;
   flex-direction:column;
@@ -3249,12 +3107,11 @@ left: calc(var(--hud-edge-left) + 15px);
   text-align:center;
   gap:1rem;
 }
-
 .a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.05rem; }
 .a11y-modal .a11y-fieldset{
   margin: .75rem 0 .95rem;
   width: 100%;
-  max-width: 640px;
+  max-width: 40rem;
   padding: 0;
   border: 0;
   display: flex;
@@ -3281,8 +3138,7 @@ left: calc(var(--hud-edge-left) + 15px);
   font-size: 1.05rem;
   text-align: center;
 }
-.a11y-actions{ display:flex; justify-content:center; margin-top:1.1rem; }
-/* === A11Y: skip-link === */
+.a11y-actions{ display:flex; justify-content: center; margin-top:1.1rem; }
 .skip-link{
   position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;
 }
@@ -3290,145 +3146,131 @@ left: calc(var(--hud-edge-left) + 15px);
   left:1rem; top:1rem; width:auto; height:auto; padding:.5rem .75rem;
   background:#000; color:#fff; border-radius:.25rem; z-index:10000;
 }
-/* === A11Y: universaalne fookusrõngas (≥3:1) === */
-:where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible{
-  outline:3px solid var(--focus-ring, #ffd24d);
-  outline-offset:3px;
+:where(a, button, input, select, textarea, [role=], [tabindex]:not([tabindex=])):focus-visible{
+  outline:0.1875rem solid var(--focus-ring, #ffd24d);
+  outline-offset:0.1875rem;
 }
-html[data-contrast="hc"] :where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible{
+html[data-contrast=] :where(a, button, input, select, textarea, [role=], [tabindex]:not([tabindex=])):focus-visible{
   outline-color:#ffea00;
 }
-/* === A11Y: teksti suurus skaalal === */
-html[data-text-scale="sm"] { font-size: 15px; }
-html[data-text-scale="md"] { font-size: 16px; }
-html[data-text-scale="lg"] { font-size: 18px; }
-html[data-text-scale="xl"] { font-size: 20px; }
-/* === A11Y: kõrge kontrasti override’id (hoia tagasihoidlik, vajadusel täienda) === */
-html[data-contrast="hc"]{
+html[data-text-scale=] { font-size: 0.9375rem; }
+html[data-text-scale=] { font-size: 1rem; }
+html[data-text-scale=] { font-size: 1.125rem; }
+html[data-text-scale=] { font-size: 1.25rem; }
+html[data-contrast=]{
   --pt-50:#FFFFFF; --pt-100:#F2F2F2; --pt-150:#E8E8E8; --pt-200:#DFDEDA;
   --pt-300:#FFFFFF; --pt-400:#E6E6E6; --pt-500:#111111; --pt-600:#000000;
   --pt-light: #EFEFEF; --pt: #FFFFFF; --pt-mid: #E6E6E6; --pt-dark: #000000;
-  --brand-primary: #d0adad; /* lightened brand tone */
+  --brand-primary: #d0adad; 
 }
-/* Kõrge kontrasti režiimis: nupud kõrgema kontrastiga ja eristuv hover */
-html[data-contrast="hc"] .btn-primary,
-html[data-contrast="hc"] .btn-profile-save,
-html[data-contrast="hc"] .btn-profile-logout{
+html[data-contrast=] .btn-primary,
+html[data-contrast=] .btn-profile-save,
+html[data-contrast=] .btn-profile-logout{
   background: #0f0f0f !important;
   color: #ffffff !important;
   border: 2px solid #ffea00 !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] .btn-tertiary{
+html[data-contrast=] .btn-tertiary{
   color: #ffffff !important;
   border: 2px solid #ffea00 !important;
   background: #0f0f0f !important;
 }
-html[data-contrast="hc"] .btn-primary:hover,
-html[data-contrast="hc"] .btn-primary:focus-visible,
-html[data-contrast="hc"] .btn-profile-save:hover,
-html[data-contrast="hc"] .btn-profile-save:focus,
-html[data-contrast="hc"] .btn-profile-logout:hover,
-html[data-contrast="hc"] .btn-profile-logout:focus{
+html[data-contrast=] .btn-primary:hover,
+html[data-contrast=] .btn-primary:focus-visible,
+html[data-contrast=] .btn-profile-save:hover,
+html[data-contrast=] .btn-profile-save:focus,
+html[data-contrast=] .btn-profile-logout:hover,
+html[data-contrast=] .btn-profile-logout:focus{
   background: #222222 !important;
   border-color: #fff066 !important;
   color: #ffffff !important;
 }
-html[data-contrast="hc"] .reset-input {
+html[data-contrast=] .reset-input {
   background: rgba(10,14,24,0.22) !important;
   color: var(--pt-50) !important;
   border: 1.5px solid rgba(220,220,220,0.35) !important;
   box-shadow: 0 0 0 1px rgba(201,199,194,0.18) !important;
 }
-html[data-contrast="hc"] .reset-input:focus,
-html[data-contrast="hc"] .reset-input:focus-visible {
+html[data-contrast=] .reset-input:focus,
+html[data-contrast=] .reset-input:focus-visible {
   outline: none !important;
   border-color: var(--pt-light) !important;
   background: rgba(10,14,24,0.32) !important;
   color: var(--pt-30, #f7f9ff) !important;
   box-shadow:
     0 0 0 2px rgba(201,199,194,0.28),
-    0 0 12px rgba(195,193,188,0.55) !important;
+    0 0 0.75rem rgba(195,193,188,0.55) !important;
 }
-html[data-contrast="hc"] .btn-tertiary:hover,
-html[data-contrast="hc"] .btn-tertiary:focus-visible {
+html[data-contrast=] .btn-tertiary:hover,
+html[data-contrast=] .btn-tertiary:focus-visible {
   background: #222222 !important;
   border-color: #fff066 !important;
 }
-/* Reset page: prefer soft glow over global yellow outline */
 .glass-box.reset-box input:focus-visible,
 .glass-box.reset-box input:focus{
   outline: none !important;
   border-color: var(--pt-light);
   background: rgba(10,14,24,0.30);
   color: var(--pt-30, #f7f9ff);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 10px rgba(195,193,188,0.40);
+  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
 }
 @media (forced-colors: active){
   .glass-box.reset-box input:focus-visible{ outline: none !important; }
 }
-/* Kõrge kontrasti režiimis: jalus jääb sama tooni */
-html[data-contrast="hc"] .alaleht-footer{
-  color: #7E7970 !important; /* sama mis vaikimisi --pt-500 */
+html[data-contrast=] .alaleht-footer{
+  color: #7E7970 !important; 
 }
-html[data-contrast="hc"] #nav-meist {
+html[data-contrast=] #nav-meist {
   border: 2px solid #ffea00 !important;
-  border-radius: 999px !important;
-  color: var(--pt-150) !important;       /* sama hele toon mis tavarežiimis */
+  border-radius: 62.4375rem !important;
+  color: var(--pt-150) !important;       
   background: inherit !important;
   box-shadow: inherit !important;
 }
-html[data-contrast="hc"] #nav-meist:hover,
-html[data-contrast="hc"] #nav-meist:focus-visible {
-  color: var(--pt-light) !important;     /* hoveril/foocusel veidi heledam */
+html[data-contrast=] #nav-meist:hover,
+html[data-contrast=] #nav-meist:focus-visible {
+  color: var(--pt-light) !important;     
 }
-/* === A11Y: vähenda liikumist === */
-html[data-reduce-motion="1"] *,
-html[data-reduce-motion="1"] *::before,
-html[data-reduce-motion="1"] *::after{
+html[data-reduce-motion=] *,
+html[data-reduce-motion=] *::before,
+html[data-reduce-motion=] *::after{
   animation: none !important;
   transition: none !important;
   scroll-behavior: auto !important;
 }
-/* Reduced motion: keep flips, but without transitions (instant switch) */
-/* (No transform override here so hover still flips front/back.) */
-html[data-reduce-motion="1"] .glow-active{ box-shadow: none !important; }
-/* Ensure content that normally fades-in becomes visible statically */
-html[data-reduce-motion="1"] .glass-card.fade-in{
+html[data-reduce-motion=] .glow-active{ box-shadow: none !important; }
+html[data-reduce-motion=] .glass-card.fade-in{
   opacity: 1 !important;
   filter: none !important;
   transform: none !important;
   animation: none !important;
 }
-html[data-reduce-motion="1"] .defer-fade{
+html[data-reduce-motion=] .defer-fade{
   opacity: var(--end-op, 1) !important;
   visibility: visible !important;
   transform: none !important;
   animation: none !important;
 }
-/* Reduced motion: keep circular text visible but not moving */
-html[data-reduce-motion="1"] .circular-text-line{
+html[data-reduce-motion=] .circular-text-line{
   animation: none !important;
 }
-html[data-reduce-motion="1"] .circular-text-svg .word1,
-html[data-reduce-motion="1"] .circular-text-svg .word2,
-html[data-reduce-motion="1"] .circular-text-svg .word3{
+html[data-reduce-motion=] .circular-text-svg .word1,
+html[data-reduce-motion=] .circular-text-svg .word2,
+html[data-reduce-motion=] .circular-text-svg .word3{
   opacity: 1 !important;
   animation: none !important;
 }
-/* === A11Y: target-size (valitud võtmekohad; vajadusel lisa) === */
 .login-icon-btn,
 .back-arrow-btn,
 .btn-primary,
 .btn-tertiary,
 .chat-menu-btn{
-  min-width:44px; min-height:44px;
+  min-width:2.75rem; min-height:2.75rem;
 }
-/* === A11Y: ligipääsetavuse ujuv nupp === */
 .a11y-open-btn{
-  display: none; /* floating button removed; kept class reserved */
+  display: none; 
 }
-/* === A11Y: modaal (klaasikarp stiil) === */
 .a11y-modal-backdrop{
   position:fixed; inset:0; background: rgba(0,0,0,.55); backdrop-filter: blur(2px);
   z-index:49;
@@ -3436,9 +3278,9 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 .a11y-modal{
   position:fixed; left:50%; top:50%; transform: translate(-50%, -50%);
   z-index:50; outline:none; pointer-events:auto;
-  max-width:min(760px, 94vw); width:100%; padding:1.35rem 1.6rem 1.7rem; border-radius:18px;
+  max-width:min(47.5rem, 94vw); width:100%; padding:1.35rem 1.6rem 1.7rem; border-radius:1.125rem;
   background: rgba(31,31,31,.72); border:1px solid rgba(255,255,255,.12);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.625rem);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -3446,20 +3288,16 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   gap:1.1rem;
 }
 .a11y-modal .glass-title{ margin-top:.25rem; }
-
 .a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.12rem; }
-/* Force subheadings (legends) to use same tone as main title */
 .a11y-modal legend.glass-label.a11y-legend{ color: var(--link-gold, #d0adad) !important; }
-/* Extra safety: target any legend inside a11y modal */
 .a11y-modal fieldset > legend{ color: var(--link-gold, #d0adad) !important; }
-/* If subheads are rendered as .glass-h2, ensure same tone inside modal */
 .a11y-modal .glass-h2{ color: var(--link-gold, #d0adad) !important; }
 .a11y-modal .a11y-fieldset{
   margin: .9rem 0 1rem;
   border: none;
   padding: 0;
   width: 100%;
-  max-width: 640px;
+  max-width: 40rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3492,79 +3330,61 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 .a11y-modal .a11y-options{
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
+  justify-content: center;
   align-items:center;
   gap:.45rem .9rem;
   width:100%;
-  max-width: 520px;
+  max-width: 32.5rem;
   margin: 0 auto;
 }
 .a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
 .a11y-modal .a11y-close{
   position:absolute; top:.5rem; right:.6rem; background:none; border:none; color:var(--pt-100);
-  font-size:1.4rem; min-width:44px; min-height:44px; line-height:1; cursor:pointer;
+  font-size:1.4rem; min-width:2.75rem; min-height:2.75rem; line-height:1; cursor:pointer;
 }
 .a11y-modal .a11y-close:hover{ color:var(--pt); }
-/* Tee a11y modali nupu stiil profiili nuppudega samaks */
 .a11y-actions .btn-primary{
   margin: 0;
 }
-
-html[data-contrast="hc"] .desc-ring-left .circular-text-line {
-  color: #222 !important;               /* tumehall */
+html[data-contrast=] .desc-ring-left .circular-text-line {
+  color: #222 !important;               
   fill: currentColor !important;
   stroke: rgba(0,0,0,0.35) !important;
   stroke-width: 1px !important;
   filter: none !important;
     text-shadow: none !important;
 }
-html[data-contrast="hc"] .desc-ring-right .circular-text-line {
-  color: #E6E6E6 !important;            /* helehall */
+html[data-contrast=] .desc-ring-right .circular-text-line {
+  color: #E6E6E6 !important;            
   fill: currentColor !important;
   stroke: rgba(0,0,0,0.4) !important;
   stroke-width: 1px !important;
   filter: none !important;
     text-shadow: none !important;
 }
-html[data-contrast="hc"] .desc-ring-left,
-html[data-contrast="hc"] .desc-ring-right,
-html[data-contrast="hc"] .desc-ring-left *,
-html[data-contrast="hc"] .desc-ring-right * {
+html[data-contrast=] .desc-ring-left,
+html[data-contrast=] .desc-ring-right,
+html[data-contrast=] .desc-ring-left *,
+html[data-contrast=] .desc-ring-right * {
   filter: none !important;
   text-shadow: none !important;
   -webkit-font-smoothing: auto !important;
   font-smooth: auto !important;
   paint-order: stroke fill !important;
 }
-/* Disable hover/Magnet during fade-in to avoid disappear on hover */
 .three-d-card:has(.glass-card.fade-in),
 .three-d-card:has(.centered-back-left.fade-in),
 .three-d-card:has(.centered-back-right.fade-in){
   pointer-events: none;
 }
-/* During fade-in ignore hover/magnet on the card to avoid flicker */
 .three-d-card:has(.glass-card.fade-in),
 .three-d-card:has(.centered-back-left.fade-in),
 .three-d-card:has(.centered-back-right.fade-in){
   pointer-events: none;
 }
-/* === A11Y modal: button letter spacing === */
 .btn-spacing-accessibility,
 .btn-spacing-accessibility span { letter-spacing: 0.05em !important; }
-
-.btn-spacing-login,
-.btn-spacing-login span,
-.btn-spacing-register,
-.btn-spacing-register span,
-.btn-spacing-profile-save,
-.btn-spacing-profile-save span,
-.btn-spacing-profile-logout,
-.btn-spacing-profile-logout span,
-.btn-spacing-accessibility,
-.btn-spacing-accessibility span {
-  letter-spacing: 0.06em !important;
-}
-@media (max-width: 758px) {
+@media (max-width: 47.375em) {
   :root body .card-face.back .headline-bold,
   :root body .centered-back-left .headline-bold,
   :root body .centered-back-right .headline-bold {
@@ -3572,36 +3392,30 @@ html[data-contrast="hc"] .desc-ring-right * {
     line-height: 1.25 !important;
     letter-spacing: .08em !important;
     max-width: 90% !important;
-    transform: translateY(80%) !important;               /* ⟵ tõstab teksti allapoole */
+    transform: translateY(80%) !important;               
     text-align: center !important;
   }
 .centered-back-left .card-logo-bg-left-back {
   position: absolute;
-  bottom: -30%;            /* kaugus alumisest servast */
+  top: 74%;
   left: 50%;
-  transform: translateX(-50%); /* ainult X, mitte Y! */
-  width: 32%;
+  transform: translate(-50%, -50%);
+  width: 26%;
   opacity: 0.7;
-  top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
-
-/* Parem kaart – tagakülje logo */
 .centered-back-right .card-logo-bg-right-back {
   position: absolute;
-  bottom: -30%;            /* kaugus alumisest servast */
+  top: 74%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 32%;
+  transform: translate(-50%, -50%);
+  width: 26%;
   opacity: 0.55;
-  top: auto !important;       /* ⟵ tühistab baasklassi top */
 }
 }
 #main:focus { outline: none; }
 .three-d-card .card-face.back:focus:not(:focus-visible) {
   outline: none;
 }
-
-/* Või kui soovid täielikult eemaldada fookusraami ka visuaalse fookuse korral */
 .three-d-card .card-face.back:focus {
   outline: none;
 }

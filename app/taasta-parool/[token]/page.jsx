@@ -1,7 +1,7 @@
 import ResetPasswordForm from "./ResetPasswordForm";
 export const metadata = {
-  title: "Uuenda parool – SotsiaalAI",
-  description: "Uuenda oma SotsiaalAI konto parool turvalise vormi abil.",
+  title: "Uuenda PIN – SotsiaalAI",
+  description: "Uuenda oma SotsiaalAI konto PIN turvalise vormi abil.",
 };
 export default async function ResetPasswordPage({ params }) {
   const resolvedParams = await params;

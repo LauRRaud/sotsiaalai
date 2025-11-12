@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+// NOTE: using SVG as static image for avatar
+import Paperclip from "@/public/logo/paperclip.svg";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 
@@ -230,8 +232,8 @@ function normalizeSources(sources) {
       page,
       pageRange: pageLabel || undefined,
       fileName: src?.fileName,
-      short_ref: typeof src?.short_ref === "string" ? src.short_ref : undefined,
-      journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : undefined,
+      short_ref: typeof src?.short_ref === "string" ? src?.short_ref : undefined,
+      journalTitle: typeof src?.journalTitle === "string" ? src?.journalTitle : undefined,
       authors,
       title: typeof src?.title === "string" ? src.title : undefined,
       issueLabel,
@@ -309,6 +311,12 @@ export default function ChatBody() {
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
+  const [uploadBusy, setUploadBusy] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+  const [uploadPreview, setUploadPreview] = useState(null);
+  const [ephemeralChunks, setEphemeralChunks] = useState([]);
+  const [useAsContext, setUseAsContext] = useState(false);
+  const [uploadUsage, setUploadUsage] = useState(null);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
@@ -364,17 +372,17 @@ export default function ChatBody() {
             pageRanges: new Set(),
             pages: new Set(),
             authors: new Set(),
-            title: typeof src.title === "string" ? src.title : null,
-            journalTitle: typeof src.journalTitle === "string" ? src.journalTitle : null,
-            issueLabel: typeof src.issueLabel === "string" ? src.issueLabel : null,
-            issueId: typeof src.issueId === "string" ? src.issueId : null,
+            title: typeof src?.title === "string" ? src.title : null,
+            journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : null,
+            issueLabel: typeof src?.issueLabel === "string" ? src.issueLabel : null,
+            issueId: typeof src?.issueId === "string" ? src.issueId : null,
             year: src.year ?? null,
-            section: typeof src.section === "string" ? src.section : null,
+            section: typeof src?.section === "string" ? src.section : null,
           };
           map.set(key, entry);
         }
         entry.occurrences += 1;
-        if (!entry.shortRef && typeof src.short_ref === "string") {
+        if (!entry.shortRef && typeof src?.short_ref === "string") {
           entry.shortRef = src.short_ref.trim();
         }
         if (typeof src.label === "string" && src.label.trim()) {
@@ -398,22 +406,22 @@ export default function ChatBody() {
             if (author && typeof author === "string") entry.authors.add(author);
           }
         }
-        if (!entry.title && typeof src.title === "string" && src.title.trim()) {
+        if (!entry.title && typeof src?.title === "string" && src.title.trim()) {
           entry.title = src.title.trim();
         }
-        if (!entry.journalTitle && typeof src.journalTitle === "string" && src.journalTitle.trim()) {
+        if (!entry.journalTitle && typeof src?.journalTitle === "string" && src.journalTitle.trim()) {
           entry.journalTitle = src.journalTitle.trim();
         }
-        if (!entry.issueLabel && typeof src.issueLabel === "string" && src.issueLabel.trim()) {
+        if (!entry.issueLabel && typeof src?.issueLabel === "string" && src.issueLabel.trim()) {
           entry.issueLabel = src.issueLabel.trim();
         }
-        if (!entry.issueId && typeof src.issueId === "string" && src.issueId.trim()) {
+        if (!entry.issueId && typeof src?.issueId === "string" && src.issueId.trim()) {
           entry.issueId = src.issueId.trim();
         }
-        if (entry.year == null && (typeof src.year === "number" || typeof src.year === "string")) {
+        if (entry.year == null && (typeof src?.year === "number" || typeof src?.year === "string")) {
           entry.year = src.year;
         }
-        if (!entry.section && typeof src.section === "string" && src.section.trim()) {
+        if (!entry.section && typeof src?.section === "string" && src.section.trim()) {
           entry.section = src.section.trim();
         }
       }
@@ -472,6 +480,50 @@ export default function ChatBody() {
 
   const hasConversationSources = conversationSources.length > 0;
 
+  const MAX_UPLOAD_MB = useMemo(() => {
+    const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
+    return Number.isFinite(v) && v > 0 ? v : 50;
+  }, []);
+  const RAW_ALLOWED_MIME = String(
+    process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
+      "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+  const ALLOWED_MIME_LIST = useMemo(
+    () => RAW_ALLOWED_MIME.split(",").map((s) => s.trim()).filter(Boolean),
+    [RAW_ALLOWED_MIME]
+  );
+  const ACCEPT_ATTR = useMemo(() => {
+    const set = new Set();
+    ALLOWED_MIME_LIST.forEach((m) => {
+      if (m === "application/pdf") {
+        set.add(m);
+        set.add(".pdf");
+      } else if (m === "text/plain") {
+        set.add(m);
+        set.add(".txt");
+      } else if (m === "text/markdown") {
+        set.add(m);
+        set.add(".md");
+        set.add(".markdown");
+      } else if (m === "text/html") {
+        set.add(m);
+        set.add(".html");
+        set.add(".htm");
+      } else if (m === "application/msword") {
+        set.add(m);
+        set.add(".doc");
+      } else if (
+        m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
+        set.add(m);
+        set.add(".docx");
+      } else {
+        set.add(m);
+      }
+    });
+    return Array.from(set).join(",");
+  }, [ALLOWED_MIME_LIST]);
+
   /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
     setTimeout(() => {
@@ -512,6 +564,25 @@ export default function ChatBody() {
       return next;
     });
   }, []);
+
+  const refreshUsage = useCallback(async () => {
+    if (!session?.user?.id) return;
+    try {
+      const res = await fetch("/api/chat/analyze-usage", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.ok) {
+        setUploadUsage({
+          used: typeof data.used === "number" ? data.used : 0,
+          limit: typeof data.limit === "number" ? data.limit : 0,
+        });
+      }
+    } catch {}
+  }, [session?.user?.id]);
+
+  useEffect(() => {
+    refreshUsage();
+  }, [refreshUsage]);
 
   /* ---------- Vestluse vahetus sündmus ---------- */
   useEffect(() => {
@@ -574,7 +645,7 @@ export default function ChatBody() {
     }
 
     const idFromGlobal =
-      typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
+      typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
     const idFromPerUser =
       typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
     const initialConvId =
@@ -729,6 +800,14 @@ export default function ChatBody() {
             persist: true,
             convId,
             uiLocale: locale || "et",
+            ...(useAsContext && ephemeralChunks.length
+              ? {
+                  ephemeralChunks,
+                  ...(uploadPreview?.fileName
+                    ? { ephemeralSource: { fileName: uploadPreview.fileName } }
+                    : {}),
+                }
+              : {}),
           }),
           signal: controller.signal,
         });
@@ -859,7 +938,20 @@ export default function ChatBody() {
         focusInput();
       }
     },
-    [appendMessage, focusInput, historyPayload, input, isGenerating, mutateMessage, userRole, convId, locale]
+    [
+      appendMessage,
+      convId,
+      ephemeralChunks,
+      focusInput,
+      historyPayload,
+      input,
+      isGenerating,
+      locale,
+      mutateMessage,
+      uploadPreview,
+      useAsContext,
+      userRole,
+    ]
   );
 
   const handleStop = useCallback((e) => {
@@ -879,6 +971,68 @@ export default function ChatBody() {
       }
     },
     [input, isGenerating, sendMessage]
+  );
+
+  const onPickFile = useCallback(() => {
+    if (uploadBusy || isGenerating) return;
+    setUploadError(null);
+    try {
+      fileInputRef.current?.click?.();
+    } catch {}
+  }, [isGenerating, uploadBusy]);
+
+  const onFileChange = useCallback(
+    async (e) => {
+      const file = e.target?.files?.[0];
+      if (!file) return;
+      setUploadError(null);
+      const sizeMB = file.size / (1024 * 1024);
+      if (sizeMB > MAX_UPLOAD_MB) {
+        const sizeError = t("chat.upload.error_size", "Fail on liiga suur ({size}MB > {limit}MB).")
+          .replace("{size}", sizeMB.toFixed(1))
+          .replace("{limit}", String(MAX_UPLOAD_MB));
+        setUploadError(sizeError);
+        e.target.value = "";
+        return;
+      }
+      try {
+        setUploadBusy(true);
+        const fd = new FormData();
+        fd.append("file", file, file.name || "file");
+        fd.append("mimeType", file.type || "");
+        fd.append("maxChunks", "16");
+        const res = await fetch("/api/chat/analyze-file", { method: "POST", body: fd });
+        const data = await res.json().catch(() => ({ ok: false }));
+        if (!res.ok || !data?.ok) {
+          const statusError = t(
+            "chat.upload.error_status",
+            "Dokumendi analüüs ebaõnnestus (veakood {status})."
+          ).replace("{status}", String(res.status));
+          throw new Error(data?.message || statusError);
+        }
+        setUploadPreview({
+          fileName: data.fileName || file.name,
+          sizeMB:
+            typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
+          mimeType: data.mimeType || file.type,
+          preview: data.preview || "",
+          chunksCount: Array.isArray(data.chunks) ? data.chunks.length : 0,
+        });
+        setEphemeralChunks(Array.isArray(data.chunks) ? data.chunks : []);
+        setUseAsContext(false);
+        refreshUsage();
+      } catch (err) {
+        const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
+        setUploadError(err?.message || genericError);
+        setUploadPreview(null);
+        setEphemeralChunks([]);
+        setUseAsContext(false);
+      } finally {
+        setUploadBusy(false);
+        e.target.value = "";
+      }
+    },
+    [MAX_UPLOAD_MB, refreshUsage, t]
   );
 
   const scrollToBottom = useCallback(() => {
@@ -936,8 +1090,8 @@ export default function ChatBody() {
           src="/logo/User-circle.svg"
           alt={t("chat.profile.alt", "Profiil")}
           className="chat-avatar-abs"
-          width={48}
-          height={48}
+          width={56}
+          height={56}
           draggable={false}
         />
         <span className="avatar-label">{t("chat.profile.label", "Profiil")}</span>
@@ -1036,7 +1190,8 @@ export default function ChatBody() {
 )}
 
         <form
-          className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position" style={{ columnGap: 0 }}
+          className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position"
+          style={{ columnGap: 0 }}
           onSubmit={isGenerating ? handleStop : sendMessage}
           autoComplete="off"
         >
@@ -1044,15 +1199,22 @@ export default function ChatBody() {
           <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0 }}>
             <button
               type="button"
-              onClick={() => { try { fileInputRef.current?.click?.(); } catch {} }}
+              onClick={onPickFile}
               className="chat-attach-btn chat-send-btn chat-attach-as-send"
               aria-label={t("chat.upload.aria", "Laadi dokument")}
               title={t("chat.upload.tooltip", "Laadi dokument")}
+              disabled={uploadBusy || isGenerating}
             >
-              {/* Vertical paperclip */}
-              <img src="/logo/paperclip.svg" width="26" height="26" alt="" aria-hidden="true" decoding="async" />
+              {/* Vertical paperclip (inline SVGR) */}
+              <Paperclip className="chat-attach-icon" aria-hidden="true" role="img" width={26} height={26} />
             </button>
-            <input ref={fileInputRef} type="file" style={{ display: "none" }} />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={ACCEPT_ATTR}
+              onChange={onFileChange}
+              style={{ display: "none" }}
+            />
             <label htmlFor="chat-input" className="sr-only">
               {t("chat.input.label", "Kirjuta sõnum")}
             </label>
@@ -1089,7 +1251,134 @@ export default function ChatBody() {
             })()}
           </button>
         </form>
-        
+
+        {(uploadPreview || uploadError || uploadBusy) ? (
+          <div
+            className="chat-analyze-followup"
+            style={{ marginTop: "0.75rem", fontSize: "0.9rem", color: "#e2e8f0" }}
+          >
+            {uploadBusy ? (
+              <div style={{ opacity: 0.85 }}>
+                {t("chat.upload.busy", "Analüüsin dokumenti…")}
+              </div>
+            ) : null}
+            {uploadError ? <div style={{ color: "#fecaca" }}>{uploadError}</div> : null}
+            {uploadPreview ? (
+              <div
+                style={{
+                  background: "rgba(148,163,184,0.12)",
+                  border: "1px solid rgba(148,163,184,0.2)",
+                  borderRadius: 10,
+                  padding: "10px 12px",
+                  marginTop: 6,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ fontWeight: 600 }}>
+                    {prettifyFileName(uploadPreview.fileName)}
+                    <span style={{ opacity: 0.7, marginLeft: 8 }}>
+                      {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUploadPreview(null);
+                      setUploadError(null);
+                      setEphemeralChunks([]);
+                      setUseAsContext(false);
+                    }}
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      color: "#93c5fd",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {t("buttons.cancel", "Katkesta")}
+                  </button>
+                </div>
+                {uploadPreview.preview ? (
+                  <div style={{ marginTop: 6, whiteSpace: "pre-wrap", opacity: 0.9 }}>
+                    <strong style={{ display: "block", marginBottom: 4 }}>
+                      {t("chat.upload.summary", "Dokumendi kokkuvõte")}
+                    </strong>
+                    {uploadPreview.preview}
+                  </div>
+                ) : null}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    marginTop: 8,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const suggestion = t(
+                        "chat.upload.ask_more",
+                        "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti."
+                      );
+                      setInput((prev) => (prev ? prev : suggestion));
+                      try {
+                        inputRef.current?.focus?.();
+                      } catch {}
+                    }}
+                    style={{
+                      border: "1px solid rgba(148,163,184,0.35)",
+                      background: "rgba(148,163,184,0.18)",
+                      color: "#f8fafc",
+                      borderRadius: 8,
+                      padding: "6px 10px",
+                      cursor: "pointer",
+                      fontSize: "0.88rem",
+                    }}
+                  >
+                    {t("chat.upload.ask_more_btn", "Küsi lisaks")}
+                  </button>
+                  <label
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      fontSize: "0.88rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={useAsContext}
+                      onChange={(e) => setUseAsContext(e.target.checked)}
+                    />
+                    {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
+                  </label>
+                  <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
+                    {t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}
+                  </span>
+                  {uploadUsage?.limit ? (
+                    <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
+                      {t("chat.upload.usage", "{used}/{limit} analüüsi täna")
+                        .replace("{used}", String(uploadUsage.used ?? 0))
+                        .replace("{limit}", String(uploadUsage.limit ?? 0))}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </main>
 
       <footer
@@ -1246,10 +1535,3 @@ export default function ChatBody() {
     </div>
   );
 }
-
-
-
-
-
-
-

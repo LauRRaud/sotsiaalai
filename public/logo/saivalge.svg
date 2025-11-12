@@ -1,64 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="SotsiaalAI_Logo"
+<svg id="Layer_1"
      xmlns="http://www.w3.org/2000/svg"
-     viewBox="-30 -20 412.64 235.12"
-     role="img" aria-labelledby="title desc"
-     shape-rendering="geometricPrecision">
-
-  <title id="title">SotsiaalAI logo – cleaned and fixed</title>
-  <desc id="desc">Täitevärvid ja pehme feDropShadow säilitatud; edge stroke eemaldatud; kõik path'id taastatud. Fail avanev Illustratoris.</desc>
-
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 332.64 195.12"
+     overflow="visible">
   <defs>
-    <!-- original gradients (kept) -->
-    <linearGradient id="linear-gradient" x1="217.27" y1="-825.72" x2="319.36" y2="-1044.73"
-      gradientTransform="translate(0 -842) scale(1 -1)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F1F1F0"/><stop offset=".28" stop-color="#E6E5E3"/>
-      <stop offset=".55" stop-color="#C3C1BC"/><stop offset=".75" stop-color="#8D8980"/>
-      <stop offset="1" stop-color="#5F5B55"/>
+    <style>
+      .st0 { fill: url(#linear-gradient2); }
+      .st1 { fill: url(#linear-gradient1); }
+      .st2 { fill: url(#linear-gradient3); }
+      .st3 { fill: url(#linear-gradient); }
+    </style>
+
+    <linearGradient id="linear-gradient" x1="79.23" y1="-2509.06" x2="79.23" y2="-2544.24" gradientTransform="translate(0 -2474) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f5f4"/>
+      <stop offset=".22" stop-color="#eeedec"/>
+      <stop offset=".48" stop-color="#dad9d6"/>
+      <stop offset=".72" stop-color="#c7c5c1"/>
+      <stop offset="1" stop-color="#a8a59e"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="230.9" y1="1898.8" x2="287.88" y2="2140.3" gradientTransform="translate(0 -1922)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f1f1f0"/>
+      <stop offset=".21" stop-color="#e6e5e3"/>
+      <stop offset=".42" stop-color="#c3c1bc"/>
+      <stop offset=".53" stop-color="#aba8a1"/>
+      <stop offset=".65" stop-color="#8d8980"/>
+      <stop offset=".93" stop-color="#5f5b55"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="23.89" y1="52.85" x2="23.89" y2="13.61" gradientTransform="translate(0 198) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#666"/>
+      <stop offset=".5" stop-color="#383838"/>
+      <stop offset=".81" stop-color="#1c1c1c"/>
+      <stop offset="1" stop-color="#111"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient3" x1="-785.36" y1="636.26" x2="-785.36" y2="635.26" gradientTransform="translate(87326.34 108286.52) scale(111.12 -170.15)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e6bcb9"/>
+      <stop offset=".14" stop-color="#be7877"/>
+      <stop offset=".29" stop-color="#9a5151"/>
+      <stop offset=".43" stop-color="#854343"/>
+      <stop offset=".57" stop-color="#6d3333"/>
+      <stop offset=".71" stop-color="#4c1c1c"/>
+      <stop offset=".86" stop-color="#391212"/>
+      <stop offset="1" stop-color="#2e0d0d"/>
     </linearGradient>
 
-    <linearGradient id="linear-gradient1" x1="23.89" y1="145.15" x2="23.89" y2="184.39" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#666"/><stop offset=".5" stop-color="#383838"/>
-      <stop offset=".81" stop-color="#1c1c1c"/><stop offset="1" stop-color="#111"/>
-    </linearGradient>
-
-    <linearGradient id="linear-gradient2" x1="-1571.22" y1="5.18" x2="-1571.22" y2="6.18"
-      gradientTransform="translate(174429.38 -857.71) scale(110.98 170.15)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f9eceb"/><stop offset=".25" stop-color="#e0b0af"/>
-      <stop offset=".5" stop-color="#b17c7c"/><stop offset=".75" stop-color="#a27777"/>
-      <stop offset="1" stop-color="#95706f"/>
-    </linearGradient>
-
-    <linearGradient id="linear-gradient3" x1="79.24" y1="1790.65" x2="79.24" y2="1949.92"
-      gradientTransform="translate(0 -1764)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F1F1F0"/><stop offset=".2" stop-color="#E2E1DF"/>
-      <stop offset=".48" stop-color="#C3C1BC"/><stop offset=".68" stop-color="#8D8980"/>
-      <stop offset="1" stop-color="#5F5B55"/>
-    </linearGradient>
-
-    <!-- soft drop shadow (kept) -->
-    <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".60"/>
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
+    <!-- ühtne drop-shadow kõikidele mustadele koopiatele -->
+    <filter id="shadow-all"
+            x="-60" y="-40" width="460" height="300"
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.25" result="blur"/>
+      <feOffset in="blur" dx="5" dy="6" result="offsetBlur"/>
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.80 0"
+        result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/></feMerge>
     </filter>
   </defs>
 
-  <!-- fills + shadow: all original paths inlined, stroke removed -->
-  <g class="logo-base" filter="url(#shadowSoft)">
-    <!-- st3 / main right/post shape -->
-    <path fill="url(#linear-gradient)" stroke="none"
-          d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16Z"/>
-
-    <!-- group: left S-shape pieces -->
-    <g>
-      <path fill="url(#linear-gradient1)" stroke="none"
-            d="M22.57,144.88c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88Z"/>
-      <path fill="url(#linear-gradient2)" stroke="none"
-            d="M39.69,26.36c-12.26,4.64-16.78,18.13-14.62,30.58,6.83,39.48,80.51,29.4,85.7,79.06,2.07,19.86-8.55,39.22-24.54,50.1-6.48,4.42-14.88,9.28-22.8,8.57,12.09-7.44,17.57-24.24,16.05-38.01-4.05-36.82-63.52-30.11-76.25-66.81C-7.04,60.23,8.37,33.27,37.44,24.59l2.23,1.76Z"/>
-      <path fill="url(#linear-gradient3)" stroke="none"
-            d="M75.38,33.18c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
-    </g>
+  <!-- VARJU: mustad koopiad (enne originaale) -->
+  <g filter="url(#shadow-all)" aria-hidden="true" fill="#000">
+    <path d="M75.33,33.38c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+    <path d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
+    <path d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+    <path d="M63.43,195.11c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52-10.68-25.99,2.06-56.14,29.76-65.58,2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
   </g>
 
+  <!-- ORIGINAALID PEAL (puhtad, ilma stroke'ideta) -->
+  <path class="st3" d="M75.33,33.38c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+  <path class="st1" d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
+  <path class="st0" d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+  <path class="st2" d="M63.43,195.11c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52-10.68-25.99,2.06-56.14,29.76-65.58,2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
 </svg>

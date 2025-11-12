@@ -230,6 +230,12 @@ export default function ColorBends({
     const step = 1 / fps;
     let acc = 0;
 
+    const forceRenderNow = () => {
+      if (tabHidden || !isVisible) return;
+      renderer.render(scene, camera);
+      acc = 0; // after forcing a frame we wait for the next 24fps step again
+    };
+
     // DPR auto-skaala mõõdik
     let msAccum = 0, frameCount = 0;
     const targetMs = 1000 / 50;
@@ -270,9 +276,11 @@ export default function ColorBends({
         if (avg > targetMs * 1.15 && renderScale > 0.6) {
           renderScale = Math.max(0.6, renderScale * 0.9);
           applyDpr();
+          forceRenderNow(); // DPR change clears the canvas, so redraw immediately
         } else if (avg < targetMs * 0.9 && renderScale < 1.0) {
           renderScale = Math.min(1.0, renderScale * 1.1);
           applyDpr();
+          forceRenderNow();
         }
         msAccum = 0; frameCount = 0;
       }

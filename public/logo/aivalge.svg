@@ -1,37 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="SotsiaalAI_Logo"
+<svg id="Layer_1"
      xmlns="http://www.w3.org/2000/svg"
-     viewBox="-20 -20 215.19 235.11"
-     width="215.19" height="235.11"
-     role="img" aria-labelledby="title desc"
-     shape-rendering="geometricPrecision">
-
-  <title id="title">SotsiaalAI ikoon – pehme vari, ilma stroketa</title>
-  <desc id="desc">Gradient täidetud kujund koos sama pehme varjuga nagu teisel logol. Stroke eemaldatud.</desc>
-
+     viewBox="0 0 175.09 195.01"
+     overflow="visible">
   <defs>
-    <!-- Warm gradient -->
-    <linearGradient id="gradientWarmClay" x1="61.96" y1="-1487.75" x2="169.27" y2="-1720.34"
-      gradientTransform="translate(0 -1504.98) scale(1 -1)" gradientUnits="userSpaceOnUse">
-      <stop offset="0"   stop-color="#f6e3e1"/>
-      <stop offset="0.25" stop-color="#d29b9b"/>
-      <stop offset="0.5"  stop-color="#b17c7c"/>
-      <stop offset="0.75" stop-color="#844d4c"/>
-      <stop offset="1"   stop-color="#6b3938"/>
+    <style>
+      .cls-1 { fill: url(#linear-gradient-2); }
+      .cls-2 { fill: url(#linear-gradient); }
+    </style>
+
+    <linearGradient id="linear-gradient"
+      x1="113.34" y1="182.08" x2="198.56" y2="-2.62"
+      gradientTransform="translate(0 194.82) scale(1 -1)"
+      gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e6bcb9"/>
+      <stop offset=".14" stop-color="#be7877"/>
+      <stop offset=".29" stop-color="#9a5151"/>
+      <stop offset=".43" stop-color="#854343"/>
+      <stop offset=".57" stop-color="#6d3333"/>
+      <stop offset=".71" stop-color="#4c1c1c"/>
+      <stop offset=".86" stop-color="#391212"/>
+      <stop offset="1" stop-color="#2e0d0d"/>
     </linearGradient>
 
-    <!-- pehme vari (nagu eelmistel logodel) -->
-    <filter id="shadowSoft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="1.8" flood-color="#000" flood-opacity=".6"/>
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="3.2" flood-color="#000" flood-opacity=".22"/>
-      <feDropShadow dx="5.5" dy="5.5" stdDeviation="4.2" flood-color="#000" flood-opacity=".10"/>
+    <linearGradient id="linear-gradient-2"
+      x1="-20.73" y1="-3260.46" x2="74.41" y2="-3466.66"
+      gradientTransform="translate(20 -3248.97) scale(1 -1)"
+      gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e6bcb9"/>
+      <stop offset=".14" stop-color="#be7877"/>
+      <stop offset=".29" stop-color="#9a5151"/>
+      <stop offset=".43" stop-color="#854343"/>
+      <stop offset=".57" stop-color="#6d3333"/>
+      <stop offset=".71" stop-color="#4c1c1c"/>
+      <stop offset=".86" stop-color="#391212"/>
+      <stop offset="1" stop-color="#2e0d0d"/>
+    </linearGradient>
+
+    <filter id="shadow-all"
+            x="-40" y="-40" width="260" height="300"
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feOffset in="blur" dx="8" dy="9" result="offsetBlur"/>
+      <feColorMatrix in="offsetBlur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.85 0"
+        result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/></feMerge>
     </filter>
   </defs>
 
-  <!-- Täitev kujund -->
-  <g filter="url(#shadowSoft)">
-    <path fill="url(#gradientWarmClay)" stroke="none"
-      d="M169.9,1.89c6.41,2.28,4.98,8.8,5.19,21.04v20.56c0,36.14.16,112.3-.11,140.07.37,14.89-19.71,10.6-30,11.08-9.49-.53-16.06-1.54-15.58-12.61.74-35.77-1.7-134.45.95-174.57,3.13-9.86,31.27-7.68,39-5.78l.53.21ZM103.71,193.62c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.47,157.8,13.83,102.73,3.92,79.2,1.85,73.9.21,68.65.05,63.3c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16Z"/>
+  <!-- varju koopiad (must, enne originaale) -->
+  <g filter="url(#shadow-all)" aria-hidden="true" fill="#000">
+    <path d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"/>
+    <path d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"/>
   </g>
 
+  <!-- originaal kujundid peal -->
+  <path class="cls-2" d="M169.83,192.97l-.53.21c-7.73,1.9-35.87,4.08-39-5.78-2.65-40.12-.21-138.8-.95-174.57-.48-11.07,6.09-12.08,15.58-12.61,10.29.48,30.37-3.81,30,11.08.27,27.77.11,103.93.11,140.07v20.56c-.21,12.24,1.22,18.76-5.19,21.04h-.02Z"/>
+  <path class="cls-1" d="M103.66,193.57c-3.71,1.32-12.24,1.38-21.57,1.43-15.26,0-29.78.9-34.92-14.73C37.42,157.75,13.78,102.68,3.87,79.15,1.8,73.85.16,68.6,0,63.25c-.16-14.1,7.05-28.51,11.66-42.24,2.76-7,4.66-14.04,8.48-19.82,4.66-5.41,7.63,8.69,14.89,23.53,10.33,23.53,20.09,45.84,30.79,70.22,13.3,30.74,29.84,67.25,40.33,92.42.85,2.49.9,5.09-2.01,6.09l-.42.16-.06-.04Z"/>
 </svg>

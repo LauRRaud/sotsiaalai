@@ -25,7 +25,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-parooli)
+  // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-pin)
   const [deleting, setDeleting] = useState(false);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
@@ -204,7 +204,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {t("profile.update_email_cta", "Uuenda e-post")}
           </a>
           <Link
-            href={localizePath("/unustasin-parooli", locale)}
+            href={localizePath("/unustasin-pin", locale)}
             className="link-brand"
             aria-label={t("profile.change_password_cta", "Uuenda parool")}
           >

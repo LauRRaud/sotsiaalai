@@ -11,22 +11,32 @@ function get(obj, path, fallback) {
   }
   return cur;
 }
+function interpolate(template, vars) {
+  if (!template || !vars || typeof template !== "string") return template;
+  return template.replace(/\{(\w+)\}/g, (m, k) =>
+    Object.prototype.hasOwnProperty.call(vars, k) && vars[k] != null ? String(vars[k]) : m,
+  );
+}
+
 export default function I18nProvider({ initialLocale = "et", messages = {}, children }) {
   const [locale, setLocaleState] = useState(initialLocale);
   const [dict, setDict] = useState(messages || {});
   const liveRef = useRef(null);
   const missingKeysRef = useRef(new Set());
   const t = useCallback(
-    (key, fallback = "") => {
+    (key, arg2, arg3) => {
+      const hasVars = arg2 && typeof arg2 === "object" && !Array.isArray(arg2);
+      const vars = hasVars ? arg2 : (arg3 && typeof arg3 === "object" ? arg3 : undefined);
+      const fallback = hasVars ? (typeof arg3 === "string" ? arg3 : "") : (typeof arg2 === "string" ? arg2 : "");
       const val = get(dict, key, undefined);
       if (val == null) {
         if (process.env.NODE_ENV !== "production" && !missingKeysRef.current.has(key)) {
           missingKeysRef.current.add(key);
           console.warn(`[i18n] missing key: ${key}`);
         }
-        return fallback || key;
+        return interpolate(fallback || key, vars);
       }
-      return val;
+      return vars ? interpolate(String(val), vars) : val;
     },
     [dict],
   );

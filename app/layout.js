@@ -65,9 +65,7 @@ export default async function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logo/smust.svg" />
         <link rel="preload" as="image" href="/logo/saivalge.svg" />
         <link rel="preload" as="image" href="/logo/logomust.svg" />
-        <link rel="preload" as="image" href="/login/google1.png" />
-        <link rel="preload" as="image" href="/login/smart.svg" />
-        <link rel="preload" as="image" href="/login/mobiil.png" />
+        {/* Removed deprecated login provider assets */}
       </head>
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
         <Providers initialLocale={locale} messages={messages} session={session}>

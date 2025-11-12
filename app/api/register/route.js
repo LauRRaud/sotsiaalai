@@ -34,12 +34,12 @@ function normalizeEmail(input) {
 function validEmail(s) {
   return !!s && s.length <= EMAIL_MAX && EMAIL_RE.test(s);
 }
-// lihtne parooli kontroll (min 6 märke; soovi korral lisa keerukus)
-function normalizePassword(input) {
-  return String(input || "").trim();
+// PIN peab olema 4-8 numbrit
+function normalizePin(input) {
+  return String(input || "").trim().replace(/\s+/g, "");
 }
-function validPassword(pw) {
-  return typeof pw === "string" && pw.length >= 6 && pw.length <= 1024;
+function validPin(pw) {
+  return typeof pw === "string" && /^\d{4,8}$/.test(pw);
 }
 function normalizeRole(input) {
   if (!input) return Role.CLIENT;
@@ -52,13 +52,13 @@ export async function POST(request) {
   try {
     const body = await request.json().catch(() => ({}));
     const email = normalizeEmail(body?.email);
-    const password = normalizePassword(body?.password);
+    const pin = normalizePin(body?.pin ?? body?.password);
     const role = normalizeRole(body?.role);
     if (!validEmail(email)) return err("E-posti aadress pole korrektne.");
-    if (!validPassword(password)) return err("Parool peab olema vähemalt 6 märki.");
+    if (!validPin(pin)) return err("PIN peab olema 4-8 numbrit.");
     // NB! Võistlusseisu vastu kaitse: ära toetu ainult eelkontrollile,
     // püüa ka P2002 (unique constraint) all.
-    const passwordHash = await hash(password, 12);
+    const passwordHash = await hash(pin, 12); // ajalooline veeru nimi, hoiame siin PIN hash'i
     try {
       await prisma.user.create({
         data: {

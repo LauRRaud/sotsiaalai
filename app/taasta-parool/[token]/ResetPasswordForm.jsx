@@ -7,7 +7,9 @@ import { localizePath } from "@/lib/localizePath";
 export default function ResetPasswordForm({ token }) {
   const router = useRouter();
   const { t, locale } = useI18n();
-  const [password, setPassword] = useState("");
+  const PIN_MIN = 4;
+  const PIN_MAX = 8;
+  const [pin, setPin] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,16 +17,16 @@ export default function ResetPasswordForm({ token }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (!password || !confirm) {
+    if (!pin || !confirm) {
       setError(t("auth.resetForm.errors.required"));
       return;
     }
-    if (password !== confirm) {
+    if (pin !== confirm) {
       setError(t("auth.resetForm.errors.mismatch"));
       return;
     }
-    if (password.length < 6) {
-      setError(t("auth.resetForm.errors.minLength"));
+    if (!/^\d{4,8}$/.test(pin)) {
+      setError(t("auth.resetForm.errors.pinLength", { min: PIN_MIN, max: PIN_MAX }));
       return;
     }
     setLoading(true);
@@ -32,7 +34,7 @@ export default function ResetPasswordForm({ token }) {
       const response = await fetch("/api/auth/password/reset", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
+        body: JSON.stringify({ token, pin }),
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
@@ -40,7 +42,7 @@ export default function ResetPasswordForm({ token }) {
         return;
       }
       setSuccess(true);
-      setPassword("");
+      setPin("");
       setConfirm("");
       router.refresh();
     } catch (err) {
@@ -68,17 +70,17 @@ export default function ResetPasswordForm({ token }) {
         </div>
       ) : (
         <form className="reset-form" onSubmit={handleSubmit} autoComplete="off">
-          <label htmlFor="password" className="reset-label">
+          <label htmlFor="pin" className="reset-label">
             <input
               type="password"
-              id="password"
-              name="password"
+              id="pin"
+              name="pin"
               className="reset-input"
-              placeholder={t("auth.resetForm.fields.password")}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder={t("auth.resetForm.fields.pin", { min: PIN_MIN, max: PIN_MAX })}
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
               required
-              minLength={6}
+              minLength={PIN_MIN}
               autoComplete="new-password"
               disabled={loading}
             />
@@ -91,9 +93,9 @@ export default function ResetPasswordForm({ token }) {
               className="reset-input"
               placeholder={t("auth.resetForm.fields.confirm")}
               value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
+              onChange={(e) => setConfirm(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
               required
-              minLength={6}
+              minLength={PIN_MIN}
               autoComplete="new-password"
               disabled={loading}
             />

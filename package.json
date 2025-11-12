@@ -6,7 +6,7 @@
   "description": "SotsiaalAI – kaasaegne AI-platvorm sotsiaalvaldkonna spetsialistidele ja abivajajatele.",
   "author": "SotsiaalAI OÜ",
   "scripts": {
-    "dev": "next dev --turbopack -p 3000",
+    "dev": "cross-env NEXT_DISABLE_TURBOPACK=1 next dev -p 3000",
     "dev:webpack": "next dev -p 3000",
     "dev:no-turbo": "next dev -p 3000",
     "portaal": "npm run dev:webpack",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "15.5.6",
     "@playwright/test": "^1.56.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^24.10.0",
     "cross-env": "10.1.0",
     "dotenv-cli": "^11.0.0",
