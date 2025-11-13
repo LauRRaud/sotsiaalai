@@ -96,6 +96,9 @@ model User {
   conversationMessages ConversationMessage[]
   conversations        Conversation[]
   analyzeUsage         AnalyzeUsage[]
+  emailOtpCodes        EmailOtpCode[]
+  trustedDevices       TrustedDevice[]
+  loginTempTokens      LoginTempToken[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -320,4 +323,55 @@ model AnalyzeUsage {
 
   @@unique([userId, day], name: "userId_day")
   @@index([userId])
+}
+
+model EmailOtpCode {
+  id        String   @id @default(cuid())
+  userId    String
+  codeHash  String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([expiresAt])
+}
+
+model TrustedDevice {
+  id                    String   @id @default(cuid())
+  userId                String
+  deviceTokenHash       String   @unique
+  userAgentFingerprint  String?
+  ipRange               String?
+  expiresAt             DateTime
+  lastUsedAt            DateTime?
+  createdAt             DateTime @default(now())
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loginTokens LoginTempToken[]
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model LoginTempToken {
+  id               String    @id @default(cuid())
+  userId           String
+  tokenHash        String    @unique
+  requiresOtp      Boolean   @default(false)
+  otpVerifiedAt    DateTime?
+  expiresAt        DateTime
+  usedAt           DateTime?
+  userAgent        String?
+  ipAddress        String?
+  trustedDeviceId  String?
+  createdAt        DateTime  @default(now())
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trustedDevice TrustedDevice? @relation(fields: [trustedDeviceId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([expiresAt])
 }

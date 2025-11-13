@@ -8,6 +8,7 @@ import Image from "next/image";
 import Paperclip from "@/public/logo/paperclip.svg";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
+import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
@@ -845,6 +846,7 @@ export default function ChatBody() {
           const sources = normalizeSources(data?.sources);
           setIsCrisis(!!data?.isCrisis);
           appendMessage({ role: "ai", text: replyText, sources });
+          requestConversationsRefresh();
           return;
         }
 
@@ -901,6 +903,7 @@ export default function ChatBody() {
           sources,
           isStreaming: false,
         }));
+        requestConversationsRefresh();
         streamingMessageId = null;
       } catch (err) {
         clearTimeout(clientTimeout);
@@ -951,6 +954,7 @@ export default function ChatBody() {
       uploadPreview,
       useAsContext,
       userRole,
+      requestConversationsRefresh,
     ]
   );
 
@@ -1039,6 +1043,12 @@ export default function ChatBody() {
     const node = chatWindowRef.current;
     if (!node) return;
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
+  }, []);
+
+  const requestConversationsRefresh = useCallback(() => {
+    try {
+      window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
+    } catch {}
   }, []);
 
   const openConversations = useCallback(() => {
@@ -1190,13 +1200,13 @@ export default function ChatBody() {
 )}
 
         <form
-          className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position"
+          className={`chat-inputbar chat-inputbar--mobile u-mobile-reset-position${!input.trim() ? " shiny-ph" : ""}`}
           style={{ columnGap: 0 }}
           onSubmit={isGenerating ? handleStop : sendMessage}
           autoComplete="off"
         >
           {/* Left side: attach + input in one row */}
-          <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0, position: "relative" }}>
             <button
               type="button"
               onClick={onPickFile}
@@ -1229,6 +1239,26 @@ export default function ChatBody() {
               disabled={isGenerating}
               rows={1}
             />
+            {!input.trim() ? (
+              <div
+                aria-hidden
+                className="shiny-ph-overlay"
+                style={{
+                  position: "absolute",
+                  left: "clamp(0.875rem, 4vw, 1.125rem)",
+                  right: 8,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  pointerEvents: "none",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  opacity: 0.9,
+                }}
+              >
+                <ShinyText text={t("chat.input.placeholder", "Kirjuta siia küsimus...")} speed={5} />
+              </div>
+            ) : null}
           </div>
           <button
             type="submit"

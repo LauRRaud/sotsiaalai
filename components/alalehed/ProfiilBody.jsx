@@ -17,7 +17,12 @@ export default function ProfiilBody({ initialProfile = null }) {
   const { data: session, status } = useSession();
   const { openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
+  const PIN_MIN = 4;
+  const PIN_MAX = 8;
   const [email, setEmail] = useState(initialProfile?.email || "");
+  const [initialEmail, setInitialEmail] = useState(
+    (initialProfile?.email || "").trim().toLowerCase()
+  );
   const [hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
   // Kui serverist tuli profiil, siis väldi kliendi "loading" vaadet
@@ -25,6 +30,9 @@ export default function ProfiilBody({ initialProfile = null }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [currentPin, setCurrentPin] = useState("");
+  const [newPin, setNewPin] = useState("");
+  const [confirmPin, setConfirmPin] = useState("");
   // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-pin)
   const [deleting, setDeleting] = useState(false);
   const searchParams = useSearchParams();
@@ -37,8 +45,9 @@ export default function ProfiilBody({ initialProfile = null }) {
       return;
     }
     // Kui server andis juba profiili, kasuta seda ja väldi lisapäringut
-    if (initialProfile && (typeof initialProfile.email === "string")) {
+    if (initialProfile && typeof initialProfile.email === "string") {
       setEmail(initialProfile.email || "");
+      setInitialEmail((initialProfile.email || "").trim().toLowerCase());
       setHasPassword(!!initialProfile.hasPassword);
       setLoading(false);
       return;
@@ -52,6 +61,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           return;
         }
         setEmail(payload?.user?.email ?? "");
+        setInitialEmail(((payload?.user?.email ?? "")).trim().toLowerCase());
         setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
@@ -61,24 +71,75 @@ export default function ProfiilBody({ initialProfile = null }) {
       }
     })();
   }, [status, t, initialProfile]);
-  async function handleSave(e) {
-    e.preventDefault();
+  async function submitProfile() {
     if (status !== "authenticated") return;
-    setSaving(true);
     setError("");
     setSuccess("");
+    const normalizedEmail = email.trim().toLowerCase();
+    const emailChanged = normalizedEmail !== (initialEmail || "");
+    const wantsPinChange = Boolean(newPin) || Boolean(confirmPin);
+    if (!emailChanged && !wantsPinChange) {
+      setError(t("profile.errors.no_changes"));
+      return;
+    }
+    let cleanedNewPin = "";
+    if (wantsPinChange) {
+      if (!newPin || !confirmPin) {
+        setError(t("profile.errors.pin_required"));
+        return;
+      }
+      cleanedNewPin = newPin.replace(/\D/g, "");
+      const cleanedConfirm = confirmPin.replace(/\D/g, "");
+      if (cleanedNewPin !== cleanedConfirm) {
+        setError(t("profile.errors.pin_mismatch"));
+        return;
+      }
+      if (!new RegExp(`^\\d{${PIN_MIN},${PIN_MAX}}$`).test(cleanedNewPin)) {
+        setError(t("profile.errors.pin_invalid", { min: PIN_MIN, max: PIN_MAX }));
+        return;
+      }
+    }
+    const requiresCurrentPin = hasPassword && (emailChanged || wantsPinChange);
+    if (requiresCurrentPin && !currentPin) {
+      setError(t("profile.errors.current_pin_required"));
+      return;
+    }
+    setSaving(true);
     try {
+      const payload = { email: normalizedEmail };
+      if (wantsPinChange && cleanedNewPin) {
+        payload.password = cleanedNewPin;
+      }
+      if (currentPin) {
+        payload.currentPassword = currentPin;
+      }
       const res = await fetch("/api/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(payload),
       });
-      const payload = await res.json().catch(() => ({}));
+      const response = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.error || payload?.message || t("profile.update_failed"));
+        setError(response?.error || response?.message || t("profile.update_failed"));
         return;
       }
-      setSuccess(t("profile.saved_ok"));
+      const messageParts = [];
+      if (emailChanged) {
+        messageParts.push(t("profile.success_email_pending"));
+        setInitialEmail(normalizedEmail);
+      }
+      if (wantsPinChange) {
+        messageParts.push(t("profile.success_pin_updated"));
+        setHasPassword(true);
+      }
+      setSuccess(messageParts.length ? messageParts.join(" ") : t("profile.saved_ok"));
+      setCurrentPin("");
+      setNewPin("");
+      setConfirmPin("");
+      if (response?.user?.email) {
+        setEmail(response.user.email);
+        setInitialEmail(response.user.email.trim().toLowerCase());
+      }
       router.refresh();
     } catch (err) {
       console.error("profile PUT", err);
@@ -88,31 +149,14 @@ export default function ProfiilBody({ initialProfile = null }) {
     }
   }
 
-  // Uuenda ainult e-post (eraldi nupust), sama loogika kui submit
+  async function handleSave(e) {
+    e.preventDefault();
+    await submitProfile();
+  }
+
   async function handleUpdateEmail() {
-    if (status !== "authenticated") return;
-    setSaving(true);
-    setError("");
-    setSuccess("");
-    try {
-      const res = await fetch("/api/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(payload?.error || payload?.message || t("profile.update_failed"));
-        return;
-      }
-      setSuccess(t("profile.saved_ok"));
-      router.refresh();
-    } catch (err) {
-      console.error("profile PUT", err);
-      setError(t("profile.server_unreachable"));
-    } finally {
-      setSaving(false);
-    }
+    if (saving) return;
+    await submitProfile();
   }
 
   // Parooli muutmine: suuname parooli taastamise lehele, kus küsitakse e-post
@@ -211,6 +255,50 @@ export default function ProfiilBody({ initialProfile = null }) {
             {t("profile.change_password_cta", "Uuenda parool")}
           </Link>
         </div>
+        <p className="profile-pin-hint">
+          {t("profile.pin_help", { min: PIN_MIN, max: PIN_MAX })}
+        </p>
+        <label htmlFor="current-pin" className="glass-label">
+          {t("profile.current_pin_label")}
+        </label>
+        <input
+          className="input-modern"
+          id="current-pin"
+          type="password"
+          inputMode="numeric"
+          autoComplete="current-password"
+          value={currentPin}
+          onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
+          placeholder={t("profile.current_pin_label")}
+        />
+        <label htmlFor="new-pin" className="glass-label">
+          {t("profile.new_pin_label")}
+        </label>
+        <input
+          className="input-modern"
+          id="new-pin"
+          type="password"
+          inputMode="numeric"
+          autoComplete="new-password"
+          value={newPin}
+          onChange={(e) => setNewPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
+          minLength={PIN_MIN}
+          placeholder={t("profile.new_pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
+        />
+        <label htmlFor="confirm-pin" className="glass-label">
+          {t("profile.confirm_pin_label")}
+        </label>
+        <input
+          className="input-modern"
+          id="confirm-pin"
+          type="password"
+          inputMode="numeric"
+          autoComplete="new-password"
+          value={confirmPin}
+          onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
+          minLength={PIN_MIN}
+          placeholder={t("profile.confirm_pin_label")}
+        />
         {error && (
           <div
             role="alert"

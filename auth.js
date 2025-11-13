@@ -4,6 +4,12 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma, { prisma as prismaNamed } from "./lib/prisma"; // mõlemad olemas, kui kuskil teises failis vajab
 
 import { compare } from "bcrypt";
+import {
+  hashOpaqueToken,
+  normalizeEmail,
+  normalizePin,
+  isValidPin,
+} from "@/lib/auth/pin-login";
 
 const CredentialsProvider =
   CredentialsProviderImport?.default ?? CredentialsProviderImport;
@@ -41,6 +47,7 @@ function computeBaseUrl() {
 }
 
 const APP_BASE_URL = computeBaseUrl();
+const ALLOW_DIRECT_PIN_LOGIN = process.env.LOGIN_ALLOW_DIRECT_PIN === "true";
 
 function toInternalDestination(targetUrl) {
   try {
@@ -74,16 +81,53 @@ export const authConfig = {
       credentials: {
         email: { label: "Email", type: "text" },
         pin: { label: "PIN", type: "password" },
+        temp_login_token: { label: "Temp Token", type: "text" },
       },
       authorize: async (creds) => {
-        const email = String(creds?.email || "").trim().toLowerCase();
-        const pinRaw = String(creds?.pin || "").trim();
-        const pin = pinRaw.replace(/\s+/g, "");
-        if (!email || !pin) return null;
-        if (!/^\d{4,8}$/.test(pin)) return null;
+        const tempTokenRaw = String(creds?.temp_login_token || "").trim();
+        if (tempTokenRaw) {
+          const tokenHash = hashOpaqueToken(tempTokenRaw);
+          const loginToken = await prisma.loginTempToken.findUnique({
+            where: { tokenHash },
+            select: {
+              id: true,
+              userId: true,
+              requiresOtp: true,
+              otpVerifiedAt: true,
+              expiresAt: true,
+              usedAt: true,
+              user: {
+                select: { id: true, email: true, role: true, isAdmin: true },
+              },
+            },
+          });
+          if (!loginToken?.user) return null;
+          const now = new Date();
+          if (loginToken.expiresAt <= now || loginToken.usedAt) return null;
+          if (loginToken.requiresOtp && !loginToken.otpVerifiedAt) return null;
+          await prisma.loginTempToken.update({
+            where: { id: loginToken.id },
+            data: { usedAt: now },
+          });
+          const user = loginToken.user;
+          return {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            isAdmin: user.isAdmin,
+          };
+        }
+
+        if (!ALLOW_DIRECT_PIN_LOGIN) {
+          return null;
+        }
+
+        const email = normalizeEmail(creds?.email);
+        const pin = normalizePin(creds?.pin);
+        if (!email || !isValidPin(pin)) return null;
 
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user?.passwordHash) return null; // ajalooline field, sisaldab PIN hash'i
+        if (!user?.passwordHash) return null;
 
         const ok = await compare(pin, user.passwordHash);
         if (!ok) return null;

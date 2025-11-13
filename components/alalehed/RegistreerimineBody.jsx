@@ -1,6 +1,5 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
@@ -19,14 +18,16 @@ export default function RegistreerimineBody() {
   const nextUrl = toRelative(searchParams?.get("next") || localizePath("/vestlus", locale));
   const PIN_MIN = 4;
   const PIN_MAX = 8;
-  const [form, setForm] = useState({
+  const initialForm = {
     email: "",
     pin: "",
     role: "SOCIAL_WORKER",
     agree: false,
-  });
+  };
+  const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -42,6 +43,7 @@ export default function RegistreerimineBody() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setSuccessMessage("");
     if (!form.agree) {
       setError(t("auth.register.error.agree_required"));
       return;
@@ -63,18 +65,15 @@ export default function RegistreerimineBody() {
         setError(payload?.message || payload?.error || t("auth.register.error.failed"));
         return;
       }
-      const login = await signIn("credentials", {
-        redirect: false,
-        callbackUrl: nextUrl,
-        email: form.email,
-        pin: form.pin,
-      });
-      if (login?.error) {
-        setError(t("auth.register.error.auto_login"));
-        router.replace(`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`);
-        return;
-      }
-      router.replace(`${localizePath("/tellimus", locale)}?next=${encodeURIComponent(nextUrl)}`);
+      setSuccessMessage(
+        t("auth.register.success_message", {
+          email: form.email.trim(),
+        })
+      );
+      setForm((prev) => ({
+        ...initialForm,
+        role: prev.role,
+      }));
       router.refresh();
     } catch (err) {
       console.error("Register error", err);
@@ -160,11 +159,16 @@ export default function RegistreerimineBody() {
             />
           </span>
         </label>
-        {error && (
-          <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
-            {error}
-          </div>
-        )}
+      {error && (
+        <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
+          {error}
+        </div>
+      )}
+      {successMessage && (
+        <div role="status" className="glass-note glass-note--success" style={{ marginBottom: "0.75rem" }}>
+          {successMessage}
+        </div>
+      )}
         <button className="btn-primary" type="submit" disabled={submitting}>
           <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>

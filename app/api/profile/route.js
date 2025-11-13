@@ -2,9 +2,12 @@
 export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import crypto from "node:crypto";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hash, compare } from "bcrypt";
+import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { isValidPin } from "@/lib/auth/pin-login";
 /** Vasta JSON-iga koos no-store päistega */
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -25,6 +28,50 @@ async function requireUser() {
 }
 function makeError(message, status = 400, extras = {}) {
   return json({ ok: false, message, ...extras }, status);
+}
+async function sendVerificationEmail(email) {
+  try {
+    const token = crypto.randomBytes(32).toString("hex");
+    const hours = Number(process.env.EMAIL_VERIFY_HOURS || 24);
+    const expires = new Date(Date.now() + hours * 60 * 60 * 1000);
+    await prisma.$transaction(async (tx) => {
+      await tx.verificationToken.deleteMany({ where: { identifier: email } });
+      await tx.verificationToken.create({
+        data: { identifier: email, token, expires },
+      });
+    });
+    const baseUrl = resolveBaseUrl();
+    if (!baseUrl) return;
+    const verifyUrl = `${baseUrl.replace(/\/$/, "")}/api/verify-email?email=${encodeURIComponent(
+      email
+    )}&token=${token}`;
+    const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+    if (!from) {
+      console.warn("[profile] EMAIL_FROM/SMTP_FROM missing – verification email skipped");
+      return;
+    }
+    const mailer = getMailer("email-verify");
+    await mailer.sendMail({
+      to: email,
+      from,
+      subject: "Kinnita oma e-posti aadress",
+      text: `Tere!\n\nPalun kinnita oma e-posti aadress, klõpsates järgneval lingil:\n${verifyUrl}\n\nKui sa ei muutnud e-posti aadressi, teavita meid palun.`,
+      html: `
+        <p>Tere!</p>
+        <p>Palun kinnita oma e-posti aadress, klõpsates järgneval lingil:</p>
+        <p><a href="${verifyUrl}">${verifyUrl}</a></p>
+        <p>Kui sa ei muutnud e-posti aadressi, teavita meid palun.</p>
+      `,
+    });
+    try {
+      await prisma.user.update({
+        where: { email },
+        data: { emailVerificationSentAt: new Date() },
+      });
+    } catch {}
+  } catch (error) {
+    console.error("profile: verification email error", error);
+  }
 }
 export async function GET() {
   const ctx = await requireUser();
@@ -60,6 +107,7 @@ export async function PUT(request) {
     if (!current) return makeError("User not found", 404);
     const data = {};
     let requiresReauth = false;
+    let mustCheckCurrent = false;
     // --- E-posti uuendamine ---
     if (nextEmail) {
       if (!nextEmail.includes("@")) {
@@ -76,27 +124,34 @@ export async function PUT(request) {
         data.emailVerified = null;
         data.emailVerificationSentAt = null;
         requiresReauth = true;
+        if (current.passwordHash) {
+          mustCheckCurrent = true;
+        }
       }
     }
     // --- Parooli uuendamine ---
     if (nextPassword) {
-      if (nextPassword.length < 6) {
-        return makeError("Parool peab olema vähemalt 6 märki.", 400);
+      const normalizedPin = nextPassword.replace(/\s+/g, "");
+      if (!isValidPin(normalizedPin)) {
+        return makeError("PIN peab olema 4–8 numbrit.", 400, { code: "PIN_INVALID" });
       }
       // Kui kontol oli varem parool, nõua currentPassword kontrolli
       if (current.passwordHash) {
-        if (!currentPassword) {
-          return makeError("Sisesta kehtiv parool (currentPassword), et parooli muuta.", 400, {
-            code: "CURRENT_PASSWORD_REQUIRED",
-          });
-        }
-        const ok = await compare(currentPassword, current.passwordHash);
-        if (!ok) {
-          return makeError("Kehtiv parool on vale.", 401, { code: "CURRENT_PASSWORD_INVALID" });
-        }
+        mustCheckCurrent = true;
       }
-      data.passwordHash = await hash(nextPassword, 12);
+      data.passwordHash = await hash(normalizedPin, 12);
       requiresReauth = true;
+    }
+    if (mustCheckCurrent) {
+      if (!currentPassword) {
+        return makeError("Sisesta kehtiv PIN (currentPassword), et muudatus kinnitada.", 400, {
+          code: "CURRENT_PASSWORD_REQUIRED",
+        });
+      }
+      const ok = await compare(currentPassword, current.passwordHash);
+      if (!ok) {
+        return makeError("Kehtiv PIN on vale.", 401, { code: "CURRENT_PASSWORD_INVALID" });
+      }
     }
     if (Object.keys(data).length === 0) {
       // Pole sisulist muudatust (nt email sama ja parool puudus)
@@ -107,6 +162,9 @@ export async function PUT(request) {
       data,
       select: { email: true, role: true },
     });
+    if (data.email) {
+      await sendVerificationEmail(data.email);
+    }
     return json({ ok: true, user: updated, requiresReauth });
   } catch (error) {
     // Prisma unikaalsus vms

@@ -91,3 +91,7 @@ rag-service/storage
 rag-service/storage.bak.*/
 rag-service/rag.env
 rag-service/requirements.lock.before_upgrade.txt
+ 
+# Windows reserved device names (prevent git add failure on Windows)
+# Only ignore at repo root to avoid overmatching
+/CON

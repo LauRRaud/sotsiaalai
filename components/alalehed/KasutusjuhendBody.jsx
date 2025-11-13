@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 
 const SECTION_KEYS = [
   "accessibility",
@@ -16,6 +17,16 @@ const SECTION_KEYS = [
 
 export default function KasutusjuhendBody() {
   const { t, locale } = useI18n();
+  const { openModal: openA11y } = useAccessibility();
+  const handleA11yClick = (e) => {
+    let node = e.target;
+    let anchor = null;
+    while (node && node !== e.currentTarget) {
+      if (node.matches && node.matches('a[data-a11y-open]')) { anchor = node; break; }
+      node = node.parentElement;
+    }
+    if (anchor) { e.preventDefault(); openA11y(); }
+  };
   const guideSections = SECTION_KEYS.map((key) => ({
     key,
     title: t(`about.guide.sections_v2.${key}.title`),
@@ -34,20 +45,21 @@ export default function KasutusjuhendBody() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "1.25rem",
+            gap: "1rem",
             color: "rgba(235, 238, 248, 0.85)",
           }}
         >
           {guideSections.map(({ key, title, body }) => (
             <article
               key={key}
+              onClick={key === "accessibility" ? handleA11yClick : undefined}
               className="guide-card"
               aria-label={title}
               style={{
                 background: "rgba(12, 19, 35, 0.5)",
                 borderRadius: 14,
                 border: "1px solid rgba(255, 255, 255, 0.08)",
-                padding: "1rem 1.25rem",
+                padding: "0.9rem 1rem",
                 boxShadow: "0 8px 20px rgba(4, 7, 15, 0.25)",
                 color: "rgba(235, 238, 248, 0.9)",
               }}
@@ -57,14 +69,14 @@ export default function KasutusjuhendBody() {
                 style={{
                   marginBottom: "0.5rem",
                   color: "var(--link-gold)",
-                  fontSize: "1.45em",
-                  fontFamily: "var(--font-aino), Arial, sans-serif",
-                  fontWeight: 400,
+                  fontSize: "1.25rem",
+                  fontFamily: "var(--font-inter, Arial, sans-serif)",
+                  fontWeight: 600,
                 }}
               >
                 {title}
               </h2>
-              <div className="glass-text" dangerouslySetInnerHTML={{ __html: body }} />
+              <div className="guide-content" dangerouslySetInnerHTML={{ __html: body }} />
             </article>
           ))}
         </div>
@@ -79,3 +91,6 @@ export default function KasutusjuhendBody() {
     </div>
   );
 }
+
+
+
