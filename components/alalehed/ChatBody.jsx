@@ -9,6 +9,7 @@ import Paperclip from "@/public/logo/paperclip.svg";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
+import TextType from "@/components/effects/TextAnimations/TextType/TextType";
 
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
@@ -280,9 +281,15 @@ export default function ChatBody() {
   const { data: session } = useSession();
   const { t, locale } = useI18n();
 
-  const introText = t(
+  const introGreeting = t("chat.intro.greeting", "Hello!");
+  const introMessage = t(
     "chat.intro.message",
-    "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes."
+    "SotsiaalAI assists you with information based on trusted sources."
+  );
+  const introCTA = t("chat.intro.cta", "Kirjuta mulle!");
+  const introAnimationTexts = useMemo(
+    () => [introGreeting, introMessage, introCTA],
+    [introGreeting, introMessage, introCTA]
   );
   const crisisText = t(
     "chat.crisis.notice",
@@ -584,6 +591,12 @@ export default function ChatBody() {
   useEffect(() => {
     refreshUsage();
   }, [refreshUsage]);
+
+  const requestConversationsRefresh = useCallback(() => {
+    try {
+      window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
+    } catch {}
+  }, []);
 
   /* ---------- Vestluse vahetus sündmus ---------- */
   useEffect(() => {
@@ -1045,12 +1058,6 @@ export default function ChatBody() {
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
 
-  const requestConversationsRefresh = useCallback(() => {
-    try {
-      window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
-    } catch {}
-  }, []);
-
   const openConversations = useCallback(() => {
     try {
       window.dispatchEvent(
@@ -1160,7 +1167,18 @@ export default function ChatBody() {
           {/* Intro – nähtav kuni tekib reaalne sisu */}
           {!hasRealContent && (
             <div className="chat-msg chat-msg-ai" style={{ opacity: 0.9 }}>
-              <div style={{ whiteSpace: "pre-wrap" }}>{introText}</div>
+              <div style={{ whiteSpace: "pre-wrap" }}>
+                <TextType
+                  text={introAnimationTexts}
+                  typingSpeed={[70, 45, 45]}
+                  deletingSpeed={40}
+                  pauseDuration={[2000, 3000, 3500]}
+                  initialDelay={1000}
+                  loop={false}
+                  showCursor={false}
+                  className="chat-intro-text"
+                />
+              </div>
             </div>
           )}
 
@@ -1234,7 +1252,6 @@ export default function ChatBody() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={t("chat.input.placeholder", "Kirjuta siia küsimus...")}
               className="chat-input-field"
               disabled={isGenerating}
               rows={1}
@@ -1245,7 +1262,8 @@ export default function ChatBody() {
                 className="shiny-ph-overlay"
                 style={{
                   position: "absolute",
-                  left: "clamp(0.875rem, 4vw, 1.125rem)",
+                  // start after attach button (3.5rem wide, -6px margin) + textarea padding
+                  left: "calc(3.5rem - 6px + clamp(0.75rem, 3vw, 1.125rem))",
                   right: 8,
                   top: "50%",
                   transform: "translateY(-50%)",
@@ -1256,7 +1274,7 @@ export default function ChatBody() {
                   opacity: 0.9,
                 }}
               >
-                <ShinyText text={t("chat.input.placeholder", "Kirjuta siia küsimus...")} speed={5} />
+                <ShinyText text={t("chat.input.placeholder", "Kirjuta siia")} speed={5} />
               </div>
             ) : null}
           </div>

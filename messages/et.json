@@ -194,8 +194,20 @@
       "saved": "Eelistused salvestatud.",
       "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
     },
-    "change_password_cta": "Uuenda PIN",
-    "update_email_cta": "Uuenda e-post"
+    "change_password_cta": "Uus PIN",
+      "update_email_cta": "Uus e-post",
+    "email_update": {
+      "title": "Uuenda e-post",
+      "submit": "Saada kinnituskiri",
+      "submitting": "Saadan…",
+      "pin_placeholder": "Praegune PIN ({min}–{max} numbrit)",
+      "success": "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
+      "error_email_required": "Palun sisesta e-posti aadress.",
+      "error_email_invalid": "Palun sisesta korrektne e-posti aadress.",
+      "error_pin_required": "Palun sisesta PIN-kood.",
+      "error_pin_length": "PIN peab olema {min}–{max} numbrit.",
+      "error_failed": "E-posti uuendamine ebaõnnestus."
+    }
   },
   "accessibility": {
     "title": "Ligipääsetavuse eelistused",
@@ -333,7 +345,9 @@
   "chat": {
     "title": "SotsiaalAI",
     "intro": {
-      "message": "Tere! SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes."
+      "greeting": "Tere!",
+      "message": "SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes.",
+      "cta": "Kirjuta mulle!"
     },
     "crisis": {
       "notice": "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
@@ -369,7 +383,7 @@
     "scroll_to_bottom_title": "Kerige lõppu",
     "input": {
       "label": "Kirjuta sõnum",
-      "placeholder": "Kirjuta siia küsimus..."
+      "placeholder": "Kirjuta siia"
     },
     "send": {
       "stop": "Peata vastus",
@@ -481,7 +495,7 @@
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",
-          "body": "<p>Sisselogimine algab avalehelt, kus on kaks rollikaarti: \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\".</p>\n<ul>\n<li>Klõpsa sobival rollikaardil ja sisesta e-posti aadress koos PIN-koodiga (4–8 numbrit).</li>\n<li>Varem usaldatud seadmes või brauseris piisab tavaliselt ainult PIN-ist.</li>\n<li>Kui logid sisse uuest või ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi; sisesta see vastavasse väljale.</li>\n<li>Soovi korral märgi \"Mäleta seda seadet 30 päeva\", et järgmistel kordadel piisaks PIN-ist.</li>\n<li>Kui PIN on ununenud, kasuta linki <a href=\"/unustasin-pin\">Unustasin PIN-i</a> ja järgi juhiseid.</li>\n<li>Edukalt sisenedes avatakse sinu rolli vestlusvaade; kui ligipääs on piiratud (nt tellimus puudub või on aegunud), kuvatakse teavitus ja järgmised sammud.</li>\n</ul>"
+      "body": "<p>Sisselogimine algab avalehelt, kus on kaks rollikaarti: \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\".</p>\n<ul>\n<li>Klõpsa sobival rollikaardil ja sisesta e-posti aadress koos PIN-koodiga (4–8 numbrit).</li>\n<li>Varem usaldatud seadmes või brauseris piisab tavaliselt ainult PIN-ist.</li>\n<li>Kui logid sisse uuest või ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi; sisesta see vastavasse väljale.</li>\n<li>Soovi korral märgi \"Mäleta seda seadet 30 päeva\", et järgmistel kordadel piisaks PIN-ist.</li>\n<li>Kui PIN on ununenud, kasuta linki <a href=\"/uuenda-pin\">Unustasin PIN-i</a> ja järgi juhiseid.</li>\n<li>Edukalt sisenedes avatakse sinu rolli vestlusvaade; kui ligipääs on piiratud (nt tellimus puudub või on aegunud), kuvatakse teavitus ja järgmised sammud.</li>\n</ul>"
         },
         "chat": {
           "title": "5. Vestlusleht",

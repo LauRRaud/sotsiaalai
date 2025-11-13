@@ -41,7 +41,12 @@ export default function UnustasinParooliBody() {
   }
   return (
     <div className="main-content glass-box reset-box" lang={locale}>
-      <h1 className="glass-title reset-title">{t("auth.reset.title")}</h1>
+      <h1
+        className="glass-title reset-title"
+        style={{ marginBottom: "0.45em" }}
+      >
+        {t("auth.reset.title")}
+      </h1>
       {submitted ? (
         <RichText className="midtext reset-info" as="div" value={t("auth.reset.success")} />
       ) : (

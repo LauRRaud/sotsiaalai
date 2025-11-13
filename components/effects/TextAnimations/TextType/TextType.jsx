@@ -68,6 +68,22 @@ const TextType = ({
     return () => observer.disconnect();
   }, [startOnVisible]);
 
+  const getResolvedTypingSpeed = useMemo(() => {
+    if (Array.isArray(typingSpeed)) {
+      const idx = Math.min(currentTextIndex, typingSpeed.length - 1);
+      return typingSpeed[idx] ?? typingSpeed[0];
+    }
+    return typingSpeed;
+  }, [typingSpeed, currentTextIndex]);
+
+  const getResolvedPauseDuration = useMemo(() => {
+    if (Array.isArray(pauseDuration)) {
+      const idx = Math.min(currentTextIndex, pauseDuration.length - 1);
+      return pauseDuration[idx] ?? pauseDuration[0];
+    }
+    return pauseDuration;
+  }, [pauseDuration, currentTextIndex]);
+
   useEffect(() => {
     if (showCursor && cursorRef.current) {
       gsap.set(cursorRef.current, { opacity: 1 });
@@ -90,7 +106,7 @@ const TextType = ({
 
     const executeTypingAnimation = () => {
       if (isDeleting) {
-        if (displayedText === '') {
+        if (displayedText === "") {
           setIsDeleting(false);
           if (currentTextIndex === textArray.length - 1 && !loop) {
             return;
@@ -100,27 +116,27 @@ const TextType = ({
             onSentenceComplete(textArray[currentTextIndex], currentTextIndex);
           }
 
-          setCurrentTextIndex(prev => (prev + 1) % textArray.length);
+          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
           setCurrentCharIndex(0);
-          timeout = setTimeout(() => {}, pauseDuration);
+          timeout = setTimeout(() => {}, getResolvedPauseDuration);
         } else {
           timeout = setTimeout(() => {
-            setDisplayedText(prev => prev.slice(0, -1));
+            setDisplayedText((prev) => prev.slice(0, -1));
           }, deletingSpeed);
         }
       } else {
         if (currentCharIndex < processedText.length) {
           timeout = setTimeout(
             () => {
-              setDisplayedText(prev => prev + processedText[currentCharIndex]);
-              setCurrentCharIndex(prev => prev + 1);
+              setDisplayedText((prev) => prev + processedText[currentCharIndex]);
+              setCurrentCharIndex((prev) => prev + 1);
             },
-            variableSpeed ? getRandomSpeed() : typingSpeed
+            variableSpeed ? getRandomSpeed() : getResolvedTypingSpeed
           );
         } else if (textArray.length > 1) {
           timeout = setTimeout(() => {
             setIsDeleting(true);
-          }, pauseDuration);
+          }, getResolvedPauseDuration);
         }
       }
     };
@@ -147,7 +163,9 @@ const TextType = ({
     isVisible,
     reverseMode,
     variableSpeed,
-    onSentenceComplete
+    onSentenceComplete,
+    getResolvedTypingSpeed,
+    getResolvedPauseDuration
   ]);
 
   const shouldHideCursor =

@@ -103,7 +103,7 @@ export async function POST(request) {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true, email: true, passwordHash: true },
+      select: { id: true, email: true, passwordHash: true, isAdmin: true, role: true },
     });
     if (!user?.passwordHash) {
       return json({ message: "Vale e-post või PIN.", code: "INVALID_CREDENTIALS" }, 400);
@@ -145,15 +145,27 @@ export async function POST(request) {
       }
     }
 
-    const { token, expiresAt } = await createTempLoginToken({
-      userId: user.id,
-      requiresOtp: !trustedDevice,
-      userAgent,
-      ipAddress,
-      trustedDeviceId: trustedDevice?.id,
-    });
+    // Optional OTP bypasses
+const BYPASS_FOR_ADMINS = String(process.env.LOGIN_OTP_BYPASS_FOR_ADMINS || "").toLowerCase() === "true";
+const bypassEmails = String(process.env.LOGIN_OTP_BYPASS_EMAILS || "")
+  .split(",")
+  .map((s) => s.trim().toLowerCase())
+  .filter(Boolean);
 
-    if (trustedDevice) {
+const isBypassEmail = bypassEmails.includes((user.email || "").toLowerCase());
+const allowBypass = (BYPASS_FOR_ADMINS && Boolean(user.isAdmin)) || isBypassEmail;
+
+const requiresOtp = !trustedDevice && !allowBypass;
+
+const { token, expiresAt } = await createTempLoginToken({
+  userId: user.id,
+  requiresOtp,
+  userAgent,
+  ipAddress,
+  trustedDeviceId: trustedDevice?.id,
+});
+
+    if (!requiresOtp) {
       return json({
         status: "success",
         temp_login_token: token,

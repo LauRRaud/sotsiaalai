@@ -71,7 +71,7 @@ export default function KasutusjuhendBody() {
                   color: "var(--link-gold)",
                   fontSize: "1.25rem",
                   fontFamily: "var(--font-inter, Arial, sans-serif)",
-                  fontWeight: 600,
+                  fontWeight: 500,
                 }}
               >
                 {title}

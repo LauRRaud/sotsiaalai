@@ -3,12 +3,12 @@
 */
 
 .shiny-text {
-  color: #b5b5b5a4; /* Adjust this color to change intensity/style */
+  color: #b5b5b5a4;
   background: linear-gradient(
     120deg,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0) 60%
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.98) 50%,
+    rgba(255, 255, 255, 0) 70%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;

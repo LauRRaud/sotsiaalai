@@ -602,7 +602,7 @@ export default function LoginModal({ open, onClose }) {
             </div>
 
             <div className="unustasid-parooli-link-wrapper-bottom" style={{ textAlign: "center", marginBottom: "-0.8rem", marginTop: "-0.5rem"  }}>
-              <Link href="/unustasin-pin" className="unustasid-parooli-link">
+              <Link href="/uuenda-pin" className="unustasid-parooli-link">
                 {t("auth.login.forgot")}
               </Link>
             </div>

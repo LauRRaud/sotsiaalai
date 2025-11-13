@@ -58,18 +58,8 @@
     "pin_placeholder": "PIN ({min}-{max} digits)",
     "login": {
       "title": "Sign in",
-      "google": "Google",
-      "smart_id": "Smart-ID",
-      "mobile_id": "Mobile-ID",
       "or": "or",
-      "prompt": {
-        "smart_id": "Enter personal ID (SMART-ID):",
-        "mobile_id_code": "Enter personal ID (Mobile-ID):",
-        "mobile_id_phone": "Enter phone number (+372ā€¦):"
-      },
       "error": {
-        "smart_id": "Smart-ID login failed.",
-        "mobile_id": "Mobile-ID login failed.",
         "credentials": "Incorrect email or PIN.",
         "email_required": "Please enter your email address.",
         "email_invalid": "Please enter a valid email address.",
@@ -81,15 +71,15 @@
       "submitting": "Signing inā€¦",
       "forgot": "Forgot PIN?",
       "register_link": "Create account",
-      "otp_title": "Confirm sign-in",        
+      "otp_title": "Confirm sign-in",
       "otp_description": "We sent a verification code to {email}. Enter it within 10 minutes.",
       "otp_expires": "Code expires at {time}.",
       "otp_placeholder": "Verification code (6 digits)",
       "remember_device": "Remember this device for 30 days",
       "otp_submit": "Confirm",
-      "otp_submitting": "Verifying…",
+      "otp_submitting": "Verifyingā€¦",
       "resend": "Send code again",
-      "resending": "Sending…",
+      "resending": "Sendingā€¦",
       "otp_back": "Use a different email",
       "otp_invalid": "The code is invalid or has expired.",
       "otp_info_sent": "Verification code sent to {email}.",
@@ -116,7 +106,7 @@
       "success": "<p>If the address you entered is valid, we sent you an email with a reset link.</p><p>Check your spam folder too!</p>",
       "error": {
         "required": "Please enter your email address.",
-        "failed": "We couldnā€™t send the reset link.",
+        "failed": "We couldn't send the reset link.",
         "server": "A connection error occurred. Please try again."
       },
       "submit": "Send reset link",
@@ -206,19 +196,31 @@
       "saved": "Preferences saved.",
       "save_failed": "Failed to save preferences. Please try again."
     },
-    "change_password_cta": "Update PIN",
-    "update_email_cta": "Update email",
-    "pin_help": "Enter your current PIN to confirm email or PIN changes. PIN must be {min}–{max} digits.",
+    "change_password_cta": "New PIN",
+    "update_email_cta": "New email",
+    "email_update": {
+      "title": "Update email",
+      "submit": "Send verification email",
+      "submitting": "Sendingā€¦",
+      "pin_placeholder": "Current PIN ({min}ā€“{max} digits)",
+      "success": "If the PIN was correct, we sent a verification email to your new address. Please open the link in that inbox.",
+      "error_email_required": "Please enter an email address.",
+      "error_email_invalid": "Please enter a valid email address.",
+      "error_pin_required": "Please enter your PIN.",
+      "error_pin_length": "PIN must be between {min} and {max} digits.",
+      "error_failed": "Email update failed."
+    },
+    "pin_help": "Enter your current PIN to confirm email or PIN changes. PIN must be between {min} and {max} digits.",
     "current_pin_label": "Current PIN",
     "new_pin_label": "New PIN",
-    "new_pin_placeholder": "New PIN ({min}–{max} digits)",
+    "new_pin_placeholder": "New PIN ({min}ā€“{max} digits)",
     "confirm_pin_label": "Confirm new PIN",
     "success_email_pending": "We sent a verification email to your new address.",
     "success_pin_updated": "PIN updated.",
     "errors": {
       "current_pin_required": "Enter your current PIN to confirm the change.",
       "pin_required": "Please enter and confirm the new PIN.",
-      "pin_invalid": "PIN must be {min}–{max} digits.",
+      "pin_invalid": "PIN must be between {min} and {max} digits.",
       "pin_mismatch": "PIN entries do not match.",
       "no_changes": "Nothing to update."
     }
@@ -323,7 +325,7 @@
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
       "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee ā‚¬7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
-      "paragraph2": "<p>The subscription can be managed at any time on the profile page (ā€Manage subscriptionā€¯) or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
+      "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\") or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
       "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
     },
     "section6": {
@@ -345,11 +347,11 @@
     },
     "section10": {
       "heading": "10. Intellectual Property",
-      "body": "<p>The Platformā€™s trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAIā€™s written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
     },
     "section11": {
       "heading": "11. Termination",
-      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platformā€™s security.</p>"
+      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform's security.</p>"
     },
     "section12": {
       "heading": "12. Governing Law and Dispute Resolution",
@@ -359,7 +361,9 @@
   "chat": {
     "title": "SotsiaalAI",
     "intro": {
-      "message": "Hello! SotsiaalAI assists you with information based on trusted sources."
+      "greeting": "Hello!",
+      "message": "SotsiaalAI assists you with information based on trusted sources.",
+      "cta": "Write to me!"
     },
     "crisis": {
       "notice": "CRISIS: If you are in immediate danger, call 112. For children and families, the free 24/7 helpline is 116111 (Child Helpline)."
@@ -368,7 +372,7 @@
       "rate_limit_retry": "Too many requests. Try again in about {seconds}s.",
       "rate_limit_generic": "Too many requests. Please try again soon.",
       "no_response": "The assistant did not respond.",
-      "no_answer": "Sorry, I couldnā€™t generate an answer right now.",
+      "no_answer": "Sorry, I couldn't generate an answer right now.",
       "stream_missing": "The assistant did not send a stream.",
       "stream_failed": "Stream error.",
       "interrupted": "Answer generation was stopped.",
@@ -395,7 +399,7 @@
     "scroll_to_bottom_title": "Scroll to bottom",
     "input": {
       "label": "Write a message",
-      "placeholder": "Type your questionā€¦"
+      "placeholder": "Type here"
     },
     "send": {
       "stop": "Stop answer",
@@ -495,27 +499,27 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower — this can make the experience more stable.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower ā€” this can make the experience more stable.</li></ul>"
         },
         "home": {
           "title": "2. Home page",
-          "body": "<p>The home page shows two role cards — “For social work professionals” and “For people seeking help” — and an <a href=\"/meist\">ABOUT</a> link in the header that leads to the background page.</p><ul><li>If you are not signed in, clicking a role card opens the sign‑in / registration view.</li><li>If you are already signed in, the system checks whether you have an active subscription, then opens the chat window for the selected role.</li></ul>"
+          "body": "<p>The home page shows two role cards ā€” ā€For social work professionalsā€¯ and ā€For people seeking helpā€¯ ā€” and an <a href=\"/meist\">ABOUT</a> link in the header that leads to the background page.</p><ul><li>If you are not signed in, clicking a role card opens the signā€‘in / registration view.</li><li>If you are already signed in, the system checks whether you have an active subscription, then opens the chat window for the selected role.</li></ul>"
         },
         "register": {
           "title": "3. Registration and subscription activation",
-          "body": "<p>To use the SotsiaalAI chat assistant you need an account and an active subscription.</p>\n<p><strong>3.1 Registration</strong></p>\n<ol>\n<li>On the home page choose the relevant role card and click <a href=\"/registreerimine\">Register</a>.</li>\n<li>Fill in the registration form:\n  <ul>\n    <li>email address</li>\n    <li>PIN code (4–8‑digit numeric access code)</li>\n  </ul>\n</li>\n<li>Accept the terms of use and the privacy policy.</li>\n<li>After submitting the form we send a verification email — open the message and confirm your email address.</li>\n</ol>\n<p><strong>3.2 After confirming your email and activating your subscription</strong></p>\n<p>After email confirmation you can sign in with your email address and PIN (see chapter “4. Sign‑in and navigation by role”).</p>\n<p>If you don’t yet have an active subscription, after the first sign‑in you will be redirected automatically to the subscription page to activate access.</p>\n<p>If a subscription is already active, the chat view for your role opens immediately.</p>"
+          "body": "<p>To use the SotsiaalAI chat assistant you need an account and an active subscription.</p>\n<p><strong>3.1 Registration</strong></p>\n<ol>\n<li>On the home page choose the relevant role card and click <a href=\"/registreerimine\">Register</a>.</li>\n<li>Fill in the registration form:\n  <ul>\n    <li>email address</li>\n    <li>PIN code (4ā€“8ā€‘digit numeric access code)</li>\n  </ul>\n</li>\n<li>Accept the terms of use and the privacy policy.</li>\n<li>After submitting the form we send a verification email ā€” open the message and confirm your email address.</li>\n</ol>\n<p><strong>3.2 After confirming your email and activating your subscription</strong></p>\n<p>After email confirmation you can sign in with your email address and PIN (see chapter ā€4. Signā€‘in and navigation by roleā€¯).</p>\n<p>If you donā€™t yet have an active subscription, after the first signā€‘in you will be redirected automatically to the subscription page to activate access.</p>\n<p>If a subscription is already active, the chat view for your role opens immediately.</p>"
         },
         "signin": {
-          "title": "4. Sign‑in and navigation by role",
-          "body": "<p>Sign‑in starts on the home page, which shows two role cards: “For social work professionals” and “For people seeking help”.</p>\n<ul>\n<li>Click the relevant role card to open the sign‑in dialog.</li>\n<li>Enter your email address and PIN (4–8‑digit numeric access code).</li>\n<li>On the same previously trusted device/browser, the PIN is usually sufficient.</li>\n<li>If you sign in from a new or unusual environment, we send a 6‑digit verification code to your email. Enter the code in the input field.</li>\n<li>Optionally select “Remember this device for 30 days” so that on this device you will usually only need your PIN next time.</li>\n<li>If you forgot your PIN, use the <a href=\"/unustasin-pin\">Forgot PIN</a> link to set a new PIN by following the instructions.</li>\n<li>After a successful sign‑in the chat view for your role opens. If access is limited (e.g. subscription is missing or expired), a notice and next steps are shown.</li>\n</ul>"
+          "title": "4. Signā€‘in and navigation by role",
+      "body": "<p>Signā€‘in starts on the home page, which shows two role cards: ā€For social work professionalsā€¯ and ā€For people seeking helpā€¯.</p>\n<ul>\n<li>Click the relevant role card to open the signā€‘in dialog.</li>\n<li>Enter your email address and PIN (4ā€“8ā€‘digit numeric access code).</li>\n<li>On the same previously trusted device/browser, the PIN is usually sufficient.</li>\n<li>If you sign in from a new or unusual environment, we send a 6ā€‘digit verification code to your email. Enter the code in the input field.</li>\n<li>Optionally select ā€Remember this device for 30 daysā€¯ so that on this device you will usually only need your PIN next time.</li>\n<li>If you forgot your PIN, use the <a href=\"/uuenda-pin\">Forgot PIN</a> link to set a new PIN by following the instructions.</li>\n<li>After a successful signā€‘in the chat view for your role opens. If access is limited (e.g. subscription is missing or expired), a notice and next steps are shown.</li>\n</ul>"
         },
         "chat": {
           "title": "5. Chat page",
-          "body": "\n<p>The chat page opens after sign‑in only when the account has an active subscription. The view is the same for all roles and all interaction with the SotsiaalAI chat assistant happens here.</p>\n<p><strong>Message input</strong></p>\n<ul>\n  <li>Type your question in the input at the bottom of the chat window and send it with the button or by pressing Enter.</li>\n  <li>While the answer is being generated, the send button shows an animation and turns into “Stop answer”, allowing you to interrupt streaming and continue typing.</li>\n</ul>\n<p><strong>Message view and scrolling</strong></p>\n<ul>\n  <li>The initial assistant greeting remains visible until you add your first message.</li>\n  <li>When you scroll up, an arrow icon appears near the input to jump back to the end with a single click.</li>\n</ul>\n<p><strong>Adding a document</strong></p>\n<ul>\n  <li>The paperclip button opens a file picker and lets you analyze documents (up to 50 MB), e.g. PDF, DOC/DOCX, TXT, MD or HTML.</li>\n  <li>Documents are not stored permanently — they are only used for analysis in the context of the current conversation.</li>\n</ul>\n<p>After a successful analysis you will see:</p>\n<ul>\n  <li>the file name and size,</li>\n  <li>an automatic summary,</li>\n  <li>a “Ask more” button (adds a prepared query to the input),</li>\n  <li>a switch “Use as context for the next answer” to include the selected document in the next reply without storing it.</li>\n</ul>\n<p>Below the card you will also see the daily analysis limit and a “Remove” link to detach the file.</p>\n<p><strong>Sources</strong></p>\n<ul>\n  <li>If the answer uses documents, the footer shows a “Sources” button which opens a list of referenced materials.</li>\n</ul>\n<p><strong>Conversations side panel</strong></p>\n<ul>\n  <li>The “Conversations” button in the top‑left opens a side drawer where you can:</li>\n</ul>\n<ul>\n  <li>load existing conversations,</li>\n  <li>create a “New conversation”,</li>\n  <li>refresh the list,</li>\n  <li>delete conversations you no longer need,</li>\n  <li>use “Load more” to view older conversations.</li>\n</ul>\n<p>The active conversation is highlighted in the list and the drawer closes automatically when you select another conversation.</p>\n<p><strong>Profile and accessibility</strong></p>\n<ul>\n  <li>The profile icon in the top‑right opens the <a href=\"/profiil\">Profile</a> page where you can update:</li>\n</ul>\n<ul>\n  <li>account information,</li>\n  <li>subscription settings,</li>\n  <li>language and accessibility preferences (language, contrast, text size, animations).</li>\n</ul>\n<p><strong>Warnings</strong></p>\n<ul>\n  <li>If the conversation concerns a crisis situation, a red info box with emergency guidance is shown.</li>\n</ul>\n"
+          "body": "\n<p>The chat page opens after signā€‘in only when the account has an active subscription. The view is the same for all roles and all interaction with the SotsiaalAI chat assistant happens here.</p>\n<p><strong>Message input</strong></p>\n<ul>\n  <li>Type your question in the input at the bottom of the chat window and send it with the button or by pressing Enter.</li>\n  <li>While the answer is being generated, the send button shows an animation and turns into ā€Stop answerā€¯, allowing you to interrupt streaming and continue typing.</li>\n</ul>\n<p><strong>Message view and scrolling</strong></p>\n<ul>\n  <li>The initial assistant greeting remains visible until you add your first message.</li>\n  <li>When you scroll up, an arrow icon appears near the input to jump back to the end with a single click.</li>\n</ul>\n<p><strong>Adding a document</strong></p>\n<ul>\n  <li>The paperclip button opens a file picker and lets you analyze documents (up to 50 MB), e.g. PDF, DOC/DOCX, TXT, MD or HTML.</li>\n  <li>Documents are not stored permanently ā€” they are only used for analysis in the context of the current conversation.</li>\n</ul>\n<p>After a successful analysis you will see:</p>\n<ul>\n  <li>the file name and size,</li>\n  <li>an automatic summary,</li>\n  <li>a ā€Ask moreā€¯ button (adds a prepared query to the input),</li>\n  <li>a switch ā€Use as context for the next answerā€¯ to include the selected document in the next reply without storing it.</li>\n</ul>\n<p>Below the card you will also see the daily analysis limit and a ā€Removeā€¯ link to detach the file.</p>\n<p><strong>Sources</strong></p>\n<ul>\n  <li>If the answer uses documents, the footer shows a ā€Sourcesā€¯ button which opens a list of referenced materials.</li>\n</ul>\n<p><strong>Conversations side panel</strong></p>\n<ul>\n  <li>The ā€Conversationsā€¯ button in the topā€‘left opens a side drawer where you can:</li>\n</ul>\n<ul>\n  <li>load existing conversations,</li>\n  <li>create a ā€New conversationā€¯,</li>\n  <li>refresh the list,</li>\n  <li>delete conversations you no longer need,</li>\n  <li>use ā€Load moreā€¯ to view older conversations.</li>\n</ul>\n<p>The active conversation is highlighted in the list and the drawer closes automatically when you select another conversation.</p>\n<p><strong>Profile and accessibility</strong></p>\n<ul>\n  <li>The profile icon in the topā€‘right opens the <a href=\"/profiil\">Profile</a> page where you can update:</li>\n</ul>\n<ul>\n  <li>account information,</li>\n  <li>subscription settings,</li>\n  <li>language and accessibility preferences (language, contrast, text size, animations).</li>\n</ul>\n<p><strong>Warnings</strong></p>\n<ul>\n  <li>If the conversation concerns a crisis situation, a red info box with emergency guidance is shown.</li>\n</ul>\n"
         },
         "profile": {
           "title": "6. Profile",
-          "body": "<p>The \"Profile\" page contains your account, subscription and accessibility settings.</p><ul><li>See your user role.</li><li>Review the plan, monthly price and validity.</li><li><strong>To change email</strong> enter your current PIN; we send a verification email to the new address.</li><li><strong>To update PIN</strong> enter your current PIN and a new PIN (4–8 digits).</li><li>Adjust language, text size, contrast and motion preferences.</li></ul>"
+          "body": "<p>The \"Profile\" page contains your account, subscription and accessibility settings.</p><ul><li>See your user role.</li><li>Review the plan, monthly price and validity.</li><li><strong>To change email</strong> enter your current PIN; we send a verification email to the new address.</li><li><strong>To update PIN</strong> enter your current PIN and a new PIN (4ā€“8 digits).</li><li>Adjust language, text size, contrast and motion preferences.</li></ul>"
         },
         "about": {
           "title": "7. ABOUT",
@@ -523,7 +527,7 @@
         },
         "quickstart": {
           "title": "8. Quick overview",
-          "body": "\n<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (“For social work professionals” or “For people seeking help”) and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4–8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6‑digit code sent to your email and optionally select “Remember this device for 30 days”.</li>\n      <li>If your account doesn’t yet have access, complete the subscription on the <a href=\"/tellimus\">subscription</a> page.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Everyday use</strong></p>\n<ol>\n  <li><strong>Sign in by role</strong>\n    <ul>\n      <li>Open sotsiaal.ai, choose the role card and sign in with email + PIN.</li>\n      <li>On a previously trusted device the PIN is usually enough.</li>\n    </ul>\n  </li>\n  <li><strong>Use the chat assistant</strong>\n    <ul>\n      <li>Type your question in the chat input and send it.</li>\n      <li>Attach a document for analysis if needed and use the “Sources” button to see referenced materials.</li>\n      <li>Open earlier chats via the “Conversations” button.</li>\n    </ul>\n  </li>\n  <li><strong>Manage settings and subscription</strong>\n    <ul>\n      <li>On the <a href=\"/profiil\">Profile</a> page you can manage: account (email, PIN), subscription (plan, validity), language and accessibility (text size, contrast, animations).</li>\n    </ul>\n  </li>\n</ol>\n"
+          "body": "\n<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (ā€For social work professionalsā€¯ or ā€For people seeking helpā€¯) and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4ā€“8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6ā€‘digit code sent to your email and optionally select ā€Remember this device for 30 daysā€¯.</li>\n      <li>If your account doesnā€™t yet have access, complete the subscription on the <a href=\"/tellimus\">subscription</a> page.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Everyday use</strong></p>\n<ol>\n  <li><strong>Sign in by role</strong>\n    <ul>\n      <li>Open sotsiaal.ai, choose the role card and sign in with email + PIN.</li>\n      <li>On a previously trusted device the PIN is usually enough.</li>\n    </ul>\n  </li>\n  <li><strong>Use the chat assistant</strong>\n    <ul>\n      <li>Type your question in the chat input and send it.</li>\n      <li>Attach a document for analysis if needed and use the ā€Sourcesā€¯ button to see referenced materials.</li>\n      <li>Open earlier chats via the ā€Conversationsā€¯ button.</li>\n    </ul>\n  </li>\n  <li><strong>Manage settings and subscription</strong>\n    <ul>\n      <li>On the <a href=\"/profiil\">Profile</a> page you can manage: account (email, PIN), subscription (plan, validity), language and accessibility (text size, contrast, animations).</li>\n    </ul>\n  </li>\n</ol>\n"
         }
       }
     }
@@ -577,7 +581,7 @@
   },
   "notFound": {
     "title": "Page not found",
-    "description": "Sorry, the page you were looking for doesnā€™t exist or has been removed."
+    "description": "Sorry, the page you were looking for doesn't exist or has been removed."
   },
   "role": {
     "admin": "Administrator",
@@ -592,10 +596,10 @@
     },
     "about": {
       "title": "About us ā€” SotsiaalAI",
-      "description": "Learn about SotsiaalAIā€™s mission, values, and team."
+      "description": "Learn about SotsiaalAI's mission, values, and team."
     },
     "terms": {
-      "title": "Terms of use ā€” SotsiaalAI",
+      "title": "Terms of Use ā€” SotsiaalAI",
       "description": "Read the guidelines that govern using the SotsiaalAI platform."
     },
     "privacy": {
@@ -628,3 +632,4 @@
     }
   }
 }
+

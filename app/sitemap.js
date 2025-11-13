@@ -7,11 +7,12 @@ export default function sitemap() {
     "/",
     "/vestlus",
     "/profiil",
+    "/uuenda-epost",
     "/registreerimine",
     "/kasutustingimused",
     "/privaatsustingimused",
     "/meist",
-    "/unustasin-pin",
+    "/uuenda-pin",
     "/tellimus",
     "/start",
   ];

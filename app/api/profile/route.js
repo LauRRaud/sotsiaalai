@@ -124,9 +124,6 @@ export async function PUT(request) {
         data.emailVerified = null;
         data.emailVerificationSentAt = null;
         requiresReauth = true;
-        if (current.passwordHash) {
-          mustCheckCurrent = true;
-        }
       }
     }
     // --- Parooli uuendamine ---

@@ -17,8 +17,6 @@ export default function ProfiilBody({ initialProfile = null }) {
   const { data: session, status } = useSession();
   const { openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
-  const PIN_MIN = 4;
-  const PIN_MAX = 8;
   const [email, setEmail] = useState(initialProfile?.email || "");
   const [initialEmail, setInitialEmail] = useState(
     (initialProfile?.email || "").trim().toLowerCase()
@@ -27,12 +25,8 @@ export default function ProfiilBody({ initialProfile = null }) {
   const [showDelete, setShowDelete] = useState(false);
   // Kui serverist tuli profiil, siis väldi kliendi "loading" vaadet
   const [loading, setLoading] = useState(!initialProfile);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [currentPin, setCurrentPin] = useState("");
-  const [newPin, setNewPin] = useState("");
-  const [confirmPin, setConfirmPin] = useState("");
   // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-pin)
   const [deleting, setDeleting] = useState(false);
   const searchParams = useSearchParams();
@@ -71,94 +65,6 @@ export default function ProfiilBody({ initialProfile = null }) {
       }
     })();
   }, [status, t, initialProfile]);
-  async function submitProfile() {
-    if (status !== "authenticated") return;
-    setError("");
-    setSuccess("");
-    const normalizedEmail = email.trim().toLowerCase();
-    const emailChanged = normalizedEmail !== (initialEmail || "");
-    const wantsPinChange = Boolean(newPin) || Boolean(confirmPin);
-    if (!emailChanged && !wantsPinChange) {
-      setError(t("profile.errors.no_changes"));
-      return;
-    }
-    let cleanedNewPin = "";
-    if (wantsPinChange) {
-      if (!newPin || !confirmPin) {
-        setError(t("profile.errors.pin_required"));
-        return;
-      }
-      cleanedNewPin = newPin.replace(/\D/g, "");
-      const cleanedConfirm = confirmPin.replace(/\D/g, "");
-      if (cleanedNewPin !== cleanedConfirm) {
-        setError(t("profile.errors.pin_mismatch"));
-        return;
-      }
-      if (!new RegExp(`^\\d{${PIN_MIN},${PIN_MAX}}$`).test(cleanedNewPin)) {
-        setError(t("profile.errors.pin_invalid", { min: PIN_MIN, max: PIN_MAX }));
-        return;
-      }
-    }
-    const requiresCurrentPin = hasPassword && (emailChanged || wantsPinChange);
-    if (requiresCurrentPin && !currentPin) {
-      setError(t("profile.errors.current_pin_required"));
-      return;
-    }
-    setSaving(true);
-    try {
-      const payload = { email: normalizedEmail };
-      if (wantsPinChange && cleanedNewPin) {
-        payload.password = cleanedNewPin;
-      }
-      if (currentPin) {
-        payload.currentPassword = currentPin;
-      }
-      const res = await fetch("/api/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const response = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(response?.error || response?.message || t("profile.update_failed"));
-        return;
-      }
-      const messageParts = [];
-      if (emailChanged) {
-        messageParts.push(t("profile.success_email_pending"));
-        setInitialEmail(normalizedEmail);
-      }
-      if (wantsPinChange) {
-        messageParts.push(t("profile.success_pin_updated"));
-        setHasPassword(true);
-      }
-      setSuccess(messageParts.length ? messageParts.join(" ") : t("profile.saved_ok"));
-      setCurrentPin("");
-      setNewPin("");
-      setConfirmPin("");
-      if (response?.user?.email) {
-        setEmail(response.user.email);
-        setInitialEmail(response.user.email.trim().toLowerCase());
-      }
-      router.refresh();
-    } catch (err) {
-      console.error("profile PUT", err);
-      setError(t("profile.server_unreachable"));
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleSave(e) {
-    e.preventDefault();
-    await submitProfile();
-  }
-
-  async function handleUpdateEmail() {
-    if (saving) return;
-    await submitProfile();
-  }
-
   // Parooli muutmine: suuname parooli taastamise lehele, kus küsitakse e-post
   if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
     return (
@@ -210,7 +116,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           {t("profile.manage_subscription")}
         </Link>
       </div>
-      <form onSubmit={handleSave} className="glass-form profile-form-vertical">
+      <div className="glass-form profile-form-vertical">
         <div
           className="profile-btn-row"
           style={{ marginBottom: "0.5rem" }}
@@ -232,73 +138,24 @@ export default function ProfiilBody({ initialProfile = null }) {
           id="email"
           autoComplete="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          readOnly
         />
         <div className="profile-email-links">
-          <a
-            href="#"
+          <Link
+            href={localizePath("/uuenda-epost", locale)}
             className="link-brand"
-            onClick={(e) => {
-              e.preventDefault();
-              if (!saving) handleUpdateEmail();
-            }}
             aria-label={t("profile.update_email_cta", "Uuenda e-post")}
           >
             {t("profile.update_email_cta", "Uuenda e-post")}
-          </a>
+          </Link>
           <Link
-            href={localizePath("/unustasin-pin", locale)}
+            href={localizePath("/uuenda-pin", locale)}
             className="link-brand"
             aria-label={t("profile.change_password_cta", "Uuenda parool")}
           >
             {t("profile.change_password_cta", "Uuenda parool")}
           </Link>
         </div>
-        <p className="profile-pin-hint">
-          {t("profile.pin_help", { min: PIN_MIN, max: PIN_MAX })}
-        </p>
-        <label htmlFor="current-pin" className="glass-label">
-          {t("profile.current_pin_label")}
-        </label>
-        <input
-          className="input-modern"
-          id="current-pin"
-          type="password"
-          inputMode="numeric"
-          autoComplete="current-password"
-          value={currentPin}
-          onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
-          placeholder={t("profile.current_pin_label")}
-        />
-        <label htmlFor="new-pin" className="glass-label">
-          {t("profile.new_pin_label")}
-        </label>
-        <input
-          className="input-modern"
-          id="new-pin"
-          type="password"
-          inputMode="numeric"
-          autoComplete="new-password"
-          value={newPin}
-          onChange={(e) => setNewPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
-          minLength={PIN_MIN}
-          placeholder={t("profile.new_pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
-        />
-        <label htmlFor="confirm-pin" className="glass-label">
-          {t("profile.confirm_pin_label")}
-        </label>
-        <input
-          className="input-modern"
-          id="confirm-pin"
-          type="password"
-          inputMode="numeric"
-          autoComplete="new-password"
-          value={confirmPin}
-          onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
-          minLength={PIN_MIN}
-          placeholder={t("profile.confirm_pin_label")}
-        />
         {error && (
           <div
             role="alert"
@@ -317,14 +174,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {success}
           </div>
         )}
-        <div className="profile-btn-row profile-btn-row--duo">
-          <button
-            type="submit"
-            className="btn-primary btn-profile-save"
-            disabled={saving}
-          >
-            {saving ? t("profile.saving") : t("profile.save")}
-          </button>
+        <div className="profile-btn-row">
           <button
             type="button"
             className="btn-primary btn-profile-logout"
@@ -335,7 +185,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {t("profile.logout")}
           </button>
         </div>
-      </form>
+      </div>
       <div className="back-btn-wrapper">
         <button
           type="button"
