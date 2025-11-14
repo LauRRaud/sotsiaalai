@@ -88,7 +88,8 @@ export async function POST(request) {
 
   // Forward to internal RAG proxy (which adds X-API-Key)
   try {
-    const res = await fetch(RAG_PROXY_PATH, { method: "POST", body: forward, cache: "no-store" });
+    const ragProxyUrl = new URL(RAG_PROXY_PATH, request.url);
+    const res = await fetch(ragProxyUrl, { method: "POST", body: forward, cache: "no-store" });
     const text = await res.text();
     let data = null;
     try { data = text ? JSON.parse(text) : null; } catch { data = null; }
