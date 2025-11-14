@@ -54,8 +54,8 @@
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
-    "password_placeholder": "PIN ({min}-{max} numbrit)",
-    "pin_placeholder": "PIN ({min}-{max} numbrit)",
+    "password_placeholder": "PIN (4-8 numbrit)",
+    "pin_placeholder": "PIN (4-8 numbrit)",
     "login": {
       "title": "Logi sisse",
       "or": "või",
@@ -64,7 +64,7 @@
         "email_required": "Palun sisesta e-posti aadress.",
         "email_invalid": "Palun sisesta korrektne e-posti aadress.",
         "pin_required": "Palun sisesta PIN.",
-        "pin_invalid": "PIN peab olema {min}–{max} numbrit.",
+        "pin_invalid": "PIN peab olema 4–8 numbrit.",
         "generic": "Sisselogimine ebaõnnestus. Palun proovi uuesti."
       },
       "submit": "Sisenen",
@@ -125,7 +125,7 @@
         "required": "Palun täida mõlemad PIN-väljad.",
         "mismatch": "PIN-id ei kattu.",
         "minLength": "PIN peab olema 4–8 numbrit.",
-        "pinLength": "PIN peab olema {min}–{max} numbrit.",
+        "pinLength": "PIN peab olema 4–8 numbrit.",
         "updateFailed": "PIN-i ei õnnestunud uuendada.",
         "server": "Serveriga tekkis ühenduse viga. Palun proovi uuesti."
       }
@@ -202,25 +202,25 @@
       "title": "Uuenda e-post",
       "submit": "Saada kinnituskiri",
       "submitting": "Saadan…",
-      "pin_placeholder": "Praegune PIN ({min}–{max} numbrit)",
+      "pin_placeholder": "Praegune PIN (4–8 numbrit)",
       "success": "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
       "error_email_required": "Palun sisesta e-posti aadress.",
       "error_email_invalid": "Palun sisesta korrektne e-posti aadress.",
       "error_pin_required": "Palun sisesta PIN-kood.",
-      "error_pin_length": "PIN peab olema {min}–{max} numbrit.",
+      "error_pin_length": "PIN peab olema 4–8 numbrit.",
       "error_failed": "E-posti uuendamine ebaõnnestus."
     },
-    "pin_help": "Sisesta oma PIN, et kinnitada e-posti või PIN-i muudatus. PIN peab olema {min}–{max} numbrit.",
+    "pin_help": "Sisesta oma PIN, et kinnitada e-posti või PIN-i muudatus. PIN peab olema 4–8 numbrit.",
     "current_pin_label": "Praegune PIN",
     "new_pin_label": "Uus PIN",
-    "new_pin_placeholder": "Uus PIN ({min}–{max} numbrit)",
+    "new_pin_placeholder": "Uus PIN (4–8 numbrit)",
     "confirm_pin_label": "Kinnita uus PIN",
     "success_email_pending": "Saadsime uuele aadressile kinnituskirja.",
     "success_pin_updated": "PIN on uuendatud.",
     "errors": {
       "current_pin_required": "Sisesta muudatuse kinnitamiseks praegune PIN.",
       "pin_required": "Sisesta ja kinnita uus PIN.",
-      "pin_invalid": "PIN peab olema {min}–{max} numbrit.",
+      "pin_invalid": "PIN peab olema 4–8 numbrit.",
       "pin_mismatch": "PIN-id ei kattu.",
       "no_changes": "Midagi pole uuendada."
     }

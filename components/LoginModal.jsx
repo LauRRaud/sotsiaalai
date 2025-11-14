@@ -1,5 +1,5 @@
 ﻿"use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -129,26 +129,6 @@ export default function LoginModal({ open, onClose }) {
   };
 
   useEffect(() => {
-    if (!open || step !== "pin") return;
-    const tid = setTimeout(() => hiddenInputRef.current?.focus?.(), 0);
-    const keyListener = (e) => {
-      if (step !== "pin") return;
-      const target = e.target;
-      const tag = target?.tagName?.toLowerCase();
-      const isEditable = tag === "input" || tag === "textarea" || target?.isContentEditable;
-      const isHidden = hiddenInputRef.current && target === hiddenInputRef.current;
-      // If focused in an editable field that is not our hidden PIN input, do not hijack keys
-      if (isEditable && !isHidden) return;
-      onHiddenKeyDown(e);
-    };
-    window.addEventListener("keydown", keyListener);
-    return () => {
-      clearTimeout(tid);
-      window.removeEventListener("keydown", keyListener);
-    };
-  }, [open, step]);
-
-  useEffect(() => {
     if (!open) return;
     if (status === "authenticated" && session) {
       onClose?.();
@@ -173,27 +153,30 @@ export default function LoginModal({ open, onClose }) {
     setResendLoading(false);
   }, [open]);
 
-  const finishLogin = async (token) => {
-    if (!token) {
-      setError(t("auth.login.error.generic"));
-      return false;
-    }
-    const login = await signIn("credentials", {
-      temp_login_token: token,
-      redirect: false,
-      callbackUrl: nextUrl,
-    });
-    if (login?.error) {
-      setError(t("auth.login.error.generic"));
-      return false;
-    }
-    onClose?.();
-    router.replace(nextUrl);
-    router.refresh();
-    return true;
-  };
+  const finishLogin = useCallback(
+    async (token) => {
+      if (!token) {
+        setError(t("auth.login.error.generic"));
+        return false;
+      }
+      const login = await signIn("credentials", {
+        temp_login_token: token,
+        redirect: false,
+        callbackUrl: nextUrl,
+      });
+      if (login?.error) {
+        setError(t("auth.login.error.generic"));
+        return false;
+      }
+      onClose?.();
+      router.replace(nextUrl);
+      router.refresh();
+      return true;
+    },
+    [nextUrl, onClose, router, t]
+  );
 
-  const submitPinStep = async () => {
+  const submitPinStep = useCallback(async () => {
     setError("");
     setInfo("");
     const emailInput = boxRef.current?.querySelector('input[name="email"]');
@@ -251,7 +234,48 @@ export default function LoginModal({ open, onClose }) {
     } finally {
       setPinLoading(false);
     }
-  };
+  }, [PIN_MAX, PIN_MIN, finishLogin, pinValue, t]);
+
+  const onHiddenKeyDown = useCallback(
+    (e) => {
+      if (step !== "pin") return;
+      if (e.key === "Enter") {
+        e.preventDefault();
+        submitPinStep();
+        return;
+      }
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        setPinValue((p) => p.slice(0, -1));
+        return;
+      }
+      if (/^\d$/.test(e.key)) {
+        e.preventDefault();
+        setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${e.key}`));
+      }
+    },
+    [step, PIN_MAX, submitPinStep]
+  );
+
+  useEffect(() => {
+    if (!open || step !== "pin") return;
+    const tid = setTimeout(() => hiddenInputRef.current?.focus?.(), 0);
+    const keyListener = (e) => {
+      if (step !== "pin") return;
+      const target = e.target;
+      const tag = target?.tagName?.toLowerCase();
+      const isEditable = tag === "input" || tag === "textarea" || target?.isContentEditable;
+      const isHidden = hiddenInputRef.current && target === hiddenInputRef.current;
+      // If focused in an editable field that is not our hidden PIN input, do not hijack keys
+      if (isEditable && !isHidden) return;
+      onHiddenKeyDown(e);
+    };
+    window.addEventListener("keydown", keyListener);
+    return () => {
+      clearTimeout(tid);
+      window.removeEventListener("keydown", keyListener);
+    };
+  }, [open, step, onHiddenKeyDown]);
 
   const submitOtpStep = async () => {
     if (!tempToken) {
@@ -334,23 +358,6 @@ export default function LoginModal({ open, onClose }) {
     setRememberDevice(true);
   };
 
-  const onHiddenKeyDown = (e) => {
-    if (step !== "pin") return;
-    if (e.key === "Enter") {
-      e.preventDefault();
-      submitPinStep();
-      return;
-    }
-    if (e.key === "Backspace") {
-      e.preventDefault();
-      setPinValue((p) => p.slice(0, -1));
-      return;
-    }
-    if (/^\d$/.test(e.key)) {
-      e.preventDefault();
-      setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${e.key}`));
-    }
-  };
 
   const appendDigit = (digit, event) => {
     if (step !== "pin") return;
@@ -414,13 +421,22 @@ export default function LoginModal({ open, onClose }) {
         </div>
 
         {info && !isOtpStep && (
-          <div role="status" className="glass-note glass-note--center" style={{ marginBottom: "0.5rem" }}>
+          <div
+            role="status"
+            className="glass-note glass-note--center"
+            style={{ marginBottom: "0.5rem", textAlign: "center" }}
+          >
             {info}
           </div>
         )}
 
         {error && (
-          <div role="alert" aria-live="assertive" className="glass-note glass-note--center">
+          <div
+            role="alert"
+            aria-live="assertive"
+            className="glass-note glass-note--center"
+            style={{ textAlign: "center" }}
+          >
             {error}
           </div>
         )}

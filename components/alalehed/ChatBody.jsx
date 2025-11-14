@@ -659,7 +659,7 @@ export default function ChatBody() {
     }
 
     const idFromGlobal =
-      typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : convId;
+      typeof window !== "undefined" ? window.sessionStorage.getItem(GLOBAL_CONV_KEY) : null;
     const idFromPerUser =
       typeof window !== "undefined" ? window.sessionStorage.getItem(`${storageKey}:convId`) : null;
     const initialConvId =

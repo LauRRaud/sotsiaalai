@@ -54,8 +54,8 @@
   },
   "auth": {
     "email_placeholder": "you@example.com",
-    "password_placeholder": "PIN ({min}-{max} digits)",
-    "pin_placeholder": "PIN ({min}-{max} digits)",
+    "password_placeholder": "PIN (4-8 digits)",
+    "pin_placeholder": "PIN (4-8 digits)",
     "login": {
       "title": "Sign in",
       "or": "or",
@@ -64,11 +64,11 @@
         "email_required": "Please enter your email address.",
         "email_invalid": "Please enter a valid email address.",
         "pin_required": "Please enter your PIN.",
-        "pin_invalid": "PIN must be between {min} and {max} digits.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
         "generic": "Sign-in failed. Please try again."
       },
       "submit": "Sign in",
-      "submitting": "Signing inā€¦",
+      "submitting": "Signing in",
       "forgot": "Forgot PIN?",
       "register_link": "Create account",
       "otp_title": "Confirm sign-in",
@@ -77,9 +77,9 @@
       "otp_placeholder": "Verification code (6 digits)",
       "remember_device": "Remember this device for 30 days",
       "otp_submit": "Confirm",
-      "otp_submitting": "Verifyingā€¦",
+      "otp_submitting": "Verifying",
       "resend": "Send code again",
-      "resending": "Sendingā€¦",
+      "resending": "Sending",
       "otp_back": "Use a different email",
       "otp_invalid": "The code is invalid or has expired.",
       "otp_info_sent": "Verification code sent to {email}.",
@@ -98,7 +98,7 @@
         "auto_login": "Automatic sign-in failed. Please sign in manually."
       },
       "submit": "Create account",
-      "submitting": "Creating accountā€¦",
+      "submitting": "Creating account",
       "success_message": "Account created! Please confirm your email and log in with your PIN."
     },
     "reset": {
@@ -110,7 +110,7 @@
         "server": "A connection error occurred. Please try again."
       },
       "submit": "Send reset link",
-      "submitting": "Sendingā€¦"
+      "submitting": "Sending"
     },
     "resetForm": {
       "title": "Set a new PIN",
@@ -125,7 +125,7 @@
         "required": "Please fill in both PIN fields.",
         "mismatch": "The PIN codes do not match.",
         "minLength": "PIN must be between 4 and 8 digits.",
-        "pinLength": "PIN must be between {min} and {max} digits.",
+        "pinLength": "PIN must be between 4 and 8 digits.",
         "updateFailed": "We couldn't update the PIN.",
         "server": "A server error occurred. Please try again."
       }
@@ -161,7 +161,7 @@
   },
   "profile": {
     "title": "My profile",
-    "loading": "Loading profileā€¦",
+    "loading": "Loading profile",
     "login_to_manage_sub": "Sign in and activate a subscription to view your profile.",
     "login_to_view": "Sign in to view your profile.",
     "login": "Sign in",
@@ -169,7 +169,7 @@
     "ui_language": "Interface language",
     "email": "Email",
     "new_password_optional": "New PIN (optional)",
-    "saving": "Savingā€¦",
+    "saving": "Saving",
     "save": "Save",
     "logout": "Sign out",
     "back_to_chat": "Back to chat",
@@ -192,7 +192,7 @@
       },
       "reset": "Reset",
       "save": "Save changes",
-      "saving": "Savingā€¦",
+      "saving": "Saving",
       "saved": "Preferences saved.",
       "save_failed": "Failed to save preferences. Please try again."
     },
@@ -201,26 +201,26 @@
     "email_update": {
       "title": "Update email",
       "submit": "Send verification email",
-      "submitting": "Sendingā€¦",
-      "pin_placeholder": "Current PIN ({min}ā€“{max} digits)",
+      "submitting": "Sending",
+      "pin_placeholder": "Current PIN (4-8 digits)",
       "success": "If the PIN was correct, we sent a verification email to your new address. Please open the link in that inbox.",
       "error_email_required": "Please enter an email address.",
       "error_email_invalid": "Please enter a valid email address.",
       "error_pin_required": "Please enter your PIN.",
-      "error_pin_length": "PIN must be between {min} and {max} digits.",
+      "error_pin_length": "PIN must be between 4 and 8 digits.",
       "error_failed": "Email update failed."
     },
-    "pin_help": "Enter your current PIN to confirm email or PIN changes. PIN must be between {min} and {max} digits.",
+    "pin_help": "Enter your current PIN to confirm email or PIN changes. PIN must be between 4 and 8 digits.",
     "current_pin_label": "Current PIN",
     "new_pin_label": "New PIN",
-    "new_pin_placeholder": "New PIN ({min}ā€“{max} digits)",
+    "new_pin_placeholder": "New PIN (4-8 digits)",
     "confirm_pin_label": "Confirm new PIN",
     "success_email_pending": "We sent a verification email to your new address.",
     "success_pin_updated": "PIN updated.",
     "errors": {
       "current_pin_required": "Enter your current PIN to confirm the change.",
       "pin_required": "Please enter and confirm the new PIN.",
-      "pin_invalid": "PIN must be between {min} and {max} digits.",
+      "pin_invalid": "PIN must be between 4 and 8 digits.",
       "pin_mismatch": "PIN entries do not match.",
       "no_changes": "Nothing to update."
     }
@@ -632,4 +632,3 @@
     }
   }
 }
-
