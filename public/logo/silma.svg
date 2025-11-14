@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1"
+     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 111.12 170.15">
+  <defs>
+    <style>
+      .st0 { fill: url(#linear-gradient2); }
+      .st1 { fill: url(#red-vertical); }
+      .st2 { fill: url(#linear-gradient); }
+    </style>
+
+    <!-- säilita originaalsed gradientid (pallikesed jms) -->
+    <linearGradient id="linear-gradient" x1="24.12" y1="74.54" x2="24.12" y2="35.3" gradientTransform="translate(0 194.78) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#303030"/>
+      <stop offset=".47" stop-color="#111"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+
+    <linearGradient id="linear-gradient1" x1="-3468.39" y1="8.78" x2="-3468.39" y2="9.78" gradientTransform="translate(384977.26 -1494.4) scale(110.98 170.15)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbe5df"/>
+      <stop offset=".2" stop-color="#f3c6b5"/>
+      <stop offset=".45" stop-color="#e09780"/>
+      <stop offset=".7" stop-color="#c66a4e"/>
+      <stop offset="1" stop-color="#843722"/>
+    </linearGradient>
+
+    <linearGradient id="linear-gradient2" x1="79.28" y1="2682.15" x2="79.28" y2="2717.33" gradientTransform="translate(0 -2672)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f5f4"/>
+      <stop offset=".22" stop-color="#eeedec"/>
+      <stop offset=".48" stop-color="#dad9d6"/>
+      <stop offset=".72" stop-color="#c7c5c1"/>
+      <stop offset="1" stop-color="#a8a59e"/>
+    </linearGradient>
+
+    <!-- UUS vertikaalne punane gradient: ülevalt alla (heledam -> tumedam) -->
+    <linearGradient id="red-vertical" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#E6BCB9"/>
+      <stop offset="0.142857" stop-color="#BE7877"/>
+      <stop offset="0.285714" stop-color="#9A5151"/>
+      <stop offset="0.428571" stop-color="#854343"/>
+      <stop offset="0.571429" stop-color="#6D3333"/>
+      <stop offset="0.714286" stop-color="#4C1C1C"/>
+      <stop offset="0.857143" stop-color="#391212"/>
+      <stop offset="1" stop-color="#2E0D0D"/>
+    </linearGradient>
+
+  </defs>
+
+  <!-- pallikesed - EI MUUTTA -->
+  <path class="st2" d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+  <!-- SUUR KESKMINE KUJU - SAA BOLD RED VÄRVID ÜLEVALT ALLA -->
+  <path class="st1" d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+  <!-- väike ülemine pallike - EI MUUTTA -->
+  <path class="st0" d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+
+</svg>

@@ -10,16 +10,43 @@
       .st1 { fill: url(#linear-gradient1); }
       .st2 { fill: url(#linear-gradient3); }
       .st3 { fill: url(#linear-gradient); }
+
+      /* pehme alumine stroke */
+      .stroke-main {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.38;
+      }
+
+      /* NÕRGEM stroke ainult alumisele pallile */
+      .stroke-main-dot {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.0;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.25;
+      }
     </style>
 
-    <linearGradient id="linear-gradient" x1="79.23" y1="-2509.06" x2="79.23" y2="-2544.24" gradientTransform="translate(0 -2474) scale(1 -1)" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient"
+                    x1="79.23" y1="-2509.06" x2="79.23" y2="-2544.24"
+                    gradientTransform="translate(0 -2474) scale(1 -1)"
+                    gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f5f5f4"/>
       <stop offset=".22" stop-color="#eeedec"/>
       <stop offset=".48" stop-color="#dad9d6"/>
       <stop offset=".72" stop-color="#c7c5c1"/>
       <stop offset="1" stop-color="#a8a59e"/>
     </linearGradient>
-    <linearGradient id="linear-gradient1" x1="230.9" y1="1898.8" x2="287.88" y2="2140.3" gradientTransform="translate(0 -1922)" gradientUnits="userSpaceOnUse">
+
+    <linearGradient id="linear-gradient1"
+                    x1="230.9" y1="1898.8" x2="287.88" y2="2140.3"
+                    gradientTransform="translate(0 -1922)"
+                    gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f1f1f0"/>
       <stop offset=".21" stop-color="#e6e5e3"/>
       <stop offset=".42" stop-color="#c3c1bc"/>
@@ -27,13 +54,21 @@
       <stop offset=".65" stop-color="#8d8980"/>
       <stop offset=".93" stop-color="#5f5b55"/>
     </linearGradient>
-    <linearGradient id="linear-gradient2" x1="23.89" y1="52.85" x2="23.89" y2="13.61" gradientTransform="translate(0 198) scale(1 -1)" gradientUnits="userSpaceOnUse">
+
+    <linearGradient id="linear-gradient2"
+                    x1="23.89" y1="52.85" x2="23.89" y2="13.61"
+                    gradientTransform="translate(0 198) scale(1 -1)"
+                    gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#666"/>
       <stop offset=".5" stop-color="#383838"/>
       <stop offset=".81" stop-color="#1c1c1c"/>
       <stop offset="1" stop-color="#111"/>
     </linearGradient>
-    <linearGradient id="linear-gradient3" x1="-785.36" y1="636.26" x2="-785.36" y2="635.26" gradientTransform="translate(87326.34 108286.52) scale(111.12 -170.15)" gradientUnits="userSpaceOnUse">
+
+    <linearGradient id="linear-gradient3"
+                    x1="-785.36" y1="636.26" x2="-785.36" y2="635.26"
+                    gradientTransform="translate(87326.34 108286.52) scale(111.12 -170.15)"
+                    gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#e6bcb9"/>
       <stop offset=".14" stop-color="#be7877"/>
       <stop offset=".29" stop-color="#9a5151"/>
@@ -58,6 +93,42 @@
         result="shadow"/>
       <feMerge><feMergeNode in="shadow"/></feMerge>
     </filter>
+
+    <!-- alumise stroki vertikaalne fade (ülalt peidus, alt nähtav) -->
+    <linearGradient id="stroke-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="black"/>
+      <stop offset="0.50" stop-color="black"/>
+      <stop offset="0.90" stop-color="white"/>
+      <stop offset="1"    stop-color="white"/>
+    </linearGradient>
+
+    <mask id="stroke-mask"
+          maskUnits="objectBoundingBox"
+          maskContentUnits="objectBoundingBox">
+      <rect x="0" y="0" width="1" height="1" fill="url(#stroke-fade)"/>
+    </mask>
+
+    <!-- clip-mask: KÕIK elemendid peale ülemise heleda palli -->
+    <mask id="clip-shape" maskUnits="userSpaceOnUse"
+          x="0" y="0" width="332.64" height="195.12">
+      <!-- parem “torn” -->
+      <path
+        d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"
+        fill="white"/>
+      <!-- alumine tume pall -->
+      <path
+        d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+        fill="white"/>
+      <!-- suur punane / peakuju -->
+      <path
+        d="M63.43,195.11c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52-10.68-25.99,2.06-56.14,29.76-65.58,2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+        fill="white"/>
+    </mask>
+
+    <!-- stroke’i pehmendus -->
+    <filter id="stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
+    </filter>
   </defs>
 
   <!-- VARJU: mustad koopiad (enne originaale) -->
@@ -69,8 +140,53 @@
   </g>
 
   <!-- ORIGINAALID PEAL (puhtad, ilma stroke'ideta) -->
+  <!-- ülemine hele pall – JÄÄB ilma stroke’ita -->
   <path class="st3" d="M75.33,33.38c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+
+  <!-- parem “torn” -->
   <path class="st1" d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
+  <!-- alumine tume pall -->
   <path class="st0" d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+  <!-- suur punane / põhikuju -->
   <path class="st2" d="M63.43,195.11c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52-10.68-25.99,2.06-56.14,29.76-65.58,2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+
+  <!-- PEHME SISENEV ALUMINE STROKE – torn + punane kuju + alumine pall -->
+  <g mask="url(#stroke-mask)">
+    <g mask="url(#clip-shape)" filter="url(#stroke-soft)">
+      <!-- tume pehme stroke: torn + punane kuju tugevam, alumine pall nõrgem -->
+      <path class="stroke-main"
+            d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"/>
+      <path class="stroke-main-dot"
+            d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+      <path class="stroke-main"
+            d="M63.43,195.11c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52-10.68-25.99,2.06-56.14,29.76-65.58,2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+
+      <!-- hele lisaläige sees: alumisel pallil veidi nõrgem -->
+      <path
+        d="M327.41,1.91c6.4,2.28,4.97,8.8,5.18,21.04v20.56c0,36.14.16,112.28-.11,140.05.37,14.89-19.66,10.6-29.91,11.07-9.46-.53-16.01-1.54-15.54-12.61.74-35.77-1.69-134.43.95-174.55,3.12-9.86,31.18-7.68,38.9-5.78l.53.21h0ZM261.4,193.62c-3.7,1.32-12.21,1.38-21.51,1.43-15.22,0-29.7.9-34.83-14.73-9.72-22.52-33.3-77.58-43.18-101.1-2.06-5.3-3.7-10.54-3.86-15.9-.16-14.1,7.03-28.51,11.63-42.23,2.75-6.99,4.65-14.04,8.46-19.82,4.65-5.4,7.61,8.69,14.85,23.53,10.31,23.53,20.03,45.84,30.71,70.21,13.27,30.73,29.76,67.24,40.22,92.41.85,2.49.9,5.09-2.01,6.09l-.42.16h0l-.05-.05h-.01Z"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.8"
+        stroke-opacity="0.35"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <path
+        d="M22.53,145.26c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.2"
+        stroke-opacity="0.25"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <path
+        d="M63.43,195.11c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52-10.68-25.99,2.06-56.14,29.76-65.58,2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.8"
+        stroke-opacity="0.35"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </g>
+  </g>
+
 </svg>

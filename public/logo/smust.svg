@@ -9,6 +9,26 @@
       .st0 { fill: url(#linear-gradient2); }
       .st1 { fill: url(#red-vertical); }
       .st2 { fill: url(#linear-gradient); }
+
+      /* põhiline stroke – suurele punasele kujule */
+      .stroke-main {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.38;
+      }
+
+      /* nõrgem stroke – alumisele mustale / tumedale pallile */
+      .stroke-main-dot {
+        fill: none;
+        stroke: #8A4A46;
+        stroke-width: 1.0;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-opacity: 0.25;
+      }
     </style>
 
     <!-- Alumine tume täpp -->
@@ -84,6 +104,38 @@
         <feMergeNode in="shadow" />
       </feMerge>
     </filter>
+
+    <!-- alumise stroki vertikaalne fade (ülalt peidus, alt nähtav) -->
+    <linearGradient id="stroke-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="black"/>
+      <stop offset="0.50" stop-color="black"/>
+      <stop offset="0.90" stop-color="white"/>
+      <stop offset="1"    stop-color="white"/>
+    </linearGradient>
+
+    <mask id="stroke-mask"
+          maskUnits="objectBoundingBox"
+          maskContentUnits="objectBoundingBox">
+      <rect x="0" y="0" width="1" height="1" fill="url(#stroke-fade)"/>
+    </mask>
+
+    <!-- kuju-mask: ainult suur punane kuju + alumine pall (ülemine hele pall jääb välja) -->
+    <mask id="clip-shape" maskUnits="userSpaceOnUse"
+          x="0" y="0" width="111.12" height="170.15">
+      <!-- alumine pall -->
+      <path
+        d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+        fill="white"/>
+      <!-- suur keskne kuju -->
+      <path
+        d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+        fill="white"/>
+    </mask>
+
+    <!-- stroke’i pehmendus -->
+    <filter id="stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
+    </filter>
   </defs>
 
   <!-- VARJU: mustad koopiad (all) -->
@@ -103,11 +155,43 @@
   </g>
 
   <!-- ORIGINAAL KUJUD PEAL (puhtad, ilma kumata) -->
+  <!-- alumine pall -->
   <path class="st2"
         d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+  <!-- suur punane kuju -->
   <path class="st1"
         d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+  <!-- ülemine hele pall (ILMA stroke’ita) -->
   <path class="st0"
         d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
+
+  <!-- PEHME SISENEV ALUMINE STROKE – ainult alumine pall + punane kuju -->
+  <g mask="url(#stroke-mask)">
+    <g mask="url(#clip-shape)" filter="url(#stroke-soft)">
+      <!-- tume pehme stroke: pallil nõrgem, kujul sama mis enne -->
+      <path class="stroke-main-dot"
+            d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
+      <path class="stroke-main"
+            d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
+
+      <!-- hele lisaläige sees: pallil nõrgem, kujul sama -->
+      <path
+        d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.2"
+        stroke-opacity="0.25"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <path
+        d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
+        fill="none"
+        stroke="#ECCBC9"
+        stroke-width="1.8"
+        stroke-opacity="0.35"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </g>
+  </g>
 
 </svg>

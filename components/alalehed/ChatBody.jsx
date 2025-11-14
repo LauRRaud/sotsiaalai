@@ -1079,11 +1079,16 @@ export default function ChatBody() {
     </div>
   );
 
+  const backgroundLogo =
+    userRole === "SOCIAL_WORKER" || userRole === "ADMIN"
+      ? "/logo/aiilma.svg"
+      : "/logo/silma.svg";
+
   /* ---------- Render ---------- */
   return (
     <div
       className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
-      style={{ position: "relative" }}
+      style={{ position: "relative", "--chat-bg-logo": `url(${backgroundLogo})` }}
     >
       {/* Hamburger / Conversations */}
       <button

@@ -123,7 +123,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         >
           <button
             type="button"
-            className="btn-primary btn-profile-save"
+            className="btn-primary btn-profile-save btn-glass"
             onClick={() => openA11y?.()}
           >
             {t("profile.preferences.title")}
@@ -177,7 +177,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         <div className="profile-btn-row">
           <button
             type="button"
-            className="btn-primary btn-profile-logout"
+            className="btn-primary btn-profile-logout btn-glass"
             onClick={() =>
               signOut({ callbackUrl: localizePath("/", locale) })
             }

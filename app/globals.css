@@ -726,10 +726,10 @@ margin: 0;
   }
 }
 .glass-box {
-  background: rgba(24, 24, 24, 0.68); 
+  background: rgba(0, 0, 0, 0.25); 
   border: 0.5px solid var(--pt-600);
-  backdrop-filter: blur(0.625rem);
-  -webkit-backdrop-filter: blur(0.625rem);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
   color: #f2f2f2;
   border-radius: 1.5em;
   padding: 2.4em 2.2em 2em 2.2em;
@@ -1071,10 +1071,6 @@ a {
   opacity: 1;
   transform: translate(-50%, 0.5rem);
 }
-html:not(.dark-mode) .chat-avatar-abs {
-  filter: brightness(1.5);
-  opacity: 0.85;
-}
 html:not(.dark-mode) .avatar-label {
   color: var(--pt-100); 
 }
@@ -1231,9 +1227,9 @@ html:not(.dark-mode) .avatar-label {
 }
 .login-modal-box,
 .glass-modal {
-  background: rgba(31, 31, 31, 0.6);            
-  backdrop-filter: blur(0.625rem) saturate(110%);
-  -webkit-backdrop-filter: blur(0.625rem);    
+  background: rgba(0, 0, 0, 0.2);            
+  backdrop-filter: blur(1.2rem) saturate(110%);
+  -webkit-backdrop-filter: blur(1.2rem);    
   border: 0.5px solid var(--pt-600);           
   color: var(--pt-200);
   border-radius: 1.5em;
@@ -2848,9 +2844,40 @@ backdrop-filter: none;
   margin:.6em auto;
   gap:.4rem;
   padding-top:.6rem; padding-bottom:.7rem;
+  /* hoia logo skaala proportsionaalne teiste elementidega, sõltumata zoomist */
+  --chat-logo-height: 66%;
+  --chat-logo-y: 57%;
 }
 .glass-box.chat-container .glass-title{
   margin-top: 2.2rem !important; 
+}
+.glass-box.chat-container::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image: var(--chat-bg-logo, none);
+  background-repeat:no-repeat;
+  background-position:center var(--chat-logo-y);
+  background-size:auto var(--chat-logo-height);
+  opacity:0.2;
+  filter: blur(0.1rem);
+  -webkit-filter: blur(0.1rem);
+  z-index:-1;
+}
+
+@media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx){
+  .glass-box.chat-container{
+    --chat-logo-height: 56%;
+    --chat-logo-y: 57%;
+  }
+}
+
+@media (min-resolution: 1.5dppx){
+  .glass-box.chat-container{
+    --chat-logo-height: 46%;
+    --chat-logo-y: 57%;
+  }
 }
 .chat-container .chat-actions{ display:none; }
 .chat-main{
@@ -3150,6 +3177,9 @@ html.dark-mode .chat-inputbar:focus-within{
     gap:.35rem;
     padding-top:.5rem;
     padding-bottom: clamp(0.1rem, 0.8vw, 0.25rem);
+    /* mobiilis – hoia 100% tunnetust */
+    --chat-logo-height: 48%;
+    --chat-logo-y: 55%;
   }
   .chat-window{
     padding-top:.25rem;
