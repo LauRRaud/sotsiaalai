@@ -86,10 +86,6 @@ ja aita neid põhjendada allikatele tuginedes.
 
 /* ------------------------- Config ------------------------- */
 const DEFAULT_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
-const OPENAI_TEMPERATURE = (() => {
-  const t = Number(process.env.OPENAI_TEMPERATURE ?? 0.35);
-  return Number.isFinite(t) ? Math.min(1, Math.max(0, t)) : 0.35;
-})();
 const OPENAI_MAX_OUTPUT_TOKENS = (() => {
   const v = Number(process.env.OPENAI_MAX_OUTPUT_TOKENS);
   return Number.isFinite(v) && v > 0 ? v : undefined;
@@ -662,6 +658,17 @@ function toResponsesInput({
 }
 
 /* ------------------------- OpenAI Calls ------------------------- */
+function buildResponsesPayload(input) {
+  const payload = {
+    model: DEFAULT_MODEL,
+    input,
+  };
+  if (OPENAI_MAX_OUTPUT_TOKENS) {
+    payload.max_output_tokens = OPENAI_MAX_OUTPUT_TOKENS;
+  }
+  return payload;
+}
+
 async function callOpenAI({
   history,
   userMessage,
@@ -684,12 +691,8 @@ async function callOpenAI({
     includeSources,
     replyLang,
   });
-  const resp = await client.responses.create({
-    model: DEFAULT_MODEL,
-    input,
-    temperature: OPENAI_TEMPERATURE,
-    ...(OPENAI_MAX_OUTPUT_TOKENS ? { max_output_tokens: OPENAI_MAX_OUTPUT_TOKENS } : {}),
-  });
+  const payload = buildResponsesPayload(input);
+  const resp = await client.responses.create(payload);
   const reply =
     (resp.output_text && resp.output_text.trim()) ||
     "Vabandust, ma ei saanud praegu vastust koostada.";
@@ -717,12 +720,8 @@ async function streamOpenAI({
     includeSources,
     replyLang,
   });
-  const stream = await client.responses.stream({
-    model: DEFAULT_MODEL,
-    input,
-    temperature: OPENAI_TEMPERATURE,
-    ...(OPENAI_MAX_OUTPUT_TOKENS ? { max_output_tokens: OPENAI_MAX_OUTPUT_TOKENS } : {}),
-  });
+  const payload = buildResponsesPayload(input);
+  const stream = await client.responses.stream(payload);
   async function* iterator() {
     for await (const event of stream) {
       if (event.type === "response.output_text.delta") {

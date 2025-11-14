@@ -135,11 +135,11 @@ export async function POST() {
     if (!apiKey) throw new Error("OPENAI_API_KEY on seadistamata.");
     const { default: OpenAI } = await import("openai");
     const client = new OpenAI({ apiKey });
-    const resp = await client.responses.create({
+    const basePayload = {
       model: OPENAI_MODEL,
       input: "Ütle lühidalt: OK",
-      temperature: 0,
-    });
+    };
+    const resp = await client.responses.create(basePayload);
     const text = resp?.output_text ? resp.output_text.trim() : "";
     if (!text) throw new Error("OpenAI ei tagastanud vastust.");
     steps[steps.length - 1].detail = text.slice(0, 60);
