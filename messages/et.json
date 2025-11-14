@@ -54,6 +54,7 @@
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
+    "password_placeholder": "PIN ({min}-{max} numbrit)",
     "pin_placeholder": "PIN ({min}-{max} numbrit)",
     "login": {
       "title": "Logi sisse",
@@ -97,7 +98,8 @@
         "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
       },
       "submit": "Registreeru",
-      "submitting": "Loome kontot…"
+      "submitting": "Loome kontot…",
+      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga."
     },
     "reset": {
     "title": "Uuenda PIN kood",
@@ -195,7 +197,7 @@
       "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
     },
     "change_password_cta": "Uus PIN",
-      "update_email_cta": "Uus e-post",
+    "update_email_cta": "Uus e-post",
     "email_update": {
       "title": "Uuenda e-post",
       "submit": "Saada kinnituskiri",
@@ -207,6 +209,20 @@
       "error_pin_required": "Palun sisesta PIN-kood.",
       "error_pin_length": "PIN peab olema {min}–{max} numbrit.",
       "error_failed": "E-posti uuendamine ebaõnnestus."
+    },
+    "pin_help": "Sisesta oma PIN, et kinnitada e-posti või PIN-i muudatus. PIN peab olema {min}–{max} numbrit.",
+    "current_pin_label": "Praegune PIN",
+    "new_pin_label": "Uus PIN",
+    "new_pin_placeholder": "Uus PIN ({min}–{max} numbrit)",
+    "confirm_pin_label": "Kinnita uus PIN",
+    "success_email_pending": "Saadsime uuele aadressile kinnituskirja.",
+    "success_pin_updated": "PIN on uuendatud.",
+    "errors": {
+      "current_pin_required": "Sisesta muudatuse kinnitamiseks praegune PIN.",
+      "pin_required": "Sisesta ja kinnita uus PIN.",
+      "pin_invalid": "PIN peab olema {min}–{max} numbrit.",
+      "pin_mismatch": "PIN-id ei kattu.",
+      "no_changes": "Midagi pole uuendada."
     }
   },
   "accessibility": {
