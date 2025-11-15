@@ -1077,7 +1077,6 @@ export default function ChatBody() {
         const fd = new FormData();
         fd.append("file", file, file.name || "file");
         fd.append("mimeType", file.type || "");
-        fd.append("maxChunks", "16");
         const res = await fetch("/api/chat/analyze-file", { method: "POST", body: fd });
         const data = await res.json().catch(() => ({ ok: false }));
         if (!res.ok || !data?.ok) {

@@ -28,7 +28,9 @@ export function getMessageKeySets() {
   const keySets = {};
   for (const locale of LOCALES) {
     const file = path.join(ROOT_DIR, "messages", `${locale}.json`);
-    const content = JSON.parse(fs.readFileSync(file, "utf8"));
+    const raw = fs.readFileSync(file, "utf8");
+    const jsonText = raw.replace(/^\uFEFF/, "");
+    const content = JSON.parse(jsonText);
     const set = new Set();
     collectKeys(content, "", set);
     keySets[locale] = set;
