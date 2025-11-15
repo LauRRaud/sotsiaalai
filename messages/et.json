@@ -459,6 +459,7 @@
       "summary_show": "Näita eelvaadet",
       "summary_hide": "Peida eelvaade",
       "privacy": "Analüüsiks, ei salvestata püsivalt.",
+      "context_hint": "Linnuke peal = vastus tuleb sellest failist. Kui linnuke on maas, kasutatakse SotsiaalAI teadmistebaasi.",
       "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti.",
       "ask_more_btn": "Küsi lisaks",
       "use_as_context": "Kasuta järgmisel vastusel kontekstina",

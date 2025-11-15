@@ -459,6 +459,7 @@
       "summary_show": "Show preview",
       "summary_hide": "Hide preview",
       "privacy": "For analysis only, not stored permanently.",
+      "context_hint": "Checked: replies use this file only. Unchecked: replies fall back to the SotsiaalAI knowledge base.",
       "ask_more": "Please explain this document briefly and highlight 3ā€“5 key points.",
       "ask_more_btn": "Ask more",
       "use_as_context": "Use as context for the next reply",

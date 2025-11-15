@@ -1396,15 +1396,45 @@ export default function ChatBody() {
                     </div>
                     <div
                       style={{
-                        whiteSpace: "pre-wrap",
-                        maxHeight: previewExpanded ? "none" : "5.5rem",
-                        overflow: previewExpanded ? "visible" : "hidden",
-                        maskImage: previewExpanded
-                          ? "none"
-                          : "linear-gradient(180deg, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0))",
+                        position: "relative",
+                        borderRadius: 12,
+                        background: "rgba(7,10,18,0.85)",
+                        border: "1px solid rgba(148,163,184,0.35)",
+                        padding: "1rem 1.2rem",
+                        boxShadow: "0 18px 28px rgba(5,8,15,0.65)",
                       }}
                     >
-                      {uploadPreview.preview}
+                      <div
+                        style={{
+                          whiteSpace: "pre-wrap",
+                          maxHeight: previewExpanded ? "50vh" : "12rem",
+                          overflowY: "auto",
+                          paddingRight: "0.35rem",
+                          scrollbarWidth: "thin",
+                          scrollbarColor: "var(--pt-mid) transparent",
+                          fontSize: "0.92rem",
+                          lineHeight: 1.5,
+                        }}
+                        className="chat-upload-preview-scroll"
+                      >
+                        {uploadPreview.preview}
+                      </div>
+                      {!previewExpanded ? (
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            height: "2.5rem",
+                            pointerEvents: "none",
+                            background:
+                              "linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.85) 100%)",
+                            borderBottomLeftRadius: 8,
+                            borderBottomRightRadius: 8,
+                          }}
+                        />
+                      ) : null}
                     </div>
                   </div>
                 ) : null}
@@ -1459,6 +1489,12 @@ export default function ChatBody() {
                   </label>
                   <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
                     {t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}
+                  </span>
+                  <span style={{ fontSize: "0.78rem", opacity: 0.7 }}>
+                    {t(
+                      "chat.upload.context_hint",
+                      "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavapärast SotsiaalAI andmebaasi."
+                    )}
                   </span>
                   {uploadUsage?.limit ? (
                     <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
