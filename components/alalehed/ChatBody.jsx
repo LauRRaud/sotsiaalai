@@ -493,13 +493,6 @@ export default function ChatBody() {
   const analysisPanelLocked = !!(uploadBusy || uploadPreview);
   const showAnalysisPanel = analysisPanelOpen || hasAnalysisContent;
 
-  useEffect(() => {
-    if (hasAnalysisContent) {
-      setAnalysisPanelOpen(true);
-      scrollAnalysisPanelIntoView();
-    }
-  }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
-
   const MAX_UPLOAD_MB = useMemo(() => {
     const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
     return Number.isFinite(v) && v > 0 ? v : 50;
@@ -582,6 +575,12 @@ export default function ChatBody() {
     if (uploadBusy || uploadPreview) return;
     setAnalysisPanelOpen(false);
   }, [uploadBusy, uploadPreview]);
+  useEffect(() => {
+    if (hasAnalysisContent) {
+      setAnalysisPanelOpen(true);
+      scrollAnalysisPanelIntoView();
+    }
+  }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
   const appendMessage = useCallback((msg) => {
     const id = messageIdRef.current++;
     setMessages((prev) => [...prev, { ...msg, id }]);
