@@ -1504,13 +1504,10 @@ export default function ChatBody() {
                   </>
                 ) : (
                   <div className="chat-analysis-empty">
-                  <div className="chat-analysis-empty">
                     <p className="chat-analysis-meta">
                       {t(
                         "chat.upload.context_hint",
                         "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
-                      )}
-                    </p>
                       )}
                     </p>
                     <div className="chat-analysis-empty-actions">
