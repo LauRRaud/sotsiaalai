@@ -1056,12 +1056,17 @@ export async function POST(req) {
 
   // 6) RAG otsing
   let matches = [];
-  try {
-    matches = await searchRagDirect({ query: message, topK: RAG_TOP_K, filters: audienceFilter });
-  } catch {}
-  const groupedMatches = groupMatches(matches);
-  const chosen = diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
-  const budgeted = buildContextWithBudget(chosen);
+  let groupedMatches = [];
+  let chosen = [];
+  let budgeted = { text: "", used: [] };
+  if (!ephemeralChunks.length) {
+    try {
+      matches = await searchRagDirect({ query: message, topK: RAG_TOP_K, filters: audienceFilter });
+    } catch {}
+    groupedMatches = groupMatches(matches);
+    chosen = diversifyGroupsMMR(groupedMatches, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA);
+    budgeted = buildContextWithBudget(chosen);
+  }
   // Ephemeral document context (if provided)
   let context = budgeted.text;
   if (ephemeralChunks && ephemeralChunks.length) {
@@ -1069,56 +1074,62 @@ export async function POST(req) {
     const maxEphemeral = Math.max(500, Math.floor(RAG_CTX_MAX_CHARS * 0.35));
     const eph = joined.slice(0, maxEphemeral).trim();
     if (eph) {
-      context = `USER DOCUMENT:\n${eph}\n\n` + context;
+      context = `USER DOCUMENT:\n${eph}`;
+    } else {
+      context = "";
     }
   }
   const grounding = groundingStrength(groupedMatches);
 
   // 7) allikad (meta) – UI-le
-  let sources = (budgeted.used.length ? budgeted.used : chosen).map((entry, idx) => {
-    const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
-    const pageRanges = Array.isArray(entry.pageRanges)
-      ? Array.from(new Set(entry.pageRanges.filter(Boolean)))
-      : [];
-    const pageTextRaw = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
-    const pageText = normalizePageRangeString(pageTextRaw);
-    const short_ref_text = (makeShortRef(entry, pageText) || "").trim();
-    return {
-      id: entry.key || entry.docId || entry.articleId || entry.url || entry.fileName || `source-${idx}`,
-      title: entry.title,
-      url: entry.url || undefined,
-      file: undefined,
-      fileName: entry.fileName || undefined,
-      audience: entry.audience || undefined,
-      pageRange: pageText || undefined,
-      authors: Array.isArray(entry.authors) && entry.authors.length ? entry.authors : undefined,
-      issueLabel: entry.issueLabel || undefined,
-      issueId: entry.issueId || undefined,
-      journalTitle: entry.journalTitle || undefined,
-      section: entry.section || undefined,
-      year: entry.year || undefined,
-      pages: pageNumbers.length ? pageNumbers : undefined,
-      short_ref: short_ref_text || undefined,
-    };
-  });
+  let sources;
   if (ephemeralChunks && ephemeralChunks.length) {
     const fileName = typeof ephemeralSource?.fileName === "string" ? ephemeralSource.fileName : undefined;
-    sources.unshift({
-      id: "user-document",
-      title: "(Laetud dokument)",
-      url: undefined,
-      file: undefined,
-      fileName,
-      audience: undefined,
-      pageRange: undefined,
-      authors: undefined,
-      issueLabel: undefined,
-      issueId: undefined,
-      journalTitle: undefined,
-      section: undefined,
-      year: undefined,
-      pages: undefined,
-      short_ref: "(laetud dokument)",
+    sources = [
+      {
+        id: "user-document",
+        title: "(Laetud dokument)",
+        url: undefined,
+        file: undefined,
+        fileName,
+        audience: undefined,
+        pageRange: undefined,
+        authors: undefined,
+        issueLabel: undefined,
+        issueId: undefined,
+        journalTitle: undefined,
+        section: undefined,
+        year: undefined,
+        pages: undefined,
+        short_ref: "(laetud dokument)",
+      },
+    ];
+  } else {
+    sources = (budgeted.used.length ? budgeted.used : chosen).map((entry, idx) => {
+      const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
+      const pageRanges = Array.isArray(entry.pageRanges)
+        ? Array.from(new Set(entry.pageRanges.filter(Boolean)))
+        : [];
+      const pageTextRaw = (pageRanges.length ? pageRanges.join(", ") : collapsePages(pageNumbers)).trim();
+      const pageText = normalizePageRangeString(pageTextRaw);
+      const short_ref_text = (makeShortRef(entry, pageText) || "").trim();
+      return {
+        id: entry.key || entry.docId || entry.articleId || entry.url || entry.fileName || `source-${idx}`,
+        title: entry.title,
+        url: entry.url || undefined,
+        file: undefined,
+        fileName: entry.fileName || undefined,
+        audience: entry.audience || undefined,
+        pageRange: pageText || undefined,
+        authors: Array.isArray(entry.authors) && entry.authors.length ? entry.authors : undefined,
+        issueLabel: entry.issueLabel || undefined,
+        issueId: entry.issueId || undefined,
+        journalTitle: entry.journalTitle || undefined,
+        section: entry.section || undefined,
+        year: entry.year || undefined,
+        pages: pageNumbers.length ? pageNumbers : undefined,
+        short_ref: short_ref_text || undefined,
+      };
     });
   }
 

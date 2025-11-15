@@ -322,6 +322,7 @@ export default function ChatBody() {
   const [uploadBusy, setUploadBusy] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [uploadPreview, setUploadPreview] = useState(null);
+  const [previewExpanded, setPreviewExpanded] = useState(false);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [useAsContext, setUseAsContext] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
@@ -1079,6 +1080,10 @@ export default function ChatBody() {
     </div>
   );
 
+  useEffect(() => {
+    setPreviewExpanded(false);
+  }, [uploadPreview?.fileName, uploadPreview?.sizeMB, uploadPreview?.preview]);
+
   const backgroundLogo =
     userRole === "SOCIAL_WORKER" || userRole === "ADMIN"
       ? "/logo/aiilma.svg"
@@ -1316,10 +1321,10 @@ export default function ChatBody() {
               </div>
             ) : null}
             {uploadError ? <div style={{ color: "#fecaca" }}>{uploadError}</div> : null}
-            {uploadPreview ? (
-              <div
-                style={{
-                  background: "rgba(148,163,184,0.12)",
+                {uploadPreview ? (
+                  <div
+                    style={{
+                      background: "rgba(148,163,184,0.12)",
                   border: "1px solid rgba(148,163,184,0.2)",
                   borderRadius: 10,
                   padding: "10px 12px",
@@ -1361,11 +1366,46 @@ export default function ChatBody() {
                   </button>
                 </div>
                 {uploadPreview.preview ? (
-                  <div style={{ marginTop: 6, whiteSpace: "pre-wrap", opacity: 0.9 }}>
-                    <strong style={{ display: "block", marginBottom: 4 }}>
-                      {t("chat.upload.summary", "Dokumendi kokkuvõte")}
-                    </strong>
-                    {uploadPreview.preview}
+                  <div style={{ marginTop: 6, opacity: 0.9 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: 12,
+                        marginBottom: 4,
+                      }}
+                    >
+                      <strong>{t("chat.upload.summary", "Dokumendi eelvaade")}</strong>
+                      <button
+                        type="button"
+                        onClick={() => setPreviewExpanded((prev) => !prev)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          color: "#93c5fd",
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                          fontSize: "0.8rem",
+                        }}
+                      >
+                        {previewExpanded
+                          ? t("chat.upload.summary_hide", "Peida eelvaade")
+                          : t("chat.upload.summary_show", "Näita eelvaadet")}
+                      </button>
+                    </div>
+                    <div
+                      style={{
+                        whiteSpace: "pre-wrap",
+                        maxHeight: previewExpanded ? "none" : "5.5rem",
+                        overflow: previewExpanded ? "visible" : "hidden",
+                        maskImage: previewExpanded
+                          ? "none"
+                          : "linear-gradient(180deg, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0))",
+                      }}
+                    >
+                      {uploadPreview.preview}
+                    </div>
                   </div>
                 ) : null}
                 <div

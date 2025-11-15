@@ -2887,9 +2887,9 @@ backdrop-filter: none;
   align-self:stretch; width:auto; max-width:none;
   margin: .6rem var(--chat-hpad) .7rem;
   display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:0.25rem;
-  flex: 0 0 var(--inputbar-h);
-  height: var(--inputbar-h);
+  flex: 0 0 auto;
   min-height: var(--inputbar-h);
+  height: auto;
   border: 2px solid rgba(220,220,220,0.3);
   border-radius:62.4375rem;
   background: rgba(10,14,24,0.22);
@@ -2912,16 +2912,18 @@ backdrop-filter: none;
 }
 .chat-inputbar .chat-input-field:focus-visible{ outline: none; }
 .chat-inputbar .chat-input-field{
-  all:unset; box-sizing:border-box; width:100%; height:100%;
-  display:flex; align-items:center;            
-  line-height:1.35;
-  padding-top:   calc((var(--inputbar-h) - 1.35em)/2);
-  padding-bottom:calc((var(--inputbar-h) - 1.35em)/2);
-  padding-inline: clamp(0.875rem, 4vw, 1.125rem);
+  all:unset; box-sizing:border-box; width:100%;
+  display:block;
+  line-height:1.4;
+  min-height: 2.75rem;
+  max-height: 7.5rem;
+  padding: 0.85rem clamp(0.875rem, 4vw, 1.125rem);
   color: var(--pt-100); caret-color: var(--pt-100);
   font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   text-align:left;
-  overflow-y:hidden; 
+  overflow-y:auto;
+  resize: none;
+  white-space: pre-wrap;
   scrollbar-width:thin;
   scrollbar-color: var(--pt-mid) transparent;
   transition: color 0.18s ease, opacity 0.18s ease;
