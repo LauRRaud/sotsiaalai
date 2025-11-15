@@ -1085,11 +1085,11 @@ export default function ChatBody() {
   }, [uploadPreview?.fileName, uploadPreview?.sizeMB, uploadPreview?.preview]);
 
   const previewText = useMemo(() => {
+    if (ephemeralChunks?.length) {
+      return ephemeralChunks.join("\n\n");
+    }
     if (uploadPreview?.preview && uploadPreview.preview.trim()) {
       return uploadPreview.preview;
-    }
-    if (ephemeralChunks?.length) {
-      return ephemeralChunks.slice(0, 3).join("\n\n").slice(0, 2000);
     }
     return "";
   }, [uploadPreview?.preview, ephemeralChunks]);
@@ -1323,7 +1323,7 @@ export default function ChatBody() {
         {(uploadPreview || uploadError || uploadBusy) ? (
           <div
             className="chat-analyze-followup"
-            style={{ marginTop: "0.75rem", fontSize: "0.9rem", color: "#e2e8f0" }}
+            style={{ display: "none" }}
           >
             {uploadBusy ? (
               <div style={{ opacity: 0.85 }}>
@@ -1515,6 +1515,159 @@ export default function ChatBody() {
         ) : null}
         <BackButton />
       </footer>
+
+      {(uploadPreview || uploadError || uploadBusy) ? (
+        <div
+          className="chat-analyze-followup"
+          style={{
+            position: "fixed",
+            left: "max(0.75rem, env(safe-area-inset-left, 0) + 0.75rem)",
+            right: "max(0.75rem, env(safe-area-inset-right, 0) + 0.75rem)",
+            bottom: "max(5.75rem, env(safe-area-inset-bottom, 0) + 5.25rem)",
+            zIndex: 35,
+          }}
+        >
+          <div
+            style={{
+              background: "rgba(7,10,18,0.96)",
+              border: "1px solid rgba(148,163,184,0.4)",
+              borderRadius: 14,
+              padding: "0.9rem 1rem 0.9rem",
+              color: "#e2e8f0",
+              fontSize: "0.96rem",
+              lineHeight: 1.5,
+              maxHeight: "min(60vh, 520px)",
+              boxShadow: "0 18px 36px rgba(5,8,15,0.75)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              overflow: "hidden",
+            }}
+          >
+            {uploadBusy ? (
+              <div style={{ opacity: 0.9 }}>
+                {t("chat.upload.busy", "Anal����sin dokumenti�?�")}
+              </div>
+            ) : null}
+            {uploadError ? <div style={{ color: "#fecaca" }}>{uploadError}</div> : null}
+            {uploadPreview ? (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 8,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div style={{ fontWeight: 600, fontSize: "1rem" }}>
+                    {prettifyFileName(uploadPreview.fileName)}
+                    <span style={{ opacity: 0.8, marginLeft: 8, fontSize: "0.9rem" }}>
+                      {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUploadPreview(null);
+                      setUploadError(null);
+                      setEphemeralChunks([]);
+                      setUseAsContext(false);
+                    }}
+                    className="chat-upload-action-btn"
+                  >
+                    {t("buttons.cancel", "Katkesta")}
+                  </button>
+                </div>
+
+                {previewText ? (
+                  <div style={{ marginTop: 6, opacity: 0.96 }}>
+                    <div style={{ fontWeight: 600, marginBottom: 6, fontSize: "0.95rem" }}>
+                      {t("chat.upload.summary", "Dokumendi tekst")}
+                    </div>
+                    <div
+                      className="chat-upload-preview-scroll"
+                      style={{
+                        position: "relative",
+                        borderRadius: 12,
+                        background: "rgba(5,9,18,0.98)",
+                        border: "1px solid rgba(148,163,184,0.55)",
+                        padding: "0.85rem 1rem",
+                        boxShadow: "0 18px 30px rgba(5,8,15,0.78)",
+                        maxHeight: "min(48vh, 440px)",
+                        overflowY: "auto",
+                        scrollbarWidth: "thin",
+                        scrollbarColor: "var(--pt-mid) transparent",
+                        fontSize: "0.96rem",
+                        lineHeight: 1.65,
+                      }}
+                    >
+                      <div style={{ whiteSpace: "pre-wrap", paddingRight: "0.35rem" }}>
+                        {previewText}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    marginTop: 10,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      try {
+                        inputRef.current?.focus?.();
+                      } catch {}
+                    }}
+                    className="chat-upload-action-btn chat-upload-action-btn--accent"
+                  >
+                    {t("chat.upload.ask_more_btn", "Alusta k��simust")}
+                  </button>
+                  <label
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      fontSize: "0.94rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={useAsContext}
+                      onChange={(e) => setUseAsContext(e.target.checked)}
+                    />
+                    {t("chat.upload.use_as_context", "Kasuta j��rgmisel vastusel kontekstina")}
+                  </label>
+                  <span style={{ fontSize: "0.9rem", opacity: 0.8 }}>
+                    {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
+                  </span>
+                  <span style={{ fontSize: "0.88rem", opacity: 0.8 }}>
+                    {t(
+                      "chat.upload.context_hint",
+                      "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
+                    )}
+                  </span>
+                  {uploadUsage?.limit ? (
+                    <span style={{ fontSize: "0.9rem", opacity: 0.85 }}>
+                      {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
+                        .replace("{used}", String(uploadUsage.used ?? 0))
+                        .replace("{limit}", String(uploadUsage.limit ?? 0))}
+                    </span>
+                  ) : null}
+                </div>
+              </>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
 
       {showSourcesPanel ? (
         <div

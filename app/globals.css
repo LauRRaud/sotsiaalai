@@ -2896,33 +2896,33 @@ backdrop-filter: none;
   border:0.1875rem solid transparent;
 }
 .chat-upload-action-btn{
-  border:1px solid rgba(148,163,184,0.45);
-  background: rgba(148,163,184,0.2);
+  border:1px solid rgba(148,163,184,0.55);
+  background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
   color:#f8fafc;
   border-radius:999px;
   padding:0.45rem 1.05rem;
   cursor:pointer;
-  font-size:0.95rem;
+  font-size:1rem;
   line-height:1.1;
   transition:background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
 }
 .chat-upload-action-btn:hover{
-  border-color:rgba(235,239,255,0.85);
-  background:rgba(148,163,184,0.32);
+  border-color:rgba(235,239,255,0.9);
+  background:linear-gradient(135deg, rgba(30,64,175,0.32), rgba(15,23,42,0.96));
 }
 .chat-upload-action-btn:active{
   transform:translateY(1px);
 }
 .chat-upload-action-btn--accent{
-  background:linear-gradient(125deg, rgba(244,172,183,0.5), rgba(255,255,255,0.12));
-  border-color:rgba(255,228,232,0.8);
+  background:linear-gradient(135deg, rgba(30,64,175,0.55), rgba(248,250,252,0.08));
+  border-color:rgba(191,219,254,0.9);
   color:#fff5f7;
   font-weight:600;
-  box-shadow:0 10px 25px rgba(244,172,183,0.25);
+  box-shadow:0 10px 25px rgba(15,23,42,0.75);
 }
 .chat-upload-action-btn--accent:hover{
-  border-color:#fff;
-  background:linear-gradient(125deg, rgba(244,172,183,0.65), rgba(255,255,255,0.2));
+  border-color:#e5efff;
+  background:linear-gradient(135deg, rgba(37,99,235,0.75), rgba(248,250,252,0.16));
 }
 .chat-inputbar{
   --inputbar-h: 4.125rem;
