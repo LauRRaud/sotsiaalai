@@ -326,6 +326,7 @@ export default function ChatBody() {
   const [useAsContext, setUseAsContext] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
+  const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
@@ -490,7 +491,6 @@ export default function ChatBody() {
 
   const hasConversationSources = conversationSources.length > 0;
   const hasAnalysisContent = !!(uploadPreview || uploadError || uploadBusy);
-  const analysisPanelLocked = !!(uploadBusy || uploadPreview);
   const showAnalysisPanel = analysisPanelOpen || hasAnalysisContent;
 
   const MAX_UPLOAD_MB = useMemo(() => {
@@ -568,17 +568,26 @@ export default function ChatBody() {
     });
   }, []);
   const ensureAnalysisPanelVisible = useCallback(() => {
+    setAnalysisCollapsed(false);
     setAnalysisPanelOpen(true);
     scrollAnalysisPanelIntoView();
   }, [scrollAnalysisPanelIntoView]);
-  const hideAnalysisPanel = useCallback(() => {
-    if (uploadBusy || uploadPreview) return;
+  const toggleAnalysisCollapse = useCallback(() => {
+    if (!hasAnalysisContent) return;
+    setAnalysisCollapsed((prev) => !prev);
+  }, [hasAnalysisContent]);
+  const closeAnalysisPanel = useCallback(() => {
+    if (hasAnalysisContent) return;
     setAnalysisPanelOpen(false);
-  }, [uploadBusy, uploadPreview]);
+    setAnalysisCollapsed(false);
+  }, [hasAnalysisContent]);
   useEffect(() => {
     if (hasAnalysisContent) {
+      setAnalysisCollapsed(false);
       setAnalysisPanelOpen(true);
       scrollAnalysisPanelIntoView();
+    } else {
+      setAnalysisCollapsed(false);
     }
   }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
   const appendMessage = useCallback((msg) => {
@@ -1384,15 +1393,28 @@ export default function ChatBody() {
                   {t("chat.upload.tooltip", "Laadi dokument analüüsimiseks (ei salvestata)")}
                 </p>
               </div>
-              <button
-                type="button"
-                className="btn-tertiary chat-analysis-hide"
-                onClick={hideAnalysisPanel}
-                disabled={analysisPanelLocked}
-                aria-disabled={analysisPanelLocked ? "true" : "false"}
-              >
-                {t("chat.upload.summary_hide", "Peida eelvaade")}
-              </button>
+              <div className="chat-analysis-actions">
+                <button
+                  type="button"
+                  className="btn-tertiary chat-analysis-hide"
+                  onClick={toggleAnalysisCollapse}
+                  disabled={!hasAnalysisContent}
+                  aria-disabled={!hasAnalysisContent ? "true" : "false"}
+                >
+                  {analysisCollapsed
+                    ? t("chat.upload.summary_show", "Näita eelvaadet")
+                    : t("chat.upload.summary_hide", "Peida eelvaade")}
+                </button>
+                {!hasAnalysisContent ? (
+                  <button
+                    type="button"
+                    className="btn-tertiary chat-analysis-close"
+                    onClick={closeAnalysisPanel}
+                  >
+                    {t("buttons.close", "Sulge")}
+                  </button>
+                ) : null}
+              </div>
             </header>
             <div className="chat-analysis-body">
               {uploadBusy ? (
@@ -1427,9 +1449,14 @@ export default function ChatBody() {
                     </button>
                   </div>
 
-                  {previewText ? (
+                  {!analysisCollapsed && previewText ? (
                     <div className="chat-analysis-preview chat-upload-preview-scroll">
                       {previewText}
+                    </div>
+                  ) : null}
+                  {analysisCollapsed ? (
+                    <div className="chat-analysis-collapsed-note">
+                      {t("chat.upload.preview_hidden", "Eelvaade on peidetud.")}
                     </div>
                   ) : null}
 
