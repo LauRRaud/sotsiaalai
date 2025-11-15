@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import { localizePath } from "@/lib/localizePath";
 
 export default function LoginModal({ open, onClose }) {
@@ -538,7 +539,24 @@ export default function LoginModal({ open, onClose }) {
 
             <div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
               <button type="submit" className="btn-primary" disabled={pinLoading}>
-                <span>{pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}</span>
+                {pinLoading ? (
+                  <>
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        display: "inline-flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <SotsiaalAILoader ariaHidden size={28} style={{ margin: 0 }} />
+                    </span>
+                    <span className="sr-only">{t("auth.login.submitting")}</span>
+                  </>
+                ) : (
+                  <span>{t("auth.login.submit")}</span>
+                )}
               </button>
             </div>
           </form>

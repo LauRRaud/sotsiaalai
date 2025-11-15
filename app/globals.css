@@ -2685,6 +2685,17 @@ backdrop-filter: none;
 }
 .drawer-panel .cs-refresh:active{ transform:scale(.94); }
 .drawer-panel .cs-refresh-icon{ width:1.125rem; height:1.125rem; transition:transform .35s ease; }
+.chat-sources-inline{
+  width:100%;
+  padding:0 var(--chat-hpad);
+  margin: clamp(0.4rem, 2vw, 0.9rem) 0 0;
+  display:flex;
+  justify-content:flex-start;
+}
+.chat-sources-inline .chat-sources-btn{
+  position:static;
+  transform:none;
+}
 .chat-sources-btn{
   font:inherit;
   font-weight:600;
@@ -2825,15 +2836,25 @@ backdrop-filter: none;
   position: relative; z-index:20;
   display:flex; flex-direction:column; box-sizing:border-box;
   width:100%; max-width:53.125rem;
-  min-height:96dvh;
+  min-height:min(92dvh, 860px);
   height:auto;
-  max-height:none;
+  max-height:min(96dvh, 1040px);
   margin:.6em auto;
   gap:.4rem;
   padding-top:.6rem; padding-bottom:.7rem;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color: var(--pt-mid) transparent;
   /* hoia logo skaala proportsionaalne teiste elementidega, sõltumata zoomist */
   --chat-logo-height: 66%;
   --chat-logo-y: 57%;
+}
+.glass-box.chat-container::-webkit-scrollbar{ width:0.65rem; }
+.glass-box.chat-container::-webkit-scrollbar-track{ background:transparent; }
+.glass-box.chat-container::-webkit-scrollbar-thumb{
+  background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
+  border-radius:0.625rem; border:0.2rem solid transparent;
 }
 .glass-box.chat-container .glass-title{
   margin-top: 2.2rem !important; 
@@ -2894,6 +2915,131 @@ backdrop-filter: none;
   background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
   border-radius:0.625rem;
   border:0.1875rem solid transparent;
+}
+.chat-analysis-panel{
+  width:100%;
+  padding:0 var(--chat-hpad);
+  margin-top: clamp(0.7rem, 2vw, 1.25rem);
+}
+.chat-analysis-card{
+  background: rgba(7,10,18,0.78);
+  border: 1px solid rgba(148,163,184,0.26);
+  border-radius: 18px;
+  padding: 1.1rem 1.25rem 1.2rem;
+  color: #e2e8f0;
+  box-shadow: 0 18px 34px rgba(5,8,15,0.58);
+  display:flex;
+  flex-direction:column;
+  gap:0.9rem;
+}
+.chat-analysis-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.chat-analysis-header-text{
+  flex:1 1 auto;
+  min-width:0;
+}
+.chat-analysis-title{
+  margin:0;
+  font-size:1.08rem;
+  font-weight:600;
+}
+.chat-analysis-subtitle{
+  margin:0.2rem 0 0;
+  font-size:0.9rem;
+  opacity:0.75;
+}
+.chat-analysis-hide{
+  white-space:nowrap;
+}
+.chat-analysis-body{
+  display:flex;
+  flex-direction:column;
+  gap:0.85rem;
+  font-size:1rem;
+  line-height:1.65;
+}
+.chat-analysis-status{
+  font-size:0.95rem;
+  opacity:0.9;
+}
+.chat-analysis-error{
+  color:#fecaca;
+  font-size:0.95rem;
+}
+.chat-analysis-file{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:0.85rem;
+  flex-wrap:wrap;
+}
+.chat-analysis-file-info{
+  display:flex;
+  flex-direction:column;
+  gap:0.15rem;
+}
+.chat-analysis-file-name{
+  font-weight:600;
+  font-size:1.12rem;
+}
+.chat-analysis-file-meta{
+  font-size:0.95rem;
+  opacity:0.85;
+}
+.chat-analysis-preview{
+  flex:1 1 auto;
+  min-height:150px;
+  max-height:clamp(12rem, 32vh, 20rem);
+  border-radius:14px;
+  background:rgba(5,9,18,0.72);
+  border:1px solid rgba(148,163,184,0.34);
+  padding:1rem 1.2rem;
+  overflow:auto;
+  font-size:1.05rem;
+  line-height:1.9;
+  white-space:pre-wrap;
+  scrollbar-width:thin;
+  scrollbar-color: var(--pt-mid) transparent;
+}
+.chat-analysis-preview::-webkit-scrollbar{ width:0.65rem; }
+.chat-analysis-preview::-webkit-scrollbar-track{ background:transparent; }
+.chat-analysis-preview::-webkit-scrollbar-thumb{
+  background: linear-gradient(135deg,var(--pt-400),var(--pt-200));
+  border-radius:0.625rem; border:0.18rem solid transparent;
+}
+.chat-analysis-controls{
+  display:flex;
+  align-items:center;
+  gap:0.85rem;
+  flex-wrap:wrap;
+  font-size:0.98rem;
+}
+.chat-analysis-checkbox{
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+  font-size:0.98rem;
+}
+.chat-analysis-meta{
+  font-size:0.95rem;
+  opacity:0.85;
+}
+.chat-analysis-empty{
+  display:flex;
+  flex-direction:column;
+  gap:0.65rem;
+  font-size:0.98rem;
+}
+.chat-analysis-empty-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.75rem;
+  align-items:center;
 }
 .chat-upload-action-btn{
   border:1px solid rgba(148,163,184,0.55);
