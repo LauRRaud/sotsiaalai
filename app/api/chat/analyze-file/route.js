@@ -145,10 +145,11 @@ export async function POST(request) {
   // Forward directly to RAG analyze endpoint
   try {
     const data = await callRagAnalyze(forward);
-    return json({ ok: true, privacy: { ephemeral: true, note: "Ei salvestata p�sivalt." }, ...data });
+    return json({ ok: true, privacy: { ephemeral: true, note: "Ei salvestata püsivalt." }, ...data });
   } catch (e) {
     console.error("[analyze-file] RAG analyze error:", e);
     const status = Number(e?.status) || 502;
-    return json({ ok: false, message: e?.message || "RAG anal��si teenus ei vasta." }, status);
+    return json({ ok: false, message: e?.message || "RAG analüüsi teenus ei vasta." }, status);
   }
 }
+
