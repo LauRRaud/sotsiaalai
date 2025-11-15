@@ -1422,7 +1422,7 @@ export default function ChatBody() {
               <div className="chat-analysis-body">
                 {uploadBusy ? (
                   <div className="chat-analysis-status">
-                    {t("chat.upload.busy", "Anal����sin dokumenti�?�")}
+                    {t("chat.upload.busy", "Anal????sin dokumenti???")}
                   </div>
                 ) : null}
                 {uploadError ? <div className="chat-analysis-error">{uploadError}</div> : null}
@@ -1484,41 +1484,35 @@ export default function ChatBody() {
                           onChange={(e) => setUseAsContext(e.target.checked)}
                         />
                         <span className="checkbox-text">
-                          {t("chat.upload.use_as_context", "Kasuta j��rgneval vastusel kontekstina")}
+                          {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
                         </span>
                       </label>
                       <span className="chat-analysis-meta">
                         {t(
                           "chat.upload.context_hint",
-                          "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
+                          "Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata."
                         )}
                       </span>
-                      {uploadUsage?.limit ? (
-                        <span className="chat-analysis-meta">
-                          {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
-                            .replace("{used}", String(uploadUsage.used ?? 0))
-                            .replace("{limit}", String(uploadUsage.limit ?? 0))}
-                        </span>
-                      ) : null}
+                      
                     </div>
                   </>
                 ) : (
                   <div className="chat-analysis-empty">
                     <p className="chat-analysis-meta">
-                      {t(
-                        "chat.upload.context_hint",
-                        "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
-                      )}
+                      {uploadUsage?.limit
+                        ? t("chat.upload.usage", "{used}/{limit} analüüsi täna")
+                            .replace(
+                              "{used}",
+                              String(
+                                Math.max(
+                                  0,
+                                  (uploadUsage.limit ?? 0) - (uploadUsage.used ?? 0)
+                                )
+                              )
+                            )
+                            .replace("{limit}", String(uploadUsage.limit ?? 0))
+                        : ""}
                     </p>
-                    <div className="chat-analysis-empty-actions">
-                      {uploadUsage?.limit ? (
-                        <span className="chat-analysis-meta">
-                          {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
-                            .replace("{used}", String(uploadUsage.used ?? 0))
-                            .replace("{limit}", String(uploadUsage.limit ?? 0))}
-                        </span>
-                      ) : null}
-                    </div>
                   </div>
                 )}
               </div>
@@ -1678,6 +1672,14 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
 
 
 
