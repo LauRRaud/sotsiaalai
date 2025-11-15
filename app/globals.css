@@ -1234,7 +1234,7 @@ html:not(.dark-mode) .avatar-label {
     min-width: 21rem;
     padding: 2.45em 1.15em 1.85em 1.15em;
   box-sizing: border-box;
-  font-size: 1.2rem;
+  font-size: 1.28rem;
   display: flex;
   flex-direction: column;
   gap: 1.15em;
@@ -2922,7 +2922,7 @@ backdrop-filter: none;
   width:100%;
   padding:0 var(--chat-hpad);
   margin-top: clamp(1.1rem, 2.5vw, 1.6rem);
-  margin-bottom: clamp(0.6rem, 2vw, 1.2rem);
+  margin-bottom: clamp(1.2rem, 3vw, 2rem);
   position:relative;
   z-index:4;
 }
@@ -2996,6 +2996,9 @@ backdrop-filter: none;
   gap:0.85rem;
   flex-wrap:wrap;
 }
+.chat-analysis-file-meta{
+  display:none;
+}
 .chat-analysis-file-actions{
   display:flex;
   align-items:center;
@@ -3039,6 +3042,10 @@ backdrop-filter: none;
   scrollbar-width:thin;
   scrollbar-color: var(--pt-mid) transparent;
 }
+.chat-analysis-file{ order:0; }
+.chat-analysis-controls{ order:1; }
+.chat-analysis-preview{ order:2; }
+.chat-analysis-collapsed-note{ order:3; }
 .chat-analysis-preview::-webkit-scrollbar{ width:0.65rem; }
 .chat-analysis-preview::-webkit-scrollbar-track{ background:transparent; }
 .chat-analysis-preview::-webkit-scrollbar-thumb{
@@ -3091,8 +3098,9 @@ backdrop-filter: none;
 }
 .chat-analysis-collapsed-note{
   font-size:1.02rem;
-  opacity:0.85;
+  opacity:0.9;
   font-style:italic;
+  text-align:center;
 }
 .chat-upload-action-btn{
   border:1px solid rgba(148,163,184,0.55);
@@ -3441,9 +3449,9 @@ html.dark-mode .chat-inputbar:focus-within{
   .chat-inputbar .chat-send-btn.chat-attach-as-send .chat-attach-icon{
     opacity: 1;
   }
-  .chat-footer{ margin-top:.6rem; }
+  .chat-footer{ margin-top:1.5rem; }
     .chat-back-btn-wrapper{
-      margin:.4rem auto max(env(safe-area-inset-bottom, 0), 0.5rem);
+      margin:1rem auto max(env(safe-area-inset-bottom, 0), 0.75rem);
     }
   .back-arrow-btn{ inline-size:3.5rem; block-size:3.5rem; }
 }

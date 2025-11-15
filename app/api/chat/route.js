@@ -1,4 +1,4 @@
-// app/api/chat/route.js
+﻿// app/api/chat/route.js
 import { NextResponse } from "next/server";
 import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
@@ -1380,3 +1380,4 @@ export async function POST(req) {
 export async function GET() {
   return NextResponse.json({ ok: true, route: "api/chat" });
 }
+

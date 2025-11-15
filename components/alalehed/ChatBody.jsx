@@ -281,12 +281,15 @@ export default function ChatBody() {
   const { data: session } = useSession();
   const { t, locale } = useI18n();
 
-  const introGreeting = t("chat.intro.greeting", "Hello!");
+  const introGreeting = t("chat.intro.greeting", "Tere!");
   const introMessage = t(
     "chat.intro.message",
-    "SotsiaalAI assists you with information based on trusted sources."
+    "SotsiaalAI aitab sind usaldusväärsete allikate põhjal."
   );
-  const introCTA = t("chat.intro.cta", "Kirjuta mulle!");
+  const introCTA = t(
+    "chat.intro.cta",
+    "Millise teemaga saan täna toeks olla? Kirjuta mulle."
+  );
   const introAnimationTexts = useMemo(
     () => [introGreeting, introMessage, introCTA],
     [introGreeting, introMessage, introCTA]
@@ -1255,10 +1258,10 @@ export default function ChatBody() {
               <div style={{ whiteSpace: "pre-wrap" }}>
                 <TextType
                   text={introAnimationTexts}
-                  typingSpeed={[70, 45, 45]}
-                  deletingSpeed={40}
-                  pauseDuration={[2000, 3000, 3500]}
-                  initialDelay={1000}
+                  typingSpeed={[55, 40, 38]}
+                  deletingSpeed={32}
+                  pauseDuration={[1700, 2600, 2600]}
+                  initialDelay={800}
                   loop={false}
                   showCursor={false}
                   className="chat-intro-text"
@@ -1469,7 +1472,7 @@ export default function ChatBody() {
                     ) : null}
                     {analysisCollapsed ? (
                       <div className="chat-analysis-collapsed-note">
-                        {t("chat.upload.preview_hidden", "Eelvaade on peidetud.")}
+                        {t("chat.upload.preview_hidden", "Dokumendi tekst peidetud")}
                       </div>
                     ) : null}
 
@@ -1501,13 +1504,13 @@ export default function ChatBody() {
                   </>
                 ) : (
                   <div className="chat-analysis-empty">
-                    <p className="chat-analysis-meta">
-                      {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
-                    </p>
+                  <div className="chat-analysis-empty">
                     <p className="chat-analysis-meta">
                       {t(
                         "chat.upload.context_hint",
                         "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
+                      )}
+                    </p>
                       )}
                     </p>
                     <div className="chat-analysis-empty-actions">
@@ -1678,6 +1681,7 @@ export default function ChatBody() {
     </div>
   );
 }
+
 
 
 
