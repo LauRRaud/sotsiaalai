@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "skip_to_content": "Skip to content",
     "language_changed": "Language changed: {language}",
@@ -601,23 +601,23 @@
       "description": "Learn about SotsiaalAI's mission, values, and team."
     },
     "terms": {
-      "title": "Terms of Use SotsiaalAI",
+      "title": "Terms of Use – SotsiaalAI",
       "description": "Read the guidelines that govern using the SotsiaalAI platform."
     },
     "privacy": {
-      "title": "Privacy Policy SotsiaalAI",
+      "title": "Privacy Policy – SotsiaalAI",
       "description": "See how SotsiaalAI collects, uses, and protects your personal data."
       },
     "profile": {
-      "title": "My profile SotsiaalAI",
+      "title": "My profile – SotsiaalAI",
       "description": "Manage your account details, preferences, and access to SotsiaalAI."
     },
     "register": {
-      "title": "Create account SotsiaalAI",
+      "title": "Create account – SotsiaalAI",
       "description": "Register and choose your role to start using SotsiaalAI."
     },
     "subscription": {
-      "title": "Subscription SotsiaalAI",
+      "title": "Subscription – SotsiaalAI",
       "description": "Review and manage your SotsiaalAI subscription and billing."
     },
     "reset": {
@@ -625,12 +625,13 @@
       "description": "Update your account PIN via a secure recovery link."
     },
     "chat": {
-      "title": "Chat SotsiaalAI",
+      "title": "Chat – SotsiaalAI",
       "description": "Talk to the role-based AI assistant to get answers about social services."
     },
     "start": {
-      "title": "Next step SotsiaalAI",
+      "title": "Next step – SotsiaalAI",
       "description": "Choose where to continue after signing in."
     }
   }
 }
+
