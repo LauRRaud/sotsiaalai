@@ -3102,6 +3102,20 @@ backdrop-filter: none;
   font-style:italic;
   text-align:center;
 }
+.chat-analysis-empty > .chat-analysis-meta{
+  display:none;
+}
+.chat-analysis-preview{
+  scrollbar-width:none;
+}
+.chat-analysis-preview::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+.chat-analysis-preview::-webkit-scrollbar-thumb{
+  background:transparent;
+  border-color:transparent;
+}
 .chat-upload-action-btn{
   border:1px solid rgba(148,163,184,0.55);
   background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
