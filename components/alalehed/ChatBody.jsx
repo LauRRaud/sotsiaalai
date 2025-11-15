@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -490,8 +490,9 @@ export default function ChatBody() {
   }, [messages]);
 
   const hasConversationSources = conversationSources.length > 0;
-  const hasAnalysisContent = !!(uploadPreview || uploadError || uploadBusy);
-  const showAnalysisPanel = analysisPanelOpen || hasAnalysisContent;
+  const hasAnalysisContent = !!(uploadPreview || uploadBusy);
+  const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
+  const showAnalysisPanel = analysisPanelOpen || hasAnyAnalysisState;
 
   const MAX_UPLOAD_MB = useMemo(() => {
     const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
@@ -582,14 +583,14 @@ export default function ChatBody() {
     setAnalysisCollapsed(false);
   }, [hasAnalysisContent]);
   useEffect(() => {
-    if (hasAnalysisContent) {
+    if (hasAnyAnalysisState) {
       setAnalysisCollapsed(false);
       setAnalysisPanelOpen(true);
       scrollAnalysisPanelIntoView();
     } else {
       setAnalysisCollapsed(false);
     }
-  }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
+  }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
   const appendMessage = useCallback((msg) => {
     const id = messageIdRef.current++;
     setMessages((prev) => [...prev, { ...msg, id }]);
@@ -1384,9 +1385,163 @@ export default function ChatBody() {
             })()}
           </button>
         </form>
-      </main>
 
-      {hasConversationSources ? (
+        {showAnalysisPanel ? (
+          <section
+            ref={analysisPanelRef}
+            className="chat-analysis-panel"
+            role="region"
+            aria-live="polite"
+            aria-label={t("chat.upload.summary", "Dokumendi eelvaade")}
+          >
+            <div className="chat-analysis-card">
+              <header className="chat-analysis-header">
+                <div className="chat-analysis-actions">
+                  <button
+                    type="button"
+                    className="btn-tertiary chat-analysis-close"
+                    onClick={onPickFile}
+                    disabled={uploadBusy || isGenerating}
+                  >
+                    {t("chat.upload.aria", "Laadi dokument")}
+                  </button>
+                  {!hasAnalysisContent ? (
+                    <button
+                      type="button"
+                      className="btn-tertiary chat-analysis-close"
+                      onClick={closeAnalysisPanel}
+                    >
+                      {t("buttons.close", "Sulge")}
+                    </button>
+                  ) : null}
+                </div>
+              </header>
+              <div className="chat-analysis-body">
+                {uploadBusy ? (
+                  <div className="chat-analysis-status">
+                    {t("chat.upload.busy", "Anal����sin dokumenti�?�")}
+                  </div>
+                ) : null}
+                {uploadError ? <div className="chat-analysis-error">{uploadError}</div> : null}
+                {uploadPreview ? (
+                  <>
+                    <div className="chat-analysis-file">
+                      <div className="chat-analysis-file-info">
+                        <div className="chat-analysis-file-name">
+                          {prettifyFileName(uploadPreview.fileName)}
+                        </div>
+                        <div className="chat-analysis-file-meta">
+                          {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
+                        </div>
+                      </div>
+                      <div className="chat-analysis-file-actions">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUploadPreview(null);
+                            setUploadError(null);
+                            setEphemeralChunks([]);
+                            setUseAsContext(false);
+                          }}
+                          className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
+                          aria-label={t("buttons.cancel", "Katkesta")}
+                        >
+                          {t("buttons.cancel", "Katkesta")}
+                        </button>
+                        {previewText ? (
+                          <button
+                            type="button"
+                            onClick={toggleAnalysisCollapse}
+                            className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
+                          >
+                            {analysisCollapsed
+                              ? t("chat.upload.summary_show", "Näita eelvaadet")
+                              : t("chat.upload.summary_hide", "Peida eelvaade")}
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    {!analysisCollapsed && previewText ? (
+                      <div className="chat-analysis-preview chat-upload-preview-scroll">
+                        {previewText}
+                      </div>
+                    ) : null}
+                    {analysisCollapsed ? (
+                      <div className="chat-analysis-collapsed-note">
+                        {t("chat.upload.preview_hidden", "Eelvaade on peidetud.")}
+                      </div>
+                    ) : null}
+
+                    <div className="chat-analysis-controls">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          try {
+                            inputRef.current?.focus?.();
+                          } catch {}
+                        }}
+                        className="btn-primary btn-glass chat-analysis-ask-btn"
+                      >
+                        {t("chat.upload.ask_more_btn", "Alusta k��simust")}
+                      </button>
+                      <label className="glass-checkbox chat-analysis-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={useAsContext}
+                          onChange={(e) => setUseAsContext(e.target.checked)}
+                        />
+                        <span className="checkbox-text">
+                          {t("chat.upload.use_as_context", "Kasuta j��rgneval vastusel kontekstina")}
+                        </span>
+                      </label>
+                      <span className="chat-analysis-meta">
+                        {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
+                      </span>
+                      <span className="chat-analysis-meta">
+                        {t(
+                          "chat.upload.context_hint",
+                          "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
+                        )}
+                      </span>
+                      {uploadUsage?.limit ? (
+                        <span className="chat-analysis-meta">
+                          {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
+                            .replace("{used}", String(uploadUsage.used ?? 0))
+                            .replace("{limit}", String(uploadUsage.limit ?? 0))}
+                        </span>
+                      ) : null}
+                    </div>
+                  </>
+                ) : (
+                  <div className="chat-analysis-empty">
+                    <p className="chat-analysis-meta">
+                      {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
+                    </p>
+                    <p className="chat-analysis-meta">
+                      {t(
+                        "chat.upload.context_hint",
+                        "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
+                      )}
+                    </p>
+                    <div className="chat-analysis-empty-actions">
+                      {uploadUsage?.limit ? (
+                        <span className="chat-analysis-meta">
+                          {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
+                            .replace("{used}", String(uploadUsage.used ?? 0))
+                            .replace("{limit}", String(uploadUsage.limit ?? 0))}
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        ) : null}
+        </main>
+  
+        {hasConversationSources ? (
         <div className="chat-sources-inline">
           <button
             type="button"
@@ -1400,160 +1555,6 @@ export default function ChatBody() {
             {t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length))}
           </button>
         </div>
-      ) : null}
-
-      {showAnalysisPanel ? (
-        <section
-          ref={analysisPanelRef}
-          className="chat-analysis-panel"
-          role="region"
-          aria-live="polite"
-          aria-label={t("chat.upload.summary", "Dokumendi eelvaade")}
-        >
-          <div className="chat-analysis-card">
-            <header className="chat-analysis-header">
-              <div className="chat-analysis-actions">
-                <button
-                  type="button"
-                  className="btn-tertiary chat-analysis-close"
-                  onClick={onPickFile}
-                  disabled={uploadBusy || isGenerating}
-                >
-                  {t("chat.upload.aria", "Laadi dokument")}
-                </button>
-                {!hasAnalysisContent ? (
-                  <button
-                    type="button"
-                    className="btn-tertiary chat-analysis-close"
-                    onClick={closeAnalysisPanel}
-                  >
-                    {t("buttons.close", "Sulge")}
-                  </button>
-                ) : null}
-              </div>
-            </header>
-            <div className="chat-analysis-body">
-              {uploadBusy ? (
-                <div className="chat-analysis-status">
-                  {t("chat.upload.busy", "Analüüsin dokumenti…")}
-                </div>
-              ) : null}
-              {uploadError ? <div className="chat-analysis-error">{uploadError}</div> : null}
-              {uploadPreview ? (
-                <>
-                  <div className="chat-analysis-file">
-                    <div className="chat-analysis-file-info">
-                      <div className="chat-analysis-file-name">
-                        {prettifyFileName(uploadPreview.fileName)}
-                      </div>
-                      <div className="chat-analysis-file-meta">
-                        {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
-                      </div>
-                    </div>
-                    <div className="chat-analysis-file-actions">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setUploadPreview(null);
-                        setUploadError(null);
-                        setEphemeralChunks([]);
-                        setUseAsContext(false);
-                      }}
-                      className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
-                      aria-label={t("buttons.cancel", "Katkesta")}
-                    >
-                      {t("buttons.cancel", "Katkesta")}
-                    </button>
-                      {previewText ? (
-                        <button
-                          type="button"
-                          onClick={toggleAnalysisCollapse}
-                          className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
-                        >
-                          {analysisCollapsed
-                            ? t("chat.upload.summary_show", "Näita eelvaadet")
-                            : t("chat.upload.summary_hide", "Peida eelvaade")}
-                        </button>
-                      ) : null}
-                    </div>
-                  </div>
-
-                  {!analysisCollapsed && previewText ? (
-                    <div className="chat-analysis-preview chat-upload-preview-scroll">
-                      {previewText}
-                    </div>
-                  ) : null}
-                  {analysisCollapsed ? (
-                    <div className="chat-analysis-collapsed-note">
-                      {t("chat.upload.preview_hidden", "Eelvaade on peidetud.")}
-                    </div>
-                  ) : null}
-
-                  <div className="chat-analysis-controls">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        try {
-                          inputRef.current?.focus?.();
-                        } catch {}
-                      }}
-                      className="btn-primary btn-glass chat-analysis-ask-btn"
-                    >
-                      {t("chat.upload.ask_more_btn", "Alusta küsimust")}
-                    </button>
-                    <label className="glass-checkbox chat-analysis-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={useAsContext}
-                        onChange={(e) => setUseAsContext(e.target.checked)}
-                      />
-                      <span className="checkbox-text">
-                        {t("chat.upload.use_as_context", "Kasuta järgneval vastusel kontekstina")}
-                      </span>
-                    </label>
-                    <span className="chat-analysis-meta">
-                      {t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}
-                    </span>
-                    <span className="chat-analysis-meta">
-                      {t(
-                        "chat.upload.context_hint",
-                        "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavapärast SotsiaalAI andmebaasi."
-                      )}
-                    </span>
-                    {uploadUsage?.limit ? (
-                      <span className="chat-analysis-meta">
-                        {t("chat.upload.usage", "{used}/{limit} analüüsi täna")
-                          .replace("{used}", String(uploadUsage.used ?? 0))
-                          .replace("{limit}", String(uploadUsage.limit ?? 0))}
-                      </span>
-                    ) : null}
-                  </div>
-                </>
-              ) : (
-                <div className="chat-analysis-empty">
-                  <p className="chat-analysis-meta">
-                    {t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}
-                  </p>
-                  <p className="chat-analysis-meta">
-                    {t(
-                      "chat.upload.context_hint",
-                      "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavapärast SotsiaalAI andmebaasi."
-                    )}
-                  </p>
-                  <div className="chat-analysis-empty-actions">
-                    {uploadUsage?.limit ? (
-                      <span className="chat-analysis-meta">
-                        {t("chat.upload.usage", "{used}/{limit} analüüsi täna")
-                          .replace("{used}", String(uploadUsage.used ?? 0))
-                          .replace("{limit}", String(uploadUsage.limit ?? 0))}
-                      </span>
-                    ) : null}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
       ) : null}
 
       <footer
@@ -1691,4 +1692,7 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
 

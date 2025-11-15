@@ -743,7 +743,7 @@ margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0em;
+  margin-top: 0.75rem;
 }
 .glass-h2 {
   font-size: 1.15em;
@@ -1217,7 +1217,7 @@ html:not(.dark-mode) .avatar-label {
   margin-left: 0;
 }
 .login-modal-box,
-.glass-modal {
+  .glass-modal {
   background: rgba(0, 0, 0, 0.2);            
   backdrop-filter: blur(1.2rem) saturate(110%);
   -webkit-backdrop-filter: blur(1.2rem);    
@@ -1230,9 +1230,9 @@ html:not(.dark-mode) .avatar-label {
   transform: translate(-50%, -50%);
   z-index: 100;
   width: 100%;
-  max-width: 25.625rem;
-  min-width: 20rem;
-  padding: 2.3em 1em 1.7em 1em;
+    max-width: 26.75rem;
+    min-width: 21rem;
+    padding: 2.45em 1.15em 1.85em 1.15em;
   box-sizing: border-box;
   font-size: 1.2rem;
   display: flex;
@@ -1252,15 +1252,15 @@ html:not(.dark-mode) .avatar-label {
   font-size: 2.2em; cursor: pointer; transition: color 0.19s; outline: none;
 }
 .login-modal-close:hover, .login-modal-close:focus { color: #e1cbb9; }
-.glass-title {
-  font-size: 2.15em;
-  line-height: 1.15; 
-  background: none;
-  color: #f2e3d4;
-  margin-bottom: 1.2em;
-  letter-spacing: 0.03em;
-  text-align: center;
-}
+  .glass-title {
+    font-size: 2.15em;
+    line-height: 1.15; 
+    background: none;
+    color: #f2e3d4;
+    margin-bottom: 1.2em;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
 #meist-title.glass-title {
   margin-bottom: 0.2em;
 }
@@ -1397,7 +1397,7 @@ html:not(.dark-mode) .avatar-label {
     font-size: 1rem;
   }
   .login-modal-root .glass-title {
-    font-size: 1.65em;
+    font-size: 1.8em;
   }
 }
 .otp-form {
@@ -2688,9 +2688,11 @@ backdrop-filter: none;
 .chat-sources-inline{
   width:100%;
   padding:0 var(--chat-hpad);
-  margin: clamp(0.4rem, 2vw, 0.9rem) 0 0;
+  margin: clamp(0.9rem, 2vw, 1.3rem) 0 0;
   display:flex;
-  justify-content:flex-start;
+  justify-content:center;
+  position:relative;
+  z-index:5;
 }
 .chat-sources-inline .chat-sources-btn{
   position:static;
@@ -2919,10 +2921,13 @@ backdrop-filter: none;
 .chat-analysis-panel{
   width:100%;
   padding:0 var(--chat-hpad);
-  margin-top: clamp(0.7rem, 2vw, 1.25rem);
+  margin-top: clamp(1.1rem, 2.5vw, 1.6rem);
+  margin-bottom: clamp(0.6rem, 2vw, 1.2rem);
+  position:relative;
+  z-index:4;
 }
 .chat-analysis-card{
-  background: rgba(7,10,18,0.5);
+  background: rgba(7,10,18,0.78);
   border: 1px solid rgba(148,163,184,0.26);
   border-radius: 18px;
   padding: 1.1rem 1.25rem 1.2rem;
@@ -3019,11 +3024,12 @@ backdrop-filter: none;
 .chat-analysis-preview{
   flex:1 1 auto;
   min-height:150px;
+  max-height:clamp(22rem, 60vh, 40rem);
   border-radius:14px;
   background:rgba(5,9,18,0.55);
   border:1px solid rgba(148,163,184,0.34);
   padding:1rem 1.2rem;
-  overflow:visible;
+  overflow:auto;
   font-size:1.05rem;
   line-height:1.9;
   white-space:pre-wrap;
@@ -3113,7 +3119,7 @@ backdrop-filter: none;
   background:linear-gradient(135deg, rgba(37,99,235,0.75), rgba(248,250,252,0.16));
 }
 .chat-inputbar{
-  --inputbar-h: 4.125rem;
+    --inputbar-h: 4.35rem;
   align-self:stretch; width:auto; max-width:none;
   margin: .6rem var(--chat-hpad) .7rem;
   display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:0.25rem;
@@ -3149,7 +3155,7 @@ backdrop-filter: none;
   max-height: 7.5rem;
   padding: 0.85rem clamp(0.875rem, 4vw, 1.125rem);
   color: var(--pt-100); caret-color: var(--pt-100);
-  font: 500 1.3rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font: 500 1.25rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   text-align:left;
   overflow-y:auto;
   resize: none;
@@ -3430,10 +3436,10 @@ html.dark-mode .chat-inputbar:focus-within{
   .chat-inputbar .chat-send-btn.chat-attach-as-send .chat-attach-icon{
     opacity: 1;
   }
-  .chat-footer{ margin-top:.06rem; }
-  .chat-back-btn-wrapper{
-    margin:.06em auto max(env(safe-area-inset-bottom, 0), 0.25rem);
-  }
+  .chat-footer{ margin-top:.6rem; }
+    .chat-back-btn-wrapper{
+      margin:.4rem auto max(env(safe-area-inset-bottom, 0), 0.5rem);
+    }
   .back-arrow-btn{ inline-size:3.5rem; block-size:3.5rem; }
 }
 @media (forced-colors: active){ .chat-window{ scrollbar-color: ButtonText ButtonFace; } }
@@ -3750,7 +3756,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 .a11y-modal fieldset > legend{ color: var(--link-gold, #d0adad) !important; }
 .a11y-modal .glass-h2{ color: var(--link-gold, #d0adad) !important; }
 .a11y-modal .a11y-fieldset{
-  margin: .9rem 0 1rem;
+    margin: .55rem 0 .7rem;
   border: none;
   padding: 0;
   width: 100%;
@@ -3766,7 +3772,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   max-width: none;
   text-align: center;
   align-self: center;
-  margin-bottom: 0.45rem;
+    margin-bottom: 0.3rem;
   color: var(--link-gold, #d0adad) !important;
   font-size: clamp(1.28rem, 2.6vw, 1.55rem) !important;
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif !important;
@@ -3775,8 +3781,8 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   line-height: 1.22 !important;
 }
 .a11y-modal .text, .a11y-modal label{
-  color: var(--pt-150);
-  font-size: 1.12rem;
+    color: var(--pt-150);
+    font-size: 1.05rem;
   text-align: center;
 }
 .a11y-modal .a11y-options label{
@@ -3789,7 +3795,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   flex-wrap:wrap;
   justify-content: center;
   align-items:center;
-  gap:.45rem .9rem;
+    gap:.3rem .6rem;
   width:100%;
   max-width: 32.5rem;
   margin: 0 auto;
