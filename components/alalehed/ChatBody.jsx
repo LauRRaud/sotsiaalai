@@ -1084,6 +1084,16 @@ export default function ChatBody() {
     setPreviewExpanded(false);
   }, [uploadPreview?.fileName, uploadPreview?.sizeMB, uploadPreview?.preview]);
 
+  const previewText = useMemo(() => {
+    if (uploadPreview?.preview && uploadPreview.preview.trim()) {
+      return uploadPreview.preview;
+    }
+    if (ephemeralChunks?.length) {
+      return ephemeralChunks.slice(0, 3).join("\n\n").slice(0, 2000);
+    }
+    return "";
+  }, [uploadPreview?.preview, ephemeralChunks]);
+
   const backgroundLogo =
     userRole === "SOCIAL_WORKER" || userRole === "ADMIN"
       ? "/logo/aiilma.svg"
@@ -1321,14 +1331,14 @@ export default function ChatBody() {
               </div>
             ) : null}
             {uploadError ? <div style={{ color: "#fecaca" }}>{uploadError}</div> : null}
-                {uploadPreview ? (
-                  <div
-                    style={{
-                      background: "rgba(148,163,184,0.12)",
+            {uploadPreview ? (
+              <div
+                style={{
+                  background: "rgba(148,163,184,0.12)",
                   border: "1px solid rgba(148,163,184,0.2)",
-                  borderRadius: 10,
-                  padding: "10px 12px",
-                  marginTop: 6,
+                  borderRadius: 12,
+                  padding: "12px 14px",
+                  marginTop: 8,
                 }}
               >
                 <div
@@ -1337,6 +1347,7 @@ export default function ChatBody() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     gap: 8,
+                    flexWrap: "wrap",
                   }}
                 >
                   <div style={{ fontWeight: 600 }}>
@@ -1345,63 +1356,45 @@ export default function ChatBody() {
                       {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadPreview(null);
-                      setUploadError(null);
-                      setEphemeralChunks([]);
-                      setUseAsContext(false);
-                    }}
-                    style={{
-                      border: "none",
-                      background: "transparent",
-                      color: "#93c5fd",
-                      textDecoration: "underline",
-                      cursor: "pointer",
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {t("buttons.cancel", "Katkesta")}
-                  </button>
-                </div>
-                {uploadPreview.preview ? (
-                  <div style={{ marginTop: 6, opacity: 0.9 }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 12,
-                        marginBottom: 4,
-                      }}
-                    >
-                      <strong>{t("chat.upload.summary", "Dokumendi eelvaade")}</strong>
+                  <div style={{ display: "inline-flex", gap: 8, flexWrap: "wrap" }}>
+                    {previewText ? (
                       <button
                         type="button"
                         onClick={() => setPreviewExpanded((prev) => !prev)}
-                        style={{
-                          border: "none",
-                          background: "transparent",
-                          color: "#93c5fd",
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                          fontSize: "0.8rem",
-                        }}
+                        className="chat-upload-action-btn"
                       >
                         {previewExpanded
                           ? t("chat.upload.summary_hide", "Peida eelvaade")
                           : t("chat.upload.summary_show", "Näita eelvaadet")}
                       </button>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setUploadPreview(null);
+                        setUploadError(null);
+                        setEphemeralChunks([]);
+                        setUseAsContext(false);
+                      }}
+                      className="chat-upload-action-btn"
+                    >
+                      {t("buttons.cancel", "Katkesta")}
+                    </button>
+                  </div>
+                </div>
+                {previewText ? (
+                  <div style={{ marginTop: 8, opacity: 0.92 }}>
+                    <div style={{ fontWeight: 600, marginBottom: 6 }}>
+                      {t("chat.upload.summary", "Dokumendi eelvaade")}
                     </div>
                     <div
                       style={{
                         position: "relative",
                         borderRadius: 12,
-                        background: "rgba(7,10,18,0.85)",
+                        background: "rgba(8,11,20,0.8)",
                         border: "1px solid rgba(148,163,184,0.35)",
                         padding: "1rem 1.2rem",
-                        boxShadow: "0 18px 28px rgba(5,8,15,0.65)",
+                        boxShadow: "0 18px 28px rgba(5,8,15,0.55)",
                       }}
                     >
                       <div
@@ -1412,12 +1405,12 @@ export default function ChatBody() {
                           paddingRight: "0.35rem",
                           scrollbarWidth: "thin",
                           scrollbarColor: "var(--pt-mid) transparent",
-                          fontSize: "0.92rem",
-                          lineHeight: 1.5,
+                          fontSize: "1rem",
+                          lineHeight: 1.6,
                         }}
                         className="chat-upload-preview-scroll"
                       >
-                        {uploadPreview.preview}
+                        {previewText}
                       </div>
                       {!previewExpanded ? (
                         <div
@@ -1429,9 +1422,9 @@ export default function ChatBody() {
                             height: "2.5rem",
                             pointerEvents: "none",
                             background:
-                              "linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.85) 100%)",
-                            borderBottomLeftRadius: 8,
-                            borderBottomRightRadius: 8,
+                              "linear-gradient(180deg, rgba(8,11,20,0) 0%, rgba(8,11,20,0.95) 100%)",
+                            borderBottomLeftRadius: 12,
+                            borderBottomRightRadius: 12,
                           }}
                         />
                       ) : null}
@@ -1443,33 +1436,20 @@ export default function ChatBody() {
                     display: "flex",
                     alignItems: "center",
                     gap: 12,
-                    marginTop: 8,
+                    marginTop: 10,
                     flexWrap: "wrap",
                   }}
                 >
                   <button
                     type="button"
                     onClick={() => {
-                      const suggestion = t(
-                        "chat.upload.ask_more",
-                        "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti."
-                      );
-                      setInput((prev) => (prev ? prev : suggestion));
                       try {
                         inputRef.current?.focus?.();
                       } catch {}
                     }}
-                    style={{
-                      border: "1px solid rgba(148,163,184,0.35)",
-                      background: "rgba(148,163,184,0.18)",
-                      color: "#f8fafc",
-                      borderRadius: 8,
-                      padding: "6px 10px",
-                      cursor: "pointer",
-                      fontSize: "0.88rem",
-                    }}
+                    className="chat-upload-action-btn chat-upload-action-btn--accent"
                   >
-                    {t("chat.upload.ask_more_btn", "Küsi lisaks")}
+                    {t("chat.upload.ask_more_btn", "Alusta küsimust")}
                   </button>
                   <label
                     style={{
