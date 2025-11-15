@@ -759,19 +759,21 @@ async def analyze(
         raise HTTPException(415, f"MIME not allowed: {mime}")
 
     # extract text (without saving to storage or indexing)
+    # NOTE: keep raw_text with lõigud/pealkirjad kasutajale kuvamiseks.
     if mime == "application/pdf":
         pages = _extract_text_from_pdf(raw)
         texts = [t for (_, t) in pages if t]
-        text = "\n\n".join(texts)
+        raw_text = "\n\n".join(texts)
     elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        text = _extract_text_from_docx(raw)
+        raw_text = _extract_text_from_docx(raw)
     elif mime == "text/html":
-        text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
+        raw_text = _extract_text_from_html(raw.decode("utf-8", errors="ignore"))
     else:
-        text = raw.decode("utf-8", errors="ignore")
+        raw_text = raw.decode("utf-8", errors="ignore")
 
-    text = _clean_text(text)
-    chunks = _split_chunks(text)
+    # clean up only for chunking (embeddings), mitte kasutaja eelvaadet
+    cleaned_text = _clean_text(raw_text)
+    chunks = _split_chunks(cleaned_text)
     if maxChunks is not None:
         try:
             k = int(maxChunks)
@@ -780,7 +782,9 @@ async def analyze(
         except Exception:
             pass
 
-    preview = text[:800]
+    # Tagasta kliendile täistekst; eelvaateks kärbi, et vältida liiga suurt payloadi
+    # (kuid jäta lõigud alles).
+    preview = raw_text[:8000]
     return {
         "ok": True,
         "fileName": file.filename,
@@ -788,6 +792,7 @@ async def analyze(
         "sizeMB": round(size_mb, 2),
         "chunks": chunks,
         "preview": preview,
+        "fullText": raw_text,
     }
 
 # --- shared worker for file ingestion (used by JSON + multipart) ---

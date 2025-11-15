@@ -1034,6 +1034,10 @@ export default function ChatBody() {
             typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
           mimeType: data.mimeType || file.type,
           preview: data.preview || "",
+          fullText:
+            typeof data.fullText === "string" && data.fullText.trim()
+              ? data.fullText
+              : data.preview || "",
           chunksCount: Array.isArray(data.chunks) ? data.chunks.length : 0,
         });
         setEphemeralChunks(Array.isArray(data.chunks) ? data.chunks : []);
@@ -1085,14 +1089,17 @@ export default function ChatBody() {
   }, [uploadPreview?.fileName, uploadPreview?.sizeMB, uploadPreview?.preview]);
 
   const previewText = useMemo(() => {
-    if (ephemeralChunks?.length) {
-      return ephemeralChunks.join("\n\n");
+    if (uploadPreview?.fullText && uploadPreview.fullText.trim()) {
+      return uploadPreview.fullText;
     }
     if (uploadPreview?.preview && uploadPreview.preview.trim()) {
       return uploadPreview.preview;
     }
+    if (ephemeralChunks?.length) {
+      return ephemeralChunks.join("\n\n");
+    }
     return "";
-  }, [uploadPreview?.preview, ephemeralChunks]);
+  }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
 
   const backgroundLogo =
     userRole === "SOCIAL_WORKER" || userRole === "ADMIN"
@@ -1529,19 +1536,17 @@ export default function ChatBody() {
         >
           <div
             style={{
-              background: "rgba(7,10,18,0.96)",
-              border: "1px solid rgba(148,163,184,0.4)",
+              background: "rgba(7,10,18,0.78)",
+              border: "1px solid rgba(148,163,184,0.26)",
               borderRadius: 14,
               padding: "0.9rem 1rem 0.9rem",
               color: "#e2e8f0",
               fontSize: "0.96rem",
               lineHeight: 1.5,
-              maxHeight: "min(60vh, 520px)",
-              boxShadow: "0 18px 36px rgba(5,8,15,0.75)",
+              boxShadow: "0 14px 30px rgba(5,8,15,0.55)",
               display: "flex",
               flexDirection: "column",
               gap: 8,
-              overflow: "hidden",
             }}
           >
             {uploadBusy ? (
@@ -1591,10 +1596,10 @@ export default function ChatBody() {
                       style={{
                         position: "relative",
                         borderRadius: 12,
-                        background: "rgba(5,9,18,0.98)",
-                        border: "1px solid rgba(148,163,184,0.55)",
+                        background: "rgba(5,9,18,0.72)",
+                        border: "1px solid rgba(148,163,184,0.34)",
                         padding: "0.85rem 1rem",
-                        boxShadow: "0 18px 30px rgba(5,8,15,0.78)",
+                        boxShadow: "0 12px 26px rgba(5,8,15,0.6)",
                         maxHeight: "min(48vh, 440px)",
                         overflowY: "auto",
                         scrollbarWidth: "thin",
