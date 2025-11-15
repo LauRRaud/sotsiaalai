@@ -1499,7 +1499,132 @@ export default function ChatBody() {
             ) : null}
           </div>
         </div>
-      ) : null}        </div>
+      ) : null}
+
+      {showSourcesPanel ? (
+        <div
+          id="chat-sources-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
+          onClick={closeSourcesPanel}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 40,
+            background: "rgba(9, 14, 25, 0.55)",
+            backdropFilter: "blur(2px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "rgba(12, 19, 35, 0.95)",
+              borderRadius: 14,
+              width: "100%",
+              maxWidth: "520px",
+              maxHeight: "80vh",
+              padding: "1.25rem 1.4rem",
+              overflowY: "auto",
+              boxShadow: "0 18px 40px rgba(0,0,0,0.45)",
+              border: "1px solid rgba(148, 163, 184, 0.15)",
+              color: "#f8fafc",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "0.75rem",
+                marginBottom: "0.85rem",
+              }}
+            >
+              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>
+                {t("chat.sources.heading", "Vestluse allikad")}
+              </h2>
+              <button
+                type="button"
+                onClick={closeSourcesPanel}
+                style={{
+                  border: "none",
+                  background: "rgba(148,163,184,0.15)",
+                  color: "#f1f5f9",
+                  borderRadius: 999,
+                  padding: "0.3rem 0.75rem",
+                  fontSize: "0.8rem",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                }}
+              >
+                {t("buttons.close", "Sulge")}
+              </button>
+            </div>
+
+            {conversationSources.length === 0 ? (
+              <p style={{ margin: 0, fontSize: "0.92rem", opacity: 0.8 }}>
+                {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
+              </p>
+            ) : (
+              <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
+                {conversationSources.map((src, idx) => (
+                  <li key={src.key || idx} style={{ marginBottom: "1rem", lineHeight: 1.6 }}>
+                    <div style={{ fontWeight: 600, fontSize: "1rem", color: "#f8fafc" }}>
+                      {src.label}
+                    </div>
+                    {src.occurrences > 1 ? (
+                      <div style={{ fontSize: "0.88rem", opacity: 0.7 }}>
+                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
+                      </div>
+                    ) : null}
+                    {src.section ? (
+                      <div style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                        {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
+                      </div>
+                    ) : null}
+                    {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
+                      <div style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                        {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
+                      </div>
+                    ) : null}
+                    {src.allUrls && src.allUrls.length ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: "0.5rem",
+                          marginTop: "0.45rem",
+                        }}
+                      >
+                        {src.allUrls.map((url, urlIdx) => (
+                          <a
+                            key={`${src.key || idx}-url-${urlIdx}`}
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              color: "#93c5fd",
+                              textDecoration: "underline",
+                              fontSize: "0.9rem",
+                            }}
+                          >
+                            {src.allUrls.length > 1
+                              ? t("chat.sources.open_indexed", "Ava ({index})").replace("{index}", String(urlIdx + 1))
+                              : t("chat.sources.open_single", "Ava allikas")}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        </div>
       ) : null}
     </div>
   );
