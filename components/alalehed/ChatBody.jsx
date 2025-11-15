@@ -765,10 +765,34 @@ export default function ChatBody() {
         const serverTextTrim = serverText.trim();
         const serverSources = normalizeSources(data.sources ?? []);
         const serverCrisis = !!data.isCrisis;
+        const serverMessages = Array.isArray(data.messages) ? data.messages : [];
 
         setIsCrisis(serverCrisis);
 
-        // Kui tekst tühi, ära lisa AI-sõnumit (intro jääb nähtavaks)
+        if (serverMessages.length) {
+          setMessages(() => {
+            let nextId = 1;
+            const mapped = serverMessages
+              .map((msg) => {
+                const normalizedRole =
+                  msg.role === "user" ? "user" : msg.role === "ai" ? "ai" : null;
+                if (!normalizedRole) return null;
+                return {
+                  id: nextId++,
+                  role: normalizedRole,
+                  text: typeof msg.text === "string" ? msg.text : "",
+                  sources:
+                    normalizedRole === "ai" ? normalizeSources(msg.sources ?? []) : undefined,
+                  isStreaming: false,
+                };
+              })
+              .filter(Boolean);
+            messageIdRef.current = nextId;
+            return mapped;
+          });
+          return;
+        }
+
         if (!serverTextTrim) return;
 
         setMessages((prev) => {
@@ -1063,6 +1087,7 @@ export default function ChatBody() {
           ).replace("{status}", String(res.status));
           throw new Error(data?.message || statusError);
         }
+        const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
         setUploadPreview({
           fileName: data.fileName || file.name,
           sizeMB:
@@ -1072,10 +1097,12 @@ export default function ChatBody() {
           fullText:
             typeof data.fullText === "string" && data.fullText.trim()
               ? data.fullText
+              : chunksArray.length
+              ? chunksArray.join("\n\n")
               : data.preview || "",
-          chunksCount: Array.isArray(data.chunks) ? data.chunks.length : 0,
+          chunksCount: chunksArray.length,
         });
-        setEphemeralChunks(Array.isArray(data.chunks) ? data.chunks : []);
+        setEphemeralChunks(chunksArray);
         setUseAsContext(false);
         refreshUsage();
       } catch (err) {
@@ -1285,11 +1312,12 @@ export default function ChatBody() {
           <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0, position: "relative" }}>
             <button
               type="button"
-              onClick={onPickFile}
               className="chat-attach-btn chat-send-btn chat-attach-as-send"
               aria-label={t("chat.upload.aria", "Laadi dokument")}
               title={t("chat.upload.tooltip", "Laadi dokument")}
-              disabled={uploadBusy || isGenerating}
+              onClick={() => {
+                ensureAnalysisPanelVisible();
+              }}
             >
               {/* Vertical paperclip (inline SVGR) */}
               <Paperclip className="chat-attach-icon" aria-hidden="true" role="img" width={26} height={26} />
@@ -1385,25 +1413,14 @@ export default function ChatBody() {
         >
           <div className="chat-analysis-card">
             <header className="chat-analysis-header">
-              <div className="chat-analysis-header-text">
-                <p className="chat-analysis-title">
-                  {t("chat.upload.summary", "Dokumendi eelvaade")}
-                </p>
-                <p className="chat-analysis-subtitle">
-                  {t("chat.upload.tooltip", "Laadi dokument analüüsimiseks (ei salvestata)")}
-                </p>
-              </div>
               <div className="chat-analysis-actions">
                 <button
                   type="button"
-                  className="btn-tertiary chat-analysis-hide"
-                  onClick={toggleAnalysisCollapse}
-                  disabled={!hasAnalysisContent}
-                  aria-disabled={!hasAnalysisContent ? "true" : "false"}
+                  className="btn-tertiary chat-analysis-close"
+                  onClick={onPickFile}
+                  disabled={uploadBusy || isGenerating}
                 >
-                  {analysisCollapsed
-                    ? t("chat.upload.summary_show", "Näita eelvaadet")
-                    : t("chat.upload.summary_hide", "Peida eelvaade")}
+                  {t("chat.upload.aria", "Laadi dokument")}
                 </button>
                 {!hasAnalysisContent ? (
                   <button
@@ -1434,6 +1451,7 @@ export default function ChatBody() {
                         {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
                       </div>
                     </div>
+                    <div className="chat-analysis-file-actions">
                     <button
                       type="button"
                       onClick={() => {
@@ -1442,11 +1460,23 @@ export default function ChatBody() {
                         setEphemeralChunks([]);
                         setUseAsContext(false);
                       }}
-                      className="btn-tertiary"
-                      style={{ whiteSpace: "nowrap" }}
+                      className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
+                      aria-label={t("buttons.cancel", "Katkesta")}
                     >
                       {t("buttons.cancel", "Katkesta")}
                     </button>
+                      {previewText ? (
+                        <button
+                          type="button"
+                          onClick={toggleAnalysisCollapse}
+                          className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
+                        >
+                          {analysisCollapsed
+                            ? t("chat.upload.summary_show", "Näita eelvaadet")
+                            : t("chat.upload.summary_hide", "Peida eelvaade")}
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
 
                   {!analysisCollapsed && previewText ? (
@@ -1468,18 +1498,19 @@ export default function ChatBody() {
                           inputRef.current?.focus?.();
                         } catch {}
                       }}
-                      className="btn-primary btn-glass"
-                      style={{ whiteSpace: "nowrap" }}
+                      className="btn-primary btn-glass chat-analysis-ask-btn"
                     >
                       {t("chat.upload.ask_more_btn", "Alusta küsimust")}
                     </button>
-                    <label className="chat-analysis-checkbox">
+                    <label className="glass-checkbox chat-analysis-checkbox">
                       <input
                         type="checkbox"
                         checked={useAsContext}
                         onChange={(e) => setUseAsContext(e.target.checked)}
                       />
-                      {t("chat.upload.use_as_context", "Kasuta järgneval vastusel kontekstina")}
+                      <span className="checkbox-text">
+                        {t("chat.upload.use_as_context", "Kasuta järgneval vastusel kontekstina")}
+                      </span>
                     </label>
                     <span className="chat-analysis-meta">
                       {t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}
@@ -1511,14 +1542,6 @@ export default function ChatBody() {
                     )}
                   </p>
                   <div className="chat-analysis-empty-actions">
-                    <button
-                      type="button"
-                      onClick={onPickFile}
-                      className="chat-upload-action-btn chat-upload-action-btn--accent"
-                      disabled={uploadBusy || isGenerating}
-                    >
-                      {t("chat.upload.aria", "Laadi dokument analüüsimiseks (ei salvestata)")}
-                    </button>
                     {uploadUsage?.limit ? (
                       <span className="chat-analysis-meta">
                         {t("chat.upload.usage", "{used}/{limit} analüüsi täna")
@@ -1669,3 +1692,4 @@ export default function ChatBody() {
     </div>
   );
 }
+

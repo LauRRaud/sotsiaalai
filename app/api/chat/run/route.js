@@ -110,11 +110,41 @@ export async function GET(req) {
       return json({ ok: false, message: "Forbidden" }, 403);
     }
 
-    const latestAssistant = await prisma.conversationMessage.findFirst({
-      where: { conversationId: convId, role: "ASSISTANT" },
-      orderBy: { createdAt: "desc" },
-      select: { content: true, metadata: true, createdAt: true },
-    });
+    const [latestAssistant, allMessages] = await Promise.all([
+      prisma.conversationMessage.findFirst({
+        where: { conversationId: convId, role: "ASSISTANT" },
+        orderBy: { createdAt: "desc" },
+        select: { content: true, metadata: true, createdAt: true },
+      }),
+      prisma.conversationMessage.findMany({
+        where: { conversationId: convId },
+        orderBy: { createdAt: "asc" },
+        select: { role: true, content: true, metadata: true, createdAt: true },
+      }),
+    ]);
+
+    const history = Array.isArray(allMessages)
+      ? allMessages
+          .map((msg) => {
+            const normalizedRole =
+              msg.role === "USER"
+                ? "user"
+                : msg.role === "ASSISTANT"
+                ? "ai"
+                : null;
+            if (!normalizedRole) return null;
+            return {
+              role: normalizedRole,
+              text: msg.content || "",
+              sources:
+                normalizedRole === "ai"
+                  ? normalizeSources(msg.metadata?.sources || [])
+                  : [],
+              createdAt: msg.createdAt,
+            };
+          })
+          .filter(Boolean)
+      : [];
 
     return json({
       ok: true,
@@ -126,6 +156,7 @@ export async function GET(req) {
       isCrisis: !!latestAssistant?.metadata?.isCrisis,
       updatedAt: conversation.lastActivityAt,
       createdAt: conversation.createdAt,
+      messages: history,
     });
   } catch (err) {
     if (isDbOffline(err)) {

@@ -538,26 +538,21 @@ export default function LoginModal({ open, onClose }) {
             </div>
 
             <div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
-              <button type="submit" className="btn-primary" disabled={pinLoading}>
-                {pinLoading ? (
-                  <>
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100%",
-                      }}
-                    >
-                      <SotsiaalAILoader ariaHidden size={28} style={{ margin: 0 }} />
-                    </span>
-                    <span className="sr-only">{t("auth.login.submitting")}</span>
-                  </>
-                ) : (
+              {pinLoading ? (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  aria-label={t("auth.login.submitting")}
+                  style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 40 }}
+                >
+                  <SotsiaalAILoader ariaHidden size={28} style={{ margin: 0 }} />
+                  <span className="sr-only">{t("auth.login.submitting")}</span>
+                </div>
+              ) : (
+                <button type="submit" className="btn-primary" disabled={pinLoading}>
                   <span>{t("auth.login.submit")}</span>
-                )}
-              </button>
+                </button>
+              )}
             </div>
           </form>
         )}

@@ -452,12 +452,12 @@
       }
     },
     "upload": {
-      "aria": "Laadi dokument analüüsimiseks (ei salvestata)",
-      "tooltip": "Laadi dokument analüüsimiseks (ei salvestata)",
+      "aria": "Laadi dokument",
+      "tooltip": "Laadi dokument",
       "busy": "Analüüsin dokumenti…",
-      "summary": "Dokumendi eelvaade",
-      "summary_show": "Näita eelvaadet",
-      "summary_hide": "Peida eelvaade",
+      "summary": "Dokumendi analüüsi paneel",
+      "summary_show": "Näita dokumenti",
+      "summary_hide": "Peida dokument",
       "privacy": "Analüüsiks, ei salvestata püsivalt.",
       "context_hint": "Linnuke peal = vastus tuleb sellest failist. Kui linnuke on maas, kasutatakse SotsiaalAI teadmistebaasi.",
       "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti.",
