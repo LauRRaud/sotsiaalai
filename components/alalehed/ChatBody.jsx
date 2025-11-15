@@ -1397,14 +1397,14 @@ export default function ChatBody() {
             <div className="chat-analysis-card">
               <header className="chat-analysis-header">
                 <div className="chat-analysis-actions">
-                  <button
+                  {!uploadPreview ? (<button
                     type="button"
                     className="btn-tertiary chat-analysis-close"
                     onClick={onPickFile}
                     disabled={uploadBusy || isGenerating}
                   >
-                    {t("chat.upload.aria", "Laadi dokument")}
-                  </button>
+                    {t("chat.upload.aria", "Laadi dokument")} 
+                  </button>) : null}
                   {!hasAnalysisContent ? (
                     <button
                       type="button"
@@ -1474,17 +1474,6 @@ export default function ChatBody() {
                     ) : null}
 
                     <div className="chat-analysis-controls">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          try {
-                            inputRef.current?.focus?.();
-                          } catch {}
-                        }}
-                        className="btn-primary btn-glass chat-analysis-ask-btn"
-                      >
-                        {t("chat.upload.ask_more_btn", "Alusta k��simust")}
-                      </button>
                       <label className="glass-checkbox chat-analysis-checkbox">
                         <input
                           type="checkbox"
@@ -1495,9 +1484,6 @@ export default function ChatBody() {
                           {t("chat.upload.use_as_context", "Kasuta j��rgneval vastusel kontekstina")}
                         </span>
                       </label>
-                      <span className="chat-analysis-meta">
-                        {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
-                      </span>
                       <span className="chat-analysis-meta">
                         {t(
                           "chat.upload.context_hint",
@@ -1692,6 +1678,14 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
 
 
 

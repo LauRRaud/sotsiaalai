@@ -2952,7 +2952,10 @@ backdrop-filter: none;
   width:100%;
 }
 .chat-analysis-actions .btn-tertiary{
-  padding:0.35rem 0.9rem;
+  padding:0.3rem 0.8rem;
+  font-size:0.9rem;
+  border-radius:999px;
+  opacity:0.9;
 }
 .chat-analysis-header-text{
   flex:1 1 auto;
@@ -3048,6 +3051,7 @@ backdrop-filter: none;
   gap:0.95rem;
   flex-wrap:wrap;
   font-size:1.06rem;
+  justify-content:center;
 }
 .chat-analysis-ask-btn{
   align-self:center;
@@ -3057,16 +3061,17 @@ backdrop-filter: none;
 .chat-analysis-checkbox{
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   gap:0.6rem;
-  font-size:1.06rem;
+  font-size:1.12rem;
   width:auto;
   max-width:100%;
   margin:0;
   padding:0.45em 0.75em;
 }
 .chat-analysis-checkbox input{
-  width:1.15rem;
-  height:1.15rem;
+  width:1.25rem;
+  height:1.25rem;
 }
 .chat-analysis-meta{
   font-size:1.02rem;
