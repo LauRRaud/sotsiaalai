@@ -1356,10 +1356,9 @@ export default function ChatBody() {
           aria-live="polite"
           style={{
             position: "fixed",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "min(880px, calc(100vw - clamp(1.5rem, 5vw, 3rem)))",
-            bottom: "max(6.25rem, env(safe-area-inset-bottom, 0) + 5rem)",
+            right: "clamp(1.25rem, 6vw, 4rem)",
+            width: "min(540px, 48vw)",
+            bottom: "max(6.5rem, env(safe-area-inset-bottom, 0) + 5.5rem)",
             zIndex: 45,
             pointerEvents: "auto",
           }}
@@ -1371,22 +1370,22 @@ export default function ChatBody() {
               borderRadius: 18,
               padding: "1.1rem 1.25rem 1.2rem",
               color: "#e2e8f0",
-              fontSize: "1rem",
-              lineHeight: 1.55,
+              fontSize: "1.08rem",
+              lineHeight: 1.75,
               boxShadow: "0 18px 34px rgba(5,8,15,0.58)",
               display: "flex",
               flexDirection: "column",
               gap: "0.85rem",
-              maxHeight: "min(48vh, 420px)",
+              maxHeight: "min(52vh, 460px)",
               overflow: "hidden",
             }}
           >
             {uploadBusy ? (
-              <div style={{ fontSize: "0.95rem", opacity: 0.9 }}>
-                {t("chat.upload.busy", "Anal����sin dokumenti…")}
+              <div style={{ fontSize: "1rem", opacity: 0.92 }}>
+                {t("chat.upload.busy", "Anal����sin dokumenti�?�")}
               </div>
             ) : null}
-            {uploadError ? <div style={{ color: "#fecaca", fontSize: "0.95rem" }}>{uploadError}</div> : null}
+            {uploadError ? <div style={{ color: "#fecaca", fontSize: "1rem" }}>{uploadError}</div> : null}
             {uploadPreview ? (
               <>
                 <div
@@ -1398,9 +1397,9 @@ export default function ChatBody() {
                     flexWrap: "wrap",
                   }}
                 >
-                  <div style={{ fontWeight: 600, fontSize: "1.04rem" }}>
+                  <div style={{ fontWeight: 600, fontSize: "1.12rem" }}>
                     {prettifyFileName(uploadPreview.fileName)}
-                    <span style={{ opacity: 0.8, marginLeft: 10, fontSize: "0.95rem" }}>
+                    <span style={{ opacity: 0.85, marginLeft: 12, fontSize: "1rem" }}>
                       {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
                     </span>
                   </div>
@@ -1422,35 +1421,22 @@ export default function ChatBody() {
                 {previewText ? (
                   <div
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.5rem",
                       flex: "1 1 auto",
-                      minHeight: "140px",
+                      minHeight: "150px",
+                      borderRadius: 14,
+                      background: "rgba(5,9,18,0.72)",
+                      border: "1px solid rgba(148,163,184,0.34)",
+                      padding: "1rem 1.2rem",
+                      overflow: "auto",
+                      scrollbarWidth: "thin",
+                      scrollbarColor: "var(--pt-mid) transparent",
+                      fontSize: "1.08rem",
+                      lineHeight: 1.9,
+                      whiteSpace: "pre-wrap",
                     }}
+                    className="chat-upload-preview-scroll"
                   >
-                    <div style={{ fontWeight: 600, fontSize: "1.05rem" }}>
-                      {t("chat.upload.summary", "Dokumendi tekst")}
-                    </div>
-                    <div
-                      className="chat-upload-preview-scroll"
-                      style={{
-                        flex: "1 1 auto",
-                        minHeight: 0,
-                        borderRadius: 14,
-                        background: "rgba(5,9,18,0.72)",
-                        border: "1px solid rgba(148,163,184,0.34)",
-                        padding: "1rem 1.2rem",
-                        overflowY: "auto",
-                        scrollbarWidth: "thin",
-                        scrollbarColor: "var(--pt-mid) transparent",
-                        fontSize: "1rem",
-                        lineHeight: 1.65,
-                        whiteSpace: "pre-wrap",
-                      }}
-                    >
-                      {previewText}
-                    </div>
+                    {previewText}
                   </div>
                 ) : null}
 
@@ -1461,6 +1447,7 @@ export default function ChatBody() {
                     gap: 14,
                     marginTop: 6,
                     flexWrap: "wrap",
+                    fontSize: "0.98rem",
                   }}
                 >
                   <button
@@ -1480,7 +1467,7 @@ export default function ChatBody() {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 10,
-                      fontSize: "0.96rem",
+                      fontSize: "0.98rem",
                       cursor: "pointer",
                     }}
                   >
@@ -1491,17 +1478,17 @@ export default function ChatBody() {
                     />
                     {t("chat.upload.use_as_context", "Kasuta j��rgmisel vastusel kontekstina")}
                   </label>
-                  <span style={{ fontSize: "0.95rem", opacity: 0.8 }}>
+                  <span style={{ fontSize: "0.98rem", opacity: 0.85 }}>
                     {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
                   </span>
-                  <span style={{ fontSize: "0.92rem", opacity: 0.8 }}>
+                  <span style={{ fontSize: "0.98rem", opacity: 0.85 }}>
                     {t(
                       "chat.upload.context_hint",
                       "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
                     )}
                   </span>
                   {uploadUsage?.limit ? (
-                    <span style={{ fontSize: "0.95rem", opacity: 0.85 }}>
+                    <span style={{ fontSize: "0.98rem", opacity: 0.85 }}>
                       {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
                         .replace("{used}", String(uploadUsage.used ?? 0))
                         .replace("{limit}", String(uploadUsage.limit ?? 0))}
@@ -1512,132 +1499,7 @@ export default function ChatBody() {
             ) : null}
           </div>
         </div>
-      ) : null}
-
-      {showSourcesPanel ? (
-        <div
-          id="chat-sources-panel"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
-          onClick={closeSourcesPanel}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 40,
-            background: "rgba(9, 14, 25, 0.55)",
-            backdropFilter: "blur(2px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1rem",
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: "rgba(12, 19, 35, 0.95)",
-              borderRadius: 14,
-              width: "100%",
-              maxWidth: "520px",
-              maxHeight: "80vh",
-              padding: "1.25rem 1.4rem",
-              overflowY: "auto",
-              boxShadow: "0 18px 40px rgba(0,0,0,0.45)",
-              border: "1px solid rgba(148, 163, 184, 0.15)",
-              color: "#f8fafc",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "0.75rem",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>
-                {t("chat.sources.heading", "Vestluse allikad")}
-              </h2>
-              <button
-                type="button"
-                onClick={closeSourcesPanel}
-                style={{
-                  border: "none",
-                  background: "rgba(148,163,184,0.15)",
-                  color: "#f1f5f9",
-                  borderRadius: 999,
-                  padding: "0.3rem 0.75rem",
-                  fontSize: "0.8rem",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                }}
-              >
-                {t("buttons.close", "Sulge")}
-              </button>
-            </div>
-
-            {conversationSources.length === 0 ? (
-              <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.75 }}>
-                {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
-              </p>
-            ) : (
-              <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
-                {conversationSources.map((src, idx) => (
-                  <li key={src.key || idx} style={{ marginBottom: "1rem", lineHeight: 1.5 }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "#f8fafc" }}>
-                      {src.label}
-                    </div>
-                    {src.occurrences > 1 ? (
-                      <div style={{ fontSize: "0.8rem", opacity: 0.7 }}>
-                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
-                      </div>
-                    ) : null}
-                    {src.section ? (
-                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
-                      </div>
-                    ) : null}
-                    {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
-                      <div style={{ fontSize: "0.82rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
-                      </div>
-                    ) : null}
-                    {src.allUrls && src.allUrls.length ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: "0.5rem",
-                          marginTop: "0.45rem",
-                        }}
-                      >
-                        {src.allUrls.map((url, urlIdx) => (
-                          <a
-                            key={`${src.key || idx}-url-${urlIdx}`}
-                            href={url}
-                            target="_blank"
-                            rel="noreferrer"
-                            style={{
-                              color: "#93c5fd",
-                              textDecoration: "underline",
-                              fontSize: "0.85rem",
-                            }}
-                          >
-                            {src.allUrls.length > 1
-                              ? t("chat.sources.open_indexed", "Ava ({index})").replace("{index}", String(urlIdx + 1))
-                              : t("chat.sources.open_single", "Ava allikas")}
-                          </a>
-                        ))}
-                      </div>
-                    ) : null}
-                  </li>
-                ))}
-              </ol>
-            )}
-          </div>
-        </div>
+      ) : null}        </div>
       ) : null}
     </div>
   );
