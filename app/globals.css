@@ -2985,17 +2985,17 @@ backdrop-filter: none;
 .chat-inputbar.shiny-ph .chat-input-field::-moz-placeholder{ color: transparent !important; opacity:1 !important; }
 .chat-inputbar.shiny-ph .chat-input-field:-ms-input-placeholder{ color: transparent !important; }
 .chat-send-btn {
-  --btn-border-idle: rgba(220, 220, 220, 0.24);
-  --btn-border-glow: rgba(201, 199, 194, 0.22);
-  --btn-bg-idle: rgba(10, 14, 24, 0.22);
+  --btn-border-idle: rgba(220, 220, 220, 0.30);
+  --btn-border-glow: rgba(201, 199, 194, 0.26);
+  --btn-bg-idle: rgba(10, 14, 24, 0.24);
   --btn-bg-hover: rgba(10, 14, 24, 0.30);
-  --btn-shadow-outer: 0 0 0 1px rgba(10, 12, 18, 0.55);
+  --btn-shadow-outer: 0 0 0 1.2px rgba(10, 12, 18, 0.7);
   --btn-shadow-inner: inset 0 0 0 0 rgba(0,0,0,0);
   flex: 0 0 3.5rem;
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 62.4375rem;
-  border: 1.5px solid var(--btn-border-idle);
+  border: 2px solid var(--btn-border-idle);
   background: var(--btn-bg-idle);
   display: flex;
   align-items: center;
@@ -3120,7 +3120,8 @@ backdrop-filter: none;
   --btn-bg-idle: rgba(7, 10, 18, 0.18);
   --btn-bg-hover: rgba(7, 10, 18, 0.26);
   box-shadow:
-    0 0 0 1px rgba(5, 7, 13, 0.45);
+    0 0 0 0.8px rgba(5, 7, 13, 0.45),
+    inset 0 0 0 1px rgba(0,0,0,0.42);
 }
 .chat-send-btn .send-loader-wrap {
   position: absolute;

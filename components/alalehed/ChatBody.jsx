@@ -322,7 +322,6 @@ export default function ChatBody() {
   const [uploadBusy, setUploadBusy] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [uploadPreview, setUploadPreview] = useState(null);
-  const [previewExpanded, setPreviewExpanded] = useState(false);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [useAsContext, setUseAsContext] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
@@ -1084,10 +1083,6 @@ export default function ChatBody() {
     </div>
   );
 
-  useEffect(() => {
-    setPreviewExpanded(false);
-  }, [uploadPreview?.fileName, uploadPreview?.sizeMB, uploadPreview?.preview]);
-
   const previewText = useMemo(() => {
     if (uploadPreview?.fullText && uploadPreview.fullText.trim()) {
       return uploadPreview.fullText;
@@ -1326,175 +1321,6 @@ export default function ChatBody() {
             })()}
           </button>
         </form>
-
-        {(uploadPreview || uploadError || uploadBusy) ? (
-          <div
-            className="chat-analyze-followup"
-            style={{ display: "none" }}
-          >
-            {uploadBusy ? (
-              <div style={{ opacity: 0.85 }}>
-                {t("chat.upload.busy", "Analüüsin dokumenti…")}
-              </div>
-            ) : null}
-            {uploadError ? <div style={{ color: "#fecaca" }}>{uploadError}</div> : null}
-            {uploadPreview ? (
-              <div
-                style={{
-                  background: "rgba(148,163,184,0.12)",
-                  border: "1px solid rgba(148,163,184,0.2)",
-                  borderRadius: 12,
-                  padding: "12px 14px",
-                  marginTop: 8,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: 8,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div style={{ fontWeight: 600 }}>
-                    {prettifyFileName(uploadPreview.fileName)}
-                    <span style={{ opacity: 0.7, marginLeft: 8 }}>
-                      {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
-                    </span>
-                  </div>
-                  <div style={{ display: "inline-flex", gap: 8, flexWrap: "wrap" }}>
-                    {previewText ? (
-                      <button
-                        type="button"
-                        onClick={() => setPreviewExpanded((prev) => !prev)}
-                        className="chat-upload-action-btn"
-                      >
-                        {previewExpanded
-                          ? t("chat.upload.summary_hide", "Peida eelvaade")
-                          : t("chat.upload.summary_show", "Näita eelvaadet")}
-                      </button>
-                    ) : null}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setUploadPreview(null);
-                        setUploadError(null);
-                        setEphemeralChunks([]);
-                        setUseAsContext(false);
-                      }}
-                      className="chat-upload-action-btn"
-                    >
-                      {t("buttons.cancel", "Katkesta")}
-                    </button>
-                  </div>
-                </div>
-                {previewText ? (
-                  <div style={{ marginTop: 8, opacity: 0.92 }}>
-                    <div style={{ fontWeight: 600, marginBottom: 6 }}>
-                      {t("chat.upload.summary", "Dokumendi eelvaade")}
-                    </div>
-                    <div
-                      style={{
-                        position: "relative",
-                        borderRadius: 12,
-                        background: "rgba(8,11,20,0.8)",
-                        border: "1px solid rgba(148,163,184,0.35)",
-                        padding: "1rem 1.2rem",
-                        boxShadow: "0 18px 28px rgba(5,8,15,0.55)",
-                      }}
-                    >
-                      <div
-                        style={{
-                          whiteSpace: "pre-wrap",
-                          maxHeight: previewExpanded ? "50vh" : "12rem",
-                          overflowY: "auto",
-                          paddingRight: "0.35rem",
-                          scrollbarWidth: "thin",
-                          scrollbarColor: "var(--pt-mid) transparent",
-                          fontSize: "1rem",
-                          lineHeight: 1.6,
-                        }}
-                        className="chat-upload-preview-scroll"
-                      >
-                        {previewText}
-                      </div>
-                      {!previewExpanded ? (
-                        <div
-                          style={{
-                            position: "absolute",
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            height: "2.5rem",
-                            pointerEvents: "none",
-                            background:
-                              "linear-gradient(180deg, rgba(8,11,20,0) 0%, rgba(8,11,20,0.95) 100%)",
-                            borderBottomLeftRadius: 12,
-                            borderBottomRightRadius: 12,
-                          }}
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                ) : null}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                    marginTop: 10,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      try {
-                        inputRef.current?.focus?.();
-                      } catch {}
-                    }}
-                    className="chat-upload-action-btn chat-upload-action-btn--accent"
-                  >
-                    {t("chat.upload.ask_more_btn", "Alusta küsimust")}
-                  </button>
-                  <label
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      fontSize: "0.88rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={useAsContext}
-                      onChange={(e) => setUseAsContext(e.target.checked)}
-                    />
-                    {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
-                  </label>
-                  <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
-                    {t("chat.upload.privacy", "Analüüsiks, ei salvestata püsivalt.")}
-                  </span>
-                  <span style={{ fontSize: "0.78rem", opacity: 0.7 }}>
-                    {t(
-                      "chat.upload.context_hint",
-                      "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavapärast SotsiaalAI andmebaasi."
-                    )}
-                  </span>
-                  {uploadUsage?.limit ? (
-                    <span style={{ fontSize: "0.82rem", opacity: 0.75 }}>
-                      {t("chat.upload.usage", "{used}/{limit} analüüsi täna")
-                        .replace("{used}", String(uploadUsage.used ?? 0))
-                        .replace("{limit}", String(uploadUsage.limit ?? 0))}
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
       </main>
 
       <footer
@@ -1526,49 +1352,55 @@ export default function ChatBody() {
       {(uploadPreview || uploadError || uploadBusy) ? (
         <div
           className="chat-analyze-followup"
+          role="region"
+          aria-live="polite"
           style={{
             position: "fixed",
-            left: "max(0.75rem, env(safe-area-inset-left, 0) + 0.75rem)",
-            right: "max(0.75rem, env(safe-area-inset-right, 0) + 0.75rem)",
-            bottom: "max(5.75rem, env(safe-area-inset-bottom, 0) + 5.25rem)",
-            zIndex: 35,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(880px, calc(100vw - clamp(1.5rem, 5vw, 3rem)))",
+            bottom: "max(6.25rem, env(safe-area-inset-bottom, 0) + 5rem)",
+            zIndex: 45,
+            pointerEvents: "auto",
           }}
         >
           <div
             style={{
               background: "rgba(7,10,18,0.78)",
               border: "1px solid rgba(148,163,184,0.26)",
-              borderRadius: 14,
-              padding: "0.9rem 1rem 0.9rem",
+              borderRadius: 18,
+              padding: "1.1rem 1.25rem 1.2rem",
               color: "#e2e8f0",
-              fontSize: "0.96rem",
-              lineHeight: 1.5,
-              boxShadow: "0 14px 30px rgba(5,8,15,0.55)",
+              fontSize: "1rem",
+              lineHeight: 1.55,
+              boxShadow: "0 18px 34px rgba(5,8,15,0.58)",
               display: "flex",
               flexDirection: "column",
-              gap: 8,
+              gap: "0.85rem",
+              maxHeight: "min(48vh, 420px)",
+              overflow: "hidden",
             }}
           >
             {uploadBusy ? (
-              <div style={{ opacity: 0.9 }}>
-                {t("chat.upload.busy", "Anal����sin dokumenti�?�")}
+              <div style={{ fontSize: "0.95rem", opacity: 0.9 }}>
+                {t("chat.upload.busy", "Anal����sin dokumenti…")}
               </div>
             ) : null}
-            {uploadError ? <div style={{ color: "#fecaca" }}>{uploadError}</div> : null}
+            {uploadError ? <div style={{ color: "#fecaca", fontSize: "0.95rem" }}>{uploadError}</div> : null}
             {uploadPreview ? (
               <>
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
                     alignItems: "center",
-                    gap: 8,
+                    justifyContent: "space-between",
+                    gap: "0.85rem",
                     flexWrap: "wrap",
                   }}
                 >
-                  <div style={{ fontWeight: 600, fontSize: "1rem" }}>
+                  <div style={{ fontWeight: 600, fontSize: "1.04rem" }}>
                     {prettifyFileName(uploadPreview.fileName)}
-                    <span style={{ opacity: 0.8, marginLeft: 8, fontSize: "0.9rem" }}>
+                    <span style={{ opacity: 0.8, marginLeft: 10, fontSize: "0.95rem" }}>
                       {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
                     </span>
                   </div>
@@ -1580,37 +1412,44 @@ export default function ChatBody() {
                       setEphemeralChunks([]);
                       setUseAsContext(false);
                     }}
-                    className="chat-upload-action-btn"
+                    className="btn-tertiary"
+                    style={{ whiteSpace: "nowrap" }}
                   >
                     {t("buttons.cancel", "Katkesta")}
                   </button>
                 </div>
 
                 {previewText ? (
-                  <div style={{ marginTop: 6, opacity: 0.96 }}>
-                    <div style={{ fontWeight: 600, marginBottom: 6, fontSize: "0.95rem" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                      flex: "1 1 auto",
+                      minHeight: "140px",
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, fontSize: "1.05rem" }}>
                       {t("chat.upload.summary", "Dokumendi tekst")}
                     </div>
                     <div
                       className="chat-upload-preview-scroll"
                       style={{
-                        position: "relative",
-                        borderRadius: 12,
+                        flex: "1 1 auto",
+                        minHeight: 0,
+                        borderRadius: 14,
                         background: "rgba(5,9,18,0.72)",
                         border: "1px solid rgba(148,163,184,0.34)",
-                        padding: "0.85rem 1rem",
-                        boxShadow: "0 12px 26px rgba(5,8,15,0.6)",
-                        maxHeight: "min(48vh, 440px)",
+                        padding: "1rem 1.2rem",
                         overflowY: "auto",
                         scrollbarWidth: "thin",
                         scrollbarColor: "var(--pt-mid) transparent",
-                        fontSize: "0.96rem",
+                        fontSize: "1rem",
                         lineHeight: 1.65,
+                        whiteSpace: "pre-wrap",
                       }}
                     >
-                      <div style={{ whiteSpace: "pre-wrap", paddingRight: "0.35rem" }}>
-                        {previewText}
-                      </div>
+                      {previewText}
                     </div>
                   </div>
                 ) : null}
@@ -1619,8 +1458,8 @@ export default function ChatBody() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 12,
-                    marginTop: 10,
+                    gap: 14,
+                    marginTop: 6,
                     flexWrap: "wrap",
                   }}
                 >
@@ -1631,7 +1470,8 @@ export default function ChatBody() {
                         inputRef.current?.focus?.();
                       } catch {}
                     }}
-                    className="chat-upload-action-btn chat-upload-action-btn--accent"
+                    className="btn-primary btn-glass"
+                    style={{ whiteSpace: "nowrap" }}
                   >
                     {t("chat.upload.ask_more_btn", "Alusta k��simust")}
                   </button>
@@ -1639,8 +1479,8 @@ export default function ChatBody() {
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: 8,
-                      fontSize: "0.94rem",
+                      gap: 10,
+                      fontSize: "0.96rem",
                       cursor: "pointer",
                     }}
                   >
@@ -1651,17 +1491,17 @@ export default function ChatBody() {
                     />
                     {t("chat.upload.use_as_context", "Kasuta j��rgmisel vastusel kontekstina")}
                   </label>
-                  <span style={{ fontSize: "0.9rem", opacity: 0.8 }}>
+                  <span style={{ fontSize: "0.95rem", opacity: 0.8 }}>
                     {t("chat.upload.privacy", "Anal����siks, ei salvestata p��sivalt.")}
                   </span>
-                  <span style={{ fontSize: "0.88rem", opacity: 0.8 }}>
+                  <span style={{ fontSize: "0.92rem", opacity: 0.8 }}>
                     {t(
                       "chat.upload.context_hint",
                       "Linnukesega vastab assistent ainult sellest failist; ilma linnukeseta kasutatakse tavap��rast SotsiaalAI andmebaasi."
                     )}
                   </span>
                   {uploadUsage?.limit ? (
-                    <span style={{ fontSize: "0.9rem", opacity: 0.85 }}>
+                    <span style={{ fontSize: "0.95rem", opacity: 0.85 }}>
                       {t("chat.upload.usage", "{used}/{limit} anal����si t��na")
                         .replace("{used}", String(uploadUsage.used ?? 0))
                         .replace("{limit}", String(uploadUsage.limit ?? 0))}
