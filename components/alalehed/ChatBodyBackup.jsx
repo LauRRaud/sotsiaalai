@@ -1306,7 +1306,7 @@ export default function ChatBody() {
           </button>
         </form>
 
-        {showAnalysisPanel ? (
+                {showAnalysisPanel ? (
           <section
             ref={analysisPanelRef}
             className="chat-analysis-panel"
@@ -1525,23 +1525,21 @@ export default function ChatBody() {
 
         <footer className={`chat-footer${showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
           <BackButton />
-        </footer>
-
-        {hasConversationSources ? (
-          <div className="chat-sources-inline">
-            <button
-              type="button"
-              ref={sourcesButtonRef}
-              onClick={toggleSourcesPanel}
-              className={`chat-sources-btn chat-sources-btn--mini${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
-              aria-haspopup="dialog"
-              aria-expanded={showSourcesPanel ? "true" : "false"}
-              aria-controls="chat-sources-panel"
-            >
-              {t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length))}
-            </button>
-          </div>
-        ) : null}
+        </footer>{hasConversationSources ? (
+        <div className="chat-sources-inline">
+          <button
+            type="button"
+            ref={sourcesButtonRef}
+            onClick={toggleSourcesPanel}
+            className={`chat-sources-btn chat-sources-btn--mini${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
+            aria-haspopup="dialog"
+            aria-expanded={showSourcesPanel ? "true" : "false"}
+            aria-controls="chat-sources-panel"
+          >
+            {t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length))}
+          </button>
+        </div>
+      ) : null}
 
       {showSourcesPanel ? (
         <div
@@ -1672,3 +1670,45 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

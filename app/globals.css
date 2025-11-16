@@ -3033,16 +3033,24 @@ backdrop-filter: none;
 }
 .chat-analysis-close{
   position:absolute;
-  top:0.25rem;
-  right:0.25rem;
-}
-.chat-analysis-close{
+  top:-0.6rem;
+  right:-0.6rem;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:0.15rem 0.55rem;
-  border-radius:999px;
-  font-size:1rem;
+  width:3rem;
+  height:3rem;
+  border-radius:0.7rem;
+  border:none;
+  background: transparent;
+  font-size:1.8rem;
+  color:#f8fafc;
+  cursor:pointer;
+  transition: border-color .2s ease, background .2s ease;
+}
+.chat-analysis-close:hover,
+.chat-analysis-close:focus-visible{
+  background: rgba(255,255,255,0.08);
 }
 .chat-analysis-file-meta{
   display:none;
@@ -3275,7 +3283,7 @@ backdrop-filter: none;
   padding: 0.85rem clamp(0.875rem, 4vw, 1.125rem);
   color: var(--pt-100); caret-color: var(--pt-100);
     font: 500 1.25rem/1.35 var(--font-aino), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  text-align:center;
+  text-align:left;
   overflow-y:auto;
   resize: none;
   white-space: pre-wrap;
