@@ -452,6 +452,8 @@
       }
     },
     "upload": {
+      "preview": "Dokumendi tekst",
+      "jump_to_chat": "Vestlusesse",
       "aria": "Laadi dokument",
       "tooltip": "Laadi dokument",
       "busy": "Laen dokumenti üles...",

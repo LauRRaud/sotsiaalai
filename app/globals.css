@@ -228,7 +228,7 @@ body::-webkit-scrollbar {
   }
 }
 :root {
-  --brand-primary: #c05e5e; 
+  --brand-primary: #c57171; 
   --brand-accent: var(--brand-primary);
   --brand-light:  var(--brand-primary);
   --brand-soft: #c18a8a;
@@ -2185,7 +2185,7 @@ label {
   block-size: auto;      
   box-sizing: content-box;
   background: transparent; 
-  border: 0.15rem solid #c05e5e;
+  border: 0.15rem solid #c57171;
   border-radius: 50%;
   transition: transform .18s ease, border-color .16s ease;
   transform-origin: center center;
@@ -2200,25 +2200,25 @@ label {
   inline-size: 1rem;
   block-size: 1rem;
   transform: translate(-52%, -50%) rotate(45deg);
-  border-left: 0.15rem solid #c05e5e;
-  border-bottom: 0.15rem solid #c05e5e;
+  border-left: 0.15rem solid #c57171;
+  border-bottom: 0.15rem solid #c57171;
   box-sizing: content-box;
 }
 .back-arrow-btn:hover .back-arrow-circle,
 .back-arrow-btn:focus .back-arrow-circle {
   transform: scale(1.08); 
-  border-color: #c05e5e;
+  border-color: #c57171;
 }
 .back-arrow-btn:hover .back-arrow-circle::after,
 .back-arrow-btn:focus .back-arrow-circle::after {
-  border-color: #c05e5e;
+  border-color: #c57171;
 }
 .back-arrow-btn:active .back-arrow-circle {
   transform: translateY(1px) scale(0.98);
-  border-color: #c05e5e;
+  border-color: #c57171;
 }
 .back-arrow-btn:active .back-arrow-circle::after {
-  border-color: #c05e5e;
+  border-color: #c57171;
 }
 .modal-backdrop{
   position: fixed;
@@ -3024,7 +3024,7 @@ backdrop-filter: none;
   border-radius:14px;
   background:rgba(5,9,18,0.55);
   border:1px solid rgba(148,163,184,0.34);
-  padding:1rem 1.15rem;
+  padding:1rem 1.7rem 1rem 1.15rem;
   overflow:auto;
   font-size:1.05rem;
   line-height:1.9;
@@ -3040,15 +3040,15 @@ backdrop-filter: none;
   border:0;
 }
 .chat-analysis-preview-wrap{
-    display:flex;
-    align-items:stretch;
-    gap:0.4rem;
+    position:relative;
+    display:block;
   }
   .chat-analysis-scroll-track{
-    position:relative;
-    flex-shrink:0;
+    position:absolute;
+    top:0.6rem;
+    bottom:0.6rem;
+    right:0.4rem;
     width:1.7rem;
-    margin-right:0.4rem;
     padding:0;
     background:transparent;
     border:none;
@@ -3121,18 +3121,18 @@ backdrop-filter: none;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:0.2rem 0.85rem;
+  padding:0.18rem 0.85rem;
   border-radius:999px;
-  border:1px solid rgba(148,163,184,0.7);
-  background:rgba(10,15,26,0.95);
+  border:none;
+  background:rgba(15,23,42,0.72);
   cursor:pointer;
   position:relative;
   font-size:0.82rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
-  color:rgba(248,250,252,0.82);
-  box-shadow:0 0.25rem 0.5rem rgba(0,0,0,0.55);
+  color:rgba(248,250,252,0.78);
+  box-shadow:0 0.2rem 0.45rem rgba(0,0,0,0.55);
   transition:
     background 0.18s ease,
     border-color 0.18s ease,
@@ -3154,9 +3154,8 @@ backdrop-filter: none;
 .chat-analysis-jump:focus-visible{
   outline:none;
   transform:translate(-50%, -55%);
-  background:rgba(15,23,42,1);
-  border-color:rgba(248,250,252,0.85);
-  box-shadow:0 0.3rem 0.7rem rgba(0,0,0,0.7);
+  background:rgba(15,23,42,0.92);
+  box-shadow:0 0.26rem 0.6rem rgba(0,0,0,0.7);
   color:rgba(248,250,252,0.9);
 }
 .chat-analysis-checkbox input{
@@ -3188,11 +3187,11 @@ backdrop-filter: none;
 }
 .chat-context-toggle__track{
   position:relative;
-  width:2.8rem;
-  height:1.55rem;
+  width:2.6rem;
+  height:1.4rem;
   border-radius:999px;
-  background:rgba(15,23,42,0.75);
-  border:1px solid rgba(148,163,184,0.7);
+  background:rgba(10,16,30,0.9);
+  border:1px solid rgba(30,64,94,0.85);
   box-shadow:
     inset 0 0 0 1px rgba(15,23,42,0.75),
     0 0.15rem 0.35rem rgba(0,0,0,0.45);
@@ -3207,8 +3206,8 @@ backdrop-filter: none;
   position:absolute;
   top:0.11rem;
   left:0.12rem;
-  width:1.25rem;
-  height:1.25rem;
+  width:1.15rem;
+  height:1.15rem;
   border-radius:50%;
   background:radial-gradient(circle at 30% 30%, #f8fafc, #e5e7eb);
   box-shadow:
@@ -3227,13 +3226,13 @@ backdrop-filter: none;
   pointer-events:none;
 }
 .chat-context-toggle input[type=checkbox]:checked + .chat-context-toggle__track{
-  background:linear-gradient(90deg, rgba(30,64,175,0.9), rgba(56,189,248,0.95));
-  border-color:rgba(191,219,254,0.95);
+  background:linear-gradient(90deg, #16a34a, #4ade80);
+  border-color:rgba(74,222,128,0.95);
   box-shadow:
     0 0.15rem 0.4rem rgba(30,64,175,0.65);
 }
 .chat-context-toggle input[type=checkbox]:checked + .chat-context-toggle__track .chat-context-toggle__thumb{
-  transform: translateX(1.25rem);
+  transform: translateX(1.15rem);
   box-shadow:
     0 1px 3px rgba(15,23,42,0.7),
     inset 0 1px 1px rgba(255,255,255,0.9);
@@ -3255,16 +3254,14 @@ backdrop-filter: none;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:1.5rem;
-  height:1.5rem;
+  width:1.3rem;
+  height:1.3rem;
   border-radius:999px;
-  background:
-    radial-gradient(120% 110% at 20% 0%, rgba(255,255,255,0.16), transparent 55%),
-    linear-gradient(145deg, rgba(30,34,48,0.97), rgba(18,20,32,0.9));
-  color: var(--pt-80);
+  background:#020617;
+  color:#e5e7eb;
   cursor:pointer;
   position:relative;
-  box-shadow:0 0.22rem 0.5rem rgba(0,0,0,0.45);
+  box-shadow:0 0.18rem 0.5rem rgba(0,0,0,0.55);
   transition:
     background 0.18s ease,
     border-color 0.18s ease,
@@ -3272,10 +3269,10 @@ backdrop-filter: none;
     transform 0.18s ease;
 }
 .chat-context-info-icon-svg{
-  width:0.9rem;
-  height:0.9rem;
+  width:0.8rem;
+  height:0.8rem;
   display:block;
-  fill:#fdfdfc;
+  fill:currentColor;
 }
 .chat-context-info:hover .chat-context-info-icon-svg{
   animation: chat-context-info-jello 0.7s both;

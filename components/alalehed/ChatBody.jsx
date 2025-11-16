@@ -279,6 +279,12 @@ export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
+  const useAsContextLabel =
+    locale === "ru"
+      ? "Анализировать в чате"
+      : locale === "en"
+      ? "Analyse in chat"
+      : "Analüüsi vestluses";
 
   const crisisText = t(
     "chat.crisis.notice",
@@ -1349,7 +1355,7 @@ export default function ChatBody() {
                         <span className="chat-context-toggle__track" aria-hidden="true">
                           <span className="chat-context-toggle__thumb" aria-hidden="true">
                             <SotsiaalAILoader
-                              size="0.9rem"
+                              size="0.75rem"
                               animated={false}
                               ariaHidden
                               className="chat-context-toggle__loader"
@@ -1357,7 +1363,7 @@ export default function ChatBody() {
                           </span>
                         </span>
                         <span className="chat-context-toggle__label">
-                          {t("chat.upload.use_as_context")}
+                          {useAsContextLabel}
                           <button
                             type="button"
                             className="chat-context-info"
