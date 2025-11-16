@@ -1365,10 +1365,6 @@ export default function ChatBody() {
                               "chat.upload.context_hint",
                               "Assistent kasutab selle dokumendi sisu sinu järgmise vastuse koostamisel (analüüsib, teeb kokkuvõtteid, tõlgib, võrdleb jm). Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile ja dokumenti ei salvestata."
                             )}
-                            title={t(
-                              "chat.upload.context_hint",
-                              "Assistent kasutab selle dokumendi sisu sinu järgmise vastuse koostamisel (analüüsib, teeb kokkuvõtteid, tõlgib, võrdleb jm). Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile ja dokumenti ei salvestata."
-                            )}
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -1456,18 +1452,7 @@ export default function ChatBody() {
                             aria-label={t("chat.upload.jump_to_chat", "Vestlusesse")}
                             title={t("chat.upload.jump_to_chat", "Vestlusesse")}
                           >
-                            <span className="chat-analysis-jump-icon" aria-hidden="true">
-                              <svg
-                                className="chat-analysis-jump-icon-svg"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 -960 960 960"
-                              >
-                                <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" />
-                              </svg>
-                            </span>
-                            <span className="chat-analysis-jump-tooltip">
-                              {t("chat.upload.jump_to_chat", "Vestlusesse")}
-                            </span>
+                            {t("chat.upload.jump_to_chat", "Vestlusesse")}
                           </button>
                           {previewText}
                         </div>
