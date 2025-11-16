@@ -7,6 +7,8 @@ export default function SotsiaalAILoader({
   pulse = 2.4,
   minScale = 0.5,
   maxScale = 1,
+  showBottomBall = true,
+  showBottomGlow = true,
   ariaLabel = "Assistent koostab vastust",
   animated = true,
   ariaHidden = false,
@@ -51,7 +53,7 @@ export default function SotsiaalAILoader({
             <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="b2" />
             <feMerge><feMergeNode in="b1" /><feMergeNode in="b2" /></feMerge>
           </filter>
-          <style>{`.st0{fill:url(#linear-gradient2);stroke:none}.st1{fill:url(#red-vertical);stroke:#8b4a45;stroke-width:3;stroke-opacity:0.4}.st2{fill:url(#linear-gradient)}`}</style>
+          <style>{`.st0{fill:url(#linear-gradient2);stroke:none}.st1{fill:url(#red-vertical);stroke:#8b4a45;stroke-width:3;stroke-opacity:0.25}.st2{fill:url(#linear-gradient)}`}</style>
 
           <linearGradient id="linear-gradient" x1="24.12" y1="74.54" x2="24.12" y2="35.3" gradientTransform="translate(0 194.78) scale(1 -1)" gradientUnits="userSpaceOnUse">
             <stop offset="0" stopColor="#050505"/>
@@ -87,10 +89,16 @@ export default function SotsiaalAILoader({
           <path id="ball-top" d="M75.38,8.47c27.75-4.37,32.82,36.21,3.92,36.76-24.7.47-25.74-33.32-3.92-36.76Z"/>
         </defs>
 
-        <g className={`${styles.ball} ${styles.bottom}`}>
-          <use href="#ball-bottom" className={styles.glow} filter="url(#blurGlow)" />
-          <use href="#ball-bottom" className="st2" />
-        </g>
+        {showBottomBall && (
+          <g className={`${styles.ball} ${styles.bottom} send-loader-bottom`}>
+            <use
+              href="#ball-bottom"
+              className={[styles.glow, !showBottomGlow && styles.glowHidden].filter(Boolean).join(" ")}
+              filter="url(#blurGlow)"
+            />
+            <use href="#ball-bottom" className="st2" />
+          </g>
+        )}
         <path className="st1" d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
         <g className={`${styles.ball} ${styles.top}`}>
           <use href="#ball-top" className={styles.glow} filter="url(#blurGlow)" />

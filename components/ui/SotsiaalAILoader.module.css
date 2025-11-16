@@ -43,6 +43,10 @@
   pointer-events: none;
 }
 
+.glowHidden {
+  opacity: 0 !important;
+}
+
 /* Ülemisel pallil nihutame kuma sama loogikaga */
 .top .glow {
   animation-delay: calc(var(--pulse) / -2);

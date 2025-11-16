@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-// NOTE: using SVG as static image for avatar
+import UserCircle from "@/public/logo/User-circle.svg";
 import Paperclip from "@/public/logo/paperclip.svg";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
@@ -1124,18 +1124,11 @@ export default function ChatBody() {
         </span>
       </button>
 
-      {/* Profiili avatar */}
-      <Link href="/profiil" aria-label={t("chat.profile.open", "Ava profiil")} className="avatar-link">
-        <Image
-          src="/logo/User-circle.svg"
-          alt={t("chat.profile.alt", "Profiil")}
-          className="chat-avatar-abs"
-          width={56}
-          height={56}
-          draggable={false}
-        />
-        <span className="avatar-label">{t("chat.profile.label", "Profiil")}</span>
-      </Link>
+{/* Profiili avatar */}
+<Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
+  <UserCircle className="chat-avatar-abs" aria-hidden="true" />
+  <span className="avatar-label">Profiil</span>
+</Link>
 
       {/* Pealkiri */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
@@ -1223,35 +1216,33 @@ export default function ChatBody() {
 )}
 
         <form
-          className={`chat-inputbar chat-inputbar--mobile u-mobile-reset-position${!input.trim() ? " shiny-ph" : ""}`}
-          style={{ columnGap: 0 }}
+          className="chat-input-row"
           onSubmit={isGenerating ? handleStop : sendMessage}
           autoComplete="off"
         >
-          {/* Left side: attach + input in one row */}
-          <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0, position: "relative" }}>
-            <button
-              type="button"
-              className="chat-attach-btn chat-send-btn chat-attach-as-send"
-              aria-label={t("chat.upload.aria")}
-              title={t("chat.upload.tooltip")}
-              onClick={() => {
-                ensureAnalysisPanelVisible();
-              }}
-            >
-              {/* Vertical paperclip (inline SVGR) */}
-              <Paperclip className="chat-attach-icon" aria-hidden="true" role="img" width={26} height={26} />
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept={ACCEPT_ATTR}
-              onChange={onFileChange}
-              style={{ display: "none" }}
-            />
-            <label htmlFor="chat-input" className="sr-only">
-              {t("chat.input.label")}
-            </label>
+          <button
+            type="button"
+            className="chat-attach-btn chat-send-btn chat-attach-as-send"
+            aria-label={t("chat.upload.aria")}
+            title={t("chat.upload.tooltip")}
+            onClick={() => {
+              ensureAnalysisPanelVisible();
+            }}
+          >
+            <Paperclip className="chat-attach-icon" aria-hidden="true" role="img" />
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept={ACCEPT_ATTR}
+            onChange={onFileChange}
+            style={{ display: "none" }}
+          />
+          <label htmlFor="chat-input" className="sr-only">
+            {t("chat.input.label")}
+          </label>
+          <div className={`chat-inputbar chat-inputbar--mobile u-mobile-reset-position${!input.trim() ? " shiny-ph" : ""}`}>
+            <div className="chat-input-field-wrap">
             <textarea
               id="chat-input"
               ref={inputRef}
@@ -1262,47 +1253,48 @@ export default function ChatBody() {
               disabled={isGenerating}
               rows={1}
             />
-            {!input.trim() ? (
-              <div
-                aria-hidden
-                className="shiny-ph-overlay"
-                style={{
-                  position: "absolute",
-                  // start after attach button (3.5rem wide, -6px margin) + textarea padding
-                  left: "calc(3.5rem - 6px + clamp(0.75rem, 3vw, 1.125rem))",
-                  right: 8,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  pointerEvents: "none",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  opacity: 0.9,
-                }}
-              >
-                <ShinyText text={t("chat.input.placeholder")} speed={5} />
-              </div>
-            ) : null}
+              {!input.trim() ? (
+                <div
+                  aria-hidden
+                  className="shiny-ph-overlay"
+                  style={{
+                    position: "absolute",
+                    left: "clamp(0.75rem, 3vw, 1.125rem)",
+                    right: "clamp(0.5rem, 2vw, 1rem)",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    pointerEvents: "none",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    opacity: 0.9,
+                  }}
+                >
+                  <ShinyText text={t("chat.input.placeholder")} speed={5} />
+                </div>
+              ) : null}
+            </div>
+            <button
+              type="submit"
+              className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
+              aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
+              title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
+              disabled={!input.trim() && !isGenerating && !isStreamingAny}
+              data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
+            >
+              {(() => {
+                const thinking = isGenerating || isStreamingAny;
+                return (
+                  <SotsiaalAILoader
+                    animated={thinking}
+                    ariaHidden
+                    className="send-loader"
+                    showBottomGlow={false}
+                  />
+                );
+              })()}
+            </button>
           </div>
-          <button
-            type="submit"
-            className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
-            aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
-            title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
-            disabled={!input.trim() && !isGenerating && !isStreamingAny}
-            data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
-          >
-            {(() => {
-              const thinking = isGenerating || isStreamingAny;
-              return (
-                <SotsiaalAILoader
-                  animated={thinking}
-                  ariaHidden
-                  className="send-loader"
-                />
-              );
-            })()}
-          </button>
         </form>
 
         {showAnalysisPanel ? (
@@ -1347,24 +1339,36 @@ export default function ChatBody() {
                 {uploadPreview ? (
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <label className="glass-checkbox chat-analysis-checkbox">
+                      <label className="chat-context-toggle">
                         <input
                           type="checkbox"
                           checked={useAsContext}
                           onChange={(e) => setUseAsContext(e.target.checked)}
                           aria-describedby="chat-upload-context-hint"
                         />
-                        <span className="checkbox-text">
+                        <span className="chat-context-toggle__track" aria-hidden="true">
+                          <span className="chat-context-toggle__thumb" aria-hidden="true" />
+                        </span>
+                        <span className="chat-context-toggle__label">
                           {t("chat.upload.use_as_context")}
+                          <button
+                            type="button"
+                            className="chat-context-info"
+                            aria-label={t("chat.upload.context_hint")}
+                            title={t("chat.upload.context_hint")}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                          >
+                            i
+                          </button>
                         </span>
                       </label>
                     </div>
-                    <p id="chat-upload-context-hint" className="chat-analysis-meta chat-analysis-meta--hint">
-                      {t(
-                        "chat.upload.context_hint"
-                      )}
+                    <p id="chat-upload-context-hint" className="sr-only">
+                      {t("chat.upload.context_hint")}
                     </p>
-
                     {previewText ? (
                       <div className="chat-analysis-actions chat-analysis-actions--inline">
                         <button
@@ -1375,6 +1379,18 @@ export default function ChatBody() {
                           {analysisCollapsed
                             ? t("chat.upload.summary_show", "Näita dokumenti")
                             : t("chat.upload.summary_hide", "Peida dokument")}
+                        </button>
+                        <button
+                          type="button"
+                          className="chat-analysis-jump"
+                          onClick={() => {
+                            inputRef.current?.focus();
+                            inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          }}
+                          aria-label={t("chat.upload.jump_to_chat", "Hüppa tagasi vestlusesse")}
+                          title={t("chat.upload.jump_to_chat", "Hüppa tagasi vestlusesse")}
+                        >
+                          ↪
                         </button>
                       </div>
                     ) : null}
@@ -1507,12 +1523,7 @@ export default function ChatBody() {
                         ? t("chat.upload.usage", "{used}/{limit} analüüsi täna")
                             .replace(
                               "{used}",
-                              String(
-                                Math.max(
-                                  0,
-                                  (uploadUsage.limit ?? 0) - (uploadUsage.used ?? 0)
-                                )
-                              )
+                              String(Math.max(0, Math.min(uploadUsage.used ?? 0, uploadUsage.limit ?? Infinity)))
                             )
                             .replace("{limit}", String(uploadUsage.limit ?? 0))
                         : ""}
@@ -1543,8 +1554,7 @@ export default function ChatBody() {
             </button>
           </div>
         ) : null}
-
-      {showSourcesPanel ? (
+        {showSourcesPanel ? (
         <div
           id="chat-sources-panel"
           role="dialog"
@@ -1673,3 +1683,14 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+

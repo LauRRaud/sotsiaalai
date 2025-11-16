@@ -224,7 +224,7 @@ export function CircularRingRight({ className = "" } = {}) {
       className={["desc-ring-right","circular-ring",className].filter(Boolean).join(" ")}
       startAtTop={true}
       offsetDeg={6}
-      ringColor="rgba(177, 124, 124, 0.4)"
+      ringColor="rgba(205, 93, 93, 0.4)"
       startDelaySec={2.7}
     />
   );

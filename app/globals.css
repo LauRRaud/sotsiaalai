@@ -2,6 +2,11 @@
 .headline, .brand-title, .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
 }
+:root {
+  --pt-80:  #F2F1EF;
+  --pt-130: #EDEAE6;
+  --pt-avatar-ring: #B7B1A7;
+}
 .particles-container {
   position: fixed;
   inset: 0;
@@ -223,7 +228,7 @@ body::-webkit-scrollbar {
   }
 }
 :root {
-  --brand-primary: #df9595; 
+  --brand-primary: #ca7f7f; 
   --brand-accent: var(--brand-primary);
   --brand-light:  var(--brand-primary);
   --brand-soft: #c18a8a;
@@ -634,20 +639,20 @@ a, .link-brand, .meist-external-link {
   font-size: 1.45rem;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--brand-primary); 
-  padding: 0.3em 0.6em; 
-  border-radius: 62.4375rem;
-  border: 1px solid rgba(175,170,163,0.30); 
+  color: var(--pt-80);
+  padding: 0.3em 0.6em;
+  border-radius: 999px;
+  border: 1px solid rgba(175,170,163,0.30);
   background:
     linear-gradient(to bottom right,
       rgba(255,255,255,0.05),
       rgba(201,199,194,0.06)
     );
-  -webkit-backdrop-filter: blur(0.625rem);
-  backdrop-filter: blur(0.625rem);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   box-shadow:
     inset 0 0 2px rgba(255,255,255,0.12),
-    0 0.375rem 1rem rgba(0,0,0,0.14);
+    0 6px 16px rgba(0,0,0,0.14);
   text-shadow: 0 1px 2px rgba(10,15,25,0.22);
   position: relative;
   overflow: hidden;
@@ -658,8 +663,10 @@ a, .link-brand, .meist-external-link {
     color .22s ease,
     border-color .22s ease;
 }
+/* õrn “liquid” läige */
 .footer-link-headline::before {
-  content: "";position: absolute;
+  content: "";
+  position: absolute;
   inset: 1px;
   border-radius: inherit;
   background:
@@ -668,8 +675,10 @@ a, .link-brand, .meist-external-link {
   mix-blend-mode: screen;
   pointer-events: none;
 }
+/* neutraalne õrn kuma */
 .footer-link-headline::after {
-  content: "";position: absolute;
+  content: "";
+  position: absolute;
   inset: 0;
   border-radius: inherit;
   background: radial-gradient(60% 100% at 100% 0%, rgba(201,199,194,0.08), transparent 60%);
@@ -685,15 +694,15 @@ a, .link-brand, .meist-external-link {
     );
   border-color: rgba(201,199,194,0.38);
   box-shadow:
-    0 0 0.625rem rgba(201,199,194,0.22),
-    0 0.625rem 1.375rem rgba(0,0,0,0.16),
+    0 0 10px rgba(201,199,194,0.22),
+    0 10px 22px rgba(0,0,0,0.16),
     inset 0 1px 0 rgba(255,255,255,0.14);
   transform: translateY(-1px) scale(1.02);
 }
 .footer-link-headline:active {
   transform: translateY(0) scale(0.99);
   box-shadow:
-    0 0.375rem 1rem rgba(0,0,0,0.18),
+    0 6px 16px rgba(0,0,0,0.18),
     inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .footer-logo-img {
@@ -715,7 +724,7 @@ margin: 0;
 }
 .glass-box {
   background: rgba(0, 0, 0, 0.25); 
-  border: 0.5px solid var(--pt-600);
+  border: none;
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
   color: #f2f2f2;
@@ -977,18 +986,12 @@ a {
   }
 }
 .chat-avatar-abs {
-  /* Slightly larger avatar icon */
   --avatar-icon-size: calc(var(--hud-icon, 4.42rem) * 1.11);
   inline-size: var(--avatar-icon-size);
   block-size:  var(--avatar-icon-size);
-  width: var(--avatar-icon-size) !important;
-  height: var(--avatar-icon-size) !important;
-  border-radius: 50%;
-  border: none;
-  background: none;
-  cursor: pointer;
   display: block;
-  transition: box-shadow 0.25s ease;
+  border-radius: 50%;
+  cursor: pointer;
 }
 .avatar-label {
   position: absolute;
@@ -998,7 +1001,7 @@ a {
   font-weight: 500;
   letter-spacing: 0.05em;
   text-align: center;
-  color: var(--pt-light);
+  color: #E7D9D4CC;
   user-select: none;
   pointer-events: none;
   opacity: 0;
@@ -1012,9 +1015,7 @@ a {
   opacity: 1;
   transform: translate(-50%, 0.5rem);
 }
-html:not(.dark-mode) .avatar-label {
-  color: var(--pt-100); 
-}
+/* dark-mode/light-mode eristused eemaldatud – kasutame ühtset välimust */
 .profile-header-center {
   display: flex;
   flex-direction: column;
@@ -1140,59 +1141,13 @@ html:not(.dark-mode) .avatar-label {
   height: 1.6rem;
 }
 .profile-email-dock-wrapper .dock-label {
-  background: rgba(8, 11, 18, 0.95);
+  background: rgba(17, 21, 34, 0.664);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--pt-70);
-  letter-spacing: 0.015em;
-  font-size: clamp(0.92rem, 1.7vw, 1.08rem);
+  color: var(--pt-150);
+  letter-spacing: 0.1em;
+  font-size: clamp(0.9rem, 1.9vw, 1.1rem);
   padding: 0.2rem 0.65rem;
   line-height: 1.2;
-}
-.profile-email-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: 0.85rem;
-  width: 100%;
-}
-.profile-email-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.85rem 0.6rem;
-  border-radius: 1rem;
-  border: 2px solid rgba(200, 196, 188, 0.22);
-  background: rgba(8, 11, 18, 0.55);
-  color: var(--pt-120);
-  box-shadow:
-    inset 0 0 2px rgba(255, 255, 255, 0.08),
-    0 0.55rem 1.1rem rgba(0, 0, 0, 0.25);
-  text-align: center;
-  font-size: 1em;
-}
-.profile-email-card__icon svg {
-  width: 1.9rem;
-  height: 1.9rem;
-}
-.profile-email-card__label {
-  font-size: 1rem;
-  letter-spacing: 0.015em;
-}
-.profile-email-card:focus-visible,
-.profile-email-card:hover {
-  outline: none;
-  border-color: rgba(201, 199, 194, 0.35);
-  box-shadow:
-    inset 0 0 2px rgba(255, 255, 255, 0.1),
-    0 0.65rem 1.25rem rgba(0, 0, 0, 0.32),
-    0 0 0.35rem rgba(240, 207, 171, 0.15);
-  color: var(--pt-80);
-}
-@media (max-width: 32.5em) {
-  .dock-panel.profile-email-dock {
-    gap: 0.9rem;
-  }
 }
 .profile-btn-row--duo .btn-primary,
 .profile-btn-row--duo .btn-profile-save,
@@ -1528,12 +1483,12 @@ html:not(.dark-mode) .avatar-label {
 .btn-primary:hover {
   color: var(--pt-130);
   background:
-    linear-gradient(130deg, rgba(18, 20, 32, 0.62), rgba(36, 40, 56, 0.25));
+    linear-gradient(130deg, rgba(18, 20, 32, 0.55), rgba(32, 36, 50, 0.22));
   box-shadow:
-    0 0.35rem 1.2rem rgba(0, 0, 0, 0.32),
-    0 0.35rem 1rem rgba(201, 199, 194, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 0 0 2px rgba(201, 199, 194, 0.25);
+    0 0.18rem 0.7rem rgba(0, 0, 0, 0.32),
+    0 0 0 2px #c46464,
+    0 0 0.45rem rgba(196, 100, 100, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   transform: translateY(-1px);
 }
 .btn-primary:focus-visible {
@@ -2230,7 +2185,7 @@ label {
   block-size: auto;      
   box-sizing: content-box;
   background: transparent; 
-  border: 0.2rem solid var(--brand-soft);
+  border: 0.15rem solid #c47373;
   border-radius: 50%;
   transition: transform .18s ease, border-color .16s ease;
   transform-origin: center center;
@@ -2245,18 +2200,25 @@ label {
   inline-size: 1rem;
   block-size: 1rem;
   transform: translate(-52%, -50%) rotate(45deg);
-  border-left: 0.2rem solid var(--brand-soft);
-  border-bottom: 0.2rem solid var(--brand-soft);
+  border-left: 0.15rem solid #c46464;
+  border-bottom: 0.15rem solid #b86a6a;
   box-sizing: content-box;
 }
 .back-arrow-btn:hover .back-arrow-circle,
 .back-arrow-btn:focus .back-arrow-circle {
   transform: scale(1.08); 
-  border-color: var(--brand-soft-hover);
+  border-color: #c46464;
 }
 .back-arrow-btn:hover .back-arrow-circle::after,
 .back-arrow-btn:focus .back-arrow-circle::after {
-  border-color: var(--brand-soft-hover);
+  border-color: #c46464;
+}
+.back-arrow-btn:active .back-arrow-circle {
+  transform: translateY(1px) scale(0.98);
+  border-color: #c46464;
+}
+.back-arrow-btn:active .back-arrow-circle::after {
+  border-color: #c46464;
 }
 .modal-backdrop{
   position: fixed;
@@ -2349,49 +2311,7 @@ backdrop-filter: none;
 .glass-checkbox input[type=checkbox]{
   accent-color: var(--brand-primary);
 }
-.back-arrow-circle { border-color: var(--brand-soft); }
-.back-arrow-circle::after {
-  border-left-color: var(--brand-soft);
-  border-bottom-color: var(--brand-soft);
-}
-.back-arrow-btn:hover .back-arrow-circle,
-.back-arrow-btn:focus .back-arrow-circle { border-color: var(--brand-soft-hover); }
-.back-arrow-btn:hover .back-arrow-circle::after,
-.back-arrow-btn:focus .back-arrow-circle::after { border-color: var(--brand-soft-hover); }
-html.dark-mode .chat-inputbar .chat-input-field::placeholder { color: #fafcff; }
-html:not(.dark-mode) .chat-inputbar{
-  background: transparent;
-  border: 1.5px solid var(--pt-mid);
-}
-
-/* Subpage back button: slightly darker tone */
-.back-btn-wrapper .back-arrow-circle,
-.chat-back-btn-wrapper .back-arrow-circle {
-  border-color: var(--brand-soft);
-}
-.back-btn-wrapper .back-arrow-circle::after,
-.chat-back-btn-wrapper .back-arrow-circle::after {
-  border-left-color: var(--brand-soft);
-  border-bottom-color: var(--brand-soft);
-}
-.back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle,
-.back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle,
-.chat-back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle,
-.chat-back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle {
-  border-color: var(--brand-soft-hover);
-}
-.back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle::after,
-.back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle::after,
-.chat-back-btn-wrapper .back-arrow-btn:hover .back-arrow-circle::after,
-.chat-back-btn-wrapper .back-arrow-btn:focus .back-arrow-circle::after {
-  border-left-color: var(--brand-soft-hover);
-  border-bottom-color: var(--brand-soft-hover);
-}
-html:not(.dark-mode) .chat-inputbar .chat-input-field{
-  color: var(--pt-50);
-  caret-color: var(--pt-50);
-}
-html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #f5f8ff; }
+/* chat-inputbar värvid tulevad nüüd ühisest .chat-inputbar reeglist allpool */
 input::placeholder,
 textarea::placeholder{
   font: inherit;
@@ -2478,13 +2398,13 @@ textarea::placeholder{
 .top-center-nav .top-center-link,
 .footer-bottom-nav .top-center-link{
   pointer-events: auto;
-  color: var(--brand-primary);
+  color: #df7777;
 }
 .top-center-nav .top-center-link:hover,
 .top-center-nav .top-center-link:focus,
 .footer-bottom-nav .top-center-link:hover,
 .footer-bottom-nav .top-center-link:focus{
-  color: var(--brand-primary);
+  color: #df7272;
 }
 .glass-box.tellimus-box{
   padding: clamp(1.6rem, 4.5vw, 2.8rem) clamp(1.8rem, 5.2vw, 3.2rem);
@@ -3046,17 +2966,18 @@ backdrop-filter: none;
   justify-content:center;
   width:2rem;
   height:2rem;
-  border-radius:0.7rem;
-  border:none;
+  border-radius:0;
+  border: none;
   background: transparent;
   font-size:1.8rem;
-  color:#f8fafc;
+  color: rgba(236,235,233,0.85);
   cursor:pointer;
-  transition: border-color .2s ease, background .2s ease;
+  transition: color .2s ease;
 }
 .chat-analysis-close:hover,
 .chat-analysis-close:focus-visible{
-  background: rgba(255,255,255,0.08);
+  background: transparent;
+  color: #c46464;
 }
 .chat-analysis-file-meta{
   display:none;
@@ -3111,10 +3032,6 @@ backdrop-filter: none;
     scrollbar-width:none;
     scrollbar-color: transparent transparent;
   }
-.chat-analysis-body > .chat-analysis-file{ }
-.chat-analysis-body > .chat-analysis-controls{ }
-.chat-analysis-body > .chat-analysis-preview{ }
-.chat-analysis-body > .chat-analysis-collapsed-note{ }
 .chat-analysis-preview::-webkit-scrollbar{ width:0; height:0; }
 .chat-analysis-preview::-webkit-scrollbar-track{ background:transparent; }
 .chat-analysis-preview::-webkit-scrollbar-thumb{
@@ -3200,9 +3117,117 @@ backdrop-filter: none;
   justify-content:center;
   gap:0.65rem;
 }
+.chat-analysis-jump{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:2.4rem;
+  height:2.4rem;
+  border-radius:50%;
+  border:1px solid rgba(220,195,190,0.5);
+  background:rgba(10,14,24,0.32);
+  color:var(--pt-80);
+  cursor:pointer;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.12s ease;
+}
+.chat-analysis-jump:hover,
+.chat-analysis-jump:focus-visible{
+  background:rgba(15,19,25,0.48);
+  border-color:rgba(220,195,190,0.75);
+  outline:none;
+  transform:translateY(-1px);
+}
 .chat-analysis-checkbox input{
   width:1.25rem;
   height:1.25rem;
+}
+.chat-context-toggle{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:0.6rem;
+  padding:0.6rem 0.9rem;
+  border-radius:1rem;
+  background:rgba(10,14,24,0.32);
+  border:1px solid transparent;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  cursor:pointer;
+  width:100%;
+  max-width:28rem;
+  box-sizing:border-box;
+}
+.chat-context-toggle:hover{
+  background:rgba(10,14,24,0.46);
+}
+.chat-context-toggle input[type=checkbox]{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.chat-context-toggle__track{
+  position:relative;
+  width:3.2rem;
+  height:1.9rem;
+  border-radius:999px;
+  background:rgba(220,220,220,0.16);
+  border:1.6px solid rgba(220,220,220,0.32);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.35);
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.chat-context-toggle__thumb{
+  position:absolute;
+  inset:0.16rem;
+  width:1.4rem;
+  height:1.4rem;
+  border-radius:999px;
+  background:linear-gradient(145deg, rgba(255,255,255,0.9), rgba(210,208,202,0.75));
+  box-shadow: 0 3px 8px rgba(5,7,13,0.38);
+  transform: translateX(0);
+  transition: transform 0.2s ease, box-shadow 0.18s ease;
+}
+.chat-context-toggle input[type=checkbox]:checked + .chat-context-toggle__track{
+  background: rgba(220,195,190,0.22);
+  border-color: rgba(220,195,190,0.6);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.35);
+}
+.chat-context-toggle input[type=checkbox]:checked + .chat-context-toggle__track .chat-context-toggle__thumb{
+  transform: translateX(1.25rem);
+  box-shadow: 0 3px 8px rgba(5,7,13,0.45);
+}
+.chat-context-toggle__label{
+  display:flex;
+  align-items:center;
+  gap:0.4rem;
+  font-size:1.08rem;
+  color: var(--pt-150);
+}
+.chat-context-toggle:hover .chat-context-toggle__label{
+  color: var(--pt-120);
+}
+.chat-context-toggle input[type=checkbox]:checked ~ .chat-context-toggle__label{
+  color: var(--pt-80);
+}
+.chat-context-info{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:1.35rem;
+  height:1.35rem;
+  border-radius:50%;
+  border:1px solid rgba(220,195,190,0.6);
+  background:rgba(10,14,24,0.35);
+  color: var(--pt-80);
+  font-size:0.82rem;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.chat-context-info:hover,
+.chat-context-info:focus-visible{
+  background:rgba(15,19,25,0.55);
+  border-color:rgba(220,195,190,0.8);
+  outline:none;
 }
 .chat-analysis-meta{
   font-size:1.02rem;
@@ -3257,35 +3282,51 @@ backdrop-filter: none;
   border-color:#e5efff;
   background:linear-gradient(135deg, rgba(37,99,235,0.75), rgba(248,250,252,0.16));
 }
+.chat-input-row{
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0 var(--chat-hpad);
+}
 .chat-inputbar{
-    --inputbar-h: 4.06rem;
+    --inputbar-h: 4rem;
   align-self:stretch; width:auto; max-width:none;
-  margin: 0rem var(--chat-hpad) 0rem;
-  display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:0.2rem;
+  margin: 0;
+  display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:0.35rem;
   flex: 0 0 auto;
   min-height: var(--inputbar-h);
   height: auto;
   border: 2px solid rgba(220,220,220,0.3);
   border-radius:62.4375rem;
   background: rgba(10,14,24,0.22);
-  box-shadow:
-    0 0 0 1px rgba(10, 12, 18, 0.65),
-    inset 0 0 0 1px rgba(0,0,0,0.55);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  padding:0 0.625rem;
+  padding: 0 0.2rem 0 0.625rem; /* vähenda paremat paddingut, et nupp liiguks servale lähemale */
   overflow:hidden;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
+.chat-inputbar:hover:not(:focus-within){
+  border-color: rgba(208,173,173,0.55);          /* sama toon mis chat-msg-user hoveril */
+  background: rgba(14,20,32,0.38);
+}
+.chat-input-row .chat-inputbar{
+  margin: 0;
+  width: auto;
+  flex: 1 1 0%;
+  min-width: 0;
+}
 .chat-inputbar:focus-within{
-  border-color: rgba(236, 235, 233, 0.92);
-  background: rgba(10,14,24,0.30);
-  box-shadow:
-    0 0 0 0.1625rem rgba(201,199,194,0.28),
-    0 0 0.9375rem rgba(195,193,188,0.48),
-    inset 0 0 0 1px rgba(0,0,0,0.45);
+  border-color: rgba(220,195,190,0.6);
+  background: rgba(15,19,25,0.42);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);
 }
 .chat-inputbar .chat-input-field:focus-visible{ outline: none; }
+.chat-input-field-wrap{
+  position: relative;
+  min-width: 0;
+}
 .chat-inputbar .chat-input-field{
   all:unset; box-sizing:border-box; width:100%;
   display:block;
@@ -3306,8 +3347,19 @@ backdrop-filter: none;
 .chat-inputbar .chat-send-btn,
 .chat-inputbar .chat-attach-as-send{
   align-self:center;
-  margin-bottom: -1.5px;
+  margin-bottom: 0;
 }
+.chat-attach-btn.chat-attach-as-send{
+  margin-left: 0;
+  flex: 0 0 auto;
+  border-radius: 999px;
+}
+/* ainult dokumendi üleslaadimise kirjaklambri ikoon */
+.chat-send-btn.chat-attach-as-send .chat-attach-icon {
+  width: 1.8rem !important;
+  height: 1.8rem !important;
+}
+
 .chat-inputbar .chat-input-field::placeholder{ color:#c39a9a; opacity:1; }
 .chat-container .chat-input-field::placeholder{ color:#c39a9a !important; opacity:1 !important; }
 .chat-inputbar .chat-input-field::-webkit-scrollbar{ width:0.5rem; }
@@ -3323,62 +3375,66 @@ backdrop-filter: none;
 .chat-inputbar.shiny-ph .chat-input-field::-moz-placeholder{ color: transparent !important; opacity:1 !important; }
 .chat-inputbar.shiny-ph .chat-input-field:-ms-input-placeholder{ color: transparent !important; }
 .chat-send-btn {
-  --btn-border-idle: rgba(220, 220, 220, 0.30);
-  --btn-border-glow: rgba(201, 199, 194, 0.26);
+  --btn-border-idle: rgba(5, 6, 10, 0.85);
+  --btn-border-glow: rgba(214, 212, 207, 0.14);
   --btn-bg-idle: rgba(10, 14, 24, 0.24);
   --btn-bg-hover: rgba(10, 14, 24, 0.30);
-  --btn-shadow-outer: 0 0 0 1.2px rgba(10, 12, 18, 0.7);
-  --btn-shadow-inner: inset 0 0 0 0 rgba(0,0,0,0);
   flex: 0 0 3.5rem;
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 62.4375rem;
-  border: 2px solid var(--btn-border-idle);
+  border: 2px solid var(--btn-border-glow);
   background: var(--btn-bg-idle);
   display: flex;
   align-items: center;
   justify-content: center; 
   cursor: pointer;
-  box-shadow:
-    var(--btn-shadow-outer);
-  transition: border-color 0.16s ease, transform 0.06s ease, box-shadow 0.16s ease, background 0.16s ease;
+  transition: transform 0.06s ease, background 0.16s ease;
   position: relative;
   overflow: visible;
   outline: none;
 }
-.chat-send-btn:hover,
+.chat-send-btn.chat-attach-as-send {
+  flex: 0 0 var(--attach-size, 4rem);
+  width: var(--attach-size, 4rem);
+  height: var(--attach-size, 4rem);
+  border-color: rgba(220,220,220,0.3);           /* sama mis sisestuslahtri serv */
+  background: rgba(10,14,24,0.22);               /* sama mis sisestuslahtri taust */
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.55);            /* ainult sisemine vari, et vältida topelt-ringi */
+}
+.chat-send-btn.chat-attach-as-send:hover,
+.chat-send-btn.chat-attach-as-send:focus-visible {
+  border-color: rgba(236, 235, 233, 0.92);       /* sama mis sisestuslahter fookuses */
+  background: rgba(10,14,24,0.30);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);  /* ainult sisemine vari, ilma heleda välise kumata */
+}
+.chat-attach-btn.chat-attach-as-send:hover,
+.chat-attach-btn.chat-attach-as-send:focus-visible {
+  border-color: rgba(220,195,190,0.6);
+  background: rgba(15,19,25,0.42);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);
+}
 .chat-send-btn:focus-visible {
-  background: var(--btn-bg-hover);
-  border-color: rgba(236,235,233,0.92);
-  box-shadow: 0 0 1rem rgba(195, 193, 188, 0.50);
+  border-color: var(--btn-border-glow);
+  background: var(--btn-bg-idle);
 }
 .chat-send-btn[data-loader-active=],
 .chat-send-btn--active,
 .chat-send-btn:has(.send-loader[data-animated=]) {
   background: rgba(10, 14, 24, 0.30);
-  border-color: rgba(236,235,233,0.92);
-  box-shadow: 0 0 1.1rem rgba(195, 193, 188, 0.55);
-}
-.chat-send-btn[data-loader-active=]:hover,
-.chat-send-btn[data-loader-active=]:focus-visible,
-.chat-send-btn--active:hover,
-.chat-send-btn--active:focus-visible,
-.chat-send-btn:has(.send-loader[data-animated=]):hover,
-.chat-send-btn:has(.send-loader[data-animated=]):focus-visible {
-  background: rgba(10, 14, 24, 0.30);
-  border-color: rgba(245,243,238,0.98);
-  box-shadow: 0 0 1.4rem rgba(203, 201, 196, 0.65);
+  border-color: var(--btn-border-glow);
+  box-shadow: none;
 }
 .chat-send-btn:active {
   transform: scale(0.96);
-  box-shadow: 0 0 0.6rem rgba(201, 199, 194, 0.55);
 }
 .chat-send-btn:disabled {
   cursor: default;
   opacity: 0.65;
   background: rgba(10, 14, 24, 0.2);
   border-color: rgba(220, 220, 220, 0.24);
-  box-shadow: 0 0 0.4rem rgba(201, 199, 194, 0.2);
+  box-shadow: none;
   pointer-events: none;
 }
 .chat-send-btn .stage {
@@ -3402,40 +3458,63 @@ backdrop-filter: none;
     overflow: visible;
     transform: scale(1.48);
     transform-origin: center;
+    transition: none;
   }
+.chat-send-btn .send-loader .send-loader-bottom .glow {
+  display: none !important;
+  opacity: 0 !important;
+  filter: none !important;
+}
+.chat-send-btn .send-loader .send-loader-bottom .st2 {
+  fill: #272626 !important;  /* jäta pall, ilma heleda rõngata */
+  stroke: none !important;
+  filter: none !important;
+}
 .chat-send-btn svg:not(.svg) {
-  width: 1.625rem;
-  height: 1.625rem;
+  width: 1.7rem;
+  height: 1.7rem;
   stroke: var(--pt-600);
-  stroke-width: 2.6;
+  stroke-width: 2;
   fill: none;
 }
 .chat-inputbar .chat-send-btn{
-  margin-top: -2px;
-  margin-right: -6px; 
+  border-color: rgba(220,220,220,0.3);
+  background: rgba(10,14,24,0.22);
+}
+.chat-inputbar .chat-send-btn:hover,
+.chat-inputbar .chat-send-btn:focus-visible,
+.chat-inputbar .chat-send-btn[data-loader-active="true"],
+.chat-inputbar .chat-send-btn.chat-send-btn--active,
+.chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]) {
+  border-color: rgba(220,195,190,0.6);
+  background: rgba(15,19,25,0.42);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);
 }
 .chat-inputbar .chat-attach-as-send{
-  margin-top: -2px;
-  margin-left: -6px;
+  margin-top: 0;
+  margin-left: 0;
   color: var(--pt-150);
+}
+.chat-inputbar .chat-send-btn.chat-attach-as-send{
+  --attach-size: 3.6rem; /* vähenda nupu läbimõõtu, et ta mahuks kõrgusesse */
 }
 .chat-inputbar .chat-input-field{
   padding-inline-start: clamp(0.75rem, 3vw, 1.125rem); 
 }
 .chat-attach-as-send > img{
-  width: 2rem;
-  height: 2rem;
   display: block;
   filter: invert(82%) brightness(0.92) contrast(1.08);
   opacity: 0.95;
 }
 .chat-attach-icon{
-  width: 1.7rem !important;
-  height: 1.7rem !important;
   display: block;
-  color: var(--pt-80);
+  color: var(--pt-300);
   opacity: 0.95;
 }
+:root {
+  --attach-icon-size: 4rem;  /* või 1.8rem vms */
+}
+
 .chat-attach-btn:disabled .chat-attach-icon{
   opacity: 0.45;
 }
@@ -3475,7 +3554,7 @@ backdrop-filter: none;
   max-width:72ch;
   background: rgba(14,20,32,0.34);
   color: var(--pt-150);
-  border:1.4px solid rgba(220,220,220,0.32);
+  border:2px solid rgba(220,220,220,0.32);
   border-radius: 1.15em 1.15em .55em 1.15em;
   padding:.62em 1em;
   font-size:1.05em;
@@ -3501,26 +3580,7 @@ backdrop-filter: none;
   max-width:70ch; font-size:1em; line-height:1.32;
 }
 .chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
-html:not(.dark-mode) .chat-inputbar{
-  background: rgba(14,20,32,0.24);
-  border-color: rgba(220,220,220,0.32);
-  box-shadow: 0 0 0 1px rgba(201,199,194,0.12);
-}
-html:not(.dark-mode) .chat-inputbar .chat-input-field{
-  color: var(--pt-40, #f2f6ff);
-  caret-color: var(--pt-40, #f2f6ff);
-}
-html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: rgba(245,248,255,0.86); }
-html:not(.dark-mode) .chat-inputbar:focus-within{
-  border-color: var(--pt-light);
-  background: rgba(14,20,32,0.30);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
-}
-html.dark-mode .chat-inputbar:focus-within{
-  border-color: var(--pt-light);
-  background: rgba(10,14,24,0.30);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
-}
+/* chat-inputbar dark/light variandid eemaldatud – kasutame ühist baastooni */
 @media (max-width: 48em){
   .glass-box.chat-container{
     --hud-edge: clamp(.55rem, 3vw, .95rem);
@@ -3541,7 +3601,7 @@ html.dark-mode .chat-inputbar:focus-within{
     max-height:none;
   }
   .chat-inputbar{
-    --inputbar-h: clamp(4.35rem, 17vw, 5.8rem);
+    --inputbar-h: 4rem;
     margin-bottom:.24rem !important;   
     height: var(--inputbar-h);
     min-height: var(--inputbar-h);
@@ -3579,65 +3639,113 @@ html.dark-mode .chat-inputbar:focus-within{
 @supports not ((backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))){
   .glass-box, .glass-modal{ background: rgba(24,24,24,.62); }
 }
-html:not(.dark-mode) .chat-inputbar .chat-input-field::placeholder{ color: #c39a9a !important; }
-html.dark-mode .chat-inputbar .chat-input-field::placeholder{ color: #c39a9a !important; }
-html:not(.dark-mode) .chat-inputbar .chat-input-field::-webkit-input-placeholder{ color: #c39a9a !important; }
-html.dark-mode .chat-inputbar .chat-input-field::-webkit-input-placeholder{ color: #c39a9a !important; }
-html:not(.dark-mode) .chat-inputbar .chat-input-field::-moz-placeholder{ color: #c39a9a !important; opacity:1; }
-html.dark-mode .chat-inputbar .chat-input-field::-moz-placeholder{ color: #c39a9a !important; opacity:1; }
-html:not(.dark-mode) .chat-inputbar .chat-input-field:-ms-input-placeholder{ color: #c39a9a !important; }
-html.dark-mode .chat-inputbar .chat-input-field:-ms-input-placeholder{ color: #c39a9a !important; }
-html:not(.dark-mode) .chat-inputbar .chat-input-field{ color: var(--pt-100) !important; caret-color: var(--pt-100) !important; }
-html.dark-mode .chat-inputbar .chat-input-field{ color: var(--pt-100) !important; caret-color: var(--pt-100) !important; }
-.login-modal-form input{ color: var(--pt-150) !important; caret-color: var(--pt-150) !important; }
-.login-modal-form input:focus{ color: var(--pt-150) !important; }
-:root{ --pt-80:#F2F1EF; --pt-130:#EDEAE6; }
+:root {
+  --pt-80:  #F2F1EF;
+  --pt-130: #EDEAE6;
+  /* Avatar + menu icon metal tone (gradient middle → #B7B1A7) */
+  --pt-avatar-ring: #B7B1A7;
+  --pt-avatar-ring-hover: #C8C3BA; /* natuke heledam hover toon */
+}
+
+/* MENU BUTTON (ring + hamburger icon) */
 .chat-menu-btn {
   position: absolute;
   top: var(--hud-edge-safe);
-left: calc(var(--hud-edge-left) + 0.9375rem);
+  left: calc(var(--hud-edge-left) + 0.9375rem);
   inline-size: var(--hud-icon);
   block-size: var(--hud-icon);
+
+  /* sama paks kui avatarikooni ring (~3px) */
   border-radius: 50%;
-   border: 0.1875rem solid rgba(236,235,233,0.78);
+  border-width: 0.1875rem;
+  border-style: solid;
+
+  /* ⬅️ PÕHIVÄRV 0.8 opacity HEX */
+  border-color: #DCC3BECC;
+  color: #DCC3BECC; /* ← kriipsude värv */
+
   background: transparent;
-  color: var(--pt-150);
-  display: grid; place-items: center; cursor: pointer; overflow: visible;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  overflow: visible;
+
   box-shadow: inset 0 0 0 1px rgba(16,22,32,0.35);
-  transition: background 0.18s, border-color 0.18s, transform 0.08s ease, box-shadow 0.18s;
+  transition:
+    color 0.18s,
+    border-color 0.18s,
+    background 0.18s,
+    transform 0.08s ease,
+    box-shadow 0.18s;
+
   z-index: 4;
 }
+
+/* HOVER + FOCUS → sama toon, lihtsalt heledam kui tahad */
 .chat-menu-btn:hover,
 .chat-menu-btn:focus-visible {
-  border-color: var(--pt-light);
+  border-color: #E7D9D4CC; /* #DCC3BECC → ~10% heledam */
+  color: #E7D9D4CC;
   background: transparent;
 }
-.chat-menu-btn:active { transform: scale(0.94); box-shadow: 0 0 0.375rem rgba(175,170,163,0.45); }
-.chat-menu-icon { width: calc(var(--hud-icon) * 0.46); height: calc(var(--hud-icon) * 0.46); display: block; }
-.chat-menu-icon span{
-  display:block; height:2px; margin: calc(var(--hud-icon) * 0.09) 0;
-  background: var(--pt-200); border-radius:2px; transition: background 0.25s ease;
+
+/* ACTIVE → animatsioon jääb samaks */
+.chat-menu-btn:active {
+  transform: scale(0.94);
+  box-shadow: 0 0 0.375rem rgba(173,169,162,0.45);
 }
-.chat-menu-btn:hover .chat-menu-icon span,
-.chat-menu-btn:focus-visible .chat-menu-icon span{ background: var(--pt-100); }
-.chat-menu-label{
-  position:absolute; top: calc(100% + 0.15rem); left:50%; transform: translate(-50%, 2px);
-  font-size:1.1rem; font-weight:500; letter-spacing:0.05em; text-align:center;
-  color: var(--pt-light); pointer-events:none; opacity:0; white-space:nowrap; line-height:1.1; display:inline-block;
+
+/* HAMBURGERI IKKAON */
+.chat-menu-icon {
+  width: calc(var(--hud-icon) * 0.46);
+  height: calc(var(--hud-icon) * 0.46);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.chat-menu-icon span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: currentColor; /* ← võtab nupu color */
+  border-radius: 2px;
+  margin: 3px 0;
+  transition: background 0.25s ease;
+}
+
+/* LABEL */
+.chat-menu-label {
+  position: absolute;
+  top: calc(100% + 0.15rem);
+  left: 50%;
+  transform: translate(-50%, 2px);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.1;
+  color: #E7D9D4CC;
+  pointer-events: none;
+  opacity: 0;
+  display: inline-block;
   transition: opacity .3s ease, transform .3s ease, color .3s ease;
 }
+
+
 .chat-menu-btn:hover .chat-menu-label,
-.chat-menu-btn:focus-visible .chat-menu-label{ opacity:1; transform: translate(-50%, 0.5rem); color: var(--pt-100); }
-.avatar-label{
-  position:absolute; top: calc(100% + 0.15rem); left:50%; transform: translate(-50%, 2px);
-  font-size:1.1rem; font-weight:500; letter-spacing:0.05em; text-align:center;
-  color: var(--pt-light); pointer-events:none; opacity:0; white-space:nowrap; line-height:1.1; display:inline-block;
-  transition: opacity .3s ease, transform .3s ease, color .3s ease;
+.chat-menu-btn:focus-visible .chat-menu-label {
+  opacity: 1;
+  transform: translate(-50%, 0.5rem);
+  color: #E7D9D4CC;
 }
-.avatar-link:hover .avatar-label,
-.avatar-link:focus-visible .avatar-label{ opacity:1; transform: translate(-50%, 0.5rem); color: var(--pt-100); }
+
 @media (max-width: 48em){
-  .chat-menu-label, .avatar-label{ font-size:1rem; }
+  .chat-menu-label {
+    font-size: 1rem;
+  }
 }
 .cs-error {
   background: color-mix(in srgb, var(--danger) 15%, transparent);
@@ -4040,4 +4148,4 @@ html[data-contrast=hc] .desc-ring-right * {
   border: 0 !important;
 }
 
-
+/* Chat send button - sama heledus kui kirjaklambril (korraldub 3420-ossa) */

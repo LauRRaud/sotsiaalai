@@ -611,14 +611,8 @@ export default function RagAdminPanel() {
             type="button"
             onClick={runSelftest}
             disabled={selftestBusy}
-            style={{
-              border: "1px solid rgba(148,163,184,0.25)",
-              background: selftestBusy ? "rgba(148,163,184,0.12)" : "rgba(12,14,22,0.5)",
-              color: "#e2e8f0",
-              borderRadius: 10,
-              padding: "0.45rem 0.8rem",
-              cursor: selftestBusy ? "default" : "pointer",
-            }}
+            className="btn-primary"
+            style={{ padding: "0.5rem 1rem", fontSize: "1rem", opacity: selftestBusy ? 0.75 : 1, cursor: selftestBusy ? "wait" : "pointer" }}
           >
             {selftestBusy ? "Kontrollin…" : "Tee isetest (RAG + vestlus)"}
           </button>
@@ -881,7 +875,12 @@ export default function RagAdminPanel() {
             />
             <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>{fileHint}</span>
           </label>
-          <button type="submit" disabled={fileBusy} style={ctaStyle(fileBusy, "#7757ff", "#9b6dff")}>
+          <button
+            type="submit"
+            disabled={fileBusy}
+            className="btn-primary"
+            style={{ alignSelf: "flex-start", opacity: fileBusy ? 0.75 : 1, cursor: fileBusy ? "wait" : "pointer" }}
+          >
             {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
           </button>
         </form>
@@ -949,7 +948,12 @@ export default function RagAdminPanel() {
               ))}
             </select>
           </label>
-          <button type="submit" disabled={urlBusy} style={ctaStyle(urlBusy, "#ff6b8a", "#ff8ba6")}>
+          <button
+            type="submit"
+            disabled={urlBusy}
+            className="btn-primary"
+            style={{ alignSelf: "flex-start", opacity: urlBusy ? 0.75 : 1, cursor: urlBusy ? "wait" : "pointer" }}
+          >
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
           </button>
         </form>
@@ -1175,7 +1179,8 @@ export default function RagAdminPanel() {
                 type="button"
                 disabled={articlesBusy}
                 onClick={ingestArticles}
-                style={ctaStyle(articlesBusy, "#00b37a", "#18c08a")}
+                className="btn-primary"
+                style={{ alignSelf: "flex-start", opacity: articlesBusy ? 0.75 : 1, cursor: articlesBusy ? "wait" : "pointer" }}
               >
                 {articlesBusy ? "Saadan..." : "Ingesti artiklid"}
               </button>
@@ -1199,16 +1204,8 @@ export default function RagAdminPanel() {
             onClick={manualRefresh}
             disabled={loadingList}
             aria-busy={loadingList ? "true" : "false"}
-            style={{
-              padding: "0.45rem 0.9rem",
-              borderRadius: "999px",
-              border: "1px solid rgba(255,255,255,0.18)",
-              background: loadingList ? "rgba(255,255,255,0.08)" : "transparent",
-              color: "#f3f6ff",
-              fontSize: "0.85rem",
-              cursor: loadingList ? "wait" : "pointer",
-              opacity: loadingList ? 0.7 : 1,
-            }}
+            className="btn-primary"
+            style={{ padding: "0.5rem 0.95rem", fontSize: "0.95rem", opacity: loadingList ? 0.75 : 1, cursor: loadingList ? "wait" : "pointer" }}
           >
             {loadingList ? "Laen..." : "Värskenda"}
           </button>
@@ -1505,26 +1502,13 @@ function inputStyle() {
     color: "#f3f6ff",
   };
 }
-function ctaStyle(busy, c1, c2) {
-  return {
-    padding: "0.6rem 0.9rem",
-    borderRadius: "999px",
-    border: "none",
-    background: busy ? "rgba(255,255,255,0.08)" : `linear-gradient(135deg, ${c1}, ${c2})`,
-    color: "#fefeff",
-    fontWeight: 600,
-    cursor: busy ? "wait" : "pointer",
-    transition: "opacity 0.2s ease",
-    opacity: busy ? 0.7 : 1,
-  };
-}
 function smallGhostBtn() {
   return {
     padding: "0.45rem 0.9rem",
     borderRadius: "999px",
-    border: "1px solid rgba(255,255,255,0.18)",
-    background: "transparent",
-    color: "#f3f6ff",
+    border: "1px solid rgba(196,115,115,0.5)",
+    background: "rgba(196,115,115,0.12)",
+    color: "#ffeaea",
     fontSize: "0.82rem",
     cursor: "pointer",
   };
@@ -1533,9 +1517,9 @@ function smallDangerBtn() {
   return {
     padding: "0.35rem 0.7rem",
     borderRadius: "999px",
-    border: "1px solid rgba(255,120,120,0.35)",
-    background: "transparent",
-    color: "#ff9c9c",
+    border: "1px solid rgba(196,115,115,0.7)",
+    background: "rgba(196,115,115,0.16)",
+    color: "#ffe1e1",
     fontSize: "0.8rem",
     cursor: "pointer",
   };
@@ -1544,9 +1528,9 @@ function ghostBtn(busy) {
   return {
     padding: "0.45rem 0.9rem",
     borderRadius: "999px",
-    border: "1px solid rgba(255,255,255,0.18)",
-    background: busy ? "rgba(255,255,255,0.08)" : "transparent",
-    color: "#f3f6ff",
+    border: "1px solid rgba(196,115,115,0.55)",
+    background: busy ? "rgba(196,115,115,0.16)" : "rgba(196,115,115,0.12)",
+    color: "#ffeaea",
     fontSize: "0.82rem",
     cursor: busy ? "wait" : "pointer",
     opacity: busy ? 0.7 : 1,
@@ -1556,9 +1540,9 @@ function dangerGhostBtn(busy) {
   return {
     padding: "0.45rem 0.9rem",
     borderRadius: "999px",
-    border: "1px solid rgba(255,120,120,0.35)",
-    background: busy ? "rgba(255,255,255,0.08)" : "transparent",
-    color: "#ff9c9c",
+    border: "1px solid rgba(196,115,115,0.7)",
+    background: busy ? "rgba(196,115,115,0.2)" : "rgba(196,115,115,0.16)",
+    color: "#ffdddd",
     fontSize: "0.82rem",
     cursor: busy ? "wait" : "pointer",
     opacity: busy ? 0.7 : 1,
