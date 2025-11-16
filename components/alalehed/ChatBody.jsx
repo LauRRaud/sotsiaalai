@@ -1317,11 +1317,28 @@ export default function ChatBody() {
             <div className="chat-analysis-card">
               <header className="chat-analysis-header" style={{ position: "relative" }}>
                 {uploadPreview ? (
-                  <div className="chat-analysis-titleblock">
-                    <div className="chat-analysis-file-name">
-                      {prettifyFileName(uploadPreview.fileName)}
+                  <>
+                    <div className="chat-analysis-titleblock">
+                      <div className="chat-analysis-file-name">
+                        {prettifyFileName(uploadPreview.fileName)}
+                      </div>
                     </div>
-                  </div>
+                    <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
+                      <label className="glass-checkbox chat-analysis-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={useAsContext}
+                          onChange={(e) => setUseAsContext(e.target.checked)}
+                        />
+                        <span className="checkbox-text">
+                          {t("chat.upload.use_as_context")}
+                        </span>
+                      </label>
+                    </div>
+                    <p className="chat-analysis-meta chat-analysis-meta--hint chat-analysis-meta--header">
+                      {t("chat.upload.context_hint")}
+                    </p>
+                  </>
                 ) : null}
                 <button
                   type="button"
