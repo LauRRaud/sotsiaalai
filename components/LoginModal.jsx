@@ -269,6 +269,9 @@ export default function LoginModal({ open, onClose }) {
       const isHidden = hiddenInputRef.current && target === hiddenInputRef.current;
       // If focused in an editable field that is not our hidden PIN input, do not hijack keys
       if (isEditable && !isHidden) return;
+      // Avoid handling events twice when the hidden PIN input itself has focus;
+      // its own handlers will update the state.
+      if (isHidden) return;
       onHiddenKeyDown(e);
     };
     window.addEventListener("keydown", keyListener);
@@ -460,11 +463,6 @@ export default function LoginModal({ open, onClose }) {
               aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
               ref={hiddenInputRef}
               value={pinValue}
-              onChange={(e) => {
-                const raw = String(e.target.value || "").replace(/\D/g, "");
-                setPinValue(raw.slice(0, PIN_MAX));
-              }}
-              onKeyDown={onHiddenKeyDown}
               inputMode="numeric"
               pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
               maxLength={PIN_MAX}

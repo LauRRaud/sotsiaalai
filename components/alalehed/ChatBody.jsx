@@ -9,7 +9,6 @@ import Paperclip from "@/public/logo/paperclip.svg";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
-import TextType from "@/components/effects/TextAnimations/TextType/TextType";
 
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
@@ -281,19 +280,6 @@ export default function ChatBody() {
   const { data: session } = useSession();
   const { t, locale } = useI18n();
 
-  const introGreeting = t("chat.intro.greeting", "Tere!");
-  const introMessage = t(
-    "chat.intro.message",
-    "SotsiaalAI aitab sind usaldusväärsete allikate põhjal."
-  );
-  const introCTA = t(
-    "chat.intro.cta",
-    "Millise teemaga saan täna toeks olla? Kirjuta mulle."
-  );
-  const introAnimationTexts = useMemo(
-    () => [introGreeting, introMessage, introCTA],
-    [introGreeting, introMessage, introCTA]
-  );
   const crisisText = t(
     "chat.crisis.notice",
     "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
@@ -330,11 +316,13 @@ export default function ChatBody() {
   const [uploadUsage, setUploadUsage] = useState(null);
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
+  const [previewScroll, setPreviewScroll] = useState(0);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);
+  const previewRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
@@ -351,145 +339,44 @@ export default function ChatBody() {
     [isGenerating, messages]
   );
 
-  // Intro nähtav kuni on vähemalt üks mitte-tühi sõnum
-  const hasRealContent = useMemo(
-    () => messages.some((m) => typeof m?.text === "string" && m.text.trim().length > 0),
-    [messages]
-  );
-
-  // Koonda vestluse allikad
   const conversationSources = useMemo(() => {
     const map = new Map();
-    let order = 0;
-    let fallbackCounter = 0;
-    for (const msg of messages) {
-      if (msg?.role !== "ai" || !Array.isArray(msg?.sources)) continue;
-      for (const src of msg.sources) {
-        if (!src) continue;
-        const key =
-          (src.key && String(src.key)) ||
-          (src.url ? `url:${src.url}` : null) ||
-          (src.short_ref ? `short:${src.short_ref}` : null) ||
-          (src.label ? `label:${src.label}` : null) ||
-          (src.fileName ? `file:${src.fileName}` : null) ||
-          `auto-${fallbackCounter++}`;
-        let entry = map.get(key);
-        if (!entry) {
-          entry = {
+    messages.forEach((m) => {
+      if (!Array.isArray(m?.sources) || !m.sources.length) return;
+      m.sources.forEach((src, idx) => {
+        const url =
+          typeof src?.url === "string"
+            ? src.url
+            : typeof src?.source === "string"
+            ? src.source
+            : undefined;
+        const label = formatSourceLabel(src);
+        const pageText =
+          src?.pageRange ||
+          collapsePages([
+            ...(Array.isArray(src?.pages) ? src.pages : []),
+            ...(src?.page ? [src.page] : []),
+          ]);
+        const section = typeof src?.section === "string" ? src.section : undefined;
+        const key = src?.key || src?.id || url || `${label}-${pageText || ""}-${idx}`;
+        const existing =
+          map.get(key) ||
+          {
             key,
-            order: order++,
+            label,
+            pageText,
+            section,
+            allUrls: [],
             occurrences: 0,
-            shortRef: typeof src.short_ref === "string" ? src.short_ref.trim() : null,
-            labels: new Set(),
-            fileName: src.fileName || null,
-            urls: new Set(),
-            pageRanges: new Set(),
-            pages: new Set(),
-            authors: new Set(),
-            title: typeof src?.title === "string" ? src.title : null,
-            journalTitle: typeof src?.journalTitle === "string" ? src.journalTitle : null,
-            issueLabel: typeof src?.issueLabel === "string" ? src.issueLabel : null,
-            issueId: typeof src?.issueId === "string" ? src.issueId : null,
-            year: src.year ?? null,
-            section: typeof src?.section === "string" ? src.section : null,
           };
-          map.set(key, entry);
+        if (url && !existing.allUrls.includes(url)) {
+          existing.allUrls.push(url);
         }
-        entry.occurrences += 1;
-        if (!entry.shortRef && typeof src?.short_ref === "string") {
-          entry.shortRef = src.short_ref.trim();
-        }
-        if (typeof src.label === "string" && src.label.trim()) {
-          entry.labels.add(src.label.trim());
-        }
-        if (!entry.fileName && src.fileName) {
-          entry.fileName = src.fileName;
-        }
-        if (src.url) entry.urls.add(src.url);
-        if (src.pageRange) entry.pageRanges.add(src.pageRange);
-        if (Array.isArray(src.pages)) {
-          for (const p of src.pages) {
-            const num = Number(p);
-            if (Number.isFinite(num)) entry.pages.add(num);
-          }
-        }
-        const pageNum = Number(src.page);
-        if (Number.isFinite(pageNum)) entry.pages.add(pageNum);
-        if (Array.isArray(src.authors)) {
-          for (const author of src.authors) {
-            if (author && typeof author === "string") entry.authors.add(author);
-          }
-        }
-        if (!entry.title && typeof src?.title === "string" && src.title.trim()) {
-          entry.title = src.title.trim();
-        }
-        if (!entry.journalTitle && typeof src?.journalTitle === "string" && src.journalTitle.trim()) {
-          entry.journalTitle = src.journalTitle.trim();
-        }
-        if (!entry.issueLabel && typeof src?.issueLabel === "string" && src.issueLabel.trim()) {
-          entry.issueLabel = src.issueLabel.trim();
-        }
-        if (!entry.issueId && typeof src?.issueId === "string" && src.issueId.trim()) {
-          entry.issueId = src.issueId.trim();
-        }
-        if (entry.year == null && (typeof src?.year === "number" || typeof src?.year === "string")) {
-          entry.year = src.year;
-        }
-        if (!entry.section && typeof src?.section === "string" && src.section.trim()) {
-          entry.section = src.section.trim();
-        }
-      }
-    }
-    return Array.from(map.values())
-      .sort((a, b) => a.order - b.order)
-      .map((entry) => {
-        const urlList = Array.from(entry.urls);
-        const pageRangeList = Array.from(entry.pageRanges);
-        const pageNumbers = Array.from(entry.pages).sort((a, b) => a - b);
-        const primaryUrl = urlList[0] || null;
-        const numericPagesText = pageNumbers.length ? collapsePages(pageNumbers) : "";
-        const rangeText = pageRangeList.length ? [...new Set(pageRangeList)].join(", ") : "";
-        const pageSegments = [numericPagesText, rangeText].filter((seg) => seg && seg.trim());
-        const pageText = pageSegments.length ? pageSegments.join(", ") : null;
-        const formattedLabel = formatSourceLabel({
-          short_ref: entry.shortRef,
-          authors: Array.from(entry.authors),
-          title: entry.title || Array.from(entry.labels).find((l) => typeof l === "string"),
-          journalTitle: entry.journalTitle,
-          issueLabel: entry.issueLabel || entry.issueId,
-          issueId: entry.issueId,
-          year: entry.year,
-          section: entry.section,
-          pageRange: pageText || undefined,
-          pages: pageNumbers,
-          fileName: entry.fileName,
-          url: primaryUrl,
-        });
-        const shortRefText =
-          typeof entry.shortRef === "string" && entry.shortRef.trim()
-            ? entry.shortRef.trim()
-            : null;
-        const label =
-          (formattedLabel && formattedLabel.trim()) ||
-          shortRefText ||
-          prettifyFileName(entry.fileName || "") ||
-          (primaryUrl ? primaryUrl.replace(/^https?:\/\//, "") : "Allikas");
-        return {
-          key: entry.key,
-          label,
-          url: primaryUrl,
-          allUrls: urlList,
-          pageText,
-          fileName: entry.fileName,
-          occurrences: entry.occurrences,
-          authors: Array.from(entry.authors),
-          journalTitle: entry.journalTitle,
-          issueLabel: entry.issueLabel,
-          issueId: entry.issueId,
-          year: entry.year,
-          section: entry.section,
-        };
+        existing.occurrences += 1;
+        map.set(key, existing);
       });
+    });
+    return Array.from(map.values());
   }, [messages]);
 
   const hasConversationSources = conversationSources.length > 0;
@@ -686,7 +573,7 @@ export default function ChatBody() {
     mountedRef.current = true;
     focusInput();
 
-    // Lae püsivus ja eemalda tühjad tekstid (hoiab intro nähtaval)
+    // Lae püsivus ja eemalda tühjad tekstid
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
@@ -1252,24 +1139,6 @@ export default function ChatBody() {
           aria-busy={isStreamingAny ? "true" : "false"}
           style={{ position: "relative" }}
         >
-          {/* Intro – nähtav kuni tekib reaalne sisu */}
-          {!hasRealContent && (
-            <div className="chat-msg chat-msg-ai" style={{ opacity: 0.9 }}>
-              <div style={{ whiteSpace: "pre-wrap" }}>
-                <TextType
-                  text={introAnimationTexts}
-                  typingSpeed={[55, 40, 38]}
-                  deletingSpeed={32}
-                  pauseDuration={[1700, 2600, 2600]}
-                  initialDelay={800}
-                  loop={false}
-                  showCursor={false}
-                  className="chat-intro-text"
-                />
-              </div>
-            </div>
-          )}
-
           {/* Vestluse sõnumid */}
           {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
@@ -1398,31 +1267,36 @@ export default function ChatBody() {
             aria-label={t("chat.upload.summary", "Dokumendi eelvaade")}
           >
             <div className="chat-analysis-card">
-              <header className="chat-analysis-header">
-                <div className="chat-analysis-actions">
-                  {!uploadPreview ? (<button
-                    type="button"
-                    className="btn-tertiary chat-analysis-close"
-                    onClick={onPickFile}
-                    disabled={uploadBusy || isGenerating}
-                  >
-                    {t("chat.upload.aria", "Laadi dokument")} 
-                  </button>) : null}
-                  {!hasAnalysisContent ? (
-                    <button
-                      type="button"
-                      className="btn-tertiary chat-analysis-close"
-                      onClick={closeAnalysisPanel}
-                    >
-                      {t("buttons.close", "Sulge")}
-                    </button>
-                  ) : null}
-                </div>
+              <header className="chat-analysis-header" style={{ position: "relative" }}>
+                <button
+                  type="button"
+                  className="chat-analysis-close"
+                  onClick={() => {
+                    setUploadPreview(null);
+                    setUploadError(null);
+                    setEphemeralChunks([]);
+                    setUseAsContext(false);
+                    closeAnalysisPanel();
+                  }}
+                  aria-label={t("buttons.close", "Sulge")}
+                  style={{
+                    marginLeft: "auto",
+                    border: "none",
+                    background: "transparent",
+                    color: "#f8fafc",
+                    fontSize: "1.9rem",
+                    lineHeight: 1,
+                    cursor: "pointer",
+                    padding: "0.15rem 0.35rem",
+                  }}
+                >
+                  ×
+                </button>
               </header>
               <div className="chat-analysis-body">
                 {uploadBusy ? (
                   <div className="chat-analysis-status">
-                    {t("chat.upload.busy", "Anal????sin dokumenti???")}
+                    {t("chat.upload.busy", "Analüüsin dokumenti...")}
                   </div>
                 ) : null}
                 {uploadError ? <div className="chat-analysis-error">{uploadError}</div> : null}
@@ -1433,29 +1307,13 @@ export default function ChatBody() {
                         <div className="chat-analysis-file-name">
                           {prettifyFileName(uploadPreview.fileName)}
                         </div>
-                        <div className="chat-analysis-file-meta">
-                          {`${uploadPreview.sizeMB?.toFixed?.(2) || uploadPreview.sizeMB} MB`}
-                        </div>
                       </div>
                       <div className="chat-analysis-file-actions">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setUploadPreview(null);
-                            setUploadError(null);
-                            setEphemeralChunks([]);
-                            setUseAsContext(false);
-                          }}
-                          className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
-                          aria-label={t("buttons.cancel", "Katkesta")}
-                        >
-                          {t("buttons.cancel", "Katkesta")}
-                        </button>
                         {previewText ? (
                           <button
                             type="button"
                             onClick={toggleAnalysisCollapse}
-                            className="btn-tertiary chat-analysis-btn chat-analysis-btn--small"
+                            className="btn-primary chat-analysis-btn chat-analysis-btn--small"
                           >
                             {analysisCollapsed
                               ? t("chat.upload.summary_show", "Näita eelvaadet")
@@ -1466,8 +1324,44 @@ export default function ChatBody() {
                     </div>
 
                     {!analysisCollapsed && previewText ? (
-                      <div className="chat-analysis-preview chat-upload-preview-scroll">
-                        {previewText}
+                      <div className="chat-analysis-preview-wrap">
+                        <div
+                          ref={previewRef}
+                          className="chat-analysis-preview chat-upload-preview-scroll"
+                          onScroll={() => {
+                            const node = previewRef.current;
+                            if (!node) return;
+                            const max = node.scrollHeight - node.clientHeight;
+                            if (max <= 0) {
+                              setPreviewScroll(0);
+                              return;
+                            }
+                            setPreviewScroll(node.scrollTop / max);
+                          }}
+                        >
+                          {previewText}
+                        </div>
+                        <div
+                          className="chat-analysis-scroll-track"
+                          onClick={(event) => {
+                            const node = previewRef.current;
+                            if (!node) return;
+                            const rect = event.currentTarget.getBoundingClientRect();
+                            const ratio = (event.clientY - rect.top) / rect.height;
+                            const max = node.scrollHeight - node.clientHeight;
+                            if (max <= 0) return;
+                            const nextTop = Math.max(0, Math.min(max, ratio * max));
+                            node.scrollTo({ top: nextTop, behavior: "smooth" });
+                          }}
+                          aria-hidden="true"
+                        >
+                          <div
+                            className="chat-analysis-scroll-thumb"
+                            style={{ top: `${previewScroll * 100}%` }}
+                          >
+                            <SotsiaalAILoader size="1.1rem" animated={false} ariaHidden />
+                          </div>
+                        </div>
                       </div>
                     ) : null}
                     {analysisCollapsed ? (
@@ -1490,7 +1384,7 @@ export default function ChatBody() {
                       <span className="chat-analysis-meta">
                         {t(
                           "chat.upload.context_hint",
-                          "Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata."
+                          "“Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata.”"
                         )}
                       </span>
                       
@@ -1498,7 +1392,15 @@ export default function ChatBody() {
                   </>
                 ) : (
                   <div className="chat-analysis-empty">
-                    <p className="chat-analysis-meta">
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={onPickFile}
+                      disabled={uploadBusy || isGenerating}
+                    >
+                      {t("chat.upload.aria", "Laadi dokument")}
+                    </button>
+                    <p className="chat-analysis-meta" style={{ marginTop: "0.35rem" }}>
                       {uploadUsage?.limit
                         ? t("chat.upload.usage", "{used}/{limit} analüüsi täna")
                             .replace(
@@ -1519,9 +1421,13 @@ export default function ChatBody() {
             </div>
           </section>
         ) : null}
-        </main>
-  
-        {hasConversationSources ? (
+
+        <footer className={`chat-footer${showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
+          <BackButton />
+        </footer>
+      </main>
+
+      {hasConversationSources ? (
         <div className="chat-sources-inline">
           <button
             type="button"
@@ -1536,13 +1442,6 @@ export default function ChatBody() {
           </button>
         </div>
       ) : null}
-
-      <footer
-        className="chat-footer"
-        style={{ marginTop: "1rem", position: "relative", display: "flex", justifyContent: "center" }}
-      >
-        <BackButton />
-      </footer>
 
       {showSourcesPanel ? (
         <div
@@ -1672,6 +1571,11 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
 
 
 
