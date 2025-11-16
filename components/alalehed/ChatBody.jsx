@@ -1202,8 +1202,8 @@ export default function ChatBody() {
   <button
     className="scroll-down-btn"
     onClick={scrollToBottom}
-    aria-label={t("chat.scroll_to_bottom", "Kerige chati lõppu")}
-    title={t("chat.scroll_to_bottom_title", "Kerige lõppu")}
+    aria-label={t("chat.scroll_to_bottom")}
+    title={t("chat.scroll_to_bottom_title")}
     aria-controls="chat-window"
   >
     <svg
@@ -1233,8 +1233,8 @@ export default function ChatBody() {
             <button
               type="button"
               className="chat-attach-btn chat-send-btn chat-attach-as-send"
-              aria-label={t("chat.upload.aria", "Laadi dokument")}
-              title={t("chat.upload.tooltip", "Laadi dokument")}
+              aria-label={t("chat.upload.aria")}
+              title={t("chat.upload.tooltip")}
               onClick={() => {
                 ensureAnalysisPanelVisible();
               }}
@@ -1250,7 +1250,7 @@ export default function ChatBody() {
               style={{ display: "none" }}
             />
             <label htmlFor="chat-input" className="sr-only">
-              {t("chat.input.label", "Kirjuta sõnum")}
+              {t("chat.input.label")}
             </label>
             <textarea
               id="chat-input"
@@ -1280,7 +1280,7 @@ export default function ChatBody() {
                   opacity: 0.9,
                 }}
               >
-                <ShinyText text={t("chat.input.placeholder", "Kirjuta siia")} speed={5} />
+                <ShinyText text={t("chat.input.placeholder")} speed={5} />
               </div>
             ) : null}
           </div>
@@ -1312,33 +1312,16 @@ export default function ChatBody() {
             className="chat-analysis-panel"
             role="region"
             aria-live="polite"
-            aria-label={t("chat.upload.summary", "Dokumendi eelvaade")}
+            aria-label={t("chat.upload.summary")}
           >
             <div className="chat-analysis-card">
               <header className="chat-analysis-header" style={{ position: "relative" }}>
                 {uploadPreview ? (
-                  <>
-                    <div className="chat-analysis-titleblock">
-                      <div className="chat-analysis-file-name">
-                        {prettifyFileName(uploadPreview.fileName)}
-                      </div>
+                  <div className="chat-analysis-titleblock">
+                    <div className="chat-analysis-file-name">
+                      {prettifyFileName(uploadPreview.fileName)}
                     </div>
-                    <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <label className="glass-checkbox chat-analysis-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={useAsContext}
-                          onChange={(e) => setUseAsContext(e.target.checked)}
-                        />
-                        <span className="checkbox-text">
-                          {t("chat.upload.use_as_context")}
-                        </span>
-                      </label>
-                    </div>
-                    <p className="chat-analysis-meta chat-analysis-meta--hint chat-analysis-meta--header">
-                      {t("chat.upload.context_hint")}
-                    </p>
-                  </>
+                  </div>
                 ) : null}
                 <button
                   type="button"
@@ -1358,13 +1341,13 @@ export default function ChatBody() {
               <div className="chat-analysis-body">
                 {uploadBusy ? (
                   <div className="chat-analysis-status">
-                    {t("chat.upload.busy", "Analüüsin dokumenti...")}
+                    {t("chat.upload.busy")}
                   </div>
                 ) : null}
                 {uploadError ? <div className="chat-analysis-error">{uploadError}</div> : null}
                 {uploadPreview ? (
                   <>
-                    <div className="chat-analysis-controls chat-analysis-controls--context">
+                    <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
                       <label className="glass-checkbox chat-analysis-checkbox">
                         <input
                           type="checkbox"
@@ -1372,14 +1355,13 @@ export default function ChatBody() {
                           onChange={(e) => setUseAsContext(e.target.checked)}
                         />
                         <span className="checkbox-text">
-                          {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
+                          {t("chat.upload.use_as_context")}
                         </span>
                       </label>
                     </div>
                     <p className="chat-analysis-meta chat-analysis-meta--hint">
                       {t(
-                        "chat.upload.context_hint",
-                        "Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata."
+                        "chat.upload.context_hint"
                       )}
                     </p>
 
@@ -1516,7 +1498,7 @@ export default function ChatBody() {
                       onClick={onPickFile}
                       disabled={uploadBusy || isGenerating}
                     >
-                      {t("chat.upload.aria", "Laadi dokument")}
+                      {t("chat.upload.aria")}
                     </button>
                     <p className="chat-analysis-meta" style={{ marginTop: "0.35rem" }}>
                       {uploadUsage?.limit

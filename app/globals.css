@@ -3097,7 +3097,7 @@ backdrop-filter: none;
   opacity:0.85;
 }
 .chat-analysis-preview{
-  flex:1 1 auto;
+    flex:1 1 auto;
   min-height:150px;
   max-height:clamp(22rem, 60vh, 40rem);
   border-radius:14px;
@@ -3107,14 +3107,14 @@ backdrop-filter: none;
   overflow:auto;
   font-size:1.05rem;
   line-height:1.9;
-  white-space:pre-wrap;
-  scrollbar-width:none;
-  scrollbar-color: transparent transparent;
-}
-.chat-analysis-file{ order:0; }
-.chat-analysis-controls{ order:1; }
-.chat-analysis-preview{ order:2; }
-.chat-analysis-collapsed-note{ order:3; }
+    white-space:pre-wrap;
+    scrollbar-width:none;
+    scrollbar-color: transparent transparent;
+  }
+.chat-analysis-body > .chat-analysis-file{ order:0; }
+.chat-analysis-body > .chat-analysis-controls{ order:1; }
+.chat-analysis-body > .chat-analysis-preview{ order:2; }
+.chat-analysis-body > .chat-analysis-collapsed-note{ order:3; }
 .chat-analysis-preview::-webkit-scrollbar{ width:0; height:0; }
 .chat-analysis-preview::-webkit-scrollbar-track{ background:transparent; }
 .chat-analysis-preview::-webkit-scrollbar-thumb{
@@ -3123,14 +3123,14 @@ backdrop-filter: none;
   border:0;
 }
 .chat-analysis-preview-wrap{
-  display:flex;
-  align-items:stretch;
-  gap:0.6rem;
-}
-.chat-analysis-scroll-track{
-  position:relative;
-  flex-shrink:0;
-  width:2.4rem;
+    display:flex;
+    align-items:stretch;
+    gap:0.45rem;
+  }
+  .chat-analysis-scroll-track{
+    position:relative;
+    flex-shrink:0;
+    width:1.6rem;
   padding:0;
   background:transparent;
   border:none;
