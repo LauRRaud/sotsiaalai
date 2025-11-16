@@ -1,7 +1,7 @@
 ﻿"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextänavigation";
 import Link from "next/link";
 import Image from "next/image";
 // NOTE: using SVG as static image for avatar
@@ -314,8 +314,8 @@ export default function ChatBody() {
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [useAsContext, setUseAsContext] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
-  const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
-  const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
+  const [analysisPanelOpen, setänalysisPanelOpen] = useState(false);
+  const [analysisCollapsed, setänalysisCollapsed] = useState(false);
   const [previewScroll, setPreviewScroll] = useState(0);
 
   const chatWindowRef = useRef(null);
@@ -323,6 +323,8 @@ export default function ChatBody() {
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);
   const previewRef = useRef(null);
+  const scrollTrackRef = useRef(null);
+  const isDraggingScroll = useRef(false);
   const sourcesButtonRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
@@ -459,28 +461,74 @@ export default function ChatBody() {
     });
   }, []);
   const ensureAnalysisPanelVisible = useCallback(() => {
-    setAnalysisCollapsed(false);
-    setAnalysisPanelOpen(true);
+    setänalysisCollapsed(false);
+    setänalysisPanelOpen(true);
     scrollAnalysisPanelIntoView();
   }, [scrollAnalysisPanelIntoView]);
   const toggleAnalysisCollapse = useCallback(() => {
     if (!hasAnalysisContent) return;
-    setAnalysisCollapsed((prev) => !prev);
+    setänalysisCollapsed((prev) => !prev);
   }, [hasAnalysisContent]);
   const closeAnalysisPanel = useCallback(() => {
     if (hasAnalysisContent) return;
-    setAnalysisPanelOpen(false);
-    setAnalysisCollapsed(false);
+    setänalysisPanelOpen(false);
+    setänalysisCollapsed(false);
   }, [hasAnalysisContent]);
   useEffect(() => {
     if (hasAnyAnalysisState) {
-      setAnalysisCollapsed(false);
-      setAnalysisPanelOpen(true);
+      setänalysisCollapsed(false);
+      setänalysisPanelOpen(true);
       scrollAnalysisPanelIntoView();
     } else {
-      setAnalysisCollapsed(false);
+      setänalysisCollapsed(false);
     }
   }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
+
+  useEffect(() => {
+    function updateScrollFromClientY(clientY) {
+      const track = scrollTrackRef.current;
+      const node = previewRef.current;
+      if (!track || !node) return;
+      const rect = track.getBoundingClientRect();
+      const ratio = (clientY - rect.top) / rect.height;
+      const clamped = Math.max(0, Math.min(1, ratio));
+      const max = node.scrollHeight - node.clientHeight;
+      if (max <= 0) return;
+      setPreviewScroll(clamped);
+      node.scrollTo({ top: clamped * max, behavior: "auto" });
+    }
+    function handleMouseMove(e) {
+      if (!isDraggingScroll.current) return;
+      e.preventDefault();
+      updateScrollFromClientY(e.clientY);
+    }
+    function handleMouseUp() {
+      isDraggingScroll.current = false;
+    }
+    function handleTouchMove(e) {
+      if (!isDraggingScroll.current) return;
+      const touch = e.touches?.[0];
+      if (!touch) return;
+      e.preventDefault();
+      updateScrollFromClientY(touch.clientY);
+    }
+    function handleTouchEnd() {
+      isDraggingScroll.current = false;
+    }
+    const passiveFalse = { passive: false };
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchmove", handleTouchMove, passiveFalse);
+    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("touchcancel", handleTouchEnd);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchmove", handleTouchMove, passiveFalse);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchcancel", handleTouchEnd);
+    };
+  }, []);
   const appendMessage = useCallback((msg) => {
     const id = messageIdRef.current++;
     setMessages((prev) => [...prev, { ...msg, id }]);
@@ -1258,7 +1306,7 @@ export default function ChatBody() {
           </button>
         </form>
 
-        {showAnalysisPanel ? (
+                {showAnalysisPanel ? (
           <section
             ref={analysisPanelRef}
             className="chat-analysis-panel"
@@ -1268,6 +1316,13 @@ export default function ChatBody() {
           >
             <div className="chat-analysis-card">
               <header className="chat-analysis-header" style={{ position: "relative" }}>
+                {uploadPreview ? (
+                  <div className="chat-analysis-titleblock">
+                    <div className="chat-analysis-file-name">
+                      {prettifyFileName(uploadPreview.fileName)}
+                    </div>
+                  </div>
+                ) : null}
                 <button
                   type="button"
                   className="chat-analysis-close"
@@ -1279,16 +1334,6 @@ export default function ChatBody() {
                     closeAnalysisPanel();
                   }}
                   aria-label={t("buttons.close", "Sulge")}
-                  style={{
-                    marginLeft: "auto",
-                    border: "none",
-                    background: "transparent",
-                    color: "#f8fafc",
-                    fontSize: "1.9rem",
-                    lineHeight: 1,
-                    cursor: "pointer",
-                    padding: "0.15rem 0.35rem",
-                  }}
                 >
                   ×
                 </button>
@@ -1302,26 +1347,38 @@ export default function ChatBody() {
                 {uploadError ? <div className="chat-analysis-error">{uploadError}</div> : null}
                 {uploadPreview ? (
                   <>
-                    <div className="chat-analysis-file">
-                      <div className="chat-analysis-file-info">
-                        <div className="chat-analysis-file-name">
-                          {prettifyFileName(uploadPreview.fileName)}
-                        </div>
-                      </div>
-                      <div className="chat-analysis-file-actions">
-                        {previewText ? (
-                          <button
-                            type="button"
-                            onClick={toggleAnalysisCollapse}
-                            className="btn-primary chat-analysis-btn chat-analysis-btn--small"
-                          >
-                            {analysisCollapsed
-                              ? t("chat.upload.summary_show", "Näita eelvaadet")
-                              : t("chat.upload.summary_hide", "Peida eelvaade")}
-                          </button>
-                        ) : null}
-                      </div>
+                    <div className="chat-analysis-controls chat-analysis-controls--context">
+                      <label className="glass-checkbox chat-analysis-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={useAsContext}
+                          onChange={(e) => setUseAsContext(e.target.checked)}
+                        />
+                        <span className="checkbox-text">
+                          {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
+                        </span>
+                      </label>
                     </div>
+                    <p className="chat-analysis-meta chat-analysis-meta--hint">
+                      {t(
+                        "chat.upload.context_hint",
+                        "Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata."
+                      )}
+                    </p>
+
+                    {previewText ? (
+                      <div className="chat-analysis-actions chat-analysis-actions--inline">
+                        <button
+                          type="button"
+                          onClick={toggleAnalysisCollapse}
+                          className="btn-primary chat-analysis-btn chat-analysis-btn--small"
+                        >
+                          {analysisCollapsed
+                            ? t("chat.upload.summary_show", "Näita dokumenti")
+                            : t("chat.upload.summary_hide", "Peida dokument")}
+                        </button>
+                      </div>
+                    ) : null}
 
                     {!analysisCollapsed && previewText ? (
                       <div className="chat-analysis-preview-wrap">
@@ -1342,53 +1399,97 @@ export default function ChatBody() {
                           {previewText}
                         </div>
                         <div
+                          ref={scrollTrackRef}
                           className="chat-analysis-scroll-track"
                           onClick={(event) => {
+                            const track = scrollTrackRef.current;
                             const node = previewRef.current;
-                            if (!node) return;
-                            const rect = event.currentTarget.getBoundingClientRect();
+                            if (!track || !node) return;
+                            const rect = track.getBoundingClientRect();
                             const ratio = (event.clientY - rect.top) / rect.height;
                             const max = node.scrollHeight - node.clientHeight;
                             if (max <= 0) return;
-                            const nextTop = Math.max(0, Math.min(max, ratio * max));
-                            node.scrollTo({ top: nextTop, behavior: "smooth" });
+                            const clamped = Math.max(0, Math.min(1, ratio));
+                            setPreviewScroll(clamped);
+                            node.scrollTo({ top: clamped * max, behavior: "smooth" });
+                          }}
+                          onMouseDown={(event) => {
+                            const track = scrollTrackRef.current;
+                            const node = previewRef.current;
+                            if (track && node) {
+                              const rect = track.getBoundingClientRect();
+                              const ratio = (event.clientY - rect.top) / rect.height;
+                              const max = node.scrollHeight - node.clientHeight;
+                              if (max > 0) {
+                                const clamped = Math.max(0, Math.min(1, ratio));
+                                setPreviewScroll(clamped);
+                                node.scrollTo({ top: clamped * max, behavior: "auto" });
+                              }
+                            }
+                            isDraggingScroll.current = true;
+                            event.preventDefault();
+                          }}
+                          onTouchStart={(event) => {
+                            const track = scrollTrackRef.current;
+                            const node = previewRef.current;
+                            const touch = event.touches?.[0];
+                            if (track && node && touch) {
+                              const rect = track.getBoundingClientRect();
+                              const ratio = (touch.clientY - rect.top) / rect.height;
+                              const max = node.scrollHeight - node.clientHeight;
+                              if (max > 0) {
+                                const clamped = Math.max(0, Math.min(1, ratio));
+                                setPreviewScroll(clamped);
+                                node.scrollTo({ top: clamped * max, behavior: "auto" });
+                              }
+                            }
+                            isDraggingScroll.current = true;
+                            event.preventDefault();
                           }}
                           aria-hidden="true"
                         >
                           <div
                             className="chat-analysis-scroll-thumb"
-                            style={{ top: `${previewScroll * 100}%` }}
+                            style={{ top: `calc(${previewScroll * 100}% + 0.3rem)` }}
+                            onMouseDown={(event) => {
+                              const track = scrollTrackRef.current;
+                              const node = previewRef.current;
+                              if (track && node) {
+                                const rect = track.getBoundingClientRect();
+                                const ratio = (event.clientY - rect.top) / rect.height;
+                                const max = node.scrollHeight - node.clientHeight;
+                                if (max > 0) {
+                                  const clamped = Math.max(0, Math.min(1, ratio));
+                                  setPreviewScroll(clamped);
+                                  node.scrollTo({ top: clamped * max, behavior: "auto" });
+                                }
+                              }
+                              isDraggingScroll.current = true;
+                              event.preventDefault();
+                            }}
+                            onTouchStart={(event) => {
+                              const track = scrollTrackRef.current;
+                              const node = previewRef.current;
+                              const touch = event.touches?.[0];
+                              if (track && node && touch) {
+                                const rect = track.getBoundingClientRect();
+                                const ratio = (touch.clientY - rect.top) / rect.height;
+                                const max = node.scrollHeight - node.clientHeight;
+                                if (max > 0) {
+                                  const clamped = Math.max(0, Math.min(1, ratio));
+                                  setPreviewScroll(clamped);
+                                  node.scrollTo({ top: clamped * max, behavior: "auto" });
+                                }
+                              }
+                              isDraggingScroll.current = true;
+                              event.preventDefault();
+                            }}
                           >
                             <SotsiaalAILoader size="1.1rem" animated={false} ariaHidden />
                           </div>
                         </div>
                       </div>
                     ) : null}
-                    {analysisCollapsed ? (
-                      <div className="chat-analysis-collapsed-note">
-                        {t("chat.upload.preview_hidden", "Dokumendi tekst peidetud")}
-                      </div>
-                    ) : null}
-
-                    <div className="chat-analysis-controls">
-                      <label className="glass-checkbox chat-analysis-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={useAsContext}
-                          onChange={(e) => setUseAsContext(e.target.checked)}
-                        />
-                        <span className="checkbox-text">
-                          {t("chat.upload.use_as_context", "Kasuta järgmisel vastusel kontekstina")}
-                        </span>
-                      </label>
-                      <span className="chat-analysis-meta">
-                        {t(
-                          "chat.upload.context_hint",
-                          "“Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata.”"
-                        )}
-                      </span>
-                      
-                    </div>
                   </>
                 ) : (
                   <div className="chat-analysis-empty">
@@ -1424,10 +1525,7 @@ export default function ChatBody() {
 
         <footer className={`chat-footer${showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
           <BackButton />
-        </footer>
-      </main>
-
-      {hasConversationSources ? (
+        </footer>{hasConversationSources ? (
         <div className="chat-sources-inline">
           <button
             type="button"
@@ -1571,6 +1669,22 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

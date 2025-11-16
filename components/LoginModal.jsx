@@ -240,11 +240,14 @@ export default function LoginModal({ open, onClose }) {
   const onHiddenKeyDown = useCallback(
     (e) => {
       if (step !== "pin") return;
+      const isPinFieldEvent = hiddenInputRef.current && e.target === hiddenInputRef.current;
       if (e.key === "Enter") {
         e.preventDefault();
         submitPinStep();
         return;
       }
+      // When the PIN input itself is focused, let the native input event update state to avoid double entries
+      if (isPinFieldEvent) return;
       if (e.key === "Backspace") {
         e.preventDefault();
         setPinValue((p) => p.slice(0, -1));
@@ -256,6 +259,17 @@ export default function LoginModal({ open, onClose }) {
       }
     },
     [step, PIN_MAX, submitPinStep]
+  );
+
+  const handlePinInputChange = useCallback(
+    (e) => {
+      if (step !== "pin") return;
+      const raw = typeof e?.target?.value === "string" ? e.target.value : "";
+      const next = raw.replace(/\D/g, "").slice(0, PIN_MAX);
+      setPinValue(next);
+      setError("");
+    },
+    [PIN_MAX, step]
   );
 
   useEffect(() => {
@@ -469,6 +483,9 @@ export default function LoginModal({ open, onClose }) {
               className="sr-only"
               tabIndex={-1}
               type="text"
+              onKeyDown={onHiddenKeyDown}
+              onInput={handlePinInputChange}
+              onChange={handlePinInputChange}
             />
 
             <div className="pin-keypad-all-wrapper" aria-hidden="false">
