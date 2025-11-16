@@ -1296,7 +1296,6 @@ export default function ChatBody() {
               const thinking = isGenerating || isStreamingAny;
               return (
                 <SotsiaalAILoader
-                  size="calc(100% + 2px)"
                   animated={thinking}
                   ariaHidden
                   className="send-loader"
@@ -1353,13 +1352,14 @@ export default function ChatBody() {
                           type="checkbox"
                           checked={useAsContext}
                           onChange={(e) => setUseAsContext(e.target.checked)}
+                          aria-describedby="chat-upload-context-hint"
                         />
                         <span className="checkbox-text">
                           {t("chat.upload.use_as_context")}
                         </span>
                       </label>
                     </div>
-                    <p className="chat-analysis-meta chat-analysis-meta--hint">
+                    <p id="chat-upload-context-hint" className="chat-analysis-meta chat-analysis-meta--hint">
                       {t(
                         "chat.upload.context_hint"
                       )}
@@ -1384,6 +1384,8 @@ export default function ChatBody() {
                         <div
                           ref={previewRef}
                           className="chat-analysis-preview chat-upload-preview-scroll"
+                          tabIndex={0}
+                          aria-label={t("chat.upload.preview", "Dokumendi tekst")}
                           onScroll={() => {
                             const node = previewRef.current;
                             if (!node) return;
