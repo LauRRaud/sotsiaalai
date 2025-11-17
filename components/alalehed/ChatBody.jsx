@@ -1390,7 +1390,7 @@ export default function ChatBody() {
                             </span>
                           </button>
                         </span>
-                      </label>
+                      </div>
                     </div>
                     <p id="chat-upload-context-hint" className="sr-only">
                       {t(
