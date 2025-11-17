@@ -457,7 +457,7 @@
       "busy": "Laen dokumenti üles...",
       "summary": "Dokumendi tekst",
       "summary_show": "Näita dokumenti",
-      "summary_hide": "Peida dokument",
+      "summary_hide": "Peida tekst",
       "privacy": "Analüüsiks, ei salvestata püsivalt.",
       "context_hint": "Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile. Dokumenti ei salvestata.",
       "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3–5 olulisemat punkti.",
