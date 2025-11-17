@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MESSAGES_DIR = path.resolve(__dirname, "..", "messages");
-const BASE_LOCALE = "en";
+const BASE_LOCALE = "et";
 
 const isObject = (value) => value && typeof value === "object" && !Array.isArray(value);
 

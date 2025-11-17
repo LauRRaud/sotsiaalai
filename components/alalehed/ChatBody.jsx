@@ -1444,6 +1444,21 @@ export default function ChatBody() {
 
                     {!analysisCollapsed && previewText ? (
                       <div className="chat-analysis-preview-wrap">
+                        <button
+                          type="button"
+                          className="chat-analysis-jump chat-analysis-jump--floating"
+                          onClick={() => {
+                            inputRef.current?.focus();
+                            inputRef.current?.scrollIntoView({
+                              behavior: "smooth",
+                              block: "center",
+                            });
+                          }}
+                          aria-label={t("chat.upload.jump_to_chat", "Vestlusesse")}
+                          title={t("chat.upload.jump_to_chat", "Vestlusesse")}
+                        >
+                          {t("chat.upload.jump_to_chat", "Vestlusesse")}
+                        </button>
                         <div
                           ref={previewRef}
                           className="chat-analysis-preview chat-upload-preview-scroll"
@@ -1461,21 +1476,6 @@ export default function ChatBody() {
                             setPreviewScroll(node.scrollTop / max);
                           }}
                         >
-                          <button
-                            type="button"
-                            className="chat-analysis-jump chat-analysis-jump--floating"
-                            onClick={() => {
-                              inputRef.current?.focus();
-                              inputRef.current?.scrollIntoView({
-                                behavior: "smooth",
-                                block: "center",
-                              });
-                            }}
-                            aria-label={t("chat.upload.jump_to_chat", "Vestlusesse")}
-                            title={t("chat.upload.jump_to_chat", "Vestlusesse")}
-                          >
-                            {t("chat.upload.jump_to_chat", "Vestlusesse")}
-                          </button>
                           {previewText}
                         </div>
                         <div
@@ -1530,7 +1530,11 @@ export default function ChatBody() {
                         >
                           <div
                             className="chat-analysis-scroll-thumb"
-                            style={{ top: `calc(${previewScroll * 100}% + 0.3rem)` }}
+                            style={{
+                              top: `calc(${previewScroll * 100}% + 0.3rem)`,
+                              opacity: previewScroll > 0.92 || previewScroll < 0.02 ? 0 : 1,
+                              transition: "opacity 0.16s ease",
+                            }}
                             onMouseDown={(event) => {
                               const track = scrollTrackRef.current;
                               const node = previewRef.current;
