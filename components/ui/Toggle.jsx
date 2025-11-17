@@ -10,15 +10,15 @@ export default function Toggle({ id = "toggle", checked, onChange, ariaDescribed
   const inputId = id || "toggle";
 
   return (
-    <label className="switch-button" htmlFor={inputId}>
+    <label className="switch-button chat-context-toggle" htmlFor={inputId}>
       <div className="switch-outer">
         <input
           id={inputId}
+          className="switch-input"
           type="checkbox"
           checked={!!checked}
           onChange={handleChange}
           aria-describedby={ariaDescribedBy}
-          className="switch-input"
         />
         <div className="button">
           <span className="button-toggle">
