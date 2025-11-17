@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import UserCircle from "@/public/logo/User-circle.svg";
 import Paperclip from "@/public/logo/paperclip.svg";
-import EyeIcon from "@/public/logo/silma.svg";
+import Toggle from "@/components/ui/Toggle";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
@@ -1347,18 +1347,12 @@ export default function ChatBody() {
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
                       <div className="chat-context-toggle">
-                        <button
-                          type="button"
-                          className="chat-context-toggle__track"
-                          data-checked={useAsContext ? "true" : "false"}
-                          onClick={() => setUseAsContext((prev) => !prev)}
-                          aria-pressed={useAsContext ? "true" : "false"}
-                          aria-describedby="chat-upload-context-hint"
-                        >
-                          <span className="chat-context-toggle__thumb" aria-hidden="true">
-                            <EyeIcon aria-hidden="true" className="chat-context-toggle__icon" />
-                          </span>
-                        </button>
+                        <Toggle
+                          id="chat-use-as-context"
+                          checked={useAsContext}
+                          onChange={setUseAsContext}
+                          ariaDescribedBy="chat-upload-context-hint"
+                        />
                         <span className="chat-context-toggle__label">
                           {useAsContextLabel}
                           <button
