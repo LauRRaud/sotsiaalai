@@ -347,6 +347,45 @@ export default function ChatBody() {
     () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, messages]
   );
+  const handlePreviewWheel = useCallback(
+    (event) => {
+      const panel = analysisPanelRef.current;
+      const previewNode = previewRef.current;
+      if (!panel || !previewNode) return;
+      const rect = panel.getBoundingClientRect();
+      const vh =
+        typeof window !== "undefined"
+          ? window.innerHeight || document.documentElement.clientHeight || 0
+          : 0;
+      const margin = 24;
+      const fullyVisible = rect.top >= margin && rect.bottom <= vh - margin;
+      if (!fullyVisible && vh > 0) {
+        event.preventDefault();
+        panel.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      const maxScroll = previewNode.scrollHeight - previewNode.clientHeight;
+      if (maxScroll <= 0) return;
+      const deltaY = event.deltaY;
+      const atTop = previewNode.scrollTop <= 0;
+      const atBottom = previewNode.scrollTop >= maxScroll;
+      const canScrollDown = deltaY > 0 && !atBottom;
+      const canScrollUp = deltaY < 0 && !atTop;
+      if (canScrollDown || canScrollUp) {
+        event.preventDefault();
+        const next = Math.max(
+          0,
+          Math.min(maxScroll, previewNode.scrollTop + deltaY)
+        );
+        previewNode.scrollTop = next;
+        const maxAfter = previewNode.scrollHeight - previewNode.clientHeight;
+        if (maxAfter > 0) {
+          setPreviewScroll(next / maxAfter);
+        }
+      }
+    },
+    [setPreviewScroll]
+  );
 
   const conversationSources = useMemo(() => {
     const map = new Map();
@@ -1425,6 +1464,7 @@ export default function ChatBody() {
                           className="chat-analysis-preview chat-upload-preview-scroll"
                           tabIndex={0}
                           aria-label={t("chat.upload.preview", "Dokumendi tekst")}
+                          onWheel={handlePreviewWheel}
                           onScroll={() => {
                             const node = previewRef.current;
                             if (!node) return;
