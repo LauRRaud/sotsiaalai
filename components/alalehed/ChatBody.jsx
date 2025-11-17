@@ -1446,7 +1446,7 @@ export default function ChatBody() {
                       <div className="chat-analysis-preview-wrap">
                         <button
                           type="button"
-                          className="chat-analysis-jump chat-analysis-jump--floating"
+                          className="chat-analysis-jump chat-analysis-jump--floating chat-analysis-jump--text"
                           onClick={() => {
                             inputRef.current?.focus();
                             inputRef.current?.scrollIntoView({

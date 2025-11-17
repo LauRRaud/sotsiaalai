@@ -1,6 +1,6 @@
 {
   "common": {
-    "skip_to_content": "JĆ¤tka sisuni",
+    "skip_to_content": "Jätka sisuni",
     "language_changed": "Keel muudetud: {language}",
     "languages": {
       "et": "eesti",
@@ -10,7 +10,7 @@
     "cancel": "Katkesta",
     "close": "Sulge",
     "back_home": "Tagasi avalehele",
-    "or": "vĆµi",
+    "or": "või",
     "back": "Tagasi",
     "back_to_previous": "Tagasi eelmisele lehele"
   },
@@ -26,21 +26,21 @@
     "try_again": "Proovi uuesti",
     "open_profile": "Ava profiil",
     "open_chat": "Ava vestlus",
-    "open_accessibility": "Ava ligipĆ¤Ć¤setavuse seaded",
+    "open_accessibility": "Ava ligipääsetavuse seaded",
     "new": "Uus",
     "new_conversation": "Uus vestlus",
-    "refresh": "VĆ¤rskenda",
+    "refresh": "Värskenda",
     "delete": "Kustuta",
     "confirm": "Kinnita",
     "submit": "Saada"
   },
   "errors": {
-    "title": "Midagi lĆ¤ks valesti",
-    "description": "Vabandame, ilmnes ootamatu viga. Palun proovi uuesti vĆµi mine tagasi avalehele.",
+    "title": "Midagi läks valesti",
+    "description": "Vabandame, ilmnes ootamatu viga. Palun proovi uuesti või mine tagasi avalehele.",
     "retry": "Proovi uuesti"
   },
   "nav": {
-    "main": "PeamenĆ¼Ć¼",
+    "main": "Peamenüü",
     "home": "Avaleht",
     "about": "MEIST",
     "chat": "Vestlus",
@@ -50,7 +50,7 @@
     "register": "Registreeru",
     "login": "Logi sisse",
     "start": "Start",
-    "aria_main": "PeamenĆ¼Ć¼"
+    "aria_main": "Peamenüü"
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
@@ -58,17 +58,17 @@
     "pin_placeholder": "PIN (4-8 numbrit)",
     "login": {
       "title": "Logi sisse",
-      "or": "vĆµi",
+      "or": "või",
       "error": {
-        "credentials": "Vale e-post vĆµi PIN.",
+        "credentials": "Vale e-post või PIN.",
         "email_required": "Palun sisesta e-posti aadress.",
         "email_invalid": "Palun sisesta korrektne e-posti aadress.",
         "pin_required": "Palun sisesta PIN.",
-        "pin_invalid": "PIN peab olema 4ā€“8 numbrit.",
-        "generic": "Sisselogimine ebaĆµnnestus. Palun proovi uuesti."
+        "pin_invalid": "PIN peab olema 4–8 numbrit.",
+        "generic": "Sisselogimine ebaõnnestus. Palun proovi uuesti."
       },
       "submit": "Sisenen",
-      "submitting": "Sisenenā€¦",
+      "submitting": "Sisenen…",
       "forgot": "Unustasid PIN-i?",
       "register_link": "Registreeru",
       "clear": "Kustuta PIN",
@@ -79,89 +79,89 @@
       "otp_description": "Saadsime kinnituskoodi aadressile {email}. Sisesta see 10 minuti jooksul.",
       "otp_expires": "Kood aegub kell {time}.",
       "otp_placeholder": "Kinnituskood (6 numbrit)",
-      "remember_device": "JĆ¤ta see seade 30 pĆ¤evaks meelde",
+      "remember_device": "Jäta see seade 30 päevaks meelde",
       "otp_submit": "Kinnitan",
       "otp_submitting": "Kontrollime...",
       "resend": "Saada kood uuesti",
       "resending": "Saadame...",
       "otp_back": "Kasuta teist e-posti",
-      "otp_invalid": "Kood on vale vĆµi aegunud.",
+      "otp_invalid": "Kood on vale või aegunud.",
       "otp_resent": "Saadeti uus kood aadressile {email}."
     },
     "register": {
       "title": "Loo konto",
       "role_label": "Roll:",
-      "agreement": "NĆµustun <terms>kasutajatingimustega</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
+      "agreement": "Nõustun <terms>kasutajatingimustega</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
       "error": {
-        "agree_required": "Pead nĆµustuma kasutajatingimustega ja privaatsuspoliitikaga.",
-        "failed": "Registreerimine ebaĆµnnestus.",
-        "auto_login": "Automaatne sisselogimine ebaĆµnnestus. Proovi eraldi sisse logida."
+        "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
+        "failed": "Registreerimine ebaõnnestus.",
+        "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
       },
       "submit": "Registreeru",
-      "submitting": "Loome kontotā€¦",
+      "submitting": "Loome kontot…",
       "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga."
     },
     "reset": {
       "title": "Uuenda PIN kood",
-      "success": "<p>Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.</p><p>Kontrolli ka rĆ¤mpsposti kausta!</p>",
+      "success": "<p>Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.</p><p>Kontrolli ka rämpsposti kausta!</p>",
       "error": {
         "required": "Palun sisesta oma e-posti aadress.",
-        "failed": "Taastelinki ei Ćµnnestunud saata.",
-        "server": "Serveriga tekis Ć¼henduse viga. Palun proovi uuesti."
+        "failed": "Taastelinki ei õnnestunud saata.",
+        "server": "Serveriga tekis ühenduse viga. Palun proovi uuesti."
       },
       "submit": "Saada taastelink",
-      "submitting": "Saadameā€¦"
+      "submitting": "Saadame…"
     },
     "resetForm": {
       "title": "Uuenda PIN",
-      "success": "PIN on edukalt uuendatud. Saad nĆ¼Ć¼d sisse logida oma uue PIN-iga.",
+      "success": "PIN on edukalt uuendatud. Saad nüüd sisse logida oma uue PIN-iga.",
       "submit": "Uuenda PIN",
-      "submitting": "Uuendameā€¦",
+      "submitting": "Uuendame…",
       "fields": {
         "pin": "Uus PIN",
         "confirm": "Korda PIN-i"
       },
       "errors": {
-        "required": "Palun tĆ¤ida mĆµlemad PIN-vĆ¤ljad.",
+        "required": "Palun täida mõlemad PIN-väljad.",
         "mismatch": "PIN-id ei kattu.",
-        "minLength": "PIN peab olema 4ā€“8 numbrit.",
-        "pinLength": "PIN peab olema 4ā€“8 numbrit.",
-        "updateFailed": "PIN-i ei Ćµnnestunud uuendada.",
-        "server": "Serveriga tekkis Ć¼henduse viga. Palun proovi uuesti."
+        "minLength": "PIN peab olema 4–8 numbrit.",
+        "pinLength": "PIN peab olema 4–8 numbrit.",
+        "updateFailed": "PIN-i ei õnnestunud uuendada.",
+        "server": "Serveriga tekkis ühenduse viga. Palun proovi uuesti."
       }
     }
   },
   "home": {
     "opening_banner": "Peagi avame!",
     "nav": {
-      "aria_main": "PeamenĆ¼Ć¼",
+      "aria_main": "Peamenüü",
       "about": "MEIST"
     },
     "card": {
       "specialist": {
         "aria": "Logi sisse spetsialistina",
-        "title": "SOTSIAALTĆ–Ć– SPETSIALISTILE"
+        "title": "SOTSIAALTÖÖ SPETSIALISTILE"
       },
       "client": {
-        "aria": "Logi sisse pĆ¶Ć¶rdujana",
-        "title": "ELUKĆSIMUSEGA PĆ–Ć–RDUJALE"
+        "aria": "Logi sisse pöördujana",
+        "title": "ELUKÜSIMUSEGA PÖÖRDUJALE"
       }
     },
     "footer": {
       "logo_alt": "SotsiaalAI logo"
     },
     "circular": {
-      "left_text": "SEADUSED PRAKTIKA NĆ•UANDED",
-      "right_text": "Ć•IGUSED JUHISED VĆ•IMALUSED"
+      "left_text": "SEADUSED PRAKTIKA NÕUANDED",
+      "right_text": "ÕIGUSED JUHISED VÕIMALUSED"
     },
     "ring": {
-      "left": "SEADUSED PRAKTIKA NĆ•UANDED",
-      "right": "Ć•IGUSED JUHISED VĆ•IMALUSED"
+      "left": "SEADUSED PRAKTIKA NÕUANDED",
+      "right": "ÕIGUSED JUHISED VÕIMALUSED"
     }
   },
   "profile": {
     "title": "Minu profiil",
-    "loading": "Laen profiiliā€¦",
+    "loading": "Laen profiili…",
     "login_to_manage_sub": "Logi sisse ja aktiveeri tellimus, et profiili vaadata.",
     "login_to_view": "Profiili vaatamiseks logi sisse.",
     "login": "Logi sisse",
@@ -169,64 +169,64 @@
     "ui_language": "Kasutajaliidese keel",
     "email": "E-post",
     "new_password_optional": "Uus PIN (soovi korral)",
-    "saving": "Salvestanā€¦",
+    "saving": "Salvestan…",
     "save": "Salvesta",
-    "logout": "Logi vĆ¤lja",
+    "logout": "Logi välja",
     "back_to_chat": "Tagasi vestlusesse",
-    "delete_confirm": "Kas oled kindel, et soovid oma konto jĆ¤Ć¤davalt kustutada? Seda toimingut ei saa tagasi vĆµtta.",
-    "deleting": "Kustutanā€¦",
+    "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
+    "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
-    "load_failed": "Profiili laadimine ebaĆµnnestus.",
-    "update_failed": "Profiili uuendamine ebaĆµnnestus.",
-    "delete_failed": "Konto kustutamine ebaĆµnnestus.",
+    "load_failed": "Profiili laadimine ebaõnnestus.",
+    "update_failed": "Profiili uuendamine ebaõnnestus.",
+    "delete_failed": "Konto kustutamine ebaõnnestus.",
     "saved_ok": "Muudatused salvestatud.",
     "server_unreachable": "Server ei vasta. Palun proovi uuesti.",
     "preferences": {
-      "title": "Keel ja ligipĆ¤Ć¤setavus",
-      "hint": "Seadista vaikimisi keel ning ligipĆ¤Ć¤setavuse eelistused. Muudatused rakenduvad kohe.",
+      "title": "Keel ja ligipääsetavus",
+      "hint": "Seadista vaikimisi keel ning ligipääsetavuse eelistused. Muudatused rakenduvad kohe.",
       "sections": {
         "locale": "Vaikekeel",
         "contrast": "Kontrast",
         "fontSize": "Kirjasuurus",
         "motion": "Animatsioonid"
       },
-      "reset": "LĆ¤htesta",
+      "reset": "Lähtesta",
       "save": "Salvesta muudatused",
-      "saving": "Salvestanā€¦",
+      "saving": "Salvestan…",
       "saved": "Eelistused salvestatud.",
-      "save_failed": "Eelistuste salvestamine ebaĆµnnestus. Palun proovi uuesti."
+      "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
     },
     "change_password_cta": "Uus PIN",
     "update_email_cta": "Uus e-post",
     "email_update": {
       "title": "Uuenda e-post",
       "submit": "Saada kinnituskiri",
-      "submitting": "Saadanā€¦",
-      "pin_placeholder": "Praegune PIN (4ā€“8 numbrit)",
+      "submitting": "Saadan…",
+      "pin_placeholder": "Praegune PIN (4–8 numbrit)",
       "success": "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
       "error_email_required": "Palun sisesta e-posti aadress.",
       "error_email_invalid": "Palun sisesta korrektne e-posti aadress.",
       "error_pin_required": "Palun sisesta PIN-kood.",
-      "error_pin_length": "PIN peab olema 4ā€“8 numbrit.",
-      "error_failed": "E-posti uuendamine ebaĆµnnestus."
+      "error_pin_length": "PIN peab olema 4–8 numbrit.",
+      "error_failed": "E-posti uuendamine ebaõnnestus."
     },
-    "pin_help": "Sisesta oma PIN, et kinnitada e-posti vĆµi PIN-i muudatus. PIN peab olema 4ā€“8 numbrit.",
+    "pin_help": "Sisesta oma PIN, et kinnitada e-posti või PIN-i muudatus. PIN peab olema 4–8 numbrit.",
     "current_pin_label": "Praegune PIN",
     "new_pin_label": "Uus PIN",
-    "new_pin_placeholder": "Uus PIN (4ā€“8 numbrit)",
+    "new_pin_placeholder": "Uus PIN (4–8 numbrit)",
     "confirm_pin_label": "Kinnita uus PIN",
     "success_email_pending": "Saadsime uuele aadressile kinnituskirja.",
     "success_pin_updated": "PIN on uuendatud.",
     "errors": {
       "current_pin_required": "Sisesta muudatuse kinnitamiseks praegune PIN.",
       "pin_required": "Sisesta ja kinnita uus PIN.",
-      "pin_invalid": "PIN peab olema 4ā€“8 numbrit.",
+      "pin_invalid": "PIN peab olema 4–8 numbrit.",
       "pin_mismatch": "PIN-id ei kattu.",
       "no_changes": "Midagi pole uuendada."
     }
   },
   "accessibility": {
-    "title": "LigipĆ¤Ć¤setavuse eelistused",
+    "title": "Ligipääsetavuse eelistused",
     "description": "Kohanda teksti suurust, kontrasti ja animatsioone.",
     "language": "Keel",
     "text_scale": "Teksti suurus",
@@ -239,17 +239,17 @@
         "en": "Inglise"
       },
       "text_scale": {
-        "sm": "VĆ¤ike",
+        "sm": "Väike",
         "md": "Tavaline",
         "lg": "Suur",
-        "xl": "VĆ¤ga suur"
+        "xl": "Väga suur"
       },
       "contrast": {
         "normal": "Tavaline",
-        "hc": "KĆµrge kontrast"
+        "hc": "Kõrge kontrast"
       },
       "motion": {
-        "reduce": "VĆ¤henda liikumist"
+        "reduce": "Vähenda liikumist"
       }
     },
     "save": "Salvesta seaded"
@@ -257,127 +257,127 @@
   "privacy": {
     "title": "Privaatsustingimused",
     "section1": {
-      "heading": "1. ĆldsĆ¤tted",
-      "paragraph1": "<p>KĆ¤esolevad privaatsustingimused kehtivad <strong>SotsiaalAI OĆ</strong> hallatava veebiplatvormi (edaspidi <strong>SotsiaalAI</strong> vĆµi <strong>Platvorm</strong>) kasutamisel. Privaatsustingimused selgitavad, kuidas SotsiaalAI kogub, kasutab ja kaitseb isikuandmeid vastavalt Eesti ja Euroopa Liidu Ćµigusaktidele.</p>",
-      "paragraph2": "<p>SotsiaalAI tĆ¶Ć¶tleb isikuandmeid kooskĆµlas Eesti isikuandmete kaitse <aLawEst>seadusega</aLawEst> ning Euroopa Liidu isikuandmete kaitse <aGdpr>Ć¼ldmĆ¤Ć¤rusega</aGdpr>.</p>"
+      "heading": "1. Üldsätted",
+      "paragraph1": "<p>Käesolevad privaatsustingimused kehtivad <strong>SotsiaalAI OÜ</strong> hallatava veebiplatvormi (edaspidi <strong>SotsiaalAI</strong> või <strong>Platvorm</strong>) kasutamisel. Privaatsustingimused selgitavad, kuidas SotsiaalAI kogub, kasutab ja kaitseb isikuandmeid vastavalt Eesti ja Euroopa Liidu õigusaktidele.</p>",
+      "paragraph2": "<p>SotsiaalAI töötleb isikuandmeid kooskõlas Eesti isikuandmete kaitse <aLawEst>seadusega</aLawEst> ning Euroopa Liidu isikuandmete kaitse <aGdpr>üldmäärusega</aGdpr>.</p>"
     },
     "section2": {
       "heading": "2. Kogutavad andmed",
-      "paragraph1": "<p><strong>2.1 Kasutajakonto andmed.</strong> E-posti aadress, roll (spetsialist vĆµi pĆ¶Ć¶rduja) ja autentimisviis (e-post + PIN). Nime ega isikukoodi ei koguta ega salvestata.</p>",
-      "paragraph2": "<p><strong>2.2 Tellimused ja maksed.</strong> Tellimuse tĆ¼Ć¼p ja staatus, makse-ID. Makseid tĆ¶Ć¶tleb Maksekeskus AS; SotsiaalAI ei salvesta kaardi- ega pangakontoandmeid.</p>",
-      "paragraph3": "<p><strong>2.3 Tehnilised metaandmed.</strong> IP-aadress, brauseri tĆ¼Ć¼p, seadmeinfo ja logiteave turbe ning tĆµrke diagnoosimise eesmĆ¤rgil.</p>"
+      "paragraph1": "<p><strong>2.1 Kasutajakonto andmed.</strong> E-posti aadress, roll (spetsialist või pöörduja) ja autentimisviis (e-post + PIN). Nime ega isikukoodi ei koguta ega salvestata.</p>",
+      "paragraph2": "<p><strong>2.2 Tellimused ja maksed.</strong> Tellimuse tüüp ja staatus, makse-ID. Makseid töötleb Maksekeskus AS; SotsiaalAI ei salvesta kaardi- ega pangakontoandmeid.</p>",
+      "paragraph3": "<p><strong>2.3 Tehnilised metaandmed.</strong> IP-aadress, brauseri tüüp, seadmeinfo ja logiteave turbe ning tõrke diagnoosimise eesmärgil.</p>"
     },
     "section3": {
-      "heading": "3. EesmĆ¤rgid ja Ćµiguslikud alused",
-      "items": "<li>Teenuse osutamine (vestluse vahendamine, ligipĆ¤Ć¤s kontole) - lepingu tĆ¤itmine (GDPR art 6(1)(b)).</li><li>Maksete tĆ¶Ć¶tlemine - lepingu tĆ¤itmine ja Ćµigustatud huvi pettuste ennetamiseks (art 6(1)(b),(f)).</li><li>Turvalisus, veatuvastus ja tĆ¶Ć¶kindlus - Ćµigustatud huvi (art 6(1)(f)).</li><li>Ć•igusnĆµuete kaitse ja aruandlus - Ćµiguslik kohustus/Ćµigustatud huvi (art 6(1)(c),(f)).</li>"
+      "heading": "3. Eesmärgid ja õiguslikud alused",
+      "items": "<li>Teenuse osutamine (vestluse vahendamine, ligipääs kontole) - lepingu täitmine (GDPR art 6(1)(b)).</li><li>Maksete töötlemine - lepingu täitmine ja õigustatud huvi pettuste ennetamiseks (art 6(1)(b),(f)).</li><li>Turvalisus, veatuvastus ja töökindlus - õigustatud huvi (art 6(1)(f)).</li><li>Õigusnõuete kaitse ja aruandlus - õiguslik kohustus/õigustatud huvi (art 6(1)(c),(f)).</li>"
     },
     "section4": {
       "heading": "4. Vestluste privaatsus",
-      "body": "<p>Vestluste sisu ei salvestata pĆ¼sivalt ega kasutata turundus- vĆµi analĆ¼Ć¼tikaks. Vestluste tehniline tĆ¶Ć¶tlemine vĆµib toimuda volitatud teenusepakkuja kaudu (nt vastuse koostamise teenus).</p>"
+      "body": "<p>Vestluste sisu ei salvestata püsivalt ega kasutata turundus- või analüütikaks. Vestluste tehniline töötlemine võib toimuda volitatud teenusepakkuja kaudu (nt vastuse koostamise teenus).</p>"
     },
     "section5": {
-      "heading": "5. Volitatud tĆ¶Ć¶tlejad",
-      "body": "<p>SotsiaalAI vĆµib kasutada volitatud tĆ¶Ć¶tlejaid, kes tĆ¶Ć¶tlevad andmeid SotsiaalAI juhiste alusel, sh makseteenuse pakkuja (Maksekeskus AS) ja tehisintellekti teenusepakkuja. Volitatud tĆ¶Ć¶tlejatega sĆµlmitakse lepingud, mis tagavad andmekaitse taseme ning konfidentsiaalsuse.</p>"
+      "heading": "5. Volitatud töötlejad",
+      "body": "<p>SotsiaalAI võib kasutada volitatud töötlejaid, kes töötlevad andmeid SotsiaalAI juhiste alusel, sh makseteenuse pakkuja (Maksekeskus AS) ja tehisintellekti teenusepakkuja. Volitatud töötlejatega sõlmitakse lepingud, mis tagavad andmekaitse taseme ning konfidentsiaalsuse.</p>"
     },
     "section6": {
       "heading": "6. Andmete edastamine ja jagamine",
-      "body": "<p>Isikuandmeid ei edastata kolmandatele isikutele, v.a kui see on vajalik teenuse osutamiseks, tuleneb seadusest vĆµi on selleks kasutaja nĆµusolek. Makseandmeid tĆ¶Ć¶tleb Maksekeskus AS vastavalt oma tingimustele.</p>"
+      "body": "<p>Isikuandmeid ei edastata kolmandatele isikutele, v.a kui see on vajalik teenuse osutamiseks, tuleneb seadusest või on selleks kasutaja nõusolek. Makseandmeid töötleb Maksekeskus AS vastavalt oma tingimustele.</p>"
     },
     "section7": {
-      "heading": "7. SĆ¤ilitamine",
-      "body": "<p>Kontoandmeid sĆ¤ilitatakse kuni konto kustutamiseni vĆµi kasutaja taotluseni. Arveldusandmeid sĆ¤ilitatakse raamatupidamise seadusest tuleneva kohustuse ulatuses. Tehnilisi logisid sĆ¤ilitatakse lĆ¼hiajaliselt turbe ja tĆµrke diagnoosimise eesmĆ¤rgil.</p>"
+      "heading": "7. Säilitamine",
+      "body": "<p>Kontoandmeid säilitatakse kuni konto kustutamiseni või kasutaja taotluseni. Arveldusandmeid säilitatakse raamatupidamise seadusest tuleneva kohustuse ulatuses. Tehnilisi logisid säilitatakse lühiajaliselt turbe ja tõrke diagnoosimise eesmärgil.</p>"
     },
     "section8": {
-      "heading": "8. Kasutaja Ćµigused",
-      "items": "<li>Ć•igus tutvuda enda andmetega ja saada koopia.</li><li>Ć•igus parandada ebaĆµigeid vĆµi mittetĆ¤ielikke andmeid.</li><li>Ć•igus nĆµuda andmete kustutamist (\"Ćµigus olla unustatud\").</li><li>Ć•igus piirata tĆ¶Ć¶tlemist vĆµi esitada vastuvĆ¤iteid.</li><li>Ć•igus esitada kaebus <aDpa>Andmekaitse Inspektsioonile</aDpa>.</li>"
+      "heading": "8. Kasutaja õigused",
+      "items": "<li>Õigus tutvuda enda andmetega ja saada koopia.</li><li>Õigus parandada ebaõigeid või mittetäielikke andmeid.</li><li>Õigus nõuda andmete kustutamist (\"õigus olla unustatud\").</li><li>Õigus piirata töötlemist või esitada vastuväiteid.</li><li>Õigus esitada kaebus <aDpa>Andmekaitse Inspektsioonile</aDpa>.</li>"
     },
     "section9": {
-      "heading": "9. KĆ¼psised",
-      "body": "<p>Kasutame Ć¼ksnes vajalikke kĆ¼psiseid (sisselogimine, sessioon, keele-eelistus). Reklaami-, jĆ¤lgimis- ega analĆ¼Ć¼tikakĆ¼psiseid ei kasutata.</p>"
+      "heading": "9. Küpsised",
+      "body": "<p>Kasutame üksnes vajalikke küpsiseid (sisselogimine, sessioon, keele-eelistus). Reklaami-, jälgimis- ega analüütikaküpsiseid ei kasutata.</p>"
     },
     "section10": {
       "heading": "10. Turvalisus",
-      "body": "<p>Rakendame tehnilisi ja korralduslikke meetmeid (HTTPS, juurdepĆ¤Ć¤su piiramine, logimine ja varundus), et kaitsta andmeid loata juurdepĆ¤Ć¤su, muutmise vĆµi hĆ¤vimise eest.</p>"
+      "body": "<p>Rakendame tehnilisi ja korralduslikke meetmeid (HTTPS, juurdepääsu piiramine, logimine ja varundus), et kaitsta andmeid loata juurdepääsu, muutmise või hävimise eest.</p>"
     },
     "section11": {
       "heading": "11. Muudatused",
-      "body": "<p>Privaatsustingimusi vĆµidakse ajakohastada. Olulistest muudatustest teavitatakse platvormis vĆµi e-posti teel.</p>"
+      "body": "<p>Privaatsustingimusi võidakse ajakohastada. Olulistest muudatustest teavitatakse platvormis või e-posti teel.</p>"
     }
   },
   "terms": {
     "title": "Kasutustingimused",
     "section1": {
-      "heading": "1. ĆldsĆ¤tted",
-      "body": "<p>KĆ¤esolevad kasutustingimused reguleerivad <strong>SotsiaalAI OĆ</strong> hallatava veebiplatvormi (edaspidi <strong>SotsiaalAI</strong> vĆµi <strong>Platvorm</strong>) kasutamist. Platvormi kasutama asudes kinnitab kasutaja, et on tingimustega tutvunud ning nendega nĆµus.</p><p>Kasutustingimused ja privaatsustingimused moodustavad Ć¼htse raamistiku. Kui kasutaja tingimustega ei nĆµustu, ei ole tal Ćµigust Platvormi kasutada.</p>"
+      "heading": "1. Üldsätted",
+      "body": "<p>Käesolevad kasutustingimused reguleerivad <strong>SotsiaalAI OÜ</strong> hallatava veebiplatvormi (edaspidi <strong>SotsiaalAI</strong> või <strong>Platvorm</strong>) kasutamist. Platvormi kasutama asudes kinnitab kasutaja, et on tingimustega tutvunud ning nendega nõus.</p><p>Kasutustingimused ja privaatsustingimused moodustavad ühtse raamistiku. Kui kasutaja tingimustega ei nõustu, ei ole tal õigust Platvormi kasutada.</p>"
     },
     "section2": {
       "heading": "2. Teenuse kirjeldus",
-      "body": "<p>Platvorm pakub rollipĆµhist info- ja nĆµustamisteenust sotsiaalvaldkonnas. Vastused luuakse tehisintellekti abil, tuginedes eelkĆµige SotsiaalAI poolt koondatud usaldusvĆ¤Ć¤rsetele allikatele (nt seadused, juhendid, teenuste kirjeldused, erialased artiklid).</p><p>EesmĆ¤rk on toetada nii pĆ¶Ć¶rdujaid kui sotsiaalvaldkonna spetsialiste, sh keerukates olukordades, pakkudes selgitusi, viiteid ja vĆµimalikke tegutsemissuundi. Platvorm ei tee kasutaja eest siduvaid ametlikke otsuseid ega toimi hĆ¤daabiteenusena.</p>"
+      "body": "<p>Platvorm pakub rollipõhist info- ja nõustamisteenust sotsiaalvaldkonnas. Vastused luuakse tehisintellekti abil, tuginedes eelkõige SotsiaalAI poolt koondatud usaldusväärsetele allikatele (nt seadused, juhendid, teenuste kirjeldused, erialased artiklid).</p><p>Eesmärk on toetada nii pöördujaid kui sotsiaalvaldkonna spetsialiste, sh keerukates olukordades, pakkudes selgitusi, viiteid ja võimalikke tegutsemissuundi. Platvorm ei tee kasutaja eest siduvaid ametlikke otsuseid ega toimi hädaabiteenusena.</p>"
     },
     "section3": {
-      "heading": "3. Konto ja ligipĆ¤Ć¤s",
-      "items": "<li>Osade funktsioonide (nt vestlusajaloo salvestamine, tellimuse haldus) kasutamiseks on vajalik kasutajakonto loomine.</li><li>Kasutaja vastutab esitatud kontoandmete Ćµigsuse ja ajakohasuse eest.</li><li>Kasutaja hoiab sisselogimisandmed konfidentsiaalsena ega jaga neid kolmandatele isikutele.</li><li>Kasutaja vastutab oma konto alt toimuvate tegevuste eest, vĆ¤lja arvatud juhul, kui ta on viivitamata teavitanud SotsiaalAI-d loata kasutusest.</li>"
+      "heading": "3. Konto ja ligipääs",
+      "items": "<li>Osade funktsioonide (nt vestlusajaloo salvestamine, tellimuse haldus) kasutamiseks on vajalik kasutajakonto loomine.</li><li>Kasutaja vastutab esitatud kontoandmete õigsuse ja ajakohasuse eest.</li><li>Kasutaja hoiab sisselogimisandmed konfidentsiaalsena ega jaga neid kolmandatele isikutele.</li><li>Kasutaja vastutab oma konto alt toimuvate tegevuste eest, välja arvatud juhul, kui ta on viivitamata teavitanud SotsiaalAI-d loata kasutusest.</li>"
     },
     "section4": {
       "heading": "4. Lubatud kasutus",
-      "items": "<li>Platvormi tuleb kasutada kooskĆµlas kehtivate Ćµigusaktide ja kĆ¤esolevate tingimustega.</li><li>Keelatud on ebaseadusliku, solvava, Ć¤hvardava, vaenu Ćµhutava vĆµi teiste Ćµigusi rikkuva sisu loomine, edastamine vĆµi sĆ¤ilitamine.</li><li>Keelatud on Platvormi turvalisust kahjustavad tegevused (sh turbeaukude sihilik Ć¤rakasutamine, automatiseeritud masspĆ¤ringud, pahavara levitamine, teenuse tĆµkestamine).</li><li>Keelatud on Platvormi vĆµi selle tehisintellekti vĆ¤ljundite sĆ¼stemaatiline kopeerimine, jĆ¤reldreverseerimine vĆµi kasutamine viisil, mis rikub SotsiaalAI vĆµi kolmandate isikute Ćµigusi, sh konkureeriva teenuse loomiseks.</li>"
+      "items": "<li>Platvormi tuleb kasutada kooskõlas kehtivate õigusaktide ja käesolevate tingimustega.</li><li>Keelatud on ebaseadusliku, solvava, ähvardava, vaenu õhutava või teiste õigusi rikkuva sisu loomine, edastamine või säilitamine.</li><li>Keelatud on Platvormi turvalisust kahjustavad tegevused (sh turbeaukude sihilik ärakasutamine, automatiseeritud masspäringud, pahavara levitamine, teenuse tõkestamine).</li><li>Keelatud on Platvormi või selle tehisintellekti väljundite süstemaatiline kopeerimine, järeldreverseerimine või kasutamine viisil, mis rikub SotsiaalAI või kolmandate isikute õigusi, sh konkureeriva teenuse loomiseks.</li>"
     },
     "section5": {
-      "heading": "5. Tellimus, maksed ja tĆ¼histamine",
-      "paragraph1": "<p>Platvormi tasulised funktsioonid pĆµhinevad kuupĆµhisel tellimusel (nĆ¤iteks 7,99 ā‚¬ kuus vĆµi muu Platvormil mĆ¤rgitud hinnastuse alusel). Makseid vahendab Maksekeskus AS kasutaja valitud makseviisi alusel.</p>",
-      "paragraph2": "<p>Tellimust saab hallata Platvormi profiilivaates (\"Halda tellimust\") vĆµi pĆ¶Ć¶rdudes aadressil <aEmail>info@sotsiaal.ai</aEmail>. Tellimuse tĆ¼histamine jĆµustub jĆ¤rgmise arveldusperioodi algusest. Juba tasutud perioodi eest tasu ei tagastata, vĆ¤lja arvatud seaduses sĆ¤testatud juhtudel.</p>",
-      "paragraph3": "<p>SotsiaalAI vĆµib hinnakirja ja tellimustingimusi muuta, avaldades vastava info Platvormil ning teavitades aktiivseid tellijaid mĆµistliku etteteatamisega.</p>"
+      "heading": "5. Tellimus, maksed ja tühistamine",
+      "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad kuupõhisel tellimusel (näiteks 7,99 € kuus või muu Platvormil märgitud hinnastuse alusel). Makseid vahendab Maksekeskus AS kasutaja valitud makseviisi alusel.</p>",
+      "paragraph2": "<p>Tellimust saab hallata Platvormi profiilivaates (\"Halda tellimust\") või pöördudes aadressil <aEmail>info@sotsiaal.ai</aEmail>. Tellimuse tühistamine jõustub järgmise arveldusperioodi algusest. Juba tasutud perioodi eest tasu ei tagastata, välja arvatud seaduses sätestatud juhtudel.</p>",
+      "paragraph3": "<p>SotsiaalAI võib hinnakirja ja tellimustingimusi muuta, avaldades vastava info Platvormil ning teavitades aktiivseid tellijaid mõistliku etteteatamisega.</p>"
     },
     "section6": {
-      "heading": "6. KĆ¤ttesaadavus ja hooldus",
-      "body": "<p>SotsiaalAI teeb mĆµistlikke pingutusi Platvormi tĆ¶Ć¶kindluse ja kĆ¤ttesaadavuse tagamiseks. HooldustĆ¶Ć¶d, uuendused vĆµi tehnilised tĆµrked vĆµivad teenust ajutiselt katkestada vĆµi hĆ¤irida. Sellised katkestused Ć¼ksinda ei anna alust kahjunĆµuete esitamiseks.</p>"
+      "heading": "6. Kättesaadavus ja hooldus",
+      "body": "<p>SotsiaalAI teeb mõistlikke pingutusi Platvormi töökindluse ja kättesaadavuse tagamiseks. Hooldustööd, uuendused või tehnilised tõrked võivad teenust ajutiselt katkestada või häirida. Sellised katkestused üksinda ei anna alust kahjunõuete esitamiseks.</p>"
     },
     "section7": {
       "heading": "7. Info kvaliteet ja vastutuse piirang",
-      "body": "<p>SotsiaalAI eesmĆ¤rk on pakkuda usaldusvĆ¤Ć¤rsetel allikatel pĆµhinevat ja ajakohast infot. Vastused luuakse automaatselt ning ei pruugi igal juhul arvestada kĆµiki konkreetse olukorra asjaolusid vĆµi olla veatud.</p><p>Kasutaja hindab saadud teabe sobivust oma olukorrale ning vajaduse korral konsulteerib pĆ¤deva spetsialisti vĆµi ametiasutusega. SotsiaalAI ei vastuta otsese ega kaudse kahju eest, mis tuleneb Platvormi kaudu saadud teabe kasutamisest vĆµi mittekasutamisest, vĆ¤lja arvatud ulatuses, kus vastutust ei ole vĆµimalik seaduse alusel vĆ¤listada.</p>"
+      "body": "<p>SotsiaalAI eesmärk on pakkuda usaldusväärsetel allikatel põhinevat ja ajakohast infot. Vastused luuakse automaatselt ning ei pruugi igal juhul arvestada kõiki konkreetse olukorra asjaolusid või olla veatud.</p><p>Kasutaja hindab saadud teabe sobivust oma olukorrale ning vajaduse korral konsulteerib pädeva spetsialisti või ametiasutusega. SotsiaalAI ei vastuta otsese ega kaudse kahju eest, mis tuleneb Platvormi kaudu saadud teabe kasutamisest või mittekasutamisest, välja arvatud ulatuses, kus vastutust ei ole võimalik seaduse alusel välistada.</p>"
     },
     "section8": {
       "heading": "8. Tingimuste muutmine",
-      "body": "<p>SotsiaalAI vĆµib kasutustingimusi ajakohastada, et kajastada teenuse arengut vĆµi Ćµigusaktide muudatusi. Uus redaktsioon avaldatakse Platvormil. Olulistest muudatustest teavitatakse kasutajaid Platvormis ja/vĆµi e-posti vĆµi muu sobiva kanali kaudu.</p><p>Platvormi edasikasutamine pĆ¤rast muudatuste jĆµustumist loetakse ajakohastatud tingimustega nĆµustumiseks.</p>"
+      "body": "<p>SotsiaalAI võib kasutustingimusi ajakohastada, et kajastada teenuse arengut või õigusaktide muudatusi. Uus redaktsioon avaldatakse Platvormil. Olulistest muudatustest teavitatakse kasutajaid Platvormis ja/või e-posti või muu sobiva kanali kaudu.</p><p>Platvormi edasikasutamine pärast muudatuste jõustumist loetakse ajakohastatud tingimustega nõustumiseks.</p>"
     },
     "section9": {
       "heading": "9. Tehisintellekti kasutus",
-      "paragraph1": "<p>SotsiaalAI kasutab vastuste genereerimisel tehisintellekti tehnoloogiat (sh kolmandate teenusepakkujate mudeleid) koos SotsiaalAI hallatava teadmistebaasi ja otsilahendusega, et pakkuda rollipĆµhist ja allikapĆµhist infot sotsiaalvaldkonna kĆ¼simustes.</p>",
-      "paragraph2": "<p>Tehisintellekti teenusepakkujad tĆ¶Ć¶tlevad andmeid Ć¼ksnes SotsiaalAI juhiste alusel ja vastuste koostamise eesmĆ¤rgil. Vestluste sisu ei kasutata kolmandate osapoolte mudelite Ć¼ldiseks treenimiseks vĆ¤ljaspool SotsiaalAI teenuse raamistikku. AndmetĆ¶Ć¶tluse tĆ¤psem kord on kirjeldatud privaatsustingimustes.</p>"
+      "paragraph1": "<p>SotsiaalAI kasutab vastuste genereerimisel tehisintellekti tehnoloogiat (sh kolmandate teenusepakkujate mudeleid) koos SotsiaalAI hallatava teadmistebaasi ja otsilahendusega, et pakkuda rollipõhist ja allikapõhist infot sotsiaalvaldkonna küsimustes.</p>",
+      "paragraph2": "<p>Tehisintellekti teenusepakkujad töötlevad andmeid üksnes SotsiaalAI juhiste alusel ja vastuste koostamise eesmärgil. Vestluste sisu ei kasutata kolmandate osapoolte mudelite üldiseks treenimiseks väljaspool SotsiaalAI teenuse raamistikku. Andmetöötluse täpsem kord on kirjeldatud privaatsustingimustes.</p>"
     },
     "section10": {
       "heading": "10. Intellektuaalomand",
-      "body": "<p>Platvormi kaubamĆ¤rgid, kujundus, tarkvara, tehniline lahendus ja muu sisu (v.a kasutaja enda sisestatud andmed ja avalikud allikad) kuuluvad <strong>SotsiaalAI OĆ</strong>-le vĆµi selle lepingupartneritele.</p><p>Kasutaja vĆµib Platvormi ja selle vĆ¤ljundeid kasutada Ć¼ksnes isiklikeks eesmĆ¤rkideks vĆµi oma tĆ¶Ć¶Ć¼lesannete tĆ¤itmiseks mĆµistlikus ulatuses. Ilma SotsiaalAI kirjaliku nĆµusolekuta on keelatud Platvormi vĆµi selle vĆ¤ljundite sĆ¼stemaatiline kopeerimine, levitamine vĆµi kasutamine viisil, mis Ć¼letab tavapĆ¤rast kasutust vĆµi rikub intellektuaalomandi Ćµigusi.</p>"
+      "body": "<p>Platvormi kaubamärgid, kujundus, tarkvara, tehniline lahendus ja muu sisu (v.a kasutaja enda sisestatud andmed ja avalikud allikad) kuuluvad <strong>SotsiaalAI OÜ</strong>-le või selle lepingupartneritele.</p><p>Kasutaja võib Platvormi ja selle väljundeid kasutada üksnes isiklikeks eesmärkideks või oma tööülesannete täitmiseks mõistlikus ulatuses. Ilma SotsiaalAI kirjaliku nõusolekuta on keelatud Platvormi või selle väljundite süstemaatiline kopeerimine, levitamine või kasutamine viisil, mis ületab tavapärast kasutust või rikub intellektuaalomandi õigusi.</p>"
     },
     "section11": {
-      "heading": "11. Lepingu lĆµpetamine",
-      "body": "<p>Kasutaja vĆµib Platvormi kasutamise igal ajal lĆµpetada, sh kustutades oma kasutajakonto vĆµi tĆ¼histades tellimuse vastavalt kĆ¤esolevatele tingimustele.</p><p>SotsiaalAI-l on Ćµigus peatada vĆµi lĆµpetada kasutaja ligipĆ¤Ć¤s Platvormile, kui kasutaja rikub oluliselt tingimusi, kuritarvitab teenust vĆµi ohustab Platvormi turvalisust.</p>"
+      "heading": "11. Lepingu lõpetamine",
+      "body": "<p>Kasutaja võib Platvormi kasutamise igal ajal lõpetada, sh kustutades oma kasutajakonto või tühistades tellimuse vastavalt käesolevatele tingimustele.</p><p>SotsiaalAI-l on õigus peatada või lõpetada kasutaja ligipääs Platvormile, kui kasutaja rikub oluliselt tingimusi, kuritarvitab teenust või ohustab Platvormi turvalisust.</p>"
     },
     "section12": {
-      "heading": "12. Kohaldatav Ćµigus ja vaidluste lahendamine",
-      "body": "<p>KĆ¤esolevatele kasutustingimustele kohaldatakse Eesti Vabariigi Ćµigust.</p><p>Vaidlused pĆ¼Ć¼takse esmalt lahendada lĆ¤birĆ¤Ć¤kimiste teel. Kui kokkulepet ei saavutata, lahendatakse vaidlus Eesti Vabariigi kohtus vastavalt kehtivatele Ćµigusaktidele.</p>"
+      "heading": "12. Kohaldatav õigus ja vaidluste lahendamine",
+      "body": "<p>Käesolevatele kasutustingimustele kohaldatakse Eesti Vabariigi õigust.</p><p>Vaidlused püütakse esmalt lahendada läbirääkimiste teel. Kui kokkulepet ei saavutata, lahendatakse vaidlus Eesti Vabariigi kohtus vastavalt kehtivatele õigusaktidele.</p>"
     }
   },
   "chat": {
     "title": "SotsiaalAI",
     "intro": {
       "greeting": "Tere!",
-      "message": "SotsiaalAI aitab sind usaldusvĆ¤Ć¤rsetele allikatele tuginedes.",
+      "message": "SotsiaalAI aitab sind usaldusväärsetele allikatele tuginedes.",
       "cta": "Kirjuta mulle!"
     },
     "crisis": {
-      "notice": "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on Ć¶Ć¶pĆ¤evaringselt tasuta 116111 (Lasteabi)."
+      "notice": "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
     },
     "error": {
-      "rate_limit_retry": "Liiga palju pĆ¤ringuid. Proovi ~{seconds}s pĆ¤rast.",
-      "rate_limit_generic": "Liiga palju pĆ¤ringuid. Proovi varsti uuesti.",
+      "rate_limit_retry": "Liiga palju päringuid. Proovi ~{seconds}s pärast.",
+      "rate_limit_generic": "Liiga palju päringuid. Proovi varsti uuesti.",
       "no_response": "Assistent ei vastanud.",
       "no_answer": "Vabandust, ma ei saanud praegu vastust koostada.",
       "stream_missing": "Assistent ei saatnud voogu.",
       "stream_failed": "Voo viga.",
       "interrupted": "Vastuse genereerimine peatati.",
       "interrupted_suffix": "(Vastuse genereerimine peatati.)",
-      "generic": "Vabandust, vastust ei Ćµnnestunud saada.",
+      "generic": "Vabandust, vastust ei õnnestunud saada.",
       "with_detail": "Viga: {message}"
     },
     "menu": {
@@ -390,27 +390,27 @@
       "label": "Profiil"
     },
     "aria": {
-      "messages": "Vestluse sĆµnumid"
+      "messages": "Vestluse sõnumid"
     },
     "typing": {
-      "label": "MĆµtleb"
+      "label": "Mõtleb"
     },
-    "scroll_to_bottom": "Kerige chati lĆµppu",
-    "scroll_to_bottom_title": "Kerige lĆµppu",
+    "scroll_to_bottom": "Kerige chati lõppu",
+    "scroll_to_bottom_title": "Kerige lõppu",
     "input": {
-      "label": "Kirjuta sĆµnum",
+      "label": "Kirjuta sõnum",
       "placeholder": "Kirjuta siia"
     },
     "send": {
       "stop": "Peata vastus",
-      "send": "Saada sĆµnum",
+      "send": "Saada sõnum",
       "title_send": "Saada (Enter)",
       "title_stop": "Peata vastus"
     },
     "history": {
-      "load_more": "Lae varasemaid sĆµnumeid",
-      "loading": "Laen varasemaidā€¦",
-      "initial_loading": "Laen vestlustā€¦"
+      "load_more": "Lae varasemaid sõnumeid",
+      "loading": "Laen varasemaid…",
+      "initial_loading": "Laen vestlust…"
     },
     "back_to_home": "Tagasi avalehele",
     "sources": {
@@ -418,9 +418,9 @@
       "dialog_label": "Vestluse allikad",
       "heading": "Vestluse allikad",
       "empty": "Vestluses ei ole allikaid.",
-      "used_multiple": "Kasutatud {count} vestluse lĆµigus.",
+      "used_multiple": "Kasutatud {count} vestluse lõigus.",
       "section": "Sektsioon: {section}",
-      "pages": "LehekĆ¼ljed: {pages}",
+      "pages": "Leheküljed: {pages}",
       "open_single": "Ava allikas",
       "open_indexed": "Ava ({index})",
       "fallback_label": "Allikas",
@@ -428,19 +428,19 @@
     },
     "sidebar": {
       "error": {
-        "load": "Vestluste laadimine ebaĆµnnestus.",
+        "load": "Vestluste laadimine ebaõnnestus.",
         "history": "Vestluste ajalugu ei ole praegu saadaval.",
-        "create": "Uue vestluse loomine ebaĆµnnestus.",
-        "delete": "Vestluse kustutamine ebaĆµnnestus."
+        "create": "Uue vestluse loomine ebaõnnestus.",
+        "delete": "Vestluse kustutamine ebaõnnestus."
       },
       "confirm": {
         "delete": "Kas kustutada see vestlus?"
       },
       "aria_list": "Vestluste loend",
       "button": {
-        "creating": "Loonā€¦",
+        "creating": "Loon…",
         "new": "Uus vestlus",
-        "refresh": "VĆ¤rskenda",
+        "refresh": "Värskenda",
         "more": "Lae veel"
       },
       "empty": "Vestlusi pole.",
@@ -454,19 +454,19 @@
     "upload": {
       "aria": "Laadi dokument",
       "tooltip": "Laadi dokument",
-      "busy": "Laen dokumenti Ć¼les...",
+      "busy": "Laen dokumenti üles...",
       "summary": "Dokumendi tekst",
-      "summary_show": "NĆ¤ita dokumenti",
+      "summary_show": "Näita dokumenti",
       "summary_hide": "Peida tekst",
-      "privacy": "AnalĆ¼Ć¼siks, ei salvestata pĆ¼sivalt.",
-      "context_hint": "Kui lĆ¼liti ā€˛AnalĆ¼Ć¼si vestlusesā€¯ on sees, saab assistent vastustes seda dokumenti kasutada ā€“ teksti kokku vĆµtta, selgitada, vĆµrrelda, tĆµlkida ning aidata kirjade ja taotluste koostamisel.\nKui lĆ¼liti on vĆ¤ljas, tugineb vastus ainult SotsiaalAI teadmistebaasile. Dokumenti ei salvestata Ć¼helgi juhul, sĆµltumata lĆ¼liti asendist.",
-      "ask_more": "Palun selgita seda dokumenti lĆ¼hidalt ja too vĆ¤lja 3ā€“5 olulisemat punkti.",
-      "ask_more_btn": "Alusta kĆ¼simust",
-      "use_as_context": "AnalĆ¼Ć¼si vestluses",
-      "usage": "{used}/{limit} analĆ¼Ć¼si tĆ¤na",
+      "privacy": "Analüüsiks, ei salvestata püsivalt.",
+      "context_hint": "Kui lüliti „Analüüsi vestluses” on sees, saab assistent vastustes seda dokumenti kasutada – teksti kokku võtta, selgitada, võrrelda, tõlkida ning aidata kirjade ja taotluste koostamisel.\nKui lüliti on väljas, tugineb vastus ainult SotsiaalAI teadmistebaasile. Dokumenti ei salvestata ühelgi juhul, sõltumata lüliti asendist.",
+      "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3-5 olulisemat punkti.",
+      "ask_more_btn": "Alusta küsimust",
+      "use_as_context": "Analüüsi vestluses",
+      "usage": "{used}/{limit} analüüsi täna",
       "error_size": "Fail on liiga suur ({size}MB > {limit}MB).",
-      "error_status": "Dokumendi analĆ¼Ć¼s ebaĆµnnestus (veakood {status}).",
-      "error_generic": "Dokumendi analĆ¼Ć¼s ebaĆµnnestus.",
+      "error_status": "Dokumendi analüüs ebaõnnestus (veakood {status}).",
+      "error_generic": "Dokumendi analüüs ebaõnnestus.",
       "preview": "Dokumendi tekst",
       "jump_to_chat": "Vestlusesse"
     }
@@ -474,11 +474,11 @@
   "about": {
     "title": "Meist",
     "intro": {
-      "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil pĆµhinev platvorm, mille eesmĆ¤rk on pakkuda usaldusvĆ¤Ć¤rset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalkĆ¼simustes.</p>",
-      "paragraph2": "<p>Platvormil on kaks rollipĆµhist AI-assistenti: Ć¼ks spetsialistidele ja teine elukĆ¼simustega pĆ¶Ć¶rdujatele. MĆµlemad on loodud selleks, et pakkuda vajaduspĆµhist tuge ā€“ olgu see seotud seaduste, toetuste, teenuste vĆµi tĆ¶Ć¶aliste olukordadega. Vastused tuginevad usaldusvĆ¤Ć¤rsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.</p>",
-      "paragraph3": "<p>Sotsiaalvaldkonda iseloomustab suur tĆ¶Ć¶koormus, killustunud info ja keeruline orienteerumine sĆ¼steemis ā€” seda kinnitab ka <oska>OSKA raport (2025)</oska>. Meie eesmĆ¤rk on tuua selgust, lihtsustada igapĆ¤evatĆ¶Ć¶d ning pakkuda tuge nii professionaalidele kui abiotsijatele.</p>",
-      "paragraph4": "<p>Platvormi arendab ja haldab SotsiaalAI OĆ. Tegu on sotsiaalse ettevĆµttega, mille eesmĆ¤rk ei ole kasumi maksimeerimine, vaid Ć¼hiskondliku probleemi lahendamine ja positiivse mĆµju loomine. Sotsiaalne ettevĆµtlus Ć¼hendab Ć¤ritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipĆ¤Ć¤su laiendamisse ning sotsiaalvaldkonna tugevdamisse.</p>",
-      "paragraph5": "<p>Teenust tĆ¤iustatakse pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kĆµigile.</p>"
+      "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.</p>",
+      "paragraph2": "<p>Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.</p>",
+      "paragraph3": "<p>Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka <oska>OSKA raport (2025)</oska>. Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.</p>",
+      "paragraph4": "<p>Platvormi arendab ja haldab SotsiaalAI OÜ. Tegu on sotsiaalse ettevõttega, mille eesmärk ei ole kasumi maksimeerimine, vaid ühiskondliku probleemi lahendamine ja positiivse mõju loomine. Sotsiaalne ettevõtlus ühendab äritegevuse ja sotsiaalse missiooni: teenime tulu, kuid suuname selle tagasi teenuse arendamisse, ligipääsu laiendamisse ning sotsiaalvaldkonna tugevdamisse.</p>",
+      "paragraph5": "<p>Teenust täiustatakse pidevalt, et tagada ajakohane ja praktiline kasutajakogemus kõigile.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -495,28 +495,28 @@
       "back_home": "Tagasi avalehele"
     },
     "footer": {
-      "note": "SotsiaalAI Ā© 2025"
+      "note": "SotsiaalAI © 2025"
     },
     "guide": {
       "jump_link": "Platvormi kasutusjuhend",
       "title": "Kuidas kasutada platvormi?",
-      "intro": "AlljĆ¤rgnev juhend annab samm-sammulise Ć¼levaate, kuidas SotsiaalAI platvormil alustada: valida sobiv roll, luua konto, vormistada tellimus, sisse logida, kasutada vestlusassistenti ning seadistada keelt ja ligipĆ¤Ć¤setavust.",
+      "intro": "Alljärgnev juhend annab samm-sammulise ülevaate, kuidas SotsiaalAI platvormil alustada: valida sobiv roll, luua konto, vormistada tellimus, sisse logida, kasutada vestlusassistenti ning seadistada keelt ja ligipääsetavust.",
       "sections_v2": {
         "accessibility": {
-          "title": "1. Keel ja ligipĆ¤Ć¤setavus",
-          "body": "<p>Esimesel kĆ¼lastusel avaneb <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipĆ¤Ć¤setavus</a> aken, kus saad otsustada, milline SotsiaalAI vĆ¤lja nĆ¤eb ja kuidas ta kĆ¤itub. Sama akna saad igal hetkel uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene vĆµi inglise.</li><li><strong>Teksti suurus.</strong> Vali endale loetav suurus (vĆ¤ike, tavaline, suur vĆµi vĆ¤ga suur).</li><li><strong>Kontrast.</strong> LĆ¼lita vajadusel sisse kĆµrge kontrast, et nupud ja tekst oleksid selgemad.</li><li><strong>Animatsioonid.</strong> MĆ¤rgi \"VĆ¤henda liikumist\", kui animatsioonid segavad vĆµi kui seade on aeglasem ā€” nii on kasutamine stabiilsem.</li></ul>"
+          "title": "1. Keel ja ligipääsetavus",
+          "body": "<p>Esimesel külastusel avaneb <a href=\"#\" data-a11y-open=\"1\">Keel ja ligipääsetavus</a> aken, kus saad otsustada, milline SotsiaalAI välja näeb ja kuidas ta käitub. Sama akna saad igal hetkel uuesti avada lehel <a href=\"/profiil\">Profiil</a>.</p><ul><li><strong>Keel.</strong> Vali kasutajaliidese keel: eesti, vene või inglise.</li><li><strong>Teksti suurus.</strong> Vali endale loetav suurus (väike, tavaline, suur või väga suur).</li><li><strong>Kontrast.</strong> Lülita vajadusel sisse kõrge kontrast, et nupud ja tekst oleksid selgemad.</li><li><strong>Animatsioonid.</strong> Märgi \"Vähenda liikumist\", kui animatsioonid segavad või kui seade on aeglasem — nii on kasutamine stabiilsem.</li></ul>"
         },
         "home": {
           "title": "2. Avaleht",
-          "body": "<p>Avalehel on kaks rollikaarti ā€” \"SotsiaaltĆ¶Ć¶ spetsialistile\" ja \"ElukĆ¼simusega pĆ¶Ć¶rdujale\" ā€” ning pĆ¤ises link <a href=\"/meist\">MEIST</a>, mis viib taustainfo lehele.</p><ul><li>Kui sa pole sisse logitud, avab kaardi klĆµps sisselogimise vĆµi registreerimise vaate.</li><li>Kui oled juba sisse logitud, kontrollitakse aktiivset tellimust ja avatakse vastava rolli vestlusaken.</li></ul>"
+          "body": "<p>Avalehel on kaks rollikaarti — \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\" — ning päises link <a href=\"/meist\">MEIST</a>, mis viib taustainfo lehele.</p><ul><li>Kui sa pole sisse logitud, avab kaardi klõps sisselogimise või registreerimise vaate.</li><li>Kui oled juba sisse logitud, kontrollitakse aktiivset tellimust ja avatakse vastava rolli vestlusaken.</li></ul>"
         },
         "register": {
           "title": "3. Registreerimine ja tellimuse aktiveerimine",
-          "body": "<p>SotsiaalAI vestlusassistendi kasutamiseks on vaja kontot ja aktiivset tellimust.</p>\n<p><strong>3.1 Registreerimine</strong></p>\n<ol>\n<li>Vali avalehel sobiv rollikaart ja klĆµpsa <a href=\"/registreerimine\">Registreerimine</a>.</li>\n<li>TĆ¤ida registreerimisvorm:\n  <ul>\n    <li>e-posti aadress</li>\n    <li>PIN-kood (4ā€“8 kohaline numbriline ligipĆ¤Ć¤sukood)</li>\n  </ul>\n</li>\n<li>NĆµustu kasutustingimuste ja privaatsuspoliitikaga.</li>\n<li>PĆ¤rast vormi saatmist saadame kinnituskirja ā€” ava see ja kinnita oma e-post.</li>\n</ol>\n<p><strong>3.2 PĆ¤rast e-posti kinnitamist ja tellimuse aktiveerimist</strong></p>\n<p>Kui e-post on kinnitatud, saad sisse logida e-posti aadressi ja PIN-koodiga (vaata peatĆ¼kki \"4. Sisselogimine ja rolli alusel liikumine\").</p>\n<p>Kui aktiivne tellimus puudub, suuname pĆ¤rast esimest sisselogimist automaatselt lehele <a href=\"/tellimus\">Tellimus</a>, et saaksid ligipĆ¤Ć¤su aktiveerida.</p>\n<p>Kui tellimus on juba aktiivne, avaneb kohe sinu rolli vestlusvaade.</p>"
+          "body": "<p>SotsiaalAI vestlusassistendi kasutamiseks on vaja kontot ja aktiivset tellimust.</p>\n<p><strong>3.1 Registreerimine</strong></p>\n<ol>\n<li>Vali avalehel sobiv rollikaart ja klõpsa <a href=\"/registreerimine\">Registreerimine</a>.</li>\n<li>Täida registreerimisvorm:\n  <ul>\n    <li>e-posti aadress</li>\n    <li>PIN-kood (4–8 kohaline numbriline ligipääsukood)</li>\n  </ul>\n</li>\n<li>Nõustu kasutustingimuste ja privaatsuspoliitikaga.</li>\n<li>Pärast vormi saatmist saadame kinnituskirja — ava see ja kinnita oma e-post.</li>\n</ol>\n<p><strong>3.2 Pärast e-posti kinnitamist ja tellimuse aktiveerimist</strong></p>\n<p>Kui e-post on kinnitatud, saad sisse logida e-posti aadressi ja PIN-koodiga (vaata peatükki \"4. Sisselogimine ja rolli alusel liikumine\").</p>\n<p>Kui aktiivne tellimus puudub, suuname pärast esimest sisselogimist automaatselt lehele <a href=\"/tellimus\">Tellimus</a>, et saaksid ligipääsu aktiveerida.</p>\n<p>Kui tellimus on juba aktiivne, avaneb kohe sinu rolli vestlusvaade.</p>"
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",
-          "body": "<p>Sisselogimine algab avalehelt, kus on kaks rollikaarti: \"SotsiaaltĆ¶Ć¶ spetsialistile\" ja \"ElukĆ¼simusega pĆ¶Ć¶rdujale\".</p>\n<ul>\n<li>KlĆµpsa sobival rollikaardil ja sisesta e-posti aadress koos PIN-koodiga (4ā€“8 numbrit).</li>\n<li>Varem usaldatud seadmes vĆµi brauseris piisab tavaliselt ainult PIN-ist.</li>\n<li>Kui logid sisse uuest vĆµi ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi; sisesta see vastavasse vĆ¤ljale.</li>\n<li>Soovi korral mĆ¤rgi \"MĆ¤leta seda seadet 30 pĆ¤eva\", et jĆ¤rgmistel kordadel piisaks PIN-ist.</li>\n<li>Kui PIN on ununenud, kasuta linki <a href=\"/uuenda-pin\">Unustasin PIN-i</a> ja jĆ¤rgi juhiseid.</li>\n<li>Edukalt sisenedes avatakse sinu rolli vestlusvaade; kui ligipĆ¤Ć¤s on piiratud (nt tellimus puudub vĆµi on aegunud), kuvatakse teavitus ja jĆ¤rgmised sammud.</li>\n</ul>"
+          "body": "<p>Sisselogimine algab avalehelt, kus on kaks rollikaarti: \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\".</p>\n<ul>\n<li>Klõpsa sobival rollikaardil ja sisesta e-posti aadress koos PIN-koodiga (4–8 numbrit).</li>\n<li>Varem usaldatud seadmes või brauseris piisab tavaliselt ainult PIN-ist.</li>\n<li>Kui logid sisse uuest või ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi; sisesta see vastavasse väljale.</li>\n<li>Soovi korral märgi \"Mäleta seda seadet 30 päeva\", et järgmistel kordadel piisaks PIN-ist.</li>\n<li>Kui PIN on ununenud, kasuta linki <a href=\"/uuenda-pin\">Unustasin PIN-i</a> ja järgi juhiseid.</li>\n<li>Edukalt sisenedes avatakse sinu rolli vestlusvaade; kui ligipääs on piiratud (nt tellimus puudub või on aegunud), kuvatakse teavitus ja järgmised sammud.</li>\n</ul>"
         },
         "chat": {
           "title": "5. Vestlusleht",
@@ -524,116 +524,116 @@
         },
         "profile": {
           "title": "6. Profiil",
-          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipĆ¤Ć¤setavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4ā€“8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li></ul>"
+          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li></ul>"
         },
         "about": {
           "title": "7. MEIST",
-          "body": "<p>Lehel <a href=\"/meist\">MEIST</a> on taustainfo SotsiaalAI platvormi kohta. Seal leiad:</p><ul><li>lĆ¼hikese selgituse, kellele platvorm on mĆµeldud ja kuidas ta aitab;</li><li>kontaktiaadressi: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>;</li><li><a href=\"/kasutustingimused\">kasutustingimused</a> ja <a href=\"/privaatsustingimused\">privaatsuspoliitika</a>;</li><li>lingi <a href=\"/kasutusjuhend\">platvormi kasutusjuhendile</a> (see juhend).</li></ul>"
+          "body": "<p>Lehel <a href=\"/meist\">MEIST</a> on taustainfo SotsiaalAI platvormi kohta. Seal leiad:</p><ul><li>lühikese selgituse, kellele platvorm on mõeldud ja kuidas ta aitab;</li><li>kontaktiaadressi: <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>;</li><li><a href=\"/kasutustingimused\">kasutustingimused</a> ja <a href=\"/privaatsustingimused\">privaatsuspoliitika</a>;</li><li>lingi <a href=\"/kasutusjuhend\">platvormi kasutusjuhendile</a> (see juhend).</li></ul>"
         },
         "quickstart": {
-          "title": "8. Kiire Ć¼levaade",
-          "body": "\n<p>AlljĆ¤rgnev on lĆ¼hike juhend SotsiaalAI kasutamiseks.</p>\n<p><strong>Esmakordsel kasutamisel</strong></p>\n<ol>\n  <li><strong>Ava sotsiaal.ai</strong><br/>Esimesel korral vali keel ja ligipĆ¤Ć¤setavuse seaded (teksti suurus, kontrast, animatsioonid).</li>\n  <li><strong>Vali roll ja loo konto</strong>\n    <ul>\n      <li>Vali avalehelt rollikaart (\"SotsiaaltĆ¶Ć¶ spetsialistile\" vĆµi \"ElukĆ¼simusega pĆ¶Ć¶rdujale\") ja klĆµpsa <a href=\"/registreerimine\">Registreerimine</a>.</li>\n      <li>Sisesta e-posti aadress ja PIN (4ā€“8 numbrit) ning nĆµustu tingimuste ja privaatsuspoliitikaga.</li>\n    </ul>\n  </li>\n  <li><strong>Kinnita e-post ja logi sisse</strong>\n    <ul>\n      <li>Ava kinnituskiri ja kinnita aadress.</li>\n      <li>SeejĆ¤rel logi sisse e-posti ja PIN-iga; vajadusel sisesta 6-kohaline kood ja mĆ¤rgi \"MĆ¤leta seda seadet 30 pĆ¤eva\".</li>\n      <li>Kui ligipĆ¤Ć¤s pole veel aktiveeritud, vormista tellimus lehel <a href=\"/tellimus\">Tellimus</a>.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>IgapĆ¤evasel kasutamisel</strong></p>\n<ol>\n  <li><strong>Logi rolli alusel sisse</strong>\n    <ul>\n      <li>Ava sotsiaal.ai, vali rollikaart ja sisesta e-post + PIN.</li>\n      <li>Varem usaldatud seadmes piisab tavaliselt PIN-ist.</li>\n    </ul>\n  </li>\n  <li><strong>Kasuta vestlusassistenti</strong>\n    <ul>\n      <li>Kirjuta kĆ¼simus vestlusesse ja saada see.</li>\n      <li>Lisa vajadusel dokument analĆ¼Ć¼siks ja kasuta nuppu \"Allikad\", et nĆ¤ha materjale.</li>\n      <li>Varasemaid vestlusi saad avada nupust \"Vestlused\".</li>\n    </ul>\n  </li>\n  <li><strong>Halda seadeid ja tellimust</strong>\n    <ul>\n      <li>Lehel <a href=\"/profiil\">Profiil</a> saad hallata kontot (e-post, PIN), tellimust (pakett, kehtivus) ning keele ja ligipĆ¤Ć¤setavuse seadeid.</li>\n    </ul>\n  </li>\n</ol>\n"
+          "title": "8. Kiire ülevaade",
+          "body": "\n<p>Alljärgnev on lühike juhend SotsiaalAI kasutamiseks.</p>\n<p><strong>Esmakordsel kasutamisel</strong></p>\n<ol>\n  <li><strong>Ava sotsiaal.ai</strong><br/>Esimesel korral vali keel ja ligipääsetavuse seaded (teksti suurus, kontrast, animatsioonid).</li>\n  <li><strong>Vali roll ja loo konto</strong>\n    <ul>\n      <li>Vali avalehelt rollikaart (\"Sotsiaaltöö spetsialistile\" või \"Eluküsimusega pöördujale\") ja klõpsa <a href=\"/registreerimine\">Registreerimine</a>.</li>\n      <li>Sisesta e-posti aadress ja PIN (4–8 numbrit) ning nõustu tingimuste ja privaatsuspoliitikaga.</li>\n    </ul>\n  </li>\n  <li><strong>Kinnita e-post ja logi sisse</strong>\n    <ul>\n      <li>Ava kinnituskiri ja kinnita aadress.</li>\n      <li>Seejärel logi sisse e-posti ja PIN-iga; vajadusel sisesta 6-kohaline kood ja märgi \"Mäleta seda seadet 30 päeva\".</li>\n      <li>Kui ligipääs pole veel aktiveeritud, vormista tellimus lehel <a href=\"/tellimus\">Tellimus</a>.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Igapäevasel kasutamisel</strong></p>\n<ol>\n  <li><strong>Logi rolli alusel sisse</strong>\n    <ul>\n      <li>Ava sotsiaal.ai, vali rollikaart ja sisesta e-post + PIN.</li>\n      <li>Varem usaldatud seadmes piisab tavaliselt PIN-ist.</li>\n    </ul>\n  </li>\n  <li><strong>Kasuta vestlusassistenti</strong>\n    <ul>\n      <li>Kirjuta küsimus vestlusesse ja saada see.</li>\n      <li>Lisa vajadusel dokument analüüsiks ja kasuta nuppu \"Allikad\", et näha materjale.</li>\n      <li>Varasemaid vestlusi saad avada nupust \"Vestlused\".</li>\n    </ul>\n  </li>\n  <li><strong>Halda seadeid ja tellimust</strong>\n    <ul>\n      <li>Lehel <a href=\"/profiil\">Profiil</a> saad hallata kontot (e-post, PIN), tellimust (pakett, kehtivus) ning keele ja ligipääsetavuse seadeid.</li>\n    </ul>\n  </li>\n</ol>\n"
         }
       }
     }
   },
   "subscription": {
     "title": "Tellimus",
-    "loading": "Laen tellimuse infotā€¦",
+    "loading": "Laen tellimuse infot…",
     "error": {
-      "load_failed": "Tellimuse oleku laadimine ebaĆµnnestus.",
-      "payment_start": "Makse algatamine ebaĆµnnestus."
+      "load_failed": "Tellimuse oleku laadimine ebaõnnestus.",
+      "payment_start": "Makse algatamine ebaõnnestus."
     },
     "payment": {
       "redirect_demo": "Suuname Maksekeskuse makselehele (demo)..."
     },
     "active": {
-      "summary": "Sinu tellimus on aktiivne. Kuutasu: 7,99 ā‚¬ / kuu.",
-      "cancel_note": "Tellimuse saad igal ajal tĆ¼histada oma profiililehelt vĆµi kirjutades aadressile <email>info@sotsiaal.ai</email>."
+      "summary": "Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.",
+      "cancel_note": "Tellimuse saad igal ajal tühistada oma profiililehelt või kirjutades aadressile <email>info@sotsiaal.ai</email>."
     },
     "button": {
       "open_profile": "Ava profiil",
       "activate": "Maksa ja aktiveeri tellimus",
-      "processing": "Suunan makseleā€¦"
+      "processing": "Suunan maksele…"
     },
-    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 ā‚¬. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lĆµpetada. Teenus jĆ¤Ć¤b aktiivseks kuni tasutud perioodi lĆµpuni."
+    "info": "SotsiaalAI kasutamiseks on vajalik igakuine tellimus hinnaga 7,99 €. Makse tehakse automaatselt sinu valitud makseviisiga Maksekeskuse kaudu. Tellimus pikeneb iga kuu automaatselt ning seda saab igal ajal oma profiililehel lõpetada. Teenus jääb aktiivseks kuni tasutud perioodi lõpuni."
   },
   "pwa": {
     "heading": "Soovid platvormi eraldi rakendusena?",
-    "cta": "Paigalda mobiili vĆµi arvutisse",
+    "cta": "Paigalda mobiili või arvutisse",
     "instructions": {
-      "ios": "iPhone/iPad: Ava Safari, vali Jaga (ekraani Ć¼laservas) ā†’ Lisa avalehele.",
-      "mac": "Mac: Ava Safari ja vali menĆ¼Ć¼st File ā†’ Add to Dockā€¦"
+      "ios": "iPhone/iPad: Ava Safari, vali Jaga (ekraani ülaservas) → Lisa avalehele.",
+      "mac": "Mac: Ava Safari ja vali menüüst File → Add to Dock…"
     }
   },
   "start": {
     "heading": "Tere tulemast tagasi",
-    "lead": "Vali, millise tĆ¶Ć¶riistaga jĆ¤tkad.",
+    "lead": "Vali, millise tööriistaga jätkad.",
     "cards": {
       "rag": {
         "title": "RAG andmebaasi haldus",
-        "description": "Laadi Ć¼les uusi materjale, halda allikaid ja jĆ¤lgi indeksi staatust."
+        "description": "Laadi üles uusi materjale, halda allikaid ja jälgi indeksi staatust."
       },
       "chat": {
         "title": "Vestlusassistendiga",
-        "description": "Testi assistenti ja vii vestlusi, kasutades rollipĆµhist RAG-konteksti."
+        "description": "Testi assistenti ja vii vestlusi, kasutades rollipõhist RAG-konteksti."
       }
     },
     "metadata": {
-      "title": "JĆ¤rgmine samm ā€” SotsiaalAI",
-      "description": "Vali, kuhu edasi liikuda pĆ¤rast sisselogimist."
+      "title": "Järgmine samm — SotsiaalAI",
+      "description": "Vali, kuhu edasi liikuda pärast sisselogimist."
     }
   },
   "notFound": {
     "title": "Lehte ei leitud",
-    "description": "Vabandame, otsitud lehte ei eksisteeri vĆµi see on eemaldatud."
+    "description": "Vabandame, otsitud lehte ei eksisteeri või see on eemaldatud."
   },
   "role": {
     "admin": "Administraator",
     "worker": "Spetsialist",
-    "client": "ElukĆ¼simusega pĆ¶Ć¶rduja",
-    "unknown": "ā€”"
+    "client": "Eluküsimusega pöörduja",
+    "unknown": "—"
   },
   "meta": {
     "home": {
-      "title": "SotsiaalAI ā€“ Tehisintellekt sotsiaaltĆ¶Ć¶s ja elulistes kĆ¼simustes",
-      "description": "SotsiaalAI Ć¼hendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui elukĆ¼simusega pĆ¶Ć¶rdujatele."
+      "title": "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
+      "description": "SotsiaalAI ühendab killustatud sotsiaalvaldkonna info ja pakub arusaadavat tuge nii spetsialistidele kui eluküsimusega pöördujatele."
     },
     "about": {
-      "title": "Meist ā€” SotsiaalAI",
-      "description": "Tutvu SotsiaalAI missiooni, vĆ¤Ć¤rtuste ja meeskonnaga."
+      "title": "Meist — SotsiaalAI",
+      "description": "Tutvu SotsiaalAI missiooni, väärtuste ja meeskonnaga."
     },
     "terms": {
-      "title": "Kasutustingimused ā€“ SotsiaalAI",
+      "title": "Kasutustingimused – SotsiaalAI",
       "description": "Tutvu SotsiaalAI platvormi kasutustingimustega."
     },
     "privacy": {
-      "title": "Privaatsustingimused ā€“ SotsiaalAI",
+      "title": "Privaatsustingimused – SotsiaalAI",
       "description": "Loe, kuidas SotsiaalAI kogub, kasutab ja kaitseb sinu andmeid."
     },
     "profile": {
-      "title": "Minu profiil ā€“ SotsiaalAI",
-      "description": "Halda oma kontoandmeid, eelistusi ja ligipĆ¤Ć¤su SotsiaalAI teenustele."
+      "title": "Minu profiil – SotsiaalAI",
+      "description": "Halda oma kontoandmeid, eelistusi ja ligipääsu SotsiaalAI teenustele."
     },
     "register": {
-      "title": "Loo konto ā€“ SotsiaalAI",
+      "title": "Loo konto – SotsiaalAI",
       "description": "Registreeru ja vali roll, et kasutada SotsiaalAI platvormi."
     },
     "subscription": {
-      "title": "Tellimus ā€“ SotsiaalAI",
+      "title": "Tellimus – SotsiaalAI",
       "description": "Vaata ja halda oma SotsiaalAI tellimust ja makseid."
     },
     "reset": {
-      "title": "PIN-i taastamine ā€“ SotsiaalAI",
+      "title": "PIN-i taastamine – SotsiaalAI",
       "description": "Taasta oma konto PIN turvalise taastelingi abil."
     },
     "chat": {
-      "title": "Vestlus ā€“ SotsiaalAI",
-      "description": "Vestle rollipĆµhise AI-assistendiga, et leida vastuseid sotsiaalkĆ¼simustele."
+      "title": "Vestlus – SotsiaalAI",
+      "description": "Vestle rollipõhise AI-assistendiga, et leida vastuseid sotsiaalküsimustele."
     },
     "start": {
-      "title": "JĆ¤rgmine samm ā€” SotsiaalAI",
-      "description": "Vali, millise tĆ¶Ć¶riistaga jĆ¤tkad pĆ¤rast sisselogimist."
+      "title": "Järgmine samm — SotsiaalAI",
+      "description": "Vali, millise tööriistaga jätkad pärast sisselogimist."
     }
   }
 }
