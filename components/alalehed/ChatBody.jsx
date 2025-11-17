@@ -1346,18 +1346,19 @@ export default function ChatBody() {
                 {uploadPreview ? (
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <label className="chat-context-toggle">
-                        <input
-                          type="checkbox"
-                          checked={useAsContext}
-                          onChange={(e) => setUseAsContext(e.target.checked)}
+                      <div className="chat-context-toggle">
+                        <button
+                          type="button"
+                          className="chat-context-toggle__track"
+                          data-checked={useAsContext ? "true" : "false"}
+                          onClick={() => setUseAsContext((prev) => !prev)}
+                          aria-pressed={useAsContext ? "true" : "false"}
                           aria-describedby="chat-upload-context-hint"
-                        />
-                        <span className="chat-context-toggle__track" aria-hidden="true">
+                        >
                           <span className="chat-context-toggle__thumb" aria-hidden="true">
                             <EyeIcon aria-hidden="true" className="chat-context-toggle__icon" />
                           </span>
-                        </span>
+                        </button>
                         <span className="chat-context-toggle__label">
                           {useAsContextLabel}
                           <button
