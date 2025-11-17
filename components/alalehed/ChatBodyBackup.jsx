@@ -1370,8 +1370,23 @@ export default function ChatBody() {
                       <div className="chat-analysis-actions chat-analysis-actions--inline">
                         <button
                           type="button"
+                          className="chat-analysis-jump"
+                          onClick={() => {
+                            inputRef.current?.focus();
+                            inputRef.current?.scrollIntoView({
+                              behavior: "smooth",
+                              block: "center",
+                            });
+                          }}
+                          aria-label={t("chat.upload.jump_to_chat", "Hüppa tagasi vestlusesse")}
+                          title={t("chat.upload.jump_to_chat", "Hüppa tagasi vestlusesse")}
+                        >
+                          ?
+                        </button>
+                        <button
+                          type="button"
                           onClick={toggleAnalysisCollapse}
-                          className="btn-primary chat-analysis-btn chat-analysis-btn--small"
+                          className="chat-analysis-jump"
                         >
                           {analysisCollapsed
                             ? t("chat.upload.summary_show", "Näita dokumenti")
@@ -1670,7 +1685,6 @@ export default function ChatBody() {
     </div>
   );
 }
-
 
 
 

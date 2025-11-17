@@ -3024,7 +3024,7 @@ backdrop-filter: none;
   opacity:0.85;
 }
 .chat-analysis-preview{
-    flex:1 1 auto;
+  flex:1 1 auto;
   min-height:150px;
   max-height:clamp(22rem, 60vh, 40rem);
   border-radius:14px;
@@ -3038,6 +3038,22 @@ backdrop-filter: none;
   scrollbar-width:none;
   scrollbar-color: transparent transparent;
   position:relative;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.9) 12%,
+    rgba(0,0,0,0.9) 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.9) 12%,
+    rgba(0,0,0,0.9) 88%,
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 }
 .chat-analysis-preview::before,
 .chat-analysis-preview::after{
@@ -3177,7 +3193,7 @@ backdrop-filter: none;
     color 0.16s ease;
 }
 .chat-analysis-actions .chat-analysis-jump{
-  display:none;
+  display:inline-flex;
 }
 .chat-analysis-jump--floating{
   position:sticky;
@@ -3213,13 +3229,10 @@ backdrop-filter: none;
   box-sizing:border-box;
   margin:0 auto;
 }
-.chat-context-toggle:hover{
-  background:rgba(10,14,24,0.46);
-}
 .chat-context-toggle__track{
   position:relative;
-  width:2.7rem;
-  height:1.45rem;
+  width:3.1rem;
+  height:1.7rem;
   border-radius:999px;
   background:rgba(10,16,30,0.9);
   border:2px solid rgba(148,197,233,0.9);
@@ -3235,10 +3248,10 @@ backdrop-filter: none;
 }
 .chat-context-toggle__thumb{
   position:absolute;
-  top:0.11rem;
-  left:0.12rem;
-  width:1.15rem;
-  height:1.15rem;
+  top:0.16rem;
+  left:0.14rem;
+  width:1.35rem;
+  height:1.35rem;
   border-radius:50%;
   background:radial-gradient(circle at 30% 30%, #f8fafc, #e5e7eb);
   box-shadow:
@@ -3254,8 +3267,8 @@ backdrop-filter: none;
     box-shadow 0.18s ease;
 }
 .chat-context-toggle__icon{
-  width:1.05rem;
-  height:1.05rem;
+  width:1.25rem;
+  height:1.25rem;
   display:block;
   pointer-events:none;
 }
@@ -3266,7 +3279,7 @@ backdrop-filter: none;
     0 0.18rem 0.45rem rgba(22,163,74,0.7);
 }
 .chat-context-toggle__track[data-checked="true"] .chat-context-toggle__thumb{
-  transform: translateX(1.15rem);
+  transform: translateX(1.55rem);
   box-shadow:
     0 1px 3px rgba(15,23,42,0.7),
     inset 0 1px 1px rgba(255,255,255,0.9);

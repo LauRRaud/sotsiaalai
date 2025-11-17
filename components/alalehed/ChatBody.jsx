@@ -1437,24 +1437,24 @@ export default function ChatBody() {
                       <div className="chat-analysis-actions chat-analysis-actions--inline">
                         <button
                           type="button"
-                          onClick={toggleAnalysisCollapse}
-                          className="btn-primary chat-analysis-btn chat-analysis-btn--small"
-                        >
-                          {analysisCollapsed
-                            ? t("chat.upload.summary_show", "Näita dokumenti")
-                            : t("chat.upload.summary_hide", "Peida dokument")}
-                        </button>
-                        <button
-                          type="button"
                           className="chat-analysis-jump"
                           onClick={() => {
                             inputRef.current?.focus();
                             inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
                           }}
-                          aria-label={t("chat.upload.jump_to_chat", "Hüppa tagasi vestlusesse")}
-                          title={t("chat.upload.jump_to_chat", "Hüppa tagasi vestlusesse")}
+                          aria-label={t("chat.upload.jump_to_chat", "Hõppa tagasi vestlusesse")}
+                          title={t("chat.upload.jump_to_chat", "Hõppa tagasi vestlusesse")}
                         >
-                          ↪
+                          ?
+                        </button>
+                        <button
+                          type="button"
+                          onClick={toggleAnalysisCollapse}
+                          className="chat-analysis-jump"
+                        >
+                          {analysisCollapsed
+                            ? t("chat.upload.summary_show", "Näita dokumenti")
+                            : t("chat.upload.summary_hide", "Peida dokument")}
                         </button>
                       </div>
                     ) : null}
@@ -1763,6 +1763,8 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
 
 
 
