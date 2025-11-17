@@ -1569,7 +1569,7 @@ export default function ChatBody() {
                               event.preventDefault();
                             }}
                           >
-                            <SotsiaalAILoader size="1.3rem" animated={false} ariaHidden />
+                            <SotsiaalAILoader size="1rem" animated={false} ariaHidden />
                           </div>
                         </div>
                       </div>
