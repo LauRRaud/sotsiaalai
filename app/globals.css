@@ -3001,8 +3001,9 @@ backdrop-filter: none;
 }
 .chat-analysis-btn--small{
   font-size:0.9rem;
-  padding:0.42rem 0.95rem;
+  padding:0.36rem 0.9rem;
   border-radius:1.35rem;
+  background:rgba(15,23,42,0.72);
 }
 .chat-analysis-file-info{
   display:flex;
@@ -3042,6 +3043,7 @@ backdrop-filter: none;
 .chat-analysis-preview-wrap{
     position:relative;
     display:block;
+    overflow:hidden;
   }
   .chat-analysis-scroll-track{
     position:absolute;
@@ -3124,14 +3126,14 @@ backdrop-filter: none;
   padding:0.18rem 0.85rem;
   border-radius:999px;
   border:none;
-  background:rgba(15,23,42,0.72);
+  background:rgba(15,23,42,0.6);
   cursor:pointer;
   position:relative;
-  font-size:0.82rem;
+  font-size:0.92rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
-  color:rgba(248,250,252,0.78);
+  color:rgba(248, 250, 252, 0.6);
   box-shadow:0 0.2rem 0.45rem rgba(0,0,0,0.55);
   transition:
     background 0.18s ease,
@@ -3222,7 +3224,10 @@ backdrop-filter: none;
     transform 0.22s cubic-bezier(.22,.61,.36,1),
     box-shadow 0.18s ease;
 }
-.chat-context-toggle__loader{
+.chat-context-toggle__icon{
+  width:0.9rem;
+  height:0.9rem;
+  display:block;
   pointer-events:none;
 }
 .chat-context-toggle input[type=checkbox]:checked + .chat-context-toggle__track{
@@ -3242,6 +3247,7 @@ backdrop-filter: none;
   align-items:center;
   gap:0.4rem;
   font-size:1.08rem;
+  line-height:1.2;
   color: var(--pt-150);
 }
 .chat-context-toggle:hover .chat-context-toggle__label{

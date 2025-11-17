@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import UserCircle from "@/public/logo/User-circle.svg";
 import Paperclip from "@/public/logo/paperclip.svg";
+import EyeIcon from "@/public/logo/silma.svg";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
@@ -1354,12 +1355,7 @@ export default function ChatBody() {
                         />
                         <span className="chat-context-toggle__track" aria-hidden="true">
                           <span className="chat-context-toggle__thumb" aria-hidden="true">
-                            <SotsiaalAILoader
-                              size="0.75rem"
-                              animated={false}
-                              ariaHidden
-                              className="chat-context-toggle__loader"
-                            />
+                            <EyeIcon aria-hidden="true" className="chat-context-toggle__icon" />
                           </span>
                         </span>
                         <span className="chat-context-toggle__label">
