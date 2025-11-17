@@ -9,8 +9,9 @@ import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
+import Image from "next/image";
 
-// Inline SVG (SVGR) imports — failid peaksid olema src/assets/logo/*.svg
+// Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg
 import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
 import SmustLogo from "@/public/logo/smust.svg";
@@ -208,9 +209,19 @@ export default function HomePage() {
             <Link
               id="nav-meist"
               href="/meist"
-              className="footer-link-headline top-center-link defer-fade defer-from-top delay-1 dim"
+              className="top-center-link nav-meist-link defer-fade defer-from-top delay-1 dim"
             >
-              {t("nav.about")}
+              <span className="nav-meist-wrap">
+                <Image
+                  src="/logo/pallhele.svg"
+                  alt={t("nav.about")}
+                  width={80}
+                  height={80}
+                  className="nav-meist-icon"
+                  priority
+                />
+                <span className="nav-meist-text">{t("nav.about")}</span>
+              </span>
             </Link>
           </nav>
         )}
@@ -356,9 +367,19 @@ export default function HomePage() {
               <Link
                 id="nav-meist"
                 href="/meist"
-                className="footer-link-headline top-center-link defer-fade defer-from-bottom delay-1 dim"
+                className="top-center-link nav-meist-link defer-fade defer-from-bottom delay-1 dim"
               >
-                {t("nav.about")}
+                <span className="nav-meist-wrap">
+                  <Image
+                    src="/logo/pallhele.svg"
+                    alt={t("nav.about")}
+                    width={80}
+                    height={80}
+                    className="nav-meist-icon"
+                    priority
+                  />
+                  <span className="nav-meist-text">{t("nav.about")}</span>
+                </span>
               </Link>
             </nav>
           )}
