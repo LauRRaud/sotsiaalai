@@ -364,8 +364,8 @@ export default function ChatBody() {
       const atTop = previewNode.scrollTop <= 0;
       const atBottom = previewNode.scrollTop >= maxScroll;
 
-      const fullyVisible = rect.top >= margin && rect.bottom <= vh - margin;
-      if (!fullyVisible && vh > 0 && deltaY > 0) {
+      const belowViewport = rect.bottom > vh - margin;
+      if (belowViewport && vh > 0 && deltaY > 0) {
         event.preventDefault();
         panel.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
