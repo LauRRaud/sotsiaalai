@@ -1,4 +1,4 @@
-﻿html { font-family: var(--font-aino), Arial, sans-serif; }        
+html { font-family: var(--font-aino), Arial, sans-serif; }        
 .headline, .brand-title, .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
 }
@@ -69,7 +69,7 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;                 
 }
-/* PIN keypad ā€” restored styles */
+/* PIN keypad — restored styles */
 .pin-keypad-all-wrapper {
   width: 100%;
   display: flex;
@@ -663,7 +663,7 @@ a, .link-brand, .meist-external-link {
     color .22s ease,
     border-color .22s ease;
 }
-/* Ćµrn ā€liquidā€¯ lĆ¤ige */
+/* õrn “liquid” läige */
 .footer-link-headline::before {
   content: "";
   position: absolute;
@@ -675,7 +675,7 @@ a, .link-brand, .meist-external-link {
   mix-blend-mode: screen;
   pointer-events: none;
 }
-/* neutraalne Ćµrn kuma */
+/* neutraalne õrn kuma */
 .footer-link-headline::after {
   content: "";
   position: absolute;
@@ -1015,7 +1015,7 @@ a {
   opacity: 1;
   transform: translate(-50%, 0.5rem);
 }
-/* dark-mode/light-mode eristused eemaldatud ā€“ kasutame Ć¼htset vĆ¤limust */
+/* dark-mode/light-mode eristused eemaldatud – kasutame ühtset välimust */
 .profile-header-center {
   display: flex;
   flex-direction: column;
@@ -1185,11 +1185,15 @@ a {
 
 @media (max-width: 768px){
   .profile-email-card-grid{
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap:1rem;
+    grid-template-columns: repeat(2, minmax(110px, 1fr));
+    gap:0.85rem;
+    width:100%;
+    max-width:500px;
+    margin:0 auto;
   }
   .profile-email-card{
-    max-width:160px;
+    max-width:140px;
+    width:100%;
   }
   .profile-email-card__label{
     font-size:1.08rem;
@@ -2121,7 +2125,7 @@ a {
   margin-bottom: 1em;
 }
 .status-aktiivne  { background: #e8fae0; color: #217a2e; }
-.status-lĆµppenud  { background: #ffe2e0; color: #bb3333; }
+.status-lõppenud  { background: #ffe2e0; color: #bb3333; }
 .status-puudub    { background: #f8f4f0; color: #343434; }
 .tellimus-btn-center {
   display: flex;
@@ -2358,7 +2362,7 @@ backdrop-filter: none;
 .glass-checkbox input[type=checkbox]{
   accent-color: var(--brand-primary);
 }
-/* chat-inputbar vĆ¤rvid tulevad nĆ¼Ć¼d Ć¼hisest .chat-inputbar reeglist allpool */
+/* chat-inputbar värvid tulevad nüüd ühisest .chat-inputbar reeglist allpool */
 input::placeholder,
 textarea::placeholder{
   font: inherit;
@@ -2842,7 +2846,7 @@ backdrop-filter: none;
   overscroll-behavior:contain;
   scrollbar-width:thin;
   scrollbar-color: var(--pt-mid) transparent;
-  /* hoia logo skaala proportsionaalne teiste elementidega, sĆµltumata zoomist */
+  /* hoia logo skaala proportsionaalne teiste elementidega, sõltumata zoomist */
   --chat-logo-height: 66%;
   --chat-logo-y: 57%;
 }
@@ -3214,6 +3218,7 @@ backdrop-filter: none;
   justify-content:flex-end;
   gap:0.65rem;
   margin-top:0.6rem;
+  margin-bottom:0.5rem;
 }
 .chat-analysis-jump{
   display:inline-flex;
@@ -3246,7 +3251,7 @@ backdrop-filter: none;
 }
 .chat-analysis-jump--floating{
   position:absolute;
-  top:-0.05rem;
+  top:-0.6rem;
   left:50%;
   transform:translate(-50%, 0);
   z-index:3;
@@ -3266,6 +3271,7 @@ backdrop-filter: none;
   text-transform:uppercase;
   font-weight:500;
   font-size:0.98rem;
+  letter-spacing:0.05em;
   white-space: nowrap;
 }
 .chat-analysis-jump--text:hover,
@@ -3303,8 +3309,9 @@ backdrop-filter: none;
   justify-content: center;
   justify-content: center;
   margin: 0;
-  height: 55px;
-  transform: translateY(-1px) scale(0.48);
+  width:55px;
+  height:26.5px;
+  transform: translateY(-1px);
   transform-origin:left center;
   margin-right:0.05rem;
 }
@@ -3583,7 +3590,7 @@ backdrop-filter: none;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  padding: 0 0.2rem 0 0.625rem; /* vĆ¤henda paremat paddingut, et nupp liiguks servale lĆ¤hemale */
+  padding: 0 0.2rem 0 0.625rem; /* vähenda paremat paddingut, et nupp liiguks servale lähemale */
   overflow:hidden;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
@@ -3634,7 +3641,7 @@ backdrop-filter: none;
   flex: 0 0 auto;
   border-radius: 999px;
 }
-/* ainult dokumendi Ć¼leslaadimise kirjaklambri ikoon */
+/* ainult dokumendi üleslaadimise kirjaklambri ikoon */
 .chat-send-btn.chat-attach-as-send .chat-attach-icon {
   width: 1.8rem !important;
   height: 1.8rem !important;
@@ -3659,9 +3666,9 @@ backdrop-filter: none;
   --btn-border-glow: rgba(214, 212, 207, 0.14);
   --btn-bg-idle: rgba(10, 14, 24, 0.24);
   --btn-bg-hover: rgba(10, 14, 24, 0.30);
-  flex: 0 0 3.5rem;
-  width: 3.5rem;
-  height: 3.5rem;
+  flex: 0 0 3.2rem;
+  width: 3.2rem;
+  height: 3.2rem;
   border-radius: 62.4375rem;
   border: 2px solid var(--btn-border-glow);
   background: var(--btn-bg-idle);
@@ -3675,19 +3682,19 @@ backdrop-filter: none;
   outline: none;
 }
 .chat-send-btn.chat-attach-as-send {
-  flex: 0 0 var(--attach-size, 4rem);
-  width: var(--attach-size, 4rem);
-  height: var(--attach-size, 4rem);
+  flex: 0 0 var(--attach-size, 3.2rem);
+  width: var(--attach-size, 3.2rem);
+  height: var(--attach-size, 3.2rem);
   border-color: rgba(220,220,220,0.3);           /* sama mis sisestuslahtri serv */
   background: rgba(10,14,24,0.22);               /* sama mis sisestuslahtri taust */
   box-shadow:
-    inset 0 0 0 1px rgba(0,0,0,0.55);            /* ainult sisemine vari, et vĆ¤ltida topelt-ringi */
+    inset 0 0 0 1px rgba(0,0,0,0.55);            /* ainult sisemine vari, et vältida topelt-ringi */
 }
 .chat-send-btn.chat-attach-as-send:hover,
 .chat-send-btn.chat-attach-as-send:focus-visible {
   border-color: rgba(236, 235, 233, 0.92);       /* sama mis sisestuslahter fookuses */
   background: rgba(10,14,24,0.30);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);  /* ainult sisemine vari, ilma heleda vĆ¤lise kumata */
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.55);  /* ainult sisemine vari, ilma heleda välise kumata */
 }
 .chat-attach-btn.chat-attach-as-send:hover,
 .chat-attach-btn.chat-attach-as-send:focus-visible {
@@ -3746,7 +3753,7 @@ backdrop-filter: none;
   filter: none !important;
 }
 .chat-send-btn .send-loader .send-loader-bottom .st2 {
-  fill: #272626 !important;  /* jĆ¤ta pall, ilma heleda rĆµngata */
+  fill: #272626 !important;  /* jäta pall, ilma heleda rõngata */
   stroke: none !important;
   filter: none !important;
 }
@@ -3776,7 +3783,7 @@ backdrop-filter: none;
   color: var(--pt-150);
 }
 .chat-inputbar .chat-send-btn.chat-attach-as-send{
-  --attach-size: 3.6rem; /* vĆ¤henda nupu lĆ¤bimĆµĆµtu, et ta mahuks kĆµrgusesse */
+  --attach-size: 3.2rem; /* joonda saatmise nupu k�rgusega */
 }
 .chat-inputbar .chat-input-field{
   padding-inline-start: clamp(0.75rem, 3vw, 1.125rem); 
@@ -3792,10 +3799,10 @@ backdrop-filter: none;
   opacity: 0.95;
 }
 :root {
-  --attach-icon-size: 4rem;  /* vļæ½i 1.8rem vms */
+  --attach-icon-size: 3.2rem;  /* v�i 1.8rem vms */
 }
 :root {
-  --attach-icon-size: 4rem;  /* vĆµi 1.8rem vms */
+  --attach-icon-size: 3.2rem;  /* või 1.8rem vms */
 }
 
 .chat-attach-btn:disabled .chat-attach-icon{
@@ -3824,12 +3831,12 @@ backdrop-filter: none;
 
 @media (max-width: 640px){
   .chat-inputbar .chat-send-btn{
-    flex:0 0 2.4rem;
-    width:2.4rem;
-    height:2.4rem;
+    flex:0 0 2.6rem !important;
+    width:2.6rem !important;
+    height:2.6rem !important;
   }
   .chat-inputbar .chat-send-btn.chat-attach-as-send{
-    --attach-size: 2.4rem;
+    --attach-size: 2.6rem;
   }
   .chat-inputbar .chat-input-field{
     min-height:2.4rem !important;
@@ -3883,7 +3890,7 @@ backdrop-filter: none;
   max-width:70ch; font-size:1em; line-height:1.32;
 }
 .chat-msg-ai + .chat-msg-ai{ margin-top:.3em; }
-/* chat-inputbar dark/light variandid eemaldatud ā€“ kasutame Ć¼hist baastooni */
+/* chat-inputbar dark/light variandid eemaldatud – kasutame ühist baastooni */
 @media (max-width: 48em){
   .glass-box.chat-container{
     --hud-edge: clamp(.55rem, 3vw, .95rem);
@@ -3894,7 +3901,7 @@ backdrop-filter: none;
     gap:.35rem;
     padding-top:.5rem;
     padding-bottom: clamp(0.1rem, 0.8vw, 0.25rem);
-    /* mobiilis ā€“ hoia 100% tunnetust */
+    /* mobiilis – hoia 100% tunnetust */
     --chat-logo-height: 48%;
     --chat-logo-y: 55%;
   }
@@ -3945,7 +3952,7 @@ backdrop-filter: none;
 :root {
   --pt-80:  #F2F1EF;
   --pt-130: #EDEAE6;
-  /* Avatar + menu icon metal tone (gradient middle ā†’ #B7B1A7) */
+  /* Avatar + menu icon metal tone (gradient middle → #B7B1A7) */
   --pt-avatar-ring: #B7B1A7;
   --pt-avatar-ring-hover: #C8C3BA; /* natuke heledam hover toon */
 }
@@ -3963,9 +3970,9 @@ backdrop-filter: none;
   border-width: 0.1875rem;
   border-style: solid;
 
-  /* ā¬…ļø¸ PĆ•HIVĆ„RV 0.8 opacity HEX */
+  /* ⬅️ PÕHIVÄRV 0.8 opacity HEX */
   border-color: #DCC3BECC;
-  color: #DCC3BECC; /* ā† kriipsude vĆ¤rv */
+  color: #DCC3BECC; /* ← kriipsude värv */
 
   background: transparent;
   display: grid;
@@ -3984,15 +3991,15 @@ backdrop-filter: none;
   z-index: 4;
 }
 
-/* HOVER + FOCUS ā†’ sama toon, lihtsalt heledam kui tahad */
+/* HOVER + FOCUS → sama toon, lihtsalt heledam kui tahad */
 .chat-menu-btn:hover,
 .chat-menu-btn:focus-visible {
-  border-color: #E7D9D4CC; /* #DCC3BECC ā†’ ~10% heledam */
+  border-color: #E7D9D4CC; /* #DCC3BECC → ~10% heledam */
   color: #E7D9D4CC;
   background: transparent;
 }
 
-/* ACTIVE ā†’ animatsioon jĆ¤Ć¤b samaks */
+/* ACTIVE → animatsioon jääb samaks */
 .chat-menu-btn:active {
   transform: scale(0.94);
   box-shadow: 0 0 0.375rem rgba(173,169,162,0.45);
@@ -4012,7 +4019,7 @@ backdrop-filter: none;
   display: block;
   height: 2px;
   width: 100%;
-  background: currentColor; /* ā† vĆµtab nupu color */
+  background: currentColor; /* ← võtab nupu color */
   border-radius: 2px;
   margin: 3px 0;
   transition: background 0.25s ease;
@@ -4452,4 +4459,6 @@ html[data-contrast=hc] .desc-ring-right * {
 }
 
 /* Chat send button - sama heledus kui kirjaklambril (korraldub 3420-ossa) */
+
+
 
