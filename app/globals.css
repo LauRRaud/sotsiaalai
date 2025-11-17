@@ -2879,8 +2879,8 @@ backdrop-filter: none;
   z-index:4;
 }
 .chat-analysis-card{
-  background: rgba(7,10,18,0.78);
-  border: 1px solid rgba(148,163,184,0.26);
+  background: rgba(7,10,18,0.68);
+  border: 1px solid rgba(148,163,184,0.2);
   border-radius: 18px;
   padding: 1.1rem 1.25rem 1.7rem;
   color: #e2e8f0;
@@ -3013,6 +3013,7 @@ backdrop-filter: none;
 .chat-analysis-file-name{
   font-weight:600;
   font-size:1.15rem;
+  color: var(--pt-150);
 }
 .chat-analysis-file-meta{
   font-size:0.95rem;
@@ -3023,9 +3024,9 @@ backdrop-filter: none;
   min-height:150px;
   max-height:clamp(22rem, 60vh, 40rem);
   border-radius:14px;
-  background:rgba(5,9,18,0.55);
-  border:1px solid rgba(148,163,184,0.34);
-  padding:1rem 1.7rem 1rem 1.15rem;
+  background:rgba(5,9,18,0.35);
+  border:1px solid rgba(148,163,184,0.25);
+  padding:0.85rem 1.6rem 0.85rem 1.1rem;
   overflow:auto;
   font-size:1.05rem;
   line-height:1.9;
@@ -3123,13 +3124,13 @@ backdrop-filter: none;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:0.18rem 0.85rem;
+  padding:0.26rem 1.05rem;
   border-radius:999px;
   border:none;
   background:rgba(15,23,42,0.6);
   cursor:pointer;
   position:relative;
-  font-size:0.92rem;
+  font-size:0.98rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
@@ -3259,12 +3260,12 @@ backdrop-filter: none;
   align-items:center;
   justify-content:center;
   margin:auto;
-  height:55px;
+  height:38px;
 }
 .switch-outer{
   height:100%;
   background:#252532;
-  width:115px;
+  width:88px;
   border-radius:165px;
   box-shadow:inset 0 5px 10px 0 #16151c, 0 3px 6px -2px #403f4e;
   border:1px solid #32303e;
@@ -3286,8 +3287,8 @@ backdrop-filter: none;
   justify-content:space-between;
 }
 .button-toggle{
-  height:42px;
-  width:42px;
+  height:28px;
+  width:28px;
   background:linear-gradient(#3b3a4e,#272733);
   border-radius:100%;
   box-shadow:inset 0 5px 4px 0 #424151, 0 4px 15px 0 #0f0e17;
@@ -3300,13 +3301,13 @@ backdrop-filter: none;
   justify-content:center;
 }
 .switch-eye-icon{
-  width:1.4rem;
-  height:1.4rem;
+  width:1.35rem;
+  height:1.35rem;
   display:block;
 }
 .button-indicator{
-  height:25px;
-  width:25px;
+  height:22px;
+  width:22px;
   top:50%;
   transform:translateY(-50%);
   border-radius:50%;
@@ -3368,10 +3369,11 @@ backdrop-filter: none;
   border-radius:0.6rem;
   background:#020617;
   color:#e5e7eb;
-  font-size:1rem;
-  line-height:1.35;
+  font-size:1.02rem;
+  line-height:1.4;
+  letter-spacing:0.02em;
   text-align:center;
-  box-shadow:0 0.3rem 0.7rem rgba(0,0,0,0.55);
+  box-shadow:0 0.2rem 0.6rem rgba(0,0,0,0.45);
   opacity:0;
   pointer-events:none;
   white-space:normal;

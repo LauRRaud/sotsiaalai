@@ -358,17 +358,19 @@ export default function ChatBody() {
           ? window.innerHeight || document.documentElement.clientHeight || 0
           : 0;
       const margin = 24;
-      const fullyVisible = rect.top >= margin && rect.bottom <= vh - margin;
-      if (!fullyVisible && vh > 0) {
-        event.preventDefault();
-        panel.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
       const maxScroll = previewNode.scrollHeight - previewNode.clientHeight;
       if (maxScroll <= 0) return;
       const deltaY = event.deltaY;
       const atTop = previewNode.scrollTop <= 0;
       const atBottom = previewNode.scrollTop >= maxScroll;
+
+      const fullyVisible = rect.top >= margin && rect.bottom <= vh - margin;
+      if (!fullyVisible && vh > 0 && deltaY > 0) {
+        event.preventDefault();
+        panel.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
       const canScrollDown = deltaY > 0 && !atBottom;
       const canScrollUp = deltaY < 0 && !atTop;
       if (canScrollDown || canScrollUp) {
