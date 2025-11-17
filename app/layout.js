@@ -1,4 +1,4 @@
-// app/layout.js
+﻿// app/layout.js
 import "./globals.css";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
@@ -12,10 +12,7 @@ export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
   manifest: "/site.webmanifest",
-  icons: {
-    icon: "/favicon.ico",        // ← üksik universaalne ikoon (soovi korral)
-    // apple: "/apple-touch-icon.png", // ← lisa hiljem kui fail olemas
-  },
+  icons: { icon: "/logo/silma.svg", shortcut: "/logo/silma.svg", apple: "/logo/silma.svg" },
 };
 export const viewport = { themeColor: "#0d111b" };
 /** Fondid JUURTASANDIL (NB! teed: ./fonts/...) */
@@ -36,18 +33,18 @@ const ainoHeadline = localFont({
   display: "swap",
   preload: true, // preloading avoids first-render swap jump on titles
 });
-/** Sõnumite kaardid – impordime serveris küpsise järgi */
+/** SĆµnumite kaardid ā€“ impordime serveris kĆ¼psise jĆ¤rgi */
 const MESSAGES = {
   et: () => import("@/messages/et.json"),
   ru: () => import("@/messages/ru.json"),
   en: () => import("@/messages/en.json"),
 };
 export default async function RootLayout({ children }) {
-  // Loe locale küpsisest; middleware seab NEXT_LOCALE kui kasutaja külastab /et, /ru, /en
+  // Loe locale kĆ¼psisest; middleware seab NEXT_LOCALE kui kasutaja kĆ¼lastab /et, /ru, /en
   const jar = await cookies();
   const cookieLocale = jar.get("NEXT_LOCALE")?.value;
   const locale = ["et", "ru", "en"].includes(cookieLocale || "") ? cookieLocale : "et";
-  // Lae sõnumid serveris – stabiilne SSR HTML (vältimaks hydration mismatch)
+  // Lae sĆµnumid serveris ā€“ stabiilne SSR HTML (vĆ¤ltimaks hydration mismatch)
   let messages = {};
   try {
     messages = (await MESSAGES[locale]()).default ?? {};
@@ -55,11 +52,11 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authConfig);
   const skipText =
     messages?.common?.skip_to_content ??
-    (locale === "ru" ? "Перейти к содержимому" : locale === "en" ? "Skip to content" : "Jätka sisuni");
+    (locale === "ru" ? "ŠŠµŃ€ŠµŠ¹Ń‚Šø Šŗ ŃŠ¾Š´ŠµŃ€Š¶ŠøŠ¼Š¾Š¼Ń" : locale === "en" ? "Skip to content" : "JĆ¤tka sisuni");
   return (
     <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable}`}>
       <head>
-        {/* Valikulised preloadid – võid soovi korral eemaldada */}
+        {/* Valikulised preloadid ā€“ vĆµid soovi korral eemaldada */}
         <link rel="preload" as="image" href="/logo/aivalge.svg" />
         <link rel="preload" as="image" href="/logo/saimust.svg" />
         <link rel="preload" as="image" href="/logo/smust.svg" />
@@ -69,15 +66,15 @@ export default async function RootLayout({ children }) {
       </head>
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
         <Providers initialLocale={locale} messages={messages} session={session}>
-          {/* Skip-link ligipääsetavuseks */}
+          {/* Skip-link ligipĆ¤Ć¤setavuseks */}
           <a href="#main" className="skip-link">{skipText}</a>
           <ViewportLayoutSetter />
-          {/* Taust alati taha: ei kata sisu ega püüa klikke */}
+          {/* Taust alati taha: ei kata sisu ega pĆ¼Ć¼a klikke */}
           <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
             <BackgroundLayer />
           </div>
           <ServiceWorkerRegistrar />
-          {/* Sisu on taustast kõrgemal kihil */}
+          {/* Sisu on taustast kĆµrgemal kihil */}
           <main id="main" tabIndex={-1} className="relative" style={{ zIndex: 10 }}>
             {children}
           </main>
@@ -87,3 +84,5 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
+
+

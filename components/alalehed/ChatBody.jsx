@@ -366,7 +366,7 @@ export default function ChatBody() {
 
       const belowViewport = rect.bottom > vh - margin;
       if (belowViewport && vh > 0 && deltaY > 0) {
-        event.preventDefault();
+        if (event.cancelable) event.preventDefault();
         panel.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
       }
@@ -374,7 +374,7 @@ export default function ChatBody() {
       const canScrollDown = deltaY > 0 && !atBottom;
       const canScrollUp = deltaY < 0 && !atTop;
       if (canScrollDown || canScrollUp) {
-        event.preventDefault();
+        if (event.cancelable) event.preventDefault();
         const next = Math.max(
           0,
           Math.min(maxScroll, previewNode.scrollTop + deltaY)
