@@ -456,7 +456,7 @@
       "tooltip": "Laadi dokument",
       "busy": "Laen dokumenti üles...",
       "summary": "Dokumendi tekst",
-      "summary_show": "Näita dokumenti",
+      "summary_show": "Näita teksti",
       "summary_hide": "Peida tekst",
       "privacy": "Analüüsiks, ei salvestata püsivalt.",
       "context_hint": "Kui lüliti „Analüüsi vestluses” on sees, saab assistent vastustes seda dokumenti kasutada – teksti kokku võtta, selgitada, võrrelda, tõlkida ning aidata kirjade ja taotluste koostamisel.\nKui lüliti on väljas, tugineb vastus ainult SotsiaalAI teadmistebaasile. Dokumenti ei salvestata ühelgi juhul, sõltumata lüliti asendist.",

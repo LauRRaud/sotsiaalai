@@ -457,7 +457,7 @@
       "busy": "Analyzing document...",
       "summary": "Document preview",
       "preview": "Document text",
-      "summary_show": "Show preview",
+      "summary_show": "Show text",
       "summary_hide": "Hide preview",
       "privacy": "For analysis only, not stored permanently.",
       "context_hint": "If the ā€Analyse in chatā€¯ toggle is on, the assistant can use this document in answers ā€” summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
