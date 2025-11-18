@@ -100,7 +100,7 @@ export default function HomePage() {
     }
   }, [isLoginOpen, status, session, router]);
 
-  const flipAllowed = leftFadeDone && rightFadeDone;
+  const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive  = flipAllowed && !leftFlipping  && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";

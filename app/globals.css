@@ -102,15 +102,11 @@ body::-webkit-scrollbar {
   position: relative;
   overflow: hidden;
   color: var(--pt-120);
-  background:
-    linear-gradient(130deg,
-      rgba(12, 14, 24, 0.38),
-      rgba(28, 32, 46, 0.14)
-    );
+  /* Klaasjas efekt eemaldatud – matt taust */
+  background: rgba(14, 18, 28, 0.55);
   border: 2px solid rgba(148,163,184,0.25);
-  box-shadow:
-    inset 0 0 2px rgba(255,255,255,0.10);
-  text-shadow: 0 1px 2px rgba(10,15,25,0.18);
+  box-shadow: 0 0.3rem 0.9rem rgba(0,0,0,0.16);
+  text-shadow: none;
   transition:
     transform .22s ease,
     box-shadow .22s ease,
@@ -124,14 +120,12 @@ body::-webkit-scrollbar {
 /* Same highlight overlays as .btn-primary */
 .pin-keypad__button::before {
   content: ""; position: absolute; inset: 1px; border-radius: inherit;
-  background:
-    radial-gradient(120% 80% at 25% 0%, rgba(255,255,255,0.12), transparent 60%),
-    linear-gradient(to bottom, rgba(255,255,255,0.03), transparent 45%);
-  pointer-events: none; mix-blend-mode: screen;
+  background: none;
+  pointer-events: none; mix-blend-mode: normal;
 }
 .pin-keypad__button::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit;
-  background: radial-gradient(60% 100% at 95% 0%, rgba(255,255,255,0.07), transparent 60%);
+  background: none;
   pointer-events: none;
 }
 .pin-keypad__button--alt {
@@ -487,6 +481,20 @@ a, .link-brand, .meist-external-link {
 .three-d-card:focus-within .card-face.back > .centered-back-right {
   animation: brandGlow 6.7s ease-in-out infinite;
 }
+.modal-open .three-d-card:hover .card-face.front > .glass-card,
+.modal-open .three-d-card:focus-within .card-face.front > .glass-card,
+.modal-open .three-d-card:hover .card-face.back > .centered-back-left,
+.modal-open .three-d-card:hover .card-face.back > .centered-back-right,
+.modal-open .three-d-card:focus-within .card-face.back > .centered-back-left,
+.modal-open .three-d-card:focus-within .card-face.back > .centered-back-right,
+body.modal-open .three-d-card:hover .card-face.front > .glass-card,
+body.modal-open .three-d-card:focus-within .card-face.front > .glass-card,
+body.modal-open .three-d-card:hover .card-face.back > .centered-back-left,
+body.modal-open .three-d-card:hover .card-face.back > .centered-back-right,
+body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-left,
+body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-right {
+  animation: none !important;
+}
 .glass-card.glow-active { animation: brandGlow 6.7s ease-in-out infinite; }
 .three-d-card.is-flipping .glow-active,
 .three-d-card.is-flipping .card-face.back > .centered-back-left,
@@ -508,10 +516,8 @@ a, .link-brand, .meist-external-link {
   100% { transform: translateY(0); }
 }
 @keyframes meist-shine{
-  0%{ background-position: 220%; }
-  35%{ background-position: 220%; }
-  55%{ background-position: -220%; }
-  100%{ background-position: -220%; }
+  0%{ background-position: 200%; }
+  100%{ background-position: -200%; }
 }
 @keyframes cardFadeIn {
   0% {
@@ -991,9 +997,9 @@ a {
 }
 .avatar-link:active { transform: translateY(-3.5px) scale(0.94); }
 @media (max-width: 48em){
-  .avatar-link{
-    right: calc(var(--hud-edge-right) + 0.625rem); 
-    transform: translateY(-4px);
+.avatar-link{
+  right: calc(var(--hud-edge-right) + 0.625rem); 
+  transform: translateY(-4px);
   }
 }
 .chat-avatar-abs {
@@ -1003,6 +1009,9 @@ a {
   display: block;
   border-radius: 50%;
   cursor: pointer;
+  color: #c57171;
+  fill: #c57171;
+  stroke: #c57171;
 }
 .avatar-label {
   position: absolute;
@@ -1012,7 +1021,7 @@ a {
   font-weight: 500;
   letter-spacing: 0.05em;
   text-align: center;
-  color: #E7D9D4CC;
+  color: #c57171;
   user-select: none;
   pointer-events: none;
   opacity: 0;
@@ -1219,13 +1228,22 @@ a {
   justify-content: center;
   align-items: center;
   margin: 0;
-  flex: 1 1 8.75rem;            
-  min-width: 8.125rem;           
-  max-width: 10.625rem;           
-  font-size: 1em !important;  
-  padding: 0.60em 1.05em !important;
+  flex: 1 1 8.75rem;
+  min-width: 8.125rem;
+  max-width: 10rem;
+  font-size: 0.94em !important;
+  padding: 0.55em 0.95em !important;
   letter-spacing: 0.06em !important;
+  border: 2px solid rgba(148,163,184,0.20);
+  background:
+    linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
+  transition:
+    transform .16s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    border-color .18s ease;
 }
+
 .profile-btn-row--duo .btn-primary span {
   font-size: 1em !important;
 }
@@ -1237,14 +1255,23 @@ a {
 .profile-btn-row:not(.profile-btn-row--duo) .btn-primary,
 .profile-btn-row:not(.profile-btn-row--duo) .btn-profile-save,
 .profile-btn-row:not(.profile-btn-row--duo) .btn-profile-logout {
-  display: inline-flex;       
-  margin: 0;                  
-  min-width: 8.75rem;           
-  flex: 0 0 auto;             
-  font-size: 1.02em;          
-  padding: 0.65em 1.05em;     
-  border-radius: 1.3em;       
+  display: inline-flex;
+  margin: 0;
+  min-width: 8.4rem;
+  flex: 0 0 auto;
+  font-size: 0.98em;
+  padding: 0.6em 1.02em;
+  border-radius: 1.5em;
+  border: 2px solid rgba(148,163,184,0.20);
+  background:
+    linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
+  transition:
+    transform .16s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    border-color .18s ease;
 }
+
 .profile-btn-row .btn-profile-save + .btn-profile-logout {
   margin-left: 0;
 }
@@ -1359,6 +1386,32 @@ a {
   box-sizing: border-box;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
 }
+.input-email-icon{
+  background-image: url("/logo/epost.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 2.2rem auto; /* tee ikoon nähtavamaks */
+  background-blend-mode: normal;
+}
+.input-email-icon:placeholder-shown{
+  /* peida placeholderi tekst, jäta ainult ikoon */
+  color: transparent !important;
+}
+.input-email-icon::placeholder{
+  color: transparent !important;
+  opacity: 0 !important;
+}
+.input-email-icon:focus::placeholder{
+  color: transparent !important;
+  opacity: 0 !important;
+}
+.input-email-icon:not(:placeholder-shown){
+  background-image: none;
+}
+.input-email-icon::-webkit-input-placeholder{ color: transparent !important; opacity:0 !important; }
+.input-email-icon::-moz-placeholder{ color: transparent !important; opacity:0 !important; }
+.input-email-icon:-ms-input-placeholder{ color: transparent !important; opacity:0 !important; }
+.input-email-icon::-ms-input-placeholder{ color: transparent !important; opacity:0 !important; }
 .input-modern:focus {
   border-color: rgba(148,163,184,0.35);
   background: rgba(10,14,24,0.32);
@@ -1368,12 +1421,36 @@ a {
     0 0 18px rgba(148,163,184,0.14);
   color: var(--pt-30, #f7f9ff);
 }
+
+/* Login-modali e-posti väli: algselt ainult ikoon, fookuses täis lahter */
+.login-modal-root .input-email-icon{
+  border-color: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+.login-modal-root .input-email-icon:focus,
+.login-modal-root .input-email-icon:focus-visible{
+  border-color: rgba(148,163,184,0.35) !important;
+  background-color: rgba(10,14,24,0.32) !important;
+  background-image: none !important;
+   cursor: text;
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.24),
+    0 0 12px rgba(148,163,184,0.24),
+    0 0 18px rgba(148,163,184,0.14) !important;
+}
 .glass-form .input-modern {
   max-width: 43.75rem;
   font-size: 1.45rem;
   padding: 0.7em 0.8em;
   margin-bottom: 0.2em;
   line-height: 1.4;
+}
+.glass-form > .btn-primary{
+  display: inline-flex;
+  justify-content: center;
+  margin: 0.9rem auto 0;
 }
 .glass-form:not(.profile-form-vertical) .input-modern {
   color: var(--pt-150);
@@ -1552,6 +1629,84 @@ a {
 .otp-secondary { display:flex; flex-direction: column; align-items: center; gap: 0.25rem; justify-content:center; font-size:1.05rem; margin-top:0.1rem; }
 .login-modal-root.login-modal--otp .otp-secondary { margin-bottom: -0.2rem; }
 .otp-secondary .link-brand-inline { font-size: 1.12em; padding: 0.1rem 0.2rem; font-weight: 500; }
+
+/* --- Vestluse HUD ikoonide toonid (#c57171) --- */
+.chat-menu-btn {
+  border-color: #c57171 !important;
+  color: #c57171 !important;
+}
+.chat-menu-btn:hover,
+.chat-menu-btn:focus-visible {
+  border-color: #c57171 !important;
+  color: #c57171 !important;
+}
+.chat-menu-label {
+  color: #c57171 !important;
+}
+.chat-menu-btn:hover .chat-menu-label,
+.chat-menu-btn:focus-visible .chat-menu-label {
+  color: #c57171 !important;
+}
+.chat-avatar-abs {
+  color: initial !important;
+  fill: initial !important;
+  stroke: initial !important;
+}
+.avatar-label {
+  color: #c57171 !important;
+}
+.avatar-link:hover .avatar-label,
+.avatar-link:focus-visible .avatar-label {
+  color: #c57171 !important;
+}
+
+/* --- Dokumendi analüüsi nuppude välimus nagu btn-primary (suurus muutmata) --- */
+.chat-context-info,
+.chat-analysis-jump,
+.chat-analysis-jump--text {
+  border: 2px solid rgba(148,163,184,0.25) !important;
+  background: linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18)) !important;
+  color: var(--pt-130, #EDEAE6) !important;
+  box-shadow:
+    inset 0 0 2px rgba(255,255,255,0.10),
+    0 6px 16px rgba(0,0,0,0.24),
+    0 0 12px rgba(148,163,184,0.24),
+    0 0 18px rgba(148,163,184,0.14) !important;
+  transition:
+    transform .16s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    border-color .18s ease,
+    color .18s ease;
+}
+.chat-context-info:hover,
+.chat-context-info:focus-visible,
+.chat-analysis-jump:hover,
+.chat-analysis-jump:focus-visible,
+.chat-analysis-jump--text:hover,
+.chat-analysis-jump--text:focus-visible {
+  border-color: rgba(148,163,184,0.35) !important;
+  background: linear-gradient(130deg, rgba(20, 24, 35, 0.46), rgba(36, 40, 55, 0.24)) !important;
+  color: var(--pt-130, #EDEAE6) !important;
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.24),
+    0 0 12px rgba(148,163,184,0.24),
+    0 0 18px rgba(148,163,184,0.14) !important;
+}
+.chat-analysis-jump--text {
+  border-radius: 999px !important;
+}
+
+/* --- E-posti välja ikoon (login modal + profiil) --- */
+.input-email-icon{
+  background-image: url("/logo/epost.svg") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: 6.1rem auto !important;
+}
+.input-email-icon:not(:placeholder-shown){
+  background-image: none !important;
+}
 .otp-secondary .link-brand-inline[disabled] {
   opacity: 0.6;
   pointer-events: none;
@@ -1806,17 +1961,21 @@ a {
   color: var(--pt-200);
   box-shadow: none;
 }
-  .reset-btn {
-    min-width: 10.625rem;
-    max-width: 14.375rem;
-    margin: 0.25em auto 0;
-    align-self: center;
-  }
+.reset-btn {
+  min-width: 10.5rem;
+  max-width: none;
+  margin: 0.35em auto 0;
+  align-self: center;
+  text-align: center;
+  white-space: normal;
+  font-size: 1.02em;
+  padding: 0.48em 1.05em;
+}
 .reset-box.reset-email .reset-btn{
-    min-width: 15.5rem;
-    max-width: 17rem;
-    margin-top: 0.7em;
-  }
+  min-width: 10.5rem;
+  max-width: none;
+  margin-top: 0.7em;
+}
 .reset-btn[disabled] {
   cursor: wait;
   opacity: 0.82;
@@ -2114,14 +2273,22 @@ a {
   max-width: 100%;
   font-family: inherit;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  border-radius: 1.2em;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
   cursor: pointer;
   box-sizing: border-box;
   transition: background 0.17s, color 0.13s, border 0.13s;
-  font-size: 1.15em;
-  padding: 0.47em 1.12em;
+  font-size: 1.02em;
+  padding: 0.46em 1.1em;
   align-self: center !important;
+}
+.modal-confirm .btn-modal-primary,
+.modal-confirm .btn-modal-secondary{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 10.75rem;
+  max-width: none;
 }
 .btn-danger {
   background: #a72424;
@@ -2216,6 +2383,11 @@ a {
   margin-top: clamp(1.8rem, 4.6vw, 2.6rem);
   margin-bottom: 0;
   width: 100%;
+}
+.tellimus-btn-center .btn-primary{
+  font-size: 1.02em;
+  padding: 0.5em 1.15em;
+  min-width: 11rem;
 }
 .btn-primary,
 .btn-primary span,
@@ -2355,28 +2527,32 @@ label {
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  background: rgba(31,31,31,.6);
-  border: 0.5px solid var(--pt-600);
+  /* klaasjas taust sarnaselt .glass-modal / .glass-box */
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 1.5em;
+  border: 1px solid rgba(255,255,255,0.08);
   color: var(--pt-200);
-  padding: 2.2em 1.6em 1.6em;
+  padding: 2.1em 1.7em 1.5em;
   padding-bottom: calc(1.6em + env(safe-area-inset-bottom, 0));
   box-sizing: border-box;
-backdrop-filter: none;
-  box-shadow: 0 2px 0.75rem rgba(195,193,188,.35);
+  backdrop-filter: blur(1.1rem) saturate(110%);
+  -webkit-backdrop-filter: blur(1.1rem) saturate(110%);
+  box-shadow:
+    0 0.4rem 1.2rem rgba(0,0,0,0.55),
+    0 0.1rem 0.35rem rgba(0,0,0,0.45);
 }
 .modal-confirm p,
 .modal-confirm-text{
   font-size: 1.22em;
   font-weight: 600;
   margin: 0 0 1em 0;
-  text-align: left;
+  text-align: center;
 }
 .modal-confirm .btn-row{
   display: flex;
   gap: .7em;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: .8em;
 }
 @media (max-width: 46.75em){
@@ -2408,15 +2584,14 @@ backdrop-filter: none;
 .link-brand,
 .unustasid-parooli-link,
 .meist-external-link,
-.link-brand-inline,
-.login-modal-bottom-link .link-brand{
+.link-brand-inline{
   display: inline-block;
-  font-size: 1.38em;
+  font-size: 1em;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  padding: 0.05em 0.3em;
-  border: 2px solid transparent;
-  border-radius: 0.32em;
+  letter-spacing: 0.03em;
+  padding: 0.02em 0.2em;
+  border: 1px solid transparent;
+  border-radius: 0.24em;
   background: none;
   text-decoration: none;
   transition: border 0.17s, box-shadow 0.13s;
@@ -2582,6 +2757,7 @@ textarea::placeholder{
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: transparent;
+  font-weight: 600;
   line-height: 1;
   white-space: nowrap;
   position:absolute;
@@ -2590,14 +2766,12 @@ textarea::placeholder{
   place-items:center;
   background: linear-gradient(
     120deg,
-    rgba(197,113,113,0) 32%,
-    rgba(197,113,113,0.7) 50%,
-    rgba(197,113,113,0) 68%
+    rgba(195,154,154,0) 28%, rgba(195,154,154,0.9) 50%, rgba(195,154,154,0) 72%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: meist-shine 9s linear infinite;
+  animation: meist-shine 12s linear infinite;
 }
 .top-center-nav .top-center-link:hover,
 .top-center-nav .top-center-link:focus,
@@ -4602,11 +4776,13 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   padding: 0.68em 1.2em !important;
 }
 @media (max-width: 520px){
-  .login-modal-root .btn-primary{
+.login-modal-root .btn-primary{
     font-size: 1.32em !important;
     padding: 0.76em 1.26em !important;
   }
 }
+
+/* btn-profile-logout uses base .btn-primary visuals; size is from .profile-btn-row rules */
 .unustasid-parooli-link{
   font-size: 1.05em !important;
 }
@@ -4758,6 +4934,16 @@ html[data-contrast=hc] .desc-ring-right * {
   width:100% !important;
   flex:1 1 auto !important;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

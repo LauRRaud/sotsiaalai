@@ -33,20 +33,20 @@ export default function ModalConfirm({
         <div className="btn-row">
           <button
             type="button"
-            className="btn-danger"
+            className="btn-primary btn-danger btn-modal-primary"
             onClick={onConfirm}
             disabled={disabled}
           >
-            {confirmLabel}
+            <span>{confirmLabel}</span>
           </button>
           {cancelLabel ? (
             <button
               type="button"
-              className="btn-tertiary"
+              className="btn-primary btn-modal-secondary"
               onClick={onCancel}
               disabled={disabled}
             >
-              {cancelLabel}
+              <span>{cancelLabel}</span>
             </button>
           ) : null}
         </div>

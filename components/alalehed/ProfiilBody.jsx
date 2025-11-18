@@ -272,7 +272,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {emailLabel}
           </label>
           <input
-            className="input-modern"
+            className="input-modern input-email-icon"
             type="email"
             id="email"
             autoComplete="email"

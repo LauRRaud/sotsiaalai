@@ -129,6 +129,8 @@ export default function LoginModal({ open, onClose }) {
     }
   };
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (!open) return;
     if (status === "authenticated" && session) {
@@ -463,10 +465,11 @@ export default function LoginModal({ open, onClose }) {
           <form className="login-modal-form compact" onSubmit={(e) => { e.preventDefault(); submitPinStep(); }} autoComplete="off">
             <label style={{ width: "100%", display: "block", textAlign: "center", marginBottom: 6 }}>
               <input
-                className="input-modern input-email-top compact-email"
+                className="input-modern input-email-top input-email-icon compact-email"
                 type="email"
                 name="email"
-                placeholder={t("auth.email_placeholder")}
+                aria-label={t("auth.email_placeholder")}
+                placeholder=""
                 autoComplete="username"
                 inputMode="email"
                 style={{ margin: "0 auto", maxWidth: 380 }}
