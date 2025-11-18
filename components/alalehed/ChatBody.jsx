@@ -282,7 +282,7 @@ export default function ChatBody() {
   const { t, locale } = useI18n();
   const useAsContextLabel =
     locale === "ru"
-      ? "Анализировать в чате"
+      ? "????????????? ? ????"
       : locale === "en"
       ? "Analyse in chat"
       : "Analüüsi vestluses";
@@ -320,6 +320,8 @@ export default function ChatBody() {
   const [uploadPreview, setUploadPreview] = useState(null);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [useAsContext, setUseAsContext] = useState(false);
+  // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
+  const [docOnlyMode, setDocOnlyMode] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
   const [analysisPanelOpen, setänalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setänalysisCollapsed] = useState(false);
@@ -866,6 +868,7 @@ export default function ChatBody() {
                   ...(uploadPreview?.fileName
                     ? { ephemeralSource: { fileName: uploadPreview.fileName } }
                     : {}),
+                  combineSources: !docOnlyMode,
                 }
               : {}),
           }),
@@ -1012,6 +1015,7 @@ export default function ChatBody() {
       mutateMessage,
       uploadPreview,
       useAsContext,
+      docOnlyMode,
       userRole,
       requestConversationsRefresh,
     ]
@@ -1090,6 +1094,7 @@ export default function ChatBody() {
         });
         setEphemeralChunks(chunksArray);
         setUseAsContext(false);
+        setDocOnlyMode(false);
         refreshUsage();
       } catch (err) {
         const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
@@ -1097,6 +1102,7 @@ export default function ChatBody() {
         setUploadPreview(null);
         setEphemeralChunks([]);
         setUseAsContext(false);
+        setDocOnlyMode(false);
       } finally {
         setUploadBusy(false);
         e.target.value = "";
@@ -1370,6 +1376,7 @@ export default function ChatBody() {
                     setUploadError(null);
                     setEphemeralChunks([]);
                     setUseAsContext(false);
+        setDocOnlyMode(false);
                     closeAnalysisPanel();
                   }}
                   aria-label={t("buttons.close", "Sulge")}
@@ -1396,6 +1403,21 @@ export default function ChatBody() {
                         />
                         <span className="chat-context-toggle__label">{useAsContextLabel}</span>
                       </div>
+                      {useAsContext ? (
+                        <div className="chat-context-toggle chat-context-toggle--mode">
+                          <Toggle
+                            id="chat-use-combined-mode"
+                            checked={!docOnlyMode}
+                            onChange={(val) => setDocOnlyMode(!val)}
+                            ariaDescribedBy="chat-upload-context-hint"
+                          />
+                          <span className="chat-context-toggle__label">
+                            {!docOnlyMode
+                              ? "Kombineeritud (dokument + andmebaas)"
+                              : "Ainult dokument (andmebaas välja)"}
+                          </span>
+                        </div>
+                      ) : null}
                     </div>
                     <p id="chat-upload-context-hint" className="sr-only">
                       {t(
@@ -1750,6 +1772,8 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
 
 
 
