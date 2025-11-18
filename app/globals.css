@@ -2632,7 +2632,7 @@ textarea::placeholder{
 .top-center-nav{
   position: fixed;
   left: 0; right: 0;
-  top: max(0.625rem, env(safe-area-inset-top, 0) + 0.5rem);
+  top: max(1.7rem, env(safe-area-inset-top, 0) + 1.1rem);
   display: flex;
   justify-content: center;
   align-items: center;
