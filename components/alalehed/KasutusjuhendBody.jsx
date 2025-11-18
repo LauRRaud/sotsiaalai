@@ -65,13 +65,9 @@ export default function KasutusjuhendBody() {
               }}
             >
               <h2
-                className="glass-h3"
+                className="glass-h3 doc-section-heading"
                 style={{
                   marginBottom: "0.5rem",
-                  color: "var(--link-gold)",
-                  fontSize: "1.25rem",
-                  fontFamily: "var(--font-inter, Arial, sans-serif)",
-                  fontWeight: 500,
                 }}
               >
                 {title}

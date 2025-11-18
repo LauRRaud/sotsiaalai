@@ -85,7 +85,7 @@ export default function RegistreerimineBody() {
   return (
     <div className="main-content glass-box" lang={locale}>
       <h1 className="glass-title">{t("auth.register.title")}</h1>
-      <form className="glass-form" onSubmit={handleSubmit} autoComplete="off">
+      <form className="glass-form register-form" onSubmit={handleSubmit} autoComplete="off">
         <input
           type="email"
           id="email"
@@ -169,7 +169,7 @@ export default function RegistreerimineBody() {
           {successMessage}
         </div>
       )}
-        <button className="btn-primary" type="submit" disabled={submitting}>
+        <button className="btn-primary btn-compact register-submit" type="submit" disabled={submitting}>
           <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
       </form>

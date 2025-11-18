@@ -43,6 +43,7 @@ export default function LoginModal({ open, onClose }) {
   const [info, setInfo] = useState("");
 
   const boxRef = useRef(null);
+  const emailInputRef = useRef(null);
   const hiddenInputRef = useRef(null);
   const keypadRefs = useRef([]);
 
@@ -431,6 +432,11 @@ export default function LoginModal({ open, onClose }) {
         aria-modal="true"
         aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
         onClick={stopInside}
+        onMouseLeave={() => {
+          if (step === "pin" && emailInputRef.current) {
+            emailInputRef.current.focus();
+          }
+        }}
       >
         <button className="login-modal-close" onClick={onClose} aria-label={t("buttons.close")} type="button">
           {"\u00d7"}
@@ -468,6 +474,7 @@ export default function LoginModal({ open, onClose }) {
                 className="input-modern input-email-top input-email-icon compact-email"
                 type="email"
                 name="email"
+                ref={emailInputRef}
                 aria-label={t("auth.email_placeholder")}
                 placeholder=""
                 autoComplete="username"
@@ -561,9 +568,9 @@ export default function LoginModal({ open, onClose }) {
                   role="status"
                   aria-live="polite"
                   aria-label={t("auth.login.submitting")}
-                  style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 40 }}
+                  style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 32 }}
                 >
-                  <SotsiaalAILoader ariaHidden size={28} style={{ margin: 0 }} />
+                  <SotsiaalAILoader ariaHidden size={22} style={{ margin: 0 }} />
                   <span className="sr-only">{t("auth.login.submitting")}</span>
                 </div>
               ) : (

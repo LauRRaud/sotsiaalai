@@ -1579,7 +1579,7 @@ export default function ChatBody() {
                   <div className="chat-analysis-empty">
                     <button
                       type="button"
-                      className="btn-primary"
+                      className="btn-primary btn-compact"
                       onClick={onPickFile}
                       disabled={uploadBusy || isGenerating}
                     >

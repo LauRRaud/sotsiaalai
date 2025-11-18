@@ -59,10 +59,10 @@ export default function KasutustingimusedBody() {
   return (
     <article className="main-content glass-box" aria-labelledby="terms-title" lang={locale}>
       <h1 id="terms-title" className="glass-title">{t("terms.title")}</h1>
-      <section className="glass-section">
+      <section className="glass-section doc-body">
         {sections.map((section) => (
           <div key={section.heading}>
-            <h2 className="glass-h2">{section.heading}</h2>
+            <h2 className="glass-h2 doc-section-heading">{section.heading}</h2>
             {section.content.map((item, idx) =>
               item.type === "list" ? (
                 <RichText key={`${section.heading}-list-${idx}`} as="ul" className="glass-list" value={item.value} />

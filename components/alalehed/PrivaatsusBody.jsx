@@ -78,10 +78,10 @@ export default function PrivaatsusBody() {
       <h1 id="privacy-title" className="glass-title">
         {t("privacy.title")}
       </h1>
-      <section className="glass-section">
+      <section className="glass-section doc-body">
         {sections.map((section) => (
           <div key={section.heading}>
-            <h2 className="glass-h2">{section.heading}</h2>
+            <h2 className="glass-h2 doc-section-heading">{section.heading}</h2>
             {section.content.map((item, idx) =>
               item.type === "list" ? (
                 <RichText

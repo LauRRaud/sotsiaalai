@@ -82,7 +82,7 @@ export default function UnustasinParooliBody() {
             {error}
           </div>
         )}
-        <button className="btn-primary reset-btn" type="submit" disabled={loading}>
+        <button className="btn-primary btn-compact reset-btn" type="submit" disabled={loading}>
           <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
         </button>
         </form>

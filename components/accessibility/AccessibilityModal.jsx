@@ -155,7 +155,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         </fieldset>
         {/* Teksti suurus */}
         <fieldset className="a11y-fieldset">
-          <legend className="a11y-legend" style={{ fontFamily: "var(--font-inter, Arial, sans-serif)", fontWeight: 400, fontSize: "0.95rem" }}>{t("accessibility.text_scale")}</legend>
+          <legend className="a11y-legend">{t("accessibility.text_scale")}</legend>
           <div className="a11y-options">
             <FancyRadio id="ts-sm" name="ts" value="sm" label={t("accessibility.options.text_scale.sm")} checked={textScale === "sm"} onChange={() => setTextScale("sm")} />
             <FancyRadio id="ts-md" name="ts" value="md" label={t("accessibility.options.text_scale.md")} checked={textScale === "md"} onChange={() => setTextScale("md")} />
@@ -165,7 +165,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         </fieldset>
         {/* Kontrast */}
         <fieldset className="a11y-fieldset">
-          <legend className="a11y-legend" style={{ fontFamily: "var(--font-inter, Arial, sans-serif)", fontWeight: 400, fontSize: "0.95rem" }}>{t("accessibility.contrast")}</legend>
+          <legend className="a11y-legend">{t("accessibility.contrast")}</legend>
           <div className="a11y-options">
             <FancyRadio id="ct-normal" name="ct" value="normal" label={t("accessibility.options.contrast.normal")} checked={contrast === "normal"} onChange={() => setContrast("normal")} />
             <FancyRadio id="ct-hc" name="ct" value="hc" label={t("accessibility.options.contrast.hc")} checked={contrast === "hc"} onChange={() => setContrast("hc")} />
@@ -173,7 +173,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         </fieldset>
         {/* Liikumine */}
         <fieldset className="a11y-fieldset">
-          <legend className="a11y-legend" style={{ fontFamily: "var(--font-inter, Arial, sans-serif)", fontWeight: 400, fontSize: "0.95rem" }}>{t("accessibility.motion")}</legend>
+          <legend className="a11y-legend">{t("accessibility.motion")}</legend>
           <FancyCheckbox
             label={t("accessibility.options.motion.reduce")}
             checked={reduceMotion}
@@ -181,7 +181,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
           />
         </fieldset>
         <div className="a11y-actions">
-          <button type="button" className="btn-primary btn-spacing-accessibility" onClick={save} aria-label={t("accessibility.save")}>
+          <button type="button" className="btn-primary btn-compact btn-spacing-accessibility" onClick={save} aria-label={t("accessibility.save")}>
             {t("accessibility.save")}
           </button>
         </div>

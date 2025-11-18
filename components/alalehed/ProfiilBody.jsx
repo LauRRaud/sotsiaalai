@@ -272,7 +272,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {emailLabel}
           </label>
           <input
-            className="input-modern input-email-icon"
+            className="input-modern"
             type="email"
             id="email"
             autoComplete="email"
@@ -336,7 +336,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         <div className="profile-btn-row" style={{ marginTop: "1.5rem" }}>
           <button
             type="button"
-            className="btn-primary btn-profile-logout btn-glass"
+            className="btn-primary btn-compact btn-profile-logout btn-glass"
             onClick={() =>
               signOut({ callbackUrl: localizePath("/", locale) })
             }

@@ -106,7 +106,7 @@ export default function UuendaEpostiBody() {
           </p>
           <button
             type="button"
-            className="btn-primary"
+            className="btn-primary btn-compact"
             onClick={() => router.push(localizePath("/profiil", locale))}
           >
             {t("buttons.back_home")}
@@ -168,7 +168,7 @@ export default function UuendaEpostiBody() {
             </div>
           )}
           <button
-            className="btn-primary reset-btn"
+            className="btn-primary btn-compact reset-btn"
             type="submit"
             disabled={loading}
           >
