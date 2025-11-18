@@ -897,7 +897,7 @@ margin: 0;
 }
 .link-brand:hover,
 .link-brand:focus {
-  color: var(--link-gold-hover);  
+  color: var(--brand-primary);  
   border: 2px solid var(--pt-mid); 
   background: none;
   box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
@@ -923,7 +923,7 @@ margin: 0;
 }
 .unustasid-parooli-link:hover,
 .unustasid-parooli-link:focus {
-  color: var(--link-gold-hover);
+  color: var(--brand-primary);
   border: 2px solid var(--pt-mid); 
   background: none;
   box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
@@ -963,7 +963,7 @@ margin: 0;
 }
 .link-brand-inline:hover,
 .link-brand-inline:focus {
-  color: var(--link-gold-hover);  
+  color: var(--brand-primary);  
   border: 2px solid var(--pt-mid); 
   background: none;
   box-shadow: 0 0 0.4375rem 0 rgba(175,170,163,0.40); 
@@ -979,7 +979,7 @@ a {
 .glass-box a:focus,
 .meist-body a:hover,
 .meist-body a:focus {
-  color: var(--link-gold);
+  color: var(--brand-primary);
 }
 .epost-row {
   display: flex;
