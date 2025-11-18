@@ -3489,14 +3489,6 @@ backdrop-filter: none;
   box-shadow:none;
   opacity:0.8;
 }
-.chat-analysis-scroll-icon{
-  width:1.35rem;
-  height:1.35rem;
-  opacity:0.95;
-  filter:
-    drop-shadow(0 0.08rem 0.18rem rgba(0,0,0,0.35))
-    drop-shadow(0 0 0.2rem rgba(190,120,119,0.35));
-}
 .chat-analysis-controls{
   display:flex;
   align-items:center;
