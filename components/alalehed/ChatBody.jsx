@@ -862,7 +862,7 @@ export default function ChatBody() {
             persist: true,
             convId,
             uiLocale: locale || "et",
-            ...(useAsContext && ephemeralChunks.length
+            ...(ephemeralChunks.length
               ? {
                   ephemeralChunks,
                   ...(uploadPreview?.fileName
@@ -1014,7 +1014,6 @@ export default function ChatBody() {
       locale,
       mutateMessage,
       uploadPreview,
-      useAsContext,
       docOnlyMode,
       userRole,
       requestConversationsRefresh,
@@ -1093,7 +1092,7 @@ export default function ChatBody() {
           chunksCount: chunksArray.length,
         });
         setEphemeralChunks(chunksArray);
-        setUseAsContext(false);
+        setUseAsContext(true);
         setDocOnlyMode(false);
         refreshUsage();
       } catch (err) {
@@ -1101,7 +1100,7 @@ export default function ChatBody() {
         setUploadError(err?.message || genericError);
         setUploadPreview(null);
         setEphemeralChunks([]);
-        setUseAsContext(false);
+        setUseAsContext(true);
         setDocOnlyMode(false);
       } finally {
         setUploadBusy(false);
@@ -1375,7 +1374,7 @@ export default function ChatBody() {
                     setUploadPreview(null);
                     setUploadError(null);
                     setEphemeralChunks([]);
-                    setUseAsContext(false);
+                    setUseAsContext(true);
         setDocOnlyMode(false);
                     closeAnalysisPanel();
                   }}
@@ -1394,14 +1393,13 @@ export default function ChatBody() {
                 {uploadPreview ? (
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <div className="chat-context-toggle">
-                        <Toggle
-                          id="chat-use-as-context"
-                          checked={useAsContext}
-                          onChange={setUseAsContext}
+                      <div className="chat-context-toggle chat-context-toggle--mode">`n                              <Toggle
+                          id="chat-use-combined-mode"
+                          checked={!docOnlyMode}
+                          onChange={(val) => setDocOnlyMode(!val)}
                           ariaDescribedBy="chat-upload-context-hint"
                         />
-                        <span className="chat-context-toggle__label">{useAsContextLabel}</span>
+                        <span className="chat-context-toggle__label">{!docOnlyMode ? "Kombineeritud (dok + andmebaas)" : "Ainult dokument"}</span>
                       </div>
                       {useAsContext ? (
                         <div className="chat-context-toggle chat-context-toggle--mode">
@@ -1770,6 +1768,10 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
+
+
 
 
 
