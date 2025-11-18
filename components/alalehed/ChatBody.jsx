@@ -1406,15 +1406,13 @@ export default function ChatBody() {
                       {useAsContext ? (
                         <div className="chat-context-toggle chat-context-toggle--mode">
                           <Toggle
-                            id="chat-use-combined-mode"
-                            checked={!docOnlyMode}
+                            id="chat-doc-mode"
+                            checked={!docOnlyMode} // vasak (on) = kombineeritud
                             onChange={(val) => setDocOnlyMode(!val)}
                             ariaDescribedBy="chat-upload-context-hint"
                           />
                           <span className="chat-context-toggle__label">
-                            {!docOnlyMode
-                              ? "Kombineeritud (dokument + andmebaas)"
-                              : "Ainult dokument (andmebaas välja)"}
+                            {!docOnlyMode ? "Kombineeritud (dok + andmebaas)" : "Ainult dokument"}
                           </span>
                         </div>
                       ) : null}
