@@ -262,6 +262,12 @@ body::-webkit-scrollbar {
     --card-size: clamp(11.875rem, 76vw, 16.625rem); 
   }
 }
+@media (max-width: 48em) {
+  :root {
+    --card-logo-front-left: var(--card-logo-back);
+    --card-logo-front-right: var(--card-logo-back);
+  }
+}
 .glass-title,
 .headline,
 .reset-title,
@@ -1203,6 +1209,14 @@ a {
 .profile-email-card:hover .profile-email-card__icon svg,
 .profile-email-card:focus-visible .profile-email-card__icon svg{
   transform: scale(1.7);
+}
+@media (max-width: 789px){
+  .profile-email-card:hover .profile-email-card__icon svg,
+  .profile-email-card:focus-visible .profile-email-card__icon svg,
+  .profile-email-dock-wrapper .dock-item:hover .dock-icon svg,
+  .profile-email-dock-wrapper .dock-item:focus-visible .dock-icon svg{
+    transform: scale(1);
+  }
 }
 @media (max-width: 768px){
   .profile-email-card-grid{
