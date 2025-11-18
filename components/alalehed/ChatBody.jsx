@@ -280,12 +280,13 @@ export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
-  const useAsContextLabel =
+  const combinedLabel =
     locale === "ru"
-      ? "????????????? ? ????"
+      ? "Комбинированный (док + БД)"
       : locale === "en"
-      ? "Analyse in chat"
-      : "Analüüsi vestluses";
+      ? "Combined (doc + KB)"
+      : "Kombineeritud (dok + andmebaas)";
+
 
   const crisisText = t(
     "chat.crisis.notice",
@@ -319,7 +320,6 @@ export default function ChatBody() {
   const [uploadError, setUploadError] = useState(null);
   const [uploadPreview, setUploadPreview] = useState(null);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
-  const [useAsContext, setUseAsContext] = useState(false);
   // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
   const [docOnlyMode, setDocOnlyMode] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
@@ -1393,27 +1393,17 @@ export default function ChatBody() {
                 {uploadPreview ? (
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <div className="chat-context-toggle chat-context-toggle--mode">`n                              <Toggle
-                          id="chat-use-combined-mode"
+                      <div className="chat-context-toggle chat-context-toggle--mode">
+                        <Toggle
+                          id="chat-doc-mode"
                           checked={!docOnlyMode}
                           onChange={(val) => setDocOnlyMode(!val)}
                           ariaDescribedBy="chat-upload-context-hint"
                         />
-                        <span className="chat-context-toggle__label">{!docOnlyMode ? "Kombineeritud (dok + andmebaas)" : "Ainult dokument"}</span>
+                        <span className="chat-context-toggle__label">
+                          {!docOnlyMode ? combinedLabel : "Ainult dokument"}
+                        </span>
                       </div>
-                      {useAsContext ? (
-                        <div className="chat-context-toggle chat-context-toggle--mode">
-                          <Toggle
-                            id="chat-doc-mode"
-                            checked={!docOnlyMode} // vasak (on) = kombineeritud
-                            onChange={(val) => setDocOnlyMode(!val)}
-                            ariaDescribedBy="chat-upload-context-hint"
-                          />
-                          <span className="chat-context-toggle__label">
-                            {!docOnlyMode ? "Kombineeritud (dok + andmebaas)" : "Ainult dokument"}
-                          </span>
-                        </div>
-                      ) : null}
                     </div>
                     <p id="chat-upload-context-hint" className="sr-only">
                       {t(
@@ -1768,6 +1758,7 @@ export default function ChatBody() {
     </div>
   );
 }
+
 
 
 
