@@ -1092,7 +1092,6 @@ export default function ChatBody() {
           chunksCount: chunksArray.length,
         });
         setEphemeralChunks(chunksArray);
-        setUseAsContext(true);
         setDocOnlyMode(false);
         refreshUsage();
       } catch (err) {
@@ -1100,7 +1099,6 @@ export default function ChatBody() {
         setUploadError(err?.message || genericError);
         setUploadPreview(null);
         setEphemeralChunks([]);
-        setUseAsContext(true);
         setDocOnlyMode(false);
       } finally {
         setUploadBusy(false);
@@ -1374,8 +1372,7 @@ export default function ChatBody() {
                     setUploadPreview(null);
                     setUploadError(null);
                     setEphemeralChunks([]);
-                    setUseAsContext(true);
-        setDocOnlyMode(false);
+                    setDocOnlyMode(false);
                     closeAnalysisPanel();
                   }}
                   aria-label={t("buttons.close", "Sulge")}
@@ -1758,6 +1755,7 @@ export default function ChatBody() {
     </div>
   );
 }
+
 
 
 
