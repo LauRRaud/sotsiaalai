@@ -1655,16 +1655,16 @@ a {
 .chat-context-info,
 .chat-analysis-jump,
 .chat-analysis-jump--text {
-  border: 2px solid rgba(148,163,184,0.25);
-  background: linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
-  color: #E7D9D4CC;
-  box-shadow: none;
+  border:1px solid rgba(148,163,184,0.55);
+  background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
+  color:#f8fafc;
+  box-shadow:none;
   transition:
-    transform .16s ease,
-    box-shadow .18s ease,
     background .18s ease,
     border-color .18s ease,
-    color .18s ease;
+    color .18s ease,
+    transform .16s ease,
+    box-shadow .18s ease;
 }
 .chat-context-info:hover,
 .chat-context-info:focus-visible,
@@ -1672,9 +1672,9 @@ a {
 .chat-analysis-jump:focus-visible,
 .chat-analysis-jump--text:hover,
 .chat-analysis-jump--text:focus-visible {
-  border-color: rgba(148,163,184,0.35);
-  background: linear-gradient(130deg, rgba(20, 24, 35, 0.46), rgba(36, 40, 55, 0.24));
-  color: var(--pt-130, #EDEAE6);
+  border-color:rgba(235,239,255,0.9);
+  background:linear-gradient(135deg, rgba(30,64,175,0.32), rgba(15,23,42,0.96));
+  color:#f8fafc;
   box-shadow:
     0 6px 16px rgba(0,0,0,0.24),
     0 0 12px rgba(148,163,184,0.24),
@@ -3552,22 +3552,13 @@ backdrop-filter: none;
   justify-content:center;
   padding:0.45rem 1.1rem;
   border-radius:999px;
-  border:1px solid rgba(148,163,184,0.55);
-  background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
   cursor: var(--cursor-pointer);
   position:relative;
   font-size:1rem;
   font-weight:500;
   letter-spacing:0.12em;
   text-transform:uppercase;
-  color:var(--pt-150);
   box-shadow:0 0.2rem 0.45rem rgba(0,0,0,0.55);
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease,
-    transform 0.16s ease,
-    color 0.16s ease;
 }
 .chat-analysis-actions .chat-analysis-jump{
   display:inline-flex;
@@ -3584,16 +3575,11 @@ backdrop-filter: none;
 }
 .chat-analysis-jump--floating:hover,
 .chat-analysis-jump--floating:focus-visible{
-  background:linear-gradient(135deg, rgba(18,24,36,0.96), rgba(15,23,42,0.90));
-  color:var(--pt-150);
-  box-shadow:0 0.26rem 0.7rem rgba(0,0,0,0.8);
+  /* hover värv ja vari tulevad ühisest reeglist */
 }
 .chat-analysis-jump--text{
-  background: linear-gradient(135deg, rgba(18,24,36,0.96), rgba(15,23,42,0.90));
-  box-shadow:0 0.2rem 0.45rem rgba(0,0,0,0.55);
   padding:0.42rem 1.15rem;
   border-radius:999px;
-  color:var(--pt-150);
   text-transform:uppercase;
   font-weight:500;
   font-size:1rem;
@@ -3602,9 +3588,7 @@ backdrop-filter: none;
 }
 .chat-analysis-jump--text:hover,
 .chat-analysis-jump--text:focus-visible{
-  background:linear-gradient(135deg, rgba(18,24,36,0.96), rgba(15,23,42,0.90));
-  box-shadow:0 0.26rem 0.7rem rgba(0,0,0,0.8);
-  color:var(--pt-150);
+  /* värvid tulevad ühisest hover-stiilist; ainult positsioonimuutus jääb eraldi */
   transform:translate(-50%, 0) scale(1.07);
 }
 .chat-analysis-checkbox input{
@@ -3767,7 +3751,7 @@ backdrop-filter: none;
   height:2rem;
   border-radius:999px;
   background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
-  color:var(--pt-150);
+  color:#f8fafc;
   cursor: var(--cursor-pointer);
   position:relative;
   border:1px solid rgba(148,163,184,0.55);
@@ -3792,7 +3776,7 @@ backdrop-filter: none;
   border-radius:999px;
   background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
   box-shadow:0 0.2rem 0.45rem rgba(0,0,0,0.55);
-  color:var(--pt-150);
+  color:#f8fafc;
 }
 .chat-context-info-tooltip{
   position:absolute;
@@ -4332,11 +4316,12 @@ backdrop-filter: none;
   }
   .chat-analysis-actions--inline{
     justify-content:center;
-    margin-top:1.2rem;
-    row-gap:1rem;
+    margin-top:1.6rem;
+    margin-bottom:1.2rem;
+    row-gap:1.3rem;
   }
   .chat-analysis-preview-wrap{
-    margin-top:0.6rem;
+    margin-top:0.9rem;
   }
   .chat-footer{ margin-top:0.85rem; }
   .chat-footer--analysis-open{ margin-top:0.9rem; }
