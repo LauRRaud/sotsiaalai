@@ -10,15 +10,10 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/logo/pallhele.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
       "src": "/pall.png",
       "sizes": "836x836",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

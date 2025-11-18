@@ -12,7 +12,11 @@ export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
   manifest: "/site.webmanifest",
-  icons: { icon: "/logo/silma.svg", shortcut: "/logo/silma.svg", apple: "/logo/silma.svg" },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 export const viewport = { themeColor: "#0d111b" };
 /** Fondid JUURTASANDIL (NB! teed: ./fonts/...) */

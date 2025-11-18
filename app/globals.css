@@ -2708,7 +2708,7 @@ textarea::placeholder{
 }
 .nav-meist-text{
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+  font-size: clamp(1.05rem, 1.9vw, 1.35rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: transparent;
@@ -2729,10 +2729,11 @@ textarea::placeholder{
   animation: meist-shine 12s linear infinite;
   transition: transform 0.2s ease;
   transform-origin: center 18%;
+  transform: translateX(0.05rem);
 }
 .nav-meist-link:hover .nav-meist-text,
 .nav-meist-link:focus-visible .nav-meist-text{
-  transform: scale(var(--nav-meist-scale));
+  transform: translateX(0.05rem) scale(var(--nav-meist-scale));
 }
 .top-center-nav .top-center-link:hover,
 .top-center-nav .top-center-link:focus,
@@ -3487,6 +3488,14 @@ backdrop-filter: none;
   border:none;
   box-shadow:none;
   opacity:0.8;
+}
+.chat-analysis-scroll-icon{
+  width:1.35rem;
+  height:1.35rem;
+  opacity:0.95;
+  filter:
+    drop-shadow(0 0.08rem 0.18rem rgba(0,0,0,0.35))
+    drop-shadow(0 0 0.2rem rgba(190,120,119,0.35));
 }
 .chat-analysis-controls{
   display:flex;

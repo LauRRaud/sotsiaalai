@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import UserCircle from "@/public/logo/User-circle.svg";
 import Paperclip from "@/public/logo/paperclip.svg";
+import Pallhele from "@/public/logo/pallhele.svg";
 import Toggle from "@/components/ui/Toggle";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
@@ -1569,7 +1570,14 @@ export default function ChatBody() {
                               event.preventDefault();
                             }}
                           >
-                            <SotsiaalAILoader size="1rem" animated={false} ariaHidden />
+                            <Image
+                              src={Pallhele}
+                              alt=""
+                              width={26}
+                              height={26}
+                              aria-hidden="true"
+                              className="chat-analysis-scroll-icon"
+                            />
                           </div>
                         </div>
                       </div>
