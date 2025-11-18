@@ -2,13 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*", "*"]
+      "@/*": ["src/*"]
     },
     "checkJs": false,
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "target": "ES2022",
-    "types": ["node"]
+    "types": ["node"],
+    "ignoreDeprecations": "6.0"
   },
   "include": [
     "src/**/*.js",

@@ -4098,8 +4098,8 @@ backdrop-filter: none;
   filter: none;
 }
 .chat-send-btn svg:not(.svg) {
-  width: 1.7rem;
-  height: 1.7rem;
+  width: 1.9rem;
+  height: 1.9rem;
   stroke: var(--pt-600);
   stroke-width: 2;
   fill: none;
@@ -4185,11 +4185,15 @@ backdrop-filter: none;
   place-items: center;    
   pointer-events: none;   
 }
-@media (max-width: 640px){
+@media (max-width: 768px){
 .chat-inputbar .chat-send-btn{
-    flex:0 0 3rem;
-    width:3rem;
-    height:3rem;
+    flex:0 0 3.5rem;
+    width:3.5rem;
+    height:3.5rem;
+  }
+  .chat-inputbar .chat-send-btn svg:not(.svg){
+    width: 1.6rem;
+    height: 1.6rem;
   }
   .chat-inputbar .chat-send-btn.chat-attach-as-send{
   --btn-border-idle: rgba(148,163,184,0.20);
