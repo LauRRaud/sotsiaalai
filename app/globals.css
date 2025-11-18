@@ -1761,9 +1761,7 @@ a {
 }
 .btn-primary:active {
   transform: translateY(0);
-  box-shadow:
-    0 0.2rem 0.9rem rgba(0, 0, 0, 0.35),
-    0 0 0 6px rgba(197,113,113,0.12);
+  box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.35);
 }
 .btn-primary span {
   color: inherit;
