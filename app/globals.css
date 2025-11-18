@@ -251,7 +251,7 @@ body::-webkit-scrollbar {
   --card-size: clamp(15.5rem, 40vw, 25.625rem);
   --card-logo-front-left: clamp(5.25rem, calc(var(--card-size) * 0.5), 14.5rem);
   --card-logo-front-right: clamp(4.75rem, calc(var(--card-size) * 0.42), 12rem);
-  --card-logo-back: clamp(3rem, calc(var(--card-size) * 0.26), 8.5rem);
+  --card-logo-back: var(--card-logo-front-left);
   --card-logo-safe-gap: 4em;
   --flip-ms: 1250ms;
   --fade-ms: 600ms;
@@ -260,12 +260,6 @@ body::-webkit-scrollbar {
 @media (max-width: 30em) {
   :root {
     --card-size: clamp(11.875rem, 76vw, 16.625rem); 
-  }
-}
-@media (max-width: 48em) {
-  :root {
-    --card-logo-front-left: var(--card-logo-back);
-    --card-logo-front-right: var(--card-logo-back);
   }
 }
 .glass-title,
@@ -2633,7 +2627,7 @@ textarea::placeholder{
     --card-size: clamp(20rem, 24vw, 32rem);
     --card-logo-front-left: clamp(6.5rem, calc(var(--card-size) * 0.48), 15.5rem);
     --card-logo-front-right: clamp(5.5rem, calc(var(--card-size) * 0.4), 13.5rem);
-    --card-logo-back: clamp(4rem, calc(var(--card-size) * 0.25), 9rem);
+    --card-logo-back: var(--card-logo-front-left);
   }
   .glass-card,
   .centered-back-left,
