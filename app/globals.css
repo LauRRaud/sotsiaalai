@@ -4288,6 +4288,9 @@ backdrop-filter: none;
     --chat-logo-height: 48%;
     --chat-logo-y: 55%;
   }
+  .glass-box.chat-container .glass-title{
+    margin-top: 3.3rem;
+  }
   .chat-window{
     padding-top:.25rem;
     padding-bottom:.25rem;   
