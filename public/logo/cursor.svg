@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="32" height="32" viewBox="0 0 14 15">
+
+  <path
+    d="
+      M 2 1
+      L 9 7
+      Q 9.5 7.4 8.7 7.8
+      L 4.2 9.5
+      Q 3.2 9.9 3.0 8.9
+      L 2 1
+      Z
+    "
+    fill="#f2f2f2" />
+</svg>
