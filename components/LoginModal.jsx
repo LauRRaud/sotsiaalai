@@ -490,18 +490,25 @@ export default function LoginModal({ open, onClose }) {
               <input
                 className="input-modern input-email-top input-email-icon compact-email"
                 type="email"
-                name="email"
-                ref={emailInputRef}
-                aria-label={t("auth.email_placeholder")}
-                aria-describedby={emailHintIdRef.current}
-                placeholder=""
-                autoComplete="username"
-                inputMode="email"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    // Ära suuna PIN-ile enne sisestamist
-                    e.preventDefault();
-                  }
+              name="email"
+              ref={emailInputRef}
+              aria-label={t("auth.email_placeholder")}
+              aria-describedby={emailHintIdRef.current}
+              placeholder=""
+              autoComplete="username"
+              inputMode="email"
+              onMouseDown={(e) => {
+                const node = emailInputRef.current;
+                if (node && document.activeElement !== node) {
+                  e.preventDefault(); // vältida topelt-klõpsu vajadust
+                  node.focus();
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  // Ära suuna PIN-ile enne sisestamist
+                  e.preventDefault();
+                }
                 }}
                 style={{ margin: "0 auto", maxWidth: 380 }}
               />

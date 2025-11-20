@@ -28,6 +28,7 @@ function applyVhVar() {
 export default function ViewportLayoutSetter() {
   const pathname = usePathname();
   const lastFocusedPathRef = useRef(null);
+  const hasFocusedOnceRef = useRef(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(MOBILE_QUERY);
@@ -64,11 +65,16 @@ export default function ViewportLayoutSetter() {
   useEffect(() => {
     if (typeof document === "undefined") return;
     const main = document.getElementById("main");
+    if (!hasFocusedOnceRef.current) {
+      hasFocusedOnceRef.current = true;
+      lastFocusedPathRef.current = pathname;
+      return;
+    }
     const alreadyFocused =
       document.activeElement === main || lastFocusedPathRef.current === pathname;
     if (!main || alreadyFocused) return;
     lastFocusedPathRef.current = pathname;
-    // kasutame rAF-i, et fookus tuleks p�rast maali
+    // kasutame rAF-i, et fookus tuleks pärast maali
     window.requestAnimationFrame(() => {
       try { main.focus(); } catch {}
     });
