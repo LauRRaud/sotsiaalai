@@ -611,8 +611,8 @@ export default function RagAdminPanel() {
             type="button"
             onClick={runSelftest}
             disabled={selftestBusy}
-            className="btn-primary"
-            style={{ padding: "0.5rem 1rem", fontSize: "1rem", opacity: selftestBusy ? 0.75 : 1, cursor: selftestBusy ? "wait" : "pointer" }}
+            className="btn-primary btn-compact"
+            style={{ opacity: selftestBusy ? 0.75 : 1, cursor: selftestBusy ? "wait" : "pointer" }}
           >
             {selftestBusy ? "Kontrollin…" : "Tee isetest (RAG + vestlus)"}
           </button>
@@ -878,7 +878,7 @@ export default function RagAdminPanel() {
           <button
             type="submit"
             disabled={fileBusy}
-            className="btn-primary"
+            className="btn-primary btn-compact"
             style={{ alignSelf: "flex-start", opacity: fileBusy ? 0.75 : 1, cursor: fileBusy ? "wait" : "pointer" }}
           >
             {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
@@ -951,7 +951,7 @@ export default function RagAdminPanel() {
           <button
             type="submit"
             disabled={urlBusy}
-            className="btn-primary"
+            className="btn-primary btn-compact"
             style={{ alignSelf: "flex-start", opacity: urlBusy ? 0.75 : 1, cursor: urlBusy ? "wait" : "pointer" }}
           >
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
@@ -1179,7 +1179,7 @@ export default function RagAdminPanel() {
                 type="button"
                 disabled={articlesBusy}
                 onClick={ingestArticles}
-                className="btn-primary"
+                className="btn-primary btn-compact"
                 style={{ alignSelf: "flex-start", opacity: articlesBusy ? 0.75 : 1, cursor: articlesBusy ? "wait" : "pointer" }}
               >
                 {articlesBusy ? "Saadan..." : "Ingesti artiklid"}
@@ -1204,8 +1204,8 @@ export default function RagAdminPanel() {
             onClick={manualRefresh}
             disabled={loadingList}
             aria-busy={loadingList ? "true" : "false"}
-            className="btn-primary"
-            style={{ padding: "0.5rem 0.95rem", fontSize: "0.95rem", opacity: loadingList ? 0.75 : 1, cursor: loadingList ? "wait" : "pointer" }}
+            className="btn-primary btn-compact"
+            style={{ opacity: loadingList ? 0.75 : 1, cursor: loadingList ? "wait" : "pointer" }}
           >
             {loadingList ? "Laen..." : "Värskenda"}
           </button>

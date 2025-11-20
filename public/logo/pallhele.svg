@@ -1,80 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
-  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
   <defs>
     <style>
-      .st0 {
-        fill: url(#linear-gradient2);
-      }
-
-      .st1 {
-        mask: url(#mask-1);
-      }
-
-      .st2 {
-        fill: #fff;
-      }
-
-      .st3 {
-        mask: url(#mask);
-      }
-
-      .st4 {
-        fill: url(#linear-gradient1);
-      }
-
-      .st5 {
-        opacity: .12;
-        stroke-width: .54px;
-      }
-
-      .st5, .st6 {
-        stroke: #eccbc9;
-      }
-
-      .st5, .st6, .st7, .st8 {
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-
       .st9 {
         fill: url(#radial-gradient);
-      }
-
-      .st6 {
-        opacity: .35;
-        stroke-width: 1.62px;
-      }
-
-      .st10 {
-        fill: url(#linear-gradient3);
-      }
-
-      .st11 {
-        fill: url(#linear-gradient);
-      }
-
-      .st7 {
-        opacity: .25;
-        stroke-width: .9px;
-      }
-
-      .st7, .st8 {
-        stroke: #8a4a46;
-      }
-
-      .st8 {
-        opacity: .38;
-        stroke-width: 1.44px;
-      }
-
-      .st12 {
-        filter: url(#stroke-soft);
-      }
-
-      .st13 {
-        filter: url(#shadow-all);
       }
     </style>
     <radialGradient id="radial-gradient" cx="-854.51" cy="638.61" fx="-854.51" fy="638.61" r=".65" gradientTransform="translate(170971 127791) scale(200 -200)" gradientUnits="userSpaceOnUse">
@@ -82,76 +10,6 @@
       <stop offset=".6" stop-color="#0d111b"/>
       <stop offset="1" stop-color="#080a10"/>
     </radialGradient>
-    <filter id="shadow-all" x="-40" y="-40" width="260" height="260">
-      <feGaussianBlur in="SourceAlpha" result="blur" stdDeviation="1.25"/>
-      <feOffset dx="5" dy="6" in="blur" result="offsetBlur"/>
-      <feColorMatrix in="offsetBlur" result="shadow" values="0 0 0 0 0                 0 0 0 0 0                 0 0 0 0 0                 0 0 0 0.80 0"/>
-      <feMerge>
-        <feMergeNode in="shadow"/>
-      </feMerge>
-    </filter>
-    <linearGradient id="linear-gradient" x1="86.23" y1="1020.9" x2="86.23" y2="1060.14" gradientTransform="translate(-5.9 -787.17) scale(.9)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#303030"/>
-      <stop offset=".47" stop-color="#111"/>
-      <stop offset="1" stop-color="#000"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient1" x1="-850.21" y1="638.33" x2="-850.21" y2="637.33" gradientTransform="translate(85129.02 97775.47) scale(100.01 -153.14)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#e6bcb9"/>
-      <stop offset=".14" stop-color="#be7877"/>
-      <stop offset=".29" stop-color="#9a5151"/>
-      <stop offset=".43" stop-color="#854343"/>
-      <stop offset=".57" stop-color="#6d3333"/>
-      <stop offset=".71" stop-color="#4c1c1c"/>
-      <stop offset=".86" stop-color="#391212"/>
-      <stop offset="1" stop-color="#2e0d0d"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient2" x1="141.39" y1="-2495.59" x2="141.39" y2="-2530.77" gradientTransform="translate(-5.9 -2213.47) scale(.9 -.9)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f5f5f4"/>
-      <stop offset=".22" stop-color="#eeedec"/>
-      <stop offset=".48" stop-color="#dad9d6"/>
-      <stop offset=".72" stop-color="#c7c5c1"/>
-      <stop offset="1" stop-color="#a8a59e"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient3" x1="-29.5" y1="232" x2="-29.5" y2="231" gradientTransform="translate(0 202) scale(1 -1)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#000"/>
-      <stop offset=".5" stop-color="#000"/>
-      <stop offset=".9" stop-color="#fff"/>
-      <stop offset="1" stop-color="#fff"/>
-    </linearGradient>
-    <mask id="mask" x="-30" y="-30" width="211.7" height="254.19" maskUnits="userSpaceOnUse">
-      <g id="stroke-mask">
-        <rect class="st10" x="-30" y="-30" width="1" height="1"/>
-      </g>
-    </mask>
-    <mask id="mask-1" x="-30" y="-30" width="211.7" height="254.19" maskUnits="userSpaceOnUse">
-      <g id="clip-shape">
-        <path class="st2" d="M-7.25,90.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"/>
-        <path class="st2" d="M33.43,140.14c14.63-9.87,20.55-32.44,12.96-48.55C37.36,74.83,16.16,70.14.21,61.55c-11.43-5.84-21.63-13.15-26.45-25.52C-36.92,10.04-24.18-20.11,3.52-29.55c2.05-.7,6.46-.85,3.59,1.54C-1.44-23.12-5.78-13.27-5.36-3.54c1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
-      </g>
-    </mask>
-    <filter id="stroke-soft" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
-    </filter>
   </defs>
   <circle class="st9" cx="100" cy="100" r="100"/>
-  <g>
-    <g class="st13">
-      <path d="M70.47,131.74c21.65-2.18,25.68,32.12,4.5,34.99-24.7,3.36-28.18-32.62-4.5-34.99h0Z"/>
-      <path d="M107.08,176.55c13.17-8.88,18.49-29.2,11.66-43.7-8.13-15.08-27.21-19.3-41.56-27.04-10.29-5.26-19.47-11.84-23.81-22.97-9.61-23.39,1.85-50.53,26.78-59.02,1.84-.63,5.81-.77,3.23,1.39-7.69,4.4-11.6,13.27-11.22,22.02,1.38,43,83.79,30.19,77.49,85.49-1.38,12.76-8.18,24.66-17.92,32.88-6.98,5.63-15.47,11.07-24.64,10.95"/>
-      <path d="M117.84,31.05c24.97-3.93,29.54,32.59,3.53,33.08-22.23.42-23.17-29.99-3.53-33.08Z"/>
-    </g>
-    <path class="st11" d="M70.47,131.74c21.65-2.18,25.68,32.12,4.5,34.99-24.7,3.36-28.18-32.62-4.5-34.99h0Z"/>
-    <path class="st4" d="M107.08,176.55c13.17-8.88,18.49-29.2,11.66-43.7-8.13-15.08-27.21-19.3-41.56-27.04-10.29-5.26-19.47-11.84-23.81-22.97-9.61-23.39,1.85-50.53,26.78-59.02,1.84-.63,5.81-.77,3.23,1.39-7.69,4.4-11.6,13.27-11.22,22.02,1.38,43,83.79,30.19,77.49,85.49-1.38,12.76-8.18,24.66-17.92,32.88-6.98,5.63-15.47,11.07-24.64,10.95"/>
-    <path class="st0" d="M117.84,31.05c24.97-3.93,29.54,32.59,3.53,33.08-22.23.42-23.17-29.99-3.53-33.08Z"/>
-    <g class="st3">
-      <g class="st1">
-        <g class="st12">
-          <path class="st7" d="M70.47,131.74c21.65-2.18,25.68,32.12,4.5,34.99-24.7,3.36-28.18-32.62-4.5-34.99h0Z"/>
-          <path class="st5" d="M70.47,131.74c21.65-2.18,25.68,32.12,4.5,34.99-24.7,3.36-28.18-32.62-4.5-34.99h0Z"/>
-          <path class="st8" d="M107.08,176.55c13.17-8.88,18.49-29.2,11.66-43.7-8.13-15.08-27.21-19.3-41.56-27.04-10.29-5.26-19.47-11.84-23.81-22.97-9.61-23.39,1.85-50.53,26.78-59.02,1.84-.63,5.81-.77,3.23,1.39-7.69,4.4-11.6,13.27-11.22,22.02,1.38,43,83.79,30.19,77.49,85.49-1.38,12.76-8.18,24.66-17.92,32.88-6.98,5.63-15.47,11.07-24.64,10.95"/>
-          <path class="st6" d="M107.08,176.55c13.17-8.88,18.49-29.2,11.66-43.7-8.13-15.08-27.21-19.3-41.56-27.04-10.29-5.26-19.47-11.84-23.81-22.97-9.61-23.39,1.85-50.53,26.78-59.02,1.84-.63,5.81-.77,3.23,1.39-7.69,4.4-11.6,13.27-11.22,22.02,1.38,43,83.79,30.19,77.49,85.49-1.38,12.76-8.18,24.66-17.92,32.88-6.98,5.63-15.47,11.07-24.64,10.95"/>
-        </g>
-      </g>
-    </g>
-  </g>
 </svg>

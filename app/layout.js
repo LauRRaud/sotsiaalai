@@ -1,4 +1,4 @@
-﻿// app/layout.js
+// app/layout.js
 import "./globals.css";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
@@ -37,18 +37,18 @@ const ainoHeadline = localFont({
   display: "swap",
   preload: true, // preloading avoids first-render swap jump on titles
 });
-/** SĆµnumite kaardid ā€“ impordime serveris kĆ¼psise jĆ¤rgi */
+/** Sõnumite kaardid – impordime serveris küpsise järgi */
 const MESSAGES = {
   et: () => import("@/messages/et.json"),
   ru: () => import("@/messages/ru.json"),
   en: () => import("@/messages/en.json"),
 };
 export default async function RootLayout({ children }) {
-  // Loe locale kĆ¼psisest; middleware seab NEXT_LOCALE kui kasutaja kĆ¼lastab /et, /ru, /en
+  // Loe locale küpsisest; middleware seab NEXT_LOCALE kui kasutaja külastab /et, /ru, /en
   const jar = await cookies();
   const cookieLocale = jar.get("NEXT_LOCALE")?.value;
   const locale = ["et", "ru", "en"].includes(cookieLocale || "") ? cookieLocale : "et";
-  // Lae sĆµnumid serveris ā€“ stabiilne SSR HTML (vĆ¤ltimaks hydration mismatch)
+  // Lae sõnumid serveris – stabiilne SSR HTML (vältimaks hydration mismatch)
   let messages = {};
   try {
     messages = (await MESSAGES[locale]()).default ?? {};
@@ -56,30 +56,38 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authConfig);
   const skipText =
     messages?.common?.skip_to_content ??
-    (locale === "ru" ? "ŠŠµŃ€ŠµŠ¹Ń‚Šø Šŗ ŃŠ¾Š´ŠµŃ€Š¶ŠøŠ¼Š¾Š¼Ń" : locale === "en" ? "Skip to content" : "JĆ¤tka sisuni");
+    (locale === "ru" ? "Перейти к содержимому" : locale === "en" ? "Skip to content" : "Jätka sisuni");
   return (
-    <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable}`}>
+    <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable}`} suppressHydrationWarning>
       <head>
-        {/* Valikulised preloadid ā€“ vĆµid soovi korral eemaldada */}
+        {/* Valikulised preloadid – võid soovi korral eemaldada */}
         <link rel="preload" as="image" href="/logo/aivalge.svg" />
         <link rel="preload" as="image" href="/logo/saimust.svg" />
         <link rel="preload" as="image" href="/logo/smust.svg" />
         <link rel="preload" as="image" href="/logo/saivalge.svg" />
         <link rel="preload" as="image" href="/logo/logomust.svg" />
         {/* Removed deprecated login provider assets */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var el=document.documentElement;if(t==='light'){el.classList.add('theme-light');}else{el.classList.remove('theme-light');}}catch(e){}})();`,
+          }}
+        />
       </head>
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
         <Providers initialLocale={locale} messages={messages} session={session}>
-          {/* Skip-link ligipĆ¤Ć¤setavuseks */}
+          {/* Skip-link ligipääsetavuseks */}
           <a href="#main" className="skip-link">{skipText}</a>
           <ViewportLayoutSetter />
-          {/* Taust alati taha: ei kata sisu ega pĆ¼Ć¼a klikke */}
-          <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+          {/* Taust alati taha: ei kata sisu ega püüa klikke */}
+          <div
+            id="bg-layer"
+            aria-hidden
+            style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
             <BackgroundLayer />
           </div>
           <ServiceWorkerRegistrar />
-          {/* Sisu on taustast kĆµrgemal kihil */}
-          <main id="main" tabIndex={-1} className="relative" style={{ zIndex: 10 }}>
+          {/* Sisu on taustast kõrgemal kihil */}
+          <main id="main" role="main" tabIndex={-1} className="relative" style={{ zIndex: 10 }}>
             {children}
           </main>
         </Providers>
@@ -88,5 +96,8 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
+
+
+
 
 

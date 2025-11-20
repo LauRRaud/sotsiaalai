@@ -1,6 +1,6 @@
 // components/HomePage.jsx
 "use client";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
@@ -31,6 +31,10 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
+  // Teema – default on alati "dark"
+  const [theme, setTheme] = useState("dark");
+  const didInitTheme = useRef(false);
+
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
 
@@ -39,6 +43,7 @@ export default function HomePage() {
   const rightCardRef = useRef(null);
 
   const t = useT();
+  const homeVisitedRef = useRef(false);
 
   const goChatIfAuthed = () => {
     if (status === "authenticated" && session) {
@@ -55,10 +60,28 @@ export default function HomePage() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useLayoutEffect(() => {
+    let alreadyVisited = false;
+    try {
+      alreadyVisited = window.sessionStorage.getItem("home-visited") === "1";
+    } catch {}
+    homeVisitedRef.current = alreadyVisited;
+    if (alreadyVisited) {
+      setLeftFadeDone(true);
+      setRightFadeDone(true);
+      setMagnetReady(true);
+    }
+  }, []);
+
   useEffect(() => {
-    const onLeftEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true); };
-    const onRightEnd = (e) => { if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true); };
-    const l = leftCardRef.current, r = rightCardRef.current;
+    const onLeftEnd = (e) => {
+      if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
+    };
+    const onRightEnd = (e) => {
+      if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true);
+    };
+    const l = leftCardRef.current,
+      r = rightCardRef.current;
     l?.addEventListener("animationend", onLeftEnd);
     r?.addEventListener("animationend", onRightEnd);
     return () => {
@@ -84,6 +107,16 @@ export default function HomePage() {
   }, [leftFadeDone, rightFadeDone]);
 
   useEffect(() => {
+    if (homeVisitedRef.current) return;
+    if (leftFadeDone && rightFadeDone) {
+      try {
+        window.sessionStorage.setItem("home-visited", "1");
+        homeVisitedRef.current = true;
+      } catch {}
+    }
+  }, [leftFadeDone, rightFadeDone]);
+
+  useEffect(() => {
     document.body.classList.toggle("modal-open", isLoginOpen);
     return () => document.body.classList.remove("modal-open");
   }, [isLoginOpen]);
@@ -100,10 +133,67 @@ export default function HomePage() {
     }
   }, [isLoginOpen, status, session, router]);
 
+  // 1) Algne teema sünkroniseerimine (loe olemasolev seis, ära kirjuta)
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const html = document.documentElement;
+    let initial = html.classList.contains("theme-light") ? "light" : "dark";
+
+    if (typeof window !== "undefined") {
+      try {
+        const stored = window.localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") {
+          initial = stored;
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    didInitTheme.current = true;
+    if (initial !== theme) {
+      setTheme(initial);
+    }
+  }, []);
+
+  // 2) Kui teema state muutub pärast algseadistust, sünkrooni HTML klass ja localStorage
+  useEffect(() => {
+    if (!didInitTheme.current) return;
+    if (typeof document === "undefined") return;
+
+    const html = document.documentElement;
+    const shouldBeLight = theme === "light";
+    const currentlyLight = html.classList.contains("theme-light");
+
+    if (shouldBeLight !== currentlyLight) {
+      html.classList.toggle("theme-light", shouldBeLight);
+    }
+
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem("theme", theme);
+      } catch {
+        // ignore
+      }
+    }
+  }, [theme]);
+
+  const skipIntroAnimations = homeVisitedRef.current;
+  const desktopFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-top delay-1";
+  const bottomFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-1";
+  const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
-  const leftInteractive  = flipAllowed && !leftFlipping  && !isLoginOpen;
+  const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+  const themeToggleLabel = theme === "light" ? "TUME" : "HELE";
+  const themeToggleVariant = theme === "light" ? "theme-toggle-btn--dark" : "theme-toggle-btn--light";
+  const themeToggleAria =
+    theme === "light"
+      ? t("nav.toggle_dark") || "Lülita tume režiim"
+      : t("nav.toggle_light") || "Lülita hele režiim";
+  const themeToggleIconSrc = theme === "light" ? "/logo/tume.svg" : "/logo/hele.svg";
   const flipEndMs = 1200;
 
   const onLeftEnter = () => {
@@ -133,6 +223,13 @@ export default function HomePage() {
       setRightPhase("flippingToFront");
       setTimeout(() => setRightFlipping(false), flipEndMs);
     }
+  };
+
+  const handleThemeToggle = (isLight) => {
+    setTheme(isLight ? "light" : "dark");
+  };
+  const handleThemeClick = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   const handleCardBackClick = (side) => (e) => {
@@ -185,12 +282,15 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
   }, []);
 
-  const handleBackgroundTap = useCallback((event) => {
-    if (!isMobile) return;
-    const target = event.target instanceof Element ? event.target : null;
-    if (target?.closest?.(".three-d-card")) return;
-    resetMobileCards();
-  }, [isMobile, resetMobileCards]);
+  const handleBackgroundTap = useCallback(
+    (event) => {
+      if (!isMobile) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest?.(".three-d-card")) return;
+      resetMobileCards();
+    },
+    [isMobile, resetMobileCards],
+  );
 
   const onLeftTransitionEnd = (e) => {
     if (e?.propertyName !== "transform") return;
@@ -206,23 +306,28 @@ export default function HomePage() {
       <div className="homepage-root" onClick={handleBackgroundTap}>
         {!isMobile && (
           <nav className="top-center-nav" aria-label={t("nav.main")}>
-            <Link
-              id="nav-meist"
-              href="/meist"
-              className="top-center-link nav-meist-link defer-fade defer-from-top delay-1 dim"
-            >
-              <span className="nav-meist-wrap">
-                <Image
-                  src="/logo/pallhele.svg"
-                  alt={t("nav.about")}
-                  width={80}
-                  height={80}
-                  className="nav-meist-icon"
-                  priority
-                />
-                <span className="nav-meist-text">{t("nav.about")}</span>
-              </span>
-            </Link>
+            <div className="top-center-actions">
+              <button
+                type="button"
+                className={["top-center-link", "theme-toggle-btn", themeToggleVariant, desktopFadeClass].filter(Boolean).join(" ")}
+                onClick={handleThemeClick}
+                aria-pressed={theme === "light"}
+                aria-label={themeToggleAria}
+              >
+                <span className="theme-toggle-wrap">
+                  <Image
+                    src={themeToggleIconSrc}
+                    alt=""
+                    aria-hidden="true"
+                    width={64}
+                    height={64}
+                    className="theme-toggle-icon"
+                    priority
+                  />
+                  <span className="theme-toggle-text">{themeToggleLabel}</span>
+                </span>
+              </button>
+            </div>
           </nav>
         )}
 
@@ -362,12 +467,12 @@ export default function HomePage() {
 
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
-          {isMobile && (
-            <nav className="footer-bottom-nav" aria-label={t("nav.main")}>
+          <nav className="footer-bottom-nav footer-floating-nav" aria-label={t("nav.main")}>
+            <div className="top-center-actions">
               <Link
                 id="nav-meist"
                 href="/meist"
-                className="top-center-link nav-meist-link defer-fade defer-from-bottom delay-1 dim"
+                className={["top-center-link", "nav-meist-link", bottomFadeClass, "dim"].filter(Boolean).join(" ")}
               >
                 <span className="nav-meist-wrap">
                   <Image
@@ -381,10 +486,35 @@ export default function HomePage() {
                   <span className="nav-meist-text">{t("nav.about")}</span>
                 </span>
               </Link>
-            </nav>
-          )}
+              {isMobile && (
+                <button
+                  type="button"
+                  className={["top-center-link", "theme-toggle-btn", themeToggleVariant, bottomFadeClass].filter(Boolean).join(" ")}
+                  onClick={handleThemeClick}
+                  aria-pressed={theme === "light"}
+                  aria-label={themeToggleAria}
+                >
+                  <span className="theme-toggle-wrap">
+                    <Image
+                      src={themeToggleIconSrc}
+                      alt=""
+                      aria-hidden="true"
+                      width={64}
+                      height={64}
+                      className="theme-toggle-icon"
+                    />
+                    <span className="theme-toggle-text">{themeToggleLabel}</span>
+                  </span>
+                </button>
+              )}
+            </div>
+          </nav>
           {/* Inline footer logo */}
-          <Logomust className="footer-logo-img defer-fade defer-from-bottom delay-2 dim" role="img" aria-label={t("home.footer.logo_alt")} />
+          <Logomust
+            className={["footer-logo-img", footerFadeClass, "dim"].filter(Boolean).join(" ")}
+            role="img"
+            aria-label={t("home.footer.logo_alt")}
+          />
         </footer>
       </div>
 

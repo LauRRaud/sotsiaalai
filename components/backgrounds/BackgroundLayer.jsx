@@ -1,6 +1,6 @@
 // components/backgrounds/BackgroundLayer.jsx
 "use client";
-import { useEffect, useState, memo, Suspense } from "react";
+import { useEffect, useLayoutEffect, useState, memo, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
@@ -9,6 +9,7 @@ const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
+const ColorBendsWhite = dynamic(() => import("./ColorBendsWhite"), { ssr: false });
 /* ---------- utiliidid ---------- */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -39,9 +40,30 @@ function BackgroundLayer() {
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
   const [animateFog, setAnimateFog] = useState(false);
+  const [isLightBg, setIsLightBg] = useState(false);
+  const [skipBgIntro, setSkipBgIntro] = useState(false);
   useEffect(() => setMounted(true), []);
+  useLayoutEffect(() => {
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    let ready = false;
+    try {
+      ready = window.sessionStorage.getItem("home-bg-ready") === "1";
+    } catch {}
+    if (ready) {
+      setSkipBgIntro(true);
+      setIsLightBg(document.documentElement.classList.contains("theme-light"));
+    } else {
+      try {
+        window.sessionStorage.setItem("home-bg-ready", "1");
+      } catch {}
+    }
+  }, []);
   // Space fog intro ainult avalehel (mitte reload; 1x per sessioon)
   useEffect(() => {
+    if (skipBgIntro) {
+      setAnimateFog(false);
+      return;
+    }
     let isReload = false;
     try {
       const nav = performance.getEntriesByType?.("navigation")?.[0];
@@ -52,7 +74,7 @@ function BackgroundLayer() {
     const should = pathname === "/" && !already && !isReload;
     setAnimateFog(should);
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
-  }, [pathname]);
+  }, [pathname, skipBgIntro]);
   // Particles lae rahulikult, kui tabu on nähtav
   useEffect(() => {
     if (!mounted) return;
@@ -65,6 +87,38 @@ function BackgroundLayer() {
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => cancelCursor?.();
   }, [mounted]);
+
+  // Track <html> theme-light class (but do NOT set it here)
+  useEffect(() => {
+  if (typeof document === "undefined") return;
+
+  const html = document.documentElement;
+
+  const update = () => {
+    setIsLightBg(html.classList.contains("theme-light"));
+  };
+
+  // Jälgime ainult muutusi (klass lisatakse tegelikult teises effectis)
+  const observer = new MutationObserver(update);
+  observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+
+  // Storage changes (in case multiple tabs)
+  const onStorage = (e) => {
+    if (e.key === "theme") {
+      update();
+    }
+  };
+  window.addEventListener("storage", onStorage);
+
+  // Esmane staatuse loe
+  update();
+
+  return () => {
+    observer.disconnect();
+    window.removeEventListener("storage", onStorage);
+  };
+}, []);
+
   return (
     <>
       {/* TAUSTAKIHID (sisu all) */}
@@ -88,7 +142,7 @@ function BackgroundLayer() {
         {!prefs?.reduceMotion && (
           <div className="color-bends-bg" style={{ position: "absolute", inset: 0, zIndex: 1 }}>
             <Suspense fallback={null}>
-              <ColorBends />
+              {isLightBg ? <ColorBendsWhite /> : <ColorBends />}
             </Suspense>
           </div>
         )}

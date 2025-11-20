@@ -282,7 +282,7 @@ export default function ChatBody() {
   const { t, locale } = useI18n();
   const combinedLabel =
     locale === "ru"
-      ? "Комбинированный (док + БД)"
+      ? "??????????????? (??? + ??)"
       : locale === "en"
       ? "Combined (doc + KB)"
       : "Kombineeritud (dok + andmebaas)";
@@ -320,6 +320,8 @@ export default function ChatBody() {
   const [uploadError, setUploadError] = useState(null);
   const [uploadPreview, setUploadPreview] = useState(null);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechReady, setSpeechReady] = useState(false);
   // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
   const [docOnlyMode, setDocOnlyMode] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
@@ -335,6 +337,10 @@ export default function ChatBody() {
   const scrollTrackRef = useRef(null);
   const isDraggingScroll = useRef(false);
   const sourcesButtonRef = useRef(null);
+  const sourcesDialogRef = useRef(null);
+  const sourcesCloseRef = useRef(null);
+  const sourcesPrevFocusRef = useRef(null);
+  const synthesisRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
   const mountedRef = useRef(false);
@@ -720,18 +726,129 @@ export default function ChatBody() {
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
 
-  /* ---------- ESC sulgemiseks ---------- */
+  /* ---------- Allikate dialoogi fookus + klahvid ---------- */
+  const getDialogFocusables = useCallback((root) => {
+    if (!root) return [];
+    const nodes = root.querySelectorAll(
+      [
+        "a[href]",
+        "area[href]",
+        "button:not([disabled])",
+        "input:not([disabled]):not([type='hidden'])",
+        "select:not([disabled])",
+        "textarea:not([disabled])",
+        "[tabindex]:not([tabindex='-1'])",
+      ].join(","),
+    );
+    return Array.from(nodes).filter((el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+  }, []);
+
   useEffect(() => {
-    if (!showSourcesPanel) return;
+    if (!showSourcesPanel) return undefined;
+    // salvesta fookuse lähtestamiseks
+    try { sourcesPrevFocusRef.current = document.activeElement; } catch {}
+    const dialogEl = sourcesDialogRef.current;
+    const closeEl = sourcesCloseRef.current;
+    const focusables = getDialogFocusables(dialogEl);
+    const initial = closeEl || focusables[0] || dialogEl;
+    setTimeout(() => initial?.focus(), 0);
+
     function onKeyDown(e) {
       if (e.key === "Escape") {
         e.preventDefault();
         closeSourcesPanel();
+        return;
+      }
+      if (e.key !== "Tab" || !dialogEl) return;
+      const list = getDialogFocusables(dialogEl);
+      if (!list.length) {
+        e.preventDefault();
+        dialogEl.focus();
+        return;
+      }
+      const first = list[0];
+      const last = list[list.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !dialogEl.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last || !dialogEl.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [showSourcesPanel, closeSourcesPanel]);
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown, true);
+      const prev = sourcesPrevFocusRef.current;
+      setTimeout(() => {
+        if (prev && typeof prev.focus === "function") {
+          try { prev.focus(); } catch {}
+        }
+      }, 0);
+    };
+  }, [showSourcesPanel, closeSourcesPanel, getDialogFocusables]);
+
+  /* ---------- Speech Synthesis (kuula viimast AI vastust) ---------- */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    synthesisRef.current = window.speechSynthesis || null;
+    const synth = synthesisRef.current;
+    function handleVoicesChanged() {
+      setSpeechReady(true);
+    }
+    if (synth) {
+      synth.addEventListener("voiceschanged", handleVoicesChanged);
+      synth.getVoices(); // trigger load
+      setSpeechReady(true);
+      return () => synth.removeEventListener("voiceschanged", handleVoicesChanged);
+    }
+  }, []);
+
+  useEffect(
+    () => () => {
+      try {
+        synthesisRef.current?.cancel?.();
+      } catch {}
+    },
+    []
+  );
+
+  const speakLatestReply = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const synth = synthesisRef.current;
+    if (!synth) return;
+    const lastAi = [...messages].reverse().find((m) => m.role === "ai" && m.text);
+    if (!lastAi?.text) return;
+    try {
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(lastAi.text);
+      const voices = synth.getVoices() || [];
+      const normLocale = (locale || "").toLowerCase();
+      const prefs = [
+        normLocale,
+        normLocale.startsWith("et") ? "en" : normLocale.startsWith("ru") ? "ru" : "en",
+        "et",
+        "ru",
+        "en",
+      ].filter(Boolean);
+      const pick = prefs
+        .map((pref) => voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)))
+        .find(Boolean);
+      if (pick) utterance.voice = pick;
+      utterance.lang = pick?.lang || (normLocale || "et-EE");
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      synth.speak(utterance);
+    } catch {
+      setIsSpeaking(false);
+    }
+  }, [messages]);
 
   /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {
@@ -1234,8 +1351,19 @@ export default function ChatBody() {
           {/* Vestluse sõnumid */}
           {messages.map((msg) => {
             const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
+            const authorLabel =
+              msg.role === "user"
+                ? t("chat.aria.user", "Sina")
+                : t("chat.aria.assistant", "Assistent");
+            const ariaLabel = `${authorLabel}: ${msg.text || ""}`.trim();
             return (
-              <div key={msg.id} className={`chat-msg ${variant}`}>
+              <div
+                key={msg.id}
+                className={`chat-msg ${variant}`}
+                role="article"
+                tabIndex={0}
+                aria-label={ariaLabel}
+              >
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
               </div>
             );
@@ -1325,6 +1453,31 @@ export default function ChatBody() {
                 </div>
               ) : null}
             </div>
+            <button
+              type="button"
+              className="chat-send-btn chat-listen-btn"
+              aria-label={t("chat.listen.last_reply", "Kuula viimast vastust")}
+              title={t("chat.listen.title", "Kuula viimast assistendi vastust")}
+              onClick={speakLatestReply}
+              disabled={!speechReady || !messages.some((m) => m.role === "ai" && m.text)}
+              data-speaking={isSpeaking ? "true" : "false"}
+            >
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ width: "1.4rem", height: "1.4rem" }}
+              >
+                <path d="M11 5L6 9H2v6h4l5 4z" />
+                <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
+              </svg>
+            </button>
             <button
               type="submit"
               className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
@@ -1629,10 +1782,12 @@ export default function ChatBody() {
         {showSourcesPanel ? (
         <div
           id="chat-sources-panel"
+          ref={sourcesDialogRef}
           role="dialog"
           aria-modal="true"
           aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
           onClick={closeSourcesPanel}
+          tabIndex={-1}
           style={{
             position: "fixed",
             inset: 0,
@@ -1674,6 +1829,7 @@ export default function ChatBody() {
               </h2>
               <button
                 type="button"
+                ref={sourcesCloseRef}
                 onClick={closeSourcesPanel}
                 style={{
                   border: "none",
@@ -1755,6 +1911,7 @@ export default function ChatBody() {
     </div>
   );
 }
+
 
 
 

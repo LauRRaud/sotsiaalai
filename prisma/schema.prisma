@@ -1,16 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  // Paneme kliendi eraldi kausta, et import oleks selge
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // Prisma 7: URL, directUrl, shadowDatabaseUrl enam siia ei käi
 }
-
-/**
- * ---------- Enums ----------
- */
-
 enum Role {
   ADMIN
   SOCIAL_WORKER

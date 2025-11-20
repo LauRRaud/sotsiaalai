@@ -50,7 +50,8 @@
     "register": "Registreeru",
     "login": "Logi sisse",
     "start": "Start",
-    "aria_main": "Peamenüü"
+    "aria_main": "Peamenüü",
+    "toggle_light": "Lülita hele režiim"
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
@@ -390,7 +391,9 @@
       "label": "Profiil"
     },
     "aria": {
-      "messages": "Vestluse sõnumid"
+      "messages": "Vestluse sõnumid",
+      "user": "Sina",
+      "assistant": "Assistent"
     },
     "typing": {
       "label": "Mõtleb"
@@ -406,6 +409,10 @@
       "send": "Saada sõnum",
       "title_send": "Saada (Enter)",
       "title_stop": "Peata vastus"
+    },
+    "listen": {
+      "last_reply": "Kuula viimast vastust",
+      "title": "Kuula viimast assistendi vastust"
     },
     "history": {
       "load_more": "Lae varasemaid sõnumeid",
