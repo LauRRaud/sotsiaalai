@@ -848,7 +848,7 @@ export default function ChatBody() {
     } catch {
       setIsSpeaking(false);
     }
-  }, [messages]);
+  }, [messages, locale]);
 
   /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {

@@ -58,7 +58,7 @@ export default function HomePage() {
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
-  }, []);
+  }, [theme]);
 
   useLayoutEffect(() => {
     let alreadyVisited = false;

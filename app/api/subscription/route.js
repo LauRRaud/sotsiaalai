@@ -3,7 +3,7 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
-import { SubscriptionStatus } from "@prisma/client";
+import { SubscriptionStatus } from "@/generated/prisma/client";
 const ACTIVE_STATUS = SubscriptionStatus.ACTIVE;
 const CANCELED_STATUS = SubscriptionStatus.CANCELED;
 // --- utils: ühtlased vastused + no-store päised ---

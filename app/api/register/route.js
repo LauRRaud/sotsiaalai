@@ -3,7 +3,7 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcrypt";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma/client";
 import crypto from "node:crypto";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 // lubatud sisendvormid -> Prisma Role
