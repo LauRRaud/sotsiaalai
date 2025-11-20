@@ -23,7 +23,7 @@ export default function MeistBody({ isAdmin = false }) {
     { key: "p5", value: t("about.intro.paragraph5") },
   ];
   return (
-    <div className="main-content glass-box glass-left meist-body" role="main" aria-labelledby="meist-title" lang={locale}>
+    <div className="main-content glass-box glass-left meist-body" role="region" aria-labelledby="meist-title" lang={locale}>
       <h1 id="meist-title" className="glass-title">
         {t("about.title")}
       </h1>

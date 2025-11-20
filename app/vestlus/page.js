@@ -29,9 +29,9 @@ export default function Page() {
         <ChatSidebar />
       </ConversationDrawer>
       {/* Põhisisu */}
-      <main role="main">
+      <div role="region" aria-label="Vestluse sisu">
         <ChatBody />
-      </main>
+      </div>
     </>
   );
 }

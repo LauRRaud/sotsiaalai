@@ -52,7 +52,7 @@ export default function TellimusBody() {
   }
   if (loading) {
     return (
-      <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
+      <div className="main-content glass-box glass-left tellimus-box" role="region" lang={locale}>
         <h1 className="glass-title">{t("subscription.title")}</h1>
         <div className="content-narrow">
           <p className="glass-text" aria-live="polite">{t("subscription.loading")}</p>
@@ -61,7 +61,7 @@ export default function TellimusBody() {
     );
   }
   return (
-    <div className="main-content glass-box glass-left tellimus-box" role="main" lang={locale}>
+    <div className="main-content glass-box glass-left tellimus-box" role="region" lang={locale}>
       <h1 className="glass-title">{t("subscription.title")}</h1>
       <div className="content-narrow">
         {subActive ? (

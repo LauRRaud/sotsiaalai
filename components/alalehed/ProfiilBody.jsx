@@ -256,7 +256,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   return (
     <div
       className="main-content glass-box glass-left"
-      role="main"
+      role="region"
       aria-labelledby="profile-title"
       lang={locale}
     >

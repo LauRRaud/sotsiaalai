@@ -1,6 +1,6 @@
 // components/ViewportLayoutSetter.jsx
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 const MOBILE_QUERY = "(max-width: 768px)";
 function applyLayoutFlag(matches) {
@@ -27,6 +27,7 @@ function applyVhVar() {
 }
 export default function ViewportLayoutSetter() {
   const pathname = usePathname();
+  const lastFocusedPathRef = useRef(null);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(MOBILE_QUERY);
@@ -63,9 +64,14 @@ export default function ViewportLayoutSetter() {
   useEffect(() => {
     if (typeof document === "undefined") return;
     const main = document.getElementById("main");
-    if (main) {
+    const alreadyFocused =
+      document.activeElement === main || lastFocusedPathRef.current === pathname;
+    if (!main || alreadyFocused) return;
+    lastFocusedPathRef.current = pathname;
+    // kasutame rAF-i, et fookus tuleks p�rast maali
+    window.requestAnimationFrame(() => {
       try { main.focus(); } catch {}
-    }
+    });
   }, [pathname]);
   return null;
 }

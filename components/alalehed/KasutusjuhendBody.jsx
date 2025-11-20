@@ -33,7 +33,7 @@ export default function KasutusjuhendBody() {
     body: t(`about.guide.sections_v2.${key}.body`),
   }));
   return (
-   <div className="main-content glass-box glass-left" role="main" aria-labelledby="kasutusjuhend-title" lang={locale}>
+   <div className="main-content glass-box glass-left" role="region" aria-labelledby="kasutusjuhend-title" lang={locale}>
       <h1 id="kasutusjuhend-title" className="glass-title">{t("about.guide.title")}</h1>
       <section className="glass-section">
         <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>

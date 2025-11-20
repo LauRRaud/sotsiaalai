@@ -61,6 +61,7 @@ const Label = styled.label`
 const FancyRadio = forwardRef(function FancyRadio(
   { id, label, checked, onChange, disabled, name, value }, ref
 ){
+  const textId = id ? `${id}-label` : undefined;
   return (
     <Label>
       <input
@@ -75,10 +76,12 @@ const FancyRadio = forwardRef(function FancyRadio(
         disabled={disabled}
         aria-checked={!!checked}
         aria-disabled={!!disabled}
+        aria-label={label}
+        aria-labelledby={textId}
       />
       <span aria-hidden="true" className="outer"><span className="dot" /></span>
       {label && (
-        <span className="text">{label}</span>
+        <span className="text" id={textId}>{label}</span>
       )}
     </Label>
   );

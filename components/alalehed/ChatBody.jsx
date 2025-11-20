@@ -830,21 +830,14 @@ export default function ChatBody() {
       const voices = synth.getVoices() || [];
       const normLocale = (locale || "").toLowerCase();
       const base = normLocale.split("-")[0] || normLocale;
-      const localePrefsByBase = {
-        et: ["et-ee", "et"],
-        ru: ["ru-ru", "ru"],
-        en: ["en-us", "en-gb", "en"],
-      };
-      const prefLocales = localePrefsByBase[base] || [];
-      const prefs = [
-        normLocale,
-        ...prefLocales,
-        base || null,
-        "et-ee",
-        "ru-ru",
-        "en-us",
-        "en",
-      ].filter(Boolean);
+      const prefs =
+        base === "et"
+          ? [normLocale, "et-ee", "et", "en-us", "en"]
+          : base === "ru"
+          ? [normLocale, "ru-ru", "ru", "en-us", "en", "et-ee", "et"]
+          : base === "en"
+          ? [normLocale, "en-us", "en-gb", "en", "et-ee", "et", "ru-ru", "ru"]
+          : [normLocale, base, "en-us", "en", "et-ee", "et", "ru-ru", "ru"].filter(Boolean);
       const pick = prefs
         .map((pref) =>
           voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)),

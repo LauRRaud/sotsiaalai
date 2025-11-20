@@ -47,6 +47,8 @@ export default function LoginModal({ open, onClose }) {
   const hiddenInputRef = useRef(null);
   const keypadRefs = useRef([]);
   const emailHintIdRef = useRef(`login-email-hint-${Math.random().toString(36).slice(2, 10)}`);
+  const pinHintIdRef = useRef(`login-pin-hint-${Math.random().toString(36).slice(2, 10)}`);
+  const otpInputRef = useRef(null);
 
   const isOtpStep = step === "otp";
   const modalClasses = [
@@ -157,6 +159,14 @@ export default function LoginModal({ open, onClose }) {
     setOtpLoading(false);
     setResendLoading(false);
   }, [open]);
+  // Fookus e-posti väljale pin-sammus või OTP väljale OTP-sammus
+  useEffect(() => {
+    if (!open) return;
+    const focusTarget = isOtpStep ? otpInputRef.current : emailInputRef.current;
+    if (focusTarget && typeof focusTarget.focus === "function") {
+      setTimeout(() => focusTarget.focus(), 0);
+    }
+  }, [open, isOtpStep]);
 
   const finishLogin = useCallback(
     async (token) => {
@@ -487,10 +497,22 @@ export default function LoginModal({ open, onClose }) {
                 placeholder=""
                 autoComplete="username"
                 inputMode="email"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    // Ära suuna PIN-ile enne sisestamist
+                    e.preventDefault();
+                  }
+                }}
                 style={{ margin: "0 auto", maxWidth: 380 }}
               />
             </label>
 
+            <div id={pinHintIdRef.current} className="sr-only">
+              {t(
+                "auth.login.pin_hint",
+                "Sisesta PIN; sisestus on peidetud ja tähemärke ei loeta ette turvalisuse huvides."
+              )}
+            </div>
             <input
               aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
               ref={hiddenInputRef}
@@ -499,11 +521,13 @@ export default function LoginModal({ open, onClose }) {
               pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
               maxLength={PIN_MAX}
               className="sr-only"
-              tabIndex={-1}
-              type="text"
+              tabIndex={0}
+              type="password"
               onKeyDown={onHiddenKeyDown}
               onInput={handlePinInputChange}
               onChange={handlePinInputChange}
+              aria-describedby={pinHintIdRef.current}
+              aria-live="off"
             />
 
             <div className="pin-keypad-all-wrapper" aria-hidden="false">
@@ -619,6 +643,7 @@ export default function LoginModal({ open, onClose }) {
               <input
                 id="otp-code-input"
                 className="input-modern otp-input"
+                ref={otpInputRef}
                 type="text"
                 inputMode="numeric"
                 autoComplete="one-time-code"
