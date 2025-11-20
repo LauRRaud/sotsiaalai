@@ -262,10 +262,10 @@ body::-webkit-scrollbar {
   --pt:       var(--pt-300); 
   --pt-mid:   var(--pt-400); 
   --pt-dark:  var(--pt-500);
-  --card-size: clamp(15.5rem, 40vw, 25.625rem);
-  --card-logo-front-left: clamp(5.25rem, calc(var(--card-size) * 0.5), 14.5rem);
-  --card-logo-front-right: clamp(4.75rem, calc(var(--card-size) * 0.42), 12rem);
-  --card-logo-back: clamp(3rem, calc(var(--card-size) * 0.26), 8.5rem);
+  --card-size: clamp(13.5rem, 30vw, 20.5rem);
+  --card-logo-front-left: clamp(4.5rem, calc(var(--card-size) * 0.48), 12rem);
+  --card-logo-front-right: clamp(4rem, calc(var(--card-size) * 0.40), 10.5rem);
+  --card-logo-back: clamp(2.75rem, calc(var(--card-size) * 0.25), 7rem);
   --card-logo-safe-gap: 4em;
   --flip-ms: 1250ms;
   --fade-ms: 600ms;
@@ -274,6 +274,22 @@ body::-webkit-scrollbar {
 @media (max-width: 30em) {
   :root {
     --card-size: clamp(11.875rem, 76vw, 16.625rem); 
+  }
+}
+@media (min-width: 80em) {
+  :root {
+    --card-size: clamp(14.5rem, 26vw, 22.5rem);
+    --card-logo-front-left: clamp(4.75rem, calc(var(--card-size) * 0.48), 13rem);
+    --card-logo-front-right: clamp(4.2rem, calc(var(--card-size) * 0.40), 11.5rem);
+    --card-logo-back: clamp(3rem, calc(var(--card-size) * 0.25), 7.5rem);
+  }
+}
+@media (min-width: 110em) {
+  :root {
+    --card-size: clamp(16rem, 24vw, 24rem);
+    --card-logo-front-left: clamp(5.25rem, calc(var(--card-size) * 0.48), 14.5rem);
+    --card-logo-front-right: clamp(4.75rem, calc(var(--card-size) * 0.40), 12.5rem);
+    --card-logo-back: clamp(3.2rem, calc(var(--card-size) * 0.25), 8.5rem);
   }
 }
 .glass-title,
@@ -2696,10 +2712,10 @@ textarea::placeholder{
 }
 @media (min-width: 130em){
   :root{
-    --card-size: clamp(20rem, 24vw, 32rem);
-    --card-logo-front-left: clamp(6.5rem, calc(var(--card-size) * 0.48), 15.5rem);
-    --card-logo-front-right: clamp(5.5rem, calc(var(--card-size) * 0.4), 13.5rem);
-    --card-logo-back: clamp(4rem, calc(var(--card-size) * 0.25), 9rem);
+    --card-size: clamp(18rem, 22vw, 28rem);
+    --card-logo-front-left: clamp(6rem, calc(var(--card-size) * 0.48), 15rem);
+    --card-logo-front-right: clamp(5.4rem, calc(var(--card-size) * 0.40), 13rem);
+    --card-logo-back: clamp(3.8rem, calc(var(--card-size) * 0.25), 8.8rem);
   }
   .glass-card,
   .centered-back-left,
