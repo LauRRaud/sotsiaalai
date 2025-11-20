@@ -3250,6 +3250,8 @@ backdrop-filter: none;
   transform:translateX(-105%);
   transition:transform .22s ease;
   z-index:41; overflow:auto;
+  visibility:hidden;
+  pointer-events:none;
   background:rgba(31,31,31,.60);
   border-right:0.5px solid var(--pt-600);
 -webkit-backdrop-filter: none;
@@ -3257,7 +3259,11 @@ backdrop-filter: none;
   color:var(--pt-100);
   box-shadow:0 0 1.875rem rgba(0,0,0,.35);
 }
-.drawer-panel.open{ transform:translateX(0); }
+.drawer-panel.open{
+  transform:translateX(0);
+  visibility:visible;
+  pointer-events:auto;
+}
 .drawer-header{
   position:relative;
   display:flex; align-items:center; justify-content:center;

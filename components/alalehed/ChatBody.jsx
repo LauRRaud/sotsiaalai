@@ -829,18 +829,33 @@ export default function ChatBody() {
       const utterance = new SpeechSynthesisUtterance(lastAi.text);
       const voices = synth.getVoices() || [];
       const normLocale = (locale || "").toLowerCase();
+      const base = normLocale.split("-")[0] || normLocale;
+      const localePrefsByBase = {
+        et: ["et-ee", "et"],
+        ru: ["ru-ru", "ru"],
+        en: ["en-us", "en-gb", "en"],
+      };
+      const prefLocales = localePrefsByBase[base] || [];
       const prefs = [
         normLocale,
-        normLocale.startsWith("et") ? "en" : normLocale.startsWith("ru") ? "ru" : "en",
-        "et",
-        "ru",
+        ...prefLocales,
+        base || null,
+        "et-ee",
+        "ru-ru",
+        "en-us",
         "en",
       ].filter(Boolean);
       const pick = prefs
-        .map((pref) => voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)))
+        .map((pref) =>
+          voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)),
+        )
         .find(Boolean);
-      if (pick) utterance.voice = pick;
-      utterance.lang = pick?.lang || (normLocale || "et-EE");
+      if (pick) {
+        utterance.voice = pick;
+        utterance.lang = pick.lang || normLocale || "en-US";
+      } else {
+        utterance.lang = normLocale || "en-US";
+      }
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => setIsSpeaking(false);
       utterance.onerror = () => setIsSpeaking(false);
@@ -1355,15 +1370,17 @@ export default function ChatBody() {
               msg.role === "user"
                 ? t("chat.aria.user", "Sina")
                 : t("chat.aria.assistant", "Assistent");
-            const ariaLabel = `${authorLabel}: ${msg.text || ""}`.trim();
             return (
               <div
                 key={msg.id}
                 className={`chat-msg ${variant}`}
                 role="article"
                 tabIndex={0}
-                aria-label={ariaLabel}
               >
+                <span className="sr-only">
+                  {authorLabel}
+                  {": "}
+                </span>
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
               </div>
             );

@@ -151,6 +151,9 @@ export default function ConversationDrawer({ children }) {
         role="dialog"
         aria-labelledby={headerIdRef.current}
         aria-modal={open ? "true" : undefined}
+        aria-hidden={open ? undefined : "true"}
+        inert={open ? undefined : "true"}
+        tabIndex={open ? undefined : -1}
         className={`drawer-panel ${open ? "open" : ""}`}
       >
         <header className="drawer-header">

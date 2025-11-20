@@ -46,6 +46,7 @@ export default function LoginModal({ open, onClose }) {
   const emailInputRef = useRef(null);
   const hiddenInputRef = useRef(null);
   const keypadRefs = useRef([]);
+  const emailHintIdRef = useRef(`login-email-hint-${Math.random().toString(36).slice(2, 10)}`);
 
   const isOtpStep = step === "otp";
   const modalClasses = [
@@ -469,6 +470,12 @@ export default function LoginModal({ open, onClose }) {
 
         {!isOtpStep && (
           <form className="login-modal-form compact" onSubmit={(e) => { e.preventDefault(); submitPinStep(); }} autoComplete="off">
+            <div id={emailHintIdRef.current} className="sr-only">
+              {t(
+                "auth.email_icon_hint",
+                "Vajuta ümbriku väljale, et avada e-posti sisestuse lahter ja sisesta oma e-post."
+              )}
+            </div>
             <label style={{ width: "100%", display: "block", textAlign: "center", marginBottom: 6 }}>
               <input
                 className="input-modern input-email-top input-email-icon compact-email"
@@ -476,6 +483,7 @@ export default function LoginModal({ open, onClose }) {
                 name="email"
                 ref={emailInputRef}
                 aria-label={t("auth.email_placeholder")}
+                aria-describedby={emailHintIdRef.current}
                 placeholder=""
                 autoComplete="username"
                 inputMode="email"
@@ -502,6 +510,8 @@ export default function LoginModal({ open, onClose }) {
               <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
                 {keypadKeys.map((key, idx) => {
                   if (key === "back") {
+                    const label =
+                      t("auth.login.back", "Kustuta viimane number") || "Kustuta viimane number";
                     return (
                       <button
                         key={`back-${idx}`}
@@ -510,7 +520,7 @@ export default function LoginModal({ open, onClose }) {
                         ref={(el) => (keypadRefs.current[idx] = el)}
                         onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
                         onClick={handleBackspace}
-                        aria-label={t("auth.login.back") || "Backspace"}
+                        aria-label={label}
                         disabled={pinLoading}
                       >
                         {"\u2190"}
@@ -518,6 +528,8 @@ export default function LoginModal({ open, onClose }) {
                     );
                   }
                   if (key === "clear") {
+                    const label =
+                      t("auth.login.clear", "Puhasta PIN") || "Puhasta PIN";
                     return (
                       <button
                         key={`clear-${idx}`}
@@ -526,13 +538,17 @@ export default function LoginModal({ open, onClose }) {
                         ref={(el) => (keypadRefs.current[idx] = el)}
                         onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
                         onClick={handleClear}
-                        aria-label={t("auth.login.clear") || "Clear"}
+                        aria-label={label}
                         disabled={pinLoading || !pinValue}
                       >
                         {"C"}
                       </button>
                     );
                   }
+                  const digitLabel = t(
+                    "auth.login.key",
+                    "Number {digit}"
+                  ).replace("{digit}", key);
                   return (
                     <button
                       key={`${key}-${idx}`}
@@ -542,7 +558,7 @@ export default function LoginModal({ open, onClose }) {
                       onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
                       onClick={(event) => appendDigit(key, event)}
                       disabled={pinLoading}
-                      aria-label={t("auth.login.key", { digit: key }) || `Digit ${key}`}
+                      aria-label={digitLabel || `Number ${key}`}
                     >
                       {key}
                     </button>

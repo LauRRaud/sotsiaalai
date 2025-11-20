@@ -9,7 +9,17 @@ import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 're
 
 import './Dock.css';
 
-function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize }) {
+function DockItem({
+  children,
+  className = '',
+  onClick,
+  mouseX,
+  spring,
+  distance,
+  magnification,
+  baseItemSize,
+  ariaLabel,
+}) {
   const ref = useRef(null);
   const isHovered = useMotionValue(0);
 
@@ -48,6 +58,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       tabIndex={0}
       role="button"
       aria-haspopup="true"
+      aria-label={ariaLabel}
     >
       {Children.map(children, child => cloneElement(child, { isHovered }))}
     </motion.div>
@@ -96,7 +107,8 @@ export default function Dock({
   distance = 200,
   panelHeight = 68,
   dockHeight = 256,
-  baseItemSize = 50
+  baseItemSize = 50,
+  ariaLabel = 'Application dock'
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
@@ -122,7 +134,7 @@ export default function Dock({
         className={`dock-panel ${className}`}
         style={{ height: panelHeight }}
         role="toolbar"
-        aria-label="Application dock"
+        aria-label={ariaLabel}
       >
         {items.map((item, index) => (
           <DockItem
@@ -134,6 +146,7 @@ export default function Dock({
             distance={distance}
             magnification={magnification}
             baseItemSize={baseItemSize}
+            ariaLabel={item.label}
           >
             <DockIcon>{item.icon}</DockIcon>
             <DockLabel>{item.label}</DockLabel>

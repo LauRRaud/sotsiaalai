@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
@@ -28,6 +28,14 @@ export default function RegistreerimineBody() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const roleLabelId = useMemo(
+    () => `register-role-label-${Math.random().toString(36).slice(2, 8)}`,
+    [],
+  );
+  const roleHintId = useMemo(
+    () => `register-role-hint-${Math.random().toString(36).slice(2, 8)}`,
+    [],
+  );
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -105,15 +113,28 @@ export default function RegistreerimineBody() {
           placeholder={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
           value={form.pin}
           onChange={handleChange}
-          required
-          minLength={PIN_MIN}
-          maxLength={PIN_MAX}
-          autoComplete="off"
-          inputMode="numeric"
-          pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
-        />
-        <div className="glass-label glass-label-radio">{t("auth.register.role_label")}</div>
-        <div className="glass-radio-group" role="radiogroup">
+        required
+        minLength={PIN_MIN}
+        maxLength={PIN_MAX}
+        autoComplete="off"
+        inputMode="numeric"
+        pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
+      />
+        <div className="glass-label glass-label-radio" id={roleLabelId}>
+          {t("auth.register.role_label")}
+        </div>
+        <div
+          className="glass-radio-group"
+          role="radiogroup"
+          aria-labelledby={roleLabelId}
+          aria-describedby={roleHintId}
+        >
+          <div id={roleHintId} className="sr-only">
+            {t(
+              "auth.register.role_hint",
+              "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
+            )}
+          </div>
           <label>
             <input
               type="radio"

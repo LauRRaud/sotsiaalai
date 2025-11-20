@@ -312,6 +312,7 @@ export default function ProfiilBody({ initialProfile = null }) {
               magnification={68}
               distance={140}
               className="profile-email-dock"
+              ariaLabel={t("profile.actions_label", "Profiili toimingud")}
             />
           )}
         </div>
