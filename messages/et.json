@@ -228,11 +228,12 @@
   },
   "accessibility": {
     "title": "Ligipääsetavuse eelistused",
-    "description": "Kohanda teksti suurust, kontrasti ja animatsioone.",
+    "description": "Kohanda teksti suurust, kontrasti, animatsioone ja teemat.",
     "language": "Keel",
     "text_scale": "Teksti suurus",
     "contrast": "Kontrast",
     "motion": "Animatsioonid",
+    "theme": "Teema",
     "options": {
       "language": {
         "et": "Eesti",
@@ -251,6 +252,10 @@
       },
       "motion": {
         "reduce": "Vähenda liikumist"
+      },
+      "theme": {
+        "dark": "Tume režiim",
+        "light": "Hele režiim"
       }
     },
     "save": "Salvesta seaded"

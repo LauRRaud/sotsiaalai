@@ -228,11 +228,12 @@
   },
   "accessibility": {
     "title": "Accessibility preferences",
-    "description": "Adjust text size, contrast, and motion.",
+    "description": "Adjust text size, contrast, motion, and theme.",
     "language": "Language",
     "text_scale": "Text size",
     "contrast": "Contrast",
     "motion": "Motion",
+    "theme": "Theme",
     "options": {
       "language": {
         "et": "Estonian",
@@ -251,6 +252,10 @@
       },
       "motion": {
         "reduce": "Reduce motion"
+      },
+      "theme": {
+        "dark": "Dark mode",
+        "light": "Light mode"
       }
     },
     "save": "Save settings"

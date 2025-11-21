@@ -13,6 +13,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
   const [contrast, setContrast] = useState(prefs.contrast || "normal");
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
   const [lang, setLang] = useState(locale || "et");
+  const [theme, setTheme] = useState(prefs.theme || "dark");
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
   // Sync local state when modal opens with fresh prefs
@@ -20,6 +21,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
     setTextScale(prefs.textScale || "md");
     setContrast(prefs.contrast || "normal");
     setReduceMotion(!!prefs.reduceMotion);
+    setTheme(prefs.theme || "dark");
   }, [prefs]);
   // Live language preview (no cookie)
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
   }, []);
   const stopInside = (e) => e.stopPropagation();
   const save = async () => {
-    onSave?.({ textScale, contrast, reduceMotion });
+    onSave?.({ textScale, contrast, reduceMotion, theme });
     // Change language if needed: update cookie + client messages immediately, then refresh SSR
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
@@ -105,8 +107,8 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
     onClose?.();
   };
   useEffect(() => {
-    onPreview?.({ textScale, contrast, reduceMotion });
-  }, [textScale, contrast, reduceMotion, onPreview]);
+    onPreview?.({ textScale, contrast, reduceMotion, theme });
+  }, [textScale, contrast, reduceMotion, theme, onPreview]);
   useEffect(() => () => {
     onPreviewEnd?.();
   }, [onPreviewEnd]);
@@ -179,6 +181,28 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
             checked={reduceMotion}
             onChange={(v) => setReduceMotion(v)}
           />
+        </fieldset>
+        {/* Teema (viimasena) */}
+        <fieldset className="a11y-fieldset">
+          <legend className="a11y-legend">{t("accessibility.theme")}</legend>
+          <div className="a11y-options">
+            <FancyRadio
+              id="th-dark"
+              name="th"
+              value="dark"
+              label={t("accessibility.options.theme.dark")}
+              checked={theme === "dark"}
+              onChange={() => setTheme("dark")}
+            />
+            <FancyRadio
+              id="th-light"
+              name="th"
+              value="light"
+              label={t("accessibility.options.theme.light")}
+              checked={theme === "light"}
+              onChange={() => setTheme("light")}
+            />
+          </div>
         </fieldset>
         <div className="a11y-actions">
           <button type="button" className="btn-primary btn-compact btn-spacing-accessibility" onClick={save} aria-label={t("accessibility.save")}>

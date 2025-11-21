@@ -8,6 +8,7 @@ const DEFAULT_PREFS = {
   textScale: "md", // sm | md | lg | xl
   contrast: "normal", // normal | hc
   reduceMotion: false, // true | false
+  theme: "dark", // dark | light
 };
 function getCookie(name) {
   if (typeof document === "undefined") return null;
@@ -22,10 +23,19 @@ function setCookie(name, value, maxAgeSec = 60 * 60 * 24 * 365) {
 function readInitialPrefsFromDom() {
   if (typeof document === "undefined") return { ...DEFAULT_PREFS };
   const html = document.documentElement;
+  let theme = html.classList.contains("theme-light") ? "light" : DEFAULT_PREFS.theme;
+  // Prefer localStorage theme if present (align with inline script)
+  try {
+    const storedTheme = window.localStorage.getItem("theme");
+    if (storedTheme === "light" || storedTheme === "dark") {
+      theme = storedTheme;
+    }
+  } catch {}
   const fromDataset = {
     textScale: html.getAttribute("data-text-scale") || DEFAULT_PREFS.textScale,
     contrast: html.getAttribute("data-contrast") || DEFAULT_PREFS.contrast,
     reduceMotion: html.getAttribute("data-reduce-motion") === "1",
+    theme,
   };
   // If cookie missing, optionally use system reduced-motion as first hint
   const hasCookie = !!getCookie("a11y_prefs");
@@ -43,6 +53,11 @@ function applyPrefsToDom(prefs) {
   html.setAttribute("data-text-scale", prefs.textScale || DEFAULT_PREFS.textScale);
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
+  const shouldBeLight = prefs.theme === "light";
+  const currentlyLight = html.classList.contains("theme-light");
+  if (shouldBeLight !== currentlyLight) {
+    html.classList.toggle("theme-light", shouldBeLight);
+  }
 }
 function AccessibilityProvider({ children }) {
   const [prefs, setPrefsState] = useState(DEFAULT_PREFS);
@@ -63,13 +78,15 @@ function AccessibilityProvider({ children }) {
         const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
         const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
         const reduceMotion = !!obj?.reduceMotion;
-        return { textScale, contrast, reduceMotion };
+        const theme = obj?.theme === "light" ? "light" : DEFAULT_PREFS.theme;
+        return { textScale, contrast, reduceMotion, theme };
       } catch {
         return null;
       }
     }
     const cookiePrefs = fromCookie();
-    const initial = cookiePrefs || readInitialPrefsFromDom();
+    const domPrefs = readInitialPrefsFromDom();
+    const initial = cookiePrefs ? { ...domPrefs, ...cookiePrefs, theme: domPrefs.theme } : domPrefs;
     setPrefsState(initial);
     applyPrefsToDom(initial);
     // Auto-open only on Home ("/") and only if no cookie yet
@@ -91,6 +108,17 @@ function AccessibilityProvider({ children }) {
   useEffect(() => {
     applyPrefsToDom(prefs);
   }, [prefs, pathname]);
+  // Sync theme state if it is toggled elsewhere (e.g. Home page switch)
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    const html = document.documentElement;
+    const observer = new MutationObserver(() => {
+      const domTheme = html.classList.contains("theme-light") ? "light" : "dark";
+      setPrefsState((prev) => (prev.theme === domTheme ? prev : { ...prev, theme: domTheme }));
+    });
+    observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
   const announce = useCallback((msg) => {
     if (!msg) return;
     if (typeof document === "undefined") return;
@@ -108,6 +136,11 @@ function AccessibilityProvider({ children }) {
     applyPrefsToDom(merged);
     try { localStorage.setItem("a11y_prefs", JSON.stringify(merged)); } catch {}
     try { setCookie("a11y_prefs", JSON.stringify(merged)); } catch {}
+    try {
+      if (merged.theme === "light" || merged.theme === "dark") {
+        localStorage.setItem("theme", merged.theme);
+      }
+    } catch {}
     announce(t("profile.preferences.saved", "Eelistused salvestatud."));
   }, [prefs, announce, t]);
   const previewPrefs = useCallback((partial) => {

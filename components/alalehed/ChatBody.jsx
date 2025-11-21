@@ -325,9 +325,11 @@ export default function ChatBody() {
   // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
   const [docOnlyMode, setDocOnlyMode] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
-  const [analysisPanelOpen, setänalysisPanelOpen] = useState(false);
-  const [analysisCollapsed, setänalysisCollapsed] = useState(false);
+  const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
+  const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
   const [previewScroll, setPreviewScroll] = useState(0);
+  const [recording, setRecording] = useState(false);
+  const [recordingError, setRecordingError] = useState(null);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
@@ -341,6 +343,9 @@ export default function ChatBody() {
   const sourcesCloseRef = useRef(null);
   const sourcesPrevFocusRef = useRef(null);
   const synthesisRef = useRef(null);
+  const audioRef = useRef(null);
+  const recorderRef = useRef(null);
+  const recordingChunksRef = useRef([]);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
   const mountedRef = useRef(false);
@@ -517,26 +522,26 @@ export default function ChatBody() {
     });
   }, []);
   const ensureAnalysisPanelVisible = useCallback(() => {
-    setänalysisCollapsed(false);
-    setänalysisPanelOpen(true);
+    setAnalysisCollapsed(false);
+    setAnalysisPanelOpen(true);
     scrollAnalysisPanelIntoView();
   }, [scrollAnalysisPanelIntoView]);
   const toggleAnalysisCollapse = useCallback(() => {
     if (!hasAnalysisContent) return;
-    setänalysisCollapsed((prev) => !prev);
+    setAnalysisCollapsed((prev) => !prev);
   }, [hasAnalysisContent]);
   const closeAnalysisPanel = useCallback(() => {
     if (hasAnalysisContent) return;
-    setänalysisPanelOpen(false);
-    setänalysisCollapsed(false);
+    setAnalysisPanelOpen(false);
+    setAnalysisCollapsed(false);
   }, [hasAnalysisContent]);
   useEffect(() => {
     if (hasAnyAnalysisState) {
-      setänalysisCollapsed(false);
-      setänalysisPanelOpen(true);
+      setAnalysisCollapsed(false);
+      setAnalysisPanelOpen(true);
       scrollAnalysisPanelIntoView();
     } else {
-      setänalysisCollapsed(false);
+      setAnalysisCollapsed(false);
     }
   }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
 
@@ -814,49 +819,178 @@ export default function ChatBody() {
       try {
         synthesisRef.current?.cancel?.();
       } catch {}
+      try {
+        const audio = audioRef.current;
+        if (audio) {
+          audio.pause();
+          audioRef.current = null;
+        }
+      } catch {}
+      try {
+        recorderRef.current?.stop?.();
+      } catch {}
+      try {
+        recorderRef.current?.stream?.getTracks?.().forEach((t) => t.stop && t.stop());
+      } catch {}
     },
     []
   );
 
-  const speakLatestReply = useCallback(() => {
-    if (typeof window === "undefined") return;
-    const synth = synthesisRef.current;
-    if (!synth) return;
-    const lastAi = [...messages].reverse().find((m) => m.role === "ai" && m.text);
-    if (!lastAi?.text) return;
+  const stopSpeaking = useCallback(() => {
     try {
-      synth.cancel();
-      const utterance = new SpeechSynthesisUtterance(lastAi.text);
-      const voices = synth.getVoices() || [];
-      const normLocale = (locale || "").toLowerCase();
-      const base = normLocale.split("-")[0] || normLocale;
-      const prefs =
-        base === "et"
-          ? [normLocale, "et-ee", "et", "en-us", "en"]
-          : base === "ru"
-          ? [normLocale, "ru-ru", "ru", "en-us", "en", "et-ee", "et"]
-          : base === "en"
-          ? [normLocale, "en-us", "en-gb", "en", "et-ee", "et", "ru-ru", "ru"]
-          : [normLocale, base, "en-us", "en", "et-ee", "et", "ru-ru", "ru"].filter(Boolean);
-      const pick = prefs
-        .map((pref) =>
-          voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)),
-        )
-        .find(Boolean);
-      if (pick) {
-        utterance.voice = pick;
-        utterance.lang = pick.lang || normLocale || "en-US";
-      } else {
-        utterance.lang = normLocale || "en-US";
-      }
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-      synth.speak(utterance);
-    } catch {
-      setIsSpeaking(false);
+      synthesisRef.current?.cancel?.();
+    } catch {}
+    const audio = audioRef.current;
+    if (audio) {
+      try {
+        audio.onended = null;
+        audio.onerror = null;
+        audio.pause();
+      } catch {}
+      audioRef.current = null;
     }
-  }, [messages, locale]);
+    setIsSpeaking(false);
+  }, []);
+
+  const speakWithBrowser = useCallback(
+    (text) => {
+      if (typeof window === "undefined") return;
+      const synth = synthesisRef.current;
+      if (!synth || !text) return;
+      try {
+        synth.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = synth.getVoices() || [];
+        const normLocale = (locale || "").toLowerCase();
+        const base = normLocale.split("-")[0] || normLocale;
+        const prefs =
+          base === "et"
+            ? [normLocale, "et-ee", "et", "en-us", "en"]
+            : base === "ru"
+            ? [normLocale, "ru-ru", "ru", "en-us", "en", "et-ee", "et"]
+            : base === "en"
+            ? [normLocale, "en-us", "en-gb", "en", "et-ee", "et", "ru-ru", "ru"]
+            : [normLocale, base, "en-us", "en", "et-ee", "et", "ru-ru", "ru"].filter(Boolean);
+        const pick = prefs
+          .map((pref) =>
+            voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)),
+          )
+          .find(Boolean);
+        if (pick) {
+          utterance.voice = pick;
+          utterance.lang = pick.lang || normLocale || "en-US";
+        } else {
+          utterance.lang = normLocale || "en-US";
+        }
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+        synth.speak(utterance);
+      } catch {
+        setIsSpeaking(false);
+      }
+    },
+    [locale],
+  );
+
+  const speakLatestReply = useCallback(async () => {
+    if (typeof window === "undefined") return;
+    const lastAi = [...messages].reverse().find((m) => m.role === "ai" && m.text);
+    const text = (lastAi?.text || "").trim();
+    if (!text) return;
+    const base = (locale || "").toLowerCase().split("-")[0];
+    // ru/en -> kasuta otse brauseri hääli, et vältida serveri kulu
+    if (base === "ru" || base === "en") {
+      stopSpeaking();
+      speakWithBrowser(text);
+      return;
+    }
+    stopSpeaking();
+    setIsSpeaking(true);
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text.slice(0, 4500), locale }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.ok && data?.audioContent) {
+        const src = `data:${data.contentType || "audio/mpeg"};base64,${data.audioContent}`;
+        const audio = new Audio(src);
+        audioRef.current = audio;
+        audio.onended = () => {
+          audioRef.current = null;
+          setIsSpeaking(false);
+        };
+        audio.onerror = () => {
+          audioRef.current = null;
+          setIsSpeaking(false);
+        };
+        await audio.play();
+        return;
+      }
+    } catch {
+      // ignore ja lange fallbackile
+    }
+    stopSpeaking();
+    speakWithBrowser(text);
+  }, [messages, locale, stopSpeaking, speakWithBrowser]);
+
+  /* ---------- Speech-to-Text (mikrofon) ---------- */
+  const stopRecording = useCallback(() => {
+    try {
+      recorderRef.current?.stop?.();
+    } catch {}
+    try {
+      recorderRef.current?.stream?.getTracks?.().forEach((t) => t.stop && t.stop());
+    } catch {}
+    recorderRef.current = null;
+    setRecording(false);
+  }, []);
+
+  const handleMic = useCallback(async () => {
+    if (recording) {
+      stopRecording();
+      return;
+    }
+    setRecordingError(null);
+    if (!navigator?.mediaDevices?.getUserMedia) {
+      setRecordingError(t("chat.mic.unsupported", "Mikrofon pole toetatud selles brauseris."));
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recordingChunksRef.current = [];
+      const rec = new MediaRecorder(stream);
+      recorderRef.current = rec;
+      rec.ondataavailable = (e) => {
+        if (e?.data?.size) recordingChunksRef.current.push(e.data);
+      };
+      rec.onstop = async () => {
+        setRecording(false);
+        const blob = new Blob(recordingChunksRef.current, { type: rec.mimeType || "audio/webm" });
+        if (!blob.size) return;
+        try {
+          const fd = new FormData();
+          fd.append("audio", blob, "audio.webm");
+          fd.append("locale", locale || "auto");
+          const res = await fetch("/api/stt", { method: "POST", body: fd });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || data?.ok === false || !data?.text) {
+            throw new Error(data?.message || t("chat.mic.error", "Dikteerimine ebaõnnestus."));
+          }
+          setInput((prev) => (prev ? `${prev} ${data.text}` : data.text));
+        } catch (err) {
+          setRecordingError(err?.message || t("chat.mic.error", "Dikteerimine ebaõnnestus."));
+        }
+      };
+      rec.start();
+      setRecording(true);
+    } catch (err) {
+      setRecordingError(err?.message || t("chat.mic.cannot_start", "Mikrofoni ei saanud avada."));
+      stopRecording();
+    }
+  }, [locale, recording, stopRecording, t, setInput]);
 
   /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {
@@ -1489,6 +1623,33 @@ export default function ChatBody() {
               </svg>
             </button>
             <button
+              type="button"
+              className={`chat-send-btn${recording ? " chat-send-btn--active" : ""}`}
+              aria-label={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+              title={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+              onClick={handleMic}
+              data-speaking={recording ? "true" : "false"}
+              data-recording={recording ? "true" : "false"}
+            >
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ width: "1.4rem", height: "1.4rem" }}
+              >
+                <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </button>
+            <button
               type="submit"
               className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
               aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
@@ -1510,6 +1671,16 @@ export default function ChatBody() {
             </button>
           </div>
         </form>
+
+        {recordingError ? (
+          <div
+            role="alert"
+            className="glass-note"
+            style={{ marginTop: "0.5rem" }}
+          >
+            {recordingError}
+          </div>
+        ) : null}
 
         {showAnalysisPanel ? (
           <section
@@ -1921,6 +2092,8 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
 
 
 

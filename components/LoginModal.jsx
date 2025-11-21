@@ -41,6 +41,7 @@ export default function LoginModal({ open, onClose }) {
   const [otpExpiresAt, setOtpExpiresAt] = useState(null);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
+  const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
 
   const boxRef = useRef(null);
   const emailInputRef = useRef(null);
@@ -159,14 +160,26 @@ export default function LoginModal({ open, onClose }) {
     setOtpLoading(false);
     setResendLoading(false);
   }, [open]);
-  // Fookus e-posti väljale pin-sammus või OTP väljale OTP-sammus
+  // Fookus e-posti väljale pin-sammus või OTP väljale OTP-sammus + eeltäide
   useEffect(() => {
     if (!open) return;
-    const focusTarget = isOtpStep ? otpInputRef.current : emailInputRef.current;
+    if (!isOtpStep) {
+      try {
+        const stored = window.localStorage.getItem(LOGIN_EMAIL_KEY) || "";
+        if (stored && emailInputRef.current) {
+          emailInputRef.current.value = stored;
+        }
+      } catch {}
+    }
+    const focusTarget = isOtpStep
+      ? otpInputRef.current
+      : emailInputRef.current?.value
+      ? hiddenInputRef.current
+      : emailInputRef.current;
     if (focusTarget && typeof focusTarget.focus === "function") {
       setTimeout(() => focusTarget.focus(), 0);
     }
-  }, [open, isOtpStep]);
+  }, [open, isOtpStep, LOGIN_EMAIL_KEY]);
 
   const finishLogin = useCallback(
     async (token) => {
@@ -218,6 +231,9 @@ export default function LoginModal({ open, onClose }) {
 
     setPinLoading(true);
     try {
+      try {
+        window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
+      } catch {}
       const res = await fetch("/api/auth/login-step1", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -288,7 +304,13 @@ export default function LoginModal({ open, onClose }) {
 
   useEffect(() => {
     if (!open || step !== "pin") return;
-    const tid = setTimeout(() => hiddenInputRef.current?.focus?.(), 0);
+    const tid = setTimeout(() => {
+      // Do not steal focus from the email field when the user just opened or clicked it.
+      const emailField = emailInputRef.current;
+      if (emailField && document.activeElement === emailField) return;
+      const hasEmail = emailField && emailField.value.trim().length > 0;
+      if (hasEmail) hiddenInputRef.current?.focus?.();
+    }, 0);
     const keyListener = (e) => {
       if (step !== "pin") return;
       const target = e.target;

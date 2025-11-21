@@ -67,7 +67,9 @@ export async function GET(request) {
     });
     // Redirect to profile (friendly UX). Fallback to JSON when headers are already sent.
     try {
-      return NextResponse.redirect(new URL("/profiil", url.origin));
+      // Prefer configured public base URL to avoid leaking internal hosts (e.g. http://localhost:3000)
+      const redirectBase = resolveBaseUrl() || url.origin;
+      return NextResponse.redirect(new URL("/profiil", redirectBase));
     } catch {
       return ok({ verified: true });
     }
