@@ -187,13 +187,10 @@ export default function HomePage() {
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
-  const themeToggleLabel = theme === "light" ? "TUME" : "HELE";
-  const themeToggleVariant = theme === "light" ? "theme-toggle-btn--dark" : "theme-toggle-btn--light";
   const themeToggleAria =
     theme === "light"
       ? t("nav.toggle_dark") || "Lülita tume režiim"
       : t("nav.toggle_light") || "Lülita hele režiim";
-  const themeToggleIconSrc = theme === "light" ? "/logo/tume.svg" : "/logo/hele.svg";
   const flipEndMs = 1200;
 
   const onLeftEnter = () => {
@@ -225,11 +222,9 @@ export default function HomePage() {
     }
   };
 
-  const handleThemeToggle = (isLight) => {
-    setTheme(isLight ? "light" : "dark");
-  };
-  const handleThemeClick = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const handleThemeClick = (event) => {
+    const wantsDark = !!event?.target?.checked;
+    setTheme(wantsDark ? "dark" : "light");
   };
 
   const handleCardBackClick = (side) => (e) => {
@@ -307,26 +302,33 @@ export default function HomePage() {
         {!isMobile && (
           <nav className="top-center-nav" aria-label={t("nav.main")}>
             <div className="top-center-actions">
-              <button
-                type="button"
-                className={["top-center-link", "theme-toggle-btn", themeToggleVariant, desktopFadeClass].filter(Boolean).join(" ")}
-                onClick={handleThemeClick}
-                aria-pressed={theme === "light"}
+              <label
+                className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", desktopFadeClass].filter(Boolean).join(" ")}
                 aria-label={themeToggleAria}
               >
-                <span className="theme-toggle-wrap">
-                  <Image
-                    src={themeToggleIconSrc}
-                    alt=""
-                    aria-hidden="true"
-                    width={64}
-                    height={64}
-                    className="theme-toggle-icon"
-                    priority
-                  />
-                  <span className="theme-toggle-text">{themeToggleLabel}</span>
-                </span>
-              </button>
+                <input
+                  type="checkbox"
+                  className="themeToggleInput"
+                  checked={theme === "dark"}
+                  onChange={handleThemeClick}
+                  aria-pressed={theme === "dark"}
+                />
+                <svg className="sun-and-moon" aria-hidden="true" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" stroke="none">
+                  <mask id="moon-mask-top">
+                    <rect x="0" y="0" width="20" height="20" fill="white" />
+                    <circle cx="11" cy="3" r="8" fill="black" />
+                  </mask>
+                  <circle className="sunMoon" cx="10" cy="10" r="8" mask="url(#moon-mask-top)" />
+                  <g>
+                    <circle className="sunRay sunRay1" cx="18" cy="10" r="1.5" />
+                    <circle className="sunRay sunRay2" cx="14" cy="16.928" r="1.5" />
+                    <circle className="sunRay sunRay3" cx="6" cy="16.928" r="1.5" />
+                    <circle className="sunRay sunRay4" cx="2" cy="10" r="1.5" />
+                    <circle className="sunRay sunRay5" cx="6" cy="3.1718" r="1.5" />
+                    <circle className="sunRay sunRay6" cx="14" cy="3.1718" r="1.5" />
+                  </g>
+                </svg>
+              </label>
             </div>
           </nav>
         )}
@@ -487,25 +489,33 @@ export default function HomePage() {
                 </span>
               </Link>
               {isMobile && (
-                <button
-                  type="button"
-                  className={["top-center-link", "theme-toggle-btn", themeToggleVariant, bottomFadeClass].filter(Boolean).join(" ")}
-                  onClick={handleThemeClick}
-                  aria-pressed={theme === "light"}
+                <label
+                  className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", bottomFadeClass].filter(Boolean).join(" ")}
                   aria-label={themeToggleAria}
                 >
-                  <span className="theme-toggle-wrap">
-                    <Image
-                      src={themeToggleIconSrc}
-                      alt=""
-                      aria-hidden="true"
-                      width={64}
-                      height={64}
-                      className="theme-toggle-icon"
-                    />
-                    <span className="theme-toggle-text">{themeToggleLabel}</span>
-                  </span>
-                </button>
+                  <input
+                    type="checkbox"
+                    className="themeToggleInput"
+                    checked={theme === "dark"}
+                    onChange={handleThemeClick}
+                    aria-pressed={theme === "dark"}
+                  />
+                  <svg className="sun-and-moon" aria-hidden="true" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" stroke="none">
+                    <mask id="moon-mask-bottom">
+                      <rect x="0" y="0" width="20" height="20" fill="white" />
+                      <circle cx="11" cy="3" r="8" fill="black" />
+                    </mask>
+                    <circle className="sunMoon" cx="10" cy="10" r="8" mask="url(#moon-mask-bottom)" />
+                    <g>
+                      <circle className="sunRay sunRay1" cx="18" cy="10" r="1.5" />
+                      <circle className="sunRay sunRay2" cx="14" cy="16.928" r="1.5" />
+                      <circle className="sunRay sunRay3" cx="6" cy="16.928" r="1.5" />
+                      <circle className="sunRay sunRay4" cx="2" cy="10" r="1.5" />
+                      <circle className="sunRay sunRay5" cx="6" cy="3.1718" r="1.5" />
+                      <circle className="sunRay sunRay6" cx="14" cy="3.1718" r="1.5" />
+                    </g>
+                  </svg>
+                </label>
               )}
             </div>
           </nav>

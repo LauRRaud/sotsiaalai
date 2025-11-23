@@ -220,7 +220,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   // Parooli muutmine: suuname parooli taastamise lehele, kus küsitakse e-post
   if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
     return (
-      <div className="main-content glass-box glass-left" lang={locale}>
+      <div className="main-content glass-box glass-left profile-container" lang={locale}>
         <h1 className="glass-title">{t("profile.title")}</h1>
         <p style={{ padding: "1rem" }}>{t("profile.loading")}</p>
       </div>
@@ -233,7 +233,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         ? t("profile.login_to_manage_sub")
         : t("profile.login_to_view");
     return (
-      <div className="main-content glass-box glass-left" lang={locale}>
+      <div className="main-content glass-box glass-left profile-container" lang={locale}>
         <h1 className="glass-title">{t("profile.title")}</h1>
         <p style={{ padding: "1rem" }}>{reasonText}</p>
         <div className="back-btn-wrapper">
@@ -255,7 +255,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   const emailLabel = t("profile.email");
   return (
     <div
-      className="main-content glass-box glass-left"
+      className="main-content glass-box glass-left profile-container"
       role="region"
       aria-labelledby="profile-title"
       lang={locale}
@@ -264,7 +264,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         {t("profile.title")}
       </h1>
       <div className="profile-header-center">
-        <span className="profile-role-pill">{roleLabel}</span>
+        <span className="profile-role-pill" style={{ marginBottom: "0.1em" }}>{roleLabel}</span>
       </div>
       <div className="glass-form profile-form-vertical">
         <div className="profile-email-field">
@@ -346,7 +346,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           </button>
         </div>
       </div>
-      <div className="back-btn-wrapper">
+      <div className="back-btn-wrapper" style={{ marginBottom: "0.2rem" }}>
         <button
           type="button"
           className="back-arrow-btn"

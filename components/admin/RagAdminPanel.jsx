@@ -612,7 +612,12 @@ export default function RagAdminPanel() {
             onClick={runSelftest}
             disabled={selftestBusy}
             className="btn-primary btn-compact"
-            style={{ opacity: selftestBusy ? 0.75 : 1, cursor: selftestBusy ? "wait" : "pointer" }}
+            style={{
+              opacity: selftestBusy ? 0.75 : 1,
+              cursor: selftestBusy ? "wait" : "pointer",
+              fontSize: "0.95rem",
+              padding: "0.6rem 1rem",
+            }}
           >
             {selftestBusy ? "Kontrollin…" : "Tee isetest (RAG + vestlus)"}
           </button>
@@ -652,11 +657,12 @@ export default function RagAdminPanel() {
       )}
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
+          display: "grid",
           gap: "1.25rem",
-          alignItems: "stretch",
           width: "100%",
+          alignItems: "start",
+          justifyItems: "stretch",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
         }}
       >
         {/* --- Faili vorm --- */}
@@ -673,7 +679,7 @@ export default function RagAdminPanel() {
             boxSizing: "border-box",
             minWidth: 0,
             width: "100%",
-            flex: "1 1 320px",
+            maxWidth: "26rem",
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
@@ -865,6 +871,7 @@ export default function RagAdminPanel() {
               accept={ACCEPT_ATTR}
               onChange={onFileChange}
               style={{
+                width: "100%",
                 padding: "0.5rem",
                 borderRadius: "10px",
                 border: "1px dashed rgba(255,255,255,0.15)",
@@ -879,7 +886,13 @@ export default function RagAdminPanel() {
             type="submit"
             disabled={fileBusy}
             className="btn-primary btn-compact"
-            style={{ alignSelf: "flex-start", opacity: fileBusy ? 0.75 : 1, cursor: fileBusy ? "wait" : "pointer" }}
+            style={{
+              alignSelf: "flex-start",
+              opacity: fileBusy ? 0.75 : 1,
+              cursor: fileBusy ? "wait" : "pointer",
+              fontSize: "0.95rem",
+              padding: "0.65rem 1.05rem",
+            }}
           >
             {fileBusy ? "Laen..." : "Lisa fail RAG andmebaasi"}
           </button>
@@ -898,7 +911,7 @@ export default function RagAdminPanel() {
             boxSizing: "border-box",
             minWidth: 0,
             width: "100%",
-            flex: "1 1 320px",
+            maxWidth: "26rem",
           }}
         >
           <div>
@@ -952,7 +965,13 @@ export default function RagAdminPanel() {
             type="submit"
             disabled={urlBusy}
             className="btn-primary btn-compact"
-            style={{ alignSelf: "flex-start", opacity: urlBusy ? 0.75 : 1, cursor: urlBusy ? "wait" : "pointer" }}
+            style={{
+              alignSelf: "flex-start",
+              opacity: urlBusy ? 0.75 : 1,
+              cursor: urlBusy ? "wait" : "pointer",
+              fontSize: "0.95rem",
+              padding: "0.65rem 1.05rem",
+            }}
           >
             {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
           </button>
@@ -1205,7 +1224,12 @@ export default function RagAdminPanel() {
             disabled={loadingList}
             aria-busy={loadingList ? "true" : "false"}
             className="btn-primary btn-compact"
-            style={{ opacity: loadingList ? 0.75 : 1, cursor: loadingList ? "wait" : "pointer" }}
+            style={{
+              opacity: loadingList ? 0.75 : 1,
+              cursor: loadingList ? "wait" : "pointer",
+              fontSize: "0.92rem",
+              padding: "0.55rem 0.95rem",
+            }}
           >
             {loadingList ? "Laen..." : "Värskenda"}
           </button>
@@ -1495,6 +1519,7 @@ export default function RagAdminPanel() {
 /* ---------- stiili helperid ---------- */
 function inputStyle() {
   return {
+    width: "100%",
     padding: "0.55rem 0.65rem",
     borderRadius: "10px",
     border: "1px solid rgba(255,255,255,0.08)",

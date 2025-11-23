@@ -1,11 +1,13 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 import { cookies } from "next/headers";
 import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatBody from "@/components/alalehed/ChatBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
+
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -14,24 +16,23 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/vestlus",
-    title: meta.title || "Vestlus – SotsiaalAI",
+    title: meta.title || "Vestlus \u2014 SotsiaalAI",
     description:
       meta.description ||
-      "Vestle SotsiaalAI rollipõhise AI-assistendiga, kes aitab leida infot õiguste, toetuste ja teenuste kohta.",
+      "Vestle SotsiaalAI rollip\u00f5hise AI-assistendiga, kes aitab leida infot \u00f5iguste, toetuste ja teenuste kohta.",
     openGraph: { type: "article" },
   });
 }
+
 export default function Page() {
   return (
     <>
-      {/* Ülekatte sahtel, mis avaneb “☰ Vestlused” nupust */}
+      {/* K\u00f5rvalsahtel, mis avaneb \u201cVestlused\u201d nupust */}
       <ConversationDrawer>
         <ChatSidebar />
       </ConversationDrawer>
-      {/* Põhisisu */}
-      <div role="region" aria-label="Vestluse sisu">
-        <ChatBody />
-      </div>
+      {/* P\u00f5hisisu */}
+      <ChatBody />
     </>
   );
 }

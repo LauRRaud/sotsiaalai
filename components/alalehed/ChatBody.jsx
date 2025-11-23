@@ -1108,6 +1108,44 @@ export default function ChatBody() {
       abortControllerRef.current = controller;
 
       let streamingMessageId = null;
+      const STREAM_DELAY_MS = 35; // aeglustab trükkimise tempot
+      const STREAM_CHARS_PER_TICK = 6;
+      let pendingText = "";
+      let streamTimer = null;
+      let visibleText = "";
+      let sources = [];
+      const pushVisibleText = () => {
+        if (streamingMessageId == null) return;
+        mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: visibleText }));
+      };
+      const flushChunk = () => {
+        if (!pendingText) return;
+        const chunk = pendingText.slice(0, STREAM_CHARS_PER_TICK);
+        pendingText = pendingText.slice(chunk.length);
+        visibleText += chunk;
+        pushVisibleText();
+      };
+      const ensureStreamTimer = () => {
+        if (streamTimer) return;
+        streamTimer = setInterval(() => {
+          flushChunk();
+          if (!pendingText) {
+            clearInterval(streamTimer);
+            streamTimer = null;
+          }
+        }, STREAM_DELAY_MS);
+      };
+      const flushAllPending = () => {
+        if (streamTimer) {
+          clearInterval(streamTimer);
+          streamTimer = null;
+        }
+        if (pendingText) {
+          visibleText += pendingText;
+          pendingText = "";
+          pushVisibleText();
+        }
+      };
 
       try {
         const res = await fetch("/api/chat", {
@@ -1175,8 +1213,6 @@ export default function ChatBody() {
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
         const reader = createSSEReader(res.body);
         streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
-        let visibleText = "";
-        let sources = [];
         let streamEnded = false;
 
         for await (const ev of reader) {
@@ -1200,8 +1236,8 @@ export default function ChatBody() {
             try {
               const payload = JSON.parse(ev.data);
               if (payload?.t) {
-                visibleText += payload.t; // koheline lisamine
-                mutateMessage(streamingMessageId, (msg) => ({ ...msg, text: visibleText }));
+                pendingText += payload.t; // lisame puhvrisse ja aeglustame kuvamist
+                ensureStreamTimer();
               }
             } catch {}
           } else if (ev.event === "error") {
@@ -1218,6 +1254,7 @@ export default function ChatBody() {
         }
 
         // finalize
+        flushAllPending();
         mutateMessage(streamingMessageId, (msg) => ({
           ...msg,
           text: (visibleText || "").trim() || "Vabandust, ma ei saanud praegu vastust koostada.",
@@ -1227,6 +1264,7 @@ export default function ChatBody() {
         requestConversationsRefresh();
         streamingMessageId = null;
       } catch (err) {
+        flushAllPending();
         clearTimeout(clientTimeout);
         if (err?.name === "AbortError") {
           if (streamingMessageId != null) {
@@ -1257,6 +1295,11 @@ export default function ChatBody() {
           }
         }
       } finally {
+        if (streamTimer) {
+          clearInterval(streamTimer);
+          streamTimer = null;
+        }
+        pendingText = "";
         setIsGenerating(false);
         abortControllerRef.current = null;
         focusInput();
@@ -1407,16 +1450,15 @@ export default function ChatBody() {
     return "";
   }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
 
-  const backgroundLogo =
-    userRole === "SOCIAL_WORKER" || userRole === "ADMIN"
-      ? "/logo/aiilma.svg"
-      : "/logo/silma.svg";
-
   /* ---------- Render ---------- */
   return (
     <div
-      className="main-content glass-box chat-container chat-container--mobile u-mobile-pane"
-      style={{ position: "relative", "--chat-bg-logo": `url(${backgroundLogo})` }}
+      className="main-content glass-box chat-container"
+      role="region"
+      aria-label={t("chat.page_label", "Vestluse sisu")}
+      data-chat-bg={
+        userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
+      }
     >
       {/* Hamburger / Conversations */}
       <button
@@ -1672,6 +1714,25 @@ export default function ChatBody() {
           </div>
         </form>
 
+        {hasConversationSources ? (
+          <div className="chat-sources-inline">
+            <button
+              type="button"
+              ref={sourcesButtonRef}
+              onClick={toggleSourcesPanel}
+              className={`chat-sources-btn chat-sources-btn--mini${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
+              aria-haspopup="dialog"
+              aria-expanded={showSourcesPanel ? "true" : "false"}
+              aria-controls="chat-sources-panel"
+            >
+              {t("chat.sources.button", "Allikad ({count})").replace(
+                "{count}",
+                String(conversationSources.length)
+              )}
+            </button>
+          </div>
+        ) : null}
+
         {recordingError ? (
           <div
             role="alert"
@@ -1924,7 +1985,7 @@ export default function ChatBody() {
                     >
                       {t("chat.upload.aria")}
                     </button>
-                    <p className="chat-analysis-meta" style={{ marginTop: "0.35rem" }}>
+                    <p className="chat-analysis-meta chat-analysis-meta--spaced">
                       {uploadUsage?.limit
                         ? t("chat.upload.usage", "{used}/{limit} analüüsi täna")
                             .replace(
@@ -1945,21 +2006,6 @@ export default function ChatBody() {
           <BackButton />
         </footer>
 
-        {hasConversationSources ? (
-          <div className="chat-sources-inline">
-            <button
-              type="button"
-              ref={sourcesButtonRef}
-              onClick={toggleSourcesPanel}
-              className={`chat-sources-btn chat-sources-btn--mini${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
-              aria-haspopup="dialog"
-              aria-expanded={showSourcesPanel ? "true" : "false"}
-              aria-controls="chat-sources-panel"
-            >
-              {t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length))}
-            </button>
-          </div>
-        ) : null}
         {showSourcesPanel ? (
         <div
           id="chat-sources-panel"
@@ -1969,98 +2015,52 @@ export default function ChatBody() {
           aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
           onClick={closeSourcesPanel}
           tabIndex={-1}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 40,
-            background: "rgba(9, 14, 25, 0.55)",
-            backdropFilter: "blur(2px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1rem",
-          }}
+          className="chat-sources-overlay"
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: "rgba(12, 19, 35, 0.95)",
-              borderRadius: 14,
-              width: "100%",
-              maxWidth: "520px",
-              maxHeight: "80vh",
-              padding: "1.25rem 1.4rem",
-              overflowY: "auto",
-              boxShadow: "0 18px 40px rgba(0,0,0,0.45)",
-              border: "1px solid rgba(148, 163, 184, 0.15)",
-              color: "#f8fafc",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "0.75rem",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 600 }}>
+          <div onClick={(e) => e.stopPropagation()} className="chat-sources-dialog">
+            <div className="chat-sources-header">
+              <h2 className="chat-sources-title">
                 {t("chat.sources.heading", "Vestluse allikad")}
               </h2>
               <button
                 type="button"
                 ref={sourcesCloseRef}
                 onClick={closeSourcesPanel}
-                style={{
-                  border: "none",
-                  background: "rgba(148,163,184,0.15)",
-                  color: "#f1f5f9",
-                  borderRadius: 999,
-                  padding: "0.3rem 0.75rem",
-                  fontSize: "0.8rem",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                }}
+                className="chat-sources-close"
               >
                 {t("buttons.close", "Sulge")}
               </button>
             </div>
 
             {conversationSources.length === 0 ? (
-              <p style={{ margin: 0, fontSize: "0.92rem", opacity: 0.8 }}>
+              <p className="chat-sources-empty">
                 {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
               </p>
             ) : (
-              <ol style={{ margin: 0, paddingLeft: "1.2rem" }}>
+              <ol className="chat-sources-list">
                 {conversationSources.map((src, idx) => (
-                  <li key={src.key || idx} style={{ marginBottom: "1rem", lineHeight: 1.6 }}>
-                    <div style={{ fontWeight: 600, fontSize: "1rem", color: "#f8fafc" }}>
+                  <li key={src.key || idx} className="chat-source-item">
+                    <div className="chat-source-label">
                       {src.label}
                     </div>
                     {src.occurrences > 1 ? (
-                      <div style={{ fontSize: "0.88rem", opacity: 0.7 }}>
+                      <div className="chat-source-usage">
                         {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
                       </div>
                     ) : null}
                     {src.section ? (
-                      <div style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                      <div className="chat-source-section">
                         {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
                       </div>
                     ) : null}
                     {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
-                      <div style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: "0.2rem" }}>
+                      <div className="chat-source-pages">
                         {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
                       </div>
                     ) : null}
                     {src.allUrls && src.allUrls.length ? (
                       <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: "0.5rem",
-                          marginTop: "0.45rem",
-                        }}
+                        className="chat-source-links"
                       >
                         {src.allUrls.map((url, urlIdx) => (
                           <a
@@ -2068,11 +2068,7 @@ export default function ChatBody() {
                             href={url}
                             target="_blank"
                             rel="noreferrer"
-                            style={{
-                              color: "#93c5fd",
-                              textDecoration: "underline",
-                              fontSize: "0.9rem",
-                            }}
+                            className="chat-source-link"
                           >
                             {src.allUrls.length > 1
                               ? t("chat.sources.open_indexed", "Ava ({index})").replace("{index}", String(urlIdx + 1))
@@ -2092,27 +2088,4 @@ export default function ChatBody() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

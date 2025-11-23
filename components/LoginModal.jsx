@@ -42,9 +42,14 @@ export default function LoginModal({ open, onClose }) {
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
+  const [emailRevealed, setEmailRevealed] = useState(false);
+  const [storedEmail, setStoredEmail] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const hasEmailValue = (emailValue || "").trim().length > 0;
 
   const boxRef = useRef(null);
   const emailInputRef = useRef(null);
+  const emailIconButtonRef = useRef(null);
   const hiddenInputRef = useRef(null);
   const keypadRefs = useRef([]);
   const emailHintIdRef = useRef(`login-email-hint-${Math.random().toString(36).slice(2, 10)}`);
@@ -151,6 +156,8 @@ export default function LoginModal({ open, onClose }) {
     setPinValue("");
     setTempToken("");
     setOtpValue("");
+    setEmailRevealed(false);
+    setStoredEmail("");
     setOtpExpiresAt(null);
     setRememberDevice(true);
     setEmailMask("");
@@ -159,27 +166,43 @@ export default function LoginModal({ open, onClose }) {
     setPinLoading(false);
     setOtpLoading(false);
     setResendLoading(false);
+    setEmailValue("");
   }, [open]);
-  // Fookus e-posti väljale pin-sammus või OTP väljale OTP-sammus + eeltäide
+  // Lae salvestatud e-post; ära ava sisendit enne, kui kasutaja vajutab ümbrikule
+  useEffect(() => {
+    if (!open || isOtpStep) return;
+    try {
+      const stored = window.localStorage.getItem(LOGIN_EMAIL_KEY) || "";
+      setStoredEmail(stored);
+      setEmailValue(stored);
+      if (emailInputRef.current) {
+        emailInputRef.current.value = stored;
+      }
+    } catch {}
+  }, [open, isOtpStep, LOGIN_EMAIL_KEY]);
+
+  // Fookus: esmalt ümbriku nupule, siis sisendile või OTP-le
   useEffect(() => {
     if (!open) return;
-    if (!isOtpStep) {
-      try {
-        const stored = window.localStorage.getItem(LOGIN_EMAIL_KEY) || "";
-        if (stored && emailInputRef.current) {
-          emailInputRef.current.value = stored;
-        }
-      } catch {}
+    if (isOtpStep) {
+      const target = otpInputRef.current;
+      if (target && typeof target.focus === "function") {
+        setTimeout(() => target.focus(), 0);
+      }
+      return;
     }
-    const focusTarget = isOtpStep
-      ? otpInputRef.current
-      : emailInputRef.current?.value
-      ? hiddenInputRef.current
-      : emailInputRef.current;
-    if (focusTarget && typeof focusTarget.focus === "function") {
-      setTimeout(() => focusTarget.focus(), 0);
+    if (!emailRevealed) {
+      const target = emailIconButtonRef.current;
+      if (target && typeof target.focus === "function") {
+        setTimeout(() => target.focus(), 0);
+      }
+      return;
     }
-  }, [open, isOtpStep, LOGIN_EMAIL_KEY]);
+    const target = emailInputRef.current;
+    if (target && typeof target.focus === "function") {
+      setTimeout(() => target.focus(), 0);
+    }
+  }, [open, isOtpStep, emailRevealed]);
 
   const finishLogin = useCallback(
     async (token) => {
@@ -208,7 +231,7 @@ export default function LoginModal({ open, onClose }) {
     setError("");
     setInfo("");
     const emailInput = boxRef.current?.querySelector('input[name="email"]');
-    const email = String(emailInput?.value || "").trim().toLowerCase();
+    const email = String(emailInput?.value || storedEmail || "").trim().toLowerCase();
     const pin = pinValue.replace(/\s+/g, "");
 
     if (!email) {
@@ -233,6 +256,8 @@ export default function LoginModal({ open, onClose }) {
     try {
       try {
         window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
+        setStoredEmail(email);
+        setEmailValue(email);
       } catch {}
       const res = await fetch("/api/auth/login-step1", {
         method: "POST",
@@ -265,7 +290,7 @@ export default function LoginModal({ open, onClose }) {
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, pinValue, t]);
+  }, [PIN_MAX, PIN_MIN, finishLogin, pinValue, storedEmail, t]);
 
   const onHiddenKeyDown = useCallback(
     (e) => {
@@ -306,6 +331,7 @@ export default function LoginModal({ open, onClose }) {
     if (!open || step !== "pin") return;
     const tid = setTimeout(() => {
       // Do not steal focus from the email field when the user just opened or clicked it.
+      if (!emailRevealed) return;
       const emailField = emailInputRef.current;
       if (emailField && document.activeElement === emailField) return;
       const hasEmail = emailField && emailField.value.trim().length > 0;
@@ -329,7 +355,7 @@ export default function LoginModal({ open, onClose }) {
       clearTimeout(tid);
       window.removeEventListener("keydown", keyListener);
     };
-  }, [open, step, onHiddenKeyDown]);
+  }, [open, step, emailRevealed, onHiddenKeyDown]);
 
   const submitOtpStep = async () => {
     if (!tempToken) {
@@ -449,6 +475,21 @@ export default function LoginModal({ open, onClose }) {
     }
   };
 
+  const revealEmailInput = useCallback(() => {
+    if (emailRevealed) return;
+    setEmailRevealed(true);
+    setError("");
+    setTimeout(() => {
+      const node = emailInputRef.current;
+      if (!node) return;
+      if (!node.value && storedEmail) {
+        node.value = storedEmail;
+      }
+      setEmailValue(node.value || "");
+      node.focus();
+    }, 0);
+  }, [emailRevealed, storedEmail]);
+
   const stopInside = (e) => e.stopPropagation();
 
   if (!open) return null;
@@ -466,8 +507,13 @@ export default function LoginModal({ open, onClose }) {
         aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
         onClick={stopInside}
         onMouseLeave={() => {
-          if (step === "pin" && emailInputRef.current) {
+          if (step !== "pin") return;
+          if (emailRevealed && emailInputRef.current) {
             emailInputRef.current.focus();
+            return;
+          }
+          if (!emailRevealed && emailIconButtonRef.current) {
+            emailIconButtonRef.current.focus();
           }
         }}
       >
@@ -475,7 +521,7 @@ export default function LoginModal({ open, onClose }) {
           {"\u00d7"}
         </button>
 
-        <div className="glass-title" style={{ textAlign: "center", margin: "-0.8rem 0 18px" }}>
+        <div className="glass-title">
           {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
         </div>
 
@@ -493,7 +539,7 @@ export default function LoginModal({ open, onClose }) {
           <div
             role="alert"
             aria-live="assertive"
-            className="glass-note glass-note--center"
+            className="glass-note glass-note--center login-error-note"
             style={{ textAlign: "center" }}
           >
             {error}
@@ -508,33 +554,59 @@ export default function LoginModal({ open, onClose }) {
                 "Vajuta ümbriku väljale, et avada e-posti sisestuse lahter ja sisesta oma e-post."
               )}
             </div>
-            <label style={{ width: "100%", display: "block", textAlign: "center", marginBottom: 6 }}>
-              <input
-                className="input-modern input-email-top input-email-icon compact-email"
-                type="email"
-              name="email"
-              ref={emailInputRef}
-              aria-label={t("auth.email_placeholder")}
-              aria-describedby={emailHintIdRef.current}
-              placeholder=""
-              autoComplete="username"
-              inputMode="email"
-              onMouseDown={(e) => {
-                const node = emailInputRef.current;
-                if (node && document.activeElement !== node) {
-                  e.preventDefault(); // vältida topelt-klõpsu vajadust
-                  node.focus();
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  // Ära suuna PIN-ile enne sisestamist
-                  e.preventDefault();
-                }
-                }}
-                style={{ margin: "0 auto", maxWidth: 380 }}
-              />
-            </label>
+            <div className="login-email-toggle">
+              {!emailRevealed ? (
+                <button
+                  type="button"
+                  ref={emailIconButtonRef}
+                  className={`login-email-icon-btn${hasEmailValue ? " login-email-icon-btn--known" : ""}`}
+                  aria-describedby={emailHintIdRef.current}
+                  aria-label={t("auth.email_placeholder")}
+                  onClick={revealEmailInput}
+                >
+                  <span className="sr-only">
+                    {t(
+                      "auth.email_icon_hint",
+                      "Vajuta ümbriku väljale, et avada e-posti sisestuse lahter ja sisesta oma e-post."
+                    )}
+                  </span>
+                </button>
+              ) : (
+                <label style={{ width: "100%", display: "block", textAlign: "center" }}>
+                  <input
+                    className={`input-modern input-email-top input-email-icon compact-email${
+                      hasEmailValue ? " input-email-icon--filled" : ""
+                    }`}
+                    type="email"
+                    name="email"
+                    ref={emailInputRef}
+                    aria-label={t("auth.email_placeholder")}
+                    aria-describedby={emailHintIdRef.current}
+                    placeholder=""
+                    autoComplete="username"
+                    inputMode="email"
+                    onMouseDown={(e) => {
+                      const node = emailInputRef.current;
+                      if (node && document.activeElement !== node) {
+                        e.preventDefault(); // vältida topelt-klõpsu vajadust
+                        node.focus();
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        // ära suuna PIN-ile enne sisestamist
+                        e.preventDefault();
+                      }
+                    }}
+                    onChange={(e) => {
+                      setEmailValue(e.target.value || "");
+                    }}
+                    style={{ margin: "0 auto" }}
+                  />
+                </label>
+              )}
+            </div>
+
 
             <div id={pinHintIdRef.current} className="sr-only">
               {t(

@@ -40,7 +40,7 @@ export default async function AdminRagPage() {
       <h1 id="rag-admin-title" className="glass-title">
         RAG andmebaasi haldus
       </h1>
-      <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
+      <p className="glass-lead" style={{ marginBottom: "0.25rem" }}>
         Lisa, uuenda ja taasindekseeri materjale, mida vestlusassistent kasutab.
       </p>
       {/* Kliendikomponent (\"use client\") võib olla Server Componenti sees */}
