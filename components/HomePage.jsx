@@ -1,6 +1,6 @@
 // components/HomePage.jsx
 "use client";
-import { useCallback, useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
@@ -10,6 +10,8 @@ import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import Image from "next/image";
+import SunIcon from "@/public/logo/päike.svg";
+import MoonIcon from "@/public/logo/kuu.svg";
 
 // Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg
 import AivalgeLogo from "@/public/logo/aivalge.svg";
@@ -17,6 +19,20 @@ import SaimustLogo from "@/public/logo/saimust.svg";
 import SmustLogo from "@/public/logo/smust.svg";
 import SaivalgeLogo from "@/public/logo/saivalge.svg";
 import Logomust from "@/public/logo/logomust.svg";
+
+function ThemeToggleIcon({ theme }) {
+  const isDark = theme === "dark";
+  const size = isDark ? 42 : 70;
+  return (
+    <span className="sun-and-moon" aria-hidden="true">
+      {isDark ? (
+        <MoonIcon width={size} height={size} className="themeIcon themeIcon-moon" />
+      ) : (
+        <SunIcon width={size} height={size} className="themeIcon themeIcon-sun" />
+      )}
+    </span>
+  );
+}
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -31,7 +47,7 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
-  // Teema – default on alati "dark"
+  // Teema — alustame "dark", päris eeliseisu loeme kliendis useEffectiga
   const [theme, setTheme] = useState("dark");
   const didInitTheme = useRef(false);
 
@@ -43,7 +59,6 @@ export default function HomePage() {
   const rightCardRef = useRef(null);
 
   const t = useT();
-  const homeVisitedRef = useRef(false);
 
   const goChatIfAuthed = () => {
     if (status === "authenticated" && session) {
@@ -59,19 +74,6 @@ export default function HomePage() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, [theme]);
-
-  useLayoutEffect(() => {
-    let alreadyVisited = false;
-    try {
-      alreadyVisited = window.sessionStorage.getItem("home-visited") === "1";
-    } catch {}
-    homeVisitedRef.current = alreadyVisited;
-    if (alreadyVisited) {
-      setLeftFadeDone(true);
-      setRightFadeDone(true);
-      setMagnetReady(true);
-    }
-  }, []);
 
   useEffect(() => {
     const onLeftEnd = (e) => {
@@ -104,16 +106,6 @@ export default function HomePage() {
       return () => clearTimeout(t);
     }
     setMagnetReady(false);
-  }, [leftFadeDone, rightFadeDone]);
-
-  useEffect(() => {
-    if (homeVisitedRef.current) return;
-    if (leftFadeDone && rightFadeDone) {
-      try {
-        window.sessionStorage.setItem("home-visited", "1");
-        homeVisitedRef.current = true;
-      } catch {}
-    }
   }, [leftFadeDone, rightFadeDone]);
 
   useEffect(() => {
@@ -179,7 +171,7 @@ export default function HomePage() {
     }
   }, [theme]);
 
-  const skipIntroAnimations = homeVisitedRef.current;
+  const skipIntroAnimations = prefs.reduceMotion;
   const desktopFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-top delay-1";
   const bottomFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-1";
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
@@ -223,8 +215,8 @@ export default function HomePage() {
   };
 
   const handleThemeClick = (event) => {
-    const wantsDark = !!event?.target?.checked;
-    setTheme(wantsDark ? "dark" : "light");
+    const wantsLight = !!event?.target?.checked;
+    setTheme(wantsLight ? "light" : "dark");
   };
 
   const handleCardBackClick = (side) => (e) => {
@@ -309,25 +301,11 @@ export default function HomePage() {
                 <input
                   type="checkbox"
                   className="themeToggleInput"
-                  checked={theme === "dark"}
+                  checked={theme === "light"}
                   onChange={handleThemeClick}
-                  aria-pressed={theme === "dark"}
+                  aria-pressed={theme === "light"}
                 />
-                <svg className="sun-and-moon" aria-hidden="true" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" stroke="none">
-                  <mask id="moon-mask-top">
-                    <rect x="0" y="0" width="20" height="20" fill="white" />
-                    <circle cx="11" cy="3" r="8" fill="black" />
-                  </mask>
-                  <circle className="sunMoon" cx="10" cy="10" r="8" mask="url(#moon-mask-top)" />
-                  <g>
-                    <circle className="sunRay sunRay1" cx="18" cy="10" r="1.5" />
-                    <circle className="sunRay sunRay2" cx="14" cy="16.928" r="1.5" />
-                    <circle className="sunRay sunRay3" cx="6" cy="16.928" r="1.5" />
-                    <circle className="sunRay sunRay4" cx="2" cy="10" r="1.5" />
-                    <circle className="sunRay sunRay5" cx="6" cy="3.1718" r="1.5" />
-                    <circle className="sunRay sunRay6" cx="14" cy="3.1718" r="1.5" />
-                  </g>
-                </svg>
+                <ThemeToggleIcon theme={theme} />
               </label>
             </div>
           </nav>
@@ -493,30 +471,16 @@ export default function HomePage() {
                   className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", bottomFadeClass].filter(Boolean).join(" ")}
                   aria-label={themeToggleAria}
                 >
-                  <input
-                    type="checkbox"
-                    className="themeToggleInput"
-                    checked={theme === "dark"}
-                    onChange={handleThemeClick}
-                    aria-pressed={theme === "dark"}
-                  />
-                  <svg className="sun-and-moon" aria-hidden="true" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" stroke="none">
-                    <mask id="moon-mask-bottom">
-                      <rect x="0" y="0" width="20" height="20" fill="white" />
-                      <circle cx="11" cy="3" r="8" fill="black" />
-                    </mask>
-                    <circle className="sunMoon" cx="10" cy="10" r="8" mask="url(#moon-mask-bottom)" />
-                    <g>
-                      <circle className="sunRay sunRay1" cx="18" cy="10" r="1.5" />
-                      <circle className="sunRay sunRay2" cx="14" cy="16.928" r="1.5" />
-                      <circle className="sunRay sunRay3" cx="6" cy="16.928" r="1.5" />
-                      <circle className="sunRay sunRay4" cx="2" cy="10" r="1.5" />
-                      <circle className="sunRay sunRay5" cx="6" cy="3.1718" r="1.5" />
-                      <circle className="sunRay sunRay6" cx="14" cy="3.1718" r="1.5" />
-                    </g>
-                  </svg>
-                </label>
-              )}
+                <input
+                  type="checkbox"
+                  className="themeToggleInput"
+                  checked={theme === "light"}
+                  onChange={handleThemeClick}
+                  aria-pressed={theme === "light"}
+                />
+                <ThemeToggleIcon theme={theme} />
+              </label>
+            )}
             </div>
           </nav>
           {/* Inline footer logo */}

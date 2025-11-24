@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
-export default function RegistreerimineBody() {
+export default function RegistreerimineBody({ openLoginModal = null }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, locale } = useI18n();
@@ -193,6 +193,16 @@ export default function RegistreerimineBody() {
         <button className="btn-primary btn-compact register-submit" type="submit" disabled={submitting}>
           <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
+        <div style={{ marginTop: "0.75rem", textAlign: "center" }}>
+          <button
+            type="button"
+            className="link-brand-inline"
+            onClick={() => openLoginModal?.()}
+            aria-label={t("auth.login.title")}
+          >
+            {t("auth.login.title")}
+          </button>
+        </div>
       </form>
       <div className="back-btn-wrapper">
         <button

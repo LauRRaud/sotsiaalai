@@ -1,7 +1,7 @@
 // app/registreerimine/page.js
 import { Suspense } from "react";
 import { cookies } from "next/headers";
-import RegistreerimineBody from "@/components/alalehed/RegistreerimineBody";
+import RegistreeriminePageClient from "@/components/pages/RegistreeriminePageClient";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
 export async function generateMetadata() {
@@ -19,7 +19,7 @@ export async function generateMetadata() {
 export default function Page() {
   return (
     <Suspense fallback={null}>
-      <RegistreerimineBody />
+      <RegistreeriminePageClient />
     </Suspense>
   );
 }

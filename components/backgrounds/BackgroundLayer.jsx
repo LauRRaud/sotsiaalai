@@ -9,7 +9,6 @@ const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
-const ColorBendsWhite = dynamic(() => import("./ColorBendsWhite"), { ssr: false });
 /* ---------- utiliidid ---------- */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -33,14 +32,12 @@ function whenVisible(cb) {
   return () => document.removeEventListener("visibilitychange", onVis);
 }
 /* ---------- põhi ---------- */
-function BackgroundLayer() {
+const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false }) {
   const pathname = usePathname();
-  const { prefs } = useAccessibility();
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
   const [animateFog, setAnimateFog] = useState(false);
-  const [isLightBg, setIsLightBg] = useState(false);
   const [skipBgIntro, setSkipBgIntro] = useState(false);
   useEffect(() => setMounted(true), []);
   useLayoutEffect(() => {
@@ -51,7 +48,6 @@ function BackgroundLayer() {
     } catch {}
     if (ready) {
       setSkipBgIntro(true);
-      setIsLightBg(document.documentElement.classList.contains("theme-light"));
     } else {
       try {
         window.sessionStorage.setItem("home-bg-ready", "1");
@@ -88,37 +84,6 @@ function BackgroundLayer() {
     return () => cancelCursor?.();
   }, [mounted]);
 
-  // Track <html> theme-light class (but do NOT set it here)
-  useEffect(() => {
-  if (typeof document === "undefined") return;
-
-  const html = document.documentElement;
-
-  const update = () => {
-    setIsLightBg(html.classList.contains("theme-light"));
-  };
-
-  // Jälgime ainult muutusi (klass lisatakse tegelikult teises effectis)
-  const observer = new MutationObserver(update);
-  observer.observe(html, { attributes: true, attributeFilter: ["class"] });
-
-  // Storage changes (in case multiple tabs)
-  const onStorage = (e) => {
-    if (e.key === "theme") {
-      update();
-    }
-  };
-  window.addEventListener("storage", onStorage);
-
-  // Esmane staatuse loe
-  update();
-
-  return () => {
-    observer.disconnect();
-    window.removeEventListener("storage", onStorage);
-  };
-}, []);
-
   return (
     <>
       {/* TAUSTAKIHID (sisu all) */}
@@ -132,29 +97,29 @@ function BackgroundLayer() {
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
           <Suspense fallback={null}>
             <Space
-              animateFog={animateFog && !prefs?.reduceMotion}
-              skipIntro={!animateFog || !!prefs?.reduceMotion}
+              animateFog={animateFog && !reduceMotion}
+              skipIntro={!animateFog || !!reduceMotion}
               fogAppearDelayMs={0}
             />
           </Suspense>
         </div>
         {/* COLOR BENDS – ainult siis, kui reduced motion pole sees */}
-        {!prefs?.reduceMotion && (
+        {!reduceMotion && (
           <div className="color-bends-bg" style={{ position: "absolute", inset: 0, zIndex: 1 }}>
             <Suspense fallback={null}>
-              {isLightBg ? <ColorBendsWhite /> : <ColorBends />}
+              <ColorBends />
             </Suspense>
           </div>
         )}
         {/* PARTICLES – tausta kohal, enne sisu */}
-        {particlesReady && !prefs?.reduceMotion && (
+        {particlesReady && !reduceMotion && (
           <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 2 }}>
             <Particles />
           </div>
         )}
       </div>
       {/* SPLASH CURSOR – portaalina, alati sisu peal */}
-      {mounted && cursorReady && typeof document !== "undefined" && !prefs?.reduceMotion &&
+      {mounted && cursorReady && typeof document !== "undefined" && !reduceMotion &&
         createPortal(
           <div className="splash-cursor" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none" }}>
             <MaybeSplash />
@@ -164,5 +129,12 @@ function BackgroundLayer() {
       }
     </>
   );
+});
+
+function BackgroundLayer() {
+  const { prefs } = useAccessibility();
+  const reduceMotion = !!prefs?.reduceMotion;
+  return <BackgroundContent reduceMotion={reduceMotion} />;
 }
+
 export default memo(BackgroundLayer);

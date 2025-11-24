@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import { localizePath } from "@/lib/localizePath";
 
 export default function LoginModal({ open, onClose }) {
@@ -31,6 +30,7 @@ export default function LoginModal({ open, onClose }) {
 
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
+  const [pinError, setPinError] = useState(false);
   const [pinLoading, setPinLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -41,6 +41,7 @@ export default function LoginModal({ open, onClose }) {
   const [otpExpiresAt, setOtpExpiresAt] = useState(null);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
+  const [submitIconState, setSubmitIconState] = useState("idle"); // idle | success | error
   const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
@@ -154,6 +155,7 @@ export default function LoginModal({ open, onClose }) {
     if (open) return;
     setStep("pin");
     setPinValue("");
+    setPinError(false);
     setTempToken("");
     setOtpValue("");
     setEmailRevealed(false);
@@ -167,6 +169,7 @@ export default function LoginModal({ open, onClose }) {
     setOtpLoading(false);
     setResendLoading(false);
     setEmailValue("");
+    setSubmitIconState("idle");
   }, [open]);
   // Lae salvestatud e-post; ära ava sisendit enne, kui kasutaja vajutab ümbrikule
   useEffect(() => {
@@ -204,9 +207,22 @@ export default function LoginModal({ open, onClose }) {
     }
   }, [open, isOtpStep, emailRevealed]);
 
+  const resetIconState = useCallback(() => {
+    setSubmitIconState("idle");
+  }, []);
+
+  const markPinError = useCallback(() => {
+    setSubmitIconState("error");
+  }, []);
+
+  const markPinSuccess = useCallback(() => {
+    setSubmitIconState("success");
+  }, []);
+
   const finishLogin = useCallback(
     async (token) => {
       if (!token) {
+        markPinError();
         setError(t("auth.login.error.generic"));
         return false;
       }
@@ -216,38 +232,46 @@ export default function LoginModal({ open, onClose }) {
         callbackUrl: nextUrl,
       });
       if (login?.error) {
+        markPinError();
         setError(t("auth.login.error.generic"));
         return false;
       }
+      markPinSuccess();
       onClose?.();
       router.replace(nextUrl);
       router.refresh();
       return true;
     },
-    [nextUrl, onClose, router, t]
+    [markPinError, markPinSuccess, nextUrl, onClose, router, t]
   );
 
   const submitPinStep = useCallback(async () => {
     setError("");
     setInfo("");
+    setPinError(false);
+    resetIconState();
     const emailInput = boxRef.current?.querySelector('input[name="email"]');
     const email = String(emailInput?.value || storedEmail || "").trim().toLowerCase();
     const pin = pinValue.replace(/\s+/g, "");
 
     if (!email) {
+      markPinError();
       setError(t("auth.login.error.email_required"));
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      markPinError();
       setError(t("auth.login.error.email_invalid"));
       return;
     }
     if (!pin) {
-      setError(t("auth.login.error.pin_required"));
+      markPinError();
+      setPinError(true);
       return;
     }
     if (!new RegExp(`^\\d{${PIN_MIN},${PIN_MAX}}$`).test(pin)) {
+      markPinError();
       setError(t("auth.login.error.pin_invalid", { min: PIN_MIN, max: PIN_MAX }));
       return;
     }
@@ -266,6 +290,10 @@ export default function LoginModal({ open, onClose }) {
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
+        markPinError();
+        if ((payload?.code || "").toUpperCase() === "INVALID_CREDENTIALS") {
+          setSubmitIconState("error");
+        }
         setError(payload?.message || t("auth.login.error.generic"));
         return;
       }
@@ -273,24 +301,38 @@ export default function LoginModal({ open, onClose }) {
         setTempToken(payload.temp_login_token);
       }
       if (payload?.status === "success" && payload?.temp_login_token) {
+        markPinSuccess();
         await finishLogin(payload.temp_login_token);
         return;
       }
       if (payload?.status === "need_2fa" && payload?.temp_login_token) {
+        markPinSuccess();
         setStep("otp");
         setOtpValue("");
         setEmailMask(payload.email_mask || email);
         setOtpExpiresAt(payload.otp_expires_at || null);
         return;
       }
+      markPinError();
       setError(payload?.message || t("auth.login.error.generic"));
     } catch (err) {
       console.error("login-step1 error", err);
+      markPinError();
       setError(t("auth.login.error.generic"));
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, pinValue, storedEmail, t]);
+  }, [
+    PIN_MAX,
+    PIN_MIN,
+    finishLogin,
+    markPinError,
+    markPinSuccess,
+    pinValue,
+    resetIconState,
+    storedEmail,
+    t,
+  ]);
 
   const onHiddenKeyDown = useCallback(
     (e) => {
@@ -306,14 +348,20 @@ export default function LoginModal({ open, onClose }) {
       if (e.key === "Backspace") {
         e.preventDefault();
         setPinValue((p) => p.slice(0, -1));
+        resetIconState();
+        setError("");
+        setPinError(false);
         return;
       }
       if (/^\d$/.test(e.key)) {
         e.preventDefault();
         setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${e.key}`));
+        resetIconState();
+        setError("");
+        setPinError(false);
       }
     },
-    [step, PIN_MAX, submitPinStep]
+    [step, PIN_MAX, resetIconState, submitPinStep]
   );
 
   const handlePinInputChange = useCallback(
@@ -322,9 +370,11 @@ export default function LoginModal({ open, onClose }) {
       const raw = typeof e?.target?.value === "string" ? e.target.value : "";
       const next = raw.replace(/\D/g, "").slice(0, PIN_MAX);
       setPinValue(next);
+      resetIconState();
       setError("");
+      setPinError(false);
     },
-    [PIN_MAX, step]
+    [PIN_MAX, resetIconState, step]
   );
 
   useEffect(() => {
@@ -436,6 +486,8 @@ export default function LoginModal({ open, onClose }) {
     setInfo("");
     setError("");
     setRememberDevice(true);
+    resetIconState();
+    setPinError(false);
   };
 
 
@@ -444,6 +496,8 @@ export default function LoginModal({ open, onClose }) {
     setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${digit}`));
     focusHiddenInput(event);
     setError("");
+    resetIconState();
+    setPinError(false);
     if (typeof navigator !== "undefined" && navigator.vibrate) {
       try {
         navigator.vibrate(8);
@@ -456,6 +510,8 @@ export default function LoginModal({ open, onClose }) {
     setPinValue((p) => p.slice(0, -1));
     focusHiddenInput(event);
     setError("");
+    resetIconState();
+    setPinError(false);
     if (typeof navigator !== "undefined" && navigator.vibrate) {
       try {
         navigator.vibrate(6);
@@ -468,6 +524,8 @@ export default function LoginModal({ open, onClose }) {
     setPinValue("");
     focusHiddenInput(event);
     setError("");
+    resetIconState();
+    setPinError(false);
     if (typeof navigator !== "undefined" && navigator.vibrate) {
       try {
         navigator.vibrate(6);
@@ -493,6 +551,21 @@ export default function LoginModal({ open, onClose }) {
   const stopInside = (e) => e.stopPropagation();
 
   if (!open) return null;
+
+  const submitIconSrc =
+    submitIconState === "success"
+      ? "/logo/siseneroheline.svg"
+      : submitIconState === "error"
+      ? "/logo/sisenepunane.svg"
+      : "/logo/sisenehall.svg";
+  const pinIndicatorClasses = [
+    "pin-indicator",
+    "moved-below",
+    "tightened-gap",
+    pinError ? "pin-indicator--error" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return createPortal(
     <>
@@ -600,6 +673,8 @@ export default function LoginModal({ open, onClose }) {
                     }}
                     onChange={(e) => {
                       setEmailValue(e.target.value || "");
+                      resetIconState();
+                      setError("");
                     }}
                     style={{ margin: "0 auto" }}
                   />
@@ -693,32 +768,31 @@ export default function LoginModal({ open, onClose }) {
             </div>
 
             <div
-              className="pin-indicator moved-below tightened-gap"
+              className={pinIndicatorClasses}
               role="status"
               aria-live="polite"
               aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
             >
               {Array.from({ length: PIN_MAX }).map((_, i) => (
-                <span key={i} className={`pin-dot ${i < pinValue.length ? "filled" : ""}`} />
+                <span
+                  key={i}
+                  className={`pin-dot ${i < pinValue.length ? "filled" : ""}${
+                    pinError ? " pin-dot--error" : ""
+                  }`}
+                />
               ))}
             </div>
 
             <div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
-              {pinLoading ? (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  aria-label={t("auth.login.submitting")}
-                  style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 32 }}
-                >
-                  <SotsiaalAILoader ariaHidden size={22} style={{ margin: 0 }} />
-                  <span className="sr-only">{t("auth.login.submitting")}</span>
-                </div>
-              ) : (
-                <button type="submit" className="btn-primary" disabled={pinLoading}>
-                  <span>{t("auth.login.submit")}</span>
-                </button>
-              )}
+              <button
+                type="submit"
+                className={`login-submit-icon-btn login-submit-icon-only login-submit-icon-btn--${submitIconState}`}
+                disabled={pinLoading}
+                aria-label={pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
+              >
+                <img src={submitIconSrc} className="login-submit-icon" alt="" aria-hidden="true" />
+                <span className="sr-only">{pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}</span>
+              </button>
             </div>
           </form>
         )}

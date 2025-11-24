@@ -1,9 +1,9 @@
 <svg
-  viewBox="0 0 28 26"
+  viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
-opacity="0.8"
+  opacity="0.8"
 >
-  <!-- ümbriku raam -->
+  <!-- ring (tavaline stroke-width 0.9) -->
   <g
     fill="none"
     stroke="#C9C7C2"
@@ -11,12 +11,12 @@ opacity="0.8"
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <rect x="4" y="6" width="20" height="13" rx="2.2" ry="2.2" />
+    <path d="M6 7.5A8 8 0 1 1 6 16.5" />
   </g>
 
-  <!-- roheline, veidi paksem V-klapp -->
+  <!-- noolepea (veidi paksem) -->
   <path
-    d="M8 9.3 L14 12 L20 9.3"
+    d="M11.2 8.3 L14.8 12 L11.2 15.7"
     fill="none"
     stroke="#c57171"
     stroke-width="1.2"

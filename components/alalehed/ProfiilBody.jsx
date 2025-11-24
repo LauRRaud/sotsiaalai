@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import LoginModal from "@/components/LoginModal";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -129,6 +130,9 @@ export default function ProfiilBody({ initialProfile = null }) {
   const [isTouchActions, setIsTouchActions] = useState(false);
   // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-pin)
   const [deleting, setDeleting] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutIconState, setLogoutIconState] = useState("idle"); // idle | logging-out
+  const [loginOpen, setLoginOpen] = useState(false);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
@@ -146,6 +150,12 @@ export default function ProfiilBody({ initialProfile = null }) {
     media.addListener(handleChange);
     return () => media.removeListener(handleChange);
   }, []);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      setLoginOpen(true);
+    }
+  }, [status]);
 
   const actionItems = [
     {
@@ -184,6 +194,24 @@ export default function ProfiilBody({ initialProfile = null }) {
       },
     },
   ];
+  const logoutIconSrc =
+    logoutIconState === "logging-out" ? "/logo/onoffpunane.svg" : "/logo/onoffhall.svg";
+
+  const handleLogout = async () => {
+    if (loggingOut) return;
+    setError("");
+    setSuccess("");
+    setLogoutIconState("logging-out");
+    setLoggingOut(true);
+    try {
+      await signOut({ callbackUrl: localizePath("/", locale) });
+    } catch (err) {
+      console.error("profile logout", err);
+      setError(t("profile.server_unreachable"));
+      setLoggingOut(false);
+      setLogoutIconState("idle");
+    }
+  };
   useEffect(() => {
     if (status === "loading") return;
     if (status !== "authenticated") {
@@ -233,22 +261,23 @@ export default function ProfiilBody({ initialProfile = null }) {
         ? t("profile.login_to_manage_sub")
         : t("profile.login_to_view");
     return (
-      <div className="main-content glass-box glass-left profile-container" lang={locale}>
-        <h1 className="glass-title">{t("profile.title")}</h1>
-        <p style={{ padding: "1rem" }}>{reasonText}</p>
-        <div className="back-btn-wrapper">
-          <button
-            type="button"
-            className="back-arrow-btn"
-            onClick={() =>
-              router.push(localizePath("/registreerimine", locale))
-            }
-            aria-label={t("auth.login.title")}
-          >
-            <span className="back-arrow-circle" />
-          </button>
+      <>
+        <div className="main-content glass-box glass-left profile-container" lang={locale}>
+          <h1 className="glass-title">{t("profile.title")}</h1>
+          <p style={{ padding: "1rem" }}>{reasonText}</p>
+          <div className="back-btn-wrapper">
+            <button
+              type="button"
+              className="back-arrow-btn"
+              onClick={() => setLoginOpen(true)}
+              aria-label={t("auth.login.title")}
+            >
+              <span className="back-arrow-circle" />
+            </button>
+          </div>
         </div>
-      </div>
+        <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      </>
     );
   }
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
@@ -334,27 +363,30 @@ export default function ProfiilBody({ initialProfile = null }) {
             {success}
           </div>
         )}
-        <div className="profile-btn-row" style={{ marginTop: "1.5rem" }}>
+        <div
+          className="profile-btn-row profile-btn-row--back-logout"
+          style={{ marginTop: "1.5rem", marginBottom: "0rem" }}
+        >
           <button
             type="button"
-            className="btn-primary btn-compact btn-profile-logout btn-glass"
-            onClick={() =>
-              signOut({ callbackUrl: localizePath("/", locale) })
-            }
+            className="back-arrow-btn"
+            onClick={() => router.push("/vestlus")}
+            aria-label={t("profile.back_to_chat")}
           >
-            {t("profile.logout")}
+            <span className="back-arrow-circle"></span>
+          </button>
+          <button
+            type="button"
+            className={`profile-logout-icon-btn profile-logout-icon-btn--${logoutIconState}`}
+            onClick={handleLogout}
+            disabled={loggingOut}
+            aria-label={t("profile.logout")}
+          >
+            <img src={logoutIconSrc} className="profile-logout-icon" alt="" aria-hidden="true" />
+            <span className="profile-logout-label">{t("profile.logout")}</span>
+            <span className="sr-only">{t("profile.logout")}</span>
           </button>
         </div>
-      </div>
-      <div className="back-btn-wrapper" style={{ marginBottom: "0.2rem" }}>
-        <button
-          type="button"
-          className="back-arrow-btn"
-          onClick={() => router.push("/vestlus")}
-          aria-label={t("profile.back_to_chat")}
-        >
-          <span className="back-arrow-circle"></span>
-        </button>
       </div>
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
       {showDelete && (
