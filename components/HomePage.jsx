@@ -266,7 +266,6 @@ export default function HomePage() {
                   className="themeToggleInput"
                   checked={theme === "light"}
                   onChange={handleThemeClick}
-                  aria-pressed={theme === "light"}
                 />
                 <ThemeToggleIcon theme={theme} />
               </label>
@@ -439,7 +438,6 @@ export default function HomePage() {
                   className="themeToggleInput"
                   checked={theme === "light"}
                   onChange={handleThemeClick}
-                  aria-pressed={theme === "light"}
                 />
                 <ThemeToggleIcon theme={theme} />
               </label>

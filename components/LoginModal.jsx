@@ -1,5 +1,6 @@
 ﻿"use client";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -794,7 +795,7 @@ export default function LoginModal({ open, onClose }) {
                 disabled={pinLoading}
                 aria-label={pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
               >
-                <img src={submitIconSrc} className="login-submit-icon" alt="" aria-hidden="true" />
+                <Image src={submitIconSrc} className="login-submit-icon" alt="" width={80} height={80} aria-hidden="true" />
                 <span className="sr-only">{pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}</span>
               </button>
             </div>

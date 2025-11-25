@@ -274,6 +274,23 @@ def _collapse_pages(pages):
     out.append(f"{start}" if start == prev else f"{start}–{prev}")
     return ", ".join(out)
 
+def _coerce_page_number(val) -> Optional[int]:
+    try:
+        if val is None:
+            return None
+        if isinstance(val, bool):
+            return None
+        if isinstance(val, (int, float)):
+            n = int(val)
+        else:
+            s = str(val).strip()
+            if not s:
+                return None
+            n = int(s)
+        return n if n > 0 else None
+    except Exception:
+        return None
+
 def _first_author(authors):
     if not authors:
         return None
@@ -488,6 +505,18 @@ def _doc_dir(doc_id: str) -> Path:
     d.mkdir(parents=True, exist_ok=True)
     return d
 
+def _sanitize_filename(name: str, fallback: str = "document.pdf") -> str:
+    base = Path(name).name
+    if not base or base in {".", ".."}:
+        base = fallback
+    base = re.sub(r"[\\/:]+", "_", base)
+    base = base.strip()
+    if not base:
+        base = fallback
+    if "." not in base and "." in fallback:
+        base = f"{base}{Path(fallback).suffix}"
+    return base
+
 # --- OpenAI embedding helpers ---
 def _embed_batch(texts: List[str]) -> List[List[float]]:
     if not texts:
@@ -550,6 +579,22 @@ class IngestArticle(BaseModel):
 class IngestArticlesIn(BaseModel):
     docId: Optional[str] = None
     articles: List[IngestArticle]
+
+class UpdateMetadata(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    audience: Optional[str] = None
+    authors: Optional[List[str] | str] = None
+    issueId: Optional[str] = None
+    issueLabel: Optional[str] = None
+    year: Optional[int | str] = None
+    articleId: Optional[str] = None
+    section: Optional[str] = None
+    pages: Optional[List[int]] = None
+    pageRange: Optional[str] = None
+    journalTitle: Optional[str] = None
+    pdf_start_page: Optional[int] = None
+    pdf_end_page: Optional[int] = None
 
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
 
@@ -802,6 +847,8 @@ def _process_ingest_file(
     raw: bytes,
     mime_declared: Optional[str],
     meta: Dict,
+    page_start: Optional[int] = None,
+    page_end: Optional[int] = None,
 ) -> Dict:
     size_mb = _bytes_mb(raw)
     if size_mb > MAX_MB:
@@ -815,10 +862,26 @@ def _process_ingest_file(
     d = _doc_dir(doc_id)
     raw_path = d / file_name
     raw_path.write_bytes(raw)
+    logger.info("Saved ingest file '%s' (%0.2f MB) for doc_id=%s", raw_path, size_mb, doc_id)
 
     # extract text
     if mime == "application/pdf":
-        text_or_pages = _extract_text_from_pdf(raw)
+        text_or_pages_full = _extract_text_from_pdf(raw)
+        start_page = _coerce_page_number(page_start)
+        end_page = _coerce_page_number(page_end)
+        if start_page is not None or end_page is not None:
+            if start_page is None:
+                start_page = end_page
+            if end_page is None:
+                end_page = start_page
+            if start_page is not None and end_page is not None and end_page < start_page:
+                start_page, end_page = end_page, start_page
+            subset = _subset_pages(text_or_pages_full, start_page, end_page)
+            if not subset:
+                raise HTTPException(400, f"No PDF text found for pages {start_page}�?�{end_page}.")
+            text_or_pages = subset
+        else:
+            text_or_pages = text_or_pages_full
     elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         text_or_pages = _extract_text_from_docx(raw)
     elif mime == "text/html":
@@ -826,13 +889,17 @@ def _process_ingest_file(
     else:
         text_or_pages = raw.decode("utf-8", errors="ignore")
 
+    pages_compact = None
+    if isinstance(text_or_pages, list):
+        pages_compact = _collapse_pages([p for p, _ in text_or_pages if isinstance(p, int)])
+
     inserted = _ingest_text(
         doc_id,
         text_or_pages,
         meta_common={
             **meta,
             "source_type": "file",
-            "source_path": str(raw_path),
+            "source_path": meta.get("source_path") or str(raw_path),
             "mimeType": mime,
             "audience": normalize_audience(meta.get("audience")),
         },
@@ -854,12 +921,30 @@ def _process_ingest_file(
         "articleId": normalize_article_id(meta.get("article_id") or meta.get("articleId")),
         "section": normalize_section(meta.get("section")),
         "pages": normalize_pages(meta.get("pages")),
-        "pageRange": (meta.get("pageRange") or "").strip() or None,
+        "pageRange": (meta.get("pageRange") or pages_compact or "").strip() or None,
         "journalTitle": (meta.get("journal_title") or meta.get("journalTitle") or None),
     }
     _register(doc_id, reg_entry)
 
-    return {"ok": True, "inserted": inserted, "docId": doc_id}
+    summary_ref = _make_short_ref(
+        {
+            "authors": meta.get("authors"),
+            "title": meta.get("title"),
+            "year": meta.get("year"),
+            "issue": meta.get("issue_label") or meta.get("issueLabel") or meta.get("issue_id"),
+            "issue_id": meta.get("issue_id") or meta.get("issueId"),
+            "journal_title": meta.get("journal_title") or meta.get("journalTitle"),
+        },
+        pages_compact,
+    )
+
+    return {
+        "ok": True,
+        "inserted": inserted,
+        "docId": doc_id,
+        "pageRange": pages_compact,
+        "shortRef": summary_ref,
+    }
 
 # --- JSON ingest (existing) ---
 class _IngestFileModel(IngestFile): pass
@@ -948,6 +1033,86 @@ async def upload(
             "journalTitle": journalTitle,
         },
     )
+
+@app.post("/ingest/pdf-with-metadata", dependencies=[Depends(_require_key)])
+async def ingest_pdf_with_metadata(
+    request: Request,
+    file: UploadFile = File(...),
+    metadata: Optional[UploadFile] = File(None),
+    metadata_text: Optional[str] = Form(None),
+    audience: Optional[str] = Form(None),
+):
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(400, "Empty PDF file")
+
+    meta_raw: Optional[str] = None
+    if metadata is not None:
+        meta_bytes = await metadata.read()
+        if not meta_bytes:
+            raise HTTPException(400, "Metadata file is empty")
+        meta_raw = meta_bytes.decode("utf-8", errors="ignore")
+    elif metadata_text and str(metadata_text).strip():
+        meta_raw = str(metadata_text).strip()
+    else:
+        try:
+            form_data = await request.form()
+            cand_text = form_data.get("metadata_text")
+            cand_file = form_data.get("metadata")
+            if isinstance(cand_text, str) and cand_text.strip():
+                meta_raw = cand_text.strip()
+            elif isinstance(cand_file, str) and cand_file.strip():
+                meta_raw = cand_file
+        except Exception:
+            meta_raw = None
+    if meta_raw is None:
+        raise HTTPException(400, "Metaandmed puuduvad – anna JSON failina või tekstina.")
+
+    try:
+        meta_dict = json.loads(meta_raw)
+    except Exception as e:
+        raise HTTPException(400, f"Metaandmete JSON ei ole kehtiv: {e}")
+    if not isinstance(meta_dict, dict):
+        raise HTTPException(400, "Metadata must be a JSON object.")
+
+    doc_id = str(meta_dict.get("doc_id") or meta_dict.get("docId") or uuid.uuid4())
+    file_name = _sanitize_filename(file.filename or meta_dict.get("source_path") or "document.pdf")
+    # override/meta additions
+    meta_dict["source_type"] = "file"
+    meta_dict["source_path"] = file_name
+    if audience:
+        meta_dict["audience"] = audience
+    start_page = _coerce_page_number(meta_dict.get("pdf_start_page") or meta_dict.get("pdfStartPage"))
+    end_page = _coerce_page_number(meta_dict.get("pdf_end_page") or meta_dict.get("pdfEndPage"))
+
+    logger.info(
+        "Ingest PDF with metadata: doc_id=%s, file=%s, pages=%s-%s, collection=%s",
+        doc_id,
+        file_name,
+        start_page,
+        end_page,
+        COLLECTION_NAME,
+    )
+    logger.debug("Metadata for ingest: %s", meta_dict)
+
+    result = _process_ingest_file(
+        doc_id=doc_id,
+        file_name=file_name,
+        raw=raw,
+        mime_declared=file.content_type,
+        meta=meta_dict,
+        page_start=start_page,
+        page_end=end_page,
+    )
+
+    return {
+        **result,
+        "docId": doc_id,
+        "fileName": file_name,
+        "collection": COLLECTION_NAME,
+        "pageStart": start_page,
+        "pageEnd": end_page,
+    }
 
 @app.post("/ingest/url", dependencies=[Depends(_require_key)])
 def ingest_url(payload: IngestURL):
@@ -1271,6 +1436,73 @@ def reindex(doc_id: str):
         return {"ok": True, "inserted": inserted, "doc": entry}
 
     raise HTTPException(400, "Unsupported registry entry type")
+
+@app.post("/documents/{doc_id}/update-meta", dependencies=[Depends(_require_key)])
+def update_document_metadata(doc_id: str, payload: UpdateMetadata):
+    reg = _load_registry()
+    entry = reg.get(doc_id)
+    if not entry:
+        raise HTTPException(404, "Document not in registry")
+    if entry.get("type") != "FILE":
+        raise HTTPException(400, "Metadata update is currently supported only for FILE documents.")
+
+    path = Path(entry["path"])
+    if not path.exists():
+        raise HTTPException(404, "Stored file is missing; cannot update.")
+
+    try:
+        collection.delete(where={"doc_id": doc_id})
+    except Exception:
+        pass
+
+    raw = path.read_bytes()
+    mime = entry.get("mimeType") or _detect_mime(path.name, raw, None)
+
+    def _pick(val, fallback):
+        return fallback if val is None else val
+
+    meta = {
+        "title": _pick(payload.title, entry.get("title")),
+        "description": _pick(payload.description, entry.get("description")),
+        "authors": normalize_authors(payload.authors if payload.authors is not None else entry.get("authors")),
+        "issueId": _pick(payload.issueId, entry.get("issueId")),
+        "issue_id": _pick(payload.issueId, entry.get("issueId")),
+        "issueLabel": _pick(payload.issueLabel, entry.get("issueLabel")),
+        "issue_label": _pick(payload.issueLabel, entry.get("issueLabel")),
+        "year": normalize_year(_pick(payload.year, entry.get("year"))),
+        "article_id": _pick(payload.articleId, entry.get("articleId")),
+        "articleId": _pick(payload.articleId, entry.get("articleId")),
+        "section": _pick(payload.section, entry.get("section")),
+        "pages": normalize_pages(payload.pages if payload.pages is not None else entry.get("pages")),
+        "pageRange": (_pick(payload.pageRange, entry.get("pageRange")) or "").strip() or None,
+        "audience": normalize_audience(_pick(payload.audience, entry.get("audience"))),
+        "journal_title": _pick(payload.journalTitle, entry.get("journalTitle")),
+        "journalTitle": _pick(payload.journalTitle, entry.get("journalTitle")),
+        "source_type": "file",
+        "source_path": entry.get("path"),
+        "mimeType": mime,
+    }
+
+    start_page = _coerce_page_number(payload.pdf_start_page)
+    end_page = _coerce_page_number(payload.pdf_end_page)
+
+    result = _process_ingest_file(
+        doc_id=doc_id,
+        file_name=path.name,
+        raw=raw,
+        mime_declared=mime,
+        meta=meta,
+        page_start=start_page,
+        page_end=end_page,
+    )
+    return {
+        **result,
+        "docId": doc_id,
+        "fileName": path.name,
+        "collection": COLLECTION_NAME,
+        "pageStart": start_page,
+        "pageEnd": end_page,
+    }
 
 @app.delete("/documents/{doc_id}", dependencies=[Depends(_require_key)])
 def delete_doc(doc_id: str):

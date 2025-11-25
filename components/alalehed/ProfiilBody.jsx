@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -387,7 +388,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             disabled={loggingOut}
             aria-label={t("profile.logout")}
           >
-            <img src={logoutIconSrc} className="profile-logout-icon" alt="" aria-hidden="true" />
+            <Image src={logoutIconSrc} className="profile-logout-icon" alt="" width={74} height={74} aria-hidden="true" />
             <span className="profile-logout-label">{t("profile.logout")}</span>
             <span className="sr-only">{t("profile.logout")}</span>
           </button>
