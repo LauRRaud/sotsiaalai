@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 
@@ -12,6 +13,7 @@ export default function LoginModal({ open, onClose }) {
   const searchParams = useSearchParams();
   const { status, data: session } = useSession();
   const { t, locale } = useI18n();
+  const { prefs } = useAccessibility();
 
   const defaultNextUrl = localizePath("/vestlus", locale);
   const toRelative = (u) => {
@@ -557,6 +559,8 @@ export default function LoginModal({ open, onClose }) {
       ? "/logo/siseneroheline.svg"
       : submitIconState === "error"
       ? "/logo/sisenepunane.svg"
+      : prefs?.theme === "light"
+      ? "/logo/sisenehallhele.svg"
       : "/logo/sisenehall.svg";
   const pinIndicatorClasses = [
     "pin-indicator",

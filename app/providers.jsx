@@ -8,11 +8,12 @@ export default function Providers({
   initialLocale = "et",
   messages = {},
   session = null,
+  initialA11yPrefs = null,
 }) {
   return (
     <SessionProvider session={session} refetchOnWindowFocus={false}>
       <I18nProvider initialLocale={initialLocale} messages={messages}>
-        <AccessibilityProvider>{children}</AccessibilityProvider>
+        <AccessibilityProvider initialPrefs={initialA11yPrefs}>{children}</AccessibilityProvider>
       </I18nProvider>
     </SessionProvider>
   );

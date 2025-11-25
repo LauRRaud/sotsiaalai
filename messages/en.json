@@ -51,7 +51,8 @@
     "login": "Log in",
     "start": "Start",
     "aria_main": "Main menu",
-    "toggle_light": "Toggle light mode"
+    "toggle_light": "Toggle light mode",
+    "toggle_dark": "Toggle dark mode"
   },
   "auth": {
     "email_placeholder": "you@example.com",

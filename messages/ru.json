@@ -51,7 +51,8 @@
     "login": "Войти",
     "start": "Старт",
     "aria_main": "Основное меню",
-    "toggle_light": "Переключить светлую тему"
+    "toggle_light": "Переключить светлый режим",
+    "toggle_dark": "Переключить тёмный режим"
   },
   "auth": {
     "email_placeholder": "ваш@example.com",
@@ -649,3 +650,4 @@
     }
   }
 }
+

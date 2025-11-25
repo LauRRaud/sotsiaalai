@@ -115,7 +115,7 @@ function DeleteDockIcon({ isHovered: _isHovered, ...props }) {
 export default function ProfiilBody({ initialProfile = null }) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const { openModal: openA11y } = useAccessibility();
+  const { prefs, openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
   const [email, setEmail] = useState(initialProfile?.email || "");
   const [initialEmail, setInitialEmail] = useState(
@@ -136,6 +136,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
+  const isLightTheme = prefs?.theme === "light";
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -195,7 +196,11 @@ export default function ProfiilBody({ initialProfile = null }) {
     },
   ];
   const logoutIconSrc =
-    logoutIconState === "logging-out" ? "/logo/onoffpunane.svg" : "/logo/onoffhall.svg";
+    logoutIconState === "logging-out"
+      ? "/logo/onoffpunane.svg"
+      : isLightTheme
+      ? "/logo/onoffhallhele.svg"
+      : "/logo/onoffhall.svg";
 
   const handleLogout = async () => {
     if (loggingOut) return;

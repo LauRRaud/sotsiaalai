@@ -1,14 +1,5 @@
-﻿html { font-family: var(--font-aino), Arial, sans-serif; }        
-.headline, .brand-title, .headline-bold {
+﻿.headline, .brand-title, .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-}
-:root {
-  --pt-80:  #F2F1EF;
-  --pt-130: #EDEAE6;
-  --pt-avatar-ring: #B7B1A7;
-  --cursor-default-backup: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2226%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 3 3, auto;
-  --cursor-default: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 3 3, auto;
-  --cursor-pointer: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2226%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 4 4, pointer;
 }
 .particles-container {
   position: fixed;
@@ -40,6 +31,7 @@
   z-index: 30;    
 }
 html {
+  font-family: var(--font-aino), Arial, sans-serif;
   height: 100%;
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
@@ -58,6 +50,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+  touch-action: pan-y;
   background-image: linear-gradient(180deg, var(--page-bg-top) 0%, var(--page-bg-bottom) 100%);
   background-color: var(--page-bg);
   cursor: inherit;
@@ -189,20 +182,6 @@ body::-webkit-scrollbar {
   width: 1.05em;
   height: 1.05em;
 }
-:root.theme-light .pin-keypad__button,
-.theme-light .pin-keypad__button{
-  color: rgba(250,252,255,0.92);
-  text-shadow: 0 0.06rem 0.24rem rgba(0,0,0,0.25);
-}
-:root.theme-light .pin-keypad__button:hover:not(:disabled),
-.theme-light .pin-keypad__button:hover:not(:disabled),
-:root.theme-light .pin-keypad__button:focus-visible,
-.theme-light .pin-keypad__button:focus-visible{
-  border-color: #e1a0a0;
-  box-shadow:
-    0 10px 22px rgba(225,160,160,0.28),
-    0 0 16px rgba(225,160,160,0.34);
-}
 .pin-indicator.moved-below.tightened-gap {
   display: flex;
   justify-content: center;
@@ -290,6 +269,12 @@ body::-webkit-scrollbar {
   --flip-ms: 1250ms;
   --fade-ms: 600ms;
   --flip-ease: cubic-bezier(.22,.61,.36,1);
+  --pt-80:  #F2F1EF;
+  --pt-130: #EDEAE6;
+  --pt-avatar-ring: #B7B1A7;
+  --cursor-default-backup: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2226%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 3 3, auto;
+  --cursor-default: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 3 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2226%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 4 4, pointer;
 }
 @media (max-width: 30em) {
   :root {
@@ -328,6 +313,9 @@ body::-webkit-scrollbar {
 .left-card-primary .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
   font-weight: 400; 
+}
+.right-card-primary .headline-bold {
+  color: var(--brand-primary);
 }
 body, p, ul, li, .glass-list, .glass-section {
   font-family: var(--font-aino), Arial, sans-serif;
@@ -1048,10 +1036,6 @@ a {
 .meist-body a:focus {
   color: var(--brand-primary);
 }
-:root.theme-light .meist-body,
-:root.theme-light .meist-body :where(p, li, blockquote, dd, dt) {
-  color: #222222;
-}
 .epost-row {
   display: flex;
   align-items: center;
@@ -1276,23 +1260,6 @@ a {
   font-size: clamp(0.9rem, 1.9vw, 1.1rem);
   padding: 0.2rem 0.65rem;
   line-height: 1.2;
-}
-:root.theme-light .profile-email-dock-wrapper .dock-item,
-.theme-light .profile-email-dock-wrapper .dock-item{
-  background: rgba(5, 6, 10, 0.78);
-  border: 2px solid rgba(200, 205, 215, 0.35);
-  color: #f5f5f5;
-}
-:root.theme-light .profile-email-dock-wrapper .dock-item:hover,
-.theme-light .profile-email-dock-wrapper .dock-item:hover,
-:root.theme-light .profile-email-dock-wrapper .dock-item:focus-visible,
-.theme-light .profile-email-dock-wrapper .dock-item:focus-visible{
-  background: rgba(8, 10, 16, 0.85);
-  border-color: rgba(200, 205, 215, 0.5);
-  color: #ffffff;
-  box-shadow:
-    0 0.2rem 0.95rem rgba(255, 221, 173, 0.2),
-    0 0 0.35rem rgba(240, 204, 157, 0.15);
 }
 .profile-email-card-grid{
   display:grid;
@@ -1528,13 +1495,6 @@ a {
   letter-spacing: 0.03em;
   text-align: center;
 }
-:root.theme-light .glass-h2 {
-  color: rgba(242, 242, 242, 0.7);
-}
-:root.theme-light .meist-body .glass-h2,
-.theme-light .meist-body .glass-h2 {
-  color: #222222;
-}
 #meist-title.glass-title {
   margin-bottom: 0.2em;
 }
@@ -1637,6 +1597,10 @@ width: clamp(16rem, 16vw, 17rem);
   --login-envelope-size: clamp(4.4rem, 7vw, 5.2rem);
   --login-envelope-hit: clamp(4.4rem, 7vw, 5.2rem);
 }
+.login-submit-wrap {
+  margin-top: -0.6rem;
+  margin-bottom: -1rem;
+}
 .login-modal-root .login-email-toggle{
   display:flex;
   justify-content:center;
@@ -1729,19 +1693,6 @@ width: clamp(16rem, 16vw, 17rem);
   font-size: 1.18rem;
   margin-bottom: 1.4rem;
 }
-:root.theme-light .input-modern:focus,
-.theme-light .input-modern:focus,
-:root.theme-light .glass-form:not(.profile-form-vertical) .input-modern:focus,
-.theme-light .glass-form:not(.profile-form-vertical) .input-modern:focus,
-:root.theme-light .profile-form-vertical.glass-form .input-modern:focus,
-.theme-light .profile-form-vertical.glass-form .input-modern:focus {
-  border-color: var(--glow-light-ring);
-  border-width: 1px;
-  box-shadow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 14px var(--glow-light-soft),
-    0 0 24px var(--glow-light-outer);
-}
 .login-modal-form input{
   width: 100%;
   max-width: 100%;
@@ -1790,15 +1741,6 @@ width: clamp(16rem, 16vw, 17rem);
   box-shadow:
     0 0 6px var(--ui-hover-soft),
     0 0 12px var(--ui-hover-outer);
-}
-:root.theme-light .login-modal-form input:focus,
-.theme-light .login-modal-form input:focus{
-  border-color: var(--glow-light-ring);
-  border-width: 1px;
-  box-shadow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 14px var(--glow-light-soft),
-    0 0 24px var(--glow-light-outer);
 }
 .login-modal-root {
   padding: 1.9em 1.3em 1.5em;
@@ -2063,17 +2005,6 @@ width: clamp(16rem, 16vw, 17rem);
   letter-spacing: inherit;
   white-space: nowrap;
   background: none;
-}
-.login-modal-bottom-link {
-  width: 100%;
-  text-align: center;
-  margin-top: 0.5em;
-}
-.login-modal-bottom-link .link-brand {
-  font-size: 1.38em;
-  letter-spacing: 0.06em;
-  padding: 0.05em 0.3em;
-  border-radius: 0.32em;
 }
 .login-password-field {
   width: 100%;
@@ -3204,7 +3135,6 @@ body.modal-open .footer-floating-nav {
     overscroll-behavior: auto;  
     min-height: 100dvh;                     
   }
-  body{ touch-action: pan-y; }
   .homepage-root{
     min-height: 100dvh;
     display: flex;
@@ -3627,10 +3557,6 @@ backdrop-filter: none;
   filter: blur(0.1rem);
   -webkit-filter: blur(0.1rem);
   z-index:-1;
-}
-:root.theme-light .glass-box.chat-container::before,
-.theme-light .glass-box.chat-container::before{
-  opacity:0.35;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx){
   .glass-box.chat-container{
@@ -4405,8 +4331,15 @@ backdrop-filter: none;
   width: 100%;
   padding: 0 var(--chat-hpad);
 }
+.chat-input-row .chat-inputbar{
+  width: 100%;
+  flex: 1 1 auto;
+}
 .chat-inputbar{
-    --inputbar-h: 4rem;
+  --inputbar-h: 4rem;
+  --chat-hover-ring: var(--ui-hover-ring);
+  --chat-hover-soft: rgba(210,215,225,0.26);
+  --chat-hover-outer: rgba(210,215,225,0.16);
   align-self:stretch; width:auto; max-width:none;
   margin: 0;
   display:grid; grid-template-columns:1fr auto auto auto; align-items:center; column-gap:0.35rem;
@@ -4424,32 +4357,18 @@ backdrop-filter: none;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
 .chat-inputbar:hover:not(:focus-within){
-  border-color: var(--ui-hover-ring);
-  background: rgba(10,14,24,0.28);
-  box-shadow: none;
-}
-.chat-input-row .chat-inputbar{
-    --inputbar-h: 4rem;
-  align-self:stretch; width:auto; max-width:none;
-  margin: 0;
-  display:grid; grid-template-columns:1fr auto auto auto; align-items:center; column-gap:0.35rem;
-  flex: 0 0 auto;
-  min-height: var(--inputbar-h);
-  height: auto;
-  border: 2px solid rgba(84,95,115,0.55);
-  border-radius:62.4375rem;
-  background: rgba(10,14,24,0.22);
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  padding: 0 0.2rem 0 0.625rem;
-  overflow:hidden;
-  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+  border-color: var(--chat-hover-ring);
+  background: rgba(15,19,25,0.38);
+  box-shadow:
+    0 0 2px var(--chat-hover-soft),
+    0 0 6px var(--chat-hover-outer);
 }
 .chat-inputbar:focus-within{
-  border-color: var(--ui-hover-ring);
-  background: rgba(10,14,24,0.30);
-  box-shadow: none;
+  border-color: var(--chat-hover-ring);
+  background: rgba(15,19,25,0.38);
+  box-shadow:
+    0 0 2px var(--chat-hover-soft),
+    0 0 6px var(--chat-hover-outer);
 }
 .chat-inputbar .chat-input-field:focus-visible{
   border-color: transparent;
@@ -4679,9 +4598,7 @@ backdrop-filter: none;
   line-height: 1;
 }
 :root {
-  --attach-icon-size: 3.4rem;  
-}
-:root {
+  --chat-icon-color: var(--pt-300);
   --attach-icon-size: 3.4rem;  
 }
 .chat-attach-btn:disabled .chat-attach-icon{
@@ -5023,7 +4940,7 @@ backdrop-filter: none;
   text-align:center;
   gap:0.7rem;
 }
-.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.05rem; }
+.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.08rem; }
 .a11y-modal .a11y-fieldset{
   margin: .55rem 0 .7rem;
   width: 100%;
@@ -5204,40 +5121,9 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   gap:0.55rem;
 }
 .a11y-modal .glass-title{ margin-top:.25rem; }
-.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.08rem; }
 .a11y-modal legend.glass-label.a11y-legend{ color: var(--link-gold, #d0adad); }
 .a11y-modal fieldset > legend{ color: var(--link-gold, #d0adad); }
 .a11y-modal .glass-h2{ color: var(--link-gold, #d0adad); }
-.a11y-modal .a11y-fieldset{
-    margin: .55rem 0 .7rem;
-  border: none;
-  padding: 0;
-  width: 100%;
-  max-width: 40rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.a11y-modal .a11y-legend{
-  display: block;
-  width: 100%;
-  max-width: none;
-  text-align: center;
-  align-self: center;
-    margin-bottom: 0.3rem;
-  color: var(--link-gold, #d0adad);
-  font-size: clamp(1.28rem, 2.6vw, 1.55rem);
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.22;
-}
-.a11y-modal .text, .a11y-modal label{
-    color: var(--pt-150);
-    font-size: 1.05rem;
-  text-align: center;
-}
 .a11y-modal .a11y-options label{
   justify-content: center;
   text-align: center;
@@ -5379,8 +5265,6 @@ html[data-contrast=hc] .desc-ring-right * {
   line-height: 1.25;
 }
 .guide-card h2.glass-h3{ margin-bottom:1.2rem; }
-.otp-secondary .link-brand-inline { font-size: 1.12em; padding: 0.1rem 0.2rem; font-weight: 500; }
-.otp-secondary .link-brand-inline { font-size: 1.12em; padding: 0.1rem 0.2rem; font-weight: 500; }
 .glass-box.chat-container{
   scrollbar-width: none;
   scrollbar-color: transparent transparent;
@@ -5393,76 +5277,128 @@ html[data-contrast=hc] .desc-ring-right * {
   background: transparent;
   border: 0;
 }
-.chat-inputbar{
-  --chat-hover-ring: var(--ui-hover-ring);
-  --chat-hover-soft: rgba(210,215,225,0.26);
-  --chat-hover-outer: rgba(210,215,225,0.16);
-  border: 2px solid rgba(84,95,115,0.55);
-  box-shadow: none;
-  background: rgba(10,14,24,0.22);
-}
-.chat-inputbar:hover:not(:focus-within),
-.chat-inputbar:focus-within{
-  border-color: var(--chat-hover-ring);
-  background: rgba(15,19,25,0.38);
-  box-shadow:
-    0 0 2px var(--chat-hover-soft),
-    0 0 6px var(--chat-hover-outer);
-}
-.chat-inputbar .chat-input-field{
-  background: transparent;
-  border: none;
-  box-shadow: none;
-}
-.chat-inputbar .chat-send-btn,
-.chat-inputbar .chat-attach-as-send{
-  border: 2px solid rgba(84,95,115,0.55);
-  background: rgba(10,14,24,0.22);
-  box-shadow: none;
-}
-.chat-inputbar .chat-send-btn:hover,
-.chat-inputbar .chat-send-btn:focus-visible,
-.chat-inputbar .chat-send-btn.chat-send-btn--active,
-.chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
-.chat-inputbar .chat-attach-as-send:hover,
-.chat-inputbar .chat-attach-as-send:focus-visible{
-  border-color: var(--chat-hover-ring);
-  background: rgba(15,19,25,0.24);
-  box-shadow:
-    0 0 2px var(--chat-hover-soft),
-    0 0 6px var(--chat-hover-outer);
-}
-.chat-attach-btn.chat-attach-as-send:hover,
-.chat-attach-btn.chat-attach-as-send:focus-visible{
-  border-color: var(--chat-hover-ring);
-  background: rgba(15,19,25,0.24);
-  box-shadow:
-    0 0 2px var(--chat-hover-soft),
-    0 0 6px var(--chat-hover-outer);
-}
-.chat-input-row .chat-inputbar{
-  width:100%;
-  flex:1 1 auto;
+/* ================================
+   LIGHT TEEMA – GLASS DESIGN TOKKENID
+   ================================ */
+:root.theme-light {
+  --glass-border-width: 2px;
+  --glass-border-color: rgba(148,163,184,0.35);
+
+  --glass-shadow-glow:
+    0 0 0 1px var(--glow-light-ring),
+    0 0 6px var(--glow-light-soft),
+    0 0 12px var(--glow-light-outer);
+
+  --glass-shadow-strong-glow:
+    0 0 0 1px var(--glow-light-ring),
+    0 0 14px var(--glow-light-soft),
+    0 0 24px var(--glow-light-outer);
+
+  /* Nupud */
+  --glass-btn-bg-idle: linear-gradient(130deg, rgba(18,20,32,0.55), rgba(32,36,50,0.32));
+  --glass-btn-bg-active: linear-gradient(130deg, rgba(18,20,32,0.65), rgba(32,36,50,0.42));
+
+  /* Sisestusriba / inputid */
+  --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
+  --glass-input-bg-active: rgba(18, 20, 32, 0.24);
+
+  /* Klaaspinnad */
+  --glass-blur-radius: 1rem;
+  --glass-surface-bg: rgba(255,255,255,0.4);
+  --glass-surface-text: #2b2620;
+
+  /* Analüüsikaart */
+  --glass-analysis-bg: rgba(255,255,255,0.18);
+  --glass-analysis-border: rgba(255,255,255,0.28);
+  --glass-analysis-shadow:
+    0 18px 34px rgba(5, 8, 15, 0.26),
+    0 8px 18px rgba(255, 255, 255, 0.08);
+  --glass-analysis-text: #1f1b16;
+
+  /* Tekstid */
+  --text-strong: #222222;
+  --footer-text-muted: #d3d3d3;
+
+  /* Sahtel */
+  --drawer-text-main: #f5f5f4;
+  --drawer-text-title: #fdfcf9;
+  --drawer-text-preview: rgba(245,245,244,0.88);
+  --drawer-text-time: rgba(245,245,244,0.72);
+
+  /* Pealkirjad */
+  --title-color: #7A3A38;
+
+  /* Chat ikoonid (audio/attach/send) */
+  --chat-icon-color: var(--pt-300);
+  --link-color: #7A3A38;
 }
 
-/* Klaaskastid, modaalid, Meist-kast, vestluse analüüsikaardid, külgpaneel */
+/* =====================================
+   GLASS-NUHUD (primary, upload, send)
+   ===================================== */
+:root.theme-light .btn-primary,
+:root.theme-light .chat-upload-action-btn,
+:root.theme-light .chat-upload-action-btn--accent,
+:root.theme-light .chat-inputbar .chat-send-btn,
+:root.theme-light .chat-inputbar .chat-attach-as-send {
+  border: var(--glass-border-width) solid var(--glass-border-color);
+  background: var(--glass-btn-bg-idle);
+}
+
+:root.theme-light .btn-primary:hover,
+:root.theme-light .btn-primary:focus-visible,
+:root.theme-light .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-inputbar .chat-send-btn.chat-send-btn--active,
+:root.theme-light .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
+:root.theme-light .chat-inputbar .chat-attach-as-send:hover,
+:root.theme-light .chat-inputbar .chat-attach-as-send:focus-visible,
+:root.theme-light .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light .chat-attach-btn.chat-attach-as-send:focus-visible {
+  border-width: 1.25px;
+  border-color: var(--glow-light-ring);
+  background: var(--glass-btn-bg-active);
+  box-shadow: var(--glass-shadow-glow);
+}
+
+/* =====================================
+   VESTLUSE SISESTRIBA
+   ===================================== */
+:root.theme-light .chat-inputbar,
+:root.theme-light .chat-input-row .chat-inputbar {
+  background: var(--glass-input-bg-idle);
+  border: var(--glass-border-width) solid var(--glass-border-color);
+}
+
+:root.theme-light .chat-inputbar:hover:not(:focus-within),
+:root.theme-light .chat-inputbar:focus-within {
+  background: var(--glass-input-bg-active);
+  border-color: var(--glow-light-ring);
+  border-width: 1px;
+  box-shadow: var(--glass-shadow-glow);
+}
+
+/* =====================================
+   KLAASKASTID + MODAALID
+   ===================================== */
 :root.theme-light .glass-box,
-.theme-light .glass-box,
 :root.theme-light .glass-modal,
-.theme-light .glass-modal,
 :root.theme-light .meist-body .glass-box,
-.theme-light .meist-body .glass-box,
 :root.theme-light .chat-analysis-card,
-.theme-light .chat-analysis-card,
-:root.theme-light .drawer-panel,
-.theme-light .drawer-panel {
-  background: rgba(255, 255, 255, 0.22);
-  color: #2b2620;
-  backdrop-filter: blur(1rem);
-  -webkit-backdrop-filter: blur(1rem);
+:root.theme-light .drawer-panel {
+  backdrop-filter: blur(var(--glass-blur-radius));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius));
 }
 
-/* Vestluse klaaskast (laius ja miinimumkõrgus) */
+:root.theme-light .glass-box,
+:root.theme-light .glass-modal,
+:root.theme-light .meist-body .glass-box,
+:root.theme-light .drawer-panel {
+  background: var(--glass-surface-bg);
+  color: var(--glass-surface-text);
+}
+
+/* Vestluse klaaskast – sama taust */
 main#main > .main-content.glass-box.chat-container,
 .glass-box.chat-container {
   width: min(100%, 86vw);
@@ -5472,6 +5408,14 @@ main#main > .main-content.glass-box.chat-container,
   margin: clamp(1.6rem, 4.5vw, 2.8rem) auto;
 }
 
+:root.theme-light main#main > .main-content.glass-box.chat-container,
+:root.theme-light .glass-box.chat-container {
+  background: var(--glass-surface-bg);
+  color: var(--glass-surface-text);
+  border: none;
+}
+
+/* Logo variandid */
 main#main > .main-content.glass-box.chat-container[data-chat-bg="worker"],
 .glass-box.chat-container[data-chat-bg="worker"] {
   --chat-bg-logo: url("/logo/aiilma.svg");
@@ -5482,193 +5426,304 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   --chat-bg-logo: url("/logo/silma.svg");
 }
 
-/* Vestlus kast – hele režiim (vajadusel kohanda värve) */
-:root.theme-light main#main > .main-content.glass-box.chat-container,
-.theme-light main#main > .main-content.glass-box.chat-container,
-:root.theme-light .glass-box.chat-container,
-.theme-light .glass-box.chat-container {
-  background: rgba(255, 255, 255, 0.22);
-  color: #2b2620;
-  border: none;
+/* Taustalogo läbipaistvus */
+:root.theme-light .glass-box.chat-container::before {
+  opacity: 0.35;
 }
 
-/* Alalehtede jalus hele tekst */
-:root.theme-light .alaleht-footer,
-.theme-light .alaleht-footer {
-  color: #d3d3d3;
+/* =====================================
+   TEKSTID / SISULEHED
+   ===================================== */
+:root.theme-light .alaleht-footer {
+  color: var(--footer-text-muted);
 }
 
-/* Primaarne nupp (ja koopiad) */
-:root.theme-light .btn-primary,
-.theme-light .btn-primary {
-  background: linear-gradient(130deg, rgba(18, 20, 32, 0.55), rgba(32, 36, 50, 0.32));
-  border: 2px solid rgba(148, 163, 184, 0.35);
-}
-:root.theme-light .btn-primary:hover,
-.theme-light .btn-primary:hover {
-  border-width: 2px;
-  border-color: var(--glow-light-ring);
-  box-shadow:
-    0 0 14px var(--glow-light-soft),
-    0 0 26px var(--glow-light-outer);
-}
-:root.theme-light .btn-primary:focus-visible,
-.theme-light .btn-primary:focus-visible {
-  border-width: 2px;
-  border-color: var(--glow-light-ring);
-  box-shadow:
-    0 0 18px var(--glow-light-soft),
-    0 0 28px var(--glow-light-outer);
-}
-
-/* Vestluse dokumendi üleslaadimise nupud */
-.theme-light .chat-upload-action-btn,
-:root.theme-light .chat-upload-action-btn,
-.theme-light .chat-upload-action-btn--accent,
-:root.theme-light .chat-upload-action-btn--accent {
-  background: linear-gradient(130deg, rgba(18, 20, 32, 0.55), rgba(32, 36, 50, 0.32));
-  border: 2px solid rgba(148, 163, 184, 0.35);
-}
-
-/* Vestluse sisestusriba ja nupud */
-:root.theme-light .chat-inputbar,
-.theme-light .chat-inputbar,
-:root.theme-light .chat-input-row .chat-inputbar,
-.theme-light .chat-input-row .chat-inputbar {
-  border: 2px solid rgba(148, 163, 184, 0.35);
-  background: rgba(18, 20, 32, 0.18);
-}
-:root.theme-light .chat-inputbar:hover:not(:focus-within),
-.theme-light .chat-inputbar:hover:not(:focus-within) {
-  border-width: 1px;
-  border-color: var(--glow-light-ring);
-  background: rgba(18, 20, 32, 0.24);
-  box-shadow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 6px var(--glow-light-soft),
-    0 0 12px var(--glow-light-outer);
-}
-:root.theme-light .chat-inputbar:focus-within,
-.theme-light .chat-inputbar:focus-within {
-  border-width: 1px;
-  border-color: var(--glow-light-ring);
-  background: rgba(18, 20, 32, 0.24);
-  box-shadow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 6px var(--glow-light-soft),
-    0 0 12px var(--glow-light-outer);
-}
-:root.theme-light .chat-inputbar .chat-send-btn,
-.theme-light .chat-inputbar .chat-send-btn,
-:root.theme-light .chat-inputbar .chat-attach-as-send,
-.theme-light .chat-inputbar .chat-attach-as-send {
-  border: 2px solid rgba(148, 163, 184, 0.35);
-  background: linear-gradient(130deg, rgba(18, 20, 32, 0.55), rgba(32, 36, 50, 0.32));
-}
-:root.theme-light .chat-inputbar .chat-send-btn:hover,
-.theme-light .chat-inputbar .chat-send-btn:hover,
-:root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
-.theme-light .chat-inputbar .chat-send-btn:focus-visible,
-:root.theme-light .chat-inputbar .chat-send-btn.chat-send-btn--active,
-.theme-light .chat-inputbar .chat-send-btn.chat-send-btn--active,
-:root.theme-light .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
-.theme-light .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
-:root.theme-light .chat-inputbar .chat-attach-as-send:hover,
-.theme-light .chat-inputbar .chat-attach-as-send:hover,
-:root.theme-light .chat-inputbar .chat-attach-as-send:focus-visible,
-.theme-light .chat-inputbar .chat-attach-as-send:focus-visible {
-  border-width: 1.25px;
-  border-color: var(--glow-light-ring);
-  background: linear-gradient(130deg, rgba(18, 20, 32, 0.65), rgba(32, 36, 50, 0.42));
-  box-shadow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 6px var(--glow-light-soft),
-    0 0 12px var(--glow-light-outer);
-}
-/* Light theme: standalone attach button glow */
-:root.theme-light .chat-attach-btn.chat-attach-as-send:hover,
-:root.theme-light .chat-attach-btn.chat-attach-as-send:focus-visible,
-.theme-light .chat-attach-btn.chat-attach-as-send:hover,
-.theme-light .chat-attach-btn.chat-attach-as-send:focus-visible{
-  border-width: 1.25px;
-  border-color: var(--glow-light-ring);
-  background: rgba(18, 20, 32, 0.32);
-  box-shadow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 6px var(--glow-light-soft),
-    0 0 12px var(--glow-light-outer);
-}
-/* Light theme: default attach button border */
-:root.theme-light .chat-attach-btn.chat-attach-as-send,
-.theme-light .chat-attach-btn.chat-attach-as-send{
-  border-width: 2px;
-}
-
-/* Saadanupu muutujad */
-:root.theme-light .chat-send-btn,
-.theme-light .chat-send-btn {
-  --btn-border-idle: rgba(148,163,184,0.35);
-  --btn-border-glow: rgba(148,163,184,0.35);
-  --btn-bg-idle: linear-gradient(130deg, rgba(18, 20, 32, 0.55), rgba(32, 36, 50, 0.32));
-  --btn-bg-hover: linear-gradient(130deg, rgba(18, 20, 32, 0.65), rgba(32, 36, 50, 0.42));
-  border-color: rgba(148,163,184,0.35);
-  background: var(--btn-bg-idle);
-}
-
-/* Meist-lehe tekstid - hele reziim */
 :root.theme-light .meist-body,
-.theme-light .meist-body,
-:root.theme-light .meist-body :where(p, li, blockquote, dd, dt),
-.theme-light .meist-body :where(p, li, blockquote, dd, dt) {
-  color: #222222;
-}
-:root.theme-light .meist-body strong,
-.theme-light .meist-body strong {
-  color: #222222;
-}
-
-/* Tingimuste/privaatsuse sisu - hele reziim */
-:root.theme-light .doc-body :where(p, li, blockquote, dd, dt, strong),
-.theme-light .doc-body :where(p, li, blockquote, dd, dt, strong) {
-  color: #222222;
+:root.theme-light .meist-body p,
+:root.theme-light .meist-body li,
+:root.theme-light .meist-body blockquote,
+:root.theme-light .meist-body dd,
+:root.theme-light .meist-body dt,
+:root.theme-light .meist-body strong {
+  color: var(--text-strong);
 }
 
-/* Vestluse analüüsi klaaskaart - hele reziim */
-:root.theme-light .chat-analysis-card,
-.theme-light .chat-analysis-card {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  box-shadow:
-    0 18px 34px rgba(5, 8, 15, 0.26),
-    0 8px 18px rgba(255, 255, 255, 0.08);
-  color: #1f1b16;
+:root.theme-light .doc-body p, :root.theme-light .doc-body li, :root.theme-light .doc-body blockquote, :root.theme-light .doc-body dd, :root.theme-light .doc-body dt, :root.theme-light .doc-body strong {
+  color: var(--text-strong);
 }
-:root.theme-light :where(.chat-analysis-title, .chat-analysis-subtitle, .chat-analysis-body, .chat-analysis-status, .chat-analysis-file, .chat-analysis-file-name, .chat-analysis-file-meta),
-.theme-light :where(.chat-analysis-title, .chat-analysis-subtitle, .chat-analysis-body, .chat-analysis-status, .chat-analysis-file, .chat-analysis-file-name, .chat-analysis-file-meta) {
-  color: #1f1b16;
+
+/* Pealkirjad ja jalused helerežiimis tumedamaks */
+:root.theme-light .glass-title, :root.theme-light .glass-h2, :root.theme-light .glass-label, :root.theme-light h1, :root.theme-light h2, :root.theme-light h3 {
+  color: var(--title-color);
 }
-:root.theme-light .chat-analysis-preview,
-.theme-light .chat-analysis-preview {
+:root.theme-light .alaleht-footer {
+  color: var(--text-strong);
+}
+:root.theme-light .link-brand,
+:root.theme-light .unustasid-parooli-link,
+:root.theme-light .login-modal-bottom-link .link-brand,
+:root.theme-light .link-brand-inline,
+:root.theme-light .meist-external-link,
+:root.theme-light .doc-body a,
+:root.theme-light .doc-body .link-brand {
+  color: var(--link-color);
+  border-color: transparent;
+}
+:root.theme-light .link-brand:hover,
+:root.theme-light .link-brand:focus,
+:root.theme-light .unustasid-parooli-link:hover,
+:root.theme-light .unustasid-parooli-link:focus,
+:root.theme-light .login-modal-bottom-link .link-brand:hover,
+:root.theme-light .login-modal-bottom-link .link-brand:focus,
+:root.theme-light .link-brand-inline:hover,
+:root.theme-light .link-brand-inline:focus,
+:root.theme-light .meist-external-link:hover,
+:root.theme-light .meist-external-link:focus,
+:root.theme-light .doc-body a:hover,
+:root.theme-light .doc-body a:focus {
+  color: var(--link-color);
+  border-color: var(--link-color);
+}
+
+/* =====================================
+   VESTLUSE ANALÜÜSIKAART
+   ===================================== */
+:root.theme-light .chat-analysis-card {
+  background: var(--glass-analysis-bg);
+  border: 1px solid var(--glass-analysis-border);
+  box-shadow: var(--glass-analysis-shadow);
+  color: var(--glass-analysis-text);
+}
+
+:root.theme-light .chat-analysis-title,
+:root.theme-light .chat-analysis-subtitle,
+:root.theme-light .chat-analysis-body,
+:root.theme-light .chat-analysis-status,
+:root.theme-light .chat-analysis-file,
+:root.theme-light .chat-analysis-file-name,
+:root.theme-light .chat-analysis-file-meta {
+  color: var(--glass-analysis-text);
+}
+
+:root.theme-light .chat-analysis-preview {
   background: transparent;
   border: none;
   box-shadow: none;
-  color: #1f1b16;
+  color: var(--glass-analysis-text);
 }
 
-/* Vestlused sahtel - hele reziim */
-:root.theme-light .drawer-panel,
-.theme-light .drawer-panel {
-  color: #f5f5f4;
+/* =====================================
+   VESTLUSTE SAHTEL (DRAWER)
+   ===================================== */
+:root.theme-light .drawer-panel {
+  color: var(--drawer-text-main);
 }
-:root.theme-light .drawer-panel .cs-title,
-.theme-light .drawer-panel .cs-title {
-  color: #fdfcf9;
+
+:root.theme-light .drawer-panel .cs-title {
+  color: var(--drawer-text-title);
 }
-:root.theme-light .drawer-panel .cs-preview,
-.theme-light .drawer-panel .cs-preview {
-  color: rgba(245, 245, 244, 0.88);
+
+:root.theme-light .drawer-panel .cs-preview {
+  color: var(--drawer-text-preview);
 }
-:root.theme-light .drawer-panel .cs-time,
-.theme-light .drawer-panel .cs-time {
-  color: rgba(245, 245, 244, 0.72);
+
+:root.theme-light .drawer-panel .cs-time {
+  color: var(--drawer-text-time);
+}
+
+/* =====================================
+   PIN-KOODI KEYPAD
+   ===================================== */
+:root.theme-light .pin-keypad__button {
+  color: rgba(250,252,255,0.92);
+  text-shadow: 0 0.06rem 0.24rem rgba(0,0,0,0.25);
+}
+
+:root.theme-light .pin-keypad__button:hover:not(:disabled),
+:root.theme-light .pin-keypad__button:focus-visible {
+  border-color: #e1a0a0;
+  box-shadow:
+    0 10px 22px rgba(225,160,160,0.28),
+    0 0 16px rgba(225,160,160,0.34);
+}
+
+/* =====================================
+   PROFIIILI E-POSTI DOCK
+   ===================================== */
+:root.theme-light .profile-email-dock-wrapper .dock-item {
+  background: rgba(5, 6, 10, 0.78);              /* tume ruut tagasi */
+  border: 2px solid rgba(200, 205, 215, 0.35);
+  color: #f5f5f5;                                 /* hele tekst */
+}
+
+:root.theme-light .profile-email-dock-wrapper .dock-item:hover,
+:root.theme-light .profile-email-dock-wrapper .dock-item:focus-visible {
+  background: rgba(8, 10, 16, 0.85);
+  border-color: rgba(200, 205, 215, 0.5);
+  color: #ffffff;
+  box-shadow:
+    0 0.2rem 0.95rem rgba(255, 221, 173, 0.2),
+    0 0 0.35rem rgba(240, 204, 157, 0.15);
+}
+
+/* Docki ikoonid – heledad */
+:root.theme-light .profile-email-dock-wrapper .dock-item svg {
+  stroke: #f5f5f5;
+  fill: none;
+}
+
+:root.theme-light .profile-role-pill {
+  color: var(--text-strong);
+}
+
+/* =====================================
+   KÕIK SISENDVÄLJAD (inputid)
+   ===================================== */
+/* Idle – sama hallikas taust mis chat-sisestusel */
+:root.theme-light .input-modern,
+:root.theme-light .login-modal-root .login-modal-form input,
+:root.theme-light .profile-email-field .input-modern,
+:root.theme-light input[type="email"] {
+  background: var(--glass-input-bg-idle);
+  border: 1px solid var(--glass-border-color);
+  color: var(--text-strong);
+  caret-color: var(--text-strong);
+  box-shadow: none;
+}
+
+/* Hover */
+:root.theme-light .input-modern:hover:not(:focus),
+:root.theme-light .login-modal-root .login-modal-form input:hover:not(:focus),
+:root.theme-light .profile-email-field .input-modern:hover:not(:focus),
+:root.theme-light input[type="email"]:hover:not(:focus) {
+  background: var(--glass-input-bg-active);
+  border-color: var(--glow-light-ring);
+  box-shadow: var(--glass-shadow-glow);
+}
+
+/* Focus */
+:root.theme-light .input-modern:focus-visible,
+:root.theme-light .login-modal-root .login-modal-form input:focus,
+:root.theme-light .profile-email-field .input-modern:focus-visible,
+:root.theme-light input[type="email"]:focus-visible {
+  background: var(--glass-input-bg-active);
+  border-width: 1px;
+  border-color: var(--glow-light-ring);
+  box-shadow: var(--glass-shadow-glow);
+}
+
+/* Placeholder */
+:root.theme-light .login-modal-root .login-modal-form input[type="email"]::placeholder,
+:root.theme-light .login-modal-root .login-modal-form input.input-email-icon::placeholder,
+:root.theme-light input[type="email"]::placeholder,
+:root.theme-light .input-modern::placeholder {
+  color: rgba(43, 38, 32, 0.65);
+}
+
+/* =====================================
+   LOGIN MODALI EMAIL INPUT ERI-JUHT (vajadusel ikooniga)
+   ===================================== */
+:root.theme-light .login-modal-root .login-modal-form input[type="email"],
+:root.theme-light .login-modal-root .login-modal-form input.input-email-icon {
+  /* taust jäi samaks glass-input taustaga, border reguleerib ülemine blokk */
+  box-shadow: none;
+}
+:root.theme-light .login-modal-root .login-email-icon-btn--known {
+  background-image: url("/logo/r%C3%BCmbrikhele.svg");
+}
+
+:root.theme-light .back-arrow-circle {
+  background-image: url("/logo/tagasinupphele.svg");
+}
+
+/* Chat HUD (hamburger + avatar) - sama toon mis pealkiri */
+:root.theme-light .chat-menu-btn,
+:root.theme-light .chat-menu-label {
+  color: var(--title-color);
+  border-color: var(--title-color);
+}
+:root.theme-light .chat-menu-btn:hover,
+:root.theme-light .chat-menu-btn:focus-visible,
+:root.theme-light .chat-menu-btn:hover .chat-menu-label,
+:root.theme-light .chat-menu-btn:focus-visible .chat-menu-label {
+  color: var(--title-color);
+  border-color: var(--title-color);
+}
+:root.theme-light .chat-avatar-abs,
+:root.theme-light .avatar-label,
+:root.theme-light .avatar-link:hover .avatar-label,
+:root.theme-light .avatar-link:focus-visible .avatar-label {
+  color: var(--title-color);
+  stroke: var(--title-color);
+}
+
+/* Avalehe parema kaardi pealkiri tagasi bränditooni */
+:root.theme-light .centered-back-right .headline-bold {
+  color: var(--brand-primary);
+  opacity: 0.9;
+  text-shadow: 0 0.5rem 0.3rem rgba(0, 0, 0, 0.35);
+}
+
+/* =====================================
+   MUUD GLASS DETAILID
+   ===================================== */
+
+/* Heli / audio + attach nupud */
+.chat-inputbar .chat-listen-btn svg:not(.svg),
+.chat-inputbar .chat-attach-btn svg:not(.svg),
+.chat-inputbar .chat-send-btn[data-recording="true"] svg:not(.svg) {
+  stroke: var(--chat-icon-color);
+  opacity: 0.95;
+}
+
+.chat-inputbar .chat-listen-btn,
+.chat-inputbar .chat-attach-btn,
+.chat-inputbar .chat-send-btn[data-recording="true"] {
+  color: var(--chat-icon-color);
+}
+
+:root.theme-light
+  .chat-inputbar .chat-listen-btn svg:not(.svg),
+:root.theme-light
+  .chat-inputbar .chat-attach-btn svg:not(.svg),
+:root.theme-light
+  .chat-inputbar .chat-send-btn svg:not(.svg) {
+  stroke: var(--chat-icon-color);
+  opacity: 0.96;
+}
+
+:root.theme-light
+  .chat-inputbar .chat-listen-btn,
+:root.theme-light
+  .chat-inputbar .chat-attach-btn,
+:root.theme-light
+  .chat-inputbar .chat-send-btn[data-recording="true"] {
+  color: var(--chat-icon-color);
+}
+
+/* default taust audio + attach – sama mis sisestusriba taust */
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-attach-btn {
+  background: var(--glass-input-bg-idle);
+  border: none;
+}
+
+/* hover audio + attach – sama loogika */
+:root.theme-light
+  .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light
+  .chat-inputbar .chat-attach-btn:hover,
+:root.theme-light
+  .chat-inputbar .chat-attach-btn:focus-visible {
+  background: var(--glass-input-bg-active);
+}
+
+/* aktiivne – audio räägib / send salvestab */
+:root.theme-light
+  .chat-inputbar .chat-listen-btn[data-speaking="true"],
+:root.theme-light
+  .chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: var(--glow-light-ring);
+  background: var(--glass-btn-bg-active);
+  box-shadow: var(--glass-shadow-glow);
 }

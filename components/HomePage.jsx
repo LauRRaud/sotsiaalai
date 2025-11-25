@@ -21,11 +21,11 @@ import SaivalgeLogo from "@/public/logo/saivalge.svg";
 import Logomust from "@/public/logo/logomust.svg";
 
 function ThemeToggleIcon({ theme }) {
-  const isDark = theme === "dark";
-  const size = isDark ? 42 : 70;
+  const nextIsDark = theme === "light";
+  const size = nextIsDark ? 42 : 70;
   return (
     <span className="sun-and-moon" aria-hidden="true">
-      {isDark ? (
+      {nextIsDark ? (
         <MoonIcon width={size} height={size} className="themeIcon themeIcon-moon" />
       ) : (
         <SunIcon width={size} height={size} className="themeIcon themeIcon-sun" />
@@ -37,7 +37,7 @@ function ThemeToggleIcon({ theme }) {
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { prefs } = useAccessibility();
+  const { prefs, setPrefs } = useAccessibility();
 
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
@@ -47,9 +47,8 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
 
-  // Teema — alustame "dark", päris eeliseisu loeme kliendis useEffectiga
-  const [theme, setTheme] = useState("dark");
-  const didInitTheme = useRef(false);
+  // Theme mirrors accessibility prefs (light/dark)
+  const [theme, setTheme] = useState(() => (prefs?.theme === "light" ? "light" : "dark"));
 
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
@@ -125,51 +124,13 @@ export default function HomePage() {
     }
   }, [isLoginOpen, status, session, router]);
 
-  // 1) Algne teema sünkroniseerimine (loe olemasolev seis, ära kirjuta)
   useEffect(() => {
-    if (typeof document === "undefined") return;
-
-    const html = document.documentElement;
-    let initial = html.classList.contains("theme-light") ? "light" : "dark";
-
-    if (typeof window !== "undefined") {
-      try {
-        const stored = window.localStorage.getItem("theme");
-        if (stored === "light" || stored === "dark") {
-          initial = stored;
-        }
-      } catch {
-        // ignore
-      }
+    const currentTheme = prefs.theme === "light" ? "light" : "dark";
+    if (theme !== currentTheme) {
+      setTheme(currentTheme);
     }
+  }, [prefs.theme, theme]);
 
-    didInitTheme.current = true;
-    if (initial !== theme) {
-      setTheme(initial);
-    }
-  }, []);
-
-  // 2) Kui teema state muutub pärast algseadistust, sünkrooni HTML klass ja localStorage
-  useEffect(() => {
-    if (!didInitTheme.current) return;
-    if (typeof document === "undefined") return;
-
-    const html = document.documentElement;
-    const shouldBeLight = theme === "light";
-    const currentlyLight = html.classList.contains("theme-light");
-
-    if (shouldBeLight !== currentlyLight) {
-      html.classList.toggle("theme-light", shouldBeLight);
-    }
-
-    if (typeof window !== "undefined") {
-      try {
-        window.localStorage.setItem("theme", theme);
-      } catch {
-        // ignore
-      }
-    }
-  }, [theme]);
 
   const skipIntroAnimations = prefs.reduceMotion;
   const desktopFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-top delay-1";
@@ -216,7 +177,9 @@ export default function HomePage() {
 
   const handleThemeClick = (event) => {
     const wantsLight = !!event?.target?.checked;
-    setTheme(wantsLight ? "light" : "dark");
+    const nextTheme = wantsLight ? "light" : "dark";
+    setTheme(nextTheme);
+    setPrefs?.({ theme: nextTheme });
   };
 
   const handleCardBackClick = (side) => (e) => {
@@ -496,3 +459,4 @@ export default function HomePage() {
     </>
   );
 }
+

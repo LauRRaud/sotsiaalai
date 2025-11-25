@@ -20,6 +20,20 @@ function setCookie(name, value, maxAgeSec = 60 * 60 * 24 * 365) {
   const encoded = encodeURIComponent(value);
   document.cookie = `${name}=${encoded}; path=/; max-age=${maxAgeSec}; SameSite=Lax`;
 }
+function readPrefsFromCookie() {
+  try {
+    const raw = getCookie("a11y_prefs");
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
+    const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
+    const reduceMotion = !!obj?.reduceMotion;
+    const theme = obj?.theme === "light" ? "light" : DEFAULT_PREFS.theme;
+    return { textScale, contrast, reduceMotion, theme };
+  } catch {
+    return null;
+  }
+}
 function readInitialPrefsFromDom() {
   if (typeof document === "undefined") return { ...DEFAULT_PREFS };
   const html = document.documentElement;
@@ -59,36 +73,34 @@ function applyPrefsToDom(prefs) {
     html.classList.toggle("theme-light", shouldBeLight);
   }
 }
-function AccessibilityProvider({ children }) {
-  const [prefs, setPrefsState] = useState(DEFAULT_PREFS);
+function buildInitialPrefs(initialPrefs) {
+  if (initialPrefs) {
+    return {
+      ...DEFAULT_PREFS,
+      ...initialPrefs,
+      theme: initialPrefs.theme === "light" ? "light" : DEFAULT_PREFS.theme,
+    };
+  }
+  return { ...DEFAULT_PREFS };
+}
+function AccessibilityProvider({ children, initialPrefs = null }) {
+  const [prefs, setPrefsState] = useState(() => buildInitialPrefs(initialPrefs));
   const [open, setOpen] = useState(false);
+  const hydratedRef = useRef(false);
   const lastOpenerRef = useRef(null);
   const liveRef = useRef(null);
   const pathname = usePathname();
   const { t } = useI18n();
   const promptedOnceRef = useRef(false);
   const initialIsHomeRef = useRef(pathname === "/");
-  // Initialize from cookie (preferred) or SSR dataset
+  // Initialize from DOM and cookie (client-only) to sync after hydration
   useEffect(() => {
-    function fromCookie() {
-      try {
-        const raw = getCookie("a11y_prefs");
-        if (!raw) return null;
-        const obj = JSON.parse(raw);
-        const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
-        const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
-        const reduceMotion = !!obj?.reduceMotion;
-        const theme = obj?.theme === "light" ? "light" : DEFAULT_PREFS.theme;
-        return { textScale, contrast, reduceMotion, theme };
-      } catch {
-        return null;
-      }
-    }
-    const cookiePrefs = fromCookie();
     const domPrefs = readInitialPrefsFromDom();
+    const cookiePrefs = readPrefsFromCookie();
     const initial = cookiePrefs ? { ...domPrefs, ...cookiePrefs, theme: domPrefs.theme } : domPrefs;
     setPrefsState(initial);
     applyPrefsToDom(initial);
+    hydratedRef.current = true;
     // Auto-open only on Home ("/") and only if no cookie yet
     const hasCookie = !!cookiePrefs;
     if (!hasCookie && initialIsHomeRef.current) {
@@ -106,6 +118,7 @@ function AccessibilityProvider({ children }) {
   }, [pathname]);
   // Re-apply current prefs on route changes to keep attributes persistent
   useEffect(() => {
+    if (!hydratedRef.current) return;
     applyPrefsToDom(prefs);
   }, [prefs, pathname]);
   // Sync theme state if it is toggled elsewhere (e.g. Home page switch)

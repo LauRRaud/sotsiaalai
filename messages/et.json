@@ -51,7 +51,8 @@
     "login": "Logi sisse",
     "start": "Start",
     "aria_main": "Peamenüü",
-    "toggle_light": "Lülita hele režiim"
+    "toggle_light": "Lülita hele režiim",
+    "toggle_dark": "Lülita tume režiim"
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",

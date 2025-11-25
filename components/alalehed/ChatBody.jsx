@@ -2,9 +2,11 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import Link from "next/link";
 import Image from "next/image";
-import UserCircle from "@/public/logo/User-circle.svg";
+import UserCircle from "@/public/logo/User-circlehele.svg";
+import UserCircleLight from "@/public/logo/User-circlehelepunakas.svg";
 import Paperclip from "@/public/logo/paperclip.svg";
 import Toggle from "@/components/ui/Toggle";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -280,6 +282,8 @@ export default function ChatBody() {
   const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
+  const { prefs } = useAccessibility();
+  const isLightTheme = prefs?.theme === "light";
   const combinedLabel =
     locale === "ru"
       ? "??????????????? (??? + ??)"
@@ -1476,11 +1480,15 @@ export default function ChatBody() {
         </span>
       </button>
 
-{/* Profiili avatar */}
-<Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
-  <UserCircle className="chat-avatar-abs" aria-hidden="true" />
-  <span className="avatar-label">Profiil</span>
-</Link>
+      {/* Profiili avatar */}
+      <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
+        {isLightTheme ? (
+          <UserCircleLight className="chat-avatar-abs" aria-hidden="true" />
+        ) : (
+          <UserCircle className="chat-avatar-abs" aria-hidden="true" />
+        )}
+        <span className="avatar-label">Profiil</span>
+      </Link>
 
       {/* Pealkiri */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>

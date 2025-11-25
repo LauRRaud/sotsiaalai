@@ -43,6 +43,21 @@ const MESSAGES = {
   ru: () => import("@/messages/ru.json"),
   en: () => import("@/messages/en.json"),
 };
+function parseA11yPrefs(jar) {
+  const raw = jar.get("a11y_prefs")?.value;
+  if (!raw) return null;
+  try {
+    const obj = JSON.parse(raw);
+    return {
+      textScale: obj?.textScale,
+      contrast: obj?.contrast,
+      reduceMotion: !!obj?.reduceMotion,
+      theme: obj?.theme === "light" ? "light" : "dark",
+    };
+  } catch {
+    return null;
+  }
+}
 export default async function RootLayout({ children }) {
   // Loe locale küpsisest; middleware seab NEXT_LOCALE kui kasutaja külastab /et, /ru, /en
   const jar = await cookies();
@@ -54,11 +69,12 @@ export default async function RootLayout({ children }) {
     messages = (await MESSAGES[locale]()).default ?? {};
   } catch {}
   const session = await getServerSession(authConfig);
+  const initialA11yPrefs = parseA11yPrefs(jar);
   const skipText =
     messages?.common?.skip_to_content ??
     (locale === "ru" ? "Перейти к содержимому" : locale === "en" ? "Skip to content" : "Jätka sisuni");
   return (
-    <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" ? "theme-light" : ""}`.trim()} suppressHydrationWarning>
       <head>
         {/* Valikulised preloadid – võid soovi korral eemaldada */}
         <link rel="preload" as="image" href="/logo/aivalge.svg" />
@@ -66,6 +82,14 @@ export default async function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logo/smust.svg" />
         <link rel="preload" as="image" href="/logo/saivalge.svg" />
         <link rel="preload" as="image" href="/logo/logomust.svg" />
+        <link rel="preload" as="image" href="/logo/tagasinupp.svg" />
+        <link rel="preload" as="image" href="/logo/siseneroheline.svg" />
+        <link rel="preload" as="image" href="/logo/sisenepunane.svg" />
+        <link rel="preload" as="image" href="/logo/sisenehall.svg" />
+        <link rel="preload" as="image" href="/logo/ümbrik.svg" />
+        <link rel="preload" as="image" href="/logo/rümbrik.svg" />
+        <link rel="preload" as="image" href="/logo/onoffpunane.svg" />
+        <link rel="preload" as="image" href="/logo/onoffhall.svg" />
         {/* Removed deprecated login provider assets */}
         <script
           dangerouslySetInnerHTML={{
@@ -74,7 +98,7 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
-        <Providers initialLocale={locale} messages={messages} session={session}>
+        <Providers initialLocale={locale} messages={messages} session={session} initialA11yPrefs={initialA11yPrefs}>
           {/* Skip-link ligipääsetavuseks */}
           <a href="#main" className="skip-link">{skipText}</a>
           <ViewportLayoutSetter />
@@ -96,6 +120,7 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
+
 
 
 
