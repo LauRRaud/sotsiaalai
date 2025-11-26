@@ -2056,11 +2056,7 @@ export default function ChatBody() {
                         {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
                       </div>
                     ) : null}
-                    {src.section ? (
-                      <div className="chat-source-section">
-                        {t("chat.sources.section", "Sektsioon: {section}").replace("{section}", String(src.section))}
-                      </div>
-                    ) : null}
+                    
                     {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
                       <div className="chat-source-pages">
                         {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
@@ -2096,4 +2092,5 @@ export default function ChatBody() {
     </div>
   );
 }
+
 

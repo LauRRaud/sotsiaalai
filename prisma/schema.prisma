@@ -372,3 +372,18 @@ model LoginTempToken {
   @@index([userId])
   @@index([expiresAt])
 }
+
+// Chat / RAG telemetry log
+model ChatLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId String?
+  role   String?
+  event  String
+  data   Json
+
+  @@index([createdAt])
+  @@index([event, createdAt])
+  @@index([role, createdAt])
+}

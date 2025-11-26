@@ -1,51 +1,32 @@
-﻿"use client";
+"use client";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useI18n } from "@/components/i18n/I18nProvider";
-import { localizePath } from "@/lib/localizePath";
-/* ---------- Konstandid & sildid ---------- */
-const STATUS_LABELS = {
-  PENDING: "Ootel",
-  PROCESSING: "TĆ¶Ć¶tlemisel",
-  COMPLETED: "Valmis",
-  FAILED: "EbaĆµnnestus",
-};
-const STATUS_STYLES = {
-  PENDING: { backgroundColor: "rgba(255, 215, 0, 0.16)", color: "#d4a200" },
-  PROCESSING: { backgroundColor: "rgba(0, 153, 255, 0.16)", color: "#48a6ff" },
-  COMPLETED: { backgroundColor: "rgba(46, 204, 113, 0.16)", color: "#58d68d" },
-  FAILED: { backgroundColor: "rgba(231, 76, 60, 0.16)", color: "#ff8a8a" },
-};
-const TYPE_LABELS = { FILE: "Fail", URL: "URL" };
+
+// NB: Stiiliklassid on globals.css failis (vt lõpu kommentaari), et komponent jääks lühem.
+
+const STATUS_LABELS = { PENDING: "Ootel", PROCESSING: "Töötlemisel", COMPLETED: "Valmis", FAILED: "Ebaõnnestus" };
+const STATUS_CLASSES = { PENDING: "badge badge-yellow", PROCESSING: "badge badge-blue", COMPLETED: "badge badge-green", FAILED: "badge badge-red" };
 const AUDIENCE_OPTIONS = [
-  { value: "SOCIAL_WORKER", label: "SotsiaaltĆ¶Ć¶ spetsialist" },
-  { value: "CLIENT", label: "ElukĆ¼simusega pĆ¶Ć¶rduja" },
-  { value: "BOTH", label: "MĆµlemad" },
+  { value: "SOCIAL_WORKER", label: "Sotsiaaltöö spetsialist" },
+  { value: "CLIENT", label: "Eluküsimusega pöörduja" },
+  { value: "BOTH", label: "Mõlemad" },
 ];
-const AUDIENCE_LABELS = {
-  SOCIAL_WORKER: "SotsiaaltĆ¶Ć¶ spetsialist",
-  CLIENT: "ElukĆ¼simusega pĆ¶Ć¶rduja",
-  BOTH: "MĆµlemad",
-};
+const AUDIENCE_LABELS = { SOCIAL_WORKER: "Sotsiaaltöö spetsialist", CLIENT: "Eluküsimusega pöörduja", BOTH: "Mõlemad" };
 const DOC_KIND_OPTIONS = [
   { value: "NORMAL", label: "Tavaline dokument" },
   { value: "MAGAZINE", label: "Ajakiri (artiklite kaupa)" },
 ];
-/* ---------- Avalikud .env sĆ¤tted ---------- */
+
 const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
 const RAW_ALLOWED_MIME = String(
   process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
     "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 );
-// Pollingu intervall (ms)
 const DEFAULT_POLL_MS = 15000;
 const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
-// puhastame ja teeme komplekti kiireks vĆµrdlemiseks
-const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
+const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",").map((s) => s.trim()).filter(Boolean);
 const ALLOWED_MIME_SET = new Set(ALLOWED_MIME_LIST);
-// pĆ¼Ć¼ame tuletada `accept` atribuudi (lisame ka levinud laiendid)
 const ACCEPT_ATTR = [
   ...new Set(
     ALLOWED_MIME_LIST.flatMap((m) => {
@@ -54,64 +35,113 @@ const ACCEPT_ATTR = [
       if (m === "text/markdown") return [m, ".md", ".markdown"];
       if (m === "text/html") return [m, ".html", ".htm"];
       if (m === "application/msword") return [m, ".doc"];
-      if (m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        return [m, ".docx"];
+      if (m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return [m, ".docx"];
       return [m];
     })
   ),
 ].join(",");
-/* ---------- Abifunktsioonid ---------- */
-function formatBytes(bytes) {
+const PAGE_SIZE = 25;
+
+const formatBytes = (bytes) => {
   if (bytes === 0) return "0 B";
   if (!bytes || Number.isNaN(bytes)) return "-";
   const units = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   const val = bytes / Math.pow(1024, i);
-  return `${val.toFixed(val >= 10 || i === 0 ? 0 : 1)} ${units[i]}`;
-}
-function formatDateTime(value) {
+  const num = val >= 10 || i === 0 ? val.toFixed(0) : val.toFixed(1);
+  return `${num} ${units[i]}`;
+};
+const formatDateTime = (value) => {
   if (!value) return "-";
   try {
-    return new Intl.DateTimeFormat("et-EE", { dateStyle: "short", timeStyle: "short" }).format(
-      new Date(value)
-    );
+    return new Intl.DateTimeFormat("et-EE", { dateStyle: "short", timeStyle: "short" }).format(new Date(value));
   } catch {
     const d = new Date(value);
     return Number.isNaN(d.getTime()) ? "-" : d.toLocaleString();
   }
-}
-function statusBadgeStyle(status) {
-  return (
-    STATUS_STYLES[status] || {
-      backgroundColor: "rgba(255,255,255,0.12)",
-      color: "#ffffff",
-    }
-  );
-}
-function deriveStatus(doc) {
-  return doc && doc.status ? doc.status : "COMPLETED";
-}
-function deriveSyncedAt(doc) {
-  return doc?.insertedAt || doc?.lastIngested || doc?.updatedAt || doc?.createdAt || null;
-}
-function splitAuthors(input) {
-  if (!input) return [];
-  return input
+};
+const deriveStatus = (doc) => (doc && doc.status ? doc.status : "COMPLETED");
+const deriveSyncedAt = (doc) => doc?.insertedAt || doc?.lastIngested || doc?.updatedAt || doc?.createdAt || null;
+const splitAuthors = (v) => {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.map((s) => String(s).trim()).filter(Boolean).slice(0, 12);
+  return String(v)
     .split(/[,;\n]+/)
     .map((s) => s.trim())
     .filter(Boolean)
     .slice(0, 12);
-}
-/* ---------- Komponent ---------- */
+};
+const splitTags = (v) => {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.map((s) => String(s).trim()).filter(Boolean).slice(0, 24);
+  return String(v)
+    .split(/[,;\n]+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 24);
+};
+const normalizeAuthorsForDisplay = (v) => {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.map((s) => String(s).trim()).filter(Boolean);
+  return splitAuthors(v);
+};
+const normalizeTags = (v) => {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.map((s) => String(s).trim()).filter(Boolean);
+  return splitTags(v);
+};
+const normalizeDoc = (item) => {
+  const meta = item.metadata || item;
+  const authors = normalizeAuthorsForDisplay(item.authors || meta.authors);
+  const tags = normalizeTags(item.tags || meta.tags);
+  const id = item.id || meta.id || meta.articleId || meta.docId || meta.doc_id || meta.article_id;
+  return {
+    ...item,
+    id,
+    docId: meta.docId || meta.doc_id || id,
+    articleId: meta.articleId || meta.article_id || "",
+    title: item.title || meta.title || "",
+    description: item.description || meta.description || "",
+    section: item.section || meta.section || "",
+    issueLabel: item.issueLabel || meta.issueLabel || meta.issue_id || "",
+    issueId: item.issueId || meta.issueId || meta.issue_id || "",
+    year: item.year || meta.year || "",
+    audience: item.audience || meta.audience || "BOTH",
+    pageRange: item.pageRange || meta.pageRange || "",
+    authors,
+    tags,
+    pdf_start_page: meta.pdf_start_page,
+    pdf_end_page: meta.pdf_end_page,
+    source_path: meta.source_path || meta.sourcePath || item.source_path,
+  };
+};
+
+/**
+ * @typedef {Object} RagDoc
+ * @property {string} [id]
+ * @property {string} [docId]
+ * @property {string} [articleId]
+ * @property {string} [title]
+ * @property {string} [description]
+ * @property {string[]} [authors]
+ * @property {string[]} [tags]
+ * @property {string|number} [year]
+ * @property {string} [issueLabel]
+ * @property {string} [section]
+ * @property {string} [audience]
+ * @property {string} [pageRange]
+ * @property {number} [pdf_start_page]
+ * @property {number} [pdf_end_page]
+ * @property {string} [source_path]
+ */
 export default function RagAdminPanel() {
   const router = useRouter();
-  const { t, locale } = useI18n();
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
   const [selftestBusy, setSelftestBusy] = useState(false);
   const [selftestSteps, setSelftestSteps] = useState(null);
-  // fail
+
   const [fileBusy, setFileBusy] = useState(false);
   const [fileInfo, setFileInfo] = useState({ name: "", size: 0, type: "" });
   const [fileAudience, setFileAudience] = useState("BOTH");
@@ -119,40 +149,57 @@ export default function RagAdminPanel() {
   const [pdfMetaBusy, setPdfMetaBusy] = useState(false);
   const [pdfMetaResult, setPdfMetaResult] = useState(null);
   const [docKind, setDocKind] = useState("NORMAL");
-  // ajakirja meta (faili uploadi ajal)
   const [journalTitle, setJournalTitle] = useState("");
   const [issueLabel, setIssueLabel] = useState("");
   const [year, setYear] = useState("");
   const [section, setSection] = useState("");
   const [authors, setAuthors] = useState("");
   const [pageRange, setPageRange] = useState("");
-  // pĆ¤rast ajakirja PDF uploadi
-  const [lastUploadedDocId, setLastUploadedDocId] = useState(null); // RAG remoteId!
+  const [tags, setTags] = useState("");
+  const [lastUploadedDocId, setLastUploadedDocId] = useState(null);
   const [lastUploadedFileName, setLastUploadedFileName] = useState(null);
-  // artiklite koostaja
-  const [articleOffset, setArticleOffset] = useState(""); // nt "2"
+  const [articleOffset, setArticleOffset] = useState("");
   const [drafts, setDrafts] = useState([]);
   const [articlesBusy, setArticlesBusy] = useState(false);
-  // url
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlAudience, setUrlAudience] = useState("BOTH");
   const [urlTitle, setUrlTitle] = useState("");
   const [urlDescription, setUrlDescription] = useState("");
-  // meta muutmine
-  const [editDocId, setEditDocId] = useState(null);
-  const [editAudience, setEditAudience] = useState("BOTH");
-  const [editTitle, setEditTitle] = useState("");
-  const [editDescription, setEditDescription] = useState("");
-  const [editBusy, setEditBusy] = useState(false);
-  // tegevused
+  const [urlTags, setUrlTags] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterSection, setFilterSection] = useState("ALL");
+  const [filterAudience, setFilterAudience] = useState("ALL");
+  const [filterYear, setFilterYear] = useState("ALL");
+  const [filterIssue, setFilterIssue] = useState("ALL");
+  const [filterTags, setFilterTags] = useState([]);
+  const [sortBy, setSortBy] = useState("recent");
+  const [selectedIds, setSelectedIds] = useState(new Set());
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const [detailDoc, setDetailDoc] = useState(null);
+  const [detailForm, setDetailForm] = useState({
+    title: "",
+    description: "",
+    authors: "",
+    section: "",
+    year: "",
+    issueLabel: "",
+    audience: "BOTH",
+    tags: "",
+    pageRange: "",
+    pdf_start_page: "",
+    pdf_end_page: "",
+  });
+
   const [reindexingId, setReindexingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+
   const fileFormRef = useRef(null);
   const fileInputRef = useRef(null);
   const urlFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
-  /* ----- localStorage pĆ¼sivus (ajakirja seanss + docKind) ----- */
-  // loe seanss mountimisel
+
   useEffect(() => {
     try {
       const savedDocId = localStorage.getItem("rag.magazine.lastDocId");
@@ -163,13 +210,11 @@ export default function RagAdminPanel() {
       if (savedKind && (savedKind === "NORMAL" || savedKind === "MAGAZINE")) setDocKind(savedKind);
     } catch {}
   }, []);
-  // kirjuta seanss muutustel
   useEffect(() => {
     try {
       if (lastUploadedDocId) localStorage.setItem("rag.magazine.lastDocId", String(lastUploadedDocId));
       else localStorage.removeItem("rag.magazine.lastDocId");
-      if (lastUploadedFileName)
-        localStorage.setItem("rag.magazine.lastFileName", String(lastUploadedFileName));
+      if (lastUploadedFileName) localStorage.setItem("rag.magazine.lastFileName", String(lastUploadedFileName));
       else localStorage.removeItem("rag.magazine.lastFileName");
     } catch {}
   }, [lastUploadedDocId, lastUploadedFileName]);
@@ -178,6 +223,7 @@ export default function RagAdminPanel() {
       localStorage.setItem("rag.docKind", String(docKind));
     } catch {}
   }, [docKind]);
+
   const endMagazineSession = useCallback(() => {
     setLastUploadedDocId(null);
     setLastUploadedFileName(null);
@@ -186,34 +232,19 @@ export default function RagAdminPanel() {
       localStorage.removeItem("rag.magazine.lastFileName");
     } catch {}
   }, []);
-  /* ----- utils ----- */
+
   const resetMessage = useCallback(() => setMessage(null), []);
-  const getAudienceLabel = useCallback(
-    (value) => AUDIENCE_LABELS[value] || (value ? value : "-"),
-    []
-  );
+  const getAudienceLabel = useCallback((value) => AUDIENCE_LABELS[value] || (value ? value : "-"), []);
   const showError = useCallback((text) => setMessage({ type: "error", text }), []);
   const showOk = useCallback((text) => setMessage({ type: "success", text }), []);
-  const startEditDoc = useCallback((doc) => {
-    setEditDocId(doc.id);
-    setEditAudience(doc.audience || doc.metadata?.audience || "BOTH");
-    setEditTitle(doc.title || "");
-    setEditDescription(doc.description || "");
-  }, []);
-  const cancelEditDoc = useCallback(() => {
-    setEditDocId(null);
-    setEditBusy(false);
-  }, []);
+
   const fetchDocuments = useCallback(async () => {
     fetchAbortRef.current?.abort?.();
     const ac = new AbortController();
     fetchAbortRef.current = ac;
     setLoadingList(true);
     try {
-      const res = await fetch("/api/rag/documents?limit=50", {
-        cache: "no-store",
-        signal: ac.signal,
-      });
+      const res = await fetch("/api/rag/documents?limit=200", { cache: "no-store", signal: ac.signal });
       const raw = await res.text();
       let data = null;
       try {
@@ -221,7 +252,7 @@ export default function RagAdminPanel() {
       } catch (e) {
         throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
       }
-      if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaĆµnnestus.");
+      if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data?.documents)
@@ -231,84 +262,23 @@ export default function RagAdminPanel() {
         : [];
       setDocs(list);
     } catch (err) {
-      if (err?.name !== "AbortError") {
-        showError(err?.message || "Dokumentide laadimine ebaĆµnnestus.");
-      }
+      if (err?.name !== "AbortError") showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
     } finally {
       setLoadingList(false);
     }
   }, [showError]);
-  const runSelftest = useCallback(async () => {
-    if (selftestBusy) return;
-    setSelftestBusy(true);
-    setSelftestSteps(null);
-    try {
-      const res = await fetch("/api/rag/selftest", { method: "POST", cache: "no-store" });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data || data.ok === false) {
-        setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
-        setMessage({ type: "error", text: data?.message || "Isetest ebaĆµnnestus." });
-      } else {
-        setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
-        setMessage({ type: "success", text: "Isetest lĆµpetatud." });
-        try {
-          await fetchDocuments();
-        } catch {}
-      }
-    } catch (e) {
-      setMessage({ type: "error", text: "Isetest katkestus." });
-    } finally {
-      setSelftestBusy(false);
-    }
-  }, [selftestBusy, fetchDocuments]);
-  const canReindex = useCallback((doc) => {
-    const st = deriveStatus(doc);
-    return st === "COMPLETED" || st === "FAILED";
-  }, []);
-  const canDelete = useCallback((doc) => {
-    const st = deriveStatus(doc);
-    return st === "COMPLETED" || st === "FAILED" || !doc?.status;
-  }, []);
-  const saveEditDoc = useCallback(async () => {
-    if (!editDocId) return;
-    resetMessage();
-    setEditBusy(true);
-    try {
-      const res = await fetch(`/api/rag/documents/${editDocId}/update-meta`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: editTitle || null,
-          description: editDescription || null,
-          audience: editAudience || null,
-        }),
-      });
-      const raw = await res.text();
-      const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || "Meta uuendamine ebaõnnestus.");
-      }
-      showOk("Metaandmed uuendatud.");
-      setEditDocId(null);
-      await fetchDocuments();
-    } catch (err) {
-      showError(err?.message || "Meta uuendamine ebaõnnestus.");
-    } finally {
-      setEditBusy(false);
-    }
-  }, [editAudience, editDescription, editDocId, editTitle, fetchDocuments, resetMessage, showError, showOk]);
-  /* ----- laadimine + automaatne vĆ¤rskendus ----- */
+
   useEffect(() => {
     fetchDocuments();
     return () => fetchAbortRef.current?.abort?.();
   }, [fetchDocuments]);
-  // Kui on PENDING/PROCESSING, vĆ¤rskenda intervalliga (POLL_MS)
+
   useEffect(() => {
     const hasWork = docs.some((d) => {
       const st = deriveStatus(d);
       return st === "PENDING" || st === "PROCESSING";
     });
-    if (!hasWork) return;
+    if (!hasWork) return undefined;
     let timer = null;
     const start = () => {
       if (!document.hidden && !timer) {
@@ -333,7 +303,7 @@ export default function RagAdminPanel() {
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [docs, fetchDocuments]);
-  /* ----- faililaadimine ----- */
+
   const onFileChange = useCallback(
     (event) => {
       resetMessage();
@@ -344,20 +314,19 @@ export default function RagAdminPanel() {
       }
       setFileInfo({ name: file.name, size: file.size, type: file.type });
       const form = fileFormRef.current;
-      if (form && !form.title?.value) {
-        form.title.value = file.name.replace(/\.[^.]+$/, "");
-      }
+      if (form && !form.title?.value) form.title.value = file.name.replace(/\.[^.]+$/, "");
     },
     [resetMessage]
   );
+
   function validateFileBeforeUpload(file) {
     const maxBytes = MAX_UPLOAD_MB * 1024 * 1024;
     if (file.size > maxBytes) {
-      throw new Error(
-        `Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`
-      );
+      throw new Error(`Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`);
     }
-    // MIME kontroll leebe ā€” brauseri accept juba filtreerib; server teeb lĆµpliku kontrolli
+    if (ALLOWED_MIME_SET.size && !ALLOWED_MIME_SET.has(file.type || "")) {
+      /* leebe; server kontrollib */
+    }
   }
   const handleFileSubmit = useCallback(
     async (event) => {
@@ -383,12 +352,12 @@ export default function RagAdminPanel() {
       if (title) formData.append("title", title);
       if (description) formData.append("description", description);
       formData.append("audience", fileAudience);
-      // lisa ajakirja meta ā€” need on backendis toetatud
       if (journalTitle.trim()) formData.append("journalTitle", journalTitle.trim());
       if (issueLabel.trim()) formData.append("issueLabel", issueLabel.trim());
       if (year.trim()) formData.append("year", year.trim());
       if (section.trim()) formData.append("section", section.trim());
       if (authors.trim()) formData.append("authors", authors.trim());
+      if (tags.trim()) formData.append("tags", tags.trim());
       if (pageRange.trim()) formData.append("pageRange", pageRange.trim());
       setFileBusy(true);
       try {
@@ -397,19 +366,13 @@ export default function RagAdminPanel() {
         const data = raw ? JSON.parse(raw) : {};
         if (!res.ok) {
           if (res.status === 413) throw new Error("Fail on liiga suur serveri jaoks (413).");
-          if (res.status === 415) throw new Error("Faili tĆ¼Ć¼p pole lubatud (415).");
-          throw new Error(data?.message || "Faili laadimine ebaĆµnnestus.");
+          if (res.status === 415) throw new Error("Faili tüüp pole lubatud (415).");
+          throw new Error(data?.message || "Faili laadimine ebaõnnestus.");
         }
         showOk("Fail saadeti RAG andmebaasi.");
         setFileInfo({ name: "", size: 0, type: "" });
         setFileAudience("BOTH");
-        // kasuta tagastatud docId-d (uus API tagastab selle root-tasenal)
-        const docIdFromResponse =
-          data?.doc?.remoteId ??
-          data?.doc?.id ??
-          data?.docId ??
-          data?.doc?.docId ??
-          null;
+        const docIdFromResponse = data?.doc?.remoteId ?? data?.doc?.id ?? data?.docId ?? data?.doc?.docId ?? null;
         const useId = docIdFromResponse ? String(docIdFromResponse) : null;
         if (docKind === "MAGAZINE") {
           setLastUploadedDocId(useId);
@@ -422,28 +385,15 @@ export default function RagAdminPanel() {
           endMagazineSession();
         }
         form.reset();
+        setTags("");
         await fetchDocuments();
       } catch (err) {
-        showError(err?.message || "Faili laadimine ebaĆµnnestus.");
+        showError(err?.message || "Faili laadimine ebaõnnestus.");
       } finally {
         setFileBusy(false);
       }
     },
-    [
-      fetchDocuments,
-      fileAudience,
-      resetMessage,
-      showError,
-      showOk,
-      journalTitle,
-      issueLabel,
-      year,
-      section,
-      authors,
-      pageRange,
-      docKind,
-      endMagazineSession,
-    ]
+    [fetchDocuments, fileAudience, resetMessage, showError, showOk, journalTitle, issueLabel, year, section, authors, tags, pageRange, docKind, endMagazineSession]
   );
 
   const handlePdfMetaSubmit = useCallback(
@@ -460,7 +410,7 @@ export default function RagAdminPanel() {
         return;
       }
       if (!metaFile && !metaText) {
-        showError("Lisa metaandmete JSON fail vĆµi kleebi JSON vĆ¤ljale.");
+        showError("Lisa metaandmete JSON fail või kleebi JSON väljale.");
         return;
       }
       try {
@@ -469,42 +419,22 @@ export default function RagAdminPanel() {
         showError(err.message);
         return;
       }
-
       const formData = new FormData();
       formData.append("file", pdfFile);
       formData.append("audience", pdfMetaAudience);
-      if (metaFile) {
-        formData.append("metadata", metaFile);
-      } else if (metaText) {
-        formData.append("metadata_text", metaText);
-      }
-
+      if (metaFile) formData.append("metadata", metaFile);
+      else if (metaText) formData.append("metadata_text", metaText);
       setPdfMetaBusy(true);
       try {
-        const res = await fetch("/api/rag/ingest/pdf-with-metadata", {
-          method: "POST",
-          body: formData,
-        });
+        const res = await fetch("/api/rag/ingest/pdf-with-metadata", { method: "POST", body: formData });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
-        if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || "PDF ingest ebaĆµnnestus.");
-        }
-        const docId =
-          data?.docId ||
-          data?.docID ||
-          data?.doc?.docId ||
-          data?.doc?.id ||
-          data?.doc?.remoteId ||
-          null;
+        if (!res.ok || data?.ok === false) throw new Error(data?.message || "PDF ingest ebaõnnestus.");
+        const docId = data?.docId || data?.docID || data?.doc?.docId || data?.doc?.id || data?.doc?.remoteId || null;
         const shortRef = data?.shortRef || data?.short_ref || null;
-        if (shortRef) {
-          showOk(`Lisatud: ${shortRef}`);
-        } else if (docId) {
-          showOk(`PDF ingest Ćµnnestus (docId ${docId}).`);
-        } else {
-          showOk("PDF ingest Ćµnnestus.");
-        }
+        if (shortRef) showOk(`Lisatud: ${shortRef}`);
+        else if (docId) showOk(`PDF ingest õnnestus (docId ${docId}).`);
+        else showOk("PDF ingest õnnestus.");
         setPdfMetaResult({
           docId,
           fileName: data?.fileName,
@@ -516,14 +446,14 @@ export default function RagAdminPanel() {
         form.reset();
         await fetchDocuments();
       } catch (err) {
-        showError(err?.message || "PDF ingest ebaĆµnnestus.");
+        showError(err?.message || "PDF ingest ebaõnnestus.");
       } finally {
         setPdfMetaBusy(false);
       }
     },
     [fetchDocuments, resetMessage, showError, showOk, pdfMetaAudience]
   );
-  /* ----- URL lisamine ----- */
+
   const handleUrlSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -535,6 +465,8 @@ export default function RagAdminPanel() {
         return;
       }
       const payload = { url: urlValue, audience: urlAudience };
+      const tagArr = splitTags(urlTags);
+      if (tagArr.length) payload.tags = tagArr;
       if (urlTitle.trim()) payload.title = urlTitle.trim();
       if (urlDescription.trim()) payload.description = urlDescription.trim();
       setUrlBusy(true);
@@ -546,24 +478,23 @@ export default function RagAdminPanel() {
         });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
-        if (!res.ok) {
-          throw new Error(data?.message || "URL lisamine ebaĆµnnestus.");
-        }
+        if (!res.ok) throw new Error(data?.message || "URL lisamine ebaõnnestus.");
         showOk("URL saadeti RAG andmebaasi.");
         setUrlAudience("BOTH");
         setUrlTitle("");
         setUrlDescription("");
+        setUrlTags("");
         form.reset();
         await fetchDocuments();
       } catch (err) {
-        showError(err?.message || "URL lisamine ebaĆµnnestus.");
+        showError(err?.message || "URL lisamine ebaõnnestus.");
       } finally {
         setUrlBusy(false);
       }
     },
-    [fetchDocuments, resetMessage, urlAudience, showError, showOk, urlTitle, urlDescription]
+    [fetchDocuments, resetMessage, urlAudience, showError, showOk, urlTitle, urlDescription, urlTags]
   );
-  /* ----- Taasingestus / kustutus ----- */
+
   const handleReindex = useCallback(
     async (docId) => {
       resetMessage();
@@ -572,56 +503,55 @@ export default function RagAdminPanel() {
         const res = await fetch(`/api/rag/documents/${docId}/reindex`, { method: "POST" });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
-        if (!res.ok) {
-          throw new Error(data?.message || "Taasindekseerimine ebaĆµnnestus.");
-        }
+        if (!res.ok) throw new Error(data?.message || "Taasindekseerimine ebaõnnestus.");
         showOk("Taasingestus algatatud.");
         setDocs((prev) => prev.map((doc) => (doc.id === docId ? { ...doc, ...data.doc } : doc)));
         await fetchDocuments();
       } catch (err) {
-        showError(err?.message || "Taasindekseerimine ebaĆµnnestus.");
+        showError(err?.message || "Taasindekseerimine ebaõnnestus.");
       } finally {
         setReindexingId(null);
       }
     },
     [fetchDocuments, resetMessage, showError, showOk]
   );
+
+  const handleBulkReindex = useCallback(async () => {
+    const ids = Array.from(selectedIds);
+    if (!ids.length) return;
+    for (const id of ids) {
+      // intentionally sequential to avoid spamming the server
+      // eslint-disable-next-line no-await-in-loop
+      await handleReindex(id);
+    }
+  }, [selectedIds, handleReindex]);
+
   const handleDelete = useCallback(
     async (docId) => {
       resetMessage();
       if (!docId) return;
-      if (!confirm("Kas soovid selle kirje kustutada? Seda ei saa tagasi vĆµtta.")) return;
+      if (!confirm("Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta.")) return;
       setDeletingId(docId);
       try {
         const res = await fetch(`/api/rag/documents/${docId}`, { method: "DELETE" });
         const raw = await res.text();
         const data = raw ? JSON.parse(raw) : {};
-        if (!res.ok) throw new Error(data?.message || "Kustutamine ebaĆµnnestus.");
+        if (!res.ok) throw new Error(data?.message || "Kustutamine ebaõnnestus.");
         showOk("Dokument kustutatud.");
         setDocs((prev) => prev.filter((d) => d.id !== docId));
       } catch (err) {
-        showError(err?.message || "Kustutamine ebaĆµnnestus.");
+        showError(err?.message || "Kustutamine ebaõnnestus.");
       } finally {
         setDeletingId(null);
       }
     },
     [resetMessage, showOk, showError]
   );
-  const manualRefresh = useCallback(() => {
-    resetMessage();
-    fetchDocuments();
-  }, [fetchDocuments, resetMessage]);
-  const fileHint = useMemo(() => {
-    if (!fileInfo.name) return "Valitud faili ei ole.";
-    return `${fileInfo.name} (${formatBytes(fileInfo.size)}${
-      fileInfo.type ? `, ${fileInfo.type}` : ""
-    })`;
-  }, [fileInfo]);
-  /* ----- Artiklite koostaja (ajakirja workflow) ----- */
+
   const addDraft = useCallback(() => {
     setDrafts((prev) => [
       ...prev,
-      { title: "", authors: "", section: "", pageRange: "", audience: fileAudience },
+      { title: "", authors: "", section: "", pageRange: "", tags: "", audience: fileAudience, description: "" },
     ]);
   }, [fileAudience]);
   const updateDraft = useCallback((idx, patch) => {
@@ -630,19 +560,20 @@ export default function RagAdminPanel() {
   const removeDraft = useCallback((idx) => {
     setDrafts((prev) => prev.filter((_, i) => i !== idx));
   }, []);
+
   const ingestArticles = useCallback(async () => {
     resetMessage();
     if (!lastUploadedDocId) {
-      showError("Ajakirja PDF puudub vĆµi upload ei andnud docId-d.");
+      showError("Ajakirja PDF puudub või upload ei andnud docId-d.");
       return;
     }
     if (drafts.length === 0) {
-      showError("Lisa vĆ¤hemalt Ć¼ks artikkel.");
+      showError("Lisa vähemalt üks artikkel.");
       return;
     }
     const offsetNum = articleOffset.trim() ? Number(articleOffset.trim()) : null;
     if (articleOffset.trim() && Number.isNaN(offsetNum)) {
-      showError("Offset peab olema tĆ¤isarv (nt 2).");
+      showError("Offset peab olema täisarv (nt 2).");
       return;
     }
     const payload = {
@@ -651,6 +582,7 @@ export default function RagAdminPanel() {
         const obj = {
           title: d.title?.trim(),
           authors: splitAuthors(d.authors),
+          tags: splitTags(d.tags),
           section: d.section?.trim() || undefined,
           pageRange: d.pageRange?.trim(),
           offset: offsetNum ?? undefined,
@@ -665,9 +597,7 @@ export default function RagAdminPanel() {
         if (hasStart || hasEnd) {
           const s = Number(d.startPage);
           const e = Number(d.endPage);
-          if (Number.isNaN(s) || Number.isNaN(e)) {
-            throw new Error("startPage/endPage peavad olema tĆ¤isarvud.");
-          }
+          if (Number.isNaN(s) || Number.isNaN(e)) throw new Error("startPage/endPage peavad olema täisarvud.");
           obj.startPage = s;
           obj.endPage = e;
           delete obj.offset;
@@ -684,995 +614,721 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok) {
-        throw new Error(data?.message || "Artiklite ingest ebaĆµnnestus.");
-      }
-      showOk(
-        `Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`
-      );
+      if (!res.ok) throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
+      showOk(`Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`);
       setDrafts([]);
       setArticleOffset("");
       await fetchDocuments();
     } catch (err) {
-      showError(err?.message || "Artiklite ingest ebaĆµnnestus.");
+      showError(err?.message || "Artiklite ingest ebaõnnestus.");
     } finally {
       setArticlesBusy(false);
     }
-  }, [
-    lastUploadedDocId,
-    drafts,
-    articleOffset,
-    showError,
-    resetMessage,
-    showOk,
-    fetchDocuments,
-    year,
-    journalTitle,
-    issueLabel,
-    fileAudience,
-  ]);
-  /* ---------- UI ---------- */
+  }, [lastUploadedDocId, drafts, articleOffset, showError, resetMessage, showOk, fetchDocuments, year, journalTitle, issueLabel, fileAudience]);
+  const normalizedDocs = useMemo(() => docs.map((d, i) => ({ ...normalizeDoc(d), _idx: i })), [docs]);
+  const sectionOptions = useMemo(
+    () => Array.from(new Set(normalizedDocs.map((d) => d.section).filter(Boolean))).sort(),
+    [normalizedDocs]
+  );
+  const audienceOptions = useMemo(
+    () => Array.from(new Set(normalizedDocs.map((d) => d.audience).filter(Boolean))),
+    [normalizedDocs]
+  );
+  const yearOptions = useMemo(
+    () => Array.from(new Set(normalizedDocs.map((d) => String(d.year || "").trim()).filter(Boolean))).sort((a, b) => b.localeCompare(a)),
+    [normalizedDocs]
+  );
+  const issueOptions = useMemo(
+    () => Array.from(new Set(normalizedDocs.map((d) => d.issueLabel).filter(Boolean))).sort(),
+    [normalizedDocs]
+  );
+  const allTags = useMemo(
+    () => Array.from(new Set(normalizedDocs.flatMap((d) => d.tags || []))).filter(Boolean).sort((a, b) => a.localeCompare(b)),
+    [normalizedDocs]
+  );
+
+  const filteredDocs = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    const tagSet = new Set(filterTags);
+    const list = normalizedDocs.filter((doc) => {
+      if (filterSection !== "ALL" && doc.section !== filterSection) return false;
+      if (filterAudience !== "ALL" && doc.audience !== filterAudience) return false;
+      if (filterYear !== "ALL" && String(doc.year || "") !== filterYear) return false;
+      if (filterIssue !== "ALL" && doc.issueLabel !== filterIssue) return false;
+      if (tagSet.size) {
+        const docTags = doc.tags || [];
+        for (const t of tagSet) {
+          if (!docTags.includes(t)) return false;
+        }
+      }
+      if (!q) return true;
+      const haystack = [
+        doc.title,
+        doc.description,
+        doc.section,
+        doc.issueLabel,
+        doc.year,
+        (doc.authors || []).join(" "),
+        (doc.tags || []).join(" "),
+      ]
+        .filter(Boolean)
+        .join(" | ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+    return list.sort((a, b) => {
+      if (sortBy === "title") return (a.title || "").localeCompare(b.title || "");
+      if (sortBy === "section") return (a.section || "").localeCompare(b.section || "");
+      if (sortBy === "year") return String(b.year || "").localeCompare(String(a.year || ""));
+      if (sortBy === "issue") return (a.issueLabel || "").localeCompare(b.issueLabel || "");
+      const aDate = deriveSyncedAt(a);
+      const bDate = deriveSyncedAt(b);
+      return new Date(bDate || 0) - new Date(aDate || 0);
+    });
+  }, [normalizedDocs, searchQuery, filterSection, filterAudience, filterYear, filterIssue, filterTags, sortBy]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchQuery, filterSection, filterAudience, filterYear, filterIssue, filterTags, sortBy]);
+
+  const visibleDocs = filteredDocs.slice(0, visibleCount);
+
+  const toggleSelect = useCallback((id) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const toggleSelectAllVisible = useCallback(() => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      const ids = visibleDocs.map((d) => d.id).filter(Boolean);
+      const allOn = ids.every((id) => next.has(id));
+      if (allOn) ids.forEach((id) => next.delete(id));
+      else ids.forEach((id) => next.add(id));
+      return next;
+    });
+  }, [visibleDocs]);
+
+  const openDetail = useCallback((doc) => {
+    if (!doc) return;
+    setDetailDoc(doc);
+    setDetailForm({
+      title: doc.title || "",
+      description: doc.description || "",
+      authors: (doc.authors || []).join(", "),
+      section: doc.section || "",
+      year: doc.year ? String(doc.year) : "",
+      issueLabel: doc.issueLabel || "",
+      audience: doc.audience || "BOTH",
+      tags: (doc.tags || []).join(", "),
+      pageRange: doc.pageRange || "",
+      pdf_start_page: doc.pdf_start_page ? String(doc.pdf_start_page) : "",
+      pdf_end_page: doc.pdf_end_page ? String(doc.pdf_end_page) : "",
+    });
+  }, []);
+  const closeDetail = useCallback(() => setDetailDoc(null), []);
+
+  const saveDetail = useCallback(async () => {
+    if (!detailDoc) return;
+    resetMessage();
+    const payload = {
+      title: detailForm.title?.trim() || null,
+      description: detailForm.description?.trim() || null,
+      authors: splitAuthors(detailForm.authors),
+      tags: splitTags(detailForm.tags),
+      section: detailForm.section?.trim() || null,
+      issueLabel: detailForm.issueLabel?.trim() || null,
+      audience: detailForm.audience || null,
+      pageRange: detailForm.pageRange?.trim() || null,
+    };
+    const y = detailForm.year?.trim();
+    if (y) payload.year = Number.isNaN(Number(y)) ? y : Number(y);
+    const sPage = detailForm.pdf_start_page?.trim();
+    const ePage = detailForm.pdf_end_page?.trim();
+    if (sPage) payload.pdf_start_page = Number(sPage);
+    if (ePage) payload.pdf_end_page = Number(ePage);
+    try {
+      const res = await fetch(`/api/rag/documents/${detailDoc.id}/update-meta`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const raw = await res.text();
+      const data = raw ? JSON.parse(raw) : {};
+      if (!res.ok || data?.ok === false) throw new Error(data?.message || "Meta uuendamine ebaõnnestus.");
+      showOk("Meta salvestatud.");
+      setDocs((prev) =>
+        prev.map((d) => (d.id === detailDoc.id ? { ...d, ...payload, metadata: { ...(d.metadata || {}), ...payload } } : d))
+      );
+      closeDetail();
+      await fetchDocuments();
+    } catch (err) {
+      showError(err?.message || "Meta uuendamine ebaõnnestus.");
+    }
+  }, [detailDoc, detailForm, closeDetail, showError, showOk, fetchDocuments, resetMessage]);
+
+  const handleSelftest = useCallback(async () => {
+    if (selftestBusy) return;
+    setSelftestBusy(true);
+    setSelftestSteps(null);
+    resetMessage();
+    try {
+      const res = await fetch("/api/rag/selftest", { method: "POST", cache: "no-store" });
+      const raw = await res.text();
+      const data = raw ? JSON.parse(raw) : {};
+      if (!res.ok || data?.ok === false) throw new Error(data?.message || "Isetest ebaõnnestus.");
+      setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
+      setMessage({ type: "success", text: "Isetest lõpetatud." });
+      await fetchDocuments();
+    } catch (err) {
+      setMessage({ type: "error", text: err?.message || "Isetest katkestus." });
+    } finally {
+      setSelftestBusy(false);
+    }
+  }, [selftestBusy, fetchDocuments, resetMessage]);
+
+  const renderTags = (arr) => {
+    if (!arr || !arr.length) return <span className="text-muted">–</span>;
+    return (
+      <span className="tag-row">
+        {arr.map((t) => (
+          <span className="badge badge-ghost" key={t}>
+            {t}
+          </span>
+        ))}
+      </span>
+    );
+  };
+
+  const viewSource = (doc) => {
+    const href = doc?.source_path || doc?.url;
+    if (!href) return;
+    window.open(href, "_blank", "noopener,noreferrer");
+  };
   return (
-    <section
-      id="rag-admin"
-      className="glass-section"
-      aria-label="RAG andmebaasi haldus"
-      style={{ display: "grid", gap: "1.5rem" }}
-    >
-      <div>
-        <h2 className="glass-h2" style={{ marginBottom: "0.35rem" }}>
-          RAG andmebaasi haldus
-        </h2>
-        <p style={{ maxWidth: "720px", fontSize: "0.95rem", opacity: 0.85 }}>
-          Lae turvaliselt materjale RAG indeksisse vĆµi lisa veebilehti, et assistent saaks neid
-          allikana kasutada.
-        </p>
-        <p style={{ fontSize: "0.85rem", opacity: 0.65, marginTop: "0.35rem" }}>
-          Maksimaalne faili suurus: <strong>{MAX_UPLOAD_MB} MB</strong> ā€¢ Lubatud tĆ¼Ć¼bid:{" "}
-          <span title={RAW_ALLOWED_MIME}>{ALLOWED_MIME_LIST.join(", ")}</span>
-        </p>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginTop: "0.5rem" }}>
-          <button
-            type="button"
-            onClick={runSelftest}
-            disabled={selftestBusy}
-            className="btn-primary btn-compact"
-            style={{
-              opacity: selftestBusy ? 0.75 : 1,
-              cursor: selftestBusy ? "wait" : "pointer",
-              fontSize: "0.95rem",
-              padding: "0.6rem 1rem",
-            }}
-          >
-            {selftestBusy ? "Kontrollinā€¦" : "Tee isetest (RAG + vestlus)"}
+    <div className="rag-admin">
+      <div className="flex-row space-between">
+        <h1 className="title">RAG admin</h1>
+        <div className="row-gap">
+          <button className="btn" onClick={handleSelftest} disabled={selftestBusy}>
+            {selftestBusy ? "Kontrollin…" : "Tee isetest"}
           </button>
-          {Array.isArray(selftestSteps) && selftestSteps.length ? (
-            <span style={{ fontSize: "0.85rem", opacity: 0.8 }}>
-              {selftestSteps.filter((s) => s.ok).length}/{selftestSteps.length} sammu OK
-            </span>
-          ) : null}
+          <button className="btn" onClick={fetchDocuments} disabled={loadingList}>
+            {loadingList ? "Laen…" : "Värskenda"}
+          </button>
         </div>
-        {Array.isArray(selftestSteps) && selftestSteps.length ? (
-          <div style={{ marginTop: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
-            {selftestSteps.map((s, i) => (
-              <div key={`${s.name}-${i}`}>{s.ok ? "ā…" : "ā¯"} {s.name}</div>
-            ))}
-          </div>
-        ) : null}
       </div>
+
       {message && (
         <div
-          role="status"
-          aria-live="polite"
-          style={{
-            padding: "0.85rem 1rem",
-            borderRadius: "10px",
-            fontSize: "0.9rem",
-            border:
-              message.type === "error"
-                ? "1px solid rgba(231,76,60,0.4)"
-                : "1px solid rgba(46,204,113,0.3)",
-            backgroundColor:
-              message.type === "error" ? "rgba(231,76,60,0.12)" : "rgba(46,204,113,0.12)",
-            color: message.type === "error" ? "#ff9c9c" : "#7be2a4",
-          }}
+          className={`alert ${message.type === "error" ? "alert-error" : "alert-ok"}`}
+          onClick={resetMessage}
         >
           {message.text}
         </div>
       )}
-      <div
-        style={{
-          display: "grid",
-          gap: "1.25rem",
-          width: "100%",
-          alignItems: "start",
-          justifyItems: "stretch",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-        }}
-      >
-        {/* --- PDF + meta JSON vorm --- */}
-        <form
-          onSubmit={handlePdfMetaSubmit}
-          style={{
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: "16px",
-            padding: "1rem 1.2rem",
-            background: "rgba(12,14,22,0.6)",
-            display: "grid",
-            gap: "0.75rem",
-            boxSizing: "border-box",
-            minWidth: 0,
-            width: "100%",
-            maxWidth: "26rem",
-          }}
-        >
-          <div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa PDF + metaandmed</h3>
-            <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-              Lae Ć¼les PDF ja metaandmete JSON (nt tarum.pdf + tarum_meta.json) ning saada need RAG
-              ingestisse.
-            </p>
-          </div>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>PDF-fail *</span>
-            <input
-              name="pdfWithMetaFile"
-              type="file"
-              accept=".pdf,application/pdf"
-              required
-              style={{
-                width: "100%",
-                padding: "0.5rem",
-                borderRadius: "10px",
-                border: "1px dashed rgba(255,255,255,0.15)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
-            />
-          </label>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>Sihtgrupp *</span>
-            <select
-              value={pdfMetaAudience}
-              onChange={(e) => setPdfMetaAudience(e.target.value)}
-              required
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
-            >
-              {AUDIENCE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>Metaandmete JSON</span>
-            <input
-              name="pdfMetaFile"
-              type="file"
-              accept=".json,application/json"
-              style={{
-                width: "100%",
-                padding: "0.5rem",
-                borderRadius: "10px",
-                border: "1px dashed rgba(255,255,255,0.15)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-              }}
-            />
-            <span style={{ fontSize: "0.8rem", opacity: 0.65 }}>
-              Kasuta failivalikut või kleebi JSON allolevasse kasti.
-            </span>
-          </label>
-          <label style={{ display: "grid", gap: "0.45rem", fontSize: "0.88rem" }}>
-            <span>Või kleebi metaandmed JSON-ina</span>
-            <textarea
-              name="pdfMetaText"
-              rows={4}
-              placeholder='{"title":"Eessõna","authors":"Häli Tarum", ...}'
-              style={{
-                padding: "0.55rem 0.65rem",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(10,12,20,0.6)",
-                color: "#f3f6ff",
-                resize: "vertical",
-              }}
-            />
-          </label>
-          <button
-            type="submit"
-            disabled={pdfMetaBusy}
-            className="btn-primary btn-compact"
-            style={{
-              alignSelf: "flex-start",
-              opacity: pdfMetaBusy ? 0.75 : 1,
-              cursor: pdfMetaBusy ? "wait" : "pointer",
-              fontSize: "0.95rem",
-              padding: "0.65rem 1.05rem",
-            }}
-          >
-            {pdfMetaBusy ? "Laen..." : "Ingest PDF + metaandmed"}
-          </button>
-          {pdfMetaResult && (
-            <div style={{ fontSize: "0.9rem", opacity: 0.82 }}>
-              {pdfMetaResult.shortRef ? (
-                <div>
-                  <strong>LĆ¼hiviide:</strong> {pdfMetaResult.shortRef}
-                </div>
-              ) : null}
-              <div>
-                <strong>docId:</strong> {pdfMetaResult.docId || "-"}
-              </div>
-              {pdfMetaResult.pageRange ? (
-                <div>
-                  <strong>LehekĆ¼ljed:</strong> {pdfMetaResult.pageRange}
-                </div>
-              ) : null}
-              {pdfMetaResult.inserted != null ? (
-                <div>
-                  <strong>LĆµike:</strong> {pdfMetaResult.inserted}
-                </div>
-              ) : null}
+
+      {Array.isArray(selftestSteps) && selftestSteps.length ? (
+        <div className="card">
+          <div className="card-title">Isetesti tulemused</div>
+          <ul className="list">
+            {selftestSteps.map((s, i) => (
+              <li key={i} className={s.ok ? "text-ok" : "text-error"}>
+                {s.label || s.step || s.id}: {s.ok ? "OK" : "Ebaõnnestus"}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      <div className="card">
+        <div className="card-title">Ingest: fail või URL</div>
+        <div className="ingest-grid">
+          <form className="stack" ref={fileFormRef} onSubmit={handleFileSubmit}>
+            <div className="row-gap">
+              <label className="label">Laadi fail</label>
+              <select value={docKind} onChange={(e) => setDocKind(e.target.value)} className="input">
+                {DOC_KIND_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
             </div>
-          )}
-        </form>
-        {/* --- URL-i vorm --- */}
-        <form
-          ref={urlFormRef}
-          onSubmit={handleUrlSubmit}
-          style={{
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: "16px",
-            padding: "1rem 1.2rem",
-            background: "rgba(12,14,22,0.6)",
-            display: "grid",
-            gap: "0.75rem",
-            boxSizing: "border-box",
-            minWidth: 0,
-            width: "100%",
-            maxWidth: "26rem",
-          }}
-        >
-          <div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>Lisa veebileht</h3>
-            <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-              Sisesta URL, mida RAG sĆ¼steem peaks roomama ja lisama.
-            </p>
-          </div>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>URL *</span>
-            <input name="url" type="url" required placeholder="https://..." style={inputStyle()} />
-          </label>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>Pealkiri</span>
-            <input
-              name="urlTitle"
-              type="text"
-              value={urlTitle}
-              onChange={(e) => setUrlTitle(e.target.value)}
-              placeholder="Valikuline"
-              style={inputStyle()}
-            />
-          </label>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>Kirjeldus</span>
+            <input type="file" name="file" ref={fileInputRef} onChange={onFileChange} accept={ACCEPT_ATTR} className="input" />
+            {fileInfo.name ? (
+              <div className="muted">
+                {fileInfo.name} ({formatBytes(fileInfo.size)}) {fileInfo.type ? `– ${fileInfo.type}` : ""}
+              </div>
+            ) : null}
+            <input name="title" placeholder="Pealkiri" className="input" />
+            <textarea name="description" placeholder="Kirjeldus" className="input" rows={2} />
+            <div className="grid-2">
+              <select value={fileAudience} onChange={(e) => setFileAudience(e.target.value)} className="input">
+                {AUDIENCE_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+              <input value={authors} onChange={(e) => setAuthors(e.target.value)} placeholder="Autorid (komadega)" className="input" />
+            </div>
+            <div className="grid-3">
+              <input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} placeholder="Ajakirja nimi" className="input" />
+              <input value={issueLabel} onChange={(e) => setIssueLabel(e.target.value)} placeholder="Väljaanne / number" className="input" />
+              <input value={year} onChange={(e) => setYear(e.target.value)} placeholder="Aasta" className="input" />
+            </div>
+            <div className="grid-3">
+              <input value={section} onChange={(e) => setSection(e.target.value)} placeholder="Rubriik/section" className="input" />
+              <input value={pageRange} onChange={(e) => setPageRange(e.target.value)} placeholder="Lehekülg (nt 3-6)" className="input" />
+              <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="Sildid (komadega)" className="input" />
+            </div>
+            <button type="submit" className="btn btn-primary" disabled={fileBusy}>
+              {fileBusy ? "Saadan…" : "Saada fail"}
+            </button>
+          </form>
+
+          <form className="stack" onSubmit={handleUrlSubmit} ref={urlFormRef}>
+            <label className="label">Ingest URL</label>
+            <input name="url" placeholder="https://" className="input" />
+            <input value={urlTitle} onChange={(e) => setUrlTitle(e.target.value)} placeholder="Pealkiri (valikuline)" className="input" />
             <textarea
-              name="urlDescription"
               value={urlDescription}
               onChange={(e) => setUrlDescription(e.target.value)}
-              placeholder="Valikuline kokkuvĆµte vĆµi mĆ¤rksĆµnad"
-              rows={3}
-              style={{ ...inputStyle(), resize: "vertical" }}
+              placeholder="Kirjeldus"
+              className="input"
+              rows={2}
             />
-          </label>
-          <label style={{ display: "grid", gap: "0.5rem", fontSize: "0.88rem" }}>
-            <span>Sihtgrupp *</span>
-            <select
-              value={urlAudience}
-              onChange={(e) => setUrlAudience(e.target.value)}
-              required
-              style={inputStyle()}
-            >
-              {AUDIENCE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+            <input value={urlTags} onChange={(e) => setUrlTags(e.target.value)} placeholder="Sildid (komadega)" className="input" />
+            <select value={urlAudience} onChange={(e) => setUrlAudience(e.target.value)} className="input">
+              {AUDIENCE_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
                 </option>
               ))}
             </select>
-          </label>
-          <button
-            type="submit"
-            disabled={urlBusy}
-            className="btn-primary btn-compact"
-            style={{
-              alignSelf: "flex-start",
-              opacity: urlBusy ? 0.75 : 1,
-              cursor: urlBusy ? "wait" : "pointer",
-              fontSize: "0.95rem",
-              padding: "0.65rem 1.05rem",
-            }}
-          >
-            {urlBusy ? "Laen..." : "Lisa URL RAG andmebaasi"}
-          </button>
-        </form>
+            <button type="submit" className="btn btn-primary" disabled={urlBusy}>
+              {urlBusy ? "Saadan…" : "Saada URL"}
+            </button>
+          </form>
+
+          <form className="stack" onSubmit={handlePdfMetaSubmit}>
+            <label className="label">PDF + meta (JSON)</label>
+            <input name="pdfWithMetaFile" type="file" accept="application/pdf" className="input" />
+            <input name="pdfMetaFile" type="file" accept="application/json" className="input" />
+            <textarea name="pdfMetaText" placeholder="Või kleebi meta JSON" rows={3} className="input" />
+            <select value={pdfMetaAudience} onChange={(e) => setPdfMetaAudience(e.target.value)} className="input">
+              {AUDIENCE_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+            <button type="submit" className="btn" disabled={pdfMetaBusy}>
+              {pdfMetaBusy ? "Saadan…" : "Saada PDF meta'ga"}
+            </button>
+            {pdfMetaResult ? (
+              <div className="muted">
+                {pdfMetaResult.fileName ? `${pdfMetaResult.fileName}: ` : ""}
+                {pdfMetaResult.shortRef || pdfMetaResult.docId || "Salvestatud"}
+              </div>
+            ) : null}
+          </form>
+        </div>
       </div>
-      {/* --- Artiklite koostaja (kuvatakse kui ajakirja upload Ćµnnestus) --- */}
-      {docKind === "MAGAZINE" && lastUploadedDocId && (
-        <div
-          style={{
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: "16px",
-            padding: "1rem 1.2rem",
-            background: "rgba(13,16,24,0.62)",
-            display: "grid",
-            gap: "0.9rem",
-            boxSizing: "border-box",
-            minWidth: 0,
-            width: "100%",
-            flex: "1 1 100%",
-          }}
-        >
-          <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-            <div>
-              <h3 style={{ fontSize: "1rem", margin: 0 }}>Artiklite ingest</h3>
-              <p style={{ fontSize: "0.86rem", opacity: 0.75, marginTop: "0.25rem" }}>
-                Viimati laetud ajakirja PDF: <strong>{lastUploadedFileName || "ā€”"}</strong> ā€¢
-                docId: <code style={{ opacity: 0.8 }}>{lastUploadedDocId}</code>
-              </p>
-            </div>
-            <button type="button" onClick={addDraft} style={smallGhostBtn()}>
+
+      {docKind === "MAGAZINE" ? (
+        <div className="card">
+          <div className="card-title">Ajakiri: artiklite sisestus</div>
+          <div className="muted">
+            {lastUploadedDocId ? (
+              <>
+                <strong>docId:</strong> {lastUploadedDocId} {lastUploadedFileName ? `(${lastUploadedFileName})` : ""}
+                <button className="btn btn-link" onClick={endMagazineSession}>
+                  Tühjenda
+                </button>
+              </>
+            ) : (
+              "Laadi esmalt ajakirja PDF (docKind = Ajakiri), siis lisa artiklid."
+            )}
+          </div>
+          <div className="grid-3">
+            <input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} placeholder="Ajakirja nimi" className="input" />
+            <input value={issueLabel} onChange={(e) => setIssueLabel(e.target.value)} placeholder="Väljaanne" className="input" />
+            <input value={year} onChange={(e) => setYear(e.target.value)} placeholder="Aasta" className="input" />
+          </div>
+          <div className="grid-2">
+            <input value={articleOffset} onChange={(e) => setArticleOffset(e.target.value)} placeholder="Lehekülje offset (nt 2)" className="input" />
+            <button type="button" className="btn" onClick={addDraft}>
               Lisa artikkel
             </button>
           </div>
-          <div
-            style={{ display: "grid", gap: "0.6rem", gridTemplateColumns: "1fr", minWidth: 0 }}
-          >
-            <div
-              style={{
-                display: "grid",
-                gap: "0.6rem",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                minWidth: 0,
-              }}
-            >
-              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                <span>Ćldine offset (valikuline)</span>
-                <input
-                  value={articleOffset}
-                  onChange={(e) => setArticleOffset(e.target.value)}
-                  type="number"
-                  inputMode="numeric"
-                  placeholder="nt 2 (PDF-leht = trĆ¼kileht + 2)"
-                  style={inputStyle()}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                <span>Ajakiri</span>
-                <input
-                  value={journalTitle}
-                  onChange={(e) => setJournalTitle(e.target.value)}
-                  type="text"
-                  placeholder="SotsiaaltĆ¶Ć¶"
-                  style={inputStyle()}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                <span>VĆ¤ljalase</span>
-                <input
-                  value={issueLabel}
-                  onChange={(e) => setIssueLabel(e.target.value)}
-                  type="text"
-                  placeholder="2/2023"
-                  style={inputStyle()}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                <span>Aasta</span>
-                <input
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                  type="number"
-                  inputMode="numeric"
-                  placeholder="2023"
-                  style={inputStyle()}
-                />
-              </label>
-            </div>
-            {drafts.length === 0 ? (
-              <p style={{ fontSize: "0.9rem", opacity: 0.8, marginTop: "0.5rem" }}>
-                Lisa vĆ¤hemalt Ć¼ks artikkel.
-              </p>
-            ) : (
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "grid",
-                  gap: "0.75rem",
-                }}
-              >
-                {drafts.map((d, i) => (
-                  <li
-                    key={i}
-                    style={{
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      borderRadius: "12px",
-                      padding: "0.75rem",
-                      display: "grid",
-                      gap: "0.65rem",
-                      background: "rgba(15,18,26,0.55)",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
-                      <strong style={{ fontSize: "0.95rem" }}>Artikkel #{i + 1}</strong>
-                      <button type="button" onClick={() => removeDraft(i)} style={smallDangerBtn()}>
-                        Eemalda
-                      </button>
-                    </div>
-                    <div
-                      style={{
-                        display: "grid",
-                        gap: "0.6rem",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                        minWidth: 0,
-                      }}
+          {drafts.length ? (
+            <div className="drafts">
+              {drafts.map((d, idx) => (
+                <div className="draft-row" key={idx}>
+                  <div className="grid-2">
+                    <input
+                      value={d.title}
+                      onChange={(e) => updateDraft(idx, { title: e.target.value })}
+                      placeholder="Artikli pealkiri"
+                      className="input"
+                    />
+                    <input
+                      value={d.authors}
+                      onChange={(e) => updateDraft(idx, { authors: e.target.value })}
+                      placeholder="Autorid"
+                      className="input"
+                    />
+                  </div>
+                  <div className="grid-3">
+                    <input
+                      value={d.section}
+                      onChange={(e) => updateDraft(idx, { section: e.target.value })}
+                      placeholder="Rubriik"
+                      className="input"
+                    />
+                    <input
+                      value={d.pageRange}
+                      onChange={(e) => updateDraft(idx, { pageRange: e.target.value })}
+                      placeholder="Lehekülg (nt 3-6)"
+                      className="input"
+                    />
+                    <input
+                      value={d.tags}
+                      onChange={(e) => updateDraft(idx, { tags: e.target.value })}
+                      placeholder="Sildid"
+                      className="input"
+                    />
+                  </div>
+                  <div className="grid-3">
+                    <input
+                      value={d.startPage || ""}
+                      onChange={(e) => updateDraft(idx, { startPage: e.target.value })}
+                      placeholder="Start page"
+                      className="input"
+                    />
+                    <input
+                      value={d.endPage || ""}
+                      onChange={(e) => updateDraft(idx, { endPage: e.target.value })}
+                      placeholder="End page"
+                      className="input"
+                    />
+                    <select
+                      value={d.audience}
+                      onChange={(e) => updateDraft(idx, { audience: e.target.value })}
+                      className="input"
                     >
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Pealkiri *</span>
-                        <input
-                          value={d.title}
-                          onChange={(e) => updateDraft(i, { title: e.target.value })}
-                          type="text"
-                          placeholder="nt Eessõna"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Autorid</span>
-                        <input
-                          value={d.authors}
-                          onChange={(e) => updateDraft(i, { authors: e.target.value })}
-                          type="text"
-                          placeholder="nt Kadri Kuupak"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Rubriik</span>
-                        <input
-                          value={d.section}
-                          onChange={(e) => updateDraft(i, { section: e.target.value })}
-                          type="text"
-                          placeholder="nt Persoon"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>LehekĆ¼lgede vahemik (trĆ¼kis) *</span>
-                        <input
-                          value={d.pageRange}
-                          onChange={(e) => updateDraft(i, { pageRange: e.target.value })}
-                          type="text"
-                          placeholder="nt 3ā€“8"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>PDF startPage</span>
-                        <input
-                          value={d.startPage || ""}
-                          onChange={(e) => updateDraft(i, { startPage: e.target.value })}
-                          type="number"
-                          inputMode="numeric"
-                          placeholder="nt 5 (kui offsetit ei kasuta)"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>PDF endPage</span>
-                        <input
-                          value={d.endPage || ""}
-                          onChange={(e) => updateDraft(i, { endPage: e.target.value })}
-                          type="number"
-                          inputMode="numeric"
-                          placeholder="nt 10"
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                        <span>Sihtgrupp</span>
-                        <select
-                          value={d.audience || fileAudience}
-                          onChange={(e) => updateDraft(i, { audience: e.target.value })}
-                          style={inputStyle()}
-                        >
-                          {AUDIENCE_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>
-                              {o.label}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    </div>
-                    <label style={{ display: "grid", gap: "0.3rem", fontSize: "0.88rem" }}>
-                      <span>Kirjeldus</span>
-                      <textarea
-                        value={d.description || ""}
-                        onChange={(e) => updateDraft(i, { description: e.target.value })}
-                        rows={2}
-                        placeholder="Valikuline lĆ¼hikokkuvĆµte"
-                        style={{ ...inputStyle(), resize: "vertical" }}
-                      />
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end" }}>
-              <button type="button" onClick={addDraft} style={smallGhostBtn()}>
-                Lisa artikkel
+                      {AUDIENCE_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <textarea
+                    value={d.description || ""}
+                    onChange={(e) => updateDraft(idx, { description: e.target.value })}
+                    placeholder="Kirjeldus"
+                    className="input"
+                    rows={2}
+                  />
+                  <div className="row-gap">
+                    <button className="btn btn-link" onClick={() => removeDraft(idx)} type="button">
+                      Eemalda
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+          <div className="row-gap">
+            <button className="btn btn-primary" onClick={ingestArticles} disabled={articlesBusy}>
+              {articlesBusy ? "Saadan…" : "Saada artiklid"}
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <div className="card">
+        <div className="card-title">Artiklite loetelu</div>
+        <div className="rag-toolbar">
+          <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Otsi pealkirja, autorit, kirjeldust või silti"
+            className="input"
+          />
+          <select value={filterSection} onChange={(e) => setFilterSection(e.target.value)} className="input">
+            <option value="ALL">Kõik rubriigid</option>
+            {sectionOptions.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <select value={filterAudience} onChange={(e) => setFilterAudience(e.target.value)} className="input">
+            <option value="ALL">Kõik sihtrühmad</option>
+            {audienceOptions.map((s) => (
+              <option key={s} value={s}>
+                {getAudienceLabel(s)}
+              </option>
+            ))}
+          </select>
+          <select value={filterYear} onChange={(e) => setFilterYear(e.target.value)} className="input">
+            <option value="ALL">Kõik aastad</option>
+            {yearOptions.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <select value={filterIssue} onChange={(e) => setFilterIssue(e.target.value)} className="input">
+            <option value="ALL">Kõik numbrid</option>
+            {issueOptions.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <select
+            multiple
+            value={filterTags}
+            onChange={(e) => setFilterTags(Array.from(e.target.selectedOptions, (o) => o.value))}
+            className="input"
+            size={Math.min(6, Math.max(2, allTags.length)) || 2}
+          >
+            {allTags.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="input">
+            <option value="recent">Uued ees</option>
+            <option value="title">Pealkiri A–Z</option>
+            <option value="section">Rubriik</option>
+            <option value="year">Aasta</option>
+            <option value="issue">Väljaanne</option>
+          </select>
+          {selectedIds.size ? (
+            <button className="btn" onClick={handleBulkReindex} disabled={reindexingId !== null}>
+              Reindexeri valitud ({selectedIds.size})
+            </button>
+          ) : null}
+        </div>
+
+        <div className="table-wrap">
+          <table className="rag-table">
+            <thead>
+              <tr>
+                <th className="w-checkbox">
+                  <input
+                    type="checkbox"
+                    onChange={toggleSelectAllVisible}
+                    checked={visibleDocs.length && visibleDocs.every((d) => selectedIds.has(d.id))}
+                  />
+                </th>
+                <th>Pealkiri</th>
+                <th>Rubriik</th>
+                <th>Autorid</th>
+                <th>Aasta / nr</th>
+                <th>Sihtrühm</th>
+                <th>Sildid</th>
+                <th>Lehekülg</th>
+                <th>Staatus</th>
+                <th>Tegevused</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visibleDocs.map((doc) => {
+                const status = deriveStatus(doc);
+                const syncedAt = deriveSyncedAt(doc);
+                return (
+                  <tr key={doc.id || doc._idx} onClick={() => openDetail(doc)}>
+                    <td onClick={(e) => e.stopPropagation()}>
+                      <input type="checkbox" checked={selectedIds.has(doc.id)} onChange={() => toggleSelect(doc.id)} />
+                    </td>
+                    <td>
+                      <div className="cell-title">{doc.title || "(pealkiri puudub)"}</div>
+                      <div className="cell-sub">{doc.description || ""}</div>
+                    </td>
+                    <td>{doc.section || "–"}</td>
+                    <td>{(doc.authors || []).join(", ") || "–"}</td>
+                    <td>
+                      {doc.year || "–"}
+                      {doc.issueLabel ? ` / ${doc.issueLabel}` : ""}
+                    </td>
+                    <td>{getAudienceLabel(doc.audience)}</td>
+                    <td>{renderTags(doc.tags)}</td>
+                    <td>{doc.pageRange || ""}</td>
+                    <td>
+                      <span className={STATUS_CLASSES[status] || "badge"}>{STATUS_LABELS[status] || status}</span>
+                      <div className="cell-sub">{syncedAt ? formatDateTime(syncedAt) : ""}</div>
+                    </td>
+                    <td onClick={(e) => e.stopPropagation()}>
+                      <div className="cell-actions">
+                        <button className="btn btn-link" onClick={() => openDetail(doc)}>
+                          Muuda
+                        </button>
+                        <button className="btn btn-link" onClick={() => handleReindex(doc.id)} disabled={reindexingId === doc.id}>
+                          {reindexingId === doc.id ? "Indekseerin…" : "Reindex"}
+                        </button>
+                        <button className="btn btn-link" onClick={() => handleDelete(doc.id)} disabled={deletingId === doc.id}>
+                          {deletingId === doc.id ? "Kustutan…" : "Kustuta"}
+                        </button>
+                        <button className="btn btn-link" onClick={() => viewSource(doc)} disabled={!doc.source_path && !doc.url}>
+                          Vaata
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+              {!visibleDocs.length ? (
+                <tr>
+                  <td colSpan={10} className="text-center">
+                    {loadingList ? "Laen andmeid…" : "Tulemusi ei leitud."}
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
+        {visibleCount < filteredDocs.length ? (
+          <div className="row-gap">
+            <button className="btn" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
+              Laadi veel {Math.min(PAGE_SIZE, filteredDocs.length - visibleCount)}
+            </button>
+          </div>
+        ) : null}
+      </div>
+
+      {detailDoc ? (
+        <div className="modal" role="dialog" aria-modal="true">
+          <div className="modal-body">
+            <div className="modal-head">
+              <div>
+                <div className="card-title">Muuda meta</div>
+                <div className="muted">{detailDoc.title || "(pealkiri)"}</div>
+              </div>
+              <button className="btn" onClick={closeDetail}>
+                Sulge
               </button>
-              <button
-                type="button"
-                disabled={articlesBusy}
-                onClick={ingestArticles}
-                className="btn-primary btn-compact"
-                style={{ alignSelf: "flex-start", opacity: articlesBusy ? 0.75 : 1, cursor: articlesBusy ? "wait" : "pointer" }}
-              >
-                {articlesBusy ? "Saadan..." : "Ingesti artiklid"}
-              </button>
+            </div>
+            <div className="stack">
+              <input
+                value={detailForm.title}
+                onChange={(e) => setDetailForm((f) => ({ ...f, title: e.target.value }))}
+                className="input"
+                placeholder="Pealkiri"
+              />
+              <textarea
+                value={detailForm.description}
+                onChange={(e) => setDetailForm((f) => ({ ...f, description: e.target.value }))}
+                className="input"
+                rows={3}
+                placeholder="Kirjeldus"
+              />
+              <div className="grid-2">
+                <input
+                  value={detailForm.authors}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, authors: e.target.value }))}
+                  className="input"
+                  placeholder="Autorid (komadega)"
+                />
+                <input
+                  value={detailForm.tags}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, tags: e.target.value }))}
+                  className="input"
+                  placeholder="Sildid (komadega)"
+                />
+              </div>
+              <div className="grid-3">
+                <input
+                  value={detailForm.section}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, section: e.target.value }))}
+                  className="input"
+                  placeholder="Rubriik"
+                />
+                <input
+                  value={detailForm.issueLabel}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, issueLabel: e.target.value }))}
+                  className="input"
+                  placeholder="Väljaanne"
+                />
+                <input
+                  value={detailForm.year}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, year: e.target.value }))}
+                  className="input"
+                  placeholder="Aasta"
+                />
+              </div>
+              <div className="grid-3">
+                <select
+                  value={detailForm.audience}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, audience: e.target.value }))}
+                  className="input"
+                >
+                  {AUDIENCE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  value={detailForm.pageRange}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, pageRange: e.target.value }))}
+                  className="input"
+                  placeholder="Lehekülg"
+                />
+                <input
+                  value={detailForm.pdf_start_page}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, pdf_start_page: e.target.value }))}
+                  className="input"
+                  placeholder="PDF algus"
+                />
+              </div>
+              <div className="grid-3">
+                <input
+                  value={detailForm.pdf_end_page}
+                  onChange={(e) => setDetailForm((f) => ({ ...f, pdf_end_page: e.target.value }))}
+                  className="input"
+                  placeholder="PDF lõpp"
+                />
+                <div className="input read-only">docId: {detailDoc.docId || "–"}</div>
+                <div className="input read-only">articleId: {detailDoc.articleId || "–"}</div>
+              </div>
+              <div className="row-gap">
+                <button className="btn btn-primary" onClick={saveDetail}>
+                  Salvesta
+                </button>
+                <button className="btn" onClick={closeDetail}>
+                  Tühista
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      )}
-      {/* --- loetelu --- */}
-      <div style={{ display: "grid", gap: "0.75rem" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          <h3 style={{ fontSize: "1rem" }}>Viimased materjalid</h3>
-          <button
-            type="button"
-            onClick={manualRefresh}
-            disabled={loadingList}
-            aria-busy={loadingList ? "true" : "false"}
-            className="btn-primary btn-compact"
-            style={{
-              opacity: loadingList ? 0.75 : 1,
-              cursor: loadingList ? "wait" : "pointer",
-              fontSize: "0.92rem",
-              padding: "0.55rem 0.95rem",
-            }}
-          >
-            {loadingList ? "Laen..." : "VĆ¤rskenda"}
-          </button>
-        </div>
-        {loadingList ? (
-          <p style={{ fontSize: "0.9rem", opacity: 0.75 }}>Laen andmeid...</p>
-        ) : docs.length === 0 ? (
-          <p style={{ fontSize: "0.9rem", opacity: 0.75 }}>RAG andmebaasis pole veel kirjeid.</p>
-        ) : (
-          <ul
-            style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              display: "grid",
-              gap: "1rem",
-            }}
-          >
-            {docs.map((doc) => {
-              const status = deriveStatus(doc);
-              const statusLabel = STATUS_LABELS[status] || status;
-              const badgeStyle = statusBadgeStyle(status);
-              const docAudience = doc.audience || doc.metadata?.audience;
-              const deletable = canDelete(doc);
-              const reindexable = canReindex(doc);
-              const syncedAt = deriveSyncedAt(doc);
-              return (
-                <li
-                  key={doc.id}
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: "16px",
-                    padding: "1rem 1.2rem",
-                    background: "rgba(13,16,24,0.62)",
-                    display: "grid",
-                    gap: "0.75rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "0.75rem",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <div style={{ minWidth: 0 }}>
-                      <strong
-                        style={{
-                          display: "block",
-                          fontSize: "1rem",
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        {doc.title || doc.fileName || doc.sourceUrl || "Materjal"}
-                      </strong>
-                      {doc.type === "FILE" && doc.fileName && (
-                        <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>{doc.fileName}</span>
-                      )}
-                      {doc.type === "URL" && doc.sourceUrl && (
-                        <a
-                          href={doc.sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            fontSize: "0.85rem",
-                            opacity: 0.75,
-                            color: "#9ed0ff",
-                            wordBreak: "break-all",
-                          }}
-                        >
-                          {doc.sourceUrl}
-                        </a>
-                      )}
-                    </div>
-                    <span
-                      style={{
-                        padding: "0.25rem 0.65rem",
-                        borderRadius: "999px",
-                        fontSize: "0.78rem",
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.04em",
-                        ...badgeStyle,
-                      }}
-                    >
-                      {statusLabel}
-                    </span>
-                  </div>
-                  <dl
-                    style={{
-                      display: "grid",
-                      gap: "0.4rem 1rem",
-                      gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-                      minWidth: 0,
-                      margin: 0,
-                    }}
-                  >
-                    <div>
-                      <dt
-                        style={{
-                          fontSize: "0.72rem",
-                          textTransform: "uppercase",
-                          opacity: 0.6,
-                        }}
-                      >
-                        TĆ¼Ć¼p
-                      </dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
-                        {TYPE_LABELS[doc.type] || doc.type}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt
-                        style={{
-                          fontSize: "0.72rem",
-                          textTransform: "uppercase",
-                          opacity: 0.6,
-                        }}
-                      >
-                        Sihtgrupp
-                      </dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
-                        {getAudienceLabel(docAudience || "BOTH")}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt
-                        style={{
-                          fontSize: "0.72rem",
-                          textTransform: "uppercase",
-                          opacity: 0.6,
-                        }}
-                      >
-                        Lisatud
-                      </dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
-                        {formatDateTime(doc.createdAt)}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt
-                        style={{
-                          fontSize: "0.72rem",
-                          textTransform: "uppercase",
-                          opacity: 0.6,
-                        }}
-                      >
-                        Uuendatud
-                      </dt>
-                      <dd style={{ margin: 0, fontSize: "0.88rem" }}>
-                        {formatDateTime(doc.updatedAt)}
-                      </dd>
-                    </div>
-                    {typeof doc.chunks === "number" ? (
-                      <div>
-                        <dt
-                          style={{
-                            fontSize: "0.72rem",
-                            textTransform: "uppercase",
-                            opacity: 0.6,
-                          }}
-                        >
-                          TĆ¼kke
-                        </dt>
-                        <dd style={{ margin: 0, fontSize: "0.88rem" }}>{doc.chunks}</dd>
-                      </div>
-                    ) : null}
-                    {doc.fileSize ? (
-                      <div>
-                        <dt
-                          style={{
-                            fontSize: "0.72rem",
-                            textTransform: "uppercase",
-                            opacity: 0.6,
-                          }}
-                        >
-                          Maht
-                        </dt>
-                        <dd style={{ margin: 0, fontSize: "0.88rem" }}>
-                          {formatBytes(doc.fileSize)}
-                        </dd>
-                      </div>
-                    ) : null}
-                    {doc.admin?.email ? (
-                      <div>
-                        <dt
-                          style={{
-                            fontSize: "0.72rem",
-                            textTransform: "uppercase",
-                            opacity: 0.6,
-                          }}
-                        >
-                          Lisaja
-                        </dt>
-                        <dd style={{ margin: 0, fontSize: "0.88rem" }}>{doc.admin.email}</dd>
-                      </div>
-                    ) : null}
-                    {doc.remoteId ? (
-                      <div>
-                        <dt
-                          style={{
-                            fontSize: "0.72rem",
-                            textTransform: "uppercase",
-                            opacity: 0.6,
-                          }}
-                        >
-                          Remote ID
-                        </dt>
-                        <dd
-                          style={{
-                            margin: 0,
-                            fontSize: "0.88rem",
-                            wordBreak: "break-all",
-                          }}
-                        >
-                          {doc.remoteId}
-                        </dd>
-                      </div>
-                    ) : null}
-                  </dl>
-                  {doc.error && (
-                    <p style={{ margin: 0, fontSize: "0.88rem", color: "#ff9c9c" }}>
-                      {doc.error}
-                    </p>
-                  )}
-                                     <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "0.75rem",
-                      alignItems: "center",
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => startEditDoc(doc)}
-                      disabled={editBusy && editDocId === doc.id}
-                      style={ghostBtn(editBusy && editDocId === doc.id)}
-                    >
-                      Muuda meta/sihtgruppi
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleReindex(doc.id)}
-                      disabled={reindexingId === doc.id || !reindexable}
-                      aria-busy={reindexingId === doc.id ? "true" : "false"}
-                      style={ghostBtn(reindexingId === doc.id || !reindexable)}
-                      title={
-                        reindexable
-                          ? "Taasindekseeri"
-                          : "Reindekseerimine pole selles staatuses saadaval"
-                      }
-                    >
-                      {reindexingId === doc.id ? "Töötlen..." : "Taasindekseerin"}
-                    </button>
-                    {deletable && (
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(doc.id)}
-                        disabled={deletingId === doc.id}
-                        aria-busy={deletingId === doc.id ? "true" : "false"}
-                        style={dangerGhostBtn(deletingId === doc.id)}
-                      >
-                        {deletingId === doc.id ? "Kustutan..." : "Kustuta"}
-                      </button>
-                    )}
-                    {syncedAt && (
-                      <span style={{ fontSize: "0.78rem", opacity: 0.65 }}>
-                        Sünkroonitud: {formatDateTime(syncedAt)}
-                      </span>
-                    )}
-                  </div>
-                  {editDocId === doc.id && (
-                    <div
-                      style={{
-                        borderTop: "1px dashed rgba(255,255,255,0.15)",
-                        paddingTop: "0.75rem",
-                        display: "grid",
-                        gap: "0.65rem",
-                      }}
-                    >
-                      <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-                        Uuenda metaandmeid või sihtgruppi.
-                      </div>
-                      <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
-                        <span>Pealkiri</span>
-                        <input
-                          type="text"
-                          value={editTitle}
-                          onChange={(e) => setEditTitle(e.target.value)}
-                          style={inputStyle()}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
-                        <span>Kirjeldus</span>
-                        <textarea
-                          value={editDescription}
-                          onChange={(e) => setEditDescription(e.target.value)}
-                          rows={3}
-                          style={{ ...inputStyle(), resize: "vertical" }}
-                        />
-                      </label>
-                      <label style={{ display: "grid", gap: "0.35rem", fontSize: "0.88rem" }}>
-                        <span>Sihtgrupp</span>
-                        <select
-                          value={editAudience}
-                          onChange={(e) => setEditAudience(e.target.value)}
-                          style={inputStyle()}
-                        >
-                          {AUDIENCE_OPTIONS.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                        <button
-                          type="button"
-                          onClick={saveEditDoc}
-                          disabled={editBusy}
-                          className="btn-primary btn-compact"
-                          style={{ opacity: editBusy ? 0.75 : 1, cursor: editBusy ? "wait" : "pointer" }}
-                        >
-                          {editBusy ? "Salvestan..." : "Salvesta meta"}
-                        </button>
-                        <button type="button" onClick={cancelEditDoc} style={ghostBtn(false)}>
-                          Katkesta
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+      ) : null}
+
+      <div className="row-gap" style={{ justifyContent: "center", marginTop: 16 }}>
+        <button className="btn" onClick={() => router.push("/meist")}>
+          Tagasi
+        </button>
       </div>
-      <div className="chat-footer">
-        <div className="back-btn-wrapper">
-          <button
-            type="button"
-            className="back-arrow-btn"
-            onClick={() => router.push(localizePath("/", locale))}
-            aria-label={t?.("buttons.back_home") || "Tagasi avalehele"}
-          >
-            <span className="back-arrow-circle" />
-          </button>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
-/* ---------- stiili helperid ---------- */
-function inputStyle() {
-  return {
-    width: "100%",
-    padding: "0.55rem 0.65rem",
-    borderRadius: "10px",
-    border: "1px solid rgba(255,255,255,0.08)",
-    background: "rgba(10,12,20,0.6)",
-    color: "#f3f6ff",
-  };
-}
-function smallGhostBtn() {
-  return {
-    padding: "0.45rem 0.9rem",
-    borderRadius: "999px",
-    border: "1px solid rgba(196,115,115,0.5)",
-    background: "rgba(196,115,115,0.12)",
-    color: "#ffeaea",
-    fontSize: "0.82rem",
-    cursor: "pointer",
-  };
-}
-function smallDangerBtn() {
-  return {
-    padding: "0.35rem 0.7rem",
-    borderRadius: "999px",
-    border: "1px solid rgba(196,115,115,0.7)",
-    background: "rgba(196,115,115,0.16)",
-    color: "#ffe1e1",
-    fontSize: "0.8rem",
-    cursor: "pointer",
-  };
-}
-function ghostBtn(busy) {
-  return {
-    padding: "0.45rem 0.9rem",
-    borderRadius: "999px",
-    border: "1px solid rgba(196,115,115,0.55)",
-    background: busy ? "rgba(196,115,115,0.16)" : "rgba(196,115,115,0.12)",
-    color: "#ffeaea",
-    fontSize: "0.82rem",
-    cursor: busy ? "wait" : "pointer",
-    opacity: busy ? 0.7 : 1,
-  };
-}
-function dangerGhostBtn(busy) {
-  return {
-    padding: "0.45rem 0.9rem",
-    borderRadius: "999px",
-    border: "1px solid rgba(196,115,115,0.7)",
-    background: busy ? "rgba(196,115,115,0.2)" : "rgba(196,115,115,0.16)",
-    color: "#ffdddd",
-    fontSize: "0.82rem",
-    cursor: busy ? "wait" : "pointer",
-    opacity: busy ? 0.7 : 1,
-  };
-}
 
-
-
-
-
-
-
-
-
+/*
+Lisa järgmised klassid app/globals.css faili:
+.rag-admin, .card, .card-title, .ingest-grid, .stack, .grid-2, .grid-3, .row-gap, .flex-row,
+.input, .btn, .btn-primary, .btn-link, .alert, .alert-error, .alert-ok, .muted, .badge,
+.badge-yellow, .badge-blue, .badge-green, .badge-red, .badge-ghost, .rag-table, .table-wrap,
+.cell-title, .cell-sub, .cell-actions, .tag-row, .modal, .modal-body, .modal-head, .text-center,
+.text-muted, .text-ok, .text-error
+*/

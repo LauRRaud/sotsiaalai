@@ -196,7 +196,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
         <div style={{ marginTop: "0.75rem", textAlign: "center" }}>
           <button
             type="button"
-            className="link-brand-inline"
+            className="link-brand-inline register-login-link"
             onClick={() => openLoginModal?.()}
             aria-label={t("auth.login.title")}
           >

@@ -180,6 +180,30 @@ def normalize_authors(value) -> List[str]:
                     authors.append(cleaned)
     return authors[:12]
 
+def normalize_tags(value) -> List[str]:
+    if not value:
+        return []
+    if isinstance(value, str):
+        s = value.strip()
+        if not s:
+            return []
+        try:
+            arr = json.loads(s)
+            if isinstance(arr, list):
+                return [str(x).strip() for x in arr if str(x).strip()][:30]
+        except Exception:
+            pass
+        return [x.strip() for x in re.split(r"[,;\n]+", s) if x.strip()][:30]
+    out: List[str] = []
+    if isinstance(value, (list, tuple, set)):
+        for item in value:
+            if not item:
+                continue
+            s = str(item).strip()
+            if s:
+                out.append(s)
+    return out[:30]
+
 def normalize_issue_id(value: Optional[str]) -> Optional[str]:
     if not value:
         return None
@@ -527,6 +551,126 @@ def _embed_batch(texts: List[str]) -> List[List[float]]:
 # --------------------
 # Schemas
 # --------------------
+class RagMetadata(BaseModel):
+    model_config = {"populate_by_name": True, "extra": "allow"}
+
+    docId: Optional[str] = None
+    articleId: Optional[str] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    authors: List[str] = []
+    year: Optional[int | str] = None
+    journalTitle: Optional[str] = None
+    issueLabel: Optional[str] = None
+    issueId: Optional[str] = None
+    section: Optional[str] = None
+    audience: Optional[str] = "BOTH"
+    source_type: Optional[str] = None
+    source_path: Optional[str] = None
+    source_url: Optional[str] = None
+    pageRange: Optional[str] = None
+    page: Optional[int] = None
+    pdf_start_page: Optional[int] = None
+    pdf_end_page: Optional[int] = None
+    language: Optional[str] = "et"
+    tags: List[str] = []
+    pages: List[int] = []
+    regulationRefs: List[str] = []
+    publisher: Optional[str] = None
+    doi: Optional[str] = None
+    url: Optional[str] = None
+    level: Optional[str] = None
+    importance: Optional[str] = None
+
+    @field_validator("authors", mode="before")
+    @classmethod
+    def _validate_authors(cls, value):
+        return normalize_authors(value)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def _validate_tags(cls, value):
+        return normalize_tags(value)
+
+    @field_validator("pages", mode="before")
+    @classmethod
+    def _validate_pages(cls, value):
+        return normalize_pages(value)
+
+    @field_validator("audience", mode="before")
+    @classmethod
+    def _validate_audience(cls, value):
+        return normalize_audience(value)
+
+    @field_validator("language", mode="before")
+    @classmethod
+    def _validate_language(cls, value):
+        return (str(value or "et").strip() or "et").lower()
+
+    @field_validator("year", mode="before")
+    @classmethod
+    def _validate_year(cls, value):
+        yr = normalize_year(value)
+        if yr is not None:
+            return yr
+        if value is None or value == "":
+            return None
+        return str(value).strip()
+
+    @field_validator(
+        "issueLabel",
+        "issueId",
+        "articleId",
+        "section",
+        "journalTitle",
+        "title",
+        "description",
+        "pageRange",
+        "publisher",
+        "doi",
+        "url",
+        "level",
+        "importance",
+        mode="before",
+    )
+    @classmethod
+    def _strip_strings(cls, value):
+        return value.strip() if isinstance(value, str) else value
+
+
+def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMetadata:
+    meta = meta_common or {}
+    resolved_doc_id = doc_id or meta.get("docId") or meta.get("doc_id")
+    return RagMetadata(
+        docId=resolved_doc_id,
+        articleId=meta.get("articleId") or meta.get("article_id"),
+        title=meta.get("title"),
+        description=meta.get("description"),
+        authors=meta.get("authors"),
+        year=meta.get("year"),
+        journalTitle=meta.get("journalTitle") or meta.get("journal_title"),
+        issueLabel=meta.get("issueLabel") or meta.get("issue_label"),
+        issueId=meta.get("issueId") or meta.get("issue_id"),
+        section=meta.get("section"),
+        audience=meta.get("audience"),
+        source_type=meta.get("source_type"),
+        source_path=meta.get("source_path"),
+        source_url=meta.get("source_url") or meta.get("url"),
+        pageRange=meta.get("pageRange") or meta.get("page_range"),
+        page=meta.get("page"),
+        pdf_start_page=meta.get("pdf_start_page") or meta.get("pdfStartPage"),
+        pdf_end_page=meta.get("pdf_end_page") or meta.get("pdfEndPage"),
+        language=meta.get("language"),
+        tags=meta.get("tags"),
+        pages=meta.get("pages"),
+        regulationRefs=meta.get("regulationRefs") or meta.get("regulation_refs"),
+        publisher=meta.get("publisher"),
+        doi=meta.get("doi"),
+        url=meta.get("url"),
+        level=meta.get("level"),
+        importance=meta.get("importance"),
+    )
+
 class IngestFile(BaseModel):
     docId: str
     fileName: str
@@ -544,6 +688,7 @@ class IngestFile(BaseModel):
     pages: Optional[List[int]] = None
     pageRange: Optional[str] = None
     journalTitle: Optional[str] = None  # UUS
+    tags: Optional[List[str]] = None
 
 class IngestURL(BaseModel):
     docId: str
@@ -560,6 +705,7 @@ class IngestURL(BaseModel):
     pages: Optional[List[int]] = None
     pageRange: Optional[str] = None
     journalTitle: Optional[str] = None  # UUS
+    tags: Optional[List[str]] = None
 
 class IngestArticle(BaseModel):
     title: str
@@ -575,6 +721,7 @@ class IngestArticle(BaseModel):
     issueLabel: Optional[str] = None
     articleId: Optional[str] = None
     audience: Optional[str] = None
+    tags: Optional[List[str]] = None
 
 class IngestArticlesIn(BaseModel):
     docId: Optional[str] = None
@@ -595,6 +742,7 @@ class UpdateMetadata(BaseModel):
     journalTitle: Optional[str] = None
     pdf_start_page: Optional[int] = None
     pdf_end_page: Optional[int] = None
+    tags: Optional[List[str] | str] = None
 
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
 
@@ -642,17 +790,21 @@ def _split_chunks_with_pages(pages: List[Tuple[Optional[int], str]]) -> Tuple[Li
     return docs, pnums
 
 def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
-    title = (meta_common.get("title") or "").strip()
-    description = (meta_common.get("description") or "").strip()
-    authors = normalize_authors(meta_common.get("authors"))
-    issue_id = normalize_issue_id(meta_common.get("issue_id") or meta_common.get("issueId"))
-    issue_label = normalize_issue_label(meta_common.get("issue_label") or meta_common.get("issueLabel"))
-    article_id = normalize_article_id(meta_common.get("article_id") or meta_common.get("articleId"))
-    section = normalize_section(meta_common.get("section"))
-    year = normalize_year(meta_common.get("year"))
-    page_range = (meta_common.get("pageRange") or meta_common.get("page_range") or "").strip() or None
-    pages_list = normalize_pages(meta_common.get("pages"))
-    journal_title = (meta_common.get("journal_title") or meta_common.get("journalTitle") or "").strip() or None
+    meta = build_rag_metadata(meta_common, doc_id=doc_id)
+    title = (meta.title or "").strip()
+    description = (meta.description or "").strip()
+    authors = meta.authors
+    tags = meta.tags
+    issue_id = normalize_issue_id(meta.issueId or "")
+    issue_label = normalize_issue_label(meta.issueLabel or "")
+    article_id = normalize_article_id(meta.articleId or "")
+    section = normalize_section(meta.section)
+    year = meta.year
+    page_range = (meta.pageRange or "").strip() or None
+    pages_list = meta.pages or []
+    journal_title = (meta.journalTitle or "").strip() or None
+    language = (meta.language or "et").strip() or "et"
+    audience = normalize_audience(meta.audience)
 
     # PREFIKS – lisame chunk’i teksti ette (autor/pealkiri/jne saavad embeddingusse)
     prefix_lines: List[str] = []
@@ -724,23 +876,35 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
     metadatas = []
     for i, _ in enumerate(final_texts):
         m = {
-            "doc_id": doc_id,
+            "doc_id": meta.docId or doc_id,
+            "docId": meta.docId or doc_id,
             "title": title or None,
             "description": description or None,
             "authors": _stringify_meta(authors),
+            "authors_list": authors or [],
+            "tags": _stringify_meta(tags),
+            "tags_list": tags or [],
             "issue_id": issue_id or None,
+            "issueId": issue_id or None,
             "issue_label": issue_label or None,
+            "issueLabel": issue_label or None,
             "article_id": article_id or None,
+            "articleId": article_id or None,
             "section": section or None,
             "year": year,
             "pageRange": page_range,
+            "pages": pages_list or None,
             "journal_title": journal_title,
             "journalTitle": journal_title,
-            "source_type": meta_common.get("source_type"),
-            "source_path": meta_common.get("source_path"),
-            "source_url": meta_common.get("source_url"),
-            "mimeType": meta_common.get("mimeType"),
-            "audience": normalize_audience(meta_common.get("audience")),
+            "source_type": meta.source_type or meta_common.get("source_type"),
+            "source_path": meta.source_path or meta_common.get("source_path"),
+            "source_url": meta.source_url or meta_common.get("source_url"),
+            "url": meta.url or meta_common.get("source_url"),
+            "mimeType": meta_common.get("mimeType") or meta_common.get("mime_type") or meta_common.get("mime"),
+            "audience": audience,
+            "language": language,
+            "pdf_start_page": meta.pdf_start_page,
+            "pdf_end_page": meta.pdf_end_page,
             "page": page_nums[i],
             "createdAt": now_iso(),
         }
@@ -923,6 +1087,8 @@ def _process_ingest_file(
         "pages": normalize_pages(meta.get("pages")),
         "pageRange": (meta.get("pageRange") or pages_compact or "").strip() or None,
         "journalTitle": (meta.get("journal_title") or meta.get("journalTitle") or None),
+        "tags": normalize_tags(meta.get("tags")),
+        "language": (meta.get("language") or "et"),
     }
     _register(doc_id, reg_entry)
 
@@ -961,6 +1127,7 @@ def ingest_file(payload: _IngestFileModel):
             "title": payload.title,
             "description": payload.description,
             "authors": payload.authors,
+            "tags": payload.tags,
             "issueId": payload.issueId,
             "issue_id": payload.issueId,
             "issueLabel": payload.issueLabel,
@@ -993,6 +1160,7 @@ async def upload(
     pages: Optional[str] = Form(None),
     pageRange: Optional[str] = Form(None),
     journalTitle: Optional[str] = Form(None),
+    tags: Optional[str] = Form(None),
     docId: Optional[str] = Form(None),
     fileName: Optional[str] = Form(None),
     mimeType: Optional[str] = Form(None),
@@ -1018,6 +1186,7 @@ async def upload(
             "title": (title or "").strip() or None,
             "description": (description or "").strip() or None,
             "authors": normalize_authors(authors),
+            "tags": normalize_tags(tags),
             "issueId": issueId,
             "issue_id": issueId,
             "issueLabel": issueLabel,
@@ -1136,6 +1305,7 @@ def ingest_url(payload: IngestURL):
             "title": payload.title,
             "description": payload.description,
             "authors": payload.authors,
+            "tags": payload.tags,
             "issue_id": payload.issueId,
             "issue_label": payload.issueLabel,
             "year": payload.year,
@@ -1170,6 +1340,8 @@ def ingest_url(payload: IngestURL):
         "pages": normalize_pages(payload.pages),
         "pageRange": (payload.pageRange or "").strip() or None,
         "journalTitle": payload.journalTitle,
+        "tags": normalize_tags(payload.tags),
+        "language": (payload.language or "et") if hasattr(payload, "language") else "et",
     }
     _register(payload.docId, reg_entry)
 
@@ -1233,6 +1405,8 @@ def _article_meta_common(entry: Dict, a: IngestArticle) -> Dict:
         "source_path": entry.get("path"),
         "mimeType": entry.get("mimeType"),
         "audience": normalize_audience(a.audience or entry.get("audience")),
+        "tags": normalize_tags(a.tags or entry.get("tags")),
+        "language": entry.get("language") or "et",
     }
 
 @app.post("/ingest/articles", dependencies=[Depends(_require_key)])
@@ -1332,12 +1506,14 @@ def documents(limit: Optional[int] = None):
             "audience": meta.get("audience"),
             "authors": meta.get("authors"),
             "journalTitle": meta.get("journalTitle"),
+            "tags": meta.get("tags"),
+            "language": meta.get("language"),
             "createdAt": meta.get("createdAt"),
             "updatedAt": meta.get("updatedAt"),
             "lastIngested": meta.get("lastIngested"),
             **{k: v for k, v in meta.items() if k not in {
                 "title","description","type","fileName","url","mimeType",
-                "audience","createdAt","updatedAt","lastIngested","journalTitle"
+                "audience","createdAt","updatedAt","lastIngested","journalTitle","tags","language"
             }},
         })
     return out
@@ -1399,6 +1575,8 @@ def reindex(doc_id: str):
             "pageRange": entry.get("pageRange"),
             "journal_title": entry.get("journalTitle"),
             "journalTitle": entry.get("journalTitle"),
+            "tags": entry.get("tags"),
+            "language": entry.get("language") or "et",
             "source_type": "file",
             "source_path": entry.get("path"),
             "mimeType": mime,
@@ -1425,6 +1603,8 @@ def reindex(doc_id: str):
             "pageRange": entry.get("pageRange"),
             "journal_title": entry.get("journalTitle"),
             "journalTitle": entry.get("journalTitle"),
+            "tags": entry.get("tags"),
+            "language": entry.get("language") or "et",
             "source_type": "url",
             "source_url": entry.get("url"),
             "source_path": entry.get("path"),
@@ -1465,6 +1645,7 @@ def update_document_metadata(doc_id: str, payload: UpdateMetadata):
         "title": _pick(payload.title, entry.get("title")),
         "description": _pick(payload.description, entry.get("description")),
         "authors": normalize_authors(payload.authors if payload.authors is not None else entry.get("authors")),
+        "tags": normalize_tags(payload.tags if payload.tags is not None else entry.get("tags")),
         "issueId": _pick(payload.issueId, entry.get("issueId")),
         "issue_id": _pick(payload.issueId, entry.get("issueId")),
         "issueLabel": _pick(payload.issueLabel, entry.get("issueLabel")),
@@ -1481,6 +1662,7 @@ def update_document_metadata(doc_id: str, payload: UpdateMetadata):
         "source_type": "file",
         "source_path": entry.get("path"),
         "mimeType": mime,
+        "language": entry.get("language") or "et",
     }
 
     start_page = _coerce_page_number(payload.pdf_start_page)
@@ -1548,6 +1730,8 @@ def search(payload: SearchIn):
             md_where["doc_id"] = payload.where["doc_id"]
         if "authors" in payload.where:
             md_where["authors"] = payload.where["authors"]
+        if "tags" in payload.where:
+            md_where["tags"] = payload.where["tags"]
 
     q_embeds = _embed_batch([payload.query])
     if not q_embeds:
@@ -1583,13 +1767,16 @@ def search(payload: SearchIn):
             except Exception:
                 file_name = source_path
         issue_val = md.get("issue_label") or md.get("issueLabel") or md.get("issue_id") or md.get("issueId") or None
+        authors_val = normalize_authors(md.get("authors") or md.get("authors_list"))
+        tags_val = normalize_tags(md.get("tags") or md.get("tags_list"))
         flat.append({
             "id": _id,
-            "doc_id": md.get("doc_id"),
+            "doc_id": md.get("doc_id") or md.get("docId"),
+            "docId": md.get("docId") or md.get("doc_id"),
             "title": md.get("title"),
             "description": md.get("description"),
             "audience": md.get("audience"),
-            "authors": md.get("authors"),
+            "authors": authors_val,
             "issue": issue_val,
             "issueLabel": md.get("issue_label") or md.get("issueLabel"),
             "issueId": md.get("issue_id") or md.get("issueId"),
@@ -1599,6 +1786,8 @@ def search(payload: SearchIn):
             "pages": md.get("pages"),
             "pageRange": md.get("pageRange"),
             "journalTitle": md.get("journal_title") or md.get("journalTitle"),
+            "tags": tags_val,
+            "language": md.get("language"),
             "chunk": ch,
             "url": md.get("source_url"),
             "fileName": file_name,
@@ -1617,6 +1806,7 @@ def search(payload: SearchIn):
         if not g:
             g = {
                 "doc_id": doc_id or None,
+                "docId": r.get("docId") or doc_id or None,
                 "title": r.get("title"),
                 "authors": r.get("authors"),
                 "year": r.get("year"),
@@ -1628,6 +1818,8 @@ def search(payload: SearchIn):
                 "section": r.get("section"),
                 "articleId": r.get("articleId"),
                 "journalTitle": r.get("journalTitle"),
+                "tags": r.get("tags"),
+                "language": r.get("language"),
                 "pages_all": [],
                 "page_ranges": [],
                 "items": [],
@@ -1641,6 +1833,12 @@ def search(payload: SearchIn):
                     g["pages_all"].append(p)
         if isinstance(r.get("pageRange"), str) and r["pageRange"]:
             g["page_ranges"].append(r["pageRange"])
+        if isinstance(r.get("tags"), list):
+            if not isinstance(g.get("tags"), list):
+                g["tags"] = []
+            for t in r["tags"]:
+                if t and t not in g["tags"]:
+                    g["tags"].append(t)
         g["items"].append(r)
 
     def _collapse_pages_local(pages):
@@ -1675,6 +1873,7 @@ def search(payload: SearchIn):
         short_ref = _make_short_ref(meta_for_ref, pages_compact)
         groups.append({
             "doc_id": g["doc_id"],
+            "docId": g.get("docId"),
             "title": g["title"],
             "authors": g["authors"],
             "year": g["year"],
@@ -1686,6 +1885,8 @@ def search(payload: SearchIn):
             "section": g["section"],
             "articleId": g["articleId"],
             "journalTitle": g["journalTitle"],
+            "tags": g.get("tags"),
+            "language": g.get("language"),
             "pages": pages_compact,
             "short_ref": short_ref,
             "count": len(g["items"]),
