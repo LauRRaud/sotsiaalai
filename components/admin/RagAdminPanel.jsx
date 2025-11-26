@@ -13,44 +13,11 @@ const AUDIENCE_OPTIONS = [
   { value: "BOTH", label: "Mõlemad" },
 ];
 const AUDIENCE_LABELS = { SOCIAL_WORKER: "Sotsiaaltöö spetsialist", CLIENT: "Eluküsimusega pöörduja", BOTH: "Mõlemad" };
-const DOC_KIND_OPTIONS = [
-  { value: "NORMAL", label: "Tavaline dokument" },
-  { value: "MAGAZINE", label: "Ajakiri (artiklite kaupa)" },
-];
 
-const MAX_UPLOAD_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 20);
-const RAW_ALLOWED_MIME = String(
-  process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
-    "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-);
 const DEFAULT_POLL_MS = 15000;
 const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
-const ALLOWED_MIME_LIST = RAW_ALLOWED_MIME.split(",").map((s) => s.trim()).filter(Boolean);
-const ALLOWED_MIME_SET = new Set(ALLOWED_MIME_LIST);
-const ACCEPT_ATTR = [
-  ...new Set(
-    ALLOWED_MIME_LIST.flatMap((m) => {
-      if (m === "application/pdf") return [m, ".pdf"];
-      if (m === "text/plain") return [m, ".txt"];
-      if (m === "text/markdown") return [m, ".md", ".markdown"];
-      if (m === "text/html") return [m, ".html", ".htm"];
-      if (m === "application/msword") return [m, ".doc"];
-      if (m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return [m, ".docx"];
-      return [m];
-    })
-  ),
-].join(",");
 const PAGE_SIZE = 25;
 
-const formatBytes = (bytes) => {
-  if (bytes === 0) return "0 B";
-  if (!bytes || Number.isNaN(bytes)) return "-";
-  const units = ["B", "KB", "MB", "GB", "TB"];
-  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  const val = bytes / Math.pow(1024, i);
-  const num = val >= 10 || i === 0 ? val.toFixed(0) : val.toFixed(1);
-  return `${num} ${units[i]}`;
-};
 const formatDateTime = (value) => {
   if (!value) return "-";
   try {
@@ -142,25 +109,9 @@ export default function RagAdminPanel() {
   const [selftestBusy, setSelftestBusy] = useState(false);
   const [selftestSteps, setSelftestSteps] = useState(null);
 
-  const [fileBusy, setFileBusy] = useState(false);
-  const [fileInfo, setFileInfo] = useState({ name: "", size: 0, type: "" });
-  const [fileAudience, setFileAudience] = useState("BOTH");
   const [pdfMetaAudience, setPdfMetaAudience] = useState("BOTH");
   const [pdfMetaBusy, setPdfMetaBusy] = useState(false);
   const [pdfMetaResult, setPdfMetaResult] = useState(null);
-  const [docKind, setDocKind] = useState("NORMAL");
-  const [journalTitle, setJournalTitle] = useState("");
-  const [issueLabel, setIssueLabel] = useState("");
-  const [year, setYear] = useState("");
-  const [section, setSection] = useState("");
-  const [authors, setAuthors] = useState("");
-  const [pageRange, setPageRange] = useState("");
-  const [tags, setTags] = useState("");
-  const [lastUploadedDocId, setLastUploadedDocId] = useState(null);
-  const [lastUploadedFileName, setLastUploadedFileName] = useState(null);
-  const [articleOffset, setArticleOffset] = useState("");
-  const [drafts, setDrafts] = useState([]);
-  const [articlesBusy, setArticlesBusy] = useState(false);
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlAudience, setUrlAudience] = useState("BOTH");
   const [urlTitle, setUrlTitle] = useState("");
@@ -195,43 +146,8 @@ export default function RagAdminPanel() {
   const [reindexingId, setReindexingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
 
-  const fileFormRef = useRef(null);
-  const fileInputRef = useRef(null);
   const urlFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
-
-  useEffect(() => {
-    try {
-      const savedDocId = localStorage.getItem("rag.magazine.lastDocId");
-      const savedFileName = localStorage.getItem("rag.magazine.lastFileName");
-      const savedKind = localStorage.getItem("rag.docKind");
-      if (savedDocId) setLastUploadedDocId(savedDocId);
-      if (savedFileName) setLastUploadedFileName(savedFileName);
-      if (savedKind && (savedKind === "NORMAL" || savedKind === "MAGAZINE")) setDocKind(savedKind);
-    } catch {}
-  }, []);
-  useEffect(() => {
-    try {
-      if (lastUploadedDocId) localStorage.setItem("rag.magazine.lastDocId", String(lastUploadedDocId));
-      else localStorage.removeItem("rag.magazine.lastDocId");
-      if (lastUploadedFileName) localStorage.setItem("rag.magazine.lastFileName", String(lastUploadedFileName));
-      else localStorage.removeItem("rag.magazine.lastFileName");
-    } catch {}
-  }, [lastUploadedDocId, lastUploadedFileName]);
-  useEffect(() => {
-    try {
-      localStorage.setItem("rag.docKind", String(docKind));
-    } catch {}
-  }, [docKind]);
-
-  const endMagazineSession = useCallback(() => {
-    setLastUploadedDocId(null);
-    setLastUploadedFileName(null);
-    try {
-      localStorage.removeItem("rag.magazine.lastDocId");
-      localStorage.removeItem("rag.magazine.lastFileName");
-    } catch {}
-  }, []);
 
   const resetMessage = useCallback(() => setMessage(null), []);
   const getAudienceLabel = useCallback((value) => AUDIENCE_LABELS[value] || (value ? value : "-"), []);
@@ -304,98 +220,6 @@ export default function RagAdminPanel() {
     };
   }, [docs, fetchDocuments]);
 
-  const onFileChange = useCallback(
-    (event) => {
-      resetMessage();
-      const file = event.target.files && event.target.files[0];
-      if (!file) {
-        setFileInfo({ name: "", size: 0, type: "" });
-        return;
-      }
-      setFileInfo({ name: file.name, size: file.size, type: file.type });
-      const form = fileFormRef.current;
-      if (form && !form.title?.value) form.title.value = file.name.replace(/\.[^.]+$/, "");
-    },
-    [resetMessage]
-  );
-
-  function validateFileBeforeUpload(file) {
-    const maxBytes = MAX_UPLOAD_MB * 1024 * 1024;
-    if (file.size > maxBytes) {
-      throw new Error(`Fail on liiga suur (${formatBytes(file.size)}). Lubatud kuni ${MAX_UPLOAD_MB} MB.`);
-    }
-    if (ALLOWED_MIME_SET.size && !ALLOWED_MIME_SET.has(file.type || "")) {
-      /* leebe; server kontrollib */
-    }
-  }
-  const handleFileSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-      resetMessage();
-      const fileInput = fileInputRef.current;
-      const file = fileInput?.files?.[0];
-      if (!file) {
-        showError("Vali fail enne saatmist.");
-        return;
-      }
-      try {
-        validateFileBeforeUpload(file);
-      } catch (err) {
-        showError(err.message);
-        return;
-      }
-      const form = event.currentTarget;
-      const formData = new FormData();
-      formData.append("file", file);
-      const title = form.title?.value?.trim();
-      const description = form.description?.value?.trim();
-      if (title) formData.append("title", title);
-      if (description) formData.append("description", description);
-      formData.append("audience", fileAudience);
-      if (journalTitle.trim()) formData.append("journalTitle", journalTitle.trim());
-      if (issueLabel.trim()) formData.append("issueLabel", issueLabel.trim());
-      if (year.trim()) formData.append("year", year.trim());
-      if (section.trim()) formData.append("section", section.trim());
-      if (authors.trim()) formData.append("authors", authors.trim());
-      if (tags.trim()) formData.append("tags", tags.trim());
-      if (pageRange.trim()) formData.append("pageRange", pageRange.trim());
-      setFileBusy(true);
-      try {
-        const res = await fetch("/api/rag/upload", { method: "POST", body: formData });
-        const raw = await res.text();
-        const data = raw ? JSON.parse(raw) : {};
-        if (!res.ok) {
-          if (res.status === 413) throw new Error("Fail on liiga suur serveri jaoks (413).");
-          if (res.status === 415) throw new Error("Faili tüüp pole lubatud (415).");
-          throw new Error(data?.message || "Faili laadimine ebaõnnestus.");
-        }
-        showOk("Fail saadeti RAG andmebaasi.");
-        setFileInfo({ name: "", size: 0, type: "" });
-        setFileAudience("BOTH");
-        const docIdFromResponse = data?.doc?.remoteId ?? data?.doc?.id ?? data?.docId ?? data?.doc?.docId ?? null;
-        const useId = docIdFromResponse ? String(docIdFromResponse) : null;
-        if (docKind === "MAGAZINE") {
-          setLastUploadedDocId(useId);
-          setLastUploadedFileName(file.name || null);
-          try {
-            localStorage.setItem("rag.magazine.lastDocId", String(useId));
-            localStorage.setItem("rag.magazine.lastFileName", String(file.name || ""));
-          } catch {}
-        } else {
-          endMagazineSession();
-        }
-        form.reset();
-        setTags("");
-        await fetchDocuments();
-      } catch (err) {
-        showError(err?.message || "Faili laadimine ebaõnnestus.");
-      } finally {
-        setFileBusy(false);
-      }
-    },
-    [fetchDocuments, fileAudience, resetMessage, showError, showOk, journalTitle, issueLabel, year, section, authors, tags, pageRange, docKind, endMagazineSession]
-  );
-
   const handlePdfMetaSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -411,12 +235,6 @@ export default function RagAdminPanel() {
       }
       if (!metaFile && !metaText) {
         showError("Lisa metaandmete JSON fail või kleebi JSON väljale.");
-        return;
-      }
-      try {
-        validateFileBeforeUpload(pdfFile);
-      } catch (err) {
-        showError(err.message);
         return;
       }
       const formData = new FormData();
@@ -548,83 +366,6 @@ export default function RagAdminPanel() {
     [resetMessage, showOk, showError]
   );
 
-  const addDraft = useCallback(() => {
-    setDrafts((prev) => [
-      ...prev,
-      { title: "", authors: "", section: "", pageRange: "", tags: "", audience: fileAudience, description: "" },
-    ]);
-  }, [fileAudience]);
-  const updateDraft = useCallback((idx, patch) => {
-    setDrafts((prev) => prev.map((d, i) => (i === idx ? { ...d, ...patch } : d)));
-  }, []);
-  const removeDraft = useCallback((idx) => {
-    setDrafts((prev) => prev.filter((_, i) => i !== idx));
-  }, []);
-
-  const ingestArticles = useCallback(async () => {
-    resetMessage();
-    if (!lastUploadedDocId) {
-      showError("Ajakirja PDF puudub või upload ei andnud docId-d.");
-      return;
-    }
-    if (drafts.length === 0) {
-      showError("Lisa vähemalt üks artikkel.");
-      return;
-    }
-    const offsetNum = articleOffset.trim() ? Number(articleOffset.trim()) : null;
-    if (articleOffset.trim() && Number.isNaN(offsetNum)) {
-      showError("Offset peab olema täisarv (nt 2).");
-      return;
-    }
-    const payload = {
-      docId: lastUploadedDocId,
-      articles: drafts.map((d) => {
-        const obj = {
-          title: d.title?.trim(),
-          authors: splitAuthors(d.authors),
-          tags: splitTags(d.tags),
-          section: d.section?.trim() || undefined,
-          pageRange: d.pageRange?.trim(),
-          offset: offsetNum ?? undefined,
-          year: year.trim() ? Number(year.trim()) : undefined,
-          journalTitle: journalTitle.trim() || undefined,
-          issueLabel: issueLabel.trim() || undefined,
-          audience: d.audience || fileAudience,
-          description: d.description?.trim() || undefined,
-        };
-        const hasStart = typeof d.startPage === "string" ? d.startPage.trim() : d.startPage;
-        const hasEnd = typeof d.endPage === "string" ? d.endPage.trim() : d.endPage;
-        if (hasStart || hasEnd) {
-          const s = Number(d.startPage);
-          const e = Number(d.endPage);
-          if (Number.isNaN(s) || Number.isNaN(e)) throw new Error("startPage/endPage peavad olema täisarvud.");
-          obj.startPage = s;
-          obj.endPage = e;
-          delete obj.offset;
-        }
-        return obj;
-      }),
-    };
-    setArticlesBusy(true);
-    try {
-      const res = await fetch("/api/rag/ingest/articles", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const raw = await res.text();
-      const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok) throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
-      showOk(`Lisati ${typeof data?.count === "number" ? data.count : drafts.length} artiklit.`);
-      setDrafts([]);
-      setArticleOffset("");
-      await fetchDocuments();
-    } catch (err) {
-      showError(err?.message || "Artiklite ingest ebaõnnestus.");
-    } finally {
-      setArticlesBusy(false);
-    }
-  }, [lastUploadedDocId, drafts, articleOffset, showError, resetMessage, showOk, fetchDocuments, year, journalTitle, issueLabel, fileAudience]);
   const normalizedDocs = useMemo(() => docs.map((d, i) => ({ ...normalizeDoc(d), _idx: i })), [docs]);
   const sectionOptions = useMemo(
     () => Array.from(new Set(normalizedDocs.map((d) => d.section).filter(Boolean))).sort(),
@@ -846,52 +587,8 @@ export default function RagAdminPanel() {
       ) : null}
 
       <div className="card">
-        <div className="card-title">Ingest: fail või URL</div>
+        <div className="card-title">Ingest: URL või PDF + meta</div>
         <div className="ingest-grid">
-          <form className="stack" ref={fileFormRef} onSubmit={handleFileSubmit}>
-            <div className="row-gap">
-              <label className="label">Laadi fail</label>
-              <select value={docKind} onChange={(e) => setDocKind(e.target.value)} className="input">
-                {DOC_KIND_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <input type="file" name="file" ref={fileInputRef} onChange={onFileChange} accept={ACCEPT_ATTR} className="input" />
-            {fileInfo.name ? (
-              <div className="muted">
-                {fileInfo.name} ({formatBytes(fileInfo.size)}) {fileInfo.type ? `– ${fileInfo.type}` : ""}
-              </div>
-            ) : null}
-            <input name="title" placeholder="Pealkiri" className="input" />
-            <textarea name="description" placeholder="Kirjeldus" className="input" rows={2} />
-            <div className="grid-2">
-              <select value={fileAudience} onChange={(e) => setFileAudience(e.target.value)} className="input">
-                {AUDIENCE_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-              <input value={authors} onChange={(e) => setAuthors(e.target.value)} placeholder="Autorid (komadega)" className="input" />
-            </div>
-            <div className="grid-3">
-              <input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} placeholder="Ajakirja nimi" className="input" />
-              <input value={issueLabel} onChange={(e) => setIssueLabel(e.target.value)} placeholder="Väljaanne / number" className="input" />
-              <input value={year} onChange={(e) => setYear(e.target.value)} placeholder="Aasta" className="input" />
-            </div>
-            <div className="grid-3">
-              <input value={section} onChange={(e) => setSection(e.target.value)} placeholder="Rubriik/section" className="input" />
-              <input value={pageRange} onChange={(e) => setPageRange(e.target.value)} placeholder="Lehekülg (nt 3-6)" className="input" />
-              <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="Sildid (komadega)" className="input" />
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={fileBusy}>
-              {fileBusy ? "Saadan…" : "Saada fail"}
-            </button>
-          </form>
-
           <form className="stack" onSubmit={handleUrlSubmit} ref={urlFormRef}>
             <label className="label">Ingest URL</label>
             <input name="url" placeholder="https://" className="input" />
@@ -940,119 +637,6 @@ export default function RagAdminPanel() {
           </form>
         </div>
       </div>
-
-      {docKind === "MAGAZINE" ? (
-        <div className="card">
-          <div className="card-title">Ajakiri: artiklite sisestus</div>
-          <div className="muted">
-            {lastUploadedDocId ? (
-              <>
-                <strong>docId:</strong> {lastUploadedDocId} {lastUploadedFileName ? `(${lastUploadedFileName})` : ""}
-                <button className="btn btn-link" onClick={endMagazineSession}>
-                  Tühjenda
-                </button>
-              </>
-            ) : (
-              "Laadi esmalt ajakirja PDF (docKind = Ajakiri), siis lisa artiklid."
-            )}
-          </div>
-          <div className="grid-3">
-            <input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} placeholder="Ajakirja nimi" className="input" />
-            <input value={issueLabel} onChange={(e) => setIssueLabel(e.target.value)} placeholder="Väljaanne" className="input" />
-            <input value={year} onChange={(e) => setYear(e.target.value)} placeholder="Aasta" className="input" />
-          </div>
-          <div className="grid-2">
-            <input value={articleOffset} onChange={(e) => setArticleOffset(e.target.value)} placeholder="Lehekülje offset (nt 2)" className="input" />
-            <button type="button" className="btn" onClick={addDraft}>
-              Lisa artikkel
-            </button>
-          </div>
-          {drafts.length ? (
-            <div className="drafts">
-              {drafts.map((d, idx) => (
-                <div className="draft-row" key={idx}>
-                  <div className="grid-2">
-                    <input
-                      value={d.title}
-                      onChange={(e) => updateDraft(idx, { title: e.target.value })}
-                      placeholder="Artikli pealkiri"
-                      className="input"
-                    />
-                    <input
-                      value={d.authors}
-                      onChange={(e) => updateDraft(idx, { authors: e.target.value })}
-                      placeholder="Autorid"
-                      className="input"
-                    />
-                  </div>
-                  <div className="grid-3">
-                    <input
-                      value={d.section}
-                      onChange={(e) => updateDraft(idx, { section: e.target.value })}
-                      placeholder="Rubriik"
-                      className="input"
-                    />
-                    <input
-                      value={d.pageRange}
-                      onChange={(e) => updateDraft(idx, { pageRange: e.target.value })}
-                      placeholder="Lehekülg (nt 3-6)"
-                      className="input"
-                    />
-                    <input
-                      value={d.tags}
-                      onChange={(e) => updateDraft(idx, { tags: e.target.value })}
-                      placeholder="Sildid"
-                      className="input"
-                    />
-                  </div>
-                  <div className="grid-3">
-                    <input
-                      value={d.startPage || ""}
-                      onChange={(e) => updateDraft(idx, { startPage: e.target.value })}
-                      placeholder="Start page"
-                      className="input"
-                    />
-                    <input
-                      value={d.endPage || ""}
-                      onChange={(e) => updateDraft(idx, { endPage: e.target.value })}
-                      placeholder="End page"
-                      className="input"
-                    />
-                    <select
-                      value={d.audience}
-                      onChange={(e) => updateDraft(idx, { audience: e.target.value })}
-                      className="input"
-                    >
-                      {AUDIENCE_OPTIONS.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <textarea
-                    value={d.description || ""}
-                    onChange={(e) => updateDraft(idx, { description: e.target.value })}
-                    placeholder="Kirjeldus"
-                    className="input"
-                    rows={2}
-                  />
-                  <div className="row-gap">
-                    <button className="btn btn-link" onClick={() => removeDraft(idx)} type="button">
-                      Eemalda
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
-          <div className="row-gap">
-            <button className="btn btn-primary" onClick={ingestArticles} disabled={articlesBusy}>
-              {articlesBusy ? "Saadan…" : "Saada artiklid"}
-            </button>
-          </div>
-        </div>
-      ) : null}
       <div className="card">
         <div className="card-title">Artiklite loetelu</div>
         <div className="rag-toolbar">
