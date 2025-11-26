@@ -60,9 +60,10 @@ coverage/
 .vercel/
 .turbo/
 
-# Prisma (kui kasutad SQLite arenduses — mitte sul, aga jätan näiteks)
+# Prisma (kui kasutad SQLite arenduses – mitte sul, aga jätan näiteks)
 prisma/dev.db
 prisma/dev.db-journal
+generated/
 
 # RAG lokaalsed andmed (Chroma jms)
 storage/
