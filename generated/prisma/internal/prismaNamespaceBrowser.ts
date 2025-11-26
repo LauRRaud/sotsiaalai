@@ -65,7 +65,8 @@ export const ModelName = {
   AnalyzeUsage: 'AnalyzeUsage',
   EmailOtpCode: 'EmailOtpCode',
   TrustedDevice: 'TrustedDevice',
-  LoginTempToken: 'LoginTempToken'
+  LoginTempToken: 'LoginTempToken',
+  ChatLog: 'ChatLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -310,6 +311,18 @@ export const LoginTempTokenScalarFieldEnum = {
 export type LoginTempTokenScalarFieldEnum = (typeof LoginTempTokenScalarFieldEnum)[keyof typeof LoginTempTokenScalarFieldEnum]
 
 
+export const ChatLogScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  role: 'role',
+  event: 'event',
+  data: 'data'
+} as const
+
+export type ChatLogScalarFieldEnum = (typeof ChatLogScalarFieldEnum)[keyof typeof ChatLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -324,6 +337,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: 'JsonNull'
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

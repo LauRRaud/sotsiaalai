@@ -398,7 +398,8 @@ export const ModelName = {
   AnalyzeUsage: 'AnalyzeUsage',
   EmailOtpCode: 'EmailOtpCode',
   TrustedDevice: 'TrustedDevice',
-  LoginTempToken: 'LoginTempToken'
+  LoginTempToken: 'LoginTempToken',
+  ChatLog: 'ChatLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "profile" | "account" | "session" | "verificationToken" | "subscription" | "payment" | "ragDocument" | "conversationRun" | "conversation" | "conversationMessage" | "analyzeUsage" | "emailOtpCode" | "trustedDevice" | "loginTempToken"
+    modelProps: "user" | "profile" | "account" | "session" | "verificationToken" | "subscription" | "payment" | "ragDocument" | "conversationRun" | "conversation" | "conversationMessage" | "analyzeUsage" | "emailOtpCode" | "trustedDevice" | "loginTempToken" | "chatLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1528,6 +1529,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ChatLog: {
+      payload: Prisma.$ChatLogPayload<ExtArgs>
+      fields: Prisma.ChatLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChatLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChatLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ChatLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChatLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>
+        }
+        findMany: {
+          args: Prisma.ChatLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>[]
+        }
+        create: {
+          args: Prisma.ChatLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>
+        }
+        createMany: {
+          args: Prisma.ChatLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChatLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>[]
+        }
+        delete: {
+          args: Prisma.ChatLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>
+        }
+        update: {
+          args: Prisma.ChatLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChatLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChatLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChatLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChatLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ChatLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChatLog>
+        }
+        groupBy: {
+          args: Prisma.ChatLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChatLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChatLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChatLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1793,6 +1868,18 @@ export const LoginTempTokenScalarFieldEnum = {
 export type LoginTempTokenScalarFieldEnum = (typeof LoginTempTokenScalarFieldEnum)[keyof typeof LoginTempTokenScalarFieldEnum]
 
 
+export const ChatLogScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  role: 'role',
+  event: 'event',
+  data: 'data'
+} as const
+
+export type ChatLogScalarFieldEnum = (typeof ChatLogScalarFieldEnum)[keyof typeof ChatLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1807,6 +1894,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2150,6 +2244,7 @@ export type GlobalOmitConfig = {
   emailOtpCode?: Prisma.EmailOtpCodeOmit
   trustedDevice?: Prisma.TrustedDeviceOmit
   loginTempToken?: Prisma.LoginTempTokenOmit
+  chatLog?: Prisma.ChatLogOmit
 }
 
 /* Types for Logging */

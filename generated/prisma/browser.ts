@@ -92,3 +92,8 @@ export type TrustedDevice = Prisma.TrustedDeviceModel
  * 
  */
 export type LoginTempToken = Prisma.LoginTempTokenModel
+/**
+ * Model ChatLog
+ * 
+ */
+export type ChatLog = Prisma.ChatLogModel
