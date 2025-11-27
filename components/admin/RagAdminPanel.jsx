@@ -534,14 +534,17 @@ export default function RagAdminPanel() {
 
   const renderTags = (arr) => {
     if (!arr || !arr.length) return <span className="text-muted">–</span>;
+    const visible = arr.slice(0, 4);
+    const extra = arr.length - visible.length;
     return (
-      <span className="tag-row">
-        {arr.map((t) => (
+      <div className="cell-tags">
+        {visible.map((t) => (
           <span className="badge badge-ghost" key={t}>
             {t}
           </span>
         ))}
-      </span>
+        {extra > 0 ? <span className="badge badge-ghost">+{extra}</span> : null}
+      </div>
     );
   };
 
@@ -736,9 +739,9 @@ export default function RagAdminPanel() {
                     <td onClick={(e) => e.stopPropagation()}>
                       <input type="checkbox" checked={selectedIds.has(doc.id)} onChange={() => toggleSelect(doc.id)} />
                     </td>
-                    <td>
+                    <td className="col-title">
                       <div className="cell-title">{doc.title || "(pealkiri puudub)"}</div>
-                      <div className="cell-sub">{doc.description || ""}</div>
+                      {doc.description ? <div className="cell-desc">{doc.description}</div> : null}
                     </td>
                     <td>{doc.section || "–"}</td>
                     <td>{(doc.authors || []).join(", ") || "–"}</td>
@@ -747,7 +750,7 @@ export default function RagAdminPanel() {
                       {doc.issueLabel ? ` / ${doc.issueLabel}` : ""}
                     </td>
                     <td>{getAudienceLabel(doc.audience)}</td>
-                    <td>{renderTags(doc.tags)}</td>
+                    <td className="col-tags">{renderTags(doc.tags)}</td>
                     <td>{doc.pageRange || ""}</td>
                     <td>
                       <span className={STATUS_CLASSES[status] || "badge"}>{STATUS_LABELS[status] || status}</span>
