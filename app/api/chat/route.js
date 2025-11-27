@@ -107,7 +107,7 @@ async function callOpenAI({ history, userMessage, context, effectiveRole, ground
     replyLang,
     isCrisis,
   });
-  const payload = { ...buildResponsesPayload(input), stream: false };
+  const payload = buildResponsesPayload(input, { stream: false });
   const resp = await client.responses.create(payload);
   const reply =
     (resp.output_text && resp.output_text.trim()) ||
@@ -130,7 +130,7 @@ async function streamOpenAI({ history, userMessage, context, effectiveRole, grou
     replyLang,
     isCrisis,
   });
-  const payload = buildResponsesPayload(input);
+  const payload = buildResponsesPayload(input, { stream: true });
   const stream = await client.responses.stream(payload);
   async function* iterator() {
     for await (const event of stream) {
