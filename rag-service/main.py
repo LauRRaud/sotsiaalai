@@ -880,9 +880,9 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             "docId": meta.docId or doc_id,
             "title": title or None,
             "description": description or None,
-            "authors": _stringify_meta(authors),
+            "authors": authors,
             "authors_list": authors or [],
-            "tags": _stringify_meta(tags),
+            "tags": tags,
             "tags_list": tags or [],
             "issue_id": issue_id or None,
             "issueId": issue_id or None,
@@ -908,7 +908,12 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             "page": page_nums[i],
             "createdAt": now_iso(),
         }
-        metadatas.append({k: v for k, v in m.items() if v is not None})
+        cleaned = {}
+        for k, v in m.items():
+            v2 = _stringify_meta(v)
+            if v2 is not None:
+                cleaned[k] = v2
+        metadatas.append(cleaned)
 
     embeddings = _embed_batch(final_texts)
     collection.upsert(documents=final_texts, metadatas=metadatas, ids=ids, embeddings=embeddings)
