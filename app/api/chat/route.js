@@ -294,7 +294,7 @@ export async function POST(req) {
             enc.encode(`event: delta\ndata: ${JSON.stringify({ t: reply })}\n\n`)
           );
           // mikro-flush, et tervituse tükk läheks KOHE teele
-          await new Promise(r => setTimeout(r, 0));
+
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {
           try { controller.close(); } catch {}
@@ -502,7 +502,7 @@ export async function POST(req) {
           controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis })}\n\n`));
           controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: out })}\n\n`));
           // mikro-flush, et esimene tükk ei jääks klompi
-          await new Promise(r => setTimeout(r, 0));
+
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {
           try { controller.close(); } catch {}
@@ -593,17 +593,6 @@ export async function POST(req) {
   let clientGone = false;
   let heartbeatTimer = null;
   let accumulated = "";
-  let lastFlush = 0;
-
-  const maybeFlush = async () => {
-    const now = Date.now();
-    if (now - lastFlush >= 700) {
-      lastFlush = now;
-      if (persist && convId && userId) {
-        await persistAppend({ convId, userId, fullText: accumulated });
-      }
-    }
-  };
 
   const sse = new ReadableStream({
     async start(controller) {
@@ -660,13 +649,13 @@ export async function POST(req) {
                 controller.enqueue(
                   enc.encode(`event: delta\ndata: ${JSON.stringify({ t: ev.text })}\n\n`)
                 );
-                // 🔸 mikro-flush: lase igal delta-tükil kohe väljuda
-                await new Promise(r => setTimeout(r, 0));
+
+
               } catch {
                 clientGone = true;
               }
             }
-            await maybeFlush();
+
           } else if (ev.type === "done") {
             if (persist && convId && userId) {
               await persistAppend({ convId, userId, fullText: accumulated });
