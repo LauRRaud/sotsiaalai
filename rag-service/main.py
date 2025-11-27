@@ -27,7 +27,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator
 
 import chromadb
 from chromadb.config import Settings
@@ -558,7 +558,7 @@ class RagMetadata(BaseModel):
     articleId: Optional[str] = None
     title: Optional[str] = None
     description: Optional[str] = None
-    authors: List[str] = []
+    authors: List[str] = Field(default_factory=list)
     year: Optional[int | str] = None
     journalTitle: Optional[str] = None
     issueLabel: Optional[str] = None
@@ -573,9 +573,9 @@ class RagMetadata(BaseModel):
     pdf_start_page: Optional[int] = None
     pdf_end_page: Optional[int] = None
     language: Optional[str] = "et"
-    tags: List[str] = []
-    pages: List[int] = []
-    regulationRefs: List[str] = []
+    tags: List[str] = Field(default_factory=list)
+    pages: List[int] = Field(default_factory=list)
+    regulationRefs: List[str] = Field(default_factory=list)
     publisher: Optional[str] = None
     doi: Optional[str] = None
     url: Optional[str] = None
@@ -1264,15 +1264,18 @@ async def ingest_pdf_with_metadata(
     )
     logger.debug("Metadata for ingest: %s", meta_dict)
 
-    result = _process_ingest_file(
-        doc_id=doc_id,
-        file_name=file_name,
-        raw=raw,
-        mime_declared=file.content_type,
-        meta=meta_dict,
-        page_start=start_page,
-        page_end=end_page,
-    )
+    try:
+        result = _process_ingest_file(
+            doc_id=doc_id,
+            file_name=file_name,
+            raw=raw,
+            mime_declared=file.content_type,
+            meta=meta_dict,
+            page_start=start_page,
+            page_end=end_page,
+        )
+    except ValidationError as e:
+        raise HTTPException(400, f"Invalid metadata: {e}") from e
 
     return {
         **result,
