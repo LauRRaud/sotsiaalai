@@ -310,10 +310,10 @@ body::-webkit-scrollbar {
 }
 @media (min-width: 110em) {
   :root {
-    --card-size: clamp(17.6rem, 36vw, 27.25rem);
-    --card-logo-front-left: clamp(6rem, calc(var(--card-size) * 0.48), 16.2rem);
-    --card-logo-front-right: clamp(5.4rem, calc(var(--card-size) * 0.40), 13.9rem);
-    --card-logo-back: clamp(3.6rem, calc(var(--card-size) * 0.25), 9.2rem);
+    --card-size: clamp(18.75rem, 27vw, 27rem);
+    --card-logo-front-left: clamp(6.2rem, calc(var(--card-size) * 0.48), 12.9rem);
+    --card-logo-front-right: clamp(5.7rem, calc(var(--card-size) * 0.40), 11.4rem);
+    --card-logo-back: clamp(3.8rem, calc(var(--card-size) * 0.25), 9.2rem);
   }
 }
 .glass-title,
@@ -355,9 +355,9 @@ main#main > .main-content.glass-box {
   margin-block: auto;
 }
 main#main > .main-content.glass-box {
-  width: min(100%, 86vw);
-  max-width: clamp(32rem, 70vw, 50rem);
-  margin: clamp(1.6rem, 4.5vw, 2.8rem) auto clamp(1.6rem, 4.5vw, 2.8rem);
+  width: min(100%, 92vw);
+  max-width: clamp(36rem, 66vw, 62rem);
+  margin: clamp(1.6rem, 4vw, 3rem) auto clamp(1.6rem, 4vw, 3rem);
 }
 .main-content {
   display: flex;
@@ -386,6 +386,28 @@ main#main > .main-content.glass-box {
   padding: 2rem 1.5rem;
   box-sizing: border-box;
   position: relative;
+}
+@media (min-width: 90em) {
+  .homepage-root > .main-content {
+    max-width: min(86vw, 88rem);
+    margin: 0 auto;
+    gap: clamp(14rem, 15vw, 22rem);
+  }
+}
+@media (min-width: 110em) {
+  .homepage-root > .main-content {
+    max-width: min(88vw, 96rem);
+    gap: clamp(16rem, 17vw, 26rem);
+  }
+  .homepage-root .side {
+    padding: clamp(1.4rem, 2vw, 2rem) 1.25rem;
+  }
+}
+@media (min-width: 130em) {
+  .homepage-root > .main-content {
+    max-width: min(90vw, 104rem);
+    gap: clamp(18rem, 19vw, 28rem);
+  }
 }
 .three-d-card{
   width: var(--card-size);
@@ -700,15 +722,19 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
     margin-top: -1em;
 }
 .centered-back-left .headline-bold {
-  font-size: 1.82rem;
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
   color: #323232;
   text-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.045em;
+  line-height: 1.12;
 }
 .centered-back-right .headline-bold {
-  font-size: 1.68rem;
+  font-size: clamp(1.4rem, 2.4vw, 2.1rem);
   color: var(--brand-primary);
   opacity: 0.8;
   text-shadow: 0 0.5rem 0.3rem rgb(0, 0, 0, 0.6);
+  letter-spacing: 0.045em;
+  line-height: 1.12;
 }
 .footer-column {
   display: flex;
@@ -837,11 +863,10 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   -webkit-backdrop-filter: blur(1rem);
   color: #f2f2f2;
   border-radius: 1.5em;
-  padding: clamp(0.8rem, 2.5vw, 1.3rem) clamp(1.8rem, 4.5vw, 2.6rem) clamp(1.2rem, 3.5vw, 2rem);
-  width: min(100%, 86vw);
-  max-width: clamp(32rem, 70vw, 50rem);
-  margin: clamp(1.4rem, 4vw, 2.6rem) auto clamp(1.4rem, 4vw, 2.6rem);
-  font-size: 1.22rem;
+  padding: clamp(1rem, 3vw, 1.7rem) clamp(2.2rem, 5vw, 3.3rem) clamp(1.5rem, 3.8vw, 2.4rem);
+  width: min(100%, 92vw);
+  max-width: clamp(36rem, 66vw, 62rem);
+  margin: clamp(1.4rem, 4vw, 3rem) auto clamp(1.4rem, 4vw, 3rem);
   display: flex;
   flex-direction: column;
   gap: 1.15em;
@@ -849,6 +874,24 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   box-sizing: border-box;
   justify-content: flex-start;
   align-items: stretch;
+}
+:root {
+  --glass-font-size: 1.30rem;
+}
+.glass-box {
+  font-size: var(--glass-font-size);
+}
+@media (min-width: 80em) {
+  :root {
+    --glass-font-size: 1.38rem;
+  }
+  .glass-box {
+    padding: clamp(1.1rem, 2.8vw, 1.9rem) clamp(2.5rem, 4.8vw, 3.5rem) clamp(1.6rem, 3.6vw, 2.6rem);
+  }
+}
+.glass-box.chat-container,
+.glass-box.profile-container {
+  margin: auto;
 }
 .alaleht-footer {
   width: 100%;
@@ -879,6 +922,15 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 .profile-container .alaleht-footer{
   padding-top: 0.8em;
   margin-top: 0;
+}
+main#main > .main-content.glass-box.profile-container {
+  flex: 0 1 auto;
+  max-height: calc(100dvh - clamp(3rem, 6vw, 5.5rem));
+  align-self: center;
+  width: min(100%, 92vw);
+  max-width: clamp(36rem, 66vw, 62rem);
+  min-height: clamp(26rem, 52vh, 44rem);
+  margin: auto;
 }
 .glass-h2 {
   font-size: 1.15em;
@@ -1127,11 +1179,16 @@ a {
   gap: 0.55em;
 }
 .profile-role-pill {
-  font-size: 1.35em;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   margin-bottom: 0;
-  color: var(--pt-light);      
-  letter-spacing: 0.03em;
+  color: #fdfcf9;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  text-shadow: 0 0.06rem 0.22rem rgba(0,0,0,0.55);
+  position: relative;
 }
 .profile-tellimus-link {
   display: inline-block;
@@ -2863,20 +2920,21 @@ textarea::placeholder{
 }
 @media (min-width: 130em){
   :root{
-    --card-size: clamp(19.5rem, 24vw, 27rem);
-    --card-logo-front-left: clamp(6.6rem, calc(var(--card-size) * 0.48), 16.1rem);
-    --card-logo-front-right: clamp(6rem, calc(var(--card-size) * 0.40), 14.2rem);
-    --card-logo-back: clamp(4rem, calc(var(--card-size) * 0.25), 9.3rem);
+    --card-size: clamp(20.5rem, 28vw, 28.8rem);
+    --card-logo-front-left: clamp(6.9rem, calc(var(--card-size) * 0.48), 13.9rem);
+    --card-logo-front-right: clamp(6.2rem, calc(var(--card-size) * 0.40), 11.9rem);
+    --card-logo-back: clamp(4.1rem, calc(var(--card-size) * 0.25), 9.9rem);
   }
   .glass-card,
   .centered-back-left,
   .centered-back-right{ padding: clamp(2.4em, 1.6vw, 3.4em); }
   .footer-link-headline{ font-size: clamp(1.6rem, 1.1vw, 2.1rem); }
+  .footer-logo-img{ max-width: clamp(24rem, 16vw, 32rem); }
 }
 @media (max-width: 75em) and (min-width: 47.376em) {
 }
 @media (min-width: 110em) {
-  .footer-logo-img{ max-width: clamp(23rem, 15vw, 30rem); }
+  .footer-logo-img{ max-width: clamp(22rem, 18vw, 30rem); }
 }
 @media (max-width: 90em) {
     .footer-logo-img{ max-width: clamp(19rem, 24vw, 25rem); }
@@ -4406,6 +4464,12 @@ backdrop-filter: none;
   overflow: visible;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
+.chat-inputbar{
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
+}
+
 .chat-inputbar:hover:not(:focus-within){
   border-color: rgba(84,95,115,0.68);
   background: rgba(15,19,25,0.38);
@@ -4420,6 +4484,7 @@ backdrop-filter: none;
     0 0 2px var(--chat-hover-soft),
     0 0 6px var(--chat-hover-outer);
 }
+
 .chat-inputbar .chat-input-field:focus-visible{
   border-color: transparent;
   background: transparent;
@@ -4651,7 +4716,7 @@ backdrop-filter: none;
   display: block;
   color: var(--pt-300);
   opacity: 0.95;
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   line-height: 1;
 }
 :root {
@@ -4748,7 +4813,7 @@ backdrop-filter: none;
   max-width:72ch;
   background: rgba(14,20,32,0.34);
   color: var(--pt-150);
-  border:2px solid rgba(220,220,220,0.32);
+  border:2px solid rgba(240,240,240,0.55);
   border-radius: 1.15em 1.15em .55em 1.15em;
   padding:.62em 1em;
   font-size:1.05em;
@@ -4762,11 +4827,11 @@ backdrop-filter: none;
 }
 .chat-msg-user:hover,
 .chat-msg-user:focus-within{
-  border-color: rgba(208,173,173,0.55);
-  background: rgba(14,20,32,0.38);
+  border-color: rgba(255, 255, 255, 0.32);
+  background: var(--glass-input-bg-active);
   box-shadow:
-    0 0 0 1px rgba(201,199,194,0.22),
-    0 0.875rem 1.75rem rgba(5,8,15,0.45);
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
 .chat-msg-ai{
   background:transparent; border:none; box-shadow:none;
@@ -4900,7 +4965,7 @@ backdrop-filter: none;
 }
 .chat-menu-icon span {
   display: block;
-  height: 2px;
+  height: 3px;
   width: 100%;
   background: currentColor; 
   border-radius: 2px;
@@ -5211,7 +5276,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   font-size: 1.2em;
   padding: 0.68em 1.2em;
 }
-@media (max-width: 520px){
+@media (max-width: 789px){
 .login-modal-root .btn-primary{
     font-size: 1.32em;
     padding: 0.76em 1.26em;
@@ -5363,7 +5428,7 @@ html[data-contrast=hc] .desc-ring-right * {
 
   /* Klaaspinnad */
   --glass-blur-radius: 1rem;
-  --glass-surface-bg: rgba(255,255,255,0.4);
+  --glass-surface-bg: rgba(255,255,255,0.45);
   --glass-surface-text: #2b2620;
 
   /* Analüüsikaart */
@@ -5399,17 +5464,27 @@ html[data-contrast=hc] .desc-ring-right * {
 :root.theme-light .chat-upload-action-btn,
 :root.theme-light .chat-upload-action-btn--accent,
 :root.theme-light .chat-inputbar .chat-send-btn,
-:root.theme-light .chat-inputbar .chat-attach-as-send {
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-attach-as-send,
+:root.theme-light .chat-inputbar .chat-attach-btn,
+:root.theme-light body .chat-attach-btn.chat-attach-as-send {
   border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
   background: var(--glass-btn-bg-idle);
 }
-
+:root:not(.theme-light) .chat-listen-btn[data-speaking="true"]{
+  box-shadow:
+    0 0 0 1px rgba(220,230,245,0.32),
+    0 0 10px rgba(240,245,255,0.26);
+    }
 :root.theme-light .btn-primary:hover,
 :root.theme-light .btn-primary:focus-visible,
+:root.theme-light .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light .chat-inputbar .chat-listen-btn:focus-visible,
 :root.theme-light .chat-inputbar .chat-send-btn:hover,
 :root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
 :root.theme-light .chat-inputbar .chat-send-btn.chat-send-btn--active,
 :root.theme-light .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
+:root.theme-light .chat-inputbar .chat-send-btn[data-loader-active="true"],
 :root.theme-light .chat-inputbar .chat-attach-as-send:hover,
 :root.theme-light .chat-inputbar .chat-attach-as-send:focus-visible,
 :root.theme-light .chat-attach-btn.chat-attach-as-send:hover,
@@ -5418,6 +5493,34 @@ html[data-contrast=hc] .desc-ring-right * {
   border-color: rgba(255, 255, 255, 0.24);
   background: var(--glass-btn-bg-active);
 }
+:root.theme-light .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light .chat-inputbar .chat-listen-btn:focus-visible,
+:root.theme-light .chat-inputbar .chat-send-btn:not([data-recording="true"]):hover,
+:root.theme-light .chat-inputbar .chat-send-btn:not([data-recording="true"]):focus-visible {
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.24);
+  background: var(--glass-btn-bg-active);
+}
+
+/* Dark teema: ühtlane hall serv nuppudel */
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn,
+:root:not(.theme-light) .chat-inputbar .chat-send-btn {
+  border: 2px solid rgba(84,95,115,0.55);
+  background: rgba(10,14,24,0.22);
+}
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn:hover,
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible,
+:root:not(.theme-light) .chat-inputbar .chat-send-btn:not([data-recording="true"]):hover,
+:root:not(.theme-light) .chat-inputbar .chat-send-btn:not([data-recording="true"]):focus-visible {
+  border-color: rgba(84,95,115,0.68);
+  background: rgba(15,19,25,0.24);
+}
+
+/* Dikteerimise nupp: aktiivne (recording) punase servaga mõlemas teemas */
+.chat-inputbar .chat-send-btn.chat-send-btn--active[data-recording="true"],
+.chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: var(--brand-primary);
+}
 
 /* =====================================
    VESTLUSE SISESTRIBA
@@ -5425,15 +5528,17 @@ html[data-contrast=hc] .desc-ring-right * {
 :root.theme-light .chat-inputbar,
 :root.theme-light .chat-input-row .chat-inputbar {
   background: var(--glass-input-bg-idle);
-  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.20);
 }
 
 :root.theme-light .chat-inputbar:hover:not(:focus-within),
 :root.theme-light .chat-inputbar:focus-within {
   background: var(--glass-input-bg-active);
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.30);
   border-width: 2px;
-  box-shadow: none;
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
 
 /* =====================================
@@ -5459,11 +5564,12 @@ html[data-contrast=hc] .desc-ring-right * {
 /* Vestluse klaaskast – sama taust */
 main#main > .main-content.glass-box.chat-container,
 .glass-box.chat-container {
-  width: min(100%, 86vw);
-  max-width: clamp(32rem, 70vw, 50rem);
-  height: min(92dvh, 52rem);
-  max-height: min(92dvh, 52rem);
-  margin: clamp(1.6rem, 4.5vw, 2.8rem) auto;
+  width: min(100%, 92vw);
+  max-width: clamp(36rem, 66vw, 62rem);
+  height: auto;
+  min-height: clamp(16rem, 42vh, 30rem);
+  max-height: min(74vh, calc(100dvh - clamp(8rem, 12vw, 12rem)));
+  margin: auto;
 }
 
 :root.theme-light main#main > .main-content.glass-box.chat-container,
@@ -5514,6 +5620,16 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .glass-title, :root.theme-light .glass-h2, :root.theme-light .glass-label, :root.theme-light h1, :root.theme-light h3 {
   color: var(--title-color);
 }
+:root.theme-light .glass-title,
+:root.theme-light .glass-h2,
+:root.theme-light h1,
+:root.theme-light h3,
+:root.theme-light .page-title {
+  text-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.3);
+}
+:root.theme-light .doc-section-heading {
+  color: var(--title-color);
+}
 :root.theme-light .alaleht-footer {
   color: var(--text-strong);
 }
@@ -5548,6 +5664,20 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 }
 :root.theme-light .chat-msg-user {
   color: var(--pt-150);
+  background: var(--glass-input-bg-idle);
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
+}
+
+/* Light theme: profile email cards – sama serv kui e-posti lahtril */
+:root.theme-light .profile-email-card {
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+}
+:root.theme-light .profile-email-card:hover,
+:root.theme-light .profile-email-card:focus-visible {
+  border-color: rgba(255, 255, 255, 0.24);
 }
 :root.theme-light .chat-msg-ai {
   color: var(--text-strong);
@@ -5618,45 +5748,50 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 /* =====================================
    PROFIIILI E-POSTI DOCK
    ===================================== */
+:root.theme-light .dock-panel.profile-email-dock {
+  background: var(--glass-input-bg-idle);
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
+}
+
 :root.theme-light .profile-email-dock-wrapper .dock-item {
-  background: rgba(5, 6, 10, 0.78);              /* tume ruut tagasi */
-  border: 2px solid rgba(200, 205, 215, 0.35);
-  color: #f5f5f5;                                 /* hele tekst */
+  /* ruudud - veidi tumedam taust, sarnane chat-nuppude hoveriga */
+  background: rgba(18, 20, 32, 0.30);
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  color: var(--text-strong);
 }
 
 :root.theme-light .profile-email-dock-wrapper .dock-item:hover,
 :root.theme-light .profile-email-dock-wrapper .dock-item:focus-visible {
-  background: rgba(8, 10, 16, 0.85);
-  border-color: rgba(200, 205, 215, 0.5);
-  color: #ffffff;
-  box-shadow:
-    0 0.2rem 0.95rem rgba(255, 221, 173, 0.2),
-    0 0 0.35rem rgba(240, 204, 157, 0.15);
-}
-
-/* Docki ikoonid – heledad */
-:root.theme-light .profile-email-dock-wrapper .dock-item svg {
-  stroke: #f5f5f5;
-  fill: none;
-}
-
-:root.theme-light .profile-role-pill {
+  background: rgba(18, 20, 32, 0.36);
+  border-width: 3px;
+  border-color: rgba(255, 255, 255, 0.24);
   color: var(--text-strong);
+}
+
+/* Docki ikoonid – samas toonis nagu chat-ikoonid */
+:root.theme-light .profile-email-dock-wrapper .dock-item svg {
+  stroke: var(--chat-icon-color);
+  fill: none;      /* kerge varjuga loetavus */
 }
 
 /* =====================================
    KÕIK SISENDVÄLJAD (inputid)
    ===================================== */
-/* Idle - sama hallikas taust mis chat-sisestusel */
+/* Idle - sama hallikas taust ja serv nagu chat-sisestusel */
 :root.theme-light .input-modern,
 :root.theme-light .login-modal-root .login-modal-form input,
 :root.theme-light .profile-email-field .input-modern,
 :root.theme-light input[type="email"] {
   background: var(--glass-input-bg-idle);
-  border: 3px solid rgba(255, 255, 255, 0.15);
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
   color: var(--text-strong);
   caret-color: var(--text-strong);
-  box-shadow: 0 0.625rem 1.375rem rgba(5,8,15,0.32);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
 
 /* Hover */
@@ -5666,8 +5801,10 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light input[type="email"]:hover:not(:focus) {
   background: var(--glass-input-bg-active);
   border-color: rgba(255, 255, 255, 0.24);
-  border-width: 3px;
-  box-shadow: 0 0.625rem 1.375rem rgba(5,8,15,0.36);
+  border-width: var(--glass-border-width);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
 
 /* Focus */
@@ -5676,9 +5813,11 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .profile-email-field .input-modern:focus-visible,
 :root.theme-light input[type="email"]:focus-visible {
   background: var(--glass-input-bg-active);
-  border-width: 3px;
-  border-color: rgba(255, 255, 255, 0.32);
-  box-shadow: 0 0.625rem 1.375rem rgba(5,8,15,0.38);
+  border-width: var(--glass-border-width);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
 
 /* Placeholder */
@@ -5688,24 +5827,13 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .input-modern::placeholder {
   color: rgba(43, 38, 32, 0.65);
 }
-
-/* =====================================
-   LOGIN MODALI EMAIL INPUT ERI-JUHT (vajadusel ikooniga)
-   ===================================== */
-:root.theme-light .login-modal-root .login-modal-form input[type="email"],
-:root.theme-light .login-modal-root .login-modal-form input.input-email-icon {
-  /* taust jäi samaks glass-input taustaga, border reguleerib ülemine blokk */
-  box-shadow: 0 0.625rem 1.375rem rgba(5,8,15,0.32);
-}
 :root.theme-light .login-modal-root .login-modal-form input {
   color: var(--pt-50);
   caret-color: var(--pt-50);
-  box-shadow: 0 0.625rem 1.375rem rgba(5,8,15,0.32);
 }
 :root.theme-light .profile-email-field .input-modern {
   color: var(--pt-50);
   caret-color: var(--pt-50);
-  box-shadow: 0 0.625rem 1.375rem rgba(5,8,15,0.32);
 }
 :root.theme-light .login-modal-root .login-email-icon-btn--known {
   background-image: url("/logo/r%C3%BCmbrikhele.svg");
@@ -5720,6 +5848,10 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .chat-menu-label {
   color: var(--title-color);
   border-color: var(--title-color);
+}
+:root.theme-light .chat-menu-label,
+:root.theme-light .avatar-label {
+  font-weight: 550;
 }
 :root.theme-light .chat-menu-btn:hover,
 :root.theme-light .chat-menu-btn:focus-visible,
@@ -5740,27 +5872,64 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
    MUUD GLASS DETAILID
    ===================================== */
 
-/* Heli / audio + attach nupud */
-.chat-inputbar .chat-listen-btn svg:not(.svg),
-.chat-inputbar .chat-attach-btn svg:not(.svg),
-.chat-inputbar .chat-send-btn[data-recording="true"] svg:not(.svg) {
+/* Heli / audio nupud – ikoon natuke suurem */
+.chat-input-row .chat-inputbar .chat-listen-btn svg:not(.svg),
+.chat-input-row .chat-inputbar .chat-send-btn[data-recording="true"] svg:not(.svg),
+.chat-input-row .chat-inputbar .chat-send-btn[data-recording] svg:not(.svg) {
   stroke: var(--chat-icon-color);
   opacity: 0.95;
+  transform: scale(1.14);
+  transform-origin: center;
 }
-.chat-send-btn[data-recording] svg:not(.svg) {
-  stroke: var(--chat-icon-color);
-  opacity: 0.95;
+/* Attach-ikoon veidi suurem ja kindla suurusega */
+.chat-input-row .chat-attach-btn .chat-attach-icon {
+  width: 2.4rem;
+  height: 2.4rem;
 }
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
 }
 
-.chat-inputbar .chat-listen-btn,
-.chat-inputbar .chat-attach-btn,
-.chat-inputbar .chat-send-btn[data-recording="true"] {
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn,
+:root:not(.theme-light) .chat-inputbar .chat-attach-btn,
+:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording="true"] {
   color: var(--chat-icon-color);
-  border: 2px solid rgba(200,205,215,0.18);
+  border: 2px solid rgba(84,95,115,0.55);
+  background: rgba(10,14,24,0.22);
   box-shadow: none;
+}
+
+/* Helerežiimis ühtlane hele serv kõigile sisestusriba nuppudele ka ilma hoverita */
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-send-btn,
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"],
+:root.theme-light .chat-inputbar .chat-attach-as-send,
+:root.theme-light .chat-inputbar .chat-attach-btn {
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  background: var(--glass-btn-bg-idle);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
+}
+:root.theme-light .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light .chat-inputbar .chat-listen-btn:focus-visible,
+:root.theme-light .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-inputbar .chat-send-btn.chat-send-btn--active,
+:root.theme-light .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
+:root.theme-light .chat-inputbar .chat-send-btn[data-loader-active="true"],
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"]:hover,
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"]:focus-visible,
+:root.theme-light .chat-inputbar .chat-attach-as-send:hover,
+:root.theme-light .chat-inputbar .chat-attach-as-send:focus-visible,
+:root.theme-light .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light .chat-attach-btn.chat-attach-as-send:focus-visible {
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.24);
+  background: var(--glass-btn-bg-active);
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
 .chat-inputbar .chat-attach-btn {
   filter: none;
@@ -5768,70 +5937,33 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
     0 0 0 1px rgba(201,199,194,0.16),
     0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
-
-:root.theme-light
-  .chat-inputbar .chat-listen-btn svg:not(.svg),
-:root.theme-light
-  .chat-inputbar .chat-attach-btn svg:not(.svg),
-:root.theme-light
-  .chat-inputbar .chat-send-btn svg:not(.svg) {
-  stroke: var(--chat-icon-color);
-  opacity: 0.96;
-}
-:root.theme-light
-  .chat-send-btn[data-recording="true"] svg:not(.svg) {
-  stroke: var(--text-strong);
-  color: var(--text-strong);
-  opacity: 0.98;
-}
-
-:root.theme-light
-  .chat-inputbar .chat-listen-btn,
-:root.theme-light
-  .chat-inputbar .chat-attach-btn,
-:root.theme-light
-  .chat-inputbar .chat-send-btn[data-recording="true"] {
-  color: var(--chat-icon-color);
-  border: 2px solid rgba(200,205,215,0.18);
+:root:not(.theme-light) .chat-inputbar .chat-attach-btn {
   box-shadow: none;
 }
-:root.theme-light .chat-inputbar .chat-attach-btn {
-  box-shadow:
-    0 0 0 1px rgba(201,199,194,0.16),
-    0 0.625rem 1.375rem rgba(5,8,15,0.38);
+:root:not(.theme-light)
+  .chat-inputbar:hover:not(:focus-within),
+:root:not(.theme-light)
+  .chat-inputbar:focus-within {
+  border-color: rgba(215,225,240,0.85);
+  box-shadow: none;
 }
-:root.theme-light
-  .chat-send-btn[data-recording="true"] {
-  color: var(--text-strong);
-}
-
-/* default taust audio + attach – sama mis sisestusriba taust */
-:root.theme-light .chat-inputbar .chat-listen-btn,
-:root.theme-light .chat-inputbar .chat-attach-btn {
-  background: var(--glass-input-bg-idle);
-  border: 2px solid rgba(200,205,215,0.18);
-}
-
-/* hover audio + attach – sama loogika */
-:root.theme-light
-  .chat-inputbar .chat-listen-btn:hover,
-:root.theme-light
+:root:not(.theme-light)
+  .chat-inputbar .chat-send-btn:hover,
+:root:not(.theme-light)
+  .chat-inputbar .chat-send-btn:focus-visible,
+:root:not(.theme-light)
+  .chat-inputbar .chat-send-btn[data-loader-active="true"],
+:root:not(.theme-light)
+  .chat-inputbar .chat-send-btn.chat-send-btn--active,
+:root:not(.theme-light)
+  .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
+:root:not(.theme-light)
   .chat-inputbar .chat-attach-btn:hover,
-:root.theme-light
+:root:not(.theme-light)
   .chat-inputbar .chat-attach-btn:focus-visible {
-  background: var(--glass-input-bg-active);
+  border-color: rgba(215,225,240,0.85);
+  box-shadow: none;
 }
-
-/* aktiivne – audio räägib / send salvestab */
-:root.theme-light
-  .chat-inputbar .chat-listen-btn[data-speaking="true"],
-:root.theme-light
-  .chat-inputbar .chat-send-btn[data-recording="true"] {
-  border-color: var(--glow-light-ring);
-  background: var(--glass-btn-bg-active);
-  box-shadow: var(--glass-shadow-glow);
-}
-
 /* Viimistlus: attach-nupu vari helerežiimis – sama stiil mis sisestuslahtril */
 :root.theme-light body .chat-attach-btn.chat-attach-as-send {
   box-shadow:
@@ -5840,8 +5972,11 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 }
 :root.theme-light body .chat-attach-btn.chat-attach-as-send:hover,
 :root.theme-light body .chat-attach-btn.chat-attach-as-send:focus-visible {
-  box-shadow: none;
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38);
 }
+
 /* RAG admin styles – dark theme for better contrast */
 .rag-admin { display: flex; flex-direction: column; gap: 16px; padding: 8px 0 24px; color: #e2e8f0; background: radial-gradient(circle at 10% 20%, rgba(59,130,246,0.08), transparent 25%), #0b1220; }
 .flex-row { display: flex; gap: 12px; align-items: center; }
@@ -5868,6 +6003,10 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn-primary { background: #374151; color: #f9fafb; border-color: #4b5563; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3); }
 .btn-primary:hover { background: #4b5563; }
+:root:not(.theme-light) .chat-inputbar{
+  box-shadow: none;
+}
+/* Helerežiimis: vestluse sisestusriba nupud – üks ühtlane serv, veidi tumedam kui sisestuslahtril */
 .btn-link { border: none; background: transparent; color: #93c5fd; padding: 0 4px; }
 
 .alert { border-radius: 10px; padding: 10px 12px; border: 1px solid transparent; }
@@ -5881,6 +6020,7 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 .badge-blue { background: #0b2545; border-color: #38bdf8; color: #bfdbfe; }
 .badge-green { background: #0f2f1b; border-color: #22c55e; color: #bbf7d0; }
 .badge-red { background: #3b0d0d; border-color: #fca5a5; color: #fecdd3; }
+
 .badge-ghost { background: #1e1b4b; color: #c7d2fe; border-color: transparent; }
 
 .rag-toolbar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; align-items: center; }
@@ -5909,4 +6049,163 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   .cell-actions { flex-direction: row; flex-wrap: wrap; }
   .rag-table th:nth-child(7), .rag-table td:nth-child(7),
   .rag-table th:nth-child(8), .rag-table td:nth-child(8) { display: none; }
+}
+
+/* Light theme: thicker titles and links on content pages */
+:root.theme-light .glass-title,
+:root.theme-light .glass-h2,
+:root.theme-light .glass-label,
+:root.theme-light h1,
+:root.theme-light h3 {
+  font-weight: 500;
+}
+:root.theme-light .doc-section-heading {
+  font-weight: 500;
+}
+:root.theme-light .link-brand,
+:root.theme-light .unustasid-parooli-link,
+:root.theme-light .login-modal-bottom-link .link-brand,
+:root.theme-light .link-brand-inline,
+:root.theme-light .meist-external-link,
+:root.theme-light .doc-body a,
+:root.theme-light .doc-body .link-brand {
+  font-weight: 500;
+}
+
+/* Light theme: usage guide titles in brand color */
+:root.theme-light #kasutusjuhend-title.glass-title {
+  color: var(--brand-primary);
+}
+:root.theme-light .guide-card .doc-section-heading {
+  color: var(--brand-primary);
+}
+
+/* Light theme: unify chat input buttons border with input bar */
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-send-btn {
+  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+}
+
+/* Helerežiim: lõplik override – tumedam täide ja paksem serv chat-nuppudel */
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send,
+:root.theme-light .chat-input-row .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn {
+  border-width: 3px !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  background: color-mix(in srgb, var(--glass-btn-bg-active) 30%, transparent) !important;
+}
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:focus-visible,
+:root.theme-light .chat-input-row .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light .chat-input-row .chat-inputbar .chat-listen-btn:focus-visible,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn.chat-send-btn--active,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn:has(.send-loader[data-animated=\"true\"]),
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn[data-loader-active=\"true\"],
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn[data-recording=\"true\"]:hover,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn[data-recording=\"true\"]:focus-visible {
+  border-color: rgba(255, 255, 255, 0.26) !important;
+  background: color-mix(in srgb, var(--glass-btn-bg-active) 50%, transparent) !important;
+}
+
+/* Helerežiim: attach-nupu vari tagasi ka hoveril */
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send,
+:root.theme-light body .chat-attach-btn.chat-attach-as-send {
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38) !important;
+}
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:focus-visible,
+:root.theme-light body .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light body .chat-attach-btn.chat-attach-as-send:focus-visible {
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38) !important;
+}
+
+/* Helerežiim: lõplik override – sama taust mis klaaskastil, tumedam hoveril */
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send {
+  background: color-mix(in srgb, var(--glass-btn-bg-active) 35%, var(--glass-surface-bg) 65%) !important;
+  border-width: 3px !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+:root.theme-light .chat-input-row .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn {
+  background: color-mix(in srgb, var(--glass-btn-bg-active) 4%, var(--glass-surface-bg) 96%) !important;
+  border-width: 3px !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:focus-visible,
+:root.theme-light .chat-input-row .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light .chat-input-row .chat-inputbar .chat-listen-btn:focus-visible,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn.chat-send-btn--active,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn[data-loader-active="true"],
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn[data-recording="true"]:hover,
+:root.theme-light .chat-input-row .chat-inputbar .chat-send-btn[data-recording="true"]:focus-visible {
+  background: var(--glass-btn-bg-active) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
+}
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send {
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38) !important;
+}
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:hover,
+:root.theme-light .chat-input-row .chat-attach-btn.chat-attach-as-send:focus-visible {
+  box-shadow:
+    0 0 0 1px rgba(201,199,194,0.16),
+    0 0.625rem 1.375rem rgba(5,8,15,0.38) !important;
+}
+
+/* Helerežiim: peenem override – listen/speak/send veidi heledam idle, tumedam hover */
+:root.theme-light {
+  --chat-btn-idle-light: rgba(255, 255, 255, 0.20);
+  --chat-btn-hover-light: rgba(18, 20, 32, 0.26);
+}
+
+:root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn {
+  background: var(--chat-btn-idle-light) !important;
+  border-width: 3px !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+:root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn:focus-visible,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn:hover,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn.chat-send-btn--active,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn:has(.send-loader[data-animated="true"]),
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn[data-loader-active="true"],
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn[data-recording="true"]:hover,
+:root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn[data-recording="true"]:focus-visible {
+  background: var(--chat-btn-hover-light) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
+}
+:root.theme-light .chat-menu-btn .chat-menu-icon span {
+  height: 3px !important;
+  margin: 3px 0;
+  border-radius: 5px;
+  transform-origin: center;
+  transform: scaleX(1.1) scaleY(1.1);
+}
+:root.theme-light .profile-role-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  color: #fdfcf9;
+  text-shadow: 0 0.04rem 0.18rem rgba(0,0,0,0.45);
 }

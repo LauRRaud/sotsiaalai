@@ -55,6 +55,26 @@ export default function KasutustingimusedBody() {
         { value: t("terms.section9.paragraph2") },
       ],
     },
+    {
+      heading: t("terms.section10.heading"),
+      content: [
+        { value: t("terms.section10.paragraph1") },
+        { value: t("terms.section10.items"), type: "list" },
+        { value: t("terms.section10.paragraph2") },
+      ],
+    },
+    {
+      heading: t("terms.section11.heading"),
+      content: [{ value: t("terms.section11.body") }],
+    },
+    {
+      heading: t("terms.section12.heading"),
+      content: [{ value: t("terms.section12.body") }],
+    },
+    {
+      heading: t("terms.section13.heading"),
+      content: [{ value: t("terms.section13.body") }],
+    },
   ];
   return (
     <article className="main-content glass-box" aria-labelledby="terms-title" lang={locale}>

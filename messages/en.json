@@ -270,17 +270,17 @@
     },
     "section2": {
       "heading": "2. Data We Collect",
-      "paragraph1": "<p><strong>2.1 Account data.</strong> Email address, role (specialist or client), and authentication method (email + PIN). Name and personal ID are not collected or stored.</p>",
-      "paragraph2": "<p><strong>2.2 Subscription and payment data.</strong> Subscription type and status, payment ID. Payments are processed by Maksekeskus AS; SotsiaalAI does not store card or bank account details.</p>",
-      "paragraph3": "<p><strong>2.3 Technical metadata.</strong> IP address, browser type, device information and logs for security and troubleshooting purposes.</p>"
+      "paragraph1": "<p><strong>2.1 Account data.</strong> Email address, role (social worker or client), and authentication method (two-step sign-in: email + one-time verification code). The one-time code is used only to confirm sign-in and is not stored permanently.</p>",
+      "paragraph2": "<p><strong>2.2 Subscription and payment data.</strong> Subscription type and status, payment ID and payment transaction metadata. Payments are processed by Maksekeskus AS; SotsiaalAI does not store card or bank account details.</p>",
+      "paragraph3": "<p><strong>2.3 Technical metadata.</strong> IP address, browser and device type, access times and log information for security, troubleshooting and service reliability purposes.</p>"
     },
     "section3": {
       "heading": "3. Purposes and Legal Bases",
-      "items": "<li>Service delivery (providing conversations, account access) - performance of a contract (GDPR Art. 6(1)(b)).</li><li>Payment processing - performance of a contract and legitimate interest to prevent fraud (Art. 6(1)(b),(f)).</li><li>Security, error detection and reliability - legitimate interest (Art. 6(1)(f)).</li><li>Legal claims and reporting - legal obligation/legitimate interest (Art. 6(1)(c),(f)).</li>"
+      "items": "<li>Service delivery (providing conversations, account access) - performance of a contract (GDPR Art. 6(1)(b)).</li><li>Payment processing - performance of a contract and legitimate interest in preventing fraud (Art. 6(1)(b),(f)).</li><li>Implementation of two-step authentication and account protection - performance of a contract and legitimate interest in keeping accounts secure (Art. 6(1)(b),(f)).</li><li>Security, error detection and reliability - legitimate interest (Art. 6(1)(f)).</li><li>Legal compliance, handling of claims and reporting - legal obligation and legitimate interest (Art. 6(1)(c),(f)).</li>"
     },
     "section4": {
       "heading": "4. Conversation Privacy",
-      "body": "<p>Conversation content is not stored permanently or used for marketing or analytics. Technical processing of conversations may take place via an authorised service provider (e.g. answer generation).</p>"
+      "body": "<p><strong>4.1 Conversation content.</strong> Conversation content (user questions, assistant replies and any other text entered) is used only to provide the service - to generate responses, mediate the conversation and show the conversation history to the user. Conversation content is not stored indefinitely, is not used for marketing, profiling or training third-party models, and is retained only for a limited time as described in section 7.</p><p><strong>4.2 Document analysis.</strong> When using the document analysis feature, uploaded files are not stored permanently. A document is used only in the current chat window and in the context of the specific conversation. The document is removed from the system when the chat window or page is closed and is not later used for marketing, profiling or model training.</p><p><strong>4.3 Dictation (speech recognition).</strong> Dictation mode is provided via an authorised third-party service (processor). Audio from the microphone is sent over a secure connection to the service provider, who processes it only to create text, in line with SotsiaalAI's instructions and data protection requirements. SotsiaalAI does not collect or store users' voice data permanently; audio is used only temporarily to create text and is not used for marketing or model training.</p>"
     },
     "section5": {
       "heading": "5. Processors",
@@ -292,7 +292,7 @@
     },
     "section7": {
       "heading": "7. Retention",
-      "body": "<p>Account data is retained until the account is deleted or upon user request. Billing data is retained as required by accounting laws. Technical logs are stored for a short time for security and troubleshooting purposes.</p>"
+      "body": "<p><strong>7.1 Account data.</strong> Account data is retained until the account is deleted or upon the user's request, unless a longer retention period is required by law.</p><p><strong>7.2 Conversation history.</strong> Conversation history shown under the “Conversations” button is generally kept for up to 90 days from the last activity in the respective conversation. After that, the conversation is no longer shown to the user and is marked internally for deletion. The user can delete their conversations at any time.</p><p><strong>7.3 Billing data.</strong> Billing and payment data are retained to the extent and for the periods required by accounting and other applicable laws.</p><p><strong>7.4 Technical logs.</strong> Technical logs are stored for a short period for security, troubleshooting and service reliability purposes, after which they are deleted or anonymised.</p>"
     },
     "section8": {
       "heading": "8. Your Rights",
@@ -300,11 +300,11 @@
     },
     "section9": {
       "heading": "9. Cookies",
-      "body": "<p>We only use essential cookies (login, session, language preference). No advertising, tracking or analytics cookies are used.</p>"
+      "body": "<p>We only use essential cookies (login, session, language preference and accessibility settings, such as text size, contrast and animations). No advertising, tracking or analytics cookies are used.</p>"
     },
     "section10": {
       "heading": "10. Security",
-      "body": "<p>We implement technical and organisational measures (HTTPS, access controls, logging and backups) to protect data against unauthorised access, alteration or destruction.</p>"
+      "body": "<p>We implement technical and organisational measures (HTTPS, two-step authentication: email + one-time verification code, access controls, logging and backups) and regularly update the software and service and apply security patches to protect data against unauthorised access, alteration or destruction.</p>"
     },
     "section11": {
       "heading": "11. Changes",
@@ -353,15 +353,21 @@
       "paragraph2": "<p>The OpenAI service is used exclusively for text processing. Conversation content is not used for model training or improvement, and data stored permanently (user account, subscription and conversation summaries) is kept securely on servers operated by SotsiaalAI in Estonia.</p>"
     },
     "section10": {
-      "heading": "10. Intellectual Property",
-      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ„ā€ Ä€Ā</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "heading": "10. Data Processing in Chats and Uploaded Materials",
+      "paragraph1": "<p>When using the Platform, the user may provide information in several ways — by typing, speaking (dictation) or uploading documents. All data provided in this way is processed solely for the purpose of providing the Platform's service, generating responses and ensuring the functioning of the chat, in accordance with the privacy policy.</p>",
+      "paragraph2": "<p>A more detailed description of data processing and the user's rights is provided in the privacy policy.</p>",
+      "items": "<li><strong>Text entered in the chat.</strong> Text entered by the user is transmitted via a secure connection to SotsiaalAI servers to generate a response. The content of the chat is not stored permanently and is not used for marketing, profiling or training models outside the operation of the Platform's service.</li><li><strong>Dictation (microphone, speech recognition).</strong> When using the dictation feature, a short audio clip is recorded, indicated by a red outline around the microphone button. The audio clip is securely transmitted to the speech recognition service and converted into text, which is shown to the user before sending. Audio files are not stored permanently and are used only to create text and to operate the service.</li><li><strong>Reading responses aloud.</strong> The read-aloud feature uses the text displayed in the chat window to present it to the user as audio output. The technology does not permanently store user-related data and does not process it for any other purpose than enabling the read-aloud functionality.</li><li><strong>Uploaded documents.</strong> The user may upload documents to the Platform (for example PDF, DOC/DOCX, TXT, MD or HTML files) so that the assistant can analyse them within the ongoing chat. Documents are not stored permanently, are used only in the context of the given conversation and are removed from the system when the chat window or page is closed. Content derived from the documents is not used for marketing, profiling or training third-party models.</li><li><strong>Special categories of data.</strong> The user may provide sensitive information in the chat or in documents (for example, information about health, family, violence or socio-economic situation). SotsiaalAI processes such data only for the purpose of generating a response and does not process it for other purposes. To ensure security, SotsiaalAI recommends avoiding entering a personal identification code, exact address and full names of third parties, unless this is strictly necessary for using the service.</li><li><strong>Processors.</strong> Technical processing for dictation, read-aloud and response generation may be carried out via authorised service providers. Such providers process data only in accordance with SotsiaalAI's instructions, under concluded agreements and in compliance with applicable data protection requirements. Where processing involves transferring data outside the European Economic Area, appropriate legal safeguards are used.</li>"
     },
     "section11": {
-      "heading": "11. Termination",
-      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform's security.</p>"
+      "heading": "11. Intellectual Property",
+      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ„ā€ Ä€Ā</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
     },
     "section12": {
-      "heading": "12. Governing Law and Dispute Resolution",
+      "heading": "12. Termination of the Agreement",
+      "body": "<p>You may stop using the Platform at any time, including by deleting your account or cancelling your subscription in accordance with these Terms.</p><p>SotsiaalAI may suspend or terminate your access to the Platform if you materially breach the Terms, abuse the service, or jeopardise the Platform's security.</p>"
+    },
+    "section13": {
+      "heading": "13. Governing Law and Dispute Resolution",
       "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>Disputes will first be attempted to be resolved by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia in accordance with applicable law.</p>"
     }
   },
