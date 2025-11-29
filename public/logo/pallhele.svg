@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
   <defs>
     <style>
-      .st9 { fill: url(#radial-gradient); }
+      .st9 { fill: url(#radial-gradient); opacity: 0.8; }
     </style>
 
     <radialGradient id="radial-gradient"
@@ -11,14 +12,17 @@
       gradientTransform="translate(170971 127791) scale(200 -200)"
       gradientUnits="userSpaceOnUse">
 
-      <!-- Heledam laik: nüüd palju läbipaistvam -->
-      <stop offset="0" stop-color="#844847" stop-opacity="0.65"/>
+      <stop offset="0"
+            stop-color="#9F6B67"
+            stop-opacity="0.55"/>
 
-      <!-- Keskmine metalltoon: pehmem ja läbipaistvam -->
-      <stop offset="0.35" stop-color="#5A2A29" stop-opacity="0.70"/>
+      <stop offset="0.35"
+            stop-color="#7A403D"
+            stop-opacity="0.80"/>
 
-      <!-- Tume metallserv: kergelt läbipaistev -->
-      <stop offset="1" stop-color="#100505" stop-opacity="0.85"/>
+      <stop offset="1"
+            stop-color="#1B0A09"
+            stop-opacity="0.95"/>
     </radialGradient>
   </defs>
 

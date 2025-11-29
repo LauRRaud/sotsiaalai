@@ -68,19 +68,15 @@
       <stop offset="1" stop-color="#a8a59e"/>
     </linearGradient>
 
-    <!-- Punane vertikaalne suur kujule -->
+    <!-- Punane vertikaalne suur kujule – UUED SAMADE TOONIDEGA -->
     <linearGradient id="red-vertical"
                     x1="0" y1="0"
                     x2="0" y2="1"
                     gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#E6BCB9"/>
-      <stop offset="0.142857" stop-color="#BE7877"/>
-      <stop offset="0.285714" stop-color="#9A5151"/>
-      <stop offset="0.428571" stop-color="#854343"/>
-      <stop offset="0.571429" stop-color="#6D3333"/>
-      <stop offset="0.714286" stop-color="#4C1C1C"/>
-      <stop offset="0.857143" stop-color="#391212"/>
-      <stop offset="1" stop-color="#2E0D0D"/>
+      <stop offset="0"    stop-color="#cfa099"/>
+      <stop offset="0.35" stop-color="#a4615c"/>
+      <stop offset="0.7"  stop-color="#6a302f"/>
+      <stop offset="1"    stop-color="#301413"/>
     </linearGradient>
 
     <!-- Ühine terav, kerge udususega vari kõigile mustadele koopiatele -->
@@ -89,11 +85,8 @@
             width="260" height="260"
             filterUnits="userSpaceOnUse"
             color-interpolation-filters="sRGB">
-      <!-- veidi terav (väiksem blur) -->
       <feGaussianBlur in="SourceAlpha" stdDeviation="1.25" result="blur" />
-      <!-- vari lähemale (väiksem nihe) -->
       <feOffset in="blur" dx="5" dy="6" result="offsetBlur" />
-      <!-- must, tugev, aga mitte 100% -->
       <feColorMatrix in="offsetBlur" type="matrix"
         values="0 0 0 0 0
                 0 0 0 0 0
@@ -174,8 +167,7 @@
       <path class="stroke-main"
             d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"/>
 
-      <!-- hele lisaläige sees: pallil NÕRGEM, kujul sama -->
-      <!-- MUUDETUD: alumine pall – väiksem stroke -->
+      <!-- hele lisaläige sees: pallil nõrgem, kujul tugevam -->
       <path
         d="M22.75,120.35c24.06-2.42,28.53,35.69,5,38.88-27.44,3.73-31.31-36.25-5-38.88h0Z"
         fill="none"
@@ -184,7 +176,6 @@
         stroke-opacity="0.12"
         stroke-linecap="round"
         stroke-linejoin="round"/>
-      <!-- punane kuju – jääb endiseks -->
       <path
         d="M63.43,170.14c14.63-9.87,20.55-32.44,12.96-48.55-9.03-16.76-30.23-21.45-46.18-30.04-11.43-5.84-21.63-13.15-26.45-25.52C-6.92,40.04,5.82,9.89,33.52.45c2.05-.7,6.46-.85,3.59,1.54-8.55,4.89-12.89,14.74-12.47,24.47,1.53,47.78,93.1,33.55,86.1,94.99-1.53,14.18-9.09,27.4-19.91,36.53-7.76,6.26-17.19,12.3-27.38,12.17"
         fill="none"
