@@ -417,14 +417,6 @@ export default function HomePage() {
                 className={["top-center-link", "nav-meist-link", bottomFadeClass, "dim"].filter(Boolean).join(" ")}
               >
                 <span className="nav-meist-wrap">
-                  <Image
-                    src="/logo/pallhele.svg"
-                    alt={t("nav.about")}
-                    width={80}
-                    height={80}
-                    className="nav-meist-icon"
-                    priority
-                  />
                   <span className="nav-meist-text">{t("nav.about")}</span>
                 </span>
               </Link>
