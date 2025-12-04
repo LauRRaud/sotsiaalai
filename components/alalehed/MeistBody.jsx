@@ -33,9 +33,8 @@ export default function MeistBody({ isAdmin = false }) {
         ))}
       </section>
       <section className="glass-section">
-        <h2 className="glass-h2">{t("about.contact.title")}</h2>
         <p className="epost-row">
-          <b>{t("about.contact.email_label")}</b>{" "}
+          <strong>{t("about.contact.title")}:</strong>{" "}
           <a href="mailto:info@sotsiaal.ai" className="link-brand">
             {t("about.contact.email_value")}
           </a>

@@ -1454,6 +1454,7 @@ export default function ChatBody() {
     }
     return "";
   }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
+  const hasInput = Boolean(input.trim());
 
   /* ---------- Render ---------- */
   return (
@@ -1677,53 +1678,51 @@ export default function ChatBody() {
                 <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
               </svg>
             </button>
-            <button
-              type="button"
-              className={`chat-send-btn${recording ? " chat-send-btn--active" : ""}`}
-              aria-label={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
-              title={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
-              onClick={handleMic}
-              data-speaking={recording ? "true" : "false"}
-              data-recording={recording ? "true" : "false"}
-            >
-              <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ width: "1.4rem", height: "1.4rem" }}
+            {hasInput || isGenerating || isStreamingAny ? (
+              <button
+                type="submit"
+                className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
+                aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
+                title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
+                disabled={!hasInput && !isGenerating && !isStreamingAny}
+                data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
               >
-                <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                <line x1="12" y1="19" x2="12" y2="23" />
-                <line x1="8" y1="23" x2="16" y2="23" />
-              </svg>
-            </button>
-            <button
-              type="submit"
-              className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
-              aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
-              title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
-              disabled={!input.trim() && !isGenerating && !isStreamingAny}
-              data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
-            >
-              {(() => {
-                const thinking = isGenerating || isStreamingAny;
-                return (
-                  <SotsiaalAILoader
-                    animated={thinking}
-                    ariaHidden
-                    className="send-loader"
-                    showBottomGlow={false}
-                  />
-                );
-              })()}
-            </button>
+                <SotsiaalAILoader
+                  animated={isGenerating || isStreamingAny}
+                  ariaHidden
+                  className="send-loader"
+                  showBottomGlow={false}
+                />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={`chat-send-btn${recording ? " chat-send-btn--active" : ""}`}
+                aria-label={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+                title={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+                onClick={handleMic}
+                data-speaking={recording ? "true" : "false"}
+                data-recording={recording ? "true" : "false"}
+              >
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ width: "1.4rem", height: "1.4rem" }}
+                >
+                  <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="23" />
+                  <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+              </button>
+            )}
           </div>
         </form>
 
@@ -2097,5 +2096,7 @@ export default function ChatBody() {
     </div>
   );
 }
+
+
 
 
