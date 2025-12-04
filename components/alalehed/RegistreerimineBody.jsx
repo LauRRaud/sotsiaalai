@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
@@ -23,19 +23,14 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
     pin: "",
     role: "SOCIAL_WORKER",
     agree: false,
+    guideAck: false,
   };
   const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const roleLabelId = useMemo(
-    () => `register-role-label-${Math.random().toString(36).slice(2, 8)}`,
-    [],
-  );
-  const roleHintId = useMemo(
-    () => `register-role-hint-${Math.random().toString(36).slice(2, 8)}`,
-    [],
-  );
+  const roleLabelId = useId();
+  const roleHintId = useId();
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -52,7 +47,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
-    if (!form.agree) {
+    if (!form.agree || !form.guideAck) {
       setError(t("auth.register.error.agree_required"));
       return;
     }
@@ -180,6 +175,22 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
             />
           </span>
         </label>
+        <label className="glass-checkbox" style={{ marginTop: "-0.4em" }}>
+          <input
+            type="checkbox"
+            name="guideAck"
+            checked={form.guideAck}
+            onChange={handleChange}
+            required
+          />
+          <span className="checkbox-text">
+            Olen tutvunud{" "}
+            <a className="link-brand-inline" href={localizePath("/kasutusjuhend", locale)}>
+              platvormi kasutamisjuhendiga
+            </a>
+            .
+          </span>
+        </label>
       {error && (
         <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
           {error}
@@ -193,7 +204,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
         <button className="btn-primary btn-compact register-submit" type="submit" disabled={submitting}>
           <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
-        <div style={{ marginTop: "0.75rem", textAlign: "center" }}>
+        <div className="register-login-row">
           <button
             type="button"
             className="link-brand-inline register-login-link"

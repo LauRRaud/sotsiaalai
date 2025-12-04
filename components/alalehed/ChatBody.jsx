@@ -7,7 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import UserCircle from "@/public/logo/User-circlehele.svg";
 import UserCircleLight from "@/public/logo/User-circlehelepunakas.svg";
-import Paperclip from "@/public/logo/paperclip.svg";
+import PaperclipLight from "@/public/logo/papercliphele.svg";
+import PaperclipDark from "@/public/logo/paperclip.svg";
 import Toggle from "@/components/ui/Toggle";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
@@ -1602,7 +1603,11 @@ export default function ChatBody() {
               ensureAnalysisPanelVisible();
             }}
           >
-            <Paperclip className="chat-attach-icon" aria-hidden="true" role="img" />
+            {isLightTheme ? (
+              <PaperclipLight className="chat-attach-icon" aria-hidden="true" role="img" />
+            ) : (
+              <PaperclipDark className="chat-attach-icon" aria-hidden="true" role="img" />
+            )}
           </button>
           <input
             ref={fileInputRef}

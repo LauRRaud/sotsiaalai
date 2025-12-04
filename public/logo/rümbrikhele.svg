@@ -1,19 +1,20 @@
 <svg
   viewBox="0 0 28 26"
   xmlns="http://www.w3.org/2000/svg"
-opacity="0.8"
 >
-  <!-- ümbriku raam -->
+  <!-- ümbriku raam – mustjas, 0.6 läbipaistvus -->
   <g
     fill="none"
-    stroke="#C9C7C2"
+    stroke="#000000"
     stroke-width="1"
     stroke-linecap="round"
     stroke-linejoin="round"
+    stroke-opacity="0.6"
   >
     <rect x="4" y="6" width="20" height="13" rx="2.2" ry="2.2" />
   </g>
 
+  <!-- volt (jääb samaks) -->
   <path
     d="M8 9.3 L14 12 L20 9.3"
     fill="none"
