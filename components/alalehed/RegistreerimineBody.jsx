@@ -184,11 +184,15 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
             required
           />
           <span className="checkbox-text">
-            Olen tutvunud{" "}
-            <a className="link-brand-inline" href={localizePath("/kasutusjuhend", locale)}>
-              platvormi kasutamisjuhendiga
-            </a>
-            .
+            <RichText
+              value={t("auth.register.guide_ack")}
+              replacements={{
+                guide: {
+                  open: `<a class="link-brand-inline" href="${localizePath("/kasutusjuhend", locale)}">`,
+                  close: "</a>",
+                },
+              }}
+            />
           </span>
         </label>
       {error && (

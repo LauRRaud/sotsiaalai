@@ -94,6 +94,7 @@
       "title": "Loo konto",
       "role_label": "Roll:",
       "agreement": "Nõustun <terms>kasutajatingimustega</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
+      "guide_ack": "Olen tutvunud <guide>platvormi kasutusjuhendiga</guide>.",
       "error": {
         "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
         "failed": "Registreerimine ebaõnnestus.",
