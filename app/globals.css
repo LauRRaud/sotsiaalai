@@ -535,13 +535,13 @@ main#main > .main-content.glass-box {
 }
 .side.left .glass-card,
 .side.left .centered-back-left {
-  --halo-start: 0 0 1.125rem 0.625rem rgba(150,100,100,0.45); 
-  --halo-mid:   0 0 1.5rem 1rem rgba(135,90,90,0.50);   
+  --halo-start: 0 0 1.125rem 0.625rem rgba(90,120,170,0.40); 
+  --halo-mid:   0 0 1.5rem 1rem rgba(78,110,170,0.48);   
 }
 .side.right .glass-card-dark,
 .side.right .centered-back-right {
-  --halo-start: 0 0 1.125rem 0.625rem rgba(150,100,100,0.45);
-  --halo-mid:   0 0 1.5rem 1rem rgba(135,90,90,0.50);
+  --halo-start: 0 0 1.125rem 0.625rem rgba(90,120,170,0.40);
+  --halo-mid:   0 0 1.5rem 1rem rgba(78,110,170,0.48);
 }
 @keyframes brandGlow {
   0%   { box-shadow: var(--base-shadow), var(--halo-start); }
@@ -1527,6 +1527,26 @@ a {
   gap: 1.15em;
   overflow-x: hidden;
   animation: modalSlideIn 0.4s;
+}
+@media (max-width: 768px) {
+  .login-modal-box {
+    left: 50vw;
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 100vw;
+    padding: 1.35em 1.1em;
+    border-radius: 0.8rem;
+    font-size: 1.15rem;
+    gap: 1.25em;
+  }
+}
+@media (max-width: 520px) {
+  .login-modal-box {
+    border-radius: 0;
+    padding: 1.35em 1.2em 1.6em;
+    font-size: 1.2rem;
+    gap: 1.35em;
+  }
 }
 @keyframes modalSlideIn {
   from { transform: translate(-50%, calc(-50% - 2.5rem)); opacity: 0; }
@@ -2859,6 +2879,7 @@ textarea::placeholder{
   transform: none;
   transform-origin: center 18%;
   transition: transform 0.44s cubic-bezier(.22,.61,.36,1);
+  cursor: pointer;
 }
 .nav-meist-link::before,
 .nav-meist-link::after{
@@ -5537,6 +5558,7 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .meist-body strong {
   color: var(--text-strong);
 }
+:root.theme-light .meist-body strong { font-weight: 550; color: color-mix(in srgb, var(--text-strong) 90%, #ffffff 10%); }
 
 :root.theme-light .doc-body p, :root.theme-light .doc-body li, :root.theme-light .doc-body blockquote, :root.theme-light .doc-body dd, :root.theme-light .doc-body dt, :root.theme-light .doc-body strong {
   color: var(--text-strong);
@@ -5600,10 +5622,12 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 }
 :root.theme-light .chat-msg-user {
   color: var(--text-strong);
-  background: var(--glass-input-bg-idle);
-  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  /* Match chat input field tone */
+  background: color-mix(in srgb, var(--glass-surface-bg) 60%, rgba(0,0,0,0.40) 40%);
+  border: 2px solid rgba(82, 86, 96, 0.28);
   box-shadow:
-    0 0 0 1px rgba(0,0,0,0.06), 0 0.45rem 1.05rem rgba(5,8,15,0.18);
+    0 0 0 1px rgba(0,0,0,0.06),
+    0 0.45rem 1.05rem rgba(5,8,15,0.18);
 }
 
 /* Light theme: profile email cards – sama serv kui e-posti lahtril */
@@ -5723,10 +5747,11 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
    PROFIIILI E-POSTI DOCK
    ===================================== */
 :root.theme-light .dock-panel.profile-email-dock {
-  background: var(--glass-input-bg-idle);
-  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  background: color-mix(in srgb, var(--glass-surface-bg) 60%, rgba(0,0,0,0.40) 40%);
+  border: 2px solid rgba(82, 86, 96, 0.28);
   box-shadow:
-    0 0 0 1px rgba(0,0,0,0.06), 0 0.45rem 1.05rem rgba(5,8,15,0.18);
+    0 0 0 1px rgba(0,0,0,0.06),
+    0 0.45rem 1.05rem rgba(5,8,15,0.18);
 }
 
 /* =====================================
@@ -5737,8 +5762,8 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .login-modal-root .login-modal-form input,
 :root.theme-light .profile-email-field .input-modern,
 :root.theme-light input[type="email"] {
-  background: var(--glass-input-bg-idle);
-  border: var(--glass-border-width) solid rgba(82, 86, 96, 0.35);
+  background: color-mix(in srgb, var(--glass-surface-bg) 60%, rgba(0,0,0,0.40) 40%);
+  border: 2px solid rgba(82, 86, 96, 0.28);
   color: var(--text-strong);
   caret-color: var(--text-strong);
   box-shadow:
@@ -5754,9 +5779,9 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .login-modal-root .login-modal-form input:hover:not(:focus),
 :root.theme-light .profile-email-field .input-modern:hover:not(:focus),
 :root.theme-light input[type="email"]:hover:not(:focus) {
-  background: var(--glass-input-bg-active);
-  border-color: rgba(82, 86, 96, 0.46);
-  border-width: var(--glass-border-width);
+  background: color-mix(in srgb, var(--glass-surface-bg) 56%, rgba(0,0,0,0.44) 44%);
+  border-color: rgba(82, 86, 96, 0.36);
+  border-width: 2px;
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.06), 0 0.45rem 1.05rem rgba(5,8,15,0.18);
 }
@@ -5766,9 +5791,9 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .login-modal-root .login-modal-form input:focus,
 :root.theme-light .profile-email-field .input-modern:focus-visible,
 :root.theme-light input[type="email"]:focus-visible {
-  background: var(--glass-input-bg-active);
-  border-width: var(--glass-border-width);
-  border-color: rgba(82, 86, 96, 0.52);
+  background: color-mix(in srgb, var(--glass-surface-bg) 56%, rgba(0,0,0,0.44) 44%);
+  border-width: 2px;
+  border-color: rgba(82, 86, 96, 0.36);
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.06), 0 0.45rem 1.05rem rgba(5,8,15,0.18);
 }
@@ -5849,8 +5874,8 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 }
 /* Attach-ikoon veidi suurem ja kindla suurusega */
 .chat-input-row .chat-attach-btn .chat-attach-icon {
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 2.3rem;
+  height: 2.3rem;
 }
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
@@ -6079,28 +6104,48 @@ h1.glass-title + form.register-form {
 }
 @media (max-width: 768px) {
   :root.theme-light body .chat-input-row .chat-inputbar {
-    --inputbar-h: 3.1rem;
+    --inputbar-h: 2.9rem;
     height: var(--inputbar-h);
-    padding-inline: 0.75rem;
+    padding-inline: 0.55rem;
   }
   :root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn,
   :root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn,
   :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-btn,
   :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-as-send {
-    width: 2.9rem;
-    height: 2.9rem;
+    width: 2.6rem;
+    height: 2.6rem;
   }
   :root.theme-light body .chat-input-row > .chat-attach-btn,
   :root.theme-light body .chat-input-row > .chat-attach-as-send {
-    width: var(--inputbar-h, 3.1rem);
-    height: var(--inputbar-h, 3.1rem);
-    min-width: var(--inputbar-h, 3.1rem);
-    min-height: var(--inputbar-h, 3.1rem);
+    width: var(--inputbar-h, 2.9rem);
+    height: var(--inputbar-h, 2.9rem);
+    min-width: var(--inputbar-h, 2.9rem);
+    min-height: var(--inputbar-h, 2.9rem);
+  }
+}
+@media (max-width: 520px) {
+  :root.theme-light body .chat-input-row .chat-inputbar {
+    --inputbar-h: 2.7rem;
+    padding-inline: 0.45rem;
+  }
+  :root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn,
+  :root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn,
+  :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-btn,
+  :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-as-send {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+  :root.theme-light body .chat-input-row > .chat-attach-btn,
+  :root.theme-light body .chat-input-row > .chat-attach-as-send {
+    width: var(--inputbar-h, 2.7rem);
+    height: var(--inputbar-h, 2.7rem);
+    min-width: var(--inputbar-h, 2.7rem);
+    min-height: var(--inputbar-h, 2.7rem);
   }
 }
 :root.theme-light body .chat-input-row .chat-inputbar:hover:not(:focus-within),
 :root.theme-light body .chat-input-row .chat-inputbar:focus-within {
-  background: color-mix(in srgb, var(--glass-surface-bg) 52%, rgba(0,0,0,0.46) 48%);
+  background: color-mix(in srgb, var(--glass-surface-bg) 56%, rgba(0,0,0,0.44) 44%);
   border-color: rgba(82, 86, 96, 0.36);
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.06), 0 0.45rem 1.05rem rgba(5,8,15,0.18);
@@ -6109,7 +6154,7 @@ h1.glass-title + form.register-form {
 :root.theme-light body .chat-input-row .chat-inputbar .chat-send-btn,
 :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-btn,
 :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-as-send {
-  background: var(--chat-btn-idle-light);
+  background: color-mix(in srgb, var(--glass-surface-bg) 56%, rgba(0,0,0,0.44) 44%);
   border: 2px solid rgba(82, 86, 96, 0.28);
   width: 3.2rem;
   height: 3.2rem;
@@ -6131,12 +6176,22 @@ h1.glass-title + form.register-form {
 :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-as-send:hover,
 :root.theme-light body .chat-input-row .chat-inputbar .chat-attach-as-send:focus-visible {
   /* Align hover tone with the input hover state */
-  background: color-mix(in srgb, var(--glass-surface-bg) 52%, rgba(0,0,0,0.46) 48%);
+  background: color-mix(in srgb, var(--glass-surface-bg) 54%, rgba(0,0,0,0.46) 46%);
   border-color: rgba(82, 86, 96, 0.36);
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.06),
     0 0.45rem 1.05rem rgba(5,8,15,0.18);
   color: var(--text-strong);
+}
+:root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+:root.theme-light body .chat-input-row .chat-inputbar:focus-within .chat-listen-btn:not(:hover):not(:focus-visible) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 :root.theme-light body .chat-input-row .chat-inputbar:focus-within .chat-listen-btn,
 :root.theme-light body .chat-input-row .chat-inputbar:focus-within .chat-send-btn,
@@ -6176,7 +6231,7 @@ h1.glass-title + form.register-form {
 :root.theme-light body .chat-input-row > .chat-attach-as-send:hover,
 :root.theme-light body .chat-input-row > .chat-attach-as-send:focus-visible {
   /* Match input hover tone for consistency */
-  background: color-mix(in srgb, var(--glass-surface-bg) 52%, rgba(0,0,0,0.46) 48%);
+  background: color-mix(in srgb, var(--glass-surface-bg) 54%, rgba(0,0,0,0.46) 46%);
   border-color: rgba(82, 86, 96, 0.36);
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.06),
@@ -6188,3 +6243,56 @@ h1.glass-title + form.register-form {
   color: var(--text-strong);
   opacity: 0.96;
 }
+:root.theme-light body .chat-input-row .chat-inputbar .chat-listen-btn {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+
+:root.theme-light .meist-body strong { font-weight: 550; color: color-mix(in srgb, var(--text-strong) 90%, #ffffff 10%); }
+
+
+
+
+
+
+@media (max-width: 768px) {
+  main#main > .main-content.glass-box.chat-container,
+  .glass-box.chat-container {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0.9rem 0.9rem 1.1rem;
+    border-radius: 0.75rem;
+  }
+  .chat-input-row {
+    width: 100%;
+    padding: 0.25rem 0.15rem 0.35rem;
+  }
+  .chat-inputbar .chat-input-field {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 520px) {
+  main#main > .main-content.glass-box.chat-container,
+  .glass-box.chat-container {
+    padding: 0.75rem 0.75rem 1rem;
+    border-radius: 0.35rem;
+  }
+  .chat-input-row {
+    padding: 0.2rem 0 0.3rem;
+  }
+  .chat-inputbar .chat-input-field {
+    font-size: 0.96rem;
+  }
+}
+
+
+
+
+
