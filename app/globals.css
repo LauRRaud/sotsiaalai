@@ -1832,21 +1832,23 @@ width: clamp(16rem, 16vw, 17rem);
 }
 @media (max-width: 768px) {
   .login-modal-root {
-    padding: 1.2em 0.85em 1em;
-    font-size: 0.95rem;
+    padding: 1.3em 1em 1.2em;
+    font-size: 1.02rem;
   }
   .login-modal-root .glass-box {
-    max-width: 100%;
-    margin: 0;
-    width: 100vw;
-    border-radius: 0;
+    max-width: min(430px, 96vw);
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 0.9rem;
   }
   .login-modal-root .login-modal-form input {
-    font-size: 1rem;
-    padding: 0.68rem 0.9rem;
+    font-size: 1.08rem;
+    padding: 0.82rem 1.05rem;
   }
   .login-modal-root .btn-primary {
     width: 100%;
+    font-size: 1.18em;
+    padding: 0.72em 1.2em;
   }
 }
 .login-modal-root .glass-title {
@@ -6296,3 +6298,31 @@ h1.glass-title + form.register-form {
 
 
 
+@media (max-width: 768px) {
+  :root { --chat-hpad: 0.85rem; }
+  .login-modal-root {
+    padding: 1.45em 1.15em 1.25em;
+    font-size: 1.08rem;
+    --login-envelope-size: clamp(5.8rem, 12vw, 6.2rem);
+    --login-envelope-hit: clamp(5.8rem, 12vw, 6.2rem);
+  }
+  .login-modal-root .glass-title { font-size: 2.9em; }
+  .login-modal-root .login-modal-form input { font-size: 1.2rem; padding: 0.92rem 1.16rem; }
+  .login-modal-root .btn-primary { width: 100%; font-size: 1.24em; padding: 0.78em 1.32em; }
+  .pin-keypad-all { gap: 0.55rem; max-width: clamp(16rem, 80vw, 19rem); }
+  .pin-keypad__button { height: 4.25rem; min-width: 4rem; font-size: 1.32rem; border-radius: 1.05rem; }
+  /* Chat input: nudge send/speak right edge closer */
+  .chat-inputbar .chat-send-btn,
+  .chat-inputbar .chat-listen-btn { margin-left: 0.28rem; }
+}
+@media (max-width: 520px) {
+  :root { --chat-hpad: 0.65rem; }
+  .login-modal-root { padding: 1.6em 1.25em 1.4em; font-size: 1.12rem; --login-envelope-size: 6.6rem; --login-envelope-hit: 6.6rem; }
+  .login-modal-root .glass-title { font-size: 3.35em; }
+  .login-modal-root .glass-box { max-width: 100vw; width: 100vw; margin: 0; border-radius: 0.65rem; }
+  .pin-keypad-all { gap: 0.62rem; max-width: clamp(16.5rem, 88vw, 19.5rem); }
+  .pin-keypad__button { height: 4.6rem; min-width: 4.3rem; font-size: 1.42rem; border-radius: 1.08rem; }
+  .login-modal-root .btn-primary { font-size: 1.3em; }
+  .chat-inputbar .chat-send-btn,
+  .chat-inputbar .chat-listen-btn { margin-left: 0.4rem; }
+}
