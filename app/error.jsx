@@ -17,7 +17,7 @@ export default function Error({ error, reset }) {
         {t("errors.description")}
       </p>
       <div style={{ display: "flex", justifyContent: "center", gap: "1.2em" }}>
-        <button type="button" className="btn-primary" onClick={() => reset()}>
+        <button type="button" className="btn-plain error-btn" onClick={() => reset()}>
           {t("errors.retry")}
         </button>
         <div className="chat-back-btn-wrapper" style={{ margin: 0 }}>

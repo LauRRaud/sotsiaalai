@@ -168,7 +168,7 @@ export default function UuendaEpostiBody() {
             </div>
           )}
           <button
-            className="btn-primary btn-compact reset-btn"
+            className="btn-base reset-btn"
             type="submit"
             disabled={loading}
           >

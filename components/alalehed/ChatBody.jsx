@@ -1,18 +1,18 @@
 ﻿"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import Link from "next/link";
-import Image from "next/image";
-import UserCircle from "@/public/logo/User-circlehele.svg";
-import UserCircleLight from "@/public/logo/User-circlehelepunakas.svg";
 import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
 import Toggle from "@/components/ui/Toggle";
+import InviteModal from "@/components/invite/InviteModal";
+import TopNav from "@/components/nav/TopNav";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
+import { useRoomMessages } from "@/components/rooms/useRoomMessages";
 
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
@@ -279,8 +279,9 @@ function throttle(fn, waitMs) {
 }
 
 /* ---------- Komponent ---------- */
-export default function ChatBody() {
+export default function ChatBody({ roomId = null }) {
   const router = useRouter();
+  const pathname = usePathname() || "";
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
@@ -291,6 +292,7 @@ export default function ChatBody() {
       : locale === "en"
       ? "Combined (doc + KB)"
       : "Kombineeritud (dok + andmebaas)";
+  const isRoomMode = Boolean(roomId);
 
 
   const crisisText = t(
@@ -335,6 +337,20 @@ export default function ChatBody() {
   const [previewScroll, setPreviewScroll] = useState(0);
   const [recording, setRecording] = useState(false);
   const [recordingError, setRecordingError] = useState(null);
+  const [sendToAssistant, setSendToAssistant] = useState(false);
+  const {
+    messages: roomMessages,
+    blocked: roomBlocked,
+    authRequired: roomAuthRequired,
+    reload: reloadRoomMessages,
+    setMessages: setRoomMessages,
+  } = useRoomMessages(roomId || "", 3000);
+  const [roomMembers, setRoomMembers] = useState([]);
+  const [roomRole, setRoomRole] = useState(null);
+  const aiVisibleByMessageId = useRef(new Map());
+  useEffect(() => {
+    aiVisibleByMessageId.current = new Map();
+  }, [roomId]);
 
   const chatWindowRef = useRef(null);
   const inputRef = useRef(null);
@@ -357,13 +373,82 @@ export default function ChatBody() {
   const messageIdRef = useRef(1);
   const saveTimerRef = useRef(null);
 
-  const historyPayload = useMemo(
-    () => messages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, text: m.text })),
+  useEffect(() => {
+    if (!isRoomMode || !roomId) return;
+    let cancelled = false;
+    async function loadMembers() {
+      try {
+        const res = await fetch(`/api/rooms/${roomId}/members`, { cache: "no-store" });
+        const data = await res.json().catch(() => ({}));
+        if (cancelled) return;
+        if (res.ok && data?.ok) {
+          setRoomMembers(Array.isArray(data.members) ? data.members : []);
+          setRoomRole(data.role || null);
+        } else {
+          setRoomMembers([]);
+          setRoomRole(null);
+        }
+      } catch {
+        if (!cancelled) {
+          setRoomMembers([]);
+          setRoomRole(null);
+        }
+      }
+    }
+    loadMembers();
+    return () => {
+      cancelled = true;
+    };
+  }, [isRoomMode, roomId]);
+
+  const mappedRoomMessages = useMemo(() => {
+    if (!isRoomMode) return [];
+    return (roomMessages || []).map((m) => {
+      const created = m?.createdAt ? new Date(m.createdAt).getTime() : Date.now();
+      const isMine = m?.authorId && session?.user?.id && m.authorId === session.user.id;
+      const aiSeen = isMine ? !!aiVisibleByMessageId.current.get(m.id) : false;
+      return {
+        id: m.id,
+        role: isMine ? "user" : "member",
+        text: m.content || "",
+        authorName: m.authorName || "Liige",
+        authorRole: m.authorRole || "MEMBER",
+        createdAt: created,
+        aiVisible: aiSeen,
+      };
+    });
+  }, [isRoomMode, roomMessages, session?.user?.id]);
+
+  const aiMessagesOnly = useMemo(
+    () => messages.filter((m) => m.role === "ai"),
     [messages]
   );
+
+  const visibleMessages = useMemo(() => {
+    if (!isRoomMode) return messages;
+    const withTsAi = aiMessagesOnly.map((m) => ({
+      ...m,
+      createdAt: m.createdAt || Date.now(),
+    }));
+    return [...mappedRoomMessages, ...withTsAi].sort((a, b) => {
+      const ta = a.createdAt || 0;
+      const tb = b.createdAt || 0;
+      if (ta !== tb) return ta - tb;
+      return String(a.id || "").localeCompare(String(b.id || ""));
+    });
+  }, [isRoomMode, mappedRoomMessages, aiMessagesOnly, messages]);
+
+  const historyPayload = useMemo(
+    () =>
+      visibleMessages
+        .slice(-MAX_HISTORY)
+        .filter((m) => m.role === "ai" || m.aiVisible)
+        .map((m) => ({ role: m.role === "member" ? "user" : m.role, text: m.text })),
+    [visibleMessages]
+  );
   const isStreamingAny = useMemo(
-    () => isGenerating || messages.some((m) => m.role === "ai" && m.isStreaming),
-    [isGenerating, messages]
+    () => isGenerating || visibleMessages.some((m) => m.role === "ai" && m.isStreaming),
+    [isGenerating, visibleMessages]
   );
   const handlePreviewWheel = useCallback(
     (event) => {
@@ -597,7 +682,8 @@ export default function ChatBody() {
   }, []);
   const appendMessage = useCallback((msg) => {
     const id = messageIdRef.current++;
-    setMessages((prev) => [...prev, { ...msg, id }]);
+    const createdAt = msg?.createdAt || Date.now();
+    setMessages((prev) => [...prev, { ...msg, id, createdAt }]);
     return id;
   }, []);
   const mutateMessage = useCallback((id, updater) => {
@@ -680,7 +766,7 @@ export default function ChatBody() {
     if (node && isUserAtBottom.current) {
       node.scrollTop = node.scrollHeight;
     }
-  }, [messages]);
+  }, [visibleMessages]);
 
   /* ---------- Mount + püsivuse taastamine ---------- */
   useEffect(() => {
@@ -900,7 +986,7 @@ export default function ChatBody() {
 
   const speakLatestReply = useCallback(async () => {
     if (typeof window === "undefined") return;
-    const lastAi = [...messages].reverse().find((m) => m.role === "ai" && m.text);
+    const lastAi = [...visibleMessages].reverse().find((m) => m.role === "ai" && m.text);
     const text = (lastAi?.text || "").trim();
     if (!text) return;
     const base = (locale || "").toLowerCase().split("-")[0];
@@ -1103,11 +1189,52 @@ export default function ChatBody() {
 
       setErrorBanner(null);
       setIsCrisis(false); // lähtesta, kuni server meta saadab
-      appendMessage({ role: "user", text: trimmed });
+      if (isRoomMode) {
+        if (roomBlocked) {
+          setErrorBanner(t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga."));
+          return;
+        }
+        if (roomAuthRequired) {
+          setErrorBanner(t("chat.room.auth_required", "Sessioon aegus. Palun logi uuesti sisse."));
+          return;
+        }
+        try {
+          const res = await fetch(`/api/rooms/${roomId}/messages`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: trimmed }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.status === 403) {
+            setErrorBanner(data?.message || t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga."));
+            return;
+          }
+          if (res.status === 401) {
+            setErrorBanner(t("chat.room.auth_required", "Sessioon aegus. Palun logi uuesti sisse."));
+            return;
+          }
+          if (!res.ok || data?.ok === false) {
+            const msg = data?.message || t("chat.room.send_error", "Viga saatmisel");
+            throw new Error(msg);
+          }
+          if (data?.message?.id && sendToAssistant) {
+            aiVisibleByMessageId.current.set(data.message.id, true);
+          }
+        } catch (err) {
+          setErrorBanner(err?.message || t("chat.room.send_error", "Viga saatmisel"));
+          return;
+        }
+      }
+
+      const userMsg = { role: "user", text: trimmed, aiVisible: sendToAssistant };
+      appendMessage(userMsg);
       setInput("");
-      setIsGenerating(true);
+      setIsGenerating(sendToAssistant);
       focusInput();
 
+      if (!sendToAssistant) {
+        return;
+      }
       const controller = new AbortController();
       const clientTimeout = setTimeout(() => controller.abort(), 180000);
       abortControllerRef.current = controller;
@@ -1209,7 +1336,7 @@ export default function ChatBody() {
             (data?.answer ?? data?.reply) || "Vabandust, ma ei saanud praegu vastust koostada.";
           const sources = normalizeSources(data?.sources);
           setIsCrisis(!!data?.isCrisis);
-          appendMessage({ role: "ai", text: replyText, sources });
+          appendMessage({ role: "ai", text: replyText, sources, aiVisible: true });
           requestConversationsRefresh();
           return;
         }
@@ -1217,7 +1344,7 @@ export default function ChatBody() {
         // Streamiv vastus (SSE)
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
         const reader = createSSEReader(res.body);
-        streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true });
+        streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true, aiVisible: true });
         let streamEnded = false;
 
         for await (const ev of reader) {
@@ -1324,6 +1451,12 @@ export default function ChatBody() {
       docOnlyMode,
       userRole,
       requestConversationsRefresh,
+      isRoomMode,
+      roomBlocked,
+      roomAuthRequired,
+      roomId,
+      sendToAssistant,
+      t,
     ]
   );
 
@@ -1429,6 +1562,18 @@ export default function ChatBody() {
     } catch {}
   }, []);
 
+  const goRooms = useCallback(() => {
+    try {
+      router.push("/ruum");
+    } catch {}
+  }, [router]);
+
+  const openInvite = useCallback(() => {
+    try {
+      window.dispatchEvent(new CustomEvent("sotsiaalai:open-invite"));
+    } catch {}
+  }, []);
+
   const BackButton = () => (
     <div className="chat-back-btn-wrapper">
       <button
@@ -1458,42 +1603,25 @@ export default function ChatBody() {
 
   /* ---------- Render ---------- */
   return (
-    <div
-      className="main-content glass-box chat-container"
-      role="region"
-      aria-label={t("chat.page_label", "Vestluse sisu")}
-      data-chat-bg={
-        userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
-      }
-    >
-      {/* Hamburger / Conversations */}
-      <button
-        type="button"
-        className="chat-menu-btn"
-        onClick={openConversations}
-        aria-label={t("chat.menu.open", "Ava vestlused")}
-        aria-haspopup="dialog"
+    <>
+      <InviteModal />
+      <div
+        className="main-content glass-box chat-container"
+        role="region"
+        aria-label={t("chat.page_label", "Vestluse sisu")}
+        data-chat-bg={
+          userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
+        }
       >
-        <span className="chat-menu-icon" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </span>
-        <span className="chat-menu-label" aria-hidden="true">
-          {t("chat.menu.label", "Vestlused")}
-        </span>
-      </button>
-
       {/* Profiili avatar */}
       <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
-        {isLightTheme ? (
-          <UserCircleLight className="chat-avatar-abs" aria-hidden="true" />
-        ) : (
-          <UserCircle className="chat-avatar-abs" aria-hidden="true" />
-        )}
+        <span className="chat-avatar-abs" aria-hidden="true" />
         <span className="avatar-label">Profiil</span>
       </Link>
 
-      {/* Pealkiri */}
+      {/* Pealkiri ja nav */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
+      <TopNav roomId={roomId} />
 
       {/* Kriisi teavitus */}
       {isCrisis ? (
@@ -1530,6 +1658,29 @@ export default function ChatBody() {
           {errorBanner}
         </div>
       ) : null}
+      {isRoomMode && roomMembers.length ? (
+        <div className="room-chat__members" style={{ margin: "0.5rem 0", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+          {roomMembers.map((m) => (
+            <span key={m.userId || m.name} className="chat-msg-tag chat-msg-tag--human">
+              {m.name || "Liige"}{m.role ? ` - ${m.role}` : ""}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      {isRoomMode && roomBlocked ? (
+        <div className="glass-note" role="alert">
+          {t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga.")}
+        </div>
+      ) : null}
+
+
+      {isRoomMode && roomAuthRequired ? (
+        <div className="glass-note" role="alert">
+          {t("chat.room.auth_required", "Sessioon aegus. Palun logi uuesti sisse.")}
+        </div>
+      ) : null}
+
 
       <main className="chat-main" style={{ position: "relative" }}>
         <div
@@ -1543,19 +1694,42 @@ export default function ChatBody() {
           style={{ position: "relative" }}
         >
           {/* Vestluse sõnumid */}
-          {messages.map((msg) => {
-            const variant = msg.role === "user" ? "chat-msg-user" : "chat-msg-ai";
+          {visibleMessages.map((msg) => {
+            const isAssistant = msg.role === "ai";
+            const isOwn = msg.role === "user";
+            const variant = isAssistant ? "chat-msg-ai" : "chat-msg-user";
+            const audienceClass =
+              isAssistant ? "" : isOwn && msg.aiVisible ? "chat-msg--ai-targeted" : "chat-msg--human-only";
             const authorLabel =
-              msg.role === "user"
+              isAssistant
+                ? t("chat.aria.assistant", "Assistent")
+                : isOwn
                 ? t("chat.aria.user", "Sina")
-                : t("chat.aria.assistant", "Assistent");
+                : msg.authorName || t("chat.aria.user", "Liige");
             return (
               <div
                 key={msg.id}
-                className={`chat-msg ${variant}`}
+                className={`chat-msg ${variant} ${audienceClass}`}
                 role="article"
                 tabIndex={0}
               >
+                {isOwn ? (
+                  <div className="chat-msg-meta">
+                    <span className={`chat-msg-tag${msg.aiVisible ? " chat-msg-tag--ai" : " chat-msg-tag--human"}`}>
+                      {msg.aiVisible
+                        ? t("chat.tag.ai_visible", "Assistent naeb")
+                        : t("chat.tag.human_only", "Ainult inimesed")}
+                    </span>
+                  </div>
+                ) : null}
+                {!isAssistant && !isOwn && (msg.authorName || msg.authorRole) ? (
+                  <div className="chat-msg-meta">
+                    <span className="chat-msg-tag chat-msg-tag--human">
+                      {msg.authorName || "Liige"}
+                      {msg.authorRole ? ` (${msg.authorRole})` : ""}
+                    </span>
+                  </div>
+                ) : null}
                 <span className="sr-only">
                   {authorLabel}
                   {": "}
@@ -1629,26 +1803,11 @@ export default function ChatBody() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               className="chat-input-field"
-              disabled={isGenerating}
+              disabled={isGenerating || (isRoomMode && (roomBlocked || roomAuthRequired))}
               rows={1}
             />
               {!input.trim() ? (
-                <div
-                  aria-hidden
-                  className="shiny-ph-overlay"
-                  style={{
-                    position: "absolute",
-                    left: "clamp(0.75rem, 3vw, 1.125rem)",
-                    right: "clamp(0.5rem, 2vw, 1rem)",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    pointerEvents: "none",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    opacity: 0.9,
-                  }}
-                >
+                <div aria-hidden className="shiny-ph-overlay">
                   <ShinyText text={t("chat.input.placeholder")} speed={5} />
                 </div>
               ) : null}
@@ -1659,7 +1818,7 @@ export default function ChatBody() {
               aria-label={t("chat.listen.last_reply", "Kuula viimast vastust")}
               title={t("chat.listen.title", "Kuula viimast assistendi vastust")}
               onClick={speakLatestReply}
-              disabled={!speechReady || !messages.some((m) => m.role === "ai" && m.text)}
+              disabled={!speechReady || !visibleMessages.some((m) => m.role === "ai" && m.text)}
               data-speaking={isSpeaking ? "true" : "false"}
             >
               <svg
@@ -1684,7 +1843,7 @@ export default function ChatBody() {
                 className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
                 aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
                 title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
-                disabled={!hasInput && !isGenerating && !isStreamingAny}
+                disabled={(isRoomMode && (roomBlocked || roomAuthRequired)) || (!hasInput && !isGenerating && !isStreamingAny)}
                 data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
               >
                 <SotsiaalAILoader
@@ -1701,6 +1860,7 @@ export default function ChatBody() {
                 aria-label={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
                 title={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
                 onClick={handleMic}
+                disabled={isRoomMode && (roomBlocked || roomAuthRequired)}
                 data-speaking={recording ? "true" : "false"}
                 data-recording={recording ? "true" : "false"}
               >
@@ -1725,6 +1885,24 @@ export default function ChatBody() {
             )}
           </div>
         </form>
+
+        {isRoomMode ? (
+          <div className="chat-ai-toggle">
+            <label className="glass-checkbox chat-ai-checkbox">
+              <input
+                type="checkbox"
+                checked={sendToAssistant}
+                onChange={(e) => setSendToAssistant(e.target.checked)}
+              />
+              <span className="checkbox-text">
+                {t("chat.ai_toggle.label", "Saada assistendile")}
+              </span>
+            </label>
+            <div className="chat-ai-note">
+              {t("chat.ai_toggle.note", "Vaikimisi on see inimeste jutt ja assistent ei nae sonumit.")}
+            </div>
+          </div>
+        ) : null}
 
         {hasConversationSources ? (
           <div className="chat-sources-inline">
@@ -2094,6 +2272,7 @@ export default function ChatBody() {
       ) : null}
       </main>
     </div>
+    </>
   );
 }
 

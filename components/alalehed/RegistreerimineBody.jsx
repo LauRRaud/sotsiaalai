@@ -205,7 +205,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
           {successMessage}
         </div>
       )}
-        <button className="btn-primary btn-compact register-submit" type="submit" disabled={submitting}>
+        <button className="btn-base register-submit" type="submit" disabled={submitting}>
           <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
         </button>
         <div className="register-login-row">

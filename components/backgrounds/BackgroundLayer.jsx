@@ -1,14 +1,13 @@
 // components/backgrounds/BackgroundLayer.jsx
 "use client";
 import { useEffect, useLayoutEffect, useState, memo, Suspense } from "react";
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import dynamic from "next/dynamic";
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
-const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
 /* ---------- utiliidid ---------- */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -103,17 +102,8 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
             />
           </Suspense>
         </div>
-        {/* COLOR BENDS – ainult siis, kui reduced motion pole sees */}
-        {!reduceMotion && (
-          <div className="color-bends-bg" style={{ position: "absolute", inset: 0, zIndex: 1 }}>
-            <Suspense fallback={null}>
-              <ColorBends />
-            </Suspense>
-          </div>
-        )}
-        {/* PARTICLES – tausta kohal, enne sisu */}
         {particlesReady && !reduceMotion && (
-          <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 2 }}>
+          <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 3 }}>
             <Particles />
           </div>
         )}
@@ -138,3 +128,6 @@ function BackgroundLayer() {
 }
 
 export default memo(BackgroundLayer);
+
+
+

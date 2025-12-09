@@ -65,6 +65,34 @@ enum ConversationMessageRole {
   SYSTEM
 }
 
+enum RoomRole {
+  OWNER
+  MODERATOR
+  MEMBER
+}
+
+enum InviteStatus {
+  SENT
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+enum RelationshipType {
+  COLLEAGUE
+  CLIENT
+}
+
+enum InvitePaymentMode {
+  SELF_PAID
+  SPONSORED_BY_HOST
+}
+
+enum BillingSource {
+  SELF
+  SPONSORED_BY_HOST
+}
+
 /**
  * ---------- Models ----------
  */
@@ -96,6 +124,13 @@ model User {
   emailOtpCodes        EmailOtpCode[]
   trustedDevices       TrustedDevice[]
   loginTempTokens      LoginTempToken[]
+  roomsOwned           Room[]
+  roomMemberships      RoomMember[]
+  sentInvites          Invite[]            @relation("InviterUser")
+  sponsoredInvites     Invite[]            @relation("InviteSponsorUser")
+  sponsoredMembers     RoomMember[]        @relation("RoomMemberSponsorUser")
+  acceptedInvites      Invite[]            @relation("InviteAcceptedBy")
+  roomMessages         RoomMessage[]       @relation("RoomMessageAuthor")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -386,4 +421,83 @@ model ChatLog {
   @@index([createdAt])
   @@index([event, createdAt])
   @@index([role, createdAt])
+}
+
+model Room {
+  id          String    @id @default(cuid())
+  ownerId     String
+  title       String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner   User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  members RoomMember[]
+  invites Invite[]
+  messages RoomMessage[]
+
+  @@index([ownerId])
+}
+
+model RoomMember {
+  id              String         @id @default(cuid())
+  roomId          String
+  userId          String
+  role            RoomRole       @default(MEMBER)
+  billingSource   BillingSource  @default(SELF)
+  sponsorUserId   String?
+  sponsorOrgId    String?
+  joinedAt        DateTime       @default(now())
+  leftAt          DateTime?
+  lastReadAt      DateTime?
+
+  room         Room    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sponsorUser  User?   @relation("RoomMemberSponsorUser", fields: [sponsorUserId], references: [id], onDelete: SetNull)
+
+  @@unique([roomId, userId])
+  @@index([userId])
+}
+
+model Invite {
+  id                String             @id @default(cuid())
+  roomId            String
+  inviterId         String
+  inviteeEmail      String
+  tokenHash         String             @unique
+  status            InviteStatus       @default(SENT)
+  relationshipType  RelationshipType   @default(COLLEAGUE)
+  paymentMode       InvitePaymentMode  @default(SELF_PAID)
+  sponsoredByUserId String?
+  sponsoredByOrgId  String?
+  expiresAt         DateTime
+  maxUses           Int                @default(1)
+  useCount          Int                @default(0)
+  createdAt         DateTime           @default(now())
+  acceptedBillingSource BillingSource?
+  acceptedByUserId      String?
+
+  room           Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  inviter        User   @relation("InviterUser", fields: [inviterId], references: [id], onDelete: Cascade)
+  sponsoredByUser User? @relation("InviteSponsorUser", fields: [sponsoredByUserId], references: [id], onDelete: SetNull)
+  acceptedByUser  User? @relation("InviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([roomId, status])
+  @@index([tokenHash])
+  @@index([expiresAt])
+}
+
+model RoomMessage {
+  id         String   @id @default(cuid())
+  roomId     String
+  authorId   String
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+  deletedAt  DateTime?
+
+  room   Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  author User @relation("RoomMessageAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt])
+  @@index([roomId, id])
 }

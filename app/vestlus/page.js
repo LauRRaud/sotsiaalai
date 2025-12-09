@@ -24,7 +24,9 @@ export async function generateMetadata() {
   });
 }
 
-export default function Page() {
+export default function Page({ searchParams }) {
+  const roomId = searchParams?.roomId || null;
+
   return (
     <>
       {/* K\u00f5rvalsahtel, mis avaneb \u201cVestlused\u201d nupust */}
@@ -32,7 +34,7 @@ export default function Page() {
         <ChatSidebar />
       </ConversationDrawer>
       {/* P\u00f5hisisu */}
-      <ChatBody />
+      <ChatBody roomId={roomId} />
     </>
   );
 }
