@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -124,14 +124,16 @@ export default function InviteModal() {
           onClick={(e) => e.stopPropagation()}
       >
         <header className="invite-modal__header invite-classic__header">
-          <h2 className="invite-classic__title">{t("invite.eyebrow", "Grupivestlus")}</h2>
+          <h2 className="invite-classic__title glass-title invite-classic__title--hero">
+            {t("invite.eyebrow", "Grupivestlus")}
+          </h2>
           <button
             type="button"
             className="invite-modal__close invite-classic__close"
             onClick={() => setOpen(false)}
             aria-label={t("common.close", "Sulge")}
           >
-            ×
+                        ×
           </button>
         </header>
 
@@ -270,3 +272,12 @@ export default function InviteModal() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+

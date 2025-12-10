@@ -214,20 +214,20 @@ body::-webkit-scrollbar {
   align-items: flex-start;
   justify-content: center;
   gap: 0.75rem;
-  padding-top: 0.1rem;
-  margin-bottom: 0.85rem;
+  padding-top: 0;
+  margin-bottom: 0.75rem;
   position: relative;
 }
 .invite-classic__title {
   font-size: 1.45rem;
   letter-spacing: 0.03em;
-  margin: 0;
+  margin: 0.08rem 0 0.45rem 0;
   width: 100%;
   text-align: center;
   position: static;
   transform: none;
 }
-.invite-modal .invite-classic__title { color: #f2e3d4 !important; }
+:root:not(.theme-light) .invite-modal .invite-classic__title { color: #f2e3d4; }
 :root.theme-light .invite-modal .invite-classic__title { color: var(--title-color) !important; }
 .invite-modal__close {
   background: none;
@@ -237,7 +237,7 @@ body::-webkit-scrollbar {
   cursor: var(--cursor-pointer);
   line-height: 1;
   position: absolute;
-  top: -0.05rem;
+  top: -0.2rem;
   right: 0.25rem;
 }
 .invite-classic__content {
