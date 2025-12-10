@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export default function JoinPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { t } = useI18n();
   const [statusMsg, setStatusMsg] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -18,11 +20,13 @@ export default function JoinPage() {
     setError("");
   }, [token]);
 
+  const joinErrorText = t("join.error", "Liitumine ebaõnnestus");
+
   if (!token) {
     return (
       <main id="main" className="main-content glass-box profile-container">
-        <h1 className="glass-title">Kutse link puudub</h1>
-        <p>Palun ava kutselink oma e-postist.</p>
+        <h1 className="glass-title">{t("join.missing_title", "Kutse link puudub")}</h1>
+        <p>{t("join.missing_description", "Palun ava kutselink oma e-postist.")}</p>
       </main>
     );
   }
@@ -35,17 +39,17 @@ export default function JoinPage() {
       const res = await fetch(`/api/invites/${encodeURIComponent(token)}/accept`, { method: "POST" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        const msg = data?.message || "Liitumine ebaõnnestus";
+        const msg = data?.message || joinErrorText;
         throw new Error(msg);
       }
-      setStatusMsg("Liitumine õnnestus");
+      setStatusMsg(t("join.success", "Liitumine õnnestus"));
       if (data?.roomId) {
         router.push(`/vestlus?roomId=${encodeURIComponent(data.roomId)}`);
       } else {
         router.push("/vestlus");
       }
     } catch (err) {
-      setError(err?.message || "Liitumine ebaõnnestus");
+      setError(err?.message || joinErrorText);
     } finally {
       setBusy(false);
     }
@@ -53,21 +57,25 @@ export default function JoinPage() {
 
   return (
     <main id="main" className="main-content glass-box profile-container">
-      <h1 className="glass-title">Liitu vestlusega</h1>
-      <p className="glass-lead">Kinnitame kutse ja lisame sind ruumi.</p>
+      <h1 className="glass-title">{t("join.heading", "Liitu vestlusega")}</h1>
+      <p className="glass-lead">{t("join.lead", "Kinnitame kutse ja lisame sind ruumi.")}</p>
 
       {status !== "authenticated" ? (
         <div className="glass-section">
-          <p>Logi sisse või loo konto, et liituda.</p>
+          <p>{t("join.signin_prompt", "Logi sisse või loo konto, et liituda.")}</p>
           <button type="button" className="btn-primary" onClick={() => signIn()}>
-            Logi sisse
+            {t("join.signin", "Logi sisse")}
           </button>
         </div>
       ) : (
         <div className="glass-section">
-          <p>Oled sisse logitud kasutajana {session?.user?.email || session?.user?.id}.</p>
+          <p>
+            {t("join.logged_in_as", "Oled sisse logitud kasutajana {email}.", {
+              email: session?.user?.email || session?.user?.id,
+            })}
+          </p>
           <button type="button" className="btn-primary" onClick={accept} disabled={busy}>
-            {busy ? "Liidan..." : "Liitu"}
+            {busy ? t("join.joining", "Liidan...") : t("join.join_button", "Liitu")}
           </button>
         </div>
       )}

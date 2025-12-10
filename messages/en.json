@@ -52,7 +52,10 @@
     "start": "Start",
     "aria_main": "Main menu",
     "toggle_light": "Toggle light mode",
-    "toggle_dark": "Toggle dark mode"
+    "toggle_dark": "Toggle dark mode",
+    "chats": "Chats",
+    "rooms": "Rooms",
+    "add_person": "Add person"
   },
   "auth": {
     "email_placeholder": "you@example.com",
@@ -655,5 +658,65 @@
       "title": "Next step - SotsiaalAI",
       "description": "Choose where to continue after signing in."
     }
+  },
+  "join": {
+    "missing_title": "Invitation link missing",
+    "missing_description": "Please open the invite link from your email.",
+    "heading": "Join the conversation",
+    "lead": "We?ll confirm the invite and add you to the room.",
+    "signin_prompt": "Sign in or create an account to join.",
+    "signin": "Sign in",
+    "logged_in_as": "Signed in as {email}.",
+    "join_button": "Join",
+    "joining": "Joining...",
+    "success": "Joined successfully",
+    "error": "Joining failed"
+  },
+  "rooms": {
+    "aria": "Rooms",
+    "title": "Rooms",
+    "error": "Failed to load rooms",
+    "loading": "Loading rooms...",
+    "empty": "No rooms available. Add a person in chat to start a group conversation.",
+    "fallback_title": "Room",
+    "back_to_chats": "Back to chats"
+  },
+  "invite": {
+    "success": "Invites sent",
+    "title": "Invite people",
+    "eyebrow": "Group chat",
+    "login_required": "Sign in to send invites.",
+    "classic": {
+      "emails": "Invite people to the conversation",
+      "emails_ph": "Emails (comma separated)",
+      "emails_help": "Separate with commas",
+      "relationship": "Who are you inviting?",
+      "payment": "Subscription status"
+    },
+    "rel": {
+      "colleague": "Colleague",
+      "client": "Client"
+    },
+    "pay": {
+      "self": "They have their own subscription",
+      "host": "I'll pay for them"
+    },
+    "sending": "Sending...",
+    "send": "SEND INVITE",
+    "list": "Invites",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "empty": "No invites yet",
+    "table": {
+      "email": "Email",
+      "role": "Role",
+      "payer": "Payer",
+      "status": "Status"
+    },
+    "payer": {
+      "host": "I'll pay for them",
+      "self": "They have their own subscription"
+    },
+    "resend": "Resend"
   }
 }

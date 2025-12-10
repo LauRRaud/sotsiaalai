@@ -52,7 +52,10 @@
     "start": "Start",
     "aria_main": "Peamenüü",
     "toggle_light": "Lülita hele režiim",
-    "toggle_dark": "Lülita tume režiim"
+    "toggle_dark": "Lülita tume režiim",
+    "chats": "Vestlused",
+    "rooms": "Ruumid",
+    "add_person": "Lisa inimene"
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
@@ -655,5 +658,65 @@
       "title": "Järgmine samm — SotsiaalAI",
       "description": "Vali, millise tööriistaga jätkad pärast sisselogimist."
     }
+  },
+  "join": {
+    "missing_title": "Kutse link puudub",
+    "missing_description": "Palun ava kutselink oma e-postist.",
+    "heading": "Liitu vestlusega",
+    "lead": "Kinnitame kutse ja lisame sind ruumi.",
+    "signin_prompt": "Logi sisse v?i loo konto, et liituda.",
+    "signin": "Logi sisse",
+    "logged_in_as": "Oled sisse logitud kasutajana {email}.",
+    "join_button": "Liitu",
+    "joining": "Liidan...",
+    "success": "Liitumine ?nnestus",
+    "error": "Liitumine eba?nnestus"
+  },
+  "rooms": {
+    "aria": "Ruumid",
+    "title": "Ruumid",
+    "error": "Ruumide laadimine eba?nnestus",
+    "loading": "Laadin ruume...",
+    "empty": "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
+    "fallback_title": "Ruum",
+    "back_to_chats": "Tagasi vestlustesse"
+  },
+  "invite": {
+    "success": "Kutsed saadetud",
+    "title": "Kutsu inimesi",
+    "eyebrow": "Grupivestlus",
+    "login_required": "Kutsumiseks logi sisse.",
+    "classic": {
+      "emails": "Kutsu inimesi vestlusesse",
+      "emails_ph": "E-post (eralda komaga)",
+      "emails_help": "Eralda komaga",
+      "relationship": "Kellega on tegu?",
+      "payment": "Tellimuse olemasolu"
+    },
+    "rel": {
+      "colleague": "Kolleeg",
+      "client": "Klient"
+    },
+    "pay": {
+      "self": "Tal on oma tellimus",
+      "host": "Tasun tema eest"
+    },
+    "sending": "Saadan...",
+    "send": "SAADA KUTSE",
+    "list": "Kutsed",
+    "loading": "Laen...",
+    "refresh": "V?rskenda",
+    "empty": "Kutsete nimekiri on t?hi",
+    "table": {
+      "email": "Email",
+      "role": "Roll",
+      "payer": "Maksja",
+      "status": "Staatus"
+    },
+    "payer": {
+      "host": "Tasun tema eest",
+      "self": "Tal on oma tellimus"
+    },
+    "resend": "Saada uuesti"
   }
 }

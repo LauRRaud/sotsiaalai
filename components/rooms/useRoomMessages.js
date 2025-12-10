@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useRoomMessages(roomId, pollMs = 3000) {
   const [messages, setMessages] = useState([]);
@@ -11,44 +11,36 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const esRef = useRef(null);
   const retryRef = useRef(2000);
 
-  async function load(reset = false) {
-    if (!roomId) return;
-    const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
-    if (!reset && cursorRef.current) url.searchParams.set("cursor", cursorRef.current);
-    const res = await fetch(url.toString());
-    const data = await res.json().catch(() => ({}));
-    if (res.status === 401) {
-      setAuthRequired(true);
-      setBlocked(false);
-      if (timerRef.current) clearInterval(timerRef.current);
-      return;
-    }
-    if (res.status === 403) {
-      setBlocked(true);
+  const load = useCallback(
+    async (reset = false) => {
+      if (!roomId) return;
+      const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
+      if (!reset && cursorRef.current) url.searchParams.set("cursor", cursorRef.current);
+      const res = await fetch(url.toString());
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 401) {
+        setAuthRequired(true);
+        setBlocked(false);
+        if (timerRef.current) clearInterval(timerRef.current);
+        return;
+      }
+      if (res.status === 403) {
+        setBlocked(true);
+        setAuthRequired(false);
+        return;
+      }
+      if (!res.ok || data?.ok === false) return;
       setAuthRequired(false);
-      return;
-    }
-    if (!res.ok || data?.ok === false) return;
-    setAuthRequired(false);
-    setBlocked(false);
-    const items = data.messages || [];
-    if (reset) setMessages(items.reverse());
-    else setMessages((prev) => [...items.reverse(), ...prev]);
-    cursorRef.current = data.nextCursor || null;
-  }
+      setBlocked(false);
+      const items = data.messages || [];
+      if (reset) setMessages(items.reverse());
+      else setMessages((prev) => [...items.reverse(), ...prev]);
+      cursorRef.current = data.nextCursor || null;
+    },
+    [roomId],
+  );
 
-  useEffect(() => {
-    load(true);
-    timerRef.current = setInterval(() => load(false), pollMs);
-    connectSse();
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (esRef.current) esRef.current.close();
-    };
-  }, [roomId, pollMs]);
-
-  function connectSse() {
+  const connectSse = useCallback(() => {
     if (!roomId || blocked || authRequired) return;
     if (esRef.current) esRef.current.close();
     const es = new EventSource(`/api/rooms/${roomId}/messages/stream`);
@@ -84,7 +76,18 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         }
       } catch {}
     };
-  }
+  }, [roomId, blocked, authRequired, load, pollMs]);
+
+  useEffect(() => {
+    load(true);
+    timerRef.current = setInterval(() => load(false), pollMs);
+    connectSse();
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (esRef.current) esRef.current.close();
+    };
+  }, [roomId, pollMs, load, connectSse]);
 
   return {
     messages,

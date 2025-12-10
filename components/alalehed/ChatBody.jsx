@@ -1025,7 +1025,7 @@ export default function ChatBody({ roomId = null }) {
     }
     stopSpeaking();
     speakWithBrowser(text);
-  }, [messages, locale, stopSpeaking, speakWithBrowser]);
+  }, [visibleMessages, locale, stopSpeaking, speakWithBrowser]);
 
   /* ---------- Speech-to-Text (mikrofon) ---------- */
   const stopRecording = useCallback(() => {

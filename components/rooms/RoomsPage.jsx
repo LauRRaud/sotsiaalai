@@ -2,15 +2,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export default function RoomsPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
+    const fallbackError = t("rooms.error", "Ruumide laadimine ebaõnnestus");
     async function load() {
       setError("");
       setLoading(true);
@@ -18,11 +21,11 @@ export default function RoomsPage() {
         const res = await fetch("/api/rooms", { cache: "no-store" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || "Ruumide laadimine ebaonnestus");
+          throw new Error(data?.message || fallbackError);
         }
         if (!cancelled) setRooms(Array.isArray(data.rooms) ? data.rooms : []);
       } catch (err) {
-        if (!cancelled) setError(err?.message || "Ruumide laadimine ebaonnestus");
+        if (!cancelled) setError(err?.message || fallbackError);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -31,7 +34,7 @@ export default function RoomsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const hiddenIds = new Set(["cmiunm4we0001goud9072nb9q"]);
   const visibleRooms = rooms.filter((room) => {
@@ -54,8 +57,8 @@ export default function RoomsPage() {
       : visibleRooms;
 
   return (
-    <main id="main" className="main-content glass-box rooms-shell" role="region" aria-label="Ruumid">
-      <h1 className="glass-title rooms-title">Ruumid</h1>
+    <main id="main" className="main-content glass-box rooms-shell" role="region" aria-label={t("rooms.aria", "Ruumid")}>
+      <h1 className="glass-title rooms-title">{t("rooms.title", "Ruumid")}</h1>
 
       {error ? (
         <div className="glass-note glass-note--error" role="alert">
@@ -65,16 +68,18 @@ export default function RoomsPage() {
 
       {loading ? (
         <p className="rooms-empty" aria-busy="true">
-          Laadin ruume...
+          {t("rooms.loading", "Laadin ruume...")}
         </p>
       ) : effectiveRooms.length === 0 ? (
-        <p className="rooms-empty">Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.</p>
+        <p className="rooms-empty">
+          {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
+        </p>
       ) : (
         <ul className="rooms-simple-list" role="list">
           {effectiveRooms.map((room) => (
             <li key={room.id}>
               <Link href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="rooms-simple-link">
-                {room.title || "Ruum"}
+                {room.title || t("rooms.fallback_title", "Ruum")}
               </Link>
             </li>
           ))}
@@ -86,7 +91,7 @@ export default function RoomsPage() {
           type="button"
           className="back-arrow-btn"
           onClick={() => router.push("/vestlus")}
-          aria-label="Tagasi vestlustesse"
+          aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}
         >
           <span className="back-arrow-circle" />
         </button>
