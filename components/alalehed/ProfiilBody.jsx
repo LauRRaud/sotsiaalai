@@ -126,6 +126,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   const [showDelete, setShowDelete] = useState(false);
   // Kui serverist tuli profiil, siis väldi kliendi "loading" vaadet
   const [loading, setLoading] = useState(!initialProfile);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isTouchActions, setIsTouchActions] = useState(false);
@@ -222,6 +223,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     if (status === "loading") return;
     if (status !== "authenticated") {
       setLoading(false);
+      setLoadFailed(false);
       return;
     }
     // Kui server andis juba profiili, kasuta seda ja väldi lisapäringut
@@ -229,15 +231,18 @@ export default function ProfiilBody({ initialProfile = null }) {
       setEmail(initialProfile.email || "");
       setInitialEmail((initialProfile.email || "").trim().toLowerCase());
       setHasPassword(!!initialProfile.hasPassword);
+      setLoadFailed(false);
       setLoading(false);
       return;
     }
     (async () => {
       try {
+        setLoadFailed(false);
         const res = await fetch("/api/profile", { cache: "no-store" });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
           setError(payload?.error || payload?.message || t("profile.load_failed"));
+          setLoadFailed(true);
           return;
         }
         setEmail(payload?.user?.email ?? "");
@@ -246,6 +251,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       } catch (err) {
         console.error("profile GET", err);
         setError(t("profile.server_unreachable"));
+        setLoadFailed(true);
       } finally {
         setLoading(false);
       }
@@ -284,6 +290,28 @@ export default function ProfiilBody({ initialProfile = null }) {
         </div>
         <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
       </>
+    );
+  }
+  if (loadFailed) {
+    return (
+      <div
+        className="main-content glass-box glass-left profile-container"
+        role="region"
+        aria-labelledby="profile-title"
+        lang={locale}
+      >
+        <h1 id="profile-title" className="glass-title">
+          {t("profile.title")}
+        </h1>
+        <div className="profile-error-state">
+          <div
+            role="alert"
+            className="glass-note glass-note--center profile-error-note"
+          >
+            {error || t("profile.load_failed")}
+          </div>
+        </div>
+      </div>
     );
   }
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");

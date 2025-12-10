@@ -131,7 +131,7 @@ export default function InviteModal() {
             onClick={() => setOpen(false)}
             aria-label={t("common.close", "Sulge")}
           >
-            {t("common.close", "Sulge")}
+            ×
           </button>
         </header>
 
@@ -153,10 +153,6 @@ export default function InviteModal() {
                 placeholder={t("invite.classic.emails_ph", "E-post (eralda komaga)")}
                 disabled={busy}
               />
-              <div className="invite-classic__helper">
-                {t("invite.classic.emails_help", "Eralda komaga")}
-              </div>
-
               <p className="invite-classic__section-title">{t("invite.classic.relationship", "Kellega on tegu?")}</p>
               <div className="invite-choice-group">
                 <label className={`invite-choice-card ${relationship === "colleague" ? "is-checked" : ""}`}>

@@ -201,7 +201,7 @@ body::-webkit-scrollbar {
   box-shadow: 0 18px 48px rgba(0,0,0,0.36);
   background: radial-gradient(circle at 16% 12%, rgba(122,58,56,0.12), transparent 32%), linear-gradient(145deg, rgba(22,26,36,0.94), rgba(10,12,20,0.94));
   color: #e5e7eb;
-  padding: 1.5rem;
+  padding: 1.85rem;
 }
 :root.theme-light .invite-modal {
   background: linear-gradient(145deg, #f5f6fa, #e8eaf1);
@@ -211,31 +211,52 @@ body::-webkit-scrollbar {
 }
 .invite-modal__header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  padding-top: 0.1rem;
+  margin-bottom: 0.85rem;
+  position: relative;
 }
 .invite-classic__title {
   font-size: 1.45rem;
   letter-spacing: 0.03em;
   margin: 0;
+  width: 100%;
+  text-align: center;
+  position: static;
+  transform: none;
 }
+.invite-modal .invite-classic__title { color: #f2e3d4 !important; }
+:root.theme-light .invite-modal .invite-classic__title { color: var(--title-color) !important; }
 .invite-modal__close {
   background: none;
   border: none;
   color: inherit;
-  font-size: 1.25rem;
+  font-size: 2.25rem;
   cursor: var(--cursor-pointer);
+  line-height: 1;
+  position: absolute;
+  top: -0.05rem;
+  right: 0.25rem;
 }
 .invite-classic__content {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.6rem;
 }
 .invite-classic__body {
   display: grid;
-  gap: 0.65rem;
+  gap: 1rem;
+}
+.invite-modal,
+.invite-modal p,
+.invite-modal label,
+.invite-modal input,
+.invite-modal button,
+.invite-modal span,
+.invite-modal h2 {
+  letter-spacing: 0.03rem;
 }
 .invite-classic__label {
   font-weight: 600;
@@ -249,12 +270,14 @@ body::-webkit-scrollbar {
   background: rgba(18,22,32,0.45);
   color: inherit;
 }
+:root:not(.theme-light) .invite-classic__input::placeholder { color: rgba(236, 240, 245, 0.75); }
 :root.theme-light .invite-classic__input {
   background: #f8f8f8;
   border-color: #d7d7d7;
   color: #1f2937;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+:root.theme-light .invite-classic__input::placeholder { color: #6b7280; }
 .invite-classic__helper {
   font-size: 0.95rem;
   opacity: 0.8;
@@ -263,6 +286,7 @@ body::-webkit-scrollbar {
   margin: 0.35rem 0 0.1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  text-align: center;
 }
 .invite-choice-group {
   display: grid;
@@ -285,18 +309,21 @@ body::-webkit-scrollbar {
   background: linear-gradient(135deg, rgba(122,58,56,0.2), rgba(12,14,22,0.6));
 }
 :root.theme-light .invite-choice-card {
-  background: #f8f8f8;
-  border-color: #d7d7d7;
+  background: rgba(248,248,248,0.72);
+  border-color: rgba(215,215,215,0.72);
   box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  opacity: 0.82;
 }
 :root.theme-light .invite-choice-card.is-checked {
   border-color: #c7c7c7;
   background: linear-gradient(135deg, #ffffff, #eef0f5);
+  opacity: 1;
 }
 .invite-classic__status--error { color: #fca5a5; }
 .invite-classic__status--ok { color: #a7f3d0; }
-.invite-classic__actions { display: flex; justify-content: flex-start; }
+.invite-classic__actions { display: flex; justify-content: center; }
 .invite-classic__actions .btn-base { min-width: 9.5rem; }
+.invite-classic__actions { margin: 0.65rem 0 1rem; }
 .invite-list {
   border-radius: 1rem;
   padding: 0.9rem;
@@ -1312,7 +1339,7 @@ top: calc(var(--hud-edge-safe) + 2.1rem);
 :root.theme-light .chat-avatar-abs { background: url("/logo/profiilhele.svg") center/contain no-repeat; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.24)); }
 .avatar-label {
   position: absolute;
-  bottom: calc(100% + 0.12rem);
+  bottom: calc(100% - 0.14rem);
   left: 50%;
   font-size: 1.2rem;
   font-weight: 500;
@@ -1331,7 +1358,7 @@ top: calc(var(--hud-edge-safe) + 2.1rem);
 }
 .avatar-link:hover .avatar-label {
   opacity: 1;
-  transform: translate(-50%, -0.12rem);
+  transform: translate(-50%, -0.02rem);
 }
 .avatar-link:hover .chat-avatar-abs,
 .avatar-link:focus-visible .chat-avatar-abs {
@@ -1348,6 +1375,17 @@ top: calc(var(--hud-edge-safe) + 2.1rem);
   align-items: center;
   margin-top: 0.15em;
   margin-bottom: 0;
+}
+.profile-error-state {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.profile-error-note {
+  width: min(32rem, 100%);
+  text-align: center;
 }
 .profile-form-vertical.glass-form{
   gap: 0.55em;
@@ -1845,6 +1883,14 @@ top: calc(var(--hud-edge-safe) + 2.1rem);
   box-shadow: none;
   color: var(--pt-30, #f7f9ff);
 }
+:root:not(.theme-light) .register-form .input-modern:focus,
+:root:not(.theme-light) .register-form .input-modern:focus-visible {
+  border-color: var(--ui-hover-ring);
+  box-shadow:
+    0 0 0 1px var(--ui-hover-ring),
+    0 0 10px var(--ui-hover-soft),
+    0 0 16px var(--ui-hover-outer);
+}
 .login-modal-root .login-modal-form .input-email-icon{
   cursor: var(--cursor-pointer);
 }
@@ -1956,8 +2002,14 @@ width: clamp(16rem, 16vw, 17rem);
   background: rgba(10,14,24,0.32);
   box-shadow: none;
 }
-.profile-form-vertical.glass-form .profile-email-field .input-modern:focus,
-.profile-form-vertical.glass-form .profile-email-field .input-modern:focus-visible {
+:root:not(.theme-light) .profile-email-field .input-modern:focus,
+:root:not(.theme-light) .profile-email-field .input-modern:focus-visible {
+  box-shadow:
+    0 0 10px var(--ui-hover-soft),
+    0 0 16px var(--ui-hover-outer);
+}
+:root.theme-light .profile-form-vertical.glass-form .profile-email-field .input-modern:focus,
+:root.theme-light .profile-form-vertical.glass-form .profile-email-field .input-modern:focus-visible {
   box-shadow: none;
 }
 .profile-email-field .input-modern.input-modern {
@@ -2051,6 +2103,11 @@ width: clamp(16rem, 16vw, 17rem);
   font-size: 2.4em;
   line-height: 1.2;
   margin-bottom: 0.6em;
+}
+.login-modal-root .login-error-note {
+  margin-top: -0.35rem;
+  margin-bottom: 0.65rem;
+  text-align: center;
 }
 .login-modal-root .login-modal-form input {
   font-size: 1.14rem;
@@ -2331,6 +2388,11 @@ width: clamp(16rem, 16vw, 17rem);
 .register-form .glass-radio-group label { padding: 0.7em 0.9em; }
 .register-form .glass-label-radio { margin-top: 0.15em; margin-bottom: 0.05em; }
 .register-form .glass-checkbox { row-gap: 0.35em; }
+.register-form .register-submit {
+  align-self: center;
+  font-weight: 500;
+  font-size: 1.08em;
+}
 .register-form .register-submit.btn-primary.btn-compact {
   font-size: 1.08em;
   padding: 0.55em 1.25em;
@@ -2833,6 +2895,16 @@ label {
   hyphens: auto;
   word-break: break-word;
   overflow-wrap: break-word;
+}
+a {
+  color: inherit;
+}
+:root:not(.theme-light) a,
+:root:not(.theme-light) .link-brand,
+:root:not(.theme-light) .link-brand-inline,
+:root:not(.theme-light) .meist-external-link,
+:root:not(.theme-light) .glass-box a {
+  color: var(--brand-primary);
 }
 .back-arrow-btn {
   display: inline-flex;
@@ -6090,7 +6162,9 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root:not(.theme-light) .chat-inputbar:focus-within {
   border-color: var(--ui-hover-ring);
   background: rgba(10,14,24,0.32);
-  box-shadow: none;
+  box-shadow:
+    0 0 10px var(--ui-hover-soft),
+    0 0 16px var(--ui-hover-outer);
 }
 :root:not(.theme-light) .chat-inputbar .chat-attach-btn,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn,
@@ -6107,7 +6181,9 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible {
   border-color: var(--ui-hover-ring);
   background: rgba(10,14,24,0.32);
-  box-shadow: none;
+  box-shadow:
+    0 0 10px var(--ui-hover-soft),
+    0 0 16px var(--ui-hover-outer);
 }
 :root:not(.theme-light) .chat-msg-user {
   border: 2px solid rgba(84,95,115,0.6);
@@ -6132,7 +6208,9 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:focus-visible {
   background: rgba(10,14,24,0.32);
   border-color: var(--ui-hover-ring);
-  box-shadow: none;
+  box-shadow:
+    0 0 10px var(--ui-hover-soft),
+    0 0 16px var(--ui-hover-outer);
 }
 .rag-admin { display: flex; flex-direction: column; gap: 16px; padding: 8px 0 24px; color: #e2e8f0; background: radial-gradient(circle at 10% 20%, rgba(59,130,246,0.08), transparent 25%), #0b1220; }
 .flex-row { display: flex; gap: 12px; align-items: center; }
