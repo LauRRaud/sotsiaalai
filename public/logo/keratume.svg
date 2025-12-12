@@ -1,0 +1,42 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="keramust-base" cx="38%" cy="28%" r="70%">
+      <stop offset="0%" stop-color="#5a5a5a"/>
+      <stop offset="40%" stop-color="#2b2b2b"/>
+      <stop offset="78%" stop-color="#080808"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    <!-- Stronger edge rim highlight -->
+    <radialGradient id="keramust-rim" cx="50%" cy="50%" r="72%">
+      <stop offset="76%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="86%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="92%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="96%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="99%" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.45"/>
+    </radialGradient>
+
+    <!-- Mask to soften / break rim around the main light spot (10–13 o'clock) -->
+    <radialGradient
+      id="keramust-rim-cut"
+      gradientUnits="userSpaceOnUse"
+      cx="120" cy="90" r="160"
+    >
+      <stop offset="0%" stop-color="#000000" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#000000" stop-opacity="1"/>
+      <stop offset="78%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </radialGradient>
+    <mask
+      id="keramust-rim-mask"
+      maskUnits="userSpaceOnUse"
+      maskContentUnits="userSpaceOnUse"
+      x="0" y="0" width="400" height="400"
+    >
+      <rect width="400" height="400" fill="#ffffff"/>
+      <circle cx="120" cy="90" r="160" fill="url(#keramust-rim-cut)"/>
+    </mask>
+  </defs>
+  <circle cx="200" cy="200" r="150" fill="url(#keramust-base)"/>
+  <circle cx="200" cy="200" r="150" fill="url(#keramust-rim)" mask="url(#keramust-rim-mask)"/>
+</svg>

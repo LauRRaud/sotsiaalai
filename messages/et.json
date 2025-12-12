@@ -664,13 +664,13 @@
     "missing_description": "Palun ava kutselink oma e-postist.",
     "heading": "Liitu vestlusega",
     "lead": "Kinnitame kutse ja lisame sind ruumi.",
-    "signin_prompt": "Logi sisse v?i loo konto, et liituda.",
+    "signin_prompt": "Logi sisse või loo konto, et liituda.",
     "signin": "Logi sisse",
     "logged_in_as": "Oled sisse logitud kasutajana {email}.",
     "join_button": "Liitu",
     "joining": "Liidan...",
-    "success": "Liitumine ?nnestus",
-    "error": "Liitumine eba?nnestus"
+    "success": "Liitumine õnnestus",
+    "error": "Liitumine ebaõnnestus"
   },
   "rooms": {
     "aria": "Ruumid",
@@ -705,8 +705,8 @@
     "send": "SAADA KUTSE",
     "list": "Kutsed",
     "loading": "Laen...",
-    "refresh": "V?rskenda",
-    "empty": "Kutsete nimekiri on t?hi",
+    "refresh": "Värskenda",
+    "empty": "Kutsete nimekiri on tühi",
     "table": {
       "email": "Email",
       "role": "Roll",

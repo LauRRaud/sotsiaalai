@@ -571,7 +571,7 @@
       "redirect_demo": "Redirecting to Maksekeskus payment page (demo)..."
     },
     "active": {
-      "summary": "Your subscription is active. Monthly price: Äā€Ā¬7.99.",
+      "summary": "Your subscription is active. Monthly price: 7.99.",
       "cancel_note": "You can cancel your subscription any time on the profile page or by emailing <email>info@sotsiaal.ai</email>."
     },
     "button": {
@@ -579,14 +579,14 @@
       "activate": "Pay and activate subscription",
       "processing": "Redirecting to payment..."
     },
-    "info": "To use SotsiaalAI you need a monthly subscription priced at Äā€Ā¬7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
+    "info": "To use SotsiaalAI you need a monthly subscription priced at 7.99. Payments are charged automatically via Maksekeskus with the payment method you choose. The subscription renews each month automatically and you can cancel it at any time from your profile. The service remains active until the end of the paid period."
   },
   "pwa": {
     "heading": "Want the platform as an app?",
     "cta": "Install on mobile or desktop",
     "instructions": {
-      "ios": "iPhone/iPad: open Safari, tap Share Äā€ ā€™ Add to Home Screen.",
-      "mac": "Mac: open Safari and choose File Äā€ ā€™ Add to Dock."
+      "ios": "iPhone/iPad: open Safari, tap Share and Add to Home Screen.",
+      "mac": "Mac: open Safari and choose File and Add to Dock."
     }
   },
   "start": {

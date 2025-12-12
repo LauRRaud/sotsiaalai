@@ -1,0 +1,43 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="kerahele-base" cx="38%" cy="28%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="18%" stop-color="#f8f8f8"/>
+      <stop offset="45%" stop-color="#e4e4e4"/>
+      <stop offset="75%" stop-color="#c8c8c8"/>
+      <stop offset="100%" stop-color="#8a8a8a"/>
+    </radialGradient>
+    <!-- Stronger edge rim highlight -->
+    <radialGradient id="kerahele-rim" cx="50%" cy="50%" r="72%">
+      <stop offset="76%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="84%" stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="90%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="94%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="97%" stop-color="#ffffff" stop-opacity="0.40"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.60"/>
+    </radialGradient>
+
+    <!-- Mask to soften / break rim around the main light spot (10–13 o'clock) -->
+    <radialGradient
+      id="kerahele-rim-cut"
+      gradientUnits="userSpaceOnUse"
+      cx="120" cy="90" r="160"
+    >
+      <stop offset="0%" stop-color="#000000" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#000000" stop-opacity="1"/>
+      <stop offset="78%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </radialGradient>
+    <mask
+      id="kerahele-rim-mask"
+      maskUnits="userSpaceOnUse"
+      maskContentUnits="userSpaceOnUse"
+      x="0" y="0" width="400" height="400"
+    >
+      <rect width="400" height="400" fill="#ffffff"/>
+      <circle cx="120" cy="90" r="160" fill="url(#kerahele-rim-cut)"/>
+    </mask>
+  </defs>
+  <circle cx="200" cy="200" r="150" fill="url(#kerahele-base)"/>
+  <circle cx="200" cy="200" r="150" fill="url(#kerahele-rim)" mask="url(#kerahele-rim-mask)"/>
+</svg>

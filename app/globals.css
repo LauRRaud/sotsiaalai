@@ -662,6 +662,111 @@ main#main > .main-content.glass-box {
 .centered-back-right {
  background: rgba(22, 22, 22, 0.65);
 }
+
+/* Homepage sphere card visuals (semi‑transparent, see‑through) */
+.homepage-root .glass-card-light,
+.homepage-root .centered-back-left,
+.homepage-root .glass-card-dark,
+.homepage-root .centered-back-right {
+  background: transparent;
+  overflow: hidden;
+}
+
+.homepage-root .glass-card-light::before,
+.homepage-root .centered-back-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background-color: #f3f3f3;
+  background-image: url("/logo/kerahele-base.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  /* SVG circle is ~75% of viewBox, scale up to fill card */
+  background-size: 133.33% 133.33%;
+  opacity: 0.6;
+  filter: blur(5px);
+}
+
+.homepage-root .glass-card-dark::before,
+.homepage-root .centered-back-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background-color: #050505;
+  background-image: url("/logo/keratume-base.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 133.33% 133.33%;
+  opacity: 0.6;
+  filter: blur(5px);
+}
+
+/* Crisp rim highlight on top of blurred base */
+.homepage-root .glass-card-light::after,
+.homepage-root .centered-back-left::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("/logo/kerahele-rim.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 133.33% 133.33%;
+  opacity: 1;
+}
+
+.homepage-root .glass-card-dark::after,
+.homepage-root .centered-back-right::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("/logo/keratume-rim.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 133.33% 133.33%;
+  opacity: 1;
+}
+
+/* Frosted/glassy blur behind the spheres (keep stable, no intro anim) */
+.homepage-root .card-wrapper::before,
+.homepage-root .card-wrapper:has(.glass-card.fade-in)::before,
+.homepage-root .card-wrapper:has(.centered-back-left.fade-in)::before,
+.homepage-root .card-wrapper:has(.centered-back-right.fade-in)::before {
+  backdrop-filter: blur(9px) saturate(110%);
+  -webkit-backdrop-filter: blur(9px) saturate(110%);
+  opacity: 1;
+  animation: none;
+  transition: none;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.homepage-root .glass-card,
+.homepage-root .glass-card-dark,
+.homepage-root .centered-back-left,
+.homepage-root .centered-back-right {
+  box-shadow: none;
+}
+
+.homepage-root .three-d-card:hover .card-face.front > .glass-card,
+.homepage-root .three-d-card:focus-within .card-face.front > .glass-card,
+.homepage-root .three-d-card:hover .card-face.back > .centered-back-left,
+.homepage-root .three-d-card:focus-within .card-face.back > .centered-back-left,
+.homepage-root .three-d-card:hover .card-face.back > .centered-back-right,
+.homepage-root .three-d-card:focus-within .card-face.back > .centered-back-right,
+.homepage-root .glass-card.glow-active {
+  animation: none;
+}
 .centered-back-left,
 .centered-back-right {
   width: 100%;

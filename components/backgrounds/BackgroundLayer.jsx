@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
+const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
 /* ---------- utiliidid ---------- */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -38,6 +39,7 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   const [cursorReady, setCursorReady] = useState(false);
   const [animateFog, setAnimateFog] = useState(false);
   const [skipBgIntro, setSkipBgIntro] = useState(false);
+  const [colorBendsReady, setColorBendsReady] = useState(false);
   useEffect(() => setMounted(true), []);
   useLayoutEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -76,6 +78,15 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     return () => cancelParticles?.();
   }, [mounted]);
+  // ColorBends lae rahulikult
+  useEffect(() => {
+    if (!mounted || reduceMotion) {
+      setColorBendsReady(false);
+      return;
+    }
+    const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 400));
+    return () => cancel?.();
+  }, [mounted, reduceMotion]);
   // Splash-cursor sama loogikaga
   useEffect(() => {
     if (!mounted) return;
@@ -102,6 +113,21 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
             />
           </Suspense>
         </div>
+        {colorBendsReady && !reduceMotion && (
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          >
+            <Suspense fallback={null}>
+              <ColorBends />
+            </Suspense>
+          </div>
+        )}
         {particlesReady && !reduceMotion && (
           <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 3 }}>
             <Particles />
@@ -128,6 +154,3 @@ function BackgroundLayer() {
 }
 
 export default memo(BackgroundLayer);
-
-
-

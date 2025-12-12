@@ -31,8 +31,15 @@ const baseConfig = {
             svgo: true,
             svgoConfig: {
               plugins: [
-                { name: "preset-default" },
-                { name: "prefixIds" } // avoid id collisions for gradients/defs
+                {
+                  name: "preset-default",
+                  params: {
+                    overrides: {
+                      removeViewBox: false,
+                    },
+                  },
+                },
+                { name: "prefixIds" }, // avoid id collisions for gradients/defs
               ],
             },
             titleProp: true,

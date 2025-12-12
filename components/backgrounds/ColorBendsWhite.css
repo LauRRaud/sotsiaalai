@@ -1,8 +1,0 @@
-/*
-	Installed from https://reactbits.dev/default/
-*/
-.color-bends-container.color-bends-light {
-  background:
-    radial-gradient(circle at 15% 25%, rgba(38, 42, 54, 0.6), rgba(18, 22, 32, 0.6)),
-    linear-gradient(180deg, #0b0d12 0%, #141824 100%);
-}
