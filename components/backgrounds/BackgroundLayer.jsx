@@ -137,11 +137,11 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
       {/* SPLASH CURSOR – portaalina, alati sisu peal */}
       {mounted && cursorReady && typeof document !== "undefined" && !reduceMotion &&
         createPortal(
-          <div className="splash-cursor" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none" }}>
-            <MaybeSplash />
-          </div>,
-          document.body
-        )
+           <div className="splash-cursor" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 5, pointerEvents: "none" }}>
+             <MaybeSplash />
+           </div>,
+           document.body
+         )
       }
     </>
   );

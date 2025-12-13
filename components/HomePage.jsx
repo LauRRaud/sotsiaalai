@@ -7,6 +7,7 @@ import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
+import TypedFadeText from "@/components/TextAnimations/TypedFadeText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import Image from "next/image";
@@ -411,15 +412,6 @@ export default function HomePage() {
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
           <nav className="footer-bottom-nav footer-floating-nav" aria-label={t("nav.main")}>
             <div className="top-center-actions">
-              <Link
-                id="nav-meist"
-                href="/meist"
-                className={["top-center-link", "nav-meist-link", bottomFadeClass, "dim"].filter(Boolean).join(" ")}
-              >
-                <span className="nav-meist-wrap">
-                  <span className="nav-meist-text">{t("nav.about")}</span>
-                </span>
-              </Link>
               {isMobile && (
                 <label
                   className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", bottomFadeClass].filter(Boolean).join(" ")}
@@ -437,11 +429,35 @@ export default function HomePage() {
             </div>
           </nav>
           {/* Inline footer logo */}
-          <Logomust
-            className={["footer-logo-img", footerFadeClass, "dim"].filter(Boolean).join(" ")}
-            role="img"
-            aria-label={t("home.footer.logo_alt")}
-          />
+          <div className="footer-logo-stack">
+            <span
+              className={["footer-meist-word", prefs.reduceMotion ? "" : "footer-meist-word--animate"].filter(Boolean).join(" ")}
+              aria-hidden="true"
+            >
+              <svg className="footer-meist-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="footer-meist-gradient" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0" stopColor="#5F5B55" />
+                    <stop offset="0.18" stopColor="#8D8980" />
+                    <stop offset="0.36" stopColor="#ABA8A1" />
+                    <stop offset="0.56" stopColor="#C3C1BC" />
+                    <stop offset="0.78" stopColor="#E6E5E3" />
+                    <stop offset="1" stopColor="#F1F1F0" />
+                  </linearGradient>
+                </defs>
+                <text className="footer-meist-svg-text" x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="url(#footer-meist-gradient)">
+                  {t("nav.about")}
+                </text>
+              </svg>
+            </span>
+            <Link href="/meist" className="footer-logo-link" aria-label={t("nav.about")}>
+              <Logomust
+                className={["footer-logo-img", "dim", footerFadeClass].filter(Boolean).join(" ")}
+                role="img"
+                aria-label={t("home.footer.logo_alt")}
+              />
+            </Link>
+          </div>
         </footer>
       </div>
 
@@ -449,4 +465,3 @@ export default function HomePage() {
     </>
   );
 }
-

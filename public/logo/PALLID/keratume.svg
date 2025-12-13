@@ -1,0 +1,75 @@
+<svg width="400" height="400" viewBox="0 0 400 400"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <!-- BAAS-KUMERUS – tume kera -->
+    <radialGradient id="base" cx="38%" cy="28%" r="70%">
+      <stop offset="0%"   stop-color="#5a5a5a"/>
+      <stop offset="40%"  stop-color="#2b2b2b"/>
+      <stop offset="78%"  stop-color="#080808"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+
+    <!-- Valguslaik üleval vasakul -->
+    <radialGradient id="highlight" gradientUnits="userSpaceOnUse"
+                    cx="155" cy="120" r="140">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="35%"  stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="70%"  stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- RIM – edge fill -->
+    <radialGradient id="rimEdge" gradientUnits="userSpaceOnUse"
+                    cx="200" cy="200" r="150">
+      <stop offset="0.00" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.76" stop-color="#ffffff" stop-opacity="0"/>
+
+      <stop offset="0.84" stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="0.90" stop-color="#ffffff" stop-opacity="0.10"/>
+      <stop offset="0.95" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="0.98" stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="1.00" stop-color="#ffffff" stop-opacity="0.22"/>
+    </radialGradient>
+
+    <!-- PÕHI-LÕIGE ÜLEVAL (auk 10–13) -->
+    <radialGradient id="topCutAlpha" gradientUnits="userSpaceOnUse"
+                    cx="170" cy="85" r="175"
+                    gradientTransform="matrix(1 0 0 0.70 0 40)">
+      <stop offset="0%"   stop-color="#000" stop-opacity="0"/>
+      <stop offset="56%"  stop-color="#000" stop-opacity="0"/>
+      <stop offset="78%"  stop-color="#000" stop-opacity="0.70"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- PAREMTAASSTUS: toob rimi tagasi kella 13 kandis,
+         nihutades parema otsa kella 12 poole (pehme) -->
+    <radialGradient id="rightRestore" gradientUnits="userSpaceOnUse"
+                    cx="275" cy="95" r="110">
+      <stop offset="0%"   stop-color="#fff" stop-opacity="1"/>
+      <stop offset="45%"  stop-color="#fff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- MASK: taust 0 + topCut teeb augu + rightRestore täidab paremal veidi tagasi -->
+    <mask id="rimMask"
+          maskUnits="userSpaceOnUse"
+          maskContentUnits="userSpaceOnUse"
+          mask-type="alpha"
+          x="0" y="0" width="400" height="400">
+      <rect x="0" y="0" width="400" height="400" fill="#000" fill-opacity="0"/>
+      <rect x="0" y="0" width="400" height="400" fill="url(#topCutAlpha)"/>
+      <!-- See kiht nihutab parema otsa 12 suunas -->
+      <circle cx="275" cy="95" r="110" fill="url(#rightRestore)"/>
+    </mask>
+  </defs>
+
+  <!-- KERA -->
+  <circle cx="200" cy="200" r="150" fill="url(#base)"/>
+  <circle cx="200" cy="200" r="150" fill="url(#highlight)"/>
+
+  <!-- RIM: nüüd parempoolne ots liigub 12 poole -->
+  <circle cx="200" cy="200" r="150"
+          fill="url(#rimEdge)"
+          mask="url(#rimMask)"/>
+</svg>

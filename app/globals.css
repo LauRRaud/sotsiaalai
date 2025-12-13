@@ -28,7 +28,8 @@
   width: 100vw;
   height: 100dvh;
   pointer-events: none;
-  z-index: 30;
+  /* Background effect: keep behind UI (main content uses z-index: 10). */
+  z-index: 5;
 }
 html {
   font-family: var(--font-aino), Arial, sans-serif;
@@ -538,7 +539,9 @@ main#main > .main-content.glass-box {
   min-height: 100dvh;
   width: 100%;
   position: relative;
-  overflow: hidden;
+  /* Prevent horizontal scroll from glows/animations without clipping vertical content (e.g., footer on smaller screens). */
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 .side {
   flex: 1 1 0;
@@ -653,6 +656,7 @@ main#main > .main-content.glass-box {
   background-clip: padding-box;
   position: relative;
   isolation: isolate;
+  overflow: hidden;
 }
 .glass-card,
 .centered-back-left {
@@ -663,13 +667,12 @@ main#main > .main-content.glass-box {
  background: rgba(22, 22, 22, 0.65);
 }
 
-/* Homepage sphere card visuals (semi‑transparent, see‑through) */
+/* Homepage card visuals: 50% see-through spheres (SVGs stay unchanged). */
 .homepage-root .glass-card-light,
-.homepage-root .centered-back-left,
 .homepage-root .glass-card-dark,
+.homepage-root .centered-back-left,
 .homepage-root .centered-back-right {
   background: transparent;
-  overflow: hidden;
 }
 
 .homepage-root .glass-card-light::before,
@@ -679,15 +682,10 @@ main#main > .main-content.glass-box {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: -1;
-  background-color: #f3f3f3;
-  background-image: url("/logo/kerahele-base.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  /* SVG circle is ~75% of viewBox, scale up to fill card */
-  background-size: 133.33% 133.33%;
-  opacity: 0.6;
-  filter: blur(5px);
+  z-index: 0;
+  background: transparent url("/logo/kerahele.svg") center / 133.33% 133.33% no-repeat;
+  opacity: 0.7;
+  filter: none;
 }
 
 .homepage-root .glass-card-dark::before,
@@ -697,75 +695,30 @@ main#main > .main-content.glass-box {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: -1;
-  background-color: #050505;
-  background-image: url("/logo/keratume-base.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 133.33% 133.33%;
-  opacity: 0.6;
-  filter: blur(5px);
-}
-
-/* Crisp rim highlight on top of blurred base */
-.homepage-root .glass-card-light::after,
-.homepage-root .centered-back-left::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
   z-index: 0;
-  background-image: url("/logo/kerahele-rim.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 133.33% 133.33%;
-  opacity: 1;
+  background: transparent url("/logo/keratume.svg") center / 133.33% 133.33% no-repeat;
+  opacity: 0.7;
+  filter: none;
 }
 
-.homepage-root .glass-card-dark::after,
-.homepage-root .centered-back-right::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  background-image: url("/logo/keratume-rim.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 133.33% 133.33%;
-  opacity: 1;
+/* Slightly larger logo on the right (dark) front card only */
+.homepage-root .side.right .glass-card-dark .card-logo-bg-right {
+  width: min(calc(var(--card-logo-front-right) * 1.06), calc(100% - var(--card-logo-safe-gap)));
 }
 
-/* Frosted/glassy blur behind the spheres (keep stable, no intro anim) */
-.homepage-root .card-wrapper::before,
-.homepage-root .card-wrapper:has(.glass-card.fade-in)::before,
-.homepage-root .card-wrapper:has(.centered-back-left.fade-in)::before,
-.homepage-root .card-wrapper:has(.centered-back-right.fade-in)::before {
-  backdrop-filter: blur(9px) saturate(110%);
-  -webkit-backdrop-filter: blur(9px) saturate(110%);
-  opacity: 1;
+/* Slightly larger logo on the left (light) front card only */
+.homepage-root .side.left .glass-card-light .card-logo-bg-left {
+  width: min(calc(var(--card-logo-front-left) * 1.06), calc(100% - var(--card-logo-safe-gap)));
+}
+
+/* Homepage: keep the glass blur, but make it subtle (and avoid edge bleed). */
+.homepage-root .card-wrapper::before {
+  backdrop-filter: blur(0.35rem) saturate(112%);
+  -webkit-backdrop-filter: blur(0.35rem) saturate(112%);
+  opacity: 0.38;
   animation: none;
-  transition: none;
-  background: rgba(255, 255, 255, 0.015);
-}
-
-.homepage-root .glass-card,
-.homepage-root .glass-card-dark,
-.homepage-root .centered-back-left,
-.homepage-root .centered-back-right {
-  box-shadow: none;
-}
-
-.homepage-root .three-d-card:hover .card-face.front > .glass-card,
-.homepage-root .three-d-card:focus-within .card-face.front > .glass-card,
-.homepage-root .three-d-card:hover .card-face.back > .centered-back-left,
-.homepage-root .three-d-card:focus-within .card-face.back > .centered-back-left,
-.homepage-root .three-d-card:hover .card-face.back > .centered-back-right,
-.homepage-root .three-d-card:focus-within .card-face.back > .centered-back-right,
-.homepage-root .glass-card.glow-active {
-  animation: none;
+  clip-path: circle(49.6% at 50% 50%);
+  transform: scale(0.994);
 }
 .centered-back-left,
 .centered-back-right {
@@ -806,13 +759,13 @@ main#main > .main-content.glass-box {
 }
 .side.left .glass-card,
 .side.left .centered-back-left {
-  --halo-start: 0 0 1.125rem 0.625rem rgba(90,120,170,0.40);
-  --halo-mid:   0 0 1.5rem 1rem rgba(78,110,170,0.48);
+  --halo-start: 0 0 1.125rem 0.625rem rgba(58, 76, 112, 0.18);
+  --halo-mid:   0 0 1.5rem 1rem rgba(70, 92, 132, 0.24);
 }
 .side.right .glass-card-dark,
 .side.right .centered-back-right {
-  --halo-start: 0 0 1.125rem 0.625rem rgba(90,120,170,0.40);
-  --halo-mid:   0 0 1.5rem 1rem rgba(78,110,170,0.48);
+  --halo-start: 0 0 1.125rem 0.625rem rgba(58, 76, 112, 0.18);
+  --halo-mid:   0 0 1.5rem 1rem rgba(70, 92, 132, 0.24);
 }
 @keyframes brandGlow {
   0%   { box-shadow: var(--base-shadow), var(--halo-start); }
@@ -866,6 +819,18 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 @keyframes meist-shine{
   0%{ background-position: 0 200%; }
   100%{ background-position: 0 -200%; }
+}
+@keyframes meist-shimmer-bg{
+  0%   { background-position: 0 120%; }
+  45%  { background-position: 0 30%; }
+  100% { background-position: 0 -40%; }
+}
+@keyframes meist-reveal{
+  0%   { opacity: 0; transform: translateY(0.6rem) scale(0.985); filter: blur(0.375rem); }
+  14%  { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  56%  { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  78%  { opacity: 0; transform: translateY(-0.35rem) scale(0.995); filter: blur(0.375rem); }
+  100% { opacity: 0; transform: translateY(-0.35rem) scale(0.995); filter: blur(0.375rem); }
 }
 @keyframes meist-fade{
   0%   { opacity: 0;   }
@@ -1009,14 +974,14 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   align-items: center;
   justify-content: center;
   width: 100vw;
-  padding: 0.7em 0 0.15em 0;
+  padding: clamp(0.6rem, 1vw, 1rem) 0 clamp(0.4rem, 1vw, 0.9rem);
   position: fixed;
   left: 0;
   bottom: 0;
-  background: transparent;
-  z-index: 99;
-  gap: 0.5em;
-  }
+  z-index: 400;
+  gap: clamp(0.4rem, 1.2vw, 0.9rem);
+  min-height: clamp(4.8rem, 8vw, 6.6rem);
+}
 .footer-floating-nav{
   width: 100%;
   position: relative;
@@ -3173,7 +3138,7 @@ textarea::placeholder{
 .defer-from-bottom{ --start-ty:0.75rem; }
 .defer-fade.delay-1{ --fade-delay:1600ms; }
 .defer-fade.delay-2{ --fade-delay:1900ms; }
-.footer-logo-img.defer-fade.dim{ --end-op:0.56; }
+.footer-logo-img.defer-fade{ --end-op:0.55; }
 .top-center-link.defer-fade.dim{ --end-op:.95; }
 @media (max-width: 48em){
   .three-d-card,
@@ -3395,21 +3360,25 @@ textarea::placeholder{
   min-height: auto;
   padding: 0.25rem 0.75rem;
   overflow: visible;
-  transform: translateY(5.2rem);
+  transform: none;
   z-index: 55;
 }
 .nav-meist-text{
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-size: clamp(1.4rem, 3.4vw, 2rem);
-  letter-spacing: 0.12em;
+  --meist-font-size: clamp(1.4rem, 3.4vw, 2rem);
+  --meist-letter-gap: 0.12em;
+  --meist-space-gap: 0.48em;
+  font-size: var(--meist-font-size);
   text-transform: uppercase;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
   color: transparent;
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
   position: relative;
-  display: inline-block;
-  background: linear-gradient(
+  --meist-grad: linear-gradient(
     180deg,
     rgba(223,222,218,0.08) 0%,
     rgba(223,222,218,0.24) 25%,
@@ -3417,14 +3386,132 @@ textarea::placeholder{
     rgba(223,222,218,0.24) 75%,
     rgba(223,222,218,0.08) 100%
   );
+  animation: none;
+  opacity: 1;
+  transition: opacity 420ms cubic-bezier(.22,.61,.36,1);
+  transform-origin: center 18%;
+  transform: none;
+  will-change: opacity;
+}
+.nav-meist-text.is-fading{ opacity: 0; }
+.nav-meist-letter{
+  display: inline-block;
+  padding-right: var(--meist-letter-gap);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: var(--meist-grad);
   background-size: 100% 180%;
   background-position: 0 120%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: meist-shimmer 14s ease-in-out infinite;
-  transition: none;
-  transform-origin: center 18%;
-  transform: none;
+  opacity: 0;
+  transform: translateY(0.6rem) scale(0.985);
+  filter: blur(0.375rem);
+  transition: opacity 220ms ease, transform 420ms cubic-bezier(.22,.61,.36,1), filter 420ms cubic-bezier(.22,.61,.36,1);
+  animation: meist-shimmer-bg 14s ease-in-out infinite;
+  will-change: opacity, transform, filter, background-position;
+}
+.nav-meist-letter:last-child{ padding-right: 0; }
+.nav-meist-letter.is-space{ padding-right: var(--meist-space-gap); }
+.nav-meist-letter.is-on{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+.footer-logo-stack{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  isolation: isolate;
+  min-height: clamp(3.2rem, 7vw, 4.6rem);
+  z-index: 300;
+}
+.footer-meist-word{
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* behind logo link (z-index: 1) */
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translate(4%, -14%) translateY(0.75rem);
+  will-change: opacity, transform;
+}
+.footer-meist-svg{
+  width: 100%;
+  height: 100%;
+}
+.footer-meist-svg-text{
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+.footer-meist-word--animate{
+  animation: footer-meist-cycle 12.6s ease-in-out infinite;
+  animation-delay: 1900ms; /* match other intro delays on first load */
+}
+@keyframes footer-meist-cycle{
+  0%   { opacity: 0;   transform: translate(4%, -14%) translateY(0.75rem); }
+  16%  { opacity: 0.4; transform: translate(4%, -14%) translateY(0); }
+  58%  { opacity: 0.4; transform: translate(4%, -14%) translateY(0); }
+  86%  { opacity: 0;   transform: translate(4%, -14%) translateY(0); }
+  100% { opacity: 0;   transform: translate(4%, -14%) translateY(0); }
+}
+.footer-logo-link{
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  /* Keep layout positioning separate from the logo intro animation (which uses `transform`). */
+  transform: translateY(22%);
+}
+.footer-logo-stack .footer-logo-img{
+  display: block;
+  width: clamp(19.5rem, 25vw, 33rem);
+  max-width: clamp(25.5rem, 23vw, 33rem);
+  filter: drop-shadow(0 -2px 10px rgba(0,0,0,0.35));
+}
+.footer-logo-stack .footer-logo-img:not(.defer-fade){
+  opacity: 0.55;
+}
+.nav-meist-text.footer-meist-ghost{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Override the default nav-meist gradient/transparent text for the footer ghost */
+  color: #c7c7c7;
+  opacity: 0.4;
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  --meist-font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  --meist-letter-gap: 0.14em;
+  --meist-space-gap: 0.52em;
+  filter: none;
+ transform: translate(4%, -5%);
+  transition: opacity 3000ms ease;
+}
+.nav-meist-text.footer-meist-ghost.is-fading{
+  opacity: 0;
+}
+.nav-meist-text.footer-meist-ghost .nav-meist-letter{
+  transition: opacity 900ms ease;
+}
+@media (max-width: 48em){
+  .footer-meist-ghost{ display: none; }
+  .footer-meist-word{ display: none; }
 }
 .glass-box.tellimus-box{
   padding: clamp(1.6rem, 4.5vw, 2.8rem) clamp(1.8rem, 5.2vw, 3.2rem);
@@ -3473,12 +3560,23 @@ body.modal-open .footer-floating-nav {
     display: flex;
     flex-direction: column;
     gap: clamp(1.4rem, 5vw, 2.2rem);
+    /* Allow vertical scrolling on smaller screens; keep horizontal overflow clipped. */
+    overflow-x: hidden;
+    overflow-y: visible;
     touch-action: pan-y;
     -webkit-overflow-scrolling: touch;
   }
   .homepage-root > .main-content{ order: 1; }
   #bg-layer{ pointer-events: none; }
-  .footer-column{ position: static; }
+  .main-content { padding-bottom: clamp(5rem, 12vw, 7rem); }
+  .footer-column{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    z-index: 400;
+  }
   .main-content {
     display: flex;
     flex-direction: column;
@@ -5958,6 +6056,13 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .meist-body strong { font-weight: 550; color: color-mix(in srgb, var(--text-strong) 90%, #ffffff 10%); }
 :root.theme-light .doc-body p, :root.theme-light .doc-body li, :root.theme-light .doc-body blockquote, :root.theme-light .doc-body dd, :root.theme-light .doc-body dt, :root.theme-light .doc-body strong {
   color: var(--text-strong);
+}
+:root.theme-light .rooms-shell .rooms-empty {
+  color: var(--text-strong);
+}
+
+.rooms-back-btn {
+  margin-top: auto;
 }
 :root:not(.theme-light) .meist-body,
 :root:not(.theme-light) .meist-body p,

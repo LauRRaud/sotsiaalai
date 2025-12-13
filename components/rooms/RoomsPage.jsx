@@ -9,32 +9,32 @@ export default function RoomsPage() {
   const { t } = useI18n();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
-    const fallbackError = t("rooms.error", "Ruumide laadimine ebaõnnestus");
+
     async function load() {
-      setError("");
       setLoading(true);
       try {
         const res = await fetch("/api/rooms", { cache: "no-store" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || fallbackError);
+          throw new Error(data?.message || "Rooms fetch failed");
         }
         if (!cancelled) setRooms(Array.isArray(data.rooms) ? data.rooms : []);
       } catch (err) {
-        if (!cancelled) setError(err?.message || fallbackError);
+        if (!cancelled) setRooms([]);
+        console.warn("Rooms load failed:", err);
       } finally {
         if (!cancelled) setLoading(false);
       }
     }
+
     load();
     return () => {
       cancelled = true;
     };
-  }, [t]);
+  }, []);
 
   const hiddenIds = new Set(["cmiunm4we0001goud9072nb9q"]);
   const visibleRooms = rooms.filter((room) => {
@@ -46,7 +46,6 @@ export default function RoomsPage() {
     return true;
   });
 
-  // If the only item is a placeholder "Vestlusruum" without content, treat as empty.
   const effectiveRooms =
     visibleRooms.length === 1 &&
     (visibleRooms[0].title || "").toLowerCase() === "vestlusruum" &&
@@ -59,12 +58,6 @@ export default function RoomsPage() {
   return (
     <main id="main" className="main-content glass-box rooms-shell" role="region" aria-label={t("rooms.aria", "Ruumid")}>
       <h1 className="glass-title rooms-title">{t("rooms.title", "Ruumid")}</h1>
-
-      {error ? (
-        <div className="glass-note glass-note--error" role="alert">
-          {error}
-        </div>
-      ) : null}
 
       {loading ? (
         <p className="rooms-empty" aria-busy="true">
@@ -86,7 +79,7 @@ export default function RoomsPage() {
         </ul>
       )}
 
-      <div className="rooms-back-btn">
+      <div className="back-btn-wrapper rooms-back-btn">
         <button
           type="button"
           className="back-arrow-btn"
@@ -99,5 +92,3 @@ export default function RoomsPage() {
     </main>
   );
 }
-
-
