@@ -8,6 +8,12 @@ const baseConfig = {
 
   compiler: { styledComponents: true },
 
+  experimental: {
+    // Work around a Next.js dev-only bug on Windows where the Segment Explorer
+    // client module can be missing from the RSC client manifest.
+    devtoolSegmentExplorer: false,
+  },
+
   images: {
     formats: ["image/avif", "image/webp"],
     domains: [],

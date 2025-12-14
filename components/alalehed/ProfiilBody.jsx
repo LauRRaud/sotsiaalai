@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
@@ -139,6 +139,165 @@ export default function ProfiilBody({ initialProfile = null }) {
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
   const isLightTheme = prefs?.theme === "light";
+  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
+  const emailLabel = t("profile.email");
+
+  const profileContainerRef = useRef(null);
+  const rolePillRef = useRef(null);
+  const emailFieldRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const box = profileContainerRef.current;
+    const pill = rolePillRef.current;
+    const emailEl = emailFieldRef.current;
+    if (!box || !pill) return;
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    let lastMask = "";
+    const roundedRectPath = (x, y, width, height, radius) => {
+      const r = clamp(radius, 0, Math.min(width, height) / 2);
+      const right = x + width;
+      const bottom = y + height;
+      return [
+        `M ${x + r} ${y}`,
+        `H ${right - r}`,
+        `A ${r} ${r} 0 0 1 ${right} ${y + r}`,
+        `V ${bottom - r}`,
+        `A ${r} ${r} 0 0 1 ${right - r} ${bottom}`,
+        `H ${x + r}`,
+        `A ${r} ${r} 0 0 1 ${x} ${bottom - r}`,
+        `V ${y + r}`,
+        `A ${r} ${r} 0 0 1 ${x + r} ${y}`,
+        "Z",
+      ].join(" ");
+    };
+    const updateHole = () => {
+      const boxRect = box.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      if (!boxRect.width || !boxRect.height || !pillRect.width || !pillRect.height) return;
+
+      const hasLightTheme = document?.documentElement?.classList?.contains?.("theme-light");
+      if (hasLightTheme) {
+        const fallbackMask = "linear-gradient(#fff, #fff)";
+        if (lastMask !== fallbackMask) {
+          box.style.setProperty("--profile-role-hole-mask", fallbackMask);
+          lastMask = fallbackMask;
+        }
+        return;
+      }
+
+      const centerXRaw = pillRect.left - boxRect.left + pillRect.width / 2;
+      const centerYRaw = pillRect.top - boxRect.top + pillRect.height / 2;
+
+      const styles = window.getComputedStyle(box);
+      const wRatio = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-w")) || 0.62;
+      const hRatio = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-h")) || 0.11;
+      const minW = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-min-w")) || 320;
+      const maxW = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-max-w")) || 560;
+      const minH = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-min-h")) || 54;
+      const maxH = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-max-h")) || 84;
+      const radiusPxRaw = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-r"));
+
+      const holeHeight = Math.round(clamp(boxRect.width * hRatio, minH, maxH));
+
+      const baseWidth = clamp(boxRect.width * wRatio, minW, maxW);
+      let textWidthTarget = 0;
+      try {
+        const pillStyles = window.getComputedStyle(pill);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.font = `${pillStyles.fontWeight} ${pillStyles.fontSize} ${pillStyles.fontFamily}`;
+          const measured = ctx.measureText(pill.textContent || "").width;
+          const pad = clamp(holeHeight * 1.35, 36, 64);
+          textWidthTarget = measured + pad;
+        }
+      } catch {}
+
+      const holeWidth = Math.round(clamp(Math.max(baseWidth, textWidthTarget), minW, maxW));
+      const holeRadius = Math.round(
+        clamp(
+          Number.isFinite(radiusPxRaw) ? radiusPxRaw : holeHeight / 2,
+          0,
+          Math.min(holeWidth, holeHeight) / 2
+        )
+      );
+
+      const topRaw = centerYRaw - holeHeight / 2;
+
+      const centerX = Math.round(clamp(centerXRaw, holeWidth / 2, boxRect.width - holeWidth / 2));
+      const top = Math.round(clamp(topRaw, 0, boxRect.height - holeHeight));
+
+      box.style.setProperty("--profile-role-hole-width", `${holeWidth}px`);
+      box.style.setProperty("--profile-role-hole-height", `${holeHeight}px`);
+      box.style.setProperty("--profile-role-hole-x", `${centerX}px`);
+      box.style.setProperty("--profile-role-hole-top", `${top}px`);
+
+      const boxWidth = Math.round(boxRect.width);
+      const boxHeight = Math.round(boxRect.height);
+      const holeX = Math.round(clamp(centerX - holeWidth / 2, 0, boxWidth - holeWidth));
+      const holeY = top;
+      const outerPath = `M 0 0 H ${boxWidth} V ${boxHeight} H 0 Z`;
+      const holePath = roundedRectPath(holeX, holeY, holeWidth, holeHeight, holeRadius);
+      let emailHolePath = "";
+      if (!hasLightTheme && emailEl) {
+        const emailRect = emailEl.getBoundingClientRect();
+        if (emailRect.width && emailRect.height) {
+          const emailHoleW = Math.round(emailRect.width);
+          const emailHoleH = Math.round(emailRect.height);
+          const emailHoleX = Math.round(
+            clamp(emailRect.left - boxRect.left, 0, boxWidth - emailHoleW)
+          );
+          const emailHoleY = Math.round(
+            clamp(emailRect.top - boxRect.top, 0, boxHeight - emailHoleH)
+          );
+          const emailRadiusRaw = Number.parseFloat(window.getComputedStyle(emailEl).borderTopLeftRadius);
+          const emailRadius = Math.round(
+            clamp(
+              Number.isFinite(emailRadiusRaw) ? emailRadiusRaw : emailHoleH / 2,
+              0,
+              Math.min(emailHoleW, emailHoleH) / 2
+            )
+          );
+          emailHolePath = ` ${roundedRectPath(emailHoleX, emailHoleY, emailHoleW, emailHoleH, emailRadius)}`;
+        }
+      }
+
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxWidth} ${boxHeight}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}${emailHolePath}"/></svg>`;
+      const mask = encodeSvgMask(svg);
+      if (mask !== lastMask) {
+        box.style.setProperty("--profile-role-hole-mask", mask);
+        lastMask = mask;
+      }
+    };
+
+    let raf = window.requestAnimationFrame(updateHole);
+    const scheduleUpdate = () => {
+      window.cancelAnimationFrame(raf);
+      raf = window.requestAnimationFrame(updateHole);
+    };
+
+    window.addEventListener("resize", scheduleUpdate);
+    let intervalId;
+    if (process.env.NODE_ENV !== "production") {
+      intervalId = window.setInterval(scheduleUpdate, 350);
+    }
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(scheduleUpdate);
+      ro.observe(box);
+      ro.observe(pill);
+    }
+    document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (intervalId) window.clearInterval(intervalId);
+      ro?.disconnect?.();
+    };
+  }, [status, loading, loadFailed, locale, session?.user?.role, prefs?.theme, roleLabel]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -314,23 +473,28 @@ export default function ProfiilBody({ initialProfile = null }) {
       </div>
     );
   }
-  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
-  const emailLabel = t("profile.email");
   return (
     <div
       className="main-content glass-box glass-left profile-container"
       role="region"
       aria-labelledby="profile-title"
       lang={locale}
+      ref={profileContainerRef}
     >
       <h1 id="profile-title" className="glass-title">
         {t("profile.title")}
       </h1>
       <div className="profile-header-center">
-        <span className="profile-role-pill" style={{ marginBottom: "0.1em" }}>{roleLabel}</span>
+        <span
+          ref={rolePillRef}
+          className="profile-role-pill"
+          style={{ marginBottom: "0.1em" }}
+        >
+          {roleLabel}
+        </span>
       </div>
       <div className="glass-form profile-form-vertical">
-        <div className="profile-email-field">
+        <div className="profile-email-field" ref={emailFieldRef}>
           <label htmlFor="email" className="sr-only">
             {emailLabel}
           </label>
@@ -369,12 +533,13 @@ export default function ProfiilBody({ initialProfile = null }) {
                 onClick,
                 key,
               }))}
-              panelHeight={64}
+              panelHeight={70}
               dockHeight={96}
-              baseItemSize={44}
-              magnification={68}
+              baseItemSize={48}
+              magnification={56}
               distance={140}
               className="profile-email-dock"
+              staticHeight
               ariaLabel={t("profile.actions_label", "Profiili toimingud")}
             />
           )}

@@ -108,7 +108,8 @@ export default function Dock({
   panelHeight = 68,
   dockHeight = 256,
   baseItemSize = 50,
-  ariaLabel = 'Application dock'
+  ariaLabel = 'Application dock',
+  staticHeight = false
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
@@ -119,9 +120,10 @@ export default function Dock({
   );
   const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
   const height = useSpring(heightRow, spring);
+  const outerHeight = staticHeight ? panelHeight : height;
 
   return (
-    <motion.div style={{ height, scrollbarWidth: 'none' }} className="dock-outer">
+    <motion.div style={{ height: outerHeight, scrollbarWidth: 'none', overflow: 'visible' }} className="dock-outer">
       <motion.div
         onMouseMove={({ pageX }) => {
           isHovered.set(1);

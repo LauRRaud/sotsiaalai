@@ -24,8 +24,9 @@ export async function generateMetadata() {
   });
 }
 
-export default function Page({ searchParams }) {
-  const roomId = searchParams?.roomId || null;
+export default async function Page({ searchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const roomId = resolvedSearchParams?.roomId || null;
 
   return (
     <>

@@ -120,8 +120,8 @@ export default function InviteModal() {
         className="invite-modal invite-modal--classic"
         role="dialog"
         aria-modal="true"
-          aria-label={t("invite.title", "Kutsu inimesi")}
-          onClick={(e) => e.stopPropagation()}
+        aria-label={t("invite.title", "Kutsu inimesi")}
+        onClick={(e) => e.stopPropagation()}
       >
         <header className="invite-modal__header invite-classic__header">
           <h2 className="invite-classic__title glass-title invite-classic__title--hero">
@@ -133,7 +133,7 @@ export default function InviteModal() {
             onClick={() => setOpen(false)}
             aria-label={t("common.close", "Sulge")}
           >
-                        ×
+            ×
           </button>
         </header>
 
@@ -272,8 +272,6 @@ export default function InviteModal() {
     </div>
   );
 }
-
-
 
 
 
