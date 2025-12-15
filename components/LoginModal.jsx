@@ -555,14 +555,14 @@ export default function LoginModal({ open, onClose }) {
 
   if (!open) return null;
 
-  const submitIconSrc =
-    submitIconState === "success"
-      ? "/logo/siseneroheline.svg"
-      : submitIconState === "error"
-      ? "/logo/sisenepunane.svg"
-      : prefs?.theme === "light"
-      ? "/logo/sisenehallhele.svg"
-      : "/logo/sisenehall.svg";
+  const isLightTheme = prefs?.theme === "light";
+  const submitIconSrc = (() => {
+    const successIcon = isLightTheme ? "/logo/sisenerohelinehele.svg" : "/logo/siseneroheline.svg";
+    const errorIcon = isLightTheme ? "/logo/sisenepunanetume.svg" : "/logo/sisenepunanehele.svg";
+    if (pinLoading || submitIconState === "success") return successIcon;
+    if (submitIconState === "error") return errorIcon;
+    return isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
+  })();
   const pinIndicatorClasses = [
     "pin-indicator",
     "moved-below",

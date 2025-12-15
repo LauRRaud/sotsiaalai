@@ -35,34 +35,19 @@ export default function KasutusjuhendBody() {
   return (
    <div className="main-content glass-box glass-left" role="region" aria-labelledby="kasutusjuhend-title" lang={locale}>
       <h1 id="kasutusjuhend-title" className="glass-title">{t("about.guide.title")}</h1>
-      <section className="glass-section">
+      <section className="glass-section doc-body">
         <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
           {t("about.guide.intro")}
         </p>
       </section>
-      <section className="glass-section">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            color: "rgba(235, 238, 248, 0.85)",
-          }}
-        >
+      <section className="glass-section doc-body">
+        <div className="guide-list">
           {guideSections.map(({ key, title, body }) => (
             <article
               key={key}
               onClick={key === "accessibility" ? handleA11yClick : undefined}
               className="guide-card"
               aria-label={title}
-              style={{
-                background: "rgba(12, 19, 35, 0.5)",
-                borderRadius: 14,
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-                padding: "0.9rem 1rem",
-                boxShadow: "0 8px 20px rgba(4, 7, 15, 0.25)",
-                color: "rgba(235, 238, 248, 0.9)",
-              }}
             >
               <h2
                 className="glass-h3 doc-section-heading"
@@ -87,6 +72,5 @@ export default function KasutusjuhendBody() {
     </div>
   );
 }
-
 
 

@@ -84,11 +84,15 @@ export default async function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logo/logomust.svg" />
         <link rel="preload" as="image" href="/logo/tagasinupp.svg" />
         <link rel="preload" as="image" href="/logo/siseneroheline.svg" />
-        <link rel="preload" as="image" href="/logo/sisenepunane.svg" />
+        <link rel="preload" as="image" href="/logo/sisenerohelinehele.svg" />
+        <link rel="preload" as="image" href="/logo/sisenepunanehele.svg" />
+        <link rel="preload" as="image" href="/logo/sisenepunanetume.svg" />
         <link rel="preload" as="image" href="/logo/sisenehall.svg" />
+        <link rel="preload" as="image" href="/logo/sisenehallhele.svg" />
         <link rel="preload" as="image" href="/logo/ümbrik.svg" />
         <link rel="preload" as="image" href="/logo/rümbrik.svg" />
-        <link rel="preload" as="image" href="/logo/onoffpunane.svg" />
+        <link rel="preload" as="image" href="/logo/onoffroheline.svg" />
+        <link rel="preload" as="image" href="/logo/onoffrohelinehele.svg" />
         <link rel="preload" as="image" href="/logo/onoffhall.svg" />
         {/* Removed deprecated login provider assets */}
         <script
@@ -120,8 +124,6 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
-
-
 
 
 

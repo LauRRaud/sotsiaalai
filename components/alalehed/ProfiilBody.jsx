@@ -358,7 +358,9 @@ export default function ProfiilBody({ initialProfile = null }) {
   ];
   const logoutIconSrc =
     logoutIconState === "logging-out"
-      ? "/logo/onoffpunane.svg"
+      ? isLightTheme
+        ? "/logo/onoffrohelinehele.svg"
+        : "/logo/onoffroheline.svg"
       : isLightTheme
       ? "/logo/onoffhallhele.svg"
       : "/logo/onoffhall.svg";
