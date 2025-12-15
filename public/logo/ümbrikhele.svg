@@ -1,5 +1,5 @@
 <svg viewBox="0 0 28 26" xmlns="http://www.w3.org/2000/svg">
-  <!-- Envelope outline -->
+  <!-- Envelope outline: bottom-right corner is intentionally open (strokes end early) -->
   <path
     d="M18.6 19
        H6.2
@@ -10,23 +10,24 @@
        A2.2 2.2 0 0 1 24 8.2
        V14.8"
     fill="none"
-    stroke="#C9C7C2"
+    stroke="#000000"
     stroke-width="1"
     stroke-linecap="round"
     stroke-linejoin="round"
+    stroke-opacity="0.6"
   />
 
   <!-- Fold -->
   <path
     d="M8 9.3 L14 12 L20 9.3"
     fill="none"
-    stroke="#C57171"
+    stroke="#7A3A38"
     stroke-width="1.2"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
 
-  <!-- Thin check mark -->
+  <!-- Thin check mark placed into the open corner -->
   <path
     d="M20.45 18.55 L21.55 19.65 L24.25 16.95"
     fill="none"

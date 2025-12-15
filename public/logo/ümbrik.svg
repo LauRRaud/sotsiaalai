@@ -1,19 +1,39 @@
-<svg
-  viewBox="0 0 28 26"
-  xmlns="http://www.w3.org/2000/svg"
-opacity="0.8"
->
-  <g
+<svg viewBox="0 0 28 26" xmlns="http://www.w3.org/2000/svg">
+  <!-- Envelope outline -->
+  <path
+    d="M18.6 19
+       H6.2
+       A2.2 2.2 0 0 1 4 16.8
+       V8.2
+       A2.2 2.2 0 0 1 6.2 6
+       H21.8
+       A2.2 2.2 0 0 1 24 8.2
+       V14.8"
     fill="none"
     stroke="#C9C7C2"
-    stroke-width="0.8"
+    stroke-width="1"
     stroke-linecap="round"
     stroke-linejoin="round"
-  >
-    <!-- ümbriku raam -->
-    <rect x="4" y="6" width="20" height="13" rx="2.2" ry="2.2" />
+  />
 
-    <!-- V-klapp, otsad allapoole toodud -->
-    <path d="M8 9.3 L14 12 L20 9.3" />
-  </g>
+  <!-- Fold -->
+  <path
+    d="M8 9.3 L14 12 L20 9.3"
+    fill="none"
+    stroke="#C57171"
+    stroke-width="1.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Thin red X -->
+  <path
+    d="M21.0 16.8 L23.7 19.5
+       M23.7 16.8 L21.0 19.5"
+    fill="none"
+    stroke="#DC2626"
+    stroke-width="0.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>

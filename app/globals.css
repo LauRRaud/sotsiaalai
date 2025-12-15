@@ -1487,7 +1487,7 @@ top: calc(var(--hud-edge-safe) + 2.1rem);
 :root.theme-light .chat-avatar-abs { background: url("/logo/profiilhele.svg") center/contain no-repeat; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.24)); }
 .avatar-label {
   position: absolute;
-  bottom: calc(100% - 0.14rem);
+  bottom: calc(100% + 0.12rem);
   left: 50%;
   font-size: 1.2rem;
   font-weight: 500;
@@ -1501,12 +1501,13 @@ top: calc(var(--hud-edge-safe) + 2.1rem);
   line-height: 1.1;
   text-shadow: 0 0.28rem 0.38rem rgba(0, 0, 0, 0.24);
   display: inline-block;
-  transform: translate(-50%, 0);
-  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.26s ease-out, transform 0.3s ease-out, color 0.3s ease-out;
 }
-.avatar-link:hover .avatar-label {
+.avatar-link:hover .avatar-label,
+.avatar-link:focus-visible .avatar-label {
   opacity: 1;
-  transform: translate(-50%, -0.02rem);
+  transform: translate(-50%, 0);
 }
 .avatar-link:hover .chat-avatar-abs,
 .avatar-link:focus-visible .chat-avatar-abs {
@@ -6589,7 +6590,7 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   caret-color: var(--text-strong);
 }
 :root.theme-light .login-modal-root .login-email-icon-btn--known {
-  background-image: url("/logo/r%C3%BCmbrikhele.svg");
+  background-image: url("/logo/%C3%BCmbrikhele.svg");
 }
 :root.theme-light .back-arrow-circle {
   background-image: url("/logo/tagasinupphele.svg");
