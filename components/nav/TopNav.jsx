@@ -13,6 +13,7 @@ export default function TopNav({ roomId = null, hideChats = false }) {
   const isLightTheme = prefs?.theme === "light";
   const isChatLike = pathname.startsWith("/vestlus");
   const navIconOpacity = isChatLike ? 0.9 : 1;
+  const iconSize = isChatLike ? 36 : 28;
 
   const chatIcon = isLightTheme ? "/logo/vestlusedhele.svg" : "/logo/vestlusedtume.svg";
   const roomsIcon = isLightTheme ? "/logo/ruumidhele.svg" : "/logo/ruumidtume.svg";
@@ -51,7 +52,7 @@ export default function TopNav({ roomId = null, hideChats = false }) {
           onClick={openChatsDrawer}
           aria-label={t("nav.chats", "Vestlused")}
         >
-          <Image src={chatIcon} alt="" width={28} height={28} aria-hidden="true" style={{ opacity: navIconOpacity }} />
+          <Image src={chatIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{ opacity: navIconOpacity }} />
           <span className="top-nav__label">{t("nav.chats", "Vestlused")}</span>
         </button>
       )}
@@ -62,12 +63,12 @@ export default function TopNav({ roomId = null, hideChats = false }) {
         className={`top-nav__btn${pathname.startsWith("/ruum") ? " top-nav__btn--active" : ""}`}
         aria-label={t("nav.rooms", "Ruumid")}
       >
-        <Image src={roomsIcon} alt="" width={28} height={28} aria-hidden="true" style={{ opacity: navIconOpacity }} />
+        <Image src={roomsIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{ opacity: navIconOpacity }} />
         <span className="top-nav__label">{t("nav.rooms", "Ruumid")}</span>
       </button>
 
       <button type="button" className="top-nav__btn" onClick={openInvite} aria-label={t("nav.add_person", "Lisa inimene")}>
-        <Image src={addPersonIcon} alt="" width={28} height={28} aria-hidden="true" style={{ opacity: navIconOpacity }} />
+        <Image src={addPersonIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{ opacity: navIconOpacity }} />
         <span className="top-nav__label">{t("nav.add_person", "Lisa inimene")}</span>
       </button>
     </nav>

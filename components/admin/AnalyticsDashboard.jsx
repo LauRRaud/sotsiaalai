@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 const EVENT_OPTIONS = [
@@ -10,6 +11,30 @@ const EVENT_OPTIONS = [
   "rag_error",
   "openai_error",
 ];
+
+const toNumber = (value) => {
+  const n = typeof value === "string" ? Number(value) : typeof value === "number" ? value : Number(value || 0);
+  return Number.isFinite(n) ? n : 0;
+};
+
+const formatMoney = (amount, currency = "EUR") => {
+  const n = toNumber(amount);
+  try {
+    return new Intl.NumberFormat("et-EE", { style: "currency", currency }).format(n);
+  } catch {
+    return `${n.toFixed?.(2) || n} ${currency}`;
+  }
+};
+
+const joinCounts = (obj = {}, order = []) => {
+  const keys = order.length ? order : Object.keys(obj || {});
+  const parts = [];
+  for (const k of keys) {
+    if (obj?.[k] == null) continue;
+    parts.push(`${k}: ${obj[k]}`);
+  }
+  return parts.join(" · ");
+};
 
 const formatDate = (iso) => {
   try {
@@ -104,6 +129,9 @@ export default function AnalyticsDashboard() {
     <div className="rag-admin" style={{ gap: 20 }}>
       <div className="flex-row space-between">
         <h1 className="title">Analytics</h1>
+        <Link href="/admin/rag" className="btn" prefetch={false}>
+          RAG haldus
+        </Link>
       </div>
 
       {error ? <div className="alert alert-error">{error}</div> : null}
@@ -142,6 +170,147 @@ export default function AnalyticsDashboard() {
               ? "…"
               : "–"}
           </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">RAG dokumendibaas</div>
+        <div className="ingest-grid" style={{ marginTop: 12 }}>
+          <div className="card">
+            <div className="card-title">Dokumente kokku</div>
+            <div className="title">{loadingSummary ? "…" : summary?.ragDocs?.total ?? 0}</div>
+          </div>
+          <div className="card">
+            <div className="card-title">FAILED</div>
+            <div className="title">{loadingSummary ? "…" : summary?.ragDocs?.failed ?? 0}</div>
+          </div>
+          <div className="card">
+            <div className="card-title">Veaga (30p)</div>
+            <div className="title">{loadingSummary ? "…" : summary?.ragDocs?.error30d ?? 0}</div>
+          </div>
+          <div className="card">
+            <div className="card-title">Statused</div>
+            <div className="muted">
+              {loadingSummary
+                ? "…"
+                : joinCounts(summary?.ragDocs?.byStatus, ["PENDING", "PROCESSING", "COMPLETED", "FAILED"]) || "—"}
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-title">Auditoorium</div>
+            <div className="muted">
+              {loadingSummary ? "…" : joinCounts(summary?.ragDocs?.byAudience, ["CLIENT", "SOCIAL_WORKER", "BOTH"]) || "—"}
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-title">Tüüp</div>
+            <div className="muted">{loadingSummary ? "…" : joinCounts(summary?.ragDocs?.byType, ["FILE", "URL"]) || "—"}</div>
+          </div>
+        </div>
+
+        <div className="table-wrap" style={{ marginTop: 14 }}>
+          <table className="rag-table">
+            <thead>
+              <tr>
+                <th>Aeg</th>
+                <th>Pealkiri</th>
+                <th>Status</th>
+                <th>Tüüp</th>
+                <th>Auditoorium</th>
+                <th>Allikas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loadingSummary ? (
+                <tr>
+                  <td colSpan={6}>Laen…</td>
+                </tr>
+              ) : (summary?.ragDocs?.recent || []).length ? (
+                (summary?.ragDocs?.recent || []).map((d) => {
+                  const source = (d.sourceUrl || d.fileName || "").toString();
+                  return (
+                    <tr key={d.id}>
+                      <td>{formatDate(d.insertedAt || d.createdAt)}</td>
+                      <td className="cell-sub">{d.title || "(pealkirjata)"}</td>
+                      <td>{d.status}</td>
+                      <td>{d.type}</td>
+                      <td>{d.audience}</td>
+                      <td className="cell-sub">{source ? source.slice(0, 80) : "—"}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={6}>Kirjeid ei leitud.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">Tellimused ja maksed</div>
+        <div className="ingest-grid" style={{ marginTop: 12 }}>
+          <div className="card">
+            <div className="card-title">Aktiivsed tellimused</div>
+            <div className="title">{loadingSummary ? "…" : summary?.billing?.activeSubscriptions ?? 0}</div>
+          </div>
+          <div className="card">
+            <div className="card-title">Uued tellimused (30p)</div>
+            <div className="title">{loadingSummary ? "…" : summary?.billing?.newSubscriptions30d ?? 0}</div>
+          </div>
+          <div className="card">
+            <div className="card-title">Tühistamised (30p)</div>
+            <div className="title">{loadingSummary ? "…" : summary?.billing?.canceledSubscriptions30d ?? 0}</div>
+          </div>
+          <div className="card">
+            <div className="card-title">Makse staatused (30p)</div>
+            <div className="muted">
+              {loadingSummary
+                ? "…"
+                : joinCounts(summary?.billing?.paymentsByStatus30d, ["PAID", "INITIATED", "FAILED", "CANCELED", "REFUNDED"]) || "—"}
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-title">Laekunud (PAID 30p)</div>
+            <div className="title">{loadingSummary ? "…" : formatMoney(summary?.billing?.paidAmount30d ?? "0", "EUR")}</div>
+          </div>
+        </div>
+
+        <div className="table-wrap" style={{ marginTop: 14 }}>
+          <table className="rag-table">
+            <thead>
+              <tr>
+                <th>Aeg</th>
+                <th>Status</th>
+                <th>Summa</th>
+                <th>Provider</th>
+                <th>PaidAt</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loadingSummary ? (
+                <tr>
+                  <td colSpan={5}>Laen…</td>
+                </tr>
+              ) : (summary?.billing?.recentPayments || []).length ? (
+                (summary?.billing?.recentPayments || []).map((p) => (
+                  <tr key={p.id}>
+                    <td>{formatDate(p.createdAt)}</td>
+                    <td>{p.status}</td>
+                    <td>{formatMoney(p.amount, p.currency || "EUR")}</td>
+                    <td>{p.provider}</td>
+                    <td>{p.paidAt ? formatDate(p.paidAt) : "—"}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5}>Kirjeid ei leitud.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 

@@ -26,12 +26,86 @@ export async function GET() {
   if (!isAdminSession(session)) return json({ ok: false, message: "Forbidden" }, 403);
 
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const now = new Date();
 
-  const [totalRequests, totalCrisis, noContextCount, ragSearchCount] = await Promise.all([
+  const [
+    totalRequests,
+    totalCrisis,
+    noContextCount,
+    ragSearchCount,
+    ragDocTotal,
+    ragDocFailed,
+    ragDocError30d,
+    ragDocsRecent,
+    ragDocsByStatus,
+    ragDocsByAudience,
+    ragDocsByType,
+    activeSubscriptions,
+    newSubscriptions30d,
+    canceledSubscriptions30d,
+    paymentsByStatus30d,
+    paidAmount30d,
+    recentPayments,
+  ] = await Promise.all([
     prisma.chatLog.count({ where: { event: "chat_request", createdAt: { gte: since } } }),
     prisma.chatLog.count({ where: { event: "crisis_detected", createdAt: { gte: since } } }),
     prisma.chatLog.count({ where: { event: "no_context", createdAt: { gte: since } } }),
     prisma.chatLog.count({ where: { event: "rag_search", createdAt: { gte: since } } }),
+
+    prisma.ragDocument.count(),
+    prisma.ragDocument.count({ where: { status: "FAILED" } }),
+    prisma.ragDocument.count({ where: { createdAt: { gte: since }, error: { not: null } } }),
+    prisma.ragDocument.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 12,
+      select: {
+        id: true,
+        title: true,
+        type: true,
+        status: true,
+        audience: true,
+        sourceUrl: true,
+        fileName: true,
+        insertedAt: true,
+        createdAt: true,
+        updatedAt: true,
+        error: true,
+      },
+    }),
+    prisma.ragDocument.groupBy({ by: ["status"], _count: { _all: true } }),
+    prisma.ragDocument.groupBy({ by: ["audience"], _count: { _all: true } }),
+    prisma.ragDocument.groupBy({ by: ["type"], _count: { _all: true } }),
+
+    prisma.subscription.count({
+      where: {
+        status: "ACTIVE",
+        OR: [{ validUntil: null }, { validUntil: { gt: now } }],
+      },
+    }),
+    prisma.subscription.count({ where: { createdAt: { gte: since } } }),
+    prisma.subscription.count({ where: { canceledAt: { gte: since } } }),
+    prisma.payment.groupBy({
+      by: ["status"],
+      where: { createdAt: { gte: since } },
+      _count: { _all: true },
+    }),
+    prisma.payment.aggregate({
+      where: { status: "PAID", paidAt: { gte: since } },
+      _sum: { amount: true },
+    }),
+    prisma.payment.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 20,
+      select: {
+        id: true,
+        status: true,
+        provider: true,
+        amount: true,
+        currency: true,
+        createdAt: true,
+        paidAt: true,
+      },
+    }),
   ]);
 
   const ragLogs = await prisma.chatLog.findMany({
@@ -62,6 +136,16 @@ export async function GET() {
     avgChosenGroupCount = avgChosenGroupCount / total;
   }
 
+  const toCountMap = (rows, keyField) => {
+    const out = {};
+    for (const row of rows || []) {
+      const k = row?.[keyField];
+      if (!k) continue;
+      out[k] = Number(row?._count?._all || 0);
+    }
+    return out;
+  };
+
   return json({
     ok: true,
     periodDays: 30,
@@ -69,6 +153,23 @@ export async function GET() {
     totalCrisis,
     noContextCount,
     ragSearchCount,
+    ragDocs: {
+      total: ragDocTotal,
+      failed: ragDocFailed,
+      error30d: ragDocError30d,
+      byStatus: toCountMap(ragDocsByStatus, "status"),
+      byAudience: toCountMap(ragDocsByAudience, "audience"),
+      byType: toCountMap(ragDocsByType, "type"),
+      recent: ragDocsRecent,
+    },
+    billing: {
+      activeSubscriptions,
+      newSubscriptions30d,
+      canceledSubscriptions30d,
+      paymentsByStatus30d: toCountMap(paymentsByStatus30d, "status"),
+      paidAmount30d: paidAmount30d?._sum?.amount ?? "0",
+      recentPayments,
+    },
     averages: {
       avgRagMatchCount,
       avgGroupCount,

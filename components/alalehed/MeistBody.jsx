@@ -59,11 +59,18 @@ export default function MeistBody({ isAdmin = false }) {
             </Link>
           </li>
           {isAdmin ? (
-            <li>
-              <Link href="/admin/rag" className="link-brand">
-                {t("about.links.admin")}
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link href="/admin/analytics" className="link-brand">
+                  {t("about.links.analytics")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin/rag" className="link-brand">
+                  {t("about.links.admin")}
+                </Link>
+              </li>
+            </>
           ) : null}
         </ul>
       </section>

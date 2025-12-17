@@ -65,7 +65,7 @@ function DockItem({
   );
 }
 
-function DockLabel({ children, className = '', ...rest }) {
+function DockLabel({ children, className = '', offset = 10, ...rest }) {
   const { isHovered } = rest;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -80,10 +80,14 @@ function DockLabel({ children, className = '', ...rest }) {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: -10 }}
-          exit={{ opacity: 0, y: 0 }}
-          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: -offset }}
+          exit={{
+            opacity: 0,
+            y: 6,
+            transition: { duration: 0.18, ease: [0.2, 0.8, 0.2, 1] },
+          }}
+          transition={{ duration: 0.42, delay: 0.06, ease: [0.2, 0.8, 0.2, 1] }}
           className={`dock-label ${className}`}
           role="tooltip"
           style={{ x: '-50%' }}
@@ -108,6 +112,7 @@ export default function Dock({
   panelHeight = 68,
   dockHeight = 256,
   baseItemSize = 50,
+  labelOffset = 10,
   ariaLabel = 'Application dock',
   staticHeight = false
 }) {
@@ -139,21 +144,21 @@ export default function Dock({
         aria-label={ariaLabel}
       >
         {items.map((item, index) => (
-          <DockItem
-            key={index}
-            onClick={item.onClick}
-            className={item.className}
-            mouseX={mouseX}
-            spring={spring}
-            distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
-            ariaLabel={item.label}
-          >
-            <DockIcon>{item.icon}</DockIcon>
-            <DockLabel>{item.label}</DockLabel>
-          </DockItem>
-        ))}
+            <DockItem
+              key={index}
+              onClick={item.onClick}
+              className={item.className}
+              mouseX={mouseX}
+              spring={spring}
+              distance={distance}
+              magnification={magnification}
+              baseItemSize={baseItemSize}
+              ariaLabel={item.label}
+            >
+              <DockIcon>{item.icon}</DockIcon>
+              <DockLabel offset={labelOffset}>{item.label}</DockLabel>
+            </DockItem>
+          ))}
       </motion.div>
     </motion.div>
   );

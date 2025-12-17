@@ -16,10 +16,10 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/vestlus",
-    title: meta.title || "Vestlus \u2014 SotsiaalAI",
+    title: meta.title || "Vestlus \ SotsiaalAI",
     description:
       meta.description ||
-      "Vestle SotsiaalAI rollip\u00f5hise AI-assistendiga, kes aitab leida infot \u00f5iguste, toetuste ja teenuste kohta.",
+      "Vestle SotsiaalAI rollipõhise AI-assistendiga, kes aitab leida infot õiguste, toetuste ja teenuste kohta.",
     openGraph: { type: "article" },
   });
 }

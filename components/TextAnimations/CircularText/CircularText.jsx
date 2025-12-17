@@ -1,9 +1,9 @@
 "use client";
-import React, { useMemo, useId, useEffect, useState } from "react";
+import React, { useMemo, useId, useEffect, useState, useRef } from "react";
 import "./CircularText.css";
 import useT from "@/components/i18n/useT";
 const VIEWBOX = 500;
-const R = 200;
+const DEFAULT_RADIUS = 200;
 const TOP_FRAC = 0.25; // 0 = ringi algus (parem), 0.25 = üla
 const TAU = Math.PI * 2;
 export default function CircularText({
@@ -19,6 +19,7 @@ export default function CircularText({
   offsetDeg = 0,
   ringColor,
   wordColors,
+  radius = DEFAULT_RADIUS,
   startDelaySec = 0,
 }) {
   const words = useMemo(
@@ -27,22 +28,44 @@ export default function CircularText({
   );
   const n = Math.max(1, words.length);
   // --- Responsive suurused ---
+  const svgRef = useRef(null);
   const [responsiveSize, setResponsiveSize] = useState(size);
   const [responsiveFontSize, setResponsiveFontSize] = useState(fontSize);
   const [responsiveLetterSpacing, setResponsiveLetterSpacing] = useState(letterSpacing);
   useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      const next = Math.max(1, Math.min(rect.width, rect.height));
+      setResponsiveSize((prev) => (prev != null && Math.abs(prev - next) < 0.5 ? prev : next));
+    };
+
+    update();
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(update);
+      ro.observe(el);
+    } else {
+      window.addEventListener("resize", update);
+    }
+
+    return () => {
+      ro?.disconnect?.();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+  useEffect(() => {
     function updateSize() {
       const w = typeof window !== "undefined" ? window.innerWidth : 1024;
       if (w < 400) {
-        setResponsiveSize(280);
         setResponsiveFontSize(20);
         setResponsiveLetterSpacing(3);
       } else if (w < 768) {
-        setResponsiveSize(340);
         setResponsiveFontSize(26);
         setResponsiveLetterSpacing(4);
       } else {
-        setResponsiveSize(size);
         setResponsiveFontSize(fontSize);
         setResponsiveLetterSpacing(letterSpacing);
       }
@@ -51,7 +74,7 @@ export default function CircularText({
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, [size, fontSize, letterSpacing]);
-  const L = TAU * R;                        // ringi ümbermõõt (viewBox ühik)
+  const L = TAU * radius;                   // ringi ümbermõõt (viewBox ühik)
   const pxToVB = VIEWBOX / responsiveSize;  // px → viewBox skaleering
   const dir = clockwise ? 1 : -1;
   const uid = useId();
@@ -134,8 +157,9 @@ export default function CircularText({
   return (
     <svg
       viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
-      width={responsiveSize}
-      height={responsiveSize}
+      ref={svgRef}
+      width="100%"
+      height="100%"
       className={`circular-text-svg ${className}`}
       aria-hidden="true"
       // lülita animatsiooni vajadusel CSS-iga (data-animate="0")
@@ -146,15 +170,15 @@ export default function CircularText({
         <path
           id={pathId}
           d={[
-            `M${VIEWBOX / 2},${VIEWBOX / 2} m-${R},0`,
-            `a ${R},${R} 0 1,1 ${R * 2},0`,
-            `a ${R},${R} 0 1,1 -${R * 2},0`,
+            `M${VIEWBOX / 2},${VIEWBOX / 2} m-${radius},0`,
+            `a ${radius},${radius} 0 1,1 ${radius * 2},0`,
+            `a ${radius},${radius} 0 1,1 -${radius * 2},0`,
             `m0,0`,
-            `a ${R},${R} 0 1,1 ${R * 2},0`,
-            `a ${R},${R} 0 1,1 -${R * 2},0`,
+            `a ${radius},${radius} 0 1,1 ${radius * 2},0`,
+            `a ${radius},${radius} 0 1,1 -${radius * 2},0`,
             `m0,0`,
-            `a ${R},${R} 0 1,1 ${R * 2},0`,
-            `a ${R},${R} 0 1,1 -${R * 2},0`,
+            `a ${radius},${radius} 0 1,1 ${radius * 2},0`,
+            `a ${radius},${radius} 0 1,1 -${radius * 2},0`,
           ].join(" ")}
         />
       </defs>
@@ -197,6 +221,7 @@ export function CircularRingLeft({ className = "" } = {}) {
     <CircularText
       text={t("home.ring.left", "SEADUSED PRAKTIKA NÕUANDED")}
       size={420}
+      radius={182}
       duration={130}
       clockwise={false}
       fontSize={34}
@@ -216,6 +241,7 @@ export function CircularRingRight({ className = "" } = {}) {
     <CircularText
       text={t("home.ring.right", "ÕIGUSED JUHISED VÕIMALUSED")}
       size={420}
+      radius={182}
       duration={130}
       clockwise={false}
       fontSize={34}

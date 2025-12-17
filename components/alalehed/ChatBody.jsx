@@ -2165,16 +2165,16 @@ export default function ChatBody({ roomId = null }) {
                       </div>
                     ) : null}
                   </>
-                ) : (
-                  <div className="chat-analysis-empty">
-                    <button
-                      type="button"
-                      className="btn-primary btn-compact"
-                      onClick={onPickFile}
-                      disabled={uploadBusy || isGenerating}
-                    >
-                      {t("chat.upload.aria")}
-                    </button>
+                    ) : (
+                    <div className="chat-analysis-empty">
+                      <button
+                        type="button"
+                        className="btn-base btn-compact chat-analysis-btn"
+                        onClick={onPickFile}
+                        disabled={uploadBusy || isGenerating}
+                      >
+                        {t("chat.upload.aria")}
+                      </button>
                     <p className="chat-analysis-meta chat-analysis-meta--spaced">
                       {uploadUsage?.limit
                         ? t("chat.upload.usage", "{used}/{limit} analüüsi täna")
@@ -2275,7 +2275,6 @@ export default function ChatBody({ roomId = null }) {
     </>
   );
 }
-
 
 
 

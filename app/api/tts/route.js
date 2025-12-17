@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
+import textToSpeech from "@google-cloud/text-to-speech";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const GOOGLE_TTS_API_KEY = process.env.GOOGLE_TTS_API_KEY;
-const GOOGLE_TTS_ENDPOINT = "https://texttospeech.googleapis.com/v1/text:synthesize";
-
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_TTS_MODEL = process.env.OPENAI_TTS_MODEL || "gpt-4o-mini-tts";
 const OPENAI_TTS_VOICE = process.env.OPENAI_TTS_VOICE || "alloy";
+
+const gcpTtsClient = new textToSpeech.TextToSpeechClient();
 
 function pickGoogleVoice(locale) {
   const base = (locale || "et").toLowerCase().split("-")[0];
@@ -19,23 +19,19 @@ function pickGoogleVoice(locale) {
 }
 
 async function synthGoogle({ text, locale }) {
-  const body = {
+  const [resp] = await gcpTtsClient.synthesizeSpeech({
     input: { text },
     voice: pickGoogleVoice(locale),
     audioConfig: { audioEncoding: "MP3", speakingRate: 1.0 },
-  };
-
-  const res = await fetch(`${GOOGLE_TTS_ENDPOINT}?key=${encodeURIComponent(GOOGLE_TTS_API_KEY)}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
   });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok || !data?.audioContent) {
-    const reason = data?.error?.message || data?.message || "Teksti süntees ebaõnnestus.";
-    return { ok: false, message: reason };
+
+  if (!resp?.audioContent) {
+    return { ok: false, message: "Teksti süntees ebaõnnestus (no audioContent)." };
   }
-  return { ok: true, audioContent: data.audioContent, contentType: "audio/mpeg", provider: "google" };
+
+  const audio = resp.audioContent;
+  const buf = typeof audio === "string" ? Buffer.from(audio, "base64") : Buffer.from(audio);
+  return { ok: true, audioContent: buf.toString("base64"), contentType: "audio/mpeg", provider: "google" };
 }
 
 async function synthOpenAI({ text }) {
@@ -53,7 +49,10 @@ async function synthOpenAI({ text }) {
 }
 
 export async function POST(req) {
-  if (!GOOGLE_TTS_API_KEY && !OPENAI_API_KEY) {
+  const googleEnabled = !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  const openaiEnabled = !!OPENAI_API_KEY;
+
+  if (!googleEnabled && !openaiEnabled) {
     return NextResponse.json({ ok: false, message: "TTS teenus pole konfigureeritud." }, { status: 503 });
   }
 
@@ -69,16 +68,20 @@ export async function POST(req) {
 
   if (!text) return NextResponse.json({ ok: false, message: "Tekst puudub." }, { status: 400 });
 
-  const maxLen = GOOGLE_TTS_API_KEY ? 4500 : 4096;
+  const maxLen = googleEnabled ? 4500 : 4096;
   if (text.length > maxLen) {
     return NextResponse.json({ ok: false, message: `Tekst on liiga pikk (max ${maxLen} märki).` }, { status: 413 });
   }
 
   try {
-    const result = GOOGLE_TTS_API_KEY ? await synthGoogle({ text, locale }) : await synthOpenAI({ text });
+    const result = googleEnabled
+      ? await synthGoogle({ text, locale })
+      : await synthOpenAI({ text });
+
     if (!result.ok) {
       return NextResponse.json({ ok: false, message: result.message || "TTS ebaõnnestus." }, { status: 502 });
     }
+
     return NextResponse.json({
       ok: true,
       audioContent: result.audioContent,

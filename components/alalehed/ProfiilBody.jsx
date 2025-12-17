@@ -538,8 +538,10 @@ export default function ProfiilBody({ initialProfile = null }) {
               panelHeight={70}
               dockHeight={96}
               baseItemSize={48}
-              magnification={56}
-              distance={140}
+              magnification={70}
+              distance={160}
+              spring={{ mass: 0.6, stiffness: 90, damping: 24 }}
+              labelOffset={8}
               className="profile-email-dock"
               staticHeight
               ariaLabel={t("profile.actions_label", "Profiili toimingud")}

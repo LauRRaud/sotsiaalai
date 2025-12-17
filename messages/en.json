@@ -514,6 +514,7 @@
     "links": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Use",
+      "analytics": "Analytics",
       "admin": "RAG knowledge base management",
       "back_home": "Back to homepage"
     },
@@ -720,4 +721,3 @@
     "resend": "Resend"
   }
 }
-

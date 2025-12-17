@@ -514,6 +514,7 @@
     "links": {
       "privacy": "Privaatsuspoliitika",
       "terms": "Kasutustingimused",
+      "analytics": "Analüütika",
       "admin": "RAG andmebaasi haldus",
       "back_home": "Tagasi avalehele"
     },
@@ -720,4 +721,3 @@
     "resend": "Saada uuesti"
   }
 }
-
