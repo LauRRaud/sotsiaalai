@@ -41,6 +41,7 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   const [skipBgIntro, setSkipBgIntro] = useState(false);
   const [colorBendsReady, setColorBendsReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
+  const allowParticles = !reduceMotion && (!mobileLike || pathname === "/");
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -109,13 +110,14 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   // Particles lae rahulikult, kui tabu on nähtav
   useEffect(() => {
     if (!mounted) return;
-    if (reduceMotion || mobileLike) {
+    if (!allowParticles) {
       setParticlesReady(false);
       return;
     }
-    const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
+    const timeout = mobileLike ? 900 : 600;
+    const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), timeout));
     return () => cancelParticles?.();
-  }, [mounted, reduceMotion, mobileLike]);
+  }, [mounted, allowParticles, mobileLike]);
   // ColorBends lae rahulikult
   useEffect(() => {
     if (!mounted || reduceMotion || mobileLike) {
@@ -170,7 +172,7 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
             </Suspense>
           </div>
         )}
-        {particlesReady && !reduceMotion && !mobileLike && (
+        {particlesReady && allowParticles && (
           <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 3 }}>
             <Particles />
           </div>

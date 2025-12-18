@@ -595,34 +595,31 @@ export default function LoginModal({ open, onClose }) {
           }
         }}
       >
-        <button className="login-modal-close" onClick={onClose} aria-label={t("buttons.close")} type="button">
-          {"\u00d7"}
-        </button>
+        <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
-        <div className="glass-title">
-          {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
+        <div className="login-modal-head">
+          <div className="glass-title">
+            {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
+          </div>
+          <div
+            className={[
+              "glass-note",
+              "glass-note--center",
+              "login-modal-message-slot",
+              error ? "login-error-note" : "",
+              !error && info && !isOtpStep ? "login-info-note" : "",
+              !error && !(info && !isOtpStep) ? "login-modal-message-slot--empty" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            role={error ? "alert" : info && !isOtpStep ? "status" : undefined}
+            aria-live={error ? "assertive" : info && !isOtpStep ? "polite" : undefined}
+            aria-atomic="true"
+            aria-hidden={!error && !(info && !isOtpStep)}
+          >
+            {error || (info && !isOtpStep ? info : "\u00a0")}
+          </div>
         </div>
-
-        {info && !isOtpStep && (
-          <div
-            role="status"
-            className="glass-note glass-note--center"
-            style={{ marginBottom: "0.5rem", textAlign: "center" }}
-          >
-            {info}
-          </div>
-        )}
-
-        {error && (
-          <div
-            role="alert"
-            aria-live="assertive"
-            className="glass-note glass-note--center login-error-note"
-            style={{ textAlign: "center" }}
-          >
-            {error}
-          </div>
-        )}
 
         {!isOtpStep && (
           <form className="login-modal-form compact" onSubmit={(e) => { e.preventDefault(); submitPinStep(); }} autoComplete="off">
@@ -701,7 +698,7 @@ export default function LoginModal({ open, onClose }) {
               inputMode="numeric"
               pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
               maxLength={PIN_MAX}
-              className="sr-only"
+              className="sr-only pin-hidden-input"
               tabIndex={0}
               type="password"
               onKeyDown={onHiddenKeyDown}

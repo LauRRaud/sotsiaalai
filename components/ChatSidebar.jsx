@@ -223,17 +223,17 @@ export default function ChatSidebar() {
       aria-busy={busy || creating ? "true" : "false"}
     >
       {/* Ülariba: Uus vestlus + Refresh */}
-      <div className="cs-actions">
-        <button
-          className="cs-btn cs-btn--primary"
+        <div className="cs-actions">
+          <button
+          className="btn-base cs-btn cs-btn--primary"
           onClick={onNew}
           disabled={busy || creating}
           aria-busy={creating ? "true" : "false"}
-        >
-          {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
-        </button>
-        <button
-          className="cs-refresh"
+          >
+            {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
+          </button>
+          <button
+          className="btn-base cs-refresh"
           onClick={() => fetchList({ reset: true })}
           disabled={busy || creating}
           aria-label={t("chat.sidebar.button.refresh")}
@@ -274,17 +274,17 @@ export default function ChatSidebar() {
       )}
       <ul className="cs-list" role="list" aria-live="polite">
         {!busy && sorted.length === 0 ? (
-          <li className="cs-empty">
-            {t("chat.sidebar.empty")}
-            <button
-              className="cs-btn cs-btn--primary"
+           <li className="cs-empty">
+             {t("chat.sidebar.empty")}
+             <button
+              className="btn-base cs-btn cs-btn--primary"
               onClick={onNew}
               disabled={creating}
               style={{ marginLeft: 8 }}
-            >
-              {t("chat.sidebar.empty_cta")}
-            </button>
-          </li>
+             >
+               {t("chat.sidebar.empty_cta")}
+             </button>
+           </li>
         ) : (
           sorted.map((c) => {
             const isActive = (() => {

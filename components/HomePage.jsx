@@ -411,9 +411,10 @@ export default function HomePage() {
           <nav className="footer-bottom-nav footer-floating-nav" aria-label={t("nav.main")}></nav>
           {/* Inline footer logo */}
           <div className="footer-logo-stack">
-            <span
+            <Link
+              href="/meist"
               className={["footer-meist-word", prefs.reduceMotion ? "" : "footer-meist-word--animate"].filter(Boolean).join(" ")}
-              aria-hidden="true"
+              aria-label={t("nav.about")}
             >
               <svg className="footer-meist-svg" aria-hidden="true" focusable="false">
                 <defs>
@@ -430,7 +431,7 @@ export default function HomePage() {
                   {t("nav.about")}
                 </text>
               </svg>
-            </span>
+            </Link>
             <Link href="/meist" className="footer-logo-link" aria-label={t("nav.about")}>
               <Logomust
                 className={["footer-logo-img", "dim", footerFadeClass].filter(Boolean).join(" ")}

@@ -141,7 +141,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
         onClick={stopInside}
         tabIndex={-1}
       >
-        <button type="button" className="a11y-close" aria-label={t("buttons.close")} onClick={onClose}>{"\u00D7"}</button>
+        <button type="button" className="a11y-close modal-close-btn" aria-label={t("buttons.close")} onClick={onClose} />
         <h2 id="a11y-title" className="glass-title">
           {t("profile.preferences.title")}
         </h2>
@@ -205,7 +205,7 @@ export default function AccessibilityModal({ onClose, prefs, onSave, onPreview, 
           </div>
         </fieldset>
         <div className="a11y-actions">
-          <button type="button" className="btn-primary btn-compact btn-spacing-accessibility" onClick={save} aria-label={t("accessibility.save")}>
+          <button type="button" className="btn-base btn-spacing-accessibility" onClick={save} aria-label={t("accessibility.save")}>
             {t("accessibility.save")}
           </button>
         </div>

@@ -771,7 +771,6 @@ export default function ChatBody({ roomId = null }) {
   /* ---------- Mount + püsivuse taastamine ---------- */
   useEffect(() => {
     mountedRef.current = true;
-    focusInput();
 
     // Lae püsivus ja eemalda tühjad tekstid
     const stored = chatStore.load();
@@ -1952,7 +1951,7 @@ export default function ChatBody({ roomId = null }) {
                 ) : null}
                 <button
                   type="button"
-                  className="chat-analysis-close"
+                  className="chat-analysis-close modal-close-btn"
                   onClick={() => {
                     setUploadPreview(null);
                     setUploadError(null);
@@ -1961,9 +1960,7 @@ export default function ChatBody({ roomId = null }) {
                     closeAnalysisPanel();
                   }}
                   aria-label={t("buttons.close", "Sulge")}
-                >
-                  ×
-                </button>
+                />
               </header>
               <div className="chat-analysis-body">
                 {uploadBusy ? (
@@ -2023,7 +2020,7 @@ export default function ChatBody({ roomId = null }) {
                         <button
                           type="button"
                           onClick={toggleAnalysisCollapse}
-                          className="chat-analysis-jump"
+                          className="btn-base chat-analysis-jump"
                         >
                           {analysisCollapsed
                             ? t("chat.upload.summary_show", "Näita dokumenti")
@@ -2036,7 +2033,7 @@ export default function ChatBody({ roomId = null }) {
                       <div className="chat-analysis-preview-wrap">
                         <button
                           type="button"
-                          className="chat-analysis-jump chat-analysis-jump--floating chat-analysis-jump--text"
+                          className="btn-base chat-analysis-jump chat-analysis-jump--floating chat-analysis-jump--text"
                           onClick={() => {
                             inputRef.current?.focus();
                             inputRef.current?.scrollIntoView({
@@ -2169,7 +2166,7 @@ export default function ChatBody({ roomId = null }) {
                     <div className="chat-analysis-empty">
                       <button
                         type="button"
-                        className="btn-base btn-compact chat-analysis-btn"
+                        className="btn-base"
                         onClick={onPickFile}
                         disabled={uploadBusy || isGenerating}
                       >

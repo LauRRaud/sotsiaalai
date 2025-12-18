@@ -175,7 +175,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
             />
           </span>
         </label>
-        <label className="glass-checkbox" style={{ marginTop: "-0.4em" }}>
+        <label className="glass-checkbox">
           <input
             type="checkbox"
             name="guideAck"
