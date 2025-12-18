@@ -100,6 +100,7 @@ body {
 }
 html, body {
   overflow-y: auto;
+  overflow-x: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -2288,6 +2289,7 @@ main#main > .main-content.glass-box.profile-container {
   align-items:center;
   justify-content:center;
   text-align:center;
+  font-size: 1.06em;
 }
 .login-modal-message-slot--empty{
   visibility:hidden;
@@ -2299,6 +2301,7 @@ main#main > .main-content.glass-box.profile-container {
     margin-top: 0.35rem;
   }
   .login-modal-message-slot{ min-height: 1.6em; }
+  .login-modal-message-slot{ font-size: 1.12em; }
 }
 .glass-title {
   font-size: 2.15em;
@@ -3950,16 +3953,16 @@ textarea::placeholder{
     position: absolute;
     inset: auto;
     left: 50%;
-    top: 0.55rem;
+    top: 0.25rem;
     z-index: 2;
     pointer-events: auto;
     text-decoration: none;
     opacity: 0.6;
-    transform: translate(-50%, -25%);
+    transform: translate(-50%, -55%);
     animation: none !important;
   }
   .footer-meist-svg-text{
-    font-size: clamp(1.25rem, 6.6vw, 1.85rem);
+    font-size: clamp(1.35rem, 7vw, 2rem);
   }
   .footer-logo-link{
     transform: none;
@@ -6706,7 +6709,22 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   border-color: var(--link-color);
 }
 :root.theme-light .profile-email-card {
-  border: var(--glass-border-width) solid rgba(255, 255, 255, 0.15);
+  background: #fbfbfb;
+  border: 2px solid #d0d0d0;
+  color: #3b3329;
+  box-shadow:
+    0 12px 22px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+:root.theme-light .profile-email-card:hover,
+:root.theme-light .profile-email-card:focus-visible{
+  box-shadow:
+    0 8px 16px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+:root.theme-light .profile-email-card__icon svg{
+  stroke: #3b3329;
+  fill: none;
 }
 :root.theme-light .shiny-ph-overlay {
   color: #6a6a6a;
