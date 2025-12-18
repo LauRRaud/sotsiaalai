@@ -505,6 +505,18 @@ body::-webkit-scrollbar {
   box-shadow: 0 0 0.35rem rgba(255,255,255,0.45);
   transform: scale(1.05);
 }
+@media (max-width: 48em){
+  .pin-indicator.moved-below.tightened-gap{
+    gap: 1.1rem;
+    margin-top: 0.5rem;
+    height: 1.35rem;
+  }
+  .pin-dot{
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+  .pin-dot.filled{ transform: scale(1.05); }
+}
 .pin-indicator--error .pin-dot,
 .pin-dot.pin-dot--error {
   background: #DC2626;
@@ -1550,6 +1562,7 @@ top: calc(var(--hud-edge-safe) + 1.9rem - 4px);
 .avatar-link:active { transform: scale(0.97); }
 @media (max-width: 48em){
 .avatar-link{
+  top: calc(var(--hud-edge-safe) + 1.45rem - 4px);
   right: calc(var(--hud-edge-right) + 0.625rem);
   transform: scale(1);
   }
@@ -2040,8 +2053,8 @@ main#main > .main-content.glass-box.profile-container {
     width:100%;
   }
   .profile-email-card__icon svg{
-    width:42px;
-    height:42px;
+    width:48px;
+    height:48px;
   }
   .profile-email-card__label{
     font-size:1.12rem;
@@ -2279,6 +2292,13 @@ main#main > .main-content.glass-box.profile-container {
 .login-modal-message-slot--empty{
   visibility:hidden;
   pointer-events:none;
+}
+@media (max-width: 48em){
+  .login-modal-head{
+    gap:0.2em;
+    margin-top: 0.35rem;
+  }
+  .login-modal-message-slot{ min-height: 1.6em; }
 }
 .glass-title {
   font-size: 2.15em;
@@ -3930,16 +3950,16 @@ textarea::placeholder{
     position: absolute;
     inset: auto;
     left: 50%;
-    top: 0.35rem;
+    top: 0.55rem;
     z-index: 2;
     pointer-events: auto;
     text-decoration: none;
     opacity: 0.6;
-    transform: translate(-50%, -45%);
+    transform: translate(-50%, -25%);
     animation: none !important;
   }
   .footer-meist-svg-text{
-    font-size: clamp(1.15rem, 6.2vw, 1.65rem);
+    font-size: clamp(1.25rem, 6.6vw, 1.85rem);
   }
   .footer-logo-link{
     transform: none;
@@ -4001,6 +4021,7 @@ body.modal-open .footer-floating-nav {
     --profile-role-hole-w: 0.58;
     --profile-role-hole-min-w: 190px;
     --profile-role-hole-max-w: 360px;
+    padding-top: 0.4rem;
   }
   .profile-role-pill{
     letter-spacing: 0.06em;
