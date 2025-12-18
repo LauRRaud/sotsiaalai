@@ -1434,17 +1434,18 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  padding: 0.62rem 1.15rem;
+  padding: 0.52rem 0.95rem;
   border-radius: 0.95rem;
   border: 2px solid transparent;
   font-weight: 650;
+  font-size: 1.02rem;
   letter-spacing: 0.02em;
   cursor: var(--cursor-pointer);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
   text-decoration: none;
-  min-height: 2.75rem;
+  min-height: 2.5rem;
 }
 :root .btn-base:focus-visible { outline: none; }
 :root .btn-base:disabled,
@@ -2037,6 +2038,10 @@ main#main > .main-content.glass-box.profile-container {
   .profile-email-card{
     max-width:170px;
     width:100%;
+  }
+  .profile-email-card__icon svg{
+    width:42px;
+    height:42px;
   }
   .profile-email-card__label{
     font-size:1.12rem;
@@ -3925,12 +3930,12 @@ textarea::placeholder{
     position: absolute;
     inset: auto;
     left: 50%;
-    top: 0;
+    top: 0.35rem;
     z-index: 2;
     pointer-events: auto;
     text-decoration: none;
     opacity: 0.6;
-    transform: translate(-50%, -75%);
+    transform: translate(-50%, -45%);
     animation: none !important;
   }
   .footer-meist-svg-text{
@@ -3993,11 +3998,12 @@ body.modal-open .footer-floating-nav {
     max-width: none;
   }
   .glass-box.profile-container{
-    --profile-role-hole-w: 0.78;
-    --profile-role-hole-min-w: 240px;
+    --profile-role-hole-w: 0.58;
+    --profile-role-hole-min-w: 190px;
+    --profile-role-hole-max-w: 360px;
   }
   .profile-role-pill{
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
   }
   .glass-box.chat-container{
     overscroll-behavior: auto;

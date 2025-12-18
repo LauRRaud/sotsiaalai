@@ -535,11 +535,11 @@ export default function ProfiilBody({ initialProfile = null }) {
                 onClick,
                 key,
               }))}
-              panelHeight={70}
-              dockHeight={96}
-              baseItemSize={48}
-              magnification={70}
-              distance={160}
+              panelHeight={84}
+              dockHeight={112}
+              baseItemSize={56}
+              magnification={66}
+              distance={140}
               spring={{ mass: 0.6, stiffness: 90, damping: 24 }}
               labelOffset={8}
               className="profile-email-dock"

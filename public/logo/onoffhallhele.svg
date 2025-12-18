@@ -10,6 +10,7 @@
     stroke-width="1"
     stroke-linecap="round"
     stroke-linejoin="round"
+    stroke-opacity="0.6"
   >
     <path d="M18 7.5A8 8 0 1 0 18 16.5" />
   </g>
