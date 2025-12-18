@@ -40,7 +40,41 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   const [animateFog, setAnimateFog] = useState(false);
   const [skipBgIntro, setSkipBgIntro] = useState(false);
   const [colorBendsReady, setColorBendsReady] = useState(false);
+  const [mobileLike, setMobileLike] = useState(false);
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = (q) => (typeof window.matchMedia === "function" ? window.matchMedia(q) : null);
+    const coarse = mql("(pointer: coarse)");
+    const noHover = mql("(hover: none)");
+    const small = mql("(max-width: 768px)");
+    const compute = () => {
+      const coarseOk = coarse?.matches ?? false;
+      const noHoverOk = noHover?.matches ?? false;
+      const smallOk = small?.matches ?? false;
+      setMobileLike(coarseOk || noHoverOk || smallOk);
+    };
+    compute();
+    const attach = (media) => {
+      if (!media) return () => {};
+      const handler = () => compute();
+      if (typeof media.addEventListener === "function") {
+        media.addEventListener("change", handler);
+        return () => media.removeEventListener("change", handler);
+      }
+      if (typeof media.addListener === "function") {
+        media.addListener(handler);
+        return () => media.removeListener(handler);
+      }
+      return () => {};
+    };
+    const cleanups = [attach(coarse), attach(noHover), attach(small)];
+    window.addEventListener("resize", compute);
+    return () => {
+      window.removeEventListener("resize", compute);
+      cleanups.forEach((c) => c?.());
+    };
+  }, []);
   useLayoutEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined") return;
     let ready = false;
@@ -75,24 +109,32 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   // Particles lae rahulikult, kui tabu on nähtav
   useEffect(() => {
     if (!mounted) return;
+    if (reduceMotion || mobileLike) {
+      setParticlesReady(false);
+      return;
+    }
     const cancelParticles = whenVisible(() => onIdle(() => setParticlesReady(true), 600));
     return () => cancelParticles?.();
-  }, [mounted]);
+  }, [mounted, reduceMotion, mobileLike]);
   // ColorBends lae rahulikult
   useEffect(() => {
-    if (!mounted || reduceMotion) {
+    if (!mounted || reduceMotion || mobileLike) {
       setColorBendsReady(false);
       return;
     }
     const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 400));
     return () => cancel?.();
-  }, [mounted, reduceMotion]);
+  }, [mounted, reduceMotion, mobileLike]);
   // Splash-cursor sama loogikaga
   useEffect(() => {
     if (!mounted) return;
+    if (reduceMotion || mobileLike) {
+      setCursorReady(false);
+      return;
+    }
     const cancelCursor = whenVisible(() => onIdle(() => setCursorReady(true), 1200));
     return () => cancelCursor?.();
-  }, [mounted]);
+  }, [mounted, reduceMotion, mobileLike]);
 
   return (
     <>
@@ -107,13 +149,13 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
           <Suspense fallback={null}>
             <Space
-              animateFog={animateFog && !reduceMotion}
-              skipIntro={!animateFog || !!reduceMotion}
+              animateFog={animateFog && !reduceMotion && !mobileLike}
+              skipIntro={!animateFog || !!reduceMotion || mobileLike}
               fogAppearDelayMs={0}
             />
           </Suspense>
         </div>
-        {colorBendsReady && !reduceMotion && (
+        {colorBendsReady && !reduceMotion && !mobileLike && (
           <div
             aria-hidden="true"
             style={{
@@ -128,19 +170,19 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
             </Suspense>
           </div>
         )}
-        {particlesReady && !reduceMotion && (
+        {particlesReady && !reduceMotion && !mobileLike && (
           <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 3 }}>
             <Particles />
           </div>
         )}
       </div>
       {/* SPLASH CURSOR – portaalina, alati sisu peal */}
-      {mounted && cursorReady && typeof document !== "undefined" && !reduceMotion &&
+      {mounted && cursorReady && typeof document !== "undefined" && !reduceMotion && !mobileLike &&
         createPortal(
            <div className="splash-cursor" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none" }}>
              <MaybeSplash />
-           </div>,
-           document.body
+            </div>,
+            document.body
          )
       }
     </>
