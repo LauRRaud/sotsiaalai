@@ -142,33 +142,33 @@
     <g mask="url(#maskRightSpot)">
       <circle cx="200" cy="200" r="184" fill="none"
               stroke="url(#gRimStrokeBR)" stroke-width="22"
-              opacity="0.24" filter="url(#fGlowWide)"/>
+              opacity="0.3" filter="url(#fGlowWide)"/>
       <circle cx="200" cy="200" r="184" fill="none"
               stroke="url(#gRimStrokeBR)" stroke-width="14"
-              opacity="0.34" filter="url(#fGlow)"/>
+              opacity="0.4" filter="url(#fGlow)"/>
     </g>
 
     <g mask="url(#maskLower)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.1" stroke-width="18"
+              stroke="#000000" stroke-opacity="0.3" stroke-width="18"
               filter="url(#fGlowWide)"/>
     </g>
 
     <g mask="url(#maskRightSpot)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.3" stroke-width="16"
+              stroke="#000000" stroke-opacity="0.5" stroke-width="16"
               filter="url(#fGlowWide)"/>
     </g>
 
     <g mask="url(#maskTopLeftOnly)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.2" stroke-width="14"
+              stroke="#000000" stroke-opacity="0.25" stroke-width="14"
               filter="url(#fGlowWide)"/>
     </g>
 
     <g mask="url(#maskTopRightOnly)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.3" stroke-width="14"
+              stroke="#000000" stroke-opacity="0.4" stroke-width="14"
               filter="url(#fGlowWide)"/>
     </g>
   </g>

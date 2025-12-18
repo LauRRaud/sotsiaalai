@@ -221,10 +221,10 @@ export function CircularRingLeft({ className = "" } = {}) {
     <CircularText
       text={t("home.ring.left", "SEADUSED PRAKTIKA NÕUANDED")}
       size={420}
-      radius={182}
+      radius={186}
       duration={130}
       clockwise={false}
-      fontSize={34}
+      fontSize={31}
       weight={400}
       letterSpacing={6}
       className={["desc-ring-left","circular-ring",className].filter(Boolean).join(" ")}
@@ -241,10 +241,10 @@ export function CircularRingRight({ className = "" } = {}) {
     <CircularText
       text={t("home.ring.right", "ÕIGUSED JUHISED VÕIMALUSED")}
       size={420}
-      radius={182}
+      radius={186}
       duration={130}
       clockwise={false}
-      fontSize={34}
+      fontSize={31}
       weight={400}
       letterSpacing={6}
       className={["desc-ring-right","circular-ring",className].filter(Boolean).join(" ")}

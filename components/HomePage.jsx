@@ -255,24 +255,22 @@ export default function HomePage() {
   return (
     <>
       <div className="homepage-root" onClick={handleBackgroundTap}>
-        {!isMobile && (
-          <nav className="top-center-nav" aria-label={t("nav.main")}>
-            <div className="top-center-actions">
-              <label
-                className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", desktopFadeClass].filter(Boolean).join(" ")}
-                aria-label={themeToggleAria}
-              >
-                <input
-                  type="checkbox"
-                  className="themeToggleInput"
-                  checked={theme === "light"}
-                  onChange={handleThemeClick}
-                />
-                <ThemeToggleIcon theme={theme} />
-              </label>
-            </div>
-          </nav>
-        )}
+        <nav className="top-center-nav" aria-label={t("nav.main")}>
+          <div className="top-center-actions">
+            <label
+              className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", desktopFadeClass].filter(Boolean).join(" ")}
+              aria-label={themeToggleAria}
+            >
+              <input
+                type="checkbox"
+                className="themeToggleInput"
+                checked={theme === "light"}
+                onChange={handleThemeClick}
+              />
+              <ThemeToggleIcon theme={theme} />
+            </label>
+          </div>
+        </nav>
 
         <div className="main-content relative">
           {/* LEFT CARD */}
@@ -410,24 +408,7 @@ export default function HomePage() {
 
         {/* Footer (logo) */}
         <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
-          <nav className="footer-bottom-nav footer-floating-nav" aria-label={t("nav.main")}>
-            <div className="top-center-actions">
-              {isMobile && (
-                <label
-                  className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", bottomFadeClass].filter(Boolean).join(" ")}
-                  aria-label={themeToggleAria}
-                >
-                <input
-                  type="checkbox"
-                  className="themeToggleInput"
-                  checked={theme === "light"}
-                  onChange={handleThemeClick}
-                />
-                <ThemeToggleIcon theme={theme} />
-              </label>
-            )}
-            </div>
-          </nav>
+          <nav className="footer-bottom-nav footer-floating-nav" aria-label={t("nav.main")}></nav>
           {/* Inline footer logo */}
           <div className="footer-logo-stack">
             <span

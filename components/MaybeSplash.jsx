@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 // Laeme SplashCursor ainult browseris (ssr: false) ja ainult kui vaja
 const SplashCursor = dynamic(() => import("./SplashCursor"), { ssr: false });
+const ClickPulseCursor = dynamic(() => import("./ClickPulseCursor"), { ssr: false });
 export default function MaybeSplash() {
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -40,5 +41,11 @@ export default function MaybeSplash() {
       cleanups.forEach((dispose) => dispose && dispose());
     };
   }, []);
-  return show ? <SplashCursor /> : null;
+  if (!show) return null;
+  return (
+    <>
+      <SplashCursor />
+      <ClickPulseCursor />
+    </>
+  );
 }
