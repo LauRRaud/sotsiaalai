@@ -134,7 +134,7 @@
               stroke="url(#gRimStroke)" stroke-width="12" filter="url(#fGlow)"/>
     </g>
 
-    <g mask="url(#maskLower)" opacity="0.75">
+    <g mask="url(#maskLower)" opacity="0.4">
       <circle cx="200" cy="200" r="183" fill="none"
               stroke="url(#gRimStroke)" stroke-width="22" filter="url(#fGlowWide)" opacity="0.55"/>
     </g>
@@ -150,7 +150,7 @@
 
     <g mask="url(#maskLower)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.4" stroke-width="18"
+              stroke="#000000" stroke-opacity="0.1" stroke-width="18"
               filter="url(#fGlowWide)"/>
     </g>
 
@@ -162,13 +162,13 @@
 
     <g mask="url(#maskTopLeftOnly)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.3" stroke-width="14"
+              stroke="#000000" stroke-opacity="0.2" stroke-width="14"
               filter="url(#fGlowWide)"/>
     </g>
 
     <g mask="url(#maskTopRightOnly)">
       <circle cx="200" cy="200" r="184" fill="none"
-              stroke="#000000" stroke-opacity="0.6" stroke-width="14"
+              stroke="#000000" stroke-opacity="0.3" stroke-width="14"
               filter="url(#fGlowWide)"/>
     </g>
   </g>
