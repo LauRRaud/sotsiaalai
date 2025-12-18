@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 400 400" fill="none" shape-rendering="auto">
   <defs>
     <radialGradient id="gBase" cx="48%" cy="34%" r="78%">
       <stop offset="0%"   stop-color="#FFFFFF"/>
@@ -28,7 +28,7 @@
     </radialGradient>
 
     <clipPath id="clipSphere">
-      <circle cx="200" cy="200" r="150"/>
+      <circle cx="200" cy="200" r="188"/>
     </clipPath>
 
     <linearGradient id="gMaskBottom" x1="0" y1="0" x2="0" y2="1">
@@ -39,14 +39,14 @@
     </linearGradient>
 
     <radialGradient id="gAllowTopLeft" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(135 138) rotate(0) scale(135 105)">
+      gradientTransform="translate(118.6 122.3) rotate(0) scale(169 132)">
       <stop offset="0"    stop-color="#ffffff" stop-opacity="0.85"/>
       <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.45"/>
       <stop offset="1"    stop-color="#000000" stop-opacity="0"/>
     </radialGradient>
 
     <radialGradient id="gAllowTopRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(265 128) rotate(0) scale(135 105)">
+      gradientTransform="translate(281.5 109.8) rotate(0) scale(169 132)">
       <stop offset="0"    stop-color="#ffffff" stop-opacity="0.80"/>
       <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.40"/>
       <stop offset="1"    stop-color="#000000" stop-opacity="0"/>
@@ -78,7 +78,7 @@
     </mask>
 
     <radialGradient id="gAllowRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(305 255) rotate(-10) scale(135 120)">
+      gradientTransform="translate(331.6 268.9) rotate(-10) scale(169 150.4)">
       <stop offset="0"    stop-color="#ffffff" stop-opacity="0.70"/>
       <stop offset="0.50" stop-color="#ffffff" stop-opacity="0.28"/>
       <stop offset="1"    stop-color="#000000" stop-opacity="0"/>
@@ -116,7 +116,7 @@
     </filter>
 
     <radialGradient id="gSpec" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(182 160) rotate(0) scale(120 85)">
+      gradientTransform="translate(177.4 149.9) rotate(0) scale(150.4 106.5)">
       <stop offset="0"    stop-color="#ffffff" stop-opacity="0.50"/>
       <stop offset="0.36" stop-color="#ffffff" stop-opacity="0.15"/>
       <stop offset="1"    stop-color="#ffffff" stop-opacity="0"/>
@@ -124,62 +124,52 @@
   </defs>
 
   <g clip-path="url(#clipSphere)">
-    <circle cx="200" cy="200" r="150" fill="url(#gBase)"/>
-    <circle cx="200" cy="200" r="150" fill="url(#gShade)"/>
-    <circle cx="200" cy="200" r="150" fill="url(#gSpec)"/>
-    <rect x="40" y="40" width="320" height="320" filter="url(#fNoise)" opacity="0.06"/>
+    <circle cx="200" cy="200" r="188" fill="url(#gBase)"/>
+    <circle cx="200" cy="200" r="188" fill="url(#gShade)"/>
+    <circle cx="200" cy="200" r="188" fill="url(#gSpec)"/>
+    <rect x="12" y="12" width="376" height="376" filter="url(#fNoise)" opacity="0.06"/>
 
-    <!-- Base rim work -->
     <g mask="url(#maskBottom)">
-      <circle cx="200" cy="200" r="146" fill="none"
+      <circle cx="200" cy="200" r="184" fill="none"
               stroke="url(#gRimStroke)" stroke-width="12" filter="url(#fGlow)"/>
     </g>
 
     <g mask="url(#maskLower)" opacity="0.75">
-      <circle cx="200" cy="200" r="145" fill="none"
+      <circle cx="200" cy="200" r="183" fill="none"
               stroke="url(#gRimStroke)" stroke-width="22" filter="url(#fGlowWide)" opacity="0.55"/>
     </g>
 
     <g mask="url(#maskRightSpot)">
-      <circle cx="200" cy="200" r="146" fill="none"
+      <circle cx="200" cy="200" r="184" fill="none"
               stroke="url(#gRimStrokeBR)" stroke-width="22"
               opacity="0.24" filter="url(#fGlowWide)"/>
-      <circle cx="200" cy="200" r="146" fill="none"
+      <circle cx="200" cy="200" r="184" fill="none"
               stroke="url(#gRimStrokeBR)" stroke-width="14"
               opacity="0.34" filter="url(#fGlow)"/>
     </g>
 
-    <!-- Dark rim spots (~6 and ~3): boosted so they are clearly visible -->
     <g mask="url(#maskLower)">
-      <circle cx="200" cy="200" r="146" fill="none"
-              stroke="#000000" stroke-opacity="0.18" stroke-width="18"
+      <circle cx="200" cy="200" r="184" fill="none"
+              stroke="#000000" stroke-opacity="0.4" stroke-width="18"
               filter="url(#fGlowWide)"/>
     </g>
 
     <g mask="url(#maskRightSpot)">
-      <circle cx="200" cy="200" r="146" fill="none"
-              stroke="#000000" stroke-opacity="0.16" stroke-width="16"
+      <circle cx="200" cy="200" r="184" fill="none"
+              stroke="#000000" stroke-opacity="0.3" stroke-width="16"
               filter="url(#fGlowWide)"/>
     </g>
 
-    <!-- Bright rim highlights: boosted and pure white -->
     <g mask="url(#maskTopLeftOnly)">
-      <circle cx="200" cy="200" r="146" fill="none"
-              stroke="#FFFFFF" stroke-opacity="1" stroke-width="14"
+      <circle cx="200" cy="200" r="184" fill="none"
+              stroke="#000000" stroke-opacity="0.3" stroke-width="14"
               filter="url(#fGlowWide)"/>
     </g>
 
     <g mask="url(#maskTopRightOnly)">
-      <circle cx="200" cy="200" r="146" fill="none"
-              stroke="#FFFFFF" stroke-opacity="0.95" stroke-width="14"
+      <circle cx="200" cy="200" r="184" fill="none"
+              stroke="#000000" stroke-opacity="0.6" stroke-width="14"
               filter="url(#fGlowWide)"/>
-    </g>
-
-    <!-- subtle inner hint -->
-    <g mask="url(#maskTopLeftOnly)">
-      <circle cx="200" cy="200" r="146" fill="none"
-              stroke="#ffffff" stroke-opacity="0.05" stroke-width="3"
-              filter="url(#fCrispSoft)"/>
     </g>
   </g>
 </svg>
