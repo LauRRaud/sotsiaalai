@@ -74,7 +74,7 @@ export default function PrivaatsusBody() {
     },
   ];
   return (
-    <article className="main-content glass-box" aria-labelledby="privacy-title" lang={locale}>
+    <article className="main-content glass-box doc-page" aria-labelledby="privacy-title" lang={locale}>
       <h1 id="privacy-title" className="glass-title">
         {t("privacy.title")}
       </h1>

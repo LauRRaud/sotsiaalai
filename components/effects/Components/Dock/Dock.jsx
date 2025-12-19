@@ -41,6 +41,16 @@ function DockItem({
     }
   };
 
+  const handleFocus = (event) => {
+    if (event.currentTarget?.matches?.(':focus-visible')) {
+      isHovered.set(1);
+    }
+  };
+
+  const handleBlur = () => {
+    isHovered.set(0);
+  };
+
   return (
     <motion.div
       ref={ref}
@@ -50,8 +60,8 @@ function DockItem({
       }}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
-      onFocus={() => isHovered.set(1)}
-      onBlur={() => isHovered.set(0)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       className={`dock-item ${className}`}

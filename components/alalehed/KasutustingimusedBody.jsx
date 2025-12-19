@@ -77,7 +77,7 @@ export default function KasutustingimusedBody() {
     },
   ];
   return (
-    <article className="main-content glass-box" aria-labelledby="terms-title" lang={locale}>
+    <article className="main-content glass-box doc-page" aria-labelledby="terms-title" lang={locale}>
       <h1 id="terms-title" className="glass-title">{t("terms.title")}</h1>
       <section className="glass-section doc-body">
         {sections.map((section) => (

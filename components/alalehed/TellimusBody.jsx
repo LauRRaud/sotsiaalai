@@ -71,7 +71,7 @@ export default function TellimusBody() {
               <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
             </p>
             <div className="tellimus-btn-center">
-              <Link href="/profiil" className="btn-primary btn-compact" aria-describedby="cancel-note">
+              <Link href="/profiil" className="btn-base" aria-describedby="cancel-note">
                 {t("subscription.button.open_profile")}
               </Link>
             </div>
@@ -89,7 +89,7 @@ export default function TellimusBody() {
             <div className="tellimus-btn-center">
               <button
                 type="button"
-                className="btn-primary btn-compact"
+                className="btn-base"
                 disabled={processing}
                 aria-disabled={processing}
                 aria-busy={processing}

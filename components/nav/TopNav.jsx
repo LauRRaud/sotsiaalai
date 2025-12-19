@@ -12,7 +12,7 @@ export default function TopNav({ roomId = null, hideChats = false }) {
   const { t } = useI18n();
   const isLightTheme = prefs?.theme === "light";
   const isChatLike = pathname.startsWith("/vestlus");
-  const navIconOpacity = isChatLike ? 0.9 : 1;
+  const navIconOpacity = isLightTheme ? 0.85 : isChatLike ? 0.9 : 1;
   const iconSize = isChatLike ? 36 : 28;
 
   const chatIcon = isLightTheme ? "/logo/vestlusedhele.svg" : "/logo/vestlusedtume.svg";
