@@ -47,9 +47,12 @@ function PinDockIcon({ isHovered: _isHovered, ...props }) {
       focusable="false"
       {...props}
     >
-      <path d="M12 2v5" />
-      <rect x="7" y="7" width="10" height="7" rx="1.5" />
-      <path d="M9 14v2.5a3 3 0 0 0 6 0V14" />
+      <g transform="translate(12 12) scale(1.05) translate(-12 -12) translate(0 0.35)">
+        <rect x="4.5" y="8.5" width="15" height="9" rx="2.2" ry="2.2" />
+        <path d="M7.5 8.5V6.5a4.5 4.5 0 0 1 9 0v2" />
+        <circle cx="12" cy="13" r="0.9" fill="currentColor" />
+        <path d="M12 13.7v1.2" stroke="currentColor" />
+      </g>
     </svg>
   );
 }
@@ -541,7 +544,7 @@ export default function ProfiilBody({ initialProfile = null }) {
               magnification={66}
               distance={140}
               spring={{ mass: 0.6, stiffness: 90, damping: 24 }}
-              labelOffset={8}
+              labelOffset={6}
               className="profile-email-dock"
               staticHeight
               ariaLabel={t("profile.actions_label", "Profiili toimingud")}

@@ -45,6 +45,7 @@ export default function LoginModal({ open, onClose }) {
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [submitIconState, setSubmitIconState] = useState("idle"); // idle | success | error
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
   const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
@@ -173,6 +174,7 @@ export default function LoginModal({ open, onClose }) {
     setResendLoading(false);
     setEmailValue("");
     setSubmitIconState("idle");
+    setInvalidCredentials(false);
   }, [open]);
   // Lae salvestatud e-post; ära ava sisendit enne, kui kasutaja vajutab ümbrikule
   useEffect(() => {
@@ -212,6 +214,7 @@ export default function LoginModal({ open, onClose }) {
 
   const resetIconState = useCallback(() => {
     setSubmitIconState("idle");
+    setInvalidCredentials(false);
   }, []);
 
   const markPinError = useCallback(() => {
@@ -295,6 +298,7 @@ export default function LoginModal({ open, onClose }) {
       if (!res.ok) {
         markPinError();
         if ((payload?.code || "").toUpperCase() === "INVALID_CREDENTIALS") {
+          setInvalidCredentials(true);
           setSubmitIconState("error");
         }
         setError(payload?.message || t("auth.login.error.generic"));
@@ -629,16 +633,16 @@ export default function LoginModal({ open, onClose }) {
                 "Vajuta ümbriku väljale, et avada e-posti sisestuse lahter ja sisesta oma e-post."
               )}
             </div>
-            <div className="login-email-toggle">
-              {!emailRevealed ? (
-                <button
-                  type="button"
-                  ref={emailIconButtonRef}
-                  className={`login-email-icon-btn${hasEmailValue ? " login-email-icon-btn--known" : ""}`}
-                  aria-describedby={emailHintIdRef.current}
-                  aria-label={t("auth.email_placeholder")}
-                  onClick={revealEmailInput}
-                >
+        <div className="login-email-toggle">
+          {!emailRevealed ? (
+            <button
+              type="button"
+              ref={emailIconButtonRef}
+              className={`login-email-icon-btn${hasEmailValue ? " login-email-icon-btn--known" : ""}${invalidCredentials ? " login-email-icon-btn--error" : ""}`}
+              aria-describedby={emailHintIdRef.current}
+              aria-label={t("auth.email_placeholder")}
+              onClick={revealEmailInput}
+            >
                   <span className="sr-only">
                     {t(
                       "auth.email_icon_hint",

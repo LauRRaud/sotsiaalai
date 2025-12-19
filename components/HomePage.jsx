@@ -8,6 +8,7 @@ import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import TypedFadeText from "@/components/TextAnimations/TypedFadeText";
+import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import Image from "next/image";
@@ -416,21 +417,7 @@ export default function HomePage() {
               className={["footer-meist-word", prefs.reduceMotion ? "" : "footer-meist-word--animate"].filter(Boolean).join(" ")}
               aria-label={t("nav.about")}
             >
-              <svg className="footer-meist-svg" aria-hidden="true" focusable="false">
-                <defs>
-                  <linearGradient id="footer-meist-gradient" x1="0" y1="1" x2="0" y2="0">
-                    <stop offset="0" stopColor="#5F5B55" />
-                    <stop offset="0.18" stopColor="#8D8980" />
-                    <stop offset="0.36" stopColor="#ABA8A1" />
-                    <stop offset="0.56" stopColor="#C3C1BC" />
-                    <stop offset="0.78" stopColor="#E6E5E3" />
-                    <stop offset="1" stopColor="#F1F1F0" />
-                  </linearGradient>
-                </defs>
-                <text className="footer-meist-svg-text" x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="url(#footer-meist-gradient)">
-                  {t("nav.about")}
-                </text>
-              </svg>
+              <ShinyText text={t("nav.about")} speed={12.6} disabled={prefs.reduceMotion} className="footer-meist-shine" />
             </Link>
             <Link href="/meist" className="footer-logo-link" aria-label={t("nav.about")}>
               <Logomust

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -129,11 +129,10 @@ export default function InviteModal() {
           </h2>
           <button
             type="button"
-            className="invite-modal__close invite-classic__close"
+            className="invite-modal__close invite-classic__close modal-close-btn"
             onClick={() => setOpen(false)}
             aria-label={t("common.close", "Sulge")}
           >
-            ×
           </button>
         </header>
 
@@ -272,6 +271,8 @@ export default function InviteModal() {
     </div>
   );
 }
+
+
 
 
 
