@@ -164,21 +164,17 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <div className="rag-admin analytics-admin">
+    <div className="rag-admin analytics-admin rag-admin--flat">
       <div className="rag-card-head analytics-head">
-        <div>
-          <h1 className="title">Analüütika</h1>
-          <div className="rag-card-sub">Viimase 30 päeva koondvaade vestluspäringutest, RAG-ist ja maksetest.</div>
+          <div className="analytics-head__text">
+            <h1 className="glass-title analytics-title">Analüütika</h1>
+          </div>
+          <div className="rag-card-actions">
+            <button className="btn-base rag-btn" onClick={refresh} disabled={loadingSummary || loadingEvents}>
+              {loadingSummary || loadingEvents ? "Laen..." : "Värskenda"}
+            </button>
+          </div>
         </div>
-        <div className="rag-card-actions">
-          <button className="btn-base rag-btn" onClick={refresh} disabled={loadingSummary || loadingEvents}>
-            {loadingSummary || loadingEvents ? "Laen..." : "Värskenda"}
-          </button>
-          <Link href="/admin/rag" className="btn-base rag-btn rag-btn--primary" prefetch={false}>
-            RAG haldus
-          </Link>
-        </div>
-      </div>
 
       {error ? <div className="alert alert-error">{error}</div> : null}
 
@@ -446,6 +442,11 @@ export default function AnalyticsDashboard() {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="back-btn-wrapper">
+        <Link href="/meist" className="back-arrow-btn" aria-label="Tagasi">
+          <span className="back-arrow-circle" />
+        </Link>
       </div>
     </div>
   );

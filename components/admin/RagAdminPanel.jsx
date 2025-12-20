@@ -260,6 +260,7 @@ export default function RagAdminPanel() {
   const [sortBy, setSortBy] = useState("recent");
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [previewId, setPreviewId] = useState(null);
 
   const [detailDoc, setDetailDoc] = useState(null);
   const [detailForm, setDetailForm] = useState({
@@ -743,6 +744,20 @@ export default function RagAdminPanel() {
   }, [searchQuery, filterSection, filterAudience, filterYear, filterIssue, filterTags, sortBy]);
 
   const visibleDocs = filteredDocs.slice(0, visibleCount);
+  const previewDoc = useMemo(
+    () => (previewId ? visibleDocs.find((doc) => doc.id === previewId) || null : visibleDocs[0] || null),
+    [previewId, visibleDocs]
+  );
+
+  useEffect(() => {
+    if (!visibleDocs.length) {
+      if (previewId !== null) setPreviewId(null);
+      return;
+    }
+    if (!previewId || !visibleDocs.some((doc) => doc.id === previewId)) {
+      setPreviewId(visibleDocs[0].id);
+    }
+  }, [visibleDocs, previewId]);
 
   const toggleSelect = useCallback((id) => {
     setSelectedIds((prev) => {
@@ -877,7 +892,7 @@ export default function RagAdminPanel() {
     window.open(href, "_blank", "noopener,noreferrer");
   };
   return (
-    <div className="rag-admin rag-admin--rag">
+    <div className="rag-admin rag-admin--rag rag-admin--flat">
       {message && (
         <div
           className={`alert ${message.type === "error" ? "alert-error" : "alert-ok"}`}
@@ -1191,7 +1206,7 @@ export default function RagAdminPanel() {
           ) : null}
         </div>
 
-        <div className="rag-docs">
+                <div className="rag-docs">
           <div className="rag-docs__head">
             <label className="rag-check">
               <input
@@ -1211,219 +1226,170 @@ export default function RagAdminPanel() {
             </div>
           </div>
 
-          <div className="rag-docs__list">
-            {visibleDocs.map((doc) => {
-              const status = deriveStatus(doc);
-              const syncedAt = deriveSyncedAt(doc);
-              const pageLabel = doc.pageRange || formatPdfRange(doc) || "-";
-              const source = doc.source_path || doc.source_url || doc.url || "";
-              const typeLabel = (doc.source_type || doc.type || "").toString().toUpperCase();
-              const isSelected = selectedIds.has(doc.id);
-              return (
-                <article
-                  key={doc.id || doc._idx}
-                  className={`rag-doc-card${isSelected ? " is-selected" : ""}`}
-                  onClick={() => openDetail(doc)}
-                >
-                  <div className="rag-doc-card__top">
-                    <div className="rag-doc-card__select" onClick={(e) => e.stopPropagation()}>
-                      <input type="checkbox" checked={isSelected} onChange={() => toggleSelect(doc.id)} />
-                    </div>
-                    <div className="rag-doc-card__title">{doc.title || "(pealkiri puudub)"}</div>
-                    <div className="rag-doc-card__status">
-                      <span className={STATUS_CLASSES[status] || "badge"}>{STATUS_LABELS[status] || status}</span>
-                      {syncedAt ? <span className="rag-doc-card__time">{formatDateTime(syncedAt)}</span> : null}
-                    </div>
-                  </div>
-                  {doc.description ? <div className="rag-doc-card__desc">{doc.description}</div> : null}
-                  <div className="rag-doc-card__meta">
-                    <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">Rubriik</span>
-                      <span className="rag-doc-card__meta-value">{doc.section || "-"}</span>
-                    </div>
-                    <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">Autorid</span>
-                      <span className="rag-doc-card__meta-value">{(doc.authors || []).join(", ") || "-"}</span>
-                    </div>
-                    <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">Aasta / nr</span>
-                      <span className="rag-doc-card__meta-value">
-                        {doc.year || "-"}
-                        {doc.issueLabel ? ` / ${doc.issueLabel}` : ""}
-                      </span>
-                    </div>
-                    <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">Sihtrühm</span>
-                      <span className="rag-doc-card__meta-value">{getAudienceLabel(doc.audience)}</span>
-                    </div>
-                    <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">Lehekülg</span>
-                      <span className="rag-doc-card__meta-value">{pageLabel}</span>
-                    </div>
-                    <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">DocId</span>
-                      <span className="rag-doc-card__meta-value">{doc.docId || doc.id || "-"}</span>
-                    </div>
-                    {doc.journalTitle ? (
-                      <div className="rag-doc-card__meta-item">
-                      <span className="rag-doc-card__meta-label">Väljaanne</span>
-                        <span className="rag-doc-card__meta-value">{doc.journalTitle}</span>
-                      </div>
-                    ) : null}
-                    {doc.language ? (
-                      <div className="rag-doc-card__meta-item">
-                        <span className="rag-doc-card__meta-label">Keel</span>
-                        <span className="rag-doc-card__meta-value">{doc.language}</span>
-                      </div>
-                    ) : null}
-                    {typeLabel ? (
-                      <div className="rag-doc-card__meta-item">
-                        <span className="rag-doc-card__meta-label">Tüüp</span>
-                        <span className="rag-doc-card__meta-value">{typeLabel}</span>
-                      </div>
-                    ) : null}
-                    {doc.articleId ? (
-                      <div className="rag-doc-card__meta-item">
-                        <span className="rag-doc-card__meta-label">ArticleId</span>
-                        <span className="rag-doc-card__meta-value">{doc.articleId}</span>
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="rag-doc-card__tags">
-                    <span className="rag-doc-card__meta-label">Sildid</span>
-                    {renderTags(doc.tags)}
-                  </div>
-                  {source ? (
-                    <div className="rag-doc-card__source">
-                      <span className="rag-doc-card__meta-label">Allikas</span>
-                      <span className="rag-doc-card__source-text">{source}</span>
-                    </div>
-                  ) : null}
-                  <div className="rag-doc-card__actions" onClick={(e) => e.stopPropagation()}>
-                    <button className="btn-base rag-btn rag-btn--ghost rag-btn--compact" onClick={() => openDetail(doc)}>
-                      Muuda
-                    </button>
-                    <button
-                      className="btn-base rag-btn rag-btn--ghost rag-btn--compact"
-                      onClick={() => handleReindex(doc.id)}
-                      disabled={reindexingId === doc.id}
-                    >
-                      {reindexingId === doc.id ? "Reindekseerin..." : "Reindekseeri"}
-                    </button>
-                    <button
-                      className="btn-base rag-btn rag-btn--danger rag-btn--compact"
-                      onClick={() => handleDelete(doc.id)}
-                      disabled={deletingId === doc.id}
-                    >
-                      {deletingId === doc.id ? "Kustutan..." : "Kustuta"}
-                    </button>
-                    <button
-                      className="btn-base rag-btn rag-btn--ghost rag-btn--compact"
-                      onClick={() => viewSource(doc)}
-                      disabled={!doc.source_path && !doc.url}
-                    >
-                      Vaata
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          {!visibleDocs.length ? (
-            <div className="rag-docs__empty">{loadingList ? "Laen andmeid..." : "Tulemusi ei leitud."}</div>
-          ) : null}
-        </div>
-
-        <div className="table-wrap">
-          <table className="rag-table">
-            <thead>
-              <tr>
-                <th className="w-checkbox">
-                  <input
-                    type="checkbox"
-                    onChange={toggleSelectAllVisible}
-                    checked={visibleDocs.length && visibleDocs.every((d) => selectedIds.has(d.id))}
-                  />
-                </th>
-                <th>Pealkiri</th>
-                <th>Rubriik</th>
-                <th>Autorid</th>
-                <th>Aasta / nr</th>
-                <th>Sihtrühm</th>
-                <th>Sildid</th>
-                <th>Lehekülg</th>
-                <th>Staatus</th>
-                <th>Tegevused</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div className="rag-docs__layout">
+            <div className="rag-docs__list">
               {visibleDocs.map((doc) => {
                 const status = deriveStatus(doc);
                 const syncedAt = deriveSyncedAt(doc);
+                const isSelected = selectedIds.has(doc.id);
+                const isActive = doc.id === previewId;
                 return (
-                  <tr key={doc.id || doc._idx} onClick={() => openDetail(doc)}>
-                    <td onClick={(e) => e.stopPropagation()}>
-                      <input type="checkbox" checked={selectedIds.has(doc.id)} onChange={() => toggleSelect(doc.id)} />
-                    </td>
-                    <td className="col-title">
-                      <div className="cell-title">{doc.title || "(pealkiri puudub)"}</div>
-                      {doc.description ? <div className="cell-desc">{doc.description}</div> : null}
-                    </td>
-                    <td>{doc.section || "-"}</td>
-                    <td>{(doc.authors || []).join(", ") || "-"}</td>
-                    <td>
-                      {doc.year || "-"}
-                      {doc.issueLabel ? ` / ${doc.issueLabel}` : ""}
-                    </td>
-                    <td>{getAudienceLabel(doc.audience)}</td>
-                    <td className="col-tags">{renderTags(doc.tags)}</td>
-                    <td>{doc.pageRange || ""}</td>
-                    <td>
-                      <span className={STATUS_CLASSES[status] || "badge"}>{STATUS_LABELS[status] || status}</span>
-                      <div className="cell-sub">{syncedAt ? formatDateTime(syncedAt) : ""}</div>
-                    </td>
-                    <td onClick={(e) => e.stopPropagation()}>
-                      <div className="cell-actions">
-                        <button className="btn-base rag-btn rag-btn--ghost rag-btn--compact" onClick={() => openDetail(doc)}>
+                  <div
+                    key={doc.id || doc._idx}
+                    className={`rag-doc-item${isActive ? " is-active" : ""}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isActive}
+                    onClick={() => setPreviewId(doc.id)}
+                    onKeyDown={(e) => {
+                      if (e.target !== e.currentTarget) return;
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setPreviewId(doc.id);
+                      }
+                    }}
+                  >
+                    <div className="rag-doc-item__select" onClick={(e) => e.stopPropagation()}>
+                      <input type="checkbox" checked={isSelected} onChange={() => toggleSelect(doc.id)} />
+                    </div>
+                    <div className="rag-doc-item__main">
+                      <div className="rag-doc-item__title">{doc.title || "(pealkiri puudub)"}</div>
+                      <div className="rag-doc-item__meta">
+                        <span className={STATUS_CLASSES[status] || "badge"}>{STATUS_LABELS[status] || status}</span>
+                        {doc.section ? <span>{doc.section}</span> : null}
+                        {doc.year ? <span>{doc.year}</span> : null}
+                        {doc.issueLabel ? <span>nr {doc.issueLabel}</span> : null}
+                      </div>
+                    </div>
+                    {syncedAt ? <div className="rag-doc-item__time">{formatDateTime(syncedAt)}</div> : null}
+                  </div>
+                );
+              })}
+              {!visibleDocs.length ? (
+                <div className="rag-docs__empty">{loadingList ? "Laen andmeid..." : "Tulemusi ei leitud."}</div>
+              ) : null}
+            </div>
+            <div className="rag-docs__detail">
+              {previewDoc ? (
+                (() => {
+                  const status = deriveStatus(previewDoc);
+                  const syncedAt = deriveSyncedAt(previewDoc);
+                  const pageLabel = previewDoc.pageRange || formatPdfRange(previewDoc) || "-";
+                  const source = previewDoc.source_path || previewDoc.source_url || previewDoc.url || "";
+                  const typeLabel = (previewDoc.source_type || previewDoc.type || "").toString().toUpperCase();
+                  return (
+                    <div className="rag-doc-detail">
+                      <div className="rag-doc-detail__top">
+                        <div>
+                          <div className="rag-doc-detail__title">{previewDoc.title || "(pealkiri puudub)"}</div>
+                          {previewDoc.description ? (
+                            <div className="rag-doc-detail__desc">{previewDoc.description}</div>
+                          ) : null}
+                        </div>
+                        <div className="rag-doc-detail__status">
+                          <span className={STATUS_CLASSES[status] || "badge"}>{STATUS_LABELS[status] || status}</span>
+                          {syncedAt ? <span className="rag-doc-detail__time">{formatDateTime(syncedAt)}</span> : null}
+                        </div>
+                      </div>
+                      <div className="rag-doc-detail__meta">
+                        <div className="rag-doc-detail__meta-item">
+                          <span className="rag-doc-detail__meta-label">Rubriik</span>
+                          <span className="rag-doc-detail__meta-value">{previewDoc.section || "-"}</span>
+                        </div>
+                        <div className="rag-doc-detail__meta-item">
+                          <span className="rag-doc-detail__meta-label">Autorid</span>
+                          <span className="rag-doc-detail__meta-value">{(previewDoc.authors || []).join(", ") || "-"}</span>
+                        </div>
+                        <div className="rag-doc-detail__meta-item">
+                          <span className="rag-doc-detail__meta-label">Aasta / nr</span>
+                          <span className="rag-doc-detail__meta-value">
+                            {previewDoc.year || "-"}
+                            {previewDoc.issueLabel ? ` / ${previewDoc.issueLabel}` : ""}
+                          </span>
+                        </div>
+                        <div className="rag-doc-detail__meta-item">
+                          <span className="rag-doc-detail__meta-label">Sihtrühm</span>
+                          <span className="rag-doc-detail__meta-value">{getAudienceLabel(previewDoc.audience)}</span>
+                        </div>
+                        <div className="rag-doc-detail__meta-item">
+                          <span className="rag-doc-detail__meta-label">Lehekülg</span>
+                          <span className="rag-doc-detail__meta-value">{pageLabel}</span>
+                        </div>
+                        <div className="rag-doc-detail__meta-item">
+                          <span className="rag-doc-detail__meta-label">DocId</span>
+                          <span className="rag-doc-detail__meta-value">{previewDoc.docId || previewDoc.id || "-"}</span>
+                        </div>
+                        {previewDoc.journalTitle ? (
+                          <div className="rag-doc-detail__meta-item">
+                            <span className="rag-doc-detail__meta-label">Väljaanne</span>
+                            <span className="rag-doc-detail__meta-value">{previewDoc.journalTitle}</span>
+                          </div>
+                        ) : null}
+                        {previewDoc.language ? (
+                          <div className="rag-doc-detail__meta-item">
+                            <span className="rag-doc-detail__meta-label">Keel</span>
+                            <span className="rag-doc-detail__meta-value">{previewDoc.language}</span>
+                          </div>
+                        ) : null}
+                        {typeLabel ? (
+                          <div className="rag-doc-detail__meta-item">
+                            <span className="rag-doc-detail__meta-label">Tüüp</span>
+                            <span className="rag-doc-detail__meta-value">{typeLabel}</span>
+                          </div>
+                        ) : null}
+                        {previewDoc.articleId ? (
+                          <div className="rag-doc-detail__meta-item">
+                            <span className="rag-doc-detail__meta-label">ArticleId</span>
+                            <span className="rag-doc-detail__meta-value">{previewDoc.articleId}</span>
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="rag-doc-detail__tags">
+                        <span className="rag-doc-detail__meta-label">Sildid</span>
+                        {renderTags(previewDoc.tags)}
+                      </div>
+                      {source ? (
+                        <div className="rag-doc-detail__source">
+                          <span className="rag-doc-detail__meta-label">Allikas</span>
+                          <span className="rag-doc-detail__source-text">{source}</span>
+                        </div>
+                      ) : null}
+                      <div className="rag-doc-detail__actions">
+                        <button className="btn-base rag-btn rag-btn--ghost rag-btn--compact" onClick={() => openDetail(previewDoc)}>
                           Muuda
                         </button>
                         <button
                           className="btn-base rag-btn rag-btn--ghost rag-btn--compact"
-                          onClick={() => handleReindex(doc.id)}
-                          disabled={reindexingId === doc.id}
+                          onClick={() => handleReindex(previewDoc.id)}
+                          disabled={reindexingId === previewDoc.id}
                         >
-                          {reindexingId === doc.id ? "Reindekseerin..." : "Reindekseeri"}
+                          {reindexingId === previewDoc.id ? "Reindekseerin..." : "Reindekseeri"}
                         </button>
                         <button
                           className="btn-base rag-btn rag-btn--danger rag-btn--compact"
-                          onClick={() => handleDelete(doc.id)}
-                          disabled={deletingId === doc.id}
+                          onClick={() => handleDelete(previewDoc.id)}
+                          disabled={deletingId === previewDoc.id}
                         >
-                          {deletingId === doc.id ? "Kustutan..." : "Kustuta"}
+                          {deletingId === previewDoc.id ? "Kustutan..." : "Kustuta"}
                         </button>
                         <button
                           className="btn-base rag-btn rag-btn--ghost rag-btn--compact"
-                          onClick={() => viewSource(doc)}
-                          disabled={!doc.source_path && !doc.url}
+                          onClick={() => viewSource(previewDoc)}
+                          disabled={!previewDoc.source_path && !previewDoc.url}
                         >
                           Vaata
                         </button>
                       </div>
-                    </td>
-                  </tr>
-                );
-              })}
-              {!visibleDocs.length ? (
-                <tr>
-                  <td colSpan={10} className="text-center">
-                    {loadingList ? "Laen andmeid..." : "Tulemusi ei leitud."}
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </table>
+                    </div>
+                  );
+                })()
+              ) : (
+                <div className="rag-doc-detail__empty">Vali materjal, et näha detaile.</div>
+              )}
+            </div>
+          </div>
         </div>
+
         {visibleCount < filteredDocs.length ? (
           <div className="row-gap">
             <button className="btn-base rag-btn" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
@@ -1572,3 +1538,4 @@ export default function RagAdminPanel() {
 }
 
 /* Stiiliklassid on app/globals.css failis. */
+

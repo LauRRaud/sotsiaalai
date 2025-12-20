@@ -543,7 +543,7 @@ export default function ProfiilBody({ initialProfile = null }) {
               baseItemSize={56}
               magnification={66}
               distance={140}
-              spring={{ mass: 0.6, stiffness: 90, damping: 24 }}
+              spring={{ mass: 0.28, stiffness: 190, damping: 18 }}
               labelOffset={6}
               className="profile-email-dock"
               staticHeight

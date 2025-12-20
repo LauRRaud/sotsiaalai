@@ -4,7 +4,7 @@
 
 'use client';
 
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 
 import './Dock.css';
@@ -87,25 +87,25 @@ function DockLabel({ children, className = '', offset = 10, ...rest }) {
   }, [isHovered]);
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: -offset }}
-          exit={{
-            opacity: 0,
-            y: 6,
-            transition: { duration: 0.18, ease: [0.2, 0.8, 0.2, 1] },
-          }}
-          transition={{ duration: 0.42, delay: 0.06, ease: [0.2, 0.8, 0.2, 1] }}
-          className={`dock-label ${className}`}
-          role="tooltip"
-          style={{ x: '-50%' }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <motion.div
+      initial={false}
+      animate={{
+        opacity: isVisible ? 1 : 0,
+        y: isVisible ? -offset : 6,
+        scale: isVisible ? 1 : 0.96,
+      }}
+      transition={{
+        duration: isVisible ? 0.44 : 0.28,
+        delay: isVisible ? 0.06 : 0,
+        ease: [0.2, 0.8, 0.2, 1],
+      }}
+      className={`dock-label ${className}`}
+      role="tooltip"
+      aria-hidden={!isVisible}
+      style={{ x: '-50%', pointerEvents: 'none' }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
