@@ -165,12 +165,12 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="rag-admin analytics-admin">
-      <div className="analytics-hero">
-        <div className="analytics-hero__text">
-          <h1 className="analytics-title">Analüütika</h1>
-          <p className="analytics-subtitle">Viimase 30 päeva koondvaade vestluspäringutest, RAG-ist ja maksetest.</p>
+      <div className="rag-card-head analytics-head">
+        <div>
+          <h1 className="title">Analüütika</h1>
+          <div className="rag-card-sub">Viimase 30 päeva koondvaade vestluspäringutest, RAG-ist ja maksetest.</div>
         </div>
-        <div className="analytics-hero__actions">
+        <div className="rag-card-actions">
           <button className="btn-base rag-btn" onClick={refresh} disabled={loadingSummary || loadingEvents}>
             {loadingSummary || loadingEvents ? "Laen..." : "Värskenda"}
           </button>

@@ -967,7 +967,7 @@ export default function RagAdminPanel() {
                 Kontrolli meta JSON
               </button>
               <button type="submit" className="btn-base rag-btn rag-btn--primary" disabled={pdfMetaBusy}>
-                {pdfMetaBusy ? "Saadan..." : "Saada PDF meta'ga"}
+                {pdfMetaBusy ? "Saadan..." : "Saada PDF meta-ga"}
               </button>
             </div>
             {metaCheck ? (
@@ -1044,7 +1044,7 @@ export default function RagAdminPanel() {
               <div>
                 <div className="rag-meta-panel__title">Meta JSON mallid</div>
                 <div className="rag-meta-panel__note">
-                  Platvorm ootab ühte JSON objekti iga ingest'i kohta. Eri materjalidele kasuta eraldi JSON faile. Mitme
+                  Platvorm ootab ühte JSON objekti iga ingestimise kohta. Eri materjalidele kasuta eraldi JSON faile. Mitme
                   artikliga PDF-i puhul kasuta /ingest/articles.
                 </div>
               </div>
