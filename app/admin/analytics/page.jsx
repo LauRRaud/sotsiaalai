@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Analytics · SotsiaalAI",
+  title: "Analytics - SotsiaalAI",
   robots: { index: false, follow: false, nocache: true },
 };
 

@@ -1,0 +1,28 @@
+{
+  "docId": "DOC-2024-014",
+  "articles": [
+    {
+      "title": "Koduhoolduse teenus",
+      "description": "Ülevaade teenuse tingimustest.",
+      "authors": ["Eesnimi Perenimi"],
+      "section": "Teenused",
+      "year": 2024,
+      "journalTitle": "Vallaleht",
+      "issueLabel": "2024-01",
+      "articleId": "ART-014",
+      "audience": "SOCIAL_WORKER",
+      "tags": ["koduhooldus", "teenused"],
+      "pageRange": "12-18"
+    },
+    {
+      "title": "Toetused ja nõuded",
+      "description": "Lühiülevaade toetuste tingimustest.",
+      "section": "Toetused",
+      "year": 2024,
+      "audience": "CLIENT",
+      "tags": ["toetus", "tingimused"],
+      "startPage": 19,
+      "endPage": 21
+    }
+  ]
+}

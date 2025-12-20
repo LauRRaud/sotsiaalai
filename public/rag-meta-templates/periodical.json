@@ -1,0 +1,19 @@
+{
+  "docId": "DOC-2024-014",
+  "title": "Koduhoolduse teenus",
+  "description": "Ülevaade koduhoolduse teenuse tingimustest.",
+  "authors": ["Eesnimi Perenimi"],
+  "section": "Teenused",
+  "year": 2024,
+  "audience": "SOCIAL_WORKER",
+  "tags": ["koduhooldus", "teenused"],
+  "language": "et",
+  "journalTitle": "Vallaleht",
+  "issueLabel": "2024-01",
+  "issueId": "VL-2024-01",
+  "articleId": "ART-014",
+  "pageRange": "12-18",
+  "pdf_start_page": 12,
+  "pdf_end_page": 18,
+  "source_type": "file"
+}

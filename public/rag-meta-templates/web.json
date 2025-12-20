@@ -1,0 +1,12 @@
+{
+  "docId": "WEB-2024-010",
+  "title": "Toetuste taotlemine",
+  "description": "Kodulehe juhis toetuse taotlemiseks.",
+  "section": "Toetused",
+  "year": 2024,
+  "audience": "CLIENT",
+  "tags": ["toetus", "taotlus"],
+  "language": "et",
+  "source_type": "url",
+  "source_url": "https://example.com/toetused"
+}

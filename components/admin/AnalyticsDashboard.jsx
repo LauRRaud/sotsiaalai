@@ -1,20 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const EVENT_OPTIONS = [
-  "chat_request",
-  "rag_search",
-  "no_context",
-  "crisis_detected",
-  "rag_error",
-  "openai_error",
+  { value: "chat_request", label: "Vestluspäring" },
+  { value: "rag_search", label: "RAG otsing" },
+  { value: "no_context", label: "Ilma kontekstita" },
+  { value: "crisis_detected", label: "Kriis tuvastatud" },
+  { value: "rag_error", label: "RAG viga" },
+  { value: "openai_error", label: "OpenAI viga" },
 ];
+
+const EVENT_LABELS = EVENT_OPTIONS.reduce((acc, entry) => {
+  acc[entry.value] = entry.label;
+  return acc;
+}, {});
+
+const STATUS_LABELS = {
+  PENDING: "Ootel",
+  PROCESSING: "Töös",
+  COMPLETED: "Valmis",
+  FAILED: "Ebaõnnestus",
+};
+
+const AUDIENCE_LABELS = {
+  SOCIAL_WORKER: "Sotsiaaltöö spetsialist",
+  CLIENT: "Eluküsimusega pöörduja",
+  BOTH: "Mõlemad",
+};
 
 const toNumber = (value) => {
   const n = typeof value === "string" ? Number(value) : typeof value === "number" ? value : Number(value || 0);
   return Number.isFinite(n) ? n : 0;
+};
+
+const formatCount = (value) => {
+  const n = toNumber(value);
+  try {
+    return new Intl.NumberFormat("et-EE").format(n);
+  } catch {
+    return String(n);
+  }
 };
 
 const formatMoney = (amount, currency = "EUR") => {
@@ -26,21 +53,21 @@ const formatMoney = (amount, currency = "EUR") => {
   }
 };
 
-const joinCounts = (obj = {}, order = []) => {
+const joinCounts = (obj = {}, order = [], labels = {}) => {
   const keys = order.length ? order : Object.keys(obj || {});
   const parts = [];
   for (const k of keys) {
     if (obj?.[k] == null) continue;
-    parts.push(`${k}: ${obj[k]}`);
+    parts.push(`${labels[k] || k}: ${obj[k]}`);
   }
-  return parts.join(" · ");
+  return parts.join(" | ");
 };
 
 const formatDate = (iso) => {
   try {
     return new Intl.DateTimeFormat("et-EE", { dateStyle: "short", timeStyle: "short" }).format(new Date(iso));
   } catch {
-    return iso;
+    return iso || "-";
   }
 };
 
@@ -52,6 +79,9 @@ export default function AnalyticsDashboard() {
   const [eventFilter, setEventFilter] = useState("all");
   const [isCrisisFilter, setIsCrisisFilter] = useState("all");
   const [error, setError] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refresh = useCallback(() => setRefreshKey((v) => v + 1), []);
 
   useEffect(() => {
     const loadSummary = async () => {
@@ -69,7 +99,7 @@ export default function AnalyticsDashboard() {
       }
     };
     loadSummary();
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -91,7 +121,7 @@ export default function AnalyticsDashboard() {
       }
     };
     loadEvents();
-  }, [eventFilter, isCrisisFilter]);
+  }, [eventFilter, isCrisisFilter, refreshKey]);
 
   const groundingSummary = useMemo(() => {
     if (!summary?.averages?.groundingDistribution) return null;
@@ -105,6 +135,14 @@ export default function AnalyticsDashboard() {
     };
   }, [summary]);
 
+  const requestSplit = useMemo(() => {
+    const total = summary?.totalRequests || 0;
+    if (!total) return null;
+    const rag = Math.round((100 * (summary?.ragSearchCount || 0)) / total);
+    const noContext = Math.round((100 * (summary?.noContextCount || 0)) / total);
+    return { rag, noContext };
+  }, [summary]);
+
   const filteredEvents = useMemo(() => {
     return events.filter((e) => {
       if (eventFilter !== "all" && e.event !== eventFilter) return false;
@@ -116,95 +154,127 @@ export default function AnalyticsDashboard() {
 
   const metaSummary = (data = {}) => {
     const parts = [];
-    if (typeof data.ragMatchCount === "number") parts.push(`matše: ${data.ragMatchCount}`);
+    if (typeof data.ragMatchCount === "number") parts.push(`tabamusi: ${data.ragMatchCount}`);
     if (typeof data.groupCount === "number") parts.push(`grupid: ${data.groupCount}`);
     if (typeof data.grounding === "string") parts.push(`grounding: ${data.grounding}`);
     if (typeof data.chosenGroupCount === "number") parts.push(`valik: ${data.chosenGroupCount}`);
     if (typeof data.isCrisis === "boolean") parts.push(`kriis: ${data.isCrisis ? "jah" : "ei"}`);
     if (typeof data.hasHistory === "boolean") parts.push(`ajalugu: ${data.hasHistory ? "jah" : "ei"}`);
-    return parts.join(" · ");
+    return parts.join(" | ");
   };
 
   return (
-    <div className="rag-admin" style={{ gap: 20 }}>
-      <div className="flex-row space-between">
-        <h1 className="title">Analytics</h1>
-        <Link href="/admin/rag" className="btn" prefetch={false}>
-          RAG haldus
-        </Link>
+    <div className="rag-admin analytics-admin">
+      <div className="analytics-hero">
+        <div className="analytics-hero__text">
+          <h1 className="analytics-title">Analüütika</h1>
+          <p className="analytics-subtitle">Viimase 30 päeva koondvaade vestluspäringutest, RAG-ist ja maksetest.</p>
+        </div>
+        <div className="analytics-hero__actions">
+          <button className="btn-base rag-btn" onClick={refresh} disabled={loadingSummary || loadingEvents}>
+            {loadingSummary || loadingEvents ? "Laen..." : "Värskenda"}
+          </button>
+          <Link href="/admin/rag" className="btn-base rag-btn rag-btn--primary" prefetch={false}>
+            RAG haldus
+          </Link>
+        </div>
       </div>
 
       {error ? <div className="alert alert-error">{error}</div> : null}
 
-      <div className="ingest-grid">
-        <div className="card">
+      <div className="analytics-kpi-grid">
+        <div className="card analytics-card">
           <div className="card-title">Päringud (30p)</div>
-          <div className="title">{loadingSummary ? "…" : summary?.totalRequests ?? 0}</div>
+          <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.totalRequests ?? 0)}</div>
+          <div className="analytics-meta">Kokku vestluspäringuid</div>
         </div>
-        <div className="card">
+        <div className="card analytics-card">
           <div className="card-title">RAG otsingud</div>
-          <div className="title">{loadingSummary ? "…" : summary?.ragSearchCount ?? 0}</div>
+          <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragSearchCount ?? 0)}</div>
+          <div className="analytics-meta">
+            {requestSplit ? `Osakaal ${requestSplit.rag}%` : "Osakaal puudub"}
+          </div>
         </div>
-        <div className="card">
-          <div className="card-title">No-context</div>
-          <div className="title">{loadingSummary ? "…" : summary?.noContextCount ?? 0}</div>
+        <div className="card analytics-card">
+          <div className="card-title">Ilma kontekstita</div>
+          <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.noContextCount ?? 0)}</div>
+          <div className="analytics-meta">
+            {requestSplit ? `Osakaal ${requestSplit.noContext}%` : "Osakaal puudub"}
+          </div>
         </div>
-        <div className="card">
+        <div className="card analytics-card">
           <div className="card-title">Kriis</div>
-          <div className="title">{loadingSummary ? "…" : summary?.totalCrisis ?? 0}</div>
+          <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.totalCrisis ?? 0)}</div>
+          <div className="analytics-meta">Kriisitugevus tuvastatud</div>
         </div>
-        <div className="card">
+        <div className="card analytics-card">
           <div className="card-title">Keskmised (RAG)</div>
-          <div className="muted">
+          <div className="analytics-meta">
             {loadingSummary
-              ? "…"
-              : `matše ${summary?.averages?.avgRagMatchCount?.toFixed?.(1) || "0"}, grupid ${summary?.averages?.avgGroupCount?.toFixed?.(1) || "0"}, valik ${summary?.averages?.avgChosenGroupCount?.toFixed?.(1) || "0"}`}
+              ? "Laen..."
+              : `Tabamusi ${summary?.averages?.avgRagMatchCount?.toFixed?.(1) || "0"}, grupid ${summary?.averages?.avgGroupCount?.toFixed?.(1) || "0"}, valik ${summary?.averages?.avgChosenGroupCount?.toFixed?.(1) || "0"}`}
           </div>
         </div>
-        <div className="card">
+        <div className="card analytics-card">
           <div className="card-title">Grounding</div>
-          <div className="muted">
-            {groundingSummary
-              ? `strong ${groundingSummary.strong}% · ok ${groundingSummary.ok}% · weak ${groundingSummary.weak}%`
-              : loadingSummary
-              ? "…"
-              : "–"}
-          </div>
+          {groundingSummary ? (
+            <>
+              <div className="analytics-bar">
+                <span className="analytics-bar__segment analytics-bar__segment--strong" style={{ width: `${groundingSummary.strong}%` }} />
+                <span className="analytics-bar__segment analytics-bar__segment--ok" style={{ width: `${groundingSummary.ok}%` }} />
+                <span className="analytics-bar__segment analytics-bar__segment--weak" style={{ width: `${groundingSummary.weak}%` }} />
+              </div>
+              <div className="analytics-meta">
+                Tugev {groundingSummary.strong}% | OK {groundingSummary.ok}% | Nõrk {groundingSummary.weak}%
+              </div>
+            </>
+          ) : (
+            <div className="analytics-meta">{loadingSummary ? "Laen..." : "-"}</div>
+          )}
         </div>
       </div>
 
       <div className="card">
-        <div className="card-title">RAG dokumendibaas</div>
-        <div className="ingest-grid" style={{ marginTop: 12 }}>
-          <div className="card">
+        <div className="rag-card-head">
+          <div>
+            <div className="card-title">RAG dokumendibaas</div>
+            <div className="rag-card-sub">Ülevaade indekseerimisest ja värsketest lisandustest.</div>
+          </div>
+        </div>
+        <div className="analytics-kpi-grid" style={{ marginTop: 12 }}>
+          <div className="card analytics-card">
             <div className="card-title">Dokumente kokku</div>
-            <div className="title">{loadingSummary ? "…" : summary?.ragDocs?.total ?? 0}</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.total ?? 0)}</div>
           </div>
-          <div className="card">
-            <div className="card-title">FAILED</div>
-            <div className="title">{loadingSummary ? "…" : summary?.ragDocs?.failed ?? 0}</div>
+          <div className="card analytics-card">
+            <div className="card-title">Ebaõnnestunud</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.failed ?? 0)}</div>
           </div>
-          <div className="card">
+          <div className="card analytics-card">
             <div className="card-title">Veaga (30p)</div>
-            <div className="title">{loadingSummary ? "…" : summary?.ragDocs?.error30d ?? 0}</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.error30d ?? 0)}</div>
           </div>
-          <div className="card">
-            <div className="card-title">Statused</div>
-            <div className="muted">
+          <div className="card analytics-card">
+            <div className="card-title">Staatused</div>
+            <div className="analytics-meta">
               {loadingSummary
-                ? "…"
-                : joinCounts(summary?.ragDocs?.byStatus, ["PENDING", "PROCESSING", "COMPLETED", "FAILED"]) || "—"}
+                ? "Laen..."
+                : joinCounts(summary?.ragDocs?.byStatus, ["PENDING", "PROCESSING", "COMPLETED", "FAILED"], STATUS_LABELS) || "-"}
             </div>
           </div>
-          <div className="card">
-            <div className="card-title">Auditoorium</div>
-            <div className="muted">
-              {loadingSummary ? "…" : joinCounts(summary?.ragDocs?.byAudience, ["CLIENT", "SOCIAL_WORKER", "BOTH"]) || "—"}
+          <div className="card analytics-card">
+            <div className="card-title">Sihtrühm</div>
+            <div className="analytics-meta">
+              {loadingSummary
+                ? "Laen..."
+                : joinCounts(summary?.ragDocs?.byAudience, ["CLIENT", "SOCIAL_WORKER", "BOTH"], AUDIENCE_LABELS) || "-"}
             </div>
           </div>
-          <div className="card">
+          <div className="card analytics-card">
             <div className="card-title">Tüüp</div>
-            <div className="muted">{loadingSummary ? "…" : joinCounts(summary?.ragDocs?.byType, ["FILE", "URL"]) || "—"}</div>
+            <div className="analytics-meta">
+              {loadingSummary ? "Laen..." : joinCounts(summary?.ragDocs?.byType, ["FILE", "URL"]) || "-"}
+            </div>
           </div>
         </div>
 
@@ -214,16 +284,16 @@ export default function AnalyticsDashboard() {
               <tr>
                 <th>Aeg</th>
                 <th>Pealkiri</th>
-                <th>Status</th>
+                <th>Staatus</th>
                 <th>Tüüp</th>
-                <th>Auditoorium</th>
+                <th>Sihtrühm</th>
                 <th>Allikas</th>
               </tr>
             </thead>
             <tbody>
               {loadingSummary ? (
                 <tr>
-                  <td colSpan={6}>Laen…</td>
+                  <td colSpan={6}>Laen...</td>
                 </tr>
               ) : (summary?.ragDocs?.recent || []).length ? (
                 (summary?.ragDocs?.recent || []).map((d) => {
@@ -232,10 +302,10 @@ export default function AnalyticsDashboard() {
                     <tr key={d.id}>
                       <td>{formatDate(d.insertedAt || d.createdAt)}</td>
                       <td className="cell-sub">{d.title || "(pealkirjata)"}</td>
-                      <td>{d.status}</td>
+                      <td>{STATUS_LABELS[d.status] || d.status}</td>
                       <td>{d.type}</td>
-                      <td>{d.audience}</td>
-                      <td className="cell-sub">{source ? source.slice(0, 80) : "—"}</td>
+                      <td>{AUDIENCE_LABELS[d.audience] || d.audience || "-"}</td>
+                      <td className="cell-sub">{source ? source.slice(0, 80) : "-"}</td>
                     </tr>
                   );
                 })
@@ -250,31 +320,36 @@ export default function AnalyticsDashboard() {
       </div>
 
       <div className="card">
-        <div className="card-title">Tellimused ja maksed</div>
-        <div className="ingest-grid" style={{ marginTop: 12 }}>
-          <div className="card">
+        <div className="rag-card-head">
+          <div>
+            <div className="card-title">Tellimused ja maksed</div>
+            <div className="rag-card-sub">Maksevood ja tellimuste aktiivsus viimase 30 päeva lõikes.</div>
+          </div>
+        </div>
+        <div className="analytics-kpi-grid" style={{ marginTop: 12 }}>
+          <div className="card analytics-card">
             <div className="card-title">Aktiivsed tellimused</div>
-            <div className="title">{loadingSummary ? "…" : summary?.billing?.activeSubscriptions ?? 0}</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.activeSubscriptions ?? 0)}</div>
           </div>
-          <div className="card">
+          <div className="card analytics-card">
             <div className="card-title">Uued tellimused (30p)</div>
-            <div className="title">{loadingSummary ? "…" : summary?.billing?.newSubscriptions30d ?? 0}</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.newSubscriptions30d ?? 0)}</div>
           </div>
-          <div className="card">
+          <div className="card analytics-card">
             <div className="card-title">Tühistamised (30p)</div>
-            <div className="title">{loadingSummary ? "…" : summary?.billing?.canceledSubscriptions30d ?? 0}</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.canceledSubscriptions30d ?? 0)}</div>
           </div>
-          <div className="card">
+          <div className="card analytics-card">
             <div className="card-title">Makse staatused (30p)</div>
-            <div className="muted">
+            <div className="analytics-meta">
               {loadingSummary
-                ? "…"
-                : joinCounts(summary?.billing?.paymentsByStatus30d, ["PAID", "INITIATED", "FAILED", "CANCELED", "REFUNDED"]) || "—"}
+                ? "Laen..."
+                : joinCounts(summary?.billing?.paymentsByStatus30d, ["PAID", "INITIATED", "FAILED", "CANCELED", "REFUNDED"]) || "-"}
             </div>
           </div>
-          <div className="card">
+          <div className="card analytics-card">
             <div className="card-title">Laekunud (PAID 30p)</div>
-            <div className="title">{loadingSummary ? "…" : formatMoney(summary?.billing?.paidAmount30d ?? "0", "EUR")}</div>
+            <div className="analytics-value">{loadingSummary ? "Laen..." : formatMoney(summary?.billing?.paidAmount30d ?? "0", "EUR")}</div>
           </div>
         </div>
 
@@ -283,7 +358,7 @@ export default function AnalyticsDashboard() {
             <thead>
               <tr>
                 <th>Aeg</th>
-                <th>Status</th>
+                <th>Staatus</th>
                 <th>Summa</th>
                 <th>Provider</th>
                 <th>PaidAt</th>
@@ -292,7 +367,7 @@ export default function AnalyticsDashboard() {
             <tbody>
               {loadingSummary ? (
                 <tr>
-                  <td colSpan={5}>Laen…</td>
+                  <td colSpan={5}>Laen...</td>
                 </tr>
               ) : (summary?.billing?.recentPayments || []).length ? (
                 (summary?.billing?.recentPayments || []).map((p) => (
@@ -301,7 +376,7 @@ export default function AnalyticsDashboard() {
                     <td>{p.status}</td>
                     <td>{formatMoney(p.amount, p.currency || "EUR")}</td>
                     <td>{p.provider}</td>
-                    <td>{p.paidAt ? formatDate(p.paidAt) : "—"}</td>
+                    <td>{p.paidAt ? formatDate(p.paidAt) : "-"}</td>
                   </tr>
                 ))
               ) : (
@@ -315,13 +390,18 @@ export default function AnalyticsDashboard() {
       </div>
 
       <div className="card">
-        <div className="card-title">Logid</div>
-        <div className="rag-toolbar">
+        <div className="rag-card-head">
+          <div>
+            <div className="card-title">Logid</div>
+            <div className="rag-card-sub">Viimased 100 sündmust koos filtritega.</div>
+          </div>
+        </div>
+        <div className="rag-toolbar" style={{ marginTop: 8 }}>
           <select className="input" value={eventFilter} onChange={(e) => setEventFilter(e.target.value)}>
             <option value="all">Kõik sündmused</option>
             {EVENT_OPTIONS.map((ev) => (
-              <option key={ev} value={ev}>
-                {ev}
+              <option key={ev.value} value={ev.value}>
+                {ev.label}
               </option>
             ))}
           </select>
@@ -337,7 +417,7 @@ export default function AnalyticsDashboard() {
             <thead>
               <tr>
                 <th>Aeg</th>
-                <th>Event</th>
+                <th>Sündmus</th>
                 <th>Roll</th>
                 <th>Kriis</th>
                 <th>Meta</th>
@@ -346,14 +426,14 @@ export default function AnalyticsDashboard() {
             <tbody>
               {loadingEvents ? (
                 <tr>
-                  <td colSpan={5}>Laen…</td>
+                  <td colSpan={5}>Laen...</td>
                 </tr>
               ) : filteredEvents.length ? (
                 filteredEvents.map((row) => (
                   <tr key={row.id}>
                     <td>{formatDate(row.createdAt)}</td>
-                    <td>{row.event}</td>
-                    <td>{row.role || "–"}</td>
+                    <td>{EVENT_LABELS[row.event] || row.event}</td>
+                    <td>{row.role || "-"}</td>
                     <td>{row?.data?.isCrisis ? "jah" : "ei"}</td>
                     <td className="cell-sub">{metaSummary(row.data)}</td>
                   </tr>
