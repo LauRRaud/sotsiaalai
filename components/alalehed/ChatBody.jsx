@@ -6,7 +6,6 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import Link from "next/link";
 import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
-import Toggle from "@/components/ui/Toggle";
 import InviteModal from "@/components/invite/InviteModal";
 import TopNav from "@/components/nav/TopNav";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -286,14 +285,17 @@ export default function ChatBody({ roomId = null }) {
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
+  const modeLabel = locale === "en" || locale === "ru" ? "Sources" : "Allikad";
   const combinedLabel =
-    locale === "ru"
-      ? "??????????????? (??? + ??)"
-      : locale === "en"
-      ? "Combined (doc + KB)"
-      : "Kombineeritud (dok + andmebaas)";
+    locale === "en" || locale === "ru"
+      ? "Document + knowledge base"
+      : "Dokument + teadmistebaas";
+  const docOnlyLabel = locale === "en" || locale === "ru" ? "Document only" : "Ainult dokument";
+  const contextHint = t(
+    "chat.upload.context_hint",
+    "Dokument + teadmistebaas: assistent kasutab dokumenti koos SotsiaalAI teadmistebaasiga. Ainult dokument: sisu kasutatakse ainult selles vestluses ja faili ei salvestata.",
+  );
   const isRoomMode = Boolean(roomId);
-
 
   const crisisText = t(
     "chat.crisis.notice",
@@ -1601,17 +1603,17 @@ export default function ChatBody({ roomId = null }) {
   const hasInput = Boolean(input.trim());
 
   /* ---------- Render ---------- */
-  return (
-    <>
-      <InviteModal />
-      <div
-        className="main-content glass-box chat-container"
-        role="region"
-        aria-label={t("chat.page_label", "Vestluse sisu")}
-        data-chat-bg={
-          userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
-        }
-      >
+    return (
+      <>
+        <InviteModal />
+        <div
+          className="main-content glass-box chat-container"
+          role="region"
+          aria-label={t("chat.page_label", "Vestluse sisu")}
+          data-chat-bg={
+            userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
+          }
+        >
       {/* Profiili avatar */}
       <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
         <span className="chat-avatar-abs" aria-hidden="true" />
@@ -1620,7 +1622,7 @@ export default function ChatBody({ roomId = null }) {
 
       {/* Pealkiri ja nav */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
-      <TopNav roomId={roomId} />
+      <TopNav roomId={roomId} forceChat />
 
       {/* Kriisi teavitus */}
       {isCrisis ? (
@@ -1972,30 +1974,46 @@ export default function ChatBody({ roomId = null }) {
                 {uploadPreview ? (
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <div className="chat-context-toggle chat-context-toggle--mode">
-                        <Toggle
-                          id="chat-doc-mode"
-                          checked={!docOnlyMode}
-                          onChange={(val) => setDocOnlyMode(!val)}
-                          ariaDescribedBy="chat-upload-context-hint"
-                        />
-                        <span className="chat-context-toggle__label">
-                          {!docOnlyMode ? combinedLabel : "Ainult dokument"}
-                        </span>
+                      <div id="chat-doc-mode-label" className="chat-analysis-mode-label">
+                        {modeLabel}
+                      </div>
+                      <div
+                        className="glass-radio-group chat-analysis-mode-group"
+                        role="radiogroup"
+                        aria-labelledby="chat-doc-mode-label"
+                        aria-describedby="chat-upload-context-hint"
+                      >
+                        <label>
+                          <input
+                            type="radio"
+                            name="chat-doc-mode"
+                            value="combined"
+                            checked={!docOnlyMode}
+                            onChange={() => setDocOnlyMode(false)}
+                          />
+                          <span className="glass-radio-label-text">{combinedLabel}</span>
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="chat-doc-mode"
+                            value="doc-only"
+                            checked={docOnlyMode}
+                            onChange={() => setDocOnlyMode(true)}
+                          />
+                          <span className="glass-radio-label-text">{docOnlyLabel}</span>
+                        </label>
                       </div>
                     </div>
                     <p id="chat-upload-context-hint" className="sr-only">
-                      {t(
-                        "chat.upload.context_hint",
-                        "Assistent kasutab selle dokumendi sisu sinu järgmise vastuse koostamisel (analüüsib, teeb kokkuvõtteid, tõlgib, võrdleb jm). Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile ja dokumenti ei salvestata."
-                      )}
+                      {contextHint}
                     </p>
                     {previewText ? (
                                             <div className="chat-analysis-actions chat-analysis-actions--inline">
                         <button
                           type="button"
                           className="chat-context-info chat-context-info--inline"
-                          aria-label={t("chat.upload.context_hint", "Assistent kasutab selle dokumendi sisu sinu järgmise vastuse koostamisel (analüüsib, teeb kokkuvõtteid, tõlgib, võrdleb jm). Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile ja dokumenti ei salvestata.")}
+                          aria-label={contextHint}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -2011,10 +2029,7 @@ export default function ChatBody({ roomId = null }) {
                             </svg>
                           </span>
                           <span className="chat-context-info-tooltip">
-                            {t(
-                              "chat.upload.context_hint",
-                              "Assistent kasutab selle dokumendi sisu sinu järgmise vastuse koostamisel (analüüsib, teeb kokkuvõtteid, tõlgib, võrdleb jm). Kui valik on märkimata, tuginetakse SotsiaalAI teadmistebaasile ja dokumenti ei salvestata."
-                            )}
+                            {contextHint}
                           </span>
                         </button>
                         <button

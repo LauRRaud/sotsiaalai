@@ -1,5 +1,7 @@
 "use client";
 import Image from "next/image";
+import SunIcon from "@/public/logo/sun.svg";
+import MoonIcon from "@/public/logo/kuu.svg";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -116,10 +118,24 @@ function DeleteDockIcon({ isHovered: _isHovered, ...props }) {
   );
 }
 
+function ThemeToggleIcon({ theme }) {
+  const nextIsDark = theme === "light";
+  const size = nextIsDark ? 42 : 70;
+  return (
+    <span className="sun-and-moon" aria-hidden="true">
+      {nextIsDark ? (
+        <MoonIcon width={size} height={size} className="themeIcon themeIcon-moon" />
+      ) : (
+        <SunIcon width={size} height={size} className="themeIcon themeIcon-sun" />
+      )}
+    </span>
+  );
+}
+
 export default function ProfiilBody({ initialProfile = null }) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const { prefs, openModal: openA11y } = useAccessibility();
+  const { prefs, setPrefs, openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
   const [email, setEmail] = useState(initialProfile?.email || "");
   const [initialEmail, setInitialEmail] = useState(
@@ -144,6 +160,9 @@ export default function ProfiilBody({ initialProfile = null }) {
   const isLightTheme = prefs?.theme === "light";
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const emailLabel = t("profile.email");
+  const themeToggleAria = isLightTheme
+    ? t("nav.toggle_dark", "Switch to dark mode")
+    : t("nav.toggle_light", "Switch to light mode");
 
   const profileContainerRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -368,6 +387,27 @@ export default function ProfiilBody({ initialProfile = null }) {
       ? "/logo/onoffhallhele.svg"
       : "/logo/onoffhall.svg";
 
+  const handleThemeToggle = (event) => {
+    const wantsLight = !!event?.target?.checked;
+    const nextTheme = wantsLight ? "light" : "dark";
+    setPrefs?.({ theme: nextTheme });
+  };
+
+  const themeToggleCorner = (
+    <label
+      className="themeToggle st-sunMoonThemeToggleBtn profile-theme-toggle-corner"
+      aria-label={themeToggleAria}
+    >
+      <input
+        type="checkbox"
+        className="themeToggleInput"
+        checked={isLightTheme}
+        onChange={handleThemeToggle}
+      />
+      <ThemeToggleIcon theme={isLightTheme ? "light" : "dark"} />
+    </label>
+  );
+
   const handleLogout = async () => {
     if (loggingOut) return;
     setError("");
@@ -422,14 +462,17 @@ export default function ProfiilBody({ initialProfile = null }) {
     })();
   }, [status, t, initialProfile]);
   // Parooli muutmine: suuname parooli taastamise lehele, kus küsitakse e-post
-  if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
-    return (
-      <div className="main-content glass-box glass-left profile-container" lang={locale}>
-        <h1 className="glass-title">{t("profile.title")}</h1>
-        <p style={{ padding: "1rem" }}>{t("profile.loading")}</p>
-      </div>
-    );
-  }
+    if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
+      return (
+        <div className="main-content glass-box glass-left profile-container" lang={locale}>
+          {themeToggleCorner}
+          <h1 className="glass-title">{t("profile.title")}</h1>
+          <p className="profile-loading" style={{ padding: "1rem" }}>
+            {t("profile.loading")}
+          </p>
+        </div>
+      );
+    }
   if (!isAuthed) {
     const reason = registrationReason || "not-logged-in";
     const reasonText =
@@ -439,6 +482,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     return (
       <>
         <div className="main-content glass-box glass-left profile-container" lang={locale}>
+          {themeToggleCorner}
           <h1 className="glass-title">{t("profile.title")}</h1>
           <p style={{ padding: "1rem" }}>{reasonText}</p>
           <div className="back-btn-wrapper">
@@ -464,6 +508,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         aria-labelledby="profile-title"
         lang={locale}
       >
+        {themeToggleCorner}
         <h1 id="profile-title" className="glass-title">
           {t("profile.title")}
         </h1>
@@ -486,6 +531,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       lang={locale}
       ref={profileContainerRef}
     >
+      {themeToggleCorner}
       <h1 id="profile-title" className="glass-title">
         {t("profile.title")}
       </h1>

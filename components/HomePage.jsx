@@ -12,8 +12,6 @@ import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import Image from "next/image";
-import SunIcon from "@/public/logo/päike.svg";
-import MoonIcon from "@/public/logo/kuu.svg";
 
 // Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg
 import AivalgeLogo from "@/public/logo/aivalge.svg";
@@ -22,24 +20,10 @@ import SmustLogo from "@/public/logo/smust.svg";
 import SaivalgeLogo from "@/public/logo/saivalge.svg";
 import Logomust from "@/public/logo/logomust.svg";
 
-function ThemeToggleIcon({ theme }) {
-  const nextIsDark = theme === "light";
-  const size = nextIsDark ? 42 : 70;
-  return (
-    <span className="sun-and-moon" aria-hidden="true">
-      {nextIsDark ? (
-        <MoonIcon width={size} height={size} className="themeIcon themeIcon-moon" />
-      ) : (
-        <SunIcon width={size} height={size} className="themeIcon themeIcon-sun" />
-      )}
-    </span>
-  );
-}
-
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { prefs, setPrefs } = useAccessibility();
+  const { prefs } = useAccessibility();
 
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
@@ -48,9 +32,6 @@ export default function HomePage() {
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
-
-  // Theme mirrors accessibility prefs (light/dark)
-  const [theme, setTheme] = useState(() => (prefs?.theme === "light" ? "light" : "dark"));
 
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
@@ -74,7 +55,7 @@ export default function HomePage() {
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
-  }, [theme]);
+  }, []);
 
   useEffect(() => {
     const onLeftEnd = (e) => {
@@ -126,26 +107,12 @@ export default function HomePage() {
     }
   }, [isLoginOpen, status, session, router]);
 
-  useEffect(() => {
-    const currentTheme = prefs.theme === "light" ? "light" : "dark";
-    if (theme !== currentTheme) {
-      setTheme(currentTheme);
-    }
-  }, [prefs.theme, theme]);
-
-
   const skipIntroAnimations = prefs.reduceMotion;
-  const desktopFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-top delay-1";
-  const bottomFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-1";
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
-  const themeToggleAria =
-    theme === "light"
-      ? t("nav.toggle_dark") || "Lülita tume režiim"
-      : t("nav.toggle_light") || "Lülita hele režiim";
   const flipEndMs = 1200;
 
   const onLeftEnter = () => {
@@ -175,13 +142,6 @@ export default function HomePage() {
       setRightPhase("flippingToFront");
       setTimeout(() => setRightFlipping(false), flipEndMs);
     }
-  };
-
-  const handleThemeClick = (event) => {
-    const wantsLight = !!event?.target?.checked;
-    const nextTheme = wantsLight ? "light" : "dark";
-    setTheme(nextTheme);
-    setPrefs?.({ theme: nextTheme });
   };
 
   const handleCardBackClick = (side) => (e) => {
@@ -256,22 +216,6 @@ export default function HomePage() {
   return (
     <>
       <div className="homepage-root" onClick={handleBackgroundTap}>
-        <nav className="top-center-nav" aria-label={t("nav.main")}>
-          <div className="top-center-actions">
-            <label
-              className={["top-center-link", "themeToggle", "st-sunMoonThemeToggleBtn", desktopFadeClass].filter(Boolean).join(" ")}
-              aria-label={themeToggleAria}
-            >
-              <input
-                type="checkbox"
-                className="themeToggleInput"
-                checked={theme === "light"}
-                onChange={handleThemeClick}
-              />
-              <ThemeToggleIcon theme={theme} />
-            </label>
-          </div>
-        </nav>
 
         <div className="main-content relative">
           {/* LEFT CARD */}

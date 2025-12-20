@@ -5,14 +5,20 @@ import Image from "next/image";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
 
-export default function TopNav({ roomId = null, hideChats = false }) {
+export default function TopNav({
+  roomId = null,
+  hideChats = false,
+  forceChat = false,
+  className = "",
+  style,
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { prefs } = useAccessibility();
   const { t } = useI18n();
   const isLightTheme = prefs?.theme === "light";
-  const isChatLike = pathname.startsWith("/vestlus");
-  const navIconOpacity = isLightTheme ? 0.85 : isChatLike ? 0.9 : 1;
+  const isChatLike = forceChat || pathname.startsWith("/vestlus");
+  const navIconOpacity = isLightTheme ? 0.85 : 1;
   const iconSize = isChatLike ? 36 : 28;
 
   const chatIcon = isLightTheme ? "/logo/vestlusedhele.svg" : "/logo/vestlusedtume.svg";
@@ -44,7 +50,7 @@ export default function TopNav({ roomId = null, hideChats = false }) {
   );
 
   return (
-    <nav className={`top-nav${isChatLike ? " top-nav--chat" : ""}`}>
+    <nav className={`top-nav${isChatLike ? " top-nav--chat" : ""}${className ? ` ${className}` : ""}`} style={style}>
       {!hideChats && (
         <button
           type="button"

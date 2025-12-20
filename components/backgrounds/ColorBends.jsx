@@ -25,6 +25,8 @@ uniform int   uTransparent;
 uniform float uScale;
 uniform float uFrequency;
 uniform float uWarpStrength;
+uniform float uThicknessBias;
+uniform float uEdgeTightness;
 uniform vec2  uPointer;
 uniform float uMouseInfluence;
 uniform float uParallax;
@@ -49,6 +51,9 @@ void main() {
 
   vec3 col = vec3(0.0);
   float a = 1.0;
+  float edge = smoothstep(0.35, 1.0, abs(p.x));
+  float edgeTight = mix(1.0, uEdgeTightness, edge);
+  float bias = max(uThicknessBias, 0.0);
 
   if (uColorCount > 0) {
     vec2 s = q;
@@ -71,6 +76,8 @@ void main() {
       float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
       float m1 = length(warped + sin(shared) / 4.0);
       float m  = mix(m0, m1, kMix);
+      m *= edgeTight;
+      m += bias * (1.0 - smoothstep(0.0, 0.8, m));
 
       float w = 1.0 - exp(-6.0 / exp(6.0 * m));
       sumCol += uColors[i] * w;
@@ -95,6 +102,8 @@ void main() {
       float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
       float m1 = length(warped + sin(shared) / 4.0);
       float m  = mix(m0, m1, kMix);
+      m *= edgeTight;
+      m += bias * (1.0 - smoothstep(0.0, 0.8, m));
 
       col[k] = 1.0 - exp(-6.0 / exp(6.0 * m));
     }
@@ -125,12 +134,14 @@ export default function ColorBends({
   style,
   rotation = -58,
   speed = 0.15,
-  colors = ['#2A313D'],
+  colors = ['#7e4442'],
   transparent = true,
   autoRotate = 0,
   scale = 1,
   frequency = 1,
   warpStrength = 1,
+  thicknessBias = 0.1,
+  edgeTightness = 1.45,
   mouseInfluence = 0,
   parallax = 0,
   noise = 0,
@@ -170,6 +181,8 @@ export default function ColorBends({
         uScale:          { value: scale },
         uFrequency:      { value: frequency },
         uWarpStrength:   { value: warpStrength },
+        uThicknessBias:  { value: thicknessBias },
+        uEdgeTightness:  { value: edgeTightness },
         uPointer:        { value: new THREE.Vector2(0, 0) },
         uMouseInfluence: { value: mouseInfluence },
         uParallax:       { value: parallax },
@@ -343,7 +356,7 @@ export default function ColorBends({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [frequency, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength]);
+  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength]);
 
   // props → uniforms
   useEffect(() => {
@@ -358,6 +371,8 @@ export default function ColorBends({
     material.uniforms.uScale.value          = scale;
     material.uniforms.uFrequency.value      = frequency;
     material.uniforms.uWarpStrength.value   = warpStrength;
+    material.uniforms.uThicknessBias.value  = thicknessBias;
+    material.uniforms.uEdgeTightness.value  = edgeTightness;
     material.uniforms.uMouseInfluence.value = mouseInfluence;
     material.uniforms.uParallax.value       = parallax;
     material.uniforms.uNoise.value          = noise;
@@ -379,7 +394,7 @@ export default function ColorBends({
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
 
     if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
-  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, mouseInfluence, parallax, noise, colors, transparent]);
+  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent]);
 
   // pointer throttle
   useEffect(() => {
