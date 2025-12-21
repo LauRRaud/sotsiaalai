@@ -2984,265 +2984,372 @@ width: clamp(16rem, 16vw, 17rem);
   margin-top: 3em;
   margin-bottom: 0.5em;
 }
-.glass-label-radio {
-  display: block;
-  width: 100%;
-  max-width: 25rem;
-  font-weight: 600;
-  color: var(--pt-150);
-  margin-bottom: -0.3em;
-  margin-top: 1em;
-  text-align: left;
-  font-size: 1.3em;
-  letter-spacing: 0.03em;
+/* ==============================
+   GLASS RADIO + CHECKBOX
+   2-mode: default=dark, :root.theme-light=light
+   ============================== */
+
+/* ---------- Radio label ---------- */
+.glass-label-radio{
+  display:block;
+  width:100%;
+  max-width:25rem;
+  font-weight:600;
+  color:var(--pt-150);
+  margin:1em 0 -0.3em 0;
+  text-align:left;
+  font-size:1.3em;
+  letter-spacing:0.03em;
 }
-.glass-radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75em;
-  width: 100%;
-  max-width: 25rem;
+
+/* ---------- Radio group ---------- */
+.glass-radio-group{
+  display:flex;
+  flex-direction:column;
+  gap:0.75em;
+  width:100%;
+  max-width:25rem;
 }
-.glass-radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.55em 0.75em;
-  border-radius: 0.95em;
-  border: 2px solid rgba(255,255,255,0.12);
-  font-size: 1.12em;
-  font-weight: 500;
-  color: var(--text-strong);
-  letter-spacing: 0.03em;
-  line-height: 1.35;
-  cursor: var(--cursor-pointer);
+
+.glass-radio-group label{
+  display:flex;
+  align-items:center;
+  gap:0.7em;
+  width:100%;
+  box-sizing:border-box;
+  padding:0.55em 0.75em;
+  border-radius:0.95em;
+
+  /* default = dark */
+  border:1.5px solid rgba(255,255,255,0.08);
+  background:rgba(10,14,24,0.36);
+  color:var(--pt-130);
+
+  font-size:1.12em;
+  font-weight:500;
+  letter-spacing:0.03em;
+  line-height:1.35;
+
+  cursor:var(--cursor-pointer);
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.12s ease;
+}
+
+.glass-radio-label-text{
+  flex:1 1 auto;
+  color:inherit;
+  cursor:var(--cursor-pointer);
+}
+
+.glass-radio-group label:hover{
+  background:rgba(16,20,30,0.50);
+  color:var(--pt-80);
+}
+
+.glass-radio-group label:active{
+  transform:translateY(0.5px);
+}
+
+.glass-radio-group label:has(input[type="radio"]:checked){
+  border-color:rgba(152,164,186,0.60);
+  background:rgba(50,58,72,0.48);
+  color:var(--pt-50);
+  box-shadow:0 0.5rem 1.125rem rgba(6,8,16,0.35);
+}
+
+.glass-radio-group label:has(input[type="radio"]:focus-visible){
+  border-color:rgba(165,185,210,0.70);
+  box-shadow:0 0 0 0.1875rem rgba(0,0,0,0.12);
+}
+
+/* Radio control */
+.glass-radio-group input[type="radio"]{
+  -webkit-appearance:none;
+  appearance:none;
+
+  width:1.375rem;
+  height:1.375rem;
+  flex:0 0 auto;
+  margin:0;
+
+  box-sizing:border-box;
+  border-radius:999px;
+
+  /* default = dark */
+  border:2px solid rgba(210,220,235,0.50);
+  background:rgba(20,26,38,0.60);
+  box-shadow:inset 0 0 0 1px rgba(12,19,35,0.30);
+
+  /* robust centering for the dot */
+  display:grid;
+  place-items:center;
+
+  cursor:var(--cursor-pointer);
+  transition:border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+/* Dot: smaller + centered */
+.glass-radio-group input[type="radio"]::after{
+  content:"";
+  width:0.58rem;   /* smaller */
+  height:0.58rem;  /* smaller */
+  border-radius:999px;
+  background:var(--brand-primary); /* stays your brand (red) */
+  opacity:0;
+  transform:scale(0.6);
+  transition:opacity 0.2s ease, transform 0.2s ease;
+}
+
+.glass-radio-group input[type="radio"]:hover{
+  border-color:rgba(200,214,234,0.65);
+}
+
+.glass-radio-group input[type="radio"]:focus{
+  outline:none; /* prevent browser default ring */
+}
+
+.glass-radio-group input[type="radio"]:focus-visible{
+  outline:none;
+  border-color:rgba(185,205,230,0.72);
+  box-shadow:0 0 0 0.1875rem rgba(0,0,0,0.16);
+}
+
+.glass-radio-group input[type="radio"]:checked{
+  border-color:rgba(190,210,235,0.78);
+  background:rgba(24,32,46,0.70);
+  box-shadow:inset 0 0 0 1px rgba(12,19,35,0.24);
+}
+
+.glass-radio-group input[type="radio"]:checked::after{
+  opacity:1;
+  transform:scale(1);
+}
+
+
+/* ---------- Checkbox row ---------- */
+.glass-checkbox{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:0.75em;
+
+  width:100%;
+  max-width:25rem;
+  box-sizing:border-box;
+  margin:1.2em 0;
+  padding:0.55em 0.8em;
+
+  border-radius:1em;
+
+  /* default = dark */
+  border:1.5px solid rgba(255,255,255,0.10);
+  background:rgba(10,14,24,0.34);
+  color:var(--pt-130);
+
+  font-size:1.12em;
+  line-height:1.45;
+  letter-spacing:0.01em;
+
+  cursor:var(--cursor-pointer);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    transform 0.12s ease;
+}
+
+.glass-checkbox .checkbox-text{
+  color:inherit;
+  transition:color 0.2s ease;
+  cursor:var(--cursor-pointer);
+}
+
+.glass-checkbox:hover{
+  background:rgba(16,22,34,0.46);
+}
+
+.glass-checkbox:active{
+  transform:translateY(0.5px);
+}
+
+.glass-checkbox:has(input[type="checkbox"]:checked){
+  border-color:rgba(160,180,205,0.60);
+  background:rgba(40,48,62,0.50);
+  color:var(--pt-60);
+  box-shadow:0 0.5rem 1.125rem rgba(6,8,16,0.35);
+}
+
+/* Checkbox control */
+.glass-checkbox input[type="checkbox"]{
+  -webkit-appearance:none;
+  appearance:none;
+
+  width:1.375rem;
+  height:1.375rem;
+  margin:0;
+
+  box-sizing:border-box;
+  border-radius:0.45em;
+
+  /* default = dark */
+  border:2px solid rgba(210,220,235,0.55);
+  background:rgba(20,26,38,0.60);
+
+  /* robust centering for check */
+  display:grid;
+  place-items:center;
+
+  cursor:var(--cursor-pointer);
+  transition:border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* IMPORTANT: remove browser default focus ring (often blue) */
+.glass-checkbox input[type="checkbox"]:focus{
+  outline:none;
+}
+
+/* Checkmark: single implementation (no background-image duplicates) */
+.glass-checkbox input[type="checkbox"]::after{
+  content:"";
+  width:84%;            /* smaller mark */
+  height:84%;
+  opacity:0;
+  transform:scale(0.88);
+  transition:opacity 0.18s ease, transform 0.18s ease;
+
+  /* default = dark: light checkmark */
+  background:rgba(242,242,242,0.92);
+
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 88% 88% no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 88% 88% no-repeat;
+  border-radius:0.2em;
+}
+
+.glass-checkbox input[type="checkbox"]:hover{
+  border-color:rgba(200,214,234,0.70);
+}
+
+.glass-checkbox input[type="checkbox"]:focus-visible{
+  outline:none;
+  border-color:rgba(185,205,230,0.75);
+  box-shadow:0 0 0 0.1875rem rgba(0,0,0,0.14);
+}
+
+.glass-checkbox input[type="checkbox"]:checked{
+  border-color:rgba(190,210,235,0.78);
+  background:rgba(32,40,54,0.70);
+}
+
+.glass-checkbox input[type="checkbox"]:checked::after{
+  opacity:1;
+  transform:scale(1);
+}
+
+.checkbox-text{
+  display:inline;
+  white-space:normal;
+}
+
+
+/* ==============================
+   LIGHT overrides (only diffs)
+   ============================== */
+
+/* Radio row light */
+:root.theme-light .glass-radio-group label{
+  border:2px solid rgba(255,255,255,0.12);
   background: color-mix(in srgb, #b8bcc4 76%, rgba(18, 20, 32, 0.30) 24%);
-  transition: color 0.18s ease, border-color 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-strong);
 }
-.glass-radio-label-text {
-  flex: 1 1 auto;
-  color: inherit;
-}
-.glass-radio-group label:hover {
+:root.theme-light .glass-radio-group label:hover{
   background: color-mix(in srgb, #aeb3bc 74%, rgba(18, 20, 32, 0.34) 26%);
   color: color-mix(in srgb, var(--text-strong) 78%, transparent);
 }
-.glass-radio-group label:has(input[type=radio]:checked) {
-  border-color: rgba(255,255,255,0.2);
+:root.theme-light .glass-radio-group label:has(input[type="radio"]:checked){
+  border-color: rgba(255,255,255,0.20);
   background: color-mix(in srgb, #a1a7b1 68%, rgba(18, 20, 32, 0.42) 32%);
   color: color-mix(in srgb, var(--text-strong) 82%, transparent);
   box-shadow: 0 0.5rem 1.125rem rgba(6,8,16,0.35);
 }
-.glass-radio-group label:has(input[type=radio]:checked) .glass-radio-label-text {
-  color: inherit;
-}
-.glass-radio-group label:has(input[type=radio]:focus-visible) {
-  border-color: rgba(255,255,255,0.26);
-  box-shadow: 0 0 0 0.1875rem rgba(0,0,0,0.08);
-}
-.glass-radio-group input[type=radio] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 1.375rem;
-  height: 1.375rem;
-  flex: 0 0 auto;
-  margin: 0;
-  border-radius: 50%;
-  border: 2px solid #d7d7d7;
-  background: #f8f8f8;
+
+/* Radio control light */
+:root.theme-light .glass-radio-group input[type="radio"]{
+  border:2px solid #d7d7d7;
+  background:#f8f8f8;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-  position: relative;
-  cursor: var(--cursor-pointer);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
-.glass-radio-group input[type=radio]::after {
-  content: "";
-  position: absolute;
-  inset: 0.3125rem;
-  border-radius: 50%;
-  background: var(--brand-primary);
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.glass-radio-group input[type=radio]:hover {
+:root.theme-light .glass-radio-group input[type="radio"]:hover{
   border-color: color-mix(in srgb, var(--text-strong) 62%, #ffffff 16%);
 }
-.glass-radio-group input[type=radio]:focus-visible {
-  outline: none;
+:root.theme-light .glass-radio-group input[type="radio"]:focus-visible{
   border-color: color-mix(in srgb, var(--text-strong) 65%, #ffffff 18%);
   box-shadow: 0 0 0 0.1875rem rgba(0,0,0,0.08);
 }
-.glass-radio-group input[type=radio]:checked {
-  border-color: #d7d7d7;
-  background: #f8f8f8;
+:root.theme-light .glass-radio-group input[type="radio"]:checked{
+  border-color:#d7d7d7;
+  background:#f8f8f8;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
-.glass-radio-group input[type=radio]:checked::after {
-  opacity: 1;
-  transform: scale(1);
+/* Slightly smaller dot in light (optional, per your note) */
+:root.theme-light .glass-radio-group input[type="radio"]::after{
+  width:0.54rem;
+  height:0.54rem;
 }
-.glass-radio-label-text { cursor: var(--cursor-pointer); }
-.glass-checkbox {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 0.75em;
-  width: 100%;
-  max-width: 25rem;
-  box-sizing: border-box;
-  margin: 1.2em 0;
-  padding: 0.55em 0.8em;
-  border-radius: 1em;
-  border: 2px solid rgba(255,255,255,0.18);
+
+/* Checkbox row light */
+:root.theme-light .glass-checkbox{
+  border:2px solid rgba(255,255,255,0.18);
   background: color-mix(in srgb, #aeb3bc 72%, rgba(18, 20, 32, 0.34) 28%);
-  font-size: 1.12em;
-  line-height: 1.45;
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
-  cursor: var(--cursor-pointer);
-}
-.glass-checkbox,
-.glass-checkbox .checkbox-text {
   color: color-mix(in srgb, var(--text-strong) 76%, transparent);
 }
-.glass-checkbox .checkbox-text {
-  transition: color 0.2s ease;
-}
-.glass-checkbox:hover {
+:root.theme-light .glass-checkbox:hover{
   background: color-mix(in srgb, #a1a7b1 74%, rgba(18, 20, 32, 0.36) 26%);
 }
-.glass-checkbox:has(input[type=checkbox]:checked) {
+:root.theme-light .glass-checkbox:has(input[type="checkbox"]:checked){
   border-color: rgba(255,255,255,0.28);
   background: color-mix(in srgb, #d8dce2 66%, rgba(18, 20, 32, 0.30) 34%);
-  box-shadow: 0 0.5rem 1.125rem rgba(6,8,16,0.35);
   color: color-mix(in srgb, var(--text-strong) 82%, transparent);
+  box-shadow: 0 0.5rem 1.125rem rgba(6,8,16,0.35);
 }
-.glass-checkbox:has(input[type=checkbox]:checked) .checkbox-text {
-  color: inherit;
-}
-.glass-checkbox input[type=checkbox]{
-  -webkit-appearance: none;
-  appearance: none;
-  width:1.375rem;
-  height:1.375rem;
-  border-radius:0.45em;
+
+/* Checkbox control light */
+:root.theme-light .glass-checkbox input[type="checkbox"]{
   border:2px solid color-mix(in srgb, var(--text-strong) 55%, #ffffff 18%);
   background: color-mix(in srgb, #9ba0aa 46%, rgba(18,20,32,0.58) 54%);
-  cursor: var(--cursor-pointer);
-  margin:0;
-  position:relative;
-  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
-.glass-checkbox input[type=checkbox]::after{
-  content: "";
-  position: absolute;
-  inset: 1.6px;
-  background: var(--brand-primary);
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 92% 92% no-repeat;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 92% 92% no-repeat;
-  border-radius: 0.2em;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-.glass-checkbox input[type=checkbox]:hover {
+:root.theme-light .glass-checkbox input[type="checkbox"]:hover{
   border-color: color-mix(in srgb, var(--text-strong) 62%, #ffffff 16%);
 }
-.glass-checkbox input[type=checkbox]:focus-visible {
-  outline: none;
+:root.theme-light .glass-checkbox input[type="checkbox"]:focus-visible{
   border-color: color-mix(in srgb, var(--text-strong) 65%, #ffffff 18%);
   box-shadow: 0 0 0 0.1875rem rgba(0,0,0,0.08);
 }
-.glass-checkbox input[type=checkbox]:checked {
+:root.theme-light .glass-checkbox input[type="checkbox"]:checked{
   border-color: color-mix(in srgb, var(--text-strong) 70%, #ffffff 20%);
   background: color-mix(in srgb, #c8ccd4 52%, rgba(18,20,32,0.42) 48%);
 }
-.glass-checkbox input[type=checkbox]:checked {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='%23ededed' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 88% 88%;
+/* Light: checkmark color */
+:root.theme-light .glass-checkbox input[type="checkbox"]::after{
+  background: #7A3A38;
 }
-:root:not(.theme-light) .glass-radio-group label {
-  border: 1.5px solid rgba(255,255,255,0.08);
-  background: rgba(10, 14, 24, 0.36);
-  color: var(--pt-130);
-}
-:root:not(.theme-light) .glass-radio-group label:hover {
-  background: rgba(16, 20, 30, 0.5);
-  color: var(--pt-80);
-}
-:root:not(.theme-light) .glass-radio-group label:has(input[type=radio]:checked) {
-  border-color: rgba(152, 164, 186, 0.6);
-  background: rgba(50, 58, 72, 0.48);
-  color: var(--pt-50);
-}
-:root:not(.theme-light) .glass-radio-group label:has(input[type=radio]:focus-visible) {
-  border-color: rgba(165, 185, 210, 0.7);
-  box-shadow: 0 0 0 0.1875rem rgba(0, 0, 0, 0.12);
-}
-:root:not(.theme-light) .glass-radio-group input[type=radio] {
-  border: 2px solid rgba(210, 220, 235, 0.5);
-  background: rgba(20, 26, 38, 0.6);
-  box-shadow: inset 0 0 0 1px rgba(12,19,35,0.3);
-}
-:root:not(.theme-light) .glass-radio-group input[type=radio]:hover {
-  border-color: rgba(200, 214, 234, 0.65);
-}
-:root:not(.theme-light) .glass-radio-group input[type=radio]:focus-visible {
-  border-color: rgba(185, 205, 230, 0.72);
-  box-shadow: 0 0 0 0.1875rem rgba(0,0,0,0.16);
-}
-:root:not(.theme-light) .glass-radio-group input[type=radio]:checked {
-  border-color: rgba(190, 210, 235, 0.78);
-  background: rgba(24, 32, 46, 0.7);
-  box-shadow: inset 0 0 0 1px rgba(12,19,35,0.24);
-}
-:root:not(.theme-light) .glass-checkbox {
-  border: 1.5px solid rgba(255,255,255,0.1);
-  background: rgba(10,14,24,0.34);
-  color: var(--pt-130);
-}
-:root:not(.theme-light) .glass-checkbox:hover {
-  background: rgba(16,22,34,0.46);
-}
-:root:not(.theme-light) .glass-checkbox:has(input[type=checkbox]:checked) {
-  border-color: rgba(160,180,205,0.6);
-  background: rgba(40,48,62,0.5);
-  color: var(--pt-60);
-}
-:root:not(.theme-light) .glass-checkbox input[type=checkbox] {
-  border: 2px solid rgba(210,220,235,0.55);
-  background: rgba(20,26,38,0.6);
-}
-:root:not(.theme-light) .glass-checkbox input[type=checkbox]:hover {
-  border-color: rgba(200,214,234,0.7);
-}
-:root:not(.theme-light) .glass-checkbox input[type=checkbox]:focus-visible {
-  border-color: rgba(185,205,230,0.75);
-  box-shadow: 0 0 0 0.1875rem rgba(0,0,0,0.14);
-}
-:root:not(.theme-light) .glass-checkbox input[type=checkbox]:checked {
-  border-color: rgba(190,210,235,0.78);
-  background: rgba(32,40,54,0.7);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='%23d2dceb' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-}
-.login-modal-root.login-modal--otp .glass-checkbox.otp-checkbox { margin: 0.4rem 0 0.8rem 0; }
-.login-modal-root.login-modal--otp .otp-checkbox input[type=checkbox] {
+
+/* OTP special-case */
+.login-modal-root.login-modal--otp .glass-checkbox.otp-checkbox{ margin: 0.4rem 0 0.8rem 0; }
+.login-modal-root.login-modal--otp .otp-checkbox input[type="checkbox"]{
   width: 1rem;
   height: 1rem;
   border-radius: 0.28rem;
 }
-.login-modal-root.login-modal--otp .otp-checkbox input[type=checkbox]::after {
-  inset: 0.4px;
+.login-modal-root.login-modal--otp .otp-checkbox input[type="checkbox"]::after{
   transform: scale(1.06);
 }
-.checkbox-text {
-  display: inline;
-  white-space: normal;
-}
+:root.theme-light .glass-radio-group input[type="radio"]::after{ background: #7A3A38; }
+
 .agree-word,
 .and-word {
   font-size: 1em;
@@ -4756,26 +4863,36 @@ backdrop-filter: none;
   z-index:4;
 }
 .chat-analysis-card{
-  background: rgba(12, 19, 35, 0.72);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 18px;
-  padding: 1.1rem 1.25rem 1.7rem;
-  color: rgba(226, 232, 240, 0.94);
-  letter-spacing:0.02em;
-  box-shadow:
-    0 18px 34px rgba(5,8,15,0.38),
-    0 0 0 1px rgba(148,163,184,0.18);
-  display:flex;
-  flex-direction:column;
-  gap:0.9rem;
+  /* klaaskasti baas */
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
+  color: #f2f2f2;
+  border-radius: 1.5em;
+  padding: clamp(0.8rem, 2.5vw, 1.3rem)
+           clamp(1.8rem, 4.5vw, 2.6rem)
+           clamp(1.2rem, 3.5vw, 2rem);
+  width: min(100%, 86vw);
+  max-width: clamp(32rem, 70vw, 50rem);
+  margin: clamp(1.4rem, 4vw, 2rem) auto 0;
+  letter-spacing: 0.035em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* praktiline: hoia akna sisu ladusalt (kui mujal klaaskastidel on sama ootused) */
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
 }
-:root.theme-light .chat-analysis-card {
-  color: #0f172a;
-  background: rgba(255,255,255,0.88);
-  border-color: rgba(190,196,208,0.65);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+:root.theme-light .chat-analysis-card{
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--glass-surface-text, #0f172a);
+  border: none;
+  box-shadow: none;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
 }
 .chat-analysis-header{
   display:flex;
@@ -7495,7 +7612,7 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   caret-color: var(--text-strong);
 }
 :root.theme-light .register-form .glass-radio-group input[type=radio]::after{
-  background: #c57171;
+  background: #7A3A38;
 }
 :root.theme-light .register-form .glass-checkbox input[type=checkbox]:checked{
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='%23c57171' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
@@ -8538,5 +8655,51 @@ html[data-contrast=hc]:not(.theme-light) body .meist-body strong,
 html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   color: rgba(236,240,245,0.98) !important;
 }
+/* Register: lükka “Registreeru” nupp veidi alla */
+.register-form .register-submit{
+  margin-top: 2.2rem; /* suurenda/vähenda vastavalt maitsele */
+}
 
+/* =========================
+   Dark/default overrides
+   ========================= */
 
+/* Eemalda sinakas ring radio ümbert (hall toonipere) */
+:root:not(.theme-light) .glass-radio-group input[type="radio"]{
+  border-color: rgba(220, 220, 220, 0.42);
+}
+:root:not(.theme-light) .glass-radio-group input[type="radio"]:hover{
+  border-color: rgba(235, 235, 235, 0.55);
+}
+:root:not(.theme-light) .glass-radio-group input[type="radio"]:checked{
+  border-color: rgba(240, 240, 240, 0.62);
+}
+
+/* Checkbox “auk” (ruut) samasse halli perre nagu radio rõngas */
+:root:not(.theme-light) .glass-checkbox input[type="checkbox"]{
+  border-color: rgba(220, 220, 220, 0.42);      /* sama hall nagu radio */
+  background: rgba(24, 32, 46, 0.42);           /* heledam, et ei oleks tumedam kui radio */
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18); /* ühtlane “auk” */
+}
+
+/* Checkbox hover */
+:root:not(.theme-light) .glass-checkbox input[type="checkbox"]:hover{
+  border-color: rgba(235, 235, 235, 0.55);
+  background: rgba(24, 32, 46, 0.48);
+}
+
+/* Checkbox checked: hoia sama hall toon + keela SVG background-image topeltjoonistus */
+:root:not(.theme-light) .glass-checkbox input[type="checkbox"]:checked{
+  border-color: rgba(240, 240, 240, 0.62);
+  background: rgba(24, 32, 46, 0.52);
+  background-image: none;
+}
+
+/* Checkbox checkmark: suurem + värv #c57171 */
+:root:not(.theme-light) .glass-checkbox input[type="checkbox"]::after{
+  background: #c57171;
+  width: 92%;
+  height: 92%;
+  -webkit-mask-size: 96% 96%;
+  mask-size: 96% 96%;
+}

@@ -292,7 +292,7 @@ export default function ChatBody({ roomId = null }) {
   const combinedLabel =
     locale === "en" || locale === "ru"
       ? "Analyze document with platform knowledge"
-      : "Analüüsi dokumenti koos platvormi lisateadmistega";
+      : "Analüüsi dokumenti platvormi lisateadmistega";
   const docOnlyLabel =
     locale === "en" || locale === "ru"
       ? "Analyze uploaded document only"
