@@ -8703,3 +8703,54 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   -webkit-mask-size: 96% 96%;
   mask-size: 96% 96%;
 }
+.chat-analysis-mode-group input[type="radio"]{
+  -webkit-appearance:none;
+  appearance:none;
+
+  width:1.375rem;
+  height:1.375rem;
+  margin:0;
+  flex:0 0 auto;
+
+  box-sizing:border-box;
+  border-radius:999px;
+
+  /* jätame chat-sizes, aga teeme kontrolli stabiilseks */
+  position: relative;
+  display:grid;
+  place-items:center;
+}
+
+/* asenda top/left dot: päriselt keskele */
+.chat-analysis-mode-group input[type="radio"]::after{
+  content:"";
+  position: static;     /* tühistab top/left/inset loogika */
+  inset: auto;
+  top: auto;
+  left: auto;
+
+  width:0.58rem;
+  height:0.58rem;
+  border-radius:999px;
+
+  background: var(--brand-primary);
+  opacity:0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.chat-analysis-mode-group input[type="radio"]:checked::after{
+  opacity:1;
+  transform: scale(1);
+}
+
+/* Dark/default: sama neutraalne hall ring nagu mujal (mitte sinakas) */
+:root:not(.theme-light) .chat-analysis-mode-group input[type="radio"]{
+  border-color: rgba(220, 220, 220, 0.42);
+}
+:root:not(.theme-light) .chat-analysis-mode-group input[type="radio"]:hover{
+  border-color: rgba(235, 235, 235, 0.55);
+}
+:root:not(.theme-light) .chat-analysis-mode-group input[type="radio"]:checked{
+  border-color: rgba(240, 240, 240, 0.62);
+}
