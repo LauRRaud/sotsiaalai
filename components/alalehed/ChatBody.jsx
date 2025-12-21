@@ -285,15 +285,21 @@ export default function ChatBody({ roomId = null }) {
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
-  const modeLabel = locale === "en" || locale === "ru" ? "Sources" : "Allikad";
+  const modeLabel =
+    locale === "en" || locale === "ru"
+      ? "Document analysis mode"
+      : "Dokumendi analüüsi valik";
   const combinedLabel =
     locale === "en" || locale === "ru"
-      ? "Document + knowledge base"
-      : "Dokument + teadmistebaas";
-  const docOnlyLabel = locale === "en" || locale === "ru" ? "Document only" : "Ainult dokument";
+      ? "Analyze document with platform knowledge"
+      : "Analüüsi dokumenti koos platvormi lisateadmistega";
+  const docOnlyLabel =
+    locale === "en" || locale === "ru"
+      ? "Analyze uploaded document only"
+      : "Analüüsi ainult üleslaetud dokumenti";
   const contextHint = t(
     "chat.upload.context_hint",
-    "Dokument + teadmistebaas: assistent kasutab dokumenti koos SotsiaalAI teadmistebaasiga. Ainult dokument: sisu kasutatakse ainult selles vestluses ja faili ei salvestata.",
+    "Valitud analüüsiviis määrab, kas assistent kasutab ainult üleslaetud dokumenti või ka SotsiaalAI andmebaasi lisateadmisi.",
   );
   const isRoomMode = Boolean(roomId);
 
