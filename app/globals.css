@@ -6532,7 +6532,7 @@ html[data-contrast=hc] .glass-box.reset-box input:focus{
   .glass-box.reset-box input:focus-visible{ outline: none; }
 }
 html[data-contrast=hc] .alaleht-footer{
-  color: #7E7970;
+  color: #C9C7C2;
 }
 html[data-contrast=hc] #nav-meist {
   border: 2px solid #ffea00;
@@ -8281,13 +8281,17 @@ html[data-contrast=hc] body .invite-classic__input:focus-visible{
   outline: none;
 }
 html[data-contrast=hc] body .invite-choice-card{
-  border-color: var(--hc-accent);
+  border-color: rgba(148,163,184,0.45);
   background: var(--hc-bg);
   color: var(--hc-text);
   box-shadow: none;
 }
 html[data-contrast=hc] body .invite-choice-card:hover,
-html[data-contrast=hc] body .invite-choice-card:focus-within,
+html[data-contrast=hc] body .invite-choice-card:focus-within{
+  border-color: rgba(148,163,184,0.65);
+  background: var(--hc-bg);
+  box-shadow: none;
+}
 html[data-contrast=hc] body .invite-choice-card.is-checked{
   border-color: var(--hc-accent);
   background: var(--hc-surface);
@@ -8398,13 +8402,13 @@ html[data-contrast=hc]:not(.theme-light) body :is(a, .link-brand, .link-brand-in
 }
 html[data-contrast=hc]:not(.theme-light) body .chat-inputbar {
   border-color: var(--hc-accent) !important;
-  background: var(--hc-bg) !important;
+  background: rgba(10,14,24,0.22) !important;
   box-shadow: none !important;
 }
 html[data-contrast=hc]:not(.theme-light) body .chat-inputbar:hover:not(:focus-within),
 html[data-contrast=hc]:not(.theme-light) body .chat-inputbar:focus-within {
   border-color: var(--hc-accent) !important;
-  background: var(--hc-bg) !important;
+  background: rgba(15,19,25,0.38) !important;
   box-shadow: none !important;
 }
 html[data-contrast=hc]:not(.theme-light) body .chat-inputbar .chat-input-field {
@@ -8418,8 +8422,20 @@ html[data-contrast=hc]:not(.theme-light) body .chat-inputbar .chat-listen-btn,
 html[data-contrast=hc]:not(.theme-light) body .chat-inputbar .chat-attach-btn,
 html[data-contrast=hc]:not(.theme-light) body .chat-input-row > .chat-attach-btn,
 html[data-contrast=hc]:not(.theme-light) body .chat-send-btn.chat-attach-as-send {
+  --btn-bg-idle: rgba(10,14,24,0.22);
+  --btn-bg-hover: rgba(10,14,24,0.26);
+  background: var(--btn-bg-idle) !important;
   border-color: var(--hc-accent) !important;
   box-shadow: none !important;
+}
+html[data-contrast=hc]:not(.theme-light) body .glass-box:not(.chat-container) .glass-title {
+  color: var(--hc-accent) !important;
+}
+html[data-contrast=hc]:not(.theme-light) body .glass-box.chat-container .glass-title,
+html[data-contrast=hc]:not(.theme-light) body .invite-classic__title,
+html[data-contrast=hc]:not(.theme-light) body .rooms-title,
+html[data-contrast=hc]:not(.theme-light) body .meist-body .link-brand {
+  color: var(--hc-accent) !important;
 }
 html[data-contrast=hc]:not(.theme-light) body .invite-classic__input {
   border-color: var(--hc-accent) !important;
@@ -8442,9 +8458,28 @@ html[data-contrast=hc]:not(.theme-light) body .profile-email-field .input-modern
 }
 html[data-contrast=hc]:not(.theme-light) body .profile-email-field::before {
   content: none !important;
+  display: none !important;
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;
+}
+html[data-contrast=hc]:not(.theme-light) body .meist-body,
+html[data-contrast=hc]:not(.theme-light) body .meist-body p,
+html[data-contrast=hc]:not(.theme-light) body .meist-body li,
+html[data-contrast=hc]:not(.theme-light) body .meist-body blockquote,
+html[data-contrast=hc]:not(.theme-light) body .meist-body dd,
+html[data-contrast=hc]:not(.theme-light) body .meist-body dt,
+html[data-contrast=hc]:not(.theme-light) body .doc-body,
+html[data-contrast=hc]:not(.theme-light) body .doc-body p,
+html[data-contrast=hc]:not(.theme-light) body .doc-body li,
+html[data-contrast=hc]:not(.theme-light) body .doc-body blockquote,
+html[data-contrast=hc]:not(.theme-light) body .doc-body dd,
+html[data-contrast=hc]:not(.theme-light) body .doc-body dt {
+  color: rgba(236,240,245,0.92) !important;
+}
+html[data-contrast=hc]:not(.theme-light) body .meist-body strong,
+html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
+  color: rgba(236,240,245,0.98) !important;
 }
 
 
