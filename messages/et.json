@@ -548,7 +548,7 @@
         },
         "profile": {
           "title": "6. Profiil",
-          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li></ul>"
+          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li><li>Profiili lehe paremas ülanurgas asub režiimivalik, kus kuvatakse vastavalt valitud teemale päikese (helerežiim) või kuu (tumerežiim) ikoon. Ikoonile klõpsates saab vahetada tumeda ja heleda kujunduse vahel.</li></ul>"
         },
         "about": {
           "title": "7. MEIST",

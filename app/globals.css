@@ -857,7 +857,7 @@ main#main > .main-content.glass-box {
   pointer-events: none;
   z-index: 0;
   background: transparent url("/logo/kerahele.svg") center / 100% 100% no-repeat;
-  opacity: 0.75;
+  opacity: 0.68;
   filter: none;
 }
 
@@ -6006,6 +6006,7 @@ backdrop-filter: none;
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
     --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
     --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
+    --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 15rem);
     gap:.35rem;
     padding-top:.85rem;
     padding-bottom: clamp(0.4rem, 1vw, 0.7rem);

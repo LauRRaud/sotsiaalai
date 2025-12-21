@@ -548,7 +548,7 @@
         },
         "profile": {
           "title": "6. Profile",
-          "body": "<p>The \"Profile\" page contains your account, subscription and accessibility settings.</p><ul><li>See your user role.</li><li>Show subscription: plan, monthly price and validity.</li><li><strong>To change email</strong> enter your current PIN; we send a verification email to the new address.</li><li><strong>To update PIN</strong> enter your current PIN and a new PIN (4-8 digits).</li><li>Adjust language, text size, contrast and motion preferences.</li></ul>"
+          "body": "<p>The \"Profile\" page contains your account, subscription and accessibility settings.</p><ul><li>See your user role.</li><li>Show subscription: plan, monthly price and validity.</li><li><strong>To change email</strong> enter your current PIN; we send a verification email to the new address.</li><li><strong>To update PIN</strong> enter your current PIN and a new PIN (4-8 digits).</li><li>Adjust language, text size, contrast and motion preferences.</li><li>In the top-right corner of the Profile page there is a theme toggle that shows a sun (light mode) or moon (dark mode) icon depending on the selected theme. Click the icon to switch between light and dark layouts.</li></ul>"
         },
         "about": {
           "title": "7. ABOUT",
