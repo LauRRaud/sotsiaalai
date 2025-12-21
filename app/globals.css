@@ -8766,3 +8766,61 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   background: rgba(24, 32, 46, 0.70);
   box-shadow: inset 0 0 0 1px rgba(12,19,35,0.24);
 }
+.chat-analysis-mode-group input[type="radio"]{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+/* Hard-reset the dot positioning so it can't drift */
+.chat-analysis-mode-group input[type="radio"]::after{
+  content: "" !important;
+
+  /* cancel chat's top/left centering approach */
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  inset: auto !important;
+
+  width: 0.58rem !important;
+  height: 0.58rem !important;
+  border-radius: 999px !important;
+
+  background: var(--brand-primary) !important;
+  opacity: 0 !important;
+
+  transform: scale(0.6) !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+.chat-analysis-mode-group input[type="radio"]:checked::after{
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+/* Dark/default visuals: neutral gray ring + stable hole bg */
+:root:not(.theme-light) .chat-analysis-mode-group input[type="radio"]{
+  width: 1.375rem !important;
+  height: 1.375rem !important;
+
+  border: 2px solid rgba(220, 220, 220, 0.42) !important;
+  background: rgba(20, 26, 38, 0.60) !important;
+  box-shadow: inset 0 0 0 1px rgba(12,19,35,0.30) !important;
+}
+
+:root:not(.theme-light) .chat-analysis-mode-group input[type="radio"]:hover{
+  border-color: rgba(235, 235, 235, 0.55) !important;
+}
+
+:root:not(.theme-light) .chat-analysis-mode-group input[type="radio"]:checked{
+  border-color: rgba(240, 240, 240, 0.62) !important;
+  background: rgba(24, 32, 46, 0.70) !important;
+  box-shadow: inset 0 0 0 1px rgba(12,19,35,0.24) !important;
+}
