@@ -34,7 +34,7 @@ export default async function AdminRagPage() {
   }
   return (
     <div
-      className="main-content glass-box glass-left"
+      className="main-content glass-box glass-left admin-page admin-page--rag"
       aria-labelledby="rag-admin-title"
       lang="et"
     >

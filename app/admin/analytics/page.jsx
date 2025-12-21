@@ -24,7 +24,7 @@ export default async function AdminAnalyticsPage() {
   if (!isAdmin) redirect("/");
 
   return (
-    <div className="main-content glass-box glass-left">
+    <div className="main-content glass-box glass-left admin-page admin-page--analytics">
       <AnalyticsDashboard />
     </div>
   );

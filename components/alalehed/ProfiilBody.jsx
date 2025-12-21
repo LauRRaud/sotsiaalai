@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import SunIcon from "@/public/logo/sun.svg";
+import EyeIcon from "@/public/logo/silma.svg";
 import MoonIcon from "@/public/logo/kuu.svg";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -61,20 +62,7 @@ function PinDockIcon({ isHovered: _isHovered, ...props }) {
 
 function PreferencesDockIcon({ isHovered: _isHovered, ...props }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-      {...props}
-    >
-      <circle cx="12" cy="12" r="3.4" />
-      <path d="M12 2.75v1.7M12 19.55v1.7M4.45 4.45l1.2 1.2M18.35 18.35l1.2 1.2M2.75 12h1.7M19.55 12h1.7M4.45 19.55l1.2-1.2M18.35 5.65l1.2-1.2" />
-    </svg>
+    <EyeIcon className="profile-eye-icon" aria-hidden="true" focusable="false" {...props} />
   );
 }
 

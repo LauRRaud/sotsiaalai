@@ -196,6 +196,8 @@ const normalizeTags = (v) => {
   if (Array.isArray(v)) return v.map((s) => String(s).trim()).filter(Boolean);
   return splitTags(v);
 };
+const normalizeString = (value) => (value == null ? "" : String(value).trim());
+const normalizeUpper = (value) => normalizeString(value).toUpperCase();
 const normalizeDoc = (item) => {
   const meta = item.metadata || item;
   const authors = normalizeAuthorsForDisplay(item.authors || meta.authors);
@@ -204,26 +206,26 @@ const normalizeDoc = (item) => {
   return {
     ...item,
     id,
-    docId: meta.docId || meta.doc_id || id,
-    articleId: meta.articleId || meta.article_id || "",
-    title: item.title || meta.title || "",
-    description: item.description || meta.description || "",
-    section: item.section || meta.section || "",
-    issueLabel: item.issueLabel || meta.issueLabel || meta.issue_id || "",
-    issueId: item.issueId || meta.issueId || meta.issue_id || "",
+    docId: normalizeString(meta.docId || meta.doc_id || id),
+    articleId: normalizeString(meta.articleId || meta.article_id || ""),
+    title: normalizeString(item.title || meta.title || ""),
+    description: normalizeString(item.description || meta.description || ""),
+    section: normalizeString(item.section || meta.section || ""),
+    issueLabel: normalizeString(item.issueLabel || meta.issueLabel || meta.issue_id || ""),
+    issueId: normalizeString(item.issueId || meta.issueId || meta.issue_id || ""),
     year: item.year || meta.year || "",
-    audience: item.audience || meta.audience || "BOTH",
-    pageRange: item.pageRange || meta.pageRange || "",
+    audience: normalizeUpper(item.audience || meta.audience || "BOTH") || "BOTH",
+    pageRange: normalizeString(item.pageRange || meta.pageRange || ""),
     authors,
     tags,
     pdf_start_page: meta.pdf_start_page,
     pdf_end_page: meta.pdf_end_page,
     source_path: meta.source_path || meta.sourcePath || item.source_path,
-    source_url: meta.source_url || meta.sourceUrl || item.sourceUrl || meta.url || item.url || "",
-    url: item.url || meta.url || meta.source_url || meta.sourceUrl || item.sourceUrl || "",
-    journalTitle: item.journalTitle || meta.journalTitle || meta.journal_title || "",
-    language: item.language || meta.language || "",
-    source_type: meta.source_type || meta.sourceType || item.source_type || item.sourceType || item.type || "",
+    source_url: normalizeString(meta.source_url || meta.sourceUrl || item.sourceUrl || meta.url || item.url || ""),
+    url: normalizeString(item.url || meta.url || meta.source_url || meta.sourceUrl || item.sourceUrl || ""),
+    journalTitle: normalizeString(item.journalTitle || meta.journalTitle || meta.journal_title || ""),
+    language: normalizeString(item.language || meta.language || ""),
+    source_type: normalizeString(meta.source_type || meta.sourceType || item.source_type || item.sourceType || item.type || ""),
   };
 };
 

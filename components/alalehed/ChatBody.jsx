@@ -440,14 +440,16 @@ export default function ChatBody({ roomId = null }) {
     });
   }, [isRoomMode, mappedRoomMessages, aiMessagesOnly, messages]);
 
-  const historyPayload = useMemo(
-    () =>
-      visibleMessages
-        .slice(-MAX_HISTORY)
-        .filter((m) => m.role === "ai" || m.aiVisible)
-        .map((m) => ({ role: m.role === "member" ? "user" : m.role, text: m.text })),
-    [visibleMessages]
-  );
+  const historyPayload = useMemo(() => {
+    const recent = visibleMessages.slice(-MAX_HISTORY);
+    const relevant = isRoomMode
+      ? recent.filter((m) => m.role === "ai" || m.aiVisible)
+      : recent;
+    return relevant.map((m) => ({
+      role: m.role === "member" ? "user" : m.role,
+      text: m.text,
+    }));
+  }, [visibleMessages, isRoomMode]);
   const isStreamingAny = useMemo(
     () => isGenerating || visibleMessages.some((m) => m.role === "ai" && m.isStreaming),
     [isGenerating, visibleMessages]
@@ -1227,13 +1229,14 @@ export default function ChatBody({ roomId = null }) {
         }
       }
 
-      const userMsg = { role: "user", text: trimmed, aiVisible: sendToAssistant };
+      const shouldSendToAssistant = isRoomMode ? sendToAssistant : true;
+      const userMsg = { role: "user", text: trimmed, aiVisible: shouldSendToAssistant };
       appendMessage(userMsg);
       setInput("");
-      setIsGenerating(sendToAssistant);
+      setIsGenerating(shouldSendToAssistant);
       focusInput();
 
-      if (!sendToAssistant) {
+      if (!shouldSendToAssistant) {
         return;
       }
       const controller = new AbortController();
@@ -1699,8 +1702,13 @@ export default function ChatBody({ roomId = null }) {
             const isAssistant = msg.role === "ai";
             const isOwn = msg.role === "user";
             const variant = isAssistant ? "chat-msg-ai" : "chat-msg-user";
-            const audienceClass =
-              isAssistant ? "" : isOwn && msg.aiVisible ? "chat-msg--ai-targeted" : "chat-msg--human-only";
+            const audienceClass = isAssistant
+              ? ""
+              : isRoomMode
+              ? isOwn && msg.aiVisible
+                ? "chat-msg--ai-targeted"
+                : "chat-msg--human-only"
+              : "";
             const authorLabel =
               isAssistant
                 ? t("chat.aria.assistant", "Assistent")
@@ -1714,7 +1722,7 @@ export default function ChatBody({ roomId = null }) {
                 role="article"
                 tabIndex={0}
               >
-                {isOwn ? (
+                {isOwn && isRoomMode ? (
                   <div className="chat-msg-meta">
                     <span className={`chat-msg-tag${msg.aiVisible ? " chat-msg-tag--ai" : " chat-msg-tag--human"}`}>
                       {msg.aiVisible
