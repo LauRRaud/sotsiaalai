@@ -7163,10 +7163,10 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root:not(.theme-light) .meist-body dd,
 :root:not(.theme-light) .meist-body dt,
 :root:not(.theme-light) .meist-body strong {
-  color: rgba(226, 232, 240, 0.82);
+  color: rgba(226, 232, 240, 0.88);
 }
 :root:not(.theme-light) .meist-body strong {
-  color: rgba(226, 232, 240, 0.9);
+  color: rgba(226, 232, 240, 0.94);
 }
 :root.theme-light .glass-title, :root.theme-light .glass-h2, :root.theme-light .glass-label, :root.theme-light h1, :root.theme-light h3 {
   color: var(--title-color);
