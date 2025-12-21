@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 // NB: Stiiliklassid on globals.css failis, et komponent jääks lühem.
 
@@ -230,7 +229,6 @@ const normalizeDoc = (item) => {
 };
 
 export default function RagAdminPanel() {
-  const router = useRouter();
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
@@ -1530,11 +1528,6 @@ export default function RagAdminPanel() {
         </div>
       ) : null}
 
-      <div className="row-gap" style={{ justifyContent: "center", marginTop: 16 }}>
-        <button className="btn-base rag-btn" onClick={() => router.push("/meist")}>
-          Tagasi
-        </button>
-      </div>
     </div>
   );
 }

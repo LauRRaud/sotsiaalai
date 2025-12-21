@@ -6,7 +6,7 @@ export const revalidate = 0;
 
 const STT_URL = process.env.STT_SERVER_URL;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_STT_MODEL = process.env.OPENAI_STT_MODEL || "whisper-1";
+const OPENAI_STT_MODEL = process.env.OPENAI_STT_MODEL || "gpt-4o-mini-transcribe";
 
 function normalizeLanguage(locale) {
   const base = String(locale || "").toLowerCase().split("-")[0].trim();

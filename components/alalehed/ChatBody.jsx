@@ -338,6 +338,7 @@ export default function ChatBody({ roomId = null }) {
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
   const [previewScroll, setPreviewScroll] = useState(0);
   const [recording, setRecording] = useState(false);
+  const [recordingPulse, setRecordingPulse] = useState(false);
   const [recordingError, setRecordingError] = useState(null);
   const [sendToAssistant, setSendToAssistant] = useState(false);
   const {
@@ -369,6 +370,11 @@ export default function ChatBody({ roomId = null }) {
   const audioRef = useRef(null);
   const recorderRef = useRef(null);
   const recordingChunksRef = useRef([]);
+  const recordingPulseTimerRef = useRef(null);
+  const recordingLevelRef = useRef(0);
+  const recordingStartedAtRef = useRef(0);
+  const audioContextRef = useRef(null);
+  const audioMeterTimerRef = useRef(null);
   const isUserAtBottom = useRef(true);
   const abortControllerRef = useRef(null);
   const mountedRef = useRef(false);
@@ -1031,6 +1037,17 @@ export default function ChatBody({ roomId = null }) {
   }, [visibleMessages, locale, stopSpeaking, speakWithBrowser]);
 
   /* ---------- Speech-to-Text (mikrofon) ---------- */
+  const triggerRecordingPulse = useCallback(() => {
+    if (recordingPulseTimerRef.current) {
+      clearTimeout(recordingPulseTimerRef.current);
+    }
+    setRecordingPulse(true);
+    recordingPulseTimerRef.current = setTimeout(() => {
+      setRecordingPulse(false);
+      recordingPulseTimerRef.current = null;
+    }, 600);
+  }, []);
+
   const stopRecording = useCallback(() => {
     try {
       recorderRef.current?.stop?.();
@@ -1042,18 +1059,64 @@ export default function ChatBody({ roomId = null }) {
     setRecording(false);
   }, []);
 
+  const stopAudioMeter = useCallback(() => {
+    if (audioMeterTimerRef.current) {
+      clearInterval(audioMeterTimerRef.current);
+      audioMeterTimerRef.current = null;
+    }
+    if (audioContextRef.current) {
+      try {
+        audioContextRef.current.close();
+      } catch {}
+      audioContextRef.current = null;
+    }
+  }, []);
+
+  const startAudioMeter = useCallback((stream) => {
+    const AudioContextClass =
+      typeof window !== "undefined" ? window.AudioContext || window.webkitAudioContext : null;
+    if (!AudioContextClass) return;
+    try {
+      const ctx = new AudioContextClass();
+      audioContextRef.current = ctx;
+      const source = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      source.connect(analyser);
+      const data = new Uint8Array(analyser.fftSize);
+      audioMeterTimerRef.current = setInterval(() => {
+        analyser.getByteTimeDomainData(data);
+        let sum = 0;
+        for (let i = 0; i < data.length; i += 1) {
+          sum += Math.abs(data[i] - 128);
+        }
+        const avg = sum / data.length;
+        if (avg > recordingLevelRef.current) recordingLevelRef.current = avg;
+      }, 120);
+    } catch {}
+  }, []);
+
   const handleMic = useCallback(async () => {
     if (recording) {
       stopRecording();
+      stopAudioMeter();
       return;
     }
     setRecordingError(null);
+    if (recordingPulseTimerRef.current) {
+      clearTimeout(recordingPulseTimerRef.current);
+      recordingPulseTimerRef.current = null;
+    }
+    setRecordingPulse(false);
     if (!navigator?.mediaDevices?.getUserMedia) {
       setRecordingError(t("chat.mic.unsupported", "Mikrofon pole toetatud selles brauseris."));
       return;
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recordingLevelRef.current = 0;
+      recordingStartedAtRef.current = Date.now();
+      startAudioMeter(stream);
       recordingChunksRef.current = [];
       const rec = new MediaRecorder(stream);
       recorderRef.current = rec;
@@ -1062,8 +1125,16 @@ export default function ChatBody({ roomId = null }) {
       };
       rec.onstop = async () => {
         setRecording(false);
+        stopAudioMeter();
+        triggerRecordingPulse();
         const blob = new Blob(recordingChunksRef.current, { type: rec.mimeType || "audio/webm" });
         if (!blob.size) return;
+        const durationMs = Math.max(0, Date.now() - recordingStartedAtRef.current);
+        const maxLevel = recordingLevelRef.current;
+        if (maxLevel < 3.5 && durationMs > 500) {
+          setRecordingError(t("chat.mic.silence", "Dikteerimine: heli ei tuvastatud."));
+          return;
+        }
         try {
           const fd = new FormData();
           fd.append("audio", blob, "audio.webm");
@@ -1083,8 +1154,27 @@ export default function ChatBody({ roomId = null }) {
     } catch (err) {
       setRecordingError(err?.message || t("chat.mic.cannot_start", "Mikrofoni ei saanud avada."));
       stopRecording();
+      stopAudioMeter();
     }
-  }, [locale, recording, stopRecording, t, setInput]);
+  }, [
+    locale,
+    recording,
+    startAudioMeter,
+    stopAudioMeter,
+    stopRecording,
+    t,
+    setInput,
+    triggerRecordingPulse,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      if (recordingPulseTimerRef.current) {
+        clearTimeout(recordingPulseTimerRef.current);
+      }
+      stopAudioMeter();
+    };
+  }, [stopAudioMeter]);
 
   /* ---------- TAASTA SERVERIST (/api/chat/run) ---------- */
   useEffect(() => {
@@ -1872,6 +1962,7 @@ export default function ChatBody({ roomId = null }) {
                 disabled={isRoomMode && (roomBlocked || roomAuthRequired)}
                 data-speaking={recording ? "true" : "false"}
                 data-recording={recording ? "true" : "false"}
+                data-recording-complete={recordingPulse ? "true" : "false"}
               >
                 <svg
                   aria-hidden="true"

@@ -48,11 +48,13 @@ function parseA11yPrefs(jar) {
   if (!raw) return null;
   try {
     const obj = JSON.parse(raw);
+    const contrast = obj?.contrast;
+    const theme = obj?.theme === "light" ? "light" : "dark";
     return {
       textScale: obj?.textScale,
-      contrast: obj?.contrast,
+      contrast,
       reduceMotion: !!obj?.reduceMotion,
-      theme: obj?.theme === "light" ? "light" : "dark",
+      theme: contrast === "hc" ? "dark" : theme,
     };
   } catch {
     return null;
@@ -97,7 +99,7 @@ export default async function RootLayout({ children }) {
         {/* Removed deprecated login provider assets */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var el=document.documentElement;if(t==='light'){el.classList.add('theme-light');}else{el.classList.remove('theme-light');}}catch(e){}})();`,
+            __html: `(function(){try{var el=document.documentElement;var prefs=localStorage.getItem('a11y_prefs');var contrast=null;try{contrast=prefs?JSON.parse(prefs).contrast:null;}catch(e){};if(contrast==='hc'){el.classList.remove('theme-light');return;}var t=localStorage.getItem('theme');if(t==='light'){el.classList.add('theme-light');}else{el.classList.remove('theme-light');}}catch(e){}})();`,
           }}
         />
       </head>

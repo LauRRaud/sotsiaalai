@@ -67,7 +67,8 @@ function applyPrefsToDom(prefs) {
   html.setAttribute("data-text-scale", prefs.textScale || DEFAULT_PREFS.textScale);
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
-  const shouldBeLight = prefs.theme === "light";
+  const forceDark = prefs.contrast === "hc";
+  const shouldBeLight = !forceDark && prefs.theme === "light";
   const currentlyLight = html.classList.contains("theme-light");
   if (shouldBeLight !== currentlyLight) {
     html.classList.toggle("theme-light", shouldBeLight);
@@ -75,10 +76,12 @@ function applyPrefsToDom(prefs) {
 }
 function buildInitialPrefs(initialPrefs) {
   if (initialPrefs) {
+    const contrast = initialPrefs.contrast || DEFAULT_PREFS.contrast;
     return {
       ...DEFAULT_PREFS,
       ...initialPrefs,
-      theme: initialPrefs.theme === "light" ? "light" : DEFAULT_PREFS.theme,
+      contrast,
+      theme: contrast === "hc" ? "dark" : (initialPrefs.theme === "light" ? "light" : DEFAULT_PREFS.theme),
     };
   }
   return { ...DEFAULT_PREFS };
@@ -145,6 +148,9 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   }, []);
   const setPrefs = useCallback((next) => {
     const merged = { ...DEFAULT_PREFS, ...prefs, ...next };
+    if (merged.contrast === "hc") {
+      merged.theme = "dark";
+    }
     setPrefsState(merged);
     applyPrefsToDom(merged);
     try { localStorage.setItem("a11y_prefs", JSON.stringify(merged)); } catch {}
@@ -158,6 +164,9 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   }, [prefs, announce, t]);
   const previewPrefs = useCallback((partial) => {
     const preview = { ...DEFAULT_PREFS, ...prefs, ...partial };
+    if (preview.contrast === "hc") {
+      preview.theme = "dark";
+    }
     applyPrefsToDom(preview);
   }, [prefs]);
   const resetPreview = useCallback(() => {

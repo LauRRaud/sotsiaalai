@@ -37,6 +37,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^6.4.0",
     "@next-auth/prisma-adapter": "1.0.7",
     "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
