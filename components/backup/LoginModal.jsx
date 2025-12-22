@@ -1,103 +1,13 @@
-"use client";
-
+﻿"use client";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createPortal } from "react-dom";
-import { flushSync } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
-const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-
-function SubmitArcOverlayWhite({ size = 80, filled = 0, max = 8 }) {
-  const arcD = "M6 7.5A8 8 0 1 1 6 16.5";
-
-  const clamped = Math.max(0, Math.min(max, filled));
-  if (clamped <= 0) return null;
-
-  // 0..100 pathLength units
-  const seg = (clamped / max) * 100;
-
-  // Match your icon stroke. Your earlier icon-overlay used ~0.95, so start here.
-  // If it sits “inside” the grey ring, increase slightly: 1.05; if too thick, reduce: 0.90.
-  const w = 0.95;
-
-  // Fade length (longer = smoother). Keep proportional but bounded.
-  // Important: keep some core, so first digit visibly shows white immediately.
-  const fadeLen = Math.min(26, Math.max(12, seg * 0.75));
-  const feather = Math.min(fadeLen, seg);
-  const coreLen = Math.max(0, seg - feather);
-
-  // More layers = smoother fade (and less “step” visibility).
-  const N = 24;
-
-  // Weighting: shortest layers strongest, longest layer faintest.
-  // This guarantees the very last visible end is near-invisible.
-  const sumW = (N * (N + 1)) / 2;
-
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      focusable="false"
-      preserveAspectRatio="xMidYMid meet"
-      shapeRendering="geometricPrecision"
-      style={{ display: "block" }}
-    >
-      {/* CORE: fully white up to the start of the fade */}
-      {coreLen > 0 && (
-        <path
-          d={arcD}
-          fill="none"
-          stroke="rgb(255 255 255)"
-          strokeWidth={w}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          pathLength="100"
-          strokeDasharray={`${coreLen} 300`} // 300 => never repeats
-          strokeDashoffset="0"
-          style={{
-            transition: "stroke-dasharray 360ms cubic-bezier(0.16, 1, 0.3, 1)",
-          }}
-        />
-      )}
-
-      {/* FEATHER: many layers, staggered ends, long fade to transparent */}
-      {Array.from({ length: N }, (_, i) => {
-        // i=0 is the longest (reaches farthest), i=N-1 is the shortest (strongest).
-        const len = feather * (1 - i / N); // fade region length for this layer
-        if (len <= 0) return null;
-
-        // alpha: shortest strongest, longest faintest
-        const weight = N - i; // shortest => N, longest => 1
-        const alpha = weight / sumW; // sums to ~1 at start of fade; last layer ~0.003
-
-        return (
-          <path
-            key={i}
-            d={arcD}
-            fill="none"
-            stroke={`rgba(255,255,255,${alpha})`}
-            strokeWidth={w}
-            strokeLinecap="butt" // avoids “dot/tick” at the end
-            strokeLinejoin="round"
-            pathLength="100"
-            strokeDasharray={`${len} 300`}   // one dash + huge gap (no multi-start)
-            strokeDashoffset={-coreLen}      // start feather exactly where core ends
-            style={{
-              transition: "stroke-dasharray 360ms cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-          />
-        );
-      })}
-    </svg>
-  );
-}
 
 export default function LoginModal({ open, onClose }) {
   const router = useRouter();
@@ -107,7 +17,6 @@ export default function LoginModal({ open, onClose }) {
   const { prefs } = useAccessibility();
 
   const defaultNextUrl = localizePath("/vestlus", locale);
-
   const toRelative = (u) => {
     try {
       const base = typeof window !== "undefined" ? window.location.origin : "http://local";
@@ -117,27 +26,15 @@ export default function LoginModal({ open, onClose }) {
       return typeof u === "string" ? u : defaultNextUrl;
     }
   };
-
   const nextUrl = toRelative(searchParams?.get("next") || defaultNextUrl);
 
   const PIN_MIN = 4;
   const PIN_MAX = 8;
 
-  const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
-  const LOGIN_KEYPAD_LAYOUT_KEY = "sotsiaalai:login:keypadLayout"; // desktop: phone|numpad
-  const LOGIN_NATIVE_KEYBOARD_KEY = "sotsiaalai:login:useNativeKeyboard"; // mobile: true|false
-
-  const isMobile = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    const ua = navigator.userAgent || "";
-    return /Android|iPhone|iPad|iPod/i.test(ua);
-  }, []);
-
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
   const [pinError, setPinError] = useState(false);
   const [pinLoading, setPinLoading] = useState(false);
-
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [tempToken, setTempToken] = useState("");
@@ -145,59 +42,26 @@ export default function LoginModal({ open, onClose }) {
   const [otpValue, setOtpValue] = useState("");
   const [rememberDevice, setRememberDevice] = useState(true);
   const [otpExpiresAt, setOtpExpiresAt] = useState(null);
-
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [submitIconState, setSubmitIconState] = useState("idle"); // idle | success | error
   const [invalidCredentials, setInvalidCredentials] = useState(false);
-
+  const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
   const [emailValue, setEmailValue] = useState("");
-
   const hasEmailValue = (emailValue || "").trim().length > 0;
-
-  // Mobile: default = custom keypad; toggle enables native keyboard
-  const [useNativeKeyboard, setUseNativeKeyboard] = useState(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      const v = window.localStorage.getItem(LOGIN_NATIVE_KEYBOARD_KEY);
-      if (v === "true") return true;
-      if (v === "false") return false;
-    } catch {}
-    // requirement: default mobile = custom keypad
-    return false;
-  });
-
-  // Desktop: keypad layout toggler
-  const [keypadLayout, setKeypadLayout] = useState(() => {
-    if (typeof window === "undefined") return "phone";
-    try {
-      const v = window.localStorage.getItem(LOGIN_KEYPAD_LAYOUT_KEY);
-      if (v === "numpad" || v === "phone") return v;
-    } catch {}
-    return "phone";
-  }); // phone | numpad
 
   const boxRef = useRef(null);
   const emailInputRef = useRef(null);
   const emailIconButtonRef = useRef(null);
   const hiddenInputRef = useRef(null);
-  const mobilePinInputRef = useRef(null);
   const keypadRefs = useRef([]);
   const emailHintIdRef = useRef(`login-email-hint-${Math.random().toString(36).slice(2, 10)}`);
   const pinHintIdRef = useRef(`login-pin-hint-${Math.random().toString(36).slice(2, 10)}`);
   const otpInputRef = useRef(null);
 
-  // Swipe-to-delete support (custom keypad)
-  const touchStartRef = useRef(null);
-
-  // Long-press on "0" => clear PIN (no separate clear/back buttons)
-  const zeroLongPressTimerRef = useRef(null);
-  const zeroLongPressFiredRef = useRef(false);
-
   const isOtpStep = step === "otp";
-
   const modalClasses = [
     "login-modal-root",
     "login-modal-box",
@@ -207,15 +71,17 @@ export default function LoginModal({ open, onClose }) {
   ]
     .filter(Boolean)
     .join(" ");
-
-  // Keypad: no extra buttons. Deletion is swipe; clear is long-press 0.
-  const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "blank", "0", "blank"], []);
-  const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "blank", "0", "blank"], []);
-
-  const keypadKeys = useMemo(() => {
-    if (isMobile) return keypadKeysPhone;
-    return keypadLayout === "numpad" ? keypadKeysNumpad : keypadKeysPhone;
-  }, [isMobile, keypadLayout, keypadKeysNumpad, keypadKeysPhone]);
+  const keypadKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "back", "0", "clear"];
+  const focusHiddenInput = (event) => {
+    const detail =
+      typeof event?.detail === "number"
+        ? event.detail
+        : typeof event?.nativeEvent?.detail === "number"
+        ? event.nativeEvent.detail
+        : null;
+    if (detail === 0) return;
+    hiddenInputRef.current?.focus?.();
+  };
 
   const otpDeadlineLabel = useMemo(() => {
     if (!otpExpiresAt) return "";
@@ -228,19 +94,6 @@ export default function LoginModal({ open, onClose }) {
     }
   }, [otpExpiresAt, locale]);
 
-  const resetIconState = useCallback(() => {
-    setSubmitIconState("idle");
-    setInvalidCredentials(false);
-  }, []);
-
-  const markPinError = useCallback(() => {
-    setSubmitIconState("error");
-  }, []);
-
-  const markPinSuccess = useCallback(() => {
-    setSubmitIconState("success");
-  }, []);
-
   const focusKeypadIndex = (idx) => {
     const list = keypadRefs.current || [];
     const el = list[idx];
@@ -252,11 +105,12 @@ export default function LoginModal({ open, onClose }) {
   };
 
   const handleKeypadKeyDown = (e, idx) => {
+    // Arrow navigation inside the 3x4 keypad grid
     const cols = 3;
     const total = keypadKeys.length;
     const rows = Math.ceil(total / cols);
-    const row = Math.floor(idx / cols);
-    const col = idx % cols;
+    let row = Math.floor(idx / cols);
+    let col = idx % cols;
 
     if (e.key === "ArrowRight") {
       e.preventDefault();
@@ -286,10 +140,12 @@ export default function LoginModal({ open, onClose }) {
       const newRow = (row - 1 + rows) % rows;
       const next = newRow * cols + col;
       focusKeypadIndex(Math.min(next, total - 1));
+      return;
     }
   };
 
-  // Close + redirect on authenticated
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (!open) return;
     if (status === "authenticated" && session) {
@@ -299,7 +155,6 @@ export default function LoginModal({ open, onClose }) {
     }
   }, [open, status, session, nextUrl, router, onClose]);
 
-  // Reset on close
   useEffect(() => {
     if (open) return;
     setStep("pin");
@@ -321,69 +176,54 @@ export default function LoginModal({ open, onClose }) {
     setSubmitIconState("idle");
     setInvalidCredentials(false);
   }, [open]);
-
-  // Load saved email (keep existing behavior)
+  // Lae salvestatud e-post; ära ava sisendit enne, kui kasutaja vajutab ümbrikule
   useEffect(() => {
     if (!open || isOtpStep) return;
     try {
       const stored = window.localStorage.getItem(LOGIN_EMAIL_KEY) || "";
       setStoredEmail(stored);
       setEmailValue(stored);
-      if (emailInputRef.current) emailInputRef.current.value = stored;
-    } catch {}
-  }, [open, isOtpStep]);
-
-  // Load preferences on open (PIN step)
-  useEffect(() => {
-    if (!open) return;
-    if (step !== "pin") return;
-
-    try {
-      const savedLayout = window.localStorage.getItem(LOGIN_KEYPAD_LAYOUT_KEY);
-      if (savedLayout === "phone" || savedLayout === "numpad") setKeypadLayout(savedLayout);
-
-      const savedNative = window.localStorage.getItem(LOGIN_NATIVE_KEYBOARD_KEY);
-      if (savedNative === "true" || savedNative === "false") {
-        setUseNativeKeyboard(savedNative === "true");
-      } else if (isMobile) {
-        setUseNativeKeyboard(false);
+      if (emailInputRef.current) {
+        emailInputRef.current.value = stored;
       }
-    } catch {
-      if (isMobile) setUseNativeKeyboard(false);
-    }
-  }, [open, step, isMobile]);
-
-  // Persist preferences when changed
-  useEffect(() => {
-    if (!open) return;
-    try {
-      window.localStorage.setItem(LOGIN_KEYPAD_LAYOUT_KEY, keypadLayout);
     } catch {}
-  }, [open, keypadLayout]);
+  }, [open, isOtpStep, LOGIN_EMAIL_KEY]);
 
-  useEffect(() => {
-    if (!open) return;
-    try {
-      window.localStorage.setItem(LOGIN_NATIVE_KEYBOARD_KEY, String(useNativeKeyboard));
-    } catch {}
-  }, [open, useNativeKeyboard]);
-
-  // Focus rules: envelope first; then email input; OTP input for OTP step
+  // Fookus: esmalt ümbriku nupule, siis sisendile või OTP-le
   useEffect(() => {
     if (!open) return;
     if (isOtpStep) {
       const target = otpInputRef.current;
-      if (target && typeof target.focus === "function") setTimeout(() => target.focus(), 0);
+      if (target && typeof target.focus === "function") {
+        setTimeout(() => target.focus(), 0);
+      }
       return;
     }
     if (!emailRevealed) {
       const target = emailIconButtonRef.current;
-      if (target && typeof target.focus === "function") setTimeout(() => target.focus(), 0);
+      if (target && typeof target.focus === "function") {
+        setTimeout(() => target.focus(), 0);
+      }
       return;
     }
     const target = emailInputRef.current;
-    if (target && typeof target.focus === "function") setTimeout(() => target.focus(), 0);
+    if (target && typeof target.focus === "function") {
+      setTimeout(() => target.focus(), 0);
+    }
   }, [open, isOtpStep, emailRevealed]);
+
+  const resetIconState = useCallback(() => {
+    setSubmitIconState("idle");
+    setInvalidCredentials(false);
+  }, []);
+
+  const markPinError = useCallback(() => {
+    setSubmitIconState("error");
+  }, []);
+
+  const markPinSuccess = useCallback(() => {
+    setSubmitIconState("success");
+  }, []);
 
   const finishLogin = useCallback(
     async (token) => {
@@ -416,7 +256,6 @@ export default function LoginModal({ open, onClose }) {
     setInfo("");
     setPinError(false);
     resetIconState();
-
     const emailInput = boxRef.current?.querySelector('input[name="email"]');
     const email = String(emailInput?.value || storedEmail || "").trim().toLowerCase();
     const pin = pinValue.replace(/\s+/g, "");
@@ -450,7 +289,6 @@ export default function LoginModal({ open, onClose }) {
         setStoredEmail(email);
         setEmailValue(email);
       } catch {}
-
       const res = await fetch("/api/auth/login-step1", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -466,8 +304,9 @@ export default function LoginModal({ open, onClose }) {
         setError(payload?.message || t("auth.login.error.generic"));
         return;
       }
-      if (payload?.temp_login_token) setTempToken(payload.temp_login_token);
-
+      if (payload?.temp_login_token) {
+        setTempToken(payload.temp_login_token);
+      }
       if (payload?.status === "success" && payload?.temp_login_token) {
         markPinSuccess();
         await finishLogin(payload.temp_login_token);
@@ -481,45 +320,38 @@ export default function LoginModal({ open, onClose }) {
         setOtpExpiresAt(payload.otp_expires_at || null);
         return;
       }
-
       markPinError();
       setError(payload?.message || t("auth.login.error.generic"));
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("login-step1 error", err);
       markPinError();
       setError(t("auth.login.error.generic"));
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, markPinError, markPinSuccess, pinValue, resetIconState, storedEmail, t]);
-
-  const handlePinInputChange = useCallback(
-    (e) => {
-      if (step !== "pin") return;
-      const raw = typeof e?.target?.value === "string" ? e.target.value : "";
-      const next = raw.replace(/\D/g, "").slice(0, PIN_MAX);
-      setPinValue(next);
-      resetIconState();
-      setError("");
-      setPinError(false);
-    },
-    [PIN_MAX, resetIconState, step]
-  );
+  }, [
+    PIN_MAX,
+    PIN_MIN,
+    finishLogin,
+    markPinError,
+    markPinSuccess,
+    pinValue,
+    resetIconState,
+    storedEmail,
+    t,
+  ]);
 
   const onHiddenKeyDown = useCallback(
     (e) => {
       if (step !== "pin") return;
-
       const isPinFieldEvent = hiddenInputRef.current && e.target === hiddenInputRef.current;
-
       if (e.key === "Enter") {
         e.preventDefault();
         submitPinStep();
         return;
       }
+      // When the PIN input itself is focused, let the native input event update state to avoid double entries
       if (isPinFieldEvent) return;
-
       if (e.key === "Backspace") {
         e.preventDefault();
         setPinValue((p) => p.slice(0, -1));
@@ -539,119 +371,48 @@ export default function LoginModal({ open, onClose }) {
     [step, PIN_MAX, resetIconState, submitPinStep]
   );
 
-  // Desktop typing support only (avoid mobile oddities)
+  const handlePinInputChange = useCallback(
+    (e) => {
+      if (step !== "pin") return;
+      const raw = typeof e?.target?.value === "string" ? e.target.value : "";
+      const next = raw.replace(/\D/g, "").slice(0, PIN_MAX);
+      setPinValue(next);
+      resetIconState();
+      setError("");
+      setPinError(false);
+    },
+    [PIN_MAX, resetIconState, step]
+  );
+
   useEffect(() => {
     if (!open || step !== "pin") return;
-    if (isMobile) return;
-
     const tid = setTimeout(() => {
+      // Do not steal focus from the email field when the user just opened or clicked it.
       if (!emailRevealed) return;
       const emailField = emailInputRef.current;
       if (emailField && document.activeElement === emailField) return;
       const hasEmail = emailField && emailField.value.trim().length > 0;
       if (hasEmail) hiddenInputRef.current?.focus?.();
     }, 0);
-
     const keyListener = (e) => {
       if (step !== "pin") return;
       const target = e.target;
       const tag = target?.tagName?.toLowerCase();
       const isEditable = tag === "input" || tag === "textarea" || target?.isContentEditable;
       const isHidden = hiddenInputRef.current && target === hiddenInputRef.current;
+      // If focused in an editable field that is not our hidden PIN input, do not hijack keys
       if (isEditable && !isHidden) return;
+      // Avoid handling events twice when the hidden PIN input itself has focus;
+      // its own handlers will update the state.
       if (isHidden) return;
       onHiddenKeyDown(e);
     };
-
     window.addEventListener("keydown", keyListener);
     return () => {
       clearTimeout(tid);
       window.removeEventListener("keydown", keyListener);
     };
-  }, [open, step, emailRevealed, onHiddenKeyDown, isMobile]);
-
-  const appendDigit = (digit) => {
-    if (step !== "pin") return;
-    setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${digit}`));
-    setError("");
-    resetIconState();
-    setPinError(false);
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
-      try {
-        navigator.vibrate(8);
-      } catch {}
-    }
-  };
-
-  const handleBackspace = useCallback(() => {
-    if (step !== "pin") return;
-    setPinValue((p) => p.slice(0, -1));
-    setError("");
-    resetIconState();
-    setPinError(false);
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
-      try {
-        navigator.vibrate(6);
-      } catch {}
-    }
-  }, [resetIconState, step]);
-
-  const handleClear = useCallback(() => {
-    if (step !== "pin") return;
-    setPinValue("");
-    setError("");
-    resetIconState();
-    setPinError(false);
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
-      try {
-        navigator.vibrate(6);
-      } catch {}
-    }
-  }, [resetIconState, step]);
-
-  // Swipe-left => backspace (custom keypad wrapper)
-  const handleKeypadTouchStart = (e) => {
-    if (step !== "pin") return;
-    const t0 = e.touches && e.touches[0];
-    if (!t0) return;
-    touchStartRef.current = { x: t0.clientX, y: t0.clientY };
-  };
-
-  const handleKeypadTouchEnd = (e) => {
-    if (step !== "pin") return;
-    const start = touchStartRef.current;
-    if (!start) return;
-
-    const t1 = (e.changedTouches && e.changedTouches[0]) || null;
-    if (!t1) return;
-
-    const dx = t1.clientX - start.x;
-    const dy = t1.clientY - start.y;
-
-    if (dx < -30 && Math.abs(dy) < 25) {
-      handleBackspace();
-    }
-
-    touchStartRef.current = null;
-  };
-
-  // 0 long-press => clear
-  const startZeroLongPress = useCallback(() => {
-    if (step !== "pin") return;
-    zeroLongPressFiredRef.current = false;
-    if (zeroLongPressTimerRef.current) clearTimeout(zeroLongPressTimerRef.current);
-    zeroLongPressTimerRef.current = setTimeout(() => {
-      zeroLongPressFiredRef.current = true;
-      handleClear();
-    }, 450);
-  }, [handleClear, step]);
-
-  const cancelZeroLongPress = useCallback(() => {
-    if (zeroLongPressTimerRef.current) {
-      clearTimeout(zeroLongPressTimerRef.current);
-      zeroLongPressTimerRef.current = null;
-    }
-  }, []);
+  }, [open, step, emailRevealed, onHiddenKeyDown]);
 
   const submitOtpStep = async () => {
     if (!tempToken) {
@@ -686,7 +447,6 @@ export default function LoginModal({ open, onClose }) {
       }
       setError(payload?.message || t("auth.login.error.generic"));
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("login-step2 error", err);
       setError(t("auth.login.error.generic"));
     } finally {
@@ -711,9 +471,12 @@ export default function LoginModal({ open, onClose }) {
         return;
       }
       setOtpExpiresAt(payload?.otp_expires_at || null);
-      setInfo(t("auth.login.otp_resent", { email: payload?.email_mask || emailMask || "" }));
+      setInfo(
+        t("auth.login.otp_resent", {
+          email: payload?.email_mask || emailMask || "",
+        })
+      );
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("login-resend-otp error", err);
       setError(t("auth.login.error.generic"));
     } finally {
@@ -734,6 +497,49 @@ export default function LoginModal({ open, onClose }) {
     setPinError(false);
   };
 
+
+  const appendDigit = (digit, event) => {
+    if (step !== "pin") return;
+    setPinValue((p) => (p.length >= PIN_MAX ? p : `${p}${digit}`));
+    focusHiddenInput(event);
+    setError("");
+    resetIconState();
+    setPinError(false);
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try {
+        navigator.vibrate(8);
+      } catch {}
+    }
+  };
+
+  const handleBackspace = (event) => {
+    if (step !== "pin") return;
+    setPinValue((p) => p.slice(0, -1));
+    focusHiddenInput(event);
+    setError("");
+    resetIconState();
+    setPinError(false);
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try {
+        navigator.vibrate(6);
+      } catch {}
+    }
+  };
+
+  const handleClear = (event) => {
+    if (step !== "pin") return;
+    setPinValue("");
+    focusHiddenInput(event);
+    setError("");
+    resetIconState();
+    setPinError(false);
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try {
+        navigator.vibrate(6);
+      } catch {}
+    }
+  };
+
   const revealEmailInput = useCallback(() => {
     if (emailRevealed) return;
     setEmailRevealed(true);
@@ -741,37 +547,19 @@ export default function LoginModal({ open, onClose }) {
     setTimeout(() => {
       const node = emailInputRef.current;
       if (!node) return;
-      if (!node.value && storedEmail) node.value = storedEmail;
+      if (!node.value && storedEmail) {
+        node.value = storedEmail;
+      }
       setEmailValue(node.value || "");
       node.focus();
     }, 0);
   }, [emailRevealed, storedEmail]);
 
-  const toggleKeypad = () => {
-    if (isMobile) {
-      // iOS: must focus in the same user gesture stack. Use flushSync to ensure input exists.
-      if (!useNativeKeyboard) {
-        flushSync(() => setUseNativeKeyboard(true));
-        try {
-          mobilePinInputRef.current?.focus?.({ preventScroll: true });
-        } catch {
-          mobilePinInputRef.current?.focus?.();
-        }
-      } else {
-        setUseNativeKeyboard(false);
-        try {
-          mobilePinInputRef.current?.blur?.();
-        } catch {}
-      }
-      return;
-    }
-    setKeypadLayout((p) => (p === "phone" ? "numpad" : "phone"));
-  };
+  const stopInside = (e) => e.stopPropagation();
 
   if (!open) return null;
 
   const isLightTheme = prefs?.theme === "light";
-
   const submitIconSrc = (() => {
     const successIcon = isLightTheme ? "/logo/sisenerohelinehele.svg" : "/logo/siseneroheline.svg";
     const errorIcon = isLightTheme ? "/logo/sisenepunanetume.svg" : "/logo/sisenepunanehele.svg";
@@ -779,16 +567,17 @@ export default function LoginModal({ open, onClose }) {
     if (submitIconState === "error") return errorIcon;
     return isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
   })();
-
-  // Submit ring brighten progress (0..1) — used by CSS var --pin-progress-eased
-  const raw = Math.min(pinValue.length / PIN_MAX, 1);
-  const eased = easeOutCubic(raw);
-
-  const stopInside = (e) => e.stopPropagation();
+  const pinIndicatorClasses = [
+    "pin-indicator",
+    "moved-below",
+    "tightened-gap",
+    pinError ? "pin-indicator--error" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return createPortal(
     <>
-
       <div className="login-modal-backdrop" onClick={onClose} />
       <div
         ref={boxRef}
@@ -805,18 +594,17 @@ export default function LoginModal({ open, onClose }) {
             emailInputRef.current.focus();
             return;
           }
-          if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
+          if (!emailRevealed && emailIconButtonRef.current) {
+            emailIconButtonRef.current.focus();
+          }
         }}
       >
-        <button
-          className="login-modal-close modal-close-btn"
-          onClick={onClose}
-          aria-label={t("buttons.close")}
-          type="button"
-        />
+        <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
         <div className="login-modal-head">
-          <div className="glass-title">{isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}</div>
+          <div className="glass-title">
+            {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
+          </div>
           <div
             className={[
               "glass-note",
@@ -838,31 +626,29 @@ export default function LoginModal({ open, onClose }) {
         </div>
 
         {!isOtpStep && (
-          <form
-            className="login-modal-form compact"
-            onSubmit={(e) => {
-              e.preventDefault();
-              submitPinStep();
-            }}
-            autoComplete="off"
-          >
+          <form className="login-modal-form compact" onSubmit={(e) => { e.preventDefault(); submitPinStep(); }} autoComplete="off">
             <div id={emailHintIdRef.current} className="sr-only">
-              {t("auth.email_icon_hint")}
+              {t(
+                "auth.email_icon_hint",
+                "Vajuta ümbriku väljale, et avada e-posti sisestuse lahter ja sisesta oma e-post."
+              )}
             </div>
-
-            <div className="login-email-toggle">
-              {!emailRevealed ? (
-                <button
-                  type="button"
-                  ref={emailIconButtonRef}
-                  className={`login-email-icon-btn${hasEmailValue ? " login-email-icon-btn--known" : ""}${
-                    invalidCredentials ? " login-email-icon-btn--error" : ""
-                  }`}
-                  aria-describedby={emailHintIdRef.current}
-                  aria-label={t("auth.email_placeholder")}
-                  onClick={revealEmailInput}
-                >
-                  <span className="sr-only">{t("auth.email_icon_hint")}</span>
+        <div className="login-email-toggle">
+          {!emailRevealed ? (
+            <button
+              type="button"
+              ref={emailIconButtonRef}
+              className={`login-email-icon-btn${hasEmailValue ? " login-email-icon-btn--known" : ""}${invalidCredentials ? " login-email-icon-btn--error" : ""}`}
+              aria-describedby={emailHintIdRef.current}
+              aria-label={t("auth.email_placeholder")}
+              onClick={revealEmailInput}
+            >
+                  <span className="sr-only">
+                    {t(
+                      "auth.email_icon_hint",
+                      "Vajuta ümbriku väljale, et avada e-posti sisestuse lahter ja sisesta oma e-post."
+                    )}
+                  </span>
                 </button>
               ) : (
                 <label style={{ width: "100%", display: "block", textAlign: "center" }}>
@@ -881,12 +667,15 @@ export default function LoginModal({ open, onClose }) {
                     onMouseDown={(e) => {
                       const node = emailInputRef.current;
                       if (node && document.activeElement !== node) {
-                        e.preventDefault();
+                        e.preventDefault(); // vältida topelt-klõpsu vajadust
                         node.focus();
                       }
                     }}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter") e.preventDefault();
+                      if (e.key === "Enter") {
+                        // ära suuna PIN-ile enne sisestamist
+                        e.preventDefault();
+                      }
                     }}
                     onChange={(e) => {
                       setEmailValue(e.target.value || "");
@@ -899,181 +688,138 @@ export default function LoginModal({ open, onClose }) {
               )}
             </div>
 
+
             <div id={pinHintIdRef.current} className="sr-only">
-              {t("auth.login.pin_hint")}
+              {t(
+                "auth.login.pin_hint",
+                "Sisesta PIN; sisestus on peidetud ja tähemärke ei loeta ette turvalisuse huvides."
+              )}
             </div>
+            <input
+              aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
+              ref={hiddenInputRef}
+              value={pinValue}
+              inputMode="numeric"
+              pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
+              maxLength={PIN_MAX}
+              className="sr-only pin-hidden-input"
+              tabIndex={0}
+              type="password"
+              onKeyDown={onHiddenKeyDown}
+              onInput={handlePinInputChange}
+              onChange={handlePinInputChange}
+              aria-describedby={pinHintIdRef.current}
+              aria-live="off"
+            />
 
-            {/* Desktop: sr-only input for physical keyboard typing */}
-            {!isMobile && (
-              <input
-                aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
-                ref={hiddenInputRef}
-                value={pinValue}
-                inputMode="numeric"
-                pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
-                maxLength={PIN_MAX}
-                className="sr-only pin-hidden-input"
-                tabIndex={0}
-                type="password"
-                onKeyDown={onHiddenKeyDown}
-                onInput={handlePinInputChange}
-                onChange={handlePinInputChange}
-                aria-describedby={pinHintIdRef.current}
-                aria-live="off"
-              />
-            )}
-
-            {/* Mobile: a focusable hidden input for native keyboard mode */}
-            {isMobile && (
-              <input
-                ref={mobilePinInputRef}
-                aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
-                value={pinValue}
-                inputMode="numeric"
-                pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
-                maxLength={PIN_MAX}
-                type="tel"
-                autoComplete="current-password"
-                onChange={handlePinInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    submitPinStep();
-                  }
-                }}
-                aria-describedby={pinHintIdRef.current}
-                style={{
-                  position: "fixed",
-                  left: 0,
-                  bottom: 0,
-                  opacity: 0,
-                  width: 1,
-                  height: 1,
-                  zIndex: -1,
-                  background: "transparent",
-                  border: "none",
-                  padding: 0,
-                  margin: 0,
-                }}
-              />
-            )}
-
-            {/* Custom keypad: hidden when mobile uses native keyboard */}
-            {!(isMobile && useNativeKeyboard) && (
-              <div
-                className="pin-keypad-all-wrapper"
-                aria-hidden="false"
-                onTouchStart={handleKeypadTouchStart}
-                onTouchEnd={handleKeypadTouchEnd}
-                onTouchCancel={handleKeypadTouchEnd}
-              >
-                <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
-                  {keypadKeys.map((key, idx) => {
-                    if (key === "blank") {
-                      return <span key={`blank-${idx}`} className="pin-keypad__blank" aria-hidden="true" />;
-                    }
-
-                    const digitLabel = t("auth.login.key", { digit: key });
-
+            <div className="pin-keypad-all-wrapper" aria-hidden="false">
+              <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
+                {keypadKeys.map((key, idx) => {
+                  if (key === "back") {
+                    const label =
+                      t("auth.login.back", "Kustuta viimane number") || "Kustuta viimane number";
                     return (
                       <button
-                        key={`${key}-${idx}`}
+                        key={`back-${idx}`}
                         type="button"
-                        className="pin-keypad__button"
+                        className="pin-keypad__button pin-keypad__button--alt"
                         ref={(el) => (keypadRefs.current[idx] = el)}
                         onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
-                        onClick={() => {
-                          // If long-press already cleared, do not also append 0 on release/click.
-                          if (key === "0" && zeroLongPressFiredRef.current) {
-                            zeroLongPressFiredRef.current = false;
-                            return;
-                          }
-                          appendDigit(key);
-                        }}
-                        onTouchStart={key === "0" ? startZeroLongPress : undefined}
-                        onTouchEnd={key === "0" ? cancelZeroLongPress : undefined}
-                        onTouchCancel={key === "0" ? cancelZeroLongPress : undefined}
-                        onMouseDown={key === "0" ? startZeroLongPress : undefined}
-                        onMouseUp={key === "0" ? cancelZeroLongPress : undefined}
-                        onMouseLeave={key === "0" ? cancelZeroLongPress : undefined}
+                        onClick={handleBackspace}
+                        aria-label={label}
                         disabled={pinLoading}
-                        aria-label={digitLabel}
                       >
-                        {key}
+                        {"\u2190"}
                       </button>
                     );
-                  })}
-                </div>
+                  }
+                  if (key === "clear") {
+                    const label =
+                      t("auth.login.clear", "Puhasta PIN") || "Puhasta PIN";
+                    return (
+                      <button
+                        key={`clear-${idx}`}
+                        type="button"
+                        className="pin-keypad__button pin-keypad__button--alt"
+                        ref={(el) => (keypadRefs.current[idx] = el)}
+                        onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
+                        onClick={handleClear}
+                        aria-label={label}
+                        disabled={pinLoading || !pinValue}
+                      >
+                        {"C"}
+                      </button>
+                    );
+                  }
+                  const digitLabel = t(
+                    "auth.login.key",
+                    "Number {digit}"
+                  ).replace("{digit}", key);
+                  return (
+                    <button
+                      key={`${key}-${idx}`}
+                      type="button"
+                      className="pin-keypad__button"
+                      ref={(el) => (keypadRefs.current[idx] = el)}
+                      onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
+                      onClick={(event) => appendDigit(key, event)}
+                      disabled={pinLoading}
+                      aria-label={digitLabel || `Number ${key}`}
+                    >
+                      {key}
+                    </button>
+                  );
+                })}
               </div>
-            )}
-
-            {/* Toggle under keypad */}
-            <div style={{ textAlign: "center", marginTop: "0.35rem" }}>
-              <button
-                type="button"
-                className="link-brand-inline pin-layout-toggle"
-                onClick={toggleKeypad}
-                aria-label={
-                  isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")
-                }
-                disabled={pinLoading}
-              >
-                {t("auth.login.toggle_keypad")}
-              </button>
             </div>
 
-<div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
-  <button
-    type="submit"
-    className={`login-submit-icon-btn login-submit-icon-only login-submit-icon-btn--${submitIconState}`}
-    disabled={pinLoading}
-    aria-label={pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
-  >
-    <span className="login-submit-icon-stack" aria-hidden="true">
-      <Image
-        src={submitIconSrc}
-        className="login-submit-icon"
-        alt=""
-        width={80}
-        height={80}
-        aria-hidden="true"
-      />
-{pinValue.length > 0 && (
-  <span className="login-submit-icon-overlay">
-    <SubmitArcOverlayWhite size={80} filled={pinValue.length} max={PIN_MAX} />
-  </span>
-)}
-    </span>
+            <div
+              className={pinIndicatorClasses}
+              role="status"
+              aria-live="polite"
+              aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
+            >
+              {Array.from({ length: PIN_MAX }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`pin-dot ${i < pinValue.length ? "filled" : ""}${
+                    pinError ? " pin-dot--error" : ""
+                  }`}
+                />
+              ))}
+            </div>
 
-    <span className="sr-only">
-      {pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
-    </span>
-  </button>
-</div>
-     </form>
+            <div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                type="submit"
+                className={`login-submit-icon-btn login-submit-icon-only login-submit-icon-btn--${submitIconState}`}
+                disabled={pinLoading}
+                aria-label={pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
+              >
+                <Image src={submitIconSrc} className="login-submit-icon" alt="" width={80} height={80} aria-hidden="true" />
+                <span className="sr-only">{pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}</span>
+              </button>
+            </div>
+          </form>
         )}
+
         {isOtpStep && (
-          <form
-            className="login-modal-form compact otp-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              submitOtpStep();
-            }}
-          >
+          <form className="login-modal-form compact otp-form" onSubmit={(e) => { e.preventDefault(); submitOtpStep(); }}>
             <div className="otp-summary">
               {info && (
                 <p role="status" className="otp-summary__lead">
                   {info}
                 </p>
               )}
-              <p className="otp-summary__body">{t("auth.login.otp_description", { email: emailMask || "" })}</p>
+              <p className="otp-summary__body">
+                {t("auth.login.otp_description", { email: emailMask || "" })}
+              </p>
               {otpDeadlineLabel && (
                 <p className="otp-summary__meta" id="otp-deadline">
                   {t("auth.login.otp_expires", { time: otpDeadlineLabel })}
                 </p>
               )}
             </div>
-
             <div className="otp-input-stack">
               <input
                 id="otp-code-input"
@@ -1087,22 +833,29 @@ export default function LoginModal({ open, onClose }) {
                 maxLength={6}
                 pattern="\\d{6}"
                 value={otpValue}
-                onChange={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
+                onChange={(e) => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder={t("auth.login.otp_placeholder")}
               />
             </div>
-
             <label className="glass-checkbox otp-checkbox">
-              <input type="checkbox" checked={rememberDevice} onChange={(e) => setRememberDevice(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={rememberDevice}
+                onChange={(e) => setRememberDevice(e.target.checked)}
+              />
               <span className="checkbox-text">{t("auth.login.remember_device")}</span>
             </label>
-
             <div className="otp-actions">
               <button type="submit" className="btn-primary otp-submit" disabled={otpLoading}>
                 <span>{otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}</span>
               </button>
               <div className="otp-secondary">
-                <button type="button" className="link-brand-inline" onClick={handleResendOtp} disabled={resendLoading}>
+                <button
+                  type="button"
+                  className="link-brand-inline"
+                  onClick={handleResendOtp}
+                  disabled={resendLoading}
+                >
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </button>
                 <button type="button" className="link-brand-inline" onClick={resetToPinStep}>
@@ -1124,10 +877,7 @@ export default function LoginModal({ open, onClose }) {
               </Link>
             </div>
 
-            <div
-              className="unustasid-parooli-link-wrapper-bottom"
-              style={{ textAlign: "center", marginBottom: "-0.8rem", marginTop: "-0.5rem" }}
-            >
+            <div className="unustasid-parooli-link-wrapper-bottom" style={{ textAlign: "center", marginBottom: "-0.8rem", marginTop: "-0.5rem"  }}>
               <Link href="/uuenda-pin" className="unustasid-parooli-link">
                 {t("auth.login.forgot")}
               </Link>

@@ -8724,7 +8724,6 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   border-color: rgba(226,232,240,0.9);
   background: rgba(12, 18, 30, 0.85);
 }
-
 /* optional helper */
 .chat-analysis-checkbox{
   display:inline-flex;
@@ -8737,10 +8736,14 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   margin:0;
   padding:0.45em 0.75em;
 }
+.login-modal-box .pin-layout-toggle {
+  font-size: 1.05rem;
+  }
 .login-submit-icon-btn:hover .login-submit-icon-stack,
 .login-submit-icon-btn:focus-visible .login-submit-icon-stack {
   transform: translateY(-1px) scale(1.12);
 }
+
 .login-submit-icon-stack {
   position: relative;
   display: inline-block;
@@ -8751,15 +8754,28 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   transition: transform 160ms ease;
 }
 
+.login-submit-icon {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+
 .login-submit-icon-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  display: block;
 }
-.login-submit-icon-btn:hover .login-submit-icon,
-.login-submit-icon-btn:focus-visible .login-submit-icon {
-  transform: none;
+
+.login-submit-icon-overlay svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
-.login-modal-box .pin-layout-toggle {
-  font-size: 1.05rem;
+.login-submit-icon-stack {
+  will-change: transform;
+}
+
+.login-submit-icon {
+  backface-visibility: hidden;
 }
