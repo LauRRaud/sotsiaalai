@@ -144,10 +144,26 @@ export default function LoginModal({ open, onClose }) {
   const hasEmailValue = (emailValue || "").trim().length > 0;
 
   // Mobile: default = custom keypad; toggle enables native keyboard
-  const [useNativeKeyboard, setUseNativeKeyboard] = useState(false);
+  const [useNativeKeyboard, setUseNativeKeyboard] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const v = window.localStorage.getItem(LOGIN_NATIVE_KEYBOARD_KEY);
+      if (v === "true") return true;
+      if (v === "false") return false;
+    } catch {}
+    // requirement: default mobile = custom keypad
+    return false;
+  });
 
   // Desktop: keypad layout toggler
-  const [keypadLayout, setKeypadLayout] = useState("phone"); // phone | numpad
+  const [keypadLayout, setKeypadLayout] = useState(() => {
+    if (typeof window === "undefined") return "phone";
+    try {
+      const v = window.localStorage.getItem(LOGIN_KEYPAD_LAYOUT_KEY);
+      if (v === "numpad" || v === "phone") return v;
+    } catch {}
+    return "phone";
+  }); // phone | numpad
 
   const boxRef = useRef(null);
   const emailInputRef = useRef(null);
@@ -351,12 +367,17 @@ export default function LoginModal({ open, onClose }) {
     if (!open) return;
     if (step !== "pin") return;
     if (!isMobile) return;
+    if (!useNativeKeyboard) return;
 
-    if (useNativeKeyboard) {
-      setTimeout(() => {
+    // Best-effort focus when the modal opens with native keyboard enabled (e.g. from saved preference).
+    // Note: iOS may require an explicit user gesture; the toggle handler also focuses synchronously.
+    requestAnimationFrame(() => {
+      try {
+        mobilePinInputRef.current?.focus?.({ preventScroll: true });
+      } catch {
         mobilePinInputRef.current?.focus?.();
-      }, 0);
-    }
+      }
+    });
   }, [open, step, isMobile, useNativeKeyboard]);
 
   const finishLogin = useCallback(
@@ -678,7 +699,23 @@ export default function LoginModal({ open, onClose }) {
 
   const toggleKeypad = () => {
     if (isMobile) {
-      setUseNativeKeyboard((v) => !v);
+      // On iOS, opening the OS keyboard often requires a direct user gesture.
+      // Therefore we focus the (hidden) input synchronously when enabling native keyboard.
+      setUseNativeKeyboard((prev) => {
+        const next = !prev;
+        if (next) {
+          try {
+            mobilePinInputRef.current?.focus?.({ preventScroll: true });
+          } catch {
+            mobilePinInputRef.current?.focus?.();
+          }
+        } else {
+          try {
+            mobilePinInputRef.current?.blur?.();
+          } catch {}
+        }
+        return next;
+      });
       return;
     }
     setKeypadLayout((p) => (p === "phone" ? "numpad" : "phone"));
@@ -833,7 +870,7 @@ export default function LoginModal({ open, onClose }) {
               />
             )}
 
-            {isMobile && useNativeKeyboard && (
+            {isMobile && (
               <input
                 ref={mobilePinInputRef}
                 aria-label={t("auth.pin_placeholder", { min: PIN_MIN, max: PIN_MAX })}
@@ -841,7 +878,8 @@ export default function LoginModal({ open, onClose }) {
                 inputMode="numeric"
                 pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
                 maxLength={PIN_MAX}
-                type="password"
+                // "tel" reliably triggers numeric keypad on iOS; field is visually hidden either way.
+                type="tel"
                 autoComplete="current-password"
                 onChange={handlePinInputChange}
                 onKeyDown={(e) => {
@@ -851,12 +889,19 @@ export default function LoginModal({ open, onClose }) {
                   }
                 }}
                 aria-describedby={pinHintIdRef.current}
+                // Visually hidden but focusable; keep pointer events enabled so iOS will open the keyboard on focus.
                 style={{
-                  position: "absolute",
+                  position: "fixed",
+                  left: 0,
+                  bottom: 0,
                   opacity: 0,
                   width: 1,
                   height: 1,
-                  pointerEvents: "none",
+                  zIndex: -1,
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  margin: 0,
                 }}
               />
             )}
