@@ -91,7 +91,12 @@
       "otp_resent": "A new code was sent to {email}.",
       "clear": "Clear PIN",
       "clear_short": "C",
-      "back": "Delete last digit"
+      "back": "Delete last digit",
+      "pin_hint": "Enter your PIN. For security, characters are hidden and not read aloud.",
+      "key": "Number {digit}",
+      "toggle_keypad": "Switch keypad",
+      "toggle_keypad_mobile_aria": "Switch between the built-in keyboard and the on-screen keypad for PIN entry.",
+      "toggle_keypad_desktop_aria": "Switch the keypad layout."
     },
     "register": {
       "title": "Create account",
@@ -135,7 +140,8 @@
         "updateFailed": "We couldn't update the PIN.",
         "server": "A server error occurred. Please try again."
       }
-    }
+    },
+    "email_icon_hint": "Press the envelope to open the email field, then enter your email address."
   },
   "home": {
     "opening_banner": "Opening soon!",

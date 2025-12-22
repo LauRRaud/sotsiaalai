@@ -91,7 +91,12 @@
       "resending": "Saadame...",
       "otp_back": "Kasuta teist e-posti",
       "otp_invalid": "Kood on vale või aegunud.",
-      "otp_resent": "Saadeti uus kood aadressile {email}."
+      "otp_resent": "Saadeti uus kood aadressile {email}.",
+      "pin_hint": "Sisesta PIN. Turvalisuse huvides on sisestus peidetud ja märke ette ei loeta.",
+      "key": "Number {digit}",
+      "toggle_keypad": "Vaheta klahvistik",
+      "toggle_keypad_mobile_aria": "Vaheta PIN-i sisestusviisi ekraaniklahvistiku ja seadme klaviatuuri vahel.",
+      "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust."
     },
     "register": {
       "title": "Loo konto",
@@ -135,7 +140,8 @@
         "updateFailed": "PIN-i ei õnnestunud uuendada.",
         "server": "Serveriga tekkis ühenduse viga. Palun proovi uuesti."
       }
-    }
+    },
+    "email_icon_hint": "Vajuta ümbrikule, et avada e-posti sisestus, ja sisesta oma e-post."
   },
   "home": {
     "opening_banner": "Peagi avame!",
