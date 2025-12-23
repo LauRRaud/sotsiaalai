@@ -13,30 +13,24 @@ import { localizePath } from "@/lib/localizePath";
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 function SubmitArcOverlayWhite({ size = 80, filled = 0, max = 8 }) {
+  // must match your icon ring path 1:1
   const arcD = "M6 7.5A8 8 0 1 1 6 16.5";
 
   const clamped = Math.max(0, Math.min(max, filled));
   if (clamped <= 0) return null;
 
-  // 0..100 pathLength units
-  const seg = (clamped / max) * 100;
+  const PATHLEN = 100;
+  const MAX_SWEEP = 94;          // leaves a small gap (never full circle)
+  const seg = (clamped / max) * MAX_SWEEP;
 
-  // Match your icon stroke. Your earlier icon-overlay used ~0.95, so start here.
-  // If it sits “inside” the grey ring, increase slightly: 1.05; if too thick, reduce: 0.90.
-  const w = 0.95;
+  // shift start to 12 o'clock for this specific path
+  const TOP_SHIFT = 19.13;
 
-  // Fade length (longer = smoother). Keep proportional but bounded.
-  // Important: keep some core, so first digit visibly shows white immediately.
-  const fadeLen = Math.min(26, Math.max(12, seg * 0.75));
-  const feather = Math.min(fadeLen, seg);
-  const coreLen = Math.max(0, seg - feather);
-
-  // More layers = smoother fade (and less “step” visibility).
-  const N = 24;
-
-  // Weighting: shortest layers strongest, longest layer faintest.
-  // This guarantees the very last visible end is near-invisible.
-  const sumW = (N * (N + 1)) / 2;
+  // two-stroke approach:
+  // 1) underlay wider semi-white removes dark fringe
+  // 2) top stroke is pure white and crisp
+  const underW = 2.2;
+  const topW = 1.35;
 
   return (
     <svg
@@ -49,56 +43,37 @@ function SubmitArcOverlayWhite({ size = 80, filled = 0, max = 8 }) {
       shapeRendering="geometricPrecision"
       style={{ display: "block" }}
     >
-      {/* CORE: fully white up to the start of the fade */}
-      {coreLen > 0 && (
-        <path
-          d={arcD}
-          fill="none"
-          stroke="rgb(255 255 255)"
-          strokeWidth={w}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          pathLength="100"
-          strokeDasharray={`${coreLen} 300`} // 300 => never repeats
-          strokeDashoffset="0"
-          style={{
-            transition: "stroke-dasharray 360ms cubic-bezier(0.16, 1, 0.3, 1)",
-          }}
-        />
-      )}
+      {/* underlay (anti-fringe) */}
+      <path
+        d={arcD}
+        fill="none"
+        stroke="rgba(255,255,255,0.55)"
+        strokeWidth={underW}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        pathLength={PATHLEN}
+        strokeDasharray={`${seg} 300`}
+        strokeDashoffset={-TOP_SHIFT}
+      />
 
-      {/* FEATHER: many layers, staggered ends, long fade to transparent */}
-      {Array.from({ length: N }, (_, i) => {
-        // i=0 is the longest (reaches farthest), i=N-1 is the shortest (strongest).
-        const len = feather * (1 - i / N); // fade region length for this layer
-        if (len <= 0) return null;
-
-        // alpha: shortest strongest, longest faintest
-        const weight = N - i; // shortest => N, longest => 1
-        const alpha = weight / sumW; // sums to ~1 at start of fade; last layer ~0.003
-
-        return (
-          <path
-            key={i}
-            d={arcD}
-            fill="none"
-            stroke={`rgba(255,255,255,${alpha})`}
-            strokeWidth={w}
-            strokeLinecap="butt" // avoids “dot/tick” at the end
-            strokeLinejoin="round"
-            pathLength="100"
-            strokeDasharray={`${len} 300`}   // one dash + huge gap (no multi-start)
-            strokeDashoffset={-coreLen}      // start feather exactly where core ends
-            style={{
-              transition: "stroke-dasharray 360ms cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-          />
-        );
-      })}
+      {/* top (true white) */}
+      <path
+        d={arcD}
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth={topW}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        pathLength={PATHLEN}
+        strokeDasharray={`${seg} 300`}
+        strokeDashoffset={-TOP_SHIFT}
+        style={{
+          transition: "stroke-dasharray 320ms cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      />
     </svg>
   );
 }
-
 export default function LoginModal({ open, onClose }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -209,8 +184,8 @@ export default function LoginModal({ open, onClose }) {
     .join(" ");
 
   // Keypad: no extra buttons. Deletion is swipe; clear is long-press 0.
-  const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "blank", "0", "blank"], []);
-  const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "blank", "0", "blank"], []);
+  const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "blank", "0 / C", "blank"], []);
+  const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "blank", "0 / C", "blank"], []);
 
   const keypadKeys = useMemo(() => {
     if (isMobile) return keypadKeysPhone;
@@ -958,54 +933,72 @@ export default function LoginModal({ open, onClose }) {
               />
             )}
 
-            {/* Custom keypad: hidden when mobile uses native keyboard */}
-            {!(isMobile && useNativeKeyboard) && (
-              <div
-                className="pin-keypad-all-wrapper"
-                aria-hidden="false"
-                onTouchStart={handleKeypadTouchStart}
-                onTouchEnd={handleKeypadTouchEnd}
-                onTouchCancel={handleKeypadTouchEnd}
-              >
-                <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
-                  {keypadKeys.map((key, idx) => {
-                    if (key === "blank") {
-                      return <span key={`blank-${idx}`} className="pin-keypad__blank" aria-hidden="true" />;
-                    }
+{!(isMobile && useNativeKeyboard) && (
+  <div
+    className="pin-keypad-all-wrapper"
+    aria-hidden="false"
+    onTouchStart={handleKeypadTouchStart}
+    onTouchEnd={handleKeypadTouchEnd}
+    onTouchCancel={handleKeypadTouchEnd}
+  >
+    <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
+      {keypadKeys.map((key, idx) => {
+        if (key === "blank") {
+          return <span key={`blank-${idx}`} className="pin-keypad__blank" aria-hidden="true" />;
+        }
 
-                    const digitLabel = t("auth.login.key", { digit: key });
+        const isZeroKey = typeof key === "string" && key.trim().startsWith("0"); // "0" or "0 / C"
+        const digitToAppend = isZeroKey ? "0" : key;
 
-                    return (
-                      <button
-                        key={`${key}-${idx}`}
-                        type="button"
-                        className="pin-keypad__button"
-                        ref={(el) => (keypadRefs.current[idx] = el)}
-                        onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
-                        onClick={() => {
-                          // If long-press already cleared, do not also append 0 on release/click.
-                          if (key === "0" && zeroLongPressFiredRef.current) {
-                            zeroLongPressFiredRef.current = false;
-                            return;
-                          }
-                          appendDigit(key);
-                        }}
-                        onTouchStart={key === "0" ? startZeroLongPress : undefined}
-                        onTouchEnd={key === "0" ? cancelZeroLongPress : undefined}
-                        onTouchCancel={key === "0" ? cancelZeroLongPress : undefined}
-                        onMouseDown={key === "0" ? startZeroLongPress : undefined}
-                        onMouseUp={key === "0" ? cancelZeroLongPress : undefined}
-                        onMouseLeave={key === "0" ? cancelZeroLongPress : undefined}
-                        disabled={pinLoading}
-                        aria-label={digitLabel}
-                      >
-                        {key}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+        const digitLabel = t("auth.login.key", { digit: key });
+
+        return (
+          <button
+            key={`${key}-${idx}`}
+            type="button"
+            className={`pin-keypad__button${isZeroKey ? " pin-keypad__button--alt" : ""}`}
+            ref={(el) => (keypadRefs.current[idx] = el)}
+            onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
+            onPointerDown={(e) => {
+              // Run the slow “flowing” bounce even on short taps
+              const el = e.currentTarget;
+              el.classList.remove("pin-keypad__button--bounce");
+              // restart animation reliably
+              // eslint-disable-next-line no-unused-expressions
+              el.offsetWidth;
+              el.classList.add("pin-keypad__button--bounce");
+              window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+
+              if (isZeroKey) startZeroLongPress();
+            }}
+            onPointerUp={() => {
+              if (isZeroKey) cancelZeroLongPress();
+            }}
+            onPointerCancel={() => {
+              if (isZeroKey) cancelZeroLongPress();
+            }}
+            onPointerLeave={() => {
+              if (isZeroKey) cancelZeroLongPress();
+            }}
+            onClick={() => {
+              // If long-press already cleared, do not also append 0 on release/click.
+              if (isZeroKey && zeroLongPressFiredRef.current) {
+                zeroLongPressFiredRef.current = false;
+                return;
+              }
+              appendDigit(digitToAppend);
+            }}
+            disabled={pinLoading}
+            aria-label={digitLabel}
+          >
+            {key}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+)}
+
 
             {/* Toggle under keypad */}
             <div style={{ textAlign: "center", marginTop: "0.35rem" }}>
