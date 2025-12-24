@@ -34,6 +34,10 @@
     "confirm": "Confirm",
     "submit": "Submit"
   },
+  "symbols": {
+  "question": "?",
+  "times": "×"
+},
   "errors": {
     "title": "Something went wrong",
     "description": "Sorry, an unexpected error occurred. Please try again or go back to the homepage.",

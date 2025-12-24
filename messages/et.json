@@ -34,6 +34,10 @@
     "confirm": "Kinnita",
     "submit": "Saada"
   },
+"symbols": {
+  "question": "?",
+  "times": "×"
+  },
   "errors": {
     "title": "Midagi läks valesti",
     "description": "Vabandame, ilmnes ootamatu viga. Palun proovi uuesti või mine tagasi avalehele.",
