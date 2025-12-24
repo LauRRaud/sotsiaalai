@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createPortal } from "react-dom";
@@ -10,66 +10,41 @@ import { signIn, useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
-const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-function SubmitArcOverlayWhite({ size = 80, filled = 0, max = 8 }) {
-  // must match your icon ring path 1:1
-  const arcD = "M6 7.5A8 8 0 1 1 6 16.5";
+function SubmitArrowOverlayWhite({ filled = 0, max = 8 }) {
+  if (filled <= 0) return null;
 
+  const VIEWBOX = "0 0 24 24";
+  const ARROW_D = "M11.2 8.3 L14.8 12 L11.2 15.7";
+  const STROKE_W = 1.2;
+
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+  const TOTAL = 100;
   const clamped = Math.max(0, Math.min(max, filled));
-  if (clamped <= 0) return null;
-
-  const PATHLEN = 100;
-  const MAX_SWEEP = 94;          // leaves a small gap (never full circle)
-  const seg = (clamped / max) * MAX_SWEEP;
-
-  // shift start to 12 o'clock for this specific path
-  const TOP_SHIFT = 19.13;
-
-  // two-stroke approach:
-  // 1) underlay wider semi-white removes dark fringe
-  // 2) top stroke is pure white and crisp
-  const underW = 2.2;
-  const topW = 1.35;
+  const eased = easeOutCubic(clamped / max);
+  const seg = Math.max(0, Math.min(TOTAL, eased * TOTAL));
 
   return (
     <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      viewBox={VIEWBOX}
+      preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
       focusable="false"
-      preserveAspectRatio="xMidYMid meet"
-      shapeRendering="geometricPrecision"
       style={{ display: "block" }}
     >
-      {/* underlay (anti-fringe) */}
       <path
-        d={arcD}
+        d={ARROW_D}
+        pathLength={TOTAL}
         fill="none"
-        stroke="rgba(255,255,255,0.55)"
-        strokeWidth={underW}
+        stroke="#ffffffef"
+        strokeWidth={STROKE_W}
         strokeLinecap="round"
         strokeLinejoin="round"
-        pathLength={PATHLEN}
-        strokeDasharray={`${seg} 300`}
-        strokeDashoffset={-TOP_SHIFT}
-      />
-
-      {/* top (true white) */}
-      <path
-        d={arcD}
-        fill="none"
-        stroke="#ffffff"
-        strokeWidth={topW}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        pathLength={PATHLEN}
-        strokeDasharray={`${seg} 300`}
-        strokeDashoffset={-TOP_SHIFT}
-        style={{
-          transition: "stroke-dasharray 320ms cubic-bezier(0.16, 1, 0.3, 1)",
-        }}
+        strokeDasharray={`${seg} ${TOTAL}`}
+        strokeDashoffset="0"
+        style={{ transition: "stroke-dasharray 260ms cubic-bezier(0.16, 1, 0.3, 1)" }}
       />
     </svg>
   );
@@ -80,9 +55,7 @@ export default function LoginModal({ open, onClose }) {
   const { status, data: session } = useSession();
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
-
   const defaultNextUrl = localizePath("/vestlus", locale);
-
   const toRelative = (u) => {
     try {
       const base = typeof window !== "undefined" ? window.location.origin : "http://local";
@@ -130,6 +103,11 @@ export default function LoginModal({ open, onClose }) {
   const [storedEmail, setStoredEmail] = useState("");
   const [emailValue, setEmailValue] = useState("");
 
+  // NEW: help popover for "?"
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpButtonRef = useRef(null);
+  const helpPopoverRef = useRef(null);
+
   const hasEmailValue = (emailValue || "").trim().length > 0;
 
   // Mobile: default = custom keypad; toggle enables native keyboard
@@ -172,7 +150,8 @@ export default function LoginModal({ open, onClose }) {
   const zeroLongPressFiredRef = useRef(false);
 
   const isOtpStep = step === "otp";
-
+const hasMessage = Boolean(error || (info && !isOtpStep));
+const messageText = error ? error : (info && !isOtpStep ? info : "");
   const modalClasses = [
     "login-modal-root",
     "login-modal-box",
@@ -183,9 +162,9 @@ export default function LoginModal({ open, onClose }) {
     .filter(Boolean)
     .join(" ");
 
-  // Keypad: no extra buttons. Deletion is swipe; clear is long-press 0.
-  const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "blank", "0 / C", "blank"], []);
-  const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "blank", "0 / C", "blank"], []);
+  // Keypad: now bottom-left is "?" help key
+const keypadKeysPhone = useMemo(() => ["1","2","3","4","5","6","7","8","9","help","0 / C","submit"], []);
+const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","help","0 / C","submit"], []);
 
   const keypadKeys = useMemo(() => {
     if (isMobile) return keypadKeysPhone;
@@ -195,13 +174,48 @@ export default function LoginModal({ open, onClose }) {
   const otpDeadlineLabel = useMemo(() => {
     if (!otpExpiresAt) return "";
     try {
-      return new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit" }).format(
-        new Date(otpExpiresAt)
-      );
+      return new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit" }).format(new Date(otpExpiresAt));
     } catch {
       return "";
     }
   }, [otpExpiresAt, locale]);
+
+  // Close help when leaving PIN step / closing modal / start loading
+  useEffect(() => {
+    if (!open) {
+      setHelpOpen(false);
+      return;
+    }
+    if (step !== "pin") setHelpOpen(false);
+  }, [open, step]);
+
+  useEffect(() => {
+    if (pinLoading) setHelpOpen(false);
+  }, [pinLoading]);
+
+  // Help: close on outside click + ESC
+  useEffect(() => {
+    if (!helpOpen) return;
+
+    const onPointerDown = (e) => {
+      const pop = helpPopoverRef.current;
+      const btn = helpButtonRef.current;
+      if (pop && pop.contains(e.target)) return;
+      if (btn && btn.contains(e.target)) return;
+      setHelpOpen(false);
+    };
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setHelpOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [helpOpen]);
 
   const resetIconState = useCallback(() => {
     setSubmitIconState("idle");
@@ -295,6 +309,7 @@ export default function LoginModal({ open, onClose }) {
     setEmailValue("");
     setSubmitIconState("idle");
     setInvalidCredentials(false);
+    setHelpOpen(false);
   }, [open]);
 
   // Load saved email (keep existing behavior)
@@ -755,15 +770,10 @@ export default function LoginModal({ open, onClose }) {
     return isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
   })();
 
-  // Submit ring brighten progress (0..1) — used by CSS var --pin-progress-eased
-  const raw = Math.min(pinValue.length / PIN_MAX, 1);
-  const eased = easeOutCubic(raw);
-
   const stopInside = (e) => e.stopPropagation();
 
   return createPortal(
     <>
-
       <div className="login-modal-backdrop" onClick={onClose} />
       <div
         ref={boxRef}
@@ -783,33 +793,30 @@ export default function LoginModal({ open, onClose }) {
           if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
         }}
       >
-        <button
-          className="login-modal-close modal-close-btn"
-          onClick={onClose}
-          aria-label={t("buttons.close")}
-          type="button"
-        />
+        <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
         <div className="login-modal-head">
           <div className="glass-title">{isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}</div>
-          <div
-            className={[
-              "glass-note",
-              "glass-note--center",
-              "login-modal-message-slot",
-              error ? "login-error-note" : "",
-              !error && info && !isOtpStep ? "login-info-note" : "",
-              !error && !(info && !isOtpStep) ? "login-modal-message-slot--empty" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            role={error ? "alert" : info && !isOtpStep ? "status" : undefined}
-            aria-live={error ? "assertive" : info && !isOtpStep ? "polite" : undefined}
-            aria-atomic="true"
-            aria-hidden={!error && !(info && !isOtpStep)}
-          >
-            {error || (info && !isOtpStep ? info : "\u00a0")}
-          </div>
+<div
+  className={[
+    "glass-note",
+    "glass-note--center",
+    "login-modal-message-slot",
+    error ? "login-error-note" : "",
+    !error && info && !isOtpStep ? "login-info-note" : "",
+    hasMessage
+      ? "login-modal-message-slot--filled"
+      : "login-modal-message-slot--empty",
+  ]
+    .filter(Boolean)
+    .join(" ")}
+  role={error ? "alert" : hasMessage ? "status" : undefined}
+  aria-live={error ? "assertive" : hasMessage ? "polite" : undefined}
+  aria-atomic="true"
+  aria-hidden={!hasMessage}
+>
+  {hasMessage ? messageText : null}
+</div>
         </div>
 
         {!isOtpStep && (
@@ -840,11 +847,9 @@ export default function LoginModal({ open, onClose }) {
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button>
               ) : (
-                <label style={{ width: "100%", display: "block", textAlign: "center" }}>
+                <label className="login-email-label">
                   <input
-                    className={`input-modern input-email-top input-email-icon compact-email${
-                      hasEmailValue ? " input-email-icon--filled" : ""
-                    }`}
+                    className={`input-modern input-email-top input-email-icon compact-email${hasEmailValue ? " input-email-icon--filled" : ""}`}
                     type="email"
                     name="email"
                     ref={emailInputRef}
@@ -868,7 +873,6 @@ export default function LoginModal({ open, onClose }) {
                       resetIconState();
                       setError("");
                     }}
-                    style={{ margin: "0 auto" }}
                   />
                 </label>
               )}
@@ -933,72 +937,194 @@ export default function LoginModal({ open, onClose }) {
               />
             )}
 
-{!(isMobile && useNativeKeyboard) && (
-  <div
-    className="pin-keypad-all-wrapper"
-    aria-hidden="false"
-    onTouchStart={handleKeypadTouchStart}
-    onTouchEnd={handleKeypadTouchEnd}
-    onTouchCancel={handleKeypadTouchEnd}
-  >
-    <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
-      {keypadKeys.map((key, idx) => {
-        if (key === "blank") {
-          return <span key={`blank-${idx}`} className="pin-keypad__blank" aria-hidden="true" />;
-        }
+            {!(isMobile && useNativeKeyboard) && (
+<div
+  className="pin-keypad-all-wrapper"
+  aria-hidden="false"
+  onTouchStart={handleKeypadTouchStart}
+  onTouchEnd={handleKeypadTouchEnd}
+  onTouchCancel={handleKeypadTouchEnd}
+>
+<div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
+  {keypadKeys.map((key, idx) => {
+    if (key === "blank") {
+      return <span key={`blank-${idx}`} className="pin-keypad__blank" aria-hidden="true" />;
+    }
 
-        const isZeroKey = typeof key === "string" && key.trim().startsWith("0"); // "0" or "0 / C"
-        const digitToAppend = isZeroKey ? "0" : key;
+    if (key === "help") {
+      const label = t("auth.login.forgot");
+      return (
+        <button
+          key={`help-${idx}`}
+          type="button"
+          className="pin-keypad__button no-click-pulse pin-keypad__button--help"
+          ref={(el) => {
+            keypadRefs.current[idx] = el;
+            helpButtonRef.current = el;
+          }}
+          onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
+          onPointerDown={(e) => {
+            const el = e.currentTarget;
+            el.classList.remove("pin-keypad__button--bounce");
+            // eslint-disable-next-line no-unused-expressions
+            el.offsetWidth;
+            el.classList.add("pin-keypad__button--bounce");
+            window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+          }}
+          onClick={() => setHelpOpen((p) => !p)}
+          disabled={pinLoading}
+          aria-label={label}
+          aria-haspopup="dialog"
+          aria-expanded={helpOpen}
+        >
+          ?
+        </button>
+      );
+    }
 
-        const digitLabel = t("auth.login.key", { digit: key });
+    if (key === "submit") {
+      const label = t("auth.login.submit");
+      const submitKeyIconSrc = isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
 
-        return (
-          <button
-            key={`${key}-${idx}`}
-            type="button"
-            className={`pin-keypad__button${isZeroKey ? " pin-keypad__button--alt" : ""}`}
-            ref={(el) => (keypadRefs.current[idx] = el)}
-            onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
-            onPointerDown={(e) => {
-              // Run the slow “flowing” bounce even on short taps
-              const el = e.currentTarget;
-              el.classList.remove("pin-keypad__button--bounce");
-              // restart animation reliably
-              // eslint-disable-next-line no-unused-expressions
-              el.offsetWidth;
-              el.classList.add("pin-keypad__button--bounce");
-              window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+      return (
+        <button
+          key={`submit-${idx}`}
+          type="button"
+          className="pin-keypad__button no-click-pulse pin-keypad__button--submit"
+          ref={(el) => (keypadRefs.current[idx] = el)}
+          onKeyDown={(e) => {
+            handleKeypadKeyDown(e, idx);
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              submitPinStep();
+            }
+          }}
+          onPointerDown={(e) => {
+            const el = e.currentTarget;
+            el.classList.remove("pin-keypad__button--bounce");
+            // eslint-disable-next-line no-unused-expressions
+            el.offsetWidth;
+            el.classList.add("pin-keypad__button--bounce");
+            window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+          }}
+          onClick={() => submitPinStep()}
+          disabled={pinLoading}
+          aria-label={label}
+        >
+<span className="login-submit-icon-stack" aria-hidden="true">
+  <Image
+    src={submitKeyIconSrc}
+    className="login-submit-icon"
+    alt=""
+    fill
+    priority={false}
+    aria-hidden="true"
+    style={{ objectFit: "contain", objectPosition: "center" }}
+  />
+  {pinValue.length > 0 && (
+    <span className="login-submit-icon-overlay" aria-hidden="true">
+      <SubmitArrowOverlayWhite filled={pinValue.length} max={PIN_MAX} />
+    </span>
+  )}
+</span>
+        </button>
+      );
+    }
 
-              if (isZeroKey) startZeroLongPress();
-            }}
-            onPointerUp={() => {
-              if (isZeroKey) cancelZeroLongPress();
-            }}
-            onPointerCancel={() => {
-              if (isZeroKey) cancelZeroLongPress();
-            }}
-            onPointerLeave={() => {
-              if (isZeroKey) cancelZeroLongPress();
-            }}
-            onClick={() => {
-              // If long-press already cleared, do not also append 0 on release/click.
-              if (isZeroKey && zeroLongPressFiredRef.current) {
-                zeroLongPressFiredRef.current = false;
-                return;
-              }
-              appendDigit(digitToAppend);
-            }}
-            disabled={pinLoading}
-            aria-label={digitLabel}
-          >
-            {key}
-          </button>
-        );
-      })}
-    </div>
+    const isZeroKey = typeof key === "string" && key.trim().startsWith("0"); // "0" or "0 / C"
+    const digitToAppend = isZeroKey ? "0" : key;
+    const digitLabel = t("auth.login.key", { digit: key });
+
+    return (
+      <button
+        key={`${key}-${idx}`}
+        type="button"
+        className={`pin-keypad__button no-click-pulse${isZeroKey ? " pin-keypad__button--alt" : ""}`}
+        ref={(el) => (keypadRefs.current[idx] = el)}
+        onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
+        onPointerDown={(e) => {
+          const el = e.currentTarget;
+
+          el.classList.remove("pin-keypad__button--bounce");
+          // eslint-disable-next-line no-unused-expressions
+          el.offsetWidth;
+          el.classList.add("pin-keypad__button--bounce");
+          window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+
+          if (isZeroKey) startZeroLongPress();
+        }}
+        onPointerUp={() => {
+          if (isZeroKey) cancelZeroLongPress();
+        }}
+        onPointerCancel={() => {
+          if (isZeroKey) cancelZeroLongPress();
+        }}
+        onPointerLeave={() => {
+          if (isZeroKey) cancelZeroLongPress();
+        }}
+        onClick={() => {
+          if (isZeroKey && zeroLongPressFiredRef.current) {
+            zeroLongPressFiredRef.current = false;
+            return;
+          }
+          appendDigit(digitToAppend);
+        }}
+        disabled={pinLoading}
+        aria-label={digitLabel}
+      >
+        {isZeroKey ? (
+          <span className="pin-alt-swap" aria-hidden="true">
+            <span className="pin-alt-face pin-alt-face--zero">
+              <span className="pin-alt-main">0</span>
+            </span>
+            <span className="pin-alt-face pin-alt-face--clear">
+              <span className="pin-alt-sub">C</span>
+            </span>
+          </span>
+        ) : (
+          key
+        )}
+      </button>
+    );
+  })}
+</div>
+
+
+                {helpOpen && (
+<div
+  ref={helpPopoverRef}
+  role="dialog"
+  aria-modal="false"
+  aria-label={t("auth.login.forgot")}
+  className="pin-help-popover"
+  data-theme={isLightTheme ? "light" : "dark"}
+>
+<button
+  type="button"
+  className="pin-help-close"
+  aria-label={t("buttons.close")}
+  onClick={() => setHelpOpen(false)}
+>
+  ×
+</button>
+
+<div className="pin-help-body">
+  <div className="pin-help-text">
+    Hoia <strong>0</strong> all ~0,5 s, et kustutada PIN sisestus.
   </div>
-)}
 
+  <Link
+    href="/uuenda-pin"
+    className="unustasid-parooli-link"
+    onClick={() => setHelpOpen(false)}
+  >
+    {t("auth.login.forgot")}
+  </Link>
+</div>
+                    </div>
+                )}
+              </div>
+            )}
 
             {/* Toggle under keypad */}
             <div style={{ textAlign: "center", marginTop: "0.35rem" }}>
@@ -1006,45 +1132,15 @@ export default function LoginModal({ open, onClose }) {
                 type="button"
                 className="link-brand-inline pin-layout-toggle"
                 onClick={toggleKeypad}
-                aria-label={
-                  isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")
-                }
+                aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}
                 disabled={pinLoading}
               >
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>
-
-<div className="login-submit-wrap" style={{ display: "flex", justifyContent: "center" }}>
-  <button
-    type="submit"
-    className={`login-submit-icon-btn login-submit-icon-only login-submit-icon-btn--${submitIconState}`}
-    disabled={pinLoading}
-    aria-label={pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
-  >
-    <span className="login-submit-icon-stack" aria-hidden="true">
-      <Image
-        src={submitIconSrc}
-        className="login-submit-icon"
-        alt=""
-        width={80}
-        height={80}
-        aria-hidden="true"
-      />
-{pinValue.length > 0 && (
-  <span className="login-submit-icon-overlay">
-    <SubmitArcOverlayWhite size={80} filled={pinValue.length} max={PIN_MAX} />
-  </span>
-)}
-    </span>
-
-    <span className="sr-only">
-      {pinLoading ? t("auth.login.submitting") : t("auth.login.submit")}
-    </span>
-  </button>
-</div>
-     </form>
+          </form>
         )}
+
         {isOtpStep && (
           <form
             className="login-modal-form compact otp-form"
@@ -1109,22 +1205,12 @@ export default function LoginModal({ open, onClose }) {
         {!isOtpStep && (
           <>
             <div className="login-modal-bottom-link" style={{ textAlign: "center", marginTop: "0rem" }}>
-              <Link
-                href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`}
-                className="link-brand"
-              >
+              <Link href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} className="link-brand">
                 {t("auth.login.register_link")}
               </Link>
             </div>
 
-            <div
-              className="unustasid-parooli-link-wrapper-bottom"
-              style={{ textAlign: "center", marginBottom: "-0.8rem", marginTop: "-0.5rem" }}
-            >
-              <Link href="/uuenda-pin" className="unustasid-parooli-link">
-                {t("auth.login.forgot")}
-              </Link>
-            </div>
+            {/* REMOVED: forgot PIN link from modal bottom (moved into ? popover on keypad) */}
           </>
         )}
       </div>

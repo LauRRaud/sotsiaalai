@@ -23,8 +23,14 @@ export default function ClickPulseCursor({ size = 16 }) {
     const el = dotRef.current;
     if (!el) return undefined;
 
-    const isClickable = (node) => (node && typeof node.closest === "function" ? !!node.closest(CLICKABLE) : false);
+const isClickable = (node) => {
+  if (!node || typeof node.closest !== "function") return false;
 
+  // OPT-OUT: do not show pulse ring inside keypad (or any area marked so)
+  if (node.closest(".no-click-pulse")) return false;
+
+  return !!node.closest(CLICKABLE);
+};
     const sync = () => {
       rafRef.current = 0;
       const { x, y } = pos.current;
