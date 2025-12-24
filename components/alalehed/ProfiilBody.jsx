@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import SunIcon from "@/public/logo/sun.svg";
 import EyeIcon from "@/public/logo/silma.svg";
@@ -12,11 +13,37 @@ import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Dock from "@/components/effects/Components/Dock/Dock";
 import { localizePath } from "@/lib/localizePath";
+
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
   CLIENT: "role.client",
 };
+
+function ProfileShell({
+  locale,
+  themeToggleCorner,
+  children,
+  role = "region",
+  ariaLabelledby,
+  innerRef,
+}) {
+  // Toggle OUTSIDE the circular/clipped container to ensure visibility.
+  return (
+    <div className="profile-page-shell" lang={locale}>
+      <div className="profile-theme-toggle-top">{themeToggleCorner}</div>
+
+      <div
+        className="main-content glass-box glass-left profile-container"
+        role={role}
+        aria-labelledby={ariaLabelledby}
+        ref={innerRef}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
 
 function EmailDockIcon({ isHovered: _isHovered, ...props }) {
   return (
@@ -62,7 +89,12 @@ function PinDockIcon({ isHovered: _isHovered, ...props }) {
 
 function PreferencesDockIcon({ isHovered: _isHovered, ...props }) {
   return (
-    <EyeIcon className="profile-eye-icon" aria-hidden="true" focusable="false" {...props} />
+    <EyeIcon
+      className="profile-eye-icon"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    />
   );
 }
 
@@ -125,29 +157,35 @@ export default function ProfiilBody({ initialProfile = null }) {
   const { data: session, status } = useSession();
   const { prefs, setPrefs, openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
+
   const [email, setEmail] = useState(initialProfile?.email || "");
   const [initialEmail, setInitialEmail] = useState(
     (initialProfile?.email || "").trim().toLowerCase()
   );
   const [hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
-  // Kui serverist tuli profiil, siis väldi kliendi "loading" vaadet
+
   const [loading, setLoading] = useState(!initialProfile);
   const [loadFailed, setLoadFailed] = useState(false);
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isTouchActions, setIsTouchActions] = useState(false);
-  // E-posti põhine parooli muutmine toimub eraldi lehel (/unustasin-pin)
+
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const [logoutIconState, setLogoutIconState] = useState("idle"); // idle | logging-out
   const [loginOpen, setLoginOpen] = useState(false);
+
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
+
   const isAuthed = status === "authenticated" || !!session?.user;
   const isLightTheme = prefs?.theme === "light";
+
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const emailLabel = t("profile.email");
+
   const themeToggleAria = isLightTheme
     ? t("nav.toggle_dark", "Switch to dark mode")
     : t("nav.toggle_light", "Switch to light mode");
@@ -165,6 +203,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     let lastMask = "";
+
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -182,13 +221,14 @@ export default function ProfiilBody({ initialProfile = null }) {
         "Z",
       ].join(" ");
     };
+
     const updateHole = () => {
       const boxRect = box.getBoundingClientRect();
       const pillRect = pill.getBoundingClientRect();
       if (!boxRect.width || !boxRect.height || !pillRect.width || !pillRect.height) return;
 
-      const hasLightTheme = document?.documentElement?.classList?.contains?.("theme-light");
-      if (hasLightTheme) {
+      const hasLightThemeDoc = document?.documentElement?.classList?.contains?.("theme-light");
+      if (hasLightThemeDoc) {
         const fallbackMask = "linear-gradient(#fff, #fff)";
         if (lastMask !== fallbackMask) {
           box.style.setProperty("--profile-role-hole-mask", fallbackMask);
@@ -213,6 +253,7 @@ export default function ProfiilBody({ initialProfile = null }) {
 
       const baseWidth = clamp(boxRect.width * wRatio, minW, maxW);
       let textWidthTarget = 0;
+
       try {
         const pillStyles = window.getComputedStyle(pill);
         const canvas = document.createElement("canvas");
@@ -235,7 +276,6 @@ export default function ProfiilBody({ initialProfile = null }) {
       );
 
       const topRaw = centerYRaw - holeHeight / 2;
-
       const centerX = Math.round(clamp(centerXRaw, holeWidth / 2, boxRect.width - holeWidth / 2));
       const top = Math.round(clamp(topRaw, 0, boxRect.height - holeHeight));
 
@@ -248,10 +288,12 @@ export default function ProfiilBody({ initialProfile = null }) {
       const boxHeight = Math.round(boxRect.height);
       const holeX = Math.round(clamp(centerX - holeWidth / 2, 0, boxWidth - holeWidth));
       const holeY = top;
+
       const outerPath = `M 0 0 H ${boxWidth} V ${boxHeight} H 0 Z`;
       const holePath = roundedRectPath(holeX, holeY, holeWidth, holeHeight, holeRadius);
+
       let emailHolePath = "";
-      if (!hasLightTheme && emailEl) {
+      if (!hasLightThemeDoc && emailEl) {
         const emailRect = emailEl.getBoundingClientRect();
         if (emailRect.width && emailRect.height) {
           const emailHoleW = Math.round(emailRect.width);
@@ -262,7 +304,9 @@ export default function ProfiilBody({ initialProfile = null }) {
           const emailHoleY = Math.round(
             clamp(emailRect.top - boxRect.top, 0, boxHeight - emailHoleH)
           );
-          const emailRadiusRaw = Number.parseFloat(window.getComputedStyle(emailEl).borderTopLeftRadius);
+          const emailRadiusRaw = Number.parseFloat(
+            window.getComputedStyle(emailEl).borderTopLeftRadius
+          );
           const emailRadius = Math.round(
             clamp(
               Number.isFinite(emailRadiusRaw) ? emailRadiusRaw : emailHoleH / 2,
@@ -276,6 +320,7 @@ export default function ProfiilBody({ initialProfile = null }) {
 
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxWidth} ${boxHeight}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}${emailHolePath}"/></svg>`;
       const mask = encodeSvgMask(svg);
+
       if (mask !== lastMask) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         lastMask = mask;
@@ -289,16 +334,19 @@ export default function ProfiilBody({ initialProfile = null }) {
     };
 
     window.addEventListener("resize", scheduleUpdate);
+
     let intervalId;
     if (process.env.NODE_ENV !== "production") {
       intervalId = window.setInterval(scheduleUpdate, 350);
     }
+
     let ro;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(pill);
     }
+
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
 
     return () => {
@@ -315,18 +363,18 @@ export default function ProfiilBody({ initialProfile = null }) {
     const applyMatch = (mq) => setIsTouchActions(mq.matches);
     const handleChange = (event) => applyMatch(event);
     applyMatch(media);
+
     if (typeof media.addEventListener === "function") {
       media.addEventListener("change", handleChange);
       return () => media.removeEventListener("change", handleChange);
     }
+
     media.addListener(handleChange);
     return () => media.removeListener(handleChange);
   }, []);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      setLoginOpen(true);
-    }
+    if (status === "unauthenticated") setLoginOpen(true);
   }, [status]);
 
   const actionItems = [
@@ -366,6 +414,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       },
     },
   ];
+
   const logoutIconSrc =
     logoutIconState === "logging-out"
       ? isLightTheme
@@ -382,10 +431,10 @@ export default function ProfiilBody({ initialProfile = null }) {
   };
 
   const themeToggleCorner = (
-    <label
-      className="themeToggle st-sunMoonThemeToggleBtn profile-theme-toggle-corner"
-      aria-label={themeToggleAria}
-    >
+<label
+  className="themeToggle st-sunMoonThemeToggleBtn profile-theme-toggle-top-btn"
+  aria-label={themeToggleAria}
+>
       <input
         type="checkbox"
         className="themeToggleInput"
@@ -398,27 +447,33 @@ export default function ProfiilBody({ initialProfile = null }) {
 
   const handleLogout = async () => {
     if (loggingOut) return;
+
     setError("");
     setSuccess("");
     setLogoutIconState("logging-out");
     setLoggingOut(true);
+
     try {
       await signOut({ callbackUrl: localizePath("/", locale) });
     } catch (err) {
       console.error("profile logout", err);
       setError(t("profile.server_unreachable"));
+    } finally {
       setLoggingOut(false);
       setLogoutIconState("idle");
     }
   };
+
+  // Profile fetch / hydrate
   useEffect(() => {
     if (status === "loading") return;
+
     if (status !== "authenticated") {
       setLoading(false);
       setLoadFailed(false);
       return;
     }
-    // Kui server andis juba profiili, kasuta seda ja väldi lisapäringut
+
     if (initialProfile && typeof initialProfile.email === "string") {
       setEmail(initialProfile.email || "");
       setInitialEmail((initialProfile.email || "").trim().toLowerCase());
@@ -427,6 +482,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       setLoading(false);
       return;
     }
+
     (async () => {
       try {
         setLoadFailed(false);
@@ -438,7 +494,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           return;
         }
         setEmail(payload?.user?.email ?? "");
-        setInitialEmail(((payload?.user?.email ?? "")).trim().toLowerCase());
+        setInitialEmail((payload?.user?.email ?? "").trim().toLowerCase());
         setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
@@ -449,28 +505,30 @@ export default function ProfiilBody({ initialProfile = null }) {
       }
     })();
   }, [status, t, initialProfile]);
-  // Parooli muutmine: suuname parooli taastamise lehele, kus küsitakse e-post
-    if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
-      return (
-        <div className="main-content glass-box glass-left profile-container" lang={locale}>
-          {themeToggleCorner}
-          <h1 className="glass-title">{t("profile.title")}</h1>
-          <p className="profile-loading" style={{ padding: "1rem" }}>
-            {t("profile.loading")}
-          </p>
-        </div>
-      );
-    }
+
+  // Loading
+  if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
+    return (
+      <ProfileShell locale={locale} themeToggleCorner={themeToggleCorner}>
+        <h1 className="glass-title">{t("profile.title")}</h1>
+        <p className="profile-loading" style={{ padding: "1rem" }}>
+          {t("profile.loading")}
+        </p>
+      </ProfileShell>
+    );
+  }
+
+  // Not authed
   if (!isAuthed) {
     const reason = registrationReason || "not-logged-in";
     const reasonText =
       reason === "no-sub"
         ? t("profile.login_to_manage_sub")
         : t("profile.login_to_view");
+
     return (
       <>
-        <div className="main-content glass-box glass-left profile-container" lang={locale}>
-          {themeToggleCorner}
+        <ProfileShell locale={locale} themeToggleCorner={themeToggleCorner}>
           <h1 className="glass-title">{t("profile.title")}</h1>
           <p style={{ padding: "1rem" }}>{reasonText}</p>
           <div className="back-btn-wrapper">
@@ -483,46 +541,45 @@ export default function ProfiilBody({ initialProfile = null }) {
               <span className="back-arrow-circle" />
             </button>
           </div>
-        </div>
+        </ProfileShell>
+
         <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
       </>
     );
   }
+
+  // Load failed
   if (loadFailed) {
     return (
-      <div
-        className="main-content glass-box glass-left profile-container"
-        role="region"
-        aria-labelledby="profile-title"
-        lang={locale}
+      <ProfileShell
+        locale={locale}
+        themeToggleCorner={themeToggleCorner}
+        ariaLabelledby="profile-title"
       >
-        {themeToggleCorner}
         <h1 id="profile-title" className="glass-title">
           {t("profile.title")}
         </h1>
         <div className="profile-error-state">
-          <div
-            role="alert"
-            className="glass-note glass-note--center profile-error-note"
-          >
+          <div role="alert" className="glass-note glass-note--center profile-error-note">
             {error || t("profile.load_failed")}
           </div>
         </div>
-      </div>
+      </ProfileShell>
     );
   }
+
+  // Normal
   return (
-    <div
-      className="main-content glass-box glass-left profile-container"
-      role="region"
-      aria-labelledby="profile-title"
-      lang={locale}
-      ref={profileContainerRef}
+    <ProfileShell
+      locale={locale}
+      themeToggleCorner={themeToggleCorner}
+      ariaLabelledby="profile-title"
+      innerRef={profileContainerRef}
     >
-      {themeToggleCorner}
       <h1 id="profile-title" className="glass-title">
         {t("profile.title")}
       </h1>
+
       <div className="profile-header-center">
         <span
           ref={rolePillRef}
@@ -532,6 +589,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           {roleLabel}
         </span>
       </div>
+
       <div className="glass-form profile-form-vertical">
         <div className="profile-email-field" ref={emailFieldRef}>
           <label htmlFor="email" className="sr-only">
@@ -547,6 +605,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             readOnly
           />
         </div>
+
         <div className="profile-email-dock-wrapper">
           {isTouchActions ? (
             <div className="profile-email-card-grid">
@@ -585,15 +644,13 @@ export default function ProfiilBody({ initialProfile = null }) {
             />
           )}
         </div>
+
         {error && (
-          <div
-            role="alert"
-            className="glass-note"
-            style={{ marginTop: "0.75rem" }}
-          >
+          <div role="alert" className="glass-note" style={{ marginTop: "0.75rem" }}>
             {error}
           </div>
         )}
+
         {success && !error && (
           <div
             role="status"
@@ -603,6 +660,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             {success}
           </div>
         )}
+
         <div
           className="profile-btn-row profile-btn-row--back-logout"
           style={{ marginTop: "1.5rem", marginBottom: "0rem" }}
@@ -615,6 +673,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           >
             <span className="back-arrow-circle"></span>
           </button>
+
           <button
             type="button"
             className={`profile-logout-icon-btn profile-logout-icon-btn--${logoutIconState}`}
@@ -622,27 +681,33 @@ export default function ProfiilBody({ initialProfile = null }) {
             disabled={loggingOut}
             aria-label={t("profile.logout")}
           >
-            <Image src={logoutIconSrc} className="profile-logout-icon" alt="" width={74} height={74} aria-hidden="true" />
+            <Image
+              src={logoutIconSrc}
+              className="profile-logout-icon"
+              alt=""
+              width={74}
+              height={74}
+              aria-hidden="true"
+            />
             <span className="profile-logout-label">{t("profile.logout")}</span>
             <span className="sr-only">{t("profile.logout")}</span>
           </button>
         </div>
       </div>
+
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
+
       {showDelete && (
         <ModalConfirm
           message={t("profile.delete_confirm")}
-          confirmLabel={
-            deleting
-              ? t("profile.deleting")
-              : t("profile.delete_account")
-          }
+          confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")}
           cancelLabel={t("buttons.cancel")}
           onConfirm={async () => {
             if (deleting) return;
             setError("");
             setSuccess("");
             setDeleting(true);
+
             try {
               const res = await fetch("/api/profile", { method: "DELETE" });
               const payload = await res.json().catch(() => ({}));
@@ -651,13 +716,15 @@ export default function ProfiilBody({ initialProfile = null }) {
                 setDeleting(false);
                 return;
               }
+
               setShowDelete(false);
+
               const signOutResult = await signOut({
                 redirect: false,
                 callbackUrl: localizePath("/", locale),
               });
-              const redirectUrl =
-                signOutResult?.url || localizePath("/", locale);
+
+              const redirectUrl = signOutResult?.url || localizePath("/", locale);
               window.location.href = redirectUrl;
             } catch (err) {
               console.error("profile DELETE", err);
@@ -672,6 +739,6 @@ export default function ProfiilBody({ initialProfile = null }) {
           disabled={deleting}
         />
       )}
-    </div>
+    </ProfileShell>
   );
 }

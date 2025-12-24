@@ -1745,6 +1745,7 @@ main#main > .main-content.glass-box.profile-container {
   justify-content: center;
   align-items: center;
 }
+
 .profile-email-dock-wrapper .dock-outer {
   align-items: flex-end;
   margin: 0;
@@ -1752,6 +1753,7 @@ main#main > .main-content.glass-box.profile-container {
   max-width: none;
   justify-content: center;
 }
+
 .dock-panel.profile-email-dock {
   position: static;
   bottom: auto;
@@ -1768,12 +1770,15 @@ main#main > .main-content.glass-box.profile-container {
   border: 2px solid rgba(84,95,115,0.55);
   box-shadow: none;
 }
+
 :root:not(.theme-light) .dock-panel.profile-email-dock { border: none; }
+
 :root:not(.theme-light) .dock-panel.profile-email-dock {
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
+
 .profile-email-dock-wrapper .dock-item {
   width: 4.15rem;
   height: 4.15rem;
@@ -1781,7 +1786,10 @@ main#main > .main-content.glass-box.profile-container {
   background:
     linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
   border: 2px solid rgba(84,95,115,0.55);
-  border-radius: 1.05rem;
+
+  /* UPDATED */
+  border-radius: 50%;
+
   color: var(--pt-110);
   box-shadow: none;
   transition:
@@ -1792,16 +1800,20 @@ main#main > .main-content.glass-box.profile-container {
     transform 0.16s ease-out;
   will-change: transform, width, height;
 }
+
 .profile-email-dock-wrapper .dock-item:hover,
 .profile-email-dock-wrapper .dock-item:focus-visible{
   transform: translateY(-1px);
 }
+
 .profile-email-dock-wrapper .dock-item:focus-visible { outline: none; }
 .profile-email-dock-wrapper .dock-item:active { transform: translateY(0) scale(0.98); }
+
 .profile-email-dock-wrapper .dock-icon {
   width: 100%;
   height: 100%;
 }
+
 .profile-email-dock-wrapper .dock-icon svg {
   width: 60%;
   height: 60%;
@@ -1812,10 +1824,12 @@ main#main > .main-content.glass-box.profile-container {
   transition: transform 0.18s ease-out;
   will-change: transform;
 }
+
 .profile-email-dock-wrapper .dock-item:hover .dock-icon svg,
 .profile-email-dock-wrapper .dock-item:focus-visible .dock-icon svg {
   transform: scale(1.05);
 }
+
 .profile-email-dock-wrapper .dock-label {
   background: transparent;
   border: none;
@@ -1825,23 +1839,33 @@ main#main > .main-content.glass-box.profile-container {
   padding: 0.2rem 0.65rem;
   line-height: 1.2;
 }
+
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-label {
   font-size: clamp(1.04rem, 2vw, 1.22rem);
   color: rgba(232, 236, 245, 0.9);
-  font-weight: 600;
+  font-weight: 500;
 }
+
 :root.theme-light .profile-email-dock-wrapper .dock-label {
   background: transparent;
   border: none;
   color: rgba(15, 23, 42, 0.92);
   font-size: clamp(0.98rem, 1.8vw, 1.16rem);
   box-shadow: none;
-  font-weight: 600; }
+  font-weight: 500;
+}
+
 .profile-email-card-grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
   gap:0.6rem;
   justify-items:center;
+}
+
+/* ADDED: make the touch/mobile action cards circular too (same look in light/dark) */
+.profile-email-card-grid .profile-email-card{
+  border-radius: 50%;
+  overflow: hidden;
 }
 .profile-email-card{
   width:100%;
@@ -8475,6 +8499,12 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 .glass-box.profile-container::after{
   border-radius: inherit;
 }
+.profile-theme-toggle-top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
 .login-modal-box .pin-layout-toggle {
   font-size: 1.1rem;
   }
@@ -9298,7 +9328,39 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     font-size: 0.98rem;
     line-height: 1.22;
   }
-}
 #login-modal .glass-title{
-  margin-bottom: -0.4rem;    /* proovi 0.2–0.6rem */
+  margin-bottom: -0.4rem; /* proovi 0.2–0.6rem */
+}
+
+.profile-page-shell{
+  width: 100%;
+}
+
+/* Toggle keskele ja “klaaskasti peale” ilma layout'i nihutamata */
+.profile-theme-toggle-top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  /* reguleeri siit */
+  transform: translateY(16px);
+
+  position: relative;
+  z-index: 60;
+}
+
+/* Toggle nupp ei tohi olla “corner” reeglitega seotud */
+.profile-theme-toggle-top .profile-theme-toggle-top-btn{
+  position: relative;
+  top: auto;
+  right: auto;
+  left: auto;
+  pointer-events: auto;
+}
+
+/* Tee klaaskasti algusesse natuke ruumi, et toggle ei kataks pealkirja */
+.profile-container{
+  padding-top: 18px;
+}
 }
