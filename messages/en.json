@@ -96,7 +96,10 @@
       "key": "Number {digit}",
       "toggle_keypad": "Switch keypad",
       "toggle_keypad_mobile_aria": "Switch between the built-in keyboard and the on-screen keypad for PIN entry.",
-      "toggle_keypad_desktop_aria": "Switch the keypad layout."
+      "toggle_keypad_desktop_aria": "Switch the keypad layout.",
+      "zero_key_aria": "0 / clear",
+"help_hold_zero_before": "Hold",
+"help_hold_zero_after": "for ~0.5 s to clear PIN entry."
     },
     "register": {
       "title": "Create account",

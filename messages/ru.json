@@ -95,7 +95,10 @@
       "key": "Цифра {digit}",
       "toggle_keypad": "Сменить клавиатуру",
       "toggle_keypad_mobile_aria": "Переключить ввод PIN между клавиатурой устройства и экранной клавиатурой.",
-      "toggle_keypad_desktop_aria": "Сменить раскладку клавиатуры."
+      "toggle_keypad_desktop_aria": "Сменить раскладку клавиатуры.",
+      "zero_key_aria": "0 / очистить",
+"help_hold_zero_before": "Удерживайте",
+"help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода."
     },
     "register": {
       "title": "Создать аккаунт",

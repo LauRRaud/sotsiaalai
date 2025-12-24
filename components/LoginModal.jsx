@@ -163,8 +163,8 @@ const messageText = error ? error : (info && !isOtpStep ? info : "");
     .join(" ");
 
   // Keypad: now bottom-left is "?" help key
-const keypadKeysPhone = useMemo(() => ["1","2","3","4","5","6","7","8","9","help","0 / C","submit"], []);
-const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","help","0 / C","submit"], []);
+const keypadKeysPhone = useMemo(() => ["1","2","3","4","5","6","7","8","9","help","zero","submit"], []);
+const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","help","zero","submit"], []);
 
   const keypadKeys = useMemo(() => {
     if (isMobile) return keypadKeysPhone;
@@ -1031,9 +1031,9 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       );
     }
 
-    const isZeroKey = typeof key === "string" && key.trim().startsWith("0"); // "0" or "0 / C"
-    const digitToAppend = isZeroKey ? "0" : key;
-    const digitLabel = t("auth.login.key", { digit: key });
+const isZeroKey = key === "zero";
+const digitToAppend = isZeroKey ? "0" : key;
+const digitLabel = t("auth.login.key", { digit: isZeroKey ? 0 : key });
 
     return (
       <button
@@ -1075,10 +1075,10 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
         {isZeroKey ? (
           <span className="pin-alt-swap" aria-hidden="true">
             <span className="pin-alt-face pin-alt-face--zero">
-              <span className="pin-alt-main">0</span>
+              <span className="pin-alt-main">{0}</span>
             </span>
             <span className="pin-alt-face pin-alt-face--clear">
-              <span className="pin-alt-sub">C</span>
+              <span className="pin-alt-sub">{t("auth.login.clear_short")}</span>
             </span>
           </span>
         ) : (
@@ -1109,9 +1109,9 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
 </button>
 
 <div className="pin-help-body">
-  <div className="pin-help-text">
-    Hoia <strong>0</strong> all ~0,5 s, et kustutada PIN sisestus.
-  </div>
+<div className="pin-help-text">
+  {t("auth.login.help_hold_zero_before")} <strong>{0}</strong> {t("auth.login.help_hold_zero_after")}
+</div>
 
   <Link
     href="/uuenda-pin"

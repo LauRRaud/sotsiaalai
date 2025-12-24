@@ -8453,6 +8453,28 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   margin:0;
   padding:0.45em 0.75em;
 }
+.glass-box.profile-container{
+  /* 1) vali ringi läbimõõt: min, “tüüpiline”, max */
+  width: clamp(320px, 86vw, 600px);
+
+  /* 2) tee alati ruut (kõrgus arvutatakse laiuse järgi) */
+  aspect-ratio: 1 / 1;
+
+  /* 3) tee ring */
+  border-radius: 50%;
+
+  /* 4) klipi klaas/pseudoelemendid ringi järgi */
+  overflow: hidden;
+
+  /* 5) oluline: muidu .glass-box max-width surub laiuse väiksemaks ja tekib ovaal */
+  max-width: none;
+}
+
+/* Klaasikihid (sul on ::before/::after) ringi järgi */
+.glass-box.profile-container::before,
+.glass-box.profile-container::after{
+  border-radius: inherit;
+}
 .login-modal-box .pin-layout-toggle {
   font-size: 1.1rem;
   }

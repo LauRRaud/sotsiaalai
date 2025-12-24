@@ -93,10 +93,13 @@
       "otp_invalid": "Kood on vale või aegunud.",
       "otp_resent": "Saadeti uus kood aadressile {email}.",
       "pin_hint": "Sisesta PIN. Turvalisuse huvides on sisestus peidetud ja märke ette ei loeta.",
-      "key": "Number {digit}",
+ "key": "Number {digit}",
       "toggle_keypad": "Vaheta klahvistik",
       "toggle_keypad_mobile_aria": "Vaheta PIN-i sisestusviisi ekraaniklahvistiku ja seadme klaviatuuri vahel.",
-      "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust."
+      "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust.",
+      "zero_key_aria": "0 / kustuta",
+      "help_hold_zero_before": "Hoia",
+      "help_hold_zero_after": "all ~0,5 s, et kustutada PIN sisestus."
     },
     "register": {
       "title": "Loo konto",
