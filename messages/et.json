@@ -81,7 +81,7 @@
       "forgot": "Unustasid PIN-i?",
       "register_link": "Registreeru",
       "clear": "Kustuta PIN",
-      "clear_short": "K",
+      "clear_short": "C",
       "back": "Eemalda viimane number",
       "otp_title": "Kinnita sisenemine",
       "otp_info_sent": "Kinnituskood saadeti aadressile {email}.",

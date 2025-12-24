@@ -948,14 +948,14 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
 <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
   {keypadKeys.map((key, idx) => {
     if (key === "blank") {
-      return <span key={"blank-" + String(idx)} className="pin-keypad__blank" aria-hidden="true" />;
+      return <span key={`blank-${idx}`} className="pin-keypad__blank" aria-hidden="true" />;
     }
 
     if (key === "help") {
       const label = t("auth.login.forgot");
       return (
         <button
-          key={"help-" + String(idx)}
+          key={`help-${idx}`}
           type="button"
           className="pin-keypad__button no-click-pulse pin-keypad__button--help"
           ref={(el) => {
@@ -977,7 +977,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
           aria-haspopup="dialog"
           aria-expanded={helpOpen}
         >
-          {t("symbols.question")}
+          ?
         </button>
       );
     }
@@ -988,7 +988,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
 
       return (
         <button
-          key={"submit-" + String(idx)}
+          key={`submit-${idx}`}
           type="button"
           className="pin-keypad__button no-click-pulse pin-keypad__button--submit"
           ref={(el) => (keypadRefs.current[idx] = el)}
@@ -1037,9 +1037,9 @@ const digitLabel = t("auth.login.key", { digit: isZeroKey ? 0 : key });
 
     return (
       <button
-        key={key + String(idx)}
+        key={`${key}-${idx}`}
         type="button"
-        className={["pin-keypad__button","no-click-pulse",isZeroKey ? "pin-keypad__button--alt" : null].filter(Boolean).join(" ")}
+        className={`pin-keypad__button no-click-pulse${isZeroKey ? " pin-keypad__button--alt" : ""}`}
         ref={(el) => (keypadRefs.current[idx] = el)}
         onKeyDown={(e) => handleKeypadKeyDown(e, idx)}
         onPointerDown={(e) => {
@@ -1105,7 +1105,7 @@ const digitLabel = t("auth.login.key", { digit: isZeroKey ? 0 : key });
   aria-label={t("buttons.close")}
   onClick={() => setHelpOpen(false)}
 >
-  {t("symbols.times")}
+  ×
 </button>
 
 <div className="pin-help-body">
