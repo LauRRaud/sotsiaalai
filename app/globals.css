@@ -8495,6 +8495,16 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 }
 
 /* Klaasikihid (sul on ::before/::after) ringi järgi */
+@media (max-width: 48em){
+  .glass-box.profile-container{
+    width: clamp(22rem, 110vw, 46rem);
+  }
+  :root:not(.theme-light) .glass-box.profile-container,
+  :root.theme-light .glass-box.profile-container{
+    --profile-actions-panel-w: clamp(18rem, 78vw, 26rem);
+  }
+}
+
 .glass-box.profile-container::before,
 .glass-box.profile-container::after{
   border-radius: inherit;
