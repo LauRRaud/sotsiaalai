@@ -8924,24 +8924,6 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   .pin-keypad__button--bounce{ animation: none; }
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 768px){
-  :root{
-    --pin-btn: 4.70rem;   /* bigger */
-    --pin-gap-x: 0.90rem;
-    --pin-gap-y: 0.76rem;
-  }
-  .pin-keypad__button{ font-size: 1.66rem; }
-}
-
-@media (max-width: 520px){
-  :root{
-    --pin-btn: 4.90rem;   /* bigger */
-    --pin-gap-x: 0.86rem;
-    --pin-gap-y: 0.74rem;
-  }
-}
-
 /* ---------- Submit icon overlay positioning (unchanged) ---------- */
 .login-submit-icon-stack{
   position: relative;
@@ -9140,27 +9122,6 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   overflow-x: hidden;
   animation: modalSlideIn 0.4s;
 }
-
-@media (max-width: 768px){
-  #login-modal.login-modal-box.glass-modal{
-    border-radius: 0.8rem;
-    font-size: 1.15rem;
-    padding: 1.15em 1.15em;
-
-    max-width: 94vw;
-    min-width: min(94vw, calc(var(--pin-grid-w) + 3.0rem));
-  }
-}
-
-@media (max-width: 520px){
-  #login-modal.login-modal-box.glass-modal{
-    border-radius: 0;
-    max-width: 96vw;
-    min-width: 0;
-    padding: 1.15em 1.2em 1.5em;
-    font-size: 1.2rem;
-  }
-}
 :root{
   --pin-gap-x: 1.08rem;
   --pin-gap-y: 0.92rem;
@@ -9175,25 +9136,6 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   font-size: 1.5rem;
   line-height: 1.15;
   font-weight: 500;
-}
-
-/* Mobile: even a touch smaller */
-@media (max-width: 520px){
-  #login-modal .login-modal-bottom-link .link-brand{
-    font-size: 1.05rem;
-  }
-}
-
-/* Kui sul on eraldi klass registril (vahel on .link-brand), hoia ka see */
-#login-modal .login-modal-bottom-link{
-  margin-top: 0.25rem; /* kui jäi liiga “õhku” */
-}
-
-/* Väiksematel ekraanidel natuke konservatiivsem */
-@media (max-width: 520px){
-  #login-modal .glass-title{
-    font-size: clamp(1.65rem, 6.0vw, 2.35rem);
-  }
 }
 .pin-keypad__button--submit {
   display: flex;
@@ -9321,21 +9263,6 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 #login-modal .glass-title{
   margin-bottom: 0.55rem; /* proovi 0.45–0.85rem */
 }
-/* Mobile: natuke veel väiksem */
-@media (max-width: 520px){
-  #login-modal .login-modal-message-slot,
-  #login-modal .login-error-note{
-    font-size: 0.98rem;
-    line-height: 1.22;
-  }
-#login-modal .glass-title{
-  margin-bottom: -0.4rem; /* proovi 0.2–0.6rem */
-}
-
-.profile-page-shell{
-  width: 100%;
-}
-
 /* Toggle keskele ja “klaaskasti peale” ilma layout'i nihutamata */
 .profile-theme-toggle-top{
   display: flex;
@@ -9362,5 +9289,4 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 /* Tee klaaskasti algusesse natuke ruumi, et toggle ei kataks pealkirja */
 .profile-container{
   padding-top: 18px;
-}
 }
