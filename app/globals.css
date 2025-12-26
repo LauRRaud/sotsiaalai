@@ -4760,6 +4760,34 @@ backdrop-filter: none;
   -webkit-filter: blur(0.1rem);
   z-index:-1;
 }
+:root:not(.theme-light) .glass-box.chat-container {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+:root:not(.theme-light) .glass-box.chat-container::before {
+  content: "";
+  border-radius: inherit;
+  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  background-blend-mode: multiply;
+  opacity: 1;
+  filter: none;
+  -webkit-filter: none;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  z-index: 0;
+  -webkit-mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
+  mask-size: 100% 100%;
+  mask-position: 0 0;
+  mask-repeat: no-repeat;
+}
+:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay) {
+  z-index: 1;
+}
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx){
   .glass-box.chat-container{
     --chat-logo-height: clamp(11rem, 30vw, 24rem);
@@ -7188,11 +7216,11 @@ html[data-contrast=hc] .desc-ring-right * {
 }
 main#main > .main-content.glass-box.chat-container[data-chat-bg="worker"],
 .glass-box.chat-container[data-chat-bg="worker"] {
-  --chat-bg-logo: url("/logo/aiilma.svg");
+  --chat-bg-logo: none;
 }
 main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 .glass-box.chat-container[data-chat-bg="client"] {
-  --chat-bg-logo: url("/logo/silma.svg");
+  --chat-bg-logo: none;
 }
 :root.theme-light .meist-body,
 :root.theme-light .meist-body p,
@@ -7535,13 +7563,13 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 }
 :root:not(.theme-light) .chat-inputbar {
   border: 2px solid rgba(84,95,115,0.6);
-  background: rgba(10,14,24,0.32);
+  background: transparent;
   box-shadow: none;
 }
 :root:not(.theme-light) .chat-inputbar:hover:not(:focus-within),
 :root:not(.theme-light) .chat-inputbar:focus-within {
   border-color: var(--ui-hover-ring);
-  background: rgba(10,14,24,0.32);
+  background: transparent;
   box-shadow:
     0 0 10px var(--ui-hover-soft),
     0 0 16px var(--ui-hover-outer);
@@ -9237,6 +9265,10 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
+:root.theme-light .pin-help-popover{
+  background: rgba(255,255,255,0.94);
+  color: #111827;
+}
 
 .pin-help-popover::before{ content: none; }
 
@@ -9252,6 +9284,10 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   line-height: 1.38;
   margin-top: 0.10rem;
   opacity: 0.92;
+}
+:root.theme-light .pin-help-popover .pin-help-text{
+  color: #1f2937;
+  opacity: 1;
 }
 
 .pin-help-popover a.unustasid-parooli-link{
@@ -9566,7 +9602,16 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  width: var(--toggle-w);
+  height: var(--toggle-h);
+  padding: var(--toggle-pad);
+  border-radius: 999px;
+  color: var(--profile-toggle-text);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
   pointer-events: auto;
   cursor: var(--cursor-pointer);
   user-select: none;
@@ -9580,37 +9625,28 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   height: 100%;
 }
 .profile-theme-switch__track{
-  position: relative;
-  width: var(--toggle-w);
-  height: var(--toggle-h);
-  border-radius: 999px;
-  display: flex;
-  align-items: center;
-  padding: var(--toggle-pad);
-  color: var(--profile-toggle-text);
-  background: var(--profile-toggle-track-bg);
-  border: 1px solid var(--profile-toggle-track-border);
-  box-shadow: var(--profile-toggle-track-shadow);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  display: contents;
   --profile-toggle-text-pad-start: 0.52rem;
   --profile-toggle-text-pad-end: calc(var(--thumb-size) + 0.18rem);
 }
 .profile-theme-switch__text{
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: calc(var(--thumb-size) + var(--toggle-pad));
+  top: var(--toggle-pad);
+  bottom: var(--toggle-pad);
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: var(--profile-toggle-text-pad-start);
-  padding-right: var(--profile-toggle-text-pad-end);
-  font-family: var(--font-aino), Arial, sans-serif;
-  font-size: clamp(0.8rem, 2.7vw, 1.05rem);
-  font-weight: 600;
+  justify-content: center;
+  padding-inline: 0.2rem;
+  white-space: nowrap;
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-size: var(--profile-toggle-text-size, clamp(0.8rem, 2.7vw, 1.05rem));
+  font-weight: 500;
   font-synthesis: weight;
   letter-spacing: 0.03em;
-  text-transform: uppercase;
-  line-height: 1.1;
-  transform: translateY(0.02em);
+  text-transform: none;
+  line-height: 1;
   text-shadow: none;
   pointer-events: none;
 }
@@ -9618,8 +9654,11 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   width: var(--thumb-size);
   height: var(--thumb-size);
   border-radius: 999px;
+  position: relative;
   display: grid;
   place-items: center;
+  border: var(--profile-toggle-thumb-border, 0);
+  box-sizing: border-box;
   background: var(--profile-toggle-thumb-bg);
   color: var(--profile-toggle-thumb-color);
   box-shadow: var(--profile-toggle-thumb-shadow);
@@ -9627,11 +9666,13 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   transition: transform 0.25s ease;
 }
 .profile-theme-switch__icon{
-  width: calc(var(--thumb-size) - 0.1rem);
-  height: calc(var(--thumb-size) - 0.1rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: calc(100% - 0.24rem);
+  height: calc(100% - 0.24rem);
+  display: grid;
+  place-items: center;
 }
 .profile-theme-switch__icon-svg{
   display: block;
@@ -9642,19 +9683,22 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   transform: translateX(0);
 }
 .profile-theme-switch__input:checked + .profile-theme-switch__track .profile-theme-switch__text{
-  justify-content: flex-end;
+  left: calc(var(--thumb-size) + var(--toggle-pad));
+  right: 0;
 }
 .profile-theme-switch__input:checked + .profile-theme-switch__track{
   --profile-toggle-text-pad-start: calc(var(--thumb-size) + 0.22rem);
   --profile-toggle-text-pad-end: 0.7rem;
 }
-.profile-theme-switch__input:focus-visible + .profile-theme-switch__track{
-  outline: 2px solid var(--pt-light);
-  outline-offset: 3px;
+.profile-theme-switch__input:focus-visible + .profile-theme-switch__track .profile-theme-switch__thumb{
+  box-shadow:
+    0 0 0 2px var(--pt-light),
+    var(--profile-toggle-thumb-shadow);
 }
 :root:not(.theme-light) .profile-theme-switch{
-  --profile-toggle-text: rgba(255, 255, 255, 0.98);
+  --profile-toggle-text: rgba(230, 234, 241, 0.92);
   --profile-toggle-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+  --profile-toggle-text-size: clamp(1.06rem, 3.5vw, 1.44rem);
   --profile-toggle-track-bg: transparent;
   --profile-toggle-track-border: transparent;
   --profile-toggle-track-shadow: none;
@@ -9663,14 +9707,22 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   --profile-toggle-thumb-shadow: 0 8px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 :root.theme-light .profile-theme-switch{
-  --profile-toggle-text: rgba(24, 32, 44, 0.96);
+  --profile-toggle-text: rgba(20, 27, 38, 0.96);
   --profile-toggle-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  --profile-toggle-text-size: clamp(1.14rem, 3.8vw, 1.56rem);
   --profile-toggle-track-bg: transparent;
   --profile-toggle-track-border: transparent;
   --profile-toggle-track-shadow: none;
+  --profile-toggle-thumb-border: 2px solid #d7d7d7;
   --profile-toggle-thumb-bg: #ffffff;
   --profile-toggle-thumb-color: rgba(15, 23, 42, 0.82);
   --profile-toggle-thumb-shadow: 0 6px 14px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+:root:not(.theme-light) .profile-theme-switch__text{
+  letter-spacing: 0.05em;
+}
+:root.theme-light .profile-theme-switch__text{
+  letter-spacing: 0.03em;
 }
 :root.theme-light .profile-theme-toggle-top .st-sunMoonThemeToggleBtn,
 :root.theme-light .profile-theme-toggle-top .sun-and-moon{

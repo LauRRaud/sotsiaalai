@@ -394,7 +394,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   const themeLabelRaw = isLightTheme
     ? t("accessibility.options.theme.light", "Hele")
     : t("accessibility.options.theme.dark", "Tume");
-  const themeLabel = themeLabelRaw.split(/\s+/)[0].toUpperCase();
+  const themeLabel = themeLabelRaw.split(/\s+/)[0].toLowerCase();
 
   const themeToggleCorner = (
     <label className="profile-theme-toggle-top-btn profile-theme-switch">

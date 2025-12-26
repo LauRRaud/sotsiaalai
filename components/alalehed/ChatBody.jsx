@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback, useLayoutEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -362,7 +362,9 @@ export default function ChatBody({ roomId = null }) {
   }, [roomId]);
 
   const chatWindowRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
+  const inputBarRef = useRef(null);
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);
   const previewRef = useRef(null);
@@ -414,6 +416,110 @@ export default function ChatBody({ roomId = null }) {
       cancelled = true;
     };
   }, [isRoomMode, roomId]);
+
+  useLayoutEffect(() => {
+    const box = chatContainerRef.current;
+    const inputBar = inputBarRef.current;
+    if (!box || !inputBar) return;
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const encodeSvgMask = (svg) =>
+      `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    let lastMask = "";
+    let raf = 0;
+
+    const roundedRectPath = (x, y, width, height, radius) => {
+      const r = clamp(radius, 0, Math.min(width, height) / 2);
+      const right = x + width;
+      const bottom = y + height;
+      return [
+        `M ${x + r} ${y}`,
+        `H ${right - r}`,
+        `A ${r} ${r} 0 0 1 ${right} ${y + r}`,
+        `V ${bottom - r}`,
+        `A ${r} ${r} 0 0 1 ${right - r} ${bottom}`,
+        `H ${x + r}`,
+        `A ${r} ${r} 0 0 1 ${x} ${bottom - r}`,
+        `V ${y + r}`,
+        `A ${r} ${r} 0 0 1 ${x + r} ${y}`,
+        "Z",
+      ].join(" ");
+    };
+
+    const updateMask = () => {
+      const hasLightThemeDoc = document?.documentElement?.classList?.contains?.(
+        "theme-light"
+      );
+      if (hasLightThemeDoc) {
+        box.style.removeProperty("--chat-input-hole-mask");
+        lastMask = "";
+        return;
+      }
+
+      const boxRect = box.getBoundingClientRect();
+      const inputRect = inputBar.getBoundingClientRect();
+      if (!boxRect.width || !boxRect.height) return;
+      if (!inputRect.width || !inputRect.height) return;
+
+      const boxW = Math.round(boxRect.width);
+      const boxH = Math.round(boxRect.height);
+
+      const toLocal = (rect) => ({
+        x: Math.round(clamp(rect.left - boxRect.left, 0, boxW)),
+        y: Math.round(clamp(rect.top - boxRect.top, 0, boxH)),
+        w: Math.round(rect.width),
+        h: Math.round(rect.height),
+      });
+
+      const inputLocal = toLocal(inputRect);
+      const radiusRaw = Number.parseFloat(
+        window.getComputedStyle(inputBar).borderTopLeftRadius
+      );
+      const radius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
+
+      const outerPath = `M 0 0 H ${boxW} V ${boxH} H 0 Z`;
+      const holePath = roundedRectPath(
+        inputLocal.x,
+        inputLocal.y,
+        inputLocal.w,
+        inputLocal.h,
+        radius
+      );
+
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
+      const mask = encodeSvgMask(svg);
+
+      if (mask !== lastMask) {
+        box.style.setProperty("--chat-input-hole-mask", mask);
+        lastMask = mask;
+      }
+    };
+
+    const scheduleUpdate = () => {
+      window.cancelAnimationFrame(raf);
+      raf = window.requestAnimationFrame(updateMask);
+    };
+
+    scheduleUpdate();
+    window.addEventListener("resize", scheduleUpdate);
+    box.addEventListener("scroll", scheduleUpdate);
+
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(scheduleUpdate);
+      ro.observe(box);
+      ro.observe(inputBar);
+    }
+
+    document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", scheduleUpdate);
+      box.removeEventListener("scroll", scheduleUpdate);
+      ro?.disconnect?.();
+    };
+  }, [prefs?.theme]);
 
   const mappedRoomMessages = useMemo(() => {
     if (!isRoomMode) return [];
@@ -1712,6 +1818,7 @@ export default function ChatBody({ roomId = null }) {
           data-chat-bg={
             userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
           }
+          ref={chatContainerRef}
         >
       {/* Profiili avatar */}
       <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
@@ -1899,7 +2006,10 @@ export default function ChatBody({ roomId = null }) {
           <label htmlFor="chat-input" className="sr-only">
             {t("chat.input.label")}
           </label>
-          <div className={`chat-inputbar chat-inputbar--mobile u-mobile-reset-position${!input.trim() ? " shiny-ph" : ""}`}>
+          <div
+            className={`chat-inputbar chat-inputbar--mobile u-mobile-reset-position${!input.trim() ? " shiny-ph" : ""}`}
+            ref={inputBarRef}
+          >
             <div className="chat-input-field-wrap">
             <textarea
               id="chat-input"
