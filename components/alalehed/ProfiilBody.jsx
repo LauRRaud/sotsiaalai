@@ -195,6 +195,9 @@ export default function ProfiilBody({ initialProfile = null }) {
   const themeToggleAria = isLightTheme
     ? t("nav.toggle_dark", "Switch to dark mode")
     : t("nav.toggle_light", "Switch to light mode");
+  const footerBrand = t("profile.footer_brand");
+  const footerYear = new Date().getFullYear();
+
 
   const profileContainerRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -663,8 +666,8 @@ export default function ProfiilBody({ initialProfile = null }) {
       </div>
 
       <footer className="alaleht-footer profile-footer-note">
-        <span className="profile-footer-line">SotsiaalAI ©</span>
-        <span className="profile-footer-line">2025</span>
+        <span className="profile-footer-line">{footerBrand}</span>
+        <span className="profile-footer-line">{footerYear}</span>
       </footer>
 
       {showDelete && (
@@ -712,3 +715,6 @@ export default function ProfiilBody({ initialProfile = null }) {
     </ProfileShell>
   );
 }
+
+
+

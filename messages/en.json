@@ -200,6 +200,7 @@
     "delete_failed": "Failed to delete account.",
     "saved_ok": "Changes saved.",
     "server_unreachable": "Server is not responding. Please try again.",
+    "footer_brand": "SotsiaalAI ©",
     "preferences": {
       "title": "Language & accessibility",
       "hint": "Choose your preferred language and accessibility options. Changes apply immediately.",

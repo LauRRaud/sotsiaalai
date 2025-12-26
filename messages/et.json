@@ -200,6 +200,7 @@
     "delete_failed": "Konto kustutamine ebaõnnestus.",
     "saved_ok": "Muudatused salvestatud.",
     "server_unreachable": "Server ei vasta. Palun proovi uuesti.",
+    "footer_brand": "SotsiaalAI ©",
     "preferences": {
       "title": "Keel ja ligipääsetavus",
       "hint": "Seadista vaikimisi keel ning ligipääsetavuse eelistused. Muudatused rakenduvad kohe.",
