@@ -210,8 +210,8 @@ body::-webkit-scrollbar {
 .invite-modal__close:not(.modal-close-btn):focus-visible { outline: none; }
 .invite-modal__close.modal-close-btn{
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.6rem;
+  right: 0.6rem;
   z-index: 2;
 }
 :root.theme-light .invite-modal__close.modal-close-btn{ color: #7A3A38; }
@@ -311,6 +311,32 @@ body::-webkit-scrollbar {
   transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 .invite-choice-card input { accent-color: var(--brand-primary); }
+.invite-choice-card input[type="radio"]{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  border: 2px solid rgba(210, 220, 235, 0.5);
+  background: rgba(20, 26, 38, 0.6);
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  cursor: var(--cursor-pointer);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.invite-choice-card input[type="radio"]::before{
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  transform: scale(0);
+  transition: transform 0.16s ease;
+}
+.invite-choice-card input[type="radio"]:checked::before{
+  transform: scale(1);
+}
 .invite-choice-card:hover,
 .invite-choice-card:focus-within {
   transform: translateY(-1px);
@@ -341,28 +367,11 @@ body::-webkit-scrollbar {
   box-shadow: 0 14px 28px rgba(0,0,0,0.12);
 }
 :root.theme-light .invite-choice-card input[type="radio"]{
-  appearance: none;
-  -webkit-appearance: none;
-  width: 1.05rem;
-  height: 1.05rem;
-  border-radius: 999px;
   border: 2px solid rgba(107, 114, 128, 0.65);
   background: rgba(156, 163, 175, 0.25);
-  display: inline-grid;
-  place-items: center;
-  flex-shrink: 0;
 }
 :root.theme-light .invite-choice-card input[type="radio"]::before{
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: var(--brand-primary);
-  transform: scale(0);
-  transition: transform 0.16s ease;
-}
-:root.theme-light .invite-choice-card input[type="radio"]:checked::before{
-  transform: scale(1);
+  background: #7A3A38;
 }
 .invite-classic__status--error { color: #fca5a5; }
 .invite-classic__status--ok { color: #a7f3d0; }
@@ -2064,6 +2073,12 @@ main#main > .main-content.glass-box.profile-container {
   .profile-email-card{
     max-width:170px;
     width:100%;
+    justify-content: flex-start;
+    padding-top: 0.9rem;
+    padding-bottom: 0.7rem;
+  }
+  .profile-email-card__icon{
+    margin-top: 0.1rem;
   }
   .profile-email-card__icon svg{
     width:48px;
@@ -2072,6 +2087,8 @@ main#main > .main-content.glass-box.profile-container {
   .profile-email-card__label{
     font-size: 1rem;
     line-height: 1.1;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }
 .profile-btn-row--duo .btn-primary,
@@ -4785,7 +4802,7 @@ backdrop-filter: none;
   mask-position: 0 0;
   mask-repeat: no-repeat;
 }
-:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay) {
+:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat) {
   z-index: 1;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx){
@@ -8740,6 +8757,40 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     aspect-ratio: auto;
     border-radius: 1.5em;
     overflow: visible;
+  }
+}
+@media (max-width: 520px){
+  .profile-page-shell .glass-box.profile-container{
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 0.75rem;
+  }
+  #profile-title.glass-title{
+    font-size: clamp(2.3rem, 2rem + 4vw, 3rem);
+  }
+  .profile-btn-row--back-logout .back-arrow-btn{
+    inline-size: 5.6rem;
+    block-size: 5.6rem;
+  }
+  .profile-btn-row--back-logout .back-arrow-circle{
+    inline-size: 5.1rem;
+    block-size: 5.1rem;
+  }
+  .profile-btn-row--back-logout .profile-logout-icon-btn{
+    inline-size: 6.2rem;
+    block-size: 6.2rem;
+  }
+  .profile-logout-icon{
+    width: 5.4rem;
+    height: 5.4rem;
+  }
+  :root .profile-theme-toggle-top .profile-theme-switch{
+    --toggle-w: clamp(6.4rem, 24vw, 7.6rem);
+    --toggle-h: clamp(2.5rem, 7.4vw, 3rem);
+  }
+  :root:not(.theme-light) .profile-theme-toggle-top .profile-theme-switch,
+  :root.theme-light .profile-theme-toggle-top .profile-theme-switch{
+    --profile-toggle-text-size: clamp(1.2rem, 4.6vw, 1.7rem);
   }
 }
 .login-modal-box .pin-layout-toggle {
