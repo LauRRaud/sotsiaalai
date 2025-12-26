@@ -11,7 +11,7 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 
-function SubmitArrowOverlayWhite({ filled = 0, max = 8 }) {
+function SubmitArrowOverlayWhite({ filled = 0, max = 8, stroke = "#ffffffef" }) {
   if (filled <= 0) return null;
 
   const VIEWBOX = "0 0 24 24";
@@ -38,7 +38,7 @@ function SubmitArrowOverlayWhite({ filled = 0, max = 8 }) {
         d={ARROW_D}
         pathLength={TOTAL}
         fill="none"
-        stroke="#ffffffef"
+        stroke={stroke}
         strokeWidth={STROKE_W}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1023,7 +1023,11 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
   />
   {pinValue.length > 0 && (
     <span className="login-submit-icon-overlay" aria-hidden="true">
-      <SubmitArrowOverlayWhite filled={pinValue.length} max={PIN_MAX} />
+      <SubmitArrowOverlayWhite
+        filled={pinValue.length}
+        max={PIN_MAX}
+        stroke={isLightTheme ? "#c57171" : "#ffffffef"}
+      />
     </span>
   )}
 </span>

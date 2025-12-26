@@ -2,10 +2,6 @@
   viewBox="0 0 24 24"
   opacity="1"
 >
-  <!-- ring -->
-  <g fill="none" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M6 7.5A8 8 0 1 1 6 16.5" />
-  </g>
 
   <!-- padlock -->
   <g transform="translate(12.7 11.2) scale(0.55) translate(-12 -12)"

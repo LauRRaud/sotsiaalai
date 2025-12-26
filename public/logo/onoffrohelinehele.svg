@@ -1,7 +1,7 @@
 <svg
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
-  opacity="0.8"
+  opacity="0.9"
 >
   <!-- ring -->
   <g
@@ -10,7 +10,7 @@
     stroke-width="1"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-opacity="0.8"
+    stroke-opacity="0.9"
   >
     <path d="M18 7.5A8 8 0 1 0 18 16.5" />
   </g>

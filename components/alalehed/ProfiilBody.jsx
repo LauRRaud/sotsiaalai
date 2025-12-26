@@ -28,17 +28,16 @@ function ProfileShell({
   ariaLabelledby,
   innerRef,
 }) {
-  // Toggle OUTSIDE the circular/clipped container to ensure visibility.
+  // Toggle centered over the glass container.
   return (
     <div className="profile-page-shell" lang={locale}>
-      <div className="profile-theme-toggle-top">{themeToggleCorner}</div>
-
       <div
         className="main-content glass-box glass-left profile-container"
         role={role}
         aria-labelledby={ariaLabelledby}
         ref={innerRef}
       >
+        <div className="profile-theme-toggle-top">{themeToggleCorner}</div>
         {children}
       </div>
     </div>
@@ -139,14 +138,21 @@ function DeleteDockIcon({ isHovered: _isHovered, ...props }) {
 }
 
 function ThemeToggleIcon({ theme }) {
-  const nextIsDark = theme === "light";
-  const size = nextIsDark ? 42 : 70;
+  const size = 24;
   return (
-    <span className="sun-and-moon" aria-hidden="true">
-      {nextIsDark ? (
-        <MoonIcon width={size} height={size} className="themeIcon themeIcon-moon" />
+    <span className="profile-theme-switch__icon" aria-hidden="true">
+      {theme === "light" ? (
+        <SunIcon
+          width={size}
+          height={size}
+          className="profile-theme-switch__icon-svg profile-theme-switch__icon-sun"
+        />
       ) : (
-        <SunIcon width={size} height={size} className="themeIcon themeIcon-sun" />
+        <MoonIcon
+          width={size}
+          height={size}
+          className="profile-theme-switch__icon-svg profile-theme-switch__icon-moon"
+        />
       )}
     </span>
   );
@@ -198,11 +204,12 @@ export default function ProfiilBody({ initialProfile = null }) {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
     const emailEl = emailFieldRef.current;
-    if (!box || !pill) return;
+    if (!box || !pill || !emailEl) return;
 
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     let lastMask = "";
+    let raf = 0;
 
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
@@ -222,103 +229,59 @@ export default function ProfiilBody({ initialProfile = null }) {
       ].join(" ");
     };
 
-    const updateHole = () => {
-      const boxRect = box.getBoundingClientRect();
-      const pillRect = pill.getBoundingClientRect();
-      if (!boxRect.width || !boxRect.height || !pillRect.width || !pillRect.height) return;
-
+    const updateMask = () => {
       const hasLightThemeDoc = document?.documentElement?.classList?.contains?.("theme-light");
       if (hasLightThemeDoc) {
-        const fallbackMask = "linear-gradient(#fff, #fff)";
-        if (lastMask !== fallbackMask) {
-          box.style.setProperty("--profile-role-hole-mask", fallbackMask);
-          lastMask = fallbackMask;
-        }
+        box.style.removeProperty("--profile-role-hole-mask");
+        lastMask = "";
         return;
       }
 
-      const centerXRaw = pillRect.left - boxRect.left + pillRect.width / 2;
-      const centerYRaw = pillRect.top - boxRect.top + pillRect.height / 2;
+      const boxRect = box.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      const emailRect = emailEl.getBoundingClientRect();
+      if (!boxRect.width || !boxRect.height || !pillRect.width || !pillRect.height) return;
+      if (!emailRect.width || !emailRect.height) return;
 
-      const styles = window.getComputedStyle(box);
-      const wRatio = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-w")) || 0.62;
-      const hRatio = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-h")) || 0.11;
-      const minW = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-min-w")) || 320;
-      const maxW = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-max-w")) || 560;
-      const minH = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-min-h")) || 54;
-      const maxH = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-max-h")) || 84;
-      const radiusPxRaw = Number.parseFloat(styles.getPropertyValue("--profile-role-hole-r"));
+      const boxW = Math.round(boxRect.width);
+      const boxH = Math.round(boxRect.height);
 
-      const holeHeight = Math.round(clamp(boxRect.width * hRatio, minH, maxH));
+      const toLocal = (rect) => ({
+        x: Math.round(clamp(rect.left - boxRect.left, 0, boxW)),
+        y: Math.round(clamp(rect.top - boxRect.top, 0, boxH)),
+        w: Math.round(rect.width),
+        h: Math.round(rect.height),
+      });
 
-      const baseWidth = clamp(boxRect.width * wRatio, minW, maxW);
-      let textWidthTarget = 0;
+      const pillLocal = toLocal(pillRect);
+      const emailLocal = toLocal(emailRect);
 
-      try {
-        const pillStyles = window.getComputedStyle(pill);
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.font = `${pillStyles.fontWeight} ${pillStyles.fontSize} ${pillStyles.fontFamily}`;
-          const measured = ctx.measureText(pill.textContent || "").width;
-          const pad = clamp(holeHeight * 1.35, 36, 64);
-          textWidthTarget = measured + pad;
-        }
-      } catch {}
+      const pillRadiusRaw = Number.parseFloat(
+        window.getComputedStyle(pill).borderTopLeftRadius
+      );
+      const emailRadiusRaw = Number.parseFloat(
+        window.getComputedStyle(emailEl).borderTopLeftRadius
+      );
+      const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
+      const emailRadius = Number.isFinite(emailRadiusRaw) ? emailRadiusRaw : emailLocal.h / 2;
 
-      const holeWidth = Math.round(clamp(Math.max(baseWidth, textWidthTarget), minW, maxW));
-      const holeRadius = Math.round(
-        clamp(
-          Number.isFinite(radiusPxRaw) ? radiusPxRaw : holeHeight / 2,
-          0,
-          Math.min(holeWidth, holeHeight) / 2
-        )
+      const outerPath = `M 0 0 H ${boxW} V ${boxH} H 0 Z`;
+      const pillPath = roundedRectPath(
+        pillLocal.x,
+        pillLocal.y,
+        pillLocal.w,
+        pillLocal.h,
+        pillRadius
+      );
+      const emailPath = roundedRectPath(
+        emailLocal.x,
+        emailLocal.y,
+        emailLocal.w,
+        emailLocal.h,
+        emailRadius
       );
 
-      const topRaw = centerYRaw - holeHeight / 2;
-      const centerX = Math.round(clamp(centerXRaw, holeWidth / 2, boxRect.width - holeWidth / 2));
-      const top = Math.round(clamp(topRaw, 0, boxRect.height - holeHeight));
-
-      box.style.setProperty("--profile-role-hole-width", `${holeWidth}px`);
-      box.style.setProperty("--profile-role-hole-height", `${holeHeight}px`);
-      box.style.setProperty("--profile-role-hole-x", `${centerX}px`);
-      box.style.setProperty("--profile-role-hole-top", `${top}px`);
-
-      const boxWidth = Math.round(boxRect.width);
-      const boxHeight = Math.round(boxRect.height);
-      const holeX = Math.round(clamp(centerX - holeWidth / 2, 0, boxWidth - holeWidth));
-      const holeY = top;
-
-      const outerPath = `M 0 0 H ${boxWidth} V ${boxHeight} H 0 Z`;
-      const holePath = roundedRectPath(holeX, holeY, holeWidth, holeHeight, holeRadius);
-
-      let emailHolePath = "";
-      if (!hasLightThemeDoc && emailEl) {
-        const emailRect = emailEl.getBoundingClientRect();
-        if (emailRect.width && emailRect.height) {
-          const emailHoleW = Math.round(emailRect.width);
-          const emailHoleH = Math.round(emailRect.height);
-          const emailHoleX = Math.round(
-            clamp(emailRect.left - boxRect.left, 0, boxWidth - emailHoleW)
-          );
-          const emailHoleY = Math.round(
-            clamp(emailRect.top - boxRect.top, 0, boxHeight - emailHoleH)
-          );
-          const emailRadiusRaw = Number.parseFloat(
-            window.getComputedStyle(emailEl).borderTopLeftRadius
-          );
-          const emailRadius = Math.round(
-            clamp(
-              Number.isFinite(emailRadiusRaw) ? emailRadiusRaw : emailHoleH / 2,
-              0,
-              Math.min(emailHoleW, emailHoleH) / 2
-            )
-          );
-          emailHolePath = ` ${roundedRectPath(emailHoleX, emailHoleY, emailHoleW, emailHoleH, emailRadius)}`;
-        }
-      }
-
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxWidth} ${boxHeight}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}${emailHolePath}"/></svg>`;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath} ${emailPath}"/></svg>`;
       const mask = encodeSvgMask(svg);
 
       if (mask !== lastMask) {
@@ -327,24 +290,20 @@ export default function ProfiilBody({ initialProfile = null }) {
       }
     };
 
-    let raf = window.requestAnimationFrame(updateHole);
     const scheduleUpdate = () => {
       window.cancelAnimationFrame(raf);
-      raf = window.requestAnimationFrame(updateHole);
+      raf = window.requestAnimationFrame(updateMask);
     };
 
+    scheduleUpdate();
     window.addEventListener("resize", scheduleUpdate);
-
-    let intervalId;
-    if (process.env.NODE_ENV !== "production") {
-      intervalId = window.setInterval(scheduleUpdate, 350);
-    }
 
     let ro;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(pill);
+      ro.observe(emailEl);
     }
 
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
@@ -352,10 +311,9 @@ export default function ProfiilBody({ initialProfile = null }) {
     return () => {
       window.cancelAnimationFrame(raf);
       window.removeEventListener("resize", scheduleUpdate);
-      if (intervalId) window.clearInterval(intervalId);
       ro?.disconnect?.();
     };
-  }, [status, loading, loadFailed, locale, session?.user?.role, prefs?.theme, roleLabel]);
+  }, [prefs?.theme, roleLabel, email]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -430,18 +388,26 @@ export default function ProfiilBody({ initialProfile = null }) {
     setPrefs?.({ theme: nextTheme });
   };
 
+  const themeLabelRaw = isLightTheme
+    ? t("accessibility.options.theme.light", "Hele")
+    : t("accessibility.options.theme.dark", "Tume");
+  const themeLabel = themeLabelRaw.split(/\s+/)[0].toUpperCase();
+
   const themeToggleCorner = (
-<label
-  className="themeToggle st-sunMoonThemeToggleBtn profile-theme-toggle-top-btn"
-  aria-label={themeToggleAria}
->
+    <label className="profile-theme-toggle-top-btn profile-theme-switch">
       <input
         type="checkbox"
-        className="themeToggleInput"
+        className="profile-theme-switch__input"
         checked={isLightTheme}
         onChange={handleThemeToggle}
+        aria-label={themeToggleAria}
       />
-      <ThemeToggleIcon theme={isLightTheme ? "light" : "dark"} />
+      <span className="profile-theme-switch__track" aria-hidden="true">
+        <span className="profile-theme-switch__text">{themeLabel}</span>
+        <span className="profile-theme-switch__thumb">
+          <ThemeToggleIcon theme={isLightTheme ? "light" : "dark"} />
+        </span>
+      </span>
     </label>
   );
 
@@ -601,6 +567,7 @@ export default function ProfiilBody({ initialProfile = null }) {
             id="email"
             autoComplete="email"
             value={email}
+            size={Math.max(12, email.length)}
             aria-label={emailLabel}
             readOnly
           />
@@ -631,11 +598,11 @@ export default function ProfiilBody({ initialProfile = null }) {
                 onClick,
                 key,
               }))}
-              panelHeight={84}
-              dockHeight={112}
-              baseItemSize={56}
-              magnification={66}
-              distance={140}
+              panelHeight={106}
+              dockHeight={150}
+              baseItemSize={68}
+              magnification={76}
+              distance={150}
               spring={{ mass: 0.28, stiffness: 190, damping: 18 }}
               labelOffset={6}
               className="profile-email-dock"
@@ -695,7 +662,10 @@ export default function ProfiilBody({ initialProfile = null }) {
         </div>
       </div>
 
-      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
+      <footer className="alaleht-footer profile-footer-note">
+        <span className="profile-footer-line">SotsiaalAI ©</span>
+        <span className="profile-footer-line">2025</span>
+      </footer>
 
       {showDelete && (
         <ModalConfirm
