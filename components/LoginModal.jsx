@@ -984,7 +984,12 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
 
     if (key === "submit") {
       const label = t("auth.login.submit");
-      const submitKeyIconSrc = isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
+      const submitKeyIconSrc =
+        submitIconState === "error"
+          ? "/logo/tabalukkpunane.svg"
+          : isLightTheme
+            ? "/logo/sisenehallhele.svg"
+            : "/logo/sisenehall.svg";
 
       return (
         <button
@@ -1021,7 +1026,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
     aria-hidden="true"
     style={{ objectFit: "contain", objectPosition: "center" }}
   />
-  {pinValue.length > 0 && (
+  {pinValue.length > 0 && submitIconState !== "error" && (
     <span className="login-submit-icon-overlay" aria-hidden="true">
       <SubmitArrowOverlayWhite
         filled={pinValue.length}
