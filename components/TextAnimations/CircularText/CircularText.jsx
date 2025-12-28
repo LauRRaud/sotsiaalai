@@ -78,7 +78,7 @@ export default function CircularText({
   const pxToVB = VIEWBOX / responsiveSize;  // px → viewBox skaleering
   const dir = clockwise ? 1 : -1;
   const uid = useId();
-  const pathId = `circlePath3x-${(className || "ring").replace(/\s+/g, "-")}-${uid}`;
+  const pathId = `circlePath3x-${uid}`;
   // Mõõdetud algusoffsetid (viewBox ühikutes). Null = veel mõõtmata.
   const [startsAbs, setStartsAbs] = useState(null);
   // Mõõda sõnade laius (px) canvas’ega → teisenda viewBox’iks → arvuta startOffset’id

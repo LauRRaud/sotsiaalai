@@ -1,0 +1,307 @@
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  /* 3) Teised nupud suuremad */
+  --orbit-item-size: clamp(3.9rem, 7.8vw, 4.7rem);
+
+  /* Orbitile veidi rohkem ruumi, et suuremad nupud mahuksid ilusasti */
+  --orbit-size: clamp(14.6rem, 30vw, 20rem);
+
+  /* Kesk-nupp jääb “ilusaks”, aga ei suurene hoveriga */
+  --orbit-center-size: clamp(6.4rem, 12vw, 7.6rem);
+
+  --orbit-radius: calc((var(--orbit-size) - var(--orbit-item-size)) / 2);
+
+  margin-inline: auto;
+  margin-top: calc(-1 * clamp(4.2rem, 8.2vh, 5.8rem));
+  margin-bottom: calc(-1 * clamp(2.2rem, 5.2vh, 3.2rem));
+  max-width: min(100%, 32rem);
+  min-height: var(--orbit-size);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  transform: none;
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  margin-top: calc(-1 * clamp(4.8rem, 9.5vh, 6.8rem));
+}
+
+.profile-orbit-menu {
+  position: relative;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  display: grid;
+  place-items: center;
+
+  --item-opacity: 0;
+  --item-scale: 0.90;
+
+  /* sildid suuremad */
+  --label-gap: 0.16rem;
+  --label-gap-side: -0.9rem;
+  --label-nudge: 0.25rem;
+}
+
+.profile-orbit-menu.is-open {
+  --item-opacity: 1;
+  --item-scale: 1;
+}
+
+.profile-orbit-menu__items {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.profile-orbit-menu.is-open .profile-orbit-menu__items {
+  pointer-events: auto;
+}
+
+/* Slot = orbit anchor */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+
+  transform:
+    rotate(var(--angle))
+    translateY(calc(var(--orbit-radius) * -1))
+    rotate(calc(var(--angle) * -1));
+
+  transform-origin: center;
+
+  opacity: var(--item-opacity);
+  transition: opacity 0.2s ease;
+  transition-delay: var(--delay);
+
+  z-index: 1;
+}
+
+/* Orbit buttons */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: var(--orbit-item-size);
+  height: var(--orbit-item-size);
+  border-radius: 999px;
+
+  transform: translate(-50%, -50%) scale(var(--item-scale));
+  transform-origin: center;
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+
+  transition-delay: var(--delay);
+
+  padding: 0;
+  cursor: pointer;
+  display: block;
+}
+
+/* Tõsta hoveritud nupp teistest kõrgemale, et silt ei satuks “teise nupu alla” */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item:hover,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item:focus-visible {
+  z-index: 10;
+}
+
+/* Ikoon päriselt keskele (2) */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  line-height: 0;
+}
+
+/* Kui su globaalne SVG reegel seab 60%, sobib. Kui tahad suuremat ikooni, muuda 60 -> 64. */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon svg {
+  width: 64%;
+  height: 64%;
+  max-width: none;
+  max-height: none;
+  display: block;
+  stroke: currentColor;
+}
+
+/* ===== SILDID: positsioon täpselt sinu reeglite järgi ===== */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-label {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+
+  width: max-content;
+  max-width: 12rem;
+  white-space: normal;
+  line-height: 1.05;
+
+  /* 4) Tekstid tunduvalt suuremad */
+  font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  letter-spacing: 0.02em;
+
+  text-align: center;
+  text-align-last: center;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  z-index: 20;
+
+  /* hard reset (et vanad reeglid ei segaks) */
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  transform: none;
+
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+/* Näita silt hover/focus */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item:hover .dock-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item:focus-visible .dock-label {
+  opacity: 1;
+}
+
+/* UP: (Uus PIN, Uus e-post) */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="up"] .dock-label {
+  left: 50%;
+  bottom: calc(100% + var(--label-gap));
+  transform: translateX(-50%);
+  text-align: center;
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="up"]:hover .dock-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="up"]:focus-visible .dock-label {
+  transform: translateX(-50%) translateY(calc(var(--label-nudge) * -1));
+}
+
+/* DOWN: (Keel ja ligipääsetavus, Halda tellimust) */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="down"] .dock-label {
+  left: 50%;
+  top: calc(100% + var(--label-gap));
+  transform: translateX(-50%);
+  text-align: center;
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="down"]:hover .dock-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="down"]:focus-visible .dock-label {
+  transform: translateX(-50%) translateY(var(--label-nudge));
+}
+
+/* LEFT: (Tume/Hele režiim) */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="left"] .dock-label {
+  max-width: 7rem;
+  overflow-wrap: break-word;
+  right: calc(100% + var(--label-gap-side));
+  top: 50%;
+  transform: translateY(-50%);
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="left"]:hover .dock-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="left"]:focus-visible .dock-label {
+  transform: translateY(-50%) translateX(calc(var(--label-nudge) * -1));
+}
+
+/* RIGHT: (Kustuta konto) */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="right"] .dock-label {
+  max-width: 7rem;
+  overflow-wrap: break-word;
+  left: calc(100% + var(--label-gap-side));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-key="theme"] .dock-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-key="subscription"] .dock-label {
+  max-width: 5.8rem;
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="right"]:hover .dock-label,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item[data-label-pos="right"]:focus-visible .dock-label {
+  transform: translateY(-50%) translateX(var(--label-nudge));
+}
+
+/* ===== CENTER HUB =====
+   1) Ei scale’i / ei liigu hoveriga
+*/
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item {
+  width: var(--orbit-center-size);
+  height: var(--orbit-center-size);
+  border-radius: 999px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+  z-index: 5;
+
+  /* IMPORTANT: no transforms */
+  transform: none !important;
+  transition: none;
+}
+
+/* Keela ka dock-item hover transformid kesk-nupul (kui globaalne CSS neid paneb) */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:hover,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:active,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:focus-visible {
+  transform: none !important;
+}
+
+:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item::before {
+  content: none;
+}
+
+/* Center SVG (orbital/orbitaltume) */
+.profile-orbit-menu__hub-icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 46%;
+}
+
+:root:not(.theme-light) .profile-orbit-menu__hub-icon {
+  background-image: url("/logo/smust-center.svg");
+}
+
+:root.theme-light .profile-orbit-menu__hub-icon {
+  background-image: url("/logo/smust-center.svg");
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    --orbit-size: min(86vw, 16.5rem);
+    --orbit-item-size: min(4.1rem, 24vw);
+    --orbit-center-size: min(5.6rem, 32vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-orbit-menu__slot,
+  .profile-orbit-menu__item,
+  .profile-orbit-menu__center,
+  .profile-orbit-menu__item .dock-label {
+    transition: none;
+  }
+}

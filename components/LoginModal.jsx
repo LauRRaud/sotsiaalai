@@ -763,8 +763,8 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
   const isLightTheme = prefs?.theme === "light";
 
   const submitIconSrc = (() => {
-    const successIcon = isLightTheme ? "/logo/sisenerohelinehele.svg" : "/logo/siseneroheline.svg";
-    const errorIcon = isLightTheme ? "/logo/sisenepunanetume.svg" : "/logo/sisenepunanehele.svg";
+    const successIcon = isLightTheme ? "/logo/sisenehele.svg" : "/logo/sisene.svg";
+    const errorIcon = isLightTheme ? "/logo/tabalukkpunane.svg" : "/logo/tabalukkpunane.svg";
     if (pinLoading || submitIconState === "success") return successIcon;
     if (submitIconState === "error") return errorIcon;
     return isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";

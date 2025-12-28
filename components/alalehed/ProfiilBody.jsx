@@ -11,7 +11,7 @@ import LoginModal from "@/components/LoginModal";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import Dock from "@/components/effects/Components/Dock/Dock";
+import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
 import { localizePath } from "@/lib/localizePath";
 
 const ROLE_KEYS = {
@@ -22,7 +22,6 @@ const ROLE_KEYS = {
 
 function ProfileShell({
   locale,
-  themeToggleCorner,
   children,
   role = "region",
   ariaLabelledby,
@@ -37,7 +36,6 @@ function ProfileShell({
         aria-labelledby={ariaLabelledby}
         ref={innerRef}
       >
-        <div className="profile-theme-toggle-top">{themeToggleCorner}</div>
         {children}
       </div>
     </div>
@@ -137,27 +135,6 @@ function DeleteDockIcon({ isHovered: _isHovered, ...props }) {
   );
 }
 
-function ThemeToggleIcon({ theme }) {
-  const size = 24;
-  return (
-    <span className="profile-theme-switch__icon" aria-hidden="true">
-      {theme === "light" ? (
-        <SunIcon
-          width={size}
-          height={size}
-          className="profile-theme-switch__icon-svg profile-theme-switch__icon-sun"
-        />
-      ) : (
-        <MoonIcon
-          width={size}
-          height={size}
-          className="profile-theme-switch__icon-svg profile-theme-switch__icon-moon"
-        />
-      )}
-    </span>
-  );
-}
-
 export default function ProfiilBody({ initialProfile = null }) {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -176,7 +153,6 @@ export default function ProfiilBody({ initialProfile = null }) {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isTouchActions, setIsTouchActions] = useState(false);
 
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -192,11 +168,6 @@ export default function ProfiilBody({ initialProfile = null }) {
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const emailLabel = t("profile.email");
 
-  const themeToggleAria = isLightTheme
-    ? t("nav.toggle_dark", "Switch to dark mode")
-    : t("nav.toggle_light", "Switch to light mode");
-  const footerBrand = t("profile.footer_brand");
-  const footerYear = new Date().getFullYear();
 
 
   const profileContainerRef = useRef(null);
@@ -212,6 +183,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     let lastMask = "";
+    let lastRoleMask = "";
     let raf = 0;
 
     const roundedRectPath = (x, y, width, height, radius) => {
@@ -236,7 +208,9 @@ export default function ProfiilBody({ initialProfile = null }) {
       const hasLightThemeDoc = document?.documentElement?.classList?.contains?.("theme-light");
       if (hasLightThemeDoc) {
         box.style.removeProperty("--profile-role-hole-mask");
+        box.style.removeProperty("--profile-role-only-mask");
         lastMask = "";
+        lastRoleMask = "";
         return;
       }
 
@@ -285,11 +259,18 @@ export default function ProfiilBody({ initialProfile = null }) {
       );
 
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath} ${emailPath}"/></svg>`;
+      const roleSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath}"/></svg>`;
       const mask = encodeSvgMask(svg);
+      const roleMask = encodeSvgMask(roleSvg);
 
       if (mask !== lastMask) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         lastMask = mask;
+      }
+
+      if (roleMask !== lastRoleMask) {
+        box.style.setProperty("--profile-role-only-mask", roleMask);
+        lastRoleMask = roleMask;
       }
     };
 
@@ -319,62 +300,8 @@ export default function ProfiilBody({ initialProfile = null }) {
   }, [prefs?.theme, roleLabel, email]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const media = window.matchMedia("(pointer: coarse), (max-width: 520px)");
-    const applyMatch = (mq) => setIsTouchActions(mq.matches);
-    const handleChange = (event) => applyMatch(event);
-    applyMatch(media);
-
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", handleChange);
-      return () => media.removeEventListener("change", handleChange);
-    }
-
-    media.addListener(handleChange);
-    return () => media.removeListener(handleChange);
-  }, []);
-
-  useEffect(() => {
     if (status === "unauthenticated") setLoginOpen(true);
   }, [status]);
-
-  const actionItems = [
-    {
-      key: "email",
-      icon: <EmailDockIcon />,
-      label: t("profile.update_email_cta", "Uuenda e-post"),
-      onClick: () => router.push(localizePath("/uuenda-epost", locale)),
-    },
-    {
-      key: "pin",
-      icon: <PinDockIcon />,
-      label: t("profile.change_password_cta", "Uuenda parool"),
-      onClick: () => router.push(localizePath("/uuenda-pin", locale)),
-    },
-    {
-      key: "preferences",
-      icon: <PreferencesDockIcon />,
-      label: t("profile.preferences.title"),
-      onClick: () => openA11y?.(),
-    },
-    {
-      key: "subscription",
-      icon: <SubscriptionDockIcon />,
-      label: t("profile.manage_subscription"),
-      onClick: () => router.push(localizePath("/tellimus", locale)),
-    },
-    {
-      key: "delete",
-      icon: <DeleteDockIcon />,
-      label: t("profile.delete_account"),
-      onClick: () => {
-        setError("");
-        setSuccess("");
-        setDeleting(false);
-        setShowDelete(true);
-      },
-    },
-  ];
 
   const logoutIconSrc =
     logoutIconState === "logging-out"
@@ -385,34 +312,67 @@ export default function ProfiilBody({ initialProfile = null }) {
       ? "/logo/onoffhallhele.svg"
       : "/logo/onoffhall.svg";
 
-  const handleThemeToggle = (event) => {
-    const wantsLight = !!event?.target?.checked;
-    const nextTheme = wantsLight ? "light" : "dark";
-    setPrefs?.({ theme: nextTheme });
-  };
+  const themeActionLabel = isLightTheme
+    ? t("accessibility.options.theme.dark", "Tume reziim")
+    : t("accessibility.options.theme.light", "Hele reziim");
 
-  const themeLabelRaw = isLightTheme
-    ? t("accessibility.options.theme.light", "Hele")
-    : t("accessibility.options.theme.dark", "Tume");
-  const themeLabel = themeLabelRaw.split(/\s+/)[0].toLowerCase();
-
-  const themeToggleCorner = (
-    <label className="profile-theme-toggle-top-btn profile-theme-switch">
-      <input
-        type="checkbox"
-        className="profile-theme-switch__input"
-        checked={isLightTheme}
-        onChange={handleThemeToggle}
-        aria-label={themeToggleAria}
-      />
-      <span className="profile-theme-switch__track" aria-hidden="true">
-        <span className="profile-theme-switch__text">{themeLabel}</span>
-        <span className="profile-theme-switch__thumb">
-          <ThemeToggleIcon theme={isLightTheme ? "light" : "dark"} />
-        </span>
-      </span>
-    </label>
-  );
+  const orbitItems = [
+    {
+      key: "theme",
+      icon: isLightTheme ? (
+        <MoonIcon width={26} height={26} className="profile-orbit-menu__theme-icon" />
+      ) : (
+        <SunIcon width={26} height={26} className="profile-orbit-menu__theme-icon" />
+      ),
+      label: themeActionLabel,
+      labelPos: "left",
+      keepOpen: true, // IMPORTANT: ei sulge menüüd, saad on/off katsetada
+      onClick: () => {
+        const nextTheme = isLightTheme ? "dark" : "light";
+        setPrefs?.({ theme: nextTheme });
+      },
+    },
+    {
+      key: "pin",
+      icon: <PinDockIcon />,
+      label: t("profile.change_password_cta", "Uus PIN"),
+      labelPos: "up",
+      onClick: () => router.push(localizePath("/uuenda-pin", locale)),
+    },
+    {
+      key: "email",
+      icon: <EmailDockIcon />,
+      label: t("profile.update_email_cta", "Uus e-post"),
+      labelPos: "up",
+      onClick: () => router.push(localizePath("/uuenda-epost", locale)),
+    },
+    {
+      key: "delete",
+      icon: <DeleteDockIcon />,
+      label: t("profile.delete_account"),
+      labelPos: "right",
+      onClick: () => {
+        setError("");
+        setSuccess("");
+        setDeleting(false);
+        setShowDelete(true);
+      },
+    },
+    {
+      key: "subscription",
+      icon: <SubscriptionDockIcon />,
+      label: t("profile.manage_subscription"),
+      labelPos: "down",
+      onClick: () => router.push(localizePath("/tellimus", locale)),
+    },
+    {
+      key: "preferences",
+      icon: <PreferencesDockIcon />,
+      label: t("profile.preferences.title"),
+      labelPos: "down",
+      onClick: () => openA11y?.(),
+    },
+  ];
 
   const handleLogout = async () => {
     if (loggingOut) return;
@@ -478,7 +438,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   // Loading
   if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
     return (
-      <ProfileShell locale={locale} themeToggleCorner={themeToggleCorner}>
+      <ProfileShell locale={locale}>
         <h1 className="glass-title">{t("profile.title")}</h1>
         <p className="profile-loading" style={{ padding: "1rem" }}>
           {t("profile.loading")}
@@ -497,7 +457,7 @@ export default function ProfiilBody({ initialProfile = null }) {
 
     return (
       <>
-        <ProfileShell locale={locale} themeToggleCorner={themeToggleCorner}>
+        <ProfileShell locale={locale}>
           <h1 className="glass-title">{t("profile.title")}</h1>
           <p style={{ padding: "1rem" }}>{reasonText}</p>
           <div className="back-btn-wrapper">
@@ -522,7 +482,6 @@ export default function ProfiilBody({ initialProfile = null }) {
     return (
       <ProfileShell
         locale={locale}
-        themeToggleCorner={themeToggleCorner}
         ariaLabelledby="profile-title"
       >
         <h1 id="profile-title" className="glass-title">
@@ -541,7 +500,6 @@ export default function ProfiilBody({ initialProfile = null }) {
   return (
     <ProfileShell
       locale={locale}
-      themeToggleCorner={themeToggleCorner}
       ariaLabelledby="profile-title"
       innerRef={profileContainerRef}
     >
@@ -576,43 +534,13 @@ export default function ProfiilBody({ initialProfile = null }) {
           />
         </div>
 
-        <div className="profile-email-dock-wrapper">
-          {isTouchActions ? (
-            <div className="profile-email-card-grid">
-              {actionItems.map(({ key, icon, label, onClick }) => (
-                <button
-                  key={`profile-action-${key}`}
-                  type="button"
-                  className="profile-email-card"
-                  onClick={onClick}
-                >
-                  <span className="profile-email-card__icon" aria-hidden="true">
-                    {icon}
-                  </span>
-                  <span className="profile-email-card__label">{label}</span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <Dock
-              items={actionItems.map(({ key, icon, label, onClick }) => ({
-                icon,
-                label,
-                onClick,
-                key,
-              }))}
-              panelHeight={106}
-              dockHeight={150}
-              baseItemSize={68}
-              magnification={76}
-              distance={150}
-              spring={{ mass: 0.28, stiffness: 190, damping: 18 }}
-              labelOffset={6}
-              className="profile-email-dock"
-              staticHeight
-              ariaLabel={t("profile.actions_label", "Profiili toimingud")}
-            />
-          )}
+        <div className="profile-email-dock-wrapper profile-orbit-menu-wrapper">
+          <OrbitalMenu
+            items={orbitItems}
+            ariaLabel={t("profile.actions_label", "Profiili toimingud")}
+            toggleLabelOpen={t("profile.actions_label", "Profiili toimingud")}
+            toggleLabelClose={t("buttons.close", "Sulge")}
+          />
         </div>
 
         {error && (
@@ -631,10 +559,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           </div>
         )}
 
-        <div
-          className="profile-btn-row profile-btn-row--back-logout"
-          style={{ marginTop: "1.5rem", marginBottom: "0rem" }}
-        >
+        <div className="profile-btn-row profile-btn-row--back-logout">
           <button
             type="button"
             className="back-arrow-btn"
@@ -664,11 +589,6 @@ export default function ProfiilBody({ initialProfile = null }) {
           </button>
         </div>
       </div>
-
-      <footer className="alaleht-footer profile-footer-note">
-        <span className="profile-footer-line">{footerBrand}</span>
-        <span className="profile-footer-line">{footerYear}</span>
-      </footer>
 
       {showDelete && (
         <ModalConfirm

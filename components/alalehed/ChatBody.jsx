@@ -2023,7 +2023,7 @@ export default function ChatBody({ roomId = null }) {
             />
               {!input.trim() ? (
                 <div aria-hidden className="shiny-ph-overlay">
-                  <ShinyText text={t("chat.input.placeholder")} speed={5} />
+                  <ShinyText text={t("chat.input.placeholder")} speed={8.5} />
                 </div>
               ) : null}
             </div>

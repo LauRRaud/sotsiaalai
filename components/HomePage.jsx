@@ -20,13 +20,16 @@ import SmustLogo from "@/public/logo/smust.svg";
 import SaivalgeLogo from "@/public/logo/saivalge.svg";
 import Logomust from "@/public/logo/logomust.svg";
 
+let homeIntroSeen = false;
+
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { prefs } = useAccessibility();
 
-  const [leftFadeDone, setLeftFadeDone] = useState(false);
-  const [rightFadeDone, setRightFadeDone] = useState(false);
+  const [hasSeenIntro] = useState(() => homeIntroSeen);
+  const [leftFadeDone, setLeftFadeDone] = useState(() => prefs.reduceMotion || hasSeenIntro);
+  const [rightFadeDone, setRightFadeDone] = useState(() => prefs.reduceMotion || hasSeenIntro);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
@@ -56,6 +59,11 @@ export default function HomePage() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  useEffect(() => {
+    homeIntroSeen = true;
+  }, []);
+
 
   useEffect(() => {
     const onLeftEnd = (e) => {
@@ -107,7 +115,7 @@ export default function HomePage() {
     }
   }, [isLoginOpen, status, session, router]);
 
-  const skipIntroAnimations = prefs.reduceMotion;
+  const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
@@ -358,10 +366,10 @@ export default function HomePage() {
           <div className="footer-logo-stack">
             <Link
               href="/meist"
-              className={["footer-meist-word", prefs.reduceMotion ? "" : "footer-meist-word--animate"].filter(Boolean).join(" ")}
+              className={["footer-meist-word", skipIntroAnimations ? "" : "footer-meist-word--animate"].filter(Boolean).join(" ")}
               aria-label={t("nav.about")}
             >
-              <ShinyText text={t("nav.about")} speed={12.6} disabled={prefs.reduceMotion} className="footer-meist-shine" />
+              <ShinyText text={t("nav.about")} speed={14.5} disabled={prefs.reduceMotion} className="footer-meist-shine" />
             </Link>
             <Link href="/meist" className="footer-logo-link" aria-label={t("nav.about")}>
               <Logomust
