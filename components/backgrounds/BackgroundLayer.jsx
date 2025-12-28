@@ -32,7 +32,7 @@ function whenVisible(cb) {
   return () => document.removeEventListener("visibilitychange", onVis);
 }
 /* ---------- põhi ---------- */
-const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false }) {
+const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false, isLightTheme = false }) {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
@@ -154,6 +154,12 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
               animateFog={animateFog && !reduceMotion && !mobileLike}
               skipIntro={!animateFog || !!reduceMotion || mobileLike}
               fogAppearDelayMs={0}
+              mode={isLightTheme ? "light" : "dark"}
+              palette={isLightTheme ? { baseTop: "#f2f4f9", baseBottom: "#e6eaf1" } : undefined}
+              allowMobileCustom={isLightTheme}
+              grain={!isLightTheme}
+              fogStrength={isLightTheme ? 0.16 : undefined}
+              fogBlurPx={isLightTheme ? 70 : undefined}
             />
           </Suspense>
         </div>
@@ -194,7 +200,8 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
 function BackgroundLayer() {
   const { prefs } = useAccessibility();
   const reduceMotion = !!prefs?.reduceMotion;
-  return <BackgroundContent reduceMotion={reduceMotion} />;
+  const isLightTheme = prefs?.theme === "light";
+  return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} />;
 }
 
 export default memo(BackgroundLayer);

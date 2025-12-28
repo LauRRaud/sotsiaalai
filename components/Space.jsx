@@ -2,6 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 export default function Space({
+  mode = "dark",
   palette,
   allowMobileCustom = false,
   intensity,
@@ -34,15 +35,28 @@ export default function Space({
     ],
   };
   // Mobiil: lukusta gradient tumedale sinakas toonile (sama tipp, veidi heledam põhi)
-  const MOBILE_LOCK = { baseTop: PRESET.palette.baseTop, baseBottom: PRESET.palette.baseBottom };
+  const LIGHT_PRESET = {
+    palette: { baseTop: "#f3f5f9", baseBottom: "#e7ebf2" },
+    intensity: 0.34,
+    fogStrength: 0.18,
+    fogBlend: "multiply",
+    grainOpacity: 0.04,
+    fogInnerRGBA: (alphaBase) => [
+      `rgba(110,120,135,${Math.max(0.18, alphaBase * 0.30)})`,
+      "rgba(130,140,155,0.18)",
+    ],
+  };
+  const themeMode = mode === "light" ? "light" : "dark";
+  const ACTIVE = themeMode === "light" ? LIGHT_PRESET : PRESET;
+  const MOBILE_LOCK = { baseTop: ACTIVE.palette.baseTop, baseBottom: ACTIVE.palette.baseBottom };
   const isMobile = useIsMobile(); // ≤768px
   const hasFullCustom = !!(palette && palette.baseTop && palette.baseBottom);
   const pal = isMobile
     ? (allowMobileCustom && hasFullCustom ? palette : MOBILE_LOCK)
-    : { ...PRESET.palette, ...(palette || {}) };
-  const inten = intensity ?? PRESET.intensity;
-  const fogStr = clamp(fogStrength ?? PRESET.fogStrength, 0, 0.7);
-  const [fogStop0, fogStop1] = PRESET.fogInnerRGBA(0.9);
+    : { ...ACTIVE.palette, ...(palette || {}) };
+  const inten = intensity ?? ACTIVE.intensity;
+  const fogStr = clamp(fogStrength ?? ACTIVE.fogStrength, 0, 0.7);
+  const [fogStop0, fogStop1] = ACTIVE.fogInnerRGBA(0.9);
   const shouldRenderFog = fog && !isMobile;
   const shouldRenderGrain = grain && !isMobile;
   const animateFogEff = shouldRenderFog && !!(animateFog && !skipIntro);
@@ -50,7 +64,7 @@ export default function Space({
     <div
       className="space-backdrop"
       suppressHydrationWarning
-      data-mode="dark"
+      data-mode={themeMode}
       data-viewport={isMobile ? "mobile" : "desktop"}
       style={{
         "--baseTop": String(pal.baseTop),
@@ -63,8 +77,8 @@ export default function Space({
         "--fogHorizontalShift": `${fogHorizontalShiftVmax}vmax`,
         "--fogAppearDur": `${fogAppearDurMs}ms`,
         "--fogAppearDelay": `${fogAppearDelayMs}ms`,
-        "--fogBlend": PRESET.fogBlend,
-        "--grainOpacity": PRESET.grainOpacity,
+        "--fogBlend": ACTIVE.fogBlend,
+        "--grainOpacity": ACTIVE.grainOpacity,
         "--fogStop0": fogStop0,
         "--fogStop1": fogStop1,
         "--fogBlurPx": `${fogBlurPx}px`,
@@ -104,6 +118,14 @@ export default function Space({
             radial-gradient(195% 130% at 50% 76%, rgba(24, 38, 68, 0.32) 0%, rgba(8, 12, 22, 0.0) 86%);
           mix-blend-mode: screen;
           filter: saturate(0.94);
+        }
+        .space-backdrop[data-mode="light"][data-viewport="mobile"]::before {
+          background:
+            radial-gradient(118% 70% at 50% 28%, rgba(140, 150, 165, 0.18) 0%, rgba(255, 255, 255, 0.0) 60%),
+            radial-gradient(128% 84% at 50% 82%, rgba(150, 160, 175, 0.2) 0%, rgba(255, 255, 255, 0.0) 72%),
+            radial-gradient(195% 130% at 50% 76%, rgba(110, 120, 140, 0.22) 0%, rgba(255, 255, 255, 0.0) 86%);
+          mix-blend-mode: multiply;
+          filter: saturate(0.96);
         }
         .space-backdrop[data-viewport="desktop"]::before {
           opacity: 0;

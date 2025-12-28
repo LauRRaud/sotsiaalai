@@ -10,7 +10,6 @@ import InviteModal from "@/components/invite/InviteModal";
 import TopNav from "@/components/nav/TopNav";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
-import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useRoomMessages } from "@/components/rooms/useRoomMessages";
 
 /* ---------- Konstantsed seaded ---------- */
@@ -2006,27 +2005,19 @@ export default function ChatBody({ roomId = null }) {
           <label htmlFor="chat-input" className="sr-only">
             {t("chat.input.label")}
           </label>
-          <div
-            className={`chat-inputbar chat-inputbar--mobile u-mobile-reset-position${!input.trim() ? " shiny-ph" : ""}`}
-            ref={inputBarRef}
-          >
-            <div className="chat-input-field-wrap">
-            <textarea
-              id="chat-input"
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="chat-input-field"
-              disabled={isGenerating || (isRoomMode && (roomBlocked || roomAuthRequired))}
-              rows={1}
-            />
-              {!input.trim() ? (
-                <div aria-hidden className="shiny-ph-overlay">
-                  <ShinyText text={t("chat.input.placeholder")} speed={8.5} />
-                </div>
-              ) : null}
-            </div>
+            <div className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position" ref={inputBarRef}>
+              <div className="chat-input-field-wrap">
+                <textarea
+                  id="chat-input"
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="chat-input-field"
+                  disabled={isGenerating || (isRoomMode && (roomBlocked || roomAuthRequired))}
+                  rows={1}
+                />
+              </div>
             <button
               type="button"
               className="chat-send-btn chat-listen-btn"

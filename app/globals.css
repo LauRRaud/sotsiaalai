@@ -117,9 +117,9 @@ body::-webkit-scrollbar {
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  background: radial-gradient(circle at 20% 20%, rgba(122,58,56,0.16), transparent 28%), rgba(10,12,20,0.68);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: transparent;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   z-index: 60;
   padding: 1.25rem;
 }
@@ -132,20 +132,37 @@ body::-webkit-scrollbar {
   position: relative;
   border-radius: 1.5rem;
   border: none;
-  box-shadow: 0 18px 44px rgba(0,0,0,0.38);
-  background: rgba(0, 0, 0, 0.25);
+  box-shadow: none;
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   color: var(--glass-surface-text, #f2f2f2);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  padding: 2rem;
+  padding: 2.4rem 2rem 2rem;
   font-size: 1.05rem;
   line-height: 1.35;
 }
 .invite-modal::-webkit-scrollbar{ width:0; height:0; }
 :root.theme-light .invite-modal {
   background: var(--glass-surface-bg);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+  box-shadow: none;
   color: var(--glass-surface-text);
+  --form-surface-light: rgba(255,255,255,0.08);
+  --form-surface-hover-light: rgba(255,255,255,0.22);
+  --form-surface-active-light: rgba(255,255,255,0.78);
+  --form-shadow-light: 0 6px 16px rgba(0,0,0,0.14);
+  --form-accent-light: #7A3A38;
+}
+:root:not(.theme-light) .invite-modal {
+  background: rgba(16, 20, 30, 0.28);
+  --invite-under-glow:
+    0 10px 18px -14px rgba(248,253,255,0.72),
+    0 22px 32px -22px rgba(248,253,255,0.44);
+  --form-accent: rgba(248,253,255,0.9);
+  --form-accent-soft: rgba(248,253,255,0.28);
+  --form-border: rgba(248,253,255,0.2);
+  --form-border-strong: rgba(248,253,255,0.55);
+  --form-surface: rgba(8,12,20,0.52);
+  --form-surface-hover: rgba(14,18,30,0.56);
 }
 .invite-modal__header {
   display: flex;
@@ -153,18 +170,18 @@ body::-webkit-scrollbar {
   justify-content: center;
   gap: 0.75rem;
   padding-top: 0;
-  margin-top: -0.35rem;
-  margin-bottom: 1.05rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
   position: static;
 }
 .invite-classic__title {
   font-size: 1.7rem;
   letter-spacing: 0.03em;
-  margin: -0.9rem 0 0.35rem 0;
+  margin: 0 0 0.45rem 0;
   width: 100%;
   text-align: center;
   position: static;
-  transform: translateY(-0.1rem);
+  transform: none;
 }
 :root:not(.theme-light) .invite-modal .invite-classic__title { color: #c57171; }
 :root.theme-light .invite-modal .invite-classic__title { color: var(--title-color) !important; }
@@ -244,42 +261,54 @@ body::-webkit-scrollbar {
   min-height: 3.05rem;
   border-radius: 0.95rem;
   border: 1px solid rgba(148, 163, 184, 0.28);
-  background: rgba(18,22,32,0.5);
+  background: rgba(22, 28, 40, 0.38);
   color: inherit;
   font-size: 1.05rem;
   transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 .invite-classic__input::placeholder { font-size: 1.02em; }
-:root:not(.theme-light) .invite-classic__input:hover {
-  background: rgba(22, 28, 42, 0.6);
-  border-color: rgba(210, 215, 225, 0.26);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.24);
+:root:not(.theme-light) .invite-classic__input {
+  border: 2px solid transparent;
+  border-radius: 1.2em;
+  background: var(--form-surface);
+  color: var(--pt-150);
+  caret-color: var(--pt-150);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.22),
+    var(--invite-under-glow);
 }
+:root:not(.theme-light) .invite-classic__input:hover,
 :root:not(.theme-light) .invite-classic__input:focus,
 :root:not(.theme-light) .invite-classic__input:focus-visible {
   outline: none;
-  background: rgba(22, 28, 42, 0.65);
-  border-color: rgba(225,160,160,0.42);
-  box-shadow: 0 0 0 3px rgba(225,160,160,0.14), 0 14px 34px rgba(0,0,0,0.28);
+  background: var(--form-surface-hover);
+  border-color: transparent;
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.22),
+    var(--invite-under-glow);
+}
+:root:not(.theme-light) .invite-classic__input::placeholder {
+  color: var(--pt-150);
+  opacity: 1;
 }
 :root:not(.theme-light) .invite-classic__input::placeholder { color: rgba(236, 240, 245, 0.75); }
 :root.theme-light .invite-classic__input {
-  background: rgba(255,255,255,0.86);
-  border-color: rgba(190, 196, 208, 0.55);
+  background: var(--form-surface-light);
+  border-color: transparent;
   color: #1f2937;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+  box-shadow: var(--form-shadow-light);
 }
 :root.theme-light .invite-classic__input:hover {
-  background: #ffffff;
-  border-color: #c4cbda;
-  box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+  background: var(--form-surface-hover-light);
+  border-color: transparent;
+  box-shadow: var(--form-shadow-light);
 }
 :root.theme-light .invite-classic__input:focus,
 :root.theme-light .invite-classic__input:focus-visible {
   outline: none;
-  background: #ffffff;
-  border-color: rgba(197,113,113,0.34);
-  box-shadow: 0 0 0 3px rgba(197,113,113,0.16), 0 14px 30px rgba(0,0,0,0.14);
+  background: var(--form-surface-active-light);
+  border-color: transparent;
+  box-shadow: var(--form-shadow-light);
 }
 :root.theme-light .invite-classic__input::placeholder { color: #6b7280; }
 .invite-classic__helper {
@@ -305,10 +334,19 @@ body::-webkit-scrollbar {
   padding: 0.72rem 0.9rem;
   border-radius: 1rem;
   border: 1px solid rgba(148, 163, 184, 0.22);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.05);
   cursor: var(--cursor-pointer);
   font-size: 1.03rem;
   transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+:root:not(.theme-light) .invite-choice-card {
+  border: 1.5px solid transparent;
+  background: var(--form-surface);
+  color: var(--pt-150);
+  border-radius: 0.95em;
+  box-shadow: none;
+  transform: none;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.2s ease, box-shadow 0.2s ease, opacity 0.18s ease;
 }
 .invite-choice-card input { accent-color: var(--brand-primary); }
 .invite-choice-card input[type="radio"]{
@@ -322,7 +360,7 @@ body::-webkit-scrollbar {
   box-sizing: border-box;
   border-radius: 999px;
   border: 2px solid rgba(210, 220, 235, 0.5);
-  background: rgba(20, 26, 38, 0.6);
+  background: rgba(24, 30, 42, 0.45);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -347,6 +385,36 @@ body::-webkit-scrollbar {
   transform-origin: center;
   transition: transform 0.16s ease;
 }
+:root:not(.theme-light) .invite-choice-card input[type="radio"]{
+  border-color: transparent;
+  background: rgba(12,18,30,0.65);
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.16);
+}
+:root:not(.theme-light) .invite-choice-card input[type="radio"]::before{
+  background: var(--form-accent);
+  box-shadow: 0 0 8px rgba(248,253,255,0.28);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition: none;
+}
+:root:not(.theme-light) .invite-choice-card input[type="radio"]:hover{
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.24);
+}
+:root:not(.theme-light) .invite-choice-card input[type="radio"]:focus-visible{
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.28);
+}
+:root:not(.theme-light) .invite-choice-card input[type="radio"]:checked{
+  border-color: transparent;
+  background: rgba(22,30,44,0.7);
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.28);
+}
+:root:not(.theme-light) .invite-choice-card input[type="radio"]:checked::before{
+  animation: none;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
 .invite-choice-card input[type="radio"]:checked::before{
   transform: translate(-50%, -50%) scale(1);
 }
@@ -354,45 +422,77 @@ body::-webkit-scrollbar {
 .invite-choice-card:focus-within {
   transform: translateY(-1px);
   border-color: rgba(210, 215, 225, 0.22);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.07);
   box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+}
+:root:not(.theme-light) .invite-choice-card:hover,
+:root:not(.theme-light) .invite-choice-card:focus-within {
+  transform: none;
+  background: var(--form-surface-hover);
+  color: var(--pt-80);
+  border-color: transparent;
+  box-shadow:
+    0 0.5rem 1.125rem rgba(6,8,16,0.35),
+    var(--invite-under-glow);
 }
 .invite-choice-card.is-checked {
   border-color: #c57171;
-  background: linear-gradient(180deg, rgba(197,113,113,0.14), rgba(255,255,255,0.03));
+  background: linear-gradient(180deg, rgba(197,113,113,0.14), rgba(255,255,255,0.05));
   box-shadow: 0 16px 36px rgba(0,0,0,0.26);
+}
+:root:not(.theme-light) .invite-choice-card.is-checked {
+  border-color: transparent;
+  background: rgba(26,34,50,0.58);
+  color: var(--pt-50);
+  box-shadow:
+    0 0.5rem 1.125rem rgba(6,8,16,0.35),
+    var(--invite-under-glow);
 }
 .invite-choice-card.is-checked:hover,
 .invite-choice-card.is-checked:focus-within {
   border-color: #c57171;
 }
+:root:not(.theme-light) .invite-choice-card.is-checked:hover,
+:root:not(.theme-light) .invite-choice-card.is-checked:focus-within {
+  border-color: transparent;
+}
 :root.theme-light .invite-choice-card {
-  background: rgba(255,255,255,0.78);
-  border-color: rgba(190, 196, 208, 0.55);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.10);
+  background: var(--form-surface-light);
+  border-color: transparent;
+  box-shadow: var(--form-shadow-light);
+  color: var(--text-strong);
   opacity: 1;
+  transition: none;
 }
 :root.theme-light .invite-choice-card.is-checked {
-  border-color: #c57171;
-  background: #ffffff;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+  border-color: transparent;
+  background: var(--form-surface-active-light);
+  color: color-mix(in srgb, var(--text-strong) 80%, var(--form-accent-light) 20%);
+  box-shadow: var(--form-shadow-light);
+  transition: none;
 }
 :root.theme-light .invite-choice-card.is-checked:hover,
 :root.theme-light .invite-choice-card.is-checked:focus-within {
-  border-color: #c57171;
+  border-color: transparent;
 }
 :root.theme-light .invite-choice-card:hover,
 :root.theme-light .invite-choice-card:focus-within {
-  border-color: #c4cbda;
-  background: #ffffff;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+  border-color: transparent;
+  background: var(--form-surface-hover-light);
+  box-shadow: var(--form-shadow-light);
 }
 :root.theme-light .invite-choice-card input[type="radio"]{
-  border: 2px solid rgba(107, 114, 128, 0.65);
-  background: rgba(156, 163, 175, 0.25);
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.22);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+  transition: none;
 }
 :root.theme-light .invite-choice-card input[type="radio"]::before{
-  background: #c57171;
+  background: var(--form-accent-light);
+  transition: none;
+}
+:root.theme-light .invite-modal .invite-choice-card input[type="radio"]::before{
+  background: #7A3A38;
 }
 .invite-classic__status--error { color: #fca5a5; }
 .invite-classic__status--ok { color: #a7f3d0; }
@@ -402,7 +502,7 @@ body::-webkit-scrollbar {
 .invite-list {
   border-radius: 1.1rem;
   padding: 1rem;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.05);
   border: 1px solid rgba(148, 163, 184, 0.18);
 }
 :root.theme-light .invite-list {
@@ -435,7 +535,7 @@ body::-webkit-scrollbar {
     width: 100%;
     max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.5rem);
     border-radius: 1.1rem;
-    padding: 1.25rem;
+    padding: 1.6rem 1.25rem 1.25rem;
   }
   .invite-choice-group {
     grid-template-columns: 1fr;
@@ -447,7 +547,7 @@ body::-webkit-scrollbar {
     padding: 0.75rem;
     border-radius: 0.95rem;
     border: 1px solid rgba(148, 163, 184, 0.18);
-    background: rgba(255,255,255,0.02);
+    background: rgba(255,255,255,0.04);
   }
   .invite-row > span:first-child { word-break: break-word; overflow-wrap: anywhere; }
   .invite-row__actions { justify-content: flex-start; flex-wrap: wrap; }
@@ -595,6 +695,10 @@ main#main > .main-content.glass-box {
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
+  --home-card-blur: 0.75rem;
+  --home-card-saturate: 118%;
+  --home-card-light-opacity: 0.78;
+  --home-card-dark-opacity: 0.6;
 }
 .side {
   flex: 1 1 0;
@@ -714,6 +818,12 @@ main#main > .main-content.glass-box {
   overflow: hidden;
 }
 /* Homepage card visuals: 50% see-through spheres (SVGs stay unchanged). */
+:root.theme-light .homepage-root {
+  --home-card-blur: 1.05rem;
+  --home-card-saturate: 120%;
+  --home-card-light-opacity: 0.85;
+  --home-card-dark-opacity: 0.85;
+}
 .homepage-root .glass-card-light,
 .homepage-root .glass-card-dark,
 .homepage-root .centered-back-left,
@@ -730,7 +840,7 @@ main#main > .main-content.glass-box {
   pointer-events: none;
   z-index: 0;
   background: transparent url("/logo/kerahele.svg") center / 100% 100% no-repeat;
-  opacity: 0.78;
+  opacity: var(--home-card-light-opacity);
   filter: none;
 }
 
@@ -743,7 +853,7 @@ main#main > .main-content.glass-box {
   pointer-events: none;
   z-index: 0;
   background: transparent url("/logo/keratume.svg") center / 100% 100% no-repeat;
-  opacity: 0.6;
+  opacity: var(--home-card-dark-opacity);
   filter: none;
 }
 
@@ -757,10 +867,10 @@ main#main > .main-content.glass-box {
   width: min(var(--card-logo-front-left), calc(100% - var(--card-logo-safe-gap)));
 }
 
-/* Homepage: keep the glass blur, but make it subtle (and avoid edge bleed). */
+/* Homepage: blur the page background through the cards (avoid edge bleed). */
 .homepage-root .card-wrapper::before {
-  backdrop-filter: blur(0.35rem) saturate(112%);
-  -webkit-backdrop-filter: blur(0.35rem) saturate(112%);
+  backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
+  -webkit-backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
   inset: 3.5%;
   clip-path: circle(50% at 50% 50%);
   transform: none;
@@ -1390,8 +1500,8 @@ a {
   --glow-a1: 0.60;            /* põhi-kuma */
   --glow-a2: 0.24;            /* teine, laiem halo */
 
-  color: rgba(248,250,255,0.94);
-  background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(165,185,220,0.04) 100%);
+  color: rgba(248,252,255,0.96);
+  background: linear-gradient(180deg, rgba(236,244,255,0.14) 0%, rgba(120,150,200,0.07) 100%);
   border: 0;
   backdrop-filter: blur(10px) saturate(105%);
   -webkit-backdrop-filter: blur(10px) saturate(105%);
@@ -1400,48 +1510,29 @@ a {
 
   box-shadow:
     /* sügavus (tume vari) */
-    0 6px 16px rgba(0,0,0,0.26);
+    0 6px 16px rgba(0,0,0,0.26),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.32);
 
 }
 
 /* Hover/focus: ÄRA muuda glow’d; muuda ainult pind/border/transform */
-:root:not(.theme-light) .btn-base::after {
-  content: "";
-  position: absolute;
-  left: 10%;
-  right: 10%;
-  top: 100%;
-  height: 6px;
-  border-radius: 999px;
-  transform: translateY(4px);
-  background: radial-gradient(70% 120% at 50% 0%,
-    rgba(var(--glow-rgb), var(--glow-a1)) 0%,
-    rgba(var(--glow-rgb), var(--glow-a2)) 60%,
-    rgba(var(--glow-rgb), 0) 100%);
-  filter: blur(12px);
-  opacity: 0.72;
-  z-index: -1;
-  pointer-events: none;
-  transition: opacity 0.18s ease;
-}
-
 :root:not(.theme-light) .btn-base:hover,
 :root:not(.theme-light) .btn-base:focus-visible {
   background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
   transform: translateY(-1px);
 
   box-shadow:
-    0 10px 22px rgba(0,0,0,0.28);
-}
-
-:root:not(.theme-light) .btn-base:hover::after,
-:root:not(.theme-light) .btn-base:focus-visible::after {
-  opacity: 1;
+    0 10px 22px rgba(0,0,0,0.28),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.32);
 }
 
 :root:not(.theme-light) .btn-base:focus-visible {
   box-shadow:
     0 10px 22px rgba(0,0,0,0.28),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.32),
     0 0 0 3px rgba(225,160,160,0.28);
 }
 
@@ -1450,12 +1541,10 @@ a {
   background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(150,175,210,0.05) 100%);
 
   box-shadow:
-    0 5px 12px rgba(0,0,0,0.24);
+    0 5px 12px rgba(0,0,0,0.24),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.55),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.30);
 }
-:root:not(.theme-light) .btn-base:active::after {
-  opacity: 0.85;
-}
-
 :root.theme-light .btn-base {
   color: rgba(31,41,55,0.92);
   background: rgba(255,255,255,0.62);
@@ -1659,27 +1748,9 @@ top: calc(var(--hud-edge-safe) + 1.9rem - 4px);
   --profile-email-hole-height: 3.2rem;
   --profile-email-hole-r: 999px;
   color: #1f2937;
-  border: 2px solid rgba(31, 41, 55, 0.18);
-  background:
-    radial-gradient(130% 120% at 50% 100%,
-      rgba(255,255,255,0.55) 0%,
-      rgba(255,255,255,0.00) 58%
-    ),
-    radial-gradient(120% 120% at 18% 16%,
-      rgba(255,255,255,0.98) 0%,
-      rgba(255,255,255,0.58) 62%
-    ),
-    radial-gradient(120% 120% at 86% 90%,
-      rgba(0,0,0,0.10) 0%,
-      rgba(0,0,0,0.02) 64%
-    ),
-    linear-gradient(145deg,
-      rgba(255,255,255,0.68) 0%,
-      rgba(255,255,255,0.50) 55%,
-      rgba(255,255,255,0.38) 100%
-    );
-  background-clip: padding-box;
-  box-shadow: 0 26px 52px rgba(0,0,0,0.18);
+  border: none;
+  background: var(--glass-surface-bg);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.16);
   backdrop-filter: blur(1.1rem) saturate(108%);
   -webkit-backdrop-filter: blur(1.1rem) saturate(108%);
 }
@@ -1698,24 +1769,7 @@ main#main > .main-content.glass-box.profile-container {
   -webkit-backdrop-filter: none;
 }
 :root.theme-light main#main > .main-content.glass-box.profile-container {
-  background:
-    radial-gradient(130% 120% at 50% 100%,
-      rgba(255,255,255,0.55) 0%,
-      rgba(255,255,255,0.00) 58%
-    ),
-    radial-gradient(120% 120% at 18% 16%,
-      rgba(255,255,255,0.98) 0%,
-      rgba(255,255,255,0.58) 62%
-    ),
-    radial-gradient(120% 120% at 86% 90%,
-      rgba(0,0,0,0.10) 0%,
-      rgba(0,0,0,0.02) 64%
-    ),
-    linear-gradient(145deg,
-      rgba(255,255,255,0.68) 0%,
-      rgba(255,255,255,0.50) 55%,
-      rgba(255,255,255,0.38) 100%
-    );
+  background: var(--glass-surface-bg);
   color: #1f2937;
   backdrop-filter: blur(1.1rem) saturate(108%);
   -webkit-backdrop-filter: blur(1.1rem) saturate(108%);
@@ -2484,11 +2538,11 @@ html.profile-orbit-open .glass-box.profile-container {
 }
 :root:not(.theme-light) .register-form .input-modern:focus,
 :root:not(.theme-light) .register-form .input-modern:focus-visible {
-  border-color: var(--ui-hover-ring);
+  border-color: var(--form-border-strong);
+  background: var(--form-surface);
   box-shadow:
-    0 0 0 1px var(--ui-hover-ring),
-    0 0 10px var(--ui-hover-soft),
-    0 0 16px var(--ui-hover-outer);
+    0 6px 16px rgba(0,0,0,0.22),
+    var(--register-under-glow);
 }
 .login-modal-root .login-modal-form .input-email-icon{
   cursor: var(--cursor-pointer);
@@ -2990,6 +3044,17 @@ width: clamp(16rem, 16vw, 17rem);
   gap: 1.2em;
 }
 .register-form { gap: 0.8em; }
+:root:not(.theme-light) .register-form {
+  --register-under-glow:
+    0 7px 12px -12px rgba(248,253,255,0.56),
+    0 14px 20px -16px rgba(248,253,255,0.30);
+  --form-accent: rgba(248,253,255,0.9);
+  --form-accent-soft: rgba(248,253,255,0.28);
+  --form-border: rgba(248,253,255,0.2);
+  --form-border-strong: rgba(248,253,255,0.55);
+  --form-surface: rgba(8,12,20,0.52);
+  --form-surface-hover: rgba(14,18,30,0.56);
+}
 .register-form .glass-radio-group { gap: 0.6em; }
 .register-form .glass-radio-group label { padding: 0.7em 0.9em; }
 .register-form .glass-label-radio { margin-top: 0.15em; margin-bottom: 0.05em; }
@@ -3006,6 +3071,136 @@ width: clamp(16rem, 16vw, 17rem);
   padding: 0.55em 1.25em;
   min-width: 10.2rem;
   margin-top: 0.2em;
+}
+:root:not(.theme-light) .glass-form.register-form .input-modern {
+  border-color: transparent;
+  background: var(--form-surface);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.22),
+    var(--register-under-glow);
+}
+:root:not(.theme-light) .glass-form.register-form .input-modern:hover:not(:focus),
+:root:not(.theme-light) .glass-form.register-form .input-modern:focus,
+:root:not(.theme-light) .glass-form.register-form .input-modern:focus-visible {
+  border-color: transparent;
+  background: var(--form-surface-hover);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.22),
+    var(--register-under-glow);
+}
+:root:not(.theme-light) .register-form .glass-radio-group label:hover,
+:root:not(.theme-light) .register-form .glass-radio-group label:has(input[type="radio"]:checked) {
+  box-shadow:
+    0 0.5rem 1.125rem rgba(6,8,16,0.35),
+    var(--register-under-glow);
+}
+:root:not(.theme-light) .register-form .glass-checkbox:hover,
+:root:not(.theme-light) .register-form .glass-checkbox:has(input[type="checkbox"]:checked) {
+  box-shadow:
+    0 0.5rem 1.125rem rgba(6,8,16,0.35),
+    var(--register-under-glow);
+}
+:root:not(.theme-light) .register-form .glass-radio-group label {
+  border-color: transparent;
+  background: var(--form-surface);
+  color: var(--pt-150);
+}
+:root:not(.theme-light) .register-form .glass-radio-group label:hover {
+  border-color: transparent;
+  background: var(--form-surface-hover);
+  color: var(--pt-80);
+}
+:root:not(.theme-light) .register-form .glass-radio-group label:has(input[type="radio"]:checked) {
+  border-color: transparent;
+  background: rgba(26,34,50,0.58);
+  color: var(--pt-50);
+}
+:root:not(.theme-light) .register-form .glass-radio-group label:has(input[type="radio"]:focus-visible) {
+  box-shadow: none;
+}
+:root:not(.theme-light) .register-form .glass-radio-group input[type="radio"] {
+  border-color: transparent;
+  background: rgba(12,18,30,0.65);
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.16);
+}
+:root:not(.theme-light) .register-form .glass-radio-group input[type="radio"]::after {
+  background: var(--form-accent);
+  box-shadow: 0 0 8px rgba(248,253,255,0.28);
+  transform: scale(1);
+  transition: none;
+}
+:root:not(.theme-light) .register-form .glass-radio-group input[type="radio"]:hover {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.24);
+}
+:root:not(.theme-light) .register-form .glass-radio-group input[type="radio"]:focus-visible {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.28);
+}
+:root:not(.theme-light) .register-form .glass-radio-group input[type="radio"]:checked {
+  border-color: transparent;
+  background: rgba(22,30,44,0.7);
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.28);
+}
+:root:not(.theme-light) .register-form .glass-radio-group input[type="radio"]:checked::after {
+  animation: none;
+  transform: scale(1);
+}
+:root:not(.theme-light) .register-form .glass-checkbox {
+  border-color: transparent;
+  background: var(--form-surface);
+  color: var(--pt-150);
+}
+:root:not(.theme-light) .register-form .glass-checkbox:hover {
+  border-color: transparent;
+  background: var(--form-surface-hover);
+}
+:root:not(.theme-light) .register-form .glass-checkbox:has(input[type="checkbox"]:checked) {
+  border-color: transparent;
+  background: rgba(26,34,50,0.58);
+  color: var(--pt-50);
+}
+:root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"] {
+  border-color: transparent;
+  background: rgba(12,18,30,0.65);
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.16);
+  border-radius: 0.4em;
+}
+:root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"]::after {
+  background: var(--form-accent);
+  width: 92%;
+  height: 92%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: none;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 12.5l4 4 8-8' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 96% 96% no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 12.5l4 4 8-8' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 96% 96% no-repeat;
+}
+:root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"]:hover {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.24);
+}
+:root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"]:focus-visible {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.28);
+}
+:root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"]:checked {
+  border-color: transparent;
+  background: rgba(22,30,44,0.7);
+  box-shadow: inset 0 0 0 1px rgba(248,253,255,0.28);
+}
+:root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"]:checked::after {
+  animation: none;
+  transform: translate(-50%, -50%) scale(1);
+}
+@keyframes radio-pop {
+  0% { transform: scale(0.45); }
+  70% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+@keyframes check-pop {
+  0% { transform: translate(-50%, -50%) scale(0.6); }
+  70% { transform: translate(-50%, -50%) scale(1.08); }
+  100% { transform: translate(-50%, -50%) scale(1); }
 }
 .register-login-link {
   display: inline-block;
@@ -3259,6 +3454,8 @@ width: clamp(16rem, 16vw, 17rem);
   /* robust centering for check */
   display:grid;
   place-items:center;
+  position: relative;
+  overflow: hidden;
 
   cursor:var(--cursor-pointer);
   transition:border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
@@ -3272,17 +3469,21 @@ width: clamp(16rem, 16vw, 17rem);
 /* Checkmark: single implementation (no background-image duplicates) */
 .glass-checkbox input[type="checkbox"]::after{
   content:"";
-  width:84%;            /* smaller mark */
-  height:84%;
+  width:92%;
+  height:92%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   opacity:0;
-  transform:scale(0.88);
+  transform: translate(-50%, -50%) scale(0.6);
+  transform-origin: center;
   transition:opacity 0.18s ease, transform 0.18s ease;
 
   /* default = dark: light checkmark */
   background:rgba(242,242,242,0.92);
 
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 88% 88% no-repeat;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 88% 88% no-repeat;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 96% 96% no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / 96% 96% no-repeat;
   border-radius:0.2em;
 }
 
@@ -3303,7 +3504,7 @@ width: clamp(16rem, 16vw, 17rem);
 
 .glass-checkbox input[type="checkbox"]:checked::after{
   opacity:1;
-  transform:scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .checkbox-text{
@@ -3666,9 +3867,9 @@ a {
 .modal-backdrop{
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.45);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+  background: transparent;
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   z-index: 1000;
 }
 .modal-confirm{
@@ -3684,31 +3885,27 @@ a {
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   border-radius: 1.5em;
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--pt-200);
+  border: none;
+  color: var(--glass-surface-text, var(--pt-200));
   padding: 2.1em 1.7em 1.5em;
   padding-bottom: calc(1.6em + env(safe-area-inset-bottom, 0));
   box-sizing: border-box;
   backdrop-filter: blur(1.1rem) saturate(110%);
   -webkit-backdrop-filter: blur(1.1rem) saturate(110%);
-  box-shadow:
-    0 0.4rem 1.2rem rgba(0,0,0,0.55),
-    0 0.1rem 0.35rem rgba(0,0,0,0.45);
+  box-shadow: none;
 }
 :root:not(.theme-light) .modal-confirm{
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   border: none;
-  color: var(--pt-200);
+  color: var(--glass-surface-text, var(--pt-200));
 }
 :root.theme-light .modal-confirm{
-  background: radial-gradient(circle at 18% 14%, rgba(197,113,113,0.10), transparent 36%), linear-gradient(160deg, #ffffff, #edf0f6);
-  border-color: #d6dbe5;
-  color: #1f2937;
-  box-shadow:
-    0 0.35rem 1rem rgba(15, 23, 42, 0.15),
-    0 0.08rem 0.28rem rgba(15, 23, 42, 0.12);
+  background: var(--glass-surface-bg);
+  border: none;
+  color: var(--glass-surface-text);
+  box-shadow: none;
 }
 .modal-confirm p,
 .modal-confirm-text{
@@ -3821,6 +4018,7 @@ textarea::placeholder{
 .defer-fade.delay-1{ --fade-delay:1600ms; }
 .defer-fade.delay-2{ --fade-delay:1900ms; }
 .footer-logo-img.defer-fade{ --end-op:0.55; }
+:root.theme-light .homepage-root .footer-logo-img.defer-fade{ --end-op:0.85; }
 .top-center-link.defer-fade.dim{ --end-op:.95; }
 @media (max-width: 48em){
   .three-d-card,
@@ -4157,6 +4355,7 @@ textarea::placeholder{
   opacity: 1;
   --footer-meist-offset-x: 0.9em;
   --footer-meist-offset-y: -1em;
+  --footer-meist-duration: 14.5s;
   transform: translate(calc(-50% + var(--footer-meist-offset-x)), calc(-50% + var(--footer-meist-offset-y)));
   will-change: auto;
   text-decoration: none;
@@ -4176,11 +4375,11 @@ textarea::placeholder{
   --footer-meist-shine-grad: linear-gradient(
     90deg,
     rgba(30, 30, 30, 0) 0%,
-    rgba(30, 30, 30, 0.1) 22%,
-    rgba(20, 20, 20, 0.24) 44%,
-    rgba(10, 10, 10, 0.46) 50%,
-    rgba(20, 20, 20, 0.24) 56%,
-    rgba(30, 30, 30, 0.1) 78%,
+    rgba(30, 30, 30, 0.08) 22%,
+    rgba(20, 20, 20, 0.2) 44%,
+    rgba(10, 10, 10, 0.38) 50%,
+    rgba(20, 20, 20, 0.2) 56%,
+    rgba(30, 30, 30, 0.08) 78%,
     rgba(30, 30, 30, 0) 100%
   );
 }
@@ -4203,10 +4402,7 @@ textarea::placeholder{
   font-size: clamp(1.85rem, 3.7vw, 2.6rem);
 }
 .footer-meist-word .footer-meist-shine{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   z-index: 1;
   display: inline-block;
   width: max-content;
@@ -4218,17 +4414,20 @@ textarea::placeholder{
   letter-spacing: 0.12em;
   font-size: clamp(1.85rem, 3.7vw, 2.6rem);
   line-height: 1;
-  opacity: 0;
+  opacity: 1;
   background: var(--footer-meist-shine-grad);
   background-size: 240% 100%;
-  background-position: 160% 50%;
+  background-position: 50% 50%;
   background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: footer-meist-shine-cycle 14.5s linear infinite;
-  will-change: background-position;
+  animation: footer-meist-shine-cycle var(--footer-meist-duration) linear infinite;
+  animation-name: footer-meist-shine-cycle !important;
+  animation-duration: var(--footer-meist-duration) !important;
+  animation-fill-mode: both;
+  will-change: background-position, opacity;
 }
 .footer-meist-word .footer-meist-shine.disabled{
   opacity: 1;
@@ -4280,6 +4479,9 @@ html[data-reduce-motion="1"] .footer-meist-word .footer-meist-shine{
 .footer-logo-stack .footer-logo-img:not(.defer-fade){
   opacity: 0.55;
 }
+:root.theme-light .homepage-root .footer-logo-stack .footer-logo-img:not(.defer-fade){
+  opacity: 0.85;
+}
 .nav-meist-text.footer-meist-ghost{
   position: absolute;
   inset: 0;
@@ -4311,8 +4513,8 @@ html[data-reduce-motion="1"] .footer-meist-word .footer-meist-shine{
 @media (max-width: 48em){
   .footer-meist-ghost{ display: none; }
   .footer-meist-word{
-    --footer-meist-offset-x: 0.14em;
-    --footer-meist-offset-y: -0.3em;
+    --footer-meist-offset-x: 0.55em;
+    --footer-meist-offset-y: -0.95em;
     --footer-meist-start-ty: 0.4rem;
   }
   .footer-meist-svg-text{
@@ -5892,7 +6094,8 @@ backdrop-filter: none;
   background-clip: text !important;
   display: inline-block;
 }
-.shiny-ph-overlay .shiny-text {
+.shiny-ph-overlay .shiny-text.shiny-ph-text {
+    opacity: 0;
     background: linear-gradient(
       90deg,
       rgba(148, 163, 184, 0.08) 0%,
@@ -5911,16 +6114,25 @@ backdrop-filter: none;
       rgba(148, 163, 184, 0.08) 100%
     );
   background-size: 240% 100%;
-  animation-name: shiny-ph-shine;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-duration: 8.5s;
+  background-position: 160% 50%;
+  background-repeat: no-repeat;
+  animation: shiny-ph-cycle var(--shiny-ph-duration, 14.5s) linear infinite;
+  animation-duration: var(--shiny-ph-duration, 14.5s) !important;
   will-change: background-position;
 }
-@keyframes shiny-ph-shine {
-  0% { background-position: 85.7% 0; }
-  50% { background-position: 0% 0; }
-  100% { background-position: -85.7% 0; }
+@keyframes shiny-ph-cycle {
+  0%   { opacity: 0; background-position: 160% 50%; }
+  12%  { opacity: 0.25; }
+  26%  { opacity: 1; }
+  78%  { opacity: 1; }
+  90%  { opacity: 0.25; }
+  96.5%  { opacity: 0; background-position: -160% 50%; }
+  100% { opacity: 0; background-position: -160% 50%; }
+}
+html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
+  opacity: 1;
+  animation: none;
+  background-position: 50% 50%;
 }
 .chat-send-btn {
   --btn-border-idle: rgba(84,95,115,0.55);
@@ -6802,15 +7014,16 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   display: none;
 }
 .a11y-modal-backdrop{
-  position:fixed; inset:0; background: rgba(0,0,0,.55); backdrop-filter: blur(2px);
+  position:fixed; inset:0; background: transparent; backdrop-filter: blur(var(--glass-blur-radius, 1rem)); -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   z-index:49;
 }
 .a11y-modal{
   position:fixed; left:50%; top:50%; transform: translate(-50%, -50%);
   z-index:50; outline:none; pointer-events:auto;
   max-width:min(47.5rem, 94vw); width:100%; padding:0.9rem 1.35rem 1.3rem; border-radius:1.125rem;
-  background: rgba(31,31,31,.72); border:1px solid rgba(255,255,255,.12);
-  backdrop-filter: blur(0.625rem);
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25)); border:none;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -7118,7 +7331,7 @@ html[data-contrast=hc] .desc-ring-right * {
   --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
---glass-surface-bg: rgba(255, 255, 255, 0.85);
+  --glass-surface-bg: rgba(255, 255, 255, 0.22);
   --glass-surface-text: #2b2620;
   --glass-analysis-bg: rgba(255,255,255,0.18);
   --glass-analysis-border: rgba(255,255,255,0.28);
@@ -7451,7 +7664,7 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .shiny-ph-overlay {
   color: transparent;
 }
-:root.theme-light .shiny-ph-overlay .shiny-text {
+:root.theme-light .shiny-ph-overlay .shiny-text.shiny-ph-text {
     background-image: linear-gradient(
       90deg,
       rgba(60,60,60,0.08) 0%,
@@ -7602,15 +7815,28 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   border-color: #cfcfcf;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='%231f2937' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 }
+:root.theme-light .register-form {
+  --form-surface-light: rgba(255,255,255,0.08);
+  --form-surface-hover-light: rgba(255,255,255,0.22);
+  --form-surface-active-light: rgba(255,255,255,0.78);
+  --form-shadow-light: 0 6px 16px rgba(0,0,0,0.14);
+  --form-accent-light: #7A3A38;
+}
 :root.theme-light .register-form .input-modern {
   color: var(--text-strong);
   caret-color: var(--text-strong);
+  background: var(--form-surface-light);
+  border-color: transparent;
+  box-shadow: var(--form-shadow-light);
 }
 :root.theme-light .register-form .glass-radio-group input[type=radio]::after{
   background: #7A3A38;
 }
 :root.theme-light .register-form .glass-checkbox input[type=checkbox]:checked{
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='%23c57171' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-image: none;
+}
+:root.theme-light .register-form .glass-checkbox input[type=checkbox]::after{
+  background: #7A3A38;
 }
 :root.theme-light .input-modern:hover:not(:focus),
 :root.theme-light .login-modal-root .login-modal-form input:hover:not(:focus),
@@ -7632,6 +7858,69 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   border-width: 2px;
   border-color: #cfcfcf;
   box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+}
+:root.theme-light .register-form .input-modern:hover:not(:focus),
+:root.theme-light .register-form .input-modern:focus,
+:root.theme-light .register-form .input-modern:focus-visible {
+  background: var(--form-surface-active-light);
+  border-color: transparent;
+  box-shadow: var(--form-shadow-light);
+}
+:root.theme-light .register-form .glass-radio-group label {
+  background: var(--form-surface-light);
+  border-color: transparent;
+  color: var(--text-strong);
+  box-shadow: var(--form-shadow-light);
+}
+:root.theme-light .register-form .glass-radio-group label:hover {
+  background: var(--form-surface-hover-light);
+  border-color: transparent;
+  color: color-mix(in srgb, var(--text-strong) 84%, var(--form-accent-light) 16%);
+}
+:root.theme-light .register-form .glass-radio-group label:has(input[type="radio"]:checked) {
+  background: var(--form-surface-active-light);
+  border-color: transparent;
+  color: color-mix(in srgb, var(--text-strong) 80%, var(--form-accent-light) 20%);
+}
+:root.theme-light .register-form .glass-radio-group input[type="radio"] {
+  border-color: transparent;
+  background: rgba(255,255,255,0.22);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+:root.theme-light .register-form .glass-radio-group input[type="radio"]:hover,
+:root.theme-light .register-form .glass-radio-group input[type="radio"]:focus-visible,
+:root.theme-light .register-form .glass-radio-group input[type="radio"]:checked {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+:root.theme-light .register-form .glass-checkbox {
+  background: var(--form-surface-light);
+  border-color: transparent;
+  color: var(--text-strong);
+  box-shadow: var(--form-shadow-light);
+}
+:root.theme-light .register-form .glass-checkbox:hover {
+  background: var(--form-surface-hover-light);
+  border-color: transparent;
+}
+:root.theme-light .register-form .glass-checkbox:has(input[type="checkbox"]:checked) {
+  background: var(--form-surface-active-light);
+  border-color: transparent;
+  color: color-mix(in srgb, var(--text-strong) 80%, var(--form-accent-light) 20%);
+}
+:root.theme-light .register-form .glass-checkbox input[type="checkbox"] {
+  border-color: transparent;
+  background: rgba(255,255,255,0.22);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+:root.theme-light .register-form .glass-checkbox input[type="checkbox"]:hover,
+:root.theme-light .register-form .glass-checkbox input[type="checkbox"]:focus-visible,
+:root.theme-light .register-form .glass-checkbox input[type="checkbox"]:checked {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+:root.theme-light .register-form .glass-checkbox input[type="checkbox"]:checked {
+  background: rgba(255,255,255,0.78);
 }
 :root.theme-light .login-modal-root .login-modal-form input[type="email"]::placeholder,
 :root.theme-light .login-modal-root .login-modal-form input.input-email-icon::placeholder,
@@ -7693,37 +7982,74 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
 }
+:root:not(.theme-light) .chat-input-row {
+  --chat-under-glow:
+    0 8px 14px -12px rgba(248,253,255,0.52),
+    0 18px 24px -18px rgba(248,253,255,0.26);
+  --chat-under-glow-strong:
+    0 10px 16px -12px rgba(248,253,255,0.58),
+    0 20px 28px -20px rgba(248,253,255,0.28);
+  --chat-attach-under-glow:
+    0 12px 18px -14px rgba(248,253,255,0.55),
+    0 24px 30px -24px rgba(248,253,255,0.30);
+  --chat-attach-under-glow-strong:
+    0 12px 18px -14px rgba(248,253,255,0.74),
+    0 24px 30px -24px rgba(248,253,255,0.40);
+}
 :root:not(.theme-light) .chat-inputbar {
   border: 2px solid rgba(84,95,115,0.6);
   background: transparent;
-  box-shadow: none;
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.26),
+    var(--chat-under-glow);
 }
 :root:not(.theme-light) .chat-inputbar:hover:not(:focus-within),
 :root:not(.theme-light) .chat-inputbar:focus-within {
   border-color: var(--ui-hover-ring);
   background: transparent;
   box-shadow:
-    0 0 10px var(--ui-hover-soft),
-    0 0 16px var(--ui-hover-outer);
+    0 6px 16px rgba(0,0,0,0.26),
+    var(--chat-under-glow-strong);
 }
 :root:not(.theme-light) .chat-inputbar .chat-attach-btn,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn {
   border: 2px solid rgba(84,95,115,0.6);
   background: rgba(10,14,24,0.32);
+}
+:root:not(.theme-light) .chat-inputbar .chat-attach-btn {
+  box-shadow:
+    0 5px 12px rgba(0,0,0,0.22),
+    var(--chat-attach-under-glow);
+}
+:root:not(.theme-light) .chat-inputbar .chat-send-btn,
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn {
   box-shadow: none;
 }
 :root:not(.theme-light) .chat-inputbar .chat-attach-btn:hover,
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn:focus-visible,
+:root:not(.theme-light) .chat-inputbar .chat-attach-btn:active,
+:root:not(.theme-light) .chat-inputbar .chat-attach-btn:focus-visible {
+  border-color: var(--ui-hover-ring);
+  background: rgba(10,14,24,0.32);
+  box-shadow:
+    0 5px 12px rgba(0,0,0,0.22),
+    var(--chat-attach-under-glow-strong);
+}
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:focus-visible,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible {
   border-color: var(--ui-hover-ring);
   background: rgba(10,14,24,0.32);
-  box-shadow:
-    0 0 10px var(--ui-hover-soft),
-    0 0 16px var(--ui-hover-outer);
+  box-shadow: none;
+}
+:root:not(.theme-light) .chat-listen-btn[data-speaking="true"] {
+  box-shadow: none;
+}
+:root:not(.theme-light) .chat-inputbar .chat-send-btn.chat-send-btn--active[data-recording="true"],
+:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording="true"],
+:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording-complete="true"] {
+  box-shadow: none;
 }
 :root:not(.theme-light) .chat-msg-user {
   border: 2px solid rgba(84,95,115,0.6);
@@ -7755,31 +8081,41 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root:not(.theme-light) body .chat-input-row > .chat-attach-as-send {
   background: rgba(10,14,24,0.32);
   border: 2px solid rgba(84,95,115,0.6);
-  box-shadow: none;
+  box-shadow:
+    0 5px 12px rgba(0,0,0,0.22),
+    var(--chat-attach-under-glow);
 }
 :root:not(.theme-light) body .chat-input-row > .chat-attach-btn:hover,
+:root:not(.theme-light) body .chat-input-row > .chat-attach-btn:active,
 :root:not(.theme-light) body .chat-input-row > .chat-attach-btn:focus-visible,
 :root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:hover,
+:root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:active,
 :root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:focus-visible {
   background: rgba(10,14,24,0.32);
   border-color: var(--ui-hover-ring);
   box-shadow:
-    0 0 10px var(--ui-hover-soft),
-    0 0 16px var(--ui-hover-outer);
+    0 5px 12px rgba(0,0,0,0.22),
+    var(--chat-attach-under-glow-strong);
 }
-:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"],
-:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording="true"] {
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"] {
   border-color: #ff3b30;
   box-shadow:
     0 0 0 1px rgba(255,59,48,0.4),
     0 0 12px rgba(255,59,48,0.25);
 }
-:root.theme-light .chat-inputbar .chat-send-btn[data-recording-complete="true"],
-:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording-complete="true"] {
+:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: #ff3b30;
+  box-shadow: none;
+}
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording-complete="true"] {
   border-color: #2bdc6d;
   box-shadow:
     0 0 0 1px rgba(43,220,109,0.4),
     0 0 12px rgba(43,220,109,0.3);
+}
+:root:not(.theme-light) .chat-inputbar .chat-send-btn[data-recording-complete="true"] {
+  border-color: #2bdc6d;
+  box-shadow: none;
 }
 .rag-admin {
   --rag-bg: radial-gradient(circle at 20% 0%, rgba(148, 163, 184, 0.08), transparent 55%);
@@ -8297,21 +8633,21 @@ h1.glass-title + form.register-form {
   margin-top: 1.2rem;
 }
 :root:not(.theme-light) .btn-primary {
-  background: linear-gradient(140deg, rgba(28, 32, 42, 0.38), rgba(12, 14, 20, 0.28));
-  border-color: rgba(140, 150, 168, 0.36);
-  color: color-mix(in srgb, #f1f3f8 82%, #c7cbd5 18%);
+  background: linear-gradient(140deg, rgba(28, 34, 48, 0.55), rgba(12, 16, 26, 0.42));
+  border-color: rgba(210, 220, 235, 0.28);
+  color: color-mix(in srgb, #f4f7ff 88%, #d7deea 12%);
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.08),
     0 0.5rem 1.2rem rgba(0,0,0,0.26);
 }
 :root:not(.theme-light) .btn-primary:hover,
 :root:not(.theme-light) .btn-primary:focus-visible {
-  background: linear-gradient(140deg, rgba(32, 36, 48, 0.46), rgba(14, 16, 24, 0.34));
-  border-color: rgba(175, 188, 205, 0.5);
+  background: linear-gradient(140deg, rgba(34, 40, 56, 0.72), rgba(16, 20, 32, 0.52));
+  border-color: rgba(230, 240, 255, 0.38);
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.08),
     0 0.4rem 1rem rgba(0,0,0,0.22);
-  color: color-mix(in srgb, #f6f8fb 90%, #d6dae2 10%);
+  color: color-mix(in srgb, #f8faff 92%, #e0e6f0 8%);
 }
 :root.theme-light .dock-panel.profile-email-dock {
   background: transparent;

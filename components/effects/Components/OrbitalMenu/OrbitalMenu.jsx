@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import SmustCenterLogo from "@/public/logo/smust-center.svg";
 import "./OrbitalMenu.css";
 
 export default function OrbitalMenu({
@@ -11,10 +12,10 @@ export default function OrbitalMenu({
   className = "",
 }) {
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
+  const [orbitRadius, setOrbitRadius] = useState(0);
   const rootRef = useRef(null);
   const menuId = useId();
-  const isOpen = isPinnedOpen || isHovering;
+  const isOpen = isPinnedOpen;
 
   // Close on outside click + ESC (useful for touch/click usage)
   useEffect(() => {
@@ -25,14 +26,12 @@ export default function OrbitalMenu({
       if (!root) return;
       if (!root.contains(event.target)) {
         setIsPinnedOpen(false);
-        setIsHovering(false);
       }
     };
 
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setIsPinnedOpen(false);
-        setIsHovering(false);
       }
     };
 
@@ -56,24 +55,44 @@ export default function OrbitalMenu({
     return () => root.classList.remove("profile-orbit-open");
   }, [isOpen]);
 
-  // Desktop: open only when the center hub is hovered.
-  const handleCenterPointerEnter = (event) => {
-    if (event?.pointerType === "touch") return;
-    setIsHovering(true);
-  };
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
 
-  const handleRootPointerLeave = (event) => {
-    if (event?.pointerType === "touch") return;
-    if (!isPinnedOpen) setIsHovering(false);
-  };
+    let raf = 0;
+    const measure = () => {
+      const rect = root.getBoundingClientRect();
+      const itemEl = root.querySelector(".profile-orbit-menu__item");
+      if (!rect.width || !itemEl) return;
+
+      const itemSize = itemEl.offsetWidth || 0;
+      if (!itemSize) return;
+
+      const nextRadius = Math.max(0, (rect.width - itemSize) / 2);
+      setOrbitRadius((prev) => (Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev));
+    };
+
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+
+    schedule();
+
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(schedule) : null;
+    ro?.observe(root);
+    window.addEventListener("resize", schedule);
+    document.fonts?.ready?.then?.(schedule).catch?.(() => {});
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro?.disconnect?.();
+      window.removeEventListener("resize", schedule);
+    };
+  }, [items.length]);
 
   const handleToggle = () => {
-    if (isPinnedOpen) {
-      setIsPinnedOpen(false);
-      setIsHovering(false);
-      return;
-    }
-    setIsPinnedOpen(true);
+    setIsPinnedOpen((prev) => !prev);
   };
 
   const angleStep = items.length ? 360 / items.length : 0;
@@ -83,7 +102,6 @@ export default function OrbitalMenu({
     <div
       ref={rootRef}
       className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${className}`.trim()}
-      onPointerLeave={handleRootPointerLeave}
     >
       <div
         className="profile-orbit-menu__items"
@@ -94,25 +112,31 @@ export default function OrbitalMenu({
       >
         {items.map((item, index) => {
           const angle = startAngle + index * angleStep;
+          const angleRad = (angle * Math.PI) / 180;
+          const orbitX = Math.round(Math.sin(angleRad) * orbitRadius);
+          const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius);
           const delay = `${index * 0.05}s`;
 
           return (
             <div
               key={item.key || index}
               className="profile-orbit-menu__slot"
-              style={{ "--angle": `${angle}deg`, "--delay": delay }}
+              data-key={item.key || index}
+              data-label-pos={item.labelPos || "up"}
+              style={{
+                "--orbit-x": `${orbitX}px`,
+                "--orbit-y": `${orbitY}px`,
+                "--delay": delay,
+              }}
               aria-hidden={!isOpen}
             >
               <button
                 type="button"
                 className="profile-orbit-menu__item dock-item"
-                data-key={item.key || index}
-                data-label-pos={item.labelPos || "up"}
                 onClick={() => {
                   item.onClick?.();
                   if (!item.keepOpen) {
                     setIsPinnedOpen(false);
-                    setIsHovering(false);
                   }
                 }}
                 aria-label={item.label}
@@ -121,8 +145,8 @@ export default function OrbitalMenu({
                 <span className="dock-icon" aria-hidden="true">
                   {item.icon}
                 </span>
-                <span className="dock-label">{item.label}</span>
               </button>
+              <span className="dock-label">{item.label}</span>
             </div>
           );
         })}
@@ -135,12 +159,17 @@ export default function OrbitalMenu({
         type="button"
         className="profile-orbit-menu__center dock-item"
         onClick={handleToggle} // click works for touch too
-        onPointerEnter={handleCenterPointerEnter}
         aria-expanded={isOpen}
         aria-controls={menuId}
         aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}
       >
-        <span className="profile-orbit-menu__hub-icon" aria-hidden="true" />
+        <span className="profile-orbit-menu__hub-icon" aria-hidden="true">
+          <SmustCenterLogo
+            className="profile-orbit-menu__hub-svg"
+            aria-hidden="true"
+            focusable="false"
+          />
+        </span>
       </button>
     </div>
   );

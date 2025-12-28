@@ -21,7 +21,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
   const initialForm = {
     email: "",
     pin: "",
-    role: "SOCIAL_WORKER",
+    role: "",
     agree: false,
     guideAck: false,
   };
@@ -47,6 +47,10 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
+    if (!form.role) {
+      setError(t("auth.register.error.role_required", "Vali roll."));
+      return;
+    }
     if (!form.agree || !form.guideAck) {
       setError(t("auth.register.error.agree_required"));
       return;
@@ -137,6 +141,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
               value="SOCIAL_WORKER"
               checked={form.role === "SOCIAL_WORKER"}
               onChange={handleChange}
+              required
             />
             <span className="glass-radio-label-text">{t("role.worker")}</span>
           </label>
