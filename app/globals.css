@@ -4147,14 +4147,17 @@ textarea::placeholder{
 }
 .footer-meist-word{
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
   z-index: 2;
   pointer-events: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
-  transform: translate(4%, -24%);
+  --footer-meist-offset-x: 0.9em;
+  --footer-meist-offset-y: -1em;
+  transform: translate(calc(-50% + var(--footer-meist-offset-x)), calc(-50% + var(--footer-meist-offset-y)));
   will-change: auto;
   text-decoration: none;
   --footer-meist-start-ty: 0.75rem;
@@ -4234,13 +4237,13 @@ textarea::placeholder{
 }
 .footer-meist-word--animate{
   opacity: 0;
-  transform: translate(4%, -24%) translateY(var(--footer-meist-start-ty));
+  transform: translate(calc(-50% + var(--footer-meist-offset-x)), calc(-50% + var(--footer-meist-offset-y))) translateY(var(--footer-meist-start-ty));
   animation: footer-meist-cycle 1700ms cubic-bezier(.16,.84,.44,1) forwards;
   animation-delay: 1900ms; /* match other intro delays on first load */
 }
 @keyframes footer-meist-cycle{
-  0%   { opacity: 0; transform: translate(4%, -24%) translateY(var(--footer-meist-start-ty)); }
-  100% { opacity: 1; transform: translate(4%, -24%) translateY(0); }
+  0%   { opacity: 0; transform: translate(calc(-50% + var(--footer-meist-offset-x)), calc(-50% + var(--footer-meist-offset-y))) translateY(var(--footer-meist-start-ty)); }
+  100% { opacity: 1; transform: translate(calc(-50% + var(--footer-meist-offset-x)), calc(-50% + var(--footer-meist-offset-y))) translateY(0); }
 }
 @keyframes footer-meist-shine-cycle{
   0%   { opacity: 0; background-position: 160% 50%; }
@@ -4253,7 +4256,7 @@ textarea::placeholder{
 }
 html[data-reduce-motion="1"] .footer-meist-word--animate{
   opacity: 1;
-  transform: translate(4%, -24%);
+  transform: translate(calc(-50% + var(--footer-meist-offset-x)), calc(-50% + var(--footer-meist-offset-y)));
 }
 html[data-reduce-motion="1"] .footer-meist-word .footer-meist-shine{
   background-position: 50% 0;
@@ -4308,9 +4311,8 @@ html[data-reduce-motion="1"] .footer-meist-word .footer-meist-shine{
 @media (max-width: 48em){
   .footer-meist-ghost{ display: none; }
   .footer-meist-word{
-    inset: 0;
-    left: auto;
-    top: auto;
+    --footer-meist-offset-x: 0.14em;
+    --footer-meist-offset-y: -0.3em;
     --footer-meist-start-ty: 0.4rem;
   }
   .footer-meist-svg-text{
