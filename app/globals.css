@@ -3320,19 +3320,19 @@ width: clamp(16rem, 16vw, 17rem);
 }
 @media (max-width: 640px) {
   .register-scroll{
-    width: calc(100% - 1.6rem);
-    height: calc(100dvh - 1.6rem);
-    margin: 0.8rem auto;
-    border-radius: 1.35rem;
+    width: 100%;
+    height: 100dvh;
+    margin: 0;
+    border-radius: 0;
     aspect-ratio: auto;
-    --csp-title-top: 1.6rem;
+    --csp-title-top: 1.3rem;
   }
   .register-scroll__title .glass-title,
   .register-scroll .csp-overlayTitle .glass-title{
-    font-size: clamp(1.45rem, 4.8vw, 1.85rem);
+    font-size: clamp(1.45rem, 5.2vw, 1.95rem);
   }
   .register-scroll .csp-container{
-    --csp-title-offset: 3.2rem;
+    --csp-title-offset: 2.9rem;
   }
   .register-scroll .csp-step{
     min-height: clamp(5.4rem, 10.5vh, 6.6rem);
@@ -7288,19 +7288,19 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 }
 @media (max-width: 640px) {
   .a11y-modal{
-    width: calc(100% - 1.6rem);
-    height: calc(100dvh - 1.6rem);
-    inset: 0.8rem;
+    width: 100%;
+    height: 100dvh;
+    inset: 0;
     transform: none;
-    border-radius: 1.35rem;
+    border-radius: 0;
     aspect-ratio: auto;
-    --csp-title-top: 1.9rem;
+    --csp-title-top: 1.4rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
-    font-size: clamp(1.35rem, 4.6vw, 1.75rem);
+    font-size: clamp(1.4rem, 5vw, 1.9rem);
   }
   .a11y-modal .csp-container{
-    --csp-title-offset: 3.6rem;
+    --csp-title-offset: 3rem;
   }
   .a11y-modal .csp-step{
     min-height: clamp(5.2rem, 10vh, 6.2rem);
