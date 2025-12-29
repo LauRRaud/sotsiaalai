@@ -150,28 +150,29 @@ export default function OrbitalMenu({
   }, [isOpen, isCoarsePointer]);
 
   // Focus management for mobile overlay
-  useEffect(() => {
-    if (!isOpen || !isCoarsePointer) return;
+useEffect(() => {
+  if (!isOpen || !isCoarsePointer) return;
 
-    const prevActive = typeof document !== "undefined" ? document.activeElement : null;
+  const prevActive = typeof document !== "undefined" ? document.activeElement : null;
 
-    // Focus close button on open (best-effort)
-    requestAnimationFrame(() => {
-      overlayCloseBtnRef.current?.focus?.();
-    });
+  // Capture current DOM nodes once for cleanup usage
+  const hubEl = hubBtnRef.current;
+  const closeEl = overlayCloseBtnRef.current;
 
-    return () => {
-      // Restore focus to hub if possible, else previous focus
-      if (hubBtnRef.current?.focus) {
-        hubBtnRef.current.focus();
-        return;
-      }
-      if (prevActive && prevActive instanceof HTMLElement) {
-        prevActive.focus();
-      }
-    };
-  }, [isOpen, isCoarsePointer]);
+  requestAnimationFrame(() => {
+    closeEl?.focus?.();
+  });
 
+  return () => {
+    if (hubEl?.focus) {
+      hubEl.focus();
+      return;
+    }
+    if (prevActive && prevActive instanceof HTMLElement) {
+      prevActive.focus();
+    }
+  };
+}, [isOpen, isCoarsePointer]);
   // Desktop: measure orbit radius (skip entirely on coarse pointer)
   useLayoutEffect(() => {
     if (isCoarsePointer) return;
