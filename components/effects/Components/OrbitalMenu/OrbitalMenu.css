@@ -106,6 +106,17 @@
   cursor: inherit;
   display: block;
 }
+/* glow only on hover/focus */
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:hover,
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:focus-visible,
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:hover,
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:focus-visible {
+  box-shadow: var(--orbit-under-glow);
+}
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:hover,
@@ -279,6 +290,30 @@
     --orbit-item-size: min(4.1rem, 24vw);
     --orbit-center-size: min(5.6rem, 32vw);
   }
+
+  /* Mobiil: silt istub nupu sees ja on alati nähtav */
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
+    opacity: 1;
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: 0.42rem;
+    transform: translateX(-50%);
+    width: calc(var(--orbit-item-size) - 0.9rem);
+    max-width: none;
+    white-space: normal;
+    line-height: 1.05;
+    font-size: clamp(0.72rem, 2.8vw, 0.9rem);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__slot:is(:hover, :focus-within) .dock-label {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -349,6 +384,9 @@
   box-shadow:
     0 22px 60px rgba(0,0,0,0.55),
     inset 0 1px 0 rgba(255,255,255,0.05);
+  --orbit-under-glow:
+    0 10px 18px -14px rgba(248,253,255,0.72),
+    0 20px 28px -20px rgba(248,253,255,0.42);
 }
 
 :root.theme-light .profile-orbit-mobile-panel.invite-modal {
@@ -422,7 +460,7 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
 
   /* Keep some horizontal breathing room */
   padding-left: 0.2rem;
@@ -436,10 +474,10 @@
 /* Each row is a fixed “slot” so the center item has space and never gets cut */
 .profile-orbit-mobile-row {
   scroll-snap-align: center;
-  height: clamp(9.0rem, 18vh, 11.0rem);
+  height: clamp(10.5rem, 20vh, 12.5rem);
   display: grid;
   place-items: center;
-  padding: 0.4rem 0;
+  padding: 0.6rem 0;
 }
 
 /* Hidden rows must not steal taps */
@@ -453,8 +491,8 @@
   display: grid;
   place-items: center;
 
-  will-change: transform, opacity, filter;
-  transition: transform 180ms ease-out, opacity 180ms ease-out, filter 180ms ease-out;
+  will-change: opacity, filter;
+  transition: opacity 180ms ease-out, filter 180ms ease-out;
 }
 
 /* IMPORTANT: neutralize global hover-lift inside overlay (iOS can “stick” :hover) */
@@ -490,6 +528,12 @@
     0 18px 46px rgba(0,0,0,0.25),
     inset 0 1px 0 rgba(255,255,255,0.08);
 }
+:root:not(.theme-light) .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 18px 46px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    var(--orbit-under-glow);
+}
 
 /* Icon sizing */
 .profile-orbit-mobile-action.dock-item .dock-icon {
@@ -513,31 +557,29 @@
 
 /* When active, lift icon a bit to make room for label inside circle */
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item .dock-icon svg {
-  transform: translateY(-10%);
+  transform: none;
   opacity: 1;
 }
 
 /* Label inside circle: appears only on active row (JS toggles aria-hidden, CSS toggles opacity) */
 .profile-orbit-mobile-action__label {
   position: absolute;
-  left: 10%;
-  right: 10%;
-  bottom: 11%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
 
   text-align: center;
   line-height: 1.08;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0.02em;
 
   font-size: clamp(0.98rem, 3.7vw, 1.16rem);
 
-  /* Modern readability pill, still “glass” */
-  padding: 0.4rem 0.55rem;
-  border-radius: 0.85rem;
-
+  padding: 0;
+  border-radius: 0;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 180ms ease;
 
   /* Prevent long labels from wrecking the circle */
   display: -webkit-box;
@@ -549,24 +591,21 @@
 /* Theme-specific label surface */
 :root:not(.theme-light) .profile-orbit-mobile-action__label {
   color: rgba(248, 253, 255, 0.92);
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
-  -webkit-backdrop-filter: blur(10px) saturate(110%);
-  backdrop-filter: blur(10px) saturate(110%);
+  background: transparent;
+  border: none;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
 }
 
 :root.theme-light .profile-orbit-mobile-action__label {
   color: rgba(15, 23, 42, 0.92);
-  background: rgba(255,255,255,0.65);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  -webkit-backdrop-filter: blur(10px) saturate(105%);
-  backdrop-filter: blur(10px) saturate(105%);
+  background: transparent;
+  border: none;
+  text-shadow: 0 2px 8px rgba(255,255,255,0.35);
 }
 
 /* Show label only for active row */
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action__label {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* =========================================================
@@ -623,16 +662,16 @@
   transform: translateX(-50%) rotate(45deg);
   border-left: 3px solid currentColor;
   border-top: 3px solid currentColor;
-  opacity: 0.65;
-  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.20));
-  animation: orbitChevronFloatUp 1.35s ease-in-out infinite;
+  opacity: 0.7;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.20));
+  animation: orbitChevronBlink 1.15s ease-in-out infinite;
 }
 
 .profile-orbit-mobile-chevron--down {
   top: auto;
   bottom: 1.35rem;
   transform: translateX(-50%) rotate(225deg);
-  animation: orbitChevronFloatDown 1.35s ease-in-out infinite;
+  animation: orbitChevronBlink 1.15s ease-in-out infinite;
 }
 
 /* Provide currentColor per theme */
@@ -652,15 +691,10 @@
 }
 
 /* Animations (subtle, modern) */
-@keyframes orbitChevronFloatUp {
-  0%   { transform: translateX(-50%) rotate(45deg) translateY(0); opacity: 0.45; }
-  50%  { transform: translateX(-50%) rotate(45deg) translateY(-6px); opacity: 0.70; }
-  100% { transform: translateX(-50%) rotate(45deg) translateY(0); opacity: 0.45; }
-}
-@keyframes orbitChevronFloatDown {
-  0%   { transform: translateX(-50%) rotate(225deg) translateY(0); opacity: 0.45; }
-  50%  { transform: translateX(-50%) rotate(225deg) translateY(6px); opacity: 0.70; }
-  100% { transform: translateX(-50%) rotate(225deg) translateY(0); opacity: 0.45; }
+@keyframes orbitChevronBlink {
+  0%   { opacity: 0.35; }
+  50%  { opacity: 0.9; }
+  100% { opacity: 0.35; }
 }
 
 /* Reduce motion */

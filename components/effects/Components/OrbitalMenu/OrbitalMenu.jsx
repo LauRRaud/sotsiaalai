@@ -328,7 +328,7 @@ export default function OrbitalMenu({
     // “scroll-end” feel without relying on browser support
     settleTimerRef.current = window.setTimeout(() => {
       snapToIndex(activeIndexRef.current);
-    }, prefersReducedMotion ? 0 : 140);
+    }, prefersReducedMotion ? 0 : 260);
   };
 
   useLayoutEffect(() => {
@@ -505,7 +505,7 @@ export default function OrbitalMenu({
               style={{
                 paddingTop: listPad,
                 paddingBottom: listPad,
-                scrollSnapType: "y mandatory",
+                scrollSnapType: "y proximity",
                 WebkitOverflowScrolling: "touch",
               }}
             >

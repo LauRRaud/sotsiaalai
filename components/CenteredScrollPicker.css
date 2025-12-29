@@ -1,0 +1,180 @@
+/* =========================================================
+   CenteredScrollPicker.css (tight + modal-friendly)
+   ========================================================= */
+
+.csp-container{
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+
+  scroll-snap-type: y proximity;
+
+  /* padding gives enough scroll range so first/last can center-snap */
+  padding-block: var(--csp-pad, 0px);
+  scroll-padding-block: var(--csp-pad, 0px);
+
+  scrollbar-width: none;
+
+  --csp-active-scale: 1.03;
+  --csp-neighbor-scale: 0.93;
+  --csp-hidden-scale: 0.90;
+
+  --csp-active-opacity: 1;
+  --csp-neighbor-opacity: 0.44;
+  --csp-hidden-opacity: 0;
+
+  --csp-transition-ms: 140ms;
+
+  --csp-surface: rgba(10, 12, 18, 0.94);
+}
+
+.csp-container::-webkit-scrollbar{ width:0; height:0; }
+
+:root.theme-light .csp-container{
+  --csp-surface: rgba(252, 253, 255, 0.94);
+}
+
+/* Tighter item spacing */
+.csp-item{
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+
+  position: relative;
+  z-index: 1;
+
+  will-change: transform, opacity, filter;
+  transition:
+    transform var(--csp-transition-ms) ease-out,
+    opacity var(--csp-transition-ms) ease-out,
+    filter var(--csp-transition-ms) ease-out;
+  transform-origin: center;
+}
+
+/* Much tighter than before */
+.csp-step{
+  min-height: clamp(6.2rem, 10.5vh, 7.8rem);
+  padding: 0.28rem 0;
+  display: grid;
+  align-content: center;
+}
+
+.csp-active{
+  z-index: 3;
+  opacity: var(--csp-active-opacity);
+  transform: scale(var(--csp-active-scale));
+  filter: none;
+  pointer-events: auto;
+}
+
+.csp-neighbor{
+  z-index: 2;
+  opacity: var(--csp-neighbor-opacity);
+  transform: scale(var(--csp-neighbor-scale));
+  filter: blur(0.25px);
+  pointer-events: auto;
+}
+
+.csp-hidden{
+  opacity: var(--csp-hidden-opacity);
+  transform: scale(var(--csp-hidden-scale));
+  filter: blur(0.7px);
+  pointer-events: none;
+}
+
+/* ---------- Modern scrims ---------- */
+.csp-scrim{
+  position:absolute;
+  left:0;
+  right:0;
+  height: 3.2rem;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity 200ms ease;
+  z-index: 6;
+}
+.csp-scrim.is-visible{ opacity:1; }
+
+.csp-scrim--top{
+  top: 0;
+  background: linear-gradient(to bottom, var(--csp-surface), rgba(0,0,0,0));
+}
+.csp-scrim--bottom{
+  bottom: 0;
+  background: linear-gradient(to top, var(--csp-surface), rgba(0,0,0,0));
+}
+
+.csp-scrim--chevron::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-left: 3px solid currentColor;
+  border-top: 3px solid currentColor;
+  opacity: 0.7;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.18));
+  animation: cspChevronBlink 1.15s ease-in-out infinite;
+}
+
+:root:not(.theme-light) .csp-scrim--chevron{ color: rgba(248,253,255,0.72); }
+:root.theme-light .csp-scrim--chevron{ color: rgba(15,23,42,0.46); }
+
+.csp-scrim--top.csp-scrim--chevron::after{
+  top: 0.95rem;
+  transform: translateX(-50%) rotate(45deg);
+}
+.csp-scrim--bottom.csp-scrim--chevron::after{
+  bottom: 0.95rem;
+  transform: translateX(-50%) rotate(225deg);
+}
+
+@keyframes cspChevronBlink{
+  0%{ opacity: 0.35; }
+  50%{ opacity: 0.9; }
+  100%{ opacity: 0.35; }
+}
+
+/* ---------- Modal title overlay (keeps title “in the same window”) ---------- */
+.csp-overlayTitle{
+  position: absolute;
+  left: 50%;
+  top: var(--csp-title-top, 0.95rem);
+  transform: translateX(-50%);
+  z-index: 8;
+  width: min(40rem, 86%);
+  pointer-events: none;
+}
+
+.csp-overlayTitle .glass-title{
+  margin: 0;
+  line-height: 1.05;
+  text-align: center;
+  font-size: clamp(1.15rem, 2.6vw, 1.65rem);
+}
+
+/* For a11y modal: reserve vertical space so content doesn’t collide with title overlay */
+.a11y-modal .csp-container{
+  --csp-title-offset: 4.4rem;
+  padding-top: calc(var(--csp-pad, 0px) + var(--csp-title-offset));
+  padding-bottom: var(--csp-pad, 0px);
+}
+
+/* Reduce your existing fieldset margins ONLY when used as picker steps */
+.a11y-modal .a11y-fieldset.a11y-snap.csp-step{
+  margin: 0.34rem 0;
+}
+.a11y-modal .a11y-actions.a11y-snap.csp-step{
+  margin: 0.34rem 0;
+}
+
+/* Make top scrim start below the title area inside modal */
+.a11y-modal .csp-scrim--top{
+  top: var(--csp-title-offset, 0px);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .csp-item,
+  .csp-scrim{ transition:none !important; }
+  .csp-scrim--chevron::after{ animation:none !important; filter:none; opacity:0.55; }
+}

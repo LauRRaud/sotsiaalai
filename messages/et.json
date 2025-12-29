@@ -107,6 +107,7 @@
     },
     "register": {
       "title": "Loo konto",
+      "role_label_question": "Kes oled?",
       "role_label": "Roll:",
       "agreement": "Nõustun <terms>kasutajatingimustega</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
       "guide_ack": "Olen tutvunud <guide>platvormi kasutusjuhendiga</guide>.",

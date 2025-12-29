@@ -107,6 +107,7 @@
     },
     "register": {
       "title": "Create account",
+      "role_label_question": "Who are you?",
       "role_label": "Role:",
       "agreement": "I agree to the <terms>Terms of Use</terms> and the <privacy>Privacy Policy</privacy>.",
       "guide_ack": "I have read the <guide>platform guide</guide>.",

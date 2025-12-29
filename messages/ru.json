@@ -107,6 +107,7 @@
     "register": {
       "title": "Создать аккаунт",
       "role_label": "Роль:",
+      "role_label_question": "Кто вы?",
       "agreement": "Я соглашаюсь с <terms>Условиями использования</terms> и <privacy>Политикой конфиденциальности</privacy>.",
       "guide_ack": "Я ознакомился с <guide>руководством по использованию платформы</guide>.",
       "error": {
