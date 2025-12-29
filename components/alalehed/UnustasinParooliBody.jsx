@@ -40,68 +40,69 @@ export default function UnustasinParooliBody() {
     }
   }
   return (
-    <div className="main-content glass-box reset-box" lang={locale}>
-      <h1
-        className="glass-title reset-title"
-        style={{ marginBottom: "0.45em" }}
-      >
-        {t("auth.reset.title")}
-      </h1>
-      {submitted ? (
-        <RichText className="midtext reset-info" as="div" value={t("auth.reset.success")} />
-      ) : (
-        <form
-          className="reset-form"
-          onSubmit={handleSubmit}
-          autoComplete="off"
-          aria-busy={loading ? "true" : "false"}
+    <div className="profile-page-shell profile-subpage-shell" lang={locale}>
+      <div className="main-content glass-box glass-left profile-container profile-subpage-box reset-box">
+        <h1
+          className="glass-title reset-title"
+          style={{ marginBottom: "0.45em" }}
         >
-          <label htmlFor="email" className="reset-label">
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="reset-input"
-              placeholder={t("auth.email_placeholder")}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="username"
-              disabled={loading}
-              aria-invalid={error ? "true" : "false"}
-              aria-describedby={errorId}
-            />
-          </label>
-        {error && (
-          <div
-            id={errorId}
-            role="alert"
-            className="glass-note"
-            style={{ marginBottom: "0.75rem" }}
+          {t("auth.reset.title")}
+        </h1>
+        {submitted ? (
+          <RichText className="midtext reset-info" as="div" value={t("auth.reset.success")} />
+        ) : (
+          <form
+            className="reset-form"
+            onSubmit={handleSubmit}
+            autoComplete="off"
+            aria-busy={loading ? "true" : "false"}
           >
-            {error}
-          </div>
+            <label htmlFor="email" className="reset-label">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="reset-input"
+                placeholder={t("auth.email_placeholder")}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="username"
+                disabled={loading}
+                aria-invalid={error ? "true" : "false"}
+                aria-describedby={errorId}
+              />
+            </label>
+          {error && (
+            <div
+              id={errorId}
+              role="alert"
+              className="glass-note"
+              style={{ marginBottom: "0.75rem" }}
+            >
+              {error}
+            </div>
+          )}
+          <button className="btn-base reset-btn" type="submit" disabled={loading}>
+            <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
+          </button>
+          </form>
         )}
-        <button className="btn-base reset-btn" type="submit" disabled={loading}>
-          <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
-        </button>
-        </form>
-      )}
-      <div className="back-btn-wrapper">
-        <button
-          type="button"
-          className="back-arrow-btn"
-          onClick={() =>
-            typeof window !== "undefined" && window.history.length > 1
-              ? router.back()
-              : router.push(localizePath("/", locale))
-          }
-          aria-label={t("buttons.back_home")}
-        >
-          <span className="back-arrow-circle"></span>
-        </button>
+        <div className="back-btn-wrapper">
+          <button
+            type="button"
+            className="back-arrow-btn"
+            onClick={() =>
+              typeof window !== "undefined" && window.history.length > 1
+                ? router.back()
+                : router.push(localizePath("/", locale))
+            }
+            aria-label={t("buttons.back_home")}
+          >
+            <span className="back-arrow-circle"></span>
+          </button>
+        </div>
       </div>
-      <footer className="alaleht-footer reset-footer">{t("about.footer.note")}</footer>
     </div>
   );
 }

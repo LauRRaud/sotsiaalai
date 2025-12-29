@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import SmustCenterLogo from "@/public/logo/smust-center.svg";
 import "./OrbitalMenu.css";
 
@@ -15,7 +15,6 @@ function useMatchMedia(query, defaultValue = false) {
 
     onChange();
 
-    // Safari fallback
     if (mq.addEventListener) {
       mq.addEventListener("change", onChange);
       return () => mq.removeEventListener("change", onChange);
@@ -27,6 +26,8 @@ function useMatchMedia(query, defaultValue = false) {
 
   return matches;
 }
+
+const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
 
 export default function OrbitalMenu({
   items = [],
@@ -54,16 +55,38 @@ export default function OrbitalMenu({
   const scrollRef = useRef(null);
   const slotRefs = useRef([]);
   const rafRef = useRef(0);
+  const settleTimerRef = useRef(0);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+
   const [listPad, setListPad] = useState(0);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
 
-  const activeIndexRef = useRef(0);
+  // “3-step” visuals: active (100%), neighbors (partial), rest (0%)
+  const [visuals, setVisuals] = useState(() =>
+    Array.from({ length: items.length }, () => ({ scale: 0.62, opacity: 0, blur: 2, hide: true }))
+  );
+
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
+
+  // Keep refs and visuals length aligned
+  useEffect(() => {
+    slotRefs.current = new Array(items.length);
+    setVisuals(
+      Array.from({ length: items.length }, (_, i) => {
+        // initialize: show first + neighbor if present, hide the rest
+        const d = Math.abs(i - activeIndexRef.current);
+        if (d === 0) return { scale: 1.06, opacity: 1, blur: 0, hide: false };
+        if (d === 1) return { scale: 0.78, opacity: 0.38, blur: 1.5, hide: false };
+        return { scale: 0.62, opacity: 0, blur: 2, hide: true };
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
 
   // Close on outside click + ESC
   useEffect(() => {
@@ -132,7 +155,7 @@ export default function OrbitalMenu({
     };
   }, [isOpen, isCoarsePointer]);
 
-  // Focus management (mobile overlay)
+  // Focus management (mobile overlay) – capture refs for cleanup
   useEffect(() => {
     if (!isOpen || !isCoarsePointer) return;
 
@@ -151,9 +174,7 @@ export default function OrbitalMenu({
         hubEl.focus();
         return;
       }
-      if (prevActive && prevActive instanceof HTMLElement) {
-        prevActive.focus();
-      }
+      if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
     };
   }, [isOpen, isCoarsePointer]);
 
@@ -203,8 +224,26 @@ export default function OrbitalMenu({
   const handleToggle = () => setIsPinnedOpen((prev) => !prev);
 
   // -----------------------------
-  // Mobile picker computations
+  // Mobile picker: “very powerful” selection + smooth settle
   // -----------------------------
+  const buildVisualsFromActive = (activeIdx) => {
+    const next = new Array(items.length);
+
+    for (let i = 0; i < items.length; i += 1) {
+      const d = Math.abs(i - activeIdx);
+
+      // Exactly what you asked:
+      // active = 100% visible
+      // neighbors = partially visible
+      // third+ = 0% visible (so edges never "cut" items)
+      if (d === 0) next[i] = { scale: 1.08, opacity: 1, blur: 0, hide: false };
+      else if (d === 1) next[i] = { scale: 0.78, opacity: 0.38, blur: 1.5, hide: false };
+      else next[i] = { scale: 0.62, opacity: 0, blur: 2, hide: true };
+    }
+
+    return next;
+  };
+
   const computeListPadding = () => {
     const listEl = scrollRef.current;
     const firstSlot = slotRefs.current?.[0];
@@ -226,20 +265,18 @@ export default function OrbitalMenu({
     setCanScrollDown(scrollTop + clientHeight < scrollHeight - 2);
   };
 
-  const updateActiveFromScroll = () => {
+  const computeActiveIndexFromScroll = () => {
     const listEl = scrollRef.current;
-    if (!listEl) return;
+    if (!listEl) return 0;
 
     const listRect = listEl.getBoundingClientRect();
     const centerY = listRect.top + listRect.height / 2;
 
     const slots = slotRefs.current || [];
-    if (!slots.length) return;
+    if (!slots.length) return 0;
 
     let bestIdx = 0;
     let bestDist = Number.POSITIVE_INFINITY;
-
-    const dists = new Array(slots.length).fill(Number.POSITIVE_INFINITY);
 
     for (let i = 0; i < slots.length; i += 1) {
       const slot = slots[i];
@@ -247,23 +284,33 @@ export default function OrbitalMenu({
       const r = slot.getBoundingClientRect();
       const slotCenter = r.top + r.height / 2;
       const dist = Math.abs(slotCenter - centerY);
-      dists[i] = dist;
       if (dist < bestDist) {
         bestDist = dist;
         bestIdx = i;
       }
     }
 
-    const prevIdx = activeIndexRef.current;
-    const prevDist = dists[prevIdx] ?? Number.POSITIVE_INFINITY;
+    return bestIdx;
+  };
 
-    // Hysteresis so it doesn't flicker
-    const hysteresisPx = 10;
-    if (bestIdx !== prevIdx && bestDist + hysteresisPx < prevDist) {
-      activeIndexRef.current = bestIdx;
-      setActiveIndex(bestIdx);
+  const snapToIndex = (idx) => {
+    const clampedIdx = clamp(idx, 0, Math.max(0, items.length - 1));
+    const slot = slotRefs.current?.[clampedIdx];
+    if (!slot) return;
+
+    const behavior = prefersReducedMotion ? "auto" : "smooth";
+    slot.scrollIntoView?.({ block: "center", behavior });
+  };
+
+  const applyActive = (idx) => {
+    const clampedIdx = clamp(idx, 0, Math.max(0, items.length - 1));
+
+    if (activeIndexRef.current !== clampedIdx) {
+      activeIndexRef.current = clampedIdx;
+      setActiveIndex(clampedIdx);
     }
 
+    setVisuals(buildVisualsFromActive(clampedIdx));
     updateScrollHints();
   };
 
@@ -271,8 +318,17 @@ export default function OrbitalMenu({
     if (rafRef.current) return;
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = 0;
-      updateActiveFromScroll();
+      const idx = computeActiveIndexFromScroll();
+      applyActive(idx);
     });
+  };
+
+  const scheduleSettleSnap = () => {
+    if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
+    // “scroll-end” feel without relying on browser support
+    settleTimerRef.current = window.setTimeout(() => {
+      snapToIndex(activeIndexRef.current);
+    }, prefersReducedMotion ? 0 : 140);
   };
 
   useLayoutEffect(() => {
@@ -280,29 +336,38 @@ export default function OrbitalMenu({
 
     computeListPadding();
 
+    // On open: ensure we have a sensible active index and visuals
+    const initialIdx = clamp(activeIndexRef.current || 0, 0, Math.max(0, items.length - 1));
+    applyActive(initialIdx);
+
+    // Snap to active (no animation on open)
+    const slot = slotRefs.current?.[initialIdx];
+    slot?.scrollIntoView?.({ block: "center", behavior: "auto" });
+
     const listEl = scrollRef.current;
     if (!listEl) return;
 
-    // Snap to current active on open
-    const idx = Math.min(Math.max(activeIndexRef.current || 0, 0), Math.max(0, items.length - 1));
-    const slot = slotRefs.current?.[idx];
-    slot?.scrollIntoView?.({ block: "center", behavior: "auto" });
+    const onScroll = () => {
+      scheduleMobileUpdate();
+      scheduleSettleSnap();
+    };
 
-    scheduleMobileUpdate();
-
-    const onScroll = () => scheduleMobileUpdate();
     listEl.addEventListener("scroll", onScroll, { passive: true });
 
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
       computeListPadding();
       scheduleMobileUpdate();
+      scheduleSettleSnap();
     }) : null;
+
     ro?.observe(listEl);
 
     const onResize = () => {
       computeListPadding();
       scheduleMobileUpdate();
+      scheduleSettleSnap();
     };
+
     window.addEventListener("resize", onResize);
 
     return () => {
@@ -317,67 +382,25 @@ export default function OrbitalMenu({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
+      if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
+      settleTimerRef.current = 0;
     };
   }, []);
-
-  // Per-slot visual scale/opacity based on distance to center
-  const getSlotVisualStyle = (index) => {
-    const listEl = scrollRef.current;
-    const slotEl = slotRefs.current?.[index];
-    if (!listEl || !slotEl) {
-      // reasonable defaults before first measurement
-      return {
-        "--orbitSlotScale": 0.82,
-        "--orbitSlotOpacity": 0.6,
-      };
-    }
-
-    const listRect = listEl.getBoundingClientRect();
-    const centerY = listRect.top + listRect.height / 2;
-    const r = slotEl.getBoundingClientRect();
-    const slotCenter = r.top + r.height / 2;
-
-    const dist = Math.abs(slotCenter - centerY);
-
-    // Normalize within half container height
-    const t0 = Math.min(1, dist / Math.max(1, listRect.height * 0.5));
-
-    // Ease-out curve (more dramatic near center)
-    const e = 1 - Math.pow(1 - t0, 3);
-
-    // Dramatic scaling: center dominates, edges shrink
-    const minScale = 0.56;
-    const maxScale = 1.02;
-
-    const scale = maxScale - (maxScale - minScale) * e;
-
-    // Fade edges substantially
-    const minOpacity = 0.22;
-    const opacity = 1 - (1 - minOpacity) * e;
-
-    return {
-      "--orbitSlotScale": scale,
-      "--orbitSlotOpacity": opacity,
-    };
-  };
 
   const onMobileAction = (item) => {
     item?.onClick?.();
     if (!item?.keepOpen) setIsPinnedOpen(false);
   };
 
-  // -----------------------------
-  // Render
-  // -----------------------------
-  const angleStep = items.length ? 360 / items.length : 0;
-  const startAngle = -90;
+  const desktopAngleStep = useMemo(() => (items.length ? 360 / items.length : 0), [items.length]);
+  const desktopStartAngle = -90;
 
   return (
     <div
       ref={rootRef}
       className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${isCoarsePointer ? "is-mobile" : ""} ${className}`.trim()}
     >
-      {/* Desktop orbital items */}
+      {/* Desktop orbital items (unchanged) */}
       {!isCoarsePointer && (
         <div
           className="profile-orbit-menu__items"
@@ -387,7 +410,7 @@ export default function OrbitalMenu({
           aria-hidden={!isOpen}
         >
           {items.map((item, index) => {
-            const angle = startAngle + index * angleStep;
+            const angle = desktopStartAngle + index * desktopAngleStep;
             const angleRad = (angle * Math.PI) / 180;
             const orbitX = Math.round(Math.sin(angleRad) * orbitRadius);
             const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius);
@@ -440,15 +463,22 @@ export default function OrbitalMenu({
         </span>
       </button>
 
-      {/* Mobile full-screen overlay (uses your global modal design language via classnames) */}
+      {/* Mobile full-screen overlay: no “old arrows”; modern scroll affordance via scrims + chevrons */}
       {isCoarsePointer && isOpen && (
         <div
           className="invite-modal-backdrop profile-orbit-mobile-backdrop"
           role="dialog"
           aria-modal="true"
           aria-label={ariaLabel}
+          onPointerDown={(e) => {
+            // Tap outside panel closes
+            if (e.target === e.currentTarget) setIsPinnedOpen(false);
+          }}
         >
-          <div className="invite-modal profile-orbit-mobile-panel">
+          <div
+            className="invite-modal profile-orbit-mobile-panel"
+            onPointerDown={(e) => e.stopPropagation()}
+          >
             <button
               ref={overlayCloseBtnRef}
               type="button"
@@ -459,12 +489,14 @@ export default function OrbitalMenu({
               &times;
             </button>
 
-            {/* Optional empty header block to reserve space for close icon */}
-            <div className="profile-orbit-mobile-header" />
-
-            {/* Scroll hint (visual affordance only; CSS decides theme colors/opacity) */}
-            <div className={`profile-orbit-mobile-hint profile-orbit-mobile-hint--up ${canScrollUp ? "is-visible" : ""}`}>
-              <span aria-hidden="true">⌃</span>
+            {/* Modern scroll hints: gradient scrims that reveal subtle chevrons */}
+            <div
+              className={`profile-orbit-mobile-scrim profile-orbit-mobile-scrim--top ${
+                canScrollUp ? "is-visible" : ""
+              }`}
+              aria-hidden="true"
+            >
+              <div className="profile-orbit-mobile-chevron" />
             </div>
 
             <div
@@ -473,37 +505,49 @@ export default function OrbitalMenu({
               style={{
                 paddingTop: listPad,
                 paddingBottom: listPad,
-                scrollBehavior: prefersReducedMotion ? "auto" : "smooth",
+                scrollSnapType: "y mandatory",
+                WebkitOverflowScrolling: "touch",
               }}
-              onScroll={scheduleMobileUpdate}
             >
               {items.map((item, index) => {
+                const v = visuals[index] || { scale: 0.62, opacity: 0, blur: 2, hide: true };
                 const isActive = index === activeIndex;
 
-                // Slot has fixed height (hit area). Visual inside scales.
                 return (
                   <div
                     key={item.key || index}
                     ref={(el) => {
                       slotRefs.current[index] = el;
                     }}
-                    className={`profile-orbit-mobile-row ${isActive ? "is-active" : ""}`}
+                    className={`profile-orbit-mobile-row ${isActive ? "is-active" : ""} ${
+                      v.hide ? "is-hidden" : ""
+                    }`}
+                    style={{ scrollSnapAlign: "center" }}
                   >
                     <div
                       className="profile-orbit-mobile-visual"
-                      style={getSlotVisualStyle(index)}
+                      style={{
+                        transform: `scale(${v.scale})`,
+                        opacity: v.opacity,
+                        filter: v.blur ? `blur(${v.blur}px)` : "none",
+                      }}
                     >
                       <button
                         type="button"
-                        className="profile-orbit-mobile-action"
+                        className="profile-orbit-mobile-action dock-item"
                         onClick={() => onMobileAction(item)}
                         aria-label={item.label}
+                        tabIndex={v.hide ? -1 : 0}
                       >
-                        <span className="profile-orbit-mobile-action__icon" aria-hidden="true">
+                        <span className="dock-icon" aria-hidden="true">
                           {item.icon}
                         </span>
 
-                        <span className="profile-orbit-mobile-action__label">
+                        {/* label exists, but only becomes visible for the active row via CSS */}
+                        <span
+                          className="profile-orbit-mobile-action__label"
+                          aria-hidden={!isActive}
+                        >
                           {item.label}
                         </span>
                       </button>
@@ -513,8 +557,13 @@ export default function OrbitalMenu({
               })}
             </div>
 
-            <div className={`profile-orbit-mobile-hint profile-orbit-mobile-hint--down ${canScrollDown ? "is-visible" : ""}`}>
-              <span aria-hidden="true">⌄</span>
+            <div
+              className={`profile-orbit-mobile-scrim profile-orbit-mobile-scrim--bottom ${
+                canScrollDown ? "is-visible" : ""
+              }`}
+              aria-hidden="true"
+            >
+              <div className="profile-orbit-mobile-chevron profile-orbit-mobile-chevron--down" />
             </div>
           </div>
         </div>

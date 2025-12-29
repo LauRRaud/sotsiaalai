@@ -52,71 +52,74 @@ export default function TellimusBody() {
   }
   if (loading) {
     return (
-      <div className="main-content glass-box glass-left tellimus-box" role="region" lang={locale}>
-        <h1 className="glass-title">{t("subscription.title")}</h1>
-        <div className="content-narrow">
-          <p className="glass-text" aria-live="polite">{t("subscription.loading")}</p>
+      <div className="profile-page-shell profile-subpage-shell" lang={locale}>
+        <div className="main-content glass-box glass-left profile-container profile-subpage-box tellimus-box" role="region">
+          <h1 className="glass-title">{t("subscription.title")}</h1>
+          <div className="content-narrow">
+            <p className="glass-text" aria-live="polite">{t("subscription.loading")}</p>
+          </div>
         </div>
       </div>
     );
   }
   return (
-    <div className="main-content glass-box glass-left tellimus-box" role="region" lang={locale}>
-      <h1 className="glass-title">{t("subscription.title")}</h1>
-      <div className="content-narrow">
-        {subActive ? (
-          <>
-            <p className="glass-text">{t("subscription.active.summary")}</p>
-            <p className="glass-text" id="cancel-note">
-              <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
-            </p>
-            <div className="tellimus-btn-center">
-              <Link href="/profiil" className="btn-base" aria-describedby="cancel-note">
-                {t("subscription.button.open_profile")}
-              </Link>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
-              <RichText as="div" className="glass-text" value={t("subscription.info")} replacements={emailReplacement} />
-            </div>
-            {error && (
-              <div role="alert" aria-live="assertive" className="glass-note">
-                {error}
+    <div className="profile-page-shell profile-subpage-shell" lang={locale}>
+      <div className="main-content glass-box glass-left profile-container profile-subpage-box tellimus-box" role="region">
+        <h1 className="glass-title">{t("subscription.title")}</h1>
+        <div className="content-narrow">
+          {subActive ? (
+            <>
+              <p className="glass-text">{t("subscription.active.summary")}</p>
+              <p className="glass-text" id="cancel-note">
+                <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
+              </p>
+              <div className="tellimus-btn-center">
+                <Link href="/profiil" className="btn-base" aria-describedby="cancel-note">
+                  {t("subscription.button.open_profile")}
+                </Link>
               </div>
-            )}
-            <div className="tellimus-btn-center">
-              <button
-                type="button"
-                className="btn-base"
-                disabled={processing}
-                aria-disabled={processing}
-                aria-busy={processing}
-                aria-describedby="billing-info cancel-note"
-                onClick={handleActivate}
-              >
-                {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
-              </button>
-            </div>
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
+                <RichText as="div" className="glass-text" value={t("subscription.info")} replacements={emailReplacement} />
+              </div>
+              {error && (
+                <div role="alert" aria-live="assertive" className="glass-note">
+                  {error}
+                </div>
+              )}
+              <div className="tellimus-btn-center">
+                <button
+                  type="button"
+                  className="btn-base"
+                  disabled={processing}
+                  aria-disabled={processing}
+                  aria-busy={processing}
+                  aria-describedby="billing-info cancel-note"
+                  onClick={handleActivate}
+                >
+                  {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="back-btn-wrapper">
+          <button
+            type="button"
+            className="back-arrow-btn"
+            onClick={() =>
+              typeof window !== "undefined" && window.history.length > 1
+                ? router.back()
+                : router.push(localizePath("/", locale))
+            }
+            aria-label={t("buttons.back_home")}
+          >
+            <span className="back-arrow-circle" />
+          </button>
+        </div>
       </div>
-      <div className="back-btn-wrapper">
-        <button
-          type="button"
-          className="back-arrow-btn"
-          onClick={() =>
-            typeof window !== "undefined" && window.history.length > 1
-              ? router.back()
-              : router.push(localizePath("/", locale))
-          }
-          aria-label={t("buttons.back_home")}
-        >
-          <span className="back-arrow-circle" />
-        </button>
-      </div>
-      <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>
   );
 }

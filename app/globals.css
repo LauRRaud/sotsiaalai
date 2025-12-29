@@ -146,9 +146,9 @@ body::-webkit-scrollbar {
   background: var(--glass-surface-bg);
   box-shadow: none;
   color: var(--glass-surface-text);
-  --form-surface-light: rgba(255,255,255,0.08);
-  --form-surface-hover-light: rgba(255,255,255,0.22);
-  --form-surface-active-light: rgba(255,255,255,0.78);
+  --form-surface-light: rgba(255,255,255,0.68);
+  --form-surface-hover-light: rgba(255,255,255,0.82);
+  --form-surface-active-light: rgba(255,255,255,0.95);
   --form-shadow-light: 0 6px 16px rgba(0,0,0,0.14);
   --form-accent-light: #7A3A38;
 }
@@ -162,7 +162,8 @@ body::-webkit-scrollbar {
   --form-border: rgba(248,253,255,0.2);
   --form-border-strong: rgba(248,253,255,0.55);
   --form-surface: rgba(8,12,20,0.52);
-  --form-surface-hover: rgba(14,18,30,0.56);
+  --form-surface-hover: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
+  --form-surface-active: var(--form-surface-hover);
 }
 .invite-modal__header {
   display: flex;
@@ -442,7 +443,7 @@ body::-webkit-scrollbar {
 }
 :root:not(.theme-light) .invite-choice-card.is-checked {
   border-color: transparent;
-  background: rgba(26,34,50,0.58);
+  background: var(--form-surface-active);
   color: var(--pt-50);
   box-shadow:
     0 0.5rem 1.125rem rgba(6,8,16,0.35),
@@ -455,6 +456,11 @@ body::-webkit-scrollbar {
 :root:not(.theme-light) .invite-choice-card.is-checked:hover,
 :root:not(.theme-light) .invite-choice-card.is-checked:focus-within {
   border-color: transparent;
+  background: var(--form-surface-active);
+  color: var(--pt-50);
+  box-shadow:
+    0 0.5rem 1.125rem rgba(6,8,16,0.35),
+    var(--invite-under-glow);
 }
 :root.theme-light .invite-choice-card {
   background: var(--form-surface-light);
@@ -479,6 +485,14 @@ body::-webkit-scrollbar {
 :root.theme-light .invite-choice-card:focus-within {
   border-color: transparent;
   background: var(--form-surface-hover-light);
+  box-shadow: var(--form-shadow-light);
+}
+:root.theme-light .invite-choice-card.is-checked,
+:root.theme-light .invite-choice-card.is-checked:hover,
+:root.theme-light .invite-choice-card.is-checked:focus-within {
+  border-color: transparent;
+  background: var(--form-surface-active-light);
+  color: color-mix(in srgb, var(--text-strong) 80%, var(--form-accent-light) 20%);
   box-shadow: var(--form-shadow-light);
 }
 :root.theme-light .invite-choice-card input[type="radio"]{
@@ -3053,7 +3067,8 @@ width: clamp(16rem, 16vw, 17rem);
   --form-border: rgba(248,253,255,0.2);
   --form-border-strong: rgba(248,253,255,0.55);
   --form-surface: rgba(8,12,20,0.52);
-  --form-surface-hover: rgba(14,18,30,0.56);
+  --form-surface-hover: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
+  --form-surface-active: var(--form-surface-hover);
 }
 .register-form .glass-radio-group { gap: 0.6em; }
 .register-form .glass-radio-group label { padding: 0.7em 0.9em; }
@@ -3112,7 +3127,7 @@ width: clamp(16rem, 16vw, 17rem);
 }
 :root:not(.theme-light) .register-form .glass-radio-group label:has(input[type="radio"]:checked) {
   border-color: transparent;
-  background: rgba(26,34,50,0.58);
+  background: var(--form-surface-active);
   color: var(--pt-50);
 }
 :root:not(.theme-light) .register-form .glass-radio-group label:has(input[type="radio"]:focus-visible) {
@@ -3157,7 +3172,7 @@ width: clamp(16rem, 16vw, 17rem);
 }
 :root:not(.theme-light) .register-form .glass-checkbox:has(input[type="checkbox"]:checked) {
   border-color: transparent;
-  background: rgba(26,34,50,0.58);
+  background: var(--form-surface-active);
   color: var(--pt-50);
 }
 :root:not(.theme-light) .register-form .glass-checkbox input[type="checkbox"] {
@@ -7816,9 +7831,9 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' fill='none' stroke='%231f2937' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 }
 :root.theme-light .register-form {
-  --form-surface-light: rgba(255,255,255,0.08);
-  --form-surface-hover-light: rgba(255,255,255,0.22);
-  --form-surface-active-light: rgba(255,255,255,0.78);
+  --form-surface-light: rgba(255,255,255,0.68);
+  --form-surface-hover-light: rgba(255,255,255,0.82);
+  --form-surface-active-light: rgba(255,255,255,0.95);
   --form-shadow-light: 0 6px 16px rgba(0,0,0,0.14);
   --form-accent-light: #7A3A38;
 }
@@ -9248,6 +9263,103 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     padding-inline: 0.3rem;
     letter-spacing: 0.04em;
   }
+}
+.profile-subpage-shell{
+  width: 100%;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.profile-subpage-shell .profile-subpage-box{
+  --profile-role-hole-mask: none;
+  --profile-role-only-mask: none;
+  --profile-hole-border-w: 0px;
+  --profile-stack-gap: clamp(1rem, 2.4vh, 1.6rem);
+  --profile-form-gap: clamp(0.8rem, 2vh, 1.2rem);
+  --subpage-input-bg: rgba(12,18,30,0.58);
+  --subpage-input-hover: rgba(14,20,34,0.68);
+  --subpage-input-active: rgba(18,26,40,0.76);
+  --subpage-input-border: transparent;
+  --subpage-input-text: rgba(248,250,255,0.96);
+  --subpage-input-placeholder: rgba(230,236,245,0.82);
+  --subpage-input-shadow:
+    0 6px 16px rgba(0,0,0,0.24),
+    0 14px 22px -18px rgba(248,253,255,0.22);
+  padding: clamp(1.6rem, 4.2vw, 2.6rem) clamp(1.8rem, 5vw, 3.2rem);
+  text-align: center;
+}
+:root.theme-light .profile-subpage-shell .profile-subpage-box{
+  --subpage-input-bg: rgba(255,255,255,0.72);
+  --subpage-input-hover: rgba(255,255,255,0.88);
+  --subpage-input-active: rgba(255,255,255,0.95);
+  --subpage-input-border: rgba(148,163,184,0.32);
+  --subpage-input-text: color-mix(in srgb, var(--text-strong) 70%, #ffffff 30%);
+  --subpage-input-placeholder: color-mix(in srgb, var(--text-strong) 45%, transparent);
+  --subpage-input-shadow: 0 6px 16px rgba(0,0,0,0.14);
+}
+.profile-subpage-shell .profile-subpage-box .glass-title{
+  text-align: center;
+  margin-bottom: clamp(0.35rem, 1vh, 0.7rem);
+}
+.profile-subpage-shell .profile-subpage-box .reset-form{
+  margin-top: clamp(2rem, 6vh, 3.4rem);
+  gap: var(--profile-form-gap);
+}
+.profile-subpage-shell .profile-subpage-box .content-narrow,
+.profile-subpage-shell .profile-subpage-box .reset-success,
+.profile-subpage-shell .profile-subpage-box .reset-info{
+  margin-top: clamp(1.4rem, 4.4vh, 2.6rem);
+}
+.profile-subpage-shell .profile-subpage-box .reset-input{
+  margin: 0;
+  border-radius: 999px;
+  height: 3.4rem;
+  background: var(--subpage-input-bg);
+  border: 2px solid var(--subpage-input-border);
+  box-shadow: var(--subpage-input-shadow);
+  color: var(--subpage-input-text);
+  caret-color: var(--subpage-input-text);
+}
+.profile-subpage-shell .profile-subpage-box.reset-email #email.reset-input,
+.profile-subpage-shell .profile-subpage-box.reset-email #pin.reset-input{
+  background: var(--subpage-input-bg);
+  border: 2px solid var(--subpage-input-border);
+  box-shadow: var(--subpage-input-shadow);
+  border-radius: 999px;
+}
+.profile-subpage-shell .profile-subpage-box .reset-input::placeholder{
+  color: var(--subpage-input-placeholder);
+}
+.profile-subpage-shell .profile-subpage-box .reset-input:hover:not(:focus){
+  background: var(--subpage-input-hover);
+}
+.profile-subpage-shell .profile-subpage-box .reset-input:focus,
+.profile-subpage-shell .profile-subpage-box .reset-input:focus-visible{
+  background: var(--subpage-input-active);
+  border-color: var(--subpage-input-border);
+  box-shadow: var(--subpage-input-shadow);
+}
+.profile-subpage-shell .profile-subpage-box .reset-label + .reset-label .reset-input{
+  margin-top: 0;
+}
+.profile-subpage-shell .profile-subpage-box .reset-info{
+  margin-top: clamp(0.75rem, 2.6vh, 1.6rem);
+}
+.profile-subpage-shell .profile-subpage-box .back-btn-wrapper{
+  margin-top: clamp(1.1rem, 3.8vh, 2rem);
+  margin-bottom: 0;
+}
+.profile-subpage-shell .profile-subpage-box .alaleht-footer{
+  margin-top: 0.6rem;
+}
+.profile-subpage-shell .profile-subpage-box.tellimus-box .content-narrow{
+  margin-left: auto;
+  margin-right: auto;
 }
 .login-modal-box .pin-layout-toggle {
   font-size: 1.1rem;

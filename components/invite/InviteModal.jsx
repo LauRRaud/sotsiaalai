@@ -18,8 +18,8 @@ export default function InviteModal() {
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState(null);
   const [emails, setEmails] = useState("");
-  const [relationship, setRelationship] = useState("client");
-  const [paymentMode, setPaymentMode] = useState("sponsored_by_host");
+  const [relationship, setRelationship] = useState("");
+  const [paymentMode, setPaymentMode] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -74,8 +74,8 @@ export default function InviteModal() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           emails: parsed,
-          relationship_type: relationship,
-          payment_mode: paymentMode,
+          relationship_type: relationship || undefined,
+          payment_mode: paymentMode || undefined,
           room_id: roomId || undefined,
         }),
       });

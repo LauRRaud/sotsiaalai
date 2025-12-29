@@ -81,7 +81,8 @@ export default function UuendaEpostiBody() {
   }
 
   return (
-    <div className="main-content glass-box reset-box reset-email" lang={locale}>
+    <div className="profile-page-shell profile-subpage-shell" lang={locale}>
+      <div className="main-content glass-box glass-left profile-container profile-subpage-box reset-box reset-email">
       <h1 className="glass-title reset-title">
         {t(
           "profile.email_update.title",
@@ -190,9 +191,7 @@ export default function UuendaEpostiBody() {
           <span className="back-arrow-circle"></span>
         </button>
       </div>
-      <footer className="alaleht-footer reset-footer">
-        {t("about.footer.note")}
-      </footer>
+      </div>
     </div>
   );
 }

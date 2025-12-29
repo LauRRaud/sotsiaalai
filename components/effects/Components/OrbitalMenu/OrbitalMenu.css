@@ -1,15 +1,22 @@
 /* =========================================================
-   ORBITAL MENU (desktop orbital + mobile full-screen picker)
+   OrbitalMenu.css
+   - Desktop: existing orbital ring UI
+   - Mobile (coarse pointer): “powerful” full-screen picker
+     * Stronger, less transparent glass (no bleed-through)
+     * Round hero button in the center (100% opacity)
+     * Only neighbors visible; others fade to 0% (no edge cutting)
+     * Modern scroll affordance: gradient scrims + animated chevrons
    ========================================================= */
 
-/* Wrapper that holds the orbit menu on the profile screen */
+
+/* =========================================================
+   DESKTOP ORBIT (unchanged baseline)
+   ========================================================= */
+
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-  /* Orbital sizing (desktop) */
   --orbit-item-size: clamp(3.9rem, 7.8vw, 4.7rem);
   --orbit-size: clamp(14.6rem, 30vw, 20rem);
   --orbit-center-size: clamp(6.4rem, 12vw, 7.6rem);
-
-  --orbit-radius: calc((var(--orbit-size) - var(--orbit-item-size)) / 2);
 
   margin-inline: auto;
   margin-top: calc(-1 * clamp(4.8rem, 9vh, 6.4rem));
@@ -43,7 +50,6 @@
   --item-opacity: 0;
   --item-scale: 0.90;
 
-  /* label geometry (desktop) */
   --label-gap: 0.16rem;
   --label-gap-side: -0.9rem;
   --label-nudge: 0.25rem;
@@ -64,7 +70,6 @@
   pointer-events: auto;
 }
 
-/* Slot = orbit anchor */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot {
   position: absolute;
   top: 50%;
@@ -78,15 +83,12 @@
 
   opacity: var(--item-opacity);
   transition: opacity 0.2s ease;
-
   z-index: 1;
 }
 
-/* Orbit buttons (desktop) */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item {
   position: absolute;
   inset: 0;
-
   width: var(--orbit-item-size);
   height: var(--orbit-item-size);
   border-radius: 999px;
@@ -105,7 +107,6 @@
   display: block;
 }
 
-/* Hover pulse on desktop items */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:hover,
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -114,7 +115,6 @@
   animation: orbit-item-pulse 0.95s ease-in-out infinite;
 }
 
-/* Icon centering (desktop) */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon {
   width: 100%;
   height: 100%;
@@ -132,7 +132,7 @@
   stroke: currentColor;
 }
 
-/* ===== Desktop labels ===== */
+/* Desktop labels */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
   position: absolute;
   opacity: 0;
@@ -147,15 +147,10 @@
   letter-spacing: 0.02em;
   text-align: center;
   text-align-last: center;
-  text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
 
   z-index: 20;
-
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: auto;
+  top: auto; right: auto; bottom: auto; left: auto;
   transform: none;
 
   transition: opacity 0.18s ease, transform 0.18s ease;
@@ -225,22 +220,18 @@
   max-width: 5.8rem;
 }
 
-/* ===== Center hub ===== */
+/* Center hub */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item {
   width: var(--orbit-center-size);
   height: var(--orbit-center-size);
   border-radius: 999px;
   padding: 0;
-
   display: grid;
   place-items: center;
-
   z-index: 5;
   cursor: inherit;
-
   transform: scale(1);
   transition: none;
-
   animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite;
   will-change: transform;
 }
@@ -250,31 +241,6 @@
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:active,
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:focus-visible {
   transform: none !important;
-}
-
-/* Dark glow refinements */
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item:hover,
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item:focus-visible {
-  box-shadow:
-    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
-    inset 0 1px 0 rgba(255,255,255,0.06),
-    inset 0 -1px 0 rgba(0,0,0,0.46),
-    var(--orbit-under-glow);
-}
-
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:hover,
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:focus-visible,
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:active {
-  box-shadow:
-    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(0,0,0,0.46),
-    var(--orbit-under-glow);
 }
 
 .profile-orbit-menu__hub-icon {
@@ -295,7 +261,6 @@
   stroke: none;
 }
 
-/* Animations */
 @keyframes orbit-item-pulse {
   0% { transform: scale(1); }
   50% { transform: scale(0.985); }
@@ -308,7 +273,6 @@
   100% { transform: scale(1); }
 }
 
-/* Responsive (desktop orbit sizing) */
 @media (max-width: 640px) {
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     --orbit-size: min(86vw, 16.5rem);
@@ -327,100 +291,131 @@
   }
 }
 
+
 /* =========================================================
-   MOBILE OVERLAY PICKER
-   - Uses your global modal surface: .invite-modal-backdrop + .invite-modal
-   - Big center action, others shrink smoothly
+   MOBILE OVERLAY PICKER — “very powerful”
    ========================================================= */
 
-/* Backdrop: stretch and respect safe areas */
+/* Put overlay above everything, avoid bleed-through confusion */
 .profile-orbit-mobile-backdrop.invite-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  /* Keep your modal alignment behavior but make it “sheet-like” */
   align-items: stretch;
   justify-content: center;
 
   padding:
-    calc(env(safe-area-inset-top, 0px) + 0.75rem)
-    0.75rem
-    calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+    calc(env(safe-area-inset-top, 0px) + 0.9rem)
+    0.9rem
+    calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+
+  /* Stronger dim so page never competes visually */
+  background: rgba(6, 8, 12, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  backdrop-filter: blur(10px) saturate(110%);
 }
 
-/* Panel: full-height "glass modal" that contains the picker */
+:root.theme-light .profile-orbit-mobile-backdrop.invite-modal-backdrop {
+  background: rgba(238, 242, 247, 0.72);
+  -webkit-backdrop-filter: blur(10px) saturate(105%);
+  backdrop-filter: blur(10px) saturate(105%);
+}
+
+/* Panel: much less transparent than generic invite-modal */
 .profile-orbit-mobile-panel.invite-modal {
+  position: relative;
+  isolation: isolate;   /* prevents outside bleed / blending artifacts */
+  overflow: hidden;
+
   width: 100%;
-  max-width: 42rem;
+  max-width: 44rem;
 
-  /* Keep it tall; let list scroll inside */
-  max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.5rem);
-
-  padding: 0.8rem 0.9rem 0.9rem;
-  border-radius: 1.25rem;
+  max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.8rem);
+  border-radius: 1.35rem;
 
   display: flex;
   flex-direction: column;
 
-  position: relative;
-  overflow: hidden;
+  /* Layout breathing room (list will fill) */
+  padding: 0.95rem 0.85rem 0.95rem;
 }
 
-/* Close: icon only (no background), but keep big hit-area */
+/* Heavier “glass” surfaces so underlying page does NOT interfere */
+:root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
+  background: rgba(10, 12, 18, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 22px 60px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+:root.theme-light .profile-orbit-mobile-panel.invite-modal {
+  background: rgba(252, 253, 255, 0.94);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  box-shadow:
+    0 18px 55px rgba(2, 6, 23, 0.18),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Subtle internal vignette (gives depth without translucency) */
+.profile-orbit-mobile-panel.invite-modal::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(900px 520px at 50% 35%, rgba(255,255,255,0.06), rgba(255,255,255,0) 60%),
+    radial-gradient(820px 620px at 50% 105%, rgba(0,0,0,0.14), rgba(0,0,0,0) 55%);
+  opacity: 1;
+}
+
+/* Close button: icon-only, modern */
 .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
   position: absolute;
   top: 0.55rem;
   right: 0.65rem;
+  z-index: 6;
 
-  padding: 0.25rem;
-  line-height: 1;
-  font-size: 2.1rem;
+  width: 2.85rem;
+  height: 2.85rem;
 
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+  margin: 0;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
 
-  width: 2.75rem;
-  height: 2.75rem;
-
-  display: grid;
-  place-items: center;
+  line-height: 1;
+  font-size: 2.2rem;
+  opacity: 0.9;
+  transform: translateZ(0);
+  transition: opacity 0.16s ease, transform 0.16s ease;
 }
 
 :root.theme-light .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
-  opacity: 0.85;
+  color: rgba(90, 48, 48, 0.95); /* matches your brand accent (fallback) */
+  opacity: 0.78;
 }
 :root:not(.theme-light) .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
+  color: rgba(248, 253, 255, 0.9);
   opacity: 0.9;
 }
 .profile-orbit-mobile-close.invite-modal__close.modal-close-btn:active {
   transform: translateY(1px);
+  opacity: 1;
 }
 
-/* Empty header spacer so content doesn't sit under the close icon */
-.profile-orbit-mobile-header {
-  height: 2.75rem;
-}
-
-/* Scroll hints: subtle, theme-aware, not "buttons" */
-.profile-orbit-mobile-hint {
-  height: 2.4rem;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.18s ease;
-  user-select: none;
-}
-
-.profile-orbit-mobile-hint.is-visible { opacity: 0.65; }
-
-.profile-orbit-mobile-hint span {
-  font-size: 2.2rem;
-  line-height: 1;
-}
-
-:root.theme-light .profile-orbit-mobile-hint { color: rgba(15, 23, 42, 0.55); }
-:root:not(.theme-light) .profile-orbit-mobile-hint { color: rgba(248, 253, 255, 0.68); }
-
-/* Scroll container (snap) */
+/* Scroll list */
 .profile-orbit-mobile-list {
+  position: relative;
+  z-index: 2;
+
   flex: 1;
   overflow: auto;
 
@@ -429,143 +424,257 @@
 
   scroll-snap-type: y mandatory;
 
-  padding-left: 0.15rem;
-  padding-right: 0.15rem;
+  /* Keep some horizontal breathing room */
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 
-  /* hide scrollbars */
+  /* Hide scrollbars */
   scrollbar-width: none;
 }
 .profile-orbit-mobile-list::-webkit-scrollbar { width: 0; height: 0; }
 
-/* Each row is a fixed-height slot (hit-area stays large).
-   The visual inside scales/opacity via CSS variables. */
+/* Each row is a fixed “slot” so the center item has space and never gets cut */
 .profile-orbit-mobile-row {
   scroll-snap-align: center;
-
-  height: clamp(6.8rem, 14vh, 8.8rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* breathing room between slots */
-  padding: 0.35rem 0;
+  height: clamp(9.0rem, 18vh, 11.0rem);
+  display: grid;
+  place-items: center;
+  padding: 0.4rem 0;
 }
 
-/* Visual wrapper scales; defaults used until JS sets vars */
+/* Hidden rows must not steal taps */
+.profile-orbit-mobile-row.is-hidden {
+  pointer-events: none;
+}
+
+/* Visual wrapper gets transform/opacity from inline styles (JS) */
 .profile-orbit-mobile-visual {
   width: 100%;
-
-  --orbitSlotScale: 0.78;
-  --orbitSlotOpacity: 0.55;
-
-  opacity: var(--orbitSlotOpacity);
-  transform: scale(var(--orbitSlotScale));
-  transform-origin: center;
-
-  transition: transform 140ms linear, opacity 140ms linear;
-  will-change: transform, opacity;
-}
-
-/* The action button is the big "card" */
-.profile-orbit-mobile-action {
-  width: 100%;
-  max-width: 40rem;
-
-  min-height: clamp(5.1rem, 10.8vh, 6.1rem);
-  padding: 0.95rem 1.05rem;
-
-  border-radius: 1.25rem;
-
   display: grid;
-  grid-template-columns: 3.35rem 1fr;
-  align-items: center;
-  gap: 1.0rem;
+  place-items: center;
 
-  text-align: left;
-
-  /* Base surface. Use your token language; these fallbacks are safe. */
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: none;
-
-  transition: background 0.18s ease, border-color 0.18s ease, transform 0.14s ease;
-  touch-action: manipulation;
+  will-change: transform, opacity, filter;
+  transition: transform 180ms ease-out, opacity 180ms ease-out, filter 180ms ease-out;
 }
 
-/* Dark theme: align with your form/modal surfaces */
-:root:not(.theme-light) .profile-orbit-mobile-action {
-  background: var(--form-surface, rgba(8, 12, 20, 0.52));
-  border-color: rgba(148, 163, 184, 0.14);
-  color: rgba(232, 236, 245, 0.92);
+/* IMPORTANT: neutralize global hover-lift inside overlay (iOS can “stick” :hover) */
+.profile-orbit-mobile-panel .dock-item:hover,
+.profile-orbit-mobile-panel .dock-item:focus-visible {
+  transform: none !important;
+}
+.profile-orbit-mobile-panel .dock-item:active {
+  transform: scale(0.985) !important;
 }
 
-:root:not(.theme-light) .profile-orbit-mobile-action:active {
-  background: var(--form-surface-hover, rgba(14, 18, 30, 0.56));
-  transform: translateY(1px);
-}
+/* =========================================================
+   BIG ROUND ACTION BUTTON (center hero)
+   ========================================================= */
 
-/* Light theme: slightly higher contrast and light shadow */
-:root.theme-light .profile-orbit-mobile-action {
-  background: var(--form-surface-light, rgba(255, 255, 255, 0.10));
-  border-color: transparent;
-  box-shadow: var(--form-shadow-light, 0 6px 16px rgba(0,0,0,0.14));
-  color: rgba(15, 23, 42, 0.96);
-}
-
-:root.theme-light .profile-orbit-mobile-action:active {
-  transform: translateY(1px);
-}
-
-/* Icon area */
-.profile-orbit-mobile-action__icon {
-  width: 3.35rem;
-  height: 3.35rem;
+.profile-orbit-mobile-action.dock-item {
+  /* This is the “hero” circle size BEFORE scaling (active scales up further) */
+  width: clamp(6.8rem, 52vw, 10.2rem);
+  height: clamp(6.8rem, 52vw, 10.2rem);
+  border-radius: 999px;
+  padding: 0;
 
   display: grid;
   place-items: center;
 
-  border-radius: 1.0rem;
-  background: rgba(255, 255, 255, 0.06);
+  position: relative;
+  transform: translateZ(0);
 }
 
-:root.theme-light .profile-orbit-mobile-action__icon {
-  background: rgba(15, 23, 42, 0.06);
+/* Give active item a bit more depth (without needing extra JS) */
+.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item {
+  box-shadow:
+    0 18px 46px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-/* SVG sizing inside icon box */
-.profile-orbit-mobile-action__icon svg {
-  width: 70%;
-  height: 70%;
-  opacity: 0.92;
+/* Icon sizing */
+.profile-orbit-mobile-action.dock-item .dock-icon {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  line-height: 0;
 }
 
-/* Two-line label inside the button */
+/* Larger, cleaner icon in the hero */
+.profile-orbit-mobile-action.dock-item .dock-icon svg {
+  width: 58%;
+  height: 58%;
+  max-width: none;
+  max-height: none;
+  opacity: 0.95;
+  transform-origin: center;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+/* When active, lift icon a bit to make room for label inside circle */
+.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item .dock-icon svg {
+  transform: translateY(-10%);
+  opacity: 1;
+}
+
+/* Label inside circle: appears only on active row (JS toggles aria-hidden, CSS toggles opacity) */
 .profile-orbit-mobile-action__label {
-  font-size: clamp(1.14rem, 3.4vw, 1.34rem);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 11%;
 
+  text-align: center;
+  line-height: 1.08;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+
+  font-size: clamp(0.98rem, 3.7vw, 1.16rem);
+
+  /* Modern readability pill, still “glass” */
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.85rem;
+
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+
+  /* Prevent long labels from wrecking the circle */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Active row: make the hero feel dominant (extra contrast) */
-.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action {
-  border-color: rgba(148, 163, 184, 0.26);
+/* Theme-specific label surface */
+:root:not(.theme-light) .profile-orbit-mobile-action__label {
+  color: rgba(248, 253, 255, 0.92);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  backdrop-filter: blur(10px) saturate(110%);
 }
 
-:root.theme-light .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action {
-  box-shadow: var(--form-shadow-light, 0 10px 22px rgba(0,0,0,0.18));
+:root.theme-light .profile-orbit-mobile-action__label {
+  color: rgba(15, 23, 42, 0.92);
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  -webkit-backdrop-filter: blur(10px) saturate(105%);
+  backdrop-filter: blur(10px) saturate(105%);
 }
 
-/* Reduced motion */
+/* Show label only for active row */
+.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action__label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   MODERN SCROLL AFFORDANCE: scrims + chevrons
+   ========================================================= */
+
+.profile-orbit-mobile-scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4.6rem;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.profile-orbit-mobile-scrim.is-visible {
+  opacity: 1;
+}
+
+/* Top scrim */
+.profile-orbit-mobile-scrim--top {
+  top: 0;
+}
+
+/* Bottom scrim */
+.profile-orbit-mobile-scrim--bottom {
+  bottom: 0;
+}
+
+/* Theme-aware gradients that “hide” cut edges elegantly */
+:root:not(.theme-light) .profile-orbit-mobile-scrim--top {
+  background: linear-gradient(to bottom, rgba(10,12,18,0.92), rgba(10,12,18,0));
+}
+:root:not(.theme-light) .profile-orbit-mobile-scrim--bottom {
+  background: linear-gradient(to top, rgba(10,12,18,0.92), rgba(10,12,18,0));
+}
+
+:root.theme-light .profile-orbit-mobile-scrim--top {
+  background: linear-gradient(to bottom, rgba(252,253,255,0.92), rgba(252,253,255,0));
+}
+:root.theme-light .profile-orbit-mobile-scrim--bottom {
+  background: linear-gradient(to top, rgba(252,253,255,0.92), rgba(252,253,255,0));
+}
+
+/* Chevron: modern, subtle “motion” */
+.profile-orbit-mobile-chevron {
+  position: absolute;
+  left: 50%;
+  top: 1.35rem;
+  width: 1.65rem;
+  height: 1.65rem;
+  transform: translateX(-50%) rotate(45deg);
+  border-left: 3px solid currentColor;
+  border-top: 3px solid currentColor;
+  opacity: 0.65;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.20));
+  animation: orbitChevronFloatUp 1.35s ease-in-out infinite;
+}
+
+.profile-orbit-mobile-chevron--down {
+  top: auto;
+  bottom: 1.35rem;
+  transform: translateX(-50%) rotate(225deg);
+  animation: orbitChevronFloatDown 1.35s ease-in-out infinite;
+}
+
+/* Provide currentColor per theme */
+:root:not(.theme-light) .profile-orbit-mobile-chevron {
+  color: rgba(248,253,255,0.70);
+}
+:root.theme-light .profile-orbit-mobile-chevron {
+  color: rgba(15,23,42,0.46);
+}
+
+/* Place chevrons in scrims */
+.profile-orbit-mobile-scrim--top .profile-orbit-mobile-chevron {
+  top: 1.35rem;
+}
+.profile-orbit-mobile-scrim--bottom .profile-orbit-mobile-chevron {
+  bottom: 1.35rem;
+}
+
+/* Animations (subtle, modern) */
+@keyframes orbitChevronFloatUp {
+  0%   { transform: translateX(-50%) rotate(45deg) translateY(0); opacity: 0.45; }
+  50%  { transform: translateX(-50%) rotate(45deg) translateY(-6px); opacity: 0.70; }
+  100% { transform: translateX(-50%) rotate(45deg) translateY(0); opacity: 0.45; }
+}
+@keyframes orbitChevronFloatDown {
+  0%   { transform: translateX(-50%) rotate(225deg) translateY(0); opacity: 0.45; }
+  50%  { transform: translateX(-50%) rotate(225deg) translateY(6px); opacity: 0.70; }
+  100% { transform: translateX(-50%) rotate(225deg) translateY(0); opacity: 0.45; }
+}
+
+/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   .profile-orbit-mobile-visual,
-  .profile-orbit-mobile-action,
-  .profile-orbit-mobile-hint {
+  .profile-orbit-mobile-scrim,
+  .profile-orbit-mobile-chevron,
+  .profile-orbit-mobile-action__label,
+  .profile-orbit-mobile-close {
     transition: none !important;
+    animation: none !important;
+  }
+  .profile-orbit-mobile-chevron {
+    opacity: 0.55;
+    filter: none;
   }
 }
