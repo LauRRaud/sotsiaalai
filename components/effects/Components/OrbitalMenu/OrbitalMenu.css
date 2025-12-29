@@ -347,3 +347,160 @@
     transition: none;
   }
 }
+
+/* =========================================================
+   MOBILE OVERLAY PICKER (coarse pointer)
+   - Täisekraan overlay
+   - Vertikaalne scroll-snap "picker"
+   - Keskne element suureneb + label ilmub automaatselt
+   ========================================================= */
+
+.profile-orbit-menu.is-mobile {
+  /* Hoia profiililehel sama "hub" paigutus; overlay on fixed. */
+}
+
+/* Fullscreen overlay */
+.profile-orbit-menu .profile-orbit-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+
+  /* Klaasjas tume kiht (sobib sinu dock-stiiliga) */
+  background:
+    radial-gradient(1200px 900px at 50% 25%, rgba(255,255,255,0.08), rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, rgba(10, 12, 18, 0.88), rgba(10, 12, 18, 0.92));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Topbar */
+.profile-orbit-menu .profile-orbit-mobile-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.75rem 0.9rem 0.55rem;
+}
+
+.profile-orbit-menu .profile-orbit-mobile-title {
+  font-size: 1.06rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(232, 236, 245, 0.92);
+}
+
+/* Close button uses dock-item look; keep it compact */
+.profile-orbit-menu .profile-orbit-mobile-close.dock-item {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* Arrow buttons (small, subtle, safe-area aware in layout) */
+.profile-orbit-menu .profile-orbit-mobile-arrow {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 2px solid rgba(84,95,115,0.55);
+  color: rgba(232, 236, 245, 0.92);
+  background:
+    linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
+  transition: opacity 0.14s linear, transform 0.16s ease-out;
+  touch-action: manipulation;
+  align-self: center;
+}
+
+/* Keep arrows stable (no hover lift) */
+.profile-orbit-menu .profile-orbit-mobile-arrow:hover,
+.profile-orbit-menu .profile-orbit-mobile-arrow:focus-visible {
+  transform: none;
+}
+
+/* Scroll list */
+.profile-orbit-menu .profile-orbit-mobile-list {
+  flex: 1;
+  overflow: auto;
+
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  scroll-snap-type: y mandatory;
+
+  /* Default paddings; JS may override with inline paddingTop/Bottom */
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  /* Optional: hide scrollbars */
+  scrollbar-width: none;
+}
+.profile-orbit-menu .profile-orbit-mobile-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Each row is scaled by JS (transform on row) */
+.profile-orbit-menu .profile-orbit-mobile-row {
+  scroll-snap-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+
+  will-change: transform, opacity;
+}
+
+/* The item button itself: use global dock-item styling; avoid hover-lift jitter here */
+.profile-orbit-menu .profile-orbit-mobile-overlay .dock-item:hover,
+.profile-orbit-menu .profile-orbit-mobile-overlay .dock-item:focus-visible {
+  transform: none;
+}
+.profile-orbit-menu .profile-orbit-mobile-overlay .dock-item:active {
+  transform: scale(0.98);
+}
+
+/* Ensure icon sizing matches orbital (slightly larger) */
+.profile-orbit-menu .profile-orbit-mobile-overlay .dock-icon svg {
+  width: 64%;
+  height: 64%;
+  max-width: none;
+  max-height: none;
+}
+
+/* Label: reserve height to prevent layout shift; visibility handled by inline styles */
+.profile-orbit-menu .profile-orbit-mobile-label {
+  text-align: center;
+  line-height: 1.15;
+  width: max-content;
+  max-width: min(18rem, 80vw);
+  white-space: normal;
+  pointer-events: none;
+
+  /* Reserve space even when hidden */
+  min-height: 1.4em;
+}
+
+/* Optional: make active label feel a bit "tighter" */
+.profile-orbit-menu .profile-orbit-mobile-row.is-active .profile-orbit-mobile-label {
+  letter-spacing: 0.02em;
+}
+
+/* Reduced motion: keep it calm */
+@media (prefers-reduced-motion: reduce) {
+  .profile-orbit-menu .profile-orbit-mobile-overlay,
+  .profile-orbit-menu .profile-orbit-mobile-arrow,
+  .profile-orbit-menu .profile-orbit-mobile-row,
+  .profile-orbit-menu .profile-orbit-mobile-label {
+    transition: none !important;
+    animation: none !important;
+  }
+}
