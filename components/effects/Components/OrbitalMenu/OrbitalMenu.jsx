@@ -15,7 +15,7 @@ function useMatchMedia(query, defaultValue = false) {
 
     onChange();
 
-    // Safari < 14 fallback
+    // Safari fallback
     if (mq.addEventListener) {
       mq.addEventListener("change", onChange);
       return () => mq.removeEventListener("change", onChange);
@@ -36,17 +36,9 @@ export default function OrbitalMenu({
   className = "",
 }) {
   const menuId = useId();
-  const titleId = useId();
 
   const rootRef = useRef(null);
   const hubBtnRef = useRef(null);
-
-  // Mobile overlay refs
-  const overlayCloseBtnRef = useRef(null);
-  const scrollRef = useRef(null);
-  const rowRefs = useRef([]);
-  const rafRef = useRef(0);
-  const activeIndexRef = useRef(0);
 
   const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
@@ -57,24 +49,21 @@ export default function OrbitalMenu({
   // Desktop orbital layout only
   const [orbitRadius, setOrbitRadius] = useState(0);
 
-  // Mobile overlay state
+  // Mobile overlay refs/state
+  const overlayCloseBtnRef = useRef(null);
+  const scrollRef = useRef(null);
+  const slotRefs = useRef([]);
+  const rafRef = useRef(0);
+
   const [activeIndex, setActiveIndex] = useState(0);
-  const [visuals, setVisuals] = useState([]); // [{scale, opacity}]
   const [listPad, setListPad] = useState(0);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
 
+  const activeIndexRef = useRef(0);
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
-
-  // Keep visuals array in sync with items length
-  useEffect(() => {
-    setVisuals((prev) => {
-      if (prev.length === items.length) return prev;
-      return Array.from({ length: items.length }, (_, i) => prev[i] || { scale: 0.9, opacity: 0.7 });
-    });
-  }, [items.length]);
 
   // Close on outside click + ESC
   useEffect(() => {
@@ -83,15 +72,11 @@ export default function OrbitalMenu({
     const handlePointerDown = (event) => {
       const root = rootRef.current;
       if (!root) return;
-      if (!root.contains(event.target)) {
-        setIsPinnedOpen(false);
-      }
+      if (!root.contains(event.target)) setIsPinnedOpen(false);
     };
 
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setIsPinnedOpen(false);
-      }
+      if (event.key === "Escape") setIsPinnedOpen(false);
     };
 
     document.addEventListener("pointerdown", handlePointerDown);
@@ -107,14 +92,12 @@ export default function OrbitalMenu({
   useEffect(() => {
     if (typeof document === "undefined") return;
     const html = document.documentElement;
-
     if (isOpen) html.classList.add("profile-orbit-open");
     else html.classList.remove("profile-orbit-open");
-
     return () => html.classList.remove("profile-orbit-open");
   }, [isOpen]);
 
-  // Body scroll lock (mobile overlay)
+  // Body scroll lock (mobile overlay only)
   useEffect(() => {
     if (!isOpen || !isCoarsePointer) return;
     if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -149,31 +132,32 @@ export default function OrbitalMenu({
     };
   }, [isOpen, isCoarsePointer]);
 
-  // Focus management for mobile overlay
-useEffect(() => {
-  if (!isOpen || !isCoarsePointer) return;
+  // Focus management (mobile overlay)
+  useEffect(() => {
+    if (!isOpen || !isCoarsePointer) return;
 
-  const prevActive = typeof document !== "undefined" ? document.activeElement : null;
+    const prevActive = typeof document !== "undefined" ? document.activeElement : null;
 
-  // Capture current DOM nodes once for cleanup usage
-  const hubEl = hubBtnRef.current;
-  const closeEl = overlayCloseBtnRef.current;
+    const hubEl = hubBtnRef.current;
+    const closeEl = overlayCloseBtnRef.current;
 
-  requestAnimationFrame(() => {
-    closeEl?.focus?.();
-  });
+    const raf = requestAnimationFrame(() => {
+      closeEl?.focus?.();
+    });
 
-  return () => {
-    if (hubEl?.focus) {
-      hubEl.focus();
-      return;
-    }
-    if (prevActive && prevActive instanceof HTMLElement) {
-      prevActive.focus();
-    }
-  };
-}, [isOpen, isCoarsePointer]);
-  // Desktop: measure orbit radius (skip entirely on coarse pointer)
+    return () => {
+      cancelAnimationFrame(raf);
+      if (hubEl?.focus) {
+        hubEl.focus();
+        return;
+      }
+      if (prevActive && prevActive instanceof HTMLElement) {
+        prevActive.focus();
+      }
+    };
+  }, [isOpen, isCoarsePointer]);
+
+  // Desktop: measure orbit radius (skip on coarse pointer)
   useLayoutEffect(() => {
     if (isCoarsePointer) return;
 
@@ -181,6 +165,7 @@ useEffect(() => {
     if (!root) return;
 
     let raf = 0;
+
     const measure = () => {
       const rect = root.getBoundingClientRect();
       const itemEl = root.querySelector(".profile-orbit-menu__item");
@@ -204,7 +189,6 @@ useEffect(() => {
     ro?.observe(root);
     window.addEventListener("resize", schedule);
 
-    // Fonts can change the measured size
     if (document?.fonts?.ready && typeof document.fonts.ready.then === "function") {
       document.fonts.ready.then(schedule).catch(() => {});
     }
@@ -218,21 +202,23 @@ useEffect(() => {
 
   const handleToggle = () => setIsPinnedOpen((prev) => !prev);
 
-  // ===== Mobile overlay: active + scaling + arrows =====
+  // -----------------------------
+  // Mobile picker computations
+  // -----------------------------
   const computeListPadding = () => {
     const listEl = scrollRef.current;
-    const firstRow = rowRefs.current?.[0];
-    if (!listEl || !firstRow) return;
+    const firstSlot = slotRefs.current?.[0];
+    if (!listEl || !firstSlot) return;
 
     const listH = listEl.clientHeight || 0;
-    const rowH = firstRow.offsetHeight || 0;
-    if (!listH || !rowH) return;
+    const slotH = firstSlot.offsetHeight || 0;
+    if (!listH || !slotH) return;
 
-    const pad = Math.max(0, Math.floor((listH - rowH) / 2));
+    const pad = Math.max(0, Math.floor((listH - slotH) / 2));
     setListPad(pad);
   };
 
-  const updateArrows = () => {
+  const updateScrollHints = () => {
     const el = scrollRef.current;
     if (!el) return;
     const { scrollTop, scrollHeight, clientHeight } = el;
@@ -240,74 +226,55 @@ useEffect(() => {
     setCanScrollDown(scrollTop + clientHeight < scrollHeight - 2);
   };
 
-  const updateActiveAndVisuals = () => {
+  const updateActiveFromScroll = () => {
     const listEl = scrollRef.current;
     if (!listEl) return;
 
     const listRect = listEl.getBoundingClientRect();
     const centerY = listRect.top + listRect.height / 2;
 
-    const rows = rowRefs.current || [];
-    if (!rows.length) return;
-
-    const minScale = 0.78;
-    const maxScale = 1.08;
+    const slots = slotRefs.current || [];
+    if (!slots.length) return;
 
     let bestIdx = 0;
     let bestDist = Number.POSITIVE_INFINITY;
 
-    const distances = new Array(rows.length).fill(Number.POSITIVE_INFINITY);
-    const nextVisuals = new Array(rows.length);
+    const dists = new Array(slots.length).fill(Number.POSITIVE_INFINITY);
 
-    for (let i = 0; i < rows.length; i += 1) {
-      const row = rows[i];
-      if (!row) continue;
-      const r = row.getBoundingClientRect();
-      const rowCenter = r.top + r.height / 2;
-      const dist = Math.abs(rowCenter - centerY);
-      distances[i] = dist;
-
+    for (let i = 0; i < slots.length; i += 1) {
+      const slot = slots[i];
+      if (!slot) continue;
+      const r = slot.getBoundingClientRect();
+      const slotCenter = r.top + r.height / 2;
+      const dist = Math.abs(slotCenter - centerY);
+      dists[i] = dist;
       if (dist < bestDist) {
         bestDist = dist;
         bestIdx = i;
       }
-
-      // Normalize distance to [0..1] within half container height
-      const t = Math.min(1, dist / Math.max(1, listRect.height * 0.5));
-      const scale = maxScale - (maxScale - minScale) * t;
-      const opacity = 1 - 0.55 * t;
-
-      nextVisuals[i] = { scale, opacity };
     }
 
-    // Hysteresis: avoid flicker while scrolling
     const prevIdx = activeIndexRef.current;
-    const prevDist = distances[prevIdx] ?? Number.POSITIVE_INFINITY;
-    const hysteresisPx = 8;
+    const prevDist = dists[prevIdx] ?? Number.POSITIVE_INFINITY;
 
-    if (bestIdx !== prevIdx) {
-      if (bestDist + hysteresisPx < prevDist) {
-        activeIndexRef.current = bestIdx;
-        setActiveIndex(bestIdx);
-      }
-    } else {
-      // Ensure state is aligned (rare edge cases)
-      if (activeIndex !== prevIdx) setActiveIndex(prevIdx);
+    // Hysteresis so it doesn't flicker
+    const hysteresisPx = 10;
+    if (bestIdx !== prevIdx && bestDist + hysteresisPx < prevDist) {
+      activeIndexRef.current = bestIdx;
+      setActiveIndex(bestIdx);
     }
 
-    setVisuals(nextVisuals);
-    updateArrows();
+    updateScrollHints();
   };
 
-  const scheduleUpdate = () => {
+  const scheduleMobileUpdate = () => {
     if (rafRef.current) return;
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = 0;
-      updateActiveAndVisuals();
+      updateActiveFromScroll();
     });
   };
 
-  // Wire overlay layout + scroll listeners when opened on mobile
   useLayoutEffect(() => {
     if (!isOpen || !isCoarsePointer) return;
 
@@ -316,28 +283,25 @@ useEffect(() => {
     const listEl = scrollRef.current;
     if (!listEl) return;
 
-    // Initial positioning: keep current active centered if possible
-    const initialIdx = Math.min(Math.max(activeIndexRef.current || 0, 0), Math.max(0, items.length - 1));
-    const initialRow = rowRefs.current?.[initialIdx];
-    if (initialRow?.scrollIntoView) {
-      initialRow.scrollIntoView({ block: "center", behavior: "auto" });
-    }
+    // Snap to current active on open
+    const idx = Math.min(Math.max(activeIndexRef.current || 0, 0), Math.max(0, items.length - 1));
+    const slot = slotRefs.current?.[idx];
+    slot?.scrollIntoView?.({ block: "center", behavior: "auto" });
 
-    // Initial compute
-    scheduleUpdate();
+    scheduleMobileUpdate();
 
-    const onScroll = () => scheduleUpdate();
+    const onScroll = () => scheduleMobileUpdate();
     listEl.addEventListener("scroll", onScroll, { passive: true });
 
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
       computeListPadding();
-      scheduleUpdate();
+      scheduleMobileUpdate();
     }) : null;
     ro?.observe(listEl);
 
     const onResize = () => {
       computeListPadding();
-      scheduleUpdate();
+      scheduleMobileUpdate();
     };
     window.addEventListener("resize", onResize);
 
@@ -356,20 +320,55 @@ useEffect(() => {
     };
   }, []);
 
-  const scrollToIndex = (idx) => {
-    const clamped = Math.min(Math.max(idx, 0), Math.max(0, items.length - 1));
-    const row = rowRefs.current?.[clamped];
-    if (!row) return;
+  // Per-slot visual scale/opacity based on distance to center
+  const getSlotVisualStyle = (index) => {
+    const listEl = scrollRef.current;
+    const slotEl = slotRefs.current?.[index];
+    if (!listEl || !slotEl) {
+      // reasonable defaults before first measurement
+      return {
+        "--orbitSlotScale": 0.82,
+        "--orbitSlotOpacity": 0.6,
+      };
+    }
 
-    const behavior = prefersReducedMotion ? "auto" : "smooth";
-    row.scrollIntoView?.({ block: "center", behavior });
+    const listRect = listEl.getBoundingClientRect();
+    const centerY = listRect.top + listRect.height / 2;
+    const r = slotEl.getBoundingClientRect();
+    const slotCenter = r.top + r.height / 2;
 
-    // optimistic update (visuals will correct on next scroll event)
-    activeIndexRef.current = clamped;
-    setActiveIndex(clamped);
+    const dist = Math.abs(slotCenter - centerY);
+
+    // Normalize within half container height
+    const t0 = Math.min(1, dist / Math.max(1, listRect.height * 0.5));
+
+    // Ease-out curve (more dramatic near center)
+    const e = 1 - Math.pow(1 - t0, 3);
+
+    // Dramatic scaling: center dominates, edges shrink
+    const minScale = 0.56;
+    const maxScale = 1.02;
+
+    const scale = maxScale - (maxScale - minScale) * e;
+
+    // Fade edges substantially
+    const minOpacity = 0.22;
+    const opacity = 1 - (1 - minOpacity) * e;
+
+    return {
+      "--orbitSlotScale": scale,
+      "--orbitSlotOpacity": opacity,
+    };
   };
 
-  // ===== Render =====
+  const onMobileAction = (item) => {
+    item?.onClick?.();
+    if (!item?.keepOpen) setIsPinnedOpen(false);
+  };
+
+  // -----------------------------
+  // Render
+  // -----------------------------
   const angleStep = items.length ? 360 / items.length : 0;
   const startAngle = -90;
 
@@ -392,7 +391,6 @@ useEffect(() => {
             const angleRad = (angle * Math.PI) / 180;
             const orbitX = Math.round(Math.sin(angleRad) * orbitRadius);
             const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius);
-            const delay = `${index * 0.05}s`;
 
             return (
               <div
@@ -403,7 +401,6 @@ useEffect(() => {
                 style={{
                   "--orbit-x": `${orbitX}px`,
                   "--orbit-y": `${orbitY}px`,
-                  "--delay": delay,
                 }}
                 aria-hidden={!isOpen}
               >
@@ -428,7 +425,7 @@ useEffect(() => {
         </div>
       )}
 
-      {/* Center hub (always) */}
+      {/* Center hub (always visible on the profile screen) */}
       <button
         ref={hubBtnRef}
         type="button"
@@ -443,190 +440,83 @@ useEffect(() => {
         </span>
       </button>
 
-      {/* Mobile full-screen overlay */}
+      {/* Mobile full-screen overlay (uses your global modal design language via classnames) */}
       {isCoarsePointer && isOpen && (
         <div
+          className="invite-modal-backdrop profile-orbit-mobile-backdrop"
           role="dialog"
           aria-modal="true"
-          aria-labelledby={titleId}
-          // Minimal inline styling to make the overlay usable even before CSS refinements.
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 9999,
-            paddingTop: "env(safe-area-inset-top)",
-            paddingBottom: "env(safe-area-inset-bottom)",
-            background: "rgba(10, 12, 18, 0.90)",
-            display: "flex",
-            flexDirection: "column",
-          }}
-          className="profile-orbit-mobile-overlay"
+          aria-label={ariaLabel}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "12px 14px 8px",
-              gap: "12px",
-            }}
-            className="profile-orbit-mobile-topbar"
-          >
-            <div
-              id={titleId}
-              style={{ fontSize: 18, fontWeight: 600, color: "rgba(232, 236, 245, 0.92)" }}
-              className="profile-orbit-mobile-title"
-            >
-              {ariaLabel}
-            </div>
-
+          <div className="invite-modal profile-orbit-mobile-panel">
             <button
               ref={overlayCloseBtnRef}
               type="button"
               onClick={() => setIsPinnedOpen(false)}
               aria-label={toggleLabelClose}
-              className="profile-orbit-mobile-close dock-item"
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: 999,
-                display: "grid",
-                placeItems: "center",
-                padding: 0,
-              }}
+              className="invite-modal__close modal-close-btn profile-orbit-mobile-close"
             >
-              <span aria-hidden="true" style={{ fontSize: 20, lineHeight: 1 }}>
-                ✕
-              </span>
+              &times;
             </button>
-          </div>
 
-          {/* Up arrow (scroll hint / step) */}
-          <button
-            type="button"
-            onClick={() => scrollToIndex(activeIndexRef.current - 1)}
-            aria-label="Keri üles"
-            className="profile-orbit-mobile-arrow profile-orbit-mobile-arrow--up"
-            style={{
-              alignSelf: "center",
-              width: 44,
-              height: 44,
-              borderRadius: 999,
-              margin: "4px 0",
-              opacity: canScrollUp ? 1 : 0,
-              pointerEvents: canScrollUp ? "auto" : "none",
-              display: "grid",
-              placeItems: "center",
-            }}
-          >
-            <span aria-hidden="true" style={{ fontSize: 20, lineHeight: 1 }}>↑</span>
-          </button>
+            {/* Optional empty header block to reserve space for close icon */}
+            <div className="profile-orbit-mobile-header" />
 
-          <div
-            ref={scrollRef}
-            className="profile-orbit-mobile-list"
-            style={{
-              flex: 1,
-              overflow: "auto",
-              WebkitOverflowScrolling: "touch",
-              overscrollBehavior: "contain",
-              scrollSnapType: "y mandatory",
-              paddingTop: listPad,
-              paddingBottom: listPad,
-              paddingLeft: 16,
-              paddingRight: 16,
-              display: "flex",
-              flexDirection: "column",
-              gap: 14,
-            }}
-          >
-            {items.map((item, index) => {
-              const v = visuals[index] || { scale: 0.9, opacity: 0.75 };
-              const isActive = index === activeIndex;
+            {/* Scroll hint (visual affordance only; CSS decides theme colors/opacity) */}
+            <div className={`profile-orbit-mobile-hint profile-orbit-mobile-hint--up ${canScrollUp ? "is-visible" : ""}`}>
+              <span aria-hidden="true">⌃</span>
+            </div>
 
-              return (
-                <div
-                  key={item.key || index}
-                  ref={(el) => {
-                    rowRefs.current[index] = el;
-                  }}
-                  className={`profile-orbit-mobile-row ${isActive ? "is-active" : ""}`}
-                  style={{
-                    scrollSnapAlign: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: 10,
-                    opacity: v.opacity,
-                    transform: `scale(${v.scale})`,
-                    transformOrigin: "center",
-                    transition: prefersReducedMotion ? "none" : "transform 140ms linear, opacity 140ms linear",
-                  }}
-                >
-                  <button
-                    type="button"
-                    className="profile-orbit-mobile-item dock-item"
-                    onClick={() => {
-                      item.onClick?.();
-                      if (!item.keepOpen) setIsPinnedOpen(false);
-                    }}
-                    aria-label={item.label}
-                    style={{
-                      // Let global dock-item styles define the look; keep layout consistent here.
-                      width: "4.25rem",
-                      height: "4.25rem",
-                      padding: 0,
-                      borderRadius: 999,
-                      display: "grid",
-                      placeItems: "center",
-                    }}
-                  >
-                    <span className="dock-icon" aria-hidden="true" style={{ width: "100%", height: "100%" }}>
-                      {item.icon}
-                    </span>
-                  </button>
+            <div
+              ref={scrollRef}
+              className="profile-orbit-mobile-list"
+              style={{
+                paddingTop: listPad,
+                paddingBottom: listPad,
+                scrollBehavior: prefersReducedMotion ? "auto" : "smooth",
+              }}
+              onScroll={scheduleMobileUpdate}
+            >
+              {items.map((item, index) => {
+                const isActive = index === activeIndex;
 
+                // Slot has fixed height (hit area). Visual inside scales.
+                return (
                   <div
-                    className="dock-label profile-orbit-mobile-label"
-                    aria-hidden="true"
-                    style={{
-                      opacity: isActive ? 1 : 0,
-                      transform: isActive ? "translateY(0)" : "translateY(-6px)",
-                      transition: prefersReducedMotion ? "none" : "opacity 160ms ease, transform 160ms ease",
-                      textAlign: "center",
-                      // Ensure label doesn't cause layout shift while hidden
-                      height: "1.4em",
-                      display: "grid",
-                      placeItems: "center",
+                    key={item.key || index}
+                    ref={(el) => {
+                      slotRefs.current[index] = el;
                     }}
+                    className={`profile-orbit-mobile-row ${isActive ? "is-active" : ""}`}
                   >
-                    {item.label}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                    <div
+                      className="profile-orbit-mobile-visual"
+                      style={getSlotVisualStyle(index)}
+                    >
+                      <button
+                        type="button"
+                        className="profile-orbit-mobile-action"
+                        onClick={() => onMobileAction(item)}
+                        aria-label={item.label}
+                      >
+                        <span className="profile-orbit-mobile-action__icon" aria-hidden="true">
+                          {item.icon}
+                        </span>
 
-          {/* Down arrow */}
-          <button
-            type="button"
-            onClick={() => scrollToIndex(activeIndexRef.current + 1)}
-            aria-label="Keri alla"
-            className="profile-orbit-mobile-arrow profile-orbit-mobile-arrow--down"
-            style={{
-              alignSelf: "center",
-              width: 44,
-              height: 44,
-              borderRadius: 999,
-              margin: "6px 0 10px",
-              opacity: canScrollDown ? 1 : 0,
-              pointerEvents: canScrollDown ? "auto" : "none",
-              display: "grid",
-              placeItems: "center",
-            }}
-          >
-            <span aria-hidden="true" style={{ fontSize: 20, lineHeight: 1 }}>↓</span>
-          </button>
+                        <span className="profile-orbit-mobile-action__label">
+                          {item.label}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className={`profile-orbit-mobile-hint profile-orbit-mobile-hint--down ${canScrollDown ? "is-visible" : ""}`}>
+              <span aria-hidden="true">⌄</span>
+            </div>
+          </div>
         </div>
       )}
     </div>

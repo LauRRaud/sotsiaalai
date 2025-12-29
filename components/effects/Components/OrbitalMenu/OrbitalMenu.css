@@ -1,11 +1,12 @@
+/* =========================================================
+   ORBITAL MENU (desktop orbital + mobile full-screen picker)
+   ========================================================= */
+
+/* Wrapper that holds the orbit menu on the profile screen */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-  /* 3) Teised nupud suuremad */
+  /* Orbital sizing (desktop) */
   --orbit-item-size: clamp(3.9rem, 7.8vw, 4.7rem);
-
-  /* Orbitile veidi rohkem ruumi, et suuremad nupud mahuksid ilusasti */
   --orbit-size: clamp(14.6rem, 30vw, 20rem);
-
-  /* Kesk-nupp jääb “ilusaks”, aga ei suurene hoveriga */
   --orbit-center-size: clamp(6.4rem, 12vw, 7.6rem);
 
   --orbit-radius: calc((var(--orbit-size) - var(--orbit-item-size)) / 2);
@@ -42,7 +43,7 @@
   --item-opacity: 0;
   --item-scale: 0.90;
 
-  /* sildid suuremad */
+  /* label geometry (desktop) */
   --label-gap: 0.16rem;
   --label-gap-side: -0.9rem;
   --label-nudge: 0.25rem;
@@ -81,7 +82,7 @@
   z-index: 1;
 }
 
-/* Orbit buttons */
+/* Orbit buttons (desktop) */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item {
   position: absolute;
   inset: 0;
@@ -99,21 +100,21 @@
     border-color 0.18s ease,
     background 0.18s ease;
 
-  transition-delay: 0s;
-
   padding: 0;
   cursor: inherit;
   display: block;
 }
 
-/* Tõsta hoveritud nupp teistest kõrgemale, et silt ei satuks “teise nupu alla” */
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item:hover,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item:focus-visible {
+/* Hover pulse on desktop items */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:hover,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:focus-visible {
   z-index: 10;
   animation: orbit-item-pulse 0.95s ease-in-out infinite;
 }
 
-/* Ikoon päriselt keskele (2) */
+/* Icon centering (desktop) */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon {
   width: 100%;
   height: 100%;
@@ -122,7 +123,6 @@
   line-height: 0;
 }
 
-/* Kui su globaalne SVG reegel seab 60%, sobib. Kui tahad suuremat ikooni, muuda 60 -> 64. */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon svg {
   width: 64%;
   height: 64%;
@@ -132,7 +132,7 @@
   stroke: currentColor;
 }
 
-/* ===== SILDID: positsioon täpselt sinu reeglite järgi ===== */
+/* ===== Desktop labels ===== */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
   position: absolute;
   opacity: 0;
@@ -143,17 +143,15 @@
   white-space: normal;
   line-height: 1.05;
 
-  /* 4) Tekstid tunduvalt suuremad */
   font-size: clamp(0.95rem, 2.2vw, 1.2rem);
   letter-spacing: 0.02em;
-
   text-align: center;
   text-align-last: center;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
+
   z-index: 20;
 
-  /* hard reset (et vanad reeglid ei segaks) */
   top: auto;
   right: auto;
   bottom: auto;
@@ -163,39 +161,36 @@
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-/* Näita silt hover/focus */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot:is(:hover, :focus-within) .dock-label {
   opacity: 1;
 }
 
-/* UP: (Uus PIN, Uus e-post) */
+/* UP */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-label-pos="up"] .dock-label {
   left: 50%;
   bottom: calc(100% + var(--label-gap));
   transform: translateX(-50%);
-  text-align: center;
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-label-pos="up"]:is(:hover, :focus-within) .dock-label {
   transform: translateX(-50%) translateY(calc(var(--label-nudge) * -1));
 }
 
-/* DOWN: (Keel ja ligipääsetavus, Halda tellimust) */
+/* DOWN */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-label-pos="down"] .dock-label {
   left: 50%;
   top: calc(100% + var(--label-gap));
   transform: translateX(-50%);
-  text-align: center;
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-label-pos="down"]:is(:hover, :focus-within) .dock-label {
   transform: translateX(-50%) translateY(var(--label-nudge));
 }
 
-/* LEFT: (Tume/Hele režiim) */
+/* LEFT */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-label-pos="left"] .dock-label {
   max-width: 7rem;
@@ -209,7 +204,7 @@
   transform: translateY(-50%) translateX(calc(var(--label-nudge) * -1));
 }
 
-/* RIGHT: (Kustuta konto) */
+/* RIGHT */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-label-pos="right"] .dock-label {
   max-width: 7rem;
@@ -218,6 +213,10 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot[data-label-pos="right"]:is(:hover, :focus-within) .dock-label {
+  transform: translateY(-50%) translateX(var(--label-nudge));
+}
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__slot[data-key="theme"] .dock-label,
@@ -225,14 +224,8 @@
   .profile-orbit-menu__slot[data-key="subscription"] .dock-label {
   max-width: 5.8rem;
 }
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="right"]:is(:hover, :focus-within) .dock-label {
-  transform: translateY(-50%) translateX(var(--label-nudge));
-}
 
-/* ===== CENTER HUB =====
-   1) Ei scale’i / ei liigu hoveriga
-*/
+/* ===== Center hub ===== */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item {
   width: var(--orbit-center-size);
   height: var(--orbit-center-size);
@@ -247,10 +240,19 @@
 
   transform: scale(1);
   transition: none;
+
   animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite;
   will-change: transform;
 }
 
+/* Ensure global dock hover-lift doesn't move the hub */
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:hover,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:active,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:focus-visible {
+  transform: none !important;
+}
+
+/* Dark glow refinements */
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:hover,
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -265,7 +267,9 @@
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item:hover,
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:focus-visible {
+  .profile-orbit-menu__center.dock-item:focus-visible,
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:active {
   box-shadow:
     0 10px 18px rgba(0,0,0,var(--pin-shadow)),
     inset 0 1px 0 rgba(255,255,255,0.08),
@@ -273,45 +277,6 @@
     var(--orbit-under-glow);
 }
 
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:active {
-  box-shadow:
-    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    inset 0 -1px 0 rgba(0,0,0,0.46),
-    var(--orbit-under-glow);
-}
-
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot .dock-label {
-  text-shadow: none;
-}
-
-@keyframes orbit-item-pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.985); }
-  100% { transform: scale(1); }
-}
-
-/* Keela ka dock-item hover transformid kesk-nupul (kui globaalne CSS neid paneb) */
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:hover,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:active,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:focus-visible {
-  transform: none !important;
-}
-
-@keyframes profile-orbit-hub-pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.93); }
-  100% { transform: scale(1); }
-}
-
-:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item::before {
-  content: none;
-}
-
-/* Center SVG (orbital/orbitaltume) */
 .profile-orbit-menu__hub-icon {
   width: 100%;
   height: 100%;
@@ -330,7 +295,20 @@
   stroke: none;
 }
 
-/* Responsive */
+/* Animations */
+@keyframes orbit-item-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.985); }
+  100% { transform: scale(1); }
+}
+
+@keyframes profile-orbit-hub-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive (desktop orbit sizing) */
 @media (max-width: 640px) {
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     --orbit-size: min(86vw, 16.5rem);
@@ -344,89 +322,105 @@
   .profile-orbit-menu__item,
   .profile-orbit-menu__center,
   .profile-orbit-menu__slot .dock-label {
-    transition: none;
+    transition: none !important;
+    animation: none !important;
   }
 }
 
 /* =========================================================
-   MOBILE OVERLAY PICKER (coarse pointer)
-   - Täisekraan overlay
-   - Vertikaalne scroll-snap "picker"
-   - Keskne element suureneb + label ilmub automaatselt
+   MOBILE OVERLAY PICKER
+   - Uses your global modal surface: .invite-modal-backdrop + .invite-modal
+   - Big center action, others shrink smoothly
    ========================================================= */
 
-.profile-orbit-menu.is-mobile {
-  /* Hoia profiililehel sama "hub" paigutus; overlay on fixed. */
+/* Backdrop: stretch and respect safe areas */
+.profile-orbit-mobile-backdrop.invite-modal-backdrop {
+  align-items: stretch;
+  justify-content: center;
+
+  padding:
+    calc(env(safe-area-inset-top, 0px) + 0.75rem)
+    0.75rem
+    calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
 }
 
-/* Fullscreen overlay */
-.profile-orbit-menu .profile-orbit-mobile-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
+/* Panel: full-height "glass modal" that contains the picker */
+.profile-orbit-mobile-panel.invite-modal {
+  width: 100%;
+  max-width: 42rem;
+
+  /* Keep it tall; let list scroll inside */
+  max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.5rem);
+
+  padding: 0.8rem 0.9rem 0.9rem;
+  border-radius: 1.25rem;
 
   display: flex;
   flex-direction: column;
 
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-
-  /* Klaasjas tume kiht (sobib sinu dock-stiiliga) */
-  background:
-    radial-gradient(1200px 900px at 50% 25%, rgba(255,255,255,0.08), rgba(255,255,255,0) 55%),
-    linear-gradient(180deg, rgba(10, 12, 18, 0.88), rgba(10, 12, 18, 0.92));
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Topbar */
-.profile-orbit-menu .profile-orbit-mobile-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  padding: 0.75rem 0.9rem 0.55rem;
-}
+/* Close: icon only (no background), but keep big hit-area */
+.profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.65rem;
 
-.profile-orbit-menu .profile-orbit-mobile-title {
-  font-size: 1.06rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: rgba(232, 236, 245, 0.92);
-}
+  padding: 0.25rem;
+  line-height: 1;
+  font-size: 2.1rem;
 
-/* Close button uses dock-item look; keep it compact */
-.profile-orbit-menu .profile-orbit-mobile-close.dock-item {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 999px;
-  padding: 0;
+
   display: grid;
   place-items: center;
 }
 
-/* Arrow buttons (small, subtle, safe-area aware in layout) */
-.profile-orbit-menu .profile-orbit-mobile-arrow {
-  width: 2.75rem;
+:root.theme-light .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
+  opacity: 0.85;
+}
+:root:not(.theme-light) .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
+  opacity: 0.9;
+}
+.profile-orbit-mobile-close.invite-modal__close.modal-close-btn:active {
+  transform: translateY(1px);
+}
+
+/* Empty header spacer so content doesn't sit under the close icon */
+.profile-orbit-mobile-header {
   height: 2.75rem;
-  border-radius: 999px;
-  border: 2px solid rgba(84,95,115,0.55);
-  color: rgba(232, 236, 245, 0.92);
-  background:
-    linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
-  transition: opacity 0.14s linear, transform 0.16s ease-out;
-  touch-action: manipulation;
-  align-self: center;
 }
 
-/* Keep arrows stable (no hover lift) */
-.profile-orbit-menu .profile-orbit-mobile-arrow:hover,
-.profile-orbit-menu .profile-orbit-mobile-arrow:focus-visible {
-  transform: none;
+/* Scroll hints: subtle, theme-aware, not "buttons" */
+.profile-orbit-mobile-hint {
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  user-select: none;
 }
 
-/* Scroll list */
-.profile-orbit-menu .profile-orbit-mobile-list {
+.profile-orbit-mobile-hint.is-visible { opacity: 0.65; }
+
+.profile-orbit-mobile-hint span {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+:root.theme-light .profile-orbit-mobile-hint { color: rgba(15, 23, 42, 0.55); }
+:root:not(.theme-light) .profile-orbit-mobile-hint { color: rgba(248, 253, 255, 0.68); }
+
+/* Scroll container (snap) */
+.profile-orbit-mobile-list {
   flex: 1;
   overflow: auto;
 
@@ -435,72 +429,143 @@
 
   scroll-snap-type: y mandatory;
 
-  /* Default paddings; JS may override with inline paddingTop/Bottom */
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.15rem;
+  padding-right: 0.15rem;
 
-  /* Optional: hide scrollbars */
+  /* hide scrollbars */
   scrollbar-width: none;
 }
-.profile-orbit-menu .profile-orbit-mobile-list::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
+.profile-orbit-mobile-list::-webkit-scrollbar { width: 0; height: 0; }
 
-/* Each row is scaled by JS (transform on row) */
-.profile-orbit-menu .profile-orbit-mobile-row {
+/* Each row is a fixed-height slot (hit-area stays large).
+   The visual inside scales/opacity via CSS variables. */
+.profile-orbit-mobile-row {
   scroll-snap-align: center;
 
+  height: clamp(6.8rem, 14vh, 8.8rem);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
 
+  /* breathing room between slots */
+  padding: 0.35rem 0;
+}
+
+/* Visual wrapper scales; defaults used until JS sets vars */
+.profile-orbit-mobile-visual {
+  width: 100%;
+
+  --orbitSlotScale: 0.78;
+  --orbitSlotOpacity: 0.55;
+
+  opacity: var(--orbitSlotOpacity);
+  transform: scale(var(--orbitSlotScale));
+  transform-origin: center;
+
+  transition: transform 140ms linear, opacity 140ms linear;
   will-change: transform, opacity;
 }
 
-/* The item button itself: use global dock-item styling; avoid hover-lift jitter here */
-.profile-orbit-menu .profile-orbit-mobile-overlay .dock-item:hover,
-.profile-orbit-menu .profile-orbit-mobile-overlay .dock-item:focus-visible {
-  transform: none;
-}
-.profile-orbit-menu .profile-orbit-mobile-overlay .dock-item:active {
-  transform: scale(0.98);
-}
+/* The action button is the big "card" */
+.profile-orbit-mobile-action {
+  width: 100%;
+  max-width: 40rem;
 
-/* Ensure icon sizing matches orbital (slightly larger) */
-.profile-orbit-menu .profile-orbit-mobile-overlay .dock-icon svg {
-  width: 64%;
-  height: 64%;
-  max-width: none;
-  max-height: none;
-}
+  min-height: clamp(5.1rem, 10.8vh, 6.1rem);
+  padding: 0.95rem 1.05rem;
 
-/* Label: reserve height to prevent layout shift; visibility handled by inline styles */
-.profile-orbit-menu .profile-orbit-mobile-label {
-  text-align: center;
-  line-height: 1.15;
-  width: max-content;
-  max-width: min(18rem, 80vw);
-  white-space: normal;
-  pointer-events: none;
+  border-radius: 1.25rem;
 
-  /* Reserve space even when hidden */
-  min-height: 1.4em;
+  display: grid;
+  grid-template-columns: 3.35rem 1fr;
+  align-items: center;
+  gap: 1.0rem;
+
+  text-align: left;
+
+  /* Base surface. Use your token language; these fallbacks are safe. */
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: none;
+
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.14s ease;
+  touch-action: manipulation;
 }
 
-/* Optional: make active label feel a bit "tighter" */
-.profile-orbit-menu .profile-orbit-mobile-row.is-active .profile-orbit-mobile-label {
+/* Dark theme: align with your form/modal surfaces */
+:root:not(.theme-light) .profile-orbit-mobile-action {
+  background: var(--form-surface, rgba(8, 12, 20, 0.52));
+  border-color: rgba(148, 163, 184, 0.14);
+  color: rgba(232, 236, 245, 0.92);
+}
+
+:root:not(.theme-light) .profile-orbit-mobile-action:active {
+  background: var(--form-surface-hover, rgba(14, 18, 30, 0.56));
+  transform: translateY(1px);
+}
+
+/* Light theme: slightly higher contrast and light shadow */
+:root.theme-light .profile-orbit-mobile-action {
+  background: var(--form-surface-light, rgba(255, 255, 255, 0.10));
+  border-color: transparent;
+  box-shadow: var(--form-shadow-light, 0 6px 16px rgba(0,0,0,0.14));
+  color: rgba(15, 23, 42, 0.96);
+}
+
+:root.theme-light .profile-orbit-mobile-action:active {
+  transform: translateY(1px);
+}
+
+/* Icon area */
+.profile-orbit-mobile-action__icon {
+  width: 3.35rem;
+  height: 3.35rem;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 1.0rem;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+:root.theme-light .profile-orbit-mobile-action__icon {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+/* SVG sizing inside icon box */
+.profile-orbit-mobile-action__icon svg {
+  width: 70%;
+  height: 70%;
+  opacity: 0.92;
+}
+
+/* Two-line label inside the button */
+.profile-orbit-mobile-action__label {
+  font-size: clamp(1.14rem, 3.4vw, 1.34rem);
+  font-weight: 600;
   letter-spacing: 0.02em;
+  line-height: 1.15;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Reduced motion: keep it calm */
+/* Active row: make the hero feel dominant (extra contrast) */
+.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action {
+  border-color: rgba(148, 163, 184, 0.26);
+}
+
+:root.theme-light .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action {
+  box-shadow: var(--form-shadow-light, 0 10px 22px rgba(0,0,0,0.18));
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .profile-orbit-menu .profile-orbit-mobile-overlay,
-  .profile-orbit-menu .profile-orbit-mobile-arrow,
-  .profile-orbit-menu .profile-orbit-mobile-row,
-  .profile-orbit-menu .profile-orbit-mobile-label {
+  .profile-orbit-mobile-visual,
+  .profile-orbit-mobile-action,
+  .profile-orbit-mobile-hint {
     transition: none !important;
-    animation: none !important;
   }
 }
