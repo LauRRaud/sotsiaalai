@@ -432,6 +432,7 @@ export default function CenteredScrollPicker({
     disabled,
     enableArrowKeys,
     allowArrowKeysInInputs,
+    captureArrowKeys,
     getItems,
     commitActiveIndex,
     scrollToIndex,

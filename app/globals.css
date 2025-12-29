@@ -3320,18 +3320,23 @@ width: clamp(16rem, 16vw, 17rem);
 }
 @media (max-width: 640px) {
   .register-scroll{
-    --register-diameter: min(92vw, 22rem);
-    --csp-title-top: 2.9rem;
+    width: calc(100% - 1.6rem);
+    height: calc(100dvh - 1.6rem);
+    margin: 0.8rem auto;
+    border-radius: 1.35rem;
+    aspect-ratio: auto;
+    --csp-title-top: 1.6rem;
   }
   .register-scroll__title .glass-title,
   .register-scroll .csp-overlayTitle .glass-title{
-    font-size: clamp(1.55rem, 5.6vw, 2rem);
+    font-size: clamp(1.45rem, 4.8vw, 1.85rem);
   }
   .register-scroll .csp-container{
-    --csp-title-offset: 4.1rem;
+    --csp-title-offset: 3.2rem;
   }
   .register-scroll .csp-step{
-    min-height: clamp(4.8rem, 9.5vh, 5.8rem);
+    min-height: clamp(5.4rem, 10.5vh, 6.6rem);
+    padding: 0.45rem 0;
   }
 }
 .register-scroll .register-step .register-login-row{
@@ -7283,17 +7288,23 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 }
 @media (max-width: 640px) {
   .a11y-modal{
-    --a11y-diameter: min(92vw, 22rem);
-    --csp-title-top: 3.8rem;
+    width: calc(100% - 1.6rem);
+    height: calc(100dvh - 1.6rem);
+    inset: 0.8rem;
+    transform: none;
+    border-radius: 1.35rem;
+    aspect-ratio: auto;
+    --csp-title-top: 1.9rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
-    font-size: clamp(1.45rem, 5.4vw, 1.95rem);
+    font-size: clamp(1.35rem, 4.6vw, 1.75rem);
   }
   .a11y-modal .csp-container{
-    --csp-title-offset: 4.8rem;
+    --csp-title-offset: 3.6rem;
   }
   .a11y-modal .csp-step{
-    min-height: clamp(4.6rem, 9.5vh, 5.6rem);
+    min-height: clamp(5.2rem, 10vh, 6.2rem);
+    padding: 0.35rem 0;
   }
 }
 .a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }

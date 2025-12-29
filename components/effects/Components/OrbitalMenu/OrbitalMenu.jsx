@@ -80,9 +80,9 @@ export default function OrbitalMenu({
       Array.from({ length: items.length }, (_, i) => {
         // initialize: show first + neighbor if present, hide the rest
         const d = Math.abs(i - activeIndexRef.current);
-        if (d === 0) return { scale: 1.06, opacity: 1, blur: 0, hide: false };
-        if (d === 1) return { scale: 0.78, opacity: 0.38, blur: 1.5, hide: false };
-        return { scale: 0.62, opacity: 0, blur: 2, hide: true };
+        if (d === 0) return { scale: 1.0, opacity: 1, blur: 0, hide: false };
+        if (d === 1) return { scale: 0.92, opacity: 0.32, blur: 0.8, hide: false };
+        return { scale: 0.86, opacity: 0, blur: 1.4, hide: true };
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -236,9 +236,9 @@ export default function OrbitalMenu({
       // active = 100% visible
       // neighbors = partially visible
       // third+ = 0% visible (so edges never "cut" items)
-      if (d === 0) next[i] = { scale: 1.08, opacity: 1, blur: 0, hide: false };
-      else if (d === 1) next[i] = { scale: 0.78, opacity: 0.38, blur: 1.5, hide: false };
-      else next[i] = { scale: 0.62, opacity: 0, blur: 2, hide: true };
+      if (d === 0) next[i] = { scale: 1.0, opacity: 1, blur: 0, hide: false };
+      else if (d === 1) next[i] = { scale: 0.92, opacity: 0.32, blur: 0.8, hide: false };
+      else next[i] = { scale: 0.86, opacity: 0, blur: 1.4, hide: true };
     }
 
     return next;
@@ -328,7 +328,7 @@ export default function OrbitalMenu({
     // “scroll-end” feel without relying on browser support
     settleTimerRef.current = window.setTimeout(() => {
       snapToIndex(activeIndexRef.current);
-    }, prefersReducedMotion ? 0 : 260);
+    }, prefersReducedMotion ? 0 : 320);
   };
 
   useLayoutEffect(() => {
