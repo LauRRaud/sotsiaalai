@@ -331,20 +331,17 @@
    MOBILE OVERLAY PICKER — “very powerful”
    ========================================================= */
 
-/* Put overlay above everything, avoid bleed-through confusion */
+/* Put overlay above everything, fullscreen on mobile */
 .profile-orbit-mobile-backdrop.invite-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 9999;
 
-  /* Keep your modal alignment behavior but make it “sheet-like” */
+  /* Fullscreen like profile/accessibility modals */
   align-items: stretch;
   justify-content: center;
 
-  padding:
-    calc(env(safe-area-inset-top, 0px) + 0.9rem)
-    0.9rem
-    calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+  padding: 0;
 
   /* Stronger dim so page never competes visually */
   background: rgba(6, 8, 12, 0.55);
@@ -358,23 +355,23 @@
   backdrop-filter: blur(10px) saturate(105%);
 }
 
-/* Panel: much less transparent than generic invite-modal */
+/* Panel: fullscreen on mobile like profile/accessibility modals */
 .profile-orbit-mobile-panel.invite-modal {
   position: relative;
   isolation: isolate;   /* prevents outside bleed / blending artifacts */
   overflow: hidden;
 
-  width: 100%;
-  max-width: 44rem;
-
-  max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.8rem);
-  border-radius: 1.35rem;
+  width: 100vw;
+  height: 100dvh;
+  max-width: 100vw;
+  max-height: 100dvh;
+  border-radius: 0;
 
   display: flex;
   flex-direction: column;
 
   /* Layout breathing room (list will fill) */
-  padding: 0.95rem 0.85rem 0.95rem;
+  padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0.85rem calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
 }
 
 /* Heavier “glass” surfaces so underlying page does NOT interfere */
@@ -471,13 +468,13 @@
 }
 .profile-orbit-mobile-list::-webkit-scrollbar { width: 0; height: 0; }
 
-/* Each row is a fixed “slot” so the center item has space and never gets cut */
+/* Each row is a fixed "slot" so the center item has space and never gets cut - taller for larger buttons */
 .profile-orbit-mobile-row {
   scroll-snap-align: center;
-  height: clamp(11.5rem, 22vh, 13.5rem);
+  height: clamp(14.5rem, 28vh, 17.5rem);
   display: grid;
   place-items: center;
-  padding: 0.75rem 0;
+  padding: 0.9rem 0;
 }
 
 /* Hidden rows must not steal taps */
@@ -509,17 +506,17 @@
    ========================================================= */
 
 .profile-orbit-mobile-action.dock-item {
-  /* This is the “hero” circle size BEFORE scaling (active scales up further) */
-  width: clamp(6.8rem, 52vw, 10.2rem);
-  height: clamp(6.8rem, 52vw, 10.2rem);
+  /* Larger buttons on mobile to fit text below icons */
+  width: clamp(9.5rem, 65vw, 13.5rem);
+  height: clamp(9.5rem, 65vw, 13.5rem);
   border-radius: 999px;
-  padding: 0.6rem 0.85rem 0.8rem;
+  padding: 1rem 1.2rem 1.1rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.65rem;
 
   position: relative;
   transform: translateZ(0);
@@ -547,10 +544,10 @@
   line-height: 0;
 }
 
-/* Larger, cleaner icon in the hero */
+/* Larger icons to match bigger buttons */
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
-  width: 52%;
-  height: 52%;
+  width: 56%;
+  height: 56%;
   max-width: none;
   max-height: none;
   opacity: 0.95;
@@ -564,19 +561,20 @@
   opacity: 1;
 }
 
-/* Label inside circle: appears only on active row (JS toggles aria-hidden, CSS toggles opacity) */
+/* Label below icon: appears only on active row (JS toggles aria-hidden, CSS toggles opacity) */
 .profile-orbit-mobile-action__label {
   position: static;
   width: 100%;
 
   text-align: center;
-  line-height: 1.08;
+  line-height: 1.12;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.025em;
 
-  font-size: clamp(0.98rem, 3.9vw, 1.2rem);
+  /* Larger text to match bigger buttons */
+  font-size: clamp(1.15rem, 4.5vw, 1.5rem);
 
-  margin-top: 0.1rem;
+  margin-top: 0;
   padding: 0;
   border-radius: 0;
   opacity: 0;
