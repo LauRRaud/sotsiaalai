@@ -505,11 +505,11 @@
 
 .profile-orbit-mobile-action.dock-item {
   /* Larger buttons on mobile to fit text below icons */
-  width: clamp(10.5rem, 68vw, 15rem);
-  min-height: clamp(10.5rem, 68vw, 15rem);
+  width: clamp(8.5rem, 58vw, 12rem);
+  min-height: clamp(8.5rem, 58vw, 12rem);
   height: auto;
   border-radius: 999px;
-  padding: 1.2rem 1.3rem 1.3rem;
+  padding: 1.2rem 1.3rem 1.0rem;
 
   display: flex;
   flex-direction: column;
@@ -574,9 +574,9 @@
   letter-spacing: 0.025em;
 
   /* Larger text to match bigger buttons */
-  font-size: clamp(1.3rem, 5vw, 1.75rem);
+  font-size: clamp(1.2rem, 4.5vw, 1.6rem);
 
-  margin-top: 0;
+  margin-top: -0.2rem;
   padding: 0;
   border-radius: 0;
   opacity: 0;
@@ -584,10 +584,9 @@
 
   /* Allow text to wrap naturally */
   display: block;
-  overflow: visible;
-  word-wrap: break-word;
-  max-height: 4em;
   overflow: hidden;
+  word-wrap: break-word;
+  max-height: 3.5em;
 }
 
 /* Theme-specific label surface */

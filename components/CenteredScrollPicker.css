@@ -160,10 +160,7 @@
   padding-bottom: var(--csp-pad, 0px);
 }
 
-/* Reduce your existing fieldset margins ONLY when used as picker steps */
-.a11y-modal .a11y-fieldset.a11y-snap.csp-step{
-  margin: 0.34rem 0;
-}
+
 .a11y-modal .a11y-actions.a11y-snap.csp-step{
   margin: 0.34rem 0;
 }

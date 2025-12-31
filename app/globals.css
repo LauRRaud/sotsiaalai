@@ -585,9 +585,9 @@ body::-webkit-scrollbar {
   --ui-hover-ring: rgba(210,215,225,0.65);
   --ui-hover-soft: rgba(210,215,225,0.38);
   --ui-hover-outer: rgba(210,215,225,0.28);
-  --page-bg: #0d111b;
-  --page-bg-top: #070b16;
-  --page-bg-bottom: #0d111b;
+  --page-bg: #050a10;
+  --page-bg-top: #02050f;
+  --page-bg-bottom: #050a10;
   --pt-50:  #F8F8F7;
   --pt-100: #ECEBE9;
   --pt-150: #E6E5E3;
@@ -1246,6 +1246,12 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   box-sizing: border-box;
   justify-content: flex-start;
   align-items: stretch;
+}
+@media (max-width: 48em) {
+  .glass-box.register-scroll {
+    padding-left: clamp(1rem, 2.5vw, 1.5rem);
+    padding-right: clamp(1rem, 2.5vw, 1.5rem);
+  }
 }
 .glass-box.chat-container,
 .glass-box.profile-container {
@@ -1909,7 +1915,7 @@ main#main > .main-content.glass-box.profile-container {
   flex-wrap: nowrap;
   gap: 0.7rem;
   align-items: center;
-  margin-top: clamp(-3.9rem, -7.5vh, -2.8rem);
+  margin-top: clamp(-5.5rem, -10vh, -4rem);
   margin-bottom: 0;
   padding-top: 0;
   transform: none;
@@ -2012,7 +2018,7 @@ html.profile-orbit-open .glass-box.profile-container {
 .profile-email-dock-wrapper {
   width: 100%;
   max-width: var(--profile-actions-panel-w, 26.25rem);
-  margin: clamp(0.35rem, 1.3vh, 0.9rem) auto 0;
+  margin: clamp(-1.5rem, -3vh, -1.0rem) auto 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7243,9 +7249,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 .a11y-modal .a11y-fieldset{
   margin: 0.25rem 0 0.4rem;
 }
-.a11y-modal .a11y-fieldset:first-of-type{
-  margin-top: 0.1rem;
-}
+
 .a11y-modal .csp-scrim--top{
   top: var(--csp-title-offset, 0px);
 }
@@ -7319,7 +7323,12 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     padding-bottom: 1.45rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
-    font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+    font-size: clamp(2.0rem, 6vw, 2.8rem);
+  }
+  .a11y-modal .csp-overlayTitle{ /* Added for full-width */
+    width: 100%;
+    left: 50%; /* Ensure it's centered */
+    transform: translateX(-50%);
   }
   .a11y-modal .csp-container{
     --csp-title-offset: clamp(3.8rem, 7.5vh, 5.5rem);
@@ -7336,11 +7345,10 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     max-width: 100%;
     gap: 0.35rem 0.65rem;
   }
-  /* Extra spacing for Text size and Contrast fieldsets (2nd and 3rd fieldset with visible legend) */
-  .a11y-modal .a11y-fieldset.a11y-snap.csp-step:nth-of-type(2),
-  .a11y-modal .a11y-fieldset.a11y-snap.csp-step:nth-of-type(3) {
-    margin-top: 1.2rem !important;
+  .a11y-modal__scroll{
+    gap: 1.5rem; /* Added this line */
   }
+
 }
 .a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
 .a11y-modal .a11y-close:not(.modal-close-btn){
@@ -10377,7 +10385,7 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   --pin-gap-y: 0.92rem;
 }
 #login-modal .glass-title{
-  font-size: clamp(2.0rem, 1.7rem + 1.6vw, 2.5rem);
+  font-size: clamp(2.4rem, 1.7rem + 2vw, 3rem);
   line-height: 1.05;
   letter-spacing: 0.01em;
 }
@@ -10535,7 +10543,7 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 }
 #login-modal .glass-title{
   margin-bottom: 0.3rem;
-  margin-top: 0.8rem; /* proovi 0.6-1.2rem */
+  margin-top: 1.2rem; /* proovi 0.6-1.2rem */
 }
 
 #login-modal .login-modal-close{
