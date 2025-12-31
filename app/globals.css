@@ -1249,8 +1249,15 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 }
 @media (max-width: 48em) {
   .glass-box.register-scroll {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.25rem; /* Even smaller padding */
+    padding-right: 0.25rem; /* Even smaller padding */
+    width: 100%;
+    max-width: 100%;
+  }
+  .register-form .glass-label,
+  .register-form .input-modern,
+  .register-form .glass-radio-group {
+    max-width: 100% !important; /* Force wider elements */
   }
   .register-form .register-submit {
     font-size: 1.4em;
@@ -2027,7 +2034,7 @@ html.profile-orbit-open .glass-box.profile-container {
 .profile-email-dock-wrapper {
   width: 100%;
   max-width: var(--profile-actions-panel-w, 26.25rem);
-  margin: clamp(-1.5rem, -3vh, -1.0rem) auto 0;
+  margin: 1.5rem auto 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -4126,10 +4133,10 @@ a {
     font-size: 1.8em; /* Increased size for mobile */
   }
   #login-modal .login-modal-head .glass-title{
-    font-size: clamp(2.5rem, 7vw, 3.2rem); /* Larger title for mobile */
+    font-size: clamp(3.5rem, 10vw, 4.5rem); /* Even Larger title for mobile */
   }
   #login-modal .login-modal-head{
-    margin-top: 1.5rem; /* Move title downwards for mobile */
+    margin-top: 3.5rem; /* Move title further downwards for mobile */
   }
   /* Larger close button for modals on mobile */
   .invite-modal__close.modal-close-btn{
@@ -7344,9 +7351,13 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     --csp-title-top: clamp(4.5rem, 10vh, 7rem);
     padding: 0;
     padding-top: clamp(2.5rem, 6vh, 4rem);
-    padding-left: clamp(0.6rem, 2vw, 1rem);
-    padding-right: clamp(0.6rem, 2vw, 1rem);
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
     padding-bottom: 1.45rem;
+  }
+  .a11y-modal .a11y-fieldset,
+  .a11y-modal .a11y-options {
+    max-width: 100% !important; /* Force wider elements */
   }
   .a11y-modal .csp-overlayTitle .glass-title{
     font-size: clamp(2.0rem, 6vw, 2.8rem);
@@ -7372,7 +7383,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     gap: 0.35rem 0.65rem;
   }
   .a11y-modal__scroll{
-    gap: 2.5rem; /* Increased gap */
+    gap: 4.5rem; /* Further increased gap */
   }
 
 }
@@ -11019,8 +11030,13 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   }
 }
 
-
-
-
-
-
+/* Hide scrollbar for login modal on mobile */
+@media (max-width: 48em) {
+  #login-modal {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For IE and Edge */
+  }
+  #login-modal::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+}
