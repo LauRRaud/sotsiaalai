@@ -3331,7 +3331,7 @@ width: clamp(16rem, 16vw, 17rem);
   }
   .register-scroll__title .glass-title,
   .register-scroll .csp-overlayTitle .glass-title{
-    font-size: clamp(2.1rem, 7vw, 2.7rem);
+    font-size: clamp(2.8rem, 7vw, 3.6rem);
   }
   .register-scroll__body{
     padding: 0 clamp(1.2rem, 4vw, 1.8rem);
@@ -7196,7 +7196,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 }
 .a11y-modal__scroll{
   width:100%;
-  padding: 1.1rem 1.35rem;
+  padding: 1.1rem 0.5rem;
   background: inherit;
   border-radius: inherit;
   overflow-x: hidden;
@@ -7314,8 +7314,8 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     --csp-title-top: clamp(2.5rem, 6vh, 4rem);
     padding: 0;
     padding-top: clamp(2.5rem, 6vh, 4rem);
-    padding-left: clamp(1.8rem, 5vw, 2.4rem);
-    padding-right: clamp(1.8rem, 5vw, 2.4rem);
+    padding-left: clamp(1.2rem, 4vw, 1.8rem);
+    padding-right: clamp(1.2rem, 4vw, 1.8rem);
     padding-bottom: 1.45rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
@@ -9021,9 +9021,9 @@ h1.glass-title + form.register-form {
   :root { --chat-hpad: 0.85rem; }
   .login-modal-root {
     padding: 1.45em 1.15em 1.25em;
-    font-size: 1.08rem;
-    --login-envelope-size: clamp(5.8rem, 12vw, 6.2rem);
-    --login-envelope-hit: clamp(5.8rem, 12vw, 6.2rem);
+    font-size: 1rem;
+    --login-envelope-size: clamp(4.5rem, 10vw, 5rem);
+    --login-envelope-hit: clamp(4.5rem, 10vw, 5rem);
   }
   .login-modal-root .glass-title { font-size: 2.9em; }
   .login-modal-root .login-modal-form input { font-size: 1.2rem; padding: 0.92rem 1.16rem; }
@@ -9033,7 +9033,7 @@ h1.glass-title + form.register-form {
 }
 @media (max-width: 520px) {
   :root { --chat-hpad: 0.65rem; }
-  .login-modal-root { padding: 1.6em 1.25em 1.4em; font-size: 1.12rem; --login-envelope-size: 6.6rem; --login-envelope-hit: 6.6rem; }
+  .login-modal-root { padding: 1.6em 1.25em 1.4em; font-size: 1rem; --login-envelope-size: 5.5rem; --login-envelope-hit: 5.5rem; }
   .login-modal-root .glass-title { font-size: 2.65em; line-height: 1.08; }
   .login-modal-box .pin-layout-toggle { font-size: 1.18rem; line-height: 1.2; padding: 0.22rem 0.5rem; }
   .login-modal-root .glass-box { max-width: 100vw; width: 100vw; margin: 0; border-radius: 0.65rem; }
@@ -9505,11 +9505,11 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   }
   
   .profile-page-shell .profile-email-dock-wrapper {
-    margin-top: clamp(2rem, 5vh, 3.5rem) !important;
+    margin-top: clamp(-1rem, -2.5vh, 0rem) !important;
   }
   
   .profile-page-shell .profile-btn-row--back-logout {
-    margin-top: clamp(2rem, 5vh, 3.5rem) !important;
+    margin-top: clamp(-1rem, -2.5vh, 0rem) !important;
   }
   .profile-btn-row--back-logout .back-arrow-btn{
     inline-size: 6.4rem;
@@ -10323,8 +10323,8 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     max-width: 100vw;
     max-height: 100dvh;
     border-radius: 0;
-    padding: calc(env(safe-area-inset-top, 0px) + 1.2rem) 1.2rem calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
-    font-size: 1.55rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.2rem) 1.2rem calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
+    font-size: 1.2rem;
     gap: 0.85em;
     /* Darker background and stronger blur on mobile */
     background: rgba(0, 0, 0, 0.55);
@@ -10789,20 +10789,7 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
 :root:not(.theme-light) .profile-email-card{
   color: rgba(255,255,255,0.92);
-  background:
-    radial-gradient(120% 120% at 18% 16%,
-      rgba(255,255,255,0.05) 0%,
-      rgba(255,255,255,0.00) 56%
-    ),
-    radial-gradient(120% 120% at 86% 90%,
-      rgba(0,0,0,0.48) 0%,
-      rgba(0,0,0,0.00) 64%
-    ),
-    linear-gradient(145deg,
-      rgba(255,255,255,var(--pin-a)) 0%,
-      rgba(255,255,255,0.004) 42%,
-      rgba(0,0,0,0.40) 100%
-    );
+  background: linear-gradient(145deg, rgba(40, 48, 64, 0.85), rgba(20, 26, 38, 0.95));
   box-shadow:
     0 10px 18px rgba(0,0,0,var(--pin-shadow)),
     inset 0 1px 0 rgba(255,255,255,0.06),

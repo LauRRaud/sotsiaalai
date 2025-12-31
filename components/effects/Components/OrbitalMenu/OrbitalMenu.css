@@ -297,7 +297,7 @@
     left: 50%;
     right: auto;
     top: auto;
-    bottom: 0.42rem;
+    bottom: 0.8rem;
     transform: translateX(-50%);
     width: calc(var(--orbit-item-size) - 0.9rem);
     max-width: none;
@@ -515,7 +515,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 0.1rem;
 
   position: relative;
   transform: translateZ(0);
