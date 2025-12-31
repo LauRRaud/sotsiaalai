@@ -374,24 +374,22 @@
   padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0.85rem calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
 }
 
-/* Heavier “glass” surfaces so underlying page does NOT interfere */
+/* Glass surface style like profile/accessibility modals */
 :root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
-  background: rgba(10, 12, 18, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow:
-    0 22px 60px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.05);
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(108%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(108%);
+  border: none;
   --orbit-under-glow:
     0 10px 18px -14px rgba(248,253,255,0.72),
     0 20px 28px -20px rgba(248,253,255,0.42);
 }
 
 :root.theme-light .profile-orbit-mobile-panel.invite-modal {
-  background: rgba(252, 253, 255, 0.94);
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  box-shadow:
-    0 18px 55px rgba(2, 6, 23, 0.18),
-    inset 0 1px 0 rgba(255,255,255,0.6);
+  background: var(--glass-surface-bg, rgba(252, 253, 255, 0.94));
+  backdrop-filter: blur(1.1rem) saturate(108%);
+  -webkit-backdrop-filter: blur(1.1rem) saturate(108%);
+  border: none;
 }
 
 /* Subtle internal vignette (gives depth without translucency) */
@@ -508,15 +506,16 @@
 .profile-orbit-mobile-action.dock-item {
   /* Larger buttons on mobile to fit text below icons */
   width: clamp(9.5rem, 65vw, 13.5rem);
-  height: clamp(9.5rem, 65vw, 13.5rem);
+  min-height: clamp(9.5rem, 65vw, 13.5rem);
+  height: auto;
   border-radius: 999px;
-  padding: 1rem 1.2rem 1.1rem;
+  padding: 1.1rem 1.2rem 1.2rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
+  justify-content: flex-start;
+  gap: 0.75rem;
 
   position: relative;
   transform: translateZ(0);
@@ -535,13 +534,15 @@
     var(--orbit-under-glow);
 }
 
-/* Icon sizing */
+/* Icon sizing - fixed height for icon container */
 .profile-orbit-mobile-action.dock-item .dock-icon {
   width: 100%;
-  height: 100%;
+  height: auto;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
   line-height: 0;
+  min-height: clamp(5.2rem, 38vw, 7.5rem);
 }
 
 /* Larger icons to match bigger buttons */
@@ -555,7 +556,7 @@
   transition: transform 180ms ease, opacity 180ms ease;
 }
 
-/* When active, lift icon a bit to make room for label inside circle */
+/* When active, icon stays same */
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item .dock-icon svg {
   transform: none;
   opacity: 1;
@@ -565,9 +566,10 @@
 .profile-orbit-mobile-action__label {
   position: static;
   width: 100%;
+  flex-shrink: 0;
 
   text-align: center;
-  line-height: 1.12;
+  line-height: 1.15;
   font-weight: 600;
   letter-spacing: 0.025em;
 
@@ -580,10 +582,11 @@
   opacity: 0;
   transition: opacity 180ms ease;
 
-  /* Prevent long labels from wrecking the circle */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  /* Allow text to wrap naturally */
+  display: block;
+  overflow: visible;
+  word-wrap: break-word;
+  max-height: 3.5em;
   overflow: hidden;
 }
 

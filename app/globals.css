@@ -3318,25 +3318,40 @@ width: clamp(16rem, 16vw, 17rem);
 .register-scroll .register-step:last-child{
   padding-top: 0.6rem;
 }
-@media (max-width: 640px) {
+@media (max-width: 48em) {
   .register-scroll{
-    width: 100%;
+    width: 100vw;
     height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
     margin: 0;
     border-radius: 0;
     aspect-ratio: auto;
-    --csp-title-top: 1.3rem;
+    --csp-title-top: 1.4rem;
   }
   .register-scroll__title .glass-title,
   .register-scroll .csp-overlayTitle .glass-title{
-    font-size: clamp(1.45rem, 5.2vw, 1.95rem);
+    font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+  }
+  .register-scroll__body{
+    padding: 0 clamp(1.8rem, 5vw, 2.4rem);
   }
   .register-scroll .csp-container{
-    --csp-title-offset: 2.9rem;
+    --csp-title-offset: 3.2rem;
   }
   .register-scroll .csp-step{
-    min-height: clamp(5.4rem, 10.5vh, 6.6rem);
-    padding: 0.45rem 0;
+    min-height: clamp(6.8rem, 12vh, 8.5rem);
+    padding: 0.65rem 0;
+  }
+  .register-scroll .register-step > :is(input, .glass-radio-group, .glass-label, .glass-checkbox, .glass-note){
+    max-width: 100%;
+  }
+  .register-scroll .glass-radio-group{
+    max-width: 100%;
+    gap: 0.95em;
+  }
+  .register-scroll .glass-form{
+    gap: 1.1em;
   }
 }
 .register-scroll .register-step .register-login-row{
@@ -7297,16 +7312,25 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     border-radius: 0;
     aspect-ratio: auto;
     --csp-title-top: 1.4rem;
+    padding: 1rem clamp(1.8rem, 5vw, 2.4rem) 1.45rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
-    font-size: clamp(1.4rem, 5vw, 1.9rem);
+    font-size: clamp(1.8rem, 5.5vw, 2.4rem);
   }
   .a11y-modal .csp-container{
-    --csp-title-offset: 3rem;
+    --csp-title-offset: 3.2rem;
   }
   .a11y-modal .csp-step{
-    min-height: clamp(5.2rem, 10vh, 6.2rem);
-    padding: 0.35rem 0;
+    min-height: clamp(6.8rem, 12vh, 8.5rem);
+    padding: 0.65rem 0;
+  }
+  .a11y-modal .a11y-fieldset,
+  .a11y-modal .a11y-actions{
+    max-width: 100%;
+  }
+  .a11y-modal .a11y-options{
+    max-width: 100%;
+    gap: 0.35rem 0.65rem;
   }
 }
 .a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
@@ -9466,6 +9490,18 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     margin-top: clamp(0.8rem, 2vh, 1.4rem);
     margin-bottom: clamp(1.1rem, 3.2vh, 2rem);
   }
+  
+  .profile-form-vertical.glass-form{
+    gap: var(--profile-form-gap, clamp(1rem, 3.5vh, 1.6rem));
+  }
+  
+  .profile-email-dock-wrapper {
+    margin-top: clamp(1.2rem, 3.5vh, 2rem);
+  }
+  
+  .profile-btn-row--back-logout {
+    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  }
   .profile-btn-row--back-logout .back-arrow-btn{
     inline-size: 6.4rem;
     block-size: 6.4rem;
@@ -10278,7 +10314,22 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     max-width: 100vw;
     max-height: 100dvh;
     border-radius: 0;
-    padding: calc(env(safe-area-inset-top, 0px) + 1rem) 1rem calc(env(safe-area-inset-bottom, 0px) + 1rem);
+    padding: calc(env(safe-area-inset-top, 0px) + 1.2rem) 1.2rem calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
+    font-size: 1.4rem;
+    gap: 0.85em;
+  }
+  #login-modal .glass-title {
+    font-size: clamp(2.4rem, 6vw, 3.2rem);
+  }
+  #login-modal .login-modal-bottom-link {
+    margin-top: 0.15em;
+    margin-bottom: 0;
+  }
+  #login-modal .login-modal-bottom-link .link-brand {
+    font-size: 1.6rem;
+  }
+  #login-modal .pin-keypad-all-wrapper {
+    margin-top: 0.5rem;
   }
 }
 
