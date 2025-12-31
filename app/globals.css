@@ -3327,17 +3327,17 @@ width: clamp(16rem, 16vw, 17rem);
     margin: 0;
     border-radius: 0;
     aspect-ratio: auto;
-    --csp-title-top: 1.4rem;
+    --csp-title-top: 2.8rem;
   }
   .register-scroll__title .glass-title,
   .register-scroll .csp-overlayTitle .glass-title{
-    font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+    font-size: clamp(2.1rem, 7vw, 2.7rem);
   }
   .register-scroll__body{
-    padding: 0 clamp(1.8rem, 5vw, 2.4rem);
+    padding: 0 clamp(1.2rem, 4vw, 1.8rem);
   }
   .register-scroll .csp-container{
-    --csp-title-offset: 3.2rem;
+    --csp-title-offset: 5.6rem;
   }
   .register-scroll .csp-step{
     min-height: clamp(6.8rem, 12vh, 8.5rem);
@@ -7311,14 +7311,18 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     transform: none;
     border-radius: 0;
     aspect-ratio: auto;
-    --csp-title-top: 1.4rem;
-    padding: 1rem clamp(1.8rem, 5vw, 2.4rem) 1.45rem;
+    --csp-title-top: clamp(2.5rem, 6vh, 4rem);
+    padding: 0;
+    padding-top: clamp(2.5rem, 6vh, 4rem);
+    padding-left: clamp(1.8rem, 5vw, 2.4rem);
+    padding-right: clamp(1.8rem, 5vw, 2.4rem);
+    padding-bottom: 1.45rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
     font-size: clamp(1.8rem, 5.5vw, 2.4rem);
   }
   .a11y-modal .csp-container{
-    --csp-title-offset: 3.2rem;
+    --csp-title-offset: clamp(3.8rem, 7.5vh, 5.5rem);
   }
   .a11y-modal .csp-step{
     min-height: clamp(6.8rem, 12vh, 8.5rem);
@@ -7331,6 +7335,11 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   .a11y-modal .a11y-options{
     max-width: 100%;
     gap: 0.35rem 0.65rem;
+  }
+  /* Extra spacing for Text size and Contrast fieldsets (2nd and 3rd fieldset with visible legend) */
+  .a11y-modal .a11y-fieldset.a11y-snap.csp-step:nth-of-type(2),
+  .a11y-modal .a11y-fieldset.a11y-snap.csp-step:nth-of-type(3) {
+    margin-top: 1.2rem !important;
   }
 }
 .a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
@@ -7388,10 +7397,10 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 :root.theme-light .a11y-modal .shape{ stroke: rgba(15,23,42,0.7); }
 @media (max-width: 48em){
   .a11y-modal__scroll{
-    --a11y-scroll-base: 3.2rem;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
     gap: 0.4rem;
-    padding-left: 1.1rem;
-    padding-right: 1.1rem;
   }
   .a11y-modal .a11y-close.modal-close-btn{
     top: 0.6rem;
@@ -9495,12 +9504,12 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     gap: var(--profile-form-gap, clamp(1rem, 3.5vh, 1.6rem));
   }
   
-  .profile-email-dock-wrapper {
-    margin-top: clamp(1.2rem, 3.5vh, 2rem);
+  .profile-page-shell .profile-email-dock-wrapper {
+    margin-top: clamp(2rem, 5vh, 3.5rem) !important;
   }
   
-  .profile-btn-row--back-logout {
-    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  .profile-page-shell .profile-btn-row--back-logout {
+    margin-top: clamp(2rem, 5vh, 3.5rem) !important;
   }
   .profile-btn-row--back-logout .back-arrow-btn{
     inline-size: 6.4rem;
@@ -10315,8 +10324,12 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     max-height: 100dvh;
     border-radius: 0;
     padding: calc(env(safe-area-inset-top, 0px) + 1.2rem) 1.2rem calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
-    font-size: 1.4rem;
+    font-size: 1.55rem;
     gap: 0.85em;
+    /* Darker background and stronger blur on mobile */
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2.5rem) saturate(120%);
+    -webkit-backdrop-filter: blur(2.5rem) saturate(120%);
   }
   #login-modal .glass-title {
     font-size: clamp(2.4rem, 6vw, 3.2rem);
@@ -10330,6 +10343,32 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   }
   #login-modal .pin-keypad-all-wrapper {
     margin-top: 0.5rem;
+  }
+  /* Larger keypad buttons on mobile */
+  #login-modal.login-modal-box.glass-modal,
+  #login-modal {
+    --pin-btn: clamp(5.5rem, 16vw, 6.8rem) !important;
+    --pin-gap-x: clamp(1.1rem, 3vw, 1.3rem) !important;
+    --pin-gap-y: clamp(0.95rem, 2.5vw, 1.1rem) !important;
+  }
+  #login-modal .pin-keypad__button {
+    width: var(--pin-btn) !important;
+    height: var(--pin-btn) !important;
+    font-size: 1.85rem !important;
+  }
+  #login-modal .pin-keypad__button.pin-keypad__button--help {
+    font-size: 2.1rem !important;
+  }
+  #login-modal .pin-keypad-all {
+    grid-template-columns: repeat(3, var(--pin-btn)) !important;
+    grid-auto-rows: var(--pin-btn) !important;
+    column-gap: var(--pin-gap-x) !important;
+    row-gap: var(--pin-gap-y) !important;
+    max-width: calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x))) !important;
+  }
+  #login-modal .pin-keypad__blank {
+    width: var(--pin-btn) !important;
+    height: var(--pin-btn) !important;
   }
 }
 

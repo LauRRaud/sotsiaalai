@@ -5,6 +5,7 @@ import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import FancyRadio from "@/components/ui/FancyRadio";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
+import CloseButton from "@/components/ui/CloseButton";
 
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
@@ -270,6 +271,7 @@ export default function AccessibilityModal({
         onClick={stopInside}
         tabIndex={-1}
       >
+        <CloseButton onClick={onClose} ariaLabel={t("common.close")} className="a11y-close" />
         {/* Title overlay: always inside the same modal layer */}
         <div className="csp-overlayTitle" aria-hidden="false">
           <h2 id="a11y-title" className="glass-title">

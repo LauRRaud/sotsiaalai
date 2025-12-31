@@ -6,12 +6,17 @@ import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
+import CloseButton from "@/components/ui/CloseButton";
 
 export default function RegistreerimineBody({ openLoginModal = null }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, locale } = useI18n();
   const scrollRef = useRef(null);
+
+  const handleClose = () => {
+    router.push(localizePath("/", locale));
+  };
 
   const toRelative = (u) => {
     try {
@@ -170,6 +175,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
 
   return (
     <div className="main-content glass-box register-scroll" lang={locale}>
+      <CloseButton onClick={handleClose} ariaLabel={t("common.close")} />
       <div className="csp-overlayTitle register-scroll__title" aria-hidden="false">
         <h1 className="glass-title">{t("auth.register.title")}</h1>
       </div>
@@ -303,7 +309,51 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
                 onChange={handleChange}
                 required
               />
-              <span className="checkbox-text">
+              <span className="checkbox-.register-scroll .register-step .register-login-row{
+  margin-top: 1rem;
+  padding-top: 0.4rem;
+}
+.glass-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 25rem;
+  font-weight: normal;
+  color: var(--pt-200);
+  font-size: 1.15em;
+  margin-bottom: 0.1em;
+  margin-top: 0.2em;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+.first-input-label {
+  margin-top: 3em;
+  margin-bottom: 0.5em;
+}
+/* ==============================
+   GLASS RADIO + CHECKBOX
+   2-mode: default=dark, :root.theme-light=light
+   ============================== */
+
+/* ---------- Radio label ---------- */
+.glass-label-radio{
+  display:block;
+  width:100%;
+  max-width:25rem;
+  font-weight:600;
+  color:var(--pt-150);
+  margin:1em 0 -0.3em 0;
+  text-align:left;
+  font-size:1.3em;
+  letter-spacing:0.03em;
+}
+.register-scroll .glass-label-radio{
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  font-size: 1.15em;
+}
+text">
                 <RichText
                   value={t("auth.register.guide_ack")}
                   replacements={{
