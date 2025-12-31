@@ -288,7 +288,7 @@
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     --orbit-size: min(86vw, 16.5rem);
     --orbit-item-size: min(4.1rem, 24vw);
-    --orbit-center-size: min(5.6rem, 32vw);
+    --orbit-center-size: min(7.5rem, 45vw);
   }
 
   /* Mobiil: silt istub nupu sees ja on alati nähtav */
@@ -509,13 +509,13 @@
   min-height: clamp(8.5rem, 58vw, 12rem);
   height: auto;
   border-radius: 999px;
-  padding: 1.2rem 1.3rem 1.0rem;
+  padding: 0.8rem 1.3rem 1.0rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.1rem;
+  gap: 0;
 
   position: relative;
   transform: translateZ(0);
@@ -542,7 +542,7 @@
   display: grid;
   place-items: center;
   line-height: 0;
-  min-height: clamp(6rem, 42vw, 8.5rem);
+  min-height: clamp(4.5rem, 30vw, 6rem);
 }
 
 /* Larger icons to match bigger buttons */
@@ -576,7 +576,7 @@
   /* Larger text to match bigger buttons */
   font-size: clamp(1.2rem, 4.5vw, 1.6rem);
 
-  margin-top: -0.2rem;
+  margin-top: -0.4rem;
   padding: 0;
   border-radius: 0;
   opacity: 0;

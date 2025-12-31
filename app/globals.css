@@ -1249,8 +1249,17 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 }
 @media (max-width: 48em) {
   .glass-box.register-scroll {
-    padding-left: clamp(1rem, 2.5vw, 1.5rem);
-    padding-right: clamp(1rem, 2.5vw, 1.5rem);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .register-form .register-submit {
+    font-size: 1.4em;
+    padding: 0.8em 1.4em;
+    min-width: 12rem;
+  }
+  .register-login-link {
+    font-size: 1.4em;
+    padding: 0.1em 0.4em;
   }
 }
 .glass-box.chat-container,
@@ -1839,7 +1848,7 @@ main#main > .main-content.glass-box.profile-container {
   flex: 1 1 auto;
   min-height: 0;
   padding-bottom: calc(var(--profile-footer-clearance, clamp(2.6rem, 6vh, 4.2rem)) + env(safe-area-inset-bottom, 0px));
-  margin-top: clamp(-0.4rem, -1vh, -0.2rem);
+  margin-top: clamp(-3.0rem, -6vh, -2.5rem);
 }
 .profile-role-pill {
   font-size: var(--profile-role-text-size, 1.1rem);
@@ -4111,6 +4120,23 @@ a {
   text-align: center;
   margin-top: 0.5em;
   margin-bottom: 0.2em;
+}
+@media (max-width: 48em) {
+  #login-modal .login-modal-bottom-link .link-brand{
+    font-size: 1.8em; /* Increased size for mobile */
+  }
+  #login-modal .login-modal-head .glass-title{
+    font-size: clamp(2.5rem, 7vw, 3.2rem); /* Larger title for mobile */
+  }
+  #login-modal .login-modal-head{
+    margin-top: 1.5rem; /* Move title downwards for mobile */
+  }
+  /* Larger close button for modals on mobile */
+  .invite-modal__close.modal-close-btn{
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 2.5rem;
+  }
 }
 .glass-h2,
 .reset-title,
@@ -7315,11 +7341,11 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     transform: none;
     border-radius: 0;
     aspect-ratio: auto;
-    --csp-title-top: clamp(2.5rem, 6vh, 4rem);
+    --csp-title-top: clamp(4.5rem, 10vh, 7rem);
     padding: 0;
     padding-top: clamp(2.5rem, 6vh, 4rem);
-    padding-left: clamp(1.2rem, 4vw, 1.8rem);
-    padding-right: clamp(1.2rem, 4vw, 1.8rem);
+    padding-left: clamp(0.6rem, 2vw, 1rem);
+    padding-right: clamp(0.6rem, 2vw, 1rem);
     padding-bottom: 1.45rem;
   }
   .a11y-modal .csp-overlayTitle .glass-title{
@@ -7346,7 +7372,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     gap: 0.35rem 0.65rem;
   }
   .a11y-modal__scroll{
-    gap: 1.5rem; /* Added this line */
+    gap: 2.5rem; /* Increased gap */
   }
 
 }
@@ -9031,7 +9057,7 @@ h1.glass-title + form.register-form {
     padding: 1.45em 1.15em 1.25em;
     font-size: 1rem;
     --login-envelope-size: clamp(4.5rem, 10vw, 5rem);
-    --login-envelope-hit: clamp(4.5rem, 10vw, 5rem);
+    --login-envelope-hit: clamp(6rem, 15vw, 7rem);
   }
   .login-modal-root .glass-title { font-size: 2.9em; }
   .login-modal-root .login-modal-form input { font-size: 1.2rem; padding: 0.92rem 1.16rem; }
