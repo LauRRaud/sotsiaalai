@@ -325,6 +325,7 @@ export default function ChatBody({ roomId = null }) {
   const [convId, setConvId] = useState(null);
   const [messages, setMessages] = useState([]); // algab tühjalt
   const [input, setInput] = useState("");
+  const [inputFocused, setInputFocused] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
@@ -446,15 +447,6 @@ export default function ChatBody({ roomId = null }) {
     };
 
     const updateMask = () => {
-      const hasLightThemeDoc = document?.documentElement?.classList?.contains?.(
-        "theme-light"
-      );
-      if (hasLightThemeDoc) {
-        box.style.removeProperty("--chat-input-hole-mask");
-        lastMask = "";
-        return;
-      }
-
       const boxRect = box.getBoundingClientRect();
       const inputRect = inputBar.getBoundingClientRect();
       if (!boxRect.width || !boxRect.height) return;
@@ -504,10 +496,15 @@ export default function ChatBody({ roomId = null }) {
     box.addEventListener("scroll", scheduleUpdate);
 
     let ro;
+    let mo;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(inputBar);
+    }
+    if (typeof MutationObserver !== "undefined") {
+      mo = new MutationObserver(scheduleUpdate);
+      mo.observe(box, { childList: true, subtree: true });
     }
 
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
@@ -517,6 +514,7 @@ export default function ChatBody({ roomId = null }) {
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       ro?.disconnect?.();
+      mo?.disconnect?.();
     };
   }, [prefs?.theme]);
 
@@ -1807,11 +1805,12 @@ export default function ChatBody({ roomId = null }) {
   const hasInput = Boolean(input.trim());
 
   /* ---------- Render ---------- */
-    return (
-      <>
-        <InviteModal />
+  return (
+    <>
+      <InviteModal />
+      <div className="chat-page-shell">
         <div
-          className="main-content glass-box chat-container"
+          className={`main-content glass-box chat-container chat-container--round${showAnalysisPanel ? " chat-container--analysis-open" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
           role="region"
           aria-label={t("chat.page_label", "Vestluse sisu")}
           data-chat-bg={
@@ -1851,6 +1850,7 @@ export default function ChatBody({ roomId = null }) {
       {errorBanner ? (
         <div
           role="alert"
+          className="chat-error-banner"
           style={{
             margin: "0.5rem 0 0.75rem",
             padding: "0.7rem 0.9rem",
@@ -1875,14 +1875,14 @@ export default function ChatBody({ roomId = null }) {
       ) : null}
 
       {isRoomMode && roomBlocked ? (
-        <div className="glass-note" role="alert">
+        <div className="glass-note chat-error-banner" role="alert">
           {t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga.")}
         </div>
       ) : null}
 
 
       {isRoomMode && roomAuthRequired ? (
-        <div className="glass-note" role="alert">
+        <div className="glass-note chat-error-banner" role="alert">
           {t("chat.room.auth_required", "Sessioon aegus. Palun logi uuesti sisse.")}
         </div>
       ) : null}
@@ -2013,6 +2013,8 @@ export default function ChatBody({ roomId = null }) {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  onFocus={() => setInputFocused(true)}
+                  onBlur={() => setInputFocused(false)}
                   className="chat-input-field"
                   disabled={isGenerating || (isRoomMode && (roomBlocked || roomAuthRequired))}
                   rows={1}
@@ -2133,7 +2135,7 @@ export default function ChatBody({ roomId = null }) {
         {recordingError ? (
           <div
             role="alert"
-            className="glass-note"
+            className="glass-note chat-error-banner"
             style={{ marginTop: "0.5rem" }}
           >
             {recordingError}
@@ -2488,7 +2490,8 @@ export default function ChatBody({ roomId = null }) {
           </div>
         </div>
       ) : null}
-      </main>
+        </main>
+      </div>
     </div>
     </>
   );
