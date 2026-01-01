@@ -3587,6 +3587,11 @@ width: clamp(16rem, 16vw, 17rem);
   transition:color 0.2s ease;
   cursor:var(--cursor-pointer);
 }
+.glass-checkbox .link-brand-inline{
+  display: inline;
+  padding: 0 0.08em;
+  line-height: inherit;
+}
 
 .glass-checkbox:hover{
   background:rgba(16,22,34,0.46);
@@ -4143,6 +4148,15 @@ a {
     width: 3.5rem;
     height: 3.5rem;
     font-size: 2.5rem;
+  }
+  .register-scroll .invite-modal__close.modal-close-btn{
+    top: 1rem;
+    right: 0.9rem;
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+  .register-scroll .invite-modal__close.modal-close-btn::before{
+    font-size: 2.4rem;
   }
 }
 .glass-h2,
@@ -7223,16 +7237,6 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   line-height: 1.35;
 }
 
-@media (max-width: 48em) {
-  .a11y-modal{
-    width: 100%;
-    max-width: calc(100vw - 1.5rem);
-    padding: 1.6rem 1rem 1.25rem;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
 
 .a11y-modal{
   --csp-title-top: 5.8rem;
@@ -7356,11 +7360,8 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     border-radius: 0;
     aspect-ratio: auto;
     --csp-title-top: clamp(4.5rem, 10vh, 7rem);
-    padding: 0;
-    padding-top: clamp(2.5rem, 6vh, 4rem);
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    padding-bottom: 1.45rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 2rem) 0 calc(env(safe-area-inset-bottom, 0px) + 1.6rem);
+    font-size: 1.18rem;
   }
   .a11y-modal .a11y-fieldset,
   .a11y-modal .a11y-options {
@@ -7378,8 +7379,8 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     --csp-title-offset: clamp(3.8rem, 7.5vh, 5.5rem);
   }
   .a11y-modal .csp-step{
-    min-height: clamp(6.8rem, 12vh, 8.5rem);
-    padding: 0.65rem 0;
+    min-height: clamp(7.4rem, 13vh, 9rem);
+    padding: 0.8rem 0;
   }
   .a11y-modal .a11y-fieldset,
   .a11y-modal .a11y-actions{
@@ -7387,10 +7388,19 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   }
   .a11y-modal .a11y-options{
     max-width: 100%;
-    gap: 0.35rem 0.65rem;
+    gap: 0.6rem 0.95rem;
   }
-  .a11y-modal__scroll{
-    gap: 4.5rem; /* Further increased gap */
+  .a11y-modal .a11y-legend{
+    font-size: clamp(1.6rem, 5.8vw, 2.2rem);
+  }
+  .a11y-modal .a11y-options .text{
+    font-size: 1.45rem;
+  }
+  .a11y-modal .a11y-fieldset{
+    margin: 0.5rem 0 1rem;
+  }
+  .a11y-modal .a11y-fieldset:nth-of-type(2){
+    margin-bottom: 1.6rem;
   }
 
 }
@@ -7450,15 +7460,19 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 @media (max-width: 48em){
   .a11y-modal__scroll{
     width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    gap: 0.4rem;
+    padding: 1.1rem 1.1rem;
+    gap: 1.2rem;
   }
   .a11y-modal .a11y-close.modal-close-btn{
-    top: 0.6rem;
-    right: 0.7rem;
+    top: 1rem;
+    right: 0.9rem;
     left: auto;
     margin-left: 0;
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+  .a11y-modal .a11y-close.modal-close-btn::before{
+    font-size: 2.4rem;
   }
   .a11y-modal .a11y-fieldset{
     margin: 0.4rem 0 0.5rem;
@@ -9557,11 +9571,14 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   }
   
   .profile-page-shell .profile-email-dock-wrapper {
-    margin-top: clamp(-1rem, -2.5vh, 0rem) !important;
+    margin-top: clamp(0.8rem, 2.5vh, 1.6rem) !important;
   }
   
   .profile-page-shell .profile-btn-row--back-logout {
-    margin-top: clamp(-1rem, -2.5vh, 0rem) !important;
+    margin-top: clamp(0.6rem, 2vh, 1.2rem) !important;
+  }
+  .profile-page-shell .profile-email-field {
+    margin-top: clamp(0.7rem, 2vh, 1.1rem);
   }
   .profile-btn-row--back-logout .back-arrow-btn{
     inline-size: 6.4rem;

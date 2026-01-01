@@ -344,9 +344,9 @@
   padding: 0;
 
   /* Stronger dim so page never competes visually */
-  background: rgba(6, 8, 12, 0.55);
-  -webkit-backdrop-filter: blur(10px) saturate(110%);
-  backdrop-filter: blur(10px) saturate(110%);
+  background: rgba(6, 8, 12, 0.38);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
 }
 
 :root.theme-light .profile-orbit-mobile-backdrop.invite-modal-backdrop {
@@ -371,14 +371,14 @@
   flex-direction: column;
 
   /* Layout breathing room (list will fill) */
-  padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0.85rem calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
+  padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0 calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
 }
 
 /* Glass surface style like profile/accessibility modals */
 :root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
-  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(108%);
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(108%);
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.16));
+  backdrop-filter: blur(1.6rem) saturate(120%);
+  -webkit-backdrop-filter: blur(1.6rem) saturate(120%);
   border: none;
   --orbit-under-glow:
     0 10px 18px -14px rgba(248,253,255,0.72),
@@ -458,8 +458,8 @@
   scroll-snap-type: y proximity;
 
   /* Keep some horizontal breathing room */
-  padding-left: 0.2rem;
-  padding-right: 0.2rem;
+  padding-left: 0.85rem;
+  padding-right: 0.85rem;
 
   /* Hide scrollbars */
   scrollbar-width: none;
@@ -547,8 +547,8 @@
 
 /* Larger icons to match bigger buttons */
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
-  width: 62%;
-  height: 62%;
+  width: 70%;
+  height: 70%;
   max-width: none;
   max-height: none;
   opacity: 0.95;
@@ -574,7 +574,7 @@
   letter-spacing: 0.025em;
 
   /* Larger text to match bigger buttons */
-  font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  font-size: clamp(1.3rem, 4.8vw, 1.75rem);
 
   margin-top: -0.4rem;
   padding: 0;
