@@ -141,10 +141,6 @@ export default function ProfiilBody({ initialProfile = null }) {
   const { prefs, setPrefs, openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
 
-  const [email, setEmail] = useState(initialProfile?.email || "");
-  const [initialEmail, setInitialEmail] = useState(
-    (initialProfile?.email || "").trim().toLowerCase()
-  );
   const [hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
 
@@ -166,19 +162,13 @@ export default function ProfiilBody({ initialProfile = null }) {
   const isLightTheme = prefs?.theme === "light";
 
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
-  const emailLabel = t("profile.email");
-
-
-
   const profileContainerRef = useRef(null);
   const rolePillRef = useRef(null);
-  const emailFieldRef = useRef(null);
 
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
-    const emailEl = emailFieldRef.current;
-    if (!box || !pill || !emailEl) return;
+    if (!box || !pill) return;
 
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
@@ -205,20 +195,9 @@ export default function ProfiilBody({ initialProfile = null }) {
     };
 
     const updateMask = () => {
-      const hasLightThemeDoc = document?.documentElement?.classList?.contains?.("theme-light");
-      if (hasLightThemeDoc) {
-        box.style.removeProperty("--profile-role-hole-mask");
-        box.style.removeProperty("--profile-role-only-mask");
-        lastMask = "";
-        lastRoleMask = "";
-        return;
-      }
-
       const boxRect = box.getBoundingClientRect();
       const pillRect = pill.getBoundingClientRect();
-      const emailRect = emailEl.getBoundingClientRect();
       if (!boxRect.width || !boxRect.height || !pillRect.width || !pillRect.height) return;
-      if (!emailRect.width || !emailRect.height) return;
 
       const boxW = Math.round(boxRect.width);
       const boxH = Math.round(boxRect.height);
@@ -231,16 +210,11 @@ export default function ProfiilBody({ initialProfile = null }) {
       });
 
       const pillLocal = toLocal(pillRect);
-      const emailLocal = toLocal(emailRect);
 
       const pillRadiusRaw = Number.parseFloat(
         window.getComputedStyle(pill).borderTopLeftRadius
       );
-      const emailRadiusRaw = Number.parseFloat(
-        window.getComputedStyle(emailEl).borderTopLeftRadius
-      );
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
-      const emailRadius = Number.isFinite(emailRadiusRaw) ? emailRadiusRaw : emailLocal.h / 2;
 
       const outerPath = `M 0 0 H ${boxW} V ${boxH} H 0 Z`;
       const pillPath = roundedRectPath(
@@ -250,27 +224,18 @@ export default function ProfiilBody({ initialProfile = null }) {
         pillLocal.h,
         pillRadius
       );
-      const emailPath = roundedRectPath(
-        emailLocal.x,
-        emailLocal.y,
-        emailLocal.w,
-        emailLocal.h,
-        emailRadius
-      );
 
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath} ${emailPath}"/></svg>`;
-      const roleSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath}"/></svg>`;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath}"/></svg>`;
       const mask = encodeSvgMask(svg);
-      const roleMask = encodeSvgMask(roleSvg);
 
       if (mask !== lastMask) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         lastMask = mask;
       }
 
-      if (roleMask !== lastRoleMask) {
-        box.style.setProperty("--profile-role-only-mask", roleMask);
-        lastRoleMask = roleMask;
+      if (mask !== lastRoleMask) {
+        box.style.setProperty("--profile-role-only-mask", mask);
+        lastRoleMask = mask;
       }
     };
 
@@ -287,7 +252,6 @@ export default function ProfiilBody({ initialProfile = null }) {
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(pill);
-      ro.observe(emailEl);
     }
 
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
@@ -297,7 +261,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       window.removeEventListener("resize", scheduleUpdate);
       ro?.disconnect?.();
     };
-  }, [prefs?.theme, roleLabel, email]);
+  }, [prefs?.theme, roleLabel]);
 
   useEffect(() => {
     if (status === "unauthenticated") setLoginOpen(true);
@@ -342,7 +306,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     {
       key: "email",
       icon: <EmailDockIcon />,
-      label: t("profile.update_email_cta", "Uus e-post"),
+      label: t("profile.update_email_cta", "Uuenda e-post"),
       labelPos: "up",
       onClick: () => router.push(localizePath("/uuenda-epost", locale)),
     },
@@ -403,9 +367,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       return;
     }
 
-    if (initialProfile && typeof initialProfile.email === "string") {
-      setEmail(initialProfile.email || "");
-      setInitialEmail((initialProfile.email || "").trim().toLowerCase());
+    if (initialProfile) {
       setHasPassword(!!initialProfile.hasPassword);
       setLoadFailed(false);
       setLoading(false);
@@ -422,8 +384,6 @@ export default function ProfiilBody({ initialProfile = null }) {
           setLoadFailed(true);
           return;
         }
-        setEmail(payload?.user?.email ?? "");
-        setInitialEmail((payload?.user?.email ?? "").trim().toLowerCase());
         setHasPassword(!!payload?.user?.hasPassword);
       } catch (err) {
         console.error("profile GET", err);
@@ -518,22 +478,6 @@ export default function ProfiilBody({ initialProfile = null }) {
       </div>
 
       <div className="glass-form profile-form-vertical">
-        <div className="profile-email-field" ref={emailFieldRef}>
-          <label htmlFor="email" className="sr-only">
-            {emailLabel}
-          </label>
-          <input
-            className="input-modern"
-            type="email"
-            id="email"
-            autoComplete="email"
-            value={email}
-            size={Math.max(12, email.length)}
-            aria-label={emailLabel}
-            readOnly
-          />
-        </div>
-
         <div className="profile-email-dock-wrapper profile-orbit-menu-wrapper">
           <OrbitalMenu
             items={orbitItems}

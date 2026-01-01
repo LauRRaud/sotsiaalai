@@ -155,11 +155,10 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
               skipIntro={!animateFog || !!reduceMotion || mobileLike}
               fogAppearDelayMs={0}
               mode={isLightTheme ? "light" : "dark"}
-              palette={isLightTheme ? { baseTop: "#f2f4f9", baseBottom: "#e6eaf1" } : undefined}
+              palette={isLightTheme ? { baseTop: "#d0d3d8", baseBottom: "#bcc1c9" } : undefined}
               allowMobileCustom={isLightTheme}
               grain={!isLightTheme}
-              fogStrength={isLightTheme ? 0.16 : undefined}
-              fogBlurPx={isLightTheme ? 70 : undefined}
+              fog={!isLightTheme}
             />
           </Suspense>
         </div>

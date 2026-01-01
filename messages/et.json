@@ -218,9 +218,11 @@
       "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
     },
     "change_password_cta": "Uus PIN",
-    "update_email_cta": "Uus e-post",
+    "update_email_cta": "Uuenda e-post",
     "email_update": {
       "title": "Uuenda e-post",
+      "current_placeholder": "Sinu e-post",
+      "new_placeholder": "Uus e-post",
       "submit": "Saada kinnituskiri",
       "submitting": "Saadan…",
       "pin_placeholder": "Praegune PIN (4–8 numbrit)",

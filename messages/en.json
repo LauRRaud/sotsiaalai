@@ -218,9 +218,11 @@
       "save_failed": "Failed to save preferences. Please try again."
     },
     "change_password_cta": "New PIN",
-    "update_email_cta": "New email",
+    "update_email_cta": "Update email",
     "email_update": {
       "title": "Update email",
+      "current_placeholder": "Your email",
+      "new_placeholder": "New email",
       "submit": "Send verification email",
       "submitting": "Sending",
       "pin_placeholder": "Current PIN (4-8 digits)",

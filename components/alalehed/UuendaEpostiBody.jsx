@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
@@ -9,6 +9,7 @@ export default function UuendaEpostiBody() {
   const { t, locale } = useI18n();
   const PIN_MIN = 4;
   const PIN_MAX = 8;
+  const [currentEmail, setCurrentEmail] = useState("");
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,29 @@ export default function UuendaEpostiBody() {
   const [error, setError] = useState("");
 
   const errorId = error ? "update-email-error" : undefined;
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadCurrentEmail = async () => {
+      try {
+        const res = await fetch("/api/profile", { cache: "no-store" });
+        const payload = await res.json().catch(() => ({}));
+        if (!isActive) return;
+        if (res.ok) {
+          setCurrentEmail(payload?.user?.email || "");
+        }
+      } catch (err) {
+        console.error("update email profile load", err);
+      }
+    };
+
+    loadCurrentEmail();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -120,17 +144,32 @@ export default function UuendaEpostiBody() {
           autoComplete="off"
           aria-busy={loading ? "true" : "false"}
         >
+          <label htmlFor="current-email" className="reset-label">
+            <input
+              type="email"
+              id="current-email"
+              name="current-email"
+              className="reset-input"
+              placeholder={t("profile.email_update.current_placeholder", "Sinu e-post")}
+              value={currentEmail}
+              readOnly
+              aria-readonly="true"
+              autoComplete="email"
+              inputMode="email"
+            />
+          </label>
           <label htmlFor="email" className="reset-label">
             <input
               type="email"
               id="email"
               name="email"
               className="reset-input"
-              placeholder={t("auth.email_placeholder")}
+              placeholder={t("profile.email_update.new_placeholder", "Uus e-post")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              inputMode="email"
               disabled={loading}
               aria-invalid={error ? "true" : "false"}
               aria-describedby={errorId}

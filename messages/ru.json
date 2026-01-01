@@ -218,9 +218,11 @@
       "save_failed": "Не удалось сохранить предпочтения. Попробуйте снова."
     },
     "change_password_cta": "Новый PIN-код",
-    "update_email_cta": "Новый email",
+    "update_email_cta": "Обновить email",
     "email_update": {
       "title": "Обновить email",
+      "current_placeholder": "Ваш email",
+      "new_placeholder": "Новый email",
       "submit": "Отправить письмо с подтверждением",
       "submitting": "Отправляем",
       "pin_placeholder": "Текущий PIN-код (4-8 цифр)",

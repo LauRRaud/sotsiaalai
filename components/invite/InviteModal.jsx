@@ -35,6 +35,20 @@ export default function InviteModal() {
     return () => window.removeEventListener("sotsiaalai:open-invite", handler);
   }, []);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    document.body.classList.toggle("modal-open", open);
+    document.body.classList.toggle("invite-modal-open", open);
+    root.classList.toggle("modal-open", open);
+    root.classList.toggle("invite-modal-open", open);
+    return () => {
+      document.body.classList.remove("modal-open");
+      document.body.classList.remove("invite-modal-open");
+      root.classList.remove("modal-open");
+      root.classList.remove("invite-modal-open");
+    };
+  }, [open]);
+
   const loadInvites = useCallback(async () => {
     setLoadingList(true);
     try {

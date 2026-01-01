@@ -99,8 +99,13 @@ export default function HomePage() {
   }, [leftFadeDone, rightFadeDone]);
 
   useEffect(() => {
+    const root = document.documentElement;
     document.body.classList.toggle("modal-open", isLoginOpen);
-    return () => document.body.classList.remove("modal-open");
+    root.classList.toggle("modal-open", isLoginOpen);
+    return () => {
+      document.body.classList.remove("modal-open");
+      root.classList.remove("modal-open");
+    };
   }, [isLoginOpen]);
 
   useEffect(() => {
