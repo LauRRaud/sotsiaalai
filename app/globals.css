@@ -6847,18 +6847,18 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
 }
 .a11y-modal{
   max-width:min(47.5rem, 94vw);
-  padding:1rem 1.4rem 1.45rem;
+  padding:1.5rem;
   border-radius:1.125rem;
   color: var(--pt-150);
   display:flex;
   flex-direction:column;
   align-items:center;
   text-align:center;
-  gap:0.7rem;
+  gap:1rem;
 }
-.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.08rem; }
+.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.2rem; }
 .a11y-modal .a11y-fieldset{
-  margin: .55rem 0 .7rem;
+  margin: 0.8rem 0;
   width: 100%;
   max-width: 40rem;
   padding: 0;
@@ -6867,6 +6867,7 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 0.8rem;
 }
 .a11y-modal .a11y-legend{
   display: block;
@@ -6874,10 +6875,10 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
   max-width: none;
   text-align: center;
   align-self: center;
-  margin-bottom: 0.3rem;
-  margin-top: 0.35rem; /* proovi 0.45-0.85rem */
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   color: var(--link-gold, #d0adad);
-  font-size: clamp(1.28rem, 2.6vw, 1.55rem);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
   font-weight: 400;
   letter-spacing: 0.02em;
@@ -6885,10 +6886,10 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
 }
 .a11y-modal .text, .a11y-modal label{
   color: var(--pt-150);
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   text-align: center;
 }
-.a11y-actions{ display:flex; justify-content: center; margin-top:0.8rem; }
+.a11y-actions{ display:flex; justify-content: center; margin-top:1.2rem; }
 .skip-link{
   position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;
 }
@@ -7205,32 +7206,39 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
 .a11y-modal{
   position:fixed; left:50%; top:50%; transform: translate(-50%, -50%);
   z-index:50; outline:none; pointer-events:auto;
-  --a11y-diameter: clamp(320px, 88vmin, 46rem);
-  width: var(--a11y-diameter);
-  height: var(--a11y-diameter);
-  inline-size: var(--a11y-diameter);
-  block-size: var(--a11y-diameter);
-  max-width: var(--a11y-diameter);
-  max-height: var(--a11y-diameter);
-  aspect-ratio: 1 / 1;
-  padding:0;
-  border-radius:50%;
-  overflow: hidden;
-  background-clip: padding-box;
-  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25)); border:none;
+  width: min(680px, 96vw);
+  max-height: calc(100dvh - 2.5rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-radius: 1.5rem;
+  border: none;
+  box-shadow: none;
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  color: var(--glass-surface-text, #f2f2f2);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  gap:0;
+  padding: 2.4rem 2rem 2rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
 }
+
+@media (max-width: 48em) {
+  .a11y-modal{
+    width: 100%;
+    max-width: calc(100vw - 1.5rem);
+    padding: 1.6rem 1rem 1.25rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .a11y-modal{
   --csp-title-top: 5.8rem;
 }
 .a11y-modal .csp-overlayTitle .glass-title{
-  font-size: clamp(1.6rem, 3.1vw, 2.2rem);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
   line-height: 1.06;
 }
 .a11y-modal__scroll{
@@ -7329,8 +7337,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   flex-wrap:wrap;
   justify-content: center;
   align-items:center;
-    gap:.25rem .45rem;
-  width:100%;
+  gap:0.5rem 0.8rem;  width:100%;
   max-width: 30rem;
   margin: 0 auto;
 }
@@ -7460,7 +7467,7 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
     margin-bottom: 0.2rem;
   }
   .a11y-modal .a11y-options{
-    gap: 0.2rem 0.35rem;
+    gap: 0.3rem 0.5rem;
   }
 }
 .a11y-actions .btn-primary{
@@ -10376,44 +10383,12 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     backdrop-filter: blur(2.5rem) saturate(120%);
     -webkit-backdrop-filter: blur(2.5rem) saturate(120%);
   }
-  #login-modal .glass-title {
-    font-size: clamp(2.4rem, 6vw, 3.2rem);
-  }
   #login-modal .login-modal-bottom-link {
     margin-top: 0.15em;
     margin-bottom: 0;
   }
-  #login-modal .login-modal-bottom-link .link-brand {
-    font-size: 1.6rem;
-  }
   #login-modal .pin-keypad-all-wrapper {
     margin-top: 0.5rem;
-  }
-  /* Larger keypad buttons on mobile */
-  #login-modal.login-modal-box.glass-modal,
-  #login-modal {
-    --pin-btn: clamp(5.5rem, 16vw, 6.8rem) !important;
-    --pin-gap-x: clamp(1.1rem, 3vw, 1.3rem) !important;
-    --pin-gap-y: clamp(0.95rem, 2.5vw, 1.1rem) !important;
-  }
-  #login-modal .pin-keypad__button {
-    width: var(--pin-btn) !important;
-    height: var(--pin-btn) !important;
-    font-size: 1.85rem !important;
-  }
-  #login-modal .pin-keypad__button.pin-keypad__button--help {
-    font-size: 2.1rem !important;
-  }
-  #login-modal .pin-keypad-all {
-    grid-template-columns: repeat(3, var(--pin-btn)) !important;
-    grid-auto-rows: var(--pin-btn) !important;
-    column-gap: var(--pin-gap-x) !important;
-    row-gap: var(--pin-gap-y) !important;
-    max-width: calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x))) !important;
-  }
-  #login-modal .pin-keypad__blank {
-    width: var(--pin-btn) !important;
-    height: var(--pin-btn) !important;
   }
 }
 
@@ -10432,37 +10407,65 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   line-height: 1.15;
   font-weight: 500;
 }
-.pin-keypad__button--submit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.login-submit-icon-stack {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 48em) {
+  #login-modal {
+    --pin-btn: clamp(5.5rem, 16vw, 6.8rem);
+    --pin-gap-x: clamp(1.1rem, 3vw, 1.3rem);
+    --pin-gap-y: clamp(0.95rem, 2.5vw, 1.1rem);
+    --login-envelope-size: clamp(5.6rem, 18vw, 6.8rem);
+    --login-envelope-hit: clamp(6.2rem, 20vw, 7.4rem);
+  }
+  #login-modal .glass-title {
+    font-size: clamp(2.1rem, 5.2vw, 2.8rem);
+  }
+  #login-modal .login-modal-bottom-link .link-brand {
+    font-size: 1.6rem;
+  }
+  #login-modal .login-modal-form .input-email-icon {
+    width: 100%;
+    max-width: 100%;
+  }
+  #login-modal .pin-keypad__button {
+    font-size: 1.85rem;
+  }
+  #login-modal .pin-keypad__button.pin-keypad__button--help {
+    font-size: 2.1rem;
+  }
 }
-
-.login-submit-icon {
-  display: block;
-}
-
-.login-submit-icon-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-.pin-keypad__button.pin-keypad__button--submit{
-  /* keep identical sizing and centering */
+.pin-keypad__button--submit{
   display: grid;
   place-items: center;
+  padding: 0;
+}
+
+.login-submit-icon-stack{
+  position: relative;
+  width: var(--pin-btn);
+  height: var(--pin-btn);
+  display: grid;
+  place-items: center;
+  line-height: 0;
+}
+
+.login-submit-icon{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.login-submit-icon-overlay{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.login-submit-icon-overlay svg{
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* Remove ring pseudo-element for submit */
@@ -10498,74 +10501,10 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   }
 }
 
-/* Ensure the icon stack is perfectly centered and same footprint */
-.login-submit-icon-stack{
-  position: relative;
-  width: 80px;
-  height: 80px;
-  display: grid;
-  place-items: center;
-}
-
-/* Make the Next/Image-rendered SVG behave predictably */
-.login-submit-icon{
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Overlay always centered over the base icon */
-.login-submit-icon-overlay{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-
 /* Submit focus should feel consistent with help */
 .pin-keypad__button.pin-keypad__button--submit:focus-visible{
   outline: none;
   text-shadow: 0 0 0.6px currentColor;
-}
-.pin-keypad__button--submit{ display:grid; place-items:center; }
-.login-submit-icon-stack{ display:grid; place-items:center; width:80px; height:80px; position:relative; }
-.login-submit-icon-overlay{ position:absolute; inset:0; display:grid; place-items:center; }
-.pin-keypad__button--submit{
-  display: grid;
-  place-items: center;
-  padding: 0;
-}
-
-/* stack = sama footprint mis nupp */
-.login-submit-icon-stack{
-  position: relative;
-  width: var(--pin-btn);
-  height: var(--pin-btn);
-  display: grid;
-  place-items: center;
-  line-height: 0; /* väldib inline baseline “nihkeid” */
-}
-
-/* Next/Image fill -> peab olema relative konteineris */
-.login-submit-icon{
-  display: block;
-}
-
-/* overlay 100% konteinerist */
-.login-submit-icon-overlay{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-
-/* kui overlay svg jääb ikkagi optiliselt liiga suur: */
-.login-submit-icon-overlay svg{
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 #login-modal .login-modal-message-slot{
   margin-top: 0.2rem;

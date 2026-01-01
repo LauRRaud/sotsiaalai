@@ -65,11 +65,13 @@ const Label = styled.label`
     color: var(--pt, #C9C7C2);
     font: inherit;
   }
-  /* A11Y modal: scale controls and text slightly larger */
-  .a11y-modal & { gap: 0.75rem; }
-  .a11y-modal & .box { width: 32px; height: 32px; }
-  .a11y-modal & .svg { width: 22px; height: 22px; }
-  .a11y-modal & .text { font-size: 1.12rem; }
+  .a11y-modal & {
+    gap: 0.9rem;
+    min-height: 48px;
+  }
+  .a11y-modal & .box { width: 36px; height: 36px; }
+  .a11y-modal & .svg { width: 26px; height: 26px; }
+  .a11y-modal & .text { font-size: 1.3rem; }
 `;
 const FancyCheckbox = forwardRef(function FancyCheckbox(
   { id, label, checked, onChange, disabled, name }, ref

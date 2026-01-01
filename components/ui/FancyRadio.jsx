@@ -52,11 +52,12 @@ const Label = styled.label`
   }
   /* A11Y modal: scale controls and text slightly larger */
   .a11y-modal & {
-    gap: 0.7rem;
+    gap: 0.9rem;
+    min-height: 48px;
   }
-  .a11y-modal & .outer { width: 24px; height: 24px; }
-  .a11y-modal & .dot { width: 12px; height: 12px; }
-  .a11y-modal & .text { font-size: 1.12rem; }
+  .a11y-modal & .outer { width: 28px; height: 28px; }
+  .a11y-modal & .dot { width: 14px; height: 14px; }
+  .a11y-modal & .text { font-size: 1.3rem; }
 `;
 const FancyRadio = forwardRef(function FancyRadio(
   { id, label, checked, onChange, disabled, name, value }, ref
