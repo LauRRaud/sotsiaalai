@@ -5697,7 +5697,7 @@ backdrop-filter: none;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(5rem, 10vh, 7.8rem);
+  bottom: clamp(4.3rem, 8.5vh, 6.8rem);
   margin: 0;
   z-index: 8;
   pointer-events: auto;

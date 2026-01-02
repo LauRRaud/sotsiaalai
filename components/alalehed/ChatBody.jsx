@@ -580,6 +580,9 @@ export default function ChatBody({ roomId = null }) {
       const panel = analysisPanelRef.current;
       const previewNode = previewRef.current;
       if (!panel || !previewNode) return;
+      const isOverlay =
+        typeof window !== "undefined" &&
+        ["absolute", "fixed"].includes(window.getComputedStyle(panel).position);
       const rect = panel.getBoundingClientRect();
       const vh =
         typeof window !== "undefined"
@@ -593,7 +596,7 @@ export default function ChatBody({ roomId = null }) {
       const atBottom = previewNode.scrollTop >= maxScroll;
 
       const belowViewport = rect.bottom > vh - margin;
-      if (belowViewport && vh > 0 && deltaY > 0) {
+      if (!isOverlay && belowViewport && vh > 0 && deltaY > 0) {
         if (event.cancelable) event.preventDefault();
         panel.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
@@ -732,7 +735,13 @@ export default function ChatBody({ roomId = null }) {
   const scrollAnalysisPanelIntoView = useCallback(() => {
     requestAnimationFrame(() => {
       try {
-        analysisPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        const panel = analysisPanelRef.current;
+        if (!panel) return;
+        const isOverlay =
+          typeof window !== "undefined" &&
+          ["absolute", "fixed"].includes(window.getComputedStyle(panel).position);
+        if (isOverlay) return;
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       } catch {}
     });
   }, []);
