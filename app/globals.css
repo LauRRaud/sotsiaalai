@@ -5428,7 +5428,7 @@ backdrop-filter: none;
   }
   .chat-page-shell .chat-container--round.chat-container--analysis-open .chat-back-btn-wrapper{
     margin-top: 0;
-    margin-bottom: max(env(safe-area-inset-bottom, 0), 0.6rem);
+    margin-bottom: max(env(safe-area-inset-bottom, 0), 0.35rem);
   }
 }
 .chat-analysis-card{
@@ -8057,6 +8057,22 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 .rooms-back-btn {
   margin-top: auto;
 }
+.rooms-title{
+  text-align: center;
+}
+.rooms-empty{
+  text-align: center;
+  width: min(28rem, 90%);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.45;
+}
+.rooms-simple-list{
+  width: min(30rem, 90%);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
 :root:not(.theme-light) .meist-body,
 :root:not(.theme-light) .meist-body p,
 :root:not(.theme-light) .meist-body li,
@@ -9369,9 +9385,9 @@ html[data-contrast=hc] body .profile-email-field .input-modern:focus-visible{
   letter-spacing: 0.05em;
   color: var(--chat-icon-color, #f1f5f9);
   padding: 0.18rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(8, 12, 20, 0.55);
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 0;
+  background: rgba(18, 24, 36, 0.38);
+  border: none;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -9718,8 +9734,8 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     padding-left: clamp(1.4rem, 4.5vw, 2.4rem);
     padding-right: clamp(2.6rem, 7.5vw, 3.9rem);
     transition: padding 0.32s ease;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 6%, #000 14%, #000 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 6%, #000 14%, #000 100%);
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-position: 0 0;
@@ -9728,11 +9744,11 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     mask-repeat: no-repeat;
   }
   .chat-page-shell .chat-container--round.chat-container--input-focus .chat-window{
-    padding-left: clamp(0.8rem, 3vw, 1.6rem);
-    padding-right: clamp(1.8rem, 5vw, 3rem);
+    padding-left: clamp(0.25rem, 1.6vw, 0.9rem);
+    padding-right: clamp(1.1rem, 3.8vw, 2.2rem);
   }
   :root .chat-page-shell .glass-box.chat-container.chat-container--round .top-nav--chat{
-    left: calc(var(--hud-edge-left) + 1rem);
+    left: max(0px, calc(var(--hud-edge-left) + 0.5rem));
   }
   .chat-page-shell .chat-container--round .chat-input-row{
     padding: 0;
@@ -9742,11 +9758,11 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     transition: max-width 0.32s ease, padding 0.32s ease;
   }
   .chat-page-shell .chat-container--round.chat-container--input-focus .chat-input-row{
-    max-width: min(90%, 46rem);
+    max-width: min(94%, 52rem);
   }
   .chat-page-shell .chat-container--round .avatar-link{
     top: 50%;
-    right: var(--hud-edge-right);
+    right: max(0px, calc(var(--hud-edge-right) - 0.6rem));
     left: auto;
     transform: translateY(-50%) scale(1);
   }
@@ -9779,9 +9795,64 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding-top: calc(env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem));
+  justify-content: flex-start;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.rooms-page-shell{
+  width: 100%;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.rooms-page-shell .rooms-container{
+  width: var(--profile-diameter);
+  height: var(--profile-diameter);
+  inline-size: var(--profile-diameter);
+  block-size: var(--profile-diameter);
+  min-width: var(--profile-diameter);
+  min-height: var(--profile-diameter);
+  max-width: var(--profile-diameter);
+  max-height: var(--profile-diameter);
+  flex: 0 0 auto;
+  align-self: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: max(0px, calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 48em){
+  .rooms-page-shell{
+    justify-content: flex-start;
+    padding-top: calc(env(safe-area-inset-top, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .rooms-page-shell .rooms-container{
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    min-width: 0;
+    min-height: 0;
+    flex: 0 0 auto;
+    aspect-ratio: auto;
+    border-radius: 0;
+    overflow: visible;
+    padding-top: clamp(1.2rem, 3vh, 2rem);
+  }
+}
+@media (min-width: 48em){
+  .rooms-page-shell{
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem));
+  }
 }
 .profile-page-shell .glass-box.profile-container{
   width: var(--profile-diameter);
@@ -9797,6 +9868,15 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
+  margin-top: max(0px, calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 48em){
+  .profile-page-shell{
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem));
+  }
 }
 @media (max-width: 48em){
   .profile-page-shell{

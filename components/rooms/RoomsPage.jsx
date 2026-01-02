@@ -56,39 +56,41 @@ export default function RoomsPage() {
       : visibleRooms;
 
   return (
-    <main id="main" className="main-content glass-box rooms-shell" role="region" aria-label={t("rooms.aria", "Ruumid")}>
-      <h1 className="glass-title rooms-title">{t("rooms.title", "Ruumid")}</h1>
+    <div className="rooms-page-shell">
+      <section className="main-content glass-box rooms-shell rooms-container" role="region" aria-label={t("rooms.aria", "Ruumid")}>
+        <h1 className="glass-title rooms-title">{t("rooms.title", "Ruumid")}</h1>
 
-      {loading ? (
-        <p className="rooms-empty" aria-busy="true">
-          {t("rooms.loading", "Laadin ruume...")}
-        </p>
-      ) : effectiveRooms.length === 0 ? (
-        <p className="rooms-empty">
-          {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
-        </p>
-      ) : (
-        <ul className="rooms-simple-list" role="list">
-          {effectiveRooms.map((room) => (
-            <li key={room.id}>
-              <Link href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="rooms-simple-link">
-                {room.title || t("rooms.fallback_title", "Ruum")}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+        {loading ? (
+          <p className="rooms-empty" aria-busy="true">
+            {t("rooms.loading", "Laadin ruume...")}
+          </p>
+        ) : effectiveRooms.length === 0 ? (
+          <p className="rooms-empty">
+            {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
+          </p>
+        ) : (
+          <ul className="rooms-simple-list" role="list">
+            {effectiveRooms.map((room) => (
+              <li key={room.id}>
+                <Link href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="rooms-simple-link">
+                  {room.title || t("rooms.fallback_title", "Ruum")}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
 
-      <div className="back-btn-wrapper rooms-back-btn">
-        <button
-          type="button"
-          className="back-arrow-btn"
-          onClick={() => router.push("/vestlus")}
-          aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}
-        >
-          <span className="back-arrow-circle" />
-        </button>
-      </div>
-    </main>
+        <div className="back-btn-wrapper rooms-back-btn">
+          <button
+            type="button"
+            className="back-arrow-btn"
+            onClick={() => router.push("/vestlus")}
+            aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}
+          >
+            <span className="back-arrow-circle" />
+          </button>
+        </div>
+      </section>
+    </div>
   );
 }
