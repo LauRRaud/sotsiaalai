@@ -5697,7 +5697,7 @@ backdrop-filter: none;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(4.6rem, 9vh, 7.2rem);
+  bottom: clamp(5rem, 10vh, 7.8rem);
   margin: 0;
   z-index: 8;
   pointer-events: auto;
@@ -5714,8 +5714,8 @@ backdrop-filter: none;
     margin-top: 0;
   }
   .chat-page-shell .chat-container--round.chat-container--analysis-open .chat-back-btn-wrapper{
-    margin-top: clamp(1.2rem, 3.5vh, 2.2rem);
-    margin-bottom: max(env(safe-area-inset-bottom, 0), 0.2rem);
+    margin-top: clamp(4rem, 12vh, 6.8rem);
+    margin-bottom: max(env(safe-area-inset-bottom, 0), 0.1rem);
     position: relative;
     z-index: 9;
   }
@@ -10026,6 +10026,7 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
     border-top-right-radius: calc(var(--chat-diameter) / 2);
     border-bottom-left-radius: 2.4rem;
     border-bottom-right-radius: 2.4rem;
+    padding-bottom: max(env(safe-area-inset-bottom, 0), 0.1rem);
   }
   .chat-page-shell .chat-container--round .chat-window{
     min-height: 0;
