@@ -580,9 +580,9 @@ export default function ChatBody({ roomId = null }) {
       const panel = analysisPanelRef.current;
       const previewNode = previewRef.current;
       if (!panel || !previewNode) return;
-      const isOverlay =
-        typeof window !== "undefined" &&
-        ["absolute", "fixed"].includes(window.getComputedStyle(panel).position);
+      const mode = panel.dataset?.analysisMode;
+      const isOverlay = mode === "overlay";
+      const isExpanded = mode === "expanded";
       const rect = panel.getBoundingClientRect();
       const vh =
         typeof window !== "undefined"
@@ -596,7 +596,7 @@ export default function ChatBody({ roomId = null }) {
       const atBottom = previewNode.scrollTop >= maxScroll;
 
       const belowViewport = rect.bottom > vh - margin;
-      if (!isOverlay && belowViewport && vh > 0 && deltaY > 0) {
+      if (!isOverlay && !isExpanded && belowViewport && vh > 0 && deltaY > 0) {
         if (event.cancelable) event.preventDefault();
         panel.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
@@ -737,10 +737,8 @@ export default function ChatBody({ roomId = null }) {
       try {
         const panel = analysisPanelRef.current;
         if (!panel) return;
-        const isOverlay =
-          typeof window !== "undefined" &&
-          ["absolute", "fixed"].includes(window.getComputedStyle(panel).position);
-        if (isOverlay) return;
+        const mode = panel.dataset?.analysisMode;
+        if (mode === "overlay" || mode === "expanded") return;
         panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       } catch {}
     });
@@ -1817,6 +1815,7 @@ export default function ChatBody({ roomId = null }) {
     }
     return "";
   }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
+  const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
   const hasInput = Boolean(input.trim());
 
   /* ---------- Render ---------- */
@@ -1825,7 +1824,7 @@ export default function ChatBody({ roomId = null }) {
       <InviteModal />
       <div className="chat-page-shell">
         <div
-          className={`main-content glass-box chat-container chat-container--round${showAnalysisPanel ? " chat-container--analysis-open" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
+          className={`main-content glass-box chat-container chat-container--round${showAnalysisPanel ? " chat-container--analysis-open" : ""}${isAnalysisExpanded ? " chat-container--analysis-expanded" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
           role="region"
           aria-label={t("chat.page_label", "Vestluse sisu")}
           data-chat-bg={
@@ -2160,10 +2159,11 @@ export default function ChatBody({ roomId = null }) {
         {showAnalysisPanel ? (
           <section
             ref={analysisPanelRef}
-            className="chat-analysis-panel"
+            className={`chat-analysis-panel${isAnalysisExpanded ? " chat-analysis-panel--expanded" : " chat-analysis-panel--overlay"}`}
             role="region"
             aria-live="polite"
             aria-label={t("chat.upload.summary")}
+            data-analysis-mode={isAnalysisExpanded ? "expanded" : "overlay"}
           >
             <div className="chat-analysis-card">
               <header className="chat-analysis-header" style={{ position: "relative" }}>
