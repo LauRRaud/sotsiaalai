@@ -121,7 +121,7 @@
       "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga."
     },
     "reset": {
-      "title": "Uuenda PIN kood",
+      "title": "Uuenda PIN",
       "success": "<p>Kui sisestasid kehtiva aadressi, saatsime sinna taastelinki sisaldava kirja.</p><p>Kontrolli ka rämpsposti kausta!</p>",
       "error": {
         "required": "Palun sisesta oma e-posti aadress.",
@@ -217,7 +217,7 @@
       "saved": "Eelistused salvestatud.",
       "save_failed": "Eelistuste salvestamine ebaõnnestus. Palun proovi uuesti."
     },
-    "change_password_cta": "Uus PIN",
+    "change_password_cta": "Uuenda PIN",
     "update_email_cta": "Uuenda e-post",
     "email_update": {
       "title": "Uuenda e-post",

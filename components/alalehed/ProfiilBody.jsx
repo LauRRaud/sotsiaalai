@@ -13,6 +13,7 @@ import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 const ROLE_KEYS = {
   ADMIN: "role.admin",
@@ -299,16 +300,16 @@ export default function ProfiilBody({ initialProfile = null }) {
     {
       key: "pin",
       icon: <PinDockIcon />,
-      label: t("profile.change_password_cta", "Uus PIN"),
+      label: t("profile.change_password_cta", "Uuenda PIN"),
       labelPos: "up",
-      onClick: () => router.push(localizePath("/uuenda-pin", locale)),
+      onClick: () => pushWithTransition(router, localizePath("/uuenda-pin", locale)),
     },
     {
       key: "email",
       icon: <EmailDockIcon />,
       label: t("profile.update_email_cta", "Uuenda e-post"),
       labelPos: "up",
-      onClick: () => router.push(localizePath("/uuenda-epost", locale)),
+      onClick: () => pushWithTransition(router, localizePath("/uuenda-epost", locale)),
     },
     {
       key: "delete",
@@ -327,7 +328,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       icon: <SubscriptionDockIcon />,
       label: t("profile.manage_subscription"),
       labelPos: "down",
-      onClick: () => router.push(localizePath("/tellimus", locale)),
+      onClick: () => pushWithTransition(router, localizePath("/tellimus", locale)),
     },
     {
       key: "preferences",
@@ -507,7 +508,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push("/vestlus")}
+            onClick={() => pushWithTransition(router, "/vestlus")}
             aria-label={t("profile.back_to_chat")}
           >
             <span className="back-arrow-circle"></span>

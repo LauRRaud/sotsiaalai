@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 const emailReplacement = {
   aEmail: {
     open: '<a class="link-brand" href="mailto:info@sotsiaal.ai">',
@@ -105,7 +106,7 @@ export default function KasutustingimusedBody() {
           onClick={() =>
             typeof window !== "undefined" && window.history.length > 1
               ? router.back()
-              : router.push(localizePath("/meist", locale))
+              : pushWithTransition(router, localizePath("/meist", locale))
           }
           aria-label={t("buttons.back_previous")}
         >

@@ -3,7 +3,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import InvitePageShell from "@/components/ui/InvitePageShell";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 export default function UnustasinParooliBody() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -12,6 +14,13 @@ export default function UnustasinParooliBody() {
   const [error, setError] = useState("");
   const { t, locale } = useI18n();
   const errorId = error ? "reset-error" : undefined;
+  const title = t("auth.reset.title", "Uuenda PIN");
+  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const handleBack = () =>
+    typeof window !== "undefined" && window.history.length > 1
+      ? router.back()
+      : pushWithTransition(router, localizePath("/", locale));
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -40,69 +49,60 @@ export default function UnustasinParooliBody() {
     }
   }
   return (
-    <div className="profile-page-shell profile-subpage-shell" lang={locale}>
-      <div className="main-content glass-box glass-left profile-container profile-subpage-box reset-box">
-        <h1
-          className="glass-title reset-title"
-          style={{ marginBottom: "0.45em" }}
+    <InvitePageShell
+      title={title}
+      lang={locale}
+      contentClassName="invite-page-content--lower"
+      actionsClassName="invite-page-actions--low"
+      actions={
+        <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
+          <span className="back-arrow-circle" />
+          <span className="sr-only">{backLabel}</span>
+        </button>
+      }
+    >
+      {submitted ? (
+        <RichText
+          className="invite-classic__status invite-classic__status--ok"
+          as="div"
+          value={t("auth.reset.success")}
+        />
+      ) : (
+        <form
+          className="invite-classic__body"
+          onSubmit={handleSubmit}
+          autoComplete="off"
+          aria-busy={loading ? "true" : "false"}
         >
-          {t("auth.reset.title")}
-        </h1>
-        {submitted ? (
-          <RichText className="midtext reset-info" as="div" value={t("auth.reset.success")} />
-        ) : (
-          <form
-            className="reset-form"
-            onSubmit={handleSubmit}
-            autoComplete="off"
-            aria-busy={loading ? "true" : "false"}
-          >
-            <label htmlFor="email" className="reset-label">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="reset-input"
-                placeholder={t("auth.email_placeholder")}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="username"
-                disabled={loading}
-                aria-invalid={error ? "true" : "false"}
-                aria-describedby={errorId}
-              />
-            </label>
+          <label htmlFor="email" className="sr-only">
+            {t("profile.email", "E-post")}
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="invite-classic__input"
+            placeholder={t("auth.email_placeholder")}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="username"
+            disabled={loading}
+            aria-invalid={error ? "true" : "false"}
+            aria-describedby={errorId}
+          />
           {error && (
-            <div
-              id={errorId}
-              role="alert"
-              className="glass-note"
-              style={{ marginBottom: "0.75rem" }}
-            >
+            <p id={errorId} role="alert" className="invite-classic__status invite-classic__status--error">
               {error}
-            </div>
+            </p>
           )}
-          <button className="btn-base reset-btn" type="submit" disabled={loading}>
-            <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
-          </button>
-          </form>
-        )}
-        <div className="back-btn-wrapper">
-          <button
-            type="button"
-            className="back-arrow-btn"
-            onClick={() =>
-              typeof window !== "undefined" && window.history.length > 1
-                ? router.back()
-                : router.push(localizePath("/", locale))
-            }
-            aria-label={t("buttons.back_home")}
-          >
-            <span className="back-arrow-circle"></span>
-          </button>
-        </div>
-      </div>
-    </div>
+          <div className="invite-classic__actions">
+            <button className="btn-base" type="submit" disabled={loading}>
+              <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
+            </button>
+          </div>
+        </form>
+      )}
+    </InvitePageShell>
   );
 }

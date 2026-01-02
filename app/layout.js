@@ -7,6 +7,7 @@ import Providers from "./providers"; // JUURTASAND: ./providers
 import ViewportLayoutSetter from "@/components/ViewportLayoutSetter";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
+import RouteTransitionMask from "@/components/RouteTransitionMask";
 import { authConfig } from "@/auth";
 export const metadata = {
   title: "SotsiaalAI",
@@ -111,6 +112,7 @@ export default async function RootLayout({ children }) {
             style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
             <BackgroundLayer />
           </div>
+          <RouteTransitionMask />
           <ServiceWorkerRegistrar />
           {/* Sisu on taustast kõrgemal kihil */}
           <main id="main" role="main" tabIndex={-1} className="relative" style={{ zIndex: 10 }}>

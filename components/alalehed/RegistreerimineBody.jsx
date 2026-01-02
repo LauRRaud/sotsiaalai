@@ -7,6 +7,7 @@ import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import CloseButton from "@/components/ui/CloseButton";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function RegistreerimineBody({ openLoginModal = null }) {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
   const scrollRef = useRef(null);
 
   const handleClose = () => {
-    router.push(localizePath("/", locale));
+    pushWithTransition(router, localizePath("/", locale));
   };
 
   const toRelative = (u) => {
@@ -167,7 +168,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
     const onKey = (e) => {
       if (e.key !== "Escape") return;
       e.preventDefault();
-      router.push(localizePath("/", locale));
+      pushWithTransition(router, localizePath("/", locale));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

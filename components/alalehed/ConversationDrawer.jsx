@@ -160,7 +160,7 @@ export default function ConversationDrawer({ children }) {
         aria-hidden={open ? undefined : "true"}
         inert={open ? undefined : true}
         tabIndex={open ? undefined : -1}
-        className={`drawer-panel ${open ? "open" : ""}`}
+        className={`drawer-panel drawer-panel--chat-glass ${open ? "open" : ""}`}
       >
         <header className="drawer-header">
           <strong id={headerIdRef.current}>{t("chat.menu.label")}</strong>
@@ -217,4 +217,3 @@ function getScrollbarWidth() {
   document.body.removeChild(scrollDiv);
   return width;
 }
-

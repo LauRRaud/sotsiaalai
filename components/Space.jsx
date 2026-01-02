@@ -117,6 +117,20 @@ export default function Space({
           opacity: 0;
           background: none;
         }
+        .space-backdrop[data-mode="light"]::after {
+          content: "";
+          position: absolute;
+          inset: -8%;
+          pointer-events: none;
+          background: radial-gradient(
+            125% 115% at 50% 50%,
+            rgba(255,255,255,0) 0%,
+            rgba(255,255,255,0) 52%,
+            rgba(64, 58, 50, 0.16) 100%
+          );
+          mix-blend-mode: multiply;
+          opacity: 1;
+        }
         /* === FOG === */
         .fog {
           position: absolute;

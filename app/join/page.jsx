@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function JoinPage() {
   const searchParams = useSearchParams();
@@ -44,9 +45,9 @@ export default function JoinPage() {
       }
       setStatusMsg(t("join.success", "Liitumine õnnestus"));
       if (data?.roomId) {
-        router.push(`/vestlus?roomId=${encodeURIComponent(data.roomId)}`);
+        pushWithTransition(router, `/vestlus?roomId=${encodeURIComponent(data.roomId)}`);
       } else {
-        router.push("/vestlus");
+        pushWithTransition(router, "/vestlus");
       }
     } catch (err) {
       setError(err?.message || joinErrorText);

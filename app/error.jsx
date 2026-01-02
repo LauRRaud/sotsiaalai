@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 export default function Error({ error, reset }) {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -28,7 +29,7 @@ export default function Error({ error, reset }) {
               try {
                 if (typeof window !== "undefined" && window.history.length > 1) return router.back();
               } catch {}
-              return router.push(localizePath("/", locale));
+              return pushWithTransition(router, localizePath("/", locale));
             }}
             aria-label={t("buttons.back_home")}
           >

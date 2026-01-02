@@ -11,6 +11,7 @@ import TopNav from "@/components/nav/TopNav";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import { useRoomMessages } from "@/components/rooms/useRoomMessages";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 /* ---------- Konstantsed seaded ---------- */
 const MAX_HISTORY = 8;
@@ -422,6 +423,11 @@ export default function ChatBody({ roomId = null }) {
     const inputBar = inputBarRef.current;
     if (!box || !inputBar) return;
 
+    if (isLightTheme) {
+      box.style.removeProperty("--chat-input-hole-mask");
+      return;
+    }
+
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) =>
       `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
@@ -516,7 +522,7 @@ export default function ChatBody({ roomId = null }) {
       ro?.disconnect?.();
       mo?.disconnect?.();
     };
-  }, [prefs?.theme]);
+  }, [isLightTheme]);
 
   const mappedRoomMessages = useMemo(() => {
     if (!isRoomMode) return [];
@@ -1767,7 +1773,7 @@ export default function ChatBody({ roomId = null }) {
 
   const goRooms = useCallback(() => {
     try {
-      router.push("/ruum");
+      pushWithTransition(router, "/ruum");
     } catch {}
   }, [router]);
 
@@ -1782,7 +1788,7 @@ export default function ChatBody({ roomId = null }) {
       <button
         type="button"
         className="back-arrow-btn"
-        onClick={() => router.push("/")}
+        onClick={() => pushWithTransition(router, "/")}
         aria-label={t("chat.back_to_home", "Tagasi avalehele")}
       >
         <span className="back-arrow-circle" />

@@ -45,10 +45,14 @@ export default function OrbitalMenu({
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
 
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const isOpen = isPinnedOpen;
+  const closeTimerRef = useRef(0);
+  const prevOpenRef = useRef(false);
 
   // Desktop orbital layout only
   const [orbitRadius, setOrbitRadius] = useState(0);
+  const [orbitHideScale, setOrbitHideScale] = useState(0.9);
 
   // Mobile overlay refs/state
   const overlayCloseBtnRef = useRef(null);
@@ -68,6 +72,37 @@ export default function OrbitalMenu({
   const [visuals, setVisuals] = useState(() =>
     Array.from({ length: items.length }, () => ({ scale: 0.62, opacity: 0, blur: 2, hide: true }))
   );
+
+  useEffect(() => {
+    const wasOpen = prevOpenRef.current;
+    prevOpenRef.current = isOpen;
+
+    if (isOpen) {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = 0;
+      }
+      if (isClosing) setIsClosing(false);
+      return;
+    }
+
+    if (wasOpen) {
+      setIsClosing(true);
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      const delay = prefersReducedMotion ? 0 : 380;
+      closeTimerRef.current = window.setTimeout(() => {
+        setIsClosing(false);
+        closeTimerRef.current = 0;
+      }, delay);
+    }
+  }, [isOpen, prefersReducedMotion, isClosing]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = 0;
+    };
+  }, []);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -197,6 +232,14 @@ export default function OrbitalMenu({
 
       const nextRadius = Math.max(0, (rect.width - itemSize) / 2);
       setOrbitRadius((prev) => (Math.abs(prev - nextRadius) > 0.25 ? nextRadius : prev));
+
+      const hubSize = hubBtnRef.current?.offsetWidth || 0;
+      if (hubSize && nextRadius) {
+        const hideRadius = Math.min(nextRadius, (hubSize + itemSize) / 2);
+        const inwardRadius = hideRadius * 0.4;
+        const nextScale = clamp(inwardRadius / nextRadius, 0, 1);
+        setOrbitHideScale((prev) => (Math.abs(prev - nextScale) > 0.02 ? nextScale : prev));
+      }
     };
 
     const schedule = () => {
@@ -398,7 +441,7 @@ export default function OrbitalMenu({
   return (
     <div
       ref={rootRef}
-      className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${isCoarsePointer ? "is-mobile" : ""} ${className}`.trim()}
+      className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${isClosing ? "is-closing" : ""} ${isCoarsePointer ? "is-mobile" : ""} ${className}`.trim()}
     >
       {/* Desktop orbital items (unchanged) */}
       {!isCoarsePointer && (
@@ -424,6 +467,8 @@ export default function OrbitalMenu({
                 style={{
                   "--orbit-x": `${orbitX}px`,
                   "--orbit-y": `${orbitY}px`,
+                  "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
+                  "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
                 }}
                 aria-hidden={!isOpen}
               >

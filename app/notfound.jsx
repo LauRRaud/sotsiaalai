@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 export default function NotFound() {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -16,7 +17,7 @@ export default function NotFound() {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push(localizePath("/", locale))}
+          onClick={() => pushWithTransition(router, localizePath("/", locale))}
           aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle" />

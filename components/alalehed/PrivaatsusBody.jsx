@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 const lawLinkReplacements = {
   aLawEst: {
     open: '<a class="link-brand" href="https://www.riigiteataja.ee/akt/112072025014" target="_blank" rel="noopener noreferrer">',
@@ -111,7 +112,7 @@ export default function PrivaatsusBody() {
             if (typeof window !== "undefined" && window.history.length > 1) {
               router.back();
             } else {
-              router.push(localizePath("/meist", locale));
+              pushWithTransition(router, localizePath("/meist", locale));
             }
           }}
           aria-label={t("buttons.back_previous")}

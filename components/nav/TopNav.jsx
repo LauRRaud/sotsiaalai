@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function TopNav({
   roomId = null,
@@ -26,7 +27,7 @@ export default function TopNav({
   const addPersonIcon = isLightTheme ? "/logo/lisainimenehele.svg" : "/logo/lisainimenetume.svg";
 
   const openRooms = useCallback(() => {
-    router.push("/ruum");
+    pushWithTransition(router, "/ruum");
   }, [router]);
 
   const openInvite = useCallback(() => {
@@ -43,7 +44,7 @@ export default function TopNav({
           window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: true } }));
         } catch {}
       } else {
-        router.push("/vestlus");
+        pushWithTransition(router, "/vestlus");
       }
     },
     [pathname, router]

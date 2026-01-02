@@ -1,8 +1,10 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import InvitePageShell from "@/components/ui/InvitePageShell";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function UuendaEpostiBody() {
   const router = useRouter();
@@ -17,6 +19,11 @@ export default function UuendaEpostiBody() {
   const [error, setError] = useState("");
 
   const errorId = error ? "update-email-error" : undefined;
+  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const handleBack = () =>
+    typeof window !== "undefined" && window.history.length > 1
+      ? router.back()
+      : pushWithTransition(router, localizePath("/profiil", locale));
 
   useEffect(() => {
     let isActive = true;
@@ -49,16 +56,7 @@ export default function UuendaEpostiBody() {
     const pinClean = pin.replace(/\D/g, "");
 
     if (!nextEmail) {
-      setError(
-        t(
-          "profile.email_update.error_email_required",
-          locale === "en"
-            ? "Please enter an email address."
-            : locale === "ru"
-            ? "Пожалуйста, укажите e-mail."
-            : "Palun sisesta e-posti aadress.",
-        ),
-      );
+      setError(t("profile.email_update.error_email_required", "Palun sisesta e-posti aadress."));
       return;
     }
     if (!nextEmail.includes("@")) {
@@ -70,12 +68,10 @@ export default function UuendaEpostiBody() {
       return;
     }
     if (pinClean.length < PIN_MIN || pinClean.length > PIN_MAX) {
-      setError(
-        t("profile.email_update.error_pin_length", "PIN peab olema {min}–{max} numbrit.", {
-          min: PIN_MIN,
-          max: PIN_MAX,
-        }),
-      );
+      setError(t("profile.email_update.error_pin_length", "PIN peab olema {min}-{max} numbrit.", {
+        min: PIN_MIN,
+        max: PIN_MAX,
+      }));
       return;
     }
 
@@ -105,132 +101,104 @@ export default function UuendaEpostiBody() {
   }
 
   return (
-    <div className="profile-page-shell profile-subpage-shell" lang={locale}>
-      <div className="main-content glass-box glass-left profile-container profile-subpage-box reset-box reset-email">
-      <h1 className="glass-title reset-title">
-        {t(
-          "profile.email_update.title",
-          locale === "en"
-            ? "Update email"
-            : locale === "ru"
-            ? "Обновить e‑mail"
-            : "Uuenda e-post",
-        )}
-      </h1>
+    <InvitePageShell
+      title={t("profile.email_update.title", "Uuenda e-post")}
+      lang={locale}
+      actions={
+        <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
+          <span className="back-arrow-circle" />
+          <span className="sr-only">{backLabel}</span>
+        </button>
+      }
+    >
       {submitted ? (
-        <div className="reset-success">
-          <p className="midtext reset-info" style={{ marginBottom: "1.5rem" }}>
+        <div className="invite-classic__body">
+          <p className="invite-classic__status invite-classic__status--ok">
             {t(
               "profile.email_update.success",
-              locale === "en"
-                ? "If the PIN was correct, we sent a verification email to your new address. Please open the link in that inbox."
-                : locale === "ru"
-                ? "Если PIN был верным, мы отправили письмо с подтверждением на ваш новый адрес. Пожалуйста, откройте ссылку в этом почтовом ящике."
-                : "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
+              "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
             )}
           </p>
-          <button
-            type="button"
-            className="btn-primary btn-compact"
-            onClick={() => router.push(localizePath("/profiil", locale))}
-          >
-            {t("buttons.back_home")}
-          </button>
         </div>
       ) : (
         <form
-          className="reset-form"
+          className="invite-classic__body"
           onSubmit={handleSubmit}
           autoComplete="off"
           aria-busy={loading ? "true" : "false"}
         >
-          <label htmlFor="current-email" className="reset-label">
-            <input
-              type="email"
-              id="current-email"
-              name="current-email"
-              className="reset-input"
-              placeholder={t("profile.email_update.current_placeholder", "Sinu e-post")}
-              value={currentEmail}
-              readOnly
-              aria-readonly="true"
-              autoComplete="email"
-              inputMode="email"
-            />
+          <label htmlFor="current-email" className="sr-only">
+            {t("profile.email_update.current_placeholder", "Sinu e-post")}
           </label>
-          <label htmlFor="email" className="reset-label">
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="reset-input"
-              placeholder={t("profile.email_update.new_placeholder", "Uus e-post")}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-              inputMode="email"
-              disabled={loading}
-              aria-invalid={error ? "true" : "false"}
-              aria-describedby={errorId}
-            />
+          <input
+            type="email"
+            id="current-email"
+            name="current-email"
+            className="invite-classic__input"
+            placeholder={t("profile.email_update.current_placeholder", "Sinu e-post")}
+            value={currentEmail}
+            readOnly
+            aria-readonly="true"
+            autoComplete="email"
+            inputMode="email"
+          />
+          <label htmlFor="email" className="sr-only">
+            {t("profile.email_update.new_placeholder", "Uus e-post")}
           </label>
-          <label htmlFor="pin" className="reset-label">
-            <input
-              type="password"
-              id="pin"
-              name="pin"
-              className="reset-input"
-              placeholder={t(
-                "profile.email_update.pin_placeholder",
-                "Praegune PIN ({min}–{max} numbrit)",
-                { min: PIN_MIN, max: PIN_MAX },
-              )}
-              value={pin}
-              onChange={(e) =>
-                setPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))
-              }
-              required
-              minLength={PIN_MIN}
-              maxLength={PIN_MAX}
-              autoComplete="current-password"
-              disabled={loading}
-            />
-          </label>
-          {error && (
-            <div
-              id={errorId}
-              role="alert"
-              className="glass-note"
-              style={{ marginBottom: "0.75rem" }}
-            >
-              {error}
-            </div>
-          )}
-          <button
-            className="btn-base reset-btn"
-            type="submit"
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="invite-classic__input"
+            placeholder={t("profile.email_update.new_placeholder", "Uus e-post")}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="email"
+            inputMode="email"
             disabled={loading}
-          >
-            <span>
-              {loading
-                ? t("profile.email_update.submitting", "Saadan…")
-                : t("profile.email_update.submit", "Saada kinnituskiri")}
-            </span>
-          </button>
+            aria-invalid={error ? "true" : "false"}
+            aria-describedby={errorId}
+          />
+          <label htmlFor="pin" className="sr-only">
+            {t("profile.email_update.pin_placeholder", "Praegune PIN ({min}-{max} numbrit)", {
+              min: PIN_MIN,
+              max: PIN_MAX,
+            })}
+          </label>
+          <input
+            type="password"
+            id="pin"
+            name="pin"
+            className="invite-classic__input"
+            placeholder={t("profile.email_update.pin_placeholder", "Praegune PIN ({min}-{max} numbrit)", {
+              min: PIN_MIN,
+              max: PIN_MAX,
+            })}
+            value={pin}
+            onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))}
+            required
+            minLength={PIN_MIN}
+            maxLength={PIN_MAX}
+            autoComplete="current-password"
+            disabled={loading}
+          />
+          {error && (
+            <p id={errorId} role="alert" className="invite-classic__status invite-classic__status--error">
+              {error}
+            </p>
+          )}
+          <div className="invite-classic__actions">
+            <button className="btn-base" type="submit" disabled={loading}>
+              <span>
+                {loading
+                  ? t("profile.email_update.submitting", "Saadan...")
+                  : t("profile.email_update.submit", "Saada kinnituskiri")}
+              </span>
+            </button>
+          </div>
         </form>
       )}
-      <div className="back-btn-wrapper">
-        <button
-          type="button"
-          className="back-arrow-btn"
-          onClick={() => router.push(localizePath("/profiil", locale))}
-          aria-label={t("profile.back_to_chat")}
-        >
-          <span className="back-arrow-circle"></span>
-        </button>
-      </div>
-      </div>
-    </div>
+    </InvitePageShell>
   );
 }

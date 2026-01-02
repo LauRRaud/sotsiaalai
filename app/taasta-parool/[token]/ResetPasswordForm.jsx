@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 export default function ResetPasswordForm({ token }) {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -114,7 +115,7 @@ export default function ResetPasswordForm({ token }) {
         <button
           type="button"
           className="back-arrow-btn"
-          onClick={() => router.push(localizePath("/", locale))}
+          onClick={() => pushWithTransition(router, localizePath("/", locale))}
           aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle"></span>

@@ -131,10 +131,10 @@ export default function InviteModal() {
   return (
     <div className="invite-modal-backdrop" role="presentation" onClick={() => setOpen(false)}>
       <div
-        className="invite-modal invite-modal--classic"
+        className="invite-modal invite-modal--classic invite-modal--chat-glass"
         role="dialog"
         aria-modal="true"
-        aria-label={t("invite.title", "Kutsu inimesi")}
+        aria-label={t("invite.title", "Lisa inimesi")}
         onClick={(e) => e.stopPropagation()}
       >
         <header className="invite-modal__header invite-classic__header">
@@ -158,7 +158,7 @@ export default function InviteModal() {
           ) : (
             <form className="invite-classic__body" onSubmit={submit}>
               <label className="invite-classic__label" htmlFor="invite-emails">
-                {t("invite.classic.emails", "Kutsu inimesi vestlusesse")}
+                {t("invite.classic.emails", "Lisa inimesi vestlusesse")}
               </label>
               <input
                 id="invite-emails"

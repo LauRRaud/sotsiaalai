@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import InvitePageShell from "@/components/ui/InvitePageShell";
 import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 const emailReplacement = {
   email: {
     open: '<a href="mailto:info@sotsiaal.ai" class="link-brand">',
@@ -18,6 +20,11 @@ export default function TellimusBody() {
   const [error, setError] = useState("");
   const [processing, setProcessing] = useState(false);
   const { t, locale } = useI18n();
+  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const handleBack = () =>
+    typeof window !== "undefined" && window.history.length > 1
+      ? router.back()
+      : pushWithTransition(router, localizePath("/", locale));
   useEffect(() => {
     (async () => {
       try {
@@ -41,7 +48,7 @@ export default function TellimusBody() {
       setProcessing(true);
       setError("");
       alert(t("subscription.payment.redirect_demo"));
-      router.push(localizePath("/tellimus?status=demo", locale));
+      pushWithTransition(router, localizePath("/tellimus?status=demo", locale));
       router.refresh();
     } catch (err) {
       console.error("activate", err);
@@ -52,74 +59,83 @@ export default function TellimusBody() {
   }
   if (loading) {
     return (
-      <div className="profile-page-shell profile-subpage-shell" lang={locale}>
-        <div className="main-content glass-box glass-left profile-container profile-subpage-box tellimus-box" role="region">
-          <h1 className="glass-title">{t("subscription.title")}</h1>
-          <div className="content-narrow">
-            <p className="glass-text" aria-live="polite">{t("subscription.loading")}</p>
-          </div>
+      <InvitePageShell
+        title={t("subscription.title")}
+        lang={locale}
+        actionsClassName="invite-page-actions--raise"
+        contentClassName="invite-page-content--subscription invite-page-content--lower"
+        actions={
+          <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
+            <span className="back-arrow-circle" />
+            <span className="sr-only">{backLabel}</span>
+          </button>
+        }
+      >
+        <div className="invite-classic__body">
+          <p className="invite-classic__helper" aria-live="polite">
+            {t("subscription.loading")}
+          </p>
         </div>
-      </div>
+      </InvitePageShell>
     );
   }
   return (
-    <div className="profile-page-shell profile-subpage-shell" lang={locale}>
-      <div className="main-content glass-box glass-left profile-container profile-subpage-box tellimus-box" role="region">
-        <h1 className="glass-title">{t("subscription.title")}</h1>
-        <div className="content-narrow">
-          {subActive ? (
-            <>
-              <p className="glass-text">{t("subscription.active.summary")}</p>
-              <p className="glass-text" id="cancel-note">
-                <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
+    <InvitePageShell
+      title={t("subscription.title")}
+      lang={locale}
+      actionsClassName="invite-page-actions--raise"
+      contentClassName="invite-page-content--subscription invite-page-content--lower"
+      actions={
+        <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
+          <span className="back-arrow-circle" />
+          <span className="sr-only">{backLabel}</span>
+        </button>
+      }
+    >
+      <div className="invite-classic__body">
+        {subActive ? (
+          <>
+            <p className="invite-classic__helper">{t("subscription.active.summary")}</p>
+            <p className="invite-classic__helper" id="cancel-note">
+              <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
+            </p>
+            <div className="invite-classic__actions">
+              <Link href="/profiil" className="btn-base" aria-describedby="cancel-note">
+                {t("subscription.button.open_profile")}
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <div id="billing-info">
+              <RichText
+                as="div"
+                className="invite-classic__helper invite-subscription-info"
+                value={t("subscription.info")}
+                replacements={emailReplacement}
+              />
+            </div>
+            {error && (
+              <p role="alert" aria-live="assertive" className="invite-classic__status invite-classic__status--error">
+                {error}
               </p>
-              <div className="tellimus-btn-center">
-                <Link href="/profiil" className="btn-base" aria-describedby="cancel-note">
-                  {t("subscription.button.open_profile")}
-                </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="glass-note" id="billing-info" style={{ margin: "1rem 0" }}>
-                <RichText as="div" className="glass-text" value={t("subscription.info")} replacements={emailReplacement} />
-              </div>
-              {error && (
-                <div role="alert" aria-live="assertive" className="glass-note">
-                  {error}
-                </div>
-              )}
-              <div className="tellimus-btn-center">
-                <button
-                  type="button"
-                  className="btn-base"
-                  disabled={processing}
-                  aria-disabled={processing}
-                  aria-busy={processing}
-                  aria-describedby="billing-info cancel-note"
-                  onClick={handleActivate}
-                >
-                  {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="back-btn-wrapper">
-          <button
-            type="button"
-            className="back-arrow-btn"
-            onClick={() =>
-              typeof window !== "undefined" && window.history.length > 1
-                ? router.back()
-                : router.push(localizePath("/", locale))
-            }
-            aria-label={t("buttons.back_home")}
-          >
-            <span className="back-arrow-circle" />
-          </button>
-        </div>
+            )}
+            <div className="invite-classic__actions">
+              <button
+                type="button"
+                className="btn-base"
+                disabled={processing}
+                aria-disabled={processing}
+                aria-busy={processing}
+                aria-describedby="billing-info cancel-note"
+                onClick={handleActivate}
+              >
+                {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
+              </button>
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </InvitePageShell>
   );
 }

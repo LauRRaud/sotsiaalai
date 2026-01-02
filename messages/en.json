@@ -217,7 +217,7 @@
       "saved": "Preferences saved.",
       "save_failed": "Failed to save preferences. Please try again."
     },
-    "change_password_cta": "New PIN",
+    "change_password_cta": "Update PIN",
     "update_email_cta": "Update email",
     "email_update": {
       "title": "Update email",

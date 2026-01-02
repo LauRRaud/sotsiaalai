@@ -217,7 +217,7 @@
       "saved": "Предпочтения сохранены.",
       "save_failed": "Не удалось сохранить предпочтения. Попробуйте снова."
     },
-    "change_password_cta": "Новый PIN-код",
+    "change_password_cta": "Обновить PIN-код",
     "update_email_cta": "Обновить email",
     "email_update": {
       "title": "Обновить email",

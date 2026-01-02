@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function RoomsPage() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function RoomsPage() {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => router.push("/vestlus")}
+            onClick={() => pushWithTransition(router, "/vestlus")}
             aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}
           >
             <span className="back-arrow-circle" />
