@@ -6,6 +6,8 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import Link from "next/link";
 import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
+import AllikadLight from "@/public/logo/heleallikad.svg";
+import AllikadDark from "@/public/logo/tumeallikad.svg";
 import InviteModal from "@/components/invite/InviteModal";
 import TopNav from "@/components/nav/TopNav";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -1832,11 +1834,38 @@ export default function ChatBody({ roomId = null }) {
           }
           ref={chatContainerRef}
         >
-      {/* Profiili avatar */}
-      <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
-        <span className="chat-avatar-abs" aria-hidden="true" />
-        <span className="avatar-label">Profiil</span>
-      </Link>
+      {/* Parempoolne vertikaalne ikoonirida */}
+      <div className="chat-right-actions">
+        <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
+          <span className="chat-avatar-abs" aria-hidden="true" />
+          <span className="avatar-label">Profiil</span>
+        </Link>
+        {hasConversationSources ? (
+          <button
+            type="button"
+            ref={sourcesButtonRef}
+            onClick={toggleSourcesPanel}
+            className={`chat-sources-btn chat-sources-btn--icon${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
+            aria-haspopup="dialog"
+            aria-expanded={showSourcesPanel ? "true" : "false"}
+            aria-controls="chat-sources-panel"
+            aria-label={t("chat.sources.button", "Allikad ({count})").replace(
+              "{count}",
+              String(conversationSources.length)
+            )}
+            title={t("chat.sources.button", "Allikad ({count})").replace(
+              "{count}",
+              String(conversationSources.length)
+            )}
+          >
+            {isLightTheme ? (
+              <AllikadLight className="chat-sources-icon" aria-hidden="true" role="img" />
+            ) : (
+              <AllikadDark className="chat-sources-icon" aria-hidden="true" role="img" />
+            )}
+          </button>
+        ) : null}
+      </div>
 
       {/* Pealkiri ja nav */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
@@ -2124,25 +2153,6 @@ export default function ChatBody({ roomId = null }) {
             <div className="chat-ai-note">
               {t("chat.ai_toggle.note", "Vaikimisi on see inimeste jutt ja assistent ei nae sonumit.")}
             </div>
-          </div>
-        ) : null}
-
-        {hasConversationSources ? (
-          <div className="chat-sources-inline">
-            <button
-              type="button"
-              ref={sourcesButtonRef}
-              onClick={toggleSourcesPanel}
-              className={`chat-sources-btn chat-sources-btn--mini${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
-              aria-haspopup="dialog"
-              aria-expanded={showSourcesPanel ? "true" : "false"}
-              aria-controls="chat-sources-panel"
-            >
-              {t("chat.sources.button", "Allikad ({count})").replace(
-                "{count}",
-                String(conversationSources.length)
-              )}
-            </button>
           </div>
         ) : null}
 
