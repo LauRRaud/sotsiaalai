@@ -1,5 +1,5 @@
 /*
-  ColorBends – pausitav ajajoon (no-jump), 24fps, adaptive DPR, visibility pause.
+  ColorBends – pausitav ajajoon (no-jump), adaptive DPR, visibility pause.
   Drop-in asendus.
 */
 import { useEffect, useRef } from 'react';
@@ -211,7 +211,7 @@ export default function ColorBends({
 
     // --- Adaptive DPR ---
     const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches || false;
-    let renderScale = prefersReduced ? 0.8 : 1.0;
+    let renderScale = prefersReduced ? 0.75 : 0.9;
     const baseDpr = Math.min(window.devicePixelRatio || 1, 2);
     const applyDpr = () => renderer.setPixelRatio(Math.min(baseDpr * renderScale, 2));
     applyDpr();
@@ -239,19 +239,14 @@ export default function ColorBends({
     let timeline = 0;          // sekundid (jookseb ainult loopi ajal)
     let lastTs = null;         // rAF timestamp ms
 
-    const fps = 24;
-    const step = 1 / fps;
-    let acc = 0;
-
     const forceRenderNow = () => {
       if (tabHidden || !isVisible) return;
       renderer.render(scene, camera);
-      acc = 0; // after forcing a frame we wait for the next 24fps step again
     };
 
     // DPR auto-skaala mõõdik
     let msAccum = 0, frameCount = 0;
-    const targetMs = 1000 / 50;
+    const targetMs = 1000 / 58;
 
     function loop(ts) {
       // ts on rAF timestamp millisekundites
@@ -262,8 +257,6 @@ export default function ColorBends({
       // ajajoont kasvatame ainult siis, kui loop töötab
       timeline += dt;
       material.uniforms.uTime.value = timeline;
-
-      acc += dt;
 
       // pöörang
       const deg = (rotationRef.current % 360) + autoRotateRef.current * timeline;
@@ -277,17 +270,16 @@ export default function ColorBends({
       cur.lerp(tgt, amt);
       material.uniforms.uPointer.value.copy(cur);
 
-      if (!tabHidden && isVisible && acc >= step) {
+      if (!tabHidden && isVisible) {
         renderer.render(scene, camera);
-        acc -= step;
       }
 
       // DPR kohandus ~0.5s kaupa
       msAccum += dt * 1000; frameCount++;
       if (msAccum > 500) {
         const avg = msAccum / frameCount;
-        if (avg > targetMs * 1.15 && renderScale > 0.6) {
-          renderScale = Math.max(0.6, renderScale * 0.9);
+        if (avg > targetMs * 1.15 && renderScale > 0.7) {
+          renderScale = Math.max(0.7, renderScale * 0.9);
           applyDpr();
           forceRenderNow(); // DPR change clears the canvas, so redraw immediately
         } else if (avg < targetMs * 0.9 && renderScale < 1.0) {
@@ -304,7 +296,7 @@ export default function ColorBends({
     function startLoop() {
       if (rafRef.current != null) return;
       // ÄRA nulli timeline’i — nii ei teki hüpet algusesse
-      acc = 0; msAccum = 0; frameCount = 0;
+      msAccum = 0; frameCount = 0;
       lastTs = null; // et esimene dt ei teeks hüpet
       pointerCurrentRef.current.copy(pointerTargetRef.current);
       rafRef.current = requestAnimationFrame(loop);
@@ -396,20 +388,16 @@ export default function ColorBends({
     if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
   }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent]);
 
-  // pointer throttle
+  // pointer
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    let last = 0;
     let rect = container.getBoundingClientRect();
     const updateRect = () => { rect = container.getBoundingClientRect(); };
     const ro = new ResizeObserver(updateRect);
     ro.observe(container);
 
     const handlePointerMove = (e) => {
-      const now = performance.now();
-      if (now - last < 16) return;
-      last = now;
       const x = ((e.clientX - rect.left) / (rect.width  || 1)) * 2 - 1;
       const y = -(((e.clientY - rect.top)  / (rect.height || 1)) * 2 - 1);
       pointerTargetRef.current.set(x, y);

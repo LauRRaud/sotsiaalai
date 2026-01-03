@@ -9,6 +9,9 @@ export default function RouteTransitionMask() {
   const [maskOpacity, setMaskOpacity] = useState(0.92);
   const prevPathRef = useRef(pathname);
   const timersRef = useRef([]);
+  const fadeOutDelayMs = 90;
+  const fadeOutDurationMs = 260;
+  const fadeOutTotalMs = fadeOutDelayMs + fadeOutDurationMs;
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach((t) => window.clearTimeout(t));
@@ -79,8 +82,8 @@ export default function RouteTransitionMask() {
       activateMask();
     };
 
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
   }, [activateMask]);
 
   useEffect(() => {
@@ -91,11 +94,11 @@ export default function RouteTransitionMask() {
     if (prevPathRef.current === pathname) return;
     prevPathRef.current = pathname;
     timersRef.current.push(
-      window.setTimeout(() => setIsFadingOut(true), 30),
+      window.setTimeout(() => setIsFadingOut(true), fadeOutDelayMs),
       window.setTimeout(() => {
         setIsActive(false);
         setIsFadingOut(false);
-      }, 200),
+      }, fadeOutTotalMs),
     );
   }, [isActive, pathname]);
 

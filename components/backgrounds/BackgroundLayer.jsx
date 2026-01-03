@@ -155,7 +155,7 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
               skipIntro={!animateFog || !!reduceMotion || mobileLike}
               fogAppearDelayMs={0}
               mode={isLightTheme ? "light" : "dark"}
-              palette={isLightTheme ? { baseTop: "#f9f8f5", baseBottom: "#f1f0ec" } : undefined}
+              palette={isLightTheme ? { baseTop: "#ffffff", baseBottom: "#94979c" } : undefined}
               allowMobileCustom={isLightTheme}
               grain={!isLightTheme}
               fog={!isLightTheme}

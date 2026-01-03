@@ -53,13 +53,22 @@ export default function HomePage() {
   const t = useT();
 
   const isAuthed = status === "authenticated" && session;
-  const flipEndMs = 1200;
-  const exitDurationMs = prefs.reduceMotion ? 0 : 520;
-  const exitFlipMs = prefs.reduceMotion ? 0 : flipEndMs;
+  const flipToBackMs = 1200;
+  const flipToFrontMs = 1100;
+  const exitDurationMs = prefs.reduceMotion ? 0 : 900;
+  const exitFlipMs = prefs.reduceMotion ? 0 : flipToFrontMs;
+  const exitMorphDelayMs = prefs.reduceMotion ? 0 : Math.round(exitDurationMs * 0.3);
+  const exitMorphMs = prefs.reduceMotion ? 0 : Math.max(420, Math.round(exitDurationMs * 0.6));
   const isExiting = Boolean(exitState);
   const exitSide = exitState?.side;
   const exitVars = exitState?.vars;
   const isPreparingExit = Boolean(exitPrepSide);
+  const markChatEnterFromHome = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.sessionStorage.setItem("sotsiaalai:chat-enter-from-home", String(Date.now()));
+    } catch {}
+  }, []);
 
   const startExitToChat = useCallback(
     (side) => {
@@ -69,13 +78,14 @@ export default function HomePage() {
         setIsLoginOpen(true);
         return;
       }
+      markChatEnterFromHome();
       const shouldFlipFront =
         side === "left"
           ? leftPhase !== "front" || mobileFlipReady.left
           : rightPhase !== "front" || mobileFlipReady.right;
       const flipDelayMs = shouldFlipFront ? exitFlipMs : 0;
-      const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs * 0.88));
-      triggerRouteTransition({ delayMs });
+      const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs * 0.92));
+      triggerRouteTransition({ delayMs, opacity: 0 });
       if (exitDurationMs === 0) {
         router.push("/vestlus");
         return;
@@ -105,7 +115,27 @@ export default function HomePage() {
         const dx = centerX - window.innerWidth / 2;
         const dy = centerY - window.innerHeight / 2;
         const minViewport = Math.min(window.innerWidth, window.innerHeight);
-        const targetSize = Math.min(1200, Math.max(640, minViewport * 0.88));
+        let targetSize = Math.min(1200, Math.max(640, minViewport * 0.88));
+        const chatDiameterRaw =
+          typeof window !== "undefined"
+            ? window.getComputedStyle(document.documentElement).getPropertyValue("--chat-diameter")
+            : "";
+        const chatDiameter = Number.parseFloat(chatDiameterRaw || "");
+        if (Number.isFinite(chatDiameter) && chatDiameter > 0) {
+          targetSize = chatDiameter;
+        }
+        const remPx = Number.parseFloat(
+          typeof window !== "undefined"
+            ? window.getComputedStyle(document.documentElement).fontSize
+            : "16",
+        );
+        const clampMin = 0.7 * remPx;
+        const clampMax = 1.3 * remPx;
+        const clampMid = 0.019 * window.innerHeight;
+        const padTop = Math.min(clampMax, Math.max(clampMin, clampMid));
+        const targetCenterY = Math.max(window.innerHeight / 2, padTop + targetSize / 2);
+        const targetOffsetY = targetCenterY - window.innerHeight / 2;
+        const ringStartScale = rect.width / targetSize;
         const scale = Math.max(1, targetSize / rect.width);
         const zDepth = Math.min(240, Math.max(120, minViewport * 0.18));
         setExitPrepSide(null);
@@ -116,6 +146,9 @@ export default function HomePage() {
             y: `${dy.toFixed(2)}px`,
             scale: scale.toFixed(3),
             z: `${Math.round(zDepth)}px`,
+            size: `${Math.round(targetSize)}px`,
+            ringScale: ringStartScale.toFixed(4),
+            toY: `${targetOffsetY.toFixed(2)}px`,
           },
         });
         exitTimerRef.current = window.setTimeout(() => {
@@ -132,6 +165,7 @@ export default function HomePage() {
     [
       exitDurationMs,
       exitFlipMs,
+      exitFlipMs,
       isAuthed,
       isExiting,
       isPreparingExit,
@@ -139,6 +173,7 @@ export default function HomePage() {
       leftPhase,
       mobileFlipReady.left,
       mobileFlipReady.right,
+      markChatEnterFromHome,
       rightPhase,
       router,
       status,
@@ -222,9 +257,10 @@ export default function HomePage() {
   useEffect(() => {
     if (isLoginOpen && status === "authenticated" && session) {
       setIsLoginOpen(false);
+      markChatEnterFromHome();
       router.push("/vestlus");
     }
-  }, [isLoginOpen, status, session, router]);
+  }, [isLoginOpen, markChatEnterFromHome, status, session, router]);
 
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
@@ -238,7 +274,7 @@ export default function HomePage() {
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToBack");
-      setTimeout(() => setLeftFlipping(false), flipEndMs);
+      setTimeout(() => setLeftFlipping(false), flipToBackMs);
     }
   };
   const onLeftLeave = () => {
@@ -246,7 +282,7 @@ export default function HomePage() {
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToFront");
-      setTimeout(() => setLeftFlipping(false), flipEndMs);
+      setTimeout(() => setLeftFlipping(false), flipToFrontMs);
     }
   };
   const onRightEnter = () => {
@@ -254,7 +290,7 @@ export default function HomePage() {
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToBack");
-      setTimeout(() => setRightFlipping(false), flipEndMs);
+      setTimeout(() => setRightFlipping(false), flipToBackMs);
     }
   };
   const onRightLeave = () => {
@@ -262,7 +298,7 @@ export default function HomePage() {
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToFront");
-      setTimeout(() => setRightFlipping(false), flipEndMs);
+      setTimeout(() => setRightFlipping(false), flipToFrontMs);
     }
   };
 
@@ -293,8 +329,9 @@ export default function HomePage() {
       return;
     }
     const setFlip = side === "left" ? setLeftFlipping : setRightFlipping;
+    const flipDuration = mobileFlipReady[side] ? flipToFrontMs : flipToBackMs;
     setFlip(true);
-    setTimeout(() => setFlip(false), flipEndMs);
+    setTimeout(() => setFlip(false), flipDuration);
     setMobileFlipReady((prev) => {
       const next = !prev[side]
         ? { left: side === "left", right: side === "right" }
@@ -336,8 +373,21 @@ export default function HomePage() {
       <div
         className={`homepage-root${isPreparingExit ? " home-exit-prep" : ""}${isExiting ? " home-exit" : ""}`}
         onClick={handleBackgroundTap}
-        style={{ "--home-exit-dur": `${exitDurationMs}ms`, "--home-exit-flip": `${exitFlipMs}ms` }}
+        style={{
+          "--home-exit-dur": `${exitDurationMs}ms`,
+          "--home-exit-flip": `${exitFlipMs}ms`,
+          "--home-exit-morph-delay": `${exitMorphDelayMs}ms`,
+          "--home-exit-morph-ms": `${exitMorphMs}ms`,
+          "--home-exit-from-x": exitVars?.x,
+          "--home-exit-from-y": exitVars?.y,
+          "--home-exit-scale": exitVars?.scale,
+          "--home-exit-size": exitVars?.size,
+          "--home-exit-ring-start": exitVars?.ringScale,
+          "--home-exit-to-y": exitVars?.toY,
+          "--home-exit-to-x": "0px",
+        }}
       >
+        {isExiting ? <div className="home-exit-glass-ring" aria-hidden="true" /> : null}
 
         <div className="main-content relative">
           {/* LEFT CARD */}

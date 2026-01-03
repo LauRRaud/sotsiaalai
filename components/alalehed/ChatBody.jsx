@@ -338,6 +338,7 @@ export default function ChatBody({ roomId = null }) {
   const [uploadError, setUploadError] = useState(null);
   const [uploadPreview, setUploadPreview] = useState(null);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
+  const [isEntering, setIsEntering] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechReady, setSpeechReady] = useState(false);
   // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
@@ -454,11 +455,11 @@ export default function ChatBody({ roomId = null }) {
       ].join(" ");
     };
 
-    const updateMask = () => {
-      const boxRect = box.getBoundingClientRect();
-      const inputRect = inputBar.getBoundingClientRect();
-      if (!boxRect.width || !boxRect.height) return;
-      if (!inputRect.width || !inputRect.height) return;
+      const updateMask = () => {
+        const boxRect = box.getBoundingClientRect();
+        const inputRect = inputBar.getBoundingClientRect();
+        if (!boxRect.width || !boxRect.height) return;
+        if (!inputRect.width || !inputRect.height) return;
 
       const boxW = Math.round(boxRect.width);
       const boxH = Math.round(boxRect.height);
@@ -477,13 +478,18 @@ export default function ChatBody({ roomId = null }) {
       const radius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
 
       const outerPath = `M 0 0 H ${boxW} V ${boxH} H 0 Z`;
-      const holePath = roundedRectPath(
-        inputLocal.x,
-        inputLocal.y,
-        inputLocal.w,
-        inputLocal.h,
-        radius
-      );
+        const holePad = 0;
+        const holeX = clamp(inputLocal.x - holePad, 0, boxW);
+        const holeY = clamp(inputLocal.y - holePad, 0, boxH);
+        const holeW = clamp(inputLocal.w + holePad * 2, 0, boxW - holeX);
+        const holeH = clamp(inputLocal.h + holePad * 2, 0, boxH - holeY);
+        const holePath = roundedRectPath(
+          holeX,
+          holeY,
+          holeW,
+          holeH,
+          radius + holePad
+        );
 
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
       const mask = encodeSvgMask(svg);
@@ -1820,11 +1826,17 @@ export default function ChatBody({ roomId = null }) {
   const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
   const hasInput = Boolean(input.trim());
 
+  useEffect(() => {
+    if (prefs?.reduceMotion) {
+      setIsEntering(false);
+    }
+  }, [prefs?.reduceMotion]);
+
   /* ---------- Render ---------- */
   return (
     <>
       <InviteModal />
-      <div className="chat-page-shell">
+      <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
         <div
           className={`main-content glass-box chat-container chat-container--round${showAnalysisPanel ? " chat-container--analysis-open" : ""}${isAnalysisExpanded ? " chat-container--analysis-expanded" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
           role="region"
@@ -1834,37 +1846,37 @@ export default function ChatBody({ roomId = null }) {
           }
           ref={chatContainerRef}
         >
+          <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
       {/* Parempoolne vertikaalne ikoonirida */}
       <div className="chat-right-actions">
         <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
           <span className="chat-avatar-abs" aria-hidden="true" />
           <span className="avatar-label">Profiil</span>
         </Link>
-        {hasConversationSources ? (
-          <button
-            type="button"
-            ref={sourcesButtonRef}
-            onClick={toggleSourcesPanel}
-            className={`chat-sources-btn chat-sources-btn--icon${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
-            aria-haspopup="dialog"
-            aria-expanded={showSourcesPanel ? "true" : "false"}
-            aria-controls="chat-sources-panel"
-            aria-label={t("chat.sources.button", "Allikad ({count})").replace(
-              "{count}",
-              String(conversationSources.length)
-            )}
-            title={t("chat.sources.button", "Allikad ({count})").replace(
-              "{count}",
-              String(conversationSources.length)
-            )}
-          >
-            {isLightTheme ? (
-              <AllikadLight className="chat-sources-icon" aria-hidden="true" role="img" />
-            ) : (
-              <AllikadDark className="chat-sources-icon" aria-hidden="true" role="img" />
-            )}
-          </button>
-        ) : null}
+        <button
+          type="button"
+          ref={sourcesButtonRef}
+          onClick={toggleSourcesPanel}
+          className={`chat-sources-btn chat-sources-btn--icon${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
+          aria-haspopup="dialog"
+          aria-expanded={showSourcesPanel ? "true" : "false"}
+          aria-controls="chat-sources-panel"
+          aria-label={t("chat.sources.button", "Allikad ({count})").replace(
+            "{count}",
+            String(conversationSources.length)
+          )}
+          title={t("chat.sources.button", "Allikad ({count})").replace(
+            "{count}",
+            String(conversationSources.length)
+          )}
+          disabled={!hasConversationSources}
+        >
+          {isLightTheme ? (
+            <AllikadLight className="chat-sources-icon" aria-hidden="true" role="img" />
+          ) : (
+            <AllikadDark className="chat-sources-icon" aria-hidden="true" role="img" />
+          )}
+        </button>
       </div>
 
       {/* Pealkiri ja nav */}
@@ -1992,6 +2004,7 @@ export default function ChatBody({ roomId = null }) {
               </div>
             );
           })}
+          <div className="chat-window-fade chat-window-fade--bottom" aria-hidden="true" />
         </div>
 
         {showScrollDown && (
@@ -2289,10 +2302,10 @@ export default function ChatBody({ roomId = null }) {
                               block: "center",
                             });
                           }}
-                          aria-label={t("chat.upload.jump_to_chat", "Vestlusesse")}
-                          title={t("chat.upload.jump_to_chat", "Vestlusesse")}
+                          aria-label={t("chat.upload.jump_to_chat", "Küsi")}
+                          title={t("chat.upload.jump_to_chat", "Küsi")}
                         >
-                          {t("chat.upload.jump_to_chat", "Vestlusesse")}
+                          {t("chat.upload.jump_to_chat", "Küsi")}
                         </button>
                         <div
                           ref={previewRef}
