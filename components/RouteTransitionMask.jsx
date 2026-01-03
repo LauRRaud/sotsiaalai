@@ -100,7 +100,7 @@ export default function RouteTransitionMask() {
         setIsFadingOut(false);
       }, fadeOutTotalMs),
     );
-  }, [isActive, pathname]);
+  }, [fadeOutDelayMs, fadeOutTotalMs, isActive, pathname]);
 
   const classes = ["route-transition-mask"];
   if (isActive) classes.push("is-active");

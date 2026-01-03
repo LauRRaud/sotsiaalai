@@ -165,7 +165,6 @@ export default function HomePage() {
     [
       exitDurationMs,
       exitFlipMs,
-      exitFlipMs,
       isAuthed,
       isExiting,
       isPreparingExit,
