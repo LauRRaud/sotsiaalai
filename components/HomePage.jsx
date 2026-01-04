@@ -56,7 +56,7 @@ export default function HomePage() {
   const isAuthed = status === "authenticated" && session;
   const flipToBackMs = 1200;
   const flipToFrontMs = 1100;
-  const exitDurationMs = prefs.reduceMotion ? 0 : 900;
+  const exitDurationMs = prefs.reduceMotion ? 0 : 1100;
   const exitFlipMs = prefs.reduceMotion ? 0 : flipToFrontMs;
   const exitScalePct = 0.6;
   const exitMorphDelayMs = prefs.reduceMotion ? 0 : Math.round(exitDurationMs * exitScalePct);
@@ -88,7 +88,7 @@ export default function HomePage() {
           : rightPhase !== "front" || mobileFlipReady.right;
       const flipDelayMs = shouldFlipFront ? exitFlipMs : 0;
       const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs));
-      triggerRouteTransition({ delayMs, opacity: 0 });
+      triggerRouteTransition({ delayMs, opacity: 0, href: "/vestlus" });
       if (exitDurationMs === 0) {
         router.push("/vestlus");
         return;

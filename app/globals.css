@@ -5535,11 +5535,19 @@ backdrop-filter: none;
   background: rgba(255,255,255,0.1);
   box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
 }
+.chat-sources-btn.chat-sources-btn--icon.is-pulse .chat-sources-icon{
+  animation: chat-sources-pulse 1s ease;
+}
 .chat-sources-btn.chat-sources-btn--icon:disabled{
   opacity:0.5;
   cursor:not-allowed;
   background: transparent;
   box-shadow: none;
+}
+@keyframes chat-sources-pulse{
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 .drawer-panel .cs-refresh:hover .cs-refresh-icon{ transform:rotate(120deg); }
 .drawer-overlay{
@@ -5817,10 +5825,10 @@ backdrop-filter: none;
   mask-position: 0 0;
   mask-repeat: no-repeat;
 }
-:root.theme-light .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions) {
+:root.theme-light .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle) {
   z-index: 1;
 }
-:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions) {
+:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle) {
   z-index: 1;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx){
@@ -10137,13 +10145,17 @@ html[data-contrast=hc] body .profile-email-field .input-modern:focus-visible{
 :root .top-nav-toggle{
   position: absolute;
   --topnav-toggle-size: calc(var(--topnav-chat-icon-size, 42px) * 2.1);
-  left: calc(var(--hud-edge-left) + var(--topnav-toggle-offset, 0rem) + (var(--topnav-toggle-size) / 2));
+  --topnav-toggle-center-offset: 0rem;
+  left: calc(
+    var(--hud-edge-left)
+    + (var(--topnav-chat-icon-size, 42px) / 2)
+    + var(--topnav-toggle-center-offset)
+  );
   top: var(--chat-nav-top);
   transform: translate(-50%, -50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  --topnav-toggle-offset: 1.6rem;
   width: var(--topnav-toggle-size);
   height: var(--topnav-toggle-size);
   padding: 0;
@@ -10153,7 +10165,7 @@ html[data-contrast=hc] body .profile-email-field .input-modern:focus-visible{
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.32s ease;
-  z-index: 6;
+  z-index: 30;
   line-height: 0;
 }
 :root .top-nav-toggle.is-visible{

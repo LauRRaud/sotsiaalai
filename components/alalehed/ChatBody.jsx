@@ -334,6 +334,7 @@ export default function ChatBody({ roomId = null }) {
   const [uploadBusy, setUploadBusy] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [uploadPreview, setUploadPreview] = useState(null);
+  const [sourcesPulse, setSourcesPulse] = useState(false);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [isEntering, setIsEntering] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -384,6 +385,8 @@ export default function ChatBody({ roomId = null }) {
   const sourcesDialogRef = useRef(null);
   const sourcesCloseRef = useRef(null);
   const sourcesPrevFocusRef = useRef(null);
+  const sourcesPulseTimerRef = useRef(null);
+  const prevSourcesCountRef = useRef(0);
   const synthesisRef = useRef(null);
   const audioRef = useRef(null);
   const recorderRef = useRef(null);
@@ -678,6 +681,27 @@ export default function ChatBody({ roomId = null }) {
   const hasAnalysisContent = !!(uploadPreview || uploadBusy);
   const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
   const showAnalysisPanel = analysisPanelOpen || hasAnyAnalysisState;
+  useEffect(() => {
+    const currentCount = conversationSources.length;
+    const prevCount = prevSourcesCountRef.current;
+    prevSourcesCountRef.current = currentCount;
+
+    if (currentCount > prevCount && !showSourcesPanel) {
+      setSourcesPulse(true);
+      if (sourcesPulseTimerRef.current) {
+        window.clearTimeout(sourcesPulseTimerRef.current);
+      }
+      sourcesPulseTimerRef.current = window.setTimeout(() => {
+        setSourcesPulse(false);
+      }, 1000);
+    }
+
+    return () => {
+      if (sourcesPulseTimerRef.current) {
+        window.clearTimeout(sourcesPulseTimerRef.current);
+      }
+    };
+  }, [conversationSources.length, showSourcesPanel]);
   const previewText = useMemo(() => {
     if (uploadPreview?.fullText && uploadPreview.fullText.trim()) {
       return uploadPreview.fullText;
@@ -1895,7 +1919,7 @@ export default function ChatBody({ roomId = null }) {
           type="button"
           ref={sourcesButtonRef}
           onClick={toggleSourcesPanel}
-          className={`chat-sources-btn chat-sources-btn--icon${showSourcesPanel ? " chat-sources-btn--active" : ""}`}
+          className={`chat-sources-btn chat-sources-btn--icon${showSourcesPanel ? " chat-sources-btn--active" : ""}${sourcesPulse ? " is-pulse" : ""}`}
           aria-haspopup="dialog"
           aria-expanded={showSourcesPanel ? "true" : "false"}
           aria-controls="chat-sources-panel"

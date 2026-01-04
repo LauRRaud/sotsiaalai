@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { stripLocaleFromPath } from "@/lib/localizePath";
 
 export default function RouteTransitionMask() {
   const pathname = usePathname();
@@ -12,6 +13,7 @@ export default function RouteTransitionMask() {
   const fadeOutDelayMs = 90;
   const fadeOutDurationMs = 260;
   const fadeOutTotalMs = fadeOutDelayMs + fadeOutDurationMs;
+  const isChatPath = useCallback((value) => stripLocaleFromPath(value || "/").startsWith("/vestlus"), []);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach((t) => window.clearTimeout(t));
@@ -38,7 +40,21 @@ export default function RouteTransitionMask() {
 
   useEffect(() => {
     const onStart = (event) => {
-      activateMask(event?.detail || {});
+      const detail = event?.detail || {};
+      if (detail?.allowMask) {
+        activateMask(detail);
+        return;
+      }
+      if (detail?.href || detail?.pathname) {
+        const raw = detail?.href || detail?.pathname;
+        try {
+          const url = new URL(raw, window.location.origin);
+          if (!isChatPath(url.pathname)) return;
+          activateMask(detail);
+        } catch {
+          return;
+        }
+      }
     };
 
     window.addEventListener("sotsiaalai:route-transition", onStart);
@@ -50,11 +66,12 @@ export default function RouteTransitionMask() {
 
   useEffect(() => {
     const onPopState = () => {
+      if (!isChatPath(window.location.pathname)) return;
       activateMask();
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
-  }, [activateMask]);
+  }, [activateMask, isChatPath]);
 
   useEffect(() => {
     const onClick = (event) => {
@@ -79,12 +96,13 @@ export default function RouteTransitionMask() {
         return;
       }
       if (url.origin !== window.location.origin) return;
+      if (!isChatPath(url.pathname)) return;
       activateMask();
     };
 
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, [activateMask]);
+  }, [activateMask, isChatPath]);
 
   useEffect(() => {
     if (!isActive) {
