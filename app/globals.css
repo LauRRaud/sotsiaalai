@@ -6441,6 +6441,9 @@ backdrop-filter: none;
   margin-top:0.35rem;
   margin-bottom:0.5rem;
 }
+.chat-analysis-actions--inline.chat-analysis-actions--center{
+  justify-content:center;
+}
 .chat-analysis-jump{
   white-space: nowrap;
 }
@@ -10261,6 +10264,10 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(203, 213, 225, 0.82);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.45rem;
 }
 :root.theme-light .chat-analysis-mode-label{ color:#4b5563; }
 

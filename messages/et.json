@@ -496,8 +496,8 @@
       "tooltip": "Laadi dokument",
       "busy": "Laen dokumenti üles...",
       "summary": "Dokumendi tekst",
-      "summary_show": "Näita teksti",
-      "summary_hide": "Peida tekst",
+      "summary_show": "Näita",
+      "summary_hide": "Peida",
       "privacy": "Analüüsiks, ei salvestata püsivalt.",
       "context_hint": "Valitud analüüsiviis määrab, kas assistent kasutab ainult üleslaetud dokumenti või ka SotsiaalAI andmebaasi lisateadmisi.",
       "ask_more": "Palun selgita seda dokumenti lühidalt ja too välja 3-5 olulisemat punkti.",
@@ -508,7 +508,7 @@
       "error_status": "Dokumendi analüüs ebaõnnestus (veakood {status}).",
       "error_generic": "Dokumendi analüüs ebaõnnestus.",
       "preview": "Dokumendi tekst",
-      "jump_to_chat": "Vestlusesse"
+      "jump_to_chat": "Küsi"
     }
   },
   "about": {

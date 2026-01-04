@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useRef, useEffect, useMemo, useCallback, useLayoutEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
@@ -19,7 +19,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 
-/* ---------- Brauseri püsivus (sessionStorage) ---------- */
+/* ---------- Brauseri p�sivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
   function load() {
@@ -117,10 +117,10 @@ function collapsePages(pages) {
       prev = page;
       continue;
     }
-    out.push(start === prev ? `${start}` : `${start}–${prev}`);
+    out.push(start === prev ? `${start}` : `${start}�${prev}`);
     start = prev = page;
   }
-  if (start !== null) out.push(start === prev ? `${start}` : `${start}–${prev}`);
+  if (start !== null) out.push(start === prev ? `${start}` : `${start}�${prev}`);
   return out.join(", ");
 }
 function asAuthorArray(v) {
@@ -290,24 +290,24 @@ export default function ChatBody({ roomId = null }) {
   const modeLabel =
     locale === "en" || locale === "ru"
       ? "Document analysis mode"
-      : "Dokumendi analüüsi valik";
+      : "Dokumendi anal��si valik";
   const combinedLabel =
     locale === "en" || locale === "ru"
       ? "Analyze document with platform knowledge"
-      : "Analüüsi dokumenti platvormi lisateadmistega";
+      : "Anal��si dokumenti platvormi lisateadmistega";
   const docOnlyLabel =
     locale === "en" || locale === "ru"
       ? "Analyze uploaded document only"
-      : "Analüüsi ainult üleslaetud dokumenti";
+      : "Anal��si ainult �leslaetud dokumenti";
   const contextHint = t(
     "chat.upload.context_hint",
-    "Valitud analüüsiviis määrab, kas assistent kasutab ainult üleslaetud dokumenti või ka SotsiaalAI andmebaasi lisateadmisi.",
+    "Valitud anal��siviis m��rab, kas assistent kasutab ainult �leslaetud dokumenti v�i ka SotsiaalAI andmebaasi lisateadmisi.",
   );
   const isRoomMode = Boolean(roomId);
 
   const crisisText = t(
     "chat.crisis.notice",
-    "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ööpäevaringselt tasuta 116111 (Lasteabi)."
+    "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ��p�evaringselt tasuta 116111 (Lasteabi)."
   );
 
   const userRole = useMemo(() => {
@@ -326,7 +326,7 @@ export default function ChatBody({ roomId = null }) {
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
   const [convId, setConvId] = useState(null);
-  const [messages, setMessages] = useState([]); // algab tühjalt
+  const [messages, setMessages] = useState([]); // algab t�hjalt
   const [input, setInput] = useState("");
   const [inputFocused, setInputFocused] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -341,11 +341,12 @@ export default function ChatBody({ roomId = null }) {
   const [isEntering, setIsEntering] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechReady, setSpeechReady] = useState(false);
-  // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
+  // Dok-analuusi re�iim: false = kombineeritud (dok + RAG), true = ainult dokument
   const [docOnlyMode, setDocOnlyMode] = useState(false);
   const [uploadUsage, setUploadUsage] = useState(null);
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
+  const [analysisPanelInline, setAnalysisPanelInline] = useState(false);
   const [previewScroll, setPreviewScroll] = useState(0);
   const [recording, setRecording] = useState(false);
   const [recordingPulse, setRecordingPulse] = useState(false);
@@ -672,6 +673,24 @@ export default function ChatBody({ roomId = null }) {
   const hasAnalysisContent = !!(uploadPreview || uploadBusy);
   const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
   const showAnalysisPanel = analysisPanelOpen || hasAnyAnalysisState;
+  const previewText = useMemo(() => {
+    if (uploadPreview?.fullText && uploadPreview.fullText.trim()) {
+      return uploadPreview.fullText;
+    }
+    if (uploadPreview?.preview && uploadPreview.preview.trim()) {
+      return uploadPreview.preview;
+    }
+    if (ephemeralChunks?.length) {
+      return ephemeralChunks.join("\n\n");
+    }
+    return "";
+  }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
+  const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
+  const analysisPanelMode = isAnalysisExpanded
+    ? "expanded"
+    : analysisPanelInline
+    ? "inline"
+    : "overlay";
 
   const MAX_UPLOAD_MB = useMemo(() => {
     const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
@@ -775,6 +794,33 @@ export default function ChatBody({ roomId = null }) {
     }
   }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
 
+  useLayoutEffect(() => {
+    if (!showAnalysisPanel || isAnalysisExpanded) {
+      setAnalysisPanelInline(false);
+      return;
+    }
+    const node = chatWindowRef.current;
+    if (!node) return;
+    const updateLayout = () => {
+      const hasOverflow = node.scrollHeight - node.clientHeight > 8;
+      setAnalysisPanelInline((prev) => {
+        const next = !hasOverflow;
+        return prev === next ? prev : next;
+      });
+    };
+    updateLayout();
+    window.addEventListener("resize", updateLayout);
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(updateLayout);
+      ro.observe(node);
+    }
+    return () => {
+      window.removeEventListener("resize", updateLayout);
+      ro?.disconnect?.();
+    };
+  }, [showAnalysisPanel, isAnalysisExpanded, visibleMessages.length]);
+
   useEffect(() => {
     function updateScrollFromClientY(clientY) {
       const track = scrollTrackRef.current;
@@ -864,7 +910,7 @@ export default function ChatBody({ roomId = null }) {
     } catch {}
   }, []);
 
-  /* ---------- Vestluse vahetus sündmus ---------- */
+  /* ---------- Vestluse vahetus s�ndmus ---------- */
   useEffect(() => {
     function onSwitch(e) {
       const newId = e?.detail?.convId;
@@ -908,11 +954,11 @@ export default function ChatBody({ roomId = null }) {
     }
   }, [visibleMessages]);
 
-  /* ---------- Mount + püsivuse taastamine ---------- */
+  /* ---------- Mount + p�sivuse taastamine ---------- */
   useEffect(() => {
     mountedRef.current = true;
 
-    // Lae püsivus ja eemalda tühjad tekstid
+    // Lae p�sivus ja eemalda t�hjad tekstid
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
@@ -980,7 +1026,7 @@ export default function ChatBody({ roomId = null }) {
 
   useEffect(() => {
     if (!showSourcesPanel) return undefined;
-    // salvesta fookuse lähtestamiseks
+    // salvesta fookuse l�htestamiseks
     try { sourcesPrevFocusRef.current = document.activeElement; } catch {}
     const dialogEl = sourcesDialogRef.current;
     const closeEl = sourcesCloseRef.current;
@@ -1129,7 +1175,7 @@ export default function ChatBody({ roomId = null }) {
     const text = (lastAi?.text || "").trim();
     if (!text) return;
     const base = (locale || "").toLowerCase().split("-")[0];
-    // ru/en -> kasuta otse brauseri hääli, et vältida serveri kulu
+    // ru/en -> kasuta otse brauseri h��li, et v�ltida serveri kulu
     if (base === "ru" || base === "en") {
       stopSpeaking();
       speakWithBrowser(text);
@@ -1272,11 +1318,11 @@ export default function ChatBody({ roomId = null }) {
           const res = await fetch("/api/stt", { method: "POST", body: fd });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || data?.ok === false || !data?.text) {
-            throw new Error(data?.message || t("chat.mic.error", "Dikteerimine ebaõnnestus."));
+            throw new Error(data?.message || t("chat.mic.error", "Dikteerimine eba�nnestus."));
           }
           setInput((prev) => (prev ? `${prev} ${data.text}` : data.text));
         } catch (err) {
-          setRecordingError(err?.message || t("chat.mic.error", "Dikteerimine ebaõnnestus."));
+          setRecordingError(err?.message || t("chat.mic.error", "Dikteerimine eba�nnestus."));
         }
       };
       rec.start();
@@ -1402,7 +1448,7 @@ export default function ChatBody({ roomId = null }) {
     };
   }, [convId]);
 
-  /* ---------- Sõnumi saatmine ---------- */
+  /* ---------- S�numi saatmine ---------- */
   const sendMessage = useCallback(
     async (e) => {
       e?.preventDefault();
@@ -1411,7 +1457,7 @@ export default function ChatBody({ roomId = null }) {
       if (!trimmed) return;
 
       setErrorBanner(null);
-      setIsCrisis(false); // lähtesta, kuni server meta saadab
+      setIsCrisis(false); // l�htesta, kuni server meta saadab
       if (isRoomMode) {
         if (roomBlocked) {
           setErrorBanner(t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga."));
@@ -1464,7 +1510,7 @@ export default function ChatBody({ roomId = null }) {
       abortControllerRef.current = controller;
 
       let streamingMessageId = null;
-      const STREAM_DELAY_MS = 35; // aeglustab trükkimise tempot
+      const STREAM_DELAY_MS = 35; // aeglustab tr�kkimise tempot
       const STREAM_CHARS_PER_TICK = 6;
       let pendingText = "";
       let streamTimer = null;
@@ -1539,8 +1585,8 @@ export default function ChatBody({ roomId = null }) {
           const retry = res.headers.get("retry-after");
           throw new Error(
             retry
-              ? `Liiga palju päringuid. Proovi ~${retry}s pärast.`
-              : "Liiga palju päringuid. Proovi varsti uuesti."
+              ? `Liiga palju p�ringuid. Proovi ~${retry}s p�rast.`
+              : "Liiga palju p�ringuid. Proovi varsti uuesti."
           );
         }
 
@@ -1636,7 +1682,7 @@ export default function ChatBody({ roomId = null }) {
             appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
           }
         } else {
-          const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
+          const errText = err?.message || "Vabandust, vastust ei �nnestunud saada.";
           setErrorBanner(errText);
           if (streamingMessageId != null) {
             mutateMessage(streamingMessageId, (msg) => ({
@@ -1736,7 +1782,7 @@ export default function ChatBody({ roomId = null }) {
         if (!res.ok || !data?.ok) {
           const statusError = t(
             "chat.upload.error_status",
-            "Dokumendi analüüs ebaõnnestus (veakood {status})."
+            "Dokumendi anal��s eba�nnestus (veakood {status})."
           ).replace("{status}", String(res.status));
           throw new Error(data?.message || statusError);
         }
@@ -1759,7 +1805,7 @@ export default function ChatBody({ roomId = null }) {
         setDocOnlyMode(false);
         refreshUsage();
       } catch (err) {
-        const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
+        const genericError = t("chat.upload.error_generic", "Dokumendi anal��s eba�nnestus.");
         setUploadError(err?.message || genericError);
         setUploadPreview(null);
         setEphemeralChunks([]);
@@ -1811,19 +1857,6 @@ export default function ChatBody({ roomId = null }) {
     </div>
   );
 
-  const previewText = useMemo(() => {
-    if (uploadPreview?.fullText && uploadPreview.fullText.trim()) {
-      return uploadPreview.fullText;
-    }
-    if (uploadPreview?.preview && uploadPreview.preview.trim()) {
-      return uploadPreview.preview;
-    }
-    if (ephemeralChunks?.length) {
-      return ephemeralChunks.join("\n\n");
-    }
-    return "";
-  }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
-  const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
   const hasInput = Boolean(input.trim());
 
   useEffect(() => {
@@ -1954,7 +1987,7 @@ export default function ChatBody({ roomId = null }) {
           aria-busy={isStreamingAny ? "true" : "false"}
           style={{ position: "relative" }}
         >
-          {/* Vestluse sõnumid */}
+          {/* Vestluse s�numid */}
           {visibleMessages.map((msg) => {
             const isAssistant = msg.role === "ai";
             const isOwn = msg.role === "user";
@@ -2105,7 +2138,7 @@ export default function ChatBody({ roomId = null }) {
               <button
                 type="submit"
                 className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
-                aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada sõnum")}
+                aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada s�num")}
                 title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
                 disabled={(isRoomMode && (roomBlocked || roomAuthRequired)) || (!hasInput && !isGenerating && !isStreamingAny)}
                 data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
@@ -2121,8 +2154,8 @@ export default function ChatBody({ roomId = null }) {
               <button
                 type="button"
                 className={`chat-send-btn${recording ? " chat-send-btn--active" : ""}`}
-                aria-label={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
-                title={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+                aria-label={recording ? t("chat.mic.stop", "L�peta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+                title={recording ? t("chat.mic.stop", "L�peta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
                 onClick={handleMic}
                 disabled={isRoomMode && (roomBlocked || roomAuthRequired)}
                 data-speaking={recording ? "true" : "false"}
@@ -2182,11 +2215,17 @@ export default function ChatBody({ roomId = null }) {
         {showAnalysisPanel ? (
           <section
             ref={analysisPanelRef}
-            className={`chat-analysis-panel${isAnalysisExpanded ? " chat-analysis-panel--expanded" : " chat-analysis-panel--overlay"}`}
+            className={`chat-analysis-panel${
+              analysisPanelMode === "expanded"
+                ? " chat-analysis-panel--expanded"
+                : analysisPanelMode === "overlay"
+                ? " chat-analysis-panel--overlay"
+                : ""
+            }`}
             role="region"
             aria-live="polite"
             aria-label={t("chat.upload.summary")}
-            data-analysis-mode={isAnalysisExpanded ? "expanded" : "overlay"}
+            data-analysis-mode={analysisPanelMode}
           >
             <div className="chat-analysis-card">
               <header className="chat-analysis-header" style={{ position: "relative" }}>
@@ -2221,7 +2260,29 @@ export default function ChatBody({ roomId = null }) {
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
                       <div id="chat-doc-mode-label" className="chat-analysis-mode-label">
-                        {modeLabel}
+                        <span className="chat-analysis-mode-text">{modeLabel}</span>
+                        <button
+                          type="button"
+                          className="chat-context-info chat-context-info--inline chat-context-info--label"
+                          aria-label={contextHint}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                        >
+                          <span className="chat-context-info-icon" aria-hidden="true">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512"
+                              className="chat-context-info-icon-svg"
+                            >
+                              <path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
+                            </svg>
+                          </span>
+                          <span className="chat-context-info-tooltip">
+                            {contextHint}
+                          </span>
+                        </button>
                       </div>
                       <div
                         className="glass-radio-group chat-analysis-mode-group"
@@ -2254,59 +2315,37 @@ export default function ChatBody({ roomId = null }) {
                     <p id="chat-upload-context-hint" className="sr-only">
                       {contextHint}
                     </p>
-                    {previewText ? (
-                                            <div className="chat-analysis-actions chat-analysis-actions--inline">
-                        <button
-                          type="button"
-                          className="chat-context-info chat-context-info--inline"
-                          aria-label={contextHint}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }}
-                        >
-                          <span className="chat-context-info-icon" aria-hidden="true">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 320 512"
-                              className="chat-context-info-icon-svg"
-                            >
-                              <path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
-                            </svg>
-                          </span>
-                          <span className="chat-context-info-tooltip">
-                            {contextHint}
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={toggleAnalysisCollapse}
-                          className="btn-base chat-analysis-jump"
-                        >
-                          {analysisCollapsed
-                            ? t("chat.upload.summary_show", "Näita dokumenti")
-                            : t("chat.upload.summary_hide", "Peida tekst")}
-                        </button>
-                      </div>
+                    {previewText ? ( 
+                      <div className="chat-analysis-actions chat-analysis-actions--inline chat-analysis-actions--center"> 
+                        <button 
+                          type="button" 
+                          className="btn-base chat-analysis-jump chat-analysis-jump--ask" 
+                          onClick={() => { 
+                            inputRef.current?.focus(); 
+                            inputRef.current?.scrollIntoView({ 
+                              behavior: "smooth", 
+                              block: "center", 
+                            }); 
+                          }} 
+                          aria-label={t("chat.upload.jump_to_chat", "Küsi")} 
+                          title={t("chat.upload.jump_to_chat", "Küsi")} 
+                        > 
+                          {t("chat.upload.jump_to_chat", "Küsi")} 
+                        </button> 
+                        <button 
+                          type="button" 
+                          onClick={toggleAnalysisCollapse} 
+                          className="btn-base chat-analysis-jump" 
+                        > 
+                          {analysisCollapsed 
+                            ? t("chat.upload.summary_show", "Näita") 
+                            : t("chat.upload.summary_hide", "Peida")} 
+                        </button> 
+                      </div> 
                     ) : null}
 
                     {!analysisCollapsed && previewText ? (
                       <div className="chat-analysis-preview-wrap">
-                        <button
-                          type="button"
-                          className="btn-base chat-analysis-jump chat-analysis-jump--floating chat-analysis-jump--text"
-                          onClick={() => {
-                            inputRef.current?.focus();
-                            inputRef.current?.scrollIntoView({
-                              behavior: "smooth",
-                              block: "center",
-                            });
-                          }}
-                          aria-label={t("chat.upload.jump_to_chat", "Küsi")}
-                          title={t("chat.upload.jump_to_chat", "Küsi")}
-                        >
-                          {t("chat.upload.jump_to_chat", "Küsi")}
-                        </button>
                         <div
                           ref={previewRef}
                           className="chat-analysis-preview chat-upload-preview-scroll"
@@ -2435,7 +2474,7 @@ export default function ChatBody({ roomId = null }) {
                       </button>
                     <p className="chat-analysis-meta chat-analysis-meta--spaced">
                       {uploadUsage?.limit
-                        ? t("chat.upload.usage", "{used}/{limit} analüüsi täna")
+                        ? t("chat.upload.usage", "{used}/{limit} anal��si t�na")
                             .replace(
                               "{used}",
                               String(Math.max(0, Math.min(uploadUsage.used ?? 0, uploadUsage.limit ?? Infinity)))
@@ -2493,13 +2532,13 @@ export default function ChatBody({ roomId = null }) {
                     </div>
                     {src.occurrences > 1 ? (
                       <div className="chat-source-usage">
-                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
+                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse l�igus.").replace("{count}", String(src.occurrences))}
                       </div>
                     ) : null}
                     
                     {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
                       <div className="chat-source-pages">
-                        {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
+                        {t("chat.sources.pages", "Lehek�ljed: {pages}").replace("{pages}", String(src.pageText))}
                       </div>
                     ) : null}
                     {src.allUrls && src.allUrls.length ? (
@@ -2534,6 +2573,7 @@ export default function ChatBody({ roomId = null }) {
     </>
   );
 }
+
 
 
 
