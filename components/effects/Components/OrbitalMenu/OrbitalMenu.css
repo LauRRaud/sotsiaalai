@@ -65,6 +65,12 @@
   --label-gap-side: 0.01rem;
   --label-nudge: 0.3rem;
 }
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot[data-key="theme"],
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot[data-key="delete"] {
+  --label-gap-side: -0.35rem;
+}
 
 .profile-orbit-menu.is-open {
   --item-opacity: 1;
@@ -153,12 +159,20 @@
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon svg {
-  width: clamp(2.3rem, 2.6vw, 2.8rem);
-  height: clamp(2.3rem, 2.6vw, 2.8rem);
+  width: clamp(2.5rem, 2.9vw, 3.1rem);
+  height: clamp(2.5rem, 2.9vw, 3.1rem);
   max-width: none;
   max-height: none;
   display: block;
   stroke: currentColor;
+}
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon,
+:root:not(.theme-light) .profile-orbit-mobile-action.dock-item .dock-icon {
+  color: #c57171;
+}
+:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon,
+:root.theme-light .profile-orbit-mobile-action.dock-item .dock-icon {
+  color: #7A3A38;
 }
 
 /* Desktop labels */
@@ -183,6 +197,12 @@
   transform: none;
 
   transition: opacity 0.18s ease, transform 0.18s ease;
+}
+:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
+  color: #c57171;
+}
+:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
+  color: #7A3A38;
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -645,14 +665,14 @@
 
 /* Theme-specific label surface */
 :root:not(.theme-light) .profile-orbit-mobile-action__label {
-  color: rgba(248, 253, 255, 0.92);
+  color: #c57171;
   background: transparent;
   border: none;
   text-shadow: 0 2px 8px rgba(0,0,0,0.45);
 }
 
 :root.theme-light .profile-orbit-mobile-action__label {
-  color: rgba(15, 23, 42, 0.92);
+  color: #7A3A38;
   background: transparent;
   border: none;
   text-shadow: 0 2px 8px rgba(255,255,255,0.35);
