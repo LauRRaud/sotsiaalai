@@ -47,6 +47,7 @@ export default function OrbitalMenu({
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const isOpen = isPinnedOpen;
+  const isExpanded = isOpen || isClosing;
   const closeTimerRef = useRef(0);
   const prevOpenRef = useRef(false);
 
@@ -437,11 +438,12 @@ export default function OrbitalMenu({
 
   const desktopAngleStep = useMemo(() => (items.length ? 360 / items.length : 0), [items.length]);
   const desktopStartAngle = -90;
+  const orbitRadiusBoost = isExpanded ? 1.14 : 1;
 
   return (
     <div
       ref={rootRef}
-      className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${isClosing ? "is-closing" : ""} ${isCoarsePointer ? "is-mobile" : ""} ${className}`.trim()}
+      className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${isClosing ? "is-closing" : ""} ${isExpanded ? "is-expanded" : ""} ${isCoarsePointer ? "is-mobile" : ""} ${className}`.trim()}
     >
       {/* Desktop orbital items (unchanged) */}
       {!isCoarsePointer && (
@@ -455,8 +457,8 @@ export default function OrbitalMenu({
           {items.map((item, index) => {
             const angle = desktopStartAngle + index * desktopAngleStep;
             const angleRad = (angle * Math.PI) / 180;
-            const orbitX = Math.round(Math.sin(angleRad) * orbitRadius);
-            const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius);
+            const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
+            const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
 
             return (
               <div

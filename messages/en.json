@@ -286,7 +286,7 @@
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OĆ„ā€ Ä€Ā</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
+      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OÜ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
       "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
     },
     "section2": {
@@ -336,7 +336,7 @@
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OĆ„ā€ Ä€Ā</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OÜ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
@@ -352,7 +352,7 @@
     },
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
-      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee Äā€Ā¬7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
+      "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee €7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
       "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\") or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
       "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
     },
@@ -381,7 +381,7 @@
     },
     "section11": {
       "heading": "11. Intellectual Property",
-      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ„ā€ Ä€Ā</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OÜ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
     },
     "section12": {
       "heading": "12. Termination of the Agreement",
@@ -500,7 +500,7 @@
       "summary_show": "Show text",
       "summary_hide": "Hide preview",
       "privacy": "For analysis only, not stored permanently.",
-      "context_hint": "If the ā€Analyse in chatā€¯ toggle is on, the assistant can use this document in answers ā€” summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
+      "context_hint": "If the \"Analyse in chat\" toggle is on, the assistant can use this document in answers — summarise, explain, compare, translate, and help draft letters and applications. If the toggle is off, the answer relies only on the SotsiaalAI knowledge base. The document is never stored regardless of the toggle.",
       "ask_more": "Please explain this document briefly and highlight 5 key points.",
       "ask_more_btn": "Start your question",
       "use_as_context": "Analyse in chat",
@@ -517,7 +517,7 @@
       "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered platform designed to provide reliable and easy-to-understand support for both social-sector professionals and people seeking help with everyday social questions.</p>",
       "paragraph2": "<p>The platform offers two role-based AI assistants: one for professionals and one for people reaching out with personal matters. Both are built to deliver needs-based assistance - whether it concerns legislation, benefits, services, or work-related situations. The answers draw on trusted sources, simplified explanations, and practical guidance.</p>",
       "paragraph3": "<p>The social sector is characterised by heavy workloads, fragmented information, and a complex system landscape - something also confirmed by <oska>the OSKA report (2025)</oska>. Our aim is to bring clarity, simplify daily work, and support both professionals and people seeking help.</p>",
-      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OÄ†Ā. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
+      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OÜ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
       "paragraph5": "<p>We continuously enhance the service to ensure a timely and practical experience for everyone.</p>"
     },
     "contact": {
@@ -536,7 +536,7 @@
       "back_home": "Back to homepage"
     },
     "footer": {
-      "note": "SotsiaalAI Ä€Ā© 2025"
+      "note": "SotsiaalAI © 2025"
     },
     "guide": {
       "jump_link": "Platform guide",
@@ -545,11 +545,11 @@
       "sections_v2": {
         "accessibility": {
           "title": "1. Language and accessibility",
-          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower Äā‚¬ā€¯ this can make the experience more stable.</li></ul>"
+          "body": "<p>On your first visit the <a href=\"#\" data-a11y-open=\"1\">Language and accessibility</a> window opens so you can decide how SotsiaalAI should look and behave. You can open the same window later on the <a href=\"/profiil\">Profile</a> page.</p><ul><li><strong>Language.</strong> Choose the interface language: Estonian, Russian or English.</li><li><strong>Text size.</strong> Pick the size that is easiest to read (small, standard, large or extra large).</li><li><strong>Contrast.</strong> Enable high contrast whenever you need clearer buttons and text.</li><li><strong>Animations.</strong> Select \"Reduce motion\" if movement distracts you or if your computer is slower — this can make the experience more stable.</li></ul>"
         },
         "home": {
           "title": "2. Home page",
-          "body": "<p>The home page shows two role cards Äā‚¬ā€¯ \"For social work professionals\" and \"For people seeking help\" Äā‚¬ā€¯ and an <a href=\"/meist\">ABOUT</a> link in the header that leads to the background page.</p><ul><li>If you are not signed in, clicking a role card opens the sign-in / registration view.</li><li>If you are already signed in, the system checks whether you have an active subscription, then opens the chat window for the selected role.</li></ul>"
+          "body": "<p>The home page shows two role cards — \"For social work professionals\" and \"For people seeking help\" — and an <a href=\"/meist\">ABOUT</a> link in the header that leads to the background page.</p><ul><li>If you are not signed in, clicking a role card opens the sign-in / registration view.</li><li>If you are already signed in, the system checks whether you have an active subscription, then opens the chat window for the selected role.</li></ul>"
         },
         "register": {
           "title": "3. Registration and subscription activation",
@@ -573,7 +573,7 @@
         },
         "quickstart": {
           "title": "8. Quick overview",
-          "body": "<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (\"For social work professionals\" or \"For people seeking help\") and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4-8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6-digit code sent to your email and optionally select \"Remember this device for 30 days\" on devices you trust.</li>\n    </ul>\n  </li>\n  <li><strong>Activate subscription</strong>\n    <ul>\n      <li>If you do not yet have an active subscription, after the first sign-in you will be redirected to the Subscription page.</li>\n      <li>Choose the plan and confirm payment (monthly fee Äā€Ā¬7.99).</li>\n    </ul>\n  </li>\n  <li><strong>Start using the chat assistant</strong>\n    <ul>\n      <li>On the chat page type your question in the input field and press Enter or click \"Send\".</li>\n      <li>Use documents and sources as described in section 5 of this guide.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Next visits</strong></p>\n<ol>\n  <li>Open <a href=\"https://sotsiaal.ai\">sotsiaal.ai</a>.</li>\n  <li>If your device is remembered and you have an active subscription, you can usually sign in with just your PIN.</li>\n  <li>If something seems off or access is limited, check your subscription status on the Profile page.</li>\n</ol>"
+          "body": "<p>This is a short guide to using SotsiaalAI.</p>\n<p><strong>First time</strong></p>\n<ol>\n  <li><strong>Open sotsiaal.ai</strong><br/>On your first visit choose language and accessibility (text size, contrast, animations).</li>\n  <li><strong>Choose a role and create an account</strong>\n    <ul>\n      <li>On the home page pick the role card (\"For social work professionals\" or \"For people seeking help\") and click <a href=\"/registreerimine\">Register</a>.</li>\n      <li>Enter your email address and a PIN (4-8 digits) and accept the terms and privacy policy.</li>\n    </ul>\n  </li>\n  <li><strong>Confirm email and sign in</strong>\n    <ul>\n      <li>Open the verification email and confirm your address.</li>\n      <li>Then sign in with email + PIN. If needed, confirm with the 6-digit code sent to your email and optionally select \"Remember this device for 30 days\" on devices you trust.</li>\n    </ul>\n  </li>\n  <li><strong>Activate subscription</strong>\n    <ul>\n      <li>If you do not yet have an active subscription, after the first sign-in you will be redirected to the Subscription page.</li>\n      <li>Choose the plan and confirm payment (monthly fee €7.99).</li>\n    </ul>\n  </li>\n  <li><strong>Start using the chat assistant</strong>\n    <ul>\n      <li>On the chat page type your question in the input field and press Enter or click \"Send\".</li>\n      <li>Use documents and sources as described in section 5 of this guide.</li>\n    </ul>\n  </li>\n</ol>\n<p><strong>Next visits</strong></p>\n<ol>\n  <li>Open <a href=\"https://sotsiaal.ai\">sotsiaal.ai</a>.</li>\n  <li>If your device is remembered and you have an active subscription, you can usually sign in with just your PIN.</li>\n  <li>If something seems off or access is limited, check your subscription status on the Profile page.</li>\n</ol>"
         }
       }
     }

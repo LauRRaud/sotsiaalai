@@ -49,7 +49,7 @@ function SubmitArrowOverlayWhite({ filled = 0, max = 8, stroke = "#ffffffef" }) 
     </svg>
   );
 }
-export default function LoginModal({ open, onClose }) {
+export default function LoginModal({ open, onClose, suppressRedirect = false }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status, data: session } = useSession();
@@ -283,10 +283,12 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
     if (!open) return;
     if (status === "authenticated" && session) {
       onClose?.();
-      router.replace(nextUrl);
-      router.refresh();
+      if (!suppressRedirect) {
+        router.replace(nextUrl);
+        router.refresh();
+      }
     }
-  }, [open, status, session, nextUrl, router, onClose]);
+  }, [open, status, session, nextUrl, router, onClose, suppressRedirect]);
 
   // Reset on close
   useEffect(() => {
@@ -394,11 +396,13 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       }
       markPinSuccess();
       onClose?.();
-      router.replace(nextUrl);
-      router.refresh();
+      if (!suppressRedirect) {
+        router.replace(nextUrl);
+        router.refresh();
+      }
       return true;
     },
-    [markPinError, markPinSuccess, nextUrl, onClose, router, t]
+    [markPinError, markPinSuccess, nextUrl, onClose, router, suppressRedirect, t]
   );
 
   const submitPinStep = useCallback(async () => {

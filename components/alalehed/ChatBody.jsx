@@ -8,6 +8,8 @@ import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
 import AllikadLight from "@/public/logo/heleallikad.svg";
 import AllikadDark from "@/public/logo/tumeallikad.svg";
+import ShowLight from "@/public/logo/showhele.svg";
+import ShowDark from "@/public/logo/showtume.svg";
 import InviteModal from "@/components/invite/InviteModal";
 import TopNav from "@/components/nav/TopNav";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -19,7 +21,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 const MAX_HISTORY = 8;
 const GLOBAL_CONV_KEY = "sotsiaalai:chat:convId";
 
-/* ---------- Brauseri p�sivus (sessionStorage) ---------- */
+/* ---------- Brauseri p’┐Įsivus (sessionStorage) ---------- */
 function makeChatStorage(key = "sotsiaalai:chat:v1") {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;
   function load() {
@@ -117,10 +119,10 @@ function collapsePages(pages) {
       prev = page;
       continue;
     }
-    out.push(start === prev ? `${start}` : `${start}�${prev}`);
+    out.push(start === prev ? `${start}` : `${start}’┐Į${prev}`);
     start = prev = page;
   }
-  if (start !== null) out.push(start === prev ? `${start}` : `${start}�${prev}`);
+  if (start !== null) out.push(start === prev ? `${start}` : `${start}’┐Į${prev}`);
   return out.join(", ");
 }
 function asAuthorArray(v) {
@@ -287,27 +289,21 @@ export default function ChatBody({ roomId = null }) {
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
-  const modeLabel =
+  const extendedLabel =
     locale === "en" || locale === "ru"
-      ? "Document analysis mode"
-      : "Dokumendi anal��si valik";
-  const combinedLabel =
-    locale === "en" || locale === "ru"
-      ? "Analyze document with platform knowledge"
-      : "Anal��si dokumenti platvormi lisateadmistega";
-  const docOnlyLabel =
-    locale === "en" || locale === "ru"
-      ? "Analyze uploaded document only"
-      : "Anal��si ainult �leslaetud dokumenti";
+      ? "Extended analysis"
+      : "Laiendatud analüüs";
   const contextHint = t(
     "chat.upload.context_hint",
-    "Valitud anal��siviis m��rab, kas assistent kasutab ainult �leslaetud dokumenti v�i ka SotsiaalAI andmebaasi lisateadmisi.",
+    locale === "en" || locale === "ru"
+      ? "When enabled, the assistant also uses the SotsiaalAI knowledge base."
+      : "Kui see on sisse lülitatud, kasutab assistent lisaks dokumendile ka SotsiaalAI andmebaasi.",
   );
   const isRoomMode = Boolean(roomId);
 
   const crisisText = t(
     "chat.crisis.notice",
-    "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ��p�evaringselt tasuta 116111 (Lasteabi)."
+    "KRIIS: Kui on vahetu oht, helista 112. Lastele ja peredele on ’┐Į’┐Įp’┐Įevaringselt tasuta 116111 (Lasteabi)."
   );
 
   const userRole = useMemo(() => {
@@ -326,9 +322,10 @@ export default function ChatBody({ roomId = null }) {
   const chatStore = useMemo(() => makeChatStorage(storageKey), [storageKey]);
 
   const [convId, setConvId] = useState(null);
-  const [messages, setMessages] = useState([]); // algab t�hjalt
+  const [messages, setMessages] = useState([]); // algab t’┐Įhjalt
   const [input, setInput] = useState("");
   const [inputFocused, setInputFocused] = useState(false);
+  const [topNavPinned, setTopNavPinned] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
@@ -341,8 +338,8 @@ export default function ChatBody({ roomId = null }) {
   const [isEntering, setIsEntering] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechReady, setSpeechReady] = useState(false);
-  // Dok-analuusi re�iim: false = kombineeritud (dok + RAG), true = ainult dokument
-  const [docOnlyMode, setDocOnlyMode] = useState(false);
+  // Dok-analuusi re’┐Įiim: false = kombineeritud (dok + RAG), true = ainult dokument
+  const [docOnlyMode, setDocOnlyMode] = useState(true);
   const [uploadUsage, setUploadUsage] = useState(null);
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
@@ -368,6 +365,14 @@ export default function ChatBody({ roomId = null }) {
 
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
+  const handleInputBlur = (event) => {
+    const next = event?.relatedTarget || document.activeElement;
+    if (next && chatContainerRef.current?.contains(next)) return;
+    setInputFocused(false);
+  };
+  useEffect(() => {
+    if (!inputFocused) setTopNavPinned(false);
+  }, [inputFocused]);
   const inputRef = useRef(null);
   const inputBarRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -910,7 +915,7 @@ export default function ChatBody({ roomId = null }) {
     } catch {}
   }, []);
 
-  /* ---------- Vestluse vahetus s�ndmus ---------- */
+  /* ---------- Vestluse vahetus s’┐Įndmus ---------- */
   useEffect(() => {
     function onSwitch(e) {
       const newId = e?.detail?.convId;
@@ -954,11 +959,11 @@ export default function ChatBody({ roomId = null }) {
     }
   }, [visibleMessages]);
 
-  /* ---------- Mount + p�sivuse taastamine ---------- */
+  /* ---------- Mount + p’┐Įsivuse taastamine ---------- */
   useEffect(() => {
     mountedRef.current = true;
 
-    // Lae p�sivus ja eemalda t�hjad tekstid
+    // Lae p’┐Įsivus ja eemalda t’┐Įhjad tekstid
     const stored = chatStore.load();
     if (stored && stored.length) {
       let nextId = 1;
@@ -1026,7 +1031,7 @@ export default function ChatBody({ roomId = null }) {
 
   useEffect(() => {
     if (!showSourcesPanel) return undefined;
-    // salvesta fookuse l�htestamiseks
+    // salvesta fookuse l’┐Įhtestamiseks
     try { sourcesPrevFocusRef.current = document.activeElement; } catch {}
     const dialogEl = sourcesDialogRef.current;
     const closeEl = sourcesCloseRef.current;
@@ -1175,7 +1180,7 @@ export default function ChatBody({ roomId = null }) {
     const text = (lastAi?.text || "").trim();
     if (!text) return;
     const base = (locale || "").toLowerCase().split("-")[0];
-    // ru/en -> kasuta otse brauseri h��li, et v�ltida serveri kulu
+    // ru/en -> kasuta otse brauseri h’┐Į’┐Įli, et v’┐Įltida serveri kulu
     if (base === "ru" || base === "en") {
       stopSpeaking();
       speakWithBrowser(text);
@@ -1318,11 +1323,11 @@ export default function ChatBody({ roomId = null }) {
           const res = await fetch("/api/stt", { method: "POST", body: fd });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || data?.ok === false || !data?.text) {
-            throw new Error(data?.message || t("chat.mic.error", "Dikteerimine eba�nnestus."));
+            throw new Error(data?.message || t("chat.mic.error", "Dikteerimine eba’┐Įnnestus."));
           }
           setInput((prev) => (prev ? `${prev} ${data.text}` : data.text));
         } catch (err) {
-          setRecordingError(err?.message || t("chat.mic.error", "Dikteerimine eba�nnestus."));
+          setRecordingError(err?.message || t("chat.mic.error", "Dikteerimine eba’┐Įnnestus."));
         }
       };
       rec.start();
@@ -1448,7 +1453,7 @@ export default function ChatBody({ roomId = null }) {
     };
   }, [convId]);
 
-  /* ---------- S�numi saatmine ---------- */
+  /* ---------- S’┐Įnumi saatmine ---------- */
   const sendMessage = useCallback(
     async (e) => {
       e?.preventDefault();
@@ -1457,7 +1462,7 @@ export default function ChatBody({ roomId = null }) {
       if (!trimmed) return;
 
       setErrorBanner(null);
-      setIsCrisis(false); // l�htesta, kuni server meta saadab
+      setIsCrisis(false); // l’┐Įhtesta, kuni server meta saadab
       if (isRoomMode) {
         if (roomBlocked) {
           setErrorBanner(t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga."));
@@ -1510,7 +1515,7 @@ export default function ChatBody({ roomId = null }) {
       abortControllerRef.current = controller;
 
       let streamingMessageId = null;
-      const STREAM_DELAY_MS = 35; // aeglustab tr�kkimise tempot
+      const STREAM_DELAY_MS = 35; // aeglustab tr’┐Įkkimise tempot
       const STREAM_CHARS_PER_TICK = 6;
       let pendingText = "";
       let streamTimer = null;
@@ -1585,8 +1590,8 @@ export default function ChatBody({ roomId = null }) {
           const retry = res.headers.get("retry-after");
           throw new Error(
             retry
-              ? `Liiga palju p�ringuid. Proovi ~${retry}s p�rast.`
-              : "Liiga palju p�ringuid. Proovi varsti uuesti."
+              ? `Liiga palju p’┐Įringuid. Proovi ~${retry}s p’┐Įrast.`
+              : "Liiga palju p’┐Įringuid. Proovi varsti uuesti."
           );
         }
 
@@ -1682,7 +1687,7 @@ export default function ChatBody({ roomId = null }) {
             appendMessage({ role: "ai", text: "Vastuse genereerimine peatati." });
           }
         } else {
-          const errText = err?.message || "Vabandust, vastust ei �nnestunud saada.";
+          const errText = err?.message || "Vabandust, vastust ei ’┐Įnnestunud saada.";
           setErrorBanner(errText);
           if (streamingMessageId != null) {
             mutateMessage(streamingMessageId, (msg) => ({
@@ -1782,7 +1787,7 @@ export default function ChatBody({ roomId = null }) {
         if (!res.ok || !data?.ok) {
           const statusError = t(
             "chat.upload.error_status",
-            "Dokumendi anal��s eba�nnestus (veakood {status})."
+            "Dokumendi anal’┐Į’┐Įs eba’┐Įnnestus (veakood {status})."
           ).replace("{status}", String(res.status));
           throw new Error(data?.message || statusError);
         }
@@ -1805,7 +1810,7 @@ export default function ChatBody({ roomId = null }) {
         setDocOnlyMode(false);
         refreshUsage();
       } catch (err) {
-        const genericError = t("chat.upload.error_generic", "Dokumendi anal��s eba�nnestus.");
+        const genericError = t("chat.upload.error_generic", "Dokumendi anal’┐Į’┐Įs eba’┐Įnnestus.");
         setUploadError(err?.message || genericError);
         setUploadPreview(null);
         setEphemeralChunks([]);
@@ -1914,7 +1919,24 @@ export default function ChatBody({ roomId = null }) {
 
       {/* Pealkiri ja nav */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
-      <TopNav roomId={roomId} forceChat />
+      <TopNav roomId={roomId} forceChat className={inputFocused && !topNavPinned ? "top-nav--collapsed" : ""} />
+      <button
+        type="button"
+        className={`top-nav-toggle${inputFocused && !topNavPinned ? " is-visible" : ""}`}
+        aria-label={t("chat.topnav.show", "Näita menüüd")}
+        title={t("chat.topnav.show", "Näita menüüd")}
+        onClick={() => {
+          setTopNavPinned(false);
+          setInputFocused(false);
+          inputRef.current?.blur();
+        }}
+      >
+        {isLightTheme ? (
+          <ShowLight className="top-nav-toggle-icon" aria-hidden="true" role="img" />
+        ) : (
+          <ShowDark className="top-nav-toggle-icon" aria-hidden="true" role="img" />
+        )}
+      </button>
 
       {/* Kriisi teavitus */}
       {isCrisis ? (
@@ -1987,7 +2009,7 @@ export default function ChatBody({ roomId = null }) {
           aria-busy={isStreamingAny ? "true" : "false"}
           style={{ position: "relative" }}
         >
-          {/* Vestluse s�numid */}
+          {/* Vestluse s’┐Įnumid */}
           {visibleMessages.map((msg) => {
             const isAssistant = msg.role === "ai";
             const isOwn = msg.role === "user";
@@ -2103,7 +2125,7 @@ export default function ChatBody({ roomId = null }) {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   onFocus={() => setInputFocused(true)}
-                  onBlur={() => setInputFocused(false)}
+                  onBlur={handleInputBlur}
                   className="chat-input-field"
                   disabled={isGenerating || (isRoomMode && (roomBlocked || roomAuthRequired))}
                   rows={1}
@@ -2138,7 +2160,7 @@ export default function ChatBody({ roomId = null }) {
               <button
                 type="submit"
                 className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
-                aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada s�num")}
+                aria-label={isGenerating ? t("chat.send.stop","Peata vastus") : t("chat.send.send","Saada s’┐Įnum")}
                 title={isGenerating ? t("chat.send.title_stop","Peata vastus") : t("chat.send.title_send","Saada (Enter)")}
                 disabled={(isRoomMode && (roomBlocked || roomAuthRequired)) || (!hasInput && !isGenerating && !isStreamingAny)}
                 data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
@@ -2154,8 +2176,8 @@ export default function ChatBody({ roomId = null }) {
               <button
                 type="button"
                 className={`chat-send-btn${recording ? " chat-send-btn--active" : ""}`}
-                aria-label={recording ? t("chat.mic.stop", "L�peta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
-                title={recording ? t("chat.mic.stop", "L�peta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+                aria-label={recording ? t("chat.mic.stop", "L’┐Įpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+                title={recording ? t("chat.mic.stop", "L’┐Įpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
                 onClick={handleMic}
                 disabled={isRoomMode && (roomBlocked || roomAuthRequired)}
                 data-speaking={recording ? "true" : "false"}
@@ -2243,7 +2265,7 @@ export default function ChatBody({ roomId = null }) {
                     setUploadPreview(null);
                     setUploadError(null);
                     setEphemeralChunks([]);
-                    setDocOnlyMode(false);
+                    setDocOnlyMode(true);
                     closeAnalysisPanel();
                   }}
                   aria-label={t("buttons.close", "Sulge")}
@@ -2259,8 +2281,16 @@ export default function ChatBody({ roomId = null }) {
                 {uploadPreview ? (
                   <>
                     <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
-                      <div id="chat-doc-mode-label" className="chat-analysis-mode-label">
-                        <span className="chat-analysis-mode-text">{modeLabel}</span>
+                      <div className="chat-analysis-mode-row">
+                        <label className="glass-checkbox chat-analysis-checkbox" id="chat-doc-mode-label">
+                          <input
+                            type="checkbox"
+                            checked={!docOnlyMode}
+                            onChange={(e) => setDocOnlyMode(!e.target.checked)}
+                            aria-describedby="chat-upload-context-hint"
+                          />
+                          <span className="checkbox-text">{extendedLabel}</span>
+                        </label>
                         <button
                           type="button"
                           className="chat-context-info chat-context-info--inline chat-context-info--label"
@@ -2284,33 +2314,6 @@ export default function ChatBody({ roomId = null }) {
                           </span>
                         </button>
                       </div>
-                      <div
-                        className="glass-radio-group chat-analysis-mode-group"
-                        role="radiogroup"
-                        aria-labelledby="chat-doc-mode-label"
-                        aria-describedby="chat-upload-context-hint"
-                      >
-                        <label>
-                          <input
-                            type="radio"
-                            name="chat-doc-mode"
-                            value="combined"
-                            checked={!docOnlyMode}
-                            onChange={() => setDocOnlyMode(false)}
-                          />
-                          <span className="glass-radio-label-text">{combinedLabel}</span>
-                        </label>
-                        <label>
-                          <input
-                            type="radio"
-                            name="chat-doc-mode"
-                            value="doc-only"
-                            checked={docOnlyMode}
-                            onChange={() => setDocOnlyMode(true)}
-                          />
-                          <span className="glass-radio-label-text">{docOnlyLabel}</span>
-                        </label>
-                      </div>
                     </div>
                     <p id="chat-upload-context-hint" className="sr-only">
                       {contextHint}
@@ -2327,10 +2330,10 @@ export default function ChatBody({ roomId = null }) {
                               block: "center", 
                             }); 
                           }} 
-                          aria-label={t("chat.upload.jump_to_chat", "Küsi")} 
-                          title={t("chat.upload.jump_to_chat", "Küsi")} 
+                          aria-label={t("chat.upload.jump_to_chat", "K├╝si")} 
+                          title={t("chat.upload.jump_to_chat", "K├╝si")} 
                         > 
-                          {t("chat.upload.jump_to_chat", "Küsi")} 
+                          {t("chat.upload.jump_to_chat", "K├╝si")} 
                         </button> 
                         <button 
                           type="button" 
@@ -2338,7 +2341,7 @@ export default function ChatBody({ roomId = null }) {
                           className="btn-base chat-analysis-jump" 
                         > 
                           {analysisCollapsed 
-                            ? t("chat.upload.summary_show", "Näita") 
+                            ? t("chat.upload.summary_show", "N├żita") 
                             : t("chat.upload.summary_hide", "Peida")} 
                         </button> 
                       </div> 
@@ -2474,7 +2477,7 @@ export default function ChatBody({ roomId = null }) {
                       </button>
                     <p className="chat-analysis-meta chat-analysis-meta--spaced">
                       {uploadUsage?.limit
-                        ? t("chat.upload.usage", "{used}/{limit} anal��si t�na")
+                        ? t("chat.upload.usage", "{used}/{limit} anal’┐Į’┐Įsi t’┐Įna")
                             .replace(
                               "{used}",
                               String(Math.max(0, Math.min(uploadUsage.used ?? 0, uploadUsage.limit ?? Infinity)))
@@ -2532,13 +2535,13 @@ export default function ChatBody({ roomId = null }) {
                     </div>
                     {src.occurrences > 1 ? (
                       <div className="chat-source-usage">
-                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse l�igus.").replace("{count}", String(src.occurrences))}
+                        {t("chat.sources.used_multiple", "Kasutatud {count} vestluse l’┐Įigus.").replace("{count}", String(src.occurrences))}
                       </div>
                     ) : null}
                     
                     {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? (
                       <div className="chat-source-pages">
-                        {t("chat.sources.pages", "Lehek�ljed: {pages}").replace("{pages}", String(src.pageText))}
+                        {t("chat.sources.pages", "Lehek’┐Įljed: {pages}").replace("{pages}", String(src.pageText))}
                       </div>
                     ) : null}
                     {src.allUrls && src.allUrls.length ? (
@@ -2573,7 +2576,3 @@ export default function ChatBody({ roomId = null }) {
     </>
   );
 }
-
-
-
-

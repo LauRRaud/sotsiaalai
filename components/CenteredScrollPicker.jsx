@@ -46,11 +46,13 @@ export default function CenteredScrollPicker({
 
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState("idle");
 
   const itemRefs = useRef([]);
 
   const rafRef = useRef(0);
   const settleTimerRef = useRef(0);
+  const lastScrollTopRef = useRef(0);
 
   const lastSettledIndexRef = useRef(0);
   const tabIndexStoreRef = useRef(new WeakMap());
@@ -82,6 +84,17 @@ export default function CenteredScrollPicker({
     const { scrollTop, scrollHeight, clientHeight } = el;
     setCanScrollUp(scrollTop > 2);
     setCanScrollDown(scrollTop + clientHeight < scrollHeight - 2);
+  }, [containerRef]);
+
+  const updateScrollDirection = useCallback(() => {
+    const el = containerRef?.current;
+    if (!el) return;
+    const nextTop = el.scrollTop || 0;
+    const delta = nextTop - lastScrollTopRef.current;
+    lastScrollTopRef.current = nextTop;
+    if (Math.abs(delta) < 1) return;
+    const nextDir = delta > 0 ? "down" : "up";
+    setScrollDirection((prev) => (prev === nextDir ? prev : nextDir));
   }, [containerRef]);
 
   const computeActiveIndex = useCallback(() => {
@@ -292,8 +305,10 @@ export default function CenteredScrollPicker({
     if (!el || disabled) return;
 
     updateScrollHints();
+    lastScrollTopRef.current = el.scrollTop || 0;
 
     const onScroll = () => {
+      updateScrollDirection();
       scheduleRafUpdate();
 
       // IMPORTANT:
@@ -331,6 +346,7 @@ export default function CenteredScrollPicker({
     scheduleRafUpdate,
     scheduleSettle,
     updateScrollHints,
+    updateScrollDirection,
     lockWheelToSteps,
     settleOnScroll,
   ]);
@@ -452,6 +468,7 @@ export default function CenteredScrollPicker({
     activeIndex,
     canScrollUp,
     canScrollDown,
+    scrollDirection,
     bindItemRef,
     getItemState,
     getItemClassName,

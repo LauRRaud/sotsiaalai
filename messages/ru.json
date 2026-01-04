@@ -57,9 +57,9 @@
     "aria_main": "Основное меню",
     "toggle_light": "Переключить светлый режим",
     "toggle_dark": "Переключить тёмный режим",
-    "chats": "????",
-    "rooms": "???????",
-    "add_person": "???????? ????????"
+    "chats": "Чаты",
+    "rooms": "Комнаты",
+    "add_person": "Добавить человека"
   },
   "auth": {
     "email_placeholder": "ваш@example.com",

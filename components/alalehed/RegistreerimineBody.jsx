@@ -106,7 +106,7 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
     }
   }
 
-  const { canScrollUp, canScrollDown, getItemClassName, recompute } =
+  const { canScrollUp, canScrollDown, scrollDirection, getItemClassName, recompute } =
     CenteredScrollPicker({
       containerRef: scrollRef,
       itemSelector: ".register-step",
@@ -183,16 +183,24 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
 
       <div
         className={`a11y-modal__scrim a11y-modal__scrim--top csp-scrim csp-scrim--top csp-scrim--chevron ${
-          canScrollUp ? "is-visible" : ""
-        }`}
+          "is-visible"
+        } ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
         aria-hidden="true"
-      />
+      >
+        <span className="csp-chevron-frame" aria-hidden="true">
+          <span className="csp-chevron-icon" />
+        </span>
+      </div>
       <div
         className={`a11y-modal__scrim a11y-modal__scrim--bottom csp-scrim csp-scrim--bottom csp-scrim--chevron ${
-          canScrollDown ? "is-visible" : ""
-        }`}
+          "is-visible"
+        } ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
         aria-hidden="true"
-      />
+      >
+        <span className="csp-chevron-frame" aria-hidden="true">
+          <span className="csp-chevron-icon" />
+        </span>
+      </div>
 
       <div
         ref={scrollRef}

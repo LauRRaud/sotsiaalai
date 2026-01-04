@@ -90,7 +90,7 @@
   height: 3.2rem;
   pointer-events:none;
   opacity:0;
-  transition: opacity 200ms ease;
+  transition: opacity 320ms ease;
   z-index: 6;
 }
 .csp-scrim.is-visible{ opacity:1; }
@@ -104,35 +104,76 @@
   background: linear-gradient(to top, var(--csp-surface), rgba(0,0,0,0));
 }
 
-.csp-scrim--chevron::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  width: 1.35rem;
-  height: 1.35rem;
-  border-left: 3px solid currentColor;
-  border-top: 3px solid currentColor;
-  opacity: 0.7;
-  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.18));
-  animation: cspChevronBlink 1.15s ease-in-out infinite;
+.csp-scrim--chevron{
+  --csp-arrow-pulse-duration: 3.2s;
+  --csp-arrow-size: clamp(6rem, 9.6vw, 7.6rem);
+}
+.csp-scrim--chevron.is-muted .csp-chevron-frame{
+  transform: translateX(-50%) scale(0.68);
+  opacity: 0.32;
+}
+.csp-scrim--chevron.is-muted .csp-chevron-icon{
+  animation: none;
+}
+.csp-scrim--chevron.is-hidden .csp-chevron-frame{
+  transform: translateX(-50%) scale(0.6);
+  opacity: 0;
+}
+.csp-scrim--chevron.is-hidden .csp-chevron-icon{
+  animation: none;
 }
 
-:root:not(.theme-light) .csp-scrim--chevron{ color: rgba(248,253,255,0.72); }
-:root.theme-light .csp-scrim--chevron{ color: rgba(15,23,42,0.46); }
-
-.csp-scrim--top.csp-scrim--chevron::after{
-  top: 0.95rem;
-  transform: translateX(-50%) rotate(45deg);
+:root{
+  --csp-arrow-up: url("/logo/uptume.svg");
+  --csp-arrow-down: url("/logo/downtume.svg");
 }
-.csp-scrim--bottom.csp-scrim--chevron::after{
-  bottom: 0.95rem;
-  transform: translateX(-50%) rotate(225deg);
+:root.theme-light{
+  --csp-arrow-up: url("/logo/uphele.svg");
+  --csp-arrow-down: url("/logo/downhele.svg");
 }
 
-@keyframes cspChevronBlink{
-  0%{ opacity: 0.35; }
-  50%{ opacity: 0.9; }
-  100%{ opacity: 0.35; }
+.csp-chevron-frame{
+  position: absolute;
+  left: 50%;
+  width: var(--csp-arrow-size);
+  height: var(--csp-arrow-size);
+  display: block;
+  opacity: 0.8;
+  transform: translateX(-50%) scale(1);
+  transform-origin: center;
+  transition: opacity 1400ms ease, transform 1400ms ease;
+  pointer-events: none;
+}
+
+.csp-chevron-icon{
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.8;
+  transform-origin: center;
+  animation: cspArrowPulse var(--csp-arrow-pulse-duration) ease-in-out infinite;
+}
+
+.csp-scrim--top.csp-scrim--chevron .csp-chevron-frame{
+  top: -0.35rem;
+}
+.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-frame{
+  bottom: -0.35rem;
+}
+.csp-scrim--top.csp-scrim--chevron .csp-chevron-icon{
+  background-image: var(--csp-arrow-up);
+}
+.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-icon{
+  background-image: var(--csp-arrow-down);
+}
+
+@keyframes cspArrowPulse{
+  0%{ transform: scale(0.98); }
+  50%{ transform: scale(1.08); }
+  100%{ transform: scale(0.98); }
 }
 
 /* ---------- Modal title overlay (keeps title “in the same window”) ---------- */
@@ -173,5 +214,5 @@
 @media (prefers-reduced-motion: reduce){
   .csp-item,
   .csp-scrim{ transition:none !important; }
-  .csp-scrim--chevron::after{ animation:none !important; filter:none; opacity:0.55; }
+  .csp-chevron-icon{ animation:none !important; opacity:0.6; }
 }

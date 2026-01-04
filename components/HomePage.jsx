@@ -38,6 +38,7 @@ export default function HomePage() {
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
   const [exitState, setExitState] = useState(null);
   const [exitPrepSide, setExitPrepSide] = useState(null);
+  const [pendingExitSide, setPendingExitSide] = useState(null);
 
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
@@ -57,8 +58,9 @@ export default function HomePage() {
   const flipToFrontMs = 1100;
   const exitDurationMs = prefs.reduceMotion ? 0 : 900;
   const exitFlipMs = prefs.reduceMotion ? 0 : flipToFrontMs;
-  const exitMorphDelayMs = prefs.reduceMotion ? 0 : Math.round(exitDurationMs * 0.3);
-  const exitMorphMs = prefs.reduceMotion ? 0 : Math.max(420, Math.round(exitDurationMs * 0.6));
+  const exitScalePct = 0.6;
+  const exitMorphDelayMs = prefs.reduceMotion ? 0 : Math.round(exitDurationMs * exitScalePct);
+  const exitMorphMs = prefs.reduceMotion ? 0 : Math.max(360, Math.round(exitDurationMs * (1 - exitScalePct)));
   const isExiting = Boolean(exitState);
   const exitSide = exitState?.side;
   const exitVars = exitState?.vars;
@@ -75,6 +77,7 @@ export default function HomePage() {
       if (isExiting || isPreparingExit || isLoginOpen) return;
       if (status === "loading") return;
       if (!isAuthed) {
+        setPendingExitSide(side);
         setIsLoginOpen(true);
         return;
       }
@@ -84,7 +87,7 @@ export default function HomePage() {
           ? leftPhase !== "front" || mobileFlipReady.left
           : rightPhase !== "front" || mobileFlipReady.right;
       const flipDelayMs = shouldFlipFront ? exitFlipMs : 0;
-      const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs * 0.92));
+      const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs));
       triggerRouteTransition({ delayMs, opacity: 0 });
       if (exitDurationMs === 0) {
         router.push("/vestlus");
@@ -116,14 +119,20 @@ export default function HomePage() {
         const dy = centerY - window.innerHeight / 2;
         const minViewport = Math.min(window.innerWidth, window.innerHeight);
         let targetSize = Math.min(1200, Math.max(640, minViewport * 0.88));
-        const chatDiameterRaw =
-          typeof window !== "undefined"
-            ? window.getComputedStyle(document.documentElement).getPropertyValue("--chat-diameter")
-            : "";
-        const chatDiameter = Number.parseFloat(chatDiameterRaw || "");
-        if (Number.isFinite(chatDiameter) && chatDiameter > 0) {
-          targetSize = chatDiameter;
-        }
+        try {
+          const probe = document.createElement("div");
+          probe.style.position = "fixed";
+          probe.style.left = "-9999px";
+          probe.style.top = "-9999px";
+          probe.style.width = "var(--chat-diameter)";
+          probe.style.height = "var(--chat-diameter)";
+          probe.style.visibility = "hidden";
+          probe.style.pointerEvents = "none";
+          document.body.appendChild(probe);
+          const measured = probe.getBoundingClientRect().width;
+          probe.remove();
+          if (Number.isFinite(measured) && measured > 0) targetSize = measured;
+        } catch {}
         const remPx = Number.parseFloat(
           typeof window !== "undefined"
             ? window.getComputedStyle(document.documentElement).fontSize
@@ -135,7 +144,6 @@ export default function HomePage() {
         const padTop = Math.min(clampMax, Math.max(clampMin, clampMid));
         const targetCenterY = Math.max(window.innerHeight / 2, padTop + targetSize / 2);
         const targetOffsetY = targetCenterY - window.innerHeight / 2;
-        const ringStartScale = rect.width / targetSize;
         const scale = Math.max(1, targetSize / rect.width);
         const zDepth = Math.min(240, Math.max(120, minViewport * 0.18));
         setExitPrepSide(null);
@@ -146,8 +154,6 @@ export default function HomePage() {
             y: `${dy.toFixed(2)}px`,
             scale: scale.toFixed(3),
             z: `${Math.round(zDepth)}px`,
-            size: `${Math.round(targetSize)}px`,
-            ringScale: ringStartScale.toFixed(4),
             toY: `${targetOffsetY.toFixed(2)}px`,
           },
         });
@@ -254,12 +260,15 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (isLoginOpen && status === "authenticated" && session) {
-      setIsLoginOpen(false);
-      markChatEnterFromHome();
-      router.push("/vestlus");
-    }
-  }, [isLoginOpen, markChatEnterFromHome, status, session, router]);
+    if (!pendingExitSide || status !== "authenticated" || !session) return;
+    if (isExiting || isPreparingExit) return;
+    if (isLoginOpen) setIsLoginOpen(false);
+    const side = pendingExitSide;
+    setPendingExitSide(null);
+    window.setTimeout(() => {
+      startExitToChat(side);
+    }, 0);
+  }, [isExiting, isLoginOpen, isPreparingExit, pendingExitSide, session, startExitToChat, status]);
 
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
@@ -380,13 +389,10 @@ export default function HomePage() {
           "--home-exit-from-x": exitVars?.x,
           "--home-exit-from-y": exitVars?.y,
           "--home-exit-scale": exitVars?.scale,
-          "--home-exit-size": exitVars?.size,
-          "--home-exit-ring-start": exitVars?.ringScale,
           "--home-exit-to-y": exitVars?.toY,
           "--home-exit-to-x": "0px",
         }}
       >
-        {isExiting ? <div className="home-exit-glass-ring" aria-hidden="true" /> : null}
 
         <div className="main-content relative">
           {/* LEFT CARD */}
@@ -567,7 +573,7 @@ export default function HomePage() {
         </footer>
       </div>
 
-      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect />
     </>
   );
 }
