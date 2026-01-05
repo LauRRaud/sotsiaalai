@@ -98,6 +98,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   const [open, setOpen] = useState(false);
   const hydratedRef = useRef(false);
   const applyingRef = useRef(false);
+  const prefsRef = useRef(prefs);
   const lastOpenerRef = useRef(null);
   const liveRef = useRef(null);
   const pathname = usePathname();
@@ -126,12 +127,19 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
         console.debug(stack);
       }
     }
-    try {
-      applyPrefsToDom(next);
-    } finally {
+    applyPrefsToDom(next);
+    if (typeof queueMicrotask === "function") {
+      queueMicrotask(() => {
+        applyingRef.current = false;
+      });
+    } else if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        applyingRef.current = false;
+      }, 0);
+    } else {
       applyingRef.current = false;
     }
-  }, [logDev]);
+  }, [logDev, safeApplyPrefsToDom]);
 
   const scheduleOpenModal = useCallback((reason) => {
     if (typeof window === "undefined") return;
@@ -205,6 +213,10 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
       scheduleOpenModal("route-home");
     }
   }, [pathname, scheduleOpenModal]);
+  useEffect(() => {
+    prefsRef.current = prefs;
+  }, [prefs]);
+
   // Re-apply current prefs when preferences change.
   useEffect(() => {
     if (!hydratedRef.current) return;
@@ -230,10 +242,19 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
       });
       prevClassNameRef.current = current;
       if (applyingRef.current) return;
-      const domTheme = hasLight ? "light" : "dark";
-      setPrefsState((prevState) =>
-        prevState.theme === domTheme ? prevState : { ...prevState, theme: domTheme },
-      );
+      const snapshot = prefsRef.current;
+      if (snapshot) {
+        const shouldBeLight = snapshot.contrast !== "hc" && snapshot.theme === "light";
+        if (shouldBeLight !== hasLight) {
+          logDev("html.className mismatch", {
+            pathname: pathnameRef.current,
+            expectedThemeLight: shouldBeLight,
+            actualThemeLight: hasLight,
+          });
+          safeApplyPrefsToDom(snapshot, "observer-enforce");
+          return;
+        }
+      }
     });
     prevClassNameRef.current = html.className;
     observer.observe(html, { attributes: true, attributeFilter: ["class"] });
