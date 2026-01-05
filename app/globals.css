@@ -5268,7 +5268,7 @@ body.modal-open .footer-floating-nav {
     -webkit-overflow-scrolling: touch;
   }
   :root:not(.theme-light) .homepage-root{
-    background: linear-gradient(180deg, #01050f 0%, #050b18 100%);
+    background: none;
   }
   .homepage-root > .main-content{ order: 1; }
   [data-bg-layer]{ pointer-events: none; }

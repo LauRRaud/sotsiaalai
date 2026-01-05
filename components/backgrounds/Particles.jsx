@@ -7,6 +7,7 @@ import { Renderer, Camera, Geometry, Program, Mesh } from "ogl";
 import "./Particles.css";
 
 const defaultColors = ["#cfd6e3", "#aeb6c2", "#232323", "#2e2e2e", "#E6B4A5", "#B86C57"];
+const defaultParticleColors = ["#655d5d", "#444a54", "#1c1c1c", "#333333", "#b17c7c", "#825959"];
 
 const parseColor = (c) => {
   if (!c) return [1, 1, 1];
@@ -68,7 +69,7 @@ const Particles = ({
   particleCount = 75,
   particleSpread = 22,
   speed = 0.035,                        // baas-kiirus ajajoonele
-  particleColors = ["#655d5d", "#444a54", "#1c1c1c", "#333333", "#b17c7c", "#825959"],
+  particleColors = defaultParticleColors,
   moveParticlesOnHover = false,
   particleHoverFactor = 1,
   alphaParticles = true,
@@ -84,6 +85,7 @@ const Particles = ({
   const containerRef = useRef(null);
   const glRef = useRef(null);
   const bgColorRef = useRef(bgColor);
+  const particleColorsKey = Array.isArray(particleColors) ? particleColors.join("|") : "";
 
   useEffect(() => {
     bgColorRef.current = bgColor;
@@ -300,7 +302,7 @@ const Particles = ({
   }, [
     particleCount, particleSpread, speed, moveParticlesOnHover, particleHoverFactor,
     alphaParticles, particleBaseSize, sizeRandomness, cameraDistance,
-    disableRotation, particleColors, fps, timeScale
+    disableRotation, particleColorsKey, fps, timeScale
   ]);
 
   return (

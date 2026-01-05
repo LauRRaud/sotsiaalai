@@ -50,7 +50,7 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   const [skipBgIntro, setSkipBgIntro] = useState(false);
   const [colorBendsReady, setColorBendsReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
-  const allowParticles = !reduceMotion && (!mobileLike || pathname === "/");
+  const allowParticles = !reduceMotion;
   const bgColor = useMemo(() => {
     if (typeof document === "undefined") return isLightTheme ? "#f9f8f5" : "#050a10";
     const css = getComputedStyle(document.documentElement).getPropertyValue("--page-bg").trim();
