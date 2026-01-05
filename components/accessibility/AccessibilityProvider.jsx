@@ -191,7 +191,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   useEffect(() => {
     if (typeof document === "undefined") return;
     const main = document.getElementById("main");
-    const bg = document.getElementById("bg-layer");
+    const bg = document.querySelector("[data-bg-layer]");
     const body = document.body;
     if (open) {
       if (main) {

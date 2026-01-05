@@ -5271,7 +5271,7 @@ body.modal-open .footer-floating-nav {
     background: linear-gradient(180deg, #01050f 0%, #050b18 100%);
   }
   .homepage-root > .main-content{ order: 1; }
-  #bg-layer{ pointer-events: none; }
+  [data-bg-layer]{ pointer-events: none; }
   .main-content { padding-bottom: clamp(5rem, 12vw, 7rem); }
   .footer-column{
     position: fixed;

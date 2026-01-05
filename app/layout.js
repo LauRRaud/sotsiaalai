@@ -7,7 +7,6 @@ import Providers from "./providers"; // JUURTASAND: ./providers
 import ViewportLayoutSetter from "@/components/ViewportLayoutSetter";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
-import RouteTransitionMask from "@/components/RouteTransitionMask";
 import { authConfig } from "@/auth";
 export const metadata = {
   title: "SotsiaalAI",
@@ -105,14 +104,8 @@ export default async function RootLayout({ children }) {
           {/* Skip-link ligipääsetavuseks */}
           <a href="#main" className="skip-link">{skipText}</a>
           <ViewportLayoutSetter />
-          {/* Taust alati taha: ei kata sisu ega püüa klikke */}
-          <div
-            id="bg-layer"
-            aria-hidden
-            style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-            <BackgroundLayer />
-          </div>
-          <RouteTransitionMask />
+          {/* Taust: renderdatakse root-tasemel ühe fixed kihina (BackgroundLayer haldab ise oma konteinerit) */}
+          <BackgroundLayer />
           <ServiceWorkerRegistrar />
           {/* Sisu on taustast kõrgemal kihil */}
           <main id="main" role="main" tabIndex={-1} className="relative" style={{ zIndex: 10 }}>

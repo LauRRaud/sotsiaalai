@@ -142,7 +142,7 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
     <>
       {/* TAUSTAKIHID (sisu all) */}
       <div
-        id="bg-layer"
+        data-bg-layer
         aria-hidden="true"
         suppressHydrationWarning
         style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
@@ -199,7 +199,12 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
 function BackgroundLayer() {
   const { prefs } = useAccessibility();
   const reduceMotion = !!prefs?.reduceMotion;
-  const isLightTheme = prefs?.theme === "light";
+  // DOM klass on varajase inline scripti tõttu stabiilsem kui React state navigeerimisel.
+  // Fallback: prefs.theme (SSR/hydration kontekstis).
+  const isLightTheme =
+    typeof document !== "undefined"
+      ? document.documentElement.classList.contains("theme-light")
+      : prefs?.theme === "light";
   return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} />;
 }
 
