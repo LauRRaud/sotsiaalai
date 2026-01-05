@@ -76,21 +76,40 @@ function normalizeEmails(emails) {
 
 function normalizeRelationship(value) {
   const raw = String(value || "").toUpperCase();
-  return raw === "COLLEAGUE" ? "COLLEAGUE" : "CLIENT";
+  if (!raw) return null;
+  if (raw === "COLLEAGUE") return "COLLEAGUE";
+  if (raw === "CLIENT") return "CLIENT";
+  return null;
 }
-function normalizePaymentMode(value, relationship) {
+function normalizePaymentMode(value) {
   const raw = String(value || "").toUpperCase();
   if (raw === "SPONSORED_BY_HOST" || raw === "SPONSORED") return "SPONSORED_BY_HOST";
   if (raw === "SELF_PAID") return "SELF_PAID";
-  return relationship === "CLIENT" ? "SPONSORED_BY_HOST" : "SELF_PAID";
+  return "SELF_PAID";
 }
 
-async function ensureRoom(userId, roomId) {
+async function ensureRoom(userId, roomId, roomTitle) {
   if (roomId) {
     const room = await prisma.room.findUnique({ where: { id: roomId } });
     if (!room) throw fail(404, "Room not found");
     await ensureOwnerMembership(room.id, room.ownerId);
     return room;
+  }
+  const trimmedTitle = typeof roomTitle === "string" ? roomTitle.trim() : "";
+  if (trimmedTitle) {
+    const created = await prisma.room.create({
+      data: {
+        ownerId: userId,
+        title: trimmedTitle,
+        members: {
+          create: {
+            userId,
+            role: "OWNER",
+          },
+        },
+      },
+    });
+    return created;
   }
   const existing = await prisma.room.findFirst({
     where: { ownerId: userId },
@@ -126,8 +145,8 @@ async function ensureOwnerMembership(roomId, ownerId) {
   } catch {}
 }
 
-async function requireRoomRole(userId, roomId, allowedRoles) {
-  const room = await ensureRoom(userId, roomId);
+async function requireRoomRole(userId, roomId, allowedRoles, roomTitle) {
+  const room = await ensureRoom(userId, roomId, roomTitle);
   if (room.ownerId === userId) return { ok: true, room, membership: { role: "OWNER" } };
   const membership = await prisma.roomMember.findFirst({
     where: { roomId: room.id, userId, leftAt: null },
@@ -232,7 +251,11 @@ export async function GET(req) {
   const roomId = url.searchParams.get("room_id") || url.searchParams.get("roomId");
 
   try {
-    const roomCheck = await requireRoomRole(auth.userId, roomId || undefined, ["OWNER", "MODERATOR"]);
+    const roomCheck = await requireRoomRole(
+      auth.userId,
+      roomId || undefined,
+      ["OWNER", "MODERATOR"]
+    );
     if (!roomCheck.ok) return json({ ok: false, message: roomCheck.message }, roomCheck.status || 403);
     const room = roomCheck.room;
 
@@ -282,12 +305,25 @@ export async function POST(req) {
 
   try {
     const roomId = payload?.room_id || payload?.roomId || null;
-    const roomCheck = await requireRoomRole(auth.userId, roomId || undefined, ["OWNER", "MODERATOR"]);
+    const roomTitle = typeof payload?.room_title === "string"
+      ? payload.room_title
+      : typeof payload?.roomTitle === "string"
+      ? payload.roomTitle
+      : "";
+    if (!roomId && !roomTitle.trim()) {
+      return json({ ok: false, message: "Lisa ruumile nimi enne kutsete saatmist." }, 400);
+    }
+    const roomCheck = await requireRoomRole(
+      auth.userId,
+      roomId || undefined,
+      ["OWNER", "MODERATOR"],
+      roomTitle
+    );
     if (!roomCheck.ok) return json({ ok: false, message: roomCheck.message }, roomCheck.status || 403);
     const room = roomCheck.room;
 
     const relationshipType = normalizeRelationship(payload?.relationship_type || payload?.relationshipType);
-    const paymentMode = normalizePaymentMode(payload?.payment_mode || payload?.paymentMode, relationshipType);
+    const paymentMode = normalizePaymentMode(payload?.payment_mode || payload?.paymentMode);
     const lang = (payload?.lang || payload?.language || "et").toString().toLowerCase();
 
     const expiresHours = Number(payload?.expires_in_hours ?? payload?.expiresInHours ?? 168);
@@ -319,7 +355,7 @@ export async function POST(req) {
           inviteeEmail: email,
           tokenHash: hash,
           status: "SENT",
-          relationshipType,
+          relationshipType: relationshipType || undefined,
           paymentMode,
           sponsoredByUserId: sponsor.userId,
           sponsoredByOrgId: sponsor.orgId,

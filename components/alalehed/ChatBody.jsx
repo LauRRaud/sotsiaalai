@@ -299,6 +299,10 @@ export default function ChatBody({ roomId = null }) {
       ? "When enabled, the assistant also uses the SotsiaalAI knowledge base."
       : "Kui see on sisse lülitatud, kasutab assistent lisaks dokumendile ka SotsiaalAI andmebaasi.",
   );
+  const aiNote = t(
+    "chat.ai_toggle.note",
+    "Vaikimisi on see inimeste jutt ja assistent ei nae sonumit."
+  );
   const isRoomMode = Boolean(roomId);
 
   const crisisText = t(
@@ -345,6 +349,7 @@ export default function ChatBody({ roomId = null }) {
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
   const [analysisPanelInline, setAnalysisPanelInline] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [previewScroll, setPreviewScroll] = useState(0);
   const [recording, setRecording] = useState(false);
   const [recordingPulse, setRecordingPulse] = useState(false);
@@ -357,8 +362,6 @@ export default function ChatBody({ roomId = null }) {
     reload: reloadRoomMessages,
     setMessages: setRoomMessages,
   } = useRoomMessages(roomId || "", 3000);
-  const [roomMembers, setRoomMembers] = useState([]);
-  const [roomRole, setRoomRole] = useState(null);
   const aiVisibleByMessageId = useRef(new Map());
   useEffect(() => {
     aiVisibleByMessageId.current = new Map();
@@ -374,6 +377,18 @@ export default function ChatBody({ roomId = null }) {
   useEffect(() => {
     if (!inputFocused) setTopNavPinned(false);
   }, [inputFocused]);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(max-width: 48em)");
+    const update = () => setIsMobileViewport(!!mq.matches);
+    update();
+    if (mq.addEventListener) {
+      mq.addEventListener("change", update);
+      return () => mq.removeEventListener("change", update);
+    }
+    mq.addListener(update);
+    return () => mq.removeListener(update);
+  }, []);
   const inputRef = useRef(null);
   const inputBarRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -401,34 +416,6 @@ export default function ChatBody({ roomId = null }) {
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
   const saveTimerRef = useRef(null);
-
-  useEffect(() => {
-    if (!isRoomMode || !roomId) return;
-    let cancelled = false;
-    async function loadMembers() {
-      try {
-        const res = await fetch(`/api/rooms/${roomId}/members`, { cache: "no-store" });
-        const data = await res.json().catch(() => ({}));
-        if (cancelled) return;
-        if (res.ok && data?.ok) {
-          setRoomMembers(Array.isArray(data.members) ? data.members : []);
-          setRoomRole(data.role || null);
-        } else {
-          setRoomMembers([]);
-          setRoomRole(null);
-        }
-      } catch {
-        if (!cancelled) {
-          setRoomMembers([]);
-          setRoomRole(null);
-        }
-      }
-    }
-    loadMembers();
-    return () => {
-      cancelled = true;
-    };
-  }, [isRoomMode, roomId]);
 
   useLayoutEffect(() => {
     const box = chatContainerRef.current;
@@ -717,7 +704,7 @@ export default function ChatBody({ roomId = null }) {
   const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
   const analysisPanelMode = isAnalysisExpanded
     ? "expanded"
-    : analysisPanelInline
+    : analysisPanelInline && !isMobileViewport
     ? "inline"
     : "overlay";
 
@@ -824,7 +811,7 @@ export default function ChatBody({ roomId = null }) {
   }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
 
   useLayoutEffect(() => {
-    if (!showAnalysisPanel || isAnalysisExpanded) {
+    if (isMobileViewport || !showAnalysisPanel || isAnalysisExpanded) {
       setAnalysisPanelInline(false);
       return;
     }
@@ -848,7 +835,7 @@ export default function ChatBody({ roomId = null }) {
       window.removeEventListener("resize", updateLayout);
       ro?.disconnect?.();
     };
-  }, [showAnalysisPanel, isAnalysisExpanded, visibleMessages.length]);
+  }, [isMobileViewport, showAnalysisPanel, isAnalysisExpanded, visibleMessages.length]);
 
   useEffect(() => {
     function updateScrollFromClientY(clientY) {
@@ -1998,16 +1985,6 @@ export default function ChatBody({ roomId = null }) {
           {errorBanner}
         </div>
       ) : null}
-      {isRoomMode && roomMembers.length ? (
-        <div className="room-chat__members" style={{ margin: "0.5rem 0", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-          {roomMembers.map((m) => (
-            <span key={m.userId || m.name} className="chat-msg-tag chat-msg-tag--human">
-              {m.name || "Liige"}{m.role ? ` - ${m.role}` : ""}
-            </span>
-          ))}
-        </div>
-      ) : null}
-
       {isRoomMode && roomBlocked ? (
         <div className="glass-note chat-error-banner" role="alert">
           {t("chat.room.blocked", "Vestluses osalemine ei ole hetkel voimalik. Palun vota uhendust oma spetsialistiga.")}
@@ -2237,14 +2214,35 @@ export default function ChatBody({ roomId = null }) {
                 type="checkbox"
                 checked={sendToAssistant}
                 onChange={(e) => setSendToAssistant(e.target.checked)}
+                aria-describedby="chat-ai-hint"
               />
               <span className="checkbox-text">
                 {t("chat.ai_toggle.label", "Saada assistendile")}
               </span>
             </label>
-            <div className="chat-ai-note">
-              {t("chat.ai_toggle.note", "Vaikimisi on see inimeste jutt ja assistent ei nae sonumit.")}
-            </div>
+            <button
+              type="button"
+              className="chat-context-info chat-context-info--inline chat-ai-info"
+              aria-label={aiNote}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <span className="chat-context-info-icon" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 320 512"
+                  className="chat-context-info-icon-svg"
+                >
+                  <path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
+                </svg>
+              </span>
+              <span className="chat-context-info-tooltip">
+                {aiNote}
+              </span>
+            </button>
+            <span id="chat-ai-hint" className="sr-only">{aiNote}</span>
           </div>
         ) : null}
 

@@ -171,9 +171,9 @@
 }
 
 @keyframes cspArrowPulse{
-  0%{ transform: scale(0.98); }
-  50%{ transform: scale(1.08); }
-  100%{ transform: scale(0.98); }
+  0%{ transform: scale(0.98); opacity: 0.22; }
+  50%{ transform: scale(1.08); opacity: 0.75; }
+  100%{ transform: scale(0.98); opacity: 0.22; }
 }
 
 /* ---------- Modal title overlay (keeps title “in the same window”) ---------- */

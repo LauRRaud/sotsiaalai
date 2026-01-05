@@ -597,13 +597,13 @@
   min-height: clamp(8.4rem, 56vw, 12rem);
   height: auto;
   border-radius: 999px;
-  padding: 0.6rem 1rem 0.75rem;
+  padding: 0.55rem 1rem 0.7rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: clamp(0.2rem, 1vw, 0.45rem);
+  justify-content: center;
+  gap: clamp(0.25rem, 1.1vw, 0.5rem);
 
   position: relative;
   transform: translateZ(0);
@@ -634,27 +634,43 @@
   display: grid;
   place-items: center;
   line-height: 0;
-  min-height: clamp(2.6rem, 15vw, 3.8rem);
+  min-height: clamp(2.2rem, 12vw, 3.2rem);
 }
 
 /* Larger icons to match bigger buttons */
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
-  width: 74%;
-  height: 74%;
-  max-width: none;
-  max-height: none;
+  width: 58%;
+  height: 58%;
+  max-width: clamp(3.2rem, 16vw, 4.4rem);
+  max-height: clamp(3.2rem, 16vw, 4.4rem);
   color: inherit;
   stroke: currentColor;
   opacity: 0.95;
   transform-origin: center;
   transition: transform 180ms ease, opacity 180ms ease;
 }
+.profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item .dock-icon {
+  color: var(--orbit-mobile-accent, #c57171);
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item
+  .dock-icon {
+  color: var(--orbit-mobile-accent, #c57171);
+}
 .profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item svg {
-  stroke: currentColor;
-  fill: none;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item
+  svg {
+  stroke: currentColor !important;
+  fill: none !important;
 }
 .profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item svg [fill]:not([fill="none"]) {
-  fill: currentColor;
+  fill: currentColor !important;
 }
 .profile-orbit-mobile-action.dock-item .dock-icon svg [fill]:not([fill="none"]) {
   fill: currentColor;
@@ -678,9 +694,9 @@
   letter-spacing: 0.025em;
 
   /* Larger text to match bigger buttons */
-  font-size: clamp(1.15rem, 4.2vw, 1.6rem);
+  font-size: clamp(1.1rem, 3.9vw, 1.5rem);
 
-  margin-top: 0;
+  margin-top: 0.1rem;
   padding: 0;
   border-radius: 0;
   opacity: 0;
@@ -690,7 +706,10 @@
   display: block;
   overflow: visible;
   word-wrap: break-word;
-  max-width: 85%;
+  max-width: 95%;
+  word-break: normal;
+  hyphens: auto;
+  text-wrap: balance;
   max-height: none;
 }
 

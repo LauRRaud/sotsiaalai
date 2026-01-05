@@ -81,6 +81,9 @@ export async function GET() {
       : memberships
     ).map(async (m) => {
       const last = m.room.messages?.[0];
+      const memberCount = await prisma.roomMember.count({
+        where: { roomId: m.roomId, leftAt: null },
+      });
       const unreadCount = await prisma.roomMessage.count({
         where: {
           roomId: m.roomId,
@@ -93,6 +96,7 @@ export async function GET() {
         title: m.room.title || "Vestlusruum",
         description: m.room.description || "",
         role: m.role,
+        memberCount,
         lastMessage: last ? { id: last.id, content: last.content, createdAt: last.createdAt } : null,
         unreadCount,
       };

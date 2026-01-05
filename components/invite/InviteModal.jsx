@@ -17,8 +17,8 @@ export default function InviteModal() {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState(null);
+  const [roomTitle, setRoomTitle] = useState("");
   const [emails, setEmails] = useState("");
-  const [relationship, setRelationship] = useState("");
   const [paymentMode, setPaymentMode] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -36,6 +36,10 @@ export default function InviteModal() {
   }, []);
 
   useEffect(() => {
+    if (open && !roomId) setRoomTitle("");
+  }, [open, roomId]);
+
+  useEffect(() => {
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", open);
     document.body.classList.toggle("invite-modal-open", open);
@@ -50,6 +54,11 @@ export default function InviteModal() {
   }, [open]);
 
   const loadInvites = useCallback(async () => {
+    if (!roomId) {
+      setInvites([]);
+      setLoadingList(false);
+      return;
+    }
     setLoadingList(true);
     try {
       const url = new URL("/api/invites", window.location.origin);
@@ -81,6 +90,11 @@ export default function InviteModal() {
       setError("");
       return;
     }
+    const trimmedRoomTitle = roomTitle.trim();
+    if (!roomId && !trimmedRoomTitle) {
+      setError(t("invite.room_title_required", "Lisa ruumile nimi enne kutsete saatmist."));
+      return;
+    }
     setBusy(true);
     try {
       const res = await fetch("/api/invites", {
@@ -88,9 +102,9 @@ export default function InviteModal() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           emails: parsed,
-          relationship_type: relationship || undefined,
           payment_mode: paymentMode || undefined,
           room_id: roomId || undefined,
+          room_title: trimmedRoomTitle || undefined,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -99,6 +113,9 @@ export default function InviteModal() {
       }
       setMessage(t("invite.success", "Kutsed saadetud"));
       setEmails("");
+      if (!roomId && data?.roomId) {
+        setRoomId(data.roomId);
+      }
       loadInvites();
     } catch (err) {
       setError(err?.message || "Kutse saatmine ebaõnnestus");
@@ -157,6 +174,20 @@ export default function InviteModal() {
             </div>
           ) : (
             <form className="invite-classic__body" onSubmit={submit}>
+              {!roomId ? (
+                <>
+                  <label className="invite-classic__label" htmlFor="invite-room-title">
+                    {t("invite.room_title", "Ruumi nimi")}
+                  </label>
+                  <input
+                    id="invite-room-title"
+                    value={roomTitle}
+                    onChange={(e) => setRoomTitle(e.target.value)}
+                    className="invite-classic__input"
+                    disabled={busy}
+                  />
+                </>
+              ) : null}
               <label className="invite-classic__label" htmlFor="invite-emails">
                 {t("invite.classic.emails", "Lisa inimesi vestlusesse")}
               </label>
@@ -168,32 +199,6 @@ export default function InviteModal() {
                 placeholder={t("invite.classic.emails_ph", "E-post (eralda komaga)")}
                 disabled={busy}
               />
-              <p className="invite-classic__section-title">{t("invite.classic.relationship", "Kellega on tegu?")}</p>
-              <div className="invite-choice-group">
-                <label className={`invite-choice-card ${relationship === "colleague" ? "is-checked" : ""}`}>
-                  <input
-                    type="radio"
-                    name="relationship"
-                    value="colleague"
-                    checked={relationship === "colleague"}
-                    onChange={() => setRelationship("colleague")}
-                    disabled={busy}
-                  />
-                  <span>{t("invite.rel.colleague", "Kolleeg")}</span>
-                </label>
-                <label className={`invite-choice-card ${relationship === "client" ? "is-checked" : ""}`}>
-                  <input
-                    type="radio"
-                    name="relationship"
-                    value="client"
-                    checked={relationship === "client"}
-                    onChange={() => setRelationship("client")}
-                    disabled={busy}
-                  />
-                  <span>{t("invite.rel.client", "Klient")}</span>
-                </label>
-              </div>
-
               <p className="invite-classic__section-title">{t("invite.classic.payment", "Tellimuse olemasolu")}</p>
               <div className="invite-choice-group">
                 <label className={`invite-choice-card ${paymentMode === "self_paid" ? "is-checked" : ""}`}>
@@ -252,7 +257,6 @@ export default function InviteModal() {
               <div className="invite-table invite-table--classic">
                 <div className="invite-row invite-row--head">
                   <span>{t("invite.table.email", "Email")}</span>
-                  <span>{t("invite.table.role", "Roll")}</span>
                   <span>{t("invite.table.payer", "Maksja")}</span>
                   <span>{t("invite.table.status", "Staatus")}</span>
                   <span></span>
@@ -260,7 +264,6 @@ export default function InviteModal() {
                 {invites.map((inv) => (
                   <div className="invite-row" key={inv.id}>
                     <span>{inv.inviteeEmail}</span>
-                    <span>{inv.relationshipType === "CLIENT" ? t("invite.rel.client", "Klient") : t("invite.rel.colleague", "Kolleeg")}</span>
                     <span>{inv.paymentMode === "SPONSORED_BY_HOST" ? t("invite.payer.host", "Tasun tema eest") : t("invite.payer.self", "Tal on oma tellimus")}</span>
                     <span>{formatStatus(inv)}</span>
                     <span className="invite-row__actions invite-classic__row-actions">
