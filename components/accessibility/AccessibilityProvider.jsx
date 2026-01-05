@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import AccessibilityModal from "./AccessibilityModal";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -194,7 +194,8 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   useEffect(() => {
     const domPrefs = readInitialPrefsFromDom();
     const cookiePrefs = readPrefsFromCookie();
-    const initial = cookiePrefs ? { ...domPrefs, ...cookiePrefs, theme: domPrefs.theme } : domPrefs;
+    const initial = cookiePrefs ? { ...domPrefs, ...cookiePrefs } : domPrefs;
+    if (initial.contrast === "hc") initial.theme = "dark";
     setPrefsState(initial);
     safeApplyPrefsToDom(initial, "init");
     hydratedRef.current = true;
@@ -217,11 +218,11 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     prefsRef.current = prefs;
   }, [prefs]);
 
-  // Re-apply current prefs when preferences change.
-  useEffect(() => {
+  // Re-apply current prefs before paint to prevent theme flash.
+  useLayoutEffect(() => {
     if (!hydratedRef.current) return;
     safeApplyPrefsToDom(prefs, "prefs-change");
-  }, [prefs, safeApplyPrefsToDom]);
+  }, [prefs, pathname, safeApplyPrefsToDom]);
   // Sync theme state if it is toggled elsewhere (e.g. Home page switch)
   useEffect(() => {
     if (typeof document === "undefined") return undefined;

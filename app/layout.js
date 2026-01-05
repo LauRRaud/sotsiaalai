@@ -93,11 +93,6 @@ export default async function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logo/onoffrohelinehele.svg" />
         <link rel="preload" as="image" href="/logo/onoffhall.svg" />
         {/* Removed deprecated login provider assets */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var el=document.documentElement;var prefs=localStorage.getItem('a11y_prefs');var contrast=null;try{contrast=prefs?JSON.parse(prefs).contrast:null;}catch(e){};if(contrast==='hc'){el.classList.remove('theme-light');return;}var t=localStorage.getItem('theme');if(t==='light'){el.classList.add('theme-light');}else{el.classList.remove('theme-light');}}catch(e){}})();`,
-          }}
-        />
       </head>
       <body className="antialiased min-h-screen w-full overflow-x-hidden">
         <Providers initialLocale={locale} messages={messages} session={session} initialA11yPrefs={initialA11yPrefs}>
