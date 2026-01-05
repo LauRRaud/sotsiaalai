@@ -166,7 +166,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     } else {
       openTimerRef.current = { id: window.setTimeout(attempt, 80), type: "timeout" };
     }
-  }, [logDev, safeApplyPrefsToDom]);
+  }, [logDev]);
 
   useEffect(() => {
     return () => {
@@ -259,7 +259,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     prevClassNameRef.current = html.className;
     observer.observe(html, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
-  }, [logDev]);
+  }, [logDev, safeApplyPrefsToDom]);
   const announce = useCallback((msg) => {
     if (!msg) return;
     if (typeof document === "undefined") return;
