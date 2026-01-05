@@ -392,7 +392,7 @@ export async function POST(req) {
     return json({
       ok: true,
       roomId: room.id,
-      invites: created.map(({ token, ...rest }) => rest),
+      invites: created.map(({ token: _token, ...rest }) => rest),
     });
   } catch (err) {
     if (err?.status) return json({ ok: false, message: err.message }, err.status);

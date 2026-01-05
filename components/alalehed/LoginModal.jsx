@@ -83,7 +83,6 @@ export default function LoginModal({ open, onClose }) {
 
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
-  const [pinError, setPinError] = useState(false);
   const [pinLoading, setPinLoading] = useState(false);
 
   const [otpLoading, setOtpLoading] = useState(false);
@@ -96,7 +95,7 @@ export default function LoginModal({ open, onClose }) {
 
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
-  const [submitIconState, setSubmitIconState] = useState("idle"); // idle | success | error
+  const [_submitIconState, _setSubmitIconState] = useState("idle"); // idle | success | error
   const [invalidCredentials, setInvalidCredentials] = useState(false);
 
   const [emailRevealed, setEmailRevealed] = useState(false);
@@ -761,14 +760,6 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
   if (!open) return null;
 
   const isLightTheme = prefs?.theme === "light";
-
-  const submitIconSrc = (() => {
-    const successIcon = isLightTheme ? "/logo/sisenerohelinehele.svg" : "/logo/siseneroheline.svg";
-    const errorIcon = isLightTheme ? "/logo/sisenepunanetume.svg" : "/logo/sisenepunanehele.svg";
-    if (pinLoading || submitIconState === "success") return successIcon;
-    if (submitIconState === "error") return errorIcon;
-    return isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
-  })();
 
   const stopInside = (e) => e.stopPropagation();
 

@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
@@ -11,22 +11,12 @@ import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function RegistreerimineBody({ openLoginModal = null }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { t, locale } = useI18n();
   const scrollRef = useRef(null);
 
   const handleClose = () => {
     pushWithTransition(router, localizePath("/", locale));
   };
-
-  const toRelative = (u) => {
-    try {
-      const base = typeof window !== "undefined" ? window.location.origin : "http://local";
-      const url = new URL(u, base);
-      return `${url.pathname}${url.search}${url.hash}`;
-    } catch { return String(u || "/"); }
-  };
-  const nextUrl = toRelative(searchParams?.get("next") || localizePath("/vestlus", locale));
 
   const PIN_MIN = 4;
   const PIN_MAX = 8;

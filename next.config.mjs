@@ -18,7 +18,7 @@ const baseConfig = {
     root: path.dirname(fileURLToPath(import.meta.url)),
   },
 
-  webpack(config, { dev, isServer }) {
+  webpack(config, { dev: _dev, isServer: _isServer }) {
     // Add SVGR loader for SVG imports in JS/TS files
     // NOTE: using the package name string for the loader is ESM-safe (no require)
     config.module.rules.push({

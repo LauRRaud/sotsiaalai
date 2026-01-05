@@ -304,7 +304,7 @@ export default function RagAdminPanel() {
       let data = null;
       try {
         data = raw ? JSON.parse(raw) : null;
-      } catch (e) {
+      } catch {
         throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
       }
       if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
@@ -433,7 +433,7 @@ export default function RagAdminPanel() {
     let parsed = null;
     try {
       parsed = JSON.parse(raw);
-    } catch (err) {
+    } catch {
       setMetaCheck({ type: "error", text: "Meta JSON ei ole korrektne." });
       return;
     }

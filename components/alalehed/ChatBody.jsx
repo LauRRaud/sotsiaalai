@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect, useMemo, useCallback, useLayoutEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import Link from "next/link";
 import PaperclipLight from "@/public/logo/papercliphele.svg";
@@ -281,10 +281,9 @@ function throttle(fn, waitMs) {
   };
 }
 
-/* ---------- Komponent ---------- */
+  /* ---------- Komponent ---------- */
 export default function ChatBody({ roomId = null }) {
   const router = useRouter();
-  const pathname = usePathname() || "";
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
@@ -360,8 +359,6 @@ export default function ChatBody({ roomId = null }) {
     blocked: roomBlocked,
     authRequired: roomAuthRequired,
     roomTitle,
-    reload: reloadRoomMessages,
-    setMessages: setRoomMessages,
   } = useRoomMessages(roomId || "", 3000);
   const aiVisibleByMessageId = useRef(new Map());
   useEffect(() => {
@@ -1633,8 +1630,6 @@ export default function ChatBody({ roomId = null }) {
         if (!res.body) throw new Error("Assistent ei saatnud voogu.");
         const reader = createSSEReader(res.body);
         streamingMessageId = appendMessage({ role: "ai", text: "", isStreaming: true, aiVisible: true });
-        let streamEnded = false;
-
         for await (const ev of reader) {
           if (ev.event === "meta") {
             try {
@@ -1668,7 +1663,6 @@ export default function ChatBody({ roomId = null }) {
             } catch {}
             throw new Error(msg);
           } else if (ev.event === "done") {
-            streamEnded = true;
             break;
           }
         }
@@ -1841,26 +1835,6 @@ export default function ChatBody({ roomId = null }) {
     const node = chatWindowRef.current;
     if (!node) return;
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
-  }, []);
-
-  const openConversations = useCallback(() => {
-    try {
-      window.dispatchEvent(
-        new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: true } })
-      );
-    } catch {}
-  }, []);
-
-  const goRooms = useCallback(() => {
-    try {
-      pushWithTransition(router, "/ruum");
-    } catch {}
-  }, [router]);
-
-  const openInvite = useCallback(() => {
-    try {
-      window.dispatchEvent(new CustomEvent("sotsiaalai:open-invite"));
-    } catch {}
   }, []);
 
   const BackButton = () => (

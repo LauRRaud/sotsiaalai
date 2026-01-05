@@ -5,7 +5,7 @@ export default function Magnet({
   children,
   padding = 100,
   disabled = false,
-  magnetStrength = 100,
+  magnetStrength: _magnetStrength = 100,
   activeTransition = "transform 1.1s ease-out",
   inactiveTransition = "transform 1.1s ease-in-out",
   wrapperClassName = "",

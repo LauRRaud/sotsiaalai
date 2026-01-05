@@ -170,7 +170,7 @@ function normalizeRecipients(to) {
 }
 function encodeSubject(subject) {
   if (!subject) return "";
-  return /^[\x00-\x7F]*$/.test(subject)
+  return /^[\x20-\x7E]*$/.test(subject)
     ? subject
     : `=?UTF-8?B?${Buffer.from(subject, "utf8").toString("base64")}?=`;
 }
@@ -240,7 +240,7 @@ async function sendSmtpMail({ host, port, secure, auth, message }) {
     socket.end();
   }
 }
-function createTransporter() {
+function _createTransporter() {
   const config = resolveSmtpConfig();
   if (!config) {
     if (process.env.NODE_ENV === "production") {

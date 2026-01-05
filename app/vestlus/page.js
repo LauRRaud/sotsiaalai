@@ -16,7 +16,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/vestlus",
-    title: meta.title || "Vestlus \ SotsiaalAI",
+    title: meta.title || "Vestlus / SotsiaalAI",
     description:
       meta.description ||
       "Vestle SotsiaalAI rollipõhise AI-assistendiga, kes aitab leida infot õiguste, toetuste ja teenuste kohta.",

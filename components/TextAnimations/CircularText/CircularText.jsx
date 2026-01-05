@@ -89,14 +89,14 @@ export default function CircularText({
         if (typeof document !== "undefined" && document.fonts?.ready) {
           await document.fonts.ready;
         }
-      } catch (_) {}
+      } catch {}
       if (typeof document === "undefined") return;
       // Canvas võib mõnes režiimis ebaõnnestuda – kaitse
       let ctx = null;
       try {
         const canvas = document.createElement("canvas");
         ctx = canvas.getContext("2d");
-      } catch (_) {}
+      } catch {}
       // Sõnade laiused viewBox ühikutes
       const widthsVB = [];
       if (ctx) {

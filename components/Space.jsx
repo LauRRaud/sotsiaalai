@@ -5,7 +5,7 @@ export default function Space({
   mode = "dark",
   palette,
   allowMobileCustom = false,
-  intensity,
+  intensity: _intensity,
   grain = true,
   fog = true,
   fogBlend,
@@ -44,7 +44,6 @@ export default function Space({
   const pal = isMobile
     ? (allowMobileCustom && hasFullCustom ? palette : MOBILE_LOCK)
     : { ...ACTIVE.palette, ...(palette || {}) };
-  const inten = intensity ?? ACTIVE.intensity;
   const fogStr = clamp(fogStrength ?? ACTIVE.fogStrength, 0, 0.7);
   const defaultFogStops = ACTIVE.fogInnerRGBA(0.9);
   const fogStopsResolved =

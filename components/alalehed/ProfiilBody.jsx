@@ -142,7 +142,7 @@ export default function ProfiilBody({ initialProfile = null }) {
   const { prefs, setPrefs, openModal: openA11y } = useAccessibility();
   const { t, locale } = useI18n();
 
-  const [hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
+  const [_hasPassword, setHasPassword] = useState(!!initialProfile?.hasPassword);
   const [showDelete, setShowDelete] = useState(false);
 
   const [loading, setLoading] = useState(!initialProfile);
