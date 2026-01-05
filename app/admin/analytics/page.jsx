@@ -2,7 +2,12 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { unstable_noStore as noStore } from "next/cache";
-import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
+import dynamic from "next/dynamic";
+
+const AnalyticsDashboard = dynamic(() => import("@/components/admin/AnalyticsDashboard"), {
+  ssr: false,
+  loading: () => <div style={{ opacity: 0.75 }}>Laen andmeid...</div>,
+});
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

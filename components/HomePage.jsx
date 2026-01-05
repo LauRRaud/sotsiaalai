@@ -3,14 +3,26 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Magnet from "@/components/Animations/Magnet/Magnet";
+import dynamic from "next/dynamic";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
-import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
-import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import { triggerRouteTransition } from "@/lib/routeTransition";
+
+const Magnet = dynamic(() => import("@/components/Animations/Magnet/Magnet"), { ssr: false });
+const CircularRingLeft = dynamic(
+  () => import("@/components/TextAnimations/CircularText/CircularText").then((mod) => mod.CircularRingLeft),
+  { ssr: false },
+);
+const CircularRingRight = dynamic(
+  () => import("@/components/TextAnimations/CircularText/CircularText").then((mod) => mod.CircularRingRight),
+  { ssr: false },
+);
+const ShinyText = dynamic(
+  () => import("@/components/effects/TextAnimations/ShinyText/ShinyText"),
+  { ssr: false },
+);
 
 // Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg
 import AivalgeLogo from "@/public/logo/aivalge.svg";

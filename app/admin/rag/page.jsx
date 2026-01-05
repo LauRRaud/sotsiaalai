@@ -1,17 +1,21 @@
-// app/admin/rag/page.jsx
+﻿// app/admin/rag/page.jsx
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import RagAdminPanel from "@/components/admin/RagAdminPanel"; // otse import – see on "use client" komponendis lubatud
+import dynamic from "next/dynamic";
 import { unstable_noStore as noStore } from "next/cache";
-import { Suspense } from "react";
+
+const RagAdminPanel = dynamic(() => import("@/components/admin/RagAdminPanel"), {
+  ssr: false,
+  loading: () => <div style={{ opacity: 0.75 }}>Laen paneeli...</div>,
+});
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const revalidate = 0;
 export const metadata = {
-  title: "RAG andmebaasi haldus — SotsiaalAI",
-  description: "Laadi üles ja halda RAG materjale.",
+  title: "RAG andmebaasi haldus - SotsiaalAI",
+  description: "Laadi ules ja halda RAG materjale.",
   robots: {
     index: false,
     follow: false,
@@ -41,10 +45,8 @@ export default async function AdminRagPage() {
       <h1 id="rag-admin-title" className="glass-title">
         RAG andmebaasi haldus
       </h1>
-      {/* Kliendikomponent (\"use client\") võib olla Server Componenti sees */}
-      <Suspense fallback={<div style={{ opacity: 0.75 }}>Laen paneeli…</div>}>
-        <RagAdminPanel />
-      </Suspense>
+      {/* Kliendikomponent ("use client") laetakse eraldi chunkina */}
+      <RagAdminPanel />
       <div className="back-btn-wrapper">
         <Link href="/meist" className="back-arrow-btn" aria-label="Tagasi">
           <span className="back-arrow-circle" />
@@ -53,3 +55,7 @@ export default async function AdminRagPage() {
     </div>
   );
 }
+
+
+
+
