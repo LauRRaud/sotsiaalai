@@ -418,6 +418,22 @@
       "open": "Ava vestlused",
       "label": "Vestlused"
     },
+    "sidebar": {
+      "group_badge": "Grupivestlus",
+      "room_fallback": "Vestlusruum",
+      "selection": {
+        "select": "Vali",
+        "cancel": "Tühista",
+        "count": "Valitud",
+        "delete_selected": "Kustuta valitud",
+        "delete_all": "Kustuta kõik",
+        "item": "Vali vestlus"
+      },
+      "confirm": {
+        "delete_selected": "Kustutada valitud vestlused?",
+        "delete_all": "Kustutada kõik vestlused?"
+      }
+    },
     "profile": {
       "open": "Ava profiil",
       "alt": "Profiil",

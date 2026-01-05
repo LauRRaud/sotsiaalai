@@ -2017,15 +2017,6 @@ export default function ChatBody({ roomId = null }) {
                 role="article"
                 tabIndex={0}
               >
-                {isOwn && isRoomMode ? (
-                  <div className="chat-msg-meta">
-                    <span className={`chat-msg-tag${msg.aiVisible ? " chat-msg-tag--ai" : " chat-msg-tag--human"}`}>
-                      {msg.aiVisible
-                        ? t("chat.tag.ai_visible", "Assistent naeb")
-                        : t("chat.tag.human_only", "Ainult inimesed")}
-                    </span>
-                  </div>
-                ) : null}
                 {!isAssistant && !isOwn && (msg.authorName || msg.authorRole) ? (
                   <div className="chat-msg-meta">
                     <span className="chat-msg-tag chat-msg-tag--human">

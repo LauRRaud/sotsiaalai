@@ -1,6 +1,12 @@
 // next.config.mjs
 import { fileURLToPath } from "url";
 import path from "path";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+/** Enable bundle analyzer only when ANALYZE=true */
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 /** @type {import('next').NextConfig} */
 const baseConfig = {
@@ -53,4 +59,4 @@ const baseConfig = {
   },
 };
 
-export default baseConfig;
+export default withBundleAnalyzer(baseConfig);

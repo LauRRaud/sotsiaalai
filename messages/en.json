@@ -418,6 +418,22 @@
       "open": "Open conversations",
       "label": "Conversations"
     },
+    "sidebar": {
+      "group_badge": "Group chat",
+      "room_fallback": "Chat room",
+      "selection": {
+        "select": "Select",
+        "cancel": "Cancel",
+        "count": "Selected",
+        "delete_selected": "Delete selected",
+        "delete_all": "Delete all",
+        "item": "Select chat"
+      },
+      "confirm": {
+        "delete_selected": "Delete selected chats?",
+        "delete_all": "Delete all chats?"
+      }
+    },
     "profile": {
       "open": "Open profile",
       "alt": "Profile",
@@ -738,4 +754,3 @@
     "resend": "Resend"
   }
 }
-

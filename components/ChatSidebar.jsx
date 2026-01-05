@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 /* ---------- Utils ---------- */
 function uuid() {
@@ -24,13 +25,20 @@ function formatDateTime(iso) {
 }
 /* ---------- Component ---------- */
 export default function ChatSidebar() {
+  const router = useRouter();
   const [items, setItems] = useState([]);
+  const [roomItems, setRoomItems] = useState([]);
   const [busy, setBusy] = useState(false);
+  const [roomsBusy, setRoomsBusy] = useState(false);
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
   const [cursor, setCursor] = useState(null);
   const [hasMore, setHasMore] = useState(false);
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(() => new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const abortRef = useRef(null);
+  const roomsAbortRef = useRef(null);
   const visibilityThrottleRef = useRef({ timer: null, last: 0 });
   const { t } = useI18n();
   const pageSize = useMemo(() => {
@@ -80,6 +88,43 @@ export default function ChatSidebar() {
       setBusy(false);
     }
   }, [cursor, pageSize, t]);
+  const fetchRooms = useCallback(async () => {
+    roomsAbortRef.current?.abort();
+    const ac = new AbortController();
+    roomsAbortRef.current = ac;
+    setRoomsBusy(true);
+    try {
+      const r = await fetch("/api/rooms", {
+        cache: "no-store",
+        signal: ac.signal,
+      });
+      const data = await r.json().catch(() => ({ ok: false, rooms: [] }));
+      if (!r.ok || !data?.ok) {
+        throw new Error(data?.message || "Rooms fetch failed");
+      }
+      const normalized = Array.isArray(data.rooms)
+        ? data.rooms.map((room) => ({
+            id: room.id,
+            title: room.title || t("chat.sidebar.room_fallback", "Vestlusruum"),
+            preview: room?.lastMessage?.content || "",
+            lastActivityAt: room?.lastMessage?.createdAt || null,
+            kind: "room",
+          }))
+        : [];
+      setRoomItems(normalized);
+    } catch (e) {
+      if (e?.name !== "AbortError") {
+        console.warn("Rooms load failed:", e);
+      }
+    } finally {
+      if (roomsAbortRef.current === ac) roomsAbortRef.current = null;
+      setRoomsBusy(false);
+    }
+  }, [t]);
+  const refreshAll = useCallback(() => {
+    fetchList({ reset: true });
+    fetchRooms();
+  }, [fetchList, fetchRooms]);
   const scheduleVisibilityRefresh = useCallback(() => {
     const state = visibilityThrottleRef.current;
     const now = Date.now();
@@ -88,7 +133,7 @@ export default function ChatSidebar() {
     const run = () => {
       state.last = Date.now();
       state.timer = null;
-      fetchList({ reset: true });
+      refreshAll();
     };
     if (remaining <= 0) {
       if (state.timer) {
@@ -99,17 +144,17 @@ export default function ChatSidebar() {
     } else if (!state.timer) {
       state.timer = setTimeout(run, remaining);
     }
-  }, [fetchList]);
+  }, [refreshAll]);
   // esmane laadimine + välised värskendused
   useEffect(() => {
     const throttleState = visibilityThrottleRef.current;
-    fetchList({ reset: true });
-    const onExternalRefresh = () => fetchList({ reset: true });
+    refreshAll();
+    const onExternalRefresh = () => refreshAll();
     window.addEventListener(
       "sotsiaalai:refresh-conversations",
       onExternalRefresh,
     );
-    // värskenda, kui tab aktsioonilt naaseb (throttlinguga)
+    // v??rskenda, kui tab aktsioonilt naaseb (throttlinguga)
     const handleVisibilityEvent = () => {
       if (typeof document === "undefined") return;
       if (document.visibilityState === "visible") {
@@ -130,25 +175,70 @@ export default function ChatSidebar() {
         throttleState.timer = null;
       }
       abortRef.current?.abort();
+      roomsAbortRef.current?.abort();
     };
-  }, [fetchList, scheduleVisibilityRefresh]); // NB: mõlemad viited on stabiilsed
+  }, [refreshAll, scheduleVisibilityRefresh]); // NB: m?�lemad viited on stabiilsed
+  useEffect(() => {
+    if (!selectMode) return;
+    setSelectedIds((prev) => {
+      if (!prev.size) return prev;
+      const allowed = new Set(items.map((item) => item.id));
+      const next = new Set();
+      prev.forEach((id) => {
+        if (allowed.has(id)) next.add(id);
+      });
+      return next;
+    });
+  }, [items, selectMode]);
   const fetchMore = useCallback(() => {
     if (busy || creating || !hasMore) return;
     fetchList({ reset: false });
   }, [busy, creating, hasMore, fetchList]);
-  const onPick = useCallback((id) => {
-    try {
-      window.sessionStorage.setItem("sotsiaalai:chat:convId", id);
-    } catch {}
-    window.dispatchEvent(
-      new CustomEvent("sotsiaalai:switch-conversation", { detail: { convId: id } }),
-    );
-    window.dispatchEvent(
-      new CustomEvent("sotsiaalai:toggle-conversations", {
-        detail: { open: false },
-      }),
-    );
+  const toggleSelectMode = useCallback(() => {
+    setSelectMode((prev) => {
+      const next = !prev;
+      if (!next) setSelectedIds(new Set());
+      return next;
+    });
   }, []);
+  const toggleSelected = useCallback((id) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }, []);
+  const onPick = useCallback(
+    (item) => {
+      if (!item?.id) return;
+      if (selectMode) return;
+      if (item.kind === "room") {
+        router.push(`/vestlus?roomId=${encodeURIComponent(item.id)}`);
+        window.dispatchEvent(
+          new CustomEvent("sotsiaalai:toggle-conversations", {
+            detail: { open: false },
+          }),
+        );
+        return;
+      }
+      try {
+        window.sessionStorage.setItem("sotsiaalai:chat:convId", item.id);
+      } catch {}
+      window.dispatchEvent(
+        new CustomEvent("sotsiaalai:switch-conversation", { detail: { convId: item.id } }),
+      );
+      window.dispatchEvent(
+        new CustomEvent("sotsiaalai:toggle-conversations", {
+          detail: { open: false },
+        }),
+      );
+    },
+    [router, selectMode],
+  );
   const onNew = useCallback(
     async () => {
       if (busy || creating) return;
@@ -167,14 +257,14 @@ export default function ChatSidebar() {
         }
         const nextId = data?.conversation?.id || id;
         onPick(nextId);
-        await fetchList({ reset: true });
+        refreshAll();
       } catch (e) {
         setError(e?.message || t("chat.sidebar.error.create"));
       } finally {
         setCreating(false);
       }
     },
-    [busy, creating, fetchList, onPick, t],
+    [busy, creating, refreshAll, onPick, t],
   );
   const onDelete = useCallback(
     async (id) => {
@@ -191,7 +281,7 @@ export default function ChatSidebar() {
         if (!r.ok || data?.ok === false) {
           throw new Error(data?.message || t("chat.sidebar.error.delete"));
         }
-        await fetchList({ reset: true });
+        refreshAll();
         // kui kustutati aktiivne, tühjenda valik
         try {
           const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
@@ -205,24 +295,118 @@ export default function ChatSidebar() {
         setBusy(false);
       }
     },
-    [fetchList, t],
+    [refreshAll, t],
   );
+  const fetchAllConversationIds = useCallback(async () => {
+    const ids = [];
+    let nextCursor = null;
+    let loops = 0;
+    do {
+      const params = new URLSearchParams({ limit: "100" });
+      if (nextCursor) params.set("cursor", nextCursor);
+      const r = await fetch(`/api/chat/conversations?${params.toString()}`, {
+        cache: "no-store",
+      });
+      const data = await r.json().catch(() => ({ ok: false, conversations: [] }));
+      if (!r.ok || !data?.ok) {
+        throw new Error(data?.message || t("chat.sidebar.error.load"));
+      }
+      const list = Array.isArray(data.conversations) ? data.conversations : [];
+      list.forEach((row) => {
+        if (row?.id) ids.push(row.id);
+      });
+      nextCursor = data.nextCursor || null;
+      loops += 1;
+    } while (nextCursor && loops < 50);
+    return ids;
+  }, [t]);
+  const deleteConversationIds = useCallback(
+    async (ids) => {
+      const unique = Array.from(new Set(ids)).filter(Boolean);
+      if (!unique.length) return { deleted: 0, failed: 0 };
+      setBulkDeleting(true);
+      setError("");
+      const failures = [];
+      for (const id of unique) {
+        try {
+          const r = await fetch(
+            `/api/chat/conversations/${encodeURIComponent(id)}`,
+            { method: "DELETE" },
+          );
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok || data?.ok === false) {
+            throw new Error(data?.message || t("chat.sidebar.error.delete"));
+          }
+        } catch (e) {
+          failures.push({ id, error: e });
+        }
+      }
+      if (failures.length) {
+        setError(t("chat.sidebar.error.delete", "Kustutamine ebaõnnestus."));
+      }
+      try {
+        const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
+        if (current && unique.includes(current)) {
+          window.sessionStorage.removeItem("sotsiaalai:chat:convId");
+        }
+      } catch {}
+      refreshAll();
+      setBulkDeleting(false);
+      return { deleted: unique.length - failures.length, failed: failures.length };
+    },
+    [refreshAll, t],
+  );
+  const handleDeleteSelected = useCallback(async () => {
+    if (!selectedIds.size) return;
+    if (!confirm(t("chat.sidebar.confirm.delete_selected", "Kustutada valitud vestlused?"))) {
+      return;
+    }
+    const ids = Array.from(selectedIds);
+    const result = await deleteConversationIds(ids);
+    if (result.failed === 0) {
+      setSelectedIds(new Set());
+    }
+  }, [deleteConversationIds, selectedIds, t]);
+  const handleDeleteAll = useCallback(async () => {
+    if (!confirm(t("chat.sidebar.confirm.delete_all", "Kustutada kõik vestlused?"))) {
+      return;
+    }
+    let ids = [];
+    try {
+      ids = await fetchAllConversationIds();
+    } catch (e) {
+      setError(e?.message || t("chat.sidebar.error.delete"));
+      return;
+    }
+    const result = await deleteConversationIds(ids);
+    if (result.failed === 0) {
+      setSelectedIds(new Set());
+      setSelectMode(false);
+    }
+  }, [deleteConversationIds, fetchAllConversationIds, t]);
   const safeDate = (v) => {
     const t = new Date(v).getTime();
     return Number.isFinite(t) ? t : 0;
     // 0 nihutab puuduva updatedAt-i lõppu
   };
+  const combinedItems = useMemo(() => {
+    const convItems = items.map((item) => ({ ...item, kind: "conversation" }));
+    return [...convItems, ...roomItems];
+  }, [items, roomItems]);
   const sorted = useMemo(
-    () => [...items].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)),
-    [items],
+    () => [...combinedItems].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)),
+    [combinedItems],
   );
+  const isLoading = busy || roomsBusy;
+  const isActionBusy = busy || creating || bulkDeleting;
+  const selectedCount = selectedIds.size;
   return (
     <nav
       className="cs-container"
       aria-label={t("chat.sidebar.aria_list")}
-      aria-busy={busy || creating ? "true" : "false"}
+      aria-busy={isLoading || creating ? "true" : "false"}
     >
-      {/* Ülariba: Uus vestlus + Refresh */}
+      {/* �olariba: Uus vestlus + Refresh */}
         <div className="cs-actions">
           <button
           className="btn-base cs-btn cs-btn--primary"
@@ -233,9 +417,18 @@ export default function ChatSidebar() {
             {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
           </button>
           <button
+            className="btn-base cs-btn"
+            onClick={toggleSelectMode}
+            disabled={isActionBusy}
+          >
+            {selectMode
+              ? t("chat.sidebar.selection.cancel", "Tühista")
+              : t("chat.sidebar.selection.select", "Vali")}
+          </button>
+          <button
           className="btn-base cs-refresh"
-          onClick={() => fetchList({ reset: true })}
-          disabled={busy || creating}
+          onClick={refreshAll}
+          disabled={isLoading || creating}
           aria-label={t("chat.sidebar.button.refresh")}
           title={t("chat.sidebar.button.refresh")}
         >
@@ -257,12 +450,35 @@ export default function ChatSidebar() {
           </svg>
         </button>
       </div>
+      <div className="cs-actions-secondary">
+        {selectMode ? (
+          <>
+            <span className="cs-selection-count">
+              {t("chat.sidebar.selection.count", "Valitud")}: {selectedCount}
+            </span>
+            <button
+              className="btn-base cs-btn cs-btn--danger"
+              onClick={handleDeleteSelected}
+              disabled={!selectedCount || isActionBusy}
+            >
+              {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
+            </button>
+            <button
+              className="btn-base cs-btn cs-btn--ghost"
+              onClick={handleDeleteAll}
+              disabled={isActionBusy}
+            >
+              {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
+            </button>
+          </>
+        ) : null}
+      </div>
       {error && (
         <div className="cs-error" role="alert" aria-live="assertive">
           {error}
         </div>
       )}
-      {(busy && items.length === 0) && (
+      {(isLoading && combinedItems.length === 0) && (
         <ul className="cs-list" role="list" aria-hidden="true">
           {Array.from({ length: 4 }).map((_, i) => (
             <li key={`s-${i}`} className="cs-item cs-item--skeleton">
@@ -273,7 +489,7 @@ export default function ChatSidebar() {
         </ul>
       )}
       <ul className="cs-list" role="list" aria-live="polite">
-        {!busy && sorted.length === 0 ? (
+        {!isLoading && sorted.length === 0 ? (
            <li className="cs-empty">
              {t("chat.sidebar.empty")}
              <button
@@ -289,6 +505,7 @@ export default function ChatSidebar() {
           sorted.map((c) => {
             const isActive = (() => {
               try {
+                if (c.kind === "room") return false;
                 const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
                 return current === c.id;
               } catch {
@@ -297,17 +514,36 @@ export default function ChatSidebar() {
             })();
             return (
               <li
-                key={c.id}
+                key={`${c.kind}:${c.id}`}
                 className={`cs-item${isActive ? " cs-item--active" : ""}`}
               >
+                {selectMode && c.kind !== "room" ? (
+                  <label className="cs-select" aria-label={t("chat.sidebar.selection.item", "Vali vestlus")}>
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(c.id)}
+                      onChange={() => toggleSelected(c.id)}
+                      disabled={isActionBusy}
+                    />
+                    <span className="cs-select-box" aria-hidden="true" />
+                  </label>
+                ) : null}
                 <button
-                  className="cs-link"
-                  onClick={() => onPick(c.id)}
+                  className={`cs-link${selectMode ? " cs-link--disabled" : ""}`}
+                  onClick={() => (selectMode ? null : onPick(c))}
                   title={c.preview || c.title || "Vestlus"}
                   aria-current={isActive ? "true" : undefined}
+                  aria-disabled={selectMode ? "true" : undefined}
                 >
                   <div className="cs-title">
-                    {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
+                    <span className="cs-title-text">
+                      {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
+                    </span>
+                    {c.kind === "room" ? (
+                      <span className="cs-title-badge">
+                        {t("chat.sidebar.group_badge", "Grupivestlus")}
+                      </span>
+                    ) : null}
                   </div>
                   {c.preview ? (
                     <div className="cs-preview">
@@ -318,32 +554,34 @@ export default function ChatSidebar() {
                     {formatDateTime(c.lastActivityAt)}
                   </div>
                 </button>
-                <button
-                  className="cs-delete"
-                  onClick={() => onDelete(c.id)}
-                  aria-label={t("chat.sidebar.item.delete")}
-                  title={t("chat.sidebar.item.delete_title")}
-                  disabled={busy || creating}
-                >
-                  <svg
-                    className="cs-trash-icon"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
+                {c.kind !== "room" && !selectMode ? (
+                  <button
+                    className="cs-delete"
+                    onClick={() => onDelete(c.id)}
+                    aria-label={t("chat.sidebar.item.delete")}
+                    title={t("chat.sidebar.item.delete_title")}
+                    disabled={isActionBusy}
                   >
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                    <path d="M10 11v6"></path>
-                    <path d="M14 11v6"></path>
-                    <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
-                  </svg>
-                </button>
+                    <svg
+                      className="cs-trash-icon"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                      <path d="M10 11v6"></path>
+                      <path d="M14 11v6"></path>
+                      <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                ) : null}
               </li>
             );
           })
@@ -363,3 +601,4 @@ export default function ChatSidebar() {
     </nav>
   );
 }
+
