@@ -2189,7 +2189,7 @@ export default function ChatBody({ roomId = null }) {
           </div>
         </form>
 
-        {isRoomMode ? (
+        {isRoomMode && inputFocused ? (
           <div className="chat-ai-toggle">
             <label className="glass-checkbox chat-ai-checkbox">
               <input

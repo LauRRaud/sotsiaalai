@@ -83,6 +83,7 @@ export default function LoginModal({ open, onClose, suppressRedirect = false }) 
 
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
+  const [_pinError, setPinError] = useState(false);
   const [pinLoading, setPinLoading] = useState(false);
 
   const [otpLoading, setOtpLoading] = useState(false);
