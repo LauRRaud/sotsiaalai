@@ -7412,6 +7412,7 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
     --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
     --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
+    --chat-hpad: calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.55rem);
     --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 15rem);
     gap:.35rem;
     padding-top:.85rem;
@@ -8132,6 +8133,9 @@ body[data-a11y-scroll-lock="1"] #main{
     border-radius: 0;
     aspect-ratio: auto;
     --csp-title-top: clamp(4.5rem, 10vh, 7rem);
+    --csp-active-scale: 1;
+    --csp-neighbor-scale: 0.97;
+    --csp-hidden-scale: 0.94;
     padding: calc(env(safe-area-inset-top, 0px) + 2rem) 0 calc(env(safe-area-inset-bottom, 0px) + 1.6rem);
     font-size: 1.22rem;
   }
@@ -8167,8 +8171,8 @@ body[data-a11y-scroll-lock="1"] #main{
     --csp-title-offset: clamp(3.8rem, 7.5vh, 5.5rem);
   }
   .a11y-modal .csp-step{
-    min-height: clamp(6.2rem, 10.5vh, 7.8rem);
-    padding: 0.5rem 0;
+    min-height: clamp(7.2rem, 12vh, 9.2rem);
+    padding: 0.75rem 0;
   }
   .a11y-modal .a11y-fieldset,
   .a11y-modal .a11y-actions{
@@ -8187,6 +8191,7 @@ body[data-a11y-scroll-lock="1"] #main{
   }
   .a11y-modal .a11y-fieldset{
     margin: 0;
+    gap: 1rem;
   }
 
 }
@@ -10869,26 +10874,27 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
   }
   
   .profile-page-shell .profile-btn-row--back-logout {
-    margin-top: clamp(2.1rem, 4.9vh, 3.2rem);
+    margin-top: clamp(0.9rem, 2.8vh, 1.8rem);
+    margin-bottom: clamp(0.4rem, 1.6vh, 1rem);
   }
   .profile-page-shell .profile-email-field {
     margin-top: clamp(2rem, 5.6vh, 3.6rem);
   }
   .profile-btn-row--back-logout .back-arrow-btn{
-    inline-size: 7.2rem;
-    block-size: 7.2rem;
+    inline-size: 6.4rem;
+    block-size: 6.4rem;
   }
   .profile-btn-row--back-logout .back-arrow-circle{
-    inline-size: 6.5rem;
-    block-size: 6.5rem;
+    inline-size: 5.8rem;
+    block-size: 5.8rem;
   }
   .profile-btn-row--back-logout .profile-logout-icon-btn{
-    inline-size: 8.2rem;
-    block-size: 8.2rem;
+    inline-size: 7.1rem;
+    block-size: 7.1rem;
   }
   .profile-logout-icon{
-    width: 7.2rem;
-    height: 7.2rem;
+    width: 6.2rem;
+    height: 6.2rem;
   }
   :root .profile-theme-toggle-top .profile-theme-switch{
     --toggle-w: clamp(7.2rem, 26vw, 8.6rem);
