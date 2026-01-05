@@ -6018,11 +6018,13 @@ backdrop-filter: none;
 }
 .chat-analysis-panel--overlay{
   padding: 0 clamp(0.05rem, 0.6vw, 0.4rem);
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: fixed;
+  left: 50%;
+  right: auto;
   bottom: max(env(safe-area-inset-bottom, 0px), 0.35rem);
   margin: 0;
+  width: min(94vw, var(--chat-diameter));
+  transform: translateX(-50%);
   z-index: 18;
   pointer-events: auto;
 }
@@ -6604,6 +6606,30 @@ backdrop-filter: none;
 .chat-analysis-checkbox input{
   width:1.25rem;
   height:1.25rem;
+}
+.chat-analysis-checkbox{
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  padding:0.35em 0.45em;
+  margin:0;
+  max-width:none;
+}
+.chat-analysis-checkbox:hover,
+.chat-analysis-checkbox:active,
+.chat-analysis-checkbox:has(input[type="checkbox"]:checked){
+  border-color:transparent;
+  background:transparent;
+  box-shadow:none;
+  color:inherit;
+}
+.chat-analysis-checkbox input[type="checkbox"]{
+  border:none;
+  box-shadow:none;
+}
+.chat-analysis-checkbox input[type="checkbox"]:focus-visible{
+  border-color:transparent;
+  box-shadow:none;
 }
 .chat-context-toggle{
   display:flex;
@@ -10967,9 +10993,9 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     border-top-right-radius: calc(var(--chat-diameter) / 2);
     border-bottom-left-radius: 2.4rem;
     border-bottom-right-radius: 2.4rem;
-    height: calc(var(--chat-diameter) + clamp(2.4rem, 8vh, 6rem));
-    max-height: calc(var(--chat-diameter) + clamp(2.4rem, 8vh, 6rem));
-    block-size: calc(var(--chat-diameter) + clamp(2.4rem, 8vh, 6rem));
+    height: calc(var(--chat-diameter) + clamp(3.2rem, 10vh, 7.5rem));
+    max-height: calc(var(--chat-diameter) + clamp(3.2rem, 10vh, 7.5rem));
+    block-size: calc(var(--chat-diameter) + clamp(3.2rem, 10vh, 7.5rem));
   }
   .chat-page-shell .glass-box.chat-container.chat-container--round.chat-container--analysis-open{
     border-top-left-radius: calc(var(--chat-diameter) / 2);
@@ -10977,21 +11003,9 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     border-bottom-left-radius: 2.4rem;
     border-bottom-right-radius: 2.4rem;
     padding-bottom: max(env(safe-area-inset-bottom, 0), 0.1rem);
-    height: auto;
-    max-height: none;
-    block-size: auto;
-    min-height: var(--chat-diameter);
-    aspect-ratio: auto;
-    overflow-y: visible;
     --chat-nav-top: calc(var(--chat-diameter) / 2);
   }
   .chat-page-shell .glass-box.chat-container.chat-container--round.chat-container--analysis-expanded{
-    height: auto;
-    max-height: none;
-    block-size: auto;
-    min-height: var(--chat-diameter);
-    aspect-ratio: auto;
-    overflow-y: visible;
     --chat-nav-top: calc(var(--chat-diameter) / 2);
   }
   .chat-page-shell .chat-container--round .chat-window{

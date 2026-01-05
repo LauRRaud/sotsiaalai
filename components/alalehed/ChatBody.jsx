@@ -702,9 +702,10 @@ export default function ChatBody({ roomId = null }) {
     return "";
   }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
   const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
+  const forceOverlay = !uploadPreview;
   const analysisPanelMode = isAnalysisExpanded
     ? "expanded"
-    : analysisPanelInline && !isMobileViewport
+    : analysisPanelInline && !isMobileViewport && !forceOverlay
     ? "inline"
     : "overlay";
 
@@ -1779,6 +1780,7 @@ export default function ChatBody({ roomId = null }) {
       const file = e.target?.files?.[0];
       if (!file) return;
       setUploadError(null);
+      setDocOnlyMode(true);
       const sizeMB = file.size / (1024 * 1024);
       if (sizeMB > MAX_UPLOAD_MB) {
         const sizeError = t("chat.upload.error_size", "Fail on liiga suur ({size}MB > {limit}MB).")
@@ -1818,14 +1820,14 @@ export default function ChatBody({ roomId = null }) {
           chunksCount: chunksArray.length,
         });
         setEphemeralChunks(chunksArray);
-        setDocOnlyMode(false);
+        setDocOnlyMode(true);
         refreshUsage();
       } catch (err) {
         const genericError = t("chat.upload.error_generic", "Dokumendi anal’┐Į’┐Įs eba’┐Įnnestus.");
         setUploadError(err?.message || genericError);
         setUploadPreview(null);
         setEphemeralChunks([]);
-        setDocOnlyMode(false);
+        setDocOnlyMode(true);
       } finally {
         setUploadBusy(false);
         e.target.value = "";
