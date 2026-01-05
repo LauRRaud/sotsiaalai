@@ -3,33 +3,14 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
+import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
+import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
+import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import { triggerRouteTransition } from "@/lib/routeTransition";
-
-function MagnetFallback({ children }) {
-  return typeof children === "function" ? children({ isActive: false }) : children;
-}
-
-const Magnet = dynamic(() => import("@/components/Animations/Magnet/Magnet"), {
-  ssr: false,
-  loading: (props) => <MagnetFallback {...props} />,
-});
-const CircularRingLeft = dynamic(
-  () => import("@/components/TextAnimations/CircularText/CircularText").then((mod) => mod.CircularRingLeft),
-  { ssr: false },
-);
-const CircularRingRight = dynamic(
-  () => import("@/components/TextAnimations/CircularText/CircularText").then((mod) => mod.CircularRingRight),
-  { ssr: false },
-);
-const ShinyText = dynamic(
-  () => import("@/components/effects/TextAnimations/ShinyText/ShinyText"),
-  { ssr: false },
-);
 
 // Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg
 import AivalgeLogo from "@/public/logo/aivalge.svg";
@@ -61,8 +42,8 @@ export default function HomePage() {
   const [rightPhase, setRightPhase] = useState("front");
 
   const [isMobile, setIsMobile] = useState(false);
-  const leftCardRef = useRef(null);
-  const rightCardRef = useRef(null);
+  const [leftCardEl, setLeftCardEl] = useState(null);
+  const [rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
   const rightCardWrapRef = useRef(null);
   const exitTimerRef = useRef(null);
@@ -221,15 +202,13 @@ export default function HomePage() {
     const onRightEnd = (e) => {
       if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true);
     };
-    const l = leftCardRef.current,
-      r = rightCardRef.current;
-    l?.addEventListener("animationend", onLeftEnd);
-    r?.addEventListener("animationend", onRightEnd);
+    leftCardEl?.addEventListener("animationend", onLeftEnd);
+    rightCardEl?.addEventListener("animationend", onRightEnd);
     return () => {
-      l?.removeEventListener("animationend", onLeftEnd);
-      r?.removeEventListener("animationend", onRightEnd);
+      leftCardEl?.removeEventListener("animationend", onLeftEnd);
+      rightCardEl?.removeEventListener("animationend", onRightEnd);
     };
-  }, []);
+  }, [leftCardEl, rightCardEl]);
 
   useEffect(() => {
     if (prefs.reduceMotion) {
@@ -443,7 +422,7 @@ export default function HomePage() {
                     {/* FRONT */}
                     <div className="card-face front">
                       <div
-                        ref={leftCardRef}
+                        ref={setLeftCardEl}
                         className={[
                           "glass-card glass-card-light left-card-primary",
                           !leftFadeDone ? "fade-in" : "",
@@ -520,7 +499,7 @@ export default function HomePage() {
                     {/* FRONT */}
                     <div className="card-face front">
                       <div
-                        ref={rightCardRef}
+                        ref={setRightCardEl}
                         className={[
                           "glass-card glass-card-dark right-card-primary",
                           !rightFadeDone ? "fade-in" : "",
