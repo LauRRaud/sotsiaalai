@@ -1,6 +1,6 @@
 // components/backgrounds/BackgroundLayer.jsx
 "use client";
-import { useEffect, useLayoutEffect, useState, memo, Suspense } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, memo, Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -9,6 +9,14 @@ const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
+const LIGHT_SPACE_PALETTE = { baseTop: "#ffffff", baseBottom: "#94979c" };
+const SpaceLayer = memo(function SpaceLayer(props) {
+  return (
+    <Suspense fallback={null}>
+      <Space {...props} />
+    </Suspense>
+  );
+});
 /* ---------- utiliidid ---------- */
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -34,6 +42,7 @@ function whenVisible(cb) {
 /* ---------- põhi ---------- */
 const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false, isLightTheme = false }) {
   const pathname = usePathname();
+  const initialPathnameRef = useRef(pathname);
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
@@ -42,6 +51,11 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
   const [colorBendsReady, setColorBendsReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
   const allowParticles = !reduceMotion && (!mobileLike || pathname === "/");
+  const bgColor = useMemo(() => {
+    if (typeof document === "undefined") return isLightTheme ? "#f9f8f5" : "#050a10";
+    const css = getComputedStyle(document.documentElement).getPropertyValue("--page-bg").trim();
+    return css || (isLightTheme ? "#f9f8f5" : "#050a10");
+  }, [isLightTheme]);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -103,10 +117,10 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
     } catch {}
     let already = false;
     try { already = sessionStorage.getItem("saai-bg-intro-done") === "1"; } catch {}
-    const should = pathname === "/" && !already && !isReload;
+    const should = initialPathnameRef.current === "/" && !already && !isReload;
     setAnimateFog(should);
     try { sessionStorage.setItem("saai-bg-intro-done", "1"); } catch {}
-  }, [pathname, skipBgIntro]);
+  }, [skipBgIntro]);
   // Particles lae rahulikult, kui tabu on nähtav
   useEffect(() => {
     if (!mounted) return;
@@ -149,18 +163,16 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
       >
         {/* SPACE – kõige taga */}
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-          <Suspense fallback={null}>
-            <Space
-              animateFog={animateFog && !reduceMotion && !mobileLike}
-              skipIntro={!animateFog || !!reduceMotion || mobileLike}
-              fogAppearDelayMs={0}
-              mode={isLightTheme ? "light" : "dark"}
-              palette={isLightTheme ? { baseTop: "#ffffff", baseBottom: "#94979c" } : undefined}
-              allowMobileCustom={isLightTheme}
-              grain={!isLightTheme}
-              fog={!isLightTheme}
-            />
-          </Suspense>
+          <SpaceLayer
+            animateFog={animateFog && !reduceMotion && !mobileLike}
+            skipIntro={!animateFog || !!reduceMotion || mobileLike}
+            fogAppearDelayMs={0}
+            mode={isLightTheme ? "light" : "dark"}
+            palette={isLightTheme ? LIGHT_SPACE_PALETTE : undefined}
+            allowMobileCustom={isLightTheme}
+            grain={!isLightTheme}
+            fog={!isLightTheme}
+          />
         </div>
         {colorBendsReady && !reduceMotion && !mobileLike && (
           <div
@@ -173,13 +185,13 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
             }}
           >
             <Suspense fallback={null}>
-              <ColorBends />
+              <ColorBends bgColor={bgColor} />
             </Suspense>
           </div>
         )}
         {particlesReady && allowParticles && (
           <div className="particles-container" style={{ position: "absolute", inset: 0, zIndex: 3 }}>
-            <Particles />
+            <Particles bgColor={bgColor} />
           </div>
         )}
       </div>

@@ -76,11 +76,21 @@ const Particles = ({
   sizeRandomness = 0.3,
   cameraDistance = 15,
   disableRotation = false,
+  bgColor,
   className = "",
   fps = 24,                             // render-gate
   timeScale = 2.5,                        // visuaalne temposkaala (timmimiseks)
 }) => {
   const containerRef = useRef(null);
+  const glRef = useRef(null);
+
+  useEffect(() => {
+    const gl = glRef.current;
+    if (!gl) return;
+    const clearColor = (typeof bgColor === "string" && bgColor.trim()) ? bgColor.trim() : "#000000";
+    const [r, g, b] = parseColor(clearColor);
+    gl.clearColor(r, g, b, 0);
+  }, [bgColor]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -106,8 +116,11 @@ const Particles = ({
 
     const renderer = new Renderer({ depth: false, alpha: true, antialias: true });
     const gl = renderer.gl;
+    glRef.current = gl;
     container.appendChild(gl.canvas);
-    gl.clearColor(0, 0, 0, 0);
+    const initialClear = (typeof bgColor === "string" && bgColor.trim()) ? bgColor.trim() : "#000000";
+    const [cr, cg, cb] = parseColor(initialClear);
+    gl.clearColor(cr, cg, cb, 0);
     renderer.dpr = Math.min(window.devicePixelRatio || 1, cfg.dprMax);
 
     const camera = new Camera(gl, { fov: 15 });

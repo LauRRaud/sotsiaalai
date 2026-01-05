@@ -136,6 +136,7 @@ export default function ColorBends({
   speed = 0.15,
   colors = ['#7e4442'],
   transparent = true,
+  bgColor,
   autoRotate = 0,
   scale = 1,
   frequency = 1,
@@ -205,7 +206,8 @@ export default function ColorBends({
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
-    renderer.setClearColor(0x000000, transparent ? 0 : 1);
+    const initialClear = (typeof bgColor === 'string' && bgColor.trim()) ? bgColor.trim() : '#000000';
+    renderer.setClearColor(initialClear, transparent ? 0 : 1);
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -385,8 +387,11 @@ export default function ColorBends({
     material.uniforms.uColorCount.value  = arr.length;
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
 
-    if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
-  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent]);
+    if (renderer) {
+      const clearColor = (typeof bgColor === 'string' && bgColor.trim()) ? bgColor.trim() : '#000000';
+      renderer.setClearColor(clearColor, transparent ? 0 : 1);
+    }
+  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor]);
 
   // pointer
   useEffect(() => {
