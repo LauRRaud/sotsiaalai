@@ -10,7 +10,14 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import useT from "@/components/i18n/useT";
 import { triggerRouteTransition } from "@/lib/routeTransition";
 
-const Magnet = dynamic(() => import("@/components/Animations/Magnet/Magnet"), { ssr: false });
+function MagnetFallback({ children }) {
+  return typeof children === "function" ? children({ isActive: false }) : children;
+}
+
+const Magnet = dynamic(() => import("@/components/Animations/Magnet/Magnet"), {
+  ssr: false,
+  loading: (props) => <MagnetFallback {...props} />,
+});
 const CircularRingLeft = dynamic(
   () => import("@/components/TextAnimations/CircularText/CircularText").then((mod) => mod.CircularRingLeft),
   { ssr: false },
