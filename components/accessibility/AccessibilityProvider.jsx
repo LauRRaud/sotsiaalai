@@ -10,6 +10,7 @@ const DEFAULT_PREFS = {
   reduceMotion: false, // true | false
   theme: "dark", // dark | light
 };
+const DEV = process.env.NODE_ENV !== "production";
 function getCookie(name) {
   if (typeof document === "undefined") return null;
   const v = document.cookie.split("; ").find((row) => row.startsWith(name + "="));
@@ -28,7 +29,8 @@ function readPrefsFromCookie() {
     const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
     const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
     const reduceMotion = !!obj?.reduceMotion;
-    const theme = obj?.theme === "light" ? "light" : DEFAULT_PREFS.theme;
+    let theme = obj?.theme === "light" ? "light" : DEFAULT_PREFS.theme;
+    if (contrast === "hc") theme = "dark";
     return { textScale, contrast, reduceMotion, theme };
   } catch {
     return null;
@@ -37,17 +39,22 @@ function readPrefsFromCookie() {
 function readInitialPrefsFromDom() {
   if (typeof document === "undefined") return { ...DEFAULT_PREFS };
   const html = document.documentElement;
+  const contrast = html.getAttribute("data-contrast") || DEFAULT_PREFS.contrast;
   let theme = html.classList.contains("theme-light") ? "light" : DEFAULT_PREFS.theme;
   // Prefer localStorage theme if present (align with inline script)
-  try {
-    const storedTheme = window.localStorage.getItem("theme");
-    if (storedTheme === "light" || storedTheme === "dark") {
-      theme = storedTheme;
-    }
-  } catch {}
+  if (contrast !== "hc") {
+    try {
+      const storedTheme = window.localStorage.getItem("theme");
+      if (storedTheme === "light" || storedTheme === "dark") {
+        theme = storedTheme;
+      }
+    } catch {}
+  } else {
+    theme = "dark";
+  }
   const fromDataset = {
     textScale: html.getAttribute("data-text-scale") || DEFAULT_PREFS.textScale,
-    contrast: html.getAttribute("data-contrast") || DEFAULT_PREFS.contrast,
+    contrast,
     reduceMotion: html.getAttribute("data-reduce-motion") === "1",
     theme,
   };
@@ -90,51 +97,148 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   const [prefs, setPrefsState] = useState(() => buildInitialPrefs(initialPrefs));
   const [open, setOpen] = useState(false);
   const hydratedRef = useRef(false);
+  const applyingRef = useRef(false);
   const lastOpenerRef = useRef(null);
   const liveRef = useRef(null);
   const pathname = usePathname();
+  const pathnameRef = useRef(pathname);
+  const navInProgressRef = useRef(false);
+  const prevClassNameRef = useRef(null);
+  const openTimerRef = useRef(null);
   const { t } = useI18n();
   const promptedOnceRef = useRef(false);
   const initialIsHomeRef = useRef(pathname === "/");
+
+  const logDev = useCallback((label, payload) => {
+    if (!DEV || typeof window === "undefined") return;
+    const now = typeof performance !== "undefined" ? performance.now().toFixed(1) : "0";
+    // eslint-disable-next-line no-console
+    console.debug(`[a11y] ${label}`, { t: now, ...payload });
+  }, []);
+
+  const safeApplyPrefsToDom = useCallback((next, reason) => {
+    applyingRef.current = true;
+    if (DEV && typeof window !== "undefined") {
+      const stack = new Error().stack;
+      logDev("applyPrefsToDom", { reason, prefs: next, pathname: pathnameRef.current });
+      if (stack) {
+        // eslint-disable-next-line no-console
+        console.debug(stack);
+      }
+    }
+    try {
+      applyPrefsToDom(next);
+    } finally {
+      applyingRef.current = false;
+    }
+  }, [logDev]);
+
+  const scheduleOpenModal = useCallback((reason) => {
+    if (typeof window === "undefined") return;
+    if (openTimerRef.current) {
+      const { id, type } = openTimerRef.current;
+      if (type === "idle" && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(id);
+      } else {
+        window.clearTimeout(id);
+      }
+      openTimerRef.current = null;
+    }
+    const attempt = () => {
+      if (navInProgressRef.current) {
+        openTimerRef.current = { id: window.setTimeout(attempt, 120), type: "timeout" };
+        return;
+      }
+      logDev("modal-open", { reason, pathname: pathnameRef.current });
+      setOpen(true);
+    };
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(attempt, { timeout: 500 });
+      openTimerRef.current = { id, type: "idle" };
+    } else {
+      openTimerRef.current = { id: window.setTimeout(attempt, 80), type: "timeout" };
+    }
+  }, [logDev]);
+
+  useEffect(() => {
+    return () => {
+      if (!openTimerRef.current || typeof window === "undefined") return;
+      const { id, type } = openTimerRef.current;
+      if (type === "idle" && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(id);
+      } else {
+        window.clearTimeout(id);
+      }
+      openTimerRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    pathnameRef.current = pathname;
+    navInProgressRef.current = true;
+    const timeout = window.setTimeout(() => {
+      navInProgressRef.current = false;
+    }, 320);
+    return () => window.clearTimeout(timeout);
+  }, [pathname]);
+
   // Initialize from DOM and cookie (client-only) to sync after hydration
   useEffect(() => {
     const domPrefs = readInitialPrefsFromDom();
     const cookiePrefs = readPrefsFromCookie();
     const initial = cookiePrefs ? { ...domPrefs, ...cookiePrefs, theme: domPrefs.theme } : domPrefs;
     setPrefsState(initial);
-    applyPrefsToDom(initial);
+    safeApplyPrefsToDom(initial, "init");
     hydratedRef.current = true;
     // Auto-open only on Home ("/") and only if no cookie yet
     const hasCookie = !!cookiePrefs;
     if (!hasCookie && initialIsHomeRef.current) {
       promptedOnceRef.current = true;
-      setTimeout(() => setOpen(true), 50);
+      scheduleOpenModal("init-home");
     }
-  }, []);
+  }, [safeApplyPrefsToDom, scheduleOpenModal]);
   // Re-check on route changes: open on first arrival to Home if no cookie
   useEffect(() => {
     const hasCookie = !!getCookie("a11y_prefs");
     if (!hasCookie && pathname === "/" && !promptedOnceRef.current) {
       promptedOnceRef.current = true;
-      setOpen(true);
+      scheduleOpenModal("route-home");
     }
-  }, [pathname]);
-  // Re-apply current prefs on route changes to keep attributes persistent
+  }, [pathname, scheduleOpenModal]);
+  // Re-apply current prefs when preferences change.
   useEffect(() => {
     if (!hydratedRef.current) return;
-    applyPrefsToDom(prefs);
-  }, [prefs, pathname]);
+    safeApplyPrefsToDom(prefs, "prefs-change");
+  }, [prefs, safeApplyPrefsToDom]);
   // Sync theme state if it is toggled elsewhere (e.g. Home page switch)
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
     const html = document.documentElement;
     const observer = new MutationObserver(() => {
-      const domTheme = html.classList.contains("theme-light") ? "light" : "dark";
-      setPrefsState((prev) => (prev.theme === domTheme ? prev : { ...prev, theme: domTheme }));
+      const current = html.className;
+      if (current === prevClassNameRef.current) return;
+      const prev = prevClassNameRef.current || "";
+      const hadLight = prev.split(" ").includes("theme-light");
+      const hasLight = html.classList.contains("theme-light");
+      logDev("html.className change", {
+        pathname: pathnameRef.current,
+        navigating: navInProgressRef.current,
+        prev,
+        next: current,
+        addedThemeLight: !hadLight && hasLight,
+        removedThemeLight: hadLight && !hasLight,
+      });
+      prevClassNameRef.current = current;
+      if (applyingRef.current) return;
+      const domTheme = hasLight ? "light" : "dark";
+      setPrefsState((prevState) =>
+        prevState.theme === domTheme ? prevState : { ...prevState, theme: domTheme },
+      );
     });
+    prevClassNameRef.current = html.className;
     observer.observe(html, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
-  }, []);
+  }, [logDev]);
   const announce = useCallback((msg) => {
     if (!msg) return;
     if (typeof document === "undefined") return;
@@ -152,7 +256,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
       merged.theme = "dark";
     }
     setPrefsState(merged);
-    applyPrefsToDom(merged);
+    safeApplyPrefsToDom(merged, "setPrefs");
     try { localStorage.setItem("a11y_prefs", JSON.stringify(merged)); } catch {}
     try { setCookie("a11y_prefs", JSON.stringify(merged)); } catch {}
     try {
@@ -161,17 +265,17 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
       }
     } catch {}
     announce(t("profile.preferences.saved", "Eelistused salvestatud."));
-  }, [prefs, announce, t]);
+  }, [prefs, announce, t, safeApplyPrefsToDom]);
   const previewPrefs = useCallback((partial) => {
     const preview = { ...DEFAULT_PREFS, ...prefs, ...partial };
     if (preview.contrast === "hc") {
       preview.theme = "dark";
     }
-    applyPrefsToDom(preview);
-  }, [prefs]);
+    safeApplyPrefsToDom(preview, "preview");
+  }, [prefs, safeApplyPrefsToDom]);
   const resetPreview = useCallback(() => {
-    applyPrefsToDom(prefs);
-  }, [prefs]);
+    safeApplyPrefsToDom(prefs, "resetPreview");
+  }, [prefs, safeApplyPrefsToDom]);
   const openModal = useCallback(() => {
     try { lastOpenerRef.current = document.activeElement; } catch {}
     setOpen(true);
