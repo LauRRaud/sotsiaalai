@@ -132,6 +132,114 @@ body {
   background-color: var(--page-bg);
   cursor: inherit;
 }
+.space-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+  background: linear-gradient(180deg, var(--baseTop) 0%, var(--baseBottom) 100%);
+}
+.space-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.space-backdrop[data-mode="dark"][data-viewport="mobile"]::before {
+  opacity: 1;
+  background:
+    radial-gradient(118% 70% at 50% 28%, rgba(134, 158, 210, 0.22) 0%, rgba(8, 12, 22, 0.0) 60%),
+    radial-gradient(128% 84% at 50% 82%, rgba(164, 176, 205, 0.26) 0%, rgba(8, 12, 22, 0.0) 72%),
+    radial-gradient(195% 130% at 50% 76%, rgba(24, 38, 68, 0.32) 0%, rgba(8, 12, 22, 0.0) 86%);
+  mix-blend-mode: screen;
+  filter: saturate(0.94);
+}
+.space-backdrop[data-viewport="desktop"]::before {
+  opacity: 0;
+  background: none;
+}
+.space-backdrop[data-mode="light"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: none;
+  opacity: 0;
+}
+/* === FOG === */
+.fog {
+  position: absolute;
+  left: calc(50% + var(--fogHorizontalShift));
+  bottom: calc(var(--fogOffset) * -1);
+  transform: translateX(-50%) translateZ(0);
+  width: 100%;
+  height: var(--fogHeight);
+  pointer-events: none;
+  opacity: 0.001;
+  will-change: opacity;
+  backface-visibility: hidden;
+}
+.fog[data-animate="1"] {
+  animation: fogAppear var(--fogAppearDur) linear var(--fogAppearDelay) both;
+}
+.fog[data-animate="0"] {
+  opacity: var(--fogOpacity);
+  animation: none;
+}
+@keyframes fogAppear {
+  0% { opacity: 0.001; }
+  55% { opacity: calc(var(--fogOpacity) * 0.26); }
+  85% { opacity: calc(var(--fogOpacity) * 0.75); }
+  100% { opacity: var(--fogOpacity); }
+}
+.fog-blob {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  width: var(--fogBlobSize, 85vmax);
+  height: var(--fogBlobSize, 85vmax);
+  border-radius: 9999px;
+  filter: blur(var(--fogBlurPx));
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    var(--fogStop0) 0%,
+    var(--fogStop1) 56%,
+    rgba(0, 0, 0, 0) 84%
+  );
+  mix-blend-mode: var(--fogBlend);
+}
+@supports (mix-blend-mode: plus-lighter) {
+  [data-mode="dark"] .fog-blob { mix-blend-mode: plus-lighter; }
+}
+.fb1 { left: calc(50% - var(--fogSpread)); }
+.fb3 { left: calc(50% + var(--fogSpread)); }
+/* === GRAIN === */
+.sb-grain {
+  position: absolute;
+  inset: 0;
+  opacity: var(--grainOpacity);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.sb-grain-svg,
+.sb-grain-bitmap {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.sb-grain-bitmap {
+  background-repeat: repeat;
+  background-size: auto;
+}
+/* Mobiilis: ainult gradient */
+@media (max-width: 768px) {
+  .fog,
+  .sb-grain { display: none !important; }
+}
 :where(a, button, [role="button"], label, summary, select, option, .cursor-pointer, .btn, .button, input[type="button"], input[type="submit"], input[type="reset"]) {
   cursor: var(--cursor-pointer);
 }

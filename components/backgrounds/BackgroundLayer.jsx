@@ -159,7 +159,15 @@ const BackgroundContent = memo(function BackgroundContent({ reduceMotion = false
         data-bg-layer
         aria-hidden="true"
         suppressHydrationWarning
-        style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          backgroundColor: "var(--page-bg, #050a10)",
+          backgroundImage:
+            "linear-gradient(180deg, var(--page-bg-top, #02050f) 0%, var(--page-bg-bottom, #050a10) 100%)",
+        }}
       >
         {/* SPACE – kõige taga */}
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>

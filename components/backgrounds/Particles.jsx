@@ -85,6 +85,7 @@ const Particles = ({
   const containerRef = useRef(null);
   const glRef = useRef(null);
   const bgColorRef = useRef(bgColor);
+  const particleColorsRef = useRef(particleColors);
   const particleColorsKey = Array.isArray(particleColors) ? particleColors.join("|") : "";
 
   useEffect(() => {
@@ -95,6 +96,10 @@ const Particles = ({
     const [r, g, b] = parseColor(clearColor);
     gl.clearColor(r, g, b, 0);
   }, [bgColor]);
+
+  useEffect(() => {
+    particleColorsRef.current = particleColors;
+  }, [particleColors]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -114,8 +119,9 @@ const Particles = ({
       hover: isMobile ? false : moveParticlesOnHover,
     };
 
-    const palette = Array.isArray(particleColors) && particleColors.length
-      ? particleColors
+    const paletteInput = particleColorsRef.current;
+    const palette = Array.isArray(paletteInput) && paletteInput.length
+      ? paletteInput
       : defaultColors;
 
     const renderer = new Renderer({ depth: false, alpha: true, antialias: true });
