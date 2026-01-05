@@ -7415,13 +7415,26 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
     --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
     --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
-    --chat-hpad: calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.55rem);
+    --chat-hpad: calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.35rem);
     --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 15rem);
     gap:.35rem;
     padding-top:.85rem;
     padding-bottom: clamp(0.4rem, 1vw, 0.7rem);
     --chat-logo-height: clamp(9rem, 52vw, 18rem);
     --chat-logo-y: clamp(3.6rem, 24vh, 9.4rem);
+  }
+  .chat-page-shell{
+    height: 100dvh;
+  }
+  .chat-page-shell .glass-box.chat-container{
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .chat-page-shell .chat-main{
+    flex: 1 1 auto;
+    min-height: 0;
   }
   .glass-box.chat-container .glass-title{
     margin-top: 4rem;
@@ -7430,6 +7443,9 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     padding-top:.25rem;
     padding-bottom:.25rem;
     max-height:none;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
   }
   .chat-inputbar{
     --inputbar-h: 3.2rem;
@@ -10879,31 +10895,31 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
   }
   
   .profile-page-shell .profile-email-dock-wrapper {
-    margin-top: clamp(2.2rem, 5.8vh, 4rem);
+    margin-top: clamp(1.2rem, 3.6vh, 2.6rem);
   }
   
   .profile-page-shell .profile-btn-row--back-logout {
-    margin-top: clamp(0.9rem, 2.8vh, 1.8rem);
-    margin-bottom: clamp(0.4rem, 1.6vh, 1rem);
+    margin-top: clamp(-3.2rem, -6.4vh, -2rem);
+    margin-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
   }
   .profile-page-shell .profile-email-field {
     margin-top: clamp(2rem, 5.6vh, 3.6rem);
   }
   .profile-btn-row--back-logout .back-arrow-btn{
-    inline-size: 6.4rem;
-    block-size: 6.4rem;
+    inline-size: 6rem;
+    block-size: 6rem;
   }
   .profile-btn-row--back-logout .back-arrow-circle{
-    inline-size: 5.8rem;
-    block-size: 5.8rem;
+    inline-size: 5.4rem;
+    block-size: 5.4rem;
   }
   .profile-btn-row--back-logout .profile-logout-icon-btn{
-    inline-size: 7.1rem;
-    block-size: 7.1rem;
+    inline-size: 6.6rem;
+    block-size: 6.6rem;
   }
   .profile-logout-icon{
-    width: 6.2rem;
-    height: 6.2rem;
+    width: 5.8rem;
+    height: 5.8rem;
   }
   :root .profile-theme-toggle-top .profile-theme-switch{
     --toggle-w: clamp(7.2rem, 26vw, 8.6rem);
@@ -11742,7 +11758,8 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     --login-envelope-hit: clamp(7.6rem, 26vw, 9.4rem);
   }
   #login-modal .login-modal-head .glass-title {
-    font-size: clamp(1.65rem, 4.2vw, 2.2rem);
+    font-size: clamp(3rem, 8.8vw, 4.4rem);
+    line-height: 1.02;
   }
   #login-modal .login-modal-bottom-link .link-brand {
     font-size: clamp(1.75rem, 5vw, 2.2rem);

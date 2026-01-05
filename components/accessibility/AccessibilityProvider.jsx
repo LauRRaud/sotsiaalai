@@ -222,8 +222,12 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   // Re-apply current prefs before paint to prevent theme flash.
   useLayoutEffect(() => {
     if (!hydratedRef.current) return;
-    safeApplyPrefsToDom(prefs, "prefs-change");
-  }, [prefs, safeApplyPrefsToDom]);
+    if (typeof document === "undefined") return;
+    const shouldBeLight = prefs.contrast !== "hc" && prefs.theme === "light";
+    const hasLight = document.documentElement.classList.contains("theme-light");
+    if (hasLight === shouldBeLight) return;
+    safeApplyPrefsToDom(prefs, "prefs-route-sync");
+  }, [prefs, pathname, safeApplyPrefsToDom]);
   // Sync theme state if it is toggled elsewhere (e.g. Home page switch)
   useEffect(() => {
     if (typeof document === "undefined") return undefined;

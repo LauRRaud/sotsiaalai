@@ -455,6 +455,12 @@
   /* Layout breathing room (list will fill) */
   padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0 calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
 }
+:root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
+  --orbit-mobile-accent: #c57171;
+}
+:root.theme-light .profile-orbit-mobile-panel.invite-modal {
+  --orbit-mobile-accent: #7A3A38;
+}
 
 /* Glass surface style like profile/accessibility modals */
 :root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
@@ -587,20 +593,24 @@
 
 .profile-orbit-mobile-action.dock-item {
   /* Larger buttons on mobile to fit text below icons */
-  width: clamp(9rem, 60vw, 12.6rem);
-  min-height: clamp(9rem, 60vw, 12.6rem);
+  width: clamp(8.4rem, 56vw, 12rem);
+  min-height: clamp(8.4rem, 56vw, 12rem);
   height: auto;
   border-radius: 999px;
-  padding: 0.75rem 1.1rem 0.85rem;
+  padding: 0.6rem 1rem 0.75rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: clamp(0.35rem, 1.6vw, 0.65rem);
+  justify-content: flex-start;
+  gap: clamp(0.2rem, 1vw, 0.45rem);
 
   position: relative;
   transform: translateZ(0);
+}
+/* Force mobile palette to match desktop */
+.profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item {
+  color: var(--orbit-mobile-accent, #c57171);
 }
 
 /* Give active item a bit more depth (without needing extra JS) */
@@ -624,7 +634,7 @@
   display: grid;
   place-items: center;
   line-height: 0;
-  min-height: clamp(3.2rem, 20vw, 4.6rem);
+  min-height: clamp(2.6rem, 15vw, 3.8rem);
 }
 
 /* Larger icons to match bigger buttons */
@@ -638,6 +648,13 @@
   opacity: 0.95;
   transform-origin: center;
   transition: transform 180ms ease, opacity 180ms ease;
+}
+.profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item svg {
+  stroke: currentColor;
+  fill: none;
+}
+.profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item svg [fill]:not([fill="none"]) {
+  fill: currentColor;
 }
 .profile-orbit-mobile-action.dock-item .dock-icon svg [fill]:not([fill="none"]) {
   fill: currentColor;
@@ -661,7 +678,7 @@
   letter-spacing: 0.025em;
 
   /* Larger text to match bigger buttons */
-  font-size: clamp(1.2rem, 4.4vw, 1.7rem);
+  font-size: clamp(1.15rem, 4.2vw, 1.6rem);
 
   margin-top: 0;
   padding: 0;
@@ -673,20 +690,20 @@
   display: block;
   overflow: visible;
   word-wrap: break-word;
-  max-width: 90%;
+  max-width: 85%;
   max-height: none;
 }
 
 /* Theme-specific label surface */
 :root:not(.theme-light) .profile-orbit-mobile-action__label {
-  color: inherit;
+  color: var(--orbit-mobile-accent, #c57171);
   background: transparent;
   border: none;
   text-shadow: 0 2px 8px rgba(0,0,0,0.45);
 }
 
 :root.theme-light .profile-orbit-mobile-action__label {
-  color: inherit;
+  color: var(--orbit-mobile-accent, #7A3A38);
   background: transparent;
   border: none;
   text-shadow: 0 2px 8px rgba(255,255,255,0.35);
