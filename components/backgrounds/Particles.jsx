@@ -83,8 +83,10 @@ const Particles = ({
 }) => {
   const containerRef = useRef(null);
   const glRef = useRef(null);
+  const bgColorRef = useRef(bgColor);
 
   useEffect(() => {
+    bgColorRef.current = bgColor;
     const gl = glRef.current;
     if (!gl) return;
     const clearColor = (typeof bgColor === "string" && bgColor.trim()) ? bgColor.trim() : "#000000";
@@ -118,7 +120,8 @@ const Particles = ({
     const gl = renderer.gl;
     glRef.current = gl;
     container.appendChild(gl.canvas);
-    const initialClear = (typeof bgColor === "string" && bgColor.trim()) ? bgColor.trim() : "#000000";
+    const initial = bgColorRef.current;
+    const initialClear = (typeof initial === "string" && initial.trim()) ? initial.trim() : "#000000";
     const [cr, cg, cb] = parseColor(initialClear);
     gl.clearColor(cr, cg, cb, 0);
     renderer.dpr = Math.min(window.devicePixelRatio || 1, cfg.dprMax);
