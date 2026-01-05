@@ -106,6 +106,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   const navInProgressRef = useRef(false);
   const prevClassNameRef = useRef(null);
   const openTimerRef = useRef(null);
+  const enforceTimerRef = useRef(null);
   const { t } = useI18n();
   const promptedOnceRef = useRef(false);
   const initialIsHomeRef = useRef(pathname === "/");
@@ -222,7 +223,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   useLayoutEffect(() => {
     if (!hydratedRef.current) return;
     safeApplyPrefsToDom(prefs, "prefs-change");
-  }, [prefs, pathname, safeApplyPrefsToDom]);
+  }, [prefs, safeApplyPrefsToDom]);
   // Sync theme state if it is toggled elsewhere (e.g. Home page switch)
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
@@ -252,14 +253,37 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
             expectedThemeLight: shouldBeLight,
             actualThemeLight: hasLight,
           });
-          safeApplyPrefsToDom(snapshot, "observer-enforce");
+          const apply = () => {
+            enforceTimerRef.current = null;
+            safeApplyPrefsToDom(snapshot, "observer-enforce");
+          };
+          if (navInProgressRef.current && typeof window !== "undefined") {
+            if (enforceTimerRef.current) window.clearTimeout(enforceTimerRef.current);
+            enforceTimerRef.current = window.setTimeout(apply, 400);
+            return;
+          }
+          if (enforceTimerRef.current) {
+            window.clearTimeout(enforceTimerRef.current);
+            enforceTimerRef.current = null;
+          }
+          apply();
           return;
+        }
+        if (enforceTimerRef.current) {
+          window.clearTimeout(enforceTimerRef.current);
+          enforceTimerRef.current = null;
         }
       }
     });
     prevClassNameRef.current = html.className;
     observer.observe(html, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (enforceTimerRef.current) {
+        window.clearTimeout(enforceTimerRef.current);
+        enforceTimerRef.current = null;
+      }
+    };
   }, [logDev, safeApplyPrefsToDom]);
   const announce = useCallback((msg) => {
     if (!msg) return;

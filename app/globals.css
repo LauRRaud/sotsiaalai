@@ -62,11 +62,11 @@
   --route-mask-strength: 58%;
   --route-mask-in: 180ms;
   --route-mask-out: 260ms;
-  background-color: var(--page-bg);
+  background-color: var(--page-bg, var(--page-bg-fallback));
   background-image: linear-gradient(
     180deg,
-    var(--page-bg-top) 0%,
-    var(--page-bg-bottom) 100%
+    var(--page-bg-top, var(--page-bg-top-fallback)) 0%,
+    var(--page-bg-bottom, var(--page-bg-bottom-fallback)) 100%
   );
   backdrop-filter: blur(4px) saturate(125%);
   -webkit-backdrop-filter: blur(4px) saturate(125%);
@@ -896,6 +896,9 @@ body::-webkit-scrollbar {
   --page-bg: #050a10;
   --page-bg-top: #02050f;
   --page-bg-bottom: #050a10;
+  --page-bg-fallback: #050a10;
+  --page-bg-top-fallback: #02050f;
+  --page-bg-bottom-fallback: #050a10;
   --pt-50:  #F8F8F7;
   --pt-100: #ECEBE9;
   --pt-150: #E6E5E3;
@@ -7711,6 +7714,9 @@ html[data-contrast=hc]{
   --page-bg: var(--hc-bg);
   --page-bg-top: var(--hc-bg);
   --page-bg-bottom: var(--hc-bg);
+  --page-bg-fallback: var(--hc-bg);
+  --page-bg-top-fallback: var(--hc-bg);
+  --page-bg-bottom-fallback: var(--hc-bg);
   --glass-surface-bg: var(--hc-surface);
   --glass-surface-text: var(--hc-text);
   --glass-border-color: var(--hc-accent);
@@ -8537,6 +8543,9 @@ html[data-contrast=hc] .desc-ring-right * {
   --page-bg: #f9f8f5;
   --page-bg-top: #fdfcfb;
   --page-bg-bottom: #f1f0ec;
+  --page-bg-fallback: #f9f8f5;
+  --page-bg-top-fallback: #fdfcfb;
+  --page-bg-bottom-fallback: #f1f0ec;
 }
 :root.theme-light .btn-primary,
 :root.theme-light .btn-profile-save,
