@@ -2,12 +2,8 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { unstable_noStore as noStore } from "next/cache";
-import dynamic from "next/dynamic";
+import AdminAnalyticsClient from "./AdminAnalyticsClient";
 
-const AnalyticsDashboard = dynamic(() => import("@/components/admin/AnalyticsDashboard"), {
-  ssr: false,
-  loading: () => <div style={{ opacity: 0.75 }}>Laen andmeid...</div>,
-});
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -30,7 +26,7 @@ export default async function AdminAnalyticsPage() {
 
   return (
     <div className="main-content glass-box glass-left admin-page admin-page--analytics">
-      <AnalyticsDashboard />
+      <AdminAnalyticsClient />
     </div>
   );
 }
