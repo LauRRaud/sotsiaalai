@@ -1,7 +1,7 @@
 // auth.js — NextAuth v4 konfiguratsioon (JS)
 import CredentialsProviderImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma, { prisma as prismaNamed } from "./lib/prisma"; // mõlemad olemas, kui kuskil teises failis vajab
+import prisma from "./lib/prisma"; // mõlemad olemas, kui kuskil teises failis vajab
 
 import { compare } from "bcrypt";
 import {

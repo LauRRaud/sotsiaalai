@@ -50,19 +50,26 @@ export async function GET(_req, { params }) {
       });
   if (!membership) return json({ ok: false, message: "Forbidden" }, 403);
 
-  const members = await prisma.roomMember.findMany({
-    where: { roomId, leftAt: null },
-    select: {
-      userId: true,
-      role: true,
-      user: { select: { profile: { select: { firstName: true, lastName: true } } } },
-    },
-    orderBy: { role: "asc" },
-  });
+  const [room, members] = await Promise.all([
+    prisma.room.findUnique({
+      where: { id: roomId },
+      select: { title: true },
+    }),
+    prisma.roomMember.findMany({
+      where: { roomId, leftAt: null },
+      select: {
+        userId: true,
+        role: true,
+        user: { select: { profile: { select: { firstName: true, lastName: true } } } },
+      },
+      orderBy: { role: "asc" },
+    }),
+  ]);
 
   return json({
     ok: true,
     role: membership.role,
+    roomTitle: room?.title || "",
     members: members.map((m) => ({
       userId: m.userId,
       role: m.role,

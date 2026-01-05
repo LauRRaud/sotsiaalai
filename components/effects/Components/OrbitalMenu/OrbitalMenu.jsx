@@ -121,7 +121,7 @@ export default function OrbitalMenu({
         return { scale: 0.86, opacity: 0, blur: 1.4, hide: true };
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [items.length]);
 
   // Close on outside click + ESC

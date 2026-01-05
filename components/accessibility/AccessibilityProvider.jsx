@@ -114,7 +114,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
   const logDev = useCallback((label, payload) => {
     if (!DEV || typeof window === "undefined") return;
     const now = typeof performance !== "undefined" ? performance.now().toFixed(1) : "0";
-    // eslint-disable-next-line no-console
+     
     console.debug(`[a11y] ${label}`, { t: now, ...payload });
   }, []);
 
@@ -124,7 +124,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
       const stack = new Error().stack;
       logDev("applyPrefsToDom", { reason, prefs: next, pathname: pathnameRef.current });
       if (stack) {
-        // eslint-disable-next-line no-console
+         
         console.debug(stack);
       }
     }

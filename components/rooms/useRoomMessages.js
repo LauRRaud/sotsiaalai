@@ -5,6 +5,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const [messages, setMessages] = useState([]);
   const [blocked, setBlocked] = useState(false);
   const [authRequired, setAuthRequired] = useState(false);
+  const [roomTitle, setRoomTitle] = useState("");
   const [useSse, setUseSse] = useState(false);
   const cursorRef = useRef(null);
   const timerRef = useRef(null);
@@ -79,11 +80,27 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   }, [roomId, blocked, authRequired, load, pollMs]);
 
   useEffect(() => {
+    let cancelled = false;
+    async function loadRoomTitle() {
+      if (!roomId) {
+        setRoomTitle("");
+        return;
+      }
+      try {
+        const res = await fetch(`/api/rooms/${roomId}/members`, { cache: "no-store" });
+        const data = await res.json().catch(() => ({}));
+        if (!cancelled && res.ok && data?.ok) {
+          setRoomTitle(String(data.roomTitle || ""));
+        }
+      } catch {}
+    }
+    loadRoomTitle();
     load(true);
     timerRef.current = setInterval(() => load(false), pollMs);
     connectSse();
 
     return () => {
+      cancelled = true;
       if (timerRef.current) clearInterval(timerRef.current);
       if (esRef.current) esRef.current.close();
     };
@@ -93,6 +110,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     messages,
     blocked,
     authRequired,
+    roomTitle,
     reload: () => load(true),
     setMessages,
     useSse,

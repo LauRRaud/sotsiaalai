@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createPortal } from "react-dom";
@@ -475,7 +475,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       markPinError();
       setError(payload?.message || t("auth.login.error.generic"));
     } catch (err) {
-      // eslint-disable-next-line no-console
+       
       console.error("login-step1 error", err);
       markPinError();
       setError(t("auth.login.error.generic"));
@@ -676,7 +676,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       }
       setError(payload?.message || t("auth.login.error.generic"));
     } catch (err) {
-      // eslint-disable-next-line no-console
+       
       console.error("login-step2 error", err);
       setError(t("auth.login.error.generic"));
     } finally {
@@ -703,7 +703,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       setOtpExpiresAt(payload?.otp_expires_at || null);
       setInfo(t("auth.login.otp_resent", { email: payload?.email_mask || emailMask || "" }));
     } catch (err) {
-      // eslint-disable-next-line no-console
+       
       console.error("login-resend-otp error", err);
       setError(t("auth.login.error.generic"));
     } finally {
@@ -966,7 +966,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
           onPointerDown={(e) => {
             const el = e.currentTarget;
             el.classList.remove("pin-keypad__button--bounce");
-            // eslint-disable-next-line no-unused-expressions
+             
             el.offsetWidth;
             el.classList.add("pin-keypad__button--bounce");
             window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
@@ -1002,7 +1002,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
           onPointerDown={(e) => {
             const el = e.currentTarget;
             el.classList.remove("pin-keypad__button--bounce");
-            // eslint-disable-next-line no-unused-expressions
+             
             el.offsetWidth;
             el.classList.add("pin-keypad__button--bounce");
             window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
@@ -1046,7 +1046,7 @@ const digitLabel = t("auth.login.key", { digit: isZeroKey ? 0 : key });
           const el = e.currentTarget;
 
           el.classList.remove("pin-keypad__button--bounce");
-          // eslint-disable-next-line no-unused-expressions
+           
           el.offsetWidth;
           el.classList.add("pin-keypad__button--bounce");
           window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);

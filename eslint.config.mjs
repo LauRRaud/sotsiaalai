@@ -1,7 +1,6 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
 import globals from "globals";
 import unusedImports from "eslint-plugin-unused-imports";
@@ -9,73 +8,30 @@ import unusedImports from "eslint-plugin-unused-imports";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
-// Hoia config nimetatud (väldib anonüümse default export hoiatust mõnest reeglist)
 const config = [
-  // JS baasreeglid
-  js.configs.recommended,
-
-  // Next.js: core-web-vitals (FlatCompat kaudu)
+  // Next.js reeglid (hoiame, aga teeme oma override’idega praktiliseks)
   ...compat.extends("next/core-web-vitals"),
 
-  // Üldised reeglid kogu projektile
+  // Üldised ignore’id (väga oluline müra vähendamiseks)
   {
-    rules: {
-      // Lubame tühja catch plokki (sul on palju best-effort try/catch)
-      "no-empty": ["error", { allowEmptyCatch: true }],
-
-      // Kui sul on teadlikult regexid, milles on control-chars, siis kas:
-      // 1) paranda regex või
-      // 2) kasuta rea peal eslint-disable-next-line
-      // Jätan reegli vaikimisi ON, sest see võib päriselt vigu paljastada.
-      // "no-control-regex": "off",
-    },
-  },
-
-  // Eemalda kasutud importid ja leia kasutud muutujad
-  {
-    plugins: {
-      "unused-imports": unusedImports,
-    },
-    rules: {
-      // autofix eemaldab kasutud importid
-      "unused-imports/no-unused-imports": "error",
-
-      // unused vars: luba "_" prefiksiga teadlikult kasutamata
-      "unused-imports/no-unused-vars": [
-        "warn",
-        {
-          vars: "all",
-          varsIgnorePattern: "^_",
-          args: "after-used",
-          argsIgnorePattern: "^_",
-        },
-      ],
-
-      // väldi topelt “unused vars” raporteid
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-    },
-  },
-
-  // Browser/Client globaalid (enamik app/components faile)
-  {
-    files: ["**/*.{js,jsx,mjs,cjs}"],
     ignores: [
-      // server/build output
       ".next/**",
       "node_modules/**",
       "out/**",
       "dist/**",
       "build/**",
       "coverage/**",
-
-      // generated (prisma jms)
       "generated/**",
+      // kui sul on prisma client genereeritud mujale, lisa siia
+      // "prisma/generated/**",
     ],
+  },
+
+  // Default: browser globals (enamik komponente/pages)
+  {
+    files: ["**/*.{js,jsx,mjs,cjs}"],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -83,7 +39,7 @@ const config = [
     },
   },
 
-  // Node/Server globaalid API route'idele ja serverifailidele
+  // Server/Node kontekst: API route’id ja serveri utilid
   {
     files: [
       "app/api/**/*.js",
@@ -95,12 +51,47 @@ const config = [
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.browser, // sw.js ja mõned web-API'd (URL, Request, etc)
+        ...globals.browser,
       },
     },
   },
 
-  // Spetsiifiline: ESLint config fail ise – ära lärma import/no-anonymous-default-export vms üle
+  // CLEANUP-FIRST reeglid: kasutud importid ja kasutamata muutujad
+  {
+    plugins: {
+      "unused-imports": unusedImports,
+    },
+    rules: {
+      // Peamine: eemaldab kasutud importid automaatselt (--fix)
+      "unused-imports/no-unused-imports": "error",
+
+      // Kasutamata muutujad: hoiatuseks (mitte error), et ei blokeeriks
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
+
+      // Väldi topelt raporteid
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+
+      // Müra vähendamiseks: paljud “stiili/harjumuse” reeglid maha või leebemaks
+      "no-empty": ["warn", { allowEmptyCatch: true }],
+      "no-console": "off",
+      "no-debugger": "warn",
+
+      // Need kipuvad vanemas koodis palju lärmi tegema:
+      "no-useless-escape": "warn",
+      "no-control-regex": "warn",
+    },
+  },
+
+  // ESLint config faili enda vaikne käsitlus
   {
     files: ["eslint.config.mjs"],
     rules: {

@@ -179,96 +179,98 @@ export default function RoomsPage() {
             {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
           </p>
         ) : (
-          <ul className="rooms-list" role="list">
-            {effectiveRooms.map((room) => (
-              <li key={room.id} className="rooms-list-item">
-                <div className="rooms-card">
-                  <Link href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="rooms-card__link">
-                    <div className="rooms-card__header">
-                      <div className="rooms-card__title">
-                        {room.title || t("rooms.fallback_title", "Ruum")}
-                      </div>
-                      {room.unreadCount ? (
-                        <span className="rooms-card__badge" aria-label={t("rooms.unread", "Uusi")}>
-                          {room.unreadCount}
-                        </span>
-                      ) : null}
-                    </div>
-                    {room.description ? (
-                      <div className="rooms-card__desc">{room.description}</div>
-                    ) : null}
-                    <div className="rooms-card__meta">
-                      {room.role ? (
-                        <span className="rooms-card__meta-item">
-                          {t("rooms.role_label", "Roll")}: {roleLabel(room.role)}
-                        </span>
-                      ) : null}
-                      {Number.isFinite(room.memberCount) ? (
-                        <span className="rooms-card__meta-item">
-                          {t("rooms.members_label", "Liikmeid")}: {room.memberCount}
-                        </span>
-                      ) : null}
-                      {room.unreadCount ? (
-                        <span className="rooms-card__meta-item rooms-card__meta-item--unread">
-                          {t("rooms.unread", "Uusi")}: {room.unreadCount}
-                        </span>
-                      ) : null}
-                    </div>
-                    {room.lastMessage?.content ? (
-                      <div className="rooms-card__last">
-                        <span className="rooms-card__last-text">
-                          {truncate(room.lastMessage.content)}
-                        </span>
-                        {room.lastMessage?.createdAt ? (
-                          <span className="rooms-card__last-time">
-                            {formatTime(room.lastMessage.createdAt)}
+          <div className="rooms-list-scroll">
+            <ul className="rooms-list" role="list">
+              {effectiveRooms.map((room) => (
+                <li key={room.id} className="rooms-list-item">
+                  <div className="rooms-card">
+                    <Link href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="rooms-card__link">
+                      <div className="rooms-card__header">
+                        <div className="rooms-card__title">
+                          {room.title || t("rooms.fallback_title", "Ruum")}
+                        </div>
+                        {room.unreadCount ? (
+                          <span className="rooms-card__badge" aria-label={t("rooms.unread", "Uusi")}>
+                            {room.unreadCount}
                           </span>
                         ) : null}
                       </div>
-                    ) : (
-                      <div className="rooms-card__last rooms-card__last--empty">
-                        {t("rooms.last_empty", "Veel sonumeid pole")}
+                      {room.description ? (
+                        <div className="rooms-card__desc">{room.description}</div>
+                      ) : null}
+                      <div className="rooms-card__meta">
+                        {room.role ? (
+                          <span className="rooms-card__meta-item">
+                            {t("rooms.role_label", "Roll")}: {roleLabel(room.role)}
+                          </span>
+                        ) : null}
+                        {Number.isFinite(room.memberCount) ? (
+                          <span className="rooms-card__meta-item">
+                            {t("rooms.members_label", "Liikmeid")}: {room.memberCount}
+                          </span>
+                        ) : null}
+                        {room.unreadCount ? (
+                          <span className="rooms-card__meta-item rooms-card__meta-item--unread">
+                            {t("rooms.unread", "Uusi")}: {room.unreadCount}
+                          </span>
+                        ) : null}
                       </div>
-                    )}
-                  </Link>
-                  {canInvite(room.role) || canLeave(room.role) || canDelete(room.role) ? (
-                    <div className="rooms-card__actions">
-                      {canInvite(room.role) ? (
-                        <button
-                          type="button"
-                          className="rooms-card__action"
-                          onClick={() => handleInvite(room.id)}
-                        >
-                          {t("rooms.invite", "Kutsu")}
-                        </button>
-                      ) : null}
-                      {canLeave(room.role) ? (
-                        <button
-                          type="button"
-                          className="rooms-card__action"
-                          onClick={() => handleLeave(room)}
-                          disabled={leavingId === room.id}
-                        >
-                          {leavingId === room.id
-                            ? t("rooms.leave_busy", "Lahkun...")
-                            : t("rooms.leave", "Lahku")}
-                        </button>
-                      ) : null}
-                      {canDelete(room.role) ? (
-                        <button
-                          type="button"
-                          className="rooms-card__action rooms-card__action--danger"
-                          onClick={() => openDeleteConfirm(room)}
-                        >
-                          {t("rooms.delete", "Kustuta")}
-                        </button>
-                      ) : null}
-                    </div>
-                  ) : null}
-                </div>
-              </li>
-            ))}
-          </ul>
+                      {room.lastMessage?.content ? (
+                        <div className="rooms-card__last">
+                          <span className="rooms-card__last-text">
+                            {truncate(room.lastMessage.content)}
+                          </span>
+                          {room.lastMessage?.createdAt ? (
+                            <span className="rooms-card__last-time">
+                              {formatTime(room.lastMessage.createdAt)}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div className="rooms-card__last rooms-card__last--empty">
+                          {t("rooms.last_empty", "Veel sonumeid pole")}
+                        </div>
+                      )}
+                    </Link>
+                    {canInvite(room.role) || canLeave(room.role) || canDelete(room.role) ? (
+                      <div className="rooms-card__actions">
+                        {canInvite(room.role) ? (
+                          <button
+                            type="button"
+                            className="rooms-card__action"
+                            onClick={() => handleInvite(room.id)}
+                          >
+                            {t("rooms.invite", "Kutsu")}
+                          </button>
+                        ) : null}
+                        {canLeave(room.role) ? (
+                          <button
+                            type="button"
+                            className="rooms-card__action"
+                            onClick={() => handleLeave(room)}
+                            disabled={leavingId === room.id}
+                          >
+                            {leavingId === room.id
+                              ? t("rooms.leave_busy", "Lahkun...")
+                              : t("rooms.leave", "Lahku")}
+                          </button>
+                        ) : null}
+                        {canDelete(room.role) ? (
+                          <button
+                            type="button"
+                            className="rooms-card__action rooms-card__action--danger"
+                            onClick={() => openDeleteConfirm(room)}
+                          >
+                            {t("rooms.delete", "Kustuta")}
+                          </button>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
 
         <div className="back-btn-wrapper rooms-back-btn">

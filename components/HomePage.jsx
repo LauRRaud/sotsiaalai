@@ -7,11 +7,9 @@ import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
-import TypedFadeText from "@/components/TextAnimations/TypedFadeText";
 import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
-import Image from "next/image";
 import { triggerRouteTransition } from "@/lib/routeTransition";
 
 // Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg

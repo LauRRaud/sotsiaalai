@@ -4,7 +4,6 @@ import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz
 import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
 import {
   collapsePages,
-  normalizeMatch,
   groupMatches,
   diversifyGroupsMMR,
   buildContextWithBudget,

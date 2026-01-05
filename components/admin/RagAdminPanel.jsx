@@ -602,7 +602,7 @@ export default function RagAdminPanel() {
     if (!ids.length) return;
     for (const id of ids) {
       // intentionally sequential to avoid spamming the server
-      // eslint-disable-next-line no-await-in-loop
+       
       await handleReindex(id);
     }
   }, [selectedIds, handleReindex]);
