@@ -1,9 +1,10 @@
-"use client";
-
-import { useI18n } from "@/components/i18n/I18nProvider";
+import { cookies } from "next/headers";
+import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 
 export default function Loading() {
-  const { t } = useI18n();
+  const locale = getLocaleFromCookies(cookies());
+  const messages = getMessagesSync(locale);
+  const label = messages?.invite?.loading;
   return (
     <div
       aria-busy="true"
@@ -18,9 +19,11 @@ export default function Loading() {
         backgroundImage: "linear-gradient(180deg, var(--page-bg-top) 0%, var(--page-bg-bottom) 100%)",
       }}
     >
-      <span style={{ opacity: 0.75, color: "var(--text-main, #e5e7eb)" }}>
-        {t("invite.loading")}
-      </span>
+      {label ? (
+        <span style={{ opacity: 0.75, color: "var(--text-main, #e5e7eb)" }}>
+          {label}
+        </span>
+      ) : null}
     </div>
   );
 }
