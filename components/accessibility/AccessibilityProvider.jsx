@@ -139,7 +139,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     } else {
       applyingRef.current = false;
     }
-  }, [logDev, safeApplyPrefsToDom]);
+  }, [logDev]);
 
   const scheduleOpenModal = useCallback((reason) => {
     if (typeof window === "undefined") return;
@@ -166,7 +166,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     } else {
       openTimerRef.current = { id: window.setTimeout(attempt, 80), type: "timeout" };
     }
-  }, [logDev]);
+  }, [logDev, safeApplyPrefsToDom]);
 
   useEffect(() => {
     return () => {

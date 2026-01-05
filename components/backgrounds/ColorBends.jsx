@@ -152,6 +152,7 @@ export default function ColorBends({
   const rafRef            = useRef(null);
   const materialRef       = useRef(null);
   const resizeObserverRef = useRef(null);
+  const bgColorRef        = useRef(bgColor);
 
   const rotationRef   = useRef(rotation);
   const autoRotateRef = useRef(autoRotate);
@@ -206,7 +207,8 @@ export default function ColorBends({
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
-    const initialClear = (typeof bgColor === 'string' && bgColor.trim()) ? bgColor.trim() : '#000000';
+    const initial = bgColorRef.current;
+    const initialClear = (typeof initial === 'string' && initial.trim()) ? initial.trim() : '#000000';
     renderer.setClearColor(initialClear, transparent ? 0 : 1);
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
@@ -358,6 +360,7 @@ export default function ColorBends({
     const renderer = rendererRef.current;
     if (!material) return;
 
+    bgColorRef.current = bgColor;
     rotationRef.current   = rotation;
     autoRotateRef.current = autoRotate;
 
