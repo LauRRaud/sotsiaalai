@@ -68,12 +68,23 @@ export function useChatAnalysisController({
       } catch {}
     });
   }, []);
+  const preservePageScroll = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const y = window.scrollY;
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: y, behavior: "auto" });
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: y, behavior: "auto" });
+      });
+    });
+  }, []);
 
   const ensureAnalysisPanelVisible = useCallback(() => {
+    preservePageScroll();
     setAnalysisCollapsed(false);
     setAnalysisPanelOpen(true);
     scrollAnalysisPanelIntoView();
-  }, [scrollAnalysisPanelIntoView]);
+  }, [preservePageScroll, scrollAnalysisPanelIntoView]);
 
   const toggleAnalysisCollapse = useCallback(() => {
     if (!hasAnalysisContent) return;
@@ -88,13 +99,14 @@ export function useChatAnalysisController({
 
   useEffect(() => {
     if (hasAnyAnalysisState) {
+      preservePageScroll();
       setAnalysisCollapsed(false);
       setAnalysisPanelOpen(true);
       scrollAnalysisPanelIntoView();
     } else {
       setAnalysisCollapsed(false);
     }
-  }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
+  }, [hasAnyAnalysisState, preservePageScroll, scrollAnalysisPanelIntoView]);
 
   useLayoutEffect(() => {
     if (isMobileViewport || !showAnalysisPanel || isAnalysisExpanded) {
