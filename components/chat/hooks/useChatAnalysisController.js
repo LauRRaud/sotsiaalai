@@ -70,13 +70,18 @@ export function useChatAnalysisController({
   }, []);
   const preservePageScroll = useCallback(() => {
     if (typeof window === "undefined") return;
-    const y = window.scrollY;
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: y, behavior: "auto" });
-      requestAnimationFrame(() => {
+    const scroller = document.scrollingElement || document.documentElement;
+    const y = scroller ? scroller.scrollTop : window.scrollY;
+    const restore = () => {
+      if (scroller) {
+        scroller.scrollTop = y;
+      } else {
         window.scrollTo({ top: y, behavior: "auto" });
-      });
-    });
+      }
+    };
+    requestAnimationFrame(restore);
+    setTimeout(restore, 0);
+    setTimeout(restore, 80);
   }, []);
 
   const ensureAnalysisPanelVisible = useCallback(() => {
@@ -206,8 +211,9 @@ export function useChatAnalysisController({
     setUploadError(null);
     try {
       fileInputRef.current?.click?.();
+      preservePageScroll();
     } catch {}
-  }, [ensureAnalysisPanelVisible, uploadBusy, isGeneratingRef]);
+  }, [ensureAnalysisPanelVisible, preservePageScroll, uploadBusy, isGeneratingRef]);
 
   const onFileChange = useCallback(
     async (e) => {
@@ -245,6 +251,7 @@ export function useChatAnalysisController({
         }
 
         const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
+        preservePageScroll();
         setUploadPreview({
           fileName: data.fileName || file.name,
           sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
@@ -269,11 +276,12 @@ export function useChatAnalysisController({
         setEphemeralChunks([]);
         setDocOnlyMode(true);
       } finally {
+        preservePageScroll();
         setUploadBusy(false);
         e.target.value = "";
       }
     },
-    [MAX_UPLOAD_MB, refreshUsage, t]
+    [MAX_UPLOAD_MB, preservePageScroll, refreshUsage, t]
   );
 
   return {
