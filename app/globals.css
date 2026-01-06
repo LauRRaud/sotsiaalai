@@ -6553,7 +6553,7 @@ backdrop-filter: none;
   justify-content:center;
   gap:0.6rem;
   flex-wrap:wrap;
-  transform: translateX(0.35rem);
+  transform: translateX(0.85rem);
 }
 .chat-analysis-controls--header{
   margin-top:0.4rem;
