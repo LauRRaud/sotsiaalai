@@ -6728,6 +6728,37 @@ backdrop-filter: none;
   border-color:transparent;
   box-shadow:none;
 }
+:root:not(.theme-light) .chat-analysis-checkbox input[type="checkbox"]{
+  border:2px solid currentColor;
+  background: transparent;
+}
+:root:not(.theme-light) .chat-analysis-checkbox input[type="checkbox"]:focus-visible{
+  border-color: currentColor;
+  box-shadow:none;
+}
+:root:not(.theme-light) .chat-analysis-checkbox input[type="checkbox"]:checked{
+  border-color: currentColor;
+}
+:root:not(.theme-light) .chat-analysis-checkbox{
+  color: rgba(248,252,255,0.96);
+}
+:root:not(.theme-light) .chat-analysis-checkbox:hover,
+:root:not(.theme-light) .chat-analysis-checkbox:focus-visible{
+  color: rgba(248,252,255,0.96);
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.26),
+    0 12px 18px -14px rgba(248,253,255,0.60),
+    0 24px 30px -24px rgba(248,253,255,0.32);
+}
+:root:not(.theme-light) .chat-analysis-checkbox:has(input[type="checkbox"]:checked){
+  color: rgba(248,252,255,0.96);
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.26),
+    0 12px 18px -14px rgba(248,253,255,0.60),
+    0 24px 30px -24px rgba(248,253,255,0.32);
+}
 .chat-context-toggle{
   display:flex;
   align-items:center;
@@ -6924,12 +6955,13 @@ backdrop-filter: none;
   padding:0.5rem 0.75rem;
   border-radius:0.9rem;
   background: rgba(7,10,18,0.96);
-  color:#E7D9D4CC;
+  color: rgba(248,252,255,0.96);
   font-size:1.02rem;
   line-height:1.4;
   letter-spacing:0.02em;
   text-align:center;
   box-shadow:0 0.2rem 0.6rem rgba(0,0,0,0.45);
+  z-index: 40;
   opacity:0;
   pointer-events:none;
   white-space:normal;
