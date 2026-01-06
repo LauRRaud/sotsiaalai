@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
 import { collapsePages, formatSourceLabel } from "../utils/sources";
 
 export function useConversationSources({ messages, showSourcesPanel, uploadPreview }) {
