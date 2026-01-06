@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useState, useRef, useEffect, useMemo, useCallback, useLayoutEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -21,8 +21,10 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import { useSpeech } from "../chat/hooks/useSpeech";
 import { useChatStream } from "@/components/chat/hooks/useChatStream";
 import { useChatConversationState } from "../chat/hooks/useChatConversationState";
-import { formatSourceLabel, collapsePages, prettifyFileName } from "@/components/chat/utils/sources";
+import { prettifyFileName } from "@/components/chat/utils/sources";
 import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMask";
+import { useConversationSources } from "@/components/chat/hooks/useConversationSources";
+import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 
 /* ---------- Komponent ---------- */
 export default function ChatBody({ roomId = null }) {
@@ -63,23 +65,11 @@ export default function ChatBody({ roomId = null }) {
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
-  const [uploadBusy, setUploadBusy] = useState(false);
-  const [uploadError, setUploadError] = useState(null);
-  const [uploadPreview, setUploadPreview] = useState(null);
-  const [sourcesPulse, setSourcesPulse] = useState(false);
-  const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
   const [renderLimit, setRenderLimit] = useState(MAX_RENDERED_MESSAGES);
-  // Dok-analuusi režiim: false = kombineeritud (dok + RAG), true = ainult dokument
-  const [docOnlyMode, setDocOnlyMode] = useState(true);
-  const [uploadUsage, setUploadUsage] = useState(null);
-  const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
-  const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
-  const [analysisPanelInline, setAnalysisPanelInline] = useState(false);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [sendToAssistant, setSendToAssistant] = useState(false);
   const {
     messages: roomMessages,
@@ -94,6 +84,7 @@ export default function ChatBody({ roomId = null }) {
 
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
+  const isGeneratingRef = useRef(false);
   const handleInputBlur = (event) => {
     const next = event?.relatedTarget || document.activeElement;
     if (next && chatContainerRef.current?.contains(next)) return;
@@ -102,26 +93,10 @@ export default function ChatBody({ roomId = null }) {
   useEffect(() => {
     if (!inputFocused) setTopNavPinned(false);
   }, [inputFocused]);
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(max-width: 48em)");
-    const update = () => setIsMobileViewport(!!mq.matches);
-    update();
-    if (mq.addEventListener) {
-      mq.addEventListener("change", update);
-      return () => mq.removeEventListener("change", update);
-    }
-    mq.addListener(update);
-    return () => mq.removeListener(update);
-  }, []);
   const inputRef = useRef(null);
   const composerDraftApiRef = useRef(null);
   const inputBarRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const analysisPanelRef = useRef(null);
   const sourcesButtonRef = useRef(null);
-  const sourcesPulseTimerRef = useRef(null);
-  const prevSourcesCountRef = useRef(0);
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
@@ -176,7 +151,6 @@ export default function ChatBody({ roomId = null }) {
     appendMessage,
     mutateMessage,
     historyPayload,
-    hydrateFromServer,
   } = useChatConversationState({
     isRoomMode,
     roomId,
@@ -214,6 +188,15 @@ export default function ChatBody({ roomId = null }) {
     }
     return "";
   }, [visibleMessages]);
+  const analysis = useChatAnalysisController({
+    t,
+    locale,
+    sessionUserId: session?.user?.id,
+    chatWindowRef,
+    visibleMessagesCount: visibleMessages.length,
+    isGeneratingRef,
+  });
+  const isAnalysisExpanded = analysis.analysisPanelMode === "expanded";
 
   const {
     speechReady,
@@ -265,134 +248,8 @@ export default function ChatBody({ roomId = null }) {
       />
     ));
   }, [renderedMessages, isRoomMode, t]);
-  const conversationSources = useMemo(() => {
-    const map = new Map();
-    messages.forEach((m) => {
-      if (!Array.isArray(m?.sources) || !m.sources.length) return;
-      m.sources.forEach((src, idx) => {
-        const url =
-          typeof src?.url === "string"
-            ? src.url
-            : typeof src?.source === "string"
-            ? src.source
-            : undefined;
-        const label = formatSourceLabel(src);
-        const pageText =
-          src?.pageRange ||
-          collapsePages([
-            ...(Array.isArray(src?.pages) ? src.pages : []),
-            ...(src?.page ? [src.page] : []),
-          ]);
-        const section = typeof src?.section === "string" ? src.section : undefined;
-        const key = src?.key || src?.id || url || `${label}-${pageText || ""}-${idx}`;
-        const existing =
-          map.get(key) ||
-          {
-            key,
-            label,
-            pageText,
-            section,
-            allUrls: [],
-            occurrences: 0,
-          };
-        if (url && !existing.allUrls.includes(url)) {
-          existing.allUrls.push(url);
-        }
-        existing.occurrences += 1;
-        map.set(key, existing);
-      });
-    });
-    return Array.from(map.values());
-  }, [messages]);
-
-  const hasConversationSources = conversationSources.length > 0;
-  const hasAnalysisContent = !!(uploadPreview || uploadBusy);
-  const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
-  const showAnalysisPanel = analysisPanelOpen || hasAnyAnalysisState;
-  useEffect(() => {
-    const currentCount = conversationSources.length;
-    const prevCount = prevSourcesCountRef.current;
-    prevSourcesCountRef.current = currentCount;
-
-    if (currentCount > prevCount && !showSourcesPanel) {
-      setSourcesPulse(true);
-      if (sourcesPulseTimerRef.current) {
-        window.clearTimeout(sourcesPulseTimerRef.current);
-      }
-      sourcesPulseTimerRef.current = window.setTimeout(() => {
-        setSourcesPulse(false);
-      }, 1000);
-    }
-
-    return () => {
-      if (sourcesPulseTimerRef.current) {
-        window.clearTimeout(sourcesPulseTimerRef.current);
-      }
-    };
-  }, [conversationSources.length, showSourcesPanel]);
-  const previewText = useMemo(() => {
-    if (uploadPreview?.fullText && uploadPreview.fullText.trim()) {
-      return uploadPreview.fullText;
-    }
-    if (uploadPreview?.preview && uploadPreview.preview.trim()) {
-      return uploadPreview.preview;
-    }
-    if (ephemeralChunks?.length) {
-      return ephemeralChunks.join("\n\n");
-    }
-    return "";
-  }, [uploadPreview?.fullText, uploadPreview?.preview, ephemeralChunks]);
-  const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
-  const forceOverlay = !uploadPreview;
-  const analysisPanelMode = isAnalysisExpanded
-    ? "expanded"
-    : analysisPanelInline && !isMobileViewport && !forceOverlay
-    ? "inline"
-    : "overlay";
-
-  const MAX_UPLOAD_MB = useMemo(() => {
-    const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
-    return Number.isFinite(v) && v > 0 ? v : 50;
-  }, []);
-  const RAW_ALLOWED_MIME = String(
-    process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
-      "application/pdf,text/plain,text/markdown,text/html,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  );
-  const ALLOWED_MIME_LIST = useMemo(
-    () => RAW_ALLOWED_MIME.split(",").map((s) => s.trim()).filter(Boolean),
-    [RAW_ALLOWED_MIME]
-  );
-  const ACCEPT_ATTR = useMemo(() => {
-    const set = new Set();
-    ALLOWED_MIME_LIST.forEach((m) => {
-      if (m === "application/pdf") {
-        set.add(m);
-        set.add(".pdf");
-      } else if (m === "text/plain") {
-        set.add(m);
-        set.add(".txt");
-      } else if (m === "text/markdown") {
-        set.add(m);
-        set.add(".md");
-        set.add(".markdown");
-      } else if (m === "text/html") {
-        set.add(m);
-        set.add(".html");
-        set.add(".htm");
-      } else if (m === "application/msword") {
-        set.add(m);
-        set.add(".doc");
-      } else if (
-        m === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
-        set.add(m);
-        set.add(".docx");
-      } else {
-        set.add(m);
-      }
-    });
-    return Array.from(set).join(",");
-  }, [ALLOWED_MIME_LIST]);
+  const { conversationSources, hasConversationSources, sourcesPulse } =
+    useConversationSources({ messages, showSourcesPanel });
 
   /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
@@ -416,86 +273,6 @@ export default function ChatBody({ roomId = null }) {
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
-  const scrollAnalysisPanelIntoView = useCallback(() => {
-    requestAnimationFrame(() => {
-      try {
-        const panel = analysisPanelRef.current;
-        if (!panel) return;
-        const mode = panel.dataset?.analysisMode;
-        if (mode === "overlay" || mode === "expanded") return;
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      } catch {}
-    });
-  }, []);
-  const ensureAnalysisPanelVisible = useCallback(() => {
-    setAnalysisCollapsed(false);
-    setAnalysisPanelOpen(true);
-    scrollAnalysisPanelIntoView();
-  }, [scrollAnalysisPanelIntoView]);
-  const toggleAnalysisCollapse = useCallback(() => {
-    if (!hasAnalysisContent) return;
-    setAnalysisCollapsed((prev) => !prev);
-  }, [hasAnalysisContent]);
-  const closeAnalysisPanel = useCallback(() => {
-    if (hasAnalysisContent) return;
-    setAnalysisPanelOpen(false);
-    setAnalysisCollapsed(false);
-  }, [hasAnalysisContent]);
-  useEffect(() => {
-    if (hasAnyAnalysisState) {
-      setAnalysisCollapsed(false);
-      setAnalysisPanelOpen(true);
-      scrollAnalysisPanelIntoView();
-    } else {
-      setAnalysisCollapsed(false);
-    }
-  }, [hasAnyAnalysisState, scrollAnalysisPanelIntoView]);
-
-  useLayoutEffect(() => {
-    if (isMobileViewport || !showAnalysisPanel || isAnalysisExpanded) {
-      setAnalysisPanelInline(false);
-      return;
-    }
-    const node = chatWindowRef.current;
-    if (!node) return;
-    const updateLayout = () => {
-      const hasOverflow = node.scrollHeight - node.clientHeight > 8;
-      setAnalysisPanelInline((prev) => {
-        const next = !hasOverflow;
-        return prev === next ? prev : next;
-      });
-    };
-    updateLayout();
-    window.addEventListener("resize", updateLayout);
-    let ro;
-    if (typeof ResizeObserver !== "undefined") {
-      ro = new ResizeObserver(updateLayout);
-      ro.observe(node);
-    }
-    return () => {
-      window.removeEventListener("resize", updateLayout);
-      ro?.disconnect?.();
-    };
-  }, [isMobileViewport, showAnalysisPanel, isAnalysisExpanded, visibleMessages.length]);
-
-  const refreshUsage = useCallback(async () => {
-    if (!session?.user?.id) return;
-    try {
-      const res = await fetch("/api/chat/analyze-usage", { cache: "no-store" });
-      if (!res.ok) return;
-      const data = await res.json().catch(() => null);
-      if (data?.ok) {
-        setUploadUsage({
-          used: typeof data.used === "number" ? data.used : 0,
-          limit: typeof data.limit === "number" ? data.limit : 0,
-        });
-      }
-    } catch {}
-  }, [session?.user?.id]);
-
-  useEffect(() => {
-    refreshUsage();
-  }, [refreshUsage]);
 
   const requestConversationsRefresh = useCallback(() => {
     try {
@@ -514,9 +291,9 @@ export default function ChatBody({ roomId = null }) {
     historyPayload,
     userRole,
     locale,
-    docOnlyMode,
-    ephemeralChunks,
-    uploadPreview,
+    docOnlyMode: analysis.docOnlyMode,
+    ephemeralChunks: analysis.ephemeralChunks,
+    uploadPreview: analysis.uploadPreview,
     isRoomMode,
     roomId,
     roomBlocked,
@@ -541,8 +318,11 @@ export default function ChatBody({ roomId = null }) {
   useEffect(() => {
     setIsGeneratingForSave(isGenerating);
   }, [isGenerating]);
+  useEffect(() => {
+    isGeneratingRef.current = isGenerating;
+  }, [isGenerating]);
 
-  /* ---------- Vestluse vahetus s??t?????ndmus ---------- */
+  /* ---------- Vestluse vahetus sündmus ---------- */
   useEffect(() => {
     function onSwitch(e) {
       const newId = e?.detail?.convId;
@@ -573,76 +353,6 @@ export default function ChatBody({ roomId = null }) {
       closeSourcesPanel();
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
-
-  const onPickFile = useCallback(() => {
-    ensureAnalysisPanelVisible();
-    if (uploadBusy || isGenerating) return;
-    setUploadError(null);
-    try {
-      fileInputRef.current?.click?.();
-    } catch {}
-  }, [ensureAnalysisPanelVisible, isGenerating, uploadBusy]);
-
-  const onFileChange = useCallback(
-    async (e) => {
-      const file = e.target?.files?.[0];
-      if (!file) return;
-      setUploadError(null);
-      setDocOnlyMode(true);
-      const sizeMB = file.size / (1024 * 1024);
-      if (sizeMB > MAX_UPLOAD_MB) {
-        const sizeError = t("chat.upload.error_size", "Fail on liiga suur ({size}MB > {limit}MB).")
-          .replace("{size}", sizeMB.toFixed(1))
-          .replace("{limit}", String(MAX_UPLOAD_MB));
-        setUploadError(sizeError);
-        e.target.value = "";
-        return;
-      }
-      try {
-        setUploadBusy(true);
-        const fd = new FormData();
-        fd.append("file", file, file.name || "file");
-        fd.append("mimeType", file.type || "");
-        const res = await fetch("/api/chat/analyze-file", { method: "POST", body: fd });
-        const data = await res.json().catch(() => ({ ok: false }));
-        if (!res.ok || !data?.ok) {
-          const statusError = t(
-            "chat.upload.error_status",
-            "Dokumendi analüüs ebaõnnestus (veakood {status})."
-          ).replace("{status}", String(res.status));
-          throw new Error(data?.message || statusError);
-        }
-        const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
-        setUploadPreview({
-          fileName: data.fileName || file.name,
-          sizeMB:
-            typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
-          mimeType: data.mimeType || file.type,
-          preview: data.preview || "",
-          fullText:
-            typeof data.fullText === "string" && data.fullText.trim()
-              ? data.fullText
-              : chunksArray.length
-              ? chunksArray.join("\n\n")
-              : data.preview || "",
-          chunksCount: chunksArray.length,
-        });
-        setEphemeralChunks(chunksArray);
-        setDocOnlyMode(true);
-        refreshUsage();
-      } catch (err) {
-        const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
-        setUploadError(err?.message || genericError);
-        setUploadPreview(null);
-        setEphemeralChunks([]);
-        setDocOnlyMode(true);
-      } finally {
-        setUploadBusy(false);
-        e.target.value = "";
-      }
-    },
-    [MAX_UPLOAD_MB, refreshUsage, t]
-  );
 
   const scrollToBottom = useCallback(() => {
     const node = chatWindowRef.current;
@@ -694,7 +404,7 @@ export default function ChatBody({ roomId = null }) {
       <InviteModal />
       <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
         <div
-          className={`main-content glass-box chat-container chat-container--round${showAnalysisPanel ? " chat-container--analysis-open" : ""}${isAnalysisExpanded ? " chat-container--analysis-expanded" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
+          className={`main-content glass-box chat-container chat-container--round${analysis.showAnalysisPanel ? " chat-container--analysis-open" : ""}${isAnalysisExpanded ? " chat-container--analysis-expanded" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
           role="region"
           aria-label={t("chat.page_label", "Vestluse sisu")}
           data-chat-bg={
@@ -827,10 +537,10 @@ export default function ChatBody({ roomId = null }) {
       <ChatComposer
         t={t}
         isLightTheme={isLightTheme}
-        acceptAttr={ACCEPT_ATTR}
-        ensureAnalysisPanelVisible={ensureAnalysisPanelVisible}
-        fileInputRef={fileInputRef}
-        onFileChange={onFileChange}
+        acceptAttr={analysis.acceptAttr}
+        ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible}
+        fileInputRef={analysis.fileInputRef}
+        onFileChange={analysis.onFileChange}
         inputBarRef={inputBarRef}
         inputRef={inputRef}
         onFocusInput={() => setInputFocused(true)}
@@ -878,35 +588,35 @@ export default function ChatBody({ roomId = null }) {
         </div>
       ) : null}
 
-      {showAnalysisPanel ? (
+      {analysis.showAnalysisPanel ? (
         <ChatAnalysisPanel
           t={t}
-          analysisPanelRef={analysisPanelRef}
-          analysisPanelMode={analysisPanelMode}
-          uploadPreview={uploadPreview}
-          uploadBusy={uploadBusy}
-          uploadError={uploadError}
-          uploadUsage={uploadUsage}
-          previewText={previewText}
-          analysisCollapsed={analysisCollapsed}
-          toggleAnalysisCollapse={toggleAnalysisCollapse}
-          docOnlyMode={docOnlyMode}
-          setDocOnlyMode={setDocOnlyMode}
+          analysisPanelRef={analysis.analysisPanelRef}
+          analysisPanelMode={analysis.analysisPanelMode}
+          uploadPreview={analysis.uploadPreview}
+          uploadBusy={analysis.uploadBusy}
+          uploadError={analysis.uploadError}
+          uploadUsage={analysis.uploadUsage}
+          previewText={analysis.previewText}
+          analysisCollapsed={analysis.analysisCollapsed}
+          toggleAnalysisCollapse={analysis.toggleAnalysisCollapse}
+          docOnlyMode={analysis.docOnlyMode}
+          setDocOnlyMode={analysis.setDocOnlyMode}
           extendedLabel={extendedLabel}
           contextHint={contextHint}
           inputRef={inputRef}
-          onPickFile={onPickFile}
-          setUploadPreview={setUploadPreview}
-          setUploadError={setUploadError}
-          setEphemeralChunks={setEphemeralChunks}
-          closeAnalysisPanel={closeAnalysisPanel}
+          onPickFile={analysis.onPickFile}
+          setUploadPreview={analysis.setUploadPreview}
+          setUploadError={analysis.setUploadError}
+          setEphemeralChunks={analysis.setEphemeralChunks}
+          closeAnalysisPanel={analysis.closeAnalysisPanel}
           isGenerating={isGenerating}
           prettifyFileName={prettifyFileName}
         />
       ) : null}
 
-      <footer className={`chat-footer${showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
-        <BackButton />
+      <footer className={`chat-footer${analysis.showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
+        {analysis.showAnalysisPanel ? null : <BackButton />}
       </footer>
       <ChatSourcesPanel
         open={showSourcesPanel}
