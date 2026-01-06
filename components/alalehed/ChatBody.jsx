@@ -196,6 +196,7 @@ export default function ChatBody({ roomId = null }) {
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef,
   });
+  const keepInputFocusLayout = inputFocused || analysis.showAnalysisPanel;
 
   const {
     speechReady,
@@ -403,7 +404,7 @@ export default function ChatBody({ roomId = null }) {
       <InviteModal />
       <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
         <div
-          className={`main-content glass-box chat-container chat-container--round${analysis.showAnalysisPanel ? " chat-container--analysis-open" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
+          className={`main-content glass-box chat-container chat-container--round${analysis.showAnalysisPanel ? " chat-container--analysis-open" : ""}${keepInputFocusLayout ? " chat-container--input-focus" : ""}`}
           role="region"
           aria-label={t("chat.page_label", "Vestluse sisu")}
           data-chat-bg={
