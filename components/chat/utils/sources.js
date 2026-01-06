@@ -145,6 +145,17 @@ export function normalizeSources(sources) {
     const year =
       typeof src?.year === "number" || typeof src?.year === "string" ? src.year : undefined;
 
+    const sourceType =
+      typeof src?.sourceType === "string"
+        ? src.sourceType
+        : typeof src?.source_type === "string"
+        ? src.source_type
+        : typeof src?.origin === "string"
+        ? src.origin
+        : typeof src?.type === "string"
+        ? src.type
+        : undefined;
+
     return {
       key,
       label,
@@ -152,6 +163,9 @@ export function normalizeSources(sources) {
       page,
       pageRange: pageLabel || undefined,
       fileName: src?.fileName,
+      sourceType,
+      source_type: typeof src?.source_type === "string" ? src.source_type : undefined,
+      origin: typeof src?.origin === "string" ? src.origin : undefined,
       short_ref: typeof src?.short_ref === "string" ? src?.short_ref : undefined,
       journalTitle: typeof src?.journalTitle === "string" ? src?.journalTitle : undefined,
       authors,

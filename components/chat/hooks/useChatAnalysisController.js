@@ -56,6 +56,20 @@ export function useChatAnalysisController({
     return () => mq.removeListener(update);
   }, []);
 
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const ensureOpen = () => {
+      if (!uploadPreview) return;
+      setAnalysisPanelOpen(true);
+    };
+    document.addEventListener("visibilitychange", ensureOpen);
+    window.addEventListener("focus", ensureOpen);
+    return () => {
+      document.removeEventListener("visibilitychange", ensureOpen);
+      window.removeEventListener("focus", ensureOpen);
+    };
+  }, [uploadPreview]);
+
   const scrollAnalysisPanelIntoView = useCallback((options = {}) => {
     requestAnimationFrame(() => {
       try {

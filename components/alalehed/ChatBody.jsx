@@ -248,7 +248,7 @@ export default function ChatBody({ roomId = null }) {
     ));
   }, [renderedMessages, isRoomMode, t]);
   const { conversationSources, hasConversationSources, sourcesPulse } =
-    useConversationSources({ messages, showSourcesPanel });
+    useConversationSources({ messages, showSourcesPanel, uploadPreview: analysis.uploadPreview });
 
   /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
