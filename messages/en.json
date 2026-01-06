@@ -431,7 +431,28 @@
       },
       "confirm": {
         "delete_selected": "Delete selected chats?",
-        "delete_all": "Delete all chats?"
+        "delete_all": "Delete all chats?",
+        "delete": "Delete this conversation?"
+      },
+      "error": {
+        "load": "Failed to load conversations.",
+        "history": "Conversation history is currently unavailable.",
+        "create": "Could not create a new conversation.",
+        "delete": "Could not delete the conversation."
+      },
+      "aria_list": "Conversation list",
+      "button": {
+        "creating": "Creating...",
+        "new": "New conversation",
+        "refresh": "Refresh",
+        "more": "Load more"
+      },
+      "empty": "No conversations yet.",
+      "empty_cta": "Create the first one",
+      "item": {
+        "fallback_title": "Conversation",
+        "delete": "Delete conversation",
+        "delete_title": "Delete"
       }
     },
     "profile": {
@@ -484,31 +505,6 @@
       "open_indexed": "Open ({index})",
       "fallback_label": "Source",
       "page_prefix": "pp."
-    },
-    "sidebar": {
-      "error": {
-        "load": "Failed to load conversations.",
-        "history": "Conversation history is currently unavailable.",
-        "create": "Could not create a new conversation.",
-        "delete": "Could not delete the conversation."
-      },
-      "confirm": {
-        "delete": "Delete this conversation?"
-      },
-      "aria_list": "Conversation list",
-      "button": {
-        "creating": "Creating...",
-        "new": "New conversation",
-        "refresh": "Refresh",
-        "more": "Load more"
-      },
-      "empty": "No conversations yet.",
-      "empty_cta": "Create the first one",
-      "item": {
-        "fallback_title": "Conversation",
-        "delete": "Delete conversation",
-        "delete_title": "Delete"
-      }
     },
     "upload": {
       "aria": "Upload a document for analysis (not stored permanently)",
