@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { useI18n } from "@/components/i18n/I18nProvider";

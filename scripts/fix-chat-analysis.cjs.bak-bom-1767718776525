@@ -1,4 +1,4 @@
-// Fix chat analysis header + empty state layout in ChatBody.jsx
+﻿// Fix chat analysis header + empty state layout in ChatBody.jsx
 
 const fs = require("fs");
 const path = require("path");

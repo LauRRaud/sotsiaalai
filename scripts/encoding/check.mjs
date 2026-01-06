@@ -29,6 +29,7 @@ function isTextFile(p) {
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
     if (name === "node_modules" || name === ".next" || name === ".git") continue;
+    if (name === "encoding" && path.basename(dir) === "scripts") continue;
     const full = path.join(dir, name);
     const st = fs.statSync(full);
     if (st.isDirectory()) walk(full, out);

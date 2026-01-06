@@ -233,8 +233,8 @@ export function useChatStream(config) {
         const retry = res.headers.get("retry-after");
         throw new Error(
           retry
-              ? `Liiga palju päringuid. Proovi ~${retry}s pärast.`
-              : "Liiga palju päringuid. Proovi varsti uuesti."
+              ? `Liiga palju p’┐Įringuid. Proovi ~${retry}s p’┐Įrast.`
+              : "Liiga palju p’┐Įringuid. Proovi varsti uuesti."
         );
       }
 
@@ -336,7 +336,7 @@ export function useChatStream(config) {
           cfg.appendMessage?.({ role: "ai", text: "Vastuse genereerimine peatati." });
         }
       } else {
-          const errText = err?.message || "Vabandust, vastust ei õnnestunud saada.";
+          const errText = err?.message || "Vabandust, vastust ei ’┐Įnnestunud saada.";
         cfg.setErrorBanner?.(errText);
 
         if (streamingMessageId != null) {

@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "skip_to_content": "Jätka sisuni",
     "language_changed": "Keel muudetud: {language}",
@@ -431,7 +431,28 @@
       },
       "confirm": {
         "delete_selected": "Kustutada valitud vestlused?",
-        "delete_all": "Kustutada kõik vestlused?"
+        "delete_all": "Kustutada kõik vestlused?",
+        "delete": "Kas kustutada see vestlus?"
+      },
+      "error": {
+        "load": "Vestluste laadimine eba?nnestus.",
+        "history": "Vestluste ajalugu ei ole praegu saadaval.",
+        "create": "Uue vestluse loomine eba?nnestus.",
+        "delete": "Vestluse kustutamine eba?nnestus."
+      },
+      "aria_list": "Vestluste loend",
+      "button": {
+        "creating": "Loon",
+        "new": "Uus vestlus",
+        "refresh": "V?rskenda",
+        "more": "Lae veel"
+      },
+      "empty": "Vestlusi pole.",
+      "empty_cta": "Loo esimene",
+      "item": {
+        "fallback_title": "Vestlus",
+        "delete": "Kustuta vestlus",
+        "delete_title": "Kustuta"
       }
     },
     "profile": {
@@ -484,31 +505,6 @@
       "open_indexed": "Ava ({index})",
       "fallback_label": "Allikas",
       "page_prefix": "lk"
-    },
-    "sidebar": {
-      "error": {
-        "load": "Vestluste laadimine ebaõnnestus.",
-        "history": "Vestluste ajalugu ei ole praegu saadaval.",
-        "create": "Uue vestluse loomine ebaõnnestus.",
-        "delete": "Vestluse kustutamine ebaõnnestus."
-      },
-      "confirm": {
-        "delete": "Kas kustutada see vestlus?"
-      },
-      "aria_list": "Vestluste loend",
-      "button": {
-        "creating": "Loon…",
-        "new": "Uus vestlus",
-        "refresh": "Värskenda",
-        "more": "Lae veel"
-      },
-      "empty": "Vestlusi pole.",
-      "empty_cta": "Loo esimene",
-      "item": {
-        "fallback_title": "Vestlus",
-        "delete": "Kustuta vestlus",
-        "delete_title": "Kustuta"
-      }
     },
     "upload": {
       "aria": "Laadi dokument",

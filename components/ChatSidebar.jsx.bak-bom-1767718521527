@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -177,7 +177,7 @@ export default function ChatSidebar() {
       abortRef.current?.abort();
       roomsAbortRef.current?.abort();
     };
-  }, [refreshAll, scheduleVisibilityRefresh]); // NB: mõlemad viited on stabiilsed
+  }, [refreshAll, scheduleVisibilityRefresh]); // NB: m?�lemad viited on stabiilsed
   useEffect(() => {
     if (!selectMode) return;
     setSelectedIds((prev) => {
@@ -406,7 +406,7 @@ export default function ChatSidebar() {
       aria-label={t("chat.sidebar.aria_list")}
       aria-busy={isLoading || creating ? "true" : "false"}
     >
-      {/* Alariba: Uus vestlus + Refresh */}
+      {/* �olariba: Uus vestlus + Refresh */}
         <div className="cs-actions">
           <button
           className="btn-base cs-btn cs-btn--primary"
@@ -601,7 +601,4 @@ export default function ChatSidebar() {
     </nav>
   );
 }
-
-
-
 
