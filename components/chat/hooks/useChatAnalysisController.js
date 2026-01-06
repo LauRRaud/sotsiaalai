@@ -60,7 +60,9 @@ export function useChatAnalysisController({
       try {
         const panel = analysisPanelRef.current;
         if (!panel) return;
+        if (!panel.closest(".chat-container")) return;
         const mode = panel.dataset?.analysisMode;
+        if (!mode) return;
         if (mode === "overlay" || mode === "expanded") return;
         panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       } catch {}

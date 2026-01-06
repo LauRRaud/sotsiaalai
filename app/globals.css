@@ -11034,6 +11034,7 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   justify-content: flex-start;
   padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow-anchor: none;
 }
 .chat-page-shell.chat-entering .glass-box.chat-container{
   filter: blur(14px);
