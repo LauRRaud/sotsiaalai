@@ -1757,6 +1757,10 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   align-items: center;
   margin-top: 0.4rem;
 }
+.chat-back-btn-wrapper.is-hidden{
+  visibility: hidden;
+  pointer-events: none;
+}
 .profile-container .alaleht-footer{
   padding-top: 0.8em;
   margin-top: 0;

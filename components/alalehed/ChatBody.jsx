@@ -346,6 +346,32 @@ export default function ChatBody({ roomId = null }) {
     };
   }, [stop]);
 
+  useEffect(() => {
+    if (!analysis.showAnalysisPanel) return;
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+    setInputFocused(false);
+  }, [analysis.showAnalysisPanel]);
+
+  useEffect(() => {
+    if (!analysis.showAnalysisPanel) return;
+    if (typeof window === "undefined") return;
+    const scroller = document.scrollingElement || document.documentElement;
+    const y = scroller ? scroller.scrollTop : window.scrollY;
+    const restore = () => {
+      if (scroller) {
+        scroller.scrollTop = y;
+      } else {
+        window.scrollTo({ top: y, behavior: "auto" });
+      }
+    };
+    requestAnimationFrame(restore);
+    setTimeout(restore, 0);
+    setTimeout(restore, 120);
+    setTimeout(restore, 260);
+  }, [analysis.showAnalysisPanel]);
+
   /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
@@ -377,13 +403,17 @@ export default function ChatBody({ roomId = null }) {
     });
   }, []);
 
-  const BackButton = () => (
-    <div className="chat-back-btn-wrapper">
+  const BackButton = ({ hidden }) => (
+    <div
+      className={`chat-back-btn-wrapper${hidden ? " is-hidden" : ""}`}
+      aria-hidden={hidden ? "true" : "false"}
+    >
       <button
         type="button"
         className="back-arrow-btn"
         onClick={() => pushWithTransition(router, "/")}
         aria-label={t("chat.back_to_home", "Tagasi avalehele")}
+        tabIndex={hidden ? -1 : undefined}
       >
         <span className="back-arrow-circle" />
       </button>
@@ -588,7 +618,7 @@ export default function ChatBody({ roomId = null }) {
       ) : null}
 
       <footer className="chat-footer">
-        {analysis.showAnalysisPanel ? null : <BackButton />}
+        <BackButton hidden={analysis.showAnalysisPanel} />
       </footer>
       <ChatSourcesPanel
         open={showSourcesPanel}

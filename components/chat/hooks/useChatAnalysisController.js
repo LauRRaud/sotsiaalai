@@ -22,6 +22,7 @@ export function useChatAnalysisController({
 
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);
+  const pageScrollRef = useRef(null);
 
   const hasAnalysisContent = !!(uploadPreview || uploadBusy);
   const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
@@ -68,10 +69,21 @@ export function useChatAnalysisController({
       } catch {}
     });
   }, []);
+  const capturePageScroll = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const scroller = document.scrollingElement || document.documentElement;
+    pageScrollRef.current = scroller ? scroller.scrollTop : window.scrollY;
+  }, []);
+
   const preservePageScroll = useCallback(() => {
     if (typeof window === "undefined") return;
     const scroller = document.scrollingElement || document.documentElement;
-    const y = scroller ? scroller.scrollTop : window.scrollY;
+    const y =
+      typeof pageScrollRef.current === "number"
+        ? pageScrollRef.current
+        : scroller
+        ? scroller.scrollTop
+        : window.scrollY;
     const restore = () => {
       if (scroller) {
         scroller.scrollTop = y;
@@ -82,14 +94,17 @@ export function useChatAnalysisController({
     requestAnimationFrame(restore);
     setTimeout(restore, 0);
     setTimeout(restore, 80);
+    setTimeout(restore, 200);
+    setTimeout(restore, 350);
   }, []);
 
   const ensureAnalysisPanelVisible = useCallback(() => {
+    capturePageScroll();
     preservePageScroll();
     setAnalysisCollapsed(false);
     setAnalysisPanelOpen(true);
     scrollAnalysisPanelIntoView();
-  }, [preservePageScroll, scrollAnalysisPanelIntoView]);
+  }, [capturePageScroll, preservePageScroll, scrollAnalysisPanelIntoView]);
 
   const toggleAnalysisCollapse = useCallback(() => {
     if (!hasAnalysisContent) return;
@@ -104,6 +119,7 @@ export function useChatAnalysisController({
 
   useEffect(() => {
     if (hasAnyAnalysisState) {
+      capturePageScroll();
       preservePageScroll();
       setAnalysisCollapsed(false);
       setAnalysisPanelOpen(true);
@@ -111,7 +127,12 @@ export function useChatAnalysisController({
     } else {
       setAnalysisCollapsed(false);
     }
-  }, [hasAnyAnalysisState, preservePageScroll, scrollAnalysisPanelIntoView]);
+  }, [hasAnyAnalysisState, capturePageScroll, preservePageScroll, scrollAnalysisPanelIntoView]);
+
+  useLayoutEffect(() => {
+    if (!showAnalysisPanel) return;
+    preservePageScroll();
+  }, [showAnalysisPanel, uploadPreview, preservePageScroll]);
 
   useLayoutEffect(() => {
     if (isMobileViewport || !showAnalysisPanel || isAnalysisExpanded) {
