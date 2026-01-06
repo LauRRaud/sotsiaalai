@@ -356,6 +356,7 @@ export default function ChatBody({ roomId = null }) {
 
   useEffect(() => {
     if (!analysis.showAnalysisPanel) return;
+    if (analysis.uploadPreview) return;
     if (typeof window === "undefined") return;
     const scroller = document.scrollingElement || document.documentElement;
     const y = scroller ? scroller.scrollTop : window.scrollY;
@@ -370,7 +371,7 @@ export default function ChatBody({ roomId = null }) {
     setTimeout(restore, 0);
     setTimeout(restore, 120);
     setTimeout(restore, 260);
-  }, [analysis.showAnalysisPanel]);
+  }, [analysis.showAnalysisPanel, analysis.uploadPreview]);
 
   /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {

@@ -56,16 +56,22 @@ export function useChatAnalysisController({
     return () => mq.removeListener(update);
   }, []);
 
-  const scrollAnalysisPanelIntoView = useCallback(() => {
+  const scrollAnalysisPanelIntoView = useCallback((options = {}) => {
     requestAnimationFrame(() => {
       try {
         const panel = analysisPanelRef.current;
         if (!panel) return;
-        if (!panel.closest(".chat-container")) return;
         const mode = panel.dataset?.analysisMode;
-        if (!mode) return;
-        if (mode === "overlay" || mode === "expanded") return;
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        const force = !!options.force;
+        if (!force) {
+          if (!panel.closest(".chat-container")) return;
+          if (!mode) return;
+          if (mode === "overlay" || mode === "expanded") return;
+        }
+        panel.scrollIntoView({
+          behavior: options.behavior || "smooth",
+          block: options.block || "nearest",
+        });
       } catch {}
     });
   }, []);
@@ -109,7 +115,16 @@ export function useChatAnalysisController({
   const toggleAnalysisCollapse = useCallback(() => {
     if (!hasAnalysisContent) return;
     setAnalysisCollapsed((prev) => !prev);
-  }, [hasAnalysisContent]);
+    scrollAnalysisPanelIntoView({ force: true, behavior: "auto", block: "start" });
+    setTimeout(
+      () => scrollAnalysisPanelIntoView({ force: true, behavior: "auto", block: "start" }),
+      120
+    );
+    setTimeout(
+      () => scrollAnalysisPanelIntoView({ force: true, behavior: "auto", block: "start" }),
+      260
+    );
+  }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
 
   const closeAnalysisPanel = useCallback(() => {
     if (hasAnalysisContent) return;
@@ -119,18 +134,31 @@ export function useChatAnalysisController({
 
   useEffect(() => {
     if (hasAnyAnalysisState) {
-      capturePageScroll();
-      preservePageScroll();
+      if (!uploadPreview) {
+        capturePageScroll();
+        preservePageScroll();
+      }
       setAnalysisCollapsed(false);
       setAnalysisPanelOpen(true);
-      scrollAnalysisPanelIntoView();
+      if (uploadPreview) {
+        scrollAnalysisPanelIntoView({ force: true, block: "start" });
+      } else {
+        scrollAnalysisPanelIntoView();
+      }
     } else {
       setAnalysisCollapsed(false);
     }
-  }, [hasAnyAnalysisState, capturePageScroll, preservePageScroll, scrollAnalysisPanelIntoView]);
+  }, [
+    hasAnyAnalysisState,
+    uploadPreview,
+    capturePageScroll,
+    preservePageScroll,
+    scrollAnalysisPanelIntoView,
+  ]);
 
   useLayoutEffect(() => {
     if (!showAnalysisPanel) return;
+    if (uploadPreview) return;
     preservePageScroll();
   }, [showAnalysisPanel, uploadPreview, preservePageScroll]);
 
@@ -272,7 +300,6 @@ export function useChatAnalysisController({
         }
 
         const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
-        preservePageScroll();
         setUploadPreview({
           fileName: data.fileName || file.name,
           sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
@@ -286,6 +313,9 @@ export function useChatAnalysisController({
               : data.preview || "",
           chunksCount: chunksArray.length,
         });
+        scrollAnalysisPanelIntoView({ force: true, block: "start" });
+        setTimeout(() => scrollAnalysisPanelIntoView({ force: true, block: "start" }), 120);
+        setTimeout(() => scrollAnalysisPanelIntoView({ force: true, block: "start" }), 260);
 
         setEphemeralChunks(chunksArray);
         setDocOnlyMode(true);
@@ -297,12 +327,11 @@ export function useChatAnalysisController({
         setEphemeralChunks([]);
         setDocOnlyMode(true);
       } finally {
-        preservePageScroll();
         setUploadBusy(false);
         e.target.value = "";
       }
     },
-    [MAX_UPLOAD_MB, preservePageScroll, refreshUsage, t]
+    [MAX_UPLOAD_MB, refreshUsage, scrollAnalysisPanelIntoView, t]
   );
 
   return {
