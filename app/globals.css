@@ -6108,7 +6108,7 @@ backdrop-filter: none;
   padding:0 var(--chat-hpad, clamp(0.8rem, 2.6vw, 1.6rem));
   margin-left:auto;
   margin-right:auto;
-  margin-top: clamp(0.55rem, 1.25vw, 0.8rem);
+  margin-top: clamp(0.3rem, 0.8vw, 0.5rem);
   margin-bottom: clamp(1.2rem, 3vw, 2rem);
   position:relative;
   z-index:4;
@@ -6118,9 +6118,9 @@ backdrop-filter: none;
   position: fixed;
   left: 50%;
   right: auto;
-  bottom: max(env(safe-area-inset-bottom, 0px), 1.1rem);
+  bottom: max(env(safe-area-inset-bottom, 0px), 1.6rem);
   margin: 0;
-  width: min(88vw, 34rem);
+  width: min(62vw, 24rem);
   transform: translateX(-50%);
   z-index: 30;
   pointer-events: auto;
@@ -6133,7 +6133,7 @@ backdrop-filter: none;
 }
 .chat-analysis-panel--expanded{
   position: relative;
-  margin-top: clamp(0.55rem, 1.25vw, 0.8rem);
+  margin-top: clamp(0.3rem, 0.8vw, 0.5rem);
   padding: 0 clamp(0.05rem, 0.8vw, 0.55rem);
 }
 .chat-container--analysis-expanded .chat-window{
@@ -6176,7 +6176,7 @@ backdrop-filter: none;
   padding: var(--analysis-card-pad-y) var(--analysis-card-pad-x) var(--analysis-card-pad-b);
   width: 100%;
   max-width: none;
-  margin: clamp(1.4rem, 4vw, 2rem) auto 0;
+  margin: clamp(0.7rem, 2vw, 1rem) auto 0;
   letter-spacing: 0.035em;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
