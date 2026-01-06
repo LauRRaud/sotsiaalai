@@ -450,7 +450,6 @@
     "scroll_to_bottom": "Kerige chati lõppu",
     "scroll_to_bottom_title": "Kerige lõppu",
     "show_older": "Näita varasemaid",
-    "show_recent": "Näita vähem",
     "left": "veel",
     "input": {
       "label": "Kirjuta sõnum",
@@ -757,9 +756,5 @@
     "resend": "Saada uuesti"
   }
 }
-
-
-
-
 
 

@@ -450,7 +450,6 @@
     "scroll_to_bottom": "Scroll to bottom of chat",
     "scroll_to_bottom_title": "Scroll to bottom",
     "show_older": "Show earlier",
-    "show_recent": "Show fewer",
     "left": "left",
     "input": {
       "label": "Write a message",
@@ -757,9 +756,5 @@
     "resend": "Resend"
   }
 }
-
-
-
-
 
 
