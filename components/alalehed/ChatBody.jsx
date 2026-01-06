@@ -196,7 +196,6 @@ export default function ChatBody({ roomId = null }) {
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef,
   });
-  const isAnalysisExpanded = analysis.analysisPanelMode === "expanded";
 
   const {
     speechReady,
@@ -404,7 +403,7 @@ export default function ChatBody({ roomId = null }) {
       <InviteModal />
       <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
         <div
-          className={`main-content glass-box chat-container chat-container--round${analysis.showAnalysisPanel ? " chat-container--analysis-open" : ""}${isAnalysisExpanded ? " chat-container--analysis-expanded" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
+          className={`main-content glass-box chat-container chat-container--round${analysis.showAnalysisPanel ? " chat-container--analysis-open" : ""}${inputFocused ? " chat-container--input-focus" : ""}`}
           role="region"
           aria-label={t("chat.page_label", "Vestluse sisu")}
           data-chat-bg={
@@ -588,6 +587,18 @@ export default function ChatBody({ roomId = null }) {
         </div>
       ) : null}
 
+      <footer className={`chat-footer${analysis.showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
+        {analysis.showAnalysisPanel ? null : <BackButton />}
+      </footer>
+      <ChatSourcesPanel
+        open={showSourcesPanel}
+        t={t}
+        conversationSources={conversationSources}
+        onClose={closeSourcesPanel}
+        returnFocusRef={sourcesButtonRef}
+      />
+
+      </div>
       {analysis.showAnalysisPanel ? (
         <ChatAnalysisPanel
           t={t}
@@ -614,19 +625,6 @@ export default function ChatBody({ roomId = null }) {
           prettifyFileName={prettifyFileName}
         />
       ) : null}
-
-      <footer className={`chat-footer${analysis.showAnalysisPanel ? " chat-footer--analysis-open" : ""}`}>
-        {analysis.showAnalysisPanel ? null : <BackButton />}
-      </footer>
-      <ChatSourcesPanel
-        open={showSourcesPanel}
-        t={t}
-        conversationSources={conversationSources}
-        onClose={closeSourcesPanel}
-        returnFocusRef={sourcesButtonRef}
-      />
-
-      </div>
     </div>
     </>
   );
