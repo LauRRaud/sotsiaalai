@@ -593,24 +593,24 @@
 
 .profile-orbit-mobile-action.dock-item {
   /* Larger buttons on mobile to fit text below icons */
-  width: clamp(8.4rem, 56vw, 12rem);
-  min-height: clamp(8.4rem, 56vw, 12rem);
+  width: clamp(9rem, 58vw, 12.8rem);
+  min-height: clamp(9rem, 58vw, 12.8rem);
   height: auto;
   border-radius: 999px;
-  padding: 0.55rem 1rem 0.7rem;
+  padding: 0.9rem 1rem 0.7rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: clamp(0.25rem, 1.1vw, 0.5rem);
+  justify-content: flex-start;
+  gap: clamp(0.2rem, 1vw, 0.45rem);
 
   position: relative;
   transform: translateZ(0);
 }
 /* Force mobile palette to match desktop */
 .profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item {
-  color: var(--orbit-mobile-accent, #c57171);
+  color: var(--orbit-mobile-accent, #c57171) !important;
 }
 
 /* Give active item a bit more depth (without needing extra JS) */
@@ -634,15 +634,15 @@
   display: grid;
   place-items: center;
   line-height: 0;
-  min-height: clamp(2.2rem, 12vw, 3.2rem);
+  min-height: clamp(2.6rem, 14vw, 3.8rem);
 }
 
 /* Larger icons to match bigger buttons */
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
-  width: 58%;
-  height: 58%;
-  max-width: clamp(3.2rem, 16vw, 4.4rem);
-  max-height: clamp(3.2rem, 16vw, 4.4rem);
+  width: 68%;
+  height: 68%;
+  max-width: clamp(3.8rem, 19vw, 5.2rem);
+  max-height: clamp(3.8rem, 19vw, 5.2rem);
   color: inherit;
   stroke: currentColor;
   opacity: 0.95;
@@ -687,6 +687,7 @@
   position: static;
   width: 100%;
   flex-shrink: 0;
+  order: -1;
 
   text-align: center;
   line-height: 1.1;
@@ -696,7 +697,8 @@
   /* Larger text to match bigger buttons */
   font-size: clamp(1.1rem, 3.9vw, 1.5rem);
 
-  margin-top: 0.1rem;
+  margin-top: 0;
+  margin-bottom: clamp(0.25rem, 1.1vw, 0.55rem);
   padding: 0;
   border-radius: 0;
   opacity: 0;
@@ -715,14 +717,14 @@
 
 /* Theme-specific label surface */
 :root:not(.theme-light) .profile-orbit-mobile-action__label {
-  color: var(--orbit-mobile-accent, #c57171);
+  color: var(--orbit-mobile-accent, #c57171) !important;
   background: transparent;
   border: none;
   text-shadow: 0 2px 8px rgba(0,0,0,0.45);
 }
 
 :root.theme-light .profile-orbit-mobile-action__label {
-  color: var(--orbit-mobile-accent, #7A3A38);
+  color: var(--orbit-mobile-accent, #7A3A38) !important;
   background: transparent;
   border: none;
   text-shadow: 0 2px 8px rgba(255,255,255,0.35);

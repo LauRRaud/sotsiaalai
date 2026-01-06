@@ -104,6 +104,7 @@ export default function UuendaEpostiBody() {
     <InvitePageShell
       title={t("profile.email_update.title", "Uuenda e-post")}
       lang={locale}
+      contentClassName="invite-page-content--wide"
       actions={
         <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
           <span className="back-arrow-circle" />

@@ -52,7 +52,7 @@ export default function UnustasinParooliBody() {
     <InvitePageShell
       title={title}
       lang={locale}
-      contentClassName="invite-page-content--lower"
+      contentClassName="invite-page-content--lower invite-page-content--wide"
       actionsClassName="invite-page-actions--low"
       actions={
         <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>

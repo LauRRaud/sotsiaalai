@@ -735,6 +735,11 @@ body::-webkit-scrollbar {
 .invite-modal.invite-modal--page .invite-classic__content.invite-page-content--wide {
   max-width: clamp(18rem, 60vw, 36rem);
 }
+@media (max-width: 48em) {
+  .invite-modal.invite-modal--page .invite-classic__content.invite-page-content--wide {
+    max-width: min(92vw, 32rem);
+  }
+}
 .invite-modal.invite-modal--page .invite-classic__content.invite-page-content--subscription {
   max-width: clamp(18rem, 48vw, 28rem);
 }
@@ -7581,7 +7586,7 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
     --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
     --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
-    --chat-hpad: calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.15rem);
+    --chat-hpad: calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.05rem);
     --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 15rem);
     gap:.35rem;
     padding-top:.85rem;
@@ -7610,7 +7615,7 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     padding-bottom:.4rem;
     max-height:none;
     flex: 1 1 auto;
-    min-height: clamp(22rem, 65vh, 42rem);
+    min-height: clamp(15rem, 48vh, 30rem);
     overflow-y: auto;
   }
   .chat-container--analysis-expanded .chat-window{
@@ -8353,7 +8358,7 @@ body[data-a11y-scroll-lock="1"] #main{
   .a11y-modal__scroll{
     width: 100%;
     padding: 1.1rem 1.1rem;
-    gap: clamp(0.9rem, 2.6vh, 1.5rem);
+    gap: clamp(1.2rem, 3.6vh, 2.2rem);
   }
   .a11y-modal .a11y-close.modal-close-btn{
     top: clamp(1.2rem, 3.2vh, 1.8rem);
@@ -8382,8 +8387,8 @@ body[data-a11y-scroll-lock="1"] #main{
     --csp-title-offset: clamp(4.4rem, 8.5vh, 6.2rem);
   }
   .a11y-modal .csp-step{
-    min-height: clamp(9rem, 16vh, 12rem);
-    padding: 1rem 0;
+    min-height: clamp(11.5rem, 20vh, 15rem);
+    padding: 1.3rem 0;
   }
   .a11y-modal .a11y-fieldset,
   .a11y-modal .a11y-actions{
@@ -8404,7 +8409,7 @@ body[data-a11y-scroll-lock="1"] #main{
   }
   .a11y-modal .a11y-fieldset{
     margin: 0;
-    gap: 1rem;
+    gap: 1.4rem;
   }
 
 }
@@ -12153,12 +12158,18 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     --login-envelope-hit: clamp(7.6rem, 26vw, 9.4rem);
   }
   .login-modal-root .login-email-toggle{
-    margin-top: 0.6rem;
-    margin-bottom: 1rem;
+    margin-top: clamp(1.4rem, 4.8vh, 3.4rem);
+    margin-bottom: 0.8rem;
   }
   #login-modal .login-modal-head .glass-title {
     font-size: clamp(3rem, 8.8vw, 4.4rem);
     line-height: 1.02;
+  }
+  #login-modal .login-modal-head{
+    margin-top: clamp(1.2rem, 6.2vh, 3.8rem);
+  }
+  #login-modal .glass-title{
+    margin-top: clamp(1.4rem, 7vh, 4.2rem);
   }
   #login-modal .login-modal-bottom-link .link-brand {
     font-size: clamp(1.75rem, 5vw, 2.2rem);
