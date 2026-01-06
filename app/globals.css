@@ -11036,6 +11036,12 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
   padding-bottom: env(safe-area-inset-bottom, 0px);
   overflow-anchor: none;
 }
+/* Fix: keep chat container height stable when input is focused */
+.chat-page-shell .glass-box.chat-container.chat-container--round.chat-container--input-focus{
+  height: var(--chat-diameter) !important;
+  max-height: var(--chat-diameter) !important;
+  block-size: var(--chat-diameter) !important;
+}
 .chat-page-shell.chat-entering .glass-box.chat-container{
   filter: blur(14px);
   opacity: 0.75;
