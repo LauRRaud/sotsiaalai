@@ -735,6 +735,13 @@ body::-webkit-scrollbar {
 .invite-modal.invite-modal--page .invite-classic__content.invite-page-content--wide {
   max-width: clamp(18rem, 60vw, 36rem);
 }
+.invite-modal.invite-modal--page
+  .invite-classic__content.invite-page-content--wide
+  .invite-classic__input {
+  width: min(100%, 22rem);
+  margin-left: auto;
+  margin-right: auto;
+}
 @media (max-width: 48em) {
   .invite-modal.invite-modal--page .invite-classic__content.invite-page-content--wide {
     max-width: min(92vw, 32rem);
@@ -1728,21 +1735,21 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   padding-bottom: 0.1em;
 }
 .chat-footer {
-  margin-top: 0.1rem;
+  margin-top: 0.35rem;
   position: relative;
   display: flex;
   justify-content: center;
 }
 .chat-footer--analysis-open {
-  margin-top: 0.45rem;
+  margin-top: 0.6rem;
 }
 .chat-page-shell .back-arrow-btn{
-  inline-size: 6.2rem;
-  block-size: 6.2rem;
+  inline-size: 5.2rem;
+  block-size: 5.2rem;
 }
 .chat-page-shell .back-arrow-circle{
-  inline-size: 5.7rem;
-  block-size: 5.7rem;
+  inline-size: 4.8rem;
+  block-size: 4.8rem;
 }
 .chat-container .chat-error-banner{
   align-self: center;
@@ -1755,7 +1762,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 }
 .chat-back-btn-wrapper.is-hidden{
   visibility: hidden;
@@ -2413,16 +2420,16 @@ main#main > .main-content.glass-box.profile-container {
   max-width: 26.25rem;
 }
 .profile-btn-row--back-logout {
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: nowrap;
   gap: clamp(0.6rem, 1.6vw, 0.95rem);
   align-items: center;
-  margin-top: clamp(-11.2rem, -21.5vh, -8.1rem);
-  margin-bottom: 0;
-  padding-top: 0;
+  margin: 0;
+  padding: 0;
   transform: none;
   transition: opacity 0.32s ease;
   will-change: opacity;
+  pointer-events: none;
 }
 .profile-btn-row--back-logout .profile-logout-icon-btn {
   margin-top: 0;
@@ -2430,11 +2437,13 @@ main#main > .main-content.glass-box.profile-container {
   block-size: 6.6rem;
   display: grid;
   place-items: center;
+  pointer-events: auto;
 }
 .profile-btn-row--back-logout .back-arrow-btn {
   margin-top: 0;
   inline-size: 6.2rem;
   block-size: 6.2rem;
+  pointer-events: auto;
 }
 .profile-btn-row--back-logout .back-arrow-circle {
   inline-size: 5.7rem;
@@ -2451,6 +2460,17 @@ main#main > .main-content.glass-box.profile-container {
 }
 .profile-btn-row--back-logout .back-arrow-btn:active .back-arrow-circle {
   transform: translateY(0.08rem) scale(0.98);
+}
+
+.profile-page-shell .profile-btn-row--back-logout {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  padding-inline: clamp(0.1rem, 1.2vw, 0.8rem);
+  width: 100%;
+  max-width: none;
+  transform: translateY(-50%);
+  z-index: 3;
 }
 
 html.profile-orbit-open .profile-email-field {
@@ -5923,6 +5943,8 @@ backdrop-filter: none;
     --chat-ai-offset: clamp(1.35rem, 3vw, 2.4rem);
     --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
     --hud-icon: clamp(3rem, 5vw, 3.3rem);
+  --chat-scroll-down-offset: clamp(0.9rem, 2.2vh, 1.8rem);
+  --chat-expanded-delta: 0px;
   --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
   --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
   --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
@@ -5930,7 +5952,7 @@ backdrop-filter: none;
   position: relative; z-index:20;
   display:flex; flex-direction:column; box-sizing:border-box;
   gap:.4rem;
-  padding-top:1.1rem; padding-bottom:1.4rem;
+  padding-top:1.1rem; padding-bottom:0.9rem;
   overflow-y:auto;
   overscroll-behavior:contain;
     scrollbar-width:thin;
@@ -6966,11 +6988,10 @@ backdrop-filter: none;
   letter-spacing:0.02em;
   text-align:center;
   box-shadow:0 0.2rem 0.6rem rgba(0,0,0,0.45);
-  z-index: 40;
+  z-index: 60;
   opacity:0;
   pointer-events:none;
   white-space:normal;
-  z-index:5;
   transition:
     opacity 0.2s ease,
     transform 0.2s ease;
@@ -7575,14 +7596,20 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
 }
 }
 .scroll-down-btn{
-  position:absolute; bottom:11rem; left:50%; transform:translateX(-50%);
+  position:absolute; bottom:var(--chat-scroll-down-offset, 5.6rem); left:50%; transform:translateX(-50%);
   background:none; border:none; padding:0.375rem; cursor: var(--cursor-pointer); z-index:5;
   display:flex; align-items:center; justify-content: center;
   transition: transform .15s ease;
 }
 .scroll-down-btn:hover{ transform: translateX(-50%) scale(1.15); }
-.scroll-down-btn svg{ width:2.25rem; height:2.25rem; stroke: var(--pt-400); stroke-width:3; fill:none; transition: stroke .2s; }
+.scroll-down-btn svg{ width:2.25rem; height:2.25rem; stroke: var(--pt-400); stroke-width:3; fill:none; opacity:0.9; transition: stroke .2s; }
+:root:not(.theme-light) .scroll-down-btn svg{ stroke: #c57171; }
+:root.theme-light .scroll-down-btn svg{ stroke: #7A3A38; }
 .scroll-down-btn:hover svg, .scroll-down-btn:focus svg{ stroke: var(--pt-200); }
+:root:not(.theme-light) .scroll-down-btn:hover svg,
+:root:not(.theme-light) .scroll-down-btn:focus svg{ stroke: #c57171; }
+:root.theme-light .scroll-down-btn:hover svg,
+:root.theme-light .scroll-down-btn:focus svg{ stroke: #7A3A38; }
 .chat-msg{ width:100%; max-width:100%; line-height:1.45; margin-bottom:1em; align-self:flex-start; }
 .chat-msg-user{
   align-self:flex-end;
@@ -7738,14 +7765,14 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
   .chat-analysis-preview-wrap{
     margin-top:0.9rem;
   }
-  .chat-footer{ margin-top:0.85rem; }
-  .chat-footer--analysis-open{ margin-top:0.9rem; }
+  .chat-footer{ margin-top:0.55rem; }
+  .chat-footer--analysis-open{ margin-top:0.7rem; }
   .chat-back-btn-wrapper{
-    margin:0.6rem auto max(env(safe-area-inset-bottom, 0), 1.8rem);
+    margin:0.6rem auto max(env(safe-area-inset-bottom, 0), 0.6rem);
   }
   .back-arrow-btn{ inline-size:4.2rem; block-size:4.2rem; }
-  .chat-page-shell .back-arrow-btn{ inline-size:4.8rem; block-size:4.8rem; }
-  .chat-page-shell .back-arrow-circle{ inline-size:4.4rem; block-size:4.4rem; }
+  .chat-page-shell .back-arrow-btn{ inline-size:4.2rem; block-size:4.2rem; }
+  .chat-page-shell .back-arrow-circle{ inline-size:3.8rem; block-size:3.8rem; }
 }
 @media (forced-colors: active){ .chat-window{ scrollbar-color: ButtonText ButtonFace; } }
 @supports not ((backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))){
@@ -11079,9 +11106,9 @@ html[data-contrast=hc]:not(.theme-light) body .doc-body strong {
 }
 /* Fix: keep chat container height stable when input is focused */
 .chat-page-shell .glass-box.chat-container.chat-container--round.chat-container--input-focus{
-  height: var(--chat-diameter) !important;
-  max-height: var(--chat-diameter) !important;
-  block-size: var(--chat-diameter) !important;
+  height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px)) !important;
+  max-height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px)) !important;
+  block-size: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px)) !important;
 }
 .chat-page-shell.chat-entering .glass-box.chat-container{
   filter: blur(14px);
@@ -11111,6 +11138,7 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
   }
   .chat-page-shell .glass-box.chat-container.chat-container--round{
     --chat-diameter: clamp(660px, 90vmin, 1240px);
+    --chat-expanded-delta: clamp(6.5rem, 15vh, 12.5rem);
     width: var(--chat-diameter);
     height: var(--chat-diameter);
     inline-size: var(--chat-diameter);
@@ -11128,7 +11156,7 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     overflow-x: hidden;
     overflow-y: auto;
     padding-top: clamp(1.6rem, 3vh, 2.6rem);
-    padding-bottom: clamp(0.9rem, 2vh, 1.6rem);
+    padding-bottom: clamp(0.2rem, 1vh, 0.6rem);
     --chat-nav-top: 50%;
     --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
     transition: border-radius 0.32s ease, height 0.32s ease, max-height 0.32s ease;
@@ -11138,9 +11166,6 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     border-top-right-radius: calc(var(--chat-diameter) / 2);
     border-bottom-left-radius: 2.4rem;
     border-bottom-right-radius: 2.4rem;
-    height: calc(var(--chat-diameter) + clamp(3.2rem, 10vh, 7.5rem));
-    max-height: calc(var(--chat-diameter) + clamp(3.2rem, 10vh, 7.5rem));
-    block-size: calc(var(--chat-diameter) + clamp(3.2rem, 10vh, 7.5rem));
   }
   .chat-page-shell .glass-box.chat-container.chat-container--round.chat-container--analysis-open{
     border-top-left-radius: calc(var(--chat-diameter) / 2);
@@ -11335,6 +11360,11 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     padding-top: clamp(0.4rem, 1.4vh, 1.1rem);
   }
   
+  .profile-subpage-shell .glass-box.profile-container{
+    padding-top: var(--profile-subpage-pad-y, clamp(1.6rem, 4.2vw, 2.6rem));
+    padding-bottom: var(--profile-subpage-pad-y, clamp(1.6rem, 4.2vw, 2.6rem));
+  }
+  
   #profile-title.glass-title{
     font-size: clamp(2.3rem, 2rem + 4vw, 3rem);
     margin-top: clamp(0.8rem, 2vh, 1.4rem);
@@ -11351,8 +11381,7 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
   }
   
   .profile-page-shell .profile-btn-row--back-logout {
-    margin-top: clamp(-6.4rem, -11.5vh, -3.8rem);
-    margin-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
+    margin: 0;
   }
   .profile-page-shell .profile-email-field {
     margin-top: clamp(2rem, 5.6vh, 3.6rem);
@@ -11409,6 +11438,8 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
   --profile-hole-border-w: 0px;
   --profile-stack-gap: clamp(1rem, 2.4vh, 1.6rem);
   --profile-form-gap: clamp(0.8rem, 2vh, 1.2rem);
+  --profile-subpage-pad-y: clamp(1.6rem, 4.2vw, 2.6rem);
+  --profile-subpage-pad-x: clamp(1.8rem, 5vw, 3.2rem);
   --subpage-input-bg: rgba(12,18,30,0.58);
   --subpage-input-hover: var(--btn-base-bg-dark);
   --subpage-input-active: var(--btn-base-bg-dark);
@@ -11418,7 +11449,7 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
   --subpage-input-shadow:
     0 6px 16px rgba(0,0,0,0.24),
     0 14px 22px -18px rgba(248,253,255,0.22);
-  padding: clamp(1.6rem, 4.2vw, 2.6rem) clamp(1.8rem, 5vw, 3.2rem);
+  padding: var(--profile-subpage-pad-y) var(--profile-subpage-pad-x);
   text-align: center;
 }
 :root.theme-light .profile-subpage-shell .profile-subpage-box{
@@ -11482,6 +11513,43 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
 .profile-subpage-shell .profile-subpage-box .back-btn-wrapper{
   margin-top: clamp(1.1rem, 3.8vh, 2rem);
   margin-bottom: 0;
+}
+.profile-subpage-shell .invite-page-actions{
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  margin: 0;
+  padding-inline: clamp(0.1rem, 1.2vw, 0.8rem);
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 3;
+}
+.profile-subpage-shell .invite-modal.invite-modal--page .invite-page-actions{
+  left: 0 !important;
+  right: 0 !important;
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+  width: 100%;
+}
+.profile-subpage-shell .invite-modal.invite-modal--page .invite-page-actions.invite-page-actions--low,
+.profile-subpage-shell .invite-modal.invite-modal--page .invite-page-actions.invite-page-actions--raise{
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+}
+.profile-subpage-shell .invite-page-actions .back-arrow-btn{
+  position: static;
+  left: auto;
+  top: auto;
+  transform: none;
+  pointer-events: auto;
+  margin: 0;
 }
 .profile-subpage-shell .profile-subpage-box .alaleht-footer{
   margin-top: 0.6rem;
@@ -12510,16 +12578,24 @@ html[data-reduce-motion="1"] .chat-page-shell.chat-entering .glass-box.chat-cont
     padding-top: clamp(4.0rem, 8.2vh, 5.6rem);
     padding-bottom: clamp(0.2rem, 0.8vh, 0.6rem);
   }
+  .profile-subpage-shell .glass-box.profile-container{
+    padding-top: var(--profile-subpage-pad-y, clamp(1.6rem, 4.2vw, 2.6rem));
+    padding-bottom: var(--profile-subpage-pad-y, clamp(1.6rem, 4.2vw, 2.6rem));
+  }
   .glass-box.profile-container > .glass-form.profile-form-vertical{
     position: static;
     z-index: 2;
   }
   .profile-btn-row--back-logout{
     position: absolute;
-    left: 50%;
-    bottom: clamp(5.0rem, 10.8vh, 7.8rem);
+    inset-inline: 0;
+    top: 50%;
     margin: 0;
-    transform: translateX(-50%);
+    padding-inline: clamp(1.4rem, 4.6vw, 3rem);
+    width: 100%;
+    max-width: none;
+    transform: translateY(-50%);
+    z-index: 3;
   }
 }
 

@@ -14,11 +14,11 @@ export default function InvitePageShell({
         <header className="invite-modal__header invite-classic__header invite-page-header">
           <h1 className="invite-classic__title glass-title invite-classic__title--hero">{title}</h1>
         </header>
+        {actions ? (
+          <div className={`invite-page-actions ${actionsClassName}`.trim()}>{actions}</div>
+        ) : null}
         <div className={`invite-modal__content invite-classic__content ${contentClassName}`.trim()}>
           {children}
-          {actions ? (
-            <div className={`invite-classic__actions invite-page-actions ${actionsClassName}`.trim()}>{actions}</div>
-          ) : null}
         </div>
       </div>
     </div>
