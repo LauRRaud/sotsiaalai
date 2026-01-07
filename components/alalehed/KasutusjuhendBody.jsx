@@ -1,8 +1,10 @@
 "use client";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 const SECTION_KEYS = [
   "accessibility",
@@ -16,6 +18,7 @@ const SECTION_KEYS = [
 ];
 
 export default function KasutusjuhendBody() {
+  const router = useRouter();
   const { t, locale } = useI18n();
   const { openModal: openA11y } = useAccessibility();
   const handleA11yClick = (e) => {
@@ -64,9 +67,20 @@ export default function KasutusjuhendBody() {
       </section>
       <InstallAppLink variant="section" />
       <div className="back-btn-wrapper">
-        <Link href="/meist" className="back-arrow-btn" aria-label={t("buttons.back_previous")}>
+        <button
+          type="button"
+          className="back-arrow-btn"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.history.length > 1) {
+              router.back();
+            } else {
+              pushWithTransition(router, localizePath("/", locale));
+            }
+          }}
+          aria-label={t("buttons.back_home")}
+        >
           <span className="back-arrow-circle" />
-        </Link>
+        </button>
       </div>
       <footer className="alaleht-footer">{t("about.footer.note")}</footer>
     </div>

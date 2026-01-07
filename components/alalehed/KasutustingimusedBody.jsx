@@ -106,9 +106,9 @@ export default function KasutustingimusedBody() {
           onClick={() =>
             typeof window !== "undefined" && window.history.length > 1
               ? router.back()
-              : pushWithTransition(router, localizePath("/meist", locale))
+              : pushWithTransition(router, localizePath("/", locale))
           }
-          aria-label={t("buttons.back_previous")}
+          aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle" />
         </button>

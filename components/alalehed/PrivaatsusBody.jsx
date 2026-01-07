@@ -112,10 +112,10 @@ export default function PrivaatsusBody() {
             if (typeof window !== "undefined" && window.history.length > 1) {
               router.back();
             } else {
-              pushWithTransition(router, localizePath("/meist", locale));
+              pushWithTransition(router, localizePath("/", locale));
             }
           }}
-          aria-label={t("buttons.back_previous")}
+          aria-label={t("buttons.back_home")}
         >
           <span className="back-arrow-circle"></span>
         </button>

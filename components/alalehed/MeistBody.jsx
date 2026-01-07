@@ -3,6 +3,7 @@ import Link from "next/link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import { localizePath } from "@/lib/localizePath";
 
 /**
  * MeistBody
@@ -125,7 +126,7 @@ export default function MeistBody({ isAdmin = false, embedded = false }) {
       <InstallAppLink variant="section" />
 
       <div className="back-btn-wrapper">
-        <Link href="/" className="back-arrow-btn" aria-label={t("buttons.back_home")}>
+        <Link href={localizePath("/", locale)} className="back-arrow-btn" aria-label={t("buttons.back_home")}>
           <span className="back-arrow-circle" />
         </Link>
       </div>
