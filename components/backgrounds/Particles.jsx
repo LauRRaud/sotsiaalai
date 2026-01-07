@@ -1,5 +1,5 @@
 /*
-  Particles – 24fps render + sujuv ajajoon (no-strobe), paus tab/offscreen,
+  Particles – RAF render (desktop), mobile 30fps cap, paus tab/offscreen,
   adaptive DPR, timeScale visuaalse tempo jaoks, ohutu OGL cleanup.
 */
 import { useEffect, useRef } from "react";
@@ -66,9 +66,9 @@ const fragment = /* glsl */`
 `;
 
 const Particles = ({
-  particleCount = 75,
-  particleSpread = 22,
-  speed = 0.035,                        // baas-kiirus ajajoonele
+  particleCount = 120,
+  particleSpread = 15,
+  speed = 0.028,                        // baas-kiirus ajajoonele
   particleColors = defaultParticleColors,
   moveParticlesOnHover = false,
   particleHoverFactor = 1,
@@ -79,8 +79,8 @@ const Particles = ({
   disableRotation = false,
   bgColor,
   className = "",
-  fps = 24,                             // render-gate
-  timeScale = 2.5,                        // visuaalne temposkaala (timmimiseks)
+  fps = null,                           // render-gate (optional override)
+  timeScale = 1.6,                        // visuaalne temposkaala (timmimiseks)
 }) => {
   const containerRef = useRef(null);
   const glRef = useRef(null);
@@ -109,14 +109,23 @@ const Particles = ({
       (window.matchMedia && window.matchMedia("(max-width: 768px)").matches) ||
       document.body?.getAttribute("data-layout") === "mobile";
 
+    const prefersReducedMotion =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+
+    const targetFps =
+      Number.isFinite(fps) && fps > 0 ? fps : (isMobile ? 30 : 0); // 0 = render every frame
+    const effectiveSpeed = prefersReducedMotion ? 0 : speed;
+
+    const canAnimate = !prefersReducedMotion;
+
     const cfg = {
       count: isMobile ? Math.max(40, Math.round(particleCount * 0.75)) : particleCount,
       spread: isMobile ? particleSpread * 0.95 : particleSpread,
       baseSize: isMobile ? Math.round(particleBaseSize * 0.86) : particleBaseSize,
       randomness: isMobile ? Math.min(0.28, sizeRandomness) : sizeRandomness,
       dprMax: isMobile ? 1.5 : 2,
-      speed,
-      hover: isMobile ? false : moveParticlesOnHover,
+      speed: effectiveSpeed,
+      hover: canAnimate ? (isMobile ? false : moveParticlesOnHover) : false,
     };
 
     const paletteInput = particleColorsRef.current;
@@ -152,7 +161,7 @@ const Particles = ({
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
     };
-    if (cfg.hover) container.addEventListener("mousemove", handleMouseMove, { passive: true });
+    if (cfg.hover) window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     // --- atribuudid ---
     const count = cfg.count;
@@ -196,12 +205,12 @@ const Particles = ({
 
     const particles = new Mesh(gl, { mode: gl.POINTS, geometry, program });
 
-    // --- sujuv ajajoon + 24fps render-gate ---
+    // --- sujuv ajajoon + fps gate (vajadusel) ---
     let raf = null;
     let running = false;
     let lastTs = null;
     let timeline = 0;                 // sekundid (sujuv)
-    const step = 1 / fps;             // renderi samm
+    const step = targetFps > 0 ? 1 / targetFps : 0; // renderi samm
     let acc = 0;
 
     function loop(ts) {
@@ -213,9 +222,11 @@ const Particles = ({
       acc += dt;
       timeline += dt * cfg.speed;     // AEG jookseb igal kaadril sujuvalt
 
-      if (acc >= step) {
-        // hoia fps-rütmi ka veninud kaadritega
-        acc -= step * Math.floor(acc / step);
+      if (step === 0 || acc >= step) {
+        if (step > 0) {
+          // hoia fps-rütmi ka veninud kaadritega
+          acc -= step * Math.floor(acc / step);
+        }
 
         const visTime = timeline * timeScale; // ühtne visuaalne aeg (tempo)
         program.uniforms.uTime.value = visTime;
@@ -228,7 +239,7 @@ const Particles = ({
           particles.position.y = 0;
         }
 
-        if (!disableRotation) {
+        if (!disableRotation && !prefersReducedMotion) {
           particles.rotation.x = Math.sin(visTime * 0.2) * 0.1;
           particles.rotation.y = Math.cos(visTime * 0.5) * 0.15;
           particles.rotation.z += 0.01 * cfg.speed * timeScale; // sünkroonis visuaalse tempoga
@@ -261,22 +272,28 @@ const Particles = ({
 
     const onVis = () => {
       tabHidden = document.hidden;
-      if (tabHidden) stopLoop(); else if (isVisible) startLoop();
+      if (tabHidden) stopLoop();
+      else if (isVisible && canAnimate) startLoop();
     };
     document.addEventListener("visibilitychange", onVis);
 
     const onPageHide = () => stopLoop();
-    const onPageShow = () => { tabHidden = document.hidden; if (!tabHidden && isVisible) startLoop(); };
+    const onPageShow = () => {
+      tabHidden = document.hidden;
+      if (!tabHidden && isVisible && canAnimate) startLoop();
+    };
     window.addEventListener("pagehide", onPageHide);
     window.addEventListener("pageshow", onPageShow);
 
     const io = new IntersectionObserver(([e]) => {
       isVisible = !!e.isIntersecting;
-      if (!isVisible) stopLoop(); else if (!tabHidden) startLoop();
+      if (!isVisible) stopLoop();
+      else if (!tabHidden && canAnimate) startLoop();
     }, { root: null, rootMargin: "200px" });
     io.observe(container);
 
-    if (!document.hidden) startLoop();
+    if (!document.hidden && canAnimate) startLoop();
+    if (prefersReducedMotion) renderer.render({ scene: particles, camera });
 
     // --- cleanup ---
     return () => {
@@ -287,7 +304,7 @@ const Particles = ({
       stopLoop();
 
       window.removeEventListener("resize", resize);
-      if (cfg.hover) container.removeEventListener("mousemove", handleMouseMove);
+      if (cfg.hover) window.removeEventListener("mousemove", handleMouseMove);
 
       // Eemalda canvas DOMist
       try {

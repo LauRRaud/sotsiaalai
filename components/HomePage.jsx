@@ -1,18 +1,20 @@
 // components/HomePage.jsx
 "use client";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
-import ShinyText from "@/components/effects/TextAnimations/ShinyText/ShinyText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
 import { triggerRouteTransition } from "@/lib/routeTransition";
 
-// Inline SVG (SVGR) imports – failid peaksid olema src/assets/logo/*.svg
+// UUS: Meist avalehele (embedded)
+import MeistBody from "./alalehed/MeistBody";
+
+// Inline SVG (SVGR)
 import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
 import SmustLogo from "@/public/logo/smust.svg";
@@ -25,6 +27,7 @@ export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { prefs } = useAccessibility();
+  const t = useT();
 
   const [hasSeenIntro] = useState(() => homeIntroSeen);
   const [leftFadeDone, setLeftFadeDone] = useState(() => prefs.reduceMotion || hasSeenIntro);
@@ -41,28 +44,44 @@ export default function HomePage() {
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
 
+  const [showScrollCue, setShowScrollCue] = useState(true);
+
   const [isMobile, setIsMobile] = useState(false);
   const [leftCardEl, setLeftCardEl] = useState(null);
   const [rightCardEl, setRightCardEl] = useState(null);
+
   const leftCardWrapRef = useRef(null);
   const rightCardWrapRef = useRef(null);
   const exitTimerRef = useRef(null);
   const exitPrepTimerRef = useRef(null);
 
-  const t = useT();
+  // Salvestame “päris” klikikoha DOMRect'i (magnet/hover/float transformidega),
+  // et exit-animatsioon ei alustaks layout-keskelt.
 
-  const isAuthed = status === "authenticated" && session;
+  const isAuthed = status === "authenticated" && !!session;
+
+  const isAdmin = useMemo(() => {
+    const u = session?.user;
+    const role = typeof u?.role === "string" ? u.role.toLowerCase() : "";
+    const perms = Array.isArray(u?.permissions) ? u.permissions : [];
+    return Boolean(u?.isAdmin || u?.is_admin || role === "admin" || perms.includes("admin"));
+  }, [session]);
+
   const flipToBackMs = 1200;
   const flipToFrontMs = 1100;
+
+  // Hoian sinu originaalsed exit timingud nagu failis olid
   const exitDurationMs = prefs.reduceMotion ? 0 : 1100;
   const exitFlipMs = prefs.reduceMotion ? 0 : flipToFrontMs;
   const exitScalePct = 0.6;
   const exitMorphDelayMs = prefs.reduceMotion ? 0 : Math.round(exitDurationMs * exitScalePct);
   const exitMorphMs = prefs.reduceMotion ? 0 : Math.max(360, Math.round(exitDurationMs * (1 - exitScalePct)));
+
   const isExiting = Boolean(exitState);
   const exitSide = exitState?.side;
   const exitVars = exitState?.vars;
   const isPreparingExit = Boolean(exitPrepSide);
+
   const markChatEnterFromHome = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
@@ -74,49 +93,61 @@ export default function HomePage() {
     (side) => {
       if (isExiting || isPreparingExit || isLoginOpen) return;
       if (status === "loading") return;
+
+      // Salvesta klikikoha rect võimalikult vara (ka siis, kui tuleb login modal).
+
       if (!isAuthed) {
         setPendingExitSide(side);
         setIsLoginOpen(true);
         return;
       }
+
       markChatEnterFromHome();
+
       const shouldFlipFront =
         side === "left"
           ? leftPhase !== "front" || mobileFlipReady.left
           : rightPhase !== "front" || mobileFlipReady.right;
+
       const flipDelayMs = shouldFlipFront ? exitFlipMs : 0;
       const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs));
+
       triggerRouteTransition({ delayMs, opacity: 0, href: "/vestlus" });
+
       if (exitDurationMs === 0) {
         router.push("/vestlus");
         return;
       }
+
       if (shouldFlipFront) {
-        if (side === "left") {
-          setLeftPhase("front");
-        } else {
-          setRightPhase("front");
-        }
+        if (side === "left") setLeftPhase("front");
+        else setRightPhase("front");
         setExitPrepSide(side);
         setMobileFlipReady({ left: false, right: false });
       }
+
       if (exitPrepTimerRef.current) window.clearTimeout(exitPrepTimerRef.current);
       if (exitTimerRef.current) window.clearTimeout(exitTimerRef.current);
 
       const beginExit = () => {
-        const node = side === "left" ? leftCardWrapRef.current : rightCardWrapRef.current;
-        if (!node) {
+        const host = side === "left" ? leftCardWrapRef.current : rightCardWrapRef.current;
+        const r = host?.getBoundingClientRect?.();
+        if (!r) {
           setExitPrepSide(null);
           router.push("/vestlus");
           return;
         }
-        const rect = node.getBoundingClientRect();
+        const rect = { left: r.left, top: r.top, width: r.width, height: r.height };
+
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
+
         const dx = centerX - window.innerWidth / 2;
         const dy = centerY - window.innerHeight / 2;
+
         const minViewport = Math.min(window.innerWidth, window.innerHeight);
         let targetSize = Math.min(1200, Math.max(640, minViewport * 0.88));
+
         try {
           const probe = document.createElement("div");
           probe.style.position = "fixed";
@@ -131,19 +162,23 @@ export default function HomePage() {
           probe.remove();
           if (Number.isFinite(measured) && measured > 0) targetSize = measured;
         } catch {}
+
         const remPx = Number.parseFloat(
-          typeof window !== "undefined"
-            ? window.getComputedStyle(document.documentElement).fontSize
-            : "16",
+          typeof window !== "undefined" ? window.getComputedStyle(document.documentElement).fontSize : "16"
         );
         const clampMin = 0.7 * remPx;
         const clampMax = 1.3 * remPx;
         const clampMid = 0.019 * window.innerHeight;
         const padTop = Math.min(clampMax, Math.max(clampMin, clampMid));
+
         const targetCenterY = Math.max(window.innerHeight / 2, padTop + targetSize / 2);
         const targetOffsetY = targetCenterY - window.innerHeight / 2;
-        const scale = Math.max(1, targetSize / rect.width);
+
+        const safeW = Math.max(1, rect.width);
+        const scale = Math.max(1, targetSize / safeW);
+
         const zDepth = Math.min(240, Math.max(120, minViewport * 0.18));
+
         setExitPrepSide(null);
         setExitState({
           side,
@@ -155,16 +190,14 @@ export default function HomePage() {
             toY: `${targetOffsetY.toFixed(2)}px`,
           },
         });
+
         exitTimerRef.current = window.setTimeout(() => {
           router.push("/vestlus");
         }, exitDurationMs);
       };
 
-      if (flipDelayMs > 0) {
-        exitPrepTimerRef.current = window.setTimeout(beginExit, flipDelayMs);
-      } else {
-        beginExit();
-      }
+      if (flipDelayMs > 0) exitPrepTimerRef.current = window.setTimeout(beginExit, flipDelayMs);
+      else beginExit();
     },
     [
       exitDurationMs,
@@ -180,7 +213,7 @@ export default function HomePage() {
       rightPhase,
       router,
       status,
-    ],
+    ]
   );
 
   useEffect(() => {
@@ -191,9 +224,18 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    homeIntroSeen = true;
+    const onScroll = () => {
+      const y = typeof window !== "undefined" ? window.scrollY || document.documentElement.scrollTop || 0 : 0;
+      setShowScrollCue(y < 10);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    homeIntroSeen = true;
+  }, []);
 
   useEffect(() => {
     const onLeftEnd = (e) => {
@@ -220,8 +262,8 @@ export default function HomePage() {
 
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
-      const t = setTimeout(() => setMagnetReady(true), 150);
-      return () => clearTimeout(t);
+      const tt = setTimeout(() => setMagnetReady(true), 150);
+      return () => clearTimeout(tt);
     }
     setMagnetReady(false);
   }, [leftFadeDone, rightFadeDone]);
@@ -261,9 +303,7 @@ export default function HomePage() {
     if (isLoginOpen) setIsLoginOpen(false);
     const side = pendingExitSide;
     setPendingExitSide(null);
-    window.setTimeout(() => {
-      startExitToChat(side);
-    }, 0);
+    window.setTimeout(() => startExitToChat(side), 0);
   }, [isExiting, isLoginOpen, isPreparingExit, pendingExitSide, session, startExitToChat, status]);
 
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
@@ -309,42 +349,44 @@ export default function HomePage() {
   const handleCardBackClick = (side) => (e) => {
     if (!flipAllowed) return;
     e?.stopPropagation?.();
+
     if (!isMobile) {
-      startExitToChat(side);
+      startExitToChat(side, e?.currentTarget);
       return;
     }
+
     if (!mobileFlipReady[side]) {
       setMobileFlipReady({ left: side === "left", right: side === "right" });
       e?.currentTarget?.focus?.();
       return;
     }
+
     setMobileFlipReady({ left: false, right: false });
-    startExitToChat(side);
+    startExitToChat(side, e?.currentTarget);
   };
 
   const handleCardBackBlur = (side) => () => {
     setMobileFlipReady((prev) => ({ ...prev, [side]: false }));
   };
 
-  const handleCardTap = (side) => () => {
+  const handleCardTap = (side) => (e) => {
     if (!flipAllowed) return;
+
     if (!isMobile) {
-      startExitToChat(side);
+      startExitToChat(side, e?.currentTarget);
       return;
     }
+
     const setFlip = side === "left" ? setLeftFlipping : setRightFlipping;
     const flipDuration = mobileFlipReady[side] ? flipToFrontMs : flipToBackMs;
+
     setFlip(true);
     setTimeout(() => setFlip(false), flipDuration);
+
     setMobileFlipReady((prev) => {
-      const next = !prev[side]
-        ? { left: side === "left", right: side === "right" }
-        : { left: false, right: false };
-      if (side === "left") {
-        setLeftPhase(!prev[side] ? "flippingToBack" : "flippingToFront");
-      } else {
-        setRightPhase(!prev[side] ? "flippingToBack" : "flippingToFront");
-      }
+      const next = !prev[side] ? { left: side === "left", right: side === "right" } : { left: false, right: false };
+      if (side === "left") setLeftPhase(!prev[side] ? "flippingToBack" : "flippingToFront");
+      else setRightPhase(!prev[side] ? "flippingToBack" : "flippingToFront");
       return next;
     });
   };
@@ -353,6 +395,7 @@ export default function HomePage() {
     setMobileFlipReady({ left: false, right: false });
   }, []);
 
+  // TÄHTIS: background-tap ainult HERO sees
   const handleBackgroundTap = useCallback(
     (event) => {
       if (!isMobile || isExiting || isPreparingExit) return;
@@ -360,7 +403,18 @@ export default function HomePage() {
       if (target?.closest?.(".three-d-card")) return;
       resetMobileCards();
     },
-    [isExiting, isMobile, isPreparingExit, resetMobileCards],
+    [isExiting, isMobile, isPreparingExit, resetMobileCards]
+  );
+
+  const handleScrollCueClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (typeof document === "undefined") return;
+      const target = document.getElementById("meist");
+      if (!target) return;
+      target.scrollIntoView({ behavior: prefs.reduceMotion ? "auto" : "smooth", block: "start" });
+    },
+    [prefs.reduceMotion]
   );
 
   const onLeftTransitionEnd = (e) => {
@@ -375,8 +429,7 @@ export default function HomePage() {
   return (
     <>
       <div
-        className={`homepage-root${isPreparingExit ? " home-exit-prep" : ""}${isExiting ? " home-exit" : ""}`}
-        onClick={handleBackgroundTap}
+        className={`homepage-root homepage-scroll${isPreparingExit ? " home-exit-prep" : ""}${isExiting ? " home-exit" : ""}`}
         style={{
           "--home-exit-dur": `${exitDurationMs}ms`,
           "--home-exit-flip": `${exitFlipMs}ms`,
@@ -389,182 +442,230 @@ export default function HomePage() {
           "--home-exit-to-x": "0px",
         }}
       >
-
-        <div className="main-content relative">
-          {/* LEFT CARD */}
-          <div className="side left">
-            <div
-              ref={leftCardWrapRef}
-              className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
-                mobileFlipReady.left ? "mobile-flipped-left" : ""
-              }${exitPrepSide === "left" ? " home-exit-prep-target" : ""}${exitSide === "left" ? " home-exit-target" : ""}`}
-              onMouseEnter={onLeftEnter}
-              onMouseLeave={onLeftLeave}
-              onClick={handleCardTap("left")}
-              style={
-                isExiting && exitSide === "left"
-                  ? {
-                      "--home-exit-from-x": exitVars?.x,
-                      "--home-exit-from-y": exitVars?.y,
-                      "--home-exit-scale": exitVars?.scale,
-                      "--home-exit-z": exitVars?.z,
-                    }
-                  : undefined
-              }
-            >
-              <Magnet
-                padding={80}
-                magnetStrength={18}
-                disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping || isExiting || isPreparingExit}
+        {/* HERO (ainult kaardid + taust) */}
+        <section className="home-hero" onClick={handleBackgroundTap}>
+          <div className="main-content relative">
+            {/* LEFT CARD */}
+            <div className="side left">
+              <div
+                ref={leftCardWrapRef}
+                className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
+                  mobileFlipReady.left ? "mobile-flipped-left" : ""
+                }${exitPrepSide === "left" ? " home-exit-prep-target" : ""}${exitSide === "left" ? " home-exit-target" : ""}`}
+                onMouseEnter={onLeftEnter}
+                onMouseLeave={onLeftLeave}
+                onClick={handleCardTap("left")}
+                style={
+                  isExiting && exitSide === "left"
+                    ? {
+                        "--home-exit-from-x": exitVars?.x,
+                        "--home-exit-from-y": exitVars?.y,
+                        "--home-exit-scale": exitVars?.scale,
+                        "--home-exit-z": exitVars?.z,
+                      }
+                    : undefined
+                }
               >
-                {({ isActive }) => (
-                  <div className="card-wrapper" data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd}>
-                    {/* FRONT */}
-                    <div className="card-face front">
-                      <div
-                        ref={setLeftCardEl}
-                        className={[
-                          "glass-card glass-card-light left-card-primary",
-                          !leftFadeDone ? "fade-in" : "",
-                          leftFadeDone ? "fade-in-done" : "",
-                          leftFadeDone && isActive ? "glow-active" : "",
-                        ].join(" ")}
-                        style={{ position: "relative" }}
-                      >
-                        <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
-                        {/* Inline SVG logo (front left) */}
-                        <AivalgeLogo className="card-logo-bg card-logo-bg-left" aria-hidden="true" />
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping || isExiting || isPreparingExit}
+                >
+                  {({ isActive }) => (
+                    <div className="card-wrapper" data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd}>
+                      {/* FRONT */}
+                      <div className="card-face front">
+                        <div
+                          ref={setLeftCardEl}
+                          className={[
+                            "glass-card glass-card-light left-card-primary",
+                            !leftFadeDone ? "fade-in" : "",
+                            leftFadeDone ? "fade-in-done" : "",
+                            leftFadeDone && isActive ? "glow-active" : "",
+                          ].join(" ")}
+                          style={{ position: "relative" }}
+                        >
+                          <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
+                          <AivalgeLogo className="card-logo-bg card-logo-bg-left" aria-hidden="true" />
+                        </div>
                       </div>
-                    </div>
 
-                    {/* BACK */}
-                    <div
-                      className="card-face back"
-                      role="button"
-                      aria-label={t("home.card.specialist.aria")}
-                      aria-disabled={!leftInteractive}
-                      aria-busy={!leftInteractive}
-                      tabIndex={leftInteractive ? 0 : -1}
-                      onClick={leftInteractive ? handleCardBackClick("left") : undefined}
-                      onBlur={handleCardBackBlur("left")}
-                      onKeyDown={(e) => {
-                        if (!leftInteractive) return;
-                        if (e.key === "Enter" || e.key === " ") {
-                          startExitToChat("left");
-                        }
-                      }}
-                      style={!leftInteractive ? { pointerEvents: "none" } : {}}
-                      data-interactive={leftInteractive ? "true" : "false"}
-                    >
-                      <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                        <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
-                        {/* Inline SVG logo (back left) */}
-                        <SaimustLogo className="card-logo-bg card-logo-bg-left-back" aria-hidden="true" />
+                      {/* BACK */}
+                      <div
+                        className="card-face back"
+                        role="button"
+                        aria-label={t("home.card.specialist.aria")}
+                        aria-disabled={!leftInteractive}
+                        aria-busy={!leftInteractive}
+                        tabIndex={leftInteractive ? 0 : -1}
+                        onClick={leftInteractive ? handleCardBackClick("left") : undefined}
+                        onBlur={handleCardBackBlur("left")}
+                        onKeyDown={(e) => {
+                          if (!leftInteractive) return;
+                          if (e.key === "Enter" || e.key === " ") startExitToChat("left", e.currentTarget);
+                        }}
+                        style={!leftInteractive ? { pointerEvents: "none" } : {}}
+                        data-interactive={leftInteractive ? "true" : "false"}
+                      >
+                        <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
+                          <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
+                          <SaimustLogo className="card-logo-bg card-logo-bg-left-back" aria-hidden="true" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </Magnet>
+                  )}
+                </Magnet>
+              </div>
+            </div>
+
+            {/* RIGHT CARD */}
+            <div className="side right">
+              <div
+                ref={rightCardWrapRef}
+                className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
+                  mobileFlipReady.right ? "mobile-flipped-right" : ""
+                }${exitPrepSide === "right" ? " home-exit-prep-target" : ""}${exitSide === "right" ? " home-exit-target" : ""}`}
+                onMouseEnter={onRightEnter}
+                onMouseLeave={onRightLeave}
+                onClick={handleCardTap("right")}
+                style={
+                  isExiting && exitSide === "right"
+                    ? {
+                        "--home-exit-from-x": exitVars?.x,
+                        "--home-exit-from-y": exitVars?.y,
+                        "--home-exit-scale": exitVars?.scale,
+                        "--home-exit-z": exitVars?.z,
+                      }
+                    : undefined
+                }
+              >
+                <Magnet
+                  padding={80}
+                  magnetStrength={18}
+                  disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping || isExiting || isPreparingExit}
+                >
+                  {({ isActive }) => (
+                    <div className="card-wrapper" data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd}>
+                      {/* FRONT */}
+                      <div className="card-face front">
+                        <div
+                          ref={setRightCardEl}
+                          className={[
+                            "glass-card glass-card-dark right-card-primary",
+                            !rightFadeDone ? "fade-in" : "",
+                            rightFadeDone ? "fade-in-done" : "",
+                            rightFadeDone && isActive ? "glow-active" : "",
+                          ].join(" ")}
+                          style={{ position: "relative" }}
+                        >
+                          <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
+                          <SmustLogo className="card-logo-bg card-logo-bg-right" aria-hidden="true" />
+                        </div>
+                      </div>
+
+                      {/* BACK */}
+                      <div
+                        className="card-face back"
+                        role="button"
+                        aria-label={t("home.card.client.aria")}
+                        aria-disabled={!rightInteractive}
+                        aria-busy={!rightInteractive}
+                        tabIndex={rightInteractive ? 0 : -1}
+                        onClick={rightInteractive ? handleCardBackClick("right") : undefined}
+                        onBlur={handleCardBackBlur("right")}
+                        onKeyDown={(e) => {
+                          if (!rightInteractive) return;
+                          if (e.key === "Enter" || e.key === " ") startExitToChat("right", e.currentTarget);
+                        }}
+                        style={!rightInteractive ? { pointerEvents: "none" } : {}}
+                        data-interactive={rightInteractive ? "true" : "false"}
+                      >
+                        <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
+                          <h2 className="headline-bold">{t("home.card.client.title")}</h2>
+                          <SaivalgeLogo className="card-logo-bg card-logo-bg-right-back" aria-hidden="true" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Magnet>
+              </div>
             </div>
           </div>
 
-          {/* RIGHT CARD */}
-          <div className="side right">
-            <div
-              ref={rightCardWrapRef}
-              className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
-                mobileFlipReady.right ? "mobile-flipped-right" : ""
-              }${exitPrepSide === "right" ? " home-exit-prep-target" : ""}${exitSide === "right" ? " home-exit-target" : ""}`}
-              onMouseEnter={onRightEnter}
-              onMouseLeave={onRightLeave}
-              onClick={handleCardTap("right")}
-              style={
-                isExiting && exitSide === "right"
-                  ? {
-                      "--home-exit-from-x": exitVars?.x,
-                      "--home-exit-from-y": exitVars?.y,
-                      "--home-exit-scale": exitVars?.scale,
-                      "--home-exit-z": exitVars?.z,
-                    }
-                  : undefined
-              }
-            >
-              <Magnet
-                padding={80}
-                magnetStrength={18}
-                disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping || isExiting || isPreparingExit}
-              >
-                {({ isActive }) => (
-                  <div className="card-wrapper" data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd}>
-                    {/* FRONT */}
-                    <div className="card-face front">
-                      <div
-                        ref={setRightCardEl}
-                        className={[
-                          "glass-card glass-card-dark right-card-primary",
-                          !rightFadeDone ? "fade-in" : "",
-                          rightFadeDone ? "fade-in-done" : "",
-                          rightFadeDone && isActive ? "glow-active" : "",
-                        ].join(" ")}
-                        style={{ position: "relative" }}
-                      >
-                        <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
-                        {/* Inline SVG logo (front right) */}
-                        <SmustLogo className="card-logo-bg card-logo-bg-right" aria-hidden="true" />
-                      </div>
-                    </div>
-
-                    {/* BACK */}
-                    <div
-                      className="card-face back"
-                      role="button"
-                      aria-label={t("home.card.client.aria")}
-                      aria-disabled={!rightInteractive}
-                      aria-busy={!rightInteractive}
-                      tabIndex={rightInteractive ? 0 : -1}
-                      onClick={rightInteractive ? handleCardBackClick("right") : undefined}
-                      onBlur={handleCardBackBlur("right")}
-                      onKeyDown={(e) => {
-                        if (!rightInteractive) return;
-                        if (e.key === "Enter" || e.key === " ") {
-                          startExitToChat("right");
-                        }
-                      }}
-                      style={!rightInteractive ? { pointerEvents: "none" } : {}}
-                      data-interactive={rightInteractive ? "true" : "false"}
-                    >
-                      <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                        <h2 className="headline-bold">{t("home.card.client.title")}</h2>
-                        {/* Inline SVG logo (back right) */}
-                        <SaivalgeLogo className="card-logo-bg card-logo-bg-right-back" aria-hidden="true" />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </Magnet>
-            </div>
+          <div
+            className={`home-scroll-cue${showScrollCue && !isExiting && !isPreparingExit ? " is-visible" : ""}`}
+            aria-hidden={!(showScrollCue && !isExiting && !isPreparingExit)}
+          >
+            <a className="home-scroll-cue-link" href="#meist" onClick={handleScrollCueClick}>
+              <span className="home-scroll-cue-mouse" aria-hidden="true">
+                <svg viewBox="0 0 24 36" role="presentation">
+                  <rect x="5.5" y="2.5" width="13" height="31" rx="6.5" />
+                  <line x1="12" y1="7" x2="12" y2="13" />
+                </svg>
+              </span>
+              <span className="home-scroll-cue-arrow" aria-hidden="true" />
+            </a>
           </div>
-        </div>
+        </section>
 
-        {/* Footer (logo) */}
-        <footer className={`footer-column relative${isMobile ? " footer-column-mobile" : ""}`}>
-          <nav className="footer-bottom-nav footer-floating-nav" aria-label={t("nav.main")}></nav>
-          {/* Inline footer logo */}
-          <div className="footer-logo-stack">
-            <Link
-              href="/meist"
-              className={["footer-meist-word", skipIntroAnimations ? "" : "footer-meist-word--animate"].filter(Boolean).join(" ")}
-              aria-label={t("nav.about")}
-            >
-              <ShinyText text={t("nav.about")} speed={14.5} disabled={prefs.reduceMotion} className="footer-meist-shine" />
-            </Link>
-            <Link href="/meist" className="footer-logo-link" aria-label={t("nav.about")}>
-              <Logomust
-                className={["footer-logo-img", "dim", footerFadeClass].filter(Boolean).join(" ")}
-                role="img"
-                aria-label={t("home.footer.logo_alt")}
-              />
-            </Link>
+        {/* MEIST (tekst samal lehel, ilma glass-boxita) */}
+        <section id="meist" className="home-section home-about">
+          <div className="home-section-inner">
+            <MeistBody embedded isAdmin={isAuthed && isAdmin} />
+          </div>
+        </section>
+
+        {/* LINGID */}
+        <section className="home-section home-links" aria-label={t("nav.main")}>
+          <div className="home-section-inner">
+            <h2 className="home-section-title">{t("about.cta.title")}</h2>
+            <ul className="home-links-list">
+              <li>
+                <Link href="/kasutusjuhend" className="link-brand home-link">
+                  {t("about.guide.jump_link")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/kasutustingimused" className="link-brand home-link">
+                  {t("about.links.terms")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/privaatsustingimused" className="link-brand home-link">
+                  {t("about.links.privacy")}
+                </Link>
+              </li>
+
+              {/* Varjatud admin-lingid: ainult sisse logides + admin */}
+              {isAuthed && isAdmin ? (
+                <>
+                  <li>
+                    <Link href="/admin/analytics" className="link-brand home-link">
+                      {t("about.links.analytics")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/admin/rag" className="link-brand home-link">
+                      {t("about.links.admin")}
+                    </Link>
+                  </li>
+                </>
+              ) : null}
+            </ul>
+          </div>
+        </section>
+
+        {/* LOGO (mitte klikitav) */}
+        <footer className="home-footer">
+          <div className="home-footer-inner">
+            <a href="mailto:info@sotsiaal.ai" className="home-footer-email link-brand home-link">
+              info@sotsiaal.ai
+            </a>
+            <Logomust
+              className={["home-footer-logo", "dim", footerFadeClass].filter(Boolean).join(" ")}
+              role="img"
+              aria-label={t("home.footer.logo_alt")}
+            />
           </div>
         </footer>
       </div>
@@ -573,3 +674,4 @@ export default function HomePage() {
     </>
   );
 }
+
