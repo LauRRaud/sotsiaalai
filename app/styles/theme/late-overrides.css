@@ -994,4 +994,34 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .homepage-root.homepage-scroll .home-links .home-section-title{
   color: var(--home-prose-color);
 }
+/* ported from _reference/globalsuus.css */
+html[data-contrast=hc] body .invite-classic__input{
+  background: var(--hc-bg);
+  color: var(--hc-text);
+  border-color: var(--hc-accent);
+  box-shadow: none;
+}
+/* ported from _reference/globalsuus.css */
+html[data-contrast=hc] body .invite-classic__input:hover,
+html[data-contrast=hc] body .invite-classic__input:focus,
+html[data-contrast=hc] body .invite-classic__input:focus-visible{
+  background: var(--hc-surface);
+  border-color: var(--hc-accent);
+  box-shadow: none;
+  outline: none;
+}
+/* ported from _reference/globalsuus.css */
+html[data-contrast=hc]:not(.theme-light) body .invite-classic__input {
+  border-color: var(--hc-accent) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+/* ported from _reference/globalsuus.css */
+html[data-contrast=hc]:not(.theme-light) body .invite-classic__input:hover,
+html[data-contrast=hc]:not(.theme-light) body .invite-classic__input:focus,
+html[data-contrast=hc]:not(.theme-light) body .invite-classic__input:focus-visible {
+  border-color: var(--hc-accent) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 
