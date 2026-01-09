@@ -454,3 +454,32 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   text-shadow: 0 0.5rem 0.3rem rgb(0, 0, 0, 0.6);
   transform: translateY(-0.25em);
 }
+/* migrated from legacy/part-06b1.css */
+@media (max-width: 47.375em) {
+  :root body .card-face.back .headline-bold,
+  :root body .centered-back-left .headline-bold,
+  :root body .centered-back-right .headline-bold {
+    font-size: clamp(1.2rem, 3.8vw, 1.42rem);
+    line-height: 1.25;
+    letter-spacing: .08em;
+    max-width: 90%;
+    transform: translateY(80%);
+    text-align: center;
+  }
+.centered-back-left .card-logo-bg-left-back {
+  position: absolute;
+  top: 74%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26%;
+  opacity: 0.7;
+}
+.centered-back-right .card-logo-bg-right-back {
+  position: absolute;
+  top: 74%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  opacity: 0.55;
+}
+}

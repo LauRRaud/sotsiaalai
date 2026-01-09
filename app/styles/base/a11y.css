@@ -690,3 +690,11 @@ html[data-contrast=hc] .desc-ring-right * {
 }
 .btn-spacing-accessibility,
 .btn-spacing-accessibility span { letter-spacing: 0.05em; }
+/* migrated from legacy/part-06b1.css */
+#main:focus { outline: none; }
+.three-d-card .card-face.back:focus:not(:focus-visible) {
+  outline: none;
+}
+.three-d-card .card-face.back:focus {
+  outline: none;
+}

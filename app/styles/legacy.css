@@ -18,12 +18,9 @@
 @import "./components/nav-meist.css";
 @import "./components/glass.css";
 @import "./components/drawer.css";
-@import "./legacy/part-04b.css";
 @import "./components/chat.css";
-@import "./legacy/part-06a.css";
 @import "./components/notifications.css";
 @import "./base/a11y.css";
-@import "./legacy/part-06b1.css";
 @import "./pages/docs.css";
 @import "./legacy/part-06b2.css";
 @import "./legacy/part-07a.css";
