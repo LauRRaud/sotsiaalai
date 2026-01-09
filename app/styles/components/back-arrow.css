@@ -1,0 +1,43 @@
+/* migrated from legacy/part-03b2a.css */
+.back-arrow-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  inline-size: 5.2rem;
+  block-size: 5.2rem;
+  margin: 0;
+  line-height: 0;
+  border: 0;
+  background: transparent;
+  background-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
+  cursor: var(--cursor-pointer);
+  flex: 0 0 auto;
+}
+.back-arrow-btn:hover,
+.back-arrow-btn:focus,
+.back-arrow-btn:active { background: transparent; box-shadow: none; }
+.back-arrow-circle {
+  position: relative;
+  inline-size: 4.8rem;
+  block-size: 4.8rem;
+  display: block;
+  box-sizing: content-box;
+  background: center center / 68% 68% no-repeat
+    url("/logo/tagasinupp.svg");
+  transition: transform .18s ease, filter .16s ease;
+  transform-origin: center center;
+  will-change: transform;
+  flex: none;
+  transform: translateY(-0.18rem) translateZ(0);
+}
+.back-arrow-btn:hover .back-arrow-circle,
+.back-arrow-btn:focus .back-arrow-circle {
+  transform: translateY(-0.18rem) scale(1.15);
+}
+.back-arrow-btn:active .back-arrow-circle {
+  transform: translateY(0.1rem) scale(0.98);
+}

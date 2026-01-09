@@ -302,3 +302,26 @@
   78%  { transform: scale(1.03); }
   100% { transform: scale(1); }
 }
+/* migrated from legacy/part-03b2b.css */
+.defer-fade{ --end-op:1; --fade-dur:1700ms; --fade-delay:1400ms; --start-ty:0.75rem;
+  opacity:0; visibility:hidden; transform:translateY(var(--start-ty)) scale(.992);
+  animation: dfade-in var(--fade-dur) cubic-bezier(.16,.84,.44,1) forwards;
+  animation-delay: var(--fade-delay); will-change:opacity,transform;
+}
+.defer-from-top{ --start-ty:-12px; }
+.defer-from-bottom{ --start-ty:0.75rem; }
+.defer-fade.delay-1{ --fade-delay:1600ms; }
+.defer-fade.delay-2{ --fade-delay:1900ms; }
+.footer-logo-img.defer-fade{ --end-op:0.55; }
+:root.theme-light .homepage-root .footer-logo-img.defer-fade{ --end-op:0.85; }
+.top-center-link.defer-fade.dim{ --end-op:.95; }
+@media (max-width: 48em){
+  .three-d-card,
+  .footer-logo-img.defer-fade,
+  .top-center-link.defer-fade{
+    animation: none;
+    opacity: var(--end-op, 1);
+    visibility: visible;
+    transform: none;
+  }
+}

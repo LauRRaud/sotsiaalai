@@ -1,5 +1,4 @@
-/* legacy.css split: part-02a2b.css */
-/* Rules after lists cluster extracted to components/lists.css */
+/* migrated from legacy/part-02a2b.css */
 .link-brand,
 .unustasid-parooli-link,
 .login-modal-bottom-link .link-brand,
@@ -26,9 +25,6 @@
   border-radius: 0.32em;
 }
 .install-section { margin-top: 0.6rem; }
-.glass-box .glass-title { font-size: 2.15em; }
-.glass-box .glass-h2 { font-size: 1.15em; }
-.glass-box .glass-list { font-size: 1.05em; }
 .glass-box .link-brand { font-size: 1.10em; }
 .glass-box .meist-external-link { font-size: 1.05em; }
 .install-section p { margin: 0.25em 0; }
@@ -73,6 +69,3 @@
   background: none;
   box-shadow: 0 0 0.25rem 0 rgba(192,94,94,0.30);
 }
-a {
-  text-decoration: none;
-  }

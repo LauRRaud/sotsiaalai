@@ -87,3 +87,13 @@
   .modal-confirm p,
   .modal-confirm-text{ font-size: 1.1em; }
 }
+/* migrated from legacy/part-03b2b.css */
+:root.theme-light .login-modal-close.modal-close-btn{ color: #7A3A38; }
+:root.theme-light .login-modal-close.modal-close-btn:hover,
+:root.theme-light .login-modal-close.modal-close-btn:focus-visible{ color: #7A3A38; }
+.login-modal-bottom-link{
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+}

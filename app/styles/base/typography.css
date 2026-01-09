@@ -23,3 +23,106 @@ body, p, ul, li, .glass-list, .glass-section {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
+
+/* legacy.css split: part-01b0.css */
+/* Rules before homepage cluster extracted to pages/home.css */
+b, strong {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+h2, .glass-h2, .glass-label {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: bold;
+}
+a, .link-brand, .meist-external-link {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: 400;
+  }
+main#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+}
+main#main > .main-content.glass-box {
+  margin-block: auto;
+  margin: clamp(1.6rem, 4.5vw, 2.8rem) auto clamp(1.6rem, 4.5vw, 2.8rem);
+}
+.main-content {
+  display: flex;
+  position: relative;
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  z-index: 20;
+}
+.top-center-nav { position: relative; z-index: 2; }
+/* migrated from legacy/part-02a2b.css */
+a {
+  text-decoration: none;
+  }
+/* migrated from legacy/part-03b2a.css */
+.btn-primary,
+.btn-primary span,
+.btn-danger,
+.btn-tertiary,
+.chat-send-btn,
+.chat-send-btn.stop,
+.login-icon-btn,
+.reset-btn,
+.button,
+.btn-profile-save,
+.btn-profile-logout {
+  font-family: var(--font-aino), Arial, sans-serif;
+  letter-spacing: 0.06em;
+}
+input,
+textarea,
+select,
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=number],
+input[type=search],
+.chat-input-field,
+.input-modern,
+.reset-input {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+input::placeholder,
+textarea::placeholder,
+.chat-input-field::placeholder,
+.input-modern::placeholder,
+.reset-input::placeholder {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+label,
+.glass-label,
+.reset-label {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+input,
+textarea,
+select,
+button,
+label {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+.glass-box,
+.glass-box p,
+.meist-body,
+.meist-body p {
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+a {
+  color: inherit;
+}
+:root:not(.theme-light) a,
+:root:not(.theme-light) .link-brand,
+:root:not(.theme-light) .link-brand-inline,
+:root:not(.theme-light) .meist-external-link,
+:root:not(.theme-light) .glass-box a {
+  color: var(--brand-primary);
+}
