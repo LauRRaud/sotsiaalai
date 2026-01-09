@@ -1575,3 +1575,47 @@
 .homepage-root.homepage-scroll *:not(.link-brand):not(.link-brand-inline):not(.home-link):not(.meist-external-link){
   border-top-color: transparent !important;
 }
+/* migrated from app/globals.css (Wave 5) */
+.profile-subpage-shell .invite-modal.invite-modal--page{
+  position: relative;
+}
+/* migrated from app/globals.css (Wave 5) */
+.profile-subpage-shell .invite-page-actions{
+  position: absolute;
+  left: clamp(0.4rem, 1.2vw, 1rem);
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  z-index: 5;
+}
+/* migrated from app/globals.css (Wave 5) */
+.profile-subpage-shell .invite-page-actions.invite-page-actions--side{
+  left: 0;
+  right: 0;
+  width: 100%;
+  pointer-events: none;
+}
+/* migrated from app/globals.css (Wave 5) */
+.profile-subpage-shell .invite-page-actions.invite-page-actions--side .back-arrow-btn{
+  position: absolute;
+  left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  inline-size: 6.2rem;
+  block-size: 6.2rem;
+}
+/* migrated from app/globals.css (Wave 5) */
+.profile-subpage-shell .invite-page-actions.invite-page-actions--side .back-arrow-circle{
+  inline-size: 5.7rem;
+  block-size: 5.7rem;
+}

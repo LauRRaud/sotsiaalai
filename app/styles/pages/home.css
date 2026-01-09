@@ -483,3 +483,300 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   opacity: 0.55;
 }
 }
+/* migrated from app/globals.css (Wave 5) */
+.homepage-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  overflow-y: visible;
+  --home-prose-color: rgba(242,241,239,0.92);
+  --home-card-blur: 0.6rem;
+  --home-card-saturate: 118%;
+  --home-card-light-opacity: 0.65;
+  --home-card-dark-opacity: 0.6;
+}
+/* migrated from app/globals.css (Wave 5) */
+.homepage-root .glass-card-light,
+.homepage-root .glass-card-dark,
+.homepage-root .centered-back-left,
+.homepage-root .centered-back-right {
+  background: transparent;
+}
+/* migrated from app/globals.css (Wave 5) */
+.homepage-root .glass-card-light::before,
+.homepage-root .centered-back-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent url("/logo/kerahele.svg") center / 100% 100% no-repeat;
+  opacity: var(--home-card-light-opacity);
+  filter: none;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  will-change: opacity, transform;
+}
+/* migrated from app/globals.css (Wave 5) */
+.homepage-root .glass-card-dark::before,
+.homepage-root .centered-back-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent url("/logo/keratume.svg") center / 100% 100% no-repeat;
+  opacity: var(--home-card-dark-opacity);
+  filter: none;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  will-change: opacity, transform;
+}
+/* migrated from app/globals.css (Wave 5) */
+.homepage-root.homepage-scroll .home-hero{
+  min-height: 100svh;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+  overflow-x: clip;
+}
+
+.homepage-root.homepage-scroll .home-hero .main-content{
+  padding-bottom: 0 !important;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.homepage-root.homepage-scroll .home-scroll-cue{
+  position: absolute;
+  left: 50%;
+  bottom: clamp(-0.6rem, 1.2vh, 0.3rem);
+  transform: translateX(-50%) translateY(8px);
+  z-index: 40;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+.homepage-root.homepage-scroll .home-scroll-cue.is-visible{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.homepage-root.homepage-scroll .home-scroll-cue-link{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0.35rem 0.4rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #c57171;
+  line-height: 1;
+  text-decoration: none;
+  pointer-events: auto;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.homepage-root.homepage-scroll .home-scroll-cue-link:hover,
+.homepage-root.homepage-scroll .home-scroll-cue-link:focus-visible{
+  border-color: rgba(255, 255, 255, 0.45);
+  color: var(--pt-100, #ecebe9);
+}
+.homepage-root.homepage-scroll .home-scroll-cue-mouse,
+.homepage-root.homepage-scroll .home-scroll-cue-arrow{
+  display: inline-flex;
+  width: 2.6rem;
+  height: 2.6rem;
+  opacity: 0.9;
+}
+.homepage-root.homepage-scroll .home-scroll-cue-mouse{
+  width: 2.6rem;
+  height: 2.5rem;
+  opacity: 0.8;
+}
+.homepage-root.homepage-scroll .home-scroll-cue-arrow{
+  width: 2.7rem;
+  height: 2.7rem;
+  position: relative;
+  overflow: visible;
+  margin-top: -0.35rem;
+  transform: rotate(180deg);
+  animation: home-scroll-bounce 2s ease-in-out infinite;
+}
+.homepage-root.homepage-scroll .home-scroll-cue-arrow::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/logo/uptume.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  transform: scale(1.28);
+  transform-origin: center;
+  pointer-events: none;
+}
+.homepage-root.homepage-scroll .home-scroll-cue-mouse svg{
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: scaleX(1.2);
+  transform-origin: center;
+}
+@keyframes home-scroll-bounce{
+  0% { transform: translateY(0) rotate(180deg); opacity: 0.7; }
+  50% { transform: translateY(6px) rotate(180deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(180deg); opacity: 0.8; }
+}
+@media (prefers-reduced-motion: reduce){
+  .homepage-root.homepage-scroll .home-scroll-cue,
+  .homepage-root.homepage-scroll .home-scroll-cue-arrow{
+    transition: none;
+    animation: none;
+  }
+}
+@media (max-width: 768px), (hover: none){
+  .homepage-root.homepage-scroll .home-scroll-cue-link{
+    background: rgba(6, 10, 18, 0.45);
+    letter-spacing: 0.06em;
+  }
+}
+
+/* Ensure sections themselves don't paint any slabs/lines */
+.homepage-root.homepage-scroll .home-section,
+.homepage-root.homepage-scroll .home-section-inner,
+.homepage-root.homepage-scroll .home-footer,
+.homepage-root.homepage-scroll .home-footer-inner{
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Kill any stray horizontal rules */
+.homepage-root.homepage-scroll hr{
+  display: none !important;
+}
+
+.homepage-root.homepage-scroll .home-section{
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  padding: clamp(2.8rem, 7vw, 5rem) 0;
+}
+
+.homepage-root.homepage-scroll .home-section-inner{
+  width: min(92vw, 58rem);
+  margin: 0 auto;
+}
+
+/* NOTE: if you want light-theme typography to differ, we can theme these via CSS vars */
+.homepage-root.homepage-scroll .home-section-title{
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.9rem, 3.9vw, 2.6rem);
+  margin: 0 0 1.1rem 0;
+  color: var(--pt-100, #ecebe9);
+  text-align: center;
+}
+
+.homepage-root.homepage-scroll .home-prose{
+  color: var(--home-prose-color);
+  line-height: 1.7;
+  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
+  text-shadow: 0 1px 18px rgba(0,0,0,0.35);
+  text-align: center;
+}
+
+.homepage-root.homepage-scroll .home-prose > * + *{
+  margin-top: 0.95rem;
+}
+
+.homepage-root.homepage-scroll .home-contact-row{
+  margin-top: 1.25rem;
+}
+.homepage-root.homepage-scroll .home-email-row{
+  margin-top: 0.95rem;
+}
+
+.homepage-root.homepage-scroll .home-section.home-about{
+  padding-bottom: clamp(0.6rem, 1.6vw, 1.0rem);
+}
+
+.homepage-root.homepage-scroll .home-section.home-links{
+  padding-top: clamp(0.3rem, 1.0vw, 0.6rem);
+  padding-bottom: clamp(0.9rem, 2.2vw, 1.6rem);
+}
+
+.homepage-root.homepage-scroll .home-links .home-section-title{
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: 0.018em;
+  margin-top: clamp(1rem, 2.4vw, 1.8rem);
+  margin-bottom: 0.65rem;
+  color: var(--home-prose-color);
+}
+
+.homepage-root.homepage-scroll .home-links-list{
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.05rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-root.homepage-scroll .home-link{
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(1.08rem, 1.5vw, 1.25rem);
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* Footer: keep it clean and transparent */
+.homepage-root.homepage-scroll .home-footer{
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 0.1rem);
+  display: flex;
+  justify-content: center;
+}
+
+.homepage-root.homepage-scroll .home-footer-inner{
+  width: min(92vw, 58rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.homepage-root.homepage-scroll .home-footer-logo{
+  width: clamp(15rem, 30vw, 24rem);
+  height: auto;
+  --end-op: 0.8;
+  opacity: 0.8;
+  margin-top: 4rem;
+}
+.homepage-root.homepage-scroll .home-footer-email{
+  margin-bottom: 1.4rem;
+  text-align: center;
+}
+
+/* Last resort: if some component injects a top border, neutralize it on homepage */
+.homepage-root.homepage-scroll *:not(.link-brand):not(.link-brand-inline):not(.home-link):not(.meist-external-link){
+  border-top-color: transparent !important;
+}

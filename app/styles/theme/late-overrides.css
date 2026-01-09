@@ -970,4 +970,28 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   border-color: #2bdc6d;
   box-shadow: none;
 }
+/* migrated from app/globals.css (Wave 5) */
+:root.theme-light .homepage-root.homepage-scroll .home-scroll-cue-link{
+  color: #7A3A38;
+}
+/* migrated from app/globals.css (Wave 5) */
+:root.theme-light .homepage-root.homepage-scroll .home-scroll-cue-arrow::before{
+  background-image: url("/logo/uphele.svg");
+}
+/* migrated from app/globals.css (Wave 5) */
+:root:not(.theme-light) .homepage-root.homepage-scroll .home-section-title{
+  color: #c57171;
+}
+/* migrated from app/globals.css (Wave 5) */
+:root.theme-light .homepage-root.homepage-scroll .home-section-title{
+  color: #7A3A38;
+}
+/* migrated from app/globals.css (Wave 5) */
+:root:not(.theme-light) .homepage-root.homepage-scroll .home-links .home-section-title{
+  color: var(--home-prose-color);
+}
+/* migrated from app/globals.css (Wave 5) */
+:root.theme-light .homepage-root.homepage-scroll .home-links .home-section-title{
+  color: var(--home-prose-color);
+}
 
