@@ -125,7 +125,7 @@ export default function MeistBody({ isAdmin = false, embedded = false }) {
 
       <InstallAppLink variant="section" />
 
-      <div className="back-btn-wrapper">
+      <div className="back-btn-wrapper back-btn-wrapper--side">
         <Link href={localizePath("/", locale)} className="back-arrow-btn" aria-label={t("buttons.back_home")}>
           <span className="back-arrow-circle" />
         </Link>

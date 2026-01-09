@@ -1,0 +1,79 @@
+:root.theme-light .login-modal-close.modal-close-btn{ color: #7A3A38; }
+:root.theme-light .login-modal-close.modal-close-btn:hover,
+:root.theme-light .login-modal-close.modal-close-btn:focus-visible{ color: #7A3A38; }
+.login-modal-bottom-link{
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+}
+.glass-h2,
+.reset-title,
+.glass-title,
+.tellimus-status-label,
+.tellimus-pay-info,
+.reset-bottom-text,
+.modal-confirm-title { color: var(--brand-primary); }
+.glass-box .epost-row { color: var(--pt-200); font-weight: 500; }
+.glass-radio-group input[type=radio],
+.glass-checkbox input[type=checkbox]{
+  accent-color: var(--brand-primary);
+}
+input::placeholder,
+textarea::placeholder{
+  font: inherit;
+  color: var(--pt-600);
+  opacity: .85;
+}
+.input-modern::placeholder{
+  font: inherit;
+  color: rgba(245,248,255,0.82);
+  opacity: 0.92;
+  letter-spacing: 0.05em;
+}
+.glass-form:not(.profile-form-vertical) .input-modern::placeholder{
+  color: var(--pt-150);
+  opacity: 1;
+}
+.login-modal-form input::placeholder{
+  font: inherit;
+  color: rgba(245,248,255,0.94);
+  opacity: 0.98;
+  letter-spacing: 0.05em;
+}
+.reset-input::placeholder{
+  font: inherit;
+  color: rgba(245,248,255,0.82);
+  opacity: 0.92;
+}
+.chat-container input::placeholder,
+.chat-container textarea::placeholder {
+  color: var(--pt-200);
+  opacity: 0.85;
+}
+.chat-container .chat-input-field::placeholder{
+  color: transparent !important;
+  opacity: 0 !important;
+}
+.defer-fade{ --end-op:1; --fade-dur:1700ms; --fade-delay:1400ms; --start-ty:0.75rem;
+  opacity:0; visibility:hidden; transform:translateY(var(--start-ty)) scale(.992);
+  animation: dfade-in var(--fade-dur) cubic-bezier(.16,.84,.44,1) forwards;
+  animation-delay: var(--fade-delay); will-change:opacity,transform;
+}
+.defer-from-top{ --start-ty:-12px; }
+.defer-from-bottom{ --start-ty:0.75rem; }
+.defer-fade.delay-1{ --fade-delay:1600ms; }
+.defer-fade.delay-2{ --fade-delay:1900ms; }
+.footer-logo-img.defer-fade{ --end-op:0.55; }
+:root.theme-light .homepage-root .footer-logo-img.defer-fade{ --end-op:0.85; }
+.top-center-link.defer-fade.dim{ --end-op:.95; }
+@media (max-width: 48em){
+  .three-d-card,
+  .footer-logo-img.defer-fade,
+  .top-center-link.defer-fade{
+    animation: none;
+    opacity: var(--end-op, 1);
+    visibility: visible;
+    transform: none;
+  }
+}

@@ -62,7 +62,7 @@ export default function TellimusBody() {
       <InvitePageShell
         title={t("subscription.title")}
         lang={locale}
-        actionsClassName="invite-page-actions--raise"
+        actionsClassName="invite-page-actions--raise invite-page-actions--side"
         contentClassName="invite-page-content--subscription invite-page-content--lower"
         actions={
           <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
@@ -83,7 +83,7 @@ export default function TellimusBody() {
     <InvitePageShell
       title={t("subscription.title")}
       lang={locale}
-      actionsClassName="invite-page-actions--raise"
+      actionsClassName="invite-page-actions--raise invite-page-actions--side"
       contentClassName="invite-page-content--subscription invite-page-content--lower"
       actions={
         <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>

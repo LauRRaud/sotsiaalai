@@ -1,0 +1,58 @@
+/* utilities/helpers.css - shared helpers + icon-adjacent utilities (Step 22) */
+/* Extracted from legacy/part-02a2a.css to keep globals manageable. */
+
+.link-small {
+  font-size: 1em;
+  font-weight: 500; }
+.mobile-ask-btn {
+  display: none;
+  width: 90%;
+  margin: 1.1em auto 0 auto;
+  background: #228794;
+  color: #fff;
+  font-size: 1.14em;
+  font-weight: 600;
+  border: none;
+  border-radius: 1.2em;
+  padding: 0.86em 0;
+  box-shadow: 0 2px 0.75rem 0 rgba(88,62,187,0.11);
+  text-align: center;
+  transition: background 0.17s, color 0.13s;
+}
+.mobile-ask-btn:active,
+.mobile-ask-btn:focus {
+  background: #228794;
+  color: #fff;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+.pin-hidden-input{
+  position: fixed !important;
+  left: -10000px !important;
+  top: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  caret-color: transparent !important;
+}
+.glass-bottom-link {
+  text-align: center;
+  margin: 1.3em 0 0.7em 0;
+  font-size: 1.15em;
+  font-weight: 500;
+}
+.text-muted {
+  color: var(--pt-300);
+  font-weight: 500;
+  font-size: 1em;
+  white-space: normal;
+}

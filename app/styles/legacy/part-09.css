@@ -1,0 +1,1548 @@
+/* legacy.css split: part-09.css */
+.profile-subpage-shell .profile-subpage-box .reset-label + .reset-label .reset-input{
+  margin-top: 0;
+}
+.profile-subpage-shell .profile-subpage-box .reset-info{
+  margin-top: clamp(0.75rem, 2.6vh, 1.6rem);
+}
+.profile-subpage-shell .profile-subpage-box .back-btn-wrapper{
+  margin-top: clamp(1.1rem, 3.8vh, 2rem);
+  margin-bottom: 0;
+}
+.profile-subpage-shell .invite-page-actions{
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  margin: 0;
+  padding-inline: clamp(0.1rem, 1.2vw, 0.8rem);
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 3;
+}
+.profile-subpage-shell .invite-modal.invite-modal--page .invite-page-actions{
+  left: 0 !important;
+  right: 0 !important;
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+  width: 100%;
+}
+.profile-subpage-shell .invite-modal.invite-modal--page .invite-page-actions.invite-page-actions--low,
+.profile-subpage-shell .invite-modal.invite-modal--page .invite-page-actions.invite-page-actions--raise{
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+}
+.profile-subpage-shell .invite-page-actions .back-arrow-btn{
+  position: static;
+  left: auto;
+  top: auto;
+  transform: none;
+  pointer-events: auto;
+  margin: 0;
+}
+.profile-subpage-shell .profile-subpage-box .alaleht-footer{
+  margin-top: 0.6rem;
+}
+.profile-subpage-shell .profile-subpage-box.tellimus-box .content-narrow{
+  margin-left: auto;
+  margin-right: auto;
+}
+.login-modal-box .pin-layout-toggle {
+  font-size: 1.1rem;
+  }
+:root{
+  /* Size + spacing (all keys identical size) */
+  --pin-btn: 4.35rem;      /* bigger */
+  --pin-gap-x: 0.92rem;
+  --pin-gap-y: 0.78rem;
+
+  /* Transparent fills */
+  --pin-a: 0.006;          /* dark fill more transparent */
+  --pin-a-alt: 0.010;      /* alt key slightly stronger */
+
+  /* Border (even ring) */
+  --pin-border-w: 1.45px;
+
+  /* Shadow (subtle) */
+  --pin-shadow: 0.11;
+
+  /* Bounce */
+  --pin-bounce-ms: 560ms;
+  --pin-bounce-up: 1.095;
+  --pin-bounce-down: 0.985;
+}
+
+/* ---------- Layout ---------- */
+.pin-keypad-all-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -0.1rem;
+  margin-bottom: -0.1rem;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+
+  position: relative;  /* anchor for help popover */
+  overflow: visible;
+}
+
+.pin-keypad-all{
+  display: grid;
+  grid-template-columns: repeat(3, var(--pin-btn));
+  grid-auto-rows: var(--pin-btn);
+  column-gap: var(--pin-gap-x);
+  row-gap: var(--pin-gap-y);
+  justify-content: center;
+  width: 100%;
+  max-width: calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)));
+}
+
+.pin-keypad__blank{
+  width: var(--pin-btn);
+  height: var(--pin-btn);
+}
+
+/* ---------- Button base (shared) ---------- */
+.pin-keypad__button{
+  width: var(--pin-btn);
+  height: var(--pin-btn);
+  border-radius: 999px;
+
+  position: relative;
+  overflow: hidden;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+
+  font-size: 1.60rem;
+  font-weight: 360;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+
+  cursor: var(--cursor-pointer);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transform-origin: 50% 50%;
+
+  /* no blur here (glass box underneath already has it) */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+/* ---------- Smooth ring (no “sectors”) ---------- */
+@supports (-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0)){
+  .pin-keypad__button::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+
+    box-sizing: border-box;
+    padding: var(--pin-border-w);
+
+    background: var(--pin-ring-grad);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+}
+
+/* Permanent gloss (no hover-only highlight) */
+.pin-keypad__button::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+
+  background: var(--pin-gloss-bg);
+  opacity: var(--pin-gloss-op, 0.40);
+}
+
+/* ---------- DARK (default) ---------- */
+:root:not(.theme-light) .pin-keypad__button{
+  color: rgba(255,255,255,0.92);
+
+  /* Darker + more transparent (less “inner glow”) */
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.05) 0%,
+      rgba(255,255,255,0.00) 56%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.48) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,var(--pin-a)) 0%,
+      rgba(255,255,255,0.004) 42%,
+      rgba(0,0,0,0.40) 100%
+    );
+
+  box-shadow:
+    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.46);
+
+  /* Ring fallback */
+  --pin-ring-grad: linear-gradient(135deg,
+    rgba(255,255,255,0.10) 0%,
+    rgba(255,255,255,0.08) 30%,
+    rgba(255,255,255,0.06) 56%,
+    rgba(255,255,255,0.12) 80%,
+    rgba(255,255,255,0.08) 100%
+  );
+
+  /* Less gloss overlay (so it stays dark/transparent) */
+  --pin-gloss-bg:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.14) 0%,
+      rgba(255,255,255,0.06) 34%,
+      rgba(255,255,255,0.00) 58%,
+      rgba(255,255,255,0.05) 74%,
+      rgba(0,0,0,0.16) 100%
+    );
+  --pin-gloss-op: 0.34;
+}
+
+/* Prefer conic ring when supported */
+@supports (background: conic-gradient(from 0deg, #000, #fff)){
+  :root:not(.theme-light) .pin-keypad__button{
+    --pin-ring-grad: conic-gradient(from 0deg,
+      rgba(255,255,255,0.10) 0deg,
+      rgba(255,255,255,0.10) 112deg,
+
+      /* BR sheen band (longer, but not too bright) */
+      rgba(255,255,255,0.14) 122deg,
+      rgba(255,255,255,0.18) 144deg,
+      rgba(255,255,255,0.14) 168deg,
+
+      rgba(255,255,255,0.10) 180deg,
+      rgba(255,255,255,0.10) 292deg,
+
+      /* TL sheen band */
+      rgba(255,255,255,0.14) 304deg,
+      rgba(255,255,255,0.20) 324deg,
+      rgba(255,255,255,0.14) 346deg,
+
+      rgba(255,255,255,0.10) 360deg
+    );
+  }
+}
+
+/* Fallback ring if mask not supported */
+@supports not ((-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0))){
+  :root:not(.theme-light) .pin-keypad__button{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,var(--pin-shadow)),
+      inset 0 0 0 var(--pin-border-w) rgba(255,255,255,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.06),
+      inset 0 -1px 0 rgba(0,0,0,0.46);
+  }
+}
+
+/* ---------- LIGHT MODE ---------- */
+:root.theme-light .pin-keypad__button{
+  color: rgba(31,41,55,0.92);
+
+  /* Keep inner exactly as-is */
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.92) 0%,
+      rgba(255,255,255,0.00) 62%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.10) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.40) 0%,
+      rgba(255,255,255,0.22) 55%,
+      rgba(255,255,255,0.14) 100%
+    );
+
+  box-shadow:
+    0 10px 18px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.78),
+    inset 0 -1px 0 rgba(0,0,0,0.12);
+
+  /* Ring fallback: make TL edge darker without touching fill */
+  --pin-ring-grad: linear-gradient(135deg,
+    rgba(17,24,39,0.18) 0%,
+    rgba(17,24,39,0.13) 35%,
+    rgba(17,24,39,0.11) 58%,
+    rgba(17,24,39,0.16) 80%,
+    rgba(17,24,39,0.12) 100%
+  );
+
+  --pin-gloss-bg:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.55) 0%,
+      rgba(255,255,255,0.22) 32%,
+      rgba(255,255,255,0.00) 58%,
+      rgba(255,255,255,0.14) 74%,
+      rgba(0,0,0,0.10) 100%
+    ),
+    radial-gradient(120% 110% at 18% 16%,
+      rgba(255,255,255,0.40) 0%,
+      rgba(255,255,255,0.00) 64%
+    ),
+    radial-gradient(120% 120% at 84% 90%,
+      rgba(255,255,255,0.14) 0%,
+      rgba(255,255,255,0.00) 56%
+    );
+  --pin-gloss-op: 0.48;
+}
+
+/* Conic ring in light mode: specifically darken TL edge */
+@supports (background: conic-gradient(from 0deg, #000, #fff)){
+  :root.theme-light .pin-keypad__button{
+    --pin-ring-grad: conic-gradient(from 0deg,
+      rgba(17,24,39,0.12) 0deg,
+      rgba(17,24,39,0.12) 110deg,
+
+      /* BR band */
+      rgba(17,24,39,0.14) 122deg,
+      rgba(17,24,39,0.20) 144deg,
+      rgba(17,24,39,0.14) 168deg,
+
+      rgba(17,24,39,0.12) 180deg,
+      rgba(17,24,39,0.12) 286deg,
+
+      /* TL darker band (your request) */
+      rgba(17,24,39,0.18) 296deg,
+      rgba(17,24,39,0.30) 318deg,
+      rgba(17,24,39,0.18) 344deg,
+
+      rgba(17,24,39,0.12) 360deg
+    );
+  }
+}
+
+@supports not ((-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0))){
+  :root.theme-light .pin-keypad__button{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      inset 0 0 0 var(--pin-border-w) rgba(17,24,39,0.14),
+      inset 0 1px 0 rgba(255,255,255,0.78),
+      inset 0 -1px 0 rgba(0,0,0,0.12);
+  }
+}
+
+/* ---------- Alt key (0/C) ---------- */
+:root:not(.theme-light) .pin-keypad__button--alt{
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.05) 0%,
+      rgba(255,255,255,0.00) 56%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.48) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,var(--pin-a)) 0%,
+      rgba(255,255,255,0.004) 42%,
+      rgba(0,0,0,0.40) 100%
+    );
+}
+
+:root.theme-light .pin-keypad__button--alt{
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.92) 0%,
+      rgba(255,255,255,0.00) 62%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.10) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.40) 0%,
+      rgba(255,255,255,0.22) 55%,
+      rgba(255,255,255,0.14) 100%
+    );
+}
+
+/* ---------- 0/C swap ---------- */
+.pin-keypad__button--alt .pin-alt-swap{
+  position: relative;
+  width: 2.2em;
+  height: 1.2em;
+}
+
+.pin-keypad__button--alt .pin-alt-face{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  will-change: opacity;
+}
+
+.pin-keypad__button--alt .pin-alt-main,
+.pin-keypad__button--alt .pin-alt-sub{
+  font: inherit;
+  font-weight: inherit;
+  font-size: 1em;
+  letter-spacing: inherit;
+}
+
+
+.pin-keypad__button--alt:not(:active):not(:disabled) .pin-alt-face--zero{
+  animation: pinAltZeroFade 6.5s ease-in-out infinite;
+}
+.pin-keypad__button--alt:not(:active):not(:disabled) .pin-alt-face--clear{
+  animation: pinAltClearFade 6.5s ease-in-out infinite;
+}
+
+/* While pressed: show C and pause */
+.pin-keypad__button--alt:active .pin-alt-face{
+  animation: none;
+}
+.pin-keypad__button--alt:active .pin-alt-face--zero{ opacity: 0; }
+.pin-keypad__button--alt:active .pin-alt-face--clear{ opacity: 1; }
+
+/* ---------- Focus/disabled ---------- */
+.pin-keypad__button:focus-visible{
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(197,113,113,0.18),
+    0 12px 20px rgba(0,0,0,0.12);
+}
+
+.pin-keypad__button:disabled{
+  opacity: 1;
+  box-shadow: none;
+  cursor: var(--cursor-default);
+}
+
+/* ---------- Bounce ---------- */
+
+
+.pin-keypad__button--bounce{
+  animation: pinKeyBounce var(--pin-bounce-ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .pin-keypad__button--bounce{ animation: none; }
+}
+
+/* ---------- Submit icon overlay positioning (unchanged) ---------- */
+.login-submit-icon-stack{
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.login-submit-icon{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.login-submit-icon-overlay{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+/* ---------- Help key (question mark) ---------- */
+/* Match keypad fill; no ring */
+.pin-keypad__button.pin-keypad__button--help{
+  position: relative;
+
+  font-size: 1.85rem;
+  font-weight: 360;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+@supports (-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0)){
+  .pin-keypad__button.pin-keypad__button--help::before{ content: none; }
+}
+.pin-keypad__button.pin-keypad__button--help::after{ content: ""; }
+
+:root:not(.theme-light) .pin-keypad__button.pin-keypad__button--help{ color: #c57171; }
+:root.theme-light .pin-keypad__button.pin-keypad__button--help{ color: #7A3A38; }
+
+.pin-keypad__button.pin-keypad__button--help:focus-visible{
+  outline: none;
+  text-shadow: 0 0 0.6px currentColor;
+}
+
+:root:not(.theme-light) .pin-keypad__button.pin-keypad__button--help,
+:root:not(.theme-light) .pin-keypad__button.pin-keypad__button--submit{
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.02) 0%,
+      rgba(255,255,255,0.00) 56%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.22) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.003) 0%,
+      rgba(255,255,255,0.002) 42%,
+      rgba(0,0,0,0.22) 100%
+    );
+  --pin-gloss-op: 0.18;
+  box-shadow:
+    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.46);
+}
+
+:root.theme-light .pin-keypad__button.pin-keypad__button--help,
+:root.theme-light .pin-keypad__button.pin-keypad__button--submit{
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.62) 0%,
+      rgba(255,255,255,0.00) 62%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.06) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.20) 0%,
+      rgba(255,255,255,0.12) 55%,
+      rgba(255,255,255,0.06) 100%
+    );
+  --pin-gloss-op: 0.26;
+}
+
+/* ---------- Help popover (minimal, no glass, no blur, no border effects) ---------- */
+/* NOTE: this assumes popover positioning is NOT forced via JSX inline-styles */
+.pin-help-popover{
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--pin-btn) + 0.65rem);
+  transform: none;
+
+  width: min(18.5rem, calc(100% - 0.5rem));
+  padding: 0.80rem 0.90rem;
+
+  border-radius: 12px;
+  z-index: 30;
+
+  background: rgba(0,0,0,0.86);
+  color: rgba(255,255,255,0.92);
+
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+:root.theme-light .pin-help-popover{
+  background: rgba(255,255,255,0.94);
+  color: #111827;
+}
+
+.pin-help-popover::before{ content: none; }
+
+/* Layout inside popover: text first, link last */
+.pin-help-popover > div{
+  display: flex;
+  flex-direction: column;
+  padding-right: 2.4rem; /* space for the close button */
+}
+
+.pin-help-popover .pin-help-text{
+  font-size: 1.1rem;
+  line-height: 1.38;
+  margin-top: 0.10rem;
+  opacity: 0.92;
+}
+:root.theme-light .pin-help-popover .pin-help-text{
+  color: #1f2937;
+  opacity: 1;
+}
+
+.pin-help-popover a.unustasid-parooli-link{
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: 0.65rem;
+  align-self: flex-start;
+}
+
+/* Close button */
+.pin-help-popover .pin-help-close{
+  position: absolute;
+  right: 0.5rem;
+  top: 0.35rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+/* Close colors per theme */
+:root:not(.theme-light) .pin-help-popover .pin-help-close{ color: #c57171; }
+:root.theme-light .pin-help-popover .pin-help-close{ color: #7A3A38; }
+.pin-help-popover{
+  /* senine positsioneerimine jääb */
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--pin-btn) + 0.65rem);
+
+  /* 👇 tee kast sisupõhisemaks */
+  width: auto;
+  inline-size: fit-content;
+  max-inline-size: min(18.5rem, calc(100% - 0.5rem));
+
+  /* et tekst murraks normaalselt */
+  white-space: normal;
+}
+
+.pin-help-popover > div{
+  /* hoiab sisu “mõistlikus” laiuses ja ei aja linki üle serva */
+  max-inline-size: inherit;
+}
+.pin-keypad-all-wrapper{
+  position: relative;
+  overflow: visible;
+}
+.pin-help-popover{
+  width: auto;
+  inline-size: fit-content;
+  max-inline-size: min(18.5rem, calc(100% - 0.5rem));
+}
+.login-email-label{
+  width: 100%;
+  display: block;
+  text-align: center;
+
+  /* slightly wider than before, but still aligned with keypad max */
+  max-width: calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)));
+  margin: 0 auto;
+}
+:root{
+  --pin-grid-w: calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)));
+
+  /* mõõdukamad väärtused */
+  --login-modal-side-pad: 1.05em;   /* oli 1.25em */
+  --login-modal-min-extra: 2.6rem;  /* oli 5.0rem */
+  --login-modal-max-extra: 3.6rem;  /* oli 8.0rem */
+
+  --login-modal-max-vw: 92vw;       /* oli 94vw */
+}
+
+/* Pane SEE plokk CSS lõppu */
+#login-modal.login-modal-box.glass-modal{
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.2));
+  backdrop-filter: blur(0.5rem) saturate(110%);
+  -webkit-backdrop-filter: blur(0.5rem) saturate(110%);
+
+  border: none;
+  color: var(--glass-surface-text, var(--pt-200));
+  border-radius: 1.5em;
+
+  position: fixed;
+  left: 50vw;
+  top: 50dvh;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+
+  width: auto;
+  max-width: none;
+  height: auto;
+  min-height: 0;
+  max-height: calc(100dvh - 2rem);
+
+  /* hoia kitsam kontrollitud vahemikus */
+  min-width: calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra));
+  max-width: min(
+    var(--login-modal-max-vw),
+    calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra))
+  );
+
+  padding: 0.2em var(--login-modal-side-pad) 0.7em;
+
+  box-sizing: border-box;
+  font-size: 1.28rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+
+  overflow-x: hidden;
+  animation: modalSlideIn 0.4s;
+}
+
+/* Mobile fullscreen login modal */
+@media (max-width: 48em) {
+  #login-modal.login-modal-box.glass-modal {
+    left: 0;
+    top: 0;
+    transform: none;
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    border-radius: 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.2rem) 1.2rem calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
+    font-size: 1.2rem;
+    gap: 0.85em;
+    /* Darker background and stronger blur on mobile */
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(1.4rem) saturate(125%);
+    -webkit-backdrop-filter: blur(1.4rem) saturate(125%);
+  }
+  #login-modal .login-modal-bottom-link {
+    margin-top: 0.15em;
+    margin-bottom: 0;
+  }
+  #login-modal .pin-keypad-all-wrapper {
+    margin-top: 0.5rem;
+  }
+}
+
+:root{
+  --pin-gap-x: 1.08rem;
+  --pin-gap-y: 0.92rem;
+}
+#login-modal .glass-title{
+  font-size: clamp(2.05rem, 1.5rem + 1.6vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+#login-modal .login-modal-bottom-link .link-brand{
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-weight: 500;
+}
+
+@media (max-width: 48em) {
+  #login-modal {
+    --pin-btn: clamp(5.5rem, 16vw, 6.8rem);
+    --pin-gap-x: clamp(1.1rem, 3vw, 1.3rem);
+    --pin-gap-y: clamp(0.95rem, 2.5vw, 1.1rem);
+    --login-envelope-size: clamp(7rem, 24vw, 8.6rem);
+    --login-envelope-hit: clamp(7.6rem, 26vw, 9.4rem);
+  }
+  .login-modal-root .login-email-toggle{
+    margin-top: clamp(1.4rem, 4.8vh, 3.4rem);
+    margin-bottom: 0.8rem;
+  }
+  #login-modal .login-modal-head .glass-title {
+    font-size: clamp(3rem, 8.8vw, 4.4rem);
+    line-height: 1.02;
+  }
+  #login-modal .login-modal-head{
+    margin-top: clamp(1.2rem, 6.2vh, 3.8rem);
+  }
+  #login-modal .glass-title{
+    margin-top: clamp(1.4rem, 7vh, 4.2rem);
+  }
+  #login-modal .login-modal-bottom-link .link-brand {
+    font-size: clamp(1.75rem, 5vw, 2.2rem);
+  }
+  #login-modal .login-email-icon-btn{
+    width: clamp(7.6rem, 26vw, 9.4rem);
+    height: clamp(7.6rem, 26vw, 9.4rem);
+    background-size: clamp(7rem, 24vw, 8.6rem) auto;
+  }
+  #login-modal .login-modal-form .input-email-icon {
+    width: min(100%, var(--pin-grid-w));
+    max-width: var(--pin-grid-w);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #login-modal .pin-keypad__button {
+    font-size: 1.85rem;
+  }
+  #login-modal .pin-keypad__button.pin-keypad__button--help {
+    font-size: 2.1rem;
+  }
+}
+.pin-keypad__button--submit{
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.login-submit-icon-stack{
+  position: relative;
+  width: var(--pin-btn);
+  height: var(--pin-btn);
+  display: grid;
+  place-items: center;
+  line-height: 0;
+}
+
+.login-submit-icon{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.login-submit-icon-overlay{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.login-submit-icon-overlay svg{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Remove ring pseudo-element for submit */
+@supports (-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0)){
+  .pin-keypad__button.pin-keypad__button--submit::before{ content: none; }
+}
+.pin-keypad__button.pin-keypad__button--submit::after{ content: ""; }
+
+@supports not ((-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0))){
+  :root:not(.theme-light) .pin-keypad__button.pin-keypad__button--help,
+  :root:not(.theme-light) .pin-keypad__button.pin-keypad__button--submit{
+  box-shadow:
+    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.46);
+}
+  :root.theme-light .pin-keypad__button.pin-keypad__button--help,
+  :root.theme-light .pin-keypad__button.pin-keypad__button--submit{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      inset 0 1px 0 rgba(255,255,255,0.78),
+      inset 0 -1px 0 rgba(0,0,0,0.12);
+  }
+}
+
+/* Submit focus should feel consistent with help */
+.pin-keypad__button.pin-keypad__button--submit:focus-visible{
+  outline: none;
+  text-shadow: 0 0 0.6px currentColor;
+}
+#login-modal .login-modal-message-slot{
+  margin-top: 0.2rem;
+  font-size: 1.5em;
+  line-height: 1.6;
+}
+
+/* Error (Sisselogimine ebaõnnestus) sama suur, või soovi korral veel suurem */
+#login-modal .login-error-note{
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+#login-modal .glass-title{
+  margin-bottom: 0.3rem;
+  margin-top: 1.2rem; /* proovi 0.6-1.2rem */
+}
+
+#login-modal .login-modal-close{
+  top: 0.6rem;
+  right: 0.6rem;
+}
+ 
+#login-modal .login-modal-head{
+  margin-top: 0;
+}
+/* Toggle keskele ja “klaaskasti peale” ilma layout'i nihutamata */
+.profile-theme-toggle-top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(1.15rem, 3vh, 1.7rem);
+  transform: none;
+  z-index: 60;
+  pointer-events: none;
+  margin-bottom: 0;
+}
+
+/* Toggle nupp ei tohi olla “corner” reeglitega seotud */
+.profile-theme-toggle-top .profile-theme-toggle-top-btn{
+  position: relative;
+  top: auto;
+  right: auto;
+  left: auto;
+  pointer-events: auto;
+}
+.profile-theme-toggle-top .profile-theme-switch{
+  --toggle-w: clamp(5.3rem, 17vw, 6.5rem);
+  --toggle-h: clamp(2.0rem, 5.8vw, 2.5rem);
+  --toggle-pad: 0.22rem;
+  --thumb-size: calc(var(--toggle-h) - (var(--toggle-pad) * 2));
+  --thumb-shift: calc(var(--toggle-w) - var(--toggle-h));
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: var(--toggle-w);
+  height: var(--toggle-h);
+  padding: var(--toggle-pad);
+  border-radius: 999px;
+  color: var(--profile-toggle-text);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  pointer-events: auto;
+  cursor: var(--cursor-pointer);
+  user-select: none;
+}
+.profile-theme-switch__input{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+.profile-theme-switch__track{
+  display: contents;
+  --profile-toggle-text-pad-start: 0.52rem;
+  --profile-toggle-text-pad-end: calc(var(--thumb-size) + 0.18rem);
+}
+.profile-theme-switch__text{
+  position: absolute;
+  left: 0;
+  right: calc(var(--thumb-size) + var(--toggle-pad));
+  top: var(--toggle-pad);
+  bottom: var(--toggle-pad);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  padding-inline: var(--toggle-text-pad, 0.32rem);
+  white-space: nowrap;
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-size: var(--profile-toggle-text-size, clamp(0.8rem, 2.7vw, 1.05rem));
+  font-weight: 500;
+  font-synthesis: weight;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  line-height: 1;
+  text-shadow: none;
+  pointer-events: none;
+}
+.profile-theme-switch__thumb{
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  border-radius: 999px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: var(--profile-toggle-thumb-border, 0);
+  box-sizing: border-box;
+  background: var(--profile-toggle-thumb-bg);
+  color: var(--profile-toggle-thumb-color);
+  box-shadow: var(--profile-toggle-thumb-shadow);
+  transform: translateX(var(--thumb-shift));
+  transition: transform 0.25s ease;
+}
+.profile-theme-switch__icon{
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: calc(100% - 0.24rem);
+  height: calc(100% - 0.24rem);
+  display: grid;
+  place-items: center;
+}
+.profile-theme-switch__icon-svg{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.profile-theme-switch__icon-svg.profile-theme-switch__icon-moon{
+  transform: translateY(-0.08rem);
+}
+.profile-theme-switch__input:checked + .profile-theme-switch__track .profile-theme-switch__thumb{
+  transform: translateX(0);
+}
+.profile-theme-switch__input:checked + .profile-theme-switch__track .profile-theme-switch__text{
+  left: calc(var(--thumb-size) + var(--toggle-pad));
+  right: 0;
+  justify-content: flex-start;
+  text-align: left;
+}
+.profile-theme-switch__input:checked + .profile-theme-switch__track{
+  --profile-toggle-text-pad-start: calc(var(--thumb-size) + 0.22rem);
+  --profile-toggle-text-pad-end: 0.7rem;
+}
+.profile-theme-switch__input:focus-visible + .profile-theme-switch__track .profile-theme-switch__thumb{
+  box-shadow:
+    0 0 0 2px var(--pt-light),
+    var(--profile-toggle-thumb-shadow);
+}
+:root:not(.theme-light) .profile-theme-switch{
+  --profile-toggle-text: rgba(230, 234, 241, 0.92);
+  --profile-toggle-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+  --profile-toggle-text-size: clamp(1.06rem, 3.5vw, 1.44rem);
+  --profile-toggle-track-bg: transparent;
+  --profile-toggle-track-border: transparent;
+  --profile-toggle-track-shadow: none;
+  --profile-toggle-thumb-bg: linear-gradient(145deg, rgba(34, 40, 54, 0.98), rgba(20, 26, 36, 0.98));
+  --profile-toggle-thumb-color: rgba(248, 250, 252, 0.96);
+  --profile-toggle-thumb-shadow: 0 8px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+:root.theme-light .profile-theme-switch{
+  --profile-toggle-text: rgba(20, 27, 38, 0.96);
+  --profile-toggle-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  --profile-toggle-text-size: clamp(1.14rem, 3.8vw, 1.56rem);
+  --profile-toggle-track-bg: transparent;
+  --profile-toggle-track-border: transparent;
+  --profile-toggle-track-shadow: none;
+  --profile-toggle-thumb-border: 2px solid #d7d7d7;
+  --profile-toggle-thumb-bg: #ffffff;
+  --profile-toggle-thumb-color: rgba(15, 23, 42, 0.82);
+  --profile-toggle-thumb-shadow: 0 6px 14px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+:root:not(.theme-light) .profile-theme-switch__text{
+  letter-spacing: 0.05em;
+}
+:root.theme-light .profile-theme-switch__text{
+  letter-spacing: 0.03em;
+}
+:root.theme-light .profile-theme-toggle-top .st-sunMoonThemeToggleBtn,
+:root.theme-light .profile-theme-toggle-top .sun-and-moon{
+  color: rgba(31, 41, 55, 0.92);
+}
+:root.theme-light .profile-theme-toggle-top .st-sunMoonThemeToggleBtn:is(:hover,:focus-visible){
+  color: rgba(31, 41, 55, 0.98);
+}
+:root:not(.theme-light) .profile-theme-toggle-top .st-sunMoonThemeToggleBtn,
+:root:not(.theme-light) .profile-theme-toggle-top .sun-and-moon{
+  color: rgba(226, 232, 240, 0.98);
+}
+
+/* Desktop padding for profile container */
+@media (min-width: 48.0625em) {
+  .profile-page-shell .glass-box.profile-container{
+    padding-top: clamp(4.0rem, 8.2vh, 5.6rem);
+    padding-bottom: clamp(0.2rem, 0.8vh, 0.6rem);
+  }
+  .profile-subpage-shell .glass-box.profile-container{
+    padding-top: var(--profile-subpage-pad-y, clamp(1.6rem, 4.2vw, 2.6rem));
+    padding-bottom: var(--profile-subpage-pad-y, clamp(1.6rem, 4.2vw, 2.6rem));
+  }
+  .glass-box.profile-container > .glass-form.profile-form-vertical{
+    position: static;
+    z-index: 2;
+  }
+  .profile-btn-row--back-logout{
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    margin: 0;
+    padding-inline: clamp(1.4rem, 4.6vw, 3rem);
+    width: 100%;
+    max-width: none;
+    transform: translateY(-50%);
+    z-index: 3;
+  }
+}
+
+/* Profile dock: restore keypad glass styling (colors/border/gloss only) */
+.profile-email-dock-wrapper .dock-item,
+.profile-email-card{
+  position: relative;
+  border: 0;
+}
+
+.profile-email-dock-wrapper .dock-item{
+  overflow: visible;
+}
+
+.profile-email-card{
+  overflow: hidden;
+}
+
+.profile-email-dock-wrapper .dock-item::after,
+.profile-email-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--pin-gloss-bg);
+  opacity: var(--pin-gloss-op, 0.40);
+}
+
+@supports (-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0)){
+  .profile-email-dock-wrapper .dock-item::before,
+  .profile-email-card::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    padding: var(--pin-border-w);
+    background: var(--pin-ring-grad);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+}
+
+.profile-email-dock-wrapper .dock-icon,
+.profile-email-card__icon,
+.profile-email-card__label{
+  position: relative;
+  z-index: 1;
+}
+
+.profile-email-dock-wrapper .dock-label{
+  position: absolute;
+  z-index: 2;
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
+:root:not(.theme-light) .profile-email-card{
+  color: rgba(255,255,255,0.92);
+  background: linear-gradient(145deg, rgba(40, 48, 64, 0.85), rgba(20, 26, 38, 0.95));
+  box-shadow:
+    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.46);
+  --pin-ring-grad: linear-gradient(135deg,
+    rgba(255,255,255,0.16) 0%,
+    rgba(255,255,255,0.12) 30%,
+    rgba(255,255,255,0.10) 56%,
+    rgba(255,255,255,0.18) 80%,
+    rgba(255,255,255,0.12) 100%
+  );
+  --pin-gloss-bg:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.14) 0%,
+      rgba(255,255,255,0.06) 34%,
+      rgba(255,255,255,0.00) 58%,
+      rgba(255,255,255,0.05) 74%,
+      rgba(0,0,0,0.16) 100%
+    );
+  --pin-gloss-op: 0.34;
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-icon{
+  color: rgba(240, 244, 252, 0.95);
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item svg{
+  stroke: rgba(240, 244, 252, 0.95);
+  fill: none;
+}
+
+@supports (background: conic-gradient(from 0deg, #000, #fff)){
+  :root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
+  :root:not(.theme-light) .profile-email-card{
+    --pin-ring-grad: conic-gradient(from 0deg,
+      rgba(255,255,255,0.14) 0deg,
+      rgba(255,255,255,0.14) 112deg,
+      rgba(255,255,255,0.18) 122deg,
+      rgba(255,255,255,0.24) 144deg,
+      rgba(255,255,255,0.18) 168deg,
+      rgba(255,255,255,0.14) 180deg,
+      rgba(255,255,255,0.14) 292deg,
+      rgba(255,255,255,0.18) 304deg,
+      rgba(255,255,255,0.26) 324deg,
+      rgba(255,255,255,0.18) 346deg,
+      rgba(255,255,255,0.14) 360deg
+    );
+  }
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item{
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.035) 0%,
+      rgba(255,255,255,0.00) 56%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.34) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.004) 0%,
+      rgba(255,255,255,0.003) 42%,
+      rgba(0,0,0,0.28) 100%
+    );
+  --pin-gloss-op: 0.24;
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item::before{
+  content: none;
+}
+
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item:hover,
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item:focus-visible {
+  color: rgba(255,255,255,0.92);
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.035) 0%,
+      rgba(255,255,255,0.00) 56%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.34) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.004) 0%,
+      rgba(255,255,255,0.003) 42%,
+      rgba(0,0,0,0.28) 100%
+    );
+  box-shadow:
+    0 10px 18px rgba(0,0,0,var(--pin-shadow)),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.46);
+  --pin-gloss-op: 0.24;
+}
+
+:root.theme-light .profile-email-dock-wrapper .dock-item,
+:root.theme-light .profile-email-card{
+  color: rgba(31,41,55,0.92);
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.98) 0%,
+      rgba(255,255,255,0.20) 62%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.06) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.58) 0%,
+      rgba(255,255,255,0.36) 55%,
+      rgba(255,255,255,0.24) 100%
+    );
+  box-shadow:
+    0 10px 18px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.78),
+    inset 0 -1px 0 rgba(0,0,0,0.12);
+  border: 0;
+  --pin-ring-grad: linear-gradient(135deg,
+    rgba(17,24,39,0.18) 0%,
+    rgba(17,24,39,0.13) 35%,
+    rgba(17,24,39,0.11) 58%,
+    rgba(17,24,39,0.16) 80%,
+    rgba(17,24,39,0.12) 100%
+  );
+  --pin-gloss-bg:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.55) 0%,
+      rgba(255,255,255,0.22) 32%,
+      rgba(255,255,255,0.00) 58%,
+      rgba(255,255,255,0.14) 74%,
+      rgba(0,0,0,0.10) 100%
+    ),
+    radial-gradient(120% 110% at 18% 16%,
+      rgba(255,255,255,0.40) 0%,
+      rgba(255,255,255,0.00) 64%
+    ),
+    radial-gradient(120% 120% at 84% 90%,
+      rgba(255,255,255,0.14) 0%,
+      rgba(255,255,255,0.00) 56%
+    );
+  --pin-gloss-op: 0.48;
+}
+
+:root.theme-light .profile-email-dock-wrapper .dock-item:hover,
+:root.theme-light .profile-email-dock-wrapper .dock-item:focus-visible{
+  background:
+    radial-gradient(120% 120% at 18% 16%,
+      rgba(255,255,255,0.98) 0%,
+      rgba(255,255,255,0.20) 62%
+    ),
+    radial-gradient(120% 120% at 86% 90%,
+      rgba(0,0,0,0.06) 0%,
+      rgba(0,0,0,0.00) 64%
+    ),
+    linear-gradient(145deg,
+      rgba(255,255,255,0.58) 0%,
+      rgba(255,255,255,0.36) 55%,
+      rgba(255,255,255,0.24) 100%
+    );
+  box-shadow:
+    0 10px 18px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.78),
+    inset 0 -1px 0 rgba(0,0,0,0.12);
+  border: 0;
+}
+
+:root.theme-light .profile-email-dock-wrapper .dock-icon{
+  color: rgba(35, 31, 28, 0.95);
+}
+
+:root.theme-light .profile-email-dock-wrapper .dock-item svg{
+  stroke: rgba(35, 31, 28, 0.95);
+  fill: none;
+}
+
+@supports (background: conic-gradient(from 0deg, #000, #fff)){
+  :root.theme-light .profile-email-dock-wrapper .dock-item,
+  :root.theme-light .profile-email-card{
+    --pin-ring-grad: conic-gradient(from 0deg,
+      rgba(17,24,39,0.12) 0deg,
+      rgba(17,24,39,0.12) 110deg,
+      rgba(17,24,39,0.14) 122deg,
+      rgba(17,24,39,0.20) 144deg,
+      rgba(17,24,39,0.14) 168deg,
+      rgba(17,24,39,0.12) 180deg,
+      rgba(17,24,39,0.12) 292deg,
+      rgba(17,24,39,0.14) 304deg,
+      rgba(17,24,39,0.22) 324deg,
+      rgba(17,24,39,0.14) 346deg,
+      rgba(17,24,39,0.12) 360deg
+    );
+  }
+}
+
+/* Hide scrollbar for login modal on mobile */
+@media (max-width: 48em) {
+  #login-modal {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For IE and Edge */
+  }
+  #login-modal::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+}
+[data-bg-layer] .bg-space-layer,
+[data-bg-layer] .bg-particles-layer{
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: calc(var(--bg-overscan) * -1) !important;
+  bottom: calc(var(--bg-overscan) * -1) !important;
+
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ColorBends must stay viewport-sized (otherwise strokes/curves get too thick) */
+[data-bg-layer] .bg-bends-layer{
+  position: absolute !important;
+  inset: 0 !important;
+
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Internal fixed overrides */
+[data-bg-layer] .space-backdrop{
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: calc(var(--bg-overscan) * -1) !important;
+  bottom: calc(var(--bg-overscan) * -1) !important;
+}
+
+/* Particles.css uses .particles-container (often fixed); override here */
+[data-bg-layer] .particles-container{
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: -320px !important;
+  bottom: -320px !important;
+  width: auto !important;
+  height: auto !important;
+  z-index: 0;
+  pointer-events: none;
+}
+[data-bg-layer][data-parallax="home"] .bg-space-layer{
+  transform: translate3d(0, var(--saai-parallax-space), 0);
+}
+[data-bg-layer][data-parallax="home"] .bg-bends-layer{
+  transform: translate3d(0, 0, 0);
+}
+[data-bg-layer][data-parallax="home"] .bg-particles-layer{
+  transform: translate3d(0, var(--saai-parallax-particles), 0);
+}
+/* -------------------------- Homepage sections ----------------------------- */
+
+.homepage-root.homepage-scroll .home-hero{
+  min-height: 100svh;
+  display: flex;
+  align-items: stretch;
+}
+
+.homepage-root.homepage-scroll .home-hero .main-content{
+  padding-bottom: 0 !important;
+}
+
+/* Ensure sections themselves don't paint any slabs/lines */
+.homepage-root.homepage-scroll .home-section,
+.homepage-root.homepage-scroll .home-section-inner,
+.homepage-root.homepage-scroll .home-footer,
+.homepage-root.homepage-scroll .home-footer-inner{
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Kill any stray horizontal rules */
+.homepage-root.homepage-scroll hr{
+  display: none !important;
+}
+
+.homepage-root.homepage-scroll .home-section{
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  padding: clamp(2.8rem, 7vw, 5rem) 0;
+}
+
+.homepage-root.homepage-scroll .home-section-inner{
+  width: min(92vw, 58rem);
+  margin: 0 auto;
+}
+
+/* NOTE: if you want light-theme typography to differ, we can theme these via CSS vars */
+.homepage-root.homepage-scroll .home-section-title{
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.9rem, 3.9vw, 2.6rem);
+  margin: 0 0 1.1rem 0;
+  color: var(--pt-100, #ecebe9);
+  text-align: center;
+}
+:root:not(.theme-light) .homepage-root.homepage-scroll .home-section-title{
+  color: #c57171;
+}
+:root.theme-light .homepage-root.homepage-scroll .home-section-title{
+  color: #7A3A38;
+}
+:root:not(.theme-light) .homepage-root.homepage-scroll .home-links .home-section-title{
+  color: var(--home-prose-color);
+}
+:root.theme-light .homepage-root.homepage-scroll .home-links .home-section-title{
+  color: var(--home-prose-color);
+}
+
+.homepage-root.homepage-scroll .home-prose{
+  color: var(--home-prose-color);
+  line-height: 1.7;
+  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
+  text-shadow: 0 1px 18px rgba(0,0,0,0.35);
+  text-align: center;
+}
+
+.homepage-root.homepage-scroll .home-prose > * + *{
+  margin-top: 0.95rem;
+}
+
+.homepage-root.homepage-scroll .home-contact-row{
+  margin-top: 1.25rem;
+}
+.homepage-root.homepage-scroll .home-email-row{
+  margin-top: 0.95rem;
+}
+
+.homepage-root.homepage-scroll .home-section.home-about{
+  padding-bottom: clamp(0.6rem, 1.6vw, 1.0rem);
+}
+
+.homepage-root.homepage-scroll .home-section.home-links{
+  padding-top: clamp(0.3rem, 1.0vw, 0.6rem);
+  padding-bottom: clamp(0.9rem, 2.2vw, 1.6rem);
+}
+
+.homepage-root.homepage-scroll .home-links .home-section-title{
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: 0.018em;
+  margin-bottom: 0.65rem;
+  color: var(--home-prose-color);
+}
+
+.homepage-root.homepage-scroll .home-links-list{
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.05rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-root.homepage-scroll .home-link{
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(1.08rem, 1.5vw, 1.25rem);
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* Footer: keep it clean and transparent */
+.homepage-root.homepage-scroll .home-footer{
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 0.1rem);
+  display: flex;
+  justify-content: center;
+}
+
+.homepage-root.homepage-scroll .home-footer-inner{
+  width: min(92vw, 58rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.homepage-root.homepage-scroll .home-footer-logo{
+  width: clamp(15rem, 30vw, 24rem);
+  height: auto;
+  opacity: 0.85;
+}
+.homepage-root.homepage-scroll .home-footer-email{
+  margin-bottom: 1.4rem;
+  text-align: center;
+}
+
+/* Last resort: if some component injects a top border, neutralize it on homepage */
+.homepage-root.homepage-scroll *:not(.link-brand):not(.link-brand-inline):not(.home-link):not(.meist-external-link){
+  border-top-color: transparent !important;
+}

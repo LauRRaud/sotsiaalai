@@ -61,6 +61,18 @@
     "rooms": "Rooms",
     "add_person": "Add person"
   },
+  "chat": {
+    "page_label": "Chat content",
+    "right_rail": "Chat shortcuts",
+    "back_to_home": "Back to home",
+    "ai_toggle": {
+      "note": "By default this is a human conversation and the assistant can’t see the message."
+    },
+    "mic": {
+      "start": "Start dictation",
+      "stop": "Stop recording"
+    }
+  },
   "auth": {
     "email_placeholder": "you@example.com",
     "password_placeholder": "PIN (4-8 digits)",

@@ -1,0 +1,107 @@
+/* Auto-extracted from original globals.css.
+   Purpose: global design tokens + sizing variables.
+*/
+
+:root {
+  color-scheme: dark;
+  --bg-overscan: clamp(120px, 18svh, 220px);
+}
+
+/* Core tokens (default / dark) */
+:root {
+  --brand-primary: #c57171;
+  --brand-accent: var(--brand-primary);
+  --brand-light:  var(--brand-primary);
+  --brand-soft: #c18a8a;
+  --chat-diameter: clamp(660px, 90vmin, 1240px);
+  --profile-diameter: var(--chat-diameter);
+  --circle-modal-diameter: var(--chat-diameter);
+  --btn-base-bg-dark: linear-gradient(180deg, rgba(236,244,255,0.14) 0%, rgba(120,150,200,0.07) 100%);
+  --chat-action-hover-bg: var(--btn-base-bg-dark);
+  --brand-soft-hover: #e2abaa;
+  --link-gold: var(--brand-primary);
+  --link-gold-hover: var(--brand-primary);
+  --brand-alpha-05: rgba(255,171,145,0.05);
+  --brand-alpha-10: rgba(255,171,145,0.10);
+  --glow-ring: rgba(148, 163, 184, 0.34);
+  --glow-soft: rgba(148, 163, 184, 0.22);
+  --glow-outer: rgba(148, 163, 184, 0.16);
+  --glow-light-ring: #e1a0a0;
+  --glow-light-soft: rgba(225,160,160,0.28);
+  --glow-light-outer: rgba(225,160,160,0.34);
+  --ui-hover-ring: rgba(210,215,225,0.65);
+  --ui-hover-soft: rgba(210,215,225,0.38);
+  --ui-hover-outer: rgba(210,215,225,0.28);
+  --page-bg: #050a10;
+  --page-bg-top: #02050f;
+  --page-bg-bottom: #050a10;
+  --page-bg-fallback: #050a10;
+  --page-bg-top-fallback: #02050f;
+  --page-bg-bottom-fallback: #050a10;
+  --pt-50:  #F8F8F7;
+  --pt-100: #ECEBE9;
+  --pt-150: #E6E5E3;
+  --pt-200: #DFDEDA;
+  --pt-300: #C9C7C2;
+  --pt-400: #AFAAA3;
+  --pt-500: #7E7970;
+  --pt-600: #55514C;
+  --pt-light: var(--pt-200);
+  --pt:       var(--pt-300);
+  --pt-mid:   var(--pt-400);
+  --pt-dark:  var(--pt-500);
+  --card-size: clamp(13.5rem, 30vw, 21rem);
+  --card-logo-front-left: clamp(4.2rem, calc(var(--card-size) * 0.48), 11.4rem);
+  --card-logo-front-right: clamp(3.9rem, calc(var(--card-size) * 0.40), 10.6rem);
+  --card-logo-back: clamp(2.65rem, calc(var(--card-size) * 0.25), 7rem);
+  --card-logo-safe-gap: 4em;
+  --flip-ms: 1200ms;
+  --flip-front-ms: 1100ms;
+  --fade-ms: 600ms;
+  --flip-ease: cubic-bezier(.22,.61,.36,1);
+  --pt-80:  #F2F1EF;
+  --pt-130: #EDEAE6;
+  --pt-avatar-ring: #B7B1A7;
+  --cursor-default-backup: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2226%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 3 3, auto;
+  --cursor-default: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 3 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2226%22%20viewBox%3D%220%200%2014%2015%22%3E%0A%20%20%3Cpath%20d%3D%22M%202%201%20L%209%207%20Q%209.5%207.4%208.7%207.8%20L%204.2%209.5%20Q%203.2%209.9%203.0%208.9%20L%202%201%20Z%22%20fill%3D%22%23d0ceca%22%20%2F%3E%0A%3C%2Fsvg%3E") 4 4, pointer;
+}
+
+/* Responsive token adjustments */
+@media (max-width: 30em) {
+  :root {
+    --card-size: clamp(11.875rem, 76vw, 16.625rem);
+  }
+}
+@media (min-width: 80em) {
+  :root {
+    --card-size: clamp(15.5rem, 30vw, 23.5rem);
+    --card-logo-front-left: clamp(4.8rem, calc(var(--card-size) * 0.48), 12.8rem);
+    --card-logo-front-right: clamp(4.3rem, calc(var(--card-size) * 0.40), 11.6rem);
+    --card-logo-back: clamp(2.9rem, calc(var(--card-size) * 0.25), 7.5rem);
+  }
+}
+@media (min-width: 90em) {
+  :root {
+    --card-size: clamp(16.75rem, 34vw, 25.5rem);
+    --card-logo-front-left: clamp(5.2rem, calc(var(--card-size) * 0.48), 13.8rem);
+    --card-logo-front-right: clamp(4.7rem, calc(var(--card-size) * 0.40), 12.4rem);
+    --card-logo-back: clamp(3.1rem, calc(var(--card-size) * 0.25), 8.2rem);
+  }
+}
+@media (min-width: 110em) {
+  :root {
+    --card-size: clamp(19.5rem, 27vw, 28rem);
+    --card-logo-front-left: clamp(6.2rem, calc(var(--card-size) * 0.48), 12.9rem);
+    --card-logo-front-right: clamp(5.7rem, calc(var(--card-size) * 0.40), 11.4rem);
+    --card-logo-back: clamp(3.8rem, calc(var(--card-size) * 0.25), 9.2rem);
+  }
+}
+
+/* Additional tokens (kept to preserve original cascade order) */
+:root {
+  --pt-80:  #F2F1EF;
+  --pt-130: #EDEAE6;
+  --pt-avatar-ring: #B7B1A7;
+  --pt-avatar-ring-hover: #C8C3BA;
+}

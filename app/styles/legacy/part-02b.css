@@ -1,0 +1,23 @@
+/* Legacy remainder: links + small typography helpers. Account HUD extracted to components/account-hud.css. */
+
+.glass-box a,
+.meist-body a {
+  color: var(--link-gold);
+}
+.glass-box a:hover,
+.glass-box a:focus,
+.meist-body a:hover,
+.meist-body a:focus {
+  color: var(--brand-primary);
+}
+.epost-row {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  flex-wrap: wrap;
+  letter-spacing: 0.03em;
+  color: var(--pt-150);
+  }
+  .glass-section p strong {
+  color: var(--pt-200);
+  font-weight: 500; }

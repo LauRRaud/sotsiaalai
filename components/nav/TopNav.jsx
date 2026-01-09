@@ -10,6 +10,7 @@ export default function TopNav({
   roomId = null,
   hideChats = false,
   forceChat = false,
+  railMode = false,
   className = "",
   style,
 }) {
@@ -21,6 +22,8 @@ export default function TopNav({
   const isChatLike = forceChat || pathname.startsWith("/vestlus");
   const navIconOpacity = 1;
   const iconSize = isChatLike ? 42 : 28;
+  const railItemClass = railMode ? " right-rail-item" : "";
+  const railItemAttrs = railMode ? { "data-rail-item": "true" } : {};
 
   const chatIcon = isLightTheme ? "/logo/vestlusedhele.svg" : "/logo/vestlusedtume.svg";
   const roomsIcon = isLightTheme ? "/logo/ruumidhele.svg" : "/logo/ruumidtume.svg";
@@ -55,9 +58,10 @@ export default function TopNav({
       {!hideChats && (
         <button
           type="button"
-          className={`top-nav__btn${pathname.startsWith("/vestlus") ? " top-nav__btn--active" : ""}`}
+          className={`top-nav__btn${pathname.startsWith("/vestlus") ? " top-nav__btn--active" : ""}${railItemClass}`}
           onClick={openChatsDrawer}
           aria-label={t("nav.chats", "Vestlused")}
+          {...railItemAttrs}
         >
           <Image src={chatIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{ opacity: navIconOpacity }} />
           <span className="top-nav__label">{t("nav.chats", "Vestlused")}</span>
@@ -67,14 +71,21 @@ export default function TopNav({
       <button
         type="button"
         onClick={openRooms}
-        className={`top-nav__btn${pathname.startsWith("/ruum") ? " top-nav__btn--active" : ""}`}
+        className={`top-nav__btn${pathname.startsWith("/ruum") ? " top-nav__btn--active" : ""}${railItemClass}`}
         aria-label={t("nav.rooms", "Ruumid")}
+        {...railItemAttrs}
       >
         <Image src={roomsIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{ opacity: navIconOpacity }} />
         <span className="top-nav__label">{t("nav.rooms", "Ruumid")}</span>
       </button>
 
-      <button type="button" className="top-nav__btn" onClick={openInvite} aria-label={t("nav.add_person", "Lisa inimene")}>
+      <button
+        type="button"
+        className={`top-nav__btn${railItemClass}`}
+        onClick={openInvite}
+        aria-label={t("nav.add_person", "Lisa inimene")}
+        {...railItemAttrs}
+      >
         <Image src={addPersonIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{ opacity: navIconOpacity }} />
         <span className="top-nav__label">{t("nav.add_person", "Lisa inimene")}</span>
       </button>

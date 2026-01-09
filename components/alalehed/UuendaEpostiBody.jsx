@@ -105,6 +105,7 @@ export default function UuendaEpostiBody() {
       title={t("profile.email_update.title", "Uuenda e-post")}
       lang={locale}
       contentClassName="invite-page-content--wide"
+      actionsClassName="invite-page-actions--side"
       actions={
         <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
           <span className="back-arrow-circle" />

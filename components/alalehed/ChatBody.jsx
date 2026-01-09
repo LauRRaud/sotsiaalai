@@ -1,15 +1,10 @@
 ﻿"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
-import Link from "next/link";
-import AllikadLight from "@/public/logo/heleallikad.svg";
-import AllikadDark from "@/public/logo/tumeallikad.svg";
-import ShowLight from "@/public/logo/showhele.svg";
-import ShowDark from "@/public/logo/showtume.svg";
 import InviteModal from "@/components/invite/InviteModal";
-import TopNav from "@/components/nav/TopNav";
+import RightRail from "@/components/chat/RightRail";
+import LeftBackButton from "@/components/chat/LeftBackButton";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import ChatAnalysisPanel from "./chat/ChatAnalysisPanel";
 import ChatComposer from "./chat/ChatComposer";
@@ -17,7 +12,6 @@ import ConversationView from "./chat/ConversationView";
 import ChatMessageItem from "./chat/ChatMessageItem";
 import ChatSourcesPanel from "./chat/ChatSourcesPanel";
 import { useRoomMessages } from "@/components/rooms/useRoomMessages";
-import { pushWithTransition } from "@/lib/routeTransition";
 import { useSpeech } from "../chat/hooks/useSpeech";
 import { useChatStream } from "@/components/chat/hooks/useChatStream";
 import { useChatConversationState } from "../chat/hooks/useChatConversationState";
@@ -28,7 +22,6 @@ import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalys
 
 /* ---------- Komponent ---------- */
 export default function ChatBody({ roomId = null }) {
-  const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
@@ -61,7 +54,6 @@ export default function ChatBody({ roomId = null }) {
   }, [session]);
 
   const [inputFocused, setInputFocused] = useState(false);
-  const [topNavPinned, setTopNavPinned] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
@@ -90,9 +82,6 @@ export default function ChatBody({ roomId = null }) {
     if (next && chatContainerRef.current?.contains(next)) return;
     setInputFocused(false);
   };
-  useEffect(() => {
-    if (!inputFocused) setTopNavPinned(false);
-  }, [inputFocused]);
   const inputRef = useRef(null);
   const composerDraftApiRef = useRef(null);
   const inputBarRef = useRef(null);
@@ -380,6 +369,7 @@ export default function ChatBody({ roomId = null }) {
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
 
+
   const scrollToBottom = useCallback(() => {
     const node = chatWindowRef.current;
     if (!node) return;
@@ -404,24 +394,6 @@ export default function ChatBody({ roomId = null }) {
     });
   }, []);
 
-  const BackButton = ({ hidden }) => (
-    <div
-      className={`chat-back-btn-wrapper${hidden ? " is-hidden" : ""}`}
-      aria-hidden={hidden ? "true" : "false"}
-    >
-      <button
-        type="button"
-        className="back-arrow-btn"
-        onClick={() => pushWithTransition(router, "/")}
-        aria-label={t("chat.back_to_home", "Tagasi avalehele")}
-        tabIndex={hidden ? -1 : undefined}
-      >
-        <span className="back-arrow-circle" />
-      </button>
-    </div>
-  );
-
-
   useEffect(() => {
     if (prefs?.reduceMotion) {
       setIsEntering(false);
@@ -443,37 +415,20 @@ export default function ChatBody({ roomId = null }) {
           ref={chatContainerRef}
         >
           <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
+          <LeftBackButton t={t} hidden={analysis.showAnalysisPanel} />
       {/* Parempoolne vertikaalne ikoonirida */}
-      <div className="chat-right-actions">
-        <Link href="/profiil" className="avatar-link" aria-label="Ava profiil">
-          <span className="chat-avatar-abs" aria-hidden="true" />
-          <span className="avatar-label">Profiil</span>
-        </Link>
-        <button
-          type="button"
-          ref={sourcesButtonRef}
-          onClick={toggleSourcesPanel}
-          className={`chat-sources-btn chat-sources-btn--icon${showSourcesPanel ? " chat-sources-btn--active" : ""}${sourcesPulse ? " is-pulse" : ""}`}
-          aria-haspopup="dialog"
-          aria-expanded={showSourcesPanel ? "true" : "false"}
-          aria-controls="chat-sources-panel"
-          aria-label={t("chat.sources.button", "Allikad ({count})").replace(
-            "{count}",
-            String(conversationSources.length)
-          )}
-          title={t("chat.sources.button", "Allikad ({count})").replace(
-            "{count}",
-            String(conversationSources.length)
-          )}
-          disabled={!hasConversationSources}
-        >
-          {isLightTheme ? (
-            <AllikadLight className="chat-sources-icon" aria-hidden="true" role="img" />
-          ) : (
-            <AllikadDark className="chat-sources-icon" aria-hidden="true" role="img" />
-          )}
-        </button>
-      </div>
+      <RightRail
+        t={t}
+        roomId={roomId}
+        isLightTheme={isLightTheme}
+        inputFocused={inputFocused}
+        sourcesButtonRef={sourcesButtonRef}
+        toggleSourcesPanel={toggleSourcesPanel}
+        showSourcesPanel={showSourcesPanel}
+        sourcesPulse={sourcesPulse}
+        conversationSources={conversationSources}
+        hasConversationSources={hasConversationSources}
+      />
 
       {/* Pealkiri ja nav */}
       <h1 className="glass-title">{t("chat.title", "SotsiaalAI")}</h1>
@@ -482,25 +437,6 @@ export default function ChatBody({ roomId = null }) {
           {roomTitle}
         </div>
       ) : null}
-      <TopNav roomId={roomId} forceChat className={inputFocused && !topNavPinned ? "top-nav--collapsed" : ""} />
-      <button
-        type="button"
-        className={`top-nav-toggle${inputFocused && !topNavPinned ? " is-visible" : ""}`}
-        aria-label={t("chat.topnav.show", "Näita menüüd")}
-        title={t("chat.topnav.show", "Näita menüüd")}
-        onClick={() => {
-          setTopNavPinned(false);
-          setInputFocused(false);
-          inputRef.current?.blur();
-        }}
-      >
-        {isLightTheme ? (
-          <ShowLight className="top-nav-toggle-icon" aria-hidden="true" role="img" />
-        ) : (
-          <ShowDark className="top-nav-toggle-icon" aria-hidden="true" role="img" />
-        )}
-      </button>
-
       {/* Kriisi teavitus */}
       {isCrisis ? (
         <div
@@ -618,9 +554,7 @@ export default function ChatBody({ roomId = null }) {
         </div>
       ) : null}
 
-      <footer className="chat-footer">
-        <BackButton hidden={analysis.showAnalysisPanel} />
-      </footer>
+      <footer className="chat-footer" />
       <ChatSourcesPanel
         open={showSourcesPanel}
         t={t}

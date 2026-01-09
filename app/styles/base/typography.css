@@ -1,0 +1,25 @@
+/* Shared typography cluster (Step 20)
+   Extracted from legacy/part-01b0.css to keep base typography in one place.
+   Do not add layout rules here; keep it strictly typographic (fonts, weights, text rendering).
+*/
+
+.glass-title,
+.headline,
+.reset-title,
+.glass-label,
+.right-card-primary .headline-bold,
+.left-card-primary .headline-bold {
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 400;
+}
+
+
+.right-card-primary .headline-bold {
+  color: var(--brand-primary);
+}
+
+
+body, p, ul, li, .glass-list, .glass-section {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: 400;
+}

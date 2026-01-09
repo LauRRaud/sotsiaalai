@@ -61,6 +61,18 @@
     "rooms": "Ruumid",
     "add_person": "Lisa inimene"
   },
+  "chat": {
+    "page_label": "Vestluse sisu",
+    "right_rail": "Vestluse otseteed",
+    "back_to_home": "Tagasi avalehele",
+    "ai_toggle": {
+      "note": "Vaikimisi on see inimeste jutt ja assistent ei näe sõnumit."
+    },
+    "mic": {
+      "start": "Alusta dikteerimist",
+      "stop": "Lõpeta salvestus"
+    }
+  },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
     "password_placeholder": "PIN (4-8 numbrit)",

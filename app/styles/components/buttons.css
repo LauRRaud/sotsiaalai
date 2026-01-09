@@ -1,0 +1,121 @@
+/* Extracted: base button styling (btn-base) from legacy/part-02.css */
+.btn-base {
+  --btn-border-w: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.52rem 0.95rem;
+  border-radius: 0.95rem;
+  border: var(--btn-border-w, var(--pin-border-w, 1.45px)) solid transparent;
+  font-weight: 650;
+  font-size: 1.02rem;
+  letter-spacing: 0.02em;
+  cursor: var(--cursor-pointer);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  text-decoration: none;
+  min-height: 2.5rem;
+}
+
+:root .btn-base:focus-visible { outline: none; }
+
+:root .btn-base:disabled,
+:root .btn-base[aria-disabled="true"] {
+  opacity: 0.6;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* ============================
+   DARK THEME (ALWAYS-ON LIGHT GLOW)
+   - Glow is OUTSIDE only
+   - Glow does NOT change on hover
+   ============================ */
+
+:root:not(.theme-light) .btn-base {
+  /* timmi siit, kui vaja */
+  --glow-rgb: 248, 253, 255;  /* heledam “külm” valge */
+  --glow-a1: 0.60;            /* põhi-kuma */
+  --glow-a2: 0.24;            /* teine, laiem halo */
+
+  color: rgba(248,252,255,0.96);
+  background: var(--btn-base-bg-dark);
+  border: 0;
+  backdrop-filter: blur(10px) saturate(105%);
+  -webkit-backdrop-filter: blur(10px) saturate(105%);
+  isolation: isolate;
+  z-index: 0;
+
+  box-shadow:
+    /* sügavus (tume vari) */
+    0 6px 16px rgba(0,0,0,0.26),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.32);
+
+}
+
+/* Hover/focus: ÄRA muuda glow’d; muuda ainult pind/border/transform */
+:root:not(.theme-light) .btn-base:hover,
+:root:not(.theme-light) .btn-base:focus-visible {
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.28),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.32);
+}
+
+:root:not(.theme-light) .btn-base:focus-visible {
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.28),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.32),
+    0 0 0 3px rgba(225,160,160,0.28);
+}
+
+:root:not(.theme-light) .btn-base:active {
+  transform: translateY(1px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(150,175,210,0.05) 100%);
+
+  box-shadow:
+    0 5px 12px rgba(0,0,0,0.24),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.55),
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.30);
+}
+:root.theme-light .btn-base {
+  color: rgba(31,41,55,0.92);
+  background: rgba(255,255,255,0.62);
+  border-color: rgba(148,163,184,0.38);
+  box-shadow:
+    0 8px 18px rgba(15,23,42,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}
+:root.theme-light .btn-base:hover,
+:root.theme-light .btn-base:focus-visible {
+  background: #ffffff;
+  border-color: rgba(148,163,184,0.46);
+  box-shadow:
+    0 12px 22px rgba(15,23,42,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.82);
+  transform: translateY(-1px);
+}
+:root.theme-light .btn-base:focus-visible {
+  box-shadow:
+    0 12px 22px rgba(15,23,42,0.14),
+    0 0 0 3px rgba(197,113,113,0.24),
+    inset 0 1px 0 rgba(255,255,255,0.82);
+}
+:root.theme-light .btn-base:active {
+  transform: translateY(1px);
+  background: #ffffff;
+  border-color: rgba(148,163,184,0.40);
+  box-shadow:
+    0 6px 14px rgba(15,23,42,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}

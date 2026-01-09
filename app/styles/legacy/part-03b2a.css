@@ -1,0 +1,106 @@
+.btn-primary,
+.btn-primary span,
+.btn-danger,
+.btn-tertiary,
+.chat-send-btn,
+.chat-send-btn.stop,
+.login-icon-btn,
+.reset-btn,
+.button,
+.btn-profile-save,
+.btn-profile-logout {
+  font-family: var(--font-aino), Arial, sans-serif;
+  letter-spacing: 0.06em;
+}
+input,
+textarea,
+select,
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=number],
+input[type=search],
+.chat-input-field,
+.input-modern,
+.reset-input {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+input::placeholder,
+textarea::placeholder,
+.chat-input-field::placeholder,
+.input-modern::placeholder,
+.reset-input::placeholder {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+label,
+.glass-label,
+.reset-label {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+input,
+textarea,
+select,
+button,
+label {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+.glass-box,
+.glass-box p,
+.meist-body,
+.meist-body p {
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+a {
+  color: inherit;
+}
+:root:not(.theme-light) a,
+:root:not(.theme-light) .link-brand,
+:root:not(.theme-light) .link-brand-inline,
+:root:not(.theme-light) .meist-external-link,
+:root:not(.theme-light) .glass-box a {
+  color: var(--brand-primary);
+}
+.back-arrow-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  inline-size: 5.2rem;
+  block-size: 5.2rem;
+  margin: 0;
+  line-height: 0;
+  border: 0;
+  background: transparent;
+  background-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
+  cursor: var(--cursor-pointer);
+  flex: 0 0 auto;
+}
+.back-arrow-btn:hover,
+.back-arrow-btn:focus,
+.back-arrow-btn:active { background: transparent; box-shadow: none; }
+.back-arrow-circle {
+  position: relative;
+  inline-size: 4.8rem;
+  block-size: 4.8rem;
+  display: block;
+  box-sizing: content-box;
+  background: center center / 68% 68% no-repeat
+    url("/logo/tagasinupp.svg");
+  transition: transform .18s ease, filter .16s ease;
+  transform-origin: center center;
+  will-change: transform;
+  flex: none;
+  transform: translateY(-0.18rem) translateZ(0);
+}
+.back-arrow-btn:hover .back-arrow-circle,
+.back-arrow-btn:focus .back-arrow-circle {
+  transform: translateY(-0.18rem) scale(1.15);
+}
+.back-arrow-btn:active .back-arrow-circle {
+  transform: translateY(0.1rem) scale(0.98);
+}

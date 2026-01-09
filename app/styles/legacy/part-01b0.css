@@ -1,0 +1,33 @@
+/* legacy.css split: part-01b0.css */
+/* Rules before homepage cluster extracted to pages/home.css */
+b, strong {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+h2, .glass-h2, .glass-label {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: bold;
+}
+a, .link-brand, .meist-external-link {
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-weight: 400;
+  }
+main#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+}
+main#main > .main-content.glass-box {
+  margin-block: auto;
+  margin: clamp(1.6rem, 4.5vw, 2.8rem) auto clamp(1.6rem, 4.5vw, 2.8rem);
+}
+.main-content {
+  display: flex;
+  position: relative;
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  z-index: 20;
+}
+.top-center-nav { position: relative; z-index: 2; }

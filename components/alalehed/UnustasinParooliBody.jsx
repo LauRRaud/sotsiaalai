@@ -53,7 +53,7 @@ export default function UnustasinParooliBody() {
       title={title}
       lang={locale}
       contentClassName="invite-page-content--lower invite-page-content--wide"
-      actionsClassName="invite-page-actions--low"
+      actionsClassName="invite-page-actions--low invite-page-actions--side"
       actions={
         <button type="button" className="back-arrow-btn" onClick={handleBack} aria-label={backLabel}>
           <span className="back-arrow-circle" />

@@ -1,0 +1,41 @@
+/* Auto-extracted from original globals.css.
+   Purpose: High-contrast tokens (intended for dark mode per product rules).
+*/
+
+/* HC cursor assets */
+html[data-contrast=hc] {
+  --cursor-default-backup: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4, pointer;
+}
+
+/* HC token variables */
+html[data-contrast=hc]{
+  --hc-bg: #0b0b0b;
+  --hc-surface: #111111;
+  --hc-text: #ffffff;
+  --hc-muted: #d6d6d6;
+  --hc-accent: #ffea00;
+  --hc-accent-soft: #fff066;
+  --pt-50:#FFFFFF; --pt-100:#F2F2F2; --pt-150:#E8E8E8; --pt-200:#DFDEDA;
+  --pt-300:#FFFFFF; --pt-400:#E6E6E6; --pt-500:#111111; --pt-600:#000000;
+  --pt-light: #EFEFEF; --pt: #FFFFFF; --pt-mid: #E6E6E6; --pt-dark: #000000;
+  --brand-primary: #c57171;
+  --brand-accent: var(--brand-primary);
+  --link-gold: var(--hc-accent);
+  --link-gold-hover: var(--hc-accent-soft);
+  --page-bg: var(--hc-bg);
+  --page-bg-top: var(--hc-bg);
+  --page-bg-bottom: var(--hc-bg);
+  --page-bg-fallback: var(--hc-bg);
+  --page-bg-top-fallback: var(--hc-bg);
+  --page-bg-bottom-fallback: var(--hc-bg);
+  --glass-surface-bg: var(--hc-surface);
+  --glass-surface-text: var(--hc-text);
+  --glass-border-color: var(--hc-accent);
+  --glass-border-width: 2px;
+  --glass-input-bg-idle: var(--hc-bg);
+  --glass-input-bg-active: var(--hc-surface);
+  --text-strong: var(--hc-text);
+  --focus-ring: var(--hc-accent);
+}

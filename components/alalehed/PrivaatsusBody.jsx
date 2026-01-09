@@ -104,7 +104,7 @@ export default function PrivaatsusBody() {
           </div>
         ))}
       </section>
-      <div className="back-btn-wrapper">
+      <div className="back-btn-wrapper back-btn-wrapper--side">
         <button
           type="button"
           className="back-arrow-btn"

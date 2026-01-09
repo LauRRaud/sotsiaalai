@@ -1,0 +1,408 @@
+/* Extracted: Homepage / landing visuals (from legacy/part-01b.css). */
+/* Order preserved; no selector changes. */
+.homepage-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  --home-prose-color: rgba(242,241,239,0.92);
+  --home-card-blur: 0.6rem;
+  --home-card-saturate: 118%;
+  --home-card-light-opacity: 0.65;
+  --home-card-dark-opacity: 0.6;
+  --home-exit-sphere-scale: 1.065;
+}
+:root.theme-light .homepage-root{
+  --home-prose-color: var(--text-strong, #1f2937);
+}
+.side {
+  flex: 1 1 0;
+  min-height: 100dvh;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+}
+.three-d-card{
+  width: var(--card-size);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: var(--cursor-pointer);
+  perspective: 62.5rem;
+  isolation: auto;
+  overflow: visible;
+}
+.card-wrapper{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition-property: transform;
+  transition-duration: var(--flip-ms);
+  transition-timing-function: var(--flip-ease);
+  will-change: auto;
+  border-radius: inherit;
+}
+.card-wrapper[data-phase="flippingToFront"]{
+  transition-duration: var(--flip-front-ms, var(--flip-ms));
+}
+.card-wrapper::before{
+  content: "";position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
+  -webkit-backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
+  transform: scale(1);
+  clip-path: circle(50% at 50% 50%);
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(.22,.61,.36,1), transform var(--flip-ms,1100ms) var(--flip-ease,cubic-bezier(.22,.61,.36,1));
+}
+.card-wrapper:has(.glass-card.fade-in)::before,
+.card-wrapper:has(.centered-back-left.fade-in)::before,
+.card-wrapper:has(.centered-back-right.fade-in)::before{
+  animation: cardBlurIntro 2.4s cubic-bezier(.22,.61,.36,1) 0.5s forwards;
+}
+.card-wrapper:has(.glass-card.fade-in-done)::before,
+.card-wrapper:not(:has(.glass-card.fade-in, .centered-back-left.fade-in, .centered-back-right.fade-in))::before{
+  opacity: 1;
+}
+.glass-card::before,
+.centered-back-left::before,
+.centered-back-right::before{
+  content: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.three-d-card.flip-allowed:hover .card-wrapper,
+.three-d-card.flip-allowed:focus-within .card-wrapper,
+.three-d-card.flip-allowed.is-flipping .card-wrapper{
+  will-change: transform;
+}
+.card-face{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+  border-radius: inherit;
+  z-index: 1;
+  isolation: isolate;
+}
+.card-face.front{ transform: rotateY(0deg); }
+.card-face.back { transform: rotateY(180deg); }
+.three-d-card:not(.flip-allowed) .card-wrapper { transform: none; }
+.three-d-card:not(.flip-allowed) { cursor: var(--cursor-default); }
+.three-d-card.flip-allowed.left:hover .card-wrapper,
+.three-d-card.flip-allowed.left:focus-within .card-wrapper,
+.three-d-card.flip-allowed.left.is-flipping .card-wrapper{
+  transform: rotateY(180deg);
+}
+.three-d-card.flip-allowed.right:hover .card-wrapper,
+.three-d-card.flip-allowed.right:focus-within .card-wrapper,
+.three-d-card.flip-allowed.right.is-flipping .card-wrapper{
+  transform: rotateY(-180deg);
+}
+.three-d-card.is-flipping .card-face.front > .glass-card {
+  animation-play-state: paused;
+}
+.glass-card {
+  transform: translate3d(0,0,0);
+  transform-origin: 50% 50%;
+  transition: opacity var(--fade-ms) ease;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2em;
+  background-clip: padding-box;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+/* Homepage card visuals: 50% see-through spheres (SVGs stay unchanged). */
+:root.theme-light .homepage-root {
+  --home-card-blur: 0.75rem;
+  --home-card-saturate: 100%;
+  --home-card-light-opacity: 0.68;
+  --home-card-dark-opacity: 0.8;
+}
+:root.theme-light body.homepage::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(120% 110% at 50% 48%, rgba(20, 20, 20, 0) 0%, rgba(20, 20, 20, 0) 62%, rgba(20, 20, 20, 0.5) 78%, rgba(20, 20, 20, 0.88) 100%);
+}
+.homepage-root .glass-card-light,
+.homepage-root .glass-card-dark,
+.homepage-root .centered-back-left,
+.homepage-root .centered-back-right {
+  background: transparent;
+}
+
+.homepage-root .glass-card-light::before,
+.homepage-root .centered-back-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent url("/logo/kerahele.svg") center / 100% 100% no-repeat;
+  opacity: var(--home-card-light-opacity);
+  filter: none;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  will-change: opacity, transform;
+  transition: transform var(--home-exit-morph-delay, 0ms) cubic-bezier(.22,.61,.36,1);
+}
+
+.homepage-root .glass-card-dark::before,
+.homepage-root .centered-back-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent url("/logo/keratume.svg") center / 100% 100% no-repeat;
+  opacity: var(--home-card-dark-opacity);
+  filter: none;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  will-change: opacity, transform;
+  transition: transform var(--home-exit-morph-delay, 0ms) cubic-bezier(.22,.61,.36,1);
+}
+
+/* Slightly larger logo on the right (dark) front card only */
+.homepage-root .side.right .glass-card-dark .card-logo-bg-right {
+  width: min(var(--card-logo-front-right), calc(100% - var(--card-logo-safe-gap)));
+}
+
+/* Slightly larger logo on the left (light) front card only */
+.homepage-root .side.left .glass-card-light .card-logo-bg-left {
+  width: min(var(--card-logo-front-left), calc(100% - var(--card-logo-safe-gap)));
+}
+
+/* Homepage: keep the blur ring hidden; morph overlay handles glass. */
+.homepage-root .card-wrapper::before {
+  backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
+  -webkit-backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
+  inset: 3.5%;
+  clip-path: circle(50% at 50% 50%);
+  transform: none;
+}
+.homepage-root .centered-back-left .headline-bold,
+.homepage-root .centered-back-right .headline-bold {
+  margin-top: 0;
+}
+.centered-back-left,
+.centered-back-right {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2em;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+}
+.card-face.back { pointer-events: none; }
+.three-d-card.flip-allowed.left:hover .card-face.back,
+.three-d-card.flip-allowed.left:focus-within .card-face.back,
+.three-d-card.flip-allowed.right:hover .card-face.back,
+.three-d-card.flip-allowed.right:focus-within .card-face.back{
+  pointer-events: auto;
+}
+.homepage-root .glass-card,
+.homepage-root .centered-back-left,
+.homepage-root .glass-card-dark,
+.homepage-root .centered-back-right {
+  box-shadow: none;
+}
+.modal-open .three-d-card:hover .card-face.front > .glass-card,
+.modal-open .three-d-card:focus-within .card-face.front > .glass-card,
+.modal-open .three-d-card:hover .card-face.back > .centered-back-left,
+.modal-open .three-d-card:hover .card-face.back > .centered-back-right,
+.modal-open .three-d-card:focus-within .card-face.back > .centered-back-left,
+.modal-open .three-d-card:focus-within .card-face.back > .centered-back-right,
+body.modal-open .three-d-card:hover .card-face.front > .glass-card,
+body.modal-open .three-d-card:focus-within .card-face.front > .glass-card,
+body.modal-open .three-d-card:hover .card-face.back > .centered-back-left,
+body.modal-open .three-d-card:hover .card-face.back > .centered-back-right,
+body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-left,
+body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-right {
+  animation: none;
+  box-shadow: none;
+}
+.float-card {
+  animation: float-vertical 6.7s ease-in-out infinite;
+   will-change: transform;
+}
+.homepage-root.home-exit {
+  overflow: hidden;
+}
+.homepage-root.home-exit-prep {
+  overflow: hidden;
+}
+.homepage-root.home-exit-prep .three-d-card {
+  pointer-events: none;
+}
+.homepage-root.home-exit-prep .three-d-card.home-exit-prep-target .card-wrapper {
+  transform: rotateY(0deg) !important;
+  transition-duration: var(--home-exit-flip, 220ms);
+  transition-timing-function: cubic-bezier(.22,.61,.36,1);
+}
+.homepage-root.home-exit .three-d-card {
+  pointer-events: none;
+}
+.homepage-root.home-exit .three-d-card.home-exit-target {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 520;
+  transform-origin: 50% 50%;
+  transform:
+    perspective(1200px)
+    translate3d(
+      calc(-50% + var(--home-exit-from-x, 0px)),
+      calc(-50% + var(--home-exit-from-y, 0px)),
+      0
+    )
+    scale(1);
+  animation: home-card-exit var(--home-exit-dur, 900ms) cubic-bezier(.22,.61,.36,1) forwards;
+  will-change: transform;
+}
+.homepage-root.home-exit .three-d-card.home-exit-target .card-wrapper::before {
+  opacity: 0;
+  animation: none;
+  transition: none;
+}
+.homepage-root.home-exit .three-d-card.home-exit-target .glass-card-light::before,
+.homepage-root.home-exit .three-d-card.home-exit-target .glass-card-dark::before {
+  transform: scale(var(--home-exit-sphere-scale, 1.065));
+  animation: home-card-sphere-fade var(--home-exit-morph-ms, 260ms) ease forwards;
+  animation-delay: var(--home-exit-morph-delay, 0ms);
+}
+.homepage-root.home-exit .three-d-card.home-exit-target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  border: none;
+  box-shadow: none;
+  opacity: 0.35;
+  pointer-events: none;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(115%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(115%);
+  animation: home-card-glass-fade var(--home-exit-morph-ms, 260ms) ease forwards;
+  animation-delay: var(--home-exit-morph-delay, 0ms);
+  z-index: 2;
+}
+:root:not(.theme-light) .homepage-root.home-exit .three-d-card.home-exit-target::after {
+  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  background-blend-mode: multiply;
+}
+:root.theme-light .homepage-root.home-exit .three-d-card.home-exit-target::after {
+  background-color: var(--glass-surface-bg, rgba(255, 255, 255, 0.58));
+}
+.homepage-root.home-exit .three-d-card.home-exit-target .card-logo-bg,
+.homepage-root.home-exit .three-d-card.home-exit-target .circular-ring {
+  animation: home-card-sphere-fade var(--home-exit-morph-ms, 260ms) ease forwards;
+  animation-delay: var(--home-exit-morph-delay, 0ms);
+}
+.homepage-root.home-exit .three-d-card.home-exit-target .card-wrapper {
+  transition-duration: 0ms;
+}
+.homepage-root.home-exit .three-d-card:not(.home-exit-target) {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+.homepage-root.home-exit .footer-logo-img {
+  animation: dfade-out var(--home-exit-dur, 900ms) cubic-bezier(.16,.84,.44,1) forwards;
+  animation-delay: 0ms;
+  visibility: visible;
+}
+.homepage-root.home-exit .footer-meist-word {
+  animation: footer-meist-exit var(--home-exit-dur, 900ms) cubic-bezier(.16,.84,.44,1) forwards;
+  animation-delay: 0ms;
+  visibility: visible;
+}
+
+
+.glass-card.fade-in {
+  opacity: 0;
+  animation: cardFadeIn 2.4s cubic-bezier(.61,.0,.19,1) 0.5s forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.glass-card.fade-in::before {
+  content: "";position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.card-logo-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  transform-origin: 50% 50%;
+  display: block;
+  pointer-events: none;
+  backface-visibility: hidden;
+  transition: none;
+  z-index: 1;
+}
+.card-logo-bg-right {
+  top: 50%;
+  left: 50%;
+  width: min(var(--card-logo-front-right), calc(100% - var(--card-logo-safe-gap)));
+  opacity: 0.7;
+  max-width: 100%;
+  height: auto;
+}
+.card-logo-bg-left {
+  top: 50%;
+  left: 48%;
+  width: min(var(--card-logo-front-left), calc(100% - var(--card-logo-safe-gap)));
+  opacity: 0.75;
+  max-width: 100%;
+  height: auto;
+}
+.centered-back-left .card-logo-bg-left-back {
+  position: absolute;
+  top: 74%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--card-logo-back);
+  opacity: 0.75;
+}

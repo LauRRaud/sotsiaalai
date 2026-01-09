@@ -1,0 +1,48 @@
+/* legacy.css split: part-02.css */
+.centered-back-right .card-logo-bg-right-back {
+  position: absolute;
+  top: 74%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--card-logo-back);
+  opacity: 0.7;
+}
+.glass-card,
+.centered-back-left,
+.glass-card-dark,
+.centered-back-right {
+  isolation: isolate;
+}
+.centered-back-left .card-logo-bg-left-back,
+.centered-back-right .card-logo-bg-right-back {
+  width: calc(var(--card-logo-back) * 0.9);
+  max-width: 10rem;
+}
+.headline-bold {
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none;
+  margin: 0;
+  z-index: 4;
+  position: relative;
+  text-align: center;
+    margin-top: -1.4em;
+}
+.centered-back-left .headline-bold {
+  font-size: clamp(0.98rem, calc(var(--card-size) * 0.069), 1.8rem);
+  color: #323232;
+  text-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.5);
+  transform: translateY(-0.25em);
+}
+.centered-back-right .headline-bold {
+  font-size: clamp(0.94rem, calc(var(--card-size) * 0.065), 1.7rem);
+  color: var(--brand-primary);
+  opacity: 0.8;
+  text-shadow: 0 0.5rem 0.3rem rgb(0, 0, 0, 0.6);
+  transform: translateY(-0.25em);
+}
