@@ -1,6 +1,6 @@
 // components/HomePage.jsx
 "use client";
-import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
@@ -9,7 +9,6 @@ import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
-import { triggerRouteTransition } from "@/lib/routeTransition";
 
 // UUS: Meist avalehele (embedded)
 import MeistBody from "./alalehed/MeistBody";
@@ -37,8 +36,6 @@ export default function HomePage() {
   const [rightFlipping, setRightFlipping] = useState(false);
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
-  const [exitState, setExitState] = useState(null);
-  const [exitPrepSide, setExitPrepSide] = useState(null);
   const [pendingExitSide, setPendingExitSide] = useState(null);
 
   const [leftPhase, setLeftPhase] = useState("front");
@@ -50,13 +47,7 @@ export default function HomePage() {
   const [leftCardEl, setLeftCardEl] = useState(null);
   const [rightCardEl, setRightCardEl] = useState(null);
 
-  const leftCardWrapRef = useRef(null);
-  const rightCardWrapRef = useRef(null);
-  const exitTimerRef = useRef(null);
-  const exitPrepTimerRef = useRef(null);
 
-  // Salvestame “päris” klikikoha DOMRect'i (magnet/hover/float transformidega),
-  // et exit-animatsioon ei alustaks layout-keskelt.
 
   const isAuthed = status === "authenticated" && !!session;
 
@@ -70,18 +61,6 @@ export default function HomePage() {
   const flipToBackMs = 1200;
   const flipToFrontMs = 1100;
 
-  // Hoian sinu originaalsed exit timingud nagu failis olid
-  const exitDurationMs = prefs.reduceMotion ? 0 : 1100;
-  const exitFlipMs = prefs.reduceMotion ? 0 : flipToFrontMs;
-  const exitScalePct = 0.6;
-  const exitMorphDelayMs = prefs.reduceMotion ? 0 : Math.round(exitDurationMs * exitScalePct);
-  const exitMorphMs = prefs.reduceMotion ? 0 : Math.max(360, Math.round(exitDurationMs * (1 - exitScalePct)));
-
-  const isExiting = Boolean(exitState);
-  const exitSide = exitState?.side;
-  const exitVars = exitState?.vars;
-  const isPreparingExit = Boolean(exitPrepSide);
-
   const markChatEnterFromHome = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
@@ -91,10 +70,8 @@ export default function HomePage() {
 
   const startExitToChat = useCallback(
     (side) => {
-      if (isExiting || isPreparingExit || isLoginOpen) return;
+      if (isLoginOpen) return;
       if (status === "loading") return;
-
-      // Salvesta klikikoha rect võimalikult vara (ka siis, kui tuleb login modal).
 
       if (!isAuthed) {
         setPendingExitSide(side);
@@ -103,119 +80,10 @@ export default function HomePage() {
       }
 
       markChatEnterFromHome();
-
-      const shouldFlipFront =
-        side === "left"
-          ? leftPhase !== "front" || mobileFlipReady.left
-          : rightPhase !== "front" || mobileFlipReady.right;
-
-      const flipDelayMs = shouldFlipFront ? exitFlipMs : 0;
-      const delayMs = Math.max(0, Math.round(flipDelayMs + exitDurationMs));
-
-      triggerRouteTransition({ delayMs, opacity: 0, href: "/vestlus" });
-
-      if (exitDurationMs === 0) {
-        router.push("/vestlus");
-        return;
-      }
-
-      if (shouldFlipFront) {
-        if (side === "left") setLeftPhase("front");
-        else setRightPhase("front");
-        setExitPrepSide(side);
-        setMobileFlipReady({ left: false, right: false });
-      }
-
-      if (exitPrepTimerRef.current) window.clearTimeout(exitPrepTimerRef.current);
-      if (exitTimerRef.current) window.clearTimeout(exitTimerRef.current);
-
-      const beginExit = () => {
-        const host = side === "left" ? leftCardWrapRef.current : rightCardWrapRef.current;
-        const r = host?.getBoundingClientRect?.();
-        if (!r) {
-          setExitPrepSide(null);
-          router.push("/vestlus");
-          return;
-        }
-        const rect = { left: r.left, top: r.top, width: r.width, height: r.height };
-
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const dx = centerX - window.innerWidth / 2;
-        const dy = centerY - window.innerHeight / 2;
-
-        const minViewport = Math.min(window.innerWidth, window.innerHeight);
-        let targetSize = Math.min(1200, Math.max(640, minViewport * 0.88));
-
-        try {
-          const probe = document.createElement("div");
-          probe.style.position = "fixed";
-          probe.style.left = "-9999px";
-          probe.style.top = "-9999px";
-          probe.style.width = "var(--chat-diameter)";
-          probe.style.height = "var(--chat-diameter)";
-          probe.style.visibility = "hidden";
-          probe.style.pointerEvents = "none";
-          document.body.appendChild(probe);
-          const measured = probe.getBoundingClientRect().width;
-          probe.remove();
-          if (Number.isFinite(measured) && measured > 0) targetSize = measured;
-        } catch {}
-
-        const remPx = Number.parseFloat(
-          typeof window !== "undefined" ? window.getComputedStyle(document.documentElement).fontSize : "16"
-        );
-        const clampMin = 0.7 * remPx;
-        const clampMax = 1.3 * remPx;
-        const clampMid = 0.019 * window.innerHeight;
-        const padTop = Math.min(clampMax, Math.max(clampMin, clampMid));
-
-        const targetCenterY = Math.max(window.innerHeight / 2, padTop + targetSize / 2);
-        const targetOffsetY = targetCenterY - window.innerHeight / 2;
-
-        const safeW = Math.max(1, rect.width);
-        const scale = Math.max(1, targetSize / safeW);
-
-        const zDepth = Math.min(240, Math.max(120, minViewport * 0.18));
-
-        setExitPrepSide(null);
-        setExitState({
-          side,
-          vars: {
-            x: `${dx.toFixed(2)}px`,
-            y: `${dy.toFixed(2)}px`,
-            scale: scale.toFixed(3),
-            z: `${Math.round(zDepth)}px`,
-            toY: `${targetOffsetY.toFixed(2)}px`,
-          },
-        });
-
-        exitTimerRef.current = window.setTimeout(() => {
-          router.push("/vestlus");
-        }, exitDurationMs);
-      };
-
-      if (flipDelayMs > 0) exitPrepTimerRef.current = window.setTimeout(beginExit, flipDelayMs);
-      else beginExit();
+      router.push("/vestlus");
     },
-    [
-      exitDurationMs,
-      exitFlipMs,
-      isAuthed,
-      isExiting,
-      isPreparingExit,
-      isLoginOpen,
-      leftPhase,
-      mobileFlipReady.left,
-      mobileFlipReady.right,
-      markChatEnterFromHome,
-      rightPhase,
-      router,
-      status,
-    ]
+    [isAuthed, isLoginOpen, markChatEnterFromHome, router, status]
   );
-
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
     check();
@@ -291,30 +159,21 @@ export default function HomePage() {
   }, [isLoginOpen]);
 
   useEffect(() => {
-    return () => {
-      if (exitPrepTimerRef.current) window.clearTimeout(exitPrepTimerRef.current);
-      if (exitTimerRef.current) window.clearTimeout(exitTimerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
     if (!pendingExitSide || status !== "authenticated" || !session) return;
-    if (isExiting || isPreparingExit) return;
     if (isLoginOpen) setIsLoginOpen(false);
     const side = pendingExitSide;
     setPendingExitSide(null);
     window.setTimeout(() => startExitToChat(side), 0);
-  }, [isExiting, isLoginOpen, isPreparingExit, pendingExitSide, session, startExitToChat, status]);
+  }, [isLoginOpen, pendingExitSide, session, startExitToChat, status]);
 
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
-  const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen && !isExiting && !isPreparingExit;
+  const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
 
   const onLeftEnter = () => {
-    if (isExiting || isPreparingExit) return;
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToBack");
@@ -322,7 +181,6 @@ export default function HomePage() {
     }
   };
   const onLeftLeave = () => {
-    if (isExiting || isPreparingExit) return;
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToFront");
@@ -330,7 +188,6 @@ export default function HomePage() {
     }
   };
   const onRightEnter = () => {
-    if (isExiting || isPreparingExit) return;
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToBack");
@@ -338,7 +195,6 @@ export default function HomePage() {
     }
   };
   const onRightLeave = () => {
-    if (isExiting || isPreparingExit) return;
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToFront");
@@ -351,7 +207,7 @@ export default function HomePage() {
     e?.stopPropagation?.();
 
     if (!isMobile) {
-      startExitToChat(side, e?.currentTarget);
+      startExitToChat(side);
       return;
     }
 
@@ -362,7 +218,7 @@ export default function HomePage() {
     }
 
     setMobileFlipReady({ left: false, right: false });
-    startExitToChat(side, e?.currentTarget);
+    startExitToChat(side);
   };
 
   const handleCardBackBlur = (side) => () => {
@@ -373,7 +229,7 @@ export default function HomePage() {
     if (!flipAllowed) return;
 
     if (!isMobile) {
-      startExitToChat(side, e?.currentTarget);
+      startExitToChat(side);
       return;
     }
 
@@ -394,16 +250,14 @@ export default function HomePage() {
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({ left: false, right: false });
   }, []);
-
-  // TÄHTIS: background-tap ainult HERO sees
   const handleBackgroundTap = useCallback(
     (event) => {
-      if (!isMobile || isExiting || isPreparingExit) return;
+      if (!isMobile) return;
       const target = event.target instanceof Element ? event.target : null;
       if (target?.closest?.(".three-d-card")) return;
       resetMobileCards();
     },
-    [isExiting, isMobile, isPreparingExit, resetMobileCards]
+    [isMobile, resetMobileCards]
   );
 
   const handleScrollCueClick = useCallback(
@@ -428,48 +282,24 @@ export default function HomePage() {
 
   return (
     <>
-      <div
-        className={`homepage-root homepage-scroll${isPreparingExit ? " home-exit-prep" : ""}${isExiting ? " home-exit" : ""}`}
-        style={{
-          "--home-exit-dur": `${exitDurationMs}ms`,
-          "--home-exit-flip": `${exitFlipMs}ms`,
-          "--home-exit-morph-delay": `${exitMorphDelayMs}ms`,
-          "--home-exit-morph-ms": `${exitMorphMs}ms`,
-          "--home-exit-from-x": exitVars?.x,
-          "--home-exit-from-y": exitVars?.y,
-          "--home-exit-scale": exitVars?.scale,
-          "--home-exit-to-y": exitVars?.toY,
-          "--home-exit-to-x": "0px",
-        }}
-      >
+      <div className="homepage-root homepage-scroll">
         {/* HERO (ainult kaardid + taust) */}
         <section className="home-hero" onClick={handleBackgroundTap}>
           <div className="main-content relative">
             {/* LEFT CARD */}
             <div className="side left">
               <div
-                ref={leftCardWrapRef}
                 className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
                   mobileFlipReady.left ? "mobile-flipped-left" : ""
-                }${exitPrepSide === "left" ? " home-exit-prep-target" : ""}${exitSide === "left" ? " home-exit-target" : ""}`}
+                }`}
                 onMouseEnter={onLeftEnter}
                 onMouseLeave={onLeftLeave}
                 onClick={handleCardTap("left")}
-                style={
-                  isExiting && exitSide === "left"
-                    ? {
-                        "--home-exit-from-x": exitVars?.x,
-                        "--home-exit-from-y": exitVars?.y,
-                        "--home-exit-scale": exitVars?.scale,
-                        "--home-exit-z": exitVars?.z,
-                      }
-                    : undefined
-                }
               >
                 <Magnet
                   padding={80}
                   magnetStrength={18}
-                  disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping || isExiting || isPreparingExit}
+                  disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}
                 >
                   {({ isActive }) => (
                     <div className="card-wrapper" data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd}>
@@ -502,7 +332,7 @@ export default function HomePage() {
                         onBlur={handleCardBackBlur("left")}
                         onKeyDown={(e) => {
                           if (!leftInteractive) return;
-                          if (e.key === "Enter" || e.key === " ") startExitToChat("left", e.currentTarget);
+                          if (e.key === "Enter" || e.key === " ") startExitToChat("left");
                         }}
                         style={!leftInteractive ? { pointerEvents: "none" } : {}}
                         data-interactive={leftInteractive ? "true" : "false"}
@@ -521,28 +351,17 @@ export default function HomePage() {
             {/* RIGHT CARD */}
             <div className="side right">
               <div
-                ref={rightCardWrapRef}
                 className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
                   mobileFlipReady.right ? "mobile-flipped-right" : ""
-                }${exitPrepSide === "right" ? " home-exit-prep-target" : ""}${exitSide === "right" ? " home-exit-target" : ""}`}
+                }`}
                 onMouseEnter={onRightEnter}
                 onMouseLeave={onRightLeave}
                 onClick={handleCardTap("right")}
-                style={
-                  isExiting && exitSide === "right"
-                    ? {
-                        "--home-exit-from-x": exitVars?.x,
-                        "--home-exit-from-y": exitVars?.y,
-                        "--home-exit-scale": exitVars?.scale,
-                        "--home-exit-z": exitVars?.z,
-                      }
-                    : undefined
-                }
               >
                 <Magnet
                   padding={80}
                   magnetStrength={18}
-                  disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping || isExiting || isPreparingExit}
+                  disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}
                 >
                   {({ isActive }) => (
                     <div className="card-wrapper" data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd}>
@@ -575,7 +394,7 @@ export default function HomePage() {
                         onBlur={handleCardBackBlur("right")}
                         onKeyDown={(e) => {
                           if (!rightInteractive) return;
-                          if (e.key === "Enter" || e.key === " ") startExitToChat("right", e.currentTarget);
+                          if (e.key === "Enter" || e.key === " ") startExitToChat("right");
                         }}
                         style={!rightInteractive ? { pointerEvents: "none" } : {}}
                         data-interactive={rightInteractive ? "true" : "false"}
@@ -592,10 +411,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div
-            className={`home-scroll-cue${showScrollCue && !isExiting && !isPreparingExit ? " is-visible" : ""}`}
-            aria-hidden={!(showScrollCue && !isExiting && !isPreparingExit)}
-          >
+          <div className={`home-scroll-cue${showScrollCue ? " is-visible" : ""}`} aria-hidden={!showScrollCue}>
             <a className="home-scroll-cue-link" href="#meist" onClick={handleScrollCueClick}>
               <span className="home-scroll-cue-mouse" aria-hidden="true">
                 <svg viewBox="0 0 24 36" role="presentation">
@@ -674,4 +490,6 @@ export default function HomePage() {
     </>
   );
 }
+
+
 

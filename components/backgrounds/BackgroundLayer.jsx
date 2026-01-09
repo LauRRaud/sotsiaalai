@@ -213,18 +213,9 @@ const BackgroundContent = memo(function BackgroundContent({
         data-parallax={isHome ? "home" : "off"}
         aria-hidden="true"
         suppressHydrationWarning
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-          backgroundColor: "var(--page-bg, #050a10)",
-          backgroundImage:
-            "linear-gradient(180deg, var(--page-bg-top, #02050f) 0%, var(--page-bg-bottom, #050a10) 100%)",
-        }}
       >
         {/* SPACE */}
-        <div className="bg-space-layer" style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <div className="bg-space-layer">
           <SpaceLayer
             mode={isLightTheme ? "light" : "dark"}
             palette={isLightTheme ? LIGHT_SPACE_PALETTE : undefined}
@@ -238,12 +229,6 @@ const BackgroundContent = memo(function BackgroundContent({
           <div
             className="bg-bends-layer"
             aria-hidden="true"
-            style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 2,
-              pointerEvents: "none",
-            }}
           >
             <Suspense fallback={null}>
               <ColorBends bgColor={bgColor} />
@@ -253,7 +238,7 @@ const BackgroundContent = memo(function BackgroundContent({
 
         {/* Particles */}
         {particlesReady && allowParticles && (
-          <div className="bg-particles-layer" style={{ position: "absolute", inset: 0, zIndex: 3 }}>
+          <div className="bg-particles-layer">
             <Particles
               bgColor={bgColor}
             />
@@ -271,11 +256,7 @@ const BackgroundContent = memo(function BackgroundContent({
         !reduceMotion &&
         !mobileLike &&
         createPortal(
-          <div
-            className="splash-cursor"
-            aria-hidden="true"
-            style={{ position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none" }}
-          >
+          <div className="splash-cursor" aria-hidden="true">
             <MaybeSplash />
           </div>,
           document.body
