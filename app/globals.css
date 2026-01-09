@@ -1594,13 +1594,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   padding-top: 1em;
   padding-bottom: 0.1em;
 }
-.chat-footer {
-  margin-top: 0.35rem;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  min-height: 5.8rem;
-}
 .chat-footer--analysis-open {
   margin-top: 0.6rem;
 }
@@ -7535,11 +7528,6 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
   .chat-analysis-panel--expanded .chat-analysis-card{
     max-height: min(55dvh, 32rem);
     overflow-y: auto;
-  }
-  .chat-footer{
-    margin-top: 0;
-    padding-bottom: 0.15rem;
-    min-height: 4.8rem;
   }
   .chat-back-btn-wrapper{
     margin-top: 0.2rem;

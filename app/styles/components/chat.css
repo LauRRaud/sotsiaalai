@@ -8,6 +8,10 @@
   display: flex;
   justify-content: center;
 }
+/* migrated from app/globals.css (Wave 1) */
+.chat-footer {
+  min-height: 5.8rem;
+}
 .chat-footer--analysis-open {
   margin-top: 0.6rem;
 }
@@ -1834,6 +1838,11 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     margin-top:0.9rem;
   }
   .chat-footer{ margin-top:0.55rem; }
+  /* migrated from app/globals.css (Wave 1) */
+  .chat-footer{
+    padding-bottom: 0.15rem;
+    min-height: 4.8rem;
+  }
   .chat-footer--analysis-open{ margin-top:0.7rem; }
   .chat-back-btn-wrapper{
     margin:0.6rem auto max(env(safe-area-inset-bottom, 0), 0.6rem);
