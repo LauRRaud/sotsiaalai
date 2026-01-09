@@ -1,4 +1,33 @@
 /* Extracted from legacy/part-09.css: Profile subpages + related UI */
+/* migrated from legacy/part-02a2a1.css */
+.profile-container .alaleht-footer{
+  padding-top: 0.8em;
+  margin-top: 0;
+}
+.profile-container .alaleht-footer.profile-footer-note{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom, 0px);
+  margin-top: 0;
+  padding-top: 0;
+}
+.profile-footer-note{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 1.2rem;
+}
+.profile-footer-line{
+  display: block;
+}
+.profile-footer-line + .profile-footer-line{
+  font-size: 0.94em;
+}
+:root.theme-light .profile-container .profile-footer-note{
+  color: color-mix(in srgb, var(--text-strong, #1f2937) 86%, transparent);
+}
 .profile-subpage-shell .profile-subpage-box .reset-label + .reset-label .reset-input{
   margin-top: 0;
 }

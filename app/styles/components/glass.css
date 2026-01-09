@@ -1,4 +1,39 @@
 /* Extracted: glass cluster (from legacy part-04) */
+/* migrated from legacy/part-02a2a1.css */
+.glass-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: none;
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+  color: #f2f2f2;
+  border-radius: 1.5em;
+  padding: clamp(0.8rem, 2.5vw, 1.3rem) clamp(1.8rem, 4.5vw, 2.6rem) clamp(1.2rem, 3.5vw, 2rem);
+  width: min(100%, 86vw);
+  max-width: clamp(32rem, 70vw, 50rem);
+  margin: clamp(1.4rem, 4vw, 2.6rem) auto clamp(1.4rem, 4vw, 2.6rem);
+  font-size: 1.22rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9em;
+  position: relative;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.glass-box.chat-container,
+.glass-box.profile-container {
+  margin: auto;
+}
+.glass-h2 {
+  font-size: 1.15em;
+  margin: 2.1em 0 0.7em 0;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: baseline;
+  line-height: 1.1;
+    color: #f1dfcd;
+  background: none;
+}
 .glass-box.tellimus-box{
   padding: clamp(1.6rem, 4.5vw, 2.8rem) clamp(1.8rem, 5.2vw, 3.2rem);
   max-width: min(51.25rem, 92vw);

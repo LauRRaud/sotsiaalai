@@ -1,5 +1,19 @@
 /* Extracted forms cluster from legacy/part-03b1.css (Step 14) */
 /* legacy.css split: part-03b.css (after auth extraction) */
+/* migrated from legacy/part-02a2a1.css */
+@media (max-width: 48em) {
+  .glass-box.register-scroll {
+    padding-left: 0.25rem; /* Even smaller padding */
+    padding-right: 0.25rem; /* Even smaller padding */
+    width: 100%;
+    max-width: 100%;
+  }
+  .register-form .register-submit {
+    font-size: 1.4em;
+    padding: 0.8em 1.4em;
+    min-width: 12rem;
+  }
+}
 .glass-form {
   display: flex;
   flex-direction: column;
