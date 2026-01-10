@@ -28,12 +28,6 @@
 :root.theme-light .profile-container .profile-footer-note{
   color: color-mix(in srgb, var(--text-strong, #1f2937) 86%, transparent);
 }
-.profile-subpage-shell .profile-subpage-box .reset-label + .reset-label .reset-input{
-  margin-top: 0;
-}
-.profile-subpage-shell .profile-subpage-box .reset-info{
-  margin-top: clamp(0.75rem, 2.6vh, 1.6rem);
-}
 .profile-subpage-shell .profile-subpage-box .back-btn-wrapper{
   margin-top: clamp(1.1rem, 3.8vh, 2rem);
   margin-bottom: 0;

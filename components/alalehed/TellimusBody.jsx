@@ -71,8 +71,8 @@ export default function TellimusBody() {
           </button>
         }
       >
-        <div className="invite-classic__body">
-          <p className="invite-classic__helper" aria-live="polite">
+        <div className="flex flex-col gap-4">
+          <p className="text-left text-[0.98rem] opacity-80" aria-live="polite">
             {t("subscription.loading")}
           </p>
         </div>
@@ -92,15 +92,15 @@ export default function TellimusBody() {
         </button>
       }
     >
-      <div className="invite-classic__body">
+      <div className="flex flex-col gap-4">
         {subActive ? (
           <>
-            <p className="invite-classic__helper">{t("subscription.active.summary")}</p>
-            <p className="invite-classic__helper" id="cancel-note">
+            <p className="text-left text-[0.98rem] opacity-80">{t("subscription.active.summary")}</p>
+            <p className="text-left text-[0.98rem] opacity-80" id="cancel-note">
               <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
             </p>
-            <div className="invite-classic__actions">
-              <Link href="/profiil" className="btn-base" aria-describedby="cancel-note">
+            <div className="mt-[0.65rem] flex justify-center">
+              <Link href="/profiil" className="btn-base min-w-[9.5rem]" aria-describedby="cancel-note">
                 {t("subscription.button.open_profile")}
               </Link>
             </div>
@@ -110,20 +110,20 @@ export default function TellimusBody() {
             <div id="billing-info">
               <RichText
                 as="div"
-                className="invite-classic__helper invite-subscription-info"
+                className="text-left text-[clamp(1.02rem,1.7vw,1.22rem)] leading-[1.5] opacity-80"
                 value={t("subscription.info")}
                 replacements={emailReplacement}
               />
             </div>
             {error && (
-              <p role="alert" aria-live="assertive" className="invite-classic__status invite-classic__status--error">
+              <p role="alert" aria-live="assertive" className="text-left text-[color:#fca5a5]">
                 {error}
               </p>
             )}
-            <div className="invite-classic__actions">
+            <div className="mt-[0.65rem] flex justify-center">
               <button
                 type="button"
-                className="btn-base"
+                className="btn-base min-w-[9.5rem]"
                 disabled={processing}
                 aria-disabled={processing}
                 aria-busy={processing}

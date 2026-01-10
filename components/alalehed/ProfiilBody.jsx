@@ -401,7 +401,7 @@ export default function ProfiilBody({ initialProfile = null }) {
     return (
       <ProfileShell locale={locale}>
         <h1 className="glass-title">{t("profile.title")}</h1>
-        <p className="profile-loading" style={{ padding: "1rem" }}>
+        <p className="profile-loading p-4">
           {t("profile.loading")}
         </p>
       </ProfileShell>
@@ -420,7 +420,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       <>
         <ProfileShell locale={locale}>
           <h1 className="glass-title">{t("profile.title")}</h1>
-          <p style={{ padding: "1rem" }}>{reasonText}</p>
+          <p className="p-4">{reasonText}</p>
           <div className="back-btn-wrapper">
             <button
               type="button"
@@ -471,8 +471,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       <div className="profile-header-center">
         <span
           ref={rolePillRef}
-          className="profile-role-pill"
-          style={{ marginBottom: "0.1em" }}
+          className="profile-role-pill mb-[0.1em]"
         >
           {roleLabel}
         </span>
@@ -489,7 +488,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         </div>
 
         {error && (
-          <div role="alert" className="glass-note" style={{ marginTop: "0.75rem" }}>
+          <div role="alert" className="glass-note mt-3">
             {error}
           </div>
         )}
@@ -497,8 +496,7 @@ export default function ProfiilBody({ initialProfile = null }) {
         {success && !error && (
           <div
             role="status"
-            className="glass-note glass-note--success"
-            style={{ marginTop: "0.75rem" }}
+            className="glass-note glass-note--success mt-3"
           >
             {success}
           </div>
