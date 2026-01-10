@@ -55,10 +55,12 @@ export default function ResetPasswordForm({ token }) {
   }
   return (
     <div className="main-content glass-box reset-box" lang={locale}>
-      <h1 className="glass-title reset-title">{t("auth.resetForm.title")}</h1>
+      <h1 className="glass-title mb-[0.65em] text-center text-[2.05em] leading-[1.2] tracking-[0.03em] text-[color:#f2e3d4]">
+        {t("auth.resetForm.title")}
+      </h1>
       {success ? (
-        <div className="reset-success">
-          <p className="midtext reset-info" style={{ marginBottom: "1.5rem" }}>
+        <div className="flex flex-col items-center">
+          <p className="mt-8 text-center text-[1.1em] font-light leading-[1.56] tracking-[0.03em] text-[color:var(--pt-light)] mb-6">
             {t("auth.resetForm.success")}
           </p>
           <Link
@@ -70,8 +72,8 @@ export default function ResetPasswordForm({ token }) {
           </Link>
         </div>
       ) : (
-        <form className="reset-form" onSubmit={handleSubmit} autoComplete="off">
-          <label htmlFor="pin" className="reset-label">
+        <form className="flex w-full flex-col items-center gap-[0.7em] mb-[0.2em]" onSubmit={handleSubmit} autoComplete="off">
+          <label htmlFor="pin" className="flex w-full justify-center">
             <input
               type="password"
               id="pin"
@@ -86,7 +88,7 @@ export default function ResetPasswordForm({ token }) {
               disabled={loading}
             />
           </label>
-          <label htmlFor="confirm" className="reset-label">
+          <label htmlFor="confirm" className="flex w-full justify-center">
             <input
               type="password"
               id="confirm"
@@ -102,16 +104,20 @@ export default function ResetPasswordForm({ token }) {
             />
           </label>
           {error && (
-            <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
+            <div role="alert" className="glass-note mb-3">
               {error}
             </div>
           )}
-          <button className="btn-primary reset-btn" type="submit" disabled={loading}>
+          <button
+            className="btn-primary mt-[0.35em] min-w-[10.5rem] self-center whitespace-normal px-[1.05em] py-[0.48em] text-[1.02em] transition-opacity disabled:cursor-wait disabled:opacity-[0.82]"
+            type="submit"
+            disabled={loading}
+          >
             <span>{loading ? t("auth.resetForm.submitting") : t("auth.resetForm.submit")}</span>
           </button>
         </form>
       )}
-      <div className="back-btn-wrapper">
+      <div className="mt-4 flex items-center justify-center">
         <button
           type="button"
           className="back-arrow-btn"
@@ -121,7 +127,9 @@ export default function ResetPasswordForm({ token }) {
           <span className="back-arrow-circle"></span>
         </button>
       </div>
-      <footer className="alaleht-footer reset-footer">{t("about.footer.note")}</footer>
+      <footer className="alaleht-footer mt-4 pb-3 pt-2 text-center opacity-95">
+        {t("about.footer.note")}
+      </footer>
     </div>
   );
 }

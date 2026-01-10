@@ -63,13 +63,13 @@ export default function UnustasinParooliBody() {
     >
       {submitted ? (
         <RichText
-          className="invite-classic__status invite-classic__status--ok"
+          className="text-center text-[color:#a7f3d0]"
           as="div"
           value={t("auth.reset.success")}
         />
       ) : (
         <form
-          className="invite-classic__body"
+          className="flex flex-col gap-4"
           onSubmit={handleSubmit}
           autoComplete="off"
           aria-busy={loading ? "true" : "false"}
@@ -92,11 +92,11 @@ export default function UnustasinParooliBody() {
             aria-describedby={errorId}
           />
           {error && (
-            <p id={errorId} role="alert" className="invite-classic__status invite-classic__status--error">
+            <p id={errorId} role="alert" className="text-center text-[color:#fca5a5]">
               {error}
             </p>
           )}
-          <div className="invite-classic__actions">
+          <div className="mt-4 flex justify-center">
             <button className="btn-base" type="submit" disabled={loading}>
               <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
             </button>

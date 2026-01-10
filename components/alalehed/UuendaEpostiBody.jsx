@@ -114,8 +114,8 @@ export default function UuendaEpostiBody() {
       }
     >
       {submitted ? (
-        <div className="invite-classic__body">
-          <p className="invite-classic__status invite-classic__status--ok">
+        <div className="flex flex-col gap-4">
+          <p className="text-center text-[color:#a7f3d0]">
             {t(
               "profile.email_update.success",
               "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
@@ -124,7 +124,7 @@ export default function UuendaEpostiBody() {
         </div>
       ) : (
         <form
-          className="invite-classic__body"
+          className="flex flex-col gap-4"
           onSubmit={handleSubmit}
           autoComplete="off"
           aria-busy={loading ? "true" : "false"}
@@ -186,11 +186,11 @@ export default function UuendaEpostiBody() {
             disabled={loading}
           />
           {error && (
-            <p id={errorId} role="alert" className="invite-classic__status invite-classic__status--error">
+            <p id={errorId} role="alert" className="text-center text-[color:#fca5a5]">
               {error}
             </p>
           )}
-          <div className="invite-classic__actions">
+          <div className="mt-4 flex justify-center">
             <button className="btn-base" type="submit" disabled={loading}>
               <span>
                 {loading
