@@ -1,0 +1,146 @@
+{
+  "generatedAt": "2026-01-10",
+  "files": {
+    "app/styles/base/a11y.css": {
+      "bytes": 21846,
+      "rules": 134
+    },
+    "app/styles/base/animations.css": {
+      "bytes": 3948,
+      "rules": 75
+    },
+    "app/styles/base/core.css": {
+      "bytes": 7430,
+      "rules": 47
+    },
+    "app/styles/base/typography.css": {
+      "bytes": 2895,
+      "rules": 20
+    },
+    "app/styles/components/account-hud.css": {
+      "bytes": 24608,
+      "rules": 133
+    },
+    "app/styles/components/back-arrow.css": {
+      "bytes": 2489,
+      "rules": 11
+    },
+    "app/styles/components/buttons.css": {
+      "bytes": 3797,
+      "rules": 11
+    },
+    "app/styles/components/chat.css": {
+      "bytes": 51634,
+      "rules": 266
+    },
+    "app/styles/components/drawer.css": {
+      "bytes": 12563,
+      "rules": 73
+    },
+    "app/styles/components/footer.css": {
+      "bytes": 266,
+      "rules": 1
+    },
+    "app/styles/components/forms.css": {
+      "bytes": 26905,
+      "rules": 145
+    },
+    "app/styles/components/glass.css": {
+      "bytes": 12086,
+      "rules": 89
+    },
+    "app/styles/components/invite.css": {
+      "bytes": 18902,
+      "rules": 111
+    },
+    "app/styles/components/links.css": {
+      "bytes": 1855,
+      "rules": 12
+    },
+    "app/styles/components/lists.css": {
+      "bytes": 360,
+      "rules": 2
+    },
+    "app/styles/components/modals.css": {
+      "bytes": 3063,
+      "rules": 15
+    },
+    "app/styles/components/nav-meist.css": {
+      "bytes": 66,
+      "rules": 0
+    },
+    "app/styles/components/notifications.css": {
+      "bytes": 1372,
+      "rules": 7
+    },
+    "app/styles/components/tables.css": {
+      "bytes": 957,
+      "rules": 5
+    },
+    "app/styles/globals.css": {
+      "bytes": 134,
+      "rules": 0
+    },
+    "app/styles/legacy.css": {
+      "bytes": 913,
+      "rules": 0
+    },
+    "app/styles/legacy.current.css": {
+      "bytes": 25,
+      "rules": 0
+    },
+    "app/styles/pages/auth.css": {
+      "bytes": 6072,
+      "rules": 33
+    },
+    "app/styles/pages/home.css": {
+      "bytes": 19329,
+      "rules": 87
+    },
+    "app/styles/pages/profile.css": {
+      "bytes": 38484,
+      "rules": 168
+    },
+    "app/styles/pages/rag-admin.css": {
+      "bytes": 60114,
+      "rules": 378
+    },
+    "app/styles/pages/rag-admina.css": {
+      "bytes": 10222,
+      "rules": 68
+    },
+    "app/styles/pages/rag-adminb.css": {
+      "bytes": 46596,
+      "rules": 271
+    },
+    "app/styles/tailwind.css": {
+      "bytes": 275,
+      "rules": 0
+    },
+    "app/styles/theme/hc.css": {
+      "bytes": 2314,
+      "rules": 2
+    },
+    "app/styles/theme/late-overrides.css": {
+      "bytes": 34520,
+      "rules": 155
+    },
+    "app/styles/theme/light.css": {
+      "bytes": 2973,
+      "rules": 3
+    },
+    "app/styles/tokens.css": {
+      "bytes": 4761,
+      "rules": 11
+    },
+    "app/styles/utilities/helpers.css": {
+      "bytes": 682,
+      "rules": 3
+    }
+  },
+  "totals": {
+    "files": 34,
+    "rules": 2336,
+    "bytes": 424456
+  }
+}
