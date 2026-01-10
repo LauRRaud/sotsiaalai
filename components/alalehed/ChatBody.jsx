@@ -456,15 +456,7 @@ export default function ChatBody({ roomId = null }) {
       {isCrisis ? (
         <div
           role="alert"
-          style={{
-            margin: "0.35rem 0 0.75rem",
-            padding: "0.65rem 0.9rem",
-            borderRadius: 10,
-            border: "1px solid rgba(231,76,60,0.35)",
-            background: "rgba(231,76,60,0.12)",
-            color: "#ff9c9c",
-            fontSize: "0.92rem",
-          }}
+          className="mt-[0.35rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]"
         >
           {crisisText}
         </div>
@@ -474,16 +466,7 @@ export default function ChatBody({ roomId = null }) {
       {errorBanner ? (
         <div
           role="alert"
-          className="chat-error-banner"
-          style={{
-            margin: "0.5rem 0 0.75rem",
-            padding: "0.7rem 0.9rem",
-            borderRadius: 10,
-            border: "1px solid rgba(231,76,60,0.35)",
-            background: "rgba(231,76,60,0.12)",
-            color: "#ff9c9c",
-            fontSize: "0.9rem",
-          }}
+          className="chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]"
         >
           {errorBanner}
         </div>
@@ -562,8 +545,7 @@ export default function ChatBody({ roomId = null }) {
       {recordingError ? (
         <div
           role="alert"
-          className="glass-note chat-error-banner"
-          style={{ marginTop: "0.5rem" }}
+          className="glass-note chat-error-banner mt-[0.5rem]"
         >
           {recordingError}
         </div>

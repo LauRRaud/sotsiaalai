@@ -136,7 +136,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       data-analysis-mode={analysisPanelMode}
     >
       <div className="chat-analysis-card">
-        <header className="chat-analysis-header" style={{ position: "relative" }}>
+        <header className="chat-analysis-header relative">
           {uploadPreview ? (
             <div className="chat-analysis-titleblock">
               <div className="chat-analysis-file-name">
