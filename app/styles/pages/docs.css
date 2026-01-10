@@ -32,12 +32,3 @@
   font-size: 1.18rem;
   line-height: 1.62;
 }
-/* migrated from legacy/part-02b.css */
-.epost-row {
-  display: flex;
-  align-items: center;
-  gap: 0.2em;
-  flex-wrap: wrap;
-  letter-spacing: 0.03em;
-  color: var(--pt-150);
-  }
