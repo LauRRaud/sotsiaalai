@@ -102,46 +102,8 @@
 }
 :root:not(.theme-light) .invite-modal .invite-classic__title { color: #c57171; }
 :root.theme-light .invite-modal .invite-classic__title { color: var(--title-color) !important; }
-.invite-modal__close:not(.modal-close-btn) {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0;
-  border: none;
-  background: transparent;
-  color: inherit;
-  font-size: 2.05rem;
-  cursor: var(--cursor-pointer);
-  line-height: 1;
-  position: absolute;
-  top: -0.35rem;
-  right: -0.1rem;
-  padding: 0;
-  box-shadow: none;
-  transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
-}
-:root.theme-light .invite-modal__close:not(.modal-close-btn) {
-  border-color: transparent;
-  background: transparent;
-}
-.invite-modal__close:not(.modal-close-btn):hover,
-.invite-modal__close:not(.modal-close-btn):focus-visible {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-  transform: translateY(-1px);
-}
-:root.theme-light .invite-modal__close:not(.modal-close-btn):hover,
-:root.theme-light .invite-modal__close:not(.modal-close-btn):focus-visible {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-}
-.invite-modal__close:not(.modal-close-btn):active {
-  transform: translateY(1px);
-  box-shadow: none;
-}
-.invite-modal__close:not(.modal-close-btn):focus-visible { outline: none; }
+
+
 .invite-modal__close.modal-close-btn{
   position: absolute;
   top: 0.35rem;
