@@ -94,7 +94,7 @@ export default async function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logo/onoffhall.svg" />
         {/* Removed deprecated login provider assets */}
       </head>
-      <body className="antialiased min-h-screen w-full overflow-x-hidden">
+      <body className="app-root">
         <Providers initialLocale={locale} messages={messages} session={session} initialA11yPrefs={initialA11yPrefs}>
           {/* Skip-link ligipääsetavuseks */}
           <a href="#main" className="skip-link">{skipText}</a>
@@ -103,7 +103,7 @@ export default async function RootLayout({ children }) {
           <BackgroundLayer />
           <ServiceWorkerRegistrar />
           {/* Sisu on taustast kõrgemal kihil */}
-          <main id="main" role="main" tabIndex={-1} className="relative" style={{ zIndex: 10 }}>
+          <main id="main" role="main" tabIndex={-1} style={{ zIndex: 10 }}>
             {children}
           </main>
         </Providers>
