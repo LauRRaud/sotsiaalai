@@ -324,12 +324,12 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
 
           <section className={`register-step csp-step ${getItemClassName(5)}`}>
             {error && (
-              <div role="alert" className="glass-note" style={{ marginBottom: "0.75rem" }}>
+              <div role="alert" className="glass-note mb-3">
                 {error}
               </div>
             )}
             {successMessage && (
-              <div role="status" className="glass-note glass-note--success" style={{ marginBottom: "0.75rem" }}>
+              <div role="status" className="glass-note glass-note--success mb-3">
                 {successMessage}
               </div>
             )}

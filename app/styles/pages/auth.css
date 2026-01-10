@@ -194,13 +194,6 @@
 }
 .login-or-divider:before { left: 0; }
 .login-or-divider:after { right: 0; }
-.reset-center-outer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80dvh;
-  width: 100vw;
-}
 .glass-left {
   align-items: flex-start;
   text-align: left;
@@ -234,46 +227,6 @@
     margin-right: auto;
   }
 }
-.reset-box.reset-email{
-    gap: 0.55em;
-  }
-.reset-title {
-  text-align: center;
-  width: 100%;
-  font-size: 2.05em;
-  letter-spacing: 0.03em;
-  color: #f2e3d4;
-  margin-bottom: 0.65em;
-}
-.reset-box.reset-email .reset-title{
-    margin-bottom: 0.3em;
-  }
-.reset-info {
-  margin-top: 2em;
-  text-align: center;
-  font-size: 1.1em;
-  color: var(--pt-light);
-  line-height: 1.56;
-  letter-spacing: 0.03em;
-  font-weight: 300;
-}
-.reset-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 0.7em;
-  margin-bottom: 0.2em;
-}
-.reset-box.reset-email .reset-form{
-    gap: 0.3em;
-  }
-.reset-label {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
 .reset-input {
   width: 100%;
   max-width: 20.3125rem;
@@ -286,7 +239,7 @@
   border: 1.5px solid rgba(84,95,115,0.6);
   border-radius: 1.2em;
   padding: 0.85em 1.05em;
-    margin: 1.6em 0 1.1em;
+  margin: 1.6em 0 1.1em;
   outline: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
   box-shadow: none;
@@ -294,26 +247,7 @@
   display: block;
   text-align: left;
   -webkit-text-size-adjust: 100%;
-  }
-.reset-box.reset-email .reset-input{
-    margin: 1.4em 0 0.3em;
-  }
-.reset-box.reset-email .reset-label + .reset-label .reset-input{
-    margin: 0.2em 0 0.7em;
-  }
-.reset-box.reset-email #email.reset-input,
-.reset-box.reset-email #pin.reset-input{
-    width: min(100%, 21.5rem);
-    max-width: 21.5rem;
-    height: 3.3rem;
-    padding: 0 0.75rem;
-    line-height: 1;
-    font-size: 1.18rem;
-    text-align: left;
-  }
-.reset-box.reset-email #pin.reset-input::placeholder{
-    font-size: 1.18rem;
-  }
+}
 .reset-box .reset-input{
     width: min(100%, 21.5rem);
     max-width: 21.5rem;
@@ -336,61 +270,10 @@
   color: var(--pt-200);
   box-shadow: none;
 }
-.reset-btn {
-  min-width: 10.5rem;
-  max-width: none;
-  margin: 0.35em auto 0;
-  align-self: center;
-  text-align: center;
-  white-space: normal;
-  font-size: 1.02em;
-  padding: 0.48em 1.05em;
-}
-.reset-box.reset-email .reset-btn{
-  min-width: 10.5rem;
-  max-width: none;
-  margin-top: 0.7em;
-}
-.reset-btn[disabled] {
-  cursor: wait;
-  opacity: 0.82;
-  transition: opacity 0.2s ease;
-}
-.reset-bottom-link {
-  width: 100%;
-  text-align: center;
-  margin-top: 1.3em;
-  margin-bottom: 0.3em;
-  font-size: 1.14em;
-}
-.reset-bottom-text {
-  margin-right: 0.15em;
-  font-size: 1.14em;
-  color: #e2d1c3;
-  font-weight: 500;
-  opacity: 0.98;
-}
-.reset-footer {
-  text-align: center;
-  margin-top: 1em;
-  opacity: 0.96;
-}
-.reset-box .back-btn-wrapper {
-  margin: 1em auto 0.3em;
-}
-.alaleht-footer.reset-footer {
-  margin-top: auto;
-  padding-top: 0.6em;
-  padding-bottom: 0.8em;
-}
 .back-btn-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto 0.05em;
   padding: 0;
-}
-.back-btn-wrapper--profile {
-  margin-top: -3rem;
-  margin-bottom: -2rem;
 }
