@@ -165,79 +165,102 @@ export default function RoomsPage() {
       ? []
       : visibleRooms;
 
+  const actionBaseClass =
+    "inline-flex items-center justify-center rounded-[0.6rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.65rem] py-[0.25rem] text-[0.75rem] font-semibold text-[color:var(--pt-120)] transition-[border-color,background,color,transform] duration-150 hover:border-[rgba(148,163,184,0.6)] hover:bg-[rgba(16,22,34,0.55)] focus-visible:border-[rgba(148,163,184,0.6)] focus-visible:bg-[rgba(16,22,34,0.55)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55 [.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.7)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)] [.theme-light_&:focus-visible]:border-[rgba(148,163,184,0.7)] [.theme-light_&:focus-visible]:bg-[rgba(255,255,255,1)]";
+  const actionDangerClass = `${actionBaseClass} border-[rgba(192,72,72,0.45)] text-[#ffd1d1] hover:border-[rgba(255,120,120,0.7)] hover:bg-[rgba(48,16,20,0.5)] hover:text-[#ffe1e1] focus-visible:border-[rgba(255,120,120,0.7)] focus-visible:bg-[rgba(48,16,20,0.5)] focus-visible:text-[#ffe1e1] [.theme-light_&]:border-[rgba(192,72,72,0.4)] [.theme-light_&]:text-[#7a2323] [.theme-light_&:hover]:border-[rgba(192,72,72,0.6)] [.theme-light_&:hover]:bg-[rgba(255,235,235,0.9)] [.theme-light_&:hover]:text-[#6b1d1d] [.theme-light_&:focus-visible]:border-[rgba(192,72,72,0.6)] [.theme-light_&:focus-visible]:bg-[rgba(255,235,235,0.9)] [.theme-light_&:focus-visible]:text-[#6b1d1d]`;
+  const metaItemClass =
+    "text-[0.78rem] text-[color:var(--pt-200)] before:content-['|'] before:mx-[0.35rem] before:ml-[0.1rem] before:text-[rgba(148,163,184,0.7)] first:before:content-none [.theme-light_&]:text-[#475569]";
+
   return (
-    <div className="rooms-page-shell">
-      <section className="main-content glass-box rooms-shell rooms-container" role="region" aria-label={t("rooms.aria", "Ruumid")}>
-        <h1 className="glass-title rooms-title">{t("rooms.title", "Ruumid")}</h1>
+    <div className="relative flex min-h-[100dvh] w-full flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-[48em]:pt-[env(safe-area-inset-top,0px)] max-[48em]:pb-[env(safe-area-inset-bottom,0px)] min-[48em]:pt-[calc(env(safe-area-inset-top,0px)+clamp(0.7rem,1.9vh,1.3rem))]">
+      <section
+        className="main-content glass-box flex h-[var(--chat-diameter)] w-[var(--chat-diameter)] min-w-[var(--chat-diameter)] max-w-[var(--chat-diameter)] min-h-[var(--chat-diameter)] max-h-[var(--chat-diameter)] flex-col gap-4 overflow-auto overflow-x-hidden rounded-full p-[clamp(1.4rem,3.5vh,2.2rem)] aspect-square self-center mx-auto mt-[max(0px,calc((100dvh-var(--chat-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] mb-0 max-[48em]:w-screen max-[48em]:h-[100dvh] max-[48em]:max-w-screen max-[48em]:max-h-[100dvh] max-[48em]:min-w-0 max-[48em]:min-h-0 max-[48em]:rounded-none max-[48em]:overflow-visible max-[48em]:aspect-auto max-[48em]:pt-[clamp(1.2rem,3vh,2rem)] max-[48em]:mt-0"
+        role="region"
+        aria-label={t("rooms.aria", "Ruumid")}
+      >
+        <h1 className="glass-title mb-[1.2rem] mt-[2.9rem] w-full max-w-full text-center">
+          {t("rooms.title", "Ruumid")}
+        </h1>
 
         {loading ? (
-          <p className="rooms-empty" aria-busy="true">
+          <p
+            className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]"
+            aria-busy="true"
+          >
             {t("rooms.loading", "Laadin ruume...")}
           </p>
         ) : effectiveRooms.length === 0 ? (
-          <p className="rooms-empty">
+          <p className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]">
             {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
           </p>
         ) : (
-          <div className="rooms-list-scroll">
-            <ul className="rooms-list" role="list">
+          <div className="flex-1 min-h-0 overflow-y-auto pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0">
+            <ul className="mx-auto grid w-[min(30rem,88%)] list-none gap-[0.85rem] p-0 text-left" role="list">
               {effectiveRooms.map((room) => (
-                <li key={room.id} className="rooms-list-item">
-                  <div className="rooms-card">
-                    <Link href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="rooms-card__link">
-                      <div className="rooms-card__header">
-                        <div className="rooms-card__title">
+                <li key={room.id} className="m-0 p-0">
+                  <div className="flex flex-col gap-[0.6rem] rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(10,14,24,0.32)] p-[0.75rem_0.85rem] text-[color:var(--pt-120)] shadow-[0_0.4rem_1rem_rgba(0,0,0,0.25)] transition-[transform,border-color,background,box-shadow] duration-150 hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.4)] hover:bg-[rgba(16,22,34,0.4)] hover:shadow-[0_0.55rem_1.35rem_rgba(0,0,0,0.32)] focus-within:-translate-y-[1px] focus-within:border-[rgba(148,163,184,0.4)] focus-within:bg-[rgba(16,22,34,0.4)] focus-within:shadow-[0_0.55rem_1.35rem_rgba(0,0,0,0.32)] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[0_0.35rem_0.9rem_rgba(15,23,42,0.12)] [.theme-light_&:hover]:border-[rgba(148,163,184,0.55)] [.theme-light_&:hover]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:hover]:shadow-[0_0.5rem_1.1rem_rgba(15,23,42,0.16)] [.theme-light_&:focus-within]:border-[rgba(148,163,184,0.55)] [.theme-light_&:focus-within]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:focus-within]:shadow-[0_0.5rem_1.1rem_rgba(15,23,42,0.16)]">
+                    <Link
+                      href={`/vestlus?roomId=${encodeURIComponent(room.id)}`}
+                      className="grid w-full gap-[0.45rem] text-inherit no-underline"
+                    >
+                      <div className="flex items-center justify-between gap-[0.8rem]">
+                        <div className="text-[1.05rem] font-semibold text-[color:var(--pt-40)] [.theme-light_&]:text-[#0f172a]">
                           {room.title || t("rooms.fallback_title", "Ruum")}
                         </div>
                         {room.unreadCount ? (
-                          <span className="rooms-card__badge" aria-label={t("rooms.unread", "Uusi")}>
+                          <span
+                            className="min-w-[1.6rem] rounded-full border border-[rgba(192,72,72,0.35)] bg-[rgba(192,72,72,0.25)] px-[0.45rem] py-[0.15rem] text-center text-[0.75rem] font-semibold text-[#ffd1d1]"
+                            aria-label={t("rooms.unread", "Uusi")}
+                          >
                             {room.unreadCount}
                           </span>
                         ) : null}
                       </div>
                       {room.description ? (
-                        <div className="rooms-card__desc">{room.description}</div>
+                        <div className="text-[0.88rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#475569]">
+                          {room.description}
+                        </div>
                       ) : null}
-                      <div className="rooms-card__meta">
+                      <div className="flex flex-wrap gap-[0.45rem] text-[0.78rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#475569]">
                         {room.role ? (
-                          <span className="rooms-card__meta-item">
+                          <span className={metaItemClass}>
                             {t("rooms.role_label", "Roll")}: {roleLabel(room.role)}
                           </span>
                         ) : null}
                         {Number.isFinite(room.memberCount) ? (
-                          <span className="rooms-card__meta-item">
+                          <span className={metaItemClass}>
                             {t("rooms.members_label", "Liikmeid")}: {room.memberCount}
                           </span>
                         ) : null}
                         {room.unreadCount ? (
-                          <span className="rooms-card__meta-item rooms-card__meta-item--unread">
+                          <span className={`${metaItemClass} text-[#ffd1d1]`}>
                             {t("rooms.unread", "Uusi")}: {room.unreadCount}
                           </span>
                         ) : null}
                       </div>
                       {room.lastMessage?.content ? (
-                        <div className="rooms-card__last">
-                          <span className="rooms-card__last-text">
+                        <div className="flex items-baseline justify-between gap-[0.75rem] text-[0.82rem] text-[color:var(--pt-180)] [.theme-light_&]:text-[#475569]">
+                          <span className="min-w-0 flex-1">
                             {truncate(room.lastMessage.content)}
                           </span>
                           {room.lastMessage?.createdAt ? (
-                            <span className="rooms-card__last-time">
+                            <span className="flex-none text-[0.75rem] text-[rgba(148,163,184,0.8)] [.theme-light_&]:text-[rgba(71,85,105,0.8)]">
                               {formatTime(room.lastMessage.createdAt)}
                             </span>
                           ) : null}
                         </div>
                       ) : (
-                        <div className="rooms-card__last rooms-card__last--empty">
+                        <div className="text-[0.82rem] text-[rgba(148,163,184,0.7)]">
                           {t("rooms.last_empty", "Veel sonumeid pole")}
                         </div>
                       )}
                     </Link>
                     {canInvite(room.role) || canLeave(room.role) || canDelete(room.role) ? (
-                      <div className="rooms-card__actions">
+                      <div className="flex justify-end gap-[0.4rem]">
                         {canInvite(room.role) ? (
                           <button
                             type="button"
-                            className="rooms-card__action"
+                            className={actionBaseClass}
                             onClick={() => handleInvite(room.id)}
                           >
                             {t("rooms.invite", "Kutsu")}
@@ -246,7 +269,7 @@ export default function RoomsPage() {
                         {canLeave(room.role) ? (
                           <button
                             type="button"
-                            className="rooms-card__action"
+                            className={actionBaseClass}
                             onClick={() => handleLeave(room)}
                             disabled={leavingId === room.id}
                           >
@@ -258,7 +281,7 @@ export default function RoomsPage() {
                         {canDelete(room.role) ? (
                           <button
                             type="button"
-                            className="rooms-card__action rooms-card__action--danger"
+                            className={actionDangerClass}
                             onClick={() => openDeleteConfirm(room)}
                           >
                             {t("rooms.delete", "Kustuta")}
@@ -273,14 +296,14 @@ export default function RoomsPage() {
           </div>
         )}
 
-        <div className="back-btn-wrapper rooms-back-btn">
+        <div className="back-btn-wrapper pointer-events-none absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-1/2 z-[100] m-0 -translate-y-1/2 p-0">
           <button
             type="button"
-            className="back-arrow-btn"
+            className="back-arrow-btn pointer-events-auto !h-[5.7rem] !w-[5.7rem]"
             onClick={() => pushWithTransition(router, "/vestlus")}
             aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}
           >
-            <span className="back-arrow-circle" />
+            <span className="back-arrow-circle !h-[5.7rem] !w-[5.7rem]" />
           </button>
         </div>
       </section>
