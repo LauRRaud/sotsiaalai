@@ -1,10 +1,4 @@
 /* late theme selector overrides (migrated from legacy parts) */
-.btn-primary.btn-compact{
-  font-size: 0.98em;
-  padding: 0.4em 0.9em;
-  min-width: 9.3rem;
-  min-height: 2.2rem;
-}
 .btn-primary {
   font-family: inherit;
   font-weight: 500;
@@ -77,8 +71,6 @@
   border: 0;
 }
 :root.theme-light .btn-primary,
-:root.theme-light .btn-profile-save,
-:root.theme-light .btn-profile-logout,
 :root.theme-light .drawer-panel .cs-btn:not(.btn-base),
 :root.theme-light .drawer-panel .cs-refresh:not(.btn-base) {
   color: color-mix(in srgb, var(--text-strong) 68%, transparent);
@@ -97,10 +89,6 @@
     }
 :root.theme-light .btn-primary:hover,
 :root.theme-light .btn-primary:focus-visible,
-:root.theme-light .btn-profile-save:hover,
-:root.theme-light .btn-profile-save:focus-visible,
-:root.theme-light .btn-profile-logout:hover,
-:root.theme-light .btn-profile-logout:focus-visible,
 :root.theme-light .drawer-panel .cs-btn:not(.btn-base):hover,
 :root.theme-light .drawer-panel .cs-btn:not(.btn-base):focus-visible,
 :root.theme-light .drawer-panel .cs-refresh:not(.btn-base):hover,
@@ -139,21 +127,9 @@
   display: none;
 }
 :root.theme-light .btn-primary:active,
-:root.theme-light .btn-profile-save:active,
-:root.theme-light .btn-profile-logout:active,
 :root.theme-light .drawer-panel .cs-btn:not(.btn-base):active,
-:root.theme-light .drawer-panel .cs-refresh:not(.btn-base):active,
-:root.theme-light .avatar-link {
+:root.theme-light .drawer-panel .cs-refresh:not(.btn-base):active {
   background: transparent;
-}
-:root.theme-light .avatar-link:hover,
-:root.theme-light .avatar-link:focus-visible {
-  background: transparent;
-}
-:root.theme-light .dock-panel.profile-email-dock {
-  background: transparent;
-  border: none;
-  box-shadow: none;
 }
 :root:not(.theme-light) .chat-inputbar,
 :root:not(.theme-light) .chat-attach-btn.chat-attach-as-send,
@@ -167,21 +143,12 @@
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn {
   box-shadow: none;
 }
-:root:not(.theme-light) .dock-panel.profile-email-dock,
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item:hover,
-:root:not(.theme-light) .profile-email-dock-wrapper .dock-item:focus-visible,
-:root:not(.theme-light) .profile-email-card,
-:root:not(.theme-light) .profile-email-card:hover,
-:root:not(.theme-light) .profile-email-card:focus-visible {
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item:focus-visible {
   box-shadow: none;
 }
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item {
-  background:
-    linear-gradient(130deg, rgba(12, 16, 26, 0.78), rgba(28, 32, 44, 0.56));
-  border-color: rgba(114, 124, 140, 0.7);
-}
-:root:not(.theme-light) .profile-email-card {
   background:
     linear-gradient(130deg, rgba(12, 16, 26, 0.78), rgba(28, 32, 44, 0.56));
   border-color: rgba(114, 124, 140, 0.7);
@@ -375,24 +342,6 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .profile-loading{
   color:#1f2937;
 }
-:root.theme-light .profile-email-card {
-  background: #fbfbfb;
-  border: 2px solid #d0d0d0;
-  color: #3b3329;
-  box-shadow:
-    0 12px 22px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-}
-:root.theme-light .profile-email-card:hover,
-:root.theme-light .profile-email-card:focus-visible{
-  box-shadow:
-    0 8px 16px rgba(0,0,0,0.10),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-}
-:root.theme-light .profile-email-card__icon svg{
-  stroke: #3b3329;
-  fill: none;
-}
 :root.theme-light .shiny-ph-overlay {
   color: transparent;
 }
@@ -437,16 +386,8 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .drawer-panel .cs-time {
   color: color-mix(in srgb, var(--text-strong) 78%, transparent);
 }
-:root.theme-light .dock-panel.profile-email-dock {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
 :root.theme-light .input-modern,
 :root.theme-light .login-modal-root .login-modal-form input,
-:root.theme-light .profile-email-field .input-modern,
 :root.theme-light input[type="email"] {
   background: #f8f8f8;
   border: 2px solid #d7d7d7;
@@ -572,7 +513,6 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 }
 :root.theme-light .input-modern:hover:not(:focus),
 :root.theme-light .login-modal-root .login-modal-form input:hover:not(:focus),
-:root.theme-light .profile-email-field .input-modern:hover:not(:focus),
 :root.theme-light input[type="email"]:hover:not(:focus) {
   background: #ffffff;
   border-color: #cfcfcf;
@@ -582,8 +522,6 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root.theme-light .input-modern:focus,
 :root.theme-light .input-modern:focus-visible,
 :root.theme-light .login-modal-root .login-modal-form input:focus,
-:root.theme-light .profile-email-field .input-modern:focus,
-:root.theme-light .profile-email-field .input-modern:focus-visible,
 :root.theme-light input[type="email"]:focus,
 :root.theme-light input[type="email"]:focus-visible {
   background: #ffffff;
@@ -684,10 +622,6 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
   color: var(--text-strong);
   caret-color: var(--text-strong);
 }
-:root.theme-light .profile-email-field .input-modern {
-  color: var(--text-strong);
-  caret-color: var(--text-strong);
-}
 :root.theme-light .login-modal-root .login-email-icon-btn--known {
   background-image: url("/logo/%C3%BCmbrikhele.svg");
 }
@@ -703,18 +637,6 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root:not(.theme-light) .chat-menu-icon {
   --menu-bar-h: 2.4px;
   gap: 0.32rem;
-}
-:root.theme-light .avatar-label {
-  text-shadow: none;
-  font-weight: 500;
-  font-size: 1.36rem;
-  color: color-mix(in srgb, var(--title-color) 96%, #e9edf5 4%);
-}
-:root.theme-light .avatar-label,
-:root.theme-light .avatar-link:hover .avatar-label,
-:root.theme-light .avatar-link:focus-visible .avatar-label {
-  color: color-mix(in srgb, var(--title-color) 96%, #e9edf5 4%);
-  stroke: color-mix(in srgb, var(--title-color) 96%, #e9edf5 4%);
 }
 :root.theme-light .profile-logout-label {
   color: #7A3A38;
