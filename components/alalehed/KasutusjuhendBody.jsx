@@ -66,7 +66,7 @@ export default function KasutusjuhendBody() {
         </div>
       </section>
       <InstallAppLink variant="section" />
-      <div className="back-btn-wrapper back-btn-wrapper--side">
+      <div className="back-btn-wrapper">
         <button
           type="button"
           className="back-arrow-btn"

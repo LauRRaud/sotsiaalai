@@ -51,7 +51,7 @@ export default function MeistBody({ isAdmin = false, embedded = false }) {
       <div className="home-about-content" role="region" aria-labelledby="home-about-title" lang={locale}>
         <h2
           id="home-about-title"
-          className="text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.02em] mt-0 mb-[1.1rem] [color:var(--pt-100,#ecebe9)]"
+          className="home-section-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.02em] mt-0 mb-[1.1rem] [color:var(--pt-100,#ecebe9)]"
         >
           {t("about.title")}
         </h2>

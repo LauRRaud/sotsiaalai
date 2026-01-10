@@ -99,7 +99,7 @@ export default function KasutustingimusedBody() {
           </div>
         ))}
       </section>
-      <div className="back-btn-wrapper back-btn-wrapper--side">
+      <div className="back-btn-wrapper">
         <button
           type="button"
           className="back-arrow-btn"

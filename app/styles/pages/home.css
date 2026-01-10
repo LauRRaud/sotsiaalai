@@ -609,6 +609,9 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   align-items: center;
   justify-content: center;
 }
+.homepage-root.homepage-scroll .home-section-title{
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+}
 
 .homepage-root.homepage-scroll .home-link{
   display: inline-flex;
@@ -643,7 +646,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   height: auto;
   --end-op: 0.8;
   opacity: 0.8;
-  margin-top: 4rem;
+  margin-top: 3.2rem;
 }
 .homepage-root.homepage-scroll .home-footer-email{
   margin-bottom: 1.4rem;
