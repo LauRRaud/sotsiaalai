@@ -1704,9 +1704,9 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
   border-color: var(--btn-border-glow);
   background: var(--btn-bg-idle);
 }
-.chat-send-btn[data-loader-active=],
+.chat-send-btn[data-loader-active],
 .chat-send-btn--active,
-.chat-send-btn:has(.send-loader[data-animated=]) {
+.chat-send-btn:has(.send-loader[data-animated]) {
   background: rgba(10, 14, 24, 0.30);
   border-color: var(--btn-border-glow);
   box-shadow: none;

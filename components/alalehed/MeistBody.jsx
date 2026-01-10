@@ -47,14 +47,16 @@ export default function MeistBody({ isAdmin = false, embedded = false }) {
         };
       });
     const paragraph3 = embeddedParagraphs.find(({ key }) => key === "p3");
-    const emailValue = t("about.contact.email_value");
     return (
       <div className="home-about-content" role="region" aria-labelledby="home-about-title" lang={locale}>
-        <h2 id="home-about-title" className="home-section-title">
+        <h2
+          id="home-about-title"
+          className="text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.02em] mt-0 mb-[1.1rem] [color:var(--pt-100,#ecebe9)]"
+        >
           {t("about.title")}
         </h2>
 
-        <div className="home-prose">
+        <div className="text-center text-[clamp(1.1rem,1.5vw,1.22rem)] leading-[1.7] space-y-[0.95rem] [color:var(--home-prose-color)] [text-shadow:0_1px_18px_rgba(0,0,0,0.35)]">
           {embeddedParagraphs.filter(({ key }) => key !== "p3").map(({ key, value, replacements }) => (
             <RichText key={key} as="div" value={value} replacements={replacements} />
           ))}
