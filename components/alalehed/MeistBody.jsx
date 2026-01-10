@@ -80,7 +80,7 @@ export default function MeistBody({ isAdmin = false, embedded = false }) {
       </section>
 
       <section className="glass-section">
-        <p className="epost-row">
+        <p className="flex flex-wrap items-center gap-[0.2em] tracking-[0.03em] text-[color:var(--pt-150)]">
           <strong>{t("about.contact.title")}:</strong>{" "}
           <a href="mailto:info@sotsiaal.ai" className="link-brand">
             {t("about.contact.email_value")}
