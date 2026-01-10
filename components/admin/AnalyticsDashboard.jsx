@@ -237,7 +237,7 @@ export default function AnalyticsDashboard() {
             <div className="rag-card-sub">Ülevaade indekseerimisest ja värsketest lisandustest.</div>
           </div>
         </div>
-        <div className="analytics-kpi-grid" style={{ marginTop: 12 }}>
+        <div className="analytics-kpi-grid mt-3">
           <div className="card analytics-card">
             <div className="card-title">Dokumente kokku</div>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.total ?? 0)}</div>
@@ -274,7 +274,7 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="table-wrap" style={{ marginTop: 14 }}>
+        <div className="table-wrap mt-3.5">
           <table className="rag-table">
             <thead>
               <tr>
@@ -322,7 +322,7 @@ export default function AnalyticsDashboard() {
             <div className="rag-card-sub">Maksevood ja tellimuste aktiivsus viimase 30 päeva lõikes.</div>
           </div>
         </div>
-        <div className="analytics-kpi-grid" style={{ marginTop: 12 }}>
+        <div className="analytics-kpi-grid mt-3">
           <div className="card analytics-card">
             <div className="card-title">Aktiivsed tellimused</div>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.activeSubscriptions ?? 0)}</div>
@@ -349,7 +349,7 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="table-wrap" style={{ marginTop: 14 }}>
+        <div className="table-wrap mt-3.5">
           <table className="rag-table">
             <thead>
               <tr>
@@ -392,7 +392,7 @@ export default function AnalyticsDashboard() {
             <div className="rag-card-sub">Viimased 100 sündmust koos filtritega.</div>
           </div>
         </div>
-        <div className="rag-toolbar" style={{ marginTop: 8 }}>
+        <div className="rag-toolbar mt-2">
           <select className="input" value={eventFilter} onChange={(e) => setEventFilter(e.target.value)}>
             <option value="all">Kõik sündmused</option>
             {EVENT_OPTIONS.map((ev) => (
