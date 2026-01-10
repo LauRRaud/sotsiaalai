@@ -45,7 +45,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
         {": "}
       </span>
 
-      <div style={{ whiteSpace: "pre-wrap" }}>{text}</div>
+      <div className="whitespace-pre-wrap">{text}</div>
     </div>
   );
 });

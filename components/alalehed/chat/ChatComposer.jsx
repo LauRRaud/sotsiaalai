@@ -106,7 +106,7 @@ export default function ChatComposer({
         type="file"
         accept={acceptAttr}
         onChange={onFileChange}
-        style={{ display: "none" }}
+        className="hidden"
       />
 
       <label htmlFor="chat-input" className="sr-only">
@@ -147,7 +147,7 @@ export default function ChatComposer({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{ width: "1.6rem", height: "1.6rem" }}
+            className="h-[1.6rem] w-[1.6rem]"
           >
             <path d="M11 5L6 9H2v6h4l5 4z" />
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
@@ -185,18 +185,18 @@ export default function ChatComposer({
             data-recording={recording ? "true" : "false"}
             data-recording-complete={recordingPulse ? "true" : "false"}
           >
-            <svg
-              aria-hidden="true"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ width: "1.6rem", height: "1.6rem" }}
-            >
+          <svg
+            aria-hidden="true"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-[1.6rem] w-[1.6rem]"
+          >
               <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
               <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
               <line x1="12" y1="19" x2="12" y2="23" />

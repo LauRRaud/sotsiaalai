@@ -50,16 +50,15 @@ const ConversationView = memo(function ConversationView({
   }, []);
 
   return (
-    <main className="chat-main" style={{ position: "relative" }}>
+    <main className="chat-main relative">
       <div
         id="chat-window"
-        className="chat-window u-mobile-scroll u-mobile-safe-pad"
+        className="chat-window u-mobile-scroll u-mobile-safe-pad relative"
         ref={chatWindowRef}
         role="region"
         aria-label={t("chat.aria.messages", "Chat messages")}
         aria-live="polite"
         aria-busy={isStreamingAny ? "true" : "false"}
-        style={{ position: "relative" }}
       >
         {hiddenCount > 0 ? (
           <div className="chat-history-cap">
