@@ -4,30 +4,8 @@
   padding-top: 0.8em;
   margin-top: 0;
 }
-.profile-container .alaleht-footer.profile-footer-note{
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: env(safe-area-inset-bottom, 0px);
-  margin-top: 0;
-  padding-top: 0;
-}
-.profile-footer-note{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-  font-size: 1.2rem;
-}
-.profile-footer-line{
-  display: block;
-}
-.profile-footer-line + .profile-footer-line{
-  font-size: 0.94em;
-}
-:root.theme-light .profile-container .profile-footer-note{
-  color: color-mix(in srgb, var(--text-strong, #1f2937) 86%, transparent);
-}
+
+
 .profile-subpage-shell .profile-subpage-box .back-btn-wrapper{
   margin-top: clamp(1.1rem, 3.8vh, 2rem);
   margin-bottom: 0;
@@ -72,10 +50,8 @@
 .profile-subpage-shell .profile-subpage-box .alaleht-footer{
   margin-top: 0.6rem;
 }
-.profile-subpage-shell .profile-subpage-box.tellimus-box .content-narrow{
-  margin-left: auto;
-  margin-right: auto;
-}
+
+
 .login-modal-box .pin-layout-toggle {
   font-size: 1.1rem;
   }
@@ -897,179 +873,6 @@
 #login-modal .login-modal-head{
   margin-top: 0;
 }
-/* Toggle keskele ja “klaaskasti peale” ilma layout'i nihutamata */
-.profile-theme-toggle-top{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: clamp(1.15rem, 3vh, 1.7rem);
-  transform: none;
-  z-index: 60;
-  pointer-events: none;
-  margin-bottom: 0;
-}
-
-/* Toggle nupp ei tohi olla “corner” reeglitega seotud */
-.profile-theme-toggle-top .profile-theme-toggle-top-btn{
-  position: relative;
-  top: auto;
-  right: auto;
-  left: auto;
-  pointer-events: auto;
-}
-.profile-theme-toggle-top .profile-theme-switch{
-  --toggle-w: clamp(5.3rem, 17vw, 6.5rem);
-  --toggle-h: clamp(2.0rem, 5.8vw, 2.5rem);
-  --toggle-pad: 0.22rem;
-  --thumb-size: calc(var(--toggle-h) - (var(--toggle-pad) * 2));
-  --thumb-shift: calc(var(--toggle-w) - var(--toggle-h));
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: var(--toggle-w);
-  height: var(--toggle-h);
-  padding: var(--toggle-pad);
-  border-radius: 999px;
-  color: var(--profile-toggle-text);
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
-  pointer-events: auto;
-  cursor: var(--cursor-pointer);
-  user-select: none;
-}
-.profile-theme-switch__input{
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-}
-.profile-theme-switch__track{
-  display: contents;
-  --profile-toggle-text-pad-start: 0.52rem;
-  --profile-toggle-text-pad-end: calc(var(--thumb-size) + 0.18rem);
-}
-.profile-theme-switch__text{
-  position: absolute;
-  left: 0;
-  right: calc(var(--thumb-size) + var(--toggle-pad));
-  top: var(--toggle-pad);
-  bottom: var(--toggle-pad);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: right;
-  padding-inline: var(--toggle-text-pad, 0.32rem);
-  white-space: nowrap;
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-size: var(--profile-toggle-text-size, clamp(0.8rem, 2.7vw, 1.05rem));
-  font-weight: 500;
-  font-synthesis: weight;
-  letter-spacing: 0.03em;
-  text-transform: none;
-  line-height: 1;
-  text-shadow: none;
-  pointer-events: none;
-}
-.profile-theme-switch__thumb{
-  width: var(--thumb-size);
-  height: var(--thumb-size);
-  border-radius: 999px;
-  position: relative;
-  display: grid;
-  place-items: center;
-  border: var(--profile-toggle-thumb-border, 0);
-  box-sizing: border-box;
-  background: var(--profile-toggle-thumb-bg);
-  color: var(--profile-toggle-thumb-color);
-  box-shadow: var(--profile-toggle-thumb-shadow);
-  transform: translateX(var(--thumb-shift));
-  transition: transform 0.25s ease;
-}
-.profile-theme-switch__icon{
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: calc(100% - 0.24rem);
-  height: calc(100% - 0.24rem);
-  display: grid;
-  place-items: center;
-}
-.profile-theme-switch__icon-svg{
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.profile-theme-switch__icon-svg.profile-theme-switch__icon-moon{
-  transform: translateY(-0.08rem);
-}
-.profile-theme-switch__input:checked + .profile-theme-switch__track .profile-theme-switch__thumb{
-  transform: translateX(0);
-}
-.profile-theme-switch__input:checked + .profile-theme-switch__track .profile-theme-switch__text{
-  left: calc(var(--thumb-size) + var(--toggle-pad));
-  right: 0;
-  justify-content: flex-start;
-  text-align: left;
-}
-.profile-theme-switch__input:checked + .profile-theme-switch__track{
-  --profile-toggle-text-pad-start: calc(var(--thumb-size) + 0.22rem);
-  --profile-toggle-text-pad-end: 0.7rem;
-}
-.profile-theme-switch__input:focus-visible + .profile-theme-switch__track .profile-theme-switch__thumb{
-  box-shadow:
-    0 0 0 2px var(--pt-light),
-    var(--profile-toggle-thumb-shadow);
-}
-:root:not(.theme-light) .profile-theme-switch{
-  --profile-toggle-text: rgba(230, 234, 241, 0.92);
-  --profile-toggle-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
-  --profile-toggle-text-size: clamp(1.06rem, 3.5vw, 1.44rem);
-  --profile-toggle-track-bg: transparent;
-  --profile-toggle-track-border: transparent;
-  --profile-toggle-track-shadow: none;
-  --profile-toggle-thumb-bg: linear-gradient(145deg, rgba(34, 40, 54, 0.98), rgba(20, 26, 36, 0.98));
-  --profile-toggle-thumb-color: rgba(248, 250, 252, 0.96);
-  --profile-toggle-thumb-shadow: 0 8px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-}
-:root.theme-light .profile-theme-switch{
-  --profile-toggle-text: rgba(20, 27, 38, 0.96);
-  --profile-toggle-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
-  --profile-toggle-text-size: clamp(1.14rem, 3.8vw, 1.56rem);
-  --profile-toggle-track-bg: transparent;
-  --profile-toggle-track-border: transparent;
-  --profile-toggle-track-shadow: none;
-  --profile-toggle-thumb-border: 2px solid #d7d7d7;
-  --profile-toggle-thumb-bg: #ffffff;
-  --profile-toggle-thumb-color: rgba(15, 23, 42, 0.82);
-  --profile-toggle-thumb-shadow: 0 6px 14px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-:root:not(.theme-light) .profile-theme-switch__text{
-  letter-spacing: 0.05em;
-}
-:root.theme-light .profile-theme-switch__text{
-  letter-spacing: 0.03em;
-}
-:root.theme-light .profile-theme-toggle-top .st-sunMoonThemeToggleBtn,
-:root.theme-light .profile-theme-toggle-top .sun-and-moon{
-  color: rgba(31, 41, 55, 0.92);
-}
-:root.theme-light .profile-theme-toggle-top .st-sunMoonThemeToggleBtn:is(:hover,:focus-visible){
-  color: rgba(31, 41, 55, 0.98);
-}
-:root:not(.theme-light) .profile-theme-toggle-top .st-sunMoonThemeToggleBtn,
-:root:not(.theme-light) .profile-theme-toggle-top .sun-and-moon{
-  color: rgba(226, 232, 240, 0.98);
-}
-
 /* Desktop padding for profile container */
 @media (min-width: 48.0625em) {
   .profile-page-shell .glass-box.profile-container{
@@ -1098,8 +901,7 @@
 }
 
 /* Profile dock: restore keypad glass styling (colors/border/gloss only) */
-.profile-email-dock-wrapper .dock-item,
-.profile-email-card{
+.profile-email-dock-wrapper .dock-item{
   position: relative;
   border: 0;
 }
@@ -1108,12 +910,8 @@
   overflow: visible;
 }
 
-.profile-email-card{
-  overflow: hidden;
-}
 
-.profile-email-dock-wrapper .dock-item::after,
-.profile-email-card::after{
+.profile-email-dock-wrapper .dock-item::after{
   content: "";
   position: absolute;
   inset: 0;
@@ -1125,8 +923,7 @@
 }
 
 @supports (-webkit-mask: linear-gradient(#000 0 0)) or (mask: linear-gradient(#000 0 0)){
-  .profile-email-dock-wrapper .dock-item::before,
-  .profile-email-card::before{
+  .profile-email-dock-wrapper .dock-item::before{
     content: "";
     position: absolute;
     inset: 0;
@@ -1144,9 +941,7 @@
   }
 }
 
-.profile-email-dock-wrapper .dock-icon,
-.profile-email-card__icon,
-.profile-email-card__label{
+.profile-email-dock-wrapper .dock-icon{
   position: relative;
   z-index: 1;
 }
@@ -1156,8 +951,7 @@
   z-index: 2;
 }
 
-:root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
-:root:not(.theme-light) .profile-email-card{
+:root:not(.theme-light) .profile-email-dock-wrapper .dock-item{
   color: rgba(255,255,255,0.92);
   background: linear-gradient(145deg, rgba(40, 48, 64, 0.85), rgba(20, 26, 38, 0.95));
   box-shadow:
@@ -1192,8 +986,7 @@
 }
 
 @supports (background: conic-gradient(from 0deg, #000, #fff)){
-  :root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
-  :root:not(.theme-light) .profile-email-card{
+  :root:not(.theme-light) .profile-email-dock-wrapper .dock-item{
     --pin-ring-grad: conic-gradient(from 0deg,
       rgba(255,255,255,0.14) 0deg,
       rgba(255,255,255,0.14) 112deg,
@@ -1256,8 +1049,7 @@
   --pin-gloss-op: 0.24;
 }
 
-:root.theme-light .profile-email-dock-wrapper .dock-item,
-:root.theme-light .profile-email-card{
+:root.theme-light .profile-email-dock-wrapper .dock-item{
   color: rgba(31,41,55,0.92);
   background:
     radial-gradient(120% 120% at 18% 16%,
@@ -1337,8 +1129,7 @@
 }
 
 @supports (background: conic-gradient(from 0deg, #000, #fff)){
-  :root.theme-light .profile-email-dock-wrapper .dock-item,
-  :root.theme-light .profile-email-card{
+  :root.theme-light .profile-email-dock-wrapper .dock-item{
     --pin-ring-grad: conic-gradient(from 0deg,
       rgba(17,24,39,0.12) 0deg,
       rgba(17,24,39,0.12) 110deg,
@@ -1469,16 +1260,8 @@
 }
 
 
-.homepage-root.homepage-scroll .home-links-list{
-  list-style: none;
-  padding: 0;
-  margin: 0.35rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem 1.05rem;
-  align-items: center;
-  justify-content: center;
-}
+
+
 
 .homepage-root.homepage-scroll .home-link{
   display: inline-flex;

@@ -1,5 +1,4 @@
 /* base/a11y.css - extracted accessibility + user preference rules from former legacy/part-06.css (Step 6) */
-.a11y-modal .a11y-desc{ color: var(--pt-150); font-size: 1.2rem; }
 .a11y-modal .a11y-fieldset{
   margin: 0.6rem 0 0.9rem;
   width: 100%;
@@ -44,7 +43,7 @@
   outline: none;
   outline-offset: 0;
 }
-html[data-contrast=hc] :is(a, button, input, select, textarea, [role=], [tabindex]:not([tabindex=])):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-icon-btn):not(.login-email-icon-btn):not(.login-submit-icon-btn):not(.profile-logout-icon-btn):not(.chat-input-field):not(.three-d-card):not(.glass-card):not(.card-face):focus-visible{
+html[data-contrast=hc] :is(a, button, input, select, textarea, [role=], [tabindex]:not([tabindex=])):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-email-icon-btn):not(.profile-logout-icon-btn):not(.chat-input-field):not(.three-d-card):not(.glass-card):not(.card-face):focus-visible{
   outline: 3px solid var(--hc-accent, #ffea00);
   outline-offset: 2px;
 }
@@ -52,28 +51,17 @@ html[data-text-scale=sm] { font-size: 0.9375rem; }
 html[data-text-scale=md] { font-size: 1rem; }
 html[data-text-scale=lg] { font-size: 1.125rem; }
 html[data-text-scale=xl] { font-size: 1.25rem; }
-html[data-contrast=hc] .btn-primary,
-html[data-contrast=hc] .btn-profile-save,
-html[data-contrast=hc] .btn-profile-logout{
+html[data-contrast=hc] .btn-primary{
   background: var(--hc-surface);
   color: var(--hc-text);
   border: 2px solid var(--hc-accent);
   box-shadow: none;
   text-shadow: none;
 }
-html[data-contrast=hc] .btn-tertiary{
-  color: var(--hc-text);
-  border: 2px solid var(--hc-accent);
-  background: var(--hc-surface);
-  box-shadow: none;
-  text-shadow: none;
-}
+
+
 html[data-contrast=hc] .btn-primary:hover,
-html[data-contrast=hc] .btn-primary:focus-visible,
-html[data-contrast=hc] .btn-profile-save:hover,
-html[data-contrast=hc] .btn-profile-save:focus,
-html[data-contrast=hc] .btn-profile-logout:hover,
-html[data-contrast=hc] .btn-profile-logout:focus{
+html[data-contrast=hc] .btn-primary:focus-visible{
   background: #1a1a1a;
   border-color: var(--hc-accent-soft);
   color: var(--hc-text);
@@ -92,11 +80,8 @@ html[data-contrast=hc] .reset-input:focus-visible {
   color: var(--hc-text);
   box-shadow: none;
 }
-html[data-contrast=hc] .btn-tertiary:hover,
-html[data-contrast=hc] .btn-tertiary:focus-visible {
-  background: #1a1a1a;
-  border-color: var(--hc-accent-soft);
-}
+
+
 html[data-contrast=hc] body{
   color: var(--hc-text);
   background-image: none;
@@ -108,15 +93,15 @@ html[data-contrast=hc] body .meist-external-link{
   color: var(--hc-accent);
   text-decoration: none;
 }
-html[data-contrast=hc] body :is(button, [role="button"], .btn-base, .button, .btn, .btn-primary, .btn-tertiary, .btn-profile-save, .btn-profile-logout, input[type="button"], input[type="submit"], input[type="reset"]):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-icon-btn):not(.login-email-icon-btn):not(.login-submit-icon-btn):not(.profile-logout-icon-btn):not(.card-face){
+html[data-contrast=hc] body :is(button, [role="button"], .btn-base, .button, .btn, .btn-primary, input[type="button"], input[type="submit"], input[type="reset"]):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-email-icon-btn):not(.profile-logout-icon-btn):not(.card-face){
   background: var(--hc-surface);
   color: var(--hc-text);
   border: 2px solid var(--hc-accent);
   box-shadow: none;
   text-shadow: none;
 }
-html[data-contrast=hc] body :is(button, [role="button"], .btn-base, .button, .btn, .btn-primary, .btn-tertiary, .btn-profile-save, .btn-profile-logout, input[type="button"], input[type="submit"], input[type="reset"]):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-icon-btn):not(.login-email-icon-btn):not(.login-submit-icon-btn):not(.profile-logout-icon-btn):not(.card-face):hover:not(:disabled),
-html[data-contrast=hc] body :is(button, [role="button"], .btn-base, .button, .btn, .btn-primary, .btn-tertiary, .btn-profile-save, .btn-profile-logout, input[type="button"], input[type="submit"], input[type="reset"]):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-icon-btn):not(.login-email-icon-btn):not(.login-submit-icon-btn):not(.profile-logout-icon-btn):not(.card-face):focus-visible{
+html[data-contrast=hc] body :is(button, [role="button"], .btn-base, .button, .btn, .btn-primary, input[type="button"], input[type="submit"], input[type="reset"]):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-email-icon-btn):not(.profile-logout-icon-btn):not(.card-face):hover:not(:disabled),
+html[data-contrast=hc] body :is(button, [role="button"], .btn-base, .button, .btn, .btn-primary, input[type="button"], input[type="submit"], input[type="reset"]):not(.back-arrow-btn):not(.top-nav__btn):not(.chat-send-btn):not(.chat-attach-btn):not(.chat-listen-btn):not(.login-email-icon-btn):not(.profile-logout-icon-btn):not(.card-face):focus-visible{
   background: #1a1a1a;
   border-color: var(--hc-accent-soft);
   color: var(--hc-text);
@@ -189,36 +174,16 @@ html[data-contrast=hc] body .chat-send-btn.chat-attach-as-send:hover,
 html[data-contrast=hc] body .chat-send-btn.chat-attach-as-send:focus-visible{
   border-color: var(--hc-accent);
 }
-html[data-contrast=hc] body .profile-btn-row .btn-primary,
-html[data-contrast=hc] body .profile-btn-row .btn-tertiary{
+html[data-contrast=hc] body .profile-btn-row .btn-primary{
   border-color: var(--hc-accent);
 }
 html[data-contrast=hc] body .profile-btn-row .btn-primary:hover,
-html[data-contrast=hc] body .profile-btn-row .btn-primary:focus-visible,
-html[data-contrast=hc] body .profile-btn-row .btn-tertiary:hover,
-html[data-contrast=hc] body .profile-btn-row .btn-tertiary:focus-visible{
+html[data-contrast=hc] body .profile-btn-row .btn-primary:focus-visible{
   border-color: var(--hc-accent);
 }
-html[data-contrast=hc] body .profile-email-field .input-modern{
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  color: var(--profile-email-text-color, inherit);
-  caret-color: transparent;
-}
-html[data-contrast=hc] body .profile-email-field .input-modern:hover,
-html[data-contrast=hc] body .profile-email-field .input-modern:focus,
-html[data-contrast=hc] body .profile-email-field .input-modern:focus-visible{
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  outline: none;
-}
-html[data-contrast=hc] body .profile-email-field:hover::before,
-html[data-contrast=hc] body .profile-email-field:focus-within::before{
-  border-color: var(--profile-hole-border-color, rgba(84,95,115,0.55));
-  box-shadow: none;
-}
+
+
+
 html[data-contrast=hc] body :is(.three-d-card, .glass-card, .card-face):focus-visible{
   outline: none;
 }
@@ -306,16 +271,12 @@ html[data-reduce-motion="1"] .circular-text-svg .word3{
   opacity: 1;
   animation: none;
 }
-.login-icon-btn,
 .back-arrow-btn,
-.btn-primary,
-.btn-tertiary,
-.chat-menu-btn{
+.btn-primary{
   min-width:2.75rem; min-height:2.75rem;
 }
-.a11y-open-btn{
-  display: none;
-}
+
+
 .a11y-modal-backdrop{
   position:fixed; inset:0; background: transparent; backdrop-filter: blur(var(--glass-blur-radius, 1rem)); -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   z-index:49;
@@ -435,7 +396,6 @@ body[data-a11y-scroll-lock="1"] #main{
 .a11y-modal .glass-title{ color: #c57171; }
 .a11y-modal legend.glass-label.a11y-legend{ color: var(--link-gold, #d0adad); }
 .a11y-modal fieldset > legend{ color: var(--link-gold, #d0adad); }
-.a11y-modal .glass-h2{ color: var(--link-gold, #d0adad); }
 .a11y-modal .a11y-options label{
   justify-content: center;
   text-align: center;
@@ -529,7 +489,6 @@ body[data-a11y-scroll-lock="1"] #main{
   }
 
 }
-.a11y-modal .a11y-checkbox{ display:flex; gap:.5rem; align-items:center; }
 .a11y-modal .a11y-close:not(.modal-close-btn){
   position:absolute; top:.5rem; right:.6rem; background:none; border:none; color:var(--pt-100);
   font-size:1.85rem; min-width:3.1rem; min-height:3.1rem; line-height:1; cursor: var(--cursor-pointer);
@@ -571,11 +530,9 @@ body[data-a11y-scroll-lock="1"] #main{
 :root.theme-light .a11y-modal .a11y-legend,
 :root.theme-light .a11y-modal legend.glass-label.a11y-legend,
 :root.theme-light .a11y-modal fieldset > legend,
-:root.theme-light .a11y-modal .glass-h2{ color: #7A3A38; }
 :root:not(.theme-light) .a11y-modal .a11y-legend,
 :root:not(.theme-light) .a11y-modal legend.glass-label.a11y-legend,
 :root:not(.theme-light) .a11y-modal fieldset > legend,
-:root:not(.theme-light) .a11y-modal .glass-h2{ color: #c57171; }
 :root.theme-light .a11y-modal .outer,
 :root.theme-light .a11y-modal .box{
   background: rgba(15,23,42,0.06);
