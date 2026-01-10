@@ -931,7 +931,11 @@ export default function RagAdminPanel() {
           </div>
         </div>
         <div className="ingest-grid">
-          <form className="stack" onSubmit={handleUrlSubmit} ref={urlFormRef}>
+          <form
+            className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]"
+            onSubmit={handleUrlSubmit}
+            ref={urlFormRef}
+          >
             <label className="label">Ingest URL</label>
             <input name="url" placeholder="https://" className="input" />
             <input value={urlTitle} onChange={(e) => setUrlTitle(e.target.value)} placeholder="Pealkiri (valikuline)" className="input" />
@@ -955,7 +959,11 @@ export default function RagAdminPanel() {
             </button>
           </form>
 
-          <form className="stack" onSubmit={handlePdfMetaSubmit} ref={pdfFormRef}>
+          <form
+            className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]"
+            onSubmit={handlePdfMetaSubmit}
+            ref={pdfFormRef}
+          >
             <label className="label">PDF + meta (JSON)</label>
             <div className="rag-form-note">Meta JSON: docId, title, section, year, audience, tags.</div>
             <input name="pdfWithMetaFile" type="file" accept="application/pdf" className="input" />
@@ -968,7 +976,7 @@ export default function RagAdminPanel() {
                 </option>
               ))}
             </select>
-            <div className="row-gap">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
                 className="btn-base rag-btn rag-btn--ghost"
@@ -1391,7 +1399,7 @@ export default function RagAdminPanel() {
         </div>
 
         {visibleCount < filteredDocs.length ? (
-          <div className="row-gap">
+          <div className="flex flex-wrap items-center gap-2">
             <button className="btn-base rag-btn" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
               Laadi veel {Math.min(PAGE_SIZE, filteredDocs.length - visibleCount)}
             </button>
@@ -1411,7 +1419,7 @@ export default function RagAdminPanel() {
                 Sulge
               </button>
             </div>
-            <div className="stack">
+            <div className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]">
               <input
                 value={detailForm.title}
                 onChange={(e) => setDetailForm((f) => ({ ...f, title: e.target.value }))}
@@ -1425,7 +1433,7 @@ export default function RagAdminPanel() {
                 rows={3}
                 placeholder="Kirjeldus"
               />
-              <div className="grid-2">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-2">
                 <input
                   value={detailForm.authors}
                   onChange={(e) => setDetailForm((f) => ({ ...f, authors: e.target.value }))}
@@ -1439,7 +1447,7 @@ export default function RagAdminPanel() {
                   placeholder="Sildid (komadega)"
                 />
               </div>
-              <div className="grid-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
                 <input
                   value={detailForm.section}
                   onChange={(e) => setDetailForm((f) => ({ ...f, section: e.target.value }))}
@@ -1459,7 +1467,7 @@ export default function RagAdminPanel() {
                   placeholder="Aasta"
                 />
               </div>
-              <div className="grid-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
                 <input
                   value={detailForm.issueId}
                   onChange={(e) => setDetailForm((f) => ({ ...f, issueId: e.target.value }))}
@@ -1479,7 +1487,7 @@ export default function RagAdminPanel() {
                   placeholder="ArticleId"
                 />
               </div>
-              <div className="grid-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
                 <select
                   value={detailForm.audience}
                   onChange={(e) => setDetailForm((f) => ({ ...f, audience: e.target.value }))}
@@ -1504,7 +1512,7 @@ export default function RagAdminPanel() {
                   placeholder="PDF algus"
                 />
               </div>
-              <div className="grid-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
                 <input
                   value={detailForm.pdf_end_page}
                   onChange={(e) => setDetailForm((f) => ({ ...f, pdf_end_page: e.target.value }))}
@@ -1515,7 +1523,7 @@ export default function RagAdminPanel() {
                 <div className="input read-only">type: {detailDoc.source_type || detailDoc.type || "-"}</div>
                 <div className="input read-only">language: {detailDoc.language || "-"}</div>
               </div>
-              <div className="row-gap">
+              <div className="flex flex-wrap items-center gap-2">
                 <button className="btn-base rag-btn rag-btn--primary" onClick={saveDetail}>
                   Salvesta
                 </button>
