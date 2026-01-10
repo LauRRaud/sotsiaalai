@@ -4,15 +4,7 @@
 /* Extracted from pages/rag-admin.css in Step 18 to keep cascade stable. */
 /* Extracted split: RAG admin (part B) - continues after shared table primitives. */
 
-.w-checkbox { width: 24px; }
-.cell-title { font-weight: 600; color: var(--rag-text); line-height: 1.2; }
 .cell-sub { color: var(--rag-muted); font-size: 0.82rem; }
-.cell-desc { color: var(--rag-muted); font-size: 0.85rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 260px; }
-.cell-tags { display: flex; flex-wrap: wrap; gap: 4px; max-width: 220px; max-height: 2.4em; overflow: hidden; }
-.col-title { max-width: 260px; }
-.col-tags { max-width: 260px; }
-.cell-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
-.tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
 .rag-docs { display: flex; flex-direction: column; gap: 12px; }
 .rag-docs__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .rag-docs__summary { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--rag-muted); font-size: 0.92rem; }
@@ -200,56 +192,6 @@
 .rag-meta-check--ok { border-color: var(--rag-success); background: color-mix(in srgb, var(--rag-success) 12%, var(--rag-surface-3) 88%); }
 .rag-meta-check--warn { border-color: var(--rag-accent); background: color-mix(in srgb, var(--rag-accent) 12%, var(--rag-surface-3) 88%); }
 .rag-meta-check--error { border-color: var(--rag-danger); background: color-mix(in srgb, var(--rag-danger) 12%, var(--rag-surface-3) 88%); }
-.rag-doc-card {
-  position: relative;
-  background: linear-gradient(180deg, var(--rag-surface), var(--rag-surface-2));
-  border: 1px solid var(--rag-border);
-  border-radius: 16px;
-  padding: 14px;
-  display: grid;
-  gap: 12px;
-  box-shadow: var(--rag-shadow-soft);
-  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-  cursor: pointer;
-}
-.rag-doc-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 12px;
-  bottom: 12px;
-  width: 3px;
-  border-radius: 999px;
-  background: var(--rag-border-strong);
-  opacity: 0.35;
-  pointer-events: none;
-}
-.rag-doc-card > * { position: relative; z-index: 1; }
-.rag-doc-card:hover { transform: translateY(-2px); border-color: var(--rag-border-strong); box-shadow: var(--rag-shadow); }
-.rag-doc-card.is-selected { border-color: var(--rag-accent); box-shadow: 0 0 0 1px var(--rag-accent-soft), var(--rag-shadow); }
-.rag-doc-card.is-selected::before { opacity: 0.9; }
-.rag-doc-card__top { display: flex; gap: 10px; align-items: flex-start; }
-.rag-doc-card__select { display: flex; align-items: center; padding-top: 2px; }
-.rag-doc-card__title { font-weight: 650; color: var(--rag-text); line-height: 1.2; flex: 1; overflow-wrap: anywhere; }
-.rag-doc-card__status { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
-.rag-doc-card__time { font-size: 0.8rem; color: var(--rag-muted); }
-.rag-doc-card__desc { color: var(--rag-muted); font-size: 0.92rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.rag-doc-card__meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 8px 14px;
-  padding: 10px;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--rag-surface-2) 90%, transparent);
-  border: 1px solid var(--rag-border);
-}
-.rag-doc-card__meta-item { display: grid; gap: 4px; }
-.rag-doc-card__meta-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--rag-muted); }
-.rag-doc-card__meta-value { color: var(--rag-text); font-size: 0.92rem; overflow-wrap: anywhere; }
-.rag-doc-card__tags { display: grid; gap: 6px; }
-.rag-doc-card__actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.rag-doc-card__source { display: grid; gap: 6px; }
-.rag-doc-card__source-text { color: var(--rag-muted); font-size: 0.9rem; overflow-wrap: anywhere; white-space: normal; }
 .rag-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .modal { position: fixed; inset: 0; background: rgba(4,10,18,0.55); display: flex; align-items: flex-start; justify-content: center; padding: 32px 16px; z-index: 50; }
 :root.theme-light .modal { background: rgba(15,23,42,0.24); }
@@ -260,19 +202,13 @@
 .text-error { color: var(--rag-danger); }
 .rag-admin .text-muted { color: var(--rag-muted); }
 @media (max-width: 900px) {
-  .rag-hero { align-items: flex-start; }
-  .rag-hero__actions { width: 100%; }
   .analytics-head .rag-card-actions { width: 100%; justify-content: center; }
   .rag-docs__layout { grid-template-columns: 1fr; }
   .rag-docs__list { max-height: none; padding-right: 0; }
   .rag-docs__detail { position: static; }
   .rag-doc-item { grid-template-columns: auto 1fr; align-items: flex-start; }
   .rag-doc-item__time { grid-column: 2; text-align: left; }
-  .rag-doc-card__top { flex-wrap: wrap; }
-  .rag-doc-card__status { width: 100%; justify-content: flex-start; margin-left: 0; }
-  .rag-doc-card__actions { flex-wrap: wrap; }
   .rag-toolbar { grid-template-columns: 1fr; }
-  .cell-actions { flex-direction: row; flex-wrap: wrap; }
   .rag-table th:nth-child(7), .rag-table td:nth-child(7),
   .rag-table th:nth-child(8), .rag-table td:nth-child(8) { display: none; }
 }

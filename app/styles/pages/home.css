@@ -263,97 +263,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   animation: float-vertical 6.7s ease-in-out infinite;
    will-change: transform;
 }
-.homepage-root.home-exit {
-  overflow: hidden;
-}
-.homepage-root.home-exit-prep {
-  overflow: hidden;
-}
-.homepage-root.home-exit-prep .three-d-card {
-  pointer-events: none;
-}
-.homepage-root.home-exit-prep .three-d-card.home-exit-prep-target .card-wrapper {
-  transform: rotateY(0deg) !important;
-  transition-duration: var(--home-exit-flip, 220ms);
-  transition-timing-function: cubic-bezier(.22,.61,.36,1);
-}
-.homepage-root.home-exit .three-d-card {
-  pointer-events: none;
-}
-.homepage-root.home-exit .three-d-card.home-exit-target {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  z-index: 520;
-  transform-origin: 50% 50%;
-  transform:
-    perspective(1200px)
-    translate3d(
-      calc(-50% + var(--home-exit-from-x, 0px)),
-      calc(-50% + var(--home-exit-from-y, 0px)),
-      0
-    )
-    scale(1);
-  animation: home-card-exit var(--home-exit-dur, 900ms) cubic-bezier(.22,.61,.36,1) forwards;
-  will-change: transform;
-}
-.homepage-root.home-exit .three-d-card.home-exit-target .card-wrapper::before {
-  opacity: 0;
-  animation: none;
-  transition: none;
-}
-.homepage-root.home-exit .three-d-card.home-exit-target .glass-card-light::before,
-.homepage-root.home-exit .three-d-card.home-exit-target .glass-card-dark::before {
-  transform: scale(var(--home-exit-sphere-scale, 1.065));
-  animation: home-card-sphere-fade var(--home-exit-morph-ms, 260ms) ease forwards;
-  animation-delay: var(--home-exit-morph-delay, 0ms);
-}
-.homepage-root.home-exit .three-d-card.home-exit-target::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
-  border: none;
-  box-shadow: none;
-  opacity: 0.35;
-  pointer-events: none;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(115%);
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(115%);
-  animation: home-card-glass-fade var(--home-exit-morph-ms, 260ms) ease forwards;
-  animation-delay: var(--home-exit-morph-delay, 0ms);
-  z-index: 2;
-}
-:root:not(.theme-light) .homepage-root.home-exit .three-d-card.home-exit-target::after {
-  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
-  background-blend-mode: multiply;
-}
-:root.theme-light .homepage-root.home-exit .three-d-card.home-exit-target::after {
-  background-color: var(--glass-surface-bg, rgba(255, 255, 255, 0.58));
-}
-.homepage-root.home-exit .three-d-card.home-exit-target .card-logo-bg,
-.homepage-root.home-exit .three-d-card.home-exit-target .circular-ring {
-  animation: home-card-sphere-fade var(--home-exit-morph-ms, 260ms) ease forwards;
-  animation-delay: var(--home-exit-morph-delay, 0ms);
-}
-.homepage-root.home-exit .three-d-card.home-exit-target .card-wrapper {
-  transition-duration: 0ms;
-}
-.homepage-root.home-exit .three-d-card:not(.home-exit-target) {
-  opacity: 0;
-  transform: scale(0.98);
-  transition: opacity 260ms ease, transform 260ms ease;
-}
-.homepage-root.home-exit .footer-logo-img {
-  animation: dfade-out var(--home-exit-dur, 900ms) cubic-bezier(.16,.84,.44,1) forwards;
-  animation-delay: 0ms;
-  visibility: visible;
-}
-.homepage-root.home-exit .footer-meist-word {
-  animation: footer-meist-exit var(--home-exit-dur, 900ms) cubic-bezier(.16,.84,.44,1) forwards;
-  animation-delay: 0ms;
-  visibility: visible;
-}
 
 
 .glass-card.fade-in {
@@ -679,34 +588,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 }
 
 /* NOTE: if you want light-theme typography to differ, we can theme these via CSS vars */
-.homepage-root.homepage-scroll .home-section-title{
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  font-size: clamp(1.9rem, 3.9vw, 2.6rem);
-  margin: 0 0 1.1rem 0;
-  color: var(--pt-100, #ecebe9);
-  text-align: center;
-}
-
-.homepage-root.homepage-scroll .home-prose{
-  color: var(--home-prose-color);
-  line-height: 1.7;
-  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
-  text-shadow: 0 1px 18px rgba(0,0,0,0.35);
-  text-align: center;
-}
-
-.homepage-root.homepage-scroll .home-prose > * + *{
-  margin-top: 0.95rem;
-}
-
-.homepage-root.homepage-scroll .home-contact-row{
-  margin-top: 1.25rem;
-}
-.homepage-root.homepage-scroll .home-email-row{
-  margin-top: 0.95rem;
-}
 
 .homepage-root.homepage-scroll .home-section.home-about{
   padding-bottom: clamp(0.6rem, 1.6vw, 1.0rem);
@@ -717,13 +598,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   padding-bottom: clamp(0.9rem, 2.2vw, 1.6rem);
 }
 
-.homepage-root.homepage-scroll .home-links .home-section-title{
-  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
-  letter-spacing: 0.018em;
-  margin-top: clamp(1rem, 2.4vw, 1.8rem);
-  margin-bottom: 0.65rem;
-  color: var(--home-prose-color);
-}
 
 .homepage-root.homepage-scroll .home-links-list{
   list-style: none;

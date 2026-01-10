@@ -1458,47 +1458,6 @@
   margin: 0 auto;
 }
 
-/* NOTE: if you want light-theme typography to differ, we can theme these via CSS vars */
-.homepage-root.homepage-scroll .home-section-title{
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  font-size: clamp(1.9rem, 3.9vw, 2.6rem);
-  margin: 0 0 1.1rem 0;
-  color: var(--pt-100, #ecebe9);
-  text-align: center;
-}
-:root:not(.theme-light) .homepage-root.homepage-scroll .home-section-title{
-  color: #c57171;
-}
-:root.theme-light .homepage-root.homepage-scroll .home-section-title{
-  color: #7A3A38;
-}
-:root:not(.theme-light) .homepage-root.homepage-scroll .home-links .home-section-title{
-  color: var(--home-prose-color);
-}
-:root.theme-light .homepage-root.homepage-scroll .home-links .home-section-title{
-  color: var(--home-prose-color);
-}
-
-.homepage-root.homepage-scroll .home-prose{
-  color: var(--home-prose-color);
-  line-height: 1.7;
-  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
-  text-shadow: 0 1px 18px rgba(0,0,0,0.35);
-  text-align: center;
-}
-
-.homepage-root.homepage-scroll .home-prose > * + *{
-  margin-top: 0.95rem;
-}
-
-.homepage-root.homepage-scroll .home-contact-row{
-  margin-top: 1.25rem;
-}
-.homepage-root.homepage-scroll .home-email-row{
-  margin-top: 0.95rem;
-}
 
 .homepage-root.homepage-scroll .home-section.home-about{
   padding-bottom: clamp(0.6rem, 1.6vw, 1.0rem);
@@ -1509,12 +1468,6 @@
   padding-bottom: clamp(0.9rem, 2.2vw, 1.6rem);
 }
 
-.homepage-root.homepage-scroll .home-links .home-section-title{
-  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
-  letter-spacing: 0.018em;
-  margin-bottom: 0.65rem;
-  color: var(--home-prose-color);
-}
 
 .homepage-root.homepage-scroll .home-links-list{
   list-style: none;
