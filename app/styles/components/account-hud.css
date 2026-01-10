@@ -339,8 +339,8 @@ main#main > .main-content.glass-box.profile-container {
 }
 .profile-btn-row--back-logout .back-arrow-btn {
   margin-top: 0;
-  inline-size: 6.2rem;
-  block-size: 6.2rem;
+  inline-size: 5.7rem;
+  block-size: 5.7rem;
   pointer-events: auto;
 }
 .profile-btn-row--back-logout .back-arrow-circle {

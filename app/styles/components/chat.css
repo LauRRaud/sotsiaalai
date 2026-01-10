@@ -15,20 +15,25 @@
 .chat-footer--analysis-open {
   margin-top: 0.6rem;
 }
-.chat-page-shell .back-arrow-btn{
-  inline-size: 5.2rem;
-  block-size: 5.2rem;
-}
-.chat-page-shell .back-arrow-circle{
-  inline-size: 4.8rem;
-  block-size: 4.8rem;
-}
 .chat-container .chat-error-banner{
   align-self: center;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   width: min(38rem, 100%);
+}
+.chat-page-shell .glass-box.chat-container .back-btn-wrapper--side{
+  left: clamp(0.1rem, 1.2vw, 0.8rem) !important;
+}
+.chat-page-shell .glass-box.chat-container .back-btn-wrapper--side{
+  left: max(
+    0px,
+    calc(
+      var(--hud-edge-left, 0px) +
+      clamp(0.1rem, 1.2vw, 0.8rem) -
+      clamp(0.6rem, 1.6vw, 1rem)
+    )
+  );
 }
 .chat-back-btn-wrapper {
   display: flex;
@@ -150,10 +155,10 @@
   mask-position: 0 0;
   mask-repeat: no-repeat;
 }
-:root.theme-light .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle) {
+:root.theme-light .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle):not(.back-btn-wrapper) {
   z-index: 1;
 }
-:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle) {
+:root:not(.theme-light) .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle):not(.back-btn-wrapper) {
   z-index: 1;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx){
@@ -280,8 +285,6 @@
     margin:0.6rem auto max(env(safe-area-inset-bottom, 0), 0.6rem);
   }
   .back-arrow-btn{ inline-size:4.2rem; block-size:4.2rem; }
-  .chat-page-shell .back-arrow-btn{ inline-size:4.2rem; block-size:4.2rem; }
-  .chat-page-shell .back-arrow-circle{ inline-size:3.8rem; block-size:3.8rem; }
 }
 /* migrated from app/globals.css (Wave 5) */
 @media (min-width: 48em){
@@ -2110,8 +2113,6 @@ html[data-reduce-motion="1"] .shiny-ph-overlay .shiny-text.shiny-ph-text{
     margin:0.6rem auto max(env(safe-area-inset-bottom, 0), 0.6rem);
   }
   .back-arrow-btn{ inline-size:4.2rem; block-size:4.2rem; }
-  .chat-page-shell .back-arrow-btn{ inline-size:4.2rem; block-size:4.2rem; }
-  .chat-page-shell .back-arrow-circle{ inline-size:3.8rem; block-size:3.8rem; }
 }
 @media (forced-colors: active){ .chat-window{ scrollbar-color: ButtonText ButtonFace; } }
 @supports not ((backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))){

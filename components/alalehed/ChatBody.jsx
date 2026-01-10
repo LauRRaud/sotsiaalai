@@ -1,10 +1,10 @@
 ﻿"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import InviteModal from "@/components/invite/InviteModal";
 import RightRail from "@/components/chat/RightRail";
-import LeftBackButton from "@/components/chat/LeftBackButton";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import ChatAnalysisPanel from "./chat/ChatAnalysisPanel";
 import ChatComposer from "./chat/ChatComposer";
@@ -19,9 +19,11 @@ import { prettifyFileName } from "@/components/chat/utils/sources";
 import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMask";
 import { useConversationSources } from "@/components/chat/hooks/useConversationSources";
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 /* ---------- Komponent ---------- */
 export default function ChatBody({ roomId = null }) {
+  const router = useRouter();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
@@ -415,7 +417,20 @@ export default function ChatBody({ roomId = null }) {
           ref={chatContainerRef}
         >
           <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
-          <LeftBackButton t={t} hidden={analysis.showAnalysisPanel} />
+          <div
+            className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`}
+            aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}
+          >
+            <button
+              type="button"
+              className="back-arrow-btn"
+              onClick={() => pushWithTransition(router, "/")}
+              aria-label={t("chat.back_to_home", "Tagasi avalehele")}
+              tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
+            >
+              <span className="back-arrow-circle" />
+            </button>
+          </div>
       {/* Parempoolne vertikaalne ikoonirida */}
       <RightRail
         t={t}

@@ -44,26 +44,42 @@
 /* migrated from app/globals.css (Wave 5) */
 .back-btn-wrapper.back-btn-wrapper--side{
   position: absolute;
-  inset-inline: 0;
+  left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
+  right: auto;
   top: 50%;
   transform: translateY(-50%);
   margin: 0;
   padding: 0;
-  z-index: 5;
+  z-index: 80;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 /* migrated from app/globals.css (Wave 5) */
 .back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn{
-  position: absolute;
-  left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
-  top: 50%;
-  transform: translateY(-50%);
+  position: static;
+  transform: none;
   pointer-events: auto;
-  inline-size: 6.2rem;
-  block-size: 6.2rem;
+  inline-size: 5.7rem;
+  block-size: 5.7rem;
 }
 /* migrated from app/globals.css (Wave 5) */
 .back-btn-wrapper.back-btn-wrapper--side .back-arrow-circle{
   inline-size: 5.7rem;
   block-size: 5.7rem;
+  transform: translateY(0) translateZ(0);
+}
+
+.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn:hover .back-arrow-circle,
+.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn:focus .back-arrow-circle {
+  transform: translateY(0) scale(1.15);
+}
+.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn:active .back-arrow-circle {
+  transform: translateY(0.08rem) scale(0.98);
+}
+
+.back-btn-wrapper.back-btn-wrapper--side.is-hidden{
+  opacity: 0;
+  pointer-events: none;
 }

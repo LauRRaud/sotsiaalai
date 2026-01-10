@@ -6,6 +6,25 @@
 .rooms-back-btn {
   margin-top: auto;
 }
+.rooms-back-btn{
+  position: absolute;
+  left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+.rooms-back-btn .back-arrow-btn{
+  pointer-events: auto;
+  inline-size: 5.7rem;
+  block-size: 5.7rem;
+}
+.rooms-back-btn .back-arrow-circle{
+  inline-size: 5.7rem;
+  block-size: 5.7rem;
+}
 .rooms-title{
   text-align: center;
   width: 100%;

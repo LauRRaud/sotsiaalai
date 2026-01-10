@@ -509,8 +509,8 @@
   text-align: left;
 }
 .invite-modal.invite-modal--page .back-arrow-btn {
-  inline-size: 6.2rem;
-  block-size: 6.2rem;
+  inline-size: 5.7rem;
+  block-size: 5.7rem;
   margin-top: clamp(0.6rem, 2vh, 1.2rem);
 }
 .invite-modal.invite-modal--page .back-arrow-circle {
