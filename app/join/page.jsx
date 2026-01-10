@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import Button from "@/components/ui/Button";
 import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function JoinPage() {
@@ -64,9 +65,9 @@ export default function JoinPage() {
       {status !== "authenticated" ? (
         <div className="glass-section">
           <p>{t("join.signin_prompt", "Logi sisse või loo konto, et liituda.")}</p>
-          <button type="button" className="btn-primary" onClick={() => signIn()}>
+          <Button type="button" onClick={() => signIn()}>
             {t("join.signin", "Logi sisse")}
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="glass-section">
@@ -75,9 +76,9 @@ export default function JoinPage() {
               email: session?.user?.email || session?.user?.id,
             })}
           </p>
-          <button type="button" className="btn-primary" onClick={accept} disabled={busy}>
+          <Button type="button" onClick={accept} disabled={busy}>
             {busy ? t("join.joining", "Liidan...") : t("join.join_button", "Liitu")}
-          </button>
+          </Button>
         </div>
       )}
 

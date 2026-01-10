@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import Button from "@/components/ui/Button";
 import InvitePageShell from "@/components/ui/InvitePageShell";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -97,9 +98,9 @@ export default function UnustasinParooliBody() {
             </p>
           )}
           <div className="mt-4 flex justify-center">
-            <button className="btn-base" type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading}>
               <span>{loading ? t("auth.reset.submitting") : t("auth.reset.submit")}</span>
-            </button>
+            </Button>
           </div>
         </form>
       )}

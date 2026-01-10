@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import Button from "@/components/ui/Button";
 import InvitePageShell from "@/components/ui/InvitePageShell";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -191,13 +192,13 @@ export default function UuendaEpostiBody() {
             </p>
           )}
           <div className="mt-4 flex justify-center">
-            <button className="btn-base" type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading}>
               <span>
                 {loading
                   ? t("profile.email_update.submitting", "Saadan...")
                   : t("profile.email_update.submit", "Saada kinnituskiri")}
               </span>
-            </button>
+            </Button>
           </div>
         </form>
       )}
