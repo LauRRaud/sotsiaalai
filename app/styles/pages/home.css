@@ -611,6 +611,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 }
 .homepage-root.homepage-scroll .home-section-title{
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-weight: 400;
 }
 
 .homepage-root.homepage-scroll .home-link{
@@ -646,7 +647,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   height: auto;
   --end-op: 0.8;
   opacity: 0.8;
-  margin-top: 3.2rem;
+  margin-top: 2.6rem;
 }
 .homepage-root.homepage-scroll .home-footer-email{
   margin-bottom: 1.4rem;
