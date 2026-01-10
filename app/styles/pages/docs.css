@@ -24,11 +24,3 @@
     0 0.625rem 1.25rem rgba(5,8,15,0.18);
   color: var(--glass-surface-text);
 }
-.doc-body{
-  font-size: 1.18rem;
-  line-height: 1.62;
-}
-.doc-body .glass-list{
-  font-size: 1.18rem;
-  line-height: 1.62;
-}
