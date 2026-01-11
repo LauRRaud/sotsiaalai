@@ -93,11 +93,6 @@
   background-position:center var(--chat-logo-y);
   background-size:auto var(--chat-logo-height);
 }
-:root:not(.theme-light) .glass-box.chat-container {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
 :root:not(.theme-light) .glass-box.chat-container::before {
   content: "";
   border-radius: inherit;
@@ -117,11 +112,6 @@
   mask-size: 100% 100%;
   mask-position: 0 0;
   mask-repeat: no-repeat;
-}
-:root.theme-light .glass-box.chat-container {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 :root.theme-light .glass-box.chat-container::before {
   content: "";
