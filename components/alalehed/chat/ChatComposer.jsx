@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 
@@ -94,11 +93,14 @@ export default function ChatComposer({
           ensureAnalysisPanelVisible();
         }}
       >
-        {isLightTheme ? (
-          <PaperclipLight className="chat-attach-icon" aria-hidden="true" role="img" />
-        ) : (
-          <PaperclipDark className="chat-attach-icon" aria-hidden="true" role="img" />
-        )}
+        <PaperclipDark
+          className="chat-attach-icon"
+          width="3rem"
+          height="3rem"
+          style={{ width: "3rem", height: "3rem" }}
+          aria-hidden="true"
+          role="img"
+        />
       </button>
 
       <input
@@ -147,7 +149,7 @@ export default function ChatComposer({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-[1.6rem] w-[1.6rem]"
+            className="h-[1.3rem] w-[1.3rem]"
           >
             <path d="M11 5L6 9H2v6h4l5 4z" />
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />

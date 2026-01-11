@@ -8,7 +8,7 @@
 
 .rightRail {
   position: absolute;
-  right: calc(var(--hud-edge-right, 0px) - 3.2rem);
+  right: calc(var(--hud-edge-right, var(--hud-edge, 0px)) - 3.2rem);
   top: 0;
   transform: translateY(-50%);
   width: var(--right-rail-width, clamp(4.6rem, 8vw, 5.8rem));
@@ -96,7 +96,7 @@
 
 .tooltip {
   position: fixed;
-  transform: translate(-100%, -50%);
+  transform: translate(calc(-100% + 0.45rem), -50%);
   opacity: 1;
   padding: 0.18rem 0.5rem;
   border-radius: 0.7rem;

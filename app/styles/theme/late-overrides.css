@@ -262,14 +262,6 @@
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
 }
-main#main > .main-content.glass-box.chat-container[data-chat-bg="worker"],
-.glass-box.chat-container[data-chat-bg="worker"] {
-  --chat-bg-logo: none;
-}
-main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
-.glass-box.chat-container[data-chat-bg="client"] {
-  --chat-bg-logo: none;
-}
 :root.theme-light .meist-body,
 :root.theme-light .meist-body p,
 :root.theme-light .meist-body li,
@@ -652,15 +644,20 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 .chat-input-row .chat-inputbar .chat-send-btn[data-recording] svg:not(.svg) {
   stroke: currentColor;
   opacity: 0.86;
-  transform: scale(1.14);
+  transform: scale(1);
   transform-origin: center;
 }
 .chat-input-row .chat-inputbar .chat-send-btn[data-recording] svg:not(.svg) {
   opacity: 0.85;
 }
 .chat-input-row .chat-attach-btn .chat-attach-icon {
-  width: 2.8rem;
-  height: 2.8rem;
+  width: var(--chat-attach-icon-size, 3rem) !important;
+  height: var(--chat-attach-icon-size, 3rem) !important;
+}
+:root.theme-light .chat-attach-icon{
+  width: var(--chat-attach-icon-size, 3rem) !important;
+  height: var(--chat-attach-icon-size, 3rem) !important;
+  transform: none;
 }
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
@@ -870,6 +867,22 @@ main#main > .main-content.glass-box.chat-container[data-chat-bg="client"],
 :root .chat-inputbar .chat-attach-btn:active,
 :root .chat-send-btn.chat-attach-as-send:active {
   transform: scale(0.97);
+}
+:root .chat-attach-btn.chat-attach-as-send,
+:root .chat-attach-btn.chat-attach-as-send:hover,
+:root .chat-attach-btn.chat-attach-as-send:focus-visible,
+:root .chat-attach-btn.chat-attach-as-send:active {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+:root .chat-input-row > .chat-attach-btn.chat-attach-as-send,
+:root .chat-input-row > .chat-attach-btn.chat-attach-as-send:hover,
+:root .chat-input-row > .chat-attach-btn.chat-attach-as-send:focus-visible,
+:root .chat-input-row > .chat-attach-btn.chat-attach-as-send:active {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 :root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"] {
   border-color: #ff3b30;

@@ -172,8 +172,9 @@ export default function RightRail({
       const direction = wheelAccumRef.current > 0 ? 1 : -1;
       wheelAccumRef.current -= direction * threshold;
       setActiveIndex((prev) => {
-        const next = (prev + direction + items.length) % items.length;
-        return Number.isFinite(next) ? next : 0;
+        const maxIndex = Math.max(0, items.length - 1);
+        const next = Math.max(0, Math.min(maxIndex, prev + direction));
+        return Number.isFinite(next) ? next : prev;
       });
     };
     rail.addEventListener("wheel", onWheel, { passive: false, capture: true });
@@ -185,7 +186,10 @@ export default function RightRail({
     event.preventDefault();
     event.stopPropagation();
     const direction = event.key === "ArrowDown" ? 1 : -1;
-    setActiveIndex((prev) => (prev + direction + items.length) % items.length);
+    setActiveIndex((prev) => {
+      const maxIndex = Math.max(0, items.length - 1);
+      return Math.max(0, Math.min(maxIndex, prev + direction));
+    });
   };
 
   return (
@@ -198,8 +202,10 @@ export default function RightRail({
         onKeyDown={onKeyDown}
       >
         {[-2, -1, 0, 1, 2].map((slotOffset, slotIdx) => {
-          const n = items.length || 1;
-          const itemIndex = ((activeIndex + slotOffset) % n + n) % n;
+          const itemIndex = activeIndex + slotOffset;
+          if (itemIndex < 0 || itemIndex >= items.length) {
+            return null;
+          }
           const it = items[itemIndex];
           const outerFactor = 1.78;
           const offsetY =
@@ -318,8 +324,8 @@ export default function RightRail({
                 {(() => {
                   const slotOffsets = [-2, -1, 0, 1, 2];
                   const slotOffset = slotOffsets[hoveredIndex] ?? 0;
-                  const n = items.length || 1;
-                  const idx = ((activeIndex + slotOffset) % n + n) % n;
+                  const idx = activeIndex + slotOffset;
+                  if (idx < 0 || idx >= items.length) return "";
                   return items[idx]?.label || "";
                 })()}
               </div>,

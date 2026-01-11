@@ -411,9 +411,6 @@ export default function ChatBody({ roomId = null }) {
           className={`main-content glass-box chat-container chat-container--round${inputFocused ? " chat-container--input-focus" : ""}`}
           role="region"
           aria-label={t("chat.page_label", "Vestluse sisu")}
-          data-chat-bg={
-            userRole === "SOCIAL_WORKER" || userRole === "ADMIN" ? "worker" : "client"
-          }
           ref={chatContainerRef}
         >
           <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
