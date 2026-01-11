@@ -85,7 +85,6 @@
   letter-spacing: 0.02em;
 }
 .glass-box.chat-container::before{
-  content:none;
   position:absolute;
   inset:0;
   pointer-events:none;
@@ -93,10 +92,6 @@
   background-repeat:no-repeat;
   background-position:center var(--chat-logo-y);
   background-size:auto var(--chat-logo-height);
-  opacity:0.2;
-  filter: blur(0.1rem);
-  -webkit-filter: blur(0.1rem);
-  z-index:-1;
 }
 :root:not(.theme-light) .glass-box.chat-container {
   background: transparent;
