@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
@@ -21,8 +21,13 @@ export default function TellimusBody() {
   const [processing, setProcessing] = useState(false);
   const { t, locale } = useI18n();
   const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const searchParams = useSearchParams();
+  const returnToProfile = searchParams?.get("return") === "profile";
+  const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () =>
-    typeof window !== "undefined" && window.history.length > 1
+    returnToProfile
+      ? pushWithTransition(router, profileReturnPath)
+      : typeof window !== "undefined" && window.history.length > 1
       ? router.back()
       : pushWithTransition(router, localizePath("/", locale));
   useEffect(() => {
@@ -100,7 +105,11 @@ export default function TellimusBody() {
               <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
             </p>
             <div className="mt-[0.65rem] flex justify-center">
-              <Link href="/profiil" className="btn-base min-w-[9.5rem]" aria-describedby="cancel-note">
+              <Link
+                href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)}
+                className="btn-base min-w-[9.5rem]"
+                aria-describedby="cancel-note"
+              >
                 {t("subscription.button.open_profile")}
               </Link>
             </div>

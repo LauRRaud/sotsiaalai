@@ -12,6 +12,7 @@ export function useChatInputHoleMask({ containerRef, inputBarRef, enabled }) {
     const box = containerRef?.current;
     const inputBar = inputBarRef?.current;
     if (!box || !inputBar) return;
+    const rollCard = box.closest?.(".chat-roll-card");
 
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
@@ -21,8 +22,35 @@ export function useChatInputHoleMask({ containerRef, inputBarRef, enabled }) {
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) =>
       `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    const getLocalRect = (el, root) => {
+      if (!el || !root) return null;
+      const w = el.offsetWidth || Math.round(el.getBoundingClientRect().width);
+      const h = el.offsetHeight || Math.round(el.getBoundingClientRect().height);
+      if (!w || !h) return null;
+      let x = 0;
+      let y = 0;
+      let node = el;
+      while (node && node !== root) {
+        x += node.offsetLeft || 0;
+        y += node.offsetTop || 0;
+        node = node.offsetParent;
+      }
+      if (node !== root) {
+        const rootRect = root.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
+        x = rect.left - rootRect.left;
+        y = rect.top - rootRect.top;
+      }
+      return {
+        x: Math.round(x),
+        y: Math.round(y),
+        w: Math.round(w),
+        h: Math.round(h),
+      };
+    };
 
     let lastMask = "";
+    let lastRollMask = "";
     let raf = 0;
 
     const roundedRectPath = (x, y, width, height, radius) => {
@@ -43,37 +71,14 @@ export function useChatInputHoleMask({ containerRef, inputBarRef, enabled }) {
       ].join(" ");
     };
 
-    const updateMask = () => {
-      const boxRect = box.getBoundingClientRect();
-      const inputRect = inputBar.getBoundingClientRect();
-      if (!boxRect.width || !boxRect.height) return;
-      if (!inputRect.width || !inputRect.height) return;
-
-      const boxW = Math.round(boxRect.width);
-      const boxH = Math.round(boxRect.height);
-
-      const toLocal = (rect) => ({
-        x: Math.round(clamp(rect.left - boxRect.left, 0, boxW)),
-        y: Math.round(clamp(rect.top - boxRect.top, 0, boxH)),
-        w: Math.round(rect.width),
-        h: Math.round(rect.height),
-      });
-
-      const inputLocal = toLocal(inputRect);
-
-      const radiusRaw = Number.parseFloat(
-        window.getComputedStyle(inputBar).borderTopLeftRadius
-      );
-      const radius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
-
-      const outerPath = `M 0 0 H ${boxW} V ${boxH} H 0 Z`;
-
+    const buildMask = (rootW, rootH, holeRect, radius) => {
+      if (!rootW || !rootH || !holeRect?.w || !holeRect?.h) return null;
+      const outerPath = `M 0 0 H ${rootW} V ${rootH} H 0 Z`;
       const holePad = 0;
-      const holeX = clamp(inputLocal.x - holePad, 0, boxW);
-      const holeY = clamp(inputLocal.y - holePad, 0, boxH);
-      const holeW = clamp(inputLocal.w + holePad * 2, 0, boxW - holeX);
-      const holeH = clamp(inputLocal.h + holePad * 2, 0, boxH - holeY);
-
+      const holeX = clamp(holeRect.x - holePad, 0, rootW);
+      const holeY = clamp(holeRect.y - holePad, 0, rootH);
+      const holeW = clamp(holeRect.w + holePad * 2, 0, rootW - holeX);
+      const holeH = clamp(holeRect.h + holePad * 2, 0, rootH - holeY);
       const holePath = roundedRectPath(
         holeX,
         holeY,
@@ -81,13 +86,47 @@ export function useChatInputHoleMask({ containerRef, inputBarRef, enabled }) {
         holeH,
         radius + holePad
       );
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${rootW} ${rootH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
+      return encodeSvgMask(svg);
+    };
 
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
-      const mask = encodeSvgMask(svg);
+    const updateMask = () => {
+      const boxW = Math.round(
+        box.offsetWidth || box.getBoundingClientRect().width
+      );
+      const boxH = Math.round(
+        box.offsetHeight || box.getBoundingClientRect().height
+      );
+      if (!boxW || !boxH) return;
 
-      if (mask !== lastMask) {
+      const inputLocal = getLocalRect(inputBar, box);
+      if (!inputLocal) return;
+
+      const rollW = rollCard
+        ? Math.round(rollCard.offsetWidth || rollCard.getBoundingClientRect().width)
+        : 0;
+      const rollH = rollCard
+        ? Math.round(rollCard.offsetHeight || rollCard.getBoundingClientRect().height)
+        : 0;
+      const inputLocalRoll = rollCard ? getLocalRect(inputBar, rollCard) : null;
+
+      const radiusRaw = Number.parseFloat(
+        window.getComputedStyle(inputBar).borderTopLeftRadius
+      );
+      const radius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
+      const mask = buildMask(boxW, boxH, inputLocal, radius);
+      const rollMask = rollCard
+        ? buildMask(rollW, rollH, inputLocalRoll, radius)
+        : null;
+
+      if (mask && mask !== lastMask) {
         box.style.setProperty("--chat-input-hole-mask", mask);
         lastMask = mask;
+      }
+
+      if (rollCard && rollMask && rollMask !== lastRollMask) {
+        rollCard.style.setProperty("--roll-hole-mask-chat", rollMask);
+        lastRollMask = rollMask;
       }
     };
 

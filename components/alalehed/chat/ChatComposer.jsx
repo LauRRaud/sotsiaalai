@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 
@@ -86,21 +87,26 @@ export default function ChatComposer({
     <form className="chat-input-row" onSubmit={handleSubmit} autoComplete="off">
       <button
         type="button"
-        className="chat-attach-btn chat-send-btn chat-attach-as-send"
+        className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none hover:transform-none focus-visible:transform-none active:transform-none"
         aria-label={t("chat.upload.aria")}
         title={t("chat.upload.tooltip")}
         onClick={() => {
           ensureAnalysisPanelVisible();
         }}
       >
-        <PaperclipDark
-          className="chat-attach-icon"
-          width="3rem"
-          height="3rem"
-          style={{ width: "3rem", height: "3rem" }}
-          aria-hidden="true"
-          role="img"
-        />
+        {isLightTheme ? (
+          <PaperclipLight
+            className="chat-attach-icon h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110"
+            aria-hidden="true"
+            role="img"
+          />
+        ) : (
+          <PaperclipDark
+            className="chat-attach-icon h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110"
+            aria-hidden="true"
+            role="img"
+          />
+        )}
       </button>
 
       <input

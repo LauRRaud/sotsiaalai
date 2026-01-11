@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import InviteModal from "@/components/invite/InviteModal";
@@ -20,14 +20,17 @@ import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMa
 import { useConversationSources } from "@/components/chat/hooks/useConversationSources";
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
+import ProfiilBody from "@/components/alalehed/ProfiilBody";
 
 /* ---------- Komponent ---------- */
 export default function ChatBody({ roomId = null }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const { prefs } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
+  const initialProfileOpen = searchParams?.get("profile") === "1";
   const extendedLabel =
     locale === "en" || locale === "ru"
       ? "Extended analysis"
@@ -63,8 +66,12 @@ export default function ChatBody({ roomId = null }) {
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
+  const rollMs = 560;
   const [renderLimit, setRenderLimit] = useState(MAX_RENDERED_MESSAGES);
   const [sendToAssistant, setSendToAssistant] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(() => initialProfileOpen);
+  const [rollDirection, setRollDirection] = useState("right");
+  const [isRolling, setIsRolling] = useState(false);
   const {
     messages: roomMessages,
     blocked: roomBlocked,
@@ -88,6 +95,8 @@ export default function ChatBody({ roomId = null }) {
   const composerDraftApiRef = useRef(null);
   const inputBarRef = useRef(null);
   const sourcesButtonRef = useRef(null);
+  const rollTimerRef = useRef(null);
+  const rollSwapTimerRef = useRef(null);
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
@@ -263,6 +272,43 @@ export default function ChatBody({ roomId = null }) {
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
+  const syncProfileUrl = useCallback((open) => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (open) {
+      url.searchParams.set("profile", "1");
+    } else {
+      url.searchParams.delete("profile");
+    }
+    window.history.replaceState({ profileOpen: open }, "", `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+  const triggerRoll = useCallback(
+    (direction, open) => {
+      if (isRolling) return;
+      setRollDirection(direction);
+      setIsRolling(true);
+      if (showSourcesPanel) closeSourcesPanel();
+      setInputFocused(false);
+      try {
+        inputRef.current?.blur?.();
+      } catch {}
+      if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
+      const swapDelay = Math.round(rollMs * 0.35);
+      rollSwapTimerRef.current = window.setTimeout(() => {
+        setProfileOpen(open);
+        syncProfileUrl(open);
+      }, swapDelay);
+      if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+      rollTimerRef.current = window.setTimeout(() => setIsRolling(false), rollMs);
+    },
+    [closeSourcesPanel, isRolling, rollMs, showSourcesPanel, syncProfileUrl]
+  );
+  const openProfile = useCallback(() => triggerRoll("right", true), [triggerRoll]);
+  const closeProfile = useCallback(() => triggerRoll("left", false), [triggerRoll]);
+  const toggleProfile = useCallback(
+    () => (profileOpen ? closeProfile() : openProfile()),
+    [closeProfile, openProfile, profileOpen]
+  );
 
   const requestConversationsRefresh = useCallback(() => {
     try {
@@ -402,32 +448,67 @@ export default function ChatBody({ roomId = null }) {
     }
   }, [prefs?.reduceMotion]);
 
+  useEffect(() => {
+    return () => {
+      if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
+      if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const shouldOpen = searchParams?.get("profile") === "1";
+    if (typeof shouldOpen !== "boolean") return;
+    setProfileOpen((prev) => {
+      if (prev === shouldOpen) return prev;
+      return shouldOpen;
+    });
+    if (shouldOpen) setRollDirection("right");
+  }, [searchParams]);
+
+  const rollCardClass = [
+    "chat-roll-card",
+    `roll-${rollDirection}`,
+    profileOpen ? "is-profile" : "",
+    isRolling ? "is-rolling" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const chatFaceClass = `chat-roll-face chat-roll-face--chat${profileOpen ? "" : " is-active"}`;
+  const profileFaceClass = `chat-roll-face chat-roll-face--profile${profileOpen ? " is-active" : ""}`;
+
   /* ---------- Render ---------- */
   return (
     <>
       <InviteModal />
       <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
-        <div
-          className={`main-content glass-box chat-container chat-container--round${inputFocused ? " chat-container--input-focus" : ""}`}
-          role="region"
-          aria-label={t("chat.page_label", "Vestluse sisu")}
-          ref={chatContainerRef}
-        >
+        <div className="chat-roll-stage">
+          <div className={rollCardClass}>
+            <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
+              <div
+                className={`main-content glass-box chat-container chat-container--round${
+                  inputFocused && !profileOpen ? " chat-container--input-focus" : ""
+                }`}
+                role="region"
+                aria-label={t("chat.page_label", "Vestluse sisu")}
+                ref={chatContainerRef}
+              >
           <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
-          <div
-            className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`}
-            aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}
-          >
-            <button
-              type="button"
-              className="back-arrow-btn"
-              onClick={() => pushWithTransition(router, "/")}
-              aria-label={t("chat.back_to_home", "Tagasi avalehele")}
-              tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
+          {!profileOpen ? (
+            <div
+              className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`}
+              aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}
             >
-              <span className="back-arrow-circle" />
-            </button>
-          </div>
+              <button
+                type="button"
+                className="back-arrow-btn"
+                onClick={() => pushWithTransition(router, "/")}
+                aria-label={t("chat.back_to_home", "Tagasi avalehele")}
+                tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
+              >
+                <span className="back-arrow-circle" />
+              </button>
+            </div>
+          ) : null}
       {/* Parempoolne vertikaalne ikoonirida */}
       <RightRail
         t={t}
@@ -440,6 +521,7 @@ export default function ChatBody({ roomId = null }) {
         sourcesPulse={sourcesPulse}
         conversationSources={conversationSources}
         hasConversationSources={hasConversationSources}
+        onProfileToggle={toggleProfile}
       />
 
       {/* Pealkiri ja nav */}
@@ -557,7 +639,13 @@ export default function ChatBody({ roomId = null }) {
         returnFocusRef={sourcesButtonRef}
       />
 
-      </div>
+              </div>
+            </div>
+            <div className={profileFaceClass} aria-hidden={profileOpen ? "false" : "true"}>
+              <ProfiilBody embedded isActive={profileOpen} onBack={closeProfile} />
+            </div>
+          </div>
+        </div>
       {analysis.showAnalysisPanel ? (
         <ChatAnalysisPanel
           t={t}

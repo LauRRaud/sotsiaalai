@@ -134,6 +134,8 @@ main#main > .main-content.glass-box.profile-container {
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  transform: translateZ(0);
+  will-change: transform;
   pointer-events: none;
   z-index: 0;
   -webkit-mask-image: var(--profile-role-hole-mask, none);

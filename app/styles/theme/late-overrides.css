@@ -132,13 +132,11 @@
   background: transparent;
 }
 :root:not(.theme-light) .chat-inputbar,
-:root:not(.theme-light) .chat-attach-btn.chat-attach-as-send,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn,
 :root:not(.theme-light) .chat-inputbar:focus-within {
   box-shadow: none;
 }
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn.chat-attach-as-send,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn {
   box-shadow: none;
@@ -161,11 +159,7 @@
   background: transparent;
 }
 :root.theme-light .chat-inputbar,
-:root.theme-light .chat-input-row > .chat-attach-btn,
-:root.theme-light .chat-input-row > .chat-attach-as-send,
 :root.theme-light .chat-inputbar .chat-listen-btn,
-:root.theme-light .chat-inputbar .chat-attach-btn,
-:root.theme-light .chat-inputbar .chat-attach-as-send,
 :root.theme-light .chat-inputbar .chat-send-btn {
   background: #f8f8f8;
   border: 0;
@@ -174,10 +168,6 @@
 }
 :root.theme-light .chat-inputbar {
   border: 0;
-}
-:root.theme-light .chat-input-row > .chat-attach-btn {
-  border: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 :root.theme-light .chat-inputbar .chat-listen-btn {
   background: transparent;
@@ -215,15 +205,7 @@
   padding: 0;
 }
 :root.theme-light .chat-inputbar .chat-send-btn:hover,
-:root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
-:root.theme-light .chat-inputbar .chat-attach-btn:hover,
-:root.theme-light .chat-inputbar .chat-attach-btn:focus-visible,
-:root.theme-light .chat-inputbar .chat-attach-as-send:hover,
-:root.theme-light .chat-inputbar .chat-attach-as-send:focus-visible,
-:root.theme-light .chat-input-row > .chat-attach-btn:hover,
-:root.theme-light .chat-input-row > .chat-attach-btn:focus-visible,
-:root.theme-light .chat-input-row > .chat-attach-as-send:hover,
-:root.theme-light .chat-input-row > .chat-attach-as-send:focus-visible {
+:root.theme-light .chat-inputbar .chat-send-btn:focus-visible {
   background: #ffffff;
   border-color: #cfcfcf;
   box-shadow: 0 6px 16px rgba(0,0,0,0.14);
@@ -650,15 +632,6 @@
 .chat-input-row .chat-inputbar .chat-send-btn[data-recording] svg:not(.svg) {
   opacity: 0.85;
 }
-.chat-input-row .chat-attach-btn .chat-attach-icon {
-  width: var(--chat-attach-icon-size, 3rem) !important;
-  height: var(--chat-attach-icon-size, 3rem) !important;
-}
-:root.theme-light .chat-attach-icon{
-  width: var(--chat-attach-icon-size, 3rem) !important;
-  height: var(--chat-attach-icon-size, 3rem) !important;
-  transform: none;
-}
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
 }
@@ -701,19 +674,6 @@
     0 6px 16px rgba(0,0,0,0.26),
     var(--chat-under-glow-strong);
 }
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn {
-  border: 0;
-  background: var(--chat-invite-surface);
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  width: var(--chat-action-size);
-  height: var(--chat-action-size);
-  min-width: var(--chat-action-size);
-  min-height: var(--chat-action-size);
-  flex: 0 0 var(--chat-action-size);
-  padding: 0;
-  box-sizing: border-box;
-}
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn {
   border: 0;
   background: transparent;
@@ -741,27 +701,13 @@
     padding: 0;
     box-sizing: border-box;
   }
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn,
-:root:not(.theme-light) .chat-inputbar .chat-send-btn,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-btn {
-    background-clip: border-box;
-    background-origin: border-box;
-  }
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn {
-  box-shadow: var(--chat-invite-shadow);
+:root:not(.theme-light) .chat-inputbar .chat-send-btn {
+  background-clip: border-box;
+  background-origin: border-box;
 }
 :root:not(.theme-light) .chat-inputbar .chat-send-btn {
   box-shadow: var(--chat-invite-shadow);
 }
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn:hover,
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn:active,
-:root:not(.theme-light) .chat-inputbar .chat-attach-btn:focus-visible {
-    border-color: transparent;
-    background: var(--chat-invite-surface-hover);
-    box-shadow:
-      var(--chat-invite-shadow),
-      var(--chat-attach-under-glow-strong);
-  }
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:focus-visible {
     border-color: transparent;
@@ -820,70 +766,6 @@
     background-origin: padding-box;
     box-shadow: none;
   }
-:root:not(.theme-light) body .chat-input-row > .chat-attach-btn,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-as-send {
-  background: var(--chat-invite-surface);
-  border: 0;
-  width: var(--chat-action-size);
-  height: var(--chat-action-size);
-  min-width: var(--chat-action-size);
-  min-height: var(--chat-action-size);
-  flex: 0 0 var(--chat-action-size);
-  box-shadow: var(--chat-invite-shadow);
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  padding: 0;
-  box-sizing: border-box;
-}
-:root:not(.theme-light) body .chat-input-row > .chat-attach-btn:hover,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-btn:active,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-btn:focus-visible,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:hover,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:active,
-:root:not(.theme-light) body .chat-input-row > .chat-attach-as-send:focus-visible {
-    background: var(--chat-invite-surface-hover);
-    border-color: transparent;
-    box-shadow:
-      var(--chat-invite-shadow),
-      var(--chat-attach-under-glow-strong);
-  }
-:root .chat-input-row > .chat-attach-btn,
-:root .chat-inputbar .chat-attach-btn,
-:root .chat-send-btn.chat-attach-as-send {
-  opacity: 0.85;
-  transform-origin: center;
-  transition: transform 0.12s ease;
-}
-:root .chat-input-row > .chat-attach-btn:hover,
-:root .chat-input-row > .chat-attach-btn:focus-visible,
-:root .chat-inputbar .chat-attach-btn:hover,
-:root .chat-inputbar .chat-attach-btn:focus-visible,
-:root .chat-send-btn.chat-attach-as-send:hover,
-:root .chat-send-btn.chat-attach-as-send:focus-visible {
-  opacity: 1;
-  transform: scale(1.08);
-}
-:root .chat-input-row > .chat-attach-btn:active,
-:root .chat-inputbar .chat-attach-btn:active,
-:root .chat-send-btn.chat-attach-as-send:active {
-  transform: scale(0.97);
-}
-:root .chat-attach-btn.chat-attach-as-send,
-:root .chat-attach-btn.chat-attach-as-send:hover,
-:root .chat-attach-btn.chat-attach-as-send:focus-visible,
-:root .chat-attach-btn.chat-attach-as-send:active {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-:root .chat-input-row > .chat-attach-btn.chat-attach-as-send,
-:root .chat-input-row > .chat-attach-btn.chat-attach-as-send:hover,
-:root .chat-input-row > .chat-attach-btn.chat-attach-as-send:focus-visible,
-:root .chat-input-row > .chat-attach-btn.chat-attach-as-send:active {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
 :root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"] {
   border-color: #ff3b30;
   box-shadow:

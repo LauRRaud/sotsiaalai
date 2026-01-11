@@ -12,7 +12,7 @@ const Particles = dynamic(() => import("./Particles"), { ssr: false });
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), { ssr: false });
 const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
 
-const LIGHT_SPACE_PALETTE = { baseTop: "#ffffff", baseBottom: "#94979c" };
+const LIGHT_SPACE_PALETTE = { baseTop: "#ffffffff", baseBottom: "#cbcbcbff" };
 
 const SpaceLayer = memo(function SpaceLayer(props) {
   return (

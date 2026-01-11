@@ -4,7 +4,7 @@ import Image from "next/image";
 import SunIcon from "@/public/logo/sun.svg";
 import EyeIcon from "@/public/logo/silma.svg";
 import MoonIcon from "@/public/logo/kuu.svg";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
@@ -27,18 +27,27 @@ function ProfileShell({
   role = "region",
   ariaLabelledby,
   innerRef,
+  embedded = false,
 }) {
-  // Toggle centered over the glass container.
+  const container = (
+    <div
+      className={`main-content glass-box glass-left profile-container${embedded ? " profile-container--embedded" : ""}`}
+      role={role}
+      aria-labelledby={ariaLabelledby}
+      ref={innerRef}
+      lang={embedded ? locale : undefined}
+    >
+      {children}
+    </div>
+  );
+
+  if (embedded) {
+    return container;
+  }
+
   return (
     <div className="profile-page-shell" lang={locale}>
-      <div
-        className="main-content glass-box glass-left profile-container"
-        role={role}
-        aria-labelledby={ariaLabelledby}
-        ref={innerRef}
-      >
-        {children}
-      </div>
+      {container}
     </div>
   );
 }
@@ -136,7 +145,12 @@ function DeleteDockIcon({ isHovered: _isHovered, ...props }) {
   );
 }
 
-export default function ProfiilBody({ initialProfile = null }) {
+export default function ProfiilBody({
+  initialProfile = null,
+  embedded = false,
+  isActive = true,
+  onBack,
+}) {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { prefs, setPrefs, openModal: openA11y } = useAccessibility();
@@ -170,11 +184,39 @@ export default function ProfiilBody({ initialProfile = null }) {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
     if (!box || !pill) return;
+    const rollCard = box.closest?.(".chat-roll-card");
 
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    const getLocalRect = (el, root) => {
+      if (!el || !root) return null;
+      const w = el.offsetWidth || Math.round(el.getBoundingClientRect().width);
+      const h = el.offsetHeight || Math.round(el.getBoundingClientRect().height);
+      if (!w || !h) return null;
+      let x = 0;
+      let y = 0;
+      let node = el;
+      while (node && node !== root) {
+        x += node.offsetLeft || 0;
+        y += node.offsetTop || 0;
+        node = node.offsetParent;
+      }
+      if (node !== root) {
+        const rootRect = root.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
+        x = rect.left - rootRect.left;
+        y = rect.top - rootRect.top;
+      }
+      return {
+        x: Math.round(x),
+        y: Math.round(y),
+        w: Math.round(w),
+        h: Math.round(h),
+      };
+    };
     let lastMask = "";
     let lastRoleMask = "";
+    let lastRollMask = "";
     let raf = 0;
 
     const roundedRectPath = (x, y, width, height, radius) => {
@@ -195,48 +237,62 @@ export default function ProfiilBody({ initialProfile = null }) {
       ].join(" ");
     };
 
+    const buildMask = (rootW, rootH, holeRect, radius) => {
+      if (!rootW || !rootH || !holeRect?.w || !holeRect?.h) return null;
+      const outerPath = `M 0 0 H ${rootW} V ${rootH} H 0 Z`;
+      const holePath = roundedRectPath(
+        clamp(holeRect.x, 0, rootW),
+        clamp(holeRect.y, 0, rootH),
+        clamp(holeRect.w, 0, rootW - holeRect.x),
+        clamp(holeRect.h, 0, rootH - holeRect.y),
+        radius
+      );
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${rootW} ${rootH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
+      return encodeSvgMask(svg);
+    };
+
     const updateMask = () => {
-      const boxRect = box.getBoundingClientRect();
-      const pillRect = pill.getBoundingClientRect();
-      if (!boxRect.width || !boxRect.height || !pillRect.width || !pillRect.height) return;
+      const boxW = Math.round(
+        box.offsetWidth || box.getBoundingClientRect().width
+      );
+      const boxH = Math.round(
+        box.offsetHeight || box.getBoundingClientRect().height
+      );
+      if (!boxW || !boxH) return;
 
-      const boxW = Math.round(boxRect.width);
-      const boxH = Math.round(boxRect.height);
+      const pillLocal = getLocalRect(pill, box);
+      if (!pillLocal) return;
 
-      const toLocal = (rect) => ({
-        x: Math.round(clamp(rect.left - boxRect.left, 0, boxW)),
-        y: Math.round(clamp(rect.top - boxRect.top, 0, boxH)),
-        w: Math.round(rect.width),
-        h: Math.round(rect.height),
-      });
-
-      const pillLocal = toLocal(pillRect);
+      const rollW = rollCard
+        ? Math.round(rollCard.offsetWidth || rollCard.getBoundingClientRect().width)
+        : 0;
+      const rollH = rollCard
+        ? Math.round(rollCard.offsetHeight || rollCard.getBoundingClientRect().height)
+        : 0;
+      const pillLocalRoll = rollCard ? getLocalRect(pill, rollCard) : null;
 
       const pillRadiusRaw = Number.parseFloat(
         window.getComputedStyle(pill).borderTopLeftRadius
       );
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
+      const mask = buildMask(boxW, boxH, pillLocal, pillRadius);
+      const rollMask = rollCard
+        ? buildMask(rollW, rollH, pillLocalRoll, pillRadius)
+        : null;
 
-      const outerPath = `M 0 0 H ${boxW} V ${boxH} H 0 Z`;
-      const pillPath = roundedRectPath(
-        pillLocal.x,
-        pillLocal.y,
-        pillLocal.w,
-        pillLocal.h,
-        pillRadius
-      );
-
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${pillPath}"/></svg>`;
-      const mask = encodeSvgMask(svg);
-
-      if (mask !== lastMask) {
+      if (mask && mask !== lastMask) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         lastMask = mask;
       }
 
-      if (mask !== lastRoleMask) {
+      if (mask && mask !== lastRoleMask) {
         box.style.setProperty("--profile-role-only-mask", mask);
         lastRoleMask = mask;
+      }
+
+      if (rollCard && rollMask && rollMask !== lastRollMask) {
+        rollCard.style.setProperty("--roll-hole-mask-profile", rollMask);
+        lastRollMask = rollMask;
       }
     };
 
@@ -262,11 +318,17 @@ export default function ProfiilBody({ initialProfile = null }) {
       window.removeEventListener("resize", scheduleUpdate);
       ro?.disconnect?.();
     };
-  }, [prefs?.theme, roleLabel]);
+  }, [embedded, isActive, prefs?.theme, roleLabel]);
 
   useEffect(() => {
-    if (status === "unauthenticated") setLoginOpen(true);
-  }, [status]);
+    if (status !== "unauthenticated") return;
+    if (embedded && !isActive) return;
+    setLoginOpen(true);
+  }, [embedded, isActive, status]);
+
+  useEffect(() => {
+    if (embedded && !isActive) setLoginOpen(false);
+  }, [embedded, isActive]);
 
   const logoutIconSrc =
     logoutIconState === "logging-out"
@@ -302,14 +364,22 @@ export default function ProfiilBody({ initialProfile = null }) {
       icon: <PinDockIcon />,
       label: t("profile.change_password_cta", "Uuenda PIN"),
       labelPos: "up",
-      onClick: () => pushWithTransition(router, localizePath("/uuenda-pin", locale)),
+      onClick: () =>
+        pushWithTransition(
+          router,
+          localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale)
+        ),
     },
     {
       key: "email",
       icon: <EmailDockIcon />,
       label: t("profile.update_email_cta", "Uuenda e-post"),
       labelPos: "up",
-      onClick: () => pushWithTransition(router, localizePath("/uuenda-epost", locale)),
+      onClick: () =>
+        pushWithTransition(
+          router,
+          localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale)
+        ),
     },
     {
       key: "delete",
@@ -328,7 +398,11 @@ export default function ProfiilBody({ initialProfile = null }) {
       icon: <SubscriptionDockIcon />,
       label: t("profile.manage_subscription"),
       labelPos: "down",
-      onClick: () => pushWithTransition(router, localizePath("/tellimus", locale)),
+      onClick: () =>
+        pushWithTransition(
+          router,
+          localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale)
+        ),
     },
     {
       key: "preferences",
@@ -360,6 +434,7 @@ export default function ProfiilBody({ initialProfile = null }) {
 
   // Profile fetch / hydrate
   useEffect(() => {
+    if (embedded && !isActive) return;
     if (status === "loading") return;
 
     if (status !== "authenticated") {
@@ -394,12 +469,20 @@ export default function ProfiilBody({ initialProfile = null }) {
         setLoading(false);
       }
     })();
-  }, [status, t, initialProfile]);
+  }, [embedded, initialProfile, isActive, status, t]);
+
+  const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack();
+      return;
+    }
+    pushWithTransition(router, "/vestlus");
+  }, [onBack, router]);
 
   // Loading
   if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
     return (
-      <ProfileShell locale={locale}>
+      <ProfileShell locale={locale} embedded={embedded}>
         <h1 className="glass-title">{t("profile.title")}</h1>
         <p className="profile-loading p-4">
           {t("profile.loading")}
@@ -418,15 +501,15 @@ export default function ProfiilBody({ initialProfile = null }) {
 
     return (
       <>
-        <ProfileShell locale={locale}>
+        <ProfileShell locale={locale} embedded={embedded}>
           <h1 className="glass-title">{t("profile.title")}</h1>
           <p className="p-4">{reasonText}</p>
           <div className="back-btn-wrapper">
             <button
               type="button"
               className="back-arrow-btn"
-              onClick={() => setLoginOpen(true)}
-              aria-label={t("auth.login.title")}
+              onClick={embedded ? handleBack : () => setLoginOpen(true)}
+              aria-label={embedded ? t("profile.back_to_chat") : t("auth.login.title")}
             >
               <span className="back-arrow-circle" />
             </button>
@@ -444,6 +527,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       <ProfileShell
         locale={locale}
         ariaLabelledby="profile-title"
+        embedded={embedded}
       >
         <h1 id="profile-title" className="glass-title">
           {t("profile.title")}
@@ -463,6 +547,7 @@ export default function ProfiilBody({ initialProfile = null }) {
       locale={locale}
       ariaLabelledby="profile-title"
       innerRef={profileContainerRef}
+      embedded={embedded}
     >
       <h1 id="profile-title" className="glass-title">
         {t("profile.title")}
@@ -506,7 +591,7 @@ export default function ProfiilBody({ initialProfile = null }) {
           <button
             type="button"
             className="back-arrow-btn"
-            onClick={() => pushWithTransition(router, "/vestlus")}
+            onClick={handleBack}
             aria-label={t("profile.back_to_chat")}
           >
             <span className="back-arrow-circle"></span>

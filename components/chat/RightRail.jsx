@@ -19,12 +19,14 @@ export default function RightRail({
   sourcesPulse,
   conversationSources,
   hasConversationSources,
+  onProfileToggle,
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const railRef = useRef(null);
   const itemRefs = useRef([]);
   const wheelAccumRef = useRef(0);
+  const lastStepRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(1);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [tooltipRect, setTooltipRect] = useState(null);
@@ -166,11 +168,15 @@ export default function RightRail({
       event.stopPropagation();
       const delta = event.deltaY;
       if (!Number.isFinite(delta) || delta === 0) return;
+      const now = performance.now();
+      if (now - lastStepRef.current < 160) return;
       wheelAccumRef.current += delta;
-      const threshold = 60;
+      const baseThreshold = event.deltaMode === 1 ? 120 : 180;
+      const threshold = Math.max(baseThreshold, Math.round(stepPx * 1.4));
       if (Math.abs(wheelAccumRef.current) < threshold) return;
       const direction = wheelAccumRef.current > 0 ? 1 : -1;
-      wheelAccumRef.current -= direction * threshold;
+      wheelAccumRef.current = 0;
+      lastStepRef.current = now;
       setActiveIndex((prev) => {
         const maxIndex = Math.max(0, items.length - 1);
         const next = Math.max(0, Math.min(maxIndex, prev + direction));
@@ -179,7 +185,7 @@ export default function RightRail({
     };
     rail.addEventListener("wheel", onWheel, { passive: false, capture: true });
     return () => rail.removeEventListener("wheel", onWheel);
-  }, [items.length]);
+  }, [items.length, stepPx]);
 
   const onKeyDown = (event) => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
@@ -256,6 +262,10 @@ export default function RightRail({
             if (!it) return;
             setActiveIndex(itemIndex);
             if (it.key === "profile") {
+              if (typeof onProfileToggle === "function") {
+                onProfileToggle();
+                return;
+              }
               pushWithTransition(router, "/profiil");
               return;
             }

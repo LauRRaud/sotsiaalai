@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import Button from "@/components/ui/Button";
@@ -17,8 +17,13 @@ export default function UnustasinParooliBody() {
   const errorId = error ? "reset-error" : undefined;
   const title = t("auth.reset.title", "Uuenda PIN");
   const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const searchParams = useSearchParams();
+  const returnToProfile = searchParams?.get("return") === "profile";
+  const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () =>
-    typeof window !== "undefined" && window.history.length > 1
+    returnToProfile
+      ? pushWithTransition(router, profileReturnPath)
+      : typeof window !== "undefined" && window.history.length > 1
       ? router.back()
       : pushWithTransition(router, localizePath("/", locale));
 

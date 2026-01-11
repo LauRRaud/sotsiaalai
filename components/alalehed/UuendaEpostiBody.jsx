@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
 import InvitePageShell from "@/components/ui/InvitePageShell";
@@ -21,8 +21,13 @@ export default function UuendaEpostiBody() {
 
   const errorId = error ? "update-email-error" : undefined;
   const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const searchParams = useSearchParams();
+  const returnToProfile = searchParams?.get("return") === "profile";
+  const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () =>
-    typeof window !== "undefined" && window.history.length > 1
+    returnToProfile
+      ? pushWithTransition(router, profileReturnPath)
+      : typeof window !== "undefined" && window.history.length > 1
       ? router.back()
       : pushWithTransition(router, localizePath("/profiil", locale));
 
