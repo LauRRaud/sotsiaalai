@@ -833,8 +833,10 @@ html[data-contrast=hc] body .profile-email-field .input-modern:focus-visible{
     --topnav-label-border: transparent;
     --topnav-label-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
     border: 0;
-    backdrop-filter: blur(16px) saturate(112%);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px) saturate(112%);
+    backdrop-filter: blur(16px) saturate(112%);
   }
 :root.theme-light .top-nav--chat .top-nav__btn img {
   opacity: 1;

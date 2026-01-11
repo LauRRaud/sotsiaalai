@@ -5,6 +5,7 @@
 :root {
   color-scheme: dark;
   --bg-overscan: clamp(120px, 18svh, 220px);
+  --glass-blur-radius: 1rem;
 }
 
 /* Core tokens (default / dark) */

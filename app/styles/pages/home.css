@@ -62,8 +62,10 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
+  -webkit-backdrop-filter: blur(var(--card-blur,0.75rem));
+  backdrop-filter: blur(var(--card-blur,0.75rem));
   -webkit-backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
+  backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
   transform: scale(1);
   clip-path: circle(50% at 50% 50%);
   opacity: 0;
@@ -210,8 +212,10 @@
 
 /* Homepage: keep the blur ring hidden; morph overlay handles glass. */
 .homepage-root .card-wrapper::before {
-  backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
+  -webkit-backdrop-filter: blur(var(--home-card-blur));
+  backdrop-filter: blur(var(--home-card-blur));
   -webkit-backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
+  backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
   inset: 3.5%;
   clip-path: circle(50% at 50% 50%);
   transform: none;

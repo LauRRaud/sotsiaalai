@@ -660,8 +660,10 @@
 /* Pane SEE plokk CSS lõppu */
 #login-modal.login-modal-box.glass-modal{
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.2));
-  backdrop-filter: blur(0.5rem) saturate(110%);
+  -webkit-backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(0.5rem);
   -webkit-backdrop-filter: blur(0.5rem) saturate(110%);
+  backdrop-filter: blur(0.5rem) saturate(110%);
 
   border: none;
   color: var(--glass-surface-text, var(--pt-200));
@@ -715,8 +717,10 @@
     gap: 0.85em;
     /* Darker background and stronger blur on mobile */
     background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(1.4rem) saturate(125%);
+    -webkit-backdrop-filter: blur(1.4rem);
+    backdrop-filter: blur(1.4rem);
     -webkit-backdrop-filter: blur(1.4rem) saturate(125%);
+    backdrop-filter: blur(1.4rem) saturate(125%);
   }
   #login-modal .login-modal-bottom-link {
     margin-top: 0.15em;

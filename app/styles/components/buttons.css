@@ -15,8 +15,10 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   position: relative;
-  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
   transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
   text-decoration: none;
   min-height: 2.5rem;
@@ -46,8 +48,10 @@
   color: rgba(248,252,255,0.96);
   background: var(--btn-base-bg-dark);
   border: 0;
-  backdrop-filter: blur(10px) saturate(105%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px) saturate(105%);
+  backdrop-filter: blur(10px) saturate(105%);
   isolation: isolate;
   z-index: 0;
 
