@@ -305,6 +305,7 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     if (merged.contrast === "hc") {
       merged.theme = "dark";
     }
+    prefsRef.current = merged;
     setPrefsState(merged);
     safeApplyPrefsToDom(merged, "setPrefs");
     try { localStorage.setItem("a11y_prefs", JSON.stringify(merged)); } catch {}
@@ -324,7 +325,8 @@ function AccessibilityProvider({ children, initialPrefs = null }) {
     safeApplyPrefsToDom(preview, "preview");
   }, [prefs, safeApplyPrefsToDom]);
   const resetPreview = useCallback(() => {
-    safeApplyPrefsToDom(prefs, "resetPreview");
+    const current = prefsRef.current || prefs;
+    safeApplyPrefsToDom(current, "resetPreview");
   }, [prefs, safeApplyPrefsToDom]);
   const openModal = useCallback(() => {
     try { lastOpenerRef.current = document.activeElement; } catch {}

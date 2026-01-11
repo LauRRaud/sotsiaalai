@@ -78,6 +78,11 @@
 .card-wrapper:not(:has(.glass-card.fade-in, .centered-back-left.fade-in, .centered-back-right.fade-in))::before{
   opacity: 1;
 }
+@supports not selector(:has(*)) {
+  .card-wrapper::before {
+    opacity: 1;
+  }
+}
 .glass-card::before,
 .centered-back-left::before,
 .centered-back-right::before{

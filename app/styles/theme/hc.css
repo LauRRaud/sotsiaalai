@@ -12,7 +12,7 @@ html[data-contrast=hc] {
 /* HC token variables */
 html[data-contrast=hc]{
   --hc-bg: #0b0b0b;
-  --hc-surface: #111111;
+  --hc-surface: rgba(17, 17, 17, 0.78);
   --hc-text: #ffffff;
   --hc-muted: #d6d6d6;
   --hc-accent: #ffea00;
@@ -30,6 +30,7 @@ html[data-contrast=hc]{
   --page-bg-fallback: var(--hc-bg);
   --page-bg-top-fallback: var(--hc-bg);
   --page-bg-bottom-fallback: var(--hc-bg);
+  --glass-blur-radius: 1rem;
   --glass-surface-bg: var(--hc-surface);
   --glass-surface-text: var(--hc-text);
   --glass-border-color: var(--hc-accent);

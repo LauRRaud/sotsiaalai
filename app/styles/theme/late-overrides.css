@@ -256,6 +256,12 @@
   background: var(--glass-surface-bg);
   color: var(--glass-surface-text);
 }
+:root .glass-box:not(.chat-container):not(.profile-container),
+:root .glass-modal {
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+}
 main#main > .main-content.glass-box.chat-container[data-chat-bg="worker"],
 .glass-box.chat-container[data-chat-bg="worker"] {
   --chat-bg-logo: none;

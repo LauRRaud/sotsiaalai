@@ -85,52 +85,36 @@
   letter-spacing: 0.02em;
 }
 .glass-box.chat-container::before{
+  content: "";
   position:absolute;
   inset:0;
   pointer-events:none;
+  border-radius: inherit;
+  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  opacity: 1;
+  filter: none;
+  -webkit-filter: none;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  z-index: 0;
   background-image: var(--chat-bg-logo, none);
   background-repeat:no-repeat;
   background-position:center var(--chat-logo-y);
   background-size:auto var(--chat-logo-height);
+  -webkit-mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
+  mask-size: 100% 100%;
+  mask-position: 0 0;
+  mask-repeat: no-repeat;
 }
 :root:not(.theme-light) .glass-box.chat-container::before {
-  content: "";
-  border-radius: inherit;
-  background-color: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   background-blend-mode: multiply;
-  opacity: 1;
-  filter: none;
-  -webkit-filter: none;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  z-index: 0;
-  -webkit-mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-position: 0 0;
-  -webkit-mask-repeat: no-repeat;
-  mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
-  mask-size: 100% 100%;
-  mask-position: 0 0;
-  mask-repeat: no-repeat;
 }
 :root.theme-light .glass-box.chat-container::before {
-  content: "";
-  border-radius: inherit;
   background-color: var(--glass-surface-bg, rgba(255, 255, 255, 0.58));
-  opacity: 1;
-  filter: none;
-  -webkit-filter: none;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  z-index: 0;
-  -webkit-mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-position: 0 0;
-  -webkit-mask-repeat: no-repeat;
-  mask-image: var(--chat-input-hole-mask, linear-gradient(#fff, #fff));
-  mask-size: 100% 100%;
-  mask-position: 0 0;
-  mask-repeat: no-repeat;
 }
 :root.theme-light .glass-box.chat-container > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions):not(.top-nav-toggle):not(.back-btn-wrapper) {
   z-index: 1;
