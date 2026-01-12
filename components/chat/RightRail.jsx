@@ -20,6 +20,7 @@ export default function RightRail({
   conversationSources,
   hasConversationSources,
   onProfileToggle,
+  embedded = false,
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -71,7 +72,7 @@ export default function RightRail({
   }, [isLightTheme]);
 
   const openChatsDrawer = (e) => {
-    if (pathname && pathname.startsWith("/vestlus")) {
+    if (embedded || (pathname && pathname.startsWith("/vestlus"))) {
       e?.preventDefault?.();
       try {
         window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: true } }));

@@ -23,7 +23,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 
 /* ---------- Komponent ---------- */
-export default function ChatBody({ roomId = null }) {
+export default function ChatBody({ roomId = null, onBackHome = null, embedded = false }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
@@ -423,6 +423,13 @@ export default function ChatBody({ roomId = null }) {
     if (!node) return;
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, []);
+  const handleBackHome = useCallback(() => {
+    if (typeof onBackHome === "function") {
+      onBackHome();
+      return;
+    }
+    pushWithTransition(router, "/");
+  }, [onBackHome, router]);
   const handleJumpToBottom = useCallback(() => {
     if (renderLimit > MAX_RENDERED_MESSAGES) {
       setRenderLimit(Math.min(visibleMessages.length, MAX_RENDERED_MESSAGES));
@@ -501,7 +508,7 @@ export default function ChatBody({ roomId = null }) {
               <button
                 type="button"
                 className="back-arrow-btn"
-                onClick={() => pushWithTransition(router, "/")}
+                onClick={handleBackHome}
                 aria-label={t("chat.back_to_home", "Tagasi avalehele")}
                 tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
               >
@@ -522,6 +529,7 @@ export default function ChatBody({ roomId = null }) {
         conversationSources={conversationSources}
         hasConversationSources={hasConversationSources}
         onProfileToggle={toggleProfile}
+        embedded={embedded}
       />
 
       {/* Pealkiri ja nav */}

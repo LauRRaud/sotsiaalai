@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 /* ---------- Utils ---------- */
 function uuid() {
@@ -26,6 +26,8 @@ function formatDateTime(iso) {
 /* ---------- Component ---------- */
 export default function ChatSidebar() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [items, setItems] = useState([]);
   const [roomItems, setRoomItems] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -217,7 +219,11 @@ export default function ChatSidebar() {
       if (!item?.id) return;
       if (selectMode) return;
       if (item.kind === "room") {
-        router.push(`/vestlus?roomId=${encodeURIComponent(item.id)}`);
+        if (isEmbeddedChat) {
+          updateChatUrl(String(item.id));
+        } else {
+          router.push(`/vestlus?roomId=${encodeURIComponent(item.id)}`);
+        }
         window.dispatchEvent(
           new CustomEvent("sotsiaalai:toggle-conversations", {
             detail: { open: false },
@@ -237,7 +243,7 @@ export default function ChatSidebar() {
         }),
       );
     },
-    [router, selectMode],
+    [isEmbeddedChat, router, selectMode, updateChatUrl],
   );
   const onNew = useCallback(
     async () => {
@@ -320,6 +326,21 @@ export default function ChatSidebar() {
     } while (nextCursor && loops < 50);
     return ids;
   }, [t]);
+  const isEmbeddedChat = searchParams?.get("mode") === "chat";
+  const updateChatUrl = useCallback(
+    (nextRoomId) => {
+      if (typeof window === "undefined") return;
+      const url = new URL(window.location.href);
+      url.searchParams.set("mode", "chat");
+      if (nextRoomId) url.searchParams.set("roomId", nextRoomId);
+      else url.searchParams.delete("roomId");
+      const qs = url.searchParams.toString();
+      const nextPath = qs ? `${url.pathname}?${qs}` : url.pathname;
+      if (nextPath === `${pathname}${window.location.search}`) return;
+      router.replace(nextPath);
+    },
+    [pathname, router]
+  );
   const deleteConversationIds = useCallback(
     async (ids) => {
       const unique = Array.from(new Set(ids)).filter(Boolean);
