@@ -2,11 +2,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import { cookies } from "next/headers";
-import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
-import ChatSidebar from "@/components/ChatSidebar";
-import ChatBody from "@/components/alalehed/ChatBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata() {
   const cookieStore = await cookies();
@@ -27,15 +25,11 @@ export async function generateMetadata() {
 export default async function Page({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const roomId = resolvedSearchParams?.roomId || null;
+  const profile = resolvedSearchParams?.profile || null;
 
-  return (
-    <>
-      {/* K\u00f5rvalsahtel, mis avaneb \u201cVestlused\u201d nupust */}
-      <ConversationDrawer>
-        <ChatSidebar />
-      </ConversationDrawer>
-      {/* P\u00f5hisisu */}
-      <ChatBody roomId={roomId} />
-    </>
-  );
+  const params = new URLSearchParams();
+  params.set("mode", "chat");
+  if (roomId) params.set("roomId", String(roomId));
+  if (profile) params.set("profile", String(profile));
+  redirect(`/?${params.toString()}`);
 }

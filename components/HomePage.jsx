@@ -1,14 +1,17 @@
 // components/HomePage.jsx
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import Link from "next/link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
+import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
+import ChatSidebar from "@/components/ChatSidebar";
+import ChatBody from "@/components/alalehed/ChatBody";
 
 // UUS: Meist avalehele (embedded)
 import MeistBody from "./alalehed/MeistBody";
@@ -25,6 +28,7 @@ let homeIntroSeen = false;
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { prefs } = useAccessibility();
   const t = useT();
 
@@ -37,6 +41,10 @@ export default function HomePage() {
   const [magnetReady, setMagnetReady] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({ left: false, right: false });
   const [pendingExitSide, setPendingExitSide] = useState(null);
+  const [exitState, setExitState] = useState(null);
+  const [homeChatOpen, setHomeChatOpen] = useState(false);
+  const [homeChatSide, setHomeChatSide] = useState(null);
+  const [chatOpenDeferred, setChatOpenDeferred] = useState(false);
 
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
@@ -46,10 +54,18 @@ export default function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
   const [leftCardEl, setLeftCardEl] = useState(null);
   const [rightCardEl, setRightCardEl] = useState(null);
+  const leftCardWrapRef = useRef(null);
+  const rightCardWrapRef = useRef(null);
+  const chatProbeRef = useRef(null);
+  const exitTimerRef = useRef(null);
+  const suppressFlipRef = useRef(false);
+  const lastClickSideRef = useRef(null);
 
 
 
   const isAuthed = status === "authenticated" && !!session;
+  const urlMode = searchParams?.get("mode") || "";
+  const urlRoomId = searchParams?.get("roomId") || null;
 
   const isAdmin = useMemo(() => {
     const u = session?.user;
@@ -60,6 +76,10 @@ export default function HomePage() {
 
   const flipToBackMs = 1200;
   const flipToFrontMs = 1100;
+  const exitDurationMs = prefs.reduceMotion ? 0 : 1100;
+  const isExiting = Boolean(exitState);
+  const exitSide = exitState?.side;
+  const exitVars = exitState?.vars;
 
   const markChatEnterFromHome = useCallback(() => {
     if (typeof window === "undefined") return;
@@ -68,21 +88,102 @@ export default function HomePage() {
     } catch {}
   }, []);
 
-  const startExitToChat = useCallback(
+  const syncHomeChatUrl = useCallback(
+    (open, opts = {}) => {
+      if (typeof window === "undefined") return;
+      const { roomId, profile } = opts;
+      const hasRoomId = Object.prototype.hasOwnProperty.call(opts, "roomId");
+      const hasProfile = Object.prototype.hasOwnProperty.call(opts, "profile");
+      const url = new URL(window.location.href);
+      if (open) {
+        url.searchParams.set("mode", "chat");
+        if (hasRoomId) {
+          if (roomId) url.searchParams.set("roomId", roomId);
+          else url.searchParams.delete("roomId");
+        }
+        if (hasProfile) {
+          if (profile) url.searchParams.set("profile", profile);
+          else url.searchParams.delete("profile");
+        }
+      } else {
+        url.searchParams.delete("mode");
+        url.searchParams.delete("roomId");
+        url.searchParams.delete("profile");
+      }
+      const qs = url.searchParams.toString();
+      router.replace(qs ? `${url.pathname}?${qs}` : url.pathname);
+    },
+    [router]
+  );
+  const computeExitVars = useCallback(
     (side) => {
-      if (isLoginOpen) return;
-      if (status === "loading") return;
+      const cardNode = side === "left" ? leftCardWrapRef.current : rightCardWrapRef.current;
+      if (!cardNode || typeof window === "undefined") return null;
+      const rect = cardNode.getBoundingClientRect();
+      if (!rect?.width || !rect?.height) return null;
+      const cardCenterX = rect.left + rect.width / 2;
+      const cardCenterY = rect.top + rect.height / 2;
+      const minViewport = Math.min(window.innerWidth, window.innerHeight);
+      let targetCenterX = window.innerWidth / 2;
+      let targetCenterY = window.innerHeight / 2;
+      let targetSize = Math.min(1200, Math.max(640, minViewport * 0.88));
+      const probeRect = chatProbeRef.current?.getBoundingClientRect?.();
+      if (probeRect && probeRect.width > 0 && probeRect.height > 0) {
+        targetCenterX = probeRect.left + probeRect.width / 2;
+        targetCenterY = probeRect.top + probeRect.height / 2;
+        targetSize = Math.min(probeRect.width, probeRect.height);
+      }
+      const dx = targetCenterX - cardCenterX;
+      const dy = targetCenterY - cardCenterY;
+      const scale = Math.max(1, targetSize / rect.width);
+      const zDepth = Math.min(240, Math.max(120, minViewport * 0.18));
+      return {
+        x: `${dx.toFixed(2)}px`,
+        y: `${dy.toFixed(2)}px`,
+        scale: scale.toFixed(3),
+        z: `${Math.round(zDepth)}px`,
+      };
+    },
+    []
+  );
 
-      if (!isAuthed) {
+  const startExitToChat = useCallback(
+    (side, opts = {}) => {
+      const forceAuth = opts.force === true;
+      if (isExiting || (isLoginOpen && !forceAuth)) return;
+      if (status === "loading" && !forceAuth) return;
+
+      lastClickSideRef.current = side;
+      if (!isAuthed && !forceAuth) {
         setPendingExitSide(side);
         setIsLoginOpen(true);
         return;
       }
 
       markChatEnterFromHome();
-      router.push("/vestlus");
+      suppressFlipRef.current = true;
+      setChatOpenDeferred(true);
+      syncHomeChatUrl(true, { roomId: null, profile: null });
+      setHomeChatSide(side);
+      if (exitTimerRef.current) window.clearTimeout(exitTimerRef.current);
+
+      const vars = computeExitVars(side);
+      if (!vars || exitDurationMs === 0) {
+        setHomeChatOpen(true);
+        setChatOpenDeferred(false);
+        return;
+      }
+      setExitState({
+        side,
+        vars,
+      });
+      exitTimerRef.current = window.setTimeout(() => {
+        setExitState(null);
+        setHomeChatOpen(true);
+        setChatOpenDeferred(false);
+      }, exitDurationMs);
     },
-    [isAuthed, isLoginOpen, markChatEnterFromHome, router, status]
+    [computeExitVars, exitDurationMs, isAuthed, isExiting, isLoginOpen, markChatEnterFromHome, status, syncHomeChatUrl]
   );
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
@@ -157,6 +258,21 @@ export default function HomePage() {
     if (!isLoginOpen) return;
     setMobileFlipReady({ left: false, right: false });
   }, [isLoginOpen]);
+  useEffect(() => {
+    if (status === "loading") return;
+    if (urlMode === "chat") {
+      if (isAuthed) {
+        if (!homeChatOpen && !isExiting && !chatOpenDeferred) setHomeChatOpen(true);
+      } else {
+        setHomeChatOpen(false);
+      }
+      return;
+    }
+    if (homeChatOpen) setHomeChatOpen(false);
+    if (exitState) setExitState(null);
+    setHomeChatSide(null);
+    setChatOpenDeferred(false);
+  }, [chatOpenDeferred, exitState, homeChatOpen, isAuthed, isExiting, status, urlMode]);
 
   useEffect(() => {
     if (!pendingExitSide || status !== "authenticated" || !session) return;
@@ -165,15 +281,24 @@ export default function HomePage() {
     setPendingExitSide(null);
     window.setTimeout(() => startExitToChat(side), 0);
   }, [isLoginOpen, pendingExitSide, session, startExitToChat, status]);
+  useEffect(() => {
+    return () => {
+      if (exitTimerRef.current) window.clearTimeout(exitTimerRef.current);
+    };
+  }, []);
+  useEffect(() => {
+    if (!isExiting) suppressFlipRef.current = false;
+  }, [isExiting]);
 
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
   const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
-  const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
+  const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen && !isExiting && !homeChatOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
 
   const onLeftEnter = () => {
+    if (isExiting || suppressFlipRef.current) return;
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToBack");
@@ -181,6 +306,7 @@ export default function HomePage() {
     }
   };
   const onLeftLeave = () => {
+    if (isExiting || suppressFlipRef.current) return;
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToFront");
@@ -188,6 +314,7 @@ export default function HomePage() {
     }
   };
   const onRightEnter = () => {
+    if (isExiting || suppressFlipRef.current) return;
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToBack");
@@ -195,6 +322,7 @@ export default function HomePage() {
     }
   };
   const onRightLeave = () => {
+    if (isExiting || suppressFlipRef.current) return;
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToFront");
@@ -252,12 +380,12 @@ export default function HomePage() {
   }, []);
   const handleBackgroundTap = useCallback(
     (event) => {
-      if (!isMobile) return;
+      if (!isMobile || isExiting || homeChatOpen) return;
       const target = event.target instanceof Element ? event.target : null;
       if (target?.closest?.(".three-d-card")) return;
       resetMobileCards();
     },
-    [isMobile, resetMobileCards]
+    [homeChatOpen, isExiting, isMobile, resetMobileCards]
   );
 
   const handleScrollCueClick = useCallback(
@@ -279,22 +407,63 @@ export default function HomePage() {
     if (e?.propertyName !== "transform") return;
     setRightPhase((p) => (p === "flippingToBack" ? "back" : p === "flippingToFront" ? "front" : p));
   };
+  const handleHomeChatClose = useCallback(() => {
+    const backSide = homeChatSide || lastClickSideRef.current;
+    syncHomeChatUrl(false);
+    setHomeChatOpen(false);
+    if (backSide) {
+      const vars = computeExitVars(backSide);
+      setChatOpenDeferred(true);
+      setExitState({ side: backSide, vars, reverse: true });
+      window.setTimeout(() => {
+        setExitState(null);
+        setChatOpenDeferred(false);
+      }, exitDurationMs);
+    } else {
+      setExitState(null);
+      setChatOpenDeferred(false);
+    }
+    suppressFlipRef.current = false;
+  }, [computeExitVars, exitDurationMs, homeChatSide, syncHomeChatUrl]);
+  const handleLoginSuccess = useCallback(() => {
+    const side = pendingExitSide || lastClickSideRef.current;
+    if (!side) return;
+    setPendingExitSide(null);
+    setIsLoginOpen(false);
+    window.setTimeout(() => startExitToChat(side, { force: true }), 0);
+  }, [pendingExitSide, startExitToChat]);
 
+  useEffect(() => {
+    document.body.classList.toggle("home-chat-open", homeChatOpen);
+    return () => document.body.classList.remove("home-chat-open");
+  }, [homeChatOpen]);
   return (
     <>
-      <div className="homepage-root homepage-scroll">
+      <div className={`homepage-root homepage-scroll${isExiting ? " home-exit" : ""}${exitState?.reverse ? " home-exit-reverse" : ""}${homeChatOpen ? " home-chat-open" : ""}`}>
         {/* HERO (ainult kaardid + taust) */}
         <section className="home-hero" onClick={handleBackgroundTap}>
           <div className="main-content relative">
             {/* LEFT CARD */}
             <div className="side left">
               <div
+                ref={leftCardWrapRef}
                 className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
                   mobileFlipReady.left ? "mobile-flipped-left" : ""
-                }`}
+                }${exitSide === "left" ? " home-exit-target" : ""}`}
                 onMouseEnter={onLeftEnter}
                 onMouseLeave={onLeftLeave}
                 onClick={handleCardTap("left")}
+                style={
+                  isExiting && exitSide === "left"
+                    ? {
+                        "--home-exit-x": exitVars?.x,
+                        "--home-exit-y": exitVars?.y,
+                        "--home-exit-scale": exitVars?.scale,
+                        "--home-exit-z": exitVars?.z,
+                        "--home-exit-dur": `${exitDurationMs}ms`,
+                      }
+                    : undefined
+                }
               >
                 <Magnet
                   padding={80}
@@ -351,12 +520,24 @@ export default function HomePage() {
             {/* RIGHT CARD */}
             <div className="side right">
               <div
+                ref={rightCardWrapRef}
                 className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
                   mobileFlipReady.right ? "mobile-flipped-right" : ""
-                }`}
+                }${exitSide === "right" ? " home-exit-target" : ""}`}
                 onMouseEnter={onRightEnter}
                 onMouseLeave={onRightLeave}
                 onClick={handleCardTap("right")}
+                style={
+                  isExiting && exitSide === "right"
+                    ? {
+                        "--home-exit-x": exitVars?.x,
+                        "--home-exit-y": exitVars?.y,
+                        "--home-exit-scale": exitVars?.scale,
+                        "--home-exit-z": exitVars?.z,
+                        "--home-exit-dur": `${exitDurationMs}ms`,
+                      }
+                    : undefined
+                }
               >
                 <Magnet
                   padding={80}
@@ -410,6 +591,23 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          <div className="home-chat-overlay" aria-hidden="true">
+            <div ref={chatProbeRef} className="home-chat-probe">
+              <div className="chat-page-shell">
+                <div className="glass-box chat-container chat-container--round" />
+              </div>
+            </div>
+          </div>
+
+          {homeChatOpen ? (
+            <div className="home-chat-slot" data-side={homeChatSide || undefined}>
+              <ConversationDrawer>
+                <ChatSidebar />
+              </ConversationDrawer>
+              <ChatBody roomId={urlRoomId} onBackHome={handleHomeChatClose} embedded />
+            </div>
+          ) : null}
 
           <div className={`home-scroll-cue${showScrollCue ? " is-visible" : ""}`} aria-hidden={!showScrollCue}>
             <a className="home-scroll-cue-link" href="#meist" onClick={handleScrollCueClick}>
@@ -488,7 +686,12 @@ export default function HomePage() {
         </footer>
       </div>
 
-      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect />
+      <LoginModal
+        open={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
+        suppressRedirect
+        onAuthSuccess={handleLoginSuccess}
+      />
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
+import Button from "@/components/ui/Button";
 
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
@@ -200,9 +201,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
               </p>
               {previewText ? (
                 <div className="chat-analysis-actions chat-analysis-actions--inline chat-analysis-actions--center">
-                  <button
+                  <Button
                     type="button"
-                    className="btn-base chat-analysis-jump chat-analysis-jump--ask"
+                    size="sm"
+                    variant="primary"
+                    className="chat-analysis-jump chat-analysis-jump--ask"
                     onClick={() => {
                       inputRef.current?.focus();
                       inputRef.current?.scrollIntoView({
@@ -214,7 +217,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     title={t("chat.upload.jump_to_chat", "Küsi")}
                   >
                     {t("chat.upload.jump_to_chat", "Küsi")}
-                  </button>
+                  </Button>
                   <button
                     type="button"
                     onClick={toggleAnalysisCollapse}
@@ -347,14 +350,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
             </>
           ) : (
             <div className="chat-analysis-empty">
-              <button
+              <Button
                 type="button"
-                className="btn-base"
+                size="sm"
+                variant="primary"
                 onClick={onPickFile}
                 disabled={uploadBusy || isGenerating}
               >
                 {t("chat.upload.aria")}
-              </button>
+              </Button>
               <p className="chat-analysis-meta chat-analysis-meta--spaced">
                 {uploadUsage?.limit
                   ? t("chat.upload.usage", "{used}/{limit} analƒ?tƒ¦?Ž©ƒ?tƒ¦?Ž©si tƒ?tƒ¦?Ž©na")

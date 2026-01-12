@@ -49,7 +49,7 @@ function SubmitArrowOverlayWhite({ filled = 0, max = 8, stroke = "#ffffffef" }) 
     </svg>
   );
 }
-export default function LoginModal({ open, onClose, suppressRedirect = false }) {
+export default function LoginModal({ open, onClose, suppressRedirect = false, onAuthSuccess }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status, data: session } = useSession();
@@ -395,6 +395,9 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
         return false;
       }
       markPinSuccess();
+      if (typeof onAuthSuccess === "function") {
+        onAuthSuccess();
+      }
       onClose?.();
       if (!suppressRedirect) {
         router.replace(nextUrl);
@@ -402,7 +405,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       }
       return true;
     },
-    [markPinError, markPinSuccess, nextUrl, onClose, router, suppressRedirect, t]
+    [markPinError, markPinSuccess, nextUrl, onAuthSuccess, onClose, router, suppressRedirect, t]
   );
 
   const submitPinStep = useCallback(async () => {
