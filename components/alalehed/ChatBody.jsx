@@ -106,6 +106,11 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     inputBarRef: inputBarRef,
     enabled: !isLightTheme,
   });
+  useEffect(() => {
+    if (!embedded || typeof document === "undefined") return;
+    document.body.classList.toggle("home-profile-open", profileOpen);
+    return () => document.body.classList.remove("home-profile-open");
+  }, [embedded, profileOpen]);
 
 
 
@@ -517,6 +522,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     `roll-${rollDirection}`,
     profileOpen ? "is-profile" : "",
     isRolling ? "is-rolling" : "",
+    inputFocused && !profileOpen ? "is-input-focus" : "",
   ]
     .filter(Boolean)
     .join(" ");

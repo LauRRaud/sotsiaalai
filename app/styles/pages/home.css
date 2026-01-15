@@ -12,7 +12,6 @@
   --home-card-saturate: 118%;
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
-  --home-exit-sphere-scale: 1.065;
 }
 :root.theme-light .homepage-root{
   --home-prose-color: var(--text-strong, #1f2937);
@@ -180,7 +179,6 @@
   transform-origin: 50% 50%;
   transform: scale(1);
   will-change: opacity, transform;
-  transition: transform var(--home-exit-morph-delay, 0ms) cubic-bezier(.22,.61,.36,1);
 }
 
 .homepage-root .glass-card-dark::before,
@@ -197,7 +195,6 @@
   transform-origin: 50% 50%;
   transform: scale(1);
   will-change: opacity, transform;
-  transition: transform var(--home-exit-morph-delay, 0ms) cubic-bezier(.22,.61,.36,1);
 }
 
 /* Slightly larger logo on the right (dark) front card only */
@@ -668,6 +665,14 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   opacity: 0;
   pointer-events: none;
 }
+body.home-chat-open .home-scroll-cue,
+body.home-profile-open .home-scroll-cue,
+.homepage-root.home-chat-open .home-scroll-cue{
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  display: none !important;
+}
 .homepage-root.home-chat-open .home-section.home-about,
 .homepage-root.home-chat-open .home-section.home-links{
   display: none;
@@ -675,8 +680,8 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 .homepage-root.home-chat-open .home-footer-email{
   display: none;
 }
-.homepage-root.home-exit .home-footer-email{
-  display: none;
+body.home-chat-open .home-footer-email{
+  display: none !important;
 }
 .homepage-root.home-chat-open .home-footer-logo{
   opacity: 0.35;
@@ -684,6 +689,20 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 .homepage-root.home-chat-open .three-d-card{
   opacity: 0;
   pointer-events: none;
+}
+.homepage-root.home-chat-open .three-d-card,
+.homepage-root.home-chat-open .card-wrapper{
+  transform: none !important;
+  transition: none !important;
+}
+.homepage-root.home-chat-open .side{
+  display: none;
+}
+.homepage-root.home-chat-open .home-chat-slot{
+  position: fixed;
+  inset: 0;
+  transform: none !important;
+  transition: none !important;
 }
 .home-chat-slot{
   position: absolute;
@@ -696,88 +715,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   width: 100%;
 }
 
-/* Home -> chat morph probe (hidden) */
-.home-chat-overlay{
-  position: fixed;
-  inset: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: -1;
-}
-.home-chat-probe{
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-.home-chat-probe .chat-page-shell{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  min-height: 100dvh;
-}
-
-/* Home -> chat morph */
-.homepage-root.home-exit .float-card{
-  animation-play-state: paused;
-}
-.homepage-root.home-exit .three-d-card{
-  transition: transform var(--home-exit-dur, 1100ms) cubic-bezier(.22,.61,.36,1),
-    opacity 360ms ease;
-  will-change: transform, opacity;
-}
-.homepage-root.home-exit .three-d-card.home-exit-target{
-  transform: translate3d(var(--home-exit-x, 0px), var(--home-exit-y, 0px), var(--home-exit-z, 0px))
-    scale(var(--home-exit-scale, 1)) !important;
-  z-index: 60;
-}
-.homepage-root.home-exit .three-d-card:not(.home-exit-target){
-  opacity: 0;
-  transform: scale(0.82);
-}
-.homepage-root.home-exit .three-d-card.left:not(.home-exit-target){
-  transform: translate3d(-18vw, -6vh, -120px) scale(0.55);
-  filter: blur(10px);
-}
-.homepage-root.home-exit .three-d-card.right:not(.home-exit-target){
-  transform: translate3d(18vw, -6vh, -120px) scale(0.55);
-  filter: blur(10px);
-}
-.homepage-root.home-exit-reverse .three-d-card{
-  opacity: 1;
-}
-.homepage-root.home-exit-reverse .three-d-card.home-exit-target{
-  animation: homeExitReverse var(--home-exit-dur, 1100ms) cubic-bezier(.22,.61,.36,1) forwards;
-  z-index: 60;
-}
-.homepage-root.home-exit-reverse .three-d-card.left:not(.home-exit-target),
-.homepage-root.home-exit-reverse .three-d-card.right:not(.home-exit-target){
-  animation: homeExitReverseOthers var(--home-exit-dur, 1100ms) cubic-bezier(.22,.61,.36,1) forwards;
-}
-@keyframes homeExitReverse{
-  from {
-    transform: translate3d(var(--home-exit-x, 0px), var(--home-exit-y, 0px), var(--home-exit-z, 0px))
-      scale(var(--home-exit-scale, 1));
-  }
-  to {
-    transform: none;
-  }
-}
-@keyframes homeExitReverseOthers{
-  from {
-    opacity: 0;
-    transform: translate3d(0, 0, -120px) scale(0.55);
-    filter: blur(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
 
 /* Last resort: if some component injects a top border, neutralize it on homepage */
 .homepage-root.homepage-scroll *:not(.link-brand):not(.link-brand-inline):not(.home-link):not(.meist-external-link){

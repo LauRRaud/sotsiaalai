@@ -28,17 +28,25 @@ const ChatMessageItem = memo(function ChatMessageItem({
     : isOwn
     ? t("chat.aria.user", "Sina")
     : authorName || t("chat.aria.user", "Liige");
+  const memberClass = role === "member" ? "chat-msg-user--member" : "";
+
+  if (!isAssistant && !isOwn) {
+    return (
+      <div className="chat-msg-wrap chat-msg-wrap--member" role="article" tabIndex={0}>
+        {authorName ? <div className="chat-msg-name">{authorName}</div> : null}
+        <div className={`chat-msg ${variant} ${audienceClass} ${memberClass}`}>
+          <span className="sr-only">
+            {authorLabel}
+            {": "}
+          </span>
+          <div className="whitespace-pre-wrap">{text}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className={`chat-msg ${variant} ${audienceClass}`} role="article" tabIndex={0}>
-      {!isAssistant && !isOwn && authorName ? (
-        <div className="chat-msg-meta">
-          <span className="chat-msg-tag chat-msg-tag--human">
-            {authorName || "Liige"}
-          </span>
-        </div>
-      ) : null}
-
+    <div className={`chat-msg ${variant} ${audienceClass} ${memberClass}`} role="article" tabIndex={0}>
       <span className="sr-only">
         {authorLabel}
         {": "}
