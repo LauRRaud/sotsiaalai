@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Button from "@/components/ui/Button";
+import CardTitle from "@/components/ui/CardTitle";
 
 const EVENT_OPTIONS = [
   { value: "chat_request", label: "Vestluspäring" },
@@ -170,9 +172,14 @@ export default function AnalyticsDashboard() {
             <h1 className="glass-title analytics-title">Analüütika</h1>
           </div>
           <div className="rag-card-actions">
-            <button className="btn-base rag-btn" onClick={refresh} disabled={loadingSummary || loadingEvents}>
+            <Button
+              variant="primary"
+              className="rag-btn"
+              onClick={refresh}
+              disabled={loadingSummary || loadingEvents}
+            >
               {loadingSummary || loadingEvents ? "Laen..." : "Värskenda"}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -180,31 +187,31 @@ export default function AnalyticsDashboard() {
 
       <div className="analytics-kpi-grid">
         <div className="card analytics-card">
-          <div className="card-title">Päringud (30p)</div>
+          <CardTitle>Päringud (30p)</CardTitle>
           <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.totalRequests ?? 0)}</div>
           <div className="analytics-meta">Kokku vestluspäringuid</div>
         </div>
         <div className="card analytics-card">
-          <div className="card-title">RAG otsingud</div>
+          <CardTitle>RAG otsingud</CardTitle>
           <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragSearchCount ?? 0)}</div>
           <div className="analytics-meta">
             {requestSplit ? `Osakaal ${requestSplit.rag}%` : "Osakaal puudub"}
           </div>
         </div>
         <div className="card analytics-card">
-          <div className="card-title">Ilma kontekstita</div>
+          <CardTitle>Ilma kontekstita</CardTitle>
           <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.noContextCount ?? 0)}</div>
           <div className="analytics-meta">
             {requestSplit ? `Osakaal ${requestSplit.noContext}%` : "Osakaal puudub"}
           </div>
         </div>
         <div className="card analytics-card">
-          <div className="card-title">Kriis</div>
+          <CardTitle>Kriis</CardTitle>
           <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.totalCrisis ?? 0)}</div>
           <div className="analytics-meta">Kriisitugevus tuvastatud</div>
         </div>
         <div className="card analytics-card">
-          <div className="card-title">Keskmised (RAG)</div>
+          <CardTitle>Keskmised (RAG)</CardTitle>
           <div className="analytics-meta">
             {loadingSummary
               ? "Laen..."
@@ -212,7 +219,7 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
         <div className="card analytics-card">
-          <div className="card-title">Grounding</div>
+          <CardTitle>Grounding</CardTitle>
           {groundingSummary ? (
             <>
               <div className="analytics-bar">
@@ -233,25 +240,25 @@ export default function AnalyticsDashboard() {
       <div className="card">
         <div className="rag-card-head">
           <div>
-            <div className="card-title">RAG dokumendibaas</div>
+            <CardTitle>RAG dokumendibaas</CardTitle>
             <div className="rag-card-sub">Ülevaade indekseerimisest ja värsketest lisandustest.</div>
           </div>
         </div>
         <div className="analytics-kpi-grid mt-3">
           <div className="card analytics-card">
-            <div className="card-title">Dokumente kokku</div>
+            <CardTitle>Dokumente kokku</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.total ?? 0)}</div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Ebaõnnestunud</div>
+            <CardTitle>Ebaõnnestunud</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.failed ?? 0)}</div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Veaga (30p)</div>
+            <CardTitle>Veaga (30p)</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.error30d ?? 0)}</div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Staatused</div>
+            <CardTitle>Staatused</CardTitle>
             <div className="analytics-meta">
               {loadingSummary
                 ? "Laen..."
@@ -259,7 +266,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Sihtrühm</div>
+            <CardTitle>Sihtrühm</CardTitle>
             <div className="analytics-meta">
               {loadingSummary
                 ? "Laen..."
@@ -267,7 +274,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Tüüp</div>
+            <CardTitle>Tüüp</CardTitle>
             <div className="analytics-meta">
               {loadingSummary ? "Laen..." : joinCounts(summary?.ragDocs?.byType, ["FILE", "URL"]) || "-"}
             </div>
@@ -318,25 +325,25 @@ export default function AnalyticsDashboard() {
       <div className="card">
         <div className="rag-card-head">
           <div>
-            <div className="card-title">Tellimused ja maksed</div>
+            <CardTitle>Tellimused ja maksed</CardTitle>
             <div className="rag-card-sub">Maksevood ja tellimuste aktiivsus viimase 30 päeva lõikes.</div>
           </div>
         </div>
         <div className="analytics-kpi-grid mt-3">
           <div className="card analytics-card">
-            <div className="card-title">Aktiivsed tellimused</div>
+            <CardTitle>Aktiivsed tellimused</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.activeSubscriptions ?? 0)}</div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Uued tellimused (30p)</div>
+            <CardTitle>Uued tellimused (30p)</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.newSubscriptions30d ?? 0)}</div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Tühistamised (30p)</div>
+            <CardTitle>Tühistamised (30p)</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatCount(summary?.billing?.canceledSubscriptions30d ?? 0)}</div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Makse staatused (30p)</div>
+            <CardTitle>Makse staatused (30p)</CardTitle>
             <div className="analytics-meta">
               {loadingSummary
                 ? "Laen..."
@@ -344,7 +351,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           <div className="card analytics-card">
-            <div className="card-title">Laekunud (PAID 30p)</div>
+            <CardTitle>Laekunud (PAID 30p)</CardTitle>
             <div className="analytics-value">{loadingSummary ? "Laen..." : formatMoney(summary?.billing?.paidAmount30d ?? "0", "EUR")}</div>
           </div>
         </div>
@@ -388,7 +395,7 @@ export default function AnalyticsDashboard() {
       <div className="card">
         <div className="rag-card-head">
           <div>
-            <div className="card-title">Logid</div>
+            <CardTitle>Logid</CardTitle>
             <div className="rag-card-sub">Viimased 100 sündmust koos filtritega.</div>
           </div>
         </div>

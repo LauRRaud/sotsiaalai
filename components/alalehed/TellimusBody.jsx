@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Button from "@/components/ui/Button";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import InvitePageShell from "@/components/ui/InvitePageShell";
@@ -105,12 +106,10 @@ export default function TellimusBody() {
               <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
             </p>
             <div className="mt-[0.65rem] flex justify-center">
-              <Link
-                href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)}
-                className="btn-base min-w-[9.5rem]"
-                aria-describedby="cancel-note"
-              >
-                {t("subscription.button.open_profile")}
+              <Link href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)}>
+                <Button as="a" variant="primary" className="min-w-[9.5rem]" aria-describedby="cancel-note">
+                  {t("subscription.button.open_profile")}
+                </Button>
               </Link>
             </div>
           </>
@@ -130,9 +129,10 @@ export default function TellimusBody() {
               </p>
             )}
             <div className="mt-[0.65rem] flex justify-center">
-              <button
+              <Button
                 type="button"
-                className="btn-base min-w-[9.5rem]"
+                variant="primary"
+                className="min-w-[9.5rem]"
                 disabled={processing}
                 aria-disabled={processing}
                 aria-busy={processing}
@@ -140,7 +140,7 @@ export default function TellimusBody() {
                 onClick={handleActivate}
               >
                 {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
-              </button>
+              </Button>
             </div>
           </>
         )}

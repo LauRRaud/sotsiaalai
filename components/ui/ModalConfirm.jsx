@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import Button from "@/components/ui/Button";
 export default function ModalConfirm({
   message,
   confirmLabel = "Jah",
@@ -31,23 +32,25 @@ export default function ModalConfirm({
       <div className="modal-confirm" role="dialog" aria-modal="true">
         <p className="modal-confirm-text">{message}</p>
         <div className="btn-row">
-          <button
+          <Button
             type="button"
-            className="btn-base btn-modal-primary"
+            variant="primary"
+            className="btn-modal-primary"
             onClick={onConfirm}
             disabled={disabled}
           >
             <span>{confirmLabel}</span>
-          </button>
+          </Button>
           {cancelLabel ? (
-            <button
+            <Button
               type="button"
-              className="btn-base btn-modal-secondary"
+              variant="primary"
+              className="btn-modal-secondary"
               onClick={onCancel}
               disabled={disabled}
             >
               <span>{cancelLabel}</span>
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>

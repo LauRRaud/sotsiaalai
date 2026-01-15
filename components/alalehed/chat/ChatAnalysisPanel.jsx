@@ -218,15 +218,17 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   >
                     {t("chat.upload.jump_to_chat", "Küsi")}
                   </Button>
-                  <button
+                  <Button
                     type="button"
+                    size="sm"
+                    variant="primary"
+                    className="chat-analysis-jump"
                     onClick={toggleAnalysisCollapse}
-                    className="btn-base chat-analysis-jump"
                   >
                     {analysisCollapsed
                       ? t("chat.upload.summary_show", "Näita")
                       : t("chat.upload.summary_hide", "Peida")}
-                  </button>
+                  </Button>
                 </div>
               ) : null}
 

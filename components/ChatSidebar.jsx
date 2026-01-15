@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import Button from "@/components/ui/Button";
 /* ---------- Utils ---------- */
 function uuid() {
   const rnd =
@@ -429,68 +430,73 @@ export default function ChatSidebar() {
     >
       {/* Alariba: Uus vestlus + Refresh */}
         <div className="cs-actions">
-          <button
-          className="btn-base cs-btn cs-btn--primary"
-          onClick={onNew}
-          disabled={busy || creating}
-          aria-busy={creating ? "true" : "false"}
+          <Button
+            variant="primary"
+            className="cs-btn cs-btn--primary"
+            onClick={onNew}
+            disabled={busy || creating}
+            aria-busy={creating ? "true" : "false"}
           >
             {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
-          </button>
-          <button
-            className="btn-base cs-btn"
+          </Button>
+          <Button
+            variant="primary"
+            className="cs-btn"
             onClick={toggleSelectMode}
             disabled={isActionBusy}
           >
             {selectMode
               ? t("chat.sidebar.selection.cancel", "Tühista")
               : t("chat.sidebar.selection.select", "Vali")}
-          </button>
-          <button
-          className="btn-base cs-refresh"
-          onClick={refreshAll}
-          disabled={isLoading || creating}
-          aria-label={t("chat.sidebar.button.refresh")}
-          title={t("chat.sidebar.button.refresh")}
-        >
-          <svg
-            className="cs-refresh-icon"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
+          </Button>
+          <Button
+            variant="primary"
+            className="cs-refresh"
+            onClick={refreshAll}
+            disabled={isLoading || creating}
+            aria-label={t("chat.sidebar.button.refresh")}
+            title={t("chat.sidebar.button.refresh")}
           >
-            <polyline points="23 4 23 10 17 10" />
-            <polyline points="1 20 1 14 7 14" />
-            <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15" />
-          </svg>
-        </button>
-      </div>
+            <svg
+              className="cs-refresh-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+          </Button>
+        </div>
       <div className="cs-actions-secondary">
         {selectMode ? (
           <>
             <span className="cs-selection-count">
               {t("chat.sidebar.selection.count", "Valitud")}: {selectedCount}
             </span>
-            <button
-              className="btn-base cs-btn cs-btn--danger"
-              onClick={handleDeleteSelected}
-              disabled={!selectedCount || isActionBusy}
-            >
-              {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
-            </button>
-            <button
-              className="btn-base cs-btn cs-btn--ghost"
-              onClick={handleDeleteAll}
-              disabled={isActionBusy}
-            >
-              {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
-            </button>
+              <Button
+                variant="danger"
+                className="cs-btn cs-btn--danger"
+                onClick={handleDeleteSelected}
+                disabled={!selectedCount || isActionBusy}
+              >
+                {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
+              </Button>
+              <Button
+                variant="ghost"
+                className="cs-btn cs-btn--ghost"
+                onClick={handleDeleteAll}
+                disabled={isActionBusy}
+              >
+                {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
+              </Button>
           </>
         ) : null}
       </div>
@@ -513,14 +519,15 @@ export default function ChatSidebar() {
         {!isLoading && sorted.length === 0 ? (
            <li className="cs-empty">
              {t("chat.sidebar.empty")}
-             <button
-              className="btn-base cs-btn cs-btn--primary"
-              onClick={onNew}
-              disabled={creating}
-              style={{ marginLeft: 8 }}
-             >
-               {t("chat.sidebar.empty_cta")}
-             </button>
+               <Button
+                variant="primary"
+                className="cs-btn cs-btn--primary"
+                onClick={onNew}
+                disabled={creating}
+                style={{ marginLeft: 8 }}
+               >
+                 {t("chat.sidebar.empty_cta")}
+               </Button>
            </li>
         ) : (
           sorted.map((c) => {

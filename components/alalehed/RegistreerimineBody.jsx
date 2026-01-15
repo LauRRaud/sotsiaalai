@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import Button from "@/components/ui/Button";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
@@ -333,9 +334,14 @@ export default function RegistreerimineBody({ openLoginModal = null }) {
                 {successMessage}
               </div>
             )}
-            <button className="btn-base register-submit" type="submit" disabled={submitting}>
+            <Button
+              type="submit"
+              variant="primary"
+              className="register-submit"
+              disabled={submitting}
+            >
               <span>{submitting ? t("auth.register.submitting") : t("auth.register.submit")}</span>
-            </button>
+            </Button>
           </section>
 
           <section className={`register-step csp-step ${getItemClassName(6)}`}>

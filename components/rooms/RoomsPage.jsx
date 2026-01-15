@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { pushWithTransition } from "@/lib/routeTransition";
+import Button from "@/components/ui/Button";
 import InviteModal from "@/components/invite/InviteModal";
 
 export default function RoomsPage() {
@@ -325,26 +326,27 @@ export default function RoomsPage() {
                 confirmRoom.title || t("rooms.fallback_title", "Ruum")
               )}
             </p>
-            <div className="btn-row">
-              <button
-                type="button"
-                className="btn-base"
-                onClick={closeDeleteConfirm}
-                disabled={deletingId === confirmRoom.id}
-              >
-                {t("rooms.cancel", "Tuhista")}
-              </button>
-              <button
-                type="button"
-                className="btn-base btn-modal-primary"
-                onClick={() => confirmDelete(confirmRoom)}
-                disabled={deletingId === confirmRoom.id}
-              >
-                {deletingId === confirmRoom.id
-                  ? t("rooms.delete_busy", "Kustutan...")
-                  : t("rooms.delete", "Kustuta")}
-              </button>
-            </div>
+              <div className="btn-row">
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={closeDeleteConfirm}
+                  disabled={deletingId === confirmRoom.id}
+                >
+                  {t("rooms.cancel", "Tuhista")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="primary"
+                  className="btn-modal-primary"
+                  onClick={() => confirmDelete(confirmRoom)}
+                  disabled={deletingId === confirmRoom.id}
+                >
+                  {deletingId === confirmRoom.id
+                    ? t("rooms.delete_busy", "Kustutan...")
+                    : t("rooms.delete", "Kustuta")}
+                </Button>
+              </div>
           </div>
         </div>
       ) : null}

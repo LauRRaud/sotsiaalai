@@ -655,7 +655,10 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
       setError(t("auth.login.error.generic"));
       return;
     }
-    if (!/^\d{6}$/.test(otpValue)) {
+    const rawOtp = String(otpInputRef.current?.value || otpValue || "");
+    const cleanedOtp = rawOtp.replace(/\D/g, "").slice(0, 6);
+    if (cleanedOtp !== otpValue) setOtpValue(cleanedOtp);
+    if (!/^\d{6}$/.test(cleanedOtp)) {
       setError(t("auth.login.otp_invalid"));
       return;
     }
@@ -668,7 +671,7 @@ const keypadKeysNumpad = useMemo(() => ["7","8","9","4","5","6","1","2","3","hel
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           temp_login_token: tempToken,
-          otp_code: otpValue,
+          otp_code: cleanedOtp,
           remember_device: rememberDevice,
         }),
       });
@@ -1182,9 +1185,9 @@ const digitLabel = t("auth.login.key", { digit: isZeroKey ? 0 : key });
                 aria-label={t("auth.login.otp_placeholder")}
                 aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined}
                 maxLength={6}
-                pattern="\\d{6}"
                 value={otpValue}
                 onChange={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
+                onInput={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
                 placeholder={t("auth.login.otp_placeholder")}
               />
             </div>

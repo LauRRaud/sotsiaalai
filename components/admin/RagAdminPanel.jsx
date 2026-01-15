@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Button from "@/components/ui/Button";
+import CardTitle from "@/components/ui/CardTitle";
 
 // NB: Stiiliklassid on globals.css failis, et komponent jääks lühem.
 
@@ -904,7 +906,7 @@ export default function RagAdminPanel() {
 
       {Array.isArray(selftestSteps) && selftestSteps.length ? (
         <div className="card">
-          <div className="card-title">Isetesti tulemused</div>
+          <CardTitle>Isetesti tulemused</CardTitle>
           <ul className="list">
             {selftestSteps.map((s, i) => (
               <li key={i} className={s.ok ? "text-ok" : "text-error"}>
@@ -918,16 +920,21 @@ export default function RagAdminPanel() {
       <div className="card">
         <div className="rag-card-head">
           <div>
-            <div className="card-title">Ingest: URL või PDF + meta</div>
+            <CardTitle>Ingest: URL või PDF + meta</CardTitle>
             <div className="rag-card-sub">Lisa allikaid ja kontrolli, et meta JSON oleks ühtne.</div>
           </div>
           <div className="rag-card-actions">
-            <button className="btn-base rag-btn" onClick={handleSelftest} disabled={selftestBusy}>
+            <Button variant="primary" className="rag-btn" onClick={handleSelftest} disabled={selftestBusy}>
               {selftestBusy ? "Kontrollin..." : "Tee isetest"}
-            </button>
-            <button className="btn-base rag-btn rag-btn--primary" onClick={fetchDocuments} disabled={loadingList}>
+            </Button>
+            <Button
+              variant="primary"
+              className="rag-btn rag-btn--primary"
+              onClick={fetchDocuments}
+              disabled={loadingList}
+            >
               {loadingList ? "Laen..." : "Värskenda"}
-            </button>
+            </Button>
           </div>
         </div>
         <div className="ingest-grid">
@@ -954,9 +961,9 @@ export default function RagAdminPanel() {
                 </option>
               ))}
             </select>
-            <button type="submit" className="btn-base rag-btn rag-btn--primary" disabled={urlBusy}>
-              {urlBusy ? "Saadan..." : "Saada URL"}
-            </button>
+              <Button type="submit" variant="primary" className="rag-btn rag-btn--primary" disabled={urlBusy}>
+                {urlBusy ? "Saadan..." : "Saada URL"}
+              </Button>
           </form>
 
           <form
@@ -977,21 +984,22 @@ export default function RagAdminPanel() {
               ))}
             </select>
             <div className="flex flex-wrap items-center gap-2">
-              <button
+              <Button
                 type="button"
-                className="btn-base rag-btn rag-btn--ghost"
+                variant="ghost"
+                className="rag-btn rag-btn--ghost"
                 onClick={() => setShowMetaGuide((s) => !s)}
                 aria-expanded={showMetaGuide}
                 aria-controls="rag-meta-panel"
               >
                 {showMetaGuide ? "Peida meta mallid" : "Ava meta mallid"}
-              </button>
-              <button type="button" className="btn-base rag-btn rag-btn--ghost" onClick={handleMetaCheck}>
+              </Button>
+              <Button type="button" variant="ghost" className="rag-btn rag-btn--ghost" onClick={handleMetaCheck}>
                 Kontrolli meta JSON
-              </button>
-              <button type="submit" className="btn-base rag-btn rag-btn--primary" disabled={pdfMetaBusy}>
+              </Button>
+              <Button type="submit" variant="primary" className="rag-btn rag-btn--primary" disabled={pdfMetaBusy}>
                 {pdfMetaBusy ? "Saadan..." : "Saada PDF meta-ga"}
-              </button>
+              </Button>
             </div>
             {metaCheck ? (
               <div className={"rag-meta-check rag-meta-check--" + metaCheck.type}>{metaCheck.text}</div>
@@ -1012,15 +1020,17 @@ export default function RagAdminPanel() {
                 Kasuta docId, mis tuli PDF ingestist. JSON peab sisaldama artiklite massiivi.
               </div>
             </div>
-            <a
-              className="btn-base rag-btn rag-btn--ghost"
+            <Button
+              as="a"
+              variant="ghost"
+              className="rag-btn rag-btn--ghost"
               href="/rag-meta-templates/articles.json"
               target="_blank"
               rel="noopener noreferrer"
               download
             >
               Ava artiklite mall
-            </a>
+            </Button>
           </div>
           <form className="rag-articles__form" onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
             <input
@@ -1039,11 +1049,11 @@ export default function RagAdminPanel() {
               rows={5}
               className="input"
             />
-            <div className="rag-articles__actions">
-              <button type="submit" className="btn-base rag-btn rag-btn--primary" disabled={articlesBusy}>
-                {articlesBusy ? "Saadan..." : "Saada artiklid"}
-              </button>
-            </div>
+              <div className="rag-articles__actions">
+                <Button type="submit" variant="primary" className="rag-btn rag-btn--primary" disabled={articlesBusy}>
+                  {articlesBusy ? "Saadan..." : "Saada artiklid"}
+                </Button>
+              </div>
             {articlesResult ? (
               <div className="rag-articles__result">
                 {articlesResult.count != null ? `Lisatud ${articlesResult.count} lõiku.` : "Artiklid lisatud."}
@@ -1120,7 +1130,7 @@ export default function RagAdminPanel() {
       <div className="card">
         <div className="rag-card-head">
           <div>
-            <div className="card-title">Dokumentide loetelu</div>
+            <CardTitle>Dokumentide loetelu</CardTitle>
             <div className="rag-card-sub">
               Kokku {docMetrics.total} | Filtreeritud {docMetrics.filtered} | Ootel {docMetrics.pending} | Töös {docMetrics.processing} | Valmis{" "}
               {docMetrics.completed} | Veaga {docMetrics.failed}
@@ -1207,11 +1217,16 @@ export default function RagAdminPanel() {
             <option value="year">Aasta</option>
             <option value="issue">Väljaanne</option>
           </select>
-          {selectedIds.size ? (
-            <button className="btn-base rag-btn rag-btn--primary" onClick={handleBulkReindex} disabled={reindexingId !== null}>
-              Reindekseeri valitud ({selectedIds.size})
-            </button>
-          ) : null}
+            {selectedIds.size ? (
+              <Button
+                variant="primary"
+                className="rag-btn rag-btn--primary"
+                onClick={handleBulkReindex}
+                disabled={reindexingId !== null}
+              >
+                Reindekseeri valitud ({selectedIds.size})
+              </Button>
+            ) : null}
         </div>
 
                 <div className="rag-docs">
@@ -1363,30 +1378,37 @@ export default function RagAdminPanel() {
                         </div>
                       ) : null}
                       <div className="rag-doc-detail__actions">
-                        <button className="btn-base rag-btn rag-btn--ghost rag-btn--compact" onClick={() => openDetail(previewDoc)}>
+                        <Button
+                          variant="ghost"
+                          className="rag-btn rag-btn--ghost rag-btn--compact"
+                          onClick={() => openDetail(previewDoc)}
+                        >
                           Muuda
-                        </button>
-                        <button
-                          className="btn-base rag-btn rag-btn--ghost rag-btn--compact"
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="rag-btn rag-btn--ghost rag-btn--compact"
                           onClick={() => handleReindex(previewDoc.id)}
                           disabled={reindexingId === previewDoc.id}
                         >
                           {reindexingId === previewDoc.id ? "Reindekseerin..." : "Reindekseeri"}
-                        </button>
-                        <button
-                          className="btn-base rag-btn rag-btn--danger rag-btn--compact"
+                        </Button>
+                        <Button
+                          variant="danger"
+                          className="rag-btn rag-btn--danger rag-btn--compact"
                           onClick={() => handleDelete(previewDoc.id)}
                           disabled={deletingId === previewDoc.id}
                         >
                           {deletingId === previewDoc.id ? "Kustutan..." : "Kustuta"}
-                        </button>
-                        <button
-                          className="btn-base rag-btn rag-btn--ghost rag-btn--compact"
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="rag-btn rag-btn--ghost rag-btn--compact"
                           onClick={() => viewSource(previewDoc)}
                           disabled={!previewDoc.source_path && !previewDoc.url}
                         >
                           Vaata
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   );
@@ -1399,11 +1421,11 @@ export default function RagAdminPanel() {
         </div>
 
         {visibleCount < filteredDocs.length ? (
-          <div className="flex flex-wrap items-center gap-2">
-            <button className="btn-base rag-btn" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
-              Laadi veel {Math.min(PAGE_SIZE, filteredDocs.length - visibleCount)}
-            </button>
-          </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="primary" className="rag-btn" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
+                Laadi veel {Math.min(PAGE_SIZE, filteredDocs.length - visibleCount)}
+              </Button>
+            </div>
         ) : null}
       </div>
 
@@ -1412,12 +1434,12 @@ export default function RagAdminPanel() {
           <div className="modal-body">
             <div className="modal-head">
               <div>
-                <div className="card-title">Muuda meta</div>
+                <CardTitle>Muuda meta</CardTitle>
                 <div className="muted">{detailDoc.title || "(pealkiri)"}</div>
               </div>
-              <button className="btn-base rag-btn" onClick={closeDetail}>
+              <Button variant="primary" className="rag-btn" onClick={closeDetail}>
                 Sulge
-              </button>
+              </Button>
             </div>
             <div className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]">
               <input
@@ -1524,12 +1546,12 @@ export default function RagAdminPanel() {
                 <div className="input read-only">language: {detailDoc.language || "-"}</div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <button className="btn-base rag-btn rag-btn--primary" onClick={saveDetail}>
+                <Button variant="primary" className="rag-btn rag-btn--primary" onClick={saveDetail}>
                   Salvesta
-                </button>
-                <button className="btn-base rag-btn" onClick={closeDetail}>
+                </Button>
+                <Button variant="primary" className="rag-btn" onClick={closeDetail}>
                   Tühista
-                </button>
+                </Button>
               </div>
             </div>
           </div>

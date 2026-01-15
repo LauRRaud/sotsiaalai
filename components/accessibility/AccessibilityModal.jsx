@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import FancyRadio from "@/components/ui/FancyRadio";
+import Button from "@/components/ui/Button";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
 import CloseButton from "@/components/ui/CloseButton";
@@ -368,14 +369,15 @@ export default function AccessibilityModal({
           </fieldset>
 
           <div className={`a11y-actions a11y-snap csp-step ${getItemClassName(4)}`}>
-            <button
-              type="button"
-              className="btn-base btn-spacing-accessibility"
-              onClick={save}
-              aria-label={t("accessibility.save")}
-            >
-              {t("accessibility.save")}
-            </button>
+              <Button
+                type="button"
+                variant="primary"
+                className="btn-spacing-accessibility"
+                onClick={save}
+                aria-label={t("accessibility.save")}
+              >
+                {t("accessibility.save")}
+              </Button>
           </div>
         </div>
       </div>
