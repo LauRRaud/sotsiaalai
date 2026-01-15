@@ -13,6 +13,8 @@ export const revalidate = 0;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_INVITES = 10; // per user per minute
 const SPONSORED_MEMBER_LIMIT = 50; // simple soft cap per room
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -333,15 +335,17 @@ export async function POST(req) {
       Date.now() + Math.max(1, Number.isFinite(expiresHours) ? expiresHours : 168) * 3600 * 1000
     );
 
-    const sponsor = await resolveSponsor(room);
+    const sponsor = await resolveSponsor(room);
     if (paymentMode === "SPONSORED_BY_HOST") {
-      const sponsorOk = await checkHostSponsorship(sponsor.userId);
-      if (!sponsorOk) {
-        return json({ ok: false, message: "Sponsoreeritud kutseid ei saa luua: plaan puudub." }, 409);
+      if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
+        const sponsorOk = await checkHostSponsorship(sponsor.userId);
+        if (!sponsorOk) {
+          return json({ ok: false, message: "Sponsoreeritud kutseid ei saa luua: plaan puudub." }, 409);
+        }
       }
       const capacity = await hasSponsorCapacity(room.id);
       if (!capacity) {
-        return json({ ok: false, message: "Sponsoreeritud kohtade limiit on täis." }, 409);
+        return json({ ok: false, message: "Sponsoreeritud kohtade limiit on tais." }, 409);
       }
     }
 

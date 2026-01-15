@@ -147,6 +147,225 @@
   white-space: nowrap;
   background: none;
 }
+/* OTP modal redesign */
+.login-modal-root.login-modal--otp {
+  --otp-panel-bg: rgba(10,14,24,0.58);
+  --otp-panel-border: rgba(148,163,184,0.35);
+  --otp-panel-shadow: 0 12px 26px rgba(0,0,0,0.28);
+  --otp-input-bg: rgba(8,12,20,0.62);
+  --otp-input-border: rgba(160,180,205,0.40);
+  --otp-accent: rgba(225,160,160,0.92);
+}
+.login-modal-root.login-modal--otp .glass-title {
+  font-size: 2.05em;
+  letter-spacing: 0.02em;
+}
+.login-modal-root.login-modal--otp .otp-form {
+  gap: 0.9rem;
+}
+.login-modal-root.login-modal--otp .otp-panel {
+  width: 100%;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: 1.15rem;
+  border: 1px solid var(--otp-panel-border);
+  background:
+    linear-gradient(180deg, rgba(16,20,32,0.7), rgba(10,14,24,0.56)),
+    var(--otp-panel-bg);
+  box-shadow: var(--otp-panel-shadow);
+}
+.login-modal-root.login-modal--otp .otp-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--pt-150);
+}
+.login-modal-root.login-modal--otp .otp-summary__lead {
+  margin: 0;
+  font-weight: 600;
+  color: var(--pt-30, #f7f9ff);
+}
+.login-modal-root.login-modal--otp .otp-summary__body {
+  margin: 0;
+  line-height: 1.45;
+}
+.login-modal-root.login-modal--otp .otp-summary__meta {
+  margin-top: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--otp-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--otp-accent) 18%, transparent);
+  color: var(--pt-30, #f7f9ff);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.login-modal-root.login-modal--otp .otp-input-stack {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+.login-modal-root.login-modal--otp .otp-input {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.32em;
+  font-weight: 600;
+  font-size: 1.45rem;
+  padding: 0.82rem 1rem;
+  margin: 0;
+  border-radius: 1rem;
+  background: var(--otp-input-bg);
+  border: 1.5px solid var(--otp-input-border);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 10px 20px rgba(0,0,0,0.24);
+}
+.login-modal-root.login-modal--otp .otp-input::placeholder {
+  letter-spacing: 0.24em;
+}
+.login-modal-root.login-modal--otp .otp-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(148,163,184,0.32);
+  background: rgba(10,14,24,0.4);
+  color: var(--pt-150);
+  font-size: 1rem;
+  line-height: 1.3;
+  cursor: var(--cursor-pointer);
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+.login-modal-root.login-modal--otp .otp-remember:hover {
+  background: rgba(16,20,30,0.5);
+  border-color: rgba(170,190,215,0.4);
+}
+.login-modal-root.login-modal--otp .otp-remember input[type="checkbox"] {
+  appearance: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  border-radius: 0.32rem;
+  border: 2px solid rgba(185,200,220,0.6);
+  background: rgba(18,22,34,0.72);
+  display: grid;
+  place-items: center;
+  position: relative;
+  cursor: var(--cursor-pointer);
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+.login-modal-root.login-modal--otp .otp-remember input[type="checkbox"]::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.32rem;
+  border-right: 2px solid var(--brand-primary);
+  border-bottom: 2px solid var(--brand-primary);
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.16s ease;
+}
+.login-modal-root.login-modal--otp .otp-remember input[type="checkbox"]:checked::after {
+  transform: rotate(45deg) scale(1);
+}
+.login-modal-root.login-modal--otp .otp-remember input[type="checkbox"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(225,160,160,0.22);
+  border-color: rgba(225,160,160,0.7);
+}
+.login-modal-root.login-modal--otp .otp-remember-text {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.login-modal-root.login-modal--otp .otp-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+.login-modal-root.login-modal--otp .otp-submit.btn-base {
+  width: 100%;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: 1.05rem;
+  border-radius: 1rem;
+  padding: 0.7rem 1.1rem;
+  --glow-rgb: 225, 160, 160;
+}
+.login-modal-root.login-modal--otp .otp-secondary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base {
+  min-height: 2.25rem;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  background: rgba(12,16,26,0.36);
+  border: 1px solid rgba(148,163,184,0.25);
+  box-shadow: none;
+}
+.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:hover,
+.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:focus-visible {
+  background: rgba(16,22,34,0.48);
+  border-color: rgba(170,190,215,0.38);
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:active {
+  transform: translateY(0);
+}
+:root.theme-light .login-modal-root.login-modal--otp {
+  --otp-panel-bg: rgba(255,255,255,0.76);
+  --otp-panel-border: rgba(148,163,184,0.3);
+  --otp-panel-shadow: 0 12px 24px rgba(15,23,42,0.12);
+  --otp-input-bg: rgba(255,255,255,0.9);
+  --otp-input-border: rgba(148,163,184,0.48);
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(250,251,253,0.78));
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-summary__lead,
+:root.theme-light .login-modal-root.login-modal--otp .otp-summary__meta {
+  color: rgba(31,41,55,0.92);
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-summary__meta {
+  border-color: rgba(197,113,113,0.32);
+  background: rgba(197,113,113,0.14);
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-remember {
+  background: rgba(255,255,255,0.78);
+  border-color: rgba(148,163,184,0.35);
+  color: rgba(31,41,55,0.86);
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-remember input[type="checkbox"] {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(148,163,184,0.62);
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base {
+  background: rgba(255,255,255,0.8);
+  border-color: rgba(148,163,184,0.35);
+}
+:root.theme-light .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:hover,
+:root.theme-light .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:focus-visible {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(148,163,184,0.45);
+}
+@media (max-width: 768px) {
+  .login-modal-root.login-modal--otp .glass-title {
+    font-size: 1.85em;
+  }
+  .login-modal-root.login-modal--otp .otp-input {
+    font-size: 1.25rem;
+    letter-spacing: 0.26em;
+  }
+  .login-modal-root.login-modal--otp .otp-secondary {
+    grid-template-columns: 1fr;
+  }
+}
 .glass-left {
   align-items: flex-start;
   text-align: left;

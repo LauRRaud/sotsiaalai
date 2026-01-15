@@ -720,11 +720,16 @@
   "rooms": {
     "aria": "Ruumid",
     "title": "Ruumid",
-    "error": "Ruumide laadimine eba?nnestus",
+    "error": "Ruumide laadimine ebaõnnestus",
     "loading": "Laadin ruume...",
     "empty": "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
     "fallback_title": "Ruum",
-    "back_to_chats": "Tagasi vestlustesse"
+    "back_to_chats": "Tagasi vestlustesse",
+    "last_empty": "Veel sõnumeid pole",
+    "delete_confirm": "Kustuta ruum \\"{name}\\"? See kustutab sõnumid ja kutsed.",
+    "leave_failed": "Ruumist lahkumine ebaõnnestus.",
+    "delete_failed": "Kustutamine ebaõnnestus.",
+    "cancel": "Tühista"
   },
   "invite": {
     "success": "Kutsed saadetud",

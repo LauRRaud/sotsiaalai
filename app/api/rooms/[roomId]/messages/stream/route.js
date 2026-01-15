@@ -8,6 +8,8 @@ import { subscribeRoom } from "@/lib/roomStream";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 
 async function requireUser() {
   try {
@@ -45,6 +47,7 @@ async function ensureAccess(userId, roomId, userRole) {
   if (userActive) return { ok: true };
 
   if (member.billingSource === "SPONSORED_BY_HOST") {
+    if (ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) return { ok: true };
     const sponsorActive = await hasActiveSubscription(member.sponsorUserId);
     if (sponsorActive) return { ok: true };
   }

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -43,7 +43,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   );
   const aiNote = t(
     "chat.ai_toggle.note",
-    "Vaikimisi on see inimeste jutt ja assistent ei nae sonumit."
+    "Vaikimisi on see inimeste jutt ja assistent ei näe sõnumit."
   );
   const isRoomMode = Boolean(roomId);
 

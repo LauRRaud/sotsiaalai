@@ -1160,52 +1160,54 @@ const digitLabel = t("auth.login.key", { digit: isZeroKey ? 0 : key });
               submitOtpStep();
             }}
           >
-            <div className="otp-summary">
-              {info && (
-                <p role="status" className="otp-summary__lead">
-                  {info}
-                </p>
-              )}
-              <p className="otp-summary__body">{t("auth.login.otp_description", { email: emailMask || "" })}</p>
-              {otpDeadlineLabel && (
-                <p className="otp-summary__meta" id="otp-deadline">
-                  {t("auth.login.otp_expires", { time: otpDeadlineLabel })}
-                </p>
-              )}
+            <div className="otp-panel">
+              <div className="otp-summary">
+                {info && (
+                  <p role="status" className="otp-summary__lead">
+                    {info}
+                  </p>
+                )}
+                <p className="otp-summary__body">{t("auth.login.otp_description", { email: emailMask || "" })}</p>
+                {otpDeadlineLabel && (
+                  <p className="otp-summary__meta" id="otp-deadline">
+                    {t("auth.login.otp_expires", { time: otpDeadlineLabel })}
+                  </p>
+                )}
+              </div>
+
+              <div className="otp-input-stack">
+                <input
+                  id="otp-code-input"
+                  className="input-modern otp-input"
+                  ref={otpInputRef}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  aria-label={t("auth.login.otp_placeholder")}
+                  aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined}
+                  maxLength={6}
+                  value={otpValue}
+                  onChange={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
+                  onInput={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
+                  placeholder={t("auth.login.otp_placeholder")}
+                />
+              </div>
             </div>
 
-            <div className="otp-input-stack">
-              <input
-                id="otp-code-input"
-                className="input-modern otp-input"
-                ref={otpInputRef}
-                type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                aria-label={t("auth.login.otp_placeholder")}
-                aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined}
-                maxLength={6}
-                value={otpValue}
-                onChange={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
-                onInput={(e) => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))}
-                placeholder={t("auth.login.otp_placeholder")}
-              />
-            </div>
-
-            <label className="glass-checkbox otp-checkbox">
+            <label className="otp-remember">
               <input type="checkbox" checked={rememberDevice} onChange={(e) => setRememberDevice(e.target.checked)} />
-              <span className="checkbox-text">{t("auth.login.remember_device")}</span>
+              <span className="otp-remember-text">{t("auth.login.remember_device")}</span>
             </label>
 
             <div className="otp-actions">
-              <button type="submit" className="btn-primary otp-submit" disabled={otpLoading}>
+              <button type="submit" className="btn-base otp-submit" disabled={otpLoading}>
                 <span>{otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}</span>
               </button>
               <div className="otp-secondary">
-                <button type="button" className="link-brand-inline" onClick={handleResendOtp} disabled={resendLoading}>
+                <button type="button" className="btn-base otp-secondary-btn" onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </button>
-                <button type="button" className="link-brand-inline" onClick={resetToPinStep}>
+                <button type="button" className="btn-base otp-secondary-btn" onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
                 </button>
               </div>

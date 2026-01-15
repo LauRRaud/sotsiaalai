@@ -12,6 +12,8 @@ export const revalidate = 0;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_ACCEPT = 20;
 const SPONSORED_MEMBER_LIMIT = 50;
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -137,9 +139,11 @@ export async function POST(_req, { params }) {
 
         if (invite.paymentMode === "SPONSORED_BY_HOST") {
           const sponsorId = invite.sponsoredByUserId || invite.room?.ownerId;
-          const sponsorOk = await hasActiveSubscriptionTx(trx, sponsorId);
-          if (!sponsorOk) {
-            throw fail(409, "Sponsor plan unavailable", "SPONSOR_NOT_AVAILABLE");
+          if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
+            const sponsorOk = await hasActiveSubscriptionTx(trx, sponsorId);
+            if (!sponsorOk) {
+              throw fail(409, "Sponsor plan unavailable", "SPONSOR_NOT_AVAILABLE");
+            }
           }
           const capacity = await hasSponsorCapacity(trx, invite.roomId);
           if (!capacity) {

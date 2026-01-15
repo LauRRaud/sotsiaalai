@@ -7,6 +7,8 @@ import { prisma } from "@/lib/prisma";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -63,11 +65,15 @@ export async function PUT(_req, { params }) {
     // Access check: self active or sponsor active if sponsored
     if (auth.userRole !== "ADMIN") {
       const userActive = await hasActiveSubscription(auth.userId);
-      if (!userActive && member.billingSource === "SPONSORED_BY_HOST") {
-        const sponsorActive = await hasActiveSubscription(member.sponsorUserId);
-        if (!sponsorActive) return json({ ok: false, message: "Forbidden" }, 403);
-      } else if (!userActive && member.billingSource !== "SPONSORED_BY_HOST") {
-        return json({ ok: false, message: "Forbidden" }, 403);
+      if (!userActive) {
+        if (member.billingSource === "SPONSORED_BY_HOST") {
+          if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
+            const sponsorActive = await hasActiveSubscription(member.sponsorUserId);
+            if (!sponsorActive) return json({ ok: false, message: "Forbidden" }, 403);
+          }
+        } else {
+          return json({ ok: false, message: "Forbidden" }, 403);
+        }
       }
     }
 

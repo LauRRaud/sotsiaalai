@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
+import LoginModal from "@/components/LoginModal";
 import { pushWithTransition } from "@/lib/routeTransition";
 
 export default function JoinPage() {
@@ -14,6 +15,7 @@ export default function JoinPage() {
   const [statusMsg, setStatusMsg] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   const token = searchParams.get("token");
 
@@ -65,7 +67,7 @@ export default function JoinPage() {
       {status !== "authenticated" ? (
         <div className="glass-section">
           <p>{t("join.signin_prompt", "Logi sisse või loo konto, et liituda.")}</p>
-          <Button type="button" onClick={() => signIn()}>
+          <Button type="button" onClick={() => setLoginOpen(true)}>
             {t("join.signin", "Logi sisse")}
           </Button>
         </div>
@@ -92,6 +94,7 @@ export default function JoinPage() {
           {error}
         </div>
       ) : null}
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} suppressRedirect />
     </main>
   );
 }

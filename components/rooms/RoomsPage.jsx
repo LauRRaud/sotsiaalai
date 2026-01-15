@@ -75,12 +75,12 @@ export default function RoomsPage() {
         const res = await fetch(`/api/rooms/${encodeURIComponent(room.id)}/leave`, { method: "POST" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || t("rooms.leave_failed", "Ruumist lahkumine ebaonnestus."));
+          throw new Error(data?.message || t("rooms.leave_failed", "Ruumist lahkumine ebaõnnestus."));
         }
         setRooms((prev) => prev.filter((r) => r.id !== room.id));
       } catch (err) {
         console.warn("Room leave failed:", err);
-        window.alert(err?.message || t("rooms.leave_failed", "Ruumist lahkumine ebaonnestus."));
+        window.alert(err?.message || t("rooms.leave_failed", "Ruumist lahkumine ebaõnnestus."));
       } finally {
         setLeavingId(null);
       }
@@ -107,12 +107,12 @@ export default function RoomsPage() {
         const res = await fetch(`/api/rooms/${encodeURIComponent(target.id)}`, { method: "DELETE" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || t("rooms.delete_failed", "Kustutamine ebaonnestus."));
+          throw new Error(data?.message || t("rooms.delete_failed", "Kustutamine ebaõnnestus."));
         }
         setRooms((prev) => prev.filter((r) => r.id !== target.id));
       } catch (err) {
         console.warn("Room delete failed:", err);
-        window.alert(err?.message || t("rooms.delete_failed", "Kustutamine ebaonnestus."));
+        window.alert(err?.message || t("rooms.delete_failed", "Kustutamine ebaõnnestus."));
       } finally {
         setDeletingId(null);
         setConfirmRoom(null);
@@ -252,7 +252,7 @@ export default function RoomsPage() {
                         </div>
                       ) : (
                         <div className="text-[0.82rem] text-[rgba(148,163,184,0.7)]">
-                          {t("rooms.last_empty", "Veel sonumeid pole")}
+                          {t("rooms.last_empty", "Veel sõnumeid pole")}
                         </div>
                       )}
                     </Link>
@@ -321,7 +321,7 @@ export default function RoomsPage() {
               {t("rooms.delete_title", "Kustuta ruum")}
             </h2>
             <p className="modal-confirm-text">
-              {t("rooms.delete_confirm", 'Kustuta ruum "{name}"? See kustutab sonumid ja kutsed.').replace(
+              {t("rooms.delete_confirm", 'Kustuta ruum "{name}"? See kustutab sõnumid ja kutsed.').replace(
                 "{name}",
                 confirmRoom.title || t("rooms.fallback_title", "Ruum")
               )}
@@ -333,7 +333,7 @@ export default function RoomsPage() {
                   onClick={closeDeleteConfirm}
                   disabled={deletingId === confirmRoom.id}
                 >
-                  {t("rooms.cancel", "Tuhista")}
+                  {t("rooms.cancel", "Tühista")}
                 </Button>
                 <Button
                   type="button"

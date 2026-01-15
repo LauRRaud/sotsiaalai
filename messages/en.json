@@ -66,7 +66,7 @@
     "right_rail": "Chat shortcuts",
     "back_to_home": "Back to home",
     "ai_toggle": {
-      "note": "By default this is a human conversation and the assistant can’t see the message."
+      "note": "By default this is a human conversation and the assistant can't see the message."
     },
     "mic": {
       "start": "Start dictation",
@@ -724,7 +724,12 @@
     "loading": "Loading rooms...",
     "empty": "No rooms available. Add a person in chat to start a group conversation.",
     "fallback_title": "Room",
-    "back_to_chats": "Back to chats"
+    "back_to_chats": "Back to chats",
+    "last_empty": "No messages yet",
+    "delete_confirm": "Delete room \\"{name}\\"? This will remove messages and invites.",
+    "leave_failed": "Failed to leave the room.",
+    "delete_failed": "Failed to delete the room.",
+    "cancel": "Cancel"
   },
   "invite": {
     "success": "Invites sent",
