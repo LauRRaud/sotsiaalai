@@ -39,6 +39,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     } catch {}
 
     const root = dialogRef.current;
+    const fallbackFocus = returnFocusRef?.current;
     const initial = closeRef.current || getFocusables(root)[0] || root;
     setTimeout(() => initial?.focus?.(), 0);
 
@@ -77,8 +78,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
 
       const prev = prevFocusRef.current;
       setTimeout(() => {
-        const fallback = returnFocusRef?.current;
-        const target = prev && typeof prev.focus === "function" ? prev : fallback;
+        const target = prev && typeof prev.focus === "function" ? prev : fallbackFocus;
         if (target && typeof target.focus === "function") {
           try {
             target.focus();

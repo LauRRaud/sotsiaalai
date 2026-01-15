@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import AllikadLight from "@/public/logo/heleallikad.svg";
@@ -312,11 +313,32 @@ export default function RightRail({
                   <AllikadDark className={styles.iconSvg} aria-hidden="true" role="img" />
                 )
               ) : it?.key === "chats" ? (
-                <img className={styles.iconImg} src={icons.chats} alt="" aria-hidden="true" />
+                <Image
+                  className={styles.iconImg}
+                  src={icons.chats}
+                  alt=""
+                  aria-hidden="true"
+                  width={48}
+                  height={48}
+                />
               ) : it?.key === "rooms" ? (
-                <img className={styles.iconImg} src={icons.rooms} alt="" aria-hidden="true" />
+                <Image
+                  className={styles.iconImg}
+                  src={icons.rooms}
+                  alt=""
+                  aria-hidden="true"
+                  width={48}
+                  height={48}
+                />
               ) : it?.key === "invite" ? (
-                <img className={styles.iconImg} src={icons.addPerson} alt="" aria-hidden="true" />
+                <Image
+                  className={styles.iconImg}
+                  src={icons.addPerson}
+                  alt=""
+                  aria-hidden="true"
+                  width={48}
+                  height={48}
+                />
               ) : null}
             </button>
           );

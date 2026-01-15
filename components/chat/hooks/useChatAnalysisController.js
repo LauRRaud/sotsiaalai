@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 
 export function useChatAnalysisController({
   t,
-  locale,
+  locale: _locale,
   sessionUserId,
   chatWindowRef,
   visibleMessagesCount,

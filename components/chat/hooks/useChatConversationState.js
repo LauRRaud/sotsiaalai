@@ -63,11 +63,11 @@ function throttle(fn, waitMs) {
 
 export function useChatConversationState({
   isRoomMode,
-  roomId,
+  roomId: _roomId,
   isGenerating,
-  setErrorBanner,
+  setErrorBanner: _setErrorBanner,
   setIsCrisis,
-  t,
+  t: _t,
   locale,
   userId,
   userRole,
