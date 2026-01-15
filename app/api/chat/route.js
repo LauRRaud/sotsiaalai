@@ -1,6 +1,8 @@
-// app/api/chat/route.js
+﻿// app/api/chat/route.js
 import { NextResponse } from "next/server";
-import { roleFromSession, normalizeRole, requireSubscription } from "@/lib/authz";
+import { roleFromSession, normalizeRole, requireSubscription, hasActiveSubscription, isAdmin } from "@/lib/authz";
+import { prisma } from "@/lib/prisma";
+import { publishRoomEvent } from "@/lib/roomStream";
 import { pickReplyLang, langStrings, toResponsesInput, buildResponsesPayload } from "@/lib/chat/promptBuilder";
 import {
   collapsePages,
@@ -18,6 +20,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 
 /* ------------------------- Helpers ------------------------- */
 function makeError(message, status = 400, extras = {}) {
@@ -43,7 +47,7 @@ function toOpenAiMessages(history) {
       content: String(msg.text).slice(0, 2000),
     }));
 }
-/** Kasutaja küsib allikaid/viiteid? (et/ru/en võtmesõnad) */
+/** Kasutaja kĆ¼sib allikaid/viiteid? (et/ru/en vĆµtmesĆµnad) */
 function detectSourcesRequest(history = [], message = "") {
   const sourcesText = [];
   if (typeof message === "string") sourcesText.push(message);
@@ -56,8 +60,8 @@ function detectSourcesRequest(history = [], message = "") {
     }
   }
   const txt = sourcesText.join(" ").toLowerCase();
-  // eesti: allik, viide; inglise: source, cite, citation; vene: источник, ссылк
-  return /\b(allik|viide|source|cite|citation|источник|ссылк)\w*\b/.test(txt);
+  // eesti: allik, viide; inglise: source, cite, citation; vene: ŠøŃŃ‚Š¾Ń‡Š½ŠøŠŗ, ŃŃŃ‹Š»Šŗ
+  return /\b(allik|viide|source|cite|citation|ŠøŃŃ‚Š¾Ń‡Š½ŠøŠŗ|ŃŃŃ‹Š»Šŗ)\w*\b/.test(txt);
 }
 /* ---- Language detection & strings ---------------------------------- */
 /* lang helpers moved */
@@ -148,7 +152,54 @@ async function streamOpenAI({ history, userMessage, context, effectiveRole, grou
 /* persistence moved */
 /* ------------------------- Page range normalizer ------------------------- */
 function normalizePageRangeString(s = "") {
-  return s.replace(/\s*[-–—]\s*/g, "-").trim();
+  return s.replace(/\s*[-ā€“ā€”]\s*/g, "-").trim();
+}
+
+function normalizeRoomId(roomIdRaw) {
+  if (!roomIdRaw) return null;
+  const maybe = Number(roomIdRaw);
+  return Number.isFinite(maybe) ? maybe : roomIdRaw;
+}
+
+async function getRoomMembership(userId, roomId) {
+  if (!userId || !roomId) return null;
+  return prisma.roomMember.findFirst({
+    where: { roomId, userId, leftAt: null },
+    select: { billingSource: true, sponsorUserId: true },
+  });
+}
+
+async function saveAssistantRoomMessage({ roomId, userId, content }) {
+  if (!roomId || !userId || !content) return null;
+  const msg = await prisma.roomMessage.create({
+    data: {
+      roomId,
+      authorId: userId,
+      senderType: "ASSISTANT",
+      content,
+    },
+    select: {
+      id: true,
+      content: true,
+      createdAt: true,
+      authorId: true,
+      senderType: true,
+      author: {
+        select: {
+          role: true,
+        },
+      },
+    },
+  });
+  const payload = {
+    ...msg,
+    authorName: "Assistent",
+    authorRole: msg.author?.role || "CLIENT",
+  };
+  try {
+    publishRoomEvent(roomId, { type: "message", message: payload });
+  } catch {}
+  return payload;
 }
 
 /* ------------------------- Route Handler ------------------------- */
@@ -175,13 +226,14 @@ export async function POST(req) {
     return makeError("Keha peab olema JSON.");
   }
   const message = String(payload?.message || "").trim();
-  if (!message) return makeError("Sõnum on kohustuslik.");
+  if (!message) return makeError("SĆµnum on kohustuslik.");
   const rawHistory = Array.isArray(payload?.history) ? payload.history : [];
   const history = toOpenAiMessages(rawHistory);
   const wantStream = !!payload?.stream;
   const persist = !!payload?.persist;
   const convId = (payload?.convId && String(payload.convId)) || null;
   const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined;
+  const roomId = normalizeRoomId(payload?.roomId ?? payload?.room_id);
   const ephemeralChunks = Array.isArray(payload?.ephemeralChunks)
     ? payload.ephemeralChunks.filter((s) => typeof s === "string" && s.trim()).map((s) => s.trim())
     : [];
@@ -204,8 +256,22 @@ export async function POST(req) {
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole); // ADMIN -> SOCIAL_WORKER
 
-  // 4) nõua tellimust
-  const gate = await requireSubscription(session, normalizedRole);
+  // 4) nĆµua tellimust
+  const adminUser = isAdmin(session?.user);
+  let roomMembership = null;
+  if (roomId && userId && !adminUser) {
+    roomMembership = await getRoomMembership(userId, roomId);
+    if (!roomMembership) return makeError("Forbidden", 403);
+  }
+
+  let gate = await requireSubscription(session, normalizedRole);
+  if (!gate.ok && roomId && roomMembership?.billingSource === "SPONSORED_BY_HOST") {
+    if (ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
+      gate = { ok: true, status: 200 };
+    } else if (await hasActiveSubscription(roomMembership.sponsorUserId)) {
+      gate = { ok: true, status: 200 };
+    }
+  }
   if (!gate.ok) {
     return NextResponse.json(
       {
@@ -270,6 +336,9 @@ export async function POST(req) {
         isCrisis,
       });
     }
+    if (roomId && userId) {
+      await saveAssistantRoomMessage({ roomId, userId, content: reply });
+    }
 
     if (!wantStream) {
       return NextResponse.json({
@@ -292,7 +361,7 @@ export async function POST(req) {
           controller.enqueue(
             enc.encode(`event: delta\ndata: ${JSON.stringify({ t: reply })}\n\n`)
           );
-          // mikro-flush, et tervituse tükk läheks KOHE teele
+          // mikro-flush, et tervituse tĆ¼kk lĆ¤heks KOHE teele
 
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {
@@ -311,7 +380,7 @@ export async function POST(req) {
     });
   }
 
-  // 5) RAG filtrid – auditoorium
+  // 5) RAG filtrid ā€“ auditoorium
   const audienceFilter =
     (payload?.audience === "CLIENT" || normalizedRole === "CLIENT")
       ? { audience: { $in: ["CLIENT", "BOTH"] } }
@@ -386,7 +455,7 @@ export async function POST(req) {
     });
   }
 
-  // 7) allikad (meta) – UI-le
+  // 7) allikad (meta) ā€“ UI-le
   const docSources =
     ephemeralChunks && ephemeralChunks.length
       ? [
@@ -446,7 +515,7 @@ export async function POST(req) {
     sources = ragSources;
   }
 
-  // 7.5) Kui konteksti ei leitud, vasta õiges keeles
+  // 7.5) Kui konteksti ei leitud, vasta Ćµiges keeles
   if (!context || !context.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
     logInfo("branch.noContext", {
@@ -482,6 +551,9 @@ export async function POST(req) {
         isCrisis,
       });
     }
+    if (roomId && userId) {
+      await saveAssistantRoomMessage({ roomId, userId, content: out });
+    }
 
     if (!wantStream) {
       return NextResponse.json({
@@ -500,7 +572,7 @@ export async function POST(req) {
         try {
           controller.enqueue(enc.encode(`event: meta\ndata: ${JSON.stringify({ sources, isCrisis })}\n\n`));
           controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({ t: out })}\n\n`));
-          // mikro-flush, et esimene tükk ei jääks klompi
+          // mikro-flush, et esimene tĆ¼kk ei jĆ¤Ć¤ks klompi
 
           controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
         } finally {
@@ -519,7 +591,7 @@ export async function POST(req) {
     });
   }
 
-  // püsitus
+  // pĆ¼situs
   if (persist && convId && userId) {
     await persistInit({
       convId,
@@ -555,6 +627,9 @@ export async function POST(req) {
           isCrisis,
         });
       }
+      if (roomId && userId) {
+        await saveAssistantRoomMessage({ roomId, userId, content: aiResult.reply });
+      }
       return NextResponse.json({
         ok: true,
         reply: aiResult.reply,
@@ -566,7 +641,7 @@ export async function POST(req) {
     } catch (err) {
       const errMessage =
         (err?.response?.data?.error?.message || err?.error?.message || err?.message) ??
-        "OpenAI päring ebaõnnestus.";
+        "OpenAI pĆ¤ring ebaĆµnnestus.";
       logError("openai.call.error", {
         err: errMessage,
         stack: err?.stack,
@@ -667,6 +742,9 @@ export async function POST(req) {
                 isCrisis,
               });
             }
+            if (roomId && userId) {
+              await saveAssistantRoomMessage({ roomId, userId, content: accumulated });
+            }
             if (!clientGone) {
               try {
                 controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
@@ -727,4 +805,6 @@ export async function POST(req) {
 export async function GET() {
   return NextResponse.json({ ok: true, route: "api/chat" });
 }
+
+
 

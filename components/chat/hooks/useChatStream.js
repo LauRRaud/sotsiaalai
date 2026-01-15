@@ -205,6 +205,7 @@ export function useChatStream(config) {
           persist: true,
           convId: cfg.convId,
           uiLocale: cfg.locale || "et",
+          roomId: cfg.isRoomMode ? cfg.roomId : undefined,
           ...(cfg.ephemeralChunks?.length
             ? {
                 ephemeralChunks: cfg.ephemeralChunks,
@@ -258,7 +259,13 @@ export function useChatStream(config) {
         const normSources = normalize(data?.sources);
         cfg.setIsCrisis?.(!!data?.isCrisis);
 
-        cfg.appendMessage?.({ role: "ai", text: replyText, sources: normSources, aiVisible: true });
+        const createdId = cfg.appendMessage?.({
+          role: "ai",
+          text: replyText,
+          sources: normSources,
+          aiVisible: true,
+        });
+        cfg.onAssistantMessageCreated?.(createdId);
         cfg.requestConversationsRefresh?.();
         return true;
       }
@@ -268,6 +275,7 @@ export function useChatStream(config) {
       const reader = (cfg.createSSEReader || defaultCreateSSEReader)(res.body);
 
       streamingMessageId = cfg.appendMessage?.({ role: "ai", text: "", isStreaming: true, aiVisible: true });
+      cfg.onAssistantMessageCreated?.(streamingMessageId);
 
       for await (const ev of reader) {
         if (ev.event === "meta") {

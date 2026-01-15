@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import LoginModal from "@/components/LoginModal";
 import { pushWithTransition } from "@/lib/routeTransition";
 
@@ -16,6 +17,7 @@ export default function JoinPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [displayName, setDisplayName] = useState("");
 
   const token = searchParams.get("token");
 
@@ -36,11 +38,20 @@ export default function JoinPage() {
   }
 
   async function accept() {
+    const trimmedName = displayName.trim();
+    if (!trimmedName) {
+      setError(t("join.name_required", "Palun sisesta oma nimi."));
+      return;
+    }
     setBusy(true);
     setError("");
     setStatusMsg("");
     try {
-      const res = await fetch(`/api/invites/${encodeURIComponent(token)}/accept`, { method: "POST" });
+      const res = await fetch(`/api/invites/${encodeURIComponent(token)}/accept`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ display_name: trimmedName }),
+      });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
         const msg = data?.message || joinErrorText;
@@ -78,6 +89,16 @@ export default function JoinPage() {
               email: session?.user?.email || session?.user?.id,
             })}
           </p>
+          <label className="mt-[1rem] block font-semibold tracking-[0.03em]" htmlFor="join-display-name">
+            {t("join.name_label", "Sinu nimi vestluses")}
+          </label>
+          <Input
+            id="join-display-name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            placeholder={t("join.name_placeholder", "Nt Kert")}
+            disabled={busy}
+          />
           <Button type="button" onClick={accept} disabled={busy}>
             {busy ? t("join.joining", "Liidan...") : t("join.join_button", "Liitu")}
           </Button>

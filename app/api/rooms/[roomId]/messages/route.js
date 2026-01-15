@@ -58,6 +58,15 @@ async function getMembership(userId, roomId) {
   });
 }
 
+async function getMemberDisplayNames(roomId, authorIds) {
+  if (!authorIds.length) return new Map();
+  const rows = await prisma.roomMember.findMany({
+    where: { roomId, userId: { in: authorIds } },
+    select: { userId: true, displayName: true },
+  });
+  return new Map(rows.map((m) => [m.userId, m.displayName || ""]));
+}
+
 async function ensureAccess(userId, roomId, userRole) {
   const isAdminRole = userRole === "ADMIN";
 
@@ -147,6 +156,7 @@ export async function GET(req, { params }) {
       content: true,
       createdAt: true,
       authorId: true,
+      senderType: true,
       author: {
         select: {
           role: true,
@@ -159,6 +169,8 @@ export async function GET(req, { params }) {
   const hasMore = rows.length > limit;
   const page = hasMore ? rows.slice(0, limit) : rows;
   const nextCursor = hasMore ? makeCursor(page[page.length - 1]) : null;
+  const authorIds = Array.from(new Set(page.map((m) => m.authorId).filter(Boolean)));
+  const displayNameMap = await getMemberDisplayNames(roomId, authorIds);
 
   return json({
     ok: true,
@@ -167,7 +179,13 @@ export async function GET(req, { params }) {
       content: m.content,
       createdAt: m.createdAt,
       authorId: m.authorId,
-      authorName: [m.author?.profile?.firstName, m.author?.profile?.lastName].filter(Boolean).join(" ") || "Liige",
+      senderType: m.senderType || "USER",
+      authorName:
+        m.senderType === "ASSISTANT"
+          ? "Assistent"
+          : displayNameMap.get(m.authorId) ||
+            [m.author?.profile?.firstName, m.author?.profile?.lastName].filter(Boolean).join(" ") ||
+            "Liige",
       authorRole: m.author?.role || "CLIENT",
     })),
     nextCursor,
@@ -202,12 +220,14 @@ export async function POST(req, { params }) {
         roomId,
         authorId: auth.userId,
         content,
+        senderType: "USER",
       },
       select: {
         id: true,
         content: true,
         createdAt: true,
         authorId: true,
+        senderType: true,
         author: {
           select: {
             role: true,
@@ -216,11 +236,18 @@ export async function POST(req, { params }) {
         },
       },
     });
+    const memberDisplay = await prisma.roomMember.findFirst({
+      where: { roomId, userId: auth.userId },
+      select: { displayName: true },
+    });
     const payload = {
       ok: true,
       message: {
         ...msg,
-        authorName: [msg.author?.profile?.firstName, msg.author?.profile?.lastName].filter(Boolean).join(" ") || "Liige",
+        authorName:
+          memberDisplay?.displayName ||
+          [msg.author?.profile?.firstName, msg.author?.profile?.lastName].filter(Boolean).join(" ") ||
+          "Liige",
         authorRole: msg.author?.role || "CLIENT",
       },
     };

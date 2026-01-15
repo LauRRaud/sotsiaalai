@@ -79,8 +79,12 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     roomTitle,
   } = useRoomMessages(roomId || "", 3000);
   const aiVisibleByMessageId = useRef(new Map());
+  const pendingRoomAiIdsRef = useRef([]);
+  const seenRoomAiIdsRef = useRef(new Set());
   useEffect(() => {
     aiVisibleByMessageId.current = new Map();
+    pendingRoomAiIdsRef.current = [];
+    seenRoomAiIdsRef.current = new Set();
   }, [roomId]);
 
   const chatWindowRef = useRef(null);
@@ -110,18 +114,19 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     return (roomMessages || []).map((m) => {
       const created = m?.createdAt ? new Date(m.createdAt).getTime() : Date.now();
       const isMine = m?.authorId && session?.user?.id && m.authorId === session.user.id;
-      const aiSeen = isMine ? !!aiVisibleByMessageId.current.get(m.id) : false;
+      const isAssistant = m?.senderType === "ASSISTANT";
+      const aiSeen = isAssistant ? true : isMine ? !!aiVisibleByMessageId.current.get(m.id) : false;
       return {
         id: m.id,
-        role: isMine ? "user" : "member",
+        role: isAssistant ? "ai" : isMine ? "user" : "member",
         text: m.content || "",
-        authorName: m.authorName || "Liige",
+        authorName: isAssistant ? t("chat.aria.assistant", "Assistent") : m.authorName || "Liige",
         authorRole: m.authorRole || "MEMBER",
         createdAt: created,
         aiVisible: aiSeen,
       };
     });
-  }, [isRoomMode, roomMessages, session?.user?.id]);
+  }, [isRoomMode, roomMessages, session?.user?.id, t]);
 
   const getVisibleMessages = useCallback(
     (msgs) => {
@@ -322,6 +327,14 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     } catch {}
   }, []);
 
+  const onAssistantMessageCreated = useCallback(
+    (msgId) => {
+      if (!isRoomMode || msgId == null) return;
+      pendingRoomAiIdsRef.current = [...pendingRoomAiIdsRef.current, msgId];
+    },
+    [isRoomMode]
+  );
+
   const { isGenerating, sendMessage, stop } = useChatStream({
     convId,
     historyPayload,
@@ -336,6 +349,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     roomAuthRequired,
     sendToAssistant,
     onRoomMessageSent,
+    onAssistantMessageCreated,
     t,
     setErrorBanner,
     setIsCrisis,
@@ -409,6 +423,32 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     setTimeout(restore, 120);
     setTimeout(restore, 260);
   }, [analysis.showAnalysisPanel, analysis.uploadPreview]);
+
+  useEffect(() => {
+    if (!isRoomMode) return;
+    const myId = session?.user?.id;
+    if (!myId || !roomMessages?.length) return;
+    const pending = pendingRoomAiIdsRef.current;
+    if (!pending.length) return;
+    const seen = seenRoomAiIdsRef.current;
+    const freshAssistant = roomMessages.filter(
+      (m) => m?.senderType === "ASSISTANT" && m?.authorId === myId && !seen.has(m.id)
+    );
+    if (!freshAssistant.length) return;
+    const toRemove = [...freshAssistant];
+    freshAssistant.forEach((m) => seen.add(m.id));
+    if (!toRemove.length) return;
+    setMessages((prev) => {
+      let next = prev;
+      toRemove.forEach(() => {
+        const localId = pending.shift();
+        if (localId == null) return;
+        next = next.filter((msg) => msg.id !== localId);
+      });
+      pendingRoomAiIdsRef.current = pending;
+      return next;
+    });
+  }, [isRoomMode, roomMessages, session?.user?.id, setMessages]);
 
   /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {

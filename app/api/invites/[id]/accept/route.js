@@ -87,9 +87,21 @@ async function hasSponsorCapacity(trx, roomId) {
   return count < SPONSORED_MEMBER_LIMIT;
 }
 
-export async function POST(_req, { params }) {
+export async function POST(req, { params }) {
   const tokenRaw = params?.id;
   if (!tokenRaw) return json({ ok: false, message: "Missing token" }, 400);
+
+  let payload = null;
+  try {
+    payload = await req.json();
+  } catch {}
+  const rawDisplayName =
+    typeof payload?.display_name === "string"
+      ? payload.display_name
+      : typeof payload?.displayName === "string"
+      ? payload.displayName
+      : "";
+  const displayName = rawDisplayName.trim() || null;
 
   const auth = await requireUser();
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
@@ -161,6 +173,7 @@ export async function POST(_req, { params }) {
           roomId: invite.roomId,
           userId: auth.userId,
           role: "MEMBER",
+          displayName: displayName || undefined,
           billingSource,
           sponsorUserId,
           sponsorOrgId,
@@ -171,6 +184,7 @@ export async function POST(_req, { params }) {
           billingSource,
           sponsorUserId,
           sponsorOrgId,
+          ...(displayName ? { displayName } : {}),
         },
       });
 

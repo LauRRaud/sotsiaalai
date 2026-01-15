@@ -7,7 +7,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   text,
   aiVisible,
   authorName,
-  authorRole,
+  authorRole: _authorRole,
   isRoomMode,
   t,
 }) {
@@ -31,11 +31,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
 
   return (
     <div className={`chat-msg ${variant} ${audienceClass}`} role="article" tabIndex={0}>
-      {!isAssistant && !isOwn && (authorName || authorRole) ? (
+      {!isAssistant && !isOwn && authorName ? (
         <div className="chat-msg-meta">
           <span className="chat-msg-tag chat-msg-tag--human">
             {authorName || "Liige"}
-            {authorRole ? ` (${authorRole})` : ""}
           </span>
         </div>
       ) : null}

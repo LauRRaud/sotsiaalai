@@ -24,6 +24,7 @@ export default function InviteModal() {
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState(null);
   const [roomTitle, setRoomTitle] = useState("");
+  const [hostDisplayName, setHostDisplayName] = useState("");
   const [emails, setEmails] = useState("");
   const [paymentMode, setPaymentMode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -46,7 +47,10 @@ export default function InviteModal() {
   }, []);
 
   useEffect(() => {
-    if (open && !roomId) setRoomTitle("");
+    if (open && !roomId) {
+      setRoomTitle("");
+      setHostDisplayName("");
+    }
   }, [open, roomId]);
 
   useEffect(() => {
@@ -101,8 +105,13 @@ export default function InviteModal() {
       return;
     }
     const trimmedRoomTitle = roomTitle.trim();
+    const trimmedHostName = hostDisplayName.trim();
     if (!roomId && !trimmedRoomTitle) {
       setError(t("invite.room_title_required", "Lisa ruumile nimi enne kutsete saatmist."));
+      return;
+    }
+    if (!roomId && !trimmedHostName) {
+      setError(t("invite.host_name_required", "Lisa oma nimi enne kutsete saatmist."));
       return;
     }
     setBusy(true);
@@ -115,6 +124,7 @@ export default function InviteModal() {
           payment_mode: paymentMode || undefined,
           room_id: roomId || undefined,
           room_title: trimmedRoomTitle || undefined,
+          host_display_name: !roomId ? trimmedHostName || undefined : undefined,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -191,6 +201,16 @@ export default function InviteModal() {
                   id="invite-room-title"
                   value={roomTitle}
                   onChange={(e) => setRoomTitle(e.target.value)}
+                  disabled={busy}
+                />
+                <label className="font-semibold tracking-[0.03em]" htmlFor="invite-host-name">
+                  {t("invite.host_name", "Sinu nimi vestluses")}
+                </label>
+                <Input
+                  id="invite-host-name"
+                  value={hostDisplayName}
+                  onChange={(e) => setHostDisplayName(e.target.value)}
+                  placeholder={t("invite.host_name_ph", "Nt Kert")}
                   disabled={busy}
                 />
               </>

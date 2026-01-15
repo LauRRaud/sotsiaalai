@@ -71,6 +71,11 @@ enum RoomRole {
   MEMBER
 }
 
+enum RoomMessageSenderType {
+  USER
+  ASSISTANT
+}
+
 enum InviteStatus {
   SENT
   ACCEPTED
@@ -444,6 +449,7 @@ model RoomMember {
   roomId          String
   userId          String
   role            RoomRole       @default(MEMBER)
+  displayName     String?
   billingSource   BillingSource  @default(SELF)
   sponsorUserId   String?
   sponsorOrgId    String?
@@ -491,6 +497,7 @@ model RoomMessage {
   id         String   @id @default(cuid())
   roomId     String
   authorId   String
+  senderType RoomMessageSenderType @default(USER)
   content    String   @db.Text
   createdAt  DateTime @default(now())
   deletedAt  DateTime?

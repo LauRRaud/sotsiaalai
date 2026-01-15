@@ -60,6 +60,7 @@ export async function GET(_req, { params }) {
       select: {
         userId: true,
         role: true,
+        displayName: true,
         user: { select: { profile: { select: { firstName: true, lastName: true } } } },
       },
       orderBy: { role: "asc" },
@@ -73,7 +74,10 @@ export async function GET(_req, { params }) {
     members: members.map((m) => ({
       userId: m.userId,
       role: m.role,
-      name: [m.user.profile?.firstName, m.user.profile?.lastName].filter(Boolean).join(" ") || "Liige",
+      name:
+        m.displayName ||
+        [m.user.profile?.firstName, m.user.profile?.lastName].filter(Boolean).join(" ") ||
+        "Liige",
       isCurrentUser: m.userId === auth.userId,
     })),
   });

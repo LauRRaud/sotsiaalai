@@ -90,11 +90,17 @@ function normalizePaymentMode(value) {
   return "SELF_PAID";
 }
 
-async function ensureRoom(userId, roomId, roomTitle) {
+function normalizeDisplayName(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  return trimmed.slice(0, 80);
+}
+
+async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName) {
   if (roomId) {
     const room = await prisma.room.findUnique({ where: { id: roomId } });
     if (!room) throw fail(404, "Room not found");
-    await ensureOwnerMembership(room.id, room.ownerId);
+    await ensureOwnerMembership(room.id, room.ownerId, ownerDisplayName);
     return room;
   }
   const trimmedTitle = typeof roomTitle === "string" ? roomTitle.trim() : "";
@@ -107,6 +113,7 @@ async function ensureRoom(userId, roomId, roomTitle) {
           create: {
             userId,
             role: "OWNER",
+            displayName: ownerDisplayName || undefined,
           },
         },
       },
@@ -118,7 +125,7 @@ async function ensureRoom(userId, roomId, roomTitle) {
     orderBy: { createdAt: "asc" },
   });
   if (existing) {
-    await ensureOwnerMembership(existing.id, existing.ownerId);
+    await ensureOwnerMembership(existing.id, existing.ownerId, ownerDisplayName);
     return existing;
   }
   const created = await prisma.room.create({
@@ -130,6 +137,7 @@ async function ensureRoom(userId, roomId, roomTitle) {
         create: {
           userId,
           role: "OWNER",
+          displayName: ownerDisplayName || undefined,
         },
       },
     },
@@ -137,18 +145,27 @@ async function ensureRoom(userId, roomId, roomTitle) {
   return created;
 }
 
-async function ensureOwnerMembership(roomId, ownerId) {
+async function ensureOwnerMembership(roomId, ownerId, ownerDisplayName) {
   try {
     await prisma.roomMember.upsert({
       where: { roomId_userId: { roomId, userId: ownerId } },
-      create: { roomId, userId: ownerId, role: "OWNER" },
-      update: { role: "OWNER", leftAt: null },
+      create: {
+        roomId,
+        userId: ownerId,
+        role: "OWNER",
+        displayName: ownerDisplayName || undefined,
+      },
+      update: {
+        role: "OWNER",
+        leftAt: null,
+        ...(ownerDisplayName ? { displayName: ownerDisplayName } : {}),
+      },
     });
   } catch {}
 }
 
-async function requireRoomRole(userId, roomId, allowedRoles, roomTitle) {
-  const room = await ensureRoom(userId, roomId, roomTitle);
+async function requireRoomRole(userId, roomId, allowedRoles, roomTitle, ownerDisplayName) {
+  const room = await ensureRoom(userId, roomId, roomTitle, ownerDisplayName);
   if (room.ownerId === userId) return { ok: true, room, membership: { role: "OWNER" } };
   const membership = await prisma.roomMember.findFirst({
     where: { roomId: room.id, userId, leftAt: null },
@@ -312,17 +329,36 @@ export async function POST(req) {
       : typeof payload?.roomTitle === "string"
       ? payload.roomTitle
       : "";
+    const hostDisplayName = normalizeDisplayName(
+      payload?.host_display_name ?? payload?.hostDisplayName ?? ""
+    );
     if (!roomId && !roomTitle.trim()) {
       return json({ ok: false, message: "Lisa ruumile nimi enne kutsete saatmist." }, 400);
+    }
+    if (!roomId && !hostDisplayName) {
+      return json({ ok: false, message: "Lisa oma nimi enne kutsete saatmist." }, 400);
     }
     const roomCheck = await requireRoomRole(
       auth.userId,
       roomId || undefined,
       ["OWNER", "MODERATOR"],
-      roomTitle
+      roomTitle,
+      hostDisplayName
     );
     if (!roomCheck.ok) return json({ ok: false, message: roomCheck.message }, roomCheck.status || 403);
     const room = roomCheck.room;
+    if (hostDisplayName) {
+      await prisma.roomMember.upsert({
+        where: { roomId_userId: { roomId: room.id, userId: auth.userId } },
+        create: {
+          roomId: room.id,
+          userId: auth.userId,
+          role: roomCheck.membership?.role || "OWNER",
+          displayName: hostDisplayName,
+        },
+        update: { displayName: hostDisplayName, leftAt: null },
+      });
+    }
 
     const relationshipType = normalizeRelationship(payload?.relationship_type || payload?.relationshipType);
     const paymentMode = normalizePaymentMode(payload?.payment_mode || payload?.paymentMode);
