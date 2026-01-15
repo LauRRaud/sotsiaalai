@@ -726,7 +726,7 @@
     "fallback_title": "Room",
     "back_to_chats": "Back to chats",
     "last_empty": "No messages yet",
-    "delete_confirm": "Delete room \\"{name}\\"? This will remove messages and invites.",
+    "delete_confirm": "Delete room \"{name}\"? This will remove messages and invites.",
     "leave_failed": "Failed to leave the room.",
     "delete_failed": "Failed to delete the room.",
     "cancel": "Cancel"
