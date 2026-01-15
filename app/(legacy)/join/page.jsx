@@ -96,7 +96,6 @@ export default function JoinPage() {
             id="join-display-name"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            placeholder={t("join.name_placeholder", "Nt Kert")}
             disabled={busy}
           />
           <Button type="button" onClick={accept} disabled={busy}>

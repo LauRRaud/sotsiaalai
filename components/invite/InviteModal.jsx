@@ -210,7 +210,6 @@ export default function InviteModal() {
                   id="invite-host-name"
                   value={hostDisplayName}
                   onChange={(e) => setHostDisplayName(e.target.value)}
-                  placeholder={t("invite.host_name_ph", "Nt Kert")}
                   disabled={busy}
                 />
               </>
