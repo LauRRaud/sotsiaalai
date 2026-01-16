@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import AppLink from "@/components/ui/Link";
+import { cn } from "@/components/ui/cn";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
@@ -13,6 +14,7 @@ import ChatSidebar from "@/components/ChatSidebar";
 import ChatBody from "@/components/alalehed/ChatBody";
 
 import MeistBody from "./alalehed/MeistBody";
+import styles from "./HomePage.module.css";
 
 import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
@@ -152,10 +154,10 @@ export default function HomePage() {
 
   useEffect(() => {
     const onLeftEnd = (e) => {
-      if (e?.target?.classList?.contains?.("glass-card")) setLeftFadeDone(true);
+      if (e?.target?.classList?.contains?.(styles["glass-card"])) setLeftFadeDone(true);
     };
     const onRightEnd = (e) => {
-      if (e?.target?.classList?.contains?.("glass-card")) setRightFadeDone(true);
+      if (e?.target?.classList?.contains?.(styles["glass-card"])) setRightFadeDone(true);
     };
     leftCardEl?.addEventListener("animationend", onLeftEnd);
     rightCardEl?.addEventListener("animationend", onRightEnd);
@@ -237,11 +239,13 @@ export default function HomePage() {
   }, []);
 
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
-  const footerFadeClass = skipIntroAnimations ? "" : "defer-fade defer-from-bottom delay-2";
+  const footerFadeClass = skipIntroAnimations
+    ? ""
+    : cn(styles["defer-fade"], styles["defer-from-bottom"], styles["delay-2"]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen && !homeChatOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
-  const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+  const flipClass = !isMobile && flipAllowed ? styles["flip-allowed"] : "";
 
   const onLeftEnter = () => {
     if (suppressFlipRef.current) return;
@@ -328,7 +332,7 @@ export default function HomePage() {
     (event) => {
       if (!isMobile || homeChatOpen) return;
       const target = event.target instanceof Element ? event.target : null;
-      if (target?.closest?.(".three-d-card")) return;
+      if (target?.closest?.(`.${styles["three-d-card"]}`)) return;
       resetMobileCards();
     },
     [homeChatOpen, isMobile, resetMobileCards]
@@ -374,15 +378,26 @@ export default function HomePage() {
   }, [homeChatOpen]);
   return (
     <>
-      <div className={`homepage-root homepage-scroll${homeChatOpen ? " home-chat-open" : ""}`}>
-        <section className="home-hero" onClick={handleBackgroundTap}>
-          <div className="main-content relative">
-            <div className="side left">
+      <div
+        className={cn(
+          styles["homepage-root"],
+          styles["homepage-scroll"],
+          homeChatOpen ? styles["home-chat-open"] : null
+        )}
+      >
+        <section className={styles["home-hero"]} onClick={handleBackgroundTap}>
+          <div className={cn(styles["main-content"], "relative")}>
+            <div className={cn(styles.side, styles.left)}>
               <div
                 ref={leftCardWrapRef}
-                className={`three-d-card float-card left ${flipClass} ${leftFlipping ? "is-flipping" : ""} ${
-                  mobileFlipReady.left ? "mobile-flipped-left" : ""
-                }`}
+                className={cn(
+                  styles["three-d-card"],
+                  styles["float-card"],
+                  styles.left,
+                  flipClass,
+                  leftFlipping ? styles["is-flipping"] : null,
+                  mobileFlipReady.left ? styles["mobile-flipped-left"] : null
+                )}
                 onMouseEnter={onLeftEnter}
                 onMouseLeave={onLeftLeave}
                 onClick={handleCardTap("left")}
@@ -393,25 +408,34 @@ export default function HomePage() {
                   disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}
                 >
                   {({ isActive }) => (
-                    <div className="card-wrapper" data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd}>
-                      <div className="card-face front">
+                    <div
+                      className={styles["card-wrapper"]}
+                      data-phase={leftPhase}
+                      onTransitionEnd={onLeftTransitionEnd}
+                    >
+                      <div className={cn(styles["card-face"], styles.front)}>
                         <div
                           ref={setLeftCardEl}
-                          className={[
-                            "glass-card glass-card-light left-card-primary",
-                            !leftFadeDone ? "fade-in" : "",
-                            leftFadeDone ? "fade-in-done" : "",
-                            leftFadeDone && isActive ? "glow-active" : "",
-                          ].join(" ")}
+                          className={cn(
+                            styles["glass-card"],
+                            styles["glass-card-light"],
+                            "left-card-primary",
+                            !leftFadeDone ? styles["fade-in"] : null,
+                            leftFadeDone ? styles["fade-in-done"] : null,
+                            leftFadeDone && isActive ? "glow-active" : null
+                          )}
                           style={{ position: "relative" }}
                         >
                           <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
-                          <AivalgeLogo className="card-logo-bg card-logo-bg-left" aria-hidden="true" />
+                          <AivalgeLogo
+                            className={cn(styles["card-logo-bg"], styles["card-logo-bg-left"])}
+                            aria-hidden="true"
+                          />
                         </div>
                       </div>
 
                       <div
-                        className="card-face back"
+                        className={cn(styles["card-face"], styles.back)}
                         role="button"
                         aria-label={t("home.card.specialist.aria")}
                         aria-disabled={!leftInteractive}
@@ -426,9 +450,18 @@ export default function HomePage() {
                         style={!leftInteractive ? { pointerEvents: "none" } : {}}
                         data-interactive={leftInteractive ? "true" : "false"}
                       >
-                        <div className={["centered-back-left", !leftFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                          <h2 className="headline-bold">{t("home.card.specialist.title")}</h2>
-                          <SaimustLogo className="card-logo-bg card-logo-bg-left-back" aria-hidden="true" />
+                        <div
+                          className={cn(
+                            styles["centered-back-left"],
+                            !leftFadeDone ? styles["fade-in"] : null,
+                            "glow-static"
+                          )}
+                        >
+                          <h2 className={styles["headline-bold"]}>{t("home.card.specialist.title")}</h2>
+                          <SaimustLogo
+                            className={cn(styles["card-logo-bg"], styles["card-logo-bg-left-back"])}
+                            aria-hidden="true"
+                          />
                         </div>
                       </div>
                     </div>
@@ -437,12 +470,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="side right">
+            <div className={cn(styles.side, styles.right)}>
               <div
                 ref={rightCardWrapRef}
-                className={`three-d-card float-card right ${flipClass} ${rightFlipping ? "is-flipping" : ""} ${
-                  mobileFlipReady.right ? "mobile-flipped-right" : ""
-                }`}
+                className={cn(
+                  styles["three-d-card"],
+                  styles["float-card"],
+                  styles.right,
+                  flipClass,
+                  rightFlipping ? styles["is-flipping"] : null,
+                  mobileFlipReady.right ? styles["mobile-flipped-right"] : null
+                )}
                 onMouseEnter={onRightEnter}
                 onMouseLeave={onRightLeave}
                 onClick={handleCardTap("right")}
@@ -453,25 +491,34 @@ export default function HomePage() {
                   disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}
                 >
                   {({ isActive }) => (
-                    <div className="card-wrapper" data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd}>
-                      <div className="card-face front">
+                    <div
+                      className={styles["card-wrapper"]}
+                      data-phase={rightPhase}
+                      onTransitionEnd={onRightTransitionEnd}
+                    >
+                      <div className={cn(styles["card-face"], styles.front)}>
                         <div
                           ref={setRightCardEl}
-                          className={[
-                            "glass-card glass-card-dark right-card-primary",
-                            !rightFadeDone ? "fade-in" : "",
-                            rightFadeDone ? "fade-in-done" : "",
-                            rightFadeDone && isActive ? "glow-active" : "",
-                          ].join(" ")}
+                          className={cn(
+                            styles["glass-card"],
+                            styles["glass-card-dark"],
+                            "right-card-primary",
+                            !rightFadeDone ? styles["fade-in"] : null,
+                            rightFadeDone ? styles["fade-in-done"] : null,
+                            rightFadeDone && isActive ? "glow-active" : null
+                          )}
                           style={{ position: "relative" }}
                         >
                           <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
-                          <SmustLogo className="card-logo-bg card-logo-bg-right" aria-hidden="true" />
+                          <SmustLogo
+                            className={cn(styles["card-logo-bg"], styles["card-logo-bg-right"])}
+                            aria-hidden="true"
+                          />
                         </div>
                       </div>
 
                       <div
-                        className="card-face back"
+                        className={cn(styles["card-face"], styles.back)}
                         role="button"
                         aria-label={t("home.card.client.aria")}
                         aria-disabled={!rightInteractive}
@@ -486,9 +533,18 @@ export default function HomePage() {
                         style={!rightInteractive ? { pointerEvents: "none" } : {}}
                         data-interactive={rightInteractive ? "true" : "false"}
                       >
-                        <div className={["centered-back-right", !rightFadeDone ? "fade-in" : "", "glow-static"].join(" ")}>
-                          <h2 className="headline-bold">{t("home.card.client.title")}</h2>
-                          <SaivalgeLogo className="card-logo-bg card-logo-bg-right-back" aria-hidden="true" />
+                        <div
+                          className={cn(
+                            styles["centered-back-right"],
+                            !rightFadeDone ? styles["fade-in"] : null,
+                            "glow-static"
+                          )}
+                        >
+                          <h2 className={styles["headline-bold"]}>{t("home.card.client.title")}</h2>
+                          <SaivalgeLogo
+                            className={cn(styles["card-logo-bg"], styles["card-logo-bg-right-back"])}
+                            aria-hidden="true"
+                          />
                         </div>
                       </div>
                     </div>
@@ -499,7 +555,7 @@ export default function HomePage() {
           </div>
 
           {homeChatOpen ? (
-            <div className="home-chat-slot" data-side={homeChatSide || undefined}>
+            <div className={styles["home-chat-slot"]} data-side={homeChatSide || undefined}>
               <ConversationDrawer>
                 <ChatSidebar />
               </ConversationDrawer>
@@ -508,44 +564,52 @@ export default function HomePage() {
           ) : null}
 
           {!homeChatOpen ? (
-            <div className={`home-scroll-cue${showScrollCue ? " is-visible" : ""}`} aria-hidden={!showScrollCue}>
-              <a className="home-scroll-cue-link" href="#meist" onClick={handleScrollCueClick}>
-                <span className="home-scroll-cue-mouse" aria-hidden="true">
+            <div
+              className={cn(styles["home-scroll-cue"], showScrollCue ? styles["is-visible"] : null)}
+              aria-hidden={!showScrollCue}
+            >
+              <a className={styles["home-scroll-cue-link"]} href="#meist" onClick={handleScrollCueClick}>
+                <span className={styles["home-scroll-cue-mouse"]} aria-hidden="true">
                   <svg viewBox="0 0 24 36" role="presentation">
                     <rect x="5.5" y="2.5" width="13" height="31" rx="6.5" />
                     <line x1="12" y1="7" x2="12" y2="13" />
                   </svg>
                 </span>
-                <span className="home-scroll-cue-arrow" aria-hidden="true" />
+                <span className={styles["home-scroll-cue-arrow"]} aria-hidden="true" />
               </a>
             </div>
           ) : null}
         </section>
 
-        <section id="meist" className="home-section home-about">
-          <div className="home-section-inner">
+        <section id="meist" className={cn(styles["home-section"], styles["home-about"])}>
+          <div className={styles["home-section-inner"]}>
             <MeistBody embedded isAdmin={isAuthed && isAdmin} />
           </div>
         </section>
 
-        <section className="home-section home-links" aria-label={t("nav.main")}>
-          <div className="home-section-inner">
-            <h2 className="home-section-title text-center text-[clamp(1.35rem,2.4vw,1.75rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.018em] mt-[clamp(1rem,2.4vw,1.8rem)] mb-[0.65rem] mx-0 [color:var(--home-prose-color)]">
+        <section className={cn(styles["home-section"], styles["home-links"])} aria-label={t("nav.main")}>
+          <div className={styles["home-section-inner"]}>
+            <h2
+              className={cn(
+                styles["home-section-title"],
+                "text-center text-[clamp(1.35rem,2.4vw,1.75rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.018em] mt-[clamp(1rem,2.4vw,1.8rem)] mb-[0.65rem] mx-0 [color:var(--home-prose-color)]"
+              )}
+            >
               {t("about.cta.title")}
             </h2>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 mt-[0.35rem] mb-0 mx-0 gap-x-[1.05rem] gap-y-[0.45rem]">
               <li>
-                <AppLink href="/kasutusjuhend" className="home-link">
+                <AppLink href="/kasutusjuhend" className={styles["home-link"]}>
                   {t("about.guide.jump_link")}
                 </AppLink>
               </li>
               <li>
-                <AppLink href="/kasutustingimused" className="home-link">
+                <AppLink href="/kasutustingimused" className={styles["home-link"]}>
                   {t("about.links.terms")}
                 </AppLink>
               </li>
               <li>
-                <AppLink href="/privaatsustingimused" className="home-link">
+                <AppLink href="/privaatsustingimused" className={styles["home-link"]}>
                   {t("about.links.privacy")}
                 </AppLink>
               </li>
@@ -553,12 +617,12 @@ export default function HomePage() {
               {isAuthed && isAdmin ? (
                 <>
                   <li>
-                    <AppLink href="/admin/analytics" className="home-link">
+                    <AppLink href="/admin/analytics" className={styles["home-link"]}>
                       {t("about.links.analytics")}
                     </AppLink>
                   </li>
                   <li>
-                    <AppLink href="/admin/rag" className="home-link">
+                    <AppLink href="/admin/rag" className={styles["home-link"]}>
                       {t("about.links.admin")}
                     </AppLink>
                   </li>
@@ -568,13 +632,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        <footer className="home-footer">
-          <div className="home-footer-inner">
-            <AppLink href="mailto:info@sotsiaal.ai" className="home-footer-email home-link">
+        <footer className={styles["home-footer"]}>
+          <div className={styles["home-footer-inner"]}>
+            <AppLink href="mailto:info@sotsiaal.ai" className={cn(styles["home-footer-email"], styles["home-link"])}>
               info@sotsiaal.ai
             </AppLink>
             <Logomust
-              className={["home-footer-logo", "dim", footerFadeClass].filter(Boolean).join(" ")}
+              className={cn(styles["home-footer-logo"], "dim", footerFadeClass)}
               role="img"
               aria-label={t("home.footer.logo_alt")}
             />
