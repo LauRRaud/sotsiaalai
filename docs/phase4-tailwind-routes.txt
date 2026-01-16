@@ -1,0 +1,1 @@
+﻿/room/[roomId]	app/room/[roomId]/page.jsx
