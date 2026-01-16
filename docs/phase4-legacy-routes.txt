@@ -7,7 +7,6 @@
 /app/(legacy)/meist	app/(legacy)\meist\page.jsx
 /app/(legacy)/join	app/(legacy)\join\page.jsx
 /app/(legacy)/kasutustingimused	app/(legacy)\kasutustingimused\page.js
-/app/(legacy)	app/(legacy)\page.js
 /app/(legacy)/kasutusjuhend	app/(legacy)\kasutusjuhend\page.jsx
 /app/(legacy)/registreerimine	app/(legacy)\registreerimine\page.js
 /app/(legacy)/privaatsustingimused	app/(legacy)\privaatsustingimused\page.js

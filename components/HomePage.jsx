@@ -1,11 +1,10 @@
-// components/HomePage.jsx
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
-import Link from "next/link";
+import AppLink from "@/components/ui/Link";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
@@ -13,10 +12,8 @@ import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatBody from "@/components/alalehed/ChatBody";
 
-// UUS: Meist avalehele (embedded)
 import MeistBody from "./alalehed/MeistBody";
 
-// Inline SVG (SVGR)
 import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
 import SmustLogo from "@/public/logo/smust.svg";
@@ -378,10 +375,8 @@ export default function HomePage() {
   return (
     <>
       <div className={`homepage-root homepage-scroll${homeChatOpen ? " home-chat-open" : ""}`}>
-        {/* HERO (ainult kaardid + taust) */}
         <section className="home-hero" onClick={handleBackgroundTap}>
           <div className="main-content relative">
-            {/* LEFT CARD */}
             <div className="side left">
               <div
                 ref={leftCardWrapRef}
@@ -399,7 +394,6 @@ export default function HomePage() {
                 >
                   {({ isActive }) => (
                     <div className="card-wrapper" data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd}>
-                      {/* FRONT */}
                       <div className="card-face front">
                         <div
                           ref={setLeftCardEl}
@@ -416,7 +410,6 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {/* BACK */}
                       <div
                         className="card-face back"
                         role="button"
@@ -444,7 +437,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* RIGHT CARD */}
             <div className="side right">
               <div
                 ref={rightCardWrapRef}
@@ -462,7 +454,6 @@ export default function HomePage() {
                 >
                   {({ isActive }) => (
                     <div className="card-wrapper" data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd}>
-                      {/* FRONT */}
                       <div className="card-face front">
                         <div
                           ref={setRightCardEl}
@@ -479,7 +470,6 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {/* BACK */}
                       <div
                         className="card-face back"
                         role="button"
@@ -532,14 +522,12 @@ export default function HomePage() {
           ) : null}
         </section>
 
-        {/* MEIST (tekst samal lehel, ilma glass-boxita) */}
         <section id="meist" className="home-section home-about">
           <div className="home-section-inner">
             <MeistBody embedded isAdmin={isAuthed && isAdmin} />
           </div>
         </section>
 
-        {/* LINGID */}
         <section className="home-section home-links" aria-label={t("nav.main")}>
           <div className="home-section-inner">
             <h2 className="home-section-title text-center text-[clamp(1.35rem,2.4vw,1.75rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.018em] mt-[clamp(1rem,2.4vw,1.8rem)] mb-[0.65rem] mx-0 [color:var(--home-prose-color)]">
@@ -547,33 +535,32 @@ export default function HomePage() {
             </h2>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 mt-[0.35rem] mb-0 mx-0 gap-x-[1.05rem] gap-y-[0.45rem]">
               <li>
-                <Link href="/kasutusjuhend" className="link-brand home-link">
+                <AppLink href="/kasutusjuhend" className="home-link">
                   {t("about.guide.jump_link")}
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/kasutustingimused" className="link-brand home-link">
+                <AppLink href="/kasutustingimused" className="home-link">
                   {t("about.links.terms")}
-                </Link>
+                </AppLink>
               </li>
               <li>
-                <Link href="/privaatsustingimused" className="link-brand home-link">
+                <AppLink href="/privaatsustingimused" className="home-link">
                   {t("about.links.privacy")}
-                </Link>
+                </AppLink>
               </li>
 
-              {/* Varjatud admin-lingid: ainult sisse logides + admin */}
               {isAuthed && isAdmin ? (
                 <>
                   <li>
-                    <Link href="/admin/analytics" className="link-brand home-link">
+                    <AppLink href="/admin/analytics" className="home-link">
                       {t("about.links.analytics")}
-                    </Link>
+                    </AppLink>
                   </li>
                   <li>
-                    <Link href="/admin/rag" className="link-brand home-link">
+                    <AppLink href="/admin/rag" className="home-link">
                       {t("about.links.admin")}
-                    </Link>
+                    </AppLink>
                   </li>
                 </>
               ) : null}
@@ -581,12 +568,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* LOGO (mitte klikitav) */}
         <footer className="home-footer">
           <div className="home-footer-inner">
-            <a href="mailto:info@sotsiaal.ai" className="home-footer-email link-brand home-link">
+            <AppLink href="mailto:info@sotsiaal.ai" className="home-footer-email home-link">
               info@sotsiaal.ai
-            </a>
+            </AppLink>
             <Logomust
               className={["home-footer-logo", "dim", footerFadeClass].filter(Boolean).join(" ")}
               role="img"

@@ -1,4 +1,3 @@
-// app/page.js – Avaleht (public landing)
 import { cookies } from "next/headers";
 import HomePage from "@/components/HomePage";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
@@ -11,7 +10,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/",
-    title: meta.title || "SotsiaalAI – Tehisintellekt sotsiaaltöös ja elulistes küsimustes",
+    title: meta.title || "SotsiaalAI - AI for social support",
     description: meta.description || "",
   });
 }
