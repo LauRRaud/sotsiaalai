@@ -1,1 +1,3 @@
 ﻿/room/[roomId]	app/room/[roomId]/page.jsx
+/rooms	app/rooms/page.js
+/vestlus	app/vestlus/page.js

@@ -14,10 +14,8 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/vestlus",
-    title: meta.title || "Vestlus / SotsiaalAI",
-    description:
-      meta.description ||
-      "Vestle SotsiaalAI rollipõhise AI-assistendiga, kes aitab leida infot õiguste, toetuste ja teenuste kohta.",
+    title: meta.title || "Chat / SotsiaalAI",
+    description: meta.description || "Chat with the SotsiaalAI assistant.",
     openGraph: { type: "article" },
   });
 }
