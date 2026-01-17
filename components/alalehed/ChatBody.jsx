@@ -525,12 +525,11 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
         )}
       >
         <div className="chat-roll-stage relative flex w-full items-start justify-center">
-          <div className={cn(rollCardClass, "relative flex h-full w-full items-center justify-center")}>
+          <div className={rollCardClass}>
             <div
               className={cn(
                 chatFaceClass,
-                "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
-                profileOpen ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"
+                "flex items-center justify-center transition-opacity duration-300"
               )}
               aria-hidden={profileOpen ? "true" : "false"}
             >
@@ -710,8 +709,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
             <div
               className={cn(
                 profileFaceClass,
-                "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
-                profileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+                "flex items-center justify-center transition-opacity duration-300"
               )}
               aria-hidden={profileOpen ? "false" : "true"}
             >
