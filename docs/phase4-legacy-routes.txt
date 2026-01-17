@@ -10,7 +10,6 @@
 /app/(legacy)/kasutusjuhend	app/(legacy)\kasutusjuhend\page.jsx
 /app/(legacy)/registreerimine	app/(legacy)\registreerimine\page.js
 /app/(legacy)/privaatsustingimused	app/(legacy)\privaatsustingimused\page.js
-/app/(legacy)/profiil	app/(legacy)\profiil\page.js
 /app/(legacy)/admin/analytics	app/(legacy)\admin\analytics\page.jsx
 /app/(legacy)/admin/rag	app/(legacy)\admin\rag\page.jsx.bak-bom-1767718521521
 /app/(legacy)/admin/rag	app/(legacy)\admin\rag\page.jsx

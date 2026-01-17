@@ -13,21 +13,17 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/profiil",
-    title: meta.title || "Minu profiil – SotsiaalAI",
+    title: meta.title || "Profile - SotsiaalAI",
     description: meta.description || "",
   });
 }
 export default async function Page() {
-  // SSR: anna SessionProvider'ile juba serverisessioon (see on juba layoutis)
-  // ning proovi tuua ka esmane profiili info, et vältida kliendipoolset
-  // lühiajalist "Laen profiili…" ekraanivälgatust.
   const session = await getServerSession(authConfig);
   let initialProfile = null;
   try {
     if (session?.user?.id) {
       const user = await prisma.user.findUnique({
         where: { id: String(session.user.id) },
-        // do not send hash to client; derive boolean
         select: { email: true, role: true, passwordHash: true },
       });
       if (user) initialProfile = { email: user.email || "", role: user.role || null, hasPassword: !!user.passwordHash };

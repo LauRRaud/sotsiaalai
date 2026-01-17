@@ -14,6 +14,8 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { cn } from "@/components/ui/cn";
+import styles from "./ProfiilBody.module.css";
 
 const ROLE_KEYS = {
   ADMIN: "role.admin",
@@ -28,14 +30,21 @@ function ProfileShell({
   ariaLabelledby,
   innerRef,
   embedded = false,
+  theme = "dark",
 }) {
+  const containerClass = cn(
+    styles.profileContainer,
+    embedded ? styles.profileContainerEmbedded : null,
+    embedded ? "profile-container profile-container--embedded" : null,
+  );
   const container = (
     <div
-      className={`main-content glass-box glass-left profile-container${embedded ? " profile-container--embedded" : ""}`}
+      className={containerClass}
       role={role}
       aria-labelledby={ariaLabelledby}
       ref={innerRef}
       lang={embedded ? locale : undefined}
+      data-theme={theme}
     >
       {children}
     </div>
@@ -46,7 +55,7 @@ function ProfileShell({
   }
 
   return (
-    <div className="profile-page-shell" lang={locale}>
+    <div className={styles.profilePageShell} lang={locale}>
       {container}
     </div>
   );
@@ -167,7 +176,7 @@ export default function ProfiilBody({
 
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-  const [logoutIconState, setLogoutIconState] = useState("idle"); // idle | logging-out
+  const [logoutIconState, setLogoutIconState] = useState("idle");
   const [loginOpen, setLoginOpen] = useState(false);
 
   const searchParams = useSearchParams();
@@ -340,8 +349,8 @@ export default function ProfiilBody({
       : "/logo/onoffhall.svg";
 
   const themeActionLabel = isLightTheme
-    ? t("accessibility.options.theme.dark", "Tume reziim")
-    : t("accessibility.options.theme.light", "Hele reziim");
+    ? t("accessibility.options.theme.dark")
+    : t("accessibility.options.theme.light");
 
   const orbitItems = [
     {
@@ -353,7 +362,7 @@ export default function ProfiilBody({
       ),
       label: themeActionLabel,
       labelPos: "left",
-      keepOpen: true, // IMPORTANT: ei sulge menüüd, saad on/off katsetada
+      keepOpen: true,
       onClick: () => {
         const nextTheme = isLightTheme ? "dark" : "light";
         setPrefs?.({ theme: nextTheme });
@@ -362,7 +371,7 @@ export default function ProfiilBody({
     {
       key: "pin",
       icon: <PinDockIcon />,
-      label: t("profile.change_password_cta", "Uuenda PIN"),
+      label: t("profile.change_password_cta"),
       labelPos: "up",
       onClick: () =>
         pushWithTransition(
@@ -373,7 +382,7 @@ export default function ProfiilBody({
     {
       key: "email",
       icon: <EmailDockIcon />,
-      label: t("profile.update_email_cta", "Uuenda e-post"),
+      label: t("profile.update_email_cta"),
       labelPos: "up",
       onClick: () =>
         pushWithTransition(
@@ -432,7 +441,6 @@ export default function ProfiilBody({
     }
   };
 
-  // Profile fetch / hydrate
   useEffect(() => {
     if (embedded && !isActive) return;
     if (status === "loading") return;
@@ -479,19 +487,18 @@ export default function ProfiilBody({
     pushWithTransition(router, "/vestlus");
   }, [onBack, router]);
 
-  // Loading
+
   if (isAuthed && ((status === "loading" && !initialProfile) || loading)) {
     return (
-      <ProfileShell locale={locale} embedded={embedded}>
-        <h1 className="glass-title">{t("profile.title")}</h1>
-        <p className="profile-loading p-4">
+      <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+        <h1 className={styles.profileTitle}>{t("profile.title")}</h1>
+        <p className={styles.profileLoading}>
           {t("profile.loading")}
         </p>
       </ProfileShell>
     );
   }
 
-  // Not authed
   if (!isAuthed) {
     const reason = registrationReason || "not-logged-in";
     const reasonText =
@@ -501,17 +508,17 @@ export default function ProfiilBody({
 
     return (
       <>
-        <ProfileShell locale={locale} embedded={embedded}>
-          <h1 className="glass-title">{t("profile.title")}</h1>
-          <p className="p-4">{reasonText}</p>
-          <div className="back-btn-wrapper">
+        <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+          <h1 className={styles.profileTitle}>{t("profile.title")}</h1>
+          <p className={styles.profileNote}>{reasonText}</p>
+          <div className={styles.profileBtnRow}>
             <button
               type="button"
-              className="back-arrow-btn"
+              className={styles.backButton}
               onClick={embedded ? handleBack : () => setLoginOpen(true)}
               aria-label={embedded ? t("profile.back_to_chat") : t("auth.login.title")}
             >
-              <span className="back-arrow-circle" />
+              <span className={styles.backIcon} />
             </button>
           </div>
         </ProfileShell>
@@ -521,19 +528,19 @@ export default function ProfiilBody({
     );
   }
 
-  // Load failed
   if (loadFailed) {
     return (
       <ProfileShell
         locale={locale}
         ariaLabelledby="profile-title"
         embedded={embedded}
+        theme={isLightTheme ? "light" : "dark"}
       >
-        <h1 id="profile-title" className="glass-title">
+        <h1 id="profile-title" className={styles.profileTitle}>
           {t("profile.title")}
         </h1>
-        <div className="profile-error-state">
-          <div role="alert" className="glass-note glass-note--center profile-error-note">
+        <div className={styles.profileErrorState}>
+          <div role="alert" className={cn(styles.profileNote, styles.profileNoteCenter)}>
             {error || t("profile.load_failed")}
           </div>
         </div>
@@ -541,39 +548,40 @@ export default function ProfiilBody({
     );
   }
 
-  // Normal
+
   return (
     <ProfileShell
       locale={locale}
       ariaLabelledby="profile-title"
       innerRef={profileContainerRef}
       embedded={embedded}
+      theme={isLightTheme ? "light" : "dark"}
     >
-      <h1 id="profile-title" className="glass-title">
+      <h1 id="profile-title" className={styles.profileTitle}>
         {t("profile.title")}
       </h1>
 
-      <div className="profile-header-center">
+      <div className={styles.profileHeaderCenter}>
         <span
           ref={rolePillRef}
-          className="profile-role-pill mb-[0.1em]"
+          className={styles.profileRolePill}
         >
           {roleLabel}
         </span>
       </div>
 
-      <div className="glass-form profile-form-vertical">
-        <div className="profile-email-dock-wrapper profile-orbit-menu-wrapper">
+      <div className={styles.profileForm}>
+        <div className={styles.profileOrbitWrapper}>
           <OrbitalMenu
             items={orbitItems}
-            ariaLabel={t("profile.actions_label", "Profiili toimingud")}
-            toggleLabelOpen={t("profile.actions_label", "Profiili toimingud")}
-            toggleLabelClose={t("buttons.close", "Sulge")}
+            ariaLabel={t("profile.actions_label")}
+            toggleLabelOpen={t("profile.actions_label")}
+            toggleLabelClose={t("buttons.close")}
           />
         </div>
 
         {error && (
-          <div role="alert" className="glass-note mt-3">
+          <div role="alert" className={cn(styles.profileNote, styles.profileNoteRow)}>
             {error}
           </div>
         )}
@@ -581,38 +589,38 @@ export default function ProfiilBody({
         {success && !error && (
           <div
             role="status"
-            className="glass-note glass-note--success mt-3"
+            className={cn(styles.profileNote, styles.profileNoteRow)}
           >
             {success}
           </div>
         )}
 
-        <div className="profile-btn-row profile-btn-row--back-logout">
+        <div className={styles.profileBtnRow}>
           <button
             type="button"
-            className="back-arrow-btn"
+            className={styles.backButton}
             onClick={handleBack}
             aria-label={t("profile.back_to_chat")}
           >
-            <span className="back-arrow-circle"></span>
+            <span className={styles.backIcon}></span>
           </button>
 
           <button
             type="button"
-            className={`profile-logout-icon-btn profile-logout-icon-btn--${logoutIconState}`}
+            className={styles.logoutButton}
             onClick={handleLogout}
             disabled={loggingOut}
             aria-label={t("profile.logout")}
           >
             <Image
               src={logoutIconSrc}
-              className="profile-logout-icon"
+              className={styles.logoutIcon}
               alt=""
               width={74}
               height={74}
               aria-hidden="true"
             />
-            <span className="profile-logout-label">{t("profile.logout")}</span>
+            <span className={styles.logoutLabel}>{t("profile.logout")}</span>
             <span className="sr-only">{t("profile.logout")}</span>
           </button>
         </div>
