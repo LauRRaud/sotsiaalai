@@ -2,18 +2,28 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { cn } from "@/components/ui/cn";
+
+const overlayClass =
+  "fixed inset-0 z-[80] bg-[rgba(0,0,0,0.45)] backdrop-blur-[2px]";
+
+const panelClass =
+  "fixed left-0 top-0 bottom-0 z-[81] w-[21.25rem] max-w-[85vw] overflow-auto border-r border-[color:var(--pt-600)] bg-transparent text-[color:var(--pt-100)] shadow-[0_0_1.875rem_rgba(0,0,0,0.35)]";
+
+const panelGlassClass =
+  "relative before:absolute before:inset-0 before:z-0 before:pointer-events-none before:bg-[var(--glass-surface-bg,rgba(0,0,0,0.25))] before:[backdrop-filter:blur(var(--glass-blur-radius,1rem))] before:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] light:before:bg-[rgba(255,255,255,0.58)]";
 
 export default function ConversationDrawer({ children }) {
   const [open, setOpen] = useState(false);
   const [drawerRoot, setDrawerRoot] = useState(null);
   const panelRef = useRef(null);
   const closeBtnRef = useRef(null);
-  const overlayRef = useRef(null);
-  const drawerRootRef = useRef(null); // overlay + paneli konteiner
-  const headerIdRef = useRef(`drawer-title-${Math.random().toString(36).slice(2, 8)}`);
+  const drawerRootRef = useRef(null);
+  const headerIdRef = useRef(
+    `drawer-title-${Math.random().toString(36).slice(2, 8)}`
+  );
   const { t } = useI18n();
 
-  // --- Välise toggle event ---
   useEffect(() => {
     function onToggle(e) {
       const want = e?.detail?.open;
@@ -23,7 +33,6 @@ export default function ConversationDrawer({ children }) {
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
   }, []);
 
-  // --- Loo / taaskasuta portaalijuurt body all ---
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
     let root = document.querySelector('[data-conversation-drawer-root="true"]');
@@ -47,7 +56,6 @@ export default function ConversationDrawer({ children }) {
     };
   }, []);
 
-  // --- Body scroll lock (koos kerimisriba kompensatsiooniga) ---
   useEffect(() => {
     if (!open) return;
     const body = document.body;
@@ -55,7 +63,6 @@ export default function ConversationDrawer({ children }) {
     const prevPaddingRight = body.style.paddingRight;
     const scrollbarWidth = getScrollbarWidth();
     body.style.overflow = "hidden";
-    // kui kerimisriba on nähtav, kompenseeri
     if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
       const current = parseFloat(getComputedStyle(body).paddingRight) || 0;
       body.style.paddingRight = `${current + scrollbarWidth}px`;
@@ -66,36 +73,32 @@ export default function ConversationDrawer({ children }) {
     };
   }, [open]);
 
-  // --- Tausta inert/aria-hidden (ainult sibling'id, portaali juur välja jäetud) ---
   useEffect(() => {
     const portalRoot = drawerRootRef.current;
-    if (!portalRoot) return;
+    if (!portalRoot || !open) return;
     const siblings = Array.from(document.body.children).filter((el) => el !== portalRoot);
-    if (open) {
+    for (const el of siblings) {
+      try {
+        el.setAttribute("aria-hidden", "true");
+        if ("inert" in el) {
+          // @ts-ignore
+          el.inert = true;
+        }
+      } catch {}
+    }
+    return () => {
       for (const el of siblings) {
         try {
-          el.setAttribute("aria-hidden", "true");
+          el.removeAttribute("aria-hidden");
           if ("inert" in el) {
             // @ts-ignore
-            el.inert = true;
+            el.inert = false;
           }
         } catch {}
       }
-      return () => {
-        for (const el of siblings) {
-          try {
-            el.removeAttribute("aria-hidden");
-            if ("inert" in el) {
-              // @ts-ignore
-              el.inert = false;
-            }
-          } catch {}
-        }
-      };
-    }
+    };
   }, [open]);
 
-  // --- ESC sulgemine + TAB fookuse püsivus (kuulame dokumendilt avatuna) ---
   useEffect(() => {
     if (!open) return;
     function onKeydown(e) {
@@ -131,13 +134,12 @@ export default function ConversationDrawer({ children }) {
     return () => document.removeEventListener("keydown", onKeydown, true);
   }, [open]);
 
-  // --- Esmane fookus paneelis ---
   useEffect(() => {
     if (!open) return;
     const toFocus =
       closeBtnRef.current ||
       panelRef.current?.querySelector(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
     const timer = setTimeout(() => toFocus?.focus(), 0);
     return () => clearTimeout(timer);
@@ -145,41 +147,57 @@ export default function ConversationDrawer({ children }) {
 
   const close = useCallback(() => setOpen(false), []);
 
-  // --- Render (portal) ---
-  if (!drawerRoot) return null;
+  if (!drawerRoot || !open) return null;
+
   return createPortal(
     <>
-      {open && (
-        <div ref={overlayRef} className="drawer-overlay" onClick={close} aria-hidden="true" />
-      )}
+      <div className={overlayClass} onClick={close} aria-hidden="true" />
       <aside
         ref={panelRef}
         role="dialog"
         aria-labelledby={headerIdRef.current}
-        aria-modal={open ? "true" : undefined}
-        aria-hidden={open ? undefined : "true"}
-        inert={open ? undefined : true}
-        tabIndex={open ? undefined : -1}
-        className={`drawer-panel drawer-panel--chat-glass ${open ? "open" : ""}`}
+        aria-modal="true"
+        className={cn(panelClass, panelGlassClass)}
       >
-        <header className="drawer-header">
-          <strong id={headerIdRef.current}>{t("chat.menu.label")}</strong>
+        <header className="relative flex items-center justify-center border-b border-[rgba(255,255,255,0.07)] px-[1rem] py-[0.75rem]">
+          <strong
+            id={headerIdRef.current}
+            className="w-full text-center text-[1.25rem] font-bold tracking-[0.03em] text-[color:var(--brand-primary)]"
+          >
+            {t("chat.menu.label")}
+          </strong>
           <button
             ref={closeBtnRef}
             onClick={close}
-            className="drawer-close modal-close-btn"
+            className="absolute right-[0.75rem] top-1/2 h-[2.15rem] w-[2.15rem] -translate-y-1/2 rounded-[0.75rem] text-[color:var(--pt-100)] transition-[color,transform] duration-150 hover:text-[color:var(--brand-primary)] active:scale-95"
             aria-label={t("buttons.close")}
             type="button"
-          />
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+              aria-hidden="true"
+            >
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
+          </button>
         </header>
-        <div style={{ padding: 12 }}>{children}</div>
+        <div className="relative z-10 px-[0.75rem] py-[0.75rem]">
+          {children}
+        </div>
       </aside>
     </>,
-    drawerRoot,
+    drawerRoot
   );
 }
 
-/* -------- helpers -------- */
 function getFocusable(root) {
   if (!root) return [];
   const nodes = root.querySelectorAll(
@@ -195,7 +213,7 @@ function getFocusable(root) {
       "embed",
       "[contenteditable]",
       "[tabindex]:not([tabindex='-1'])",
-    ].join(","),
+    ].join(",")
   );
   return Array.from(nodes).filter(isVisible);
 }
@@ -205,7 +223,6 @@ function isVisible(el) {
 }
 
 function getScrollbarWidth() {
-  // mõõdame dünaamiliselt – töökindel kõigil platvormidel
   const scrollDiv = document.createElement("div");
   scrollDiv.style.width = "100px";
   scrollDiv.style.height = "100px";
