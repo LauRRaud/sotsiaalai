@@ -524,7 +524,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
           isEntering ? "chat-entering" : null
         )}
       >
-        <div className="chat-roll-stage relative flex h-full w-full items-center justify-center">
+        <div className="chat-roll-stage relative flex w-full items-start justify-center">
           <div className={cn(rollCardClass, "relative flex h-full w-full items-center justify-center")}>
             <div
               className={cn(
