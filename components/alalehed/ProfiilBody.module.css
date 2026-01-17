@@ -217,8 +217,8 @@
   position: absolute;
   inset-inline: 0;
   top: 50%;
-  padding-left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
-  padding-right: calc(var(--hud-edge-right, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
+  padding-left: calc(var(--hud-edge-left, 0px));
+  padding-right: calc(var(--hud-edge-right, 0px));
   width: 100%;
   max-width: none;
   transform: translateY(-50%);

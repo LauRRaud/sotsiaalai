@@ -869,6 +869,8 @@ body.home-profile-open .home-scroll-cue,
   flex: 1 0 auto;
   box-sizing: border-box;
   z-index: 20;
+  pointer-events: none;
 }
+.main-content > * { pointer-events: auto; }
 .left {}
 .right {}

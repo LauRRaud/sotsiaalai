@@ -269,7 +269,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (open) {
-      url.searchParams.set("profile");
+      url.searchParams.set("profile", "1");
     } else {
       url.searchParams.delete("profile");
     }

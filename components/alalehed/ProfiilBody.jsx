@@ -571,7 +571,12 @@ export default function ProfiilBody({
       </div>
 
       <div className={styles.profileForm}>
-        <div className={styles.profileOrbitWrapper}>
+        <div
+          className={cn(
+            styles.profileOrbitWrapper,
+            "profile-email-dock-wrapper profile-orbit-menu-wrapper"
+          )}
+        >
           <OrbitalMenu
             items={orbitItems}
             ariaLabel={t("profile.actions_label")}
