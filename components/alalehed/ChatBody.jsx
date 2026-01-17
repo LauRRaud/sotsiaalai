@@ -21,7 +21,6 @@ import { useConversationSources } from "@/components/chat/hooks/useConversationS
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
-import { cn } from "@/components/ui/cn";
 
 export default function ChatBody({ roomId = null, onBackHome = null, embedded = false }) {
   const router = useRouter();
@@ -110,7 +109,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
         id: m.id,
         role: isAssistant ? "ai" : isMine ? "user" : "member",
         text: m.content || "",
-        authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || t("chat.aria.member"),
+        authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || "Liige",
         authorRole: m.authorRole || "MEMBER",
         createdAt: created,
         aiVisible: aiSeen,
@@ -245,7 +244,6 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   const { conversationSources, hasConversationSources, sourcesPulse } =
     useConversationSources({ messages, showSourcesPanel, uploadPreview: analysis.uploadPreview });
 
-  /* ---------- UI utilid ---------- */
   const focusSourcesButton = useCallback(() => {
     setTimeout(() => {
       try {
@@ -271,7 +269,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (open) {
-      url.searchParams.set("profile", "1");
+      url.searchParams.set("profile");
     } else {
       url.searchParams.delete("profile");
     }
@@ -372,7 +370,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
       setIsCrisis(false);
       try {
         window.dispatchEvent(
-          new CustomEvent("sotsiaalai:toggle-conversations", { detail: { open: false } })
+          new CustomEvent("sotsiaalai:toggle-conversations")
         );
       } catch {}
     }
@@ -439,7 +437,6 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     });
   }, [isRoomMode, roomMessages, session?.user?.id, setMessages]);
 
-  /* ---------- Allikate paneeli sulgemine, kui allikaid pole ---------- */
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
@@ -513,207 +510,170 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   const chatFaceClass = `chat-roll-face chat-roll-face--chat${profileOpen ? "" : " is-active"}`;
   const profileFaceClass = `chat-roll-face chat-roll-face--profile${profileOpen ? " is-active" : ""}`;
 
-  /* ---------- Render ---------- */
   return (
     <>
       <InviteModal />
-      <div
-        className={cn(
-          "chat-page-shell relative flex min-h-[100dvh] w-full items-start justify-center",
-          "min-[48em]:pt-[calc(env(safe-area-inset-top,0px)+clamp(0.7rem,1.9vh,1.3rem))]",
-          isEntering ? "chat-entering" : null
-        )}
-      >
-        <div className="chat-roll-stage relative flex w-full items-start justify-center">
+      <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
+        <div className="chat-roll-stage">
           <div className={rollCardClass}>
-            <div
-              className={cn(
-                chatFaceClass,
-                "flex items-center justify-center transition-opacity duration-300"
-              )}
-              aria-hidden={profileOpen ? "true" : "false"}
-            >
+            <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
               <div
-                className={cn(
-                  "main-content chat-container chat-container--round relative z-20 flex aspect-square h-[var(--chat-diameter)] w-[var(--chat-diameter)] min-h-[var(--chat-diameter)] min-w-[var(--chat-diameter)] max-h-[var(--chat-diameter)] max-w-[var(--chat-diameter)] flex-col gap-[0.4rem] overflow-y-auto overscroll-contain rounded-full px-[var(--chat-hpad)] pb-[clamp(0.2rem,1vh,0.6rem)] pt-[clamp(1.6rem,3vh,2.6rem)]",
-                  "before:absolute before:inset-0 before:z-0 before:rounded-[inherit] before:bg-[var(--glass-surface-bg,rgba(0,0,0,0.25))] before:[backdrop-filter:blur(var(--glass-blur-radius,1rem))] before:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] before:[-webkit-mask-image:var(--chat-input-hole-mask,linear-gradient(#fff,#fff))] before:[-webkit-mask-position:0_0] before:[-webkit-mask-repeat:no-repeat] before:[-webkit-mask-size:100%_100%] before:[mask-image:var(--chat-input-hole-mask,linear-gradient(#fff,#fff))] before:[mask-position:0_0] before:[mask-repeat:no-repeat] before:[mask-size:100%_100%]",
-                  "max-[48em]:h-[100dvh] max-[48em]:w-screen max-[48em]:min-h-0 max-[48em]:min-w-0 max-[48em]:max-h-[100dvh] max-[48em]:max-w-screen max-[48em]:rounded-none max-[48em]:overflow-visible max-[48em]:px-[clamp(1rem,4vw,1.5rem)] max-[48em]:pt-[clamp(1.2rem,3vh,2rem)]",
-                  "min-[48em]:mt-[max(0px,calc((100dvh-var(--chat-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))]",
-                  inputFocused && !profileOpen
-                    ? "chat-container--input-focus min-[48em]:rounded-[calc(var(--chat-diameter)/2)_calc(var(--chat-diameter)/2)_2.4rem_2.4rem]"
-                    : null
-                )}
+                className={`main-content glass-box chat-container chat-container--round${
+                  inputFocused && !profileOpen ? " chat-container--input-focus" : ""
+                }`}
                 role="region"
                 aria-label={t("chat.page_label")}
                 ref={chatContainerRef}
-                style={{
-                  "--chat-diameter": "min(clamp(660px, 90vmin, 1240px), calc(100dvh - 3rem))",
-                  "--chat-hpad": "clamp(2.2rem, 6vw, 3.4rem)",
-                  "--chat-logo-height": "clamp(12rem, 32vw, 26rem)",
-                  "--chat-logo-y": "clamp(5.2rem, 23vh, 12.2rem)",
-                  "--chat-ai-offset": "clamp(1.35rem, 3vw, 2.4rem)",
-                  "--hud-edge": "clamp(1.05rem, 2.5vw, 1.55rem)",
-                  "--hud-icon": "clamp(3rem, 5vw, 3.3rem)",
-                }}
               >
-                <div
-                  className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[clamp(3.6rem,8vh,6.5rem)] bg-gradient-to-b from-[rgba(10,12,18,0.9)] to-transparent"
-                  aria-hidden="true"
-                />
-                {!profileOpen ? (
-                  <div
-                    className={cn(
-                      "back-btn-wrapper back-btn-wrapper--side absolute left-[clamp(0.1rem,1.2vw,0.8rem)] top-[clamp(0.4rem,2vh,1rem)] z-30",
-                      analysis.showAnalysisPanel ? "is-hidden pointer-events-none opacity-0" : null
-                    )}
-                    aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}
-                  >
-                    <button
-                      type="button"
-                      className="back-arrow-btn inline-flex h-[4.2rem] w-[4.2rem] items-center justify-center rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(8,12,20,0.55)] shadow-[0_10px_24px_rgba(0,0,0,0.35)] transition-transform duration-150 hover:-translate-y-[1px]"
-                      onClick={handleBackHome}
-                      aria-label={t("chat.back_to_home")}
-                      tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
-                    >
-                      <span className="back-arrow-circle" />
-                    </button>
-                  </div>
-                ) : null}
+          <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
+          {!profileOpen ? (
+            <div
+              className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`}
+              aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}
+            >
+              <button
+                type="button"
+                className="back-arrow-btn"
+                onClick={handleBackHome}
+                aria-label={t("chat.back_to_home")}
+                tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
+              >
+                <span className="back-arrow-circle" />
+              </button>
+            </div>
+          ) : null}
 
-                <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-[0.4rem]">
-                  <RightRail
-                    t={t}
-                    roomId={roomId}
-                    isLightTheme={isLightTheme}
-                    inputFocused={inputFocused}
-                    sourcesButtonRef={sourcesButtonRef}
-                    toggleSourcesPanel={toggleSourcesPanel}
-                    showSourcesPanel={showSourcesPanel}
-                    sourcesPulse={sourcesPulse}
-                    conversationSources={conversationSources}
-                    hasConversationSources={hasConversationSources}
-                    onProfileToggle={toggleProfile}
-                    embedded={embedded}
-                  />
+      <RightRail
+        t={t}
+        roomId={roomId}
+        isLightTheme={isLightTheme}
+        inputFocused={inputFocused}
+        sourcesButtonRef={sourcesButtonRef}
+        toggleSourcesPanel={toggleSourcesPanel}
+        showSourcesPanel={showSourcesPanel}
+        sourcesPulse={sourcesPulse}
+        conversationSources={conversationSources}
+        hasConversationSources={hasConversationSources}
+        onProfileToggle={toggleProfile}
+        embedded={embedded}
+      />
 
-                  <h1 className="glass-title text-center">{t("chat.title")}</h1>
-                  {isRoomMode && roomTitle ? (
-                    <div className="room-title-sub text-center text-[1.25rem] tracking-[0.02em] text-[color:var(--pt-200)]">
-                      {roomTitle}
-                    </div>
-                  ) : null}
-                  {isCrisis ? (
-                    <div
-                      role="alert"
-                      className="mb-[0.75rem] mt-[0.35rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]"
-                    >
-                      {crisisText}
-                    </div>
-                  ) : null}
+      <h1 className="glass-title">{t("chat.title")}</h1>
+      {isRoomMode && roomTitle ? (
+        <div className="room-title-sub">
+          {roomTitle}
+        </div>
+      ) : null}
 
-                  {errorBanner ? (
-                    <div
-                      role="alert"
-                      className="chat-error-banner mb-[0.75rem] mt-[0.5rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]"
-                    >
-                      {errorBanner}
-                    </div>
-                  ) : null}
-                  {isRoomMode && roomBlocked ? (
-                    <div className="chat-error-banner rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]" role="alert">
-                      {t("chat.room.blocked")}
-                    </div>
-                  ) : null}
+      {isCrisis ? (
+        <div
+          role="alert"
+          className="mt-[0.35rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]"
+        >
+          {crisisText}
+        </div>
+      ) : null}
 
-                  {isRoomMode && roomAuthRequired ? (
-                    <div className="chat-error-banner rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]" role="alert">
-                      {t("chat.room.auth_required")}
-                    </div>
-                  ) : null}
+      {errorBanner ? (
+        <div
+          role="alert"
+          className="chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]"
+        >
+          {errorBanner}
+        </div>
+      ) : null}
+      {isRoomMode && roomBlocked ? (
+        <div className="glass-note chat-error-banner" role="alert">
+          {t("chat.room.blocked")}
+        </div>
+      ) : null}
 
-                  <ConversationView
-                    t={t}
-                    chatWindowRef={chatWindowRef}
-                    isStreamingAny={isStreamingAny}
-                    hiddenCount={hiddenCount}
-                    pageSize={PAGE_SIZE}
-                    onRevealOlder={revealOlder}
-                    canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES}
-                    onHideOlder={hideOlder}
-                    onJumpToBottom={handleJumpToBottom}
-                    messageItems={messageItems}
-                  />
 
-                  <ChatComposer
-                    t={t}
-                    isLightTheme={isLightTheme}
-                    acceptAttr={analysis.acceptAttr}
-                    ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible}
-                    fileInputRef={analysis.fileInputRef}
-                    onFileChange={analysis.onFileChange}
-                    inputBarRef={inputBarRef}
-                    inputRef={inputRef}
-                    onFocusInput={() => setInputFocused(true)}
-                    onBlurInput={handleInputBlur}
-                    isGenerating={isGenerating}
-                    isStreamingAny={isStreamingAny}
-                    isRoomMode={isRoomMode}
-                    roomBlocked={roomBlocked}
-                    roomAuthRequired={roomAuthRequired}
-                    onStop={stop}
-                    onSend={sendMessage}
-                    speakLatestReply={speakLatestReply}
-                    canSpeakLatest={canSpeakLatest}
-                    isSpeaking={isSpeaking}
-                    recording={recording}
-                    recordingPulse={recordingPulse}
-                    handleMic={handleMic}
-                    draftApiRef={composerDraftApiRef}
-                  />
+      {isRoomMode && roomAuthRequired ? (
+        <div className="glass-note chat-error-banner" role="alert">
+          {t("chat.room.auth_required")}
+        </div>
+      ) : null}
 
-                  {isRoomMode && inputFocused ? (
-                    <div className="chat-ai-toggle mt-[0.4rem] flex items-center justify-center gap-[0.65rem]">
-                      <label className="glass-checkbox chat-ai-checkbox inline-flex items-center gap-[0.5rem]">
-                        <input
-                          type="checkbox"
-                          checked={sendToAssistant}
-                          onChange={(e) => setSendToAssistant(e.target.checked)}
-                          aria-describedby="chat-ai-hint"
-                        />
-                        <span className="checkbox-text">{t("chat.ai_toggle.label")}</span>
-                      </label>
-                      <span id="chat-ai-hint" className="sr-only">{aiNote}</span>
-                    </div>
-                  ) : null}
 
-                  {recordingError ? (
-                    <div
-                      role="alert"
-                      className="chat-error-banner mt-[0.5rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]"
-                    >
-                      {recordingError}
-                    </div>
-                  ) : null}
+      <ConversationView
+        t={t}
+        chatWindowRef={chatWindowRef}
+        isStreamingAny={isStreamingAny}
+        hiddenCount={hiddenCount}
+        pageSize={PAGE_SIZE}
+        onRevealOlder={revealOlder}
+        canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES}
+        onHideOlder={hideOlder}
+        onJumpToBottom={handleJumpToBottom}
+        messageItems={messageItems}
+      />
 
-                  <footer className="chat-footer min-h-[5.8rem]" />
-                  <ChatSourcesPanel
-                    open={showSourcesPanel}
-                    t={t}
-                    conversationSources={conversationSources}
-                    onClose={closeSourcesPanel}
-                    returnFocusRef={sourcesButtonRef}
-                  />
-                </div>
+      <ChatComposer
+        t={t}
+        isLightTheme={isLightTheme}
+        acceptAttr={analysis.acceptAttr}
+        ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible}
+        fileInputRef={analysis.fileInputRef}
+        onFileChange={analysis.onFileChange}
+        inputBarRef={inputBarRef}
+        inputRef={inputRef}
+        onFocusInput={() => setInputFocused(true)}
+        onBlurInput={handleInputBlur}
+        isGenerating={isGenerating}
+        isStreamingAny={isStreamingAny}
+        isRoomMode={isRoomMode}
+        roomBlocked={roomBlocked}
+        roomAuthRequired={roomAuthRequired}
+        onStop={stop}
+        onSend={sendMessage}
+        speakLatestReply={speakLatestReply}
+        canSpeakLatest={canSpeakLatest}
+        isSpeaking={isSpeaking}
+        recording={recording}
+        recordingPulse={recordingPulse}
+        handleMic={handleMic}
+        draftApiRef={composerDraftApiRef}
+      />
+
+      {isRoomMode && inputFocused ? (
+        <div className="chat-ai-toggle">
+          <label className="glass-checkbox chat-ai-checkbox">
+            <input
+              type="checkbox"
+              checked={sendToAssistant}
+              onChange={(e) => setSendToAssistant(e.target.checked)}
+              aria-describedby="chat-ai-hint"
+            />
+            <span className="checkbox-text">
+              {t("chat.ai_toggle.label")}
+            </span>
+          </label>
+          <span id="chat-ai-hint" className="sr-only">{aiNote}</span>
+        </div>
+      ) : null}
+
+      {recordingError ? (
+        <div
+          role="alert"
+          className="glass-note chat-error-banner mt-[0.5rem]"
+        >
+          {recordingError}
+        </div>
+      ) : null}
+
+      <footer className="chat-footer" />
+      <ChatSourcesPanel
+        open={showSourcesPanel}
+        t={t}
+        conversationSources={conversationSources}
+        onClose={closeSourcesPanel}
+        returnFocusRef={sourcesButtonRef}
+      />
 
               </div>
             </div>
-            <div
-              className={cn(
-                profileFaceClass,
-                "flex items-center justify-center transition-opacity duration-300"
-              )}
-              aria-hidden={profileOpen ? "false" : "true"}
-            >
+            <div className={profileFaceClass} aria-hidden={profileOpen ? "false" : "true"}>
               <ProfiilBody embedded isActive={profileOpen} onBack={closeProfile} />
             </div>
           </div>
@@ -748,6 +708,8 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     </>
   );
 }
+
+
 
 
 

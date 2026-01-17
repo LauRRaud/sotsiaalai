@@ -1,7 +1,6 @@
 "use client";
 
 import { memo, useEffect, useRef, useState } from "react";
-import { cn } from "@/components/ui/cn";
 
 const ConversationView = memo(function ConversationView({
   t,
@@ -51,16 +50,10 @@ const ConversationView = memo(function ConversationView({
   }, []);
 
   return (
-    <main className={cn("chat-main relative flex min-h-0 flex-1 flex-col gap-[0.5rem]")}>
+    <main className="chat-main relative">
       <div
         id="chat-window"
-        className={cn(
-          "chat-window relative flex min-h-[clamp(320px,48vh,620px)] flex-1 flex-col items-center gap-[var(--chat-window-gap,0.65em)] overflow-y-auto overscroll-contain px-[var(--chat-hpad)] py-[clamp(.75rem,2vw,1.2rem)]",
-          "[--chat-window-gap:.65em]",
-          "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)]",
-          "[mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)]",
-          "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] [-webkit-mask-position:0_0] [mask-position:0_0] [-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat]"
-        )}
+        className="chat-window u-mobile-scroll u-mobile-safe-pad relative"
         ref={chatWindowRef}
         role="region"
         aria-label={t("chat.aria.messages")}
@@ -68,13 +61,14 @@ const ConversationView = memo(function ConversationView({
         aria-busy={isStreamingAny ? "true" : "false"}
       >
         {hiddenCount > 0 ? (
-          <div className="chat-history-cap flex w-full justify-center">
+          <div className="chat-history-cap">
             <button
               type="button"
-              className="chat-history-cap-btn rounded-full border border-[rgba(255,255,255,0.25)] bg-[rgba(10,12,18,0.45)] px-[1.1rem] py-[0.45rem] text-[0.95rem] tracking-[0.02em] text-[color:var(--pt-150)] transition hover:border-[rgba(255,255,255,0.35)] hover:text-[color:var(--pt-80)]"
+              className="chat-history-cap-btn"
               onClick={onRevealOlder}
             >
-              {t("chat.show_older")} (+{Math.min(pageSize, hiddenCount)}) {hiddenCount} {t("chat.left")}
+              {t("chat.show_older")} (+{Math.min(pageSize, hiddenCount)}){" "}
+              {hiddenCount} {t("chat.left")}
             </button>
           </div>
         ) : null}
@@ -82,10 +76,10 @@ const ConversationView = memo(function ConversationView({
         {messageItems}
 
         {canHideOlder ? (
-          <div className="chat-history-cap flex w-full justify-center">
+          <div className="chat-history-cap">
             <button
               type="button"
-              className="chat-history-cap-btn rounded-full border border-[rgba(255,255,255,0.25)] bg-[rgba(10,12,18,0.45)] px-[1.1rem] py-[0.45rem] text-[0.95rem] tracking-[0.02em] text-[color:var(--pt-150)] transition hover:border-[rgba(255,255,255,0.35)] hover:text-[color:var(--pt-80)]"
+              className="chat-history-cap-btn"
               onClick={onHideOlder}
             >
               {t("chat.show_recent")}
@@ -93,15 +87,12 @@ const ConversationView = memo(function ConversationView({
           </div>
         ) : null}
 
-        <div
-          className="chat-window-fade chat-window-fade--bottom pointer-events-none sticky bottom-0 left-0 right-0 z-10 h-[clamp(2.6rem,7vh,4.8rem)] bg-gradient-to-t from-[rgba(10,12,18,0.9)] to-transparent"
-          aria-hidden="true"
-        />
+        <div className="chat-window-fade chat-window-fade--bottom" aria-hidden="true" />
       </div>
 
       {showScrollDown ? (
         <button
-          className="scroll-down-btn group absolute bottom-[clamp(1rem,2.6vh,2rem)] left-1/2 z-20 -translate-x-1/2 rounded-full border border-transparent bg-transparent p-[0.45rem] transition hover:scale-110 focus-visible:scale-110"
+          className="scroll-down-btn"
           onClick={onJumpToBottom}
           aria-label={t("chat.scroll_to_bottom")}
           title={t("chat.scroll_to_bottom_title")}
@@ -116,7 +107,6 @@ const ConversationView = memo(function ConversationView({
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-[2.25rem] w-[2.25rem] stroke-[var(--pt-400)] transition group-hover:stroke-[color:var(--pt-200)]"
             aria-hidden="true"
           >
             <path d="M4 9l8 8 8-8" />
@@ -128,3 +118,4 @@ const ConversationView = memo(function ConversationView({
 });
 
 export default ConversationView;
+
