@@ -264,6 +264,21 @@ main#main > .main-content.glass-box.chat-container,
     justify-content: flex-start;
     padding-top: calc(env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem));
   }
+  .chat-roll-card{
+    width: var(--chat-diameter);
+    height: var(--chat-diameter);
+    inline-size: var(--chat-diameter);
+    block-size: var(--chat-diameter);
+    min-width: var(--chat-diameter);
+    min-height: var(--chat-diameter);
+    max-width: var(--chat-diameter);
+    max-height: var(--chat-diameter);
+    margin-top: max(0px, calc((100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
+  }
+  .chat-roll-face .glass-box.chat-container.chat-container--round,
+  .chat-roll-face .profile-container.profile-container--embedded{
+    margin-top: 0;
+  }
   .chat-page-shell .glass-box.chat-container.chat-container--round{
     --chat-diameter: clamp(660px, 90vmin, 1240px);
     --chat-expanded-delta: clamp(6.5rem, 15vh, 12.5rem);
@@ -279,7 +294,7 @@ main#main > .main-content.glass-box.chat-container,
     align-self: center;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    margin-top: max(0px, calc((100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
+    margin-top: 0;
     margin-bottom: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -1790,6 +1805,8 @@ body.home-profile-open .scroll-down-btn{
   --roll-trail-opacity: 0.2;
   position: relative;
   display: inline-grid;
+  border-radius: var(--roll-radius);
+  overflow: hidden;
   transform-style: preserve-3d;
   transition: transform 560ms cubic-bezier(.22,.61,.36,1);
   will-change: transform;

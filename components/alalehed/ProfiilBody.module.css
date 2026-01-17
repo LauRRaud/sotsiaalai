@@ -19,7 +19,10 @@
   max-width: clamp(32rem, 70vw, 50rem);
   margin: clamp(1.4rem, 4vw, 2.6rem) auto;
   border-radius: 1.5em;
-  padding: clamp(0.8rem, 2.5vw, 1.3rem) clamp(1.8rem, 4.5vw, 2.6rem) clamp(1.2rem, 3.5vw, 2rem);
+  --profile-pad-top: clamp(0.8rem, 2.5vw, 1.3rem);
+  --profile-pad-x: clamp(1.8rem, 4.5vw, 2.6rem);
+  --profile-pad-bottom: clamp(1.2rem, 3.5vw, 2rem);
+  padding: var(--profile-pad-top) var(--profile-pad-x) var(--profile-pad-bottom);
   box-sizing: border-box;
   color: var(--glass-surface-text, #f2f2f2);
   background: transparent;
@@ -49,6 +52,43 @@
   --profile-stack-gap: clamp(1.4rem, 3.2vh, 2.3rem);
   --profile-form-gap: clamp(1.1rem, 2.6vh, 1.8rem);
   --profile-footer-clearance: clamp(2.6rem, 6vh, 4.2rem);
+  --profile-center-y: 50%;
+  --profile-orbit-offset: 0px;
+  --profile-btn-row-offset: 0px;
+}
+
+.profileContainer::before {
+  opacity: 1;
+  filter: none;
+  -webkit-filter: none;
+  transform: translateZ(0);
+  will-change: transform;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.profileContainerPage {
+  width: var(--profile-diameter);
+  height: var(--profile-diameter);
+  inline-size: var(--profile-diameter);
+  block-size: var(--profile-diameter);
+  min-width: var(--profile-diameter);
+  min-height: var(--profile-diameter);
+  max-width: var(--profile-diameter);
+  max-height: var(--profile-diameter);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: max(0px, calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  --profile-pad-top: clamp(1.6rem, 3vh, 2.6rem);
+  --profile-pad-bottom: clamp(0.2rem, 1vh, 0.6rem);
+  --profile-role-hole-mask: none;
+  --profile-role-only-mask: none;
 }
 
 .profileContainer::before {
@@ -109,13 +149,26 @@
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   margin-top: max(0px, calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
 }
 
+.profileContainerEmbedded::before {
+  content: none;
+}
+
 @media (min-width: 48em) {
+  .profilePageShell {
+    justify-content: flex-start;
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem));
+  }
+
   .profileContainerEmbedded {
     padding-top: clamp(4.0rem, 8.2vh, 5.6rem);
     padding-bottom: clamp(0.2rem, 0.8vh, 0.6rem);
@@ -194,6 +247,11 @@
   text-shadow: none;
 }
 
+:global(html.profile-orbit-open) .profileRolePill {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .profileForm {
   gap: var(--profile-form-gap, var(--profile-stack-gap, clamp(0.6rem, 2.2vh, 1.2rem)));
   display: flex;
@@ -207,18 +265,23 @@
 .profileOrbitWrapper {
   width: 100%;
   max-width: var(--profile-actions-panel-w, 26.25rem);
-  margin: 1.5rem auto 0;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--profile-center-y, 50%) + var(--profile-orbit-offset));
+  transform: translateY(-50%);
+  z-index: 2;
 }
 
 .profileBtnRow {
   position: absolute;
   inset-inline: 0;
-  top: 50%;
-  padding-left: calc(var(--hud-edge-left, 0px));
-  padding-right: calc(var(--hud-edge-right, 0px));
+  top: calc(var(--profile-center-y, 50%) + var(--profile-btn-row-offset));
+  padding-left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
+  padding-right: calc(var(--hud-edge-right, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
   width: 100%;
   max-width: none;
   transform: translateY(-50%);
@@ -227,6 +290,11 @@
   align-items: center;
   gap: clamp(0.6rem, 1.6vw, 0.95rem);
   z-index: 3;
+  pointer-events: none;
+}
+
+:global(html.profile-orbit-open) .profileBtnRow {
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -258,6 +326,9 @@
   will-change: transform;
   flex: none;
   transform: translateY(0) translateZ(0);
+}
+.profileContainer[data-theme="light"] .backIcon {
+  background-image: url("/logo/tagasinupphele.svg");
 }
 
 .backButton:hover .backIcon,

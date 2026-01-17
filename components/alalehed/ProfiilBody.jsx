@@ -35,6 +35,7 @@ function ProfileShell({
   const containerClass = cn(
     styles.profileContainer,
     embedded ? styles.profileContainerEmbedded : null,
+    embedded ? null : styles.profileContainerPage,
     embedded ? "profile-container profile-container--embedded" : null,
   );
   const container = (
@@ -187,13 +188,25 @@ export default function ProfiilBody({
 
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const profileContainerRef = useRef(null);
+  const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
 
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
+    const form = profileFormRef.current;
     if (!box || !pill) return;
+    if (!embedded) return;
     const rollCard = box.closest?.(".chat-roll-card");
+    const isRollingNow = () => rollCard?.classList?.contains("is-rolling");
+    let deferTimer;
+    if (isRollingNow()) {
+      deferTimer = window.setTimeout(() => {
+        try {
+          if (!isRollingNow()) scheduleUpdate();
+        } catch {}
+      }, 620);
+    }
 
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
@@ -261,6 +274,7 @@ export default function ProfiilBody({
     };
 
     const updateMask = () => {
+      if (isRollingNow()) return;
       const boxW = Math.round(
         box.offsetWidth || box.getBoundingClientRect().width
       );
@@ -303,6 +317,12 @@ export default function ProfiilBody({
         rollCard.style.setProperty("--roll-hole-mask-profile", rollMask);
         lastRollMask = rollMask;
       }
+
+      const boxRect = box.getBoundingClientRect();
+      const centerY = boxRect.height / 2;
+      if (Number.isFinite(centerY)) {
+        box.style.setProperty("--profile-center-y", `${Math.round(centerY)}px`);
+      }
     };
 
     const scheduleUpdate = () => {
@@ -318,12 +338,14 @@ export default function ProfiilBody({
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(pill);
+      if (form) ro.observe(form);
     }
 
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
 
     return () => {
       window.cancelAnimationFrame(raf);
+      if (deferTimer) window.clearTimeout(deferTimer);
       window.removeEventListener("resize", scheduleUpdate);
       ro?.disconnect?.();
     };
@@ -570,7 +592,7 @@ export default function ProfiilBody({
         </span>
       </div>
 
-      <div className={styles.profileForm}>
+      <div className={styles.profileForm} ref={profileFormRef}>
         <div
           className={cn(
             styles.profileOrbitWrapper,
