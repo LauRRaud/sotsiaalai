@@ -547,6 +547,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
                 aria-label={t("chat.page_label")}
                 ref={chatContainerRef}
                 style={{
+                  "--chat-diameter": "min(clamp(660px, 90vmin, 1240px), calc(100dvh - 3rem))",
                   "--chat-hpad": "clamp(2.2rem, 6vw, 3.4rem)",
                   "--chat-logo-height": "clamp(12rem, 32vw, 26rem)",
                   "--chat-logo-y": "clamp(5.2rem, 23vh, 12.2rem)",
