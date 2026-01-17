@@ -318,11 +318,6 @@ export default function ProfiilBody({
         lastRollMask = rollMask;
       }
 
-      const boxRect = box.getBoundingClientRect();
-      const centerY = boxRect.height / 2;
-      if (Number.isFinite(centerY)) {
-        box.style.setProperty("--profile-center-y", `${Math.round(centerY)}px`);
-      }
     };
 
     const scheduleUpdate = () => {

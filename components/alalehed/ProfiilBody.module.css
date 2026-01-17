@@ -89,6 +89,7 @@
   --profile-pad-bottom: clamp(0.2rem, 1vh, 0.6rem);
   --profile-role-hole-mask: none;
   --profile-role-only-mask: none;
+  --profile-center-y: 46%;
 }
 
 .profileContainer::before {
@@ -157,6 +158,7 @@
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
+  --profile-center-y: 44%;
 }
 
 .profileContainerEmbedded::before {
