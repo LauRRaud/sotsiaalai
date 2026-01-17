@@ -195,8 +195,10 @@ export default function HomePage() {
 
   useEffect(() => {
     document.body.classList.add("homepage");
+    document.body.classList.add(styles.homeCursorScope);
     return () => {
       document.body.classList.remove("homepage");
+      document.body.classList.remove(styles.homeCursorScope);
     };
   }, []);
 
@@ -324,6 +326,13 @@ export default function HomePage() {
       return next;
     });
   };
+  const handleCardClick = (side) => (event) => {
+    if (!flipAllowed) return;
+    if (isMobile) return;
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+    startExitToChat(side);
+  };
 
   const resetMobileCards = useCallback(() => {
     setMobileFlipReady({ left: false, right: false });
@@ -382,6 +391,7 @@ export default function HomePage() {
         className={cn(
           styles["homepage-root"],
           styles["homepage-scroll"],
+          styles.homeCursorScope,
           homeChatOpen ? styles["home-chat-open"] : null
         )}
       >
@@ -412,6 +422,7 @@ export default function HomePage() {
                       className={styles["card-wrapper"]}
                       data-phase={leftPhase}
                       onTransitionEnd={onLeftTransitionEnd}
+                      onClick={handleCardClick("left")}
                     >
                       <div className={cn(styles["card-face"], styles.front)}>
                         <div
@@ -495,6 +506,7 @@ export default function HomePage() {
                       className={styles["card-wrapper"]}
                       data-phase={rightPhase}
                       onTransitionEnd={onRightTransitionEnd}
+                      onClick={handleCardClick("right")}
                     >
                       <div className={cn(styles["card-face"], styles.front)}>
                         <div
@@ -638,7 +650,7 @@ export default function HomePage() {
               info@sotsiaal.ai
             </AppLink>
             <Logomust
-              className={cn(styles["home-footer-logo"], "dim", footerFadeClass)}
+              className={cn(styles["home-footer-logo"], footerFadeClass)}
               role="img"
               aria-label={t("home.footer.logo_alt")}
             />

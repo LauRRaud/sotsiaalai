@@ -215,6 +215,21 @@ export default function ChatSidebar() {
       return next;
     });
   }, []);
+  const isEmbeddedChat = searchParams?.get("mode") === "chat";
+  const updateChatUrl = useCallback(
+    (nextRoomId) => {
+      if (typeof window === "undefined") return;
+      const url = new URL(window.location.href);
+      url.searchParams.set("mode", "chat");
+      if (nextRoomId) url.searchParams.set("roomId", nextRoomId);
+      else url.searchParams.delete("roomId");
+      const qs = url.searchParams.toString();
+      const nextPath = qs ? `${url.pathname}?${qs}` : url.pathname;
+      if (nextPath === `${pathname}${window.location.search}`) return;
+      router.replace(nextPath);
+    },
+    [pathname, router]
+  );
   const onPick = useCallback(
     (item) => {
       if (!item?.id) return;
@@ -327,21 +342,6 @@ export default function ChatSidebar() {
     } while (nextCursor && loops < 50);
     return ids;
   }, [t]);
-  const isEmbeddedChat = searchParams?.get("mode") === "chat";
-  const updateChatUrl = useCallback(
-    (nextRoomId) => {
-      if (typeof window === "undefined") return;
-      const url = new URL(window.location.href);
-      url.searchParams.set("mode", "chat");
-      if (nextRoomId) url.searchParams.set("roomId", nextRoomId);
-      else url.searchParams.delete("roomId");
-      const qs = url.searchParams.toString();
-      const nextPath = qs ? `${url.pathname}?${qs}` : url.pathname;
-      if (nextPath === `${pathname}${window.location.search}`) return;
-      router.replace(nextPath);
-    },
-    [pathname, router]
-  );
   const deleteConversationIds = useCallback(
     async (ids) => {
       const unique = Array.from(new Set(ids)).filter(Boolean);

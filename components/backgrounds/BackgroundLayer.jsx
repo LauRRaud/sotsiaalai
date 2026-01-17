@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
+import styles from "./HomeBackground.module.css";
 
 const Space = dynamic(() => import("../Space"), { ssr: false });
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
@@ -74,7 +75,7 @@ const BackgroundContent = memo(function BackgroundContent({
 
   useEffect(() => setMounted(true), []);
 
-  // Detect “mobile-like” environments to soften parallax + skip heavier effects.
+  // Detect mobile-like environments to soften parallax + skip heavier effects.
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -210,6 +211,7 @@ const BackgroundContent = memo(function BackgroundContent({
       <div
         data-bg-layer
         ref={layerRef}
+        className={isHome ? styles.homeBgLayer : undefined}
         data-parallax={isHome ? "home" : "off"}
         aria-hidden="true"
         suppressHydrationWarning

@@ -1,4 +1,4 @@
-// Magnet.jsx
+﻿// Magnet.jsx
 "use client";
 import { useState, useEffect, useRef } from "react";
 export default function Magnet({
@@ -20,14 +20,14 @@ export default function Magnet({
   const [isActive, setIsActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    // ✅ detect mobiil ekraan
+    // Detect mobile screens.
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
   useEffect(() => {
-    // kui keelatud või mobiil, nulli transformid
+    // If disabled or on mobile, reset transforms.
     if (disabled || isMobile) {
       activeRef.current = false;
       setIsActive(false);
@@ -138,7 +138,7 @@ export default function Magnet({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          pointerEvents: "none",
+          pointerEvents: "auto",
         }}
       >
         {child}

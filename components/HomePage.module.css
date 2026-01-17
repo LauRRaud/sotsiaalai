@@ -13,6 +13,63 @@
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
 }
+.homeCursorScope {
+  cursor: var(--cursor-default, auto);
+}
+.homeCursorScope :global(a),
+.homeCursorScope :global(button),
+.homeCursorScope :global([role="button"]),
+.homeCursorScope :global(label),
+.homeCursorScope :global(summary),
+.homeCursorScope :global(select),
+.homeCursorScope :global(option),
+.homeCursorScope :global(.cursor-pointer),
+.homeCursorScope :global(.btn),
+.homeCursorScope :global(.button),
+.homeCursorScope :global(input[type="button"]),
+.homeCursorScope :global(input[type="submit"]),
+.homeCursorScope :global(input[type="reset"]),
+.homeCursorScope :global(input[type="reset"]) {
+  cursor: var(--cursor-pointer, pointer);
+}
+.homeCursorScope :global(input),
+.homeCursorScope :global(textarea),
+.homeCursorScope :global(select),
+.homeCursorScope :global(select) {
+  cursor: text;
+}
+.homeCursorScope :global(.click-pulse-cursor) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100000;
+  border-radius: 50%;
+  border: 1.8px solid #FFFFFF;
+  background: transparent;
+  --cursor-x: -120px;
+  --cursor-y: -120px;
+  transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%);
+  opacity: 0;
+}
+.homeCursorScope :global(.click-pulse-cursor.is-active) {
+  opacity: 1;
+  animation: click-pulse 0.9s ease-in-out infinite;
+}
+.homeCursorScope :global(.splash-cursor) {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  pointer-events: none;
+  z-index: 9999;
+}
+@media (max-width: 768px), (hover: none) {
+  .homeCursorScope :global(.click-pulse-cursor) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .homeCursorScope :global(.click-pulse-cursor) { display: none; }
+}
 :global(:root.theme-light) .homepage-root{
   --home-prose-color: var(--text-strong, #1f2937);
 }
@@ -465,6 +522,13 @@
   padding-bottom: 0 !important;
   max-width: 100%;
   overflow-x: clip;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  position: relative;
+  z-index: 60;
 }
 
 .homepage-root.homepage-scroll .home-scroll-cue{
@@ -472,7 +536,7 @@
   left: 50%;
   bottom: clamp(-0.6rem, 1.2vh, 0.3rem);
   transform: translateX(-50%) translateY(8px);
-  z-index: 40;
+  z-index: 20;
   opacity: 0;
   transition: opacity 0.35s ease, transform 0.35s ease;
   pointer-events: none;
@@ -550,6 +614,46 @@
   0% { transform: translateY(0) rotate(180deg); opacity: 0.7; }
   50% { transform: translateY(6px) rotate(180deg); opacity: 1; }
   100% { transform: translateY(0) rotate(180deg); opacity: 0.8; }
+}
+
+@keyframes click-pulse {
+  0%   { transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%) scale(1); }
+  50%  { transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%) scale(1.16); }
+  100% { transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%) scale(1); }
+}
+
+@keyframes float-vertical {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-13px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(0.625rem);
+    transform: translate3d(0,0,0) scale(0.88);
+  }
+  70% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@keyframes cardBlurIntro {
+  0%   { opacity: 0;   transform: scale(.96); }
+  35%  { opacity: 0;   transform: scale(.974); }
+  50%  { opacity: .06; transform: scale(.984); }
+  58%  { opacity: .12; transform: scale(.989); }
+  68%  { opacity: .20; transform: scale(.994); }
+  80%  { opacity: .45; transform: scale(.999); }
+  92%  { opacity: .86; transform: scale(1); }
+  100% { opacity: 1;   transform: scale(1); }
 }
 
 @keyframes dfade-in{
@@ -755,3 +859,16 @@ body.home-profile-open .home-scroll-cue,
   .three-d-card.mobile-flipped-left  .card-face.front,
   .three-d-card.mobile-flipped-right .card-face.front { pointer-events: none; }
 }
+.main-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  position: relative;
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  z-index: 20;
+}
+.left {}
+.right {}
