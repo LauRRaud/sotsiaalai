@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
+import { cn } from "@/components/ui/cn";
 
 export default function ChatComposer({
   t,
@@ -84,7 +85,14 @@ export default function ChatComposer({
   );
 
   return (
-    <form className="chat-input-row" onSubmit={handleSubmit} autoComplete="off">
+    <form
+      className={cn(
+        "chat-input-row flex w-full items-center gap-[0.1rem] px-[var(--chat-hpad)]",
+        "[--inputbar-h:3.2rem] [--chat-action-size:calc(var(--inputbar-h)-0.2rem)] [--chat-action-pad:calc((var(--inputbar-h)-var(--chat-action-size))/2)]"
+      )}
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
       <button
         type="button"
         className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none hover:transform-none focus-visible:transform-none active:transform-none"
@@ -121,7 +129,17 @@ export default function ChatComposer({
         {t("chat.input.label")}
       </label>
 
-      <div className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position" ref={inputBarRef}>
+      <div
+        className={cn(
+          "chat-inputbar chat-inputbar--mobile u-mobile-reset-position grid flex-1 grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] min-h-[var(--inputbar-h)] border-[2px] border-[rgba(84,95,115,0.55)] bg-[rgba(10,14,24,0.22)] rounded-[999px] px-[var(--chat-action-pad,0.2rem)] pl-[0.625rem] transition-[border-color,box-shadow,background] duration-150 [--chat-hover-soft:rgba(210,215,225,0.26)] [--chat-hover-outer:rgba(210,215,225,0.16)]",
+          "shadow-[0_0_0_1px_rgba(0,0,0,0.06),_0_0.45rem_1.05rem_rgba(5,8,15,0.18)]",
+          "hover:border-[rgba(84,95,115,0.68)] hover:bg-[rgba(15,19,25,0.38)] hover:shadow-[0_0_2px_var(--chat-hover-soft),_0_0_6px_var(--chat-hover-outer)]",
+          "focus-within:border-[rgba(84,95,115,0.75)] focus-within:bg-[rgba(15,19,25,0.38)] focus-within:shadow-[0_0_2px_var(--chat-hover-soft),_0_0_6px_var(--chat-hover-outer)]",
+          "light:bg-[#f8f8f8] light:border-0 light:shadow-[0_4px_12px_rgba(0,0,0,0.12)] light:text-[#111827]",
+          "light:hover:bg-[#ffffff] light:hover:shadow-[0_6px_16px_rgba(0,0,0,0.14)] light:focus-within:bg-[#ffffff] light:focus-within:shadow-[0_6px_16px_rgba(0,0,0,0.14)]"
+        )}
+        ref={inputBarRef}
+      >
         <div className="chat-input-field-wrap">
           <textarea
             id="chat-input"
@@ -131,16 +149,25 @@ export default function ChatComposer({
             onKeyDown={handleKeyDown}
             onFocus={onFocusInput}
             onBlur={onBlurInput}
-            className="chat-input-field"
+            className={cn(
+              "chat-input-field w-full resize-none border-0 bg-transparent px-[0.2rem] py-[0.4rem] text-[1.05rem] text-[color:var(--pt-150)] outline-none",
+              "placeholder:text-[color:var(--pt-200)] light:text-[color:color-mix(in_srgb,#111827_72%,#4b5563_28%)] light:caret-[color:color-mix(in_srgb,#111827_72%,#4b5563_28%)] light:font-[500]",
+              "light:placeholder:text-transparent light:placeholder:opacity-0"
+            )}
             disabled={isGenerating || (isRoomMode && (roomBlocked || roomAuthRequired))}
             rows={1}
           />
         </div>
         <button
           type="button"
-          className="chat-send-btn chat-listen-btn"
-          aria-label={t("chat.listen.last_reply", "Kuula viimast vastust")}
-          title={t("chat.listen.title", "Kuula viimast assistendi vastust")}
+          className={cn(
+            "chat-send-btn chat-listen-btn inline-flex h-[var(--chat-action-size)] w-[var(--chat-action-size)] min-h-[var(--chat-action-size)] min-w-[var(--chat-action-size)] items-center justify-center rounded-full border-[2px] border-[rgba(84,95,115,0.55)] bg-[rgba(10,14,24,0.22)] transition-[transform,background] duration-150",
+            "hover:bg-[rgba(10,14,24,0.30)]",
+            "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),_0_0_6px_rgba(84,95,115,0.45)]",
+            "light:bg-[#f8f8f8] light:border-0 light:shadow-none light:text-[#111827] light:hover:bg-[#ffffff]"
+          )}
+          aria-label={t("chat.listen.last_reply")}
+          title={t("chat.listen.title")}
           onClick={speakLatestReply}
           disabled={!canSpeakLatest}
           data-speaking={isSpeaking ? "true" : "false"}
@@ -164,15 +191,18 @@ export default function ChatComposer({
         {hasInput || isGenerating || isStreamingAny ? (
           <button
             type="submit"
-            className={`chat-send-btn${(isGenerating || isStreamingAny) ? " chat-send-btn--active" : ""}`}
-            aria-label={
-              isGenerating ? t("chat.send.stop", "Peata vastus") : t("chat.send.send", "Saada sõnum")
-            }
-            title={
-              isGenerating ? t("chat.send.title_stop", "Peata vastus") : t("chat.send.title_send", "Saada (Enter)")
-            }
+            className={cn(
+              "chat-send-btn inline-flex h-[var(--chat-action-size)] w-[var(--chat-action-size)] min-h-[var(--chat-action-size)] min-w-[var(--chat-action-size)] items-center justify-center rounded-full border-[2px] border-[rgba(84,95,115,0.55)] bg-[rgba(10,14,24,0.22)] transition-[transform,background] duration-150",
+              "hover:bg-[rgba(10,14,24,0.26)]",
+              "data-[recording=true]:border-[rgba(255,92,92,0.9)] data-[recording=true]:shadow-[0_0_0_1px_rgba(255,92,92,0.35),_0_0_12px_rgba(255,92,92,0.25)]",
+              "light:bg-[#f8f8f8] light:border-0 light:shadow-none light:text-[#111827] light:hover:bg-[#ffffff]",
+              (isGenerating || isStreamingAny) ? "chat-send-btn--active" : null
+            )}
+            aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")}
+            title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")}
             disabled={(isRoomMode && (roomBlocked || roomAuthRequired)) || (!hasInput && !isGenerating && !isStreamingAny)}
             data-loader-active={(isGenerating || isStreamingAny) ? "true" : "false"}
+            data-recording={recording ? "true" : "false"}
           >
             <SotsiaalAILoader
               animated={isGenerating || isStreamingAny}
@@ -184,27 +214,33 @@ export default function ChatComposer({
         ) : (
           <button
             type="button"
-            className={`chat-send-btn${recording ? " chat-send-btn--active" : ""}`}
-            aria-label={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
-            title={recording ? t("chat.mic.stop", "Lõpeta salvestus") : t("chat.mic.start", "Alusta dikteerimist")}
+            className={cn(
+              "chat-send-btn inline-flex h-[var(--chat-action-size)] w-[var(--chat-action-size)] min-h-[var(--chat-action-size)] min-w-[var(--chat-action-size)] items-center justify-center rounded-full border-[2px] border-[rgba(84,95,115,0.55)] bg-[rgba(10,14,24,0.22)] transition-[transform,background] duration-150",
+              "hover:bg-[rgba(10,14,24,0.26)]",
+              "data-[recording=true]:border-[rgba(255,92,92,0.9)] data-[recording=true]:shadow-[0_0_0_1px_rgba(255,92,92,0.35),_0_0_12px_rgba(255,92,92,0.25)]",
+              "light:bg-[#f8f8f8] light:border-0 light:shadow-none light:text-[#111827] light:hover:bg-[#ffffff]",
+              recording ? "chat-send-btn--active" : null
+            )}
+            aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")}
+            title={recording ? t("chat.mic.stop") : t("chat.mic.start")}
             onClick={handleMic}
             disabled={isRoomMode && (roomBlocked || roomAuthRequired)}
             data-speaking={recording ? "true" : "false"}
             data-recording={recording ? "true" : "false"}
             data-recording-complete={recordingPulse ? "true" : "false"}
           >
-          <svg
-            aria-hidden="true"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-[1.6rem] w-[1.6rem]"
-          >
+            <svg
+              aria-hidden="true"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-[1.6rem] w-[1.6rem]"
+            >
               <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
               <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
               <line x1="12" y1="19" x2="12" y2="23" />
