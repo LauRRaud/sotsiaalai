@@ -162,8 +162,8 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} contentClassName="relative text-[1.05rem] leading-[1.35] tracking-[0.03rem]">
-      <IconButton className="absolute right-[0.2rem] top-[0.2rem]" label={t("common.close")} onClick={() => setOpen(false)} />
-      <header className="mb-[1.25rem] flex items-start justify-center gap-[0.75rem]">
+      <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
+      <header className="mb-[0.6rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[1.7rem] font-[400] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)] font-[family:var(--font-aino-headline)]">
           {t("invite.eyebrow")}
         </h2>
@@ -174,23 +174,11 @@ export default function InviteModal() {
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
             {!roomId ? <>
-                <label className="font-semibold tracking-[0.03em]" htmlFor="invite-room-title">
-                  {t("invite.room_title")}
-                </label>
-                <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} />
-                <label className="font-semibold tracking-[0.03em]" htmlFor="invite-host-name">
-                  {t("invite.host_name")}
-                </label>
-                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} />
+                <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} placeholder={t("invite.room_title")} aria-label={t("invite.room_title")} />
+                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name")} aria-label={t("invite.host_name")} />
               </> : null}
-            <label className="font-semibold tracking-[0.03em]" htmlFor="invite-emails">
-              {t("invite.classic.emails")}
-            </label>
-            <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} disabled={busy} />
-            <p className="mt-[0.65rem] text-center text-[1.08rem] font-semibold tracking-[0.02em]">
-              {t("invite.classic.payment")}
-            </p>
-            <SegmentedControl name="payment" value={paymentMode} options={paymentOptions} onChange={setPaymentMode} disabled={busy} />
+            <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
+            <SegmentedControl className="[--seg-card-bg-hover:var(--input-bg-hover)] [--seg-card-text-hover:var(--input-text)]" name="payment" value={paymentMode} options={paymentOptions} onChange={setPaymentMode} disabled={busy} />
 
             {error ? <p className="text-center text-[color:#fca5a5]" role="alert">
                 {error}
