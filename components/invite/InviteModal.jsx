@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -33,8 +33,8 @@ export default function InviteModal() {
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const paymentOptions = [
-    { value: "self_paid", label: t("invite.pay.self", "Tal on oma tellimus") },
-    { value: "sponsored_by_host", label: t("invite.pay.host", "Tasun tema eest") },
+    { value: "self_paid", label: t("invite.pay.self") },
+    { value: "sponsored_by_host", label: t("invite.pay.host") },
   ];
 
   useEffect(() => {
@@ -107,11 +107,11 @@ export default function InviteModal() {
     const trimmedRoomTitle = roomTitle.trim();
     const trimmedHostName = hostDisplayName.trim();
     if (!roomId && !trimmedRoomTitle) {
-      setError(t("invite.room_title_required", "Lisa ruumile nimi enne kutsete saatmist."));
+      setError(t("invite.room_title_required"));
       return;
     }
     if (!roomId && !trimmedHostName) {
-      setError(t("invite.host_name_required", "Lisa oma nimi enne kutsete saatmist."));
+      setError(t("invite.host_name_required"));
       return;
     }
     setBusy(true);
@@ -129,16 +129,16 @@ export default function InviteModal() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || "Kutse saatmine eba€ænnestus");
+        throw new Error(data?.message || t("invite.send_failed"));
       }
-      setMessage(t("invite.success", "Kutsed saadetud"));
+      setMessage(t("invite.success"));
       setEmails("");
       if (!roomId && data?.roomId) {
         setRoomId(data.roomId);
       }
       loadInvites();
     } catch (err) {
-      setError(err?.message || "Kutse saatmine eba€ænnestus");
+      setError(err?.message || t("invite.send_failed"));
     } finally {
       setBusy(false);
     }
@@ -149,16 +149,16 @@ export default function InviteModal() {
       const url = kind === "resend" ? `/api/invites/${id}/resend` : `/api/invites/${id}/revoke`;
       const res = await fetch(url, { method: "POST" });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || data?.ok === false) throw new Error(data?.message || "Viga");
+      if (!res.ok || data?.ok === false) throw new Error(data?.message || t("invite.error_generic"));
       await loadInvites();
     } catch (err) {
-      setError(err?.message || "Tegevus eba€ænnestus");
+      setError(err?.message || t("invite.action_failed"));
     }
   }
 
   function formatStatus(inv) {
     if (inv.status === "ACCEPTED" && inv.acceptedBillingSource) {
-      return inv.acceptedBillingSource === "SELF" ? "Liitunud (oma plaan)" : "Liitunud (sponsoreeritud)";
+      return inv.acceptedBillingSource === "SELF" ? t("invite.status.accepted_self") : t("invite.status.accepted_sponsored");
     }
     return inv.status;
   }
@@ -171,31 +171,31 @@ export default function InviteModal() {
       variant="glass"
       onClose={() => setOpen(false)}
       closeOnOverlayClick
-      aria-label={t("invite.title", "Lisa inimesi")}
+      aria-label={t("invite.title")}
       contentClassName="relative text-[1.05rem] leading-[1.35] tracking-[0.03rem]"
     >
       <IconButton
         className="absolute right-[0.2rem] top-[0.2rem]"
-        label={t("common.close", "Sulge")}
+        label={t("common.close")}
         onClick={() => setOpen(false)}
       />
       <header className="mb-[1.25rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="glass-title w-full text-center text-[1.7rem] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)]">
-          {t("invite.eyebrow", "Grupivestlus")}
+          {t("invite.eyebrow")}
         </h2>
       </header>
 
       <div className="grid gap-[1.6rem]">
         {!session?.user?.id ? (
           <div className="grid gap-[1rem]">
-            <p>{t("invite.login_required", "Kutsumiseks logi sisse.")}</p>
+            <p>{t("invite.login_required")}</p>
           </div>
         ) : (
           <form className="grid gap-[1rem]" onSubmit={submit}>
             {!roomId ? (
               <>
                 <label className="font-semibold tracking-[0.03em]" htmlFor="invite-room-title">
-                  {t("invite.room_title", "Ruumi nimi")}
+                  {t("invite.room_title")}
                 </label>
                 <Input
                   id="invite-room-title"
@@ -204,7 +204,7 @@ export default function InviteModal() {
                   disabled={busy}
                 />
                 <label className="font-semibold tracking-[0.03em]" htmlFor="invite-host-name">
-                  {t("invite.host_name", "Sinu nimi vestluses")}
+                  {t("invite.host_name")}
                 </label>
                 <Input
                   id="invite-host-name"
@@ -215,17 +215,17 @@ export default function InviteModal() {
               </>
             ) : null}
             <label className="font-semibold tracking-[0.03em]" htmlFor="invite-emails">
-              {t("invite.classic.emails", "Lisa inimesi vestlusesse")}
+              {t("invite.classic.emails")}
             </label>
             <Input
               id="invite-emails"
               value={emails}
               onChange={(e) => setEmails(e.target.value)}
-              placeholder={t("invite.classic.emails_ph", "E-post (eralda komaga)")}
+              placeholder={t("invite.classic.emails_ph")}
               disabled={busy}
             />
             <p className="mt-[0.65rem] text-center text-[1.08rem] font-semibold tracking-[0.02em]">
-              {t("invite.classic.payment", "Tellimuse olemasolu")}
+              {t("invite.classic.payment")}
             </p>
             <SegmentedControl
               name="payment"
@@ -248,7 +248,7 @@ export default function InviteModal() {
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
               <Button type="submit" className="min-w-[9.5rem]" disabled={busy}>
-                {busy ? t("invite.sending", "Saadan...") : t("invite.send", "SAADA KUTSE")}
+                {busy ? t("invite.sending") : t("invite.send")}
               </Button>
             </div>
           </form>
@@ -257,20 +257,20 @@ export default function InviteModal() {
         <Panel variant="secondary" padding="sm">
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
-              {t("invite.list", "Kutsed")}
+              {t("invite.list")}
             </span>
             <Button type="button" onClick={loadInvites} disabled={loadingList}>
-              {loadingList ? t("invite.loading", "Laen...") : t("invite.refresh", "V€Ÿrskenda")}
+              {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>
           {invites.length === 0 ? (
-            <p className="mt-[0.5rem] opacity-80">{t("invite.empty", "Kutsete nimekiri on t€¬hi")}</p>
+            <p className="mt-[0.5rem] opacity-80">{t("invite.empty")}</p>
           ) : (
             <div className="invite-table invite-table--classic mt-[0.5rem]">
               <div className="invite-row invite-row--head">
-                <span>{t("invite.table.email", "Email")}</span>
-                <span>{t("invite.table.payer", "Maksja")}</span>
-                <span>{t("invite.table.status", "Staatus")}</span>
+                <span>{t("invite.table.email")}</span>
+                <span>{t("invite.table.payer")}</span>
+                <span>{t("invite.table.status")}</span>
                 <span></span>
               </div>
               {invites.map((inv) => (
@@ -278,18 +278,18 @@ export default function InviteModal() {
                   <span>{inv.inviteeEmail}</span>
                   <span>
                     {inv.paymentMode === "SPONSORED_BY_HOST"
-                      ? t("invite.payer.host", "Tasun tema eest")
-                      : t("invite.payer.self", "Tal on oma tellimus")}
+                      ? t("invite.payer.host")
+                      : t("invite.payer.self")}
                   </span>
                   <span>{formatStatus(inv)}</span>
                   <span className="invite-row__actions invite-classic__row-actions">
                     {inv.status === "SENT" ? (
                       <>
                         <Button type="button" onClick={() => action(inv.id, "resend")}>
-                          {t("invite.resend", "Saada uuesti")}
+                          {t("invite.resend")}
                         </Button>
                         <Button type="button" onClick={() => action(inv.id, "revoke")}>
-                          {t("buttons.cancel", "T€¬hista")}
+                          {t("buttons.cancel")}
                         </Button>
                       </>
                     ) : null}
@@ -303,3 +303,4 @@ export default function InviteModal() {
     </Modal>
   );
 }
+

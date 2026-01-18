@@ -776,10 +776,18 @@
       "self": "Есть собственная подписка"
     },
     "resend": "Отправить ещё раз",
-    "room_title": "Room name",
-    "room_title_required": "Add a room name before sending invites.",
-    "host_name": "Your name in the chat",
-    "host_name_ph": "e.g. Kert",
-    "host_name_required": "Add your name before sending invites."
+"room_title": "Название комнаты",
+"room_title_required": "Добавьте название комнаты перед отправкой приглашений.",
+"host_name": "Ваше имя в чате",
+"host_name_ph": "например: Kert",
+"host_name_required": "Добавьте ваше имя перед отправкой приглашений.",
+"send_failed": "Не удалось отправить приглашение.",
+"action_failed": "Действие не выполнено.",
+"error_generic": "Ошибка.",
+"status": {
+  "accepted_self": "Присоединился (собственный тариф)",
+  "accepted_sponsored": "Присоединился (спонсируемый тариф)"
+}
+
   }
 }

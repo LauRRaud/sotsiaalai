@@ -780,6 +780,13 @@
     "room_title_required": "Add a room name before sending invites.",
     "host_name": "Your name in the chat",
     "host_name_ph": "e.g. Kert",
-    "host_name_required": "Add your name before sending invites."
+    "host_name_required": "Add your name before sending invites.",
+    "send_failed": "Invite sending failed.",
+    "action_failed": "Action failed.",
+    "error_generic": "Error.",
+    "status": {
+      "accepted_self": "Joined (own plan)",
+      "accepted_sponsored": "Joined (sponsored)"
+    }
   }
 }

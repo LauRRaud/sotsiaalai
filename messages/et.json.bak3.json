@@ -780,6 +780,13 @@
     "room_title_required": "Lisa ruumile nimi enne kutsete saatmist.",
     "host_name": "Sinu nimi vestluses",
     "host_name_ph": "Nt Kert",
-    "host_name_required": "Lisa oma nimi enne kutsete saatmist."
+    "host_name_required": "Lisa oma nimi enne kutsete saatmist.",
+    "send_failed": "Kutse saatmine ebaõnnestus.",
+    "action_failed": "Tegevus ebaõnnestus.",
+    "error_generic": "Viga.",
+    "status": {
+      "accepted_self": "Liitunud (oma plaan)",
+      "accepted_sponsored": "Liitunud (sponsoreeritud)"
+    }
   }
 }
