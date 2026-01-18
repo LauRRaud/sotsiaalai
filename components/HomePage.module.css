@@ -857,6 +857,7 @@
 .homepage-root.homepage-scroll .home-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-size: clamp(1.08rem, 1.5vw, 1.25rem);
   letter-spacing: 0.01em;
   line-height: 1.1;

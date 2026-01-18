@@ -10,7 +10,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/kasutusjuhend",
-    title: meta.title || (locale === "ru" ? "Руководство по SotsiaalAI" : locale === "en" ? "How to use SotsiaalAI" : "Platvormi kasutusjuhend — SotsiaalAI"),
+    title: meta.title || (locale === "ru" ? "¾ÿã?¾‹¾ó¾ý¾ó¾?ã?ã'¾ý¾ó ¾‘¾ó SotsiaalAI" : locale === "en" ? "How to use SotsiaalAI" : "Platvormi kasutusjuhend ƒ?¦ SotsiaalAI"),
     description: meta.description || ""
   });
 }

@@ -58,7 +58,7 @@
   --input-text: var(--pt-150);
   --input-caret: var(--pt-150);
   --input-border: 2px solid transparent;
-  --input-placeholder: rgba(236, 240, 245, 0.75);
+  --input-placeholder: #f8f8f7;
   --input-shadow:
     0 6px 16px rgba(0, 0, 0, 0.22), 0 10px 18px -14px rgba(248, 253, 255, 0.72),
     0 22px 32px -22px rgba(248, 253, 255, 0.44);

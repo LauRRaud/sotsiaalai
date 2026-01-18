@@ -675,7 +675,7 @@
   input.input-email-icon::placeholder,
 :root.theme-light input[type="email"]::placeholder,
 :root.theme-light .input-modern::placeholder {
-  color: rgba(43, 38, 32, 0.65);
+  color: var(--input-placeholder);
 }
 :root.theme-light .login-modal-root .login-modal-form input {
   color: var(--text-strong);

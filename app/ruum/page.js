@@ -12,8 +12,10 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/ruum",
-    title: meta.title || "Ruumid — SotsiaalAI",
-    description: meta.description || "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
+    title: meta.title || "Ruumid ƒ?¦ SotsiaalAI",
+    description:
+      meta.description ||
+      "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
     openGraph: {
       type: "article"
     }

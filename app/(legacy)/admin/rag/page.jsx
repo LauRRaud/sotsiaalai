@@ -35,7 +35,7 @@ export default async function AdminRagPage() {
       </h1>
       <RagAdminClient />
       <div className="back-btn-wrapper">
-        <Link href="/meist" className="back-arrow-btn" aria-label="Tagasi">
+        <Link href="/#meist" className="back-arrow-btn" aria-label="Tagasi">
           <span className="back-arrow-circle" />
         </Link>
       </div>

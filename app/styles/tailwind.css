@@ -3,3 +3,50 @@
 @custom-variant hc (&:where(html:not(.theme-light)[data-contrast=hc] *));
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+@layer utilities {
+  .link-brand,
+  .link-brand-inline {
+    color: #f2e3d4;
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 0.02em 0.2em;
+    border: 2px solid transparent;
+    border-radius: 0.32em;
+    background: none;
+    text-decoration: none;
+    transition:
+      border 0.17s,
+      box-shadow 0.13s;
+  }
+  .link-brand {
+    font-size: 1.1em;
+  }
+  .link-brand-inline {
+    font-size: 0.95em;
+    letter-spacing: 0.02em;
+    padding: 0.02em 0.18em;
+  }
+  .link-brand:hover,
+  .link-brand:focus,
+  .link-brand-inline:hover,
+  .link-brand-inline:focus {
+    color: #f2e3d4;
+    border: 2px solid #e1a0a0;
+    background: none;
+    box-shadow: 0 0 0.4375rem 0 rgba(175, 170, 163, 0.4);
+  }
+  :root.theme-light .link-brand,
+  :root.theme-light .link-brand-inline {
+    color: var(--link-color);
+    border-color: transparent;
+  }
+  :root.theme-light .link-brand:hover,
+  :root.theme-light .link-brand:focus,
+  :root.theme-light .link-brand-inline:hover,
+  :root.theme-light .link-brand-inline:focus {
+    color: var(--link-color);
+    border-color: var(--link-color);
+  }
+}

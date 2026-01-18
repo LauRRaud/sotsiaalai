@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import AppLink from "@/components/ui/Link";
+import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { cn } from "@/components/ui/cn";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -13,7 +14,6 @@ import useT from "@/components/i18n/useT";
 import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatBody from "@/components/alalehed/ChatBody";
-import MeistBody from "./alalehed/MeistBody";
 import styles from "./HomePage.module.css";
 import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
@@ -462,53 +462,65 @@ export default function HomePage() {
 
         <section id="meist" className={cn(styles["home-section"], styles["home-about"])}>
           <div className={styles["home-section-inner"]}>
-            <MeistBody embedded isAdmin={isAuthed && isAdmin} />
-          </div>
-        </section>
-
-        <section className={cn(styles["home-section"], styles["home-links"])} aria-label={t("nav.main")}>
-          <div className={styles["home-section-inner"]}>
-            <h2 className={cn(styles["home-section-title"], "text-center text-[clamp(1.35rem,2.4vw,1.75rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.018em] mt-[clamp(1rem,2.4vw,1.8rem)] mb-[0.65rem] mx-0 [color:var(--home-prose-color)]")}>
-              {t("about.cta.title")}
+            <h2 className={cn(styles["home-section-title"], "text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.02em] mt-0 mb-[1.1rem] [color:var(--home-prose-color)]")}>
+              Meist
             </h2>
-            <ul className="flex flex-wrap items-center justify-center list-none p-0 mt-[0.35rem] mb-0 mx-0 gap-x-[1.05rem] gap-y-[0.45rem]">
-              <li>
-                <AppLink href="/kasutusjuhend" className={styles["home-link"]}>
-                  {t("about.guide.jump_link")}
-                </AppLink>
-              </li>
-              <li>
-                <AppLink href="/kasutustingimused" className={styles["home-link"]}>
-                  {t("about.links.terms")}
-                </AppLink>
-              </li>
-              <li>
-                <AppLink href="/privaatsustingimused" className={styles["home-link"]}>
-                  {t("about.links.privacy")}
-                </AppLink>
-              </li>
-
-              {isAuthed && isAdmin ? <>
+            <div className="text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] space-y-[0.95rem] [color:var(--home-prose-color)] [text-shadow:0_1px_18px_rgba(0,0,0,0.35)]">
+              <p>
+                SotsiaalAI on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
+              </p>
+              <p>
+                Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge – olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
+              </p>
+              <p>
+                Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka OSKA raport (2025). Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
+              </p>
+            </div>
+            <div className="mt-[1.4rem] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] space-y-[0.75rem] [color:var(--home-prose-color)]">
+              <p>Enne lehe kasutamist tutvu kindlasti:</p>
+              <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
+                <li>
+                  <AppLink href="/kasutusjuhend" className={`${styles["home-link"]} link-brand`}>
+                    Platvormi kasutusjuhend
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink href="/kasutustingimused" className={`${styles["home-link"]} link-brand`}>
+                    Kasutustingimused
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink href="/privaatsustingimused" className={`${styles["home-link"]} link-brand`}>
+                    Privaatsuspoliitika
+                  </AppLink>
+                </li>
+                {isAuthed && isAdmin ? <>
                   <li>
-                    <AppLink href="/admin/analytics" className={styles["home-link"]}>
-                      {t("about.links.analytics")}
+                    <AppLink href="/admin/analytics" className={`${styles["home-link"]} link-brand`}>
+                      Analüütika
                     </AppLink>
                   </li>
                   <li>
-                    <AppLink href="/admin/rag" className={styles["home-link"]}>
-                      {t("about.links.admin")}
+                    <AppLink href="/admin/rag" className={`${styles["home-link"]} link-brand`}>
+                      RAG andmebaasi haldus
                     </AppLink>
                   </li>
-                </> : null}
-            </ul>
+                  </> : null}
+              </ul>
+              <div className="mt-[0.75rem] flex justify-center">
+                <InstallAppLink variant="row" className={`${styles["home-link"]} link-brand`} />
+              </div>
+              <p>
+                <AppLink href="mailto:info@sotsiaal.ai" className={`${styles["home-link"]} link-brand`}>
+                  info@sotsiaal.ai
+                </AppLink>
+              </p>
+            </div>
           </div>
         </section>
 
         <footer className={styles["home-footer"]}>
           <div className={styles["home-footer-inner"]}>
-            <AppLink href="mailto:info@sotsiaal.ai" className={cn(styles["home-footer-email"], styles["home-link"])}>
-              info@sotsiaal.ai
-            </AppLink>
             <Logomust className={cn(styles["home-footer-logo"], footerFadeClass)} role="img" aria-label={t("home.footer.logo_alt")} />
           </div>
         </footer>

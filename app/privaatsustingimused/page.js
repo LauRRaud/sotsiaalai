@@ -10,7 +10,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/privaatsustingimused",
-    title: meta.title || "Privaatsustingimused – SotsiaalAI",
+    title: meta.title || "Privaatsustingimused ƒ?ò SotsiaalAI",
     description: meta.description || ""
   });
 }

@@ -2,7 +2,7 @@ import { localizePath, LOCALES } from "@/lib/localizePath";
 export default function sitemap() {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://sotsiaal.ai";
   const now = new Date().toISOString();
-  const paths = ["/", "/vestlus", "/profiil", "/uuenda-epost", "/registreerimine", "/kasutustingimused", "/privaatsustingimused", "/meist", "/uuenda-pin", "/tellimus", "/start"];
+  const paths = ["/", "/vestlus", "/profiil", "/uuenda-epost", "/registreerimine", "/kasutustingimused", "/privaatsustingimused", "/uuenda-pin", "/tellimus", "/start"];
   return paths.flatMap(pathname => {
     return LOCALES.map(locale => {
       const localizedPath = localizePath(pathname, locale);

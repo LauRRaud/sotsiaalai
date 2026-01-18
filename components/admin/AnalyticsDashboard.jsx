@@ -454,7 +454,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
       <div className="back-btn-wrapper">
-        <Link href="/meist" className="back-arrow-btn" aria-label="Tagasi">
+        <Link href="/#meist" className="back-arrow-btn" aria-label="Tagasi">
           <span className="back-arrow-circle" />
         </Link>
       </div>

@@ -4,7 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import useT from "@/components/i18n/useT";
 export default function InstallAppLink({
   variant = "list",
-  heading
+  heading,
+  className
 }) {
   const [canInstall, setCanInstall] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -79,6 +80,11 @@ export default function InstallAppLink({
           </p> : null}
         {showFallback ? <p className="text-muted">{isIOS ? iosHint : macHint}</p> : null}
       </section>;
+  }
+  if (variant === "row") {
+    return showInstallLink ? <a href="#" className={className || "link-brand"} onClick={handleClick}>
+        {installCta}
+      </a> : <span className={className || "text-muted"}>{isIOS ? iosHint : macHint}</span>;
   }
   return <li>
       {showInstallLink ? <a href="#" className="link-brand" onClick={handleClick}>

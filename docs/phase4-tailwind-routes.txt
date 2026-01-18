@@ -3,3 +3,9 @@
 /vestlus	app/vestlus/page.js
 /profiil	app/profiil/page.js
 /tellimus	app/tellimus/page.js
+/uuenda-epost	app/uuenda-epost/page.js
+/uuenda-pin	app/uuenda-pin/page.js
+/ruum	app/ruum/page.js
+/kasutustingimused	app/kasutustingimused/page.js
+/privaatsustingimused	app/privaatsustingimused/page.js
+/kasutusjuhend	app/kasutusjuhend/page.jsx
