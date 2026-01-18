@@ -164,7 +164,7 @@ export default function InviteModal() {
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} contentClassName="relative text-[1.05rem] leading-[1.35] tracking-[0.03rem]">
       <IconButton className="absolute right-[0.2rem] top-[0.2rem]" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[1.25rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className="glass-title w-full text-center text-[1.7rem] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)]">
+        <h2 className="w-full text-center text-[1.7rem] font-[400] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)] font-[family:var(--font-aino-headline)]">
           {t("invite.eyebrow")}
         </h2>
       </header>
@@ -215,31 +215,39 @@ export default function InviteModal() {
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>
-          {invites.length === 0 ? <p className="mt-[0.5rem] opacity-80">{t("invite.empty")}</p> : <div className="invite-table invite-table--classic mt-[0.5rem]">
-              <div className="invite-row invite-row--head">
+          {invites.length === 0 ? (
+            <p className="mt-[0.5rem] opacity-80">{t("invite.empty")}</p>
+          ) : (
+            <div className="mt-[0.5rem] grid gap-[0.6rem] text-[0.98rem]">
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.85rem] uppercase tracking-[0.08em] opacity-70">
                 <span>{t("invite.table.email")}</span>
                 <span>{t("invite.table.payer")}</span>
                 <span>{t("invite.table.status")}</span>
                 <span></span>
               </div>
-              {invites.map(inv => <div className="invite-row" key={inv.id}>
+              {invites.map(inv => (
+                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem]" key={inv.id}>
                   <span>{inv.inviteeEmail}</span>
                   <span>
                     {inv.paymentMode === "SPONSORED_BY_HOST" ? t("invite.payer.host") : t("invite.payer.self")}
                   </span>
                   <span>{formatStatus(inv)}</span>
-                  <span className="invite-row__actions invite-classic__row-actions">
-                    {inv.status === "SENT" ? <>
+                  <span className="flex items-center justify-end gap-[0.5rem]">
+                    {inv.status === "SENT" ? (
+                      <>
                         <Button type="button" onClick={() => action(inv.id, "resend")}>
                           {t("invite.resend")}
                         </Button>
                         <Button type="button" onClick={() => action(inv.id, "revoke")}>
                           {t("buttons.cancel")}
                         </Button>
-                      </> : null}
+                      </>
+                    ) : null}
                   </span>
-                </div>)}
-            </div>}
+                </div>
+              ))}
+            </div>
+          )}
         </Panel>
       </div>
     </Modal>;
