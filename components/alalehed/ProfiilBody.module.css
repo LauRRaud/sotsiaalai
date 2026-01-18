@@ -92,7 +92,9 @@
   --profile-pad-bottom: clamp(0.2rem, 1vh, 0.6rem);
   --profile-role-hole-mask: none;
   --profile-role-only-mask: none;
-  --profile-center-y: 46%;
+  --profile-center-y: 50%;
+  --profile-orbit-offset: -10%;
+  --profile-btn-row-offset: 6%;
 }
 
 .profileContainer::before {
@@ -164,7 +166,9 @@
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
-  --profile-center-y: 44%;
+  --profile-center-y: 50%;
+  --profile-orbit-offset: -10%;
+  --profile-btn-row-offset: 6%;
 }
 
 .profileContainerEmbedded::before {
@@ -271,11 +275,14 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
+  position: absolute;
+  inset-inline: 0;
+  top: var(--profile-center-y, 50%);
+  transform: translateY(-50%);
   padding-bottom: calc(
     var(--profile-footer-clearance, clamp(2.6rem, 6vh, 4.2rem)) +
       env(safe-area-inset-bottom, 0px)
   );
-  margin-top: clamp(-1.3rem, -3vh, -0.9rem);
 }
 
 .profileOrbitWrapper {

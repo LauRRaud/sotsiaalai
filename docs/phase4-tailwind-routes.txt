@@ -2,3 +2,4 @@
 /rooms	app/rooms/page.js
 /vestlus	app/vestlus/page.js
 /profiil	app/profiil/page.js
+/tellimus	app/tellimus/page.js

@@ -161,10 +161,10 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} contentClassName="relative text-[1.05rem] leading-[1.35] tracking-[0.03rem]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} contentClassName="relative overflow-visible pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
-      <header className="mb-[0.6rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className="w-full text-center text-[1.7rem] font-[400] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)] font-[family:var(--font-aino-headline)]">
+      <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
+        <h2 className="w-full text-center text-[1.7rem] font-[400] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif]">
           {t("invite.eyebrow")}
         </h2>
       </header>
@@ -178,7 +178,7 @@ export default function InviteModal() {
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name")} aria-label={t("invite.host_name")} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
-            <SegmentedControl className="[--seg-card-bg-hover:var(--input-bg-hover)] [--seg-card-text-hover:var(--input-text)]" name="payment" value={paymentMode} options={paymentOptions} onChange={setPaymentMode} disabled={busy} />
+            <SegmentedControl className="[--seg-card-bg:var(--input-bg)] [--seg-card-bg-hover:var(--input-bg-hover)] [--seg-card-bg-selected:var(--input-bg-hover)] [--seg-card-text-hover:var(--input-text)] [--seg-card-shadow-hover:var(--input-shadow)]" name="payment" value={paymentMode} options={paymentOptions} onChange={setPaymentMode} disabled={busy} />
 
             {error ? <p className="text-center text-[color:#fca5a5]" role="alert">
                 {error}
@@ -188,18 +188,18 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" className="min-w-[9.5rem]" disabled={busy}>
+              <Button type="submit" variant="primary" className="min-w-[9.5rem]" disabled={busy}>
                 {busy ? t("invite.sending") : t("invite.send")}
               </Button>
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm">
+        <Panel variant="secondary" padding="sm" className="border-0">
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}
             </span>
-            <Button type="button" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>
@@ -223,10 +223,10 @@ export default function InviteModal() {
                   <span className="flex items-center justify-end gap-[0.5rem]">
                     {inv.status === "SENT" ? (
                       <>
-                        <Button type="button" onClick={() => action(inv.id, "resend")}>
+                        <Button type="button" variant="primary" onClick={() => action(inv.id, "resend")}>
                           {t("invite.resend")}
                         </Button>
-                        <Button type="button" onClick={() => action(inv.id, "revoke")}>
+                        <Button type="button" variant="primary" onClick={() => action(inv.id, "revoke")}>
                           {t("buttons.cancel")}
                         </Button>
                       </>

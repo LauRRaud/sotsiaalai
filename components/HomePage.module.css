@@ -929,7 +929,7 @@ body.home-profile-open .home-scroll-cue,
   display: none;
 }
 .homepage-root.home-chat-open .home-chat-slot {
-  position: fixed;
+  position: absolute;
   inset: 0;
   transform: none !important;
   transition: none !important;
