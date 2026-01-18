@@ -1,5 +1,3 @@
-/* Extracted: Homepage / landing visuals (from legacy/part-01b.css). */
-/* Order preserved; no selector changes. */
 .homepage-root {
   display: flex;
   flex-direction: column;
@@ -7,13 +5,13 @@
   width: 100%;
   position: relative;
   overflow-y: visible;
-  --home-prose-color: rgba(242,241,239,0.92);
+  --home-prose-color: rgba(242, 241, 239, 0.92);
   --home-card-blur: 0.6rem;
   --home-card-saturate: 118%;
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
 }
-:root.theme-light .homepage-root{
+:root.theme-light .homepage-root {
   --home-prose-color: var(--text-strong, #1f2937);
 }
 .side {
@@ -28,7 +26,7 @@
   box-sizing: border-box;
   position: relative;
 }
-.three-d-card{
+.three-d-card {
   width: var(--card-size);
   aspect-ratio: 1 / 1;
   position: relative;
@@ -41,7 +39,7 @@
   isolation: auto;
   overflow: visible;
 }
-.card-wrapper{
+.card-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
@@ -52,31 +50,43 @@
   will-change: auto;
   border-radius: inherit;
 }
-.card-wrapper[data-phase="flippingToFront"]{
+.card-wrapper[data-phase="flippingToFront"] {
   transition-duration: var(--flip-front-ms, var(--flip-ms));
 }
-.card-wrapper::before{
-  content: "";position: absolute;
+.card-wrapper::before {
+  content: "";
+  position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  -webkit-backdrop-filter: blur(var(--card-blur,0.75rem));
-  backdrop-filter: blur(var(--card-blur,0.75rem));
-  -webkit-backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
-  backdrop-filter: blur(var(--card-blur,0.75rem)) saturate(var(--card-saturate,120%));
+  -webkit-backdrop-filter: blur(var(--card-blur, 0.75rem));
+  backdrop-filter: blur(var(--card-blur, 0.75rem));
+  -webkit-backdrop-filter: blur(var(--card-blur, 0.75rem))
+    saturate(var(--card-saturate, 120%));
+  backdrop-filter: blur(var(--card-blur, 0.75rem))
+    saturate(var(--card-saturate, 120%));
   transform: scale(1);
   clip-path: circle(50% at 50% 50%);
   opacity: 0;
-  transition: opacity 600ms cubic-bezier(.22,.61,.36,1), transform var(--flip-ms,1100ms) var(--flip-ease,cubic-bezier(.22,.61,.36,1));
+  transition:
+    opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform var(--flip-ms, 1100ms)
+      var(--flip-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 .card-wrapper:has(.glass-card.fade-in)::before,
 .card-wrapper:has(.centered-back-left.fade-in)::before,
-.card-wrapper:has(.centered-back-right.fade-in)::before{
-  animation: cardBlurIntro 2.4s cubic-bezier(.22,.61,.36,1) 0.5s forwards;
+.card-wrapper:has(.centered-back-right.fade-in)::before {
+  animation: cardBlurIntro 2.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.5s forwards;
 }
 .card-wrapper:has(.glass-card.fade-in-done)::before,
-.card-wrapper:not(:has(.glass-card.fade-in, .centered-back-left.fade-in, .centered-back-right.fade-in))::before{
+.card-wrapper:not(
+    :has(
+      .glass-card.fade-in,
+      .centered-back-left.fade-in,
+      .centered-back-right.fade-in
+    )
+  )::before {
   opacity: 1;
 }
 @supports not selector(:has(*)) {
@@ -86,17 +96,17 @@
 }
 .glass-card::before,
 .centered-back-left::before,
-.centered-back-right::before{
+.centered-back-right::before {
   content: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 .three-d-card.flip-allowed:hover .card-wrapper,
 .three-d-card.flip-allowed:focus-within .card-wrapper,
-.three-d-card.flip-allowed.is-flipping .card-wrapper{
+.three-d-card.flip-allowed.is-flipping .card-wrapper {
   will-change: transform;
 }
-.card-face{
+.card-face {
   position: absolute;
   inset: 0;
   display: grid;
@@ -106,25 +116,33 @@
   z-index: 1;
   isolation: isolate;
 }
-.card-face.front{ transform: rotateY(0deg); }
-.card-face.back { transform: rotateY(180deg); }
-.three-d-card:not(.flip-allowed) .card-wrapper { transform: none; }
-.three-d-card:not(.flip-allowed) { cursor: var(--cursor-default); }
+.card-face.front {
+  transform: rotateY(0deg);
+}
+.card-face.back {
+  transform: rotateY(180deg);
+}
+.three-d-card:not(.flip-allowed) .card-wrapper {
+  transform: none;
+}
+.three-d-card:not(.flip-allowed) {
+  cursor: var(--cursor-default);
+}
 .three-d-card.flip-allowed.left:hover .card-wrapper,
 .three-d-card.flip-allowed.left:focus-within .card-wrapper,
-.three-d-card.flip-allowed.left.is-flipping .card-wrapper{
+.three-d-card.flip-allowed.left.is-flipping .card-wrapper {
   transform: rotateY(180deg);
 }
 .three-d-card.flip-allowed.right:hover .card-wrapper,
 .three-d-card.flip-allowed.right:focus-within .card-wrapper,
-.three-d-card.flip-allowed.right.is-flipping .card-wrapper{
+.three-d-card.flip-allowed.right.is-flipping .card-wrapper {
   transform: rotateY(-180deg);
 }
 .three-d-card.is-flipping .card-face.front > .glass-card {
   animation-play-state: paused;
 }
 .glass-card {
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
   transform-origin: 50% 50%;
   transition: opacity var(--fade-ms) ease;
   width: 100%;
@@ -143,7 +161,6 @@
   isolation: isolate;
   overflow: hidden;
 }
-/* Homepage card visuals: 50% see-through spheres (SVGs stay unchanged). */
 :root.theme-light .homepage-root {
   --home-card-blur: 0.75rem;
   --home-card-saturate: 100%;
@@ -156,7 +173,13 @@
   inset: 0;
   pointer-events: none;
   z-index: 4;
-  background: radial-gradient(120% 110% at 50% 48%, rgba(20, 20, 20, 0) 0%, rgba(20, 20, 20, 0) 62%, rgba(20, 20, 20, 0.5) 78%, rgba(20, 20, 20, 0.88) 100%);
+  background: radial-gradient(
+    120% 110% at 50% 48%,
+    rgba(20, 20, 20, 0) 0%,
+    rgba(20, 20, 20, 0) 62%,
+    rgba(20, 20, 20, 0.5) 78%,
+    rgba(20, 20, 20, 0.88) 100%
+  );
 }
 .homepage-root .glass-card-light,
 .homepage-root .glass-card-dark,
@@ -196,23 +219,25 @@
   transform: scale(1);
   will-change: opacity, transform;
 }
-
-/* Slightly larger logo on the right (dark) front card only */
 .homepage-root .side.right .glass-card-dark .card-logo-bg-right {
-  width: min(var(--card-logo-front-right), calc(100% - var(--card-logo-safe-gap)));
+  width: min(
+    var(--card-logo-front-right),
+    calc(100% - var(--card-logo-safe-gap))
+  );
 }
-
-/* Slightly larger logo on the left (light) front card only */
 .homepage-root .side.left .glass-card-light .card-logo-bg-left {
-  width: min(var(--card-logo-front-left), calc(100% - var(--card-logo-safe-gap)));
+  width: min(
+    var(--card-logo-front-left),
+    calc(100% - var(--card-logo-safe-gap))
+  );
 }
-
-/* Homepage: keep the blur ring hidden; morph overlay handles glass. */
 .homepage-root .card-wrapper::before {
   -webkit-backdrop-filter: blur(var(--home-card-blur));
   backdrop-filter: blur(var(--home-card-blur));
-  -webkit-backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
-  backdrop-filter: blur(var(--home-card-blur)) saturate(var(--home-card-saturate));
+  -webkit-backdrop-filter: blur(var(--home-card-blur))
+    saturate(var(--home-card-saturate));
+  backdrop-filter: blur(var(--home-card-blur))
+    saturate(var(--home-card-saturate));
   inset: 3.5%;
   clip-path: circle(50% at 50% 50%);
   transform: none;
@@ -237,11 +262,13 @@
   position: relative;
   overflow: hidden;
 }
-.card-face.back { pointer-events: none; }
+.card-face.back {
+  pointer-events: none;
+}
 .three-d-card.flip-allowed.left:hover .card-face.back,
 .three-d-card.flip-allowed.left:focus-within .card-face.back,
 .three-d-card.flip-allowed.right:hover .card-face.back,
-.three-d-card.flip-allowed.right:focus-within .card-face.back{
+.three-d-card.flip-allowed.right:focus-within .card-face.back {
   pointer-events: auto;
 }
 .homepage-root .glass-card,
@@ -260,27 +287,32 @@ body.modal-open .three-d-card:hover .card-face.front > .glass-card,
 body.modal-open .three-d-card:focus-within .card-face.front > .glass-card,
 body.modal-open .three-d-card:hover .card-face.back > .centered-back-left,
 body.modal-open .three-d-card:hover .card-face.back > .centered-back-right,
-body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-left,
-body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-right {
+body.modal-open
+  .three-d-card:focus-within
+  .card-face.back
+  > .centered-back-left,
+body.modal-open
+  .three-d-card:focus-within
+  .card-face.back
+  > .centered-back-right {
   animation: none;
   box-shadow: none;
 }
 .float-card {
   animation: float-vertical 6.7s ease-in-out infinite;
-   will-change: transform;
+  will-change: transform;
 }
-
 
 .glass-card.fade-in {
   opacity: 0;
-  animation: cardFadeIn 2.4s cubic-bezier(.61,.0,.19,1) 0.5s forwards;
+  animation: cardFadeIn 2.4s cubic-bezier(0.61, 0, 0.19, 1) 0.5s forwards;
   position: relative;
   overflow: hidden;
 }
 
-
 .glass-card.fade-in::before {
-  content: "";position: absolute;
+  content: "";
+  position: absolute;
   inset: 0;
   border-radius: inherit;
 }
@@ -299,7 +331,10 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 .card-logo-bg-right {
   top: 50%;
   left: 50%;
-  width: min(var(--card-logo-front-right), calc(100% - var(--card-logo-safe-gap)));
+  width: min(
+    var(--card-logo-front-right),
+    calc(100% - var(--card-logo-safe-gap))
+  );
   opacity: 0.7;
   max-width: 100%;
   height: auto;
@@ -307,7 +342,10 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
 .card-logo-bg-left {
   top: 50%;
   left: 48%;
-  width: min(var(--card-logo-front-left), calc(100% - var(--card-logo-safe-gap)));
+  width: min(
+    var(--card-logo-front-left),
+    calc(100% - var(--card-logo-safe-gap))
+  );
   opacity: 0.75;
   max-width: 100%;
   height: auto;
@@ -320,7 +358,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   width: var(--card-logo-back);
   opacity: 0.75;
 }
-/* legacy.css split: part-02.css */
 .centered-back-right .card-logo-bg-right-back {
   position: absolute;
   top: 74%;
@@ -353,7 +390,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   z-index: 4;
   position: relative;
   text-align: center;
-    margin-top: -1.4em;
+  margin-top: -1.4em;
 }
 .centered-back-left .headline-bold {
   font-size: clamp(0.98rem, calc(var(--card-size) * 0.069), 1.8rem);
@@ -368,36 +405,34 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   text-shadow: 0 0.5rem 0.3rem rgb(0, 0, 0, 0.6);
   transform: translateY(-0.25em);
 }
-/* migrated from legacy/part-06b1.css */
 @media (max-width: 47.375em) {
   :root body .card-face.back .headline-bold,
   :root body .centered-back-left .headline-bold,
   :root body .centered-back-right .headline-bold {
     font-size: clamp(1.2rem, 3.8vw, 1.42rem);
     line-height: 1.25;
-    letter-spacing: .08em;
+    letter-spacing: 0.08em;
     max-width: 90%;
     transform: translateY(80%);
     text-align: center;
   }
-.centered-back-left .card-logo-bg-left-back {
-  position: absolute;
-  top: 74%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 26%;
-  opacity: 0.7;
+  .centered-back-left .card-logo-bg-left-back {
+    position: absolute;
+    top: 74%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 26%;
+    opacity: 0.7;
+  }
+  .centered-back-right .card-logo-bg-right-back {
+    position: absolute;
+    top: 74%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    opacity: 0.55;
+  }
 }
-.centered-back-right .card-logo-bg-right-back {
-  position: absolute;
-  top: 74%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 25%;
-  opacity: 0.55;
-}
-}
-/* migrated from app/globals.css (Wave 5) */
 .homepage-root {
   display: flex;
   flex-direction: column;
@@ -405,20 +440,18 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   width: 100%;
   position: relative;
   overflow-y: visible;
-  --home-prose-color: rgba(242,241,239,0.92);
+  --home-prose-color: rgba(242, 241, 239, 0.92);
   --home-card-blur: 0.6rem;
   --home-card-saturate: 118%;
   --home-card-light-opacity: 0.65;
   --home-card-dark-opacity: 0.6;
 }
-/* migrated from app/globals.css (Wave 5) */
 .homepage-root .glass-card-light,
 .homepage-root .glass-card-dark,
 .homepage-root .centered-back-left,
 .homepage-root .centered-back-right {
   background: transparent;
 }
-/* migrated from app/globals.css (Wave 5) */
 .homepage-root .glass-card-light::before,
 .homepage-root .centered-back-left::before {
   content: "";
@@ -434,7 +467,6 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   transform: scale(1);
   will-change: opacity, transform;
 }
-/* migrated from app/globals.css (Wave 5) */
 .homepage-root .glass-card-dark::before,
 .homepage-root .centered-back-right::before {
   content: "";
@@ -450,8 +482,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   transform: scale(1);
   will-change: opacity, transform;
 }
-/* migrated from app/globals.css (Wave 5) */
-.homepage-root.homepage-scroll .home-hero{
+.homepage-root.homepage-scroll .home-hero {
   min-height: 100svh;
   display: flex;
   align-items: stretch;
@@ -461,27 +492,29 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   overflow-x: clip;
 }
 
-.homepage-root.homepage-scroll .home-hero .main-content{
+.homepage-root.homepage-scroll .home-hero .main-content {
   padding-bottom: 0 !important;
   max-width: 100%;
   overflow-x: clip;
 }
 
-.homepage-root.homepage-scroll .home-scroll-cue{
+.homepage-root.homepage-scroll .home-scroll-cue {
   position: absolute;
   left: 50%;
   bottom: clamp(-0.6rem, 1.2vh, 0.3rem);
   transform: translateX(-50%) translateY(8px);
   z-index: 40;
   opacity: 0;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   pointer-events: none;
 }
-.homepage-root.homepage-scroll .home-scroll-cue.is-visible{
+.homepage-root.homepage-scroll .home-scroll-cue.is-visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-.homepage-root.homepage-scroll .home-scroll-cue-link{
+.homepage-root.homepage-scroll .home-scroll-cue-link {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -498,23 +531,23 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   -webkit-backdrop-filter: none;
 }
 .homepage-root.homepage-scroll .home-scroll-cue-link:hover,
-.homepage-root.homepage-scroll .home-scroll-cue-link:focus-visible{
+.homepage-root.homepage-scroll .home-scroll-cue-link:focus-visible {
   border-color: rgba(255, 255, 255, 0.45);
   color: var(--pt-100, #ecebe9);
 }
 .homepage-root.homepage-scroll .home-scroll-cue-mouse,
-.homepage-root.homepage-scroll .home-scroll-cue-arrow{
+.homepage-root.homepage-scroll .home-scroll-cue-arrow {
   display: inline-flex;
   width: 2.6rem;
   height: 2.6rem;
   opacity: 0.9;
 }
-.homepage-root.homepage-scroll .home-scroll-cue-mouse{
+.homepage-root.homepage-scroll .home-scroll-cue-mouse {
   width: 2.6rem;
   height: 2.5rem;
   opacity: 0.8;
 }
-.homepage-root.homepage-scroll .home-scroll-cue-arrow{
+.homepage-root.homepage-scroll .home-scroll-cue-arrow {
   width: 2.7rem;
   height: 2.7rem;
   position: relative;
@@ -523,7 +556,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   transform: rotate(180deg);
   animation: home-scroll-bounce 2s ease-in-out infinite;
 }
-.homepage-root.homepage-scroll .home-scroll-cue-arrow::before{
+.homepage-root.homepage-scroll .home-scroll-cue-arrow::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -535,7 +568,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   transform-origin: center;
   pointer-events: none;
 }
-.homepage-root.homepage-scroll .home-scroll-cue-mouse svg{
+.homepage-root.homepage-scroll .home-scroll-cue-mouse svg {
   width: 100%;
   height: 100%;
   fill: none;
@@ -546,66 +579,68 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   transform: scaleX(1.2);
   transform-origin: center;
 }
-@keyframes home-scroll-bounce{
-  0% { transform: translateY(0) rotate(180deg); opacity: 0.7; }
-  50% { transform: translateY(6px) rotate(180deg); opacity: 1; }
-  100% { transform: translateY(0) rotate(180deg); opacity: 0.8; }
+@keyframes home-scroll-bounce {
+  0% {
+    transform: translateY(0) rotate(180deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(6px) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) rotate(180deg);
+    opacity: 0.8;
+  }
 }
-@media (prefers-reduced-motion: reduce){
+@media (prefers-reduced-motion: reduce) {
   .homepage-root.homepage-scroll .home-scroll-cue,
-  .homepage-root.homepage-scroll .home-scroll-cue-arrow{
+  .homepage-root.homepage-scroll .home-scroll-cue-arrow {
     transition: none;
     animation: none;
   }
 }
-@media (max-width: 768px), (hover: none){
-  .homepage-root.homepage-scroll .home-scroll-cue-link{
+@media (max-width: 768px), (hover: none) {
+  .homepage-root.homepage-scroll .home-scroll-cue-link {
     background: rgba(6, 10, 18, 0.45);
     letter-spacing: 0.06em;
   }
 }
-
-/* Ensure sections themselves don't paint any slabs/lines */
 .homepage-root.homepage-scroll .home-section,
 .homepage-root.homepage-scroll .home-section-inner,
 .homepage-root.homepage-scroll .home-footer,
-.homepage-root.homepage-scroll .home-footer-inner{
+.homepage-root.homepage-scroll .home-footer-inner {
   background: transparent !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
 }
-
-/* Kill any stray horizontal rules */
-.homepage-root.homepage-scroll hr{
+.homepage-root.homepage-scroll hr {
   display: none !important;
 }
 
-.homepage-root.homepage-scroll .home-section{
+.homepage-root.homepage-scroll .home-section {
   position: relative;
   z-index: 30;
   width: 100%;
   padding: clamp(2.8rem, 7vw, 5rem) 0;
 }
 
-.homepage-root.homepage-scroll .home-section-inner{
+.homepage-root.homepage-scroll .home-section-inner {
   width: min(92vw, 58rem);
   margin: 0 auto;
 }
 
-/* NOTE: if you want light-theme typography to differ, we can theme these via CSS vars */
-
-.homepage-root.homepage-scroll .home-section.home-about{
-  padding-bottom: clamp(0.6rem, 1.6vw, 1.0rem);
+.homepage-root.homepage-scroll .home-section.home-about {
+  padding-bottom: clamp(0.6rem, 1.6vw, 1rem);
 }
 
-.homepage-root.homepage-scroll .home-section.home-links{
-  padding-top: clamp(0.3rem, 1.0vw, 0.6rem);
+.homepage-root.homepage-scroll .home-section.home-links {
+  padding-top: clamp(0.3rem, 1vw, 0.6rem);
   padding-bottom: clamp(0.9rem, 2.2vw, 1.6rem);
 }
 
-
-.homepage-root.homepage-scroll .home-links-list{
+.homepage-root.homepage-scroll .home-links-list {
   list-style: none;
   padding: 0;
   margin: 0.35rem 0 0;
@@ -615,12 +650,12 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   align-items: center;
   justify-content: center;
 }
-.homepage-root.homepage-scroll .home-section-title{
+.homepage-root.homepage-scroll .home-section-title {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
 
-.homepage-root.homepage-scroll .home-link{
+.homepage-root.homepage-scroll .home-link {
   display: inline-flex;
   align-items: center;
   font-size: clamp(1.08rem, 1.5vw, 1.25rem);
@@ -628,9 +663,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   line-height: 1.1;
   text-align: center;
 }
-
-/* Footer: keep it clean and transparent */
-.homepage-root.homepage-scroll .home-footer{
+.homepage-root.homepage-scroll .home-footer {
   position: relative;
   z-index: 30;
   width: 100%;
@@ -639,7 +672,7 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   justify-content: center;
 }
 
-.homepage-root.homepage-scroll .home-footer-inner{
+.homepage-root.homepage-scroll .home-footer-inner {
   width: min(92vw, 58rem);
   display: flex;
   flex-direction: column;
@@ -648,63 +681,61 @@ body.modal-open .three-d-card:focus-within .card-face.back > .centered-back-righ
   gap: 0.35rem;
 }
 
-.homepage-root.homepage-scroll .home-footer-logo{
+.homepage-root.homepage-scroll .home-footer-logo {
   width: clamp(15rem, 30vw, 24rem);
   height: auto;
   --end-op: 0.8;
   opacity: 0.8;
   margin-top: 2.6rem;
 }
-.homepage-root.homepage-scroll .home-footer-email{
+.homepage-root.homepage-scroll .home-footer-email {
   margin-bottom: 1.4rem;
   text-align: center;
 }
-
-/* Home chat (embedded) */
-.homepage-root.home-chat-open .home-scroll-cue{
+.homepage-root.home-chat-open .home-scroll-cue {
   opacity: 0;
   pointer-events: none;
 }
 body.home-chat-open .home-scroll-cue,
 body.home-profile-open .home-scroll-cue,
-.homepage-root.home-chat-open .home-scroll-cue{
+.homepage-root.home-chat-open .home-scroll-cue {
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
   display: none !important;
 }
 .homepage-root.home-chat-open .home-section.home-about,
-.homepage-root.home-chat-open .home-section.home-links{
+.homepage-root.home-chat-open .home-section.home-links {
   display: none;
 }
-.homepage-root.home-chat-open .home-footer-email{
+.homepage-root.home-chat-open .home-footer-email {
   display: none;
 }
-body.home-chat-open .home-footer-email{
+body.home-chat-open .home-footer-email {
   display: none !important;
 }
-.homepage-root.home-chat-open .home-footer-logo{
+.homepage-root.home-chat-open .home-footer-logo {
   opacity: 0.35;
 }
-.homepage-root.home-chat-open .three-d-card{
+.homepage-root.home-chat-open .three-d-card {
   opacity: 0;
   pointer-events: none;
 }
 .homepage-root.home-chat-open .three-d-card,
-.homepage-root.home-chat-open .card-wrapper{
+.homepage-root.home-chat-open .card-wrapper {
   transform: none !important;
   transition: none !important;
 }
-.homepage-root.home-chat-open .side{
+.homepage-root.home-chat-open .side {
   display: none;
 }
-.homepage-root.home-chat-open .home-chat-slot{
+.homepage-root.home-chat-open .home-chat-slot {
   position: fixed;
   inset: 0;
   transform: none !important;
   transition: none !important;
 }
-.home-chat-slot{
+.home-chat-slot {
   position: absolute;
   inset: 0;
   z-index: 50;
@@ -714,9 +745,9 @@ body.home-chat-open .home-footer-email{
   pointer-events: auto;
   width: 100%;
 }
-
-
-/* Last resort: if some component injects a top border, neutralize it on homepage */
-.homepage-root.homepage-scroll *:not(.link-brand):not(.link-brand-inline):not(.home-link):not(.meist-external-link){
+.homepage-root.homepage-scroll
+  *:not(.link-brand):not(.link-brand-inline):not(.home-link):not(
+    .meist-external-link
+  ) {
   border-top-color: transparent !important;
 }

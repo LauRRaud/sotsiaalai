@@ -8,13 +8,17 @@ module.exports = {
       "error",
       {
         selector: "JSXText[value=/[A-Za-zÀ-ÖØ-öø-ÿ0-9]/]",
-        message: "Hardcoded UI string detected. Please use t('key') or a locale aware helper.",
+        message:
+          "Hardcoded UI string detected. Please use t('key') or a locale aware helper.",
       },
     ],
   },
   overrides: [
     {
-      files: ["app/admin/**/*.{js,jsx,ts,tsx}", "components/admin/**/*.{js,jsx,ts,tsx}"],
+      files: [
+        "app/admin/**/*.{js,jsx,ts,tsx}",
+        "components/admin/**/*.{js,jsx,ts,tsx}",
+      ],
       rules: {
         "no-restricted-syntax": "off",
       },

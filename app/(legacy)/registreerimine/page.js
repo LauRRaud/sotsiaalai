@@ -1,4 +1,3 @@
-// app/registreerimine/page.js
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import RegistreeriminePageClient from "@/components/pages/RegistreeriminePageClient";
@@ -13,13 +12,11 @@ export async function generateMetadata() {
     locale,
     pathname: "/registreerimine",
     title: meta.title || "Loo konto – SotsiaalAI",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default function Page() {
-  return (
-    <Suspense fallback={null}>
+  return <Suspense fallback={null}>
       <RegistreeriminePageClient />
-    </Suspense>
-  );
+    </Suspense>;
 }

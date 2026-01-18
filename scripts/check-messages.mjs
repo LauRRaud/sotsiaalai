@@ -7,7 +7,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MESSAGES_DIR = path.resolve(__dirname, "..", "messages");
 const BASE_LOCALE = "et";
 
-const isObject = (value) => value && typeof value === "object" && !Array.isArray(value);
+const isObject = (value) =>
+  value && typeof value === "object" && !Array.isArray(value);
 
 const flattenKeys = (node, prefix = "") => {
   const result = new Set();
@@ -41,7 +42,7 @@ const formatList = (items, limit = 20) => {
 
 async function main() {
   const files = (await fs.readdir(MESSAGES_DIR)).filter(
-    (file) => file.endsWith(".json") && !file.startsWith("backup")
+    (file) => file.endsWith(".json") && !file.startsWith("backup"),
   );
 
   const basePath = path.join(MESSAGES_DIR, `${BASE_LOCALE}.json`);
@@ -51,7 +52,9 @@ async function main() {
 
   const baseData = await readJson(basePath);
   if (!isObject(baseData)) {
-    throw new Error(`Base locale ${basePath} must contain a JSON object at the root.`);
+    throw new Error(
+      `Base locale ${basePath} must contain a JSON object at the root.`,
+    );
   }
 
   const baseKeys = flattenKeys(baseData);
@@ -64,7 +67,11 @@ async function main() {
     const localePath = path.join(MESSAGES_DIR, file);
     const data = await readJson(localePath);
     if (!isObject(data)) {
-      issues.push({ locale, type: "invalid", message: "Root JSON value must be an object." });
+      issues.push({
+        locale,
+        type: "invalid",
+        message: "Root JSON value must be an object.",
+      });
       continue;
     }
 

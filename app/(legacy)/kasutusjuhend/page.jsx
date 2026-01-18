@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import KasutusjuhendBody from "@/components/alalehed/KasutusjuhendBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
-
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -11,17 +10,10 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/kasutusjuhend",
-    title:
-      meta.title ||
-      (locale === "ru"
-        ? "Руководство по SotsiaalAI"
-        : locale === "en"
-          ? "How to use SotsiaalAI"
-          : "Platvormi kasutusjuhend — SotsiaalAI"),
-    description: meta.description || "",
+    title: meta.title || (locale === "ru" ? "Руководство по SotsiaalAI" : locale === "en" ? "How to use SotsiaalAI" : "Platvormi kasutusjuhend — SotsiaalAI"),
+    description: meta.description || ""
   });
 }
-
 export default function KasutusjuhendPage() {
   return <KasutusjuhendBody />;
 }

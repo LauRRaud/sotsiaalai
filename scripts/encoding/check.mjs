@@ -28,7 +28,8 @@ function isTextFile(p) {
 
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
-    if (name === "node_modules" || name === ".next" || name === ".git") continue;
+    if (name === "node_modules" || name === ".next" || name === ".git")
+      continue;
     if (name === "encoding" && path.basename(dir) === "scripts") continue;
     const full = path.join(dir, name);
     const st = fs.statSync(full);
@@ -39,7 +40,9 @@ function walk(dir, out = []) {
 }
 
 function hasUtf8Bom(buf) {
-  return buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf;
+  return (
+    buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf
+  );
 }
 
 let problems = 0;
@@ -51,18 +54,22 @@ for (const file of walk(ROOT)) {
   const bom = hasUtf8Bom(buf);
   const text = buf.toString("utf8");
 
-  const badCharHits = BAD_CHARS
-    .map((ch) => ({ ch, n: text.split(ch).length - 1 }))
-    .filter((x) => x.n > 0);
+  const badCharHits = BAD_CHARS.map((ch) => ({
+    ch,
+    n: text.split(ch).length - 1,
+  })).filter((x) => x.n > 0);
 
-  const badSeqHits = text.includes(BAD_SEQ) ? text.split(BAD_SEQ).length - 1 : 0;
+  const badSeqHits = text.includes(BAD_SEQ)
+    ? text.split(BAD_SEQ).length - 1
+    : 0;
 
   if (bom || badCharHits.length || badSeqHits) {
     problems++;
     console.log(`\n${path.relative(ROOT, file)}`);
     if (bom) console.log("  - UTF-8 BOM: YES");
     if (badSeqHits) console.log(`  - "${BAD_SEQ}" occurrences: ${badSeqHits}`);
-    for (const h of badCharHits) console.log(`  - bad char "${h.ch}" occurrences: ${h.n}`);
+    for (const h of badCharHits)
+      console.log(`  - bad char "${h.ch}" occurrences: ${h.n}`);
   }
 }
 

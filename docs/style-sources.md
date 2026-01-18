@@ -1,6 +1,7 @@
 # Style Sources (Phase 2 Step 1)
 
 Scope:
+
 - Buttons: /tellimus primary buttons (dark + light).
 - Inputs (standard): /uuenda-epost and /uuenda-pin (dark + light).
 - Excluded: ChatComposer send input (no analysis).
@@ -8,12 +9,14 @@ Scope:
 ## Buttons (primary) - /tellimus
 
 DOM usage (primary buttons on /tellimus):
+
 - File: `components/alalehed/TellimusBody.jsx`
 - Elements:
   - `<Link className="btn-base min-w-[9.5rem]">` (subscription active state)
   - `<button className="btn-base min-w-[9.5rem]">` (subscription inactive state)
 
 Legacy CSS selectors and file sources:
+
 - `app/styles/components/buttons.css`
   - `.btn-base`
   - `:root .btn-base:focus-visible`
@@ -28,6 +31,7 @@ Legacy CSS selectors and file sources:
   - `--btn-base-bg-dark` (used by `.btn-base` dark background)
 
 Key properties (dark mode):
+
 - Background: `background: var(--btn-base-bg-dark)` (from `app/styles/components/buttons.css` + `app/styles/tokens.css`)
 - Border: `border: 0` (dark override); base uses `border: var(--btn-border-w, var(--pin-border-w, 1.45px)) solid transparent` with `--btn-border-w: 1px`
 - Text color: `color: rgba(248,252,255,0.96)`
@@ -42,6 +46,7 @@ Key properties (dark mode):
 - Disabled: `opacity: 0.6; transform: none; cursor: not-allowed;` (via `:root .btn-base:disabled` and `[aria-disabled="true"]`)
 
 Key properties (light mode):
+
 - Background: `background: rgba(255,255,255,0.62)`; hover/active `background: #ffffff`
 - Border: `border-color: rgba(148,163,184,0.38)`; hover `rgba(148,163,184,0.46)`; active `rgba(148,163,184,0.40)`
 - Text color: `color: rgba(31,41,55,0.92)`
@@ -58,12 +63,14 @@ Key properties (light mode):
 ## Inputs (standard) - /uuenda-epost and /uuenda-pin
 
 DOM usage (standard inputs on /uuenda-epost + /uuenda-pin):
+
 - File: `components/alalehed/UuendaEpostiBody.jsx`
   - `<input className="invite-classic__input" ...>` (current email, new email, PIN)
 - File: `components/alalehed/UnustasinParooliBody.jsx`
   - `<input className="invite-classic__input" ...>` (email)
 
 Legacy CSS selectors and file sources:
+
 - `app/styles/components/invite.css`
   - `.invite-classic__input`
   - `.invite-classic__input::placeholder`
@@ -79,6 +86,7 @@ Legacy CSS selectors and file sources:
   - `:root:not(.theme-light) .invite-modal` defines `--form-surface`, `--form-surface-hover`, `--form-surface-active`, `--invite-under-glow`
 
 Key properties (dark mode):
+
 - Background: `background: var(--form-surface)` (default), `background: var(--form-surface-hover)` on hover/focus
 - Border: base `border: 1px solid rgba(148, 163, 184, 0.28)`, overridden to `border: 2px solid transparent` in dark theme
 - Text color: `color: var(--pt-150)`; caret `caret-color: var(--pt-150)`
@@ -89,6 +97,7 @@ Key properties (dark mode):
 - Disabled: no explicit `:disabled` or `[aria-disabled]` styling found for `.invite-classic__input` in legacy CSS
 
 Key properties (light mode):
+
 - Background: `background: var(--form-surface-light)`; hover `var(--form-surface-hover-light)`; focus `var(--form-surface-active-light)`
 - Border: `border-color: transparent` (light override)
 - Text color: `color: #1f2937`
@@ -108,6 +117,7 @@ Key properties (light mode):
 - HC (high-contrast) overrides for `.invite-classic__input` exist in `app/styles/theme/late-overrides.css` (not part of dark/light requirements).
 
 Notes:
+
 - No textarea fields were found on /uuenda-epost or /uuenda-pin. If a textarea is introduced for these flows, it should reuse the same `.invite-classic__input` token values.
 - ChatComposer send input is intentionally excluded per instruction.
 - Input disabled styling is not defined in legacy CSS; the primitive will use a minimal system default (opacity + not-allowed cursor).
@@ -115,6 +125,7 @@ Notes:
 ## Invite Modal / Lisa inimesi (Grupivestlus)
 
 Component + DOM classes:
+
 - File: `components/invite/InviteModal.jsx`
 - Root/backdrop: `<div className="invite-modal-backdrop">`
 - Modal surface: `<div className="invite-modal invite-modal--classic invite-modal--chat-glass">`
@@ -127,6 +138,7 @@ Component + DOM classes:
 - Secondary panel ("Kutsed"): `.invite-list.invite-classic__list`, header `.invite-classic__list-header`, refresh button `.btn-base.invite-classic__refresh`
 
 Legacy CSS selectors and file sources:
+
 - Backdrop + modal surface + header/title + close button + inputs + choice group + list panel:
   - `app/styles/components/invite.css`
     - `.invite-modal-backdrop`
@@ -149,6 +161,7 @@ Legacy CSS selectors and file sources:
   - `app/styles/components/invite.css` for `.invite-classic__actions .btn-base { min-width: 9.5rem; }`
 
 Dim/blur source (glass family, not a separate overlay):
+
 - `.invite-modal-backdrop` is transparent and explicitly has `background: transparent; backdrop-filter: none;` so it does not add tint or blur.
 - `.invite-modal--chat-glass::before` has `content: none`, so it does not create an extra overlay layer.
 - The visible blur/dim comes from the glass system itself:
@@ -156,6 +169,7 @@ Dim/blur source (glass family, not a separate overlay):
   - The underlying page glass ring/background (chat/profile glass containers) provides the dimmed backdrop behind the modal; there is no dedicated modal overlay tint in CSS.
 
 Key properties (dark mode):
+
 - Backdrop (overlay): `.invite-modal-backdrop` is transparent (no tint, no blur); `background: transparent; backdrop-filter: none;` with `position: fixed; inset: 0; display: flex; align-items:center; justify-content:center; z-index: 60; padding: 1.25rem;`
 - Modal surface (glass): `.invite-modal` + `.invite-modal--chat-glass`
   - `background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));`
@@ -189,6 +203,7 @@ Key properties (dark mode):
   - Refresh button uses `.btn-base invite-classic__refresh` (no additional styling beyond `btn-base`)
 
 Key properties (light mode):
+
 - Backdrop (overlay): same as dark; `.invite-modal-backdrop` remains transparent.
 - Modal surface:
   - `:root.theme-light .invite-modal` keeps `box-shadow: none; color: var(--glass-surface-text);` (background still `var(--glass-surface-bg)` from tokens)
@@ -212,5 +227,6 @@ Key properties (light mode):
   - `:root.theme-light .invite-list` background `rgba(255,255,255,0.78)`, border-color `rgba(190, 196, 208, 0.55)`, box-shadow `0 14px 28px rgba(0,0,0,0.10)`
 
 Notes:
+
 - The modal close "x" glyph comes from `.modal-close-btn::before { content: "\00D7"; }` in `app/styles/components/account-hud.css`.
 - The primary CTA and refresh buttons are `btn-base` and therefore must continue to match the `/tellimus` button styling (see Buttons section above).

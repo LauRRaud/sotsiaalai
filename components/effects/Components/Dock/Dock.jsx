@@ -1,28 +1,21 @@
-/*
-	Installed from https://reactbits.dev/default/
-*/
+"use client";
 
-'use client';
-
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
-
-import './Dock.css';
-
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { Children, cloneElement, useEffect, useMemo, useRef, useState } from "react";
+import "./Dock.css";
 function DockItem({
   children,
-  className = '',
+  className = "",
   onClick,
   mouseX,
   spring,
   distance,
   magnification,
   baseItemSize,
-  ariaLabel,
+  ariaLabel
 }) {
   const ref = useRef(null);
   const isHovered = useMotionValue(0);
-
   const mouseDistance = useTransform(mouseX, val => {
     const rect = ref.current?.getBoundingClientRect() ?? {
       x: 0,
@@ -30,146 +23,111 @@ function DockItem({
     };
     return val - rect.x - baseItemSize / 2;
   });
-
   const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
   const size = useSpring(targetSize, spring);
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+  const handleKeyDown = event => {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       onClick?.(event);
     }
   };
-
-  const handleFocus = (event) => {
-    if (event.currentTarget?.matches?.(':focus-visible')) {
+  const handleFocus = event => {
+    if (event.currentTarget?.matches?.(":focus-visible")) {
       isHovered.set(1);
     }
   };
-
   const handleBlur = () => {
     isHovered.set(0);
   };
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{
-        width: size,
-        height: size
-      }}
-      onHoverStart={() => isHovered.set(1)}
-      onHoverEnd={() => isHovered.set(0)}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onClick={onClick}
-      onKeyDown={handleKeyDown}
-      className={`dock-item ${className}`}
-      tabIndex={0}
-      role="button"
-      aria-haspopup="true"
-      aria-label={ariaLabel}
-    >
-      {Children.map(children, child => cloneElement(child, { isHovered }))}
-    </motion.div>
-  );
+  return <motion.div ref={ref} style={{
+    width: size,
+    height: size
+  }} onHoverStart={() => isHovered.set(1)} onHoverEnd={() => isHovered.set(0)} onFocus={handleFocus} onBlur={handleBlur} onClick={onClick} onKeyDown={handleKeyDown} className={`dock-item ${className}`} tabIndex={0} role="button" aria-haspopup="true" aria-label={ariaLabel}>
+      {Children.map(children, child => cloneElement(child, {
+      isHovered
+    }))}
+    </motion.div>;
 }
-
-function DockLabel({ children, className = '', offset = 10, ...rest }) {
-  const { isHovered } = rest;
+function DockLabel({
+  children,
+  className = "",
+  offset = 10,
+  ...rest
+}) {
+  const {
+    isHovered
+  } = rest;
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    const unsubscribe = isHovered.on('change', latest => {
+    const unsubscribe = isHovered.on("change", latest => {
       setIsVisible(latest === 1);
     });
     return () => unsubscribe();
   }, [isHovered]);
-
-  return (
-    <motion.div
-      initial={false}
-      animate={{
-        opacity: isVisible ? 1 : 0,
-        y: isVisible ? -offset : 6,
-        scale: isVisible ? 1 : 0.96,
-      }}
-      transition={{
-        duration: isVisible ? 0.44 : 0.28,
-        delay: isVisible ? 0.06 : 0,
-        ease: [0.2, 0.8, 0.2, 1],
-      }}
-      className={`dock-label ${className}`}
-      role="tooltip"
-      aria-hidden={!isVisible}
-      style={{ x: '-50%', pointerEvents: 'none' }}
-    >
+  return <motion.div initial={false} animate={{
+    opacity: isVisible ? 1 : 0,
+    y: isVisible ? -offset : 6,
+    scale: isVisible ? 1 : 0.96
+  }} transition={{
+    duration: isVisible ? 0.44 : 0.28,
+    delay: isVisible ? 0.06 : 0,
+    ease: [0.2, 0.8, 0.2, 1]
+  }} className={`dock-label ${className}`} role="tooltip" aria-hidden={!isVisible} style={{
+    x: "-50%",
+    pointerEvents: "none"
+  }}>
       {children}
-    </motion.div>
-  );
+    </motion.div>;
 }
-
-function DockIcon({ children, className = '' }) {
+function DockIcon({
+  children,
+  className = ""
+}) {
   return <div className={`dock-icon ${className}`}>{children}</div>;
 }
-
 export default function Dock({
   items,
-  className = '',
-  spring = { mass: 0.1, stiffness: 150, damping: 12 },
+  className = "",
+  spring = {
+    mass: 0.1,
+    stiffness: 150,
+    damping: 12
+  },
   magnification = 70,
   distance = 200,
   panelHeight = 68,
   dockHeight = 256,
   baseItemSize = 50,
   labelOffset = 10,
-  ariaLabel = 'Application dock',
+  ariaLabel = "Application dock",
   staticHeight = false
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
-
-  const maxHeight = useMemo(
-    () => Math.max(dockHeight, magnification + magnification / 2 + 4),
-    [magnification, dockHeight]
-  );
+  const maxHeight = useMemo(() => Math.max(dockHeight, magnification + magnification / 2 + 4), [magnification, dockHeight]);
   const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
   const height = useSpring(heightRow, spring);
   const outerHeight = staticHeight ? panelHeight : height;
-
-  return (
-    <motion.div style={{ height: outerHeight, scrollbarWidth: 'none', overflow: 'visible' }} className="dock-outer">
-      <motion.div
-        onMouseMove={({ pageX }) => {
-          isHovered.set(1);
-          mouseX.set(pageX);
-        }}
-        onMouseLeave={() => {
-          isHovered.set(0);
-          mouseX.set(Infinity);
-        }}
-        className={`dock-panel ${className}`}
-        style={{ height: panelHeight }}
-        role="toolbar"
-        aria-label={ariaLabel}
-      >
-        {items.map((item, index) => (
-            <DockItem
-              key={index}
-              onClick={item.onClick}
-              className={item.className}
-              mouseX={mouseX}
-              spring={spring}
-              distance={distance}
-              magnification={magnification}
-              baseItemSize={baseItemSize}
-              ariaLabel={item.label}
-            >
-              <DockIcon>{item.icon}</DockIcon>
-              <DockLabel offset={labelOffset}>{item.label}</DockLabel>
-            </DockItem>
-          ))}
+  return <motion.div style={{
+    height: outerHeight,
+    scrollbarWidth: "none",
+    overflow: "visible"
+  }} className="dock-outer">
+      <motion.div onMouseMove={({
+      pageX
+    }) => {
+      isHovered.set(1);
+      mouseX.set(pageX);
+    }} onMouseLeave={() => {
+      isHovered.set(0);
+      mouseX.set(Infinity);
+    }} className={`dock-panel ${className}`} style={{
+      height: panelHeight
+    }} role="toolbar" aria-label={ariaLabel}>
+        {items.map((item, index) => <DockItem key={index} onClick={item.onClick} className={item.className} mouseX={mouseX} spring={spring} distance={distance} magnification={magnification} baseItemSize={baseItemSize} ariaLabel={item.label}>
+            <DockIcon>{item.icon}</DockIcon>
+            <DockLabel offset={labelOffset}>{item.label}</DockLabel>
+          </DockItem>)}
       </motion.div>
-    </motion.div>
-  );
+    </motion.div>;
 }

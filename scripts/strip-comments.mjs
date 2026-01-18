@@ -2,15 +2,17 @@
 import path from "node:path";
 import fg from "fast-glob";
 import { parse } from "@babel/parser";
-import generate from "@babel/generator";
+import generatorPkg from "@babel/generator";
 import postcss from "postcss";
+import safeParser from "postcss-safe-parser";
 
-// Only app and components
+// Fix for ESM/CJS interop: generator is usually in .default
+const generate = generatorPkg.default ?? generatorPkg;
+
+// Whole repo JS/JSX/CSS, with exclusions
 const DEFAULT_GLOBS = [
-  "app/**/*.{js,jsx,css}",
-  "components/**/*.{js,jsx,css}",
+  "**/*.{js,jsx,css}",
 
-  // Common exclusions
   "!**/node_modules/**",
   "!**/dist/**",
   "!**/build/**",
@@ -18,16 +20,23 @@ const DEFAULT_GLOBS = [
   "!**/.output/**",
   "!**/coverage/**",
 
-  // Optional: avoid minified artifacts if any happen to live under app/components
   "!**/*.min.js",
   "!**/*.min.css",
+
+  "!**/*.bak*",
+  "!**/*.txt",
+  "!**/*.segment.*",
 ];
 
 function babelPluginsFor(ext) {
   const plugins = [];
-  if (ext === ".jsx") plugins.push("jsx");
 
-  // "Just works" set for modern JS syntax
+  // Next.js often uses JSX in .js files too
+  if (ext === ".js" || ext === ".jsx") plugins.push("jsx");
+
+  // Tolerant parsing (helps if some JS files include TS-ish syntax)
+  plugins.push("typescript");
+
   plugins.push(
     "importMeta",
     "dynamicImport",
@@ -36,7 +45,16 @@ function babelPluginsFor(ext) {
     "classPrivateProperties",
     "classPrivateMethods",
     "optionalChaining",
-    "nullishCoalescingOperator"
+    "nullishCoalescingOperator",
+    "objectRestSpread",
+    "numericSeparator",
+    "logicalAssignment",
+    "privateIn",
+    "optionalCatchBinding",
+    "exportDefaultFrom",
+    "exportNamespaceFrom",
+    "importAssertions",
+    "importAttributes"
   );
 
   return plugins;
@@ -49,8 +67,6 @@ async function stripJsLikeComments(filePath, code) {
     sourceType: "unambiguous",
     allowReturnOutsideFunction: true,
     plugins: babelPluginsFor(ext),
-
-    // Be forgiving, but don't attach/emit comments
     errorRecovery: true,
     attachComment: false,
     comments: false,
@@ -59,10 +75,7 @@ async function stripJsLikeComments(filePath, code) {
   const out = generate(
     ast,
     {
-      // Do not emit any comments
       comments: false,
-
-      // Prefer clean output (avoid leaving blank lines where comments used to be)
       retainLines: false,
       compact: false,
     },
@@ -73,8 +86,9 @@ async function stripJsLikeComments(filePath, code) {
 }
 
 async function stripCssComments(code) {
-  const root = postcss.parse(code);
-  root.walkComments((c) => c.remove()); // removes /* ... */ comments
+  // safeParser makes CSS parsing more resilient
+  const root = postcss.parse(code, { parser: safeParser });
+  root.walkComments((c) => c.remove());
   return root.toString();
 }
 
@@ -96,12 +110,16 @@ async function processFile(filePath) {
     await fs.writeFile(filePath, updated, "utf8");
     return { changed: true };
   }
-
   return { changed: false };
 }
 
 async function main() {
-  const files = await fg(DEFAULT_GLOBS, { dot: true });
+  // Allow passing globs / paths via CLI args:
+  // node scripts/strip-comments.mjs "app/**/*.css" "lib/**/*.js"
+  const patterns = process.argv.slice(2);
+  const globs = patterns.length ? patterns : DEFAULT_GLOBS;
+
+  const files = await fg(globs, { dot: true });
 
   let changed = 0;
   let failed = 0;

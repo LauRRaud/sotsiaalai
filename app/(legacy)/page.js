@@ -11,7 +11,7 @@ export async function generateMetadata() {
     locale,
     pathname: "/",
     title: meta.title || "SotsiaalAI - AI for social support",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default function HomeRoot() {

@@ -4,7 +4,9 @@ import path from "path";
 const ROOT = process.cwd();
 
 function hasUtf8Bom(buf) {
-  return buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf;
+  return (
+    buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf
+  );
 }
 
 function backupFile(file) {
@@ -57,12 +59,12 @@ function fixMojibakeKnown(text) {
 function fixSpecificLines(text) {
   text = text.replace(
     /t\("chat\.mic\.stop",\s*[^)]*\)/g,
-    't("chat.mic.stop", "Lõpeta salvestus")'
+    't("chat.mic.stop", "Lõpeta salvestus")',
   );
 
   text = text.replace(
     /t\("chat\.sources\.used_multiple",\s*"[^"]*"\)/g,
-    't("chat.sources.used_multiple", "Kasutatud {count} korda vestluse lõigus.")'
+    't("chat.sources.used_multiple", "Kasutatud {count} korda vestluse lõigus.")',
   );
 
   return text;
@@ -90,9 +92,13 @@ for (const file of TARGETS) {
 
   if (text !== before) {
     writeUtf8NoBom(file, text);
-    console.log(`Fixed: ${path.relative(ROOT, file)} (backup: ${path.basename(bak)})`);
+    console.log(
+      `Fixed: ${path.relative(ROOT, file)} (backup: ${path.basename(bak)})`,
+    );
   } else {
-    console.log(`No changes: ${path.relative(ROOT, file)} (backup: ${path.basename(bak)})`);
+    console.log(
+      `No changes: ${path.relative(ROOT, file)} (backup: ${path.basename(bak)})`,
+    );
   }
 }
 

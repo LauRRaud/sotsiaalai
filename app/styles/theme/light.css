@@ -1,75 +1,88 @@
-/* Auto-extracted from original globals.css.
-   Purpose: Light theme token blocks.
-*/
-
-/* Light cursor assets */
 :root.theme-light {
-  --cursor-default-backup: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%232b2620' stroke='%231f1b16' stroke-width='0.6' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
-  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%232b2620' stroke='%231f1b16' stroke-width='0.6' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
-  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%232b2620' stroke='%231f1b16' stroke-width='0.6' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4, pointer;
+  --cursor-default-backup:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%232b2620' stroke='%231f1b16' stroke-width='0.6' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 3,
+    auto;
+  --cursor-default:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%232b2620' stroke='%231f1b16' stroke-width='0.6' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 3,
+    auto;
+  --cursor-pointer:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%232b2620' stroke='%231f1b16' stroke-width='0.6' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
+      4 4,
+    pointer;
 }
-
-/* Light theme tokens */
 :root.theme-light {
   --glass-border-width: 2px;
-  --glass-border-color: rgba(148,163,184,0.35);
+  --glass-border-color: rgba(148, 163, 184, 0.35);
   --glass-shadow-glow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 6px var(--glow-light-soft),
+    0 0 0 1px var(--glow-light-ring), 0 0 6px var(--glow-light-soft),
     0 0 12px var(--glow-light-outer);
   --glass-shadow-strong-glow:
-    0 0 0 1px var(--glow-light-ring),
-    0 0 14px var(--glow-light-soft),
+    0 0 0 1px var(--glow-light-ring), 0 0 14px var(--glow-light-soft),
     0 0 24px var(--glow-light-outer);
-  --glass-btn-bg-idle: linear-gradient(130deg, rgba(18,20,32,0.55), rgba(32,36,50,0.32));
-  --glass-btn-bg-active: linear-gradient(130deg, rgba(18,20,32,0.65), rgba(32,36,50,0.42));
+  --glass-btn-bg-idle: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.55),
+    rgba(32, 36, 50, 0.32)
+  );
+  --glass-btn-bg-active: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.65),
+    rgba(32, 36, 50, 0.42)
+  );
   --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
   --glass-surface-bg: rgba(255, 255, 255, 0.52);
   --glass-surface-text: #2b2620;
-  --glass-analysis-bg: rgba(255,255,255,0.18);
-  --glass-analysis-border: rgba(255,255,255,0.28);
+  --glass-analysis-bg: rgba(255, 255, 255, 0.18);
+  --glass-analysis-border: rgba(255, 255, 255, 0.28);
   --glass-analysis-shadow:
-    0 18px 34px rgba(5, 8, 15, 0.26),
-    0 8px 18px rgba(255, 255, 255, 0.08);
+    0 18px 34px rgba(5, 8, 15, 0.26), 0 8px 18px rgba(255, 255, 255, 0.08);
   --glass-analysis-text: #1f1b16;
   --text-strong: #222222;
   --footer-text-muted: #d3d3d3;
   --drawer-text-main: #f5f5f4;
   --drawer-text-title: #fdfcf9;
-  --drawer-text-preview: rgba(245,245,244,0.88);
-  --drawer-text-time: rgba(245,245,244,0.72);
-  --title-color: #7A3A38;
+  --drawer-text-preview: rgba(245, 245, 244, 0.88);
+  --drawer-text-time: rgba(245, 245, 244, 0.72);
+  --title-color: #7a3a38;
   --chat-icon-color: #3b3329;
-  --link-color: #7A3A38;
+  --link-color: #7a3a38;
   --page-bg: #f9f8f5;
   --page-bg-top: #fdfcfb;
   --page-bg-bottom: #f1f0ec;
   --page-bg-fallback: #f9f8f5;
   --page-bg-top-fallback: #fdfcfb;
   --page-bg-bottom-fallback: #f1f0ec;
-  --btn-primary-bg: rgba(255,255,255,0.62);
+  --btn-primary-bg: rgba(255, 255, 255, 0.62);
   --btn-primary-bg-hover: #ffffff;
   --btn-primary-bg-active: #ffffff;
-  --btn-primary-text: rgba(31,41,55,0.92);
-  --btn-primary-border: 1px solid rgba(148,163,184,0.38);
-  --btn-primary-border-hover: 1px solid rgba(148,163,184,0.46);
-  --btn-primary-border-active: 1px solid rgba(148,163,184,0.40);
-  --btn-primary-shadow: 0 8px 18px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.7);
-  --btn-primary-shadow-hover: 0 12px 22px rgba(15,23,42,0.14), inset 0 1px 0 rgba(255,255,255,0.82);
-  --btn-primary-shadow-active: 0 6px 14px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.7);
-  --btn-primary-focus-ring-color: rgba(197,113,113,0.24);
-  --btn-primary-shadow-focus: 0 12px 22px rgba(15,23,42,0.14), 0 0 0 3px var(--btn-primary-focus-ring-color), inset 0 1px 0 rgba(255,255,255,0.82);
+  --btn-primary-text: rgba(31, 41, 55, 0.92);
+  --btn-primary-border: 1px solid rgba(148, 163, 184, 0.38);
+  --btn-primary-border-hover: 1px solid rgba(148, 163, 184, 0.46);
+  --btn-primary-border-active: 1px solid rgba(148, 163, 184, 0.4);
+  --btn-primary-shadow:
+    0 8px 18px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --btn-primary-shadow-hover:
+    0 12px 22px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --btn-primary-shadow-active:
+    0 6px 14px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --btn-primary-focus-ring-color: rgba(197, 113, 113, 0.24);
+  --btn-primary-shadow-focus:
+    0 12px 22px rgba(15, 23, 42, 0.14),
+    0 0 0 3px var(--btn-primary-focus-ring-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   --btn-primary-radius: 0.95rem;
-  --input-bg: rgba(255,255,255,0.68);
+  --input-bg: rgba(255, 255, 255, 0.68);
   --input-bg-hover: #ffffff;
   --input-bg-focus: #ffffff;
   --input-text: #1f2937;
   --input-caret: #1f2937;
   --input-border: 1px solid transparent;
   --input-placeholder: #6b7280;
-  --input-shadow: 0 6px 16px rgba(0,0,0,0.14);
+  --input-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
   --input-radius: 0.95rem;
   --input-disabled-opacity: 0.6;
   --glass-modal-bg: var(--glass-surface-bg, rgba(255, 255, 255, 0.52));
@@ -81,33 +94,49 @@
   --glass-modal-shadow: none;
   --glass-modal-title-color: var(--title-color);
   --glass-modal-title-shadow: 0 0.28rem 0.38rem rgba(0, 0, 0, 0.24);
-  --icon-btn-close-color: #7A3A38;
+  --icon-btn-close-color: #7a3a38;
   --icon-btn-close-size: 2.65rem;
-  --seg-card-bg: var(--form-surface-light, rgba(255,255,255,0.68));
+  --seg-card-bg: var(--form-surface-light, rgba(255, 255, 255, 0.68));
   --seg-card-bg-hover: var(--form-surface-hover-light, #ffffff);
   --seg-card-bg-selected: var(--form-surface-active-light, #ffffff);
   --seg-card-text: var(--text-strong);
   --seg-card-text-hover: var(--text-strong);
-  --seg-card-text-selected: color-mix(in srgb, var(--text-strong) 80%, var(--form-accent-light, #7A3A38) 20%);
+  --seg-card-text-selected: color-mix(
+    in srgb,
+    var(--text-strong) 80%,
+    var(--form-accent-light, #7a3a38) 20%
+  );
   --seg-card-border: transparent;
   --seg-card-border-width: 1px;
   --seg-card-radius: 1rem;
-  --seg-card-shadow: var(--form-shadow-light, 0 6px 16px rgba(0,0,0,0.14));
-  --seg-card-shadow-hover: var(--form-shadow-light, 0 6px 16px rgba(0,0,0,0.14));
-  --seg-card-shadow-selected: var(--form-shadow-light, 0 6px 16px rgba(0,0,0,0.14));
-  --seg-radio-bg: rgba(255,255,255,0.22);
+  --seg-card-shadow: var(--form-shadow-light, 0 6px 16px rgba(0, 0, 0, 0.14));
+  --seg-card-shadow-hover: var(
+    --form-shadow-light,
+    0 6px 16px rgba(0, 0, 0, 0.14)
+  );
+  --seg-card-shadow-selected: var(
+    --form-shadow-light,
+    0 6px 16px rgba(0, 0, 0, 0.14)
+  );
+  --seg-radio-bg: rgba(255, 255, 255, 0.22);
   --seg-radio-border: transparent;
-  --seg-radio-inner-ring: inset 0 0 0 1px rgba(0,0,0,0.12);
-  --seg-radio-dot-bg: #7A3A38;
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  --seg-radio-dot-bg: #7a3a38;
   --seg-radio-dot-shadow: none;
-  --panel-secondary-bg: rgba(255,255,255,0.78);
-  --panel-secondary-border: rgba(190,196,208,0.55);
-  --panel-secondary-shadow: 0 14px 28px rgba(0,0,0,0.10);
+  --panel-secondary-bg: rgba(255, 255, 255, 0.78);
+  --panel-secondary-border: rgba(190, 196, 208, 0.55);
+  --panel-secondary-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
   --panel-secondary-radius: 1.1rem;
 }
-
-/* Light chat token tweaks */
 :root.theme-light {
-  --chat-btn-idle-light: color-mix(in srgb, var(--glass-surface-bg) 52%, rgba(0,0,0,0.44) 48%);
-  --chat-btn-hover-light: color-mix(in srgb, var(--glass-surface-bg) 44%, rgba(0,0,0,0.54) 56%);
+  --chat-btn-idle-light: color-mix(
+    in srgb,
+    var(--glass-surface-bg) 52%,
+    rgba(0, 0, 0, 0.44) 48%
+  );
+  --chat-btn-hover-light: color-mix(
+    in srgb,
+    var(--glass-surface-bg) 44%,
+    rgba(0, 0, 0, 0.54) 56%
+  );
 }

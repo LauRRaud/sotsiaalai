@@ -1,6 +1,6 @@
 # Invite flow (email-based room invitations)
 
-See dokument kirjeldab SotsiaalAI vestlusruumide e-posti kutsevoogu, andmemudeli täiendusi ja ärireegleid, sh *self-paid vs sponsored* liitumise loogikat.
+See dokument kirjeldab SotsiaalAI vestlusruumide e-posti kutsevoogu, andmemudeli täiendusi ja ärireegleid, sh _self-paid vs sponsored_ liitumise loogikat.
 
 ---
 
@@ -75,16 +75,16 @@ await db.tx(async (trx) => {
   );
   if (!invite) throw http(404);
 
-  if (invite.status !== 'sent' || invite.expires_at <= now) {
-    throw http(410, 'INVITE_EXPIRED');
+  if (invite.status !== "sent" || invite.expires_at <= now) {
+    throw http(410, "INVITE_EXPIRED");
   }
   if (invite.use_count >= invite.max_uses) {
-    throw http(410, 'INVITE_EXHAUSTED');
+    throw http(410, "INVITE_EXHAUSTED");
   }
 
   // 2) E-post peab klappima (või claimitud samaks)
   if (req.user.email.toLowerCase() !== invite.invitee_email.toLowerCase()) {
-    throw http(403, 'INVITE_EMAIL_MISMATCH');
+    throw http(403, "INVITE_EMAIL_MISMATCH");
   }
 
   // 3) Loe kasutaja subscription DB-st (ära looda ainult JWT-le)
@@ -99,20 +99,20 @@ await db.tx(async (trx) => {
 
   const userActive =
     !!userSub &&
-    ['active', 'grace'].includes(userSub.status) &&
+    ["active", "grace"].includes(userSub.status) &&
     (!userSub.ends_at || userSub.ends_at > now);
 
-  let billing_source: 'self' | 'sponsored_by_host' = 'self';
+  let billing_source: "self" | "sponsored_by_host" = "self";
   let sponsor_user_id: number | null = null;
   let sponsor_org_id: number | null = null;
 
   // 4) Kui EI ole aktiivne/grace, kontrollime sponsorlust
   if (!userActive) {
-    if (invite.payment_mode === 'self_paid') {
-      throw http(402, 'SUBSCRIPTION_REQUIRED');
+    if (invite.payment_mode === "self_paid") {
+      throw http(402, "SUBSCRIPTION_REQUIRED");
     }
 
-    if (invite.payment_mode === 'sponsored_by_host') {
+    if (invite.payment_mode === "sponsored_by_host") {
       const hostPlanOk = await checkHostSponsorship(
         trx,
         invite.room_id,
@@ -120,9 +120,9 @@ await db.tx(async (trx) => {
         invite.sponsored_by_org_id,
       );
       if (!hostPlanOk) {
-        throw http(409, 'SPONSOR_NOT_AVAILABLE');
+        throw http(409, "SPONSOR_NOT_AVAILABLE");
       }
-      billing_source = 'sponsored_by_host';
+      billing_source = "sponsored_by_host";
       sponsor_user_id = invite.sponsored_by_user_id;
       sponsor_org_id = invite.sponsored_by_org_id;
     }
@@ -139,7 +139,14 @@ await db.tx(async (trx) => {
            billing_source = EXCLUDED.billing_source,
            sponsor_user_id = EXCLUDED.sponsor_user_id,
            sponsor_org_id = EXCLUDED.sponsor_org_id`,
-    [invite.room_id, req.user.id, billing_source, sponsor_user_id, sponsor_org_id, now],
+    [
+      invite.room_id,
+      req.user.id,
+      billing_source,
+      sponsor_user_id,
+      sponsor_org_id,
+      now,
+    ],
   );
 
   // 7) update use_count/status

@@ -1,16 +1,10 @@
-/* =========================================================
-   CenteredScrollPicker.css (tight + modal-friendly)
-   ========================================================= */
-
-.csp-container{
+.csp-container {
   position: relative;
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 
   scroll-snap-type: y proximity;
-
-  /* padding gives enough scroll range so first/last can center-snap */
   padding-block: var(--csp-pad, 0px);
   scroll-padding-block: var(--csp-pad, 0px);
 
@@ -18,7 +12,7 @@
 
   --csp-active-scale: 1.03;
   --csp-neighbor-scale: 0.93;
-  --csp-hidden-scale: 0.90;
+  --csp-hidden-scale: 0.9;
 
   --csp-active-opacity: 1;
   --csp-neighbor-opacity: 0.44;
@@ -29,14 +23,15 @@
   --csp-surface: rgba(10, 12, 18, 0.94);
 }
 
-.csp-container::-webkit-scrollbar{ width:0; height:0; }
-
-:root.theme-light .csp-container{
-  --csp-surface: rgba(252, 253, 255, 0.94);
+.csp-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
-/* Tighter item spacing */
-.csp-item{
+:root.theme-light .csp-container {
+  --csp-surface: rgba(252, 253, 255, 0.94);
+}
+.csp-item {
   scroll-snap-align: center;
   scroll-snap-stop: normal;
 
@@ -50,16 +45,14 @@
     filter var(--csp-transition-ms) ease-out;
   transform-origin: center;
 }
-
-/* Much tighter than before */
-.csp-step{
+.csp-step {
   min-height: clamp(6.2rem, 10.5vh, 7.8rem);
   padding: 0.28rem 0;
   display: grid;
   align-content: center;
 }
 
-.csp-active{
+.csp-active {
   z-index: 3;
   opacity: var(--csp-active-opacity);
   transform: scale(var(--csp-active-scale));
@@ -67,7 +60,7 @@
   pointer-events: auto;
 }
 
-.csp-neighbor{
+.csp-neighbor {
   z-index: 2;
   opacity: var(--csp-neighbor-opacity);
   transform: scale(var(--csp-neighbor-scale));
@@ -75,64 +68,64 @@
   pointer-events: auto;
 }
 
-.csp-hidden{
+.csp-hidden {
   opacity: var(--csp-hidden-opacity);
   transform: scale(var(--csp-hidden-scale));
   filter: blur(0.7px);
   pointer-events: none;
 }
-
-/* ---------- Modern scrims ---------- */
-.csp-scrim{
-  position:absolute;
-  left:0;
-  right:0;
+.csp-scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
   height: 3.2rem;
-  pointer-events:none;
-  opacity:0;
+  pointer-events: none;
+  opacity: 0;
   transition: opacity 320ms ease;
   z-index: 6;
 }
-.csp-scrim.is-visible{ opacity:1; }
+.csp-scrim.is-visible {
+  opacity: 1;
+}
 
-.csp-scrim--top{
+.csp-scrim--top {
   top: 0;
-  background: linear-gradient(to bottom, var(--csp-surface), rgba(0,0,0,0));
+  background: linear-gradient(to bottom, var(--csp-surface), rgba(0, 0, 0, 0));
 }
-.csp-scrim--bottom{
+.csp-scrim--bottom {
   bottom: 0;
-  background: linear-gradient(to top, var(--csp-surface), rgba(0,0,0,0));
+  background: linear-gradient(to top, var(--csp-surface), rgba(0, 0, 0, 0));
 }
 
-.csp-scrim--chevron{
+.csp-scrim--chevron {
   --csp-arrow-pulse-duration: 3.2s;
   --csp-arrow-size: clamp(6rem, 9.6vw, 7.6rem);
 }
-.csp-scrim--chevron.is-muted .csp-chevron-frame{
+.csp-scrim--chevron.is-muted .csp-chevron-frame {
   transform: translateX(-50%) scale(0.68);
   opacity: 0.32;
 }
-.csp-scrim--chevron.is-muted .csp-chevron-icon{
+.csp-scrim--chevron.is-muted .csp-chevron-icon {
   animation: none;
 }
-.csp-scrim--chevron.is-hidden .csp-chevron-frame{
+.csp-scrim--chevron.is-hidden .csp-chevron-frame {
   transform: translateX(-50%) scale(0.6);
   opacity: 0;
 }
-.csp-scrim--chevron.is-hidden .csp-chevron-icon{
+.csp-scrim--chevron.is-hidden .csp-chevron-icon {
   animation: none;
 }
 
-:root{
+:root {
   --csp-arrow-up: url("/logo/uptume.svg");
   --csp-arrow-down: url("/logo/downtume.svg");
 }
-:root.theme-light{
+:root.theme-light {
   --csp-arrow-up: url("/logo/uphele.svg");
   --csp-arrow-down: url("/logo/downhele.svg");
 }
 
-.csp-chevron-frame{
+.csp-chevron-frame {
   position: absolute;
   left: 50%;
   width: var(--csp-arrow-size);
@@ -141,11 +134,13 @@
   opacity: 0.8;
   transform: translateX(-50%) scale(1);
   transform-origin: center;
-  transition: opacity 1400ms ease, transform 1400ms ease;
+  transition:
+    opacity 1400ms ease,
+    transform 1400ms ease;
   pointer-events: none;
 }
 
-.csp-chevron-icon{
+.csp-chevron-icon {
   display: block;
   width: 100%;
   height: 100%;
@@ -157,27 +152,34 @@
   animation: cspArrowPulse var(--csp-arrow-pulse-duration) ease-in-out infinite;
 }
 
-.csp-scrim--top.csp-scrim--chevron .csp-chevron-frame{
+.csp-scrim--top.csp-scrim--chevron .csp-chevron-frame {
   top: -0.35rem;
 }
-.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-frame{
+.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-frame {
   bottom: -0.35rem;
 }
-.csp-scrim--top.csp-scrim--chevron .csp-chevron-icon{
+.csp-scrim--top.csp-scrim--chevron .csp-chevron-icon {
   background-image: var(--csp-arrow-up);
 }
-.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-icon{
+.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-icon {
   background-image: var(--csp-arrow-down);
 }
 
-@keyframes cspArrowPulse{
-  0%{ transform: scale(0.98); opacity: 0.22; }
-  50%{ transform: scale(1.08); opacity: 0.75; }
-  100%{ transform: scale(0.98); opacity: 0.22; }
+@keyframes cspArrowPulse {
+  0% {
+    transform: scale(0.98);
+    opacity: 0.22;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(0.98);
+    opacity: 0.22;
+  }
 }
-
-/* ---------- Modal title overlay (keeps title “in the same window”) ---------- */
-.csp-overlayTitle{
+.csp-overlayTitle {
   position: absolute;
   left: 50%;
   top: var(--csp-title-top, 0.95rem);
@@ -187,32 +189,32 @@
   pointer-events: none;
 }
 
-.csp-overlayTitle .glass-title{
+.csp-overlayTitle .glass-title {
   margin: 0;
   line-height: 1.05;
   text-align: center;
   font-size: clamp(1.15rem, 2.6vw, 1.65rem);
 }
-
-/* For a11y modal: reserve vertical space so content doesn’t collide with title overlay */
-.a11y-modal .csp-container{
+.a11y-modal .csp-container {
   --csp-title-offset: 4.4rem;
   padding-top: calc(var(--csp-pad, 0px) + var(--csp-title-offset));
   padding-bottom: var(--csp-pad, 0px);
 }
 
-
-.a11y-modal .a11y-actions.a11y-snap.csp-step{
+.a11y-modal .a11y-actions.a11y-snap.csp-step {
   margin: 0.34rem 0;
 }
-
-/* Make top scrim start below the title area inside modal */
-.a11y-modal .csp-scrim--top{
+.a11y-modal .csp-scrim--top {
   top: var(--csp-title-offset, 0px);
 }
 
-@media (prefers-reduced-motion: reduce){
+@media (prefers-reduced-motion: reduce) {
   .csp-item,
-  .csp-scrim{ transition:none !important; }
-  .csp-chevron-icon{ animation:none !important; opacity:0.6; }
+  .csp-scrim {
+    transition: none !important;
+  }
+  .csp-chevron-icon {
+    animation: none !important;
+    opacity: 0.6;
+  }
 }

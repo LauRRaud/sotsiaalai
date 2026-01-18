@@ -5,6 +5,7 @@ This file maps the new token variables to the legacy selectors and properties ca
 ## Button (primary)
 
 Legacy source:
+
 - `app/styles/components/buttons.css`
   - `:root:not(.theme-light) .btn-base`
   - `:root:not(.theme-light) .btn-base:hover`, `:root:not(.theme-light) .btn-base:focus-visible`
@@ -15,6 +16,7 @@ Legacy source:
 - `app/styles/tokens.css` for `--btn-base-bg-dark`
 
 Token map:
+
 - `--btn-primary-bg` <- `.btn-base` background (dark uses `--btn-base-bg-dark`, light uses `rgba(255,255,255,0.62)`)
 - `--btn-primary-bg-hover` <- `.btn-base:hover` / `.btn-base:focus-visible` background
 - `--btn-primary-bg-active` <- `.btn-base:active` background
@@ -32,6 +34,7 @@ Token map:
 ## Input / Textarea (standard)
 
 Legacy source:
+
 - `app/styles/components/invite.css`
   - `.invite-classic__input`
   - `:root:not(.theme-light) .invite-classic__input` (+ hover/focus)
@@ -40,6 +43,7 @@ Legacy source:
   - `:root.theme-light .invite-modal` variables for light surfaces and shadow
 
 Token map:
+
 - `--input-bg` <- `.invite-classic__input` background (dark `--form-surface`, light `--form-surface-light`)
 - `--input-bg-hover` <- `.invite-classic__input:hover` background (dark `--form-surface-hover`, light `--form-surface-hover-light`)
 - `--input-bg-focus` <- `.invite-classic__input:focus` background (dark `--form-surface-hover`, light `--form-surface-active-light`)
@@ -52,4 +56,5 @@ Token map:
 - `--input-disabled-opacity` <- system default (not defined in legacy CSS; added as minimal disabled behavior)
 
 HC notes:
+
 - No direct legacy HC values for these tokens were defined in the token files; primitives inherit dark defaults under HC unless explicit HC overrides are added later.

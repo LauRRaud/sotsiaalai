@@ -1,25 +1,26 @@
-/* Account HUD + icon controls + login modal controls (extracted from legacy/part-02b.css). */
-
-.chat-right-actions{
-    position:absolute;
-    right: calc(var(--hud-edge-right, clamp(1.05rem, 2.5vw, 1.55rem)) + 0.35rem);
-    top: var(--chat-nav-top, calc(clamp(1.05rem, 2.5vw, 1.55rem) + clamp(3rem, 5vw, 3.3rem) + 13rem));
-    transform: translateY(-50%);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:0.45rem;
-    z-index:6;
-  }
-@media (max-width: 48em){
-  .chat-right-actions{
+.chat-right-actions {
+  position: absolute;
+  right: calc(var(--hud-edge-right, clamp(1.05rem, 2.5vw, 1.55rem)) + 0.35rem);
+  top: var(
+    --chat-nav-top,
+    calc(clamp(1.05rem, 2.5vw, 1.55rem) + clamp(3rem, 5vw, 3.3rem) + 13rem)
+  );
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  z-index: 6;
+}
+@media (max-width: 48em) {
+  .chat-right-actions {
     right: calc(var(--hud-edge-right) + 0.35rem);
   }
 }
 .chat-avatar-abs {
   --avatar-icon-size: calc(var(--hud-icon, 4.42rem) * 0.9);
   inline-size: var(--avatar-icon-size);
-  block-size:  var(--avatar-icon-size);
+  block-size: var(--avatar-icon-size);
   display: block;
   border-radius: 50%;
   cursor: var(--cursor-pointer);
@@ -27,7 +28,10 @@
   filter: none;
   opacity: 1;
 }
-:root.theme-light .chat-avatar-abs { background: url("/logo/profiilhele.svg") center/contain no-repeat; filter: none; }
+:root.theme-light .chat-avatar-abs {
+  background: url("/logo/profiilhele.svg") center/contain no-repeat;
+  filter: none;
+}
 .profile-header-center {
   display: flex;
   flex-direction: column;
@@ -55,9 +59,9 @@
   --profile-email-text-size: 0.78rem;
   --profile-role-text-size: 1.2rem;
   --profile-role-text-weight: 600;
-  --profile-role-text-color: rgba(232,232,232,0.78);
+  --profile-role-text-color: rgba(232, 232, 232, 0.78);
   --profile-hole-border-w: 2px;
-  --profile-hole-border-color: rgba(84,95,115,0.55);
+  --profile-hole-border-color: rgba(84, 95, 115, 0.55);
   --profile-stack-gap: clamp(1.4rem, 3.2vh, 2.3rem);
   --profile-form-gap: clamp(1.1rem, 2.6vh, 1.8rem);
   --profile-footer-clearance: clamp(2.6rem, 6vh, 4.2rem);
@@ -70,7 +74,7 @@
   --profile-actions-panel-w: 17.75rem;
   --profile-email-actions-gap: 1.2rem;
   --profile-hole-border-w: 0px;
-  --profile-email-text-color: rgba(248,250,252,0.9);
+  --profile-email-text-color: rgba(248, 250, 252, 0.9);
   --profile-role-text-color: var(--profile-email-text-color);
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
   background: transparent;
@@ -98,7 +102,7 @@
   color: #1f2937;
   border: none;
   background: transparent;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -114,7 +118,9 @@
 :root.theme-light .glass-box.profile-container::before {
   content: "";
 }
-:root.theme-light .glass-box.profile-container::after { display: none; }
+:root.theme-light .glass-box.profile-container::after {
+  display: none;
+}
 main#main > .main-content.glass-box.profile-container {
   background: transparent;
   backdrop-filter: none;
@@ -154,8 +160,12 @@ main#main > .main-content.glass-box.profile-container {
   position: relative;
   z-index: 2;
 }
-@supports not ((backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))) {
-  .glass-box.profile-container::before { background: var(--glass-surface-bg, rgba(24,24,24,.62)); }
+@supports not (
+  (backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))
+) {
+  .glass-box.profile-container::before {
+    background: var(--glass-surface-bg, rgba(24, 24, 24, 0.62));
+  }
 }
 .profile-error-state {
   flex: 1 1 auto;
@@ -168,23 +178,29 @@ main#main > .main-content.glass-box.profile-container {
   width: min(32rem, 100%);
   text-align: center;
 }
-.profile-form-vertical.glass-form{
-  gap: var(--profile-form-gap, var(--profile-stack-gap, clamp(0.6rem, 2.2vh, 1.2rem)));
+.profile-form-vertical.glass-form {
+  gap: var(
+    --profile-form-gap,
+    var(--profile-stack-gap, clamp(0.6rem, 2.2vh, 1.2rem))
+  );
   flex: 1 1 auto;
   min-height: 0;
-  padding-bottom: calc(var(--profile-footer-clearance, clamp(2.6rem, 6vh, 4.2rem)) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(
+    var(--profile-footer-clearance, clamp(2.6rem, 6vh, 4.2rem)) +
+      env(safe-area-inset-bottom, 0px)
+  );
   margin-top: clamp(-1.3rem, -3vh, -0.9rem);
 }
 .profile-role-pill {
   font-size: var(--profile-role-text-size, 1.1rem);
   font-weight: var(--profile-role-text-weight, 600);
   margin: 0;
-  color: var(--profile-role-text-color, rgba(232,232,232,0.8));
+  color: var(--profile-role-text-color, rgba(232, 232, 232, 0.8));
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: transparent;
   border: none;
-  text-shadow: 0 0.06rem 0.22rem rgba(0,0,0,0.5);
+  text-shadow: 0 0.06rem 0.22rem rgba(0, 0, 0, 0.5);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -209,12 +225,12 @@ main#main > .main-content.glass-box.profile-container {
   margin-bottom: 0.1em;
   margin-top: 0.01em;
 }
-.profile-form-vertical .input-modern{
+.profile-form-vertical .input-modern {
   color: var(--pt-200);
   caret-color: var(--pt-200);
   padding: 0.55em 0.8em;
 }
-.profile-form-vertical .input-modern:focus{
+.profile-form-vertical .input-modern:focus {
   color: var(--pt-200);
 }
 .profile-btn-row {
@@ -282,7 +298,6 @@ main#main > .main-content.glass-box.profile-container {
   z-index: 3;
 }
 
-
 html.profile-orbit-open .profile-role-pill {
   opacity: 0;
   pointer-events: none;
@@ -327,11 +342,13 @@ html.profile-orbit-open .glass-box.profile-container {
   padding: 0.5rem 0.7rem;
   border-radius: 1.2rem;
   background: rgba(10, 15, 24, 0.48);
-  border: 2px solid rgba(84,95,115,0.55);
+  border: 2px solid rgba(84, 95, 115, 0.55);
   box-shadow: none;
 }
 
-:root:not(.theme-light) .dock-panel.profile-email-dock { border: none; }
+:root:not(.theme-light) .dock-panel.profile-email-dock {
+  border: none;
+}
 
 :root:not(.theme-light) .dock-panel.profile-email-dock {
   background: transparent;
@@ -343,11 +360,12 @@ html.profile-orbit-open .glass-box.profile-container {
   width: 4.25rem;
   height: 4.25rem;
   aspect-ratio: 1 / 1;
-  background:
-    linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
-  border: 2px solid rgba(84,95,115,0.55);
-
-  /* UPDATED */
+  background: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.38),
+    rgba(32, 36, 50, 0.18)
+  );
+  border: 2px solid rgba(84, 95, 115, 0.55);
   border-radius: 50%;
 
   color: rgba(232, 236, 245, 0.92);
@@ -362,12 +380,16 @@ html.profile-orbit-open .glass-box.profile-container {
 }
 
 .profile-email-dock-wrapper .dock-item:hover,
-.profile-email-dock-wrapper .dock-item:focus-visible{
+.profile-email-dock-wrapper .dock-item:focus-visible {
   transform: translateY(-1px);
 }
 
-.profile-email-dock-wrapper .dock-item:focus-visible { outline: none; }
-.profile-email-dock-wrapper .dock-item:active { transform: translateY(0) scale(0.98); }
+.profile-email-dock-wrapper .dock-item:focus-visible {
+  outline: none;
+}
+.profile-email-dock-wrapper .dock-item:active {
+  transform: translateY(0) scale(0.98);
+}
 
 .profile-email-dock-wrapper .dock-icon {
   width: 100%;
@@ -420,33 +442,34 @@ html.profile-orbit-open .glass-box.profile-container {
   font-weight: 500;
 }
 
-.profile-email-card-grid{
-  display:grid;
+.profile-email-card-grid {
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
-  gap:0.6rem;
-  justify-items:center;
+  gap: 0.6rem;
+  justify-items: center;
 }
-
-/* ADDED: make the touch/mobile action cards circular too (same look in light/dark) */
-.profile-email-card-grid .profile-email-card{
+.profile-email-card-grid .profile-email-card {
   border-radius: 50%;
   overflow: hidden;
 }
-.profile-email-card{
-  width:100%;
-  max-width:132px;
-  aspect-ratio:1/1;
+.profile-email-card {
+  width: 100%;
+  max-width: 132px;
+  aspect-ratio: 1/1;
   border-radius: 1.2rem;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:0.4rem;
-  background:
-    linear-gradient(130deg, rgba(18, 20, 32, 0.54), rgba(32, 36, 50, 0.32));
-  border: 2px solid rgba(84,95,115,0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.54),
+    rgba(32, 36, 50, 0.32)
+  );
+  border: 2px solid rgba(84, 95, 115, 0.55);
   box-shadow: none;
-  color:rgba(248,250,252,0.92);
+  color: rgba(248, 250, 252, 0.92);
   transition:
     border-color 0.16s ease,
     box-shadow 0.18s ease,
@@ -455,30 +478,30 @@ html.profile-orbit-open .glass-box.profile-container {
   will-change: transform;
 }
 .profile-email-card:hover,
-.profile-email-card:focus-visible{
+.profile-email-card:focus-visible {
   box-shadow: none;
   outline: none;
   transform: translateY(-1px) scale(1.01);
 }
-.profile-email-card:active{
+.profile-email-card:active {
   transform: translateY(-1px) scale(0.99);
 }
-.profile-email-card__icon{
-  display:inline-flex;
+.profile-email-card__icon {
+  display: inline-flex;
 }
-.profile-email-card__icon svg{
-  width:34px;
-  height:34px;
+.profile-email-card__icon svg {
+  width: 34px;
+  height: 34px;
   display: block;
   transform: scale(1);
   transform-origin: center;
   transition: transform 0.18s ease-out;
   will-change: transform;
 }
-.profile-email-card__label{
+.profile-email-card__label {
   font-size: clamp(0.98rem, 2.4vw, 1.1rem);
   font-weight: 700;
-  text-align:center;
+  text-align: center;
   line-height: 1.1;
   padding: 0 0.4rem;
   max-width: 90%;
@@ -495,41 +518,41 @@ html.profile-orbit-open .glass-box.profile-container {
   stroke-opacity: 0.32;
 }
 .profile-email-card:hover .profile-email-card__icon svg,
-.profile-email-card:focus-visible .profile-email-card__icon svg{
+.profile-email-card:focus-visible .profile-email-card__icon svg {
   transform: scale(1.05);
 }
-@media (max-width: 789px){
+@media (max-width: 789px) {
   .profile-email-card:hover .profile-email-card__icon svg,
   .profile-email-card:focus-visible .profile-email-card__icon svg,
   .profile-email-dock-wrapper .dock-item:hover .dock-icon svg,
-  .profile-email-dock-wrapper .dock-item:focus-visible .dock-icon svg{
+  .profile-email-dock-wrapper .dock-item:focus-visible .dock-icon svg {
     transform: scale(1);
   }
 }
-@media (max-width: 768px){
-  .profile-email-card-grid{
+@media (max-width: 768px) {
+  .profile-email-card-grid {
     grid-template-columns: repeat(2, minmax(140px, 1fr));
-    gap:0.95rem;
-    width:100%;
-    max-width:500px;
-    margin:0 auto;
+    gap: 0.95rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
   }
-  .profile-email-card{
-    max-width:170px;
-    width:100%;
+  .profile-email-card {
+    max-width: 170px;
+    width: 100%;
     justify-content: flex-start;
     padding-top: 0.8rem;
     padding-bottom: 0.6rem;
     gap: 0.25rem;
   }
-  .profile-email-card__icon{
+  .profile-email-card__icon {
     margin-top: 0.1rem;
   }
-  .profile-email-card__icon svg{
-    width:48px;
-    height:48px;
+  .profile-email-card__icon svg {
+    width: 48px;
+    height: 48px;
   }
-  .profile-email-card__label{
+  .profile-email-card__label {
     font-size: 1rem;
     line-height: 1.1;
     margin-top: 0.2rem;
@@ -546,14 +569,17 @@ html.profile-orbit-open .glass-box.profile-container {
   font-size: 0.98em;
   padding: 0.4em 1em;
   border-radius: 1.5em;
-  border: 2px solid rgba(84,95,115,0.55);
-  background:
-    linear-gradient(130deg, rgba(18, 20, 32, 0.38), rgba(32, 36, 50, 0.18));
+  border: 2px solid rgba(84, 95, 115, 0.55);
+  background: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.38),
+    rgba(32, 36, 50, 0.18)
+  );
   transition:
-    transform .16s ease,
-    box-shadow .18s ease,
-    background .18s ease,
-    border-color .18s ease;
+    transform 0.16s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
 }
 .profile-logout-icon-btn {
   display: inline-flex;
@@ -583,8 +609,10 @@ html.profile-orbit-open .glass-box.profile-container {
 .profile-logout-icon {
   width: 4.6rem;
   height: 4.6rem;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.22));
-  transition: transform 140ms ease, filter 180ms ease;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.22));
+  transition:
+    transform 140ms ease,
+    filter 180ms ease;
 }
 .profile-logout-icon-btn:hover .profile-logout-icon,
 .profile-logout-icon-btn:focus-visible .profile-logout-icon {
@@ -625,107 +653,121 @@ html.profile-orbit-open .glass-box.profile-container {
   opacity: 1;
   transform: translate(-50%, 2px);
 }
-.modal-close-btn{
-  width:2.65rem;
-  height:2.65rem;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:0;
-  border:none;
+.modal-close-btn {
+  width: 2.65rem;
+  height: 2.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
   background: transparent;
-  color:inherit;
-  font-size:0;
-  line-height:0;
+  color: inherit;
+  font-size: 0;
+  line-height: 0;
   cursor: var(--cursor-pointer);
-  overflow:visible;
+  overflow: visible;
   padding: 0;
   box-sizing: border-box;
   position: relative;
   text-indent: -9999px;
   white-space: nowrap;
-  box-shadow:none;
-  transition: transform 0.14s ease, color 0.18s ease, opacity 0.18s ease;
+  box-shadow: none;
+  transition:
+    transform 0.14s ease,
+    color 0.18s ease,
+    opacity 0.18s ease;
 }
-.modal-close-btn::before{
+.modal-close-btn::before {
   content: "\00D7";
   position: absolute;
-  top:50%;
-  left:50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  font-size:2.05rem;
+  font-size: 2.05rem;
   line-height: 1;
   text-indent: 0;
   pointer-events: none;
 }
-:root.theme-light .modal-close-btn{
+:root.theme-light .modal-close-btn {
   background: transparent;
   border-color: transparent;
 }
 .modal-close-btn:hover,
-.modal-close-btn:focus-visible{
+.modal-close-btn:focus-visible {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
   transform: translateY(-1px);
 }
 :root.theme-light .modal-close-btn:hover,
-:root.theme-light .modal-close-btn:focus-visible{
+:root.theme-light .modal-close-btn:focus-visible {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
 }
-.modal-close-btn:active{
+.modal-close-btn:active {
   transform: translateY(1px);
   box-shadow: none;
 }
-.modal-close-btn:focus-visible{ outline: none; }
-.login-modal-close{
-  position:absolute;
-  top:0.55rem;
-  right:0.55rem;
-  z-index:2;
+.modal-close-btn:focus-visible {
+  outline: none;
 }
-:root #login-modal .login-modal-close.modal-close-btn{
+.login-modal-close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+}
+:root #login-modal .login-modal-close.modal-close-btn {
   width: 2.1rem;
   height: 2.1rem;
   border-radius: 0.7rem;
 }
-:root #login-modal .login-modal-close.modal-close-btn::before{
-  top:50%;
-  left:50%;
+:root #login-modal .login-modal-close.modal-close-btn::before {
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
-:root:not(.theme-light) .login-modal-close.modal-close-btn { color: #c57171; }
-.login-modal-head{
-  display:flex;
-  flex-direction:column;
-  gap:0.2em;
+:root:not(.theme-light) .login-modal-close.modal-close-btn {
+  color: #c57171;
+}
+.login-modal-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
   margin-top: 0.1rem;
 }
-.login-modal-head .glass-title{ margin-bottom: 0; }
-.login-modal-message-slot{
-  margin:0;
-  min-height:1.4em;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.login-modal-head .glass-title {
+  margin-bottom: 0;
+}
+.login-modal-message-slot {
+  margin: 0;
+  min-height: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   font-size: 1.06em;
 }
-.login-modal-message-slot--empty{
-  visibility:hidden;
-  pointer-events:none;
+.login-modal-message-slot--empty {
+  visibility: hidden;
+  pointer-events: none;
   min-height: 0.9em;
 }
-@media (max-width: 48em){
-  .login-modal-head{
-    gap:0.2em;
+@media (max-width: 48em) {
+  .login-modal-head {
+    gap: 0.2em;
     margin-top: 1.2rem;
   }
-  .login-modal-message-slot{ min-height: 1.6em; }
-  .login-modal-message-slot{ font-size: 1.12em; margin-top: 0.25rem; }
+  .login-modal-message-slot {
+    min-height: 1.6em;
+  }
+  .login-modal-message-slot {
+    font-size: 1.12em;
+    margin-top: 0.25rem;
+  }
 }
 .glass-title {
   font-size: 2.15em;
@@ -761,13 +803,18 @@ html.profile-orbit-open .glass-box.profile-container {
 .login-submit-icon-btn::after {
   content: none;
 }
-.login-submit-icon-stack{ transition: transform 0.16s ease; will-change: transform; }
+.login-submit-icon-stack {
+  transition: transform 0.16s ease;
+  will-change: transform;
+}
 .login-submit-icon-btn:hover .login-submit-icon-stack,
 .login-submit-icon-btn:focus-visible .login-submit-icon-stack {
   transform: translateY(-1px) scale(1.12);
 }
 .login-submit-icon-btn:hover .login-submit-icon,
-.login-submit-icon-btn:focus-visible .login-submit-icon { transform: none; }
+.login-submit-icon-btn:focus-visible .login-submit-icon {
+  transform: none;
+}
 .login-submit-icon-only {
   padding: 0;
   min-width: 0;
@@ -781,26 +828,32 @@ html.profile-orbit-open .glass-box.profile-container {
 .login-submit-icon {
   width: 5rem;
   height: 5rem;
-  transition: transform 0.16s ease, filter 0.18s ease;
+  transition:
+    transform 0.16s ease,
+    filter 0.18s ease;
 }
 .input-modern {
   width: 100%;
   max-width: 100%;
   font-size: 1.2em;
   font-weight: 500;
-  background: rgba(10,14,24,0.32);
+  background: rgba(10, 14, 24, 0.32);
   color: var(--pt-50);
   caret-color: var(--pt-50);
-  border: 2px solid rgba(84,95,115,0.55);
+  border: 2px solid rgba(84, 95, 115, 0.55);
   border-radius: 1.2em;
   padding: 0.5em 0.6em;
   margin-bottom: 0.4em;
   outline: none;
   box-shadow: none;
   box-sizing: border-box;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease;
 }
-.input-email-icon{
+.input-email-icon {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 2.2rem auto;
@@ -808,7 +861,7 @@ html.profile-orbit-open .glass-box.profile-container {
 }
 .input-modern:focus {
   border-color: var(--ui-hover-ring);
-  background: rgba(10,14,24,0.32);
+  background: rgba(10, 14, 24, 0.32);
   box-shadow: none;
   color: var(--pt-30, #f7f9ff);
 }
@@ -817,16 +870,16 @@ html.profile-orbit-open .glass-box.profile-container {
   border-color: var(--form-border-strong);
   background: var(--form-surface);
   box-shadow:
-    0 6px 16px rgba(0,0,0,0.22),
+    0 6px 16px rgba(0, 0, 0, 0.22),
     var(--register-under-glow);
 }
-.login-modal-root .login-modal-form .input-email-icon{
+.login-modal-root .login-modal-form .input-email-icon {
   cursor: var(--cursor-pointer);
 }
 .login-modal-root .login-modal-form .input-email-icon:focus,
-.login-modal-root .login-modal-form .input-email-icon:focus-visible{
-  border-color: rgba(148,163,184,0.35);
-  background-color: rgba(10,14,24,0.48);
+.login-modal-root .login-modal-form .input-email-icon:focus-visible {
+  border-color: rgba(148, 163, 184, 0.35);
+  background-color: rgba(10, 14, 24, 0.48);
   cursor: text;
   color: var(--pt-30, #f7f9ff);
   caret-color: var(--pt-30, #f7f9ff);
@@ -835,9 +888,9 @@ html.profile-orbit-open .glass-box.profile-container {
 .login-modal-form .input-email-icon {
   display: block;
   margin: 1rem auto 0;
-width: clamp(16rem, 16vw, 17rem);
+  width: clamp(16rem, 16vw, 17rem);
 }
-.login-modal-root{
+.login-modal-root {
   --login-envelope-size: clamp(4.4rem, 7vw, 5.2rem);
   --login-envelope-hit: clamp(4.4rem, 7vw, 5.2rem);
 }
@@ -845,45 +898,45 @@ width: clamp(16rem, 16vw, 17rem);
   margin-top: -0.6rem;
   margin-bottom: -1rem;
 }
-.login-modal-root .login-email-toggle{
-  display:flex;
-  justify-content:center;
+.login-modal-root .login-email-toggle {
+  display: flex;
+  justify-content: center;
   margin-top: -1rem;
   margin-bottom: 0.8rem;
 }
-.login-modal-root .login-email-icon-btn{
+.login-modal-root .login-email-icon-btn {
   width: var(--login-envelope-hit);
   height: var(--login-envelope-hit);
-  border:none;
-  padding:0;
-  border-radius:999px;
+  border: none;
+  padding: 0;
+  border-radius: 999px;
   background: transparent;
   background-image: url("/logo/%C3%BCmbrik.svg");
   background-repeat: no-repeat;
-  background-position:center;
+  background-position: center;
   background-size: var(--login-envelope-size) auto;
-  box-shadow:none;
+  box-shadow: none;
   transition: transform 0.16s ease;
   cursor: var(--cursor-pointer);
   color: transparent;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  appearance:none;
-  -webkit-appearance:none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
 }
-.login-modal-root .login-email-icon-btn--known{
+.login-modal-root .login-email-icon-btn--known {
   background-image: url("/logo/r%C3%BCmbrik.svg");
 }
-.login-modal-root .login-email-icon-btn:hover{
+.login-modal-root .login-email-icon-btn:hover {
   transform: translateY(-1px) scale(1.08);
 }
-.login-modal-root .login-email-icon-btn:focus-visible{
+.login-modal-root .login-email-icon-btn:focus-visible {
   outline: none;
   box-shadow: none;
   transform: translateY(-1px) scale(1.08);
 }
-.login-email-toggle .login-email-icon-btn{
+.login-email-toggle .login-email-icon-btn {
   margin-top: -1.5rem;
   margin-bottom: -1.5rem;
 }

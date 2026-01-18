@@ -1,18 +1,3 @@
-/* =========================================================
-   OrbitalMenu.css
-   - Desktop: existing orbital ring UI
-   - Mobile (coarse pointer): “powerful” full-screen picker
-     * Stronger, less transparent glass (no bleed-through)
-     * Round hero button in the center (100% opacity)
-     * Only neighbors visible; others fade to 0% (no edge cutting)
-     * Modern scroll affordance: gradient scrims + animated chevrons
-   ========================================================= */
-
-
-/* =========================================================
-   DESKTOP ORBIT (unchanged baseline)
-   ========================================================= */
-
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-item-size: clamp(4.4rem, 8.6vw, 5.4rem);
   --orbit-item-size-open: clamp(4.7rem, 9vw, 5.8rem);
@@ -49,8 +34,8 @@
 
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-under-glow:
-    0 10px 18px -14px rgba(248,253,255,0.72),
-    0 20px 28px -20px rgba(248,253,255,0.42);
+    0 10px 18px -14px rgba(248, 253, 255, 0.72),
+    0 20px 28px -20px rgba(248, 253, 255, 0.42);
 }
 
 .profile-orbit-menu {
@@ -61,7 +46,7 @@
   place-items: center;
 
   --item-opacity: 0;
-  --item-scale: 0.90;
+  --item-scale: 0.9;
   --item-scale-hover: 0.885;
 
   --label-gap: 0.5rem;
@@ -94,15 +79,15 @@
   pointer-events: auto;
 }
 
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot {
   position: absolute;
   top: 50%;
   left: 50%;
   width: var(--orbit-item-size);
   height: var(--orbit-item-size);
 
-  transform:
-    translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
+  transform: translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
     translate(-50%, -50%);
 
   opacity: var(--item-opacity);
@@ -117,7 +102,8 @@
   animation: orbit-item-hide 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item.dock-item {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item {
   position: absolute;
   inset: 0;
   width: var(--orbit-item-size);
@@ -137,14 +123,17 @@
   cursor: inherit;
   display: block;
 }
-/* glow only on hover/focus */
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+:root:not(.theme-light)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:hover,
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+:root:not(.theme-light)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:focus-visible,
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+:root:not(.theme-light)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item:hover,
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+:root:not(.theme-light)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item:focus-visible {
   box-shadow: var(--orbit-under-glow);
 }
@@ -157,7 +146,9 @@
   animation: orbit-item-pulse 0.95s ease-in-out infinite;
 }
 
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item
+  .dock-icon {
   width: 100%;
   height: 100%;
   display: grid;
@@ -165,7 +156,10 @@
   line-height: 0;
 }
 
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon svg {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item
+  .dock-icon
+  svg {
   width: clamp(2.5rem, 2.9vw, 3.1rem);
   height: clamp(2.5rem, 2.9vw, 3.1rem);
   max-width: none;
@@ -173,17 +167,23 @@
   display: block;
   stroke: currentColor;
 }
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon,
+:root:not(.theme-light)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item
+  .dock-icon,
 :root:not(.theme-light) .profile-orbit-mobile-action.dock-item {
   color: #c57171;
 }
-:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__item .dock-icon,
+:root.theme-light
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item
+  .dock-icon,
 :root.theme-light .profile-orbit-mobile-action.dock-item {
-  color: #7A3A38;
+  color: #7a3a38;
 }
-
-/* Desktop labels */
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot
+  .dock-label {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -200,50 +200,61 @@
   -webkit-font-smoothing: antialiased;
 
   z-index: 20;
-  top: auto; right: auto; bottom: auto; left: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
   transform: none;
 
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
 }
-:root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
+:root:not(.theme-light)
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot
+  .dock-label {
   color: #c57171;
 }
-:root.theme-light .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
-  color: #7A3A38;
+:root.theme-light
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__slot
+  .dock-label {
+  color: #7a3a38;
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot:is(:hover, :focus-within) .dock-label {
+  .profile-orbit-menu__slot:is(:hover, :focus-within)
+  .dock-label {
   opacity: 1;
 }
-
-/* UP */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="up"] .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="up"]
+  .dock-label {
   left: 50%;
   bottom: calc(100% + var(--label-gap));
   transform: translateX(-50%);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="up"]:is(:hover, :focus-within) .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="up"]:is(:hover, :focus-within)
+  .dock-label {
   transform: translateX(-50%) translateY(calc(var(--label-nudge) * -1));
 }
-
-/* DOWN */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="down"] .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="down"]
+  .dock-label {
   left: 50%;
   top: calc(100% + var(--label-gap));
   transform: translateX(-50%);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="down"]:is(:hover, :focus-within) .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="down"]:is(:hover, :focus-within)
+  .dock-label {
   transform: translateX(-50%) translateY(var(--label-nudge));
 }
-
-/* LEFT */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="left"] .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="left"]
+  .dock-label {
   max-width: 7rem;
   overflow-wrap: break-word;
   right: calc(100% + var(--label-gap-side));
@@ -251,13 +262,13 @@
   transform: translateY(-50%);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="left"]:is(:hover, :focus-within) .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="left"]:is(:hover, :focus-within)
+  .dock-label {
   transform: translateY(-50%) translateX(calc(var(--label-nudge) * -1));
 }
-
-/* RIGHT */
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="right"] .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="right"]
+  .dock-label {
   max-width: 7rem;
   overflow-wrap: break-word;
   left: calc(100% + var(--label-gap-side));
@@ -265,19 +276,21 @@
   transform: translateY(-50%);
 }
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="right"]:is(:hover, :focus-within) .dock-label {
+  .profile-orbit-menu__slot[data-label-pos="right"]:is(:hover, :focus-within)
+  .dock-label {
   transform: translateY(-50%) translateX(var(--label-nudge));
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-key="theme"] .dock-label,
+  .profile-orbit-menu__slot[data-key="theme"]
+  .dock-label,
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-key="subscription"] .dock-label {
+  .profile-orbit-menu__slot[data-key="subscription"]
+  .dock-label {
   max-width: 5.8rem;
 }
-
-/* Center hub */
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
   width: var(--orbit-center-size);
   height: var(--orbit-center-size);
   border-radius: 999px;
@@ -291,11 +304,12 @@
   animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite;
   will-change: transform;
 }
-
-/* Ensure global dock hover-lift doesn't move the hub */
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:hover,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:active,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item:focus-visible {
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:hover,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:active,
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item:focus-visible {
   transform: none !important;
 }
 
@@ -309,7 +323,8 @@
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center svg.profile-orbit-menu__hub-svg {
+  .profile-orbit-menu__center
+  svg.profile-orbit-menu__hub-svg {
   width: var(--orbit-center-icon-size);
   height: auto;
   display: block;
@@ -318,9 +333,15 @@
 }
 
 @keyframes orbit-item-pulse {
-  0% { transform: scale(var(--item-scale)); }
-  50% { transform: scale(var(--item-scale-hover)); }
-  100% { transform: scale(var(--item-scale)); }
+  0% {
+    transform: scale(var(--item-scale));
+  }
+  50% {
+    transform: scale(var(--item-scale-hover));
+  }
+  100% {
+    transform: scale(var(--item-scale));
+  }
 }
 
 @keyframes orbit-item-reveal {
@@ -329,8 +350,7 @@
     opacity: 0;
   }
   to {
-    transform:
-      translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
+    transform: translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
       translate(-50%, -50%);
     opacity: 1;
   }
@@ -338,25 +358,37 @@
 
 @keyframes orbit-item-hide {
   0% {
-    transform:
-      translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
+    transform: translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
       translate(-50%, -50%);
     opacity: 1;
   }
-  10% { opacity: 0.5; }
-  35% { opacity: 0.12; }
+  10% {
+    opacity: 0.5;
+  }
+  35% {
+    opacity: 0.12;
+  }
   100% {
-    transform:
-      translate3d(var(--orbit-hide-x, 0px), var(--orbit-hide-y, 0px), 0)
+    transform: translate3d(
+        var(--orbit-hide-x, 0px),
+        var(--orbit-hide-y, 0px),
+        0
+      )
       translate(-50%, -50%);
     opacity: 0;
   }
 }
 
 @keyframes profile-orbit-hub-pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.93); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.93);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 640px) {
@@ -368,13 +400,14 @@
     margin-top: clamp(2.2rem, 5.8vh, 4rem);
     margin-bottom: clamp(1.2rem, 3.2vh, 2.2rem);
   }
-  :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  :root:not(.theme-light)
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(2.2rem, 5.8vh, 4rem);
     margin-bottom: clamp(1.2rem, 3.2vh, 2.2rem);
   }
-
-  /* Mobiil: silt istub nupu sees ja on alati nähtav */
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__slot .dock-label {
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-menu__slot
+    .dock-label {
     opacity: 1;
     left: 50%;
     right: auto;
@@ -393,7 +426,8 @@
   }
 
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-menu__slot:is(:hover, :focus-within) .dock-label {
+    .profile-orbit-menu__slot:is(:hover, :focus-within)
+    .dock-label {
     transform: translateX(-50%);
   }
 }
@@ -407,25 +441,14 @@
     animation: none !important;
   }
 }
-
-
-/* =========================================================
-   MOBILE OVERLAY PICKER — “very powerful”
-   ========================================================= */
-
-/* Put overlay above everything, fullscreen on mobile */
 .profile-orbit-mobile-backdrop.invite-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 9999;
-
-  /* Fullscreen like profile/accessibility modals */
   align-items: stretch;
   justify-content: center;
 
   padding: 0;
-
-  /* Stronger dim so page never competes visually */
   background: rgba(6, 8, 12, 0.38);
   -webkit-backdrop-filter: blur(16px) saturate(118%);
   backdrop-filter: blur(16px) saturate(118%);
@@ -436,11 +459,9 @@
   -webkit-backdrop-filter: blur(10px) saturate(105%);
   backdrop-filter: blur(10px) saturate(105%);
 }
-
-/* Panel: fullscreen on mobile like profile/accessibility modals */
 .profile-orbit-mobile-panel.invite-modal {
   position: relative;
-  isolation: isolate;   /* prevents outside bleed / blending artifacts */
+  isolation: isolate;
   overflow: hidden;
 
   width: 100vw;
@@ -451,26 +472,23 @@
 
   display: flex;
   flex-direction: column;
-
-  /* Layout breathing room (list will fill) */
-  padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0 calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
+  padding: calc(env(safe-area-inset-top, 0px) + 0.95rem) 0
+    calc(env(safe-area-inset-bottom, 0px) + 0.95rem);
 }
 :root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
   --orbit-mobile-accent: #c57171;
 }
 :root.theme-light .profile-orbit-mobile-panel.invite-modal {
-  --orbit-mobile-accent: #7A3A38;
+  --orbit-mobile-accent: #7a3a38;
 }
-
-/* Glass surface style like profile/accessibility modals */
 :root:not(.theme-light) .profile-orbit-mobile-panel.invite-modal {
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.16));
   backdrop-filter: blur(1.6rem) saturate(120%);
   -webkit-backdrop-filter: blur(1.6rem) saturate(120%);
   border: none;
   --orbit-under-glow:
-    0 10px 18px -14px rgba(248,253,255,0.72),
-    0 20px 28px -20px rgba(248,253,255,0.42);
+    0 10px 18px -14px rgba(248, 253, 255, 0.72),
+    0 20px 28px -20px rgba(248, 253, 255, 0.42);
 }
 
 :root.theme-light .profile-orbit-mobile-panel.invite-modal {
@@ -479,8 +497,6 @@
   -webkit-backdrop-filter: blur(1.1rem) saturate(108%);
   border: none;
 }
-
-/* Subtle internal vignette (gives depth without translucency) */
 .profile-orbit-mobile-panel.invite-modal::before {
   content: "";
   position: absolute;
@@ -488,12 +504,18 @@
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 520px at 50% 35%, rgba(255,255,255,0.06), rgba(255,255,255,0) 60%),
-    radial-gradient(820px 620px at 50% 105%, rgba(0,0,0,0.14), rgba(0,0,0,0) 55%);
+    radial-gradient(
+      900px 520px at 50% 35%,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0) 60%
+    ),
+    radial-gradient(
+      820px 620px at 50% 105%,
+      rgba(0, 0, 0, 0.14),
+      rgba(0, 0, 0, 0) 55%
+    );
   opacity: 1;
 }
-
-/* Close button: icon-only, modern */
 .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
   position: absolute;
   top: 0.55rem;
@@ -516,14 +538,18 @@
   font-size: 2.2rem;
   opacity: 0.9;
   transform: translateZ(0);
-  transition: opacity 0.16s ease, transform 0.16s ease;
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
 }
 
-:root.theme-light .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
-  color: rgba(90, 48, 48, 0.95); /* matches your brand accent (fallback) */
+:root.theme-light
+  .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
+  color: rgba(90, 48, 48, 0.95);
   opacity: 0.78;
 }
-:root:not(.theme-light) .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
+:root:not(.theme-light)
+  .profile-orbit-mobile-close.invite-modal__close.modal-close-btn {
   color: rgba(248, 253, 255, 0.9);
   opacity: 0.9;
 }
@@ -531,8 +557,6 @@
   transform: translateY(1px);
   opacity: 1;
 }
-
-/* Scroll list */
 .profile-orbit-mobile-list {
   position: relative;
   z-index: 2;
@@ -544,17 +568,14 @@
   overscroll-behavior: contain;
 
   scroll-snap-type: y proximity;
-
-  /* Keep some horizontal breathing room */
   padding-left: 0.85rem;
   padding-right: 0.85rem;
-
-  /* Hide scrollbars */
   scrollbar-width: none;
 }
-.profile-orbit-mobile-list::-webkit-scrollbar { width: 0; height: 0; }
-
-/* Each row is a fixed "slot" so the center item has space and never gets cut - taller for larger buttons */
+.profile-orbit-mobile-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 .profile-orbit-mobile-row {
   scroll-snap-align: center;
   height: clamp(15.5rem, 30vh, 19rem);
@@ -562,23 +583,19 @@
   place-items: center;
   padding: 0.95rem 0;
 }
-
-/* Hidden rows must not steal taps */
 .profile-orbit-mobile-row.is-hidden {
   pointer-events: none;
 }
-
-/* Visual wrapper gets transform/opacity from inline styles (JS) */
 .profile-orbit-mobile-visual {
   width: 100%;
   display: grid;
   place-items: center;
 
   will-change: opacity, filter;
-  transition: opacity 180ms ease-out, filter 180ms ease-out;
+  transition:
+    opacity 180ms ease-out,
+    filter 180ms ease-out;
 }
-
-/* IMPORTANT: neutralize global hover-lift inside overlay (iOS can “stick” :hover) */
 .profile-orbit-mobile-panel .dock-item:hover,
 .profile-orbit-mobile-panel .dock-item:focus-visible {
   transform: none !important;
@@ -587,12 +604,7 @@
   transform: scale(0.985) !important;
 }
 
-/* =========================================================
-   BIG ROUND ACTION BUTTON (center hero)
-   ========================================================= */
-
 .profile-orbit-mobile-action.dock-item {
-  /* Larger buttons on mobile to fit text below icons */
   width: clamp(9rem, 58vw, 12.8rem);
   min-height: clamp(9rem, 58vw, 12.8rem);
   height: auto;
@@ -608,25 +620,22 @@
   position: relative;
   transform: translateZ(0);
 }
-/* Force mobile palette to match desktop */
 .profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item {
   color: var(--orbit-mobile-accent, #c57171) !important;
 }
-
-/* Give active item a bit more depth (without needing extra JS) */
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item {
   box-shadow:
-    0 18px 46px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+    0 18px 46px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
-:root:not(.theme-light) .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item {
+:root:not(.theme-light)
+  .profile-orbit-mobile-row.is-active
+  .profile-orbit-mobile-action.dock-item {
   box-shadow:
-    0 18px 46px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 18px 46px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
     var(--orbit-under-glow);
 }
-
-/* Icon sizing - fixed height for icon container */
 .profile-orbit-mobile-action.dock-item .dock-icon {
   width: 100%;
   height: auto;
@@ -636,8 +645,6 @@
   line-height: 0;
   min-height: clamp(2.6rem, 14vw, 3.8rem);
 }
-
-/* Larger icons to match bigger buttons */
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
   width: 68%;
   height: 68%;
@@ -647,7 +654,9 @@
   stroke: currentColor;
   opacity: 0.95;
   transform-origin: center;
-  transition: transform 180ms ease, opacity 180ms ease;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
 }
 .profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item .dock-icon {
   color: var(--orbit-mobile-accent, #c57171);
@@ -669,20 +678,25 @@
   stroke: currentColor !important;
   fill: none !important;
 }
-.profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item svg [fill]:not([fill="none"]) {
+.profile-orbit-mobile-panel
+  .profile-orbit-mobile-action.dock-item
+  svg
+  [fill]:not([fill="none"]) {
   fill: currentColor !important;
 }
-.profile-orbit-mobile-action.dock-item .dock-icon svg [fill]:not([fill="none"]) {
+.profile-orbit-mobile-action.dock-item
+  .dock-icon
+  svg
+  [fill]:not([fill="none"]) {
   fill: currentColor;
 }
-
-/* When active, icon stays same */
-.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item .dock-icon svg {
+.profile-orbit-mobile-row.is-active
+  .profile-orbit-mobile-action.dock-item
+  .dock-icon
+  svg {
   transform: none;
   opacity: 1;
 }
-
-/* Label below icon: appears only on active row (JS toggles aria-hidden, CSS toggles opacity) */
 .profile-orbit-mobile-action__label {
   position: static;
   width: 100%;
@@ -693,8 +707,6 @@
   line-height: 1.1;
   font-weight: 600;
   letter-spacing: 0.025em;
-
-  /* Larger text to match bigger buttons */
   font-size: clamp(1.1rem, 3.9vw, 1.5rem);
 
   margin-top: 0;
@@ -703,8 +715,6 @@
   border-radius: 0;
   opacity: 0;
   transition: opacity 180ms ease;
-
-  /* Allow text to wrap naturally */
   display: block;
   overflow: visible;
   word-wrap: break-word;
@@ -714,30 +724,22 @@
   text-wrap: balance;
   max-height: none;
 }
-
-/* Theme-specific label surface */
 :root:not(.theme-light) .profile-orbit-mobile-action__label {
   color: var(--orbit-mobile-accent, #c57171) !important;
   background: transparent;
   border: none;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 }
 
 :root.theme-light .profile-orbit-mobile-action__label {
-  color: var(--orbit-mobile-accent, #7A3A38) !important;
+  color: var(--orbit-mobile-accent, #7a3a38) !important;
   background: transparent;
   border: none;
-  text-shadow: 0 2px 8px rgba(255,255,255,0.35);
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.35);
 }
-
-/* Show label only for active row */
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action__label {
   opacity: 1;
 }
-
-/* =========================================================
-   MODERN SCROLL AFFORDANCE: scrims + chevrons
-   ========================================================= */
 
 .profile-orbit-mobile-scrim {
   position: absolute;
@@ -753,33 +755,41 @@
 .profile-orbit-mobile-scrim.is-visible {
   opacity: 1;
 }
-
-/* Top scrim */
 .profile-orbit-mobile-scrim--top {
   top: 0;
 }
-
-/* Bottom scrim */
 .profile-orbit-mobile-scrim--bottom {
   bottom: 0;
 }
-
-/* Theme-aware gradients that “hide” cut edges elegantly */
 :root:not(.theme-light) .profile-orbit-mobile-scrim--top {
-  background: linear-gradient(to bottom, rgba(10,12,18,0.92), rgba(10,12,18,0));
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 12, 18, 0.92),
+    rgba(10, 12, 18, 0)
+  );
 }
 :root:not(.theme-light) .profile-orbit-mobile-scrim--bottom {
-  background: linear-gradient(to top, rgba(10,12,18,0.92), rgba(10,12,18,0));
+  background: linear-gradient(
+    to top,
+    rgba(10, 12, 18, 0.92),
+    rgba(10, 12, 18, 0)
+  );
 }
 
 :root.theme-light .profile-orbit-mobile-scrim--top {
-  background: linear-gradient(to bottom, rgba(252,253,255,0.92), rgba(252,253,255,0));
+  background: linear-gradient(
+    to bottom,
+    rgba(252, 253, 255, 0.92),
+    rgba(252, 253, 255, 0)
+  );
 }
 :root.theme-light .profile-orbit-mobile-scrim--bottom {
-  background: linear-gradient(to top, rgba(252,253,255,0.92), rgba(252,253,255,0));
+  background: linear-gradient(
+    to top,
+    rgba(252, 253, 255, 0.92),
+    rgba(252, 253, 255, 0)
+  );
 }
-
-/* Chevron: modern, subtle “motion” */
 .profile-orbit-mobile-chevron {
   position: absolute;
   left: 50%;
@@ -790,7 +800,7 @@
   border-left: 3px solid currentColor;
   border-top: 3px solid currentColor;
   opacity: 0.7;
-  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.20));
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.2));
   animation: orbitChevronBlink 1.15s ease-in-out infinite;
 }
 
@@ -800,31 +810,29 @@
   transform: translateX(-50%) rotate(225deg);
   animation: orbitChevronBlink 1.15s ease-in-out infinite;
 }
-
-/* Provide currentColor per theme */
 :root:not(.theme-light) .profile-orbit-mobile-chevron {
-  color: rgba(248,253,255,0.70);
+  color: rgba(248, 253, 255, 0.7);
 }
 :root.theme-light .profile-orbit-mobile-chevron {
-  color: rgba(15,23,42,0.46);
+  color: rgba(15, 23, 42, 0.46);
 }
-
-/* Place chevrons in scrims */
 .profile-orbit-mobile-scrim--top .profile-orbit-mobile-chevron {
   top: 1.35rem;
 }
 .profile-orbit-mobile-scrim--bottom .profile-orbit-mobile-chevron {
   bottom: 1.35rem;
 }
-
-/* Animations (subtle, modern) */
 @keyframes orbitChevronBlink {
-  0%   { opacity: 0.35; }
-  50%  { opacity: 0.9; }
-  100% { opacity: 0.35; }
+  0% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.35;
+  }
 }
-
-/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   .profile-orbit-mobile-visual,
   .profile-orbit-mobile-scrim,

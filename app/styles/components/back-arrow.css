@@ -1,4 +1,3 @@
-/* migrated from legacy/part-03b2a.css */
 .back-arrow-btn {
   display: inline-flex;
   justify-content: center;
@@ -19,16 +18,20 @@
 }
 .back-arrow-btn:hover,
 .back-arrow-btn:focus,
-.back-arrow-btn:active { background: transparent; box-shadow: none; }
+.back-arrow-btn:active {
+  background: transparent;
+  box-shadow: none;
+}
 .back-arrow-circle {
   position: relative;
   inline-size: 4.8rem;
   block-size: 4.8rem;
   display: block;
   box-sizing: content-box;
-  background: center center / 68% 68% no-repeat
-    url("/logo/tagasinupp.svg");
-  transition: transform .18s ease, filter .16s ease;
+  background: center center / 68% 68% no-repeat url("/logo/tagasinupp.svg");
+  transition:
+    transform 0.18s ease,
+    filter 0.16s ease;
   transform-origin: center center;
   will-change: transform;
   flex: none;
@@ -41,8 +44,7 @@
 .back-arrow-btn:active .back-arrow-circle {
   transform: translateY(0.1rem) scale(0.98);
 }
-/* migrated from app/globals.css (Wave 5) */
-.back-btn-wrapper.back-btn-wrapper--side{
+.back-btn-wrapper.back-btn-wrapper--side {
   position: absolute;
   left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
   right: auto;
@@ -56,30 +58,34 @@
   align-items: center;
   justify-content: flex-start;
 }
-/* migrated from app/globals.css (Wave 5) */
-.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn{
+.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn {
   position: static;
   transform: none;
   pointer-events: auto;
   inline-size: 5.7rem;
   block-size: 5.7rem;
 }
-/* migrated from app/globals.css (Wave 5) */
-.back-btn-wrapper.back-btn-wrapper--side .back-arrow-circle{
+.back-btn-wrapper.back-btn-wrapper--side .back-arrow-circle {
   inline-size: 5.7rem;
   block-size: 5.7rem;
   transform: translateY(0) translateZ(0);
 }
 
-.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn:hover .back-arrow-circle,
-.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn:focus .back-arrow-circle {
+.back-btn-wrapper.back-btn-wrapper--side
+  .back-arrow-btn:hover
+  .back-arrow-circle,
+.back-btn-wrapper.back-btn-wrapper--side
+  .back-arrow-btn:focus
+  .back-arrow-circle {
   transform: translateY(0) scale(1.15);
 }
-.back-btn-wrapper.back-btn-wrapper--side .back-arrow-btn:active .back-arrow-circle {
+.back-btn-wrapper.back-btn-wrapper--side
+  .back-arrow-btn:active
+  .back-arrow-circle {
   transform: translateY(0.08rem) scale(0.98);
 }
 
-.back-btn-wrapper.back-btn-wrapper--side.is-hidden{
+.back-btn-wrapper.back-btn-wrapper--side.is-hidden {
   opacity: 0;
   pointer-events: none;
 }

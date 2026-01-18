@@ -1,4 +1,3 @@
-// app/meist/page.jsx
 import { cookies } from "next/headers";
 import MeistBody from "@/components/alalehed/MeistBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
@@ -14,14 +13,11 @@ export async function generateMetadata() {
     locale,
     pathname: "/meist",
     title: meta.title || (locale === "ru" ? "О нас — SotsiaalAI" : locale === "en" ? "About — SotsiaalAI" : "Meist — SotsiaalAI"),
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default async function MeistPage() {
   const session = await getServerSession(authConfig);
-  const isAdmin = !!(
-    session?.user?.isAdmin === true ||
-    String(session?.user?.role || "").toUpperCase() === "ADMIN"
-  );
+  const isAdmin = !!(session?.user?.isAdmin === true || String(session?.user?.role || "").toUpperCase() === "ADMIN");
   return <MeistBody isAdmin={isAdmin} />;
 }

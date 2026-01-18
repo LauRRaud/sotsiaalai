@@ -11,7 +11,7 @@ export async function generateMetadata() {
     locale,
     pathname: "/kasutustingimused",
     title: meta.title || "Kasutustingimused – SotsiaalAI",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default function Page() {

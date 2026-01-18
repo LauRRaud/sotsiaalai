@@ -8,7 +8,7 @@ for (const path of pathsToRemove) {
     process.stdout.write(`Removed ${path}\n`);
   } catch (error) {
     process.stderr.write(
-      `Failed to remove ${path}: ${error?.message ?? String(error)}\n`
+      `Failed to remove ${path}: ${error?.message ?? String(error)}\n`,
     );
   }
 }

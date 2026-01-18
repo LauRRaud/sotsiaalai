@@ -1,6 +1,6 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 export function useRoomMessages(roomId, pollMs = 3000) {
   const [messages, setMessages] = useState([]);
   const [blocked, setBlocked] = useState(false);
@@ -11,36 +11,30 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const timerRef = useRef(null);
   const esRef = useRef(null);
   const retryRef = useRef(2000);
-
-  const load = useCallback(
-    async (reset = false) => {
-      if (!roomId) return;
-      const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
-      if (!reset && cursorRef.current) url.searchParams.set("cursor", cursorRef.current);
-      const res = await fetch(url.toString());
-      const data = await res.json().catch(() => ({}));
-      if (res.status === 401) {
-        setAuthRequired(true);
-        setBlocked(false);
-        if (timerRef.current) clearInterval(timerRef.current);
-        return;
-      }
-      if (res.status === 403) {
-        setBlocked(true);
-        setAuthRequired(false);
-        return;
-      }
-      if (!res.ok || data?.ok === false) return;
-      setAuthRequired(false);
+  const load = useCallback(async (reset = false) => {
+    if (!roomId) return;
+    const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
+    if (!reset && cursorRef.current) url.searchParams.set("cursor", cursorRef.current);
+    const res = await fetch(url.toString());
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401) {
+      setAuthRequired(true);
       setBlocked(false);
-      const items = data.messages || [];
-      if (reset) setMessages(items.reverse());
-      else setMessages((prev) => [...items.reverse(), ...prev]);
-      cursorRef.current = data.nextCursor || null;
-    },
-    [roomId],
-  );
-
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    if (res.status === 403) {
+      setBlocked(true);
+      setAuthRequired(false);
+      return;
+    }
+    if (!res.ok || data?.ok === false) return;
+    setAuthRequired(false);
+    setBlocked(false);
+    const items = data.messages || [];
+    if (reset) setMessages(items.reverse());else setMessages(prev => [...items.reverse(), ...prev]);
+    cursorRef.current = data.nextCursor || null;
+  }, [roomId]);
   const connectSse = useCallback(() => {
     if (!roomId || blocked || authRequired) return;
     if (esRef.current) esRef.current.close();
@@ -67,18 +61,17 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         setTimeout(() => connectSse(), delay);
       }
     };
-    es.onmessage = (ev) => {
+    es.onmessage = ev => {
       try {
         const data = JSON.parse(ev.data);
         if (data.type === "message" && data.message) {
-          setMessages((prev) => [...prev, data.message]);
+          setMessages(prev => [...prev, data.message]);
         } else if (data.type === "delete" && data.id) {
-          setMessages((prev) => prev.filter((m) => m.id !== data.id));
+          setMessages(prev => prev.filter(m => m.id !== data.id));
         }
       } catch {}
     };
   }, [roomId, blocked, authRequired, load, pollMs]);
-
   useEffect(() => {
     let cancelled = false;
     async function loadRoomTitle() {
@@ -87,7 +80,9 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         return;
       }
       try {
-        const res = await fetch(`/api/rooms/${roomId}/members`, { cache: "no-store" });
+        const res = await fetch(`/api/rooms/${roomId}/members`, {
+          cache: "no-store"
+        });
         const data = await res.json().catch(() => ({}));
         if (!cancelled && res.ok && data?.ok) {
           setRoomTitle(String(data.roomTitle || ""));
@@ -98,14 +93,12 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     load(true);
     timerRef.current = setInterval(() => load(false), pollMs);
     connectSse();
-
     return () => {
       cancelled = true;
       if (timerRef.current) clearInterval(timerRef.current);
       if (esRef.current) esRef.current.close();
     };
   }, [roomId, pollMs, load, connectSse]);
-
   return {
     messages,
     blocked,
@@ -113,6 +106,6 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     roomTitle,
     reload: () => load(true),
     setMessages,
-    useSse,
+    useSse
   };
 }

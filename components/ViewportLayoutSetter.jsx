@@ -1,5 +1,5 @@
-// components/ViewportLayoutSetter.jsx
 "use client";
+
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 const MOBILE_QUERY = "(max-width: 768px)";
@@ -16,13 +16,7 @@ function applyLayoutFlag(matches) {
   }
 }
 function applyVhVar() {
-  // iOS/safe-area sõbralik 1vh
-  const vh =
-    (typeof window !== "undefined" && window.visualViewport
-      ? window.visualViewport.height
-      : typeof window !== "undefined"
-      ? window.innerHeight
-      : 0) * 0.01;
+  const vh = (typeof window !== "undefined" && window.visualViewport ? window.visualViewport.height : typeof window !== "undefined" ? window.innerHeight : 0) * 0.01;
   if (vh) document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 export default function ViewportLayoutSetter() {
@@ -32,17 +26,13 @@ export default function ViewportLayoutSetter() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(MOBILE_QUERY);
-    // esmane rakendus
     applyLayoutFlag(mql.matches);
     applyVhVar();
-    // kuulajad
-    const onMqChange = (e) => applyLayoutFlag(e.matches);
+    const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
-      // rAF vähendab resize-spämmi
       window.requestAnimationFrame(() => applyVhVar());
     };
     const onPageShow = () => {
-      // bfcache tagasitulekul rakenda uuesti
       applyLayoutFlag(mql.matches);
       applyVhVar();
     };
@@ -57,11 +47,9 @@ export default function ViewportLayoutSetter() {
       window.removeEventListener("orientationchange", onResize);
       window.removeEventListener("pageshow", onPageShow);
       window.visualViewport?.removeEventListener("resize", onResize);
-      // puhasta atribuudi jalajälg
       applyLayoutFlag(false);
     };
   }, []);
-  // Route-vahetusel sea fookus #main peale
   useEffect(() => {
     if (typeof document === "undefined") return;
     const main = document.getElementById("main");
@@ -70,13 +58,13 @@ export default function ViewportLayoutSetter() {
       lastFocusedPathRef.current = pathname;
       return;
     }
-    const alreadyFocused =
-      document.activeElement === main || lastFocusedPathRef.current === pathname;
+    const alreadyFocused = document.activeElement === main || lastFocusedPathRef.current === pathname;
     if (!main || alreadyFocused) return;
     lastFocusedPathRef.current = pathname;
-    // kasutame rAF-i, et fookus tuleks pärast maali
     window.requestAnimationFrame(() => {
-      try { main.focus(); } catch {}
+      try {
+        main.focus();
+      } catch {}
     });
   }, [pathname]);
   return null;

@@ -11,7 +11,7 @@ export async function generateMetadata() {
     locale,
     pathname: "/privaatsustingimused",
     title: meta.title || "Privaatsustingimused – SotsiaalAI",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default function Page() {

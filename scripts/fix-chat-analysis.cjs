@@ -3,7 +3,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const file = path.join(__dirname, "..", "components", "alalehed", "ChatBody.jsx");
+const file = path.join(
+  __dirname,
+  "..",
+  "components",
+  "alalehed",
+  "ChatBody.jsx",
+);
 
 let src = fs.readFileSync(file, "utf8");
 
@@ -173,6 +179,3 @@ const newEmpty = `                  <div className="chat-analysis-empty">
 src = replaceAny(src, oldEmptyVariants, newEmpty);
 
 fs.writeFileSync(file, src, "utf8");
-
-
-

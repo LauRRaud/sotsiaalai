@@ -1,6 +1,7 @@
 ﻿# Migration Status (Phase 0)
 
 ## Known routes (App Router pages)
+
 - / -> app/page.js
 - /admin/analytics -> app/admin/analytics/page.jsx
 - /admin/rag -> app/admin/rag/page.jsx
@@ -22,6 +23,7 @@
 - /vestlus -> app/vestlus/page.js
 
 ## Known overlays / modals / drawers
+
 - components/accessibility/AccessibilityModal.jsx
 - components/alalehed/ConversationDrawer.jsx
 - components/alalehed/LoginModal.jsx
@@ -30,6 +32,7 @@
 - components/ui/ModalConfirm.jsx
 
 ## Baseline legacy class counts (top 10)
+
 - btn-base: 40
 - sr-only: 26
 - card-title: 24
@@ -38,11 +41,13 @@
 - main-content: 19
 - glass-box: 18
 - rag-btn: 18
-- pin-keypad__button--bounce: 18
+- pin-keypad\_\_button--bounce: 18
 - analytics-card: 17
 
 ## Phase 0 verification
+
 Commands used:
+
 - `rg --files -g "page.*" app`
 - `rg --line-number --no-heading --pcre2 "import\\s+[^;]*\\.css" app components pages`
 - `rg --line-number --no-heading "@import" app/styles`
@@ -50,11 +55,13 @@ Commands used:
 - `rg --files -g "*Drawer*.{js,jsx,ts,tsx}" components app`
 
 Expected outputs:
+
 - `docs/routes.txt` with URL -> file path mapping for all `app/**/page.*` (excluding backups).
 - `docs/css-imports.txt` with JS/JSX CSS imports and CSS `@import` lines from `app/styles/*`.
 - `docs/legacy-classes-report.txt` with file+line references for legacy classes.
 
-Suspicious imports (legacy.css, legacy.current.css, pages/*.css, late-overrides.css):
+Suspicious imports (legacy.css, legacy.current.css, pages/\*.css, late-overrides.css):
+
 - app/styles/globals.css:5:@import "./legacy.css";
 - app/styles/legacy.css:1:@import "./base/core.css";
 - app/styles/legacy.css:2:@import "./base/animations.css";

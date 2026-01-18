@@ -1,14 +1,18 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-// Laeme SplashCursor ainult browseris (ssr: false) ja ainult kui vaja
-const SplashCursor = dynamic(() => import("./SplashCursor"), { ssr: false });
-const ClickPulseCursor = dynamic(() => import("./ClickPulseCursor"), { ssr: false });
+const SplashCursor = dynamic(() => import("./SplashCursor"), {
+  ssr: false
+});
+const ClickPulseCursor = dynamic(() => import("./ClickPulseCursor"), {
+  ssr: false
+});
 export default function MaybeSplash() {
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const toMql = (query) => (typeof window.matchMedia === "function" ? window.matchMedia(query) : null);
+    const toMql = query => typeof window.matchMedia === "function" ? window.matchMedia(query) : null;
     const pointerFine = toMql("(pointer: fine)");
     const pointerCoarse = toMql("(pointer: coarse)");
     const hoverCapable = toMql("(hover: hover)");
@@ -21,7 +25,7 @@ export default function MaybeSplash() {
     };
     const update = () => setShow(canShow());
     update();
-    const attach = (mql) => {
+    const attach = mql => {
       if (!mql) return () => {};
       const handler = () => update();
       if (typeof mql.addEventListener === "function") {
@@ -38,14 +42,12 @@ export default function MaybeSplash() {
     window.addEventListener("resize", update);
     return () => {
       window.removeEventListener("resize", update);
-      cleanups.forEach((dispose) => dispose && dispose());
+      cleanups.forEach(dispose => dispose && dispose());
     };
   }, []);
   if (!show) return null;
-  return (
-    <>
+  return <>
       <SplashCursor />
       <ClickPulseCursor />
-    </>
-  );
+    </>;
 }

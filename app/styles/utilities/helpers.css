@@ -1,8 +1,3 @@
-/* utilities/helpers.css - shared helpers + icon-adjacent utilities (Step 22) */
-/* Extracted from legacy/part-02a2a.css to keep globals manageable. */
-
-
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -14,7 +9,7 @@
   border: 0;
   white-space: nowrap;
 }
-.pin-hidden-input{
+.pin-hidden-input {
   position: fixed !important;
   left: -10000px !important;
   top: 0 !important;
@@ -23,7 +18,6 @@
   opacity: 0 !important;
   caret-color: transparent !important;
 }
-
 
 .text-muted {
   color: var(--pt-300);

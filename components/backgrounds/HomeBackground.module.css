@@ -20,7 +20,7 @@
   z-index: 3;
 }
 .homeBgLayer :global(.bg-space-layer),
-.homeBgLayer :global(.bg-particles-layer){
+.homeBgLayer :global(.bg-particles-layer) {
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
@@ -30,21 +30,21 @@
   transform: translateZ(0);
   backface-visibility: hidden;
 }
-.homeBgLayer :global(.bg-bends-layer){
+.homeBgLayer :global(.bg-bends-layer) {
   position: absolute !important;
   inset: 0 !important;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
-.homeBgLayer :global(.space-backdrop){
+.homeBgLayer :global(.space-backdrop) {
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
   top: calc(var(--bg-overscan) * -1) !important;
   bottom: calc(var(--bg-overscan) * -1) !important;
 }
-.homeBgLayer :global(.particles-container){
+.homeBgLayer :global(.particles-container) {
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
@@ -55,12 +55,12 @@
   z-index: 0;
   pointer-events: none;
 }
-.homeBgLayer[data-parallax="home"] :global(.bg-space-layer){
+.homeBgLayer[data-parallax="home"] :global(.bg-space-layer) {
   transform: translate3d(0, var(--saai-parallax-space), 0);
 }
-.homeBgLayer[data-parallax="home"] :global(.bg-bends-layer){
+.homeBgLayer[data-parallax="home"] :global(.bg-bends-layer) {
   transform: translate3d(0, 0, 0);
 }
-.homeBgLayer[data-parallax="home"] :global(.bg-particles-layer){
+.homeBgLayer[data-parallax="home"] :global(.bg-particles-layer) {
   transform: translate3d(0, var(--saai-parallax-particles), 0);
 }

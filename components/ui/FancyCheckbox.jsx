@@ -1,4 +1,5 @@
 "use client";
+
 import React, { forwardRef } from "react";
 import styled from "styled-components";
 const Label = styled.label`
@@ -32,8 +33,8 @@ const Label = styled.label`
     display: inline-grid;
     place-items: center;
     border-radius: 6px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     box-sizing: border-box;
   }
   .svg {
@@ -43,7 +44,7 @@ const Label = styled.label`
   }
   .shape {
     fill: none;
-    stroke: var(--pt-200, #E0E0E0);
+    stroke: var(--pt-200, #e0e0e0);
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -62,51 +63,47 @@ const Label = styled.label`
     stroke-dashoffset: 0; /* revealed */
   }
   .text {
-    color: var(--pt, #C9C7C2);
+    color: var(--pt, #c9c7c2);
     font: inherit;
   }
   .a11y-modal & {
     gap: 0.9rem;
     min-height: 48px;
   }
-  .a11y-modal & .box { width: 36px; height: 36px; }
-  .a11y-modal & .svg { width: 26px; height: 26px; }
-  .a11y-modal & .text { font-size: 1.3rem; }
+  .a11y-modal & .box {
+    width: 36px;
+    height: 36px;
+  }
+  .a11y-modal & .svg {
+    width: 26px;
+    height: 26px;
+  }
+  .a11y-modal & .text {
+    font-size: 1.3rem;
+  }
 `;
-const FancyCheckbox = forwardRef(function FancyCheckbox(
-  { id, label, checked, onChange, disabled, name }, ref
-){
-  return (
-    <Label>
-      <input
-        ref={ref}
-        id={id}
-        name={name}
-        type="checkbox"
-        className="visually-hidden"
-        checked={!!checked}
-        onChange={(e) => onChange?.(e.target.checked, e)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            // Toggle explicitly on Enter for better keyboard support
-            onChange?.(!checked, e);
-          }
-        }}
-        disabled={disabled}
-        aria-checked={!!checked}
-        aria-disabled={!!disabled}
-      />
+const FancyCheckbox = forwardRef(function FancyCheckbox({
+  id,
+  label,
+  checked,
+  onChange,
+  disabled,
+  name
+}, ref) {
+  return <Label>
+      <input ref={ref} id={id} name={name} type="checkbox" className="visually-hidden" checked={!!checked} onChange={e => onChange?.(e.target.checked, e)} onKeyDown={e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        onChange?.(!checked, e);
+      }
+    }} disabled={disabled} aria-checked={!!checked} aria-disabled={!!disabled} />
       <span aria-hidden="true" className="box">
         <svg className="svg" viewBox="0 0 24 24" focusable="false">
           <rect className="shape" x="3" y="3" width="18" height="18" rx="4" ry="4" />
           <polyline className="tick" points="6,12 10,16 18,8" />
         </svg>
       </span>
-      {label && (
-        <span className="text">{label}</span>
-      )}
-    </Label>
-  );
+      {label && <span className="text">{label}</span>}
+    </Label>;
 });
 export default FancyCheckbox;

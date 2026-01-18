@@ -1,43 +1,47 @@
-/* extracted from legacy/part-03.css: Login + Reset flows (Step 5) */
-.login-modal-form input{
+.login-modal-form input {
   width: 100%;
   max-width: 100%;
   font-size: 1.3rem;
   font-weight: 500;
-  background: rgba(10,14,24,0.32);
+  background: rgba(10, 14, 24, 0.32);
   color: var(--pt-50);
   caret-color: var(--pt-50);
-  border: 2px solid rgba(84,95,115,0.55);
+  border: 2px solid rgba(84, 95, 115, 0.55);
   border-radius: 1.2em;
   padding: 0.7em 1.24em;
   margin-bottom: 0.5em;
   outline: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, background 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease;
   box-shadow:
-    0 0 0 1px rgba(0,0,0,0.06), 0 0.45rem 1.05rem rgba(5,8,15,0.18);
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 0.45rem 1.05rem rgba(5, 8, 15, 0.18);
   line-height: 1.35;
 }
 .login-modal-form input:first-of-type {
   margin-top: -0.12em;
 }
- .login-modal-form{
-  width:100%;
+.login-modal-form {
+  width: 100%;
   max-width: 100%;
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:0.35em;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35em;
 }
 .login-modal-form label {
   width: 100%;
   display: block;
 }
-.login-modal-form input:focus{
+.login-modal-form input:focus {
   border-color: var(--ui-hover-ring);
   border-width: 2px;
   color: var(--pt-30, #f7f9ff);
-  background: rgba(10,14,24,0.48);
+  background: rgba(10, 14, 24, 0.48);
   box-shadow:
     0 0 0 1px var(--ui-hover-ring),
     0 0 14px var(--ui-hover-soft),
@@ -85,7 +89,9 @@
   line-height: 1.2;
   margin-bottom: 0;
 }
-.login-modal-root:has(.login-error-note) .glass-title{ margin-bottom: 0; }
+.login-modal-root:has(.login-error-note) .glass-title {
+  margin-bottom: 0;
+}
 .login-modal-root .login-error-note {
   margin-top: -0.35rem;
   margin-bottom: 0.65rem;
@@ -103,17 +109,21 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: color-mix(in srgb, #f2f4f8 88%, #cfd3da 12%);
-  background: linear-gradient(140deg, rgba(35, 40, 50, 0.65), rgba(18, 20, 28, 0.5));
+  background: linear-gradient(
+    140deg,
+    rgba(35, 40, 50, 0.65),
+    rgba(18, 20, 28, 0.5)
+  );
   border: 2px solid rgba(180, 190, 205, 0.35);
   border-radius: 1.1rem;
   padding: 0.64em 1.22em;
   position: relative;
   overflow: hidden;
   transition:
-    transform .16s ease,
-    box-shadow .18s ease,
-    background .18s ease,
-    border-color .18s ease;
+    transform 0.16s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
 }
 .btn-primary::before,
 .btn-primary::after {
@@ -121,19 +131,23 @@
 }
 .btn-primary:hover {
   color: color-mix(in srgb, #f6f7fb 92%, #e2e6ec 8%);
-  background: linear-gradient(140deg, rgba(40, 46, 60, 0.7), rgba(20, 24, 32, 0.58));
+  background: linear-gradient(
+    140deg,
+    rgba(40, 46, 60, 0.7),
+    rgba(20, 24, 32, 0.58)
+  );
   border-color: rgba(205, 215, 230, 0.45);
   box-shadow:
-    0 0 0 1px rgba(0,0,0,0.12),
-    0 10px 20px rgba(0,0,0,0.26);
+    0 0 0 1px rgba(0, 0, 0, 0.12),
+    0 10px 20px rgba(0, 0, 0, 0.26);
   transform: translateY(-1px);
 }
 .btn-primary:focus-visible {
   color: color-mix(in srgb, #f6f7fb 92%, #e2e6ec 8%);
   border-color: rgba(205, 215, 230, 0.55);
   box-shadow:
-    0 0 0 1px rgba(0,0,0,0.12),
-    0 10px 20px rgba(0,0,0,0.26);
+    0 0 0 1px rgba(0, 0, 0, 0.12),
+    0 10px 20px rgba(0, 0, 0, 0.26);
   outline: none;
 }
 .btn-primary:active {
@@ -147,14 +161,13 @@
   white-space: nowrap;
   background: none;
 }
-/* OTP modal redesign */
 .login-modal-root.login-modal--otp {
-  --otp-panel-bg: rgba(10,14,24,0.58);
-  --otp-panel-border: rgba(148,163,184,0.35);
-  --otp-panel-shadow: 0 12px 26px rgba(0,0,0,0.28);
-  --otp-input-bg: rgba(8,12,20,0.62);
-  --otp-input-border: rgba(160,180,205,0.40);
-  --otp-accent: rgba(225,160,160,0.92);
+  --otp-panel-bg: rgba(10, 14, 24, 0.58);
+  --otp-panel-border: rgba(148, 163, 184, 0.35);
+  --otp-panel-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+  --otp-input-bg: rgba(8, 12, 20, 0.62);
+  --otp-input-border: rgba(160, 180, 205, 0.4);
+  --otp-accent: rgba(225, 160, 160, 0.92);
 }
 .login-modal-root.login-modal--otp .glass-title {
   font-size: 2.05em;
@@ -169,7 +182,7 @@
   border-radius: 1.15rem;
   border: 1px solid var(--otp-panel-border);
   background:
-    linear-gradient(180deg, rgba(16,20,32,0.7), rgba(10,14,24,0.56)),
+    linear-gradient(180deg, rgba(16, 20, 32, 0.7), rgba(10, 14, 24, 0.56)),
     var(--otp-panel-bg);
   box-shadow: var(--otp-panel-shadow);
 }
@@ -216,7 +229,9 @@
   border-radius: 1rem;
   background: var(--otp-input-bg);
   border: 1.5px solid var(--otp-input-border);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 10px 20px rgba(0,0,0,0.24);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 10px 20px rgba(0, 0, 0, 0.24);
 }
 .login-modal-root.login-modal--otp .otp-input::placeholder {
   letter-spacing: 0.24em;
@@ -228,17 +243,21 @@
   width: 100%;
   padding: 0.6rem 0.85rem;
   border-radius: 1rem;
-  border: 1px solid rgba(148,163,184,0.32);
-  background: rgba(10,14,24,0.4);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  background: rgba(10, 14, 24, 0.4);
   color: var(--pt-150);
   font-size: 1rem;
   line-height: 1.3;
   cursor: var(--cursor-pointer);
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
 }
 .login-modal-root.login-modal--otp .otp-remember:hover {
-  background: rgba(16,20,30,0.5);
-  border-color: rgba(170,190,215,0.4);
+  background: rgba(16, 20, 30, 0.5);
+  border-color: rgba(170, 190, 215, 0.4);
 }
 .login-modal-root.login-modal--otp .otp-remember input[type="checkbox"] {
   appearance: none;
@@ -246,13 +265,16 @@
   height: 1.1rem;
   margin: 0;
   border-radius: 0.32rem;
-  border: 2px solid rgba(185,200,220,0.6);
-  background: rgba(18,22,34,0.72);
+  border: 2px solid rgba(185, 200, 220, 0.6);
+  background: rgba(18, 22, 34, 0.72);
   display: grid;
   place-items: center;
   position: relative;
   cursor: var(--cursor-pointer);
-  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
 }
 .login-modal-root.login-modal--otp .otp-remember input[type="checkbox"]::after {
   content: "";
@@ -263,13 +285,17 @@
   transform: rotate(45deg) scale(0);
   transition: transform 0.16s ease;
 }
-.login-modal-root.login-modal--otp .otp-remember input[type="checkbox"]:checked::after {
+.login-modal-root.login-modal--otp
+  .otp-remember
+  input[type="checkbox"]:checked::after {
   transform: rotate(45deg) scale(1);
 }
-.login-modal-root.login-modal--otp .otp-remember input[type="checkbox"]:focus-visible {
+.login-modal-root.login-modal--otp
+  .otp-remember
+  input[type="checkbox"]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(225,160,160,0.22);
-  border-color: rgba(225,160,160,0.7);
+  box-shadow: 0 0 0 3px rgba(225, 160, 160, 0.22);
+  border-color: rgba(225, 160, 160, 0.7);
 }
 .login-modal-root.login-modal--otp .otp-remember-text {
   font-weight: 500;
@@ -304,14 +330,14 @@
   font-weight: 600;
   text-transform: none;
   letter-spacing: 0.02em;
-  background: rgba(12,16,26,0.36);
-  border: 1px solid rgba(148,163,184,0.25);
+  background: rgba(12, 16, 26, 0.36);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   box-shadow: none;
 }
 .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:hover,
 .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:focus-visible {
-  background: rgba(16,22,34,0.48);
-  border-color: rgba(170,190,215,0.38);
+  background: rgba(16, 22, 34, 0.48);
+  border-color: rgba(170, 190, 215, 0.38);
   box-shadow: none;
   transform: translateY(-1px);
 }
@@ -319,40 +345,53 @@
   transform: translateY(0);
 }
 :root.theme-light .login-modal-root.login-modal--otp {
-  --otp-panel-bg: rgba(255,255,255,0.76);
-  --otp-panel-border: rgba(148,163,184,0.3);
-  --otp-panel-shadow: 0 12px 24px rgba(15,23,42,0.12);
-  --otp-input-bg: rgba(255,255,255,0.9);
-  --otp-input-border: rgba(148,163,184,0.48);
+  --otp-panel-bg: rgba(255, 255, 255, 0.76);
+  --otp-panel-border: rgba(148, 163, 184, 0.3);
+  --otp-panel-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  --otp-input-bg: rgba(255, 255, 255, 0.9);
+  --otp-input-border: rgba(148, 163, 184, 0.48);
 }
 :root.theme-light .login-modal-root.login-modal--otp .otp-panel {
-  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(250,251,253,0.78));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.86),
+    rgba(250, 251, 253, 0.78)
+  );
 }
 :root.theme-light .login-modal-root.login-modal--otp .otp-summary__lead,
 :root.theme-light .login-modal-root.login-modal--otp .otp-summary__meta {
-  color: rgba(31,41,55,0.92);
+  color: rgba(31, 41, 55, 0.92);
 }
 :root.theme-light .login-modal-root.login-modal--otp .otp-summary__meta {
-  border-color: rgba(197,113,113,0.32);
-  background: rgba(197,113,113,0.14);
+  border-color: rgba(197, 113, 113, 0.32);
+  background: rgba(197, 113, 113, 0.14);
 }
 :root.theme-light .login-modal-root.login-modal--otp .otp-remember {
-  background: rgba(255,255,255,0.78);
-  border-color: rgba(148,163,184,0.35);
-  color: rgba(31,41,55,0.86);
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(148, 163, 184, 0.35);
+  color: rgba(31, 41, 55, 0.86);
 }
-:root.theme-light .login-modal-root.login-modal--otp .otp-remember input[type="checkbox"] {
-  background: rgba(255,255,255,0.95);
-  border-color: rgba(148,163,184,0.62);
+:root.theme-light
+  .login-modal-root.login-modal--otp
+  .otp-remember
+  input[type="checkbox"] {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(148, 163, 184, 0.62);
 }
-:root.theme-light .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base {
-  background: rgba(255,255,255,0.8);
-  border-color: rgba(148,163,184,0.35);
+:root.theme-light
+  .login-modal-root.login-modal--otp
+  .otp-secondary-btn.btn-base {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(148, 163, 184, 0.35);
 }
-:root.theme-light .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:hover,
-:root.theme-light .login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:focus-visible {
-  background: rgba(255,255,255,0.95);
-  border-color: rgba(148,163,184,0.45);
+:root.theme-light
+  .login-modal-root.login-modal--otp
+  .otp-secondary-btn.btn-base:hover,
+:root.theme-light
+  .login-modal-root.login-modal--otp
+  .otp-secondary-btn.btn-base:focus-visible {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(148, 163, 184, 0.45);
 }
 @media (max-width: 768px) {
   .login-modal-root.login-modal--otp .glass-title {
@@ -370,7 +409,9 @@
   align-items: flex-start;
   text-align: left;
 }
-.glass-left > * { align-self: stretch; }
+.glass-left > * {
+  align-self: stretch;
+}
 .reset-box {
   display: flex;
   flex-direction: column;
@@ -393,7 +434,10 @@
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     overflow: hidden;
-    margin-top: max(0px, calc((100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)));
+    margin-top: max(
+      0px,
+      calc((100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem))
+    );
     margin-bottom: 0;
     margin-left: auto;
     margin-right: auto;
@@ -405,40 +449,46 @@
   font-size: 1.35rem;
   font-weight: 500;
   line-height: 1.35;
-  background: rgba(10,14,24,0.22);
+  background: rgba(10, 14, 24, 0.22);
   color: var(--pt-50);
   caret-color: var(--pt-50);
-  border: 1.5px solid rgba(84,95,115,0.6);
+  border: 1.5px solid rgba(84, 95, 115, 0.6);
   border-radius: 1.2em;
   padding: 0.85em 1.05em;
   margin: 1.6em 0 1.1em;
   outline: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease;
   box-shadow: none;
   box-sizing: border-box;
   display: block;
   text-align: left;
   -webkit-text-size-adjust: 100%;
 }
-.reset-box .reset-input{
-    width: min(100%, 21.5rem);
-    max-width: 21.5rem;
-    height: 3.3rem;
-    padding: 0 0.75rem;
-    line-height: 1;
-    font-size: 1.18rem;
-    text-align: left;
-  }
+.reset-box .reset-input {
+  width: min(100%, 21.5rem);
+  max-width: 21.5rem;
+  height: 3.3rem;
+  padding: 0 0.75rem;
+  line-height: 1;
+  font-size: 1.18rem;
+  text-align: left;
+}
 .reset-input:focus {
   border-color: var(--pt-light);
-  background: rgba(10,14,24,0.30);
+  background: rgba(10, 14, 24, 0.3);
   color: var(--pt-30, #f7f9ff);
-  box-shadow: 0 0 0 2px rgba(201,199,194,0.22), 0 0 0.625rem rgba(195,193,188,0.40);
+  box-shadow:
+    0 0 0 2px rgba(201, 199, 194, 0.22),
+    0 0 0.625rem rgba(195, 193, 188, 0.4);
 }
 .reset-input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: rgba(10,14,24,0.18);
+  background: rgba(10, 14, 24, 0.18);
   color: var(--pt-200);
   box-shadow: none;
 }

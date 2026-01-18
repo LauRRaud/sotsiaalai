@@ -1,4 +1,3 @@
-// app/api/auth/password/reset/route.js
 export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
@@ -6,33 +5,37 @@ import { prisma } from "@/lib/prisma";
 import { hash } from "bcrypt";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 const TOKEN_EXPIRY_MINUTES = Number(process.env.RESET_TOKEN_MINUTES || 60);
-// ----------------- utils: responses -----------------
 function ok(payload = {}) {
-  return NextResponse.json({ ok: true, ...payload }, {
+  return NextResponse.json({
+    ok: true,
+    ...payload
+  }, {
     headers: {
       "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
       Pragma: "no-cache",
-      Expires: "0",
-    },
+      Expires: "0"
+    }
   });
 }
 function err(message, status = 400, extras = {}) {
-  return NextResponse.json({ ok: false, message, ...extras }, {
+  return NextResponse.json({
+    ok: false,
+    message,
+    ...extras
+  }, {
     status,
     headers: {
       "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
       Pragma: "no-cache",
-      Expires: "0",
-    },
+      Expires: "0"
+    }
   });
 }
-// ----------------- base URL & reset link -----------------
 function buildResetUrl(token) {
   const baseUrl = resolveBaseUrl();
   if (!baseUrl) throw new Error("Base URL for password reset email is not configured.");
   return `${baseUrl.replace(/\/$/, "")}/taasta-parool/${token}`;
 }
-// ----------------- SMTP config helpers -----------------
 function parseConnectionString(connectionString) {
   try {
     const url = new URL(connectionString);
@@ -41,7 +44,15 @@ function parseConnectionString(connectionString) {
     const port = url.port ? Number(url.port) : secure ? 465 : 587;
     const user = url.username ? decodeURIComponent(url.username) : undefined;
     const pass = url.password ? decodeURIComponent(url.password) : undefined;
-    return { host, port, secure, auth: user && pass ? { user, pass } : undefined };
+    return {
+      host,
+      port,
+      secure,
+      auth: user && pass ? {
+        user,
+        pass
+      } : undefined
+    };
   } catch (error) {
     throw new Error(`EMAIL_SERVER väärtus on vigane: ${error.message}`);
   }
@@ -57,34 +68,53 @@ function resolveSmtpConfig() {
       host: process.env.SMTP_HOST,
       port,
       secure,
-      auth: authUser && authPass ? { user: authUser, pass: authPass } : undefined,
+      auth: authUser && authPass ? {
+        user: authUser,
+        pass: authPass
+      } : undefined
     };
   }
   return undefined;
 }
-// ----------------- “dev” mailer (logib välja) -----------------
 function createDevTransporter() {
   return {
     async sendMail(message) {
       const serialized = JSON.stringify(message, null, 2);
       console.info("[password-reset] Mock email message:\n", serialized);
-      return { message: serialized };
-    },
+      return {
+        message: serialized
+      };
+    }
   };
 }
-// ----------------- raw SMTP client -----------------
-async function connectSocket({ host, port, secure }) {
+async function connectSocket({
+  host,
+  port,
+  secure
+}) {
   return new Promise((resolve, reject) => {
-    const socket = secure
-      ? tls.connect({ host, port, servername: host })
-      : net.createConnection({ host, port });
+    const socket = secure ? tls.connect({
+      host,
+      port,
+      servername: host
+    }) : net.createConnection({
+      host,
+      port
+    });
     const cleanup = () => {
       socket.off("error", onError);
       socket.off("timeout", onTimeout);
       socket.off(secure ? "secureConnect" : "connect", onConnect);
     };
-    const onError = (e) => { cleanup(); reject(e); };
-    const onTimeout = () => { cleanup(); socket.destroy(new Error("SMTP ühendus aegus.")); reject(new Error("SMTP ühendus aegus.")); };
+    const onError = e => {
+      cleanup();
+      reject(e);
+    };
+    const onTimeout = () => {
+      cleanup();
+      socket.destroy(new Error("SMTP ühendus aegus."));
+      reject(new Error("SMTP ühendus aegus."));
+    };
     const onConnect = () => {
       cleanup();
       socket.setTimeout(SMTP_TIMEOUT_MS, () => socket.destroy(new Error("SMTP ühendus aegus.")));
@@ -97,7 +127,10 @@ async function connectSocket({ host, port, secure }) {
 }
 async function upgradeToTls(socket, host) {
   return new Promise((resolve, reject) => {
-    const secureSocket = tls.connect({ socket, servername: host }, () => {
+    const secureSocket = tls.connect({
+      socket,
+      servername: host
+    }, () => {
       secureSocket.setTimeout(SMTP_TIMEOUT_MS, () => secureSocket.destroy(new Error("SMTP ühendus aegus.")));
       resolve(secureSocket);
     });
@@ -114,7 +147,7 @@ async function readResponse(socket) {
       socket.off("close", onClose);
       socket.off("end", onClose);
     };
-    const onData = (chunk) => {
+    const onData = chunk => {
       buffer += chunk.toString("utf8");
       let idx;
       while ((idx = buffer.indexOf("\r\n")) !== -1) {
@@ -125,13 +158,22 @@ async function readResponse(socket) {
         if (line.length >= 4 && line[3] === " ") {
           cleanup();
           const code = Number(line.slice(0, 3));
-          resolve({ code, lines });
+          resolve({
+            code,
+            lines
+          });
           return;
         }
       }
     };
-    const onError = (e) => { cleanup(); reject(e); };
-    const onClose = () => { cleanup(); reject(new Error("SMTP ühendus suleti ootamatult.")); };
+    const onError = e => {
+      cleanup();
+      reject(e);
+    };
+    const onClose = () => {
+      cleanup();
+      reject(new Error("SMTP ühendus suleti ootamatult."));
+    };
     socket.on("data", onData);
     socket.once("error", onError);
     socket.once("close", onClose);
@@ -143,13 +185,16 @@ async function sendCommand(socket, command) {
   return readResponse(socket);
 }
 function parseEhloResponse(response) {
-  const capabilities = response.lines.map((l) => l.slice(4).trim()).map((c) => c.toUpperCase());
-  return { capabilities, supportsStartTls: capabilities.includes("STARTTLS") };
+  const capabilities = response.lines.map(l => l.slice(4).trim()).map(c => c.toUpperCase());
+  return {
+    capabilities,
+    supportsStartTls: capabilities.includes("STARTTLS")
+  };
 }
 async function ensureAuthenticated(socket, auth) {
   if (!auth) return;
   const initial = await sendCommand(socket, "AUTH LOGIN");
-  if (initial.code === 503) return; // already authed
+  if (initial.code === 503) return;
   if (initial.code !== 334) throw new Error(`SMTP AUTH LOGIN ebaõnnestus (kood ${initial.code}).`);
   const userRes = await sendCommand(socket, Buffer.from(auth.user, "utf8").toString("base64"));
   if (userRes.code !== 334) throw new Error(`SMTP AUTH kasutajanimi ebaõnnestus (kood ${userRes.code}).`);
@@ -165,51 +210,44 @@ function extractAddress(value) {
 }
 function normalizeRecipients(to) {
   if (!to) return [];
-  if (Array.isArray(to)) return to.flatMap((t) => normalizeRecipients(t));
-  return String(to).split(",").map((p) => p.trim()).filter(Boolean);
+  if (Array.isArray(to)) return to.flatMap(t => normalizeRecipients(t));
+  return String(to).split(",").map(p => p.trim()).filter(Boolean);
 }
 function encodeSubject(subject) {
   if (!subject) return "";
-  return /^[\x20-\x7E]*$/.test(subject)
-    ? subject
-    : `=?UTF-8?B?${Buffer.from(subject, "utf8").toString("base64")}?=`;
+  return /^[\x20-\x7E]*$/.test(subject) ? subject : `=?UTF-8?B?${Buffer.from(subject, "utf8").toString("base64")}?=`;
 }
-function buildMimeMessage({ from, to, subject, text, html }) {
+function buildMimeMessage({
+  from,
+  to,
+  subject,
+  text,
+  html
+}) {
   const boundary = `sotsiaalai-${crypto.randomBytes(12).toString("hex")}`;
   const normalizedTo = Array.isArray(to) ? to.join(", ") : to;
-  const headers = [
-    `From: ${from}`,
-    `To: ${normalizedTo}`,
-    `Subject: ${encodeSubject(subject)}`,
-    `Date: ${new Date().toUTCString()}`,
-    `Message-ID: <${Date.now()}.${Math.random().toString(16).slice(2)}@${(from || "").split("@").at(-1) || "sotsiaal.ai"}>`,
-    "MIME-Version: 1.0",
-    `Content-Type: multipart/alternative; boundary="${boundary}"`,
-  ];
+  const headers = [`From: ${from}`, `To: ${normalizedTo}`, `Subject: ${encodeSubject(subject)}`, `Date: ${new Date().toUTCString()}`, `Message-ID: <${Date.now()}.${Math.random().toString(16).slice(2)}@${(from || "").split("@").at(-1) || "sotsiaal.ai"}>`, "MIME-Version: 1.0", `Content-Type: multipart/alternative; boundary="${boundary}"`];
   const plain = text || (html ? html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "");
   const htmlPart = html || (text ? `<pre>${text}</pre>` : plain);
-  const parts = [
-    `--${boundary}`,
-    "Content-Type: text/plain; charset=utf-8",
-    "Content-Transfer-Encoding: 8bit",
-    "",
-    plain,
-    `--${boundary}`,
-    "Content-Type: text/html; charset=utf-8",
-    "Content-Transfer-Encoding: 8bit",
-    "",
-    htmlPart,
-    `--${boundary}--`,
-    "",
-  ];
+  const parts = [`--${boundary}`, "Content-Type: text/plain; charset=utf-8", "Content-Transfer-Encoding: 8bit", "", plain, `--${boundary}`, "Content-Type: text/html; charset=utf-8", "Content-Transfer-Encoding: 8bit", "", htmlPart, `--${boundary}--`, ""];
   return `${headers.join("\r\n")}\r\n\r\n${parts.join("\r\n")}`;
 }
-async function sendSmtpMail({ host, port, secure, auth, message }) {
+async function sendSmtpMail({
+  host,
+  port,
+  secure,
+  auth,
+  message
+}) {
   const recipients = normalizeRecipients(message.to);
   if (!recipients.length) throw new Error("E-kirjal peab olema vähemalt üks adressaat.");
   const envelopeFrom = extractAddress(message.from);
   if (!envelopeFrom) throw new Error("EMAIL_FROM peab sisaldama kehtivat aadressi.");
-  let socket = await connectSocket({ host, port, secure });
+  let socket = await connectSocket({
+    host,
+    port,
+    secure
+  });
   try {
     const greeting = await readResponse(socket);
     if (greeting.code !== 220) throw new Error(`SMTP server vastas koodiga ${greeting.code}.`);
@@ -235,7 +273,9 @@ async function sendSmtpMail({ host, port, secure, auth, message }) {
     const dataResult = await readResponse(socket);
     if (dataResult.code !== 250) throw new Error(`Kirja edastamine ebaõnnestus (kood ${dataResult.code}).`);
     await sendCommand(socket, "QUIT");
-    return { message: payload };
+    return {
+      message: payload
+    };
   } finally {
     socket.end();
   }
@@ -250,8 +290,11 @@ function _createTransporter() {
   }
   return {
     async sendMail(message) {
-      return sendSmtpMail({ ...config, message });
-    },
+      return sendSmtpMail({
+        ...config,
+        message
+      });
+    }
   };
 }
 const mailer = getMailer("password-reset");
@@ -268,35 +311,45 @@ async function sendResetEmail(to, resetUrl) {
       <p>Saad PIN-i lähtestada lingi kaudu:</p>
       <p><a href="${resetUrl}">${resetUrl}</a></p>
       <p>Kui sa ei soovinud PIN-i taastada, võid selle kirja eirata.</p>
-    `,
+    `
   });
   if (info?.message && process.env.NODE_ENV !== "production") {
     console.info("[password-reset] Mock email message:\n", info.message.toString());
   }
 }
-const normalizeEmail = (e) => String(e || "").trim().toLowerCase();
-// ----------------- Routes -----------------
+const normalizeEmail = e => String(e || "").trim().toLowerCase();
 export async function POST(request) {
   try {
     const body = await request.json().catch(() => ({}));
     const email = normalizeEmail(body?.email);
     if (!email || !email.includes("@")) return err("Palun sisesta korrektne e-posti aadress.", 400);
-    const user = await prisma.user.findUnique({ where: { email } });
-    // Vastame alati 200, vältimaks konto-enumeratsiooni
+    const user = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    });
     if (!user) return ok();
     const token = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + TOKEN_EXPIRY_MINUTES * 60 * 1000);
-    await prisma.$transaction(async (tx) => {
-      await tx.verificationToken.deleteMany({ where: { identifier: email } });
-      await tx.verificationToken.create({ data: { identifier: email, token, expires } });
+    await prisma.$transaction(async tx => {
+      await tx.verificationToken.deleteMany({
+        where: {
+          identifier: email
+        }
+      });
+      await tx.verificationToken.create({
+        data: {
+          identifier: email,
+          token,
+          expires
+        }
+      });
     });
     const resetUrl = buildResetUrl(token);
     try {
       await sendResetEmail(email, resetUrl);
     } catch (sendErr) {
-      // Ära paljasta saatmise vigu kliendile (väldi konto-enumeratsiooni ja SMTP lekkimist)
       console.error("password reset email send failed", sendErr);
-      // jätka siiski OK vastusega
     }
     return ok();
   } catch (e) {
@@ -312,25 +365,53 @@ export async function PUT(request) {
     const pin = pinRaw.replace(/\s+/g, "");
     if (!token || !pin) return err("Puudub token või PIN.", 400);
     if (!/^\d{4,8}$/.test(pin)) return err("PIN peab olema 4–8 numbrit.", 400);
-    // NB: kasuta findFirst, ära eelda @unique tokenil
-    const verificationToken = await prisma.verificationToken.findFirst({ where: { token } });
+    const verificationToken = await prisma.verificationToken.findFirst({
+      where: {
+        token
+      }
+    });
     if (!verificationToken) return err("Token on vigane või on see juba kasutatud.", 400);
     if (verificationToken.expires < new Date()) {
-      await prisma.verificationToken.deleteMany({ where: { token } });
+      await prisma.verificationToken.deleteMany({
+        where: {
+          token
+        }
+      });
       return err("Taastelink on aegunud. Palun taotle uus link.", 410);
     }
     const email = normalizeEmail(verificationToken.identifier);
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    });
     if (!user) {
-      await prisma.verificationToken.deleteMany({ where: { token } });
+      await prisma.verificationToken.deleteMany({
+        where: {
+          token
+        }
+      });
       return err("Kasutajat ei leitud.", 404);
     }
-    const passwordHash = await hash(pin, 12); // ajalooline veeru nimi; hoiame PIN hash'i
-    await prisma.$transaction(async (tx) => {
-      await tx.user.update({ where: { id: user.id }, data: { passwordHash } });
-      await tx.verificationToken.deleteMany({ where: { token } });
+    const passwordHash = await hash(pin, 12);
+    await prisma.$transaction(async tx => {
+      await tx.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          passwordHash
+        }
+      });
+      await tx.verificationToken.deleteMany({
+        where: {
+          token
+        }
+      });
     });
-    return ok({ requiresReauth: true });
+    return ok({
+      requiresReauth: true
+    });
   } catch (e) {
     console.error("PIN reset PUT error", e);
     return err("PIN-i ei õnnestunud uuendada.", 500);

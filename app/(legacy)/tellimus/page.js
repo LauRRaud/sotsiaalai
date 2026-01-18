@@ -12,13 +12,11 @@ export async function generateMetadata() {
     locale,
     pathname: "/tellimus",
     title: meta.title || "Halda tellimust – SotsiaalAI",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default function Page() {
-  return (
-    <Suspense fallback={null}>
+  return <Suspense fallback={null}>
       <TellimusBody />
-    </Suspense>
-  );
+    </Suspense>;
 }

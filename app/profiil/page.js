@@ -14,7 +14,7 @@ export async function generateMetadata() {
     locale,
     pathname: "/profiil",
     title: meta.title || "Profile - SotsiaalAI",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 export default async function Page() {
@@ -23,10 +23,20 @@ export default async function Page() {
   try {
     if (session?.user?.id) {
       const user = await prisma.user.findUnique({
-        where: { id: String(session.user.id) },
-        select: { email: true, role: true, passwordHash: true },
+        where: {
+          id: String(session.user.id)
+        },
+        select: {
+          email: true,
+          role: true,
+          passwordHash: true
+        }
       });
-      if (user) initialProfile = { email: user.email || "", role: user.role || null, hasPassword: !!user.passwordHash };
+      if (user) initialProfile = {
+        email: user.email || "",
+        role: user.role || null,
+        hasPassword: !!user.passwordHash
+      };
     }
   } catch {}
   return <ProfiilBody initialProfile={initialProfile} />;

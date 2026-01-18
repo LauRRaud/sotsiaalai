@@ -22,8 +22,20 @@
   --rail-step: calc(var(--rail-item-size) * 1.18);
   overflow: hidden;
   overscroll-behavior: contain;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
 }
 
 .item {
@@ -41,7 +53,11 @@
   padding: 0;
   background: transparent;
   color: inherit;
-  transition: transform 180ms ease, opacity 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
   will-change: transform, opacity;
   transform-origin: center;
 }
@@ -115,7 +131,7 @@
 }
 
 :global(:root.theme-light) .tooltip {
-  color: #7A3A38;
+  color: #7a3a38;
   font-size: 1.36rem;
   font-weight: 500;
   border: 0;

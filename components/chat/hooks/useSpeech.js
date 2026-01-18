@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-/**
- * useSpeech - hoiab TTS + STT loogika eraldi.
- *
- * NB: TTS/STT loogika on kopeeritud ChatBody.jsx failist 1:1.
- */
-export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
+export function useSpeech({
+  locale,
+  latestAiText,
+  onAppendText,
+  onError,
+  t
+}) {
   const [speechReady, setSpeechReady] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [recording, setRecording] = useState(false);
   const [recordingPulse, setRecordingPulse] = useState(false);
   const [recordingError, setRecordingError] = useState(null);
-
   const synthesisRef = useRef(null);
   const audioRef = useRef(null);
   const recorderRef = useRef(null);
@@ -22,17 +21,10 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
   const audioContextRef = useRef(null);
   const audioMeterTimerRef = useRef(null);
   const onErrorRef = useRef(onError);
-
   useEffect(() => {
     onErrorRef.current = onError;
   }, [onError]);
-
-  const tr = useCallback(
-    (key, fallback) => (typeof t === "function" ? t(key, fallback) : fallback),
-    [t]
-  );
-
-  /* ---------- Speech Synthesis (kuula viimast AI vastust) ---------- */
+  const tr = useCallback((key, fallback) => typeof t === "function" ? t(key, fallback) : fallback, [t]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     synthesisRef.current = window.speechSynthesis || null;
@@ -42,34 +34,29 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
     }
     if (synth) {
       synth.addEventListener("voiceschanged", handleVoicesChanged);
-      synth.getVoices(); // trigger load
+      synth.getVoices();
       setSpeechReady(true);
       return () => synth.removeEventListener("voiceschanged", handleVoicesChanged);
     }
   }, []);
-
-  useEffect(
-    () => () => {
-      try {
-        synthesisRef.current?.cancel?.();
-      } catch {}
-      try {
-        const audio = audioRef.current;
-        if (audio) {
-          audio.pause();
-          audioRef.current = null;
-        }
-      } catch {}
-      try {
-        recorderRef.current?.stop?.();
-      } catch {}
-      try {
-        recorderRef.current?.stream?.getTracks?.().forEach((t) => t.stop && t.stop());
-      } catch {}
-    },
-    []
-  );
-
+  useEffect(() => () => {
+    try {
+      synthesisRef.current?.cancel?.();
+    } catch {}
+    try {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.pause();
+        audioRef.current = null;
+      }
+    } catch {}
+    try {
+      recorderRef.current?.stop?.();
+    } catch {}
+    try {
+      recorderRef.current?.stream?.getTracks?.().forEach(t => t.stop && t.stop());
+    } catch {}
+  }, []);
   const stopSpeaking = useCallback(() => {
     try {
       synthesisRef.current?.cancel?.();
@@ -85,54 +72,37 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
     }
     setIsSpeaking(false);
   }, []);
-
-  const speakWithBrowser = useCallback(
-    (text) => {
-      if (typeof window === "undefined") return;
-      const synth = synthesisRef.current;
-      if (!synth || !text) return;
-      try {
-        synth.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        const voices = synth.getVoices() || [];
-        const normLocale = (locale || "").toLowerCase();
-        const base = normLocale.split("-")[0] || normLocale;
-        const prefs =
-          base === "et"
-            ? [normLocale, "et-ee", "et", "en-us", "en"]
-            : base === "ru"
-            ? [normLocale, "ru-ru", "ru", "en-us", "en", "et-ee", "et"]
-            : base === "en"
-            ? [normLocale, "en-us", "en-gb", "en", "et-ee", "et", "ru-ru", "ru"]
-            : [normLocale, base, "en-us", "en", "et-ee", "et", "ru-ru", "ru"].filter(Boolean);
-        const pick = prefs
-          .map((pref) =>
-            voices.find((v) => (v.lang || "").toLowerCase().startsWith(pref)),
-          )
-          .find(Boolean);
-        if (pick) {
-          utterance.voice = pick;
-          utterance.lang = pick.lang || normLocale || "en-US";
-        } else {
-          utterance.lang = normLocale || "en-US";
-        }
-        utterance.onstart = () => setIsSpeaking(true);
-        utterance.onend = () => setIsSpeaking(false);
-        utterance.onerror = () => setIsSpeaking(false);
-        synth.speak(utterance);
-      } catch {
-        setIsSpeaking(false);
+  const speakWithBrowser = useCallback(text => {
+    if (typeof window === "undefined") return;
+    const synth = synthesisRef.current;
+    if (!synth || !text) return;
+    try {
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = synth.getVoices() || [];
+      const normLocale = (locale || "").toLowerCase();
+      const base = normLocale.split("-")[0] || normLocale;
+      const prefs = base === "et" ? [normLocale, "et-ee", "et", "en-us", "en"] : base === "ru" ? [normLocale, "ru-ru", "ru", "en-us", "en", "et-ee", "et"] : base === "en" ? [normLocale, "en-us", "en-gb", "en", "et-ee", "et", "ru-ru", "ru"] : [normLocale, base, "en-us", "en", "et-ee", "et", "ru-ru", "ru"].filter(Boolean);
+      const pick = prefs.map(pref => voices.find(v => (v.lang || "").toLowerCase().startsWith(pref))).find(Boolean);
+      if (pick) {
+        utterance.voice = pick;
+        utterance.lang = pick.lang || normLocale || "en-US";
+      } else {
+        utterance.lang = normLocale || "en-US";
       }
-    },
-    [locale],
-  );
-
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      synth.speak(utterance);
+    } catch {
+      setIsSpeaking(false);
+    }
+  }, [locale]);
   const speakLatestReply = useCallback(async () => {
     if (typeof window === "undefined") return;
     const text = latestAiText;
     if (!text) return;
     const base = (locale || "").toLowerCase().split("-")[0];
-    // ru/en -> use browser voices to avoid server cost
     if (base === "ru" || base === "en") {
       stopSpeaking();
       speakWithBrowser(text);
@@ -143,8 +113,13 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
     try {
       const res = await fetch("/api/tts", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text.slice(0, 4500), locale }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          text: text.slice(0, 4500),
+          locale
+        })
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.ok && data?.audioContent) {
@@ -162,14 +137,10 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
         await audio.play();
         return;
       }
-    } catch {
-      // ignore ja lange fallbackile
-    }
+    } catch {}
     stopSpeaking();
     speakWithBrowser(text);
   }, [latestAiText, locale, speakWithBrowser, stopSpeaking]);
-
-  /* ---------- Speech-to-Text (mikrofon) ---------- */
   const triggerRecordingPulse = useCallback(() => {
     if (recordingPulseTimerRef.current) {
       clearTimeout(recordingPulseTimerRef.current);
@@ -180,18 +151,16 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
       recordingPulseTimerRef.current = null;
     }, 600);
   }, []);
-
   const stopRecording = useCallback(() => {
     try {
       recorderRef.current?.stop?.();
     } catch {}
     try {
-      recorderRef.current?.stream?.getTracks?.().forEach((t) => t.stop && t.stop());
+      recorderRef.current?.stream?.getTracks?.().forEach(t => t.stop && t.stop());
     } catch {}
     recorderRef.current = null;
     setRecording(false);
   }, []);
-
   const stopAudioMeter = useCallback(() => {
     if (audioMeterTimerRef.current) {
       clearInterval(audioMeterTimerRef.current);
@@ -204,10 +173,8 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
       audioContextRef.current = null;
     }
   }, []);
-
-  const startAudioMeter = useCallback((stream) => {
-    const AudioContextClass =
-      typeof window !== "undefined" ? window.AudioContext || window.webkitAudioContext : null;
+  const startAudioMeter = useCallback(stream => {
+    const AudioContextClass = typeof window !== "undefined" ? window.AudioContext || window.webkitAudioContext : null;
     if (!AudioContextClass) return;
     try {
       const ctx = new AudioContextClass();
@@ -228,7 +195,6 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
       }, 120);
     } catch {}
   }, []);
-
   const handleMic = useCallback(async () => {
     if (recording) {
       stopRecording();
@@ -246,21 +212,25 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
       return;
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
       recordingLevelRef.current = 0;
       recordingStartedAtRef.current = Date.now();
       startAudioMeter(stream);
       recordingChunksRef.current = [];
       const rec = new MediaRecorder(stream);
       recorderRef.current = rec;
-      rec.ondataavailable = (e) => {
+      rec.ondataavailable = e => {
         if (e?.data?.size) recordingChunksRef.current.push(e.data);
       };
       rec.onstop = async () => {
         setRecording(false);
         stopAudioMeter();
         triggerRecordingPulse();
-        const blob = new Blob(recordingChunksRef.current, { type: rec.mimeType || "audio/webm" });
+        const blob = new Blob(recordingChunksRef.current, {
+          type: rec.mimeType || "audio/webm"
+        });
         if (!blob.size) return;
         const durationMs = Math.max(0, Date.now() - recordingStartedAtRef.current);
         const maxLevel = recordingLevelRef.current;
@@ -272,7 +242,10 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
           const fd = new FormData();
           fd.append("audio", blob, "audio.webm");
           fd.append("locale", locale || "auto");
-          const res = await fetch("/api/stt", { method: "POST", body: fd });
+          const res = await fetch("/api/stt", {
+            method: "POST",
+            body: fd
+          });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || data?.ok === false || !data?.text) {
             throw new Error(data?.message || tr("chat.mic.error", "Dikteerimine ebaƒ?tƒ¦?Ž©nnestus."));
@@ -289,17 +262,7 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
       stopRecording();
       stopAudioMeter();
     }
-  }, [
-    locale,
-    onAppendText,
-    recording,
-    startAudioMeter,
-    stopAudioMeter,
-    stopRecording,
-    tr,
-    triggerRecordingPulse,
-  ]);
-
+  }, [locale, onAppendText, recording, startAudioMeter, stopAudioMeter, stopRecording, tr, triggerRecordingPulse]);
   useEffect(() => {
     return () => {
       if (recordingPulseTimerRef.current) {
@@ -308,33 +271,19 @@ export function useSpeech({ locale, latestAiText, onAppendText, onError, t }) {
       stopAudioMeter();
     };
   }, [stopAudioMeter]);
-
   useEffect(() => {
     return () => {
       stopSpeaking();
     };
   }, [stopSpeaking]);
-
-  return useMemo(
-    () => ({
-      speechReady,
-      isSpeaking,
-      speakLatestReply,
-      stopSpeaking,
-      recording,
-      recordingPulse,
-      recordingError,
-      handleMic,
-    }),
-    [
-      speechReady,
-      isSpeaking,
-      speakLatestReply,
-      stopSpeaking,
-      recording,
-      recordingPulse,
-      recordingError,
-      handleMic,
-    ]
-  );
+  return useMemo(() => ({
+    speechReady,
+    isSpeaking,
+    speakLatestReply,
+    stopSpeaking,
+    recording,
+    recordingPulse,
+    recordingError,
+    handleMic
+  }), [speechReady, isSpeaking, speakLatestReply, stopSpeaking, recording, recordingPulse, recordingError, handleMic]);
 }

@@ -1,4 +1,3 @@
-/* Extracted: base button styling (btn-base) from legacy/part-02.css */
 .btn-base {
   --btn-border-w: 1px;
   display: inline-flex;
@@ -19,12 +18,19 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px) saturate(120%);
   backdrop-filter: blur(10px) saturate(120%);
-  transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  transition:
+    transform 0.14s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease;
   text-decoration: none;
   min-height: 2.5rem;
 }
 
-:root .btn-base:focus-visible { outline: none; }
+:root .btn-base:focus-visible {
+  outline: none;
+}
 
 :root .btn-base:disabled,
 :root .btn-base[aria-disabled="true"] {
@@ -33,19 +39,12 @@
   cursor: not-allowed;
 }
 
-/* ============================
-   DARK THEME (ALWAYS-ON LIGHT GLOW)
-   - Glow is OUTSIDE only
-   - Glow does NOT change on hover
-   ============================ */
-
 :root:not(.theme-light) .btn-base {
-  /* timmi siit, kui vaja */
-  --glow-rgb: 248, 253, 255;  /* heledam “külm” valge */
-  --glow-a1: 0.60;            /* põhi-kuma */
-  --glow-a2: 0.24;            /* teine, laiem halo */
+  --glow-rgb: 248, 253, 255;
+  --glow-a1: 0.6;
+  --glow-a2: 0.24;
 
-  color: rgba(248,252,255,0.96);
+  color: rgba(248, 252, 255, 0.96);
   background: var(--btn-base-bg-dark);
   border: 0;
   -webkit-backdrop-filter: blur(10px);
@@ -57,69 +56,74 @@
 
   box-shadow:
     /* sügavus (tume vari) */
-    0 6px 16px rgba(0,0,0,0.26),
-    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.6),
     0 24px 30px -24px rgba(var(--glow-rgb), 0.32);
-
 }
-
-/* Hover/focus: ÄRA muuda glow’d; muuda ainult pind/border/transform */
 :root:not(.theme-light) .btn-base:hover,
 :root:not(.theme-light) .btn-base:focus-visible {
-  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(185,210,240,0.10) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(185, 210, 240, 0.1) 100%
+  );
   transform: translateY(-1px);
 
   box-shadow:
-    0 10px 22px rgba(0,0,0,0.28),
-    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 10px 22px rgba(0, 0, 0, 0.28),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.6),
     0 24px 30px -24px rgba(var(--glow-rgb), 0.32);
 }
 
 :root:not(.theme-light) .btn-base:focus-visible {
   box-shadow:
-    0 10px 22px rgba(0,0,0,0.28),
-    0 12px 18px -14px rgba(var(--glow-rgb), 0.60),
+    0 10px 22px rgba(0, 0, 0, 0.28),
+    0 12px 18px -14px rgba(var(--glow-rgb), 0.6),
     0 24px 30px -24px rgba(var(--glow-rgb), 0.32),
-    0 0 0 3px rgba(225,160,160,0.28);
+    0 0 0 3px rgba(225, 160, 160, 0.28);
 }
 
 :root:not(.theme-light) .btn-base:active {
   transform: translateY(1px);
-  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(150,175,210,0.05) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(150, 175, 210, 0.05) 100%
+  );
 
   box-shadow:
-    0 5px 12px rgba(0,0,0,0.24),
+    0 5px 12px rgba(0, 0, 0, 0.24),
     0 12px 18px -14px rgba(var(--glow-rgb), 0.55),
-    0 24px 30px -24px rgba(var(--glow-rgb), 0.30);
+    0 24px 30px -24px rgba(var(--glow-rgb), 0.3);
 }
 :root.theme-light .btn-base {
-  color: rgba(31,41,55,0.92);
-  background: rgba(255,255,255,0.62);
-  border-color: rgba(148,163,184,0.38);
+  color: rgba(31, 41, 55, 0.92);
+  background: rgba(255, 255, 255, 0.62);
+  border-color: rgba(148, 163, 184, 0.38);
   box-shadow:
-    0 8px 18px rgba(15,23,42,0.10),
-    inset 0 1px 0 rgba(255,255,255,0.7);
+    0 8px 18px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 :root.theme-light .btn-base:hover,
 :root.theme-light .btn-base:focus-visible {
   background: #ffffff;
-  border-color: rgba(148,163,184,0.46);
+  border-color: rgba(148, 163, 184, 0.46);
   box-shadow:
-    0 12px 22px rgba(15,23,42,0.14),
-    inset 0 1px 0 rgba(255,255,255,0.82);
+    0 12px 22px rgba(15, 23, 42, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   transform: translateY(-1px);
 }
 :root.theme-light .btn-base:focus-visible {
   box-shadow:
-    0 12px 22px rgba(15,23,42,0.14),
-    0 0 0 3px rgba(197,113,113,0.24),
-    inset 0 1px 0 rgba(255,255,255,0.82);
+    0 12px 22px rgba(15, 23, 42, 0.14),
+    0 0 0 3px rgba(197, 113, 113, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 :root.theme-light .btn-base:active {
   transform: translateY(1px);
   background: #ffffff;
-  border-color: rgba(148,163,184,0.40);
+  border-color: rgba(148, 163, 184, 0.4);
   box-shadow:
-    0 6px 14px rgba(15,23,42,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.7);
+    0 6px 14px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }

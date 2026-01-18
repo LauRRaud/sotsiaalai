@@ -1,11 +1,9 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
-
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -16,15 +14,17 @@ export async function generateMetadata() {
     pathname: "/vestlus",
     title: meta.title || "Chat / SotsiaalAI",
     description: meta.description || "Chat with the SotsiaalAI assistant.",
-    openGraph: { type: "article" },
+    openGraph: {
+      type: "article"
+    }
   });
 }
-
-export default async function Page({ searchParams }) {
+export default async function Page({
+  searchParams
+}) {
   const resolvedSearchParams = await searchParams;
   const roomId = resolvedSearchParams?.roomId || null;
   const profile = resolvedSearchParams?.profile || null;
-
   const params = new URLSearchParams();
   params.set("mode", "chat");
   if (roomId) params.set("roomId", String(roomId));

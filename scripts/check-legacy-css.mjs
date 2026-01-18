@@ -29,7 +29,9 @@ const loadBaseline = async () => {
     const raw = await fs.readFile(BASELINE_PATH, "utf8");
     return JSON.parse(raw);
   } catch (error) {
-    throw new Error(`Failed to read baseline at ${BASELINE_PATH}: ${error.message}`);
+    throw new Error(
+      `Failed to read baseline at ${BASELINE_PATH}: ${error.message}`,
+    );
   }
 };
 
@@ -60,7 +62,7 @@ const run = async () => {
   const baselineFiles = baseline.files || {};
 
   const newPageFiles = Object.keys(current).filter(
-    (file) => file.startsWith("app/styles/pages/") && !baselineFiles[file]
+    (file) => file.startsWith("app/styles/pages/") && !baselineFiles[file],
   );
 
   const grownFiles = [];
@@ -104,15 +106,21 @@ const run = async () => {
 
     console.error("\nTotals:");
     console.error(`- files: ${baselineTotals.files} -> ${files.length}`);
-    console.error(`- bytes: ${baselineTotals.bytes} -> ${totalBytes} (${formatDelta(bytesDeltaTotal)})`);
-    console.error(`- rules: ${baselineTotals.rules} -> ${totalRules} (${formatDelta(rulesDeltaTotal)})`);
+    console.error(
+      `- bytes: ${baselineTotals.bytes} -> ${totalBytes} (${formatDelta(bytesDeltaTotal)})`,
+    );
+    console.error(
+      `- rules: ${baselineTotals.rules} -> ${totalRules} (${formatDelta(rulesDeltaTotal)})`,
+    );
 
     if (grownFiles.length > 0) {
       console.error("\nFiles that grew:");
       for (const entry of grownFiles) {
         const bytesDelta = formatDelta(entry.bytesDelta);
         const rulesDelta = formatDelta(entry.rulesDelta);
-        console.error(`- ${entry.file} (bytes ${bytesDelta}, rules ${rulesDelta})`);
+        console.error(
+          `- ${entry.file} (bytes ${bytesDelta}, rules ${rulesDelta})`,
+        );
       }
     }
 

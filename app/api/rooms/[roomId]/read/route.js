@@ -1,36 +1,42 @@
-// app/api/rooms/[roomId]/read/route.js
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
-  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
-
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
     headers: {
       "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
       Pragma: "no-cache",
-      Expires: "0",
-    },
+      Expires: "0"
+    }
   });
 }
-
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
-    if (!session?.user?.id) return { ok: false, status: 401, message: "Unauthorized" };
-    return { ok: true, userId: session.user.id, userRole: session.user.role };
+    if (!session?.user?.id) return {
+      ok: false,
+      status: 401,
+      message: "Unauthorized"
+    };
+    return {
+      ok: true,
+      userId: session.user.id,
+      userRole: session.user.role
+    };
   } catch {
-    return { ok: false, status: 401, message: "Unauthorized" };
+    return {
+      ok: false,
+      status: 401,
+      message: "Unauthorized"
+    };
   }
 }
-
 async function hasActiveSubscription(userId) {
   if (!userId) return false;
   const now = new Date();
@@ -38,59 +44,97 @@ async function hasActiveSubscription(userId) {
     where: {
       userId,
       status: "ACTIVE",
-      OR: [{ validUntil: null }, { validUntil: { gt: now } }],
+      OR: [{
+        validUntil: null
+      }, {
+        validUntil: {
+          gt: now
+        }
+      }]
     },
-    select: { id: true },
+    select: {
+      id: true
+    }
   });
   return Boolean(sub);
 }
-
-export async function PUT(_req, { params }) {
+export async function PUT(_req, {
+  params
+}) {
   const roomIdRaw = params?.roomId;
   const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
-
   const auth = await requireUser();
-  if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
-
+  if (!auth.ok) return json({
+    ok: false,
+    message: auth.message
+  }, auth.status);
   try {
     if (auth.userRole === "ADMIN") {
-      return json({ ok: true });
+      return json({
+        ok: true
+      });
     }
-
     const member = await prisma.roomMember.findFirst({
-      where: { roomId, userId: auth.userId, leftAt: null },
+      where: {
+        roomId,
+        userId: auth.userId,
+        leftAt: null
+      }
     });
-    if (!member) return json({ ok: false, message: "Forbidden" }, 403);
-
-    // Access check: self active or sponsor active if sponsored
+    if (!member) return json({
+      ok: false,
+      message: "Forbidden"
+    }, 403);
     if (auth.userRole !== "ADMIN") {
       const userActive = await hasActiveSubscription(auth.userId);
       if (!userActive) {
         if (member.billingSource === "SPONSORED_BY_HOST") {
           if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
             const sponsorActive = await hasActiveSubscription(member.sponsorUserId);
-            if (!sponsorActive) return json({ ok: false, message: "Forbidden" }, 403);
+            if (!sponsorActive) return json({
+              ok: false,
+              message: "Forbidden"
+            }, 403);
           }
         } else {
-          return json({ ok: false, message: "Forbidden" }, 403);
+          return json({
+            ok: false,
+            message: "Forbidden"
+          }, 403);
         }
       }
     }
-
     const latest = await prisma.roomMessage.findFirst({
-      where: { roomId, deletedAt: null },
-      orderBy: { createdAt: "desc" },
-      select: { createdAt: true },
+      where: {
+        roomId,
+        deletedAt: null
+      },
+      orderBy: {
+        createdAt: "desc"
+      },
+      select: {
+        createdAt: true
+      }
     });
-
     await prisma.roomMember.update({
-      where: { roomId_userId: { roomId, userId: auth.userId } },
-      data: { lastReadAt: latest?.createdAt || new Date() },
+      where: {
+        roomId_userId: {
+          roomId,
+          userId: auth.userId
+        }
+      },
+      data: {
+        lastReadAt: latest?.createdAt || new Date()
+      }
     });
-
-    return json({ ok: true });
+    return json({
+      ok: true
+    });
   } catch (err) {
     console.error("[room read] failed", err);
-    return json({ ok: false, message: "Read marker update failed" }, 500);
+    return json({
+      ok: false,
+      message: "Read marker update failed"
+    }, 500);
   }
 }

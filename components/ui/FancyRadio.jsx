@@ -1,4 +1,5 @@
 "use client";
+
 import React, { forwardRef } from "react";
 import styled from "styled-components";
 const Label = styled.label`
@@ -31,8 +32,8 @@ const Label = styled.label`
     display: inline-grid;
     place-items: center;
     border-radius: 999px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     box-sizing: border-box;
   }
   .dot {
@@ -47,7 +48,7 @@ const Label = styled.label`
     transform: scale(1);
   }
   .text {
-    color: var(--pt-150, #E6E5E3);
+    color: var(--pt-150, #e6e5e3);
     font: inherit;
   }
   /* A11Y modal: scale controls and text slightly larger */
@@ -55,36 +56,36 @@ const Label = styled.label`
     gap: 0.9rem;
     min-height: 48px;
   }
-  .a11y-modal & .outer { width: 28px; height: 28px; }
-  .a11y-modal & .dot { width: 14px; height: 14px; }
-  .a11y-modal & .text { font-size: 1.3rem; }
+  .a11y-modal & .outer {
+    width: 28px;
+    height: 28px;
+  }
+  .a11y-modal & .dot {
+    width: 14px;
+    height: 14px;
+  }
+  .a11y-modal & .text {
+    font-size: 1.3rem;
+  }
 `;
-const FancyRadio = forwardRef(function FancyRadio(
-  { id, label, checked, onChange, disabled, name, value }, ref
-){
+const FancyRadio = forwardRef(function FancyRadio({
+  id,
+  label,
+  checked,
+  onChange,
+  disabled,
+  name,
+  value
+}, ref) {
   const textId = id ? `${id}-label` : undefined;
-  return (
-    <Label>
-      <input
-        ref={ref}
-        id={id}
-        name={name}
-        value={value}
-        type="radio"
-        className="visually-hidden"
-        checked={!!checked}
-        onChange={(e) => onChange?.(e.target.value, e)}
-        disabled={disabled}
-        aria-checked={!!checked}
-        aria-disabled={!!disabled}
-        aria-label={label}
-        aria-labelledby={textId}
-      />
-      <span aria-hidden="true" className="outer"><span className="dot" /></span>
-      {label && (
-        <span className="text" id={textId}>{label}</span>
-      )}
-    </Label>
-  );
+  return <Label>
+      <input ref={ref} id={id} name={name} value={value} type="radio" className="visually-hidden" checked={!!checked} onChange={e => onChange?.(e.target.value, e)} disabled={disabled} aria-checked={!!checked} aria-disabled={!!disabled} aria-label={label} aria-labelledby={textId} />
+      <span aria-hidden="true" className="outer">
+        <span className="dot" />
+      </span>
+      {label && <span className="text" id={textId}>
+          {label}
+        </span>}
+    </Label>;
 });
 export default FancyRadio;

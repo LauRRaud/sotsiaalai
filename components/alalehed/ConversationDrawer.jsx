@@ -1,9 +1,11 @@
 "use client";
+
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/components/i18n/I18nProvider";
-
-export default function ConversationDrawer({ children }) {
+export default function ConversationDrawer({
+  children
+}) {
   const [open, setOpen] = useState(false);
   const [drawerRoot, setDrawerRoot] = useState(null);
   const panelRef = useRef(null);
@@ -11,17 +13,17 @@ export default function ConversationDrawer({ children }) {
   const overlayRef = useRef(null);
   const drawerRootRef = useRef(null);
   const headerIdRef = useRef(`drawer-title-${Math.random().toString(36).slice(2, 8)}`);
-  const { t } = useI18n();
-
+  const {
+    t
+  } = useI18n();
   useEffect(() => {
     function onToggle(e) {
       const want = e?.detail?.open;
-      setOpen((prev) => (typeof want === "boolean" ? want : !prev));
+      setOpen(prev => typeof want === "boolean" ? want : !prev);
     }
     window.addEventListener("sotsiaalai:toggle-conversations", onToggle);
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
   }, []);
-
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
     let root = document.querySelector('[data-conversation-drawer-root="true"]');
@@ -44,7 +46,6 @@ export default function ConversationDrawer({ children }) {
       setDrawerRoot(null);
     };
   }, []);
-
   useEffect(() => {
     if (!open) return;
     const body = document.body;
@@ -61,11 +62,10 @@ export default function ConversationDrawer({ children }) {
       body.style.paddingRight = prevPaddingRight;
     };
   }, [open]);
-
   useEffect(() => {
     const portalRoot = drawerRootRef.current;
     if (!portalRoot) return;
-    const siblings = Array.from(document.body.children).filter((el) => el !== portalRoot);
+    const siblings = Array.from(document.body.children).filter(el => el !== portalRoot);
     if (open) {
       for (const el of siblings) {
         try {
@@ -87,7 +87,6 @@ export default function ConversationDrawer({ children }) {
       };
     }
   }, [open]);
-
   useEffect(() => {
     if (!open) return;
     function onKeydown(e) {
@@ -122,77 +121,37 @@ export default function ConversationDrawer({ children }) {
     document.addEventListener("keydown", onKeydown, true);
     return () => document.removeEventListener("keydown", onKeydown, true);
   }, [open]);
-
   useEffect(() => {
     if (!open) return;
-    const toFocus =
-      closeBtnRef.current ||
-      panelRef.current?.querySelector(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      );
+    const toFocus = closeBtnRef.current || panelRef.current?.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     const timer = setTimeout(() => toFocus?.focus(), 0);
     return () => clearTimeout(timer);
   }, [open]);
-
   const close = useCallback(() => setOpen(false), []);
-
   if (!drawerRoot) return null;
-  return createPortal(
-    <>
-      {open && (
-        <div ref={overlayRef} className="drawer-overlay" onClick={close} aria-hidden="true" />
-      )}
-      <aside
-        ref={panelRef}
-        role="dialog"
-        aria-labelledby={headerIdRef.current}
-        aria-modal={open ? "true" : undefined}
-        aria-hidden={open ? undefined : "true"}
-        inert={open ? undefined : true}
-        tabIndex={open ? undefined : -1}
-        className={`drawer-panel drawer-panel--chat-glass ${open ? "open" : ""}`}
-      >
+  return createPortal(<>
+      {open && <div ref={overlayRef} className="drawer-overlay" onClick={close} aria-hidden="true" />}
+      <aside ref={panelRef} role="dialog" aria-labelledby={headerIdRef.current} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={`drawer-panel drawer-panel--chat-glass ${open ? "open" : ""}`}>
         <header className="drawer-header">
           <strong id={headerIdRef.current}>{t("chat.menu.label")}</strong>
-          <button
-            ref={closeBtnRef}
-            onClick={close}
-            className="drawer-close modal-close-btn"
-            aria-label={t("buttons.close")}
-            type="button"
-          />
+          <button ref={closeBtnRef} onClick={close} className="drawer-close modal-close-btn" aria-label={t("buttons.close")} type="button" />
         </header>
-        <div style={{ padding: 12 }}>{children}</div>
+        <div style={{
+        padding: 12
+      }}>
+          {children}
+        </div>
       </aside>
-    </>,
-    drawerRoot,
-  );
+    </>, drawerRoot);
 }
-
 function getFocusable(root) {
   if (!root) return [];
-  const nodes = root.querySelectorAll(
-    [
-      "a[href]",
-      "area[href]",
-      "button:not([disabled])",
-      "input:not([disabled]):not([type='hidden'])",
-      "select:not([disabled])",
-      "textarea:not([disabled])",
-      "iframe",
-      "object",
-      "embed",
-      "[contenteditable]",
-      "[tabindex]:not([tabindex='-1'])",
-    ].join(","),
-  );
+  const nodes = root.querySelectorAll(["a[href]", "area[href]", "button:not([disabled])", "input:not([disabled]):not([type='hidden'])", "select:not([disabled])", "textarea:not([disabled])", "iframe", "object", "embed", "[contenteditable]", "[tabindex]:not([tabindex='-1'])"].join(","));
   return Array.from(nodes).filter(isVisible);
 }
-
 function isVisible(el) {
   return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
 }
-
 function getScrollbarWidth() {
   const scrollDiv = document.createElement("div");
   scrollDiv.style.width = "100px";
@@ -205,4 +164,3 @@ function getScrollbarWidth() {
   document.body.removeChild(scrollDiv);
   return width;
 }
-

@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
@@ -8,15 +9,15 @@ export default function ModalConfirm({
   cancelLabel = "Katkesta",
   onConfirm,
   onCancel,
-  disabled = false,
+  disabled = false
 }) {
-  // Lukusta taustakerimine modali ajal
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, []);
-  // ESC sulgemiseks (kui onCancel on olemas ja pole disabled)
   useEffect(() => {
     function onKey(e) {
       if (e.key === "Escape" && onCancel && !disabled) onCancel();
@@ -24,37 +25,21 @@ export default function ModalConfirm({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onCancel, disabled]);
-  const modal =
-    <>
-      {/* Backdrop */}
+  const modal = <>
+      {}
       <div className="modal-backdrop" aria-hidden="true" />
-      {/* Kinnitusaken */}
+      {}
       <div className="modal-confirm" role="dialog" aria-modal="true">
         <p className="modal-confirm-text">{message}</p>
         <div className="btn-row">
-          <Button
-            type="button"
-            variant="primary"
-            className="btn-modal-primary"
-            onClick={onConfirm}
-            disabled={disabled}
-          >
+          <Button type="button" variant="primary" className="btn-modal-primary" onClick={onConfirm} disabled={disabled}>
             <span>{confirmLabel}</span>
           </Button>
-          {cancelLabel ? (
-            <Button
-              type="button"
-              variant="primary"
-              className="btn-modal-secondary"
-              onClick={onCancel}
-              disabled={disabled}
-            >
+          {cancelLabel ? <Button type="button" variant="primary" className="btn-modal-secondary" onClick={onCancel} disabled={disabled}>
               <span>{cancelLabel}</span>
-            </Button>
-          ) : null}
+            </Button> : null}
         </div>
       </div>
     </>;
-  // ⟵ see on võtmetähtsusega: renderda otse <body> alla
   return createPortal(modal, document.body);
 }

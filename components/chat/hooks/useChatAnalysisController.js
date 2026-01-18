@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-
 export function useChatAnalysisController({
   t,
   locale: _locale,
   sessionUserId,
   chatWindowRef,
   visibleMessagesCount,
-  isGeneratingRef,
+  isGeneratingRef
 }) {
   const [uploadBusy, setUploadBusy] = useState(false);
   const [uploadError, setUploadError] = useState(null);
@@ -14,35 +13,24 @@ export function useChatAnalysisController({
   const [uploadUsage, setUploadUsage] = useState(null);
   const [ephemeralChunks, setEphemeralChunks] = useState([]);
   const [docOnlyMode, setDocOnlyMode] = useState(true);
-
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
   const [analysisPanelInline, setAnalysisPanelInline] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);
   const pageScrollRef = useRef(null);
-
   const hasAnalysisContent = !!(uploadPreview || uploadBusy);
   const hasAnyAnalysisState = !!(uploadPreview || uploadBusy || uploadError);
   const showAnalysisPanel = analysisPanelOpen || hasAnyAnalysisState;
-
   const previewText = useMemo(() => {
     if (uploadPreview?.fullText && uploadPreview.fullText.trim()) return uploadPreview.fullText;
     if (uploadPreview?.preview && uploadPreview.preview.trim()) return uploadPreview.preview;
     return "";
   }, [uploadPreview]);
-
   const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
   const forceOverlay = !uploadPreview;
-
-  const analysisPanelMode = isAnalysisExpanded
-    ? "expanded"
-    : analysisPanelInline && !isMobileViewport && !forceOverlay
-    ? "inline"
-    : "overlay";
-
+  const analysisPanelMode = isAnalysisExpanded ? "expanded" : analysisPanelInline && !isMobileViewport && !forceOverlay ? "inline" : "overlay";
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(max-width: 48em)");
@@ -55,7 +43,6 @@ export function useChatAnalysisController({
     mq.addListener(update);
     return () => mq.removeListener(update);
   }, []);
-
   useEffect(() => {
     if (typeof document === "undefined") return;
     const ensureOpen = () => {
@@ -69,7 +56,6 @@ export function useChatAnalysisController({
       window.removeEventListener("focus", ensureOpen);
     };
   }, [uploadPreview]);
-
   const scrollAnalysisPanelIntoView = useCallback((options = {}) => {
     requestAnimationFrame(() => {
       try {
@@ -84,7 +70,7 @@ export function useChatAnalysisController({
         }
         panel.scrollIntoView({
           behavior: options.behavior || "smooth",
-          block: options.block || "nearest",
+          block: options.block || "nearest"
         });
       } catch {}
     });
@@ -94,21 +80,18 @@ export function useChatAnalysisController({
     const scroller = document.scrollingElement || document.documentElement;
     pageScrollRef.current = scroller ? scroller.scrollTop : window.scrollY;
   }, []);
-
   const preservePageScroll = useCallback(() => {
     if (typeof window === "undefined") return;
     const scroller = document.scrollingElement || document.documentElement;
-    const y =
-      typeof pageScrollRef.current === "number"
-        ? pageScrollRef.current
-        : scroller
-        ? scroller.scrollTop
-        : window.scrollY;
+    const y = typeof pageScrollRef.current === "number" ? pageScrollRef.current : scroller ? scroller.scrollTop : window.scrollY;
     const restore = () => {
       if (scroller) {
         scroller.scrollTop = y;
       } else {
-        window.scrollTo({ top: y, behavior: "auto" });
+        window.scrollTo({
+          top: y,
+          behavior: "auto"
+        });
       }
     };
     requestAnimationFrame(restore);
@@ -117,7 +100,6 @@ export function useChatAnalysisController({
     setTimeout(restore, 200);
     setTimeout(restore, 350);
   }, []);
-
   const ensureAnalysisPanelVisible = useCallback(() => {
     capturePageScroll();
     preservePageScroll();
@@ -125,27 +107,30 @@ export function useChatAnalysisController({
     setAnalysisPanelOpen(true);
     scrollAnalysisPanelIntoView();
   }, [capturePageScroll, preservePageScroll, scrollAnalysisPanelIntoView]);
-
   const toggleAnalysisCollapse = useCallback(() => {
     if (!hasAnalysisContent) return;
-    setAnalysisCollapsed((prev) => !prev);
-    scrollAnalysisPanelIntoView({ force: true, behavior: "auto", block: "start" });
-    setTimeout(
-      () => scrollAnalysisPanelIntoView({ force: true, behavior: "auto", block: "start" }),
-      120
-    );
-    setTimeout(
-      () => scrollAnalysisPanelIntoView({ force: true, behavior: "auto", block: "start" }),
-      260
-    );
+    setAnalysisCollapsed(prev => !prev);
+    scrollAnalysisPanelIntoView({
+      force: true,
+      behavior: "auto",
+      block: "start"
+    });
+    setTimeout(() => scrollAnalysisPanelIntoView({
+      force: true,
+      behavior: "auto",
+      block: "start"
+    }), 120);
+    setTimeout(() => scrollAnalysisPanelIntoView({
+      force: true,
+      behavior: "auto",
+      block: "start"
+    }), 260);
   }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
-
   const closeAnalysisPanel = useCallback(() => {
     if (hasAnalysisContent) return;
     setAnalysisPanelOpen(false);
     setAnalysisCollapsed(false);
   }, [hasAnalysisContent]);
-
   useEffect(() => {
     if (hasAnyAnalysisState) {
       if (!uploadPreview) {
@@ -155,27 +140,22 @@ export function useChatAnalysisController({
       setAnalysisCollapsed(false);
       setAnalysisPanelOpen(true);
       if (uploadPreview) {
-        scrollAnalysisPanelIntoView({ force: true, block: "start" });
+        scrollAnalysisPanelIntoView({
+          force: true,
+          block: "start"
+        });
       } else {
         scrollAnalysisPanelIntoView();
       }
     } else {
       setAnalysisCollapsed(false);
     }
-  }, [
-    hasAnyAnalysisState,
-    uploadPreview,
-    capturePageScroll,
-    preservePageScroll,
-    scrollAnalysisPanelIntoView,
-  ]);
-
+  }, [hasAnyAnalysisState, uploadPreview, capturePageScroll, preservePageScroll, scrollAnalysisPanelIntoView]);
   useLayoutEffect(() => {
     if (!showAnalysisPanel) return;
     if (uploadPreview) return;
     preservePageScroll();
   }, [showAnalysisPanel, uploadPreview, preservePageScroll]);
-
   useLayoutEffect(() => {
     if (isMobileViewport || !showAnalysisPanel || isAnalysisExpanded) {
       setAnalysisPanelInline(false);
@@ -183,18 +163,15 @@ export function useChatAnalysisController({
     }
     const node = chatWindowRef?.current;
     if (!node) return;
-
     const updateLayout = () => {
       const hasOverflow = node.scrollHeight - node.clientHeight > 8;
-      setAnalysisPanelInline((prev) => {
+      setAnalysisPanelInline(prev => {
         const next = !hasOverflow;
         return prev === next ? prev : next;
       });
     };
-
     updateLayout();
     window.addEventListener("resize", updateLayout);
-
     let ro;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(updateLayout);
@@ -205,25 +182,18 @@ export function useChatAnalysisController({
       ro?.disconnect?.();
     };
   }, [isMobileViewport, showAnalysisPanel, isAnalysisExpanded, visibleMessagesCount, chatWindowRef]);
-
   const MAX_UPLOAD_MB = useMemo(() => {
     const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
     return Number.isFinite(v) && v > 0 ? v : 50;
   }, []);
-
-  const RAW_ALLOWED_MIME = String(
-    process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
-      "application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  );
-
+  const RAW_ALLOWED_MIME = String(process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME || "application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document");
   const ALLOWED_MIME_LIST = useMemo(() => {
-    const out = RAW_ALLOWED_MIME.split(",").map((s) => s.trim()).filter(Boolean);
+    const out = RAW_ALLOWED_MIME.split(",").map(s => s.trim()).filter(Boolean);
     return out.length ? out : ["application/pdf"];
   }, [RAW_ALLOWED_MIME]);
-
   const acceptAttr = useMemo(() => {
     const set = new Set();
-    ALLOWED_MIME_LIST.forEach((m) => {
+    ALLOWED_MIME_LIST.forEach(m => {
       if (m === "application/pdf") {
         set.add(m);
         set.add(".pdf");
@@ -247,26 +217,25 @@ export function useChatAnalysisController({
     });
     return Array.from(set).join(",");
   }, [ALLOWED_MIME_LIST]);
-
   const refreshUsage = useCallback(async () => {
     if (!sessionUserId) return;
     try {
-      const res = await fetch("/api/chat/analyze-usage", { cache: "no-store" });
+      const res = await fetch("/api/chat/analyze-usage", {
+        cache: "no-store"
+      });
       if (!res.ok) return;
       const data = await res.json().catch(() => null);
       if (data?.ok) {
         setUploadUsage({
           used: typeof data.used === "number" ? data.used : 0,
-          limit: typeof data.limit === "number" ? data.limit : 0,
+          limit: typeof data.limit === "number" ? data.limit : 0
         });
       }
     } catch {}
   }, [sessionUserId]);
-
   useEffect(() => {
     refreshUsage();
   }, [refreshUsage]);
-
   const onPickFile = useCallback(() => {
     ensureAnalysisPanelVisible();
     if (uploadBusy) return;
@@ -277,77 +246,69 @@ export function useChatAnalysisController({
       preservePageScroll();
     } catch {}
   }, [ensureAnalysisPanelVisible, preservePageScroll, uploadBusy, isGeneratingRef]);
-
-  const onFileChange = useCallback(
-    async (e) => {
-      const file = e.target?.files?.[0];
-      if (!file) return;
-
-      setUploadError(null);
+  const onFileChange = useCallback(async e => {
+    const file = e.target?.files?.[0];
+    if (!file) return;
+    setUploadError(null);
+    setDocOnlyMode(true);
+    const sizeMB = file.size / (1024 * 1024);
+    if (sizeMB > MAX_UPLOAD_MB) {
+      const sizeError = t("chat.upload.error_size", "Fail on liiga suur ({size}MB > {limit}MB).").replace("{size}", sizeMB.toFixed(1)).replace("{limit}", String(MAX_UPLOAD_MB));
+      setUploadError(sizeError);
+      e.target.value = "";
+      return;
+    }
+    try {
+      setUploadBusy(true);
+      const fd = new FormData();
+      fd.append("file", file, file.name || "file");
+      fd.append("mimeType", file.type || "");
+      const res = await fetch("/api/chat/analyze-file", {
+        method: "POST",
+        body: fd
+      });
+      const data = await res.json().catch(() => ({
+        ok: false
+      }));
+      if (!res.ok || !data?.ok) {
+        const statusError = t("chat.upload.error_status", "Dokumendi analüüs ebaõnnestus (veakood {status}).").replace("{status}", String(res.status));
+        throw new Error(data?.message || statusError);
+      }
+      const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
+      setUploadPreview({
+        fileName: data.fileName || file.name,
+        sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
+        mimeType: data.mimeType || file.type,
+        preview: data.preview || "",
+        fullText: typeof data.fullText === "string" && data.fullText.trim() ? data.fullText : chunksArray.length ? chunksArray.join("\n\n") : data.preview || "",
+        chunksCount: chunksArray.length
+      });
+      scrollAnalysisPanelIntoView({
+        force: true,
+        block: "start"
+      });
+      setTimeout(() => scrollAnalysisPanelIntoView({
+        force: true,
+        block: "start"
+      }), 120);
+      setTimeout(() => scrollAnalysisPanelIntoView({
+        force: true,
+        block: "start"
+      }), 260);
+      setEphemeralChunks(chunksArray);
       setDocOnlyMode(true);
-
-      const sizeMB = file.size / (1024 * 1024);
-      if (sizeMB > MAX_UPLOAD_MB) {
-        const sizeError = t("chat.upload.error_size", "Fail on liiga suur ({size}MB > {limit}MB).")
-          .replace("{size}", sizeMB.toFixed(1))
-          .replace("{limit}", String(MAX_UPLOAD_MB));
-        setUploadError(sizeError);
-        e.target.value = "";
-        return;
-      }
-
-      try {
-        setUploadBusy(true);
-        const fd = new FormData();
-        fd.append("file", file, file.name || "file");
-        fd.append("mimeType", file.type || "");
-
-        const res = await fetch("/api/chat/analyze-file", { method: "POST", body: fd });
-        const data = await res.json().catch(() => ({ ok: false }));
-
-        if (!res.ok || !data?.ok) {
-          const statusError = t(
-            "chat.upload.error_status",
-            "Dokumendi analüüs ebaõnnestus (veakood {status})."
-          ).replace("{status}", String(res.status));
-          throw new Error(data?.message || statusError);
-        }
-
-        const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
-        setUploadPreview({
-          fileName: data.fileName || file.name,
-          sizeMB: typeof data.sizeMB === "number" ? data.sizeMB : Number(sizeMB.toFixed(2)),
-          mimeType: data.mimeType || file.type,
-          preview: data.preview || "",
-          fullText:
-            typeof data.fullText === "string" && data.fullText.trim()
-              ? data.fullText
-              : chunksArray.length
-              ? chunksArray.join("\n\n")
-              : data.preview || "",
-          chunksCount: chunksArray.length,
-        });
-        scrollAnalysisPanelIntoView({ force: true, block: "start" });
-        setTimeout(() => scrollAnalysisPanelIntoView({ force: true, block: "start" }), 120);
-        setTimeout(() => scrollAnalysisPanelIntoView({ force: true, block: "start" }), 260);
-
-        setEphemeralChunks(chunksArray);
-        setDocOnlyMode(true);
-        refreshUsage();
-      } catch (err) {
-        const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
-        setUploadError(err?.message || genericError);
-        setUploadPreview(null);
-        setEphemeralChunks([]);
-        setDocOnlyMode(true);
-      } finally {
-        setUploadBusy(false);
-        e.target.value = "";
-      }
-    },
-    [MAX_UPLOAD_MB, refreshUsage, scrollAnalysisPanelIntoView, t]
-  );
-
+      refreshUsage();
+    } catch (err) {
+      const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
+      setUploadError(err?.message || genericError);
+      setUploadPreview(null);
+      setEphemeralChunks([]);
+      setDocOnlyMode(true);
+    } finally {
+      setUploadBusy(false);
+      e.target.value = "";
+    }
+  }, [MAX_UPLOAD_MB, refreshUsage, scrollAnalysisPanelIntoView, t]);
   return {
     analysisPanelRef,
     fileInputRef,
@@ -370,6 +331,6 @@ export function useChatAnalysisController({
     onFileChange,
     setUploadPreview,
     setUploadError,
-    acceptAttr,
+    acceptAttr
   };
 }

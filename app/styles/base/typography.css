@@ -1,8 +1,3 @@
-/* Shared typography cluster (Step 20)
-   Extracted from legacy/part-01b0.css to keep base typography in one place.
-   Do not add layout rules here; keep it strictly typographic (fonts, weights, text rendering).
-*/
-
 .glass-title,
 .headline,
 .glass-label,
@@ -12,13 +7,16 @@
   font-weight: 400;
 }
 
-
 .right-card-primary .headline-bold {
   color: var(--brand-primary);
 }
 
-
-body, p, ul, li, .glass-list, .glass-section {
+body,
+p,
+ul,
+li,
+.glass-list,
+.glass-section {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
@@ -31,22 +29,23 @@ body, p, ul, li, .glass-list, .glass-section {
   font-size: 1.18rem;
   line-height: 1.62;
 }
-
-/* legacy.css split: part-01b0.css */
-/* Rules before homepage cluster extracted to pages/home.css */
-b, strong {
+b,
+strong {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
-h2, .glass-label {
+h2,
+.glass-label {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: bold;
 }
-a, .link-brand, .meist-external-link {
+a,
+.link-brand,
+.meist-external-link {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
-  }
+}
 main#main {
   display: flex;
   flex-direction: column;
@@ -64,11 +63,9 @@ main#main > .main-content.glass-box {
   box-sizing: border-box;
   z-index: 20;
 }
-/* migrated from legacy/part-02a2b.css */
 a {
   text-decoration: none;
-  }
-/* migrated from legacy/part-03b2a.css */
+}
 .btn-primary,
 .btn-primary span,
 .chat-send-btn,
@@ -80,11 +77,11 @@ a {
 input,
 textarea,
 select,
-input[type=text],
-input[type=email],
-input[type=password],
-input[type=number],
-input[type=search],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
 .chat-input-field,
 .input-modern,
 .reset-input {

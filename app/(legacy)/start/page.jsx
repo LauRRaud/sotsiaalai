@@ -1,4 +1,3 @@
-// app/start/page.jsx — NextAuth v4
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -16,7 +15,7 @@ export async function generateMetadata() {
     locale,
     pathname: "/start",
     title: meta.title || "Järgmine samm — SotsiaalAI",
-    description: meta.description || "",
+    description: meta.description || ""
   });
 }
 const cardStyle = {
@@ -27,15 +26,27 @@ const cardStyle = {
   background: "rgba(13,16,24,0.65)",
   color: "#f5f7ff",
   textDecoration: "none",
-  transition: "transform 0.2s ease, border-color 0.2s ease",
+  transition: "transform 0.2s ease, border-color 0.2s ease"
 };
-function StartCard({ href, title, children }) {
-  return (
-    <Link href={href} style={cardStyle}>
-      <h2 style={{ fontSize: "1.3rem", marginBottom: "0.5rem" }}>{title}</h2>
-      <p style={{ fontSize: "0.95rem", lineHeight: 1.6 }}>{children}</p>
-    </Link>
-  );
+function StartCard({
+  href,
+  title,
+  children
+}) {
+  return <Link href={href} style={cardStyle}>
+      <h2 style={{
+      fontSize: "1.3rem",
+      marginBottom: "0.5rem"
+    }}>
+        {title}
+      </h2>
+      <p style={{
+      fontSize: "0.95rem",
+      lineHeight: 1.6
+    }}>
+        {children}
+      </p>
+    </Link>;
 }
 export default async function StartPage() {
   const cookieStore = await cookies();
@@ -48,44 +59,29 @@ export default async function StartPage() {
     redirect(localizePath("/registreerimine?reason=not-logged-in", locale));
   }
   const role = session.user.role || (session.user.isAdmin ? "ADMIN" : null);
-  // mitte-adminid suuname otse vestlusesse
   if (role !== "ADMIN") {
     redirect(localizePath("/vestlus", locale));
   }
-  return (
-    <div
-      className="main-content glass-box glass-left"
-      aria-labelledby="start-title"
-      lang={locale}
-    >
+  return <div className="main-content glass-box glass-left" aria-labelledby="start-title" lang={locale}>
       <h1 id="start-title" className="glass-title">
         {startCopy.heading || "Tere tulemast tagasi"}
       </h1>
-      <p className="glass-lead" style={{ marginBottom: "1.5rem" }}>
+      <p className="glass-lead" style={{
+      marginBottom: "1.5rem"
+    }}>
         {startCopy.lead || "Vali, millise tööriistaga jätkad."}
       </p>
-      <div
-        style={{
-          display: "grid",
-          gap: "1.5rem",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        }}
-      >
-        <StartCard
-          href={localizePath("/admin/rag", locale)}
-          title={cards.rag?.title || "RAG andmebaasi haldus"}
-        >
-          {cards.rag?.description ||
-            "Laadi üles uusi materjale, halda allikaid ja jälgi indeksi staatust."}
+      <div style={{
+      display: "grid",
+      gap: "1.5rem",
+      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))"
+    }}>
+        <StartCard href={localizePath("/admin/rag", locale)} title={cards.rag?.title || "RAG andmebaasi haldus"}>
+          {cards.rag?.description || "Laadi üles uusi materjale, halda allikaid ja jälgi indeksi staatust."}
         </StartCard>
-        <StartCard
-          href={localizePath("/vestlus", locale)}
-          title={cards.chat?.title || "Vestlusassistendiga"}
-        >
-          {cards.chat?.description ||
-            "Testi assistenti ja vii vestlusi, kasutades rollipõhist RAG-konteksti."}
+        <StartCard href={localizePath("/vestlus", locale)} title={cards.chat?.title || "Vestlusassistendiga"}>
+          {cards.chat?.description || "Testi assistenti ja vii vestlusi, kasutades rollipõhist RAG-konteksti."}
         </StartCard>
       </div>
-    </div>
-  );
+    </div>;
 }

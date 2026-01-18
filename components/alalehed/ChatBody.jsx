@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -21,13 +22,23 @@ import { useConversationSources } from "@/components/chat/hooks/useConversationS
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
-
-export default function ChatBody({ roomId = null, onBackHome = null, embedded = false }) {
+export default function ChatBody({
+  roomId = null,
+  onBackHome = null,
+  embedded = false
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session } = useSession();
-  const { t, locale } = useI18n();
-  const { prefs } = useAccessibility();
+  const {
+    data: session
+  } = useSession();
+  const {
+    t,
+    locale
+  } = useI18n();
+  const {
+    prefs
+  } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
   const initialProfileOpen = searchParams?.get("profile") === "1";
   const extendedLabel = t("chat.analysis.extended_label");
@@ -35,13 +46,11 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   const aiNote = t("chat.ai_toggle.note");
   const isRoomMode = Boolean(roomId);
   const crisisText = t("chat.crisis.notice");
-
   const userRole = useMemo(() => {
     const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
     const up = String(raw || "").toUpperCase();
     return up || "CLIENT";
   }, [session]);
-
   const [inputFocused, setInputFocused] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
@@ -60,7 +69,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     messages: roomMessages,
     blocked: roomBlocked,
     authRequired: roomAuthRequired,
-    roomTitle,
+    roomTitle
   } = useRoomMessages(roomId || "", 3000);
   const aiVisibleByMessageId = useRef(new Map());
   const pendingRoomAiIdsRef = useRef([]);
@@ -70,11 +79,10 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     pendingRoomAiIdsRef.current = [];
     seenRoomAiIdsRef.current = new Set();
   }, [roomId]);
-
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
   const isGeneratingRef = useRef(false);
-  const handleInputBlur = (event) => {
+  const handleInputBlur = event => {
     const next = event?.relatedTarget || document.activeElement;
     if (next && chatContainerRef.current?.contains(next)) return;
     setInputFocused(false);
@@ -88,19 +96,16 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
-    enabled: !isLightTheme,
+    enabled: !isLightTheme
   });
   useEffect(() => {
     if (!embedded || typeof document === "undefined") return;
     document.body.classList.toggle("home-profile-open", profileOpen);
     return () => document.body.classList.remove("home-profile-open");
   }, [embedded, profileOpen]);
-
-
-
   const mappedRoomMessages = useMemo(() => {
     if (!isRoomMode) return [];
-    return (roomMessages || []).map((m) => {
+    return (roomMessages || []).map(m => {
       const created = m?.createdAt ? new Date(m.createdAt).getTime() : Date.now();
       const isMine = m?.authorId && session?.user?.id && m.authorId === session.user.id;
       const isAssistant = m?.senderType === "ASSISTANT";
@@ -112,30 +117,23 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
         authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || "Liige",
         authorRole: m.authorRole || "MEMBER",
         createdAt: created,
-        aiVisible: aiSeen,
+        aiVisible: aiSeen
       };
     });
   }, [isRoomMode, roomMessages, session?.user?.id, t]);
-
-  const getVisibleMessages = useCallback(
-    (msgs) => {
-      if (!isRoomMode) return msgs;
-      const withTsAi = msgs
-        .filter((m) => m.role === "ai")
-        .map((m) => ({
-          ...m,
-          createdAt: m.createdAt || Date.now(),
-        }));
-      return [...mappedRoomMessages, ...withTsAi].sort((a, b) => {
-        const ta = a.createdAt || 0;
-        const tb = b.createdAt || 0;
-        if (ta !== tb) return ta - tb;
-        return String(a.id || "").localeCompare(String(b.id || ""));
-      });
-    },
-    [isRoomMode, mappedRoomMessages]
-  );
-
+  const getVisibleMessages = useCallback(msgs => {
+    if (!isRoomMode) return msgs;
+    const withTsAi = msgs.filter(m => m.role === "ai").map(m => ({
+      ...m,
+      createdAt: m.createdAt || Date.now()
+    }));
+    return [...mappedRoomMessages, ...withTsAi].sort((a, b) => {
+      const ta = a.createdAt || 0;
+      const tb = b.createdAt || 0;
+      if (ta !== tb) return ta - tb;
+      return String(a.id || "").localeCompare(String(b.id || ""));
+    });
+  }, [isRoomMode, mappedRoomMessages]);
   const {
     convId,
     setConvId,
@@ -144,7 +142,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     saveMessages,
     appendMessage,
     mutateMessage,
-    historyPayload,
+    historyPayload
   } = useChatConversationState({
     isRoomMode,
     roomId,
@@ -155,19 +153,14 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     locale,
     userId: session?.user?.id,
     userRole: session?.user?.role,
-    getVisibleMessages,
+    getVisibleMessages
   });
-
-  const visibleMessages = useMemo(
-    () => getVisibleMessages(messages),
-    [getVisibleMessages, messages]
-  );
+  const visibleMessages = useMemo(() => getVisibleMessages(messages), [getVisibleMessages, messages]);
   const renderedMessages = useMemo(() => {
     const n = visibleMessages.length;
     if (n <= renderLimit) return visibleMessages;
     return visibleMessages.slice(n - renderLimit);
   }, [visibleMessages, renderLimit]);
-
   const hiddenCount = useMemo(() => {
     const n = visibleMessages.length;
     return n > renderLimit ? n - renderLimit : 0;
@@ -188,9 +181,8 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     sessionUserId: session?.user?.id,
     chatWindowRef,
     visibleMessagesCount: visibleMessages.length,
-    isGeneratingRef,
+    isGeneratingRef
   });
-
   const {
     speechReady,
     isSpeaking,
@@ -198,24 +190,22 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     recording,
     recordingPulse,
     recordingError,
-    handleMic,
+    handleMic
   } = useSpeech({
     locale,
     latestAiText,
-    onAppendText: (txt) => composerDraftApiRef.current?.appendText?.(txt),
-    onError: (msg) => setErrorBanner(msg),
-    t,
+    onAppendText: txt => composerDraftApiRef.current?.appendText?.(txt),
+    onError: msg => setErrorBanner(msg),
+    t
   });
-
   const canSpeakLatest = useMemo(() => {
     return Boolean(speechReady && latestAiText);
   }, [speechReady, latestAiText]);
-
   const revealOlder = useCallback(() => {
     const el = chatWindowRef.current;
     const prevScrollHeight = el ? el.scrollHeight : 0;
     const prevScrollTop = el ? el.scrollTop : 0;
-    setRenderLimit((prev) => {
+    setRenderLimit(prev => {
       const total = visibleMessages.length;
       return Math.min(total, prev + PAGE_SIZE);
     });
@@ -226,24 +216,18 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
       el.scrollTop = prevScrollTop + delta;
     });
   }, [visibleMessages.length]);
-
   const messageItems = useMemo(() => {
-    return renderedMessages.map((msg) => (
-      <ChatMessageItem
-        key={msg.id}
-        role={msg.role}
-        text={msg.text}
-        aiVisible={!!msg.aiVisible}
-        authorName={msg.authorName}
-        authorRole={msg.authorRole}
-        isRoomMode={isRoomMode}
-        t={t}
-      />
-    ));
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [renderedMessages, isRoomMode, t]);
-  const { conversationSources, hasConversationSources, sourcesPulse } =
-    useConversationSources({ messages, showSourcesPanel, uploadPreview: analysis.uploadPreview });
-
+  const {
+    conversationSources,
+    hasConversationSources,
+    sourcesPulse
+  } = useConversationSources({
+    messages,
+    showSourcesPanel,
+    uploadPreview: analysis.uploadPreview
+  });
   const focusSourcesButton = useCallback(() => {
     setTimeout(() => {
       try {
@@ -253,7 +237,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   }, []);
   const toggleSourcesPanel = useCallback(() => {
     if (!hasConversationSources) return;
-    setShowSourcesPanel((prev) => {
+    setShowSourcesPanel(prev => {
       const next = !prev;
       if (!next) focusSourcesButton();
       return next;
@@ -265,7 +249,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
-  const syncProfileUrl = useCallback((open) => {
+  const syncProfileUrl = useCallback(open => {
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (open) {
@@ -273,57 +257,50 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     } else {
       url.searchParams.delete("profile");
     }
-    window.history.replaceState({ profileOpen: open }, "", `${url.pathname}${url.search}${url.hash}`);
+    window.history.replaceState({
+      profileOpen: open
+    }, "", `${url.pathname}${url.search}${url.hash}`);
   }, []);
-  const triggerRoll = useCallback(
-    (direction, open) => {
-      if (isRolling) return;
-      setRollDirection(direction);
-      setIsRolling(true);
-      if (showSourcesPanel) closeSourcesPanel();
-      setInputFocused(false);
-      try {
-        inputRef.current?.blur?.();
-      } catch {}
-      if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
-      const swapDelay = Math.round(rollMs * 0.35);
-      rollSwapTimerRef.current = window.setTimeout(() => {
-        setProfileOpen(open);
-        syncProfileUrl(open);
-      }, swapDelay);
-      if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
-      rollTimerRef.current = window.setTimeout(() => setIsRolling(false), rollMs);
-    },
-    [closeSourcesPanel, isRolling, rollMs, showSourcesPanel, syncProfileUrl]
-  );
+  const triggerRoll = useCallback((direction, open) => {
+    if (isRolling) return;
+    setRollDirection(direction);
+    setIsRolling(true);
+    if (showSourcesPanel) closeSourcesPanel();
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+    if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
+    const swapDelay = Math.round(rollMs * 0.35);
+    rollSwapTimerRef.current = window.setTimeout(() => {
+      setProfileOpen(open);
+      syncProfileUrl(open);
+    }, swapDelay);
+    if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+    rollTimerRef.current = window.setTimeout(() => setIsRolling(false), rollMs);
+  }, [closeSourcesPanel, isRolling, rollMs, showSourcesPanel, syncProfileUrl]);
   const openProfile = useCallback(() => triggerRoll("right", true), [triggerRoll]);
   const closeProfile = useCallback(() => triggerRoll("left", false), [triggerRoll]);
-  const toggleProfile = useCallback(
-    () => (profileOpen ? closeProfile() : openProfile()),
-    [closeProfile, openProfile, profileOpen]
-  );
-
+  const toggleProfile = useCallback(() => profileOpen ? closeProfile() : openProfile(), [closeProfile, openProfile, profileOpen]);
   const requestConversationsRefresh = useCallback(() => {
     try {
       window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
     } catch {}
   }, []);
-
-  const onRoomMessageSent = useCallback((msgId) => {
+  const onRoomMessageSent = useCallback(msgId => {
     try {
       aiVisibleByMessageId.current.set(msgId, true);
     } catch {}
   }, []);
-
-  const onAssistantMessageCreated = useCallback(
-    (msgId) => {
-      if (!isRoomMode || msgId == null) return;
-      pendingRoomAiIdsRef.current = [...pendingRoomAiIdsRef.current, msgId];
-    },
-    [isRoomMode]
-  );
-
-  const { isGenerating, sendMessage, stop } = useChatStream({
+  const onAssistantMessageCreated = useCallback(msgId => {
+    if (!isRoomMode || msgId == null) return;
+    pendingRoomAiIdsRef.current = [...pendingRoomAiIdsRef.current, msgId];
+  }, [isRoomMode]);
+  const {
+    isGenerating,
+    sendMessage,
+    stop
+  } = useChatStream({
     convId,
     historyPayload,
     userRole,
@@ -345,21 +322,15 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     appendMessage,
     mutateMessage,
     onFocusInput: focusInput,
-    onAuthRedirect: null,
+    onAuthRedirect: null
   });
-
-  const isStreamingAny = useMemo(
-    () => isGenerating || visibleMessages.some((m) => m.role === "ai" && m.isStreaming),
-    [isGenerating, visibleMessages]
-  );
-
+  const isStreamingAny = useMemo(() => isGenerating || visibleMessages.some(m => m.role === "ai" && m.isStreaming), [isGenerating, visibleMessages]);
   useEffect(() => {
     setIsGeneratingForSave(isGenerating);
   }, [isGenerating]);
   useEffect(() => {
     isGeneratingRef.current = isGenerating;
   }, [isGenerating]);
-
   useEffect(() => {
     function onSwitch(e) {
       const newId = e?.detail?.convId;
@@ -369,21 +340,17 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
       saveMessages([]);
       setIsCrisis(false);
       try {
-        window.dispatchEvent(
-          new CustomEvent("sotsiaalai:toggle-conversations")
-        );
+        window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations"));
       } catch {}
     }
     window.addEventListener("sotsiaalai:switch-conversation", onSwitch);
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
   }, [saveMessages, setConvId, setIsCrisis, setMessages]);
-
   useEffect(() => {
     return () => {
       stop();
     };
   }, [stop]);
-
   useEffect(() => {
     if (!analysis.showAnalysisPanel) return;
     try {
@@ -391,7 +358,6 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     } catch {}
     setInputFocused(false);
   }, [analysis.showAnalysisPanel]);
-
   useEffect(() => {
     if (!analysis.showAnalysisPanel) return;
     if (analysis.uploadPreview) return;
@@ -402,7 +368,10 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
       if (scroller) {
         scroller.scrollTop = y;
       } else {
-        window.scrollTo({ top: y, behavior: "auto" });
+        window.scrollTo({
+          top: y,
+          behavior: "auto"
+        });
       }
     };
     requestAnimationFrame(restore);
@@ -410,7 +379,6 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     setTimeout(restore, 120);
     setTimeout(restore, 260);
   }, [analysis.showAnalysisPanel, analysis.uploadPreview]);
-
   useEffect(() => {
     if (!isRoomMode) return;
     const myId = session?.user?.id;
@@ -418,36 +386,34 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
     const pending = pendingRoomAiIdsRef.current;
     if (!pending.length) return;
     const seen = seenRoomAiIdsRef.current;
-    const freshAssistant = roomMessages.filter(
-      (m) => m?.senderType === "ASSISTANT" && m?.authorId === myId && !seen.has(m.id)
-    );
+    const freshAssistant = roomMessages.filter(m => m?.senderType === "ASSISTANT" && m?.authorId === myId && !seen.has(m.id));
     if (!freshAssistant.length) return;
     const toRemove = [...freshAssistant];
-    freshAssistant.forEach((m) => seen.add(m.id));
+    freshAssistant.forEach(m => seen.add(m.id));
     if (!toRemove.length) return;
-    setMessages((prev) => {
+    setMessages(prev => {
       let next = prev;
       toRemove.forEach(() => {
         const localId = pending.shift();
         if (localId == null) return;
-        next = next.filter((msg) => msg.id !== localId);
+        next = next.filter(msg => msg.id !== localId);
       });
       pendingRoomAiIdsRef.current = pending;
       return next;
     });
   }, [isRoomMode, roomMessages, session?.user?.id, setMessages]);
-
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
     }
   }, [hasConversationSources, showSourcesPanel, closeSourcesPanel]);
-
-
   const scrollToBottom = useCallback(() => {
     const node = chatWindowRef.current;
     if (!node) return;
-    node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
+    node.scrollTo({
+      top: node.scrollHeight,
+      behavior: "smooth"
+    });
   }, []);
   const handleBackHome = useCallback(() => {
     if (typeof onBackHome === "function") {
@@ -474,203 +440,85 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
       el.scrollTop = prevScrollTop + delta;
     });
   }, []);
-
   useEffect(() => {
     if (prefs?.reduceMotion) {
       setIsEntering(false);
     }
   }, [prefs?.reduceMotion]);
-
   useEffect(() => {
     return () => {
       if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
       if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
     };
   }, []);
-
   useEffect(() => {
     const shouldOpen = searchParams?.get("profile") === "1";
     if (typeof shouldOpen !== "boolean") return;
-    setProfileOpen((prev) => {
+    setProfileOpen(prev => {
       if (prev === shouldOpen) return prev;
       return shouldOpen;
     });
     if (shouldOpen) setRollDirection("right");
   }, [searchParams]);
-
-  const rollCardClass = [
-    "chat-roll-card",
-    `roll-${rollDirection}`,
-    profileOpen ? "is-profile" : "",
-    isRolling ? "is-rolling" : "",
-    inputFocused && !profileOpen ? "is-input-focus" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const rollCardClass = ["chat-roll-card", `roll-${rollDirection}`, profileOpen ? "is-profile" : "", isRolling ? "is-rolling" : "", inputFocused && !profileOpen ? "is-input-focus" : ""].filter(Boolean).join(" ");
   const chatFaceClass = `chat-roll-face chat-roll-face--chat${profileOpen ? "" : " is-active"}`;
   const profileFaceClass = `chat-roll-face chat-roll-face--profile${profileOpen ? " is-active" : ""}`;
-
-  return (
-    <>
+  return <>
       <InviteModal />
       <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
         <div className="chat-roll-stage">
           <div className={rollCardClass}>
             <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
-              <div
-                className={`main-content glass-box chat-container chat-container--round${
-                  inputFocused && !profileOpen ? " chat-container--input-focus" : ""
-                }`}
-                role="region"
-                aria-label={t("chat.page_label")}
-                ref={chatContainerRef}
-              >
-          <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
-          {!profileOpen ? (
-            <div
-              className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`}
-              aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}
-            >
-              <button
-                type="button"
-                className="back-arrow-btn"
-                onClick={handleBackHome}
-                aria-label={t("chat.back_to_home")}
-                tabIndex={analysis.showAnalysisPanel ? -1 : undefined}
-              >
-                <span className="back-arrow-circle" />
-              </button>
-            </div>
-          ) : null}
+              <div className={`main-content glass-box chat-container chat-container--round${inputFocused && !profileOpen ? " chat-container--input-focus" : ""}`} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef}>
+                <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
+                {!profileOpen ? <div className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
+                    <button type="button" className="back-arrow-btn" onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
+                      <span className="back-arrow-circle" />
+                    </button>
+                  </div> : null}
 
-      <RightRail
-        t={t}
-        roomId={roomId}
-        isLightTheme={isLightTheme}
-        inputFocused={inputFocused}
-        sourcesButtonRef={sourcesButtonRef}
-        toggleSourcesPanel={toggleSourcesPanel}
-        showSourcesPanel={showSourcesPanel}
-        sourcesPulse={sourcesPulse}
-        conversationSources={conversationSources}
-        hasConversationSources={hasConversationSources}
-        onProfileToggle={toggleProfile}
-        embedded={embedded}
-      />
+                <RightRail t={t} roomId={roomId} isLightTheme={isLightTheme} inputFocused={inputFocused} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} />
 
-      <h1 className="glass-title">{t("chat.title")}</h1>
-      {isRoomMode && roomTitle ? (
-        <div className="room-title-sub">
-          {roomTitle}
-        </div>
-      ) : null}
+                <h1 className="glass-title">{t("chat.title")}</h1>
+                {isRoomMode && roomTitle ? <div className="room-title-sub">{roomTitle}</div> : null}
 
-      {isCrisis ? (
-        <div
-          role="alert"
-          className="mt-[0.35rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]"
-        >
-          {crisisText}
-        </div>
-      ) : null}
+                {isCrisis ? <div role="alert" className="mt-[0.35rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]">
+                    {crisisText}
+                  </div> : null}
 
-      {errorBanner ? (
-        <div
-          role="alert"
-          className="chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]"
-        >
-          {errorBanner}
-        </div>
-      ) : null}
-      {isRoomMode && roomBlocked ? (
-        <div className="glass-note chat-error-banner" role="alert">
-          {t("chat.room.blocked")}
-        </div>
-      ) : null}
+                {errorBanner ? <div role="alert" className="chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]">
+                    {errorBanner}
+                  </div> : null}
+                {isRoomMode && roomBlocked ? <div className="glass-note chat-error-banner" role="alert">
+                    {t("chat.room.blocked")}
+                  </div> : null}
 
+                {isRoomMode && roomAuthRequired ? <div className="glass-note chat-error-banner" role="alert">
+                    {t("chat.room.auth_required")}
+                  </div> : null}
 
-      {isRoomMode && roomAuthRequired ? (
-        <div className="glass-note chat-error-banner" role="alert">
-          {t("chat.room.auth_required")}
-        </div>
-      ) : null}
+                <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} />
 
+                <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} />
 
-      <ConversationView
-        t={t}
-        chatWindowRef={chatWindowRef}
-        isStreamingAny={isStreamingAny}
-        hiddenCount={hiddenCount}
-        pageSize={PAGE_SIZE}
-        onRevealOlder={revealOlder}
-        canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES}
-        onHideOlder={hideOlder}
-        onJumpToBottom={handleJumpToBottom}
-        messageItems={messageItems}
-      />
+                {isRoomMode && inputFocused ? <div className="chat-ai-toggle">
+                    <label className="glass-checkbox chat-ai-checkbox">
+                      <input type="checkbox" checked={sendToAssistant} onChange={e => setSendToAssistant(e.target.checked)} aria-describedby="chat-ai-hint" />
+                      <span className="checkbox-text">
+                        {t("chat.ai_toggle.label")}
+                      </span>
+                    </label>
+                    <span id="chat-ai-hint" className="sr-only">
+                      {aiNote}
+                    </span>
+                  </div> : null}
 
-      <ChatComposer
-        t={t}
-        isLightTheme={isLightTheme}
-        acceptAttr={analysis.acceptAttr}
-        ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible}
-        fileInputRef={analysis.fileInputRef}
-        onFileChange={analysis.onFileChange}
-        inputBarRef={inputBarRef}
-        inputRef={inputRef}
-        onFocusInput={() => setInputFocused(true)}
-        onBlurInput={handleInputBlur}
-        isGenerating={isGenerating}
-        isStreamingAny={isStreamingAny}
-        isRoomMode={isRoomMode}
-        roomBlocked={roomBlocked}
-        roomAuthRequired={roomAuthRequired}
-        onStop={stop}
-        onSend={sendMessage}
-        speakLatestReply={speakLatestReply}
-        canSpeakLatest={canSpeakLatest}
-        isSpeaking={isSpeaking}
-        recording={recording}
-        recordingPulse={recordingPulse}
-        handleMic={handleMic}
-        draftApiRef={composerDraftApiRef}
-      />
+                {recordingError ? <div role="alert" className="glass-note chat-error-banner mt-[0.5rem]">
+                    {recordingError}
+                  </div> : null}
 
-      {isRoomMode && inputFocused ? (
-        <div className="chat-ai-toggle">
-          <label className="glass-checkbox chat-ai-checkbox">
-            <input
-              type="checkbox"
-              checked={sendToAssistant}
-              onChange={(e) => setSendToAssistant(e.target.checked)}
-              aria-describedby="chat-ai-hint"
-            />
-            <span className="checkbox-text">
-              {t("chat.ai_toggle.label")}
-            </span>
-          </label>
-          <span id="chat-ai-hint" className="sr-only">{aiNote}</span>
-        </div>
-      ) : null}
-
-      {recordingError ? (
-        <div
-          role="alert"
-          className="glass-note chat-error-banner mt-[0.5rem]"
-        >
-          {recordingError}
-        </div>
-      ) : null}
-
-      <footer className="chat-footer" />
-      <ChatSourcesPanel
-        open={showSourcesPanel}
-        t={t}
-        conversationSources={conversationSources}
-        onClose={closeSourcesPanel}
-        returnFocusRef={sourcesButtonRef}
-      />
-
+                <footer className="chat-footer" />
+                <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </div>
             </div>
             <div className={profileFaceClass} aria-hidden={profileOpen ? "false" : "true"}>
@@ -678,44 +526,7 @@ export default function ChatBody({ roomId = null, onBackHome = null, embedded = 
             </div>
           </div>
         </div>
-      {analysis.showAnalysisPanel ? (
-        <ChatAnalysisPanel
-          t={t}
-          analysisPanelRef={analysis.analysisPanelRef}
-          analysisPanelMode={analysis.analysisPanelMode}
-          uploadPreview={analysis.uploadPreview}
-          uploadBusy={analysis.uploadBusy}
-          uploadError={analysis.uploadError}
-          uploadUsage={analysis.uploadUsage}
-          previewText={analysis.previewText}
-          analysisCollapsed={analysis.analysisCollapsed}
-          toggleAnalysisCollapse={analysis.toggleAnalysisCollapse}
-          docOnlyMode={analysis.docOnlyMode}
-          setDocOnlyMode={analysis.setDocOnlyMode}
-          extendedLabel={extendedLabel}
-          contextHint={contextHint}
-          inputRef={inputRef}
-          onPickFile={analysis.onPickFile}
-          setUploadPreview={analysis.setUploadPreview}
-          setUploadError={analysis.setUploadError}
-          setEphemeralChunks={analysis.setEphemeralChunks}
-          closeAnalysisPanel={analysis.closeAnalysisPanel}
-          isGenerating={isGenerating}
-          prettifyFileName={prettifyFileName}
-        />
-      ) : null}
-    </div>
-    </>
-  );
+        {analysis.showAnalysisPanel ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
+      </div>
+    </>;
 }
-
-
-
-
-
-
-
-
-
-
-
