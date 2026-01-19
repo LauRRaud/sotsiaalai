@@ -4,12 +4,22 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
+import AppLink from "@/components/ui/Link";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
-import CloseButton from "@/components/ui/CloseButton";
 import { pushWithTransition } from "@/lib/routeTransition";
+const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+const circleClassName = "relative flex aspect-square w-[var(--profile-diameter)] h-[var(--profile-diameter)] min-w-[var(--profile-diameter)] min-h-[var(--profile-diameter)] max-w-[var(--profile-diameter)] max-h-[var(--profile-diameter)] flex-col items-center rounded-full bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-none backdrop-blur-[var(--glass-blur-radius,1rem)] light:shadow-[0_18px_40px_rgba(0,0,0,0.16)] overflow-hidden px-[clamp(1.6rem,4.4vw,2.8rem)] pt-[clamp(1.6rem,4.2vw,2.6rem)] md:mt-[max(0px,calc((100dvh-var(--profile-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] md:mb-0 md:mx-auto max-md:w-[100vw] max-md:h-[100dvh] max-md:max-w-[100vw] max-md:max-h-[100dvh] max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto max-md:rounded-none max-md:overflow-visible max-md:pt-[clamp(0.4rem,1.4vh,1.1rem)]";
+const titleClassName = "text-center text-[3.7em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)]";
+const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
+const scrollClassName = "relative flex-1 w-full max-w-[clamp(18rem,40vw,26rem)] min-h-0 overflow-y-auto overflow-x-visible px-[0.6rem] text-left csp-container csp-no-neighbor-click mx-auto";
+const inputClassName = "w-full text-[color:var(--pt-50)] placeholder:text-[color:var(--pt-200)] light:text-[color:var(--input-text)]";
+const backButtonClassName = "absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-[51.5%] inline-flex h-[5.7rem] w-[5.7rem] -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98]";
+const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
 export default function RegistreerimineBody({
   openLoginModal = null
 }) {
@@ -48,7 +58,7 @@ export default function RegistreerimineBody({
     } = e.target;
     setForm(prev => ({
       ...prev,
-      [name]: name === "pin" ? value.replace(/\D/g, "").slice(0, PIN_MAX) : type === "checkbox" ? checked : value
+      [name]: name === "pin" ? value.replace(/\\D/g, "").slice(0, PIN_MAX) : type === "checkbox" ? checked : value
     }));
   }
   async function handleSubmit(e) {
@@ -106,8 +116,8 @@ export default function RegistreerimineBody({
     containerRef: scrollRef,
     itemSelector: ".register-step",
     neighborDistance: 1,
-    lockWheelToSteps: false,
-    settleOnScroll: false,
+    lockWheelToSteps: true,
+    settleOnScroll: true,
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
@@ -157,115 +167,126 @@ export default function RegistreerimineBody({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
-  return <div className="main-content glass-box register-scroll" lang={locale}>
-      <CloseButton onClick={handleClose} ariaLabel={t("common.close")} />
-      <div className="csp-overlayTitle register-scroll__title" aria-hidden="false">
-        <h1 className="glass-title">{t("auth.register.title")}</h1>
-      </div>
+  return <section className={pageShellClassName} lang={locale}>
+      <div className={circleClassName}>
+        <button type="button" className={backButtonClassName} onClick={handleClose} aria-label={t("buttons.back_home")}>
+          <span className={backIconClassName} />
+        </button>
+        <div className="csp-overlayTitle" style={{
+        "--csp-title-top": "2.7rem"
+      }} aria-hidden="true">
+          <h1 className={`glass-title ${titleClassName}`}>{t("auth.register.title")}</h1>
+        </div>
 
-      <div className={`a11y-modal__scrim a11y-modal__scrim--top csp-scrim csp-scrim--top csp-scrim--chevron ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
-        <span className="csp-chevron-frame" aria-hidden="true">
-          <span className="csp-chevron-icon" />
-        </span>
-      </div>
-      <div className={`a11y-modal__scrim a11y-modal__scrim--bottom csp-scrim csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
-        <span className="csp-chevron-frame" aria-hidden="true">
-          <span className="csp-chevron-icon" />
-        </span>
-      </div>
+        <div className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
+          <span className="csp-chevron-frame" aria-hidden="true">
+            <span className="csp-chevron-icon" />
+          </span>
+        </div>
+        <div className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
+          <span className="csp-chevron-frame" aria-hidden="true">
+            <span className="csp-chevron-icon" />
+          </span>
+        </div>
 
-      <div ref={scrollRef} className="register-scroll__body csp-container" style={{
-      "--csp-pad": `${scrollPad}px`
-    }} tabIndex={0} aria-label={t("auth.register.title")}>
-        <form className="glass-form register-form" onSubmit={handleSubmit} autoComplete="off">
-          <section className={`register-step csp-step ${getItemClassName(0)}`}>
-            <input type="email" id="email" name="email" className="input-modern input-email-top" placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
-          </section>
+        <div className={contentClassName}>
+          <div ref={scrollRef} className={scrollClassName} style={{
+          "--csp-pad-top": `${Math.max(0, scrollPad)}px`,
+          "--csp-pad-bottom": `${Math.max(0, scrollPad)}px`,
+          "--csp-active-scale": "1",
+          "--csp-neighbor-scale": "0.92",
+          "--csp-hidden-scale": "0.86",
+          "--csp-neighbor-opacity": "0.15",
+          "--csp-hidden-opacity": "0"
+        }} tabIndex={0} aria-label={t("auth.register.title")}>
+            <form className="flex flex-col gap-8" onSubmit={handleSubmit} autoComplete="off">
+              <section className={`register-step csp-step ${getItemClassName(0)}`}>
+                <Input type="email" id="email" name="email" size="lg" className={inputClassName} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
+              </section>
 
-          <section className={`register-step csp-step ${getItemClassName(1)}`}>
-            <input type="password" id="pin" name="pin" className="input-modern" placeholder={t("auth.pin_placeholder", {
-            min: PIN_MIN,
-            max: PIN_MAX
-          })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
-          </section>
+              <section className={`register-step csp-step ${getItemClassName(1)} -mt-4`}>
+                <Input type="password" id="pin" name="pin" size="lg" className={inputClassName} placeholder={t("auth.pin_placeholder", {
+                min: PIN_MIN,
+                max: PIN_MAX
+              })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
+              </section>
 
-          <section className={`register-step csp-step ${getItemClassName(2)}`}>
-            <div className="glass-label glass-label-radio" id={roleLabelId}>
-              {roleLabelText}
-            </div>
-            <div className="glass-radio-group" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
-              <div id={roleHintId} className="sr-only">
-                {t("auth.register.role_hint", "Vali roll nooleklahvidega. Valikud: Sotsiaalt€ô€ô spetsialist v€æi Eluk€¬simusega p€ô€ôrduja.")}
-              </div>
-              <label>
-                <input type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} required />
-                <span className="glass-radio-label-text">
+              <section className={`register-step csp-step ${getItemClassName(2)} mt-3`}>
+                <div id={roleLabelId} className="mb-3 text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]">
+                  {roleLabelText}
+                </div>
+                <div className="flex flex-col gap-6" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
+                  <div id={roleHintId} className="sr-only">
+                    {t("auth.register.role_hint", "Vali roll nooleklahvidega. Valikud: SotsiaaltГ'кА?Г'кА? spetsialist vГ'кАзi ElukГ'какsimusega pГ'кА?Г'кА?rduja.")}
+                  </div>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className="w-full text-[1.35rem] py-[1.1rem]">
                   {t("role.worker")}
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} />
-                <span className="glass-radio-label-text">
+                </OptionCard>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className="w-full text-[1.35rem] py-[1.1rem]">
                   {t("role.client")}
-                </span>
-              </label>
-            </div>
-          </section>
+                </OptionCard>
+                </div>
+              </section>
 
-          <section className={`register-step csp-step ${getItemClassName(3)}`}>
-            <label className="glass-checkbox">
-              <input type="checkbox" name="agree" checked={form.agree} onChange={handleChange} required />
-              <span className="checkbox-text">
-                <RichText value={t("auth.register.agreement")} replacements={{
-                terms: {
-                  open: `<a class="link-brand-inline" href="${localizePath("/kasutustingimused", locale)}">`,
-                  close: "</a>"
-                },
-                privacy: {
-                  open: `<a class="link-brand-inline" href="${localizePath("/privaatsustingimused", locale)}">`,
-                  close: "</a>"
-                }
-              }} />
-              </span>
-            </label>
-          </section>
+              <section className={`register-step csp-step ${getItemClassName(3)}`}>
+                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
+                    <RichText value={t("auth.register.agreement")} replacements={{
+                    terms: {
+                      open: `<a class="link-brand-inline" href="${localizePath("/kasutustingimused", locale)}">`,
+                      close: "</a>"
+                    },
+                    privacy: {
+                      open: `<a class="link-brand-inline" href="${localizePath("/privaatsustingimused", locale)}">`,
+                      close: "</a>"
+                    }
+                  }} />
+                </OptionCard>
+              </section>
 
-          <section className={`register-step csp-step ${getItemClassName(4)}`}>
-            <label className="glass-checkbox">
-              <input type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} required />
-              <span className="checkbox-text">
-                <RichText value={t("auth.register.guide_ack")} replacements={{
-                guide: {
-                  open: `<a class="link-brand-inline" href="${localizePath("/kasutusjuhend", locale)}">`,
-                  close: "</a>"
-                }
-              }} />
-              </span>
-            </label>
-          </section>
+              <section className={`register-step csp-step ${getItemClassName(4)}`}>
+                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
+                    <RichText value={t("auth.register.guide_ack")} replacements={{
+                    guide1: {
+                      open: `<a class="link-brand-inline" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      close: "</a>"
+                    },
+                    guide2: {
+                      open: `<a class="link-brand-inline" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      close: "</a>"
+                    }
+                  }} />
+                </OptionCard>
+              </section>
 
-          <section className={`register-step csp-step ${getItemClassName(5)}`}>
-            {error && <div role="alert" className="glass-note mb-3">
-                {error}
-              </div>}
-            {successMessage && <div role="status" className="glass-note glass-note--success mb-3">
-                {successMessage}
-              </div>}
-            <Button type="submit" variant="primary" className="register-submit" disabled={submitting}>
-              <span>
-                {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
-              </span>
-            </Button>
-          </section>
+              <section className={`register-step csp-step ${getItemClassName(5)} mt-3`}>
+                {error && <div role="alert" className="rounded-[0.85rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#fca5a5]">
+                    {error}
+                  </div>}
+                {successMessage && <div role="status" className="rounded-[0.85rem] border border-[rgba(110,231,183,0.35)] bg-[rgba(16,185,129,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#a7f3d0]">
+                    {successMessage}
+                  </div>}
+                <div className="mt-2 flex justify-center">
+                  <Button type="submit" variant="primary" size="lg" disabled={submitting}>
+                    <span>
+                      {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
+                    </span>
+                  </Button>
+                </div>
+              </section>
 
-          <section className={`register-step csp-step ${getItemClassName(6)}`}>
-            <div className="register-login-row">
-              <button type="button" className="link-brand-inline register-login-link" onClick={() => openLoginModal?.()} aria-label={t("auth.login.title")}>
-                {t("auth.login.title")}
-              </button>
-            </div>
-          </section>
-        </form>
+              <section className={`register-step csp-step ${getItemClassName(6)} -mt-3`}>
+                <div className="flex justify-center text-[1.35rem]">
+                  <AppLink href="#" onClick={e => {
+                  e.preventDefault();
+                  openLoginModal?.();
+                }} aria-label={t("auth.login.title")}>
+                    {t("auth.login.title")}
+                  </AppLink>
+                </div>
+              </section>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>;
+    </section>;
 }

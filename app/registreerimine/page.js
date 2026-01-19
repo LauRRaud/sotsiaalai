@@ -11,7 +11,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/registreerimine",
-    title: meta.title || "Loo konto – SotsiaalAI",
+    title: meta.title || "Loo konto ƒ?ò SotsiaalAI",
     description: meta.description || ""
   });
 }

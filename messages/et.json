@@ -110,7 +110,7 @@
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
       "agreement": "Nõustun <terms>kasutajatingimustega</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
-      "guide_ack": "Olen tutvunud <guide>platvormi kasutusjuhendiga</guide>.",
+      "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
       "error": {
         "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
         "failed": "Registreerimine ebaõnnestus.",

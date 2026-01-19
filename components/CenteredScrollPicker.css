@@ -5,8 +5,10 @@
   -webkit-overflow-scrolling: touch;
 
   scroll-snap-type: y proximity;
-  padding-block: var(--csp-pad, 0px);
-  scroll-padding-block: var(--csp-pad, 0px);
+  padding-top: var(--csp-pad-top, var(--csp-pad, 0px));
+  padding-bottom: var(--csp-pad-bottom, var(--csp-pad, 0px));
+  scroll-padding-top: var(--csp-pad-top, var(--csp-pad, 0px));
+  scroll-padding-bottom: var(--csp-pad-bottom, var(--csp-pad, 0px));
 
   scrollbar-width: none;
 
@@ -74,6 +76,9 @@
   filter: blur(0.7px);
   pointer-events: none;
 }
+.csp-no-neighbor-click .csp-neighbor {
+  pointer-events: none;
+}
 .csp-scrim {
   position: absolute;
   left: 0;
@@ -83,6 +88,9 @@
   opacity: 0;
   transition: opacity 320ms ease;
   z-index: 6;
+}
+.csp-scrim--wide {
+  height: 6rem;
 }
 .csp-scrim.is-visible {
   opacity: 1;
@@ -153,7 +161,7 @@
 }
 
 .csp-scrim--top.csp-scrim--chevron .csp-chevron-frame {
-  top: -0.35rem;
+  top: 1.1rem;
 }
 .csp-scrim--bottom.csp-scrim--chevron .csp-chevron-frame {
   bottom: -0.35rem;

@@ -9,3 +9,4 @@
 /kasutustingimused	app/kasutustingimused/page.js
 /privaatsustingimused	app/privaatsustingimused/page.js
 /kasutusjuhend	app/kasutusjuhend/page.jsx
+/registreerimine	app/registreerimine/page.js

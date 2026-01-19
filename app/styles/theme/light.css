@@ -108,7 +108,7 @@
   );
   --seg-card-border: transparent;
   --seg-card-border-width: 1px;
-  --seg-card-radius: 1rem;
+  --seg-card-radius: 999px;
   --seg-card-shadow: var(--form-shadow-light, 0 6px 16px rgba(0, 0, 0, 0.14));
   --seg-card-shadow-hover: var(
     --form-shadow-light,
