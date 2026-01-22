@@ -3,6 +3,10 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
+const modalContentClassName = "flex w-full max-w-[28rem] flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]";
+const modalMessageClassName = "text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]";
+const modalActionsClassName = "flex flex-wrap justify-end gap-3";
 export default function ModalConfirm({
   message,
   confirmLabel = "Jah",
@@ -25,21 +29,16 @@ export default function ModalConfirm({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onCancel, disabled]);
-  const modal = <>
-      {}
-      <div className="modal-backdrop" aria-hidden="true" />
-      {}
-      <div className="modal-confirm" role="dialog" aria-modal="true">
-        <p className="modal-confirm-text">{message}</p>
-        <div className="btn-row">
-          <Button type="button" variant="primary" className="btn-modal-primary" onClick={onConfirm} disabled={disabled}>
-            <span>{confirmLabel}</span>
-          </Button>
-          {cancelLabel ? <Button type="button" variant="primary" className="btn-modal-secondary" onClick={onCancel} disabled={disabled}>
-              <span>{cancelLabel}</span>
-            </Button> : null}
-        </div>
+  const modal = <Modal open onClose={onCancel} closeOnOverlayClick={false} aria-label={typeof message === "string" ? message : "Confirm dialog"} contentClassName={modalContentClassName}>
+      <p className={modalMessageClassName}>{message}</p>
+      <div className={modalActionsClassName}>
+        <Button type="button" variant="primary" onClick={onConfirm} disabled={disabled}>
+          <span>{confirmLabel}</span>
+        </Button>
+        {cancelLabel ? <Button type="button" variant="secondary" onClick={onCancel} disabled={disabled}>
+            <span>{cancelLabel}</span>
+          </Button> : null}
       </div>
-    </>;
+    </Modal>;
   return createPortal(modal, document.body);
 }
