@@ -897,6 +897,9 @@
   pointer-events: none;
 }
 :global(body.home-chat-open) .home-scroll-cue,
+:global(body.login-modal-open) .home-scroll-cue,
+:global(body.login-modal-open) .home-scroll-cue-arrow,
+:global(body.login-modal-open) .home-scroll-cue-link,
 body.home-profile-open .home-scroll-cue,
 .homepage-root.home-chat-open .home-scroll-cue {
   opacity: 0;

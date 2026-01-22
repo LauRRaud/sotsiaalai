@@ -885,11 +885,6 @@ html.profile-orbit-open .glass-box.profile-container {
   caret-color: var(--pt-30, #f7f9ff);
   box-shadow: none;
 }
-.login-modal-form .input-email-icon {
-  display: block;
-  margin: 1rem auto 0;
-  width: clamp(16rem, 16vw, 17rem);
-}
 .login-modal-root {
   --login-envelope-size: clamp(4.4rem, 7vw, 5.2rem);
   --login-envelope-hit: clamp(4.4rem, 7vw, 5.2rem);

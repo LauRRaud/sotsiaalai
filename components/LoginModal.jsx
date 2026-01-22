@@ -10,6 +10,9 @@ import { signIn, useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import AppLink from "@/components/ui/Link";
 function SubmitArrowOverlayWhite({
   filled = 0,
   max = 8,
@@ -126,7 +129,53 @@ export default function LoginModal({
   const isOtpStep = step === "otp";
   const hasMessage = Boolean(error || info && !isOtpStep);
   const messageText = error ? error : info && !isOtpStep ? info : "";
-  const modalClasses = ["login-modal-root", "login-modal-box", "glass-modal", "compact-modal", isOtpStep ? "login-modal--otp" : ""].filter(Boolean).join(" ");
+  const showHeaderMessage = isOtpStep && hasMessage;
+  const showPinMessage = !isOtpStep && hasMessage;
+  const pinMessageClass = showPinMessage ? ["glass-note", "glass-note--center", "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]", "mt-[1.5rem] max-md:mt-[1.2rem]", "mb-[0.0rem]", error ? "login-error-note" : "", !error && info && !isOtpStep ? "login-info-note" : ""].filter(Boolean).join(" ") : "hidden";
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.12em]", "mt-0", "max-md:mt-[0.2rem]", emailRevealed ? "mb-[0.2rem]" : "mb-0"].join(" ");
+  const emailRowClass = ["flex", "justify-center", emailRevealed ? "mt-[1.35rem] mb-[0.7rem]" : "-mt-3 mb-0"].join(" ");
+  const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
+  const headerMessageClass = ["glass-note", "glass-note--center", "flex items-center justify-center text-center text-[1.06em] min-h-[1.4em] max-md:min-h-[1.6em] max-md:text-[1.12em] max-md:mt-[0.25rem]", error ? "login-error-note" : "", !error && info && isOtpStep ? "login-info-note" : "", showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
+  const modalClasses = [
+    "login-modal-root",
+    "login-modal-box",
+    "glass-modal",
+    "compact-modal",
+    isOtpStep ? "login-modal--otp" : "",
+    "fixed",
+    "left-1/2",
+    "top-1/2",
+    "-translate-x-1/2",
+    "-translate-y-1/2",
+    "z-[100]",
+    "flex",
+    "flex-col",
+    "w-auto",
+    "h-auto",
+    "min-h-0",
+    "max-h-[calc(100dvh-2rem)]",
+    "overflow-x-hidden",
+    "gap-0",
+    "!rounded-[2.2rem]",
+    "pt-[0.1em]",
+    "pb-[0.7em]",
+    "px-[var(--login-modal-side-pad)]",
+    "max-md:!left-0",
+    "max-md:!top-0",
+    "max-md:!translate-x-0",
+    "max-md:!translate-y-0",
+    "max-md:!w-screen",
+    "max-md:!h-[100dvh]",
+    "max-md:!max-h-[100dvh]",
+    "max-md:!rounded-none",
+    "max-md:!px-[1.2rem]",
+    "max-md:!pt-[calc(env(safe-area-inset-top,0px)+0.2rem)]",
+    "max-md:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]",
+    "max-md:!bg-[rgba(0,0,0,0.55)]",
+    "max-md:!backdrop-blur-[1.4rem]",
+    "max-md:!backdrop-saturate-[125%]",
+    "max-md:gap-[0.4em]"
+  ].filter(Boolean).join(" ");
   const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "help", "zero", "submit"], []);
   const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "help", "zero", "submit"], []);
   const keypadKeys = useMemo(() => {
@@ -151,6 +200,15 @@ export default function LoginModal({
     }
     if (step !== "pin") setHelpOpen(false);
   }, [open, step]);
+  useEffect(() => {
+    const root = document.documentElement;
+    document.body.classList.toggle("login-modal-open", open);
+    root.classList.toggle("login-modal-open", open);
+    return () => {
+      document.body.classList.remove("login-modal-open");
+      root.classList.remove("login-modal-open");
+    };
+  }, [open]);
   useEffect(() => {
     if (pinLoading) setHelpOpen(false);
   }, [pinLoading]);
@@ -372,6 +430,7 @@ export default function LoginModal({
       return;
     }
     setPinLoading(true);
+    setPinValue("");
     try {
       try {
         window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
@@ -675,12 +734,44 @@ export default function LoginModal({
     }
     setKeypadLayout(p => p === "phone" ? "numpad" : "phone");
   };
+  const bounceKey = useCallback(el => {
+    if (!el || prefs?.reduceMotion) return;
+    try {
+      el.animate([{
+        transform: "scale(1)"
+      }, {
+        transform: "scale(1.095)"
+      }, {
+        transform: "scale(0.985)"
+      }, {
+        transform: "scale(1)"
+      }], {
+        duration: 560,
+        easing: "cubic-bezier(0.16, 1, 0.3, 1)"
+      });
+    } catch {}
+  }, [prefs?.reduceMotion]);
   if (!open) return null;
   const isLightTheme = prefs?.theme === "light";
   const stopInside = e => e.stopPropagation();
   return createPortal(<>
+      <style jsx global>{`
+        @keyframes pinAltZeroFade {
+          0%, 48% { opacity: 1; }
+          52%, 100% { opacity: 0; }
+        }
+        @keyframes pinAltClearFade {
+          0%, 48% { opacity: 0; }
+          52%, 100% { opacity: 1; }
+        }
+      `}</style>
       <div className="login-modal-backdrop" onClick={onClose} />
-      <div ref={boxRef} id="login-modal" className={modalClasses} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
+      <div ref={boxRef} id="login-modal" className={modalClasses} style={{
+      "--login-envelope-size": "clamp(4.4rem, 7vw, 5.2rem)",
+      "--login-envelope-hit": "clamp(4.4rem, 7vw, 5.2rem)",
+      minWidth: "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
+      maxWidth: "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
+    }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {
         emailInputRef.current.focus();
@@ -690,16 +781,16 @@ export default function LoginModal({
     }}>
         <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
-        <div className="login-modal-head">
-          <div className="glass-title">
+        <div className={headerWrapClass}>
+          <div className="glass-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(3rem,8.8vw,4.4rem)] max-md:!leading-[1.02]">
             {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
           </div>
-          <div className={["glass-note", "glass-note--center", "login-modal-message-slot", error ? "login-error-note" : "", !error && info && !isOtpStep ? "login-info-note" : "", hasMessage ? "login-modal-message-slot--filled" : "login-modal-message-slot--empty"].filter(Boolean).join(" ")} role={error ? "alert" : hasMessage ? "status" : undefined} aria-live={error ? "assertive" : hasMessage ? "polite" : undefined} aria-atomic="true" aria-hidden={!hasMessage}>
-            {hasMessage ? messageText : null}
+          <div className={headerMessageClass} role={error ? "alert" : showHeaderMessage ? "status" : undefined} aria-live={error ? "assertive" : showHeaderMessage ? "polite" : undefined} aria-atomic="true" aria-hidden={!showHeaderMessage}>
+            {showHeaderMessage ? messageText : null}
           </div>
         </div>
 
-        {!isOtpStep && <form className="login-modal-form compact" onSubmit={e => {
+        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em]" onSubmit={e => {
         e.preventDefault();
         submitPinStep();
       }} autoComplete="off">
@@ -707,11 +798,16 @@ export default function LoginModal({
               {t("auth.email_icon_hint")}
             </div>
 
-            <div className="login-email-toggle">
-              {!emailRevealed ? <button type="button" ref={emailIconButtonRef} className={`login-email-icon-btn${hasEmailValue ? " login-email-icon-btn--known" : ""}${invalidCredentials ? " login-email-icon-btn--error" : ""}`} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
+            <div className={emailRowClass}>
+              {!emailRevealed ? <button type="button" ref={emailIconButtonRef} className={emailIconClass} style={{
+            width: "var(--login-envelope-hit)",
+            height: "var(--login-envelope-hit)",
+            backgroundImage: hasEmailValue ? "url('/logo/r%C3%BCmbrik.svg')" : "url('/logo/%C3%BCmbrik.svg')",
+            backgroundSize: "var(--login-envelope-size) auto"
+          }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
-                </button> : <label className="login-email-label">
-                  <input className={`input-modern input-email-top input-email-icon compact-email${hasEmailValue ? " input-email-icon--filled" : ""}`} type="email" name="email" ref={emailInputRef} aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" onMouseDown={e => {
+                </button> : <label className="block w-full">
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !mt-[1.2rem] !mb-[1.1rem] w-[clamp(16.5rem,19vw,18rem)] text-[1.16rem] max-md:w-[min(100%,var(--pin-grid-w))] max-md:max-w-[var(--pin-grid-w)]" onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();
@@ -760,23 +856,33 @@ export default function LoginModal({
           margin: 0
         }} />}
 
-            {!(isMobile && useNativeKeyboard) && <div className="pin-keypad-all-wrapper" aria-hidden="false" onTouchStart={handleKeypadTouchStart} onTouchEnd={handleKeypadTouchEnd} onTouchCancel={handleKeypadTouchEnd}>
-                <div className="pin-keypad-all" role="group" aria-label={t("auth.login.title")}>
+            {!(isMobile && useNativeKeyboard) && <div className="relative flex w-full justify-center mt-[0.05rem] mb-[-0.1rem] overflow-visible" style={{
+          "--pin-btn": "4.35rem",
+          "--pin-gap-x": "0.92rem",
+          "--pin-gap-y": "0.78rem",
+          "--pin-a": "0.006",
+          "--pin-a-alt": "0.01",
+          "--pin-border-w": "1.45px",
+          "--pin-shadow": "0.11",
+          "--pin-gloss-bg": isLightTheme ? "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.22) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.14) 74%, rgba(0, 0, 0, 0.1) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 56%)" : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)",
+          "--pin-gloss-op": isLightTheme ? "0.42" : "0.2"
+        }} aria-hidden="false" onTouchStart={handleKeypadTouchStart} onTouchEnd={handleKeypadTouchEnd} onTouchCancel={handleKeypadTouchEnd}>
+                <div className="grid justify-center [grid-template-columns:repeat(3,var(--pin-btn))] [grid-auto-rows:var(--pin-btn)] gap-x-[var(--pin-gap-x)] gap-y-[var(--pin-gap-y)] w-full max-w-[calc((3*var(--pin-btn))+(2*var(--pin-gap-x)))]" role="group" aria-label={t("auth.login.title")}>
                   {keypadKeys.map((key, idx) => {
               if (key === "blank") {
-                return <span key={"blank-" + String(idx)} className="pin-keypad__blank" aria-hidden="true" />;
+                return <span key={"blank-" + String(idx)} className="inline-block w-[var(--pin-btn)] h-[var(--pin-btn)]" aria-hidden="true" />;
               }
               if (key === "help") {
                 const label = t("auth.login.forgot");
-                return <button key={"help-" + String(idx)} type="button" className="pin-keypad__button no-click-pulse pin-keypad__button--help" ref={el => {
+                return <button key={"help-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                  boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)",
+                  "--pin-gloss-op": isLightTheme ? "0.26" : "0.18"
+                }} ref={el => {
                   keypadRefs.current[idx] = el;
                   helpButtonRef.current = el;
                 }} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
                   const el = e.currentTarget;
-                  el.classList.remove("pin-keypad__button--bounce");
-                  el.offsetWidth;
-                  el.classList.add("pin-keypad__button--bounce");
-                  window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+                  bounceKey(el);
                 }} onClick={() => setHelpOpen(p => !p)} disabled={pinLoading} aria-label={label} aria-haspopup="dialog" aria-expanded={helpOpen}>
                           {t("symbols.question")}
                         </button>;
@@ -784,7 +890,10 @@ export default function LoginModal({
               if (key === "submit") {
                 const label = t("auth.login.submit");
                 const submitKeyIconSrc = submitIconState === "error" ? "/logo/tabalukkpunane.svg" : isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
-                return <button key={"submit-" + String(idx)} type="button" className="pin-keypad__button no-click-pulse pin-keypad__button--submit" ref={el => keypadRefs.current[idx] = el} onKeyDown={e => {
+                return <button key={"submit-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                  boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)",
+                  "--pin-gloss-op": isLightTheme ? "0.26" : "0.18"
+                }} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => {
                   handleKeypadKeyDown(e, idx);
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -792,12 +901,9 @@ export default function LoginModal({
                   }
                 }} onPointerDown={e => {
                   const el = e.currentTarget;
-                  el.classList.remove("pin-keypad__button--bounce");
-                  el.offsetWidth;
-                  el.classList.add("pin-keypad__button--bounce");
-                  window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+                  bounceKey(el);
                 }} onClick={() => submitPinStep()} disabled={pinLoading} aria-label={label}>
-                          <span className="login-submit-icon-stack" aria-hidden="true">
+                          <span className="absolute inset-0 grid place-items-center" aria-hidden="true">
                             <Image src={submitKeyIconSrc} className="login-submit-icon" alt="" fill priority={false} aria-hidden="true" style={{
                       objectFit: "contain",
                       objectPosition: "center"
@@ -813,12 +919,13 @@ export default function LoginModal({
               const digitLabel = t("auth.login.key", {
                 digit: isZeroKey ? 0 : key
               });
-              return <button key={key + String(idx)} type="button" className={["pin-keypad__button", "no-click-pulse", isZeroKey ? "pin-keypad__button--alt" : null].filter(Boolean).join(" ")} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
+              return <button key={key + String(idx)} type="button" className={["no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-150", "ease-out", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
+                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.92)",
+                background: isLightTheme ? "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0.14) 100%)" : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, var(--pin-a)) 0%, rgba(255, 255, 255, 0.004) 42%, rgba(0, 0, 0, 0.4) 100%)",
+                boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)"
+              }} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => handleKeypadKeyDown(e, idx)} onPointerDown={e => {
                 const el = e.currentTarget;
-                el.classList.remove("pin-keypad__button--bounce");
-                el.offsetWidth;
-                el.classList.add("pin-keypad__button--bounce");
-                window.setTimeout(() => el.classList.remove("pin-keypad__button--bounce"), 650);
+                bounceKey(el);
                 if (isZeroKey) startZeroLongPress();
               }} onPointerUp={() => {
                 if (isZeroKey) cancelZeroLongPress();
@@ -833,12 +940,16 @@ export default function LoginModal({
                 }
                 appendDigit(digitToAppend);
               }} disabled={pinLoading} aria-label={digitLabel}>
-                        {isZeroKey ? <span className="pin-alt-swap" aria-hidden="true">
-                            <span className="pin-alt-face pin-alt-face--zero">
-                              <span className="pin-alt-main">{0}</span>
+                        {isZeroKey ? <span className="relative w-[2.2em] h-[1.2em]" aria-hidden="true">
+                            <span className="absolute inset-0 grid place-items-center will-change-[opacity]" style={{
+                      animation: "pinAltZeroFade 6.5s ease-in-out infinite"
+                    }}>
+                              <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]">{0}</span>
                             </span>
-                            <span className="pin-alt-face pin-alt-face--clear">
-                              <span className="pin-alt-sub">
+                            <span className="absolute inset-0 grid place-items-center will-change-[opacity]" style={{
+                      animation: "pinAltClearFade 6.5s ease-in-out infinite"
+                    }}>
+                              <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]">
                                 {t("auth.login.clear_short")}
                               </span>
                             </span>
@@ -847,98 +958,94 @@ export default function LoginModal({
             })}
                 </div>
 
-                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="pin-help-popover" data-theme={isLightTheme ? "light" : "dark"}>
-                    <button type="button" className="pin-help-close" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
+                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="absolute left-0 bottom-[calc(var(--pin-btn)+0.65rem)] w-auto max-w-[min(18.5rem,calc(100%-0.5rem))] rounded-[12px] bg-[rgba(0,0,0,0.86)] text-[rgba(255,255,255,0.92)] px-[0.9rem] py-[0.8rem] z-30 light:bg-[rgba(255,255,255,0.94)] light:text-[#111827]">
+                    <button type="button" className="absolute right-[0.5rem] top-[0.35rem] w-[2.4rem] h-[2.4rem] rounded-full border-0 bg-transparent text-[1.6rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
                       {t("symbols.times")}
                     </button>
 
-                    <div className="pin-help-body">
-                      <div className="pin-help-text">
+                    <div className="flex flex-col pr-[2.4rem] max-w-[inherit]">
+                      <div className="text-[1.1rem] leading-[1.38] mt-[0.1rem] opacity-90 light:text-[#1f2937] light:opacity-100">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
                         {t("auth.login.help_hold_zero_after")}
                       </div>
 
-                      <Link href="/uuenda-pin" className="unustasid-parooli-link" onClick={() => setHelpOpen(false)}>
+                      <AppLink href="/uuenda-pin" variant="brand" className="mt-[0.65rem] self-start text-[1.2rem] font-[500] no-underline" onClick={() => setHelpOpen(false)}>
                         {t("auth.login.forgot")}
-                      </Link>
+                      </AppLink>
                     </div>
                   </div>}
               </div>}
 
             {}
-            <div style={{
-          textAlign: "center",
-          marginTop: "0.35rem"
-        }}>
-              <button type="button" className="link-brand-inline pin-layout-toggle" onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")} disabled={pinLoading}>
+            <div className={pinMessageClass} role={error ? "alert" : showPinMessage ? "status" : undefined} aria-live={error ? "assertive" : showPinMessage ? "polite" : undefined} aria-atomic="true" aria-hidden={!showPinMessage}>
+              {showPinMessage ? messageText : null}
+            </div>
+
+            <div className="text-center mt-[0.7rem] mb-[0.9rem]">
+              <button type="button" className="link-brand-inline pin-layout-toggle text-[1.65rem] max-md:text-[1.85rem]" onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")} disabled={pinLoading}>
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>
           </form>}
 
-        {isOtpStep && <form className="login-modal-form compact otp-form" onSubmit={e => {
+        {isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.9rem]" onSubmit={e => {
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className="otp-panel">
-              <div className="otp-summary">
-                {info && <p role="status" className="otp-summary__lead">
+            <div className="w-full rounded-[1.15rem] border border-solid border-[color:var(--otp-panel-border)] [background:linear-gradient(180deg,rgba(16,20,32,0.7),rgba(10,14,24,0.56)),var(--otp-panel-bg)] shadow-[var(--otp-panel-shadow)] px-[1rem] pt-[0.95rem] pb-[1rem] light:[background:linear-gradient(180deg,rgba(255,255,255,0.86),rgba(250,251,253,0.78))]">
+              <div className="flex flex-col gap-[0.35rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
+                {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)]">
                     {info}
                   </p>}
-                <p className="otp-summary__body">
+                <p className="m-0 leading-[1.45]">
                   {t("auth.login.otp_description", {
                 email: emailMask || ""
               })}
                 </p>
-                {otpDeadlineLabel && <p className="otp-summary__meta" id="otp-deadline">
+                {otpDeadlineLabel && <p className="mt-[0.35rem] inline-flex items-center self-start rounded-full border border-solid border-[color:color-mix(in_srgb,var(--otp-accent)_45%,transparent)] bg-[color:color-mix(in_srgb,var(--otp-accent)_18%,transparent)] px-[0.6rem] py-[0.22rem] font-semibold tracking-[0.02em] text-[color:var(--pt-30)] light:border-[rgba(197,113,113,0.32)] light:bg-[rgba(197,113,113,0.14)] light:text-[rgba(31,41,55,0.92)]" id="otp-deadline">
                     {t("auth.login.otp_expires", {
                 time: otpDeadlineLabel
               })}
                   </p>}
               </div>
 
-              <div className="otp-input-stack">
-                <input id="otp-code-input" className="input-modern otp-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} />
+              <div className="w-full mt-[0.75rem]">
+                <Input id="otp-code-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} className="text-center [font-variant-numeric:tabular-nums] tracking-[0.32em] font-semibold text-[1.45rem] py-[0.82rem] px-[1rem] rounded-[1rem] [background:var(--otp-input-bg)] [border:1.5px_solid_var(--otp-input-border)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)] placeholder:tracking-[0.24em] focus-visible:[background:var(--otp-input-bg)] focus-visible:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)]" />
               </div>
             </div>
 
-            <label className="otp-remember">
-              <input type="checkbox" checked={rememberDevice} onChange={e => setRememberDevice(e.target.checked)} />
-              <span className="otp-remember-text">
+            <label className="flex items-center gap-[0.7rem] w-full rounded-[1rem] border border-solid border-[rgba(148,163,184,0.32)] bg-[rgba(10,14,24,0.4)] px-[0.85rem] py-[0.6rem] text-[1rem] leading-[1.3] text-[color:var(--pt-150)] transition-[border-color,background,box-shadow,color] duration-200 ease-out cursor-pointer hover:bg-[rgba(16,20,30,0.5)] hover:border-[rgba(170,190,215,0.4)] light:bg-[rgba(255,255,255,0.78)] light:border-[rgba(148,163,184,0.35)] light:text-[rgba(31,41,55,0.86)]">
+              <input type="checkbox" checked={rememberDevice} onChange={e => setRememberDevice(e.target.checked)} className="appearance-none grid place-items-center w-[1.1rem] h-[1.1rem] rounded-[0.32rem] border-2 border-[rgba(185,200,220,0.6)] bg-[rgba(18,22,34,0.72)] transition-[border-color,background,box-shadow] duration-150 ease-out cursor-pointer relative after:content-[''] after:w-[0.55rem] after:h-[0.32rem] after:border-r-2 after:border-b-2 after:border-[color:var(--brand-primary)] after:rotate-45 after:scale-0 after:transition-transform after:duration-150 checked:after:scale-100 focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(225,160,160,0.22)] focus-visible:border-[rgba(225,160,160,0.7)] light:bg-[rgba(255,255,255,0.95)] light:border-[rgba(148,163,184,0.62)]" />
+              <span className="font-medium tracking-[0.01em]">
                 {t("auth.login.remember_device")}
               </span>
             </label>
 
-            <div className="otp-actions">
-              <button type="submit" className="btn-base otp-submit" disabled={otpLoading}>
-                <span>
-                  {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
-                </span>
-              </button>
-              <div className="otp-secondary">
-                <button type="button" className="btn-base otp-secondary-btn" onClick={handleResendOtp} disabled={resendLoading}>
+            <div className="w-full flex flex-col gap-[0.65rem] mt-[0.15rem]">
+              <Button type="submit" variant="primary" className="w-full text-[1.05rem] tracking-[0.04em] rounded-[1rem] py-[0.7rem] px-[1.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
+                {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
+              </Button>
+              <div className="w-full grid grid-cols-2 gap-[0.6rem] max-md:grid-cols-1">
+                <Button type="button" variant="ghost" className="min-h-[2.25rem] py-[0.45rem] px-[0.7rem] text-[0.92rem] font-semibold tracking-[0.02em] rounded-[0.9rem] bg-[rgba(12,16,26,0.36)] border border-[rgba(148,163,184,0.25)] shadow-none hover:bg-[rgba(16,22,34,0.48)] hover:border-[rgba(170,190,215,0.38)] hover:shadow-none hover:-translate-y-[1px] active:translate-y-0 light:bg-[rgba(255,255,255,0.8)] light:border-[rgba(148,163,184,0.35)] light:hover:bg-[rgba(255,255,255,0.95)] light:hover:border-[rgba(148,163,184,0.45)]" onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
-                </button>
-                <button type="button" className="btn-base otp-secondary-btn" onClick={resetToPinStep}>
+                </Button>
+                <Button type="button" variant="ghost" className="min-h-[2.25rem] py-[0.45rem] px-[0.7rem] text-[0.92rem] font-semibold tracking-[0.02em] rounded-[0.9rem] bg-[rgba(12,16,26,0.36)] border border-[rgba(148,163,184,0.25)] shadow-none hover:bg-[rgba(16,22,34,0.48)] hover:border-[rgba(170,190,215,0.38)] hover:shadow-none hover:-translate-y-[1px] active:translate-y-0 light:bg-[rgba(255,255,255,0.8)] light:border-[rgba(148,163,184,0.35)] light:hover:bg-[rgba(255,255,255,0.95)] light:hover:border-[rgba(148,163,184,0.45)]" onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
-                </button>
+                </Button>
               </div>
             </div>
           </form>}
 
         {!isOtpStep && <>
-            <div className="login-modal-bottom-link" style={{
-          textAlign: "center",
-          marginTop: "0rem"
-        }}>
-              <Link href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} className="link-brand">
+            <div className="text-center mt-0 mb-[0.2em]">
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className="text-[2.25rem] leading-[1.05] font-[650] max-md:text-[clamp(2.45rem,6.5vw,3.2rem)]">
                 {t("auth.login.register_link")}
-              </Link>
+              </AppLink>
             </div>
 
             {}
           </>}
       </div>
     </>, document.body);
-}
+  }

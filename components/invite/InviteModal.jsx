@@ -56,14 +56,10 @@ export default function InviteModal() {
   useEffect(() => {
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", open);
-    document.body.classList.toggle("invite-modal-open", open);
     root.classList.toggle("modal-open", open);
-    root.classList.toggle("invite-modal-open", open);
     return () => {
       document.body.classList.remove("modal-open");
-      document.body.classList.remove("invite-modal-open");
       root.classList.remove("modal-open");
-      root.classList.remove("invite-modal-open");
     };
   }, [open]);
   const loadInvites = useCallback(async () => {
@@ -161,7 +157,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} contentClassName="relative overflow-visible pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="relative overflow-visible pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[1.7rem] font-[400] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif]">

@@ -11,7 +11,6 @@
 /room/[roomId] -> app/room/[roomId]/page.jsx
 /rooms -> app/rooms/page.js
 /ruum -> app/ruum/page.js
-/start -> app/start/page.jsx
 /taasta-parool/[token] -> app/taasta-parool/[token]/page.jsx
 /tellimus -> app/tellimus/page.js
 /uuenda-epost -> app/uuenda-epost/page.js
