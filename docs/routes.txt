@@ -1,4 +1,4 @@
-﻿/ -> app/page.js
+/ -> app/(legacy)/page.js
 /admin/analytics -> app/admin/analytics/page.jsx
 /admin/rag -> app/admin/rag/page.jsx
 /join -> app/join/page.jsx

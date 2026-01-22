@@ -392,7 +392,7 @@ export default function HomePage() {
                   isActive
                 }) => <div className={styles["card-wrapper"]} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                       <div className={cn(styles["card-face"], styles.front)}>
-                        <div ref={setLeftCardEl} className={cn(styles["glass-card"], styles["glass-card-light"], !leftFadeDone && shouldFadeIn ? styles["fade-in"] : null, leftFadeDone ? styles["fade-in-done"] : null, leftFadeDone && isActive ? "glow-active" : null)} style={{
+                        <div ref={setLeftCardEl} className={cn(styles["glass-card"], styles["glass-card-light"], "left-card-primary", !leftFadeDone && shouldFadeIn ? styles["fade-in"] : null, leftFadeDone ? styles["fade-in-done"] : null, leftFadeDone && isActive ? "glow-active" : null)} style={{
                       position: "relative"
                     }}>
                           <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
@@ -425,7 +425,7 @@ export default function HomePage() {
                   isActive
                 }) => <div className={styles["card-wrapper"]} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                       <div className={cn(styles["card-face"], styles.front)}>
-                        <div ref={setRightCardEl} className={cn(styles["glass-card"], styles["glass-card-dark"], !rightFadeDone && shouldFadeIn ? styles["fade-in"] : null, rightFadeDone ? styles["fade-in-done"] : null, rightFadeDone && isActive ? "glow-active" : null)} style={{
+                        <div ref={setRightCardEl} className={cn(styles["glass-card"], styles["glass-card-dark"], "right-card-primary", !rightFadeDone && shouldFadeIn ? styles["fade-in"] : null, rightFadeDone ? styles["fade-in-done"] : null, rightFadeDone && isActive ? "glow-active" : null)} style={{
                       position: "relative"
                     }}>
                           <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
