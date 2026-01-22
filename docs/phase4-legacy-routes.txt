@@ -1,4 +1,3 @@
-/app/(legacy)/taasta-parool/[token]	app/(legacy)\taasta-parool\[token]\page.jsx
 /app/(legacy)/admin/analytics	app/(legacy)\admin\analytics\page.jsx
 /app/(legacy)/admin/rag	app/(legacy)\admin\rag\page.jsx.bak-bom-1767718521521
 /app/(legacy)/admin/rag	app/(legacy)\admin\rag\page.jsx
