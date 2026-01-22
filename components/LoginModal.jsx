@@ -12,6 +12,10 @@ import { localizePath } from "@/lib/localizePath";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
+const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
+const noteErrorClassName = "text-[#fca5a5]";
+const noteInfoClassName = "text-[color:var(--pt-120)]";
+const inlineLinkClassName = "inline-block font-[500] tracking-[0.02em] text-[#f2e3d4] px-[0.18em] py-[0.02em] rounded-[0.32em] border-2 border-transparent transition-[border,box-shadow] duration-150 hover:border-[#e1a0a0] hover:shadow-[0_0_0.4375rem_0_rgba(175,170,163,0.4)] focus-visible:border-[#e1a0a0] focus-visible:shadow-[0_0_0.4375rem_0_rgba(175,170,163,0.4)] light:text-[color:var(--link-color)] light:hover:border-[color:var(--link-color)] light:focus-visible:border-[color:var(--link-color)]";
 function SubmitArrowOverlayWhite({
   filled = 0,
   max = 8,
@@ -130,15 +134,14 @@ export default function LoginModal({
   const messageText = error ? error : info && !isOtpStep ? info : "";
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
-  const pinMessageClass = showPinMessage ? ["glass-note", "glass-note--center", "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]", "mt-[1.5rem] max-md:mt-[1.2rem]", "mb-[0.0rem]", error ? "login-error-note" : "", !error && info && !isOtpStep ? "login-info-note" : ""].filter(Boolean).join(" ") : "hidden";
+  const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[1.5rem] max-md:mt-[1.2rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.12em]", "mt-0", "max-md:mt-[0.2rem]", emailRevealed ? "mb-[0.2rem]" : "mb-0"].join(" ");
   const emailRowClass = ["flex", "justify-center", emailRevealed ? "mt-[1.35rem] mb-[0.7rem]" : "-mt-3 mb-0"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
-  const headerMessageClass = ["glass-note", "glass-note--center", "flex items-center justify-center text-center text-[1.06em] min-h-[1.4em] max-md:min-h-[1.6em] max-md:text-[1.12em] max-md:mt-[0.25rem]", error ? "login-error-note" : "", !error && info && isOtpStep ? "login-info-note" : "", showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
+  const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
   const modalClasses = [
     "login-modal-root",
     "login-modal-box",
-    "glass-modal",
     "compact-modal",
     isOtpStep ? "login-modal--otp" : "",
     "fixed",
@@ -781,7 +784,7 @@ export default function LoginModal({
         <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
         <div className={headerWrapClass}>
-          <div className="glass-title !mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(3rem,8.8vw,4.4rem)] max-md:!leading-[1.02]">
+          <div className="!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(3rem,8.8vw,4.4rem)] max-md:!leading-[1.02] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]">
             {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
           </div>
           <div className={headerMessageClass} role={error ? "alert" : showHeaderMessage ? "status" : undefined} aria-live={error ? "assertive" : showHeaderMessage ? "polite" : undefined} aria-atomic="true" aria-hidden={!showHeaderMessage}>
@@ -982,7 +985,7 @@ export default function LoginModal({
             </div>
 
             <div className="text-center mt-[0.7rem] mb-[0.9rem]">
-              <button type="button" className="link-brand-inline pin-layout-toggle text-[1.65rem] max-md:text-[1.85rem]" onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")} disabled={pinLoading}>
+              <button type="button" className={`${inlineLinkClassName} pin-layout-toggle text-[1.65rem] max-md:text-[1.85rem]`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")} disabled={pinLoading}>
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>
