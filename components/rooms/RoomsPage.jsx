@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import InviteModal from "@/components/invite/InviteModal";
 const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-[48em]:pt-[env(safe-area-inset-top,0px)] max-[48em]:pb-[env(safe-area-inset-bottom,0px)] min-[48em]:pt-[calc(env(safe-area-inset-top,0px)+clamp(0.7rem,1.9vh,1.3rem))]";
-const circleClassName = "relative flex h-[var(--chat-diameter)] w-[var(--chat-diameter)] min-w-[var(--chat-diameter)] max-w-[var(--chat-diameter)] min-h-[var(--chat-diameter)] max-h-[var(--chat-diameter)] flex-col gap-4 overflow-auto overflow-x-hidden rounded-full p-[clamp(1.4rem,3.5vh,2.2rem)] aspect-square self-center mx-auto mt-[max(0px,calc((100dvh-var(--chat-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] mb-0 max-[48em]:w-screen max-[48em]:h-[100dvh] max-[48em]:max-w-screen max-[48em]:max-h-[100dvh] max-[48em]:min-w-0 max-[48em]:min-h-0 max-[48em]:rounded-none max-[48em]:overflow-visible max-[48em]:aspect-auto max-[48em]:pt-[clamp(1.2rem,3vh,2rem)] max-[48em]:mt-0 main-content glass-box";
-const titleClassName = "mb-[1.2rem] mt-[2.9rem] w-full max-w-full text-center";
+const circleClassName = "relative flex h-[var(--chat-diameter)] w-[var(--chat-diameter)] min-w-[var(--chat-diameter)] max-w-[var(--chat-diameter)] min-h-[var(--chat-diameter)] max-h-[var(--chat-diameter)] flex-col gap-4 overflow-auto overflow-x-hidden rounded-full p-[clamp(1.4rem,3.5vh,2.2rem)] aspect-square self-center mx-auto mt-[max(0px,calc((100dvh-var(--chat-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] mb-0 max-[48em]:w-screen max-[48em]:h-[100dvh] max-[48em]:max-w-screen max-[48em]:max-h-[100dvh] max-[48em]:min-w-0 max-[48em]:min-h-0 max-[48em]:rounded-none max-[48em]:overflow-visible max-[48em]:aspect-auto max-[48em]:pt-[clamp(1.2rem,3vh,2rem)] max-[48em]:mt-0";
+const titleClassName = "mb-[1.2rem] mt-[2.9rem] w-full max-w-full text-center text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const contentClassName = "flex w-full flex-1 flex-col gap-4 overflow-hidden text-center";
 const scrollAreaClassName = "flex-1 min-h-0 overflow-y-auto pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
 const backButtonClassName = "absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-1/2 inline-flex h-[5.7rem] w-[5.7rem] -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98]";
@@ -150,14 +151,15 @@ export default function RoomsPage() {
   const effectiveRooms = visibleRooms.length === 1 && (visibleRooms[0].title || "").toLowerCase() === "vestlusruum" && !visibleRooms[0].description && !visibleRooms[0].lastMessage && !visibleRooms[0].unreadCount ? [] : visibleRooms;
   const actionBaseClass = "inline-flex items-center justify-center rounded-[0.6rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.65rem] py-[0.25rem] text-[0.75rem] font-semibold text-[color:var(--pt-120)] transition-[border-color,background,color,transform] duration-150 hover:border-[rgba(148,163,184,0.6)] hover:bg-[rgba(16,22,34,0.55)] focus-visible:border-[rgba(148,163,184,0.6)] focus-visible:bg-[rgba(16,22,34,0.55)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55 [.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.7)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)] [.theme-light_&:focus-visible]:border-[rgba(148,163,184,0.7)] [.theme-light_&:focus-visible]:bg-[rgba(255,255,255,1)]";
   const actionDangerClass = `${actionBaseClass} border-[rgba(192,72,72,0.45)] text-[#ffd1d1] hover:border-[rgba(255,120,120,0.7)] hover:bg-[rgba(48,16,20,0.5)] hover:text-[#ffe1e1] focus-visible:border-[rgba(255,120,120,0.7)] focus-visible:bg-[rgba(48,16,20,0.5)] focus-visible:text-[#ffe1e1] [.theme-light_&]:border-[rgba(192,72,72,0.4)] [.theme-light_&]:text-[#7a2323] [.theme-light_&:hover]:border-[rgba(192,72,72,0.6)] [.theme-light_&:hover]:bg-[rgba(255,235,235,0.9)] [.theme-light_&:hover]:text-[#6b1d1d] [.theme-light_&:focus-visible]:border-[rgba(192,72,72,0.6)] [.theme-light_&:focus-visible]:bg-[rgba(255,235,235,0.9)] [.theme-light_&:focus-visible]:text-[#6b1d1d]`;
-  const metaItemClass = "text-[0.78rem] text-[color:var(--pt-200)] before:content-['|'] before:mx-[0.35rem] before:ml-[0.1rem] before:text-[rgba(148,163,184,0.7)] first:before:content-none [.theme-light_&]:text-[#475569]";
+const metaItemClass = "text-[0.78rem] text-[color:var(--pt-200)] before:content-['|'] before:mx-[0.35rem] before:ml-[0.1rem] before:text-[rgba(148,163,184,0.7)] first:before:content-none [.theme-light_&]:text-[#475569]";
+const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
   return <>
       <section className={pageShellClassName}>
         <div className={circleClassName} role="region" aria-label={t("rooms.aria", "Ruumid")}>
           <button type="button" className={backButtonClassName} onClick={() => pushWithTransition(router, "/vestlus")} aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}>
             <span className={backIconClassName} />
           </button>
-          <h1 className={`glass-title ${titleClassName}`}>
+          <h1 className={titleClassName}>
             {t("rooms.title", "Ruumid")}
           </h1>
           <div className={contentClassName}>
@@ -223,24 +225,25 @@ export default function RoomsPage() {
           </div>
         </div>
       </section>
-      {confirmRoom ? <div className="modal-backdrop" role="presentation" onClick={closeDeleteConfirm}>
-          <div className="modal-confirm" role="dialog" aria-modal="true" aria-labelledby="rooms-delete-title" onClick={e => e.stopPropagation()}>
-            <h2 id="rooms-delete-title" className="glass-title">
+      <Modal open={!!confirmRoom} onClose={closeDeleteConfirm} closeOnOverlayClick={!deletingId} aria-labelledby="rooms-delete-title">
+        {confirmRoom ? <div className="flex flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]">
+            <h2 id="rooms-delete-title" className={modalTitleClassName}>
               {t("rooms.delete_title", "Kustuta ruum")}
             </h2>
-            <p className="modal-confirm-text">
+            <p className="text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]">
               {t("rooms.delete_confirm", 'Kustuta ruum "{name}"? See kustutab sõnumeid ja kutsed.').replace("{name}", confirmRoom.title || t("rooms.fallback_title", "Ruum"))}
             </p>
-            <div className="btn-row">
-              <Button type="button" variant="primary" onClick={closeDeleteConfirm} disabled={deletingId === confirmRoom.id}>
+            <div className="flex flex-wrap justify-end gap-3">
+              <Button type="button" variant="secondary" onClick={closeDeleteConfirm} disabled={deletingId === confirmRoom.id}>
                 {t("rooms.cancel", "Tühista")}
               </Button>
-              <Button type="button" variant="primary" className="btn-modal-primary" onClick={() => confirmDelete(confirmRoom)} disabled={deletingId === confirmRoom.id}>
+              <Button type="button" variant="primary" onClick={() => confirmDelete(confirmRoom)} disabled={deletingId === confirmRoom.id}>
                 {deletingId === confirmRoom.id ? t("rooms.delete_busy", "Kustutan...") : t("rooms.delete", "Kustuta")}
               </Button>
             </div>
-          </div>
-        </div> : null}
+          </div> : null}
+      </Modal>
       <InviteModal />
     </>;
 }
+
