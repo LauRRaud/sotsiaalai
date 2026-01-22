@@ -57,7 +57,6 @@ export default function I18nProvider({
     try {
       document.cookie = `NEXT_LOCALE=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; SameSite=Lax`;
     } catch {}
-    try {} catch {}
     setLocaleState(nextLocale);
     const languageName = get(dict, `common.languages.${nextLocale}`, nextLocale);
     const template = get(dict, "common.language_changed", "Language changed: {language}");

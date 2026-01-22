@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import SmustCenterLogo from "@/public/logo/smust-center.svg";
 import "./OrbitalMenu.css";
 function useMatchMedia(query, defaultValue = false) {
@@ -222,7 +222,7 @@ export default function OrbitalMenu({
     };
   }, [items.length, isCoarsePointer]);
   const handleToggle = () => setIsPinnedOpen(prev => !prev);
-  const buildVisualsFromActive = activeIdx => {
+  const buildVisualsFromActive = useCallback(activeIdx => {
     const next = new Array(items.length);
     for (let i = 0; i < items.length; i += 1) {
       const d = Math.abs(i - activeIdx);
@@ -244,8 +244,8 @@ export default function OrbitalMenu({
       };
     }
     return next;
-  };
-  const computeListPadding = () => {
+  }, [items.length]);
+  const computeListPadding = useCallback(() => {
     const listEl = scrollRef.current;
     const firstSlot = slotRefs.current?.[0];
     if (!listEl || !firstSlot) return;
@@ -254,8 +254,8 @@ export default function OrbitalMenu({
     if (!listH || !slotH) return;
     const pad = Math.max(0, Math.floor((listH - slotH) / 2));
     setListPad(pad);
-  };
-  const updateScrollHints = () => {
+  }, []);
+  const updateScrollHints = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
     const {
@@ -265,8 +265,8 @@ export default function OrbitalMenu({
     } = el;
     setCanScrollUp(scrollTop > 2);
     setCanScrollDown(scrollTop + clientHeight < scrollHeight - 2);
-  };
-  const computeActiveIndexFromScroll = () => {
+  }, []);
+  const computeActiveIndexFromScroll = useCallback(() => {
     const listEl = scrollRef.current;
     if (!listEl) return 0;
     const listRect = listEl.getBoundingClientRect();
@@ -287,8 +287,8 @@ export default function OrbitalMenu({
       }
     }
     return bestIdx;
-  };
-  const snapToIndex = idx => {
+  }, []);
+  const snapToIndex = useCallback(idx => {
     const clampedIdx = clamp(idx, 0, Math.max(0, items.length - 1));
     const slot = slotRefs.current?.[clampedIdx];
     if (!slot) return;
@@ -297,8 +297,8 @@ export default function OrbitalMenu({
       block: "center",
       behavior
     });
-  };
-  const applyActive = idx => {
+  }, [items.length, prefersReducedMotion]);
+  const applyActive = useCallback(idx => {
     const clampedIdx = clamp(idx, 0, Math.max(0, items.length - 1));
     if (activeIndexRef.current !== clampedIdx) {
       activeIndexRef.current = clampedIdx;
@@ -306,21 +306,21 @@ export default function OrbitalMenu({
     }
     setVisuals(buildVisualsFromActive(clampedIdx));
     updateScrollHints();
-  };
-  const scheduleMobileUpdate = () => {
+  }, [buildVisualsFromActive, items.length, updateScrollHints]);
+  const scheduleMobileUpdate = useCallback(() => {
     if (rafRef.current) return;
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = 0;
       const idx = computeActiveIndexFromScroll();
       applyActive(idx);
     });
-  };
-  const scheduleSettleSnap = () => {
+  }, [applyActive, computeActiveIndexFromScroll]);
+  const scheduleSettleSnap = useCallback(() => {
     if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
     settleTimerRef.current = window.setTimeout(() => {
       snapToIndex(activeIndexRef.current);
     }, prefersReducedMotion ? 0 : 320);
-  };
+  }, [prefersReducedMotion, snapToIndex]);
   useLayoutEffect(() => {
     if (!isOpen || !isCoarsePointer) return;
     computeListPadding();
@@ -357,7 +357,7 @@ export default function OrbitalMenu({
       ro?.disconnect?.();
       window.removeEventListener("resize", onResize);
     };
-  }, [isOpen, isCoarsePointer, items.length]);
+  }, [applyActive, computeListPadding, isCoarsePointer, isOpen, items.length, scheduleMobileUpdate, scheduleSettleSnap]);
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
