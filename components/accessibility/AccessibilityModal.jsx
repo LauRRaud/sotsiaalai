@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import CloseButton from "@/components/ui/CloseButton";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
+const titleClassName = "mt-[0.25rem] text-[#c57171] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 export default function AccessibilityModal({
   onClose,
   prefs,
@@ -222,7 +223,7 @@ export default function AccessibilityModal({
         <CloseButton onClick={onClose} ariaLabel={t("common.close")} className="a11y-close" />
         {}
         <div className="csp-overlayTitle" aria-hidden="false">
-          <h2 id="a11y-title" className="glass-title">
+          <h2 id="a11y-title" className={titleClassName}>
             {t("profile.preferences.title")}
           </h2>
         </div>
