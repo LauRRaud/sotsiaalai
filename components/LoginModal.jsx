@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { createPortal } from "react-dom";
 import { flushSync } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -89,7 +88,7 @@ export default function LoginModal({
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [submitIconState, setSubmitIconState] = useState("idle");
-  const [invalidCredentials, setInvalidCredentials] = useState(false);
+  const [_invalidCredentials, setInvalidCredentials] = useState(false);
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
   const [emailValue, setEmailValue] = useState("");
