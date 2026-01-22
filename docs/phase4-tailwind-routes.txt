@@ -13,3 +13,4 @@
 /join	app/join/page.jsx
 /taasta-parool/[token]	app/taasta-parool/[token]/page.jsx
 /admin/analytics\tapp/admin/analytics/page.jsx
+/admin/rag	app/admin/rag/page.jsx

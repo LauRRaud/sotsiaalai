@@ -3,17 +3,133 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
+import Input from "@/components/ui/Input";
+import Textarea from "@/components/ui/Textarea";
+import Modal from "@/components/ui/Modal";
 const STATUS_LABELS = {
   PENDING: "Ootel",
   PROCESSING: "Töötlemisel",
   COMPLETED: "Valmis",
   FAILED: "Ebaõnnestus"
 };
+const rootClassName = "flex flex-col gap-[18px] text-[color:var(--admin-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)]";
+const rootInputVars = {
+  "--input-bg": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
+  "--input-bg-hover": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
+  "--input-bg-focus": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
+  "--input-border": "1px solid var(--admin-border-strong)",
+  "--input-text": "var(--admin-text)",
+  "--input-caret": "var(--admin-text)",
+  "--input-placeholder": "color-mix(in srgb, var(--admin-muted) 85%, transparent)",
+  "--input-shadow": "inset 0 1px 0 rgba(255,255,255,0.04)",
+  "--input-radius": "12px"
+};
+const cardClassName = "relative overflow-hidden rounded-[18px] border border-[color:var(--admin-border)] bg-[linear-gradient(160deg,var(--admin-surface),var(--admin-surface-2))] p-4 shadow-[var(--admin-shadow-soft)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[18px] before:bg-[radial-gradient(circle_at_10%_0%,rgba(255,255,255,0.08),transparent_45%)] before:opacity-60";
+const cardBodyClassName = "relative z-[1] grid gap-2";
+const cardHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const cardSubClassName = "text-[0.95rem] text-[color:var(--admin-muted)] max-w-[56ch]";
+const cardActionsClassName = "flex flex-wrap gap-2.5";
+const inputClassName = "rounded-[12px] text-[0.95rem]";
+const selectClassName = "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+const formNoteClassName = "text-[0.84rem] text-[color:var(--admin-muted)]";
+const ingestGridClassName = "grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]";
+const panelStackClassName = "flex flex-col gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-[14px] text-[color:var(--admin-text)]";
+const labelClassName = "text-[0.95rem] font-semibold text-[color:var(--admin-text)]";
+const badgeBaseClassName = "inline-flex items-center rounded-full border px-2 py-[2px] text-[12px] font-semibold";
+const badgeYellowClassName = "border-[#f59e0b] bg-[color-mix(in_srgb,#f59e0b_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#f59e0b_78%,var(--admin-text)_22%)]";
+const badgeBlueClassName = "border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#38bdf8_78%,var(--admin-text)_22%)]";
+const badgeGreenClassName = "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#22c55e_78%,var(--admin-text)_22%)]";
+const badgeRedClassName = "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#ef4444_78%,var(--admin-text)_22%)]";
+const badgeGhostClassName = "border-transparent bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)] text-[color:var(--admin-accent)]";
+const toolbarClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2.5 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-3 shadow-[var(--admin-shadow-soft)]";
+const tableWrapClassName = "overflow-x-auto rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)]";
+const tableClassName = "w-full border-collapse text-[color:var(--admin-text)]";
+const tableHeadCellClassName = "border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2 py-1.5 text-left text-[0.82rem] uppercase tracking-[0.02em] text-[color:var(--admin-muted)]";
+const tableCellClassName = "border-b border-[color:var(--admin-border)] px-2 py-1.5 text-left text-[0.9rem] align-top";
+const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
+const metaCheckBaseClassName = "rounded-[10px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-2 text-[0.86rem] leading-[1.4]";
+const metaCheckOkClassName = "border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_12%,var(--admin-surface-3)_88%)]";
+const metaCheckWarnClassName = "border-[color:var(--admin-accent)] bg-[color-mix(in_srgb,var(--admin-accent)_12%,var(--admin-surface-3)_88%)]";
+const metaCheckErrorClassName = "border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_12%,var(--admin-surface-3)_88%)]";
+const alertBaseClassName = "rounded-[12px] border px-3 py-2";
+const alertOkClassName = "border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_16%,var(--admin-surface-2)_84%)] text-[color:var(--admin-text)]";
+const alertErrorClassName = "border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_16%,var(--admin-surface-2)_84%)] text-[color:var(--admin-text)]";
+const metaPanelClassName = "rounded-[16px] border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] p-[14px] shadow-[var(--admin-shadow-soft)]";
+const metaPanelHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const metaPanelTitleClassName = "text-[0.95rem] font-[650] text-[color:var(--admin-text)]";
+const metaPanelNoteClassName = "text-[0.9rem] text-[color:var(--admin-muted)] max-w-[60ch]";
+const metaPanelLinkClassName = "inline-flex items-center gap-1.5 rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-3)] px-3 py-1.5 text-[0.9rem] font-semibold text-[color:var(--admin-text)] no-underline hover:border-[color:var(--admin-accent-cool)]";
+const metaPanelGridClassName = "grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]";
+const metaPanelLabelClassName = "text-[0.76rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
+const metaPanelListClassName = "m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]";
+const metaTabsClassName = "mt-2 flex flex-wrap gap-2";
+const metaTabClassName = "rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-3)] px-3 py-1 text-[0.85rem] font-semibold text-[color:var(--admin-text)] transition-[border-color,background,transform] duration-150 ease-out hover:border-[color:var(--admin-accent)] hover:-translate-y-[1px]";
+const metaTabActiveClassName = "border-[color:var(--admin-accent)] bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)]";
+const codeBlockClassName = "rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2 text-[0.85rem] leading-[1.5] text-[color:var(--admin-text)] shadow-[var(--admin-shadow-soft)]";
+const hintClassName = "rounded-[14px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3";
+const hintTitleClassName = "text-[0.95rem] font-semibold text-[color:var(--admin-text)]";
+const hintBodyClassName = "text-[0.9rem] leading-[1.4] text-[color:var(--admin-muted)]";
+const articlesClassName = "grid gap-2 rounded-[16px] border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] p-3";
+const articlesHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const articlesTitleClassName = "text-[0.95rem] font-[650] text-[color:var(--admin-text)]";
+const articlesNoteClassName = "text-[0.9rem] text-[color:var(--admin-muted)] max-w-[60ch]";
+const articlesFormClassName = "grid gap-2";
+const articlesActionsClassName = "flex flex-wrap gap-2";
+const articlesResultClassName = "grid gap-2 text-[0.9rem] text-[color:var(--admin-muted)]";
+const articlesListClassName = "m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]";
+const tagsWrapClassName = "flex flex-wrap gap-1.5";
+const quickTagsClassName = "flex flex-wrap items-center gap-2";
+const quickTagsLabelClassName = "text-[0.88rem] text-[color:var(--admin-muted)]";
+const tagChipBaseClassName = "rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-1 text-[0.84rem] font-semibold text-[color:var(--admin-text)] transition-[border-color,background,color,transform] duration-150 ease-out hover:border-[color:var(--admin-accent)] hover:-translate-y-[1px]";
+const tagChipActiveClassName = "border-[color:var(--admin-accent-cool)] bg-[color-mix(in_srgb,var(--admin-accent-cool)_18%,transparent)]";
+const docHeadClassName = "flex flex-wrap items-center justify-between gap-3";
+const docSummaryClassName = "flex flex-wrap items-center gap-2 text-[0.92rem] text-[color:var(--admin-muted)]";
+const docSummaryDotClassName = "text-[color:var(--admin-muted)]";
+const docSummarySelectedClassName = "font-semibold text-[color:var(--admin-accent)]";
+const docsClassName = "flex flex-col gap-3";
+const docCheckClassName = "inline-flex items-center gap-2 font-semibold text-[color:var(--admin-text)]";
+const docsLayoutClassName = "grid gap-4 [grid-template-columns:minmax(240px,0.9fr)_minmax(0,1.6fr)] items-start";
+const docsListClassName = "grid gap-2 max-h-[620px] overflow-auto pr-1";
+const docsEmptyClassName = "text-center rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3 text-[color:var(--admin-muted)]";
+const docDetailWrapperClassName = "sticky top-3 self-start";
+const docDetailEmptyClassName = "text-center rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-4 text-[color:var(--admin-muted)]";
+const docSelectClassName = "flex items-center";
+const docItemBaseClassName = "grid cursor-pointer items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface)] p-[10px_12px] [grid-template-columns:auto_1fr_auto] transition-[border-color,background,box-shadow,transform] duration-150 ease-out hover:border-[color:var(--admin-border-strong)] hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,var(--admin-surface))] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--admin-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+const docItemActiveClassName = "border-[color:var(--admin-accent)] shadow-[0_0_0_1px_var(--admin-accent-soft),var(--admin-shadow-soft)]";
+const docItemTitleClassName = "text-[color:var(--admin-text)] font-semibold leading-[1.2]";
+const docItemMainClassName = "grid gap-1";
+const docItemMetaClassName = "flex flex-wrap items-center gap-2 text-[0.82rem] text-[color:var(--admin-muted)]";
+const docItemMetaPillClassName = "rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2 py-0.5";
+const docItemTimeClassName = "text-[0.78rem] text-[color:var(--admin-muted)] text-right whitespace-nowrap";
+const docDetailClassName = "grid gap-3 rounded-[16px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface)] p-4 shadow-[var(--admin-shadow-soft)]";
+const docDetailTopClassName = "flex flex-wrap items-start justify-between gap-3";
+const docDetailTitleClassName = "text-[1.1rem] font-bold text-[color:var(--admin-text)]";
+const docDetailDescClassName = "mt-1 text-[0.95rem] leading-[1.4] text-[color:var(--admin-muted)]";
+const docDetailStatusClassName = "flex flex-wrap items-center gap-2";
+const docDetailTimeClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
+const docDetailMetaClassName = "grid gap-3 border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3 rounded-[12px] [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]";
+const docDetailMetaItemClassName = "grid gap-1";
+const docDetailMetaLabelClassName = "text-[0.7rem] uppercase tracking-[0.08em] text-[color:var(--admin-muted)]";
+const docDetailMetaValueClassName = "text-[0.92rem] text-[color:var(--admin-text)] break-words";
+const docDetailTagsClassName = "grid gap-2";
+const docDetailSourceClassName = "grid gap-2";
+const docDetailSourceTextClassName = "text-[0.9rem] text-[color:var(--admin-muted)] break-words";
+const docDetailActionsClassName = "flex flex-wrap gap-2";
+const ragModalHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const ragModalMutedClassName = "text-[0.95rem] text-[color:var(--admin-muted)]";
+const modalBodyClassName = "grid gap-3";
+const readOnlyFieldClassName = "rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-muted)]";
+const buttonBaseClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.95rem] font-semibold tracking-[0.01em] shadow-[var(--admin-shadow-soft)]";
+const buttonCompactClassName = "min-h-[2rem] px-[0.7rem] py-[0.35rem] text-[0.86rem]";
+const buttonPrimaryClassName = "border border-[color:color-mix(in_srgb,var(--admin-accent)_65%,var(--admin-border)_35%)] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_35%,var(--admin-surface)_65%),var(--admin-surface-2))] text-[color:var(--admin-text)] hover:border-[color:var(--admin-accent)] hover:shadow-[0_0_0_3px_var(--admin-accent-soft),var(--admin-shadow)]";
+const buttonGhostClassName = "border border-[color:var(--admin-border-strong)] bg-transparent text-[color:var(--admin-text)] shadow-none hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]";
+const buttonDangerClassName = "border border-[color:color-mix(in_srgb,var(--admin-danger)_45%,var(--admin-border)_55%)] bg-[color-mix(in_srgb,var(--admin-danger)_14%,transparent)] text-[color:var(--admin-danger)] shadow-none hover:bg-[color-mix(in_srgb,var(--admin-danger)_20%,transparent)]";
+const buttonSecondaryClassName = "border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] text-[color:var(--admin-text)]";
 const STATUS_CLASSES = {
-  PENDING: "badge badge-yellow",
-  PROCESSING: "badge badge-blue",
-  COMPLETED: "badge badge-green",
-  FAILED: "badge badge-red"
+  PENDING: `${badgeBaseClassName} ${badgeYellowClassName}`,
+  PROCESSING: `${badgeBaseClassName} ${badgeBlueClassName}`,
+  COMPLETED: `${badgeBaseClassName} ${badgeGreenClassName}`,
+  FAILED: `${badgeBaseClassName} ${badgeRedClassName}`
 };
 const AUDIENCE_OPTIONS = [{
   value: "SOCIAL_WORKER",
@@ -872,14 +988,14 @@ export default function RagAdminPanel() {
     }
   }, [selftestBusy, fetchDocuments, resetMessage]);
   const renderTags = arr => {
-    if (!arr || !arr.length) return <span className="text-muted">-</span>;
+    if (!arr || !arr.length) return <span className="text-[color:var(--admin-muted)]">-</span>;
     const visible = arr.slice(0, 4);
     const extra = arr.length - visible.length;
-    return <div className="rag-tags">
-        {visible.map(t => <span className="badge badge-ghost" key={t}>
+    return <div className={tagsWrapClassName}>
+        {visible.map(t => <span className={`${badgeBaseClassName} ${badgeGhostClassName}`} key={t}>
             {t}
           </span>)}
-        {extra > 0 ? <span className="badge badge-ghost">+{extra}</span> : null}
+        {extra > 0 ? <span className={`${badgeBaseClassName} ${badgeGhostClassName}`}>+{extra}</span> : null}
       </div>;
   };
   const viewSource = doc => {
@@ -887,115 +1003,119 @@ export default function RagAdminPanel() {
     if (!href) return;
     window.open(href, "_blank", "noopener,noreferrer");
   };
-  return <div className="rag-admin rag-admin--rag rag-admin--flat">
-      {message && <div className={`alert ${message.type === "error" ? "alert-error" : "alert-ok"}`} onClick={resetMessage}>
+  return <div className={rootClassName} style={rootInputVars}>
+      {message && <div className={`${alertBaseClassName} ${message.type === "error" ? alertErrorClassName : alertOkClassName}`} onClick={resetMessage}>
           {message.text}
         </div>}
 
-      {Array.isArray(selftestSteps) && selftestSteps.length ? <div className="card">
+      {Array.isArray(selftestSteps) && selftestSteps.length ? <div className={cardClassName}>
+          <div className={cardBodyClassName}>
           <CardTitle>Isetesti tulemused</CardTitle>
-          <ul className="list">
-            {selftestSteps.map((s, i) => <li key={i} className={s.ok ? "text-ok" : "text-error"}>
+          <ul className="m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]">
+            {selftestSteps.map((s, i) => <li key={i} className={s.ok ? "text-[color:var(--admin-success)]" : "text-[color:var(--admin-danger)]"}>
                 {s.label || s.step || s.id}: {s.ok ? "OK" : "Ebaõnnestus"}
               </li>)}
           </ul>
+          </div>
         </div> : null}
 
-      <div className="card">
-        <div className="rag-card-head">
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+        <div className={cardHeadClassName}>
           <div>
             <CardTitle>Ingest: URL või PDF + meta</CardTitle>
-            <div className="rag-card-sub">
+            <div className={cardSubClassName}>
               Lisa allikaid ja kontrolli, et meta JSON oleks ühtne.
             </div>
           </div>
-          <div className="rag-card-actions">
-            <Button variant="primary" className="rag-btn" onClick={handleSelftest} disabled={selftestBusy}>
+          <div className={cardActionsClassName}>
+
+            <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={handleSelftest} disabled={selftestBusy}>
               {selftestBusy ? "Kontrollin..." : "Tee isetest"}
             </Button>
-            <Button variant="primary" className="rag-btn rag-btn--primary" onClick={fetchDocuments} disabled={loadingList}>
+            <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={fetchDocuments} disabled={loadingList}>
               {loadingList ? "Laen..." : "Värskenda"}
             </Button>
           </div>
         </div>
-        <div className="ingest-grid">
-          <form className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]" onSubmit={handleUrlSubmit} ref={urlFormRef}>
-            <label className="label">Ingest URL</label>
-            <input name="url" placeholder="https://" className="input" />
-            <input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder="Pealkiri (valikuline)" className="input" />
-            <textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder="Kirjeldus" className="input" rows={2} />
-            <input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder="Sildid (komadega)" className="input" />
-            <select value={urlAudience} onChange={e => setUrlAudience(e.target.value)} className="input">
+        <div className={ingestGridClassName}>
+          <form className={panelStackClassName} onSubmit={handleUrlSubmit} ref={urlFormRef}>
+            <label className={labelClassName}>Ingest URL</label>
+            <Input name="url" placeholder="https://" size="sm" className={inputClassName} />
+            <Input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder="Pealkiri (valikuline)" size="sm" className={inputClassName} />
+            <Textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder="Kirjeldus" rows={2} size="sm" className={inputClassName} />
+            <Input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder="Sildid (komadega)" size="sm" className={inputClassName} />
+            <select value={urlAudience} onChange={e => setUrlAudience(e.target.value)} className={selectClassName}>
               {AUDIENCE_OPTIONS.map(o => <option key={o.value} value={o.value}>
                   {o.label}
                 </option>)}
             </select>
-            <Button type="submit" variant="primary" className="rag-btn rag-btn--primary" disabled={urlBusy}>
+            <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={urlBusy}>
               {urlBusy ? "Saadan..." : "Saada URL"}
             </Button>
           </form>
 
-          <form className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]" onSubmit={handlePdfMetaSubmit} ref={pdfFormRef}>
-            <label className="label">PDF + meta (JSON)</label>
-            <div className="rag-form-note">
+          <form className={panelStackClassName} onSubmit={handlePdfMetaSubmit} ref={pdfFormRef}>
+            <label className={labelClassName}>PDF + meta (JSON)</label>
+            <div className={formNoteClassName}>
               Meta JSON: docId, title, section, year, audience, tags.
             </div>
-            <input name="pdfWithMetaFile" type="file" accept="application/pdf" className="input" />
-            <input name="pdfMetaFile" type="file" accept="application/json" className="input" />
-            <textarea name="pdfMetaText" placeholder="Või kleebi meta JSON" rows={3} className="input" />
-            <select value={pdfMetaAudience} onChange={e => setPdfMetaAudience(e.target.value)} className="input">
+            <input name="pdfWithMetaFile" type="file" accept="application/pdf" className={selectClassName} />
+            <input name="pdfMetaFile" type="file" accept="application/json" className={selectClassName} />
+            <Textarea name="pdfMetaText" placeholder="Või kleebi meta JSON" rows={3} size="sm" className={inputClassName} />
+            <select value={pdfMetaAudience} onChange={e => setPdfMetaAudience(e.target.value)} className={selectClassName}>
               {AUDIENCE_OPTIONS.map(o => <option key={o.value} value={o.value}>
                   {o.label}
                 </option>)}
             </select>
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="ghost" className="rag-btn rag-btn--ghost" onClick={() => setShowMetaGuide(s => !s)} aria-expanded={showMetaGuide} aria-controls="rag-meta-panel">
+              <Button type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} onClick={() => setShowMetaGuide(s => !s)} aria-expanded={showMetaGuide} aria-controls="rag-meta-panel">
                 {showMetaGuide ? "Peida meta mallid" : "Ava meta mallid"}
               </Button>
-              <Button type="button" variant="ghost" className="rag-btn rag-btn--ghost" onClick={handleMetaCheck}>
+              <Button type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} onClick={handleMetaCheck}>
                 Kontrolli meta JSON
               </Button>
-              <Button type="submit" variant="primary" className="rag-btn rag-btn--primary" disabled={pdfMetaBusy}>
+              <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={pdfMetaBusy}>
                 {pdfMetaBusy ? "Saadan..." : "Saada PDF meta-ga"}
               </Button>
             </div>
-            {metaCheck ? <div className={"rag-meta-check rag-meta-check--" + metaCheck.type}>
+            {metaCheck ? <div className={`${metaCheckBaseClassName} ${metaCheck.type === "ok" ? metaCheckOkClassName : metaCheck.type === "warn" ? metaCheckWarnClassName : metaCheckErrorClassName}`}>
                 {metaCheck.text}
               </div> : null}
-            {pdfMetaResult ? <div className="muted">
+            {pdfMetaResult ? <div className="text-[0.95rem] text-[color:var(--admin-muted)]">
                 {pdfMetaResult.fileName ? pdfMetaResult.fileName + ": " : ""}
                 {pdfMetaResult.shortRef || pdfMetaResult.docId || "Salvestatud"}
               </div> : null}
           </form>
         </div>
-        <div className="rag-articles">
-          <div className="rag-articles__head">
+        <div className={articlesClassName}>
+          <div className={articlesHeadClassName}>
             <div>
-              <div className="rag-articles__title">
+              <div className={articlesTitleClassName}>
                 Artiklite ingest (sama PDF)
               </div>
-              <div className="rag-articles__note">
+              <div className={articlesNoteClassName}>
                 Kasuta docId, mis tuli PDF ingestist. JSON peab sisaldama
                 artiklite massiivi.
               </div>
             </div>
-            <Button as="a" variant="ghost" className="rag-btn rag-btn--ghost" href="/rag-meta-templates/articles.json" target="_blank" rel="noopener noreferrer" download>
+            <Button as="a" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} href="/rag-meta-templates/articles.json" target="_blank" rel="noopener noreferrer" download>
               Ava artiklite mall
             </Button>
           </div>
-          <form className="rag-articles__form" onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
-            <input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder="docId (nt DOC-2024-014)" className="input" />
-            <input name="articlesJsonFile" type="file" accept="application/json" className="input" />
-            <textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder='{"docId":"DOC-2024-014","articles":[{"title":"Pealkiri","pageRange":"12-15"}]}' rows={5} className="input" />
-            <div className="rag-articles__actions">
-              <Button type="submit" variant="primary" className="rag-btn rag-btn--primary" disabled={articlesBusy}>
+          <form className={articlesFormClassName} onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
+            <Input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder="docId (nt DOC-2024-014)" size="sm" className={inputClassName} />
+            <input name="articlesJsonFile" type="file" accept="application/json" className={selectClassName} />
+            <Textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder='{"docId":"DOC-2024-014","articles":[{"title":"Pealkiri","pageRange":"12-15"}]}' rows={5} size="sm" className={inputClassName} />
+            <div className={articlesActionsClassName}>
+              <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={articlesBusy}>
                 {articlesBusy ? "Saadan..." : "Saada artiklid"}
               </Button>
             </div>
-            {articlesResult ? <div className="rag-articles__result">
+            {articlesResult ? <div className={articlesResultClassName}>
                 {articlesResult.count != null ? `Lisatud ${articlesResult.count} lõiku.` : "Artiklid lisatud."}
                 {articlesResult.docId ? ` docId: ${articlesResult.docId}` : ""}
-                {articlesResult.inserted?.length ? <ul className="rag-articles__list">
+                {articlesResult.inserted?.length ? <ul className={articlesListClassName}>
                     {articlesResult.inserted.slice(0, 4).map((item, idx) => <li key={`${item.title || "article"}-${idx}`}>
                         {(item.title || "Artikkel") + (item.startPage && item.endPage ? ` (lk ${item.startPage}-${item.endPage})` : "")}
                       </li>)}
@@ -1003,31 +1123,31 @@ export default function RagAdminPanel() {
               </div> : null}
           </form>
         </div>
-        {showMetaGuide ? <div className="rag-meta-panel" id="rag-meta-panel">
-            <div className="rag-meta-panel__head">
+        {showMetaGuide ? <div className={metaPanelClassName} id="rag-meta-panel">
+            <div className={metaPanelHeadClassName}>
               <div>
-                <div className="rag-meta-panel__title">Meta JSON mallid</div>
-                <div className="rag-meta-panel__note">
+                <div className={metaPanelTitleClassName}>Meta JSON mallid</div>
+                <div className={metaPanelNoteClassName}>
                   Platvorm ootab ühte JSON objekti iga ingestimise kohta. Eri
                   materjalidele kasuta eraldi JSON faile. Mitme artikliga PDF-i
                   puhul kasuta /ingest/articles.
                 </div>
               </div>
-              {activeMetaTemplate ? <a className="rag-meta-panel__link" href={activeMetaTemplate.file} target="_blank" rel="noopener noreferrer" download>
+              {activeMetaTemplate ? <a className={metaPanelLinkClassName} href={activeMetaTemplate.file} target="_blank" rel="noopener noreferrer" download>
                   Ava .json
                 </a> : null}
             </div>
-            <div className="rag-meta-panel__grid">
+            <div className={metaPanelGridClassName}>
               <div>
-                <div className="rag-meta-panel__label">Oluline</div>
-                <ul className="rag-meta-panel__list">
+                <div className={metaPanelLabelClassName}>Oluline</div>
+                <ul className={metaPanelListClassName}>
                   <li>docId, title, section</li>
                   <li>year, audience, tags</li>
                 </ul>
               </div>
               <div>
-                <div className="rag-meta-panel__label">Soovituslik</div>
-                <ul className="rag-meta-panel__list">
+                <div className={metaPanelLabelClassName}>Soovituslik</div>
+                <ul className={metaPanelListClassName}>
                   <li>description, authors, issueLabel/issueId</li>
                   <li>articleId, journalTitle, language</li>
                   <li>pageRange või pdf_start_page/pdf_end_page</li>
@@ -1035,281 +1155,283 @@ export default function RagAdminPanel() {
                 </ul>
               </div>
             </div>
-            <div className="rag-meta-panel__tabs">
-              {META_TEMPLATES.map(t => <button type="button" key={t.key} className={`rag-tab${activeMetaTemplate?.key === t.key ? " is-active" : ""}`} onClick={() => setActiveMetaTemplateKey(t.key)}>
+            <div className={metaTabsClassName}>
+              {META_TEMPLATES.map(t => <button type="button" key={t.key} className={`${metaTabClassName}${activeMetaTemplate?.key === t.key ? " " + metaTabActiveClassName : ""}`} onClick={() => setActiveMetaTemplateKey(t.key)}>
                   {t.label}
                 </button>)}
             </div>
-            <pre className="rag-code">{activeMetaTemplate?.content || ""}</pre>
+            <pre className={codeBlockClassName}>{activeMetaTemplate?.content || ""}</pre>
           </div> : null}
+        </div>
       </div>
-      <div className="card">
-        <div className="rag-card-head">
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+        <div className={cardHeadClassName}>
           <div>
             <CardTitle>Dokumentide loetelu</CardTitle>
-            <div className="rag-card-sub">
+            <div className={cardSubClassName}>
               Kokku {docMetrics.total} | Filtreeritud {docMetrics.filtered} |
               Ootel {docMetrics.pending} | Töös {docMetrics.processing} | Valmis{" "}
               {docMetrics.completed} | Veaga {docMetrics.failed}
             </div>
           </div>
         </div>
-        <div className="rag-hint">
-          <div className="rag-hint__title">Kiire leidmine</div>
-          <div className="rag-hint__body">
+        <div className={hintClassName}>
+          <div className={hintTitleClassName}>Kiire leidmine</div>
+          <div className={hintBodyClassName}>
             Otsing kasutab title, description, authors, tags, section, issue,
             year, docId, articleId, journalTitle, language.
           </div>
         </div>
-        {topTags.length ? <div className="rag-quick-tags">
-            <span className="rag-quick-tags__label">Kiirsildid:</span>
-            {topTags.map(tag => <button type="button" className={`rag-tag-chip${filterTags.includes(tag) ? " is-active" : ""}`} onClick={() => toggleFilterTag(tag)} key={tag}>
+        {topTags.length ? <div className={quickTagsClassName}>
+            <span className={quickTagsLabelClassName}>Kiirsildid:</span>
+            {topTags.map(tag => <button type="button" className={`${tagChipBaseClassName}${filterTags.includes(tag) ? " " + tagChipActiveClassName : ""}`} onClick={() => toggleFilterTag(tag)} key={tag}>
                 {tag}
               </button>)}
           </div> : null}
-        <div className="rag-toolbar">
-          <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Otsi pealkirja, autorit, kirjeldust, docId või sildi järgi" className="input" />
-          <select value={filterSection} onChange={e => setFilterSection(e.target.value)} className="input">
+        <div className={toolbarClassName}>
+          <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Otsi pealkirja, autorit, kirjeldust, docId või sildi järgi" size="sm" className={inputClassName} />
+          <select value={filterSection} onChange={e => setFilterSection(e.target.value)} className={selectClassName}>
             <option value="ALL">Kõik rubriigid</option>
             {sectionOptions.map(s => <option key={s} value={s}>
                 {s}
               </option>)}
           </select>
-          <select value={filterAudience} onChange={e => setFilterAudience(e.target.value)} className="input">
+          <select value={filterAudience} onChange={e => setFilterAudience(e.target.value)} className={selectClassName}>
             <option value="ALL">Kõik sihtrühmad</option>
             {audienceOptions.map(s => <option key={s} value={s}>
                 {getAudienceLabel(s)}
               </option>)}
           </select>
-          <select value={filterYear} onChange={e => setFilterYear(e.target.value)} className="input">
+          <select value={filterYear} onChange={e => setFilterYear(e.target.value)} className={selectClassName}>
             <option value="ALL">Kõik aastad</option>
             {yearOptions.map(s => <option key={s} value={s}>
                 {s}
               </option>)}
           </select>
-          <select value={filterIssue} onChange={e => setFilterIssue(e.target.value)} className="input">
+          <select value={filterIssue} onChange={e => setFilterIssue(e.target.value)} className={selectClassName}>
             <option value="ALL">Kõik numbrid</option>
             {issueOptions.map(s => <option key={s} value={s}>
                 {s}
               </option>)}
           </select>
-          <select multiple value={filterTags} onChange={e => setFilterTags(Array.from(e.target.selectedOptions, o => o.value))} className="input" size={Math.min(6, Math.max(2, allTags.length)) || 2}>
+          <select multiple value={filterTags} onChange={e => setFilterTags(Array.from(e.target.selectedOptions, o => o.value))} className={selectClassName} size={Math.min(6, Math.max(2, allTags.length)) || 2}>
             {allTags.map(t => <option key={t} value={t}>
                 {t}
               </option>)}
           </select>
-          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="input">
+          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={selectClassName}>
             <option value="recent">Uued ees</option>
             <option value="title">Pealkiri A-Z</option>
             <option value="section">Rubriik</option>
             <option value="year">Aasta</option>
             <option value="issue">Väljaanne</option>
           </select>
-          {selectedIds.size ? <Button variant="primary" className="rag-btn rag-btn--primary" onClick={handleBulkReindex} disabled={reindexingId !== null}>
+          {selectedIds.size ? <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={handleBulkReindex} disabled={reindexingId !== null}>
               Reindekseeri valitud ({selectedIds.size})
             </Button> : null}
         </div>
 
-        <div className="rag-docs">
-          <div className="rag-docs__head">
-            <label className="rag-check">
-              <input type="checkbox" onChange={toggleSelectAllVisible} checked={visibleDocs.length && visibleDocs.every(d => selectedIds.has(d.id))} />
+        <div className={docsClassName}>
+          <div className={docHeadClassName}>
+            <label className={docCheckClassName}>
+              <input type="checkbox" className="accent-[color:var(--admin-accent)]" onChange={toggleSelectAllVisible} checked={visibleDocs.length && visibleDocs.every(d => selectedIds.has(d.id))} />
               <span>Vali nähtavad</span>
             </label>
-            <div className="rag-docs__summary">
+            <div className={docSummaryClassName}>
               <span>Kokku {docMetrics.total}</span>
-              <span className="rag-docs__dot" aria-hidden="true">
+              <span className={docSummaryDotClassName} aria-hidden="true">
                 |
               </span>
               <span>Filtreeritud {filteredCount}</span>
-              <span className="rag-docs__dot" aria-hidden="true">
+              <span className={docSummaryDotClassName} aria-hidden="true">
                 |
               </span>
               <span>Näitan {visibleDocs.length}</span>
-              {selectedIds.size ? <span className="rag-docs__selected">
+              {selectedIds.size ? <span className={docSummarySelectedClassName}>
                   Valitud {selectedIds.size}
                 </span> : null}
             </div>
           </div>
 
-          <div className="rag-docs__layout">
-            <div className="rag-docs__list">
+          <div className={docsLayoutClassName}>
+            <div className={docsListClassName}>
               {visibleDocs.map(doc => {
               const status = deriveStatus(doc);
               const syncedAt = deriveSyncedAt(doc);
               const isSelected = selectedIds.has(doc.id);
               const isActive = doc.id === previewId;
-              return <div key={doc.id || doc._idx} className={`rag-doc-item${isActive ? " is-active" : ""}`} role="button" tabIndex={0} aria-pressed={isActive} onClick={() => setPreviewId(doc.id)} onKeyDown={e => {
+              return <div key={doc.id || doc._idx} className={`${docItemBaseClassName}${isActive ? " " + docItemActiveClassName : ""}`} role="button" tabIndex={0} aria-pressed={isActive} onClick={() => setPreviewId(doc.id)} onKeyDown={e => {
                 if (e.target !== e.currentTarget) return;
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   setPreviewId(doc.id);
                 }
               }}>
-                    <div className="rag-doc-item__select" onClick={e => e.stopPropagation()}>
-                      <input type="checkbox" checked={isSelected} onChange={() => toggleSelect(doc.id)} />
+                    <div className={docSelectClassName} onClick={e => e.stopPropagation()}>
+                      <input type="checkbox" className="accent-[color:var(--admin-accent)]" checked={isSelected} onChange={() => toggleSelect(doc.id)} />
                     </div>
-                    <div className="rag-doc-item__main">
-                      <div className="rag-doc-item__title">
+                    <div className={docItemMainClassName}>
+                      <div className={docItemTitleClassName}>
                         {doc.title || "(pealkiri puudub)"}
                       </div>
-                      <div className="rag-doc-item__meta">
-                        <span className={STATUS_CLASSES[status] || "badge"}>
+                      <div className={docItemMetaClassName}>
+                        <span className={STATUS_CLASSES[status] || badgeBaseClassName}>
                           {STATUS_LABELS[status] || status}
                         </span>
-                        {doc.section ? <span>{doc.section}</span> : null}
-                        {doc.year ? <span>{doc.year}</span> : null}
-                        {doc.issueLabel ? <span>nr {doc.issueLabel}</span> : null}
+                        {doc.section ? <span className={docItemMetaPillClassName}>{doc.section}</span> : null}
+                        {doc.year ? <span className={docItemMetaPillClassName}>{doc.year}</span> : null}
+                        {doc.issueLabel ? <span className={docItemMetaPillClassName}>nr {doc.issueLabel}</span> : null}
                       </div>
                     </div>
-                    {syncedAt ? <div className="rag-doc-item__time">
+                    {syncedAt ? <div className={docItemTimeClassName}>
                         {formatDateTime(syncedAt)}
                       </div> : null}
                   </div>;
             })}
-              {!visibleDocs.length ? <div className="rag-docs__empty">
+              {!visibleDocs.length ? <div className={docsEmptyClassName}>
                   {loadingList ? "Laen andmeid..." : "Tulemusi ei leitud."}
                 </div> : null}
             </div>
-            <div className="rag-docs__detail">
+            <div className={docDetailWrapperClassName}>
               {previewDoc ? (() => {
               const status = deriveStatus(previewDoc);
               const syncedAt = deriveSyncedAt(previewDoc);
               const pageLabel = previewDoc.pageRange || formatPdfRange(previewDoc) || "-";
               const source = previewDoc.source_path || previewDoc.source_url || previewDoc.url || "";
               const typeLabel = (previewDoc.source_type || previewDoc.type || "").toString().toUpperCase();
-              return <div className="rag-doc-detail">
-                      <div className="rag-doc-detail__top">
+              return <div className={docDetailClassName}>
+                      <div className={docDetailTopClassName}>
                         <div>
-                          <div className="rag-doc-detail__title">
+                          <div className={docDetailTitleClassName}>
                             {previewDoc.title || "(pealkiri puudub)"}
                           </div>
-                          {previewDoc.description ? <div className="rag-doc-detail__desc">
+                          {previewDoc.description ? <div className={docDetailDescClassName}>
                               {previewDoc.description}
                             </div> : null}
                         </div>
-                        <div className="rag-doc-detail__status">
-                          <span className={STATUS_CLASSES[status] || "badge"}>
+                        <div className={docDetailStatusClassName}>
+                          <span className={STATUS_CLASSES[status] || badgeBaseClassName}>
                             {STATUS_LABELS[status] || status}
                           </span>
-                          {syncedAt ? <span className="rag-doc-detail__time">
+                          {syncedAt ? <span className={docDetailTimeClassName}>
                               {formatDateTime(syncedAt)}
                             </span> : null}
                         </div>
                       </div>
-                      <div className="rag-doc-detail__meta">
-                        <div className="rag-doc-detail__meta-item">
-                          <span className="rag-doc-detail__meta-label">
+                      <div className={docDetailMetaClassName}>
+                        <div className={docDetailMetaItemClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             Rubriik
                           </span>
-                          <span className="rag-doc-detail__meta-value">
+                          <span className={docDetailMetaValueClassName}>
                             {previewDoc.section || "-"}
                           </span>
                         </div>
-                        <div className="rag-doc-detail__meta-item">
-                          <span className="rag-doc-detail__meta-label">
+                        <div className={docDetailMetaItemClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             Autorid
                           </span>
-                          <span className="rag-doc-detail__meta-value">
+                          <span className={docDetailMetaValueClassName}>
                             {(previewDoc.authors || []).join(", ") || "-"}
                           </span>
                         </div>
-                        <div className="rag-doc-detail__meta-item">
-                          <span className="rag-doc-detail__meta-label">
+                        <div className={docDetailMetaItemClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             Aasta / nr
                           </span>
-                          <span className="rag-doc-detail__meta-value">
+                          <span className={docDetailMetaValueClassName}>
                             {previewDoc.year || "-"}
                             {previewDoc.issueLabel ? ` / ${previewDoc.issueLabel}` : ""}
                           </span>
                         </div>
-                        <div className="rag-doc-detail__meta-item">
-                          <span className="rag-doc-detail__meta-label">
+                        <div className={docDetailMetaItemClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             Sihtrühm
                           </span>
-                          <span className="rag-doc-detail__meta-value">
+                          <span className={docDetailMetaValueClassName}>
                             {getAudienceLabel(previewDoc.audience)}
                           </span>
                         </div>
-                        <div className="rag-doc-detail__meta-item">
-                          <span className="rag-doc-detail__meta-label">
+                        <div className={docDetailMetaItemClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             Lehekülg
                           </span>
-                          <span className="rag-doc-detail__meta-value">
+                          <span className={docDetailMetaValueClassName}>
                             {pageLabel}
                           </span>
                         </div>
-                        <div className="rag-doc-detail__meta-item">
-                          <span className="rag-doc-detail__meta-label">
+                        <div className={docDetailMetaItemClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             DocId
                           </span>
-                          <span className="rag-doc-detail__meta-value">
+                          <span className={docDetailMetaValueClassName}>
                             {previewDoc.docId || previewDoc.id || "-"}
                           </span>
                         </div>
-                        {previewDoc.journalTitle ? <div className="rag-doc-detail__meta-item">
-                            <span className="rag-doc-detail__meta-label">
+                        {previewDoc.journalTitle ? <div className={docDetailMetaItemClassName}>
+                            <span className={docDetailMetaLabelClassName}>
                               Väljaanne
                             </span>
-                            <span className="rag-doc-detail__meta-value">
+                            <span className={docDetailMetaValueClassName}>
                               {previewDoc.journalTitle}
                             </span>
                           </div> : null}
-                        {previewDoc.language ? <div className="rag-doc-detail__meta-item">
-                            <span className="rag-doc-detail__meta-label">
+                        {previewDoc.language ? <div className={docDetailMetaItemClassName}>
+                            <span className={docDetailMetaLabelClassName}>
                               Keel
                             </span>
-                            <span className="rag-doc-detail__meta-value">
+                            <span className={docDetailMetaValueClassName}>
                               {previewDoc.language}
                             </span>
                           </div> : null}
-                        {typeLabel ? <div className="rag-doc-detail__meta-item">
-                            <span className="rag-doc-detail__meta-label">
+                        {typeLabel ? <div className={docDetailMetaItemClassName}>
+                            <span className={docDetailMetaLabelClassName}>
                               Tüüp
                             </span>
-                            <span className="rag-doc-detail__meta-value">
+                            <span className={docDetailMetaValueClassName}>
                               {typeLabel}
                             </span>
                           </div> : null}
-                        {previewDoc.articleId ? <div className="rag-doc-detail__meta-item">
-                            <span className="rag-doc-detail__meta-label">
+                        {previewDoc.articleId ? <div className={docDetailMetaItemClassName}>
+                            <span className={docDetailMetaLabelClassName}>
                               ArticleId
                             </span>
-                            <span className="rag-doc-detail__meta-value">
+                            <span className={docDetailMetaValueClassName}>
                               {previewDoc.articleId}
                             </span>
                           </div> : null}
                       </div>
-                      <div className="rag-doc-detail__tags">
-                        <span className="rag-doc-detail__meta-label">
+                      <div className={docDetailTagsClassName}>
+                        <span className={docDetailMetaLabelClassName}>
                           Sildid
                         </span>
                         {renderTags(previewDoc.tags)}
                       </div>
-                      {source ? <div className="rag-doc-detail__source">
-                          <span className="rag-doc-detail__meta-label">
+                      {source ? <div className={docDetailSourceClassName}>
+                          <span className={docDetailMetaLabelClassName}>
                             Allikas
                           </span>
-                          <span className="rag-doc-detail__source-text">
+                          <span className={docDetailSourceTextClassName}>
                             {source}
                           </span>
                         </div> : null}
-                      <div className="rag-doc-detail__actions">
-                        <Button variant="ghost" className="rag-btn rag-btn--ghost rag-btn--compact" onClick={() => openDetail(previewDoc)}>
+                      <div className={docDetailActionsClassName}>
+                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => openDetail(previewDoc)}>
                           Muuda
                         </Button>
-                        <Button variant="ghost" className="rag-btn rag-btn--ghost rag-btn--compact" onClick={() => handleReindex(previewDoc.id)} disabled={reindexingId === previewDoc.id}>
+                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => handleReindex(previewDoc.id)} disabled={reindexingId === previewDoc.id}>
                           {reindexingId === previewDoc.id ? "Reindekseerin..." : "Reindekseeri"}
                         </Button>
-                        <Button variant="danger" className="rag-btn rag-btn--danger rag-btn--compact" onClick={() => handleDelete(previewDoc.id)} disabled={deletingId === previewDoc.id}>
+                        <Button variant="danger" className={`${buttonBaseClassName} ${buttonDangerClassName} ${buttonCompactClassName}`} onClick={() => handleDelete(previewDoc.id)} disabled={deletingId === previewDoc.id}>
                           {deletingId === previewDoc.id ? "Kustutan..." : "Kustuta"}
                         </Button>
-                        <Button variant="ghost" className="rag-btn rag-btn--ghost rag-btn--compact" onClick={() => viewSource(previewDoc)} disabled={!previewDoc.source_path && !previewDoc.url}>
+                        <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => viewSource(previewDoc)} disabled={!previewDoc.source_path && !previewDoc.url}>
                           Vaata
                         </Button>
                       </div>
                     </div>;
-            })() : <div className="rag-doc-detail__empty">
+            })() : <div className={docDetailEmptyClassName}>
                   Vali materjal, et näha detaile.
                 </div>}
             </div>
@@ -1317,114 +1439,136 @@ export default function RagAdminPanel() {
         </div>
 
         {visibleCount < filteredDocs.length ? <div className="flex flex-wrap items-center gap-2">
-            <Button variant="primary" className="rag-btn" onClick={() => setVisibleCount(c => c + PAGE_SIZE)}>
+            <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={() => setVisibleCount(c => c + PAGE_SIZE)}>
               Laadi veel{" "}
               {Math.min(PAGE_SIZE, filteredDocs.length - visibleCount)}
             </Button>
           </div> : null}
+        </div>
       </div>
 
-      {detailDoc ? <div className="modal" role="dialog" aria-modal="true">
-          <div className="modal-body">
-            <div className="modal-head">
+      {detailDoc ? <Modal open={true} variant="glass" onClose={closeDetail} closeOnOverlayClick>
+          <div className={modalBodyClassName}>
+            <div className={ragModalHeadClassName}>
               <div>
                 <CardTitle>Muuda meta</CardTitle>
-                <div className="muted">{detailDoc.title || "(pealkiri)"}</div>
+                <div className="text-[0.95rem] text-[color:var(--admin-muted)]">{detailDoc.title || "(pealkiri)"}</div>
               </div>
-              <Button variant="primary" className="rag-btn" onClick={closeDetail}>
+              <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
                 Sulge
               </Button>
             </div>
-            <div className="flex flex-col gap-2 rounded-[16px] border border-[color:var(--rag-border)] bg-[color:var(--rag-surface-2)] p-[14px] text-[color:var(--rag-text)]">
-              <input value={detailForm.title} onChange={e => setDetailForm(f => ({
+            <div className={panelStackClassName}>
+              <Input value={detailForm.title} onChange={e => setDetailForm(f => ({
             ...f,
             title: e.target.value
-          }))} className="input" placeholder="Pealkiri" />
-              <textarea value={detailForm.description} onChange={e => setDetailForm(f => ({
+          }))} className={inputClassName} size="sm" />
+              <Textarea value={detailForm.description} onChange={e => setDetailForm(f => ({
             ...f,
             description: e.target.value
-          }))} className="input" rows={3} placeholder="Kirjeldus" />
+          }))} className={inputClassName} size="sm" rows={3} />
               <div className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-2">
-                <input value={detailForm.authors} onChange={e => setDetailForm(f => ({
+                <Input value={detailForm.authors} onChange={e => setDetailForm(f => ({
               ...f,
               authors: e.target.value
-            }))} className="input" placeholder="Autorid (komadega)" />
-                <input value={detailForm.tags} onChange={e => setDetailForm(f => ({
+            }))} className={inputClassName} size="sm" />
+                <Input value={detailForm.tags} onChange={e => setDetailForm(f => ({
               ...f,
               tags: e.target.value
-            }))} className="input" placeholder="Sildid (komadega)" />
+            }))} className={inputClassName} size="sm" />
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
-                <input value={detailForm.section} onChange={e => setDetailForm(f => ({
+                <Input value={detailForm.section} onChange={e => setDetailForm(f => ({
               ...f,
               section: e.target.value
-            }))} className="input" placeholder="Rubriik" />
-                <input value={detailForm.issueLabel} onChange={e => setDetailForm(f => ({
+            }))} className={inputClassName} size="sm" />
+                <Input value={detailForm.issueLabel} onChange={e => setDetailForm(f => ({
               ...f,
               issueLabel: e.target.value
-            }))} className="input" placeholder="Väljaanne" />
-                <input value={detailForm.year} onChange={e => setDetailForm(f => ({
+            }))} className={inputClassName} size="sm" />
+                <Input value={detailForm.year} onChange={e => setDetailForm(f => ({
               ...f,
               year: e.target.value
-            }))} className="input" placeholder="Aasta" />
+            }))} className={inputClassName} size="sm" />
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
-                <input value={detailForm.issueId} onChange={e => setDetailForm(f => ({
+                <Input value={detailForm.issueId} onChange={e => setDetailForm(f => ({
               ...f,
               issueId: e.target.value
-            }))} className="input" placeholder="IssueId" />
-                <input value={detailForm.journalTitle} onChange={e => setDetailForm(f => ({
+            }))} className={inputClassName} size="sm" />
+                <Input value={detailForm.journalTitle} onChange={e => setDetailForm(f => ({
               ...f,
               journalTitle: e.target.value
-            }))} className="input" placeholder="Väljaanne" />
-                <input value={detailForm.articleId} onChange={e => setDetailForm(f => ({
+            }))} className={inputClassName} size="sm" />
+                <Input value={detailForm.articleId} onChange={e => setDetailForm(f => ({
               ...f,
               articleId: e.target.value
-            }))} className="input" placeholder="ArticleId" />
+            }))} className={inputClassName} size="sm" />
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
                 <select value={detailForm.audience} onChange={e => setDetailForm(f => ({
               ...f,
               audience: e.target.value
-            }))} className="input">
+            }))} className={selectClassName}>
                   {AUDIENCE_OPTIONS.map(o => <option key={o.value} value={o.value}>
                       {o.label}
                     </option>)}
                 </select>
-                <input value={detailForm.pageRange} onChange={e => setDetailForm(f => ({
+                <Input value={detailForm.pageRange} onChange={e => setDetailForm(f => ({
               ...f,
               pageRange: e.target.value
-            }))} className="input" placeholder="Lehekülg" />
-                <input value={detailForm.pdf_start_page} onChange={e => setDetailForm(f => ({
+            }))} className={inputClassName} size="sm" />
+                <Input value={detailForm.pdf_start_page} onChange={e => setDetailForm(f => ({
               ...f,
               pdf_start_page: e.target.value
-            }))} className="input" placeholder="PDF algus" />
+            }))} className={inputClassName} size="sm" />
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2">
-                <input value={detailForm.pdf_end_page} onChange={e => setDetailForm(f => ({
+                <Input value={detailForm.pdf_end_page} onChange={e => setDetailForm(f => ({
               ...f,
               pdf_end_page: e.target.value
-            }))} className="input" placeholder="PDF lõpp" />
-                <div className="input read-only">
+            }))} className={inputClassName} size="sm" />
+                <div className={readOnlyFieldClassName}>
                   docId: {detailDoc.docId || "-"}
                 </div>
-                <div className="input read-only">
+                <div className={readOnlyFieldClassName}>
                   type: {detailDoc.source_type || detailDoc.type || "-"}
                 </div>
-                <div className="input read-only">
+                <div className={readOnlyFieldClassName}>
                   language: {detailDoc.language || "-"}
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <Button variant="primary" className="rag-btn rag-btn--primary" onClick={saveDetail}>
+                <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={saveDetail}>
                   Salvesta
                 </Button>
-                <Button variant="primary" className="rag-btn" onClick={closeDetail}>
+                <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
                   Tühista
                 </Button>
               </div>
             </div>
           </div>
-        </div> : null}
+        </Modal> : null}
     </div>;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
