@@ -161,10 +161,10 @@
 }
 
 .csp-scrim--top.csp-scrim--chevron .csp-chevron-frame {
-  top: 1.1rem;
+  top: var(--csp-chevron-top, 1.1rem);
 }
 .csp-scrim--bottom.csp-scrim--chevron .csp-chevron-frame {
-  bottom: -0.35rem;
+  bottom: var(--csp-chevron-bottom, -0.35rem);
 }
 .csp-scrim--top.csp-scrim--chevron .csp-chevron-icon {
   background-image: var(--csp-arrow-up);

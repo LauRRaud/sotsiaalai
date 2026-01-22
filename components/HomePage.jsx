@@ -33,8 +33,10 @@ export default function HomePage() {
   } = useAccessibility();
   const t = useT();
   const [hasSeenIntro] = useState(() => homeIntroSeen);
-  const [leftFadeDone, setLeftFadeDone] = useState(() => prefs.reduceMotion || hasSeenIntro);
-  const [rightFadeDone, setRightFadeDone] = useState(() => prefs.reduceMotion || hasSeenIntro);
+  const initialSkipIntro = prefs.reduceMotion || hasSeenIntro;
+  const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
+  const [rightFadeDone, setRightFadeDone] = useState(() => initialSkipIntro);
+  const [introStart, setIntroStart] = useState(() => initialSkipIntro);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
@@ -160,8 +162,17 @@ export default function HomePage() {
       setLeftFadeDone(true);
       setRightFadeDone(true);
       setMagnetReady(false);
+      setIntroStart(true);
     }
   }, [prefs.reduceMotion]);
+  useEffect(() => {
+    if (initialSkipIntro) {
+      setIntroStart(true);
+      return;
+    }
+    const raf = requestAnimationFrame(() => setIntroStart(true));
+    return () => cancelAnimationFrame(raf);
+  }, [initialSkipIntro]);
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const tt = setTimeout(() => setMagnetReady(true), 150);
@@ -226,6 +237,7 @@ export default function HomePage() {
     suppressFlipRef.current = false;
   }, []);
   const skipIntroAnimations = prefs.reduceMotion || hasSeenIntro;
+  const shouldFadeIn = introStart && !skipIntroAnimations;
   const footerFadeClass = skipIntroAnimations ? "" : cn(styles["defer-fade"], styles["defer-from-bottom"], styles["delay-2"]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen && !homeChatOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
@@ -380,7 +392,7 @@ export default function HomePage() {
                   isActive
                 }) => <div className={styles["card-wrapper"]} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                       <div className={cn(styles["card-face"], styles.front)}>
-                        <div ref={setLeftCardEl} className={cn(styles["glass-card"], styles["glass-card-light"], "left-card-primary", !leftFadeDone ? styles["fade-in"] : null, leftFadeDone ? styles["fade-in-done"] : null, leftFadeDone && isActive ? "glow-active" : null)} style={{
+                        <div ref={setLeftCardEl} className={cn(styles["glass-card"], styles["glass-card-light"], "left-card-primary", !leftFadeDone && shouldFadeIn ? styles["fade-in"] : null, leftFadeDone ? styles["fade-in-done"] : null, leftFadeDone && isActive ? "glow-active" : null)} style={{
                       position: "relative"
                     }}>
                           <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
@@ -394,7 +406,7 @@ export default function HomePage() {
                   }} style={!leftInteractive ? {
                     pointerEvents: "none"
                   } : {}} data-interactive={leftInteractive ? "true" : "false"}>
-                        <div className={cn(styles["centered-back-left"], !leftFadeDone ? styles["fade-in"] : null, "glow-static")}>
+                        <div className={cn(styles["centered-back-left"], !leftFadeDone && shouldFadeIn ? styles["fade-in"] : null, "glow-static")}>
                           <h2 className={styles["headline-bold"]}>
                             {t("home.card.specialist.title")}
                           </h2>
@@ -413,7 +425,7 @@ export default function HomePage() {
                   isActive
                 }) => <div className={styles["card-wrapper"]} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                       <div className={cn(styles["card-face"], styles.front)}>
-                        <div ref={setRightCardEl} className={cn(styles["glass-card"], styles["glass-card-dark"], "right-card-primary", !rightFadeDone ? styles["fade-in"] : null, rightFadeDone ? styles["fade-in-done"] : null, rightFadeDone && isActive ? "glow-active" : null)} style={{
+                        <div ref={setRightCardEl} className={cn(styles["glass-card"], styles["glass-card-dark"], "right-card-primary", !rightFadeDone && shouldFadeIn ? styles["fade-in"] : null, rightFadeDone ? styles["fade-in-done"] : null, rightFadeDone && isActive ? "glow-active" : null)} style={{
                       position: "relative"
                     }}>
                           <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
@@ -427,7 +439,7 @@ export default function HomePage() {
                   }} style={!rightInteractive ? {
                     pointerEvents: "none"
                   } : {}} data-interactive={rightInteractive ? "true" : "false"}>
-                        <div className={cn(styles["centered-back-right"], !rightFadeDone ? styles["fade-in"] : null, "glow-static")}>
+                        <div className={cn(styles["centered-back-right"], !rightFadeDone && shouldFadeIn ? styles["fade-in"] : null, "glow-static")}>
                           <h2 className={styles["headline-bold"]}>
                             {t("home.card.client.title")}
                           </h2>

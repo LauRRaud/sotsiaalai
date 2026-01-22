@@ -22,10 +22,11 @@ import { useConversationSources } from "@/components/chat/hooks/useConversationS
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
-const chatTitleClassName = "mt-[2.9rem] mb-[1.2rem] text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const backWrapperClassName = "absolute left-[max(0px,calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem)-clamp(0.6rem,1.6vw,1rem)))] top-1/2 -translate-y-1/2 z-[80] flex items-center justify-start pointer-events-none";
-const backButtonClassName = "inline-flex h-[5.7rem] w-[5.7rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98] pointer-events-auto";
-const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
+import profileStyles from "@/components/alalehed/ProfiilBody.module.css";
+const chatTitleClassName = "mt-[2.9rem] mb-[1.2rem] text-center text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const backWrapperClassName = "absolute left-[max(0px,calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem)-clamp(0.6rem,1.6vw,1rem)))] top-1/2 -translate-y-1/2 z-[80] flex h-[5.7rem] w-[5.7rem] items-center justify-center pointer-events-none";
+const backButtonClassName = profileStyles.backButton;
+const backIconClassName = profileStyles.backIcon;
 const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
@@ -478,8 +479,8 @@ export default function ChatBody({
             <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
               <div className={`main-content glass-box chat-container chat-container--round${inputFocused && !profileOpen ? " chat-container--input-focus" : ""}`} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef}>
                 <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
-                {!profileOpen ? <div className={`${backWrapperClassName}${analysis.showAnalysisPanel ? " invisible" : ""}`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
-                    <button type="button" className={backButtonClassName} onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
+                {!profileOpen ? <div className={`${backWrapperClassName}${analysis.showAnalysisPanel ? " invisible" : ""} -translate-x-[0.35rem]`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
+                    <button type="button" className={`${backButtonClassName} pointer-events-auto relative z-[90]`} onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
                       <span className={backIconClassName} />
                     </button>
                   </div> : null}

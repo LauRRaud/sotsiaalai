@@ -8,7 +8,6 @@ import IconButton from "@/components/ui/IconButton";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
-import SegmentedControl from "@/components/ui/SegmentedControl";
 function parseEmails(raw) {
   if (!raw) return [];
   const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
@@ -19,7 +18,8 @@ export default function InviteModal() {
     data: session
   } = useSession();
   const {
-    t
+    t,
+    locale
   } = useI18n();
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState(null);
@@ -39,6 +39,14 @@ export default function InviteModal() {
     value: "sponsored_by_host",
     label: t("invite.pay.host")
   }];
+  const formatSentenceCase = text => {
+    const raw = typeof text === "string" ? text.trim() : "";
+    if (!raw) return text;
+    if (raw !== raw.toUpperCase()) return text;
+    const lower = raw.toLocaleLowerCase(locale || "et");
+    return `${lower.charAt(0).toLocaleUpperCase(locale || "et")}${lower.slice(1)}`;
+  };
+  const sendLabel = formatSentenceCase(t("invite.send"));
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
@@ -160,7 +168,7 @@ export default function InviteModal() {
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="relative overflow-visible pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className="w-full text-center text-[1.7rem] font-[400] tracking-[0.03em] text-[color:var(--glass-modal-title-color)] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif]">
+        <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]">
           {t("invite.eyebrow")}
         </h2>
       </header>
@@ -174,7 +182,14 @@ export default function InviteModal() {
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name")} aria-label={t("invite.host_name")} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
-            <SegmentedControl className="[--seg-card-bg:var(--input-bg)] [--seg-card-bg-hover:var(--input-bg-hover)] [--seg-card-bg-selected:var(--input-bg-hover)] [--seg-card-text-hover:var(--input-text)] [--seg-card-shadow-hover:var(--input-shadow)]" name="payment" value={paymentMode} options={paymentOptions} onChange={setPaymentMode} disabled={busy} />
+            <div className="grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
+              {paymentOptions.map(option => (
+                <label key={option.value} className={`invite-choice-card w-full text-[1.08rem] !py-[0.5rem] !px-[0.8rem] ${paymentMode === option.value ? "is-checked" : ""}`}>
+                  <input type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} />
+                  <span className="flex-1">{option.label}</span>
+                </label>
+              ))}
+            </div>
 
             {error ? <p className="text-center text-[color:#fca5a5]" role="alert">
                 {error}
@@ -184,8 +199,8 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" className="min-w-[9.5rem]" disabled={busy}>
-                {busy ? t("invite.sending") : t("invite.send")}
+              <Button type="submit" variant="primary" size="sm" className="min-w-[8.4rem] text-[1.02rem] py-[0.55rem] px-[1.15rem]" disabled={busy}>
+                {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
           </form>}
@@ -195,7 +210,7 @@ export default function InviteModal() {
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" size="sm" className="text-[1rem] py-[0.52rem] px-[1.05rem]" onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>
