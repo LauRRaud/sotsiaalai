@@ -22,6 +22,13 @@ import { useConversationSources } from "@/components/chat/hooks/useConversationS
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
+const chatTitleClassName = "mt-[2.9rem] mb-[1.2rem] text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const backWrapperClassName = "absolute left-[max(0px,calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem)-clamp(0.6rem,1.6vw,1rem)))] top-1/2 -translate-y-1/2 z-[80] flex items-center justify-start pointer-events-none";
+const backButtonClassName = "inline-flex h-[5.7rem] w-[5.7rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98] pointer-events-auto";
+const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
+const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
+const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
+const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -471,15 +478,15 @@ export default function ChatBody({
             <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
               <div className={`main-content glass-box chat-container chat-container--round${inputFocused && !profileOpen ? " chat-container--input-focus" : ""}`} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef}>
                 <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
-                {!profileOpen ? <div className={`back-btn-wrapper back-btn-wrapper--side${analysis.showAnalysisPanel ? " is-hidden" : ""}`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
-                    <button type="button" className="back-arrow-btn" onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
-                      <span className="back-arrow-circle" />
+                {!profileOpen ? <div className={`${backWrapperClassName}${analysis.showAnalysisPanel ? " invisible" : ""}`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
+                    <button type="button" className={backButtonClassName} onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
+                      <span className={backIconClassName} />
                     </button>
                   </div> : null}
 
                 <RightRail t={t} roomId={roomId} isLightTheme={isLightTheme} inputFocused={inputFocused} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} />
 
-                <h1 className="glass-title">{t("chat.title")}</h1>
+                <h1 className={chatTitleClassName}>{t("chat.title")}</h1>
                 {isRoomMode && roomTitle ? <div className="room-title-sub">{roomTitle}</div> : null}
 
                 {isCrisis ? <div role="alert" className="mt-[0.35rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]">
@@ -489,11 +496,11 @@ export default function ChatBody({
                 {errorBanner ? <div role="alert" className="chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]">
                     {errorBanner}
                   </div> : null}
-                {isRoomMode && roomBlocked ? <div className="glass-note chat-error-banner" role="alert">
+                {isRoomMode && roomBlocked ? <div className={chatNoteClassName} role="alert">
                     {t("chat.room.blocked")}
                   </div> : null}
 
-                {isRoomMode && roomAuthRequired ? <div className="glass-note chat-error-banner" role="alert">
+                {isRoomMode && roomAuthRequired ? <div className={chatNoteClassName} role="alert">
                     {t("chat.room.auth_required")}
                   </div> : null}
 
@@ -502,9 +509,9 @@ export default function ChatBody({
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} />
 
                 {isRoomMode && inputFocused ? <div className="chat-ai-toggle">
-                    <label className="glass-checkbox chat-ai-checkbox">
-                      <input type="checkbox" checked={sendToAssistant} onChange={e => setSendToAssistant(e.target.checked)} aria-describedby="chat-ai-hint" />
-                      <span className="checkbox-text">
+                    <label className={aiToggleLabelClassName}>
+                      <input type="checkbox" className={aiToggleInputClassName} checked={sendToAssistant} onChange={e => setSendToAssistant(e.target.checked)} aria-describedby="chat-ai-hint" />
+                      <span className="text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">
                         {t("chat.ai_toggle.label")}
                       </span>
                     </label>
@@ -513,7 +520,7 @@ export default function ChatBody({
                     </span>
                   </div> : null}
 
-                {recordingError ? <div role="alert" className="glass-note chat-error-banner mt-[0.5rem]">
+                {recordingError ? <div role="alert" className={chatNoteClassName}>
                     {recordingError}
                   </div> : null}
 

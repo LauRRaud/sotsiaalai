@@ -3,6 +3,8 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
+const docToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
+const docToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -139,9 +141,9 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
           {uploadPreview ? <>
               <div className="chat-analysis-controls chat-analysis-controls--context chat-analysis-controls--header">
                 <div className="chat-analysis-mode-row">
-                  <label className="glass-checkbox chat-analysis-checkbox" id="chat-doc-mode-label">
-                    <input type="checkbox" checked={!docOnlyMode} onChange={e => setDocOnlyMode(!e.target.checked)} aria-describedby="chat-upload-context-hint" />
-                    <span className="checkbox-text">{extendedLabel}</span>
+                  <label className={docToggleLabelClassName} id="chat-doc-mode-label">
+                    <input type="checkbox" className={docToggleInputClassName} checked={!docOnlyMode} onChange={e => setDocOnlyMode(!e.target.checked)} aria-describedby="chat-upload-context-hint" />
+                    <span className="text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">{extendedLabel}</span>
                   </label>
                   <button type="button" className="chat-context-info chat-context-info--inline chat-context-info--label" aria-label={contextHint} onClick={e => {
                 e.preventDefault();
