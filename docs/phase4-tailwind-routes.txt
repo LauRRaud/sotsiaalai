@@ -12,3 +12,4 @@
 /registreerimine	app/registreerimine/page.js
 /join	app/join/page.jsx
 /taasta-parool/[token]	app/taasta-parool/[token]/page.jsx
+/admin/analytics\tapp/admin/analytics/page.jsx

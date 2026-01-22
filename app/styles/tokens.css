@@ -225,3 +225,25 @@
   --pt-avatar-ring: #b7b1a7;
   --pt-avatar-ring-hover: #c8c3ba;
 }
+:root {
+  --admin-bg: radial-gradient(
+    circle at 20% 0%,
+    rgba(148, 163, 184, 0.08),
+    transparent 55%
+  );
+  --admin-surface: #141c27;
+  --admin-surface-2: #111825;
+  --admin-surface-3: #0c121a;
+  --admin-border: rgba(148, 163, 184, 0.22);
+  --admin-border-strong: rgba(148, 163, 184, 0.38);
+  --admin-text: #eef3fb;
+  --admin-muted: #99a8bf;
+  --admin-accent: #f4b36b;
+  --admin-accent-soft: rgba(244, 179, 107, 0.2);
+  --admin-accent-cool: #3ab6a7;
+  --admin-accent-cool-soft: rgba(58, 182, 167, 0.2);
+  --admin-danger: #ff7480;
+  --admin-success: #4ade80;
+  --admin-shadow: 0 24px 40px rgba(0, 0, 0, 0.35);
+  --admin-shadow-soft: 0 12px 26px rgba(0, 0, 0, 0.22);
+}
