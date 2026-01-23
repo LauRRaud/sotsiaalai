@@ -1,8 +1,4 @@
-.glass-title,
-.headline,
-.glass-label,
-.right-card-primary .headline-bold,
-.left-card-primary .headline-bold {
+.right-card-primary .headline-bold, .left-card-primary .headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
@@ -11,23 +7,9 @@
   color: var(--brand-primary);
 }
 
-body,
-p,
-ul,
-li,
-.glass-list,
-.glass-section {
+body, p, ul, li, .glass-section {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
-}
-
-.doc-body {
-  font-size: 1.18rem;
-  line-height: 1.62;
-}
-.doc-body .glass-list {
-  font-size: 1.18rem;
-  line-height: 1.62;
 }
 b,
 strong {
@@ -35,14 +17,11 @@ strong {
   font-weight: 700;
   letter-spacing: 0.03em;
 }
-h2,
-.glass-label {
+h2 {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: bold;
 }
-a,
-.link-brand,
-.meist-external-link {
+a, .link-brand {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
@@ -66,36 +45,17 @@ main#main > .main-content.glass-box {
 a {
   text-decoration: none;
 }
-.btn-primary,
-.btn-primary span,
-.chat-send-btn,
-.chat-send-btn.stop,
-.button {
+.chat-send-btn, .chat-send-btn.stop, .button {
   font-family: var(--font-aino), Arial, sans-serif;
   letter-spacing: 0.06em;
 }
-input,
-textarea,
-select,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-.chat-input-field,
-.input-modern,
-.reset-input {
+input, textarea, select, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], .chat-input-field, .input-modern {
   font-family: var(--font-aino), Arial, sans-serif;
 }
-input::placeholder,
-textarea::placeholder,
-.chat-input-field::placeholder,
-.input-modern::placeholder,
-.reset-input::placeholder {
+input::placeholder, textarea::placeholder, .chat-input-field::placeholder, .input-modern::placeholder {
   font-family: var(--font-aino), Arial, sans-serif;
 }
-label,
-.glass-label {
+label {
   font-family: var(--font-aino), Arial, sans-serif;
 }
 input,
@@ -105,10 +65,7 @@ button,
 label {
   font-family: var(--font-aino), Arial, sans-serif;
 }
-.glass-box,
-.glass-box p,
-.meist-body,
-.meist-body p {
+.glass-box, .glass-box p {
   hyphens: auto;
   word-break: break-word;
   overflow-wrap: break-word;

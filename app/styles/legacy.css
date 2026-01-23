@@ -20,7 +20,4 @@
 @import "./components/notifications.css";
 @import "./base/a11y.css";
 @import "./theme/late-overrides.css";
-@import "./pages/rag-admina.css";
 @import "./components/tables.css";
-@import "./pages/rag-adminb.css";
-@import "./pages/profile.css";

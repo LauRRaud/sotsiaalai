@@ -1,7 +1,4 @@
-.link-brand,
-.unustasid-parooli-link,
-.login-modal-bottom-link .link-brand,
-.link-brand-inline {
+.link-brand, .unustasid-parooli-link, .login-modal-bottom-link .link-brand {
   color: #f2e3d4;
   display: inline-block;
   font-size: 1em;
@@ -20,9 +17,9 @@
   font-size: 1.1em;
 }
 .login-modal-bottom-link .link-brand {
-  font-size: 1.38em;
-  letter-spacing: 0.06em;
-  padding: 0.05em 0.3em;
+  font-size: 1.15em;
+  letter-spacing: 0.045em;
+  padding: 0.04em 0.24em;
   border-radius: 0.32em;
 }
 .install-section {
@@ -40,43 +37,9 @@
 .unustasid-parooli-link {
   font-size: 0.92em;
 }
-.meist-external-link {
-  color: #c05e5e;
-  display: inline-block;
-  font-size: 1.05em;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  padding: 0.02em 0.2em;
-  border: 2px solid transparent;
-  border-radius: 0.3em;
-  background: none;
-  text-decoration: none;
-  transition:
-    border 0.17s,
-    box-shadow 0.13s;
-}
-.link-brand-inline {
-  font-size: 0.95em;
-  letter-spacing: 0.02em;
-  padding: 0.02em 0.18em;
-}
-.link-brand:hover,
-.link-brand:focus,
-.unustasid-parooli-link:hover,
-.unustasid-parooli-link:focus,
-.login-modal-bottom-link .link-brand:hover,
-.login-modal-bottom-link .link-brand:focus,
-.link-brand-inline:hover,
-.link-brand-inline:focus {
+.link-brand:hover, .link-brand:focus, .unustasid-parooli-link:hover, .unustasid-parooli-link:focus, .login-modal-bottom-link .link-brand:hover, .login-modal-bottom-link .link-brand:focus {
   color: #f2e3d4;
   border: 2px solid #e1a0a0;
   background: none;
   box-shadow: 0 0 0.4375rem 0 rgba(175, 170, 163, 0.4);
-}
-.meist-external-link:hover,
-.meist-external-link:focus {
-  color: #c05e5e;
-  border: 2px solid #c05e5e;
-  background: none;
-  box-shadow: 0 0 0.25rem 0 rgba(192, 94, 94, 0.3);
 }

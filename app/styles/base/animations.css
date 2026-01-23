@@ -232,9 +232,6 @@
   animation-delay: var(--fade-delay);
   will-change: opacity, transform;
 }
-.defer-from-top {
-  --start-ty: -12px;
-}
 .defer-from-bottom {
   --start-ty: 0.75rem;
 }
