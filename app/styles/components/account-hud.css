@@ -49,11 +49,6 @@
 
 
 
-@supports not (
-  (backdrop-filter: blur(0.25rem)) or (-webkit-backdrop-filter: blur(0.25rem))
-) {
-
-}
 
 
 
@@ -100,16 +95,6 @@
 
 
 
-@media (max-width: 789px) {
-
-}
-@media (max-width: 768px) {
-
-
-
-
-
-}
 
 
 
@@ -200,12 +185,6 @@
 :root:not(.theme-light) .login-modal-close.modal-close-btn {
   color: #c57171;
 }
-@media (max-width: 48em) {
-}
-.login-submit-icon-btn:hover .login-submit-icon,
-.login-submit-icon-btn:focus-visible .login-submit-icon {
-  transform: none;
-}
 .login-submit-icon {
   width: 5rem;
   height: 5rem;
@@ -246,14 +225,6 @@
   box-shadow: none;
   color: var(--pt-30, #f7f9ff);
 }
-:root:not(.theme-light) .register-form .input-modern:focus,
-:root:not(.theme-light) .register-form .input-modern:focus-visible {
-  border-color: var(--form-border-strong);
-  background: var(--form-surface);
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.22),
-    var(--register-under-glow);
-}
 .login-modal-root .login-modal-form .input-email-icon {
   cursor: var(--cursor-pointer);
 }
@@ -269,12 +240,6 @@
 .login-modal-root {
   --login-envelope-size: clamp(4.4rem, 7vw, 5.2rem);
   --login-envelope-hit: clamp(4.4rem, 7vw, 5.2rem);
-}
-.login-modal-root .login-email-toggle {
-  display: flex;
-  justify-content: center;
-  margin-top: -1rem;
-  margin-bottom: 0.8rem;
 }
 .login-modal-root .login-email-icon-btn {
   width: var(--login-envelope-hit);
@@ -307,8 +272,4 @@
   outline: none;
   box-shadow: none;
   transform: translateY(-1px) scale(1.08);
-}
-.login-email-toggle .login-email-icon-btn {
-  margin-top: -1.5rem;
-  margin-bottom: -1.5rem;
 }

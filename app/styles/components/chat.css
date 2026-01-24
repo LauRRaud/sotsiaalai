@@ -113,16 +113,12 @@ main#main > .main-content.glass-box.chat-container,
 }
 :root.theme-light
   .glass-box.chat-container
-  > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(
-    .chat-right-actions
-  ):not(.top-nav-toggle):not(.back-btn-wrapper) {
+  > :not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions) {
   z-index: 1;
 }
 :root:not(.theme-light)
   .glass-box.chat-container
-  > :not(.avatar-link):not(.chat-sources-overlay):not(.top-nav--chat):not(
-    .chat-right-actions
-  ):not(.top-nav-toggle):not(.back-btn-wrapper) {
+  > :not(.chat-sources-overlay):not(.top-nav--chat):not(.chat-right-actions) {
   z-index: 1;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx) {
@@ -835,7 +831,7 @@ main#main > .main-content.glass-box.chat-container,
 .chat-analysis-actions .chat-analysis-jump {
   display: inline-flex;
 }
-.chat-analysis-actions--inline .chat-analysis-jump:not(.btn-base) {
+.chat-analysis-actions--inline .chat-analysis-jump {
   padding: 0.42rem 0.95rem;
 }
 
@@ -1487,12 +1483,6 @@ body.home-chat-open .chat-roll-card:not(.is-rolling)::after {
     calc(var(--chat-diameter, 100%) / 2) clamp(1.6rem, 3.5vw, 2.4rem)
     clamp(1.6rem, 3.5vw, 2.4rem);
 }
-.chat-roll-card.roll-right {
-  --roll-trail-x: 30%;
-}
-.chat-roll-card.roll-left {
-  --roll-trail-x: 70%;
-}
 .chat-roll-card::before {
   content: "";
   position: absolute;
@@ -1549,14 +1539,6 @@ body.home-chat-open .chat-roll-card:not(.is-rolling)::after {
   pointer-events: auto;
   transition: opacity 240ms ease;
 }
-.chat-roll-card.is-rolling.roll-right {
-  transform: rotateY(var(--roll-angle)) translateX(var(--roll-shift))
-    scale(var(--roll-scale));
-}
-.chat-roll-card.is-rolling.roll-left {
-  transform: rotateY(var(--roll-angle-neg)) translateX(var(--roll-shift-neg))
-    scale(var(--roll-scale));
-}
 .chat-roll-card::after {
   content: "";
   position: absolute;
@@ -1589,12 +1571,6 @@ body.home-chat-open .chat-roll-card:not(.is-rolling)::after {
 .chat-roll-card.is-rolling::after {
   opacity: var(--roll-trail-opacity);
 }
-.chat-roll-card.is-rolling.roll-right::after {
-  transform: translateX(var(--roll-shift-neg));
-}
-.chat-roll-card.is-rolling.roll-left::after {
-  transform: translateX(var(--roll-shift));
-}
 
 :root .chat-roll-face--chat .glass-box.chat-container::before {
   content: none;
@@ -1603,10 +1579,6 @@ body.home-chat-open .chat-roll-card:not(.is-rolling)::after {
   backdrop-filter: none;
 }
 
-
-@media (min-width: 48em) {
-
-}
 
 @media (max-width: 48em) {
   .chat-roll-card {

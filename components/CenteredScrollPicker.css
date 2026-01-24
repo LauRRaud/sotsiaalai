@@ -197,24 +197,6 @@
   pointer-events: none;
 }
 
-.csp-overlayTitle .glass-title {
-  margin: 0;
-  line-height: 1.05;
-  text-align: center;
-  font-size: clamp(1.15rem, 2.6vw, 1.65rem);
-}
-.a11y-modal .csp-container {
-  --csp-title-offset: 4.4rem;
-  padding-top: calc(var(--csp-pad, 0px) + var(--csp-title-offset));
-  padding-bottom: var(--csp-pad, 0px);
-}
-
-.a11y-modal .a11y-actions.a11y-snap.csp-step {
-  margin: 0.34rem 0;
-}
-.a11y-modal .csp-scrim--top {
-  top: var(--csp-title-offset, 0px);
-}
 
 @media (prefers-reduced-motion: reduce) {
   .csp-item,

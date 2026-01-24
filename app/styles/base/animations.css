@@ -235,25 +235,11 @@
 .defer-from-bottom {
   --start-ty: 0.75rem;
 }
-.defer-fade.delay-1 {
-  --fade-delay: 1600ms;
-}
 .defer-fade.delay-2 {
   --fade-delay: 1900ms;
 }
-.footer-logo-img.defer-fade {
-  --end-op: 0.55;
-}
-:root.theme-light .homepage-root .footer-logo-img.defer-fade {
-  --end-op: 0.85;
-}
-.top-center-link.defer-fade.dim {
-  --end-op: 0.95;
-}
 @media (max-width: 48em) {
-  .three-d-card,
-  .footer-logo-img.defer-fade,
-  .top-center-link.defer-fade {
+  .three-d-card {
     animation: none;
     opacity: var(--end-op, 1);
     visibility: visible;

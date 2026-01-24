@@ -17,7 +17,7 @@
   font-size: 0.85rem;
   color: var(--pt-300);
 }
-.drawer-panel .cs-btn:not(.btn-base) {
+.drawer-panel .cs-btn {
   font: inherit;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -57,8 +57,8 @@
   border-color: rgba(148, 163, 184, 0.25);
   background: rgba(255, 255, 255, 0.03);
 }
-.drawer-panel .cs-btn:not(.btn-base):hover,
-.drawer-panel .cs-btn:not(.btn-base):focus-visible {
+.drawer-panel .cs-btn:hover,
+.drawer-panel .cs-btn:focus-visible {
   color: var(--pt-80);
   background: linear-gradient(
     to bottom right,
@@ -72,10 +72,10 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
   outline: none;
 }
-.drawer-panel .cs-btn:not(.btn-base):active {
+.drawer-panel .cs-btn:active {
   transform: translateY(1px);
 }
-.drawer-panel .cs-refresh:not(.btn-base) {
+.drawer-panel .cs-refresh {
   inline-size: 2.25rem;
   block-size: 2.25rem;
   display: grid;
@@ -92,22 +92,16 @@
     transform 0.1s,
     box-shadow 0.18s;
 }
-.drawer-panel .cs-refresh:not(.btn-base):hover,
-.drawer-panel .cs-refresh:not(.btn-base):focus-visible {
+.drawer-panel .cs-refresh:hover,
+.drawer-panel .cs-refresh:focus-visible {
   background: rgba(255, 255, 255, 0.12);
   border-color: var(--brand-primary);
   color: var(--brand-primary);
   box-shadow: 0 0 0.625rem rgba(201, 199, 194, 0.28);
   outline: none;
 }
-.drawer-panel .cs-refresh:not(.btn-base):active {
+.drawer-panel .cs-refresh:active {
   transform: scale(0.94);
-}
-.cs-refresh.btn-base {
-  padding: 0;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  border-radius: 999px;
 }
 .drawer-panel .cs-refresh-icon {
   width: 1.125rem;

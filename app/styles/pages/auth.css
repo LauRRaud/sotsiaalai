@@ -83,52 +83,10 @@
     font-size: 1.08rem;
     padding: 0.82rem 1.05rem;
   }
-  .login-modal-root .btn-primary {
-    width: 100%;
-    font-size: 1.18em;
-    padding: 0.72em 1.2em;
-  }
-}
-.login-modal-root .glass-title {
-  font-size: 2.4em;
-  line-height: 1.2;
-  margin-bottom: 0;
-}
-.login-modal-root:has(.login-error-note) .glass-title {
-  margin-bottom: 0;
-}
-.login-modal-root .login-error-note {
-  margin-top: 0.9rem;
-  margin-bottom: 0.65rem;
-  text-align: center;
-  font-size: 1.32em;
 }
 .login-modal-root .login-modal-form input {
   font-size: 1.14rem;
   padding: 0.82rem 1.12rem;
-}
-.login-modal-root .btn-primary {
-  font-family: inherit;
-  font-weight: 500;
-  font-size: 1.08em;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, #f2f4f8 88%, #cfd3da 12%);
-  background: linear-gradient(
-    140deg,
-    rgba(35, 40, 50, 0.65),
-    rgba(18, 20, 28, 0.5)
-  );
-  border: 2px solid rgba(180, 190, 205, 0.35);
-  border-radius: 1.1rem;
-  padding: 0.64em 1.22em;
-  position: relative;
-  overflow: hidden;
-  transition:
-    transform 0.16s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease,
-    border-color 0.18s ease;
 }
 .login-modal-root.login-modal--otp {
   --otp-panel-bg: rgba(10, 14, 24, 0.58);
@@ -137,10 +95,6 @@
   --otp-input-bg: rgba(8, 12, 20, 0.62);
   --otp-input-border: rgba(160, 180, 205, 0.4);
   --otp-accent: rgba(225, 160, 160, 0.92);
-}
-.login-modal-root.login-modal--otp .glass-title {
-  font-size: 2.05em;
-  letter-spacing: 0.02em;
 }
 .login-modal-root.login-modal--otp .otp-form {
   gap: 0.9rem;
@@ -270,49 +224,6 @@
   font-weight: 500;
   letter-spacing: 0.01em;
 }
-.login-modal-root.login-modal--otp .otp-actions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-top: 0.15rem;
-}
-.login-modal-root.login-modal--otp .otp-submit.btn-base {
-  width: 100%;
-  text-transform: none;
-  letter-spacing: 0.04em;
-  font-size: 1.05rem;
-  border-radius: 1rem;
-  padding: 0.7rem 1.1rem;
-  --glow-rgb: 225, 160, 160;
-}
-.login-modal-root.login-modal--otp .otp-secondary {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
-}
-.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base {
-  min-height: 2.25rem;
-  padding: 0.45rem 0.7rem;
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-transform: none;
-  letter-spacing: 0.02em;
-  background: rgba(12, 16, 26, 0.36);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  box-shadow: none;
-}
-.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:hover,
-.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:focus-visible {
-  background: rgba(16, 22, 34, 0.48);
-  border-color: rgba(170, 190, 215, 0.38);
-  box-shadow: none;
-  transform: translateY(-1px);
-}
-.login-modal-root.login-modal--otp .otp-secondary-btn.btn-base:active {
-  transform: translateY(0);
-}
 :root.theme-light .login-modal-root.login-modal--otp {
   --otp-panel-bg: rgba(255, 255, 255, 0.76);
   --otp-panel-border: rgba(148, 163, 184, 0.3);
@@ -347,54 +258,9 @@
   background: rgba(255, 255, 255, 0.95);
   border-color: rgba(148, 163, 184, 0.62);
 }
-:root.theme-light
-  .login-modal-root.login-modal--otp
-  .otp-secondary-btn.btn-base {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(148, 163, 184, 0.35);
-}
-:root.theme-light
-  .login-modal-root.login-modal--otp
-  .otp-secondary-btn.btn-base:hover,
-:root.theme-light
-  .login-modal-root.login-modal--otp
-  .otp-secondary-btn.btn-base:focus-visible {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(148, 163, 184, 0.45);
-}
 @media (max-width: 768px) {
-  .login-modal-root.login-modal--otp .glass-title {
-    font-size: 1.85em;
-  }
   .login-modal-root.login-modal--otp .otp-input {
     font-size: 1.25rem;
     letter-spacing: 0.26em;
-  }
-  .login-modal-root.login-modal--otp .otp-secondary {
-    grid-template-columns: 1fr;
-  }
-}
-@media (min-width: 48em) {
-  .glass-box.reset-box {
-    width: var(--chat-diameter);
-    height: var(--chat-diameter);
-    inline-size: var(--chat-diameter);
-    block-size: var(--chat-diameter);
-    min-width: var(--chat-diameter);
-    min-height: var(--chat-diameter);
-    max-width: var(--chat-diameter);
-    max-height: var(--chat-diameter);
-    flex: 0 0 auto;
-    align-self: center;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-top: max(
-      0px,
-      calc((100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem))
-    );
-    margin-bottom: 0;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
