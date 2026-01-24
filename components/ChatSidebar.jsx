@@ -432,7 +432,7 @@ export default function ChatSidebar() {
   return <nav className="cs-container" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
       {}
       <div className="cs-actions">
-        <Button variant="primary" className="cs-btn cs-btn--primary" onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
+        <Button variant="primary" className="cs-btn" onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
           {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
         </Button>
         <Button variant="primary" className="cs-btn" onClick={toggleSelectMode} disabled={isActionBusy}>
@@ -473,7 +473,7 @@ export default function ChatSidebar() {
       <ul className="cs-list" role="list" aria-live="polite">
         {!isLoading && sorted.length === 0 ? <li className="cs-empty">
             {t("chat.sidebar.empty")}
-            <Button variant="primary" className="cs-btn cs-btn--primary" onClick={onNew} disabled={creating} style={{
+            <Button variant="primary" className="cs-btn" onClick={onNew} disabled={creating} style={{
           marginLeft: 8
         }}>
               {t("chat.sidebar.empty_cta")}
@@ -519,7 +519,7 @@ export default function ChatSidebar() {
               </li>;
       })}
       </ul>
-      {hasMore && <div className="cs-load-more">
+      {hasMore && <div>
           <button className="cs-btn" onClick={fetchMore} disabled={busy || creating}>
             {t("chat.sidebar.button.more", "Lae veel")}
           </button>

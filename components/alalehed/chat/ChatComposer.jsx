@@ -73,7 +73,7 @@ export default function ChatComposer({
       <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none hover:transform-none focus-visible:transform-none active:transform-none" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible();
     }}>
-        {isLightTheme ? <PaperclipLight className="chat-attach-icon h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" /> : <PaperclipDark className="chat-attach-icon h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" />}
+        {isLightTheme ? <PaperclipLight className="h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" /> : <PaperclipDark className="h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" />}
       </button>
 
       <input ref={fileInputRef} type="file" accept={acceptAttr} onChange={onFileChange} className="hidden" />
@@ -82,7 +82,7 @@ export default function ChatComposer({
         {t("chat.input.label")}
       </label>
 
-      <div className="chat-inputbar chat-inputbar--mobile u-mobile-reset-position" ref={inputBarRef}>
+      <div className="chat-inputbar u-mobile-reset-position" ref={inputBarRef}>
         <div className="chat-input-field-wrap">
           <textarea id="chat-input" ref={inputRef} value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className="chat-input-field" disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>

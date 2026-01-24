@@ -769,7 +769,7 @@ export default function LoginModal({
           52%, 100% { opacity: 1; }
         }
       `}</style>
-      <div className="login-modal-backdrop" onClick={onClose} />
+      <div onClick={onClose} />
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
       "--login-envelope-size": "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": "clamp(4.4rem, 7vw, 5.2rem)",
@@ -913,7 +913,7 @@ export default function LoginModal({
                       objectFit: "contain",
                       objectPosition: "center"
                     }} />
-                            {pinValue.length > 0 && submitIconState !== "error" && <span className="login-submit-icon-overlay" aria-hidden="true">
+                            {pinValue.length > 0 && submitIconState !== "error" && <span aria-hidden="true">
                                   <SubmitArrowOverlayWhite filled={pinValue.length} max={PIN_MAX} stroke={isLightTheme ? "#c57171" : "#ffffffef"} />
                                 </span>}
                           </span>

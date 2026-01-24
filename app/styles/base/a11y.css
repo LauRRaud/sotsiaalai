@@ -40,7 +40,7 @@ html[data-contrast="hc"]
     [tabindex]:not([tabindex=])
   ):not(.top-nav__btn):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.login-email-icon-btn):not(.chat-input-field):not(
+  ):not(.chat-listen-btn):not(.chat-input-field):not(
     .three-d-card
   ):not(.glass-card):not(
     .card-face
@@ -75,7 +75,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.top-nav__btn):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.login-email-icon-btn):not(.card-face) {
+  ):not(.chat-listen-btn):not(.card-face) {
   background: var(--hc-surface);
   color: var(--hc-text);
   border: 2px solid var(--hc-accent);
@@ -88,7 +88,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.top-nav__btn):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.login-email-icon-btn):not(.card-face):hover:not(
+  ):not(.chat-listen-btn):not(.card-face):hover:not(
     :disabled
   ), html[data-contrast="hc"]
   body
@@ -96,7 +96,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.top-nav__btn):not(.chat-send-btn):not(
     .chat-attach-btn
-  ):not(.chat-listen-btn):not(.login-email-icon-btn):not(.card-face):focus-visible {
+  ):not(.chat-listen-btn):not(.card-face):focus-visible {
   background: #1a1a1a;
   border-color: var(--hc-accent-soft);
   color: var(--hc-text);
@@ -106,7 +106,7 @@ html[data-contrast="hc"]
   :is(
     input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
         .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern
+      ), textarea:not(.chat-input-field), select
   ) {
   background: var(--hc-surface);
   color: var(--hc-text);
@@ -117,7 +117,7 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   :is(
-    input, textarea, .chat-input-field, .input-modern
+    input, textarea, .chat-input-field
   ) {
   color: var(--hc-muted);
   opacity: 1;

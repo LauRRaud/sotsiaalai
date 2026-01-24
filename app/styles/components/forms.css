@@ -4,12 +4,6 @@ textarea::placeholder {
   color: var(--pt-600);
   opacity: 0.85;
 }
-.input-modern::placeholder {
-  font: inherit;
-  color: rgba(245, 248, 255, 0.82);
-  opacity: 0.92;
-  letter-spacing: 0.05em;
-}
 .chat-container input::placeholder,
 .chat-container textarea::placeholder {
   color: var(--pt-200);

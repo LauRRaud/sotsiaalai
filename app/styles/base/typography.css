@@ -48,10 +48,10 @@ main#main > .main-content.glass-box {
   font-family: var(--font-aino), Arial, sans-serif;
   letter-spacing: 0.06em;
 }
-input, textarea, select, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], .chat-input-field, .input-modern {
+input, textarea, select, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], .chat-input-field {
   font-family: var(--font-aino), Arial, sans-serif;
 }
-input::placeholder, textarea::placeholder, .chat-input-field::placeholder, .input-modern::placeholder {
+input::placeholder, textarea::placeholder, .chat-input-field::placeholder {
   font-family: var(--font-aino), Arial, sans-serif;
 }
 label {

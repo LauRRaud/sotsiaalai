@@ -483,7 +483,7 @@ export default function ChatBody({
           <div className={rollCardClass}>
             <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
               <div className={`main-content glass-box chat-container chat-container--round${inputFocused && !profileOpen ? " chat-container--input-focus" : ""}`} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef}>
-                <div className="chat-window-fade chat-window-fade--top" aria-hidden="true" />
+                <div className="chat-window-fade" aria-hidden="true" />
                 {!profileOpen ? <div className={`${backWrapperClassName}${analysis.showAnalysisPanel ? " invisible" : ""} -translate-x-[0.35rem]`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
                     <button type="button" className={`${backButtonClassName} pointer-events-auto relative z-[90]`} onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
                       <span className={backIconClassName} />

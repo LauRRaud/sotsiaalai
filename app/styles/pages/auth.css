@@ -9,38 +9,6 @@
   --login-envelope-size: clamp(4.4rem, 7vw, 5.2rem);
   --login-envelope-hit: clamp(4.4rem, 7vw, 5.2rem);
 }
-.login-modal-root .login-email-icon-btn {
-  width: var(--login-envelope-hit);
-  height: var(--login-envelope-hit);
-  border: none;
-  padding: 0;
-  border-radius: 999px;
-  background: transparent;
-  background-image: url("/logo/%C3%BCmbrik.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: var(--login-envelope-size) auto;
-  box-shadow: none;
-  transition: transform 0.16s ease;
-  cursor: var(--cursor-pointer);
-  color: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.login-modal-root .login-email-icon-btn--known {
-  background-image: url("/logo/r%C3%BCmbrik.svg");
-}
-.login-modal-root .login-email-icon-btn:hover {
-  transform: translateY(-1px) scale(1.08);
-}
-.login-modal-root .login-email-icon-btn:focus-visible {
-  outline: none;
-  box-shadow: none;
-  transform: translateY(-1px) scale(1.08);
-}
 .login-modal-root .glass-box {
   width: 100%;
   max-width: 35.5rem;

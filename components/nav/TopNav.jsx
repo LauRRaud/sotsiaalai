@@ -64,21 +64,21 @@ export default function TopNav({
           <Image src={chatIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{
         opacity: navIconOpacity
       }} />
-          <span className="top-nav__label">{t("nav.chats", "Vestlused")}</span>
+          <span>{t("nav.chats", "Vestlused")}</span>
         </button>}
 
       <button type="button" onClick={openRooms} className={`top-nav__btn${pathname.startsWith("/ruum") ? " top-nav__btn--active" : ""}${railItemClass}`} aria-label={t("nav.rooms", "Ruumid")} {...railItemAttrs}>
         <Image src={roomsIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{
         opacity: navIconOpacity
       }} />
-        <span className="top-nav__label">{t("nav.rooms", "Ruumid")}</span>
+        <span>{t("nav.rooms", "Ruumid")}</span>
       </button>
 
       <button type="button" className={`top-nav__btn${railItemClass}`} onClick={openInvite} aria-label={t("nav.add_person", "Lisa inimene")} {...railItemAttrs}>
         <Image src={addPersonIcon} alt="" width={iconSize} height={iconSize} aria-hidden="true" style={{
         opacity: navIconOpacity
       }} />
-        <span className="top-nav__label">
+        <span>
           {t("nav.add_person", "Lisa inimene")}
         </span>
       </button>

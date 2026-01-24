@@ -170,32 +170,6 @@
     max-height: min(55dvh, 32rem);
     overflow-y: auto;
   }
-  .chat-inputbar {
-    --inputbar-h: 3.2rem;
-    align-self: stretch;
-    width: auto;
-    max-width: none;
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    column-gap: 0.28rem;
-    flex: 0 0 auto;
-    min-height: var(--inputbar-h);
-    height: auto;
-    border: 2px solid rgba(84, 95, 115, 0.55);
-    border-radius: 62.4375rem;
-    background: rgba(10, 14, 24, 0.22);
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: 0 var(--chat-action-pad, 0.2rem) 0 0.625rem;
-    overflow: visible;
-    transition:
-      border-color 0.18s ease,
-      box-shadow 0.18s ease,
-      background 0.18s ease;
-  }
   .chat-analysis-actions--inline {
     justify-content: flex-end;
     align-items: center;
@@ -411,9 +385,7 @@
     -webkit-backdrop-filter: none;
   }
 }
-.chat-window::-webkit-scrollbar {
-  width: 0.75rem;
-}
+.chat-window::-webkit-scrollbar,
 .chat-upload-preview-scroll::-webkit-scrollbar {
   width: 0.75rem;
 }
@@ -1037,7 +1009,6 @@
   padding-left: clamp(0.7rem, 2.1vw, 1.2rem);
   padding-right: clamp(0.8rem, 2.7vw, 1.5rem);
 }
-.chat-inputbar:not(.theme-light) .chat-input-field::placeholder,
 :root:not(.theme-light) .chat-inputbar .chat-input-field::placeholder {
   color: transparent;
   opacity: 0;
@@ -1190,60 +1161,13 @@
   stroke: #7a3a38;
 }
 @media (max-width: 768px) {
-  .chat-inputbar .chat-send-btn {
-    flex: 0 0 var(--chat-action-size);
-    width: var(--chat-action-size);
-    height: var(--chat-action-size);
-  }
   .chat-inputbar .chat-send-btn svg:not(.svg) {
     width: 1.5rem;
     height: 1.5rem;
   }
   .chat-inputbar .chat-input-field {
-    all: unset;
-    box-sizing: border-box;
-    width: 100%;
-    display: flex;
-    align-items: center;
     height: var(--inputbar-h);
-    min-height: var(--inputbar-h);
     font-size: 1.05rem;
-    line-height: var(--inputbar-h);
-    color: var(--pt-150);
-    caret-color: var(--pt-150);
-    background: transparent;
-    border: none;
-    padding: 0 1rem;
-    box-shadow: none;
-    transition: color 0.18s ease;
-  }
-  .chat-inputbar {
-    --inputbar-h: 3.2rem;
-    align-self: stretch;
-    width: auto;
-    max-width: none;
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    column-gap: 0.28rem;
-    flex: 0 0 auto;
-    min-height: var(--inputbar-h);
-    height: auto;
-    border: 2px solid rgba(84, 95, 115, 0.55);
-    border-radius: 62.4375rem;
-    background: rgba(10, 14, 24, 0.22);
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.06),
-      0 0.45rem 1.05rem rgba(5, 8, 15, 0.18);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: 0 var(--chat-action-pad, 0.2rem) 0 0.625rem;
-    overflow: visible;
-    transition:
-      border-color 0.18s ease,
-      box-shadow 0.18s ease,
-      background 0.18s ease;
   }
 }
 .scroll-down-btn {
@@ -1279,16 +1203,13 @@
 :root.theme-light .scroll-down-btn svg {
   stroke: #7a3a38;
 }
-.scroll-down-btn:hover svg,
-.scroll-down-btn:focus svg {
+.scroll-down-btn:is(:hover, :focus) svg {
   stroke: var(--pt-200);
 }
-:root:not(.theme-light) .scroll-down-btn:hover svg,
-:root:not(.theme-light) .scroll-down-btn:focus svg {
+:root:not(.theme-light) .scroll-down-btn:is(:hover, :focus) svg {
   stroke: #c57171;
 }
-:root.theme-light .scroll-down-btn:hover svg,
-:root.theme-light .scroll-down-btn:focus svg {
+:root.theme-light .scroll-down-btn:is(:hover, :focus) svg {
   stroke: #7a3a38;
 }
 

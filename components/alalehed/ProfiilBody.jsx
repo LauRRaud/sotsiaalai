@@ -135,7 +135,7 @@ function PreferencesDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
-  return <EyeIcon className="profile-eye-icon" aria-hidden="true" focusable="false" {...props} />;
+  return <EyeIcon aria-hidden="true" focusable="false" {...props} />;
 }
 function SubscriptionDockIcon({
   isHovered: _isHovered,
@@ -314,7 +314,7 @@ export default function ProfiilBody({
   const themeActionLabel = isLightTheme ? t("accessibility.options.theme.dark") : t("accessibility.options.theme.light");
   const orbitItems = [{
     key: "theme",
-    icon: isLightTheme ? <MoonIcon width={26} height={26} className="profile-orbit-menu__theme-icon" /> : <SunIcon width={26} height={26} className="profile-orbit-menu__theme-icon" />,
+    icon: isLightTheme ? <MoonIcon width={26} height={26} /> : <SunIcon width={26} height={26} />,
     label: themeActionLabel,
     labelPos: "left",
     keepOpen: true,

@@ -834,21 +834,6 @@
   padding-bottom: clamp(0.6rem, 1.6vw, 1rem);
 }
 
-.homepage-root.homepage-scroll .home-section.home-links {
-  padding-top: clamp(0.3rem, 1vw, 0.6rem);
-  padding-bottom: clamp(0.9rem, 2.2vw, 1.6rem);
-}
-
-.homepage-root.homepage-scroll .home-links-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.35rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem 1.05rem;
-  align-items: center;
-  justify-content: center;
-}
 .homepage-root.homepage-scroll .home-section-title {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
   font-weight: 400;
@@ -888,10 +873,6 @@
   opacity: 0.8;
   margin-top: 2.6rem;
 }
-.homepage-root.homepage-scroll .home-footer-email {
-  margin-bottom: 1.4rem;
-  text-align: center;
-}
 .homepage-root.home-chat-open .home-scroll-cue {
   opacity: 0;
   pointer-events: none;
@@ -907,15 +888,8 @@ body.home-profile-open .home-scroll-cue,
   visibility: hidden;
   display: none !important;
 }
-.homepage-root.home-chat-open .home-section.home-about,
-.homepage-root.home-chat-open .home-section.home-links {
+.homepage-root.home-chat-open .home-section.home-about {
   display: none;
-}
-.homepage-root.home-chat-open .home-footer-email {
-  display: none;
-}
-:global(body.home-chat-open) .home-footer-email {
-  display: none !important;
 }
 .homepage-root.home-chat-open .home-footer-logo {
   opacity: 0.35;
@@ -948,8 +922,7 @@ body.home-profile-open .home-scroll-cue,
   pointer-events: auto;
   width: 100%;
 }
-.homepage-root.homepage-scroll
-  *:not(.home-link):not(:global(.meist-external-link)) {
+.homepage-root.homepage-scroll *:not(.home-link) {
   border-top-color: transparent !important;
 }
 

@@ -148,7 +148,6 @@
 :root.theme-light .drawer-panel .cs-time {
   color: color-mix(in srgb, var(--text-strong) 78%, transparent);
 }
-:root.theme-light .input-modern,
 :root.theme-light input[type="email"] {
   background: #f8f8f8;
   border: 2px solid #d7d7d7;
@@ -156,15 +155,12 @@
   caret-color: var(--text-strong);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
-:root.theme-light .input-modern:hover:not(:focus),
 :root.theme-light input[type="email"]:hover:not(:focus) {
   background: #ffffff;
   border-color: #cfcfcf;
   border-width: 2px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
 }
-:root.theme-light .input-modern:focus,
-:root.theme-light .input-modern:focus-visible,
 :root.theme-light input[type="email"]:focus,
 :root.theme-light input[type="email"]:focus-visible {
   background: #ffffff;
@@ -172,18 +168,8 @@
   border-color: #cfcfcf;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
 }
-:root.theme-light input[type="email"]::placeholder,
-:root.theme-light .input-modern::placeholder {
+:root.theme-light input[type="email"]::placeholder {
   color: var(--input-placeholder);
-}
-:root.theme-light .login-modal-root .login-email-icon-btn--known {
-  background-image: url("/logo/%C3%BCmbrikhele.svg");
-}
-:root.theme-light .login-modal-root .login-email-icon-btn--error {
-  background-image: url("/logo/r%C3%BCmbrikhele.svg");
-}
-:root:not(.theme-light) .login-modal-root .login-email-icon-btn--error {
-  background-image: url("/logo/%C3%BCmbrik.svg");
 }
 .chat-input-row .chat-inputbar .chat-listen-btn svg:not(.svg),
 .chat-input-row

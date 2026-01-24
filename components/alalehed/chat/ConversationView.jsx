@@ -45,8 +45,8 @@ const ConversationView = memo(function ConversationView({
   }, []);
   return <main className="chat-main relative">
       <div id="chat-window" className="chat-window u-mobile-scroll u-mobile-safe-pad relative" ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
-        {hiddenCount > 0 ? <div className="chat-history-cap">
-            <button type="button" className="chat-history-cap-btn" onClick={onRevealOlder}>
+        {hiddenCount > 0 ? <div>
+            <button type="button" onClick={onRevealOlder}>
               {t("chat.show_older")} (+{Math.min(pageSize, hiddenCount)}){" "}
               {hiddenCount} {t("chat.left")}
             </button>
@@ -54,13 +54,13 @@ const ConversationView = memo(function ConversationView({
 
         {messageItems}
 
-        {canHideOlder ? <div className="chat-history-cap">
-            <button type="button" className="chat-history-cap-btn" onClick={onHideOlder}>
+        {canHideOlder ? <div>
+            <button type="button" onClick={onHideOlder}>
               {t("chat.show_recent")}
             </button>
           </div> : null}
 
-        <div className="chat-window-fade chat-window-fade--bottom" aria-hidden="true" />
+        <div className="chat-window-fade" aria-hidden="true" />
       </div>
 
       {showScrollDown ? <button className="scroll-down-btn" onClick={onJumpToBottom} aria-label={t("chat.scroll_to_bottom")} title={t("chat.scroll_to_bottom_title")} aria-controls="chat-window">
