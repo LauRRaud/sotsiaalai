@@ -65,7 +65,7 @@ html[data-contrast="hc"] body {
   color: var(--hc-text);
   background-image: none;
 }
-html[data-contrast="hc"] body a, html[data-contrast="hc"] body .link-brand {
+html[data-contrast="hc"] body a {
   color: var(--hc-accent);
   text-decoration: none;
 }
@@ -108,41 +108,10 @@ html[data-contrast="hc"]
         .chat-input-field
       ), textarea:not(.chat-input-field), select, .input-modern
   ) {
-  background: var(--hc-bg);
-  color: var(--hc-text);
-  border: 2px solid var(--hc-accent);
-  box-shadow: none;
-}
-html[data-contrast="hc"]
-  body
-  :is(
-    input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
-        .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern
-  ) {
-  background: var(--hc-bg);
-  border-color: var(--hc-accent);
-  color: var(--hc-text);
-  box-shadow: none;
-}
-html[data-contrast="hc"]
-  body
-  :is(
-    input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
-        .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern
-  ) {
   background: var(--hc-surface);
-  border-color: var(--hc-accent-soft);
   color: var(--hc-text);
-}
-html[data-contrast="hc"]
-  body
-  :is(
-    input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
-        .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern
-  ) {
+  border: 2px solid var(--hc-accent-soft);
+  box-shadow: none;
   outline: none;
 }
 html[data-contrast="hc"]
@@ -242,9 +211,6 @@ body[data-a11y-scroll-lock="1"] #main {
   visibility: hidden;
   pointer-events: none;
 }
-.unustasid-parooli-link {
-  font-size: 1.05em;
-}
 html[data-contrast="hc"] .desc-ring-left .circular-text-line {
   color: #222;
   fill: currentColor;
@@ -270,11 +236,6 @@ html[data-contrast="hc"] .desc-ring-right * {
   -webkit-font-smoothing: auto;
   font-smooth: auto;
   paint-order: stroke fill;
-}
-.three-d-card:has(.glass-card.fade-in),
-.three-d-card:has(.centered-back-left.fade-in),
-.three-d-card:has(.centered-back-right.fade-in) {
-  pointer-events: none;
 }
 .three-d-card:has(.glass-card.fade-in),
 .three-d-card:has(.centered-back-left.fade-in),

@@ -33,10 +33,6 @@
   font-size: 1.05rem;
   line-height: 1.35;
 }
-.invite-modal::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
 :root.theme-light .invite-modal {
   box-shadow: none;
   color: var(--glass-surface-text);

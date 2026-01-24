@@ -10,12 +10,6 @@ textarea::placeholder {
   opacity: 0.92;
   letter-spacing: 0.05em;
 }
-.login-modal-form input::placeholder {
-  font: inherit;
-  color: rgba(245, 248, 255, 0.94);
-  opacity: 0.98;
-  letter-spacing: 0.05em;
-}
 .chat-container input::placeholder,
 .chat-container textarea::placeholder {
   color: var(--pt-200);

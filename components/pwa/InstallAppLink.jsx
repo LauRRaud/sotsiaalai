@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import useT from "@/components/i18n/useT";
+import { cn } from "@/components/ui/cn";
+import { linkBrandBase } from "@/components/ui/linkStyles";
 export default function InstallAppLink({
   variant = "list",
   heading,
@@ -74,7 +76,7 @@ export default function InstallAppLink({
           <strong>{resolvedHeading}</strong>
         </p>
         {showInstallLink ? <p>
-            <a href="#" className="link-brand" onClick={handleClick}>
+            <a href="#" className={linkBrandBase} onClick={handleClick}>
               {installCta}
             </a>
           </p> : null}
@@ -82,12 +84,12 @@ export default function InstallAppLink({
       </section>;
   }
   if (variant === "row") {
-    return showInstallLink ? <a href="#" className={className || "link-brand"} onClick={handleClick}>
+    return showInstallLink ? <a href="#" className={cn(linkBrandBase, className)} onClick={handleClick}>
         {installCta}
       </a> : <span className={className || "text-muted"}>{isIOS ? iosHint : macHint}</span>;
   }
   return <li>
-      {showInstallLink ? <a href="#" className="link-brand" onClick={handleClick}>
+      {showInstallLink ? <a href="#" className={linkBrandBase} onClick={handleClick}>
           {installCta}
         </a> : <span className="text-muted">{isIOS ? iosHint : macHint}</span>}
     </li>;

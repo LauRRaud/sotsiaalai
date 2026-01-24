@@ -33,23 +33,16 @@
   padding-bottom: 0.9rem;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--pt-mid) transparent;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
   --chat-logo-height: clamp(12rem, 32vw, 26rem);
   --chat-logo-y: clamp(5.2rem, 23vh, 12.2rem);
   --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 13rem);
 }
-.glass-box.chat-container::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-.glass-box.chat-container::-webkit-scrollbar-track {
-  background: transparent;
-}
 .glass-box.chat-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--pt-400), var(--pt-200));
+  background: transparent;
   border-radius: 0.625rem;
-  border: 0.2rem solid transparent;
+  border: 0;
 }
 .room-title-sub {
   text-align: center;
@@ -94,12 +87,6 @@
   border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
   border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
 }
-main#main > .main-content.glass-box.chat-container,
-.chat-page-shell .glass-box.chat-container {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
 :root.theme-light .glass-box.chat-container {
   color: #1f2937;
   border: none;
@@ -142,6 +129,8 @@ main#main > .main-content.glass-box.chat-container,
     gap: 0.35rem;
     padding-top: 0.85rem;
     padding-bottom: clamp(0.4rem, 1vw, 0.7rem);
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
     --chat-logo-height: clamp(9rem, 52vw, 18rem);
     --chat-logo-y: clamp(3.6rem, 24vh, 9.4rem);
   }
@@ -165,6 +154,7 @@ main#main > .main-content.glass-box.chat-container,
     flex: 1 1 auto;
     min-height: clamp(15rem, 48vh, 30rem);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .chat-analysis-panel--expanded {
     position: relative;
@@ -424,24 +414,8 @@ main#main > .main-content.glass-box.chat-container,
 .chat-window::-webkit-scrollbar {
   width: 0.75rem;
 }
-.chat-window::-webkit-scrollbar-track {
-  background: transparent;
-}
-.chat-window::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--pt-400), var(--pt-200));
-  border-radius: 0.625rem;
-  border: 0.1875rem solid transparent;
-}
 .chat-upload-preview-scroll::-webkit-scrollbar {
   width: 0.75rem;
-}
-.chat-upload-preview-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.chat-upload-preview-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--pt-400), var(--pt-200));
-  border-radius: 0.625rem;
-  border: 0.1875rem solid transparent;
 }
 .chat-analysis-panel {
   width: 100%;
@@ -645,13 +619,6 @@ main#main > .main-content.glass-box.chat-container,
 .chat-analysis-preview::before,
 .chat-analysis-preview::after {
   display: none;
-}
-.chat-analysis-preview::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-.chat-analysis-preview::-webkit-scrollbar-track {
-  background: transparent;
 }
 .chat-analysis-preview::-webkit-scrollbar-thumb {
   background: transparent;
@@ -1037,9 +1004,6 @@ main#main > .main-content.glass-box.chat-container,
 .chat-inputbar .chat-input-field::-webkit-scrollbar {
   width: 0.5rem;
 }
-.chat-inputbar .chat-input-field::-webkit-scrollbar-track {
-  background: transparent;
-}
 .chat-inputbar .chat-input-field::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, var(--pt-400), var(--pt-200));
   border-radius: 62.4375rem;
@@ -1208,36 +1172,19 @@ main#main > .main-content.glass-box.chat-container,
   box-shadow: none;
   transition: color 0.18s ease;
 }
-:root {
-  --chat-icon-color: var(--pt-300);
-  --attach-icon-size: 3.4rem;
-}
-:root:not(.theme-light) {
-  --chat-icon-color: rgba(226, 232, 240, 0.92);
-}
 :root:not(.theme-light) .chat-send-btn svg:not(.svg),
-:root:not(.theme-light) .chat-inputbar .chat-listen-btn svg:not(.svg) {
-  color: #c57171;
-  stroke: #c57171;
-  opacity: 0.98;
-  filter: brightness(1.08);
-}
-:root:not(.theme-light) .chat-listen-btn svg:not(.svg) {
-  color: #c57171;
-  stroke: #c57171;
-}
-:root.theme-light .chat-inputbar .chat-listen-btn svg:not(.svg) {
-  color: #7a3a38;
-  stroke: #7a3a38;
-}
-:root.theme-light .chat-listen-btn svg:not(.svg) {
-  color: #7a3a38;
-  stroke: #7a3a38;
-}
+:root:not(.theme-light) .chat-listen-btn svg:not(.svg),
 :root:not(.theme-light) .chat-send-btn[data-recording] svg {
   color: #c57171;
   stroke: #c57171;
 }
+:root:not(.theme-light) .chat-send-btn svg:not(.svg),
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn svg:not(.svg) {
+  opacity: 0.98;
+  filter: brightness(1.08);
+}
+:root.theme-light .chat-inputbar .chat-listen-btn svg:not(.svg),
+:root.theme-light .chat-listen-btn svg:not(.svg),
 :root.theme-light .chat-send-btn[data-recording] svg {
   color: #7a3a38;
   stroke: #7a3a38;

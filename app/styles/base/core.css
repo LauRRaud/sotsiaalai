@@ -13,10 +13,6 @@
   position: relative;
   z-index: 21;
 }
-.chat-avatar-abs {
-  position: relative;
-  z-index: 25;
-}
 .splash-cursor {
   position: fixed;
   inset: 0;
@@ -210,26 +206,6 @@ body {
 )[aria-disabled="true"] {
   cursor: not-allowed;
 }
-@media (max-width: 768px), (hover: none) {
-  :root {
-    --bg-overscan: clamp(96px, 14svh, 180px);
-  }
-}
-html,
-body {
-  overflow-y: auto;
-  overflow-x: hidden;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
-}
-:root {
-  color-scheme: dark;
-  --bg-overscan: clamp(120px, 18svh, 220px);
-}
 html,
 body {
   overflow-y: auto;
@@ -259,9 +235,6 @@ body::-webkit-scrollbar {
 [data-bg-layer] .bg-space-layer {
   z-index: 0;
 }
-[data-bg-layer] .bg-bends-layer {
-  z-index: 2;
-}
 [data-bg-layer] .bg-particles-layer {
   z-index: 3;
 }
@@ -278,6 +251,7 @@ body::-webkit-scrollbar {
   backface-visibility: hidden;
 }
 [data-bg-layer] .bg-bends-layer {
+  z-index: 2;
   position: absolute !important;
   inset: 0 !important;
 

@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
 import AppLink from "@/components/ui/Link";
+import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
@@ -21,19 +22,6 @@ const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [b
 const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow)] hover:[background:var(--input-bg-hover)] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
 const buttonPrimaryClassName = "text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] [background:var(--btn-primary-bg)] [border:var(--btn-primary-border)] shadow-[var(--btn-primary-shadow)] hover:[background:var(--btn-primary-bg-hover)] hover:[border:var(--btn-primary-border-hover)] hover:-translate-y-[1px] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:[border:var(--btn-primary-border-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)] active:translate-y-[1px] active:[background:var(--btn-primary-bg-active)] active:[border:var(--btn-primary-border-active)] active:shadow-[var(--btn-primary-shadow-active)]";
-const linkInlineClassName =
-  "inline-block text-[0.95em] font-[500] tracking-[0.02em] px-[0.18em] py-[0.02em] rounded-[0.32em] border-[2px] border-transparent no-underline " +
-  "text-[color:var(--link-brand-text,var(--link-color,#f2e3d4))] " +
-  "transition-[border-color,box-shadow,color] duration-150 " +
-  "hover:text-[color:var(--link-brand-text,var(--link-color,#f2e3d4))] " +
-  "hover:border-[color:var(--link-brand-border-hover,#e1a0a0)] " +
-  "hover:shadow-[0_0_0.4375rem_0_var(--link-brand-shadow-hover,rgba(175,170,163,0.4))] " +
-  "focus-visible:outline-none " +
-  "focus-visible:border-[color:var(--link-brand-border-hover,#e1a0a0)] " +
-  "focus-visible:shadow-[0_0_0.4375rem_0_var(--link-brand-shadow-hover,rgba(175,170,163,0.4))] " +
-  "light:text-[color:var(--link-color)] light:border-transparent " +
-  "light:hover:text-[color:var(--link-color)] light:hover:border-[color:var(--link-color)] " +
-  "light:focus-visible:text-[color:var(--link-color)] light:focus-visible:border-[color:var(--link-color)]";
 export default function RegistreerimineBody({
   openLoginModal = null
 }) {
@@ -249,11 +237,11 @@ export default function RegistreerimineBody({
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
-                      open: `<a class="${linkInlineClassName}" href="${localizePath("/kasutustingimused", locale)}">`,
+                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutustingimused", locale)}">`,
                       close: "</a>"
                     },
                     privacy: {
-                      open: `<a class="${linkInlineClassName}" href="${localizePath("/privaatsustingimused", locale)}">`,
+                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/privaatsustingimused", locale)}">`,
                       close: "</a>"
                     }
                   }} />
@@ -264,11 +252,11 @@ export default function RegistreerimineBody({
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide1: {
-                      open: `<a class="${linkInlineClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"
                     },
                     guide2: {
-                      open: `<a class="${linkInlineClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"
                     }
                   }} />

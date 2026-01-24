@@ -5,9 +5,3 @@
 :root.theme-light .login-modal-close.modal-close-btn:focus-visible {
   color: #7a3a38;
 }
-.login-modal-bottom-link {
-  width: 100%;
-  text-align: center;
-  margin-top: 0.5em;
-  margin-bottom: 0.2em;
-}

@@ -12,10 +12,11 @@ import { localizePath } from "@/lib/localizePath";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
+import { linkBrandBase } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
 const noteErrorClassName = "text-[#fca5a5]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
-const inlineLinkClassName = "link-brand inline-block text-[1.35rem] max-md:text-[1.55rem]";
+const inlineLinkClassName = `${linkBrandBase} text-[1.35rem] max-md:text-[1.55rem]`;
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(3rem,8.8vw,4.4rem)] max-md:!leading-[1.02] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 function SubmitArrowOverlayWhite({
   filled = 0,
@@ -1043,7 +1044,7 @@ export default function LoginModal({
 
         {!isOtpStep && <>
             <div className="text-center mt-0 mb-0">
-              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className="link-brand text-[1.6rem] leading-[1.15] font-[600] max-md:text-[clamp(1.7rem,5.2vw,2.2rem)]">
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className="text-[1.6rem] leading-[1.15] font-[600] max-md:text-[clamp(1.7rem,5.2vw,2.2rem)]">
                 {t("auth.login.register_link")}
               </AppLink>
             </div>

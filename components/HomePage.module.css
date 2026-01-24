@@ -949,9 +949,7 @@ body.home-profile-open .home-scroll-cue,
   width: 100%;
 }
 .homepage-root.homepage-scroll
-  *:not(:global(.link-brand)):not(:global(.link-brand-inline)):not(
-    .home-link
-  ):not(:global(.meist-external-link)) {
+  *:not(.home-link):not(:global(.meist-external-link)) {
   border-top-color: transparent !important;
 }
 

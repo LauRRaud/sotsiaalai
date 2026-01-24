@@ -21,9 +21,11 @@ h2 {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: bold;
 }
-a, .link-brand {
+a {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
+  text-decoration: none;
+  color: inherit;
 }
 main#main {
   display: flex;
@@ -41,9 +43,6 @@ main#main > .main-content.glass-box {
   flex: 1 0 auto;
   box-sizing: border-box;
   z-index: 20;
-}
-a {
-  text-decoration: none;
 }
 .chat-send-btn, .chat-send-btn.stop, .button {
   font-family: var(--font-aino), Arial, sans-serif;
@@ -70,11 +69,7 @@ label {
   word-break: break-word;
   overflow-wrap: break-word;
 }
-a {
-  color: inherit;
-}
 :root:not(.theme-light) a,
-:root:not(.theme-light) .link-brand,
 :root:not(.theme-light) .glass-box a {
   color: var(--brand-primary);
 }

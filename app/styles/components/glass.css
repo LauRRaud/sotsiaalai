@@ -43,6 +43,8 @@ html.modal-open {
   .glass-box {
     width: 100%;
     max-width: none;
+    padding-left: clamp(1rem, 4.5vw, 1.375rem);
+    padding-right: clamp(1rem, 4.5vw, 1.375rem);
   }
   .glass-box.profile-container {
     --profile-role-hole-w: 0.58;
@@ -50,18 +52,8 @@ html.modal-open {
     --profile-role-hole-max-w: 360px;
     padding-top: 0.4rem;
   }
-  .glass-box.chat-container {
-    overscroll-behavior: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .chat-window {
-    -webkit-overflow-scrolling: touch;
-  }
   [data-bg-layer] {
     pointer-events: none;
-  }
-  .main-content {
-    padding-bottom: clamp(5rem, 12vw, 7rem);
   }
   .main-content {
     display: flex;
@@ -69,6 +61,7 @@ html.modal-open {
     gap: clamp(1.2rem, 4vw, 1.8rem);
     padding: calc(env(safe-area-inset-top, 0px) + 2.6rem)
       clamp(1rem, 4vw, 1.5rem) clamp(2rem, 8vw, 2.9rem);
+    padding-bottom: clamp(5rem, 12vw, 7rem);
     min-height: auto;
   }
   .side {
@@ -109,10 +102,6 @@ html.modal-open {
   }
   .splash-cursor {
     display: none;
-  }
-  .glass-box {
-    padding-left: clamp(1rem, 4.5vw, 1.375rem);
-    padding-right: clamp(1rem, 4.5vw, 1.375rem);
   }
   .login-modal-box {
     position: fixed;
@@ -163,119 +152,14 @@ html.modal-open {
 .glass-section p:last-child {
   margin-bottom: 0;
 }
+.install-section {
+  margin-top: 0.6rem;
+}
+.install-section p {
+  margin: 0.25em 0;
+}
 .glass-box a {
   color: var(--link-gold);
-}
-@media (max-width: 48em) {
-  html,
-  body {
-    overscroll-behavior: auto;
-    min-height: 100dvh;
-  }
-  main#main {
-    align-items: stretch;
-  }
-  .glass-box {
-    width: 100%;
-    max-width: none;
-  }
-  .glass-box.profile-container {
-    --profile-role-hole-w: 0.58;
-    --profile-role-hole-min-w: 190px;
-    --profile-role-hole-max-w: 360px;
-    padding-top: 0.4rem;
-  }
-  .glass-box.chat-container {
-    overscroll-behavior: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .chat-window {
-    -webkit-overflow-scrolling: touch;
-  }
-  .main-content {
-    padding-bottom: clamp(5rem, 12vw, 7rem);
-  }
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(1.2rem, 4vw, 1.8rem);
-    padding: calc(env(safe-area-inset-top, 0px) + 2.6rem)
-      clamp(1rem, 4vw, 1.5rem) clamp(2rem, 8vw, 2.9rem);
-    min-height: auto;
-  }
-  .side {
-    min-height: auto;
-    width: 100%;
-    padding: 1rem 1rem;
-  }
-  .float-card {
-    animation: none;
-    transform: none;
-  }
-  .three-d-card.mobile-flipped-left .card-wrapper {
-    transform: rotateY(180deg);
-  }
-  .three-d-card.mobile-flipped-right .card-wrapper {
-    transform: rotateY(-180deg);
-  }
-  .three-d-card.mobile-flipped-left .card-face.back,
-  .three-d-card.mobile-flipped-right .card-face.back {
-    pointer-events: auto;
-  }
-  .three-d-card.mobile-flipped-left .card-face.front,
-  .three-d-card.mobile-flipped-right .card-face.front {
-    pointer-events: none;
-  }
-  .centered-back-left,
-  .centered-back-right {
-    width: 100%;
-    height: 100%;
-    padding: clamp(1.2em, 4.8vw, 1.7em);
-    padding-bottom: clamp(1.7em, 5.4vw, 2.2em);
-    display: grid;
-    grid-template-rows: 1.75fr auto auto 0.25fr;
-    justify-items: center;
-    align-items: center;
-    row-gap: clamp(1rem, 3.2vw, 1.7rem);
-    text-align: center;
-  }
-  .splash-cursor {
-    display: none;
-  }
-  .glass-box {
-    padding-left: clamp(1rem, 4.5vw, 1.375rem);
-    padding-right: clamp(1rem, 4.5vw, 1.375rem);
-  }
-  .login-modal-box {
-    position: fixed;
-    inset: 0;
-    transform: none;
-    animation: none;
-    width: 100vw;
-    height: 100svh;
-    min-height: 100dvh;
-    border-radius: 0;
-    margin: 0;
-    box-shadow: none;
-    background: rgba(31, 31, 31, 0.6);
-    -webkit-backdrop-filter: blur(0.625rem);
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem) saturate(110%);
-    backdrop-filter: blur(0.625rem) saturate(110%);
-    z-index: 1002;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: max(0.75rem, env(safe-area-inset-top))
-      max(0.75rem, env(safe-area-inset-right))
-      max(0.875rem, env(safe-area-inset-bottom))
-      max(0.75rem, env(safe-area-inset-left));
-  }
-  .login-modal-close {
-    position: absolute;
-    top: max(0.5rem, env(safe-area-inset-top, 0));
-    right: max(0.5rem, env(safe-area-inset-right, 0));
-    z-index: 1010;
-  }
 }
 .glass-box a:hover, .glass-box a:focus {
   color: var(--brand-primary);

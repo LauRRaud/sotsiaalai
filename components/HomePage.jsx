@@ -484,38 +484,38 @@ export default function HomePage() {
               <p>Enne lehe kasutamist tutvu kindlasti:</p>
               <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
                 <li>
-                  <AppLink href="/kasutusjuhend" className={`${styles["home-link"]} link-brand`}>
+                  <AppLink href="/kasutusjuhend" className={styles["home-link"]}>
                     Platvormi kasutusjuhend
                   </AppLink>
                 </li>
                 <li>
-                  <AppLink href="/kasutustingimused" className={`${styles["home-link"]} link-brand`}>
+                  <AppLink href="/kasutustingimused" className={styles["home-link"]}>
                     Kasutustingimused
                   </AppLink>
                 </li>
                 <li>
-                  <AppLink href="/privaatsustingimused" className={`${styles["home-link"]} link-brand`}>
+                  <AppLink href="/privaatsustingimused" className={styles["home-link"]}>
                     Privaatsuspoliitika
                   </AppLink>
                 </li>
                 {isAuthed && isAdmin ? <>
                   <li>
-                    <AppLink href="/admin/analytics" className={`${styles["home-link"]} link-brand`}>
+                    <AppLink href="/admin/analytics" className={styles["home-link"]}>
                       Analüütika
                     </AppLink>
                   </li>
                   <li>
-                    <AppLink href="/admin/rag" className={`${styles["home-link"]} link-brand`}>
+                    <AppLink href="/admin/rag" className={styles["home-link"]}>
                       RAG andmebaasi haldus
                     </AppLink>
                   </li>
                   </> : null}
               </ul>
               <div className="mt-[0.75rem] flex justify-center">
-                <InstallAppLink variant="row" className={`${styles["home-link"]} link-brand`} />
+                <InstallAppLink variant="row" className={styles["home-link"]} />
               </div>
               <p>
-                <AppLink href="mailto:info@sotsiaal.ai" className={`${styles["home-link"]} link-brand`}>
+                <AppLink href="mailto:info@sotsiaal.ai" className={styles["home-link"]}>
                   info@sotsiaal.ai
                 </AppLink>
               </p>

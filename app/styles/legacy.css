@@ -5,7 +5,6 @@
 @import "./components/footer.css";
 @import "./utilities/helpers.css";
 @import "./components/lists.css";
-@import "./components/links.css";
 @import "./components/account-hud.css";
 @import "./pages/auth.css";
 @import "./components/forms.css";
@@ -14,7 +13,6 @@
 @import "./components/glass.css";
 @import "./components/drawer.css";
 @import "./components/chat.css";
-@import "./components/notifications.css";
 @import "./base/a11y.css";
 @import "./theme/late-overrides.css";
 @import "./components/tables.css";
