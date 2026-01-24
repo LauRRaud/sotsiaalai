@@ -3,8 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
 import AppLink from "@/components/ui/Link";
@@ -20,6 +18,22 @@ const scrollClassName = "relative flex-1 w-full max-w-[clamp(18rem,40vw,26rem)] 
 const inputClassName = "w-full text-[color:var(--pt-50)] placeholder:text-[color:var(--pt-200)] light:text-[color:var(--input-text)]";
 const backButtonClassName = "absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-[51.5%] inline-flex h-[5.7rem] w-[5.7rem] -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98]";
 const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
+const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow)] hover:[background:var(--input-bg-hover)] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
+const buttonPrimaryClassName = "text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] [background:var(--btn-primary-bg)] [border:var(--btn-primary-border)] shadow-[var(--btn-primary-shadow)] hover:[background:var(--btn-primary-bg-hover)] hover:[border:var(--btn-primary-border-hover)] hover:-translate-y-[1px] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:[border:var(--btn-primary-border-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)] active:translate-y-[1px] active:[background:var(--btn-primary-bg-active)] active:[border:var(--btn-primary-border-active)] active:shadow-[var(--btn-primary-shadow-active)]";
+const linkInlineClassName =
+  "inline-block text-[0.95em] font-[500] tracking-[0.02em] px-[0.18em] py-[0.02em] rounded-[0.32em] border-[2px] border-transparent no-underline " +
+  "text-[color:var(--link-brand-text,var(--link-color,#f2e3d4))] " +
+  "transition-[border-color,box-shadow,color] duration-150 " +
+  "hover:text-[color:var(--link-brand-text,var(--link-color,#f2e3d4))] " +
+  "hover:border-[color:var(--link-brand-border-hover,#e1a0a0)] " +
+  "hover:shadow-[0_0_0.4375rem_0_var(--link-brand-shadow-hover,rgba(175,170,163,0.4))] " +
+  "focus-visible:outline-none " +
+  "focus-visible:border-[color:var(--link-brand-border-hover,#e1a0a0)] " +
+  "focus-visible:shadow-[0_0_0.4375rem_0_var(--link-brand-shadow-hover,rgba(175,170,163,0.4))] " +
+  "light:text-[color:var(--link-color)] light:border-transparent " +
+  "light:hover:text-[color:var(--link-color)] light:hover:border-[color:var(--link-color)] " +
+  "light:focus-visible:text-[color:var(--link-color)] light:focus-visible:border-[color:var(--link-color)]";
 export default function RegistreerimineBody({
   openLoginModal = null
 }) {
@@ -169,8 +183,8 @@ export default function RegistreerimineBody({
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
       <div className={circleClassName} style={{
-      "--csp-chevron-top": "-1.1rem",
-      "--csp-chevron-bottom": "-0.9rem"
+      "--csp-chevron-top": "-1.4rem",
+      "--csp-chevron-bottom": "-1.4rem"
     }}>
         <button type="button" className={backButtonClassName} onClick={handleClose} aria-label={t("buttons.back_home")}>
           <span className={backIconClassName} />
@@ -204,11 +218,11 @@ export default function RegistreerimineBody({
         }} tabIndex={0} aria-label={t("auth.register.title")}>
             <form className="flex flex-col gap-8" onSubmit={handleSubmit} autoComplete="off">
               <section className={`register-step csp-step ${getItemClassName(0)}`}>
-                <Input type="email" id="email" name="email" size="lg" className={inputClassName} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
+                <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(1)} -mt-4`}>
-                <Input type="password" id="pin" name="pin" size="lg" className={inputClassName} placeholder={t("auth.pin_placeholder", {
+                <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("auth.pin_placeholder", {
                 min: PIN_MIN,
                 max: PIN_MAX
               })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
@@ -235,11 +249,11 @@ export default function RegistreerimineBody({
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
-                      open: `<a class="link-brand-inline" href="${localizePath("/kasutustingimused", locale)}">`,
+                      open: `<a class="${linkInlineClassName}" href="${localizePath("/kasutustingimused", locale)}">`,
                       close: "</a>"
                     },
                     privacy: {
-                      open: `<a class="link-brand-inline" href="${localizePath("/privaatsustingimused", locale)}">`,
+                      open: `<a class="${linkInlineClassName}" href="${localizePath("/privaatsustingimused", locale)}">`,
                       close: "</a>"
                     }
                   }} />
@@ -250,11 +264,11 @@ export default function RegistreerimineBody({
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide1: {
-                      open: `<a class="link-brand-inline" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      open: `<a class="${linkInlineClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"
                     },
                     guide2: {
-                      open: `<a class="link-brand-inline" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      open: `<a class="${linkInlineClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"
                     }
                   }} />
@@ -269,21 +283,21 @@ export default function RegistreerimineBody({
                     {successMessage}
                   </div>}
                 <div className="mt-2 flex justify-center">
-                  <Button type="submit" variant="primary" size="lg" disabled={submitting}>
+                  <button type="submit" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`.trim()} disabled={submitting} aria-disabled={submitting ? "true" : undefined}>
                     <span>
                       {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
                     </span>
-                  </Button>
+                  </button>
                 </div>
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(6)} -mt-3`}>
                 <div className="flex justify-center text-[1.35rem]">
                   <AppLink href="#" onClick={e => {
-                  e.preventDefault();
-                  openLoginModal?.();
-                }} aria-label={t("auth.login.title")}>
-                    {t("auth.login.title")}
+                    e.preventDefault();
+                    openLoginModal?.();
+                  }} aria-label={t("auth.login.title")} className="[--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
+                      {t("auth.login.title")}
                   </AppLink>
                 </div>
               </section>

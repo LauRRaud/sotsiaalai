@@ -111,6 +111,11 @@ export default function ChatBody({
     document.body.classList.toggle("home-profile-open", profileOpen);
     return () => document.body.classList.remove("home-profile-open");
   }, [embedded, profileOpen]);
+  useEffect(() => {
+    const wantsProfile = searchParams?.get("profile") === "1";
+    if (wantsProfile === profileOpen || isRolling) return;
+    setProfileOpen(wantsProfile);
+  }, [isRolling, profileOpen, searchParams]);
   const mappedRoomMessages = useMemo(() => {
     if (!isRoomMode) return [];
     return (roomMessages || []).map(m => {
@@ -468,7 +473,7 @@ export default function ChatBody({
     });
     if (shouldOpen) setRollDirection("right");
   }, [searchParams]);
-  const rollCardClass = ["chat-roll-card", `roll-${rollDirection}`, profileOpen ? "is-profile" : "", isRolling ? "is-rolling" : "", inputFocused && !profileOpen ? "is-input-focus" : ""].filter(Boolean).join(" ");
+  const rollCardClass = ["chat-roll-card", `roll-${rollDirection}`, profileOpen ? "is-profile profile-roll" : "", isRolling ? "is-rolling" : "", inputFocused && !profileOpen ? "is-input-focus" : ""].filter(Boolean).join(" ");
   const chatFaceClass = `chat-roll-face chat-roll-face--chat${profileOpen ? "" : " is-active"}`;
   const profileFaceClass = `chat-roll-face chat-roll-face--profile${profileOpen ? " is-active" : ""}`;
   return <>

@@ -21,6 +21,68 @@ const ROLE_KEYS = {
   SOCIAL_WORKER: "role.worker",
   CLIENT: "role.client"
 };
+const pageShellClassName =
+  "min-h-[100dvh] w-full grid place-items-center";
+const containerBaseClassName =
+  "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
+  "w-[min(100%,86vw)] max-w-[clamp(32rem,70vw,50rem)] my-[clamp(1.4rem,4vw,2.6rem)] " +
+  "box-border text-[color:var(--glass-surface-text,#f2f2f2)] bg-transparent " +
+  "shadow-[var(--glass-shell-shadow,none)] light:[--glass-shell-shadow:0_18px_40px_rgba(0,0,0,0.16)] " +
+  "[--profile-pad-top:clamp(0.8rem,2.5vw,1.3rem)] [--profile-pad-x:clamp(1.8rem,4.5vw,2.6rem)] [--profile-pad-bottom:clamp(1.2rem,3.5vw,2rem)] " +
+  "px-[var(--profile-pad-x)] pt-[var(--profile-pad-top)] pb-[var(--profile-pad-bottom)] " +
+  "max-[48em]:px-[clamp(1rem,4.5vw,1.375rem)]";
+const containerPageClassName =
+  "!w-[var(--profile-diameter)] !h-[var(--profile-diameter)] !min-w-[var(--profile-diameter)] !min-h-[var(--profile-diameter)] " +
+  "!max-w-[var(--profile-diameter)] !max-h-[var(--profile-diameter)] aspect-square !rounded-full overflow-hidden " +
+  "!my-0 m-0 mx-auto " +
+  "[--profile-pad-top:clamp(4rem,8.2vh,5.6rem)] [--profile-pad-bottom:clamp(0.2rem,0.8vh,0.6rem)]";
+const containerEmbeddedClassName =
+  "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 " +
+  "!w-[var(--profile-diameter)] !h-[var(--profile-diameter)] !min-w-[var(--profile-diameter)] !min-h-[var(--profile-diameter)] " +
+  "!max-w-[var(--profile-diameter)] !max-h-[var(--profile-diameter)] flex-none aspect-square !rounded-full overflow-hidden " +
+  "m-0 mx-auto " +
+  "pt-[clamp(4rem,8.2vh,5.6rem)] pb-[clamp(0.2rem,0.8vh,0.6rem)]";
+const titleClassName =
+  "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
+  "mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
+  "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const headerCenterClassName = "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
+const rolePillClassName =
+  "inline-flex items-center justify-center rounded-full px-[0.75em] " +
+  "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
+  "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
+  "bg-transparent border-none shadow-none " +
+  "leading-[3.2rem] h-[3.2rem]";
+const centerLayerClassName = "absolute inset-0 z-[2]";
+const orbitCenterClassName = "absolute inset-0 flex items-center justify-center";
+const orbitWrapperClassName =
+  "w-full max-w-[var(--profile-actions-panel-w,26.25rem)] mx-auto flex items-center justify-center pointer-events-auto";
+const btnRowClassName =
+  "absolute inset-x-0 top-1/2 -translate-y-1/2 z-[3] " +
+  "w-full flex items-center justify-between gap-[clamp(0.6rem,1.6vw,0.95rem)] pointer-events-none " +
+  "pl-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] pr-[calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))]";
+const backButtonClassName =
+  "inline-flex items-center justify-center h-[5.7rem] w-[5.7rem] border-0 bg-transparent m-0 p-0 " +
+  "cursor-[var(--cursor-pointer)] pointer-events-auto";
+const backIconClassName =
+  "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] " +
+  "[background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')] " +
+  "transition-[transform,filter] duration-150 ease-out";
+const logoutButtonClassName =
+  "relative grid place-items-center h-[6.6rem] w-[6.6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto";
+const logoutIconClassName = "h-[5.8rem] w-[5.8rem] transition-transform duration-150 ease-out";
+const logoutLabelClassName =
+  "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
+  "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
+  "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
+const loadingClassName = "p-[1rem] text-center text-[color:var(--glass-surface-text,#f2f2f2)]";
+const noteClassName =
+  "rounded-[0.9rem] border border-[color:var(--glass-border-color,rgba(148,163,184,0.35))] " +
+  "bg-[var(--glass-analysis-bg,rgba(0,0,0,0.2))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
+  "px-[1rem] py-[0.8rem] text-center";
+const noteRowClassName = "mt-[0.75rem]";
+const noteCenterClassName = "w-[min(32rem,100%)] mx-auto";
+const errorStateClassName = "flex-1 w-full flex items-center justify-center";
 function ProfileShell({
   locale,
   children,
@@ -30,14 +92,20 @@ function ProfileShell({
   embedded = false,
   theme = "dark"
 }) {
-  const containerClass = cn(styles.profileContainer, embedded ? styles.profileContainerEmbedded : null, embedded ? null : styles.profileContainerPage, embedded ? "profile-container profile-container--embedded" : null);
+  const containerClass = cn(
+    styles.profileContainer,
+    containerBaseClassName,
+    embedded ? containerEmbeddedClassName : containerPageClassName,
+    embedded ? styles.profileContainerEmbedded : styles.profileContainerPage,
+    embedded ? "profile-container profile-container--embedded" : null
+  );
   const container = <div className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme}>
       {children}
     </div>;
   if (embedded) {
     return container;
   }
-  return <div className={styles.profilePageShell} lang={locale}>
+  return <div className={pageShellClassName} lang={locale}>
       {container}
     </div>;
 }
@@ -131,7 +199,6 @@ export default function ProfiilBody({
     const pill = rolePillRef.current;
     const form = profileFormRef.current;
     if (!box || !pill) return;
-    if (!embedded) return;
     const rollCard = box.closest?.(".chat-roll-card");
     const isRollingNow = () => rollCard?.classList?.contains("is-rolling");
     let deferTimer;
@@ -356,8 +423,8 @@ export default function ProfiilBody({
   }, [onBack, router]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
-        <h1 className={styles.profileTitle}>{t("profile.title")}</h1>
-        <p className={styles.profileLoading}>{t("profile.loading")}</p>
+        <h1 className={titleClassName}>{t("profile.title")}</h1>
+        <p className={loadingClassName}>{t("profile.loading")}</p>
       </ProfileShell>;
   }
   if (!isAuthed) {
@@ -365,11 +432,11 @@ export default function ProfiilBody({
     const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
     return <>
         <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
-          <h1 className={styles.profileTitle}>{t("profile.title")}</h1>
-          <p className={styles.profileNote}>{reasonText}</p>
-          <div className={styles.profileBtnRow}>
-            <button type="button" className={styles.backButton} onClick={embedded ? handleBack : () => setLoginOpen(true)} aria-label={embedded ? t("profile.back_to_chat") : t("auth.login.title")}>
-              <span className={styles.backIcon} />
+          <h1 className={titleClassName}>{t("profile.title")}</h1>
+          <p className={noteClassName}>{reasonText}</p>
+          <div className={btnRowClassName}>
+            <button type="button" className={backButtonClassName} onClick={embedded ? handleBack : () => setLoginOpen(true)} aria-label={embedded ? t("profile.back_to_chat") : t("auth.login.title")}>
+              <span className={backIconClassName} />
             </button>
           </div>
         </ProfileShell>
@@ -379,51 +446,55 @@ export default function ProfiilBody({
   }
   if (loadFailed) {
     return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
-        <h1 id="profile-title" className={styles.profileTitle}>
+        <h1 id="profile-title" className={titleClassName}>
           {t("profile.title")}
         </h1>
-        <div className={styles.profileErrorState}>
-          <div role="alert" className={cn(styles.profileNote, styles.profileNoteCenter)}>
+        <div className={errorStateClassName}>
+          <div role="alert" className={cn(noteClassName, noteCenterClassName)}>
             {error || t("profile.load_failed")}
           </div>
         </div>
       </ProfileShell>;
   }
   return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
-      <h1 id="profile-title" className={styles.profileTitle}>
+      <h1 id="profile-title" className={titleClassName}>
         {t("profile.title")}
       </h1>
 
-      <div className={styles.profileHeaderCenter}>
-        <span ref={rolePillRef} className={styles.profileRolePill}>
+      <div className={headerCenterClassName}>
+        <span ref={rolePillRef} className={rolePillClassName}>
           {roleLabel}
         </span>
       </div>
 
-      <div className={styles.profileForm} ref={profileFormRef}>
-        <div className={cn(styles.profileOrbitWrapper, "profile-email-dock-wrapper profile-orbit-menu-wrapper")}>
-          <OrbitalMenu items={orbitItems} ariaLabel={t("profile.actions_label")} toggleLabelOpen={t("profile.actions_label")} toggleLabelClose={t("buttons.close")} />
+      <div ref={profileFormRef}>
+        <div className={centerLayerClassName}>
+          <div className={orbitCenterClassName}>
+            <div className={cn(orbitWrapperClassName, "profile-email-dock-wrapper profile-orbit-menu-wrapper")} style={{ marginTop: 0, marginBottom: 0 }}>
+              <OrbitalMenu items={orbitItems} ariaLabel={t("profile.actions_label")} toggleLabelOpen={t("profile.actions_label")} toggleLabelClose={t("buttons.close")} />
+            </div>
+          </div>
+
+          <div className={btnRowClassName} style={{ top: "50%", transform: "translateY(-50%)" }}>
+            <button type="button" className={backButtonClassName} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
+              <span className={backIconClassName}></span>
+            </button>
+
+            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+              <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
+              <span className={logoutLabelClassName}>{t("profile.logout")}</span>
+              <span className="sr-only">{t("profile.logout")}</span>
+            </button>
+          </div>
         </div>
 
-        {error && <div role="alert" className={cn(styles.profileNote, styles.profileNoteRow)}>
+        {error && <div role="alert" className={cn(noteClassName, noteRowClassName)}>
             {error}
           </div>}
 
-        {success && !error && <div role="status" className={cn(styles.profileNote, styles.profileNoteRow)}>
+        {success && !error && <div role="status" className={cn(noteClassName, noteRowClassName)}>
             {success}
           </div>}
-
-        <div className={styles.profileBtnRow}>
-          <button type="button" className={styles.backButton} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
-            <span className={styles.backIcon}></span>
-          </button>
-
-          <button type="button" className={styles.logoutButton} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
-            <Image src={logoutIconSrc} className={styles.logoutIcon} alt="" width={74} height={74} aria-hidden="true" />
-            <span className={styles.logoutLabel}>{t("profile.logout")}</span>
-            <span className="sr-only">{t("profile.logout")}</span>
-          </button>
-        </div>
       </div>
 
       {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {

@@ -36,7 +36,7 @@ export default function HomePage() {
   const initialSkipIntro = prefs.reduceMotion || hasSeenIntro;
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
   const [rightFadeDone, setRightFadeDone] = useState(() => initialSkipIntro);
-  const [introStart, setIntroStart] = useState(() => initialSkipIntro);
+  const [introStart, setIntroStart] = useState(true);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
@@ -165,14 +165,6 @@ export default function HomePage() {
       setIntroStart(true);
     }
   }, [prefs.reduceMotion]);
-  useEffect(() => {
-    if (initialSkipIntro) {
-      setIntroStart(true);
-      return;
-    }
-    const raf = requestAnimationFrame(() => setIntroStart(true));
-    return () => cancelAnimationFrame(raf);
-  }, [initialSkipIntro]);
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
       const tt = setTimeout(() => setMagnetReady(true), 150);

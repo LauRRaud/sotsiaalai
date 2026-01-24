@@ -9,13 +9,10 @@
   z-index: 2;
   pointer-events: none;
 }
-.glass-box,
-.glass-left,
-.chat-container {
+.glass-box, .chat-container {
   position: relative;
   z-index: 21;
 }
-.back-btn-wrapper,
 .chat-avatar-abs {
   position: relative;
   z-index: 25;

@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 const modalContentClassName = "flex w-full max-w-[28rem] flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]";
 const modalMessageClassName = "text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]";
-const modalActionsClassName = "flex flex-wrap justify-end gap-3";
+const modalActionsClassName = "flex flex-wrap justify-center gap-3";
 export default function ModalConfirm({
   message,
   confirmLabel = "Jah",

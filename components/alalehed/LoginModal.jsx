@@ -761,9 +761,9 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
-
         <div className="glass-box w-full !my-0">
+          <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+
           <div className={headerWrapClass}>
             <div className={modalTitleClassName}>
               {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
@@ -1017,7 +1017,7 @@ export default function LoginModal({
 
         {!isOtpStep && <>
             <div className="login-modal-bottom-link text-center mt-0">
-              <Link href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} className="link-brand text-[2.25rem] leading-[1.05] font-[650] max-md:text-[clamp(2.45rem,6.5vw,3.2rem)]">
+              <Link href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} className="link-brand text-[1.6rem] leading-[1.15] font-[600] max-md:text-[clamp(1.7rem,5.2vw,2.2rem)]">
                 {t("auth.login.register_link")}
               </Link>
             </div>

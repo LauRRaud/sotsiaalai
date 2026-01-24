@@ -136,8 +136,8 @@ export default function LoginModal({
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
   const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[1.5rem] max-md:mt-[1.2rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
-  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.12em]", "-mt-[0.6rem]", "max-md:-mt-[0.2rem]", emailRevealed ? "mb-[0.2rem]" : "mb-0"].join(" ");
-  const emailRowClass = ["flex", "justify-center", emailRevealed ? "mt-[1.35rem] mb-[0.7rem]" : "-mt-3 mb-0"].join(" ");
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.6rem]", "max-md:-mt-[0.2rem]", emailRevealed ? "mb-[0.4rem]" : "mb-0"].join(" ");
+  const emailRowClass = ["flex", "justify-center", emailRevealed ? "mt-[0.65rem] mb-[0.55rem]" : "-mt-3 mb-0"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
   const modalClasses = [
@@ -782,9 +782,9 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
-
         <div className="glass-box w-full !my-0">
+          <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+
           <div className={headerWrapClass}>
             <div className={modalTitleClassName}>
               {isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")}
@@ -811,7 +811,7 @@ export default function LoginModal({
           }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !mt-[1.2rem] !mb-[1.1rem] w-[clamp(16.5rem,19vw,18rem)] text-[1.16rem] max-md:w-[min(100%,var(--pin-grid-w))] max-md:max-w-[var(--pin-grid-w)]" onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !mt-[0.4rem] !mb-[0.9rem] !w-[clamp(13rem,17.2vw,15rem)] !max-w-[clamp(13rem,17.2vw,15rem)] text-[1.16rem] max-md:!w-[min(100%,var(--pin-grid-w))] max-md:!max-w-[var(--pin-grid-w)]" onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();
@@ -986,7 +986,7 @@ export default function LoginModal({
               {showPinMessage ? messageText : null}
             </div>
 
-            <div className="text-center mt-[0.7rem] mb-[0.9rem]">
+            <div className="text-center mt-[0.35rem] mb-[0.25rem]">
               <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")} disabled={pinLoading}>
                 {t("auth.login.toggle_keypad")}
               </button>
@@ -1042,8 +1042,8 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className="text-center mt-0 mb-[0.2em]">
-              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className="text-[2.25rem] leading-[1.05] font-[650] max-md:text-[clamp(2.45rem,6.5vw,3.2rem)]">
+            <div className="text-center mt-0 mb-0">
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className="link-brand text-[1.6rem] leading-[1.15] font-[600] max-md:text-[clamp(1.7rem,5.2vw,2.2rem)]">
                 {t("auth.login.register_link")}
               </AppLink>
             </div>

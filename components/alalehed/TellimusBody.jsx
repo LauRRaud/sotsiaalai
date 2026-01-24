@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { localizePath } from "@/lib/localizePath";
@@ -21,6 +20,8 @@ const titleClassName = "mt-[clamp(2.2rem,5.6vh,3.4rem)] text-center text-[2.15em
 const contentClassName = "mt-[clamp(1.6rem,4.4vh,2.6rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4 text-center";
 const backButtonClassName = "absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-1/2 inline-flex h-[5.7rem] w-[5.7rem] -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98]";
 const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
+const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
+const buttonPrimaryClassName = "text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] [background:var(--btn-primary-bg)] [border:var(--btn-primary-border)] shadow-[var(--btn-primary-shadow)] hover:[background:var(--btn-primary-bg-hover)] hover:[border:var(--btn-primary-border-hover)] hover:-translate-y-[1px] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:[border:var(--btn-primary-border-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)] active:translate-y-[1px] active:[background:var(--btn-primary-bg-active)] active:[border:var(--btn-primary-border-active)] active:shadow-[var(--btn-primary-shadow-active)]";
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -106,10 +107,8 @@ export default function TellimusBody() {
                 <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
               </p>
               <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
-                <Link href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)}>
-                  <Button as="a" variant="primary" size="lg" className="min-w-[9.5rem]" aria-describedby="cancel-note">
-                    {t("subscription.button.open_profile")}
-                  </Button>
+                <Link href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} className={`${buttonBaseClassName} ${buttonPrimaryClassName} min-w-[9.5rem]`.trim()} aria-describedby="cancel-note">
+                  {t("subscription.button.open_profile")}
                 </Link>
               </div>
             </> : <>
@@ -120,9 +119,9 @@ export default function TellimusBody() {
                   {error}
                 </p>}
               <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
-                <Button type="button" variant="primary" size="lg" className="min-w-[9.5rem]" disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
+                <button type="button" className={`${buttonBaseClassName} ${buttonPrimaryClassName} min-w-[9.5rem]`.trim()} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
-                </Button>
+                </button>
               </div>
             </>}
         </div>

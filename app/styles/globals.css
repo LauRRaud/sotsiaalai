@@ -2,4 +2,8 @@
 @import "./theme/light.css";
 @import "./theme/hc.css";
 @import "./tailwind.css";
-@import "./legacy.css";
+@import "./base/core.css";
+@import "./base/typography.css";
+@import "./base/a11y.css";
+@import "./base/animations.css";
+@import "./utilities/helpers.css";

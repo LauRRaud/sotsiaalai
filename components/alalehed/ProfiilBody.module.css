@@ -1,31 +1,7 @@
-.profilePageShell {
-  min-height: 100dvh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(1.4rem, 4vw, 2.6rem) 0;
-}
-
 .profileContainer {
-  position: relative;
-  z-index: 21;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  gap: var(--profile-stack-gap);
-  width: min(100%, 86vw);
-  max-width: clamp(32rem, 70vw, 50rem);
-  margin: clamp(1.4rem, 4vw, 2.6rem) auto;
-  border-radius: 1.5em;
-  --profile-pad-top: clamp(0.8rem, 2.5vw, 1.3rem);
-  --profile-pad-x: clamp(1.8rem, 4.5vw, 2.6rem);
-  --profile-pad-bottom: clamp(1.2rem, 3.5vw, 2rem);
-  padding: var(--profile-pad-top) var(--profile-pad-x) var(--profile-pad-bottom);
-  box-sizing: border-box;
   color: var(--glass-surface-text, #f2f2f2);
   background: transparent;
+  box-shadow: none !important;
   --profile-role-hole-width: var(--profile-actions-panel-w);
   --profile-role-hole-height: 3.2rem;
   --profile-role-hole-top: 6.75rem;
@@ -47,7 +23,7 @@
   --profile-role-text-size: 1.2rem;
   --profile-role-text-weight: 600;
   --profile-role-text-color: rgba(232, 232, 232, 0.78);
-  --profile-hole-border-w: 2px;
+  --profile-hole-border-w: 0px;
   --profile-hole-border-color: rgba(84, 95, 115, 0.55);
   --profile-stack-gap: clamp(1.4rem, 3.2vh, 2.3rem);
   --profile-form-gap: clamp(1.1rem, 2.6vh, 1.8rem);
@@ -69,32 +45,9 @@
 }
 
 .profileContainerPage {
-  width: var(--profile-diameter);
-  height: var(--profile-diameter);
-  inline-size: var(--profile-diameter);
-  block-size: var(--profile-diameter);
-  min-width: var(--profile-diameter);
-  min-height: var(--profile-diameter);
-  max-width: var(--profile-diameter);
-  max-height: var(--profile-diameter);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  margin-top: max(
-    0px,
-    calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem))
-  );
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
-  --profile-pad-top: clamp(1.6rem, 3vh, 2.6rem);
-  --profile-pad-bottom: clamp(0.2rem, 1vh, 0.6rem);
-  --profile-role-hole-mask: none;
-  --profile-role-only-mask: none;
   --profile-center-y: 50%;
-  --profile-orbit-offset: -10%;
-  --profile-btn-row-offset: 6%;
+  --profile-orbit-offset: 0px;
+  --profile-btn-row-offset: 0px;
 }
 
 .profileContainer::before {
@@ -107,14 +60,8 @@
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   pointer-events: none;
   z-index: 0;
-  -webkit-mask-image: var(--profile-role-hole-mask, none);
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-position: 0 0;
-  -webkit-mask-repeat: no-repeat;
-  mask-image: var(--profile-role-hole-mask, none);
-  mask-size: 100% 100%;
-  mask-position: 0 0;
-  mask-repeat: no-repeat;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 .profileContainer > * {
@@ -129,6 +76,8 @@
   --profile-email-text-color: rgba(248, 250, 252, 0.9);
   --profile-role-text-color: var(--profile-email-text-color);
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
+  --glass-surface-bg: rgba(9, 12, 18, 0.42);
+  --glass-blur-radius: 1.2rem;
 }
 
 .profileContainer[data-theme="light"] {
@@ -137,317 +86,22 @@
   --profile-role-text-color: #2b2620;
   --profile-role-text-size: 1.2rem;
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
+  --glass-shell-shadow: none;
+  --glass-surface-bg: rgba(252, 253, 255, 0.78);
+  --glass-blur-radius: 1.05rem;
   color: #1f2937;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
 }
 
 .profileContainerEmbedded {
-  width: var(--profile-diameter);
-  height: var(--profile-diameter);
-  inline-size: var(--profile-diameter);
-  block-size: var(--profile-diameter);
-  min-width: var(--profile-diameter);
-  min-height: var(--profile-diameter);
-  max-width: var(--profile-diameter);
-  max-height: var(--profile-diameter);
-  flex: 0 0 auto;
-  align-self: center;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  overflow: hidden;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  margin-top: max(
-    0px,
-    calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem))
-  );
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
   --profile-center-y: 50%;
-  --profile-orbit-offset: -10%;
-  --profile-btn-row-offset: 6%;
-}
-
-.profileContainerEmbedded::before {
-  content: none;
+  --profile-orbit-offset: 0px;
+  --profile-btn-row-offset: 0px;
 }
 
 @media (min-width: 48em) {
-  .profilePageShell {
-    justify-content: flex-start;
-    padding-top: calc(
-      env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem)
-    );
-  }
-
   .profileContainerEmbedded {
     padding-top: clamp(4rem, 8.2vh, 5.6rem);
     padding-bottom: clamp(0.2rem, 0.8vh, 0.6rem);
   }
 }
 
-@media (max-width: 48em) {
-  .profileContainer {
-    width: 100%;
-    max-width: none;
-    padding-left: clamp(1rem, 4.5vw, 1.375rem);
-    padding-right: clamp(1rem, 4.5vw, 1.375rem);
-  }
-
-  .profileContainerEmbedded {
-    width: 100vw;
-    height: 100dvh;
-    max-width: 100vw;
-    max-height: 100dvh;
-    min-width: 0;
-    min-height: 0;
-    flex: 0 0 auto;
-    aspect-ratio: auto;
-    border-radius: 0;
-    overflow: visible;
-    padding-top: clamp(0.4rem, 1.4vh, 1.1rem);
-    margin: 0 auto;
-  }
-}
-
-.profileTitle {
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  text-align: center;
-  font-size: clamp(1.9rem, 1.5rem + 1.7vw, 2.5rem);
-  line-height: 1.15;
-  margin-top: clamp(0.5rem, 1.4vh, 1rem);
-  margin-bottom: clamp(1.1rem, 3.2vh, 2rem);
-  color: var(--title-color, var(--brand-primary));
-}
-
-.profileHeaderCenter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 0 clamp(0.6rem, 1.4vh, 1.1rem);
-}
-
-.profileRolePill {
-  font-size: var(--profile-role-text-size, 1.1rem);
-  font-weight: var(--profile-role-text-weight, 600);
-  margin: 0 0 0.1em;
-  color: var(--profile-role-text-color, rgba(232, 232, 232, 0.8));
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  background: transparent;
-  border: none;
-  text-shadow: 0 0.06rem 0.22rem rgba(0, 0, 0, 0.5);
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  padding: 0 0.75em;
-  line-height: 3.2rem;
-  block-size: 3.2rem;
-  white-space: nowrap;
-  overflow: visible;
-  text-overflow: clip;
-  transition: opacity 0.32s ease;
-  will-change: opacity;
-}
-
-.profileContainer[data-theme="light"] .profileRolePill {
-  text-shadow: none;
-}
-
-:global(html.profile-orbit-open) .profileRolePill {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.profileForm {
-  gap: var(
-    --profile-form-gap,
-    var(--profile-stack-gap, clamp(0.6rem, 2.2vh, 1.2rem))
-  );
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
-  position: absolute;
-  inset-inline: 0;
-  top: var(--profile-center-y, 50%);
-  transform: translateY(-50%);
-  padding-bottom: calc(
-    var(--profile-footer-clearance, clamp(2.6rem, 6vh, 4.2rem)) +
-      env(safe-area-inset-bottom, 0px)
-  );
-}
-
-.profileOrbitWrapper {
-  width: 100%;
-  max-width: var(--profile-actions-panel-w, 26.25rem);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  inset-inline: 0;
-  top: calc(var(--profile-center-y, 50%) + var(--profile-orbit-offset));
-  transform: translateY(-50%);
-  z-index: 2;
-}
-
-.profileBtnRow {
-  position: absolute;
-  inset-inline: 0;
-  top: calc(var(--profile-center-y, 50%) + var(--profile-btn-row-offset));
-  padding-left: calc(var(--hud-edge-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
-  padding-right: calc(
-    var(--hud-edge-right, 0px) + clamp(0.1rem, 1.2vw, 0.8rem)
-  );
-  width: 100%;
-  max-width: none;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: clamp(0.6rem, 1.6vw, 0.95rem);
-  z-index: 3;
-  pointer-events: none;
-}
-
-:global(html.profile-orbit-open) .profileBtnRow {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.backButton {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  inline-size: 5.7rem;
-  block-size: 5.7rem;
-  margin: 0;
-  line-height: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  cursor: var(--cursor-pointer);
-  pointer-events: auto;
-  flex: 0 0 auto;
-}
-
-.backIcon {
-  position: relative;
-  inline-size: 5.7rem;
-  block-size: 5.7rem;
-  display: block;
-  box-sizing: content-box;
-  background: center center / 68% 68% no-repeat url("/logo/tagasinupp.svg");
-  transition:
-    transform 0.18s ease,
-    filter 0.16s ease;
-  transform-origin: center center;
-  will-change: transform;
-  flex: none;
-  transform: translateY(0) translateZ(0);
-}
-.profileContainer[data-theme="light"] .backIcon {
-  background-image: url("/logo/tagasinupphele.svg");
-}
-
-.backButton:hover .backIcon,
-.backButton:focus-visible .backIcon {
-  transform: translateY(0) scale(1.12);
-}
-
-.backButton:active .backIcon {
-  transform: translateY(0.08rem) scale(0.98);
-}
-
-.logoutButton {
-  inline-size: 6.6rem;
-  block-size: 6.6rem;
-  display: grid;
-  place-items: center;
-  pointer-events: auto;
-  position: relative;
-  background: transparent;
-  border: none;
-  border-radius: 999px;
-  cursor: var(--cursor-pointer);
-}
-
-.logoutIcon {
-  width: 5.8rem;
-  height: 5.8rem;
-  filter: none;
-  transition: transform 140ms ease;
-}
-
-.logoutButton:hover .logoutIcon,
-.logoutButton:focus-visible .logoutIcon {
-  transform: translateY(-1px) scale(1.06);
-}
-
-.logoutLabel {
-  position: absolute;
-  top: calc(100% - 0.15rem);
-  left: 50%;
-  transform: translate(-50%, 0);
-  display: block;
-  font-size: 1.36rem;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  color: var(--title-color, var(--brand-primary));
-  line-height: 1.1;
-  white-space: nowrap;
-  width: max-content;
-  min-width: max-content;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 260ms ease-out,
-    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.logoutButton:hover .logoutLabel,
-.logoutButton:focus-visible .logoutLabel {
-  opacity: 1;
-  transform: translate(-50%, 2px);
-}
-
-.profileLoading {
-  padding: 1rem;
-  text-align: center;
-  color: var(--glass-surface-text, #f2f2f2);
-}
-
-.profileNote {
-  border-radius: 0.9rem;
-  border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.35));
-  background: var(--glass-analysis-bg, rgba(0, 0, 0, 0.2));
-  color: var(--glass-surface-text, #f2f2f2);
-  padding: 0.8rem 1rem;
-  text-align: center;
-}
-
-.profileNoteRow {
-  margin-top: 0.75rem;
-}
-
-.profileNoteCenter {
-  width: min(32rem, 100%);
-  margin: 0 auto;
-}
-
-.profileErrorState {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
