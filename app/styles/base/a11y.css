@@ -143,7 +143,8 @@ html[data-contrast="hc"]
   :is(
     input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
         .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern {
+      ), textarea:not(.chat-input-field), select, .input-modern
+  ) {
   background: var(--hc-bg);
   color: var(--hc-text);
   border: 2px solid var(--hc-accent);
@@ -154,7 +155,8 @@ html[data-contrast="hc"]
   :is(
     input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
         .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern {
+      ), textarea:not(.chat-input-field), select, .input-modern
+  ) {
   background: var(--hc-bg);
   border-color: var(--hc-accent);
   color: var(--hc-text);
@@ -165,12 +167,8 @@ html[data-contrast="hc"]
   :is(
     input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
         .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern, html[data-contrast="hc"]
-  body
-  :is(
-    input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
-        .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern {
+      ), textarea:not(.chat-input-field), select, .input-modern
+  ) {
   background: var(--hc-surface);
   border-color: var(--hc-accent-soft);
   color: var(--hc-text);
@@ -180,13 +178,15 @@ html[data-contrast="hc"]
   :is(
     input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
         .chat-input-field
-      ), textarea:not(.chat-input-field), select, .input-modern {
+      ), textarea:not(.chat-input-field), select, .input-modern
+  ) {
   outline: none;
 }
 html[data-contrast="hc"]
   body
   :is(
-    input, textarea, .chat-input-field, .input-modern {
+    input, textarea, .chat-input-field, .input-modern
+  ) {
   color: var(--hc-muted);
   opacity: 1;
 }
