@@ -106,6 +106,7 @@ function AccessibilityProvider({
   initialPrefs = null
 }) {
   const [prefs, setPrefsState] = useState(() => buildInitialPrefs(initialPrefs));
+  const [prefsHydrated, setPrefsHydrated] = useState(false);
   const [open, setOpen] = useState(false);
   const hydratedRef = useRef(false);
   const applyingRef = useRef(false);
@@ -234,6 +235,7 @@ function AccessibilityProvider({
     setPrefsState(initial);
     safeApplyPrefsToDom(initial, "init");
     hydratedRef.current = true;
+    setPrefsHydrated(true);
     const hasCookie = !!cookiePrefs;
     if (!hasCookie && initialIsHomeRef.current) {
       promptedOnceRef.current = true;
@@ -439,8 +441,9 @@ function AccessibilityProvider({
     openModal,
     closeModal,
     isModalOpen: open,
-    announce
-  }), [prefs, setPrefs, openModal, closeModal, open, announce]);
+    announce,
+    hydrated: prefsHydrated
+  }), [prefs, setPrefs, openModal, closeModal, open, announce, prefsHydrated]);
   return <A11yContext.Provider value={value}>
       {}
       <div aria-live="polite" aria-atomic="true" style={{

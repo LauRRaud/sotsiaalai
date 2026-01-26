@@ -8,13 +8,14 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import InviteModal from "@/components/invite/InviteModal";
+import BackButton from "@/components/ui/BackButton";
+import GlassRing from "@/components/ui/GlassRing";
+import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-[48em]:pt-[env(safe-area-inset-top,0px)] max-[48em]:pb-[env(safe-area-inset-bottom,0px)] min-[48em]:pt-[calc(env(safe-area-inset-top,0px)+clamp(0.7rem,1.9vh,1.3rem))]";
-const circleClassName = "relative flex h-[var(--chat-diameter)] w-[var(--chat-diameter)] min-w-[var(--chat-diameter)] max-w-[var(--chat-diameter)] min-h-[var(--chat-diameter)] max-h-[var(--chat-diameter)] flex-col gap-4 overflow-auto overflow-x-hidden rounded-full bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-none backdrop-blur-[var(--glass-blur-radius,1rem)] light:shadow-[0_18px_40px_rgba(0,0,0,0.16)] p-[clamp(1.4rem,3.5vh,2.2rem)] aspect-square self-center mx-auto mt-[max(0px,calc((100dvh-var(--chat-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] mb-0 max-[48em]:w-screen max-[48em]:h-[100dvh] max-[48em]:max-w-screen max-[48em]:max-h-[100dvh] max-[48em]:min-w-0 max-[48em]:min-h-0 max-[48em]:rounded-none max-[48em]:overflow-visible max-[48em]:aspect-auto max-[48em]:pt-[clamp(1.2rem,3vh,2rem)] max-[48em]:mt-0";
-const titleClassName = "mb-[1.2rem] mt-[2.9rem] w-full max-w-full text-center text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const circleClassName = "h-[var(--chat-diameter)] w-[var(--chat-diameter)] min-w-[var(--chat-diameter)] max-w-[var(--chat-diameter)] min-h-[var(--chat-diameter)] max-h-[var(--chat-diameter)] flex-col gap-4 overflow-auto overflow-x-hidden p-[clamp(1.4rem,3.5vh,2.2rem)] aspect-square self-center mx-auto mt-[max(0px,calc((100dvh-var(--chat-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] mb-0 max-[48em]:w-screen max-[48em]:h-[100dvh] max-[48em]:max-w-screen max-[48em]:max-h-[100dvh] max-[48em]:min-w-0 max-[48em]:min-h-0 max-[48em]:rounded-none max-[48em]:overflow-visible max-[48em]:aspect-auto max-[48em]:pt-[clamp(1.2rem,3vh,2rem)] max-[48em]:mt-0";
+const titleClassName = `${glassPageTitleClassName} w-full max-w-full`;
 const contentClassName = "flex w-full flex-1 flex-col gap-4 overflow-hidden text-center";
 const scrollAreaClassName = "flex-1 min-h-0 overflow-y-auto pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
-const backButtonClassName = "absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-1/2 inline-flex h-[5.7rem] w-[5.7rem] -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98]";
-const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
 export default function RoomsPage() {
   const router = useRouter();
   const {
@@ -154,14 +155,16 @@ export default function RoomsPage() {
 const metaItemClass = "text-[0.78rem] text-[color:var(--pt-200)] before:content-['|'] before:mx-[0.35rem] before:ml-[0.1rem] before:text-[rgba(148,163,184,0.7)] first:before:content-none [.theme-light_&]:text-[#475569]";
 const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
   return <>
-      <section className={pageShellClassName}>
-        <div className={circleClassName} role="region" aria-label={t("rooms.aria", "Ruumid")}>
-          <button type="button" className={backButtonClassName} onClick={() => pushWithTransition(router, "/vestlus")} aria-label={t("rooms.back_to_chats", "Tagasi vestlustesse")}>
-            <span className={backIconClassName} />
-          </button>
-          <h1 className={titleClassName}>
-            {t("rooms.title", "Ruumid")}
-          </h1>
+    <section className={pageShellClassName}>
+      <GlassRing className={circleClassName} role="region" aria-label={t("rooms.aria", "Ruumid")}>
+        <BackButton
+          onClick={() => pushWithTransition(router, "/vestlus")}
+          ariaLabel={t("rooms.back_to_chats", "Tagasi vestlustesse")}
+          className={glassPageBackClassName}
+        />
+        <h1 className={titleClassName}>
+          {t("rooms.title", "Ruumid")}
+        </h1>
           <div className={contentClassName}>
             {loading ? <p className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]" aria-busy="true">
                 {t("rooms.loading", "Laadin ruume...")}
@@ -223,8 +226,8 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
                 </ul>
               </div>}
           </div>
-        </div>
-      </section>
+      </GlassRing>
+    </section>
       <Modal open={!!confirmRoom} onClose={closeDeleteConfirm} closeOnOverlayClick={!deletingId} aria-labelledby="rooms-delete-title">
         {confirmRoom ? <div className="flex flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]">
             <h2 id="rooms-delete-title" className={modalTitleClassName}>

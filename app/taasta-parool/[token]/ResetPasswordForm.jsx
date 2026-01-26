@@ -7,14 +7,14 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import BackButton from "@/components/ui/BackButton";
+import GlassRing from "@/components/ui/GlassRing";
+import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
 const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
-const circleClassName = "relative flex aspect-square w-[var(--profile-diameter)] h-[var(--profile-diameter)] min-w-[var(--profile-diameter)] min-h-[var(--profile-diameter)] max-w-[var(--profile-diameter)] max-h-[var(--profile-diameter)] flex-col items-center rounded-full bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-none backdrop-blur-[var(--glass-blur-radius,1rem)] light:shadow-[0_18px_40px_rgba(0,0,0,0.16)] overflow-hidden px-[clamp(1.8rem,5vw,3.2rem)] pt-[clamp(1.6rem,4.2vw,2.6rem)] md:mt-[max(0px,calc((100dvh-var(--profile-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] md:mb-0 md:mx-auto max-md:w-[100vw] max-md:h-[100dvh] max-md:max-w-[100vw] max-md:max-h-[100dvh] max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto max-md:rounded-none max-md:overflow-visible max-md:pt-[clamp(0.4rem,1.4vh,1.1rem)]";
-const titleClassName = "mt-[clamp(2.2rem,5.6vh,3.4rem)] text-center text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)]";
+const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-[clamp(2.2rem,5.2vh,3.2rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-5 text-center";
 const inputClassName = "w-full max-w-[22rem]";
-const backButtonClassName = "absolute left-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] top-1/2 inline-flex h-[5.7rem] w-[5.7rem] -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.15] focus-visible:outline-none active:scale-[0.98]";
-const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
 export default function ResetPasswordForm({
   token
 }) {
@@ -79,16 +79,12 @@ export default function ResetPasswordForm({
   }
   return (
     <section className={pageShellClassName} lang={locale}>
-      <div className={circleClassName}>
-        <button
-          type="button"
-          className={backButtonClassName}
+      <GlassRing>
+        <BackButton
           onClick={() => pushWithTransition(router, localizePath("/", locale))}
-          aria-label={backLabel}
-        >
-          <span className={backIconClassName} aria-hidden="true" />
-          <span className="sr-only">{backLabel}</span>
-        </button>
+          ariaLabel={backLabel}
+          className={glassPageBackClassName}
+        />
         <h1 className={titleClassName}>{t("auth.resetForm.title")}</h1>
         <div className={contentClassName}>
           {success ? (
@@ -150,7 +146,7 @@ export default function ResetPasswordForm({
           )}
           <footer className="pt-3 text-center opacity-80">{t("about.footer.note")}</footer>
         </div>
-      </div>
+      </GlassRing>
     </section>
   );
 }

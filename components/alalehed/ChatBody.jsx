@@ -22,11 +22,15 @@ import { useConversationSources } from "@/components/chat/hooks/useConversationS
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
-import profileStyles from "@/components/alalehed/ProfiilBody.module.css";
-const chatTitleClassName = "mt-[2.9rem] mb-[1.2rem] text-center text-[2.15em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const backWrapperClassName = "absolute left-[max(0px,calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem)-clamp(0.6rem,1.6vw,1rem)))] top-1/2 -translate-y-1/2 z-[80] flex h-[5.7rem] w-[5.7rem] items-center justify-center pointer-events-none";
-const backButtonClassName = profileStyles.backButton;
-const backIconClassName = profileStyles.backIcon;
+import BackButton from "@/components/ui/BackButton";
+import GlassRing from "@/components/ui/GlassRing";
+import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { cn } from "@/components/ui/cn";
+const chatTitleClassName =
+  "mt-[clamp(4.6rem,10.5vh,6.8rem)] text-center text-[clamp(2.3rem,4.2vw,2.9rem)] " +
+  "leading-[1.12] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] " +
+  "[text-shadow:var(--glass-modal-title-shadow)] " +
+  "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
@@ -473,22 +477,34 @@ export default function ChatBody({
     });
     if (shouldOpen) setRollDirection("right");
   }, [searchParams]);
-  const rollCardClass = ["chat-roll-card", `roll-${rollDirection}`, profileOpen ? "is-profile profile-roll" : "", isRolling ? "is-rolling" : "", inputFocused && !profileOpen ? "is-input-focus" : ""].filter(Boolean).join(" ");
-  const chatFaceClass = `chat-roll-face chat-roll-face--chat${profileOpen ? "" : " is-active"}`;
-  const profileFaceClass = `chat-roll-face chat-roll-face--profile${profileOpen ? " is-active" : ""}`;
+  const rollCardClass = null;
+  const chatFaceClass = null;
+  const profileFaceClass = null;
+  const showChatFace = !profileOpen;
+  const showProfileFace = profileOpen;
+  const chatContainerClassName = cn(
+    "main-content",
+    "chat-container",
+    "chat-container--round",
+    inputFocused && !profileOpen ? "chat-container--input-focus" : null
+  );
   return <>
       <InviteModal />
-      <div className={`chat-page-shell${isEntering ? " chat-entering" : ""}`}>
-        <div className="chat-roll-stage">
-          <div className={rollCardClass}>
-            <div className={chatFaceClass} aria-hidden={profileOpen ? "true" : "false"}>
-              <div className={`main-content glass-box chat-container chat-container--round${inputFocused && !profileOpen ? " chat-container--input-focus" : ""}`} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef}>
-                <div className="chat-window-fade" aria-hidden="true" />
-                {!profileOpen ? <div className={`${backWrapperClassName}${analysis.showAnalysisPanel ? " invisible" : ""} -translate-x-[0.35rem]`} aria-hidden={analysis.showAnalysisPanel ? "true" : "false"}>
-                    <button type="button" className={`${backButtonClassName} pointer-events-auto relative z-[90]`} onClick={handleBackHome} aria-label={t("chat.back_to_home")} tabIndex={analysis.showAnalysisPanel ? -1 : undefined}>
-                      <span className={backIconClassName} />
-                    </button>
-                  </div> : null}
+      <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null)}>
+        <>
+          {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
+            <GlassRing
+              className={chatContainerClassName}
+              role="region"
+              aria-label={t("chat.page_label")}
+              ref={chatContainerRef}
+              data-chat-container="true"
+            >
+                {!profileOpen ? <BackButton
+                    onClick={handleBackHome}
+                    ariaLabel={t("chat.back_to_home")}
+                    className={cn(glassPageBackClassName, "z-[80] pointer-events-auto")}
+                  /> : null}
 
                 <RightRail t={t} roomId={roomId} isLightTheme={isLightTheme} inputFocused={inputFocused} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} />
 
@@ -512,7 +528,9 @@ export default function ChatBody({
 
                 <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} />
 
-                <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} />
+                {analysis.showAnalysisPanel ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
+
+                <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={inputFocused && !profileOpen} />
 
                 {isRoomMode && inputFocused ? <div className="chat-ai-toggle">
                     <label className={aiToggleLabelClassName}>
@@ -532,14 +550,13 @@ export default function ChatBody({
 
                 <footer className="chat-footer" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
-              </div>
+              </GlassRing>
             </div>
-            <div className={profileFaceClass} aria-hidden={profileOpen ? "false" : "true"}>
+            : null}
+            {showProfileFace ? <div className={profileFaceClass ?? undefined} aria-hidden={profileOpen ? "false" : "true"}>
               <ProfiilBody embedded isActive={profileOpen} onBack={closeProfile} />
-            </div>
-          </div>
-        </div>
-        {analysis.showAnalysisPanel ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
+            </div> : null}
+        </>
       </div>
     </>;
 }

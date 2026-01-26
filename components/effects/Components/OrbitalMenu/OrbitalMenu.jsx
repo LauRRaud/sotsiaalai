@@ -25,7 +25,8 @@ export default function OrbitalMenu({
   ariaLabel = "Actions",
   toggleLabelOpen = "Open menu",
   toggleLabelClose = "Close menu",
-  className = ""
+  className = "",
+  onOpenChange
 }) {
   const menuId = useId();
   const rootRef = useRef(null);
@@ -58,6 +59,9 @@ export default function OrbitalMenu({
     blur: 2,
     hide: true
   })));
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
   useEffect(() => {
     const wasOpen = prevOpenRef.current;
     prevOpenRef.current = isOpen;

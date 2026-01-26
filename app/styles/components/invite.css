@@ -76,6 +76,16 @@
 .invite-modal h2 {
   letter-spacing: 0.03rem;
 }
+.invite-modal-content {
+  overflow: visible !important;
+}
+.invite-modal-scroll {
+  scrollbar-width: none;
+}
+.invite-modal-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 @media (max-width: 48em) {
   .invite-modal-backdrop {
     align-items: stretch;

@@ -1,10 +1,7 @@
 import { cookies } from "next/headers";
-import { getServerSession } from "next-auth";
-import ProfiilBody from "@/components/alalehed/ProfiilBody";
+import { redirect } from "next/navigation";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
-import { authConfig } from "@/auth";
-import { prisma } from "@/lib/prisma";
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -18,26 +15,5 @@ export async function generateMetadata() {
   });
 }
 export default async function Page() {
-  const session = await getServerSession(authConfig);
-  let initialProfile = null;
-  try {
-    if (session?.user?.id) {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: String(session.user.id)
-        },
-        select: {
-          email: true,
-          role: true,
-          passwordHash: true
-        }
-      });
-      if (user) initialProfile = {
-        email: user.email || "",
-        role: user.role || null,
-        hasPassword: !!user.passwordHash
-      };
-    }
-  } catch {}
-  return <ProfiilBody initialProfile={initialProfile} />;
+  redirect("/?mode=chat&profile=1");
 }

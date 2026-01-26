@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import IconButton from "@/components/ui/IconButton";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
+import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 function parseEmails(raw) {
   if (!raw) return [];
@@ -47,23 +48,6 @@ export default function InviteModal() {
     return `${lower.charAt(0).toLocaleUpperCase(locale || "et")}${lower.slice(1)}`;
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
-  const choiceBaseClassName =
-    "flex items-center gap-[0.55rem] w-full text-[1.08rem] px-[0.9rem] py-[0.72rem] " +
-    "rounded-[var(--seg-card-radius)] border border-[color:var(--seg-card-border)] " +
-    "bg-[var(--seg-card-bg)] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] " +
-    "transition-[transform,border-color,background,box-shadow,color] duration-150 ease-out " +
-    "hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)]";
-  const choiceCheckedClassName =
-    "bg-[var(--seg-card-bg-selected)] text-[color:var(--seg-card-text-selected)] shadow-[var(--seg-card-shadow-selected)]";
-  const radioClassName = "peer sr-only";
-  const radioIndicatorClassName =
-    "relative flex h-[18px] w-[18px] items-center justify-center rounded-full border-[2px] border-solid " +
-    "border-[rgba(248,253,255,0.55)] bg-[rgba(12,16,24,0.6)] " +
-    "light:border-[rgba(122,58,56,0.55)] light:bg-[rgba(255,255,255,0.72)] " +
-    "after:block after:h-[10px] after:w-[10px] after:scale-0 after:rounded-full " +
-    "after:bg-[#f8fdff] light:after:bg-[#7A3A38] " +
-    "after:opacity-0 after:transition-[transform,opacity] after:duration-150 after:content-[''] " +
-    "peer-checked:after:opacity-100 peer-checked:after:scale-100";
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
@@ -182,7 +166,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="relative overflow-visible pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
@@ -190,7 +174,7 @@ export default function InviteModal() {
         </h2>
       </header>
 
-      <div className="grid gap-[1.6rem]">
+      <div className="invite-modal-scroll grid max-h-[calc(100dvh-3.2rem)] gap-[1.6rem] overflow-y-auto pr-[0.35rem] pt-[0.35rem]">
         {!session?.user?.id ? <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
@@ -201,11 +185,9 @@ export default function InviteModal() {
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
             <div className="grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
               {paymentOptions.map(option => (
-                <label key={option.value} className={`${choiceBaseClassName} ${paymentMode === option.value ? choiceCheckedClassName : ""}`.trim()}>
-                  <input type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className={radioClassName} />
-                  <span aria-hidden="true" className={radioIndicatorClassName} />
-                  <span className="flex-1">{option.label}</span>
-                </label>
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full">
+                  {option.label}
+                </OptionCard>
               ))}
             </div>
 
@@ -217,7 +199,7 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" size="sm" className="min-w-[8.4rem] text-[1.02rem] py-[0.55rem] px-[1.15rem]" disabled={busy}>
+              <Button type="submit" variant="primary" disabled={busy}>
                 {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
@@ -228,7 +210,7 @@ export default function InviteModal() {
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" size="sm" className="text-[1rem] py-[0.52rem] px-[1.05rem]" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>

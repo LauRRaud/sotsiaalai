@@ -12,11 +12,11 @@ import { localizePath } from "@/lib/localizePath";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AppLink from "@/components/ui/Link";
-import { linkBrandBase } from "@/components/ui/linkStyles";
+import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
 const noteErrorClassName = "text-[#fca5a5]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
-const inlineLinkClassName = `${linkBrandBase} text-[1.35rem] max-md:text-[1.55rem]`;
+const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(3rem,8.8vw,4.4rem)] max-md:!leading-[1.02] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 function SubmitArrowOverlayWhite({
   filled = 0,

@@ -1,14 +1,16 @@
 .slot {
-  position: sticky;
-  top: var(--chat-nav-top, 50%);
-  height: 1px;
+  position: absolute;
+  top: calc(50% + var(--glass-center-offset, 0px));
+  height: 0;
+  width: 100%;
+  align-self: stretch;
   z-index: 70;
   pointer-events: none;
 }
 
 .rightRail {
   position: absolute;
-  right: calc(var(--hud-edge-right, var(--hud-edge, 0px)) - 3.2rem);
+  right: calc(var(--glass-edge-right, 0px) + var(--rail-inset, 0.6rem));
   top: 0;
   transform: translateY(-50%);
   width: var(--right-rail-width, clamp(4.6rem, 8vw, 5.8rem));
@@ -18,7 +20,7 @@
   z-index: 70;
   --rail-item-size: var(--hud-icon, 3rem);
   --rail-icon-scale: 0.72;
-  --rail-center-x: 0.75rem;
+  --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
   --rail-step: calc(var(--rail-item-size) * 1.18);
   overflow: hidden;
   overscroll-behavior: contain;
@@ -41,7 +43,7 @@
 .item {
   position: absolute;
   top: 50%;
-  left: calc(50% + var(--rail-center-x));
+  left: calc(100% - var(--rail-edge-offset));
   width: var(--rail-item-size);
   height: var(--rail-item-size);
   min-width: var(--rail-item-size);

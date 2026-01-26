@@ -1,7 +1,4 @@
 .profileContainer {
-  color: var(--glass-surface-text, #f2f2f2);
-  background: transparent;
-  box-shadow: none !important;
   --profile-role-hole-width: var(--profile-actions-panel-w);
   --profile-role-hole-height: 3.2rem;
   --profile-role-hole-top: 6.75rem;
@@ -33,41 +30,12 @@
   --profile-btn-row-offset: 0px;
 }
 
-.profileContainer::before {
-  opacity: 1;
-  filter: none;
-  -webkit-filter: none;
-  transform: translateZ(0);
-  will-change: transform;
-  background-image: none;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .profileContainerPage {
   --profile-center-y: 50%;
   --profile-orbit-offset: 0px;
   --profile-btn-row-offset: 0px;
 }
 
-.profileContainer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  pointer-events: none;
-  z-index: 0;
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-
-.profileContainer > * {
-  position: relative;
-  z-index: 2;
-}
 
 .profileContainer[data-theme="dark"] {
   --profile-actions-panel-w: 17.75rem;
@@ -76,8 +44,6 @@
   --profile-email-text-color: rgba(248, 250, 252, 0.9);
   --profile-role-text-color: var(--profile-email-text-color);
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
-  --glass-surface-bg: rgba(9, 12, 18, 0.42);
-  --glass-blur-radius: 1.2rem;
 }
 
 .profileContainer[data-theme="light"] {
@@ -86,10 +52,6 @@
   --profile-role-text-color: #2b2620;
   --profile-role-text-size: 1.2rem;
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
-  --glass-shell-shadow: none;
-  --glass-surface-bg: rgba(252, 253, 255, 0.78);
-  --glass-blur-radius: 1.05rem;
-  color: #1f2937;
 }
 
 .profileContainerEmbedded {

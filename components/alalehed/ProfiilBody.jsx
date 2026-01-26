@@ -15,6 +15,7 @@ import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
+import GlassRing from "@/components/ui/GlassRing";
 import styles from "./ProfiilBody.module.css";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
@@ -25,23 +26,7 @@ const pageShellClassName =
   "min-h-[100dvh] w-full grid place-items-center";
 const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
-  "w-[min(100%,86vw)] max-w-[clamp(32rem,70vw,50rem)] my-[clamp(1.4rem,4vw,2.6rem)] " +
-  "box-border text-[color:var(--glass-surface-text,#f2f2f2)] bg-transparent " +
-  "shadow-[var(--glass-shell-shadow,none)] light:[--glass-shell-shadow:0_18px_40px_rgba(0,0,0,0.16)] " +
-  "[--profile-pad-top:clamp(0.8rem,2.5vw,1.3rem)] [--profile-pad-x:clamp(1.8rem,4.5vw,2.6rem)] [--profile-pad-bottom:clamp(1.2rem,3.5vw,2rem)] " +
-  "px-[var(--profile-pad-x)] pt-[var(--profile-pad-top)] pb-[var(--profile-pad-bottom)] " +
-  "max-[48em]:px-[clamp(1rem,4.5vw,1.375rem)]";
-const containerPageClassName =
-  "!w-[var(--profile-diameter)] !h-[var(--profile-diameter)] !min-w-[var(--profile-diameter)] !min-h-[var(--profile-diameter)] " +
-  "!max-w-[var(--profile-diameter)] !max-h-[var(--profile-diameter)] aspect-square !rounded-full overflow-hidden " +
-  "!my-0 m-0 mx-auto " +
-  "[--profile-pad-top:clamp(4rem,8.2vh,5.6rem)] [--profile-pad-bottom:clamp(0.2rem,0.8vh,0.6rem)]";
-const containerEmbeddedClassName =
-  "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 " +
-  "!w-[var(--profile-diameter)] !h-[var(--profile-diameter)] !min-w-[var(--profile-diameter)] !min-h-[var(--profile-diameter)] " +
-  "!max-w-[var(--profile-diameter)] !max-h-[var(--profile-diameter)] flex-none aspect-square !rounded-full overflow-hidden " +
-  "m-0 mx-auto " +
-  "pt-[clamp(4rem,8.2vh,5.6rem)] pb-[clamp(0.2rem,0.8vh,0.6rem)]";
+  "box-border text-[color:var(--glass-surface-text,#f2f2f2)]";
 const titleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
@@ -53,10 +38,9 @@ const rolePillClassName =
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
   "bg-transparent border-none shadow-none " +
   "leading-[3.2rem] h-[3.2rem]";
-const centerLayerClassName = "absolute inset-0 z-[2]";
-const orbitCenterClassName = "absolute inset-0 flex items-center justify-center";
+const orbitLayerClassName = "absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
-  "w-full max-w-[var(--profile-actions-panel-w,26.25rem)] mx-auto flex items-center justify-center pointer-events-auto";
+  "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto";
 const btnRowClassName =
   "absolute inset-x-0 top-1/2 -translate-y-1/2 z-[3] " +
   "w-full flex items-center justify-between gap-[clamp(0.6rem,1.6vw,0.95rem)] pointer-events-none " +
@@ -95,13 +79,12 @@ function ProfileShell({
   const containerClass = cn(
     styles.profileContainer,
     containerBaseClassName,
-    embedded ? containerEmbeddedClassName : containerPageClassName,
     embedded ? styles.profileContainerEmbedded : styles.profileContainerPage,
     embedded ? "profile-container profile-container--embedded" : null
   );
-  const container = <div className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme}>
+  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme}>
       {children}
-    </div>;
+    </GlassRing>;
   if (embedded) {
     return container;
   }
@@ -186,6 +169,7 @@ export default function ProfiilBody({
   const [loggingOut, setLoggingOut] = useState(false);
   const [logoutIconState, setLogoutIconState] = useState("idle");
   const [loginOpen, setLoginOpen] = useState(false);
+  const [orbitOpen, setOrbitOpen] = useState(false);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
@@ -462,30 +446,40 @@ export default function ProfiilBody({
       </h1>
 
       <div className={headerCenterClassName}>
-        <span ref={rolePillRef} className={rolePillClassName}>
+        <span
+          ref={rolePillRef}
+          className={cn(rolePillClassName, orbitOpen ? "opacity-0 pointer-events-none" : null)}
+          aria-hidden={orbitOpen ? "true" : undefined}
+        >
           {roleLabel}
         </span>
       </div>
 
       <div ref={profileFormRef}>
-        <div className={centerLayerClassName}>
-          <div className={orbitCenterClassName}>
-            <div className={cn(orbitWrapperClassName, "profile-email-dock-wrapper profile-orbit-menu-wrapper")} style={{ marginTop: 0, marginBottom: 0 }}>
-              <OrbitalMenu items={orbitItems} ariaLabel={t("profile.actions_label")} toggleLabelOpen={t("profile.actions_label")} toggleLabelClose={t("buttons.close")} />
+        <div className={orbitLayerClassName}>
+          <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
+            <OrbitalMenu
+              items={orbitItems}
+              ariaLabel={t("profile.actions_label")}
+              toggleLabelOpen={t("profile.actions_label")}
+              toggleLabelClose={t("buttons.close")}
+              onOpenChange={setOrbitOpen}
+            />
+          </div>
+
+          {!orbitOpen && (
+            <div className={btnRowClassName}>
+              <button type="button" className={backButtonClassName} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
+                <span className={backIconClassName}></span>
+              </button>
+
+              <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+                <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
+                <span className={logoutLabelClassName}>{t("profile.logout")}</span>
+                <span className="sr-only">{t("profile.logout")}</span>
+              </button>
             </div>
-          </div>
-
-          <div className={btnRowClassName} style={{ top: "50%", transform: "translateY(-50%)" }}>
-            <button type="button" className={backButtonClassName} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
-              <span className={backIconClassName}></span>
-            </button>
-
-            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
-              <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
-              <span className={logoutLabelClassName}>{t("profile.logout")}</span>
-              <span className="sr-only">{t("profile.logout")}</span>
-            </button>
-          </div>
+          )}
         </div>
 
         {error && <div role="alert" className={cn(noteClassName, noteRowClassName)}>

@@ -65,37 +65,109 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     };
   }, [open, getFocusables, onClose, returnFocusRef]);
   if (!open) return null;
-  return <div id="chat-sources-panel" ref={dialogRef} role="dialog" aria-modal="true" aria-label={t("chat.sources.dialog_label", "Vestluse allikad")} onClick={onClose} tabIndex={-1} className="chat-sources-overlay">
-      <div onClick={e => e.stopPropagation()} className="chat-sources-dialog">
-        <div className="chat-sources-header">
-          <h2 className="chat-sources-title">
+  const overlayClassName =
+    "fixed inset-0 z-[40] bg-[rgba(9,14,25,0.55)] backdrop-blur-[2px] " +
+    "flex items-center justify-center p-[1rem]";
+  const dialogClassName =
+    "w-full max-w-[34rem] max-h-[80vh] overflow-y-auto rounded-[1.5rem] " +
+    "bg-[rgba(10,14,24,0.68)] border border-[rgba(255,255,255,0.1)] " +
+    "p-[1.15rem_1.25rem] text-[#f8fafc] " +
+    "backdrop-blur-[16px] backdrop-saturate-[120%] " +
+    "shadow-[0_10px_28px_rgba(0,0,0,0.35),0_24px_40px_-24px_rgba(248,253,255,0.24)]";
+  const headerClassName =
+    "flex items-center justify-between gap-[0.75rem] mb-[0.85rem]";
+  const titleClassName = "m-0 text-[1.05rem] font-[600]";
+  const closeClassName =
+    "rounded-full border-0 bg-[rgba(148,163,184,0.15)] text-[#f1f5f9] " +
+    "px-[0.75rem] py-[0.3rem] text-[0.8rem] font-[500] " +
+    "hover:bg-[rgba(148,163,184,0.25)] transition-colors";
+  const emptyClassName = "m-0 text-[0.92rem] opacity-80";
+  const listClassName = "m-0 pl-[1.2rem]";
+  const itemClassName = "mb-[1rem] leading-[1.6]";
+  const labelClassName = "text-[1rem] font-[600] text-[#f8fafc]";
+  const usageClassName = "text-[0.88rem] opacity-70";
+  const pagesClassName = "mt-[0.2rem] text-[0.9rem] opacity-70";
+  const linksClassName = "mt-[0.45rem] flex flex-wrap gap-[0.5rem]";
+  const linkClassName = "text-[0.9rem] text-[#93c5fd] underline";
+  return (
+    <div
+      id="chat-sources-panel"
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
+      onClick={onClose}
+      tabIndex={-1}
+      className={overlayClassName}
+    >
+      <div onClick={e => e.stopPropagation()} className={dialogClassName}>
+        <div className={headerClassName}>
+          <h2 className={titleClassName}>
             {t("chat.sources.heading", "Vestluse allikad")}
           </h2>
-          <button type="button" ref={closeRef} onClick={onClose} className="chat-sources-close">
+          <button
+            type="button"
+            ref={closeRef}
+            onClick={onClose}
+            className={closeClassName}
+          >
             {t("buttons.close", "Sulge")}
           </button>
         </div>
 
-        {conversationSources.length === 0 ? <p className="chat-sources-empty">
+        {conversationSources.length === 0 ? (
+          <p className={emptyClassName}>
             {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
-          </p> : <ol className="chat-sources-list">
-            {conversationSources.map((src, idx) => <li key={src.key || idx} className="chat-source-item">
-                <div className="chat-source-label">{src.label}</div>
-                {src.occurrences > 1 ? <div className="chat-source-usage">
-                    {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace("{count}", String(src.occurrences))}
-                  </div> : null}
+          </p>
+        ) : (
+          <ol className={listClassName}>
+            {conversationSources.map((src, idx) => (
+              <li key={src.key || idx} className={itemClassName}>
+                <div className={labelClassName}>{src.label}</div>
+                {src.occurrences > 1 ? (
+                  <div className={usageClassName}>
+                    {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace(
+                      "{count}",
+                      String(src.occurrences)
+                    )}
+                  </div>
+                ) : null}
 
-                {src.pageText && !`${src.label}`.toLowerCase().includes("lk") ? <div className="chat-source-pages">
-                    {t("chat.sources.pages", "Leheküljed: {pages}").replace("{pages}", String(src.pageText))}
-                  </div> : null}
-                {src.allUrls && src.allUrls.length ? <div className="chat-source-links">
-                    {src.allUrls.map((url, urlIdx) => <a key={`${src.key || idx}-url-${urlIdx}`} href={url} target="_blank" rel="noreferrer" className="chat-source-link">
-                        {src.allUrls.length > 1 ? t("chat.sources.open_indexed", "Ava ({index})").replace("{index}", String(urlIdx + 1)) : t("chat.sources.open_single", "Ava allikas")}
-                      </a>)}
-                  </div> : null}
-              </li>)}
-          </ol>}
+                {src.pageText &&
+                !`${src.label}`.toLowerCase().includes("lk") ? (
+                  <div className={pagesClassName}>
+                    {t("chat.sources.pages", "Leheküljed: {pages}").replace(
+                      "{pages}",
+                      String(src.pageText)
+                    )}
+                  </div>
+                ) : null}
+                {src.allUrls && src.allUrls.length ? (
+                  <div className={linksClassName}>
+                    {src.allUrls.map((url, urlIdx) => (
+                      <a
+                        key={`${src.key || idx}-url-${urlIdx}`}
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={linkClassName}
+                      >
+                        {src.allUrls.length > 1
+                          ? t("chat.sources.open_indexed", "Ava ({index})").replace(
+                              "{index}",
+                              String(urlIdx + 1)
+                            )
+                          : t("chat.sources.open_single", "Ava allikas")}
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
-    </div>;
+    </div>
+  );
 });
 export default ChatSourcesPanel;

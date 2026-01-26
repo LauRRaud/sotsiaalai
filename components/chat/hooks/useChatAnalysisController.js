@@ -29,8 +29,7 @@ export function useChatAnalysisController({
     return "";
   }, [uploadPreview]);
   const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
-  const forceOverlay = !uploadPreview;
-  const analysisPanelMode = isAnalysisExpanded ? "expanded" : analysisPanelInline && !isMobileViewport && !forceOverlay ? "inline" : "overlay";
+  const analysisPanelMode = isAnalysisExpanded ? "expanded" : "inline";
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(max-width: 48em)");
@@ -127,10 +126,10 @@ export function useChatAnalysisController({
     }), 260);
   }, [hasAnalysisContent, scrollAnalysisPanelIntoView]);
   const closeAnalysisPanel = useCallback(() => {
-    if (hasAnalysisContent) return;
     setAnalysisPanelOpen(false);
     setAnalysisCollapsed(false);
-  }, [hasAnalysisContent]);
+    setUploadBusy(false);
+  }, []);
   useEffect(() => {
     if (hasAnyAnalysisState) {
       if (!uploadPreview) {
@@ -237,7 +236,6 @@ export function useChatAnalysisController({
     refreshUsage();
   }, [refreshUsage]);
   const onPickFile = useCallback(() => {
-    ensureAnalysisPanelVisible();
     if (uploadBusy) return;
     if (isGeneratingRef?.current) return;
     setUploadError(null);
@@ -245,7 +243,7 @@ export function useChatAnalysisController({
       fileInputRef.current?.click?.();
       preservePageScroll();
     } catch {}
-  }, [ensureAnalysisPanelVisible, preservePageScroll, uploadBusy, isGeneratingRef]);
+  }, [preservePageScroll, uploadBusy, isGeneratingRef]);
   const onFileChange = useCallback(async e => {
     const file = e.target?.files?.[0];
     if (!file) return;
