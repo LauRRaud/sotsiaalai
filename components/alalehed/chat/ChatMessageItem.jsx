@@ -5,10 +5,10 @@ import { cn } from "@/components/ui/cn";
 const ChatMessageItem = memo(function ChatMessageItem({
   role,
   text,
-  aiVisible,
+  aiVisible: _aiVisible,
   authorName,
   authorRole: _authorRole,
-  isRoomMode,
+  isRoomMode: _isRoomMode,
   t
 }) {
   const isAssistant = role === "ai";

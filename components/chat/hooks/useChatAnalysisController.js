@@ -15,7 +15,7 @@ export function useChatAnalysisController({
   const [docOnlyMode, setDocOnlyMode] = useState(true);
   const [analysisPanelOpen, setAnalysisPanelOpen] = useState(false);
   const [analysisCollapsed, setAnalysisCollapsed] = useState(false);
-  const [analysisPanelInline, setAnalysisPanelInline] = useState(false);
+  const [_analysisPanelInline, setAnalysisPanelInline] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const fileInputRef = useRef(null);
   const analysisPanelRef = useRef(null);

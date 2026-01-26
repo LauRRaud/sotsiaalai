@@ -24,7 +24,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const chatTitleClassName =
   "mt-[clamp(4.6rem,10.5vh,6.8rem)] text-center text-[clamp(2.3rem,4.2vw,2.9rem)] " +
@@ -75,7 +75,7 @@ export default function ChatBody({
   const [renderLimit, setRenderLimit] = useState(MAX_RENDERED_MESSAGES);
   const [sendToAssistant, setSendToAssistant] = useState(false);
   const [profileOpen, setProfileOpen] = useState(() => initialProfileOpen);
-  const [rollDirection, setRollDirection] = useState("right");
+  const [_rollDirection, setRollDirection] = useState("right");
   const [isRolling, setIsRolling] = useState(false);
   const {
     messages: roomMessages,
@@ -477,7 +477,6 @@ export default function ChatBody({
     });
     if (shouldOpen) setRollDirection("right");
   }, [searchParams]);
-  const rollCardClass = null;
   const chatFaceClass = null;
   const profileFaceClass = null;
   const showChatFace = !profileOpen;

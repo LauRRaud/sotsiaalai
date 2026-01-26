@@ -56,8 +56,8 @@ export default function HomePage() {
   const [rightPhase, setRightPhase] = useState("front");
   const [showScrollCue, setShowScrollCue] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [leftCardEl, setLeftCardEl] = useState(null);
-  const [rightCardEl, setRightCardEl] = useState(null);
+  const [_leftCardEl, setLeftCardEl] = useState(null);
+  const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
   const rightCardWrapRef = useRef(null);
   const suppressFlipRef = useRef(false);
@@ -386,9 +386,7 @@ export default function HomePage() {
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", styles.side, styles.left)}>
               <div ref={leftCardWrapRef} className={cn(styles["three-d-card"], styles["float-card"], styles.left, flipClass, leftFlipping ? styles["is-flipping"] : null, mobileFlipReady.left ? styles["mobile-flipped-left"] : null)} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
-                  {({
-                  isActive
-                }) => <div className={styles["card-wrapper"]} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
+                  {({ isActive: _isActive }) => <div className={styles["card-wrapper"]} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                       <div className={cn(styles["card-face"], styles.front)}>
                         <div ref={setLeftCardEl} className={cn(styles["glass-card"], styles["glass-card-light"], "left-card-primary", shouldFadeIn ? styles["fade-in"] : null, leftFadeDone ? styles["fade-in-done"] : null)} style={{
                       position: "relative"
@@ -419,9 +417,7 @@ export default function HomePage() {
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", styles.side, styles.right)}>
               <div ref={rightCardWrapRef} className={cn(styles["three-d-card"], styles["float-card"], styles.right, flipClass, rightFlipping ? styles["is-flipping"] : null, mobileFlipReady.right ? styles["mobile-flipped-right"] : null)} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
-                  {({
-                  isActive
-                }) => <div className={styles["card-wrapper"]} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
+                  {({ isActive: _isActive }) => <div className={styles["card-wrapper"]} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                       <div className={cn(styles["card-face"], styles.front)}>
                         <div ref={setRightCardEl} className={cn(styles["glass-card"], styles["glass-card-dark"], "right-card-primary", shouldFadeIn ? styles["fade-in"] : null, rightFadeDone ? styles["fade-in-done"] : null)} style={{
                       position: "relative"
