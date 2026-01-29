@@ -105,11 +105,21 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const rollTimerRef = useRef(null);
   const rollSwapTimerRef = useRef(null);
+  const maskRefreshRef = useRef(null);
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
-    enabled: !isLightTheme
+    enabled: !isLightTheme,
+    refreshRef: maskRefreshRef
   });
+  useEffect(() => {
+    if (isLightTheme) return;
+    const refresh = () => maskRefreshRef.current?.();
+    const timers = [0, 60, 140, 260, 420, 700, 1100].map(delay =>
+      window.setTimeout(refresh, delay)
+    );
+    return () => timers.forEach(timer => window.clearTimeout(timer));
+  }, [isLightTheme]);
   useEffect(() => {
     if (!embedded || typeof document === "undefined") return;
     document.body.classList.toggle("home-profile-open", profileOpen);
@@ -482,9 +492,13 @@ export default function ChatBody({
   const showChatFace = !profileOpen;
   const showProfileFace = profileOpen;
   const chatContainerClassName = cn(
-    "main-content",
-    "chat-container",
-    "chat-container--round",
+    "main-content chat-container chat-container--round " +
+      "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
+      "overflow-y-auto overflow-x-hidden overscroll-contain " +
+      "bg-transparent backdrop-blur-none " +
+      "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
+      "max-[48em]:min-h-0 max-[48em]:mx-auto max-[48em]:overflow-hidden " +
+      "max-[48em]:overscroll-auto",
     inputFocused && !profileOpen ? "chat-container--input-focus" : null
   );
   return <>
@@ -492,13 +506,14 @@ export default function ChatBody({
       <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null)}>
         <>
           {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
-            <GlassRing
-              className={chatContainerClassName}
-              role="region"
-              aria-label={t("chat.page_label")}
-              ref={chatContainerRef}
-              data-chat-container="true"
-            >
+              <GlassRing
+                className={chatContainerClassName}
+                role="region"
+                aria-label={t("chat.page_label")}
+                ref={chatContainerRef}
+                data-chat-container="true"
+              >
+                <div className="chat-mask-layer" aria-hidden="true" />
                 {!profileOpen ? <BackButton
                     onClick={handleBackHome}
                     ariaLabel={t("chat.back_to_home")}
@@ -508,7 +523,9 @@ export default function ChatBody({
                 <RightRail t={t} roomId={roomId} isLightTheme={isLightTheme} inputFocused={inputFocused} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} />
 
                 <h1 className={chatTitleClassName}>{t("chat.title")}</h1>
-                {isRoomMode && roomTitle ? <div className="room-title-sub">{roomTitle}</div> : null}
+                {isRoomMode && roomTitle ? <div className="text-center mt-[-0.6rem] mb-[0.9rem] text-[1.25rem] text-[color:var(--pt-200)] tracking-[0.02em]">
+                    {roomTitle}
+                  </div> : null}
 
                 {isCrisis ? <div role="alert" className="mt-[0.35rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.65rem] text-[0.92rem] text-[#ff9c9c]">
                     {crisisText}
@@ -531,7 +548,7 @@ export default function ChatBody({
 
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={inputFocused && !profileOpen} />
 
-                {isRoomMode && inputFocused ? <div className="chat-ai-toggle">
+                {isRoomMode && inputFocused ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
                     <label className={aiToggleLabelClassName}>
                       <input type="checkbox" className={aiToggleInputClassName} checked={sendToAssistant} onChange={e => setSendToAssistant(e.target.checked)} aria-describedby="chat-ai-hint" />
                       <span className="text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">
@@ -547,7 +564,7 @@ export default function ChatBody({
                     {recordingError}
                   </div> : null}
 
-                <footer className="chat-footer" />
+                <footer className="relative mt-[0.35rem] flex min-h-[5.8rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[4.8rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
             </div>

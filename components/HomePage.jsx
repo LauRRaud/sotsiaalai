@@ -5,9 +5,6 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
-import AppLink from "@/components/ui/Link";
-import { linkBrandInlineClass } from "@/components/ui/linkStyles";
-import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { cn } from "@/components/ui/cn";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -20,7 +17,8 @@ import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
 import SmustLogo from "@/public/logo/smust.svg";
 import SaivalgeLogo from "@/public/logo/saivalge.svg";
-import Logomust from "@/public/logo/logomust.svg";
+import HomeAboutSection from "@/components/HomeSections/HomeAboutSection";
+import HomeFooter from "@/components/HomeSections/HomeFooter";
 let homeIntroSeen = false;
 export default function HomePage() {
   const {
@@ -465,89 +463,11 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-
-        <section id="meist" className={cn("relative z-30 w-full py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] touch-pan-y", styles["home-section"], styles["home-about"])}>
-          <div className={cn("mx-auto w-[min(92vw,58rem)] flex flex-col gap-[1.5rem]", styles["home-section-inner"])}>
-            <div className={styles["home-about-card"]}>
-              <h2 className={cn("text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-[var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-medium tracking-[0.02em] mt-0 mb-[1.1rem]", styles["home-section-title"])}>
-                Meist
-              </h2>
-              <div className="text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] space-y-[0.95rem] [color:var(--home-prose-color)]">
-                <p>
-                  SotsiaalAI on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
-                </p>
-                <p>
-                  Platvormil on kaks rollipõhist AI-assistenti: üks spetsialistidele ja teine eluküsimustega pöördujatele. Mõlemad on loodud selleks, et pakkuda vajaduspõhist tuge — olgu see seotud seaduste, toetuste, teenuste või tööaliste olukordadega. Vastused tuginevad usaldusväärsetele allikatele, lihtsustatud selgitustele ja praktilistele juhistele.
-                </p>
-                <p>
-                  Sotsiaalvaldkonda iseloomustab suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis — seda kinnitab ka{" "}
-                  <AppLink
-                    href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande"
-                    target="_blank"
-                    rel="noreferrer"
-                    className={cn(styles["home-link"], linkBrandInlineClass)}
-                  >
-                    OSKA raport (2025)
-                  </AppLink>. Meie eesmärk on tuua selgust, lihtsustada igapäevatööd ning pakkuda tuge nii professionaalidele kui abiotsijatele.
-                </p>
-              </div>
-            </div>
-            <div className={styles["home-before"]}>
-              <div className={styles["home-before-content"]}>
-                <p className={styles["home-before-title"]}>
-                  Enne kasutamist tutvu
-                </p>
-                <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
-                  <li>
-                    <AppLink href="/kasutusjuhend" className={cn(styles["home-link"], linkBrandInlineClass)}>
-                      Platvormi kasutusjuhend
-                    </AppLink>
-                  </li>
-                  <li>
-                    <AppLink href="/kasutustingimused" className={cn(styles["home-link"], linkBrandInlineClass)}>
-                      Kasutustingimused
-                    </AppLink>
-                  </li>
-                  <li>
-                    <AppLink href="/privaatsustingimused" className={cn(styles["home-link"], linkBrandInlineClass)}>
-                      Privaatsuspoliitika
-                    </AppLink>
-                  </li>
-                  <li>
-                    <InstallAppLink variant="row" className={cn(styles["home-link"], linkBrandInlineClass)} />
-                  </li>
-                  {isAuthed && isAdmin ? (
-                    <>
-                      <li>
-                        <AppLink href="/admin/analytics" className={cn(styles["home-link"], linkBrandInlineClass)}>
-                          Analüütika
-                        </AppLink>
-                      </li>
-                      <li>
-                        <AppLink href="/admin/rag" className={cn(styles["home-link"], linkBrandInlineClass)}>
-                          RAG andmebaasi haldus
-                        </AppLink>
-                      </li>
-                    </>
-                  ) : null}
-                </ul>
-                <p>
-                  <AppLink href="mailto:info@sotsiaal.ai" className={cn(styles["home-link"], linkBrandInlineClass)}>
-                    info@sotsiaal.ai
-                  </AppLink>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer className={cn("relative z-30 flex w-full justify-center px-0 pb-[calc(env(safe-area-inset-bottom,0px)+0.1rem)] touch-pan-y pointer-events-none", styles["home-footer"])}>
-          <div className={cn("flex w-[min(92vw,58rem)] flex-col items-center justify-center gap-[0.35rem] pointer-events-none", styles["home-footer-inner"])}>
-            <Logomust className={cn(styles["home-footer-logo"], footerFadeClass, "pointer-events-none")} role="img" aria-label={t("home.footer.logo_alt")} />
-          </div>
-        </footer>
+        <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
+        <HomeFooter logoClassName={footerFadeClass} />
       </div>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} />
     </>;
 }
+

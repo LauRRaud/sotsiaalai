@@ -2,7 +2,8 @@ import { useLayoutEffect } from "react";
 export function useChatInputHoleMask({
   containerRef,
   inputBarRef,
-  enabled
+  enabled,
+  refreshRef
 }) {
   useLayoutEffect(() => {
     const box = containerRef?.current;
@@ -19,14 +20,18 @@ export function useChatInputHoleMask({
       if (!el || !root) return null;
       const rect = el.getBoundingClientRect();
       const rootRect = root.getBoundingClientRect();
-      const w = Math.round(rect.width);
-      const h = Math.round(rect.height);
+      let w = Math.round(rect.width);
+      let h = Math.round(rect.height);
+      if (!w || !h) {
+        w = el.offsetWidth || 0;
+        h = el.offsetHeight || 0;
+      }
       if (!w || !h) return null;
       return {
         x: Math.round(rect.left - rootRect.left),
         y: Math.round(rect.top - rootRect.top),
-        w,
-        h
+        w: Math.round(w),
+        h: Math.round(h)
       };
     };
     let lastMask = "";
@@ -78,8 +83,11 @@ export function useChatInputHoleMask({
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(updateMask);
     };
+    if (refreshRef) {
+      refreshRef.current = scheduleUpdate;
+    }
     scheduleUpdate();
-    const settleTimers = [0, 60, 160, 320].map(delay =>
+    const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
       window.setTimeout(scheduleUpdate, delay)
     );
     window.addEventListener("resize", scheduleUpdate);
@@ -110,6 +118,9 @@ export function useChatInputHoleMask({
       inputBar.removeEventListener("transitionend", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
+      if (refreshRef?.current === scheduleUpdate) {
+        refreshRef.current = null;
+      }
     };
-  }, [containerRef, inputBarRef, enabled]);
+  }, [containerRef, inputBarRef, enabled, refreshRef]);
 }

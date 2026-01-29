@@ -103,6 +103,24 @@
   cursor: inherit;
 }
 
+.profileAvatar {
+  position: relative;
+  z-index: 25;
+  inline-size: var(--avatar-icon-size);
+  block-size: var(--avatar-icon-size);
+  display: block;
+  border-radius: 50%;
+  cursor: var(--cursor-pointer);
+  background: url("/logo/profiiltume.svg") center/contain no-repeat;
+  filter: none;
+  opacity: 1;
+}
+
+:global(:root.theme-light) .profileAvatar {
+  background: url("/logo/profiilhele.svg") center/contain no-repeat;
+  filter: none;
+}
+
 .iconBtnActive {
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);

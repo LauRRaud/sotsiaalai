@@ -3,7 +3,11 @@ export const revalidate = 0;
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
-import { redirect } from "next/navigation";
+import ChatBody from "@/components/alalehed/ChatBody";
+import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
+import ChatSidebar from "@/components/ChatSidebar";
+import HomeAboutSection from "@/components/HomeSections/HomeAboutSection";
+import HomeFooter from "@/components/HomeSections/HomeFooter";
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -19,15 +23,21 @@ export async function generateMetadata() {
     }
   });
 }
-export default async function Page({
-  searchParams
-}) {
+export default async function Page({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const roomId = resolvedSearchParams?.roomId || null;
-  const profile = resolvedSearchParams?.profile || null;
-  const params = new URLSearchParams();
-  params.set("mode", "chat");
-  if (roomId) params.set("roomId", String(roomId));
-  if (profile) params.set("profile", String(profile));
-  redirect(`/?${params.toString()}`);
+  return <>
+      <ConversationDrawer>
+        <ChatSidebar />
+      </ConversationDrawer>
+      <div className="relative flex min-h-[100dvh] w-full flex-col items-stretch">
+        <section className="flex flex-1 items-center justify-center px-[clamp(1.25rem,3vw,2rem)] py-[clamp(2.5rem,5vh,4.5rem)]">
+          <ChatBody roomId={roomId} />
+        </section>
+        <HomeAboutSection />
+        <HomeFooter />
+      </div>
+    </>;
 }
+
+
