@@ -497,7 +497,9 @@ export default function ChatBody({
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
       "max-[48em]:min-h-0 max-[48em]:mx-auto max-[48em]:overflow-hidden " +
       "max-[48em]:overscroll-auto",
-    inputFocused && !profileOpen ? "chat-container--input-focus" : null
+    inputFocused && !profileOpen
+      ? "chat-container--input-focus [--chat-window-bottom-shift:8.2rem] [--chat-scroll-button-lift:5rem] [--chat-attach-left-pull:-1.4rem]"
+      : null
   );
   return <>
       <InviteModal />

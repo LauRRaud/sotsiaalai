@@ -6,8 +6,6 @@ import { buildLocalizedMetadata } from "@/lib/metadata";
 import ChatBody from "@/components/alalehed/ChatBody";
 import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
-import HomeAboutSection from "@/components/HomeSections/HomeAboutSection";
-import HomeFooter from "@/components/HomeSections/HomeFooter";
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -30,13 +28,7 @@ export default async function Page({ searchParams }) {
       <ConversationDrawer>
         <ChatSidebar />
       </ConversationDrawer>
-      <div className="relative flex min-h-[100dvh] w-full flex-col items-stretch">
-        <section className="flex flex-1 items-center justify-center px-[clamp(1.25rem,3vw,2rem)] py-[clamp(2.5rem,5vh,4.5rem)]">
-          <ChatBody roomId={roomId} />
-        </section>
-        <HomeAboutSection />
-        <HomeFooter />
-      </div>
+      <ChatBody roomId={roomId} />
     </>;
 }
 
