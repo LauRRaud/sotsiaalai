@@ -20,6 +20,7 @@ import SaivalgeLogo from "@/public/logo/saivalge.svg";
 import HomeAboutSection from "@/components/HomeSections/HomeAboutSection";
 import HomeFooter from "@/components/HomeSections/HomeFooter";
 let homeIntroSeen = false;
+const INTRO_ANIMATION_DELAY_MS = 1500;
 export default function HomePage() {
   const {
     data: session,
@@ -232,8 +233,8 @@ export default function HomePage() {
       setIntroStart(true);
       return;
     }
-    const raf = window.requestAnimationFrame(() => setIntroStart(true));
-    return () => window.cancelAnimationFrame(raf);
+    const delayTimer = window.setTimeout(() => setIntroStart(true), INTRO_ANIMATION_DELAY_MS);
+    return () => window.clearTimeout(delayTimer);
   }, [prefsHydrated, skipIntroAnimations]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen && !homeChatOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;

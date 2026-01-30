@@ -7,6 +7,7 @@
 @import "./base/a11y.css";
 @import "./base/animations.css";
 @import "./components/glass.css";
+@import "./components/login-modal.css";
 @import "./components/chat.css";
 @import "./components/drawer.css";
 @import "./theme/late-overrides.css";

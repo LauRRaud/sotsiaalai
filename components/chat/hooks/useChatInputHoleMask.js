@@ -9,7 +9,6 @@ export function useChatInputHoleMask({
     const box = containerRef?.current;
     const inputBar = inputBarRef?.current;
     if (!box || !inputBar) return;
-    const rollCard = box.closest?.(".chat-roll-card");
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
       return;
@@ -35,7 +34,6 @@ export function useChatInputHoleMask({
       };
     };
     let lastMask = "";
-    let lastRollMask = "";
     let raf = 0;
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
@@ -62,21 +60,12 @@ export function useChatInputHoleMask({
       if (!boxW || !boxH) return;
       const inputLocal = getLocalRect(inputBar, box);
       if (!inputLocal) return;
-      const rollRect = rollCard ? rollCard.getBoundingClientRect() : null;
-      const rollW = rollRect ? Math.round(rollRect.width) : 0;
-      const rollH = rollRect ? Math.round(rollRect.height) : 0;
-      const inputLocalRoll = rollCard ? getLocalRect(inputBar, rollCard) : null;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
       const radius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
       const mask = buildMask(boxW, boxH, inputLocal, radius);
-      const rollMask = rollCard ? buildMask(rollW, rollH, inputLocalRoll, radius) : null;
       if (mask && mask !== lastMask) {
         box.style.setProperty("--chat-input-hole-mask", mask);
         lastMask = mask;
-      }
-      if (rollCard && rollMask && rollMask !== lastRollMask) {
-        rollCard.style.setProperty("--roll-hole-mask-chat", rollMask);
-        lastRollMask = rollMask;
       }
     };
     const scheduleUpdate = () => {

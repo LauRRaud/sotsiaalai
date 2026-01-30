@@ -24,6 +24,7 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
+import { glassPageBackClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
@@ -107,7 +108,7 @@ export default function ChatBody({
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
-    enabled: !isLightTheme,
+    enabled: !isLightTheme && !profileOpen,
     refreshRef: maskRefreshRef
   });
   useEffect(() => {
@@ -517,7 +518,7 @@ export default function ChatBody({
                 {!profileOpen ? <BackButton
                     onClick={handleBackHome}
                     ariaLabel={t("chat.back_to_home")}
-                    className={cn("absolute left-[clamp(0.1rem,1.2vw,0.8rem)] top-1/2 -translate-y-1/2 z-[80] pointer-events-auto")}
+                    className={cn(glassPageBackClassName, "z-[80] pointer-events-auto")}
                     iconClassName="translate-x-[0.35rem]"
                   /> : null}
 

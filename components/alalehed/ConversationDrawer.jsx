@@ -133,12 +133,15 @@ export default function ConversationDrawer({
       {open && <div ref={overlayRef} className="drawer-overlay" onClick={close} aria-hidden="true" />}
       <aside ref={panelRef} role="dialog" aria-labelledby={headerIdRef.current} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={`drawer-panel drawer-panel--chat-glass ${open ? "open" : ""}`}>
         <header className="drawer-header">
-          <strong id={headerIdRef.current}>{t("chat.menu.label")}</strong>
+          <h1
+            id={headerIdRef.current}
+            className="drawer-title text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(0.6rem,1.6vh,1.1rem)] text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]"
+          >
+            {t("chat.menu.label")}
+          </h1>
           <button ref={closeBtnRef} onClick={close} className="drawer-close modal-close-btn" aria-label={t("buttons.close")} type="button" />
         </header>
-        <div style={{
-        padding: 12
-      }}>
+        <div className="drawer-content">
           {children}
         </div>
       </aside>

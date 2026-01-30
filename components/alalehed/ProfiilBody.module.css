@@ -28,12 +28,45 @@
   --profile-center-y: 50%;
   --profile-orbit-offset: 0px;
   --profile-btn-row-offset: 0px;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 .profileContainerPage {
   --profile-center-y: 50%;
   --profile-orbit-offset: 0px;
   --profile-btn-row-offset: 0px;
+}
+
+.profileMaskLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-mask-image: var(--profile-role-hole-mask, none);
+  mask-image: var(--profile-role-hole-mask, none);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.profileOrbitLayer {
+}
+
+.profileContainer > *:not(.profileMaskLayer):not(.profileOrbitLayer) {
+  position: relative;
+  z-index: 1;
+}
+
+.profileContainer[data-orbit-open="true"] .profileMaskLayer {
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 

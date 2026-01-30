@@ -86,6 +86,10 @@
 .intro-pending .centered-back-right {
   opacity: 0;
 }
+.intro-pending .card-wrapper::before {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
 .side {
   position: relative;
 }

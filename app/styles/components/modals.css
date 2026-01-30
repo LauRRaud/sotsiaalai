@@ -1,7 +1,0 @@
-:root.theme-light .login-modal-close.modal-close-btn {
-  color: #7a3a38;
-}
-:root.theme-light .login-modal-close.modal-close-btn:hover,
-:root.theme-light .login-modal-close.modal-close-btn:focus-visible {
-  color: #7a3a38;
-}

@@ -24,7 +24,7 @@ const ROLE_KEYS = {
 };
 const pageShellClassName =
   "min-h-[100dvh] w-full grid place-items-center";
-const containerBaseClassName =
+  const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)]";
 const titleClassName =
@@ -73,7 +73,9 @@ function ProfileShell({
   ariaLabelledby,
   innerRef,
   embedded = false,
-  theme = "dark"
+  theme = "dark",
+  orbitOpen = false,
+  maskLayerRef
 }) {
   const containerClass = cn(
     styles.profileContainer,
@@ -81,7 +83,8 @@ function ProfileShell({
     embedded ? styles.profileContainerEmbedded : styles.profileContainerPage,
     embedded ? "profile-container profile-container--embedded" : null
   );
-  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme}>
+  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
+      <div ref={maskLayerRef} className={styles.profileMaskLayer} aria-hidden="true" />
       {children}
     </GlassRing>;
   if (embedded) {
@@ -177,52 +180,37 @@ export default function ProfiilBody({
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
+  const maskLayerRef = useRef(null);
+  const maskRefreshRef = useRef(null);
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
     const form = profileFormRef.current;
     if (!box || !pill) return;
-    const rollCard = box.closest?.(".chat-roll-card");
-    const isRollingNow = () => rollCard?.classList?.contains("is-rolling");
-    let deferTimer;
-    if (isRollingNow()) {
-      deferTimer = window.setTimeout(() => {
-        try {
-          if (!isRollingNow()) scheduleUpdate();
-        } catch {}
-      }, 620);
-    }
+    const maskLayer = maskLayerRef.current;
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = svg => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     const getLocalRect = (el, root) => {
       if (!el || !root) return null;
-      const w = el.offsetWidth || Math.round(el.getBoundingClientRect().width);
-      const h = el.offsetHeight || Math.round(el.getBoundingClientRect().height);
+      const rect = el.getBoundingClientRect();
+      const rootRect = root.getBoundingClientRect();
+      let w = Math.round(rect.width);
+      let h = Math.round(rect.height);
+      if (!w || !h) {
+        w = el.offsetWidth || 0;
+        h = el.offsetHeight || 0;
+      }
       if (!w || !h) return null;
-      let x = 0;
-      let y = 0;
-      let node = el;
-      while (node && node !== root) {
-        x += node.offsetLeft || 0;
-        y += node.offsetTop || 0;
-        node = node.offsetParent;
-      }
-      if (node !== root) {
-        const rootRect = root.getBoundingClientRect();
-        const rect = el.getBoundingClientRect();
-        x = rect.left - rootRect.left;
-        y = rect.top - rootRect.top;
-      }
       return {
-        x: Math.round(x),
-        y: Math.round(y),
+        x: Math.round(rect.left - rootRect.left),
+        y: Math.round(rect.top - rootRect.top),
         w: Math.round(w),
         h: Math.round(h)
       };
     };
     let lastMask = "";
     let lastRoleMask = "";
-    let lastRollMask = "";
+    let retryCount = 0;
     let raf = 0;
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
@@ -238,53 +226,109 @@ export default function ProfiilBody({
       return encodeSvgMask(svg);
     };
     const updateMask = () => {
-      if (isRollingNow()) return;
-      const boxW = Math.round(box.offsetWidth || box.getBoundingClientRect().width);
-      const boxH = Math.round(box.offsetHeight || box.getBoundingClientRect().height);
-      if (!boxW || !boxH) return;
+      if (box.dataset?.orbitOpen === "true") {
+        if (maskLayer) {
+          maskLayer.style.setProperty("-webkit-mask-image", "none");
+          maskLayer.style.setProperty("mask-image", "none");
+        }
+        return;
+      }
+      const boxRect = box.getBoundingClientRect();
+      const boxW = Math.round(boxRect.width);
+      const boxH = Math.round(boxRect.height);
+      if (!boxW || !boxH) {
+        if (retryCount < 12) {
+          retryCount += 1;
+          window.setTimeout(scheduleUpdate, 120);
+        }
+        return;
+      }
       const pillLocal = getLocalRect(pill, box);
-      if (!pillLocal) return;
-      const rollW = rollCard ? Math.round(rollCard.offsetWidth || rollCard.getBoundingClientRect().width) : 0;
-      const rollH = rollCard ? Math.round(rollCard.offsetHeight || rollCard.getBoundingClientRect().height) : 0;
-      const pillLocalRoll = rollCard ? getLocalRect(pill, rollCard) : null;
+      if (!pillLocal) {
+        if (retryCount < 12) {
+          retryCount += 1;
+          window.setTimeout(scheduleUpdate, 120);
+        }
+        return;
+      }
+      retryCount = 0;
       const pillRadiusRaw = Number.parseFloat(window.getComputedStyle(pill).borderTopLeftRadius);
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
       const mask = buildMask(boxW, boxH, pillLocal, pillRadius);
-      const rollMask = rollCard ? buildMask(rollW, rollH, pillLocalRoll, pillRadius) : null;
       if (mask && mask !== lastMask) {
         box.style.setProperty("--profile-role-hole-mask", mask);
+        if (maskLayer) {
+          maskLayer.style.setProperty("--profile-role-hole-mask", mask);
+          maskLayer.style.setProperty("-webkit-mask-image", mask);
+          maskLayer.style.setProperty("mask-image", mask);
+        }
         lastMask = mask;
       }
       if (mask && mask !== lastRoleMask) {
         box.style.setProperty("--profile-role-only-mask", mask);
         lastRoleMask = mask;
       }
-      if (rollCard && rollMask && rollMask !== lastRollMask) {
-        rollCard.style.setProperty("--roll-hole-mask-profile", rollMask);
-        lastRollMask = rollMask;
-      }
     };
     const scheduleUpdate = () => {
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(updateMask);
     };
+    maskRefreshRef.current = scheduleUpdate;
     scheduleUpdate();
+    const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
+      window.setTimeout(scheduleUpdate, delay)
+    );
     window.addEventListener("resize", scheduleUpdate);
+    box.addEventListener("scroll", scheduleUpdate);
+    box.addEventListener("transitionend", scheduleUpdate);
     let ro;
+    let mo;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(scheduleUpdate);
       ro.observe(box);
       ro.observe(pill);
       if (form) ro.observe(form);
     }
+    if (typeof MutationObserver !== "undefined") {
+      mo = new MutationObserver(scheduleUpdate);
+      mo.observe(box, {
+        childList: true,
+        subtree: true
+      });
+    }
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
     return () => {
       window.cancelAnimationFrame(raf);
-      if (deferTimer) window.clearTimeout(deferTimer);
+      settleTimers.forEach(timer => window.clearTimeout(timer));
       window.removeEventListener("resize", scheduleUpdate);
+      box.removeEventListener("scroll", scheduleUpdate);
+      box.removeEventListener("transitionend", scheduleUpdate);
       ro?.disconnect?.();
+      mo?.disconnect?.();
+      if (maskRefreshRef.current === scheduleUpdate) {
+        maskRefreshRef.current = null;
+      }
     };
-  }, [embedded, isActive, prefs?.theme, roleLabel]);
+  }, [embedded, isActive, prefs?.theme, roleLabel, loading, loadFailed, isAuthed]);
+  useEffect(() => {
+    const refresh = () => maskRefreshRef.current?.();
+    const timers = [0, 60, 140, 260, 420, 700, 1100].map(delay =>
+      window.setTimeout(refresh, delay)
+    );
+    return () => timers.forEach(timer => window.clearTimeout(timer));
+  }, [prefs?.theme, roleLabel, orbitOpen, isActive, embedded]);
+  useEffect(() => {
+    if (!isActive) return;
+    const refresh = () => maskRefreshRef.current?.();
+    const raf1 = window.requestAnimationFrame(() => {
+      const raf2 = window.requestAnimationFrame(refresh);
+      window.setTimeout(refresh, 140);
+      window.setTimeout(refresh, 320);
+      window.setTimeout(refresh, 700);
+      return () => window.cancelAnimationFrame(raf2);
+    });
+    return () => window.cancelAnimationFrame(raf1);
+  }, [isActive]);
   useEffect(() => {
     if (status !== "unauthenticated") return;
     if (embedded && !isActive) return;
@@ -439,7 +483,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef}>
       <h1 id="profile-title" className={titleClassName}>
         {t("profile.title")}
       </h1>
@@ -454,32 +498,33 @@ export default function ProfiilBody({
         </span>
       </div>
 
-      <div ref={profileFormRef}>
-        <div className={orbitLayerClassName}>
-          <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
-            <OrbitalMenu
-              items={orbitItems}
-              ariaLabel={t("profile.actions_label")}
-              toggleLabelOpen={t("profile.actions_label")}
-              toggleLabelClose={t("buttons.close")}
-              onOpenChange={setOrbitOpen}
-            />
-          </div>
-
-          {!orbitOpen && (
-            <div className={btnRowClassName}>
-              <button type="button" className={backButtonClassName} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
-                <span className={backIconClassName}></span>
-              </button>
-
-              <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
-                <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
-                <span className={logoutLabelClassName}>{t("profile.logout")}</span>
-                <span className="sr-only">{t("profile.logout")}</span>
-              </button>
-            </div>
-          )}
+      <div className={cn(orbitLayerClassName, styles.profileOrbitLayer)}>
+        <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
+          <OrbitalMenu
+            items={orbitItems}
+            ariaLabel={t("profile.actions_label")}
+            toggleLabelOpen={t("profile.actions_label")}
+            toggleLabelClose={t("buttons.close")}
+            onOpenChange={setOrbitOpen}
+          />
         </div>
+
+        {!orbitOpen && (
+          <div className={btnRowClassName}>
+            <button type="button" className={backButtonClassName} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
+              <span className={backIconClassName}></span>
+            </button>
+
+            <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
+              <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
+              <span className={logoutLabelClassName}>{t("profile.logout")}</span>
+              <span className="sr-only">{t("profile.logout")}</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div ref={profileFormRef}>
 
         {error && <div role="alert" className={cn(noteClassName, noteRowClassName)}>
             {error}

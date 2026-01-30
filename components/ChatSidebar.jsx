@@ -429,108 +429,111 @@ export default function ChatSidebar() {
   const isLoading = busy || roomsBusy;
   const isActionBusy = busy || creating || bulkDeleting;
   const selectedCount = selectedIds.size;
-  return <nav className="cs-container" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
-      {}
-      <div className="cs-actions">
+  const messageCardClassNameCommon =
+    "flex items-start gap-3 rounded-[1.1rem] border px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition shadow-none max-w-[18.5rem]";
+  const messageCardDarkVariant =
+    "border-[rgba(255,255,255,0.12)] bg-[rgba(12,16,26,0.22)]";
+  const messageCardLightVariant =
+    "light:border-[rgba(148,163,184,0.18)] light:bg-[rgba(255,255,255,0.65)] light:text-[#1f2937]";
+  const messageActiveVariant =
+    "border-[rgba(255,255,255,0.28)] bg-[rgba(255,255,255,0.07)] light:border-[rgba(148,163,184,0.28)] light:bg-[rgba(255,255,255,0.72)]";
+  const previewTextClassName =
+    "text-[1rem] leading-[1.45] text-[rgba(255,255,255,0.7)] light:text-[rgba(31,41,55,0.7)]";
+  const timeTextClassName =
+    "text-[0.85rem] text-[rgba(255,255,255,0.55)] light:text-[rgba(71,85,105,0.65)]";
+  const deleteBtnClassName =
+    "flex h-9 w-9 items-center justify-center rounded-[0.7rem] border-0 bg-[rgba(255,255,255,0.08)] p-0 transition hover:bg-[rgba(255,255,255,0.16)] hover:text-[#ff7b7b] light:bg-[rgba(255,255,255,0.75)] light:text-[#7a3a38]";
+  return <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-stretch gap-3 pl-0 pr-2 pb-6 pt-2 text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
+      <div className="flex flex-nowrap items-center justify-center gap-2">
         <Button variant="primary" size="sm" onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
           {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
         </Button>
         <Button variant="primary" size="sm" onClick={toggleSelectMode} disabled={isActionBusy}>
           {selectMode ? t("chat.sidebar.selection.cancel", "Tühista") : t("chat.sidebar.selection.select", "Vali")}
         </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          className="h-[2.25rem] w-[2.25rem] rounded-full p-0"
-          onClick={refreshAll}
-          disabled={isLoading || creating}
-          aria-label={t("chat.sidebar.button.refresh")}
-          title={t("chat.sidebar.button.refresh")}
-        >
-          <svg className="cs-refresh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="23 4 23 10 17 10" />
-            <polyline points="1 20 1 14 7 14" />
-            <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15" />
+        <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh", "Värskenda")} title={t("chat.sidebar.button.refresh", "Värskenda")} className="px-[0.75rem]">
+          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 15-6.2" />
+            <polyline points="18 3 18 9 12 9" />
+            <path d="M21 12a9 9 0 0 1-15 6.2" />
+            <polyline points="6 21 6 15 12 15" />
           </svg>
         </Button>
       </div>
-      <div className="cs-actions-secondary">
-        {selectMode ? <>
-            <span className="cs-selection-count">
-              {t("chat.sidebar.selection.count", "Valitud")}: {selectedCount}
-            </span>
-            <Button variant="danger" size="sm" onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
-              {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={handleDeleteAll} disabled={isActionBusy}>
-              {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
-            </Button>
-          </> : null}
-      </div>
-      {error && <div className="cs-error" role="alert" aria-live="assertive">
+      {selectMode ? <div className="flex flex-wrap items-center justify-center gap-2">
+          <span className="text-[0.85rem] text-[rgba(255,255,255,0.7)] light:text-[rgba(31,41,55,0.75)]">
+            {t("chat.sidebar.selection.count", "Valitud")}: {selectedCount}
+          </span>
+          <Button variant="danger" size="sm" onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
+            {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
+          </Button>
+          <Button variant="ghost" size="sm" onClick={handleDeleteAll} disabled={isActionBusy}>
+            {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
+          </Button>
+        </div> : null}
+      {error ? <div className="rounded-[0.85rem] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-3 py-2 text-sm text-[#ff9c9c] light:border-[rgba(231,76,60,0.4)] light:bg-[rgba(255,255,255,0.75)] light:text-[#7a2323]" role="alert" aria-live="assertive">
           {error}
-        </div>}
-      {isLoading && combinedItems.length === 0 && <ul className="cs-list" role="list" aria-hidden="true">
-          {Array.from({
-        length: 4
-      }).map((_, i) => <li key={`s-${i}`} className="cs-item cs-item--skeleton">
-              <div className="cs-skel-title" />
-              <div className="cs-skel-time" />
-            </li>)}
-        </ul>}
-      <ul className="cs-list" role="list" aria-live="polite">
-        {!isLoading && sorted.length === 0 ? <li className="cs-empty">
-            {t("chat.sidebar.empty")}
-            <Button variant="primary" size="sm" onClick={onNew} disabled={creating} style={{
-          marginLeft: 8
-        }}>
+        </div> : null}
+      {isLoading && combinedItems.length === 0 ? <div className="flex flex-col gap-2 py-2">
+          {Array.from({ length: 4 }).map((_, i) => <div key={`s-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-3">
+                <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
+                <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
+              </div>)}
+        </div> : null}
+      <ul className="drawer-chat-sidebar__list flex flex-1 flex-col items-stretch gap-3 overflow-y-auto pr-0">
+        {!isLoading && sorted.length === 0 ? <li className="flex items-center justify-between gap-3 rounded-[0.8rem] border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.03)] px-3 py-4 light:border-[rgba(148,163,184,0.3)] light:bg-transparent">
+            <span>{t("chat.sidebar.empty")}</span>
+            <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
               {t("chat.sidebar.empty_cta")}
             </Button>
           </li> : sorted.map(c => {
-        const isActive = (() => {
-          try {
-            if (c.kind === "room") return false;
-            const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
-            return current === c.id;
-          } catch {
-            return false;
-          }
-        })();
-        return <li key={`${c.kind}:${c.id}`} className={`cs-item${isActive ? " cs-item--active" : ""}`}>
-                {selectMode && c.kind !== "room" ? <label className="cs-select" aria-label={t("chat.sidebar.selection.item", "Vali vestlus")}>
-                    <input type="checkbox" checked={selectedIds.has(c.id)} onChange={() => toggleSelected(c.id)} disabled={isActionBusy} />
-                    <span className="cs-select-box" aria-hidden="true" />
+          const isActive = (() => {
+            try {
+              if (c.kind === "room") return false;
+              const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
+              return current === c.id;
+            } catch {
+              return false;
+            }
+          })();
+          return <li key={`${c.kind}:${c.id}`} className={`${messageCardClassNameCommon} ${messageCardDarkVariant} ${messageCardLightVariant} ${isActive ? messageActiveVariant : ""} w-full`}>
+              {selectMode && c.kind !== "room" ? <label className="relative flex h-6 w-6 items-center justify-center">
+                    <input type="checkbox" className="peer absolute h-full w-full opacity-0" checked={selectedIds.has(c.id)} onChange={() => toggleSelected(c.id)} disabled={isActionBusy} />
+                    <span className="h-4 w-4 rounded-[0.25rem] border border-[rgba(148,163,184,0.6)] bg-[rgba(255,255,255,0.05)] peer-checked:border-[rgba(217,163,146,0.8)] peer-checked:bg-gradient-to-br peer-checked:from-[rgba(217,163,146,0.5)] peer-checked:to-[rgba(140,92,78,0.35)] peer-focus-visible:ring-2 peer-focus-visible:ring-[rgba(217,163,146,0.35)]" aria-hidden="true" />
                   </label> : null}
-                <button className={`cs-link${selectMode ? " cs-link--disabled" : ""}`} onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || "Vestlus"} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
-                  <div className="cs-title">
-                    <span className="cs-title-text">
-                      {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
-                    </span>
-                    {c.kind === "room" ? <span className="cs-title-badge">
-                        {t("chat.sidebar.group_badge", "Grupivestlus")}
-                      </span> : null}
-                  </div>
-                  {c.preview ? <div className="cs-preview">{c.preview}</div> : null}
-                  <div className="cs-time">
-                    {formatDateTime(c.lastActivityAt)}
-                  </div>
-                </button>
-                {c.kind !== "room" && !selectMode ? <button className="cs-delete" onClick={() => onDelete(c.id)} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
-                    <svg className="cs-trash-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                      <path d="M10 11v6"></path>
-                      <path d="M14 11v6"></path>
-                      <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                  </button> : null}
-              </li>;
-      })}
+              <button className="flex w-full flex-1 flex-col gap-2 bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || "Vestlus"} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
+                <div className="flex flex-wrap items-center justify-start gap-2">
+                  <span className="text-[1.08rem] font-[600] tracking-[0.03em] text-[color:var(--pt-150)] light:text-[#1f2937]">
+                    {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
+                  </span>
+                  {c.kind === "room" ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">
+                      {t("chat.sidebar.group_badge", "Grupivestlus")}
+                    </span> : null}
+                </div>
+                {c.preview ? <div className={previewTextClassName}>
+                    {c.preview}
+                  </div> : null}
+                <div className={timeTextClassName}>
+                  {formatDateTime(c.lastActivityAt)}
+                </div>
+              </button>
+              {c.kind !== "room" && !selectMode ? <button className={deleteBtnClassName} onClick={() => onDelete(c.id)} aria-label={t("chat.sidebar.item.delete")} title={t("chat.sidebar.item.delete_title")} disabled={isActionBusy}>
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                  </svg>
+                </button> : null}
+            </li>
+        })}
       </ul>
-      {hasMore && <div>
-          <Button variant="primary" size="sm" onClick={fetchMore} disabled={busy || creating}>
+      {hasMore ? <div>
+          <Button variant="primary" size="sm" className="mt-1" onClick={fetchMore} disabled={busy || creating}>
             {t("chat.sidebar.button.more", "Lae veel")}
           </Button>
-        </div>}
+        </div> : null}
     </nav>;
+
 }

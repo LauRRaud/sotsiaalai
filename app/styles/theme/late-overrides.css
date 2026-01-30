@@ -121,8 +121,7 @@
     0 0 0 1px rgba(88, 211, 120, 0.4),
     0 0 12px rgba(88, 211, 120, 0.3);
 }
-:root.theme-light .glass-box,
-:root.theme-light .drawer-panel {
+:root.theme-light .glass-box {
   backdrop-filter: blur(var(--glass-blur-radius));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius));
   background: var(--glass-surface-bg);

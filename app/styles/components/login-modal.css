@@ -1,0 +1,140 @@
+.login-modal-root {
+  --login-modal-side-pad: 1.15em;
+  --login-modal-min-extra: 3.4rem;
+  --login-modal-max-extra: 4.8rem;
+  --login-modal-max-vw: 92vw;
+}
+.login-modal-root.login-modal--otp {
+  --otp-panel-bg: rgba(10, 14, 24, 0.58);
+  --otp-panel-border: rgba(148, 163, 184, 0.35);
+  --otp-panel-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+  --otp-input-bg: rgba(8, 12, 20, 0.62);
+  --otp-input-border: rgba(160, 180, 205, 0.4);
+  --otp-accent: rgba(225, 160, 160, 0.92);
+}
+:root.theme-light .login-modal-root.login-modal--otp {
+  --otp-panel-bg: rgba(255, 255, 255, 0.76);
+  --otp-panel-border: rgba(148, 163, 184, 0.3);
+  --otp-panel-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  --otp-input-bg: rgba(255, 255, 255, 0.9);
+  --otp-input-border: rgba(148, 163, 184, 0.48);
+}
+.modal-close-btn {
+  width: 2.65rem;
+  height: 2.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 0;
+  line-height: 0;
+  cursor: var(--cursor-pointer);
+  overflow: visible;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  text-indent: -9999px;
+  white-space: nowrap;
+  box-shadow: none;
+  transition:
+    transform 0.14s ease,
+    color 0.18s ease,
+    opacity 0.18s ease;
+}
+.modal-close-btn::before {
+  content: "\00D7";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  font-size: 2.05rem;
+  line-height: 1;
+  text-indent: 0;
+  pointer-events: none;
+}
+:root.theme-light .modal-close-btn {
+  background: transparent;
+  border-color: transparent;
+}
+.modal-close-btn:hover,
+.modal-close-btn:focus-visible {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+:root.theme-light .modal-close-btn:hover,
+:root.theme-light .modal-close-btn:focus-visible {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.modal-close-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+.modal-close-btn:focus-visible {
+  outline: none;
+}
+.login-modal-close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+}
+:root #login-modal .login-modal-close.modal-close-btn {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.7rem;
+}
+:root #login-modal .login-modal-close.modal-close-btn::before {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+:root:not(.theme-light) .login-modal-close.modal-close-btn {
+  color: #c57171;
+}
+:root.theme-light .login-modal-close.modal-close-btn {
+  color: #7a3a38;
+}
+:root.theme-light .login-modal-close.modal-close-btn:hover,
+:root.theme-light .login-modal-close.modal-close-btn:focus-visible {
+  color: #7a3a38;
+}
+@media (max-width: 48em) {
+  .login-modal-box {
+    position: fixed;
+    inset: 0;
+    transform: none;
+    animation: none;
+    width: 100vw;
+    height: 100svh;
+    min-height: 100dvh;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    background: rgba(31, 31, 31, 0.6);
+    -webkit-backdrop-filter: blur(0.625rem);
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem) saturate(110%);
+    backdrop-filter: blur(0.625rem) saturate(110%);
+    z-index: 1002;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: max(0.75rem, env(safe-area-inset-top))
+      max(0.75rem, env(safe-area-inset-right))
+      max(0.875rem, env(safe-area-inset-bottom))
+      max(0.75rem, env(safe-area-inset-left));
+  }
+  .login-modal-close {
+    position: absolute;
+    top: max(0.5rem, env(safe-area-inset-top, 0));
+    right: max(0.5rem, env(safe-area-inset-right, 0));
+    z-index: 1010;
+  }
+}

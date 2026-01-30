@@ -88,9 +88,7 @@
 }
 
 main#main > .main-content.glass-box.chat-container,
-.chat-page-shell .glass-box.chat-container,
-.drawer-panel--chat-glass,
-:root.theme-light .drawer-panel.drawer-panel--chat-glass {
+.chat-page-shell .glass-box.chat-container {
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;

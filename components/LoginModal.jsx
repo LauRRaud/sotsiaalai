@@ -1044,7 +1044,7 @@ export default function LoginModal({
 
         {!isOtpStep && <>
             <div className="text-center mt-0 mb-0">
-              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className="text-[1.6rem] leading-[1.15] font-[600] max-md:text-[clamp(1.7rem,5.2vw,2.2rem)]">
+              <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)]`}>
                 {t("auth.login.register_link")}
               </AppLink>
             </div>
