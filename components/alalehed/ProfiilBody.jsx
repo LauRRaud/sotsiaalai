@@ -61,9 +61,8 @@ const logoutLabelClassName =
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
 const loadingClassName = "p-[1rem] text-center text-[color:var(--glass-surface-text,#f2f2f2)]";
 const noteClassName =
-  "rounded-[0.9rem] border border-[color:var(--glass-border-color,rgba(148,163,184,0.35))] " +
-  "bg-[var(--glass-analysis-bg,rgba(0,0,0,0.2))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
-  "px-[1rem] py-[0.8rem] text-center";
+  "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
+  "px-[0.6rem] py-[0.2rem] text-center";
 const noteRowClassName = "mt-[0.75rem]";
 const noteCenterClassName = "w-[min(32rem,100%)] mx-auto";
 const errorStateClassName = "flex-1 w-full flex items-center justify-center";

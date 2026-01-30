@@ -518,6 +518,7 @@ export default function ChatBody({
                     onClick={handleBackHome}
                     ariaLabel={t("chat.back_to_home")}
                     className={cn("absolute left-[clamp(0.1rem,1.2vw,0.8rem)] top-1/2 -translate-y-1/2 z-[80] pointer-events-auto")}
+                    iconClassName="translate-x-[0.35rem]"
                   /> : null}
 
                 <RightRail
