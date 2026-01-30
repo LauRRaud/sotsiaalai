@@ -44,19 +44,26 @@ const ConversationView = memo(function ConversationView({
     };
   }, []);
   const mainClassName =
-    "relative flex flex-1 flex-col min-h-0 gap-[0.5rem]";
+    "relative flex flex-1 flex-col min-h-0 gap-[0.5rem] mt-[-1.1rem]";
   const windowClassName =
-    "relative flex flex-1 flex-col items-center gap-[0.65em] " +
+    "relative flex flex-1 flex-col items-stretch gap-[0.65em] " +
+    "w-full max-w-[calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))+2.0rem)] mx-auto " +
     "min-h-[clamp(320px,48vh,620px)] overflow-y-auto overscroll-contain " +
-    "px-[var(--chat-hpad)] pt-[clamp(0.75rem,2vw,1.2rem)] pb-[clamp(1rem,3vw,1.6rem)] " +
-    "[scrollbar-width:thin] [scrollbar-color:var(--pt-mid)_transparent] " +
+    "pl-[calc(var(--chat-hpad)*0.6)] pr-[0.55rem] " +
+    "pt-[calc(var(--chat-pad-top,1rem)+0.4rem)] " +
+    "pb-[calc(var(--chat-pad-bottom,1rem)+5.2rem)] " +
+    "[scroll-padding-top:calc(var(--chat-pad-top,1rem)+0.4rem)] " +
+    "[scroll-padding-bottom:calc(var(--chat-pad-bottom,1rem)+5.2rem)] " +
+    "-translate-x-[0.6rem] max-[48em]:translate-x-0 " +
+    "max-[48em]:max-w-full " +
+    "[scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
     "[mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
-    "[&::-webkit-scrollbar]:w-[0.75rem] [&::-webkit-scrollbar]:h-[0.75rem]";
+    "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
   const scrollButtonClassName =
-    "absolute left-1/2 -translate-x-1/2 bottom-[var(--chat-scroll-down-offset,5.6rem)] " +
+    "absolute left-1/2 -translate-x-1/2 bottom-[calc(-1*(var(--chat-input-row-gap,3.1rem)+var(--chat-input-shift,1.8rem))+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-transform duration-150 hover:scale-[1.15] focus-visible:scale-[1.15]";
   const scrollIconClassName =
@@ -69,7 +76,7 @@ const ConversationView = memo(function ConversationView({
     "light:border-[rgba(148,163,184,0.5)] light:bg-[rgba(255,255,255,0.9)] light:text-[#1f2937]";
   return <main className={mainClassName}>
       <div id="chat-window" className={windowClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
-        {hiddenCount > 0 ? <div>
+        {hiddenCount > 0 ? <div className="flex justify-center">
             <button type="button" onClick={onRevealOlder} className={buttonClassName}>
               {t("chat.show_older")} (+{Math.min(pageSize, hiddenCount)}){" "}
               {hiddenCount} {t("chat.left")}
@@ -78,7 +85,7 @@ const ConversationView = memo(function ConversationView({
 
         {messageItems}
 
-        {canHideOlder ? <div>
+        {canHideOlder ? <div className="flex justify-center">
             <button type="button" onClick={onHideOlder} className={buttonClassName}>
               {t("chat.show_recent")}
             </button>

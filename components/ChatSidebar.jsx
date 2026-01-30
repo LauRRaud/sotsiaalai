@@ -432,13 +432,21 @@ export default function ChatSidebar() {
   return <nav className="cs-container" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
       {}
       <div className="cs-actions">
-        <Button variant="primary" className="cs-btn" onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
+        <Button variant="primary" size="sm" onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
           {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
         </Button>
-        <Button variant="primary" className="cs-btn" onClick={toggleSelectMode} disabled={isActionBusy}>
+        <Button variant="primary" size="sm" onClick={toggleSelectMode} disabled={isActionBusy}>
           {selectMode ? t("chat.sidebar.selection.cancel", "Tühista") : t("chat.sidebar.selection.select", "Vali")}
         </Button>
-        <Button variant="primary" className="cs-refresh" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")}>
+        <Button
+          variant="primary"
+          size="sm"
+          className="h-[2.25rem] w-[2.25rem] rounded-full p-0"
+          onClick={refreshAll}
+          disabled={isLoading || creating}
+          aria-label={t("chat.sidebar.button.refresh")}
+          title={t("chat.sidebar.button.refresh")}
+        >
           <svg className="cs-refresh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polyline points="23 4 23 10 17 10" />
             <polyline points="1 20 1 14 7 14" />
@@ -451,10 +459,10 @@ export default function ChatSidebar() {
             <span className="cs-selection-count">
               {t("chat.sidebar.selection.count", "Valitud")}: {selectedCount}
             </span>
-            <Button variant="danger" className="cs-btn cs-btn--danger" onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
+            <Button variant="danger" size="sm" onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
               {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
             </Button>
-            <Button variant="ghost" className="cs-btn cs-btn--ghost" onClick={handleDeleteAll} disabled={isActionBusy}>
+            <Button variant="ghost" size="sm" onClick={handleDeleteAll} disabled={isActionBusy}>
               {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
             </Button>
           </> : null}
@@ -473,7 +481,7 @@ export default function ChatSidebar() {
       <ul className="cs-list" role="list" aria-live="polite">
         {!isLoading && sorted.length === 0 ? <li className="cs-empty">
             {t("chat.sidebar.empty")}
-            <Button variant="primary" className="cs-btn" onClick={onNew} disabled={creating} style={{
+            <Button variant="primary" size="sm" onClick={onNew} disabled={creating} style={{
           marginLeft: 8
         }}>
               {t("chat.sidebar.empty_cta")}
@@ -520,9 +528,9 @@ export default function ChatSidebar() {
       })}
       </ul>
       {hasMore && <div>
-          <button className="cs-btn" onClick={fetchMore} disabled={busy || creating}>
+          <Button variant="primary" size="sm" onClick={fetchMore} disabled={busy || creating}>
             {t("chat.sidebar.button.more", "Lae veel")}
-          </button>
+          </Button>
         </div>}
     </nav>;
 }

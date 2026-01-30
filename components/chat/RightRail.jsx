@@ -20,7 +20,8 @@ export default function RightRail({
   conversationSources,
   hasConversationSources,
   onProfileToggle,
-  embedded = false
+  embedded = false,
+  suspendPointerEvents = false
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -186,7 +187,7 @@ export default function RightRail({
       return Math.max(0, Math.min(maxIndex, prev + direction));
     });
   };
-  return <div className={`${styles.slot} chat-right-actions`}>
+  return <div className={`${styles.slot} chat-right-actions${suspendPointerEvents ? ` ${styles.pointerBlocked}` : ""}`}>
       <nav className={styles.rightRail} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown}>
         {[-2, -1, 0, 1, 2].map((slotOffset, slotIdx) => {
         const itemIndex = activeIndex + slotOffset;

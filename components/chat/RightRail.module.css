@@ -7,10 +7,13 @@
   z-index: 70;
   pointer-events: none;
 }
+.pointerBlocked {
+  pointer-events: none;
+}
 
 .rightRail {
   position: absolute;
-  right: calc(var(--glass-edge-right, 0px) + var(--rail-inset, 0.6rem));
+  right: calc(var(--glass-edge-right, 0px) + var(--rail-inset, -0.7rem));
   top: 0;
   transform: translateY(-50%);
   width: var(--right-rail-width, clamp(4.6rem, 8vw, 5.8rem));

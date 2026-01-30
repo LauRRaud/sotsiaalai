@@ -143,7 +143,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const panelOverlayClassName =
     "fixed left-1/2 bottom-[max(env(safe-area-inset-bottom,0px),1.6rem)] " +
     "-translate-x-1/2 w-[min(62vw,24rem)] p-[clamp(0.05rem,0.6vw,0.4rem)] " +
-    "z-[30] pointer-events-auto";
+    "z-[90] pointer-events-auto";
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
     "bg-[rgba(0,0,0,0.1)] text-[#f2f2f2] " +
@@ -153,11 +153,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision " +
-    "antialiased flex flex-col gap-[0.9rem] relative " +
+    "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto " +
     "light:bg-[rgba(255,255,255,0.1)] light:text-[color:var(--glass-surface-text,#0f172a)] " +
     "light:backdrop-blur-[var(--glass-blur-radius,1rem)]";
   const headerClassName =
-    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap " +
+    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[110] " +
     "pt-[0.4rem] mb-[0.6rem]";
   const titleBlockClassName =
     "flex-1 min-w-0 text-center pt-[0.25rem]";
@@ -165,9 +165,9 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "text-[1.25rem] font-[600] tracking-[0.04em] text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "absolute top-[0.9rem] right-[0.9rem] grid place-items-center " +
+    "absolute top-[0.9rem] right-[0.9rem] grid place-items-center z-[120] " +
     "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
-    "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38]";
+    "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38] pointer-events-auto";
   const bodyClassName =
     "flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
     "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
