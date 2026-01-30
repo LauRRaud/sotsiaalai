@@ -24,7 +24,6 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
