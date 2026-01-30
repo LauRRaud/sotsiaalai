@@ -493,7 +493,7 @@ export default function ChatBody({
   const chatContainerClassName = cn(
     "main-content chat-container chat-container--round " +
       "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
-      "overflow-y-auto overflow-x-hidden overscroll-contain " +
+      "overflow-y-auto overflow-x-hidden overscroll-auto " +
       "bg-transparent backdrop-blur-none " +
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
       "max-[48em]:min-h-0 max-[48em]:mx-auto max-[48em]:overflow-hidden " +

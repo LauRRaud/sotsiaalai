@@ -55,12 +55,12 @@
   z-index: 0;
   pointer-events: none;
 }
-.homeBgLayer[data-parallax="home"] :global(.bg-space-layer) {
+.homeBgLayer[data-parallax="on"] :global(.bg-space-layer) {
   transform: translate3d(0, var(--saai-parallax-space), 0);
 }
-.homeBgLayer[data-parallax="home"] :global(.bg-bends-layer) {
+.homeBgLayer[data-parallax="on"] :global(.bg-bends-layer) {
   transform: translate3d(0, 0, 0);
 }
-.homeBgLayer[data-parallax="home"] :global(.bg-particles-layer) {
+.homeBgLayer[data-parallax="on"] :global(.bg-particles-layer) {
   transform: translate3d(0, var(--saai-parallax-particles), 0);
 }

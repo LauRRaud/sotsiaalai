@@ -29,6 +29,18 @@
   outline: none;
   outline-offset: 0;
 }
+html[data-text-scale="sm"] {
+  font-size: 0.9375rem;
+}
+html[data-text-scale="md"] {
+  font-size: 1rem;
+}
+html[data-text-scale="lg"] {
+  font-size: 1.125rem;
+}
+html[data-text-scale="xl"] {
+  font-size: 1.25rem;
+}
 html[data-contrast="hc"]
   :is(
     a,
@@ -48,19 +60,6 @@ html[data-contrast="hc"]
   outline: 3px solid var(--hc-accent, #ffea00);
   outline-offset: 2px;
 }
-html[data-text-scale="sm"] {
-  font-size: 0.9375rem;
-}
-html[data-text-scale="md"] {
-  font-size: 1rem;
-}
-html[data-text-scale="lg"] {
-  font-size: 1.125rem;
-}
-html[data-text-scale="xl"] {
-  font-size: 1.25rem;
-}
-
 html[data-contrast="hc"] body {
   color: var(--hc-text);
   background-image: none;
@@ -90,7 +89,8 @@ html[data-contrast="hc"]
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.card-face):hover:not(
     :disabled
-  ), html[data-contrast="hc"]
+  ),
+html[data-contrast="hc"]
   body
   :is(
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
@@ -162,7 +162,6 @@ html[data-contrast="hc"] body .chat-inputbar .chat-attach-btn:hover,
 html[data-contrast="hc"] body .chat-inputbar .chat-attach-btn:focus-visible {
   border-color: var(--hc-accent);
 }
-
 html[data-contrast="hc"]
   body
   :is(.three-d-card, .glass-card, .card-face):focus-visible {
@@ -243,9 +242,6 @@ html[data-contrast="hc"] .desc-ring-right * {
   pointer-events: none;
 }
 #main:focus {
-  outline: none;
-}
-.three-d-card .card-face.back:focus:not(:focus-visible) {
   outline: none;
 }
 .three-d-card .card-face.back:focus {

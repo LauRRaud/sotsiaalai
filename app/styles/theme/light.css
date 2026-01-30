@@ -37,7 +37,8 @@
   --glass-analysis-bg: rgba(255, 255, 255, 0.18);
   --glass-analysis-border: rgba(255, 255, 255, 0.28);
   --glass-analysis-shadow:
-    0 18px 34px rgba(5, 8, 15, 0.26), 0 8px 18px rgba(255, 255, 255, 0.08);
+    0 18px 34px rgba(5, 8, 15, 0.26),
+    0 8px 18px rgba(255, 255, 255, 0.08);
   --glass-analysis-text: #1f1b16;
   --text-strong: #222222;
   --footer-text-muted: #d3d3d3;
@@ -62,11 +63,14 @@
   --btn-primary-border-hover: 1px solid rgba(148, 163, 184, 0.46);
   --btn-primary-border-active: 1px solid rgba(148, 163, 184, 0.4);
   --btn-primary-shadow:
-    0 8px 18px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    0 8px 18px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
   --btn-primary-shadow-hover:
-    0 12px 22px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    0 12px 22px rgba(15, 23, 42, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   --btn-primary-shadow-active:
-    0 6px 14px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    0 6px 14px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
   --btn-primary-focus-ring-color: rgba(197, 113, 113, 0.24);
   --btn-primary-shadow-focus:
     0 12px 22px rgba(15, 23, 42, 0.14),
@@ -155,4 +159,169 @@
   --admin-success: #15803d;
   --admin-shadow: 0 18px 30px rgba(15, 23, 42, 0.12);
   --admin-shadow-soft: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+:root.theme-light .glass-box {
+  backdrop-filter: blur(var(--glass-blur-radius));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius));
+  background: var(--glass-surface-bg);
+  color: var(--glass-surface-text);
+}
+:root.theme-light .drawer-panel {
+  color: var(--text-strong);
+}
+:root.theme-light .drawer-panel .drawer-header strong {
+  color: var(--title-color);
+}
+:root.theme-light .drawer-close {
+  color: var(--brand-primary);
+}
+:root.theme-light .drawer-panel .cs-preview {
+  color: var(--text-strong);
+}
+:root.theme-light .drawer-panel .cs-time {
+  color: color-mix(in srgb, var(--text-strong) 78%, transparent);
+}
+:root.theme-light .drawer-panel .cs-btn,
+:root.theme-light .drawer-panel .cs-refresh {
+  color: color-mix(in srgb, var(--text-strong) 68%, transparent);
+  background: color-mix(in srgb, #aeb3bc 60%, rgba(18, 20, 32, 0.46) 40%);
+  border: 2.6px solid color-mix(in srgb, #ffffff 42%, transparent);
+  border-radius: 1rem;
+  box-shadow:
+    0 0 0 1px rgba(201, 199, 194, 0.16),
+    0 0.625rem 1.375rem rgba(5, 8, 15, 0.38);
+  text-shadow: none;
+}
+:root.theme-light .drawer-panel .cs-btn:hover,
+:root.theme-light .drawer-panel .cs-btn:focus-visible,
+:root.theme-light .drawer-panel .cs-refresh:hover,
+:root.theme-light .drawer-panel .cs-refresh:focus-visible {
+  border-width: 2px;
+  border-color: color-mix(in srgb, var(--text-strong) 40%, transparent);
+  background: color-mix(in srgb, #9da2ac 68%, rgba(18, 20, 32, 0.52) 32%);
+  box-shadow:
+    0 0 0 1px rgba(201, 199, 194, 0.16),
+    0 0.625rem 1.375rem rgba(5, 8, 15, 0.38);
+}
+:root.theme-light .drawer-panel .cs-btn:active,
+:root.theme-light .drawer-panel .cs-refresh:active {
+  background: transparent;
+}
+:root.theme-light .drawer-panel .cs-title-text {
+  color: var(--title-color);
+}
+:root.theme-light .drawer-panel .cs-title-badge {
+  color: color-mix(in srgb, var(--title-color) 70%, transparent);
+  border-color: color-mix(in srgb, var(--title-color) 35%, transparent);
+  background: rgba(255, 255, 255, 0.65);
+}
+:root.theme-light .drawer-panel .cs-delete {
+  color: rgba(52, 56, 64, 0.8);
+  border-color: rgba(52, 56, 64, 0.35);
+}
+:root.theme-light .drawer-panel .cs-delete:hover,
+:root.theme-light .drawer-panel .cs-delete:focus-visible {
+  color: rgba(35, 38, 46, 0.95);
+  border-color: rgba(52, 56, 64, 0.45);
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.18);
+}
+:root.theme-light .drawer-panel .cs-trash-icon {
+  stroke: currentColor;
+  fill: none;
+}
+:root.theme-light .chat-inputbar,
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-send-btn {
+  background: #f8f8f8;
+  border: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  color: #111827;
+}
+:root.theme-light .chat-inputbar {
+  border: 0;
+}
+:root.theme-light .chat-inputbar .chat-listen-btn {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+:root.theme-light .chat-inputbar:hover:not(:focus-within),
+:root.theme-light .chat-inputbar:focus-within {
+  background: #ffffff;
+  border-color: #cfcfcf;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+:root.theme-light .chat-inputbar .chat-input-field {
+  color: color-mix(in srgb, #111827 72%, #4b5563 28%);
+  caret-color: color-mix(in srgb, #111827 72%, #4b5563 28%);
+  font-weight: 500;
+}
+:root.theme-light .chat-inputbar .chat-input-field::placeholder {
+  color: transparent;
+  opacity: 0;
+}
+:root.theme-light .chat-inputbar:focus-within .chat-send-btn {
+  background: #f0f0f0;
+  border-color: #c7c7c7;
+}
+:root.theme-light .chat-inputbar:focus-within .chat-listen-btn {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+:root.theme-light .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-inputbar .chat-send-btn:focus-visible {
+  background: #ffffff;
+  border-color: #cfcfcf;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  color: #111827;
+}
+:root.theme-light .chat-msg-user {
+  background: #fdfdfd;
+  border: 0;
+  color: #111827;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+:root.theme-light .chat-msg-ai {
+  color: #111827;
+}
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: #ff3b30;
+  box-shadow:
+    0 0 0 1px rgba(255, 59, 48, 0.4),
+    0 0 12px rgba(255, 59, 48, 0.25);
+}
+:root.theme-light
+  .chat-inputbar
+  .chat-send-btn[data-recording-complete="true"] {
+  border-color: #2bdc6d;
+  box-shadow:
+    0 0 0 1px rgba(43, 220, 109, 0.4),
+    0 0 12px rgba(43, 220, 109, 0.3);
+}
+:root.theme-light input[type="email"] {
+  background: #f8f8f8;
+  border: 2px solid #d7d7d7;
+  color: var(--text-strong);
+  caret-color: var(--text-strong);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+:root.theme-light input[type="email"]:hover:not(:focus) {
+  background: #ffffff;
+  border-color: #cfcfcf;
+  border-width: 2px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+:root.theme-light input[type="email"]:focus,
+:root.theme-light input[type="email"]:focus-visible {
+  background: #ffffff;
+  border-width: 2px;
+  border-color: #cfcfcf;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+:root.theme-light input[type="email"]::placeholder {
+  color: var(--input-placeholder);
 }

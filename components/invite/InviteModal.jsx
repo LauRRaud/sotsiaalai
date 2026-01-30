@@ -166,7 +166,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)] [--seg-radio-bg:color-mix(in_srgb,var(--glass-modal-text)_10%,transparent)] [--seg-radio-border:color-mix(in_srgb,var(--glass-modal-text)_55%,transparent)] [--seg-radio-inner-ring:inset_0_0_0_1px_color-mix(in_srgb,var(--glass-modal-text)_22%,transparent)] [--seg-radio-dot-shadow:none]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
@@ -174,7 +174,7 @@ export default function InviteModal() {
         </h2>
       </header>
 
-      <div className="invite-modal-scroll grid max-h-[calc(100dvh-3.2rem)] gap-[1.6rem] overflow-y-auto pr-[0.35rem] pt-[0.35rem]">
+      <div className="invite-modal-scroll grid max-h-[calc(100dvh-3.2rem)] gap-[1.6rem] overflow-y-auto px-[0.65rem] py-[0.55rem]">
         {!session?.user?.id ? <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
@@ -199,7 +199,7 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" disabled={busy}>
+              <Button type="submit" variant="primary" size="lg" disabled={busy}>
                 {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
@@ -210,7 +210,7 @@ export default function InviteModal() {
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" size="sm" className="min-h-[2.2rem]" onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>

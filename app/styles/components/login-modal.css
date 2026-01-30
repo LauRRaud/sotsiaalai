@@ -12,6 +12,14 @@
   --otp-input-border: rgba(160, 180, 205, 0.4);
   --otp-accent: rgba(225, 160, 160, 0.92);
 }
+:root.login-modal-open,
+body.login-modal-open {
+  overflow: hidden;
+  height: 100%;
+}
+:root.login-modal-open {
+  overscroll-behavior: none;
+}
 :root.theme-light .login-modal-root.login-modal--otp {
   --otp-panel-bg: rgba(255, 255, 255, 0.76);
   --otp-panel-border: rgba(148, 163, 184, 0.3);

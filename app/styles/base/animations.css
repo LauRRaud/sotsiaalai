@@ -220,6 +220,7 @@
     transform: scale(1);
   }
 }
+
 .defer-fade {
   --end-op: 1;
   --fade-dur: 1700ms;
@@ -238,6 +239,7 @@
 .defer-fade.delay-2 {
   --fade-delay: 1900ms;
 }
+
 @media (max-width: 48em) {
   .three-d-card {
     animation: none;

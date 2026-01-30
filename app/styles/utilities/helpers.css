@@ -79,37 +79,7 @@
   white-space: normal;
 }
 
-.glass-box.chat-container::-webkit-scrollbar,
-.glass-ring.chat-container::-webkit-scrollbar,
-.chat-analysis-preview::-webkit-scrollbar,
 .invite-modal::-webkit-scrollbar {
   width: 0;
   height: 0;
-}
-
-main#main > .main-content.glass-box.chat-container,
-.chat-page-shell .glass-box.chat-container {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.chat-window::-webkit-scrollbar-thumb,
-.chat-upload-preview-scroll::-webkit-scrollbar-thumb,
-.drawer-panel::-webkit-scrollbar-thumb,
-.cs-list::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--pt-400), var(--pt-200));
-  border-radius: 0.625rem;
-  border: 0.1875rem solid transparent;
-}
-
-.glass-box.chat-container::-webkit-scrollbar-track,
-.glass-ring.chat-container::-webkit-scrollbar-track,
-.chat-window::-webkit-scrollbar-track,
-.chat-upload-preview-scroll::-webkit-scrollbar-track,
-.chat-analysis-preview::-webkit-scrollbar-track,
-.chat-inputbar .chat-input-field::-webkit-scrollbar-track,
-.drawer-panel::-webkit-scrollbar-track,
-.cs-list::-webkit-scrollbar-track {
-  background: transparent;
 }

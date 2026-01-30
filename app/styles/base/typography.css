@@ -1,13 +1,19 @@
-.right-card-primary .headline-bold, .left-card-primary .headline-bold {
+.headline-bold {
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+}
+.right-card-primary .headline-bold,
+.left-card-primary .headline-bold {
   font-weight: 400;
 }
-
 .right-card-primary .headline-bold {
   color: var(--brand-primary);
 }
 
-body, p, ul, li, .glass-section {
+body,
+p,
+ul,
+li,
+.glass-section {
   font-family: var(--font-aino), Arial, sans-serif;
   font-weight: 400;
 }
@@ -27,44 +33,32 @@ a {
   text-decoration: none;
   color: inherit;
 }
-main#main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100dvh;
-}
-main#main > .main-content.glass-box {
-  margin-block: auto;
-  margin: clamp(1.6rem, 4.5vw, 2.8rem) auto clamp(1.6rem, 4.5vw, 2.8rem);
-}
-.main-content {
-  display: flex;
-  position: relative;
-  flex: 1 0 auto;
-  box-sizing: border-box;
-  z-index: 20;
-}
-.chat-send-btn, .chat-send-btn.stop, .button {
+.chat-send-btn,
+.chat-send-btn.stop,
+.button {
   font-family: var(--font-aino), Arial, sans-serif;
   letter-spacing: 0.06em;
-}
-input, textarea, select, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], .chat-input-field {
-  font-family: var(--font-aino), Arial, sans-serif;
-}
-input::placeholder, textarea::placeholder, .chat-input-field::placeholder {
-  font-family: var(--font-aino), Arial, sans-serif;
-}
-label {
-  font-family: var(--font-aino), Arial, sans-serif;
 }
 input,
 textarea,
 select,
 button,
-label {
+label,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+.chat-input-field {
   font-family: var(--font-aino), Arial, sans-serif;
 }
-.glass-box, .glass-box p {
+input::placeholder,
+textarea::placeholder,
+.chat-input-field::placeholder {
+  font-family: var(--font-aino), Arial, sans-serif;
+}
+.glass-box,
+.glass-box p {
   hyphens: auto;
   word-break: break-word;
   overflow-wrap: break-word;

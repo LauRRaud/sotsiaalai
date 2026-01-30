@@ -6,6 +6,8 @@
   width: min(38rem, 100%);
 }
 .chat-container {
+  position: relative;
+  z-index: 21;
   --chat-hpad: clamp(1.25rem, 2.5vw, 1.6rem);
   --chat-ai-offset: clamp(1.35rem, 3vw, 2.4rem);
   --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
@@ -54,6 +56,64 @@
   border-radius: 0.625rem;
   border: 0;
 }
+.chat-inputbar .chat-send-btn.chat-send-btn--active[data-recording="true"],
+.chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: rgba(255, 92, 92, 0.9);
+  box-shadow:
+    0 0 0 1px rgba(255, 92, 92, 0.35),
+    0 0 12px rgba(255, 92, 92, 0.25);
+}
+.chat-inputbar .chat-send-btn[data-recording-complete="true"] {
+  border-color: rgba(88, 211, 120, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(88, 211, 120, 0.4),
+    0 0 12px rgba(88, 211, 120, 0.3);
+}
+.chat-input-row .chat-inputbar .chat-listen-btn svg:not(.svg),
+.chat-input-row
+  .chat-inputbar
+  .chat-send-btn[data-recording="true"]
+  svg:not(.svg),
+.chat-input-row .chat-inputbar .chat-send-btn[data-recording] svg:not(.svg) {
+  stroke: currentColor;
+  opacity: 0.86;
+  transform: scale(1);
+  transform-origin: center;
+}
+.chat-input-row .chat-inputbar .chat-send-btn[data-recording] svg:not(.svg) {
+  opacity: 0.85;
+}
+.chat-send-btn[data-recording] {
+  color: var(--chat-icon-color);
+}
+.glass-box.chat-container::-webkit-scrollbar,
+.glass-ring.chat-container::-webkit-scrollbar,
+.chat-analysis-preview::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+main#main > .main-content.glass-box.chat-container,
+.chat-page-shell .glass-box.chat-container {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.chat-window::-webkit-scrollbar-thumb,
+.chat-upload-preview-scroll::-webkit-scrollbar-thumb,
+.cs-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--pt-400), var(--pt-200));
+  border-radius: 0.625rem;
+  border: 0.1875rem solid transparent;
+}
+.glass-box.chat-container::-webkit-scrollbar-track,
+.glass-ring.chat-container::-webkit-scrollbar-track,
+.chat-window::-webkit-scrollbar-track,
+.chat-upload-preview-scroll::-webkit-scrollbar-track,
+.chat-analysis-preview::-webkit-scrollbar-track,
+.chat-inputbar .chat-input-field::-webkit-scrollbar-track,
+.cs-list::-webkit-scrollbar-track {
+  background: transparent;
+}
 .chat-page-shell
   .chat-container.chat-container--round.chat-container--input-focus {
   border-top-left-radius: calc(var(--chat-diameter, 100%) / 2);
@@ -64,14 +124,7 @@
 :root.theme-light .chat-container {
   color: #1f2937;
 }
-:root.theme-light
-  .chat-container
-  > :not(.top-nav--chat):not(.chat-right-actions) {
-  z-index: 1;
-}
-:root:not(.theme-light)
-  .chat-container
-  > :not(.top-nav--chat):not(.chat-right-actions) {
+.chat-container > :not(.top-nav--chat):not(.chat-right-actions) {
   z-index: 1;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx) {
@@ -110,49 +163,49 @@
     );
   }
 
-    .chat-page-shell .chat-container.chat-container--round {
-      --chat-diameter: clamp(660px, 90vmin, 1240px);
-      --chat-expanded-delta: clamp(6.5rem, 15vh, 12.5rem);
-      --chat-pad-top: clamp(4rem, 8.2vh, 5.6rem);
-      --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
-      width: var(--chat-diameter);
-      height: var(--chat-diameter);
-      inline-size: var(--chat-diameter);
-      block-size: var(--chat-diameter);
-      min-width: var(--chat-diameter);
-      min-height: var(--chat-diameter);
-      max-width: var(--chat-diameter);
-      max-height: var(--chat-diameter);
-      flex: 0 0 auto;
-        align-self: center;
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-      margin-top: max(
-        0px,
-        calc(
-          (100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)
-        )
-      );
-      margin-bottom: 0;
-      overflow-x: hidden;
-      overflow-y: auto;
-      --chat-nav-top: 50%;
-      --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
-        transition:
-          border-radius 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
-          height 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
-          max-height 0.52s cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
-    .chat-page-shell
-      .chat-container.chat-container--round.chat-container--input-focus {
-      height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
-      max-height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
-      block-size: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
-      border-top-left-radius: calc(var(--chat-diameter) / 2);
-      border-top-right-radius: calc(var(--chat-diameter) / 2);
-      border-bottom-left-radius: 2.4rem;
-      border-bottom-right-radius: 2.4rem;
-    }
+  .chat-page-shell .chat-container.chat-container--round {
+    --chat-diameter: clamp(660px, 90vmin, 1240px);
+    --chat-expanded-delta: clamp(6.5rem, 15vh, 12.5rem);
+    --chat-pad-top: clamp(4rem, 8.2vh, 5.6rem);
+    --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
+    width: var(--chat-diameter);
+    height: var(--chat-diameter);
+    inline-size: var(--chat-diameter);
+    block-size: var(--chat-diameter);
+    min-width: var(--chat-diameter);
+    min-height: var(--chat-diameter);
+    max-width: var(--chat-diameter);
+    max-height: var(--chat-diameter);
+    flex: 0 0 auto;
+    align-self: center;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    margin-top: max(
+      0px,
+      calc(
+        (100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)
+      )
+    );
+    margin-bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    --chat-nav-top: 50%;
+    --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
+    transition:
+      border-radius 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
+      height 0.52s cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-height 0.52s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus {
+    height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
+    max-height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
+    block-size: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
+    border-top-left-radius: calc(var(--chat-diameter) / 2);
+    border-top-right-radius: calc(var(--chat-diameter) / 2);
+    border-bottom-left-radius: 2.4rem;
+    border-bottom-right-radius: 2.4rem;
+  }
   :root
     .chat-page-shell
     .chat-container.chat-container--round

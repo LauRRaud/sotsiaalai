@@ -6,6 +6,7 @@ import Providers from "./providers";
 import ViewportLayoutSetter from "@/components/ViewportLayoutSetter";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
+import PageFooter from "@/components/PageFooter";
 import { authConfig } from "@/auth";
 export const metadata = {
   title: "SotsiaalAI",
@@ -121,6 +122,7 @@ export default async function RootLayout({
         }}>
             {children}
           </main>
+          <PageFooter />
         </Providers>
       </body>
     </html>;

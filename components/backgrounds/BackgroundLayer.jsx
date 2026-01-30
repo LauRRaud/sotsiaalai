@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, memo, Suspense } from "react";
-import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
@@ -57,7 +56,6 @@ const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false
 }) {
-  const pathname = usePathname();
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
@@ -65,7 +63,7 @@ const BackgroundContent = memo(function BackgroundContent({
   const [colorBendsReady, setColorBendsReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
   const allowParticles = !reduceMotion;
-  const isHome = pathname === "/";
+  const parallaxActive = !reduceMotion;
   const bgColor = useMemo(() => {
     if (typeof document === "undefined") return isLightTheme ? "#f9f8f5" : "#050a10";
     const css = getComputedStyle(document.documentElement).getPropertyValue("--page-bg").trim();
@@ -139,7 +137,6 @@ const BackgroundContent = memo(function BackgroundContent({
     el.style.setProperty("--saai-parallax-bends", "0px");
     el.style.setProperty("--saai-parallax-particles", "0px");
     el.style.setProperty("--saai-bg-dim", "0");
-    const parallaxActive = !reduceMotion && isHome;
     if (!parallaxActive) return;
     let raf = 0;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -169,10 +166,10 @@ const BackgroundContent = memo(function BackgroundContent({
       window.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [reduceMotion, isHome, mobileLike]);
+  }, [reduceMotion, mobileLike, parallaxActive]);
   return <>
       {}
-      <div data-bg-layer ref={layerRef} className={isHome ? styles.homeBgLayer : undefined} data-parallax={isHome ? "home" : "off"} aria-hidden="true" suppressHydrationWarning>
+      <div data-bg-layer ref={layerRef} className={styles.homeBgLayer} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
         {}
         <div className="bg-space-layer">
           <SpaceLayer mode={isLightTheme ? "light" : "dark"} palette={isLightTheme ? LIGHT_SPACE_PALETTE : undefined} allowMobileCustom={isLightTheme} grain={!isLightTheme} />
