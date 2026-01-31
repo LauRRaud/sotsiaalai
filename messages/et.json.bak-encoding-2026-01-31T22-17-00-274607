@@ -55,8 +55,8 @@
     "login": "Logi sisse",
     "start": "Start",
     "aria_main": "Peamenüü",
-    "toggle_light": "Lülita hele režiim",
-    "toggle_dark": "Lülita tume režiim",
+    "toggle_light": "Lülita hele reÅ¾iim",
+    "toggle_dark": "Lülita tume reÅ¾iim",
     "chats": "Vestlused",
     "rooms": "Ruumid",
     "add_person": "Lisa inimene"
@@ -276,8 +276,8 @@
         "reduce": "Vähenda liikumist"
       },
       "theme": {
-        "dark": "Tume režiim",
-        "light": "Hele režiim"
+        "dark": "Tume reÅ¾iim",
+        "light": "Hele reÅ¾iim"
       }
     },
     "save": "Salvesta"
@@ -301,7 +301,7 @@
     },
     "section4": {
       "heading": "4. Vestluste privaatsus",
-      "body": "<p><strong>4.1 Vestluse sisu.</strong> Vestluse sisu (kasutaja küsimused, assistendi vastused ja muu sisestatud tekst) kasutatakse ainult teenuse osutamiseks - vastuste koostamiseks, vestluse vahendamiseks ja vestlusajaloo kuvamiseks. Vestluse sisu ei salvestata tähtajatult, ei kasutata turunduseks, profiilianalüüsiks ega kolmandate isikute mudelite koolitamiseks ning säilitatakse piiratud aja jooksul vastavalt punktile 7.</p><p><strong>4.2 Dokumendi analüüs.</strong> Dokumendi analüüsi funktsiooni kasutamisel ei salvestata üles laaditud faile püsivalt. Dokumenti kasutatakse ainult jooksvas vestlusaknas ja konkreetse vestluse kontekstis. Dokument kustub süsteemist, kui vestlusaken või leht suletakse, ning seda ei kasutata hiljem turunduseks, profiilianalüüsiks ega mudelite koolitamiseks.</p><p><strong>4.3 Dikteerimine (kõnetuvastus).</strong> Dikteerimise režiim on sisse tellitud teenus (volitatud teenusepakkuja). Mikrofoni heli edastatakse turvalise ühenduse kaudu teenusepakkujale, kes töötleb seda üksnes teksti loomiseks vastavalt SotsiaalAI juhistele ja andmekaitsenõuetele. SotsiaalAI ei kogu ega salvesta kasutaja kõneandmeid püsivalt ning heli kasutatakse ainult ajutiselt teksti loomiseks ega kasutata turunduseks ega mudelite koolitamiseks.</p>"
+      "body": "<p><strong>4.1 Vestluse sisu.</strong> Vestluse sisu (kasutaja küsimused, assistendi vastused ja muu sisestatud tekst) kasutatakse ainult teenuse osutamiseks - vastuste koostamiseks, vestluse vahendamiseks ja vestlusajaloo kuvamiseks. Vestluse sisu ei salvestata tähtajatult, ei kasutata turunduseks, profiilianalüüsiks ega kolmandate isikute mudelite koolitamiseks ning säilitatakse piiratud aja jooksul vastavalt punktile 7.</p><p><strong>4.2 Dokumendi analüüs.</strong> Dokumendi analüüsi funktsiooni kasutamisel ei salvestata üles laaditud faile püsivalt. Dokumenti kasutatakse ainult jooksvas vestlusaknas ja konkreetse vestluse kontekstis. Dokument kustub süsteemist, kui vestlusaken või leht suletakse, ning seda ei kasutata hiljem turunduseks, profiilianalüüsiks ega mudelite koolitamiseks.</p><p><strong>4.3 Dikteerimine (kõnetuvastus).</strong> Dikteerimise reÅ¾iim on sisse tellitud teenus (volitatud teenusepakkuja). Mikrofoni heli edastatakse turvalise ühenduse kaudu teenusepakkujale, kes töötleb seda üksnes teksti loomiseks vastavalt SotsiaalAI juhistele ja andmekaitsenõuetele. SotsiaalAI ei kogu ega salvesta kasutaja kõneandmeid püsivalt ning heli kasutatakse ainult ajutiselt teksti loomiseks ega kasutata turunduseks ega mudelite koolitamiseks.</p>"
     },
     "section5": {
       "heading": "5. Volitatud töötlejad",
@@ -597,7 +597,7 @@
         },
         "profile": {
           "title": "6. Profiil",
-          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li><li>Profiili lehe paremas ülanurgas asub režiimivalik, kus kuvatakse vastavalt valitud teemale päikese (helerežiim) või kuu (tumerežiim) ikoon. Ikoonile klõpsates saab vahetada tumeda ja heleda kujunduse vahel.</li></ul>"
+          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li><li>Profiili lehe paremas ülanurgas asub reÅ¾iimivalik, kus kuvatakse vastavalt valitud teemale päikese (helereÅ¾iim) või kuu (tumereÅ¾iim) ikoon. Ikoonile klõpsates saab vahetada tumeda ja heleda kujunduse vahel.</li></ul>"
         },
         "about": {
           "title": "7. MEIST",

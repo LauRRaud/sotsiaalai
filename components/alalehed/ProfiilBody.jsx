@@ -57,7 +57,6 @@ const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
-const loadingClassName = "p-[1rem] text-center text-[color:var(--glass-surface-text,#f2f2f2)]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -452,7 +451,6 @@ export default function ProfiilBody({
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
-        <p className={loadingClassName}>{t("profile.loading")}</p>
       </ProfileShell>;
   }
   if (!isAuthed) {

@@ -507,8 +507,10 @@ export default function ChatBody({
   const showProfileFace = profileOpen;
   const focusVars = inputFocused && !profileOpen
     ? {
-        "--chat-window-bottom-shift": "calc(clamp(2.4rem, 5.2vh, 3.6rem) + var(--chat-window-focus-drop, 0rem))",
-        "--chat-scroll-button-lift": "clamp(-0.8rem, -1.6vh, -1.2rem)",
+        "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
+        "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
+        "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
+        "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
         "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
         "--chat-input-shift": "clamp(0.9rem, 2.2vh, 1.4rem)",
         "--chat-expanded-delta": "clamp(0.9rem, 2.4vh, 2.2rem)",

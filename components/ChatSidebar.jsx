@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -430,7 +430,7 @@ export default function ChatSidebar() {
   const isActionBusy = busy || creating || bulkDeleting;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
-    "flex items-start gap-3 rounded-[1.1rem] border px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition shadow-none max-w-[18.5rem]";
+    "flex items-start gap-3 rounded-[1.1rem] border px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition shadow-none w-full max-w-[19.5rem]";
   const messageCardDarkVariant =
     "border-[rgba(255,255,255,0.12)] bg-[rgba(12,16,26,0.22)]";
   const messageCardLightVariant =
@@ -460,14 +460,11 @@ export default function ChatSidebar() {
           </svg>
         </Button>
       </div>
-      {selectMode ? <div className="flex flex-wrap items-center justify-center gap-2">
-          <span className="text-[0.85rem] text-[rgba(255,255,255,0.7)] light:text-[rgba(31,41,55,0.75)]">
-            {t("chat.sidebar.selection.count", "Valitud")}: {selectedCount}
-          </span>
-          <Button variant="danger" size="sm" onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
+      {selectMode ? <div className="flex items-center justify-center gap-2">
+          <Button variant="primary" size="sm" className="px-[0.7rem] text-[0.8rem]" onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
             {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
           </Button>
-          <Button variant="ghost" size="sm" onClick={handleDeleteAll} disabled={isActionBusy}>
+          <Button variant="primary" size="sm" className="px-[0.7rem] text-[0.8rem]" onClick={handleDeleteAll} disabled={isActionBusy}>
             {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
           </Button>
         </div> : null}
@@ -497,9 +494,13 @@ export default function ChatSidebar() {
             }
           })();
           return <li key={`${c.kind}:${c.id}`} className={`${messageCardClassNameCommon} ${messageCardDarkVariant} ${messageCardLightVariant} ${isActive ? messageActiveVariant : ""} w-full`}>
-              {selectMode && c.kind !== "room" ? <label className="relative flex h-6 w-6 items-center justify-center">
-                    <input type="checkbox" className="peer absolute h-full w-full opacity-0" checked={selectedIds.has(c.id)} onChange={() => toggleSelected(c.id)} disabled={isActionBusy} />
-                    <span className="h-4 w-4 rounded-[0.25rem] border border-[rgba(148,163,184,0.6)] bg-[rgba(255,255,255,0.05)] peer-checked:border-[rgba(217,163,146,0.8)] peer-checked:bg-gradient-to-br peer-checked:from-[rgba(217,163,146,0.5)] peer-checked:to-[rgba(140,92,78,0.35)] peer-focus-visible:ring-2 peer-focus-visible:ring-[rgba(217,163,146,0.35)]" aria-hidden="true" />
+              {selectMode && c.kind !== "room" ? <label className="flex h-6 w-6 items-center justify-center">
+                    <input type="checkbox" className="peer sr-only" checked={selectedIds.has(c.id)} onChange={() => toggleSelected(c.id)} disabled={isActionBusy} />
+                    <span aria-hidden="true" className="relative flex h-[20px] w-[20px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
+                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M6 12.5l4 4 8-8" />
+                      </svg>
+                    </span>
                   </label> : null}
               <button className="flex w-full flex-1 flex-col gap-2 bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || "Vestlus"} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
                 <div className="flex flex-wrap items-center justify-start gap-2">
@@ -537,3 +538,4 @@ export default function ChatSidebar() {
     </nav>;
 
 }
+
