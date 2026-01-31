@@ -8,6 +8,7 @@
 .chat-container {
   position: relative;
   z-index: 21;
+  min-height: 0;
   --chat-hpad: clamp(1.25rem, 2.5vw, 1.6rem);
   --chat-ai-offset: clamp(1.35rem, 3vw, 2.4rem);
   --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
@@ -19,9 +20,10 @@
   --chat-scroll-button-lift: 3.0rem;
   --chat-input-row-gap: clamp(3.1rem, 7.4vh, 5.4rem);
   --chat-expanded-delta: 0px;
-  --chat-pad-top: 1.1rem;
+  --chat-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
   --chat-pad-bottom: 0.9rem;
-  --chat-window-top-offset: 0.6rem;
+  --chat-window-pad-top: clamp(0.5rem, 1.4vh, 1rem);
+  --chat-window-top-offset: 0.2rem;
   --chat-window-focus-drop: 0rem;
   --chat-window-bottom-gap: 3.2rem;
   --glass-center-offset: 0px;
@@ -37,6 +39,10 @@
   --chat-logo-height: clamp(12rem, 32vw, 26rem);
   --chat-logo-y: clamp(5.2rem, 23vh, 12.2rem);
   --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 13rem);
+}
+.chat-window {
+  min-height: 0;
+  flex: 1 1 auto;
 }
 .chat-input-row {
   transition:
@@ -145,8 +151,18 @@ main#main > .main-content.glass-box.chat-container,
 :root.theme-light .chat-container {
   color: #1f2937;
 }
-.chat-container > :not(.top-nav--chat):not(.chat-right-actions) {
+.chat-container
+  > :not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay) {
   z-index: 1;
+}
+.chat-nav-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+}
+.chat-back-button {
+  pointer-events: auto;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx) {
   .chat-container {
@@ -187,8 +203,9 @@ main#main > .main-content.glass-box.chat-container,
   .chat-page-shell .chat-container.chat-container--round {
     --chat-diameter: clamp(660px, 90vmin, 1240px);
     --chat-expanded-delta: clamp(6.5rem, 15vh, 12.5rem);
-    --chat-pad-top: clamp(4rem, 8.2vh, 5.6rem);
+    --chat-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
     --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
+    --chat-window-pad-top: clamp(0.9rem, 2.2vh, 1.6rem);
     width: var(--chat-diameter);
     height: var(--chat-diameter);
     inline-size: var(--chat-diameter);

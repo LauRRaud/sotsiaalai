@@ -57,9 +57,6 @@
   mask-repeat: no-repeat;
 }
 
-.profileOrbitLayer {
-}
-
 .profileContainer > *:not(.profileMaskLayer):not(.profileOrbitLayer):not(.profileNavOverlay) {
   position: relative;
   z-index: 1;

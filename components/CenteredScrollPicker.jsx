@@ -9,6 +9,13 @@ function isHTMLElement(x) {
 function getCenterY(rect) {
   return rect.top + rect.height / 2;
 }
+function getCssPx(el, varName) {
+  if (!el || typeof window === "undefined") return 0;
+  const raw = window.getComputedStyle(el).getPropertyValue(varName).trim();
+  if (!raw) return 0;
+  const value = Number.parseFloat(raw);
+  return Number.isFinite(value) ? value : 0;
+}
 function supportsInert() {
   return typeof HTMLElement !== "undefined" && "inert" in HTMLElement.prototype;
 }
@@ -84,7 +91,8 @@ export default function CenteredScrollPicker({
     const items = getItems();
     if (!items.length) return 0;
     const containerRect = el.getBoundingClientRect();
-    const centerY = getCenterY(containerRect);
+    const centerOffset = getCssPx(el, "--csp-center-offset");
+    const centerY = getCenterY(containerRect) + centerOffset;
     let bestIdx = 0;
     let bestDist = Number.POSITIVE_INFINITY;
     for (let i = 0; i < items.length; i += 1) {
@@ -103,11 +111,24 @@ export default function CenteredScrollPicker({
     const i = clamp(idx, 0, items.length - 1);
     const target = items[i];
     if (!target) return;
+    const el = containerRef?.current;
+    if (!el) return;
     const behavior = behaviorOverride || (reduceMotion ? "auto" : "smooth");
-    target.scrollIntoView?.({
-      block: "center",
-      behavior
-    });
+    const containerRect = el.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    const centerOffset = getCssPx(el, "--csp-center-offset");
+    const desiredCenter = getCenterY(containerRect) + centerOffset;
+    const targetCenter = getCenterY(targetRect);
+    const delta = targetCenter - desiredCenter;
+    const nextTop = (el.scrollTop || 0) + delta;
+    if (typeof el.scrollTo === "function") {
+      el.scrollTo({
+        top: nextTop,
+        behavior
+      });
+    } else {
+      el.scrollTop = nextTop;
+    }
   }, [getItems, reduceMotion]);
   const getItemState = useCallback(index => {
     const d = Math.abs(index - activeIndexRef.current);

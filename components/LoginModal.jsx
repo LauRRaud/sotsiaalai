@@ -11,6 +11,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import AppLink from "@/components/ui/Link";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
@@ -773,9 +774,9 @@ export default function LoginModal({
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
       "--login-envelope-size": "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": "clamp(4.4rem, 7vw, 5.2rem)",
-      minWidth: "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
-      maxWidth: "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
-    }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
+        minWidth: isOtpStep ? "min(92vw, 32rem)" : "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
+        maxWidth: isOtpStep ? "min(94vw, 36rem)" : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
+      }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {
         emailInputRef.current.focus();
@@ -998,7 +999,7 @@ export default function LoginModal({
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className="w-full rounded-[1.15rem] border border-solid border-[color:var(--otp-panel-border)] [background:linear-gradient(180deg,rgba(16,20,32,0.7),rgba(10,14,24,0.56)),var(--otp-panel-bg)] shadow-[var(--otp-panel-shadow)] px-[1rem] pt-[0.95rem] pb-[1rem] light:[background:linear-gradient(180deg,rgba(255,255,255,0.86),rgba(250,251,253,0.78))]">
+            <div className="w-full max-w-[30rem] rounded-[1.2rem] border border-solid border-[color:var(--otp-panel-border)] [background:linear-gradient(180deg,rgba(16,20,32,0.7),rgba(10,14,24,0.56)),var(--otp-panel-bg)] shadow-[var(--otp-panel-shadow)] px-[1.35rem] pt-[1.1rem] pb-[1.2rem] light:[background:linear-gradient(180deg,rgba(255,255,255,0.86),rgba(250,251,253,0.78))]">
               <div className="flex flex-col gap-[0.35rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
                 {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)]">
                     {info}
@@ -1016,26 +1017,23 @@ export default function LoginModal({
               </div>
 
               <div className="w-full mt-[0.75rem]">
-                <Input id="otp-code-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} className="text-center [font-variant-numeric:tabular-nums] tracking-[0.32em] font-semibold text-[1.45rem] py-[0.82rem] px-[1rem] rounded-[1rem] [background:var(--otp-input-bg)] [border:1.5px_solid_var(--otp-input-border)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)] placeholder:tracking-[0.24em] focus-visible:[background:var(--otp-input-bg)] focus-visible:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)]" />
+                <Input id="otp-code-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} className="text-center [font-variant-numeric:tabular-nums] tracking-[0.28em] font-semibold text-[1.5rem] py-[0.9rem] px-[1.15rem] rounded-[1rem] [background:var(--otp-input-bg)] [border:1.5px_solid_var(--otp-input-border)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)] placeholder:tracking-[0.24em] focus-visible:[background:var(--otp-input-bg)] focus-visible:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)]" />
               </div>
             </div>
 
-            <label className="flex items-center gap-[0.7rem] w-full rounded-[1rem] border border-solid border-[rgba(148,163,184,0.32)] bg-[rgba(10,14,24,0.4)] px-[0.85rem] py-[0.6rem] text-[1rem] leading-[1.3] text-[color:var(--pt-150)] transition-[border-color,background,box-shadow,color] duration-200 ease-out cursor-pointer hover:bg-[rgba(16,20,30,0.5)] hover:border-[rgba(170,190,215,0.4)] light:bg-[rgba(255,255,255,0.78)] light:border-[rgba(148,163,184,0.35)] light:text-[rgba(31,41,55,0.86)]">
-              <input type="checkbox" checked={rememberDevice} onChange={e => setRememberDevice(e.target.checked)} className="appearance-none grid place-items-center w-[1.1rem] h-[1.1rem] rounded-[0.32rem] border-2 border-[rgba(185,200,220,0.6)] bg-[rgba(18,22,34,0.72)] transition-[border-color,background,box-shadow] duration-150 ease-out cursor-pointer relative after:content-[''] after:w-[0.55rem] after:h-[0.32rem] after:border-r-2 after:border-b-2 after:border-[color:var(--brand-primary)] after:rotate-45 after:scale-0 after:transition-transform after:duration-150 checked:after:scale-100 focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(225,160,160,0.22)] focus-visible:border-[rgba(225,160,160,0.7)] light:bg-[rgba(255,255,255,0.95)] light:border-[rgba(148,163,184,0.62)]" />
-              <span className="font-medium tracking-[0.01em]">
-                {t("auth.login.remember_device")}
-              </span>
-            </label>
+            <div className="w-full max-w-[30rem] rounded-[1rem] border border-solid border-[rgba(148,163,184,0.32)] bg-[rgba(10,14,24,0.4)] px-[0.95rem] py-[0.7rem] transition-[border-color,background,box-shadow,color] duration-200 ease-out hover:bg-[rgba(16,20,30,0.5)] hover:border-[rgba(170,190,215,0.4)] light:bg-[rgba(255,255,255,0.78)] light:border-[rgba(148,163,184,0.35)] [--pt:var(--pt-150)] light:[--pt:rgba(31,41,55,0.86)]">
+              <FancyCheckbox id="remember-device" checked={rememberDevice} onChange={checked => setRememberDevice(checked)} label={t("auth.login.remember_device")} />
+            </div>
 
-            <div className="w-full flex flex-col gap-[0.65rem] mt-[0.15rem]">
-              <Button type="submit" variant="primary" className="w-full text-[1.05rem] tracking-[0.04em] rounded-[1rem] py-[0.7rem] px-[1.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
+            <div className="w-full max-w-[30rem] flex flex-col gap-[0.65rem] mt-[0.15rem]">
+              <Button type="submit" variant="primary" className="w-full max-w-[18rem] mx-auto text-[1.05rem] normal-case tracking-[0.04em] rounded-[1rem] py-[0.7rem] px-[1.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
-              <div className="w-full grid grid-cols-2 gap-[0.6rem] max-md:grid-cols-1">
-                <Button type="button" variant="ghost" className="min-h-[2.25rem] py-[0.45rem] px-[0.7rem] text-[0.92rem] font-semibold tracking-[0.02em] rounded-[0.9rem] bg-[rgba(12,16,26,0.36)] border border-[rgba(148,163,184,0.25)] shadow-none hover:bg-[rgba(16,22,34,0.48)] hover:border-[rgba(170,190,215,0.38)] hover:shadow-none hover:-translate-y-[1px] active:translate-y-0 light:bg-[rgba(255,255,255,0.8)] light:border-[rgba(148,163,184,0.35)] light:hover:bg-[rgba(255,255,255,0.95)] light:hover:border-[rgba(148,163,184,0.45)]" onClick={handleResendOtp} disabled={resendLoading}>
+              <div className="w-full flex flex-col items-center gap-[0.35rem]">
+                <Button type="button" variant="linkBrand" className="text-[1.05rem] tracking-[0.03em]" onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </Button>
-                <Button type="button" variant="ghost" className="min-h-[2.25rem] py-[0.45rem] px-[0.7rem] text-[0.92rem] font-semibold tracking-[0.02em] rounded-[0.9rem] bg-[rgba(12,16,26,0.36)] border border-[rgba(148,163,184,0.25)] shadow-none hover:bg-[rgba(16,22,34,0.48)] hover:border-[rgba(170,190,215,0.38)] hover:shadow-none hover:-translate-y-[1px] active:translate-y-0 light:bg-[rgba(255,255,255,0.8)] light:border-[rgba(148,163,184,0.35)] light:hover:bg-[rgba(255,255,255,0.95)] light:hover:border-[rgba(148,163,184,0.45)]" onClick={resetToPinStep}>
+                <Button type="button" variant="linkBrand" className="text-[1.05rem] tracking-[0.03em]" onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
                 </Button>
               </div>

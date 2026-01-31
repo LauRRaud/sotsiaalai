@@ -11,12 +11,15 @@ const baseStyles =
   "shadow-none backdrop-blur-[var(--glass-blur-radius,1rem)] " +
   "light:shadow-[0_18px_40px_rgba(0,0,0,0.16)] " +
   "overflow-hidden " +
-  "[--glass-ring-pad-x:clamp(1.8rem,5vw,3.2rem)] px-[var(--glass-ring-pad-x)] " +
-  "pt-[clamp(1.6rem,4.2vw,2.6rem)] " +
+  "[--glass-ring-pad-x:clamp(1.8rem,5vw,3.2rem)] " +
+  "[--glass-ring-pad-top:clamp(1.6rem,4.2vw,2.6rem)] " +
+  "[--glass-ring-pad-top-half:clamp(0.8rem,2.1vw,1.3rem)] " +
+  "px-[var(--glass-ring-pad-x)] pt-[var(--glass-ring-pad-top)] " +
   "md:mt-[max(0px,calc((100dvh-var(--profile-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] md:mb-0 md:mx-auto " +
   "max-md:w-[100vw] max-md:h-[100dvh] max-md:max-w-[100vw] max-md:max-h-[100dvh] " +
   "max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto max-md:rounded-none max-md:overflow-visible " +
-  "max-md:pt-[clamp(0.4rem,1.4vh,1.1rem)] " +
+  "max-md:[--glass-ring-pad-top:clamp(0.4rem,1.4vh,1.1rem)] " +
+  "max-md:[--glass-ring-pad-top-half:clamp(0.2rem,0.7vh,0.55rem)] " +
   "[--glass-edge-left:calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] " +
   "[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))]";
 

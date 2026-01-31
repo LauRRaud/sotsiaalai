@@ -29,7 +29,7 @@ import { glassPageBackClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
-  "mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
+  "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(0.45rem,1.6vh,1rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
@@ -514,18 +514,17 @@ export default function ChatBody({
         "--chat-expanded-delta": "clamp(0.9rem, 2.4vh, 2.2rem)",
         "--chat-input-focus-drop": "clamp(2.8rem, 5.6vh, 3.6rem)",
         "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
-        "--chat-window-bottom-gap": "clamp(3.2rem, 4.6vh, 4.4rem)",
+        "--chat-window-bottom-gap": "clamp(1.2rem, 2.6vh, 2.4rem)",
         "--chat-attach-left-pull": "-1.1rem"
       }
     : undefined;
   const chatContainerClassName = cn(
     "main-content chat-container chat-container--round " +
       "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
-      "overflow-y-auto overflow-x-hidden overscroll-auto " +
+      "overflow-hidden " +
       "bg-transparent backdrop-blur-none " +
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
-      "max-[48em]:min-h-0 max-[48em]:mx-auto max-[48em]:overflow-hidden " +
-      "max-[48em]:overscroll-auto",
+      "max-[48em]:min-h-0 max-[48em]:mx-auto",
     inputFocused && !profileOpen ? "chat-container--input-focus" : null
   );
   return <>
@@ -542,11 +541,13 @@ export default function ChatBody({
                 data-chat-container="true"
               >
                 <div className="chat-mask-layer" aria-hidden="true" />
-                {!profileOpen ? <BackButton
-                    onClick={handleBackHome}
-                    ariaLabel={t("chat.back_to_home")}
-                    className={cn(glassPageBackClassName, "z-[80] pointer-events-auto chat-back-button")}
-                  /> : null}
+                {!profileOpen ? <div className="chat-nav-overlay" aria-hidden="true">
+                    <BackButton
+                      onClick={handleBackHome}
+                      ariaLabel={t("chat.back_to_home")}
+                      className={cn(glassPageBackClassName, "chat-back-button")}
+                    />
+                  </div> : null}
 
                 <RightRail
                   t={t}

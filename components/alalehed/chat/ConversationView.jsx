@@ -44,16 +44,18 @@ const ConversationView = memo(function ConversationView({
     };
   }, []);
   const mainClassName =
-    "relative flex flex-1 flex-col min-h-0 gap-[0.5rem] mt-[calc(0.35rem+var(--chat-window-top-offset,0rem))] mb-[calc(-1*var(--chat-window-bottom-shift,0rem))]";
+    "relative flex flex-1 flex-col min-h-0 w-full gap-[0.5rem] " +
+    "mt-[calc(0.35rem+var(--chat-window-top-offset,0rem))] " +
+    "mb-[calc(-1*(var(--chat-input-row-gap,3.1rem)+var(--chat-input-shift,1.8rem)))]";
   const windowClassName =
-    "relative flex flex-1 flex-col items-stretch gap-[0.65em] " +
+    "chat-window relative flex flex-1 flex-col items-stretch gap-[0.65em] min-h-0 h-full max-h-full " +
     "w-full max-w-[calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))+2.0rem)] mx-auto " +
-    "min-h-[clamp(320px,48vh,620px)] overflow-y-auto overscroll-contain " +
+    "overflow-y-auto overscroll-contain " +
     "pl-[calc(var(--chat-hpad)*0.6)] pr-[0.55rem] " +
-    "pt-[calc(var(--chat-pad-top,1rem)+0.4rem+var(--chat-window-top-offset,0rem))] " +
-    "pb-[calc(var(--chat-pad-bottom,1rem)+var(--chat-window-bottom-gap,3rem)+var(--chat-input-row-gap,0rem)+var(--chat-input-shift,0rem)+var(--chat-window-focus-drop,0rem))] " +
-    "[scroll-padding-top:calc(var(--chat-pad-top,1rem)+0.4rem+var(--chat-window-top-offset,0rem))] " +
-    "[scroll-padding-bottom:calc(var(--chat-pad-bottom,1rem)+var(--chat-window-bottom-gap,3rem)+var(--chat-input-row-gap,0rem)+var(--chat-input-shift,0rem)+var(--chat-window-focus-drop,0rem))] " +
+    "pt-[calc(var(--chat-window-pad-top,0.6rem)+var(--chat-window-top-offset,0rem))] " +
+    "pb-[calc(var(--chat-pad-bottom,1rem)+var(--chat-window-bottom-gap,3rem))] " +
+    "[scroll-padding-top:calc(var(--chat-window-pad-top,0.6rem)+var(--chat-window-top-offset,0rem))] " +
+    "[scroll-padding-bottom:calc(var(--chat-pad-bottom,1rem)+var(--chat-window-bottom-gap,3rem))] " +
     "-translate-x-[0.6rem] max-[48em]:translate-x-0 " +
     "max-[48em]:max-w-full " +
     "[scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
@@ -63,7 +65,7 @@ const ConversationView = memo(function ConversationView({
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
     "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
   const scrollButtonClassName =
-    "absolute left-1/2 -translate-x-1/2 bottom-[calc(-1*(var(--chat-input-row-gap,3.1rem)+var(--chat-input-shift,1.8rem))+var(--chat-window-focus-drop,0rem)+var(--chat-scroll-down-offset,0rem)-var(--chat-scroll-button-lift,0rem))] " +
+    "absolute left-1/2 -translate-x-1/2 bottom-[calc(0.4rem+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
     "flex items-center justify-center transition-transform duration-150 hover:scale-[1.15] focus-visible:scale-[1.15]";
   const scrollIconClassName =

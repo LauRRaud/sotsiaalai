@@ -161,7 +161,7 @@ export default function HomePage() {
       document.body.classList.remove("homepage");
       document.body.classList.remove(styles.homeCursorScope);
     };
-  }, [isStandaloneChat, styles.homeCursorScope]);
+  }, [isStandaloneChat]);
   useEffect(() => {
     if (!isLoginOpen) return;
     setMobileFlipReady({
@@ -187,7 +187,7 @@ export default function HomePage() {
     if (homeChatOpen) setHomeChatOpen(false);
     setHomeChatSide(null);
     setChatOpenDeferred(false);
-  }, [chatOpenDeferred, homeChatOpen, router, urlMode]);
+  }, [chatOpenDeferred, homeChatOpen, router, urlMode, status]);
   useEffect(() => {
     if (!pendingExitSide || status !== "authenticated" || !session) return;
     if (isLoginOpen) setIsLoginOpen(false);

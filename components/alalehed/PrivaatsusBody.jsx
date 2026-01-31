@@ -10,8 +10,8 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
-const contentClassName = "mt-[clamp(1.7rem,4.6vh,2.8rem)] flex w-full flex-1 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
-const scrollClassName = "relative w-full max-w-[clamp(18rem,44vw,30rem)] max-h-[min(55vh,28.5rem)] overflow-y-auto pr-[0.1rem] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
+const contentClassName = "-mt-[clamp(0.6rem,2.2vh,1.4rem)] flex w-full flex-1 flex-col items-center pb-[clamp(0.8rem,2.4vh,1.4rem)]";
+const scrollClassName = "relative w-full max-w-[clamp(18rem,45vw,31rem)] translate-x-[clamp(0.35rem,1vw,0.9rem)] max-h-[min(60vh,30rem)] overflow-y-auto pr-[0.1rem] pt-[0.6rem] pb-[1rem] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [mask-image:linear-gradient(to_bottom,transparent_0%,#000_8%,#000_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_8%,#000_92%,transparent_100%)]";
 const sectionHeadingClassName = "mt-[1.2rem] text-[1.3rem] font-semibold tracking-[0.01em] text-[#c57171] light:text-[#7A3A38]";
 const bodyTextClassName = "mt-[0.6rem] space-y-[0.85rem] text-[clamp(1.02rem,1.5vw,1.15rem)] leading-[1.7] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[#2b2620]";
 const richLinkClassName = "inline-block text-[1.1em] font-[500] tracking-[0.03em] px-[0.2em] py-[0.02em] rounded-[0.32em] border-2 border-transparent no-underline transition-[border,box-shadow,color] duration-150 text-[#c57171] hover:border-[#c57171] hover:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] focus-visible:border-[#c57171] focus-visible:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] light:text-[#7A3A38] light:hover:border-[#7A3A38] light:focus-visible:border-[#7A3A38]";
@@ -102,7 +102,7 @@ export default function PrivaatsusBody() {
     }]
   }];
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className={glassPageRingCenteredClassName} role="region" aria-labelledby="privacy-title">
+      <GlassRing className={`${glassPageRingCenteredClassName} [--glass-ring-pad-top:clamp(0.2rem,1.1vh,0.8rem)]`} role="region" aria-labelledby="privacy-title">
         <BackButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {
@@ -114,7 +114,7 @@ export default function PrivaatsusBody() {
           ariaLabel={t("buttons.back_home")}
           className={glassPageBackClassName}
         />
-        <h1 id="privacy-title" className={titleClassName}>
+        <h1 id="privacy-title" className={`${titleClassName} mt-[clamp(0.6rem,1.6vh,1.2rem)]`}>
           {t("privacy.title")}
         </h1>
         <div className={contentClassName}>

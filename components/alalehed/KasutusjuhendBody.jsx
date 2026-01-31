@@ -10,8 +10,8 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
-const contentClassName = "mt-[clamp(1.7rem,4.6vh,2.8rem)] flex w-full flex-1 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
-const scrollClassName = "relative w-full max-w-[clamp(18rem,44vw,30rem)] max-h-[min(55vh,28.5rem)] overflow-y-auto pr-[0.1rem] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
+const contentClassName = "-mt-[clamp(0.6rem,2.2vh,1.4rem)] flex w-full flex-1 flex-col items-center pb-[clamp(0.8rem,2.4vh,1.4rem)]";
+const scrollClassName = "relative w-full max-w-[clamp(18rem,45vw,31rem)] translate-x-[clamp(0.35rem,1vw,0.9rem)] max-h-[min(60vh,30rem)] overflow-y-auto pr-[0.1rem] pt-[0.6rem] pb-[1rem] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [mask-image:linear-gradient(to_bottom,transparent_0%,#000_8%,#000_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_8%,#000_92%,transparent_100%)]";
 const sectionHeadingClassName = "text-[1.3rem] font-semibold tracking-[0.01em] text-[#c57171] light:text-[#7A3A38]";
 const bodyTextClassName = "text-[clamp(1.02rem,1.5vw,1.15rem)] leading-[1.7] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[#2b2620]";
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "profile", "about", "quickstart"];
@@ -45,7 +45,7 @@ export default function KasutusjuhendBody() {
     body: t(`about.guide.sections_v2.${key}.body`)
   }));
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className={glassPageRingCenteredClassName} role="region" aria-labelledby="kasutusjuhend-title">
+      <GlassRing className={`${glassPageRingCenteredClassName} [--glass-ring-pad-top:clamp(0.2rem,1.1vh,0.8rem)]`} role="region" aria-labelledby="kasutusjuhend-title">
         <BackButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {
@@ -57,7 +57,7 @@ export default function KasutusjuhendBody() {
           ariaLabel={t("buttons.back_home")}
           className={glassPageBackClassName}
         />
-        <h1 id="kasutusjuhend-title" className={titleClassName}>
+        <h1 id="kasutusjuhend-title" className={`${titleClassName} mt-[clamp(0.6rem,1.6vh,1.2rem)]`}>
           {t("about.guide.short_title", "Kasutusjuhend")}
         </h1>
         <div className={contentClassName}>

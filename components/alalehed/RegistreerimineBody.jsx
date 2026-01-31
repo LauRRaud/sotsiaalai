@@ -14,7 +14,7 @@ import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import { pushWithTransition } from "@/lib/routeTransition";
-const pageShellClassName = `${glassPageShellCenteredClassName} overflow-hidden`;
+const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "relative flex-1 w-full max-w-[clamp(18rem,40vw,26rem)] min-h-0 overflow-y-auto overflow-x-visible px-[0.6rem] text-left csp-container csp-no-neighbor-click mx-auto";
@@ -51,6 +51,8 @@ export default function RegistreerimineBody({
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [scrollPad, setScrollPad] = useState(0);
+  const [scrollPadTop, setScrollPadTop] = useState(0);
+  const [scrollPadBottom, setScrollPadBottom] = useState(0);
   const roleLabelId = useId();
   const roleHintId = useId();
   const roleLabelText = t("auth.register.role_label_question", "Kes oled?");
@@ -142,11 +144,15 @@ export default function RegistreerimineBody({
       const snapEl = scrollEl.querySelector(".register-step");
       if (!snapEl) return;
       const itemH = snapEl.getBoundingClientRect().height || 0;
-      const titleOffset = getCssPx(scrollEl, "--csp-title-offset");
-      const viewH = Math.max(0, (scrollEl.clientHeight || 0) - titleOffset);
+      const viewH = Math.max(0, scrollEl.clientHeight || 0);
       if (!viewH || !itemH) return;
       const nextPad = Math.max(0, Math.floor((viewH - itemH) / 2));
       setScrollPad(prev => prev === nextPad ? prev : nextPad);
+      const liftPx = typeof window !== "undefined" && window.innerWidth < 768 ? 5 : 11;
+      const nextTop = Math.max(0, nextPad - liftPx);
+      const nextBottom = Math.max(0, nextPad + liftPx);
+      setScrollPadTop(prev => prev === nextTop ? prev : nextTop);
+      setScrollPadBottom(prev => prev === nextBottom ? prev : nextBottom);
     };
     updatePad();
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updatePad) : null;
@@ -197,8 +203,8 @@ export default function RegistreerimineBody({
 
         <div className={contentClassName}>
           <div ref={scrollRef} className={scrollClassName} style={{
-          "--csp-pad-top": `${Math.max(0, scrollPad)}px`,
-          "--csp-pad-bottom": `${Math.max(0, scrollPad)}px`,
+          "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
+          "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
           "--csp-active-scale": "1",
           "--csp-neighbor-scale": "0.92",
           "--csp-hidden-scale": "0.86",

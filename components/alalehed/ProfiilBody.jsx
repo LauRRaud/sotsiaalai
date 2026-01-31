@@ -32,7 +32,7 @@ const containerBaseClassName =
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)]";
 const titleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
-  "mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
+  "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const headerCenterClassName = "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
 const rolePillClassName =

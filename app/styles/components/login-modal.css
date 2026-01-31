@@ -90,9 +90,12 @@ body.login-modal-open {
 }
 .login-modal-close {
   position: absolute;
-  top: 0.55rem;
+  top: 0.35rem;
   right: 0.55rem;
   z-index: 2;
+}
+:root #login-modal .glass-box {
+  padding-top: clamp(1.35rem, 3.2vw, 2.1rem);
 }
 :root #login-modal .login-modal-close.modal-close-btn {
   width: 2.1rem;
@@ -141,7 +144,7 @@ body.login-modal-open {
   }
   .login-modal-close {
     position: absolute;
-    top: max(0.5rem, env(safe-area-inset-top, 0));
+    top: max(0.35rem, env(safe-area-inset-top, 0));
     right: max(0.5rem, env(safe-area-inset-right, 0));
     z-index: 1010;
   }
