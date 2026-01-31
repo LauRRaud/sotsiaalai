@@ -174,7 +174,7 @@ export default function InviteModal() {
         </h2>
       </header>
 
-      <div className="invite-modal-scroll grid max-h-[calc(100dvh-3.2rem)] gap-[1.6rem] overflow-y-auto px-[0.65rem] py-[0.55rem]">
+      <div className="invite-modal-scroll grid max-h-[calc(100dvh-3.2rem)] gap-[1.6rem] overflow-y-auto px-[1.15rem] pt-[0.9rem] pb-[1.85rem]">
         {!session?.user?.id ? <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
@@ -185,7 +185,7 @@ export default function InviteModal() {
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
             <div className="grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
               {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full">
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full !px-[0.85rem] !py-[0.55rem] !text-[1rem] !leading-[1.2] !tracking-[0.02em]">
                   {option.label}
                 </OptionCard>
               ))}
@@ -199,7 +199,7 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" size="lg" disabled={busy}>
+              <Button type="submit" variant="primary" size="md" className="!min-h-[2.6rem] !px-[1.15rem] !py-[0.6rem] !text-[1.1rem]" disabled={busy}>
                 {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
@@ -210,7 +210,7 @@ export default function InviteModal() {
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" size="sm" className="min-h-[2.2rem]" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" size="sm" className="!min-h-[2.05rem] !px-[0.75rem] !py-[0.3rem] !text-[0.95rem] !tracking-[0.02em]" onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>

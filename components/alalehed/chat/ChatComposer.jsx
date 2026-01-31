@@ -77,7 +77,8 @@ export default function ChatComposer({
       : "clamp(9.5rem, 26vw, 18rem)"
   };
   const inputRowClassName =
-    "chat-input-row relative z-[80] mt-[clamp(3.1rem,7.4vh,5.4rem)] flex w-full items-center justify-center gap-[0.1rem] px-[var(--chat-hpad)] translate-y-[var(--chat-input-shift,0.9rem)] " +
+    "chat-input-row relative z-[80] flex w-full items-center justify-center gap-[0.1rem] px-[var(--chat-hpad)] " +
+    "mt-[clamp(3.1rem,7.4vh,5.4rem)] translate-y-[var(--chat-input-shift,0.9rem)] " +
     "max-[48em]:pl-[var(--chat-hpad)] max-[48em]:pr-[var(--chat-hpad)]";
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +

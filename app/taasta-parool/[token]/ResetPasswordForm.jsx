@@ -9,9 +9,9 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
-const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+const pageShellClassName = glassPageShellClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-[clamp(2.2rem,5.2vh,3.2rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-5 text-center";
 const inputClassName = "w-full max-w-[22rem]";

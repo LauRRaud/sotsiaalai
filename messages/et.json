@@ -48,7 +48,7 @@
     "home": "Avaleht",
     "about": "MEIST",
     "chat": "Vestlus",
-    "profile": "Minu profiil",
+    "profile": "Profiil",
     "privacy": "Privaatsus",
     "terms": "Tingimused",
     "register": "Registreeru",
@@ -180,7 +180,7 @@
     }
   },
   "profile": {
-    "title": "Minu profiil",
+    "title": "Profiil",
     "loading": "Laen profiili…",
     "login_to_manage_sub": "Logi sisse ja aktiveeri tellimus, et profiili vaadata.",
     "login_to_view": "Profiili vaatamiseks logi sisse.",
@@ -685,7 +685,7 @@
       "description": "Loe, kuidas SotsiaalAI kogub, kasutab ja kaitseb sinu andmeid."
     },
     "profile": {
-      "title": "Minu profiil – SotsiaalAI",
+      "title": "Profiil – SotsiaalAI",
       "description": "Halda oma kontoandmeid, eelistusi ja ligipääsu SotsiaalAI teenustele."
     },
     "register": {

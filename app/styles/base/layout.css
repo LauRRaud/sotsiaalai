@@ -46,6 +46,9 @@ main#main > .main-content.glass-box {
   opacity: 0.8;
   margin-top: 2.6rem;
 }
+body.homepage:not(.home-chat-open):not(.home-profile-open) .site-footer {
+  display: none;
+}
 @media (max-width: 48em) {
   html,
   body {

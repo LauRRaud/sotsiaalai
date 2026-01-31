@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import SmustCenterLogo from "@/public/logo/smust-center.svg";
+import { cn } from "@/components/ui/cn";
 import "./OrbitalMenu.css";
 function useMatchMedia(query, defaultValue = false) {
   const [matches, setMatches] = useState(defaultValue);
@@ -377,59 +378,60 @@ export default function OrbitalMenu({
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
   const orbitRadiusBoost = isExpanded ? 1.14 : 1;
-  return <div ref={rootRef} className={`profile-orbit-menu ${isOpen ? "is-open" : ""} ${isClosing ? "is-closing" : ""} ${isExpanded ? "is-expanded" : ""} ${isCoarsePointer ? "is-mobile" : ""} ${className}`.trim()}>
+  return <div
+      ref={rootRef}
+      className={cn("profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)]", isOpen && "is-open", isClosing && "is-closing", isExpanded && "is-expanded", isCoarsePointer && "is-mobile", className)}
+    >
       {}
-      {!isCoarsePointer && <div className="profile-orbit-menu__items" role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
+      {!isCoarsePointer && <div className="profile-orbit-menu__items absolute inset-0 pointer-events-none" role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
           {items.map((item, index) => {
         const angle = desktopStartAngle + index * desktopAngleStep;
         const angleRad = angle * Math.PI / 180;
         const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
         const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
-        return <div key={item.key || index} className="profile-orbit-menu__slot" data-key={item.key || index} data-label-pos={item.labelPos || "up"} style={{
+        return <div key={item.key || index} className="profile-orbit-menu__slot absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)]" data-key={item.key || index} data-label-pos={item.labelPos || "up"} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`
         }} aria-hidden={!isOpen}>
-                <button type="button" className="profile-orbit-menu__item dock-item" onClick={() => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit" onClick={() => {
             item.onClick?.();
             if (!item.keepOpen) setIsPinnedOpen(false);
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="dock-icon" aria-hidden="true">
+                  <span className="dock-icon w-full h-full grid place-items-center leading-[0]" aria-hidden="true">
                     {item.icon}
                   </span>
                 </button>
-                <span className="dock-label">{item.label}</span>
+                <span className="dock-label absolute opacity-0 pointer-events-none w-max max-w-[12rem] whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0">{item.label}</span>
               </div>;
       })}
         </div>}
 
       {}
-      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
-        <span className="profile-orbit-menu__hub-icon" aria-hidden="true">
-          <SmustCenterLogo className="profile-orbit-menu__hub-svg" aria-hidden="true" focusable="false" />
+      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[5] cursor-inherit" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+        <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
+          <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
         </span>
       </button>
 
       {}
-      {isCoarsePointer && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
+      {isCoarsePointer && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
       if (e.target === e.currentTarget) setIsPinnedOpen(false);
     }}>
-          <div className="invite-modal profile-orbit-mobile-panel" onPointerDown={e => e.stopPropagation()}>
-            <button ref={overlayCloseBtnRef} type="button" onClick={() => setIsPinnedOpen(false)} aria-label={toggleLabelClose} className="invite-modal__close modal-close-btn profile-orbit-mobile-close">
+          <div className="invite-modal profile-orbit-mobile-panel relative isolate overflow-hidden w-screen max-w-screen h-[100dvh] max-h-[100dvh] rounded-none flex flex-col p-0 pt-[calc(env(safe-area-inset-top,0px)+0.95rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.95rem)]" onPointerDown={e => e.stopPropagation()}>
+            <button ref={overlayCloseBtnRef} type="button" onClick={() => setIsPinnedOpen(false)} aria-label={toggleLabelClose} className="invite-modal__close modal-close-btn profile-orbit-mobile-close absolute top-[0.55rem] right-[0.65rem] z-[6] grid place-items-center w-[2.85rem] h-[2.85rem] p-0 m-0 !bg-transparent !border-0 !shadow-none leading-none text-[2.2rem] opacity-90 transition-[opacity,transform] duration-[160ms] ease-out [transform:translateZ(0)]">
               &times;
             </button>
 
             {}
-            <div className={`profile-orbit-mobile-scrim profile-orbit-mobile-scrim--top ${canScrollUp ? "is-visible" : ""}`} aria-hidden="true">
-              <div className="profile-orbit-mobile-chevron" />
+            <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--top absolute left-0 right-0 top-0 h-[4.6rem] z-[4] pointer-events-none opacity-0 transition-opacity duration-[220ms]", canScrollUp && "is-visible")} aria-hidden="true">
+              <div className="profile-orbit-mobile-chevron absolute left-1/2 top-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-45 border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
 
-            <div ref={scrollRef} className="profile-orbit-mobile-list" style={{
+            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-proximity px-[0.85rem] [-webkit-overflow-scrolling:touch]" style={{
           paddingTop: listPad,
-          paddingBottom: listPad,
-          scrollSnapType: "y proximity",
-          WebkitOverflowScrolling: "touch"
+          paddingBottom: listPad
         }}>
               {items.map((item, index) => {
             const v = visuals[index] || {
@@ -441,21 +443,19 @@ export default function OrbitalMenu({
             const isActive = index === activeIndex;
             return <div key={item.key || index} ref={el => {
               slotRefs.current[index] = el;
-            }} className={`profile-orbit-mobile-row ${isActive ? "is-active" : ""} ${v.hide ? "is-hidden" : ""}`} style={{
-              scrollSnapAlign: "center"
-            }}>
-                    <div className="profile-orbit-mobile-visual" style={{
+            }} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden")}>
+                    <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" style={{
                 transform: `scale(${v.scale})`,
                 opacity: v.opacity,
                 filter: v.blur ? `blur(${v.blur}px)` : "none"
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
-                        <span className="dock-icon" aria-hidden="true">
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
+                        <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>
 
                         {}
-                        <span className="profile-orbit-mobile-action__label" aria-hidden={!isActive}>
+                        <span className="profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.1] font-semibold tracking-[0.025em] text-[clamp(1.1rem,3.9vw,1.5rem)] mt-0 mb-[clamp(0.25rem,1.1vw,0.55rem)] p-0 rounded-none opacity-0 transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none" aria-hidden={!isActive}>
                           {item.label}
                         </span>
                       </button>
@@ -464,8 +464,8 @@ export default function OrbitalMenu({
           })}
             </div>
 
-            <div className={`profile-orbit-mobile-scrim profile-orbit-mobile-scrim--bottom ${canScrollDown ? "is-visible" : ""}`} aria-hidden="true">
-              <div className="profile-orbit-mobile-chevron profile-orbit-mobile-chevron--down" />
+            <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--bottom absolute left-0 right-0 bottom-0 h-[4.6rem] z-[4] pointer-events-none opacity-0 transition-opacity duration-[220ms]", canScrollDown && "is-visible")} aria-hidden="true">
+              <div className="profile-orbit-mobile-chevron profile-orbit-mobile-chevron--down absolute left-1/2 bottom-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-[225deg] border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
           </div>
         </div>}

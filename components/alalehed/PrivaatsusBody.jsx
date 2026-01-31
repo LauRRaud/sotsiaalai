@@ -5,10 +5,10 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
-const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-[clamp(1.7rem,4.6vh,2.8rem)] flex w-full flex-1 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "relative w-full max-w-[clamp(18rem,44vw,30rem)] max-h-[min(55vh,28.5rem)] overflow-y-auto pr-[0.1rem] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
@@ -102,7 +102,7 @@ export default function PrivaatsusBody() {
     }]
   }];
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing role="region" aria-labelledby="privacy-title">
+      <GlassRing className={glassPageRingCenteredClassName} role="region" aria-labelledby="privacy-title">
         <BackButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {

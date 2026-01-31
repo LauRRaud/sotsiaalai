@@ -16,6 +16,9 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
+import { clearStaleScrollLock } from "@/lib/scrollLock";
+import BackButton from "@/components/ui/BackButton";
+import { glassPageBackClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
 import styles from "./ProfiilBody.module.css";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
@@ -23,8 +26,8 @@ const ROLE_KEYS = {
   CLIENT: "role.client"
 };
 const pageShellClassName =
-  "min-h-[100dvh] w-full grid place-items-center";
-  const containerBaseClassName =
+  `${glassPageShellCenteredClassName} max-md:py-0`;
+const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)]";
 const titleClassName =
@@ -36,22 +39,17 @@ const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
-  "bg-transparent border-none shadow-none " +
+  "bg-transparent border-none " +
   "leading-[3.2rem] h-[3.2rem]";
 const orbitLayerClassName = "absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
-  "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto";
-const btnRowClassName =
-  "absolute inset-x-0 top-1/2 -translate-y-1/2 z-[3] " +
-  "w-full flex items-center justify-between gap-[clamp(0.6rem,1.6vw,0.95rem)] pointer-events-none " +
-  "pl-[calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] pr-[calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))]";
-const backButtonClassName =
-  "inline-flex items-center justify-center h-[5.7rem] w-[5.7rem] border-0 bg-transparent m-0 p-0 " +
-  "cursor-[var(--cursor-pointer)] pointer-events-auto";
-const backIconClassName =
-  "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] " +
-  "[background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')] " +
-  "transition-[transform,filter] duration-150 ease-out";
+  "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
+  "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
+  "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
+  "cursor-[var(--cursor-default)] " +
+  "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
+  "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
+  "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
   "relative grid place-items-center h-[6.6rem] w-[6.6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto";
 const logoutIconClassName = "h-[5.8rem] w-[5.8rem] transition-transform duration-150 ease-out";
@@ -172,6 +170,9 @@ export default function ProfiilBody({
   const [logoutIconState, setLogoutIconState] = useState("idle");
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
+  useEffect(() => {
+    clearStaleScrollLock();
+  }, []);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
@@ -461,11 +462,7 @@ export default function ProfiilBody({
         <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
           <h1 className={titleClassName}>{t("profile.title")}</h1>
           <p className={noteClassName}>{reasonText}</p>
-          <div className={btnRowClassName}>
-            <button type="button" className={backButtonClassName} onClick={embedded ? handleBack : () => setLoginOpen(true)} aria-label={embedded ? t("profile.back_to_chat") : t("auth.login.title")}>
-              <span className={backIconClassName} />
-            </button>
-          </div>
+          <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={glassPageBackClassName} />
         </ProfileShell>
 
         <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
@@ -489,9 +486,9 @@ export default function ProfiilBody({
       </h1>
 
       <div className={headerCenterClassName}>
-        <span
+          <span
           ref={rolePillRef}
-          className={cn(rolePillClassName, orbitOpen ? "opacity-0 pointer-events-none" : null)}
+          className={cn(rolePillClassName, styles.profileRolePill, orbitOpen ? "opacity-0 pointer-events-none" : null)}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
           {roleLabel}
@@ -508,21 +505,20 @@ export default function ProfiilBody({
             onOpenChange={setOrbitOpen}
           />
         </div>
+      </div>
 
-        {!orbitOpen && (
-          <div className={btnRowClassName}>
-            <button type="button" className={backButtonClassName} onClick={handleBack} aria-label={t("profile.back_to_chat")}>
-              <span className={backIconClassName}></span>
-            </button>
-
+      {!orbitOpen && (
+        <div className={styles.profileNavOverlay}>
+          <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(glassPageBackClassName, "pointer-events-auto")} />
+          <div className={cn(glassPageBackRightClassName, "pointer-events-auto")}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
               <span className={logoutLabelClassName}>{t("profile.logout")}</span>
               <span className="sr-only">{t("profile.logout")}</span>
             </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <div ref={profileFormRef}>
 

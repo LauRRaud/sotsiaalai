@@ -49,12 +49,12 @@
   --title-color: #7a3a38;
   --chat-icon-color: #3b3329;
   --link-color: #7a3a38;
-  --page-bg: #f9f8f5;
-  --page-bg-top: #fdfcfb;
-  --page-bg-bottom: #f1f0ec;
-  --page-bg-fallback: #f9f8f5;
-  --page-bg-top-fallback: #fdfcfb;
-  --page-bg-bottom-fallback: #f1f0ec;
+  --page-bg: #faf9f7;
+  --page-bg-top: #faf9f7;
+  --page-bg-bottom: #e1dfda;
+  --page-bg-fallback: #faf9f7;
+  --page-bg-top-fallback: #faf9f7;
+  --page-bg-bottom-fallback: #e1dfda;
   --btn-primary-bg: rgba(255, 255, 255, 0.62);
   --btn-primary-bg-hover: #ffffff;
   --btn-primary-bg-active: #ffffff;
@@ -301,27 +301,4 @@
   box-shadow:
     0 0 0 1px rgba(43, 220, 109, 0.4),
     0 0 12px rgba(43, 220, 109, 0.3);
-}
-:root.theme-light input[type="email"] {
-  background: #f8f8f8;
-  border: 2px solid #d7d7d7;
-  color: var(--text-strong);
-  caret-color: var(--text-strong);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-:root.theme-light input[type="email"]:hover:not(:focus) {
-  background: #ffffff;
-  border-color: #cfcfcf;
-  border-width: 2px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
-}
-:root.theme-light input[type="email"]:focus,
-:root.theme-light input[type="email"]:focus-visible {
-  background: #ffffff;
-  border-width: 2px;
-  border-color: #cfcfcf;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
-}
-:root.theme-light input[type="email"]::placeholder {
-  color: var(--input-placeholder);
 }

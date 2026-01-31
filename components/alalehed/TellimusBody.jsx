@@ -7,7 +7,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 const linkClassName = "inline-flex items-center gap-[0.35rem] underline underline-offset-4 decoration-[color:currentColor] text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
@@ -17,7 +17,7 @@ const emailReplacement = {
     close: "</a>"
   }
 };
-const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-[clamp(1.6rem,4.4vh,2.6rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4 text-center";
 const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
@@ -73,7 +73,7 @@ export default function TellimusBody() {
   }
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
-        <GlassRing>
+        <GlassRing className={glassPageRingCenteredClassName}>
           <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
@@ -87,7 +87,7 @@ export default function TellimusBody() {
       </section>;
   }
   return <section lang={locale} className={pageShellClassName}>
-      <GlassRing>
+      <GlassRing className={glassPageRingCenteredClassName}>
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
         <h1 className={titleClassName}>
           {t("subscription.title")}

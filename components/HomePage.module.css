@@ -934,6 +934,21 @@ body.home-profile-open .home-scroll-cue,
 .homepage-root.home-chat-open .side {
   display: none;
 }
+.homepage-root.home-chat-open .home-hero-shell {
+  display: none;
+}
+.home-chat-shell {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100dvh;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .homepage-root.homepage-scroll *:not(.home-link) {
   border-top-color: transparent !important;
 }

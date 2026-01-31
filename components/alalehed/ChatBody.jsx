@@ -21,6 +21,7 @@ import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMa
 import { useConversationSources } from "@/components/chat/hooks/useConversationSources";
 import { useChatAnalysisController } from "@/components/chat/hooks/useChatAnalysisController";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { clearStaleScrollLock } from "@/lib/scrollLock";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
@@ -51,7 +52,7 @@ export default function ChatBody({
     prefs
   } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
-  const initialProfileOpen = searchParams?.get("profile") === "1";
+  const initialProfileOpen = embedded && searchParams?.get("profile") === "1";
   const extendedLabel = t("chat.analysis.extended_label");
   const contextHint = t("chat.upload.context_hint");
   const aiNote = t("chat.ai_toggle.note");
@@ -68,6 +69,9 @@ export default function ChatBody({
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
+  useEffect(() => {
+    clearStaleScrollLock();
+  }, []);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
   const rollMs = 560;
@@ -125,10 +129,11 @@ export default function ChatBody({
     return () => document.body.classList.remove("home-profile-open");
   }, [embedded, profileOpen]);
   useEffect(() => {
+    if (!embedded) return;
     const wantsProfile = searchParams?.get("profile") === "1";
     if (wantsProfile === profileOpen || isRolling) return;
     setProfileOpen(wantsProfile);
-  }, [isRolling, profileOpen, searchParams]);
+  }, [embedded, isRolling, profileOpen, searchParams]);
   const mappedRoomMessages = useMemo(() => {
     if (!isRoomMode) return [];
     return (roomMessages || []).map(m => {
@@ -276,7 +281,7 @@ export default function ChatBody({
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
   const syncProfileUrl = useCallback(open => {
-    if (typeof window === "undefined") return;
+    if (!embedded || typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (open) {
       url.searchParams.set("profile", "1");
@@ -286,7 +291,7 @@ export default function ChatBody({
     window.history.replaceState({
       profileOpen: open
     }, "", `${url.pathname}${url.search}${url.hash}`);
-  }, []);
+  }, [embedded]);
   const triggerRoll = useCallback((direction, open) => {
     if (isRolling) return;
     setRollDirection(direction);
@@ -305,8 +310,17 @@ export default function ChatBody({
     if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
     rollTimerRef.current = window.setTimeout(() => setIsRolling(false), rollMs);
   }, [closeSourcesPanel, isRolling, rollMs, showSourcesPanel, syncProfileUrl]);
-  const openProfile = useCallback(() => triggerRoll("right", true), [triggerRoll]);
-  const closeProfile = useCallback(() => triggerRoll("left", false), [triggerRoll]);
+  const openProfile = useCallback(() => {
+    if (!embedded) {
+      pushWithTransition(router, "/profiil");
+      return;
+    }
+    triggerRoll("right", true);
+  }, [embedded, router, triggerRoll]);
+  const closeProfile = useCallback(() => {
+    if (!embedded) return;
+    triggerRoll("left", false);
+  }, [embedded, triggerRoll]);
   const toggleProfile = useCallback(() => profileOpen ? closeProfile() : openProfile(), [closeProfile, openProfile, profileOpen]);
   const requestConversationsRefresh = useCallback(() => {
     try {
@@ -478,6 +492,7 @@ export default function ChatBody({
     };
   }, []);
   useEffect(() => {
+    if (!embedded) return;
     const shouldOpen = searchParams?.get("profile") === "1";
     if (typeof shouldOpen !== "boolean") return;
     setProfileOpen(prev => {
@@ -485,11 +500,24 @@ export default function ChatBody({
       return shouldOpen;
     });
     if (shouldOpen) setRollDirection("right");
-  }, [searchParams]);
+  }, [embedded, searchParams]);
   const chatFaceClass = null;
   const profileFaceClass = null;
   const showChatFace = !profileOpen;
   const showProfileFace = profileOpen;
+  const focusVars = inputFocused && !profileOpen
+    ? {
+        "--chat-window-bottom-shift": "calc(clamp(2.4rem, 5.2vh, 3.6rem) + var(--chat-window-focus-drop, 0rem))",
+        "--chat-scroll-button-lift": "clamp(-0.8rem, -1.6vh, -1.2rem)",
+        "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
+        "--chat-input-shift": "clamp(0.9rem, 2.2vh, 1.4rem)",
+        "--chat-expanded-delta": "clamp(0.9rem, 2.4vh, 2.2rem)",
+        "--chat-input-focus-drop": "clamp(2.8rem, 5.6vh, 3.6rem)",
+        "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
+        "--chat-window-bottom-gap": "clamp(3.2rem, 4.6vh, 4.4rem)",
+        "--chat-attach-left-pull": "-1.1rem"
+      }
+    : undefined;
   const chatContainerClassName = cn(
     "main-content chat-container chat-container--round " +
       "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
@@ -498,9 +526,7 @@ export default function ChatBody({
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
       "max-[48em]:min-h-0 max-[48em]:mx-auto max-[48em]:overflow-hidden " +
       "max-[48em]:overscroll-auto",
-    inputFocused && !profileOpen
-      ? "chat-container--input-focus [--chat-window-bottom-shift:8.2rem] [--chat-scroll-button-lift:5rem] [--chat-attach-left-pull:-1.4rem]"
-      : null
+    inputFocused && !profileOpen ? "chat-container--input-focus" : null
   );
   return <>
       <InviteModal />
@@ -509,6 +535,7 @@ export default function ChatBody({
           {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
               <GlassRing
                 className={chatContainerClassName}
+                style={focusVars}
                 role="region"
                 aria-label={t("chat.page_label")}
                 ref={chatContainerRef}
@@ -518,8 +545,7 @@ export default function ChatBody({
                 {!profileOpen ? <BackButton
                     onClick={handleBackHome}
                     ariaLabel={t("chat.back_to_home")}
-                    className={cn(glassPageBackClassName, "z-[80] pointer-events-auto")}
-                    iconClassName="translate-x-[0.35rem]"
+                    className={cn(glassPageBackClassName, "z-[80] pointer-events-auto chat-back-button")}
                   /> : null}
 
                 <RightRail

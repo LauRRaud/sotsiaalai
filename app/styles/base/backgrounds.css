@@ -19,6 +19,27 @@
     var(--baseBottom) 100%
   );
 }
+.space-backdrop[data-mode="light"] {
+  background:
+    radial-gradient(
+      circle at 20% -10%,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0) 55%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(235, 234, 232, 0.6) 0%,
+      rgba(235, 234, 232, 0) 55%
+    ),
+    linear-gradient(180deg, #faf9f7 0%, #f1efec 58%, #e1dfda 100%);
+}
+.space-backdrop[data-mode="dark"] {
+  background: radial-gradient(
+    ellipse at bottom,
+    #1b2735 0%,
+    #090a0f 100%
+  );
+}
 .space-backdrop::before {
   content: "";
   position: absolute;
@@ -60,8 +81,19 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: none;
-  opacity: 0;
+  background:
+    radial-gradient(
+      circle at 65% 15%,
+      rgba(244, 242, 239, 0.75),
+      rgba(244, 242, 239, 0) 60%
+    ),
+    radial-gradient(
+      circle at 25% 60%,
+      rgba(255, 255, 255, 0.78),
+      rgba(255, 255, 255, 0) 55%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.63;
 }
 .sb-grain {
   position: absolute;

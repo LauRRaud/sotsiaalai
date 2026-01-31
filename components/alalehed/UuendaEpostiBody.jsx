@@ -7,8 +7,8 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
-const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4";
 const inputClassName = "w-full max-w-[22rem]";
@@ -107,7 +107,7 @@ export default function UuendaEpostiBody() {
     }
   }
   return <section lang={locale} className={pageShellClassName}>
-      <GlassRing>
+      <GlassRing className={glassPageRingCenteredClassName}>
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
         <h1 className={titleClassName}>
           {t("profile.email_update.title", "Uuenda e-post")}

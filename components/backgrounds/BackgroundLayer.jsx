@@ -5,9 +5,6 @@ import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
 import styles from "./HomeBackground.module.css";
-const Space = dynamic(() => import("../Space"), {
-  ssr: false
-});
 const Particles = dynamic(() => import("./Particles"), {
   ssr: false
 });
@@ -16,15 +13,6 @@ const MaybeSplash = dynamic(() => import("../MaybeSplash"), {
 });
 const ColorBends = dynamic(() => import("./ColorBends"), {
   ssr: false
-});
-const LIGHT_SPACE_PALETTE = {
-  baseTop: "#ffffffff",
-  baseBottom: "#cbcbcbff"
-};
-const SpaceLayer = memo(function SpaceLayer(props) {
-  return <Suspense fallback={null}>
-      <Space {...props} />
-    </Suspense>;
 });
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -65,7 +53,7 @@ const BackgroundContent = memo(function BackgroundContent({
   const allowParticles = !reduceMotion;
   const parallaxActive = !reduceMotion;
   const bgColor = useMemo(() => {
-    if (typeof document === "undefined") return isLightTheme ? "#f9f8f5" : "#050a10";
+    if (typeof document === "undefined") return isLightTheme ? "#f9f8f5" : "#0d111b";
     const css = getComputedStyle(document.documentElement).getPropertyValue("--page-bg").trim();
     return css || (isLightTheme ? "#f9f8f5" : "#050a10");
   }, [isLightTheme]);
@@ -171,10 +159,6 @@ const BackgroundContent = memo(function BackgroundContent({
       {}
       <div data-bg-layer ref={layerRef} className={styles.homeBgLayer} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
         {}
-        <div className="bg-space-layer">
-          <SpaceLayer mode={isLightTheme ? "light" : "dark"} palette={isLightTheme ? LIGHT_SPACE_PALETTE : undefined} allowMobileCustom={isLightTheme} grain={!isLightTheme} />
-        </div>
-
         {}
         {colorBendsReady && !reduceMotion && !mobileLike && <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>

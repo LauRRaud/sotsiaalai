@@ -6,6 +6,7 @@ import { buildLocalizedMetadata } from "@/lib/metadata";
 import ChatBody from "@/components/alalehed/ChatBody";
 import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
+import { redirect } from "next/navigation";
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -23,6 +24,9 @@ export async function generateMetadata() {
 }
 export default async function Page({ searchParams }) {
   const resolvedSearchParams = await searchParams;
+  if (resolvedSearchParams?.profile === "1") {
+    redirect("/profiil");
+  }
   const roomId = resolvedSearchParams?.roomId || null;
   return <>
       <ConversationDrawer>

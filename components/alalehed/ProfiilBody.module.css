@@ -20,6 +20,7 @@
   --profile-role-text-size: 1.2rem;
   --profile-role-text-weight: 600;
   --profile-role-text-color: rgba(232, 232, 232, 0.78);
+  --profile-role-hole-shadow: none;
   --profile-hole-border-w: 0px;
   --profile-hole-border-color: rgba(84, 95, 115, 0.55);
   --profile-stack-gap: clamp(1.4rem, 3.2vh, 2.3rem);
@@ -59,9 +60,16 @@
 .profileOrbitLayer {
 }
 
-.profileContainer > *:not(.profileMaskLayer):not(.profileOrbitLayer) {
+.profileContainer > *:not(.profileMaskLayer):not(.profileOrbitLayer):not(.profileNavOverlay) {
   position: relative;
   z-index: 1;
+}
+
+.profileNavOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .profileContainer[data-orbit-open="true"] .profileMaskLayer {
@@ -77,6 +85,10 @@
   --profile-email-text-color: rgba(248, 250, 252, 0.9);
   --profile-role-text-color: var(--profile-email-text-color);
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
+  --profile-role-hole-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    0 8px 14px -12px rgba(248, 253, 255, 0.52),
+    0 18px 24px -18px rgba(248, 253, 255, 0.26);
 }
 
 .profileContainer[data-theme="light"] {
@@ -85,12 +97,17 @@
   --profile-role-text-color: #2b2620;
   --profile-role-text-size: 1.2rem;
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
+  --profile-role-hole-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .profileContainerEmbedded {
   --profile-center-y: 50%;
   --profile-orbit-offset: 0px;
   --profile-btn-row-offset: 0px;
+}
+
+.profileRolePill {
+  box-shadow: var(--profile-role-hole-shadow, none);
 }
 
 @media (min-width: 48em) {

@@ -9,16 +9,19 @@ import AppLink from "@/components/ui/Link";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import { pushWithTransition } from "@/lib/routeTransition";
-const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+const pageShellClassName = `${glassPageShellCenteredClassName} overflow-hidden`;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "relative flex-1 w-full max-w-[clamp(18rem,40vw,26rem)] min-h-0 overflow-y-auto overflow-x-visible px-[0.6rem] text-left csp-container csp-no-neighbor-click mx-auto";
 const inputClassName = "w-full text-[color:var(--pt-50)] placeholder:text-[color:var(--pt-200)] light:text-[color:var(--input-text)]";
+const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
+const checkboxCardClassName = "w-full text-[1.15rem] leading-[1.5] px-[1.05rem] py-[0.9rem]";
+const registerButtonClassName = "px-[1.85rem] py-[1rem] text-[1.28rem]";
 const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow)] hover:[background:var(--input-bg-hover)] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
 const buttonPrimaryClassName = "text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] [background:var(--btn-primary-bg)] [border:var(--btn-primary-border)] shadow-[var(--btn-primary-shadow)] hover:[background:var(--btn-primary-bg-hover)] hover:[border:var(--btn-primary-border-hover)] hover:-translate-y-[1px] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:[border:var(--btn-primary-border-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)] active:translate-y-[1px] active:[background:var(--btn-primary-bg-active)] active:[border:var(--btn-primary-border-active)] active:shadow-[var(--btn-primary-shadow-active)]";
@@ -170,7 +173,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing style={{
+      <GlassRing className="md:mt-0 md:mb-0" style={{
       "--csp-chevron-top": "-1.4rem",
       "--csp-chevron-bottom": "-1.4rem"
     }}>
@@ -204,11 +207,11 @@ export default function RegistreerimineBody({
         }} tabIndex={0} aria-label={t("auth.register.title")}>
             <form className="flex flex-col gap-8" onSubmit={handleSubmit} autoComplete="off">
               <section className={`register-step csp-step ${getItemClassName(0)}`}>
-                <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
+                <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(1)} -mt-4`}>
-                <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("auth.pin_placeholder", {
+                <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.pin_placeholder", {
                 min: PIN_MIN,
                 max: PIN_MAX
               })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
@@ -232,7 +235,7 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(3)}`}>
-                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
+                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={checkboxCardClassName}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
                       open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutustingimused", locale)}">`,
@@ -247,7 +250,7 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(4)}`}>
-                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className="w-full text-[1.35rem] leading-[1.6]">
+                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={checkboxCardClassName}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide1: {
                       open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutusjuhend", locale)}">`,
@@ -269,7 +272,7 @@ export default function RegistreerimineBody({
                     {successMessage}
                   </div>}
                 <div className="mt-2 flex justify-center">
-                  <button type="submit" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`.trim()} disabled={submitting} aria-disabled={submitting ? "true" : undefined}>
+                  <button type="submit" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${registerButtonClassName}`.trim()} disabled={submitting} aria-disabled={submitting ? "true" : undefined}>
                     <span>
                       {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
                     </span>

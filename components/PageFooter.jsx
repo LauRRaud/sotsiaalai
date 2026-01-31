@@ -9,7 +9,6 @@ const HIDE_PREFIXES = ["/admin"];
 
 function shouldHideFooter(pathname) {
   if (!pathname) return false;
-  if (pathname === "/") return true;
   return HIDE_PREFIXES.some(prefix => pathname.startsWith(prefix));
 }
 

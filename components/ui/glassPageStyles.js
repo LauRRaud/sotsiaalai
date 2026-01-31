@@ -3,8 +3,20 @@ export const glassPageTitleClassName =
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 
+export const glassPageShellClassName =
+  "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border " +
+  "pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] " +
+  "max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
+
+export const glassPageShellCenteredClassName =
+  "mx-auto grid w-full min-h-[100dvh] place-items-center box-border " +
+  "pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)]";
+
 export const glassPageBackClassName =
   "absolute left-[var(--glass-edge-left)] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
 
 export const glassPageBackRightClassName =
   "absolute right-[var(--glass-edge-right)] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
+
+export const glassPageRingCenteredClassName =
+  "md:mt-0 md:mb-0";

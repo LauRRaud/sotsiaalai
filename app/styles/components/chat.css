@@ -21,19 +21,40 @@
   --chat-expanded-delta: 0px;
   --chat-pad-top: 1.1rem;
   --chat-pad-bottom: 0.9rem;
-  --glass-center-offset: calc(
-    (var(--chat-pad-bottom) - var(--chat-pad-top)) / 2
-  );
+  --chat-window-top-offset: 0.6rem;
+  --chat-window-focus-drop: 0rem;
+  --chat-window-bottom-gap: 3.2rem;
+  --glass-center-offset: 0px;
   --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
-  --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
-  --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
-  --glass-edge-left: calc(env(safe-area-inset-left, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
-  --glass-edge-right: calc(env(safe-area-inset-right, 0px) + clamp(0.1rem, 1.2vw, 0.8rem));
+  --hud-edge-left: env(safe-area-inset-left, 0px);
+  --hud-edge-right: env(safe-area-inset-right, 0px);
+  --glass-edge-left: clamp(0.1rem, 1.2vw, 0.8rem);
+  --glass-edge-right: clamp(0.1rem, 1.2vw, 0.8rem);
+  --rail-inset: 0.9rem;
+  --chat-back-inset: clamp(0.2rem, 1vw, 0.6rem);
   scrollbar-width: none;
   scrollbar-color: transparent transparent;
   --chat-logo-height: clamp(12rem, 32vw, 26rem);
   --chat-logo-y: clamp(5.2rem, 23vh, 12.2rem);
   --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 13rem);
+}
+.chat-input-row {
+  transition:
+    transform 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    margin-top 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+.chat-container--input-focus .chat-inputbar {
+  transition-duration: 680ms;
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.chat-container--input-focus .chat-input-row {
+  transform: translateY(
+    calc(
+      var(--chat-input-shift, 0.9rem) +
+        var(--chat-input-focus-drop, 0rem)
+    )
+  ) !important;
 }
 .chat-mask-layer {
   position: absolute;
@@ -138,8 +159,8 @@ main#main > .main-content.glass-box.chat-container,
     --hud-icon: clamp(2.65rem, 12vw, 3rem);
     --chat-ai-offset: clamp(2.2rem, 8vw, 3.6rem);
     --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
-    --hud-edge-left: calc(var(--hud-edge) + env(safe-area-inset-left, 0));
-    --hud-edge-right: calc(var(--hud-edge) + env(safe-area-inset-right, 0));
+    --hud-edge-left: env(safe-area-inset-left, 0px);
+    --hud-edge-right: env(safe-area-inset-right, 0px);
     --chat-hpad: calc(
       max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) +
         0.05rem
