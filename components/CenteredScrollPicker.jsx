@@ -129,7 +129,7 @@ export default function CenteredScrollPicker({
     } else {
       el.scrollTop = nextTop;
     }
-  }, [getItems, reduceMotion]);
+  }, [getItems, reduceMotion, containerRef]);
   const getItemState = useCallback(index => {
     const d = Math.abs(index - activeIndexRef.current);
     if (d === 0) return "active";

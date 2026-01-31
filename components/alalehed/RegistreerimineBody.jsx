@@ -134,12 +134,6 @@ export default function RegistreerimineBody({
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
-    const getCssPx = (el, varName) => {
-      const raw = window.getComputedStyle(el).getPropertyValue(varName).trim();
-      if (!raw) return 0;
-      const value = Number.parseFloat(raw);
-      return Number.isFinite(value) ? value : 0;
-    };
     const updatePad = () => {
       const snapEl = scrollEl.querySelector(".register-step");
       if (!snapEl) return;
