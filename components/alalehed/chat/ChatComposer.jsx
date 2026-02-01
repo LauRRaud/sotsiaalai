@@ -73,22 +73,22 @@ export default function ChatComposer({
   const inputRowStyle = {
     "--inputbar-h": "3.2rem",
     "--chat-input-max-w": inputFocused
-      ? "clamp(15.5rem, 50vw, 30rem)"
+      ? "clamp(14rem, 42vw, 26rem)"
       : "clamp(9.5rem, 26vw, 18rem)"
   };
   const inputRowClassName =
-    "chat-input-row relative z-[80] flex w-full items-center justify-center gap-[0.1rem] px-[var(--chat-hpad)] " +
-    "mt-[clamp(3.1rem,7.4vh,5.4rem)] translate-y-[var(--chat-input-shift,0.9rem)] " +
-    "max-[48em]:pl-[var(--chat-hpad)] max-[48em]:pr-[var(--chat-hpad)]";
+    "chat-input-row relative z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
+    "mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
+    "max-[48em]:pl-[var(--chat-hpad-left,var(--chat-hpad))] max-[48em]:pr-[var(--chat-hpad-right,var(--chat-hpad))]";
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +
-    "flex-[1_1_var(--chat-input-max-w)] grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] " +
+    "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] " +
     "min-h-[var(--inputbar-h)] rounded-full border-2 border-transparent light:border-[rgba(84,95,115,0.55)] " +
     "bg-[rgba(10,14,24,0.22)] light:bg-[rgba(255,255,255,0.92)] " +
     "shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.45rem_1.05rem_rgba(5,8,15,0.18)] " +
-    "transition-[border-color,box-shadow,background,max-width,flex-basis] duration-[520ms] ease-out " +
+    "transition-[border-color,box-shadow,background,max-width] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:bg-[rgba(15,19,25,0.38)] focus-within:bg-[rgba(15,19,25,0.38)] " +
-    "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65]";
+    "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)]";
   const inputFieldWrapClassName = "min-w-0 w-full pr-[0.2rem]";
   const inputFieldClassName =
     "chat-input-field w-full resize-none appearance-none bg-transparent text-[1.05rem] " +
@@ -114,7 +114,7 @@ export default function ChatComposer({
     "pointer-events-auto " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   return <form className={inputRowClassName} style={inputRowStyle} onSubmit={handleSubmit} autoComplete="off">
-      <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none ml-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
+      <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible?.();
     }}>
         {isLightTheme ? <PaperclipLight className="h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" /> : <PaperclipDark className="h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" />}

@@ -168,7 +168,7 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
           <div className={contentClassName}>
             {loading ? <p className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]" aria-busy="true">
                 {t("rooms.loading", "Laadin ruume...")}
-              </p> : effectiveRooms.length === 0 ? <p className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]">
+              </p> : effectiveRooms.length === 0 ? <p className="mx-auto w-[min(28rem,90%)] text-center text-[1.15rem] leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]">
                 {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
               </p> : <div className={scrollAreaClassName}>
                 <ul className="mx-auto grid w-[min(30rem,88%)] list-none gap-[0.85rem] p-0 text-left" role="list">

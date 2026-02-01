@@ -26,6 +26,8 @@ const legendClassName =
 const languageLegendClassName = "!mb-[0.95rem]";
 const languageFieldsetClassName = "!pb-[3.6rem]";
 const languageShiftClassName = "-translate-y-[1.6rem]";
+const languageOptionsClassName = "flex-nowrap gap-[0.5rem] max-w-[34rem]";
+const languageOptionLabelClassName = "text-[clamp(0.95rem,2.4vw,1.08rem)] px-[0.7rem] py-[0.55rem] gap-[0.5rem]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.6rem_1rem] w-full max-w-[30rem] mx-auto";
 const textScaleFieldsetClassName = "!min-h-[12.2rem] !pb-[3.2rem] !gap-[0.9rem]";
@@ -292,18 +294,18 @@ export default function AccessibilityModal({
             <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>
               {t("accessibility.language")}
             </legend>
-            <div className={`${optionsRowClassName} ${languageShiftClassName}`.trim()}>
-              <label className={radioLabelClassName}>
+            <div className={`${optionsRowClassName} ${languageOptionsClassName} ${languageShiftClassName}`.trim()}>
+              <label className={`${radioLabelClassName} ${languageOptionLabelClassName}`.trim()}>
                 <input ref={firstFocusRef} type="radio" name="lg" value="et" checked={lang === "et"} onChange={() => setLang("et")} className="peer sr-only" />
                 <span aria-hidden="true" className={radioIndicatorClassName} />
                 <span>{t("accessibility.options.language.et")}</span>
               </label>
-              <label className={radioLabelClassName}>
+              <label className={`${radioLabelClassName} ${languageOptionLabelClassName}`.trim()}>
                 <input type="radio" name="lg" value="ru" checked={lang === "ru"} onChange={() => setLang("ru")} className="peer sr-only" />
                 <span aria-hidden="true" className={radioIndicatorClassName} />
                 <span>{t("accessibility.options.language.ru")}</span>
               </label>
-              <label className={radioLabelClassName}>
+              <label className={`${radioLabelClassName} ${languageOptionLabelClassName}`.trim()}>
                 <input type="radio" name="lg" value="en" checked={lang === "en"} onChange={() => setLang("en")} className="peer sr-only" />
                 <span aria-hidden="true" className={radioIndicatorClassName} />
                 <span>{t("accessibility.options.language.en")}</span>

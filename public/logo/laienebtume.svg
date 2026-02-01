@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+     viewBox="0 0 24 24" fill="none">
+  <!-- Nool -->
+  <path d="M6.2 7.2 L12 12.8 L17.8 7.2"
+        stroke="#c57171" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Alumine U: sisenurgad veidi pehmemad -->
+  <path d="M4.6 14.7
+           V15.7
+           Q4.6 18.4 7.1 18.4
+           H16.9
+           Q19.4 18.4 19.4 15.7
+           V14.7"
+        stroke="#c57171" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

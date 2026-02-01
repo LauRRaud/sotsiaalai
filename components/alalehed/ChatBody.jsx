@@ -117,11 +117,7 @@ export default function ChatBody({
   });
   useEffect(() => {
     if (isLightTheme) return;
-    const refresh = () => maskRefreshRef.current?.();
-    const timers = [0, 60, 140, 260, 420, 700, 1100].map(delay =>
-      window.setTimeout(refresh, delay)
-    );
-    return () => timers.forEach(timer => window.clearTimeout(timer));
+    maskRefreshRef.current?.();
   }, [isLightTheme]);
   useEffect(() => {
     if (!embedded || typeof document === "undefined") return;
@@ -514,10 +510,12 @@ export default function ChatBody({
         "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
         "--chat-input-shift": "clamp(0.9rem, 2.2vh, 1.4rem)",
         "--chat-expanded-delta": "clamp(0.9rem, 2.4vh, 2.2rem)",
-        "--chat-input-focus-drop": "clamp(2.8rem, 5.6vh, 3.6rem)",
+        "--chat-input-focus-drop": "clamp(4.6rem, 9.6vh, 6.2rem)",
         "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
         "--chat-window-bottom-gap": "clamp(1.2rem, 2.6vh, 2.4rem)",
-        "--chat-attach-left-pull": "-1.1rem"
+        "--chat-attach-left-pull": "-1.65rem",
+        "--chat-inputbar-left-pull": "-1.6rem",
+        "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)"
       }
     : undefined;
   const chatContainerClassName = cn(
@@ -609,7 +607,7 @@ export default function ChatBody({
                     {recordingError}
                   </div> : null}
 
-                <footer className="relative mt-[0.35rem] flex min-h-[5.8rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[4.8rem] max-[48em]:pb-[0.15rem]" />
+                <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
             </div>

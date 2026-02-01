@@ -76,9 +76,6 @@ export function useChatInputHoleMask({
       refreshRef.current = scheduleUpdate;
     }
     scheduleUpdate();
-    const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
-      window.setTimeout(scheduleUpdate, delay)
-    );
     window.addEventListener("resize", scheduleUpdate);
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
@@ -100,7 +97,6 @@ export function useChatInputHoleMask({
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
     return () => {
       window.cancelAnimationFrame(raf);
-      settleTimers.forEach(timer => window.clearTimeout(timer));
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
