@@ -3,13 +3,10 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
+import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
-const docToggleLabelClassName =
-  "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] " +
-  "bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] " +
-  "text-[color:var(--pt-120)]";
-const docToggleInputClassName =
-  "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
+const docToggleCardClassName =
+  "w-full min-w-[12rem] text-[0.98rem] leading-[1.15] px-[0.9rem] py-[0.6rem]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -138,6 +135,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "px-[var(--chat-hpad,clamp(0.8rem,2.6vw,1.6rem))] mx-auto " +
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
     "relative z-[30]";
+  const panelWideClassName =
+    "max-w-[var(--chat-diameter,94vw)] w-[var(--chat-diameter,94vw)]";
   const panelExpandedClassName =
     "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-[clamp(0.05rem,0.8vw,0.55rem)]";
   const panelOverlayClassName =
@@ -146,15 +145,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "z-[90] pointer-events-auto";
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
-    "bg-[rgba(0,0,0,0.1)] text-[#f2f2f2] " +
-    "backdrop-blur-[1rem] " +
+    "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
+    "backdrop-blur-[var(--glass-blur-radius,1rem)] " +
     "[--analysis-card-pad-y:clamp(0.65rem,2vw,1rem)] " +
     "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
     "tracking-[0.035em] text-rendering-geometricPrecision " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto " +
-    "light:bg-[rgba(255,255,255,0.1)] light:text-[color:var(--glass-surface-text,#0f172a)] " +
+    "light:bg-[color:var(--glass-surface-bg,rgba(255,255,255,0.65))] light:text-[color:var(--glass-surface-text,#0f172a)] " +
     "light:backdrop-blur-[var(--glass-blur-radius,1rem)]";
   const headerClassName =
     "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[110] " +
@@ -165,7 +164,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "text-[1.25rem] font-[600] tracking-[0.04em] text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "absolute top-[0.9rem] right-[0.9rem] grid place-items-center z-[120] " +
+    "absolute top-[0.35rem] right-[0.45rem] grid place-items-center z-[120] " +
     "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
     "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38] pointer-events-auto";
   const bodyClassName =
@@ -194,7 +193,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
     "ml-[calc(-1*var(--analysis-card-pad-x))] mr-[calc(-1*var(--analysis-card-pad-x))]";
   const previewClassName =
-    "relative flex-1 min-h-[150px] max-h-[clamp(22rem,60vh,40rem)] " +
+    "relative flex-1 min-h-[200px] max-h-[clamp(30rem,72vh,52rem)] " +
     "rounded-[1.2rem] border-0 bg-[rgba(7,12,20,0.38)] " +
     "px-[var(--analysis-preview-pad-x)] py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
@@ -217,22 +216,17 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
   const metaClassName = "mt-[0.35rem] text-[0.95rem]";
   const contextButtonClassName =
-    "group relative inline-flex items-center justify-center w-[2.15rem] h-[2.15rem] " +
-    "rounded-full border-2 border-[rgba(84,95,115,0.6)] " +
-    "bg-[linear-gradient(130deg,rgba(18,20,32,0.38),rgba(32,36,50,0.18))] " +
-    "shadow-[0_0.2rem_0.45rem_rgba(0,0,0,0.55)] text-[color:var(--pt-130)] " +
-    "transition-[background,border-color,box-shadow,transform] duration-150 " +
-    "light:bg-[rgba(255,255,255,0.9)] light:border-[rgba(148,163,184,0.5)] " +
-    "light:shadow-[0_10px_22px_rgba(0,0,0,0.12)] light:text-[#7a3a38]";
-  const contextIconClassName = "h-[1rem] w-[1rem] fill-current";
+    "relative inline-flex items-center justify-center " +
+    "!min-h-[2.5rem] !h-[2.5rem] !w-[2.5rem] !px-0 !py-0 !rounded-full " +
+    "!text-[1.15rem] !leading-[1] !tracking-[-0.02em]";
   const tooltipClassName =
     "absolute left-1/2 bottom-[calc(100%+0.35rem)] -translate-x-1/2 " +
     "min-w-[14rem] max-w-[90vw] rounded-[0.9rem] px-[0.5rem] py-[0.75rem] " +
     "bg-[rgba(7,10,18,0.96)] text-[rgba(248,252,255,0.96)] text-[1.02rem] " +
     "leading-[1.4] tracking-[0.02em] text-center shadow-[0_0.2rem_0.6rem_rgba(0,0,0,0.45)] " +
-    "opacity-0 pointer-events-none transition-[opacity,transform] duration-200 " +
+    "opacity-0 pointer-events-none transition-[opacity,transform] duration-200 z-[200] " +
     "group-hover:opacity-100 group-hover:-translate-y-[0.15rem] " +
-    "group-focus-visible:opacity-100 group-focus-visible:-translate-y-[0.15rem] " +
+    "group-focus-within:opacity-100 group-focus-within:-translate-y-[0.15rem] " +
     "light:bg-[rgba(255,255,255,0.96)] light:text-[#1f2937] light:border light:border-[rgba(148,163,184,0.45)] " +
     "light:shadow-[0_12px_26px_rgba(0,0,0,0.12)]";
   const tooltipArrowClassName =
@@ -244,6 +238,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       ref={analysisPanelRef}
       className={cn(
         panelBaseClassName,
+        uploadPreview ? panelWideClassName : null,
         analysisPanelMode === "expanded"
           ? panelExpandedClassName
           : analysisPanelMode === "overlay"
@@ -296,41 +291,34 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 )}
               >
                 <div className={modeRowClassName}>
-                  <label className={docToggleLabelClassName} id="chat-doc-mode-label">
-                    <input
-                      type="checkbox"
-                      className={docToggleInputClassName}
-                      checked={!docOnlyMode}
-                      onChange={e => setDocOnlyMode(!e.target.checked)}
-                      aria-describedby="chat-upload-context-hint"
-                    />
-                    <span className="text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">
-                      {extendedLabel}
-                    </span>
-                  </label>
-                  <button
-                    type="button"
-                    className={contextButtonClassName}
-                    aria-label={contextHint}
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
+                  <OptionCard
+                    type="checkbox"
+                    name="chat-doc-mode"
+                    checked={!docOnlyMode}
+                    onChange={e => setDocOnlyMode(!e.target.checked)}
+                    className={docToggleCardClassName}
                   >
-                    <span aria-hidden="true">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 320 512"
-                        className={contextIconClassName}
-                      >
-                        <path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
-                      </svg>
-                    </span>
+                    {extendedLabel}
+                  </OptionCard>
+                  <div className="group relative z-[150]">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="primary"
+                      className={contextButtonClassName}
+                      aria-label={contextHint}
+                      onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                    >
+                      ?
+                    </Button>
                     <span className={tooltipClassName}>
                       {contextHint}
                       <span className={tooltipArrowClassName} aria-hidden="true" />
                     </span>
-                  </button>
+                  </div>
                 </div>
               </div>
               <p id="chat-upload-context-hint" className="sr-only">
