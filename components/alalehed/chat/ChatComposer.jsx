@@ -138,7 +138,7 @@ export default function ChatComposer({
           </svg>
         </button>
         {hasInput || isGenerating || isStreamingAny ? <button type="submit" className={sendButtonLoaderClassName} aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")} title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active={isGenerating || isStreamingAny ? "true" : "false"}>
-            <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem]" showBottomGlow={false} style={{
+            <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem]" style={{
           "--glow-opacity-base": 0,
           "--glow-opacity-peak": 0
         }} />

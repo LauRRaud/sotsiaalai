@@ -9,7 +9,6 @@ export default function SotsiaalAILoader({
   maxScale = 1,
   redStops,
   showBottomBall = true,
-  showBottomGlow = true,
   ariaLabel = "Assistent koostab vastust",
   animated = true,
   ariaHidden = false,
