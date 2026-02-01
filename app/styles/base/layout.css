@@ -41,7 +41,7 @@ main#main > .main-content.glass-box {
   align-items: center;
 }
 .site-footer-logo {
-  width: clamp(15rem, 30vw, 24rem);
+  width: clamp(18rem, 34vw, 28rem);
   height: auto;
   opacity: 0.8;
   margin-top: 2.6rem;

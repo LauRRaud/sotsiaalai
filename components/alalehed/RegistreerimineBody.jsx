@@ -21,6 +21,7 @@ const scrollClassName = "relative flex-1 w-full max-w-[clamp(18rem,40vw,26rem)] 
 const inputClassName = "w-full text-[color:var(--pt-50)] placeholder:text-[color:var(--pt-200)] light:text-[color:var(--input-text)]";
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const checkboxCardClassName = "w-full text-[1.15rem] leading-[1.5] px-[1.05rem] py-[0.9rem]";
+const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerButtonClassName = "px-[1.85rem] py-[1rem] text-[1.28rem]";
 const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow)] hover:[background:var(--input-bg-hover)] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
@@ -225,17 +226,17 @@ export default function RegistreerimineBody({
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint", "Vali roll nooleklahvidega. Valikud: SotsiaaltГ'кА?Г'кА? spetsialist vГ'кАзi ElukГ'какsimusega pГ'кА?Г'кА?rduja.")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className="w-full text-[1.35rem] py-[1.1rem]">
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`w-full text-[1.35rem] py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className="w-full text-[1.35rem] py-[1.1rem]">
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`w-full text-[1.35rem] py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(3)}`}>
-                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={checkboxCardClassName}>
+                <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={`${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
                       open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutustingimused", locale)}">`,
@@ -250,7 +251,7 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`register-step csp-step ${getItemClassName(4)}`}>
-                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={checkboxCardClassName}>
+                <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={`${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide1: {
                       open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutusjuhend", locale)}">`,

@@ -166,7 +166,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] [--seg-card-text:var(--glass-modal-text)] [--seg-card-text-hover:var(--glass-modal-text)] [--seg-radio-bg:color-mix(in_srgb,var(--glass-modal-text)_10%,transparent)] [--seg-radio-border:color-mix(in_srgb,var(--glass-modal-text)_55%,transparent)] [--seg-radio-inner-ring:inset_0_0_0_1px_color-mix(in_srgb,var(--glass-modal-text)_22%,transparent)] [--seg-radio-dot-shadow:none]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
@@ -185,8 +185,8 @@ export default function InviteModal() {
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
             <div className="grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
               {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full !px-[0.85rem] !py-[0.55rem] !text-[1rem] !leading-[1.2] !tracking-[0.02em]">
-                  {option.label}
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full !py-[0.75rem] !text-[1.05rem] !leading-[1.2]">
+                  <span className="whitespace-nowrap">{option.label}</span>
                 </OptionCard>
               ))}
             </div>
@@ -205,7 +205,7 @@ export default function InviteModal() {
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className="border-0">
+        <Panel variant="secondary" padding="sm" className="border-0 [--panel-secondary-shadow:0_10px_22px_-18px_rgba(0,0,0,0.28)]">
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}

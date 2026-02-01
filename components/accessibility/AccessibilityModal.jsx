@@ -23,6 +23,9 @@ const fieldsetClassName =
   "csp-step m-0 w-full max-w-[40rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[0.65rem] !pt-[0.5rem] !pb-[2.4rem] scroll-snap-align-center scroll-snap-stop-normal";
 const legendClassName =
   "block w-full text-center mb-[0.45rem] mt-[0.4rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2]";
+const languageLegendClassName = "!mb-[0.95rem]";
+const languageFieldsetClassName = "!pb-[3.6rem]";
+const languageShiftClassName = "-translate-y-[1.6rem]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.6rem_1rem] w-full max-w-[30rem] mx-auto";
 const textScaleFieldsetClassName = "!min-h-[12.2rem] !pb-[3.2rem] !gap-[0.9rem]";
@@ -33,10 +36,12 @@ const contrastLegendClassName = "!mb-[0.95rem]";
 const contrastOptionsClassName = "!mt-[0.2rem]";
 const motionFieldsetClassName = "!pt-[1.4rem] !mt-[0.6rem]";
 const motionLegendClassName = "!mt-[0.9rem] !mb-[0.6rem]";
+const contrastShiftClassName = "-translate-y-[0.4rem]";
+const motionShiftClassName = "-translate-y-[0.9rem]";
 const radioLabelClassName =
   "inline-flex items-center gap-[0.65rem] rounded-[999px] border border-transparent bg-[var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-150 ease-out hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)] peer-checked:[background:var(--seg-card-bg-selected)] peer-checked:text-[color:var(--seg-card-text-selected)] peer-checked:shadow-[var(--seg-card-shadow-selected)] cursor-pointer";
 const radioIndicatorClassName =
-  "relative flex h-[20px] w-[20px] items-center justify-center rounded-full border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] transition-[border-color,box-shadow,background] duration-150 ease-out after:block after:h-[9px] after:w-[9px] after:scale-0 after:rounded-full after:bg-[color:var(--seg-radio-dot-bg)] after:shadow-[var(--seg-radio-dot-shadow)] after:opacity-0 after:transition-none after:content-[''] peer-checked:after:opacity-100 peer-checked:after:scale-100";
+  "relative flex h-[20px] w-[20px] items-center justify-center rounded-full border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] transition-[border-color,box-shadow,background] duration-150 ease-out after:block after:h-[8px] after:w-[8px] after:scale-0 after:rounded-full after:bg-[color:var(--seg-radio-dot-bg)] after:shadow-[var(--seg-radio-dot-shadow)] after:opacity-0 after:transition-none after:content-[''] peer-checked:after:opacity-100 peer-checked:after:scale-100";
 const checkboxLabelClassName =
   "inline-flex items-center gap-[0.65rem] rounded-[999px] border border-transparent bg-[var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-150 ease-out hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)] cursor-pointer peer-checked:[background:var(--seg-card-bg-selected)] peer-checked:text-[color:var(--seg-card-text-selected)] peer-checked:shadow-[var(--seg-card-shadow-selected)] w-fit max-w-[90%] mx-auto justify-center";
 const checkboxIndicatorClassName =
@@ -283,9 +288,11 @@ export default function AccessibilityModal({
         "--csp-neighbor-opacity": "0.15",
         "--csp-hidden-opacity": "0"
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
-          <fieldset className={`${fieldsetClassName} ${getItemClassName(0)}`}>
-            <legend className="sr-only">{t("accessibility.language")}</legend>
-            <div className={optionsRowClassName}>
+          <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${getItemClassName(0)}`}>
+            <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>
+              {t("accessibility.language")}
+            </legend>
+            <div className={`${optionsRowClassName} ${languageShiftClassName}`.trim()}>
               <label className={radioLabelClassName}>
                 <input ref={firstFocusRef} type="radio" name="lg" value="et" checked={lang === "et"} onChange={() => setLang("et")} className="peer sr-only" />
                 <span aria-hidden="true" className={radioIndicatorClassName} />
@@ -333,10 +340,10 @@ export default function AccessibilityModal({
           </fieldset>
 
           <fieldset className={`${fieldsetClassName} ${contrastFieldsetClassName} ${getItemClassName(2)}`}>
-            <legend className={`${legendClassName} ${contrastLegendClassName}`.trim()}>
+            <legend className={`${legendClassName} ${contrastLegendClassName} ${contrastShiftClassName}`.trim()}>
               {t("accessibility.contrast")}
             </legend>
-            <div className={`${optionsRowClassName} ${contrastOptionsClassName}`.trim()}>
+            <div className={`${optionsRowClassName} ${contrastOptionsClassName} ${contrastShiftClassName}`.trim()}>
               <label className={radioLabelClassName}>
                 <input type="radio" name="ct" value="normal" checked={contrast === "normal"} onChange={() => setContrast("normal")} className="peer sr-only" />
                 <span aria-hidden="true" className={radioIndicatorClassName} />
@@ -351,8 +358,8 @@ export default function AccessibilityModal({
           </fieldset>
 
           <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getItemClassName(3)}`}>
-            <legend className={`${legendClassName} ${motionLegendClassName}`.trim()}>{t("accessibility.motion")}</legend>
-            <label className={checkboxLabelClassName}>
+            <legend className={`${legendClassName} ${motionLegendClassName} ${motionShiftClassName}`.trim()}>{t("accessibility.motion")}</legend>
+            <label className={`${checkboxLabelClassName} ${motionShiftClassName}`.trim()}>
               <input type="checkbox" checked={reduceMotion} onChange={e => setReduceMotion(e.target.checked)} className="peer sr-only" />
               <span aria-hidden="true" className={checkboxIndicatorClassName}>
                 <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
@@ -363,7 +370,7 @@ export default function AccessibilityModal({
             </label>
           </fieldset>
 
-          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[2.6rem]`}>
+          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[1.6rem]`}>
             <Button
               type="button"
               variant="primary"

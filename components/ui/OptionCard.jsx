@@ -1,9 +1,9 @@
 import { cn } from "@/components/ui/cn";
 import { useRef } from "react";
-const baseCard = "flex items-center gap-[0.65rem] rounded-[var(--seg-card-radius)] [border-width:var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] font-normal tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-150 ease-out hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)]";
+const baseCard = "flex items-center gap-[0.45rem] rounded-[var(--seg-card-radius)] [border-width:var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] font-normal tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-150 ease-out hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-hover)] hover:shadow-[var(--seg-card-shadow-hover)]";
 const selectedCard = "[background:var(--seg-card-bg-selected)] text-[color:var(--seg-card-text-selected)] shadow-[var(--seg-card-shadow-selected)]";
-const radioIndicator = "relative flex h-[20px] w-[20px] items-center justify-center rounded-full border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] transition-[border-color,box-shadow,background] duration-150 ease-out after:block after:h-[9px] after:w-[9px] after:scale-0 after:rounded-full after:bg-[color:var(--seg-radio-dot-bg)] after:shadow-[var(--seg-radio-dot-shadow)] after:opacity-0 after:transition-none after:content-[''] peer-checked:after:opacity-100 peer-checked:after:scale-100";
-const checkboxIndicator = "relative flex h-[20px] w-[20px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100";
+const radioIndicator = "relative flex h-[var(--seg-control-size,20px)] w-[var(--seg-control-size,20px)] items-center justify-center rounded-full border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] transition-[border-color,box-shadow,background] duration-150 ease-out after:block after:h-[var(--seg-radio-dot-size,8px)] after:w-[var(--seg-radio-dot-size,8px)] after:scale-0 after:rounded-full after:bg-[color:var(--seg-radio-dot-bg)] after:shadow-[var(--seg-radio-dot-shadow)] after:opacity-0 after:transition-none after:content-[''] peer-checked:after:opacity-100 peer-checked:after:scale-100";
+const checkboxIndicator = "relative flex h-[var(--seg-control-size,20px)] w-[var(--seg-control-size,20px)] items-center justify-center rounded-[var(--seg-control-radius,0.4rem)] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100";
 export default function OptionCard({
   type = "radio",
   name,
@@ -15,11 +15,11 @@ export default function OptionCard({
   children
 }) {
   const inputRef = useRef(null);
-  const indicator = type === "checkbox" ? <span aria-hidden="true" className={checkboxIndicator}>
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+  const indicator = type === "checkbox" ? <span aria-hidden="true" className={`${checkboxIndicator} shrink-0`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[var(--seg-check-size,18px)] w-[var(--seg-check-size,18px)] scale-100 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M6 12.5l4 4 8-8" />
         </svg>
-      </span> : <span aria-hidden="true" className={radioIndicator} />;
+      </span> : <span aria-hidden="true" className={`${radioIndicator} shrink-0`} />;
   const handleKeyDown = e => {
     if (disabled) return;
     if (type === "radio" && (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "ArrowLeft" || e.key === "ArrowRight") && name) {

@@ -878,7 +878,7 @@
   text-align: center;
 }
 .homepage-root.homepage-scroll .home-footer-logo {
-  width: clamp(15rem, 30vw, 24rem);
+  width: clamp(18rem, 34vw, 28rem);
   height: auto;
   --end-op: 0.8;
   opacity: 0.8;
