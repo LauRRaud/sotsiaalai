@@ -348,11 +348,11 @@
     :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
     --card-edge-opacity: 0;
     box-shadow:
-      0 0 26px rgb(248 253 255 / calc(var(--card-edge-opacity) * 0.9));
+      0 0 22px rgb(248 253 255 / calc(var(--card-edge-opacity) * 0.9));
   }
   :global(:root:not(.theme-light)) .homepage-root .card-wrapper.magnet-active
     :is(.glass-card, .glass-card-dark) {
-    --card-edge-opacity: 0.28;
+    --card-edge-opacity: 0.22;
   }
 }
 :global(:root:not(.theme-light)) .homepage-root
@@ -368,7 +368,7 @@
   )
   .card-face.back
   :is(.centered-back-left, .centered-back-right) {
-  --card-edge-opacity: 0.28;
+  --card-edge-opacity: 0.22;
 }
 :global(.modal-open) .three-d-card:hover .card-face.front > .glass-card,
 :global(.modal-open) .three-d-card:focus-within .card-face.front > .glass-card,

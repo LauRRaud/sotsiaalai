@@ -8,8 +8,7 @@ const baseStyles =
   "flex-col items-center rounded-full " +
   "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] " +
   "text-[color:var(--glass-surface-text,#f2f2f2)] " +
-  "shadow-none backdrop-blur-[var(--glass-blur-radius,1rem)] " +
-  "light:shadow-[0_18px_40px_rgba(0,0,0,0.16)] " +
+  "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
   "overflow-hidden " +
   "[--glass-ring-pad-x:clamp(1.8rem,5vw,3.2rem)] " +
   "[--glass-ring-pad-top:clamp(1.6rem,4.2vw,2.6rem)] " +

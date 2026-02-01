@@ -11,9 +11,14 @@
 
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-under-glow:
-    0 0 22px rgba(248, 253, 255, 0.26);
+    0 0 16px rgba(248, 253, 255, 0.22),
+    0 0 30px rgba(248, 253, 255, 0.12);
   --orbit-item-glow:
-    0 0 10px rgba(248, 253, 255, 0.32);
+    0 0 6px rgba(248, 253, 255, 0.16),
+    0 0 10px rgba(248, 253, 255, 0.08);
+  --orbit-item-glow-strong:
+    0 0 7px rgba(248, 253, 255, 0.2),
+    0 0 12px rgba(248, 253, 255, 0.1);
 }
 
 .profile-orbit-menu {
@@ -157,7 +162,8 @@
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item:focus-visible {
   box-shadow:
-    var(--orbit-item-glow),
+    var(--orbit-item-glow-strong, var(--orbit-item-glow)),
+    var(--orbit-under-glow),
     0 10px 18px rgba(0, 0, 0, var(--pin-shadow)),
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     inset 0 -1px 0 rgba(0, 0, 0, 0.46);
@@ -169,10 +175,9 @@
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item:focus-visible {
   box-shadow:
-    0 0 20px rgba(248, 253, 255, 0.32),
-    0 10px 18px rgba(0, 0, 0, var(--pin-shadow)),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.46);
+    var(--orbit-item-glow-strong, var(--orbit-item-glow)),
+    var(--orbit-under-glow),
+    0 12px 20px rgba(0, 0, 0, 0.16);
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -500,9 +505,14 @@
   -webkit-backdrop-filter: blur(1.6rem) saturate(120%);
   border: none;
   --orbit-under-glow:
-    0 0 22px rgba(248, 253, 255, 0.26);
+    0 0 16px rgba(248, 253, 255, 0.22),
+    0 0 30px rgba(248, 253, 255, 0.12);
   --orbit-item-glow:
-    0 0 10px rgba(248, 253, 255, 0.32);
+    0 0 6px rgba(248, 253, 255, 0.16),
+    0 0 10px rgba(248, 253, 255, 0.08);
+  --orbit-item-glow-strong:
+    0 0 7px rgba(248, 253, 255, 0.2),
+    0 0 12px rgba(248, 253, 255, 0.1);
 }
 
 :root.theme-light .profile-orbit-mobile-panel.invite-modal {
@@ -577,7 +587,7 @@
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    var(--orbit-item-glow);
+    var(--orbit-item-glow-strong, var(--orbit-item-glow));
 }
 .profile-orbit-mobile-action.dock-item .dock-icon svg {
   width: 68%;

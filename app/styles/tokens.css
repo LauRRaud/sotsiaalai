@@ -119,6 +119,10 @@
   --panel-secondary-border: rgba(148, 163, 184, 0.18);
   --panel-secondary-shadow: none;
   --panel-secondary-radius: 1.1rem;
+  /* Bottom-only ring glow (starts around mid edge, fades downward). */
+  --glass-ring-glow-dark:
+    0 10px 18px -16px rgba(248, 253, 255, 0.085),
+    0 26px 44px -40px rgba(248, 253, 255, 0.072);
 
   --glow-light-ring: #e1a0a0;
   --glow-light-soft: rgba(225, 160, 160, 0.28);
