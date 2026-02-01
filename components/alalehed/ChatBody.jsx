@@ -416,6 +416,28 @@ export default function ChatBody({
     setTimeout(restore, 260);
   }, [analysis.showAnalysisPanel, analysis.uploadPreview]);
   useEffect(() => {
+    if (!analysis.showAnalysisPanel) return;
+    if (!analysis.uploadPreview) return;
+    if (typeof window === "undefined") return;
+    const ensureVisible = () => {
+      const panel = analysis.analysisPanelRef?.current;
+      if (!panel) return;
+      const rect = panel.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      const margin = 24;
+      const isAbove = rect.top < margin;
+      const isBelow = rect.bottom > vh - margin;
+      if (isAbove || isBelow) {
+        panel.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    };
+    requestAnimationFrame(ensureVisible);
+    setTimeout(ensureVisible, 120);
+  }, [analysis.showAnalysisPanel, analysis.uploadPreview, analysis.analysisPanelRef]);
+  useEffect(() => {
     if (!isRoomMode) return;
     const myId = session?.user?.id;
     if (!myId || !roomMessages?.length) return;
@@ -588,6 +610,8 @@ export default function ChatBody({
                 <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} />
 
 
+                {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
+
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={inputFocused && !profileOpen} />
 
                 {isRoomMode && inputFocused ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
@@ -609,7 +633,7 @@ export default function ChatBody({
                 <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
-              {analysis.showAnalysisPanel ? <div className="mt-[2.4rem]">
+                {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem]">
                   <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} />
                 </div> : null}
             </div>
