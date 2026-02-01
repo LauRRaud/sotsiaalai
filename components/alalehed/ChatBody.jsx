@@ -69,6 +69,7 @@ export default function ChatBody({
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
+  const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
@@ -519,6 +520,26 @@ export default function ChatBody({
     });
     if (shouldOpen) setRollDirection("right");
   }, [embedded, searchParams]);
+  useEffect(() => {
+    const node = chatContainerRef.current;
+    if (!node) return;
+    const update = () => {
+      const rect = node.getBoundingClientRect();
+      const next = Math.round(rect.width || 0);
+      if (next > 0) setAnalysisPanelWidth(next);
+    };
+    update();
+    window.addEventListener("resize", update);
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(update);
+      ro.observe(node);
+    }
+    return () => {
+      window.removeEventListener("resize", update);
+      ro?.disconnect?.();
+    };
+  }, []);
   const chatFaceClass = null;
   const profileFaceClass = null;
   const showChatFace = !profileOpen;
@@ -633,7 +654,9 @@ export default function ChatBody({
                 <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
-                {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem]">
+              {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem]" style={analysisPanelWidth ? {
+                  "--analysis-panel-width": `${analysisPanelWidth}px`
+                } : undefined}>
                   <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} />
                 </div> : null}
             </div>

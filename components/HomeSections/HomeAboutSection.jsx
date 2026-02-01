@@ -56,7 +56,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         <div className={styles["home-before"]}>
           <div className={styles["home-before-content"]}>
             <p className={styles["home-before-title"]}>
-              Enne kasutamist tutvu
+              Enne kasutamist
             </p>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
               <li>

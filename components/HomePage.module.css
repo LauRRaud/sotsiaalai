@@ -836,6 +836,16 @@
 }
 .home-before {
   box-shadow: var(--home-before-shadow);
+  border-radius: 50%;
+  width: min(92vw, 32rem);
+  height: min(92vw, 32rem);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.2rem, 3vw, 2.4rem);
+  box-sizing: border-box;
 }
 .home-before-content {
   position: relative;
@@ -846,10 +856,15 @@
   display: flex;
   flex-direction: column;
   gap: clamp(0.65rem, 1.2vw, 0.85rem);
+  max-width: min(74vw, 24.5rem);
+  align-items: center;
+  padding-top: clamp(0.6rem, 1.4vw, 1.4rem);
 }
 .home-before-title {
   margin: 0;
-  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  margin-bottom: clamp(0.9rem, 2vw, 1.6rem);
+  margin-top: clamp(0.4rem, 1vw, 1rem);
+  font-size: clamp(1.48rem, 2.45vw, 2.05rem);
   font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -859,8 +874,11 @@
 .home-section-title {
   color: var(--home-title-color, #c57171);
 }
-.home-before-title {
-  margin-bottom: 0;
+.home-before-content ul {
+  justify-content: center;
+}
+.homepage-root.homepage-scroll .home-before-content .home-link {
+  font-size: clamp(1.22rem, 2vw, 1.48rem);
 }
 .homepage-root.homepage-scroll .home-section,
 .homepage-root.homepage-scroll .home-section-inner,

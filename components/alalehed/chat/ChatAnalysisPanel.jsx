@@ -6,7 +6,8 @@ import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
 const docToggleCardClassName =
-  "w-full min-w-[12rem] text-[0.98rem] leading-[1.15] px-[0.9rem] py-[0.6rem]";
+  "w-auto min-w-0 !min-h-[2.8rem] !px-[0.8rem] !py-[0.7rem] !text-[0.98rem] !leading-[1.1] " +
+  "[--seg-card-radius:999px] [--seg-control-size:18px] [--seg-check-size:14px]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -136,7 +137,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
     "relative z-[30]";
   const panelWideClassName =
-    "max-w-[var(--chat-diameter,94vw)] w-[var(--chat-diameter,94vw)]";
+    "max-w-[var(--analysis-panel-width,94vw)] w-[var(--analysis-panel-width,94vw)] px-0";
   const panelExpandedClassName =
     "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-[clamp(0.05rem,0.8vw,0.55rem)]";
   const panelOverlayClassName =
@@ -151,12 +152,12 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "[--analysis-card-pad-x:clamp(0.8rem,2.6vw,1.6rem)] " +
     "[--analysis-card-pad-b:clamp(0.9rem,2.6vw,1.4rem)] " +
     "p-[var(--analysis-card-pad-y)_var(--analysis-card-pad-x)_var(--analysis-card-pad-b)] " +
-    "tracking-[0.035em] text-rendering-geometricPrecision " +
+    "tracking-[0.035em] text-rendering-geometricPrecision isolate " +
     "antialiased flex flex-col gap-[0.9rem] relative z-[100] pointer-events-auto " +
     "light:bg-[color:var(--glass-surface-bg,rgba(255,255,255,0.65))] light:text-[color:var(--glass-surface-text,#0f172a)] " +
     "light:backdrop-blur-[var(--glass-blur-radius,1rem)]";
   const headerClassName =
-    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[110] " +
+    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[80] " +
     "pt-[0.4rem] mb-[0.6rem]";
   const titleBlockClassName =
     "flex-1 min-w-0 text-center pt-[0.25rem]";
@@ -164,7 +165,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "text-[1.25rem] font-[600] tracking-[0.04em] text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "absolute top-[0.35rem] right-[0.45rem] grid place-items-center z-[120] " +
+    "absolute top-[0.1rem] right-[0.1rem] grid place-items-center z-[220] " +
     "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
     "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38] pointer-events-auto";
   const bodyClassName =
@@ -184,7 +185,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const controlsContextClassName =
     "w-full pt-[0.25rem] flex-col gap-[0.55rem]";
   const modeRowClassName =
-    "flex items-center justify-center gap-[0.6rem] flex-wrap translate-x-[1.05rem]";
+    "flex items-center justify-center gap-[0.6rem] flex-nowrap max-[30em]:flex-wrap";
   const actionsInlineClassName =
     "w-full flex justify-end gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const actionsCenterClassName = "justify-center";
@@ -193,7 +194,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
     "ml-[calc(-1*var(--analysis-card-pad-x))] mr-[calc(-1*var(--analysis-card-pad-x))]";
   const previewClassName =
-    "relative flex-1 min-h-[200px] max-h-[clamp(30rem,72vh,52rem)] " +
+    "relative flex-1 min-h-[260px] max-h-[clamp(38rem,80vh,70rem)] " +
     "rounded-[1.2rem] border-0 bg-[rgba(7,12,20,0.38)] " +
     "px-[var(--analysis-preview-pad-x)] py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
@@ -224,7 +225,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "min-w-[14rem] max-w-[90vw] rounded-[0.9rem] px-[0.5rem] py-[0.75rem] " +
     "bg-[rgba(7,10,18,0.96)] text-[rgba(248,252,255,0.96)] text-[1.02rem] " +
     "leading-[1.4] tracking-[0.02em] text-center shadow-[0_0.2rem_0.6rem_rgba(0,0,0,0.45)] " +
-    "opacity-0 pointer-events-none transition-[opacity,transform] duration-200 z-[200] " +
+    "opacity-0 pointer-events-none transition-[opacity,transform] duration-200 z-[9999] " +
     "group-hover:opacity-100 group-hover:-translate-y-[0.15rem] " +
     "group-focus-within:opacity-100 group-focus-within:-translate-y-[0.15rem] " +
     "light:bg-[rgba(255,255,255,0.96)] light:text-[#1f2937] light:border light:border-[rgba(148,163,184,0.45)] " +
@@ -300,7 +301,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                   >
                     {extendedLabel}
                   </OptionCard>
-                  <div className="group relative z-[150]">
+                  <div className="group relative z-[999]">
                     <Button
                       type="button"
                       size="sm"
