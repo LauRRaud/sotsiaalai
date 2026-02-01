@@ -75,8 +75,8 @@
     var(--glass-surface-bg, rgba(255, 255, 255, 0.52)) 70%,
     rgba(255, 255, 255, 0.95) 30%
   );
-  --home-panel-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
-  --home-before-shadow: 0 16px 38px rgba(0, 0, 0, 0.08);
+  --home-panel-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
+  --home-before-shadow: 0 12px 22px rgba(0, 0, 0, 0.2);
   --home-title-color: #7a3a38;
   --home-link-color: var(--link-color, #7a3a38);
 }
@@ -93,7 +93,7 @@
   position: relative;
 }
 .three-d-card {
-  width: var(--card-size);
+  width: calc(var(--card-size) * 0.94);
   aspect-ratio: 1 / 1;
   position: relative;
   margin: 0 auto;
@@ -210,7 +210,9 @@
 .glass-card {
   transform: translate3d(0, 0, 0);
   transform-origin: 50% 50%;
-  transition: opacity var(--fade-ms) ease;
+  transition:
+    opacity var(--fade-ms) ease,
+    box-shadow 0.28s ease;
   width: 100%;
   height: 100%;
   aspect-ratio: 1/1;
@@ -262,7 +264,7 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  background: transparent url("/logo/kerahele.svg") center / 100% 100% no-repeat;
+  background: transparent url("/logo/kerahele.svg") center / 106% 106% no-repeat;
   opacity: var(--home-card-light-opacity);
   filter: none;
   transform-origin: 50% 50%;
@@ -278,7 +280,7 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  background: transparent url("/logo/keratume.svg") center / 100% 100% no-repeat;
+  background: transparent url("/logo/keratume.svg") center / 106% 106% no-repeat;
   opacity: var(--home-card-dark-opacity);
   filter: none;
   transform-origin: 50% 50%;
@@ -327,6 +329,7 @@
   background-clip: padding-box;
   position: relative;
   overflow: hidden;
+  transition: box-shadow 0.28s ease;
 }
 .card-face.back {
   pointer-events: none;
@@ -337,11 +340,35 @@
 .three-d-card.flip-allowed.right:focus-within .card-face.back {
   pointer-events: auto;
 }
-.homepage-root .glass-card,
-.homepage-root .centered-back-left,
-.homepage-root .glass-card-dark,
-.homepage-root .centered-back-right {
+:global(.homepage-root) :is(.glass-card, .centered-back-left, .glass-card-dark, .centered-back-right) {
   box-shadow: none;
+}
+@supports (box-shadow: 0 0 6px rgba(0, 0, 0, 0.1)) {
+  :global(:root:not(.theme-light)) .homepage-root
+    :is(.glass-card, .glass-card-dark, .centered-back-left, .centered-back-right) {
+    --card-edge-opacity: 0;
+    box-shadow:
+      0 0 26px rgb(248 253 255 / calc(var(--card-edge-opacity) * 0.9));
+  }
+  :global(:root:not(.theme-light)) .homepage-root .card-wrapper.magnet-active
+    :is(.glass-card, .glass-card-dark) {
+    --card-edge-opacity: 0.28;
+  }
+}
+:global(:root:not(.theme-light)) .homepage-root
+  :is(
+    .three-d-card.flip-allowed.left:hover,
+    .three-d-card.flip-allowed.left:focus-within,
+    .three-d-card.flip-allowed.left.is-flipping,
+    .three-d-card.flip-allowed.right:hover,
+    .three-d-card.flip-allowed.right:focus-within,
+    .three-d-card.flip-allowed.right.is-flipping,
+    .three-d-card.mobile-flipped-left,
+    .three-d-card.mobile-flipped-right
+  )
+  .card-face.back
+  :is(.centered-back-left, .centered-back-right) {
+  --card-edge-opacity: 0.28;
 }
 :global(.modal-open) .three-d-card:hover .card-face.front > .glass-card,
 :global(.modal-open) .three-d-card:focus-within .card-face.front > .glass-card,
@@ -531,7 +558,7 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  background: transparent url("/logo/kerahele.svg") center / 100% 100% no-repeat;
+  background: transparent url("/logo/kerahele.svg") center / 106% 106% no-repeat;
   opacity: var(--home-card-light-opacity);
   filter: none;
   transform-origin: 50% 50%;
@@ -546,7 +573,7 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  background: transparent url("/logo/keratume.svg") center / 100% 100% no-repeat;
+  background: transparent url("/logo/keratume.svg") center / 106% 106% no-repeat;
   opacity: var(--home-card-dark-opacity);
   filter: none;
   transform-origin: 50% 50%;
@@ -806,8 +833,10 @@
     var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) 82%,
     rgba(6, 8, 16, 0.85) 18%
   );
-  --home-panel-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
-  --home-before-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+  --home-panel-shadow:
+    0 0 26px rgba(248, 253, 255, 0.18);
+  --home-before-shadow:
+    0 0 30px rgba(248, 253, 255, 0.22);
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
 }
@@ -837,10 +866,10 @@
 .home-before {
   box-shadow: var(--home-before-shadow);
   border-radius: 50%;
-  width: min(92vw, 32rem);
-  height: min(92vw, 32rem);
-  aspect-ratio: 1 / 1;
-  margin: 0 auto;
+  --home-before-size: min(90vw, 30rem);
+  width: var(--home-before-size);
+  height: var(--home-before-size);
+  margin: clamp(0.8rem, 2.2vw, 1.8rem) auto 0;
   display: flex;
   align-items: center;
   justify-content: center;

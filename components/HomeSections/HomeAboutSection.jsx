@@ -32,7 +32,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           >
             Meist
           </h2>
-          <div className="text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] space-y-[0.95rem] [color:var(--home-prose-color)]">
+          <div className="text-center text-[clamp(1.1rem,1.6vw,1.28rem)] leading-[1.7] tracking-[0.01em] space-y-[0.95rem] [color:var(--home-prose-color)]">
             <p>
               SotsiaalAI on tehisintellektil põhinev platvorm, mille eesmärk on pakkuda usaldusväärset ja arusaadavat tuge nii sotsiaalvaldkonna spetsialistidele kui ka inimestele, kes otsivad abi elulistes sotsiaalküsimustes.
             </p>

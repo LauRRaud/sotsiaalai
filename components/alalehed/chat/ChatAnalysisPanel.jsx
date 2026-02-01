@@ -6,8 +6,8 @@ import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
 const docToggleCardClassName =
-  "w-auto min-w-0 !min-h-[2.8rem] !px-[0.8rem] !py-[0.7rem] !text-[0.98rem] !leading-[1.1] " +
-  "[--seg-card-radius:999px] [--seg-control-size:18px] [--seg-check-size:14px]";
+  "w-auto min-w-0 !min-h-[3.2rem] !px-[1rem] !py-[0.8rem] !text-[1.2rem] !leading-[1.2] " +
+  "[--seg-card-radius:999px] [--seg-control-size:24px] [--seg-check-size:20px]";
 const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   t,
   analysisPanelRef,
@@ -137,7 +137,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
     "relative z-[30]";
   const panelWideClassName =
-    "max-w-[var(--analysis-panel-width,94vw)] w-[var(--analysis-panel-width,94vw)] px-0";
+    "max-w-none w-full px-0";
   const panelExpandedClassName =
     "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-[clamp(0.05rem,0.8vw,0.55rem)]";
   const panelOverlayClassName =
@@ -157,7 +157,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "light:bg-[color:var(--glass-surface-bg,rgba(255,255,255,0.65))] light:text-[color:var(--glass-surface-text,#0f172a)] " +
     "light:backdrop-blur-[var(--glass-blur-radius,1rem)]";
   const headerClassName =
-    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[80] " +
+    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[60] " +
     "pt-[0.4rem] mb-[0.6rem]";
   const titleBlockClassName =
     "flex-1 min-w-0 text-center pt-[0.25rem]";
@@ -168,8 +168,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "absolute top-[0.1rem] right-[0.1rem] grid place-items-center z-[220] " +
     "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
     "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38] pointer-events-auto";
+  const closeCompactClassName =
+    "top-[0.55rem] right-[0.55rem]";
   const bodyClassName =
-    "flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
+    "relative z-[120] flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
     "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
     "light:text-[#1f2937]";
   const statusClassName =
@@ -185,7 +187,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const controlsContextClassName =
     "w-full pt-[0.25rem] flex-col gap-[0.55rem]";
   const modeRowClassName =
-    "flex items-center justify-center gap-[0.6rem] flex-nowrap max-[30em]:flex-wrap";
+    "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[30em]:flex-wrap";
   const actionsInlineClassName =
     "w-full flex justify-end gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const actionsCenterClassName = "justify-center";
@@ -252,6 +254,20 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
       data-analysis-mode={analysisPanelMode}
     >
       <div className={cardClassName}>
+        <button
+          type="button"
+          className={cn(closeClassName, !uploadPreview ? closeCompactClassName : null)}
+          onClick={() => {
+            setUploadPreview(null);
+            setUploadError(null);
+            setEphemeralChunks([]);
+            setDocOnlyMode(true);
+            closeAnalysisPanel();
+          }}
+          aria-label={t("buttons.close", "Sulge")}
+        >
+          x
+        </button>
         <header className={headerClassName}>
           {uploadPreview ? (
             <div className={titleBlockClassName}>
@@ -260,20 +276,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
               </div>
             </div>
           ) : null}
-          <button
-            type="button"
-            className={closeClassName}
-            onClick={() => {
-              setUploadPreview(null);
-              setUploadError(null);
-              setEphemeralChunks([]);
-              setDocOnlyMode(true);
-              closeAnalysisPanel();
-            }}
-            aria-label={t("buttons.close", "Sulge")}
-          >
-            x
-          </button>
         </header>
         <div className={bodyClassName}>
           {uploadBusy ? (

@@ -163,11 +163,11 @@ export function CircularRingLeft({
   className = ""
 } = {}) {
   const t = useT();
-  return <CircularText text={t("home.ring.left", "SEADUSED PRAKTIKA NÕUANDED")} size={420} radius={186} duration={130} clockwise={false} fontSize={31} weight={400} letterSpacing={6} className={["desc-ring-left", "circular-ring", className].filter(Boolean).join(" ")} startAtTop={true} offsetDeg={6} ringColor="rgba(57,57,57,0.6)" startDelaySec={2.7} />;
+  return <CircularText text={t("home.ring.left", "SEADUSED PRAKTIKA NÕUANDED")} size={420} radius={194} duration={130} clockwise={false} fontSize={31} weight={400} letterSpacing={6} className={["desc-ring-left", "circular-ring", className].filter(Boolean).join(" ")} startAtTop={true} offsetDeg={6} ringColor="rgba(57,57,57,0.6)" startDelaySec={2.7} />;
 }
 export function CircularRingRight({
   className = ""
 } = {}) {
   const t = useT();
-  return <CircularText text={t("home.ring.right", "ÕIGUSED JUHISED VÕIMALUSED")} size={420} radius={186} duration={130} clockwise={false} fontSize={31} weight={400} letterSpacing={6} className={["desc-ring-right", "circular-ring", className].filter(Boolean).join(" ")} startAtTop={true} offsetDeg={6} ringColor="rgba(205, 93, 93, 0.4)" startDelaySec={2.7} />;
+  return <CircularText text={t("home.ring.right", "ÕIGUSED JUHISED VÕIMALUSED")} size={420} radius={194} duration={130} clockwise={false} fontSize={31} weight={400} letterSpacing={6} className={["desc-ring-right", "circular-ring", className].filter(Boolean).join(" ")} startAtTop={true} offsetDeg={6} ringColor="rgba(205, 93, 93, 0.4)" startDelaySec={2.7} />;
 }
