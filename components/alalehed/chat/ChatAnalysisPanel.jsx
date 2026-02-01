@@ -137,7 +137,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "w-full max-w-[min(94vw,var(--chat-diameter,94vw))] " +
     "px-[var(--chat-hpad,clamp(0.8rem,2.6vw,1.6rem))] mx-auto " +
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
-    "relative z-[4]";
+    "relative z-[30]";
   const panelExpandedClassName =
     "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-[clamp(0.05rem,0.8vw,0.55rem)]";
   const panelOverlayClassName =

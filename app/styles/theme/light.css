@@ -281,7 +281,7 @@
   color: #111827;
 }
 :root.theme-light .chat-inputbar .chat-send-btn .chat-send-loader {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 :root.theme-light .chat-msg-user {
   background: #fdfdfd;
