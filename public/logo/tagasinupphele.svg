@@ -1,7 +1,6 @@
-<svg width="24" height="24" viewBox="16 12 40 40" opacity="0.9"
+<svg width="24" height="24" viewBox="16 12 40 40" opacity="0.8"
      aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- tagasi-nool -->
   <path d="M42 16 L20 32 L42 48"
         fill="none"
         stroke="#7A3A38"
@@ -9,10 +8,7 @@
         stroke-linecap="round"
         stroke-linejoin="round" />
 
-  <!-- väike mustjas kriips, sama toon (0.6) -->
-  <line x1="44.6" y1="28" x2="44.6" y2="36"
-        stroke="#c57171"
-        stroke-opacity="0.9"
-        stroke-width="4.5"
-        stroke-linecap="round" />
+  <circle cx="39" cy="32" r="5"
+          fill="#c57171"
+          opacity="0.9" />
 </svg>
