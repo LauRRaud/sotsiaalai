@@ -91,7 +91,7 @@ export default function ChatComposer({
     "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)]";
   const inputFieldWrapClassName = "min-w-0 w-full pr-[0.2rem]";
   const inputFieldClassName =
-    "chat-input-field w-full resize-none appearance-none bg-transparent text-[1.05rem] " +
+    "chat-input-field w-full resize-none appearance-none bg-transparent text-[1.1rem] leading-[1.25] pt-[0.28rem] pb-0 " +
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
     "outline-none border-0 shadow-none placeholder:opacity-0 " +
     "light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]";
@@ -113,6 +113,7 @@ export default function ChatComposer({
     "transition-[border-color,box-shadow] duration-150 ease-out " +
     "pointer-events-auto " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
+  const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   return <form className={inputRowClassName} style={inputRowStyle} onSubmit={handleSubmit} autoComplete="off">
       <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible?.();
@@ -136,8 +137,8 @@ export default function ChatComposer({
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
           </svg>
         </button>
-        {hasInput || isGenerating || isStreamingAny ? <button type="submit" className={sendButtonClassName} aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")} title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active={isGenerating || isStreamingAny ? "true" : "false"}>
-            <SotsiaalAILoader size={10} animated={isGenerating || isStreamingAny} ariaHidden className="h-[0.625rem] w-[0.625rem]" showBottomGlow={false} style={{
+        {hasInput || isGenerating || isStreamingAny ? <button type="submit" className={sendButtonLoaderClassName} aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")} title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active={isGenerating || isStreamingAny ? "true" : "false"}>
+            <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem]" showBottomGlow={false} style={{
           "--glow-opacity-base": 0,
           "--glow-opacity-peak": 0
         }} />

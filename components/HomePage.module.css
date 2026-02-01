@@ -22,7 +22,7 @@
 .homeCursorScope :global(input[type="submit"]),
 .homeCursorScope :global(input[type="reset"]),
 .homeCursorScope :global(input[type="reset"]) {
-  cursor: var(--cursor-pointer, pointer);
+  cursor: var(--cursor-default, auto);
 }
 .homeCursorScope :global(input),
 .homeCursorScope :global(textarea),
@@ -37,7 +37,6 @@
   pointer-events: none;
   z-index: 100000;
   border-radius: 50%;
-  border: 1.8px solid #ffffff;
   background: transparent;
   --cursor-x: -120px;
   --cursor-y: -120px;
@@ -589,8 +588,18 @@
 }
 .homepage-root.homepage-scroll .home-scroll-cue-link:hover,
 .homepage-root.homepage-scroll .home-scroll-cue-link:focus-visible {
-  border-color: rgba(255, 255, 255, 0.45);
-  color: var(--pt-100, #ecebe9);
+  border-color: transparent;
+  color: #c57171;
+}
+:global(:root.theme-light) .homepage-root.homepage-scroll .home-scroll-cue-link {
+  color: #7a3a3a;
+}
+:global(:root.theme-light) .homepage-root.homepage-scroll
+  .home-scroll-cue-link:hover,
+:global(:root.theme-light) .homepage-root.homepage-scroll
+  .home-scroll-cue-link:focus-visible {
+  border-color: transparent;
+  color: #7a3a3a;
 }
 .homepage-root.homepage-scroll .home-scroll-cue-mouse,
 .homepage-root.homepage-scroll .home-scroll-cue-arrow {
@@ -624,6 +633,10 @@
   transform: scale(1.28);
   transform-origin: center;
   pointer-events: none;
+}
+:global(:root.theme-light) .homepage-root.homepage-scroll
+  .home-scroll-cue-arrow::before {
+  background-image: url("/logo/uphele.svg");
 }
 .homepage-root.homepage-scroll .home-scroll-cue-mouse svg {
   width: 100%;
@@ -774,8 +787,15 @@
 }
 @media (max-width: 768px), (hover: none) {
   .homepage-root.homepage-scroll .home-scroll-cue-link {
-    background: rgba(6, 10, 18, 0.45);
+    background: transparent;
+    padding: 0;
     letter-spacing: 0.06em;
+  }
+  .homepage-root.homepage-scroll .home-scroll-cue-mouse {
+    display: none;
+  }
+  .homepage-root.homepage-scroll .home-scroll-cue-arrow {
+    margin-top: 0;
   }
 }
 .home-section {
@@ -982,5 +1002,15 @@ body.home-profile-open .home-scroll-cue,
 .three-d-card.mobile-flipped-left .card-face.front,
 .three-d-card.mobile-flipped-right .card-face.front {
   pointer-events: none;
+}
+
+.home-hero-shell {
+  position: relative;
+}
+
+@media (max-width: 48em) {
+  .home-hero-shell {
+    transform: translateY(-0.75rem);
+  }
 }
 }

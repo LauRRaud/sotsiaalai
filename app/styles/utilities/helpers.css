@@ -43,6 +43,93 @@
   margin-right: auto;
 }
 
+.glass-ring-expandable {
+  --glass-ring-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --glass-ring-scroll-offset: clamp(7rem, 16vh, 10rem);
+  --glass-ring-scroll-offset-open: clamp(3.8rem, 8.5vh, 6.2rem);
+  transition:
+    border-radius 680ms var(--glass-ring-ease);
+  will-change:
+    border-radius;
+}
+
+.glass-ring-expandable--open {
+  border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+  border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+}
+
+.glass-ring-scroll {
+  max-height: calc(100% - var(--glass-ring-scroll-offset, 8rem));
+  padding-bottom: clamp(0.8rem, 2.2vh, 1.2rem);
+  transition:
+    max-height 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    padding-bottom 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.glass-ring-scroll--open {
+  max-height: calc(100% - var(--glass-ring-scroll-offset-open, 5rem));
+  padding-bottom: clamp(0.4rem, 1.2vh, 0.7rem);
+}
+
+.glass-ring-content {
+  padding-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
+  transition: padding-bottom 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.glass-ring-content--open {
+  padding-bottom: clamp(0.35rem, 1.1vh, 0.7rem);
+}
+
+.glass-ring-expand-toggle {
+  border: 0;
+  background: transparent;
+  padding: 0.35rem;
+  margin-top: clamp(0.35rem, 1vh, 0.75rem);
+  cursor: var(--cursor-default);
+  display: grid;
+  place-items: center;
+  opacity: 0.7;
+  transition: transform 220ms ease-out, opacity 220ms ease-out;
+}
+
+.glass-ring-expand-toggle--overlay {
+  position: absolute;
+  left: 50%;
+  bottom: var(--glass-ring-toggle-bottom, clamp(2.1rem, 4.2vh, 3.2rem));
+  transform: translateX(-50%) translateY(var(--glass-ring-toggle-offset, 0));
+  margin-top: 0;
+  z-index: 2;
+  transition: bottom 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.glass-ring-expand-toggle:hover,
+.glass-ring-expand-toggle:focus-visible {
+  --glass-ring-toggle-offset: 2px;
+}
+
+.glass-ring-expand-toggle .glass-ring-expand-icon {
+  transform: rotate(var(--glass-ring-icon-rotate, 0deg))
+    scale(var(--glass-ring-icon-scale, 1));
+  transition: transform 220ms ease-out;
+}
+
+.glass-ring-expand-toggle .glass-ring-expand-icon--lg {
+  width: 64px;
+  height: 64px;
+}
+
+.glass-ring-expand-toggle.is-expanded {
+  --glass-ring-toggle-bottom: clamp(-0.35rem, -0.6vh, -0.2rem);
+  --glass-ring-icon-rotate: 180deg;
+}
+
+.glass-ring-expand-toggle:hover .glass-ring-expand-icon,
+.glass-ring-expand-toggle:focus-visible .glass-ring-expand-icon {
+  --glass-ring-icon-scale: 1.08;
+}
+
 :root.theme-light .glass-ring {
   --glass-shell-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
 }
@@ -54,6 +141,18 @@
       calc((100dvh - var(--profile-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem))
     );
     margin-bottom: 0;
+  }
+
+  .glass-ring-expandable {
+    --glass-ring-br-bottom: calc(var(--profile-diameter) / 2);
+    border-radius: calc(var(--profile-diameter) / 2)
+      calc(var(--profile-diameter) / 2)
+      var(--glass-ring-br-bottom)
+      var(--glass-ring-br-bottom);
+  }
+
+  .glass-ring-expandable--open {
+    --glass-ring-br-bottom: clamp(1.6rem, 3.5vw, 2.4rem);
   }
 }
 

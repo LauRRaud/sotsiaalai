@@ -280,6 +280,9 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
   color: #111827;
 }
+:root.theme-light .chat-inputbar .chat-send-btn .chat-send-loader {
+  opacity: 0.9;
+}
 :root.theme-light .chat-msg-user {
   background: #fdfdfd;
   border: 0;

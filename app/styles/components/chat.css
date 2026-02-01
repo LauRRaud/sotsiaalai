@@ -131,6 +131,16 @@
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
 }
+.chat-inputbar .chat-send-btn .chat-send-loader {
+  transform: none;
+}
+.chat-send-loader {
+  /* SVG "optical center" sits low inside its viewBox; nudge up only for send button usage. */
+  --send-loader-shift-y: -0.24rem;
+}
+.chat-send-loader svg {
+  transform: translateY(var(--send-loader-shift-y));
+}
 .glass-box.chat-container::-webkit-scrollbar,
 .glass-ring.chat-container::-webkit-scrollbar,
 .chat-analysis-preview::-webkit-scrollbar {
