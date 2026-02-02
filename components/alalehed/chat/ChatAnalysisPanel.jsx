@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
@@ -144,7 +144,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[30em]:flex-wrap";
   const actionsInlineClassName =
     "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
-  const actionsCenterClassName = "justify-center";
   const jumpClassName = "whitespace-nowrap";
   const previewWrapClassName =
     "relative block overflow-visible w-[calc(100%+(var(--analysis-card-pad-x)*2))] " +
