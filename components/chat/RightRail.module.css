@@ -160,3 +160,15 @@
   border: 0;
   background: rgba(255, 255, 255, 0.08);
 }
+
+:global(body.modal-open) .rightRail,
+:global(body.modal-open) .slot,
+:global(body.modal-open) .tooltip {
+  z-index: 20;
+}
+
+:global(body.modal-open) .rightRail,
+:global(body.modal-open) .tooltip {
+  opacity: 0;
+  pointer-events: none;
+}

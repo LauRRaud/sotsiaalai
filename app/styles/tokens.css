@@ -13,19 +13,19 @@
 
   --btn-base-bg-dark: linear-gradient(
     180deg,
-    rgba(236, 244, 255, 0.14) 0%,
-    rgba(120, 150, 200, 0.07) 100%
+    rgba(31, 42, 58, 0.85) 0%,
+    rgba(12, 18, 28, 0.85) 100%
   );
   --btn-primary-bg: var(--btn-base-bg-dark);
   --btn-primary-bg-hover: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.18) 0%,
-    rgba(185, 210, 240, 0.1) 100%
+    rgba(36, 50, 68, 0.88) 0%,
+    rgba(15, 22, 34, 0.88) 100%
   );
   --btn-primary-bg-active: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(150, 175, 210, 0.05) 100%
+    rgba(34, 48, 65, 0.82) 0%,
+    rgba(11, 17, 26, 0.82) 100%
   );
   --btn-primary-text: rgba(248, 252, 255, 0.96);
   --btn-primary-border: 0;
@@ -43,7 +43,7 @@
     0 5px 12px rgba(0, 0, 0, 0.24),
     0 12px 18px -14px rgba(248, 253, 255, 0.55),
     0 24px 30px -24px rgba(248, 253, 255, 0.3);
-  --btn-primary-focus-ring-color: rgba(225, 160, 160, 0.28);
+  --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
   --btn-primary-shadow-focus:
     0 10px 22px rgba(0, 0, 0, 0.28),
     0 12px 18px -14px rgba(248, 253, 255, 0.6),
@@ -51,9 +51,27 @@
     0 0 0 3px var(--btn-primary-focus-ring-color);
   --btn-primary-radius: 0.95rem;
 
-  --input-bg: rgba(8, 12, 20, 0.52);
-  --input-bg-hover: var(--btn-base-bg-dark);
-  --input-bg-focus: var(--btn-base-bg-dark);
+  --form-surface: radial-gradient(
+      65% 60% at 50% -12%,
+      rgba(248, 253, 255, 0.28) 0%,
+      rgba(248, 253, 255, 0.15) 30%,
+      rgba(248, 253, 255, 0.06) 44%,
+      rgba(248, 253, 255, 0) 68%
+    ),
+    rgba(20, 28, 42, 0.72);
+  --form-surface-hover: radial-gradient(
+      65% 60% at 50% -12%,
+      rgba(248, 253, 255, 0.32) 0%,
+      rgba(248, 253, 255, 0.18) 30%,
+      rgba(248, 253, 255, 0.08) 44%,
+      rgba(248, 253, 255, 0) 68%
+    ),
+    rgba(24, 34, 50, 0.76);
+  --form-surface-active: var(--form-surface-hover);
+
+  --input-bg: var(--form-surface);
+  --input-bg-hover: var(--form-surface-hover);
+  --input-bg-focus: var(--form-surface-active);
   --input-text: var(--pt-150);
   --input-caret: var(--pt-150);
   --input-border: 2px solid transparent;
@@ -79,9 +97,9 @@
 
   --chat-icon-color: rgba(226, 232, 240, 0.92);
 
-  --seg-card-bg: var(--form-surface, rgba(8, 12, 20, 0.52));
-  --seg-card-bg-hover: var(--form-surface-hover, var(--btn-base-bg-dark));
-  --seg-card-bg-selected: var(--form-surface-active, var(--btn-base-bg-dark));
+  --seg-card-bg: var(--form-surface);
+  --seg-card-bg-hover: var(--form-surface-hover);
+  --seg-card-bg-selected: var(--form-surface-active);
   --seg-card-text: var(--pt-150);
   --seg-card-text-hover: var(--pt-80);
   --seg-card-text-selected: var(--pt-50);
@@ -109,7 +127,7 @@
       0 10px 18px -14px rgba(248, 253, 255, 0.72),
       0 22px 32px -22px rgba(248, 253, 255, 0.44)
     );
-  --seg-radio-bg: transparent;
+  --seg-radio-bg: var(--form-surface);
   --seg-radio-border: rgba(248, 253, 255, 0.28);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(248, 253, 255, 0.16);
   --seg-radio-dot-bg: var(--form-accent, rgba(248, 253, 255, 0.9));
