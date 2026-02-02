@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import InviteModal from "@/components/invite/InviteModal";
@@ -32,9 +31,13 @@ const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(0.45rem,1.6vh,1rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const chatTitleOverlayClassName =
+  "pointer-events-none absolute left-1/2 top-[clamp(1.6rem,3.6vh,2.6rem)] -translate-x-1/2 z-[50] " +
+  "mt-0 mb-0";
 const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
+const chatLogoClassName = "h-[clamp(3rem,5vw,5.2rem)] w-auto opacity-[0.7] translate-y-[0.4rem] drop-shadow-[0_12px_28px_rgba(0,0,0,0.45)]";
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -577,7 +580,7 @@ export default function ChatBody({
       <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null)}>
         <>
           {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
-              <div className="relative">
+              <div className="relative overflow-visible">
                 <GlassRing
                   className={chatContainerClassName}
                   style={focusVars}
@@ -611,15 +614,7 @@ export default function ChatBody({
                   suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay"}
                 />
 
-                <h1 className={chatTitleClassName}>
-                  <Image
-                    src="/logo/logomust.svg"
-                    alt="SotsiaalAI"
-                    width={220}
-                    height={90}
-                    className="h-[clamp(1.8rem,3.2vw,2.6rem)] w-auto opacity-[0.6] light:opacity-[0.85] translate-y-[0.4rem]"
-                  />
-                </h1>
+                <div className={chatTitleClassName} aria-hidden="true" />
                 {isRoomMode && roomTitle ? <div className="text-center mt-[-0.6rem] mb-[0.9rem] text-[1.25rem] text-[color:var(--pt-200)] tracking-[0.02em]">
                     {roomTitle}
                   </div> : null}
@@ -665,6 +660,18 @@ export default function ChatBody({
                 <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
+              <h1 className={cn(chatTitleClassName, chatTitleOverlayClassName)}>
+                <img
+                  src="/logo/saimust.svg"
+                  alt="SotsiaalAI"
+                  className={`hidden ${chatLogoClassName} light:block`}
+                />
+                <img
+                  src="/logo/saivalge.svg"
+                  alt="SotsiaalAI"
+                  className={`block ${chatLogoClassName} light:hidden`}
+                />
+              </h1>
               {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {
                   width: `${analysisPanelWidth}px`,
                   maxWidth: `${analysisPanelWidth}px`

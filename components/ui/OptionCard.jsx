@@ -10,11 +10,13 @@ export default function OptionCard({
   value,
   checked,
   onChange,
+  inputRef,
   disabled = false,
   className,
   children
 }) {
-  const inputRef = useRef(null);
+  const internalRef = useRef(null);
+  const resolvedRef = inputRef || internalRef;
   const indicator = type === "checkbox" ? <span aria-hidden="true" className={`${checkboxIndicator} shrink-0`}>
         <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[var(--seg-check-size,18px)] w-[var(--seg-check-size,18px)] scale-100 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M6 12.5l4 4 8-8" />
@@ -27,7 +29,7 @@ export default function OptionCard({
       const selector = `input[type="radio"][name="${CSS.escape(name)}"]`;
       const radios = Array.from(document.querySelectorAll(selector));
       if (!radios.length) return;
-      const currentIndex = radios.indexOf(inputRef.current);
+      const currentIndex = radios.indexOf(resolvedRef.current);
       const dir = e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 1;
       const nextIndex = (currentIndex + dir + radios.length) % radios.length;
       radios[nextIndex]?.click();
@@ -36,7 +38,7 @@ export default function OptionCard({
     if (e.key !== " " && e.key !== "Enter") return;
   };
   return <label className={cn(baseCard, checked ? selectedCard : null, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className)}>
-      <input ref={inputRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} disabled={disabled} className="peer sr-only" tabIndex={0} />
+      <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} disabled={disabled} className="peer sr-only" tabIndex={0} />
       {indicator}
       <span className="flex-1">{children}</span>
     </label>;
