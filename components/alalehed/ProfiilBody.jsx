@@ -57,8 +57,6 @@ const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
-const profileOrbitLogoClassName =
-  "h-[clamp(3.8rem,4.8vw,6.2rem)] w-auto opacity-[0.5] drop-shadow-[0_16px_36px_rgba(0,0,0,0.45)]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -504,24 +502,6 @@ export default function ProfiilBody({
             toggleLabelClose={t("buttons.close")}
             onOpenChange={setOrbitOpen}
           />
-        </div>
-        <div className={styles.profileOrbitLogos} aria-hidden="true">
-          <div className={styles.profileOrbitLogoBadge}>
-            <Image
-              src="/logo/saimust.svg"
-              alt=""
-              width={260}
-              height={120}
-              className={`hidden ${profileOrbitLogoClassName} light:block`}
-            />
-            <Image
-              src="/logo/saivalge.svg"
-              alt=""
-              width={260}
-              height={120}
-              className={`block ${profileOrbitLogoClassName} light:hidden`}
-            />
-          </div>
         </div>
       </div>
 

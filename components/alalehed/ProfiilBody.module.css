@@ -113,22 +113,3 @@
     padding-bottom: clamp(0.2rem, 0.8vh, 0.6rem);
   }
 }
-
-.profileOrbitLogos {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(2.2rem, 5.6vh, 4.1rem);
-  transform: translateX(-50%);
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: clamp(0.35rem, 0.9vh, 0.65rem);
-  z-index: 2;
-}
-
-.profileOrbitLogoBadge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
