@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
-const shellClassName = "mx-auto my-[clamp(1.4rem,3vw,2.4rem)] flex w-[min(100%,92vw)] max-w-[clamp(26rem,70vw,40rem)] flex-col items-center rounded-[1.5em] bg-[color:var(--glass-surface-bg)] px-[clamp(1.6rem,3.4vw,2.4rem)] pt-[clamp(1.4rem,3.4vw,2.2rem)] pb-[clamp(1.6rem,3.4vw,2.4rem)] text-center text-[color:var(--glass-surface-text,#f2f2f2)] backdrop-blur-[var(--glass-blur-radius)] light:text-[#2b2620] max-md:w-full max-md:max-w-none max-md:rounded-none max-md:my-0 max-md:px-[clamp(1rem,4vw,1.5rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)+2.2rem)] max-md:pb-[clamp(2rem,8vw,2.6rem)]";
-const titleClassName = "text-[2.05em] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const descriptionClassName = "mt-[0.8em] mb-[1.4em] text-[1.2em]";
-const actionRowClassName = "flex flex-wrap items-center justify-center gap-[1.2em]";
-const backButtonClassName = "inline-flex h-[5.7rem] w-[5.7rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
-const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
+import GlassRing from "@/components/ui/GlassRing";
+import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+const pageShellClassName = glassPageShellCenteredClassName;
+const ringClassName = `${glassPageRingCenteredClassName} justify-start`;
+const titleClassName = glassPageTitleClassName;
+const descriptionClassName = "mt-[0.75rem] text-[clamp(1.05rem,2vw,1.2rem)] text-center max-w-[clamp(18rem,50vw,30rem)]";
+const actionCenterClassName = "flex w-full flex-1 items-center justify-center pb-[clamp(1.2rem,3vh,1.8rem)]";
+const textBlockClassName = "mt-[clamp(2.2rem,5.8vh,3.4rem)] flex w-full flex-col items-center";
 export default function Error({
   error,
   reset
@@ -24,23 +27,27 @@ export default function Error({
   useEffect(() => {
     console.error("Application error:", error);
   }, [error]);
-  return <div className={shellClassName}>
-      <h1 className={titleClassName}>{t("errors.title")}</h1>
-      <p className={descriptionClassName}>
-        {t("errors.description")}
-      </p>
-      <div className={actionRowClassName}>
-        <Button type="button" variant="primary" onClick={() => reset()}>
-          {t("errors.retry")}
-        </Button>
-        <button type="button" className={backButtonClassName} onClick={() => {
-          try {
-            if (typeof window !== "undefined" && window.history.length > 1) return router.back();
-          } catch {}
-          return pushWithTransition(router, localizePath("/", locale));
-        }} aria-label={t("buttons.back_home")}>
-          <span className={backIconClassName} />
-        </button>
-      </div>
-    </div>;
+  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const handleBack = () => {
+    try {
+      if (typeof window !== "undefined" && window.history.length > 1) return router.back();
+    } catch {}
+    return pushWithTransition(router, localizePath("/", locale));
+  };
+  return <section className={pageShellClassName}>
+      <GlassRing className={ringClassName}>
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
+        <div className={textBlockClassName}>
+          <h1 className={titleClassName}>{t("errors.title")}</h1>
+          <p className={descriptionClassName}>
+            {t("errors.description")}
+          </p>
+        </div>
+        <div className={actionCenterClassName}>
+          <Button type="button" variant="primary" onClick={() => reset()}>
+            {t("errors.retry")}
+          </Button>
+        </div>
+      </GlassRing>
+    </section>;
 }

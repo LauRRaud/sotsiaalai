@@ -166,7 +166,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[1.1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[0.35rem] !pb-[1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
@@ -174,7 +174,7 @@ export default function InviteModal() {
         </h2>
       </header>
 
-      <div className="invite-modal-scroll grid max-h-[calc(100dvh-3.2rem)] gap-[1.6rem] overflow-y-auto px-[1.15rem] pt-[0.9rem] pb-[1.85rem]">
+      <div className="invite-modal-scroll grid gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem]">
         {!session?.user?.id ? <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
@@ -183,9 +183,9 @@ export default function InviteModal() {
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name")} aria-label={t("invite.host_name")} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
-            <div className="grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
+            <div className="mt-[0.6rem] grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
               {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full !py-[0.75rem] !text-[1.05rem] !leading-[1.2]">
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full !min-h-[3.05rem] !py-[0.78rem] !text-[1.05rem] !leading-[1.2]">
                   <span className="whitespace-nowrap">{option.label}</span>
                 </OptionCard>
               ))}
@@ -199,13 +199,13 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" size="md" className="!min-h-[2.6rem] !px-[1.15rem] !py-[0.6rem] !text-[1.1rem]" disabled={busy}>
+              <Button type="submit" variant="primary" size="md" className="!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.1rem]" disabled={busy}>
                 {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className="border-0 [--panel-secondary-shadow:0_10px_22px_-18px_rgba(0,0,0,0.28)]">
+        <Panel variant="secondary" padding="sm" className="border-0 [--panel-secondary-shadow:var(--input-shadow)] min-h-[9.5rem] max-h-[min(48dvh,24rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}

@@ -65,13 +65,13 @@
   --btn-primary-border-hover: 1px solid rgba(148, 163, 184, 0.46);
   --btn-primary-border-active: 1px solid rgba(148, 163, 184, 0.4);
   --btn-primary-shadow:
-    0 8px 18px rgba(15, 23, 42, 0.1),
+    0 6px 14px rgba(15, 23, 42, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
   --btn-primary-shadow-hover:
-    0 12px 22px rgba(15, 23, 42, 0.14),
+    0 8px 16px rgba(15, 23, 42, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.82);
   --btn-primary-shadow-active:
-    0 6px 14px rgba(15, 23, 42, 0.12),
+    0 5px 12px rgba(15, 23, 42, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
   --btn-primary-focus-ring-color: rgba(197, 113, 113, 0.24);
   --btn-primary-shadow-focus:
@@ -113,14 +113,14 @@
   --seg-card-border: transparent;
   --seg-card-border-width: 1px;
   --seg-card-radius: 999px;
-  --seg-card-shadow: var(--form-shadow-light, 0 6px 16px rgba(0, 0, 0, 0.14));
+  --seg-card-shadow: var(--form-shadow-light, 0 5px 12px rgba(15, 23, 42, 0.1));
   --seg-card-shadow-hover: var(
     --form-shadow-light,
-    0 6px 16px rgba(0, 0, 0, 0.14)
+    0 7px 14px rgba(15, 23, 42, 0.12)
   );
   --seg-card-shadow-selected: var(
     --form-shadow-light,
-    0 6px 16px rgba(0, 0, 0, 0.14)
+    0 7px 14px rgba(15, 23, 42, 0.12)
   );
   --seg-radio-bg: rgba(255, 255, 255, 0.22);
   --seg-radio-border: transparent;

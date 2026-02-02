@@ -563,6 +563,7 @@ export default function ChatBody({
     : undefined;
   const chatContainerClassName = cn(
     "main-content chat-container chat-container--round " +
+      "relative z-[2] " +
       "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
       "overflow-hidden " +
       "bg-transparent backdrop-blur-none " +
@@ -575,16 +576,17 @@ export default function ChatBody({
       <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null)}>
         <>
           {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
-              <GlassRing
-                className={chatContainerClassName}
-                style={focusVars}
-                role="region"
-                aria-label={t("chat.page_label")}
-                ref={chatContainerRef}
-                data-chat-container="true"
-              >
-                <div className="chat-mask-layer" aria-hidden="true" />
-                {!profileOpen ? <div className="chat-nav-overlay" aria-hidden="true">
+              <div className="relative">
+                <GlassRing
+                  className={chatContainerClassName}
+                  style={focusVars}
+                  role="region"
+                  aria-label={t("chat.page_label")}
+                  ref={chatContainerRef}
+                  data-chat-container="true"
+                >
+                  <div className="chat-mask-layer" aria-hidden="true" />
+                  {!profileOpen ? <div className="chat-nav-overlay" aria-hidden="true">
                     <BackButton
                       onClick={handleBackHome}
                       ariaLabel={t("chat.back_to_home")}
@@ -608,7 +610,9 @@ export default function ChatBody({
                   suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay"}
                 />
 
-                <h1 className={chatTitleClassName}>{t("chat.title")}</h1>
+                <h1 className={chatTitleClassName}>
+                  <img src="/logo/logomust.svg" alt="SotsiaalAI" className="h-[clamp(1.8rem,3.2vw,2.6rem)] w-auto opacity-[0.6] light:opacity-[0.85] translate-y-[0.4rem]" />
+                </h1>
                 {isRoomMode && roomTitle ? <div className="text-center mt-[-0.6rem] mb-[0.9rem] text-[1.25rem] text-[color:var(--pt-200)] tracking-[0.02em]">
                     {roomTitle}
                   </div> : null}
@@ -661,6 +665,7 @@ export default function ChatBody({
                   <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} />
                 </div> : null}
             </div>
+          </div>
             : null}
             {showProfileFace ? <div className={profileFaceClass ?? undefined} aria-hidden={profileOpen ? "false" : "true"}>
               <ProfiilBody embedded isActive={profileOpen} onBack={closeProfile} />

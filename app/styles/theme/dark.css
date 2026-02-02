@@ -69,6 +69,9 @@
   flex: 0 0 var(--chat-action-size);
   padding: 0;
   box-sizing: border-box;
+  transform: scale(1);
+  transition: transform 220ms ease-out, box-shadow 220ms ease-out,
+    background 220ms ease-out, border-color 220ms ease-out;
 }
 :root:not(.theme-light) .chat-inputbar .chat-send-btn {
   border: var(--btn-primary-border);
@@ -85,18 +88,23 @@
   background-clip: border-box;
   background-origin: border-box;
   box-shadow: var(--btn-primary-shadow);
+  transform: scale(1);
+  transition: transform 220ms ease-out, box-shadow 220ms ease-out,
+    background 220ms ease-out, border-color 220ms ease-out;
 }
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:focus-visible {
   border: var(--btn-primary-border-hover);
   background: var(--btn-primary-bg-hover);
   box-shadow: var(--btn-primary-shadow-hover);
+  transform: scale(1.04);
 }
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
+  transform: scale(1.04);
 }
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn svg {
   color: var(--brand-primary);

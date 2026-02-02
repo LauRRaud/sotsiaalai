@@ -19,8 +19,8 @@
   --btn-primary-bg: var(--btn-base-bg-dark);
   --btn-primary-bg-hover: linear-gradient(
     180deg,
-    rgba(36, 50, 68, 0.88) 0%,
-    rgba(15, 22, 34, 0.88) 100%
+    rgba(38, 56, 82, 0.6) 0%,
+    rgba(16, 25, 41, 0.6) 100%
   );
   --btn-primary-bg-active: linear-gradient(
     180deg,
@@ -31,18 +31,9 @@
   --btn-primary-border: 0;
   --btn-primary-border-hover: 0;
   --btn-primary-border-active: 0;
-  --btn-primary-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    0 12px 18px -14px rgba(248, 253, 255, 0.6),
-    0 24px 30px -24px rgba(248, 253, 255, 0.32);
-  --btn-primary-shadow-hover:
-    0 10px 22px rgba(0, 0, 0, 0.28),
-    0 12px 18px -14px rgba(248, 253, 255, 0.6),
-    0 24px 30px -24px rgba(248, 253, 255, 0.32);
-  --btn-primary-shadow-active:
-    0 5px 12px rgba(0, 0, 0, 0.24),
-    0 12px 18px -14px rgba(248, 253, 255, 0.55),
-    0 24px 30px -24px rgba(248, 253, 255, 0.3);
+  --btn-primary-shadow: var(--input-shadow);
+  --btn-primary-shadow-hover: var(--input-shadow-hover);
+  --btn-primary-shadow-active: var(--input-shadow);
   --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
   --btn-primary-shadow-focus:
     0 10px 22px rgba(0, 0, 0, 0.28),
@@ -77,9 +68,13 @@
   --input-border: 2px solid transparent;
   --input-placeholder: #f8f8f7;
   --input-shadow:
+    0 5.5px 15px rgba(0, 0, 0, 0.22),
+    0 9px 17px -14px rgba(248, 253, 255, 0.5),
+    0 19px 30px -22px rgba(248, 253, 255, 0.3);
+  --input-shadow-hover:
     0 6px 16px rgba(0, 0, 0, 0.22),
-    0 10px 18px -14px rgba(248, 253, 255, 0.72),
-    0 22px 32px -22px rgba(248, 253, 255, 0.44);
+    0 10px 18px -14px rgba(248, 253, 255, 0.62),
+    0 21px 32px -22px rgba(248, 253, 255, 0.4);
   --input-radius: 1.2em;
   --input-disabled-opacity: 0.6;
 
@@ -106,27 +101,9 @@
   --seg-card-border: transparent;
   --seg-card-border-width: 1.5px;
   --seg-card-radius: 999px;
-  --seg-card-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.22),
-    var(
-      --invite-under-glow,
-      0 10px 18px -14px rgba(248, 253, 255, 0.72),
-      0 22px 32px -22px rgba(248, 253, 255, 0.44)
-    );
-  --seg-card-shadow-hover:
-    0 0.5rem 1.125rem rgba(6, 8, 16, 0.35),
-    var(
-      --invite-under-glow,
-      0 10px 18px -14px rgba(248, 253, 255, 0.72),
-      0 22px 32px -22px rgba(248, 253, 255, 0.44)
-    );
-  --seg-card-shadow-selected:
-    0 0.5rem 1.125rem rgba(6, 8, 16, 0.35),
-    var(
-      --invite-under-glow,
-      0 10px 18px -14px rgba(248, 253, 255, 0.72),
-      0 22px 32px -22px rgba(248, 253, 255, 0.44)
-    );
+  --seg-card-shadow: var(--input-shadow);
+  --seg-card-shadow-hover: var(--input-shadow-hover);
+  --seg-card-shadow-selected: var(--input-shadow-hover);
   --seg-radio-bg: var(--form-surface);
   --seg-radio-border: rgba(248, 253, 255, 0.28);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(248, 253, 255, 0.16);

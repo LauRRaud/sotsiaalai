@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
+import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -20,8 +20,6 @@ const emailReplacement = {
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-[clamp(1.6rem,4.4vh,2.6rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4 text-center";
-const buttonBaseClassName = "inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative transition-[transform,background,border-color,box-shadow,color] duration-150 ease-out cursor-pointer backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
-const buttonPrimaryClassName = "text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] [background:var(--btn-primary-bg)] [border:var(--btn-primary-border)] shadow-[var(--btn-primary-shadow)] hover:[background:var(--btn-primary-bg-hover)] hover:[border:var(--btn-primary-border-hover)] hover:-translate-y-[1px] focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:[border:var(--btn-primary-border-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)] active:translate-y-[1px] active:[background:var(--btn-primary-bg-active)] active:[border:var(--btn-primary-border-active)] active:shadow-[var(--btn-primary-shadow-active)]";
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -101,9 +99,9 @@ export default function TellimusBody() {
                 <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
               </p>
               <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
-                <Link href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} className={`${buttonBaseClassName} ${buttonPrimaryClassName} min-w-[9.5rem]`.trim()} aria-describedby="cancel-note">
+                <Button as="a" href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} variant="primary" className="min-w-[9.5rem]" aria-describedby="cancel-note">
                   {t("subscription.button.open_profile")}
-                </Link>
+                </Button>
               </div>
             </> : <>
               <div id="billing-info">
@@ -113,9 +111,9 @@ export default function TellimusBody() {
                   {error}
                 </p>}
               <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
-                <button type="button" className={`${buttonBaseClassName} ${buttonPrimaryClassName} min-w-[9.5rem]`.trim()} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
+                <Button type="button" variant="primary" className="min-w-[9.5rem]" disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
-                </button>
+                </Button>
               </div>
             </>}
         </div>
