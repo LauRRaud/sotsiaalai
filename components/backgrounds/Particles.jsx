@@ -58,7 +58,7 @@ const fragment = `
 const Particles = ({
   particleCount = 120,
   particleSpread = 15,
-  speed = 0.028,
+  speed = 0.02,
   particleColors = defaultParticleColors,
   moveParticlesOnHover = false,
   particleHoverFactor = 1,
@@ -70,7 +70,7 @@ const Particles = ({
   bgColor,
   className = "",
   fps = null,
-  timeScale = 1.6
+  timeScale = 1.2
 }) => {
   const containerRef = useRef(null);
   const glRef = useRef(null);

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import InviteModal from "@/components/invite/InviteModal";
@@ -611,7 +612,13 @@ export default function ChatBody({
                 />
 
                 <h1 className={chatTitleClassName}>
-                  <img src="/logo/logomust.svg" alt="SotsiaalAI" className="h-[clamp(1.8rem,3.2vw,2.6rem)] w-auto opacity-[0.6] light:opacity-[0.85] translate-y-[0.4rem]" />
+                  <Image
+                    src="/logo/logomust.svg"
+                    alt="SotsiaalAI"
+                    width={220}
+                    height={90}
+                    className="h-[clamp(1.8rem,3.2vw,2.6rem)] w-auto opacity-[0.6] light:opacity-[0.85] translate-y-[0.4rem]"
+                  />
                 </h1>
                 {isRoomMode && roomTitle ? <div className="text-center mt-[-0.6rem] mb-[0.9rem] text-[1.25rem] text-[color:var(--pt-200)] tracking-[0.02em]">
                     {roomTitle}
