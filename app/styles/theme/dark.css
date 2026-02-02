@@ -71,8 +71,8 @@
   box-sizing: border-box;
 }
 :root:not(.theme-light) .chat-inputbar .chat-send-btn {
-  border: 0;
-  background: var(--chat-invite-surface);
+  border: var(--btn-primary-border);
+  background: var(--btn-primary-bg);
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   width: var(--chat-action-size);
@@ -84,19 +84,37 @@
   box-sizing: border-box;
   background-clip: border-box;
   background-origin: border-box;
-  box-shadow: var(--chat-invite-shadow);
+  box-shadow: var(--btn-primary-shadow);
 }
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-send-btn:focus-visible {
-  border-color: transparent;
-  background: var(--chat-invite-surface-hover);
-  box-shadow: var(--chat-invite-shadow);
+  border: var(--btn-primary-border-hover);
+  background: var(--btn-primary-bg-hover);
+  box-shadow: var(--btn-primary-shadow-hover);
 }
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:hover,
 :root:not(.theme-light) .chat-inputbar .chat-listen-btn:focus-visible {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
+}
+:root:not(.theme-light) .chat-inputbar .chat-listen-btn svg {
+  color: var(--brand-primary);
+  opacity: 0.95;
+  transition: transform 220ms ease-out, opacity 220ms ease-out;
+  will-change: transform, opacity;
+}
+:root:not(.theme-light)
+  .chat-inputbar
+  .chat-listen-btn:hover
+  svg,
+:root:not(.theme-light)
+  .chat-inputbar
+  .chat-listen-btn:focus-visible
+  svg {
+  opacity: 1;
+  transform: scale(1.08);
+  transform-origin: center;
 }
 :root:not(.theme-light) .chat-listen-btn[data-speaking="true"] {
   box-shadow: none;

@@ -36,51 +36,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const scrollTrackRef = useRef(null);
   const isDraggingScroll = useRef(false);
   const [previewScroll, setPreviewScroll] = useState(0);
-  const handlePreviewWheel = useCallback(
-    event => {
-      const panel = analysisPanelRef.current;
-      const previewNode = previewRef.current;
-      if (!panel || !previewNode) return;
-      const mode = panel.dataset?.analysisMode;
-      const isOverlay = mode === "overlay";
-      const isExpanded = mode === "expanded";
-      const rect = panel.getBoundingClientRect();
-      const vh =
-        typeof window !== "undefined"
-          ? window.innerHeight || document.documentElement.clientHeight || 0
-          : 0;
-      const margin = 24;
-      const maxScroll = previewNode.scrollHeight - previewNode.clientHeight;
-      if (maxScroll <= 0) return;
-      const deltaY = event.deltaY;
-      const atTop = previewNode.scrollTop <= 0;
-      const atBottom = previewNode.scrollTop >= maxScroll;
-      const belowViewport = rect.bottom > vh - margin;
-      if (!isOverlay && !isExpanded && belowViewport && vh > 0 && deltaY > 0) {
-        if (event.cancelable) event.preventDefault();
-        panel.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-        return;
-      }
-      const canScrollDown = deltaY > 0 && !atBottom;
-      const canScrollUp = deltaY < 0 && !atTop;
-      if (canScrollDown || canScrollUp) {
-        if (event.cancelable) event.preventDefault();
-        const next = Math.max(
-          0,
-          Math.min(maxScroll, previewNode.scrollTop + deltaY)
-        );
-        previewNode.scrollTop = next;
-        const maxAfter = previewNode.scrollHeight - previewNode.clientHeight;
-        if (maxAfter > 0) {
-          setPreviewScroll(next / maxAfter);
-        }
-      }
-    },
-    [analysisPanelRef]
-  );
   useEffect(() => {
     function updateScrollFromClientY(clientY) {
       const track = scrollTrackRef.current;
@@ -132,7 +87,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     };
   }, []);
   const panelBaseClassName =
-    "w-full max-w-none px-0 mx-auto " +
+    "w-full max-w-[min(90vw,24rem)] px-0 mx-auto " +
     "mt-[clamp(0.3rem,0.8vw,0.5rem)] mb-[clamp(1.2rem,3vw,2rem)] " +
     "relative z-[30]";
   const panelWideClassName =
@@ -164,11 +119,11 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "text-[1.25rem] font-[600] tracking-[0.04em] text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "absolute top-[0.1rem] right-[0.1rem] grid place-items-center z-[220] " +
+    "absolute top-[0.6rem] right-[0.6rem] grid place-items-center z-[220] " +
     "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
     "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38] pointer-events-auto";
   const closeCompactClassName =
-    "top-[0.55rem] right-[0.55rem]";
+    "top-[0.6rem] right-[0.6rem]";
   const bodyClassName =
     "relative z-[120] flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
     "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
@@ -188,7 +143,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const modeRowClassName =
     "flex items-center justify-center gap-[0.5rem] flex-nowrap max-[30em]:flex-wrap";
   const actionsInlineClassName =
-    "w-full flex justify-end gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
+    "w-full flex justify-center gap-[0.65rem] mt-[0.35rem] mb-[0.5rem]";
   const actionsCenterClassName = "justify-center";
   const jumpClassName = "whitespace-nowrap";
   const previewWrapClassName =
@@ -197,8 +152,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const previewClassName =
     "relative flex-1 min-h-[260px] max-h-[clamp(38rem,80vh,70rem)] " +
     "rounded-[1.2rem] border-0 bg-[rgba(7,12,20,0.38)] " +
-    "px-[var(--analysis-preview-pad-x)] py-[clamp(0.28rem,1vw,0.6rem)] " +
+    "pl-[var(--analysis-preview-pad-x)] pr-[var(--analysis-preview-pad-right)] " +
+    "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
+    "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
     "overflow-auto text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
     "text-[rgba(226,232,240,0.92)] whitespace-pre-wrap scrollbar-none " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
@@ -327,9 +284,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                 {contextHint}
               </p>
               {previewText ? (
-                <div
-                  className={cn(actionsInlineClassName, actionsCenterClassName)}
-                >
+                <div className={actionsInlineClassName}>
                   <Button
                     type="button"
                     size="sm"
@@ -368,7 +323,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     className={previewClassName}
                     tabIndex={0}
                     aria-label={t("chat.upload.preview", "Dokumendi tekst")}
-                    onWheel={handlePreviewWheel}
                     onScroll={() => {
                       const node = previewRef.current;
                       if (!node) return;

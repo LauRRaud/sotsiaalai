@@ -95,20 +95,26 @@ export default function ChatComposer({
     "text-[color:var(--pt-150)] light:text-[color:var(--text-strong,#1f2937)] " +
     "outline-none border-0 shadow-none placeholder:opacity-0 " +
     "light:placeholder:opacity-100 light:placeholder:text-[color:var(--input-placeholder)]";
+  const primaryButtonClassName =
+    "text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] " +
+    "[background:var(--btn-primary-bg)] [border:var(--btn-primary-border)] " +
+    "shadow-[var(--btn-primary-shadow)] " +
+    "hover:[background:var(--btn-primary-bg-hover)] hover:[border:var(--btn-primary-border-hover)] hover:-translate-y-[1px] " +
+    "focus-visible:[background:var(--btn-primary-bg-hover)] focus-visible:[border:var(--btn-primary-border-hover)] focus-visible:shadow-[var(--btn-primary-shadow-focus)] " +
+    "active:translate-y-[1px] active:[background:var(--btn-primary-bg-active)] active:[border:var(--btn-primary-border-active)] active:shadow-[var(--btn-primary-shadow-active)]";
   const actionButtonClassName =
     "chat-listen-btn relative z-[2] h-[48px] w-[48px] min-h-[48px] min-w-[48px] flex-[0_0_48px] rounded-full border-0 " +
-    "bg-transparent !shadow-none " +
-    "flex items-center justify-center text-white " +
+    "flex items-center justify-center " +
     "transition-[border-color,box-shadow] duration-150 ease-out " +
-    "pointer-events-auto " +
+    "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
+    primaryButtonClassName + " " +
     "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),0_0_6px_rgba(84,95,115,0.45)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonClassName =
     "chat-send-btn relative z-[2] h-[48px] w-[48px] min-h-[48px] min-w-[48px] flex-[0_0_48px] rounded-full border-0 " +
-    "bg-[rgba(10,14,24,0.22)] light:!bg-[#f8f8f8] " +
-    "flex items-center justify-center text-[color:var(--pt-150)] light:!text-[#111827] overflow-hidden leading-none " +
-    "shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.45rem_1.05rem_rgba(5,8,15,0.18)] " +
-    "light:!shadow-[0_4px_12px_rgba(0,0,0,0.12)] " +
+    "flex items-center justify-center overflow-hidden leading-none " +
+    primaryButtonClassName + " " +
+    "!translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
     "px-[6px] py-[1px] " +
     "transition-[border-color,box-shadow] duration-150 ease-out " +
     "pointer-events-auto " +
