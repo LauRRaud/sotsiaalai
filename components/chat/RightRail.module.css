@@ -172,3 +172,46 @@
   opacity: 0;
   pointer-events: none;
 }
+
+@media (max-width: 48em) {
+  .slot {
+    top: 0;
+    height: 100%;
+  }
+
+  .rightRail {
+    top: 0;
+    right: calc(env(safe-area-inset-right, 0px) + 0.25rem);
+    transform: none;
+    height: 100%;
+    width: clamp(3.4rem, 12vw, 4.4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.6rem) 0
+      calc(env(safe-area-inset-bottom, 0px) + 0.6rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .item {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: var(--rail-item-size);
+    height: var(--rail-item-size);
+  }
+
+  .rightRail {
+    --rail-item-size: clamp(2.75rem, 10vw, 3.25rem);
+    --rail-icon-scale: 0.8;
+  }
+
+  .tooltip {
+    display: none;
+  }
+}

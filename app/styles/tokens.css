@@ -254,10 +254,10 @@
 
 @media (min-width: 48em) and (max-height: 780px) {
   :root {
-    --ring-scale: 0.88;
-    --ring-fit-pad: 1rem;
-    --ring-ui-reserve: 4.5rem;
-    --ring-ui-reserve-page: 4.5rem;
+    --ring-scale: 0.84;
+    --ring-fit-pad: 1.6rem;
+    --ring-ui-reserve: 6rem;
+    --ring-ui-reserve-page: 6rem;
     --ring-pad-x: clamp(1.2rem, 4vw, 2.2rem);
     --ring-pad-top: clamp(1rem, 3vh, 1.8rem);
     --ring-pad-top-half: clamp(0.6rem, 1.6vh, 1rem);
@@ -267,10 +267,10 @@
 
 @media (min-width: 48em) and (min-height: 781px) and (max-height: 840px) {
   :root {
-    --ring-scale: 0.92;
-    --ring-fit-pad: 1.25rem;
-    --ring-ui-reserve: 5rem;
-    --ring-ui-reserve-page: 5rem;
+    --ring-scale: 0.88;
+    --ring-fit-pad: 1.4rem;
+    --ring-ui-reserve: 5.5rem;
+    --ring-ui-reserve-page: 5.5rem;
     --ring-pad-x: clamp(1.4rem, 4.4vw, 2.6rem);
     --ring-pad-top: clamp(1.2rem, 3.4vh, 2.1rem);
     --ring-pad-top-half: clamp(0.7rem, 1.8vh, 1.1rem);
