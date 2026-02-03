@@ -241,22 +241,22 @@
 
 @media (max-width: 48em), (hover: none) {
   .home-scroll-cue {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    bottom: clamp(8rem, 24vh, 14rem);
-    top: auto;
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+    bottom: clamp(0.2rem, 2.8vh, 1.6rem) !important;
+    top: auto !important;
   }
   .home-scroll-cue-link {
     padding: 0.2rem 0.35rem;
   }
   .home-scroll-cue-arrow {
-    width: clamp(6.5rem, 28vw, 9rem);
-    height: clamp(6.5rem, 28vw, 9rem);
+    width: clamp(3.8rem, 16vw, 5.4rem) !important;
+    height: clamp(3.8rem, 16vw, 5.4rem) !important;
     margin-top: 0.1rem;
-    animation: home-scroll-blink 1.6s ease-in-out infinite;
+    animation: home-scroll-blink 1.4s ease-in-out infinite !important;
   }
   .home-scroll-cue-arrow::before {
-    transform: scale(1.55);
+    transform: scale(1.35) !important;
   }
 }
 

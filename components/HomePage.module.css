@@ -524,7 +524,8 @@
     line-height: 1.25;
     letter-spacing: 0.08em;
     max-width: 90%;
-    transform: translateY(80%);
+    transform: translateY(0);
+    margin-top: 0;
     text-align: center;
   }
   .centered-back-left .card-logo-bg-left-back {
