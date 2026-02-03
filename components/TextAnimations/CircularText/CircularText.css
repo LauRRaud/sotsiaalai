@@ -135,20 +135,3 @@
 .circular-text-svg textPath {
   overflow: visible;
 }
-@media (max-width: 768px) {
-  .circular-text-line {
-    font-size: clamp(30px, 10.4vw, 50px) !important;
-    letter-spacing: 0.12em;
-    animation: none !important;
-  }
-  .word1,
-  .word2,
-  .word3 {
-    opacity: 1 !important;
-    animation: none !important;
-  }
-  .circular-text-svg.circular-ring {
-    opacity: 1;
-    visibility: visible;
-  }
-}

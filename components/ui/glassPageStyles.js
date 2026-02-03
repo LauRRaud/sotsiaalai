@@ -16,4 +16,4 @@ export const glassPageBackRightClassName =
   "absolute right-[var(--glass-edge-right)] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
 
 export const glassPageRingCenteredClassName =
-  "md:mt-0 md:mb-0";
+  "md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";

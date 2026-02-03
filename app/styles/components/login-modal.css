@@ -117,35 +117,3 @@ body.login-modal-open {
 :root.theme-light .login-modal-close.modal-close-btn:focus-visible {
   color: #7a3a38;
 }
-@media (max-width: 48em) {
-  .login-modal-box {
-    position: fixed;
-    inset: 0;
-    transform: none;
-    animation: none;
-    width: 100vw;
-    height: 100svh;
-    min-height: 100dvh;
-    border-radius: 0;
-    margin: 0;
-    box-shadow: none;
-    background: rgba(31, 31, 31, 0.6);
-    -webkit-backdrop-filter: blur(0.625rem);
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem) saturate(110%);
-    backdrop-filter: blur(0.625rem) saturate(110%);
-    z-index: 1002;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: max(0.75rem, env(safe-area-inset-top))
-      max(0.75rem, env(safe-area-inset-right))
-      max(0.875rem, env(safe-area-inset-bottom))
-      max(0.75rem, env(safe-area-inset-left));
-  }
-  .login-modal-close {
-    position: absolute;
-    top: max(0.35rem, env(safe-area-inset-top, 0));
-    right: max(0.5rem, env(safe-area-inset-right, 0));
-    z-index: 1010;
-  }
-}

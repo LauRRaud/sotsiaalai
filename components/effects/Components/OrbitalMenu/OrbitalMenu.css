@@ -466,21 +466,6 @@
   }
 }
 
-@media (max-width: 640px) {
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    --orbit-size: min(86vw, 17.2rem);
-    --orbit-item-size: min(4.6rem, 26vw);
-    --orbit-item-size-open: min(5rem, 28vw);
-    --orbit-center-size: min(9.2rem, 56vw);
-    margin-top: clamp(2.2rem, 5.8vh, 4rem);
-    margin-bottom: clamp(1.2rem, 3.2vh, 2.2rem);
-  }
-  :root:not(.theme-light)
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(2.2rem, 5.8vh, 4rem);
-    margin-bottom: clamp(1.2rem, 3.2vh, 2.2rem);
-  }
-}
 
 .profile-orbit-mobile-backdrop.invite-modal-backdrop {
   background: rgba(6, 8, 12, 0.38);

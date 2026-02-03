@@ -239,12 +239,3 @@
 .defer-fade.delay-2 {
   --fade-delay: 1900ms;
 }
-
-@media (max-width: 48em) {
-  .three-d-card {
-    animation: none;
-    opacity: var(--end-op, 1);
-    visibility: visible;
-    transform: none;
-  }
-}

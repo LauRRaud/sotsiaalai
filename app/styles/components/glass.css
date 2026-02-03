@@ -30,23 +30,6 @@
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
 }
-@media (max-width: 48em) {
-  .glass-box {
-    width: 100%;
-    max-width: none;
-    padding-left: clamp(1rem, 4.5vw, 1.375rem);
-    padding-right: clamp(1rem, 4.5vw, 1.375rem);
-  }
-  .glass-box.profile-container {
-    --profile-role-hole-w: 0.58;
-    --profile-role-hole-min-w: 190px;
-    --profile-role-hole-max-w: 360px;
-    padding-top: 0.4rem;
-  }
-  [data-bg-layer] {
-    pointer-events: none;
-  }
-}
 .glass-box p {
   font-size: 1.05em;
   color: var(--pt-150);

@@ -50,8 +50,8 @@ const ConversationView = memo(function ConversationView({
     "w-full max-w-[calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))+1.8rem)] mx-auto " +
     "overflow-y-auto overscroll-contain " +
     "px-[clamp(0.2rem,0.9vw,0.8rem)] " +
-    "pt-[clamp(0.2rem,1.2vh,0.9rem)] " +
-    "pb-[clamp(1.1rem,2.8vh,2.2rem)] " +
+    "pt-[clamp(0.8rem,2.2vh,1.6rem)] " +
+    "pb-[clamp(0.6rem,1.4vh,1.2rem)] " +
     "max-[48em]:max-w-full " +
     "[scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_8%,black_92%,transparent_100%)] " +

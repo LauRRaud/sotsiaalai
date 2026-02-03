@@ -556,7 +556,7 @@ export default function ChatBody({
         "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
         "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
         "--chat-input-shift": "clamp(0.9rem, 2.2vh, 1.4rem)",
-        "--chat-expanded-delta": "clamp(0.9rem, 2.4vh, 2.2rem)",
+        "--chat-expanded-delta": "clamp(0.4rem, 1.2vh, 1.1rem)",
         "--chat-input-focus-drop": "clamp(4.6rem, 9.6vh, 6.2rem)",
         "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
         "--chat-window-bottom-gap": "clamp(1.2rem, 2.6vh, 2.4rem)",
@@ -577,7 +577,7 @@ export default function ChatBody({
   );
   return <>
       <InviteModal />
-      <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null)}>
+      <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null, inputFocused && !profileOpen ? "chat-page-shell--input-focus" : null)}>
         <>
           {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
               <div className="relative overflow-visible">

@@ -132,11 +132,6 @@ body::-webkit-scrollbar {
   height: 0;
   background: transparent;
 }
-@media (max-width: 768px), (hover: none) {
-  .click-pulse-cursor {
-    display: none;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .click-pulse-cursor {
     display: none;
