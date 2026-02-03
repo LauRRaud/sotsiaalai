@@ -227,7 +227,6 @@ main#main > .main-content.glass-box.chat-container,
   }
 
   .chat-page-shell .chat-container.chat-container--round {
-    --chat-diameter: clamp(660px, 90vmin, 1240px);
     --chat-expanded-delta: clamp(1rem, 3vh, 3.2rem);
     --chat-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
     --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
@@ -280,18 +279,6 @@ main#main > .main-content.glass-box.chat-container,
   .chat-page-shell .chat-container--round::-webkit-scrollbar {
     width: 0;
     height: 0;
-  }
-}
-
-@media (min-width: 48em) and (max-height: 780px) {
-  .chat-page-shell .chat-container.chat-container--round {
-    --chat-diameter: clamp(520px, 80vmin, 900px);
-  }
-}
-
-@media (min-width: 48em) and (min-height: 781px) and (max-height: 840px) {
-  .chat-page-shell .chat-container.chat-container--round {
-    --chat-diameter: clamp(560px, 84vmin, 980px);
   }
 }
 @media (min-resolution: 1.5dppx) {

@@ -91,6 +91,10 @@ export default function HomePage() {
   }, []);
   useEffect(() => {
     const onScroll = () => {
+      if (isMobile) {
+        setShowScrollCue(true);
+        return;
+      }
       const y = typeof window !== "undefined" ? window.scrollY || document.documentElement.scrollTop || 0 : 0;
       setShowScrollCue(y < 10);
     };
@@ -99,7 +103,7 @@ export default function HomePage() {
       passive: true
     });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isMobile]);
   useEffect(() => {
     homeIntroSeen = true;
   }, []);
@@ -387,15 +391,15 @@ export default function HomePage() {
             </div>
           </div>
 
-          {scrollCueReady ? <div className={cn(styles["home-scroll-cue"], showScrollCue && scrollCueEntered ? styles["is-visible"] : null)} aria-hidden={!showScrollCue}>
-              <a className={styles["home-scroll-cue-link"]} href="#meist" onClick={handleScrollCueClick}>
-                <span className={styles["home-scroll-cue-mouse"]} aria-hidden="true">
+          {scrollCueReady ? <div className={cn("home-scroll-cue", styles["home-scroll-cue"], showScrollCue && scrollCueEntered ? styles["is-visible"] : null)} aria-hidden={!showScrollCue}>
+              <a className={cn("home-scroll-cue-link", styles["home-scroll-cue-link"])} href="#meist" onClick={handleScrollCueClick}>
+                <span className={cn("home-scroll-cue-mouse", styles["home-scroll-cue-mouse"])} aria-hidden="true">
                   <svg viewBox="0 0 24 36" role="presentation">
                     <rect x="5.5" y="2.5" width="13" height="31" rx="6.5" />
                     <line x1="12" y1="7" x2="12" y2="13" />
                   </svg>
                 </span>
-                <span className={styles["home-scroll-cue-arrow"]} aria-hidden="true" />
+                <span className={cn("home-scroll-cue-arrow", styles["home-scroll-cue-arrow"])} aria-hidden="true" />
               </a>
             </div> : null}
         </section>
