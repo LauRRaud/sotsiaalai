@@ -14,7 +14,7 @@ const baseStyles =
   "[--glass-ring-pad-top:clamp(1.6rem,4.2vw,2.6rem)] " +
   "[--glass-ring-pad-top-half:clamp(0.8rem,2.1vw,1.3rem)] " +
   "px-[var(--glass-ring-pad-x)] pt-[var(--glass-ring-pad-top)] " +
-  "md:mt-[max(0px,calc((100dvh-var(--profile-diameter))/2-clamp(0.7rem,1.9vh,1.3rem)))] md:mb-0 md:mx-auto " +
+  "md:mx-auto " +
   "max-md:w-[100vw] max-md:h-[100dvh] max-md:max-w-[100vw] max-md:max-h-[100dvh] " +
   "max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto max-md:rounded-none max-md:overflow-visible " +
   "max-md:[--glass-ring-pad-top:clamp(0.4rem,1.4vh,1.1rem)] " +

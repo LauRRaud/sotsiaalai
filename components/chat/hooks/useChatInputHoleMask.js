@@ -19,22 +19,24 @@ export function useChatInputHoleMask({
       if (!el || !root) return null;
       const rect = el.getBoundingClientRect();
       const rootRect = root.getBoundingClientRect();
-      let w = Math.round(rect.width);
-      let h = Math.round(rect.height);
+      let w = rect.width;
+      let h = rect.height;
       if (!w || !h) {
         w = el.offsetWidth || 0;
         h = el.offsetHeight || 0;
       }
       if (!w || !h) return null;
       return {
-        x: Math.round(rect.left - rootRect.left),
-        y: Math.round(rect.top - rootRect.top),
-        w: Math.round(w),
-        h: Math.round(h)
+        x: rect.left - rootRect.left,
+        y: rect.top - rootRect.top,
+        w,
+        h
       };
     };
     let lastMask = "";
     let raf = 0;
+    let rafLoop = 0;
+    let loopUntil = 0;
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -55,8 +57,8 @@ export function useChatInputHoleMask({
     };
     const updateMask = () => {
       const boxRect = box.getBoundingClientRect();
-      const boxW = Math.round(boxRect.width);
-      const boxH = Math.round(boxRect.height);
+      const boxW = boxRect.width;
+      const boxH = boxRect.height;
       if (!boxW || !boxH) return;
       const inputLocal = getLocalRect(inputBar, box);
       if (!inputLocal) return;
@@ -68,9 +70,28 @@ export function useChatInputHoleMask({
         lastMask = mask;
       }
     };
+    const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
+    const tick = (ts) => {
+      if (ts > loopUntil) {
+        rafLoop = 0;
+        return;
+      }
+      updateMask();
+      rafLoop = window.requestAnimationFrame(tick);
+    };
+    const startLoop = () => {
+      const until = nowMs() + 760;
+      loopUntil = Math.max(loopUntil, until);
+      if (!rafLoop) {
+        rafLoop = window.requestAnimationFrame(tick);
+      }
+    };
     const scheduleUpdate = () => {
       window.cancelAnimationFrame(raf);
-      raf = window.requestAnimationFrame(updateMask);
+      raf = window.requestAnimationFrame(() => {
+        updateMask();
+        startLoop();
+      });
     };
     if (refreshRef) {
       refreshRef.current = scheduleUpdate;
@@ -80,6 +101,10 @@ export function useChatInputHoleMask({
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
     inputBar.addEventListener("transitionend", scheduleUpdate);
+    box.addEventListener("transitionrun", scheduleUpdate);
+    inputBar.addEventListener("transitionrun", scheduleUpdate);
+    box.addEventListener("transitionstart", scheduleUpdate);
+    inputBar.addEventListener("transitionstart", scheduleUpdate);
     let ro;
     let mo;
     if (typeof ResizeObserver !== "undefined") {
@@ -97,10 +122,15 @@ export function useChatInputHoleMask({
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
     return () => {
       window.cancelAnimationFrame(raf);
+      if (rafLoop) window.cancelAnimationFrame(rafLoop);
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
       inputBar.removeEventListener("transitionend", scheduleUpdate);
+      box.removeEventListener("transitionrun", scheduleUpdate);
+      inputBar.removeEventListener("transitionrun", scheduleUpdate);
+      box.removeEventListener("transitionstart", scheduleUpdate);
+      inputBar.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
       if (refreshRef?.current === scheduleUpdate) {

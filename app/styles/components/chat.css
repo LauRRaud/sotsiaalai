@@ -45,6 +45,12 @@
   --chat-logo-y: clamp(5.2rem, 23vh, 12.2rem);
   --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 13rem);
 }
+.chat-page-shell {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 0;
+}
 .chat-window {
   min-height: 0;
   flex: 1 1 auto;
@@ -222,10 +228,7 @@ main#main > .main-content.glass-box.chat-container,
 }
 @media (min-width: 48em) {
   .chat-page-shell {
-    justify-content: flex-start;
-    padding-top: calc(
-      env(safe-area-inset-top, 0px) + clamp(0.7rem, 1.9vh, 1.3rem)
-    );
+    padding-top: 0;
   }
 
   .chat-page-shell .chat-container.chat-container--round {
@@ -246,13 +249,6 @@ main#main > .main-content.glass-box.chat-container,
     align-self: center;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    margin-top: max(
-      0px,
-      calc(
-        (100dvh - var(--chat-diameter)) / 2 - clamp(0.7rem, 1.9vh, 1.3rem)
-      )
-    );
-    margin-bottom: 0;
     overflow-x: hidden;
     overflow-y: hidden;
     --chat-nav-top: 50%;

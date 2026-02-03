@@ -106,10 +106,3 @@
 .profileRolePill {
   box-shadow: var(--profile-role-hole-shadow, none);
 }
-
-@media (min-width: 48em) {
-  .profileContainerEmbedded {
-    padding-top: clamp(4rem, 8.2vh, 5.6rem);
-    padding-bottom: clamp(0.2rem, 0.8vh, 0.6rem);
-  }
-}

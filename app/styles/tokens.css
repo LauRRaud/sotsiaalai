@@ -122,6 +122,7 @@
   --glow-light-ring: #e1a0a0;
   --glow-light-soft: rgba(225, 160, 160, 0.28);
   --glow-light-outer: rgba(225, 160, 160, 0.34);
+  --click-pulse-ring-color: rgba(255, 255, 255, 0.6);
 
   --page-bg: #1b2735;
   --page-bg-top: #1b2735;

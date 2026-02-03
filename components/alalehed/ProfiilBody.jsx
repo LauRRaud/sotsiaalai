@@ -194,24 +194,26 @@ export default function ProfiilBody({
       if (!el || !root) return null;
       const rect = el.getBoundingClientRect();
       const rootRect = root.getBoundingClientRect();
-      let w = Math.round(rect.width);
-      let h = Math.round(rect.height);
+      let w = rect.width;
+      let h = rect.height;
       if (!w || !h) {
         w = el.offsetWidth || 0;
         h = el.offsetHeight || 0;
       }
       if (!w || !h) return null;
       return {
-        x: Math.round(rect.left - rootRect.left),
-        y: Math.round(rect.top - rootRect.top),
-        w: Math.round(w),
-        h: Math.round(h)
+        x: rect.left - rootRect.left,
+        y: rect.top - rootRect.top,
+        w,
+        h
       };
     };
     let lastMask = "";
     let lastRoleMask = "";
     let retryCount = 0;
     let raf = 0;
+    let rafLoop = 0;
+    let loopUntil = 0;
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -234,8 +236,8 @@ export default function ProfiilBody({
         return;
       }
       const boxRect = box.getBoundingClientRect();
-      const boxW = Math.round(boxRect.width);
-      const boxH = Math.round(boxRect.height);
+      const boxW = boxRect.width;
+      const boxH = boxRect.height;
       if (!boxW || !boxH) {
         if (retryCount < 12) {
           retryCount += 1;
@@ -269,9 +271,28 @@ export default function ProfiilBody({
         lastRoleMask = mask;
       }
     };
+    const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
+    const tick = (ts) => {
+      if (ts > loopUntil) {
+        rafLoop = 0;
+        return;
+      }
+      updateMask();
+      rafLoop = window.requestAnimationFrame(tick);
+    };
+    const startLoop = () => {
+      const until = nowMs() + 760;
+      loopUntil = Math.max(loopUntil, until);
+      if (!rafLoop) {
+        rafLoop = window.requestAnimationFrame(tick);
+      }
+    };
     const scheduleUpdate = () => {
       window.cancelAnimationFrame(raf);
-      raf = window.requestAnimationFrame(updateMask);
+      raf = window.requestAnimationFrame(() => {
+        updateMask();
+        startLoop();
+      });
     };
     maskRefreshRef.current = scheduleUpdate;
     scheduleUpdate();
@@ -281,6 +302,8 @@ export default function ProfiilBody({
     window.addEventListener("resize", scheduleUpdate);
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
+    box.addEventListener("transitionrun", scheduleUpdate);
+    box.addEventListener("transitionstart", scheduleUpdate);
     let ro;
     let mo;
     if (typeof ResizeObserver !== "undefined") {
@@ -299,10 +322,13 @@ export default function ProfiilBody({
     document.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
     return () => {
       window.cancelAnimationFrame(raf);
+      if (rafLoop) window.cancelAnimationFrame(rafLoop);
       settleTimers.forEach(timer => window.clearTimeout(timer));
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
+      box.removeEventListener("transitionrun", scheduleUpdate);
+      box.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
       if (maskRefreshRef.current === scheduleUpdate) {
