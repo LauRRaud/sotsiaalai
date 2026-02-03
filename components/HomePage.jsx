@@ -348,7 +348,7 @@ export default function HomePage() {
                     pointerEvents: "none"
                   } : {}} data-interactive={leftInteractive ? "true" : "false"}>
                         <div className={cn(styles["centered-back-left"], shouldFadeIn ? styles["fade-in"] : null)}>
-                          <h2 className={styles["headline-bold"]}>
+                          <h2 className={cn("home-card-headline", styles["headline-bold"])}>
                             {t("home.card.specialist.title")}
                           </h2>
                           <SaimustLogo className={cn(styles["card-logo-bg"], styles["card-logo-bg-left-back"])} aria-hidden="true" />
@@ -379,7 +379,7 @@ export default function HomePage() {
                     pointerEvents: "none"
                   } : {}} data-interactive={rightInteractive ? "true" : "false"}>
                         <div className={cn(styles["centered-back-right"], shouldFadeIn ? styles["fade-in"] : null)}>
-                          <h2 className={styles["headline-bold"]}>
+                          <h2 className={cn("home-card-headline", styles["headline-bold"])}>
                             {t("home.card.client.title")}
                           </h2>
                           <SaivalgeLogo className={cn(styles["card-logo-bg"], styles["card-logo-bg-right-back"])} aria-hidden="true" />

@@ -243,20 +243,34 @@
   .home-scroll-cue {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
-    bottom: clamp(2.8rem, 11vh, 6.2rem);
+    bottom: clamp(8rem, 24vh, 14rem);
     top: auto;
   }
   .home-scroll-cue-link {
     padding: 0.2rem 0.35rem;
   }
   .home-scroll-cue-arrow {
-    width: clamp(3.2rem, 14vw, 4.2rem);
-    height: clamp(3.2rem, 14vw, 4.2rem);
+    width: clamp(6.5rem, 28vw, 9rem);
+    height: clamp(6.5rem, 28vw, 9rem);
     margin-top: 0.1rem;
     animation: home-scroll-blink 1.6s ease-in-out infinite;
   }
   .home-scroll-cue-arrow::before {
-    transform: scale(1.4);
+    transform: scale(1.55);
+  }
+}
+
+@media (max-width: 48em) {
+  .home-card-headline {
+    transform: translateY(0);
+    margin-top: 0;
+    max-width: 90%;
+  }
+  :root body .centered-back-left .home-card-headline,
+  :root body .centered-back-right .home-card-headline,
+  :root body .card-face.back .home-card-headline {
+    transform: none;
+    margin-top: 0;
   }
 }
 
