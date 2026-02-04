@@ -68,6 +68,7 @@ export default function ChatBody({
     return up || "CLIENT";
   }, [session]);
   const [inputFocused, setInputFocused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
@@ -76,6 +77,16 @@ export default function ChatBody({
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
   useEffect(() => {
     clearStaleScrollLock();
+  }, []);
+  useEffect(() => {
+    const update = () => {
+      if (typeof window === "undefined") return;
+      setIsMobile(window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768);
+    };
+    update();
+    if (typeof window === "undefined") return;
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
@@ -548,7 +559,8 @@ export default function ChatBody({
   const profileFaceClass = null;
   const showChatFace = !profileOpen;
   const showProfileFace = profileOpen;
-  const focusVars = inputFocused && !profileOpen
+  const focusActive = inputFocused && !profileOpen && !isMobile;
+  const focusVars = focusActive
     ? {
         "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
         "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
@@ -573,11 +585,11 @@ export default function ChatBody({
       "bg-transparent backdrop-blur-none " +
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
       "max-[48em]:min-h-0 max-[48em]:mx-auto",
-    inputFocused && !profileOpen ? "chat-container--input-focus" : null
+    focusActive ? "chat-container--input-focus" : null
   );
   return <>
       <InviteModal />
-      <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null, inputFocused && !profileOpen ? "chat-page-shell--input-focus" : null)}>
+      <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus" : null)}>
         <>
           {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
               <div className="relative overflow-visible">
@@ -602,7 +614,7 @@ export default function ChatBody({
                   t={t}
                   roomId={roomId}
                   isLightTheme={isLightTheme}
-                  inputFocused={inputFocused}
+                  inputFocused={focusActive}
                   sourcesButtonRef={sourcesButtonRef}
                   toggleSourcesPanel={toggleSourcesPanel}
                   showSourcesPanel={showSourcesPanel}
@@ -639,9 +651,11 @@ export default function ChatBody({
 
                 {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
 
-                <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => setInputFocused(true)} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={inputFocused && !profileOpen} />
+                <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => {
+                if (!isMobile) setInputFocused(true);
+              }} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} />
 
-                {isRoomMode && inputFocused ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
+                {isRoomMode && focusActive ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
                     <label className={aiToggleLabelClassName}>
                       <input type="checkbox" className={aiToggleInputClassName} checked={sendToAssistant} onChange={e => setSendToAssistant(e.target.checked)} aria-describedby="chat-ai-hint" />
                       <span className="text-[0.95rem] leading-[1.2] text-[color:var(--pt-120)]">

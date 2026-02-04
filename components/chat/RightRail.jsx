@@ -31,11 +31,23 @@ export default function RightRail({
   const lastStepRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(1);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [armedIndex, setArmedIndex] = useState(null);
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+  useEffect(() => {
+    const update = () => {
+      if (typeof window === "undefined") return;
+      setIsMobile(window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768);
+    };
+    update();
+    if (typeof window === "undefined") return;
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
   useEffect(() => {
     const rail = railRef.current;
@@ -150,7 +162,7 @@ export default function RightRail({
   }, [hoveredIndex, activeIndex]);
   useEffect(() => {
     const rail = railRef.current;
-    if (!rail) return;
+    if (!rail || isMobile) return;
     const onWheel = event => {
       event.preventDefault();
       event.stopPropagation();
@@ -176,7 +188,7 @@ export default function RightRail({
       capture: true
     });
     return () => rail.removeEventListener("wheel", onWheel);
-  }, [items.length, stepPx]);
+  }, [isMobile, items.length, stepPx]);
   const onKeyDown = event => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
     event.preventDefault();
@@ -189,12 +201,30 @@ export default function RightRail({
   };
   return <div className={`${styles.slot} chat-right-actions${suspendPointerEvents ? ` ${styles.pointerBlocked}` : ""}`}>
       <nav className={styles.rightRail} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown}>
-        {[-2, -1, 0, 1, 2].map((slotOffset, slotIdx) => {
+        {(isMobile ? items.map((it, itemIndex) => ({
+        it,
+        itemIndex,
+        slotOffset: 0,
+        slotIdx: itemIndex
+      })) : [-2, -1, 0, 1, 2].map((slotOffset, slotIdx) => {
         const itemIndex = activeIndex + slotOffset;
         if (itemIndex < 0 || itemIndex >= items.length) {
           return null;
         }
-        const it = items[itemIndex];
+        return {
+          it: items[itemIndex],
+          itemIndex,
+          slotOffset,
+          slotIdx
+        };
+      }).filter(Boolean)).map((slot) => {
+        const {
+          it,
+          itemIndex,
+          slotOffset,
+          slotIdx
+        } = slot;
+        if (!it) return null;
         const outerFactor = 1.78;
         const offsetY = slotOffset === 0 ? 0 : Math.sign(slotOffset) * (Math.abs(slotOffset) === 2 ? Math.round(stepPx * outerFactor) : stepPx);
         const curveNorm = Math.min(Math.abs(slotOffset) / 2, 1);
@@ -207,7 +237,7 @@ export default function RightRail({
         const opacity = 0.12 + (1 - norm) * 0.88;
         const zIndex = 10 - Math.abs(slotOffset);
         const setRailRef = el => {
-          itemRefs.current[slotIdx] = el;
+          itemRefs.current[itemIndex] = el;
           if (it?.key !== "sources") return;
           if (!sourcesButtonRef) return;
           if (typeof sourcesButtonRef === "function") {
@@ -218,20 +248,30 @@ export default function RightRail({
         };
         const commonProps = {
           ref: setRailRef,
-          className: `${styles.item}${slotOffset === 0 ? ` ${styles.isActive}` : ""}${it?.key === "sources" && showSourcesPanel ? ` ${styles.iconBtnActive}` : ""}${it?.key === "sources" && sourcesPulse ? ` ${styles.isPulse}` : ""}`,
-          style: {
+          className: `${styles.item}${!isMobile && slotOffset === 0 ? ` ${styles.isActive}` : ""}${it?.key === "sources" && showSourcesPanel ? ` ${styles.iconBtnActive}` : ""}${it?.key === "sources" && sourcesPulse ? ` ${styles.isPulse}` : ""}`,
+          style: isMobile ? undefined : {
             transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
             opacity: opacity.toFixed(3),
             zIndex
           },
-          onMouseEnter: () => setHoveredIndex(slotIdx),
-          onMouseLeave: () => setHoveredIndex(prev => prev === slotIdx ? null : prev),
-          onFocus: () => setHoveredIndex(slotIdx),
-          onBlur: () => setHoveredIndex(prev => prev === slotIdx ? null : prev)
+          onMouseEnter: () => !isMobile && setHoveredIndex(itemIndex),
+          onMouseLeave: () => !isMobile && setHoveredIndex(prev => prev === itemIndex ? null : prev),
+          onFocus: () => setHoveredIndex(itemIndex),
+          onBlur: () => setHoveredIndex(prev => prev === itemIndex ? null : prev)
         };
         const onActivate = event => {
           if (!it) return;
-          setActiveIndex(itemIndex);
+          if (isMobile) {
+            if (armedIndex !== itemIndex) {
+              setArmedIndex(itemIndex);
+              setHoveredIndex(itemIndex);
+              return;
+            }
+            setArmedIndex(null);
+            setHoveredIndex(null);
+          } else {
+            setActiveIndex(itemIndex);
+          }
           if (it.key === "profile") {
             if (typeof onProfileToggle === "function") {
               onProfileToggle();
@@ -253,12 +293,13 @@ export default function RightRail({
             return;
           }
           if (it.key === "sources") {
+            if (!hasConversationSources) return;
             toggleSourcesPanel();
           }
         };
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
         const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
-        return <button key={`slot-${slotOffset}`} type="button" {...commonProps} className={`${commonProps.className} ${styles.iconBtn}`} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} className={`${commonProps.className} ${styles.iconBtn}`} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
               {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={styles.iconSvg} aria-hidden="true" role="img" /> : <AllikadDark className={styles.iconSvg} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={styles.iconImg} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={styles.iconImg} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={styles.iconImg} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
             </button>;
       })}
@@ -267,13 +308,7 @@ export default function RightRail({
         top: tooltipRect.top + tooltipRect.height / 2,
         left: tooltipRect.left - 2
       }} role="tooltip">
-                {(() => {
-          const slotOffsets = [-2, -1, 0, 1, 2];
-          const slotOffset = slotOffsets[hoveredIndex] ?? 0;
-          const idx = activeIndex + slotOffset;
-          if (idx < 0 || idx >= items.length) return "";
-          return items[idx]?.label || "";
-        })()}
+                {items[hoveredIndex]?.label || ""}
               </div>, document.body) : null}
       </nav>
     </div>;

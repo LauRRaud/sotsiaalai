@@ -188,9 +188,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.65rem;
-    padding: calc(env(safe-area-inset-top, 0px) + 0.6rem) 0
-      calc(env(safe-area-inset-bottom, 0px) + 0.6rem);
+    justify-content: center;
+    gap: clamp(0.55rem, 2.8vh, 1.2rem);
+    padding: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     -webkit-mask-image: none;
@@ -204,6 +204,7 @@
     transform: none;
     width: var(--rail-item-size);
     height: var(--rail-item-size);
+    opacity: 1 !important;
   }
 
   .rightRail {
@@ -212,6 +213,7 @@
   }
 
   .tooltip {
-    display: none;
+    font-size: 1.05rem;
+    padding: 0.2rem 0.55rem;
   }
 }

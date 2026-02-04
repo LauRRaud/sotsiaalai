@@ -107,7 +107,7 @@ export default function UuendaEpostiBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={glassPageRingCenteredClassName}>
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
         <h1 className={titleClassName}>
           {t("profile.email_update.title", "Uuenda e-post")}
         </h1>

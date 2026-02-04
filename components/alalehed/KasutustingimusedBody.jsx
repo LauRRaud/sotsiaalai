@@ -122,7 +122,7 @@ export default function KasutustingimusedBody() {
         <BackButton
           onClick={() => typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale))}
           ariaLabel={t("buttons.back_home")}
-          className={glassPageBackClassName}
+          className={cn(glassPageBackClassName, "page-back-bottom")}
         />
         <h1 id="terms-title" className={`${titleClassName} mt-[clamp(0.6rem,1.6vh,1.2rem)]`}>
           {t("terms.title")}

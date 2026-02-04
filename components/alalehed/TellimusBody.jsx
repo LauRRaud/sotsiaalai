@@ -72,7 +72,7 @@ export default function TellimusBody() {
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={glassPageRingCenteredClassName}>
-          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
           </h1>
@@ -86,7 +86,7 @@ export default function TellimusBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={glassPageRingCenteredClassName}>
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
         <h1 className={titleClassName}>
           {t("subscription.title")}
         </h1>

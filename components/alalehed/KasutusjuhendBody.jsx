@@ -64,7 +64,7 @@ export default function KasutusjuhendBody() {
             }
           }}
           ariaLabel={t("buttons.back_home")}
-          className={glassPageBackClassName}
+          className={cn(glassPageBackClassName, "page-back-bottom")}
         />
         <h1 id="kasutusjuhend-title" className={`${titleClassName} mt-[clamp(0.6rem,1.6vh,1.2rem)]`}>
           {t("about.guide.short_title", "Kasutusjuhend")}
