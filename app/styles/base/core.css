@@ -121,7 +121,6 @@ body {
 html,
 body {
   overflow-y: auto;
-  overflow-x: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
   scrollbar-color: transparent transparent;

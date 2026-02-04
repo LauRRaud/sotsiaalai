@@ -4,3 +4,35 @@
   height: 100%;
   overflow: hidden;
 }
+.color-bends-container canvas {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 48em) {
+  .color-bends-container::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    z-index: 0;
+    background:
+      radial-gradient(
+        70% 60% at 18% 30%,
+        rgba(197, 113, 113, 0.42),
+        rgba(197, 113, 113, 0) 62%
+      ),
+      radial-gradient(
+        75% 65% at 78% 20%,
+        rgba(120, 102, 160, 0.28),
+        rgba(120, 102, 160, 0) 68%
+      ),
+      radial-gradient(
+        85% 70% at 55% 78%,
+        rgba(86, 133, 160, 0.26),
+        rgba(86, 133, 160, 0) 72%
+      );
+    filter: blur(22px) saturate(1.08);
+    opacity: 0.85;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+}

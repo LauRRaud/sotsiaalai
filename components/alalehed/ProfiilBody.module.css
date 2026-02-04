@@ -38,6 +38,19 @@
   --profile-center-y: 50%;
   --profile-orbit-offset: 0px;
   --profile-btn-row-offset: 0px;
+  --profile-role-hole-top: 5.1rem;
+}
+
+@media (max-width: 48em) {
+  .profileContainer.profileContainerPage {
+    --ring-fit-h: calc(
+      100svh - (2 * var(--ring-fit-pad, 1.5rem)) -
+        var(--ring-ui-reserve-page, var(--ring-ui-reserve, 9rem))
+    );
+    height: 100svh;
+    min-height: 100svh;
+    max-height: 100svh;
+  }
 }
 
 .profileMaskLayer {
@@ -105,16 +118,4 @@
 
 .profileRolePill {
   box-shadow: var(--profile-role-hole-shadow, none);
-}
-
-@media (max-width: 90em) and (max-height: 840px) {
-  .profileContainer :global(.profile-title) {
-    margin-top: clamp(0.3rem, 1.4vh, 0.9rem) !important;
-    margin-bottom: clamp(0.3rem, 1.1vh, 0.7rem) !important;
-  }
-
-  .profileContainer :global(.profile-role-row) {
-    margin-bottom: clamp(0.15rem, 0.7vh, 0.4rem) !important;
-    transform: translateY(clamp(-0.35rem, -1.2vh, -0.6rem));
-  }
 }

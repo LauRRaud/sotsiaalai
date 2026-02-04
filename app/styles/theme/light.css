@@ -176,6 +176,32 @@
 :root.theme-light .drawer-panel .drawer-header strong {
   color: var(--title-color);
 }
+:root.theme-light .drawer-panel .drawer-chat-card,
+:root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.56) 60%,
+    rgba(255, 255, 255, 0.46)
+  );
+  box-shadow:
+    0 12px 26px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+:root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
+:root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
+  border-color: rgba(120, 128, 145, 0.32);
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.64) 60%,
+    rgba(255, 255, 255, 0.52)
+  );
+  box-shadow:
+    0 16px 30px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
 :root.theme-light .drawer-close {
   color: var(--brand-primary);
 }

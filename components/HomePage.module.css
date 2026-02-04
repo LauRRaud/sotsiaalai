@@ -312,6 +312,9 @@
 .homepage-root :global(.home-card-headline) {
   text-align: center;
   margin-inline: auto;
+  width: fit-content;
+  max-width: 100%;
+  text-align-last: center;
 }
 .centered-back-left,
 .centered-back-right {

@@ -102,9 +102,13 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, allowParticles]);
   useEffect(() => {
     if (!mounted) return;
-    if (reduceMotion || mobileLike) {
+    if (reduceMotion) {
       setColorBendsReady(false);
       return;
+    }
+    if (mobileLike) {
+      setColorBendsReady(true);
+      return () => {};
     }
     const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 900));
     return () => cancel?.();
@@ -160,11 +164,26 @@ const BackgroundContent = memo(function BackgroundContent({
       <div data-bg-layer ref={layerRef} className={styles.homeBgLayer} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
         {}
         {}
-        {colorBendsReady && !reduceMotion && !mobileLike && <div className="bg-bends-layer" aria-hidden="true">
+        {colorBendsReady && !reduceMotion && (
+          <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
-              <ColorBends bgColor={bgColor} />
+              <ColorBends
+                bgColor={bgColor}
+                speed={mobileLike ? 0.1 : 0.15}
+                scale={mobileLike ? 1.2 : 1}
+                frequency={mobileLike ? 0.78 : 1}
+                warpStrength={mobileLike ? 0.75 : 1}
+                thicknessBias={mobileLike ? 0.14 : 0.1}
+                edgeTightness={mobileLike ? 1.25 : 1.45}
+                noise={mobileLike ? 0.015 : 0}
+                parallax={mobileLike ? 0.04 : 0}
+                mouseInfluence={0}
+                maxDpr={mobileLike ? 1.4 : 2}
+                powerPreference={mobileLike ? "low-power" : "high-performance"}
+              />
             </Suspense>
-          </div>}
+          </div>
+        )}
 
         {}
         {particlesReady && allowParticles && <div className="bg-particles-layer">

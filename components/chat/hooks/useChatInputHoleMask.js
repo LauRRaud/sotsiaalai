@@ -98,6 +98,7 @@ export function useChatInputHoleMask({
     }
     scheduleUpdate();
     window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("scroll", scheduleUpdate, true);
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
     inputBar.addEventListener("transitionend", scheduleUpdate);
@@ -124,6 +125,7 @@ export function useChatInputHoleMask({
       window.cancelAnimationFrame(raf);
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
       window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("scroll", scheduleUpdate, true);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
       inputBar.removeEventListener("transitionend", scheduleUpdate);

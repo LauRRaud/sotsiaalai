@@ -25,15 +25,13 @@ import { clearStaleScrollLock } from "@/lib/scrollLock";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
+import CloseButton from "@/components/ui/CloseButton";
 import { glassPageBackClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(0.45rem,1.6vh,1rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const chatTitleOverlayClassName =
-  "pointer-events-none absolute left-1/2 top-[clamp(3.2rem,6.4vh,4.6rem)] -translate-x-1/2 z-[50] " +
-  "mt-0 mb-0";
 const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
@@ -559,14 +557,19 @@ export default function ChatBody({
   const showChatFace = !profileOpen;
   const showProfileFace = profileOpen;
   const focusActive = inputFocused && !profileOpen && !isMobile;
+  const baseChatVars = {
+    "--chat-diameter": "var(--profile-diameter)",
+    "--chat-input-shift": "clamp(calc(1.8rem + 1cm), calc(4.6vh + 1cm), calc(2.8rem + 1cm))"
+  };
   const focusVars = focusActive
     ? {
+        "--chat-diameter": "var(--chat-diameter-max)",
         "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
         "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
         "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
         "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
         "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
-        "--chat-input-shift": "clamp(0.9rem, 2.2vh, 1.4rem)",
+        "--chat-input-focus-shift": "calc(-1cm)",
         "--chat-expanded-delta": "clamp(0.4rem, 1.2vh, 1.1rem)",
         "--chat-input-focus-drop": "clamp(4.6rem, 9.6vh, 6.2rem)",
         "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
@@ -576,38 +579,47 @@ export default function ChatBody({
         "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)"
       }
     : undefined;
+  const chatVars = focusVars ? { ...baseChatVars, ...focusVars } : baseChatVars;
   const chatContainerClassName = cn(
-    "main-content chat-container chat-container--round " +
+    "main-content glass-ring chat-container chat-container--round " +
       "relative z-[2] " +
       "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
       "overflow-hidden " +
-      "bg-transparent backdrop-blur-none " +
+      "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
       "max-[48em]:min-h-0 max-[48em]:mx-auto",
+    "glass-ring-expandable",
+    focusActive ? "glass-ring-expandable--open" : null,
     focusActive ? "chat-container--input-focus" : null
   );
   return <>
       <InviteModal />
       <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus" : null)}>
         <>
-          {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
+            {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
               <div className="relative overflow-visible">
                 <GlassRing
                   className={chatContainerClassName}
-                  style={focusVars}
+                  style={chatVars}
                   role="region"
                   aria-label={t("chat.page_label")}
                   ref={chatContainerRef}
                   data-chat-container="true"
+                  data-chat-theme={isLightTheme ? "light" : "dark"}
                 >
-                  <div className="chat-mask-layer" aria-hidden="true" />
-                  {!profileOpen ? <div className="chat-nav-overlay" aria-hidden="true">
-                    <BackButton
-                      onClick={handleBackHome}
-                      ariaLabel={t("chat.back_to_home")}
-                      className={cn(glassPageBackClassName, "chat-back-button")}
-                    />
-                  </div> : null}
+                  {!isLightTheme ? <div className="chat-mask-layer" aria-hidden="true" /> : null}
+                    {!profileOpen ? <div className="chat-nav-overlay">
+                      <BackButton
+                        onClick={handleBackHome}
+                        ariaLabel={t("chat.back_to_home")}
+                        className={cn(glassPageBackClassName, "chat-back-button")}
+                      />
+                      <CloseButton
+                        onClick={handleBackHome}
+                        ariaLabel={t("chat.back_to_home")}
+                        className="chat-close-button"
+                      />
+                    </div> : null}
 
                 <RightRail
                   t={t}

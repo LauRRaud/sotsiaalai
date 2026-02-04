@@ -30,11 +30,16 @@ const pageShellClassName =
 const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)]";
-const titleClassName =
+const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const headerCenterClassName = "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
+const titlePageClassName =
+  "mt-[clamp(0.95rem,2.3vh,1.85rem)] mb-[clamp(0.55rem,1.6vh,1.1rem)]";
+const headerCenterBaseClassName =
+  "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
+const headerCenterPageClassName =
+  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-1.5rem,-3.4vh,-0.9rem)]";
 const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
@@ -78,7 +83,8 @@ function ProfileShell({
     styles.profileContainer,
     containerBaseClassName,
     embedded ? styles.profileContainerEmbedded : styles.profileContainerPage,
-    embedded ? "profile-container profile-container--embedded" : null
+    embedded ? "profile-container profile-container--embedded" : "profile-container profile-container--page",
+    "glass-ring [--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)]"
   );
   const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
       <div ref={maskLayerRef} className={styles.profileMaskLayer} aria-hidden="true" />
@@ -138,6 +144,15 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
+function BackDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M10.5 5.5L4.5 12l6 6.5" />
+      <path d="M5.25 12H20" />
+    </svg>;
+}
 export default function ProfiilBody({
   initialProfile = null,
   embedded = false,
@@ -176,6 +191,11 @@ export default function ProfiilBody({
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
   const isLightTheme = prefs?.theme === "light";
+  const titleClassName = cn(titleBaseClassName, !embedded && titlePageClassName);
+  const headerCenterClassName = cn(
+    headerCenterBaseClassName,
+    !embedded && headerCenterPageClassName
+  );
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
@@ -344,6 +364,24 @@ export default function ProfiilBody({
     return () => timers.forEach(timer => window.clearTimeout(timer));
   }, [prefs?.theme, roleLabel, orbitOpen, isActive, embedded]);
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const maskLayer = maskLayerRef.current;
+    if (orbitOpen) {
+      if (maskLayer) {
+        maskLayer.style.setProperty("-webkit-mask-image", "none");
+        maskLayer.style.setProperty("mask-image", "none");
+      }
+      return;
+    }
+    if (maskLayer) {
+      maskLayer.style.removeProperty("-webkit-mask-image");
+      maskLayer.style.removeProperty("mask-image");
+    }
+    const refresh = () => maskRefreshRef.current?.();
+    const timers = [0, 80, 180, 360].map(delay => window.setTimeout(refresh, delay));
+    return () => timers.forEach(timer => window.clearTimeout(timer));
+  }, [orbitOpen]);
+  useEffect(() => {
     if (!isActive) return;
     const refresh = () => maskRefreshRef.current?.();
     const raf1 = window.requestAnimationFrame(() => {
@@ -413,6 +451,19 @@ export default function ProfiilBody({
     labelPos: "down",
     onClick: () => openA11y?.()
   }];
+  const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack();
+      return;
+    }
+    pushWithTransition(router, "/vestlus");
+  }, [onBack, router]);
+  const mobileBackItem = {
+    key: "back",
+    icon: <span className="profile-orbit-back-icon" aria-hidden="true" />,
+    label: t("buttons.back"),
+    onClick: handleBack
+  };
   const handleLogout = async () => {
     if (loggingOut) return;
     setError("");
@@ -467,13 +518,6 @@ export default function ProfiilBody({
       }
     })();
   }, [embedded, initialProfile, isActive, status, t]);
-  const handleBack = useCallback(() => {
-    if (typeof onBack === "function") {
-      onBack();
-      return;
-    }
-    pushWithTransition(router, "/vestlus");
-  }, [onBack, router]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
     return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
@@ -527,7 +571,7 @@ export default function ProfiilBody({
             toggleLabelOpen={t("profile.actions_label")}
             toggleLabelClose={t("buttons.close")}
             mobileVariant="stack"
-            mobileBackLabel={t("buttons.back")}
+            mobileBackItem={mobileBackItem}
             onOpenChange={setOrbitOpen}
           />
         </div>

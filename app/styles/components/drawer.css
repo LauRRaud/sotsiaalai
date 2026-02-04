@@ -42,8 +42,20 @@
 .drawer-panel .drawer-chat-sidebar__list {
   scrollbar-width: none;
   position: relative;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 1rem, #000 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 1rem, #000 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 1rem,
+    #000 calc(100% - 1rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 1rem,
+    #000 calc(100% - 1rem),
+    transparent 100%
+  );
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
@@ -52,6 +64,35 @@
 .drawer-panel .drawer-chat-sidebar__list::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+.drawer-panel .drawer-chat-card,
+.drawer-panel .drawer-chat-sidebar__list > li {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(16, 20, 32, 0.22) 58%,
+    rgba(10, 14, 24, 0.26)
+  );
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+}
+.drawer-panel .drawer-chat-card.drawer-chat-card--active,
+.drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(20, 24, 36, 0.2) 58%,
+    rgba(8, 12, 20, 0.24)
+  );
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.2),
+    0 0 18px rgba(248, 253, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .drawer-panel .drawer-refresh-btn {
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));

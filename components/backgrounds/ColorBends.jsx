@@ -137,7 +137,9 @@ export default function ColorBends({
   edgeTightness = 1.45,
   mouseInfluence = 0,
   parallax = 0,
-  noise = 0
+  noise = 0,
+  maxDpr = 2,
+  powerPreference = "high-performance"
 }) {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
@@ -219,7 +221,7 @@ export default function ColorBends({
     scene.add(mesh);
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
-      powerPreference: "high-performance",
+      powerPreference,
       alpha: !!transparent
     });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -233,7 +235,7 @@ export default function ColorBends({
     rendererRef.current = renderer;
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
     let renderScale = prefersReduced ? 0.75 : 0.9;
-    const baseDpr = Math.min(window.devicePixelRatio || 1, 2);
+    const baseDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     const applyDpr = () => renderer.setPixelRatio(Math.min(baseDpr * renderScale, 2));
     applyDpr();
     const handleResize = () => {
@@ -348,7 +350,7 @@ export default function ColorBends({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength]);
+  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength, maxDpr, powerPreference]);
   useEffect(() => {
     const material = materialRef.current;
     const renderer = rendererRef.current;

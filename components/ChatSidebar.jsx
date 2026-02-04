@@ -39,6 +39,7 @@ export default function ChatSidebar() {
   const [selectedIds, setSelectedIds] = useState(() => new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const abortRef = useRef(null);
+  const cursorRef = useRef(null);
   const roomsAbortRef = useRef(null);
   const visibilityThrottleRef = useRef({
     timer: null,
@@ -63,6 +64,7 @@ export default function ChatSidebar() {
     if (reset) {
       setItems([]);
       setCursor(null);
+      cursorRef.current = null;
       setHasMore(false);
     }
     setBusy(true);
@@ -70,8 +72,8 @@ export default function ChatSidebar() {
       const params = new URLSearchParams({
         limit: String(pageSize)
       });
-      if (!reset && cursor) {
-        params.set("cursor", cursor);
+      if (!reset && cursorRef.current) {
+        params.set("cursor", cursorRef.current);
       }
       const r = await fetch(`/api/chat/conversations?${params.toString()}`, {
         cache: "no-store",
@@ -86,8 +88,10 @@ export default function ChatSidebar() {
       }
       const newItems = Array.isArray(data.conversations) ? data.conversations : [];
       setItems(prev => reset ? newItems : [...prev, ...newItems]);
-      setCursor(data.nextCursor || null);
-      setHasMore(Boolean(data.nextCursor));
+      const nextCursor = data.nextCursor || null;
+      setCursor(nextCursor);
+      cursorRef.current = nextCursor;
+      setHasMore(Boolean(nextCursor));
       if (data?.degraded) {
         setError(data.message || t("chat.sidebar.error.history"));
       }
@@ -99,7 +103,7 @@ export default function ChatSidebar() {
       if (abortRef.current === ac) abortRef.current = null;
       setBusy(false);
     }
-  }, [cursor, pageSize, t]);
+  }, [pageSize, t]);
   const fetchRooms = useCallback(async () => {
     roomsAbortRef.current?.abort();
     const ac = new AbortController();
@@ -430,13 +434,10 @@ export default function ChatSidebar() {
   const isActionBusy = busy || creating || bulkDeleting;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
-    "flex items-start gap-3 rounded-[1.1rem] border px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition shadow-none w-full max-w-[19.5rem]";
-  const messageCardDarkVariant =
-    "border-[rgba(255,255,255,0.12)] bg-[rgba(12,16,26,0.22)]";
-  const messageCardLightVariant =
-    "light:border-[rgba(148,163,184,0.18)] light:bg-[rgba(255,255,255,0.65)] light:text-[#1f2937]";
-  const messageActiveVariant =
-    "border-[rgba(255,255,255,0.28)] bg-[rgba(255,255,255,0.07)] light:border-[rgba(148,163,184,0.28)] light:bg-[rgba(255,255,255,0.72)]";
+    "drawer-chat-card flex items-start gap-3 rounded-[1.1rem] border px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition w-full max-w-[19.5rem]";
+  const messageCardDarkVariant = "";
+  const messageCardLightVariant = "light:text-[#1f2937]";
+  const messageActiveVariant = "drawer-chat-card--active";
   const previewTextClassName =
     "text-[1rem] leading-[1.45] text-[rgba(255,255,255,0.7)] light:text-[rgba(31,41,55,0.7)]";
   const timeTextClassName =

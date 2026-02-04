@@ -9,6 +9,7 @@
   position: relative;
   z-index: 21;
   min-height: 0;
+  --ring-diameter: var(--chat-diameter);
   --chat-hpad: clamp(1.25rem, 2.5vw, 1.6rem);
   --chat-ai-offset: clamp(1.35rem, 3vw, 2.4rem);
   --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
@@ -46,23 +47,25 @@
   --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 13rem);
   overflow-anchor: none;
 }
+.chat-container[data-chat-theme="dark"] {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
 .chat-page-shell {
   display: grid;
   place-items: center;
   min-height: 100dvh;
   padding: 0;
   height: 100dvh;
-  overflow-y: auto;
   overflow-anchor: none;
 }
 .chat-page-shell--input-focus {
-  place-items: start center;
-  padding-top: calc(
-    clamp(0.7rem, 1.9vh, 1.3rem) + (var(--chat-expanded-delta, 0px) / 2)
-  );
-  padding-bottom: calc(var(--chat-expanded-delta, 0px) + 1.5rem);
-  scroll-padding-top: clamp(0.7rem, 1.9vh, 1.3rem);
-  scroll-padding-bottom: calc(var(--chat-expanded-delta, 0px) + 2rem);
+  place-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  scroll-padding-top: 0;
+  scroll-padding-bottom: 0;
 }
 .chat-window {
   min-height: 0;
@@ -71,7 +74,7 @@
 .chat-container .conversation-view {
   margin-bottom: clamp(0.5rem, 1.4vh, 1.1rem);
   transform: translateY(clamp(0.6rem, 2.6vh, 1.2rem));
-  transition: transform 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .chat-container--input-focus .conversation-view {
   margin-bottom: clamp(0.6rem, 1.6vh, 1.3rem);
@@ -80,21 +83,21 @@
 .chat-input-row {
   transform: translateY(calc(-1 * var(--chat-input-shift, 0rem)));
   transition:
-    transform 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    margin-top 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    margin-top 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
 }
 .chat-inputbar {
   transition-property: border-color, box-shadow, background, max-width;
-  transition-duration: 520ms, 520ms, 520ms, 360ms;
+  transition-duration: 400ms, 400ms, 400ms, 400ms;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .chat-container--input-focus .chat-inputbar {
-  transition-duration: 680ms;
+  transition-duration: 400ms;
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .chat-container--input-focus {
-  --chat-window-focus-shift: clamp(1.2rem, 3vh, 2.4rem);
+  --chat-window-focus-shift: 0rem;
 }
 .chat-container--input-focus .chat-input-row {
   transform: translateY(
@@ -103,6 +106,9 @@
 }
 .chat-container--input-focus .chat-window {
   padding-bottom: calc(clamp(0.6rem, 1.4vh, 1.2rem) + clamp(1.2rem, 3vh, 2.4rem)) !important;
+}
+.chat-window {
+  transition: padding-bottom 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .chat-mask-layer {
   position: absolute;
@@ -195,10 +201,7 @@ main#main > .main-content.glass-box.chat-container,
 }
 .chat-page-shell
   .chat-container.chat-container--round.chat-container--input-focus {
-  border-top-left-radius: calc(var(--chat-diameter, 100%) / 2);
-  border-top-right-radius: calc(var(--chat-diameter, 100%) / 2);
-  border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
-  border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+  border-radius: 50%;
 }
 :root.theme-light .chat-container {
   color: #1f2937;
@@ -215,6 +218,10 @@ main#main > .main-content.glass-box.chat-container,
 }
 .chat-back-button {
   pointer-events: auto;
+}
+.chat-close-button {
+  pointer-events: auto;
+  display: none;
 }
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx) {
   .chat-container {
@@ -248,21 +255,24 @@ main#main > .main-content.glass-box.chat-container,
     --chat-nav-top: 50%;
     --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
     transition:
-      border-radius 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      max-height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      transform 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      border-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      min-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      min-height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      inline-size 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      block-size 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus {
-    height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
-    max-height: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
-    block-size: calc(var(--chat-diameter) + var(--chat-expanded-delta, 0px));
-    border-top-left-radius: calc(var(--chat-diameter) / 2);
-    border-top-right-radius: calc(var(--chat-diameter) / 2);
-    border-bottom-left-radius: 2.4rem;
-    border-bottom-right-radius: 2.4rem;
-    transform: translateY(var(--chat-expanded-delta, 0px));
+    height: var(--chat-diameter);
+    max-height: var(--chat-diameter);
+    block-size: var(--chat-diameter);
+    border-radius: 50%;
+    transform: none;
   }
   :root
     .chat-page-shell
@@ -286,5 +296,3 @@ main#main > .main-content.glass-box.chat-container,
     --chat-logo-height: clamp(10rem, 28vw, 22rem);
   }
 }
-
-

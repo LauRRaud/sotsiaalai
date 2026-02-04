@@ -26,7 +26,7 @@ export default function OrbitalMenu({
   ariaLabel = "Actions",
   toggleLabelOpen = "Open menu",
   toggleLabelClose = "Close menu",
-  mobileBackLabel,
+  mobileBackItem,
   className = "",
   mobileVariant = "list",
   onOpenChange
@@ -51,13 +51,22 @@ export default function OrbitalMenu({
   const overlayCloseBtnRef = useRef(null);
   const scrollRef = useRef(null);
   const slotRefs = useRef([]);
+  const stackListRef = useRef(null);
+  const stackItemRefs = useRef([]);
   const rafRef = useRef(0);
   const settleTimerRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const [listPad, setListPad] = useState(0);
+  const [stackPad, setStackPad] = useState(0);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
+  const [stackFocusIndex, setStackFocusIndex] = useState(null);
+  const stackItems = useMemo(() => {
+    if (!useMobileStack) return items;
+    if (!mobileBackItem) return items;
+    return [...items, mobileBackItem];
+  }, [items, mobileBackItem, useMobileStack]);
   const [visuals, setVisuals] = useState(() => Array.from({
     length: items.length
   }, () => ({
@@ -126,6 +135,12 @@ export default function OrbitalMenu({
     }));
   }, [items.length]);
   useEffect(() => {
+    stackItemRefs.current = new Array(stackItems.length);
+  }, [stackItems.length]);
+  useEffect(() => {
+    stackItemRefs.current = new Array(items.length);
+  }, [items.length]);
+  useEffect(() => {
     if (!isOpen) return;
     const handlePointerDown = event => {
       const root = rootRef.current;
@@ -183,7 +198,11 @@ export default function OrbitalMenu({
     const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
-      closeEl?.focus?.();
+      if (useMobileStack) {
+        stackItemRefs.current?.[0]?.focus?.();
+      } else {
+        closeEl?.focus?.();
+      }
     });
     return () => {
       cancelAnimationFrame(raf);
@@ -369,6 +388,54 @@ export default function OrbitalMenu({
       window.removeEventListener("resize", onResize);
     };
   }, [applyActive, computeListPadding, useMobileOverlay, isOpen, items.length, scheduleMobileUpdate, scheduleSettleSnap]);
+  useLayoutEffect(() => {
+    if (!isOpen || !useMobileStack) return;
+    const listEl = stackListRef.current;
+    if (!listEl) return;
+    const computeActive = () => {
+      const listRect = listEl.getBoundingClientRect();
+      const centerY = listRect.top + listRect.height / 2;
+      const refs = stackItemRefs.current || [];
+      let bestIdx = null;
+      let bestDist = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < refs.length; i += 1) {
+        const el = refs[i];
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        const cy = r.top + r.height / 2;
+        const dist = Math.abs(cy - centerY);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      }
+      setStackFocusIndex(bestIdx);
+    };
+    const computePad = () => {
+      const first = stackItemRefs.current?.[0];
+      if (!first) return;
+      const listH = listEl.clientHeight || 0;
+      const itemH = first.offsetHeight || 0;
+      if (!listH || !itemH) return;
+      const pad = Math.max(0, Math.floor((listH - itemH) / 2) + 24);
+      setStackPad(pad);
+    };
+    computeActive();
+    computePad();
+    const onScroll = () => computeActive();
+    listEl.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", computeActive);
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
+      computeActive();
+      computePad();
+    }) : null;
+    ro?.observe(listEl);
+    return () => {
+      listEl.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", computeActive);
+      ro?.disconnect?.();
+    };
+  }, [isOpen, useMobileStack]);
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -482,23 +549,28 @@ export default function OrbitalMenu({
       if (e.target === e.currentTarget) setIsPinnedOpen(false);
     }}>
           <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
-            <div className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(0.9rem,2.2vh,1.35rem)]">
-              {items.map((item, index) => <button key={item.key || index} type="button" className="profile-orbit-stack-item" onClick={() => onMobileAction(item)} aria-label={item.label}>
+            <div className="profile-orbit-stack-fade profile-orbit-stack-fade--top" aria-hidden="true" />
+            <div className="profile-orbit-stack-fade profile-orbit-stack-fade--bottom" aria-hidden="true" />
+
+            <div ref={stackListRef} className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(1rem,2.6vh,1.6rem)]" style={{
+          paddingTop: stackPad,
+          paddingBottom: stackPad,
+          "--stack-pad": `${stackPad}px`
+        }}>
+              {stackItems.map((item, index) => {
+            const isFocus = stackFocusIndex === index;
+            return <button key={item.key || index} ref={el => {
+              stackItemRefs.current[index] = el;
+            }} type="button" data-key={item.key || undefined} className={`profile-orbit-stack-item${isFocus ? " is-focus" : ""}`} onClick={() => onMobileAction(item)} aria-label={item.label}>
                   <span className="profile-orbit-stack-bubble dock-item" aria-hidden="true">
                     <span className="dock-icon">
                       {item.icon}
                     </span>
                   </span>
                   <span className="profile-orbit-stack-label">{item.label}</span>
-                </button>)}
+                </button>;
+          })}
             </div>
-
-            <button ref={overlayCloseBtnRef} type="button" className="profile-orbit-stack-back" onClick={() => setIsPinnedOpen(false)} aria-label={mobileBackLabel || toggleLabelClose}>
-              <span className="profile-orbit-stack-bubble profile-orbit-stack-back-bubble dock-item" aria-hidden="true">
-                <span className="profile-orbit-stack-back-icon" />
-              </span>
-              <span className="profile-orbit-stack-back-label">{mobileBackLabel || toggleLabelClose}</span>
-            </button>
           </div>
         </div>}
     </div>;

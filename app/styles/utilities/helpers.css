@@ -19,6 +19,10 @@
   caret-color: transparent !important;
 }
 
+.page-close-button {
+  display: none;
+}
+
 .glass-ring {
   position: relative;
   display: flex;
@@ -33,17 +37,17 @@
     var(--ring-desktop-max, 55rem),
     calc(var(--ring-base-max, 50rem) * var(--ring-scale, 1))
   );
-  --ring-diameter: min(
+  --ring-diameter-default: min(
     var(--ring-max),
     max(var(--ring-base-min, 34rem), var(--ring-fit))
   );
-  --profile-diameter: var(--ring-diameter);
-  width: var(--ring-diameter);
-  height: var(--ring-diameter);
-  min-width: var(--ring-diameter);
-  min-height: var(--ring-diameter);
-  max-width: var(--ring-diameter);
-  max-height: var(--ring-diameter);
+  --profile-diameter: var(--ring-diameter, var(--ring-diameter-default));
+  width: var(--ring-diameter, var(--ring-diameter-default));
+  height: var(--ring-diameter, var(--ring-diameter-default));
+  min-width: var(--ring-diameter, var(--ring-diameter-default));
+  min-height: var(--ring-diameter, var(--ring-diameter-default));
+  max-width: var(--ring-diameter, var(--ring-diameter-default));
+  max-height: var(--ring-diameter, var(--ring-diameter-default));
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
@@ -152,9 +156,11 @@
 
 @media (min-width: 48em) {
   .glass-ring-expandable {
-    --glass-ring-br-bottom: calc(var(--ring-diameter) / 2);
-    border-radius: calc(var(--ring-diameter) / 2)
-      calc(var(--ring-diameter) / 2)
+    --glass-ring-br-bottom: calc(
+      var(--ring-diameter, var(--ring-diameter-default)) / 2
+    );
+    border-radius: calc(var(--ring-diameter, var(--ring-diameter-default)) / 2)
+      calc(var(--ring-diameter, var(--ring-diameter-default)) / 2)
       var(--glass-ring-br-bottom)
       var(--glass-ring-br-bottom);
   }

@@ -8,6 +8,7 @@
 
   --bg-overscan: clamp(120px, 18svh, 220px);
   --chat-diameter: clamp(660px, 94vmin, 1240px);
+  --chat-diameter-max: var(--chat-diameter);
   --profile-diameter: var(--chat-diameter);
   --icon-btn-close-size: 2.65rem;
 

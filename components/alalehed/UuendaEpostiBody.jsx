@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import BackButton from "@/components/ui/BackButton";
+import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
@@ -35,6 +36,7 @@ export default function UuendaEpostiBody() {
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/profiil", locale));
+  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
   useEffect(() => {
     let isActive = true;
     const loadCurrentEmail = async () => {
@@ -107,6 +109,7 @@ export default function UuendaEpostiBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={glassPageRingCenteredClassName}>
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className="page-close-button" />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
         <h1 className={titleClassName}>
           {t("profile.email_update.title", "Uuenda e-post")}

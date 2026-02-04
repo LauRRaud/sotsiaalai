@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
+import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
@@ -35,6 +36,7 @@ export default function TellimusBody() {
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale));
+  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
   useEffect(() => {
     (async () => {
       try {
@@ -72,6 +74,7 @@ export default function TellimusBody() {
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={glassPageRingCenteredClassName}>
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className="page-close-button" />
           <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
@@ -86,6 +89,7 @@ export default function TellimusBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={glassPageRingCenteredClassName}>
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className="page-close-button" />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
         <h1 className={titleClassName}>
           {t("subscription.title")}

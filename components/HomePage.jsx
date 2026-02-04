@@ -196,6 +196,8 @@ export default function HomePage() {
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
+  const leftBackInteractive = isMobile ? flipAllowed : leftInteractive;
+  const rightBackInteractive = isMobile ? flipAllowed : rightInteractive;
   const flipClass = !isMobile && flipAllowed ? styles["flip-allowed"] : "";
   const onLeftEnter = () => {
     if (suppressFlipRef.current) return;
@@ -341,12 +343,12 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      <div className={cn(styles["card-face"], styles.back, "card-face", "back")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!leftInteractive} aria-busy={!leftInteractive} tabIndex={leftInteractive ? 0 : -1} onClick={leftInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
-                    if (!leftInteractive) return;
+                      <div className={cn(styles["card-face"], styles.back, "card-face", "back")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!leftBackInteractive} aria-busy={!leftBackInteractive} tabIndex={leftBackInteractive ? 0 : -1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
+                    if (!leftBackInteractive) return;
                     if (e.key === "Enter" || e.key === " ") startExitToChat("left");
-                  }} style={!leftInteractive ? {
+                  }} style={!leftBackInteractive ? {
                     pointerEvents: "none"
-                  } : {}} data-interactive={leftInteractive ? "true" : "false"}>
+                  } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
                         <div className={cn(styles["centered-back-left"], "centered-back-left", shouldFadeIn ? styles["fade-in"] : null)}>
                           <h2 className={cn("home-card-headline", styles["headline-bold"])}>
                             {t("home.card.specialist.title")}
@@ -372,12 +374,12 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      <div className={cn(styles["card-face"], styles.back, "card-face", "back")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!rightInteractive} aria-busy={!rightInteractive} tabIndex={rightInteractive ? 0 : -1} onClick={rightInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
-                    if (!rightInteractive) return;
+                      <div className={cn(styles["card-face"], styles.back, "card-face", "back")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!rightBackInteractive} aria-busy={!rightBackInteractive} tabIndex={rightBackInteractive ? 0 : -1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
+                    if (!rightBackInteractive) return;
                     if (e.key === "Enter" || e.key === " ") startExitToChat("right");
-                  }} style={!rightInteractive ? {
+                  }} style={!rightBackInteractive ? {
                     pointerEvents: "none"
-                  } : {}} data-interactive={rightInteractive ? "true" : "false"}>
+                  } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
                         <div className={cn(styles["centered-back-right"], "centered-back-right", shouldFadeIn ? styles["fade-in"] : null)}>
                           <h2 className={cn("home-card-headline", styles["headline-bold"])}>
                             {t("home.card.client.title")}

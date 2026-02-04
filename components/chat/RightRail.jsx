@@ -123,6 +123,18 @@ export default function RightRail({
       label: "Allikad"
     }];
   }, [t]);
+  const mobileSlots = useMemo(() => {
+    const order = ["chats", "rooms", "invite", "sources", "profile"];
+    return order.map(key => {
+      const itemIndex = items.findIndex(item => item.key === key);
+      if (itemIndex < 0) return null;
+      return {
+        it: items[itemIndex],
+        itemIndex,
+        slotOffset: 0
+      };
+    }).filter(Boolean);
+  }, [items]);
   useEffect(() => {
     const idx = (() => {
       if (!pathname) return 1;
@@ -201,12 +213,7 @@ export default function RightRail({
   };
   return <div className={`${styles.slot} chat-right-actions${suspendPointerEvents ? ` ${styles.pointerBlocked}` : ""}`}>
       <nav className={styles.rightRail} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown}>
-        {(isMobile ? items.map((it, itemIndex) => ({
-        it,
-        itemIndex,
-        slotOffset: 0,
-        slotIdx: itemIndex
-      })) : [-2, -1, 0, 1, 2].map((slotOffset, slotIdx) => {
+        {(isMobile ? mobileSlots : [-2, -1, 0, 1, 2].map((slotOffset) => {
         const itemIndex = activeIndex + slotOffset;
         if (itemIndex < 0 || itemIndex >= items.length) {
           return null;
@@ -214,15 +221,13 @@ export default function RightRail({
         return {
           it: items[itemIndex],
           itemIndex,
-          slotOffset,
-          slotIdx
+          slotOffset
         };
       }).filter(Boolean)).map((slot) => {
         const {
           it,
           itemIndex,
-          slotOffset,
-          slotIdx
+          slotOffset
         } = slot;
         if (!it) return null;
         const outerFactor = 1.78;
@@ -246,9 +251,10 @@ export default function RightRail({
             sourcesButtonRef.current = el;
           }
         };
+        const isArmed = isMobile && armedIndex === itemIndex;
         const commonProps = {
           ref: setRailRef,
-          className: `${styles.item}${!isMobile && slotOffset === 0 ? ` ${styles.isActive}` : ""}${it?.key === "sources" && showSourcesPanel ? ` ${styles.iconBtnActive}` : ""}${it?.key === "sources" && sourcesPulse ? ` ${styles.isPulse}` : ""}`,
+          className: `${styles.item}${!isMobile && slotOffset === 0 ? ` ${styles.isActive}` : ""}${isArmed ? ` ${styles.isArmed}` : ""}${it?.key === "sources" && showSourcesPanel ? ` ${styles.iconBtnActive}` : ""}${it?.key === "sources" && sourcesPulse ? ` ${styles.isPulse}` : ""}`,
           style: isMobile ? undefined : {
             transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
             opacity: opacity.toFixed(3),
@@ -264,11 +270,9 @@ export default function RightRail({
           if (isMobile) {
             if (armedIndex !== itemIndex) {
               setArmedIndex(itemIndex);
-              setHoveredIndex(itemIndex);
               return;
             }
             setArmedIndex(null);
-            setHoveredIndex(null);
           } else {
             setActiveIndex(itemIndex);
           }
@@ -299,8 +303,11 @@ export default function RightRail({
         };
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
         const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} className={`${commonProps.className} ${styles.iconBtn}`} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} className={`${commonProps.className} ${styles.iconBtn}`} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
               {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={styles.iconSvg} aria-hidden="true" role="img" /> : <AllikadDark className={styles.iconSvg} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={styles.iconImg} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={styles.iconImg} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={styles.iconImg} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
+              <span className={styles.label} aria-hidden="true">
+                {ariaLabel}
+              </span>
             </button>;
       })}
 
