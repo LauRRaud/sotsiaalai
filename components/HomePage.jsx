@@ -327,12 +327,12 @@ export default function HomePage() {
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", styles["homepage-root"], styles["homepage-scroll"], styles.homeCursorScope, !introStart && !skipIntroAnimations ? styles["intro-pending"] : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
-          <div className={cn("relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[48em]:flex-col max-[48em]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[48em]:px-[clamp(1rem,4vw,1.5rem)] max-[48em]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[48em]:pb-[clamp(5rem,12vw,7rem)] max-[48em]:min-h-[auto]", styles["home-hero-shell"])}>
-            <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", styles.side, styles.left)}>
-              <div ref={leftCardWrapRef} className={cn(styles["three-d-card"], styles["float-card"], styles.left, flipClass, leftFlipping ? styles["is-flipping"] : null, mobileFlipReady.left ? styles["mobile-flipped-left"] : null)} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")}>
+          <div className={cn("relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[48em]:flex-col max-[48em]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[48em]:px-[clamp(1rem,4vw,1.5rem)] max-[48em]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[48em]:pb-[clamp(5rem,12vw,7rem)] max-[48em]:min-h-[auto]", styles["home-hero-shell"], "home-hero-shell")}>
+            <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", styles.side, styles.left, "side")}>
+              <div ref={leftCardWrapRef} className={cn(styles["three-d-card"], "three-d-card", styles["float-card"], "float-card", styles.left, flipClass, leftFlipping ? styles["is-flipping"] : null, mobileFlipReady.left ? styles["mobile-flipped-left"] : null, mobileFlipReady.left ? "mobile-flipped-left" : null)} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
-                  {({ isActive: _isActive }) => <div className={cn(styles["card-wrapper"], _isActive ? styles["magnet-active"] : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
-                      <div className={cn(styles["card-face"], styles.front)}>
+                  {({ isActive: _isActive }) => <div className={cn(styles["card-wrapper"], "card-wrapper", _isActive ? styles["magnet-active"] : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
+                      <div className={cn(styles["card-face"], styles.front, "card-face", "front")}>
                         <div ref={setLeftCardEl} className={cn(styles["glass-card"], styles["glass-card-light"], "left-card-primary", shouldFadeIn ? styles["fade-in"] : null, leftFadeDone ? styles["fade-in-done"] : null)} style={{
                       position: "relative"
                     }}>
@@ -341,17 +341,17 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      <div className={cn(styles["card-face"], styles.back)} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!leftInteractive} aria-busy={!leftInteractive} tabIndex={leftInteractive ? 0 : -1} onClick={leftInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
+                      <div className={cn(styles["card-face"], styles.back, "card-face", "back")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!leftInteractive} aria-busy={!leftInteractive} tabIndex={leftInteractive ? 0 : -1} onClick={leftInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
                     if (!leftInteractive) return;
                     if (e.key === "Enter" || e.key === " ") startExitToChat("left");
                   }} style={!leftInteractive ? {
                     pointerEvents: "none"
                   } : {}} data-interactive={leftInteractive ? "true" : "false"}>
-                        <div className={cn(styles["centered-back-left"], shouldFadeIn ? styles["fade-in"] : null)}>
+                        <div className={cn(styles["centered-back-left"], "centered-back-left", shouldFadeIn ? styles["fade-in"] : null)}>
                           <h2 className={cn("home-card-headline", styles["headline-bold"])}>
                             {t("home.card.specialist.title")}
                           </h2>
-                          <SaimustLogo className={cn(styles["card-logo-bg"], styles["card-logo-bg-left-back"])} aria-hidden="true" />
+                          <SaimustLogo className={cn(styles["card-logo-bg"], styles["card-logo-bg-left-back"], "card-logo-bg-left-back")} aria-hidden="true" />
                         </div>
                       </div>
                     </div>}
@@ -359,11 +359,11 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", styles.side, styles.right)}>
-              <div ref={rightCardWrapRef} className={cn(styles["three-d-card"], styles["float-card"], styles.right, flipClass, rightFlipping ? styles["is-flipping"] : null, mobileFlipReady.right ? styles["mobile-flipped-right"] : null)} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")}>
+            <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", styles.side, styles.right, "side")}>
+              <div ref={rightCardWrapRef} className={cn(styles["three-d-card"], "three-d-card", styles["float-card"], "float-card", styles.right, flipClass, rightFlipping ? styles["is-flipping"] : null, mobileFlipReady.right ? styles["mobile-flipped-right"] : null, mobileFlipReady.right ? "mobile-flipped-right" : null)} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
-                  {({ isActive: _isActive }) => <div className={cn(styles["card-wrapper"], _isActive ? styles["magnet-active"] : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
-                      <div className={cn(styles["card-face"], styles.front)}>
+                  {({ isActive: _isActive }) => <div className={cn(styles["card-wrapper"], "card-wrapper", _isActive ? styles["magnet-active"] : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
+                      <div className={cn(styles["card-face"], styles.front, "card-face", "front")}>
                         <div ref={setRightCardEl} className={cn(styles["glass-card"], styles["glass-card-dark"], "right-card-primary", shouldFadeIn ? styles["fade-in"] : null, rightFadeDone ? styles["fade-in-done"] : null)} style={{
                       position: "relative"
                     }}>
@@ -372,17 +372,17 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      <div className={cn(styles["card-face"], styles.back)} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!rightInteractive} aria-busy={!rightInteractive} tabIndex={rightInteractive ? 0 : -1} onClick={rightInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
+                      <div className={cn(styles["card-face"], styles.back, "card-face", "back")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!rightInteractive} aria-busy={!rightInteractive} tabIndex={rightInteractive ? 0 : -1} onClick={rightInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
                     if (!rightInteractive) return;
                     if (e.key === "Enter" || e.key === " ") startExitToChat("right");
                   }} style={!rightInteractive ? {
                     pointerEvents: "none"
                   } : {}} data-interactive={rightInteractive ? "true" : "false"}>
-                        <div className={cn(styles["centered-back-right"], shouldFadeIn ? styles["fade-in"] : null)}>
+                        <div className={cn(styles["centered-back-right"], "centered-back-right", shouldFadeIn ? styles["fade-in"] : null)}>
                           <h2 className={cn("home-card-headline", styles["headline-bold"])}>
                             {t("home.card.client.title")}
                           </h2>
-                          <SaivalgeLogo className={cn(styles["card-logo-bg"], styles["card-logo-bg-right-back"])} aria-hidden="true" />
+                          <SaivalgeLogo className={cn(styles["card-logo-bg"], styles["card-logo-bg-right-back"], "card-logo-bg-right-back")} aria-hidden="true" />
                         </div>
                       </div>
                     </div>}

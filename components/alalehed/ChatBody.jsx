@@ -37,7 +37,6 @@ const chatTitleOverlayClassName =
 const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
-const chatLogoClassName = "h-[clamp(2.2rem,3.3vw,3.4rem)] w-auto opacity-[0.7] light:opacity-[0.8] translate-y-[1.7rem] drop-shadow-[0_10px_22px_rgba(0,0,0,0.45)]";
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -674,13 +673,7 @@ export default function ChatBody({
                 <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
-              <h1 className={cn(chatTitleClassName, chatTitleOverlayClassName)}>
-                <img
-                  src="/logo/logomustkaardu.svg"
-                  alt="SotsiaalAI"
-                  className={chatLogoClassName}
-                />
-              </h1>
+              {/* Logo removed from chat title overlay per request */}
               {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {
                   width: `${analysisPanelWidth}px`,
                   maxWidth: `${analysisPanelWidth}px`

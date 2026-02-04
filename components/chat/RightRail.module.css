@@ -181,7 +181,7 @@
 
   .rightRail {
     top: 0;
-    right: calc(env(safe-area-inset-right, 0px) + 0.25rem);
+    right: calc(env(safe-area-inset-right, 0px) + 2rem);
     transform: none;
     height: 100%;
     width: clamp(3.4rem, 12vw, 4.4rem);

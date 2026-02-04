@@ -22,7 +22,7 @@ export default function HomeFooter({ className, logoClassName }) {
         )}
       >
         <Logomust
-          className={cn(styles["home-footer-logo"], logoClassName, "pointer-events-none")}
+          className={cn(styles["home-footer-logo"], "home-footer-logo", logoClassName, "pointer-events-none")}
           role="img"
           aria-label={t("home.footer.logo_alt")}
         />

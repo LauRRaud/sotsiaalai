@@ -19,7 +19,7 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
-const contentClassName = "mt-[clamp(1.6rem,4.4vh,2.6rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-4 text-center";
+const contentClassName = "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(16rem,40vw,24rem)] flex-col gap-4 text-center";
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);

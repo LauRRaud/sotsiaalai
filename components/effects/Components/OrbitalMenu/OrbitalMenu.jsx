@@ -27,6 +27,7 @@ export default function OrbitalMenu({
   toggleLabelOpen = "Open menu",
   toggleLabelClose = "Close menu",
   className = "",
+  mobileVariant = "list",
   onOpenChange
 }) {
   const menuId = useId();
@@ -34,6 +35,8 @@ export default function OrbitalMenu({
   const hubBtnRef = useRef(null);
   const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
+  const useMobileOverlay = isCoarsePointer && mobileVariant === "list";
+  const useOrbitLayout = !useMobileOverlay;
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const isOpen = isPinnedOpen;
@@ -143,7 +146,7 @@ export default function OrbitalMenu({
     return () => html.classList.remove("profile-orbit-open");
   }, [isOpen]);
   useEffect(() => {
-    if (!isOpen || !isCoarsePointer) return;
+    if (!isOpen || !useMobileOverlay) return;
     if (typeof window === "undefined" || typeof document === "undefined") return;
     const body = document.body;
     const scrollY = window.scrollY || 0;
@@ -170,9 +173,9 @@ export default function OrbitalMenu({
       body.style.width = prev.width;
       window.scrollTo(0, scrollY);
     };
-  }, [isOpen, isCoarsePointer]);
+  }, [isOpen, useMobileOverlay]);
   useEffect(() => {
-    if (!isOpen || !isCoarsePointer) return;
+    if (!isOpen || !useMobileOverlay) return;
     const prevActive = typeof document !== "undefined" ? document.activeElement : null;
     const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
@@ -187,9 +190,9 @@ export default function OrbitalMenu({
       }
       if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
     };
-  }, [isOpen, isCoarsePointer]);
+  }, [isOpen, useMobileOverlay]);
   useLayoutEffect(() => {
-    if (isCoarsePointer) return;
+    if (!useOrbitLayout) return;
     const root = rootRef.current;
     if (!root) return;
     let raf = 0;
@@ -225,7 +228,7 @@ export default function OrbitalMenu({
       ro?.disconnect?.();
       window.removeEventListener("resize", schedule);
     };
-  }, [items.length, isCoarsePointer]);
+  }, [items.length, useOrbitLayout]);
   const handleToggle = () => setIsPinnedOpen(prev => !prev);
   const buildVisualsFromActive = useCallback(activeIdx => {
     const next = new Array(items.length);
@@ -327,7 +330,7 @@ export default function OrbitalMenu({
     }, prefersReducedMotion ? 0 : 320);
   }, [prefersReducedMotion, snapToIndex]);
   useLayoutEffect(() => {
-    if (!isOpen || !isCoarsePointer) return;
+    if (!isOpen || !useMobileOverlay) return;
     computeListPadding();
     const initialIdx = clamp(activeIndexRef.current || 0, 0, Math.max(0, items.length - 1));
     applyActive(initialIdx);
@@ -362,7 +365,7 @@ export default function OrbitalMenu({
       ro?.disconnect?.();
       window.removeEventListener("resize", onResize);
     };
-  }, [applyActive, computeListPadding, isCoarsePointer, isOpen, items.length, scheduleMobileUpdate, scheduleSettleSnap]);
+  }, [applyActive, computeListPadding, useMobileOverlay, isOpen, items.length, scheduleMobileUpdate, scheduleSettleSnap]);
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -383,7 +386,7 @@ export default function OrbitalMenu({
       className={cn("profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)]", isOpen && "is-open", isClosing && "is-closing", isExpanded && "is-expanded", isCoarsePointer && "is-mobile", className)}
     >
       {}
-      {!isCoarsePointer && <div className="profile-orbit-menu__items absolute inset-0 pointer-events-none" role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
+      {useOrbitLayout && <div className="profile-orbit-menu__items absolute inset-0 pointer-events-none" role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
           {items.map((item, index) => {
         const angle = desktopStartAngle + index * desktopAngleStep;
         const angleRad = angle * Math.PI / 180;
@@ -416,7 +419,7 @@ export default function OrbitalMenu({
       </button>
 
       {}
-      {isCoarsePointer && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
+      {useMobileOverlay && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
       if (e.target === e.currentTarget) setIsPinnedOpen(false);
     }}>
           <div className="invite-modal profile-orbit-mobile-panel relative isolate overflow-hidden w-screen max-w-screen h-[100dvh] max-h-[100dvh] rounded-none flex flex-col p-0 pt-[calc(env(safe-area-inset-top,0px)+0.95rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.95rem)]" onPointerDown={e => e.stopPropagation()}>

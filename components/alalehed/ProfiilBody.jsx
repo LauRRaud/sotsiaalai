@@ -505,11 +505,11 @@ export default function ProfiilBody({
       </ProfileShell>;
   }
   return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef}>
-      <h1 id="profile-title" className={titleClassName}>
+      <h1 id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)}>
         {t("profile.title")}
       </h1>
 
-      <div className={headerCenterClassName}>
+      <div className={cn(headerCenterClassName, "profile-role-row")}>
           <span
           ref={rolePillRef}
           className={cn(rolePillClassName, styles.profileRolePill, orbitOpen ? "opacity-0 pointer-events-none" : null)}
@@ -526,6 +526,7 @@ export default function ProfiilBody({
             ariaLabel={t("profile.actions_label")}
             toggleLabelOpen={t("profile.actions_label")}
             toggleLabelClose={t("buttons.close")}
+            mobileVariant="orbit"
             onOpenChange={setOrbitOpen}
           />
         </div>
