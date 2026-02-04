@@ -310,6 +310,138 @@
 }
 
 @media (max-width: 48em) {
+  .profile-orbit-menu[data-mobile-variant="stack"].is-open
+    .profile-orbit-menu__center {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.7);
+  }
+  .profile-orbit-stack-backdrop {
+    background: rgba(6, 8, 12, 0.38);
+    -webkit-backdrop-filter: blur(16px) saturate(118%);
+    backdrop-filter: blur(16px) saturate(118%);
+  }
+  :root.theme-light .profile-orbit-stack-backdrop {
+    background: rgba(238, 242, 247, 0.72);
+    -webkit-backdrop-filter: blur(10px) saturate(105%);
+    backdrop-filter: blur(10px) saturate(105%);
+  }
+  :root:not(.theme-light) .profile-orbit-stack-panel {
+    --orbit-mobile-accent: #c57171;
+  }
+  :root.theme-light .profile-orbit-stack-panel {
+    --orbit-mobile-accent: #7a3a38;
+  }
+  .profile-orbit-stack-panel {
+    background: var(--glass-surface-bg, rgba(8, 12, 20, 0.58));
+    border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.16));
+    box-shadow: var(--glass-shadow-glow, 0 16px 30px rgba(0, 0, 0, 0.35));
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1.25rem))
+      saturate(120%);
+    backdrop-filter: blur(var(--glass-blur-radius, 1.25rem)) saturate(120%);
+    overflow: hidden;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 2.4rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.8rem);
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+  .profile-orbit-stack-list {
+    flex: 1;
+    width: min(26rem, 100%);
+    justify-content: center;
+    overflow-y: auto;
+    padding-bottom: clamp(0.3rem, 1.6vh, 0.75rem);
+    padding-top: clamp(0.3rem, 1.6vh, 0.75rem);
+    scrollbar-width: none;
+  }
+  .profile-orbit-stack-list::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  .profile-orbit-stack-item,
+  .profile-orbit-stack-back {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.45rem, 1.6vw, 0.7rem);
+    color: var(--orbit-mobile-accent, #c57171);
+    text-align: center;
+  }
+  .profile-orbit-stack-bubble.dock-item {
+    width: clamp(4.6rem, 19vw, 6rem);
+    height: clamp(4.6rem, 19vw, 6rem);
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    -webkit-backdrop-filter: blur(0.8rem) saturate(120%);
+    backdrop-filter: blur(0.8rem) saturate(120%);
+  }
+  :root:not(.theme-light) .profile-orbit-stack-bubble.dock-item {
+    background: linear-gradient(
+      160deg,
+      rgba(12, 16, 26, 0.78),
+      rgba(22, 28, 40, 0.62)
+    );
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  :root.theme-light .profile-orbit-stack-bubble.dock-item {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(245, 246, 249, 0.86)
+    );
+    border-color: rgba(148, 163, 184, 0.35);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+  }
+  .profile-orbit-stack-bubble .dock-icon {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+  .profile-orbit-stack-bubble .dock-icon svg {
+    width: 58%;
+    height: 58%;
+    max-width: none;
+    max-height: none;
+    stroke: currentColor;
+    fill: none;
+  }
+  .profile-orbit-stack-bubble .dock-icon svg [fill]:not([fill="none"]) {
+    fill: currentColor;
+  }
+  .profile-orbit-stack-label,
+  .profile-orbit-stack-back-label {
+    font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+    max-width: min(70vw, 16rem);
+    text-wrap: balance;
+  }
+  .profile-orbit-stack-back-bubble.dock-item {
+    width: clamp(4.2rem, 17vw, 5.4rem);
+    height: clamp(4.2rem, 17vw, 5.4rem);
+  }
+  .profile-orbit-stack-back-icon {
+    display: block;
+    width: 60%;
+    height: 60%;
+    background-image: url("/logo/tagasinupp.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  :root.theme-light .profile-orbit-stack-back-icon {
+    background-image: url("/logo/tagasinupphele.svg");
+  }
+}
+
+@media (max-width: 48em) {
   :root.theme-light {
     --page-bg: #f1efea;
     --page-bg-top: #f6f4f0;
@@ -466,6 +598,16 @@
     transform: translate(-50%, -50%);
     width: 25%;
     opacity: 0.55;
+  }
+}
+
+@media (max-width: 48em) {
+  :root body .homepage-root .home-card-headline {
+    width: 100% !important;
+    max-width: 88% !important;
+    margin-inline: auto !important;
+    text-align: center !important;
+    text-align-last: center;
   }
 }
 

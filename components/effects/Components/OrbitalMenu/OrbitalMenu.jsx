@@ -26,6 +26,7 @@ export default function OrbitalMenu({
   ariaLabel = "Actions",
   toggleLabelOpen = "Open menu",
   toggleLabelClose = "Close menu",
+  mobileBackLabel,
   className = "",
   mobileVariant = "list",
   onOpenChange
@@ -36,7 +37,9 @@ export default function OrbitalMenu({
   const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
   const useMobileOverlay = isCoarsePointer && mobileVariant === "list";
-  const useOrbitLayout = !useMobileOverlay;
+  const useMobileStack = isCoarsePointer && mobileVariant === "stack";
+  const useMobileDialog = useMobileOverlay || useMobileStack;
+  const useOrbitLayout = !useMobileDialog;
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const isOpen = isPinnedOpen;
@@ -146,7 +149,7 @@ export default function OrbitalMenu({
     return () => html.classList.remove("profile-orbit-open");
   }, [isOpen]);
   useEffect(() => {
-    if (!isOpen || !useMobileOverlay) return;
+    if (!isOpen || !useMobileDialog) return;
     if (typeof window === "undefined" || typeof document === "undefined") return;
     const body = document.body;
     const scrollY = window.scrollY || 0;
@@ -173,9 +176,9 @@ export default function OrbitalMenu({
       body.style.width = prev.width;
       window.scrollTo(0, scrollY);
     };
-  }, [isOpen, useMobileOverlay]);
+  }, [isOpen, useMobileDialog]);
   useEffect(() => {
-    if (!isOpen || !useMobileOverlay) return;
+    if (!isOpen || !useMobileDialog) return;
     const prevActive = typeof document !== "undefined" ? document.activeElement : null;
     const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
@@ -190,7 +193,7 @@ export default function OrbitalMenu({
       }
       if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
     };
-  }, [isOpen, useMobileOverlay]);
+  }, [isOpen, useMobileDialog]);
   useLayoutEffect(() => {
     if (!useOrbitLayout) return;
     const root = rootRef.current;
@@ -383,7 +386,8 @@ export default function OrbitalMenu({
   const orbitRadiusBoost = isExpanded ? 1.14 : 1;
   return <div
       ref={rootRef}
-      className={cn("profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)]", isOpen && "is-open", isClosing && "is-closing", isExpanded && "is-expanded", isCoarsePointer && "is-mobile", className)}
+      data-mobile-variant={useMobileStack ? "stack" : useMobileOverlay ? "list" : "orbit"}
+      className={cn("profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)]", isOpen && "is-open", isClosing && "is-closing", isExpanded && "is-expanded", isCoarsePointer && "is-mobile", useMobileStack && "is-stack", className)}
     >
       {}
       {useOrbitLayout && <div className="profile-orbit-menu__items absolute inset-0 pointer-events-none" role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
@@ -470,6 +474,31 @@ export default function OrbitalMenu({
             <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--bottom absolute left-0 right-0 bottom-0 h-[4.6rem] z-[4] pointer-events-none opacity-0 transition-opacity duration-[220ms]", canScrollDown && "is-visible")} aria-hidden="true">
               <div className="profile-orbit-mobile-chevron profile-orbit-mobile-chevron--down absolute left-1/2 bottom-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-[225deg] border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
+          </div>
+        </div>}
+
+      {}
+      {useMobileStack && isOpen && <div className="profile-orbit-stack-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
+      if (e.target === e.currentTarget) setIsPinnedOpen(false);
+    }}>
+          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
+            <div className="profile-orbit-stack-list w-full flex flex-col items-center gap-[clamp(0.9rem,2.2vh,1.35rem)]">
+              {items.map((item, index) => <button key={item.key || index} type="button" className="profile-orbit-stack-item" onClick={() => onMobileAction(item)} aria-label={item.label}>
+                  <span className="profile-orbit-stack-bubble dock-item" aria-hidden="true">
+                    <span className="dock-icon">
+                      {item.icon}
+                    </span>
+                  </span>
+                  <span className="profile-orbit-stack-label">{item.label}</span>
+                </button>)}
+            </div>
+
+            <button ref={overlayCloseBtnRef} type="button" className="profile-orbit-stack-back" onClick={() => setIsPinnedOpen(false)} aria-label={mobileBackLabel || toggleLabelClose}>
+              <span className="profile-orbit-stack-bubble profile-orbit-stack-back-bubble dock-item" aria-hidden="true">
+                <span className="profile-orbit-stack-back-icon" />
+              </span>
+              <span className="profile-orbit-stack-back-label">{mobileBackLabel || toggleLabelClose}</span>
+            </button>
           </div>
         </div>}
     </div>;

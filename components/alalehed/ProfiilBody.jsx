@@ -526,7 +526,8 @@ export default function ProfiilBody({
             ariaLabel={t("profile.actions_label")}
             toggleLabelOpen={t("profile.actions_label")}
             toggleLabelClose={t("buttons.close")}
-            mobileVariant="orbit"
+            mobileVariant="stack"
+            mobileBackLabel={t("buttons.back")}
             onOpenChange={setOrbitOpen}
           />
         </div>
