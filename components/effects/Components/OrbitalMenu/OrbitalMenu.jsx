@@ -212,7 +212,7 @@ export default function OrbitalMenu({
       }
       if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
     };
-  }, [isOpen, useMobileDialog]);
+  }, [isOpen, useMobileDialog, useMobileStack]);
   useLayoutEffect(() => {
     if (!useOrbitLayout) return;
     const root = rootRef.current;

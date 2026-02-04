@@ -33,7 +33,6 @@ export default function ChatSidebar() {
   const [roomsBusy, setRoomsBusy] = useState(false);
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
-  const [cursor, setCursor] = useState(null);
   const [hasMore, setHasMore] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(() => new Set());
@@ -63,7 +62,6 @@ export default function ChatSidebar() {
     abortRef.current = ac;
     if (reset) {
       setItems([]);
-      setCursor(null);
       cursorRef.current = null;
       setHasMore(false);
     }
@@ -89,7 +87,6 @@ export default function ChatSidebar() {
       const newItems = Array.isArray(data.conversations) ? data.conversations : [];
       setItems(prev => reset ? newItems : [...prev, ...newItems]);
       const nextCursor = data.nextCursor || null;
-      setCursor(nextCursor);
       cursorRef.current = nextCursor;
       setHasMore(Boolean(nextCursor));
       if (data?.degraded) {

@@ -11,7 +11,9 @@ const ConversationView = memo(function ConversationView({
   canHideOlder,
   onHideOlder,
   onJumpToBottom,
-  messageItems
+  messageItems,
+  windowClassName: windowClassNameProp,
+  onWindowDoubleClick
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const isUserAtBottom = useRef(true);
@@ -47,11 +49,11 @@ const ConversationView = memo(function ConversationView({
     "conversation-view relative flex flex-1 flex-col min-h-0 w-full";
   const windowClassName =
     "chat-window relative flex flex-1 min-h-0 flex-col items-stretch gap-[0.75rem] " +
-    "w-full max-w-[calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))+1.8rem)] mx-auto " +
+    "w-full max-w-[var(--chat-window-max-w,calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))+1.8rem))] mx-auto " +
     "overflow-y-auto overscroll-contain " +
     "px-[clamp(0.2rem,0.9vw,0.8rem)] " +
-    "pt-[clamp(0.8rem,2.2vh,1.6rem)] " +
-    "pb-[clamp(0.6rem,1.4vh,1.2rem)] " +
+    "pt-[var(--chat-window-pad-top,clamp(0.8rem,2.2vh,1.6rem))] " +
+    "pb-[var(--chat-window-pad-bottom,clamp(0.6rem,1.4vh,1.2rem))] " +
     "max-[48em]:max-w-full " +
     "[scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_8%,black_92%,transparent_100%)] " +
@@ -59,6 +61,12 @@ const ConversationView = memo(function ConversationView({
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
     "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
     "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
+  const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
+  const windowStyle = {
+    marginTop: "var(--chat-window-top-offset, 0rem)",
+    maxHeight:
+      "calc(100% - var(--chat-window-top-offset, 0rem) - var(--chat-window-bottom-gap, 0rem))"
+  };
   const scrollButtonClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
@@ -72,7 +80,7 @@ const ConversationView = memo(function ConversationView({
     "transition-[border-color,background,transform] duration-150 hover:-translate-y-[1px] " +
     "light:border-[rgba(148,163,184,0.5)] light:bg-[rgba(255,255,255,0.9)] light:text-[#1f2937]";
   return <main className={mainClassName}>
-      <div id="chat-window" className={windowClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
+      <div id="chat-window" className={mergedWindowClassName} style={windowStyle} ref={chatWindowRef} onDoubleClick={onWindowDoubleClick} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
         {hiddenCount > 0 ? <div className="flex justify-center">
             <button type="button" onClick={onRevealOlder} className={buttonClassName}>
               {t("chat.show_older")} (+{Math.min(pageSize, hiddenCount)}){" "}

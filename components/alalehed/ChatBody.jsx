@@ -557,19 +557,37 @@ export default function ChatBody({
   const showChatFace = !profileOpen;
   const showProfileFace = profileOpen;
   const focusActive = inputFocused && !profileOpen && !isMobile;
+  const handleChatWindowDoubleClick = useCallback(() => {
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+  }, []);
   const baseChatVars = {
     "--chat-diameter": "var(--profile-diameter)",
-    "--chat-input-shift": "clamp(calc(1.8rem + 1cm), calc(4.6vh + 1cm), calc(2.8rem + 1cm))"
+    "--chat-input-shift": "calc(clamp(1.8rem, 4.6dvh, 2.8rem) + 2.35rem)",
+    "--chat-window-max-w": "clamp(18rem, 42vw, 28rem)",
+    "--chat-window-pad-top": "clamp(0.5rem, 1.4vh, 1rem)",
+    "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+    "--chat-window-top-offset": "4rem",
+    "--chat-window-bottom-gap": "4.7rem",
+    "--chat-scroll-down-offset": "3.5rem"
   };
   const focusVars = focusActive
     ? {
         "--chat-diameter": "var(--chat-diameter-max)",
+        "--chat-window-max-w": "clamp(20rem, 46vw, 31rem)",
+        "--chat-window-pad-top": "clamp(0.6rem, 1.6dvh, 1.2rem)",
+        "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+        "--chat-window-top-offset": "5.2rem",
+        "--chat-window-bottom-gap": "0rem",
         "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
         "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
         "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
         "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
+        "--chat-scroll-down-offset": "-0.4rem",
         "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
-        "--chat-input-focus-shift": "calc(-1cm)",
+        "--chat-input-focus-shift": "-2.35rem",
         "--chat-expanded-delta": "clamp(0.4rem, 1.2vh, 1.1rem)",
         "--chat-input-focus-drop": "clamp(4.6rem, 9.6vh, 6.2rem)",
         "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
@@ -588,8 +606,6 @@ export default function ChatBody({
       "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
       "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
       "max-[48em]:min-h-0 max-[48em]:mx-auto",
-    "glass-ring-expandable",
-    focusActive ? "glass-ring-expandable--open" : null,
     focusActive ? "chat-container--input-focus" : null
   );
   return <>
@@ -657,7 +673,7 @@ export default function ChatBody({
                     {t("chat.room.auth_required")}
                   </div> : null}
 
-                <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} />
+                <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} onWindowDoubleClick={handleChatWindowDoubleClick} />
 
 
                 {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
@@ -685,7 +701,6 @@ export default function ChatBody({
                 <footer className="relative mt-[0.35rem] flex min-h-[1.6rem] flex-none justify-center max-[48em]:mt-[0.55rem] max-[48em]:min-h-[1.1rem] max-[48em]:pb-[0.15rem]" />
                 <ChatSourcesPanel open={showSourcesPanel} t={t} conversationSources={conversationSources} onClose={closeSourcesPanel} returnFocusRef={sourcesButtonRef} />
               </GlassRing>
-              {/* Logo removed from chat title overlay per request */}
               {analysis.showAnalysisPanel && analysis.uploadPreview ? <div className="mt-[2.4rem] mx-auto" style={analysisPanelWidth ? {
                   width: `${analysisPanelWidth}px`,
                   maxWidth: `${analysisPanelWidth}px`

@@ -9,15 +9,14 @@
   position: relative;
   z-index: 21;
   min-height: 0;
-  --ring-diameter: var(--chat-diameter);
   --chat-hpad: clamp(1.25rem, 2.5vw, 1.6rem);
   --chat-ai-offset: clamp(1.35rem, 3vw, 2.4rem);
   --hud-edge: clamp(1.05rem, 2.5vw, 1.55rem);
   --hud-icon: clamp(3rem, 5vw, 3.3rem);
   --chat-scroll-down-offset: 0rem;
   --chat-inputbar-h: 3.2rem;
-  --chat-input-shift: calc(clamp(0.5rem, 1.5vh, 1rem) + 0.1cm);
-  --chat-input-focus-shift: 0.35cm;
+  --chat-input-shift: calc(clamp(0.5rem, 1.5dvh, 1rem) + 0.25rem);
+  --chat-input-focus-shift: 0.85rem;
   --chat-window-bottom-shift: 0rem;
   --chat-scroll-button-lift: 0.6rem;
   --chat-input-row-gap: clamp(3.1rem, 7.4vh, 5.4rem);
@@ -31,7 +30,7 @@
   --chat-window-bottom-extend: 0rem;
   --chat-window-stack-shift: 0rem;
   --chat-scroll-button-shift: 0rem;
-  --chat-window-focus-shift: 0cm;
+  --chat-window-focus-shift: 0rem;
   --glass-center-offset: 0px;
   --hud-edge-safe: calc(var(--hud-edge) + env(safe-area-inset-top, 0));
   --hud-edge-left: env(safe-area-inset-left, 0px);
@@ -73,12 +72,12 @@
 }
 .chat-container .conversation-view {
   margin-bottom: clamp(0.5rem, 1.4vh, 1.1rem);
-  transform: translateY(clamp(0.6rem, 2.6vh, 1.2rem));
+  transform: translateY(0);
   transition: transform 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .chat-container--input-focus .conversation-view {
   margin-bottom: clamp(0.6rem, 1.6vh, 1.3rem);
-  transform: translateY(var(--chat-window-focus-shift, 0cm));
+  transform: translateY(var(--chat-window-focus-shift, 0rem));
 }
 .chat-input-row {
   transform: translateY(calc(-1 * var(--chat-input-shift, 0rem)));
@@ -101,11 +100,8 @@
 }
 .chat-container--input-focus .chat-input-row {
   transform: translateY(
-    calc(var(--chat-input-focus-shift, 0.4cm) + clamp(0.6rem, 2vh, 1.2rem))
+    calc(var(--chat-input-focus-shift, 0.94rem) + clamp(0.6rem, 2dvh, 1.2rem))
   ) !important;
-}
-.chat-container--input-focus .chat-window {
-  padding-bottom: calc(clamp(0.6rem, 1.4vh, 1.2rem) + clamp(1.2rem, 3vh, 2.4rem)) !important;
 }
 .chat-window {
   transition: padding-bottom 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -201,7 +197,10 @@ main#main > .main-content.glass-box.chat-container,
 }
 .chat-page-shell
   .chat-container.chat-container--round.chat-container--input-focus {
-  border-radius: 50%;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+  border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
 }
 :root.theme-light .chat-container {
   color: #1f2937;
@@ -252,10 +251,13 @@ main#main > .main-content.glass-box.chat-container,
     border-radius: 50%;
     overflow-x: hidden;
     overflow-y: hidden;
-    --chat-nav-top: 50%;
-    --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
-    transition:
-      border-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      --chat-nav-top: 50%;
+      --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
+      transition:
+      border-top-left-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-top-right-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-bottom-left-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-bottom-right-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
       width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
       min-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
       max-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -271,7 +273,10 @@ main#main > .main-content.glass-box.chat-container,
     height: var(--chat-diameter);
     max-height: var(--chat-diameter);
     block-size: var(--chat-diameter);
-    border-radius: 50%;
+    border-top-left-radius: calc(var(--chat-diameter) / 2);
+    border-top-right-radius: calc(var(--chat-diameter) / 2);
+    border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+    border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     transform: none;
   }
   :root

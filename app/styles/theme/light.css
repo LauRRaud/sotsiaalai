@@ -48,7 +48,14 @@
   --drawer-text-title: #fdfcf9;
   --drawer-text-preview: rgba(245, 245, 244, 0.88);
   --drawer-text-time: rgba(245, 245, 244, 0.72);
-  --drawer-glass-bg: rgba(255, 255, 255, 0.72);
+  --drawer-overlay-bg: rgba(15, 23, 42, 0.08);
+  --drawer-glass-bg:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.75),
+      rgba(255, 255, 255, 0.5) 58%,
+      rgba(255, 255, 255, 0.42)
+    );
   --title-color: #7a3a38;
   --chat-icon-color: #3b3329;
   --link-color: #7a3a38;
@@ -178,26 +185,36 @@
 }
 :root.theme-light .drawer-panel .drawer-chat-card,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
-  border-color: rgba(148, 163, 184, 0.24);
+  border-color: rgba(148, 163, 184, 0.24) !important;
   background: linear-gradient(
-    140deg,
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0.56) 60%,
-    rgba(255, 255, 255, 0.46)
-  );
+      140deg,
+      rgba(255, 255, 255, 0.88),
+      rgba(255, 255, 255, 0.62) 60%,
+      rgba(255, 255, 255, 0.5)
+    ),
+    radial-gradient(
+      120% 120% at 18% 10%,
+      rgba(255, 255, 255, 0.85),
+      transparent 58%
+    ) !important;
   box-shadow:
     0 12px 26px rgba(15, 23, 42, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 :root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
-  border-color: rgba(120, 128, 145, 0.32);
+  border-color: rgba(120, 128, 145, 0.32) !important;
   background: linear-gradient(
-    140deg,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.64) 60%,
-    rgba(255, 255, 255, 0.52)
-  );
+      140deg,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.68) 60%,
+      rgba(255, 255, 255, 0.56)
+    ),
+    radial-gradient(
+      120% 120% at 18% 10%,
+      rgba(255, 255, 255, 0.9),
+      transparent 58%
+    ) !important;
   box-shadow:
     0 16px 30px rgba(15, 23, 42, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.85);

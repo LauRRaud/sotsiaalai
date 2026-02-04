@@ -144,15 +144,6 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
-function BackDockIcon({
-  isHovered: _isHovered,
-  ...props
-}) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M10.5 5.5L4.5 12l6 6.5" />
-      <path d="M5.25 12H20" />
-    </svg>;
-}
 export default function ProfiilBody({
   initialProfile = null,
   embedded = false,
