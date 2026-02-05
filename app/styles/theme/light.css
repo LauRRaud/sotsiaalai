@@ -185,39 +185,15 @@
 }
 :root.theme-light .drawer-panel .drawer-chat-card,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
-  border-color: rgba(148, 163, 184, 0.24) !important;
-  background: linear-gradient(
-      140deg,
-      rgba(255, 255, 255, 0.88),
-      rgba(255, 255, 255, 0.62) 60%,
-      rgba(255, 255, 255, 0.5)
-    ),
-    radial-gradient(
-      120% 120% at 18% 10%,
-      rgba(255, 255, 255, 0.85),
-      transparent 58%
-    ) !important;
-  box-shadow:
-    0 12px 26px rgba(15, 23, 42, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  border-color: rgba(120, 128, 145, 0.32) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  box-shadow: none;
 }
 :root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
-  border-color: rgba(120, 128, 145, 0.32) !important;
-  background: linear-gradient(
-      140deg,
-      rgba(255, 255, 255, 0.95),
-      rgba(255, 255, 255, 0.68) 60%,
-      rgba(255, 255, 255, 0.56)
-    ),
-    radial-gradient(
-      120% 120% at 18% 10%,
-      rgba(255, 255, 255, 0.9),
-      transparent 58%
-    ) !important;
-  box-shadow:
-    0 16px 30px rgba(15, 23, 42, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  border-color: rgba(90, 98, 112, 0.42) !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  box-shadow: none;
 }
 :root.theme-light .drawer-close {
   color: var(--brand-primary);

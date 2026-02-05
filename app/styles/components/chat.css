@@ -69,6 +69,22 @@
 .chat-window {
   min-height: 0;
   flex: 1 1 auto;
+  --chat-window-fade-top: 12%;
+  --chat-window-fade-bottom: 14%;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black var(--chat-window-fade-top),
+    black calc(100% - var(--chat-window-fade-bottom)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black var(--chat-window-fade-top),
+    black calc(100% - var(--chat-window-fade-bottom)),
+    transparent 100%
+  );
 }
 .chat-container .conversation-view {
   margin-bottom: clamp(0.5rem, 1.4vh, 1.1rem);
@@ -104,7 +120,12 @@
   ) !important;
 }
 .chat-window {
-  transition: padding-bottom 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition:
+    padding-top 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding-bottom 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    margin-top 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    max-height 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    max-width 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .chat-mask-layer {
   position: absolute;

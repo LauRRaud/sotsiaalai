@@ -165,8 +165,8 @@
   --card-logo-back: clamp(2.65rem, calc(var(--card-size) * 0.25), 7rem);
   --card-logo-safe-gap: 4em;
 
-  --flip-ms: 1200ms;
-  --flip-front-ms: 1100ms;
+  --flip-ms: 1250ms;
+  --flip-front-ms: 1250ms;
   --fade-ms: 600ms;
   --flip-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 

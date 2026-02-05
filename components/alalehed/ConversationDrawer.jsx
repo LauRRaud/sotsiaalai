@@ -51,10 +51,6 @@ export default function ConversationDrawer({
     const body = document.body;
     const prevOverflow = body.style.overflow;
     const prevPaddingRight = body.style.paddingRight;
-    const hadDrawerOpen = body.classList.contains("drawer-open");
-    if (!hadDrawerOpen) {
-      body.classList.add("drawer-open");
-    }
     const scrollbarWidth = getScrollbarWidth();
     body.style.overflow = "hidden";
     if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
@@ -64,9 +60,6 @@ export default function ConversationDrawer({
     return () => {
       body.style.overflow = prevOverflow;
       body.style.paddingRight = prevPaddingRight;
-      if (!hadDrawerOpen) {
-        body.classList.remove("drawer-open");
-      }
     };
   }, [open]);
   useEffect(() => {

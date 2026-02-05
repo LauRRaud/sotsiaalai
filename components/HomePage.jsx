@@ -61,8 +61,8 @@ export default function HomePage() {
     const perms = Array.isArray(u?.permissions) ? u.permissions : [];
     return Boolean(u?.isAdmin || u?.is_admin || role === "admin" || perms.includes("admin"));
   }, [session]);
-  const flipToBackMs = 1200;
-  const flipToFrontMs = 1100;
+  const flipToBackMs = 1250;
+  const flipToFrontMs = 1250;
   const markChatEnterFromHome = useCallback(() => {
     if (typeof window === "undefined") return;
     try {

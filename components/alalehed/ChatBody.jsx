@@ -565,33 +565,32 @@ export default function ChatBody({
   }, []);
   const baseChatVars = {
     "--chat-diameter": "var(--profile-diameter)",
-    "--chat-input-shift": "calc(clamp(1.8rem, 4.6dvh, 2.8rem) + 2.35rem)",
+    "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 1.8rem)",
     "--chat-window-max-w": "clamp(18rem, 42vw, 28rem)",
-    "--chat-window-pad-top": "clamp(0.5rem, 1.4vh, 1rem)",
+    "--chat-window-pad-top": "clamp(1.1rem, 2.6vh, 2rem)",
     "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-    "--chat-window-top-offset": "4rem",
-    "--chat-window-bottom-gap": "4.7rem",
-    "--chat-scroll-down-offset": "3.5rem"
+    "--chat-window-top-offset": "4.2rem",
+    "--chat-window-bottom-gap": "2.6rem",
+    "--chat-scroll-down-offset": "1.1rem"
   };
   const focusVars = focusActive
     ? {
         "--chat-diameter": "var(--chat-diameter-max)",
         "--chat-window-max-w": "clamp(20rem, 46vw, 31rem)",
-        "--chat-window-pad-top": "clamp(0.6rem, 1.6dvh, 1.2rem)",
+        "--chat-window-pad-top": "clamp(2.8rem, 5.2vh, 4rem)",
         "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-        "--chat-window-top-offset": "5.2rem",
-        "--chat-window-bottom-gap": "0rem",
+        "--chat-window-top-offset": "5.4rem",
+        "--chat-window-bottom-gap": "0.4rem",
         "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
         "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
         "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
         "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
-        "--chat-scroll-down-offset": "-0.4rem",
+        "--chat-scroll-down-offset": "-1.0rem",
         "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
         "--chat-input-focus-shift": "-2.35rem",
         "--chat-expanded-delta": "clamp(0.4rem, 1.2vh, 1.1rem)",
         "--chat-input-focus-drop": "clamp(4.6rem, 9.6vh, 6.2rem)",
         "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
-        "--chat-window-bottom-gap": "clamp(1.2rem, 2.6vh, 2.4rem)",
         "--chat-attach-left-pull": "-1.65rem",
         "--chat-inputbar-left-pull": "-1.6rem",
         "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)"

@@ -56,10 +56,6 @@ const ConversationView = memo(function ConversationView({
     "pb-[var(--chat-window-pad-bottom,clamp(0.6rem,1.4vh,1.2rem))] " +
     "max-[48em]:max-w-full " +
     "[scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_8%,black_92%,transparent_100%)] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,black_8%,black_92%,transparent_100%)] " +
-    "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
-    "[-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] " +
     "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0";
   const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
   const windowStyle = {
@@ -70,7 +66,8 @@ const ConversationView = memo(function ConversationView({
   const scrollButtonClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
     "bg-transparent border-0 p-[0.375rem] cursor-[var(--cursor-pointer)] z-[5] " +
-    "flex items-center justify-center transition-transform duration-150 hover:scale-[1.15] focus-visible:scale-[1.15]";
+    "flex items-center justify-center transition-[transform,bottom] duration-[400ms] " +
+    "hover:scale-[1.15] focus-visible:scale-[1.15]";
   const scrollIconClassName =
     "h-[2.25rem] w-[2.25rem] fill-none stroke-[#c57171] " +
     "transition-[stroke] duration-200 light:stroke-[#7a3a38]";

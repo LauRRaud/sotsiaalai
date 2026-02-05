@@ -72,10 +72,9 @@ export default function ChatComposer({
     }
   }, [draft, isGenerating, submitSend]);
   const inputRowStyle = {
-    "--inputbar-h": "3.2rem",
     "--chat-input-max-w": inputFocused
       ? "clamp(14rem, 42vw, 26rem)"
-      : "clamp(9.5rem, 26vw, 18rem)"
+      : "clamp(8.2rem, 23vw, 15.8rem)"
   };
   const inputRowClassName =
     "chat-input-row relative z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
