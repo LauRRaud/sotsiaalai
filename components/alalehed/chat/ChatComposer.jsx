@@ -71,14 +71,10 @@ export default function ChatComposer({
       }
     }
   }, [draft, isGenerating, submitSend]);
-  const inputRowStyle = {
-    "--chat-input-max-w": inputFocused
-      ? "clamp(14rem, 42vw, 26rem)"
-      : "clamp(8.2rem, 23vw, 15.8rem)"
-  };
   const inputRowClassName =
     "chat-input-row relative z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
+    "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform " +
     "max-[48em]:pl-[var(--chat-hpad-left,var(--chat-hpad))] max-[48em]:pr-[var(--chat-hpad-right,var(--chat-hpad))]";
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +
@@ -86,7 +82,7 @@ export default function ChatComposer({
     "min-h-[var(--inputbar-h)] rounded-full border-2 border-transparent light:border-[rgba(84,95,115,0.55)] " +
     "bg-[rgba(10,14,24,0.22)] light:bg-[rgba(255,255,255,0.92)] " +
     "shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_0.45rem_1.05rem_rgba(5,8,15,0.18)] " +
-    "transition-[border-color,box-shadow,background,max-width] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+    "transition-[border-color,box-shadow,background,max-width] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "hover:bg-[rgba(15,19,25,0.38)] focus-within:bg-[rgba(15,19,25,0.38)] " +
     "px-[0.625rem] pr-[0.1rem] pointer-events-auto z-[65] translate-x-[var(--chat-inputbar-left-pull,0rem)]";
   const inputFieldWrapClassName = "min-w-0 w-full pr-[0.2rem]";
@@ -111,7 +107,7 @@ export default function ChatComposer({
     "pointer-events-auto " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
-  return <form className={inputRowClassName} style={inputRowStyle} onSubmit={handleSubmit} autoComplete="off">
+  return <form className={`${inputRowClassName} ${inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"}`} onSubmit={handleSubmit} autoComplete="off">
       <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible?.();
     }}>

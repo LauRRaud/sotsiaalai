@@ -1,69 +1,71 @@
-.headline-bold {
-  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-}
-.right-card-primary .headline-bold,
-.left-card-primary .headline-bold {
-  font-weight: 400;
-}
-.right-card-primary .headline-bold {
-  color: var(--brand-primary);
-}
+@layer base {
+  .headline-bold {
+    font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  }
+  .right-card-primary .headline-bold,
+  .left-card-primary .headline-bold {
+    font-weight: 400;
+  }
+  .right-card-primary .headline-bold {
+    color: var(--brand-primary);
+  }
 
-body,
-p,
-ul,
-li,
-.glass-section {
-  font-family: var(--font-aino), Arial, sans-serif;
-  font-weight: 400;
-}
-b,
-strong {
-  font-family: var(--font-aino), Arial, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-}
-h2 {
-  font-family: var(--font-aino), Arial, sans-serif;
-  font-weight: bold;
-}
-a {
-  font-family: var(--font-aino), Arial, sans-serif;
-  font-weight: 400;
-  text-decoration: none;
-  color: inherit;
-}
-.chat-send-btn,
-.chat-send-btn.stop,
-.button {
-  font-family: var(--font-aino), Arial, sans-serif;
-  letter-spacing: 0.06em;
-}
-input,
-textarea,
-select,
-button,
-label,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-.chat-input-field {
-  font-family: var(--font-aino), Arial, sans-serif;
-}
-input::placeholder,
-textarea::placeholder,
-.chat-input-field::placeholder {
-  font-family: var(--font-aino), Arial, sans-serif;
-}
-.glass-box,
-.glass-box p {
-  hyphens: auto;
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
-:root:not(.theme-light) a,
-:root:not(.theme-light) .glass-box a {
-  color: var(--brand-primary);
+  body,
+  p,
+  ul,
+  li,
+  .glass-section {
+    font-family: var(--font-aino), Arial, sans-serif;
+    font-weight: 400;
+  }
+  b,
+  strong {
+    font-family: var(--font-aino), Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  h2 {
+    font-family: var(--font-aino), Arial, sans-serif;
+    font-weight: bold;
+  }
+  a {
+    font-family: var(--font-aino), Arial, sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    color: inherit;
+  }
+  .chat-send-btn,
+  .chat-send-btn.stop,
+  .button {
+    font-family: var(--font-aino), Arial, sans-serif;
+    letter-spacing: 0.06em;
+  }
+  input,
+  textarea,
+  select,
+  button,
+  label,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  .chat-input-field {
+    font-family: var(--font-aino), Arial, sans-serif;
+  }
+  input::placeholder,
+  textarea::placeholder,
+  .chat-input-field::placeholder {
+    font-family: var(--font-aino), Arial, sans-serif;
+  }
+  .glass-box,
+  .glass-box p {
+    hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  :root:not(.theme-light) a,
+  :root:not(.theme-light) .glass-box a {
+    color: var(--brand-primary);
+  }
 }

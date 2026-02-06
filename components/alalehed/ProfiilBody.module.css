@@ -82,6 +82,7 @@
   pointer-events: none;
 }
 
+
 .profileContainer[data-orbit-open="true"] .profileMaskLayer {
   -webkit-mask-image: none;
   mask-image: none;

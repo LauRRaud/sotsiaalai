@@ -21,6 +21,26 @@
       0 22px 32px -22px rgba(248, 253, 255, 0.44)
     );
 }
+
+:root:not(.theme-light) body.homepage {
+  --home-prose-color: rgba(242, 241, 239, 0.92);
+  --home-card-blur: 0.6rem;
+  --home-card-saturate: 118%;
+  --home-card-light-opacity: 0.65;
+  --home-card-dark-opacity: 0.6;
+  --home-scroll-cue-color: #c57171;
+  --home-panel-bg: color-mix(
+    in srgb,
+    var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) 82%,
+    rgba(6, 8, 16, 0.85) 18%
+  );
+  --home-panel-shadow:
+    0 0 26px rgba(248, 253, 255, 0.18);
+  --home-before-shadow:
+    0 0 30px rgba(248, 253, 255, 0.22);
+  --home-title-color: #c57171;
+  --home-link-color: var(--brand-primary);
+}
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item,
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item:hover,
 :root:not(.theme-light) .profile-email-dock-wrapper .dock-item:focus-visible {
@@ -49,7 +69,7 @@
     0 24px 30px -24px rgba(248, 253, 255, 0.4);
 }
 :root:not(.theme-light) .chat-inputbar {
-  --chat-action-size: calc(var(--inputbar-h) - 0.2rem);
+  --chat-action-size: calc(var(--inputbar-h, 3.2rem) - 0.2rem);
   border: 0;
   background: transparent;
   box-shadow:

@@ -202,9 +202,6 @@
     max-width: min(100%, calc(100vw - 10.5rem)) !important;
     margin-inline: auto;
   }
-  .chat-window {
-    padding-bottom: clamp(6rem, 14vh, 8rem);
-  }
   .chat-close-button {
     display: inline-flex !important;
     position: fixed;

@@ -1,14 +1,71 @@
-<svg width="24" height="24" viewBox="16 12 40 40" opacity="0.8"
-     aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<svg width="24" height="24" viewBox="16 12 40 40" opacity="0.95"
+     aria-label="Tagasi" role="button" tabindex="0"
+     xmlns="http://www.w3.org/2000/svg">
 
-  <path d="M42 16 L20 32 L42 48"
-        fill="none"
-        stroke="#c57171"
-        stroke-width="3.5"
-        stroke-linecap="round"
-        stroke-linejoin="round" />
+  <style>
+    .wrap { transform-origin: 36px 32px; cursor: pointer; }
+    .chevPress { transform-origin: 31px 32px; transition: transform .52s cubic-bezier(.22,.61,.36,1); }
+    .chevFloat { transform-origin: 31px 32px; }
+    .dot {
+      transform-origin: 39px 32px;
+      transition: transform .52s cubic-bezier(.22,.61,.36,1), opacity .52s ease;
+    }
 
-  <circle cx="39" cy="32" r="5"
-          fill="#7A3A38"
-          opacity="0.9" />
+    /* Hover breathing: vaikimisi PAUSIS */
+    .chevFloat, .dot {
+      animation-duration: 2.2s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-play-state: paused;
+    }
+    .chevFloat { animation-name: nudge; }
+    .dot { animation-name: pulse; }
+
+    svg:hover .wrap { filter: drop-shadow(0 1px 3px rgba(122,58,56,.35)); }
+    svg:hover .chevFloat,
+    svg:hover .dot { animation-play-state: running; }
+
+    /* Vajutus: noolt pikalt vasakule + pall kaugusesse */
+    svg:active .chevFloat,
+    svg:active .dot { animation: none; } /* väldi konflikti hover animiga */
+
+    svg:active .chevPress { transform: translateX(-18px); }
+    svg:active .dot {
+      transform: translate(13px, -3px) scale(0.06);
+      opacity: 0;
+    }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(-1.5px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: .9; }
+      50%      { transform: scale(1.12); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chevFloat, .dot { animation: none !important; }
+      .chevPress, .dot { transition: none; }
+    }
+  </style>
+
+  <!-- suurem hitt-ala, et :active kindlamalt käivituks -->
+  <rect x="16" y="12" width="40" height="40" fill="transparent"/>
+
+  <g class="wrap">
+    <g class="chevPress">
+      <g class="chevFloat">
+        <path d="M42 16 L20 32 L42 48"
+              fill="none"
+              stroke="#c57171"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+      </g>
+    </g>
+
+    <circle class="dot" cx="39" cy="32" r="5" fill="#7A3A38" opacity="0.9" />
+  </g>
 </svg>

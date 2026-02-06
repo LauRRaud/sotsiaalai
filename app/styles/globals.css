@@ -11,6 +11,7 @@
 @import url("./base/animations.css");
 @import url("./components/glass.css");
 @import url("./components/login-modal.css");
+@import url("./components/home.css");
 @import url("./components/chat.css");
 @import url("./components/drawer.css");
 @import url("./utilities/helpers.css");

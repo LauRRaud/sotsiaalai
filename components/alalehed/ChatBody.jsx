@@ -32,7 +32,7 @@ const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(0.45rem,1.6vh,1rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const chatNoteClassName = "chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]";
+const chatNoteClassName = "mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c] self-center text-center mx-auto w-full max-w-[min(38rem,100%)]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
 export default function ChatBody({
@@ -554,85 +554,83 @@ export default function ChatBody({
   }, []);
   const chatFaceClass = null;
   const profileFaceClass = null;
-  const showChatFace = !profileOpen;
-  const showProfileFace = profileOpen;
-  const focusActive = inputFocused && !profileOpen && !isMobile;
-  const handleChatWindowDoubleClick = useCallback(() => {
-    setInputFocused(false);
-    try {
-      inputRef.current?.blur?.();
-    } catch {}
-  }, []);
-  const baseChatVars = {
-    "--chat-diameter": "var(--profile-diameter)",
-    "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 1.8rem)",
-    "--chat-window-max-w": "clamp(18rem, 42vw, 28rem)",
-    "--chat-window-pad-top": "clamp(1.1rem, 2.6vh, 2rem)",
-    "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-    "--chat-window-top-offset": "4.2rem",
-    "--chat-window-bottom-gap": "2.6rem",
-    "--chat-scroll-down-offset": "1.1rem"
-  };
-  const focusVars = focusActive
-    ? {
-        "--chat-diameter": "var(--chat-diameter-max)",
-        "--chat-window-max-w": "clamp(20rem, 46vw, 31rem)",
-        "--chat-window-pad-top": "clamp(2.8rem, 5.2vh, 4rem)",
-        "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-        "--chat-window-top-offset": "5.4rem",
-        "--chat-window-bottom-gap": "0.4rem",
-        "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
-        "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
-        "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
-        "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
-        "--chat-scroll-down-offset": "-1.0rem",
-        "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
-        "--chat-input-focus-shift": "-2.35rem",
-        "--chat-expanded-delta": "clamp(0.4rem, 1.2vh, 1.1rem)",
-        "--chat-input-focus-drop": "clamp(4.6rem, 9.6vh, 6.2rem)",
-        "--chat-window-focus-drop": "clamp(3.6rem, 8.4vh, 6.4rem)",
-        "--chat-attach-left-pull": "-1.65rem",
-        "--chat-inputbar-left-pull": "-1.6rem",
-        "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)"
-      }
-    : undefined;
-  const chatVars = focusVars ? { ...baseChatVars, ...focusVars } : baseChatVars;
-  const chatContainerClassName = cn(
-    "main-content glass-ring chat-container chat-container--round " +
-      "relative z-[2] " +
-      "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
-      "overflow-hidden " +
-      "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
-      "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
-      "max-[48em]:min-h-0 max-[48em]:mx-auto",
-    focusActive ? "chat-container--input-focus" : null
-  );
+    const showChatFace = !profileOpen;
+    const showProfileFace = profileOpen;
+    const focusActive = inputFocused && !profileOpen && !isMobile;
+    const handleChatWindowDoubleClick = useCallback(() => {
+      setInputFocused(false);
+      try {
+        inputRef.current?.blur?.();
+      } catch {}
+    }, []);
+    const baseChatVars = {
+      "--chat-diameter": "var(--profile-diameter)",
+      "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 1.8rem)",
+      "--chat-window-max-w": "clamp(18rem, 42vw, 28rem)",
+      "--chat-window-pad-top": "clamp(1.1rem, 2.6vh, 2rem)",
+      "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+      "--chat-window-top-offset": "4.2rem",
+      "--chat-window-bottom-gap": "2.6rem",
+      "--chat-scroll-down-offset": "1.1rem"
+    };
+    const focusVars = focusActive
+      ? {
+          "--chat-diameter": "var(--chat-diameter-max)",
+          "--chat-window-max-w": "clamp(20rem, 46vw, 31rem)",
+          "--chat-window-pad-top": "clamp(2.8rem, 5.2vh, 4rem)",
+          "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+          "--chat-window-top-offset": "5.4rem",
+          "--chat-window-bottom-gap": "0.4rem",
+          "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
+          "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
+          "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
+          "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
+          "--chat-scroll-down-offset": "-1.0rem",
+          "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
+          "--chat-input-focus-shift": "-2.35rem",
+          "--chat-inputbar-left-pull": "-1.6rem"
+        }
+      : null;
+    const chatVars = focusVars ? { ...baseChatVars, ...focusVars } : baseChatVars;
+    const chatContainerClassName = cn(
+      "main-content glass-ring chat-container chat-container--round " +
+        "relative z-[21] min-h-0 " +
+        "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
+        "overflow-hidden " +
+        "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
+        "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
+        "max-[48em]:min-h-0 max-[48em]:mx-auto " +
+        "min-[48em]:flex-[0_0_auto] min-[48em]:self-center min-[48em]:aspect-square",
+      focusActive
+        ? "chat-container--input-focus"
+        : null
+    );
   return <>
       <InviteModal />
-      <div className={cn("chat-page-shell", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus" : null)}>
+      <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 [overflow-anchor:none]", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
         <>
             {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
-              <div className="relative overflow-visible">
-                <GlassRing
-                  className={chatContainerClassName}
-                  style={chatVars}
-                  role="region"
-                  aria-label={t("chat.page_label")}
-                  ref={chatContainerRef}
+                <div className="relative overflow-visible">
+                  <GlassRing
+                    className={chatContainerClassName}
+                    style={chatVars}
+                    role="region"
+                    aria-label={t("chat.page_label")}
+                    ref={chatContainerRef}
                   data-chat-container="true"
                   data-chat-theme={isLightTheme ? "light" : "dark"}
                 >
                   {!isLightTheme ? <div className="chat-mask-layer" aria-hidden="true" /> : null}
-                    {!profileOpen ? <div className="chat-nav-overlay">
+                    {!profileOpen ? <div className="chat-nav-overlay absolute inset-0 z-[80] pointer-events-none">
                       <BackButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
-                        className={cn(glassPageBackClassName, "chat-back-button")}
+                        className={cn(glassPageBackClassName, "chat-back-button pointer-events-auto")}
                       />
                       <CloseButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
-                        className="chat-close-button"
+                        className="chat-close-button pointer-events-auto hidden"
                       />
                     </div> : null}
 
@@ -661,7 +659,7 @@ export default function ChatBody({
                     {crisisText}
                   </div> : null}
 
-                {errorBanner ? <div role="alert" className="chat-error-banner mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c]">
+                {errorBanner ? <div role="alert" className="mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c] self-center text-center mx-auto w-full max-w-[min(38rem,100%)]">
                     {errorBanner}
                   </div> : null}
                 {isRoomMode && roomBlocked ? <div className={chatNoteClassName} role="alert">
@@ -672,7 +670,7 @@ export default function ChatBody({
                     {t("chat.room.auth_required")}
                   </div> : null}
 
-                <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} onWindowDoubleClick={handleChatWindowDoubleClick} />
+                <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} onWindowDoubleClick={handleChatWindowDoubleClick} mainClassName={focusActive ? "mb-[clamp(0.6rem,1.6vh,1.3rem)] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} />
 
 
                 {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}

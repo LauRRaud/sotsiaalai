@@ -171,6 +171,39 @@
   --admin-shadow-soft: 0 8px 18px rgba(15, 23, 42, 0.08);
 }
 
+:root.theme-light body.homepage {
+  --home-prose-color: var(--text-strong, #1f2937);
+  --home-card-blur: 0.75rem;
+  --home-card-saturate: 100%;
+  --home-card-light-opacity: 0.68;
+  --home-card-dark-opacity: 0.8;
+  --home-scroll-cue-color: #7a3a3a;
+  --home-panel-bg: color-mix(
+    in srgb,
+    var(--glass-surface-bg, rgba(255, 255, 255, 0.52)) 70%,
+    rgba(255, 255, 255, 0.95) 30%
+  );
+  --home-panel-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
+  --home-before-shadow: 0 12px 22px rgba(0, 0, 0, 0.2);
+  --home-title-color: #7a3a38;
+  --home-link-color: var(--link-color, #7a3a38);
+}
+
+:root.theme-light body.homepage::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(
+    120% 110% at 50% 48%,
+    rgba(20, 20, 20, 0) 0%,
+    rgba(20, 20, 20, 0) 62%,
+    rgba(20, 20, 20, 0.5) 78%,
+    rgba(20, 20, 20, 0.88) 100%
+  );
+}
+
 :root.theme-light .glass-box {
   backdrop-filter: blur(var(--glass-blur-radius));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius));
