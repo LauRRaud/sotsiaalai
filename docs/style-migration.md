@@ -62,42 +62,31 @@ For each page/component:
 1. Optional: consolidate any future homepage-only animations in `home.css`.
 2. Keep Tailwind for layout; CSS for effects only.
 
-## Chat Page (Planned)
+## Chat Page (Current Status)
 ### Files
 - `components/alalehed/ChatBody.jsx`
+- `components/alalehed/chat/ChatComposer.jsx`
 - `components/alalehed/chat/ConversationView.jsx`
 - `app/styles/components/chat.css`
+- `app/styles/theme/dark.css`
+- `app/styles/theme/light.css`
 
 ### Approach
-1. Choose source of truth for spacing vars (likely CSS).
-2. Remove duplicated var definitions.
-3. Keep masks/fades/blur effects in CSS.
-4. Keep layout and simple spacing in JSX.
+- Layout/spacing in JSX where safe.
+- Effects/masks/blur/arc in CSS.
+- Ring size should not jump; fookus muudab kuju ja sisemisi paddings/offsete.
 
-### Recent Changes
-- Moved `chat-page-shell` layout to Tailwind classes in `ChatBody.jsx`.
-- Removed debug-only padding override from `chat.css` (`.chat-window__scroll`).
-- Moved `chat-nav-overlay`, `chat-back-button`, `chat-close-button` layout to Tailwind in `ChatBody.jsx`.
-- Moved chat error banner layout (centering/width) to Tailwind in `ChatBody.jsx`.
-- Consolidated chat window padding vars to CSS (removed inline overrides in `ChatBody.jsx`).
-- Moved chat container + focus state CSS vars from inline styles to `chat.css`.
-- Moved `chat-container` layout (position/z-index/min-height) to Tailwind classes.
-- Removed unused `glass-box chat-container` selectors and redundant `chat-page-shell` media padding.
-- Moved `chat-window` layout (margin/max-height) and scrollbar hiding from JSX to `chat.css`.
-- Removed duplicate `chat-inputbar` transition rules from `chat.css` (kept Tailwind transitions in JSX).
-- Moved `chat-input-row` transform + transition from `chat.css` to JSX (ChatComposer).
-- Removed unused chat CSS vars (`--chat-inputbar-h`, `--chat-input-row-gap`, `--chat-expanded-delta`, etc.).
-- Moved `--chat-input-max-w` from inline style to `chat.css` (base + focus states).
-- Moved chat container focus border-radius to Tailwind (`ChatBody.jsx`).
-- Moved `chat-window` transition to Tailwind (`ConversationView.jsx`).
-- Moved `conversation-view` margin/transform to Tailwind (via `ChatBody.jsx` prop).
-- Removed recording-state button styles from `chat.css` (kept in light/dark theme files).
-- Moved chat button SVG stroke/opacity rules out of `chat.css` (using SVG classes instead).
-- Moved inputbar/attach left offset from CSS vars to Tailwind (desktop/mobile split).
-- Removed `chat-send-loader` transform override from `chat.css` (no-op).
-- Removed `chat-input-field` scrollbar track rule (textarea doesn't render a visible scrollbar here).
-- Moved desktop chat container sizing/transition/border-radius to Tailwind (`ChatBody.jsx`), left only variable overrides in CSS.
-- Chat CSS cleanup: merged duplicate light theme block and removed unused container scrollbar rules.
+### Current State (Aligned With `sotsiaalaibackup`)
+- Restored `chatVars` inline style in `ChatBody.jsx` to drive focus vars.
+- Removed `glass-ring-expandable` from chat container; fookuse kuju muutub `chat.css` reeglitega.
+- Desktop ring size locked to `--chat-diameter` in `chat.css` (no size jump).
+- Ring border-radius transitions restored to 400ms (backup parity).
+- Chat input row + window transitions set to 400ms (backup parity).
+- `chat-inputbar` recording styles remain in theme files.
+
+### Notes
+- If ring still “jumps”, check for any remaining `--chat-diameter` overrides outside `chatVars`.
+- Mobile overrides live in `app/styles/mobile.css` and can override offsets.
 
 ## Profile Page (Planned)
 ### Files

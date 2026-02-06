@@ -65,7 +65,7 @@
 
 .glass-ring-expandable {
   --glass-ring-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --glass-ring-scroll-offset: clamp(7rem, 16vh, 10rem);
+  --glass-ring-scroll-offset: clamp(4.6rem, 9.5vh, 6.6rem);
   --glass-ring-scroll-offset-open: clamp(3.8rem, 8.5vh, 6.2rem);
   transition:
     border-radius 680ms var(--glass-ring-ease);
@@ -76,30 +76,110 @@
 .glass-ring-expandable--open {
   border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
   border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+  --ring-pad-x: clamp(0.6rem, 2.2vw, 1.4rem);
 }
 
 .glass-ring-scroll {
-  max-height: calc(100% - var(--glass-ring-scroll-offset, 8rem));
-  padding-bottom: clamp(0.8rem, 2.2vh, 1.2rem);
+  max-height: calc(100% - var(--glass-ring-scroll-offset, 7rem));
+  padding-bottom: clamp(0.25rem, 1vh, 0.65rem);
+  margin-top: 0;
   transition:
     max-height 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
-    padding-bottom 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+    padding-bottom 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    padding-top 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    padding-left 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    padding-right 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    max-width 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    margin 680ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.glass-ring-scroll:not(.glass-ring-scroll--open) {
+  padding-top: clamp(0.2rem, 0.8vh, 0.6rem);
+  padding-bottom: clamp(0.18rem, 0.8vh, 0.55rem);
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.4) 6%,
+    #000 12%,
+    #000 78%,
+    rgba(0, 0, 0, 0.65) 86%,
+    rgba(0, 0, 0, 0.35) 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.4) 6%,
+    #000 12%,
+    #000 78%,
+    rgba(0, 0, 0, 0.65) 86%,
+    rgba(0, 0, 0, 0.35) 92%,
+    transparent 100%
+  );
 }
 
 .glass-ring-scroll--open {
   max-height: calc(100% - var(--glass-ring-scroll-offset-open, 5rem));
+  padding-top: clamp(0.08rem, 0.6vh, 0.45rem);
   padding-bottom: clamp(0.4rem, 1.2vh, 0.7rem);
+  max-width: 100%;
+  padding-left: clamp(0rem, 0.35vw, 0.22rem);
+  padding-right: clamp(1.2rem, 2.6vw, 1.95rem);
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.4) 7%,
+    #000 14%,
+    #000 78%,
+    rgba(0, 0, 0, 0.65) 86%,
+    rgba(0, 0, 0, 0.35) 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.4) 7%,
+    #000 14%,
+    #000 78%,
+    rgba(0, 0, 0, 0.65) 86%,
+    rgba(0, 0, 0, 0.35) 92%,
+    transparent 100%
+  );
+  transform: translateX(0);
 }
 
 .glass-ring-content {
   padding-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
-  transition: padding-bottom 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition:
+    padding-bottom 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding-top 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    margin-top 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
   flex: 1 1 auto;
   min-height: 0;
 }
 
+.page-back-bottom {
+  transition: opacity 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
 .glass-ring-content--open {
   padding-bottom: clamp(0.35rem, 1.1vh, 0.7rem);
+  padding-top: clamp(0.1rem, 0.8vh, 0.6rem);
+  margin-top: clamp(-0.5rem, -1.2vh, -0.25rem);
+}
+
+.glass-ring-content:not(.glass-ring-content--open) {
+  padding-top: clamp(0.05rem, 0.5vh, 0.3rem);
+  margin-top: clamp(-0.35rem, -0.9vh, -0.18rem);
+}
+
+.glass-ring-expandable--open .page-back-bottom {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .glass-ring-expand-toggle {

@@ -19,7 +19,6 @@ import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import BackButton from "@/components/ui/BackButton";
 import { glassPageBackClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
-import styles from "./ProfiilBody.module.css";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
@@ -29,7 +28,9 @@ const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
-  "box-border text-[color:var(--glass-surface-text,#f2f2f2)]";
+  "box-border text-[color:var(--glass-surface-text,#f2f2f2)] " +
+  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay)]:relative " +
+  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay)]:z-[1]";
 const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
@@ -46,7 +47,8 @@ const rolePillClassName =
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
   "bg-transparent border-none " +
   "leading-[3.2rem] h-[3.2rem]";
-const orbitLayerClassName = "absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
+const orbitLayerClassName =
+  "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
@@ -80,14 +82,13 @@ function ProfileShell({
   maskLayerRef
 }) {
   const containerClass = cn(
-    styles.profileContainer,
     containerBaseClassName,
-    embedded ? styles.profileContainerEmbedded : styles.profileContainerPage,
-    embedded ? "profile-container profile-container--embedded" : "profile-container profile-container--page",
-    "glass-ring [--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)]"
+    embedded ? "profile-container" : "profile-container profile-container--page",
+    "glass-ring [--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)]",
+    !embedded && "max-md:[--ring-fit-h:calc(100svh-(2*var(--ring-fit-pad,1.5rem))-var(--ring-ui-reserve-page,var(--ring-ui-reserve,9rem)))] max-md:h-[100svh] max-md:min-h-[100svh] max-md:max-h-[100svh]"
   );
   const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
-      <div ref={maskLayerRef} className={styles.profileMaskLayer} aria-hidden="true" />
+      <div ref={maskLayerRef} className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none" aria-hidden="true" />
       {children}
     </GlassRing>;
   if (embedded) {
@@ -547,14 +548,14 @@ export default function ProfiilBody({
       <div className={cn(headerCenterClassName, "profile-role-row")}>
           <span
           ref={rolePillRef}
-          className={cn(rolePillClassName, styles.profileRolePill, orbitOpen ? "opacity-0 pointer-events-none" : null)}
+          className={cn(rolePillClassName, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
           {roleLabel}
         </span>
       </div>
 
-      <div className={cn(orbitLayerClassName, styles.profileOrbitLayer)}>
+      <div className={orbitLayerClassName}>
         <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
           <OrbitalMenu
             items={orbitItems}
@@ -569,7 +570,7 @@ export default function ProfiilBody({
       </div>
 
       {!orbitOpen && (
-        <div className={styles.profileNavOverlay}>
+        <div className="profile-nav-overlay absolute inset-0 z-[3] pointer-events-none">
           <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(glassPageBackClassName, "pointer-events-auto")} />
           <div className={cn(glassPageBackRightClassName, "pointer-events-auto")}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>

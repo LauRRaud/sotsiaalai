@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState, memo, Suspense } from "react";
 import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
-import styles from "./HomeBackground.module.css";
 const Particles = dynamic(() => import("./Particles"), {
   ssr: false
 });
@@ -161,7 +160,7 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [reduceMotion, mobileLike, parallaxActive]);
   return <>
       {}
-      <div data-bg-layer ref={layerRef} className={styles.homeBgLayer} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
+      <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
         {}
         {}
         {colorBendsReady && !reduceMotion && (

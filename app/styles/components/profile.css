@@ -1,4 +1,4 @@
-.profileContainer {
+.profile-container {
   --profile-role-hole-width: var(--profile-actions-panel-w);
   --profile-role-hole-height: 3.2rem;
   --profile-role-hole-top: 6.75rem;
@@ -29,36 +29,19 @@
   --profile-center-y: 50%;
   --profile-orbit-offset: 0px;
   --profile-btn-row-offset: 0px;
-  background: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
 }
 
-.profileContainerPage {
-  --profile-center-y: 50%;
-  --profile-orbit-offset: 0px;
-  --profile-btn-row-offset: 0px;
+.profile-container.glass-ring {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.profile-container--page {
   --profile-role-hole-top: 5.1rem;
 }
 
-@media (max-width: 48em) {
-  .profileContainer.profileContainerPage {
-    --ring-fit-h: calc(
-      100svh - (2 * var(--ring-fit-pad, 1.5rem)) -
-        var(--ring-ui-reserve-page, var(--ring-ui-reserve, 9rem))
-    );
-    height: 100svh;
-    min-height: 100svh;
-    max-height: 100svh;
-  }
-}
-
-.profileMaskLayer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  pointer-events: none;
+.profile-mask-layer {
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   backdrop-filter: blur(var(--glass-blur-radius, 1rem));
@@ -70,26 +53,12 @@
   mask-repeat: no-repeat;
 }
 
-.profileContainer > *:not(.profileMaskLayer):not(.profileOrbitLayer):not(.profileNavOverlay) {
-  position: relative;
-  z-index: 1;
-}
-
-.profileNavOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
-
-.profileContainer[data-orbit-open="true"] .profileMaskLayer {
+.profile-container[data-orbit-open="true"] .profile-mask-layer {
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-
-.profileContainer[data-theme="dark"] {
+.profile-container[data-theme="dark"] {
   --profile-actions-panel-w: 17.75rem;
   --profile-email-actions-gap: 1.2rem;
   --profile-hole-border-w: 0px;
@@ -102,21 +71,11 @@
     0 18px 24px -18px rgba(248, 253, 255, 0.26);
 }
 
-.profileContainer[data-theme="light"] {
+.profile-container[data-theme="light"] {
   --profile-actions-panel-w: 17.75rem;
   --profile-email-actions-gap: 1.2rem;
   --profile-role-text-color: #2b2620;
   --profile-role-text-size: 1.2rem;
   --profile-footer-clearance: clamp(1.2rem, 2.6vh, 2.2rem);
   --profile-role-hole-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.profileContainerEmbedded {
-  --profile-center-y: 50%;
-  --profile-orbit-offset: 0px;
-  --profile-btn-row-offset: 0px;
-}
-
-.profileRolePill {
-  box-shadow: var(--profile-role-hole-shadow, none);
 }
