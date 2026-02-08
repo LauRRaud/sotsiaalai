@@ -85,10 +85,16 @@ function ProfileShell({
   orbitOpen = false,
   maskLayerRef
 }) {
+  const ringBaseStyle = {
+    background: "transparent",
+    backdropFilter: "none",
+    WebkitBackdropFilter: "none"
+  };
   const containerClass = cn(
     containerBaseClassName,
     embedded ? "profile-container" : "profile-container",
     "glass-ring " +
+      "[background:transparent] [backdrop-filter:none] [-webkit-backdrop-filter:none] " +
       "[--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)] " +
       "[--profile-role-hole-mask:linear-gradient(#fff,#fff)] " +
       "[--profile-role-text-color:rgba(232,232,232,0.78)] " +
@@ -99,7 +105,7 @@ function ProfileShell({
       "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)]",
     !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,3.6vh,2.1rem)]"
   );
-  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
+  const container = <GlassRing className={containerClass} style={ringBaseStyle} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
       <div
         ref={maskLayerRef}
         className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"

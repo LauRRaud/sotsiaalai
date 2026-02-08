@@ -166,7 +166,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[0.35rem] !pb-[1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[0.35rem] !pb-[1rem] text-[1.05rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] max-[48em]:w-[100vw] max-[48em]:max-w-[100vw] max-[48em]:h-[100dvh] max-[48em]:max-h-[100dvh] max-[48em]:rounded-none max-[48em]:pt-[calc(env(safe-area-inset-top,0px)+1.25rem)] max-[48em]:pr-[max(1rem,env(safe-area-inset-right,0px))] max-[48em]:pb-[calc(env(safe-area-inset-bottom,0px)+1.1rem)] max-[48em]:pl-[max(1rem,env(safe-area-inset-left,0px))]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
@@ -174,7 +174,7 @@ export default function InviteModal() {
         </h2>
       </header>
 
-      <div className="invite-modal-scroll grid gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem]">
+      <div className="invite-modal-scroll grid gap-[1.6rem] px-[1.15rem] pt-[0.9rem] pb-[0.4rem] max-[48em]:px-[0.2rem]">
         {!session?.user?.id ? <div className="grid gap-[1rem]">
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>

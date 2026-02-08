@@ -1,17 +1,3 @@
-.login-modal-root {
-  --login-modal-side-pad: 1.15em;
-  --login-modal-min-extra: 3.4rem;
-  --login-modal-max-extra: 4.8rem;
-  --login-modal-max-vw: 92vw;
-}
-.login-modal-root.login-modal--otp {
-  --otp-panel-bg: rgba(10, 14, 24, 0.58);
-  --otp-panel-border: rgba(148, 163, 184, 0.35);
-  --otp-panel-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
-  --otp-input-bg: rgba(8, 12, 20, 0.62);
-  --otp-input-border: rgba(160, 180, 205, 0.4);
-  --otp-accent: rgba(225, 160, 160, 0.92);
-}
 :root.login-modal-open,
 body.login-modal-open {
   overflow: hidden;
@@ -19,13 +5,6 @@ body.login-modal-open {
 }
 :root.login-modal-open {
   overscroll-behavior: none;
-}
-:root.theme-light .login-modal-root.login-modal--otp {
-  --otp-panel-bg: rgba(255, 255, 255, 0.76);
-  --otp-panel-border: rgba(148, 163, 184, 0.3);
-  --otp-panel-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
-  --otp-input-bg: rgba(255, 255, 255, 0.9);
-  --otp-input-border: rgba(148, 163, 184, 0.48);
 }
 .modal-close-btn {
   width: 2.65rem;
@@ -64,56 +43,13 @@ body.login-modal-open {
   text-indent: 0;
   pointer-events: none;
 }
-:root.theme-light .modal-close-btn {
-  background: transparent;
-  border-color: transparent;
-}
 .modal-close-btn:hover,
 .modal-close-btn:focus-visible {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
   transform: translateY(-1px);
-}
-:root.theme-light .modal-close-btn:hover,
-:root.theme-light .modal-close-btn:focus-visible {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
 }
 .modal-close-btn:active {
   transform: translateY(1px);
-  box-shadow: none;
 }
 .modal-close-btn:focus-visible {
   outline: none;
-}
-.login-modal-close {
-  position: absolute;
-  top: 0.35rem;
-  right: 0.55rem;
-  z-index: 2;
-}
-:root #login-modal .glass-box {
-  padding-top: clamp(1.35rem, 3.2vw, 2.1rem);
-}
-:root #login-modal .login-modal-close.modal-close-btn {
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 0.7rem;
-}
-:root #login-modal .login-modal-close.modal-close-btn::before {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-:root:not(.theme-light) .login-modal-close.modal-close-btn {
-  color: #c57171;
-}
-:root.theme-light .login-modal-close.modal-close-btn {
-  color: #7a3a38;
-}
-:root.theme-light .login-modal-close.modal-close-btn:hover,
-:root.theme-light .login-modal-close.modal-close-btn:focus-visible {
-  color: #7a3a38;
 }

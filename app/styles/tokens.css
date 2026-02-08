@@ -8,7 +8,7 @@
 
   --bg-overscan: clamp(120px, 18svh, 220px);
   --chat-diameter: clamp(660px, 94vmin, 1240px);
-  --chat-diameter-max: var(--chat-diameter);
+  --chat-diameter-max: clamp(660px, 94vmin, 1240px);
   --profile-diameter: var(--chat-diameter);
   --icon-btn-close-size: 2.65rem;
 
@@ -258,6 +258,7 @@
 @media (min-width: 48em) and (max-width: 90em) and (max-height: 780px) {
   :root {
     --chat-diameter: clamp(520px, 82vmin, 940px);
+    --chat-diameter-max: clamp(520px, 82vmin, 940px);
     --ring-scale: 0.78;
     --ring-fit-pad: 1.8rem;
     --ring-ui-reserve: 6.5rem;
@@ -272,6 +273,7 @@
 @media (min-width: 48em) and (max-width: 90em) and (min-height: 781px) and (max-height: 840px) {
   :root {
     --chat-diameter: clamp(580px, 86vmin, 1020px);
+    --chat-diameter-max: clamp(580px, 86vmin, 1020px);
     --ring-scale: 0.82;
     --ring-fit-pad: 1.6rem;
     --ring-ui-reserve: 6rem;

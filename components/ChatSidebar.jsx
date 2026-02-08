@@ -431,10 +431,12 @@ export default function ChatSidebar() {
   const isActionBusy = busy || creating || bulkDeleting;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
-    "drawer-chat-card flex items-start gap-3 rounded-[1.1rem] border px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition w-full max-w-[19.5rem]";
-  const messageCardDarkVariant = "";
+    "drawer-chat-card flex items-start gap-3 rounded-[1.1rem] border border-[rgba(255,255,255,0.22)] " +
+    "bg-[rgba(8,12,20,0.18)] shadow-none [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
+    "px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition w-full max-w-[19.5rem]";
   const messageCardLightVariant = "light:text-[#1f2937]";
-  const messageActiveVariant = "drawer-chat-card--active";
+  const messageActiveVariant =
+    "drawer-chat-card--active border-[rgba(255,255,255,0.38)] bg-[rgba(8,12,20,0.24)] shadow-none";
   const previewTextClassName =
     "text-[1rem] leading-[1.45] text-[rgba(255,255,255,0.7)] light:text-[rgba(31,41,55,0.7)]";
   const timeTextClassName =
@@ -475,7 +477,7 @@ export default function ChatSidebar() {
                 <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
               </div>)}
         </div> : null}
-      <ul className="drawer-chat-sidebar__list flex flex-1 flex-col items-stretch gap-3 overflow-y-auto pr-0">
+      <ul className="drawer-chat-sidebar__list flex flex-1 flex-col items-stretch gap-3 overflow-y-auto pr-0 pt-[0.6rem] [scrollbar-width:none] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0,#000_1rem,#000_calc(100%-1rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,transparent_0,#000_1rem,#000_calc(100%-1rem),transparent_100%)] [-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
         {!isLoading && sorted.length === 0 ? <li className="flex items-center justify-between gap-3 rounded-[0.8rem] border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.03)] px-3 py-4 light:border-[rgba(148,163,184,0.3)] light:bg-transparent">
             <span>{t("chat.sidebar.empty")}</span>
             <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
@@ -491,7 +493,7 @@ export default function ChatSidebar() {
               return false;
             }
           })();
-          return <li key={`${c.kind}:${c.id}`} className={`${messageCardClassNameCommon} ${messageCardDarkVariant} ${messageCardLightVariant} ${isActive ? messageActiveVariant : ""} w-full`}>
+          return <li key={`${c.kind}:${c.id}`} className={`${messageCardClassNameCommon} ${messageCardLightVariant} ${isActive ? messageActiveVariant : ""} w-full`}>
               {selectMode && c.kind !== "room" ? <label className="flex h-6 w-6 items-center justify-center">
                     <input type="checkbox" className="peer sr-only" checked={selectedIds.has(c.id)} onChange={() => toggleSelected(c.id)} disabled={isActionBusy} />
                     <span aria-hidden="true" className="relative flex h-[20px] w-[20px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">

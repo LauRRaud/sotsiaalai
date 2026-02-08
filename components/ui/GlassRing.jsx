@@ -5,7 +5,7 @@ const baseStyles =
   "relative flex aspect-square w-[var(--profile-diameter)] h-[var(--profile-diameter)] " +
   "min-w-[var(--profile-diameter)] min-h-[var(--profile-diameter)] " +
   "max-w-[var(--profile-diameter)] max-h-[var(--profile-diameter)] " +
-  "flex-col items-center rounded-full " +
+  "flex-col items-center rounded-[var(--glass-ring-radius,9999px)] " +
   "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] " +
   "text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
@@ -16,12 +16,13 @@ const baseStyles =
   "px-[var(--glass-ring-pad-x)] pt-[var(--glass-ring-pad-top)] " +
   "mx-auto " +
   "max-md:[--glass-mobile-gap:var(--mobile-glass-card-gap,0.35rem)] " +
+  "max-md:[--glass-ring-radius:var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
   "max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto " +
   "max-md:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:max-w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:max-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
-  "max-md:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-md:overflow-hidden " +
+  "max-md:overflow-hidden " +
   "max-md:[--glass-ring-pad-top:clamp(0.4rem,1.4vh,1.1rem)] " +
   "max-md:[--glass-ring-pad-top-half:clamp(0.2rem,0.7vh,0.55rem)] " +
   "[--glass-edge-left:calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] " +

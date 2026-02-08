@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { cn } from "@/components/ui/cn";
 export default function ConversationDrawer({
   children
 }) {
@@ -129,19 +130,51 @@ export default function ConversationDrawer({
   }, [open]);
   const close = useCallback(() => setOpen(false), []);
   if (!drawerRoot) return null;
+  const overlayClassName =
+    "drawer-overlay fixed inset-0 z-[40] bg-transparent [-webkit-backdrop-filter:none] [backdrop-filter:none]";
+  const panelClassName = cn(
+    "drawer-panel drawer-panel--chat-glass " +
+      "fixed top-0 bottom-0 left-0 w-[26.5rem] max-w-[90vw] z-[41] overflow-hidden " +
+      "bg-transparent border-r-0 shadow-none [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
+      "text-[color:var(--pt-100)] [scrollbar-width:none] " +
+      "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
+      "[&::-webkit-scrollbar-thumb]:bg-[linear-gradient(135deg,var(--pt-400),var(--pt-200))] " +
+      "[&::-webkit-scrollbar-thumb]:rounded-[0.625rem] [&::-webkit-scrollbar-thumb]:border-[0.1875rem] " +
+      "[&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent " +
+      "[&::-webkit-scrollbar-track]:bg-transparent " +
+      "[backdrop-filter:blur(var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
+      "before:content-[''] before:absolute before:inset-0 before:pointer-events-none " +
+      "before:[background:var(--drawer-glass-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] before:opacity-100 " +
+      "before:[filter:none] before:[-webkit-filter:none] " +
+      "before:[backdrop-filter:blur(var(--glass-blur-radius,1rem))] before:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] " +
+      "before:z-0 [&>*]:relative [&>*]:z-[1] " +
+      "transition-transform duration-[220ms] ease-out",
+    open
+      ? "translate-x-0 visible pointer-events-auto"
+      : "-translate-x-[105%] invisible pointer-events-none",
+    open ? "open" : null
+  );
+  const headerClassName =
+    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.85rem] pb-[0.45rem] border-b-0";
+  const closeButtonClassName =
+    "drawer-close modal-close-btn absolute top-[0.1rem] right-[0.35rem] z-[2] " +
+    "!p-0 !w-[2.9rem] !h-[2.9rem] !rounded-full !border-0 !bg-transparent !shadow-none " +
+    "[&::before]:text-[2.2rem] text-[var(--brand-primary)] light:text-[#7a3a38]";
+  const contentClassName =
+    "drawer-content px-[1rem] pt-[0.5rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
   return createPortal(<>
-      {open && <div ref={overlayRef} className="drawer-overlay" onClick={close} aria-hidden="true" />}
-      <aside ref={panelRef} role="dialog" aria-labelledby={headerIdRef.current} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={`drawer-panel drawer-panel--chat-glass ${open ? "open" : ""}`}>
-        <header className="drawer-header">
+      {open && <div ref={overlayRef} className={overlayClassName} onClick={close} aria-hidden="true" />}
+      <aside ref={panelRef} role="dialog" aria-labelledby={headerIdRef.current} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={panelClassName}>
+        <header className={headerClassName}>
           <h1
             id={headerIdRef.current}
-            className="drawer-title text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(0.6rem,1.6vh,1.1rem)] text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]"
+            className="drawer-title w-full text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(0.6rem,1.6vh,1.1rem)] text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]"
           >
             {t("chat.menu.label")}
           </h1>
-          <button ref={closeBtnRef} onClick={close} className="drawer-close modal-close-btn" aria-label={t("buttons.close")} type="button" />
+          <button ref={closeBtnRef} onClick={close} className={closeButtonClassName} aria-label={t("buttons.close")} type="button" />
         </header>
-        <div className="drawer-content">
+        <div className={contentClassName}>
           {children}
         </div>
       </aside>

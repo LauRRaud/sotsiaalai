@@ -8,6 +8,29 @@
     font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
     font-weight: 400;
   }
+  .homeCursorScope {
+    cursor: var(--cursor-default, auto);
+  }
+  .homeCursorScope a,
+  .homeCursorScope button,
+  .homeCursorScope [role="button"],
+  .homeCursorScope label,
+  .homeCursorScope summary,
+  .homeCursorScope select,
+  .homeCursorScope option,
+  .homeCursorScope .cursor-pointer,
+  .homeCursorScope .btn,
+  .homeCursorScope .button,
+  .homeCursorScope input[type="button"],
+  .homeCursorScope input[type="submit"],
+  .homeCursorScope input[type="reset"] {
+    cursor: var(--cursor-default, auto);
+  }
+  .homeCursorScope input,
+  .homeCursorScope textarea,
+  .homeCursorScope select {
+    cursor: text;
+  }
   .invite-modal-overlay ~ .glass-box.chat-container {
     opacity: 0;
     visibility: hidden;

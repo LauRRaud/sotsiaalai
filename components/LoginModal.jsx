@@ -147,6 +147,13 @@ export default function LoginModal({
     "login-modal-box",
     "compact-modal",
     isOtpStep ? "login-modal--otp" : "",
+    "[--login-modal-side-pad:1.15em]",
+    "[--login-modal-min-extra:3.4rem]",
+    "[--login-modal-max-extra:4.8rem]",
+    "[--login-modal-max-vw:92vw]",
+    isOtpStep
+      ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
+      : "",
     "fixed",
     "left-1/2",
     "top-1/2",
@@ -784,8 +791,8 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="glass-box w-full !my-0">
-          <button className="login-modal-close modal-close-btn" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+        <div className="glass-box w-full !my-0 !pt-[clamp(1.35rem,3.2vw,2.1rem)]">
+          <button className="login-modal-close modal-close-btn absolute top-[0.35rem] right-[0.55rem] z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
             <div className={modalTitleClassName}>

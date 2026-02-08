@@ -8,6 +8,7 @@ import AllikadLight from "@/public/logo/heleallikad.svg";
 import AllikadDark from "@/public/logo/tumeallikad.svg";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { createPortal } from "react-dom";
+import { cn } from "@/components/ui/cn";
 export default function RightRail({
   t,
   roomId,
@@ -211,8 +212,24 @@ export default function RightRail({
       return Math.max(0, Math.min(maxIndex, prev + direction));
     });
   };
-  return <div className={`${styles.slot} chat-right-actions${suspendPointerEvents ? ` ${styles.pointerBlocked}` : ""}`}>
-      <nav className={styles.rightRail} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown}>
+  const slotClassName = cn(
+    styles.slot,
+    "chat-right-actions",
+    suspendPointerEvents ? styles.pointerBlocked : null,
+    "max-[48em]:absolute max-[48em]:top-[calc(var(--hud-edge-safe,env(safe-area-inset-top,0px))+0.1rem)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
+  );
+  const railClassName = cn(
+    styles.rightRail,
+    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-auto max-[48em]:left-0 max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-full max-[48em]:flex max-[48em]:flex-row max-[48em]:items-center max-[48em]:justify-start max-[48em]:gap-[clamp(0.7rem,4vw,1.4rem)] max-[48em]:pt-[0.3rem] max-[48em]:pb-[0.3rem] max-[48em]:pl-[clamp(0.8rem,4vw,1.4rem)] max-[48em]:pr-[clamp(3.2rem,12vw,4.6rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(2.9rem,12vw,3.6rem)] max-[48em]:[--rail-icon-scale:0.8]"
+  );
+  const mobileItemClassName =
+    "max-[48em]:static max-[48em]:left-auto max-[48em]:top-auto max-[48em]:[transform:none] max-[48em]:w-[var(--rail-item-size)] max-[48em]:h-auto max-[48em]:opacity-100 max-[48em]:transition-none";
+  const mobileIconButtonClassName =
+    "max-[48em]:flex max-[48em]:flex-col max-[48em]:items-center max-[48em]:justify-center max-[48em]:gap-[0.35rem] max-[48em]:leading-[1]";
+  const mobileLabelClassName =
+    "max-[48em]:block max-[48em]:text-[clamp(1.05rem,4vw,1.35rem)] max-[48em]:tracking-[0.06em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:max-w-[5.2rem] max-[48em]:opacity-0 max-[48em]:h-[clamp(1.4rem,4.2vw,2rem)] max-[48em]:mt-[0.35rem] max-[48em]:overflow-hidden max-[48em]:transition-opacity max-[48em]:duration-150 max-[48em]:ease-in-out";
+  return <div className={slotClassName}>
+      <nav className={railClassName} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown}>
         {(isMobile ? mobileSlots : [-2, -1, 0, 1, 2].map((slotOffset) => {
         const itemIndex = activeIndex + slotOffset;
         if (itemIndex < 0 || itemIndex >= items.length) {
@@ -254,7 +271,14 @@ export default function RightRail({
         const isArmed = isMobile && armedIndex === itemIndex;
         const commonProps = {
           ref: setRailRef,
-          className: `${styles.item}${!isMobile && slotOffset === 0 ? ` ${styles.isActive}` : ""}${isArmed ? ` ${styles.isArmed}` : ""}${it?.key === "sources" && showSourcesPanel ? ` ${styles.iconBtnActive}` : ""}${it?.key === "sources" && sourcesPulse ? ` ${styles.isPulse}` : ""}`,
+          className: cn(
+            styles.item,
+            !isMobile && slotOffset === 0 ? styles.isActive : null,
+            isArmed ? styles.isArmed : null,
+            it?.key === "sources" && showSourcesPanel ? styles.iconBtnActive : null,
+            it?.key === "sources" && sourcesPulse ? styles.isPulse : null,
+            mobileItemClassName
+          ),
           style: isMobile ? undefined : {
             transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
             opacity: opacity.toFixed(3),
@@ -303,15 +327,15 @@ export default function RightRail({
         };
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
         const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} className={`${commonProps.className} ${styles.iconBtn}`} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.4rem]" : null)} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
               {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={styles.iconSvg} aria-hidden="true" role="img" /> : <AllikadDark className={styles.iconSvg} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={styles.iconImg} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={styles.iconImg} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={styles.iconImg} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
-              <span className={styles.label} aria-hidden="true">
+              <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {ariaLabel}
               </span>
             </button>;
       })}
 
-        {isMounted && hoveredIndex != null && tooltipRect ? createPortal(<div className={styles.tooltip} style={{
+        {isMounted && !isMobile && hoveredIndex != null && tooltipRect ? createPortal(<div className={styles.tooltip} style={{
         top: tooltipRect.top + tooltipRect.height / 2,
         left: tooltipRect.left - 2
       }} role="tooltip">

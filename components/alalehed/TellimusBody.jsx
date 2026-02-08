@@ -20,7 +20,8 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
-const contentClassName = "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(16rem,40vw,24rem)] flex-col gap-4 text-center";
+const mobileCloseClassName = "!hidden !max-[48em]:!inline-flex !max-[48em]:!fixed !max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.5rem)] !max-[48em]:!right-[calc(env(safe-area-inset-right,0px)+0.6rem)] !max-[48em]:!z-[90] !max-[48em]:!text-[#c57171] !max-[48em]:!opacity-90 light:!max-[48em]:!text-[#7a3a38]";
+const contentClassName = "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] flex-col gap-4 text-center";
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -73,8 +74,8 @@ export default function TellimusBody() {
   }
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
-        <GlassRing className={glassPageRingCenteredClassName}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className="page-close-button" />
+        <GlassRing className={`${glassPageRingCenteredClassName} glass-ring--desktop-stable`}>
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={mobileCloseClassName} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
@@ -88,8 +89,8 @@ export default function TellimusBody() {
       </section>;
   }
   return <section lang={locale} className={pageShellClassName}>
-      <GlassRing className={glassPageRingCenteredClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className="page-close-button" />
+      <GlassRing className={`${glassPageRingCenteredClassName} glass-ring--desktop-stable`}>
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={mobileCloseClassName} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
         <h1 className={titleClassName}>
           {t("subscription.title")}

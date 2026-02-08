@@ -565,45 +565,105 @@ export default function ChatBody({
     }, []);
     const baseChatVars = {
       "--chat-diameter": "var(--profile-diameter)",
-      "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 1.8rem)",
-      "--chat-window-max-w": "clamp(18rem, 42vw, 28rem)",
-      "--chat-window-pad-top": "clamp(1.1rem, 2.6vh, 2rem)",
+      "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 0.9rem)",
+      "--chat-window-max-w": "clamp(19.4rem, 42.5vw, 28.2rem)",
+      "--chat-window-shift-x": "clamp(-0.2rem, -0.42vw, -0.08rem)",
+      "--chat-window-pad-top": "clamp(2.4rem, 4.8vh, 3.4rem)",
       "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-      "--chat-window-top-offset": "4.2rem",
-      "--chat-window-bottom-gap": "2.6rem",
-      "--chat-scroll-down-offset": "1.1rem"
+      "--chat-window-top-offset": "-1.7rem",
+      "--chat-window-bottom-gap": "1.9rem",
+      "--chat-scroll-down-offset": "0.2rem",
+      "--chat-content-top-offset": "5.2rem",
+      "--chat-content-spacer": "7.4rem",
+      "--chat-content-bottom-spacer": "0.35rem"
     };
     const focusVars = focusActive
       ? {
           "--chat-diameter": "var(--chat-diameter-max)",
-          "--chat-window-max-w": "clamp(20rem, 46vw, 31rem)",
-          "--chat-window-pad-top": "clamp(2.8rem, 5.2vh, 4rem)",
-          "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-          "--chat-window-top-offset": "5.4rem",
+          "--chat-window-max-w": "clamp(20.1rem, 45.8vw, 30.9rem)",
+          "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
+          "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
+          "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
+          "--chat-window-top-offset": "-0.9rem",
           "--chat-window-bottom-gap": "0.4rem",
           "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
           "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
           "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
           "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
           "--chat-scroll-down-offset": "-1.0rem",
+          "--chat-window-fade-bottom-focus": "clamp(1.1rem, 3vh, 1.8rem)",
           "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
           "--chat-input-focus-shift": "-2.35rem",
-          "--chat-inputbar-left-pull": "-1.6rem"
+          "--chat-attach-left-pull": "-2.15rem",
+          "--chat-inputbar-left-pull": "-2.25rem",
+          "--chat-content-top-offset": "6.4rem",
+          "--chat-content-spacer": "8.6rem",
+          "--chat-content-bottom-spacer": "0.25rem"
         }
       : null;
     const chatVars = focusVars ? { ...baseChatVars, ...focusVars } : baseChatVars;
-    const chatContainerClassName = cn(
+  const chatContainerClassName = cn(
       "main-content glass-ring chat-container chat-container--round " +
+        "glass-ring--desktop-stable " +
         "relative z-[21] min-h-0 " +
+        "[--chat-attach-left-pull:-1.15rem] [--chat-inputbar-left-pull:-1.1rem] " +
+        "[--chat-hpad:clamp(1.25rem,2.5vw,1.6rem)] [--chat-input-max-w:clamp(8.2rem,23vw,15.8rem)] " +
+        "[--chat-ai-offset:clamp(1.35rem,3vw,2.4rem)] [--hud-edge:clamp(1.05rem,2.5vw,1.55rem)] [--hud-icon:clamp(3rem,5vw,3.3rem)] " +
+        "[--chat-scroll-down-offset:1.1rem] [--inputbar-h:3.2rem] " +
+        "[--chat-input-shift:calc(clamp(1.5rem,3.8dvh,2.5rem)+1.8rem)] [--chat-input-focus-shift:0.85rem] " +
+        "[--chat-pad-top:clamp(1.6rem,4.2vw,2.6rem)] [--chat-pad-bottom:0.9rem] " +
+        "[--chat-window-max-w:clamp(17.5rem,40vw,26.5rem)] [--chat-window-pad-top:clamp(1.8rem,4vh,3rem)] " +
+        "[--chat-window-pad-bottom:calc(clamp(2.2rem,4.5dvh,3.4rem)+2.35rem)] [--chat-window-top-safe:clamp(4.2rem,7.2vh,6.6rem)] " +
+        "[--chat-window-top-offset:-1.5rem] [--chat-window-bottom-gap:2.6rem] [--chat-window-focus-shift:0rem] " +
+        "[--glass-center-offset:0px] [--hud-edge-safe:calc(var(--hud-edge)+env(safe-area-inset-top,0))] " +
+        "[--hud-edge-left:env(safe-area-inset-left,0px)] [--hud-edge-right:env(safe-area-inset-right,0px)] " +
+        "[--glass-edge-left:clamp(0.1rem,1.2vw,0.8rem)] [--glass-edge-right:clamp(0.1rem,1.2vw,0.8rem)] " +
+        "[--rail-inset:0.2rem] [--chat-back-inset:clamp(0.2rem,1vw,0.6rem)] " +
+        "[--chat-logo-height:clamp(12rem,32vw,26rem)] [--chat-logo-y:clamp(5.2rem,23vh,12.2rem)] " +
+        "[@media(min-resolution:1.25dppx)_and_(max-resolution:1.49dppx)]:[--chat-logo-height:clamp(11rem,30vw,24rem)] " +
+        "[@media(min-resolution:1.5dppx)]:[--chat-logo-height:clamp(10rem,28vw,22rem)] " +
+        "[--chat-nav-top:calc(var(--hud-edge-safe)+var(--hud-icon)+13rem)] " +
+        "[overflow-anchor:none] light:text-[#1f2937] " +
+        "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
+        "[&::-webkit-scrollbar-track]:bg-transparent " +
+        "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
         "overflow-hidden " +
         "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
+        "max-[48em]:[--hud-edge:clamp(0.55rem,3vw,0.95rem)] " +
+        "max-[48em]:[--hud-icon:clamp(2.65rem,12vw,3rem)] " +
+        "max-[48em]:[--chat-ai-offset:clamp(2.2rem,8vw,3.6rem)] " +
+        "max-[48em]:[--hud-edge-safe:calc(var(--hud-edge)+env(safe-area-inset-top,0))] " +
+        "max-[48em]:[--hud-edge-left:env(safe-area-inset-left,0px)] " +
+        "max-[48em]:[--hud-edge-right:env(safe-area-inset-right,0px)] " +
+        "max-[48em]:[--chat-hpad:calc(max(var(--hud-edge-left),var(--hud-edge-right))+var(--hud-icon)+0.05rem)] " +
+        "max-[48em]:[--chat-nav-top:clamp(2.8rem,11vw,4.2rem)] " +
+        "max-[48em]:[--chat-pad-top:clamp(0.75rem,2vh,1.1rem)] " +
+        "max-[48em]:[--chat-pad-bottom:clamp(0.5rem,1.8vh,0.9rem)] " +
+        "max-[48em]:[--chat-logo-height:clamp(9rem,52vw,18rem)] " +
+        "max-[48em]:[--chat-logo-y:clamp(3.6rem,24vh,9.4rem)] " +
+        "max-[48em]:[--chat-input-shift:0rem] " +
+        "max-[48em]:[--chat-inputbar-left-pull:0rem] " +
+        "max-[48em]:[--chat-attach-left-pull:1.7rem] " +
+        "max-[48em]:[--chat-hpad-left:clamp(0.7rem,3vw,1rem)] " +
+        "max-[48em]:[--chat-hpad-right:clamp(0.7rem,3vw,1rem)] " +
         "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
         "max-[48em]:min-h-0 max-[48em]:mx-auto " +
-        "min-[48em]:flex-[0_0_auto] min-[48em]:self-center min-[48em]:aspect-square",
+        "min-[48em]:w-[var(--chat-diameter)] min-[48em]:h-[var(--chat-diameter)] " +
+        "min-[48em]:[inline-size:var(--chat-diameter)] min-[48em]:[block-size:var(--chat-diameter)] " +
+        "min-[48em]:min-w-[var(--chat-diameter)] min-[48em]:min-h-[var(--chat-diameter)] " +
+        "min-[48em]:max-w-[var(--chat-diameter)] min-[48em]:max-h-[var(--chat-diameter)] " +
+        "min-[48em]:flex-[0_0_auto] min-[48em]:self-center min-[48em]:aspect-square min-[48em]:rounded-full " +
+        "min-[48em]:[--chat-pad-top:clamp(1.6rem,4.2vw,2.6rem)] min-[48em]:[--chat-pad-bottom:clamp(3.2rem,7vh,5rem)] " +
+        "min-[48em]:[--chat-window-pad-top:clamp(0.9rem,2.2vh,1.6rem)] min-[48em]:[--chat-nav-top:50%] " +
+        "min-[48em]:[--chat-hpad:clamp(2.2rem,6vw,3.4rem)] " +
+        "min-[48em]:[transition:border-top-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),width_400ms_cubic-bezier(0.22,0.61,0.36,1),min-width_400ms_cubic-bezier(0.22,0.61,0.36,1),max-width_400ms_cubic-bezier(0.22,0.61,0.36,1),height_400ms_cubic-bezier(0.22,0.61,0.36,1),min-height_400ms_cubic-bezier(0.22,0.61,0.36,1),max-height_400ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_400ms_cubic-bezier(0.22,0.61,0.36,1),block-size_400ms_cubic-bezier(0.22,0.61,0.36,1),transform_400ms_cubic-bezier(0.22,0.61,0.36,1)] " +
+        "min-[48em]:[&_.top-nav--chat]:left-[max(0px,calc(var(--hud-edge-left)+0.9rem))] " +
+        "min-[48em]:[&_.chat-right-actions]:right-[max(0px,calc(var(--hud-edge-right)+0.2rem))]",
       focusActive
         ? "chat-container--input-focus"
-        : null
+        : null,
+      !isLightTheme ? "bg-transparent [backdrop-filter:none] [-webkit-backdrop-filter:none]" : null
     );
   return <>
       <InviteModal />
@@ -627,11 +687,11 @@ export default function ChatBody({
                         ariaLabel={t("chat.back_to_home")}
                         className={cn(glassPageBackClassName, "chat-back-button pointer-events-auto")}
                       />
-                      <CloseButton
-                        onClick={handleBackHome}
-                        ariaLabel={t("chat.back_to_home")}
-                        className="chat-close-button pointer-events-auto hidden text-[var(--brand-primary,#c57171)] light:text-[#7a3a38] max-[48em]:absolute max-[48em]:right-[0.6rem] max-[48em]:top-[0.55rem] max-[48em]:z-[95] max-[48em]:inline-flex max-[48em]:opacity-90"
-                      />
+                      {isMobile ? <CloseButton
+                          onClick={handleBackHome}
+                          ariaLabel={t("chat.back_to_home")}
+                          className="chat-close-button pointer-events-auto text-[var(--brand-primary,#c57171)] light:text-[#7a3a38] absolute right-[0.6rem] top-[0.55rem] z-[95] inline-flex opacity-90"
+                        /> : null}
                     </div> : null}
 
                 <RightRail

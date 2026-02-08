@@ -106,7 +106,7 @@ export default function ChatComposer({
     "flex items-center justify-center overflow-hidden leading-none " +
     "!translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
     "px-[6px] py-[1px] " +
-    "pointer-events-auto " +
+    "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   const inputRowTransformClassName = isMobile ? "[transform:none]" : inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]";
@@ -134,7 +134,7 @@ export default function ChatComposer({
           </svg>
         </Button>
         {hasInput || isGenerating || isStreamingAny ? <Button type="submit" variant="primary" className={sendButtonLoaderClassName} aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")} title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active={isGenerating || isStreamingAny ? "true" : "false"}>
-            <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem]" style={{
+            <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem] [--send-loader-shift-y:-0.24rem] [&_svg]:translate-y-[var(--send-loader-shift-y)]" style={{
           "--glow-opacity-base": 0,
           "--glow-opacity-peak": 0
         }} />
