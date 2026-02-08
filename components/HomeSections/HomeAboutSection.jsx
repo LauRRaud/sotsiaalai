@@ -11,7 +11,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       id={id}
       className={cn(
         "home-section",
-        "relative z-30 w-full overflow-visible py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] touch-pan-y",
+        "relative z-30 w-full overflow-visible py-[clamp(2.8rem,7vw,5rem)] pb-[clamp(0.6rem,1.6vw,1rem)] max-[48em]:pt-[clamp(1.2rem,4.2vw,2rem)] max-[48em]:pb-[clamp(0.4rem,1.2vw,0.8rem)] touch-pan-y",
         className
       )}
     >

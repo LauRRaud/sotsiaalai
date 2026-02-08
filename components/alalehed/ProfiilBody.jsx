@@ -66,6 +66,8 @@ const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
+const profileBackButtonClassName =
+  `${glassPageBackClassName} max-[48em]:!inline-flex`;
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -532,7 +534,7 @@ export default function ProfiilBody({
         <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
           <h1 className={titleClassName}>{t("profile.title")}</h1>
           <p className={noteClassName}>{reasonText}</p>
-          <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={glassPageBackClassName} />
+          <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={profileBackButtonClassName} />
         </ProfileShell>
 
         <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
@@ -581,7 +583,7 @@ export default function ProfiilBody({
 
       {!orbitOpen && (
         <div className="profile-nav-overlay absolute inset-0 z-[3] pointer-events-none">
-          <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(glassPageBackClassName, "pointer-events-auto")} />
+          <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(profileBackButtonClassName, "pointer-events-auto")} />
           <div className={cn(glassPageBackRightClassName, "pointer-events-auto")}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />

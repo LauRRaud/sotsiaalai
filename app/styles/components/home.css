@@ -276,8 +276,11 @@
 .homepage-root.homepage-scroll .home-scroll-cue-arrow {
   position: relative;
   overflow: visible;
-  transform: rotate(180deg);
-  animation: home-scroll-bounce 2s ease-in-out infinite;
+  transform: var(--home-scroll-cue-arrow-transform, rotate(180deg));
+  animation: var(
+    --home-scroll-cue-arrow-animation,
+    home-scroll-bounce 2s ease-in-out infinite
+  );
 }
 .homepage-root.homepage-scroll .home-scroll-cue-arrow::before {
   content: "";
@@ -287,7 +290,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;
-  transform: scale(1.28);
+  transform: var(--home-scroll-cue-arrow-before-transform, scale(1.28));
   transform-origin: center;
   pointer-events: none;
 }

@@ -166,6 +166,7 @@ export default function HomePage() {
   }, []);
   const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
   const scrollCueReady = leftFadeDone && rightFadeDone;
+  const showScrollCueNow = isMobile ? scrollCueReady : showScrollCue && scrollCueEntered;
   const shouldFadeIn = introStart && !skipIntroAnimations && !(leftFadeDone && rightFadeDone);
   useEffect(() => {
     if (!prefsHydrated) return;
@@ -389,15 +390,15 @@ export default function HomePage() {
             </div>
           </div>
 
-          {scrollCueReady ? <div className={cn("home-scroll-cue", "absolute left-1/2 bottom-[clamp(-0.6rem,1.2vh,0.3rem)] -translate-x-1/2 translate-y-2 z-[20] pointer-events-none opacity-0 transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]", showScrollCue && scrollCueEntered ? "opacity-100 translate-y-0" : null)} aria-hidden={!showScrollCue}>
-              <a className={cn("home-scroll-cue-link", "inline-flex flex-col items-center gap-0 px-[0.35rem] py-[0.4rem] rounded-full border-0 bg-transparent leading-[1] no-underline pointer-events-auto backdrop-filter-none [-webkit-backdrop-filter:none] text-[color:var(--home-scroll-cue-color)] hover:text-[color:var(--home-scroll-cue-color)] focus-visible:text-[color:var(--home-scroll-cue-color)]")} href="#meist" onClick={handleScrollCueClick}>
-                <span className={cn("home-scroll-cue-mouse", "inline-flex w-[2.6rem] h-[2.5rem] text-[color:inherit] opacity-80")} aria-hidden="true">
+          {scrollCueReady ? <div className={cn("home-scroll-cue", "absolute left-1/2 bottom-[clamp(-0.6rem,1.2vh,0.3rem)] max-[48em]:bottom-[clamp(0.2rem,2.8vh,1.6rem)] -translate-x-1/2 translate-y-2 z-[20] pointer-events-none opacity-0 transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]", showScrollCueNow ? "opacity-100 translate-y-0" : null)} aria-hidden={!showScrollCueNow}>
+              <a className={cn("home-scroll-cue-link", "inline-flex flex-col items-center gap-0 px-[0.35rem] py-[0.4rem] max-[48em]:px-[0.35rem] max-[48em]:py-[0.2rem] max-[768px]:p-0 max-[768px]:tracking-[0.06em] rounded-full border-0 bg-transparent leading-[1] no-underline pointer-events-auto backdrop-filter-none [-webkit-backdrop-filter:none] text-[color:var(--home-scroll-cue-color)] hover:text-[color:var(--home-scroll-cue-color)] focus-visible:text-[color:var(--home-scroll-cue-color)]")} href="#meist" onClick={handleScrollCueClick}>
+                <span className={cn("home-scroll-cue-mouse", "inline-flex w-[2.6rem] h-[2.5rem] text-[color:inherit] opacity-80 max-[768px]:hidden max-[768px]:opacity-0 max-[768px]:invisible")} aria-hidden="true">
                   <svg viewBox="0 0 24 36" role="presentation">
                     <rect x="5.5" y="2.5" width="13" height="31" rx="6.5" />
                     <line x1="12" y1="7" x2="12" y2="13" />
                   </svg>
                 </span>
-                <span className={cn("home-scroll-cue-arrow", "inline-flex w-[2.7rem] h-[2.7rem] -mt-[0.35rem] opacity-90 overflow-visible")} aria-hidden="true" />
+                <span className={cn("home-scroll-cue-arrow", "inline-flex w-[2.7rem] h-[2.7rem] max-[48em]:w-[clamp(3.8rem,16vw,5.4rem)] max-[48em]:h-[clamp(3.8rem,16vw,5.4rem)] -mt-[0.35rem] max-[48em]:mt-[0.1rem] max-[768px]:mt-0 opacity-90 overflow-visible max-[48em]:[--home-scroll-cue-arrow-animation:home-scroll-blink_1.4s_ease-in-out_infinite] max-[48em]:[--home-scroll-cue-arrow-before-transform:scale(1.35)]")} aria-hidden="true" />
               </a>
             </div> : null}
         </section>
