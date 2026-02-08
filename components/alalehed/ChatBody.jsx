@@ -602,6 +602,16 @@ export default function ChatBody({
         }
       : null;
     const chatVars = focusVars ? { ...baseChatVars, ...focusVars } : baseChatVars;
+    const chatRingSurfaceStyle = !isLightTheme
+      ? {
+          background: "transparent",
+          backdropFilter: "none",
+          WebkitBackdropFilter: "none"
+        }
+      : null;
+    const chatRingStyle = chatRingSurfaceStyle
+      ? { ...chatVars, ...chatRingSurfaceStyle }
+      : chatVars;
   const chatContainerClassName = cn(
       "main-content glass-ring chat-container chat-container--round " +
         "glass-ring--desktop-stable " +
@@ -662,8 +672,7 @@ export default function ChatBody({
         "min-[48em]:[&_.chat-right-actions]:right-[max(0px,calc(var(--hud-edge-right)+0.2rem))]",
       focusActive
         ? "chat-container--input-focus"
-        : null,
-      !isLightTheme ? "bg-transparent [backdrop-filter:none] [-webkit-backdrop-filter:none]" : null
+        : null
     );
   return <>
       <InviteModal />
@@ -673,7 +682,7 @@ export default function ChatBody({
                 <div className="relative overflow-visible">
                   <GlassRing
                     className={chatContainerClassName}
-                    style={chatVars}
+                    style={chatRingStyle}
                     role="region"
                     aria-label={t("chat.page_label")}
                     ref={chatContainerRef}

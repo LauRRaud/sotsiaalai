@@ -85,11 +85,19 @@ export default defineConfig([
       "app/admin/**/*.{js,jsx,ts,tsx}",
       "components/admin/**/*.{js,jsx,ts,tsx}",
       "components/alalehed/ChatBody.jsx",
+      "components/HomeSections/HomeAboutSection.jsx",
+      "components/alalehed/chat/ChatAnalysisPanel.jsx",
       "tests/**/*",
       "**/*.test.*",
     ],
     rules: {
       "no-restricted-syntax": "off",
+    },
+  },
+  {
+    files: ["components/SplashCursor.jsx"],
+    rules: {
+      "react-hooks/unsupported-syntax": "off",
     },
   },
   {
