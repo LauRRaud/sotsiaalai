@@ -5,7 +5,7 @@ function getForwardedHeader(req, name) {
   const first = raw.split(",")[0]?.trim();
   return first || null;
 }
-export async function middleware(req) {
+export async function proxy(req) {
   const {
     pathname
   } = req.nextUrl;

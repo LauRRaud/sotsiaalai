@@ -1,20 +1,11 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig } from "eslint/config";
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
 import unusedImports from "eslint-plugin-unused-imports";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({ baseDirectory: __dirname });
-
-const config = [
-  // Next.js reeglid (hoiame, aga teeme oma override’idega praktiliseks)
-  ...compat.extends("next/core-web-vitals"),
-
-  // Üldised ignore’id (väga oluline müra vähendamiseks)
+export default defineConfig([
+  ...nextCoreWebVitals,
   {
     ignores: [
       ".next/**",
@@ -24,12 +15,8 @@ const config = [
       "build/**",
       "coverage/**",
       "generated/**",
-      // kui sul on prisma client genereeritud mujale, lisa siia
-      // "prisma/generated/**",
     ],
   },
-
-  // Default: browser globals (enamik komponente/pages)
   {
     files: ["**/*.{js,jsx,mjs,cjs}"],
     languageOptions: {
@@ -38,8 +25,6 @@ const config = [
       },
     },
   },
-
-  // Server/Node kontekst: API route’id ja serveri utilid
   {
     files: [
       "app/api/**/*.js",
@@ -55,17 +40,13 @@ const config = [
       },
     },
   },
-
-  // CLEANUP-FIRST reeglid: kasutud importid ja kasutamata muutujad
   {
     plugins: {
+      "react-hooks": reactHooks,
       "unused-imports": unusedImports,
     },
     rules: {
-      // Peamine: eemaldab kasutud importid automaatselt (--fix)
       "unused-imports/no-unused-imports": "error",
-
-      // Kasutamata muutujad: hoiatuseks (mitte error), et ei blokeeriks
       "unused-imports/no-unused-vars": [
         "warn",
         {
@@ -75,29 +56,46 @@ const config = [
           argsIgnorePattern: "^_",
         },
       ],
-
-      // Väldi topelt raporteid
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-
-      // Müra vähendamiseks: paljud “stiili/harjumuse” reeglid maha või leebemaks
       "no-empty": ["warn", { allowEmptyCatch: true }],
       "no-console": "off",
       "no-debugger": "warn",
-
-      // Need kipuvad vanemas koodis palju lärmi tegema:
       "no-useless-escape": "warn",
       "no-control-regex": "warn",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/immutability": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/unsupported-syntax": "warn",
     },
   },
-
-  // ESLint config faili enda vaikne käsitlus
   {
-    files: ["eslint.config.mjs"],
+    rules: {
+      "no-restricted-syntax": [
+        "warn",
+        {
+          selector: "JSXText[value=/[A-Za-zÀ-ÖØ-öø-ÿ0-9]/]",
+          message: "Hardcoded UI string detected. Use translations.",
+        },
+      ],
+    },
+  },
+  {
+    files: [
+      "app/admin/**/*.{js,jsx,ts,tsx}",
+      "components/admin/**/*.{js,jsx,ts,tsx}",
+      "components/alalehed/ChatBody.jsx",
+      "tests/**/*",
+      "**/*.test.*",
+    ],
+    rules: {
+      "no-restricted-syntax": "off",
+    },
+  },
+  {
+    files: ["eslint.config.mjs", "tailwind.config.js"],
     rules: {
       "import/no-anonymous-default-export": "off",
     },
   },
-];
-
-export default config;
+]);
