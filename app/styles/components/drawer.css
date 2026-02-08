@@ -68,16 +68,16 @@
 }
 .drawer-panel .drawer-chat-card,
 .drawer-panel .drawer-chat-sidebar__list > li {
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  background: rgba(8, 12, 20, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(8, 12, 20, 0.18);
   box-shadow: none;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
 .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
-  border-color: rgba(255, 255, 255, 0.38) !important;
-  background: rgba(8, 12, 20, 0.24) !important;
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(8, 12, 20, 0.24);
   box-shadow: none;
 }
 .drawer-panel .drawer-refresh-btn {

@@ -21,8 +21,7 @@
   justify-content: flex-start;
   align-items: stretch;
 }
-.glass-box.chat-container,
-.glass-box.profile-container {
+.glass-box.chat-container {
   margin: auto;
 }
 :root .glass-box:not(.chat-container):not(.profile-container) {
@@ -36,6 +35,9 @@
   line-height: 1.56;
   letter-spacing: 0.03em;
   font-weight: 300;
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .glass-section p {
   font-size: 1.05em;

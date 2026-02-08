@@ -27,7 +27,7 @@ const ROLE_KEYS = {
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
-  "relative z-[21] flex flex-col items-stretch justify-start gap-[var(--profile-stack-gap)] " +
+  "relative z-[21] flex flex-col items-stretch justify-start gap-[clamp(1.4rem,3.2vh,2.3rem)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay)]:relative " +
   "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay)]:z-[1]";
@@ -36,11 +36,13 @@ const titleBaseClassName =
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const titlePageClassName =
-  "mt-[clamp(0.95rem,2.3vh,1.85rem)] mb-[clamp(0.55rem,1.6vh,1.1rem)]";
+  "mt-[clamp(0.95rem,2.3vh,1.85rem)] mb-[clamp(0.55rem,1.6vh,1.1rem)] " +
+  "max-md:mt-[clamp(1.4rem,4.6vh,2.6rem)]";
 const headerCenterBaseClassName =
   "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
 const headerCenterPageClassName =
-  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-1.5rem,-3.4vh,-0.9rem)]";
+  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-1.5rem,-3.4vh,-0.9rem)] " +
+  "max-md:mt-[clamp(0.6rem,2.4vh,1.2rem)]";
 const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
@@ -83,12 +85,25 @@ function ProfileShell({
 }) {
   const containerClass = cn(
     containerBaseClassName,
-    embedded ? "profile-container" : "profile-container profile-container--page",
-    "glass-ring [--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)]",
-    !embedded && "max-md:[--ring-fit-h:calc(100svh-(2*var(--ring-fit-pad,1.5rem))-var(--ring-ui-reserve-page,var(--ring-ui-reserve,9rem)))] max-md:h-[100svh] max-md:min-h-[100svh] max-md:max-h-[100svh]"
+    embedded ? "profile-container" : "profile-container",
+    "glass-ring " +
+      "[--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)] " +
+      "[--profile-role-hole-mask:linear-gradient(#fff,#fff)] " +
+      "[--profile-role-text-color:rgba(232,232,232,0.78)] " +
+      "[--profile-role-hole-shadow:none] " +
+      "data-[theme=dark]:[--profile-role-text-color:rgba(248,250,252,0.9)] " +
+      "data-[theme=dark]:[--profile-role-hole-shadow:0_6px_16px_rgba(0,0,0,0.26),0_8px_14px_-12px_rgba(248,253,255,0.52),0_18px_24px_-18px_rgba(248,253,255,0.26)] " +
+      "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
+      "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)]",
+    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,3.6vh,2.1rem)]"
   );
   const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
-      <div ref={maskLayerRef} className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none" aria-hidden="true" />
+      <div
+        ref={maskLayerRef}
+        className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
+        aria-hidden="true"
+        data-orbit-open={orbitOpen ? "true" : "false"}
+      />
       {children}
     </GlassRing>;
   if (embedded) {
@@ -221,7 +236,6 @@ export default function ProfiilBody({
       };
     };
     let lastMask = "";
-    let lastRoleMask = "";
     let retryCount = 0;
     let raf = 0;
     let rafLoop = 0;
@@ -277,10 +291,6 @@ export default function ProfiilBody({
           maskLayer.style.setProperty("mask-image", mask);
         }
         lastMask = mask;
-      }
-      if (mask && mask !== lastRoleMask) {
-        box.style.setProperty("--profile-role-only-mask", mask);
-        lastRoleMask = mask;
       }
     };
     const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();

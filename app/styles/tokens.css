@@ -24,6 +24,8 @@
   --ring-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
   --ring-pad-top-half: clamp(0.8rem, 2.1vw, 1.3rem);
   --ring-gap: clamp(0.9rem, 2.4vh, 1.4rem);
+  --mobile-glass-card-gap: 0.35rem;
+  --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
 
   --btn-base-bg-dark: linear-gradient(
     180deg,

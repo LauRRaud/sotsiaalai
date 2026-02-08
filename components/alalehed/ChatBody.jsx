@@ -620,7 +620,7 @@ export default function ChatBody({
                   data-chat-container="true"
                   data-chat-theme={isLightTheme ? "light" : "dark"}
                 >
-                  {!isLightTheme ? <div className="chat-mask-layer" aria-hidden="true" /> : null}
+                  {!isLightTheme ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
                     {!profileOpen ? <div className="chat-nav-overlay absolute inset-0 z-[80] pointer-events-none">
                       <BackButton
                         onClick={handleBackHome}
@@ -630,7 +630,7 @@ export default function ChatBody({
                       <CloseButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
-                        className="chat-close-button pointer-events-auto hidden"
+                        className="chat-close-button pointer-events-auto hidden text-[var(--brand-primary,#c57171)] light:text-[#7a3a38] max-[48em]:absolute max-[48em]:right-[0.6rem] max-[48em]:top-[0.55rem] max-[48em]:z-[95] max-[48em]:inline-flex max-[48em]:opacity-90"
                       />
                     </div> : null}
 
@@ -677,7 +677,7 @@ export default function ChatBody({
 
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => {
                 if (!isMobile) setInputFocused(true);
-              }} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} />
+              }} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} isMobile={isMobile} />
 
                 {isRoomMode && focusActive ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
                     <label className={aiToggleLabelClassName}>

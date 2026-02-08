@@ -837,7 +837,7 @@ export default function LoginModal({
             {!isMobile && <input aria-label={t("auth.pin_placeholder", {
           min: PIN_MIN,
           max: PIN_MAX
-        })} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="sr-only pin-hidden-input" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
+        })} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
 
             {}
             {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder", {

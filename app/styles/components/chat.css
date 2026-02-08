@@ -32,7 +32,7 @@
   --chat-nav-top: calc(var(--hud-edge-safe) + var(--hud-icon) + 13rem);
   overflow-anchor: none;
 }
-.chat-container[data-chat-theme="dark"] {
+.chat-container.glass-ring {
   background: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -85,12 +85,6 @@
   --chat-arc-center-alpha: 0.1;
   --chat-arc-side-alpha: 0.24;
   --chat-arc-mid-alpha: 0.09;
-}
-.chat-window::before {
-  content: none;
-}
-.chat-window::after {
-  content: none !important;
 }
 .chat-container--input-focus {
   --chat-window-max-w: clamp(18.5rem, 44vw, 29.5rem);
@@ -149,22 +143,6 @@
   width: 0;
   height: 0;
 }
-.chat-mask-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-mask-image: var(--chat-input-hole-mask, none);
-  mask-image: var(--chat-input-hole-mask, none);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
 .chat-send-btn[data-recording] {
   color: var(--chat-icon-color);
 }
@@ -201,6 +179,13 @@
   > :not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay) {
   z-index: 1;
 }
+@media (max-width: 48em) {
+  .chat-page-shell .chat-container.chat-container--round {
+    --chat-nav-top: clamp(2.8rem, 11vw, 4.2rem);
+    --chat-pad-top: clamp(0.75rem, 2vh, 1.1rem);
+    --chat-pad-bottom: clamp(0.5rem, 1.8vh, 0.9rem);
+  }
+}
 @media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx) {
   .chat-container {
     --chat-logo-height: clamp(11rem, 30vw, 24rem);
@@ -220,6 +205,11 @@
     align-self: center;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
+    --chat-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
+    --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
+    --chat-window-pad-top: clamp(0.9rem, 2.2vh, 1.6rem);
+    --chat-nav-top: 50%;
+    --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
     transition:
       border-top-left-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
       border-top-right-radius 400ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -245,13 +235,6 @@
     border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     transform: none;
-  }
-  .chat-page-shell .chat-container.chat-container--round {
-    --chat-pad-top: clamp(1.6rem, 4.2vw, 2.6rem);
-    --chat-pad-bottom: clamp(3.2rem, 7vh, 5rem);
-    --chat-window-pad-top: clamp(0.9rem, 2.2vh, 1.6rem);
-    --chat-nav-top: 50%;
-    --chat-hpad: clamp(2.2rem, 6vw, 3.4rem);
   }
   :root
     .chat-page-shell

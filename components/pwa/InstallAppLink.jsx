@@ -19,6 +19,7 @@ export default function InstallAppLink({
   const installCta = t("pwa.cta");
   const iosHint = t("pwa.instructions.ios");
   const macHint = t("pwa.instructions.mac");
+  const mutedHintClass = "text-[color:var(--pt-300)] font-medium text-[1em] whitespace-normal";
   useEffect(() => {
     const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     setIsStandalone(standalone);
@@ -80,17 +81,17 @@ export default function InstallAppLink({
               {installCta}
             </a>
           </p> : null}
-        {showFallback ? <p className="text-muted">{isIOS ? iosHint : macHint}</p> : null}
+        {showFallback ? <p className={mutedHintClass}>{isIOS ? iosHint : macHint}</p> : null}
       </section>;
   }
   if (variant === "row") {
     return showInstallLink ? <a href="#" className={cn(linkBrandBase, className)} onClick={handleClick}>
         {installCta}
-      </a> : <span className={className || "text-muted"}>{isIOS ? iosHint : macHint}</span>;
+      </a> : <span className={className || mutedHintClass}>{isIOS ? iosHint : macHint}</span>;
   }
   return <li>
       {showInstallLink ? <a href="#" className={linkBrandBase} onClick={handleClick}>
           {installCta}
-        </a> : <span className="text-muted">{isIOS ? iosHint : macHint}</span>}
+        </a> : <span className={mutedHintClass}>{isIOS ? iosHint : macHint}</span>}
     </li>;
 }

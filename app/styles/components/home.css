@@ -62,9 +62,10 @@
 .homepage-root.intro-pending .centered-back-right {
   opacity: 0;
 }
-.homepage-root.intro-pending .card-blur-layer {
-  opacity: 0 !important;
-  visibility: hidden !important;
+.homepage-root.intro-pending .card-wrapper .card-blur-layer,
+.homepage-root.intro-pending .card-wrapper:has(.glass-card.fade-in-done) .card-blur-layer {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* 3D card + flip effects */
@@ -123,6 +124,7 @@
 }
 .homepage-root .card-face.back {
   transform: rotateY(180deg);
+  pointer-events: none;
 }
 .homepage-root .three-d-card:not(.flip-allowed) .card-wrapper {
   transform: none;
@@ -196,9 +198,6 @@
   transition: box-shadow 0.28s ease;
 }
 
-.homepage-root .card-face.back {
-  pointer-events: none;
-}
 .homepage-root .three-d-card.flip-allowed.left:hover .card-face.back,
 .homepage-root .three-d-card.flip-allowed.left:focus-within .card-face.back,
 .homepage-root .three-d-card.flip-allowed.right:hover .card-face.back,
@@ -347,9 +346,11 @@
 }
 
 /* Hide scroll cue when profile overlay is open */
-body.home-profile-open .homepage-root .home-scroll-cue {
+body.home-profile-open .homepage-root .home-scroll-cue,
+body.modal-open .homepage-root .home-scroll-cue,
+body.login-modal-open .homepage-root .home-scroll-cue {
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  display: none !important;
+  display: none;
 }

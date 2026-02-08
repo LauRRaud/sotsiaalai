@@ -90,7 +90,7 @@
 .iconBtn:hover svg,
 .iconBtn:focus-visible img,
 .iconBtn:focus-visible svg {
-  transform: none !important;
+  transform: none;
 }
 
 .iconImg,
@@ -181,8 +181,8 @@
 
 @media (max-width: 48em) {
   .slot {
-    position: fixed;
-    top: calc(env(safe-area-inset-top, 0px) + 0.35rem);
+    position: absolute;
+    top: calc(var(--hud-edge-safe, env(safe-area-inset-top, 0px)) + 0.1rem);
     left: 0;
     right: 0;
     height: auto;
@@ -219,7 +219,7 @@
     transform: none;
     width: var(--rail-item-size);
     height: auto;
-    opacity: 1 !important;
+    opacity: 1;
     transition: none;
   }
 

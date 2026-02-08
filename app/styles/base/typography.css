@@ -58,8 +58,7 @@
   .chat-input-field::placeholder {
     font-family: var(--font-aino), Arial, sans-serif;
   }
-  .glass-box,
-  .glass-box p {
+  .glass-box {
     hyphens: auto;
     word-break: break-word;
     overflow-wrap: break-word;

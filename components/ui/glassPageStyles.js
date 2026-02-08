@@ -10,7 +10,7 @@ export const glassPageShellCenteredClassName =
   "mx-auto grid w-full min-h-[100dvh] place-items-center box-border";
 
 export const glassPageBackClassName =
-  "absolute left-[var(--glass-edge-left)] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
+  "absolute left-[var(--glass-edge-left)] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2 max-[48em]:hidden";
 
 export const glassPageBackRightClassName =
   "absolute right-[var(--glass-edge-right)] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";

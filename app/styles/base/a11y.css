@@ -23,8 +23,8 @@
   input,
   select,
   textarea,
-  [role=],
-  [tabindex]:not([tabindex=])
+  [role],
+  [tabindex]:not([tabindex="-1"])
 ):focus-visible {
   outline: none;
   outline-offset: 0;
@@ -48,8 +48,8 @@ html[data-contrast="hc"]
     input,
     select,
     textarea,
-    [role=],
-    [tabindex]:not([tabindex=])
+    [role],
+    [tabindex]:not([tabindex="-1"])
   ):not(.top-nav__btn):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.chat-input-field):not(
