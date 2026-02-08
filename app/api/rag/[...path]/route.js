@@ -1,9 +1,15 @@
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
+const RAG_PROXY_RATE_LIMIT_WINDOW_MS = Number(process.env.RAG_PROXY_RATE_LIMIT_WINDOW_MS || 60_000);
+const RAG_PROXY_RATE_LIMIT_MAX = Number(process.env.RAG_PROXY_RATE_LIMIT_MAX || 120);
 function normalizeBaseFromHost(host) {
   const trimmed = String(host || "").trim().replace(/\/+$/, "");
   if (!trimmed) return "http://127.0.0.1:8000";
@@ -40,6 +46,32 @@ function requestHasBody(req) {
   return true;
 }
 async function proxy(req, ctx = {}) {
+  const session = await getServerSession(authConfig).catch(() => null);
+  if (!session?.user?.id) {
+    return new Response(JSON.stringify({
+      ok: false,
+      message: "Unauthorized."
+    }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  }
+  const ip = getRequestIpFromRequest(req);
+  const limit = consumeRateLimit(`rag-proxy:${session.user.id}:${ip}`, RAG_PROXY_RATE_LIMIT_MAX, RAG_PROXY_RATE_LIMIT_WINDOW_MS);
+  if (!limit.allowed) {
+    return new Response(JSON.stringify({
+      ok: false,
+      message: "Liiga palju RAG päringuid. Proovi hiljem uuesti."
+    }), {
+      status: 429,
+      headers: {
+        "Content-Type": "application/json",
+        "Retry-After": String(limit.retryAfterSec)
+      }
+    });
+  }
   let resolvedParams = ctx?.params;
   if (resolvedParams && typeof resolvedParams.then === "function") {
     resolvedParams = await resolvedParams;

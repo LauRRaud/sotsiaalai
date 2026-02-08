@@ -101,7 +101,7 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, allowParticles]);
   useEffect(() => {
     if (!mounted) return;
-    if (reduceMotion) {
+    if (reduceMotion && !mobileLike) {
       setColorBendsReady(false);
       return;
     }
@@ -163,12 +163,12 @@ const BackgroundContent = memo(function BackgroundContent({
       <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
         {}
         {}
-        {colorBendsReady && !reduceMotion && (
+        {colorBendsReady && (!reduceMotion || mobileLike) && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
               <ColorBends
                 bgColor={bgColor}
-                speed={mobileLike ? 0.1 : 0.15}
+                speed={mobileLike ? (reduceMotion ? 0.03 : 0.1) : 0.15}
                 scale={mobileLike ? 1.2 : 1}
                 frequency={mobileLike ? 0.78 : 1}
                 warpStrength={mobileLike ? 0.75 : 1}

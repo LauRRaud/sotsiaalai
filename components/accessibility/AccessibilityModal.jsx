@@ -253,10 +253,7 @@ export default function AccessibilityModal({
   return <>
       <div className={modalBackdropClassName} onClick={onClose} role="presentation" aria-hidden="true" />
 
-      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName}`.trim()} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1} style={{
-      "--csp-chevron-top": "-1.6rem",
-      "--csp-chevron-bottom": "-1.6rem"
-    }}>
+      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} [--csp-chevron-top:-1.6rem] [--csp-chevron-bottom:-1.6rem]`.trim()} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
         <div className="csp-overlayTitle min-[48.0625em]:hidden" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
@@ -276,15 +273,10 @@ export default function AccessibilityModal({
           </span>
         </div>
 
-        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName}`.trim()} style={{
+        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`.trim()} style={{
         "--csp-pad": `${scrollPad + padOffset}px`,
         "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
-        "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`,
-        "--csp-active-scale": "1",
-        "--csp-neighbor-scale": "0.92",
-        "--csp-hidden-scale": "0.86",
-        "--csp-neighbor-opacity": "0.15",
-        "--csp-hidden-opacity": "0"
+        "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${getItemClassName(0)}`}>
             <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>

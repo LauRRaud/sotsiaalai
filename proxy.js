@@ -1,10 +1,38 @@
 import { NextResponse } from "next/server";
+const ALLOWED_REDIRECT_HOSTS = String(process.env.ALLOWED_REDIRECT_HOSTS || "")
+  .split(",")
+  .map(h => h.trim().toLowerCase())
+  .filter(Boolean);
+
 function getForwardedHeader(req, name) {
   const raw = req.headers.get(name);
   if (!raw) return null;
   const first = raw.split(",")[0]?.trim();
   return first || null;
 }
+
+function normalizeHost(value) {
+  if (!value) return null;
+  const candidate = String(value).trim().toLowerCase();
+  if (!candidate) return null;
+  if (!/^[a-z0-9.\-:[\]]+$/.test(candidate)) return null;
+  return candidate;
+}
+
+function hostWithoutPort(host) {
+  if (!host) return "";
+  if (host.startsWith("[") && host.includes("]")) return host;
+  return host.replace(/:\d+$/, "");
+}
+
+function canUseForwardedHost(forwardedHost, fallbackHost) {
+  if (!forwardedHost) return false;
+  if (fallbackHost && forwardedHost === fallbackHost) return true;
+  if (!ALLOWED_REDIRECT_HOSTS.length) return false;
+  const forwardedBase = hostWithoutPort(forwardedHost);
+  return ALLOWED_REDIRECT_HOSTS.includes(forwardedHost) || ALLOWED_REDIRECT_HOSTS.includes(forwardedBase);
+}
+
 export async function proxy(req) {
   const {
     pathname
@@ -14,11 +42,16 @@ export async function proxy(req) {
     const locale = m[1];
     const rest = m[2] || "/";
     const dest = new URL(req.url);
-    const forwardedProto = getForwardedHeader(req, "x-forwarded-proto");
-    const forwardedHost = getForwardedHeader(req, "x-forwarded-host");
-    const fallbackHost = req.headers.get("host");
+    const forwardedProtoRaw = getForwardedHeader(req, "x-forwarded-proto");
+    const forwardedProto = forwardedProtoRaw === "https" || forwardedProtoRaw === "http" ? forwardedProtoRaw : null;
+    const forwardedHost = normalizeHost(getForwardedHeader(req, "x-forwarded-host"));
+    const fallbackHost = normalizeHost(req.headers.get("host"));
     if (forwardedProto) dest.protocol = `${forwardedProto}:`;
-    if (forwardedHost || fallbackHost) dest.host = forwardedHost || fallbackHost;
+    if (canUseForwardedHost(forwardedHost, fallbackHost)) {
+      dest.host = forwardedHost;
+    } else if (fallbackHost) {
+      dest.host = fallbackHost;
+    }
     dest.pathname = rest;
     const res = NextResponse.redirect(dest, 308);
     res.cookies.set("NEXT_LOCALE", locale, {

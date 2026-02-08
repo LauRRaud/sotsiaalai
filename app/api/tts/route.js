@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import textToSpeech from "@google-cloud/text-to-speech";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_TTS_MODEL = process.env.OPENAI_TTS_MODEL || "gpt-4o-mini-tts";
 const OPENAI_TTS_VOICE = process.env.OPENAI_TTS_VOICE || "alloy";
+const TTS_RATE_LIMIT_WINDOW_MS = Number(process.env.TTS_RATE_LIMIT_WINDOW_MS || 60_000);
+const TTS_RATE_LIMIT_MAX = Number(process.env.TTS_RATE_LIMIT_MAX || 30);
 const gcpTtsClient = new textToSpeech.TextToSpeechClient();
 function pickGoogleVoice(locale) {
   const base = (locale || "et").toLowerCase().split("-")[0];
@@ -76,6 +82,28 @@ async function synthOpenAI({
   };
 }
 export async function POST(req) {
+  const session = await getServerSession(authConfig).catch(() => null);
+  if (!session?.user?.id) {
+    return NextResponse.json({
+      ok: false,
+      message: "Unauthorized."
+    }, {
+      status: 401
+    });
+  }
+  const ip = getRequestIpFromRequest(req);
+  const limit = consumeRateLimit(`tts:${session.user.id}:${ip}`, TTS_RATE_LIMIT_MAX, TTS_RATE_LIMIT_WINDOW_MS);
+  if (!limit.allowed) {
+    return NextResponse.json({
+      ok: false,
+      message: "Liiga palju TTS päringuid. Proovi hiljem uuesti."
+    }, {
+      status: 429,
+      headers: {
+        "Retry-After": String(limit.retryAfterSec)
+      }
+    });
+  }
   const googleEnabled = !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
   const openaiEnabled = !!OPENAI_API_KEY;
   if (!googleEnabled && !openaiEnabled) {

@@ -3,6 +3,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashOpaqueToken, randomOtpCode, hashOtpCode, maskEmail, OTP_TTL_MINUTES } from "@/lib/auth/pin-login";
 import { getMailer } from "@/lib/mailer";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
+const LOGIN_RESEND_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_RESEND_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
+const LOGIN_RESEND_RATE_LIMIT_PER_IP = Number(process.env.LOGIN_RESEND_RATE_LIMIT_PER_IP || 30);
+const LOGIN_RESEND_RATE_LIMIT_PER_TOKEN = Number(process.env.LOGIN_RESEND_RATE_LIMIT_PER_TOKEN || 6);
 function json(data, status = 200) {
   return NextResponse.json({
     ok: status < 400,
@@ -71,6 +76,24 @@ export async function POST(request) {
   try {
     const body = await request.json().catch(() => ({}));
     const rawToken = String(body?.temp_login_token || "").trim();
+    const ip = getRequestIpFromRequest(request);
+    const ipLimit = consumeRateLimit(`login-resend:ip:${ip}`, LOGIN_RESEND_RATE_LIMIT_PER_IP, LOGIN_RESEND_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) {
+      return json({
+        message: "Liiga palju koodi uuesti saatmise katseid. Proovi hiljem uuesti.",
+        code: "RATE_LIMITED"
+      }, 429);
+    }
+    if (rawToken) {
+      const tokenKey = hashOpaqueToken(rawToken).slice(0, 20);
+      const tokenLimit = consumeRateLimit(`login-resend:token:${tokenKey}`, LOGIN_RESEND_RATE_LIMIT_PER_TOKEN, LOGIN_RESEND_RATE_LIMIT_WINDOW_MS);
+      if (!tokenLimit.allowed) {
+        return json({
+          message: "Liiga palju koodi uuesti saatmise katseid. Proovi hiljem uuesti.",
+          code: "RATE_LIMITED"
+        }, 429);
+      }
+    }
     if (!rawToken) {
       return json({
         message: "Puudub temp_login_token."

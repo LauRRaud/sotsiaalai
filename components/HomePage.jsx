@@ -46,6 +46,7 @@ export default function HomePage() {
   const [rightPhase, setRightPhase] = useState("front");
   const [showScrollCue, setShowScrollCue] = useState(true);
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
+  const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
@@ -140,6 +141,22 @@ export default function HomePage() {
     };
   }, [isLoginOpen]);
   useEffect(() => {
+    if (typeof document === "undefined") return;
+    const body = document.body;
+    const updateOverlayState = () => {
+      const isOpen = body.classList.contains("home-profile-open") || body.classList.contains("modal-open") || body.classList.contains("login-modal-open");
+      setIsHomeOverlayOpen(isOpen);
+    };
+    updateOverlayState();
+    if (typeof MutationObserver === "undefined") return;
+    const observer = new MutationObserver(updateOverlayState);
+    observer.observe(body, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
     document.body.classList.add("homepage");
     document.body.classList.add("homeCursorScope");
     return () => {
@@ -167,7 +184,7 @@ export default function HomePage() {
   const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
   const introPending = !introStart && !skipIntroAnimations;
   const scrollCueReady = leftFadeDone && rightFadeDone;
-  const showScrollCueNow = isMobile ? scrollCueReady : showScrollCue && scrollCueEntered;
+  const showScrollCueNow = (isMobile ? scrollCueReady : showScrollCue && scrollCueEntered) && !isHomeOverlayOpen;
   const shouldFadeIn = introStart && !skipIntroAnimations && !(leftFadeDone && rightFadeDone);
   useEffect(() => {
     if (!prefsHydrated) return;
@@ -199,6 +216,19 @@ export default function HomePage() {
   const leftBackInteractive = isMobile ? flipAllowed : leftInteractive;
   const rightBackInteractive = isMobile ? flipAllowed : rightInteractive;
   const flipClass = !isMobile && flipAllowed ? "flip-allowed" : "";
+  const suppressCardHoverFxClassName = isHomeOverlayOpen ?
+    "[&:hover_.card-face.front>.glass-card]:[animation:none] " +
+      "[&:focus-within_.card-face.front>.glass-card]:[animation:none] " +
+      "[&:hover_.card-face.front>.glass-card]:[box-shadow:none] " +
+      "[&:focus-within_.card-face.front>.glass-card]:[box-shadow:none] " +
+      "[&:hover_.card-face.back>.centered-back-left]:[animation:none] " +
+      "[&:focus-within_.card-face.back>.centered-back-left]:[animation:none] " +
+      "[&:hover_.card-face.back>.centered-back-right]:[animation:none] " +
+      "[&:focus-within_.card-face.back>.centered-back-right]:[animation:none] " +
+      "[&:hover_.card-face.back>.centered-back-left]:[box-shadow:none] " +
+      "[&:focus-within_.card-face.back>.centered-back-left]:[box-shadow:none] " +
+      "[&:hover_.card-face.back>.centered-back-right]:[box-shadow:none] " +
+      "[&:focus-within_.card-face.back>.centered-back-right]:[box-shadow:none]" : null;
   const onLeftEnter = () => {
     if (suppressFlipRef.current) return;
     if (!isMobile) {
@@ -336,6 +366,7 @@ export default function HomePage() {
       "[&.flip-allowed:hover_.card-face.back]:pointer-events-auto " +
       "[&.flip-allowed:focus-within_.card-face.back]:pointer-events-auto " +
       "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
+    suppressCardHoverFxClassName,
     flipClass,
     leftFlipping ? "is-flipping" : null,
     mobileFlipReady.left ? "mobile-flipped-left" : null
@@ -354,6 +385,7 @@ export default function HomePage() {
       "[&.flip-allowed:hover_.card-face.back]:pointer-events-auto " +
       "[&.flip-allowed:focus-within_.card-face.back]:pointer-events-auto " +
       "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
+    suppressCardHoverFxClassName,
     flipClass,
     rightFlipping ? "is-flipping" : null,
     mobileFlipReady.right ? "mobile-flipped-right" : null

@@ -5,6 +5,8 @@ import { hash } from "bcrypt";
 import { Role } from "@/generated/prisma/client";
 import crypto from "node:crypto";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 const ROLE_MAP = {
   specialist: Role.SOCIAL_WORKER,
   sotsiaaltöö: Role.SOCIAL_WORKER,
@@ -33,6 +35,9 @@ function err(message, status = 400, extras = {}) {
 }
 const EMAIL_MAX = 254;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+const REGISTER_RATE_LIMIT_WINDOW_MS = Number(process.env.REGISTER_RATE_LIMIT_WINDOW_MS || 60 * 60 * 1000);
+const REGISTER_RATE_LIMIT_PER_IP = Number(process.env.REGISTER_RATE_LIMIT_PER_IP || 20);
+const REGISTER_RATE_LIMIT_PER_EMAIL = Number(process.env.REGISTER_RATE_LIMIT_PER_EMAIL || 4);
 function normalizeEmail(input) {
   const s = String(input || "").trim().toLowerCase();
   return s.length > EMAIL_MAX ? s.slice(0, EMAIL_MAX) : s;
@@ -58,6 +63,13 @@ export async function POST(request) {
     const email = normalizeEmail(body?.email);
     const pin = normalizePin(body?.pin ?? body?.password);
     const role = normalizeRole(body?.role);
+    const ip = getRequestIpFromRequest(request);
+    const ipLimit = consumeRateLimit(`register:ip:${ip}`, REGISTER_RATE_LIMIT_PER_IP, REGISTER_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) return err("Liiga palju registreerimiskatseid. Proovi hiljem uuesti.", 429);
+    if (email) {
+      const emailLimit = consumeRateLimit(`register:email:${email}`, REGISTER_RATE_LIMIT_PER_EMAIL, REGISTER_RATE_LIMIT_WINDOW_MS);
+      if (!emailLimit.allowed) return err("Liiga palju registreerimiskatseid. Proovi hiljem uuesti.", 429);
+    }
     if (!validEmail(email)) return err("E-posti aadress pole korrektne.");
     if (!validPin(pin)) return err("PIN peab olema 4-8 numbrit.");
     const passwordHash = await hash(pin, 12);

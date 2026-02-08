@@ -1,3 +1,77 @@
+:root.login-modal-open,
+body.login-modal-open {
+  overflow: hidden;
+  height: 100%;
+}
+
+:root.login-modal-open {
+  overscroll-behavior: none;
+}
+
+.modal-close-btn {
+  width: 2.65rem;
+  height: 2.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 0;
+  line-height: 0;
+  cursor: var(--cursor-pointer);
+  overflow: visible;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  text-indent: -9999px;
+  white-space: nowrap;
+  box-shadow: none;
+  transition:
+    transform 0.14s ease,
+    color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.modal-close-btn::before {
+  content: "\00D7";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  font-size: 2.05rem;
+  line-height: 1;
+  text-indent: 0;
+  pointer-events: none;
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:focus-visible {
+  transform: translateY(-1px);
+}
+
+.modal-close-btn:active {
+  transform: translateY(1px);
+}
+
+.modal-close-btn:focus-visible {
+  outline: none;
+}
+
+.login-modal-box .login-modal-close.modal-close-btn {
+  position: absolute;
+  top: 0.34rem !important;
+  right: 0.62rem !important;
+  z-index: 4;
+  color: #c57171;
+}
+
+:root.theme-light .login-modal-box .login-modal-close.modal-close-btn {
+  color: #7a3a38;
+}
+
 .glass-ring {
   position: relative;
   display: flex;
@@ -158,6 +232,72 @@
   transform: translateX(0);
 }
 
+@media (min-width: 48em) {
+  .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.2) 9%,
+      rgba(0, 0, 0, 0.55) 17%,
+      #000 26%,
+      #000 74%,
+      rgba(0, 0, 0, 0.55) 83%,
+      rgba(0, 0, 0, 0.2) 91%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.2) 9%,
+      rgba(0, 0, 0, 0.55) 17%,
+      #000 26%,
+      #000 74%,
+      rgba(0, 0, 0, 0.55) 83%,
+      rgba(0, 0, 0, 0.2) 91%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .glass-policy-scroll.glass-ring-scroll--open {
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.18) 8%,
+      rgba(0, 0, 0, 0.5) 16%,
+      #000 24%,
+      #000 76%,
+      rgba(0, 0, 0, 0.5) 84%,
+      rgba(0, 0, 0, 0.18) 92%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.18) 8%,
+      rgba(0, 0, 0, 0.5) 16%,
+      #000 24%,
+      #000 76%,
+      rgba(0, 0, 0, 0.5) 84%,
+      rgba(0, 0, 0, 0.18) 92%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .glass-policy-back {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+      visibility 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+  }
+
+  .glass-ring-expandable--open .glass-policy-back {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+
 .glass-ring-content {
   padding-bottom: clamp(0.8rem, 2.4vh, 1.4rem);
   transition:
@@ -166,10 +306,6 @@
     margin-top 680ms cubic-bezier(0.22, 0.61, 0.36, 1);
   flex: 1 1 auto;
   min-height: 0;
-}
-
-.page-back-bottom {
-  transition: opacity 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 .glass-ring-content--open {
@@ -181,12 +317,6 @@
 .glass-ring-content:not(.glass-ring-content--open) {
   padding-top: clamp(0.05rem, 0.5vh, 0.3rem);
   margin-top: clamp(-0.35rem, -0.9vh, -0.18rem);
-}
-
-.glass-ring-expandable--open .page-back-bottom {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
 }
 
 .glass-ring-expand-toggle {

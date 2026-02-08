@@ -19,12 +19,14 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "relative flex-1 w-full max-w-[clamp(18rem,40vw,26rem)] min-h-0 overflow-y-auto overflow-x-visible px-[0.6rem] text-left csp-container csp-no-neighbor-click mx-auto";
-const inputClassName = "w-full text-[color:var(--pt-50)] placeholder:text-[color:var(--pt-200)] light:text-[color:var(--input-text)]";
+const registerTextClassName = "text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
-const checkboxCardClassName = "w-full text-[1.15rem] leading-[1.5] px-[1.05rem] py-[0.9rem]";
+const checkboxCardClassName = "w-full text-[1.05rem] leading-[1.42] px-[1.05rem] py-[0.9rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerButtonClassName = "px-[1.85rem] py-[1rem] text-[1.28rem]";
-const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.36rem]";
+const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 export default function RegistreerimineBody({
   openLoginModal = null
 }) {
@@ -173,14 +175,9 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="md:mt-0 md:mb-0" style={{
-      "--csp-chevron-top": "-1.4rem",
-      "--csp-chevron-bottom": "-1.4rem"
-    }}>
+      <GlassRing className="md:mt-0 md:mb-0 [--csp-chevron-top:-1.4rem] [--csp-chevron-bottom:-1.4rem]">
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={glassPageBackClassName} />
-        <div className="csp-overlayTitle" style={{
-        "--csp-title-top": "2.7rem"
-      }} aria-hidden="true">
+        <div className="csp-overlayTitle [--csp-title-top:2.7rem]" aria-hidden="true">
           <h1 className={titleClassName}>{t("auth.register.title")}</h1>
         </div>
 
@@ -196,45 +193,40 @@ export default function RegistreerimineBody({
         </div>
 
         <div className={contentClassName}>
-          <div ref={scrollRef} className={scrollClassName} style={{
+          <div ref={scrollRef} className={`${scrollClassName} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`} style={{
           "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
-          "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
-          "--csp-active-scale": "1",
-          "--csp-neighbor-scale": "0.92",
-          "--csp-hidden-scale": "0.86",
-          "--csp-neighbor-opacity": "0.15",
-          "--csp-hidden-opacity": "0"
+          "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>
-            <form className="flex flex-col gap-8" onSubmit={handleSubmit} autoComplete="off">
-              <section className={`register-step csp-step ${getItemClassName(0)}`}>
+            <form className="flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="off">
+              <section className={`${registerStepClassName} ${getItemClassName(0)}`}>
                 <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
               </section>
 
-              <section className={`register-step csp-step ${getItemClassName(1)} -mt-4`}>
+              <section className={`${registerStepClassName} ${getItemClassName(1)}`}>
                 <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.pin_placeholder", {
                 min: PIN_MIN,
                 max: PIN_MAX
               })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
               </section>
 
-              <section className={`register-step csp-step ${getItemClassName(2)} mt-3`}>
-                <div id={roleLabelId} className="mb-3 text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]">
+              <section className={`${registerStepClassName} ${getItemClassName(2)}`}>
+                <div id={roleLabelId} className="mb-[0.9rem] text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]">
                   {roleLabelText}
                 </div>
-                <div className="flex flex-col gap-6" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
+                <div className="flex flex-col gap-[0.75rem]" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint", "Vali roll nooleklahvidega. Valikud: SotsiaaltГ'кА?Г'кА? spetsialist vГ'кАзi ElukГ'какsimusega pГ'кА?Г'кА?rduja.")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`w-full text-[1.35rem] py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`w-full ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`w-full text-[1.35rem] py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`w-full ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>
               </section>
 
-              <section className={`register-step csp-step ${getItemClassName(3)}`}>
+              <section className={`${registerStepClassName} ${getItemClassName(3)}`}>
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={`${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
@@ -249,7 +241,7 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`register-step csp-step ${getItemClassName(4)}`}>
+              <section className={`${registerStepClassName} ${getItemClassName(4)}`}>
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={`${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide1: {
@@ -264,14 +256,14 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`register-step csp-step ${getItemClassName(5)} mt-3`}>
+              <section className={`${registerStepClassName} ${getItemClassName(5)}`}>
                 {error && <div role="alert" className="rounded-[0.85rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#fca5a5]">
                     {error}
                   </div>}
                 {successMessage && <div role="status" className="rounded-[0.85rem] border border-[rgba(110,231,183,0.35)] bg-[rgba(16,185,129,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#a7f3d0]">
                     {successMessage}
                   </div>}
-                <div className="mt-2 flex justify-center">
+                <div className="flex justify-center">
                   <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting}>
                     <span>
                       {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
@@ -280,12 +272,12 @@ export default function RegistreerimineBody({
                 </div>
               </section>
 
-              <section className={`register-step csp-step ${getItemClassName(6)} -mt-3`}>
-                <div className="flex justify-center text-[1.35rem]">
+              <section className={`${registerStepClassName} ${getItemClassName(6)}`}>
+                <div className={`flex justify-center ${registerTextClassName}`}>
                   <AppLink href="#" onClick={e => {
                     e.preventDefault();
                     openLoginModal?.();
-                  }} aria-label={t("auth.login.title")} className="[--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
+                  }} aria-label={t("auth.login.title")} className="text-[1em] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
                       {t("auth.login.title")}
                   </AppLink>
                 </div>

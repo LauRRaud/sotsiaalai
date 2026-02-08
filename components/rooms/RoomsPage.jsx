@@ -160,7 +160,7 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
         <BackButton
           onClick={() => pushWithTransition(router, "/vestlus")}
           ariaLabel={t("rooms.back_to_chats", "Tagasi vestlustesse")}
-          className={`${glassPageBackClassName} page-back-bottom`}
+          className={glassPageBackClassName}
         />
         <h1 className={titleClassName}>
           {t("rooms.title", "Ruumid")}

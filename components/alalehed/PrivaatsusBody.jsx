@@ -9,15 +9,15 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
-const mobileCloseClassName = "!hidden !max-[48em]:!inline-flex !max-[48em]:!fixed !max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.5rem)] !max-[48em]:!right-[calc(env(safe-area-inset-right,0px)+0.6rem)] !max-[48em]:!z-[90] !max-[48em]:!text-[#c57171] !max-[48em]:!opacity-90 light:!max-[48em]:!text-[#7a3a38]";
-const contentClassName = "mt-[clamp(0.4rem,1.6vh,1.1rem)] flex w-full flex-1 flex-col items-center max-[48em]:w-full max-[48em]:max-w-full max-[48em]:px-[clamp(0rem,1vw,0.25rem)] max-[48em]:pt-[clamp(0.4rem,1.8vh,1rem)] max-[48em]:pb-[clamp(0.2rem,1vh,0.5rem)]";
-const scrollClassName = "glass-ring-scroll relative w-full max-w-[clamp(18.8rem,48.5vw,33rem)] translate-x-[clamp(0.35rem,1vw,0.9rem)] overflow-y-auto pr-[0.1rem] pt-[clamp(1rem,2.4vh,1.6rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 [mask-image:linear-gradient(to_bottom,transparent_0%,#000_8%,#000_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_8%,#000_92%,transparent_100%)] max-[48em]:max-h-[calc(100%-1.2rem)] max-[48em]:translate-x-0 max-[48em]:w-full max-[48em]:max-w-full max-[48em]:px-[clamp(0rem,1vw,0.25rem)] max-[48em]:pt-[clamp(0.8rem,2.6vh,1.4rem)] max-[48em]:pb-[clamp(0.2rem,1vh,0.5rem)]";
+const contentClassName = glassPolicyContentClassName;
+const scrollClassName = glassPolicyScrollClassName;
 const sectionHeadingClassName = "mt-[1.2rem] text-[1.3rem] font-semibold tracking-[0.01em] text-[#c57171] light:text-[#7A3A38]";
 const bodyTextClassName = "mt-[0.6rem] space-y-[0.85rem] text-[clamp(1.02rem,1.5vw,1.15rem)] leading-[1.7] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[#2b2620]";
 const richLinkClassName = "inline-block text-[1.1em] font-[500] tracking-[0.03em] px-[0.2em] py-[0.02em] rounded-[0.32em] border-2 border-transparent no-underline transition-[border,box-shadow,color] duration-150 text-[#c57171] hover:border-[#c57171] hover:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] focus-visible:border-[#c57171] focus-visible:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] light:text-[#7A3A38] light:hover:border-[#7A3A38] light:focus-visible:border-[#7A3A38]";
@@ -116,7 +116,7 @@ export default function PrivaatsusBody() {
   }];
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring-expandable", expanded ? "glass-ring-expandable--open" : null, "[--glass-ring-pad-top:clamp(0.2rem,1.1vh,0.8rem)]", "[--ring-diameter:var(--chat-diameter)]")} role="region" aria-labelledby="privacy-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, glassPolicyRingClassName, expanded ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
         <CloseButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {
@@ -126,7 +126,7 @@ export default function PrivaatsusBody() {
             }
           }}
           ariaLabel={t("buttons.close")}
-          className={mobileCloseClassName}
+          className={glassPageCloseClassName}
         />
         <BackButton
           onClick={() => {
@@ -137,9 +137,9 @@ export default function PrivaatsusBody() {
             }
           }}
           ariaLabel={t("buttons.back_home")}
-          className={cn(glassPageBackClassName, "page-back-bottom")}
+          className={cn(glassPageBackClassName, glassPolicyBackButtonClassName)}
         />
-        <h1 id="privacy-title" className={`${titleClassName} mt-[clamp(0.6rem,1.6vh,1.2rem)] max-[48em]:mt-[clamp(0.1rem,0.8vh,0.5rem)] max-[48em]:mb-[clamp(0.25rem,1vh,0.6rem)]`}>
+        <h1 id="privacy-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("privacy.title")}
         </h1>
         <div className={cn(contentClassName, "glass-ring-content", expanded ? "glass-ring-content--open" : null)}>
@@ -156,7 +156,7 @@ export default function PrivaatsusBody() {
           </div>
         </div>
       </GlassRing>
-        <button type="button" className={cn("glass-ring-expand-toggle", "glass-ring-expand-toggle--overlay", "max-[48em]:hidden", expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
+        <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
           <Image src={expandIcon} alt="" width={56} height={56} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
         </button>
       </div>

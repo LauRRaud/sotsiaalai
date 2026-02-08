@@ -1,14 +1,3 @@
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-  --orbit-item-size: clamp(4.4rem, 8.6vw, 5.4rem);
-  --orbit-item-size-open: clamp(4.7rem, 9vw, 5.8rem);
-  --orbit-size: clamp(16.6rem, 33vw, 22.4rem);
-  --orbit-center-size: clamp(8.6rem, 15vw, 10.4rem);
-  --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.46);
-  --pin-border-w: 1.45px;
-  --pin-shadow: 0.11;
-}
-
-
 :root:not(.theme-light) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-under-glow:
     0 0 16px rgba(248, 253, 255, 0.22),
@@ -21,64 +10,7 @@
     0 0 12px rgba(248, 253, 255, 0.1);
 }
 
-.profile-orbit-menu {
-  --item-opacity: 0;
-  --item-scale: 0.9;
-  --item-scale-hover: 0.885;
 
-  --label-gap: 0.5rem;
-  --label-gap-side: 0.01rem;
-  --label-nudge: 0.3rem;
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-key="theme"],
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-key="delete"] {
-  --label-gap-side: -0.35rem;
-}
-
-.profile-orbit-menu.is-open {
-  --item-opacity: 1;
-}
-.profile-orbit-menu.is-expanded {
-  --item-scale: 1.06;
-  --item-scale-hover: 1.03;
-  --orbit-item-size: var(--orbit-item-size-open);
-}
-
-.profile-orbit-menu.is-open .profile-orbit-menu__items {
-  pointer-events: auto;
-}
-
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot {
-  transform: translate3d(var(--orbit-x, 0px), var(--orbit-y, 0px), 0)
-    translate(-50%, -50%);
-
-  opacity: var(--item-opacity);
-  transition: opacity 0.2s ease;
-  z-index: 1;
-}
-
-.profile-orbit-menu.is-open .profile-orbit-menu__slot {
-  animation: orbit-item-reveal 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-.profile-orbit-menu.is-closing:not(.is-open) .profile-orbit-menu__slot {
-  animation: orbit-item-hide 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item {
-  transform: scale(var(--item-scale));
-  transform-origin: center;
-
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.28s ease,
-    border-color 0.18s ease,
-    background 0.18s ease;
-
-}
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item {
   background: var(--glass-surface-bg, rgba(0, 0, 0, 0.22));
@@ -188,128 +120,7 @@
   animation: orbit-item-pulse 0.95s ease-in-out infinite;
 }
 
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item
-  .dock-icon
-  svg {
-  width: clamp(2.5rem, 2.9vw, 3.1rem);
-  height: clamp(2.5rem, 2.9vw, 3.1rem);
-  max-width: none;
-  max-height: none;
-  display: block;
-  stroke: currentColor;
-}
-:root:not(.theme-light)
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item
-  .dock-icon,
-:root:not(.theme-light) .profile-orbit-mobile-action.dock-item {
-  color: #c57171;
-}
-:root.theme-light
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item
-  .dock-icon,
-:root.theme-light .profile-orbit-mobile-action.dock-item {
-  color: #7a3a38;
-}
-:root:not(.theme-light)
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot
-  .dock-label {
-  color: #c57171;
-}
-:root.theme-light
-  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot
-  .dock-label {
-  color: #7a3a38;
-}
 
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot:is(:hover, :focus-within)
-  .dock-label {
-  opacity: 1;
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="up"]
-  .dock-label {
-  left: 50%;
-  bottom: calc(100% + var(--label-gap));
-  transform: translateX(-50%);
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="up"]:is(:hover, :focus-within)
-  .dock-label {
-  transform: translateX(-50%) translateY(calc(var(--label-nudge) * -1));
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="down"]
-  .dock-label {
-  left: 50%;
-  top: calc(100% + var(--label-gap));
-  transform: translateX(-50%);
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="down"]:is(:hover, :focus-within)
-  .dock-label {
-  transform: translateX(-50%) translateY(var(--label-nudge));
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="left"]
-  .dock-label {
-  max-width: 7rem;
-  overflow-wrap: break-word;
-  right: calc(100% + var(--label-gap-side));
-  top: 50%;
-  transform: translateY(-50%);
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="left"]:is(:hover, :focus-within)
-  .dock-label {
-  transform: translateY(-50%) translateX(calc(var(--label-nudge) * -1));
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="right"]
-  .dock-label {
-  max-width: 7rem;
-  overflow-wrap: break-word;
-  left: calc(100% + var(--label-gap-side));
-  top: 50%;
-  transform: translateY(-50%);
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-label-pos="right"]:is(:hover, :focus-within)
-  .dock-label {
-  transform: translateY(-50%) translateX(var(--label-nudge));
-}
-
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-key="theme"]
-  .dock-label,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__slot[data-key="subscription"]
-  .dock-label {
-  max-width: 5.8rem;
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item {
-  transform: translateZ(0) scale(1);
-  transform-origin: center;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  outline: 1px solid transparent;
-  transition: box-shadow 0.28s ease;
-  animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite;
-  will-change: transform;
-}
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item::after,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item::before {
-  content: none;
-}
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.16);
@@ -466,7 +277,6 @@
   }
 }
 
-
 .profile-orbit-mobile-backdrop.invite-modal-backdrop {
   background: rgba(6, 8, 12, 0.38);
   -webkit-backdrop-filter: blur(16px) saturate(118%);
@@ -540,16 +350,6 @@
   transform: translateY(1px);
   opacity: 1;
 }
-.profile-orbit-mobile-list {
-  scrollbar-width: none;
-}
-.profile-orbit-mobile-list::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-.profile-orbit-mobile-row.is-hidden {
-  pointer-events: none;
-}
 .profile-orbit-mobile-panel .dock-item:hover,
 .profile-orbit-mobile-panel .dock-item:focus-visible {
   transform: none !important;
@@ -558,9 +358,6 @@
   transform: scale(0.985) !important;
 }
 
-.profile-orbit-mobile-panel .profile-orbit-mobile-action.dock-item {
-  color: var(--orbit-mobile-accent, #c57171) !important;
-}
 .profile-orbit-mobile-row.is-active .profile-orbit-mobile-action.dock-item {
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.25),
@@ -624,26 +421,6 @@
   .dock-icon
   svg {
   transform: none;
-  opacity: 1;
-}
-:root:not(.theme-light) .profile-orbit-mobile-action__label {
-  color: var(--orbit-mobile-accent, #c57171) !important;
-  background: transparent;
-  border: none;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-}
-
-:root.theme-light .profile-orbit-mobile-action__label {
-  color: var(--orbit-mobile-accent, #7a3a38) !important;
-  background: transparent;
-  border: none;
-  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.35);
-}
-.profile-orbit-mobile-row.is-active .profile-orbit-mobile-action__label {
-  opacity: 1;
-}
-
-.profile-orbit-mobile-scrim.is-visible {
   opacity: 1;
 }
 :root:not(.theme-light) .profile-orbit-mobile-scrim--top {

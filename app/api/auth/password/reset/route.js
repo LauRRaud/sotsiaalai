@@ -4,7 +4,14 @@ import crypto from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcrypt";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 const TOKEN_EXPIRY_MINUTES = Number(process.env.RESET_TOKEN_MINUTES || 60);
+const RESET_RATE_LIMIT_WINDOW_MS = Number(process.env.RESET_RATE_LIMIT_WINDOW_MS || 60 * 60 * 1000);
+const RESET_RATE_LIMIT_POST_PER_IP = Number(process.env.RESET_RATE_LIMIT_POST_PER_IP || 20);
+const RESET_RATE_LIMIT_POST_PER_EMAIL = Number(process.env.RESET_RATE_LIMIT_POST_PER_EMAIL || 5);
+const RESET_RATE_LIMIT_PUT_PER_IP = Number(process.env.RESET_RATE_LIMIT_PUT_PER_IP || 40);
+const RESET_RATE_LIMIT_PUT_PER_TOKEN = Number(process.env.RESET_RATE_LIMIT_PUT_PER_TOKEN || 10);
 function ok(payload = {}) {
   return NextResponse.json({
     ok: true,
@@ -322,6 +329,13 @@ export async function POST(request) {
   try {
     const body = await request.json().catch(() => ({}));
     const email = normalizeEmail(body?.email);
+    const ip = getRequestIpFromRequest(request);
+    const ipLimit = consumeRateLimit(`reset-post:ip:${ip}`, RESET_RATE_LIMIT_POST_PER_IP, RESET_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) return err("Liiga palju taastamiskatseid. Proovi hiljem uuesti.", 429);
+    if (email) {
+      const emailLimit = consumeRateLimit(`reset-post:email:${email}`, RESET_RATE_LIMIT_POST_PER_EMAIL, RESET_RATE_LIMIT_WINDOW_MS);
+      if (!emailLimit.allowed) return err("Liiga palju taastamiskatseid. Proovi hiljem uuesti.", 429);
+    }
     if (!email || !email.includes("@")) return err("Palun sisesta korrektne e-posti aadress.", 400);
     const user = await prisma.user.findUnique({
       where: {
@@ -362,6 +376,14 @@ export async function PUT(request) {
     const body = await request.json().catch(() => ({}));
     const token = String(body?.token || "").trim();
     const pinRaw = String(body?.pin ?? body?.password ?? "").trim();
+    const ip = getRequestIpFromRequest(request);
+    const ipLimit = consumeRateLimit(`reset-put:ip:${ip}`, RESET_RATE_LIMIT_PUT_PER_IP, RESET_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) return err("Liiga palju PIN-i uuendamise katseid. Proovi hiljem uuesti.", 429);
+    if (token) {
+      const tokenKey = crypto.createHash("sha256").update(token).digest("hex").slice(0, 20);
+      const tokenLimit = consumeRateLimit(`reset-put:token:${tokenKey}`, RESET_RATE_LIMIT_PUT_PER_TOKEN, RESET_RATE_LIMIT_WINDOW_MS);
+      if (!tokenLimit.allowed) return err("Liiga palju PIN-i uuendamise katseid. Proovi hiljem uuesti.", 429);
+    }
     const pin = pinRaw.replace(/\s+/g, "");
     if (!token || !pin) return err("Puudub token või PIN.", 400);
     if (!/^\d{4,8}$/.test(pin)) return err("PIN peab olema 4–8 numbrit.", 400);

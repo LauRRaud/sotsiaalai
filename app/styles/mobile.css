@@ -1,4 +1,17 @@
 /* Mobile overrides (consolidated) */
+.glass-mobile-only-close {
+  display: none !important;
+}
+
+@media (max-width: 48em) {
+  .glass-mobile-only-close {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
+    right: calc(env(safe-area-inset-right, 0px) + 0.6rem);
+    z-index: 90;
+    display: inline-flex !important;
+  }
+}
 
 @media (max-width: 768px), (hover: none) {
   :root {
@@ -145,8 +158,8 @@
   }
   .login-modal-close {
     position: absolute;
-    top: max(0.35rem, env(safe-area-inset-top, 0));
-    right: max(0.5rem, env(safe-area-inset-right, 0));
+    top: calc(env(safe-area-inset-top, 0px) + 0.32rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.6rem) !important;
     z-index: 1010;
   }
 }

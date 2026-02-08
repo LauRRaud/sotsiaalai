@@ -8,11 +8,14 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import BackButton from "@/components/ui/BackButton";
+import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { cn } from "@/components/ui/cn";
 
 const pageShellClassName = glassPageShellClassName;
 const titleClassName = glassPageTitleClassName;
+const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(2.2rem,5.2vh,3.2rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col gap-5 text-center";
 const inputClassName = "w-full max-w-[22rem]";
 export default function ResetPasswordForm({
@@ -31,6 +34,7 @@ export default function ResetPasswordForm({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const backLabel = t("buttons.back_home");
+  const handleClose = () => pushWithTransition(router, localizePath("/", locale));
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -79,9 +83,10 @@ export default function ResetPasswordForm({
   }
   return (
     <section className={pageShellClassName} lang={locale}>
-      <GlassRing>
+      <GlassRing className={ringClassName}>
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
         <BackButton
-          onClick={() => pushWithTransition(router, localizePath("/", locale))}
+          onClick={handleClose}
           ariaLabel={backLabel}
           className={glassPageBackClassName}
         />

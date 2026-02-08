@@ -2,6 +2,10 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashOpaqueToken, compareOtpCode, fingerprintUserAgent, computeIpFromHeaders, computeIpRange, generateOpaqueToken, buildDeviceCookie, DEVICE_COOKIE_NAME, TRUSTED_DEVICE_DAYS } from "@/lib/auth/pin-login";
+import { consumeRateLimit } from "@/lib/rate-limit";
+const LOGIN_STEP2_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_STEP2_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
+const LOGIN_STEP2_RATE_LIMIT_PER_IP = Number(process.env.LOGIN_STEP2_RATE_LIMIT_PER_IP || 60);
+const LOGIN_STEP2_RATE_LIMIT_PER_TOKEN = Number(process.env.LOGIN_STEP2_RATE_LIMIT_PER_TOKEN || 15);
 function json(data, status = 200) {
   return NextResponse.json({
     ok: status < 400,
@@ -37,6 +41,24 @@ export async function POST(request) {
     const rawToken = String(body?.temp_login_token || "").trim();
     const otpCode = String(body?.otp_code || "").trim();
     const rememberDevice = Boolean(body?.remember_device);
+    const ipAddress = computeIpFromHeaders(request.headers) || "unknown";
+    const ipLimit = consumeRateLimit(`login-step2:ip:${ipAddress}`, LOGIN_STEP2_RATE_LIMIT_PER_IP, LOGIN_STEP2_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) {
+      return json({
+        message: "Liiga palju koodi kontrolli katseid. Proovi hiljem uuesti.",
+        code: "RATE_LIMITED"
+      }, 429);
+    }
+    if (rawToken) {
+      const tokenKey = hashOpaqueToken(rawToken).slice(0, 20);
+      const tokenLimit = consumeRateLimit(`login-step2:token:${tokenKey}`, LOGIN_STEP2_RATE_LIMIT_PER_TOKEN, LOGIN_STEP2_RATE_LIMIT_WINDOW_MS);
+      if (!tokenLimit.allowed) {
+        return json({
+          message: "Liiga palju koodi kontrolli katseid. Proovi hiljem uuesti.",
+          code: "RATE_LIMITED"
+        }, 429);
+      }
+    }
     if (!rawToken || otpCode.length === 0) {
       return json({
         message: "Puudub vajalik teave.",
@@ -99,7 +121,6 @@ export async function POST(request) {
     const headers = request.headers;
     const userAgent = headers.get("user-agent") || "";
     const fingerprint = fingerprintUserAgent(userAgent);
-    const ipAddress = computeIpFromHeaders(headers);
     const ipRange = computeIpRange(ipAddress);
     const deviceExpiresAt = new Date(Date.now() + TRUSTED_DEVICE_DAYS * 24 * 60 * 60 * 1000);
     let deviceCookieData = null;

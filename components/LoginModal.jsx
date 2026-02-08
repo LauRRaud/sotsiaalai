@@ -791,8 +791,8 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="glass-box w-full !my-0 !pt-[clamp(1.35rem,3.2vw,2.1rem)]">
-          <button className="login-modal-close modal-close-btn absolute top-[0.35rem] right-[0.55rem] z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+        <div className="glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)]">
+          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
             <div className={modalTitleClassName}>

@@ -16,7 +16,7 @@ export const glassPageBackRightClassName =
   "absolute right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";
 
 export const glassPageCloseClassName =
-  "hidden max-[48em]:fixed max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.5rem)] max-[48em]:right-[calc(env(safe-area-inset-right,0px)+0.6rem)] max-[48em]:z-[90] max-[48em]:inline-flex max-[48em]:text-[#c57171] max-[48em]:opacity-90 light:max-[48em]:text-[#7a3a38]";
+  "glass-mobile-only-close text-[#c57171] opacity-90 light:text-[#7a3a38]";
 
 export const glassPageRingCenteredClassName =
   "glass-ring md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";

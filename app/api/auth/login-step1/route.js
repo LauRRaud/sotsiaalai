@@ -5,6 +5,10 @@ import { prisma } from "@/lib/prisma";
 import { compare } from "bcrypt";
 import { normalizeEmail, normalizePin, isValidPin, randomOtpCode, hashOtpCode, maskEmail, generateOpaqueToken, hashOpaqueToken, fingerprintUserAgent, computeIpFromHeaders, computeIpRange, DEVICE_COOKIE_NAME, OTP_TTL_MINUTES, TEMP_LOGIN_TOKEN_MINUTES } from "@/lib/auth/pin-login";
 import { getMailer } from "@/lib/mailer";
+import { consumeRateLimit } from "@/lib/rate-limit";
+const LOGIN_STEP1_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_STEP1_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
+const LOGIN_STEP1_RATE_LIMIT_PER_IP = Number(process.env.LOGIN_STEP1_RATE_LIMIT_PER_IP || 60);
+const LOGIN_STEP1_RATE_LIMIT_PER_EMAIL = Number(process.env.LOGIN_STEP1_RATE_LIMIT_PER_EMAIL || 12);
 function json(data, status = 200) {
   return NextResponse.json({
     ok: status < 400,
@@ -87,6 +91,23 @@ export async function POST(request) {
     const body = await request.json().catch(() => ({}));
     const email = sanitizeEmail(body?.email);
     const pin = normalizePin(body?.pin);
+    const ipAddress = computeIpFromHeaders(request.headers) || "unknown";
+    const ipLimit = consumeRateLimit(`login-step1:ip:${ipAddress}`, LOGIN_STEP1_RATE_LIMIT_PER_IP, LOGIN_STEP1_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) {
+      return json({
+        message: "Liiga palju sisselogimise katseid. Proovi hiljem uuesti.",
+        code: "RATE_LIMITED"
+      }, 429);
+    }
+    if (email) {
+      const emailLimit = consumeRateLimit(`login-step1:email:${email}`, LOGIN_STEP1_RATE_LIMIT_PER_EMAIL, LOGIN_STEP1_RATE_LIMIT_WINDOW_MS);
+      if (!emailLimit.allowed) {
+        return json({
+          message: "Liiga palju sisselogimise katseid. Proovi hiljem uuesti.",
+          code: "RATE_LIMITED"
+        }, 429);
+      }
+    }
     if (!email || !isValidPin(pin)) {
       return json({
         message: "Vale e-post või PIN.",
@@ -121,7 +142,6 @@ export async function POST(request) {
     const headers = request.headers;
     const userAgent = headers.get("user-agent") || "";
     const fingerprint = fingerprintUserAgent(userAgent);
-    const ipAddress = computeIpFromHeaders(headers);
     const ipRange = computeIpRange(ipAddress);
     const cookieStore = await cookies();
     const deviceCookie = cookieStore.get(DEVICE_COOKIE_NAME)?.value;

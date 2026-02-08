@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 const STT_URL = process.env.STT_SERVER_URL;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_STT_MODEL = process.env.OPENAI_STT_MODEL || "gpt-4o-mini-transcribe";
+const STT_RATE_LIMIT_WINDOW_MS = Number(process.env.STT_RATE_LIMIT_WINDOW_MS || 60_000);
+const STT_RATE_LIMIT_MAX = Number(process.env.STT_RATE_LIMIT_MAX || 20);
 function normalizeLanguage(locale) {
   const base = String(locale || "").toLowerCase().split("-")[0].trim();
   if (!base || base === "auto") return undefined;
@@ -12,6 +18,28 @@ function normalizeLanguage(locale) {
   return undefined;
 }
 export async function POST(req) {
+  const session = await getServerSession(authConfig).catch(() => null);
+  if (!session?.user?.id) {
+    return NextResponse.json({
+      ok: false,
+      message: "Unauthorized."
+    }, {
+      status: 401
+    });
+  }
+  const ip = getRequestIpFromRequest(req);
+  const limit = consumeRateLimit(`stt:${session.user.id}:${ip}`, STT_RATE_LIMIT_MAX, STT_RATE_LIMIT_WINDOW_MS);
+  if (!limit.allowed) {
+    return NextResponse.json({
+      ok: false,
+      message: "Liiga palju STT päringuid. Proovi hiljem uuesti."
+    }, {
+      status: 429,
+      headers: {
+        "Retry-After": String(limit.retryAfterSec)
+      }
+    });
+  }
   if (!STT_URL && !OPENAI_API_KEY) {
     return NextResponse.json({
       ok: false,

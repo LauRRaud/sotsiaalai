@@ -8,7 +8,8 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 const linkClassName = "inline-flex items-center gap-[0.35rem] underline underline-offset-4 decoration-[color:currentColor] text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
@@ -20,7 +21,7 @@ const emailReplacement = {
 };
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
-const mobileCloseClassName = "!hidden !max-[48em]:!inline-flex !max-[48em]:!fixed !max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.5rem)] !max-[48em]:!right-[calc(env(safe-area-inset-right,0px)+0.6rem)] !max-[48em]:!z-[90] !max-[48em]:!text-[#c57171] !max-[48em]:!opacity-90 light:!max-[48em]:!text-[#7a3a38]";
+const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] flex-col gap-4 text-center";
 export default function TellimusBody() {
   const router = useRouter();
@@ -74,9 +75,9 @@ export default function TellimusBody() {
   }
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
-        <GlassRing className={`${glassPageRingCenteredClassName} glass-ring--desktop-stable`}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={mobileCloseClassName} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
+        <GlassRing className={ringClassName}>
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
           </h1>
@@ -89,9 +90,9 @@ export default function TellimusBody() {
       </section>;
   }
   return <section lang={locale} className={pageShellClassName}>
-      <GlassRing className={`${glassPageRingCenteredClassName} glass-ring--desktop-stable`}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={mobileCloseClassName} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackClassName} page-back-bottom`} />
+      <GlassRing className={ringClassName}>
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
         <h1 className={titleClassName}>
           {t("subscription.title")}
         </h1>

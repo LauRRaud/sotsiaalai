@@ -57,6 +57,9 @@ For each page/component:
 - `HomePage` styles moved to global `app/styles/components/home.css`.
 - `components/HomePage.module.css` removed; classes are now global.
 - Theme tokens for homepage live in `app/styles/theme/light.css` + `app/styles/theme/dark.css`.
+- Modal/overlay scroll-cue visibility moved from `home.css` to `HomePage.jsx` state logic.
+- Modal hover/focus suppression moved from `home.css` selectors into JSX Tailwind utility variants.
+- `home.css` now keeps effect-only dark edge glow logic.
 
 ### Next Steps (Home)
 1. Optional: consolidate any future homepage-only animations in `home.css`.
@@ -107,6 +110,25 @@ For each page/component:
 
 ### Recent Changes
 - Moved profile nav overlay layout to Tailwind (`ProfiilBody.jsx`).
+- Moved orbital menu sizing/layout custom properties from `OrbitalMenu.css` to Tailwind utility vars in `ProfiilBody.jsx`.
+- Moved `OrbitalMenu` base layout vars and interaction-state layout rules (`--item-*`, `--label-*`, slot transform/opacity, item scale transitions) from `OrbitalMenu.css` into `OrbitalMenu.jsx` Tailwind utility classes.
+- Moved orbit label max-width key override (`theme`/`subscription`) from CSS selector override to JSX conditional Tailwind classes.
+- Moved orbit label positioning and reveal interactions (`up/down/left/right`, hover/focus transitions) from CSS selectors into `OrbitalMenu.jsx` Tailwind utility classes.
+- Moved orbit center button base layout rules (3D/backface/outline/transition/animation hook) from `OrbitalMenu.css` into `OrbitalMenu.jsx` Tailwind utility classes.
+- `/tellimus`, `/uuenda-epost`, and `/uuenda-pin` now use shared `glassPageCloseClassName` and no longer rely on `page-back-bottom` helper class for back-button placement.
+- `/kasutusjuhend`, `/privaatsustingimused`, and `/kasutustingimused` now use shared `glassPageCloseClassName` and no longer rely on `page-back-bottom` helper class for back-button placement.
+- `app/taasta-parool/[token]/ResetPasswordForm.jsx` now uses shared `glassPageCloseClassName` + `glassPageRingCenteredClassName` (`glass-ring--desktop-stable`) for parity with other glass-ring forms.
+- `components/alalehed/RegistreerimineBody.jsx` moved static inline CSS custom properties (`--csp-chevron-*`, `--csp-title-top`, fixed CSP scale/opacity vars) into Tailwind utility classes; only dynamic pad vars remain inline.
+- `app/error.jsx` now uses shared `glassPageCloseClassName` and `glass-ring--desktop-stable` for cross-page glass behavior parity.
+- `components/rooms/RoomsPage.jsx` no longer relies on `page-back-bottom`; it uses the shared `glassPageBackClassName` positioning directly.
+- `components/accessibility/AccessibilityModal.jsx` moved static CSP custom properties (`--csp-chevron-*`, fixed CSP scale/opacity vars) from inline styles to Tailwind utility classes; only dynamic scroll pad vars remain inline.
+- `components/effects/Components/OrbitalMenu/OrbitalMenu.jsx` now drives simple state styles via Tailwind classes (`slot reveal/hide animation`, mobile row hidden pointer-events, mobile scrim opacity, active mobile label opacity), and corresponding selectors were removed from `OrbitalMenu.css`.
+- `components/effects/Components/OrbitalMenu/OrbitalMenu.jsx` now also applies mobile action/label accent styling and mobile list scrollbar hiding via utility classes; redundant mobile color/label/scrollbar selectors were removed from `OrbitalMenu.css`.
+- Added shared `components/ui/glassPolicyPageStyles.js` and wired `/kasutusjuhend`, `/privaatsustingimused`, `/kasutustingimused` to it for common expandable glass-ring layout classes (ring/content/scroll/title offsets/toggle), reducing duplicated Tailwind class strings.
+- `glassPageCloseClassName` now uses coarse-pointer media conditions so the close (`×`) button shows only on touch/mobile devices, not desktop fine-pointer layouts.
+- `glassPageCloseClassName` is now anchored to a shared `glass-mobile-only-close` class, with visibility/position controlled in `app/styles/mobile.css` (hidden on desktop, fixed top-right on mobile).
+- Added desktop-specific `glass-policy-scroll` mask profiles in `app/styles/utilities/helpers.css` for `/kasutusjuhend`, `/privaatsustingimused`, `/kasutustingimused` to make top/bottom text fade longer and smoother.
+- Added shared `glassPolicyBackButtonClassName` + desktop helper rules so policy-page back buttons fade out/in smoothly when `glass-ring-expandable` toggles open state.
 
 ## Checklist (Per Change)
 - [ ] No duplicate var definitions in both CSS and JSX.

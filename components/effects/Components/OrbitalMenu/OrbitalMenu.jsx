@@ -454,36 +454,54 @@ export default function OrbitalMenu({
   return <div
       ref={rootRef}
       data-mobile-variant={useMobileStack ? "stack" : useMobileOverlay ? "list" : "orbit"}
-      className={cn("profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)]", isOpen && "is-open", isClosing && "is-closing", isExpanded && "is-expanded", isCoarsePointer && "is-mobile", useMobileStack && "is-stack", className)}
+      className={cn(
+      "profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)] " +
+        "[--item-opacity:0] [--item-scale:0.9] [--item-scale-hover:0.885] " +
+        "[--label-gap:0.5rem] [--label-gap-side:0.01rem] [--label-nudge:0.3rem]",
+      isOpen && "is-open [--item-opacity:1]",
+      isClosing && "is-closing",
+      isExpanded && "is-expanded [--item-scale:1.06] [--item-scale-hover:1.03] [--orbit-item-size:var(--orbit-item-size-open)]",
+      isCoarsePointer && "is-mobile",
+      useMobileStack && "is-stack",
+      className
+    )}
     >
       {}
-      {useOrbitLayout && <div className="profile-orbit-menu__items absolute inset-0 pointer-events-none" role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
+      {useOrbitLayout && <div className={cn("profile-orbit-menu__items absolute inset-0", isOpen ? "pointer-events-auto" : "pointer-events-none")} role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
           {items.map((item, index) => {
         const angle = desktopStartAngle + index * desktopAngleStep;
         const angleRad = angle * Math.PI / 180;
         const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
         const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
-        return <div key={item.key || index} className="profile-orbit-menu__slot absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)]" data-key={item.key || index} data-label-pos={item.labelPos || "up"} style={{
+        const labelPos = item.labelPos || "up";
+        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
+        const labelWidthClass = item.key === "theme" || item.key === "subscription" ? "max-w-[5.8rem]" : labelPos === "left" || labelPos === "right" ? "max-w-[7rem] [overflow-wrap:break-word]" : "max-w-[12rem]";
+        return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
-          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`
+          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
+          "--label-gap-side": item.key === "theme" || item.key === "delete" ? "-0.35rem" : undefined
         }} aria-hidden={!isOpen}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit" onClick={() => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={() => {
             item.onClick?.();
             if (!item.keepOpen) setIsPinnedOpen(false);
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="dock-icon w-full h-full grid place-items-center leading-[0]" aria-hidden="true">
+                  <span className="dock-icon w-full h-full grid place-items-center leading-[0] text-[#c57171] light:text-[#7a3a38] [&>svg]:w-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:h-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
                   </span>
                 </button>
-                <span className="dock-label absolute opacity-0 pointer-events-none w-max max-w-[12rem] whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0">{item.label}</span>
+                <span className={cn(
+            "dock-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out text-[#c57171] light:text-[#7a3a38] max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0",
+            labelPositionClass,
+            labelWidthClass
+          )}>{item.label}</span>
               </div>;
       })}
         </div>}
 
       {}
-      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[5] cursor-inherit" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+      <button ref={hubBtnRef} type="button" className="profile-orbit-menu__center dock-item w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[5] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [transition:box-shadow_0.28s_ease] [animation:profile-orbit-hub-pulse_4.4s_ease-in-out_infinite] [will-change:transform] before:content-none after:content-none" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
         <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
           <SmustCenterLogo className="profile-orbit-menu__hub-svg w-[var(--orbit-center-icon-size)] h-auto block overflow-visible stroke-none" aria-hidden="true" focusable="false" />
         </span>
@@ -499,11 +517,11 @@ export default function OrbitalMenu({
             </button>
 
             {}
-            <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--top absolute left-0 right-0 top-0 h-[4.6rem] z-[4] pointer-events-none opacity-0 transition-opacity duration-[220ms]", canScrollUp && "is-visible")} aria-hidden="true">
+            <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--top absolute left-0 right-0 top-0 h-[4.6rem] z-[4] pointer-events-none transition-opacity duration-[220ms]", canScrollUp ? "opacity-100" : "opacity-0")} aria-hidden="true">
               <div className="profile-orbit-mobile-chevron absolute left-1/2 top-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-45 border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
 
-            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-proximity px-[0.85rem] [-webkit-overflow-scrolling:touch]" style={{
+            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-proximity px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
           paddingTop: listPad,
           paddingBottom: listPad
         }}>
@@ -517,19 +535,19 @@ export default function OrbitalMenu({
             const isActive = index === activeIndex;
             return <div key={item.key || index} ref={el => {
               slotRefs.current[index] = el;
-            }} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden")}>
+            }} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden pointer-events-none")}>
                     <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" style={{
                 transform: `scale(${v.scale})`,
                 opacity: v.opacity,
                 filter: v.blur ? `blur(${v.blur}px)` : "none"
               }}>
-                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
+                      <button type="button" className="profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] text-[var(--orbit-mobile-accent,#c57171)]" onClick={() => onMobileAction(item)} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
                         <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>
 
                         {}
-                        <span className="profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.1] font-semibold tracking-[0.025em] text-[clamp(1.1rem,3.9vw,1.5rem)] mt-0 mb-[clamp(0.25rem,1.1vw,0.55rem)] p-0 rounded-none opacity-0 transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none" aria-hidden={!isActive}>
+                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.1] font-semibold tracking-[0.025em] text-[clamp(1.1rem,3.9vw,1.5rem)] mt-0 mb-[clamp(0.25rem,1.1vw,0.55rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0 text-[var(--orbit-mobile-accent,#c57171)] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)] light:[text-shadow:0_2px_8px_rgba(255,255,255,0.35)]", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
                           {item.label}
                         </span>
                       </button>
@@ -538,7 +556,7 @@ export default function OrbitalMenu({
           })}
             </div>
 
-            <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--bottom absolute left-0 right-0 bottom-0 h-[4.6rem] z-[4] pointer-events-none opacity-0 transition-opacity duration-[220ms]", canScrollDown && "is-visible")} aria-hidden="true">
+            <div className={cn("profile-orbit-mobile-scrim profile-orbit-mobile-scrim--bottom absolute left-0 right-0 bottom-0 h-[4.6rem] z-[4] pointer-events-none transition-opacity duration-[220ms]", canScrollDown ? "opacity-100" : "opacity-0")} aria-hidden="true">
               <div className="profile-orbit-mobile-chevron profile-orbit-mobile-chevron--down absolute left-1/2 bottom-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-[225deg] border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
           </div>

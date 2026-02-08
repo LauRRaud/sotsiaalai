@@ -26,23 +26,3 @@
   :is(.centered-back-left, .centered-back-right) {
   --card-edge-opacity: 0.22;
 }
-
-.modal-open .homepage-root .three-d-card:hover .card-face.front > .glass-card,
-.modal-open .homepage-root .three-d-card:focus-within .card-face.front > .glass-card,
-.modal-open .homepage-root .three-d-card:hover .card-face.back > .centered-back-left,
-.modal-open .homepage-root .three-d-card:hover .card-face.back > .centered-back-right,
-.modal-open .homepage-root .three-d-card:focus-within .card-face.back > .centered-back-left,
-.modal-open .homepage-root .three-d-card:focus-within .card-face.back > .centered-back-right {
-  animation: none;
-  box-shadow: none;
-}
-
-/* Hide scroll cue when profile overlay is open */
-body.home-profile-open .homepage-root .home-scroll-cue,
-body.modal-open .homepage-root .home-scroll-cue,
-body.login-modal-open .homepage-root .home-scroll-cue {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  display: none;
-}

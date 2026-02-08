@@ -1,11 +1,57 @@
 ﻿"use client";
 
+import { useEffect, useRef, useState } from "react";
 import AppLink from "@/components/ui/Link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import { cn } from "@/components/ui/cn";
 
+const homeCircleLinkClassName =
+  "home-link inline-flex items-center justify-center text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
+
 export default function HomeAboutSection({ id = "meist", className, showAdminLinks = false }) {
+  const beforeCardRef = useRef(null);
+  const beforeContentRef = useRef(null);
+  const [beforeDiameter, setBeforeDiameter] = useState(null);
+
+  useEffect(() => {
+    const cardEl = beforeCardRef.current;
+    const contentEl = beforeContentRef.current;
+    if (!cardEl || !contentEl || typeof window === "undefined") return;
+
+    const updateSize = () => {
+      const contentRect = contentEl.getBoundingClientRect();
+      if (!contentRect.width || !contentRect.height) return;
+
+      const computed = window.getComputedStyle(cardEl);
+      const padX =
+        (parseFloat(computed.paddingLeft) || 0) +
+        (parseFloat(computed.paddingRight) || 0);
+      const padY =
+        (parseFloat(computed.paddingTop) || 0) +
+        (parseFloat(computed.paddingBottom) || 0);
+
+      const neededWidth = contentRect.width + padX;
+      const neededHeight = contentRect.height + padY;
+      const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
+      const minSize = 340;
+      const maxSize = Math.floor(window.innerWidth * 0.9);
+      const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
+      setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
+    };
+
+    updateSize();
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateSize) : null;
+    ro?.observe(contentEl);
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      ro?.disconnect?.();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, [showAdminLinks]);
+
   return (
     <section
       id={id}
@@ -54,8 +100,19 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             </p>
           </div>
         </div>
-        <div className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 w-[min(90vw,30rem)] h-[min(90vw,30rem)] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center p-[clamp(1.2rem,3vw,2.4rem)] box-border">
-          <div className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.65rem,1.2vw,0.85rem)] max-w-[min(74vw,24.5rem)] items-center pt-[clamp(0.6rem,1.4vw,1.4rem)]">
+        <div
+          ref={beforeCardRef}
+          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center p-[clamp(1.2rem,3vw,2.4rem)] box-border"
+          style={
+            beforeDiameter
+              ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
+              : { width: "min(90vw, 30rem)", height: "min(90vw, 30rem)" }
+          }
+        >
+          <div
+            ref={beforeContentRef}
+            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.65rem,1.2vw,0.85rem)] max-w-[min(74vw,24.5rem)] items-center pt-[clamp(0.6rem,1.4vw,1.4rem)]"
+          >
             <p className="m-0 mt-[clamp(0.4rem,1vw,1rem)] mb-[clamp(0.9rem,2vw,1.6rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               Enne kasutamist
             </p>
@@ -64,7 +121,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 <AppLink
                   href="/kasutusjuhend"
                   className={cn(
-                    "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                    homeCircleLinkClassName,
                     linkBrandInlineClass
                   )}
                 >
@@ -75,7 +132,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 <AppLink
                   href="/kasutustingimused"
                   className={cn(
-                    "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                    homeCircleLinkClassName,
                     linkBrandInlineClass
                   )}
                 >
@@ -86,7 +143,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 <AppLink
                   href="/privaatsustingimused"
                   className={cn(
-                    "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                    homeCircleLinkClassName,
                     linkBrandInlineClass
                   )}
                 >
@@ -97,7 +154,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 <InstallAppLink
                   variant="row"
                   className={cn(
-                    "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                    homeCircleLinkClassName,
                     linkBrandInlineClass
                   )}
                 />
@@ -108,7 +165,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                     <AppLink
                       href="/admin/analytics"
                       className={cn(
-                        "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                        homeCircleLinkClassName,
                         linkBrandInlineClass
                       )}
                     >
@@ -119,7 +176,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                     <AppLink
                       href="/admin/rag"
                       className={cn(
-                        "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                        homeCircleLinkClassName,
                         linkBrandInlineClass
                       )}
                     >
@@ -133,7 +190,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               <AppLink
                 href="mailto:info@sotsiaal.ai"
                 className={cn(
-                  "home-link inline-flex items-center justify-center text-[clamp(1.08rem,1.5vw,1.25rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]",
+                  homeCircleLinkClassName,
                   linkBrandInlineClass
                 )}
               >
@@ -146,3 +203,6 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
     </section>
   );
 }
+
+
+

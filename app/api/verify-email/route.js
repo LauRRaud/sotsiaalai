@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 import crypto from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 const TOKEN_EXPIRY_HOURS = Number(process.env.EMAIL_VERIFY_HOURS || 24);
+const VERIFY_RATE_LIMIT_WINDOW_MS = Number(process.env.VERIFY_RATE_LIMIT_WINDOW_MS || 60 * 60 * 1000);
+const VERIFY_RATE_LIMIT_PER_IP = Number(process.env.VERIFY_RATE_LIMIT_PER_IP || 30);
+const VERIFY_RATE_LIMIT_PER_EMAIL = Number(process.env.VERIFY_RATE_LIMIT_PER_EMAIL || 5);
 const mailer = getMailer("email-verify");
 function ok(payload = {}, status = 200) {
   return NextResponse.json({
@@ -122,6 +127,13 @@ export async function POST(request) {
   try {
     const body = await request.json().catch(() => ({}));
     const email = normalizeEmail(body?.email);
+    const ip = getRequestIpFromRequest(request);
+    const ipLimit = consumeRateLimit(`verify-post:ip:${ip}`, VERIFY_RATE_LIMIT_PER_IP, VERIFY_RATE_LIMIT_WINDOW_MS);
+    if (!ipLimit.allowed) return err("Liiga palju kinnituskirja saatmise katseid. Proovi hiljem uuesti.", 429);
+    if (email) {
+      const emailLimit = consumeRateLimit(`verify-post:email:${email}`, VERIFY_RATE_LIMIT_PER_EMAIL, VERIFY_RATE_LIMIT_WINDOW_MS);
+      if (!emailLimit.allowed) return err("Liiga palju kinnituskirja saatmise katseid. Proovi hiljem uuesti.", 429);
+    }
     if (!email || !email.includes("@")) return err("Palun sisesta korrektne e-posti aadress.");
     const user = await prisma.user.findUnique({
       where: {
