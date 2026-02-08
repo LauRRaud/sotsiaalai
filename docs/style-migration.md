@@ -67,7 +67,7 @@ For each page/component:
 - `components/alalehed/ChatBody.jsx`
 - `components/alalehed/chat/ChatComposer.jsx`
 - `components/alalehed/chat/ConversationView.jsx`
-- `app/styles/components/chat.css`
+- `app/styles/components/chat-focus.css`
 - `app/styles/theme/dark.css`
 - `app/styles/theme/light.css`
 
@@ -78,11 +78,19 @@ For each page/component:
 
 ### Current State (Aligned With `sotsiaalaibackup`)
 - Restored `chatVars` inline style in `ChatBody.jsx` to drive focus vars.
-- Removed `glass-ring-expandable` from chat container; fookuse kuju muutub `chat.css` reeglitega.
-- Desktop ring size locked to `--chat-diameter` in `chat.css` (no size jump).
-- Ring border-radius transitions restored to 400ms (backup parity).
-- Chat input row + window transitions set to 400ms (backup parity).
+- Removed `glass-ring-expandable` from chat container; focus shape is controlled by chat vars + focus CSS.
+- Desktop ring size is controlled via `--chat-diameter` / `--chat-diameter-max` and `chat-container--input-focus`.
+- Ring border-radius transitions are 400ms (backup parity).
+- Chat input row + window transitions are 400ms (backup parity).
 - `chat-inputbar` recording styles remain in theme files.
+
+### Latest Chat Fixes (Current Workspace Snapshot)
+- Dark mode chat glass ring now uses the same surface strategy as profile:
+  - `GlassRing` receives inline dark override (`background: transparent`, `backdrop-filter: none`) in `ChatBody.jsx`.
+  - This avoids accidental double darkening from cascade order.
+- Right rail positioning tuned on desktop with `--rail-inset`.
+- Focus and non-focus message window offsets/spacers are now controlled through chat variables in `ChatBody.jsx`.
+- Conversation fade/masking logic currently lives in `ConversationView.jsx` and still needs final visual calibration.
 
 ### Notes
 - If ring still “jumps”, check for any remaining `--chat-diameter` overrides outside `chatVars`.
@@ -106,3 +114,21 @@ For each page/component:
 - [ ] Effects remain in CSS with clear comments.
 - [ ] `@layer` used for base/components/utilities.
 - [ ] Visual diff passes for desktop + mobile.
+
+## Next Iteration Plan
+1. Freeze chat fade model:
+   - Keep one top-fade method only (either arc mask or overlay), not both.
+   - Keep one bottom-fade method only.
+   - Add a short code comment in `ConversationView.jsx` that explains chosen model.
+2. Normalize chat ring surface:
+   - Keep dark ring surface source-of-truth in one place (`ChatBody.jsx` or theme), remove redundant overrides.
+3. Continue Tailwind migration in low-risk order:
+   - `home.css` leftovers -> JSX utilities.
+   - `profile` remaining layout rules -> JSX utilities (effects remain CSS).
+   - Keep `mobile.css` as explicit device-layer override file.
+4. Run CSS hygiene pass:
+   - `npm run css:audit`
+   - prune dead selectors/file imports after each migrated block.
+5. Stabilize with quick QA checklist:
+   - Desktop dark/light: `/vestlus`, `/profiil`, `/tellimus`, `/uuenda-epost`.
+   - Mobile dark/light same routes.
