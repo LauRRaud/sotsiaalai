@@ -173,7 +173,7 @@ const BackgroundContent = memo(function BackgroundContent({
             <Suspense fallback={null}>
               <ColorBends
                 bgColor={bgColor}
-                colors={isLightTheme ? ["#b06767", "#c27e7e"] : ["#7e4442"]}
+                colors={["#7e4442"]}
                 speed={0.15}
                 scale={1}
                 frequency={1}
