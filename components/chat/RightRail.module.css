@@ -100,6 +100,10 @@
   display: block;
 }
 
+.chatIconMobile {
+  transform: none;
+}
+
 .avatar {
   pointer-events: none;
   --avatar-icon-size: calc(var(--rail-item-size) * var(--rail-icon-scale));
@@ -223,5 +227,10 @@
     min-height: var(--rail-item-size) !important;
     opacity: 1 !important;
     transition: none !important;
+  }
+
+  .chatIconMobile {
+    transform: scale(1.38);
+    transform-origin: center;
   }
 }

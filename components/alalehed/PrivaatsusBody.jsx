@@ -9,7 +9,7 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileCornerClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -151,7 +151,7 @@ export default function PrivaatsusBody() {
             }
           }}
           ariaLabel={t("buttons.back_home")}
-          className={cn(glassPageBackClassName, glassPolicyBackButtonClassName)}
+          className={cn(glassPolicyBackButtonClassName, glassPageBackMobileCornerClassName)}
         />
         <h1 id="privacy-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("privacy.title")}

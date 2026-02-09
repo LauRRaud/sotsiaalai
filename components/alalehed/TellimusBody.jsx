@@ -8,7 +8,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileCornerClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -77,7 +77,7 @@ export default function TellimusBody() {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={ringClassName}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileCornerClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
           </h1>
@@ -92,7 +92,7 @@ export default function TellimusBody() {
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileCornerClassName} />
         <h1 className={titleClassName}>
           {t("subscription.title")}
         </h1>

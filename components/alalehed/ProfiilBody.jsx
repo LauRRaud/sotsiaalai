@@ -18,7 +18,7 @@ import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import BackButton from "@/components/ui/BackButton";
-import { glassPageBackClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileCornerClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
@@ -71,7 +71,7 @@ const logoutLabelClassName =
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
 const profileBackButtonClassName =
-  `${glassPageBackClassName} max-[48em]:!inline-flex`;
+  glassPageBackMobileCornerClassName;
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -103,7 +103,15 @@ function ProfileShell({
       "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
     !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,3.6vh,2.1rem)]"
   );
-  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
+  const ringSurfaceStyle =
+    theme === "light"
+      ? undefined
+      : {
+          background: "transparent",
+          backdropFilter: "none",
+          WebkitBackdropFilter: "none"
+        };
+  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"} style={ringSurfaceStyle}>
       <div
         ref={maskLayerRef}
         className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"

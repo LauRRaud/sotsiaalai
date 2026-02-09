@@ -3,8 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import PaperclipLight from "@/public/logo/papercliphele.svg";
 import PaperclipDark from "@/public/logo/paperclip.svg";
-import AllikadLight from "@/public/logo/heleallikad.svg";
-import AllikadDark from "@/public/logo/tumeallikad.svg";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 export default function ChatComposer({
@@ -31,12 +29,6 @@ export default function ChatComposer({
   recording,
   recordingPulse,
   handleMic,
-  hasConversationSources = false,
-  conversationSourcesCount = 0,
-  toggleSourcesPanel,
-  showSourcesPanel = false,
-  sourcesPulse = false,
-  sourcesButtonRef,
   draftApiRef,
   inputFocused = false,
   isMobile = false
@@ -116,23 +108,6 @@ export default function ChatComposer({
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   const inputRowTransformClassName = isMobile ? "[transform:none]" : inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]";
   return <form className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
-      {isMobile ? <button
-          ref={sourcesButtonRef}
-          type="button"
-          className="chat-sources-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none"
-          aria-label={t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSourcesCount))}
-          aria-haspopup="dialog"
-          aria-expanded={showSourcesPanel ? "true" : "false"}
-          aria-controls="chat-sources-panel"
-          disabled={!hasConversationSources}
-          onClick={() => {
-          if (!hasConversationSources) return;
-          toggleSourcesPanel?.();
-        }}
-        >
-          {isLightTheme ? <AllikadLight className={`h-[2.8rem] w-[2.8rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-85"}`} aria-hidden="true" role="img" /> : <AllikadDark className={`h-[2.8rem] w-[2.8rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-85"}`} aria-hidden="true" role="img" />}
-        </button> : null}
-
       <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible?.();
     }}>

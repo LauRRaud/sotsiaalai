@@ -1,6 +1,8 @@
 "use client";
 
 import { memo, useEffect, useRef, useState } from "react";
+import AllikadLight from "@/public/logo/heleallikad.svg";
+import AllikadDark from "@/public/logo/tumeallikad.svg";
 const ConversationView = memo(function ConversationView({
   t,
   chatWindowRef,
@@ -14,7 +16,15 @@ const ConversationView = memo(function ConversationView({
   messageItems,
   windowClassName: windowClassNameProp,
   mainClassName: mainClassNameProp,
-  onWindowDoubleClick
+  onWindowDoubleClick,
+  isMobile = false,
+  isLightTheme = false,
+  hasConversationSources = false,
+  conversationSourcesCount = 0,
+  toggleSourcesPanel,
+  showSourcesPanel = false,
+  sourcesPulse = false,
+  sourcesButtonRef
 }) {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const isUserAtBottom = useRef(true);
@@ -124,6 +134,20 @@ const ConversationView = memo(function ConversationView({
             className="shrink-0 h-[var(--chat-content-bottom-spacer,0rem)]"
           />
         </div>
+        {isMobile && hasConversationSources ? <button
+            ref={sourcesButtonRef}
+            type="button"
+            className="chat-sources-floating-btn group absolute right-[clamp(0.35rem,2vw,0.65rem)] top-[clamp(0.35rem,2vw,0.65rem)] z-[6] h-[2.9rem] w-[2.9rem] rounded-full border-0 bg-transparent p-0 shadow-none outline-none"
+            aria-label={t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSourcesCount))}
+            aria-haspopup="dialog"
+            aria-expanded={showSourcesPanel ? "true" : "false"}
+            aria-controls="chat-sources-panel"
+            onClick={() => {
+            toggleSourcesPanel?.();
+          }}
+          >
+            {isLightTheme ? <AllikadLight className={`h-[2.7rem] w-[2.7rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-88"}`} aria-hidden="true" role="img" /> : <AllikadDark className={`h-[2.7rem] w-[2.7rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-88"}`} aria-hidden="true" role="img" />}
+          </button> : null}
       </div>
 
       {showScrollDown ? <button className={scrollButtonClassName} onClick={onJumpToBottom} aria-label={t("chat.scroll_to_bottom")} title={t("chat.scroll_to_bottom_title")} aria-controls="chat-window-scroll">

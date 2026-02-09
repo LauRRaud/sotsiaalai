@@ -4,7 +4,7 @@ export const glassPolicyRingClassName =
   "max-[48em]:[--glass-ring-scroll-offset-open:clamp(1.4rem,3.4vh,2.2rem)]";
 
 export const glassPolicyTitleOffsetClassName =
-  "mt-[clamp(0.6rem,1.6vh,1.2rem)] max-[48em]:mt-[clamp(0.1rem,0.8vh,0.5rem)] max-[48em]:mb-[clamp(0.25rem,1vh,0.6rem)]";
+  "mt-[clamp(0.6rem,1.6vh,1.2rem)] max-[48em]:mt-[clamp(0.95rem,2.4vh,1.55rem)] max-[48em]:mb-[clamp(0.35rem,1.2vh,0.75rem)]";
 
 export const glassPolicyContentClassName =
   "mt-[clamp(0.4rem,1.6vh,1.1rem)] flex w-full flex-1 flex-col items-center max-[48em]:w-full max-[48em]:max-w-full max-[48em]:px-[clamp(0rem,1vw,0.25rem)] max-[48em]:pt-[clamp(0.4rem,1.8vh,1rem)] max-[48em]:pb-[clamp(0.2rem,1vh,0.5rem)]";
