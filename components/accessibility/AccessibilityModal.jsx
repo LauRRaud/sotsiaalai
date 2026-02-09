@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import OptionCard from "@/components/ui/OptionCard";
-const titleClassName = "mt-[0.25rem] text-[#c57171] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const titleClassName = "mt-[0.25rem] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
 const modalRootClassName =
@@ -15,25 +15,27 @@ const modalRootClassName =
 const modalRootMobileClassName =
   "max-[48em]:left-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-left,0px))] max-[48em]:right-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-right,0px))] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-auto max-[48em]:h-auto max-[48em]:max-w-none max-[48em]:max-h-none max-[48em]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2.4rem)_0_calc(env(safe-area-inset-bottom,0px)+1.4rem)] max-[48em]:text-[1.22rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.15rem)]";
 const modalRootDesktopClassName =
-  "min-[48.0625em]:w-[var(--profile-diameter)] min-[48.0625em]:h-[var(--profile-diameter)] min-[48.0625em]:max-w-[var(--profile-diameter)] min-[48.0625em]:max-h-[var(--profile-diameter)] min-[48.0625em]:rounded-full min-[48.0625em]:overflow-hidden";
+  "glass-ring--desktop-stable min-[48.0625em]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[48.0625em]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,1.5rem)))] min-[48.0625em]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,1.5rem))-var(--ring-ui-reserve,9rem))] min-[48.0625em]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[48.0625em]:[--ring-max:min(var(--ring-desktop-max,55rem),calc(var(--ring-base-max,50rem)*var(--ring-scale,1)))] min-[48.0625em]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,34rem),var(--ring-fit)))] min-[48.0625em]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:rounded-full min-[48.0625em]:overflow-hidden min-[48.0625em]:px-[1.35rem]";
 const scrollAreaClassName =
   "csp-container csp-no-neighbor-click w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)]";
 const scrollAreaMobileClassName =
   "max-[48em]:w-full max-[48em]:px-[1.1rem] max-[48em]:gap-[clamp(1.45rem,4.2vh,2.5rem)] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]";
 const fieldsetClassName =
-  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[0.8rem] !pt-[0.8rem] !pb-[2.4rem] max-[48em]:!pb-[3.35rem] scroll-snap-align-center scroll-snap-stop-normal";
+  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[0.8rem] !pt-[0.8rem] !pb-[2.4rem] max-[48em]:!pt-[1.05rem] max-[48em]:!pb-[3.35rem] scroll-snap-align-center scroll-snap-stop-normal";
 const legendClassName =
-  "block w-full text-center mb-[0.8rem] mt-[0.2rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2]";
+  "block w-full text-center mb-[0.8rem] mt-[0.2rem] max-[48em]:mb-[1rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] max-[48em]:text-[clamp(1.5rem,6.2vw,2.1rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2]";
 const languageLegendClassName = "";
 const languageFieldsetClassName = "";
 const languageShiftClassName = "";
 const languageOptionsClassName = "flex-nowrap";
-const languageOptionLabelClassName = "text-[clamp(0.95rem,2.4vw,1.08rem)]";
+const languageOptionLabelClassName =
+  "text-[clamp(0.95rem,2.4vw,1.08rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.7rem_1rem] max-[48em]:gap-[0.85rem_0.95rem] w-full max-w-[42rem] mx-auto";
 const textScaleFieldsetClassName = "a11y-textscale-fieldset";
 const textScaleLegendClassName = "";
 const textScaleOptionsClassName = "a11y-textscale-options mt-0 flex-nowrap max-[48em]:flex-wrap";
+const textScaleOptionsDesktopTightClassName = "min-[48.0625em]:gap-[0.55rem] min-[48.0625em]:justify-center";
 const contrastFieldsetClassName = "a11y-contrast-fieldset";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
@@ -42,7 +44,9 @@ const motionLegendClassName = "";
 const contrastShiftClassName = "";
 const motionShiftClassName = "";
 const optionCardClassName =
-  "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[1rem] !text-[1.05rem] !leading-[1.2] tracking-[0.03em]";
+  "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[0.96rem] !text-[1.05rem] !leading-[1.2] tracking-[0.03em]";
+const optionCardTextScaleDesktopClassName =
+  "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
 export default function AccessibilityModal({
   onClose,
@@ -321,17 +325,17 @@ export default function AccessibilityModal({
             <legend className={`${legendClassName} ${textScaleLegendClassName}`.trim()}>
               {t("accessibility.text_scale")}
             </legend>
-            <div className={`${optionsRowClassName} ${textScaleOptionsClassName}`.trim()}>
-              <OptionCard type="radio" name="ts" value="sm" checked={textScale === "sm"} onChange={() => setTextScale("sm")} className={optionCardClassName}>
+            <div className={`${optionsRowClassName} ${textScaleOptionsClassName} ${textScaleOptionsDesktopTightClassName}`.trim()}>
+              <OptionCard type="radio" name="ts" value="sm" checked={textScale === "sm"} onChange={() => setTextScale("sm")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.sm")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ts" value="md" checked={textScale === "md"} onChange={() => setTextScale("md")} className={optionCardClassName}>
+              <OptionCard type="radio" name="ts" value="md" checked={textScale === "md"} onChange={() => setTextScale("md")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.md")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ts" value="lg" checked={textScale === "lg"} onChange={() => setTextScale("lg")} className={optionCardClassName}>
+              <OptionCard type="radio" name="ts" value="lg" checked={textScale === "lg"} onChange={() => setTextScale("lg")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.lg")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="ts" value="xl" checked={textScale === "xl"} onChange={() => setTextScale("xl")} className={optionCardClassName}>
+              <OptionCard type="radio" name="ts" value="xl" checked={textScale === "xl"} onChange={() => setTextScale("xl")} className={`${optionCardClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.text_scale.xl")}</span>
               </OptionCard>
             </div>
@@ -363,7 +367,7 @@ export default function AccessibilityModal({
             </OptionCard>
           </fieldset>
 
-          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[1.6rem]`}>
+          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[0.8rem] max-[48em]:translate-y-[-0.75rem]`}>
             <Button
               type="button"
               variant="primary"

@@ -59,6 +59,8 @@
   --title-color: #7a3a38;
   --chat-icon-color: #3b3329;
   --link-color: #7a3a38;
+  --link-gold: #7a3a38;
+  --link-gold-hover: #7a3a38;
   --btn-primary-bg: linear-gradient(
     180deg,
     rgba(255, 255, 255, 1) 0%,
@@ -119,11 +121,7 @@
   --seg-card-bg-selected: var(--form-surface-active-light, #ffffff);
   --seg-card-text: var(--text-strong);
   --seg-card-text-hover: var(--text-strong);
-  --seg-card-text-selected: color-mix(
-    in srgb,
-    var(--text-strong) 80%,
-    var(--form-accent-light, #7a3a38) 20%
-  );
+  --seg-card-text-selected: #9a5a55;
   --seg-card-border: transparent;
   --seg-card-border-width: 1px;
   --seg-card-radius: 999px;

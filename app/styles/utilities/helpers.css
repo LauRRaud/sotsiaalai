@@ -355,7 +355,6 @@ body.login-modal-open {
 
 .glass-ring-expand-toggle.is-expanded {
   --glass-ring-toggle-bottom: clamp(-0.35rem, -0.6vh, -0.2rem);
-  --glass-ring-icon-rotate: 180deg;
 }
 
 .glass-ring-expand-toggle:hover .glass-ring-expand-icon,

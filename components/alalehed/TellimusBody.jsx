@@ -8,7 +8,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileCornerClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -76,8 +76,8 @@ export default function TellimusBody() {
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={ringClassName}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileCornerClassName} />
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
           </h1>
@@ -91,8 +91,8 @@ export default function TellimusBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileCornerClassName} />
+        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
         <h1 className={titleClassName}>
           {t("subscription.title")}
         </h1>

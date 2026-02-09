@@ -235,23 +235,30 @@
   .profile-nav-overlay > button,
   .profile-nav-overlay > div {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.08rem) !important;
     transform: none !important;
     display: inline-flex !important;
     align-items: center !important;
   }
   .profile-nav-overlay > button {
-    left: calc(env(safe-area-inset-left, 0px) + 0.15rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.22rem) !important;
   }
   .profile-nav-overlay > div {
-    right: calc(env(safe-area-inset-right, 0px) + 0.15rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.08rem) !important;
+  }
+  .profile-nav-overlay > button,
+  .profile-nav-overlay > div > button {
+    width: 6.05rem !important;
+    height: 6.05rem !important;
+  }
+  .profile-nav-overlay > button > span,
+  .profile-nav-overlay > div > button > img {
+    width: 6.05rem !important;
+    height: 6.05rem !important;
   }
   .profile-orbit-menu.is-mobile {
     --label-gap: 0.5rem;
     --label-nudge: 0.32rem;
-    --orbit-under-glow: none;
-    --orbit-item-glow: none;
-    --orbit-item-glow-strong: none;
   }
   .profile-orbit-menu.is-mobile .profile-orbit-menu__slot {
     opacity: 1;
@@ -370,7 +377,7 @@
   }
   .profile-orbit-stack-label,
   .profile-orbit-stack-back-label {
-    font-size: clamp(1.22rem, 4.9vw, 1.72rem);
+    font-size: clamp(1.3rem, 5.3vw, 1.86rem);
     letter-spacing: 0.06em;
     line-height: 1.12;
     max-width: min(78vw, 18.5rem);
@@ -395,25 +402,27 @@
 }
 
 @media (max-width: 48em) {
-  .chat-nav-overlay .chat-mobile-close.glass-mobile-only-close {
-    position: absolute !important;
+  .chat-mobile-close.chat-mobile-close--top-right.glass-mobile-only-close {
+    position: fixed !important;
     top: calc(env(safe-area-inset-top, 0px) + 0.42rem) !important;
     right: calc(env(safe-area-inset-right, 0px) + 0.56rem) !important;
-    z-index: 96 !important;
+    z-index: 140 !important;
     display: inline-flex !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
   }
 
-  :root:not(.theme-light) .chat-nav-overlay .chat-mobile-close {
+  :root:not(.theme-light) .chat-mobile-close.chat-mobile-close--top-right {
     color: #c57171 !important;
     opacity: 0.95 !important;
   }
 
-  :root.theme-light .chat-nav-overlay .chat-mobile-close {
+  :root.theme-light .chat-mobile-close.chat-mobile-close--top-right {
     color: #7a3a38 !important;
     opacity: 0.95 !important;
   }
 
-  body.conversation-drawer-open .chat-nav-overlay .chat-mobile-close {
+  body.conversation-drawer-open .chat-mobile-close.chat-mobile-close--top-right {
     opacity: 0 !important;
     pointer-events: none !important;
   }

@@ -9,7 +9,7 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileCornerClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
@@ -49,6 +49,8 @@ export default function PrivaatsusBody() {
   const isLightTheme = prefs?.theme === "light";
   const toggleLabel = expanded ? t("buttons.collapse", "Ahenda") : t("buttons.expand", "Laienda");
   const expandIcon = isLightTheme ? "/logo/laienebhele.svg" : "/logo/laienebtume.svg";
+  const collapseIcon = isLightTheme ? "/logo/ahenebhele.svg" : "/logo/ahenebtume.svg";
+  const toggleIcon = expanded ? collapseIcon : expandIcon;
   const isExpandedLayout = expanded || isMobilePolicyLayout;
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -140,7 +142,7 @@ export default function PrivaatsusBody() {
             }
           }}
           ariaLabel={t("buttons.close")}
-          className={glassPageCloseClassName}
+          className={cn(glassPageCloseClassName, "max-[48em]:hidden")}
         />
         <BackButton
           onClick={() => {
@@ -151,7 +153,7 @@ export default function PrivaatsusBody() {
             }
           }}
           ariaLabel={t("buttons.back_home")}
-          className={cn(glassPolicyBackButtonClassName, glassPageBackMobileCornerClassName)}
+          className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
         />
         <h1 id="privacy-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("privacy.title")}
@@ -171,7 +173,7 @@ export default function PrivaatsusBody() {
         </div>
       </GlassRing>
       {!isMobilePolicyLayout ? <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
-          <Image src={expandIcon} alt="" width={56} height={56} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
+          <Image src={toggleIcon} alt="" width={56} height={56} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
         </button> : null}
       </div>
     </section>;

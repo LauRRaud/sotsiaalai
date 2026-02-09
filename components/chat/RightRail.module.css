@@ -113,12 +113,16 @@
 }
 
 .chatIconDesktop {
-  transform: translateY(0.04rem) scale(1.12);
+  transform: none;
   transform-origin: center;
+  animation: none !important;
+  transition: none !important;
 }
 
 .chatIconMobile {
   transform: none;
+  animation: none !important;
+  transition: none !important;
 }
 
 .avatar {
@@ -159,13 +163,13 @@
 
 .tooltip {
   position: fixed;
-  transform: translate(calc(-100% + 0.45rem), -50%);
+  transform: translate(calc(-100% - 0.22rem), -50%);
   opacity: 1;
-  padding: 0.18rem 0.5rem;
+  padding: 0.22rem 0.58rem;
   border-radius: 0.7rem;
   white-space: nowrap;
   font-weight: 450;
-  font-size: 1.2rem;
+  font-size: 1.34rem;
   letter-spacing: 0.05em;
   color: #c57171;
   background: rgba(18, 24, 36, 0.28);
@@ -182,7 +186,7 @@
 
 :global(:root.theme-light) .tooltip {
   color: #7a3a38;
-  font-size: 1.36rem;
+  font-size: 1.46rem;
   font-weight: 500;
   border: 0;
   background: rgba(255, 255, 255, 0.08);
@@ -252,7 +256,9 @@
   }
 
   .chatIconMobile {
-    transform: scale(1.62);
+    transform: none;
     transform-origin: center;
+    animation: none !important;
+    transition: none !important;
   }
 }

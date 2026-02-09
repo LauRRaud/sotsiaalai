@@ -113,7 +113,7 @@
   --seg-card-bg-selected: var(--form-surface-active);
   --seg-card-text: var(--pt-150);
   --seg-card-text-hover: var(--pt-80);
-  --seg-card-text-selected: var(--pt-50);
+  --seg-card-text-selected: #d08a8a;
   --seg-card-border: transparent;
   --seg-card-border-width: 1.5px;
   --seg-card-radius: 999px;

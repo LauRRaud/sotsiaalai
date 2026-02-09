@@ -732,18 +732,20 @@ export default function ChatBody({
                   data-chat-theme={isLightTheme ? "light" : "dark"}
                 >
                   {!isLightTheme ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
-                    {!profileOpen ? <div className="chat-nav-overlay absolute inset-0 z-[80] pointer-events-none">
-                      <BackButton
-                        onClick={handleBackHome}
-                        ariaLabel={t("chat.back_to_home")}
-                        className={cn(glassPageBackClassName, "chat-back-button pointer-events-auto")}
-                      />
-                      {isMobile ? <CloseButton
-                          onClick={handleBackHome}
-                          ariaLabel={t("chat.back_to_home")}
-                          className={cn(glassPageCloseClassName, "chat-mobile-close pointer-events-auto")}
-                        /> : null}
-                    </div> : null}
+                    {!profileOpen ? <>
+                        <div className="chat-nav-overlay absolute inset-0 z-[80] pointer-events-none">
+                          <BackButton
+                            onClick={handleBackHome}
+                            ariaLabel={t("chat.back_to_home")}
+                            className={cn(glassPageBackClassName, "chat-back-button pointer-events-auto")}
+                          />
+                        </div>
+                        {isMobile ? <CloseButton
+                            onClick={handleBackHome}
+                            ariaLabel={t("chat.back_to_home")}
+                            className={cn(glassPageCloseClassName, "chat-mobile-close chat-mobile-close--top-right")}
+                          /> : null}
+                      </> : null}
 
                 <RightRail
                   t={t}
