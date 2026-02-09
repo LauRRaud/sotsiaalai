@@ -7,9 +7,12 @@
   .glass-mobile-only-close {
     position: fixed;
     top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
-    right: calc(env(safe-area-inset-right, 0px) + 0.6rem);
+    right: calc(env(safe-area-inset-right, 0px) + 0.32rem);
     z-index: 90;
     display: inline-flex !important;
+    width: 2.95rem !important;
+    height: 2.95rem !important;
+    font-size: 2.24rem !important;
   }
 }
 
@@ -94,7 +97,7 @@
   }
   .centered-back-left h2,
   .centered-back-right h2 {
-    transform: translateY(0.42em) !important;
+    transform: translateY(0.16em) !important;
   }
   .splash-cursor {
     display: none;
@@ -138,13 +141,20 @@
 
 @media (max-width: 48em) {
   .login-modal-box {
-    position: fixed;
-    inset: 0;
-    transform: none;
+    position: fixed !important;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
     animation: none;
-    width: 100vw;
-    height: 100svh;
-    min-height: 100dvh;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    height: 100svh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
     border-radius: 0;
     margin: 0;
     box-shadow: none;
@@ -203,6 +213,20 @@
 }
 
 @media (max-width: 48em) {
+  .profile-container.glass-ring {
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58)) !important;
+    border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.2)) !important;
+    box-shadow: var(--glass-shell-shadow, var(--glass-shadow-glow, none)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%) !important;
+  }
+
+  .profile-container.glass-ring .profile-mask-layer {
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%) !important;
+  }
+
   .profile-nav-overlay > button,
   .profile-nav-overlay > div {
     top: auto !important;
@@ -241,31 +265,24 @@
   }
   .profile-orbit-menu.is-mobile
     :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item {
-    border: 1px solid rgba(148, 163, 184, 0.28);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-    backdrop-filter: blur(0.8rem) saturate(120%);
-    -webkit-backdrop-filter: blur(0.8rem) saturate(120%);
+    border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.28));
+    box-shadow: var(--glass-shadow-glow, 0 12px 28px rgba(0, 0, 0, 0.22));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%);
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58));
   }
   :root:not(.theme-light)
     .profile-orbit-menu.is-mobile
     :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item {
-    background: linear-gradient(
-      160deg,
-      rgba(12, 16, 26, 0.78),
-      rgba(22, 28, 40, 0.62)
-    );
-    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58));
+    border-color: var(--glass-border-color, rgba(255, 255, 255, 0.08));
   }
   :root.theme-light
     .profile-orbit-menu.is-mobile
     :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item {
-    background: linear-gradient(
-      160deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(245, 246, 249, 0.86)
-    );
-    border-color: rgba(148, 163, 184, 0.35);
-    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+    background: var(--glass-surface-bg, rgba(255, 255, 255, 0.52));
+    border-color: var(--glass-border-color, rgba(148, 163, 184, 0.35));
+    box-shadow: var(--glass-shadow-glow, 0 12px 26px rgba(15, 23, 42, 0.12));
   }
 }
 
@@ -393,27 +410,20 @@
     border-radius: 999px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(148, 163, 184, 0.28);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-    -webkit-backdrop-filter: blur(0.8rem) saturate(120%);
-    backdrop-filter: blur(0.8rem) saturate(120%);
+    border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.28));
+    box-shadow: var(--glass-shadow-glow, 0 12px 28px rgba(0, 0, 0, 0.22));
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%);
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(120%);
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58));
   }
   :root:not(.theme-light) .profile-orbit-stack-bubble.dock-item {
-    background: linear-gradient(
-      160deg,
-      rgba(12, 16, 26, 0.78),
-      rgba(22, 28, 40, 0.62)
-    );
-    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58));
+    border-color: var(--glass-border-color, rgba(255, 255, 255, 0.08));
   }
   :root.theme-light .profile-orbit-stack-bubble.dock-item {
-    background: linear-gradient(
-      160deg,
-      rgba(255, 255, 255, 0.94),
-      rgba(245, 246, 249, 0.86)
-    );
-    border-color: rgba(148, 163, 184, 0.35);
-    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+    background: var(--glass-surface-bg, rgba(255, 255, 255, 0.52));
+    border-color: var(--glass-border-color, rgba(148, 163, 184, 0.35));
+    box-shadow: var(--glass-shadow-glow, 0 12px 26px rgba(15, 23, 42, 0.12));
   }
   .profile-orbit-stack-bubble .dock-icon {
     width: 100%;
@@ -474,6 +484,100 @@
 }
 
 @media (max-width: 48em) {
+  .chat-nav-overlay .chat-mobile-close.glass-mobile-only-close {
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.42rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.56rem) !important;
+    z-index: 96 !important;
+    display: inline-flex !important;
+  }
+
+  :root:not(.theme-light) .chat-nav-overlay .chat-mobile-close {
+    color: #c57171 !important;
+    opacity: 0.95 !important;
+  }
+
+  :root.theme-light .chat-nav-overlay .chat-mobile-close {
+    color: #7a3a38 !important;
+    opacity: 0.95 !important;
+  }
+
+  body.conversation-drawer-open .chat-nav-overlay .chat-mobile-close {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.conversation-drawer-open .chat-right-actions {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .drawer-overlay {
+    background: rgba(6, 8, 12, 0.3) !important;
+    -webkit-backdrop-filter: blur(8px) saturate(110%) !important;
+    backdrop-filter: blur(8px) saturate(110%) !important;
+  }
+
+  .drawer-panel--chat-glass {
+    left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    width: auto !important;
+    max-width: none !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.2)) !important;
+    background: var(--glass-surface-bg, rgba(10, 14, 24, 0.58)) !important;
+    box-shadow: var(--glass-shadow-glow, 0 16px 30px rgba(0, 0, 0, 0.35)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1.1rem)) saturate(118%) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1.1rem)) saturate(118%) !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem) !important;
+    padding-right: 3.1rem !important;
+    padding-left: 1rem !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-close-btn--chat {
+    top: calc(env(safe-area-inset-top, 0px) + 0.24rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.36rem) !important;
+    color: #c57171 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass .drawer-close-btn--chat {
+    color: #7a3a38 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(148, 163, 184, 0.42) !important;
+    box-shadow:
+      0 16px 32px rgba(15, 23, 42, 0.16),
+      0 2px 0 rgba(255, 255, 255, 0.72) inset !important;
+    color: var(--text-strong, #1f2937) !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass::before {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(250, 250, 250, 0.86) 100%
+    ) !important;
+    opacity: 1 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass .drawer-close-btn--chat::before {
+    opacity: 1 !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-content {
+    height: calc(100% - clamp(4.2rem, 10.5vh, 5.6rem)) !important;
+    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
+  }
+
   .chat-container[data-chat-container="true"] {
     --chat-window-top-safe: calc(env(safe-area-inset-top, 0px) + 3.45rem);
     --chat-window-pad-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.1rem);
@@ -512,10 +616,11 @@
   }
 
   .chat-input-row {
+    --chat-input-max-w: min(100%, calc(100vw - 9.7rem)) !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 1.15rem) !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: clamp(0.55rem, 2.8vw, 0.9rem) !important;
+    gap: clamp(0.22rem, 1.4vw, 0.42rem) !important;
     padding-left: clamp(0.7rem, 3vw, 1rem) !important;
     padding-right: clamp(0.7rem, 3vw, 1rem) !important;
   }
@@ -523,7 +628,7 @@
   .chat-input-row > .chat-attach-btn {
     flex: 0 0 auto !important;
     transform: none !important;
-    margin-right: clamp(0.4rem, 2vw, 0.65rem) !important;
+    margin-right: clamp(0.1rem, 0.8vw, 0.28rem) !important;
   }
 
   .chat-input-row .chat-inputbar {
@@ -535,6 +640,19 @@
 }
 
 @media (max-width: 48em) and (pointer: coarse) {
+  .a11y-textscale-fieldset {
+    padding-bottom: clamp(4.2rem, 8.8vh, 5.6rem) !important;
+  }
+
+  .a11y-textscale-options {
+    row-gap: clamp(0.95rem, 2.5vh, 1.3rem) !important;
+    margin-bottom: clamp(0.75rem, 1.9vh, 1.2rem) !important;
+  }
+
+  .a11y-contrast-fieldset {
+    padding-top: clamp(0.25rem, 0.9vh, 0.5rem) !important;
+  }
+
   .glass-ring-expand-toggle--overlay {
     display: none !important;
   }
@@ -546,6 +664,17 @@
     transform: translateX(0) !important;
     padding-left: clamp(0.15rem, 1.4vw, 0.5rem) !important;
     padding-right: clamp(0.6rem, 2.6vw, 1.05rem) !important;
+  }
+
+  .policy-mobile-lower .glass-ring-content,
+  .policy-mobile-lower .glass-ring-content--open {
+    margin-top: clamp(0.85rem, 2.2vh, 1.4rem) !important;
+    padding-top: clamp(0.85rem, 2.2vh, 1.4rem) !important;
+  }
+
+  .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll,
+  .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll--open {
+    padding-top: clamp(0.9rem, 2.3vh, 1.5rem) !important;
   }
 
   .glass-ring-expandable .glass-ring-content,

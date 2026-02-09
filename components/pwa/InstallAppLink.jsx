@@ -16,6 +16,7 @@ export default function InstallAppLink({
   const [isIOS, setIsIOS] = useState(false);
   const [isMacSafari, setIsMacSafari] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const [inlineMessage, setInlineMessage] = useState("");
 
   const t = useT();
   const resolvedHeading = heading || t("pwa.heading");
@@ -33,6 +34,14 @@ export default function InstallAppLink({
   );
   const mutedHintClass =
     "text-[color:var(--pt-300)] font-medium text-[1em] whitespace-normal";
+  const inlineMessageClass =
+    "mt-[0.42rem] text-[0.96em] leading-[1.35] text-[color:var(--pt-200)]";
+
+  useEffect(() => {
+    if (!inlineMessage) return;
+    const id = window.setTimeout(() => setInlineMessage(""), 7000);
+    return () => window.clearTimeout(id);
+  }, [inlineMessage]);
 
   useEffect(() => {
     const standalone =
@@ -113,9 +122,7 @@ export default function InstallAppLink({
           ? macHint
           : desktopHint;
 
-      if (typeof window !== "undefined" && message) {
-        window.alert(message);
-      }
+      if (message) setInlineMessage(message);
     },
     [
       androidHint,
@@ -148,15 +155,27 @@ export default function InstallAppLink({
         {!canInstall && (isIOS || isMacSafari) ? (
           <p className={mutedHintClass}>{isIOS ? iosHint : macHint}</p>
         ) : null}
+        {inlineMessage ? (
+          <p className={inlineMessageClass} role="status" aria-live="polite">
+            {inlineMessage}
+          </p>
+        ) : null}
       </section>
     );
   }
 
   if (variant === "row") {
     return (
-      <a href="#" className={cn(linkBrandBase, className)} onClick={handleClick}>
-        {installCta}
-      </a>
+      <span className="inline-flex flex-col items-start align-top">
+        <a href="#" className={cn(linkBrandBase, className)} onClick={handleClick}>
+          {installCta}
+        </a>
+        {inlineMessage ? (
+          <span className={inlineMessageClass} role="status" aria-live="polite">
+            {inlineMessage}
+          </span>
+        ) : null}
+      </span>
     );
   }
 
@@ -165,6 +184,11 @@ export default function InstallAppLink({
       <a href="#" className={linkBrandBase} onClick={handleClick}>
         {installCta}
       </a>
+      {inlineMessage ? (
+        <p className={inlineMessageClass} role="status" aria-live="polite">
+          {inlineMessage}
+        </p>
+      ) : null}
     </li>
   );
 }

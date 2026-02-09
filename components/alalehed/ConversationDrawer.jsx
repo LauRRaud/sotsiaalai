@@ -64,6 +64,13 @@ export default function ConversationDrawer({
     };
   }, [open]);
   useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.classList.toggle("conversation-drawer-open", open);
+    return () => {
+      document.body.classList.remove("conversation-drawer-open");
+    };
+  }, [open]);
+  useEffect(() => {
     const portalRoot = drawerRootRef.current;
     if (!portalRoot) return;
     const siblings = Array.from(document.body.children).filter(el => el !== portalRoot);
@@ -131,10 +138,10 @@ export default function ConversationDrawer({
   const close = useCallback(() => setOpen(false), []);
   if (!drawerRoot) return null;
   const overlayClassName =
-    "drawer-overlay fixed inset-0 z-[40] bg-transparent [-webkit-backdrop-filter:none] [backdrop-filter:none]";
+    "drawer-overlay fixed inset-0 z-[130] bg-transparent [-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const panelClassName = cn(
     "drawer-panel drawer-panel--chat-glass " +
-      "fixed top-0 bottom-0 left-0 w-[26.5rem] max-w-[90vw] z-[41] overflow-hidden " +
+      "fixed top-0 bottom-0 left-0 w-[26.5rem] max-w-[90vw] z-[131] overflow-hidden " +
       "bg-transparent border-r-0 shadow-none [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
       "text-[color:var(--pt-100)] [scrollbar-width:none] " +
       "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
@@ -157,9 +164,9 @@ export default function ConversationDrawer({
   const headerClassName =
     "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.85rem] pb-[0.45rem] border-b-0";
   const closeButtonClassName =
-    "drawer-close modal-close-btn absolute top-[0.1rem] right-[0.35rem] z-[2] " +
+    "drawer-close drawer-close-btn--chat modal-close-btn absolute top-[0.1rem] right-[0.35rem] z-[6] " +
     "!p-0 !w-[2.9rem] !h-[2.9rem] !rounded-full !border-0 !bg-transparent !shadow-none " +
-    "[&::before]:text-[2.2rem] text-[var(--brand-primary)] light:text-[#7a3a38]";
+    "[&::before]:text-[2.2rem] text-[#c57171] light:text-[#7a3a38]";
   const contentClassName =
     "drawer-content px-[1rem] pt-[0.5rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
   return createPortal(<>

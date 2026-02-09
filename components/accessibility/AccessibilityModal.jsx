@@ -31,10 +31,10 @@ const languageOptionsClassName = "flex-nowrap";
 const languageOptionLabelClassName = "text-[clamp(0.95rem,2.4vw,1.08rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.7rem_1rem] max-[48em]:gap-[0.85rem_0.95rem] w-full max-w-[42rem] mx-auto";
-const textScaleFieldsetClassName = "";
+const textScaleFieldsetClassName = "a11y-textscale-fieldset";
 const textScaleLegendClassName = "";
-const textScaleOptionsClassName = "mt-0 flex-nowrap max-[48em]:flex-wrap";
-const contrastFieldsetClassName = "";
+const textScaleOptionsClassName = "a11y-textscale-options mt-0 flex-nowrap max-[48em]:flex-wrap";
+const contrastFieldsetClassName = "a11y-contrast-fieldset";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
 const motionFieldsetClassName = "";

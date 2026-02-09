@@ -741,7 +741,7 @@ export default function ChatBody({
                       {isMobile ? <CloseButton
                           onClick={handleBackHome}
                           ariaLabel={t("chat.back_to_home")}
-                          className={cn(glassPageCloseClassName, "pointer-events-auto")}
+                          className={cn(glassPageCloseClassName, "chat-mobile-close pointer-events-auto")}
                         /> : null}
                     </div> : null}
 
@@ -788,7 +788,7 @@ export default function ChatBody({
 
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => {
                 handleComposerFocus();
-              }} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} isMobile={isMobile} />
+              }} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} draftApiRef={composerDraftApiRef} inputFocused={focusActive} isMobile={isMobile} />
 
                 {isRoomMode && focusActive ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">
                     <label className={aiToggleLabelClassName}>

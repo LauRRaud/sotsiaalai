@@ -156,10 +156,7 @@ export default function LoginModal({
       ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
       : "",
     "fixed",
-    "left-1/2",
-    "top-1/2",
-    "-translate-x-1/2",
-    "-translate-y-1/2",
+    isMobile ? "left-0 top-0 translate-x-0 translate-y-0" : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
     "z-[100]",
     "flex",
     "flex-col",
@@ -775,8 +772,8 @@ export default function LoginModal({
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
-        minWidth: isOtpStep ? "min(92vw, 32rem)" : "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
-        maxWidth: isOtpStep ? "min(94vw, 36rem)" : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
+        minWidth: isMobile ? "unset" : isOtpStep ? "min(92vw, 32rem)" : "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
+        maxWidth: isMobile ? "none" : isOtpStep ? "min(94vw, 36rem)" : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {

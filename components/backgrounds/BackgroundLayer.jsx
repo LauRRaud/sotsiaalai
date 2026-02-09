@@ -41,7 +41,8 @@ function whenVisible(cb) {
 }
 const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
-  isLightTheme = false
+  isLightTheme = false,
+  prefsHydrated = false
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -101,13 +102,17 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, allowParticles]);
   useEffect(() => {
     if (!mounted) return;
+    if (!prefsHydrated) {
+      setColorBendsReady(false);
+      return;
+    }
     if (reduceMotion) {
       setColorBendsReady(false);
       return;
     }
     const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 900));
     return () => cancel?.();
-  }, [mounted, reduceMotion]);
+  }, [mounted, prefsHydrated, reduceMotion]);
   useEffect(() => {
     if (!mounted) return;
     if (reduceMotion || mobileLike) {
@@ -163,11 +168,12 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {colorBendsReady && !reduceMotion && (
+        {prefsHydrated && colorBendsReady && !reduceMotion && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
               <ColorBends
                 bgColor={bgColor}
+                colors={isLightTheme ? ["#b06767", "#c27e7e"] : ["#7e4442"]}
                 speed={0.15}
                 scale={1}
                 frequency={1}
@@ -203,10 +209,11 @@ const BackgroundContent = memo(function BackgroundContent({
 });
 function BackgroundLayer() {
   const {
-    prefs
+    prefs,
+    hydrated
   } = useAccessibility();
   const reduceMotion = !!prefs?.reduceMotion;
   const isLightTheme = typeof document !== "undefined" ? document.documentElement.classList.contains("theme-light") : prefs?.theme === "light";
-  return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} />;
+  return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} prefsHydrated={!!hydrated} />;
 }
 export default memo(BackgroundLayer);

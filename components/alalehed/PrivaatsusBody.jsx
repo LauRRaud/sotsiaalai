@@ -130,7 +130,7 @@ export default function PrivaatsusBody() {
   }];
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, glassPolicyRingClassName, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, glassPolicyRingClassName, "policy-mobile-lower", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
         <CloseButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {

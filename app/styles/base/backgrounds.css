@@ -22,16 +22,16 @@
 .space-backdrop[data-mode="light"] {
   background:
     radial-gradient(
-      circle at 20% -10%,
-      rgba(255, 255, 255, 0.94) 0%,
+      circle at 20% -8%,
+      rgba(252, 251, 248, 0.82) 0%,
       rgba(255, 255, 255, 0) 55%
     ),
     radial-gradient(
-      circle at 80% 20%,
-      rgba(235, 234, 232, 0.6) 0%,
+      circle at 82% 18%,
+      rgba(226, 223, 218, 0.72) 0%,
       rgba(235, 234, 232, 0) 55%
     ),
-    linear-gradient(180deg, #faf9f7 0%, #f1efec 58%, #e1dfda 100%);
+    linear-gradient(180deg, #f1efeb 0%, #e7e2db 58%, #d7d0c6 100%);
 }
 .space-backdrop[data-mode="dark"] {
   background: radial-gradient(
@@ -120,6 +120,7 @@
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  opacity: 0.9;
 }
 [data-bg-layer] .space-backdrop {
   position: absolute;
