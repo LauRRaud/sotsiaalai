@@ -154,6 +154,7 @@ export default function ColorBends({
   const pointerSmoothRef = useRef(8);
   useEffect(() => {
     const container = containerRef.current;
+    if (!container) return;
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const geometry = new THREE.PlaneGeometry(2, 2);
@@ -219,11 +220,20 @@ export default function ColorBends({
     materialRef.current = material;
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
-    const renderer = new THREE.WebGLRenderer({
-      antialias: false,
-      powerPreference,
-      alpha: !!transparent
-    });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: false,
+        powerPreference,
+        alpha: !!transparent
+      });
+    } catch {
+      container.setAttribute("data-cb-fallback", "css");
+      geometry.dispose();
+      material.dispose();
+      return () => {};
+    }
+    container.removeAttribute("data-cb-fallback");
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";

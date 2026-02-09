@@ -31,8 +31,17 @@
         rgba(86, 133, 160, 0) 72%
       );
     filter: blur(22px) saturate(1.08);
-    opacity: 0.85;
-    mix-blend-mode: screen;
+    opacity: 0.22;
+    mix-blend-mode: soft-light;
     pointer-events: none;
+  }
+  .color-bends-container[data-cb-fallback="css"]::before {
+    opacity: 0.85;
+  }
+  :root.theme-light .color-bends-container::before {
+    mix-blend-mode: multiply;
+  }
+  :root:not(.theme-light) .color-bends-container::before {
+    mix-blend-mode: screen;
   }
 }

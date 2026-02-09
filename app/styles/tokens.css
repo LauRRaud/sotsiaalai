@@ -35,8 +35,8 @@
   --btn-primary-bg: var(--btn-base-bg-dark);
   --btn-primary-bg-hover: linear-gradient(
     180deg,
-    rgba(38, 56, 82, 0.6) 0%,
-    rgba(16, 25, 41, 0.6) 100%
+    rgba(38, 56, 82, 0.76) 0%,
+    rgba(16, 25, 41, 0.76) 100%
   );
   --btn-primary-bg-active: linear-gradient(
     180deg,

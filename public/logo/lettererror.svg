@@ -6,11 +6,11 @@
        A2.2 2.2 0 0 1 4 16.8
        V8.2
        A2.2 2.2 0 0 1 6.2 6
-       H21.2
+       H21.6
        A2.2 2.2 0 0 1 24 8.2
-       V13.9"
+       V12.9"
     fill="none"
-    stroke="#C9C7C2"
+    stroke="#C57171"
     stroke-width="1"
     stroke-linecap="round"
     stroke-linejoin="round"
@@ -26,11 +26,12 @@
     stroke-linejoin="round"
   />
 
-  <!-- Thin check mark -->
+  <!-- Thin red X -->
   <path
-    d="M19.9 16.8 L21.7 18.6 L25.1 15.2"
+    d="M20.4 14.8 L24.4 18.6
+       M24.4 14.8 L20.4 18.6"
     fill="none"
-    stroke="#16A34A"
+    stroke="#DC2626"
     stroke-width="0.85"
     stroke-linecap="round"
     stroke-linejoin="round"

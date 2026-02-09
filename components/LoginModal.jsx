@@ -15,10 +15,10 @@ import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import AppLink from "@/components/ui/Link";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
-const noteErrorClassName = "text-[#fca5a5]";
+const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
-const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(3rem,8.8vw,4.4rem)] max-md:!leading-[1.02] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 function SubmitArrowOverlayWhite({
   filled = 0,
   max = 8,
@@ -99,6 +99,7 @@ export default function LoginModal({
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
   const [emailValue, setEmailValue] = useState("");
+  const [emailErrorVisual, setEmailErrorVisual] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const helpButtonRef = useRef(null);
   const helpPopoverRef = useRef(null);
@@ -137,7 +138,7 @@ export default function LoginModal({
   const messageText = error ? error : info && !isOtpStep ? info : "";
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
-  const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[1.5rem] max-md:mt-[1.2rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
+  const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[0.62rem] max-md:mt-[0.42rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.6rem]", "max-md:-mt-[0.2rem]", emailRevealed ? "mb-[0.4rem]" : "mb-0"].join(" ");
   const emailRowClass = ["flex", "justify-center", emailRevealed ? "mt-[0.65rem] mb-[0.55rem]" : "-mt-3 mb-0"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
@@ -326,6 +327,7 @@ export default function LoginModal({
     setOtpLoading(false);
     setResendLoading(false);
     setEmailValue("");
+    setEmailErrorVisual(false);
     setSubmitIconState("idle");
     setInvalidCredentials(false);
     setHelpOpen(false);
@@ -413,18 +415,21 @@ export default function LoginModal({
     setError("");
     setInfo("");
     setPinError(false);
+    setEmailErrorVisual(false);
     resetIconState();
     const emailInput = boxRef.current?.querySelector('input[name="email"]');
     const email = String(emailInput?.value || storedEmail || "").trim().toLowerCase();
     const pin = pinValue.replace(/\s+/g, "");
     if (!email) {
       markPinError();
+      setEmailErrorVisual(true);
       setError(t("auth.login.error.email_required"));
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       markPinError();
+      setEmailErrorVisual(true);
       setError(t("auth.login.error.email_invalid"));
       return;
     }
@@ -752,19 +757,21 @@ export default function LoginModal({
       el.animate([{
         transform: "scale(1)"
       }, {
-        transform: "scale(1.095)"
+        transform: "scale(1.125)"
       }, {
-        transform: "scale(0.985)"
+        transform: "scale(0.97)"
       }, {
         transform: "scale(1)"
       }], {
-        duration: 560,
+        duration: 760,
         easing: "cubic-bezier(0.16, 1, 0.3, 1)"
       });
     } catch {}
   }, [prefs?.reduceMotion]);
   if (!open) return null;
   const isLightTheme = prefs?.theme === "light";
+  const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
+  const emailIconBackgroundImage = showEmailErrorIcon ? isLightTheme ? "url('/logo/lettererrorlight.svg')" : "url('/logo/lettererror.svg')" : hasEmailValue ? isLightTheme ? "url('/logo/letterlight.svg')" : "url('/logo/letter.svg')" : "url('/logo/%C3%BCmbrik.svg')";
   const stopInside = e => e.stopPropagation();
   return createPortal(<>
       <style jsx global>{`
@@ -777,10 +784,12 @@ export default function LoginModal({
           52%, 100% { opacity: 1; }
         }
       `}</style>
-      <div onClick={onClose} />
+      <div onClick={onClose} className="max-md:fixed max-md:inset-0 max-md:z-[99] max-md:bg-[rgba(10,12,18,0.22)] max-md:backdrop-blur-[0.5rem]" />
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
-      "--login-envelope-size": "clamp(4.4rem, 7vw, 5.2rem)",
-      "--login-envelope-hit": "clamp(4.4rem, 7vw, 5.2rem)",
+      "--pin-grid-w": isMobile ? "clamp(16.2rem, 74vw, 18.6rem)" : "clamp(14.7rem, 28vw, 16.3rem)",
+      "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
+      "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
+      ,
         minWidth: isOtpStep ? "min(92vw, 32rem)" : "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
         maxWidth: isOtpStep ? "min(94vw, 36rem)" : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
@@ -791,7 +800,7 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)]">
+        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!rounded-[2rem] max-md:!pt-[clamp(0.85rem,2.2vh,1.2rem)] max-md:!pb-[clamp(1.15rem,2.8vh,1.6rem)]">
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
@@ -815,7 +824,7 @@ export default function LoginModal({
               {!emailRevealed ? <button type="button" ref={emailIconButtonRef} className={emailIconClass} style={{
             width: "var(--login-envelope-hit)",
             height: "var(--login-envelope-hit)",
-            backgroundImage: hasEmailValue ? "url('/logo/r%C3%BCmbrik.svg')" : "url('/logo/%C3%BCmbrik.svg')",
+            backgroundImage: emailIconBackgroundImage,
             backgroundSize: "var(--login-envelope-size) auto"
           }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
@@ -830,6 +839,7 @@ export default function LoginModal({
               if (e.key === "Enter") e.preventDefault();
             }} onChange={e => {
               setEmailValue(e.target.value || "");
+              setEmailErrorVisual(false);
               resetIconState();
               setError("");
             }} />
@@ -870,9 +880,9 @@ export default function LoginModal({
         }} />}
 
             {!(isMobile && useNativeKeyboard) && <div className="relative flex w-full justify-center mt-[0.05rem] mb-[-0.1rem] overflow-visible" style={{
-          "--pin-btn": "4.35rem",
-          "--pin-gap-x": "0.92rem",
-          "--pin-gap-y": "0.78rem",
+          "--pin-btn": isMobile ? "clamp(4.9rem, 18.6vw, 5.5rem)" : "4.35rem",
+          "--pin-gap-x": isMobile ? "clamp(0.92rem, 3.8vw, 1.2rem)" : "0.92rem",
+          "--pin-gap-y": isMobile ? "clamp(0.86rem, 2.4vh, 1.06rem)" : "0.78rem",
           "--pin-a": "0.006",
           "--pin-a-alt": "0.01",
           "--pin-border-w": "1.45px",
@@ -887,7 +897,7 @@ export default function LoginModal({
               }
               if (key === "help") {
                 const label = t("auth.login.forgot");
-                return <button key={"help-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                return <button key={"help-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.85rem] max-md:text-[2.06rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] text-[#c57171] light:text-[#7a3a38] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)",
                   "--pin-gloss-op": isLightTheme ? "0.26" : "0.18"
                 }} ref={el => {
@@ -903,7 +913,7 @@ export default function LoginModal({
               if (key === "submit") {
                 const label = t("auth.login.submit");
                 const submitKeyIconSrc = submitIconState === "error" ? "/logo/tabalukkpunane.svg" : isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
-                return <button key={"submit-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
+                return <button key={"submit-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] max-md:text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-150 ease-out focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)",
                   "--pin-gloss-op": isLightTheme ? "0.26" : "0.18"
                 }} ref={el => keypadRefs.current[idx] = el} onKeyDown={e => {
@@ -932,7 +942,7 @@ export default function LoginModal({
               const digitLabel = t("auth.login.key", {
                 digit: isZeroKey ? 0 : key
               });
-              return <button key={key + String(idx)} type="button" className={["no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-150", "ease-out", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
+              return <button key={key + String(idx)} type="button" className={["no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-150", "ease-out", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
                 color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.92)",
                 background: isLightTheme ? "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0.14) 100%)" : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 56%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, var(--pin-a)) 0%, rgba(255, 255, 255, 0.004) 42%, rgba(0, 0, 0, 0.4) 100%)",
                 boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)"
@@ -971,12 +981,12 @@ export default function LoginModal({
             })}
                 </div>
 
-                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="absolute left-0 bottom-[calc(var(--pin-btn)+0.65rem)] w-auto max-w-[min(18.5rem,calc(100%-0.5rem))] rounded-[12px] bg-[rgba(0,0,0,0.86)] text-[rgba(255,255,255,0.92)] px-[0.9rem] py-[0.8rem] z-30 light:bg-[rgba(255,255,255,0.94)] light:text-[#111827]">
-                    <button type="button" className="absolute right-[0.5rem] top-[0.35rem] w-[2.4rem] h-[2.4rem] rounded-full border-0 bg-transparent text-[1.6rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
+                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="absolute left-0 bottom-[calc(var(--pin-btn)+0.65rem)] w-auto max-w-[min(19.5rem,calc(100%-0.5rem))] rounded-[12px] bg-[rgba(0,0,0,0.86)] text-[rgba(255,255,255,0.92)] pl-[1rem] pr-[1rem] pt-[1rem] pb-[0.95rem] z-30 light:bg-[rgba(255,255,255,0.94)] light:text-[#111827]">
+                    <button type="button" className="absolute right-[0.4rem] top-[0.3rem] w-[2.2rem] h-[2.2rem] rounded-full border-0 bg-transparent text-[1.55rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
                       {t("symbols.times")}
                     </button>
 
-                    <div className="flex flex-col pr-[2.4rem] max-w-[inherit]">
+                    <div className="flex flex-col pr-[2.8rem] max-w-[inherit]">
                       <div className="text-[1.1rem] leading-[1.38] mt-[0.1rem] opacity-90 light:text-[#1f2937] light:opacity-100">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
@@ -996,7 +1006,7 @@ export default function LoginModal({
             </div>
 
             <div className="text-center mt-[0.35rem] mb-[0.25rem]">
-              <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")} disabled={pinLoading}>
+              <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
                 {t("auth.login.toggle_keypad")}
               </button>
             </div>

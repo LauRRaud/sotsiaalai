@@ -13,15 +13,15 @@ const modalBackdropClassName =
 const modalRootClassName =
   "fixed left-1/2 top-1/2 z-[50] w-[min(680px,96vw)] max-h-[calc(100dvh-2.5rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.5rem] border-0 bg-[var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-[var(--glass-shell-shadow,none)] light:[--glass-shell-shadow:0_18px_40px_rgba(0,0,0,0.16)] backdrop-blur-[var(--glass-blur-radius,1rem)] p-[2.4rem_2rem_2rem] text-[1.05rem] leading-[1.35] flex flex-col items-center text-center gap-4 outline-none";
 const modalRootMobileClassName =
-  "max-[48em]:inset-0 max-[48em]:left-0 max-[48em]:top-0 max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-full max-[48em]:h-[100dvh] max-[48em]:max-w-full max-[48em]:max-h-[100dvh] max-[48em]:rounded-none max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2rem)_0_calc(env(safe-area-inset-bottom,0px)+1.6rem)] max-[48em]:text-[1.22rem]";
+  "max-[48em]:inset-0 max-[48em]:left-0 max-[48em]:top-0 max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-full max-[48em]:h-[100dvh] max-[48em]:max-w-full max-[48em]:max-h-[100dvh] max-[48em]:rounded-none max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2.65rem)_0_calc(env(safe-area-inset-bottom,0px)+1.6rem)] max-[48em]:text-[1.22rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.35rem)] max-[48em]:[background:var(--glass-surface-bg,rgba(8,12,20,0.58))] max-[48em]:light:[background:rgba(236,232,223,0.84)] max-[48em]:light:[border:1px_solid_rgba(148,163,184,0.28)] max-[48em]:light:shadow-[0_16px_34px_rgba(15,23,42,0.14)]";
 const modalRootDesktopClassName =
   "min-[48.0625em]:w-[var(--profile-diameter)] min-[48.0625em]:h-[var(--profile-diameter)] min-[48.0625em]:max-w-[var(--profile-diameter)] min-[48.0625em]:max-h-[var(--profile-diameter)] min-[48.0625em]:rounded-full min-[48.0625em]:overflow-hidden";
 const scrollAreaClassName =
   "csp-container csp-no-neighbor-click w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)]";
 const scrollAreaMobileClassName =
-  "max-[48em]:w-full max-[48em]:px-[1.1rem] max-[48em]:gap-[clamp(1.2rem,3.6vh,2.2rem)]";
+  "max-[48em]:w-full max-[48em]:px-[1.1rem] max-[48em]:gap-[clamp(1.45rem,4.2vh,2.5rem)] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]";
 const fieldsetClassName =
-  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[0.8rem] !pt-[0.8rem] !pb-[2.4rem] scroll-snap-align-center scroll-snap-stop-normal";
+  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[0.8rem] !pt-[0.8rem] !pb-[2.4rem] max-[48em]:!pb-[3.35rem] scroll-snap-align-center scroll-snap-stop-normal";
 const legendClassName =
   "block w-full text-center mb-[0.8rem] mt-[0.2rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2]";
 const languageLegendClassName = "";
@@ -30,10 +30,10 @@ const languageShiftClassName = "";
 const languageOptionsClassName = "flex-nowrap";
 const languageOptionLabelClassName = "text-[clamp(0.95rem,2.4vw,1.08rem)]";
 const optionsRowClassName =
-  "flex flex-wrap justify-center items-center gap-[0.7rem_1rem] w-full max-w-[42rem] mx-auto";
+  "flex flex-wrap justify-center items-center gap-[0.7rem_1rem] max-[48em]:gap-[0.85rem_0.95rem] w-full max-w-[42rem] mx-auto";
 const textScaleFieldsetClassName = "";
 const textScaleLegendClassName = "";
-const textScaleOptionsClassName = "mt-0 flex-nowrap max-[40em]:flex-wrap";
+const textScaleOptionsClassName = "mt-0 flex-nowrap max-[48em]:flex-wrap";
 const contrastFieldsetClassName = "";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
@@ -273,7 +273,7 @@ export default function AccessibilityModal({
           </span>
         </div>
 
-        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`.trim()} style={{
+        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]`.trim()} style={{
         "--csp-pad": `${scrollPad + padOffset}px`,
         "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
         "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`

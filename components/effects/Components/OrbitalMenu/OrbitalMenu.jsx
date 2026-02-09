@@ -55,6 +55,7 @@ export default function OrbitalMenu({
   const stackItemRefs = useRef([]);
   const rafRef = useRef(0);
   const settleTimerRef = useRef(0);
+  const stackSettleTimerRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const [listPad, setListPad] = useState(0);
@@ -392,6 +393,17 @@ export default function OrbitalMenu({
     if (!isOpen || !useMobileStack) return;
     const listEl = stackListRef.current;
     if (!listEl) return;
+    const snapToStackIndex = (idx, smooth = true) => {
+      const refs = stackItemRefs.current || [];
+      const maxIdx = Math.max(0, refs.length - 1);
+      const clampedIdx = clamp(idx, 0, maxIdx);
+      const target = refs[clampedIdx];
+      if (!target) return;
+      target.scrollIntoView?.({
+        block: "center",
+        behavior: smooth && !prefersReducedMotion ? "smooth" : "auto"
+      });
+    };
     const computeActive = () => {
       const listRect = listEl.getBoundingClientRect();
       const centerY = listRect.top + listRect.height / 2;
@@ -410,6 +422,17 @@ export default function OrbitalMenu({
         }
       }
       setStackFocusIndex(bestIdx);
+      return bestIdx;
+    };
+    const scheduleStackSettle = () => {
+      if (stackSettleTimerRef.current) {
+        window.clearTimeout(stackSettleTimerRef.current);
+      }
+      stackSettleTimerRef.current = window.setTimeout(() => {
+        const idx = computeActive();
+        if (idx == null) return;
+        snapToStackIndex(idx, true);
+      }, prefersReducedMotion ? 0 : 240);
     };
     const computePad = () => {
       const first = stackItemRefs.current?.[0];
@@ -420,28 +443,46 @@ export default function OrbitalMenu({
       const pad = Math.max(0, Math.floor((listH - itemH) / 2) + 24);
       setStackPad(pad);
     };
-    computeActive();
+    const initialIdx = computeActive();
     computePad();
-    const onScroll = () => computeActive();
+    if (initialIdx != null) {
+      snapToStackIndex(initialIdx, false);
+    }
+    const onScroll = () => {
+      computeActive();
+      scheduleStackSettle();
+    };
     listEl.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", computeActive);
+    const onResize = () => {
+      computeActive();
+      scheduleStackSettle();
+    };
+    window.addEventListener("resize", onResize);
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
       computeActive();
       computePad();
+      scheduleStackSettle();
     }) : null;
     ro?.observe(listEl);
+    scheduleStackSettle();
     return () => {
       listEl.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", computeActive);
+      window.removeEventListener("resize", onResize);
+      if (stackSettleTimerRef.current) {
+        window.clearTimeout(stackSettleTimerRef.current);
+        stackSettleTimerRef.current = 0;
+      }
       ro?.disconnect?.();
     };
-  }, [isOpen, useMobileStack]);
+  }, [isOpen, prefersReducedMotion, useMobileStack]);
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
       if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
       settleTimerRef.current = 0;
+      if (stackSettleTimerRef.current) window.clearTimeout(stackSettleTimerRef.current);
+      stackSettleTimerRef.current = 0;
     };
   }, []);
   const onMobileAction = item => {

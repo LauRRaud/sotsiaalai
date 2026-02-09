@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -37,6 +37,7 @@ const lawLinkReplacements = {
 };
 export default function PrivaatsusBody() {
   const [expanded, setExpanded] = useState(false);
+  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
   const router = useRouter();
   const {
     t,
@@ -48,6 +49,19 @@ export default function PrivaatsusBody() {
   const isLightTheme = prefs?.theme === "light";
   const toggleLabel = expanded ? t("buttons.collapse", "Ahenda") : t("buttons.expand", "Laienda");
   const expandIcon = isLightTheme ? "/logo/laienebhele.svg" : "/logo/laienebtume.svg";
+  const isExpandedLayout = expanded || isMobilePolicyLayout;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(max-width: 48em), (pointer: coarse)");
+    const updateLayout = () => setIsMobilePolicyLayout(media.matches);
+    updateLayout();
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", updateLayout);
+      return () => media.removeEventListener("change", updateLayout);
+    }
+    media.addListener(updateLayout);
+    return () => media.removeListener(updateLayout);
+  }, []);
   const sections = [{
     heading: t("privacy.section1.heading"),
     content: [{
@@ -116,7 +130,7 @@ export default function PrivaatsusBody() {
   }];
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, glassPolicyRingClassName, expanded ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, glassPolicyRingClassName, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
         <CloseButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {
@@ -142,8 +156,8 @@ export default function PrivaatsusBody() {
         <h1 id="privacy-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("privacy.title")}
         </h1>
-        <div className={cn(contentClassName, "glass-ring-content", expanded ? "glass-ring-content--open" : null)}>
-          <div className={cn(scrollClassName, expanded ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
+        <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
+          <div className={cn(scrollClassName, isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>
             {sections.map(section => <div key={section.heading}>
                 <h2 className={sectionHeadingClassName}>{section.heading}</h2>
                 <div className={bodyTextClassName}>
@@ -156,9 +170,9 @@ export default function PrivaatsusBody() {
           </div>
         </div>
       </GlassRing>
-        <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
+      {!isMobilePolicyLayout ? <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
           <Image src={expandIcon} alt="" width={56} height={56} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
-        </button>
+        </button> : null}
       </div>
     </section>;
 }
