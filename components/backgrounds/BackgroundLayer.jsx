@@ -101,17 +101,13 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, allowParticles]);
   useEffect(() => {
     if (!mounted) return;
-    if (reduceMotion && !mobileLike) {
+    if (reduceMotion) {
       setColorBendsReady(false);
       return;
     }
-    if (mobileLike) {
-      setColorBendsReady(true);
-      return () => {};
-    }
     const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 900));
     return () => cancel?.();
-  }, [mounted, reduceMotion, mobileLike]);
+  }, [mounted, reduceMotion]);
   useEffect(() => {
     if (!mounted) return;
     if (reduceMotion || mobileLike) {
@@ -134,10 +130,9 @@ const BackgroundContent = memo(function BackgroundContent({
     const update = () => {
       raf = 0;
       const y = window.scrollY || document.documentElement.scrollTop || 0;
-      const k = mobileLike ? 0.65 : 1;
-      const spaceY = -clamp(y * 0.07 * k, 0, 160 * k);
-      const bendsY = -clamp(y * 0.11 * k, 0, 220 * k);
-      const particlesY = -clamp(y * 0.15 * k, 0, 260 * k);
+      const spaceY = -clamp(y * 0.07, 0, 160);
+      const bendsY = -clamp(y * 0.11, 0, 220);
+      const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);
       el.style.setProperty("--saai-parallax-bends", `${bendsY.toFixed(2)}px`);
       el.style.setProperty("--saai-parallax-particles", `${particlesY.toFixed(2)}px`);
@@ -157,28 +152,33 @@ const BackgroundContent = memo(function BackgroundContent({
       window.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [reduceMotion, mobileLike, parallaxActive]);
+  }, [reduceMotion, parallaxActive]);
   return <>
       {}
       <div data-bg-layer ref={layerRef} data-parallax={parallaxActive ? "on" : "off"} aria-hidden="true" suppressHydrationWarning>
-        {}
-        {}
-        {colorBendsReady && (!reduceMotion || mobileLike) && (
+        <div className="bg-space-layer" aria-hidden="true">
+          <div
+            className="space-backdrop"
+            data-mode={isLightTheme ? "light" : "dark"}
+          />
+        </div>
+
+        {colorBendsReady && !reduceMotion && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
               <ColorBends
                 bgColor={bgColor}
-                speed={mobileLike ? (reduceMotion ? 0.03 : 0.1) : 0.15}
-                scale={mobileLike ? 1.2 : 1}
-                frequency={mobileLike ? 0.78 : 1}
-                warpStrength={mobileLike ? 0.75 : 1}
-                thicknessBias={mobileLike ? 0.14 : 0.1}
-                edgeTightness={mobileLike ? 1.25 : 1.45}
-                noise={mobileLike ? 0.015 : 0}
-                parallax={mobileLike ? 0.04 : 0}
+                speed={0.15}
+                scale={1}
+                frequency={1}
+                warpStrength={1}
+                thicknessBias={0.1}
+                edgeTightness={1.45}
+                noise={0}
+                parallax={0}
                 mouseInfluence={0}
-                maxDpr={mobileLike ? 1.4 : 2}
-                powerPreference={mobileLike ? "low-power" : "high-performance"}
+                maxDpr={2}
+                powerPreference="high-performance"
               />
             </Suspense>
           </div>

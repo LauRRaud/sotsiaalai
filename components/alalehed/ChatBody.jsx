@@ -26,7 +26,7 @@ import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import CloseButton from "@/components/ui/CloseButton";
-import { glassPageBackClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageCloseClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const chatTitleClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
@@ -85,6 +85,33 @@ export default function ChatBody({
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
+  useEffect(() => {
+    const node = chatContainerRef.current;
+    if (!node || typeof window === "undefined") return;
+    if (!isMobile) {
+      node.style.setProperty("--chat-vk-offset", "0px");
+      return;
+    }
+    const vv = window.visualViewport;
+    const updateKeyboardOffset = () => {
+      const offset = vv
+        ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
+        : 0;
+      node.style.setProperty("--chat-vk-offset", `${offset}px`);
+    };
+    updateKeyboardOffset();
+    vv?.addEventListener("resize", updateKeyboardOffset);
+    vv?.addEventListener("scroll", updateKeyboardOffset);
+    window.addEventListener("orientationchange", updateKeyboardOffset);
+    window.addEventListener("resize", updateKeyboardOffset);
+    return () => {
+      vv?.removeEventListener("resize", updateKeyboardOffset);
+      vv?.removeEventListener("scroll", updateKeyboardOffset);
+      window.removeEventListener("orientationchange", updateKeyboardOffset);
+      window.removeEventListener("resize", updateKeyboardOffset);
+      node.style.setProperty("--chat-vk-offset", "0px");
+    };
+  }, [isMobile]);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
   const rollMs = 560;
@@ -493,6 +520,21 @@ export default function ChatBody({
     }
     pushWithTransition(router, "/");
   }, [onBackHome, router]);
+  const handleComposerFocus = useCallback(() => {
+    setInputFocused(true);
+    if (!isMobile) return;
+    const ensureVisible = () => {
+      try {
+        inputRef.current?.scrollIntoView({
+          block: "end",
+          inline: "nearest"
+        });
+      } catch {}
+    };
+    requestAnimationFrame(ensureVisible);
+    setTimeout(ensureVisible, 80);
+    setTimeout(ensureVisible, 180);
+  }, [isMobile]);
   const handleJumpToBottom = useCallback(() => {
     if (renderLimit > MAX_RENDERED_MESSAGES) {
       setRenderLimit(Math.min(visibleMessages.length, MAX_RENDERED_MESSAGES));
@@ -654,7 +696,7 @@ export default function ChatBody({
         "max-[48em]:[--chat-logo-y:clamp(3.6rem,24vh,9.4rem)] " +
         "max-[48em]:[--chat-input-shift:0rem] " +
         "max-[48em]:[--chat-inputbar-left-pull:0rem] " +
-        "max-[48em]:[--chat-attach-left-pull:1.7rem] " +
+        "max-[48em]:[--chat-attach-left-pull:0rem] " +
         "max-[48em]:[--chat-hpad-left:clamp(0.7rem,3vw,1rem)] " +
         "max-[48em]:[--chat-hpad-right:clamp(0.7rem,3vw,1rem)] " +
         "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
@@ -699,7 +741,7 @@ export default function ChatBody({
                       {isMobile ? <CloseButton
                           onClick={handleBackHome}
                           ariaLabel={t("chat.back_to_home")}
-                          className="chat-close-button pointer-events-auto text-[var(--brand-primary,#c57171)] light:text-[#7a3a38] absolute right-[0.6rem] top-[0.55rem] z-[95] inline-flex opacity-90"
+                          className={cn(glassPageCloseClassName, "pointer-events-auto")}
                         /> : null}
                     </div> : null}
 
@@ -707,7 +749,7 @@ export default function ChatBody({
                   t={t}
                   roomId={roomId}
                   isLightTheme={isLightTheme}
-                  inputFocused={focusActive}
+                  inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)}
                   sourcesButtonRef={sourcesButtonRef}
                   toggleSourcesPanel={toggleSourcesPanel}
                   showSourcesPanel={showSourcesPanel}
@@ -745,7 +787,7 @@ export default function ChatBody({
                 {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
 
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => {
-                if (!isMobile) setInputFocused(true);
+                handleComposerFocus();
               }} onBlurInput={handleInputBlur} isGenerating={isGenerating} isStreamingAny={isStreamingAny} isRoomMode={isRoomMode} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} onStop={stop} onSend={sendMessage} speakLatestReply={speakLatestReply} canSpeakLatest={canSpeakLatest} isSpeaking={isSpeaking} recording={recording} recordingPulse={recordingPulse} handleMic={handleMic} draftApiRef={composerDraftApiRef} inputFocused={focusActive} isMobile={isMobile} />
 
                 {isRoomMode && focusActive ? <div className="mt-[0.35rem] flex w-full max-w-[min(93%,45rem)] items-center justify-end gap-[0.45rem] mx-auto pl-[clamp(0.7rem,2.1vw,1.2rem)] pr-[clamp(0.8rem,2.7vw,1.5rem)]">

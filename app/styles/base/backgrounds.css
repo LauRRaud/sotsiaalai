@@ -48,34 +48,6 @@
   opacity: 0;
   transition: opacity 0.6s ease;
 }
-.space-backdrop[data-mode="dark"][data-viewport="mobile"]::before {
-  opacity: 1;
-  background:
-    radial-gradient(
-      118% 70% at 50% 28%,
-      rgba(134, 158, 210, 0.22) 0%,
-      rgba(8, 12, 22, 0) 60%
-    ),
-    radial-gradient(
-      128% 84% at 50% 82%,
-      rgba(164, 176, 205, 0.26) 0%,
-      rgba(8, 12, 22, 0) 72%
-    ),
-    radial-gradient(
-      195% 130% at 50% 76%,
-      rgba(24, 38, 68, 0.32) 0%,
-      rgba(8, 12, 22, 0) 86%
-    );
-  mix-blend-mode: screen;
-  filter: saturate(0.94);
-}
-.space-backdrop[data-viewport="desktop"]::before {
-  opacity: 0;
-  background: none;
-}
-.space-backdrop[data-viewport="mobile"] {
-  filter: brightness(0.92) saturate(1.02);
-}
 .space-backdrop[data-mode="light"]::after {
   content: "";
   position: absolute;

@@ -85,16 +85,16 @@
     padding: clamp(1.45em, 5.4vw, 2em);
     padding-top: clamp(1.9em, 6.6vw, 2.5em);
     padding-bottom: clamp(1.2em, 4.1vw, 1.7em);
-    display: grid;
-    grid-template-rows: 1.32fr auto auto 0.68fr;
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    row-gap: clamp(0.62rem, 2.6vw, 1.08rem);
+    row-gap: 0;
     text-align: center;
   }
   .centered-back-left h2,
   .centered-back-right h2 {
-    transform: translateY(0.08em) !important;
+    transform: translateY(0.42em) !important;
   }
   .splash-cursor {
     display: none;
@@ -187,10 +187,10 @@
 
 @media (max-width: 640px) {
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    --orbit-size: min(88vw, 21rem);
-    --orbit-item-size: clamp(4.6rem, 18.5vw, 5.8rem);
-    --orbit-item-size-open: clamp(4.8rem, 19.5vw, 6.1rem);
-    --orbit-center-size: clamp(9.8rem, 42vw, 12.8rem);
+    --orbit-size: min(92vw, 22.5rem);
+    --orbit-item-size: clamp(5.6rem, 23vw, 7.2rem);
+    --orbit-item-size-open: clamp(6rem, 24.5vw, 7.6rem);
+    --orbit-center-size: clamp(11.8rem, 50vw, 14.8rem);
     --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.52);
     margin-top: 0;
     margin-bottom: 0;
@@ -203,21 +203,23 @@
 }
 
 @media (max-width: 48em) {
-  .profile-nav-overlay > button {
-    top: auto !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.15rem) !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem) !important;
-    transform: none !important;
-  }
+  .profile-nav-overlay > button,
   .profile-nav-overlay > div {
     top: auto !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.15rem) !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem) !important;
     transform: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  .profile-nav-overlay > button {
+    left: calc(env(safe-area-inset-left, 0px) + 0.15rem) !important;
+  }
+  .profile-nav-overlay > div {
+    right: calc(env(safe-area-inset-right, 0px) + 0.15rem) !important;
   }
   .profile-orbit-menu.is-mobile {
-    --label-gap: 0.35rem;
-    --label-nudge: 0.2rem;
+    --label-gap: 0.5rem;
+    --label-nudge: 0.32rem;
     --orbit-under-glow: none;
     --orbit-item-glow: none;
     --orbit-item-glow-strong: none;
@@ -227,8 +229,8 @@
   }
   .profile-orbit-menu.is-mobile .dock-label {
     opacity: 1;
-    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
-    max-width: 7.5rem;
+    font-size: clamp(0.98rem, 3.8vw, 1.22rem);
+    max-width: 9rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   }
   .profile-orbit-menu.is-mobile
@@ -354,7 +356,7 @@
     scroll-behavior: smooth;
     padding-bottom: clamp(0.3rem, 1.6vh, 0.75rem);
     padding-top: clamp(0.3rem, 1.6vh, 0.75rem);
-    gap: clamp(1.3rem, 3.2vh, 2.2rem);
+    gap: clamp(1.75rem, 4vh, 2.8rem) !important;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: y mandatory;
@@ -372,7 +374,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(0.45rem, 1.6vw, 0.7rem);
+    gap: clamp(0.65rem, 2.2vw, 1rem);
     color: var(--orbit-mobile-accent, #c57171);
     text-align: center;
   }
@@ -386,8 +388,8 @@
     opacity: 1;
   }
   .profile-orbit-stack-bubble.dock-item {
-    width: clamp(6.6rem, 28vw, 8.8rem);
-    height: clamp(6.6rem, 28vw, 8.8rem);
+    width: clamp(7.4rem, 31vw, 9.8rem);
+    height: clamp(7.4rem, 31vw, 9.8rem);
     border-radius: 999px;
     display: grid;
     place-items: center;
@@ -447,21 +449,21 @@
   }
   .profile-orbit-stack-label,
   .profile-orbit-stack-back-label {
-    font-size: clamp(1.08rem, 4.15vw, 1.42rem);
+    font-size: clamp(1.22rem, 4.9vw, 1.72rem);
     letter-spacing: 0.06em;
-    line-height: 1.15;
-    max-width: min(70vw, 16rem);
+    line-height: 1.12;
+    max-width: min(78vw, 18.5rem);
     text-wrap: balance;
     white-space: normal;
   }
   .profile-orbit-stack-label {
     opacity: 1;
     max-height: none;
-    margin-top: clamp(0.6rem, 2.1vw, 0.95rem);
+    margin-top: clamp(0.72rem, 2.5vw, 1.15rem);
   }
   .profile-orbit-stack-item[data-key="theme"] .profile-orbit-stack-label,
   .profile-orbit-stack-item[data-key="preferences"] .profile-orbit-stack-label {
-    max-width: min(64vw, 13rem);
+    max-width: min(70vw, 15rem);
   }
   .profile-orbit-stack-item[data-key="theme"]
     .profile-orbit-stack-label,
@@ -472,64 +474,9 @@
 }
 
 @media (max-width: 48em) {
-  :root.theme-light {
-    --page-bg: #f1efea;
-    --page-bg-top: #f6f4f0;
-    --page-bg-bottom: #e2dfd7;
-    --glass-surface-bg: rgba(255, 255, 255, 0.78);
-    --glass-surface-text: #1f2937;
-    --glass-border-color: rgba(148, 163, 184, 0.42);
-    --glass-shadow-glow: 0 0 0 1px rgba(148, 163, 184, 0.18),
-      0 14px 28px rgba(15, 23, 42, 0.14);
-    --glass-blur-radius: 1.15rem;
-  }
-  :root:not(.theme-light) {
-    --page-bg: #0a0f17;
-    --page-bg-top: #0b111c;
-    --page-bg-bottom: #06080f;
-    --glass-surface-bg: rgba(8, 12, 20, 0.58);
-    --glass-surface-text: rgba(248, 250, 252, 0.92);
-    --glass-border-color: rgba(148, 163, 184, 0.16);
-    --glass-shadow-glow: 0 16px 30px rgba(0, 0, 0, 0.35);
-    --glass-blur-radius: 1.25rem;
-  }
-  :root.theme-light .glass-box,
-  :root.theme-light .glass-ring {
-    background: var(--glass-surface-bg);
-    border: 1px solid var(--glass-border-color);
-    box-shadow: var(--glass-shadow-glow),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  }
-  :root:not(.theme-light) .glass-box,
-  :root:not(.theme-light) .glass-ring {
-    background: var(--glass-surface-bg);
-    border: 1px solid var(--glass-border-color);
-    box-shadow: var(--glass-shadow-glow);
-  }
-  :root.theme-light .home-about-card,
-  :root.theme-light .home-before {
-    background: rgba(255, 255, 255, 0.84);
-    border: 1px solid rgba(148, 163, 184, 0.32);
-    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14);
-  }
-  :root:not(.theme-light) .home-about-card,
-  :root:not(.theme-light) .home-before {
-    background: rgba(10, 14, 22, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
-  }
-}
-
-@media (max-width: 48em) {
   .chat-container[data-chat-container="true"] {
     --chat-window-top-safe: calc(env(safe-area-inset-top, 0px) + 3.45rem);
     --chat-window-pad-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.1rem);
-  }
-
-  .chat-close-button {
-    top: calc(env(safe-area-inset-top, 0px) + 0.28rem) !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.52rem) !important;
-    z-index: 98 !important;
   }
 
   .chat-right-actions {
@@ -567,7 +514,7 @@
   .chat-input-row {
     bottom: calc(env(safe-area-inset-bottom, 0px) + 1.15rem) !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: center !important;
     gap: clamp(0.55rem, 2.8vw, 0.9rem) !important;
     padding-left: clamp(0.7rem, 3vw, 1rem) !important;
     padding-right: clamp(0.7rem, 3vw, 1rem) !important;
@@ -576,34 +523,14 @@
   .chat-input-row > .chat-attach-btn {
     flex: 0 0 auto !important;
     transform: none !important;
-    margin-right: clamp(0.15rem, 1.2vw, 0.32rem) !important;
+    margin-right: clamp(0.4rem, 2vw, 0.65rem) !important;
   }
 
   .chat-input-row .chat-inputbar {
-    width: 100% !important;
-    max-width: none !important;
+    width: auto !important;
+    max-width: min(100%, var(--chat-input-max-w)) !important;
     flex: 1 1 auto !important;
     transform: none !important;
-  }
-}
-
-@media (max-width: 48em) {
-  .space-backdrop[data-mode="light"] {
-    background:
-      radial-gradient(
-        circle at 18% 8%,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(255, 255, 255, 0) 55%
-      ),
-      radial-gradient(
-        circle at 82% 28%,
-        rgba(232, 230, 226, 0.7) 0%,
-        rgba(232, 230, 226, 0) 60%
-      ),
-      linear-gradient(180deg, #f6f4f0 0%, #ece8e1 58%, #ded9d1 100%);
-  }
-  .space-backdrop[data-mode="light"]::after {
-    opacity: 0.45;
   }
 }
 
@@ -625,21 +552,6 @@
   .glass-ring-expandable .glass-ring-content--open {
     margin-top: clamp(0.08rem, 0.6vh, 0.36rem) !important;
     padding-top: clamp(0.26rem, 1.1vh, 0.78rem) !important;
-  }
-
-  .register-mobile-ring {
-    background: var(--glass-surface-bg, rgba(8, 12, 20, 0.58));
-    border: 1px solid var(--glass-border-color, rgba(148, 163, 184, 0.16));
-    box-shadow: var(--glass-shadow-glow, 0 16px 30px rgba(0, 0, 0, 0.35));
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1.25rem))
-      saturate(120%);
-    backdrop-filter: blur(var(--glass-blur-radius, 1.25rem)) saturate(120%);
-  }
-
-  :root.theme-light .register-mobile-ring {
-    background: rgba(236, 232, 223, 0.84);
-    border-color: rgba(148, 163, 184, 0.28);
-    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14);
   }
 
   .register-content {

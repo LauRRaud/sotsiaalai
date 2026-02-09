@@ -172,22 +172,7 @@ export default function LoginModal({
     "!rounded-[2.2rem]",
     "pt-[0.1em]",
     "pb-[0.7em]",
-    "px-[var(--login-modal-side-pad)]",
-    "max-md:!left-0",
-    "max-md:!top-0",
-    "max-md:!translate-x-0",
-    "max-md:!translate-y-0",
-    "max-md:!w-screen",
-    "max-md:!h-[100dvh]",
-    "max-md:!max-h-[100dvh]",
-    "max-md:!rounded-none",
-    "max-md:!px-[1.2rem]",
-    "max-md:!pt-[calc(env(safe-area-inset-top,0px)+0.2rem)]",
-    "max-md:!pb-[calc(env(safe-area-inset-bottom,0px)+0.8rem)]",
-    "max-md:!bg-[rgba(0,0,0,0.55)]",
-    "max-md:!backdrop-blur-[1.4rem]",
-    "max-md:!backdrop-saturate-[125%]",
-    "max-md:gap-[0.4em]"
+    "px-[var(--login-modal-side-pad)]"
   ].filter(Boolean).join(" ");
   const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "help", "zero", "submit"], []);
   const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "help", "zero", "submit"], []);
@@ -784,7 +769,7 @@ export default function LoginModal({
           52%, 100% { opacity: 1; }
         }
       `}</style>
-      <div onClick={onClose} className="max-md:fixed max-md:inset-0 max-md:z-[99] max-md:bg-[rgba(10,12,18,0.22)] max-md:backdrop-blur-[0.5rem]" />
+      <div onClick={onClose} className="max-md:fixed max-md:inset-0 max-md:z-[99]" />
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
       "--pin-grid-w": isMobile ? "clamp(16.2rem, 74vw, 18.6rem)" : "clamp(14.7rem, 28vw, 16.3rem)",
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
@@ -800,7 +785,7 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!rounded-[2rem] max-md:!pt-[clamp(0.85rem,2.2vh,1.2rem)] max-md:!pb-[clamp(1.15rem,2.8vh,1.6rem)]">
+        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)]">
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>

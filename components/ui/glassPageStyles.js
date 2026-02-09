@@ -1,5 +1,5 @@
 export const glassPageTitleClassName =
-  "mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15em] leading-[1.15] tracking-[0.03em] " +
+  "mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15em] max-[48em]:text-[clamp(2.35rem,9.4vw,3.2rem)] leading-[1.15] tracking-[0.03em] " +
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 

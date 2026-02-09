@@ -1,5 +1,7 @@
 export const glassPolicyRingClassName =
-  "glass-ring-expandable [--glass-ring-pad-top:clamp(0.2rem,1.1vh,0.8rem)] [--ring-diameter:var(--chat-diameter)]";
+  "glass-ring-expandable [--glass-ring-pad-top:clamp(0.2rem,1.1vh,0.8rem)] [--ring-diameter:var(--chat-diameter)] " +
+  "max-[48em]:[--glass-ring-scroll-offset:clamp(2.8rem,6.4vh,4.2rem)] " +
+  "max-[48em]:[--glass-ring-scroll-offset-open:clamp(1.4rem,3.4vh,2.2rem)]";
 
 export const glassPolicyTitleOffsetClassName =
   "mt-[clamp(0.6rem,1.6vh,1.2rem)] max-[48em]:mt-[clamp(0.1rem,0.8vh,0.5rem)] max-[48em]:mb-[clamp(0.25rem,1vh,0.6rem)]";

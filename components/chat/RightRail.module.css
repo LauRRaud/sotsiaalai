@@ -178,3 +178,50 @@
   opacity: 0;
   pointer-events: none;
 }
+
+@media (max-width: 48em) {
+  .slot {
+    top: calc(env(safe-area-inset-top, 0px) + 0.2rem) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .rightRail {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: clamp(0.7rem, 4vw, 1.4rem) !important;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    padding-left: clamp(0.8rem, 4vw, 1.4rem) !important;
+    padding-right: clamp(0.9rem, 4vw, 1.4rem) !important;
+    overflow: visible !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    --rail-item-size: clamp(2.9rem, 12vw, 3.6rem);
+    --rail-icon-scale: 0.8;
+  }
+
+  .item {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: var(--rail-item-size) !important;
+    height: auto !important;
+    min-width: var(--rail-item-size) !important;
+    min-height: var(--rail-item-size) !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}

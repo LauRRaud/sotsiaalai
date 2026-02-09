@@ -34,6 +34,7 @@ const containerBaseClassName =
 const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
+  "max-[48em]:text-[clamp(2.3rem,9.1vw,3rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const titlePageClassName =
   "mt-[clamp(0.95rem,2.3vh,1.85rem)] mb-[clamp(0.55rem,1.6vh,1.1rem)] " +
@@ -53,8 +54,8 @@ const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
-  "[--orbit-item-size:clamp(4.4rem,8.6vw,5.4rem)] [--orbit-item-size-open:clamp(4.7rem,9vw,5.8rem)] " +
-  "[--orbit-size:clamp(16.6rem,33vw,22.4rem)] [--orbit-center-size:clamp(8.6rem,15vw,10.4rem)] " +
+  "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
+  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
@@ -63,8 +64,8 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
-  "relative grid place-items-center h-[6.6rem] w-[6.6rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto";
-const logoutIconClassName = "h-[5.8rem] w-[5.8rem] transition-transform duration-150 ease-out";
+  "relative grid place-items-center h-[6.6rem] w-[6.6rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto";
+const logoutIconClassName = "h-[5.8rem] w-[5.8rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] transition-transform duration-150 ease-out";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
@@ -88,27 +89,21 @@ function ProfileShell({
   orbitOpen = false,
   maskLayerRef
 }) {
-  const ringBaseStyle = {
-    background: "transparent",
-    backdropFilter: "none",
-    WebkitBackdropFilter: "none"
-  };
   const containerClass = cn(
     containerBaseClassName,
     embedded ? "profile-container" : "profile-container",
-    "glass-ring " +
-      "[background:transparent] [backdrop-filter:none] [-webkit-backdrop-filter:none] " +
-      "[--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)] " +
+    "[--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)] " +
       "[--profile-role-hole-mask:linear-gradient(#fff,#fff)] " +
       "[--profile-role-text-color:rgba(232,232,232,0.78)] " +
       "[--profile-role-hole-shadow:none] " +
       "data-[theme=dark]:[--profile-role-text-color:rgba(248,250,252,0.9)] " +
       "data-[theme=dark]:[--profile-role-hole-shadow:0_6px_16px_rgba(0,0,0,0.26),0_8px_14px_-12px_rgba(248,253,255,0.52),0_18px_24px_-18px_rgba(248,253,255,0.26)] " +
       "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
-      "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)]",
+      "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)] " +
+      "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
     !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,3.6vh,2.1rem)]"
   );
-  const container = <GlassRing className={containerClass} style={ringBaseStyle} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
+  const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"}>
       <div
         ref={maskLayerRef}
         className="profile-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--profile-role-hole-mask,none)] [-webkit-mask-image:var(--profile-role-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] data-[orbit-open=true]:[mask-image:none] data-[orbit-open=true]:[-webkit-mask-image:none]"
