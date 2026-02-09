@@ -98,8 +98,8 @@ export default async function RootLayout({
         <link rel="preload" as="image" href="/logo/tagasinupp.svg" />
         <link rel="preload" as="image" href="/logo/sisenehall.svg" />
         <link rel="preload" as="image" href="/logo/sisenehallhele.svg" />
-        <link rel="preload" as="image" href="/logo/ümbrik.svg" />
-        <link rel="preload" as="image" href="/logo/rümbrik.svg" />
+        <link rel="preload" as="image" href="/logo/letter.svg" />
+        <link rel="preload" as="image" href="/logo/letterlight.svg" />
         <link rel="preload" as="image" href="/logo/onoffroheline.svg" />
         <link rel="preload" as="image" href="/logo/onoffrohelinehele.svg" />
         <link rel="preload" as="image" href="/logo/onoffhall.svg" />

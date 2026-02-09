@@ -753,7 +753,7 @@ export default function LoginModal({
   if (!open) return null;
   const isLightTheme = prefs?.theme === "light";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
-  const emailIconBackgroundImage = showEmailErrorIcon ? isLightTheme ? "url('/logo/lettererrorlight.svg')" : "url('/logo/lettererror.svg')" : hasEmailValue ? isLightTheme ? "url('/logo/letterlight.svg')" : "url('/logo/letter.svg')" : "url('/logo/%C3%BCmbrik.svg')";
+  const emailIconBackgroundImage = showEmailErrorIcon ? isLightTheme ? "url('/logo/lettererrorlight.svg')" : "url('/logo/lettererror.svg')" : hasEmailValue ? isLightTheme ? "url('/logo/letterlight.svg')" : "url('/logo/letter.svg')" : isLightTheme ? "url('/logo/letterlight.svg')" : "url('/logo/letter.svg')";
   const stopInside = e => e.stopPropagation();
   return createPortal(<>
       <style jsx global>{`
