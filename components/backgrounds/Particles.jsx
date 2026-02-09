@@ -15,6 +15,9 @@ const parseColor = c => {
   if (m) return [Number(m[1]) / 255, Number(m[2]) / 255, Number(m[3]) / 255];
   return [1, 1, 1];
 };
+const applyCanvasClear = gl => {
+  gl.clearColor(0, 0, 0, 0);
+};
 const vertex = `
   attribute vec3 position;
   attribute vec4 random;
@@ -67,24 +70,13 @@ const Particles = ({
   sizeRandomness = 0.3,
   cameraDistance = 15,
   disableRotation = false,
-  bgColor,
   className = "",
   fps = null,
   timeScale = 1.2
 }) => {
   const containerRef = useRef(null);
-  const glRef = useRef(null);
-  const bgColorRef = useRef(bgColor);
   const particleColorsRef = useRef(particleColors);
   const particleColorsKey = Array.isArray(particleColors) ? particleColors.join("|") : "";
-  useEffect(() => {
-    bgColorRef.current = bgColor;
-    const gl = glRef.current;
-    if (!gl) return;
-    const clearColor = typeof bgColor === "string" && bgColor.trim() ? bgColor.trim() : "#000000";
-    const [r, g, b] = parseColor(clearColor);
-    gl.clearColor(r, g, b, 0);
-  }, [bgColor]);
   useEffect(() => {
     particleColorsRef.current = particleColors;
   }, [particleColors]);
@@ -113,12 +105,8 @@ const Particles = ({
       antialias: true
     });
     const gl = renderer.gl;
-    glRef.current = gl;
     container.appendChild(gl.canvas);
-    const initial = bgColorRef.current;
-    const initialClear = typeof initial === "string" && initial.trim() ? initial.trim() : "#000000";
-    const [cr, cg, cb] = parseColor(initialClear);
-    gl.clearColor(cr, cg, cb, 0);
+    applyCanvasClear(gl);
     renderer.dpr = Math.min(window.devicePixelRatio || 1, cfg.dprMax);
     const camera = new Camera(gl, {
       fov: 15

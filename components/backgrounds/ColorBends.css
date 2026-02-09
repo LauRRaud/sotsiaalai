@@ -9,10 +9,3 @@
   position: relative;
   z-index: 1;
 }
-
-.color-bends-container[data-cb-fallback="css"] {
-  background:
-    radial-gradient(120% 80% at 10% 20%, rgba(126, 68, 66, 0.42) 0%, rgba(126, 68, 66, 0) 58%),
-    radial-gradient(90% 70% at 85% 75%, rgba(194, 126, 126, 0.30) 0%, rgba(194, 126, 126, 0) 62%),
-    linear-gradient(135deg, rgba(6, 10, 16, 0.92) 0%, rgba(10, 16, 26, 0.88) 100%);
-}

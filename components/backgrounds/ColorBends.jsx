@@ -240,7 +240,7 @@ export default function ColorBends({
     renderer.domElement.style.display = "block";
     const initial = bgColorRef.current;
     const initialClear = typeof initial === "string" && initial.trim() ? initial.trim() : "#000000";
-    renderer.setClearColor(initialClear, transparent ? 0 : 1);
+    renderer.setClearColor(transparent ? "#000000" : initialClear, transparent ? 0 : 1);
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
@@ -391,7 +391,7 @@ export default function ColorBends({
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
     if (renderer) {
       const clearColor = typeof bgColor === "string" && bgColor.trim() ? bgColor.trim() : "#000000";
-      renderer.setClearColor(clearColor, transparent ? 0 : 1);
+      renderer.setClearColor(transparent ? "#000000" : clearColor, transparent ? 0 : 1);
     }
   }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor]);
   useEffect(() => {

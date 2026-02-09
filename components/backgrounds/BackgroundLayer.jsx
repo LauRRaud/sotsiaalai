@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, memo, Suspense } from "react";
+import { useEffect, useRef, useState, memo, Suspense } from "react";
 import { createPortal } from "react-dom";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import dynamic from "next/dynamic";
@@ -51,12 +51,8 @@ const BackgroundContent = memo(function BackgroundContent({
   const [colorBendsReady, setColorBendsReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
   const allowParticles = !reduceMotion;
+  const allowColorBends = !reduceMotion;
   const parallaxActive = !reduceMotion;
-  const bgColor = useMemo(() => {
-    if (typeof document === "undefined") return isLightTheme ? "#f9f8f5" : "#0d111b";
-    const css = getComputedStyle(document.documentElement).getPropertyValue("--page-bg").trim();
-    return css || (isLightTheme ? "#f9f8f5" : "#050a10");
-  }, [isLightTheme]);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -102,17 +98,13 @@ const BackgroundContent = memo(function BackgroundContent({
   }, [mounted, allowParticles]);
   useEffect(() => {
     if (!mounted) return;
-    if (!prefsHydrated) {
-      setColorBendsReady(false);
-      return;
-    }
-    if (reduceMotion) {
+    if (!prefsHydrated || !allowColorBends) {
       setColorBendsReady(false);
       return;
     }
     const cancel = whenVisible(() => onIdle(() => setColorBendsReady(true), 900));
     return () => cancel?.();
-  }, [mounted, prefsHydrated, reduceMotion]);
+  }, [mounted, prefsHydrated, allowColorBends]);
   useEffect(() => {
     if (!mounted) return;
     if (reduceMotion || mobileLike) {
@@ -168,31 +160,17 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        {prefsHydrated && colorBendsReady && !reduceMotion && (
+        {prefsHydrated && colorBendsReady && allowColorBends && (
           <div className="bg-bends-layer" aria-hidden="true">
             <Suspense fallback={null}>
-              <ColorBends
-                bgColor={bgColor}
-                colors={["#7e4442"]}
-                speed={0.15}
-                scale={1}
-                frequency={1}
-                warpStrength={1}
-                thicknessBias={0.1}
-                edgeTightness={1.45}
-                noise={0}
-                parallax={0}
-                mouseInfluence={0}
-                maxDpr={2}
-                powerPreference="high-performance"
-              />
+              <ColorBends />
             </Suspense>
           </div>
         )}
 
         {}
         {particlesReady && allowParticles && <div className="bg-particles-layer">
-            <Particles bgColor={bgColor} />
+            <Particles />
           </div>}
 
         {}
