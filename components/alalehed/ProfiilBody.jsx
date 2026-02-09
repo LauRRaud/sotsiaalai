@@ -55,7 +55,10 @@ const orbitLayerClassName =
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
-  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
+  "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,8.4vw,5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,8.9vw,5.75rem)] " +
+  "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem] " +
+  "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,33vw,22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
+  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,15vw,10.4rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
@@ -91,7 +94,7 @@ function ProfileShell({
 }) {
   const containerClass = cn(
     containerBaseClassName,
-    embedded ? "profile-container" : "profile-container",
+    embedded ? "profile-container glass-ring glass-ring--desktop-stable" : "profile-container glass-ring glass-ring--desktop-stable",
     "[--ring-ui-reserve:var(--ring-ui-reserve-page)] [--ring-pad-top:var(--glass-ring-pad-top)] [--ring-pad-x:var(--glass-ring-pad-x)] " +
       "[--profile-role-hole-mask:linear-gradient(#fff,#fff)] " +
       "[--profile-role-text-color:rgba(232,232,232,0.78)] " +
@@ -103,14 +106,11 @@ function ProfileShell({
       "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
     !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,3.6vh,2.1rem)]"
   );
-  const ringSurfaceStyle =
-    theme === "light"
-      ? undefined
-      : {
-          background: "transparent",
-          backdropFilter: "none",
-          WebkitBackdropFilter: "none"
-        };
+  const ringSurfaceStyle = {
+    background: "transparent",
+    backdropFilter: "none",
+    WebkitBackdropFilter: "none"
+  };
   const container = <GlassRing className={containerClass} role={role} aria-labelledby={ariaLabelledby} ref={innerRef} lang={embedded ? locale : undefined} data-theme={theme} data-orbit-open={orbitOpen ? "true" : "false"} style={ringSurfaceStyle}>
       <div
         ref={maskLayerRef}
@@ -588,6 +588,7 @@ export default function ProfiilBody({
             toggleLabelClose={t("buttons.close")}
             mobileVariant="stack"
             mobileBackItem={mobileBackItem}
+            className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
             onOpenChange={setOrbitOpen}
           />
         </div>

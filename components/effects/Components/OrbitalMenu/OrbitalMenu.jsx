@@ -522,7 +522,7 @@ export default function OrbitalMenu({
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
-          "--label-gap-side": item.key === "theme" || item.key === "delete" ? "-0.35rem" : undefined
+          "--label-gap-side": item.key === "theme" || item.key === "delete" ? "0.08rem" : undefined
         }} aria-hidden={!isOpen}>
                 <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={() => {
             item.onClick?.();
