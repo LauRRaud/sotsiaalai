@@ -22,6 +22,12 @@ const baseConfig = {
   // säilita turbopack config
   turbopack: {
     root: path.dirname(fileURLToPath(import.meta.url)),
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
   },
 
   async headers() {
