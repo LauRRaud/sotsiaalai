@@ -1,16 +1,8 @@
-<!-- Allikad – Light mode (top fixed; lower rings progressively darker) -->
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-     viewBox="0 0 24 24" fill="none"
+     viewBox="4 2.7 16 18.3" fill="none"
      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
      aria-label="Allikad" role="img">
-
-  <!-- Top rim (fixed) -->
-  <ellipse cx="12" cy="6.2" rx="7.2" ry="2.6" stroke="#7A3A38"/>
-
-  <!-- Middle rim (lower half, darker) -->
-  <path d="M4.8 11.3 A7.2 2.6 0 0 0 19.2 11.3" stroke="#602C2A"/>
-
-  <!-- Bottom rim (lower half, darkest) -->
-  <path d="M4.8 16.4 A7.2 2.6 0 0 0 19.2 16.4" stroke="#451F1E"/>
+  <ellipse cx="12" cy="6.2" rx="7.2" ry="2.6" stroke="#c57171"/>
+  <path d="M4.8 11.3 A7.2 2.6 0 0 0 19.2 11.3" stroke="#c57171"/>
+  <path d="M4.8 16.4 A7.2 2.6 0 0 0 19.2 16.4" stroke="#c57171"/>
 </svg>
-

@@ -4,7 +4,7 @@ html {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background-color: var(--page-bg);
+  background-color: transparent;
   cursor: var(--cursor-default);
 }
 *,
@@ -21,12 +21,8 @@ body {
   justify-content: flex-start;
   align-items: stretch;
   touch-action: pan-y;
-  background-image: linear-gradient(
-    180deg,
-    var(--page-bg-top) 0%,
-    var(--page-bg-bottom) 100%
-  );
-  background-color: var(--page-bg);
+  background-image: none;
+  background-color: transparent;
   cursor: inherit;
 }
 .app-root {

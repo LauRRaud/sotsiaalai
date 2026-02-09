@@ -139,13 +139,6 @@
   --glow-light-outer: rgba(225, 160, 160, 0.34);
   --click-pulse-ring-color: rgba(255, 255, 255, 0.6);
 
-  --page-bg: #1b2735;
-  --page-bg-top: #1b2735;
-  --page-bg-bottom: #090a0f;
-  --page-bg-fallback: #1b2735;
-  --page-bg-top-fallback: #1b2735;
-  --page-bg-bottom-fallback: #090a0f;
-
   --pt-50: #f8f8f7;
   --pt-100: #ecebe9;
   --pt-130: #edeae6;

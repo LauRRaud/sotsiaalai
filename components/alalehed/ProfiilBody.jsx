@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import SunIcon from "@/public/logo/sun.svg";
-import EyeIcon from "@/public/logo/silma.svg";
 import MoonIcon from "@/public/logo/kuu.svg";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -153,7 +152,10 @@ function PreferencesDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
-  return <EyeIcon aria-hidden="true" focusable="false" {...props} />;
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>;
 }
 function SubscriptionDockIcon({
   isHovered: _isHovered,

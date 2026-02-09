@@ -528,12 +528,12 @@ export default function OrbitalMenu({
             item.onClick?.();
             if (!item.keepOpen) setIsPinnedOpen(false);
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="dock-icon w-full h-full grid place-items-center leading-[0] text-[#c57171] light:text-[#7a3a38] [&>svg]:w-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:h-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
+                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:h-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
                   </span>
                 </button>
                 <span className={cn(
-            "dock-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out text-[#c57171] light:text-[#7a3a38] max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0",
+            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0",
             labelPositionClass,
             labelWidthClass
           )}>{item.label}</span>
@@ -576,7 +576,7 @@ export default function OrbitalMenu({
             const isActive = index === activeIndex;
             return <div key={item.key || index} ref={el => {
               slotRefs.current[index] = el;
-            }} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden pointer-events-none")}>
+            }} data-key={item.key || undefined} className={cn("profile-orbit-mobile-row grid place-items-center snap-center h-[clamp(15.5rem,30vh,19rem)] py-[0.95rem]", isActive && "is-active", v.hide && "is-hidden pointer-events-none")}>
                     <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" style={{
                 transform: `scale(${v.scale})`,
                 opacity: v.opacity,
@@ -588,7 +588,7 @@ export default function OrbitalMenu({
                         </span>
 
                         {}
-                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.1] font-semibold tracking-[0.025em] text-[clamp(1.1rem,3.9vw,1.5rem)] mt-0 mb-[clamp(0.25rem,1.1vw,0.55rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0 text-[var(--orbit-mobile-accent,#c57171)] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)] light:[text-shadow:0_2px_8px_rgba(255,255,255,0.35)]", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
+                        <span className={cn("profile-orbit-mobile-action__label block w-full shrink-0 order-[-1] text-center leading-[1.1] font-semibold tracking-[0.025em] text-[clamp(1.1rem,3.9vw,1.5rem)] mt-0 mb-[clamp(0.25rem,1.1vw,0.55rem)] p-0 rounded-none transition-opacity duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-visible break-words max-w-[95%] break-normal [hyphens:auto] [text-wrap:balance] max-h-none bg-transparent border-0", isActive ? "opacity-100" : "opacity-0")} aria-hidden={!isActive}>
                           {item.label}
                         </span>
                       </button>

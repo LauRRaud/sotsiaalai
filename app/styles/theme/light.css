@@ -59,12 +59,6 @@
   --title-color: #7a3a38;
   --chat-icon-color: #3b3329;
   --link-color: #7a3a38;
-  --page-bg: #faf9f7;
-  --page-bg-top: #faf9f7;
-  --page-bg-bottom: #e1dfda;
-  --page-bg-fallback: #faf9f7;
-  --page-bg-top-fallback: #faf9f7;
-  --page-bg-bottom-fallback: #e1dfda;
   --btn-primary-bg: linear-gradient(
     180deg,
     rgba(255, 255, 255, 1) 0%,
@@ -199,21 +193,6 @@
   --home-before-shadow: 0 12px 22px rgba(0, 0, 0, 0.2);
   --home-title-color: #7a3a38;
   --home-link-color: var(--link-color, #7a3a38);
-}
-
-:root.theme-light body.homepage::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  background: radial-gradient(
-    120% 110% at 50% 48%,
-    rgba(20, 20, 20, 0) 0%,
-    rgba(20, 20, 20, 0) 62%,
-    rgba(20, 20, 20, 0.5) 78%,
-    rgba(20, 20, 20, 0.88) 100%
-  );
 }
 
 :root.theme-light .glass-box {
