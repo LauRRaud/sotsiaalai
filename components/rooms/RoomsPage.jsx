@@ -10,7 +10,7 @@ import Modal from "@/components/ui/Modal";
 import InviteModal from "@/components/invite/InviteModal";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const pageShellClassName = `${glassPageShellCenteredClassName} max-md:py-0`;
 const circleClassName = `${glassPageRingCenteredClassName} flex-col gap-4 overflow-auto overflow-x-hidden p-[clamp(1.4rem,3.5vh,2.2rem)] max-[48em]:pt-[clamp(1.2rem,3vh,2rem)]`;
 const titleClassName = `${glassPageTitleClassName} w-full max-w-full`;
@@ -160,7 +160,7 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
         <BackButton
           onClick={() => pushWithTransition(router, "/vestlus")}
           ariaLabel={t("rooms.back_to_chats", "Tagasi vestlustesse")}
-          className={glassPageBackClassName}
+          className={glassPageBackMobileBottomCenterClassName}
         />
         <h1 className={titleClassName}>
           {t("rooms.title", "Ruumid")}

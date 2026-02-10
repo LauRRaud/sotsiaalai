@@ -141,6 +141,7 @@ export default function ChatBody({
   const composerDraftApiRef = useRef(null);
   const inputBarRef = useRef(null);
   const sourcesButtonRef = useRef(null);
+  const backTapGuardRef = useRef(0);
   const rollTimerRef = useRef(null);
   const rollSwapTimerRef = useRef(null);
   const maskRefreshRef = useRef(null);
@@ -509,11 +510,21 @@ export default function ChatBody({
     });
   }, []);
   const handleBackHome = useCallback(() => {
+    const now = Date.now();
+    if (now - backTapGuardRef.current < 320) return;
+    backTapGuardRef.current = now;
     if (typeof onBackHome === "function") {
       onBackHome();
       return;
     }
     pushWithTransition(router, "/");
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        if (window.location.pathname.startsWith("/vestlus")) {
+          window.location.assign("/");
+        }
+      }, 220);
+    }
   }, [onBackHome, router]);
   const handleComposerFocus = useCallback(() => {
     setInputFocused(true);
@@ -605,11 +616,17 @@ export default function ChatBody({
       "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 0.9rem)",
       "--chat-window-max-w": "clamp(19.4rem, 42.5vw, 28.2rem)",
       "--chat-window-shift-x": "clamp(-0.2rem, -0.42vw, -0.08rem)",
+      "--chat-window-shift-y": isMobile ? "clamp(3.7rem, 9.5vh, 5.1rem)" : "0rem",
       "--chat-window-pad-top": "clamp(2.4rem, 4.8vh, 3.4rem)",
-      "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+      "--chat-window-pad-bottom": isMobile
+        ? "calc(env(safe-area-inset-bottom, 0px) + 4.45rem)"
+        : "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+      "--chat-window-top-safe": isMobile
+        ? "calc(env(safe-area-inset-top, 0px) + 2.7rem)"
+        : "clamp(4.2rem, 7.2vh, 6.6rem)",
       "--chat-window-top-offset": "-1.7rem",
-      "--chat-window-bottom-gap": "1.9rem",
-      "--chat-scroll-down-offset": "0.2rem",
+      "--chat-window-bottom-gap": isMobile ? "2.1rem" : "1.9rem",
+      "--chat-scroll-down-offset": isMobile ? "-1.9rem" : "0.2rem",
       "--chat-content-top-offset": "5.2rem",
       "--chat-content-spacer": "7.4rem",
       "--chat-content-bottom-spacer": "0.35rem"
@@ -687,12 +704,10 @@ export default function ChatBody({
         "max-[48em]:[--chat-nav-top:clamp(2.8rem,11vw,4.2rem)] " +
         "max-[48em]:[--chat-pad-top:clamp(0.75rem,2vh,1.1rem)] " +
         "max-[48em]:[--chat-pad-bottom:clamp(0.5rem,1.8vh,0.9rem)] " +
-        "max-[48em]:[--chat-window-top-offset:0rem] max-[48em]:[--chat-window-bottom-gap:0rem] " +
+        "max-[48em]:[--chat-window-top-offset:0rem] " +
         "max-[48em]:[--chat-window-pad-top:clamp(0.32rem,1vh,0.65rem)] " +
-        "max-[48em]:[--chat-window-pad-bottom:calc(env(safe-area-inset-bottom,0px)+3.75rem+var(--keyboard-offset,0px))] " +
-        "max-[48em]:[--chat-window-top-safe:calc(env(safe-area-inset-top,0px)+2.7rem)] " +
         "max-[48em]:[--chat-window-bottom-safe:0rem] max-[48em]:[--chat-window-fade-top:0rem] max-[48em]:[--chat-window-fade-bottom:0rem] " +
-        "max-[48em]:[--chat-content-top-offset:0rem] max-[48em]:[--chat-content-spacer:0.08rem] max-[48em]:[--chat-content-bottom-spacer:0.05rem] " +
+        "max-[48em]:[--chat-content-top-offset:0rem] max-[48em]:[--chat-content-spacer:0.9rem] max-[48em]:[--chat-content-bottom-spacer:0.85rem] " +
         "max-[48em]:[--chat-logo-height:clamp(9rem,52vw,18rem)] " +
         "max-[48em]:[--chat-logo-y:clamp(3.6rem,24vh,9.4rem)] " +
         "max-[48em]:[--chat-input-shift:0rem] " +
@@ -733,15 +748,13 @@ export default function ChatBody({
                   data-chat-theme={isLightTheme ? "light" : "dark"}
                 >
                   {!isLightTheme ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
-                    {!profileOpen ? <>
-                        <div className="chat-nav-overlay absolute inset-0 z-[80] pointer-events-none">
-                          <BackButton
-                            onClick={handleBackHome}
-                            ariaLabel={t("chat.back_to_home")}
-                            className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto")}
-                          />
-                        </div>
-                      </> : null}
+                    {!profileOpen ? <BackButton
+                        onClick={handleBackHome}
+                        onTouchEnd={handleBackHome}
+                        onPointerUp={handleBackHome}
+                        ariaLabel={t("chat.back_to_home")}
+                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!fixed max-[48em]:!z-[220]")}
+                      /> : null}
 
                 <RightRail
                   t={t}

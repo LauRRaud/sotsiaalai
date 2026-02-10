@@ -21,25 +21,25 @@ const scrollAreaClassName =
 const scrollAreaMobileClassName =
   "max-[48em]:w-full max-[48em]:px-[1.1rem] max-[48em]:gap-[clamp(1.45rem,4.2vh,2.5rem)] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]";
 const fieldsetClassName =
-  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[0.8rem] !pt-[0.8rem] !pb-[2.4rem] max-[48em]:!pt-[1.05rem] max-[48em]:!pb-[3.35rem] scroll-snap-align-center scroll-snap-stop-normal";
+  "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[1rem] !pt-[0.95rem] !pb-[2.8rem] max-[48em]:!gap-[1.1rem] max-[48em]:!pt-[1.2rem] max-[48em]:!pb-[3.55rem] scroll-snap-align-center scroll-snap-stop-normal";
 const legendClassName =
-  "block w-full text-center mb-[0.8rem] mt-[0.2rem] max-[48em]:mb-[1rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] max-[48em]:text-[clamp(1.75rem,6.8vw,2.4rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2] max-[48em]:leading-[1.12]";
+  "block w-full text-center mb-[0.38rem] mt-[0.2rem] max-[48em]:mb-[0.46rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] max-[48em]:text-[clamp(1.75rem,6.8vw,2.4rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2] max-[48em]:leading-[1.12]";
 const languageLegendClassName = "";
-const languageFieldsetClassName = "";
+const languageFieldsetClassName = "max-[48em]:!pt-[1.42rem]";
 const languageShiftClassName = "";
 const languageOptionsClassName = "flex-nowrap";
 const languageOptionLabelClassName =
   "text-[clamp(0.95rem,2.4vw,1.08rem)] max-[48em]:text-[clamp(1.08rem,4.4vw,1.3rem)]";
 const optionsRowClassName =
-  "flex flex-wrap justify-center items-center gap-[0.7rem_1rem] max-[48em]:gap-[0.95rem_1.1rem] w-full max-w-[42rem] mx-auto";
-const textScaleFieldsetClassName = "a11y-textscale-fieldset";
+  "flex flex-wrap justify-center items-center gap-[0.8rem_1.05rem] max-[48em]:gap-[1.26rem_1.3rem] w-full max-w-[42rem] mx-auto";
+const textScaleFieldsetClassName = "a11y-textscale-fieldset max-[48em]:!pt-[1.42rem] max-[48em]:!pb-[1.55rem] max-[48em]:!min-h-[11.8rem]";
 const textScaleLegendClassName = "";
-const textScaleOptionsClassName = "a11y-textscale-options mt-0 flex-nowrap max-[48em]:flex-wrap";
+const textScaleOptionsClassName = "a11y-textscale-options mt-0 flex-nowrap max-[48em]:flex-wrap max-[48em]:mb-[0rem]";
 const textScaleOptionsDesktopTightClassName = "min-[48.0625em]:gap-[0.55rem] min-[48.0625em]:justify-center";
-const contrastFieldsetClassName = "a11y-contrast-fieldset";
+const contrastFieldsetClassName = "a11y-contrast-fieldset max-[48em]:!pt-[0rem] max-[48em]:!-mt-[0.3rem]";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
-const motionFieldsetClassName = "";
+const motionFieldsetClassName = "max-[48em]:!pt-[1.22rem]";
 const motionLegendClassName = "";
 const contrastShiftClassName = "";
 const motionShiftClassName = "";

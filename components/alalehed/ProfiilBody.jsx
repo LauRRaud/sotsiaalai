@@ -73,7 +73,19 @@ const logoutLabelClassName =
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
 const profileBackButtonClassName =
-  glassPageBackMobileCornerClassName;
+  `${glassPageBackMobileCornerClassName} ` +
+  "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-0 " +
+  "max-[48em]:!h-[5.7rem] max-[48em]:!w-[5.7rem] " +
+  "max-[48em]:[&>span]:!h-[5.7rem] max-[48em]:[&>span]:!w-[5.7rem]";
+const profileNavOverlayClassName =
+  "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none " +
+  "max-[48em]:flex max-[48em]:items-end max-[48em]:justify-between " +
+  "max-[48em]:pl-[calc(env(safe-area-inset-left,0px)+3.1rem)] " +
+  "max-[48em]:pr-[calc(env(safe-area-inset-right,0px)+3.1rem)] " +
+  "max-[48em]:pb-[calc(env(safe-area-inset-bottom,0px)+4.35rem)]";
+const profileLogoutWrapClassName =
+  `${glassPageBackRightClassName} pointer-events-auto ` +
+  "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-0";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -600,9 +612,9 @@ export default function ProfiilBody({
       </div>
 
       {!orbitOpen && (
-        <div className="profile-nav-overlay absolute inset-0 z-[3] pointer-events-none">
+        <div className={profileNavOverlayClassName}>
           <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(profileBackButtonClassName, "pointer-events-auto")} />
-          <div className={cn(glassPageBackRightClassName, "pointer-events-auto")}>
+          <div className={profileLogoutWrapClassName}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
               <span className={logoutLabelClassName}>{t("profile.logout")}</span>

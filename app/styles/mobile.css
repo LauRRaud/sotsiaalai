@@ -302,33 +302,6 @@
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
-  .profile-nav-overlay > button,
-  .profile-nav-overlay > div {
-    top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.12rem) !important;
-    transform: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-  }
-  .profile-nav-overlay > button {
-    left: calc(env(safe-area-inset-left, 0px) + 1.42rem) !important;
-  }
-  .profile-nav-overlay > div {
-    right: calc(env(safe-area-inset-right, 0px) + 1.42rem) !important;
-  }
-  .profile-nav-overlay > button,
-  .profile-nav-overlay > div > button {
-    width: 6.05rem !important;
-    height: 6.05rem !important;
-  }
-  .profile-nav-overlay > button > span,
-  .profile-nav-overlay > div > button > img {
-    width: 6.05rem !important;
-    height: 6.05rem !important;
-  }
-  .profile-nav-overlay > button > span {
-    transform: translateY(-0.24rem);
-  }
   .profile-orbit-menu.is-mobile {
     --label-gap: 0.5rem;
     --label-nudge: 0.32rem;
@@ -376,16 +349,20 @@
     position: absolute;
     left: max(0.8rem, env(safe-area-inset-left, 0px));
     right: max(0.8rem, env(safe-area-inset-right, 0px));
-    height: clamp(4.4rem, 11vh, 6.4rem);
+    height: clamp(6.6rem, 16vh, 9.8rem);
     z-index: 4;
     pointer-events: none;
-    opacity: 0.96;
+    opacity: 1;
+    -webkit-backdrop-filter: blur(2.2px) saturate(104%);
+    backdrop-filter: blur(2.2px) saturate(104%);
   }
   .profile-orbit-stack-fade--top {
     top: 0;
     background: linear-gradient(
       180deg,
-      rgba(8, 12, 20, 0.94) 0%,
+      rgba(8, 12, 20, 0.97) 0%,
+      rgba(8, 12, 20, 0.86) 34%,
+      rgba(8, 12, 20, 0.36) 76%,
       rgba(8, 12, 20, 0) 100%
     );
   }
@@ -393,21 +370,27 @@
     bottom: 0;
     background: linear-gradient(
       0deg,
-      rgba(8, 12, 20, 0.94) 0%,
+      rgba(8, 12, 20, 0.97) 0%,
+      rgba(8, 12, 20, 0.86) 34%,
+      rgba(8, 12, 20, 0.36) 76%,
       rgba(8, 12, 20, 0) 100%
     );
   }
   :root.theme-light .profile-orbit-stack-fade--top {
     background: linear-gradient(
       180deg,
-      rgba(252, 253, 255, 0.95) 0%,
+      rgba(252, 253, 255, 0.985) 0%,
+      rgba(252, 253, 255, 0.9) 34%,
+      rgba(252, 253, 255, 0.42) 76%,
       rgba(252, 253, 255, 0) 100%
     );
   }
   :root.theme-light .profile-orbit-stack-fade--bottom {
     background: linear-gradient(
       0deg,
-      rgba(252, 253, 255, 0.95) 0%,
+      rgba(252, 253, 255, 0.985) 0%,
+      rgba(252, 253, 255, 0.9) 34%,
+      rgba(252, 253, 255, 0.42) 76%,
       rgba(252, 253, 255, 0) 100%
     );
   }
@@ -428,6 +411,28 @@
     scroll-snap-type: y mandatory;
     scroll-padding-top: var(--stack-pad, 0px);
     scroll-padding-bottom: var(--stack-pad, 0px);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.26) 8%,
+      rgba(0, 0, 0, 0.76) 16%,
+      rgba(0, 0, 0, 1) 26%,
+      rgba(0, 0, 0, 1) 74%,
+      rgba(0, 0, 0, 0.76) 84%,
+      rgba(0, 0, 0, 0.26) 92%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.26) 8%,
+      rgba(0, 0, 0, 0.76) 16%,
+      rgba(0, 0, 0, 1) 26%,
+      rgba(0, 0, 0, 1) 74%,
+      rgba(0, 0, 0, 0.76) 84%,
+      rgba(0, 0, 0, 0.26) 92%,
+      rgba(0, 0, 0, 0) 100%
+    );
   }
   .profile-orbit-stack-list::-webkit-scrollbar {
     width: 0;
@@ -444,7 +449,7 @@
     text-align: center;
   }
   .profile-orbit-stack-item {
-    opacity: 1;
+    opacity: 0.84;
     transition: opacity 220ms ease;
     scroll-snap-align: center;
     scroll-snap-stop: always;
@@ -668,22 +673,71 @@
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
   }
 
-  .chat-container[data-chat-container="true"] {
-    --chat-window-top-safe: calc(env(safe-area-inset-top, 0px) + 2.7rem);
-    --chat-window-pad-bottom: calc(
-      env(safe-area-inset-bottom, 0px) + 3.75rem + var(--keyboard-offset, 0px)
-    );
-  }
-
   .chat-right-actions {
     position: absolute !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.2rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.9rem) !important;
     left: auto !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.12rem) !important;
     width: auto !important;
     height: auto !important;
     z-index: 94 !important;
-    pointer-events: auto !important;
+    pointer-events: none !important;
+  }
+
+  .chat-window__scroll {
+    position: relative;
+    padding-left: calc(var(--chat-window-pad-x, 0.7rem) + 0.22rem) !important;
+    padding-right: calc(var(--chat-window-pad-x, 0.7rem) + 0.22rem) !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 92%,
+      rgba(0, 0, 0, 0.86) 95.5%,
+      rgba(0, 0, 0, 0.48) 98.4%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 92%,
+      rgba(0, 0, 0, 0.86) 95.5%,
+      rgba(0, 0, 0, 0.48) 98.4%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+    -webkit-mask-composite: initial !important;
+    mask-composite: initial !important;
+  }
+
+  .chat-window__scroll::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1px;
+    height: clamp(1.25rem, 3.2vh, 1.95rem);
+    pointer-events: none;
+    z-index: 3;
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 12, 20, 0.96) 0%,
+      rgba(8, 12, 20, 0.74) 34%,
+      rgba(8, 12, 20, 0.34) 68%,
+      rgba(8, 12, 20, 0) 100%
+    );
+  }
+
+  :root.theme-light .chat-window__scroll::before {
+    background: linear-gradient(
+      to bottom,
+      rgba(252, 253, 255, 0.98) 0%,
+      rgba(252, 253, 255, 0.78) 34%,
+      rgba(252, 253, 255, 0.38) 68%,
+      rgba(252, 253, 255, 0) 100%
+    );
+  }
+
+  .chat-msg-user {
+    margin-right: 0.08rem !important;
   }
 
   .chat-right-actions > nav {
@@ -694,11 +748,12 @@
     justify-content: flex-end !important;
     gap: clamp(0.52rem, 2.8vw, 0.92rem) !important;
     padding-left: clamp(0.4rem, 2vw, 0.7rem) !important;
-    padding-right: clamp(0.7rem, 3.4vw, 1rem) !important;
+    padding-right: clamp(0.06rem, 0.8vw, 0.16rem) !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     overflow: visible !important;
     transform: none !important;
+    pointer-events: auto !important;
   }
 
   .chat-right-actions > nav button {
@@ -708,21 +763,24 @@
   }
 
   .chat-input-row {
-    --chat-input-max-w: min(100%, calc(100vw - 7.1rem)) !important;
-    bottom: calc(
-      env(safe-area-inset-bottom, 0px) + 2rem + var(--keyboard-offset, 0px)
-    ) !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 2.75rem) !important;
+    margin-top: 0 !important;
+    transform: none !important;
     align-items: center !important;
     justify-content: center !important;
     gap: clamp(0.22rem, 1.4vw, 0.42rem) !important;
-    padding-left: clamp(0.7rem, 3vw, 1rem) !important;
+    padding-left: clamp(0.36rem, 1.8vw, 0.62rem) !important;
     padding-right: clamp(0.7rem, 3vw, 1rem) !important;
   }
 
   .chat-input-row > .chat-attach-btn {
     flex: 0 0 auto !important;
     transform: none !important;
-    margin-left: clamp(-0.24rem, -0.9vw, -0.12rem) !important;
+    margin-left: clamp(-0.52rem, -1.6vw, -0.3rem) !important;
     margin-right: clamp(0.02rem, 0.4vw, 0.12rem) !important;
   }
 
@@ -736,16 +794,19 @@
 
 @media (max-width: 48em) and (pointer: coarse) {
   .a11y-textscale-fieldset {
-    padding-bottom: clamp(4.2rem, 8.8vh, 5.6rem) !important;
+    padding-bottom: clamp(1.45rem, 3.6vh, 2.1rem) !important;
+    min-height: clamp(11.3rem, 23.2vh, 12.6rem) !important;
   }
 
   .a11y-textscale-options {
-    row-gap: clamp(0.95rem, 2.5vh, 1.3rem) !important;
-    margin-bottom: clamp(0.75rem, 1.9vh, 1.2rem) !important;
+    row-gap: clamp(1.15rem, 2.8vh, 1.5rem) !important;
+    column-gap: clamp(1.02rem, 3.8vw, 1.28rem) !important;
+    margin-bottom: 0 !important;
   }
 
   .a11y-contrast-fieldset {
-    padding-top: clamp(0.25rem, 0.9vh, 0.5rem) !important;
+    padding-top: 0 !important;
+    margin-top: -0.3rem !important;
   }
 
   .glass-ring-expand-toggle--overlay {

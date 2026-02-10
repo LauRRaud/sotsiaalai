@@ -150,7 +150,7 @@ export default function RightRail({
   }, [t]);
 
   const mobileSlots = useMemo(() => {
-    const order = ["chats", "rooms", "invite", "sources", "profile"];
+    const order = ["chats", "sources", "rooms", "invite", "profile"];
     return order.map(key => {
       const itemIndex = items.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -282,22 +282,22 @@ export default function RightRail({
     styles.slot,
     "chat-right-actions",
     suspendPointerEvents ? styles.pointerBlocked : null,
-    "max-[48em]:absolute max-[48em]:top-[calc(var(--hud-edge-safe,env(safe-area-inset-top,0px))+0.1rem)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
+    "max-[48em]:absolute max-[48em]:top-[calc(var(--hud-edge-safe,env(safe-area-inset-top,0px))+0.85rem)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
   );
 
   const railClassName = cn(
     styles.rightRail,
-    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-0 max-[48em]:left-auto max-[48em]:ml-auto max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-auto max-[48em]:flex max-[48em]:flex-row max-[48em]:items-center max-[48em]:justify-end max-[48em]:gap-[clamp(0.52rem,2.8vw,0.92rem)] max-[48em]:pt-[0.3rem] max-[48em]:pb-[0.3rem] max-[48em]:pl-[clamp(0.4rem,2vw,0.7rem)] max-[48em]:pr-[clamp(0.7rem,3.4vw,1rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(2.9rem,12vw,3.6rem)] max-[48em]:[--rail-icon-scale:0.8]"
+    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-0 max-[48em]:left-auto max-[48em]:ml-auto max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-auto max-[48em]:flex max-[48em]:flex-row max-[48em]:items-start max-[48em]:justify-end max-[48em]:gap-[clamp(0.3rem,1.9vw,0.52rem)] max-[48em]:pt-[0.28rem] max-[48em]:pb-[0.12rem] max-[48em]:pl-[clamp(0.25rem,1.6vw,0.5rem)] max-[48em]:pr-[clamp(0.45rem,2.4vw,0.75rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(3.15rem,10.5vw,3.65rem)] max-[48em]:[--rail-icon-scale:0.92]"
   );
 
   const mobileItemClassName =
-    "max-[48em]:static max-[48em]:left-auto max-[48em]:top-auto max-[48em]:[transform:none] max-[48em]:w-[var(--rail-item-size)] max-[48em]:h-auto max-[48em]:opacity-100 max-[48em]:transition-none";
+    "max-[48em]:static max-[48em]:left-auto max-[48em]:top-auto max-[48em]:[transform:none] max-[48em]:w-[var(--rail-item-size)] max-[48em]:h-auto max-[48em]:opacity-100 max-[48em]:transition-[transform,opacity]";
 
   const mobileIconButtonClassName =
-    "max-[48em]:flex max-[48em]:flex-col max-[48em]:items-center max-[48em]:justify-center max-[48em]:gap-[0.35rem] max-[48em]:leading-[1]";
+    "max-[48em]:flex max-[48em]:flex-col max-[48em]:items-center max-[48em]:justify-start max-[48em]:gap-[0.22rem] max-[48em]:leading-[1]";
 
   const mobileLabelClassName =
-    "max-[48em]:block max-[48em]:text-[clamp(1.05rem,4vw,1.35rem)] max-[48em]:tracking-[0.06em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:max-w-[5.2rem] max-[48em]:opacity-0 max-[48em]:h-[clamp(1.4rem,4.2vw,2rem)] max-[48em]:mt-[0.35rem] max-[48em]:overflow-hidden max-[48em]:transition-opacity max-[48em]:duration-150 max-[48em]:ease-in-out";
+    "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-hidden max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
 
   return <div className={slotClassName}>
       <nav className={railClassName} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onMouseEnter={() => setIsRailHovered(true)} onMouseLeave={() => setIsRailHovered(false)} onFocusCapture={() => setIsRailHovered(true)} onBlurCapture={event => {
@@ -374,7 +374,7 @@ export default function RightRail({
               armedClearTimerRef.current = window.setTimeout(() => {
                 setArmedIndex(prev => (prev === itemIndex ? null : prev));
                 armedClearTimerRef.current = 0;
-              }, 2200);
+              }, 3200);
               return;
             }
             if (armedClearTimerRef.current) {
@@ -413,12 +413,14 @@ export default function RightRail({
         };
 
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
-        const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
+        const isDisabled = false;
+        const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
+        const displayLabel = it?.label || "";
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.4rem]" : null)} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
               {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : <AllikadDark className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={cn(styles.iconImg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={cn(styles.iconImg, styles.iconRooms)} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={cn(styles.iconImg, styles.iconInvite)} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
-                {ariaLabel}
+                {displayLabel}
               </span>
             </button>;
       })}

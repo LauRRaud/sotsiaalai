@@ -15,10 +15,16 @@ const ColorBends = dynamic(() => import("./ColorBends"), {
 });
 function detectMobileLikeDevice() {
   if (typeof window === "undefined") return false;
-  const coarse = typeof window.matchMedia === "function" ? window.matchMedia("(pointer: coarse)")?.matches ?? false : false;
-  const noHover = typeof window.matchMedia === "function" ? window.matchMedia("(hover: none)")?.matches ?? false : false;
-  const small = typeof window.matchMedia === "function" ? window.matchMedia("(max-width: 768px)")?.matches ?? false : window.innerWidth <= 768;
-  return coarse || noHover || small;
+  const mq = query => typeof window.matchMedia === "function" ? window.matchMedia(query)?.matches ?? false : false;
+  const coarse = mq("(pointer: coarse)");
+  const noHover = mq("(hover: none)");
+  const small = mq("(max-width: 768px)") || window.innerWidth <= 768;
+  const desktopPointer = mq("(hover: hover) and (pointer: fine)");
+  const touchCapable = typeof navigator !== "undefined" && (navigator.maxTouchPoints || 0) > 0;
+  const layoutMobile = document.documentElement?.getAttribute("data-layout") === "mobile" || document.body?.getAttribute("data-layout") === "mobile";
+  const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
+  const uaMobile = typeof navigator !== "undefined" ? navigator.userAgentData?.mobile ?? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua) : false;
+  return coarse || noHover || small || layoutMobile || uaMobile || touchCapable && !desktopPointer;
 }
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
