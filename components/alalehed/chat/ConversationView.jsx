@@ -82,9 +82,8 @@ const ConversationView = memo(function ConversationView({
   const scrollClassName =
     "chat-window__scroll relative z-[1] h-full flex flex-col items-stretch gap-[0.75rem] flex-1 min-h-0 overflow-y-auto overscroll-contain " +
     "[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
-    "[mask-image:radial-gradient(225%_158%_at_50%_-86%,transparent_56%,rgba(0,0,0,0.08)_61%,rgba(0,0,0,0.34)_66%,rgba(0,0,0,0.78)_70%,#000_74%,#000_100%),linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
-    "[-webkit-mask-image:radial-gradient(225%_158%_at_50%_-86%,transparent_56%,rgba(0,0,0,0.08)_61%,rgba(0,0,0,0.34)_66%,rgba(0,0,0,0.78)_70%,#000_74%,#000_100%),linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
-    "[mask-composite:intersect] [-webkit-mask-composite:source-in] " +
+    "[mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
     "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] " +
     "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
     "[&::-webkit-scrollbar-thumb]:bg-[linear-gradient(135deg,var(--pt-400),var(--pt-200))] [&::-webkit-scrollbar-thumb]:rounded-[0.625rem] [&::-webkit-scrollbar-thumb]:border-[0.1875rem] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent " +

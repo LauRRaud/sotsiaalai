@@ -84,6 +84,9 @@ const Particles = ({
     const container = containerRef.current;
     if (!container) return;
     const isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches || document.body?.getAttribute("data-layout") === "mobile";
+    const isMobileLike = isMobile || window.matchMedia?.("(pointer: coarse)")?.matches || window.matchMedia?.("(hover: none)")?.matches;
+    const MOBILE_RESIZE_HEIGHT_THRESHOLD = 120;
+    let lastSize = null;
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
     const targetFps = Number.isFinite(fps) && fps > 0 ? fps : isMobile ? 30 : 0;
     const effectiveSpeed = prefersReducedMotion ? 0 : speed;
@@ -115,6 +118,16 @@ const Particles = ({
     const resize = () => {
       const width = container.clientWidth || window.innerWidth;
       const height = container.clientHeight || window.innerHeight;
+      if (isMobileLike && lastSize) {
+        const widthDelta = Math.abs(width - lastSize.width);
+        const heightDelta = Math.abs(height - lastSize.height);
+        const ignoreMinorViewportJitter = widthDelta < 2 && heightDelta < MOBILE_RESIZE_HEIGHT_THRESHOLD;
+        if (ignoreMinorViewportJitter) return;
+      }
+      lastSize = {
+        width,
+        height
+      };
       renderer.setSize(width, height);
       camera.perspective({
         aspect: gl.canvas.width / gl.canvas.height

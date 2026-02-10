@@ -203,6 +203,9 @@ export default function ColorBends({
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    const isMobileLike = window.matchMedia?.("(max-width: 768px)")?.matches || window.matchMedia?.("(pointer: coarse)")?.matches || window.matchMedia?.("(hover: none)")?.matches || document.body?.getAttribute("data-layout") === "mobile";
+    const MOBILE_RESIZE_HEIGHT_THRESHOLD = 120;
+    let lastSize = null;
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const geometry = new THREE.PlaneGeometry(2, 2);
@@ -302,6 +305,16 @@ export default function ColorBends({
     const handleResize = () => {
       const w = container.clientWidth || 1;
       const h = container.clientHeight || 1;
+      if (isMobileLike && lastSize) {
+        const widthDelta = Math.abs(w - lastSize.width);
+        const heightDelta = Math.abs(h - lastSize.height);
+        const ignoreMinorViewportJitter = widthDelta < 2 && heightDelta < MOBILE_RESIZE_HEIGHT_THRESHOLD;
+        if (ignoreMinorViewportJitter) return;
+      }
+      lastSize = {
+        width: w,
+        height: h
+      };
       renderer.setSize(w, h, false);
       material.uniforms.uCanvas.value.set(w, h);
     };
