@@ -166,7 +166,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative !overflow-x-visible !overflow-y-visible !max-h-none pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)] max-[48em]:w-[100vw] max-[48em]:max-w-[100vw] max-[48em]:h-[100dvh] max-[48em]:max-h-[100dvh] max-[48em]:rounded-none max-[48em]:pt-[calc(env(safe-area-inset-top,0px)+1.25rem)] max-[48em]:pr-[max(1rem,env(safe-area-inset-right,0px))] max-[48em]:pb-[calc(env(safe-area-inset-bottom,0px)+1.1rem)] max-[48em]:pl-[max(1rem,env(safe-area-inset-left,0px))]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
       <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
@@ -183,10 +183,10 @@ export default function InviteModal() {
                 <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name")} aria-label={t("invite.host_name")} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
-            <div className="mt-[0.6rem] grid gap-[0.6rem] grid-cols-2 max-md:grid-cols-1" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
+            <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[48em]:justify-items-center" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
               {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full !min-h-[3.05rem] !py-[0.78rem] !text-[1.12rem] !leading-[1.2] !tracking-[0.03rem] text-center justify-center">
-                  <span className="whitespace-nowrap">{option.label}</span>
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[48em]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.02rem] !leading-[1.2] !tracking-[0.02rem] text-center justify-center">
+                  <span className="text-center [text-wrap:balance]">{option.label}</span>
                 </OptionCard>
               ))}
             </div>
@@ -205,7 +205,7 @@ export default function InviteModal() {
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className="border-0 [--panel-secondary-shadow:var(--input-shadow)] min-h-[9.5rem] max-h-[min(48dvh,24rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
+        <Panel variant="secondary" padding="sm" className="border-0 [--panel-secondary-shadow:var(--input-shadow)] min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[48em]:min-h-[8rem] max-[48em]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}

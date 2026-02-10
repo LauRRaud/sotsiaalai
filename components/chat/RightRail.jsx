@@ -43,6 +43,7 @@ export default function RightRail({
   const [isRailHovered, setIsRailHovered] = useState(false);
   const [isRailScrolling, setIsRailScrolling] = useState(false);
   const scrollIdleTimerRef = useRef(0);
+  const armedClearTimerRef = useRef(0);
 
   useEffect(() => {
     setIsMounted(true);
@@ -52,6 +53,10 @@ export default function RightRail({
       if (scrollIdleTimerRef.current) {
         window.clearTimeout(scrollIdleTimerRef.current);
         scrollIdleTimerRef.current = 0;
+      }
+      if (armedClearTimerRef.current) {
+        window.clearTimeout(armedClearTimerRef.current);
+        armedClearTimerRef.current = 0;
       }
     };
   }, []);
@@ -167,6 +172,12 @@ export default function RightRail({
     })();
     setActiveIndex(idx);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!isMobile && armedIndex !== null) {
+      setArmedIndex(null);
+    }
+  }, [armedIndex, isMobile]);
 
   useEffect(() => {
     if (isMobile) {
@@ -356,7 +367,19 @@ export default function RightRail({
           if (isMobile) {
             if (armedIndex !== itemIndex) {
               setArmedIndex(itemIndex);
+              if (armedClearTimerRef.current) {
+                window.clearTimeout(armedClearTimerRef.current);
+                armedClearTimerRef.current = 0;
+              }
+              armedClearTimerRef.current = window.setTimeout(() => {
+                setArmedIndex(prev => (prev === itemIndex ? null : prev));
+                armedClearTimerRef.current = 0;
+              }, 2200);
               return;
+            }
+            if (armedClearTimerRef.current) {
+              window.clearTimeout(armedClearTimerRef.current);
+              armedClearTimerRef.current = 0;
             }
             setArmedIndex(null);
           } else {

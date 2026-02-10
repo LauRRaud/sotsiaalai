@@ -448,6 +448,14 @@
 }
 
 @media (max-width: 48em) {
+  .profile-orbit-stack-item[data-key="back"] .profile-orbit-stack-label {
+    display: none;
+  }
+
+  .profile-orbit-mobile-row[data-key="back"] .profile-orbit-mobile-action__label {
+    display: none;
+  }
+
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-menu.is-mobile
     .dock-label {

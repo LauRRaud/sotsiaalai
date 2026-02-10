@@ -13,6 +13,13 @@ const MaybeSplash = dynamic(() => import("../MaybeSplash"), {
 const ColorBends = dynamic(() => import("./ColorBends"), {
   ssr: false
 });
+function detectMobileLikeDevice() {
+  if (typeof window === "undefined") return false;
+  const coarse = typeof window.matchMedia === "function" ? window.matchMedia("(pointer: coarse)")?.matches ?? false : false;
+  const noHover = typeof window.matchMedia === "function" ? window.matchMedia("(hover: none)")?.matches ?? false : false;
+  const small = typeof window.matchMedia === "function" ? window.matchMedia("(max-width: 768px)")?.matches ?? false : window.innerWidth <= 768;
+  return coarse || noHover || small;
+}
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
   if ("requestIdleCallback" in window) {
@@ -49,10 +56,10 @@ const BackgroundContent = memo(function BackgroundContent({
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
   const [colorBendsReady, setColorBendsReady] = useState(false);
-  const [mobileLike, setMobileLike] = useState(false);
+  const [mobileLike, setMobileLike] = useState(() => detectMobileLikeDevice());
   const allowParticles = !reduceMotion;
   const allowColorBends = !reduceMotion;
-  const parallaxActive = !reduceMotion;
+  const parallaxActive = !reduceMotion && !mobileLike;
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -60,12 +67,7 @@ const BackgroundContent = memo(function BackgroundContent({
     const coarse = mql("(pointer: coarse)");
     const noHover = mql("(hover: none)");
     const small = mql("(max-width: 768px)");
-    const compute = () => {
-      const coarseOk = coarse?.matches ?? false;
-      const noHoverOk = noHover?.matches ?? false;
-      const smallOk = small?.matches ?? false;
-      setMobileLike(coarseOk || noHoverOk || smallOk);
-    };
+    const compute = () => setMobileLike(detectMobileLikeDevice());
     compute();
     const attach = media => {
       if (!media) return () => {};

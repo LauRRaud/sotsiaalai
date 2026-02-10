@@ -431,12 +431,12 @@ export default function ChatSidebar() {
   const isActionBusy = busy || creating || bulkDeleting;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
-    "drawer-chat-card flex items-start gap-3 rounded-[1.1rem] border border-[rgba(255,255,255,0.22)] " +
+    "drawer-chat-card flex items-start gap-3 rounded-[1.1rem] border-0 " +
     "bg-[rgba(8,12,20,0.18)] shadow-none [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
     "px-4 py-4 text-[color:var(--glass-surface-text,#f2f2f2)] transition w-full max-w-[19.5rem]";
   const messageCardLightVariant = "light:text-[#1f2937]";
   const messageActiveVariant =
-    "drawer-chat-card--active border-[rgba(255,255,255,0.38)] bg-[rgba(8,12,20,0.24)] shadow-none";
+    "drawer-chat-card--active bg-[rgba(8,12,20,0.24)] shadow-none";
   const previewTextClassName =
     "text-[1rem] leading-[1.45] text-[rgba(255,255,255,0.7)] light:text-[rgba(31,41,55,0.7)]";
   const timeTextClassName =
@@ -472,13 +472,13 @@ export default function ChatSidebar() {
           {error}
         </div> : null}
       {isLoading && combinedItems.length === 0 ? <div className="flex flex-col gap-2 py-2">
-          {Array.from({ length: 4 }).map((_, i) => <div key={`s-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-3">
+          {Array.from({ length: 4 }).map((_, i) => <div key={`s-${i}`} className="flex flex-col gap-2 rounded-[0.85rem] border-0 bg-[rgba(255,255,255,0.02)] p-3">
                 <div className="h-3 w-3/4 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
                 <div className="h-2 w-1/3 rounded-full bg-gradient-to-r from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.18)] to-[rgba(255,255,255,0.08)] animate-pulse" />
               </div>)}
         </div> : null}
-      <ul className="drawer-chat-sidebar__list flex flex-1 flex-col items-stretch gap-3 overflow-y-auto pr-0 pt-[0.6rem] [scrollbar-width:none] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0,#000_1rem,#000_calc(100%-1rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,transparent_0,#000_1rem,#000_calc(100%-1rem),transparent_100%)] [-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
-        {!isLoading && sorted.length === 0 ? <li className="flex items-center justify-between gap-3 rounded-[0.8rem] border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.03)] px-3 py-4 light:border-[rgba(148,163,184,0.3)] light:bg-transparent">
+      <ul className="drawer-chat-sidebar__list flex flex-1 flex-col items-stretch gap-3 overflow-y-auto pr-0 pt-[0.6rem] max-[48em]:items-center [scrollbar-width:none] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0,#000_1rem,#000_calc(100%-1rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,transparent_0,#000_1rem,#000_calc(100%-1rem),transparent_100%)] [-webkit-mask-repeat:no-repeat] [mask-repeat:no-repeat] [-webkit-mask-size:100%_100%] [mask-size:100%_100%] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
+        {!isLoading && sorted.length === 0 ? <li className="flex items-center justify-between gap-3 rounded-[0.8rem] border-0 bg-[rgba(255,255,255,0.03)] px-3 py-4 light:bg-transparent">
             <span>{t("chat.sidebar.empty")}</span>
             <Button variant="primary" size="sm" onClick={onNew} disabled={creating}>
               {t("chat.sidebar.empty_cta")}

@@ -16,8 +16,19 @@ function applyLayoutFlag(matches) {
   }
 }
 function applyVhVar() {
-  const vh = (typeof window !== "undefined" && window.visualViewport ? window.visualViewport.height : typeof window !== "undefined" ? window.innerHeight : 0) * 0.01;
-  if (vh) document.documentElement.style.setProperty("--vh", `${vh}px`);
+  if (typeof window === "undefined") return;
+  const root = document.documentElement;
+  if (!root) return;
+  const vv = window.visualViewport;
+  const height = vv ? vv.height : window.innerHeight;
+  const vh = height * 0.01;
+  if (vh) root.style.setProperty("--vh", `${vh}px`);
+  const offsetTop = vv ? vv.offsetTop : 0;
+  const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;
+  const active = document.activeElement;
+  const isEditable = !!active && (active.tagName === "TEXTAREA" || active.tagName === "INPUT" || active.isContentEditable);
+  const keyboardOffset = isEditable ? Math.max(0, rawKeyboard) : 0;
+  root.style.setProperty("--keyboard-offset", `${keyboardOffset}px`);
 }
 export default function ViewportLayoutSetter() {
   const pathname = usePathname();
@@ -32,6 +43,9 @@ export default function ViewportLayoutSetter() {
     const onResize = () => {
       window.requestAnimationFrame(() => applyVhVar());
     };
+    const onFocusChange = () => {
+      window.requestAnimationFrame(() => applyVhVar());
+    };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
       applyVhVar();
@@ -41,12 +55,16 @@ export default function ViewportLayoutSetter() {
     window.addEventListener("orientationchange", onResize);
     window.addEventListener("pageshow", onPageShow);
     window.visualViewport?.addEventListener("resize", onResize);
+    window.addEventListener("focusin", onFocusChange);
+    window.addEventListener("focusout", onFocusChange);
     return () => {
       mql.removeEventListener?.("change", onMqChange);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
       window.removeEventListener("pageshow", onPageShow);
       window.visualViewport?.removeEventListener("resize", onResize);
+      window.removeEventListener("focusin", onFocusChange);
+      window.removeEventListener("focusout", onFocusChange);
       applyLayoutFlag(false);
     };
   }, []);

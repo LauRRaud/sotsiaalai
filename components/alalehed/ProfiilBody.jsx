@@ -476,11 +476,14 @@ export default function ProfiilBody({
     }
     pushWithTransition(router, "/vestlus");
   }, [onBack, router]);
+  const handleMobileOrbitBack = useCallback(() => {
+    pushWithTransition(router, localizePath("/profiil", locale));
+  }, [locale, router]);
   const mobileBackItem = {
     key: "back",
     icon: <span className="profile-orbit-back-icon" aria-hidden="true" />,
     label: t("buttons.back"),
-    onClick: handleBack
+    onClick: handleMobileOrbitBack
   };
   const handleLogout = async () => {
     if (loggingOut) return;
