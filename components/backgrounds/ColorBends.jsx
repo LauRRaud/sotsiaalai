@@ -2,6 +2,53 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import "./ColorBends.css";
 const MAX_COLORS = 8;
+const PERFORMANCE_PROFILES = {
+  quality: {
+    initialScale: 1,
+    minScale: 0.85,
+    maxScale: 1,
+    targetFps: 60,
+    maxColorCount: MAX_COLORS,
+    disableNoise: false
+  },
+  balanced: {
+    initialScale: 0.9,
+    minScale: 0.7,
+    maxScale: 1,
+    targetFps: 58,
+    maxColorCount: MAX_COLORS,
+    disableNoise: false
+  },
+  performance: {
+    initialScale: 0.72,
+    minScale: 0.55,
+    maxScale: 0.85,
+    targetFps: 52,
+    maxColorCount: 5,
+    disableNoise: true
+  }
+};
+function isWeakDevice(prefersReduced) {
+  if (prefersReduced) return true;
+  if (typeof navigator === "undefined") return false;
+  const cores = navigator.hardwareConcurrency || 8;
+  const memory = typeof navigator.deviceMemory === "number" ? navigator.deviceMemory : 8;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const saveData = !!conn?.saveData;
+  const effectiveType = typeof conn?.effectiveType === "string" ? conn.effectiveType.toLowerCase() : "";
+  const slowNetwork = effectiveType.includes("2g");
+  const ua = navigator.userAgent || "";
+  const mobileUa = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+  const lowSpec = cores <= 4 || memory <= 4;
+  const midSpecMobile = mobileUa && (cores <= 6 || memory <= 6);
+  return saveData || slowNetwork || lowSpec || midSpecMobile;
+}
+function resolveProfile(mode, prefersReduced) {
+  if (mode === "quality") return PERFORMANCE_PROFILES.quality;
+  if (mode === "performance") return PERFORMANCE_PROFILES.performance;
+  if (mode === "balanced") return PERFORMANCE_PROFILES.balanced;
+  return isWeakDevice(prefersReduced) ? PERFORMANCE_PROFILES.performance : PERFORMANCE_PROFILES.balanced;
+}
 const frag = `
 #ifdef GL_ES
 precision mediump float;
@@ -139,7 +186,8 @@ export default function ColorBends({
   parallax = 0,
   noise = 0,
   maxDpr = 2,
-  powerPreference = "high-performance"
+  powerPreference = "high-performance",
+  performanceMode = "auto"
 }) {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
@@ -244,7 +292,10 @@ export default function ColorBends({
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
-    let renderScale = prefersReduced ? 0.75 : 0.9;
+    const profile = resolveProfile(performanceMode, prefersReduced);
+    const minScale = prefersReduced ? Math.min(profile.minScale, 0.75) : profile.minScale;
+    const maxScale = profile.maxScale;
+    let renderScale = prefersReduced ? Math.min(profile.initialScale, 0.75) : profile.initialScale;
     const baseDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     const applyDpr = () => renderer.setPixelRatio(Math.min(baseDpr * renderScale, 2));
     applyDpr();
@@ -272,7 +323,7 @@ export default function ColorBends({
     };
     let msAccum = 0,
       frameCount = 0;
-    const targetMs = 1000 / 58;
+    const targetMs = 1000 / profile.targetFps;
     function loop(ts) {
       if (lastTs == null) lastTs = ts;
       const dt = Math.max(0, (ts - lastTs) / 1000);
@@ -294,12 +345,12 @@ export default function ColorBends({
       frameCount++;
       if (msAccum > 500) {
         const avg = msAccum / frameCount;
-        if (avg > targetMs * 1.15 && renderScale > 0.7) {
-          renderScale = Math.max(0.7, renderScale * 0.9);
+        if (avg > targetMs * 1.15 && renderScale > minScale) {
+          renderScale = Math.max(minScale, renderScale * 0.9);
           applyDpr();
           forceRenderNow();
-        } else if (avg < targetMs * 0.9 && renderScale < 1.0) {
-          renderScale = Math.min(1.0, renderScale * 1.1);
+        } else if (avg < targetMs * 0.9 && renderScale < maxScale) {
+          renderScale = Math.min(maxScale, renderScale * 1.1);
           applyDpr();
           forceRenderNow();
         }
@@ -360,11 +411,13 @@ export default function ColorBends({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength, maxDpr, powerPreference]);
+  }, [frequency, thicknessBias, edgeTightness, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength, maxDpr, powerPreference, performanceMode]);
   useEffect(() => {
     const material = materialRef.current;
     const renderer = rendererRef.current;
     if (!material) return;
+    const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
+    const profile = resolveProfile(performanceMode, prefersReduced);
     bgColorRef.current = bgColor;
     rotationRef.current = rotation;
     autoRotateRef.current = autoRotate;
@@ -376,13 +429,13 @@ export default function ColorBends({
     material.uniforms.uEdgeTightness.value = edgeTightness;
     material.uniforms.uMouseInfluence.value = mouseInfluence;
     material.uniforms.uParallax.value = parallax;
-    material.uniforms.uNoise.value = noise;
+    material.uniforms.uNoise.value = profile.disableNoise ? 0 : noise;
     const toVec3 = hex => {
       const h = hex.replace("#", "").trim();
       const v = h.length === 3 ? [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)] : [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
       return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
     };
-    const arr = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
+    const arr = (colors || []).filter(Boolean).slice(0, Math.min(MAX_COLORS, profile.maxColorCount)).map(toVec3);
     for (let i = 0; i < MAX_COLORS; i++) {
       const vec = material.uniforms.uColors.value[i];
       if (i < arr.length) vec.copy(arr[i]);else vec.set(0, 0, 0);
@@ -393,7 +446,7 @@ export default function ColorBends({
       const clearColor = typeof bgColor === "string" && bgColor.trim() ? bgColor.trim() : "#000000";
       renderer.setClearColor(transparent ? "#000000" : clearColor, transparent ? 0 : 1);
     }
-  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor]);
+  }, [rotation, autoRotate, speed, scale, frequency, warpStrength, thicknessBias, edgeTightness, mouseInfluence, parallax, noise, colors, transparent, bgColor, performanceMode]);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;

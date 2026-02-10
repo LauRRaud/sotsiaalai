@@ -75,6 +75,7 @@ const ConversationView = memo(function ConversationView({
     "bg-transparent border-0 shadow-none isolate overflow-hidden " +
     "w-full max-w-[var(--chat-window-max-w,calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))-clamp(1.4rem,3vw,2.2rem)))] mx-auto " +
     "[transform:translateX(var(--chat-window-shift-x,0rem))] " +
+    "max-[48em]:[--chat-window-curve-x:var(--chat-window-corner)] max-[48em]:[--chat-window-curve-y:var(--chat-window-corner)] " +
     "light:[--chat-arc-rgb:210_214_222] light:[--chat-arc-center-alpha:0.1] light:[--chat-arc-side-alpha:0.24] light:[--chat-arc-mid-alpha:0.09] " +
     "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "max-[48em]:max-w-full";
@@ -91,7 +92,8 @@ const ConversationView = memo(function ConversationView({
     "transition-[padding] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
     "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active))] " +
     "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)+var(--chat-content-top-offset,0rem))] " +
-    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active))]";
+    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active))] " +
+    "max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[mask-composite:add] max-[48em]:[-webkit-mask-composite:source-over]";
   const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
   const scrollButtonClassName =
     "absolute left-1/2 -translate-x-1/2 bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] " +
@@ -109,10 +111,7 @@ const ConversationView = memo(function ConversationView({
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
-          <div
-            aria-hidden="true"
-            className="shrink-0 h-[var(--chat-content-spacer,1.6rem)]"
-          />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[0.08rem]" : "shrink-0 h-[var(--chat-content-spacer,1.6rem)]"} />
 
           {hiddenCount > 0 ? <div className="flex justify-center">
               <button type="button" onClick={onRevealOlder} className={buttonClassName}>
@@ -129,10 +128,7 @@ const ConversationView = memo(function ConversationView({
               </button>
             </div> : null}
 
-          <div
-            aria-hidden="true"
-            className="shrink-0 h-[var(--chat-content-bottom-spacer,0rem)]"
-          />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[0.05rem]" : "shrink-0 h-[var(--chat-content-bottom-spacer,0rem)]"} />
         </div>
         {isMobile && hasConversationSources ? <button
             ref={sourcesButtonRef}

@@ -150,7 +150,7 @@ export default function RightRail({
   }, [t]);
 
   const mobileSlots = useMemo(() => {
-    const order = ["chats", "rooms", "invite", "profile"];
+    const order = ["chats", "rooms", "invite", "sources", "profile"];
     return order.map(key => {
       const itemIndex = items.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -287,7 +287,7 @@ export default function RightRail({
 
   const railClassName = cn(
     styles.rightRail,
-    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-auto max-[48em]:left-0 max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-full max-[48em]:flex max-[48em]:flex-row max-[48em]:items-center max-[48em]:justify-start max-[48em]:gap-[clamp(0.7rem,4vw,1.4rem)] max-[48em]:pt-[0.3rem] max-[48em]:pb-[0.3rem] max-[48em]:pl-[clamp(0.8rem,4vw,1.4rem)] max-[48em]:pr-[clamp(3.2rem,12vw,4.6rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(2.9rem,12vw,3.6rem)] max-[48em]:[--rail-icon-scale:0.8]"
+    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-0 max-[48em]:left-auto max-[48em]:ml-auto max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-auto max-[48em]:flex max-[48em]:flex-row max-[48em]:items-center max-[48em]:justify-end max-[48em]:gap-[clamp(0.52rem,2.8vw,0.92rem)] max-[48em]:pt-[0.3rem] max-[48em]:pb-[0.3rem] max-[48em]:pl-[clamp(0.4rem,2vw,0.7rem)] max-[48em]:pr-[clamp(0.7rem,3.4vw,1rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(2.9rem,12vw,3.6rem)] max-[48em]:[--rail-icon-scale:0.8]"
   );
 
   const mobileItemClassName =
@@ -416,7 +416,7 @@ export default function RightRail({
         const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.4rem]" : null)} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : <AllikadDark className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={cn(styles.iconImg, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={styles.iconImg} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={styles.iconImg} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
+              {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : <AllikadDark className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={cn(styles.iconImg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={cn(styles.iconImg, styles.iconRooms)} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={cn(styles.iconImg, styles.iconInvite)} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {ariaLabel}
               </span>

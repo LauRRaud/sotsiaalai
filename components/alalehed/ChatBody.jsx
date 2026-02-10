@@ -25,13 +25,8 @@ import { clearStaleScrollLock } from "@/lib/scrollLock";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import CloseButton from "@/components/ui/CloseButton";
-import { glassPageBackClassName, glassPageCloseClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
-const chatTitleClassName =
-  "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
-  "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(0.45rem,1.6vh,1rem)] " +
-  "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const chatNoteClassName = "mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c] self-center text-center mx-auto w-full max-w-[min(38rem,100%)]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
@@ -692,6 +687,12 @@ export default function ChatBody({
         "max-[48em]:[--chat-nav-top:clamp(2.8rem,11vw,4.2rem)] " +
         "max-[48em]:[--chat-pad-top:clamp(0.75rem,2vh,1.1rem)] " +
         "max-[48em]:[--chat-pad-bottom:clamp(0.5rem,1.8vh,0.9rem)] " +
+        "max-[48em]:[--chat-window-top-offset:0rem] max-[48em]:[--chat-window-bottom-gap:0rem] " +
+        "max-[48em]:[--chat-window-pad-top:clamp(0.32rem,1vh,0.65rem)] " +
+        "max-[48em]:[--chat-window-pad-bottom:calc(env(safe-area-inset-bottom,0px)+3.75rem+var(--keyboard-offset,0px))] " +
+        "max-[48em]:[--chat-window-top-safe:calc(env(safe-area-inset-top,0px)+2.7rem)] " +
+        "max-[48em]:[--chat-window-bottom-safe:0rem] max-[48em]:[--chat-window-fade-top:0rem] max-[48em]:[--chat-window-fade-bottom:0rem] " +
+        "max-[48em]:[--chat-content-top-offset:0rem] max-[48em]:[--chat-content-spacer:0.08rem] max-[48em]:[--chat-content-bottom-spacer:0.05rem] " +
         "max-[48em]:[--chat-logo-height:clamp(9rem,52vw,18rem)] " +
         "max-[48em]:[--chat-logo-y:clamp(3.6rem,24vh,9.4rem)] " +
         "max-[48em]:[--chat-input-shift:0rem] " +
@@ -737,14 +738,9 @@ export default function ChatBody({
                           <BackButton
                             onClick={handleBackHome}
                             ariaLabel={t("chat.back_to_home")}
-                            className={cn(glassPageBackClassName, "chat-back-button pointer-events-auto")}
+                            className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto")}
                           />
                         </div>
-                        {isMobile ? <CloseButton
-                            onClick={handleBackHome}
-                            ariaLabel={t("chat.back_to_home")}
-                            className={cn(glassPageCloseClassName, "chat-mobile-close chat-mobile-close--top-right")}
-                          /> : null}
                       </> : null}
 
                 <RightRail
@@ -763,7 +759,6 @@ export default function ChatBody({
                   suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay"}
                 />
 
-                <div className={chatTitleClassName} aria-hidden="true" />
                 {isRoomMode && roomTitle ? <div className="text-center mt-[-0.6rem] mb-[0.9rem] text-[1.25rem] text-[color:var(--pt-200)] tracking-[0.02em]">
                     {roomTitle}
                   </div> : null}

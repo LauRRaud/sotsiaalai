@@ -23,6 +23,9 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] flex-col gap-4 text-center";
+const subscriptionActionClassName =
+  "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
+  "max-[48em]:min-w-0 max-[48em]:px-[1.2rem] max-[48em]:py-[0.74rem] max-[48em]:text-[1.08rem]";
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -105,7 +108,7 @@ export default function TellimusBody() {
                 <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
               </p>
               <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
-                <Button as="a" href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} variant="primary" className="min-w-[9.5rem]" aria-describedby="cancel-note">
+                <Button as="a" href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note">
                   {t("subscription.button.open_profile")}
                 </Button>
               </div>
@@ -117,7 +120,7 @@ export default function TellimusBody() {
                   {error}
                 </p>}
               <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
-                <Button type="button" variant="primary" className="min-w-[9.5rem]" disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
+                <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>
               </div>
