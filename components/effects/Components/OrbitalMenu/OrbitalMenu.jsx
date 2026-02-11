@@ -63,6 +63,12 @@ export default function OrbitalMenu({
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
   const [stackFocusIndex, setStackFocusIndex] = useState(null);
+  const closeMenu = useCallback(() => {
+    setIsPinnedOpen(false);
+    requestAnimationFrame(() => {
+      hubBtnRef.current?.focus?.();
+    });
+  }, []);
   const stackItems = useMemo(() => {
     if (!useMobileStack) return items;
     if (!mobileBackItem) return items;
@@ -146,10 +152,10 @@ export default function OrbitalMenu({
     const handlePointerDown = event => {
       const root = rootRef.current;
       if (!root) return;
-      if (!root.contains(event.target)) setIsPinnedOpen(false);
+      if (!root.contains(event.target)) closeMenu();
     };
     const handleKeyDown = event => {
-      if (event.key === "Escape") setIsPinnedOpen(false);
+      if (event.key === "Escape") closeMenu();
     };
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
@@ -157,7 +163,7 @@ export default function OrbitalMenu({
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [closeMenu, isOpen]);
   useEffect(() => {
     if (typeof document === "undefined") return;
     const html = document.documentElement;
@@ -487,7 +493,7 @@ export default function OrbitalMenu({
   }, []);
   const onMobileAction = item => {
     item?.onClick?.();
-    if (!item?.keepOpen) setIsPinnedOpen(false);
+    if (!item?.keepOpen) closeMenu();
   };
   const desktopAngleStep = useMemo(() => items.length ? 360 / items.length : 0, [items.length]);
   const desktopStartAngle = -90;
@@ -508,7 +514,7 @@ export default function OrbitalMenu({
     )}
     >
       {}
-      {useOrbitLayout && <div className={cn("profile-orbit-menu__items absolute inset-0", isOpen ? "pointer-events-auto" : "pointer-events-none")} role="group" aria-label={ariaLabel} id={menuId} aria-hidden={!isOpen}>
+      {useOrbitLayout && <div className={cn("profile-orbit-menu__items absolute inset-0", isOpen ? "pointer-events-auto" : "pointer-events-none")} role="group" aria-label={ariaLabel} id={menuId} inert={isOpen ? undefined : true}>
           {items.map((item, index) => {
         const angle = desktopStartAngle + index * desktopAngleStep;
         const angleRad = angle * Math.PI / 180;
@@ -523,10 +529,10 @@ export default function OrbitalMenu({
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
           "--label-gap-side": item.key === "theme" || item.key === "delete" ? "0.08rem" : undefined
-        }} aria-hidden={!isOpen}>
+        }}>
                 <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={() => {
             item.onClick?.();
-            if (!item.keepOpen) setIsPinnedOpen(false);
+            if (!item.keepOpen) closeMenu();
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
                   <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:h-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
@@ -550,10 +556,10 @@ export default function OrbitalMenu({
 
       {}
       {useMobileOverlay && isOpen && <div className="invite-modal-backdrop profile-orbit-mobile-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
-      if (e.target === e.currentTarget) setIsPinnedOpen(false);
+      if (e.target === e.currentTarget) closeMenu();
     }}>
           <div className="invite-modal profile-orbit-mobile-panel relative isolate overflow-hidden w-screen max-w-screen h-[100dvh] max-h-[100dvh] rounded-none flex flex-col p-0 pt-[calc(env(safe-area-inset-top,0px)+0.95rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.95rem)]" onPointerDown={e => e.stopPropagation()}>
-            <button ref={overlayCloseBtnRef} type="button" onClick={() => setIsPinnedOpen(false)} aria-label={toggleLabelClose} className="invite-modal__close modal-close-btn profile-orbit-mobile-close absolute top-[0.55rem] right-[0.65rem] z-[6] grid place-items-center w-[2.85rem] h-[2.85rem] p-0 m-0 !bg-transparent !border-0 !shadow-none leading-none text-[2.2rem] opacity-90 transition-[opacity,transform] duration-[160ms] ease-out [transform:translateZ(0)]">
+            <button ref={overlayCloseBtnRef} type="button" onClick={closeMenu} aria-label={toggleLabelClose} className="invite-modal__close modal-close-btn profile-orbit-mobile-close absolute top-[0.55rem] right-[0.65rem] z-[6] grid place-items-center w-[2.85rem] h-[2.85rem] p-0 m-0 !bg-transparent !border-0 !shadow-none leading-none text-[2.2rem] opacity-90 transition-[opacity,transform] duration-[160ms] ease-out [transform:translateZ(0)]">
               &times;
             </button>
 
@@ -605,7 +611,7 @@ export default function OrbitalMenu({
 
       {}
       {useMobileStack && isOpen && <div className="profile-orbit-stack-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
-      if (e.target === e.currentTarget) setIsPinnedOpen(false);
+      if (e.target === e.currentTarget) closeMenu();
     }}>
           <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--top" aria-hidden="true" />

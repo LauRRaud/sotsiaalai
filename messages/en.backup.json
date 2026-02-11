@@ -193,6 +193,7 @@
     "save": "Save",
     "logout": "Sign out",
     "back_to_chat": "Back to chat",
+    "actions_label": "Profile actions",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
     "deleting": "Deleting",
     "delete_account": "Delete account",

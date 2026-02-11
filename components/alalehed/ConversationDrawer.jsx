@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { cn } from "@/components/ui/cn";
@@ -14,18 +14,73 @@ export default function ConversationDrawer({
   const closeBtnRef = useRef(null);
   const overlayRef = useRef(null);
   const drawerRootRef = useRef(null);
+  const openRef = useRef(false);
+  const lastOpenerRef = useRef(null);
   const headerIdRef = useRef(`drawer-title-${Math.random().toString(36).slice(2, 8)}`);
   const {
     t
   } = useI18n();
+  const parkFocusOutsidePanel = () => {
+    if (typeof document === "undefined") return;
+    const panel = panelRef.current;
+    const active = document.activeElement;
+    if (!panel || !(active instanceof HTMLElement) || !panel.contains(active)) return;
+    try {
+      active.blur();
+    } catch {}
+    const root = drawerRootRef.current;
+    if (!(root instanceof HTMLElement) || typeof root.focus !== "function") return;
+    const hadTabIndex = root.hasAttribute("tabindex");
+    if (!hadTabIndex) root.setAttribute("tabindex", "-1");
+    try {
+      root.focus({
+        preventScroll: true
+      });
+    } catch {
+      try {
+        root.focus();
+      } catch {}
+    }
+    if (!hadTabIndex) root.removeAttribute("tabindex");
+  };
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
   useEffect(() => {
     function onToggle(e) {
       const want = e?.detail?.open;
-      setOpen(prev => typeof want === "boolean" ? want : !prev);
+      const next = typeof want === "boolean" ? want : !openRef.current;
+      if (next) {
+        const active = document.activeElement;
+        lastOpenerRef.current = active instanceof HTMLElement ? active : null;
+        setOpen(true);
+        return;
+      }
+      parkFocusOutsidePanel();
+      setOpen(false);
     }
     window.addEventListener("sotsiaalai:toggle-conversations", onToggle);
     return () => window.removeEventListener("sotsiaalai:toggle-conversations", onToggle);
   }, []);
+  useEffect(() => {
+    if (open) return;
+    const opener = lastOpenerRef.current;
+    if (!(opener instanceof HTMLElement) || !opener.isConnected || typeof opener.focus !== "function") {
+      return;
+    }
+    const id = window.setTimeout(() => {
+      try {
+        opener.focus({
+          preventScroll: true
+        });
+      } catch {
+        try {
+          opener.focus();
+        } catch {}
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [open]);
   useEffect(() => {
     if (typeof document === "undefined") return undefined;
     let root = document.querySelector('[data-conversation-drawer-root="true"]');
@@ -76,6 +131,21 @@ export default function ConversationDrawer({
     if (!portalRoot) return;
     const siblings = Array.from(document.body.children).filter(el => el !== portalRoot);
     if (open) {
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && siblings.some(el => el.contains(active))) {
+        const target = closeBtnRef.current || panelRef.current;
+        if (target && typeof target.focus === "function") {
+          try {
+            target.focus({
+              preventScroll: true
+            });
+          } catch {
+            try {
+              target.focus();
+            } catch {}
+          }
+        }
+      }
       for (const el of siblings) {
         try {
           el.setAttribute("aria-hidden", "true");
@@ -101,6 +171,7 @@ export default function ConversationDrawer({
     function onKeydown(e) {
       if (e.key === "Escape") {
         e.stopPropagation();
+        parkFocusOutsidePanel();
         setOpen(false);
         return;
       }
@@ -136,7 +207,10 @@ export default function ConversationDrawer({
     const timer = setTimeout(() => toFocus?.focus(), 0);
     return () => clearTimeout(timer);
   }, [open]);
-  const close = useCallback(() => setOpen(false), []);
+  const close = () => {
+    parkFocusOutsidePanel();
+    setOpen(false);
+  };
   if (!drawerRoot) return null;
   const overlayClassName =
     "drawer-overlay fixed inset-0 z-[130] bg-transparent [-webkit-backdrop-filter:none] [backdrop-filter:none]";

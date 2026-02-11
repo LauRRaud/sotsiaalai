@@ -64,8 +64,8 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
-  "group relative grid place-items-center h-[4.5rem] w-[4.5rem] max-[48em]:h-[4.5rem] max-[48em]:w-[4.5rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
-const logoutIconClassName = "h-[3.7rem] w-[3.7rem] max-[48em]:h-[3.7rem] max-[48em]:w-[3.7rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
+  "group relative grid place-items-center h-[4.5rem] w-[4.5rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[3.7rem] w-[3.7rem] max-[48em]:h-[3.85rem] max-[48em]:w-[3.85rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
@@ -73,8 +73,8 @@ const logoutLabelClassName =
 const profileBackButtonClassName =
   `${glassPageBackMobileCornerClassName} ` +
   "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-0 " +
-  "max-[48em]:!h-[5.7rem] max-[48em]:!w-[5.7rem] " +
-  "max-[48em]:[&>span]:!h-[5.7rem] max-[48em]:[&>span]:!w-[5.7rem]";
+  "max-[48em]:!h-[6.05rem] max-[48em]:!w-[6.05rem] " +
+  "max-[48em]:[&>svg]:!h-[6.05rem] max-[48em]:[&>svg]:!w-[6.05rem]";
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none " +
   "max-[48em]:flex max-[48em]:items-end max-[48em]:justify-between " +
@@ -83,7 +83,7 @@ const profileNavOverlayClassName =
   "max-[48em]:pb-[calc(env(safe-area-inset-bottom,0px)+4.35rem)]";
 const profileLogoutWrapClassName =
   `${glassPageBackRightClassName} pointer-events-auto translate-x-[-0.68rem] ` +
-  "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-0";
+  "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-[-0.18rem]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";

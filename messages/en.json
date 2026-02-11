@@ -32,7 +32,9 @@
     "refresh": "Refresh",
     "delete": "Delete",
     "confirm": "Confirm",
-    "submit": "Submit"
+    "submit": "Submit",
+    "expand": "Expand",
+    "collapse": "Collapse"
   },
   "symbols": {
     "question": "?",
@@ -193,6 +195,7 @@
     "save": "Save",
     "logout": "Sign out",
     "back_to_chat": "Back to chat",
+    "actions_label": "Profile actions",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
     "deleting": "Deleting",
     "delete_account": "Delete account",
@@ -418,6 +421,8 @@
       "open": "Open conversations",
       "label": "Conversations"
     },
+    "right_rail": "Chat shortcuts",
+    "show_quick_actions": "Show shortcuts",
     "sidebar": {
       "error": {
         "load": "Failed to load conversations.",
@@ -634,8 +639,12 @@
   "pwa": {
     "heading": "Want the platform as an app?",
     "cta": "Install on mobile or desktop",
+    "cta_mobile": "Install on mobile",
+    "cta_desktop": "Install on desktop",
     "instructions": {
       "ios": "iPhone/iPad: open Safari, tap Share and Add to Home Screen.",
+      "android": "Android: open the browser menu and choose \"Add to Home screen\".",
+      "desktop": "Open the browser menu and choose install.",
       "mac": "Mac: open Safari and choose File and Add to Dock."
     }
   },

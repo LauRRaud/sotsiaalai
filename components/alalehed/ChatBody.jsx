@@ -27,6 +27,7 @@ import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
+import { ShowRailIcon } from "@/components/ui/icons/ChatIcons";
 const chatNoteClassName = "mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c] self-center text-center mx-auto w-full max-w-[min(38rem,100%)]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
@@ -64,6 +65,11 @@ export default function ChatBody({
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
+  const [mobileRailVisible, setMobileRailVisible] = useState(false);
+  const [mobileRailInteractionLocked, setMobileRailInteractionLocked] = useState(false);
+  const mobileModeRef = useRef(null);
+  const mobileRailShowTimerRef = useRef(0);
+  const mobileRailUnlockTimerRef = useRef(0);
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
@@ -73,7 +79,25 @@ export default function ChatBody({
   useEffect(() => {
     const update = () => {
       if (typeof window === "undefined") return;
-      setIsMobile(window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768);
+      const nextIsMobile = window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
+      setIsMobile(nextIsMobile);
+      setMobileRailVisible(prev => {
+        const prevMode = mobileModeRef.current;
+        if (prevMode === null || prevMode !== nextIsMobile) {
+          mobileModeRef.current = nextIsMobile;
+          if (mobileRailShowTimerRef.current) {
+            window.clearTimeout(mobileRailShowTimerRef.current);
+            mobileRailShowTimerRef.current = 0;
+          }
+          if (mobileRailUnlockTimerRef.current) {
+            window.clearTimeout(mobileRailUnlockTimerRef.current);
+            mobileRailUnlockTimerRef.current = 0;
+          }
+          setMobileRailInteractionLocked(false);
+          return nextIsMobile ? false : true;
+        }
+        return prev;
+      });
     };
     update();
     if (typeof window === "undefined") return;
@@ -526,6 +550,26 @@ export default function ChatBody({
       }, 220);
     }
   }, [onBackHome, router]);
+  const showMobileRail = useCallback(() => {
+    if (mobileRailInteractionLocked) return;
+    setMobileRailInteractionLocked(true);
+    if (mobileRailShowTimerRef.current) {
+      window.clearTimeout(mobileRailShowTimerRef.current);
+      mobileRailShowTimerRef.current = 0;
+    }
+    mobileRailShowTimerRef.current = window.setTimeout(() => {
+      setMobileRailVisible(true);
+      mobileRailShowTimerRef.current = 0;
+    }, 140);
+    if (mobileRailUnlockTimerRef.current) {
+      window.clearTimeout(mobileRailUnlockTimerRef.current);
+      mobileRailUnlockTimerRef.current = 0;
+    }
+    mobileRailUnlockTimerRef.current = window.setTimeout(() => {
+      setMobileRailInteractionLocked(false);
+      mobileRailUnlockTimerRef.current = 0;
+    }, 620);
+  }, [mobileRailInteractionLocked]);
   const handleComposerFocus = useCallback(() => {
     setInputFocused(true);
     if (!isMobile) return;
@@ -568,6 +612,14 @@ export default function ChatBody({
     return () => {
       if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
       if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
+      if (mobileRailShowTimerRef.current) {
+        window.clearTimeout(mobileRailShowTimerRef.current);
+        mobileRailShowTimerRef.current = 0;
+      }
+      if (mobileRailUnlockTimerRef.current) {
+        window.clearTimeout(mobileRailUnlockTimerRef.current);
+        mobileRailUnlockTimerRef.current = 0;
+      }
     };
   }, []);
   useEffect(() => {
@@ -751,8 +803,24 @@ export default function ChatBody({
                     {!profileOpen ? <BackButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
-                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!fixed max-[48em]:!z-[220]")}
+                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!fixed max-[48em]:!z-[220] max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.34rem)]")}
                       /> : null}
+                    {!profileOpen && isMobile && !mobileRailVisible ? <button
+                        type="button"
+                        onPointerDown={event => {
+                event.stopPropagation();
+              }}
+                        onClick={event => {
+                event.preventDefault();
+                event.stopPropagation();
+                showMobileRail();
+              }}
+                        disabled={mobileRailInteractionLocked}
+                        aria-label={t("chat.show_quick_actions", "Näita otseteid")}
+                        className="chat-rail-show-btn pointer-events-auto touch-manipulation fixed z-[221] top-[calc(env(safe-area-inset-top,0px)+0.69rem)] left-[calc(env(safe-area-inset-left,0px)+5.15rem)] h-[3.58rem] w-[3.58rem] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
+                      >
+                        <ShowRailIcon isLightTheme={isLightTheme} className="h-[2.95rem] w-[2.95rem]" />
+                      </button> : null}
 
                 <RightRail
                   t={t}
@@ -767,7 +835,8 @@ export default function ChatBody({
                   hasConversationSources={hasConversationSources}
                   onProfileToggle={toggleProfile}
                   embedded={embedded}
-                  suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay"}
+                  suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked}
+                  mobileVisible={mobileRailVisible}
                 />
 
                 {isRoomMode && roomTitle ? <div className="text-center mt-[-0.6rem] mb-[0.9rem] text-[1.25rem] text-[color:var(--pt-200)] tracking-[0.02em]">
@@ -833,3 +902,4 @@ export default function ChatBody({
       </div>
     </>;
 }
+

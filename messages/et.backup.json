@@ -193,6 +193,7 @@
     "save": "Salvesta",
     "logout": "Logi välja",
     "back_to_chat": "Tagasi vestlusesse",
+    "actions_label": "Profiili toimingud",
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",

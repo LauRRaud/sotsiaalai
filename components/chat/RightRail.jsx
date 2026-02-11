@@ -21,7 +21,8 @@ export default function RightRail({
   hasConversationSources,
   onProfileToggle,
   embedded = false,
-  suspendPointerEvents = false
+  suspendPointerEvents = false,
+  mobileVisible = true
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -33,7 +34,6 @@ export default function RightRail({
   const lastStepRef = useRef(0);
 
   const [activeIndex, setActiveIndex] = useState(1);
-  const [armedIndex, setArmedIndex] = useState(null);
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
@@ -41,7 +41,6 @@ export default function RightRail({
   const [isRailHovered, setIsRailHovered] = useState(false);
   const [isRailScrolling, setIsRailScrolling] = useState(false);
   const scrollIdleTimerRef = useRef(0);
-  const armedClearTimerRef = useRef(0);
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,10 +50,6 @@ export default function RightRail({
       if (scrollIdleTimerRef.current) {
         window.clearTimeout(scrollIdleTimerRef.current);
         scrollIdleTimerRef.current = 0;
-      }
-      if (armedClearTimerRef.current) {
-        window.clearTimeout(armedClearTimerRef.current);
-        armedClearTimerRef.current = 0;
       }
     };
   }, []);
@@ -164,12 +159,6 @@ export default function RightRail({
   }, [pathname]);
 
   useEffect(() => {
-    if (!isMobile && armedIndex !== null) {
-      setArmedIndex(null);
-    }
-  }, [armedIndex, isMobile]);
-
-  useEffect(() => {
     if (isMobile) {
       setTooltipRect(null);
       return;
@@ -257,6 +246,16 @@ export default function RightRail({
     return () => rail.removeEventListener("wheel", onWheel);
   }, [isMobile, items.length, stepPx]);
 
+  useEffect(() => {
+    if (!(isMobile && !mobileVisible)) return;
+    const rail = railRef.current;
+    const active = document.activeElement;
+    if (rail && active instanceof HTMLElement && rail.contains(active)) {
+      active.blur();
+    }
+    setIsRailHovered(false);
+  }, [isMobile, mobileVisible]);
+
   const onKeyDown = event => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
     event.preventDefault();
@@ -271,6 +270,9 @@ export default function RightRail({
   const slotClassName = cn(
     styles.slot,
     "chat-right-actions",
+    styles.mobileRailTransition,
+    !mobileVisible ? styles.mobileRailHidden : null,
+    mobileVisible ? styles.mobileRailVisible : null,
     suspendPointerEvents ? styles.pointerBlocked : null,
     "max-[48em]:absolute max-[48em]:top-[calc(var(--hud-edge-safe,env(safe-area-inset-top,0px))+0.85rem)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
   );
@@ -290,7 +292,7 @@ export default function RightRail({
     "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-hidden max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
 
   return <div className={slotClassName}>
-      <nav className={railClassName} ref={railRef} tabIndex={0} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onMouseEnter={() => setIsRailHovered(true)} onMouseLeave={() => setIsRailHovered(false)} onFocusCapture={() => setIsRailHovered(true)} onBlurCapture={event => {
+      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onMouseEnter={() => setIsRailHovered(true)} onMouseLeave={() => setIsRailHovered(false)} onFocusCapture={() => setIsRailHovered(true)} onBlurCapture={event => {
       const next = event.relatedTarget;
       const rail = railRef.current;
       if (rail && next instanceof Node && rail.contains(next)) return;
@@ -334,13 +336,11 @@ export default function RightRail({
           }
         };
 
-        const isArmed = isMobile && armedIndex === itemIndex;
         const commonProps = {
           ref: setRailRef,
           className: cn(
             styles.item,
             !isMobile && slotOffset === 0 ? styles.isActive : null,
-            isArmed ? styles.isArmed : null,
             it?.key === "sources" && showSourcesPanel ? styles.iconBtnActive : null,
             it?.key === "sources" && sourcesPulse ? styles.isPulse : null,
             mobileItemClassName
@@ -354,25 +354,7 @@ export default function RightRail({
 
         const onActivate = event => {
           if (!it) return;
-          if (isMobile) {
-            if (armedIndex !== itemIndex) {
-              setArmedIndex(itemIndex);
-              if (armedClearTimerRef.current) {
-                window.clearTimeout(armedClearTimerRef.current);
-                armedClearTimerRef.current = 0;
-              }
-              armedClearTimerRef.current = window.setTimeout(() => {
-                setArmedIndex(prev => (prev === itemIndex ? null : prev));
-                armedClearTimerRef.current = 0;
-              }, 3200);
-              return;
-            }
-            if (armedClearTimerRef.current) {
-              window.clearTimeout(armedClearTimerRef.current);
-              armedClearTimerRef.current = 0;
-            }
-            setArmedIndex(null);
-          } else {
+          if (!isMobile) {
             setActiveIndex(itemIndex);
           }
 

@@ -90,13 +90,6 @@ export default async function RootLayout({
   return <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" ? "theme-light" : ""}`.trim()} suppressHydrationWarning>
       <head>
         {}
-        <link rel="preload" as="image" href="/logo/aivalge.svg" />
-        <link rel="preload" as="image" href="/logo/saimust.svg" />
-        <link rel="preload" as="image" href="/logo/smust.svg" />
-        <link rel="preload" as="image" href="/logo/saivalge.svg" />
-        <link rel="preload" as="image" href="/logo/logomust.svg" />
-        <link rel="preload" as="image" href="/logo/tagasinupp.svg" />
-        {}
       </head>
       <body className="app-root">
         <Providers initialLocale={locale} messages={messages} session={session} initialA11yPrefs={initialA11yPrefs}>

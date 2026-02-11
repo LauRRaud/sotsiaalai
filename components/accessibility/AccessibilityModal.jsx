@@ -14,7 +14,7 @@ const modalBackdropClassName =
 const modalRootClassName =
   "fixed left-1/2 top-1/2 z-[50] w-[min(680px,96vw)] max-h-[calc(100dvh-2.5rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.5rem] border-0 bg-[var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-[var(--glass-shell-shadow,none)] light:[--glass-shell-shadow:0_18px_40px_rgba(0,0,0,0.16)] backdrop-blur-[var(--glass-blur-radius,1rem)] p-[2.4rem_2rem_2rem] text-[1.05rem] leading-[1.35] flex flex-col items-center text-center gap-4 outline-none";
 const modalRootMobileClassName =
-  "max-[48em]:left-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-left,0px))] max-[48em]:right-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-right,0px))] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-auto max-[48em]:h-auto max-[48em]:max-w-none max-[48em]:max-h-none max-[48em]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2.4rem)_0_calc(env(safe-area-inset-bottom,0px)+1.4rem)] max-[48em]:text-[1.26rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.15rem)]";
+  "max-[48em]:left-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-left,0px))] max-[48em]:right-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-right,0px))] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-auto max-[48em]:h-auto max-[48em]:max-w-none max-[48em]:max-h-none max-[48em]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2.4rem)_0_calc(env(safe-area-inset-bottom,0px)+1.4rem)] max-[48em]:text-[1.26rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.55rem)] max-[48em]:[--glass-surface-bg:rgba(8,12,22,0.72)] max-[48em]:light:[--glass-surface-bg:rgba(255,255,255,0.92)]";
 const modalRootDesktopClassName =
   "glass-ring--desktop-stable min-[48.0625em]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[48.0625em]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,1.5rem)))] min-[48.0625em]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,1.5rem))-var(--ring-ui-reserve,9rem))] min-[48.0625em]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[48.0625em]:[--ring-max:min(var(--ring-desktop-max,55rem),calc(var(--ring-base-max,50rem)*var(--ring-scale,1)))] min-[48.0625em]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,34rem),var(--ring-fit)))] min-[48.0625em]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:rounded-full min-[48.0625em]:overflow-hidden min-[48.0625em]:px-[1.35rem]";
 const scrollAreaClassName =
@@ -26,21 +26,24 @@ const fieldsetClassName =
 const legendClassName =
   "block w-full text-center mb-[0.38rem] mt-[0.2rem] max-[48em]:mb-[0.46rem] text-[color:var(--link-gold,#d0adad)] text-[clamp(1.3rem,3.1vw,1.85rem)] max-[48em]:text-[clamp(1.75rem,6.8vw,2.4rem)] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400] tracking-[0.02em] leading-[1.2] max-[48em]:leading-[1.12]";
 const languageLegendClassName = "";
-const languageFieldsetClassName = "max-[48em]:!pt-[1.42rem]";
+const languageFieldsetClassName = "a11y-language-fieldset max-[48em]:!pt-[1.42rem]";
+const languageFieldsetSingleRowSpacingClassName = "max-[48em]:!pb-[4.9rem]";
+const languageFieldsetWrappedSpacingClassName = "max-[48em]:!pb-[1.45rem] max-[48em]:!min-h-[12.1rem]";
 const languageShiftClassName = "";
-const languageOptionsClassName = "flex-nowrap";
+const languageOptionsClassName = "flex-nowrap max-[48em]:flex-wrap";
 const languageOptionLabelClassName =
   "text-[clamp(1.04rem,2.55vw,1.16rem)] max-[48em]:text-[clamp(1.14rem,4.6vw,1.36rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.8rem_1.05rem] max-[48em]:gap-[1.26rem_1.3rem] w-full max-w-[42rem] mx-auto";
 const textScaleFieldsetClassName = "a11y-textscale-fieldset max-[48em]:!pt-[1.42rem] max-[48em]:!pb-[1.55rem] max-[48em]:!min-h-[11.8rem]";
+const textScaleAfterSingleLanguageClassName = "max-[48em]:!pt-[1.42rem]";
 const textScaleLegendClassName = "";
 const textScaleOptionsClassName = "a11y-textscale-options mt-0 flex-nowrap max-[48em]:flex-wrap max-[48em]:mb-[0rem]";
 const textScaleOptionsDesktopTightClassName = "min-[48.0625em]:gap-[0.55rem] min-[48.0625em]:justify-center";
-const contrastFieldsetClassName = "a11y-contrast-fieldset max-[48em]:!pt-[0rem] max-[48em]:!-mt-[0.3rem]";
+const contrastFieldsetClassName = "a11y-contrast-fieldset max-[48em]:!pt-[0rem]";
 const contrastLegendClassName = "";
 const contrastOptionsClassName = "";
-const motionFieldsetClassName = "max-[48em]:!pt-[1.22rem]";
+const motionFieldsetClassName = "a11y-motion-fieldset max-[48em]:!pt-[1.22rem] max-[48em]:!mt-[0.45rem]";
 const motionLegendClassName = "";
 const contrastShiftClassName = "";
 const motionShiftClassName = "";
@@ -60,6 +63,8 @@ export default function AccessibilityModal({
   const boxRef = useRef(null);
   const firstFocusRef = useRef(null);
   const scrollRef = useRef(null);
+  const languageOptionsRef = useRef(null);
+  const contrastOptionsRef = useRef(null);
   const {
     t,
     locale,
@@ -72,6 +77,8 @@ export default function AccessibilityModal({
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
   const [lang, setLang] = useState(locale || "et");
   const [scrollPad, setScrollPad] = useState(0);
+  const [languageWraps, setLanguageWraps] = useState(false);
+  const [contrastWraps, setContrastWraps] = useState(false);
   const padOffset = 36;
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
@@ -203,6 +210,52 @@ export default function AccessibilityModal({
     scrollEl.addEventListener("focusin", onFocusIn);
     return () => scrollEl.removeEventListener("focusin", onFocusIn);
   }, [reduceMotion]);
+  useEffect(() => {
+    const host = languageOptionsRef.current;
+    if (!host || typeof window === "undefined") return;
+    const detectWrap = () => {
+      const options = Array.from(host.querySelectorAll("label,button")).filter(Boolean);
+      if (options.length < 2) {
+        setLanguageWraps(false);
+        return;
+      }
+      const tops = options.map(node => node.offsetTop || 0);
+      const firstTop = Math.min(...tops);
+      const wraps = tops.some(top => top > firstTop + 6);
+      setLanguageWraps(prev => prev === wraps ? prev : wraps);
+    };
+    detectWrap();
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(detectWrap) : null;
+    ro?.observe(host);
+    window.addEventListener("resize", detectWrap);
+    return () => {
+      ro?.disconnect?.();
+      window.removeEventListener("resize", detectWrap);
+    };
+  }, [lang, locale]);
+  useEffect(() => {
+    const host = contrastOptionsRef.current;
+    if (!host || typeof window === "undefined") return;
+    const detectWrap = () => {
+      const options = Array.from(host.querySelectorAll("label,button")).filter(Boolean);
+      if (options.length < 2) {
+        setContrastWraps(false);
+        return;
+      }
+      const tops = options.map(node => node.offsetTop || 0);
+      const firstTop = Math.min(...tops);
+      const wraps = tops.some(top => top > firstTop + 6);
+      setContrastWraps(prev => prev === wraps ? prev : wraps);
+    };
+    detectWrap();
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(detectWrap) : null;
+    ro?.observe(host);
+    window.addEventListener("resize", detectWrap);
+    return () => {
+      ro?.disconnect?.();
+      window.removeEventListener("resize", detectWrap);
+    };
+  }, [lang, locale]);
   const stopInside = e => e.stopPropagation();
   const save = async () => {
     onSave?.({
@@ -284,11 +337,11 @@ export default function AccessibilityModal({
         "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
         "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
-          <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${getItemClassName(0)}`}>
+          <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getItemClassName(0)}`}>
             <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>
               {t("accessibility.language")}
             </legend>
-            <div className={`${optionsRowClassName} ${languageOptionsClassName} ${languageShiftClassName}`.trim()}>
+            <div ref={languageOptionsRef} className={`${optionsRowClassName} ${languageOptionsClassName} ${languageShiftClassName}`.trim()}>
               <OptionCard
                 inputRef={firstFocusRef}
                 type="radio"
@@ -323,7 +376,7 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${textScaleFieldsetClassName} ${getItemClassName(1)}`}>
+          <fieldset className={`${fieldsetClassName} ${textScaleFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getItemClassName(1)}`}>
             <legend className={`${legendClassName} ${textScaleLegendClassName}`.trim()}>
               {t("accessibility.text_scale")}
             </legend>
@@ -343,11 +396,11 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${contrastFieldsetClassName} ${getItemClassName(2)}`}>
+          <fieldset className={`${fieldsetClassName} ${contrastFieldsetClassName} ${contrastWraps ? "max-[48em]:!pb-[3.1rem] max-[48em]:!min-h-[12.4rem]" : ""} ${getItemClassName(2)}`}>
             <legend className={`${legendClassName} ${contrastLegendClassName} ${contrastShiftClassName}`.trim()}>
               {t("accessibility.contrast")}
             </legend>
-            <div className={`${optionsRowClassName} ${contrastOptionsClassName} ${contrastShiftClassName}`.trim()}>
+            <div ref={contrastOptionsRef} className={`${optionsRowClassName} ${contrastOptionsClassName} ${contrastShiftClassName}`.trim()}>
               <OptionCard type="radio" name="ct" value="normal" checked={contrast === "normal"} onChange={() => setContrast("normal")} className={optionCardClassName}>
                 <span>{t("accessibility.options.contrast.normal")}</span>
               </OptionCard>
@@ -369,7 +422,7 @@ export default function AccessibilityModal({
             </OptionCard>
           </fieldset>
 
-          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[0.8rem] max-[48em]:translate-y-[-0.75rem]`}>
+          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[1.1rem] max-[48em]:translate-y-0`}>
               <Button
               type="button"
               variant="primary"

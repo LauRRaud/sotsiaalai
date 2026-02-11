@@ -32,7 +32,9 @@
     "refresh": "Värskenda",
     "delete": "Kustuta",
     "confirm": "Kinnita",
-    "submit": "Saada"
+    "submit": "Saada",
+    "expand": "Laienda",
+    "collapse": "Ahenda"
   },
   "symbols": {
     "question": "?",
@@ -193,6 +195,7 @@
     "save": "Salvesta",
     "logout": "Logi välja",
     "back_to_chat": "Tagasi vestlusesse",
+    "actions_label": "Profiili toimingud",
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
@@ -418,6 +421,8 @@
       "open": "Ava vestlused",
       "label": "Vestlused"
     },
+    "right_rail": "Vestluse otseteed",
+    "show_quick_actions": "Näita otseteid",
     "sidebar": {
       "error": {
         "load": "Vestluste laadimine ebaõnnestus.",
@@ -634,8 +639,12 @@
   "pwa": {
     "heading": "Soovid platvormi eraldi rakendusena?",
     "cta": "Paigalda mobiili või arvutisse",
+    "cta_mobile": "Paigalda mobiili",
+    "cta_desktop": "Paigalda arvutisse",
     "instructions": {
       "ios": "iPhone/iPad: Ava Safari, vali Jaga (ekraani ülaservas) → Lisa avalehele.",
+      "android": "Android: Ava brauseri menüü ja vali \"Add to Home screen\".",
+      "desktop": "Ava brauseri menüü ja vali paigaldamine.",
       "mac": "Mac: Ava Safari ja vali menüüst File → Add to Dock…"
     }
   },

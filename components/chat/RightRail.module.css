@@ -11,6 +11,43 @@
   pointer-events: none;
 }
 
+.mobileRailTransition {
+  will-change: opacity, transform;
+  transition:
+    opacity 220ms ease,
+    transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.mobileRailHidden {
+}
+
+.mobileRailVisible {
+}
+
+@media (max-width: 48em) {
+  .navHiddenMobile {
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+
+  .navVisibleMobile {
+    pointer-events: auto !important;
+    visibility: visible !important;
+  }
+
+  .mobileRailHidden {
+    opacity: 0;
+    transform: translateX(-0.55rem);
+    pointer-events: none;
+  }
+
+  .mobileRailVisible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}
+
 .rightRail {
   position: absolute;
   right: calc(var(--glass-edge-right, 0px) + var(--rail-inset, -0.7rem));
@@ -153,7 +190,7 @@
 
 .avatar {
   pointer-events: none;
-  --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.05));
+  --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.08));
   cursor: inherit;
 }
 .isArmed .label {
@@ -261,6 +298,10 @@
 }
 
 @media (max-width: 48em) {
+  .avatar {
+    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) - 0.03));
+  }
+
   .iconBtnActive {
     background: transparent;
     box-shadow: none;
@@ -272,7 +313,7 @@
     isolation: isolate;
     opacity: 0;
     transform: translateY(0.08rem);
-    font-size: clamp(0.9rem, 3.1vw, 1.06rem) !important;
+    font-size: clamp(1rem, 3.4vw, 1.18rem) !important;
     line-height: 1.1 !important;
     max-width: 6.8rem !important;
     min-height: clamp(1.45rem, 4.4vw, 2rem) !important;
@@ -298,8 +339,8 @@
   }
 
   .isArmed .label {
-    opacity: 1 !important;
-    transform: translateY(0);
+    opacity: 0 !important;
+    transform: translateY(0.08rem) !important;
   }
 
   :global(:root.theme-light) .label {
@@ -319,9 +360,15 @@
     transition: transform 160ms ease, opacity 160ms ease;
   }
 
+  .isArmed .iconImg,
+  .isArmed .iconSvg,
+  .isArmed .profileAvatar {
+    transform: none !important;
+  }
+
   .iconSvgSources {
-    width: calc(100% * (var(--rail-icon-scale) - 0.05)) !important;
-    height: calc(100% * (var(--rail-icon-scale) - 0.05)) !important;
+    width: calc(100% * (var(--rail-icon-scale) - 0.09)) !important;
+    height: calc(100% * (var(--rail-icon-scale) - 0.09)) !important;
   }
   .iconChats {
     width: calc(100% * var(--rail-icon-scale)) !important;
@@ -383,7 +430,7 @@
   }
 
   .item.isArmed {
-    transform: scale(1.06) !important;
+    transform: none !important;
   }
 
   .chatIconMobile {

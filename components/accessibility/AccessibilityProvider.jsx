@@ -398,6 +398,26 @@ function AccessibilityProvider({
     const body = document.body;
     if (open) {
       if (main) {
+        const active = document.activeElement;
+        if (active instanceof HTMLElement && main.contains(active)) {
+          const modalRoot = document.querySelector('[role="dialog"][aria-modal="true"]');
+          if (modalRoot instanceof HTMLElement && typeof modalRoot.focus === "function") {
+            try {
+              modalRoot.focus({
+                preventScroll: true
+              });
+            } catch {
+              try {
+                modalRoot.focus();
+              } catch {}
+            }
+          }
+          if (document.activeElement === active) {
+            try {
+              active.blur();
+            } catch {}
+          }
+        }
         main.setAttribute("aria-hidden", "true");
         main.inert = true;
       }

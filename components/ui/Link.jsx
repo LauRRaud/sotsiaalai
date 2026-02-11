@@ -16,10 +16,12 @@ const variantStyles = {
 export default function AppLink({
   variant = "brand",
   className,
+  prefetch = false,
   ...props
 }) {
   return (
     <Link
+      prefetch={prefetch}
       className={cn(baseStyles, variantStyles[variant] ?? variantStyles.brand, className)}
       {...props}
     />

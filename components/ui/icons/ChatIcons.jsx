@@ -193,6 +193,39 @@ export function SourcesIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
+export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
+  const stroke = resolveThemeColor(isLightTheme);
+  return (
+    <svg
+      viewBox="0 0 9.6 8.6"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+      {...props}
+    >
+      <path
+        d="M0.6 0.6L4.2 4.3L0.6 8"
+        fill="none"
+        stroke={stroke}
+        strokeWidth="0.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.9"
+      />
+      <path
+        d="M5.4 0.6L9 4.3L5.4 8"
+        fill="none"
+        stroke={stroke}
+        strokeWidth="0.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.9"
+      />
+    </svg>
+  );
+}
+
 export function PaperclipIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (

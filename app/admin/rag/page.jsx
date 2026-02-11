@@ -39,7 +39,7 @@ export default async function AdminRagPage() {
       </CardTitle>
       <RagAdminClient />
       <div className="flex justify-center">
-        <Link href="/#meist" className={backButtonClassName} aria-label="Tagasi">
+        <Link prefetch={false} href="/#meist" className={backButtonClassName} aria-label="Tagasi">
           <span className={backIconClassName} aria-hidden="true" />
         </Link>
       </div>
