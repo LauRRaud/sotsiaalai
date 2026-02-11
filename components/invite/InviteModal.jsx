@@ -49,9 +49,9 @@ export default function InviteModal() {
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
   const inviteListCardClassName =
-    "rounded-[1rem] !border-0 bg-[rgba(16,22,34,0.4)] " +
-    "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,0_6px_16px_rgba(0,0,0,0.22),0_10px_18px_-14px_rgba(248,253,255,0.72),0_22px_32px_-22px_rgba(248,253,255,0.44))] " +
-    "[.theme-light_&]:bg-[rgba(255,255,255,0.96)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "rounded-[1rem] border-[rgba(248,253,255,0.16)] bg-[rgba(16,22,34,0.4)] " +
+    "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
+    "[.theme-light_&]:border-[color:var(--panel-secondary-border)] [.theme-light_&]:bg-[rgba(255,255,255,0.96)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
