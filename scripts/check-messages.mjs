@@ -41,9 +41,10 @@ const formatList = (items, limit = 20) => {
 };
 
 async function main() {
-  const files = (await fs.readdir(MESSAGES_DIR)).filter(
-    (file) => file.endsWith(".json") && !file.startsWith("backup"),
-  );
+  const files = (await fs.readdir(MESSAGES_DIR)).filter((file) => {
+    if (!file.endsWith(".json")) return false;
+    return !file.endsWith(".backup.json");
+  });
 
   const basePath = path.join(MESSAGES_DIR, `${BASE_LOCALE}.json`);
   if (!files.includes(`${BASE_LOCALE}.json`)) {
