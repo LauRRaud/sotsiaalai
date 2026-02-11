@@ -216,7 +216,7 @@ export default function ConversationDrawer({
     "drawer-overlay fixed inset-0 z-[130] bg-transparent [-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const panelClassName = cn(
     "drawer-panel drawer-panel--chat-glass " +
-      "fixed top-0 bottom-0 left-0 w-[26.5rem] max-w-[90vw] z-[131] overflow-hidden " +
+      "fixed top-0 bottom-0 left-0 w-[22rem] max-w-[78vw] z-[131] overflow-hidden " +
       "bg-transparent border-r-0 shadow-none [-webkit-backdrop-filter:none] [backdrop-filter:none] " +
       "text-[color:var(--pt-100)] [scrollbar-width:none] " +
       "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +

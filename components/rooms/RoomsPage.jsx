@@ -12,7 +12,7 @@ import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const pageShellClassName = `${glassPageShellCenteredClassName} max-md:py-0`;
-const circleClassName = `${glassPageRingCenteredClassName} flex-col gap-4 overflow-auto overflow-x-hidden p-[clamp(1.4rem,3.5vh,2.2rem)] max-[48em]:pt-[clamp(1.2rem,3vh,2rem)]`;
+const circleClassName = `${glassPageRingCenteredClassName} glass-ring--desktop-stable flex-col gap-4 overflow-auto overflow-x-hidden p-[clamp(1.4rem,3.5vh,2.2rem)] max-[48em]:pt-[clamp(1.2rem,3vh,2rem)]`;
 const titleClassName = `${glassPageTitleClassName} w-full max-w-full`;
 const contentClassName = "flex w-full flex-1 flex-col gap-4 overflow-hidden text-center";
 const scrollAreaClassName = "flex-1 min-h-0 overflow-y-auto pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";

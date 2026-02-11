@@ -309,22 +309,30 @@
 
   .label {
     display: block;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 0.24rem);
     isolation: isolate;
     opacity: 0;
-    transform: translateY(0.08rem);
-    font-size: clamp(1rem, 3.4vw, 1.18rem) !important;
+    transform: translate(-50%, 0.08rem);
+    font-size: clamp(1.12rem, 3.9vw, 1.34rem) !important;
+    font-weight: 520 !important;
     line-height: 1.1 !important;
-    max-width: 6.8rem !important;
-    min-height: clamp(1.45rem, 4.4vw, 2rem) !important;
-    margin-top: 0.14rem !important;
+    max-width: 9.8rem !important;
+    min-height: auto !important;
+    margin-top: 0 !important;
     padding: 0.08rem 0.42rem !important;
     border-radius: 999px !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
+    text-align: center !important;
+    pointer-events: none !important;
     background: rgba(18, 24, 36, 0.24) !important;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14) !important;
     -webkit-backdrop-filter: blur(26px) saturate(170%) !important;
     backdrop-filter: blur(26px) saturate(170%) !important;
-    will-change: backdrop-filter;
+    will-change: opacity, transform;
+    z-index: 4;
   }
 
   .label::before {
@@ -339,8 +347,8 @@
   }
 
   .isArmed .label {
-    opacity: 0 !important;
-    transform: translateY(0.08rem) !important;
+    opacity: 1 !important;
+    transform: translate(-50%, 0) !important;
   }
 
   :global(:root.theme-light) .label {
@@ -385,7 +393,7 @@
   }
 
   .slot {
-    top: calc(env(safe-area-inset-top, 0px) + 0.9rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 1.08rem) !important;
     left: auto !important;
     right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
     width: 100% !important;
@@ -403,10 +411,10 @@
     display: flex !important;
     flex-direction: row !important;
     justify-content: flex-end !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     gap: clamp(0.3rem, 1.9vw, 0.52rem) !important;
-    padding-top: 0.28rem !important;
-    padding-bottom: 0.12rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     padding-left: clamp(0.25rem, 1.6vw, 0.5rem) !important;
     padding-right: clamp(0.45rem, 2.4vw, 0.75rem) !important;
     overflow: visible !important;
@@ -422,11 +430,16 @@
     left: auto !important;
     transform: none !important;
     width: var(--rail-item-size) !important;
-    height: auto !important;
+    height: var(--rail-item-size) !important;
     min-width: var(--rail-item-size) !important;
     min-height: var(--rail-item-size) !important;
     opacity: 1 !important;
     transition: transform 160ms ease, opacity 160ms ease !important;
+  }
+
+  .iconBtn {
+    position: relative !important;
+    overflow: visible !important;
   }
 
   .item.isArmed {

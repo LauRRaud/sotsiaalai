@@ -15,7 +15,7 @@ import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import BackButton from "@/components/ui/BackButton";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
-import { glassPageBackMobileCornerClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
@@ -35,12 +35,12 @@ const titleBaseClassName =
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const titlePageClassName =
   "mt-[clamp(0.95rem,2.3vh,1.85rem)] mb-[clamp(0.55rem,1.6vh,1.1rem)] " +
-  "max-md:mt-[clamp(1.4rem,4.6vh,2.6rem)]";
+  "max-[48em]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[48em]:mb-[clamp(0.2rem,0.9vh,0.55rem)]";
 const headerCenterBaseClassName =
   "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-1.5rem,-3.4vh,-0.9rem)] " +
-  "max-md:mt-[clamp(0.6rem,2.4vh,1.2rem)]";
+  "max-[48em]:mt-[clamp(1.2rem,3.4vh,2rem)] max-[48em]:translate-y-[clamp(0.3rem,1.1vh,0.8rem)]";
 const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
@@ -58,6 +58,9 @@ const orbitWrapperClassName =
   "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,15vw,10.4rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
+  "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
+  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(7.6rem,36vw,9.6rem)] " +
+  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:translate-y-[clamp(0.9rem,3vh,2.1rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
@@ -71,19 +74,13 @@ const logoutLabelClassName =
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
 const profileBackButtonClassName =
-  `${glassPageBackMobileCornerClassName} ` +
-  "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-0 " +
-  "max-[48em]:!h-[6.05rem] max-[48em]:!w-[6.05rem] " +
-  "max-[48em]:[&>svg]:!h-[6.05rem] max-[48em]:[&>svg]:!w-[6.05rem]";
+  `${glassPageBackMobileBottomCenterClassName} ` +
+  "max-[48em]:!z-[95]";
 const profileNavOverlayClassName =
-  "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none " +
-  "max-[48em]:flex max-[48em]:items-end max-[48em]:justify-between " +
-  "max-[48em]:pl-[calc(env(safe-area-inset-left,0px)+3.1rem)] " +
-  "max-[48em]:pr-[calc(env(safe-area-inset-right,0px)+3.1rem)] " +
-  "max-[48em]:pb-[calc(env(safe-area-inset-bottom,0px)+4.35rem)]";
+  "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
   `${glassPageBackRightClassName} pointer-events-auto translate-x-[-0.68rem] ` +
-  "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-[-0.18rem]";
+  "max-[48em]:!absolute max-[48em]:!right-auto max-[48em]:!left-1/2 max-[48em]:!top-auto max-[48em]:!bottom-[clamp(7.4rem,14vh,11rem)] max-[48em]:!translate-x-[-50%] max-[48em]:!translate-y-0 max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";

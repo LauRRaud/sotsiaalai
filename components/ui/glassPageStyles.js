@@ -1,6 +1,6 @@
 export const glassPageTitleClassName =
-  "mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15em] max-[48em]:text-[clamp(1.45rem,7vw,2.25rem)] leading-[1.12] tracking-[0.03em] " +
-  "w-full max-w-full max-[48em]:whitespace-nowrap max-[48em]:px-[clamp(0.45rem,2.8vw,0.95rem)] max-[48em]:tracking-[0.015em] max-[48em]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[48em]:mb-[clamp(0.2rem,0.9vh,0.55rem)] " +
+  "mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15em] max-[48em]:text-[clamp(1.98rem,7.9vw,2.64rem)] leading-[1.12] tracking-[0.03em] " +
+  "w-full max-w-full max-[48em]:mx-auto max-[48em]:whitespace-nowrap max-[48em]:px-[clamp(0.45rem,2.8vw,0.95rem)] max-[48em]:tracking-[0.008em] max-[48em]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[48em]:mb-[clamp(0.2rem,0.9vh,0.55rem)] " +
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 

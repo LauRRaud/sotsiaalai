@@ -356,7 +356,7 @@ export default function OrbitalMenu({
     if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
     settleTimerRef.current = window.setTimeout(() => {
       snapToIndex(activeIndexRef.current);
-    }, prefersReducedMotion ? 0 : 320);
+    }, prefersReducedMotion ? 0 : 140);
   }, [prefersReducedMotion, snapToIndex]);
   useLayoutEffect(() => {
     if (!isOpen || !useMobileOverlay) return;
@@ -438,7 +438,7 @@ export default function OrbitalMenu({
         const idx = computeActive();
         if (idx == null) return;
         snapToStackIndex(idx, true);
-      }, prefersReducedMotion ? 0 : 240);
+      }, prefersReducedMotion ? 0 : 140);
     };
     const computePad = () => {
       const first = stackItemRefs.current?.[0];
@@ -568,7 +568,7 @@ export default function OrbitalMenu({
               <div className="profile-orbit-mobile-chevron absolute left-1/2 top-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-45 border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
 
-            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-proximity px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
+            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-mandatory px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
           paddingTop: listPad,
           paddingBottom: listPad
         }}>

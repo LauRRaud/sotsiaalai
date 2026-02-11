@@ -31,6 +31,122 @@ import { ShowRailIcon } from "@/components/ui/icons/ChatIcons";
 const chatNoteClassName = "mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c] self-center text-center mx-auto w-full max-w-[min(38rem,100%)]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
+
+const CHAT_LAYOUT_BASE_VARS = Object.freeze({
+  "--chat-diameter": "var(--profile-diameter)",
+  "--chat-window-max-w": "clamp(19.4rem, 42.5vw, 28.2rem)",
+  "--chat-window-shift-x": "clamp(-0.2rem, -0.42vw, -0.08rem)",
+  "--chat-window-top-offset": "0.65rem",
+  "--chat-window-pad-top": "clamp(2.4rem, 4.8vh, 3.4rem)",
+  "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
+  "--chat-window-top-safe": "clamp(4.2rem, 7.2vh, 6.6rem)",
+  "--chat-window-bottom-gap": "1.9rem",
+  "--chat-window-shift-y": "0rem",
+  "--chat-scroll-down-offset": "0.2rem",
+  "--chat-content-top-offset": "5.2rem",
+  "--chat-content-spacer": "7.4rem",
+  "--chat-content-bottom-spacer": "0.35rem",
+  "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 0.9rem)",
+  "--chat-input-focus-shift": "0.85rem",
+  "--chat-window-focus-shift": "0rem",
+  "--chat-inputbar-left-pull": "-1.1rem",
+  "--chat-attach-left-pull": "-1.15rem",
+  "--chat-hpad-left": "var(--chat-hpad)",
+  "--chat-hpad-right": "var(--chat-hpad)",
+  "--chat-input-max-w": "clamp(8.2rem, 23vw, 15.8rem)",
+  "--chat-ai-offset": "clamp(1.35rem, 3vw, 2.4rem)",
+  "--chat-hpad": "clamp(2.2rem, 6vw, 3.4rem)",
+  "--hud-edge": "clamp(1.05rem, 2.5vw, 1.55rem)",
+  "--hud-icon": "clamp(3rem, 5vw, 3.3rem)",
+  "--hud-edge-safe": "calc(var(--hud-edge) + env(safe-area-inset-top, 0px))",
+  "--hud-edge-left": "env(safe-area-inset-left, 0px)",
+  "--hud-edge-right": "env(safe-area-inset-right, 0px)",
+  "--glass-edge-left": "clamp(0.1rem, 1.2vw, 0.8rem)",
+  "--glass-edge-right": "clamp(0.1rem, 1.2vw, 0.8rem)",
+  "--rail-inset": "0.2rem",
+  "--chat-back-inset": "clamp(0.2rem, 1vw, 0.6rem)",
+  "--chat-nav-top": "50%",
+  "--chat-pad-top": "clamp(1.6rem, 4.2vw, 2.6rem)",
+  "--chat-pad-bottom": "clamp(3.2rem, 7vh, 5rem)",
+  "--chat-logo-height": "clamp(12rem, 32vw, 26rem)",
+  "--chat-logo-y": "clamp(5.2rem, 23vh, 12.2rem)",
+  "--inputbar-h": "3.2rem"
+});
+
+const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
+  "--chat-window-top-offset": "0rem",
+  "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
+  "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 4.45rem)",
+  "--chat-window-top-safe": "2.4rem",
+  "--chat-window-bottom-gap": "2.1rem",
+  "--chat-window-shift-y": "clamp(2.55rem, 7.1vh, 3.7rem)",
+  "--chat-window-bottom-safe": "0rem",
+  "--chat-window-fade-top": "0rem",
+  "--chat-window-fade-bottom": "0rem",
+  "--chat-scroll-down-offset": "-1.9rem",
+  "--chat-content-top-offset": "0rem",
+  "--chat-content-spacer": "0.5rem",
+  "--chat-content-bottom-spacer": "0.85rem",
+  "--chat-input-shift": "0rem",
+  "--chat-inputbar-left-pull": "0rem",
+  "--chat-attach-left-pull": "0rem",
+  "--chat-hpad-left": "clamp(0.7rem, 3vw, 1rem)",
+  "--chat-hpad-right": "clamp(0.7rem, 3vw, 1rem)",
+  "--chat-hpad": "calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.05rem)",
+  "--chat-ai-offset": "clamp(2.2rem, 8vw, 3.6rem)",
+  "--hud-edge": "clamp(0.55rem, 3vw, 0.95rem)",
+  "--hud-icon": "clamp(2.65rem, 12vw, 3rem)",
+  "--chat-nav-top": "clamp(2.8rem, 11vw, 4.2rem)",
+  "--chat-pad-top": "clamp(0.75rem, 2vh, 1.1rem)",
+  "--chat-pad-bottom": "clamp(0.5rem, 1.8vh, 0.9rem)",
+  "--chat-logo-height": "clamp(9rem, 52vw, 18rem)",
+  "--chat-logo-y": "clamp(3.6rem, 24vh, 9.4rem)"
+});
+
+const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
+  "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
+  "--chat-content-top-offset": "0rem",
+  "--chat-content-spacer": "0.5rem",
+  "--chat-content-bottom-spacer": "0.85rem"
+});
+
+const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
+  "--chat-diameter": "var(--chat-diameter-max)",
+  "--chat-window-max-w": "clamp(20.1rem, 45.8vw, 30.9rem)",
+  "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
+  "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
+  "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
+  "--chat-window-top-offset": "0.65rem",
+  "--chat-window-bottom-gap": "0.4rem",
+  "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
+  "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
+  "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
+  "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
+  "--chat-scroll-down-offset": "-1.0rem",
+  "--chat-window-fade-bottom-focus": "clamp(1.1rem, 3vh, 1.8rem)",
+  "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
+  "--chat-input-focus-shift": "-2.35rem",
+  "--chat-attach-left-pull": "-2.15rem",
+  "--chat-inputbar-left-pull": "-2.25rem",
+  "--chat-content-top-offset": "6.4rem",
+  "--chat-content-spacer": "8.6rem",
+  "--chat-content-bottom-spacer": "0.25rem"
+});
+const MOBILE_KEYBOARD_OFFSET_THRESHOLD = 96;
+
+function resolveChatLayoutVars({
+  isMobile,
+  focusActive
+}) {
+  const vars = {
+    ...CHAT_LAYOUT_BASE_VARS,
+    ...(isMobile ? CHAT_LAYOUT_MOBILE_VARS : null),
+    ...(isMobile ? CHAT_LAYOUT_MOBILE_OVERRIDES : null),
+    ...(!isMobile && focusActive ? CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES : null)
+  };
+  return vars;
+}
+
 export default function ChatBody({
   roomId = null,
   onBackHome = null,
@@ -107,15 +223,19 @@ export default function ChatBody({
   useEffect(() => {
     const node = chatContainerRef.current;
     if (!node || typeof window === "undefined") return;
-    if (!isMobile) {
+    if (!isMobile || !inputFocused) {
       node.style.setProperty("--chat-vk-offset", "0px");
       return;
     }
     const vv = window.visualViewport;
-    const updateKeyboardOffset = () => {
-      const offset = vv
+    const readKeyboardOffset = () => {
+      const rawOffset = vv
         ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
         : 0;
+      return rawOffset > MOBILE_KEYBOARD_OFFSET_THRESHOLD ? rawOffset : 0;
+    };
+    const updateKeyboardOffset = () => {
+      const offset = readKeyboardOffset();
       node.style.setProperty("--chat-vk-offset", `${offset}px`);
     };
     updateKeyboardOffset();
@@ -130,7 +250,7 @@ export default function ChatBody({
       window.removeEventListener("resize", updateKeyboardOffset);
       node.style.setProperty("--chat-vk-offset", "0px");
     };
-  }, [isMobile]);
+  }, [inputFocused, isMobile]);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
   const rollMs = 560;
@@ -570,21 +690,36 @@ export default function ChatBody({
       mobileRailUnlockTimerRef.current = 0;
     }, 620);
   }, [mobileRailInteractionLocked]);
+  const hideMobileRail = useCallback(() => {
+    if (!isMobile) return;
+    if (mobileRailShowTimerRef.current) {
+      window.clearTimeout(mobileRailShowTimerRef.current);
+      mobileRailShowTimerRef.current = 0;
+    }
+    if (mobileRailUnlockTimerRef.current) {
+      window.clearTimeout(mobileRailUnlockTimerRef.current);
+      mobileRailUnlockTimerRef.current = 0;
+    }
+    setMobileRailInteractionLocked(true);
+    setMobileRailVisible(false);
+    mobileRailUnlockTimerRef.current = window.setTimeout(() => {
+      setMobileRailInteractionLocked(false);
+      mobileRailUnlockTimerRef.current = 0;
+    }, 320);
+  }, [isMobile]);
   const handleComposerFocus = useCallback(() => {
     setInputFocused(true);
     if (!isMobile) return;
-    const ensureVisible = () => {
-      try {
-        inputRef.current?.scrollIntoView({
-          block: "end",
-          inline: "nearest"
-        });
-      } catch {}
+    hideMobileRail();
+    const keepConversationAtBottom = () => {
+      const node = chatWindowRef.current;
+      if (!node) return;
+      node.scrollTop = node.scrollHeight;
     };
-    requestAnimationFrame(ensureVisible);
-    setTimeout(ensureVisible, 80);
-    setTimeout(ensureVisible, 180);
-  }, [isMobile]);
+    requestAnimationFrame(keepConversationAtBottom);
+    setTimeout(keepConversationAtBottom, 90);
+    setTimeout(keepConversationAtBottom, 190);
+  }, [hideMobileRail, isMobile]);
   const handleJumpToBottom = useCallback(() => {
     if (renderLimit > MAX_RENDERED_MESSAGES) {
       setRenderLimit(Math.min(visibleMessages.length, MAX_RENDERED_MESSAGES));
@@ -663,51 +798,10 @@ export default function ChatBody({
         inputRef.current?.blur?.();
       } catch {}
     }, []);
-    const baseChatVars = {
-      "--chat-diameter": "var(--profile-diameter)",
-      "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 0.9rem)",
-      "--chat-window-max-w": "clamp(19.4rem, 42.5vw, 28.2rem)",
-      "--chat-window-shift-x": "clamp(-0.2rem, -0.42vw, -0.08rem)",
-      "--chat-window-shift-y": isMobile ? "clamp(3.7rem, 9.5vh, 5.1rem)" : "0rem",
-      "--chat-window-pad-top": "clamp(2.4rem, 4.8vh, 3.4rem)",
-      "--chat-window-pad-bottom": isMobile
-        ? "calc(env(safe-area-inset-bottom, 0px) + 4.45rem)"
-        : "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-      "--chat-window-top-safe": isMobile
-        ? "calc(env(safe-area-inset-top, 0px) + 2.7rem)"
-        : "clamp(4.2rem, 7.2vh, 6.6rem)",
-      "--chat-window-top-offset": "0.65rem",
-      "--chat-window-bottom-gap": isMobile ? "2.1rem" : "1.9rem",
-      "--chat-scroll-down-offset": isMobile ? "-1.9rem" : "0.2rem",
-      "--chat-content-top-offset": "5.2rem",
-      "--chat-content-spacer": "7.4rem",
-      "--chat-content-bottom-spacer": "0.35rem"
-    };
-    const focusVars = focusActive
-      ? {
-          "--chat-diameter": "var(--chat-diameter-max)",
-          "--chat-window-max-w": "clamp(20.1rem, 45.8vw, 30.9rem)",
-          "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
-          "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
-          "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
-          "--chat-window-top-offset": "0.65rem",
-          "--chat-window-bottom-gap": "0.4rem",
-          "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
-          "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
-          "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
-          "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
-          "--chat-scroll-down-offset": "-1.0rem",
-          "--chat-window-fade-bottom-focus": "clamp(1.1rem, 3vh, 1.8rem)",
-          "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
-          "--chat-input-focus-shift": "-2.35rem",
-          "--chat-attach-left-pull": "-2.15rem",
-          "--chat-inputbar-left-pull": "-2.25rem",
-          "--chat-content-top-offset": "6.4rem",
-          "--chat-content-spacer": "8.6rem",
-          "--chat-content-bottom-spacer": "0.25rem"
-        }
-      : null;
-    const chatVars = focusVars ? { ...baseChatVars, ...focusVars } : baseChatVars;
+    const chatVars = resolveChatLayoutVars({
+      isMobile,
+      focusActive
+    });
     const chatRingSurfaceStyle = !isLightTheme
       ? {
           background: "transparent",
@@ -721,68 +815,25 @@ export default function ChatBody({
   const chatContainerClassName = cn(
       "main-content glass-ring chat-container chat-container--round " +
         "glass-ring--desktop-stable " +
-        "relative z-[21] min-h-0 " +
-        "[--chat-attach-left-pull:-1.15rem] [--chat-inputbar-left-pull:-1.1rem] " +
-        "[--chat-hpad:clamp(1.25rem,2.5vw,1.6rem)] [--chat-input-max-w:clamp(8.2rem,23vw,15.8rem)] " +
-        "[--chat-ai-offset:clamp(1.35rem,3vw,2.4rem)] [--hud-edge:clamp(1.05rem,2.5vw,1.55rem)] [--hud-icon:clamp(3rem,5vw,3.3rem)] " +
-        "[--chat-scroll-down-offset:1.1rem] [--inputbar-h:3.2rem] " +
-        "[--chat-input-shift:calc(clamp(1.5rem,3.8dvh,2.5rem)+1.8rem)] [--chat-input-focus-shift:0.85rem] " +
-        "[--chat-pad-top:clamp(1.6rem,4.2vw,2.6rem)] [--chat-pad-bottom:0.9rem] " +
-        "[--chat-window-max-w:clamp(17.5rem,40vw,26.5rem)] [--chat-window-pad-top:clamp(1.8rem,4vh,3rem)] " +
-        "[--chat-window-pad-bottom:calc(clamp(2.2rem,4.5dvh,3.4rem)+2.35rem)] [--chat-window-top-safe:clamp(4.2rem,7.2vh,6.6rem)] " +
-        "[--chat-window-top-offset:0.65rem] [--chat-window-bottom-gap:2.6rem] [--chat-window-focus-shift:0rem] " +
-        "[--glass-center-offset:0px] [--hud-edge-safe:calc(var(--hud-edge)+env(safe-area-inset-top,0))] " +
-        "[--hud-edge-left:env(safe-area-inset-left,0px)] [--hud-edge-right:env(safe-area-inset-right,0px)] " +
-        "[--glass-edge-left:clamp(0.1rem,1.2vw,0.8rem)] [--glass-edge-right:clamp(0.1rem,1.2vw,0.8rem)] " +
-        "[--rail-inset:0.2rem] [--chat-back-inset:clamp(0.2rem,1vw,0.6rem)] " +
-        "[--chat-logo-height:clamp(12rem,32vw,26rem)] [--chat-logo-y:clamp(5.2rem,23vh,12.2rem)] " +
-        "[@media(min-resolution:1.25dppx)_and_(max-resolution:1.49dppx)]:[--chat-logo-height:clamp(11rem,30vw,24rem)] " +
-        "[@media(min-resolution:1.5dppx)]:[--chat-logo-height:clamp(10rem,28vw,22rem)] " +
-        "[--chat-nav-top:calc(var(--hud-edge-safe)+var(--hud-icon)+13rem)] " +
-        "[overflow-anchor:none] light:text-[#1f2937] " +
+        "relative z-[21] min-h-0 [overflow-anchor:none] light:text-[#1f2937] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +
         "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
-        "overflow-hidden " +
-        "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
-        "max-[48em]:[--hud-edge:clamp(0.55rem,3vw,0.95rem)] " +
-        "max-[48em]:[--hud-icon:clamp(2.65rem,12vw,3rem)] " +
-        "max-[48em]:[--chat-ai-offset:clamp(2.2rem,8vw,3.6rem)] " +
-        "max-[48em]:[--hud-edge-safe:calc(var(--hud-edge)+env(safe-area-inset-top,0))] " +
-        "max-[48em]:[--hud-edge-left:env(safe-area-inset-left,0px)] " +
-        "max-[48em]:[--hud-edge-right:env(safe-area-inset-right,0px)] " +
-        "max-[48em]:[--chat-hpad:calc(max(var(--hud-edge-left),var(--hud-edge-right))+var(--hud-icon)+0.05rem)] " +
-        "max-[48em]:[--chat-nav-top:clamp(2.8rem,11vw,4.2rem)] " +
-        "max-[48em]:[--chat-pad-top:clamp(0.75rem,2vh,1.1rem)] " +
-        "max-[48em]:[--chat-pad-bottom:clamp(0.5rem,1.8vh,0.9rem)] " +
-        "max-[48em]:[--chat-window-top-offset:0rem] " +
-        "max-[48em]:[--chat-window-pad-top:clamp(0.32rem,1vh,0.65rem)] " +
-        "max-[48em]:[--chat-window-bottom-safe:0rem] max-[48em]:[--chat-window-fade-top:0rem] max-[48em]:[--chat-window-fade-bottom:0rem] " +
-        "max-[48em]:[--chat-content-top-offset:0rem] max-[48em]:[--chat-content-spacer:0.9rem] max-[48em]:[--chat-content-bottom-spacer:0.85rem] " +
-        "max-[48em]:[--chat-logo-height:clamp(9rem,52vw,18rem)] " +
-        "max-[48em]:[--chat-logo-y:clamp(3.6rem,24vh,9.4rem)] " +
-        "max-[48em]:[--chat-input-shift:0rem] " +
-        "max-[48em]:[--chat-inputbar-left-pull:0rem] " +
-        "max-[48em]:[--chat-attach-left-pull:0rem] " +
-        "max-[48em]:[--chat-hpad-left:clamp(0.7rem,3vw,1rem)] " +
-        "max-[48em]:[--chat-hpad-right:clamp(0.7rem,3vw,1rem)] " +
-        "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] " +
-        "max-[48em]:min-h-0 max-[48em]:mx-auto " +
+        "overflow-hidden [--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
+        "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] max-[48em]:min-h-0 max-[48em]:mx-auto " +
         "min-[48em]:w-[var(--chat-diameter)] min-[48em]:h-[var(--chat-diameter)] " +
         "min-[48em]:[inline-size:var(--chat-diameter)] min-[48em]:[block-size:var(--chat-diameter)] " +
         "min-[48em]:min-w-[var(--chat-diameter)] min-[48em]:min-h-[var(--chat-diameter)] " +
         "min-[48em]:max-w-[var(--chat-diameter)] min-[48em]:max-h-[var(--chat-diameter)] " +
         "min-[48em]:flex-[0_0_auto] min-[48em]:self-center min-[48em]:aspect-square min-[48em]:rounded-full " +
-        "min-[48em]:[--chat-pad-top:clamp(1.6rem,4.2vw,2.6rem)] min-[48em]:[--chat-pad-bottom:clamp(3.2rem,7vh,5rem)] " +
-        "min-[48em]:[--chat-window-pad-top:clamp(0.9rem,2.2vh,1.6rem)] min-[48em]:[--chat-nav-top:50%] " +
-        "min-[48em]:[--chat-hpad:clamp(2.2rem,6vw,3.4rem)] " +
         "min-[48em]:[transition:border-top-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_400ms_cubic-bezier(0.22,0.61,0.36,1),width_400ms_cubic-bezier(0.22,0.61,0.36,1),min-width_400ms_cubic-bezier(0.22,0.61,0.36,1),max-width_400ms_cubic-bezier(0.22,0.61,0.36,1),height_400ms_cubic-bezier(0.22,0.61,0.36,1),min-height_400ms_cubic-bezier(0.22,0.61,0.36,1),max-height_400ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_400ms_cubic-bezier(0.22,0.61,0.36,1),block-size_400ms_cubic-bezier(0.22,0.61,0.36,1),transform_400ms_cubic-bezier(0.22,0.61,0.36,1)] " +
         "min-[48em]:[&_.top-nav--chat]:left-[max(0px,calc(var(--hud-edge-left)+0.9rem))] " +
         "min-[48em]:[&_.chat-right-actions]:right-[max(0px,calc(var(--hud-edge-right)+0.2rem))]",
       focusActive
         ? "chat-container--input-focus"
-        : null
+        : null,
+      isMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );
   return <>
       <InviteModal />
@@ -798,12 +849,14 @@ export default function ChatBody({
                     ref={chatContainerRef}
                   data-chat-container="true"
                   data-chat-theme={isLightTheme ? "light" : "dark"}
+                  data-chat-layout={isMobile ? "mobile" : "desktop"}
+                  data-chat-layout-focus={focusActive ? "true" : "false"}
                 >
                   {!isLightTheme ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
                     {!profileOpen ? <BackButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
-                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!fixed max-[48em]:!z-[220] max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.34rem)]")}
+                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95] max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:!left-[calc(env(safe-area-inset-left,0px)+0.56rem)]")}
                       /> : null}
                     {!profileOpen && isMobile && !mobileRailVisible ? <button
                         type="button"
@@ -817,7 +870,7 @@ export default function ChatBody({
               }}
                         disabled={mobileRailInteractionLocked}
                         aria-label={t("chat.show_quick_actions", "Näita otseteid")}
-                        className="chat-rail-show-btn pointer-events-auto touch-manipulation fixed z-[221] top-[calc(env(safe-area-inset-top,0px)+0.69rem)] left-[calc(env(safe-area-inset-left,0px)+5.15rem)] h-[3.58rem] w-[3.58rem] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
+                        className="chat-rail-show-btn pointer-events-auto touch-manipulation absolute z-[221] top-[calc(env(safe-area-inset-top,0px)+0.87rem)] left-[calc(env(safe-area-inset-left,0px)+5.15rem)] h-[3.58rem] w-[3.58rem] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
                       >
                         <ShowRailIcon isLightTheme={isLightTheme} className="h-[2.95rem] w-[2.95rem]" />
                       </button> : null}

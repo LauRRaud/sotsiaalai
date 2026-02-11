@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
-import IconButton from "@/components/ui/IconButton";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
@@ -48,6 +48,10 @@ export default function InviteModal() {
     return `${lower.charAt(0).toLocaleUpperCase(locale || "et")}${lower.slice(1)}`;
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
+  const inviteListCardClassName =
+    "rounded-[1rem] !border-0 bg-[rgba(16,22,34,0.4)] " +
+    "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,0_6px_16px_rgba(0,0,0,0.22),0_10px_18px_-14px_rgba(248,253,255,0.72),0_22px_32px_-22px_rgba(248,253,255,0.44))] " +
+    "[.theme-light_&]:bg-[rgba(255,255,255,0.96)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
@@ -167,7 +171,7 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
-      <IconButton className="absolute right-[0.35rem] top-[0.35rem] border-0" label={t("common.close")} onClick={() => setOpen(false)} />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back", "Tagasi")} className="hidden max-[48em]:!inline-flex absolute left-[0.15rem] top-[0.12rem] z-[6] h-[4.05rem] w-[4.05rem] [&>svg]:h-[4.05rem] [&>svg]:w-[4.05rem]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
           {t("invite.eyebrow")}
@@ -205,7 +209,7 @@ export default function InviteModal() {
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className="border-0 [--panel-secondary-shadow:var(--input-shadow)] min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[48em]:min-h-[8rem] max-[48em]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
+        <Panel variant="secondary" padding="sm" className={`${inviteListCardClassName} min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[48em]:min-h-[8rem] max-[48em]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
               {t("invite.list")}

@@ -75,7 +75,7 @@ export default function ChatComposer({
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform";
   const inputRowModeClassName = isMobile
-    ? "absolute left-0 right-0 bottom-[max(0.55rem,env(safe-area-inset-bottom,0px))] z-[90] mt-0 w-full max-w-full gap-0 [--chat-input-max-w:min(100%,calc(100vw-10.5rem))]"
+    ? "absolute left-0 right-0 bottom-[calc(max(0.55rem,env(safe-area-inset-bottom,0px))+var(--chat-vk-offset,0px))] z-[90] mt-0 w-full max-w-full gap-0 [--chat-input-max-w:min(100%,calc(100vw-10.5rem))]"
     : "relative mt-[clamp(0.6rem,1.8vh,1.1rem)]";
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +

@@ -17,8 +17,8 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const sectionHeadingClassName = "text-[1.3rem] font-semibold tracking-[0.01em] text-[#c57171] light:text-[#7A3A38]";
-const bodyTextClassName = "text-[clamp(1.02rem,1.5vw,1.15rem)] leading-[1.7] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[#2b2620]";
+const sectionHeadingClassName = "text-[clamp(1.3rem,1.7vw,1.48rem)] max-[48em]:text-[clamp(1.48rem,5.2vw,1.72rem)] font-semibold tracking-[0.01em] text-[#cd8585] light:text-[#8a4b49]";
+const bodyTextClassName = "text-[clamp(1.04rem,1.5vw,1.17rem)] max-[48em]:text-[clamp(1.12rem,4.2vw,1.25rem)] leading-[1.72] text-[#e4dde0] light:text-[#3f3730]";
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "profile", "about", "quickstart"];
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
@@ -69,7 +69,7 @@ export default function KasutusjuhendBody() {
   }));
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, glassPolicyRingClassName, "policy-mobile-lower", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
         <CloseButton
           onClick={() => {
             if (typeof window !== "undefined" && window.history.length > 1) {
@@ -107,12 +107,12 @@ export default function KasutusjuhendBody() {
               body
             }) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title}>
                   <h2 className={`${sectionHeadingClassName} mb-2`}>{title}</h2>
-                  <div className={`${bodyTextClassName} text-[1.12rem] leading-[1.62] [&_p]:my-2 [&_ul]:my-2 [&_ol]:my-2 [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-1`} dangerouslySetInnerHTML={{
+                  <div className={`${bodyTextClassName} max-[48em]:text-[clamp(1.14rem,4.35vw,1.28rem)] leading-[1.65] [&_p]:my-2 [&_ul]:my-2 [&_ol]:my-2 [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-1`} dangerouslySetInnerHTML={{
                 __html: body
               }} />
                 </article>)}
             </div>
-            <footer className="mt-[1.2rem] text-center text-[1.05rem] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[#2b2620]">
+            <footer className="mt-[1.2rem] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]">
               {t("about.footer.note")}
             </footer>
           </div>

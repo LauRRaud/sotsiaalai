@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AddPersonIcon, ChatBubbleIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
@@ -32,6 +32,11 @@ export default function RightRail({
   const tooltipTrackUntilRef = useRef(0);
   const wheelAccumRef = useRef(0);
   const lastStepRef = useRef(0);
+  const armClearTimerRef = useRef(0);
+  const lastTapRef = useRef({
+    key: "",
+    at: 0
+  });
 
   const [activeIndex, setActiveIndex] = useState(1);
   const [tooltipRect, setTooltipRect] = useState(null);
@@ -40,6 +45,7 @@ export default function RightRail({
   const [isMobile, setIsMobile] = useState(false);
   const [isRailHovered, setIsRailHovered] = useState(false);
   const [isRailScrolling, setIsRailScrolling] = useState(false);
+  const [armedKey, setArmedKey] = useState(null);
   const scrollIdleTimerRef = useRef(0);
 
   useEffect(() => {
@@ -50,6 +56,10 @@ export default function RightRail({
       if (scrollIdleTimerRef.current) {
         window.clearTimeout(scrollIdleTimerRef.current);
         scrollIdleTimerRef.current = 0;
+      }
+      if (armClearTimerRef.current) {
+        window.clearTimeout(armClearTimerRef.current);
+        armClearTimerRef.current = 0;
       }
     };
   }, []);
@@ -86,6 +96,25 @@ export default function RightRail({
       window.removeEventListener("resize", update);
       ro.disconnect();
     };
+  }, []);
+
+  const clearArmed = useCallback(() => {
+    setArmedKey(null);
+    if (armClearTimerRef.current) {
+      window.clearTimeout(armClearTimerRef.current);
+      armClearTimerRef.current = 0;
+    }
+  }, []);
+
+  const armItem = useCallback(key => {
+    setArmedKey(key);
+    if (armClearTimerRef.current) {
+      window.clearTimeout(armClearTimerRef.current);
+    }
+    armClearTimerRef.current = window.setTimeout(() => {
+      setArmedKey(prev => (prev === key ? null : prev));
+      armClearTimerRef.current = 0;
+    }, 1800);
   }, []);
 
   const openChatsDrawer = e => {
@@ -156,7 +185,8 @@ export default function RightRail({
       return 1;
     })();
     setActiveIndex(idx);
-  }, [pathname]);
+    clearArmed();
+  }, [pathname, clearArmed]);
 
   useEffect(() => {
     if (isMobile) {
@@ -219,10 +249,10 @@ export default function RightRail({
       const delta = event.deltaY;
       if (!Number.isFinite(delta) || delta === 0) return;
       const now = performance.now();
-      if (now - lastStepRef.current < 150) return;
+      if (now - lastStepRef.current < 110) return;
       wheelAccumRef.current += delta;
-      const baseThreshold = event.deltaMode === 1 ? 96 : 150;
-      const threshold = Math.max(baseThreshold, Math.round(stepPx * 1.2));
+      // Use device-appropriate wheel thresholds so one mouse notch advances one icon.
+      const threshold = event.deltaMode === 1 ? 2 : Math.max(56, Math.round(stepPx * 0.65));
       if (Math.abs(wheelAccumRef.current) < threshold) return;
       const direction = wheelAccumRef.current > 0 ? 1 : -1;
       wheelAccumRef.current = 0;
@@ -247,6 +277,11 @@ export default function RightRail({
   }, [isMobile, items.length, stepPx]);
 
   useEffect(() => {
+    if (isMobile) return;
+    clearArmed();
+  }, [isMobile, clearArmed]);
+
+  useEffect(() => {
     if (!(isMobile && !mobileVisible)) return;
     const rail = railRef.current;
     const active = document.activeElement;
@@ -254,7 +289,20 @@ export default function RightRail({
       active.blur();
     }
     setIsRailHovered(false);
-  }, [isMobile, mobileVisible]);
+    clearArmed();
+  }, [isMobile, mobileVisible, clearArmed]);
+
+  useEffect(() => {
+    if (!isMobile || !armedKey) return;
+    const onPointerDown = event => {
+      const rail = railRef.current;
+      const target = event.target;
+      if (rail && target instanceof Node && rail.contains(target)) return;
+      clearArmed();
+    };
+    document.addEventListener("pointerdown", onPointerDown, true);
+    return () => document.removeEventListener("pointerdown", onPointerDown, true);
+  }, [isMobile, armedKey, clearArmed]);
 
   const onKeyDown = event => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
@@ -274,22 +322,22 @@ export default function RightRail({
     !mobileVisible ? styles.mobileRailHidden : null,
     mobileVisible ? styles.mobileRailVisible : null,
     suspendPointerEvents ? styles.pointerBlocked : null,
-    "max-[48em]:absolute max-[48em]:top-[calc(var(--hud-edge-safe,env(safe-area-inset-top,0px))+0.85rem)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
+    "max-[48em]:absolute max-[48em]:top-[calc(var(--hud-edge-safe,env(safe-area-inset-top,0px))+1.08rem)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
   );
 
   const railClassName = cn(
     styles.rightRail,
-    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-0 max-[48em]:left-auto max-[48em]:ml-auto max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-auto max-[48em]:flex max-[48em]:flex-row max-[48em]:items-start max-[48em]:justify-end max-[48em]:gap-[clamp(0.3rem,1.9vw,0.52rem)] max-[48em]:pt-[0.28rem] max-[48em]:pb-[0.12rem] max-[48em]:pl-[clamp(0.25rem,1.6vw,0.5rem)] max-[48em]:pr-[clamp(0.45rem,2.4vw,0.75rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(3.15rem,10.5vw,3.65rem)] max-[48em]:[--rail-icon-scale:0.92]"
+    "max-[48em]:relative max-[48em]:top-0 max-[48em]:right-0 max-[48em]:left-auto max-[48em]:ml-auto max-[48em]:[transform:none] max-[48em]:h-auto max-[48em]:w-auto max-[48em]:flex max-[48em]:flex-row max-[48em]:items-center max-[48em]:justify-end max-[48em]:gap-[clamp(0.3rem,1.9vw,0.52rem)] max-[48em]:pt-[0] max-[48em]:pb-[0] max-[48em]:pl-[clamp(0.25rem,1.6vw,0.5rem)] max-[48em]:pr-[clamp(0.45rem,2.4vw,0.75rem)] max-[48em]:overflow-visible max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] max-[48em]:[--rail-item-size:clamp(3.15rem,10.5vw,3.65rem)] max-[48em]:[--rail-icon-scale:0.92]"
   );
 
   const mobileItemClassName =
     "max-[48em]:static max-[48em]:left-auto max-[48em]:top-auto max-[48em]:[transform:none] max-[48em]:w-[var(--rail-item-size)] max-[48em]:h-auto max-[48em]:opacity-100 max-[48em]:transition-[transform,opacity]";
 
   const mobileIconButtonClassName =
-    "max-[48em]:flex max-[48em]:flex-col max-[48em]:items-center max-[48em]:justify-start max-[48em]:gap-[0.22rem] max-[48em]:leading-[1]";
+    "max-[48em]:flex max-[48em]:flex-col max-[48em]:items-center max-[48em]:justify-center max-[48em]:gap-[0.22rem] max-[48em]:leading-[1]";
 
   const mobileLabelClassName =
-    "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-hidden max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
+    "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-visible max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
 
   return <div className={slotClassName}>
       <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onMouseEnter={() => setIsRailHovered(true)} onMouseLeave={() => setIsRailHovered(false)} onFocusCapture={() => setIsRailHovered(true)} onBlurCapture={event => {
@@ -340,6 +388,7 @@ export default function RightRail({
           ref: setRailRef,
           className: cn(
             styles.item,
+            isMobile && armedKey === it?.key ? styles.isArmed : null,
             !isMobile && slotOffset === 0 ? styles.isActive : null,
             it?.key === "sources" && showSourcesPanel ? styles.iconBtnActive : null,
             it?.key === "sources" && sourcesPulse ? styles.isPulse : null,
@@ -352,7 +401,7 @@ export default function RightRail({
           }
         };
 
-        const onActivate = event => {
+        const performActivate = event => {
           if (!it) return;
           if (!isMobile) {
             setActiveIndex(itemIndex);
@@ -384,12 +433,40 @@ export default function RightRail({
           }
         };
 
+        const onActivate = event => {
+          if (!it) return;
+          if (!isMobile) {
+            performActivate(event);
+            return;
+          }
+          event.preventDefault();
+          event.stopPropagation();
+          const now = performance.now();
+          const lastTap = lastTapRef.current;
+          const isRapidDoubleTap = lastTap.key === it.key && now - lastTap.at < 360;
+          lastTapRef.current = {
+            key: it.key,
+            at: now
+          };
+          if (isRapidDoubleTap || armedKey === it.key) {
+            clearArmed();
+            performActivate(event);
+            return;
+          }
+          armItem(it.key);
+        };
+
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
         const isDisabled = false;
         const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const displayLabel = it?.label || "";
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} onDoubleClick={isMobile ? event => {
+        event.preventDefault();
+        event.stopPropagation();
+        clearArmed();
+        performActivate(event);
+      } : undefined} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
               {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
