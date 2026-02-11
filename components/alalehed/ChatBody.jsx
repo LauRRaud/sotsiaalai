@@ -125,9 +125,11 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-scroll-down-offset": "-1.0rem",
   "--chat-window-fade-bottom-focus": "clamp(1.1rem, 3vh, 1.8rem)",
   "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
+  "--chat-input-max-w": "clamp(14rem, 42vw, 26rem)",
   "--chat-input-focus-shift": "-2.35rem",
-  "--chat-attach-left-pull": "-2.15rem",
-  "--chat-inputbar-left-pull": "-2.25rem",
+  "--chat-attach-left-pull": "-1.65rem",
+  "--chat-inputbar-left-pull": "-1.6rem",
+  "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)",
   "--chat-content-top-offset": "6.4rem",
   "--chat-content-spacer": "8.6rem",
   "--chat-content-bottom-spacer": "0.25rem"
