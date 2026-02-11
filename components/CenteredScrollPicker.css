@@ -107,7 +107,7 @@
 
 .csp-scrim--chevron {
   --csp-arrow-pulse-duration: 3.2s;
-  --csp-arrow-size: clamp(6rem, 9.6vw, 7.6rem);
+  --csp-arrow-size: clamp(3rem, 4.8vw, 3.8rem);
 }
 .csp-scrim--chevron.is-muted .csp-chevron-frame {
   transform: translateX(-50%) scale(0.68);
@@ -125,12 +125,10 @@
 }
 
 :root {
-  --csp-arrow-up: url("/logo/uptume.svg");
-  --csp-arrow-down: url("/logo/downtume.svg");
+  --csp-arrow-color: #c57171;
 }
 :root.theme-light {
-  --csp-arrow-up: url("/logo/uphele.svg");
-  --csp-arrow-down: url("/logo/downhele.svg");
+  --csp-arrow-color: #7A3A38;
 }
 
 .csp-chevron-frame {
@@ -152,9 +150,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  color: var(--csp-arrow-color);
   opacity: 0.8;
   transform-origin: center;
   animation: cspArrowPulse var(--csp-arrow-pulse-duration) ease-in-out infinite;
@@ -166,13 +162,6 @@
 .csp-scrim--bottom.csp-scrim--chevron .csp-chevron-frame {
   bottom: var(--csp-chevron-bottom, -0.35rem);
 }
-.csp-scrim--top.csp-scrim--chevron .csp-chevron-icon {
-  background-image: var(--csp-arrow-up);
-}
-.csp-scrim--bottom.csp-scrim--chevron .csp-chevron-icon {
-  background-image: var(--csp-arrow-down);
-}
-
 @keyframes cspArrowPulse {
   0% {
     transform: scale(0.98);

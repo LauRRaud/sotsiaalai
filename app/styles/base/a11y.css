@@ -50,7 +50,7 @@ html[data-contrast="hc"]
     textarea,
     [role],
     [tabindex]:not([tabindex="-1"])
-  ):not(.top-nav__btn):not(.chat-send-btn):not(
+  ):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.chat-input-field):not(
     .three-d-card
@@ -72,7 +72,7 @@ html[data-contrast="hc"]
   body
   :is(
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
-  ):not(.top-nav__btn):not(.chat-send-btn):not(
+  ):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.card-face) {
   background: var(--hc-surface);
@@ -85,7 +85,7 @@ html[data-contrast="hc"]
   body
   :is(
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
-  ):not(.top-nav__btn):not(.chat-send-btn):not(
+  ):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.card-face):hover:not(
     :disabled
@@ -94,7 +94,7 @@ html[data-contrast="hc"]
   body
   :is(
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
-  ):not(.top-nav__btn):not(.chat-send-btn):not(
+  ):not(.chat-send-btn):not(
     .chat-attach-btn
   ):not(.chat-listen-btn):not(.card-face):focus-visible {
   background: #1a1a1a;

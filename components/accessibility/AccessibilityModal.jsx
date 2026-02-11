@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import OptionCard from "@/components/ui/OptionCard";
+import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 const titleClassName = "mt-[0.25rem] w-full max-w-full px-[clamp(0.6rem,3.8vw,1.2rem)] text-center text-[clamp(1.95rem,4.6vw,2.5rem)] max-[48em]:text-[clamp(2.2rem,9vw,3.15rem)] leading-[1.08] tracking-[0.03em] [overflow-wrap:anywhere] [word-break:break-word] [text-wrap:balance] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
@@ -29,7 +30,7 @@ const languageFieldsetClassName = "max-[48em]:!pt-[1.42rem]";
 const languageShiftClassName = "";
 const languageOptionsClassName = "flex-nowrap";
 const languageOptionLabelClassName =
-  "text-[clamp(0.95rem,2.4vw,1.08rem)] max-[48em]:text-[clamp(1.08rem,4.4vw,1.3rem)]";
+  "text-[clamp(1.04rem,2.55vw,1.16rem)] max-[48em]:text-[clamp(1.14rem,4.6vw,1.36rem)]";
 const optionsRowClassName =
   "flex flex-wrap justify-center items-center gap-[0.8rem_1.05rem] max-[48em]:gap-[1.26rem_1.3rem] w-full max-w-[42rem] mx-auto";
 const textScaleFieldsetClassName = "a11y-textscale-fieldset max-[48em]:!pt-[1.42rem] max-[48em]:!pb-[1.55rem] max-[48em]:!min-h-[11.8rem]";
@@ -44,10 +45,11 @@ const motionLegendClassName = "";
 const contrastShiftClassName = "";
 const motionShiftClassName = "";
 const optionCardClassName =
-  "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[0.96rem] !text-[1.05rem] !leading-[1.2] tracking-[0.03em] max-[48em]:!min-h-[3.45rem] max-[48em]:!py-[0.9rem] max-[48em]:!px-[1.1rem] max-[48em]:!text-[1.18rem]";
+  "w-fit !min-h-[3.05rem] !py-[0.78rem] !px-[0.96rem] !text-[1.12rem] !leading-[1.2] tracking-[0.03em] max-[48em]:!min-h-[3.45rem] max-[48em]:!py-[0.9rem] max-[48em]:!px-[1.1rem] max-[48em]:!text-[1.24rem]";
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
+const accessibilityChevronStrokeWidth = 0.9;
 export default function AccessibilityModal({
   onClose,
   prefs,
@@ -257,7 +259,7 @@ export default function AccessibilityModal({
   return <>
       <div className={modalBackdropClassName} onClick={onClose} role="presentation" aria-hidden="true" />
 
-      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} [--csp-chevron-top:-1.6rem] [--csp-chevron-bottom:-1.6rem]`.trim()} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
+      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
         <div className="csp-overlayTitle min-[48.0625em]:hidden" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
@@ -268,12 +270,12 @@ export default function AccessibilityModal({
         {}
         <div className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <span className="csp-chevron-icon" />
+            <ChevronIcon direction="up" strokeWidth={accessibilityChevronStrokeWidth} className="csp-chevron-icon" />
           </span>
         </div>
         <div className={`csp-scrim csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <span className="csp-chevron-icon" />
+            <ChevronIcon direction="down" strokeWidth={accessibilityChevronStrokeWidth} className="csp-chevron-icon" />
           </span>
         </div>
 

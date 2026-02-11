@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { cn } from "@/components/ui/cn";
+import IconButton from "@/components/ui/IconButton";
 export default function ConversationDrawer({
   children
 }) {
@@ -162,11 +163,11 @@ export default function ConversationDrawer({
     open ? "open" : null
   );
   const headerClassName =
-    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.85rem] pb-[0.45rem] border-b-0";
+    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.6rem] pb-[0.35rem] border-b-0";
   const closeButtonClassName =
-    "drawer-close drawer-close-btn--chat modal-close-btn absolute top-[0.1rem] right-[0.35rem] z-[6] " +
-    "!p-0 !w-[2.9rem] !h-[2.9rem] !rounded-full !border-0 !bg-transparent !shadow-none " +
-    "[&::before]:text-[2.2rem] text-[#c57171] light:text-[#7a3a38]";
+    "drawer-close drawer-close-btn--chat absolute top-[0.08rem] right-[0.18rem] z-[6] " +
+    "!p-0 !w-[2.7rem] !h-[2.7rem] !rounded-full !border-0 !bg-transparent !shadow-none " +
+    "text-[#c57171] light:text-[#7a3a38] [&>span]:text-[2rem]";
   const contentClassName =
     "drawer-content px-[1rem] pt-[0.5rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
   return createPortal(<>
@@ -175,11 +176,11 @@ export default function ConversationDrawer({
         <header className={headerClassName}>
           <h1
             id={headerIdRef.current}
-            className="drawer-title w-full text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] mt-[clamp(0.5rem,1.4vh,1rem)] mb-[clamp(0.6rem,1.6vh,1.1rem)] text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]"
+            className="drawer-title w-full text-center text-[clamp(1.45rem,1.2rem+1.1vw,2rem)] leading-[1.14] tracking-[0.02em] mt-[clamp(0.18rem,0.6vh,0.35rem)] mb-[clamp(0.3rem,1vh,0.65rem)] text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]"
           >
             {t("chat.menu.label")}
           </h1>
-          <button ref={closeBtnRef} onClick={close} className={closeButtonClassName} aria-label={t("buttons.close")} type="button" />
+          <IconButton ref={closeBtnRef} onClick={close} className={closeButtonClassName} label={t("buttons.close")} />
         </header>
         <div className={contentClassName}>
           {children}

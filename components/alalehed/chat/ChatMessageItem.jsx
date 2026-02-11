@@ -21,7 +21,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
   const userBubbleClassName =
-    "chat-msg-user self-end ml-auto inline-block w-fit max-w-[85%] text-right " +
+    "chat-msg-user self-end ml-auto inline-block w-fit max-w-[84%] mr-[clamp(0.24rem,0.65vw,0.48rem)] max-[48em]:mr-[0.08rem] text-right " +
     "bg-[rgba(14,20,32,0.34)] text-[color:var(--pt-150)] " +
     "border-2 border-[rgba(240,240,240,0.55)] " +
     "rounded-[1.15em] rounded-br-[0.55em] " +

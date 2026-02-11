@@ -1,6 +1,6 @@
 .chat-container--input-focus {
   --chat-window-max-w: clamp(18.5rem, 44vw, 29.5rem);
-  --chat-window-top-offset: -0.9rem;
+  --chat-window-top-offset: 0.65rem;
   --chat-window-bottom-gap: 0.4rem;
   --chat-scroll-down-offset: -1rem;
   --chat-input-max-w: clamp(14rem, 42vw, 26rem);
@@ -72,13 +72,6 @@
     border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     transform: none;
-  }
-
-  :root
-    .chat-page-shell
-    .chat-container.chat-container--round
-    .top-nav--chat {
-    left: max(0px, calc(var(--hud-edge-left) + 0.9rem));
   }
 
   .chat-page-shell .chat-container--round .chat-right-actions {

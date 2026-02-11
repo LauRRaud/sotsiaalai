@@ -1,8 +1,7 @@
 "use client";
 
 import { memo, useEffect, useRef, useState } from "react";
-import AllikadLight from "@/public/logo/heleallikad.svg";
-import AllikadDark from "@/public/logo/tumeallikad.svg";
+import { SourcesIcon } from "@/components/ui/icons/ChatIcons";
 const ConversationView = memo(function ConversationView({
   t,
   chatWindowRef,
@@ -71,11 +70,16 @@ const ConversationView = memo(function ConversationView({
     "[--chat-window-top-glaze-h:clamp(5rem,14vh,9rem)] [--chat-window-top-glaze-alpha:0.6] " +
     "[--chat-window-side-fade-in:18%] [--chat-window-side-fade-band:clamp(3.2rem,11vh,7rem)] " +
     "[--chat-arc-fade-width:84%] [--chat-arc-fade-depth:74%] [--chat-arc-rgb:14_18_28] [--chat-arc-center-alpha:0.14] [--chat-arc-side-alpha:0.3] [--chat-arc-mid-alpha:0.11] " +
+    "[--chat-window-top-text-fade:calc(var(--chat-window-fade-top-active)+clamp(1.4rem,2.8vh,2.2rem))] " +
     "[border-radius:var(--chat-window-curve-x)_var(--chat-window-curve-x)_var(--chat-window-corner)_var(--chat-window-corner)_/_var(--chat-window-curve-y)_var(--chat-window-curve-y)_var(--chat-window-corner)_var(--chat-window-corner)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.72)_calc(var(--chat-window-top-text-fade)*0.45),#000_var(--chat-window-top-text-fade),#000_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.72)_calc(var(--chat-window-top-text-fade)*0.45),#000_var(--chat-window-top-text-fade),#000_100%)] " +
+    "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] " +
     "bg-transparent border-0 shadow-none isolate overflow-hidden " +
     "w-full max-w-[var(--chat-window-max-w,calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))-clamp(1.4rem,3vw,2.2rem)))] mx-auto " +
     "[transform:translateX(var(--chat-window-shift-x,0rem))_translateY(var(--chat-window-shift-y,0rem))] " +
     "max-[48em]:[--chat-window-curve-x:var(--chat-window-corner)] max-[48em]:[--chat-window-curve-y:var(--chat-window-corner)] " +
+    "max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] " +
     "light:[--chat-arc-rgb:210_214_222] light:[--chat-arc-center-alpha:0.1] light:[--chat-arc-side-alpha:0.24] light:[--chat-arc-mid-alpha:0.09] " +
     "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "max-[48em]:max-w-full";
@@ -140,7 +144,7 @@ const ConversationView = memo(function ConversationView({
             toggleSourcesPanel?.();
           }}
           >
-            {isLightTheme ? <AllikadLight className={`h-[2.7rem] w-[2.7rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-88"}`} aria-hidden="true" role="img" /> : <AllikadDark className={`h-[2.7rem] w-[2.7rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-88"}`} aria-hidden="true" role="img" />}
+            <SourcesIcon isLightTheme={isLightTheme} className={`h-[2.7rem] w-[2.7rem] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110 ${sourcesPulse ? "opacity-100" : "opacity-88"}`} />
           </button> : null}
       </div>
 

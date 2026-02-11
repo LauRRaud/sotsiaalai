@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Magnet from "@/components/Animations/Magnet/Magnet";
 import LoginModal from "@/components/LoginModal";
 import { cn } from "@/components/ui/cn";
+import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import useT from "@/components/i18n/useT";
@@ -472,7 +473,9 @@ export default function HomePage() {
                     <line x1="12" y1="7" x2="12" y2="13" />
                   </svg>
                 </span>
-                <span className={cn("home-scroll-cue-arrow", "inline-flex w-[2.7rem] h-[2.7rem] max-[48em]:w-[clamp(4.35rem,18.6vw,6.2rem)] max-[48em]:h-[clamp(4.35rem,18.6vw,6.2rem)] -mt-[0.35rem] max-[48em]:mt-[-0.45rem] max-[768px]:mt-[-0.35rem] opacity-90 relative overflow-visible [transform:var(--home-scroll-cue-arrow-transform,rotate(180deg))] [animation:var(--home-scroll-cue-arrow-animation,home-scroll-bounce_2s_ease-in-out_infinite)] motion-reduce:animate-none before:content-[''] before:absolute before:inset-0 before:bg-[url('/logo/uptume.svg')] before:bg-no-repeat before:bg-center before:bg-[length:100%_100%] before:[transform:var(--home-scroll-cue-arrow-before-transform,scale(1.28))] before:[transform-origin:center] before:pointer-events-none light:before:bg-[url('/logo/uphele.svg')] max-[48em]:[--home-scroll-cue-arrow-animation:home-scroll-blink_1.4s_ease-in-out_infinite] max-[48em]:[--home-scroll-cue-arrow-before-transform:scale(1.42)]")} aria-hidden="true" />
+                <span className={cn("home-scroll-cue-arrow", "inline-flex w-[2.7rem] h-[2.7rem] max-[48em]:w-[clamp(4.35rem,18.6vw,6.2rem)] max-[48em]:h-[clamp(4.35rem,18.6vw,6.2rem)] -mt-[0.35rem] max-[48em]:mt-[-0.45rem] max-[768px]:mt-[-0.35rem] opacity-90 relative overflow-visible [transform:var(--home-scroll-cue-arrow-transform,rotate(180deg))] [animation:var(--home-scroll-cue-arrow-animation,home-scroll-bounce_2s_ease-in-out_infinite)] motion-reduce:animate-none max-[48em]:[--home-scroll-cue-arrow-animation:home-scroll-blink_1.4s_ease-in-out_infinite] max-[48em]:[--home-scroll-cue-arrow-before-transform:scale(0.62)]")} aria-hidden="true">
+                  <ChevronIcon direction="up" className="absolute inset-0 h-full w-full pointer-events-none [transform:var(--home-scroll-cue-arrow-before-transform,scale(0.52))] [transform-origin:center]" />
+                </span>
               </a>
             </div> : null}
         </section>

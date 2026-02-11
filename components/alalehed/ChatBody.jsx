@@ -624,7 +624,7 @@ export default function ChatBody({
       "--chat-window-top-safe": isMobile
         ? "calc(env(safe-area-inset-top, 0px) + 2.7rem)"
         : "clamp(4.2rem, 7.2vh, 6.6rem)",
-      "--chat-window-top-offset": "-1.7rem",
+      "--chat-window-top-offset": "0.65rem",
       "--chat-window-bottom-gap": isMobile ? "2.1rem" : "1.9rem",
       "--chat-scroll-down-offset": isMobile ? "-1.9rem" : "0.2rem",
       "--chat-content-top-offset": "5.2rem",
@@ -638,7 +638,7 @@ export default function ChatBody({
           "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
           "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
           "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
-          "--chat-window-top-offset": "-0.9rem",
+          "--chat-window-top-offset": "0.65rem",
           "--chat-window-bottom-gap": "0.4rem",
           "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
           "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
@@ -678,7 +678,7 @@ export default function ChatBody({
         "[--chat-pad-top:clamp(1.6rem,4.2vw,2.6rem)] [--chat-pad-bottom:0.9rem] " +
         "[--chat-window-max-w:clamp(17.5rem,40vw,26.5rem)] [--chat-window-pad-top:clamp(1.8rem,4vh,3rem)] " +
         "[--chat-window-pad-bottom:calc(clamp(2.2rem,4.5dvh,3.4rem)+2.35rem)] [--chat-window-top-safe:clamp(4.2rem,7.2vh,6.6rem)] " +
-        "[--chat-window-top-offset:-1.5rem] [--chat-window-bottom-gap:2.6rem] [--chat-window-focus-shift:0rem] " +
+        "[--chat-window-top-offset:0.65rem] [--chat-window-bottom-gap:2.6rem] [--chat-window-focus-shift:0rem] " +
         "[--glass-center-offset:0px] [--hud-edge-safe:calc(var(--hud-edge)+env(safe-area-inset-top,0))] " +
         "[--hud-edge-left:env(safe-area-inset-left,0px)] [--hud-edge-right:env(safe-area-inset-right,0px)] " +
         "[--glass-edge-left:clamp(0.1rem,1.2vw,0.8rem)] [--glass-edge-right:clamp(0.1rem,1.2vw,0.8rem)] " +
@@ -690,7 +690,7 @@ export default function ChatBody({
         "[overflow-anchor:none] light:text-[#1f2937] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +
-        "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay)]:z-[1] " +
+        "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
         "overflow-hidden " +
         "[--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
@@ -750,8 +750,6 @@ export default function ChatBody({
                   {!isLightTheme ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
                     {!profileOpen ? <BackButton
                         onClick={handleBackHome}
-                        onTouchEnd={handleBackHome}
-                        onPointerUp={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
                         className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!fixed max-[48em]:!z-[220]")}
                       /> : null}

@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import AllikadLight from "@/public/logo/heleallikad.svg";
-import AllikadDark from "@/public/logo/tumeallikad.svg";
+import { AddPersonIcon, ChatBubbleIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { createPortal } from "react-dom";
 import { cn } from "@/components/ui/cn";
@@ -94,14 +92,6 @@ export default function RightRail({
       ro.disconnect();
     };
   }, []);
-
-  const icons = useMemo(() => {
-    return {
-      chats: isLightTheme ? "/logo/vestlusedhele.svg" : "/logo/vestlusedtume.svg",
-      rooms: isLightTheme ? "/logo/ruumidhele.svg" : "/logo/ruumidtume.svg",
-      addPerson: isLightTheme ? "/logo/lisainimenehele.svg" : "/logo/lisainimenetume.svg"
-    };
-  }, [isLightTheme]);
 
   const openChatsDrawer = e => {
     if (embedded || pathname && pathname.startsWith("/vestlus")) {
@@ -240,10 +230,10 @@ export default function RightRail({
       const delta = event.deltaY;
       if (!Number.isFinite(delta) || delta === 0) return;
       const now = performance.now();
-      if (now - lastStepRef.current < 180) return;
+      if (now - lastStepRef.current < 150) return;
       wheelAccumRef.current += delta;
-      const baseThreshold = event.deltaMode === 1 ? 120 : 180;
-      const threshold = Math.max(baseThreshold, Math.round(stepPx * 1.4));
+      const baseThreshold = event.deltaMode === 1 ? 96 : 150;
+      const threshold = Math.max(baseThreshold, Math.round(stepPx * 1.2));
       if (Math.abs(wheelAccumRef.current) < threshold) return;
       const direction = wheelAccumRef.current > 0 ? 1 : -1;
       wheelAccumRef.current = 0;
@@ -330,7 +320,7 @@ export default function RightRail({
         const offsetX = -baseCurvePx * curveNorm * curveNorm - edgeSafetyPx * curveNorm * curveNorm * curveNorm * curveNorm - slotOffset * curveSkewPx;
         const norm = Math.min(Math.abs(slotOffset) / 2, 1);
         const scale = 0.78 + (1 - norm) * 0.46;
-        const opacity = 0.12 + (1 - norm) * 0.88;
+        const opacity = 0.12 + (1 - norm) * 0.78;
         const zIndex = 10 - Math.abs(slotOffset);
 
         const setRailRef = el => {
@@ -418,7 +408,7 @@ export default function RightRail({
         const displayLabel = it?.label || "";
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} aria-label={ariaLabel} aria-haspopup={it?.key === "sources" ? "dialog" : undefined} aria-expanded={it?.key === "sources" ? showSourcesPanel ? "true" : "false" : undefined} aria-controls={it?.key === "sources" ? "chat-sources-panel" : undefined} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <span className={`${styles.profileAvatar} ${styles.avatar}`} aria-hidden="true" /> : it?.key === "sources" ? isLightTheme ? <AllikadLight className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : <AllikadDark className={cn(styles.iconSvg, styles.iconSvgSources)} aria-hidden="true" role="img" /> : it?.key === "chats" ? <Image className={cn(styles.iconImg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} src={icons.chats} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "rooms" ? <Image className={cn(styles.iconImg, styles.iconRooms)} src={icons.rooms} alt="" aria-hidden="true" width={48} height={48} /> : it?.key === "invite" ? <Image className={cn(styles.iconImg, styles.iconInvite)} src={icons.addPerson} alt="" aria-hidden="true" width={48} height={48} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "sources" ? <SourcesIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconSvgSources)} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

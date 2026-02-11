@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import SunIcon from "@/public/logo/sun.svg";
-import MoonIcon from "@/public/logo/kuu.svg";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -17,6 +14,7 @@ import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import BackButton from "@/components/ui/BackButton";
+import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { glassPageBackMobileCornerClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
@@ -66,8 +64,8 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
-  "relative grid place-items-center h-[6.6rem] w-[6.6rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto";
-const logoutIconClassName = "h-[5.8rem] w-[5.8rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] transition-transform duration-150 ease-out";
+  "group relative grid place-items-center h-[4.5rem] w-[4.5rem] max-[48em]:h-[4.5rem] max-[48em]:w-[4.5rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[3.7rem] w-[3.7rem] max-[48em]:h-[3.7rem] max-[48em]:w-[3.7rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
   "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
@@ -84,7 +82,7 @@ const profileNavOverlayClassName =
   "max-[48em]:pr-[calc(env(safe-area-inset-right,0px)+3.1rem)] " +
   "max-[48em]:pb-[calc(env(safe-area-inset-bottom,0px)+4.35rem)]";
 const profileLogoutWrapClassName =
-  `${glassPageBackRightClassName} pointer-events-auto ` +
+  `${glassPageBackRightClassName} pointer-events-auto translate-x-[-0.68rem] ` +
   "max-[48em]:!static max-[48em]:!top-auto max-[48em]:!right-auto max-[48em]:!bottom-auto max-[48em]:!left-auto max-[48em]:!translate-y-0";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
@@ -188,6 +186,23 @@ function DeleteDockIcon({
       <path d="M9 6l.6-1.4A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.4.6L15 6m3 0-.8 11.6a2 2 0 0 1-2 1.9H8.8a2 2 0 0 1-2-1.9L6 6" />
     </svg>;
 }
+function ThemeSunDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <circle cx="12" cy="12" r="3.7" />
+      <path d="M12 2.6v2.1M12 19.3v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M16.7 16.7l1.5 1.5M18.2 5.8l-1.5 1.5M7.3 16.7l-1.5 1.5" />
+    </svg>;
+}
+function ThemeMoonDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M15.8 3.7a8.7 8.7 0 1 0 4.5 14.6A7.9 7.9 0 0 1 15.8 3.7z" />
+    </svg>;
+}
 export default function ProfiilBody({
   initialProfile = null,
   embedded = false,
@@ -216,7 +231,6 @@ export default function ProfiilBody({
   const [success, setSuccess] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-  const [logoutIconState, setLogoutIconState] = useState("idle");
   const [loginOpen, setLoginOpen] = useState(false);
   const [orbitOpen, setOrbitOpen] = useState(false);
   useEffect(() => {
@@ -431,11 +445,10 @@ export default function ProfiilBody({
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
-  const logoutIconSrc = logoutIconState === "logging-out" ? isLightTheme ? "/logo/onoffrohelinehele.svg" : "/logo/onoffroheline.svg" : isLightTheme ? "/logo/onoffhallhele.svg" : "/logo/onoffhall.svg";
   const themeActionLabel = isLightTheme ? t("accessibility.options.theme.dark") : t("accessibility.options.theme.light");
   const orbitItems = [{
     key: "theme",
-    icon: isLightTheme ? <MoonIcon width={26} height={26} /> : <SunIcon width={26} height={26} />,
+    icon: isLightTheme ? <ThemeMoonDockIcon width={26} height={26} /> : <ThemeSunDockIcon width={26} height={26} />,
     label: themeActionLabel,
     labelPos: "left",
     keepOpen: true,
@@ -501,7 +514,6 @@ export default function ProfiilBody({
     if (loggingOut) return;
     setError("");
     setSuccess("");
-    setLogoutIconState("logging-out");
     setLoggingOut(true);
     try {
       await signOut({
@@ -512,7 +524,6 @@ export default function ProfiilBody({
       setError(t("profile.server_unreachable"));
     } finally {
       setLoggingOut(false);
-      setLogoutIconState("idle");
     }
   };
   useEffect(() => {
@@ -616,7 +627,7 @@ export default function ProfiilBody({
           <BackButton onClick={handleBack} ariaLabel={t("profile.back_to_chat")} className={cn(profileBackButtonClassName, "pointer-events-auto")} />
           <div className={profileLogoutWrapClassName}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
-              <Image src={logoutIconSrc} className={logoutIconClassName} alt="" width={74} height={74} aria-hidden="true" />
+              <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
               <span className={logoutLabelClassName}>{t("profile.logout")}</span>
               <span className="sr-only">{t("profile.logout")}</span>
             </button>

@@ -181,7 +181,7 @@
   --home-card-saturate: 100%;
   --home-card-light-opacity: 0.68;
   --home-card-dark-opacity: 0.8;
-  --home-scroll-cue-color: #7a3a3a;
+  --home-scroll-cue-color: #7a3a38;
   --home-panel-bg: color-mix(
     in srgb,
     var(--glass-surface-bg, rgba(255, 255, 255, 0.52)) 70%,

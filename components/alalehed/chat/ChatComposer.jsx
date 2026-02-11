@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import PaperclipLight from "@/public/logo/papercliphele.svg";
-import PaperclipDark from "@/public/logo/paperclip.svg";
+import { PaperclipIcon } from "@/components/ui/icons/ChatIcons";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 export default function ChatComposer({
@@ -111,7 +110,7 @@ export default function ChatComposer({
       <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible?.();
     }}>
-        {isLightTheme ? <PaperclipLight className="h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" /> : <PaperclipDark className="h-[2.8rem] w-[2.8rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" aria-hidden="true" role="img" />}
+        <PaperclipIcon isLightTheme={isLightTheme} className="h-[2rem] w-[2rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" />
       </button>
 
       <input ref={fileInputRef} type="file" accept={acceptAttr} onChange={onFileChange} className="hidden" />

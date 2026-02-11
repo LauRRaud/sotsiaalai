@@ -36,7 +36,7 @@ const refreshButtonStyle = {
 };
 const refreshButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.95rem] font-semibold tracking-[0.01em]";
 const backButtonClassName = "inline-flex h-[5.2rem] w-[5.2rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
-const backIconClassName = "block h-[4.8rem] w-[4.8rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')] light:[background-image:url('/logo/tagasinupphele.svg')]";
+const backIconClassName = "block h-[4.8rem] w-[4.8rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')]";
 const EVENT_OPTIONS = [{
   value: "chat_request",
   label: "Vestluspäring"

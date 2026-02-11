@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import { createPortal } from "react-dom";
 import { flushSync } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,33 +12,57 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import AppLink from "@/components/ui/Link";
+import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
 const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-function SubmitArrowOverlayWhite({
+function SubmitInnerEdgeDotsProgress({
   filled = 0,
   max = 8,
-  stroke = "#ffffffef"
+  isLightTheme = false,
+  isError = false,
+  className = ""
 }) {
-  if (filled <= 0) return null;
-  const VIEWBOX = "0 0 24 24";
-  const ARROW_D = "M11.2 8.3 L14.8 12 L11.2 15.7";
-  const STROKE_W = 1.2;
-  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-  const TOTAL = 100;
-  const clamped = Math.max(0, Math.min(max, filled));
-  const eased = easeOutCubic(clamped / max);
-  const seg = Math.max(0, Math.min(TOTAL, eased * TOTAL));
-  return <svg width="100%" height="100%" viewBox={VIEWBOX} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style={{
-    display: "block"
-  }}>
-      <path d={ARROW_D} pathLength={TOTAL} fill="none" stroke={stroke} strokeWidth={STROKE_W} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={`${seg} ${TOTAL}`} strokeDashoffset="0" style={{
-      transition: "stroke-dasharray 260ms cubic-bezier(0.16, 1, 0.3, 1)"
-    }} />
-    </svg>;
+  const safeMax = Math.max(1, max);
+  const clamped = Math.max(0, Math.min(safeMax, filled));
+  const dotColor = isError ? "#dc2626" : isLightTheme ? "#7A3A38" : "#c57171";
+  const glowColor = isError
+    ? "rgba(220,38,38,0.38)"
+    : isLightTheme
+      ? "rgba(122,58,56,0.24)"
+      : "rgba(197,113,113,0.3)";
+  return <span
+    aria-hidden="true"
+    className={className}
+    style={{
+      "--submit-dot-size": "clamp(0.22rem,calc(var(--pin-btn)*0.07),0.34rem)",
+      "--submit-dot-radius": "calc(var(--pin-btn)*0.4)"
+    }}
+  >
+      {Array.from({
+      length: safeMax
+    }).map((_, index) => {
+      const isActive = index < clamped;
+      const startAngle = 0;
+      const angle = startAngle + 360 / safeMax * index;
+      return <span
+        key={index}
+        className="absolute left-1/2 top-1/2 rounded-full"
+        style={{
+          width: "var(--submit-dot-size)",
+          height: "var(--submit-dot-size)",
+          backgroundColor: dotColor,
+          opacity: isActive ? 0.95 : 0,
+          transform: `translate(-50%,-50%) rotate(${angle}deg) translateY(calc(var(--submit-dot-radius)*-1)) scale(${isActive ? 1 : 0.74})`,
+          boxShadow: isActive ? `0 0 0.32rem ${glowColor}` : "none",
+          transition: "opacity 180ms ease, transform 220ms cubic-bezier(0.22,0.61,0.36,1), background-color 180ms ease"
+        }}
+      />;
+    })}
+    </span>;
 }
 export default function LoginModal({
   open,
@@ -98,12 +121,11 @@ export default function LoginModal({
   const [_invalidCredentials, setInvalidCredentials] = useState(false);
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
-  const [emailValue, setEmailValue] = useState("");
+  const [_emailValue, setEmailValue] = useState("");
   const [emailErrorVisual, setEmailErrorVisual] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const helpButtonRef = useRef(null);
   const helpPopoverRef = useRef(null);
-  const hasEmailValue = (emailValue || "").trim().length > 0;
   const [useNativeKeyboard, setUseNativeKeyboard] = useState(() => {
     if (typeof window === "undefined") return false;
     try {
@@ -753,7 +775,7 @@ export default function LoginModal({
   if (!open) return null;
   const isLightTheme = prefs?.theme === "light";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
-  const emailIconBackgroundImage = showEmailErrorIcon ? isLightTheme ? "url('/logo/lettererrorlight.svg')" : "url('/logo/lettererror.svg')" : hasEmailValue ? isLightTheme ? "url('/logo/letterlight.svg')" : "url('/logo/letter.svg')" : isLightTheme ? "url('/logo/letterlight.svg')" : "url('/logo/letter.svg')";
+  const emailIconStatus = showEmailErrorIcon ? "error" : "success";
   const stopInside = e => e.stopPropagation();
   return createPortal(<>
       <style jsx global>{`
@@ -805,10 +827,9 @@ export default function LoginModal({
             <div className={emailRowClass}>
               {!emailRevealed ? <button type="button" ref={emailIconButtonRef} className={emailIconClass} style={{
             width: "var(--login-envelope-hit)",
-            height: "var(--login-envelope-hit)",
-            backgroundImage: emailIconBackgroundImage,
-            backgroundSize: "var(--login-envelope-size) auto"
+            height: "var(--login-envelope-hit)"
           }} aria-describedby={emailHintIdRef.current} aria-label={t("auth.email_placeholder")} onClick={revealEmailInput}>
+                  <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
                   <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !mt-[0.4rem] !mb-[0.9rem] !w-[clamp(13rem,17.2vw,15rem)] !max-w-[clamp(13rem,17.2vw,15rem)] text-[1.16rem] max-md:!w-[min(100%,var(--pin-grid-w))] max-md:!max-w-[var(--pin-grid-w)]" onMouseDown={e => {
@@ -894,7 +915,9 @@ export default function LoginModal({
               }
               if (key === "submit") {
                 const label = t("auth.login.submit");
-                const submitKeyIconSrc = submitIconState === "error" ? "/logo/tabalukkpunane.svg" : isLightTheme ? "/logo/sisenehallhele.svg" : "/logo/sisenehall.svg";
+                const submitFilled = Math.max(0, Math.min(PIN_MAX, pinValue.length));
+                const submitError = submitIconState === "error";
+                const arrowScale = 1 + submitFilled / PIN_MAX * 0.08;
                 return <button key={"submit-" + String(idx)} type="button" className="no-click-pulse relative grid place-items-center !w-[var(--pin-btn)] !h-[var(--pin-btn)] rounded-full overflow-hidden border-0 text-[1.6rem] max-md:text-[1.85rem] font-[360] tracking-[0.01em] [font-variant-numeric:tabular-nums] select-none [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] cursor-pointer transition-[transform,background,box-shadow,filter] duration-[320ms] ease-[cubic-bezier(0.25,0.9,0.35,1)] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)] disabled:shadow-none disabled:cursor-default [background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_56%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.003)_0%,rgba(255,255,255,0.002)_42%,rgba(0,0,0,0.22)_100%)] light:[background:radial-gradient(120%_120%_at_18%_16%,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0)_62%),radial-gradient(120%_120%_at_86%_90%,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0)_64%),linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.12)_55%,rgba(255,255,255,0.06)_100%)] after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none after:[background:var(--pin-gloss-bg)] after:opacity-[var(--pin-gloss-op)]" style={{
                   boxShadow: isLightTheme ? "0 10px 18px rgba(0, 0, 0, 0.1), inset 0 0 0 var(--pin-border-w) rgba(17, 24, 39, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78), inset 0 -1px 0 rgba(0, 0, 0, 0.12)" : "0 10px 18px rgba(0, 0, 0, var(--pin-shadow)), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.46)",
                   "--pin-gloss-op": isLightTheme ? "0.26" : "0.18"
@@ -909,13 +932,16 @@ export default function LoginModal({
                   bounceKey(el);
                 }} onClick={() => submitPinStep()} disabled={pinLoading} aria-label={label}>
                           <span className="absolute inset-0 grid place-items-center" aria-hidden="true">
-                            <Image src={submitKeyIconSrc} className="login-submit-icon" alt="" fill priority={false} aria-hidden="true" style={{
-                      objectFit: "contain",
-                      objectPosition: "center"
-                    }} />
-                            {pinValue.length > 0 && submitIconState !== "error" && <span aria-hidden="true">
-                                  <SubmitArrowOverlayWhite filled={pinValue.length} max={PIN_MAX} stroke={isLightTheme ? "#c57171" : "#ffffffef"} />
-                                </span>}
+                            <SubmitInnerEdgeDotsProgress
+                              filled={submitFilled}
+                              max={PIN_MAX}
+                              isLightTheme={isLightTheme}
+                              isError={submitError}
+                              className="absolute inset-0 pointer-events-none"
+                            />
+                            {submitError ? <LockErrorIcon className="login-submit-icon h-[clamp(1.42rem,3.8vw,1.7rem)] w-[clamp(1.42rem,3.8vw,1.7rem)]" /> : <SubmitArrowIcon isLightTheme={isLightTheme} className="login-submit-icon h-[clamp(1.14rem,3.15vw,1.35rem)] w-[clamp(1.14rem,3.15vw,1.35rem)] translate-x-[0.08rem] transition-transform duration-200 ease-out" style={{
+                            transform: `scale(${arrowScale.toFixed(3)})`
+                          }} />}
                           </span>
                         </button>;
               }

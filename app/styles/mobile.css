@@ -626,15 +626,15 @@
   }
 
   .drawer-panel--chat-glass .drawer-header {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem) !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem) !important;
     padding-right: 1rem !important;
     padding-left: 1rem !important;
   }
 
   .drawer-panel--chat-glass .drawer-close-btn--chat {
-    position: fixed !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.42rem) !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.56rem) !important;
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.06rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.12rem) !important;
     left: auto !important;
     color: #c57171 !important;
     z-index: 150 !important;
