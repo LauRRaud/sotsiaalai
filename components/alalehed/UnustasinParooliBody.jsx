@@ -29,8 +29,8 @@ export default function UnustasinParooliBody() {
     locale
   } = useI18n();
   const errorId = error ? "reset-error" : undefined;
-  const title = t("auth.reset.title", "Uuenda PIN");
-  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const title = t("auth.reset.title");
+  const backLabel = t("buttons.back_previous");
   const searchParams = useSearchParams();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
@@ -77,7 +77,7 @@ export default function UnustasinParooliBody() {
         <div className={contentClassName}>
           {submitted ? <RichText className="text-center text-[color:#a7f3d0]" as="div" value={t("auth.reset.success")} /> : <form className="flex w-full flex-col items-center gap-6 text-center" onSubmit={handleSubmit} autoComplete="off" aria-busy={loading ? "true" : "false"}>
               <label htmlFor="email" className="sr-only">
-                {t("profile.email", "E-post")}
+                {t("profile.email")}
               </label>
               <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={email} onChange={e => setEmail(e.target.value)} required autoComplete="username" disabled={loading} aria-invalid={error ? "true" : "false"} aria-describedby={errorId} />
               {error && <p id={errorId} role="alert" className="text-center text-[color:#fca5a5]">

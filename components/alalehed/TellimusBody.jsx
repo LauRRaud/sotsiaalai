@@ -36,7 +36,7 @@ export default function TellimusBody() {
     t,
     locale
   } = useI18n();
-  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const backLabel = t("buttons.back_previous");
   const searchParams = useSearchParams();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);

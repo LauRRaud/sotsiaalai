@@ -61,7 +61,8 @@
     "toggle_dark": "Lülita tume režiim",
     "chats": "Vestlused",
     "rooms": "Ruumid",
-    "add_person": "Lisa inimene"
+    "add_person": "Lisa inimene",
+    "sources": "Allikad"
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
@@ -112,9 +113,11 @@
       "title": "Loo konto",
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
+      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
       "agreement": "Nõustun <terms>kasutaja&#8209;</terms> ja <privacy>privaatsustingimustega</privacy>.",
       "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
       "error": {
+        "role_required": "Vali roll.",
         "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
         "failed": "Registreerimine ebaõnnestus.",
         "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
@@ -195,6 +198,7 @@
     "saving": "Salvestan…",
     "save": "Salvesta",
     "logout": "Logi välja",
+    "logout_short": "Välja",
     "back_to_chat": "Tagasi vestlusesse",
     "actions_label": "Profiili toimingud",
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
@@ -208,6 +212,8 @@
     "footer_brand": "SotsiaalAI ©",
     "preferences": {
       "title": "Keel ja ligipääsetavus",
+      "title_line1": "Keel ja",
+      "title_line2": "ligipääsetavus",
       "hint": "Seadista vaikimisi keel ning ligipääsetavuse eelistused. Muudatused rakenduvad kohe.",
       "sections": {
         "locale": "Vaikekeel",
@@ -578,6 +584,7 @@
     },
     "guide": {
       "jump_link": "Platvormi kasutusjuhend",
+      "short_title": "Kasutusjuhend",
       "title": "Kuidas kasutada platvormi?",
       "intro": "Alljärgnev juhend annab samm-sammulise ülevaate, kuidas SotsiaalAI platvormil alustada: valida sobiv roll, luua konto, vormistada tellimus, sisse logida, kasutada vestlusassistenti ning seadistada keelt ja ligipääsetavust.",
       "sections_v2": {
@@ -738,12 +745,27 @@
   "rooms": {
     "aria": "Ruumid",
     "title": "Ruumid",
-    "error": "Ruumide laadimine eba?nnestus",
+    "error": "Ruumide laadimine ebaõnnestus",
     "loading": "Laadin ruume...",
     "empty": "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
     "fallback_title": "Ruum",
     "back_to_chats": "Tagasi vestlustesse",
+    "unread": "Uusi",
+    "role_label": "Roll",
+    "members_label": "Liikmeid",
     "last_empty": "Veel sõnumeid pole",
+    "role": {
+      "owner": "Omanik",
+      "moderator": "Moderaator",
+      "member": "Liige",
+      "admin": "Admin"
+    },
+    "invite": "Kutsu",
+    "leave": "Lahku",
+    "leave_busy": "Lahkun...",
+    "delete": "Kustuta",
+    "delete_busy": "Kustutan...",
+    "delete_title": "Kustuta ruum",
     "delete_confirm": "Kustuta ruum \"{name}\"? See kustutab sõnumid ja kutsed.",
     "leave_failed": "Ruumist lahkumine ebaõnnestus.",
     "delete_failed": "Kustutamine ebaõnnestus.",
@@ -766,6 +788,7 @@
       "client": "Klient"
     },
     "pay": {
+      "label": "Maksmine",
       "self": "Tal on oma tellimus",
       "host": "Tasun tema eest"
     },

@@ -875,7 +875,7 @@ export default function ChatBody({
                 showMobileRail();
               }}
                         disabled={mobileRailInteractionLocked}
-                        aria-label={t("chat.show_quick_actions", "Näita otseteid")}
+                        aria-label={t("chat.show_quick_actions")}
                         className="chat-rail-show-btn pointer-events-auto touch-manipulation absolute z-[221] top-[calc(env(safe-area-inset-top,0px)+0.87rem)] left-[calc(env(safe-area-inset-left,0px)+5.15rem)] h-[3.58rem] w-[3.58rem] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
                       >
                         <ShowRailIcon isLightTheme={isLightTheme} className="h-[2.95rem] w-[2.95rem]" />

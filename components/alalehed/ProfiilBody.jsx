@@ -625,7 +625,7 @@ export default function ProfiilBody({
           <div className={profileLogoutWrapClassName}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
-              <span className={logoutLabelClassName}>{t("profile.logout_short", "Välja")}</span>
+              <span className={logoutLabelClassName}>{t("profile.logout_short")}</span>
               <span className="sr-only">{t("profile.logout")}</span>
             </button>
           </div>

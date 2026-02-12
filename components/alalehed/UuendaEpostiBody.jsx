@@ -32,8 +32,8 @@ export default function UuendaEpostiBody() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const errorId = error ? "update-email-error" : undefined;
-  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
-  const pinPlaceholder = locale === "et" ? "Praegune PIN" : t("profile.email_update.pin_placeholder", "Current PIN");
+  const backLabel = t("buttons.back_previous");
+  const pinPlaceholder = locale === "et" ? "Praegune PIN" : t("profile.email_update.pin_placeholder");
   const searchParams = useSearchParams();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
@@ -66,19 +66,19 @@ export default function UuendaEpostiBody() {
     const nextEmail = email.trim().toLowerCase();
     const pinClean = pin.replace(/\D/g, "");
     if (!nextEmail) {
-      setError(t("profile.email_update.error_email_required", "Palun sisesta e-posti aadress."));
+      setError(t("profile.email_update.error_email_required"));
       return;
     }
     if (!nextEmail.includes("@")) {
-      setError(t("profile.email_update.error_email_invalid", "Palun sisesta korrektne e-posti aadress."));
+      setError(t("profile.email_update.error_email_invalid"));
       return;
     }
     if (!pinClean) {
-      setError(t("profile.email_update.error_pin_required", "Palun sisesta PIN-kood."));
+      setError(t("profile.email_update.error_pin_required"));
       return;
     }
     if (pinClean.length < PIN_MIN || pinClean.length > PIN_MAX) {
-      setError(t("profile.email_update.error_pin_length", "PIN peab olema {min}-{max} numbrit.", {
+      setError(t("profile.email_update.error_pin_length", {
         min: PIN_MIN,
         max: PIN_MAX
       }));
@@ -98,13 +98,13 @@ export default function UuendaEpostiBody() {
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok || payload?.ok === false) {
-        setError(payload?.error || payload?.message || t("profile.email_update.error_failed", "E-posti uuendamine ebaõnnestus."));
+        setError(payload?.error || payload?.message || t("profile.email_update.error_failed"));
         return;
       }
       setSubmitted(true);
     } catch (err) {
       console.error("update email error", err);
-      setError(t("profile.email_update.error_failed", "E-posti uuendamine ebaõnnestus."));
+      setError(t("profile.email_update.error_failed"));
     } finally {
       setLoading(false);
     }
@@ -114,24 +114,24 @@ export default function UuendaEpostiBody() {
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
         <h1 className={titleClassName}>
-          {t("profile.email_update.title", "Uuenda e-post")}
+          {t("profile.email_update.title")}
         </h1>
         <div className={contentClassName}>
           {submitted ? <div className="flex flex-col gap-4 text-center">
               <p className="text-[color:#a7f3d0]">
-                {t("profile.email_update.success", "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.")}
+                {t("profile.email_update.success")}
               </p>
             </div> : <form className="flex w-full flex-col items-center gap-7 text-center" onSubmit={handleSubmit} autoComplete="off" aria-busy={loading ? "true" : "false"}>
               <label htmlFor="current-email" className="sr-only">
-                {t("profile.email_update.current_placeholder", "Sinu e-post")}
+                {t("profile.email_update.current_placeholder")}
               </label>
-              <input type="email" id="current-email" name="current-email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.current_placeholder", "Sinu e-post")} value={currentEmail} readOnly aria-readonly="true" autoComplete="email" inputMode="email" />
+              <input type="email" id="current-email" name="current-email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.current_placeholder")} value={currentEmail} readOnly aria-readonly="true" autoComplete="email" inputMode="email" />
               <label htmlFor="email" className="sr-only">
-                {t("profile.email_update.new_placeholder", "Uus e-post")}
+                {t("profile.email_update.new_placeholder")}
               </label>
-              <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.new_placeholder", "Uus e-post")} value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" inputMode="email" disabled={loading} aria-invalid={error ? "true" : "false"} aria-describedby={errorId} />
+              <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.new_placeholder")} value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" inputMode="email" disabled={loading} aria-invalid={error ? "true" : "false"} aria-describedby={errorId} />
               <label htmlFor="pin" className="sr-only">
-                {t("profile.email_update.pin_placeholder", "Praegune PIN ({min}-{max} numbrit)", {
+                {t("profile.email_update.pin_placeholder", {
               min: PIN_MIN,
               max: PIN_MAX
             })}
@@ -141,9 +141,9 @@ export default function UuendaEpostiBody() {
                   {error}
                 </p>}
               <div className="mt-[clamp(1.8rem,4.6vh,3rem)] flex justify-center">
-                <Button type="submit" variant="primary" className="px-[1.6rem] py-[1.05rem] text-[1.18rem]" disabled={loading}>
+                <Button type="submit" variant="primary" className="max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem]" disabled={loading}>
                   <span>
-                    {loading ? t("profile.email_update.submitting", "Saadan...") : t("profile.email_update.submit", "Saada kinnituskiri")}
+                    {loading ? t("profile.email_update.submitting") : t("profile.email_update.submit")}
                   </span>
                 </Button>
               </div>

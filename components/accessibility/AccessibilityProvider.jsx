@@ -356,7 +356,7 @@ function AccessibilityProvider({
         localStorage.setItem("theme", merged.theme);
       }
     } catch {}
-    announce(t("profile.preferences.saved", "Eelistused salvestatud."));
+    announce(t("profile.preferences.saved"));
   }, [prefs, announce, t, safeApplyPrefsToDom]);
   const previewPrefs = useCallback(partial => {
     const preview = {

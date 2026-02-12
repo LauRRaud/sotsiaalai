@@ -255,7 +255,7 @@ export function useChatAnalysisController({
     setDocOnlyMode(true);
     const sizeMB = file.size / (1024 * 1024);
     if (sizeMB > MAX_UPLOAD_MB) {
-      const sizeError = t("chat.upload.error_size", "Fail on liiga suur ({size}MB > {limit}MB).").replace("{size}", sizeMB.toFixed(1)).replace("{limit}", String(MAX_UPLOAD_MB));
+      const sizeError = t("chat.upload.error_size").replace("{size}", sizeMB.toFixed(1)).replace("{limit}", String(MAX_UPLOAD_MB));
       setUploadError(sizeError);
       e.target.value = "";
       return;
@@ -273,7 +273,7 @@ export function useChatAnalysisController({
         ok: false
       }));
       if (!res.ok || !data?.ok) {
-        const statusError = t("chat.upload.error_status", "Dokumendi analüüs ebaõnnestus (veakood {status}).").replace("{status}", String(res.status));
+        const statusError = t("chat.upload.error_status").replace("{status}", String(res.status));
         throw new Error(data?.message || statusError);
       }
       const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
@@ -301,7 +301,7 @@ export function useChatAnalysisController({
       setDocOnlyMode(true);
       refreshUsage();
     } catch (err) {
-      const genericError = t("chat.upload.error_generic", "Dokumendi analüüs ebaõnnestus.");
+      const genericError = t("chat.upload.error_generic");
       setUploadError(err?.message || genericError);
       setUploadPreview(null);
       setEphemeralChunks([]);

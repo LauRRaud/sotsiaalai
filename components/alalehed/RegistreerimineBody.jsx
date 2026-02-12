@@ -62,7 +62,7 @@ export default function RegistreerimineBody({
   const [isScrolled, setIsScrolled] = useState(false);
   const roleLabelId = useId();
   const roleHintId = useId();
-  const roleLabelText = t("auth.register.role_label_question", "Kes oled?");
+  const roleLabelText = t("auth.register.role_label_question");
   function handleChange(e) {
     const {
       name,
@@ -80,7 +80,7 @@ export default function RegistreerimineBody({
     setError("");
     setSuccessMessage("");
     if (!form.role) {
-      setError(t("auth.register.error.role_required", "Vali roll."));
+      setError(t("auth.register.error.role_required"));
       return;
     }
     if (!form.agree || !form.guideAck) {
@@ -238,7 +238,7 @@ export default function RegistreerimineBody({
                 </div>
                 <div className="register-role-options flex flex-col gap-[0.75rem]" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
                   <div id={roleHintId} className="sr-only">
-                    {t("auth.register.role_hint", "Vali roll nooleklahvidega. Valikud: SotsiaaltГ'кА?Г'кА? spetsialist vГ'кАзi ElukГ'какsimusega pГ'кА?Г'кА?rduja.")}
+                    {t("auth.register.role_hint")}
                   </div>
                 <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}

@@ -10,7 +10,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/uuenda-pin",
-    title: meta.title || "Update PIN code - SotsiaalAI",
+    title: meta.title || "Update PIN - SotsiaalAI",
     description: meta.description || ""
   });
 }

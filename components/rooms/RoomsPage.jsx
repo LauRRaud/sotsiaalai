@@ -33,10 +33,10 @@ export default function RoomsPage() {
   }), [locale]);
   const roleLabel = useCallback(role => {
     const map = {
-      OWNER: t("rooms.role.owner", "Omanik"),
-      MODERATOR: t("rooms.role.moderator", "Moderaator"),
-      MEMBER: t("rooms.role.member", "Liige"),
-      ADMIN: t("rooms.role.admin", "Admin")
+      OWNER: t("rooms.role.owner"),
+      MODERATOR: t("rooms.role.moderator"),
+      MEMBER: t("rooms.role.member"),
+      ADMIN: t("rooms.role.admin")
     };
     return map[role] || role || "";
   }, [t]);
@@ -76,12 +76,12 @@ export default function RoomsPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || t("rooms.leave_failed", "Ruumist lahkumine ebaõnnestus."));
+        throw new Error(data?.message || t("rooms.leave_failed"));
       }
       setRooms(prev => prev.filter(r => r.id !== room.id));
     } catch (err) {
       console.warn("Room leave failed:", err);
-      window.alert(err?.message || t("rooms.leave_failed", "Ruumist lahkumine ebaõnnestus."));
+      window.alert(err?.message || t("rooms.leave_failed"));
     } finally {
       setLeavingId(null);
     }
@@ -104,12 +104,12 @@ export default function RoomsPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || t("rooms.delete_failed", "Kustutamine ebaõnnestus."));
+        throw new Error(data?.message || t("rooms.delete_failed"));
       }
       setRooms(prev => prev.filter(r => r.id !== target.id));
     } catch (err) {
       console.warn("Room delete failed:", err);
-      window.alert(err?.message || t("rooms.delete_failed", "Kustutamine ebaõnnestus."));
+      window.alert(err?.message || t("rooms.delete_failed"));
     } finally {
       setDeletingId(null);
       setConfirmRoom(null);
@@ -156,20 +156,20 @@ const metaItemClass = "text-[0.78rem] text-[color:var(--pt-200)] before:content-
 const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
   return <>
     <section className={pageShellClassName}>
-      <GlassRing className={circleClassName} role="region" aria-label={t("rooms.aria", "Ruumid")}>
+      <GlassRing className={circleClassName} role="region" aria-label={t("rooms.aria")}>
         <BackButton
           onClick={() => pushWithTransition(router, "/vestlus")}
-          ariaLabel={t("rooms.back_to_chats", "Tagasi vestlustesse")}
+          ariaLabel={t("rooms.back_to_chats")}
           className={glassPageBackMobileBottomCenterClassName}
         />
         <h1 className={titleClassName}>
-          {t("rooms.title", "Ruumid")}
+          {t("rooms.title")}
         </h1>
           <div className={contentClassName}>
             {loading ? <p className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]" aria-busy="true">
-                {t("rooms.loading", "Laadin ruume...")}
+                {t("rooms.loading")}
               </p> : effectiveRooms.length === 0 ? <p className="mx-auto w-[min(28rem,90%)] text-center text-[1.15rem] leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]">
-                {t("rooms.empty", "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.")}
+                {t("rooms.empty")}
               </p> : <div className={scrollAreaClassName}>
                 <ul className="mx-auto grid w-[min(30rem,88%)] list-none gap-[0.85rem] p-0 text-left" role="list">
                   {effectiveRooms.map(room => <li key={room.id} className="m-0 p-0">
@@ -177,9 +177,9 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
                         <Link prefetch={false} href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="grid w-full gap-[0.45rem] text-inherit no-underline">
                           <div className="flex items-center justify-between gap-[0.8rem]">
                             <div className="text-[1.05rem] font-semibold text-[color:var(--pt-40)] [.theme-light_&]:text-[#0f172a]">
-                              {room.title || t("rooms.fallback_title", "Ruum")}
+                              {room.title || t("rooms.fallback_title")}
                             </div>
-                            {room.unreadCount ? <span className="min-w-[1.6rem] rounded-full border border-[rgba(192,72,72,0.35)] bg-[rgba(192,72,72,0.25)] px-[0.45rem] py-[0.15rem] text-center text-[0.75rem] font-semibold text-[#ffd1d1]" aria-label={t("rooms.unread", "Uusi")}>
+                            {room.unreadCount ? <span className="min-w-[1.6rem] rounded-full border border-[rgba(192,72,72,0.35)] bg-[rgba(192,72,72,0.25)] px-[0.45rem] py-[0.15rem] text-center text-[0.75rem] font-semibold text-[#ffd1d1]" aria-label={t("rooms.unread")}>
                                 {room.unreadCount}
                               </span> : null}
                           </div>
@@ -188,15 +188,15 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
                             </div> : null}
                           <div className="flex flex-wrap gap-[0.45rem] text-[0.78rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#475569]">
                             {room.role ? <span className={metaItemClass}>
-                                {t("rooms.role_label", "Roll")}:{" "}
+                                {t("rooms.role_label")}:{" "}
                                 {roleLabel(room.role)}
                               </span> : null}
                             {Number.isFinite(room.memberCount) ? <span className={metaItemClass}>
-                                {t("rooms.members_label", "Liikmeid")}:{" "}
+                                {t("rooms.members_label")}:{" "}
                                 {room.memberCount}
                               </span> : null}
                             {room.unreadCount ? <span className={`${metaItemClass} text-[#ffd1d1]`}>
-                                {t("rooms.unread", "Uusi")}: {room.unreadCount}
+                                {t("rooms.unread")}: {room.unreadCount}
                               </span> : null}
                           </div>
                           {room.lastMessage?.content ? <div className="flex items-baseline justify-between gap-[0.75rem] text-[0.82rem] text-[color:var(--pt-180)] [.theme-light_&]:text-[#475569]">
@@ -207,18 +207,18 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
                                   {formatTime(room.lastMessage.createdAt)}
                                 </span> : null}
                           </div> : <div className="text-[0.82rem] text-[rgba(148,163,184,0.7)]">
-                            {t("rooms.last_empty", "Veel sõnumeid pole")}
+                            {t("rooms.last_empty")}
                           </div>}
                         </Link>
                         {canInvite(room.role) || canLeave(room.role) || canDelete(room.role) ? <div className="flex justify-end gap-[0.4rem]">
                             {canInvite(room.role) ? <button type="button" className={actionBaseClass} onClick={() => handleInvite(room.id)}>
-                                {t("rooms.invite", "Kutsu")}
+                                {t("rooms.invite")}
                               </button> : null}
                             {canLeave(room.role) ? <button type="button" className={actionBaseClass} onClick={() => handleLeave(room)} disabled={leavingId === room.id}>
-                                {leavingId === room.id ? t("rooms.leave_busy", "Lahkun...") : t("rooms.leave", "Lahku")}
+                                {leavingId === room.id ? t("rooms.leave_busy") : t("rooms.leave")}
                               </button> : null}
                             {canDelete(room.role) ? <button type="button" className={actionDangerClass} onClick={() => openDeleteConfirm(room)}>
-                                {t("rooms.delete", "Kustuta")}
+                                {t("rooms.delete")}
                               </button> : null}
                           </div> : null}
                       </div>
@@ -231,17 +231,17 @@ const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[
       <Modal open={!!confirmRoom} onClose={closeDeleteConfirm} closeOnOverlayClick={!deletingId} aria-labelledby="rooms-delete-title">
         {confirmRoom ? <div className="flex flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]">
             <h2 id="rooms-delete-title" className={modalTitleClassName}>
-              {t("rooms.delete_title", "Kustuta ruum")}
+              {t("rooms.delete_title")}
             </h2>
             <p className="text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]">
-              {t("rooms.delete_confirm", 'Kustuta ruum "{name}"? See kustutab sõnumeid ja kutsed.').replace("{name}", confirmRoom.title || t("rooms.fallback_title", "Ruum"))}
+              {t("rooms.delete_confirm").replace("{name}", confirmRoom.title || t("rooms.fallback_title"))}
             </p>
             <div className="flex flex-wrap justify-end gap-3">
               <Button type="button" variant="secondary" onClick={closeDeleteConfirm} disabled={deletingId === confirmRoom.id}>
-                {t("rooms.cancel", "Tühista")}
+                {t("rooms.cancel")}
               </Button>
               <Button type="button" variant="primary" onClick={() => confirmDelete(confirmRoom)} disabled={deletingId === confirmRoom.id}>
-                {deletingId === confirmRoom.id ? t("rooms.delete_busy", "Kustutan...") : t("rooms.delete", "Kustuta")}
+                {deletingId === confirmRoom.id ? t("rooms.delete_busy") : t("rooms.delete")}
               </Button>
             </div>
           </div> : null}

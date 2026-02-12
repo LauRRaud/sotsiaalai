@@ -95,7 +95,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label={t("chat.sources.dialog_label", "Vestluse allikad")}
+      aria-label={t("chat.sources.dialog_label")}
       onClick={onClose}
       tabIndex={-1}
       className={overlayClassName}
@@ -103,7 +103,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
       <div onClick={e => e.stopPropagation()} className={dialogClassName}>
         <div className={headerClassName}>
           <h2 className={titleClassName}>
-            {t("chat.sources.heading", "Vestluse allikad")}
+            {t("chat.sources.heading")}
           </h2>
           <button
             type="button"
@@ -111,13 +111,13 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
             onClick={onClose}
             className={closeClassName}
           >
-            {t("buttons.close", "Sulge")}
+            {t("buttons.close")}
           </button>
         </div>
 
         {conversationSources.length === 0 ? (
           <p className={emptyClassName}>
-            {t("chat.sources.empty", "Vestluses ei ole allikaid.")}
+            {t("chat.sources.empty")}
           </p>
         ) : (
           <ol className={listClassName}>
@@ -126,7 +126,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
                 <div className={labelClassName}>{src.label}</div>
                 {src.occurrences > 1 ? (
                   <div className={usageClassName}>
-                    {t("chat.sources.used_multiple", "Kasutatud {count} vestluse lõigus.").replace(
+                    {t("chat.sources.used_multiple").replace(
                       "{count}",
                       String(src.occurrences)
                     )}
@@ -136,7 +136,7 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
                 {src.pageText &&
                 !`${src.label}`.toLowerCase().includes("lk") ? (
                   <div className={pagesClassName}>
-                    {t("chat.sources.pages", "Leheküljed: {pages}").replace(
+                    {t("chat.sources.pages").replace(
                       "{pages}",
                       String(src.pageText)
                     )}
@@ -153,11 +153,11 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
                         className={linkClassName}
                       >
                         {src.allUrls.length > 1
-                          ? t("chat.sources.open_indexed", "Ava ({index})").replace(
+                          ? t("chat.sources.open_indexed").replace(
                               "{index}",
                               String(urlIdx + 1)
                             )
-                          : t("chat.sources.open_single", "Ava allikas")}
+                          : t("chat.sources.open_single")}
                       </a>
                     ))}
                   </div>

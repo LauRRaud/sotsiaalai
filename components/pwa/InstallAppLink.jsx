@@ -20,18 +20,15 @@ export default function InstallAppLink({
 
   const t = useT();
   const resolvedHeading = heading || t("pwa.heading");
-  const installCtaMobile = t("pwa.cta_mobile", "Paigalda mobiili");
-  const installCtaDesktop = t("pwa.cta_desktop", "Paigalda arvutisse");
+  const installCtaMobile = t("pwa.cta_mobile");
+  const installCtaDesktop = t("pwa.cta_desktop");
   const iosHint = t("pwa.instructions.ios");
   const androidHint = t(
     "pwa.instructions.android",
     'Android: ava brauseri menyy ja vali "Add to Home screen".'
   );
   const macHint = t("pwa.instructions.mac");
-  const desktopHint = t(
-    "pwa.instructions.desktop",
-    "Ava brauseri menyy ja vali paigaldamine."
-  );
+  const desktopHint = t("pwa.instructions.desktop");
   const mutedHintClass =
     "text-[color:var(--pt-300)] font-medium text-[1em] whitespace-normal";
   const inlineMessageClass =

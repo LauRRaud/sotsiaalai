@@ -33,7 +33,7 @@ export default function KasutusjuhendBody() {
     openModal: openA11y
   } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
-  const toggleLabel = expanded ? t("buttons.collapse", "Ahenda") : t("buttons.expand", "Laienda");
+  const toggleLabel = expanded ? t("buttons.collapse") : t("buttons.expand");
   const isExpandedLayout = expanded || isMobilePolicyLayout;
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -93,7 +93,7 @@ export default function KasutusjuhendBody() {
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
         />
         <h1 id="kasutusjuhend-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
-          {t("about.guide.short_title", "Kasutusjuhend")}
+          {t("about.guide.short_title")}
         </h1>
         <div className={cn(contentClassName, "glass-ring-content", isExpandedLayout ? "glass-ring-content--open" : null)}>
           <div className={cn(scrollClassName, isExpandedLayout ? "glass-ring-scroll--open" : null)} style={{ zIndex: 0 }}>

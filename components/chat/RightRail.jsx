@@ -154,24 +154,24 @@ export default function RightRail({
     } catch {}
   };
 
-  const sourcesLabel = t("chat.sources.button", "Allikad ({count})").replace("{count}", String(conversationSources.length));
+  const sourcesLabel = t("chat.sources.button").replace("{count}", String(conversationSources.length));
 
   const items = useMemo(() => {
     return [{
       key: "profile",
-      label: "Profiil"
+      label: t("nav.profile")
     }, {
       key: "chats",
-      label: t("nav.chats", "Vestlused")
+      label: t("nav.chats")
     }, {
       key: "rooms",
-      label: t("nav.rooms", "Ruumid")
+      label: t("nav.rooms")
     }, {
       key: "invite",
-      label: t("nav.add_person", "Lisa inimene")
+      label: t("nav.add_person")
     }, {
       key: "sources",
-      label: "Allikad"
+      label: t("nav.sources")
     }];
   }, [t]);
 
@@ -372,7 +372,7 @@ export default function RightRail({
     : hoveredDesktopIndex ?? activeIndex;
 
   return <div className={slotClassName}>
-      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onBlurCapture={event => {
+      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown} onBlurCapture={event => {
       const next = event.relatedTarget;
       const rail = railRef.current;
       if (rail && next instanceof Node && rail.contains(next)) return;

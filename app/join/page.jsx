@@ -33,12 +33,12 @@ export default function JoinPage() {
     setError("");
   }, [token]);
 
-  const joinErrorText = t("join.error", "Liitumine ebaĆµnnestus");
+  const joinErrorText = t("join.error");
 
   async function accept() {
     const trimmedName = displayName.trim();
     if (!trimmedName) {
-      setError(t("join.name_required", "Palun sisesta oma nimi."));
+      setError(t("join.name_required"));
       return;
     }
     setBusy(true);
@@ -59,7 +59,7 @@ export default function JoinPage() {
         const msg = data?.message || joinErrorText;
         throw new Error(msg);
       }
-      setStatusMsg(t("join.success", "Liitumine Ćµnnestus"));
+      setStatusMsg(t("join.success"));
       if (data?.roomId) {
         pushWithTransition(router, `/vestlus?roomId=${encodeURIComponent(data.roomId)}`);
       } else {
@@ -81,36 +81,36 @@ export default function JoinPage() {
     <section lang={locale} className={pageShellClassName}>
       <GlassRing>
         <h1 className={titleClassName}>
-          {token ? t("join.heading", "Liitu vestlusega") : t("join.missing_title", "Kutse link puudub")}
+          {token ? t("join.heading") : t("join.missing_title")}
         </h1>
         <div className={contentClassName}>
           {!token ? (
             <p className="text-center text-[0.98rem] opacity-80">
-              {t("join.missing_description", "Palun ava kutselink oma e-postist.")}
+              {t("join.missing_description")}
             </p>
           ) : (
             <>
               <p className="text-center text-[0.98rem] opacity-80">
-                {t("join.lead", "Kinnitame kutse ja lisame sind ruumi.")}
+                {t("join.lead")}
               </p>
               {status !== "authenticated" ? (
                 <div className="flex flex-col items-center gap-4">
                   <p className="text-center text-[0.98rem] opacity-80">
-                    {t("join.signin_prompt", "Logi sisse vĆµi loo konto, et liituda.")}
+                    {t("join.signin_prompt")}
                   </p>
                   <Button type="button" onClick={() => setLoginOpen(true)}>
-                    {t("join.signin", "Logi sisse")}
+                    {t("join.signin")}
                   </Button>
                 </div>
               ) : (
                 <form className="flex w-full flex-col items-center gap-4" onSubmit={handleSubmit}>
                   <p className="text-center text-[0.98rem] opacity-80">
-                    {t("join.logged_in_as", "Oled sisse logitud kasutajana {email}.", {
+                    {t("join.logged_in_as", {
                       email: session?.user?.email || session?.user?.id
                     })}
                   </p>
                   <label className="text-center text-[1.05rem] font-medium tracking-[0.03em]" htmlFor="join-display-name">
-                    {t("join.name_label", "Sinu nimi vestluses")}
+                    {t("join.name_label")}
                   </label>
                   <Input
                     id="join-display-name"
@@ -122,7 +122,7 @@ export default function JoinPage() {
                   />
                   <div className="mt-[0.5rem] flex justify-center">
                     <Button type="submit" disabled={busy}>
-                      {busy ? t("join.joining", "Liidan...") : t("join.join_button", "Liitu")}
+                      {busy ? t("join.joining") : t("join.join_button")}
                     </Button>
                   </div>
                 </form>

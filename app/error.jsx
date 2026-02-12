@@ -29,7 +29,7 @@ export default function Error({
   useEffect(() => {
     console.error("Application error:", error);
   }, [error]);
-  const backLabel = t("buttons.back_previous", "Tagasi eelmisele lehele");
+  const backLabel = t("buttons.back_previous");
   const handleBack = () => {
     try {
       if (typeof window !== "undefined" && window.history.length > 1) return router.back();

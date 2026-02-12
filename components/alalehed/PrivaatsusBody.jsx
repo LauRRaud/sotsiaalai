@@ -47,7 +47,7 @@ export default function PrivaatsusBody() {
     prefs
   } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
-  const toggleLabel = expanded ? t("buttons.collapse", "Ahenda") : t("buttons.expand", "Laienda");
+  const toggleLabel = expanded ? t("buttons.collapse") : t("buttons.expand");
   const isExpandedLayout = expanded || isMobilePolicyLayout;
   useEffect(() => {
     if (typeof window === "undefined") return;

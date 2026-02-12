@@ -61,7 +61,8 @@
     "toggle_dark": "Toggle dark mode",
     "chats": "Chats",
     "rooms": "Rooms",
-    "add_person": "Add person"
+    "add_person": "Add person",
+    "sources": "Sources"
   },
   "auth": {
     "email_placeholder": "you@example.com",
@@ -112,9 +113,11 @@
       "title": "Create account",
       "role_label_question": "Who are you?",
       "role_label": "Role:",
+      "role_hint": "Choose a role with arrow keys. Options: Social work professional or Person seeking help.",
       "agreement": "I agree to the <terms>Terms of Use</terms> and the <privacy>Privacy Policy</privacy>.",
       "guide_ack": "I have read the <guide1>platform</guide1> <guide2>guide</guide2>.",
       "error": {
+        "role_required": "Please choose a role.",
         "agree_required": "You must agree to the terms of use and privacy policy.",
         "failed": "Registration failed.",
         "auto_login": "Automatic sign-in failed. Please sign in manually."
@@ -124,7 +127,7 @@
       "success_message": "Account created! Please confirm your email and log in with your PIN."
     },
     "reset": {
-      "title": "Update PIN code",
+      "title": "Update PIN",
       "success": "<p>If the address you entered is valid, we sent you an email with a reset link.</p><p>Check your spam folder too!</p>",
       "error": {
         "required": "Please enter your email address.",
@@ -183,7 +186,7 @@
     }
   },
   "profile": {
-    "title": "My profile",
+    "title": "Profile",
     "loading": "Loading profile",
     "login_to_manage_sub": "Sign in and activate a subscription to view your profile.",
     "login_to_view": "Sign in to view your profile.",
@@ -195,6 +198,7 @@
     "saving": "Saving",
     "save": "Save",
     "logout": "Sign out",
+    "logout_short": "Out",
     "back_to_chat": "Back to chat",
     "actions_label": "Profile actions",
     "delete_confirm": "Are you sure you want to permanently delete your account? This cannot be undone.",
@@ -208,6 +212,8 @@
     "footer_brand": "SotsiaalAI ©",
     "preferences": {
       "title": "Language & accessibility",
+      "title_line1": "Language &",
+      "title_line2": "accessibility",
       "hint": "Choose your preferred language and accessibility options. Changes apply immediately.",
       "sections": {
         "locale": "Default language",
@@ -227,7 +233,7 @@
       "title": "Update email",
       "current_placeholder": "Your email",
       "new_placeholder": "New email",
-      "submit": "Send verification email",
+      "submit": "Send email",
       "submitting": "Sending",
       "pin_placeholder": "Current PIN (4-8 digits)",
       "success": "If the PIN was correct, we sent a verification email to your new address. Please open the link in that inbox.",
@@ -513,8 +519,8 @@
       "page_prefix": "pp."
     },
     "upload": {
-      "aria": "Upload a document for analysis (not stored permanently)",
-      "tooltip": "Upload a document for analysis (not stored permanently)",
+      "aria": "Upload document",
+      "tooltip": "Upload document",
       "busy": "Analyzing document...",
       "summary": "Document preview",
       "preview": "Document text",
@@ -564,7 +570,7 @@
       "email_value": "info@sotsiaal.ai"
     },
     "cta": {
-      "title": "Before using the site, make sure to review:"
+      "title": "Before using"
     },
     "links": {
       "privacy": "Privacy Policy",
@@ -578,6 +584,7 @@
     },
     "guide": {
       "jump_link": "Platform guide",
+      "short_title": "Guide",
       "title": "How to use the SotsiaalAI platform?",
       "intro": "This guide provides a step-by-step overview for getting started on the SotsiaalAI platform: choose a role, create an account, activate a subscription, sign in, use the chat assistant, and configure language and accessibility.",
       "sections_v2": {
@@ -695,7 +702,7 @@
       "description": "See how SotsiaalAI collects, uses, and protects your personal data."
     },
     "profile": {
-      "title": "My profile - SotsiaalAI",
+      "title": "Profile - SotsiaalAI",
       "description": "Manage your account details, preferences, and access to SotsiaalAI."
     },
     "register": {
@@ -707,7 +714,7 @@
       "description": "Review and manage your SotsiaalAI subscription and billing."
     },
     "reset": {
-      "title": "PIN code update - SotsiaalAI",
+      "title": "PIN update - SotsiaalAI",
       "description": "Update your account PIN via a secure recovery link."
     },
     "chat": {
@@ -743,7 +750,22 @@
     "empty": "No rooms available. Add a person in chat to start a group conversation.",
     "fallback_title": "Room",
     "back_to_chats": "Back to chats",
+    "unread": "New",
+    "role_label": "Role",
+    "members_label": "Members",
     "last_empty": "No messages yet",
+    "role": {
+      "owner": "Owner",
+      "moderator": "Moderator",
+      "member": "Member",
+      "admin": "Admin"
+    },
+    "invite": "Invite",
+    "leave": "Leave",
+    "leave_busy": "Leaving...",
+    "delete": "Delete",
+    "delete_busy": "Deleting...",
+    "delete_title": "Delete room",
     "delete_confirm": "Delete room \"{name}\"? This will remove messages and invites.",
     "leave_failed": "Failed to leave the room.",
     "delete_failed": "Failed to delete the room.",
@@ -766,6 +788,7 @@
       "client": "Client"
     },
     "pay": {
+      "label": "Payment",
       "self": "They have their own subscription",
       "host": "I'll pay for them"
     },

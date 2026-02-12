@@ -993,7 +993,7 @@ export default function LoginModal({
               }
               const isZeroKey = key === "zero";
               const digitToAppend = isZeroKey ? "0" : key;
-              const digitLabel = isZeroKey ? zeroKeyMode === "backspace" ? t("auth.login.clear_short", "Kustuta") : t("auth.login.key", {
+              const digitLabel = isZeroKey ? zeroKeyMode === "backspace" ? t("auth.login.clear_short") : t("auth.login.key", {
                 digit: 0
               }) : t("auth.login.key", {
                 digit: key

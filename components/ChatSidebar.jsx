@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -121,7 +121,7 @@ export default function ChatSidebar() {
       }
       const normalized = Array.isArray(data.rooms) ? data.rooms.map(room => ({
         id: room.id,
-        title: room.title || t("chat.sidebar.room_fallback", "Vestlusruum"),
+        title: room.title || t("chat.sidebar.room_fallback"),
         preview: room?.lastMessage?.content || "",
         lastActivityAt: room?.lastMessage?.createdAt || null,
         kind: "room"
@@ -373,7 +373,7 @@ export default function ChatSidebar() {
       }
     }
     if (failures.length) {
-      setError(t("chat.sidebar.error.delete", "Kustutamine ebaõnnestus."));
+      setError(t("chat.sidebar.error.delete"));
     }
     try {
       const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
@@ -390,7 +390,7 @@ export default function ChatSidebar() {
   }, [refreshAll, t]);
   const handleDeleteSelected = useCallback(async () => {
     if (!selectedIds.size) return;
-    if (!confirm(t("chat.sidebar.confirm.delete_selected", "Kustutada valitud vestlused?"))) {
+    if (!confirm(t("chat.sidebar.confirm.delete_selected"))) {
       return;
     }
     const ids = Array.from(selectedIds);
@@ -400,7 +400,7 @@ export default function ChatSidebar() {
     }
   }, [deleteConversationIds, selectedIds, t]);
   const handleDeleteAll = useCallback(async () => {
-    if (!confirm(t("chat.sidebar.confirm.delete_all", "Kustutada kõik vestlused?"))) {
+    if (!confirm(t("chat.sidebar.confirm.delete_all"))) {
       return;
     }
     let ids = [];
@@ -458,9 +458,9 @@ export default function ChatSidebar() {
           {creating ? t("chat.sidebar.button.creating") : t("chat.sidebar.button.new")}
         </Button>
         <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={toggleSelectMode} disabled={isActionBusy}>
-          {selectMode ? t("chat.sidebar.selection.cancel", "Tühista") : t("chat.sidebar.selection.select", "Vali")}
+          {selectMode ? t("chat.sidebar.selection.cancel") : t("chat.sidebar.selection.select")}
         </Button>
-        <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh", "Värskenda")} title={t("chat.sidebar.button.refresh", "Värskenda")} className="px-[0.75rem]">
+        <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className="px-[0.75rem]">
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 0 1 15-6.2" />
             <polyline points="18 3 18 9 12 9" />
@@ -471,10 +471,10 @@ export default function ChatSidebar() {
       </div>
       {selectMode ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2`}>
           <Button variant="primary" size="sm" className={`px-[0.7rem] text-[0.8rem] ${compactActionBtnClassName}`} onClick={handleDeleteSelected} disabled={!selectedCount || isActionBusy}>
-            {t("chat.sidebar.selection.delete_selected", "Kustuta valitud")}
+            {t("chat.sidebar.selection.delete_selected")}
           </Button>
           <Button variant="primary" size="sm" className={`px-[0.7rem] text-[0.8rem] ${compactActionBtnClassName}`} onClick={handleDeleteAll} disabled={isActionBusy}>
-            {t("chat.sidebar.selection.delete_all", "Kustuta kõik")}
+            {t("chat.sidebar.selection.delete_all")}
           </Button>
         </div> : null}
       {error ? <div className={`${sidebarContentWidthClassName} rounded-[0.85rem] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-3 py-2 text-sm text-[#ff9c9c] light:border-[rgba(231,76,60,0.4)] light:bg-[rgba(255,255,255,0.75)] light:text-[#7a2323]`} role="alert" aria-live="assertive">
@@ -518,7 +518,7 @@ export default function ChatSidebar() {
                       {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
                     </span>
                     {c.kind === "room" ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">
-                        {t("chat.sidebar.group_badge", "Grupivestlus")}
+                        {t("chat.sidebar.group_badge")}
                       </span> : null}
                   </div>
                   {c.preview ? <div className={previewTextClassName}>
@@ -547,7 +547,7 @@ export default function ChatSidebar() {
         })}
       </ul>
       {hasMore ? <div className={`${sidebarContentWidthClassName} flex w-full justify-center pt-[0.08rem]`}>
-          <button type="button" className={loadMoreBtnClassName} onClick={fetchMore} disabled={busy || creating} aria-label={t("chat.sidebar.button.more", "Lae veel")} title={t("chat.sidebar.button.more", "Lae veel")}>
+          <button type="button" className={loadMoreBtnClassName} onClick={fetchMore} disabled={busy || creating} aria-label={t("chat.sidebar.button.more")} title={t("chat.sidebar.button.more")}>
             <ChevronIcon direction="down" className="h-[1rem] w-[1.68rem]" />
           </button>
         </div> : null}
