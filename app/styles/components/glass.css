@@ -66,3 +66,23 @@
   color: var(--pt-200);
   font-weight: 500;
 }
+
+.register-checkbox-card .register-policy-link,
+.register-checkbox-card .register-policy-link:hover,
+.register-checkbox-card .register-policy-link:active,
+.register-checkbox-card .register-policy-link:focus-visible {
+  color: var(--brand-primary) !important;
+  --link-brand-text: var(--brand-primary);
+  --link-brand-border-hover: var(--brand-primary);
+  --link-brand-shadow-hover: rgba(197, 113, 113, 0.28);
+}
+
+:root.theme-light .register-checkbox-card .register-policy-link,
+:root.theme-light .register-checkbox-card .register-policy-link:hover,
+:root.theme-light .register-checkbox-card .register-policy-link:active,
+:root.theme-light .register-checkbox-card .register-policy-link:focus-visible {
+  color: var(--link-color, #7a3a38) !important;
+  --link-brand-text: var(--link-color, #7a3a38);
+  --link-brand-border-hover: var(--link-color, #7a3a38);
+  --link-brand-shadow-hover: transparent;
+}

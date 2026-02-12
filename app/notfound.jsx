@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import BackIcon from "@/components/ui/icons/BackIcon";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -9,7 +10,6 @@ const titleClassName = "text-[2.05em] leading-[1.15] tracking-[0.03em] text-[col
 const descriptionClassName = "mt-[0.8em] mb-[1.4em] text-[1.2em]";
 const backButtonWrapClassName = "flex items-center justify-center";
 const backButtonClassName = "inline-flex h-[5.7rem] w-[5.7rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
-const backIconClassName = "block h-[5.7rem] w-[5.7rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')]";
 export default function NotFound() {
   const router = useRouter();
   const {
@@ -23,7 +23,7 @@ export default function NotFound() {
       </p>
       <div className={backButtonWrapClassName}>
         <button type="button" className={backButtonClassName} onClick={() => pushWithTransition(router, localizePath("/", locale))} aria-label={t("buttons.back_home")}>
-          <span className={backIconClassName} />
+          <BackIcon className="h-[5.7rem] w-[5.7rem]" />
         </button>
       </div>
     </div>;

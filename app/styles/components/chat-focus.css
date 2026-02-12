@@ -11,6 +11,13 @@
   --chat-window-focus-shift: 0rem;
 }
 
+body.conversation-drawer-open .chat-page-shell,
+body.invite-modal-open .chat-page-shell {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .chat-container--input-focus .chat-window {
   --chat-arc-fade-depth: 78%;
   --chat-arc-side-alpha: 0.34;

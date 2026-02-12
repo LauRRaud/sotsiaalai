@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
+import BackIcon from "@/components/ui/icons/BackIcon";
 const pageClassName = "flex flex-col gap-5 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
 const cardClassName = "relative overflow-hidden rounded-[18px] border border-[color:var(--admin-border)] bg-[linear-gradient(160deg,var(--admin-surface),var(--admin-surface-2))] p-4 shadow-[var(--admin-shadow-soft)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[18px] before:bg-[radial-gradient(circle_at_10%_0%,rgba(255,255,255,0.08),transparent_45%)] before:opacity-60";
 const cardBodyClassName = "relative z-[1] grid gap-1.5";
@@ -36,7 +37,6 @@ const refreshButtonStyle = {
 };
 const refreshButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.95rem] font-semibold tracking-[0.01em]";
 const backButtonClassName = "inline-flex h-[5.2rem] w-[5.2rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
-const backIconClassName = "block h-[4.8rem] w-[4.8rem] bg-center bg-no-repeat [background-size:68%_68%] [background-image:url('/logo/tagasinupp.svg')]";
 const EVENT_OPTIONS = [{
   value: "chat_request",
   label: "Vestluspäring"
@@ -565,7 +565,7 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="flex justify-center">
         <Link prefetch={false} href="/#meist" className={backButtonClassName} aria-label="Tagasi">
-          <span className={backIconClassName} aria-hidden="true" />
+          <BackIcon className="h-[4.8rem] w-[4.8rem]" />
         </Link>
       </div>
     </div>;

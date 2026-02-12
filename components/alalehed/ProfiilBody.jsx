@@ -14,6 +14,7 @@ import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import BackButton from "@/components/ui/BackButton";
+import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const ROLE_KEYS = {
@@ -500,7 +501,7 @@ export default function ProfiilBody({
   }, [locale, router]);
   const mobileBackItem = {
     key: "back",
-    icon: <span className="profile-orbit-back-icon" aria-hidden="true" />,
+    icon: <BackIcon className="profile-orbit-back-icon h-full w-full" />,
     label: t("buttons.back"),
     onClick: handleMobileOrbitBack
   };

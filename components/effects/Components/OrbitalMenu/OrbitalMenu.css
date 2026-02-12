@@ -484,17 +484,8 @@
     .profile-orbit-stack-bubble
     .dock-icon
     .profile-orbit-back-icon {
-    background-image: url("/logo/tagasinupp.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  :root.theme-light
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-stack-bubble
-    .dock-icon
-    .profile-orbit-back-icon {
-    background-image: url("/logo/tagasinupp.svg");
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 }

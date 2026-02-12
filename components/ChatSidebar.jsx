@@ -451,7 +451,7 @@ export default function ChatSidebar() {
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
     "disabled:cursor-not-allowed disabled:opacity-45";
   const compactActionBtnClassName = "!text-[1rem] !tracking-[0.01em] max-[48em]:!text-[0.86rem]";
-  const sidebarContentWidthClassName = "w-full max-w-[20.6rem] mx-auto";
+  const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[48em]:max-w-none mx-auto";
   return <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-2 text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
       <div className={`${sidebarContentWidthClassName} flex flex-nowrap items-center justify-center gap-2`}>
         <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
@@ -514,7 +514,7 @@ export default function ChatSidebar() {
                     </label> : null}
                 <button className="flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || "Vestlus"} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
                   <div className="flex flex-wrap items-center justify-start gap-2">
-                    <span className="text-[1.05rem] font-semibold text-[color:var(--pt-40)] [.theme-light_&]:text-[#0f172a]">
+                    <span className="text-[1.05rem] font-semibold text-[rgba(242,241,239,0.94)] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
                       {c.title || c.preview || t("chat.sidebar.item.fallback_title")}
                     </span>
                     {c.kind === "room" ? <span className="rounded-full border border-[rgba(255,255,255,0.4)] px-2 py-[0.15rem] text-[0.65rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.85)] light:border-[rgba(148,163,184,0.4)] light:text-[rgba(55,65,81,0.8)]">

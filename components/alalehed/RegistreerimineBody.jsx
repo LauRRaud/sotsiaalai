@@ -22,6 +22,7 @@ const titleClassName =
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-h-0 overflow-y-auto overflow-x-visible px-[0.6rem] text-left csp-container csp-no-neighbor-click mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+const registerPolicyLinkClassName = `${linkBrandInlineClass} register-policy-link`;
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const checkboxCardClassName = "register-checkbox-card w-full text-[1.05rem] leading-[1.42] px-[1.05rem] py-[0.9rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
@@ -233,11 +234,11 @@ export default function RegistreerimineBody({
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
-                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutustingimused", locale)}">`,
+                      open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutustingimused", locale)}">`,
                       close: "</a>"
                     },
                     privacy: {
-                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/privaatsustingimused", locale)}">`,
+                      open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/privaatsustingimused", locale)}">`,
                       close: "</a>"
                     }
                   }} />
@@ -248,11 +249,11 @@ export default function RegistreerimineBody({
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide1: {
-                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"
                     },
                     guide2: {
-                      open: `<a class="${linkBrandInlineClass}" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"
                     }
                   }} />

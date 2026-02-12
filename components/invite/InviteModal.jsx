@@ -9,6 +9,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
+import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 function parseEmails(raw) {
   if (!raw) return [];
   const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
@@ -70,9 +71,13 @@ export default function InviteModal() {
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", open);
     root.classList.toggle("modal-open", open);
+    document.body.classList.toggle("invite-modal-open", open);
+    root.classList.toggle("invite-modal-open", open);
     return () => {
       document.body.classList.remove("modal-open");
       root.classList.remove("modal-open");
+      document.body.classList.remove("invite-modal-open");
+      root.classList.remove("invite-modal-open");
     };
   }, [open]);
   const loadInvites = useCallback(async () => {
@@ -171,9 +176,9 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back", "Tagasi")} className="hidden max-[48em]:!inline-flex absolute left-[0.15rem] top-[0.12rem] z-[6] h-[4.05rem] w-[4.05rem] [&>svg]:h-[4.05rem] [&>svg]:w-[4.05rem]" />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back", "Tagasi")} className="hidden max-[48em]:!inline-flex absolute max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.56rem)] max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:bottom-auto max-[48em]:h-[4.2rem] max-[48em]:w-[4.2rem] max-[48em]:z-[92] max-[48em]:[&>svg]:h-[4.2rem] max-[48em]:[&>svg]:w-[4.2rem]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
-        <h2 className="w-full text-center text-[2.05rem] leading-[1.15] tracking-[0.03em] text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] ![font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] !font-[400]">
+        <h2 className={glassPageTitleClassName}>
           {t("invite.eyebrow")}
         </h2>
       </header>
@@ -189,7 +194,7 @@ export default function InviteModal() {
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
             <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[48em]:justify-items-center" role="radiogroup" aria-label={t("invite.pay.label", "Maksmine")}>
               {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[48em]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.02rem] !leading-[1.2] !tracking-[0.02rem] text-center justify-center">
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[48em]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.02rem] !leading-[1.2] !tracking-[0.02rem] text-center justify-center max-[48em]:!min-h-[2.62rem] max-[48em]:!pt-[0.46rem] max-[48em]:!pb-[0.14rem]">
                   <span className="text-center [text-wrap:balance]">{option.label}</span>
                 </OptionCard>
               ))}
