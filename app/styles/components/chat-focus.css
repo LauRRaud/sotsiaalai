@@ -11,11 +11,18 @@
   --chat-window-focus-shift: 0rem;
 }
 
-body.conversation-drawer-open .chat-page-shell,
 body.invite-modal-open .chat-page-shell {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+@media (max-width: 48em) {
+  body.conversation-drawer-open .chat-page-shell {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 
 .chat-container--input-focus .chat-window {

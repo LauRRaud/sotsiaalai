@@ -370,6 +370,11 @@ export default function RightRail({
   const tooltipLabelIndex = isRailScrolling
     ? activeIndex
     : hoveredDesktopIndex ?? activeIndex;
+  const shouldShowDesktopTooltip = !isMobile &&
+    !suspendPointerEvents &&
+    !suppressTooltip &&
+    !!tooltipRect &&
+    (isRailScrolling || hoveredDesktopIndex === activeIndex);
 
   return <div className={slotClassName}>
       <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown} onBlurCapture={event => {
@@ -521,7 +526,7 @@ export default function RightRail({
             </button>;
       })}
 
-        {isMounted && !isMobile && !suspendPointerEvents && !suppressTooltip && (hoveredDesktopIndex !== null || isRailScrolling) && tooltipRect ? createPortal(<div className={styles.tooltip} style={{
+        {isMounted && shouldShowDesktopTooltip ? createPortal(<div className={styles.tooltip} style={{
         top: tooltipRect.top + tooltipRect.height / 2,
         left: tooltipRect.left - 2
       }} role="tooltip">

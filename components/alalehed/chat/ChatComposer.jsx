@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PaperclipIcon } from "@/components/ui/icons/ChatIcons";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
@@ -33,6 +33,7 @@ export default function ChatComposer({
   isMobile = false
 }) {
   const [draft, setDraft] = useState("");
+  const submitInFlightRef = useRef(false);
   useEffect(() => {
     if (!draftApiRef) return;
     draftApiRef.current = {
@@ -49,11 +50,18 @@ export default function ChatComposer({
   }, [draftApiRef]);
   const hasInput = Boolean(draft.trim());
   const submitSend = useCallback(async () => {
+    if (submitInFlightRef.current) return false;
     const trimmed = draft.trim();
-    if (!trimmed) return;
-    if (isGenerating) return;
-    const ok = await onSend(trimmed);
-    if (ok) setDraft("");
+    if (!trimmed) return false;
+    if (isGenerating) return false;
+    submitInFlightRef.current = true;
+    try {
+      const ok = await onSend(trimmed);
+      if (ok) setDraft("");
+      return ok;
+    } finally {
+      submitInFlightRef.current = false;
+    }
   }, [draft, isGenerating, onSend]);
   const handleSubmit = useCallback(e => {
     e.preventDefault();
@@ -71,6 +79,14 @@ export default function ChatComposer({
       }
     }
   }, [draft, isGenerating, submitSend]);
+  const handleSendPointerDown = useCallback(e => {
+    if (!isMobile) return;
+    if (isGenerating) return;
+    if (!draft.trim()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    void submitSend();
+  }, [draft, isGenerating, isMobile, submitSend]);
   const inputRowClassName =
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform";
@@ -129,7 +145,7 @@ export default function ChatComposer({
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
           </svg>
         </Button>
-        {hasInput || isGenerating || isStreamingAny ? <Button type="submit" variant="primary" className={sendButtonLoaderClassName} aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")} title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active={isGenerating || isStreamingAny ? "true" : "false"}>
+        {hasInput || isGenerating || isStreamingAny ? <Button type="submit" variant="primary" className={sendButtonLoaderClassName} aria-label={isGenerating ? t("chat.send.stop") : t("chat.send.send")} title={isGenerating ? t("chat.send.title_stop") : t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active={isGenerating || isStreamingAny ? "true" : "false"} onPointerDown={handleSendPointerDown}>
             <SotsiaalAILoader size="1.34rem" animated={isGenerating || isStreamingAny} ariaHidden className="chat-send-loader h-[1.34rem] w-[1.34rem] [--send-loader-shift-y:-0.24rem] [&_svg]:translate-y-[var(--send-loader-shift-y)]" style={{
           "--glow-opacity-base": 0,
           "--glow-opacity-peak": 0

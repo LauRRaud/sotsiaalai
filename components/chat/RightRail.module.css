@@ -315,7 +315,7 @@
     isolation: isolate;
     opacity: 0;
     transform: translate(-50%, 0.08rem);
-    font-size: clamp(0.88rem, 3vw, 1.02rem) !important;
+    font-size: clamp(1.02rem, 3.8vw, 1.24rem) !important;
     font-weight: 520 !important;
     line-height: 1.1 !important;
     max-width: 7.2rem !important;

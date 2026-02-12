@@ -12,7 +12,7 @@ import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const titleClassName =
   `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !whitespace-normal [text-wrap:balance] ` +
   "w-full max-w-[min(24rem,92%)] leading-[1.12] " +
-  "min-[48.0625em]:text-[clamp(1.75rem,2.6vw,2.25rem)] " +
+  "min-[48.0625em]:text-[2.15em] " +
   "max-[48em]:text-[clamp(1.72rem,7vw,2.28rem)]";
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
@@ -352,7 +352,7 @@ export default function AccessibilityModal({
 
       <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} data-scrolled={isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
-        <div className="csp-overlayTitle [--csp-title-top:1rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.45rem,7.8vw,2.95rem))]" aria-hidden="false">
+        <div className="csp-overlayTitle [--csp-title-top:calc(var(--csp-chevron-top,0.24rem)+var(--csp-arrow-size,2.4rem)+0.45rem)] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.45rem,7.8vw,2.95rem))]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
             <span className="block">{a11yTitleLine1}</span>
             <span className="block">{a11yTitleLine2}</span>
