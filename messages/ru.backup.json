@@ -32,7 +32,9 @@
     "refresh": "Обновить",
     "delete": "Удалить",
     "confirm": "Подтвердить",
-    "submit": "Отправить"
+    "submit": "Отправить",
+    "expand": "Развернуть",
+    "collapse": "Свернуть"
   },
   "symbols": {
     "question": "?",
@@ -59,11 +61,12 @@
     "toggle_dark": "Переключить тёмный режим",
     "chats": "Чаты",
     "rooms": "Комнаты",
-    "add_person": "Добавить человека"
+    "add_person": "Добавить человека",
+    "sources": "Источники"
   },
   "auth": {
-    "email_placeholder": "ваш@example.com",
-    "password_placeholder": "PIN-код (4-8 цифр)",
+    "email_placeholder": "ваш@post.ee",
+    "password_placeholder": "PIN",
     "login": {
       "title": "Войти",
       "or": "или",
@@ -102,25 +105,29 @@
       "toggle_keypad_desktop_aria": "Сменить раскладку клавиатуры.",
       "zero_key_aria": "0 / очистить",
       "help_hold_zero_before": "Удерживайте",
-      "help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода."
+      "help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода.",
+      "help_wrong_pin_note": "Если PIN введён неверно, PIN-код очищается автоматически."
     },
     "register": {
       "title": "Создать аккаунт",
       "role_label": "Роль:",
       "role_label_question": "Кто вы?",
-      "agreement": "Я соглашаюсь с <terms>Условиями использования</terms> и <privacy>Политикой конфиденциальности</privacy>.",
-      "guide_ack": "Я ознакомился с <guide>руководством по использованию платформы</guide>.",
+      "agreement": "Согласен с <terms>условиями</terms> и <privacy>политикой</privacy>.",
+      "guide_ack": "Я ознакомился с <guide1>руководством</guide1> <guide2>платформы.</guide2>",
       "error": {
         "agree_required": "Необходимо согласиться с условиями использования и политикой конфиденциальности.",
         "failed": "Не удалось завершить регистрацию.",
-        "auto_login": "Не удалось войти автоматически. Войдите вручную."
+        "auto_login": "Не удалось войти автоматически. Войдите вручную.",
+        "role_required": "Выберите роль."
       },
       "submit": "Создать аккаунт",
       "submitting": "Создаём аккаунт…",
-      "success_message": "Аккаунт создан! Подтвердите email и войдите с помощью PIN-кода."
+      "success_message": "Аккаунт создан! Подтвердите email и войдите с помощью PIN-кода.",
+      "role_hint": "Выберите роль стрелками. Варианты: специалист по социальной работе или человек, ищущий помощь.",
+      "pin_placeholder": "PIN (4-8 цифр)"
     },
     "reset": {
-      "title": "Обновление PIN-кода",
+      "title": "Обновление PIN",
       "success": "<p>Если указанный адрес действителен, мы отправили на него письмо со ссылкой для сброса.</p><p>Проверьте также папку со спамом!</p>",
       "error": {
         "required": "Пожалуйста, укажите адрес электронной почты.",
@@ -148,7 +155,7 @@
         "pinLength": "PIN-код должен состоять от 4 до 8 цифр."
       }
     },
-    "pin_placeholder": "PIN-код (4-8 цифр)",
+    "pin_placeholder": "PIN",
     "email_icon_hint": "Нажмите на конверт, чтобы открыть поле email, затем введите свой адрес электронной почты."
   },
   "home": {
@@ -180,7 +187,7 @@
     }
   },
   "profile": {
-    "title": "Мой профиль",
+    "title": "Профиль",
     "loading": "Загружаю профиль…",
     "login_to_manage_sub": "Войдите и активируйте подписку, чтобы просмотреть профиль.",
     "login_to_view": "Войдите, чтобы просмотреть профиль.",
@@ -193,7 +200,7 @@
     "save": "Сохранить",
     "logout": "Выйти",
     "back_to_chat": "Назад в чат",
-    "actions_label": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u043f\u0440\u043e\u0444\u0438\u043b\u044f",
+    "actions_label": "Действия профиля",
     "delete_confirm": "Вы уверены, что хотите безвозвратно удалить аккаунт? Это действие нельзя отменить.",
     "deleting": "Удаляю…",
     "delete_account": "Удалить аккаунт",
@@ -205,6 +212,8 @@
     "footer_brand": "SotsiaalAI ©",
     "preferences": {
       "title": "Язык и доступность",
+      "title_line1": "Язык и",
+      "title_line2": "доступность",
       "hint": "Выберите предпочтительный язык и параметры доступности. Изменения применяются сразу.",
       "sections": {
         "locale": "Язык по умолчанию",
@@ -218,15 +227,15 @@
       "saved": "Предпочтения сохранены.",
       "save_failed": "Не удалось сохранить предпочтения. Попробуйте снова."
     },
-    "change_password_cta": "Обновить PIN-код",
+    "change_password_cta": "Обновить PIN",
     "update_email_cta": "Обновить email",
     "email_update": {
       "title": "Обновить email",
       "current_placeholder": "Ваш email",
       "new_placeholder": "Новый email",
-      "submit": "Отправить письмо с подтверждением",
+      "submit": "Отправить письмо",
       "submitting": "Отправляем",
-      "pin_placeholder": "Текущий PIN-код (4-8 цифр)",
+      "pin_placeholder": "Текущий PIN",
       "success": "Если PIN введён верно, мы отправили письмо с подтверждением на ваш новый адрес. Откройте ссылку из этого письма.",
       "error_email_required": "Пожалуйста, введите адрес электронной почты.",
       "error_email_invalid": "Пожалуйста, введите корректный адрес электронной почты.",
@@ -247,7 +256,8 @@
       "pin_invalid": "PIN-код должен быть длиной от 4 до 8 цифр.",
       "pin_mismatch": "PIN-коды не совпадают.",
       "no_changes": "Изменений для сохранения нет."
-    }
+    },
+    "logout_short": "Выйти"
   },
   "accessibility": {
     "title": "Настройки доступности",
@@ -479,8 +489,8 @@
       },
       "confirm": {
         "delete": "Удалить эту беседу?",
-        "delete_selected": "Delete selected chats?",
-        "delete_all": "Delete all chats?"
+        "delete_selected": "Удалить выбранные чаты?",
+        "delete_all": "Удалить все чаты?"
       },
       "aria_list": "Список бесед",
       "button": {
@@ -496,22 +506,22 @@
         "delete": "Удалить беседу",
         "delete_title": "Удалить"
       },
-      "group_badge": "Group chat",
-      "room_fallback": "Chat room",
+      "group_badge": "Групповой чат",
+      "room_fallback": "Комната",
       "selection": {
-        "select": "Select",
-        "cancel": "Cancel",
-        "count": "Selected",
-        "delete_selected": "Delete selected",
-        "delete_all": "Delete all",
-        "item": "Select chat"
+        "select": "Выбрать",
+        "cancel": "Отмена",
+        "count": "Выбрано",
+        "delete_selected": "Удалить выбранные",
+        "delete_all": "Удалить все",
+        "item": "Выбрать чат"
       }
     },
     "upload": {
       "preview": "Текст документа",
       "jump_to_chat": "Назад в чат",
-      "aria": "Загрузите документ для анализа (не сохраняется)",
-      "tooltip": "Загрузите документ для анализа (не сохраняется)",
+      "aria": "Загрузить документ",
+      "tooltip": "Загрузить документ",
       "busy": "Анализирую документ…",
       "summary": "Предпросмотр документа",
       "summary_show": "Показать текст",
@@ -519,7 +529,7 @@
       "privacy": "Только для анализа, не сохраняется постоянно.",
       "ask_more": "Пожалуйста, кратко опишите документ и выделите 3–5 ключевых пунктов.",
       "ask_more_btn": "Начать свой вопрос",
-      "use_as_context": "Использовать как контекст для следующего ответа",
+      "use_as_context": "Анализировать в чате",
       "usage": "{used}/{limit} анализов сегодня",
       "error_size": "Файл слишком большой ({size} МБ > {limit} МБ).",
       "error_status": "Не удалось проанализировать документ (код {status}).",
@@ -527,22 +537,24 @@
       "context_hint": "Если переключатель «Анализировать в чате» включён, ассистент может использовать этот документ в ответах — сделать краткое изложение, пояснить, сравнить, перевести и помочь с письмами и заявлениями. Если переключатель выключен, ответ опирается только на базу знаний SotsiaalAI. Документ не сохраняется ни в каком случае, независимо от положения переключателя."
     },
     "analysis": {
-      "extended_label": "Extended analysis"
+      "extended_label": "Расширенный анализ"
     },
     "ai_toggle": {
-      "label": "Send to assistant",
-      "note": "By default, this is human-only and the assistant does not see the message."
+      "label": "Отправить ассистенту",
+      "note": "По умолчанию это сообщение видно только человеку, ассистент его не видит."
     },
-    "page_label": "Chat content",
+    "page_label": "Содержимое чата",
     "room": {
-      "blocked": "Chat participation is currently unavailable. Please contact your specialist.",
-      "auth_required": "Session expired. Please sign in again."
+      "blocked": "Участие в чате сейчас недоступно. Пожалуйста, свяжитесь со специалистом.",
+      "auth_required": "Сессия истекла. Пожалуйста, войдите снова."
     },
-    "show_recent": "Show fewer",
+    "show_recent": "Показать меньше",
     "mic": {
-      "start": "Start dictation",
-      "stop": "Stop recording"
-    }
+      "start": "Начать диктовку",
+      "stop": "Остановить запись"
+    },
+    "right_rail": "Быстрые действия чата",
+    "show_quick_actions": "Показать быстрые действия"
   },
   "about": {
     "title": "О нас",
@@ -559,7 +571,7 @@
       "email_value": "info@sotsiaal.ai"
     },
     "cta": {
-      "title": "Перед использованием сайта обязательно ознакомьтесь:"
+      "title": "Перед использованием"
     },
     "links": {
       "privacy": "Политика конфиденциальности",
@@ -608,7 +620,8 @@
           "title": "8. Краткое руководство",
           "body": "<p>Это короткая инструкция по использованию SotsiaalAI: сначала откройте sotsiaal.ai, выберите роль и создайте учётную запись, затем войдите с помощью PIN‑кода и начните диалог в чате.</p>"
         }
-      }
+      },
+      "short_title": "Руководство"
     }
   },
   "subscription": {
@@ -637,8 +650,12 @@
     "cta": "Установить на телефон или компьютер",
     "instructions": {
       "ios": "iPhone/iPad: откройте Safari, нажмите «Поделиться» → «Добавить на экран домой».",
-      "mac": "Mac: откройте Safari и выберите File → Add to Dock…"
-    }
+      "mac": "Mac: откройте Safari и выберите File → Add to Dock…",
+      "android": "На Android: откройте меню браузера и выберите «Установить приложение».",
+      "desktop": "На компьютере: нажмите значок установки в адресной строке браузера."
+    },
+    "cta_mobile": "Установить приложение",
+    "cta_desktop": "Установить на компьютер"
   },
   "start": {
     "heading": "С возвращением",
@@ -686,7 +703,7 @@
       "description": "Прочитайте, как SotsiaalAI собирает, использует и защищает персональные данные."
     },
     "profile": {
-      "title": "Мой профиль — SotsiaalAI",
+      "title": "Профиль — SotsiaalAI",
       "description": "Управляйте данными аккаунта, предпочтениями и доступом к сервису."
     },
     "register": {
@@ -698,7 +715,7 @@
       "description": "Просматривайте и управляйте активной подпиской SotsiaalAI."
     },
     "reset": {
-      "title": "Восстановление пароля — SotsiaalAI",
+      "title": "Обновление PIN — SotsiaalAI",
       "description": "Сбросьте пароль с помощью безопасной восстановительной ссылки."
     },
     "chat": {
@@ -722,9 +739,9 @@
     "joining": "Добавляем...",
     "success": "Присоединение выполнено успешно",
     "error": "Не удалось присоединиться",
-    "name_label": "Your name in the chat",
-    "name_placeholder": "e.g. Kert",
-    "name_required": "Please enter your name."
+    "name_label": "Ваше имя в чате",
+    "name_placeholder": "например, Kert",
+    "name_required": "Пожалуйста, введите имя."
   },
   "rooms": {
     "aria": "Комнаты",
@@ -734,11 +751,26 @@
     "empty": "Комнат нет. Для группового чата добавьте человека в беседу.",
     "fallback_title": "Комната",
     "back_to_chats": "Назад к беседам",
-    "last_empty": "No messages yet",
-    "delete_confirm": "Delete room \"{name}\"? This will remove messages and invites.",
-    "leave_failed": "Failed to leave the room.",
-    "delete_failed": "Failed to delete the room.",
-    "cancel": "Cancel"
+    "last_empty": "Пока нет сообщений",
+    "delete_confirm": "Удалить комнату \"{name}\"? Это удалит сообщения и приглашения.",
+    "leave_failed": "Не удалось выйти из комнаты.",
+    "delete_failed": "Не удалось удалить комнату.",
+    "cancel": "Отмена",
+    "unread": "Новых",
+    "role_label": "Роль",
+    "members_label": "Участников",
+    "role": {
+      "owner": "Владелец",
+      "moderator": "Модератор",
+      "member": "Участник",
+      "admin": "Администратор"
+    },
+    "invite": "Пригласить",
+    "leave": "Выйти",
+    "leave_busy": "Выходим...",
+    "delete": "Удалить",
+    "delete_busy": "Удаляем...",
+    "delete_title": "Удалить комнату"
   },
   "invite": {
     "success": "Приглашения отправлены",
@@ -758,7 +790,8 @@
     },
     "pay": {
       "self": "Есть собственная подписка",
-      "host": "Оплата за счёт приглашающего"
+      "host": "Оплата за счёт приглашающего",
+      "label": "Оплата"
     },
     "sending": "Отправка...",
     "send": "ОТПРАВИТЬ ПРИГЛАШЕНИЕ",
@@ -767,7 +800,7 @@
     "refresh": "Обновить",
     "empty": "Список приглашений пуст",
     "table": {
-      "email": "Email",
+      "email": "Эл. почта",
       "role": "Роль",
       "payer": "Плательщик",
       "status": "Статус"
