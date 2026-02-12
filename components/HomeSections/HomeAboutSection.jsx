@@ -128,7 +128,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             ref={beforeContentRef}
             className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.65rem,1.2vw,0.85rem)] max-w-[min(74vw,24.5rem)] items-center pt-[clamp(0.6rem,1.4vw,1.4rem)]"
           >
-            <p className="m-0 mt-[clamp(0.4rem,1vw,1rem)] mb-[clamp(0.9rem,2vw,1.6rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
+            <p className="m-0 mt-[clamp(0.4rem,1vw,1rem)] mb-[clamp(0.45rem,1.1vw,0.85rem)] min-[48.0625em]:-translate-y-[clamp(0.45rem,1vw,0.85rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </p>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
