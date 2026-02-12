@@ -86,3 +86,32 @@
   --link-brand-border-hover: var(--link-color, #7a3a38);
   --link-brand-shadow-hover: transparent;
 }
+
+.register-checkbox-card,
+.register-checkbox-card:hover,
+.register-checkbox-card:focus-within,
+.register-checkbox-card[data-checked="true"],
+.register-checkbox-card[data-checked="true"]:hover,
+.register-checkbox-card[data-checked="true"]:focus-within {
+  color: var(--pt-50) !important;
+}
+
+:root.theme-light .register-checkbox-card,
+:root.theme-light .register-checkbox-card:hover,
+:root.theme-light .register-checkbox-card:focus-within,
+:root.theme-light .register-checkbox-card[data-checked="true"],
+:root.theme-light .register-checkbox-card[data-checked="true"]:hover,
+:root.theme-light .register-checkbox-card[data-checked="true"]:focus-within {
+  color: var(--input-text) !important;
+}
+
+.register-checkbox-card .register-policy-link {
+  padding-left: 0.08em;
+  padding-right: 0.08em;
+}
+
+.register-checkbox-card > span:last-child::before {
+  content: "";
+  display: inline-block;
+  width: 0.16em;
+}

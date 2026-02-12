@@ -79,6 +79,7 @@ export default function AccessibilityModal({
   const [scrollPad, setScrollPad] = useState(0);
   const [languageWraps, setLanguageWraps] = useState(false);
   const [contrastWraps, setContrastWraps] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const padOffset = 36;
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
@@ -211,6 +212,24 @@ export default function AccessibilityModal({
     return () => scrollEl.removeEventListener("focusin", onFocusIn);
   }, [reduceMotion]);
   useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const onScroll = () => {
+      const top = scrollEl.scrollTop || 0;
+      setIsScrolled(prev => {
+        const next = top > 8;
+        return prev === next ? prev : next;
+      });
+    };
+    onScroll();
+    scrollEl.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    return () => {
+      scrollEl.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+  useEffect(() => {
     const host = languageOptionsRef.current;
     if (!host || typeof window === "undefined") return;
     const detectWrap = () => {
@@ -312,7 +331,7 @@ export default function AccessibilityModal({
   return <>
       <div className={modalBackdropClassName} onClick={onClose} role="presentation" aria-hidden="true" />
 
-      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
+      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} data-scrolled={isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
         <div className="csp-overlayTitle min-[48.0625em]:hidden" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>

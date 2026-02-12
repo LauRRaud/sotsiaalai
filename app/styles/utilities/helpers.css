@@ -60,6 +60,48 @@ body.login-modal-open {
   outline: none;
 }
 
+.scroll-reactive-shell .csp-overlayTitle {
+  transition:
+    opacity 340ms ease-out,
+    transform 380ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 360ms ease-out;
+  will-change: opacity, transform, filter;
+}
+
+.scroll-reactive-shell[data-scrolled="1"] .csp-overlayTitle {
+  opacity: 0;
+  transform: translate(-50%, -1.05rem);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+@media (min-width: 48.0625em) {
+  .scroll-reactive-back {
+    opacity: 0.78;
+  }
+
+  .scroll-reactive-shell .csp-chevron-frame {
+    transition: opacity 220ms ease-out, transform 220ms ease-out;
+    transform: translateX(-50%) scale(1);
+    opacity: 0.78;
+  }
+
+  .scroll-reactive-shell .csp-chevron-icon {
+    animation: none;
+    opacity: 0.78;
+  }
+
+  .scroll-reactive-shell .csp-scrim--chevron.is-muted .csp-chevron-frame {
+    transform: translateX(-50%) scale(0.92);
+    opacity: 0.36;
+  }
+
+  .scroll-reactive-shell .csp-scrim--chevron.is-hidden .csp-chevron-frame {
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+  }
+}
+
 .login-modal-box .login-modal-close.modal-close-btn {
   position: absolute;
   top: 0.34rem !important;

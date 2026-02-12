@@ -846,25 +846,52 @@
 }
 
 @media (min-width: 48.0625em) {
+  .register-form {
+    gap: clamp(2.25rem, 3.8vh, 3rem) !important;
+  }
+
+  .register-form > .register-step {
+    padding-top: clamp(0.45rem, 0.95vh, 0.75rem) !important;
+    padding-bottom: clamp(0.45rem, 0.95vh, 0.75rem) !important;
+  }
+
+  .register-scroll {
+    max-width: clamp(18.2rem, 36vw, 24rem) !important;
+  }
+
   .register-scroll.csp-container {
     overflow-y: auto !important;
     overflow-x: visible !important;
-    padding-left: clamp(0.34rem, 0.9vw, 0.62rem) !important;
-    padding-right: clamp(0.34rem, 0.9vw, 0.62rem) !important;
+    padding-left: clamp(0.48rem, 1.15vw, 0.82rem) !important;
+    padding-right: clamp(0.48rem, 1.15vw, 0.82rem) !important;
+  }
+
+  .register-input {
+    min-height: 3.25rem;
+    padding-top: clamp(0.78rem, 1.1vh, 0.88rem) !important;
+    padding-bottom: clamp(0.78rem, 1.1vh, 0.88rem) !important;
   }
 
   .register-scroll .register-input {
-    width: calc(100% - clamp(0.92rem, 1.45vw, 1.3rem)) !important;
-    max-width: calc(100% - clamp(0.92rem, 1.45vw, 1.3rem)) !important;
+    width: calc(100% - clamp(1rem, 1.6vw, 1.45rem)) !important;
+    max-width: calc(100% - clamp(1rem, 1.6vw, 1.45rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
 
   .register-option-card {
-    width: calc(100% - clamp(0.42rem, 0.95vw, 0.72rem)) !important;
-    max-width: calc(100% - clamp(0.42rem, 0.95vw, 0.72rem)) !important;
+    width: calc(100% - clamp(0.75rem, 1.3vw, 1.1rem)) !important;
+    max-width: calc(100% - clamp(0.75rem, 1.3vw, 1.1rem)) !important;
+    padding-left: clamp(0.92rem, 1.35vw, 1.1rem) !important;
+    padding-right: clamp(0.92rem, 1.35vw, 1.1rem) !important;
+    padding-top: clamp(0.72rem, 1.05vh, 0.88rem) !important;
+    padding-bottom: clamp(0.72rem, 1.05vh, 0.88rem) !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  .register-role-options {
+    gap: clamp(1.15rem, 1.45vw, 1.45rem) !important;
   }
 
   .register-option-card,
@@ -874,10 +901,14 @@
   }
 
   .register-checkbox-card {
-    width: calc(100% - clamp(0.28rem, 0.72vw, 0.52rem)) !important;
-    max-width: calc(100% - clamp(0.28rem, 0.72vw, 0.52rem)) !important;
+    width: calc(100% - clamp(0.68rem, 1.2vw, 1rem)) !important;
+    max-width: calc(100% - clamp(0.68rem, 1.2vw, 1rem)) !important;
+    padding-left: clamp(0.95rem, 1.35vw, 1.15rem) !important;
+    padding-right: clamp(0.95rem, 1.35vw, 1.15rem) !important;
+    padding-top: clamp(0.66rem, 1vh, 0.82rem) !important;
+    padding-bottom: clamp(0.66rem, 1vh, 0.82rem) !important;
     font-size: clamp(1.16rem, 1.28vw, 1.32rem) !important;
-    line-height: 1.38 !important;
+    line-height: 1.34 !important;
   }
 
   .register-checkbox-card .link-brand-inline {
@@ -896,8 +927,13 @@
   }
 
   .register-guide-card {
-    width: calc(100% - clamp(1.1rem, 2.1vw, 1.8rem)) !important;
-    max-width: calc(100% - clamp(1.1rem, 2.1vw, 1.8rem)) !important;
+    width: calc(100% - clamp(0.85rem, 1.55vw, 1.3rem)) !important;
+    max-width: calc(100% - clamp(0.85rem, 1.55vw, 1.3rem)) !important;
+  }
+
+  .register-login-link {
+    font-size: 1.18em !important;
+    letter-spacing: 0.014em;
   }
 
   .register-option-card {

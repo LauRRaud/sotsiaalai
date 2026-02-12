@@ -27,8 +27,8 @@ const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const checkboxCardClassName = "register-checkbox-card w-full text-[1.05rem] leading-[1.42] px-[1.05rem] py-[0.9rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
-const registerButtonClassName = "register-submit px-[1.85rem] py-[1rem] text-[1.28rem]";
-const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.36rem]";
+const registerButtonClassName = "register-submit px-[1.85rem] py-[1rem] text-[1.3rem]";
+const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidth = 0.9;
 const inputBaseClassName = "register-input w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 export default function RegistreerimineBody({
@@ -59,6 +59,7 @@ export default function RegistreerimineBody({
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const roleLabelId = useId();
   const roleHintId = useId();
   const roleLabelText = t("auth.register.role_label_question", "Kes oled?");
@@ -170,6 +171,24 @@ export default function RegistreerimineBody({
     return () => cancelAnimationFrame(raf);
   }, [recompute]);
   useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const onScroll = () => {
+      const top = scrollEl.scrollTop || 0;
+      setIsScrolled(prev => {
+        const next = top > 8;
+        return prev === next ? prev : next;
+      });
+    };
+    onScroll();
+    scrollEl.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    return () => {
+      scrollEl.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+  useEffect(() => {
     const onKey = e => {
       if (e.key !== "Escape") return;
       e.preventDefault();
@@ -179,8 +198,8 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]">
-        <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={glassPageBackClassName} />
+      <GlassRing className="scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]" data-scrolled={isScrolled ? "1" : "0"}>
+        <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.7rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.35rem)]" aria-hidden="true">
           <h1 className={titleClassName}>{t("auth.register.title")}</h1>
         </div>
@@ -281,7 +300,7 @@ export default function RegistreerimineBody({
                   <AppLink href="#" onClick={e => {
                     e.preventDefault();
                     openLoginModal?.();
-                  }} aria-label={t("auth.login.title")} className="text-[1em] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
+                  }} aria-label={t("auth.login.title")} className="register-login-link text-[1em] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
                       {t("auth.login.title")}
                   </AppLink>
                 </div>
