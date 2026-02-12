@@ -251,7 +251,7 @@ export default function CenteredScrollPicker({
     const onScroll = () => {
       updateScrollDirection();
       scheduleRafUpdate();
-      if (!lockWheelToSteps && settleOnScroll) scheduleSettle();
+      if (settleOnScroll) scheduleSettle();
     };
     el.addEventListener("scroll", onScroll, {
       passive: true

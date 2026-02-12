@@ -164,8 +164,8 @@ export default function RegistreerimineBody({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: 0,
-    maxStepPerSettle: 999
+    settleMs: 180,
+    maxStepPerSettle: 1
   });
   useEffect(() => {
     const scrollEl = scrollRef.current;

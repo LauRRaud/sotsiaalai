@@ -192,13 +192,15 @@
   html[data-display-mode="standalone"] .home-hero-shell,
   body[data-display-mode="standalone"] .home-hero-shell {
     transform: translateY(1.1rem) !important;
-    gap: clamp(1.9rem, 6.1vw, 2.8rem) !important;
+    gap: clamp(2.6rem, 8.2vw, 3.9rem) !important;
     padding-bottom: clamp(7.2rem, 17vw, 9.4rem) !important;
   }
 
   html[data-display-mode="standalone"] .home-scroll-cue,
   body[data-display-mode="standalone"] .home-scroll-cue {
-    bottom: clamp(-0.25rem, 0.9vh, 0.35rem) !important;
+    bottom: calc(
+      env(safe-area-inset-bottom, 0px) + clamp(1.15rem, 3.8vh, 2.05rem)
+    ) !important;
   }
 }
 
@@ -237,7 +239,7 @@
     --orbit-size: min(92vw, 22.5rem);
     --orbit-item-size: clamp(5.6rem, 23vw, 7.2rem);
     --orbit-item-size-open: clamp(6rem, 24.5vw, 7.6rem);
-    --orbit-center-size: clamp(10.4rem, 44vw, 13rem);
+    --orbit-center-size: clamp(10.9rem, 46vw, 13.6rem);
     --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.52);
     margin-top: 0;
     margin-bottom: 0;
@@ -505,7 +507,7 @@
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: -0.26rem !important;
+    margin-top: clamp(0.7rem, 3.2vw, 1.05rem) !important;
     transform: none !important;
   }
 
@@ -526,7 +528,7 @@
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.45rem, 2.2vw, 0.95rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(1.1rem, 4.9vw, 1.9rem)) !important;
   }
 }
 
@@ -919,6 +921,17 @@
     padding-top: 0.9rem !important;
     padding-bottom: 0.9rem !important;
     font-size: clamp(1.12rem, 4.35vw, 1.28rem) !important;
+  }
+
+  .register-scroll.csp-container,
+  .a11y-csp-scroll.csp-container {
+    scroll-snap-type: y mandatory !important;
+    overscroll-behavior-y: contain !important;
+  }
+
+  .register-scroll .register-step,
+  .a11y-csp-scroll .csp-step {
+    scroll-snap-stop: always !important;
   }
 }
 

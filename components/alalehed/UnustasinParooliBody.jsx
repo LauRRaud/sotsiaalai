@@ -13,11 +13,15 @@ import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = glassPageTitleClassName;
+const titleClassName =
+  `${glassPageTitleClassName} max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
 const contentClassName = "mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(18rem,48vw,28rem)] flex-col items-center gap-5 text-center";
 const inputClassName = "w-full max-w-[22rem]";
 const inputBaseClassName = "w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const primaryActionButtonClassName =
+  "!min-h-[3.05rem] !px-[1.2rem] !py-[0.78rem] !text-[1.1rem] !leading-[1.2] " +
+  "max-[48em]:!min-h-[3.42rem] max-[48em]:!px-[1.7rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem]";
 export default function UnustasinParooliBody() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -84,7 +88,7 @@ export default function UnustasinParooliBody() {
                   {error}
                 </p>}
               <div className="mt-[clamp(1.8rem,4.6vh,3rem)] flex justify-center">
-                <Button type="submit" variant="primary" disabled={loading}>
+                <Button type="submit" variant="primary" className={primaryActionButtonClassName} disabled={loading}>
                   <span>
                     {loading ? t("auth.reset.submitting") : t("auth.reset.submit")}
                   </span>

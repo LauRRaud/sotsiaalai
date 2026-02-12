@@ -241,7 +241,8 @@ export default function ConversationDrawer({
   const closeButtonClassName =
     "drawer-close drawer-close-btn--chat absolute top-[0.08rem] right-[0.18rem] z-[6] " +
     "!p-0 !w-[2.7rem] !h-[2.7rem] !rounded-full !border-0 !bg-transparent !shadow-none " +
-    "text-[#c57171] light:text-[#7a3a38] [&>span]:text-[2rem]";
+    "text-[#c57171] light:text-[#7a3a38] [&>span]:text-[2rem] " +
+    "max-[48em]:!w-[3.2rem] max-[48em]:!h-[3.2rem] max-[48em]:[&>span]:text-[2.35rem]";
   const contentClassName =
     "drawer-content px-[1rem] pt-[0.5rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
   return createPortal(<>
