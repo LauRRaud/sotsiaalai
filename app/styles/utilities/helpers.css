@@ -75,6 +75,16 @@ body.login-modal-open {
   pointer-events: none;
 }
 
+.glass-title-prominent {
+  font-size: clamp(2.32rem, 5.6vw, 3.05rem) !important;
+  line-height: 1.1 !important;
+}
+
+.glass-title-register {
+  font-size: clamp(2.08rem, 5.05vw, 2.72rem) !important;
+  line-height: 1.1 !important;
+}
+
 @media (min-width: 48.0625em) {
   .scroll-reactive-back {
     opacity: 0.78;

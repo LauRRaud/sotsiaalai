@@ -13,6 +13,7 @@
     --form-surface-hover,
     var(--btn-base-bg-dark)
   );
+  --chat-invite-list-border: rgba(248, 253, 255, 0.11);
   --chat-invite-shadow:
     0 6px 16px rgba(0, 0, 0, 0.22),
     var(

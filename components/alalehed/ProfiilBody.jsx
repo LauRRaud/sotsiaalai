@@ -37,14 +37,18 @@ const titleBaseClassName =
 const headerCenterBaseClassName =
   "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
-  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-0.85rem,-2vh,-0.3rem)] " +
+  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
   "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
 const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
   "bg-transparent border-none " +
-  "leading-[3.2rem] h-[3.2rem]";
+  "leading-[3.2rem] h-[3.2rem] whitespace-nowrap";
+const rolePillMultiLineClassName =
+  "h-auto min-h-[4.5rem] max-w-[19.5rem] px-[1.05em] py-[0.5rem] " +
+  "leading-[1.24] whitespace-normal text-center [text-wrap:balance] " +
+  "max-[48em]:max-w-[min(84vw,16.2rem)]";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
@@ -239,12 +243,14 @@ export default function ProfiilBody({
   const isLightTheme = prefs?.theme === "light";
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
+    !embedded && "min-[48.0625em]:sr-only",
     "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
   );
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
   );
+  const isLongRoleLabel = session?.user?.role === "SOCIAL_WORKER" || session?.user?.role === "CLIENT";
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
@@ -598,9 +604,9 @@ export default function ProfiilBody({
       </h1>
 
       <div className={cn(headerCenterClassName, "profile-role-row")}>
-          <span
+        <span
           ref={rolePillRef}
-          className={cn(rolePillClassName, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
+          className={cn(rolePillClassName, isLongRoleLabel ? rolePillMultiLineClassName : null, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
           {roleLabel}

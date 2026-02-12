@@ -42,7 +42,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       const neededWidth = contentRect.width + padX;
       const neededHeight = contentRect.height + padY;
       const neededSize = Math.ceil(Math.max(neededWidth, neededHeight));
-      const minSize = 340;
+      const minSize = 300;
       const maxSize = Math.floor(window.innerWidth * 0.9);
       const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
       setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
@@ -117,7 +117,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         </div>
         <div
           ref={beforeCardRef}
-          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center p-[clamp(1.2rem,3vw,2.4rem)] box-border"
+          className="relative bg-[var(--home-panel-bg)] backdrop-blur-[var(--glass-blur-radius,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] rounded-full shadow-[var(--home-before-shadow)] border-0 mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center p-[clamp(0.9rem,2.2vw,1.75rem)] box-border"
           style={
             beforeDiameter
               ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
@@ -126,9 +126,9 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
         >
           <div
             ref={beforeContentRef}
-            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.65rem,1.2vw,0.85rem)] max-w-[min(74vw,24.5rem)] items-center pt-[clamp(0.6rem,1.4vw,1.4rem)]"
+            className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.55rem,1.1vw,0.8rem)] max-w-[min(74vw,24.5rem)] items-center"
           >
-            <p className="m-0 mt-[clamp(0.4rem,1vw,1rem)] mb-[clamp(0.45rem,1.1vw,0.85rem)] min-[48.0625em]:-translate-y-[clamp(0.45rem,1vw,0.85rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
+            <p className="m-0 mb-[clamp(0.16rem,0.45vw,0.34rem)] -translate-y-[clamp(0.5rem,1.35vw,0.9rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
               {renderCircleTitle(ctaTitle)}
             </p>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
@@ -201,7 +201,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                 </>
               ) : null}
             </ul>
-            <p>
+            <p className="m-0">
               <AppLink
                 href="mailto:info@sotsiaal.ai"
                 className={cn(

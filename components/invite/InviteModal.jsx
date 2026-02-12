@@ -9,7 +9,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
-import { glassPageBackMobileBottomCenterClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 function parseEmails(raw) {
   if (!raw) return [];
   const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
@@ -50,7 +50,7 @@ export default function InviteModal() {
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
   const inviteListCardClassName =
-    "rounded-[1rem] border-[rgba(248,253,255,0.16)] bg-[rgba(16,22,34,0.4)] " +
+    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(16,22,34,0.4)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
     "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   useEffect(() => {
@@ -176,7 +176,7 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className={`${glassPageBackMobileBottomCenterClassName} absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem]`} />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.56rem)]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className={`${glassPageTitleClassName} max-[48em]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
           {t("invite.eyebrow")}

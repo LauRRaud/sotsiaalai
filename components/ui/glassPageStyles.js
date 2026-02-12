@@ -4,6 +4,9 @@ export const glassPageTitleClassName =
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 
+export const glassPageTitleProminentClassName =
+  "min-[48.0625em]:!text-[2.6rem] max-[48em]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
+
 export const glassPageShellClassName =
   "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border";
 

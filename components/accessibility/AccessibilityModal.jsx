@@ -8,12 +8,10 @@ import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import OptionCard from "@/components/ui/OptionCard";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
-import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageTitleClassName, glassPageTitleProminentClassName } from "@/components/ui/glassPageStyles";
 const titleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 !px-0 !whitespace-normal [text-wrap:balance] ` +
-  "w-full max-w-[min(24rem,92%)] leading-[1.12] " +
-  "min-[48.0625em]:text-[2.15em] " +
-  "max-[48em]:text-[clamp(1.72rem,7vw,2.28rem)]";
+  `${glassPageTitleClassName} ${glassPageTitleProminentClassName} glass-title-prominent !mt-0 !mb-0 !px-0 !whitespace-normal [text-wrap:balance] ` +
+  "w-full max-w-[min(24rem,92%)] leading-[1.12]";
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
 const modalRootClassName =

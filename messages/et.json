@@ -110,7 +110,7 @@
       "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
     },
     "register": {
-      "title": "Loo konto",
+      "title": "Registreeru",
       "pin_placeholder": "PIN (4-8 numbrit)",
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
