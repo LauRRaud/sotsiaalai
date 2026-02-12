@@ -245,7 +245,7 @@ export default function RegistreerimineBody({
   return <section className={pageShellClassName} lang={locale}>
       <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]" data-scrolled={isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
-        <div className="csp-overlayTitle [--csp-title-top:2.7rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.35rem)]" aria-hidden="true">
+        <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.05rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
         </div>
 
