@@ -3,6 +3,16 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 const MOBILE_QUERY = "(max-width: 768px)";
+
+function resolveDisplayMode() {
+  if (typeof window === "undefined") return "browser";
+  const isStandalone =
+    window.matchMedia?.("(display-mode: standalone)")?.matches ||
+    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
+    window.navigator?.standalone === true;
+  return isStandalone ? "standalone" : "browser";
+}
+
 function applyLayoutFlag(matches) {
   const root = document.documentElement;
   const body = document.body;
@@ -14,6 +24,15 @@ function applyLayoutFlag(matches) {
     root.removeAttribute("data-layout");
     body.removeAttribute("data-layout");
   }
+}
+
+function applyDisplayModeFlag() {
+  const root = document.documentElement;
+  const body = document.body;
+  if (!root || !body) return;
+  const mode = resolveDisplayMode();
+  root.setAttribute("data-display-mode", mode);
+  body.setAttribute("data-display-mode", mode);
 }
 function applyVhVar() {
   if (typeof window === "undefined") return;
@@ -37,20 +56,30 @@ export default function ViewportLayoutSetter() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(MOBILE_QUERY);
+    const standaloneMql = window.matchMedia("(display-mode: standalone)");
+    const fullscreenMql = window.matchMedia("(display-mode: fullscreen)");
     applyLayoutFlag(mql.matches);
+    applyDisplayModeFlag();
     applyVhVar();
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
-      window.requestAnimationFrame(() => applyVhVar());
+      window.requestAnimationFrame(() => {
+        applyDisplayModeFlag();
+        applyVhVar();
+      });
     };
     const onFocusChange = () => {
       window.requestAnimationFrame(() => applyVhVar());
     };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
+      applyDisplayModeFlag();
       applyVhVar();
     };
+    const onDisplayModeChange = () => applyDisplayModeFlag();
     mql.addEventListener?.("change", onMqChange);
+    standaloneMql.addEventListener?.("change", onDisplayModeChange);
+    fullscreenMql.addEventListener?.("change", onDisplayModeChange);
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onResize);
     window.addEventListener("pageshow", onPageShow);
@@ -59,6 +88,8 @@ export default function ViewportLayoutSetter() {
     window.addEventListener("focusout", onFocusChange);
     return () => {
       mql.removeEventListener?.("change", onMqChange);
+      standaloneMql.removeEventListener?.("change", onDisplayModeChange);
+      fullscreenMql.removeEventListener?.("change", onDisplayModeChange);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
       window.removeEventListener("pageshow", onPageShow);
@@ -66,6 +97,8 @@ export default function ViewportLayoutSetter() {
       window.removeEventListener("focusin", onFocusChange);
       window.removeEventListener("focusout", onFocusChange);
       applyLayoutFlag(false);
+      document.documentElement.removeAttribute("data-display-mode");
+      document.body.removeAttribute("data-display-mode");
     };
   }, []);
   useEffect(() => {

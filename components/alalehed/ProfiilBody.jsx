@@ -76,7 +76,7 @@ const profileBackButtonClassName =
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
-  `${glassPageBackRightClassName} pointer-events-auto translate-x-[-0.68rem] ` +
+  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto translate-x-[-0.68rem] ` +
   "max-[48em]:!absolute max-[48em]:!right-auto max-[48em]:!left-1/2 max-[48em]:!top-auto max-[48em]:!bottom-[clamp(6.6rem,30vw,8.2rem)] max-[48em]:!translate-x-[-50%] max-[48em]:!translate-y-0 max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +

@@ -235,6 +235,18 @@
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
+  .profile-container.glass-ring[data-orbit-open="true"] {
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    opacity: 0 !important;
+  }
+
   .profile-orbit-menu.is-mobile {
     --label-gap: 0.5rem;
     --label-nudge: 0.32rem;
@@ -278,7 +290,7 @@
     padding-right: max(1rem, env(safe-area-inset-right, 0px));
   }
   .profile-orbit-stack-fade {
-    display: block;
+    display: none;
     position: absolute;
     left: max(0.8rem, env(safe-area-inset-left, 0px));
     right: max(0.8rem, env(safe-area-inset-right, 0px));
@@ -344,28 +356,8 @@
     scroll-snap-type: y mandatory;
     scroll-padding-top: var(--stack-pad, 0px);
     scroll-padding-bottom: var(--stack-pad, 0px);
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.12) 6%,
-      rgba(0, 0, 0, 0.58) 13%,
-      rgba(0, 0, 0, 1) 21%,
-      rgba(0, 0, 0, 1) 79%,
-      rgba(0, 0, 0, 0.58) 87%,
-      rgba(0, 0, 0, 0.12) 94%,
-      rgba(0, 0, 0, 0) 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.12) 6%,
-      rgba(0, 0, 0, 0.58) 13%,
-      rgba(0, 0, 0, 1) 21%,
-      rgba(0, 0, 0, 1) 79%,
-      rgba(0, 0, 0, 0.58) 87%,
-      rgba(0, 0, 0, 0.12) 94%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   .profile-orbit-stack-list::-webkit-scrollbar {
     width: 0;
@@ -447,6 +439,27 @@
   .profile-orbit-stack-item[data-key="preferences"]
     .profile-orbit-stack-label {
     max-height: none;
+  }
+}
+
+@media (max-width: 48em) {
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-role-row {
+    transform: translateY(clamp(0.95rem, 4.1vw, 1.35rem)) !important;
+  }
+
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1rem, 4.8vw, 1.45rem) !important;
+    transform: translateY(clamp(1.55rem, 6.2vw, 2.2rem)) !important;
+  }
+
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-logout-wrap {
+    bottom: clamp(4.8rem, 22vw, 6.3rem) !important;
+  }
+}
+
+@media (max-width: 48em) {
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row {
+    transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
   }
 }
 

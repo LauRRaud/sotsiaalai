@@ -186,11 +186,14 @@ export default function LoginModal({
     "h-auto",
     "min-h-0",
     "max-h-[calc(100dvh-2rem)]",
+    "max-md:max-h-[calc(100dvh-0.9rem)]",
     "overflow-x-hidden",
     "gap-0",
     "!rounded-[2.2rem]",
     "pt-[0.1em]",
     "pb-[0.7em]",
+    "max-md:pt-[0.02em]",
+    "max-md:pb-[0.28em]",
     "px-[var(--login-modal-side-pad)]"
   ].filter(Boolean).join(" ");
   const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "help", "zero", "submit"], []);
@@ -789,6 +792,7 @@ export default function LoginModal({
         }
       `}</style>
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
+      "--login-modal-side-pad": isMobile ? "clamp(0.42rem, 1.7vw, 0.62rem)" : "1.15em",
       "--pin-grid-w": isMobile ? "clamp(16.2rem, 74vw, 18.6rem)" : "clamp(14.7rem, 28vw, 16.3rem)",
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
@@ -803,7 +807,7 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)]">
+        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pt-[clamp(0.82rem,2.2vw,1.05rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]">
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>

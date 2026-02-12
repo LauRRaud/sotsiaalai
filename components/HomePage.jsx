@@ -481,8 +481,8 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
-        <HomeFooter />
+        {!isLoginOpen ? <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} /> : null}
+        {!isLoginOpen ? <HomeFooter /> : null}
       </div>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} />
