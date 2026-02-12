@@ -15,7 +15,7 @@ import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
 import BackButton from "@/components/ui/BackButton";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const ROLE_KEYS = {
   ADMIN: "role.admin",
   SOCIAL_WORKER: "role.worker",
@@ -33,14 +33,11 @@ const titleBaseClassName =
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
   "max-[48em]:text-[clamp(2.3rem,9.1vw,3rem)] " +
   "text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-const titlePageClassName =
-  "mt-[clamp(0.95rem,2.3vh,1.85rem)] mb-[clamp(0.55rem,1.6vh,1.1rem)] " +
-  "max-[48em]:mt-[calc(env(safe-area-inset-top,0px)+4.05rem)] max-[48em]:mb-[clamp(0.2rem,0.9vh,0.55rem)]";
 const headerCenterBaseClassName =
-  "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)]";
+  "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-1.5rem,-3.4vh,-0.9rem)] " +
-  "max-[48em]:mt-[clamp(1.2rem,3.4vh,2rem)] max-[48em]:translate-y-[clamp(0.3rem,1.1vh,0.8rem)]";
+  "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
 const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
@@ -60,7 +57,7 @@ const orbitWrapperClassName =
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
   "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(7.6rem,36vw,9.6rem)] " +
-  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:translate-y-[clamp(0.9rem,3vh,2.1rem)] " +
+  "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[48em]:mb-[clamp(0.15rem,0.9vw,0.3rem)] max-[48em]:translate-y-[clamp(0.7rem,3.2vw,1.15rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +
   "min-[48.0625em]:absolute min-[48.0625em]:top-1/2 min-[48.0625em]:left-1/2 " +
@@ -80,7 +77,7 @@ const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
   `${glassPageBackRightClassName} pointer-events-auto translate-x-[-0.68rem] ` +
-  "max-[48em]:!absolute max-[48em]:!right-auto max-[48em]:!left-1/2 max-[48em]:!top-auto max-[48em]:!bottom-[clamp(7.4rem,14vh,11rem)] max-[48em]:!translate-x-[-50%] max-[48em]:!translate-y-0 max-[48em]:z-[95]";
+  "max-[48em]:!absolute max-[48em]:!right-auto max-[48em]:!left-1/2 max-[48em]:!top-auto max-[48em]:!bottom-[clamp(6.6rem,30vw,8.2rem)] max-[48em]:!translate-x-[-50%] max-[48em]:!translate-y-0 max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "px-[0.6rem] py-[0.2rem] text-center";
@@ -110,7 +107,7 @@ function ProfileShell({
       "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
       "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)] " +
       "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
-    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,3.6vh,2.1rem)]"
+    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,4.4vw,1.7rem)]"
   );
   const ringSurfaceStyle = {
     background: "transparent",
@@ -237,7 +234,7 @@ export default function ProfiilBody({
   const registrationReason = searchParams?.get("reason");
   const isAuthed = status === "authenticated" || !!session?.user;
   const isLightTheme = prefs?.theme === "light";
-  const titleClassName = cn(titleBaseClassName, !embedded && titlePageClassName);
+  const titleClassName = embedded ? titleBaseClassName : glassPageTitleClassName;
   const headerCenterClassName = cn(
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
