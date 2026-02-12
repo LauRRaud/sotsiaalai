@@ -92,9 +92,9 @@ const Particles = ({
     const effectiveSpeed = prefersReducedMotion ? 0 : speed;
     const canAnimate = !prefersReducedMotion;
     const cfg = {
-      count: isMobile ? Math.max(180, Math.round(particleCount * 1.6)) : particleCount,
-      spread: isMobile ? particleSpread * 0.78 : particleSpread,
-      baseSize: isMobile ? Math.round(particleBaseSize * 1.12) : particleBaseSize,
+      count: isMobile ? Math.max(110, Math.round(particleCount * 1.05)) : particleCount,
+      spread: isMobile ? particleSpread * 0.86 : particleSpread,
+      baseSize: isMobile ? Math.round(particleBaseSize * 0.9) : particleBaseSize,
       randomness: isMobile ? Math.min(0.28, sizeRandomness) : sizeRandomness,
       dprMax: isMobile ? 1.5 : 2,
       speed: effectiveSpeed,

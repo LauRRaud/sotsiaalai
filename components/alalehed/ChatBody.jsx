@@ -81,11 +81,11 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-window-bottom-gap": "1.35rem",
   "--chat-window-shift-y": "clamp(2.55rem, 7.1vh, 3.7rem)",
   "--chat-window-bottom-safe": "0rem",
-  "--chat-window-fade-top": "0rem",
-  "--chat-window-fade-bottom": "0rem",
+  "--chat-window-fade-top": "clamp(0.55rem, 1.8vh, 0.95rem)",
+  "--chat-window-fade-bottom": "clamp(1rem, 3.2vh, 1.7rem)",
   "--chat-scroll-down-offset": "-1.9rem",
   "--chat-content-top-offset": "0rem",
-  "--chat-content-spacer": "0.5rem",
+  "--chat-content-spacer": "0.95rem",
   "--chat-content-bottom-spacer": "0.55rem",
   "--chat-input-shift": "0rem",
   "--chat-inputbar-left-pull": "0rem",
@@ -106,7 +106,7 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
 const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
   "--chat-content-top-offset": "0rem",
-  "--chat-content-spacer": "0.5rem",
+  "--chat-content-spacer": "0.95rem",
   "--chat-content-bottom-spacer": "0.55rem"
 });
 
