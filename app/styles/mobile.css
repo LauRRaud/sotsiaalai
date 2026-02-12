@@ -162,6 +162,11 @@
     visibility: visible;
     transform: none;
   }
+  .homepage-root .three-d-card.float-card {
+    animation: float-vertical 6.7s ease-in-out infinite;
+    animation-delay: 0s;
+    transform: translateY(0);
+  }
   .home-footer-logo.defer-fade {
     animation: none;
     opacity: var(--end-op, 1);
@@ -297,7 +302,7 @@
     height: clamp(3.6rem, 9.5vh, 5.8rem);
     z-index: 4;
     pointer-events: none;
-    opacity: 0.58;
+    opacity: 0.5;
     -webkit-backdrop-filter: blur(1px) saturate(102%);
     backdrop-filter: blur(1px) saturate(102%);
   }
@@ -340,6 +345,7 @@
     );
   }
   .profile-orbit-stack-list {
+    --stack-edge-fade: clamp(2.1rem, 7.5vh, 4.1rem);
     position: relative;
     z-index: 2;
     flex: 1;
@@ -356,8 +362,24 @@
     scroll-snap-type: y mandatory;
     scroll-padding-top: var(--stack-pad, 0px);
     scroll-padding-bottom: var(--stack-pad, 0px);
-    -webkit-mask-image: none;
-    mask-image: none;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 var(--stack-edge-fade),
+      #000 calc(100% - var(--stack-edge-fade)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 var(--stack-edge-fade),
+      #000 calc(100% - var(--stack-edge-fade)),
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
   }
   .profile-orbit-stack-list::-webkit-scrollbar {
     width: 0;
@@ -444,9 +466,13 @@
 
 @media (max-width: 48em) {
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+    position: absolute !important;
     left: 50% !important;
     right: auto !important;
+    top: auto !important;
+    bottom: clamp(6.6rem, 30vw, 8.2rem) !important;
     transform: translateX(-50%) !important;
+    z-index: 95 !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-role-row {
@@ -454,19 +480,16 @@
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(1rem, 4.8vw, 1.45rem) !important;
-    transform: translateY(clamp(1.55rem, 6.2vw, 2.2rem)) !important;
+    margin-top: clamp(2.55rem, 11vw, 3.7rem) !important;
+    transform: none !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
-    position: absolute !important;
-    top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
   }
 
   html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: 0 !important;
     transform: none !important;
   }
 }
