@@ -8,10 +8,9 @@ import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import OptionCard from "@/components/ui/OptionCard";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
-import { glassPageTitleClassName, glassPageTitleProminentClassName } from "@/components/ui/glassPageStyles";
+import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const titleClassName =
-  `${glassPageTitleClassName} ${glassPageTitleProminentClassName} glass-title-prominent !mt-0 !mb-0 !px-0 !whitespace-normal [text-wrap:balance] ` +
-  "w-full max-w-[min(24rem,92%)] leading-[1.12]";
+  `${glassPageTitleClassName} glass-title-register !text-[clamp(1.66rem,3.55vw,2.22rem)] max-[48em]:!text-[clamp(1.7rem,6.6vw,2.18rem)] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0 max-[48em]:!whitespace-normal`;
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
 const modalRootClassName =
@@ -350,7 +349,7 @@ export default function AccessibilityModal({
 
       <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} data-scrolled={isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
-        <div className="csp-overlayTitle [--csp-title-top:calc(var(--csp-chevron-top,0.24rem)+var(--csp-arrow-size,2.4rem)+0.45rem)] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.45rem,7.8vw,2.95rem))]" aria-hidden="false">
+        <div className="csp-overlayTitle [--csp-title-top:calc(var(--csp-chevron-top,0.24rem)+var(--csp-arrow-size,2.4rem)-0.25rem)] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(1.6rem,5.6vw,2.1rem))]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
             <span className="block">{a11yTitleLine1}</span>
             <span className="block">{a11yTitleLine2}</span>

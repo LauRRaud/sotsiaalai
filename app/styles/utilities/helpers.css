@@ -62,9 +62,9 @@ body.login-modal-open {
 
 .scroll-reactive-shell .csp-overlayTitle {
   transition:
-    opacity 340ms ease-out,
-    transform 380ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    filter 360ms ease-out;
+    opacity 150ms ease-out,
+    transform 210ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 170ms ease-out;
   will-change: opacity, transform, filter;
 }
 
@@ -81,8 +81,24 @@ body.login-modal-open {
 }
 
 .glass-title-register {
-  font-size: clamp(2.08rem, 5.05vw, 2.72rem) !important;
+  font-size: clamp(1.72rem, calc(var(--ring-diameter, 52rem) / 19.5), 2.72rem) !important;
   line-height: 1.1 !important;
+}
+
+.glass-title-register-ru {
+  font-size: clamp(1.5rem, calc(var(--ring-diameter, 52rem) / 23.2), 2.24rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0.01em !important;
+}
+
+@media (max-width: 48em) {
+  .glass-title-register {
+    font-size: clamp(1.9rem, 7.6vw, 2.5rem) !important;
+  }
+
+  .glass-title-register-ru {
+    font-size: clamp(1.58rem, 6.6vw, 2.12rem) !important;
+  }
 }
 
 @media (min-width: 48.0625em) {

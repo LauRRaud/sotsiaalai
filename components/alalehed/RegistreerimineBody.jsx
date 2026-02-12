@@ -39,6 +39,7 @@ export default function RegistreerimineBody({
     t,
     locale
   } = useI18n();
+  const localizedTitleClassName = `${titleClassName}${locale === "ru" ? " glass-title-register-ru" : ""}`;
   const scrollRef = useRef(null);
   const handleClose = () => {
     pushWithTransition(router, localizePath("/", locale));
@@ -242,10 +243,10 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]" data-scrolled={isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]" data-scrolled={isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.7rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.35rem)]" aria-hidden="true">
-          <h1 className={titleClassName}>{t("auth.register.title")}</h1>
+          <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
         </div>
 
         <div className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
