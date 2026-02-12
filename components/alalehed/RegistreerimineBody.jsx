@@ -60,6 +60,7 @@ export default function RegistreerimineBody({
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const didInitPositionRef = useRef(false);
   const roleLabelId = useId();
   const roleHintId = useId();
   const roleLabelText = t("auth.register.role_label_question");
@@ -125,7 +126,7 @@ export default function RegistreerimineBody({
     canScrollDown,
     scrollDirection,
     getItemClassName,
-    recompute
+    scrollToIndex
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".register-step",
@@ -165,11 +166,26 @@ export default function RegistreerimineBody({
     };
   }, []);
   useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || didInitPositionRef.current) return;
+    const hasPad =
+      Math.max(0, scrollPadTop || scrollPad) > 0 ||
+      Math.max(0, scrollPadBottom || scrollPad) > 0;
+    if (!hasPad) return;
+    didInitPositionRef.current = true;
     const raf = requestAnimationFrame(() => {
-      recompute("auto");
+      if (typeof window !== "undefined") {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "auto"
+        });
+      }
+      scrollEl.scrollTop = 0;
+      scrollToIndex(0, "auto");
     });
     return () => cancelAnimationFrame(raf);
-  }, [recompute]);
+  }, [scrollPad, scrollPadTop, scrollPadBottom, scrollToIndex]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -226,7 +242,7 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`${registerStepClassName} ${getItemClassName(1)}`}>
-                <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.pin_placeholder", {
+                <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.register.pin_placeholder", {
                 min: PIN_MIN,
                 max: PIN_MAX
               })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
@@ -267,6 +283,10 @@ export default function RegistreerimineBody({
               <section className={`${registerStepClassName} ${getItemClassName(4)}`}>
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
+                    guide: {
+                      open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
+                      close: "</a>"
+                    },
                     guide1: {
                       open: `<a class="${registerPolicyLinkClassName}" href="${localizePath("/kasutusjuhend", locale)}">`,
                       close: "</a>"

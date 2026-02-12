@@ -66,8 +66,8 @@
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
-    "password_placeholder": "PIN (4-8 numbrit)",
-    "pin_placeholder": "PIN (4-8 numbrit)",
+    "password_placeholder": "PIN",
+    "pin_placeholder": "PIN",
     "login": {
       "title": "Logi sisse",
       "or": "või",
@@ -111,6 +111,7 @@
     },
     "register": {
       "title": "Loo konto",
+      "pin_placeholder": "PIN (4-8 numbrit)",
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
       "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
@@ -235,7 +236,7 @@
       "new_placeholder": "Uus e-post",
       "submit": "Saada kinnituskiri",
       "submitting": "Saadan…",
-      "pin_placeholder": "Praegune PIN (4–8 numbrit)",
+      "pin_placeholder": "Praegune PIN",
       "success": "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
       "error_email_required": "Palun sisesta e-posti aadress.",
       "error_email_invalid": "Palun sisesta korrektne e-posti aadress.",
@@ -823,4 +824,3 @@
     }
   }
 }
-

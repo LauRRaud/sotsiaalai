@@ -900,16 +900,10 @@ export default function LoginModal({
             </div>
 
             {}
-            {!isMobile && <input aria-label={t("auth.pin_placeholder", {
-          min: PIN_MIN,
-          max: PIN_MAX
-        })} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
+            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
 
             {}
-            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder", {
-          min: PIN_MIN,
-          max: PIN_MAX
-        })} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="current-password" onChange={handlePinInputChange} onKeyDown={e => {
+            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="current-password" onChange={handlePinInputChange} onKeyDown={e => {
           if (e.key === "Enter") {
             e.preventDefault();
             submitPinStep();
@@ -1040,8 +1034,10 @@ export default function LoginModal({
                 }
                 appendDigit(digitToAppend);
               }} disabled={pinLoading} aria-label={digitLabel}>
-                        {isZeroKey ? <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]" aria-hidden="true">
-                            {zeroKeyMode === "backspace" ? "\u232b" : 0}
+                        {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" className="block h-[1.06em] w-[1.06em]">
+                            <path d="M11.2 5.4L4.8 12l6.4 6.6M5.3 12h14" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg> : <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]" aria-hidden="true">
+                            0
                           </span> : key}
                       </button>;
             })}

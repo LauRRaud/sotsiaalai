@@ -145,9 +145,6 @@ export default function OrbitalMenu({
     stackItemRefs.current = new Array(stackItems.length);
   }, [stackItems.length]);
   useEffect(() => {
-    stackItemRefs.current = new Array(items.length);
-  }, [items.length]);
-  useEffect(() => {
     if (!isOpen) return;
     const handlePointerDown = event => {
       const root = rootRef.current;
@@ -449,11 +446,9 @@ export default function OrbitalMenu({
       const pad = Math.max(0, Math.floor((listH - itemH) / 2) + 24);
       setStackPad(pad);
     };
-    const initialIdx = computeActive();
     computePad();
-    if (initialIdx != null) {
-      snapToStackIndex(initialIdx, false);
-    }
+    setStackFocusIndex(0);
+    snapToStackIndex(0, false);
     const onScroll = () => {
       computeActive();
       scheduleStackSettle();

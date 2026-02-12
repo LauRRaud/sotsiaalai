@@ -9,10 +9,11 @@ import useT from "@/components/i18n/useT";
 import RichText from "@/components/i18n/RichText";
 
 const homeCircleLinkClassName =
-  "home-link inline-flex items-center justify-center text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
+  "home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
 
 export default function HomeAboutSection({ id = "meist", className, showAdminLinks = false }) {
   const t = useT();
+  const ctaTitle = t("about.cta.title");
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
   const [beforeDiameter, setBeforeDiameter] = useState(null);
@@ -58,6 +59,21 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       window.removeEventListener("resize", updateSize);
     };
   }, [showAdminLinks]);
+
+  const renderCircleTitle = (title) => {
+    const normalized = String(title || "").trim().replace(/\s+/g, " ");
+    const words = normalized.split(" ");
+    if (words.length === 2) {
+      return (
+        <>
+          {words[0]}
+          <br />
+          {words[1]}
+        </>
+      );
+    }
+    return normalized;
+  };
 
   return (
     <section
@@ -113,10 +129,10 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
             className="relative z-[1] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.65rem,1.2vw,0.85rem)] max-w-[min(74vw,24.5rem)] items-center pt-[clamp(0.6rem,1.4vw,1.4rem)]"
           >
             <p className="m-0 mt-[clamp(0.4rem,1vw,1rem)] mb-[clamp(0.9rem,2vw,1.6rem)] text-[clamp(1.48rem,2.45vw,2.05rem)] font-headline tracking-[0.02em] leading-[1.2] text-[color:var(--home-prose-color)]">
-              {t("about.cta.title")}
+              {renderCircleTitle(ctaTitle)}
             </p>
             <ul className="flex flex-wrap items-center justify-center list-none p-0 m-0 gap-x-[1.05rem] gap-y-[0.45rem]">
-              <li>
+              <li className="w-fit flex-none">
                 <AppLink
                   href="/kasutusjuhend"
                   className={cn(
@@ -127,7 +143,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                   {t("about.guide.jump_link")}
                 </AppLink>
               </li>
-              <li>
+              <li className="w-fit flex-none">
                 <AppLink
                   href="/kasutustingimused"
                   className={cn(
@@ -138,7 +154,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                   {t("about.links.terms")}
                 </AppLink>
               </li>
-              <li>
+              <li className="w-fit flex-none">
                 <AppLink
                   href="/privaatsustingimused"
                   className={cn(
@@ -149,7 +165,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                   {t("about.links.privacy")}
                 </AppLink>
               </li>
-              <li>
+              <li className="w-fit flex-none">
                 <InstallAppLink
                   variant="row"
                   className={cn(
@@ -160,7 +176,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               </li>
               {showAdminLinks ? (
                 <>
-                  <li>
+                  <li className="w-fit flex-none">
                     <AppLink
                       href="/admin/analytics"
                       className={cn(
@@ -171,7 +187,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
                       {t("about.links.analytics")}
                     </AppLink>
                   </li>
-                  <li>
+                  <li className="w-fit flex-none">
                     <AppLink
                       href="/admin/rag"
                       className={cn(

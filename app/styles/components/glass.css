@@ -73,8 +73,15 @@
 .register-checkbox-card .register-policy-link:focus-visible {
   color: var(--brand-primary) !important;
   --link-brand-text: var(--brand-primary);
-  --link-brand-border-hover: var(--brand-primary);
-  --link-brand-shadow-hover: rgba(197, 113, 113, 0.28);
+  --link-brand-border-hover: transparent;
+  --link-brand-shadow-hover: transparent;
+  display: inline !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  text-decoration: none;
 }
 
 :root.theme-light .register-checkbox-card .register-policy-link,
@@ -83,8 +90,15 @@
 :root.theme-light .register-checkbox-card .register-policy-link:focus-visible {
   color: var(--link-color, #7a3a38) !important;
   --link-brand-text: var(--link-color, #7a3a38);
-  --link-brand-border-hover: var(--link-color, #7a3a38);
+  --link-brand-border-hover: transparent;
   --link-brand-shadow-hover: transparent;
+  display: inline !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  text-decoration: none;
 }
 
 .register-checkbox-card,
@@ -106,8 +120,36 @@
 }
 
 .register-checkbox-card .register-policy-link {
-  padding-left: 0.08em;
-  padding-right: 0.08em;
+  padding-left: 0;
+  padding-right: 0;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: auto;
+}
+
+.register-agree-card > span:last-child,
+.register-guide-card > span:last-child {
+  text-wrap: balance;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: auto;
+}
+
+section[lang="ru"] .register-checkbox-card {
+  font-size: 0.98rem;
+  line-height: 1.36;
+}
+
+section[lang="ru"] .register-checkbox-card .register-policy-link {
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 48em) {
+  section[lang="ru"] .register-checkbox-card {
+    font-size: 0.96rem;
+  }
 }
 
 .register-checkbox-card > span:last-child::before {

@@ -236,15 +236,15 @@
   }
 
   .profile-container.glass-ring[data-orbit-open="true"] {
-    border-color: transparent !important;
-    box-shadow: none !important;
+    border-color: var(--glass-border-color) !important;
+    box-shadow: var(--glass-shell-shadow, none) !important;
   }
 
   .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
-    background: transparent !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    opacity: 0 !important;
+    background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    opacity: 1 !important;
   }
 
   .profile-orbit-menu.is-mobile {
@@ -276,21 +276,42 @@
   }
   .profile-orbit-stack-backdrop {
     background: transparent;
+    padding: var(--mobile-glass-card-gap, 0.35rem);
   }
   .profile-orbit-stack-panel {
-    background: transparent;
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    max-height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    border-radius: var(
+      --mobile-glass-card-radius,
+      clamp(1.05rem, 3.8vw, 1.45rem)
+    );
+    background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
     border: 0;
-    box-shadow: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+    box-shadow: var(--glass-shell-shadow, none);
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
     overflow: hidden;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 2.4rem);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.8rem);
-    padding-left: max(1rem, env(safe-area-inset-left, 0px));
-    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.35rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.2rem);
+    padding-left: clamp(0.85rem, 3.6vw, 1.2rem);
+    padding-right: clamp(0.85rem, 3.6vw, 1.2rem);
   }
   .profile-orbit-stack-fade {
-    display: none;
+    display: block;
     position: absolute;
     left: max(0.8rem, env(safe-area-inset-left, 0px));
     right: max(0.8rem, env(safe-area-inset-right, 0px));
@@ -453,7 +474,7 @@
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-logout-wrap {
-    bottom: clamp(4.8rem, 22vw, 6.3rem) !important;
+    bottom: clamp(2.1rem, 10vw, 3.35rem) !important;
   }
 }
 
@@ -933,6 +954,29 @@
   .register-guide-card {
     width: calc(100% - clamp(0.85rem, 1.55vw, 1.3rem)) !important;
     max-width: calc(100% - clamp(0.85rem, 1.55vw, 1.3rem)) !important;
+  }
+
+  section[lang="ru"] .register-scroll,
+  section[lang="en"] .register-scroll {
+    max-width: clamp(20.8rem, 42vw, 28.4rem) !important;
+  }
+
+  section[lang="ru"] .register-option-card,
+  section[lang="en"] .register-option-card {
+    width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+    max-width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+  }
+
+  section[lang="ru"] .register-checkbox-card,
+  section[lang="en"] .register-checkbox-card {
+    width: calc(100% - clamp(0.36rem, 0.85vw, 0.66rem)) !important;
+    max-width: calc(100% - clamp(0.36rem, 0.85vw, 0.66rem)) !important;
+  }
+
+  section[lang="ru"] .register-guide-card,
+  section[lang="en"] .register-guide-card {
+    width: calc(100% - clamp(0.44rem, 0.95vw, 0.78rem)) !important;
+    max-width: calc(100% - clamp(0.44rem, 0.95vw, 0.78rem)) !important;
   }
 
   .register-login-link {

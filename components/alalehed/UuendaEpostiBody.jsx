@@ -33,7 +33,7 @@ export default function UuendaEpostiBody() {
   const [error, setError] = useState("");
   const errorId = error ? "update-email-error" : undefined;
   const backLabel = t("buttons.back_previous");
-  const pinPlaceholder = locale === "et" ? "Praegune PIN" : t("profile.email_update.pin_placeholder");
+  const pinPlaceholder = t("profile.email_update.pin_placeholder");
   const searchParams = useSearchParams();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
@@ -131,10 +131,7 @@ export default function UuendaEpostiBody() {
               </label>
               <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.new_placeholder")} value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" inputMode="email" disabled={loading} aria-invalid={error ? "true" : "false"} aria-describedby={errorId} />
               <label htmlFor="pin" className="sr-only">
-                {t("profile.email_update.pin_placeholder", {
-              min: PIN_MIN,
-              max: PIN_MAX
-            })}
+                {t("profile.email_update.pin_placeholder")}
               </label>
               <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={pinPlaceholder} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="current-password" disabled={loading} />
               {error && <p id={errorId} role="alert" className="text-[color:#fca5a5]">

@@ -66,8 +66,8 @@
   },
   "auth": {
     "email_placeholder": "you@example.com",
-    "password_placeholder": "PIN (4-8 digits)",
-    "pin_placeholder": "PIN (4-8 digits)",
+    "password_placeholder": "PIN",
+    "pin_placeholder": "PIN",
     "login": {
       "title": "Sign in",
       "or": "or",
@@ -111,6 +111,7 @@
     },
     "register": {
       "title": "Create account",
+      "pin_placeholder": "PIN (4-8 digits)",
       "role_label_question": "Who are you?",
       "role_label": "Role:",
       "role_hint": "Choose a role with arrow keys. Options: Social work professional or Person seeking help.",
@@ -235,7 +236,7 @@
       "new_placeholder": "New email",
       "submit": "Send email",
       "submitting": "Sending",
-      "pin_placeholder": "Current PIN (4-8 digits)",
+      "pin_placeholder": "Current PIN",
       "success": "If the PIN was correct, we sent a verification email to your new address. Please open the link in that inbox.",
       "error_email_required": "Please enter an email address.",
       "error_email_invalid": "Please enter a valid email address.",

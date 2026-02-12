@@ -87,6 +87,8 @@ export default function AccessibilityModal({
   const [languageWraps, setLanguageWraps] = useState(false);
   const [contrastWraps, setContrastWraps] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const didInitPositionRef = useRef(false);
+  const skipNextFocusSnapRef = useRef(false);
   const padOffset = 36;
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
@@ -124,8 +126,13 @@ export default function AccessibilityModal({
   useEffect(() => {
     const onKey = e => {
       if (e.key === "Escape") {
+        e.preventDefault();
         e.stopPropagation();
+        if (typeof e.stopImmediatePropagation === "function") {
+          e.stopImmediatePropagation();
+        }
         onClose?.();
+        return;
       }
       if (e.key === "Tab" && boxRef.current) {
         const nodes = boxRef.current.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
@@ -143,11 +150,20 @@ export default function AccessibilityModal({
         }
       }
     };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener("keydown", onKey, true);
+    return () => document.removeEventListener("keydown", onKey, true);
   }, [onClose]);
   useEffect(() => {
-    firstFocusRef.current?.focus?.();
+    const target = firstFocusRef.current;
+    if (!target || typeof target.focus !== "function") return;
+    skipNextFocusSnapRef.current = true;
+    try {
+      target.focus({
+        preventScroll: true
+      });
+    } catch {
+      target.focus();
+    }
   }, []);
   useEffect(() => {
     const scrollEl = scrollRef.current;
@@ -182,7 +198,7 @@ export default function AccessibilityModal({
     canScrollDown,
     scrollDirection,
     getItemClassName,
-    recompute
+    activeIndex
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".csp-step",
@@ -198,17 +214,28 @@ export default function AccessibilityModal({
     manageHiddenFocus: true
   });
   useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || didInitPositionRef.current) return;
+    const hasPad = Math.max(0, scrollPad + padOffset) > 0;
+    if (!hasPad) return;
+    didInitPositionRef.current = true;
     const raf = requestAnimationFrame(() => {
-      recompute("auto");
+      scrollEl.scrollTop = 0;
+      setIsScrolled(false);
     });
     return () => cancelAnimationFrame(raf);
-  }, [recompute]);
+  }, [scrollPad, padOffset]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
     const onFocusIn = event => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
+      if (skipNextFocusSnapRef.current) {
+        skipNextFocusSnapRef.current = false;
+        return;
+      }
+      if ((scrollEl.scrollTop || 0) <= 8) return;
       const snapTarget = target.closest(".a11y-snap") || target;
       snapTarget.scrollIntoView?.({
         block: "center",
@@ -219,23 +246,8 @@ export default function AccessibilityModal({
     return () => scrollEl.removeEventListener("focusin", onFocusIn);
   }, [reduceMotion]);
   useEffect(() => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl || typeof window === "undefined") return;
-    const onScroll = () => {
-      const top = scrollEl.scrollTop || 0;
-      setIsScrolled(prev => {
-        const next = top > 8;
-        return prev === next ? prev : next;
-      });
-    };
-    onScroll();
-    scrollEl.addEventListener("scroll", onScroll, {
-      passive: true
-    });
-    return () => {
-      scrollEl.removeEventListener("scroll", onScroll);
-    };
-  }, []);
+    setIsScrolled(activeIndex > 0);
+  }, [activeIndex]);
   useEffect(() => {
     const host = languageOptionsRef.current;
     if (!host || typeof window === "undefined") return;
