@@ -238,6 +238,7 @@ export default function HomePage() {
       "[&:focus-within_.card-face.back>.centered-back-right]:[box-shadow:none]" : null;
   const onLeftEnter = () => {
     if (suppressFlipRef.current) return;
+    if (!flipAllowed) return;
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToBack");
@@ -246,6 +247,7 @@ export default function HomePage() {
   };
   const onLeftLeave = () => {
     if (suppressFlipRef.current) return;
+    if (!flipAllowed) return;
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToFront");
@@ -254,6 +256,7 @@ export default function HomePage() {
   };
   const onRightEnter = () => {
     if (suppressFlipRef.current) return;
+    if (!flipAllowed) return;
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToBack");
@@ -262,6 +265,7 @@ export default function HomePage() {
   };
   const onRightLeave = () => {
     if (suppressFlipRef.current) return;
+    if (!flipAllowed) return;
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToFront");
@@ -372,7 +376,7 @@ export default function HomePage() {
       "[&.flip-allowed.is-flipping_.card-wrapper]:[transform:rotateY(180deg)] " +
       "[&.flip-allowed:hover_.card-face.back]:pointer-events-auto " +
       "[&.flip-allowed:focus-within_.card-face.back]:pointer-events-auto " +
-      "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
+      "[&.flip-allowed.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
     flipClass,
     isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
@@ -392,7 +396,7 @@ export default function HomePage() {
       "[&.flip-allowed.is-flipping_.card-wrapper]:[transform:rotateY(-180deg)] " +
       "[&.flip-allowed:hover_.card-face.back]:pointer-events-auto " +
       "[&.flip-allowed:focus-within_.card-face.back]:pointer-events-auto " +
-      "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
+      "[&.flip-allowed.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
     flipClass,
     isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,

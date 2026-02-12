@@ -22,6 +22,7 @@ export default function RightRail({
   onProfileToggle,
   embedded = false,
   suspendPointerEvents = false,
+  suppressTooltip = false,
   mobileVisible = true
 }) {
   const router = useRouter();
@@ -43,10 +44,21 @@ export default function RightRail({
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
   const [isMobile, setIsMobile] = useState(false);
-  const [isRailHovered, setIsRailHovered] = useState(false);
+  const [hoveredDesktopIndex, setHoveredDesktopIndex] = useState(null);
   const [isRailScrolling, setIsRailScrolling] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
   const scrollIdleTimerRef = useRef(0);
+  const setTooltipFromElement = useCallback(el => {
+    if (!el || typeof el.getBoundingClientRect !== "function") return;
+    const rect = el.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    setTooltipRect({
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height
+    });
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -261,11 +273,22 @@ export default function RightRail({
       if (scrollIdleTimerRef.current) window.clearTimeout(scrollIdleTimerRef.current);
       scrollIdleTimerRef.current = window.setTimeout(() => {
         setIsRailScrolling(false);
+        const railNode = railRef.current;
+        const hasHover = !!railNode?.matches?.(":hover");
+        const activeEl = document.activeElement;
+        const hasFocusInside =
+          railNode &&
+          activeEl instanceof HTMLElement &&
+          railNode.contains(activeEl);
+        if (!hasHover && !hasFocusInside) {
+          setHoveredDesktopIndex(null);
+        }
         scrollIdleTimerRef.current = 0;
       }, 340);
       setActiveIndex(prev => {
         const maxIndex = Math.max(0, items.length - 1);
         const next = Math.max(0, Math.min(maxIndex, prev + direction));
+        setHoveredDesktopIndex(next);
         return Number.isFinite(next) ? next : prev;
       });
     };
@@ -288,9 +311,15 @@ export default function RightRail({
     if (rail && active instanceof HTMLElement && rail.contains(active)) {
       active.blur();
     }
-    setIsRailHovered(false);
+    setHoveredDesktopIndex(null);
     clearArmed();
   }, [isMobile, mobileVisible, clearArmed]);
+
+  useEffect(() => {
+    if (!(suspendPointerEvents || suppressTooltip)) return;
+    setHoveredDesktopIndex(null);
+    setIsRailScrolling(false);
+  }, [suspendPointerEvents, suppressTooltip]);
 
   useEffect(() => {
     if (!isMobile || !armedKey) return;
@@ -338,13 +367,16 @@ export default function RightRail({
 
   const mobileLabelClassName =
     "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-visible max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
+  const tooltipLabelIndex = isRailScrolling
+    ? activeIndex
+    : hoveredDesktopIndex ?? activeIndex;
 
   return <div className={slotClassName}>
-      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onMouseEnter={() => setIsRailHovered(true)} onMouseLeave={() => setIsRailHovered(false)} onFocusCapture={() => setIsRailHovered(true)} onBlurCapture={event => {
+      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail", "Vestluse otseteed")} onKeyDown={onKeyDown} onBlurCapture={event => {
       const next = event.relatedTarget;
       const rail = railRef.current;
       if (rail && next instanceof Node && rail.contains(next)) return;
-      setIsRailHovered(false);
+      setHoveredDesktopIndex(null);
     }}>
         {(isMobile ? mobileSlots : [-2, -1, 0, 1, 2].map(slotOffset => {
         const itemIndex = activeIndex + slotOffset;
@@ -461,7 +493,22 @@ export default function RightRail({
         const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const displayLabel = it?.label || "";
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} onDoubleClick={isMobile ? event => {
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} onMouseEnter={!isMobile ? event => {
+        if (isRailScrolling) return;
+        setHoveredDesktopIndex(itemIndex);
+        setTooltipFromElement(event.currentTarget);
+      } : undefined} onMouseLeave={!isMobile ? () => {
+        if (isRailScrolling) return;
+        setHoveredDesktopIndex(null);
+      } : undefined} onFocus={!isMobile ? event => {
+        if (isRailScrolling) return;
+        setHoveredDesktopIndex(itemIndex);
+        setTooltipFromElement(event.currentTarget);
+      } : undefined} onBlur={!isMobile ? event => {
+        const next = event.relatedTarget;
+        if (next instanceof Node && event.currentTarget.contains(next)) return;
+        setHoveredDesktopIndex(null);
+      } : undefined} onDoubleClick={isMobile ? event => {
         event.preventDefault();
         event.stopPropagation();
         clearArmed();
@@ -474,11 +521,11 @@ export default function RightRail({
             </button>;
       })}
 
-        {isMounted && !isMobile && (isRailHovered || isRailScrolling) && tooltipRect ? createPortal(<div className={styles.tooltip} style={{
+        {isMounted && !isMobile && !suspendPointerEvents && !suppressTooltip && (hoveredDesktopIndex !== null || isRailScrolling) && tooltipRect ? createPortal(<div className={styles.tooltip} style={{
         top: tooltipRect.top + tooltipRect.height / 2,
         left: tooltipRect.left - 2
       }} role="tooltip">
-                {items[activeIndex]?.label || ""}
+                {items[tooltipLabelIndex]?.label || ""}
               </div>, document.body) : null}
       </nav>
     </div>;

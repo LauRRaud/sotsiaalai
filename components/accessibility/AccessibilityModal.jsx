@@ -8,7 +8,9 @@ import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import OptionCard from "@/components/ui/OptionCard";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
-const titleClassName = "mt-[0.25rem] w-full max-w-full px-[clamp(0.6rem,3.8vw,1.2rem)] text-center text-[clamp(1.95rem,4.6vw,2.5rem)] max-[48em]:text-[clamp(2.2rem,9vw,3.15rem)] leading-[1.08] tracking-[0.03em] [overflow-wrap:anywhere] [word-break:break-word] [text-wrap:balance] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+const titleClassName =
+  `${glassPageTitleClassName} max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0 max-[48em]:!whitespace-normal`;
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
 const modalRootClassName =
@@ -333,9 +335,12 @@ export default function AccessibilityModal({
 
       <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} data-scrolled={isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
-        <div className="csp-overlayTitle min-[48.0625em]:hidden" aria-hidden="false">
+        <div className="csp-overlayTitle [--csp-title-top:0.45rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+0.35rem)]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
-            {t("profile.preferences.title")}
+            {locale === "et" ? <>
+                <span className="block">Keel ja</span>
+                <span className="block">ligipääsetavus</span>
+              </> : t("profile.preferences.title")}
           </h2>
         </div>
 

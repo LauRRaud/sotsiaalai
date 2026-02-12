@@ -29,7 +29,11 @@ export function useChatAnalysisController({
     return "";
   }, [uploadPreview]);
   const isAnalysisExpanded = Boolean(previewText && !analysisCollapsed);
-  const analysisPanelMode = isAnalysisExpanded ? "expanded" : "inline";
+  const analysisPanelMode = isAnalysisExpanded
+    ? "expanded"
+    : showAnalysisPanel && !uploadPreview
+    ? "overlay"
+    : "inline";
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(max-width: 48em)");

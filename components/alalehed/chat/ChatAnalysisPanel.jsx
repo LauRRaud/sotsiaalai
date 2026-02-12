@@ -95,9 +95,22 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const panelExpandedClassName =
     "relative mt-[clamp(0.3rem,0.8vw,0.5rem)] px-[clamp(0.05rem,0.8vw,0.55rem)]";
   const panelOverlayClassName =
-    "fixed left-1/2 bottom-[max(env(safe-area-inset-bottom,0px),1.6rem)] " +
-    "-translate-x-1/2 w-[min(62vw,24rem)] p-[clamp(0.05rem,0.6vw,0.4rem)] " +
-    "z-[90] pointer-events-auto";
+    "chat-analysis-overlay absolute left-1/2 bottom-[clamp(4.9rem,11vh,6.8rem)] " +
+    "-translate-x-1/2 w-[min(64vw,24rem)] max-w-[calc(100%-2.2rem)] " +
+    "m-0 p-[clamp(0.05rem,0.6vw,0.4rem)] z-[260] pointer-events-auto " +
+    "max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+7.15rem+var(--chat-vk-offset,0px))] " +
+    "max-[48em]:w-[min(88vw,24rem)]";
+  const cardOverlayClassName =
+    "chat-analysis-overlay-card !isolation-auto !border-0";
+  const overlayCloseStyle =
+    analysisPanelMode === "overlay"
+      ? {
+          top: "0.6rem",
+          right: "0.6rem",
+          left: "auto",
+          inset: "0.6rem 0.6rem auto auto"
+        }
+      : undefined;
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
     "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
@@ -121,7 +134,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const closeClassName =
     "absolute top-[0.6rem] right-[0.6rem] grid place-items-center z-[220] " +
     "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
-    "text-[2.05rem] leading-none text-[color:var(--pt-120)] light:text-[#7a3a38] pointer-events-auto";
+    "text-[2.05rem] leading-none text-[#c57171] light:text-[#7a3a38] pointer-events-auto";
   const closeCompactClassName =
     "top-[0.6rem] right-[0.6rem]";
   const bodyClassName =
@@ -172,7 +185,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "flex items-center justify-center";
   const emptyClassName =
     "flex flex-col gap-[1.25rem] text-[1.05rem] items-center text-center";
-  const metaClassName = "mt-[0.35rem] text-[0.95rem]";
+  const metaClassName = "mt-[0.35rem] text-[1.08rem]";
   const contextButtonClassName =
     "relative inline-flex items-center justify-center " +
     "!min-h-[2.5rem] !h-[2.5rem] !w-[2.5rem] !px-0 !py-0 !rounded-full " +
@@ -195,23 +208,25 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     <section
       ref={analysisPanelRef}
       className={cn(
-        panelBaseClassName,
+        analysisPanelMode === "overlay" ? panelOverlayClassName : panelBaseClassName,
         uploadPreview ? panelWideClassName : null,
-        analysisPanelMode === "expanded"
-          ? panelExpandedClassName
-          : analysisPanelMode === "overlay"
-          ? panelOverlayClassName
-          : null
+        analysisPanelMode === "expanded" ? panelExpandedClassName : null
       )}
       role="region"
       aria-live="polite"
       aria-label={t("chat.upload.summary")}
       data-analysis-mode={analysisPanelMode}
     >
-      <div className={cardClassName}>
+      <div
+        className={cn(
+          cardClassName,
+          analysisPanelMode === "overlay" ? cardOverlayClassName : null
+        )}
+      >
         <button
           type="button"
           className={cn(closeClassName, !uploadPreview ? closeCompactClassName : null)}
+          style={overlayCloseStyle}
           onClick={() => {
             setUploadPreview(null);
             setUploadError(null);
@@ -219,7 +234,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
             setDocOnlyMode(true);
             closeAnalysisPanel();
           }}
-          aria-label={t("buttons.close", "Sulge")}
+          aria-label={t("buttons.close")}
         >
           x
         </button>
@@ -296,10 +311,10 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                         block: "center"
                       });
                     }}
-                    aria-label={t("chat.upload.jump_to_chat", "KÃ¼si")}
-                    title={t("chat.upload.jump_to_chat", "KÃ¼si")}
+                    aria-label={t("chat.upload.jump_to_chat")}
+                    title={t("chat.upload.jump_to_chat")}
                   >
-                    {t("chat.upload.jump_to_chat", "KÃ¼si")}
+                    {t("chat.upload.jump_to_chat")}
                   </Button>
                   <Button
                     type="button"
@@ -309,8 +324,8 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     onClick={toggleAnalysisCollapse}
                   >
                     {analysisCollapsed
-                      ? t("chat.upload.summary_show", "NÃ¤ita")
-                      : t("chat.upload.summary_hide", "Peida")}
+                      ? t("chat.upload.summary_show")
+                      : t("chat.upload.summary_hide")}
                   </Button>
                 </div>
               ) : null}
@@ -321,7 +336,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     ref={previewRef}
                     className={previewClassName}
                     tabIndex={0}
-                    aria-label={t("chat.upload.preview", "Dokumendi tekst")}
+                    aria-label={t("chat.upload.preview")}
                     onScroll={() => {
                       const node = previewRef.current;
                       if (!node) return;
@@ -461,10 +476,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
               </Button>
               <p className={metaClassName}>
                 {uploadUsage?.limit
-                  ? t(
-                      "chat.upload.usage",
-                      "{used}/{limit} analÆ’?tÆ’Â¦?Å½Â©Æ’?tÆ’Â¦?Å½Â©si tÆ’?tÆ’Â¦?Å½Â©na"
-                    )
+                  ? t("chat.upload.usage")
                       .replace(
                         "{used}",
                         String(
@@ -488,3 +500,4 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   );
 });
 export default ChatAnalysisPanel;
+

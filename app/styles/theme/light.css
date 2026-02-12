@@ -207,18 +207,18 @@
 }
 :root.theme-light .drawer-panel .drawer-chat-card,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li {
-  border-color: rgba(120, 128, 145, 0.32) !important;
+  border-color: transparent !important;
   background: rgba(255, 255, 255, 0.78) !important;
   box-shadow: none;
 }
 :root.theme-light .drawer-panel .drawer-chat-card.drawer-chat-card--active,
 :root.theme-light .drawer-panel .drawer-chat-sidebar__list > li.drawer-chat-card--active {
-  border-color: rgba(90, 98, 112, 0.42) !important;
+  border-color: transparent !important;
   background: rgba(255, 255, 255, 0.86) !important;
   box-shadow: none;
 }
 :root.theme-light .drawer-close {
-  color: var(--brand-primary);
+  color: var(--title-color);
 }
 :root.theme-light .drawer-panel .cs-preview {
   color: var(--text-strong);

@@ -76,9 +76,9 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
 const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-window-top-offset": "0rem",
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
-  "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 4.45rem)",
+  "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 3.95rem)",
   "--chat-window-top-safe": "2.4rem",
-  "--chat-window-bottom-gap": "2.1rem",
+  "--chat-window-bottom-gap": "1.35rem",
   "--chat-window-shift-y": "clamp(2.55rem, 7.1vh, 3.7rem)",
   "--chat-window-bottom-safe": "0rem",
   "--chat-window-fade-top": "0rem",
@@ -86,7 +86,7 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-scroll-down-offset": "-1.9rem",
   "--chat-content-top-offset": "0rem",
   "--chat-content-spacer": "0.5rem",
-  "--chat-content-bottom-spacer": "0.85rem",
+  "--chat-content-bottom-spacer": "0.55rem",
   "--chat-input-shift": "0rem",
   "--chat-inputbar-left-pull": "0rem",
   "--chat-attach-left-pull": "0rem",
@@ -107,7 +107,7 @@ const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
   "--chat-content-top-offset": "0rem",
   "--chat-content-spacer": "0.5rem",
-  "--chat-content-bottom-spacer": "0.85rem"
+  "--chat-content-bottom-spacer": "0.55rem"
 });
 
 const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
@@ -804,7 +804,11 @@ export default function ChatBody({
       isMobile,
       focusActive
     });
-    const chatRingSurfaceStyle = !isLightTheme
+    const useMaskedChatSurface =
+      !isLightTheme ||
+      (analysis.analysisPanelMode === "overlay" &&
+        analysis.showAnalysisPanel);
+    const chatRingSurfaceStyle = useMaskedChatSurface
       ? {
           background: "transparent",
           backdropFilter: "none",
@@ -820,7 +824,7 @@ export default function ChatBody({
         "relative z-[21] min-h-0 [overflow-anchor:none] light:text-[#1f2937] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +
-        "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button)]:z-[1] " +
+        "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
         "overflow-hidden [--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
         "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] max-[48em]:min-h-0 max-[48em]:mx-auto " +
@@ -854,7 +858,7 @@ export default function ChatBody({
                   data-chat-layout={isMobile ? "mobile" : "desktop"}
                   data-chat-layout-focus={focusActive ? "true" : "false"}
                 >
-                  {!isLightTheme ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
+                  {useMaskedChatSurface ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
                     {!profileOpen ? <BackButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
@@ -890,6 +894,7 @@ export default function ChatBody({
                   hasConversationSources={hasConversationSources}
                   onProfileToggle={toggleProfile}
                   embedded={embedded}
+                  suppressTooltip={analysis.showAnalysisPanel}
                   suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked}
                   mobileVisible={mobileRailVisible}
                 />

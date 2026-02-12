@@ -52,7 +52,7 @@ export default function InviteModal() {
   const inviteListCardClassName =
     "rounded-[1rem] border-[rgba(248,253,255,0.16)] bg-[rgba(16,22,34,0.4)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
-    "[.theme-light_&]:border-[color:var(--panel-secondary-border)] [.theme-light_&]:bg-[rgba(255,255,255,0.96)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
+    "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   useEffect(() => {
     const handler = e => {
       setRoomId(e?.detail?.roomId || null);
@@ -176,7 +176,7 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back", "Tagasi")} className="hidden max-[48em]:!inline-flex absolute max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.56rem)] max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:bottom-auto max-[48em]:h-[4.2rem] max-[48em]:w-[4.2rem] max-[48em]:z-[92] max-[48em]:[&>svg]:h-[4.2rem] max-[48em]:[&>svg]:w-[4.2rem]" />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back", "Tagasi")} className="hidden max-[48em]:!inline-flex absolute max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.2rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.2rem)] max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:bottom-auto max-[48em]:!h-[2.2rem] max-[48em]:!w-[2.2rem] max-[48em]:z-[92] max-[48em]:[&>svg]:!h-[2.2rem] max-[48em]:[&>svg]:!w-[2.2rem]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className={glassPageTitleClassName}>
           {t("invite.eyebrow")}
