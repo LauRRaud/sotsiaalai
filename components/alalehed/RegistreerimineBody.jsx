@@ -80,12 +80,40 @@ export default function RegistreerimineBody({
     e.preventDefault();
     setError("");
     setSuccessMessage("");
+    const email = form.email.trim().toLowerCase();
+    const pin = form.pin.replace(/\D/g, "");
+    if (!email) {
+      setError(t("profile.email_update.error_email_required"));
+      scrollToIndex(0);
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError(t("profile.email_update.error_email_invalid"));
+      scrollToIndex(0);
+      return;
+    }
+    if (!pin) {
+      setError(t("profile.email_update.error_pin_required"));
+      scrollToIndex(1);
+      return;
+    }
+    if (pin.length < PIN_MIN || pin.length > PIN_MAX) {
+      setError(t("profile.email_update.error_pin_length", {
+        min: PIN_MIN,
+        max: PIN_MAX
+      }));
+      scrollToIndex(1);
+      return;
+    }
     if (!form.role) {
       setError(t("auth.register.error.role_required"));
+      scrollToIndex(2);
       return;
     }
     if (!form.agree || !form.guideAck) {
       setError(t("auth.register.error.agree_required"));
+      scrollToIndex(!form.agree ? 3 : 4);
       return;
     }
     setSubmitting(true);
@@ -96,8 +124,8 @@ export default function RegistreerimineBody({
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email: form.email.trim(),
-          pin: form.pin,
+          email,
+          pin,
           role: form.role
         })
       });
@@ -107,7 +135,7 @@ export default function RegistreerimineBody({
         return;
       }
       setSuccessMessage(t("auth.register.success_message", {
-        email: form.email.trim()
+        email
       }));
       setForm(prev => ({
         ...initialForm,
@@ -236,7 +264,7 @@ export default function RegistreerimineBody({
           "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
           "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>
-            <form className="register-form flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="off">
+            <form className="register-form flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="off" noValidate>
               <section className={`${registerStepClassName} ${getItemClassName(0)}`}>
                 <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
               </section>

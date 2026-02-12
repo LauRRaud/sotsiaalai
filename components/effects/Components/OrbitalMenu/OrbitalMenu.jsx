@@ -443,7 +443,7 @@ export default function OrbitalMenu({
       const listH = listEl.clientHeight || 0;
       const itemH = first.offsetHeight || 0;
       if (!listH || !itemH) return;
-      const pad = Math.max(0, Math.floor((listH - itemH) / 2) + 24);
+      const pad = Math.max(0, Math.floor((listH - itemH) / 2) + 8);
       setStackPad(pad);
     };
     computePad();
@@ -608,7 +608,7 @@ export default function OrbitalMenu({
       {useMobileStack && isOpen && <div className="profile-orbit-stack-backdrop fixed inset-0 z-[9999] flex items-stretch justify-center p-0" role="dialog" aria-modal="true" aria-label={ariaLabel} onPointerDown={e => {
       if (e.target === e.currentTarget) closeMenu();
     }}>
-          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
+          <div className="profile-orbit-stack-panel relative w-screen max-w-screen h-[100svh] max-h-[100svh] flex flex-col items-center justify-between gap-[clamp(1.1rem,2.6vh,2rem)]" onPointerDown={e => e.stopPropagation()}>
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--top" aria-hidden="true" />
             <div className="profile-orbit-stack-fade profile-orbit-stack-fade--bottom" aria-hidden="true" />
 

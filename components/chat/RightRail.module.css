@@ -315,10 +315,10 @@
     isolation: isolate;
     opacity: 0;
     transform: translate(-50%, 0.08rem);
-    font-size: clamp(1.12rem, 3.9vw, 1.34rem) !important;
+    font-size: clamp(0.88rem, 3vw, 1.02rem) !important;
     font-weight: 520 !important;
     line-height: 1.1 !important;
-    max-width: 9.8rem !important;
+    max-width: 7.2rem !important;
     min-height: auto !important;
     margin-top: 0 !important;
     padding: 0.08rem 0.42rem !important;

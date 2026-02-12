@@ -12,6 +12,7 @@ const DEFAULT_PREFS = {
   theme: "dark"
 };
 const DEV = process.env.NODE_ENV !== "production";
+const A11Y_DEBUG = process.env.NEXT_PUBLIC_A11Y_DEBUG === "1";
 function getCookie(name) {
   if (typeof document === "undefined") return null;
   const v = document.cookie.split("; ").find(row => row.startsWith(name + "="));
@@ -125,9 +126,12 @@ function AccessibilityProvider({
   const promptedOnceRef = useRef(false);
   const initialIsHomeRef = useRef(pathname === "/");
   const logDev = useCallback((label, payload) => {
-    if (!DEV || typeof window === "undefined") return;
+    if (!DEV || !A11Y_DEBUG || typeof window === "undefined") return;
+    // Hook point for optional debug tooling without noisy console output.
+    const sink = window.__A11Y_DEBUG_LOGGER;
+    if (typeof sink !== "function") return;
     const now = typeof performance !== "undefined" ? performance.now().toFixed(1) : "0";
-    console.debug(`[a11y] ${label}`, {
+    sink(label, {
       t: now,
       ...payload
     });
@@ -135,15 +139,11 @@ function AccessibilityProvider({
   const safeApplyPrefsToDom = useCallback((next, reason) => {
     applyingRef.current = true;
     if (DEV && typeof window !== "undefined") {
-      const stack = new Error().stack;
       logDev("applyPrefsToDom", {
         reason,
         prefs: next,
         pathname: pathnameRef.current
       });
-      if (stack) {
-        console.debug(stack);
-      }
     }
     applyPrefsToDom(next);
     if (typeof queueMicrotask === "function") {

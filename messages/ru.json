@@ -112,7 +112,7 @@
       "title": "Создать аккаунт",
       "role_label": "Роль:",
       "role_label_question": "Кто вы?",
-      "agreement": "Я согласен с <terms>условиями</terms> и <privacy>политикой конфиденциальности.</privacy>",
+      "agreement": "Согласен с <terms>условиями</terms> и <privacy>политикой</privacy>.",
       "guide_ack": "Я ознакомился с <guide1>руководством</guide1> <guide2>платформы.</guide2>",
       "error": {
         "agree_required": "Необходимо согласиться с условиями использования и политикой конфиденциальности.",

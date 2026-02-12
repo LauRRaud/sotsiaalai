@@ -352,7 +352,7 @@ export default function AccessibilityModal({
 
       <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]`.trim()} data-scrolled={isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
-        <div className="csp-overlayTitle [--csp-title-top:1rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+1.05rem)]" aria-hidden="false">
+        <div className="csp-overlayTitle [--csp-title-top:1rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.45rem,7.8vw,2.95rem))]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
             <span className="block">{a11yTitleLine1}</span>
             <span className="block">{a11yTitleLine2}</span>

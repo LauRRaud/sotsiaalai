@@ -134,7 +134,7 @@
   white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
-  hyphens: auto;
+  hyphens: none;
 }
 
 section[lang="ru"] .register-checkbox-card {

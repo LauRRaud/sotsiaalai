@@ -276,39 +276,18 @@
   }
   .profile-orbit-stack-backdrop {
     background: transparent;
-    padding: var(--mobile-glass-card-gap, 0.35rem);
   }
   .profile-orbit-stack-panel {
-    width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
-        (var(--mobile-glass-card-gap, 0.35rem) * 2)
-    );
-    max-width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
-        (var(--mobile-glass-card-gap, 0.35rem) * 2)
-    );
-    height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
-        (var(--mobile-glass-card-gap, 0.35rem) * 2)
-    );
-    max-height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
-        (var(--mobile-glass-card-gap, 0.35rem) * 2)
-    );
-    border-radius: var(
-      --mobile-glass-card-radius,
-      clamp(1.05rem, 3.8vw, 1.45rem)
-    );
-    background: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
+    background: transparent;
     border: 0;
-    box-shadow: var(--glass-shell-shadow, none);
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     overflow: hidden;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.35rem);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.2rem);
-    padding-left: clamp(0.85rem, 3.6vw, 1.2rem);
-    padding-right: clamp(0.85rem, 3.6vw, 1.2rem);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.85rem);
+    padding-left: max(0.8rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.8rem, env(safe-area-inset-right, 0px));
   }
   .profile-orbit-stack-fade {
     display: block;
@@ -464,6 +443,12 @@
 }
 
 @media (max-width: 48em) {
+  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+  }
+
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-role-row {
     transform: translateY(clamp(0.95rem, 4.1vw, 1.35rem)) !important;
   }
@@ -473,8 +458,16 @@
     transform: translateY(clamp(1.55rem, 6.2vw, 2.2rem)) !important;
   }
 
-  html[data-display-mode="browser"] .profile-container.glass-ring .profile-logout-wrap {
-    bottom: clamp(2.1rem, 10vw, 3.35rem) !important;
+  html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
+  body[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+    position: absolute !important;
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
+  }
+
+  html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: 0 !important;
+    transform: none !important;
   }
 }
 
@@ -805,8 +798,8 @@
   .register-scroll {
     width: 100% !important;
     max-width: none !important;
-    padding-left: clamp(0.15rem, 1.6vw, 0.4rem) !important;
-    padding-right: clamp(0.15rem, 1.6vw, 0.4rem) !important;
+    padding-left: clamp(0.35rem, 2.8vw, 0.9rem) !important;
+    padding-right: clamp(0.35rem, 2.8vw, 0.9rem) !important;
     --csp-neighbor-opacity: 0;
     --csp-hidden-opacity: 0;
   }
@@ -837,8 +830,10 @@
 
   .register-option-card,
   .register-checkbox-card {
-    width: 100% !important;
-    max-width: none !important;
+    width: calc(100% - clamp(0.7rem, 3.6vw, 1.1rem)) !important;
+    max-width: calc(100% - clamp(0.7rem, 3.6vw, 1.1rem)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .register-option-card {
@@ -887,8 +882,8 @@
   .register-scroll.csp-container {
     overflow-y: auto !important;
     overflow-x: visible !important;
-    padding-left: clamp(0.48rem, 1.15vw, 0.82rem) !important;
-    padding-right: clamp(0.48rem, 1.15vw, 0.82rem) !important;
+    padding-left: clamp(0.7rem, 1.7vw, 1.15rem) !important;
+    padding-right: clamp(0.7rem, 1.7vw, 1.15rem) !important;
   }
 
   .register-input {
@@ -905,8 +900,8 @@
   }
 
   .register-option-card {
-    width: calc(100% - clamp(0.75rem, 1.3vw, 1.1rem)) !important;
-    max-width: calc(100% - clamp(0.75rem, 1.3vw, 1.1rem)) !important;
+    width: calc(100% - clamp(1.15rem, 1.9vw, 1.6rem)) !important;
+    max-width: calc(100% - clamp(1.15rem, 1.9vw, 1.6rem)) !important;
     padding-left: clamp(0.92rem, 1.35vw, 1.1rem) !important;
     padding-right: clamp(0.92rem, 1.35vw, 1.1rem) !important;
     padding-top: clamp(0.72rem, 1.05vh, 0.88rem) !important;
@@ -926,8 +921,8 @@
   }
 
   .register-checkbox-card {
-    width: calc(100% - clamp(0.68rem, 1.2vw, 1rem)) !important;
-    max-width: calc(100% - clamp(0.68rem, 1.2vw, 1rem)) !important;
+    width: calc(100% - clamp(1.05rem, 1.75vw, 1.45rem)) !important;
+    max-width: calc(100% - clamp(1.05rem, 1.75vw, 1.45rem)) !important;
     padding-left: clamp(0.95rem, 1.35vw, 1.15rem) !important;
     padding-right: clamp(0.95rem, 1.35vw, 1.15rem) !important;
     padding-top: clamp(0.66rem, 1vh, 0.82rem) !important;
@@ -952,8 +947,8 @@
   }
 
   .register-guide-card {
-    width: calc(100% - clamp(0.85rem, 1.55vw, 1.3rem)) !important;
-    max-width: calc(100% - clamp(0.85rem, 1.55vw, 1.3rem)) !important;
+    width: calc(100% - clamp(1.2rem, 2vw, 1.7rem)) !important;
+    max-width: calc(100% - clamp(1.2rem, 2vw, 1.7rem)) !important;
   }
 
   section[lang="ru"] .register-scroll,
@@ -963,20 +958,20 @@
 
   section[lang="ru"] .register-option-card,
   section[lang="en"] .register-option-card {
-    width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
-    max-width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+    width: calc(100% - clamp(0.9rem, 1.5vw, 1.25rem)) !important;
+    max-width: calc(100% - clamp(0.9rem, 1.5vw, 1.25rem)) !important;
   }
 
   section[lang="ru"] .register-checkbox-card,
   section[lang="en"] .register-checkbox-card {
-    width: calc(100% - clamp(0.36rem, 0.85vw, 0.66rem)) !important;
-    max-width: calc(100% - clamp(0.36rem, 0.85vw, 0.66rem)) !important;
+    width: calc(100% - clamp(0.84rem, 1.45vw, 1.18rem)) !important;
+    max-width: calc(100% - clamp(0.84rem, 1.45vw, 1.18rem)) !important;
   }
 
   section[lang="ru"] .register-guide-card,
   section[lang="en"] .register-guide-card {
-    width: calc(100% - clamp(0.44rem, 0.95vw, 0.78rem)) !important;
-    max-width: calc(100% - clamp(0.44rem, 0.95vw, 0.78rem)) !important;
+    width: calc(100% - clamp(0.95rem, 1.55vw, 1.3rem)) !important;
+    max-width: calc(100% - clamp(0.95rem, 1.55vw, 1.3rem)) !important;
   }
 
   .register-login-link {
