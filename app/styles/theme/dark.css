@@ -35,9 +35,9 @@
     rgba(6, 8, 16, 0.85) 18%
   );
   --home-panel-shadow:
-    0 0 26px rgba(248, 253, 255, 0.18);
+    0 0 16px rgba(248, 253, 255, 0.2);
   --home-before-shadow:
-    0 0 30px rgba(248, 253, 255, 0.22);
+    0 0 18px rgba(248, 253, 255, 0.22);
   --home-title-color: #c57171;
   --home-link-color: var(--brand-primary);
 }

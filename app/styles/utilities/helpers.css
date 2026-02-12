@@ -230,12 +230,13 @@ body.login-modal-open {
 
 @media (min-width: 48em) {
   .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    padding-top: clamp(0.8rem, 1.8vh, 1.25rem);
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.12) 4%,
-      rgba(0, 0, 0, 0.24) 8%,
-      #000 12%,
+      rgba(0, 0, 0, 0.16) 3%,
+      rgba(0, 0, 0, 0.28) 6%,
+      #000 9%,
       #000 88%,
       rgba(0, 0, 0, 0.24) 92%,
       rgba(0, 0, 0, 0.12) 96%,
@@ -244,9 +245,9 @@ body.login-modal-open {
     -webkit-mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.12) 4%,
-      rgba(0, 0, 0, 0.24) 8%,
-      #000 12%,
+      rgba(0, 0, 0, 0.16) 3%,
+      rgba(0, 0, 0, 0.28) 6%,
+      #000 9%,
       #000 88%,
       rgba(0, 0, 0, 0.24) 92%,
       rgba(0, 0, 0, 0.12) 96%,
@@ -255,12 +256,13 @@ body.login-modal-open {
   }
 
   .glass-policy-scroll.glass-ring-scroll--open {
+    padding-top: clamp(1.6rem, 3.4vh, 2.4rem);
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.1) 4%,
-      rgba(0, 0, 0, 0.2) 8%,
-      #000 12%,
+      rgba(0, 0, 0, 0.14) 3%,
+      rgba(0, 0, 0, 0.24) 6%,
+      #000 9%,
       #000 88%,
       rgba(0, 0, 0, 0.2) 92%,
       rgba(0, 0, 0, 0.1) 96%,
@@ -269,9 +271,9 @@ body.login-modal-open {
     -webkit-mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.1) 4%,
-      rgba(0, 0, 0, 0.2) 8%,
-      #000 12%,
+      rgba(0, 0, 0, 0.14) 3%,
+      rgba(0, 0, 0, 0.24) 6%,
+      #000 9%,
       #000 88%,
       rgba(0, 0, 0, 0.2) 92%,
       rgba(0, 0, 0, 0.1) 96%,
@@ -324,14 +326,14 @@ body.login-modal-open {
   display: grid;
   place-items: center;
   opacity: 0.85;
-  transition: transform 220ms ease-out, opacity 220ms ease-out;
+  transition: opacity 420ms ease-out;
 }
 
 .glass-ring-expand-toggle--overlay {
   position: absolute;
   left: 50%;
-  bottom: var(--glass-ring-toggle-bottom, clamp(2.1rem, 4.2vh, 3.2rem));
-  transform: translateX(-50%) translateY(var(--glass-ring-toggle-offset, 0));
+  bottom: var(--glass-ring-toggle-bottom, clamp(1.35rem, 3vh, 2.25rem));
+  transform: translateX(-50%);
   margin-top: 0;
   z-index: 2;
   transition: bottom 520ms var(--glass-ring-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
@@ -339,13 +341,15 @@ body.login-modal-open {
 
 .glass-ring-expand-toggle:hover,
 .glass-ring-expand-toggle:focus-visible {
-  --glass-ring-toggle-offset: 2px;
+  opacity: 1;
 }
 
 .glass-ring-expand-toggle .glass-ring-expand-icon {
   transform: scale(1);
+  opacity: 0.9;
   transform-origin: center;
-  transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 700ms ease-out;
 }
 
 .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
@@ -359,7 +363,8 @@ body.login-modal-open {
 
 .glass-ring-expand-toggle:hover .glass-ring-expand-icon,
 .glass-ring-expand-toggle:focus-visible .glass-ring-expand-icon {
-  transform: scale(1.08);
+  transform: scale(1.045);
+  opacity: 1;
 }
 
 :root.theme-light .glass-ring {

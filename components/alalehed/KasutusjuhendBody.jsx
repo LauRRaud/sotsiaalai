@@ -17,8 +17,8 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const sectionHeadingClassName = "text-[clamp(1.3rem,1.7vw,1.48rem)] max-[48em]:text-[clamp(1.48rem,5.2vw,1.72rem)] font-semibold tracking-[0.01em] text-[#cd8585] light:text-[#8a4b49]";
-const bodyTextClassName = "text-[clamp(1.04rem,1.5vw,1.17rem)] max-[48em]:text-[clamp(1.12rem,4.2vw,1.25rem)] leading-[1.72] text-[#e4dde0] light:text-[#3f3730]";
+const sectionHeadingClassName = "text-[clamp(1.32rem,1.75vw,1.5rem)] max-[48em]:text-[clamp(1.62rem,5.7vw,1.9rem)] font-semibold tracking-[0.013em] max-[48em]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
+const bodyTextClassName = "text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.22rem,4.55vw,1.38rem)] tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "profile", "about", "quickstart"];
 export default function KasutusjuhendBody() {
   const [expanded, setExpanded] = useState(false);
@@ -107,7 +107,7 @@ export default function KasutusjuhendBody() {
               body
             }) => <article key={key} onClick={key === "accessibility" ? handleA11yClick : undefined} aria-label={title}>
                   <h2 className={`${sectionHeadingClassName} mb-2`}>{title}</h2>
-                  <div className={`${bodyTextClassName} max-[48em]:text-[clamp(1.14rem,4.35vw,1.28rem)] leading-[1.65] [&_p]:my-2 [&_ul]:my-2 [&_ol]:my-2 [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-1`} dangerouslySetInnerHTML={{
+                  <div className={`${bodyTextClassName} max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] leading-[1.68] [&_p]:my-2 [&_ul]:my-2 [&_ol]:my-2 [&_ul]:ml-5 [&_ol]:ml-5 [&_ul]:pl-0 [&_ol]:pl-0 [&_li]:my-1`} dangerouslySetInnerHTML={{
                 __html: body
               }} />
                 </article>)}

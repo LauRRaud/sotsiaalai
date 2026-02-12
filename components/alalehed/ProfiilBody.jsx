@@ -37,7 +37,7 @@ const titleBaseClassName =
 const headerCenterBaseClassName =
   "flex flex-col items-center mb-[clamp(0.6rem,1.4vh,1.1rem)] max-[48em]:mb-[clamp(0.4rem,2vw,0.72rem)]";
 const headerCenterPageClassName =
-  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-1.5rem,-3.4vh,-0.9rem)] " +
+  "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(-0.85rem,-2vh,-0.3rem)] " +
   "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
 const rolePillClassName =
   "inline-flex items-center justify-center rounded-full px-[0.75em] " +
@@ -68,9 +68,11 @@ const logoutButtonClassName =
   "group relative grid place-items-center h-[4.5rem] w-[4.5rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
 const logoutIconClassName = "h-[3.7rem] w-[3.7rem] max-[48em]:h-[3.85rem] max-[48em]:w-[3.85rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
-  "absolute left-1/2 top-[calc(100%-0.15rem)] -translate-x-1/2 text-center " +
-  "text-[1.36rem] font-[500] tracking-[0.09em] leading-[1.1] " +
-  "text-[#c57171] light:text-[#7A3A38] opacity-0 transition-[opacity,transform] duration-300";
+  "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
+  "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
+  "text-[#c57171] light:text-[#7A3A38] opacity-0 -translate-y-[0.38rem] pointer-events-none transform-gpu will-change-transform " +
+  "transition-all duration-[520ms] ease-out " +
+  "group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "max-[48em]:!z-[95]";
@@ -623,7 +625,7 @@ export default function ProfiilBody({
           <div className={profileLogoutWrapClassName}>
             <button type="button" className={logoutButtonClassName} onClick={handleLogout} disabled={loggingOut} aria-label={t("profile.logout")}>
               <PowerExitIcon isLightTheme={isLightTheme} className={logoutIconClassName} />
-              <span className={logoutLabelClassName}>{t("profile.logout")}</span>
+              <span className={logoutLabelClassName}>{t("profile.logout_short", "Välja")}</span>
               <span className="sr-only">{t("profile.logout")}</span>
             </button>
           </div>

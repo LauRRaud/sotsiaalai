@@ -18,8 +18,8 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const sectionHeadingClassName = "mt-[1.2rem] text-[clamp(1.3rem,1.7vw,1.48rem)] max-[48em]:text-[clamp(1.48rem,5.2vw,1.72rem)] font-semibold tracking-[0.01em] text-[#cd8585] light:text-[#8a4b49]";
-const bodyTextClassName = "mt-[0.6rem] space-y-[0.85rem] text-[clamp(1.04rem,1.5vw,1.17rem)] max-[48em]:text-[clamp(1.12rem,4.2vw,1.25rem)] leading-[1.72] text-[#e4dde0] light:text-[#3f3730]";
+const sectionHeadingClassName = "mt-[1.2rem] text-[clamp(1.32rem,1.75vw,1.5rem)] max-[48em]:text-[clamp(1.62rem,5.7vw,1.9rem)] font-semibold tracking-[0.013em] max-[48em]:tracking-[0.018em] text-[#cd8585] light:text-[#8a4b49]";
+const bodyTextClassName = "mt-[0.6rem] space-y-[0.9rem] text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.22rem,4.55vw,1.38rem)] tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.74] text-[#e4dde0] light:text-[#3f3730]";
 const richLinkClassName = "inline-block text-[1.1em] font-[500] tracking-[0.03em] px-[0.2em] py-[0.02em] rounded-[0.32em] border-2 border-transparent no-underline transition-[border,box-shadow,color] duration-150 text-[#c57171] hover:border-[#c57171] hover:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] focus-visible:border-[#c57171] focus-visible:shadow-[0_0_0.4375rem_0_rgba(197,113,113,0.35)] light:text-[#7A3A38] light:hover:border-[#7A3A38] light:focus-visible:border-[#7A3A38]";
 const emailReplacement = {
   aEmail: {

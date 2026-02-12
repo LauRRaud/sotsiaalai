@@ -1,6 +1,6 @@
 "use client";
 
-import EyeIcon from "@/public/logo/silma.svg";
+import EyeIcon from "@/components/ui/icons/EyeIcon";
 export default function Toggle({
   id = "toggle",
   checked,
