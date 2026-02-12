@@ -154,7 +154,10 @@ export default function LoginModal({
   const otpInputRef = useRef(null);
   const touchStartRef = useRef(null);
   const zeroLongPressTimerRef = useRef(null);
+  const zeroRepeatTimerRef = useRef(null);
+  const zeroRepeatIntervalRef = useRef(null);
   const zeroLongPressFiredRef = useRef(false);
+  const [zeroKeyMode, setZeroKeyMode] = useState("digit");
   const isOtpStep = step === "otp";
   const hasMessage = Boolean(error || info && !isOtpStep);
   const messageText = error ? error : info && !isOtpStep ? info : "";
@@ -178,7 +181,7 @@ export default function LoginModal({
       ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
       : "",
     "fixed",
-    "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+    "left-0 right-0 top-1/2 mx-auto -translate-y-1/2",
     "z-[100]",
     "flex",
     "flex-col",
@@ -338,6 +341,7 @@ export default function LoginModal({
     setSubmitIconState("idle");
     setInvalidCredentials(false);
     setHelpOpen(false);
+    setZeroKeyMode("digit");
   }, [open]);
   useEffect(() => {
     if (!open || isOtpStep) return;
@@ -429,6 +433,7 @@ export default function LoginModal({
     const pin = pinValue.replace(/\s+/g, "");
     if (!email) {
       markPinError();
+      setPinValue("");
       setEmailErrorVisual(true);
       setError(t("auth.login.error.email_required"));
       return;
@@ -436,6 +441,7 @@ export default function LoginModal({
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       markPinError();
+      setPinValue("");
       setEmailErrorVisual(true);
       setError(t("auth.login.error.email_invalid"));
       return;
@@ -577,30 +583,21 @@ export default function LoginModal({
       } catch {}
     }
   };
-  const handleBackspace = useCallback(() => {
+  const deleteOneDigit = useCallback((emitHaptic = false) => {
     if (step !== "pin") return;
     setPinValue(p => p.slice(0, -1));
     setError("");
     resetIconState();
     setPinError(false);
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
+    if (emitHaptic && typeof navigator !== "undefined" && navigator.vibrate) {
       try {
         navigator.vibrate(6);
       } catch {}
     }
   }, [resetIconState, step]);
-  const handleClear = useCallback(() => {
-    if (step !== "pin") return;
-    setPinValue("");
-    setError("");
-    resetIconState();
-    setPinError(false);
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
-      try {
-        navigator.vibrate(6);
-      } catch {}
-    }
-  }, [resetIconState, step]);
+  const handleBackspace = useCallback(() => {
+    deleteOneDigit(true);
+  }, [deleteOneDigit]);
   const handleKeypadTouchStart = e => {
     if (step !== "pin") return;
     const t0 = e.touches && e.touches[0];
@@ -623,21 +620,53 @@ export default function LoginModal({
     }
     touchStartRef.current = null;
   };
-  const startZeroLongPress = useCallback(() => {
-    if (step !== "pin") return;
-    zeroLongPressFiredRef.current = false;
-    if (zeroLongPressTimerRef.current) clearTimeout(zeroLongPressTimerRef.current);
-    zeroLongPressTimerRef.current = setTimeout(() => {
-      zeroLongPressFiredRef.current = true;
-      handleClear();
-    }, 450);
-  }, [handleClear, step]);
-  const cancelZeroLongPress = useCallback(() => {
+  const stopZeroHoldActions = useCallback(() => {
     if (zeroLongPressTimerRef.current) {
       clearTimeout(zeroLongPressTimerRef.current);
       zeroLongPressTimerRef.current = null;
     }
+    if (zeroRepeatTimerRef.current) {
+      clearTimeout(zeroRepeatTimerRef.current);
+      zeroRepeatTimerRef.current = null;
+    }
+    if (zeroRepeatIntervalRef.current) {
+      clearInterval(zeroRepeatIntervalRef.current);
+      zeroRepeatIntervalRef.current = null;
+    }
   }, []);
+  const startZeroRepeat = useCallback(() => {
+    if (zeroRepeatIntervalRef.current) return;
+    zeroRepeatIntervalRef.current = setInterval(() => {
+      deleteOneDigit(false);
+    }, 130);
+  }, [deleteOneDigit]);
+  const startZeroLongPress = useCallback(() => {
+    if (step !== "pin") return;
+    zeroLongPressFiredRef.current = false;
+    stopZeroHoldActions();
+    if (zeroKeyMode === "backspace") {
+      zeroRepeatTimerRef.current = setTimeout(() => {
+        zeroLongPressFiredRef.current = true;
+        startZeroRepeat();
+      }, 420);
+      return;
+    }
+    zeroLongPressTimerRef.current = setTimeout(() => {
+      setZeroKeyMode("backspace");
+      zeroLongPressFiredRef.current = true;
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        try {
+          navigator.vibrate(10);
+        } catch {}
+      }
+    }, 430);
+  }, [deleteOneDigit, startZeroRepeat, step, stopZeroHoldActions, zeroKeyMode]);
+  const cancelZeroLongPress = useCallback(() => {
+    stopZeroHoldActions();
+  }, [stopZeroHoldActions]);
+  useEffect(() => () => {
+    stopZeroHoldActions();
+  }, [stopZeroHoldActions]);
   const submitOtpStep = async () => {
     if (!tempToken) {
       setError(t("auth.login.error.generic"));
@@ -722,6 +751,7 @@ export default function LoginModal({
     setInfo("");
     setError("");
     setRememberDevice(true);
+    setZeroKeyMode("digit");
     resetIconState();
     setPinError(false);
   };
@@ -797,8 +827,21 @@ export default function LoginModal({
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
-        minWidth: isMobile ? "unset" : isOtpStep ? "min(92vw, 32rem)" : "calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-min-extra))",
-        maxWidth: isMobile ? "none" : isOtpStep ? "min(94vw, 36rem)" : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
+        width: isMobile
+          ? "min(92vw, 25.2rem)"
+          : isOtpStep
+            ? "min(94vw, 36rem)"
+            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))",
+        minWidth: isMobile
+          ? "unset"
+          : isOtpStep
+            ? "min(92vw, 32rem)"
+            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))",
+        maxWidth: isMobile
+          ? "min(92vw, 25.2rem)"
+          : isOtpStep
+            ? "min(94vw, 36rem)"
+            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {
@@ -950,8 +993,10 @@ export default function LoginModal({
               }
               const isZeroKey = key === "zero";
               const digitToAppend = isZeroKey ? "0" : key;
-              const digitLabel = t("auth.login.key", {
-                digit: isZeroKey ? 0 : key
+              const digitLabel = isZeroKey ? zeroKeyMode === "backspace" ? t("auth.login.clear_short", "Kustuta") : t("auth.login.key", {
+                digit: 0
+              }) : t("auth.login.key", {
+                digit: key
               });
               return <button key={key + String(idx)} type="button" className={["no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[320ms]", "ease-[cubic-bezier(0.25,0.9,0.35,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
                 color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.92)",
@@ -970,41 +1015,57 @@ export default function LoginModal({
               }} onClick={() => {
                 if (isZeroKey && zeroLongPressFiredRef.current) {
                   zeroLongPressFiredRef.current = false;
+                  if (zeroKeyMode === "backspace" && !pinValue) {
+                    setZeroKeyMode("digit");
+                  }
+                  return;
+                }
+                if (isZeroKey) {
+                  if (zeroKeyMode === "backspace") {
+                    if (!pinValue) {
+                      setZeroKeyMode("digit");
+                      if (typeof navigator !== "undefined" && navigator.vibrate) {
+                        try {
+                          navigator.vibrate(8);
+                        } catch {}
+                      }
+                      return;
+                    }
+                    handleBackspace();
+                    setZeroKeyMode("digit");
+                    return;
+                  }
+                  appendDigit(digitToAppend);
                   return;
                 }
                 appendDigit(digitToAppend);
               }} disabled={pinLoading} aria-label={digitLabel}>
-                        {isZeroKey ? <span className="relative w-[2.2em] h-[1.2em]" aria-hidden="true">
-                            <span className="absolute inset-0 grid place-items-center will-change-[opacity]" style={{
-                      animation: "pinAltZeroFade 6.5s ease-in-out infinite"
-                    }}>
-                              <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]">{0}</span>
-                            </span>
-                            <span className="absolute inset-0 grid place-items-center will-change-[opacity]" style={{
-                      animation: "pinAltClearFade 6.5s ease-in-out infinite"
-                    }}>
-                              <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]">
-                                {t("auth.login.clear_short")}
-                              </span>
-                            </span>
+                        {isZeroKey ? <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]" aria-hidden="true">
+                            {zeroKeyMode === "backspace" ? "\u232b" : 0}
                           </span> : key}
                       </button>;
             })}
                 </div>
 
-                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="absolute left-0 bottom-[calc(var(--pin-btn)+0.65rem)] w-auto max-w-[min(19.5rem,calc(100%-0.5rem))] rounded-[12px] bg-[rgba(0,0,0,0.86)] text-[rgba(255,255,255,0.92)] pl-[1rem] pr-[1rem] pt-[1rem] pb-[0.95rem] z-30 light:bg-[rgba(255,255,255,0.94)] light:text-[#111827]">
-                    <button type="button" className="absolute right-[0.4rem] top-[0.3rem] w-[2.2rem] h-[2.2rem] rounded-full border-0 bg-transparent text-[1.55rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
+                {helpOpen && <div ref={helpPopoverRef} role="dialog" aria-modal="false" aria-label={t("auth.login.forgot")} className="login-help-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] rounded-[16px] bg-[rgba(0,0,0,0.86)] text-[rgba(255,255,255,0.92)] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 light:bg-[rgba(255,255,255,0.94)] light:text-[#111827]" style={{
+                  width: isMobile ? "min(19.4rem, calc(100vw - 2.2rem))" : "19.2rem",
+                  maxWidth: "calc(100vw - 1.6rem)"
+                }}>
+                    <button type="button" className="absolute right-[0.12rem] top-[0.04rem] w-[2.05rem] h-[2.05rem] rounded-full border-0 bg-transparent text-[1.56rem] leading-none cursor-pointer text-[#c57171] light:text-[#7a3a38]" aria-label={t("buttons.close")} onClick={() => setHelpOpen(false)}>
                       {t("symbols.times")}
                     </button>
 
-                    <div className="flex flex-col pr-[2.8rem] max-w-[inherit]">
-                      <div className="text-[1.1rem] leading-[1.38] mt-[0.1rem] opacity-90 light:text-[#1f2937] light:opacity-100">
+                    <div className="flex flex-col pr-[1.28rem] max-w-[inherit]">
+                      <div className="text-[1.08rem] leading-[1.36] mt-[0.06rem] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
                         {t("auth.login.help_hold_zero_after")}
                       </div>
+                      <div className="mt-[0.36rem] text-[1.03rem] leading-[1.34] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
+                        {t("auth.login.help_wrong_pin_note")}
+                      </div>
 
-                      <AppLink href="/uuenda-pin" variant="brand" className="mt-[0.65rem] self-start text-[1.2rem] font-[500] no-underline" onClick={() => setHelpOpen(false)}>
+                      <AppLink href="/uuenda-pin" variant="brand" className="mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap" onClick={() => setHelpOpen(false)}>
                         {t("auth.login.forgot")}
                       </AppLink>
                     </div>

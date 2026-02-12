@@ -104,7 +104,8 @@
       "toggle_keypad_desktop_aria": "Сменить раскладку клавиатуры.",
       "zero_key_aria": "0 / очистить",
       "help_hold_zero_before": "Удерживайте",
-      "help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода."
+      "help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода.",
+      "help_wrong_pin_note": "Если PIN введён неверно, PIN-код очищается автоматически."
     },
     "register": {
       "title": "Создать аккаунт",

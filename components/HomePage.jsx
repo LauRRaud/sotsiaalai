@@ -145,8 +145,12 @@ export default function HomePage() {
     if (typeof document === "undefined") return;
     const body = document.body;
     const updateOverlayState = () => {
-      const isOpen = body.classList.contains("home-profile-open") || body.classList.contains("modal-open") || body.classList.contains("login-modal-open") || body.dataset.a11yScrollLock === "1";
-      setIsHomeOverlayOpen(isOpen);
+      const hasOverlay =
+        body.classList.contains("home-profile-open") ||
+        body.classList.contains("modal-open") ||
+        body.classList.contains("login-modal-open") ||
+        body.dataset.a11yScrollLock === "1";
+      setIsHomeOverlayOpen(Boolean(isMobile && hasOverlay));
     };
     updateOverlayState();
     if (typeof MutationObserver === "undefined") return;
@@ -156,7 +160,7 @@ export default function HomePage() {
       attributeFilter: ["class", "data-a11y-scroll-lock"]
     });
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile]);
   useEffect(() => {
     document.body.classList.add("homepage");
     document.body.classList.add("homeCursorScope");
@@ -185,7 +189,9 @@ export default function HomePage() {
   const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
   const introPending = !introStart && !skipIntroAnimations;
   const scrollCueReady = leftFadeDone && rightFadeDone;
-  const showScrollCueNow = (isMobile ? scrollCueReady : showScrollCue && scrollCueEntered) && !isHomeOverlayOpen;
+  const showScrollCueNow =
+    (isMobile ? scrollCueReady : showScrollCue && scrollCueEntered) &&
+    !(isHomeOverlayOpen || isLoginOpen);
   const shouldFadeIn = introStart && !skipIntroAnimations && !(leftFadeDone && rightFadeDone);
   useEffect(() => {
     if (!prefsHydrated) return;
