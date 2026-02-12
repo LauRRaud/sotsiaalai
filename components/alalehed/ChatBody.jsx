@@ -111,7 +111,7 @@ const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
 });
 
 const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
-  "--chat-diameter": "var(--chat-diameter-max)",
+  "--chat-diameter": "max(var(--profile-diameter), var(--chat-diameter-max))",
   "--chat-window-max-w": "clamp(20.1rem, 45.8vw, 30.9rem)",
   "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
   "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
