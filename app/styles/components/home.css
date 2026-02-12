@@ -26,3 +26,12 @@
   :is(.centered-back-left, .centered-back-right) {
   --card-edge-opacity: 0.22;
 }
+
+body.homepage:is(.modal-open, .login-modal-open, .home-profile-open)
+  .homepage-root
+  .three-d-card,
+body.homepage[data-a11y-scroll-lock="1"] .homepage-root .three-d-card {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

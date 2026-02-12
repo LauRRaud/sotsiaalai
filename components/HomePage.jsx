@@ -145,7 +145,7 @@ export default function HomePage() {
     if (typeof document === "undefined") return;
     const body = document.body;
     const updateOverlayState = () => {
-      const isOpen = body.classList.contains("home-profile-open") || body.classList.contains("modal-open") || body.classList.contains("login-modal-open");
+      const isOpen = body.classList.contains("home-profile-open") || body.classList.contains("modal-open") || body.classList.contains("login-modal-open") || body.dataset.a11yScrollLock === "1";
       setIsHomeOverlayOpen(isOpen);
     };
     updateOverlayState();
@@ -153,7 +153,7 @@ export default function HomePage() {
     const observer = new MutationObserver(updateOverlayState);
     observer.observe(body, {
       attributes: true,
-      attributeFilter: ["class"]
+      attributeFilter: ["class", "data-a11y-scroll-lock"]
     });
     return () => observer.disconnect();
   }, []);
@@ -369,6 +369,7 @@ export default function HomePage() {
       "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
     flipClass,
+    isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
     leftFlipping ? "is-flipping" : null,
     mobileFlipReady.left ? "mobile-flipped-left" : null
   );
@@ -388,6 +389,7 @@ export default function HomePage() {
       "[&.is-flipping_.card-face.front>.glass-card]:[animation-play-state:paused]",
     suppressCardHoverFxClassName,
     flipClass,
+    isHomeOverlayOpen ? "opacity-0 invisible pointer-events-none" : null,
     rightFlipping ? "is-flipping" : null,
     mobileFlipReady.right ? "mobile-flipped-right" : null
   );

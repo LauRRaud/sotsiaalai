@@ -178,7 +178,7 @@ export default function LoginModal({
       ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
       : "",
     "fixed",
-    isMobile ? "left-0 top-0 translate-x-0 translate-y-0" : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+    "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
     "z-[100]",
     "flex",
     "flex-col",
@@ -788,7 +788,6 @@ export default function LoginModal({
           52%, 100% { opacity: 1; }
         }
       `}</style>
-      <div onClick={onClose} className="max-md:fixed max-md:inset-0 max-md:z-[99]" />
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
       "--pin-grid-w": isMobile ? "clamp(16.2rem, 74vw, 18.6rem)" : "clamp(14.7rem, 28vw, 16.3rem)",
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
@@ -939,7 +938,7 @@ export default function LoginModal({
                               isError={submitError}
                               className="absolute inset-0 pointer-events-none"
                             />
-                            {submitError ? <LockErrorIcon className="login-submit-icon h-[clamp(1.42rem,3.8vw,1.7rem)] w-[clamp(1.42rem,3.8vw,1.7rem)]" /> : <SubmitArrowIcon isLightTheme={isLightTheme} className="login-submit-icon h-[clamp(1.14rem,3.15vw,1.35rem)] w-[clamp(1.14rem,3.15vw,1.35rem)] translate-x-[0.08rem] transition-transform duration-200 ease-out" style={{
+                            {submitError ? <LockErrorIcon className="login-submit-icon h-[clamp(1.42rem,3.8vw,1.7rem)] w-[clamp(1.42rem,3.8vw,1.7rem)]" /> : <SubmitArrowIcon isLightTheme={isLightTheme} className="login-submit-icon h-[clamp(1.14rem,3.15vw,1.35rem)] w-[clamp(1.14rem,3.15vw,1.35rem)] max-md:h-[clamp(1.56rem,5.7vw,1.95rem)] max-md:w-[clamp(1.56rem,5.7vw,1.95rem)] translate-x-[0.08rem] max-md:translate-x-[0.11rem] transition-transform duration-200 ease-out" style={{
                             transform: `scale(${arrowScale.toFixed(3)})`
                           }} />}
                           </span>
