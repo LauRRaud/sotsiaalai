@@ -211,8 +211,8 @@ export default function AccessibilityModal({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: isMobileViewport ? 260 : 360,
-    maxStepPerSettle: 1,
+    settleMs: isMobileViewport ? 420 : 360,
+    maxStepPerSettle: isMobileViewport ? 99 : 1,
     wheelCooldownMs: isMobileViewport ? 300 : 280,
     manageHiddenFocus: !isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
@@ -304,18 +304,6 @@ export default function AccessibilityModal({
       if (active && active !== scrollEl && !scrollEl.contains(active)) return;
       markUserScrollStart();
     };
-    const onPointerDown = () => {
-      markUserScrollStart();
-    };
-    const onTouchStart = () => {
-      markUserScrollStart();
-    };
-    scrollEl.addEventListener("pointerdown", onPointerDown, {
-      passive: true
-    });
-    scrollEl.addEventListener("touchstart", onTouchStart, {
-      passive: true
-    });
     scrollEl.addEventListener("wheel", markUserScrollStart, {
       passive: true
     });
@@ -324,8 +312,6 @@ export default function AccessibilityModal({
     });
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      scrollEl.removeEventListener("pointerdown", onPointerDown);
-      scrollEl.removeEventListener("touchstart", onTouchStart);
       scrollEl.removeEventListener("wheel", markUserScrollStart);
       scrollEl.removeEventListener("touchmove", markUserScrollStart);
       window.removeEventListener("keydown", onKeyDown);
@@ -341,8 +327,13 @@ export default function AccessibilityModal({
         initialScrollTopRef.current = top;
       }
       const delta = Math.abs(top - initialScrollTopRef.current);
+      if (delta > (isMobileViewport ? 10 : 6)) {
+        setHasUserStartedScroll(prev => prev || true);
+      }
       setIsScrolled(prev => {
-        const next = delta > 8;
+        const thresholdOn = isMobileViewport ? 14 : 8;
+        const thresholdOff = isMobileViewport ? 9 : 5;
+        const next = prev ? delta > thresholdOff : delta > thresholdOn;
         return prev === next ? prev : next;
       });
     };
@@ -351,7 +342,7 @@ export default function AccessibilityModal({
       passive: true
     });
     return () => scrollEl.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isMobileViewport]);
   useEffect(() => {
     const host = languageOptionsRef.current;
     if (!host || typeof window === "undefined") return;
@@ -475,7 +466,7 @@ export default function AccessibilityModal({
           </span>
         </div>
 
-        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`.trim()} style={{
+        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`.trim()} style={{
         "--csp-pad": `${scrollPad + padOffset}px`,
         "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
         "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`

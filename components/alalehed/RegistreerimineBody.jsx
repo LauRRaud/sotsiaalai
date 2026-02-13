@@ -173,8 +173,8 @@ export default function RegistreerimineBody({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: isMobileViewport ? 260 : 360,
-    maxStepPerSettle: 1,
+    settleMs: isMobileViewport ? 420 : 360,
+    maxStepPerSettle: isMobileViewport ? 99 : 1,
     wheelCooldownMs: isMobileViewport ? 300 : 280,
     manageHiddenFocus: !isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
@@ -317,7 +317,7 @@ export default function RegistreerimineBody({
       }
       const delta = Math.abs(top - initialScrollTopRef.current);
       setIsScrolled(prev => {
-        const next = delta > 8;
+        const next = delta > (isMobileViewport ? 14 : 8);
         return prev === next ? prev : next;
       });
     };
@@ -328,7 +328,7 @@ export default function RegistreerimineBody({
     return () => {
       scrollEl.removeEventListener("scroll", onScroll);
     };
-  }, []);
+  }, [isMobileViewport]);
   useEffect(() => {
     const onKey = e => {
       if (e.key !== "Escape") return;
@@ -357,7 +357,7 @@ export default function RegistreerimineBody({
         </div>
 
         <div className={contentClassName}>
-          <div ref={scrollRef} className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`} style={{
+          <div ref={scrollRef} className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`} style={{
           "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
           "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>

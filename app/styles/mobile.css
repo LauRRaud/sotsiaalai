@@ -995,22 +995,22 @@
 
   .register-scroll.csp-container,
   .a11y-csp-scroll.csp-container {
-    scroll-snap-type: none !important;
+    scroll-snap-type: y proximity !important;
     overscroll-behavior-y: contain !important;
     overscroll-behavior-x: none !important;
     overflow-x: hidden !important;
     touch-action: pan-y !important;
-    scroll-padding-top: 0 !important;
-    scroll-padding-bottom: 0 !important;
-    scroll-behavior: auto !important;
-    -webkit-overflow-scrolling: auto !important;
-    --csp-transition-ms: 220ms;
+    scroll-padding-top: var(--csp-pad-top, var(--csp-pad, 0px)) !important;
+    scroll-padding-bottom: var(--csp-pad-bottom, var(--csp-pad, 0px)) !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    --csp-transition-ms: 420ms;
   }
 
   .register-scroll.csp-container {
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    -webkit-overflow-scrolling: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 }
 
