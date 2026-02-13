@@ -3,6 +3,21 @@ import { useRef } from "react";
 const baseCard = "flex items-center gap-[0.45rem] rounded-[var(--seg-card-radius)] [border-width:var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[0.85rem] py-[0.65rem] text-[1.18rem] font-normal tracking-[0.03em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-150 ease-out hover:[background:var(--seg-card-bg-hover)] hover:text-[color:var(--seg-card-text-selected)] hover:shadow-[var(--seg-card-shadow-hover)] [&_a]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))] [&_a:hover]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))] [&_a:active]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))] [&_a:focus-visible]:!text-[color:var(--link-brand-text,var(--link-color,var(--brand-primary)))]";
 const selectedCard = "text-[color:var(--seg-card-text-selected)]";
 const checkboxIndicator = "relative flex h-[var(--seg-control-size,20px)] w-[var(--seg-control-size,20px)] items-center justify-center rounded-[var(--seg-control-radius,0.4rem)] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100";
+const visuallyHiddenInputStyle = {
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  padding: 0,
+  margin: "-1px",
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  clipPath: "inset(50%)",
+  WebkitClipPath: "inset(50%)",
+  whiteSpace: "nowrap",
+  border: 0,
+  opacity: 0,
+  pointerEvents: "none"
+};
 export default function OptionCard({
   type = "radio",
   name,
@@ -37,7 +52,7 @@ export default function OptionCard({
     if (e.key !== " " && e.key !== "Enter") return;
   };
   return <label data-checked={checked ? "true" : "false"} data-control-type={type} className={cn(baseCard, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)}>
-      <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} disabled={disabled} className="peer sr-only" tabIndex={0} />
+      <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}
       <span className="flex-1">{children}</span>
     </label>;

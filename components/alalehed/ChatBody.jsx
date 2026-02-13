@@ -135,6 +135,12 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-content-bottom-spacer": "0.25rem"
 });
 const MOBILE_KEYBOARD_OFFSET_THRESHOLD = 96;
+const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+
+function detectMobileViewport() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ?? window.innerWidth <= 768;
+}
 
 function resolveChatLayoutVars({
   isMobile,
@@ -179,7 +185,7 @@ export default function ChatBody({
     return up || "CLIENT";
   }, [session]);
   const [inputFocused, setInputFocused] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(detectMobileViewport);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
@@ -197,7 +203,7 @@ export default function ChatBody({
   useEffect(() => {
     const update = () => {
       if (typeof window === "undefined") return;
-      const nextIsMobile = window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
+      const nextIsMobile = detectMobileViewport();
       setIsMobile(nextIsMobile);
       setMobileRailVisible(prev => {
         const prevMode = mobileModeRef.current;
@@ -864,7 +870,7 @@ export default function ChatBody({
                         ariaLabel={t("chat.back_to_home")}
                         className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95] max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:!left-[calc(env(safe-area-inset-left,0px)+0.56rem)]")}
                       /> : null}
-                    {!profileOpen && isMobile && !mobileRailVisible ? <button
+                    {!profileOpen && !mobileRailVisible ? <button
                         type="button"
                         onPointerDown={event => {
                 event.stopPropagation();

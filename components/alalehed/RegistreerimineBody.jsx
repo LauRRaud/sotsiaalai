@@ -165,8 +165,8 @@ export default function RegistreerimineBody({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: 260,
-    maxStepPerSettle: Number.POSITIVE_INFINITY
+    settleMs: 320,
+    maxStepPerSettle: 1
   });
   useEffect(() => {
     const scrollEl = scrollRef.current;
@@ -197,12 +197,8 @@ export default function RegistreerimineBody({
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || didInitPositionRef.current) return;
-    const hasPad =
-      Math.max(0, scrollPadTop || scrollPad) > 0 ||
-      Math.max(0, scrollPadBottom || scrollPad) > 0;
-    if (!hasPad) return;
     didInitPositionRef.current = true;
-    const raf = requestAnimationFrame(() => {
+    const resetToTop = () => {
       if (typeof window !== "undefined") {
         window.scrollTo({
           top: 0,
@@ -212,9 +208,18 @@ export default function RegistreerimineBody({
       }
       scrollEl.scrollTop = 0;
       scrollToIndex(0, "auto");
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [scrollPad, scrollPadTop, scrollPadBottom, scrollToIndex]);
+      setIsScrolled(false);
+    };
+    resetToTop();
+    const rafA = requestAnimationFrame(resetToTop);
+    const rafB = requestAnimationFrame(() => requestAnimationFrame(resetToTop));
+    const settleTimer = window.setTimeout(resetToTop, 120);
+    return () => {
+      cancelAnimationFrame(rafA);
+      cancelAnimationFrame(rafB);
+      window.clearTimeout(settleTimer);
+    };
+  }, [scrollToIndex]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -243,7 +248,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)]" data-scrolled={isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.1rem,3.3vw,2.7rem)] max-[48em]:[--glass-ring-pad-x:clamp(0.52rem,2.4vw,0.86rem)]" data-scrolled={isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
@@ -281,7 +286,7 @@ export default function RegistreerimineBody({
                 <div id={roleLabelId} className="mb-[0.9rem] text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]">
                   {roleLabelText}
                 </div>
-                <div className="register-role-options flex flex-col gap-[0.75rem]" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
+                <div className="register-role-options flex flex-col gap-[0.95rem]" role="radiogroup" aria-labelledby={roleLabelId} aria-describedby={roleHintId}>
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint")}
                   </div>

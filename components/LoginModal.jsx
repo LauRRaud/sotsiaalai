@@ -175,8 +175,8 @@ export default function LoginModal({
     isOtpStep ? "login-modal--otp" : "",
     "[--login-modal-side-pad:1.15em]",
     "[--login-modal-min-extra:3.4rem]",
-    "[--login-modal-max-extra:4.8rem]",
-    "[--login-modal-max-vw:92vw]",
+    "[--login-modal-max-extra:4rem]",
+    "[--login-modal-max-vw:90vw]",
     isOtpStep
       ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
       : "",
@@ -829,8 +829,13 @@ export default function LoginModal({
           : "1.15em"
         : isMobile
           ? "clamp(0.18rem, 1vw, 0.32rem)"
-          : "0.72em",
-      "--pin-grid-w": isMobile ? "clamp(16.2rem, 74vw, 18.6rem)" : "clamp(14.7rem, 28vw, 16.3rem)",
+          : "0.64em",
+      "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
+      "--pin-gap-x": isMobile ? "clamp(0.72rem, 3vw, 0.95rem)" : "0.9rem",
+      "--pin-gap-y": isMobile ? "clamp(0.72rem, 2.1vh, 0.92rem)" : "0.82rem",
+      "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
+      "--login-email-w": isMobile ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
+      "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
@@ -838,17 +843,17 @@ export default function LoginModal({
           ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(94vw, 36rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
+            : "min(var(--login-modal-max-vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
         minWidth: isMobile
           ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(92vw, 32rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
+            : "min(var(--login-modal-max-vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
         maxWidth: isMobile
           ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(94vw, 36rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))"
+            : "min(var(--login-modal-max-vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {
@@ -862,7 +867,7 @@ export default function LoginModal({
           ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]"
           : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.56rem,1.5vw,0.82rem)]"
       }`}>
-          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.38rem] max-[48em]:!h-[2.38rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
             <div className={modalTitleClassName}>
@@ -889,7 +894,7 @@ export default function LoginModal({
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !my-0 !w-[clamp(13rem,17.2vw,15rem)] !max-w-[clamp(13rem,17.2vw,15rem)] text-[1.16rem] max-md:!w-[min(100%,var(--pin-grid-w))] max-md:!max-w-[var(--pin-grid-w)]" onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !my-0 !w-[min(100%,var(--login-email-w,var(--pin-grid-w)))] !max-w-[var(--login-email-w,var(--pin-grid-w))] text-[1.16rem]" onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();
@@ -934,9 +939,6 @@ export default function LoginModal({
         }} />}
 
             {!(isMobile && useNativeKeyboard) && <div className="relative flex w-full justify-center mt-[0.05rem] mb-[-0.1rem] overflow-visible" style={{
-          "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.7rem",
-          "--pin-gap-x": isMobile ? "clamp(0.72rem, 3vw, 0.95rem)" : "0.74rem",
-          "--pin-gap-y": isMobile ? "clamp(0.72rem, 2.1vh, 0.92rem)" : "0.66rem",
           "--pin-a": "0.006",
           "--pin-a-alt": "0.01",
           "--pin-border-w": "1.45px",
@@ -1046,9 +1048,8 @@ export default function LoginModal({
                 }
                 appendDigit(digitToAppend);
               }} disabled={pinLoading} aria-label={digitLabel}>
-                        {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" className="block h-[1.1em] w-[1.1em]">
-                            <path d="M20 6.8H10.6a1.8 1.8 0 0 0-1.28.53L3.85 12.8a1.1 1.1 0 0 0 0 1.56l5.47 5.47a1.8 1.8 0 0 0 1.28.53H20a1.8 1.8 0 0 0 1.8-1.8V8.6A1.8 1.8 0 0 0 20 6.8Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="m12.85 10.45 4.25 4.25m0-4.25-4.25 4.25" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                        {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" className="block h-[1.24em] w-[1.24em]">
+                            <path d="M13.2 7.35H5.35l2.8-2.35L7.2 4.05 3.1 8l4.1 3.95L8.15 11l-2.8-2.35h7.85z" fill="currentColor" />
                           </svg> : <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]" aria-hidden="true">
                             0
                           </span> : key}
@@ -1069,13 +1070,12 @@ export default function LoginModal({
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
                         {t("auth.login.help_hold_zero_after")}{" "}
-                        <span className="inline-flex items-center align-[-0.08em]" aria-hidden="true">
-                          (
-                          <svg viewBox="0 0 24 24" fill="none" focusable="false" className="mx-[0.07em] h-[1.03em] w-[1.03em]">
-                            <path d="M20 6.8H10.6a1.8 1.8 0 0 0-1.28.53L3.85 12.8a1.1 1.1 0 0 0 0 1.56l5.47 5.47a1.8 1.8 0 0 0 1.28.53H20a1.8 1.8 0 0 0 1.8-1.8V8.6A1.8 1.8 0 0 0 20 6.8Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="m12.85 10.45 4.25 4.25m0-4.25-4.25 4.25" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                        <span className="inline-flex items-center align-[-0.06em] leading-none" aria-hidden="true">
+                          {"("}
+                          <svg viewBox="0 0 16 16" fill="none" focusable="false" className="h-[1.04em] w-[1.04em]">
+                            <path d="M13.2 7.35H5.35l2.8-2.35L7.2 4.05 3.1 8l4.1 3.95L8.15 11l-2.8-2.35h7.85z" fill="currentColor" />
                           </svg>
-                          )
+                          {")"}
                         </span>
                         .
                       </div>

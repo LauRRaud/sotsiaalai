@@ -8,6 +8,13 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import { createPortal } from "react-dom";
 import { cn } from "@/components/ui/cn";
 
+const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+
+function detectMobileViewport() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ?? window.innerWidth <= 768;
+}
+
 export default function RightRail({
   t,
   roomId,
@@ -43,7 +50,7 @@ export default function RightRail({
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(detectMobileViewport);
   const [hoveredDesktopIndex, setHoveredDesktopIndex] = useState(null);
   const [isRailScrolling, setIsRailScrolling] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
@@ -79,7 +86,7 @@ export default function RightRail({
   useEffect(() => {
     const update = () => {
       if (typeof window === "undefined") return;
-      setIsMobile(window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768);
+      setIsMobile(detectMobileViewport());
     };
     update();
     if (typeof window === "undefined") return;

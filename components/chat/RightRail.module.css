@@ -315,35 +315,28 @@
     isolation: isolate;
     opacity: 0;
     transform: translate(-50%, 0.08rem);
-    font-size: clamp(1.02rem, 3.8vw, 1.24rem) !important;
-    font-weight: 520 !important;
+    font-size: clamp(1.16rem, 4.4vw, 1.46rem) !important;
+    font-weight: 540 !important;
     line-height: 1.1 !important;
     max-width: 7.2rem !important;
     min-height: auto !important;
     margin-top: 0 !important;
-    padding: 0.08rem 0.42rem !important;
-    border-radius: 999px !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
     white-space: normal !important;
     text-wrap: balance !important;
     text-align: center !important;
     pointer-events: none !important;
-    background: rgba(18, 24, 36, 0.24) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14) !important;
-    -webkit-backdrop-filter: blur(26px) saturate(170%) !important;
-    backdrop-filter: blur(26px) saturate(170%) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
     will-change: opacity, transform;
     z-index: 4;
   }
 
   .label::before {
-    content: "";
-    position: absolute;
-    inset: -0.2rem;
-    border-radius: inherit;
-    background: inherit;
-    filter: blur(14px);
-    opacity: 0.65;
-    z-index: -1;
+    content: none;
   }
 
   .isArmed .label {
@@ -352,7 +345,7 @@
   }
 
   :global(:root.theme-light) .label {
-    background: rgba(255, 255, 255, 0.18) !important;
+    background: transparent !important;
   }
 
   .iconImg,

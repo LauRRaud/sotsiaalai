@@ -195,7 +195,8 @@ export default function AccessibilityModal({
     canScrollDown,
     scrollDirection,
     getItemClassName,
-    activeIndex
+    activeIndex,
+    scrollToIndex
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".csp-step",
@@ -206,22 +207,29 @@ export default function AccessibilityModal({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: 260,
-    maxStepPerSettle: Number.POSITIVE_INFINITY,
+    settleMs: 320,
+    maxStepPerSettle: 1,
     manageHiddenFocus: true
   });
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || didInitPositionRef.current) return;
-    const hasPad = Math.max(0, scrollPad + padOffset) > 0;
-    if (!hasPad) return;
     didInitPositionRef.current = true;
-    const raf = requestAnimationFrame(() => {
+    const resetToTop = () => {
       scrollEl.scrollTop = 0;
+      scrollToIndex(0, "auto");
       setIsScrolled(false);
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [scrollPad, padOffset]);
+    };
+    resetToTop();
+    const rafA = requestAnimationFrame(resetToTop);
+    const rafB = requestAnimationFrame(() => requestAnimationFrame(resetToTop));
+    const settleTimer = window.setTimeout(resetToTop, 120);
+    return () => {
+      cancelAnimationFrame(rafA);
+      cancelAnimationFrame(rafB);
+      window.clearTimeout(settleTimer);
+    };
+  }, [scrollToIndex]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;

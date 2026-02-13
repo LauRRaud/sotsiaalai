@@ -49,12 +49,14 @@ const fragment = `
   void main() {
     vec2 uv = gl_PointCoord.xy;
     float d = length(uv - vec2(0.5));
+    vec3 particleColor = clamp(vColor + 0.2 * sin(uv.yxx + uTime + vRandom.y * 6.2831), 0.0, 1.0);
     if (uAlphaParticles < 0.5) {
       if (d > 0.5) discard;
-      gl_FragColor = vec4(vColor + 0.2 * sin(uv.yxx + uTime + vRandom.y * 6.2831), 1.0);
+      gl_FragColor = vec4(particleColor, 1.0);
     } else {
-      float circle = smoothstep(0.5, 0.4, d) * 0.8;
-      gl_FragColor = vec4(vColor + 0.2 * sin(uv.yxx + uTime + vRandom.y * 6.2831), circle);
+      // Premultiplied alpha output avoids bright fringe artifacts on mobile compositing.
+      float circle = smoothstep(0.5, 0.42, d) * 0.85;
+      gl_FragColor = vec4(particleColor * circle, circle);
     }
   }
 `;
