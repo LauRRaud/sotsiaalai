@@ -190,7 +190,7 @@
 
 .avatar {
   pointer-events: none;
-  --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.08));
+  --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.16));
   cursor: inherit;
 }
 .isArmed .label {
@@ -299,7 +299,7 @@
 
 @media (max-width: 48em) {
   .avatar {
-    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) - 0.03));
+    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.05));
   }
 
   .iconBtnActive {

@@ -107,7 +107,6 @@
 
 .csp-scrim--chevron {
   --csp-arrow-pulse-duration: 3.2s;
-  --csp-arrow-size: clamp(3rem, 4.8vw, 3.8rem);
 }
 .csp-scrim--chevron.is-muted .csp-chevron-frame {
   transform: translateX(-50%) scale(0.68);
@@ -134,8 +133,8 @@
 .csp-chevron-frame {
   position: absolute;
   left: 50%;
-  width: var(--csp-arrow-size);
-  height: var(--csp-arrow-size);
+  width: var(--csp-arrow-size, clamp(3rem, 4.8vw, 3.8rem));
+  height: var(--csp-arrow-size, clamp(3rem, 4.8vw, 3.8rem));
   display: block;
   opacity: 0.8;
   transform: translateX(-50%) scale(1);
