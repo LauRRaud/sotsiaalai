@@ -54,7 +54,8 @@ const optionCardClassName =
 const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
-const accessibilityChevronStrokeWidth = 0.72;
+const accessibilityChevronStrokeWidthDesktop = 0.72;
+const accessibilityChevronStrokeWidthMobile = 0.92;
 export default function AccessibilityModal({
   onClose,
   prefs,
@@ -453,7 +454,7 @@ export default function AccessibilityModal({
   return <>
       <div className={modalBackdropClassName} onClick={onClose} role="presentation" aria-hidden="true" />
 
-      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)]`.trim()} data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
+      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--csp-arrow-size:clamp(2.05rem,9vw,2.6rem)] max-[48em]:[--csp-chevron-top:clamp(0.2rem,1vw,0.4rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.2rem,1vw,0.4rem)]`.trim()} data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
         <div className="csp-overlayTitle [--csp-title-top:calc(var(--csp-chevron-top,0.24rem)+var(--csp-arrow-size,2.4rem)-0.45rem)] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.55rem,8.4vw,3.2rem))]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>
@@ -465,12 +466,12 @@ export default function AccessibilityModal({
         {}
         <div className={`csp-scrim csp-scrim--top csp-scrim--chevron top-0 ${"is-visible"} ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon direction="up" strokeWidth={accessibilityChevronStrokeWidth} className="csp-chevron-icon" />
+            <ChevronIcon direction="up" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
         </div>
         <div className={`csp-scrim csp-scrim--bottom csp-scrim--chevron ${"is-visible"} ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`} aria-hidden="true">
           <span className="csp-chevron-frame" aria-hidden="true">
-            <ChevronIcon direction="down" strokeWidth={accessibilityChevronStrokeWidth} className="csp-chevron-icon" />
+            <ChevronIcon direction="down" strokeWidth={isMobileViewport ? accessibilityChevronStrokeWidthMobile : accessibilityChevronStrokeWidthDesktop} className="csp-chevron-icon" />
           </span>
         </div>
 
