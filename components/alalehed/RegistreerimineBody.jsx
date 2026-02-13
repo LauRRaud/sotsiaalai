@@ -20,7 +20,7 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
-const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-h-0 overflow-y-auto overflow-x-hidden px-[0.6rem] text-left csp-container csp-no-neighbor-click mx-auto";
+const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-h-0 overflow-y-auto overflow-x-hidden px-[0.6rem] text-left csp-container mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerPolicyLinkClassName = `${linkBrandInlineClass} register-policy-link`;
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
@@ -85,7 +85,6 @@ export default function RegistreerimineBody({
     const email = form.email.trim().toLowerCase();
     const pin = form.pin.replace(/\D/g, "");
     const jumpToStep = index => {
-      if (isMobileViewport) return;
       scrollToIndex(index);
     };
     if (!email) {
@@ -164,18 +163,20 @@ export default function RegistreerimineBody({
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".register-step",
-    disabled: isMobileViewport,
-    neighborDistance: 1,
+    neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: true,
     settleOnScroll: true,
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: 320,
-    maxStepPerSettle: 1
+    settleMs: isMobileViewport ? 190 : 320,
+    maxStepPerSettle: isMobileViewport ? 5 : 1,
+    manageHiddenFocus: !isMobileViewport,
+    pauseSettleOnInputFocus: isMobileViewport,
+    pauseSettleWhileTouch: isMobileViewport
   });
   const getRegisterStepClassName = index =>
-    isMobileViewport ? "" : getItemClassName(index);
+    getItemClassName(index);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 48em)");
@@ -191,12 +192,6 @@ export default function RegistreerimineBody({
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
-    if (isMobileViewport) {
-      setScrollPad(0);
-      setScrollPadTop(0);
-      setScrollPadBottom(0);
-      return;
-    }
     const updatePad = () => {
       const snapEl = scrollEl.querySelector(".register-step");
       if (!snapEl) return;
@@ -279,7 +274,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--glass-ring-pad-x:clamp(0.52rem,2.4vw,0.86rem)]" data-scrolled={isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--glass-mobile-gap:clamp(0.18rem,0.9vw,0.3rem)] max-[48em]:[--glass-ring-pad-x:clamp(0.26rem,1.4vw,0.52rem)]" data-scrolled={isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
@@ -297,7 +292,7 @@ export default function RegistreerimineBody({
         </div>
 
         <div className={contentClassName}>
-          <div ref={scrollRef} className={`${scrollClassName} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]`} style={{
+          <div ref={scrollRef} className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`} style={{
           "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
           "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>

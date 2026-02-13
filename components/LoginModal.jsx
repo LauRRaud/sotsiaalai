@@ -164,8 +164,8 @@ export default function LoginModal({
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
   const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[0.62rem] max-md:mt-[0.42rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
-  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.4rem]", "max-md:-mt-[0.08rem]", "mb-0"].join(" ");
-  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.72rem]", "mb-[-0.28rem]"].join(" ");
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.1rem]", "max-md:-mt-[0.4rem]", "mb-0"].join(" ");
+  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.56rem]", "mb-[-0.28rem]"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
   const modalClasses = [
@@ -831,7 +831,7 @@ export default function LoginModal({
           ? "clamp(0.18rem, 1vw, 0.32rem)"
           : "0.64em",
       "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
-      "--pin-gap-x": isMobile ? "clamp(0.96rem, 3.8vw, 1.22rem)" : "0.9rem",
+      "--pin-gap-x": isMobile ? "clamp(1.12rem, 4.4vw, 1.4rem)" : "0.9rem",
       "--pin-gap-y": isMobile ? "clamp(0.68rem, 2.1vh, 0.9rem)" : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isMobile ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
@@ -878,7 +878,7 @@ export default function LoginModal({
             </div>
           </div>
 
-        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.32rem]" onSubmit={e => {
+        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.16rem]" onSubmit={e => {
         e.preventDefault();
         submitPinStep();
       }} autoComplete="off">

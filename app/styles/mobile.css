@@ -131,6 +131,10 @@
   .three-d-card.mobile-flipped-right .card-face.front {
     pointer-events: none !important;
   }
+  .homepage-root .three-d-card .card-blur-layer {
+    inset: clamp(0.28rem, 1.25vw, 0.46rem);
+    border-radius: 999px;
+  }
   .centered-back-left,
   .centered-back-right {
     width: 100%;
@@ -386,7 +390,7 @@
     gap: clamp(1.75rem, 4vh, 2.8rem) !important;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scroll-padding-top: var(--stack-pad, 0px);
     scroll-padding-bottom: var(--stack-pad, 0px);
     -webkit-mask-image: linear-gradient(
@@ -426,7 +430,7 @@
     opacity: 0.84;
     transition: opacity 120ms ease;
     scroll-snap-align: center;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal;
   }
   .profile-orbit-stack-item.is-focus {
     opacity: 1;
@@ -895,10 +899,8 @@
   .register-scroll {
     width: 100% !important;
     max-width: none !important;
-    padding-left: clamp(0.42rem, 2.4vw, 0.82rem) !important;
-    padding-right: clamp(0.42rem, 2.4vw, 0.82rem) !important;
-    --csp-neighbor-opacity: 0;
-    --csp-hidden-opacity: 0;
+    padding-left: clamp(0.5rem, 2.7vw, 0.98rem) !important;
+    padding-right: clamp(0.5rem, 2.7vw, 0.98rem) !important;
   }
 
   .register-form {
@@ -923,8 +925,8 @@
   }
 
   .register-scroll .register-input {
-    width: calc(100% - clamp(0.18rem, 1.1vw, 0.34rem)) !important;
-    max-width: calc(100% - clamp(0.18rem, 1.1vw, 0.34rem)) !important;
+    width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
+    max-width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -935,8 +937,8 @@
 
   .register-option-card,
   .register-checkbox-card {
-    width: calc(100% - clamp(0.18rem, 1.1vw, 0.34rem)) !important;
-    max-width: calc(100% - clamp(0.18rem, 1.1vw, 0.34rem)) !important;
+    width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
+    max-width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -993,39 +995,16 @@
 
   .register-scroll.csp-container,
   .a11y-csp-scroll.csp-container {
-    scroll-snap-type: none !important;
     overscroll-behavior-y: contain !important;
     overscroll-behavior-x: none !important;
     overflow-x: hidden !important;
     touch-action: pan-y !important;
-    scroll-padding-top: 0 !important;
-    scroll-padding-bottom: 0 !important;
   }
 
   .register-scroll.csp-container {
     overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-  }
-
-  .register-scroll .register-step,
-  .a11y-csp-scroll .csp-step {
-    scroll-snap-align: none !important;
-    scroll-snap-stop: normal !important;
-  }
-
-  .register-scroll .csp-item,
-  .register-scroll .csp-active,
-  .register-scroll .csp-neighbor,
-  .register-scroll .csp-hidden,
-  .a11y-csp-scroll .csp-item,
-  .a11y-csp-scroll .csp-active,
-  .a11y-csp-scroll .csp-neighbor,
-  .a11y-csp-scroll .csp-hidden {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    pointer-events: auto !important;
   }
 }
 

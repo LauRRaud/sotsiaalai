@@ -19,6 +19,11 @@ function getCssPx(el, varName) {
 function supportsInert() {
   return typeof HTMLElement !== "undefined" && "inert" in HTMLElement.prototype;
 }
+function isEditableElement(node) {
+  if (!isHTMLElement(node)) return false;
+  const tag = node.tagName;
+  return node.isContentEditable || tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+}
 export default function CenteredScrollPicker({
   containerRef,
   itemSelector = null,
@@ -35,6 +40,8 @@ export default function CenteredScrollPicker({
   wheelCooldownMs = 220,
   minWheelDelta = 10,
   manageHiddenFocus = true,
+  pauseSettleOnInputFocus = false,
+  pauseSettleWhileTouch = false,
   onActiveIndexChange
 } = {}) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -48,6 +55,7 @@ export default function CenteredScrollPicker({
   const lastScrollTopRef = useRef(0);
   const lastSettledIndexRef = useRef(0);
   const tabIndexStoreRef = useRef(new WeakMap());
+  const isTouchingRef = useRef(false);
   const inertOk = useMemo(() => supportsInert(), []);
   const bindItemRef = useCallback(index => {
     return node => {
@@ -215,6 +223,15 @@ export default function CenteredScrollPicker({
     if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
     settleTimerRef.current = window.setTimeout(() => {
       if (disabled) return;
+      if (pauseSettleWhileTouch && isTouchingRef.current) return;
+      if (pauseSettleOnInputFocus) {
+        const el = containerRef?.current;
+        const active = typeof document !== "undefined" ? document.activeElement : null;
+        if (el && isEditableElement(active) && el.contains(active)) {
+          updateScrollHints();
+          return;
+        }
+      }
       const items = getItems();
       if (!items.length) return;
       const current = activeIndexRef.current;
@@ -232,7 +249,7 @@ export default function CenteredScrollPicker({
       scrollToIndex(target);
       updateScrollHints();
     }, reduceMotion ? 0 : settleMs);
-  }, [disabled, getItems, maxStepPerSettle, commitActiveIndex, scrollToIndex, updateScrollHints, reduceMotion, settleMs]);
+  }, [disabled, pauseSettleWhileTouch, pauseSettleOnInputFocus, containerRef, getItems, maxStepPerSettle, commitActiveIndex, scrollToIndex, updateScrollHints, reduceMotion, settleMs]);
   const recompute = useCallback((behaviorOverride = "auto") => {
     if (disabled) return;
     const items = getItems();
@@ -331,6 +348,36 @@ export default function CenteredScrollPicker({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [containerRef, disabled, enableArrowKeys, allowArrowKeysInInputs, captureArrowKeys, getItems, commitActiveIndex, scrollToIndex, updateScrollHints]);
+  useEffect(() => {
+    const el = containerRef?.current;
+    if (!el || disabled || !pauseSettleWhileTouch) return;
+    const onTouchStart = () => {
+      isTouchingRef.current = true;
+      if (settleTimerRef.current) {
+        window.clearTimeout(settleTimerRef.current);
+        settleTimerRef.current = 0;
+      }
+    };
+    const onTouchEnd = () => {
+      if (!isTouchingRef.current) return;
+      isTouchingRef.current = false;
+      if (settleOnScroll) scheduleSettle();
+    };
+    el.addEventListener("touchstart", onTouchStart, {
+      passive: true
+    });
+    el.addEventListener("touchend", onTouchEnd, {
+      passive: true
+    });
+    el.addEventListener("touchcancel", onTouchEnd, {
+      passive: true
+    });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
+    };
+  }, [containerRef, disabled, pauseSettleWhileTouch, settleOnScroll, scheduleSettle]);
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);

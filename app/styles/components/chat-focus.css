@@ -42,6 +42,34 @@ body.invite-modal-open .chat-page-shell {
 }
 
 @media (min-width: 48em) {
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus
+    .chat-back-button {
+    opacity: 1;
+  }
+
+  .chat-page-shell .chat-container--round .chat-back-button .back-icon-arrow {
+    transition: opacity 240ms ease-out;
+  }
+
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus
+    .chat-back-button
+    .back-icon-arrow {
+    opacity: 0.38;
+  }
+
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus
+    .chat-back-button:hover
+    .back-icon-arrow,
+  .chat-page-shell
+    .chat-container.chat-container--round.chat-container--input-focus
+    .chat-back-button:focus-visible
+    .back-icon-arrow {
+    opacity: 0.9;
+  }
+
   .chat-page-shell .chat-container.chat-container--round {
     width: var(--chat-diameter);
     height: var(--chat-diameter);

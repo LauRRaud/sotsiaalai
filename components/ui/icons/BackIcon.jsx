@@ -16,6 +16,7 @@ export default function BackIcon({ className, ...props }) {
     >
       <g transform="translate(36 32) scale(0.68) translate(-36 -32)">
         <path
+          className="back-icon-arrow"
           d="M40 16 L22.5 32 L40 48"
           fill="none"
           stroke="var(--back-arrow-color)"
@@ -24,7 +25,7 @@ export default function BackIcon({ className, ...props }) {
           strokeLinejoin="round"
           opacity="0.9"
         />
-        <circle cx="42.5" cy="32" r="5" fill="var(--back-dot-color)" opacity="0.9" />
+        <circle className="back-icon-dot" cx="42.5" cy="32" r="5" fill="var(--back-dot-color)" opacity="0.9" />
       </g>
     </svg>
   );

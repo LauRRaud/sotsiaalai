@@ -21,6 +21,7 @@ function useMatchMedia(query, defaultValue = false) {
   return matches;
 }
 const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+const MOBILE_SETTLE_MS = 180;
 export default function OrbitalMenu({
   items = [],
   ariaLabel = "Actions",
@@ -56,6 +57,8 @@ export default function OrbitalMenu({
   const rafRef = useRef(0);
   const settleTimerRef = useRef(0);
   const stackSettleTimerRef = useRef(0);
+  const listTouchingRef = useRef(false);
+  const stackTouchingRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const [listPad, setListPad] = useState(0);
@@ -352,8 +355,9 @@ export default function OrbitalMenu({
   const scheduleSettleSnap = useCallback(() => {
     if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
     settleTimerRef.current = window.setTimeout(() => {
+      if (listTouchingRef.current) return;
       snapToIndex(activeIndexRef.current);
-    }, prefersReducedMotion ? 0 : 140);
+    }, prefersReducedMotion ? 0 : MOBILE_SETTLE_MS);
   }, [prefersReducedMotion, snapToIndex]);
   useLayoutEffect(() => {
     if (!isOpen || !useMobileOverlay) return;
@@ -367,11 +371,32 @@ export default function OrbitalMenu({
     });
     const listEl = scrollRef.current;
     if (!listEl) return;
-    const onScroll = () => {
-      scheduleMobileUpdate();
+    const onTouchStart = () => {
+      listTouchingRef.current = true;
+      if (settleTimerRef.current) {
+        window.clearTimeout(settleTimerRef.current);
+        settleTimerRef.current = 0;
+      }
+    };
+    const onTouchEnd = () => {
+      if (!listTouchingRef.current) return;
+      listTouchingRef.current = false;
       scheduleSettleSnap();
     };
+    const onScroll = () => {
+      scheduleMobileUpdate();
+      if (!listTouchingRef.current) scheduleSettleSnap();
+    };
     listEl.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    listEl.addEventListener("touchstart", onTouchStart, {
+      passive: true
+    });
+    listEl.addEventListener("touchend", onTouchEnd, {
+      passive: true
+    });
+    listEl.addEventListener("touchcancel", onTouchEnd, {
       passive: true
     });
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
@@ -387,7 +412,11 @@ export default function OrbitalMenu({
     };
     window.addEventListener("resize", onResize);
     return () => {
+      listTouchingRef.current = false;
       listEl.removeEventListener("scroll", onScroll);
+      listEl.removeEventListener("touchstart", onTouchStart);
+      listEl.removeEventListener("touchend", onTouchEnd);
+      listEl.removeEventListener("touchcancel", onTouchEnd);
       ro?.disconnect?.();
       window.removeEventListener("resize", onResize);
     };
@@ -432,10 +461,11 @@ export default function OrbitalMenu({
         window.clearTimeout(stackSettleTimerRef.current);
       }
       stackSettleTimerRef.current = window.setTimeout(() => {
+        if (stackTouchingRef.current) return;
         const idx = computeActive();
         if (idx == null) return;
         snapToStackIndex(idx, true);
-      }, prefersReducedMotion ? 0 : 140);
+      }, prefersReducedMotion ? 0 : MOBILE_SETTLE_MS);
     };
     const computePad = () => {
       const first = stackItemRefs.current?.[0];
@@ -449,11 +479,26 @@ export default function OrbitalMenu({
     computePad();
     setStackFocusIndex(0);
     snapToStackIndex(0, false);
-    const onScroll = () => {
-      computeActive();
+    const onTouchStart = () => {
+      stackTouchingRef.current = true;
+      if (stackSettleTimerRef.current) {
+        window.clearTimeout(stackSettleTimerRef.current);
+        stackSettleTimerRef.current = 0;
+      }
+    };
+    const onTouchEnd = () => {
+      if (!stackTouchingRef.current) return;
+      stackTouchingRef.current = false;
       scheduleStackSettle();
     };
+    const onScroll = () => {
+      computeActive();
+      if (!stackTouchingRef.current) scheduleStackSettle();
+    };
     listEl.addEventListener("scroll", onScroll, { passive: true });
+    listEl.addEventListener("touchstart", onTouchStart, { passive: true });
+    listEl.addEventListener("touchend", onTouchEnd, { passive: true });
+    listEl.addEventListener("touchcancel", onTouchEnd, { passive: true });
     const onResize = () => {
       computeActive();
       scheduleStackSettle();
@@ -467,7 +512,11 @@ export default function OrbitalMenu({
     ro?.observe(listEl);
     scheduleStackSettle();
     return () => {
+      stackTouchingRef.current = false;
       listEl.removeEventListener("scroll", onScroll);
+      listEl.removeEventListener("touchstart", onTouchStart);
+      listEl.removeEventListener("touchend", onTouchEnd);
+      listEl.removeEventListener("touchcancel", onTouchEnd);
       window.removeEventListener("resize", onResize);
       if (stackSettleTimerRef.current) {
         window.clearTimeout(stackSettleTimerRef.current);
@@ -563,7 +612,7 @@ export default function OrbitalMenu({
               <div className="profile-orbit-mobile-chevron absolute left-1/2 top-[1.35rem] h-[1.65rem] w-[1.65rem] -translate-x-1/2 rotate-45 border-l-[3px] border-t-[3px] border-current opacity-70 drop-shadow-[0_8px_12px_rgba(0,0,0,0.2)] animate-[orbitChevronBlink_1.15s_ease-in-out_infinite]" />
             </div>
 
-            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-mandatory px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
+            <div ref={scrollRef} className="profile-orbit-mobile-list relative z-[2] flex-1 overflow-auto overscroll-contain snap-y snap-proximity px-[0.85rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0" style={{
           paddingTop: listPad,
           paddingBottom: listPad
         }}>

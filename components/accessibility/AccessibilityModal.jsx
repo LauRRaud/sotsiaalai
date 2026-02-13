@@ -20,9 +20,9 @@ const modalRootMobileClassName =
 const modalRootDesktopClassName =
   "glass-ring--desktop-stable min-[48.0625em]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[48.0625em]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,1.5rem)))] min-[48.0625em]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,1.5rem))-var(--ring-ui-reserve,9rem))] min-[48.0625em]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[48.0625em]:[--ring-max:min(var(--ring-desktop-max,55rem),calc(var(--ring-base-max,50rem)*var(--ring-scale,1)))] min-[48.0625em]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,34rem),var(--ring-fit)))] min-[48.0625em]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:rounded-full min-[48.0625em]:overflow-hidden min-[48.0625em]:px-[1.35rem]";
 const scrollAreaClassName =
-  "a11y-csp-scroll csp-container csp-no-neighbor-click w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)]";
+  "a11y-csp-scroll csp-container w-full flex flex-col items-center text-center gap-[2.8rem] flex-1 min-h-0 relative z-0 overflow-y-auto overflow-x-hidden bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.5rem] py-[1.1rem] overscroll-contain [--csp-title-offset:0px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%,#000_90%,transparent_100%)]";
 const scrollAreaMobileClassName =
-  "max-[48em]:w-full max-[48em]:px-[1.1rem] max-[48em]:gap-[clamp(1.45rem,4.2vh,2.5rem)] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]";
+  "max-[48em]:w-full max-[48em]:px-[1.1rem] max-[48em]:gap-[clamp(1.45rem,4.2vh,2.5rem)]";
 const fieldsetClassName =
   "csp-step m-0 w-full max-w-[42rem] border-0 !flex !flex-col !items-center !text-center !justify-start !content-start !gap-[1rem] !pt-[0.95rem] !pb-[2.8rem] max-[48em]:!gap-[1.1rem] max-[48em]:!pt-[1.2rem] max-[48em]:!pb-[3.55rem] scroll-snap-align-center scroll-snap-stop-normal";
 const legendClassName =
@@ -166,10 +166,6 @@ export default function AccessibilityModal({
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
-    if (isMobileViewport) {
-      setScrollPad(0);
-      return;
-    }
     const getCssPx = (el, varName) => {
       const raw = window.getComputedStyle(el).getPropertyValue(varName).trim();
       if (!raw) return 0;
@@ -200,25 +196,25 @@ export default function AccessibilityModal({
     canScrollDown,
     scrollDirection,
     getItemClassName,
-    activeIndex,
     scrollToIndex
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".csp-step",
-    disabled: isMobileViewport,
     reduceMotion,
-    neighborDistance: 1,
+    neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: true,
     settleOnScroll: true,
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: 320,
-    maxStepPerSettle: 1,
-    manageHiddenFocus: true
+    settleMs: isMobileViewport ? 190 : 320,
+    maxStepPerSettle: isMobileViewport ? 5 : 1,
+    manageHiddenFocus: !isMobileViewport,
+    pauseSettleOnInputFocus: isMobileViewport,
+    pauseSettleWhileTouch: isMobileViewport
   });
   const getA11yStepClassName = index =>
-    isMobileViewport ? "" : getItemClassName(index);
+    getItemClassName(index);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const query = window.matchMedia("(max-width: 48em)");
@@ -276,8 +272,21 @@ export default function AccessibilityModal({
     return () => scrollEl.removeEventListener("focusin", onFocusIn);
   }, [reduceMotion, isMobileViewport]);
   useEffect(() => {
-    setIsScrolled(activeIndex > 0);
-  }, [activeIndex]);
+    const scrollEl = scrollRef.current;
+    if (!scrollEl) return;
+    const onScroll = () => {
+      const top = scrollEl.scrollTop || 0;
+      setIsScrolled(prev => {
+        const next = top > 8;
+        return prev === next ? prev : next;
+      });
+    };
+    onScroll();
+    scrollEl.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    return () => scrollEl.removeEventListener("scroll", onScroll);
+  }, []);
   useEffect(() => {
     const host = languageOptionsRef.current;
     if (!host || typeof window === "undefined") return;
@@ -401,7 +410,7 @@ export default function AccessibilityModal({
           </span>
         </div>
 
-        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0] max-[48em]:[--csp-neighbor-opacity:0] max-[48em]:[--csp-hidden-opacity:0]`.trim()} style={{
+        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} [--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]`.trim()} style={{
         "--csp-pad": `${scrollPad + padOffset}px`,
         "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
         "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`

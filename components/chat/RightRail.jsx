@@ -38,6 +38,12 @@ export default function RightRail({
   const itemRefs = useRef([]);
   const tooltipRafRef = useRef(0);
   const tooltipTrackUntilRef = useRef(0);
+  const tooltipHideTimerRef = useRef(0);
+  const tooltipSwitchTimerRef = useRef(0);
+  const tooltipRevealRafRef = useRef(0);
+  const tooltipVisibleRef = useRef(false);
+  const tooltipLabelIndexRef = useRef(1);
+  const didInitDesktopActiveRef = useRef(false);
   const wheelAccumRef = useRef(0);
   const lastStepRef = useRef(0);
   const armClearTimerRef = useRef(0);
@@ -47,23 +53,31 @@ export default function RightRail({
   });
 
   const [activeIndex, setActiveIndex] = useState(1);
+  const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
   const [isMobile, setIsMobile] = useState(detectMobileViewport);
-  const [hoveredDesktopIndex, setHoveredDesktopIndex] = useState(null);
-  const [isRailScrolling, setIsRailScrolling] = useState(false);
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
-  const scrollIdleTimerRef = useRef(0);
-  const setTooltipFromElement = useCallback(el => {
-    if (!el || typeof el.getBoundingClientRect !== "function") return;
-    const rect = el.getBoundingClientRect();
+  const setTooltipFromRail = useCallback(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const rect = rail.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
+    const style = window.getComputedStyle(rail);
+    const itemSizeRaw = Number.parseFloat(style.getPropertyValue("--rail-item-size"));
+    const edgeOffsetRaw = Number.parseFloat(style.getPropertyValue("--rail-edge-offset"));
+    const itemSize = Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 48;
+    const edgeOffset = Number.isFinite(edgeOffsetRaw) && edgeOffsetRaw > 0 ? edgeOffsetRaw : itemSize * 0.5;
+    // Keep tooltip anchored to the rail center slot so it does not track moving icons during scroll transitions.
+    const anchorLeft = rect.left + rect.width - edgeOffset - itemSize * 0.5;
+    const anchorTop = rect.top + rect.height * 0.5;
     setTooltipRect({
-      top: rect.top,
-      left: rect.left,
-      width: rect.width,
-      height: rect.height
+      top: anchorTop - itemSize * 0.5,
+      left: anchorLeft,
+      width: itemSize,
+      height: itemSize
     });
   }, []);
 
@@ -72,9 +86,17 @@ export default function RightRail({
   }, []);
   useEffect(() => {
     return () => {
-      if (scrollIdleTimerRef.current) {
-        window.clearTimeout(scrollIdleTimerRef.current);
-        scrollIdleTimerRef.current = 0;
+      if (tooltipHideTimerRef.current) {
+        window.clearTimeout(tooltipHideTimerRef.current);
+        tooltipHideTimerRef.current = 0;
+      }
+      if (tooltipSwitchTimerRef.current) {
+        window.clearTimeout(tooltipSwitchTimerRef.current);
+        tooltipSwitchTimerRef.current = 0;
+      }
+      if (tooltipRevealRafRef.current) {
+        cancelAnimationFrame(tooltipRevealRafRef.current);
+        tooltipRevealRafRef.current = 0;
       }
       if (armClearTimerRef.current) {
         window.clearTimeout(armClearTimerRef.current);
@@ -124,6 +146,39 @@ export default function RightRail({
       armClearTimerRef.current = 0;
     }
   }, []);
+
+  const showTooltipTemporarily = useCallback((index, durationMs = 980) => {
+    if (isMobile || suspendPointerEvents || suppressTooltip) return;
+    if (!Number.isFinite(index)) return;
+    if (tooltipSwitchTimerRef.current) {
+      window.clearTimeout(tooltipSwitchTimerRef.current);
+      tooltipSwitchTimerRef.current = 0;
+    }
+    if (tooltipRevealRafRef.current) {
+      cancelAnimationFrame(tooltipRevealRafRef.current);
+      tooltipRevealRafRef.current = 0;
+    }
+    tooltipLabelIndexRef.current = index;
+    tooltipVisibleRef.current = true;
+    setTooltipLabelIndex(index);
+    setIsTooltipVisible(true);
+    if (tooltipHideTimerRef.current) {
+      window.clearTimeout(tooltipHideTimerRef.current);
+    }
+    tooltipHideTimerRef.current = window.setTimeout(() => {
+      tooltipVisibleRef.current = false;
+      setIsTooltipVisible(false);
+      tooltipHideTimerRef.current = 0;
+    }, durationMs);
+  }, [isMobile, suspendPointerEvents, suppressTooltip]);
+
+  useEffect(() => {
+    tooltipVisibleRef.current = isTooltipVisible;
+  }, [isTooltipVisible]);
+
+  useEffect(() => {
+    tooltipLabelIndexRef.current = tooltipLabelIndex;
+  }, [tooltipLabelIndex]);
 
   const armItem = useCallback(key => {
     setArmedKey(key);
@@ -208,7 +263,7 @@ export default function RightRail({
   }, [pathname, clearArmed]);
 
   useEffect(() => {
-    const shouldTrackTooltip = !isMobile && hoveredDesktopIndex !== null && hoveredDesktopIndex === activeIndex;
+    const shouldTrackTooltip = !isMobile;
     if (!shouldTrackTooltip) {
       setTooltipRect(null);
       if (tooltipRafRef.current) {
@@ -218,12 +273,7 @@ export default function RightRail({
       return;
     }
     const update = () => {
-      const target = itemRefs.current[activeIndex];
-      if (!target) {
-        setTooltipRect(null);
-        return;
-      }
-      setTooltipFromElement(target);
+      setTooltipFromRail();
     };
     const tick = () => {
       update();
@@ -247,7 +297,7 @@ export default function RightRail({
         tooltipRafRef.current = 0;
       }
     };
-  }, [activeIndex, hoveredDesktopIndex, isMobile, setTooltipFromElement]);
+  }, [isMobile, setTooltipFromRail]);
 
   useEffect(() => {
     const rail = railRef.current;
@@ -266,14 +316,6 @@ export default function RightRail({
       const direction = wheelAccumRef.current > 0 ? 1 : -1;
       wheelAccumRef.current = 0;
       lastStepRef.current = now;
-      setIsRailScrolling(true);
-      if (scrollIdleTimerRef.current) window.clearTimeout(scrollIdleTimerRef.current);
-      scrollIdleTimerRef.current = window.setTimeout(() => {
-        setIsRailScrolling(false);
-        setHoveredDesktopIndex(null);
-        scrollIdleTimerRef.current = 0;
-      }, 340);
-      setHoveredDesktopIndex(null);
       setActiveIndex(prev => {
         const maxIndex = Math.max(0, items.length - 1);
         const next = Math.max(0, Math.min(maxIndex, prev + direction));
@@ -299,15 +341,66 @@ export default function RightRail({
     if (rail && active instanceof HTMLElement && rail.contains(active)) {
       active.blur();
     }
-    setHoveredDesktopIndex(null);
     clearArmed();
   }, [isMobile, mobileVisible, clearArmed]);
 
   useEffect(() => {
-    if (!(suspendPointerEvents || suppressTooltip)) return;
-    setHoveredDesktopIndex(null);
-    setIsRailScrolling(false);
-  }, [suspendPointerEvents, suppressTooltip]);
+    if (!(isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible)) return;
+    if (tooltipHideTimerRef.current) {
+      window.clearTimeout(tooltipHideTimerRef.current);
+      tooltipHideTimerRef.current = 0;
+    }
+    if (tooltipSwitchTimerRef.current) {
+      window.clearTimeout(tooltipSwitchTimerRef.current);
+      tooltipSwitchTimerRef.current = 0;
+    }
+    if (tooltipRevealRafRef.current) {
+      cancelAnimationFrame(tooltipRevealRafRef.current);
+      tooltipRevealRafRef.current = 0;
+    }
+    tooltipVisibleRef.current = false;
+    setIsTooltipVisible(false);
+  }, [isMobile, suspendPointerEvents, suppressTooltip, mobileVisible]);
+
+  useEffect(() => {
+    if (isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible) {
+      didInitDesktopActiveRef.current = false;
+      return;
+    }
+    if (!didInitDesktopActiveRef.current) {
+      didInitDesktopActiveRef.current = true;
+      tooltipLabelIndexRef.current = activeIndex;
+      setTooltipLabelIndex(activeIndex);
+      return;
+    }
+    if (tooltipHideTimerRef.current) {
+      window.clearTimeout(tooltipHideTimerRef.current);
+      tooltipHideTimerRef.current = 0;
+    }
+    if (tooltipSwitchTimerRef.current) {
+      window.clearTimeout(tooltipSwitchTimerRef.current);
+      tooltipSwitchTimerRef.current = 0;
+    }
+    if (tooltipRevealRafRef.current) {
+      cancelAnimationFrame(tooltipRevealRafRef.current);
+      tooltipRevealRafRef.current = 0;
+    }
+    if (tooltipVisibleRef.current && tooltipLabelIndexRef.current !== activeIndex) {
+      tooltipVisibleRef.current = false;
+      setIsTooltipVisible(false);
+      tooltipSwitchTimerRef.current = window.setTimeout(() => {
+        tooltipLabelIndexRef.current = activeIndex;
+        setTooltipLabelIndex(activeIndex);
+        tooltipRevealRafRef.current = requestAnimationFrame(() => {
+          tooltipRevealRafRef.current = 0;
+          showTooltipTemporarily(activeIndex, 900);
+        });
+        tooltipSwitchTimerRef.current = 0;
+      }, 120);
+      return;
+    }
+    showTooltipTemporarily(activeIndex, 900);
+  }, [activeIndex, isMobile, mobileVisible, showTooltipTemporarily, suppressTooltip, suspendPointerEvents]);
 
   useEffect(() => {
     if (!isMobile || !armedKey) return;
@@ -355,21 +448,15 @@ export default function RightRail({
 
   const mobileLabelClassName =
     "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-visible max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
-  const tooltipLabelIndex = hoveredDesktopIndex;
   const shouldShowDesktopTooltip = !isMobile &&
     !suspendPointerEvents &&
     !suppressTooltip &&
-    hoveredDesktopIndex !== null &&
     !!tooltipRect &&
-    hoveredDesktopIndex === activeIndex;
+    tooltipLabelIndex >= 0 &&
+    tooltipLabelIndex < items.length;
 
   return <div className={slotClassName}>
-      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown} onBlurCapture={event => {
-      const next = event.relatedTarget;
-      const rail = railRef.current;
-      if (rail && next instanceof Node && rail.contains(next)) return;
-      setHoveredDesktopIndex(null);
-    }}>
+      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown}>
         {(isMobile ? mobileSlots : [-2, -1, 0, 1, 2].map(slotOffset => {
         const itemIndex = activeIndex + slotOffset;
         if (itemIndex < 0 || itemIndex >= items.length) return null;
@@ -485,21 +572,12 @@ export default function RightRail({
         const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const displayLabel = it?.label || "";
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} onMouseEnter={!isMobile ? event => {
-        if (isRailScrolling) return;
-        setHoveredDesktopIndex(itemIndex);
-        setTooltipFromElement(event.currentTarget);
-      } : undefined} onMouseLeave={!isMobile ? () => {
-        if (isRailScrolling) return;
-        setHoveredDesktopIndex(null);
-      } : undefined} onFocus={!isMobile ? event => {
-        if (isRailScrolling) return;
-        setHoveredDesktopIndex(itemIndex);
-        setTooltipFromElement(event.currentTarget);
-      } : undefined} onBlur={!isMobile ? event => {
-        const next = event.relatedTarget;
-        if (next instanceof Node && event.currentTarget.contains(next)) return;
-        setHoveredDesktopIndex(null);
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} onMouseEnter={!isMobile ? () => {
+        if (itemIndex !== activeIndex) return;
+        showTooltipTemporarily(activeIndex, 1800);
+      } : undefined} onFocus={!isMobile ? () => {
+        if (itemIndex !== activeIndex) return;
+        showTooltipTemporarily(activeIndex, 1800);
       } : undefined} onDoubleClick={isMobile ? event => {
         event.preventDefault();
         event.stopPropagation();
@@ -513,7 +591,7 @@ export default function RightRail({
             </button>;
       })}
 
-        {isMounted && shouldShowDesktopTooltip ? createPortal(<div className={styles.tooltip} style={{
+        {isMounted && shouldShowDesktopTooltip ? createPortal(<div className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)} style={{
         top: tooltipRect.top + tooltipRect.height / 2,
         left: tooltipRect.left - 2
       }} role="tooltip">

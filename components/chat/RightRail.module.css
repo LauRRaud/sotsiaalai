@@ -190,7 +190,7 @@
 
 .avatar {
   pointer-events: none;
-  --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.16));
+  --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.12));
   cursor: inherit;
 }
 .isArmed .label {
@@ -225,7 +225,7 @@
 .tooltip {
   position: fixed;
   transform: translate(calc(-100% - 0.22rem), -50%);
-  opacity: 1;
+  opacity: 0;
   padding: 0.26rem 0.66rem;
   border-radius: 0.7rem;
   white-space: nowrap;
@@ -238,6 +238,19 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   pointer-events: none;
   z-index: 80;
+  will-change: opacity, transform;
+  transition:
+    opacity 120ms ease;
+}
+
+.tooltipVisible {
+  opacity: 1;
+  transform: translate(calc(-100% - 0.22rem), -50%);
+}
+
+.tooltipHidden {
+  opacity: 0;
+  transform: translate(calc(-100% - 0.22rem), -50%);
 }
 .tooltip::before {
   content: "";
@@ -299,7 +312,7 @@
 
 @media (max-width: 48em) {
   .avatar {
-    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.05));
+    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.02));
   }
 
   .iconBtnActive {
