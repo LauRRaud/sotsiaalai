@@ -27,7 +27,7 @@ const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const checkboxCardClassName = "register-checkbox-card w-full text-[1.05rem] leading-[1.42] px-[1.05rem] py-[0.9rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
-const registerButtonClassName = "register-submit px-[1.85rem] py-[1rem] text-[1.3rem]";
+const registerButtonClassName = "register-submit px-[1.85rem] py-[1rem] text-[1.42rem] leading-[1.12]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidth = 0.9;
 const inputBaseClassName = "register-input w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
@@ -337,7 +337,7 @@ export default function RegistreerimineBody({
                   </div>}
                 <div className="flex justify-center">
                   <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting}>
-                    <span>
+                    <span className="register-submit-label">
                       {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
                     </span>
                   </Button>
@@ -349,7 +349,7 @@ export default function RegistreerimineBody({
                   <AppLink href="#" onClick={e => {
                     e.preventDefault();
                     openLoginModal?.();
-                  }} aria-label={t("auth.login.title")} className="register-login-link text-[1em] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
+                  }} aria-label={t("auth.login.title")} className="register-login-link text-[1.14em] leading-[1.2] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38]">
                       {t("auth.login.title")}
                   </AppLink>
                 </div>

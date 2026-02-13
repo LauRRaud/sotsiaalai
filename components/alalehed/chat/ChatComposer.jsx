@@ -90,9 +90,12 @@ export default function ChatComposer({
   const inputRowClassName =
     "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform";
-  const inputRowModeClassName = isMobile
-    ? "absolute left-0 right-0 bottom-[calc(max(0.55rem,env(safe-area-inset-bottom,0px))+var(--chat-vk-offset,0px))] z-[90] mt-0 w-full max-w-full gap-0 [--chat-input-max-w:min(100%,calc(100vw-10.5rem))]"
-    : "relative mt-[clamp(0.6rem,1.8vh,1.1rem)]";
+  const inputRowModeClassName =
+    "relative mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
+    "max-[48em]:absolute max-[48em]:left-0 max-[48em]:right-0 " +
+    "max-[48em]:bottom-[calc(max(0.55rem,env(safe-area-inset-bottom,0px))+var(--chat-vk-offset,0px))] " +
+    "max-[48em]:z-[90] max-[48em]:mt-0 max-[48em]:w-full max-[48em]:max-w-full max-[48em]:gap-0 " +
+    "max-[48em]:[--chat-input-max-w:min(100%,calc(100vw-10.5rem))]";
   const inputBarClassName =
     "chat-inputbar relative grid w-full max-w-[min(100%,var(--chat-input-max-w))] " +
     "flex-[1_1_auto] grid-cols-[1fr_auto_auto] items-center gap-x-[0.28rem] " +
@@ -121,7 +124,7 @@ export default function ChatComposer({
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
-  const inputRowTransformClassName = isMobile ? "[transform:none]" : inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]";
+  const inputRowTransformClassName = `${inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[48em]:[transform:none]`;
   return <form className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
       <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
       ensureAnalysisPanelVisible?.();
