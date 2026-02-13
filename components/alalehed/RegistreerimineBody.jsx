@@ -63,7 +63,9 @@ export default function RegistreerimineBody({
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const didInitPositionRef = useRef(false);
+  const initViewportModeRef = useRef(null);
+  const initialScrollTopRef = useRef(0);
+  const hasInitialScrollTopRef = useRef(false);
   const roleLabelId = useId();
   const roleHintId = useId();
   const roleLabelText = t("auth.register.role_label_question");
@@ -219,16 +221,12 @@ export default function RegistreerimineBody({
   }, [isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
-    if (!scrollEl || didInitPositionRef.current) return;
-    didInitPositionRef.current = true;
-    if (isMobileViewport) {
-      scrollEl.scrollTop = 0;
-      setIsScrolled(false);
-      setHasUserStartedScroll(false);
-      return;
-    }
-    const resetToTop = () => {
-      if (typeof window !== "undefined") {
+    if (!scrollEl || typeof window === "undefined") return;
+    const mode = isMobileViewport ? "mobile" : "desktop";
+    if (initViewportModeRef.current === mode) return;
+    initViewportModeRef.current = mode;
+    const resetToFirstStep = () => {
+      if (!isMobileViewport) {
         window.scrollTo({
           top: 0,
           left: 0,
@@ -239,17 +237,32 @@ export default function RegistreerimineBody({
       scrollToIndex(0, "auto");
       setIsScrolled(false);
       setHasUserStartedScroll(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
     };
-    resetToTop();
-    const rafA = requestAnimationFrame(resetToTop);
-    const rafB = requestAnimationFrame(() => requestAnimationFrame(resetToTop));
-    const settleTimer = window.setTimeout(resetToTop, 120);
+    resetToFirstStep();
+    const rafA = requestAnimationFrame(resetToFirstStep);
+    const rafB = requestAnimationFrame(() => requestAnimationFrame(resetToFirstStep));
+    const settleTimer = window.setTimeout(resetToFirstStep, 120);
     return () => {
       cancelAnimationFrame(rafA);
       cancelAnimationFrame(rafB);
       window.clearTimeout(settleTimer);
     };
   }, [scrollToIndex, isMobileViewport]);
+  useEffect(() => {
+    if (hasUserStartedScroll) return;
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const alignToFirst = () => {
+      scrollToIndex(0, "auto");
+      setIsScrolled(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
+    };
+    const raf = requestAnimationFrame(alignToFirst);
+    return () => cancelAnimationFrame(raf);
+  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -265,6 +278,18 @@ export default function RegistreerimineBody({
       if (active && active !== scrollEl && !scrollEl.contains(active)) return;
       markUserScrollStart();
     };
+    const onPointerDown = () => {
+      markUserScrollStart();
+    };
+    const onTouchStart = () => {
+      markUserScrollStart();
+    };
+    scrollEl.addEventListener("pointerdown", onPointerDown, {
+      passive: true
+    });
+    scrollEl.addEventListener("touchstart", onTouchStart, {
+      passive: true
+    });
     scrollEl.addEventListener("wheel", markUserScrollStart, {
       passive: true
     });
@@ -273,6 +298,8 @@ export default function RegistreerimineBody({
     });
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      scrollEl.removeEventListener("pointerdown", onPointerDown);
+      scrollEl.removeEventListener("touchstart", onTouchStart);
       scrollEl.removeEventListener("wheel", markUserScrollStart);
       scrollEl.removeEventListener("touchmove", markUserScrollStart);
       window.removeEventListener("keydown", onKeyDown);
@@ -283,8 +310,13 @@ export default function RegistreerimineBody({
     if (!scrollEl || typeof window === "undefined") return;
     const onScroll = () => {
       const top = scrollEl.scrollTop || 0;
+      if (!hasInitialScrollTopRef.current) {
+        hasInitialScrollTopRef.current = true;
+        initialScrollTopRef.current = top;
+      }
+      const delta = Math.abs(top - initialScrollTopRef.current);
       setIsScrolled(prev => {
-        const next = top > 8;
+        const next = delta > 8;
         return prev === next ? prev : next;
       });
     };

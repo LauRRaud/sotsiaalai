@@ -86,7 +86,9 @@ export default function AccessibilityModal({
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const didInitPositionRef = useRef(false);
+  const initViewportModeRef = useRef(null);
+  const initialScrollTopRef = useRef(0);
+  const hasInitialScrollTopRef = useRef(false);
   const skipNextFocusSnapRef = useRef(false);
   const padOffset = 36;
   const originalLocaleRef = useRef(locale);
@@ -231,30 +233,41 @@ export default function AccessibilityModal({
   }, []);
   useEffect(() => {
     const scrollEl = scrollRef.current;
-    if (!scrollEl || didInitPositionRef.current) return;
-    didInitPositionRef.current = true;
-    if (isMobileViewport) {
-      scrollEl.scrollTop = 0;
-      setIsScrolled(false);
-      setHasUserStartedScroll(false);
-      return;
-    }
-    const resetToTop = () => {
+    if (!scrollEl || typeof window === "undefined") return;
+    const mode = isMobileViewport ? "mobile" : "desktop";
+    if (initViewportModeRef.current === mode) return;
+    initViewportModeRef.current = mode;
+    const resetToFirstStep = () => {
       scrollEl.scrollTop = 0;
       scrollToIndex(0, "auto");
       setIsScrolled(false);
       setHasUserStartedScroll(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
     };
-    resetToTop();
-    const rafA = requestAnimationFrame(resetToTop);
-    const rafB = requestAnimationFrame(() => requestAnimationFrame(resetToTop));
-    const settleTimer = window.setTimeout(resetToTop, 120);
+    resetToFirstStep();
+    const rafA = requestAnimationFrame(resetToFirstStep);
+    const rafB = requestAnimationFrame(() => requestAnimationFrame(resetToFirstStep));
+    const settleTimer = window.setTimeout(resetToFirstStep, 120);
     return () => {
       cancelAnimationFrame(rafA);
       cancelAnimationFrame(rafB);
       window.clearTimeout(settleTimer);
     };
   }, [scrollToIndex, isMobileViewport]);
+  useEffect(() => {
+    if (hasUserStartedScroll) return;
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const alignToFirst = () => {
+      scrollToIndex(0, "auto");
+      setIsScrolled(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
+    };
+    const raf = requestAnimationFrame(alignToFirst);
+    return () => cancelAnimationFrame(raf);
+  }, [scrollPad, hasUserStartedScroll, scrollToIndex]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || isMobileViewport) return;
@@ -290,6 +303,18 @@ export default function AccessibilityModal({
       if (active && active !== scrollEl && !scrollEl.contains(active)) return;
       markUserScrollStart();
     };
+    const onPointerDown = () => {
+      markUserScrollStart();
+    };
+    const onTouchStart = () => {
+      markUserScrollStart();
+    };
+    scrollEl.addEventListener("pointerdown", onPointerDown, {
+      passive: true
+    });
+    scrollEl.addEventListener("touchstart", onTouchStart, {
+      passive: true
+    });
     scrollEl.addEventListener("wheel", markUserScrollStart, {
       passive: true
     });
@@ -298,6 +323,8 @@ export default function AccessibilityModal({
     });
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      scrollEl.removeEventListener("pointerdown", onPointerDown);
+      scrollEl.removeEventListener("touchstart", onTouchStart);
       scrollEl.removeEventListener("wheel", markUserScrollStart);
       scrollEl.removeEventListener("touchmove", markUserScrollStart);
       window.removeEventListener("keydown", onKeyDown);
@@ -308,8 +335,13 @@ export default function AccessibilityModal({
     if (!scrollEl) return;
     const onScroll = () => {
       const top = scrollEl.scrollTop || 0;
+      if (!hasInitialScrollTopRef.current) {
+        hasInitialScrollTopRef.current = true;
+        initialScrollTopRef.current = top;
+      }
+      const delta = Math.abs(top - initialScrollTopRef.current);
       setIsScrolled(prev => {
-        const next = top > 8;
+        const next = delta > 8;
         return prev === next ? prev : next;
       });
     };

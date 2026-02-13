@@ -898,7 +898,7 @@
 
   .register-scroll {
     width: 100% !important;
-    max-width: none !important;
+    max-width: min(100%, clamp(17.2rem, 84vw, 20.8rem)) !important;
     padding-left: clamp(0.5rem, 2.7vw, 0.98rem) !important;
     padding-right: clamp(0.5rem, 2.7vw, 0.98rem) !important;
   }
@@ -925,8 +925,8 @@
   }
 
   .register-scroll .register-input {
-    width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
-    max-width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
+    width: calc(100% - clamp(1.05rem, 4.8vw, 1.6rem)) !important;
+    max-width: calc(100% - clamp(1.05rem, 4.8vw, 1.6rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -937,8 +937,8 @@
 
   .register-option-card,
   .register-checkbox-card {
-    width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
-    max-width: calc(100% - clamp(0.28rem, 1.5vw, 0.46rem)) !important;
+    width: calc(100% - clamp(1.05rem, 4.8vw, 1.6rem)) !important;
+    max-width: calc(100% - clamp(1.05rem, 4.8vw, 1.6rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -995,16 +995,22 @@
 
   .register-scroll.csp-container,
   .a11y-csp-scroll.csp-container {
+    scroll-snap-type: none !important;
     overscroll-behavior-y: contain !important;
     overscroll-behavior-x: none !important;
     overflow-x: hidden !important;
     touch-action: pan-y !important;
+    scroll-padding-top: 0 !important;
+    scroll-padding-bottom: 0 !important;
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: auto !important;
+    --csp-transition-ms: 220ms;
   }
 
   .register-scroll.csp-container {
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
+    -webkit-overflow-scrolling: auto !important;
   }
 }
 
@@ -1019,7 +1025,7 @@
   }
 
   .register-scroll {
-    max-width: clamp(18.2rem, 36vw, 24rem) !important;
+    max-width: clamp(17.2rem, 33vw, 22rem) !important;
   }
 
   .register-scroll.csp-container {
@@ -1036,15 +1042,15 @@
   }
 
   .register-scroll .register-input {
-    width: calc(100% - clamp(1rem, 1.6vw, 1.45rem)) !important;
-    max-width: calc(100% - clamp(1rem, 1.6vw, 1.45rem)) !important;
+    width: calc(100% - clamp(1.35rem, 2vw, 1.9rem)) !important;
+    max-width: calc(100% - clamp(1.35rem, 2vw, 1.9rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
 
   .register-option-card {
-    width: calc(100% - clamp(1.15rem, 1.9vw, 1.6rem)) !important;
-    max-width: calc(100% - clamp(1.15rem, 1.9vw, 1.6rem)) !important;
+    width: calc(100% - clamp(1.45rem, 2.3vw, 2rem)) !important;
+    max-width: calc(100% - clamp(1.45rem, 2.3vw, 2rem)) !important;
     padding-left: clamp(0.92rem, 1.35vw, 1.1rem) !important;
     padding-right: clamp(0.92rem, 1.35vw, 1.1rem) !important;
     padding-top: clamp(0.72rem, 1.05vh, 0.88rem) !important;
@@ -1064,8 +1070,8 @@
   }
 
   .register-checkbox-card {
-    width: calc(100% - clamp(1.05rem, 1.75vw, 1.45rem)) !important;
-    max-width: calc(100% - clamp(1.05rem, 1.75vw, 1.45rem)) !important;
+    width: calc(100% - clamp(1.35rem, 2.1vw, 1.85rem)) !important;
+    max-width: calc(100% - clamp(1.35rem, 2.1vw, 1.85rem)) !important;
     padding-left: clamp(0.95rem, 1.35vw, 1.15rem) !important;
     padding-right: clamp(0.95rem, 1.35vw, 1.15rem) !important;
     padding-top: clamp(0.66rem, 1vh, 0.82rem) !important;
@@ -1096,19 +1102,19 @@
 
   section[lang="ru"] .register-scroll,
   section[lang="en"] .register-scroll {
-    max-width: clamp(20.8rem, 42vw, 28.4rem) !important;
+    max-width: clamp(19.4rem, 38vw, 25.4rem) !important;
   }
 
   section[lang="ru"] .register-option-card,
   section[lang="en"] .register-option-card {
-    width: calc(100% - clamp(0.9rem, 1.5vw, 1.25rem)) !important;
-    max-width: calc(100% - clamp(0.9rem, 1.5vw, 1.25rem)) !important;
+    width: calc(100% - clamp(1.2rem, 1.9vw, 1.65rem)) !important;
+    max-width: calc(100% - clamp(1.2rem, 1.9vw, 1.65rem)) !important;
   }
 
   section[lang="ru"] .register-checkbox-card,
   section[lang="en"] .register-checkbox-card {
-    width: calc(100% - clamp(0.84rem, 1.45vw, 1.18rem)) !important;
-    max-width: calc(100% - clamp(0.84rem, 1.45vw, 1.18rem)) !important;
+    width: calc(100% - clamp(1.12rem, 1.8vw, 1.55rem)) !important;
+    max-width: calc(100% - clamp(1.12rem, 1.8vw, 1.55rem)) !important;
   }
 
   section[lang="ru"] .register-guide-card,

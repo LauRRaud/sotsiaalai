@@ -5,6 +5,7 @@ import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 import OptionCard from "@/components/ui/OptionCard";
 import { cn } from "@/components/ui/cn";
+
 const docToggleCardClassName =
   "w-auto min-w-0 !min-h-[3.2rem] !px-[1rem] !py-[0.8rem] !text-[1.2rem] !leading-[1.2] " +
   "[--seg-card-radius:999px] [--seg-control-size:24px] [--seg-check-size:20px]";
@@ -124,19 +125,21 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "light:bg-[color:var(--glass-surface-bg,rgba(255,255,255,0.65))] light:text-[color:var(--glass-surface-text,#0f172a)] " +
     "light:backdrop-blur-[var(--glass-blur-radius,1rem)]";
   const headerClassName =
-    "flex flex-col items-center justify-center gap-[1.05rem] flex-wrap relative z-[60] " +
-    "pt-[0.4rem] mb-[0.6rem]";
+    "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
+    "pt-[0.15rem] mb-[0.6rem]";
+  const closeRowClassName = "w-full flex justify-end";
   const titleBlockClassName =
-    "flex-1 min-w-0 text-center pt-[0.25rem]";
+    "w-full min-w-0 text-center pt-[0.1rem] px-[0.2rem]";
   const fileNameClassName =
-    "text-[1.25rem] font-[600] tracking-[0.04em] text-[rgba(226,232,240,0.96)] " +
+    "text-[1.25rem] font-[600] leading-[1.28] tracking-[0.04em] [overflow-wrap:anywhere] break-words " +
+    "text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "absolute top-[0.6rem] right-[0.6rem] grid place-items-center z-[220] " +
-    "h-[2.1rem] w-[2.1rem] rounded-[0.75rem] border-0 bg-transparent " +
-    "text-[2.05rem] leading-none text-[#c57171] light:text-[#7a3a38] pointer-events-auto";
-  const closeCompactClassName =
-    "top-[0.6rem] right-[0.6rem]";
+    "grid place-items-center z-[220] rounded-[0.75rem] border-0 bg-transparent " +
+    "h-[2.35rem] w-[2.35rem] text-[2.25rem] leading-none text-[#c57171] light:text-[#7a3a38] " +
+    "pointer-events-auto max-[48em]:h-[2.65rem] max-[48em]:w-[2.65rem] max-[48em]:text-[2.5rem]";
+  const closeOverlayPositionClassName =
+    "absolute top-[0.6rem] right-[0.6rem]";
   const bodyClassName =
     "relative z-[120] flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
     "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
@@ -168,8 +171,9 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "py-[clamp(0.28rem,1vw,0.6rem)] " +
     "[--analysis-preview-pad-x:clamp(0.75rem,2.2vw,1.35rem)] " +
     "[--analysis-preview-pad-right:clamp(0.2rem,0.9vw,0.6rem)] " +
-    "overflow-auto text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
-    "text-[rgba(226,232,240,0.92)] whitespace-pre-wrap scrollbar-none " +
+    "overflow-y-auto overflow-x-hidden [overscroll-behavior-x:none] [touch-action:pan-y] " +
+    "text-[1.18rem] leading-[1.92] tracking-[0.02em] " +
+    "text-[rgba(226,232,240,0.92)] whitespace-pre-wrap [overflow-wrap:anywhere] break-words scrollbar-none " +
     "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
     "[mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] " +
     "[-webkit-mask-size:100%_100%] [mask-size:100%_100%] " +
@@ -204,6 +208,13 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "absolute left-1/2 -translate-x-1/2 bottom-[-0.25rem] h-[0.55rem] w-[0.55rem] " +
     "rotate-45 bg-[rgba(7,10,18,0.54)] " +
     "light:bg-[rgba(255,255,255,0.96)] light:border light:border-[rgba(148,163,184,0.45)] light:border-l-0 light:border-t-0";
+  const handleClose = () => {
+    setUploadPreview(null);
+    setUploadError(null);
+    setEphemeralChunks([]);
+    setDocOnlyMode(true);
+    closeAnalysisPanel();
+  };
   return (
     <section
       ref={analysisPanelRef}
@@ -223,22 +234,32 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
           analysisPanelMode === "overlay" ? cardOverlayClassName : null
         )}
       >
-        <button
-          type="button"
-          className={cn(closeClassName, !uploadPreview ? closeCompactClassName : null)}
-          style={overlayCloseStyle}
-          onClick={() => {
-            setUploadPreview(null);
-            setUploadError(null);
-            setEphemeralChunks([]);
-            setDocOnlyMode(true);
-            closeAnalysisPanel();
-          }}
-          aria-label={t("buttons.close")}
-        >
-          x
-        </button>
         <header className={headerClassName}>
+          {uploadPreview ? (
+            <div className={closeRowClassName}>
+              <button
+                type="button"
+                className={closeClassName}
+                onClick={handleClose}
+                aria-label={t("buttons.close")}
+              >
+                x
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className={cn(
+                closeClassName,
+                closeOverlayPositionClassName
+              )}
+              style={overlayCloseStyle}
+              onClick={handleClose}
+              aria-label={t("buttons.close")}
+            >
+              x
+            </button>
+          )}
           {uploadPreview ? (
             <div className={titleBlockClassName}>
               <div className={fileNameClassName}>
