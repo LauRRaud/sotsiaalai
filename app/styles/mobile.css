@@ -490,59 +490,6 @@
     max-height: none;
   }
 
-  html[data-display-mode="browser"]
-    .profile-container.glass-ring[data-orbit-open="true"],
-  body[data-display-mode="browser"]
-    .profile-container.glass-ring[data-orbit-open="true"],
-  html:not([data-display-mode="standalone"])
-    .profile-container.glass-ring[data-orbit-open="true"],
-  body:not([data-display-mode="standalone"])
-    .profile-container.glass-ring[data-orbit-open="true"] {
-    overflow: visible !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-  }
-
-  html[data-display-mode="browser"]
-    .profile-container.glass-ring[data-orbit-open="true"]
-    .profile-mask-layer,
-  body[data-display-mode="browser"]
-    .profile-container.glass-ring[data-orbit-open="true"]
-    .profile-mask-layer,
-  html:not([data-display-mode="standalone"])
-    .profile-container.glass-ring[data-orbit-open="true"]
-    .profile-mask-layer,
-  body:not([data-display-mode="standalone"])
-    .profile-container.glass-ring[data-orbit-open="true"]
-    .profile-mask-layer {
-    background: transparent !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    opacity: 0 !important;
-  }
-
-  html[data-display-mode="browser"] .profile-orbit-stack-fade,
-  body[data-display-mode="browser"] .profile-orbit-stack-fade,
-  html:not([data-display-mode="standalone"]) .profile-orbit-stack-fade,
-  body:not([data-display-mode="standalone"]) .profile-orbit-stack-fade {
-    display: none !important;
-  }
-
-  html[data-display-mode="browser"] .profile-orbit-stack-panel,
-  body[data-display-mode="browser"] .profile-orbit-stack-panel,
-  html:not([data-display-mode="standalone"]) .profile-orbit-stack-panel,
-  body:not([data-display-mode="standalone"]) .profile-orbit-stack-panel {
-    overflow: visible !important;
-    background: transparent !important;
-  }
-
-  html[data-display-mode="browser"] .profile-orbit-stack-list,
-  body[data-display-mode="browser"] .profile-orbit-stack-list,
-  html:not([data-display-mode="standalone"]) .profile-orbit-stack-list,
-  body:not([data-display-mode="standalone"]) .profile-orbit-stack-list {
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
-  }
 }
 
 @media (max-width: 48em) {
@@ -576,8 +523,13 @@
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
   }
 
-  html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    transform: translateY(clamp(1.15rem, 5.2vw, 1.8rem)) !important;
+  html[data-display-mode="browser"].profile-orbit-open
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  html:not([data-display-mode="standalone"]).profile-orbit-open
+    .profile-container.glass-ring
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    transform: none !important;
   }
 }
 
@@ -938,8 +890,8 @@
   .register-scroll {
     width: 100% !important;
     max-width: none !important;
-    padding-left: clamp(0.35rem, 2.8vw, 0.9rem) !important;
-    padding-right: clamp(0.35rem, 2.8vw, 0.9rem) !important;
+    padding-left: clamp(0.52rem, 3.4vw, 1.05rem) !important;
+    padding-right: clamp(0.52rem, 3.4vw, 1.05rem) !important;
     --csp-neighbor-opacity: 0;
     --csp-hidden-opacity: 0;
   }
@@ -958,10 +910,17 @@
   }
 
   .register-input {
-    min-height: 3.35rem;
-    font-size: clamp(1.04rem, 4.1vw, 1.18rem);
-    padding-left: clamp(0.95rem, 3.6vw, 1.2rem);
-    padding-right: clamp(0.95rem, 3.6vw, 1.2rem);
+    min-height: 3.5rem;
+    font-size: clamp(1.12rem, 4.5vw, 1.28rem);
+    padding-left: clamp(1rem, 3.8vw, 1.26rem);
+    padding-right: clamp(1rem, 3.8vw, 1.26rem);
+  }
+
+  .register-scroll .register-input {
+    width: calc(100% - clamp(0.45rem, 2.4vw, 0.82rem)) !important;
+    max-width: calc(100% - clamp(0.45rem, 2.4vw, 0.82rem)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .register-role-options {
@@ -970,38 +929,47 @@
 
   .register-option-card,
   .register-checkbox-card {
-    width: calc(100% - clamp(0.7rem, 3.6vw, 1.1rem)) !important;
-    max-width: calc(100% - clamp(0.7rem, 3.6vw, 1.1rem)) !important;
+    width: calc(100% - clamp(0.45rem, 2.4vw, 0.82rem)) !important;
+    max-width: calc(100% - clamp(0.45rem, 2.4vw, 0.82rem)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
 
   .register-option-card {
-    padding-left: clamp(0.85rem, 3.4vw, 1.1rem) !important;
-    padding-right: clamp(0.85rem, 3.4vw, 1.1rem) !important;
-    padding-top: 0.9rem !important;
-    padding-bottom: 0.9rem !important;
+    padding-left: clamp(0.98rem, 3.9vw, 1.24rem) !important;
+    padding-right: clamp(0.98rem, 3.9vw, 1.24rem) !important;
+    padding-top: 0.96rem !important;
+    padding-bottom: 0.96rem !important;
+    font-size: clamp(1.14rem, 4.45vw, 1.3rem) !important;
   }
 
   .register-checkbox-card {
-    padding-left: clamp(0.9rem, 3.6vw, 1.2rem) !important;
-    padding-right: clamp(0.9rem, 3.6vw, 1.2rem) !important;
-    font-size: clamp(1rem, 3.95vw, 1.14rem) !important;
-    line-height: 1.35 !important;
+    padding-left: clamp(0.98rem, 3.9vw, 1.26rem) !important;
+    padding-right: clamp(0.98rem, 3.9vw, 1.26rem) !important;
+    font-size: clamp(1.08rem, 4.15vw, 1.24rem) !important;
+    line-height: 1.36 !important;
   }
 
   .register-copy {
-    font-size: clamp(1.06rem, 4.1vw, 1.2rem);
-    line-height: 1.32;
+    font-size: clamp(1.18rem, 4.45vw, 1.36rem);
+    line-height: 1.34;
   }
 
   .register-submit {
     min-width: clamp(11rem, 58vw, 15rem);
+    min-height: 3.45rem !important;
     padding-left: clamp(1.4rem, 5.5vw, 2rem) !important;
     padding-right: clamp(1.4rem, 5.5vw, 2rem) !important;
-    padding-top: 0.9rem !important;
-    padding-bottom: 0.9rem !important;
-    font-size: clamp(1.12rem, 4.35vw, 1.28rem) !important;
+    padding-top: 0.98rem !important;
+    padding-bottom: 0.98rem !important;
+    font-size: clamp(1.28rem, 4.9vw, 1.46rem) !important;
+    line-height: 1.14 !important;
+  }
+
+  .register-login-link {
+    font-size: clamp(1.38rem, 5.7vw, 1.84rem) !important;
+    letter-spacing: 0.018em;
+    line-height: 1.2;
   }
 
   .register-scroll.csp-container,
@@ -1012,7 +980,7 @@
 
   .register-scroll .register-step,
   .a11y-csp-scroll .csp-step {
-    scroll-snap-stop: always !important;
+    scroll-snap-stop: normal !important;
   }
 }
 

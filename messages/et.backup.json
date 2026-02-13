@@ -32,7 +32,9 @@
     "refresh": "Värskenda",
     "delete": "Kustuta",
     "confirm": "Kinnita",
-    "submit": "Saada"
+    "submit": "Saada",
+    "expand": "Laienda",
+    "collapse": "Ahenda"
   },
   "symbols": {
     "question": "?",
@@ -55,16 +57,17 @@
     "login": "Logi sisse",
     "start": "Start",
     "aria_main": "Peamenüü",
-    "toggle_light": "Lülita hele reÅ¾iim",
-    "toggle_dark": "Lülita tume reÅ¾iim",
+    "toggle_light": "Lülita hele režiim",
+    "toggle_dark": "Lülita tume režiim",
     "chats": "Vestlused",
     "rooms": "Ruumid",
-    "add_person": "Lisa inimene"
+    "add_person": "Lisa inimene",
+    "sources": "Allikad"
   },
   "auth": {
     "email_placeholder": "Sinu@email.ee",
-    "password_placeholder": "PIN (4-8 numbrit)",
-    "pin_placeholder": "PIN (4-8 numbrit)",
+    "password_placeholder": "PIN",
+    "pin_placeholder": "PIN",
     "login": {
       "title": "Logi sisse",
       "or": "või",
@@ -103,15 +106,19 @@
       "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust.",
       "zero_key_aria": "0 / kustuta",
       "help_hold_zero_before": "Hoia",
-      "help_hold_zero_after": "all ~0,5 s, et kustutada PIN sisestus."
+      "help_hold_zero_after": "all ~0,5 s, et minna kustutusrežiimi",
+      "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
     },
     "register": {
-      "title": "Loo konto",
+      "title": "Registreeru",
+      "pin_placeholder": "PIN (4-8 numbrit)",
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
-      "agreement": "Nõustun <terms>kasutajatingimustega</terms> ja <privacy>privaatsuspoliitikaga</privacy>.",
+      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
+      "agreement": "Nõustun <terms>kasutaja&#8209;</terms> ja <privacy>privaatsustingimustega</privacy>.",
       "guide_ack": "Olen tutvunud <guide1>platvormi</guide1> <guide2>kasutusjuhendiga</guide2>.",
       "error": {
+        "role_required": "Vali roll.",
         "agree_required": "Pead nõustuma kasutajatingimustega ja privaatsuspoliitikaga.",
         "failed": "Registreerimine ebaõnnestus.",
         "auto_login": "Automaatne sisselogimine ebaõnnestus. Proovi eraldi sisse logida."
@@ -192,6 +199,7 @@
     "saving": "Salvestan…",
     "save": "Salvesta",
     "logout": "Logi välja",
+    "logout_short": "Välja",
     "back_to_chat": "Tagasi vestlusesse",
     "actions_label": "Profiili toimingud",
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
@@ -205,6 +213,8 @@
     "footer_brand": "SotsiaalAI ©",
     "preferences": {
       "title": "Keel ja ligipääsetavus",
+      "title_line1": "Keel ja",
+      "title_line2": "ligipääsetavus",
       "hint": "Seadista vaikimisi keel ning ligipääsetavuse eelistused. Muudatused rakenduvad kohe.",
       "sections": {
         "locale": "Vaikekeel",
@@ -226,7 +236,7 @@
       "new_placeholder": "Uus e-post",
       "submit": "Saada kinnituskiri",
       "submitting": "Saadan…",
-      "pin_placeholder": "Praegune PIN (4–8 numbrit)",
+      "pin_placeholder": "Praegune PIN",
       "success": "Kui sisestasid kehtiva PIN-koodi, saatsime sinu uuele e-posti aadressile kinnituskirja. Palun ava link uues postkastis.",
       "error_email_required": "Palun sisesta e-posti aadress.",
       "error_email_invalid": "Palun sisesta korrektne e-posti aadress.",
@@ -277,8 +287,8 @@
         "reduce": "Vähenda liikumist"
       },
       "theme": {
-        "dark": "Tume reÅ¾iim",
-        "light": "Hele reÅ¾iim"
+        "dark": "Tume režiim",
+        "light": "Hele režiim"
       }
     },
     "save": "Salvesta"
@@ -302,7 +312,7 @@
     },
     "section4": {
       "heading": "4. Vestluste privaatsus",
-      "body": "<p><strong>4.1 Vestluse sisu.</strong> Vestluse sisu (kasutaja küsimused, assistendi vastused ja muu sisestatud tekst) kasutatakse ainult teenuse osutamiseks - vastuste koostamiseks, vestluse vahendamiseks ja vestlusajaloo kuvamiseks. Vestluse sisu ei salvestata tähtajatult, ei kasutata turunduseks, profiilianalüüsiks ega kolmandate isikute mudelite koolitamiseks ning säilitatakse piiratud aja jooksul vastavalt punktile 7.</p><p><strong>4.2 Dokumendi analüüs.</strong> Dokumendi analüüsi funktsiooni kasutamisel ei salvestata üles laaditud faile püsivalt. Dokumenti kasutatakse ainult jooksvas vestlusaknas ja konkreetse vestluse kontekstis. Dokument kustub süsteemist, kui vestlusaken või leht suletakse, ning seda ei kasutata hiljem turunduseks, profiilianalüüsiks ega mudelite koolitamiseks.</p><p><strong>4.3 Dikteerimine (kõnetuvastus).</strong> Dikteerimise reÅ¾iim on sisse tellitud teenus (volitatud teenusepakkuja). Mikrofoni heli edastatakse turvalise ühenduse kaudu teenusepakkujale, kes töötleb seda üksnes teksti loomiseks vastavalt SotsiaalAI juhistele ja andmekaitsenõuetele. SotsiaalAI ei kogu ega salvesta kasutaja kõneandmeid püsivalt ning heli kasutatakse ainult ajutiselt teksti loomiseks ega kasutata turunduseks ega mudelite koolitamiseks.</p>"
+      "body": "<p><strong>4.1 Vestluse sisu.</strong> Vestluse sisu (kasutaja küsimused, assistendi vastused ja muu sisestatud tekst) kasutatakse ainult teenuse osutamiseks - vastuste koostamiseks, vestluse vahendamiseks ja vestlusajaloo kuvamiseks. Vestluse sisu ei salvestata tähtajatult, ei kasutata turunduseks, profiilianalüüsiks ega kolmandate isikute mudelite koolitamiseks ning säilitatakse piiratud aja jooksul vastavalt punktile 7.</p><p><strong>4.2 Dokumendi analüüs.</strong> Dokumendi analüüsi funktsiooni kasutamisel ei salvestata üles laaditud faile püsivalt. Dokumenti kasutatakse ainult jooksvas vestlusaknas ja konkreetse vestluse kontekstis. Dokument kustub süsteemist, kui vestlusaken või leht suletakse, ning seda ei kasutata hiljem turunduseks, profiilianalüüsiks ega mudelite koolitamiseks.</p><p><strong>4.3 Dikteerimine (kõnetuvastus).</strong> Dikteerimise režiim on sisse tellitud teenus (volitatud teenusepakkuja). Mikrofoni heli edastatakse turvalise ühenduse kaudu teenusepakkujale, kes töötleb seda üksnes teksti loomiseks vastavalt SotsiaalAI juhistele ja andmekaitsenõuetele. SotsiaalAI ei kogu ega salvesta kasutaja kõneandmeid püsivalt ning heli kasutatakse ainult ajutiselt teksti loomiseks ega kasutata turunduseks ega mudelite koolitamiseks.</p>"
     },
     "section5": {
       "heading": "5. Volitatud töötlejad",
@@ -419,6 +429,8 @@
       "open": "Ava vestlused",
       "label": "Vestlused"
     },
+    "right_rail": "Vestluse otseteed",
+    "show_quick_actions": "Näita otseteid",
     "sidebar": {
       "error": {
         "load": "Vestluste laadimine ebaõnnestus.",
@@ -435,6 +447,7 @@
       "button": {
         "creating": "Loon…",
         "new": "Uus vestlus",
+        "new_short": "Uus",
         "refresh": "Värskenda",
         "more": "Lae veel"
       },
@@ -449,10 +462,14 @@
       "room_fallback": "Vestlusruum",
       "selection": {
         "select": "Vali",
+        "select_short": "Vali",
         "cancel": "Tühista",
+        "cancel_short": "Tüh.",
         "count": "Valitud",
         "delete_selected": "Kustuta valitud",
+        "delete_selected_short": "Valitud",
         "delete_all": "Kustuta kõik",
+        "delete_all_short": "Kõik",
         "item": "Vali vestlus"
       }
     },
@@ -559,7 +576,7 @@
       "email_value": "info@sotsiaal.ai"
     },
     "cta": {
-      "title": "Enne lehe kasutamist tutvu kindlasti:"
+      "title": "Enne kasutamist"
     },
     "links": {
       "privacy": "Privaatsuspoliitika",
@@ -573,6 +590,7 @@
     },
     "guide": {
       "jump_link": "Platvormi kasutusjuhend",
+      "short_title": "Kasutusjuhend",
       "title": "Kuidas kasutada platvormi?",
       "intro": "Alljärgnev juhend annab samm-sammulise ülevaate, kuidas SotsiaalAI platvormil alustada: valida sobiv roll, luua konto, vormistada tellimus, sisse logida, kasutada vestlusassistenti ning seadistada keelt ja ligipääsetavust.",
       "sections_v2": {
@@ -598,7 +616,7 @@
         },
         "profile": {
           "title": "6. Profiil",
-          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li><li>Profiili lehe paremas ülanurgas asub reÅ¾iimivalik, kus kuvatakse vastavalt valitud teemale päikese (helereÅ¾iim) või kuu (tumereÅ¾iim) ikoon. Ikoonile klõpsates saab vahetada tumeda ja heleda kujunduse vahel.</li></ul>"
+          "body": "<p>Leht \"Profiil\" koondab sinu konto, tellimuse ja ligipääsetavuse seaded.</p><ul><li>Vaata oma rolli.</li><li>Kuva tellimus: pakett, kuutasu ja kehtivus.</li><li><strong>E-posti muutmine.</strong> Sisesta kehtiv PIN; uuele aadressile saadame kinnituskirja.</li><li><strong>PIN-i uuendamine.</strong> Sisesta kehtiv PIN ja uus PIN (4–8 numbrit).</li><li>Muuda keelt, teksti suurust, kontrasti ja animatsioonide hulka.</li><li>Profiili lehe paremas ülanurgas asub režiimivalik, kus kuvatakse vastavalt valitud teemale päikese (helerežiim) või kuu (tumerežiim) ikoon. Ikoonile klõpsates saab vahetada tumeda ja heleda kujunduse vahel.</li></ul>"
         },
         "about": {
           "title": "7. MEIST",
@@ -635,8 +653,12 @@
   "pwa": {
     "heading": "Soovid platvormi eraldi rakendusena?",
     "cta": "Paigalda mobiili või arvutisse",
+    "cta_mobile": "Paigalda mobiili",
+    "cta_desktop": "Paigalda arvutisse",
     "instructions": {
       "ios": "iPhone/iPad: Ava Safari, vali Jaga (ekraani ülaservas) → Lisa avalehele.",
+      "android": "Android: Ava brauseri menüü ja vali \"Add to Home screen\".",
+      "desktop": "Ava brauseri menüü ja vali paigaldamine.",
       "mac": "Mac: Ava Safari ja vali menüüst File → Add to Dock…"
     }
   },
@@ -729,12 +751,27 @@
   "rooms": {
     "aria": "Ruumid",
     "title": "Ruumid",
-    "error": "Ruumide laadimine eba?nnestus",
+    "error": "Ruumide laadimine ebaõnnestus",
     "loading": "Laadin ruume...",
     "empty": "Ruumid puuduvad. Grupivestluse jaoks lisa vestlusesse inimene.",
     "fallback_title": "Ruum",
     "back_to_chats": "Tagasi vestlustesse",
+    "unread": "Uusi",
+    "role_label": "Roll",
+    "members_label": "Liikmeid",
     "last_empty": "Veel sõnumeid pole",
+    "role": {
+      "owner": "Omanik",
+      "moderator": "Moderaator",
+      "member": "Liige",
+      "admin": "Admin"
+    },
+    "invite": "Kutsu",
+    "leave": "Lahku",
+    "leave_busy": "Lahkun...",
+    "delete": "Kustuta",
+    "delete_busy": "Kustutan...",
+    "delete_title": "Kustuta ruum",
     "delete_confirm": "Kustuta ruum \"{name}\"? See kustutab sõnumid ja kutsed.",
     "leave_failed": "Ruumist lahkumine ebaõnnestus.",
     "delete_failed": "Kustutamine ebaõnnestus.",
@@ -757,6 +794,7 @@
       "client": "Klient"
     },
     "pay": {
+      "label": "Maksmine",
       "self": "Tal on oma tellimus",
       "host": "Tasun tema eest"
     },
@@ -791,4 +829,3 @@
     }
   }
 }
-

@@ -90,11 +90,16 @@ export function useChatConversationState({
   const [messages, setMessages] = useState([]);
   const mountedRef = useRef(false);
   const messageIdRef = useRef(1);
+  const isGeneratingRef = useRef(isGenerating);
+  const lastLocalMutationAtRef = useRef(0);
   const messagesRef = useRef(messages);
   const convIdRef = useRef(convId);
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
+  useEffect(() => {
+    isGeneratingRef.current = isGenerating;
+  }, [isGenerating]);
   useEffect(() => {
     convIdRef.current = convId;
   }, [convId]);
@@ -133,6 +138,7 @@ export function useChatConversationState({
   const appendMessage = useCallback(msg => {
     const id = messageIdRef.current++;
     const createdAt = msg?.createdAt || Date.now();
+    lastLocalMutationAtRef.current = Date.now();
     setMessages(prev => [...prev, {
       ...msg,
       id,
@@ -154,6 +160,7 @@ export function useChatConversationState({
       if (!updated || updated === current) return prev;
       const next = [...prev];
       next[idx] = updated;
+      lastLocalMutationAtRef.current = Date.now();
       return next;
     });
   }, []);
@@ -232,19 +239,35 @@ export function useChatConversationState({
       const serverMessages = Array.isArray(data.messages) ? data.messages : [];
       setIsCrisis?.(serverCrisis);
       if (serverMessages.length) {
-        setMessages(() => {
+        setMessages(prev => {
           let nextId = 1;
           const mapped = serverMessages.map(msg => {
             const normalizedRole = msg.role === "user" ? "user" : msg.role === "ai" ? "ai" : null;
             if (!normalizedRole) return null;
+            const rawCreatedAt = msg?.createdAt ? new Date(msg.createdAt).getTime() : NaN;
             return {
               id: nextId++,
               role: normalizedRole,
               text: typeof msg.text === "string" ? msg.text : "",
               sources: normalizedRole === "ai" ? typeof normalizeSources === "function" ? normalizeSources(msg.sources ?? []) : undefined : undefined,
-              isStreaming: false
+              isStreaming: false,
+              ...(Number.isFinite(rawCreatedAt) ? {
+                createdAt: rawCreatedAt
+              } : {})
             };
           }).filter(Boolean);
+          const prevList = Array.isArray(prev) ? prev : [];
+          const mappedLen = mapped.length;
+          const prevLen = prevList.length;
+          const recentLocalMutationMs = Date.now() - lastLocalMutationAtRef.current;
+          const localRecentlyMutated = recentLocalMutationMs >= 0 && recentLocalMutationMs < 8000;
+          const hasLocalStreaming = prevList.some(m => !!m?.isStreaming);
+          const prevUserCount = prevList.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
+          const mappedUserCount = mapped.reduce((count, msg) => count + (msg?.role === "user" && String(msg?.text || "").trim() ? 1 : 0), 0);
+          const shouldPreserveLocal = (isGeneratingRef.current || hasLocalStreaming || localRecentlyMutated) && (mappedLen < prevLen || mappedUserCount < prevUserCount);
+          if (shouldPreserveLocal) {
+            return prevList;
+          }
           messageIdRef.current = nextId;
           return mapped;
         });

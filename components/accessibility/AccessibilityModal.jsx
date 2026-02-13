@@ -12,11 +12,11 @@ import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register !text-[clamp(1.58rem,3.35vw,2.12rem)] max-[48em]:!text-[clamp(2rem,7.9vw,2.75rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0 max-[48em]:!whitespace-normal`;
 const modalBackdropClassName =
-  "fixed inset-0 z-[49] bg-transparent backdrop-blur-[var(--glass-blur-radius,1rem)] min-[48.0625em]:backdrop-blur-0";
+  "fixed inset-0 z-[49] bg-transparent backdrop-blur-0";
 const modalRootClassName =
   "fixed left-1/2 top-1/2 z-[50] w-[min(680px,96vw)] max-h-[calc(100dvh-2.5rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.5rem] border-0 bg-[var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] shadow-[var(--glass-shell-shadow,none)] light:[--glass-shell-shadow:0_18px_40px_rgba(0,0,0,0.16)] backdrop-blur-[var(--glass-blur-radius,1rem)] p-[2.4rem_2rem_2rem] text-[1.05rem] leading-[1.35] flex flex-col items-center text-center gap-4 outline-none";
 const modalRootMobileClassName =
-  "max-[48em]:left-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-left,0px))] max-[48em]:right-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-right,0px))] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-auto max-[48em]:h-auto max-[48em]:max-w-none max-[48em]:max-h-none max-[48em]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2.4rem)_0_calc(env(safe-area-inset-bottom,0px)+1.4rem)] max-[48em]:text-[1.26rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.55rem)] max-[48em]:[--glass-surface-bg:rgba(8,12,22,0.72)] max-[48em]:light:[--glass-surface-bg:rgba(255,255,255,0.92)]";
+  "max-[48em]:left-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-left,0px))] max-[48em]:right-[max(var(--glass-mobile-gap,0.35rem),env(safe-area-inset-right,0px))] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--glass-mobile-gap,0.35rem))] max-[48em]:transform-none max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:w-auto max-[48em]:h-auto max-[48em]:max-w-none max-[48em]:max-h-none max-[48em]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] max-[48em]:p-[calc(env(safe-area-inset-top,0px)+2.4rem)_0_calc(env(safe-area-inset-bottom,0px)+1.4rem)] max-[48em]:text-[1.26rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.55rem)]";
 const modalRootDesktopClassName =
   "glass-ring--desktop-stable min-[48.0625em]:[--ring-ui-reserve:var(--ring-ui-reserve-page)] min-[48.0625em]:[--ring-fit-w:calc(100vw-(2*var(--ring-fit-pad,1.5rem)))] min-[48.0625em]:[--ring-fit-h:calc(100dvh-(2*var(--ring-fit-pad,1.5rem))-var(--ring-ui-reserve,9rem))] min-[48.0625em]:[--ring-fit:min(var(--ring-fit-w),var(--ring-fit-h))] min-[48.0625em]:[--ring-max:min(var(--ring-desktop-max,55rem),calc(var(--ring-base-max,50rem)*var(--ring-scale,1)))] min-[48.0625em]:[--ring-diameter-default:min(var(--ring-max),max(var(--ring-base-min,34rem),var(--ring-fit)))] min-[48.0625em]:w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-w-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:max-h-[var(--ring-diameter,var(--ring-diameter-default))] min-[48.0625em]:rounded-full min-[48.0625em]:overflow-hidden min-[48.0625em]:px-[1.35rem]";
 const scrollAreaClassName =
@@ -206,8 +206,8 @@ export default function AccessibilityModal({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: 180,
-    maxStepPerSettle: 1,
+    settleMs: 260,
+    maxStepPerSettle: Number.POSITIVE_INFINITY,
     manageHiddenFocus: true
   });
   useEffect(() => {

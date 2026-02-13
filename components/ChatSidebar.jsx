@@ -451,10 +451,14 @@ export default function ChatSidebar() {
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
     "disabled:cursor-not-allowed disabled:opacity-45";
   const compactActionBtnClassName =
-    "!text-[1rem] !tracking-[0.01em] !whitespace-nowrap max-[48em]:!text-[1.08rem] max-[48em]:!leading-[1.1] max-[48em]:!px-[0.76rem] max-[48em]:!min-h-[2.45rem] max-[26em]:!text-[0.98rem] max-[26em]:!px-[0.6rem]";
+    "!text-[1rem] !tracking-[0.01em] !whitespace-nowrap " +
+    "max-[48em]:!text-[1.22rem] max-[48em]:!leading-[1.1] max-[48em]:!px-[1.08rem] max-[48em]:!min-h-[3.05rem] " +
+    "max-[26em]:!text-[1.08rem] max-[26em]:!px-[0.88rem]";
+  const compactRefreshBtnClassName =
+    "px-[0.75rem] max-[48em]:!px-[1.08rem] max-[48em]:!min-h-[3.05rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[48em]:max-w-none mx-auto";
   return <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-[0.7rem] max-[48em]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
-      <div className={`${sidebarContentWidthClassName} flex flex-nowrap items-center justify-center gap-2 max-[48em]:gap-[0.45rem]`}>
+      <div className={`${sidebarContentWidthClassName} flex flex-nowrap items-center justify-center gap-2 max-[48em]:gap-[0.6rem]`}>
         <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
           {creating ? t("chat.sidebar.button.creating") : <>
               <span className="max-[26em]:hidden">{t("chat.sidebar.button.new")}</span>
@@ -470,8 +474,8 @@ export default function ChatSidebar() {
               <span className="hidden max-[26em]:inline">{t("chat.sidebar.selection.select_short")}</span>
             </>}
         </Button>
-        <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className="px-[0.75rem]">
-          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <Button variant="primary" size="sm" onClick={refreshAll} disabled={isLoading || creating} aria-label={t("chat.sidebar.button.refresh")} title={t("chat.sidebar.button.refresh")} className={compactRefreshBtnClassName}>
+          <svg className="h-5 w-5 max-[48em]:h-[1.55rem] max-[48em]:w-[1.55rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 0 1 15-6.2" />
             <polyline points="18 3 18 9 12 9" />
             <path d="M21 12a9 9 0 0 1-15 6.2" />
