@@ -164,8 +164,8 @@ export default function LoginModal({
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
   const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[0.62rem] max-md:mt-[0.42rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
-  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.6rem]", "max-md:-mt-[0.2rem]", emailRevealed ? "mb-[0.4rem]" : "mb-0"].join(" ");
-  const emailRowClass = ["flex", "justify-center", emailRevealed ? "mt-[0.65rem] mb-[0.55rem]" : "-mt-3 mb-0"].join(" ");
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.4rem]", "max-md:-mt-[0.08rem]", "mb-0"].join(" ");
+  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.72rem]", "mb-[0.26rem]"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
   const modalClasses = [
@@ -197,7 +197,7 @@ export default function LoginModal({
     "pb-[0.7em]",
     "max-md:pt-[0.02em]",
     "max-md:pb-[0.28em]",
-    "px-[var(--login-modal-side-pad)]"
+    "px-[var(--login-modal-inner-side-pad,var(--login-modal-side-pad))]"
   ].filter(Boolean).join(" ");
   const keypadKeysPhone = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "help", "zero", "submit"], []);
   const keypadKeysNumpad = useMemo(() => ["7", "8", "9", "4", "5", "6", "1", "2", "3", "help", "zero", "submit"], []);
@@ -823,6 +823,13 @@ export default function LoginModal({
       `}</style>
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
       "--login-modal-side-pad": isMobile ? "clamp(0.42rem, 1.7vw, 0.62rem)" : "1.15em",
+      "--login-modal-inner-side-pad": isOtpStep
+        ? isMobile
+          ? "clamp(0.42rem, 1.7vw, 0.62rem)"
+          : "1.15em"
+        : isMobile
+          ? "clamp(0.18rem, 1vw, 0.32rem)"
+          : "0.72em",
       "--pin-grid-w": isMobile ? "clamp(16.2rem, 74vw, 18.6rem)" : "clamp(14.7rem, 28vw, 16.3rem)",
       "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
@@ -831,17 +838,17 @@ export default function LoginModal({
           ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(94vw, 36rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))",
+            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
         minWidth: isMobile
           ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(92vw, 32rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))",
+            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
         maxWidth: isMobile
           ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(94vw, 36rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
+            : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {
@@ -850,7 +857,11 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pt-[clamp(1.08rem,3.1vw,1.38rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]">
+        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] max-md:!pt-[clamp(1.08rem,3.1vw,1.38rem)] ${
+        isOtpStep
+          ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]"
+          : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.56rem,1.5vw,0.82rem)]"
+      }`}>
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
@@ -878,7 +889,7 @@ export default function LoginModal({
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className="block w-full">
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !mt-[0.4rem] !mb-[0.9rem] !w-[clamp(13rem,17.2vw,15rem)] !max-w-[clamp(13rem,17.2vw,15rem)] text-[1.16rem] max-md:!w-[min(100%,var(--pin-grid-w))] max-md:!max-w-[var(--pin-grid-w)]" onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} placeholder="" autoComplete="username" inputMode="email" className="block mx-auto !my-0 !w-[clamp(13rem,17.2vw,15rem)] !max-w-[clamp(13rem,17.2vw,15rem)] text-[1.16rem] max-md:!w-[min(100%,var(--pin-grid-w))] max-md:!max-w-[var(--pin-grid-w)]" onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();
@@ -923,9 +934,9 @@ export default function LoginModal({
         }} />}
 
             {!(isMobile && useNativeKeyboard) && <div className="relative flex w-full justify-center mt-[0.05rem] mb-[-0.1rem] overflow-visible" style={{
-          "--pin-btn": isMobile ? "clamp(4.9rem, 18.6vw, 5.5rem)" : "4.35rem",
-          "--pin-gap-x": isMobile ? "clamp(0.92rem, 3.8vw, 1.2rem)" : "0.92rem",
-          "--pin-gap-y": isMobile ? "clamp(0.86rem, 2.4vh, 1.06rem)" : "0.78rem",
+          "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.7rem",
+          "--pin-gap-x": isMobile ? "clamp(0.72rem, 3vw, 0.95rem)" : "0.74rem",
+          "--pin-gap-y": isMobile ? "clamp(0.72rem, 2.1vh, 0.92rem)" : "0.66rem",
           "--pin-a": "0.006",
           "--pin-a-alt": "0.01",
           "--pin-border-w": "1.45px",
@@ -1137,7 +1148,7 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className="text-center mt-0 mb-0 max-md:mb-[clamp(0.35rem,1.6vw,0.62rem)]">
+            <div className="text-center mt-0 mb-[-0.06rem] max-md:mb-[clamp(0.04rem,0.45vw,0.14rem)]">
               <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)]`}>
                 {t("auth.login.register_link")}
               </AppLink>
