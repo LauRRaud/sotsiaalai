@@ -182,7 +182,6 @@ export default function LoginModal({
       : "",
     "fixed",
     "left-0 right-0 top-1/2 mx-auto -translate-y-1/2",
-    "max-md:top-[calc(50%+0.35rem)]",
     "z-[100]",
     "flex",
     "flex-col",
