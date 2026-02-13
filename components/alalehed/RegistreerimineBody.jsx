@@ -61,6 +61,7 @@ export default function RegistreerimineBody({
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const didInitPositionRef = useRef(false);
   const roleLabelId = useId();
   const roleHintId = useId();
@@ -83,20 +84,24 @@ export default function RegistreerimineBody({
     setSuccessMessage("");
     const email = form.email.trim().toLowerCase();
     const pin = form.pin.replace(/\D/g, "");
+    const jumpToStep = index => {
+      if (isMobileViewport) return;
+      scrollToIndex(index);
+    };
     if (!email) {
       setError(t("profile.email_update.error_email_required"));
-      scrollToIndex(0);
+      jumpToStep(0);
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError(t("profile.email_update.error_email_invalid"));
-      scrollToIndex(0);
+      jumpToStep(0);
       return;
     }
     if (!pin) {
       setError(t("profile.email_update.error_pin_required"));
-      scrollToIndex(1);
+      jumpToStep(1);
       return;
     }
     if (pin.length < PIN_MIN || pin.length > PIN_MAX) {
@@ -104,17 +109,17 @@ export default function RegistreerimineBody({
         min: PIN_MIN,
         max: PIN_MAX
       }));
-      scrollToIndex(1);
+      jumpToStep(1);
       return;
     }
     if (!form.role) {
       setError(t("auth.register.error.role_required"));
-      scrollToIndex(2);
+      jumpToStep(2);
       return;
     }
     if (!form.agree || !form.guideAck) {
       setError(t("auth.register.error.agree_required"));
-      scrollToIndex(!form.agree ? 3 : 4);
+      jumpToStep(!form.agree ? 3 : 4);
       return;
     }
     setSubmitting(true);
@@ -159,6 +164,7 @@ export default function RegistreerimineBody({
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".register-step",
+    disabled: isMobileViewport,
     neighborDistance: 1,
     lockWheelToSteps: true,
     settleOnScroll: true,
@@ -168,9 +174,29 @@ export default function RegistreerimineBody({
     settleMs: 320,
     maxStepPerSettle: 1
   });
+  const getRegisterStepClassName = index =>
+    isMobileViewport ? "" : getItemClassName(index);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = window.matchMedia("(max-width: 48em)");
+    const apply = () => setIsMobileViewport(query.matches);
+    apply();
+    if (typeof query.addEventListener === "function") {
+      query.addEventListener("change", apply);
+      return () => query.removeEventListener("change", apply);
+    }
+    query.addListener(apply);
+    return () => query.removeListener(apply);
+  }, []);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
+    if (isMobileViewport) {
+      setScrollPad(0);
+      setScrollPadTop(0);
+      setScrollPadBottom(0);
+      return;
+    }
     const updatePad = () => {
       const snapEl = scrollEl.querySelector(".register-step");
       if (!snapEl) return;
@@ -193,11 +219,16 @@ export default function RegistreerimineBody({
       ro?.disconnect?.();
       window.removeEventListener("resize", updatePad);
     };
-  }, []);
+  }, [isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || didInitPositionRef.current) return;
     didInitPositionRef.current = true;
+    if (isMobileViewport) {
+      scrollEl.scrollTop = 0;
+      setIsScrolled(false);
+      return;
+    }
     const resetToTop = () => {
       if (typeof window !== "undefined") {
         window.scrollTo({
@@ -219,7 +250,7 @@ export default function RegistreerimineBody({
       cancelAnimationFrame(rafB);
       window.clearTimeout(settleTimer);
     };
-  }, [scrollToIndex]);
+  }, [scrollToIndex, isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -271,18 +302,18 @@ export default function RegistreerimineBody({
           "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>
             <form className="register-form flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="off" noValidate>
-              <section className={`${registerStepClassName} ${getItemClassName(0)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(0)}`}>
                 <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
               </section>
 
-              <section className={`${registerStepClassName} ${getItemClassName(1)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(1)}`}>
                 <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.register.pin_placeholder", {
                 min: PIN_MIN,
                 max: PIN_MAX
               })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
               </section>
 
-              <section className={`${registerStepClassName} ${getItemClassName(2)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(2)}`}>
                 <div id={roleLabelId} className="mb-[0.9rem] text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]">
                   {roleLabelText}
                 </div>
@@ -299,7 +330,7 @@ export default function RegistreerimineBody({
                 </div>
               </section>
 
-              <section className={`${registerStepClassName} ${getItemClassName(3)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(3)}`}>
                 <OptionCard type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.agreement")} replacements={{
                     terms: {
@@ -314,7 +345,7 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`${registerStepClassName} ${getItemClassName(4)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(4)}`}>
                 <OptionCard type="checkbox" name="guideAck" checked={form.guideAck} onChange={handleChange} className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName}`}>
                     <RichText value={t("auth.register.guide_ack")} replacements={{
                     guide: {
@@ -333,7 +364,7 @@ export default function RegistreerimineBody({
                 </OptionCard>
               </section>
 
-              <section className={`${registerStepClassName} ${getItemClassName(5)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(5)}`}>
                 {error && <div role="alert" className="rounded-[0.85rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#fca5a5]">
                     {error}
                   </div>}
@@ -349,7 +380,7 @@ export default function RegistreerimineBody({
                 </div>
               </section>
 
-              <section className={`${registerStepClassName} ${getItemClassName(6)}`}>
+              <section className={`${registerStepClassName} ${getRegisterStepClassName(6)}`}>
                 <div className={`flex justify-center ${registerTextClassName}`}>
                   <AppLink href="#" onClick={e => {
                     e.preventDefault();

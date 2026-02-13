@@ -84,6 +84,7 @@ export default function AccessibilityModal({
   const [languageWraps, setLanguageWraps] = useState(false);
   const [contrastWraps, setContrastWraps] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const didInitPositionRef = useRef(false);
   const skipNextFocusSnapRef = useRef(false);
   const padOffset = 36;
@@ -165,6 +166,10 @@ export default function AccessibilityModal({
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
+    if (isMobileViewport) {
+      setScrollPad(0);
+      return;
+    }
     const getCssPx = (el, varName) => {
       const raw = window.getComputedStyle(el).getPropertyValue(varName).trim();
       if (!raw) return 0;
@@ -200,6 +205,7 @@ export default function AccessibilityModal({
   } = CenteredScrollPicker({
     containerRef: scrollRef,
     itemSelector: ".csp-step",
+    disabled: isMobileViewport,
     reduceMotion,
     neighborDistance: 1,
     lockWheelToSteps: true,
@@ -211,10 +217,29 @@ export default function AccessibilityModal({
     maxStepPerSettle: 1,
     manageHiddenFocus: true
   });
+  const getA11yStepClassName = index =>
+    isMobileViewport ? "" : getItemClassName(index);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = window.matchMedia("(max-width: 48em)");
+    const apply = () => setIsMobileViewport(query.matches);
+    apply();
+    if (typeof query.addEventListener === "function") {
+      query.addEventListener("change", apply);
+      return () => query.removeEventListener("change", apply);
+    }
+    query.addListener(apply);
+    return () => query.removeListener(apply);
+  }, []);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || didInitPositionRef.current) return;
     didInitPositionRef.current = true;
+    if (isMobileViewport) {
+      scrollEl.scrollTop = 0;
+      setIsScrolled(false);
+      return;
+    }
     const resetToTop = () => {
       scrollEl.scrollTop = 0;
       scrollToIndex(0, "auto");
@@ -229,10 +254,10 @@ export default function AccessibilityModal({
       cancelAnimationFrame(rafB);
       window.clearTimeout(settleTimer);
     };
-  }, [scrollToIndex]);
+  }, [scrollToIndex, isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
-    if (!scrollEl) return;
+    if (!scrollEl || isMobileViewport) return;
     const onFocusIn = event => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
@@ -249,7 +274,7 @@ export default function AccessibilityModal({
     };
     scrollEl.addEventListener("focusin", onFocusIn);
     return () => scrollEl.removeEventListener("focusin", onFocusIn);
-  }, [reduceMotion]);
+  }, [reduceMotion, isMobileViewport]);
   useEffect(() => {
     setIsScrolled(activeIndex > 0);
   }, [activeIndex]);
@@ -381,7 +406,7 @@ export default function AccessibilityModal({
         "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
         "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
-          <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getItemClassName(0)}`}>
+          <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>
             <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>
               {t("accessibility.language")}
             </legend>
@@ -420,7 +445,7 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${textScaleFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getItemClassName(1)}`}>
+          <fieldset className={`${fieldsetClassName} ${textScaleFieldsetClassName} ${languageWraps ? "" : textScaleAfterSingleLanguageClassName} ${getA11yStepClassName(1)}`}>
             <legend className={`${legendClassName} ${textScaleLegendClassName}`.trim()}>
               {t("accessibility.text_scale")}
             </legend>
@@ -440,7 +465,7 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${contrastFieldsetClassName} ${contrastWraps ? "max-[48em]:!pb-[3.1rem] max-[48em]:!min-h-[12.4rem]" : ""} ${getItemClassName(2)}`}>
+          <fieldset className={`${fieldsetClassName} ${contrastFieldsetClassName} ${contrastWraps ? "max-[48em]:!pb-[3.1rem] max-[48em]:!min-h-[12.4rem]" : ""} ${getA11yStepClassName(2)}`}>
             <legend className={`${legendClassName} ${contrastLegendClassName} ${contrastShiftClassName}`.trim()}>
               {t("accessibility.contrast")}
             </legend>
@@ -454,7 +479,7 @@ export default function AccessibilityModal({
             </div>
           </fieldset>
 
-          <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getItemClassName(3)}`}>
+          <fieldset className={`${fieldsetClassName} ${motionFieldsetClassName} ${getA11yStepClassName(3)}`}>
             <legend className={`${legendClassName} ${motionLegendClassName} ${motionShiftClassName}`.trim()}>{t("accessibility.motion")}</legend>
             <OptionCard
               type="checkbox"
@@ -466,7 +491,7 @@ export default function AccessibilityModal({
             </OptionCard>
           </fieldset>
 
-          <div className={`csp-step ${getItemClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[1.1rem] max-[48em]:translate-y-0`}>
+          <div className={`csp-step ${getA11yStepClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[1.1rem] max-[48em]:translate-y-0`}>
               <Button
               type="button"
               variant="primary"

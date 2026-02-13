@@ -993,11 +993,13 @@
 
   .register-scroll.csp-container,
   .a11y-csp-scroll.csp-container {
-    scroll-snap-type: y mandatory !important;
+    scroll-snap-type: none !important;
     overscroll-behavior-y: contain !important;
     overscroll-behavior-x: none !important;
     overflow-x: hidden !important;
     touch-action: pan-y !important;
+    scroll-padding-top: 0 !important;
+    scroll-padding-bottom: 0 !important;
   }
 
   .register-scroll.csp-container {
@@ -1008,7 +1010,22 @@
 
   .register-scroll .register-step,
   .a11y-csp-scroll .csp-step {
-    scroll-snap-stop: always !important;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
+
+  .register-scroll .csp-item,
+  .register-scroll .csp-active,
+  .register-scroll .csp-neighbor,
+  .register-scroll .csp-hidden,
+  .a11y-csp-scroll .csp-item,
+  .a11y-csp-scroll .csp-active,
+  .a11y-csp-scroll .csp-neighbor,
+  .a11y-csp-scroll .csp-hidden {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
   }
 }
 
