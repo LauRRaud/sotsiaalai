@@ -165,8 +165,8 @@ export default function RegistreerimineBody({
     containerRef: scrollRef,
     itemSelector: ".register-step",
     neighborDistance: isMobileViewport ? 2 : 1,
-    lockWheelToSteps: true,
-    settleOnScroll: true,
+    lockWheelToSteps: !isMobileViewport,
+    settleOnScroll: !isMobileViewport,
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
@@ -306,7 +306,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.18rem,0.9vw,0.3rem)] max-[48em]:[--ring-pad-x:clamp(0.26rem,1.4vw,0.52rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
