@@ -832,7 +832,7 @@ export default function LoginModal({
           : "0.64em",
       "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
       "--pin-gap-x": isMobile ? "clamp(0.72rem, 3vw, 0.95rem)" : "0.9rem",
-      "--pin-gap-y": isMobile ? "clamp(0.72rem, 2.1vh, 0.92rem)" : "0.82rem",
+      "--pin-gap-y": isMobile ? "clamp(0.96rem, 2.9vh, 1.24rem)" : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isMobile ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
@@ -867,7 +867,7 @@ export default function LoginModal({
           ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]"
           : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.56rem,1.5vw,0.82rem)]"
       }`}>
-          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.38rem] max-[48em]:!h-[2.38rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
+          <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.66rem] max-[48em]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
             <div className={modalTitleClassName}>
