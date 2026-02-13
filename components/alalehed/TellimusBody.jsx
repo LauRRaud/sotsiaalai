@@ -23,14 +23,16 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
 const ringClassName = cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable");
-const contentClassName = "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] flex-col gap-4 text-center";
-const subscriptionCopyClassName = "text-center text-[0.98rem] leading-[1.45] opacity-80 max-[48em]:text-[1.08rem]";
+const contentClassName =
+  "mt-[clamp(1.2rem,3.2vh,2rem)] flex w-full max-w-[clamp(17rem,42vw,27rem)] max-[48em]:max-w-none flex-col gap-4 text-center max-[48em]:text-left";
+const subscriptionCopyClassName =
+  "text-center max-[48em]:text-left text-[0.98rem] leading-[1.45] opacity-80 max-[48em]:text-[1.08rem]";
 const subscriptionInfoTextClassName =
-  "text-center text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
+  "text-center max-[48em]:text-left text-[clamp(1.06rem,1.45vw,1.18rem)] max-[48em]:text-[clamp(1.24rem,4.65vw,1.42rem)] " +
   "tracking-[0.013em] max-[48em]:tracking-[0.018em] leading-[1.68] opacity-80";
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
-  "max-[48em]:min-w-0 max-[48em]:!px-[1.7rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
+  "max-[48em]:w-full max-[48em]:min-w-0 max-[48em]:whitespace-normal max-[48em]:!px-[1rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
 export default function TellimusBody() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -112,7 +114,7 @@ export default function TellimusBody() {
               <p className={subscriptionCopyClassName} id="cancel-note">
                 <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
               </p>
-              <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
+              <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[48em]:w-full">
                 <Button as="a" href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note">
                   {t("subscription.button.open_profile")}
                 </Button>
@@ -121,10 +123,10 @@ export default function TellimusBody() {
               <div id="billing-info">
                 <RichText as="div" className={subscriptionInfoTextClassName} value={t("subscription.info")} replacements={emailReplacement} />
               </div>
-              {error && <p role="alert" aria-live="assertive" className="text-center text-[color:#fca5a5]">
+              {error && <p role="alert" aria-live="assertive" className="text-center max-[48em]:text-left text-[color:#fca5a5]">
                   {error}
                 </p>}
-              <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center">
+              <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[48em]:w-full">
                 <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>

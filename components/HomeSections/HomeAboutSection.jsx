@@ -99,7 +99,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
           >
             {t("about.title")}
           </h2>
-          <div className="text-center text-[clamp(1.1rem,1.6vw,1.28rem)] leading-[1.7] tracking-[0.03em] space-y-[0.95rem] [color:var(--home-prose-color)]">
+          <div className="text-center text-[clamp(1.1rem,1.6vw,1.28rem)] max-[48em]:text-[clamp(1.2rem,4.7vw,1.42rem)] leading-[1.7] max-[48em]:leading-[1.62] tracking-[0.03em] max-[48em]:tracking-[0.018em] space-y-[0.95rem] [color:var(--home-prose-color)]">
             <RichText as="div" className="[&>p]:m-0" value={t("about.intro.paragraph1")} />
             <RichText as="div" className="[&>p]:m-0" value={t("about.intro.paragraph2")} />
             <RichText

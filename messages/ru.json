@@ -105,7 +105,7 @@
       "toggle_keypad_desktop_aria": "Сменить раскладку клавиатуры.",
       "zero_key_aria": "0 / очистить",
       "help_hold_zero_before": "Удерживайте",
-      "help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода.",
+      "help_hold_zero_after": "примерно 0,5 с, чтобы очистить ввод PIN-кода",
       "help_wrong_pin_note": "Если PIN введён неверно, PIN-код очищается автоматически."
     },
     "register": {
@@ -496,6 +496,7 @@
       "button": {
         "creating": "Создаём…",
         "new": "Новая беседа",
+        "new_short": "Новая",
         "refresh": "Обновить",
         "more": "Показать ещё"
       },
@@ -510,10 +511,14 @@
       "room_fallback": "Комната",
       "selection": {
         "select": "Выбрать",
+        "select_short": "Выбр.",
         "cancel": "Отмена",
+        "cancel_short": "Отм.",
         "count": "Выбрано",
         "delete_selected": "Удалить выбранные",
+        "delete_selected_short": "Выбранные",
         "delete_all": "Удалить все",
+        "delete_all_short": "Все",
         "item": "Выбрать чат"
       }
     },

@@ -828,17 +828,17 @@ export default function LoginModal({
       "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
         width: isMobile
-          ? "min(92vw, 25.2rem)"
+          ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(94vw, 36rem)"
             : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))",
         minWidth: isMobile
-          ? "unset"
+          ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(92vw, 32rem)"
             : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))",
         maxWidth: isMobile
-          ? "min(92vw, 25.2rem)"
+          ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
           : isOtpStep
             ? "min(94vw, 36rem)"
             : "min(var(--login-modal-max-vw), calc(var(--pin-grid-w) + (2 * var(--login-modal-side-pad)) + var(--login-modal-max-extra)))"
@@ -850,7 +850,7 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pt-[clamp(0.82rem,2.2vw,1.05rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]">
+        <div className="login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] !pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pt-[clamp(1.08rem,3.1vw,1.38rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]">
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.1rem] !h-[2.1rem] !rounded-[0.7rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
@@ -1035,8 +1035,9 @@ export default function LoginModal({
                 }
                 appendDigit(digitToAppend);
               }} disabled={pinLoading} aria-label={digitLabel}>
-                        {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" className="block h-[1.06em] w-[1.06em]">
-                            <path d="M11.2 5.4L4.8 12l6.4 6.6M5.3 12h14" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+                        {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" className="block h-[1.1em] w-[1.1em]">
+                            <path d="M20 6.8H10.6a1.8 1.8 0 0 0-1.28.53L3.85 12.8a1.1 1.1 0 0 0 0 1.56l5.47 5.47a1.8 1.8 0 0 0 1.28.53H20a1.8 1.8 0 0 0 1.8-1.8V8.6A1.8 1.8 0 0 0 20 6.8Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="m12.85 10.45 4.25 4.25m0-4.25-4.25 4.25" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
                           </svg> : <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]" aria-hidden="true">
                             0
                           </span> : key}
@@ -1053,12 +1054,21 @@ export default function LoginModal({
                     </button>
 
                     <div className="flex flex-col pr-[1.28rem] max-w-[inherit]">
-                      <div className="text-[1.08rem] leading-[1.36] mt-[0.06rem] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
+                      <div className="text-[1.12rem] max-md:text-[1.2rem] leading-[1.36] mt-[0.06rem] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
                         {t("auth.login.help_hold_zero_before")}{" "}
                         <strong>{0}</strong>{" "}
-                        {t("auth.login.help_hold_zero_after")}
+                        {t("auth.login.help_hold_zero_after")}{" "}
+                        <span className="inline-flex items-center align-[-0.08em]" aria-hidden="true">
+                          (
+                          <svg viewBox="0 0 24 24" fill="none" focusable="false" className="mx-[0.07em] h-[1.03em] w-[1.03em]">
+                            <path d="M20 6.8H10.6a1.8 1.8 0 0 0-1.28.53L3.85 12.8a1.1 1.1 0 0 0 0 1.56l5.47 5.47a1.8 1.8 0 0 0 1.28.53H20a1.8 1.8 0 0 0 1.8-1.8V8.6A1.8 1.8 0 0 0 20 6.8Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="m12.85 10.45 4.25 4.25m0-4.25-4.25 4.25" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          )
+                        </span>
+                        .
                       </div>
-                      <div className="mt-[0.36rem] text-[1.03rem] leading-[1.34] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
+                      <div className="mt-[0.36rem] text-[1.07rem] max-md:text-[1.14rem] leading-[1.34] opacity-90 light:text-[#1f2937] light:opacity-100 hyphens-none">
                         {t("auth.login.help_wrong_pin_note")}
                       </div>
 
@@ -1127,7 +1137,7 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className="text-center mt-0 mb-0">
+            <div className="text-center mt-0 mb-0 max-md:mb-[clamp(0.35rem,1.6vw,0.62rem)]">
               <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)]`}>
                 {t("auth.login.register_link")}
               </AppLink>

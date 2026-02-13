@@ -199,8 +199,14 @@
   html[data-display-mode="standalone"] .home-scroll-cue,
   body[data-display-mode="standalone"] .home-scroll-cue {
     bottom: calc(
-      env(safe-area-inset-bottom, 0px) + clamp(2.15rem, 6.4vh, 3.45rem)
+      env(safe-area-inset-bottom, 0px) + clamp(4.1rem, 10.2vh, 5.35rem)
     ) !important;
+  }
+
+  html[data-display-mode="standalone"] #meist.home-section,
+  body[data-display-mode="standalone"] #meist.home-section {
+    margin-top: clamp(-1.85rem, -4.6vh, -1rem) !important;
+    padding-top: clamp(0.35rem, 1.15vh, 0.75rem) !important;
   }
 }
 
@@ -483,6 +489,60 @@
     .profile-orbit-stack-label {
     max-height: none;
   }
+
+  html[data-display-mode="browser"]
+    .profile-container.glass-ring[data-orbit-open="true"],
+  body[data-display-mode="browser"]
+    .profile-container.glass-ring[data-orbit-open="true"],
+  html:not([data-display-mode="standalone"])
+    .profile-container.glass-ring[data-orbit-open="true"],
+  body:not([data-display-mode="standalone"])
+    .profile-container.glass-ring[data-orbit-open="true"] {
+    overflow: visible !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html[data-display-mode="browser"]
+    .profile-container.glass-ring[data-orbit-open="true"]
+    .profile-mask-layer,
+  body[data-display-mode="browser"]
+    .profile-container.glass-ring[data-orbit-open="true"]
+    .profile-mask-layer,
+  html:not([data-display-mode="standalone"])
+    .profile-container.glass-ring[data-orbit-open="true"]
+    .profile-mask-layer,
+  body:not([data-display-mode="standalone"])
+    .profile-container.glass-ring[data-orbit-open="true"]
+    .profile-mask-layer {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    opacity: 0 !important;
+  }
+
+  html[data-display-mode="browser"] .profile-orbit-stack-fade,
+  body[data-display-mode="browser"] .profile-orbit-stack-fade,
+  html:not([data-display-mode="standalone"]) .profile-orbit-stack-fade,
+  body:not([data-display-mode="standalone"]) .profile-orbit-stack-fade {
+    display: none !important;
+  }
+
+  html[data-display-mode="browser"] .profile-orbit-stack-panel,
+  body[data-display-mode="browser"] .profile-orbit-stack-panel,
+  html:not([data-display-mode="standalone"]) .profile-orbit-stack-panel,
+  body:not([data-display-mode="standalone"]) .profile-orbit-stack-panel {
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  html[data-display-mode="browser"] .profile-orbit-stack-list,
+  body[data-display-mode="browser"] .profile-orbit-stack-list,
+  html:not([data-display-mode="standalone"]) .profile-orbit-stack-list,
+  body:not([data-display-mode="standalone"]) .profile-orbit-stack-list {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
 }
 
 @media (max-width: 48em) {
@@ -508,7 +568,7 @@
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(0.75rem, 3.4vw, 1.15rem) !important;
-    transform: translateY(clamp(0.55rem, 2.6vw, 0.92rem)) !important;
+    transform: translateY(clamp(1.15rem, 5.2vw, 1.8rem)) !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
@@ -517,7 +577,7 @@
   }
 
   html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    transform: translateY(clamp(0.55rem, 2.6vw, 0.92rem)) !important;
+    transform: translateY(clamp(1.15rem, 5.2vw, 1.8rem)) !important;
   }
 }
 
@@ -529,7 +589,7 @@
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(5.9rem, 27vw, 7.4rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
   }
 }
@@ -538,7 +598,7 @@
   (max-width: 48em) and (display-mode: fullscreen) {
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(5.9rem, 27vw, 7.4rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.35rem, 20vw, 5.95rem)) !important;
     transform: translateX(-50%) !important;
   }
 }
@@ -587,10 +647,20 @@
     pointer-events: none !important;
   }
 
-  html[data-display-mode="standalone"] #login-modal,
-  body[data-display-mode="standalone"] #login-modal {
-    width: min(96vw, 27rem) !important;
-    max-width: min(96vw, 27rem) !important;
+  #login-modal {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
+    ) !important;
+    min-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
+    ) !important;
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
+    ) !important;
+  }
+
+  .login-modal-box .login-modal-close.modal-close-btn {
+    top: -0.12rem !important;
   }
 
   .invite-modal-overlay {

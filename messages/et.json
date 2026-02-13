@@ -106,7 +106,7 @@
       "toggle_keypad_desktop_aria": "Vaheta klahvistiku paigutust.",
       "zero_key_aria": "0 / kustuta",
       "help_hold_zero_before": "Hoia",
-      "help_hold_zero_after": "all ~0,5 s, et minna kustutusrežiimi (⌫).",
+      "help_hold_zero_after": "all ~0,5 s, et minna kustutusrežiimi",
       "help_wrong_pin_note": "Vale PIN-i korral kustub PIN-kood automaatselt."
     },
     "register": {
@@ -447,6 +447,7 @@
       "button": {
         "creating": "Loon…",
         "new": "Uus vestlus",
+        "new_short": "Uus",
         "refresh": "Värskenda",
         "more": "Lae veel"
       },
@@ -461,10 +462,14 @@
       "room_fallback": "Vestlusruum",
       "selection": {
         "select": "Vali",
+        "select_short": "Vali",
         "cancel": "Tühista",
+        "cancel_short": "Tüh.",
         "count": "Valitud",
         "delete_selected": "Kustuta valitud",
+        "delete_selected_short": "Valitud",
         "delete_all": "Kustuta kõik",
+        "delete_all_short": "Kõik",
         "item": "Vali vestlus"
       }
     },

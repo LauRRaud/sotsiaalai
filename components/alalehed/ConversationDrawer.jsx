@@ -237,22 +237,19 @@ export default function ConversationDrawer({
     open ? "open" : null
   );
   const headerClassName =
-    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.6rem] pb-[0.35rem] border-b-0";
+    "drawer-header relative flex items-center justify-center px-[1.2rem] pt-[0.66rem] pb-[0.42rem] border-b-0";
   const closeButtonClassName =
     "drawer-close drawer-close-btn--chat absolute top-[0.08rem] right-[0.18rem] z-[6] " +
     "!p-0 !w-[2.7rem] !h-[2.7rem] !rounded-full !border-0 !bg-transparent !shadow-none " +
     "text-[#c57171] light:text-[#7a3a38] [&>span]:text-[2rem] " +
     "max-[48em]:!w-[3.2rem] max-[48em]:!h-[3.2rem] max-[48em]:[&>span]:text-[2.35rem]";
   const contentClassName =
-    "drawer-content px-[1rem] pt-[0.5rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
+    "drawer-content px-[1rem] pt-[0.65rem] pb-[1rem] h-[calc(100%-3.2rem)] overflow-hidden";
   return createPortal(<>
       {open && <div ref={overlayRef} className={overlayClassName} onClick={close} aria-hidden="true" />}
       <aside ref={panelRef} role="dialog" aria-labelledby={headerIdRef.current} aria-modal={open ? "true" : undefined} aria-hidden={open ? undefined : "true"} inert={open ? undefined : true} tabIndex={open ? undefined : -1} className={panelClassName}>
         <header className={headerClassName}>
-          <h1
-            id={headerIdRef.current}
-            className="drawer-title w-full text-center text-[clamp(1.45rem,1.2rem+1.1vw,2rem)] leading-[1.14] tracking-[0.02em] mt-[clamp(0.18rem,0.6vh,0.35rem)] mb-[clamp(0.3rem,1vh,0.65rem)] text-[#c57171] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]"
-          >
+          <h1 id={headerIdRef.current} className="drawer-title w-full text-center text-[clamp(1.62rem,1.28rem+1.2vw,2.08rem)] max-[48em]:text-[clamp(2rem,8.1vw,2.45rem)] leading-[1.1] tracking-[0.018em] mt-[clamp(0.2rem,0.62vh,0.36rem)] mb-[clamp(0.34rem,1vh,0.7rem)] text-[#d18484] light:text-[#7A3A38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[500] opacity-100 [text-shadow:0_0.2rem_0.65rem_rgba(0,0,0,0.28)] light:[text-shadow:0_0.1rem_0.35rem_rgba(255,255,255,0.22)]">
             {t("chat.menu.label")}
           </h1>
           <IconButton ref={closeBtnRef} onClick={close} className={closeButtonClassName} label={t("buttons.close")} />
