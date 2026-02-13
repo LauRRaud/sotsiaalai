@@ -84,6 +84,7 @@ export default function AccessibilityModal({
   const [languageWraps, setLanguageWraps] = useState(false);
   const [contrastWraps, setContrastWraps] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const didInitPositionRef = useRef(false);
   const skipNextFocusSnapRef = useRef(false);
@@ -207,8 +208,9 @@ export default function AccessibilityModal({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: isMobileViewport ? 190 : 320,
-    maxStepPerSettle: isMobileViewport ? 5 : 1,
+    settleMs: isMobileViewport ? 260 : 360,
+    maxStepPerSettle: 1,
+    wheelCooldownMs: isMobileViewport ? 300 : 280,
     manageHiddenFocus: !isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport
@@ -234,12 +236,14 @@ export default function AccessibilityModal({
     if (isMobileViewport) {
       scrollEl.scrollTop = 0;
       setIsScrolled(false);
+      setHasUserStartedScroll(false);
       return;
     }
     const resetToTop = () => {
       scrollEl.scrollTop = 0;
       scrollToIndex(0, "auto");
       setIsScrolled(false);
+      setHasUserStartedScroll(false);
     };
     resetToTop();
     const rafA = requestAnimationFrame(resetToTop);
@@ -271,6 +275,34 @@ export default function AccessibilityModal({
     scrollEl.addEventListener("focusin", onFocusIn);
     return () => scrollEl.removeEventListener("focusin", onFocusIn);
   }, [reduceMotion, isMobileViewport]);
+  useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const markUserScrollStart = () => {
+      setHasUserStartedScroll(prev => prev || true);
+    };
+    const onKeyDown = e => {
+      const key = e?.key;
+      if (key !== "ArrowDown" && key !== "ArrowUp" && key !== "PageDown" && key !== "PageUp" && key !== "Home" && key !== "End" && key !== " ") {
+        return;
+      }
+      const active = document.activeElement;
+      if (active && active !== scrollEl && !scrollEl.contains(active)) return;
+      markUserScrollStart();
+    };
+    scrollEl.addEventListener("wheel", markUserScrollStart, {
+      passive: true
+    });
+    scrollEl.addEventListener("touchmove", markUserScrollStart, {
+      passive: true
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      scrollEl.removeEventListener("wheel", markUserScrollStart);
+      scrollEl.removeEventListener("touchmove", markUserScrollStart);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
@@ -389,7 +421,7 @@ export default function AccessibilityModal({
   return <>
       <div className={modalBackdropClassName} onClick={onClose} role="presentation" aria-hidden="true" />
 
-      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)]`.trim()} data-scrolled={isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
+      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)]`.trim()} data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
         <div className="csp-overlayTitle [--csp-title-top:calc(var(--csp-chevron-top,0.24rem)+var(--csp-arrow-size,2.4rem)-0.45rem)] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.55rem,8.4vw,3.2rem))]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>

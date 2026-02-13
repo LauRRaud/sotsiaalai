@@ -61,6 +61,7 @@ export default function RegistreerimineBody({
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const didInitPositionRef = useRef(false);
   const roleLabelId = useId();
@@ -169,8 +170,9 @@ export default function RegistreerimineBody({
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
-    settleMs: isMobileViewport ? 190 : 320,
-    maxStepPerSettle: isMobileViewport ? 5 : 1,
+    settleMs: isMobileViewport ? 260 : 360,
+    maxStepPerSettle: 1,
+    wheelCooldownMs: isMobileViewport ? 300 : 280,
     manageHiddenFocus: !isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport
@@ -222,6 +224,7 @@ export default function RegistreerimineBody({
     if (isMobileViewport) {
       scrollEl.scrollTop = 0;
       setIsScrolled(false);
+      setHasUserStartedScroll(false);
       return;
     }
     const resetToTop = () => {
@@ -235,6 +238,7 @@ export default function RegistreerimineBody({
       scrollEl.scrollTop = 0;
       scrollToIndex(0, "auto");
       setIsScrolled(false);
+      setHasUserStartedScroll(false);
     };
     resetToTop();
     const rafA = requestAnimationFrame(resetToTop);
@@ -246,6 +250,34 @@ export default function RegistreerimineBody({
       window.clearTimeout(settleTimer);
     };
   }, [scrollToIndex, isMobileViewport]);
+  useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const markUserScrollStart = () => {
+      setHasUserStartedScroll(prev => prev || true);
+    };
+    const onKeyDown = e => {
+      const key = e?.key;
+      if (key !== "ArrowDown" && key !== "ArrowUp" && key !== "PageDown" && key !== "PageUp" && key !== "Home" && key !== "End" && key !== " ") {
+        return;
+      }
+      const active = document.activeElement;
+      if (active && active !== scrollEl && !scrollEl.contains(active)) return;
+      markUserScrollStart();
+    };
+    scrollEl.addEventListener("wheel", markUserScrollStart, {
+      passive: true
+    });
+    scrollEl.addEventListener("touchmove", markUserScrollStart, {
+      passive: true
+    });
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      scrollEl.removeEventListener("wheel", markUserScrollStart);
+      scrollEl.removeEventListener("touchmove", markUserScrollStart);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -274,7 +306,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--glass-mobile-gap:clamp(0.18rem,0.9vw,0.3rem)] max-[48em]:[--glass-ring-pad-x:clamp(0.26rem,1.4vw,0.52rem)]" data-scrolled={isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.18rem,0.9vw,0.3rem)] max-[48em]:[--ring-pad-x:clamp(0.26rem,1.4vw,0.52rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>

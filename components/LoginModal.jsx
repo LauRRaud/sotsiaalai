@@ -831,7 +831,7 @@ export default function LoginModal({
           ? "clamp(0.18rem, 1vw, 0.32rem)"
           : "0.64em",
       "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
-      "--pin-gap-x": isMobile ? "clamp(1.12rem, 4.4vw, 1.4rem)" : "0.9rem",
+      "--pin-gap-x": isMobile ? "clamp(1.26rem, 4.9vw, 1.56rem)" : "0.9rem",
       "--pin-gap-y": isMobile ? "clamp(0.68rem, 2.1vh, 0.9rem)" : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
       "--login-email-w": isMobile ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
@@ -862,10 +862,10 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] max-md:!pt-[clamp(1.08rem,3.1vw,1.38rem)] ${
+        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] max-md:!pt-[clamp(1.24rem,3.8vw,1.62rem)] ${
         isOtpStep
-          ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.05rem,2.8vw,1.45rem)]"
-          : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.56rem,1.5vw,0.82rem)]"
+          ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.18rem,3.2vw,1.62rem)]"
+          : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.78rem,2.2vw,1.08rem)]"
       }`}>
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.66rem] max-[48em]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
