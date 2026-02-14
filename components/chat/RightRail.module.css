@@ -312,7 +312,7 @@
 
 @media (max-width: 48em) {
   .avatar {
-    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.02));
+    --avatar-icon-size: calc(var(--rail-item-size) * (var(--rail-icon-scale) + 0.1));
   }
 
   .iconBtnActive {
@@ -381,20 +381,20 @@
   }
 
   .iconSvgSources {
-    width: calc(100% * (var(--rail-icon-scale) - 0.09)) !important;
-    height: calc(100% * (var(--rail-icon-scale) - 0.09)) !important;
+    width: calc(100% * (var(--rail-icon-scale) - 0.03)) !important;
+    height: calc(100% * (var(--rail-icon-scale) - 0.03)) !important;
   }
   .iconChats {
-    width: calc(100% * var(--rail-icon-scale)) !important;
-    height: calc(100% * var(--rail-icon-scale)) !important;
+    width: calc(100% * (var(--rail-icon-scale) + 0.01)) !important;
+    height: calc(100% * (var(--rail-icon-scale) + 0.01)) !important;
   }
   .iconInvite {
-    width: calc(100% * var(--rail-icon-scale)) !important;
-    height: calc(100% * var(--rail-icon-scale)) !important;
+    width: calc(100% * (var(--rail-icon-scale) + 0.08)) !important;
+    height: calc(100% * (var(--rail-icon-scale) + 0.08)) !important;
   }
   .iconRooms {
-    width: calc(100% * var(--rail-icon-scale)) !important;
-    height: calc(100% * var(--rail-icon-scale)) !important;
+    width: calc(100% * (var(--rail-icon-scale) + 0.1)) !important;
+    height: calc(100% * (var(--rail-icon-scale) + 0.1)) !important;
     transform: none !important;
   }
 

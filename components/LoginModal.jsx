@@ -164,7 +164,7 @@ export default function LoginModal({
   const messageText = error ? error : info && !isOtpStep ? info : "";
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
-  const pinMessageClass = [noteBaseClassName, "w-full max-w-[var(--pin-grid-w)] min-h-[1.24em] leading-[1.24]", "mt-[0.14rem] max-md:mt-[0.12rem]", "mb-[0.0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
+  const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-[0.38em] leading-[1.24]", "mt-[0.02rem] max-md:mt-[0rem]", "mb-[0.0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.02em]", "mt-[-0.04rem]", "max-md:mt-[0.08rem]", "mb-0"].join(" ");
   const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.52rem]", "max-md:mt-[-0.3rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
@@ -194,7 +194,7 @@ export default function LoginModal({
       ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
       : "",
     "fixed",
-    isPhoneViewport ? "inset-0 top-0 left-0 right-0 mx-0 my-0 translate-y-0" : "left-0 right-0 top-1/2 mx-auto -translate-y-1/2",
+    isPhoneViewport ? "inset-0 top-0 left-0 right-0 mx-0 my-0 translate-y-0" : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
     "z-[100]",
     "flex",
     "flex-col",
@@ -802,16 +802,11 @@ export default function LoginModal({
   }, [isMobile]);
   const toggleKeypad = () => {
     if (isMobile) {
-      if (!useNativeKeyboard) {
-        flushSync(() => setUseNativeKeyboard(true));
+      const nextUseNativeKeyboard = !useNativeKeyboard;
+      flushSync(() => setUseNativeKeyboard(nextUseNativeKeyboard));
+      if (nextUseNativeKeyboard) {
         focusMobilePinInput();
       } else {
-        const isNativeFocused = typeof document !== "undefined" && document.activeElement === mobilePinInputRef.current;
-        if (!isNativeFocused) {
-          focusMobilePinInput();
-          return;
-        }
-        setUseNativeKeyboard(false);
         try {
           mobilePinInputRef.current?.blur?.();
         } catch {}
@@ -869,7 +864,7 @@ export default function LoginModal({
       "--login-email-w": isPhoneViewport ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
-      "--login-pin-modal-w": "min(var(--login-modal-max-vw, 90vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + var(--login-modal-max-extra, 4rem)))",
+      "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
       "--login-envelope-size": isPhoneViewport ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
       "--login-envelope-hit": isPhoneViewport ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
@@ -900,7 +895,7 @@ export default function LoginModal({
         <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
         isOtpStep
           ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.18rem,3.2vw,1.62rem)]"
-          : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.82rem,2.6vw,1.2rem)]"
+          : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
       }`}>
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[48em]:!w-[2.66rem] max-[48em]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
@@ -1132,7 +1127,7 @@ export default function LoginModal({
               {showPinMessage ? messageText : null}
             </div>
 
-            <div className="text-center mt-[0.14rem] mb-[0.08rem]">
+            <div className="text-center mt-[-0.2rem] mb-[0.08rem]">
               <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
                 {t("auth.login.toggle_keypad")}
               </button>

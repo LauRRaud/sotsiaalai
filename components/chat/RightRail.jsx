@@ -572,7 +572,7 @@ export default function RightRail({
         const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const displayLabel = it?.label || "";
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName, it?.key === "profile" ? "max-[48em]:ml-[-0.22rem]" : null)} onClick={onActivate} onMouseEnter={!isMobile ? () => {
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!isMobile ? () => {
         if (itemIndex !== activeIndex) return;
         showTooltipTemporarily(activeIndex, 1800);
       } : undefined} onFocus={!isMobile ? () => {
