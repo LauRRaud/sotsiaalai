@@ -7,24 +7,25 @@ import ViewportLayoutSetter from "@/components/ViewportLayoutSetter";
 import BackgroundLayer from "@/components/backgrounds/BackgroundLayer";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import { authConfig } from "@/auth";
+const ICON_VERSION = "v20260214";
 export const metadata = {
   title: "SotsiaalAI",
   description: "SotsiaalAI platvorm",
-  manifest: "/site.webmanifest",
+  manifest: `/site.webmanifest?${ICON_VERSION}`,
   icons: {
     icon: [{
-      url: "/icons/icon-192.png",
+      url: `/icons/icon-192-${ICON_VERSION}.png`,
       sizes: "192x192",
       type: "image/png"
     }, {
-      url: "/icons/icon-512.png",
+      url: `/icons/icon-512-${ICON_VERSION}.png`,
       sizes: "512x512",
       type: "image/png"
     }, {
-      url: "/favicon.ico"
+      url: `/favicon.ico?${ICON_VERSION}`
     }],
-    shortcut: "/icons/icon-192.png",
-    apple: "/apple-touch-icon.png"
+    shortcut: `/icons/icon-192-${ICON_VERSION}.png`,
+    apple: `/apple-touch-icon-${ICON_VERSION}.png`
   }
 };
 export const viewport = {
