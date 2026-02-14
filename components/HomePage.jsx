@@ -279,14 +279,6 @@ export default function HomePage() {
       startExitToChat(side);
       return;
     }
-    if (!mobileFlipReady[side]) {
-      setMobileFlipReady({
-        left: side === "left",
-        right: side === "right"
-      });
-      e?.currentTarget?.focus?.();
-      return;
-    }
     setMobileFlipReady({
       left: false,
       right: false
@@ -299,14 +291,26 @@ export default function HomePage() {
       [side]: false
     }));
   };
-  const handleCardTap = side => _e => {
+  const handleCardTap = side => event => {
     if (!flipAllowed) return;
     if (!isMobile) {
       startExitToChat(side);
       return;
     }
+    // Mobile fallback: if the card is already flipped, treat tap as an action tap.
+    // This avoids missed back-face clicks caused by 3D/pointer-event edge cases.
+    if (mobileFlipReady[side]) {
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+      setMobileFlipReady({
+        left: false,
+        right: false
+      });
+      startExitToChat(side);
+      return;
+    }
     const setFlip = side === "left" ? setLeftFlipping : setRightFlipping;
-    const flipDuration = mobileFlipReady[side] ? flipToFrontMs : flipToBackMs;
+    const flipDuration = flipToBackMs;
     setFlip(true);
     setTimeout(() => setFlip(false), flipDuration);
     setMobileFlipReady(prev => {

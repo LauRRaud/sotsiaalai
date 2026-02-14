@@ -131,6 +131,10 @@
   .three-d-card.mobile-flipped-right .card-face.front {
     pointer-events: none !important;
   }
+  .homepage-root .three-d-card.mobile-flipped-left,
+  .homepage-root .three-d-card.mobile-flipped-right {
+    touch-action: manipulation;
+  }
   .homepage-root .three-d-card .card-blur-layer {
     inset: clamp(0.28rem, 1.25vw, 0.46rem);
     border-radius: 999px;
@@ -170,6 +174,14 @@
     animation: float-vertical 6.7s ease-in-out infinite;
     animation-delay: 0s;
     transform: translateY(0);
+  }
+  html[data-reduce-motion="1"] .homepage-root .three-d-card.float-card {
+    animation: none !important;
+    transform: none !important;
+  }
+  html[data-reduce-motion="1"] .homepage-root .three-d-card .card-wrapper,
+  html[data-reduce-motion="1"] .homepage-root .three-d-card .card-blur-layer {
+    transition: none !important;
   }
   .home-footer-logo.defer-fade {
     animation: none;
@@ -604,15 +616,19 @@
   }
 
   #login-modal {
-    width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
-    ) !important;
-    min-width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
-    ) !important;
-    max-width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
-    ) !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    overflow-x: hidden !important;
   }
 
   .login-modal-box .login-modal-close.modal-close-btn {
@@ -875,15 +891,39 @@
 
   .policy-mobile-lower .glass-ring-content,
   .policy-mobile-lower .glass-ring-content--open {
-    margin-top: clamp(0.35rem, 1vh, 0.75rem) !important;
-    padding-top: clamp(0.35rem, 1vh, 0.75rem) !important;
-    padding-bottom: clamp(0.02rem, 0.3vh, 0.16rem) !important;
+    margin-top: clamp(0.1rem, 0.45vh, 0.35rem) !important;
+    padding-top: clamp(0.12rem, 0.55vh, 0.4rem) !important;
+    padding-bottom: clamp(0.2rem, 0.8vh, 0.5rem) !important;
+  }
+
+  .policy-mobile-lower {
+    --glass-ring-scroll-offset: clamp(1.2rem, 3.1vh, 1.9rem);
+    --glass-ring-scroll-offset-open: clamp(0.22rem, 0.95vh, 0.72rem);
   }
 
   .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll,
   .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll--open {
-    padding-top: clamp(0.48rem, 1.3vh, 0.86rem) !important;
-    padding-bottom: clamp(0.02rem, 0.3vh, 0.16rem) !important;
+    padding-top: clamp(0.26rem, 0.9vh, 0.58rem) !important;
+    padding-bottom: clamp(0.9rem, 2.2vh, 1.3rem) !important;
+    max-height: calc(100% - var(--glass-ring-scroll-offset-open, 0.72rem)) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.14) 3%,
+      #000 9%,
+      #000 90%,
+      rgba(0, 0, 0, 0.2) 96%,
+      transparent 100%
+    ) !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.14) 3%,
+      #000 9%,
+      #000 90%,
+      rgba(0, 0, 0, 0.2) 96%,
+      transparent 100%
+    ) !important;
   }
 
   .glass-ring-expandable .glass-ring-content,
@@ -1002,135 +1042,21 @@
     touch-action: pan-y !important;
     scroll-padding-top: var(--csp-pad-top, var(--csp-pad, 0px)) !important;
     scroll-padding-bottom: var(--csp-pad-bottom, var(--csp-pad, 0px)) !important;
-    scroll-behavior: smooth !important;
+    scroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch !important;
     --csp-transition-ms: 420ms;
+  }
+
+  .register-scroll.csp-container .csp-item,
+  .a11y-csp-scroll.csp-container .csp-item {
+    scroll-snap-align: center !important;
+    scroll-snap-stop: always !important;
   }
 
   .register-scroll.csp-container {
     overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-  }
-}
-
-@media (min-width: 48.0625em) {
-  .register-form {
-    gap: clamp(2.25rem, 3.8vh, 3rem) !important;
-  }
-
-  .register-form > .register-step {
-    padding-top: clamp(0.45rem, 0.95vh, 0.75rem) !important;
-    padding-bottom: clamp(0.45rem, 0.95vh, 0.75rem) !important;
-  }
-
-  .register-scroll {
-    max-width: clamp(18.2rem, 36vw, 23.6rem) !important;
-  }
-
-  .register-scroll.csp-container {
-    overflow-y: auto !important;
-    overflow-x: visible !important;
-    padding-left: clamp(0.7rem, 1.7vw, 1.15rem) !important;
-    padding-right: clamp(0.7rem, 1.7vw, 1.15rem) !important;
-  }
-
-  .register-input {
-    min-height: 3.25rem;
-    padding-top: clamp(0.78rem, 1.1vh, 0.88rem) !important;
-    padding-bottom: clamp(0.78rem, 1.1vh, 0.88rem) !important;
-  }
-
-  .register-scroll .register-input {
-    width: calc(100% - clamp(0.95rem, 1.5vw, 1.4rem)) !important;
-    max-width: calc(100% - clamp(0.95rem, 1.5vw, 1.4rem)) !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .register-option-card {
-    width: calc(100% - clamp(1.05rem, 1.7vw, 1.5rem)) !important;
-    max-width: calc(100% - clamp(1.05rem, 1.7vw, 1.5rem)) !important;
-    padding-left: clamp(0.92rem, 1.35vw, 1.1rem) !important;
-    padding-right: clamp(0.92rem, 1.35vw, 1.1rem) !important;
-    padding-top: clamp(0.72rem, 1.05vh, 0.88rem) !important;
-    padding-bottom: clamp(0.72rem, 1.05vh, 0.88rem) !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .register-role-options {
-    gap: clamp(1.15rem, 1.45vw, 1.45rem) !important;
-  }
-
-  .register-option-card,
-  .register-checkbox-card {
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .register-checkbox-card {
-    width: calc(100% - clamp(1rem, 1.6vw, 1.45rem)) !important;
-    max-width: calc(100% - clamp(1rem, 1.6vw, 1.45rem)) !important;
-    padding-left: clamp(0.95rem, 1.35vw, 1.15rem) !important;
-    padding-right: clamp(0.95rem, 1.35vw, 1.15rem) !important;
-    padding-top: clamp(0.66rem, 1vh, 0.82rem) !important;
-    padding-bottom: clamp(0.66rem, 1vh, 0.82rem) !important;
-    font-size: clamp(1.16rem, 1.28vw, 1.32rem) !important;
-    line-height: 1.34 !important;
-  }
-
-  .register-checkbox-card .link-brand-inline {
-    white-space: normal;
-    word-break: keep-all;
-  }
-
-  .register-agree-card > span:last-child {
-    max-width: 26ch;
-    display: block;
-    padding-top: 0.06rem;
-  }
-
-  .register-agree-card {
-    align-items: center !important;
-  }
-
-  .register-guide-card {
-    width: calc(100% - clamp(1.2rem, 2vw, 1.7rem)) !important;
-    max-width: calc(100% - clamp(1.2rem, 2vw, 1.7rem)) !important;
-  }
-
-  section[lang="ru"] .register-scroll,
-  section[lang="en"] .register-scroll {
-    max-width: clamp(20.6rem, 41vw, 27.2rem) !important;
-  }
-
-  section[lang="ru"] .register-option-card,
-  section[lang="en"] .register-option-card {
-    width: calc(100% - clamp(0.9rem, 1.45vw, 1.28rem)) !important;
-    max-width: calc(100% - clamp(0.9rem, 1.45vw, 1.28rem)) !important;
-  }
-
-  section[lang="ru"] .register-checkbox-card,
-  section[lang="en"] .register-checkbox-card {
-    width: calc(100% - clamp(0.84rem, 1.35vw, 1.2rem)) !important;
-    max-width: calc(100% - clamp(0.84rem, 1.35vw, 1.2rem)) !important;
-  }
-
-  section[lang="ru"] .register-guide-card,
-  section[lang="en"] .register-guide-card {
-    width: calc(100% - clamp(0.95rem, 1.55vw, 1.3rem)) !important;
-    max-width: calc(100% - clamp(0.95rem, 1.55vw, 1.3rem)) !important;
-  }
-
-  .register-login-link {
-    font-size: 1.18em !important;
-    letter-spacing: 0.014em;
-  }
-
-  .register-option-card {
-    margin-left: auto !important;
-    margin-right: auto !important;
   }
 }
 

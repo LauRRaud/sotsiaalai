@@ -18,7 +18,7 @@ const noteBaseClassName = "flex items-center justify-center text-center text-[1.
 const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
-const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 function SubmitInnerEdgeDotsProgress({
   filled = 0,
   max = 8,
@@ -104,6 +104,7 @@ export default function LoginModal({
     const ua = navigator.userAgent || "";
     return /Android|iPhone|iPad|iPod/i.test(ua);
   }, []);
+  const [isPhoneViewport, setIsPhoneViewport] = useState(false);
   const [step, setStep] = useState("pin");
   const [pinValue, setPinValue] = useState("");
   const [_pinError, setPinError] = useState(false);
@@ -163,11 +164,23 @@ export default function LoginModal({
   const messageText = error ? error : info && !isOtpStep ? info : "";
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
-  const pinMessageClass = showPinMessage ? [noteBaseClassName, "mt-[0.62rem] max-md:mt-[0.42rem]", "mb-[0.0rem]", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ") : "hidden";
-  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.08em]", "-mt-[0.1rem]", "max-md:mt-[0.2rem]", "mb-0"].join(" ");
-  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.28rem]", "max-md:mt-[-0.08rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
+  const pinMessageClass = [noteBaseClassName, "w-full max-w-[var(--pin-grid-w)] min-h-[1.24em] leading-[1.24]", "mt-[0.14rem] max-md:mt-[0.12rem]", "mb-[0.0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
+  const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.02em]", "mt-[-0.04rem]", "max-md:mt-[0.08rem]", "mb-0"].join(" ");
+  const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.52rem]", "max-md:mt-[-0.3rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
   const emailIconClass = "inline-flex items-center justify-center rounded-full bg-transparent bg-no-repeat bg-center transition-transform duration-150 ease-out cursor-pointer border-0 shadow-none outline-none appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none";
   const headerMessageClass = [noteBaseClassName, "min-h-[1.4em] max-md:min-h-[1.6em] max-md:mt-[0.25rem]", error ? noteErrorClassName : noteInfoClassName, showHeaderMessage ? "" : "hidden"].filter(Boolean).join(" ");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = window.matchMedia("(max-width: 48em)");
+    const apply = () => setIsPhoneViewport(query.matches);
+    apply();
+    if (typeof query.addEventListener === "function") {
+      query.addEventListener("change", apply);
+      return () => query.removeEventListener("change", apply);
+    }
+    query.addListener(apply);
+    return () => query.removeListener(apply);
+  }, []);
   const modalClasses = [
     "login-modal-root",
     "login-modal-box",
@@ -181,15 +194,12 @@ export default function LoginModal({
       ? "[--otp-panel-bg:rgba(10,14,24,0.58)] [--otp-panel-border:rgba(148,163,184,0.35)] [--otp-panel-shadow:0_12px_26px_rgba(0,0,0,0.28)] [--otp-input-bg:rgba(8,12,20,0.62)] [--otp-input-border:rgba(160,180,205,0.4)] [--otp-accent:rgba(225,160,160,0.92)] light:[--otp-panel-bg:rgba(255,255,255,0.76)] light:[--otp-panel-border:rgba(148,163,184,0.3)] light:[--otp-panel-shadow:0_12px_24px_rgba(15,23,42,0.12)] light:[--otp-input-bg:rgba(255,255,255,0.9)] light:[--otp-input-border:rgba(148,163,184,0.48)]"
       : "",
     "fixed",
-    "left-0 right-0 top-1/2 mx-auto -translate-y-1/2",
+    isPhoneViewport ? "inset-0 top-0 left-0 right-0 mx-0 my-0 translate-y-0" : "left-0 right-0 top-1/2 mx-auto -translate-y-1/2",
     "z-[100]",
     "flex",
     "flex-col",
-    "w-auto",
-    "h-auto",
-    "min-h-0",
-    "max-h-[calc(100dvh-2rem)]",
-    "max-md:max-h-[calc(100dvh-0.9rem)]",
+    isPhoneViewport ? "w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] items-center justify-center" : "w-auto h-auto min-h-0 max-h-[calc(100dvh-2rem)]",
+    isPhoneViewport ? "overflow-y-auto" : "max-md:max-h-[calc(100dvh-0.9rem)]",
     "overflow-x-hidden",
     "gap-0",
     "!rounded-[2.2rem]",
@@ -767,18 +777,40 @@ export default function LoginModal({
       node.focus();
     }, 0);
   }, [emailRevealed, storedEmail]);
+  const focusMobilePinInput = useCallback(() => {
+    if (!isMobile) return;
+    const node = mobilePinInputRef.current;
+    if (!node) return;
+    const runFocus = () => {
+      try {
+        node.focus({
+          preventScroll: true
+        });
+      } catch {
+        try {
+          node.focus();
+        } catch {}
+      }
+      try {
+        const len = (node.value || "").length;
+        node.setSelectionRange?.(len, len);
+      } catch {}
+    };
+    runFocus();
+    requestAnimationFrame(runFocus);
+    setTimeout(runFocus, 80);
+  }, [isMobile]);
   const toggleKeypad = () => {
     if (isMobile) {
       if (!useNativeKeyboard) {
         flushSync(() => setUseNativeKeyboard(true));
-        try {
-          mobilePinInputRef.current?.focus?.({
-            preventScroll: true
-          });
-        } catch {
-          mobilePinInputRef.current?.focus?.();
-        }
+        focusMobilePinInput();
       } else {
+        const isNativeFocused = typeof document !== "undefined" && document.activeElement === mobilePinInputRef.current;
+        if (!isNativeFocused) {
+          focusMobilePinInput();
+          return;
+        }
         setUseNativeKeyboard(false);
         try {
           mobilePinInputRef.current?.blur?.();
@@ -822,38 +854,41 @@ export default function LoginModal({
         }
       `}</style>
       <div ref={boxRef} id="login-modal" className={modalClasses} style={{
-      "--login-modal-side-pad": isMobile ? "clamp(0.42rem, 1.7vw, 0.62rem)" : "1.15em",
+      "--login-modal-side-pad": isPhoneViewport ? "0px" : "1.15em",
       "--login-modal-inner-side-pad": isOtpStep
-        ? isMobile
-          ? "clamp(0.42rem, 1.7vw, 0.62rem)"
+        ? isPhoneViewport
+          ? "0px"
           : "1.15em"
-        : isMobile
-          ? "clamp(0.18rem, 1vw, 0.32rem)"
+        : isPhoneViewport
+          ? "0px"
           : "0.64em",
-      "--pin-btn": isMobile ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
-      "--pin-gap-x": isMobile ? "clamp(1.26rem, 4.9vw, 1.56rem)" : "0.9rem",
-      "--pin-gap-y": isMobile ? "clamp(0.68rem, 2.1vh, 0.9rem)" : "0.82rem",
+      "--pin-btn": isPhoneViewport ? "clamp(5.15rem, 19.8vw, 5.85rem)" : "4.58rem",
+      "--pin-gap-x": isPhoneViewport ? "clamp(1.26rem, 4.9vw, 1.56rem)" : "0.9rem",
+      "--pin-gap-y": isPhoneViewport ? "clamp(0.68rem, 2.1vh, 0.9rem)" : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
-      "--login-email-w": isMobile ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
+      "--login-email-w": isPhoneViewport ? "var(--pin-grid-w)" : "calc(var(--pin-grid-w) + 0.72rem)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
-      "--login-envelope-size": isMobile ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
-      "--login-envelope-hit": isMobile ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
+      "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
+      "--login-pin-modal-w": "min(var(--login-modal-max-vw, 90vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + var(--login-modal-max-extra, 4rem)))",
+      "--login-envelope-size": isPhoneViewport ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
+      "--login-envelope-hit": isPhoneViewport ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
-        width: isMobile
-          ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
+        width: isPhoneViewport
+          ? "100%"
           : isOtpStep
             ? "min(94vw, 36rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
-        minWidth: isMobile
-          ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
+            : "var(--login-pin-modal-w)",
+        minWidth: isPhoneViewport
+          ? "100%"
           : isOtpStep
             ? "min(92vw, 32rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))",
-        maxWidth: isMobile
-          ? "calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))"
+            : "var(--login-pin-modal-w)",
+        maxWidth: isPhoneViewport
+          ? "100%"
           : isOtpStep
             ? "min(94vw, 36rem)"
-            : "min(var(--login-modal-max-vw), calc(var(--login-core-w, var(--pin-grid-w)) + (2 * var(--login-modal-inner-side-pad,var(--login-modal-side-pad))) + var(--login-modal-max-extra)))"
+            : "var(--login-pin-modal-w)",
+        boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
       if (step !== "pin") return;
       if (emailRevealed && emailInputRef.current) {
@@ -862,7 +897,7 @@ export default function LoginModal({
       }
       if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
     }}>
-        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(1.05rem,2.6vw,1.55rem)] max-md:!pt-[clamp(1.08rem,3.4vw,1.55rem)] ${
+        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
         isOtpStep
           ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.18rem,3.2vw,1.62rem)]"
           : "!pb-[clamp(0.98rem,2.2vw,1.35rem)] max-md:!pb-[clamp(0.82rem,2.6vw,1.2rem)]"
@@ -878,7 +913,7 @@ export default function LoginModal({
             </div>
           </div>
 
-        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.16rem] max-md:mt-[0.02rem]" onSubmit={e => {
+        {!isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.35em] mt-[-0.24rem] max-md:mt-[-0.04rem]" onSubmit={e => {
         e.preventDefault();
         submitPinStep();
       }} autoComplete="off">
@@ -919,23 +954,25 @@ export default function LoginModal({
             {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
 
             {}
-            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="current-password" onChange={handlePinInputChange} onKeyDown={e => {
+            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" onChange={handlePinInputChange} onKeyDown={e => {
           if (e.key === "Enter") {
             e.preventDefault();
             submitPinStep();
           }
         }} aria-describedby={pinHintIdRef.current} style={{
           position: "fixed",
-          left: 0,
-          bottom: 0,
-          opacity: 0,
-          width: 1,
-          height: 1,
-          zIndex: -1,
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          opacity: 0.01,
+          width: 2,
+          height: 2,
+          zIndex: 101,
           background: "transparent",
           border: "none",
           padding: 0,
-          margin: 0
+          margin: 0,
+          caretColor: "transparent"
         }} />}
 
             {!(isMobile && useNativeKeyboard) && <div className="relative flex w-full justify-center mt-[0.05rem] mb-[-0.1rem] overflow-visible" style={{
@@ -1095,7 +1132,7 @@ export default function LoginModal({
               {showPinMessage ? messageText : null}
             </div>
 
-            <div className="text-center mt-[0.35rem] mb-[0.25rem]">
+            <div className="text-center mt-[0.14rem] mb-[0.08rem]">
               <button type="button" className={`${inlineLinkClassName} pin-layout-toggle`} onClick={toggleKeypad} aria-label={isMobile ? t("auth.login.toggle_keypad_mobile_aria") : t("auth.login.toggle_keypad_desktop_aria")}>
                 {t("auth.login.toggle_keypad")}
               </button>
@@ -1148,7 +1185,7 @@ export default function LoginModal({
           </form>}
 
         {!isOtpStep && <>
-            <div className="text-center mt-[-0.04rem] max-md:mt-[0.04rem] mb-[0.08rem] max-md:mb-[clamp(0.08rem,0.45vw,0.18rem)]">
+            <div className="text-center mt-[-0.2rem] max-md:mt-[-0.08rem] mb-[0.04rem] max-md:mb-[0.04rem]">
               <AppLink href={`${localizePath("/registreerimine", locale)}?next=${encodeURIComponent(nextUrl)}`} variant="brand" className={`${inlineLinkClassName} !text-[1.75rem] max-md:!text-[clamp(1.9rem,5.6vw,2.5rem)]`}>
                 {t("auth.login.register_link")}
               </AppLink>

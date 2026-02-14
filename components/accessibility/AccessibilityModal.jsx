@@ -55,7 +55,7 @@ const optionCardTextScaleDesktopClassName =
   "whitespace-nowrap";
 const optionCardCenteredClassName = "max-w-[90%] mx-auto justify-center";
 const accessibilityChevronStrokeWidthDesktop = 0.72;
-const accessibilityChevronStrokeWidthMobile = 0.92;
+const accessibilityChevronStrokeWidthMobile = 1.04;
 export default function AccessibilityModal({
   onClose,
   prefs,
@@ -207,13 +207,14 @@ export default function AccessibilityModal({
     reduceMotion,
     neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: !isMobileViewport,
-    settleOnScroll: !isMobileViewport,
+    settleOnScroll: false,
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
     settleMs: isMobileViewport ? 420 : 360,
     maxStepPerSettle: isMobileViewport ? 99 : 1,
-    wheelCooldownMs: isMobileViewport ? 300 : 280,
+    wheelCooldownMs: isMobileViewport ? 300 : 340,
+    minWheelDelta: isMobileViewport ? 10 : 16,
     manageHiddenFocus: !isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport
@@ -291,34 +292,6 @@ export default function AccessibilityModal({
   }, [reduceMotion, isMobileViewport]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
-    if (!scrollEl || typeof window === "undefined") return;
-    const markUserScrollStart = () => {
-      setHasUserStartedScroll(prev => prev || true);
-    };
-    const onKeyDown = e => {
-      const key = e?.key;
-      if (key !== "ArrowDown" && key !== "ArrowUp" && key !== "PageDown" && key !== "PageUp" && key !== "Home" && key !== "End" && key !== " ") {
-        return;
-      }
-      const active = document.activeElement;
-      if (active && active !== scrollEl && !scrollEl.contains(active)) return;
-      markUserScrollStart();
-    };
-    scrollEl.addEventListener("wheel", markUserScrollStart, {
-      passive: true
-    });
-    scrollEl.addEventListener("touchmove", markUserScrollStart, {
-      passive: true
-    });
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      scrollEl.removeEventListener("wheel", markUserScrollStart);
-      scrollEl.removeEventListener("touchmove", markUserScrollStart);
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
-  useEffect(() => {
-    const scrollEl = scrollRef.current;
     if (!scrollEl) return;
     const onScroll = () => {
       const top = scrollEl.scrollTop || 0;
@@ -327,12 +300,12 @@ export default function AccessibilityModal({
         initialScrollTopRef.current = top;
       }
       const delta = Math.abs(top - initialScrollTopRef.current);
-      if (delta > (isMobileViewport ? 10 : 6)) {
+      const thresholdOn = isMobileViewport ? 14 : 8;
+      const thresholdOff = isMobileViewport ? 9 : 5;
+      if (delta > thresholdOn) {
         setHasUserStartedScroll(prev => prev || true);
       }
       setIsScrolled(prev => {
-        const thresholdOn = isMobileViewport ? 14 : 8;
-        const thresholdOff = isMobileViewport ? 9 : 5;
         const next = prev ? delta > thresholdOff : delta > thresholdOn;
         return prev === next ? prev : next;
       });
@@ -445,7 +418,7 @@ export default function AccessibilityModal({
   return <>
       <div className={modalBackdropClassName} onClick={onClose} role="presentation" aria-hidden="true" />
 
-      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--csp-arrow-size:clamp(2.05rem,9vw,2.6rem)] max-[48em]:[--csp-chevron-top:clamp(0.2rem,1vw,0.4rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.2rem,1vw,0.4rem)]`.trim()} data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
+      <div ref={boxRef} className={`${modalRootClassName} ${modalRootMobileClassName} ${modalRootDesktopClassName} scroll-reactive-shell [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.22rem,1.15vw,0.52rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.22rem,1.1vw,0.5rem)]`.trim()} data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"} role="dialog" aria-modal="true" aria-labelledby="a11y-title" onClick={stopInside} tabIndex={-1}>
         {}
         <div className="csp-overlayTitle [--csp-title-top:calc(var(--csp-chevron-top,0.24rem)+var(--csp-arrow-size,2.4rem)-0.45rem)] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+clamp(2.55rem,8.4vw,3.2rem))]" aria-hidden="false">
           <h2 id="a11y-title" className={titleClassName}>

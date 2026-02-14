@@ -20,18 +20,18 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
 const contentClassName = "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
-const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-h-0 overflow-y-auto overflow-x-hidden px-[0.6rem] text-left csp-container mx-auto";
+const scrollClassName = "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[48.0625em]:max-w-[clamp(18.2rem,36vw,23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.6rem] min-[48.0625em]:px-[1.02rem] text-left csp-container mx-auto";
 const registerTextClassName = "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerPolicyLinkClassName = `${linkBrandInlineClass} register-policy-link`;
 const inputClassName = `w-full ${registerTextClassName} placeholder:text-[color:var(--pt-200)]`;
 const pinInputClassName = "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
-const checkboxCardClassName = "register-checkbox-card w-full text-[1.05rem] leading-[1.42] px-[1.05rem] py-[0.9rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+const checkboxCardClassName = "register-checkbox-card w-full min-[48.0625em]:w-[calc(100%-clamp(1rem,1.6vw,1.45rem))] min-[48.0625em]:mx-auto text-[1.05rem] leading-[1.42] px-[1.05rem] py-[0.9rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerControlVarsClassName = "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerButtonClassName = "register-submit px-[1.85rem] py-[1rem] text-[1.42rem] leading-[1.12]";
 const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
-const registerChevronStrokeWidthMobile = 0.92;
-const inputBaseClassName = "register-input w-full rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const registerChevronStrokeWidthMobile = 1.04;
+const inputBaseClassName = "register-input w-full min-[48.0625em]:w-[calc(100%-clamp(0.95rem,1.5vw,1.4rem))] min-[48.0625em]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
 export default function RegistreerimineBody({
   openLoginModal = null
 }) {
@@ -169,13 +169,14 @@ export default function RegistreerimineBody({
     itemSelector: ".register-step",
     neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: !isMobileViewport,
-    settleOnScroll: !isMobileViewport,
+    settleOnScroll: false,
     enableArrowKeys: true,
     allowArrowKeysInInputs: true,
     captureArrowKeys: true,
     settleMs: isMobileViewport ? 420 : 360,
     maxStepPerSettle: isMobileViewport ? 99 : 1,
-    wheelCooldownMs: isMobileViewport ? 300 : 280,
+    wheelCooldownMs: isMobileViewport ? 300 : 340,
+    minWheelDelta: isMobileViewport ? 10 : 16,
     manageHiddenFocus: !isMobileViewport,
     pauseSettleOnInputFocus: isMobileViewport,
     pauseSettleWhileTouch: isMobileViewport
@@ -198,16 +199,21 @@ export default function RegistreerimineBody({
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
     const updatePad = () => {
-      const snapEl = scrollEl.querySelector(".register-step");
-      if (!snapEl) return;
-      const itemH = snapEl.getBoundingClientRect().height || 0;
+      const steps = Array.from(scrollEl.querySelectorAll(".register-step"));
+      const firstStep = steps[0] || null;
+      const lastStep = steps[steps.length - 1] || firstStep;
+      if (!firstStep || !lastStep) return;
+      const firstH = firstStep.getBoundingClientRect().height || 0;
+      const lastH = lastStep.getBoundingClientRect().height || 0;
       const viewH = Math.max(0, scrollEl.clientHeight || 0);
-      if (!viewH || !itemH) return;
-      const nextPad = Math.max(0, Math.floor((viewH - itemH) / 2));
+      if (!viewH || !firstH || !lastH) return;
+      const nextPadTopBase = Math.max(0, Math.floor((viewH - firstH) / 2));
+      const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
+      const nextPad = nextPadTopBase;
       setScrollPad(prev => prev === nextPad ? prev : nextPad);
-      const liftPx = typeof window !== "undefined" && window.innerWidth < 768 ? 5 : 11;
-      const nextTop = Math.max(0, nextPad - liftPx);
-      const nextBottom = Math.max(0, nextPad + liftPx);
+      const liftPx = isMobileViewport ? 5 : 11;
+      const nextTop = Math.max(0, nextPadTopBase - liftPx);
+      const nextBottom = Math.max(0, nextPadBottomBase + liftPx);
       setScrollPadTop(prev => prev === nextTop ? prev : nextTop);
       setScrollPadBottom(prev => prev === nextBottom ? prev : nextBottom);
     };
@@ -267,48 +273,6 @@ export default function RegistreerimineBody({
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
-    const markUserScrollStart = () => {
-      setHasUserStartedScroll(prev => prev || true);
-    };
-    const onKeyDown = e => {
-      const key = e?.key;
-      if (key !== "ArrowDown" && key !== "ArrowUp" && key !== "PageDown" && key !== "PageUp" && key !== "Home" && key !== "End" && key !== " ") {
-        return;
-      }
-      const active = document.activeElement;
-      if (active && active !== scrollEl && !scrollEl.contains(active)) return;
-      markUserScrollStart();
-    };
-    const onPointerDown = () => {
-      markUserScrollStart();
-    };
-    const onTouchStart = () => {
-      markUserScrollStart();
-    };
-    scrollEl.addEventListener("pointerdown", onPointerDown, {
-      passive: true
-    });
-    scrollEl.addEventListener("touchstart", onTouchStart, {
-      passive: true
-    });
-    scrollEl.addEventListener("wheel", markUserScrollStart, {
-      passive: true
-    });
-    scrollEl.addEventListener("touchmove", markUserScrollStart, {
-      passive: true
-    });
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      scrollEl.removeEventListener("pointerdown", onPointerDown);
-      scrollEl.removeEventListener("touchstart", onTouchStart);
-      scrollEl.removeEventListener("wheel", markUserScrollStart);
-      scrollEl.removeEventListener("touchmove", markUserScrollStart);
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
-  useEffect(() => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl || typeof window === "undefined") return;
     const onScroll = () => {
       const top = scrollEl.scrollTop || 0;
       if (!hasInitialScrollTopRef.current) {
@@ -316,8 +280,13 @@ export default function RegistreerimineBody({
         initialScrollTopRef.current = top;
       }
       const delta = Math.abs(top - initialScrollTopRef.current);
+      const thresholdOn = isMobileViewport ? 14 : 8;
+      const thresholdOff = isMobileViewport ? 9 : 5;
+      if (delta > thresholdOn) {
+        setHasUserStartedScroll(prev => prev || true);
+      }
       setIsScrolled(prev => {
-        const next = delta > (isMobileViewport ? 14 : 8);
+        const next = prev ? delta > thresholdOff : delta > thresholdOn;
         return prev === next ? prev : next;
       });
     };
@@ -339,7 +308,7 @@ export default function RegistreerimineBody({
     return () => window.removeEventListener("keydown", onKey);
   }, [router, locale]);
   return <section className={pageShellClassName} lang={locale}>
-      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(1.3rem,2vw,1.75rem)] max-[48em]:[--csp-arrow-size:clamp(2rem,8.8vw,2.5rem)] max-[48em]:[--csp-chevron-top:clamp(0.22rem,1.1vw,0.42rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.2rem,1vw,0.4rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
+      <GlassRing className="glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]" data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}>
         <BackButton onClick={handleClose} ariaLabel={t("buttons.back_home")} className={`${glassPageBackClassName} scroll-reactive-back`} />
         <div className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]" aria-hidden="true">
           <h1 className={localizedTitleClassName}>{t("auth.register.title")}</h1>
@@ -359,7 +328,8 @@ export default function RegistreerimineBody({
         <div className={contentClassName}>
           <div ref={scrollRef} className={`${scrollClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`} style={{
           "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
-          "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`
+          "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
+          "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>
             <form className="register-form flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="off" noValidate>
               <section className={`${registerStepClassName} ${getRegisterStepClassName(0)}`}>
@@ -381,10 +351,10 @@ export default function RegistreerimineBody({
                   <div id={roleHintId} className="sr-only">
                     {t("auth.register.role_hint")}
                   </div>
-                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="SOCIAL_WORKER" checked={form.role === "SOCIAL_WORKER"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.05rem,1.7vw,1.5rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.worker")}
                 </OptionCard>
-                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
+                <OptionCard type="radio" name="role" value="CLIENT" checked={form.role === "CLIENT"} onChange={handleChange} className={`register-option-card w-full min-[48.0625em]:w-[calc(100%-clamp(1.05rem,1.7vw,1.5rem))] min-[48.0625em]:mx-auto ${registerTextClassName} py-[1.1rem] ${registerControlVarsClassName}`}>
                   {t("role.client")}
                 </OptionCard>
                 </div>

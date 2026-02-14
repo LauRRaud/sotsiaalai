@@ -189,7 +189,7 @@ export default function InviteModal() {
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
             {!roomId ? <>
                 <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} placeholder={t("invite.room_title")} aria-label={t("invite.room_title")} />
-                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name")} aria-label={t("invite.host_name")} />
+                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} />
               </> : null}
             <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
             <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[48em]:justify-items-center" role="radiogroup" aria-label={t("invite.pay.label")}>

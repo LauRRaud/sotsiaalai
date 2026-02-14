@@ -1,6 +1,8 @@
 :root.login-modal-open,
 body.login-modal-open {
   overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   height: 100%;
 }
 
