@@ -185,7 +185,7 @@ export default function ChatBody({
     return up || "CLIENT";
   }, [session]);
   const [inputFocused, setInputFocused] = useState(false);
-  const [isMobile, setIsMobile] = useState(detectMobileViewport);
+  const [isMobile, setIsMobile] = useState(false);
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);

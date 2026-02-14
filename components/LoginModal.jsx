@@ -154,6 +154,7 @@ export default function LoginModal({
   const pinHintIdRef = useRef(`login-pin-hint-${Math.random().toString(36).slice(2, 10)}`);
   const otpInputRef = useRef(null);
   const touchStartRef = useRef(null);
+  const suppressNativeBlurSubmitRef = useRef(false);
   const zeroLongPressTimerRef = useRef(null);
   const zeroRepeatTimerRef = useRef(null);
   const zeroRepeatIntervalRef = useRef(null);
@@ -805,10 +806,15 @@ export default function LoginModal({
       const nextUseNativeKeyboard = !useNativeKeyboard;
       flushSync(() => setUseNativeKeyboard(nextUseNativeKeyboard));
       if (nextUseNativeKeyboard) {
+        suppressNativeBlurSubmitRef.current = false;
         focusMobilePinInput();
       } else {
         try {
+          suppressNativeBlurSubmitRef.current = true;
           mobilePinInputRef.current?.blur?.();
+          setTimeout(() => {
+            suppressNativeBlurSubmitRef.current = false;
+          }, 120);
         } catch {}
       }
       return;
@@ -865,8 +871,8 @@ export default function LoginModal({
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
       "--login-pin-modal-w": "min(90vw, max(22rem, calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
-      "--login-envelope-size": isPhoneViewport ? "clamp(5.1rem, 14.2vw, 6.4rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
-      "--login-envelope-hit": isPhoneViewport ? "clamp(5.2rem, 14.6vw, 6.55rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
+      "--login-envelope-size": isPhoneViewport ? "clamp(5.45rem, 15.2vw, 6.9rem)" : "clamp(4.4rem, 7vw, 5.2rem)",
+      "--login-envelope-hit": isPhoneViewport ? "clamp(5.6rem, 15.8vw, 7.1rem)" : "clamp(4.4rem, 7vw, 5.2rem)"
       ,
         width: isPhoneViewport
           ? "100%"
@@ -949,11 +955,25 @@ export default function LoginModal({
             {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
 
             {}
-            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" onChange={handlePinInputChange} onKeyDown={e => {
+            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" enterKeyHint="go" onChange={handlePinInputChange} onInput={handlePinInputChange} onKeyDown={e => {
           if (e.key === "Enter") {
             e.preventDefault();
+            suppressNativeBlurSubmitRef.current = true;
+            setTimeout(() => {
+              suppressNativeBlurSubmitRef.current = false;
+            }, 220);
             submitPinStep();
           }
+        }} onBlur={() => {
+          if (suppressNativeBlurSubmitRef.current) return;
+          if (step !== "pin" || !isMobile || !useNativeKeyboard || pinLoading) return;
+          const pin = pinValue.replace(/\s+/g, "");
+          if (!new RegExp(`^\\d{${PIN_MIN},${PIN_MAX}}$`).test(pin)) return;
+          setTimeout(() => {
+            if (suppressNativeBlurSubmitRef.current) return;
+            if (typeof document !== "undefined" && document.activeElement === mobilePinInputRef.current) return;
+            submitPinStep();
+          }, 0);
         }} aria-describedby={pinHintIdRef.current} style={{
           position: "fixed",
           left: "50%",
