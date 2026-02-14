@@ -12,9 +12,19 @@ export const metadata = {
   description: "SotsiaalAI platvorm",
   manifest: "/site.webmanifest",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico"
+    icon: [{
+      url: "/icons/icon-192.png",
+      sizes: "192x192",
+      type: "image/png"
+    }, {
+      url: "/icons/icon-512.png",
+      sizes: "512x512",
+      type: "image/png"
+    }, {
+      url: "/favicon.ico"
+    }],
+    shortcut: "/icons/icon-192.png",
+    apple: "/apple-touch-icon.png"
   }
 };
 export const viewport = {
