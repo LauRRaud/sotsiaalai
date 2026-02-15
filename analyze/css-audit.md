@@ -1,4 +1,4 @@
-﻿# CSS Audit (Jan 31, 2026)
+# CSS Audit (Jan 31, 2026)
 
 ## Globals entrypoint
 - `app/styles/globals.css` is the only CSS imported in `app/layout.js`; it pulls tokens, all three theme sheets, Tailwind layers, base styles, the four component files, and `utilities/helpers.css`

@@ -537,8 +537,23 @@ export default function ProfiilBody({
       }
       clearStaleScrollLock();
       const redirectUrl = signOutResult?.url || localizePath("/", locale);
+      let targetHref = localizePath("/", locale);
+      try {
+        const parsed = new URL(redirectUrl, typeof window !== "undefined" ? window.location.origin : "http://localhost");
+        if (typeof window === "undefined" || parsed.origin === window.location.origin) {
+          targetHref = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+        } else {
+          targetHref = redirectUrl;
+        }
+      } catch {
+        targetHref = redirectUrl;
+      }
+      pushWithTransition(router, targetHref);
       if (typeof window !== "undefined") {
-        window.location.href = redirectUrl;
+        window.setTimeout(() => {
+          if (!window.location.pathname.startsWith("/profiil")) return;
+          window.location.assign(redirectUrl);
+        }, 420);
       }
     } catch (err) {
       logoutRedirectRef.current = false;
@@ -591,12 +606,10 @@ export default function ProfiilBody({
         <h1 className={titleClassName}>{t("profile.title")}</h1>
       </ProfileShell>;
   }
-  if (logoutRedirectRef.current || loggingOut) {
-    return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
-        <h1 className={titleClassName}>{t("profile.title")}</h1>
-      </ProfileShell>;
-  }
   if (!isAuthed) {
+    if (logoutRedirectRef.current || loggingOut) {
+      return null;
+    }
     const reason = registrationReason || "not-logged-in";
     const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
     return <>

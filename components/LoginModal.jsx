@@ -696,7 +696,7 @@ export default function LoginModal({
         } catch {}
       }
     }, 430);
-  }, [deleteOneDigit, startZeroRepeat, step, stopZeroHoldActions, zeroKeyMode]);
+  }, [startZeroRepeat, step, stopZeroHoldActions, zeroKeyMode]);
   const cancelZeroLongPress = useCallback(() => {
     stopZeroHoldActions();
   }, [stopZeroHoldActions]);
@@ -1128,7 +1128,7 @@ export default function LoginModal({
                         {isZeroKey ? zeroKeyMode === "backspace" ? <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" className="block h-[1.24em] w-[1.24em]">
                             <path d="M13.2 7.35H5.35l2.8-2.35L7.2 4.05 3.1 8l4.1 3.95L8.15 11l-2.8-2.35h7.85z" fill="currentColor" />
                           </svg> : <span className="font-inherit font-[inherit] text-[1em] tracking-[inherit]" aria-hidden="true">
-                            0
+                            {key}
                           </span> : key}
                       </button>;
             })}

@@ -1,4 +1,4 @@
-﻿# Migration Status (Phase 0)
+# Migration Status (Phase 0)
 
 ## Known routes (App Router pages)
 
@@ -8,14 +8,12 @@
 - /join -> app/join/page.jsx
 - /kasutusjuhend -> app/kasutusjuhend/page.jsx
 - /kasutustingimused -> app/kasutustingimused/page.js
-- /meist -> app/meist/page.jsx
 - /privaatsustingimused -> app/privaatsustingimused/page.js
 - /profiil -> app/profiil/page.js
 - /registreerimine -> app/registreerimine/page.js
 - /room/[roomId] -> app/room/[roomId]/page.jsx
 - /rooms -> app/rooms/page.js
 - /ruum -> app/ruum/page.js
-- /start -> app/start/page.jsx
 - /taasta-parool/[token] -> app/taasta-parool/[token]/page.jsx
 - /tellimus -> app/tellimus/page.js
 - /uuenda-epost -> app/uuenda-epost/page.js

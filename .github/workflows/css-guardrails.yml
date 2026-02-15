@@ -1,4 +1,4 @@
-﻿name: CSS Guardrails
+name: CSS Guardrails
 
 on:
   pull_request:

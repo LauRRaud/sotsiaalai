@@ -1,10 +1,9 @@
-/ -> app/(legacy)/page.js
+/ -> app/page.js
 /admin/analytics -> app/admin/analytics/page.jsx
 /admin/rag -> app/admin/rag/page.jsx
 /join -> app/join/page.jsx
 /kasutusjuhend -> app/kasutusjuhend/page.jsx
 /kasutustingimused -> app/kasutustingimused/page.js
-/meist -> app/meist/page.jsx
 /privaatsustingimused -> app/privaatsustingimused/page.js
 /profiil -> app/profiil/page.js
 /registreerimine -> app/registreerimine/page.js
