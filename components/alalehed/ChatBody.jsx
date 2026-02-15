@@ -868,7 +868,7 @@ export default function ChatBody({
                     {!profileOpen ? <BackButton
                         onClick={handleBackHome}
                         ariaLabel={t("chat.back_to_home")}
-                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95] max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:!left-[calc(env(safe-area-inset-left,0px)+0.32rem)]")}
+                        className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95] max-[48em]:!top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:!left-[calc(env(safe-area-inset-left,0px)+0.12rem)]")}
                       /> : null}
                     {!profileOpen && !mobileRailVisible ? <button
                         type="button"
