@@ -10,6 +10,7 @@ import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 function parseEmails(raw) {
   if (!raw) return [];
   const list = String(raw).split(/[,;\n\r]/).map(s => s.trim().toLowerCase()).filter(Boolean);
@@ -143,7 +144,11 @@ export default function InviteModal() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || t("invite.send_failed"));
+        throw new Error(resolveApiMessage({
+          payload: data,
+          t,
+          fallbackKey: "invite.send_failed"
+        }));
       }
       setMessage(t("invite.success"));
       setEmails("");
@@ -164,7 +169,13 @@ export default function InviteModal() {
         method: "POST"
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || data?.ok === false) throw new Error(data?.message || t("invite.error_generic"));
+      if (!res.ok || data?.ok === false) {
+        throw new Error(resolveApiMessage({
+          payload: data,
+          t,
+          fallbackKey: "invite.error_generic"
+        }));
+      }
       await loadInvites();
     } catch (err) {
       setError(err?.message || t("invite.action_failed"));

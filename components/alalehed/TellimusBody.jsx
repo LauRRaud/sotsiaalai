@@ -12,6 +12,7 @@ import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glas
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const linkClassName = "inline-flex items-center gap-[0.35rem] underline underline-offset-4 decoration-[color:currentColor] text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
 const emailReplacement = {
   email: {
@@ -57,10 +58,15 @@ export default function TellimusBody() {
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || t("subscription.error.load_failed"));
+          setError(resolveApiMessage({
+            payload,
+            t,
+            fallbackKey: "subscription.error.load_failed"
+          }));
           return;
         }
-        setSubActive(payload?.subscription?.status === "active");
+        const status = String(payload?.subscription?.status || "").toUpperCase();
+        setSubActive(Boolean(payload?.subscription?.isActive) || status === "ACTIVE");
       } catch (err) {
         console.error("subscription GET", err);
         setError(t("profile.server_unreachable"));

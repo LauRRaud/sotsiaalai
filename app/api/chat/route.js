@@ -13,10 +13,11 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
-function makeError(message, status = 400, extras = {}) {
+function makeError(messageKey, status = 400, extras = {}) {
   return NextResponse.json({
     ok: false,
-    message,
+    messageKey,
+    message: messageKey,
     ...extras
   }, {
     status
@@ -51,7 +52,16 @@ function detectSourcesRequest(history = [], message = "") {
     }
   }
   const txt = sourcesText.join(" ").toLowerCase();
-  return /\b(allik|viide|source|cite|citation|ŠøŃŃ‚Š¾Ń‡Š½ŠøŠŗ|ŃŃŃ‹Š»Šŗ)\w*\b/.test(txt);
+  const tokens = [
+    "allik",
+    "viide",
+    "source",
+    "cite",
+    "citation",
+    "\u0438\u0441\u0442\u043e\u0447\u043d",
+    "\u0441\u0441\u044b\u043b\u043a"
+  ];
+  return tokens.some(token => txt.includes(token));
 }
 async function searchRagDirect({
   query,
@@ -122,7 +132,7 @@ async function callOpenAI({
     stream: false
   });
   const resp = await client.responses.create(payload);
-  const reply = resp.output_text && resp.output_text.trim() || "Vabandust, ma ei saanud praegu vastust koostada.";
+  const reply = resp.output_text && resp.output_text.trim() || "Sorry, I couldn't generate an answer right now.";
   return {
     reply
   };
@@ -178,7 +188,7 @@ async function streamOpenAI({
   return iterator();
 }
 function normalizePageRangeString(s = "") {
-  return s.replace(/\s*[-ā€“ā€”]\s*/g, "-").trim();
+  return s.replace(/\s*[-\u2010-\u2015]\s*/g, "-").trim();
 }
 function normalizeRoomId(roomIdRaw) {
   if (!roomIdRaw) return null;
@@ -232,7 +242,7 @@ async function saveAssistantRoomMessage({
   });
   const payload = {
     ...msg,
-    authorName: "Assistent",
+    authorName: "Assistant",
     authorRole: msg.author?.role || "CLIENT"
   };
   try {
@@ -264,10 +274,10 @@ export async function POST(req) {
   try {
     payload = await req.json();
   } catch {
-    return makeError("Keha peab olema JSON.");
+    return makeError("chat.error.invalid_json");
   }
   const message = String(payload?.message || "").trim();
-  if (!message) return makeError("SĆµnum on kohustuslik.");
+  if (!message) return makeError("chat.error.message_required");
   const rawHistory = Array.isArray(payload?.history) ? payload.history : [];
   const history = toOpenAiMessages(rawHistory);
   const wantStream = !!payload?.stream;
@@ -275,7 +285,7 @@ export async function POST(req) {
   const convIdRaw = payload?.convId && String(payload.convId) || "";
   const convId = convIdRaw.trim() || null;
   if (persist && convId && !isPlausibleConversationId(convId)) {
-    return makeError("convId on vigane.");
+    return makeError("chat.error.invalid_conv_id");
   }
   const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined;
   const roomId = normalizeRoomId(payload?.roomId ?? payload?.room_id);
@@ -297,7 +307,7 @@ export async function POST(req) {
   let roomMembership = null;
   if (roomId && userId && !adminUser) {
     roomMembership = await getRoomMembership(userId, roomId);
-    if (!roomMembership) return makeError("Forbidden", 403);
+    if (!roomMembership) return makeError("api.common.forbidden", 403);
   }
   let gate = await requireSubscription(session, normalizedRole);
   if (!gate.ok && roomId && roomMembership?.billingSource === "SPONSORED_BY_HOST") {
@@ -512,7 +522,7 @@ export async function POST(req) {
   }
   const docSources = ephemeralChunks && ephemeralChunks.length ? [{
     id: "user-document",
-    title: "(Laetud dokument)",
+    title: "(Uploaded document)",
     url: undefined,
     file: undefined,
     fileName: typeof ephemeralSource?.fileName === "string" ? ephemeralSource.fileName : undefined,
@@ -525,7 +535,7 @@ export async function POST(req) {
     section: undefined,
     year: undefined,
     pages: undefined,
-    short_ref: "(laetud dokument)"
+    short_ref: "(uploaded document)"
   }] : [];
   const ragSources = (budgeted.used.length ? budgeted.used : chosen).map((entry, idx) => {
     const pageNumbers = Array.isArray(entry.pages) ? entry.pages : [];
@@ -695,7 +705,7 @@ export async function POST(req) {
         convId: convId || undefined
       });
     } catch (err) {
-      const errMessage = (err?.response?.data?.error?.message || err?.error?.message || err?.message) ?? "OpenAI pĆ¤ring ebaĆµnnestus.";
+      const errMessage = (err?.response?.data?.error?.message || err?.error?.message || err?.message) ?? "chat.error.openai_request_failed";
       logError("openai.call.error", {
         err: errMessage,
         stack: err?.stack,

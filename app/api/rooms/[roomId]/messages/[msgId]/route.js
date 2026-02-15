@@ -3,9 +3,11 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -16,13 +18,23 @@ function json(data, status = 200) {
     }
   });
 }
+
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
     return {
       ok: true,
@@ -33,29 +45,25 @@ async function requireUser() {
     return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
   }
 }
+
 async function canDelete(userId, roomId, authorId, userRole) {
   if (userRole === "OWNER" || userRole === "MODERATOR") return true;
   return userRole === "MEMBER" && userId === authorId;
 }
-export async function DELETE(_req, {
-  params
-}) {
+
+export async function DELETE(_req, { params }) {
   const roomId = params?.roomId;
   const msgId = params?.msgId;
-  if (!roomId || !msgId) return json({
-    ok: false,
-    message: "Missing roomId or msgId"
-  }, 400);
+  if (!roomId || !msgId) return errorJson("api.rooms.missing_room_id_or_msg_id", 400);
+
   const roomIdNormalized = Number.isNaN(Number(roomId)) ? roomId : Number(roomId);
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   try {
     const membership = await prisma.roomMember.findFirst({
       where: {
@@ -64,10 +72,8 @@ export async function DELETE(_req, {
         leftAt: null
       }
     });
-    if (!membership) return json({
-      ok: false,
-      message: "Forbidden"
-    }, 403);
+    if (!membership) return errorJson("api.common.forbidden", 403);
+
     const message = await prisma.roomMessage.findFirst({
       where: {
         id: msgId,
@@ -79,24 +85,21 @@ export async function DELETE(_req, {
         deletedAt: true
       }
     });
-    if (!message) return json({
-      ok: false,
-      message: "Message not found"
-    }, 404);
-    if (message.deletedAt) return json({
-      ok: true,
-      id: msgId,
-      deleted: true
-    });
+    if (!message) return errorJson("api.rooms.message_not_found", 404);
+
+    if (message.deletedAt) {
+      return json({
+        ok: true,
+        id: msgId,
+        deleted: true
+      });
+    }
+
     const allowed = await canDelete(auth.userId, roomId, message.authorId, membership.role);
-    if (!allowed) return json({
-      ok: false,
-      message: "Forbidden"
-    }, 403);
+    if (!allowed) return errorJson("api.common.forbidden", 403);
+
     await prisma.roomMessage.update({
-      where: {
-        id: msgId
-      },
+      where: { id: msgId },
       data: {
         deletedAt: new Date()
       }
@@ -114,9 +117,6 @@ export async function DELETE(_req, {
     });
   } catch (err) {
     console.error("[room message delete] failed", err);
-    return json({
-      ok: false,
-      message: "Kustutamine ebaõnnestus"
-    }, 500);
+    return errorJson("api.rooms.delete_message_failed", 500);
   }
 }

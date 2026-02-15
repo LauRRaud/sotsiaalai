@@ -15,13 +15,18 @@ function json(data, status = 200) {
     }
   });
 }
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
 export async function GET() {
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
-    return json({
-      ok: false,
-      message: "Unauthorized"
-    }, 401);
+    return errorJson("api.common.unauthorized", 401);
   }
   const pickedRole = (session.user.role || "CLIENT").toString().toUpperCase();
   const role = normalizeRole(pickedRole);
@@ -48,10 +53,8 @@ export async function GET() {
       resetSeconds: secondsUntilUtcMidnight()
     });
   } catch (err) {
-    return json({
-      ok: false,
-      message: "Database error while reading analyze usage",
+    return errorJson("api.chat.db_error_analyze_usage", 500, {
       error: err?.message
-    }, 500);
+    });
   }
 }

@@ -1,30 +1,92 @@
 export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { prisma } from "@/lib/prisma";
 import { compare } from "bcrypt";
-import { normalizeEmail, normalizePin, isValidPin, randomOtpCode, hashOtpCode, maskEmail, generateOpaqueToken, hashOpaqueToken, fingerprintUserAgent, computeIpFromHeaders, computeIpRange, DEVICE_COOKIE_NAME, OTP_TTL_MINUTES, TEMP_LOGIN_TOKEN_MINUTES } from "@/lib/auth/pin-login";
+import { prisma } from "@/lib/prisma";
+import {
+  normalizeEmail,
+  normalizePin,
+  isValidPin,
+  randomOtpCode,
+  hashOtpCode,
+  maskEmail,
+  generateOpaqueToken,
+  hashOpaqueToken,
+  fingerprintUserAgent,
+  computeIpFromHeaders,
+  computeIpRange,
+  DEVICE_COOKIE_NAME,
+  OTP_TTL_MINUTES,
+  TEMP_LOGIN_TOKEN_MINUTES
+} from "@/lib/auth/pin-login";
 import { getMailer } from "@/lib/mailer";
 import { consumeRateLimit } from "@/lib/rate-limit";
-const LOGIN_STEP1_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_STEP1_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
-const LOGIN_STEP1_RATE_LIMIT_PER_IP = Number(process.env.LOGIN_STEP1_RATE_LIMIT_PER_IP || 60);
-const LOGIN_STEP1_RATE_LIMIT_PER_EMAIL = Number(process.env.LOGIN_STEP1_RATE_LIMIT_PER_EMAIL || 12);
-function json(data, status = 200) {
-  return NextResponse.json({
-    ok: status < 400,
-    ...data
-  }, {
-    status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache"
+import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
+
+const LOGIN_STEP1_RATE_LIMIT_WINDOW_MS = Number(
+  process.env.LOGIN_STEP1_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000
+);
+const LOGIN_STEP1_RATE_LIMIT_PER_IP = Number(
+  process.env.LOGIN_STEP1_RATE_LIMIT_PER_IP || 60
+);
+const LOGIN_STEP1_RATE_LIMIT_PER_EMAIL = Number(
+  process.env.LOGIN_STEP1_RATE_LIMIT_PER_EMAIL || 12
+);
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(
+    {
+      ok: status < 400,
+      ...payload
+    },
+    {
+      status,
+      headers: NO_STORE_HEADERS
     }
-  });
+  );
 }
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function localeFromRequest(request, bodyLocale) {
+  const direct = normalizeServerLocale(bodyLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+  return "en";
+}
+
 function sanitizeEmail(email) {
   const normalized = normalizeEmail(email);
   return normalized || "";
 }
+
 async function createTempLoginToken({
   userId,
   requiresOtp,
@@ -34,6 +96,7 @@ async function createTempLoginToken({
 }) {
   const token = generateOpaqueToken(32);
   const expiresAt = new Date(Date.now() + TEMP_LOGIN_TOKEN_MINUTES * 60 * 1000);
+
   await prisma.loginTempToken.create({
     data: {
       userId,
@@ -45,30 +108,36 @@ async function createTempLoginToken({
       trustedDeviceId: trustedDeviceId || null
     }
   });
-  return {
-    token,
-    expiresAt
-  };
+
+  return { token, expiresAt };
 }
-async function sendOtpEmail(email, code) {
+
+async function sendOtpEmail(email, code, locale) {
   const mailer = getMailer("login-otp");
   const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
   const isDev = process.env.NODE_ENV === "development";
-  console.log("[login-otp][DEV] OTP:", email, code);
-  if (!from) {
-    console.warn("[login-otp] EMAIL_FROM/SMTP_FROM puudub. Kood:", code);
-    if (isDev) {
-      return;
-    }
+
+  if (isDev) {
+    console.info("[login-otp][dev] generated otp", { email, code });
   }
-  const subject = "SotsiaalAI - sisselogimise kinnituskood";
-  const text = `Tere!\n\nSinu kinnituskood on: ${code}\nKood kehtib ${OTP_TTL_MINUTES} minutit.\n\nKui sa ei proovinud sisse logida, teavita meid voimalikult kiiresti.`;
-  const html = `
-    <p>Tere!</p>
-    <p>Sinu kinnituskood on: <strong>${code}</strong></p>
-    <p>Kood kehtib ${OTP_TTL_MINUTES} minutit.</p>
-    <p>Kui sa ei proovinud sisse logida, teavita meid voimalikult kiiresti.</p>
-  `;
+
+  if (!from) {
+    if (isDev) return;
+    throw new Error("api.auth.login.email_from_missing");
+  }
+
+  const subject = serverT(locale, "email.auth.login_otp.subject", {
+    minutes: OTP_TTL_MINUTES
+  });
+  const text = serverT(locale, "email.auth.login_otp.text", {
+    code,
+    minutes: OTP_TTL_MINUTES
+  });
+  const html = serverT(locale, "email.auth.login_otp.html", {
+    code,
+    minutes: OTP_TTL_MINUTES
+  });
+
   try {
     if (!isDev) {
       await mailer.sendMail({
@@ -80,44 +149,52 @@ async function sendOtpEmail(email, code) {
       });
     }
   } catch (error) {
-    console.error("[login-otp] SMTP viga:", error);
-    if (!isDev) {
-      throw error;
-    }
+    console.error("[login-otp] send failed", error);
+    if (!isDev) throw error;
   }
 }
+
 export async function POST(request) {
+  const body = await request.json().catch(() => ({}));
+  const locale = localeFromRequest(request, body?.locale);
+
   try {
-    const body = await request.json().catch(() => ({}));
     const email = sanitizeEmail(body?.email);
     const pin = normalizePin(body?.pin);
     const ipAddress = computeIpFromHeaders(request.headers) || "unknown";
-    const ipLimit = consumeRateLimit(`login-step1:ip:${ipAddress}`, LOGIN_STEP1_RATE_LIMIT_PER_IP, LOGIN_STEP1_RATE_LIMIT_WINDOW_MS);
+
+    const ipLimit = consumeRateLimit(
+      `login-step1:ip:${ipAddress}`,
+      LOGIN_STEP1_RATE_LIMIT_PER_IP,
+      LOGIN_STEP1_RATE_LIMIT_WINDOW_MS
+    );
     if (!ipLimit.allowed) {
-      return json({
-        message: "Liiga palju sisselogimise katseid. Proovi hiljem uuesti.",
+      return errorJson("api.auth.login.rate_limited", 429, locale, {
         code: "RATE_LIMITED"
-      }, 429);
+      });
     }
+
     if (email) {
-      const emailLimit = consumeRateLimit(`login-step1:email:${email}`, LOGIN_STEP1_RATE_LIMIT_PER_EMAIL, LOGIN_STEP1_RATE_LIMIT_WINDOW_MS);
+      const emailLimit = consumeRateLimit(
+        `login-step1:email:${email}`,
+        LOGIN_STEP1_RATE_LIMIT_PER_EMAIL,
+        LOGIN_STEP1_RATE_LIMIT_WINDOW_MS
+      );
       if (!emailLimit.allowed) {
-        return json({
-          message: "Liiga palju sisselogimise katseid. Proovi hiljem uuesti.",
+        return errorJson("api.auth.login.rate_limited", 429, locale, {
           code: "RATE_LIMITED"
-        }, 429);
+        });
       }
     }
+
     if (!email || !isValidPin(pin)) {
-      return json({
-        message: "Vale e-post või PIN.",
+      return errorJson("api.auth.login.invalid_credentials", 400, locale, {
         code: "INVALID_CREDENTIALS"
-      }, 400);
+      });
     }
+
     const user = await prisma.user.findUnique({
-      where: {
-        email
-      },
+      where: { email },
       select: {
         id: true,
         email: true,
@@ -126,28 +203,30 @@ export async function POST(request) {
         role: true
       }
     });
+
     if (!user?.passwordHash) {
-      return json({
-        message: "Vale e-post või PIN.",
+      return errorJson("api.auth.login.invalid_credentials", 400, locale, {
         code: "INVALID_CREDENTIALS"
-      }, 400);
+      });
     }
+
     const pinOk = await compare(pin, user.passwordHash);
     if (!pinOk) {
-      return json({
-        message: "Vale e-post või PIN.",
+      return errorJson("api.auth.login.invalid_credentials", 401, locale, {
         code: "INVALID_CREDENTIALS"
-      }, 401);
+      });
     }
-    const headers = request.headers;
-    const userAgent = headers.get("user-agent") || "";
+
+    const userAgent = request.headers.get("user-agent") || "";
     const fingerprint = fingerprintUserAgent(userAgent);
     const ipRange = computeIpRange(ipAddress);
     const cookieStore = await cookies();
     const deviceCookie = cookieStore.get(DEVICE_COOKIE_NAME)?.value;
     const now = new Date();
+
     let trustedDevice = null;
     let trustedDeviceCandidate = null;
+
     if (deviceCookie) {
       const deviceTokenHash = hashOpaqueToken(deviceCookie);
       const candidate = await prisma.trustedDevice.findFirst({
@@ -158,37 +237,46 @@ export async function POST(request) {
       });
       trustedDeviceCandidate = candidate;
       if (candidate && candidate.expiresAt > now) {
-        const fingerprintMatch = !candidate.userAgentFingerprint || candidate.userAgentFingerprint === fingerprint;
+        const fingerprintMatch =
+          !candidate.userAgentFingerprint ||
+          candidate.userAgentFingerprint === fingerprint;
         const ipMatch = !candidate.ipRange || !ipRange || candidate.ipRange === ipRange;
         if (fingerprintMatch && ipMatch) {
           trustedDevice = candidate;
           await prisma.trustedDevice.update({
-            where: {
-              id: candidate.id
-            },
-            data: {
-              lastUsedAt: now
-            }
+            where: { id: candidate.id },
+            data: { lastUsedAt: now }
           });
         }
       }
     }
-    const BYPASS_FOR_ADMINS = String(process.env.LOGIN_OTP_BYPASS_FOR_ADMINS || "").toLowerCase() === "true";
-    const bypassEmails = String(process.env.LOGIN_OTP_BYPASS_EMAILS || "").split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+
+    const bypassForAdmins =
+      String(process.env.LOGIN_OTP_BYPASS_FOR_ADMINS || "").toLowerCase() ===
+      "true";
+    const bypassEmails = String(process.env.LOGIN_OTP_BYPASS_EMAILS || "")
+      .split(",")
+      .map((value) => value.trim().toLowerCase())
+      .filter(Boolean);
     const isBypassEmail = bypassEmails.includes((user.email || "").toLowerCase());
-    const allowBypass = BYPASS_FOR_ADMINS && Boolean(user.isAdmin) || isBypassEmail;
+    const allowBypass = (bypassForAdmins && Boolean(user.isAdmin)) || isBypassEmail;
+
     const requiresOtp = !trustedDevice && !allowBypass;
-    const otpReason = requiresOtp && trustedDeviceCandidate && trustedDeviceCandidate.expiresAt <= now ? "trusted_device_expired" : undefined;
-    const {
-      token,
-      expiresAt
-    } = await createTempLoginToken({
+    const otpReason =
+      requiresOtp &&
+      trustedDeviceCandidate &&
+      trustedDeviceCandidate.expiresAt <= now
+        ? "trusted_device_expired"
+        : undefined;
+
+    const { token, expiresAt } = await createTempLoginToken({
       userId: user.id,
       requiresOtp,
       userAgent,
       ipAddress,
       trustedDeviceId: trustedDevice?.id
     });
+
     if (!requiresOtp) {
       return json({
         status: "success",
@@ -196,9 +284,11 @@ export async function POST(request) {
         expires_at: expiresAt.toISOString()
       });
     }
+
     const otpCode = randomOtpCode();
     const otpHash = await hashOtpCode(otpCode);
     const otpExpiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
+
     await prisma.emailOtpCode.create({
       data: {
         userId: user.id,
@@ -206,7 +296,9 @@ export async function POST(request) {
         expiresAt: otpExpiresAt
       }
     });
-    await sendOtpEmail(user.email, otpCode);
+
+    await sendOtpEmail(user.email, otpCode, locale);
+
     return json({
       status: "need_2fa",
       temp_login_token: token,
@@ -216,8 +308,8 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error("login-step1 error", error);
-    return json({
-      message: "Sisselogimine ebaõnnestus."
-    }, 500);
+    return errorJson("api.auth.login.step1_failed", 500, locale, {
+      code: "LOGIN_FAILED"
+    });
   }
 }

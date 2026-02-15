@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 export function useSpeech({
   locale,
   latestAiText,
@@ -254,7 +255,12 @@ export function useSpeech({
           });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || data?.ok === false || !data?.text) {
-            throw new Error(data?.message || tr("chat.mic.error"));
+            throw new Error(resolveApiMessage({
+              payload: data,
+              t: key => tr(key),
+              fallbackKey: "chat.mic.error",
+              fallbackText: tr("chat.mic.error")
+            }));
           }
           onAppendText?.(data.text);
         } catch (err) {
@@ -263,8 +269,8 @@ export function useSpeech({
       };
       rec.start();
       setRecording(true);
-    } catch (err) {
-      setRecordingError(err?.message || tr("chat.mic.cannot_start"));
+    } catch {
+      setRecordingError(tr("chat.mic.cannot_start"));
       stopRecording();
       stopAudioMeter();
     }

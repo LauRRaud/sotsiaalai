@@ -1,12 +1,15 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
 const CONVERSATION_TTL_DAYS = Number(process.env.CONVERSATION_TTL_DAYS || 90);
 const CONVERSATION_TTL_MS = Math.max(1, CONVERSATION_TTL_DAYS) * 24 * 60 * 60 * 1000;
+
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -17,11 +20,22 @@ function json(data, status = 200) {
     }
   });
 }
+
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
+
 function normalizeRole(role) {
   const r = String(role || "CLIENT").toUpperCase().trim();
   if (r === "ADMIN") return "SOCIAL_WORKER";
   return r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT";
 }
+
 function encodeCursor(row) {
   try {
     const pin = row.isPinned ? 1 : 0;
@@ -32,6 +46,7 @@ function encodeCursor(row) {
     return null;
   }
 }
+
 function parseCursor(token) {
   if (!token || typeof token !== "string") return null;
   const [pinPart, msPart, id] = token.split(":");
@@ -47,12 +62,14 @@ function parseCursor(token) {
     id
   };
 }
+
 function trimPreview(text = "", max = 160) {
   if (!text) return "";
   const normalized = String(text).replace(/\s+/g, " ").trim();
   if (!normalized) return "";
-  return normalized.length > max ? `${normalized.slice(0, max - 1)}…` : normalized;
+  return normalized.length > max ? `${normalized.slice(0, max - 1)}...` : normalized;
 }
+
 function fallbackTitle(text = "") {
   const normalized = trimPreview(text, 160);
   if (!normalized) return null;
@@ -60,9 +77,11 @@ function fallbackTitle(text = "") {
   if (sentence && sentence.length >= 3) return sentence;
   return normalized;
 }
+
 function conversationExpiryDate() {
   return new Date(Date.now() + CONVERSATION_TTL_MS);
 }
+
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -76,18 +95,17 @@ async function getAuthOptions() {
     }
   }
 }
+
 async function requireUser() {
   try {
-    const {
-      getServerSession
-    } = await import("next-auth/next");
+    const { getServerSession } = await import("next-auth/next");
     const authOptions = await getAuthOptions();
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return {
         ok: false,
         status: 401,
-        message: "Unauthorized"
+        message: "api.common.unauthorized"
       };
     }
     return {
@@ -99,19 +117,19 @@ async function requireUser() {
     return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
   }
 }
+
 function isDbOffline(err) {
   return err?.code === "P1001" || err?.code === "P1017" || err?.name === "PrismaClientInitializationError" || err?.name === "PrismaClientRustPanicError";
 }
+
 export async function GET(req) {
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || 30);
   const limit = Math.max(1, Math.min(100, Number.isFinite(limitParam) ? limitParam : 30));
@@ -119,60 +137,61 @@ export async function GET(req) {
   const parsedCursor = parseCursor(cursorToken);
   const roleParam = url.searchParams.get("role");
   const roleFilter = roleParam ? normalizeRole(roleParam) : null;
+
   const baseWhere = {
     userId: auth.userId,
     archivedAt: null,
-    OR: [{
-      expiresAt: null
-    }, {
-      expiresAt: {
-        gt: new Date()
+    OR: [
+      { expiresAt: null },
+      {
+        expiresAt: {
+          gt: new Date()
+        }
       }
-    }],
-    ...(roleFilter ? {
-      role: roleFilter
-    } : {})
+    ],
+    ...(roleFilter ? { role: roleFilter } : {})
   };
+
   let where = baseWhere;
   if (parsedCursor) {
     const cursorFilters = [];
     if (parsedCursor.isPinned) {
-      cursorFilters.push({
-        isPinned: false
-      });
+      cursorFilters.push({ isPinned: false });
     }
     cursorFilters.push({
       isPinned: parsedCursor.isPinned,
-      OR: [{
-        lastActivityAt: {
-          lt: parsedCursor.date
-        }
-      }, {
-        AND: [{
-          lastActivityAt: parsedCursor.date
-        }, {
-          id: {
-            lt: parsedCursor.id
+      OR: [
+        {
+          lastActivityAt: {
+            lt: parsedCursor.date
           }
-        }]
-      }]
+        },
+        {
+          AND: [
+            { lastActivityAt: parsedCursor.date },
+            {
+              id: {
+                lt: parsedCursor.id
+              }
+            }
+          ]
+        }
+      ]
     });
     where = {
-      AND: [baseWhere, {
-        OR: cursorFilters
-      }]
+      AND: [
+        baseWhere,
+        {
+          OR: cursorFilters
+        }
+      ]
     };
   }
+
   try {
     const rows = await prisma.conversation.findMany({
       where,
-      orderBy: [{
-        isPinned: "desc"
-      }, {
-        lastActivityAt: "desc"
-      }, {
-        id: "desc"
-      }],
+      orderBy: [{ isPinned: "desc" }, { lastActivityAt: "desc" }, { id: "desc" }],
       take: limit + 1,
       select: {
         id: true,
@@ -182,9 +201,7 @@ export async function GET(req) {
         isPinned: true,
         role: true,
         messages: {
-          orderBy: {
-            createdAt: "desc"
-          },
+          orderBy: { createdAt: "desc" },
           take: 1,
           select: {
             content: true
@@ -192,12 +209,13 @@ export async function GET(req) {
         }
       }
     });
+
     const hasMore = rows.length > limit;
     const pageRows = hasMore ? rows.slice(0, limit) : rows;
     const items = pageRows.map(row => {
       const previewSource = row.messages?.[0]?.content || row.summary || "";
       const preview = trimPreview(previewSource);
-      const title = row.title || fallbackTitle(previewSource) || "Vestlus";
+      const title = row.title || fallbackTitle(previewSource) || null;
       return {
         id: row.id,
         title,
@@ -222,28 +240,27 @@ export async function GET(req) {
         conversations: [],
         nextCursor: null,
         degraded: true,
-        message: "Vestlusi ei õnnestu andmebaasist laadida (ühendus puudub)."
+        messageKey: "api.chat.db_unavailable",
+        message: "api.chat.db_unavailable"
       });
     }
-    return json({
-      ok: false,
-      message: "Database error while listing conversations",
+    return errorJson("api.chat.db_error_conversations_list", 500, {
       error: err?.message
-    }, 500);
+    });
   }
 }
+
 export async function POST(req) {
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   let body = {};
   try {
     body = await req.json();
   } catch {
     body = {};
   }
+
   let convId = String(body?.id || "").trim();
   if (!convId) {
     try {
@@ -252,75 +269,70 @@ export async function POST(req) {
       convId = String(Date.now());
     }
   }
+
   const role = normalizeRole(body?.role);
   const title = typeof body?.title === "string" && body.title.trim() ? body.title.trim().slice(0, 160) : null;
+
   try {
     const existing = await prisma.conversation.findUnique({
-      where: {
-        id: convId
-      },
+      where: { id: convId },
       select: {
         userId: true
       }
     });
     if (existing && existing.userId !== auth.userId) {
-      return json({
-        ok: false,
-        message: "Conversation already exists."
-      }, 409);
+      return errorJson("api.chat.conversation_exists", 409);
     }
+
     const now = new Date();
     const expiry = conversationExpiryDate();
-    const row = existing ? await prisma.conversation.update({
-      where: {
-        id: convId
-      },
-      data: {
-        role,
-        archivedAt: null,
-        lastActivityAt: now,
-        expiresAt: expiry,
-        ...(title ? {
-          title
-        } : {})
-      },
-      select: {
-        id: true,
-        title: true,
-        lastActivityAt: true,
-        role: true
-      }
-    }) : await prisma.conversation.create({
-      data: {
-        id: convId,
-        userId: auth.userId,
-        role,
-        title,
-        lastActivityAt: now,
-        expiresAt: expiry
-      },
-      select: {
-        id: true,
-        title: true,
-        lastActivityAt: true,
-        role: true
-      }
-    });
+    const row = existing
+      ? await prisma.conversation.update({
+          where: { id: convId },
+          data: {
+            role,
+            archivedAt: null,
+            lastActivityAt: now,
+            expiresAt: expiry,
+            ...(title ? { title } : {})
+          },
+          select: {
+            id: true,
+            title: true,
+            lastActivityAt: true,
+            role: true
+          }
+        })
+      : await prisma.conversation.create({
+          data: {
+            id: convId,
+            userId: auth.userId,
+            role,
+            title,
+            lastActivityAt: now,
+            expiresAt: expiry
+          },
+          select: {
+            id: true,
+            title: true,
+            lastActivityAt: true,
+            role: true
+          }
+        });
+
     return json({
       ok: true,
       conversation: {
         id: row.id,
-        title: row.title || "Vestlus",
+        title: row.title || null,
         lastActivityAt: row.lastActivityAt,
         role: row.role
       }
     });
   } catch (err) {
     console.error("[chat/conversations POST] failed", err);
-    return json({
-      ok: false,
-      message: "Database error while creating conversation",
+    return errorJson("api.chat.db_error_conversation_create", 500, {
       error: err?.message
-    }, 500);
+    });
   }
 }

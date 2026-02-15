@@ -10,6 +10,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
@@ -587,7 +588,11 @@ export default function ProfiilBody({
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || payload?.message || t("profile.load_failed"));
+          setError(resolveApiMessage({
+            payload,
+            t,
+            fallbackKey: "profile.load_failed"
+          }));
           setLoadFailed(true);
           return;
         }
@@ -699,7 +704,11 @@ export default function ProfiilBody({
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(payload?.error || payload?.message || t("profile.delete_failed"));
+          setError(resolveApiMessage({
+            payload,
+            t,
+            fallbackKey: "profile.delete_failed"
+          }));
           setDeleting(false);
           return;
         }

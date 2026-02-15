@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 export function useChatAnalysisController({
   t,
   locale: _locale,
@@ -273,8 +274,15 @@ export function useChatAnalysisController({
         ok: false
       }));
       if (!res.ok || !data?.ok) {
-        const statusError = t("chat.upload.error_status").replace("{status}", String(res.status));
-        throw new Error(data?.message || statusError);
+        const statusError = resolveApiMessage({
+          payload: data,
+          t,
+          fallbackKey: "chat.upload.error_status",
+          fallbackText: t("chat.upload.error_status")
+        }).replace("{status}", String(res.status));
+        const statusErr = new Error("chat.upload.error_status");
+        statusErr.userMessage = statusError;
+        throw statusErr;
       }
       const chunksArray = Array.isArray(data.chunks) ? data.chunks : [];
       setUploadPreview({
@@ -302,7 +310,7 @@ export function useChatAnalysisController({
       refreshUsage();
     } catch (err) {
       const genericError = t("chat.upload.error_generic");
-      setUploadError(err?.message || genericError);
+      setUploadError(err?.userMessage || genericError);
       setUploadPreview(null);
       setEphemeralChunks([]);
       setDocOnlyMode(true);

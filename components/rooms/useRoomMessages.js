@@ -41,6 +41,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const timerRef = useRef(null);
   const esRef = useRef(null);
   const retryRef = useRef(2000);
+  const reconnectTimerRef = useRef(null);
   const load = useCallback(async (reset = false) => {
     if (!roomId) return;
     const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
@@ -73,6 +74,10 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   }, [roomId, useSse]);
   const connectSse = useCallback(() => {
     if (!roomId || blocked || authRequired) return;
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
     if (esRef.current) esRef.current.close();
     const es = new EventSource(`/api/rooms/${roomId}/messages/stream`);
     esRef.current = es;
@@ -94,7 +99,10 @@ export function useRoomMessages(roomId, pollMs = 3000) {
       const delay = Math.min(30000, retryRef.current);
       retryRef.current = Math.min(30000, retryRef.current * 2);
       if (!blocked && !authRequired) {
-        setTimeout(() => connectSse(), delay);
+        reconnectTimerRef.current = setTimeout(() => {
+          reconnectTimerRef.current = null;
+          connectSse();
+        }, delay);
       }
     };
     es.onmessage = ev => {
@@ -133,6 +141,10 @@ export function useRoomMessages(roomId, pollMs = 3000) {
       cancelled = true;
       if (timerRef.current) clearInterval(timerRef.current);
       if (esRef.current) esRef.current.close();
+      if (reconnectTimerRef.current) {
+        clearTimeout(reconnectTimerRef.current);
+        reconnectTimerRef.current = null;
+      }
     };
   }, [roomId, pollMs, load, connectSse]);
   return {

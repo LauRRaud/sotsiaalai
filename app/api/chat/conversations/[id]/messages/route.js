@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -14,9 +16,20 @@ function json(data, status = 200) {
     }
   });
 }
+
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
+
 function isDbOffline(err) {
   return err?.code === "P1001" || err?.code === "P1017" || err?.name === "PrismaClientInitializationError" || err?.name === "PrismaClientRustPanicError";
 }
+
 function parseCursor(token) {
   if (!token || typeof token !== "string") return null;
   const [msPart, id] = token.split(":");
@@ -29,6 +42,7 @@ function parseCursor(token) {
     id
   };
 }
+
 function encodeCursor(row) {
   try {
     const ms = row.createdAt instanceof Date ? row.createdAt.getTime() : new Date(row.createdAt).getTime();
@@ -38,10 +52,12 @@ function encodeCursor(row) {
     return null;
   }
 }
+
 function isPlausibleId(id) {
   if (!id || typeof id !== "string") return false;
   return id.length >= 8 && id.length <= 200;
 }
+
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -55,17 +71,16 @@ async function getAuthOptions() {
     }
   }
 }
+
 async function requireUser() {
   try {
-    const {
-      getServerSession
-    } = await import("next-auth/next");
+    const { getServerSession } = await import("next-auth/next");
     const authOptions = await getAuthOptions();
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
     return {
       ok: true,
@@ -76,34 +91,28 @@ async function requireUser() {
     return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
   }
 }
-export async function GET(req, {
-  params
-}) {
+
+export async function GET(req, { params }) {
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   const resolvedParams = params instanceof Promise ? await params : params;
   const id = resolvedParams?.id ? String(resolvedParams.id).trim() : "";
-  if (!isPlausibleId(id)) return json({
-    ok: false,
-    message: "id invalid"
-  }, 400);
+  if (!isPlausibleId(id)) return errorJson("api.chat.invalid_id", 400);
+
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || 50);
   const limit = Math.max(1, Math.min(100, Number.isFinite(limitParam) ? limitParam : 50));
   const beforeToken = url.searchParams.get("before");
   const beforeCursor = parseCursor(beforeToken);
+
   try {
     const conversation = await prisma.conversation.findUnique({
-      where: {
-        id
-      },
+      where: { id },
       select: {
         id: true,
         userId: true,
@@ -111,44 +120,40 @@ export async function GET(req, {
       }
     });
     if (!conversation || conversation.archivedAt) {
-      return json({
-        ok: false,
-        message: "not-found"
-      }, 404);
+      return errorJson("api.chat.not_found", 404);
     }
     if (!auth.isAdmin && conversation.userId !== auth.userId) {
-      return json({
-        ok: false,
-        message: "forbidden"
-      }, 403);
+      return errorJson("api.common.forbidden", 403);
     }
+
     const baseWhere = {
       conversationId: id
     };
-    const cursorWhere = beforeCursor ? {
-      OR: [{
-        createdAt: {
-          lt: beforeCursor.date
+    const cursorWhere = beforeCursor
+      ? {
+          OR: [
+            {
+              createdAt: {
+                lt: beforeCursor.date
+              }
+            },
+            {
+              AND: [
+                { createdAt: beforeCursor.date },
+                {
+                  id: {
+                    lt: beforeCursor.id
+                  }
+                }
+              ]
+            }
+          ]
         }
-      }, {
-        AND: [{
-          createdAt: beforeCursor.date
-        }, {
-          id: {
-            lt: beforeCursor.id
-          }
-        }]
-      }]
-    } : null;
+      : null;
+
     const rows = await prisma.conversationMessage.findMany({
-      where: cursorWhere ? {
-        AND: [baseWhere, cursorWhere]
-      } : baseWhere,
-      orderBy: [{
-        createdAt: "desc"
-      }, {
-        id: "desc"
-      }],
+      where: cursorWhere ? { AND: [baseWhere, cursorWhere] } : baseWhere,
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: limit + 1,
       select: {
         id: true,
@@ -158,6 +163,7 @@ export async function GET(req, {
         createdAt: true
       }
     });
+
     const hasMore = rows.length > limit;
     const pageRows = hasMore ? rows.slice(0, limit) : rows;
     const items = [...pageRows].reverse().map(row => ({
@@ -169,6 +175,7 @@ export async function GET(req, {
     }));
     const oldest = items[0];
     const nextCursor = hasMore && oldest ? encodeCursor(oldest) : null;
+
     return json({
       ok: true,
       items,
@@ -176,16 +183,12 @@ export async function GET(req, {
     });
   } catch (err) {
     if (isDbOffline(err)) {
-      return json({
-        ok: false,
-        degraded: true,
-        message: "Andmebaas pole kättesaadav."
-      }, 503);
+      return errorJson("api.chat.db_unavailable", 503, {
+        degraded: true
+      });
     }
-    return json({
-      ok: false,
-      message: "Database error while loading messages",
+    return errorJson("api.chat.db_error_conversation_messages", 500, {
       error: err?.message
-    }, 500);
+    });
   }
 }

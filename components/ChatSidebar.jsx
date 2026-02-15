@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import Button from "@/components/ui/Button";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 function uuid() {
@@ -48,6 +49,12 @@ export default function ChatSidebar() {
   const {
     t
   } = useI18n();
+  const resolveErrorMessage = useCallback((payload, fallbackKey) => resolveApiMessage({
+    payload,
+    t,
+    fallbackKey,
+    fallbackText: typeof t === "function" ? t(fallbackKey) : fallbackKey
+  }), [t]);
   const pageSize = useMemo(() => {
     if (typeof window === "undefined") return 30;
     return window.innerWidth < 640 ? 15 : 30;
@@ -83,7 +90,7 @@ export default function ChatSidebar() {
         conversations: []
       }));
       if (!r.ok || !data?.ok) {
-        throw new Error(data?.message || t("chat.sidebar.error.load"));
+        throw new Error(resolveErrorMessage(data, "chat.sidebar.error.load"));
       }
       const newItems = Array.isArray(data.conversations) ? data.conversations : [];
       setItems(prev => reset ? newItems : [...prev, ...newItems]);
@@ -91,7 +98,7 @@ export default function ChatSidebar() {
       cursorRef.current = nextCursor;
       setHasMore(Boolean(nextCursor));
       if (data?.degraded) {
-        setError(data.message || t("chat.sidebar.error.history"));
+        setError(resolveErrorMessage(data, "chat.sidebar.error.history"));
       }
     } catch (e) {
       if (e?.name !== "AbortError") {
@@ -101,7 +108,7 @@ export default function ChatSidebar() {
       if (abortRef.current === ac) abortRef.current = null;
       setBusy(false);
     }
-  }, [pageSize, t]);
+  }, [pageSize, resolveErrorMessage, t]);
   const fetchRooms = useCallback(async () => {
     roomsAbortRef.current?.abort();
     const ac = new AbortController();
@@ -117,7 +124,7 @@ export default function ChatSidebar() {
         rooms: []
       }));
       if (!r.ok || !data?.ok) {
-        throw new Error(data?.message || "Rooms fetch failed");
+        throw new Error(resolveErrorMessage(data, "chat.sidebar.error.load"));
       }
       const normalized = Array.isArray(data.rooms) ? data.rooms.map(room => ({
         id: room.id,
@@ -135,7 +142,7 @@ export default function ChatSidebar() {
       if (roomsAbortRef.current === ac) roomsAbortRef.current = null;
       setRoomsBusy(false);
     }
-  }, [t]);
+  }, [resolveErrorMessage, t]);
   const refreshAll = useCallback(() => {
     fetchList({
       reset: true
@@ -300,7 +307,7 @@ export default function ChatSidebar() {
       });
       const data = await r.json().catch(() => ({}));
       if (!r.ok || data?.ok === false) {
-        throw new Error(data?.message || t("chat.sidebar.error.create"));
+        throw new Error(resolveErrorMessage(data, "chat.sidebar.error.create"));
       }
       const nextId = data?.conversation?.id || id;
       activateConversation(nextId, {
@@ -312,7 +319,7 @@ export default function ChatSidebar() {
     } finally {
       setCreating(false);
     }
-  }, [activateConversation, busy, creating, refreshAll, t]);
+  }, [activateConversation, busy, creating, refreshAll, resolveErrorMessage, t]);
   const onDelete = useCallback(async id => {
     if (!id) return;
     if (!confirm(t("chat.sidebar.confirm.delete"))) return;
@@ -324,7 +331,7 @@ export default function ChatSidebar() {
       });
       const data = await r.json().catch(() => ({}));
       if (!r.ok || data?.ok === false) {
-        throw new Error(data?.message || t("chat.sidebar.error.delete"));
+        throw new Error(resolveErrorMessage(data, "chat.sidebar.error.delete"));
       }
       refreshAll();
       try {
@@ -338,7 +345,7 @@ export default function ChatSidebar() {
     } finally {
       setBusy(false);
     }
-  }, [refreshAll, t]);
+  }, [refreshAll, resolveErrorMessage, t]);
   const fetchAllConversationIds = useCallback(async () => {
     const ids = [];
     let nextCursor = null;
@@ -356,7 +363,7 @@ export default function ChatSidebar() {
         conversations: []
       }));
       if (!r.ok || !data?.ok) {
-        throw new Error(data?.message || t("chat.sidebar.error.load"));
+        throw new Error(resolveErrorMessage(data, "chat.sidebar.error.load"));
       }
       const list = Array.isArray(data.conversations) ? data.conversations : [];
       list.forEach(row => {
@@ -366,7 +373,7 @@ export default function ChatSidebar() {
       loops += 1;
     } while (nextCursor && loops < 50);
     return ids;
-  }, [t]);
+  }, [resolveErrorMessage]);
   const deleteConversationIds = useCallback(async ids => {
     const unique = Array.from(new Set(ids)).filter(Boolean);
     if (!unique.length) return {
@@ -383,7 +390,7 @@ export default function ChatSidebar() {
         });
         const data = await r.json().catch(() => ({}));
         if (!r.ok || data?.ok === false) {
-          throw new Error(data?.message || t("chat.sidebar.error.delete"));
+          throw new Error(resolveErrorMessage(data, "chat.sidebar.error.delete"));
         }
       } catch (e) {
         failures.push({
@@ -407,7 +414,7 @@ export default function ChatSidebar() {
       deleted: unique.length - failures.length,
       failed: failures.length
     };
-  }, [refreshAll, t]);
+  }, [refreshAll, resolveErrorMessage, t]);
   const handleDeleteSelected = useCallback(async () => {
     if (!selectedIds.size) return;
     if (!confirm(t("chat.sidebar.confirm.delete_selected"))) {
@@ -548,7 +555,7 @@ export default function ChatSidebar() {
                         </svg>
                       </span>
                     </label> : null}
-                <button className="flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || "Vestlus"} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
+                <button className="flex min-w-0 w-full flex-1 flex-col gap-[0.45rem] bg-transparent p-0 text-left border-0 appearance-none" onClick={() => selectMode ? null : onPick(c)} title={c.preview || c.title || t("chat.sidebar.item.fallback_title")} aria-current={isActive ? "true" : undefined} aria-disabled={selectMode ? "true" : undefined}>
                   <div className="flex flex-wrap items-center justify-start gap-2">
                     <span className="text-[1.2rem] max-[48em]:text-[1.38rem] font-semibold text-[rgba(242,241,239,0.94)] [.theme-light_&]:text-[rgba(31,41,55,0.92)]">
                       {c.title || c.preview || t("chat.sidebar.item.fallback_title")}

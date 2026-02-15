@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -15,13 +17,23 @@ function json(data, status = 200) {
     }
   });
 }
+
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
     return {
       ok: true,
@@ -31,23 +43,18 @@ async function requireUser() {
     return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
   }
 }
-export async function POST(_req, {
-  params
-}) {
+
+export async function POST(_req, { params }) {
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) return json({
-    ok: false,
-    message: "Missing roomId"
-  }, 400);
+  if (!roomIdRaw) return errorJson("api.common.missing_room_id", 400);
+
   const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
   try {
     const membership = await prisma.roomMember.findFirst({
@@ -57,16 +64,11 @@ export async function POST(_req, {
         leftAt: null
       }
     });
-    if (!membership) return json({
-      ok: false,
-      message: "Not a member"
-    }, 404);
+    if (!membership) return errorJson("api.rooms.not_member", 404);
     if (membership.role === "OWNER") {
-      return json({
-        ok: false,
-        message: "Omanik ei saa ruumist lahkuda."
-      }, 409);
+      return errorJson("api.rooms.owner_cannot_leave", 409);
     }
+
     await prisma.roomMember.update({
       where: {
         roomId_userId: {
@@ -78,14 +80,12 @@ export async function POST(_req, {
         leftAt: new Date()
       }
     });
+
     return json({
       ok: true
     });
   } catch (err) {
     console.error("[room leave] failed", err);
-    return json({
-      ok: false,
-      message: "Failed to leave room"
-    }, 500);
+    return errorJson("api.rooms.leave_failed", 500);
   }
 }

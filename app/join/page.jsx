@@ -10,6 +10,7 @@ import LoginModal from "@/components/LoginModal";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 const pageShellClassName = "mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-[env(safe-area-inset-bottom,0px)] max-md:pt-[env(safe-area-inset-top,0px)] max-md:pb-[env(safe-area-inset-bottom,0px)]";
 const titleClassName = glassPageTitleClassName;
@@ -56,7 +57,12 @@ export default function JoinPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {
-        const msg = data?.message || joinErrorText;
+        const msg = resolveApiMessage({
+          payload: data,
+          t,
+          fallbackKey: "join.error",
+          fallbackText: joinErrorText
+        });
         throw new Error(msg);
       }
       setStatusMsg(t("join.success"));

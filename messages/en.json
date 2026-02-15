@@ -14,6 +14,9 @@
     "back": "Back",
     "back_to_previous": "Back to previous page"
   },
+  "routes": {
+    "password_reset_path": "/taasta-parool"
+  },
   "buttons": {
     "save": "Save",
     "save_changes": "Save changes",
@@ -243,7 +246,8 @@
       "error_email_invalid": "Please enter a valid email address.",
       "error_pin_required": "Please enter your PIN.",
       "error_pin_length": "PIN must be between 4 and 8 digits.",
-      "error_failed": "Email update failed."
+      "error_failed": "Email update failed.",
+      "error_email_in_use": "This email is already in use."
     },
     "pin_help": "Enter your current PIN to confirm email or PIN changes. PIN must be between 4 and 8 digits.",
     "current_pin_label": "Current PIN",
@@ -257,7 +261,9 @@
       "pin_required": "Please enter and confirm the new PIN.",
       "pin_invalid": "PIN must be between 4 and 8 digits.",
       "pin_mismatch": "PIN entries do not match.",
-      "no_changes": "Nothing to update."
+      "no_changes": "Nothing to update.",
+      "current_pin_invalid": "Current PIN is invalid.",
+      "user_not_found": "User not found."
     }
   },
   "accessibility": {
@@ -424,7 +430,11 @@
       "interrupted": "Answer generation was stopped.",
       "interrupted_suffix": "(Answer generation was stopped.)",
       "generic": "Sorry, something went wrong while getting the answer.",
-      "with_detail": "Error: {message}"
+      "with_detail": "Error: {message}",
+      "invalid_json": "Invalid JSON body.",
+      "message_required": "Message is required.",
+      "invalid_conv_id": "Conversation id is invalid.",
+      "openai_request_failed": "OpenAI request failed."
     },
     "menu": {
       "open": "Open conversations",
@@ -554,7 +564,8 @@
     "page_label": "Chat content",
     "room": {
       "blocked": "Chat participation is currently unavailable. Please contact your specialist.",
-      "auth_required": "Session expired. Please sign in again."
+      "auth_required": "Session expired. Please sign in again.",
+      "send_error": "Message could not be sent."
     },
     "show_recent": "Show fewer",
     "mic": {
@@ -831,6 +842,159 @@
     "status": {
       "accepted_self": "Joined (own plan)",
       "accepted_sponsored": "Joined (sponsored)"
+    },
+    "error": {
+      "rate_limited": "Too many requests. Please try again later.",
+      "emails_required": "Add at least one email address.",
+      "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
+      "sponsor_capacity_full": "Sponsored seats limit is full."
+    }
+  },
+  "email": {
+    "auth": {
+      "reset": {
+        "subject": "SotsiaalAI PIN reset",
+        "text": "Hello!\n\nYou can reset your PIN using this link:\n{resetUrl}\n\nIf you did not request this, you can ignore this email.",
+        "html": "<p>Hello!</p><p>You can reset your PIN using this link:</p><p><a href=\"{resetUrl}\">{resetUrl}</a></p><p>If you did not request this, you can ignore this email.</p>"
+      },
+      "login_otp": {
+        "subject": "SotsiaalAI sign-in verification code",
+        "text": "Hello!\n\nYour verification code is: {code}\nThe code is valid for {minutes} minutes.\n\nIf you did not try to sign in, please ignore this email.",
+        "html": "<p>Hello!</p><p>Your verification code is: <strong>{code}</strong></p><p>The code is valid for {minutes} minutes.</p><p>If you did not try to sign in, please ignore this email.</p>"
+      },
+      "login_otp_resend": {
+        "subject": "SotsiaalAI new verification code",
+        "text": "Hello!\n\nYour new verification code is: {code}\nThe code is valid for {minutes} minutes.\n\nIf you did not try to sign in, please ignore this email.",
+        "html": "<p>Hello!</p><p>Your new verification code is: <strong>{code}</strong></p><p>The code is valid for {minutes} minutes.</p><p>If you did not try to sign in, please ignore this email.</p>"
+      },
+      "verify": {
+        "subject": "Confirm your email address",
+        "text": "Hello!\n\nPlease confirm your email address using the link below:\n{verifyUrl}\n\nIf you did not create an account, you can ignore this email.",
+        "html": "<p>Hello!</p><p>Please confirm your email address using the link below:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>If you did not create an account, you can ignore this email.</p>"
+      }
+    }
+  },
+  "api": {
+    "common": {
+      "unauthorized": "Please sign in to continue.",
+      "forbidden": "You do not have permission for this action.",
+      "invalid_request": "Invalid request.",
+      "invalid_json": "Invalid JSON payload.",
+      "missing_room_id": "Room ID is missing.",
+      "rate_limited": "Too many requests. Please try again later."
+    },
+    "chat": {
+      "invalid_conv_id": "Invalid conversation ID.",
+      "invalid_id": "Invalid ID.",
+      "not_found": "Conversation not found.",
+      "conversation_exists": "Conversation already exists.",
+      "db_unavailable": "Database is temporarily unavailable.",
+      "db_error_run_read": "Could not load conversation context.",
+      "db_error_analyze_usage": "Could not load analysis usage.",
+      "db_error_conversations_list": "Could not load conversations.",
+      "db_error_conversation_create": "Could not create conversation.",
+      "db_error_conversation_read": "Could not load conversation.",
+      "db_error_conversation_delete": "Could not delete conversation.",
+      "db_error_conversation_restore": "Could not restore conversation.",
+      "db_error_conversation_messages": "Could not load conversation messages.",
+      "analyze": {
+        "multipart_required": "Request must be multipart/form-data.",
+        "file_required": "Please attach a file.",
+        "file_too_large": "File is too large.",
+        "quota_exceeded": "Analysis quota exceeded.",
+        "quota_check_failed": "Could not verify analysis quota.",
+        "rag_key_missing": "Analysis service is not configured.",
+        "rag_host_external_denied": "External analysis host is not allowed.",
+        "rag_service_failed": "Analysis service request failed.",
+        "service_unavailable": "Analysis service is currently unavailable.",
+        "privacy_ephemeral": "File is processed ephemerally and not stored."
+      }
+    },
+    "rooms": {
+      "not_found": "Room not found.",
+      "not_member": "You are not a member of this room.",
+      "owner_cannot_leave": "Room owner cannot leave the room.",
+      "missing_room_id_or_msg_id": "Room ID or message ID is missing.",
+      "message_not_found": "Message not found.",
+      "message_required": "Message content is required.",
+      "access_denied": "Access denied.",
+      "join_unavailable": "Joining is currently unavailable.",
+      "send_failed": "Failed to send message.",
+      "read_update_failed": "Failed to update read state.",
+      "leave_failed": "Failed to leave room.",
+      "delete_failed": "Failed to delete room.",
+      "delete_message_failed": "Failed to delete message."
+    },
+    "stt": {
+      "not_configured": "Speech-to-text service is not configured.",
+      "rate_limited": "Too many dictation requests. Please try again later.",
+      "audio_missing": "Audio input is missing.",
+      "transcription_failed": "Dictation failed.",
+      "service_error": "Speech-to-text service error."
+    },
+    "tts": {
+      "not_configured": "Text-to-speech service is not configured.",
+      "rate_limited": "Too many speech requests. Please try again later.",
+      "text_missing": "Text input is missing.",
+      "text_too_long": "Text is too long.",
+      "synthesis_failed": "Speech synthesis failed.",
+      "service_error": "Text-to-speech service error."
+    },
+    "auth": {
+      "reset": {
+        "rate_limited_request": "Too many reset requests. Please try again later.",
+        "rate_limited_update": "Too many PIN update attempts. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "missing_token_or_pin": "Reset token or PIN is missing.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
+        "token_invalid": "Reset token is invalid or already used.",
+        "token_expired": "Reset link has expired. Please request a new link.",
+        "user_not_found": "User not found.",
+        "request_failed": "Failed to send reset link. Please try again later.",
+        "update_failed": "Failed to update PIN.",
+        "base_url_missing": "Reset base URL is not configured.",
+        "email_from_missing": "Sender email is not configured."
+      },
+      "login": {
+        "rate_limited": "Too many sign-in attempts. Please try again later.",
+        "invalid_credentials": "Incorrect email or PIN.",
+        "missing_fields": "Missing required information.",
+        "token_invalid": "Sign-in token is invalid.",
+        "token_expired": "Sign-in token has expired.",
+        "otp_invalid": "The code is invalid or has expired.",
+        "step1_failed": "Sign-in failed. Please try again.",
+        "verify_failed": "Code verification failed. Please try again.",
+        "resend_missing_token": "Missing temporary sign-in token.",
+        "resend_token_invalid": "This code cannot be resent.",
+        "user_missing": "User not found.",
+        "resend_failed": "Failed to resend the code.",
+        "email_from_missing": "Sender email is not configured."
+      },
+      "register": {
+        "rate_limited": "Too many registration attempts. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
+        "email_in_use": "This email address is already in use.",
+        "failed": "Registration failed. Please try again."
+      },
+      "verify": {
+        "invalid_link": "The verification link is invalid or incomplete.",
+        "link_invalid_or_used": "This verification link is invalid or has already been used.",
+        "link_expired": "This verification link has expired.",
+        "user_not_found": "User not found.",
+        "confirm_failed": "Email verification failed.",
+        "rate_limited": "Too many verification requests. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "send_failed": "Failed to send verification email.",
+        "base_url_missing": "Verification base URL is not configured.",
+        "email_from_missing": "Sender email is not configured."
+      }
+    },
+    "subscription": {
+      "user_not_found": "User not found.",
+      "load_failed": "Failed to load subscription.",
+      "activate_failed": "Failed to activate subscription.",
+      "cancel_failed": "Failed to cancel subscription."
     }
   }
 }

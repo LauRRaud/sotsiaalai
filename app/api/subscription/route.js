@@ -1,50 +1,96 @@
 export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { SubscriptionStatus } from "@/generated/prisma/client";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { prisma } from "@/lib/prisma";
+
 const ACTIVE_STATUS = SubscriptionStatus.ACTIVE;
 const CANCELED_STATUS = SubscriptionStatus.CANCELED;
-function json(data, status = 200) {
-  return NextResponse.json(data, {
+const PLAN_MAX_LEN = 80;
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: NO_STORE_HEADERS
   });
 }
+
 function ok(payload = {}, status = 200) {
-  return json({
-    ok: true,
-    ...payload
-  }, status);
+  return json(
+    {
+      ok: true,
+      ...payload
+    },
+    status
+  );
 }
-function err(message, status = 400, extras = {}) {
-  return json({
-    ok: false,
-    message,
-    ...extras
-  }, status);
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
 }
+
+function localeFromRequest(request, bodyLocale) {
+  const direct = normalizeServerLocale(bodyLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+
+  return "en";
+}
+
 async function requireUser(request) {
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET
   });
+
   if (!token?.id) return null;
   return {
     token,
     userId: String(token.id)
   };
 }
+
 function shape(subscription) {
   if (!subscription) return null;
+
   const now = Date.now();
-  const validUntil = subscription.validUntil ? new Date(subscription.validUntil).getTime() : null;
-  const daysLeft = validUntil && validUntil > now ? Math.ceil((validUntil - now) / (1000 * 60 * 60 * 24)) : 0;
+  const validUntilTs = subscription.validUntil
+    ? new Date(subscription.validUntil).getTime()
+    : null;
+  const daysLeft =
+    validUntilTs && validUntilTs > now
+      ? Math.ceil((validUntilTs - now) / (1000 * 60 * 60 * 24))
+      : 0;
   const isActive = subscription.status === ACTIVE_STATUS && daysLeft > 0;
+
   return {
     id: subscription.id,
     status: subscription.status,
@@ -57,90 +103,105 @@ function shape(subscription) {
     daysLeft
   };
 }
-const PLAN_MAX_LEN = 80;
-function normalizePlan(v) {
-  const s = typeof v === "string" ? v.trim() : "";
-  if (!s) return "kuutellimus";
-  return s.length > PLAN_MAX_LEN ? s.slice(0, PLAN_MAX_LEN) : s;
+
+function normalizePlan(value) {
+  const raw = typeof value === "string" ? value.trim() : "";
+  const fallback = String(process.env.SUBSCRIPTION_DEFAULT_PLAN || "monthly").trim();
+  const plan = raw || fallback || "monthly";
+  return plan.length > PLAN_MAX_LEN ? plan.slice(0, PLAN_MAX_LEN) : plan;
 }
+
 export async function GET(request) {
+  const locale = localeFromRequest(request);
   const session = await requireUser(request);
-  if (!session) return err("Unauthorized", 401);
+  if (!session) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   try {
     const user = await prisma.user.findUnique({
-      where: {
-        id: session.userId
-      },
+      where: { id: session.userId },
       select: {
         email: true,
         role: true
       }
     });
+
+    if (!user) {
+      return errorJson("api.subscription.user_not_found", 404, locale);
+    }
+
     const subscription = await prisma.subscription.findFirst({
-      where: {
-        userId: session.userId
-      },
-      orderBy: [{
-        updatedAt: "desc"
-      }]
+      where: { userId: session.userId },
+      orderBy: [{ updatedAt: "desc" }]
     });
+
     return ok({
       user,
       subscription: shape(subscription)
     });
-  } catch (e) {
-    console.error("subscription GET error", e);
-    return err("Tellimuse päring ebaõnnestus.", 500);
+  } catch (error) {
+    console.error("subscription GET error", error);
+    return errorJson("api.subscription.load_failed", 500, locale);
   }
 }
+
 export async function POST(request) {
+  const body = await request.json().catch(() => ({}));
+  const locale = localeFromRequest(request, body?.locale);
   const session = await requireUser(request);
-  if (!session) return err("Unauthorized", 401);
+  if (!session) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   try {
-    const body = await request.json().catch(() => ({}));
     const plan = normalizePlan(body?.plan);
     const now = new Date();
     const validUntil = new Date(now);
     validUntil.setMonth(validUntil.getMonth() + 1);
+
     const existing = await prisma.subscription.findFirst({
-      where: {
-        userId: session.userId
-      },
-      orderBy: [{
-        createdAt: "desc"
-      }]
+      where: { userId: session.userId },
+      orderBy: [{ createdAt: "desc" }]
     });
-    const subscription = existing ? await prisma.subscription.update({
-      where: {
-        id: existing.id
-      },
-      data: {
-        status: ACTIVE_STATUS,
-        plan,
-        validUntil,
-        nextBilling: validUntil,
-        canceledAt: null
-      }
-    }) : await prisma.subscription.create({
-      data: {
-        userId: session.userId,
-        status: ACTIVE_STATUS,
-        plan,
-        validUntil,
-        nextBilling: validUntil
-      }
-    });
+
+    const subscription = existing
+      ? await prisma.subscription.update({
+          where: { id: existing.id },
+          data: {
+            status: ACTIVE_STATUS,
+            plan,
+            validUntil,
+            nextBilling: validUntil,
+            canceledAt: null
+          }
+        })
+      : await prisma.subscription.create({
+          data: {
+            userId: session.userId,
+            status: ACTIVE_STATUS,
+            plan,
+            validUntil,
+            nextBilling: validUntil
+          }
+        });
+
     return ok({
       subscription: shape(subscription)
     });
-  } catch (e) {
-    console.error("subscription POST error", e);
-    return err("Tellimuse aktiveerimine ebaõnnestus.", 500);
+  } catch (error) {
+    console.error("subscription POST error", error);
+    return errorJson("api.subscription.activate_failed", 500, locale);
   }
 }
+
 export async function DELETE(request) {
+  const locale = localeFromRequest(request);
   const session = await requireUser(request);
-  if (!session) return err("Unauthorized", 401);
+  if (!session) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   try {
     const now = new Date();
     await prisma.subscription.updateMany({
@@ -153,19 +214,17 @@ export async function DELETE(request) {
         canceledAt: now
       }
     });
+
     const subscription = await prisma.subscription.findFirst({
-      where: {
-        userId: session.userId
-      },
-      orderBy: [{
-        updatedAt: "desc"
-      }]
+      where: { userId: session.userId },
+      orderBy: [{ updatedAt: "desc" }]
     });
+
     return ok({
       subscription: shape(subscription)
     });
-  } catch (e) {
-    console.error("subscription DELETE error", e);
-    return err("Tellimuse tühistamine ebaõnnestus.", 500);
+  } catch (error) {
+    console.error("subscription DELETE error", error);
+    return errorJson("api.subscription.cancel_failed", 500, locale);
   }
 }

@@ -3,14 +3,17 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 const PAGE_SIZE = 50;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_POST = 20;
 const rateBuckets = new Map();
+
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -21,13 +24,23 @@ function json(data, status = 200) {
     }
   });
 }
+
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
     return {
       ok: true,
@@ -38,10 +51,11 @@ async function requireUser() {
     return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
   }
 }
+
 async function hasActiveSubscription(userId) {
   if (!userId) return false;
   const now = new Date();
@@ -49,13 +63,14 @@ async function hasActiveSubscription(userId) {
     where: {
       userId,
       status: "ACTIVE",
-      OR: [{
-        validUntil: null
-      }, {
-        validUntil: {
-          gt: now
+      OR: [
+        { validUntil: null },
+        {
+          validUntil: {
+            gt: now
+          }
         }
-      }]
+      ]
     },
     select: {
       id: true
@@ -63,6 +78,7 @@ async function hasActiveSubscription(userId) {
   });
   return Boolean(sub);
 }
+
 async function getMembership(userId, roomId) {
   return prisma.roomMember.findFirst({
     where: {
@@ -72,6 +88,7 @@ async function getMembership(userId, roomId) {
     }
   });
 }
+
 async function getMemberDisplayNames(roomId, authorIds) {
   if (!authorIds.length) return new Map();
   const rows = await prisma.roomMember.findMany({
@@ -88,6 +105,7 @@ async function getMemberDisplayNames(roomId, authorIds) {
   });
   return new Map(rows.map(m => [m.userId, m.displayName || ""]));
 }
+
 async function ensureAccess(userId, roomId, userRole) {
   const isAdminRole = userRole === "ADMIN";
   if (isAdminRole) return {
@@ -99,12 +117,14 @@ async function ensureAccess(userId, roomId, userRole) {
     },
     billingSource: "ADMIN"
   };
+
   const member = await getMembership(userId, roomId);
   if (!member) return {
     ok: false,
     status: 403,
-    message: "Ligipääs puudub"
+    message: "api.rooms.access_denied"
   };
+
   const userActive = await hasActiveSubscription(userId);
   if (userActive) return {
     ok: true,
@@ -129,9 +149,10 @@ async function ensureAccess(userId, roomId, userRole) {
   return {
     ok: false,
     status: 403,
-    message: "Vestlusega liitumine ei ole hetkel võimalik. Palun võta ühendust oma spetsialistiga."
+    message: "api.rooms.join_unavailable"
   };
 }
+
 function parseCursor(token) {
   if (!token) return null;
   const [ts, id] = token.split("_");
@@ -142,12 +163,14 @@ function parseCursor(token) {
     id
   };
 }
+
 function makeCursor(row) {
   if (!row) return null;
   const ms = row.createdAt instanceof Date ? row.createdAt.getTime() : new Date(row.createdAt).getTime();
   if (!Number.isFinite(ms)) return null;
   return `${ms}_${row.id}`;
 }
+
 function rateLimit(key, limit, windowMs) {
   const now = Date.now();
   const bucket = rateBuckets.get(key) || {
@@ -161,30 +184,23 @@ function rateLimit(key, limit, windowMs) {
   bucket.count += 1;
   rateBuckets.set(key, bucket);
   if (bucket.count > limit) {
-    const err = new Error("Too many requests");
+    const err = new Error("api.common.rate_limited");
     err.status = 429;
     throw err;
   }
 }
-export async function GET(req, {
-  params
-}) {
+
+export async function GET(req, { params }) {
   const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) return json({
-    ok: false,
-    message: "Missing roomId"
-  }, 400);
+  if (!roomIdRaw) return errorJson("api.common.missing_room_id", 400);
+
   const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   const access = await ensureAccess(auth.userId, roomId, auth.userRole);
-  if (!access.ok) return json({
-    ok: false,
-    message: access.message
-  }, access.status || 403);
+  if (!access.ok) return errorJson(access.message, access.status || 403);
+
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || PAGE_SIZE);
   const limit = Math.max(1, Math.min(PAGE_SIZE, Number.isFinite(limitParam) ? limitParam : PAGE_SIZE));
@@ -195,24 +211,25 @@ export async function GET(req, {
   };
   const take = limit + 1;
   const rows = await prisma.roomMessage.findMany({
-    where: cursor ? {
-      ...where,
-      OR: [{
-        createdAt: {
-          lt: cursor.ts
+    where: cursor
+      ? {
+          ...where,
+          OR: [
+            {
+              createdAt: {
+                lt: cursor.ts
+              }
+            },
+            {
+              createdAt: cursor.ts,
+              id: {
+                lt: cursor.id
+              }
+            }
+          ]
         }
-      }, {
-        createdAt: cursor.ts,
-        id: {
-          lt: cursor.id
-        }
-      }]
-    } : where,
-    orderBy: [{
-      createdAt: "desc"
-    }, {
-      id: "desc"
-    }],
+      : where,
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
     take,
     select: {
       id: true,
@@ -238,6 +255,7 @@ export async function GET(req, {
   const nextCursor = hasMore ? makeCursor(page[page.length - 1]) : null;
   const authorIds = Array.from(new Set(page.map(m => m.authorId).filter(Boolean)));
   const displayNameMap = await getMemberDisplayNames(roomId, authorIds);
+
   return json({
     ok: true,
     messages: page.map(m => ({
@@ -246,45 +264,36 @@ export async function GET(req, {
       createdAt: m.createdAt,
       authorId: m.authorId,
       senderType: m.senderType || "USER",
-      authorName: m.senderType === "ASSISTANT" ? "Assistent" : displayNameMap.get(m.authorId) || [m.author?.profile?.firstName, m.author?.profile?.lastName].filter(Boolean).join(" ") || "Liige",
+      authorName:
+        m.senderType === "ASSISTANT"
+          ? ""
+          : displayNameMap.get(m.authorId) || [m.author?.profile?.firstName, m.author?.profile?.lastName].filter(Boolean).join(" ") || "",
       authorRole: m.author?.role || "CLIENT"
     })),
     nextCursor
   });
 }
-export async function POST(req, {
-  params
-}) {
+
+export async function POST(req, { params }) {
   const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) return json({
-    ok: false,
-    message: "Missing roomId"
-  }, 400);
+  if (!roomIdRaw) return errorJson("api.common.missing_room_id", 400);
+
   const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+
   const access = await ensureAccess(auth.userId, roomId, auth.userRole);
-  if (!access.ok) return json({
-    ok: false,
-    message: access.message
-  }, access.status || 403);
+  if (!access.ok) return errorJson(access.message, access.status || 403);
+
   let payload;
   try {
     payload = await req.json();
   } catch {
-    return json({
-      ok: false,
-      message: "Invalid JSON"
-    }, 400);
+    return errorJson("api.common.invalid_json", 400);
   }
   const content = String(payload?.content || "").trim();
-  if (!content) return json({
-    ok: false,
-    message: "Sõnum ei tohi olla tühi"
-  }, 400);
+  if (!content) return errorJson("api.rooms.message_required", 400);
+
   try {
     rateLimit(`roommsg:${roomId}:${auth.userId}`, RATE_LIMIT_POST, RATE_LIMIT_WINDOW_MS);
     const msg = await prisma.roomMessage.create({
@@ -313,6 +322,7 @@ export async function POST(req, {
         }
       }
     });
+
     const memberDisplay = await prisma.roomMember.findFirst({
       where: {
         roomId,
@@ -322,30 +332,25 @@ export async function POST(req, {
         displayName: true
       }
     });
-    const payload = {
+
+    const responsePayload = {
       ok: true,
       message: {
         ...msg,
-        authorName: memberDisplay?.displayName || [msg.author?.profile?.firstName, msg.author?.profile?.lastName].filter(Boolean).join(" ") || "Liige",
+        authorName: memberDisplay?.displayName || [msg.author?.profile?.firstName, msg.author?.profile?.lastName].filter(Boolean).join(" ") || "",
         authorRole: msg.author?.role || "CLIENT"
       }
     };
     try {
       publishRoomEvent(roomId, {
         type: "message",
-        message: payload.message
+        message: responsePayload.message
       });
     } catch {}
-    return json(payload);
+    return json(responsePayload);
   } catch (err) {
-    if (err?.status === 429) return json({
-      ok: false,
-      message: "Liiga palju sõnumeid, proovi veidi hiljem uuesti."
-    }, 429);
+    if (err?.status === 429) return errorJson("api.common.rate_limited", 429);
     console.error("[room message POST] failed", err);
-    return json({
-      ok: false,
-      message: "Sõnumi saatmine ebaõnnestus"
-    }, 500);
+    return errorJson("api.rooms.send_failed", 500);
   }
 }

@@ -56,23 +56,23 @@ function buildJoinLink(token) {
 function renderInviteEmail(lang, {
   to,
   token,
-  roomTitle = "Vestlusruum",
+  roomTitle = "Chat room",
   inviterName = "SotsiaalAI"
 }) {
   const mailer = getMailer("invite-resend");
   const link = buildJoinLink(token);
   const translations = {
     et: {
-      subject: `Kutse: ${roomTitle}`,
-      text: `Tere, ${to}!
+      subject: `Invitation: ${roomTitle}`,
+      text: `Hi ${to},
 
-${inviterName} kutsub sind vestlusruumi "${roomTitle}".
+${inviterName} invited you to the chat room "${roomTitle}".
 
-Liitu: ${link}
+Join: ${link}
 
-Kui link ei tööta, kopeeri ja kleebi aadress brauserisse.
-Kui sa ei oodanud seda kirja, ignoreeri seda.`,
-      html: `<p>Tere, ${to}!</p><p>${inviterName} kutsub sind vestlusruumi <b>${roomTitle}</b>.</p><p><a href="${link}">Liitu vestlusega</a></p><p>Kui link ei tööta, kopeeri ja kleebi aadress brauserisse.</p><p>Kui sa ei oodanud seda kirja, ignoreeri seda.</p>`
+If the link does not work, copy and paste it into your browser.
+If you did not expect this email, you can ignore it.`,
+      html: `<p>Hi ${to},</p><p>${inviterName} invited you to the chat room <b>${roomTitle}</b>.</p><p><a href="${link}">Join the chat</a></p><p>If the link does not work, copy and paste it into your browser.</p><p>If you did not expect this email, you can ignore it.</p>`
     },
     en: {
       subject: `Invitation: ${roomTitle}`,
@@ -201,7 +201,7 @@ export async function POST(_req, {
     await sendInviteEmail({
       to: invite.inviteeEmail,
       token: raw,
-      roomTitle: invite.room?.title || "Vestlusruum",
+      roomTitle: invite.room?.title || "Chat room",
       inviterName: auth.email || "SotsiaalAI",
       lang: "et"
     });

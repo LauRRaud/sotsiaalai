@@ -14,6 +14,9 @@
     "back": "Назад",
     "back_to_previous": "Вернуться на предыдущую страницу"
   },
+  "routes": {
+    "password_reset_path": "/taasta-parool"
+  },
   "buttons": {
     "save": "Сохранить",
     "save_changes": "Сохранить изменения",
@@ -242,7 +245,8 @@
       "error_email_invalid": "Пожалуйста, введите корректный адрес электронной почты.",
       "error_pin_required": "Пожалуйста, введите PIN-код.",
       "error_pin_length": "PIN-код должен состоять от 4 до 8 цифр.",
-      "error_failed": "Не удалось обновить email."
+      "error_failed": "Не удалось обновить email.",
+      "error_email_in_use": "This email is already in use."
     },
     "pin_help": "Введите текущий PIN-код, чтобы подтвердить изменение email или PIN. PIN должен состоять из 4-8 цифр.",
     "current_pin_label": "Текущий PIN-код",
@@ -256,7 +260,9 @@
       "pin_required": "Пожалуйста, введите и подтвердите новый PIN-код.",
       "pin_invalid": "PIN-код должен быть длиной от 4 до 8 цифр.",
       "pin_mismatch": "PIN-коды не совпадают.",
-      "no_changes": "Изменений для сохранения нет."
+      "no_changes": "Изменений для сохранения нет.",
+      "current_pin_invalid": "Current PIN is invalid.",
+      "user_not_found": "User not found."
     },
     "logout_short": "Выйти"
   },
@@ -424,7 +430,11 @@
       "interrupted": "Генерация ответа остановлена.",
       "interrupted_suffix": "(Генерация ответа остановлена.)",
       "generic": "Не удалось получить ответ.",
-      "with_detail": "Ошибка: {message}"
+      "with_detail": "Ошибка: {message}",
+      "invalid_json": "Invalid JSON body.",
+      "message_required": "Message is required.",
+      "invalid_conv_id": "Conversation id is invalid.",
+      "openai_request_failed": "OpenAI request failed."
     },
     "menu": {
       "open": "Открыть список бесед",
@@ -552,7 +562,8 @@
     "page_label": "Содержимое чата",
     "room": {
       "blocked": "Участие в чате сейчас недоступно. Пожалуйста, свяжитесь со специалистом.",
-      "auth_required": "Сессия истекла. Пожалуйста, войдите снова."
+      "auth_required": "Сессия истекла. Пожалуйста, войдите снова.",
+      "send_error": "Не удалось отправить сообщение."
     },
     "show_recent": "Показать меньше",
     "mic": {
@@ -831,6 +842,159 @@
     "status": {
       "accepted_self": "Присоединился (собственный тариф)",
       "accepted_sponsored": "Присоединился (спонсируемый тариф)"
+    },
+    "error": {
+      "rate_limited": "Too many requests. Please try again later.",
+      "emails_required": "Add at least one email address.",
+      "sponsor_plan_unavailable": "Sponsored invites cannot be created: plan is unavailable.",
+      "sponsor_capacity_full": "Sponsored seats limit is full."
+    }
+  },
+  "email": {
+    "auth": {
+      "reset": {
+        "subject": "Сброс PIN в SotsiaalAI",
+        "text": "Здравствуйте!\n\nВы можете сбросить PIN по ссылке:\n{resetUrl}\n\nЕсли вы не запрашивали сброс PIN, просто проигнорируйте это письмо.",
+        "html": "<p>Здравствуйте!</p><p>Вы можете сбросить PIN по ссылке:</p><p><a href=\"{resetUrl}\">{resetUrl}</a></p><p>Если вы не запрашивали сброс PIN, просто проигнорируйте это письмо.</p>"
+      },
+      "login_otp": {
+        "subject": "Код подтверждения входа SotsiaalAI",
+        "text": "Здравствуйте!\n\nВаш код подтверждения: {code}\nКод действует {minutes} минут.\n\nЕсли вы не пытались войти, проигнорируйте это письмо.",
+        "html": "<p>Здравствуйте!</p><p>Ваш код подтверждения: <strong>{code}</strong></p><p>Код действует {minutes} минут.</p><p>Если вы не пытались войти, проигнорируйте это письмо.</p>"
+      },
+      "login_otp_resend": {
+        "subject": "Новый код подтверждения SotsiaalAI",
+        "text": "Здравствуйте!\n\nВаш новый код подтверждения: {code}\nКод действует {minutes} минут.\n\nЕсли вы не пытались войти, проигнорируйте это письмо.",
+        "html": "<p>Здравствуйте!</p><p>Ваш новый код подтверждения: <strong>{code}</strong></p><p>Код действует {minutes} минут.</p><p>Если вы не пытались войти, проигнорируйте это письмо.</p>"
+      },
+      "verify": {
+        "subject": "Confirm your email address",
+        "text": "Hello!\n\nPlease confirm your email address using the link below:\n{verifyUrl}\n\nIf you did not create an account, you can ignore this email.",
+        "html": "<p>Hello!</p><p>Please confirm your email address using the link below:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>If you did not create an account, you can ignore this email.</p>"
+      }
+    }
+  },
+  "api": {
+    "common": {
+      "unauthorized": "Please sign in to continue.",
+      "forbidden": "You do not have permission for this action.",
+      "invalid_request": "Invalid request.",
+      "invalid_json": "Invalid JSON payload.",
+      "missing_room_id": "Room ID is missing.",
+      "rate_limited": "Too many requests. Please try again later."
+    },
+    "chat": {
+      "invalid_conv_id": "Invalid conversation ID.",
+      "invalid_id": "Invalid ID.",
+      "not_found": "Conversation not found.",
+      "conversation_exists": "Conversation already exists.",
+      "db_unavailable": "Database is temporarily unavailable.",
+      "db_error_run_read": "Could not load conversation context.",
+      "db_error_analyze_usage": "Could not load analysis usage.",
+      "db_error_conversations_list": "Could not load conversations.",
+      "db_error_conversation_create": "Could not create conversation.",
+      "db_error_conversation_read": "Could not load conversation.",
+      "db_error_conversation_delete": "Could not delete conversation.",
+      "db_error_conversation_restore": "Could not restore conversation.",
+      "db_error_conversation_messages": "Could not load conversation messages.",
+      "analyze": {
+        "multipart_required": "Request must be multipart/form-data.",
+        "file_required": "Please attach a file.",
+        "file_too_large": "File is too large.",
+        "quota_exceeded": "Analysis quota exceeded.",
+        "quota_check_failed": "Could not verify analysis quota.",
+        "rag_key_missing": "Analysis service is not configured.",
+        "rag_host_external_denied": "External analysis host is not allowed.",
+        "rag_service_failed": "Analysis service request failed.",
+        "service_unavailable": "Analysis service is currently unavailable.",
+        "privacy_ephemeral": "File is processed ephemerally and not stored."
+      }
+    },
+    "rooms": {
+      "not_found": "Room not found.",
+      "not_member": "You are not a member of this room.",
+      "owner_cannot_leave": "Room owner cannot leave the room.",
+      "missing_room_id_or_msg_id": "Room ID or message ID is missing.",
+      "message_not_found": "Message not found.",
+      "message_required": "Message content is required.",
+      "access_denied": "Access denied.",
+      "join_unavailable": "Joining is currently unavailable.",
+      "send_failed": "Failed to send message.",
+      "read_update_failed": "Failed to update read state.",
+      "leave_failed": "Failed to leave room.",
+      "delete_failed": "Failed to delete room.",
+      "delete_message_failed": "Failed to delete message."
+    },
+    "stt": {
+      "not_configured": "Speech-to-text service is not configured.",
+      "rate_limited": "Too many dictation requests. Please try again later.",
+      "audio_missing": "Audio input is missing.",
+      "transcription_failed": "Dictation failed.",
+      "service_error": "Speech-to-text service error."
+    },
+    "tts": {
+      "not_configured": "Text-to-speech service is not configured.",
+      "rate_limited": "Too many speech requests. Please try again later.",
+      "text_missing": "Text input is missing.",
+      "text_too_long": "Text is too long.",
+      "synthesis_failed": "Speech synthesis failed.",
+      "service_error": "Text-to-speech service error."
+    },
+    "auth": {
+      "reset": {
+        "rate_limited_request": "Слишком много запросов на сброс. Повторите позже.",
+        "rate_limited_update": "Слишком много попыток обновить PIN. Повторите позже.",
+        "invalid_email": "Пожалуйста, укажите корректный адрес электронной почты.",
+        "missing_token_or_pin": "Отсутствует токен или PIN.",
+        "pin_invalid": "PIN должен состоять из 4-8 цифр.",
+        "token_invalid": "Токен недействителен или уже использован.",
+        "token_expired": "Ссылка для сброса устарела. Запросите новую ссылку.",
+        "user_not_found": "Пользователь не найден.",
+        "request_failed": "Не удалось отправить ссылку для сброса. Попробуйте позже.",
+        "update_failed": "Не удалось обновить PIN.",
+        "base_url_missing": "Базовый URL для ссылки сброса не настроен.",
+        "email_from_missing": "Адрес отправителя не настроен."
+      },
+      "login": {
+        "rate_limited": "Слишком много попыток входа. Повторите позже.",
+        "invalid_credentials": "Неверный email или PIN.",
+        "missing_fields": "Отсутствуют обязательные данные.",
+        "token_invalid": "Токен входа недействителен.",
+        "token_expired": "Токен входа истек.",
+        "otp_invalid": "Код неверен или истек.",
+        "step1_failed": "Не удалось выполнить вход. Попробуйте еще раз.",
+        "verify_failed": "Не удалось проверить код. Попробуйте еще раз.",
+        "resend_missing_token": "Отсутствует временный токен входа.",
+        "resend_token_invalid": "Этот код нельзя отправить повторно.",
+        "user_missing": "Пользователь не найден.",
+        "resend_failed": "Не удалось отправить код повторно.",
+        "email_from_missing": "Адрес отправителя не настроен."
+      },
+      "register": {
+        "rate_limited": "Too many registration attempts. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "pin_invalid": "PIN must be between 4 and 8 digits.",
+        "email_in_use": "This email address is already in use.",
+        "failed": "Registration failed. Please try again."
+      },
+      "verify": {
+        "invalid_link": "The verification link is invalid or incomplete.",
+        "link_invalid_or_used": "This verification link is invalid or has already been used.",
+        "link_expired": "This verification link has expired.",
+        "user_not_found": "User not found.",
+        "confirm_failed": "Email verification failed.",
+        "rate_limited": "Too many verification requests. Please try again later.",
+        "invalid_email": "Please enter a valid email address.",
+        "send_failed": "Failed to send verification email.",
+        "base_url_missing": "Verification base URL is not configured.",
+        "email_from_missing": "Sender email is not configured."
+      }
+    },
+    "subscription": {
+      "user_not_found": "User not found.",
+      "load_failed": "Failed to load subscription.",
+      "activate_failed": "Failed to activate subscription.",
+      "cancel_failed": "Failed to cancel subscription."
     }
   }
 }

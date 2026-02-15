@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -59,6 +60,16 @@ const roomChevronStrokeWidthMobile = 1.04;
 export default function RoomsPage() {
   const router = useRouter();
   const { t, locale } = useI18n();
+  const resolveErrorMessage = useCallback(
+    (payload, fallbackKey) =>
+      resolveApiMessage({
+        payload,
+        t,
+        fallbackKey,
+        fallbackText: typeof t === "function" ? t(fallbackKey) : fallbackKey
+      }),
+    [t]
+  );
 
   const scrollRef = useRef(null);
   const initViewportModeRef = useRef(null);
@@ -157,7 +168,7 @@ export default function RoomsPage() {
         );
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || t("rooms.leave_failed"));
+          throw new Error(resolveErrorMessage(data, "rooms.leave_failed"));
         }
         setRooms(prev => prev.filter(r => r.id !== room.id));
       } catch (err) {
@@ -167,7 +178,7 @@ export default function RoomsPage() {
         setLeavingId(null);
       }
     },
-    [t]
+    [resolveErrorMessage, t]
   );
 
   const openDeleteConfirm = useCallback(room => {
@@ -191,7 +202,7 @@ export default function RoomsPage() {
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || t("rooms.delete_failed"));
+          throw new Error(resolveErrorMessage(data, "rooms.delete_failed"));
         }
         setRooms(prev => prev.filter(r => r.id !== target.id));
       } catch (err) {
@@ -202,7 +213,7 @@ export default function RoomsPage() {
         setConfirmRoom(null);
       }
     },
-    [confirmRoom, t]
+    [confirmRoom, resolveErrorMessage, t]
   );
 
   useEffect(() => {
@@ -214,7 +225,7 @@ export default function RoomsPage() {
         const res = await fetch("/api/rooms", { cache: "no-store" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
-          throw new Error(data?.message || "Rooms fetch failed");
+          throw new Error(resolveErrorMessage(data, "rooms.error"));
         }
         if (!cancelled) {
           setRooms(Array.isArray(data.rooms) ? data.rooms : []);
@@ -231,7 +242,7 @@ export default function RoomsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [resolveErrorMessage]);
 
   const hiddenIds = useMemo(
     () => new Set(["cmiunm4we0001goud9072nb9q"]),

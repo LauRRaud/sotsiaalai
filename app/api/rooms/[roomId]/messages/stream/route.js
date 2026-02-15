@@ -13,7 +13,7 @@ async function requireUser() {
     if (!session?.user?.id) return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
     return {
       ok: true,
@@ -24,7 +24,7 @@ async function requireUser() {
     return {
       ok: false,
       status: 401,
-      message: "Unauthorized"
+      message: "api.common.unauthorized"
     };
   }
 }
@@ -94,7 +94,7 @@ export async function GET(_req, {
 }) {
   const roomIdRaw = params?.roomId;
   if (!roomIdRaw) {
-    return new NextResponse("Missing roomId", {
+    return new NextResponse("api.common.missing_room_id", {
       status: 400
     });
   }

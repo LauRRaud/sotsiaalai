@@ -18,6 +18,7 @@ For every file or module we log:
 - Action: concrete fix or follow-up
 - Status: `OK`, `MONITOR`, or `FIX`
 - Date and owner
+- Route coverage tracker: `docs/route-review-tracker.md` (every app/API route must be tracked there with status and notes)
 
 ## Baseline Snapshot (2026-02-15)
 
@@ -116,6 +117,101 @@ Encoding fixes applied (BOM removed):
   - fixed dictation fallback copy in `components/chat/hooks/useSpeech.js`
 - Status: `OK`
 
+### Chat system deep map and production behavior pass
+- Scope: documented concrete chat architecture, event bus, API/service usage, and launch checks
+- Good:
+  - full flow now captured in `docs/chat-page-system-map.md`
+  - new conversation flow is immediate in sidebar -> chat body switch
+  - room SSE reconnect cleanup hardened in `components/rooms/useRoomMessages.js`
+  - source-request detection in `app/api/chat/route.js` no longer depends on mojibake regex artifacts
+- Risk:
+  - chat-adjacent API routes still contain hardcoded localized copy (i18n consistency debt)
+  - `/api/stt` still lacks explicit server-side max payload guard
+  - in-memory rate limiting in room message POST is not cross-instance safe
+- Action:
+  - added detailed operational doc for owner handover and production checks
+  - fixed room reconnect timeout lifecycle cleanup
+  - replaced fragile source-detection regex with deterministic token matching
+- Status: `MONITOR`
+
+### Chat/room API i18n normalization pass
+- Scope: remove hardcoded user-facing strings from chat/room voice-related API routes and normalize UI-side error resolving
+- Good:
+  - routes now return key-first errors (`messageKey` + `message`) across:
+    - `app/api/stt/route.js`
+    - `app/api/tts/route.js`
+    - `app/api/chat/run/route.js`
+    - `app/api/chat/conversations/route.js`
+    - `app/api/chat/conversations/[id]/route.js`
+    - `app/api/chat/conversations/[id]/messages/route.js`
+    - `app/api/chat/analyze-file/route.js`
+    - `app/api/chat/analyze-usage/route.js`
+    - `app/api/rooms/route.js`
+    - `app/api/rooms/[roomId]/route.js`
+    - `app/api/rooms/[roomId]/leave/route.js`
+    - `app/api/rooms/[roomId]/members/route.js`
+    - `app/api/rooms/[roomId]/messages/route.js`
+    - `app/api/rooms/[roomId]/messages/[msgId]/route.js`
+    - `app/api/rooms/[roomId]/messages/stream/route.js`
+    - `app/api/rooms/[roomId]/read/route.js`
+  - chat UI now resolves API keys safely via `resolveApiMessage` in:
+    - `components/ChatSidebar.jsx`
+    - `components/rooms/RoomsPage.jsx`
+    - `components/chat/hooks/useChatAnalysisController.js`
+  - fallback hardcoded room author/title labels were removed from server payloads; UI i18n fallback now owns labels
+- Risk:
+  - `api.*` keys were added with English values in all locale files; ET/RU phrasing quality pass still needed
+- Action:
+  - completed key coverage in `messages/en.json`, `messages/et.json`, `messages/ru.json`
+- Status: `MONITOR`
+
+### Chat stream 403 handling correction
+- Scope: `/api/chat` error handling path in `components/chat/hooks/useChatStream.js`
+- Good:
+  - `401` remains auth redirect behavior
+  - `403` is no longer treated as automatic sign-in redirect
+  - subscription responses with `requireSubscription + redirect` now forward to backend-provided redirect target
+- Risk:
+  - backend still mixes key namespaces (`chat.error.*` and `api.*`) in some routes
+- Action:
+  - added structured payload parsing (`messageKey`/key-like `message`) and localized fallback handling for non-OK responses
+  - normalized room-membership forbidden response in `app/api/chat/route.js` to `api.common.forbidden`
+  - updated STT UI error handling in `components/chat/hooks/useSpeech.js` to resolve API `messageKey` payloads before generic fallback
+- Status: `OK`
+
+### Registration + email verification route pass
+- Scope: `app/api/register/route.js`, `app/api/verify-email/route.js`
+- Good:
+  - both routes now use key-first API errors (`messageKey` + localized `message/error`) via server-side i18n catalogs
+  - email templates moved to `messages/*` under `email.auth.verify.*`
+  - registration keeps current behavior (account creation can succeed even if verify mail dispatch fails)
+  - verification flow keeps token cleanup semantics and user-enumeration-safe resend behavior
+- Risk:
+  - `register` and `verify-email` repeat locale parsing and response helpers (duplication risk if conventions change)
+  - `register` still sends success even when verification email dispatch fails; product decision should be confirmed
+- Action:
+  - removed hardcoded localized route text and encoding artifacts
+  - added `api.auth.register.*` and `api.auth.verify.*` key coverage in locale files
+  - marked both routes as reviewed in `docs/route-review-tracker.md`
+- Status: `MONITOR`
+
+### Subscription + profile route pass
+- Scope: `app/api/subscription/route.js`, `app/api/profile/route.js`, `components/alalehed/TellimusBody.jsx`
+- Good:
+  - `subscription` route now returns consistent key-first API errors with locale resolution
+  - `profile` route now returns localized `messageKey` payloads and uses shared verify-email templates
+  - profile GET now has explicit DB error handling branch
+  - subscription payload keeps operational fields (`status`, `isActive`, `daysLeft`) for UI logic
+- Risk:
+  - profile PUT still succeeds even if verify-email send fails (intentional continuity behavior, but product should confirm this)
+  - locale helper/JSON helpers are still duplicated across multiple routes
+- Action:
+  - removed hardcoded localized text from subscription/profile route responses
+  - wired subscription route to new `api.subscription.*` key namespace
+  - fixed subscription UI active-state detection in `TellimusBody` to use `isActive` and uppercase `ACTIVE` fallback
+  - marked both routes as reviewed in route tracker
+- Status: `MONITOR`
+
 ## Open Items Queue (next passes)
 
 1. Add explicit rate limiting to chat endpoints (`app/api/chat/*`) to reduce abuse risk
@@ -123,3 +219,4 @@ Encoding fixes applied (BOM removed):
 3. `prisma/schema.prisma` + migrations sanity pass for launch
 4. Remove or archive unclear legacy artifact `app/server` if not used
 5. Align `test` script semantics (`package.json`) with actual test strategy
+6. Improve ET/RU wording quality for newly added `api.*` entries (currently functional but mostly English)

@@ -59,7 +59,7 @@ function rateLimit(key, limit, windowMs) {
   }
   bucket.count += 1;
   rateBuckets.set(key, bucket);
-  if (bucket.count > limit) throw fail(429, "Liiga palju päringuid, proovi hiljem uuesti.");
+  if (bucket.count > limit) throw fail(429, "invite.error.rate_limited");
 }
 async function hasActiveSubscriptionTx(trx, userId) {
   if (!userId) return false;
@@ -85,6 +85,7 @@ async function hasActiveSubscriptionTx(trx, userId) {
 function fail(status, message, code) {
   const err = new Error(message);
   err.status = status;
+  err.messageKey = message;
   err.code = code;
   return err;
 }
@@ -228,6 +229,7 @@ export async function POST(req, {
     if (err?.status) {
       return json({
         ok: false,
+        messageKey: err.messageKey || err.message,
         message: err.message,
         code: err.code
       }, err.status);

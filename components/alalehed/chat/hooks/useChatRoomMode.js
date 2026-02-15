@@ -35,7 +35,7 @@ export function useChatRoomMode({
         id: m.id,
         role: isAssistant ? "ai" : isMine ? "user" : "member",
         text: m.content || "",
-        authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || "Liige",
+        authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || t("chat.aria.member"),
         authorRole: m.authorRole || "MEMBER",
         createdAt: created,
         aiVisible: aiSeen

@@ -5,11 +5,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
-import {
-  getAnalyzeLimit,
-  utcDayStart,
-  secondsUntilUtcMidnight,
-} from "@/lib/analyzeQuota";
+import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 
 const MAX_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
@@ -24,15 +20,22 @@ function json(data, status = 200) {
     headers: {
       "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
       Pragma: "no-cache",
-      Expires: "0",
-    },
+      Expires: "0"
+    }
   });
 }
 
+function errorJson(messageKey, status, extras = {}) {
+  return json({
+    ok: false,
+    messageKey,
+    message: messageKey,
+    ...extras
+  }, status);
+}
+
 function normalizeBaseFromHost(host) {
-  const trimmed = String(host || "")
-    .trim()
-    .replace(/\/+$/, "");
+  const trimmed = String(host || "").trim().replace(/\/+$/, "");
   if (!trimmed) return "http://127.0.0.1:8000";
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
   return `http://${trimmed}`;
@@ -48,11 +51,11 @@ function isLocalBaseUrl(url) {
 }
 
 async function callRagAnalyze(formData) {
-  if (!RAG_KEY) throw new Error("RAG_SERVICE_API_KEY missing");
+  if (!RAG_KEY) throw new Error("api.chat.analyze.rag_key_missing");
 
   const base = normalizeBaseFromHost(RAW_RAG_HOST);
   if (!ALLOW_EXTERNAL && !isLocalBaseUrl(base)) {
-    throw new Error("RAG_INTERNAL_HOST is external; allow via ALLOW_EXTERNAL_RAG=1.");
+    throw new Error("api.chat.analyze.rag_host_external_denied");
   }
 
   const headers = new Headers();
@@ -67,7 +70,7 @@ async function callRagAnalyze(formData) {
       headers,
       body: formData,
       cache: "no-store",
-      signal: controller.signal,
+      signal: controller.signal
     });
 
     const text = await res.text();
@@ -79,8 +82,8 @@ async function callRagAnalyze(formData) {
     }
 
     if (!res.ok) {
-      const message = data?.message || `RAG analüüs ebaõnnestus (${res.status}).`;
-      const err = new Error(message);
+      const messageKey = data?.messageKey || data?.message || "api.chat.analyze.rag_service_failed";
+      const err = new Error(messageKey);
       err.status = res.status;
       err.payload = data;
       throw err;
@@ -95,45 +98,40 @@ async function callRagAnalyze(formData) {
 export async function POST(request) {
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
-    return json({ ok: false, message: "Unauthorized" }, 401);
+    return errorJson("api.common.unauthorized", 401);
   }
 
   const pickedRole = String(session.user.role || "CLIENT").toUpperCase();
   const role = normalizeRole(pickedRole);
   const gate = await requireSubscription(session, role);
   if (!gate.ok) {
-    return json(
-      {
-        ok: false,
-        message: gate.message,
-        redirect: gate.redirect,
-        requireSubscription: gate.requireSubscription,
-      },
-      gate.status,
-    );
+    return json({
+      ok: false,
+      messageKey: gate.message,
+      message: gate.message,
+      redirect: gate.redirect,
+      requireSubscription: gate.requireSubscription
+    }, gate.status);
   }
 
   let fd;
   try {
     fd = await request.formData();
   } catch {
-    return json({ ok: false, message: "Viga: oodati multipart-vormi." }, 400);
+    return errorJson("api.chat.analyze.multipart_required", 400);
   }
 
   const file = fd.get("file");
   if (!file || typeof file === "string") {
-    return json({ ok: false, message: "Fail on kohustuslik." }, 400);
+    return errorJson("api.chat.analyze.file_required", 400);
   }
 
   const sizeMB = (file.size || 0) / (1024 * 1024);
   if (sizeMB > MAX_MB) {
-    return json(
-      {
-        ok: false,
-        message: `Fail on liiga suur (${sizeMB.toFixed(1)}MB > ${MAX_MB}MB).`,
-      },
-      413,
-    );
+    return errorJson("api.chat.analyze.file_too_large", 413, {
+      sizeMB: Number(sizeMB.toFixed(1)),
+      maxMB: MAX_MB
+    });
   }
 
   const userId = String(session.user.id);
@@ -142,26 +140,26 @@ export async function POST(request) {
   const limit = getAnalyzeLimit(role, isAdmin);
 
   try {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async tx => {
       await tx.analyzeUsage.upsert({
         where: { userId_day: { userId, day } },
         create: { userId, day, count: 0 },
-        update: {},
+        update: {}
       });
 
       const updated = await tx.analyzeUsage.updateMany({
         where: {
           userId,
           day,
-          count: { lt: limit },
+          count: { lt: limit }
         },
         data: {
-          count: { increment: 1 },
-        },
+          count: { increment: 1 }
+        }
       });
 
       if (updated.count === 0) {
-        const err = new Error("quota_exceeded");
+        const err = new Error("api.chat.analyze.quota_exceeded");
         err.code = "QUOTA";
         throw err;
       }
@@ -169,29 +167,21 @@ export async function POST(request) {
   } catch (e) {
     if (e?.code === "QUOTA") {
       const retry = secondsUntilUtcMidnight();
-      return new NextResponse(
-        JSON.stringify({
-          ok: false,
-          message: "Oled täna analüüsi limiidi täis. Proovi uuesti homme.",
-        }),
-        {
-          status: 429,
-          headers: {
-            "Content-Type": "application/json",
-            "Retry-After": String(retry),
-          },
-        },
-      );
+      return new NextResponse(JSON.stringify({
+        ok: false,
+        messageKey: "api.chat.analyze.quota_exceeded",
+        message: "api.chat.analyze.quota_exceeded"
+      }), {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "Retry-After": String(retry)
+        }
+      });
     }
 
     console.error("[analyze-file] quota check failed:", e);
-    return json(
-      {
-        ok: false,
-        message: "Analüüsi limiiti ei saanud kontrollida.",
-      },
-      503,
-    );
+    return errorJson("api.chat.analyze.quota_check_failed", 503);
   }
 
   const forward = new FormData();
@@ -213,19 +203,13 @@ export async function POST(request) {
       ok: true,
       privacy: {
         ephemeral: true,
-        note: "Ei salvestata püsivalt.",
+        noteKey: "api.chat.analyze.privacy_ephemeral"
       },
-      ...data,
+      ...data
     });
   } catch (e) {
     console.error("[analyze-file] RAG analyze error:", e);
     const status = Number(e?.status) || 502;
-    return json(
-      {
-        ok: false,
-        message: e?.message || "RAG analüüsi teenus ei vasta.",
-      },
-      status,
-    );
+    return errorJson(e?.message || "api.chat.analyze.service_unavailable", status);
   }
 }

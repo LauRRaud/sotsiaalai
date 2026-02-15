@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
@@ -102,7 +103,11 @@ export default function UuendaEpostiBody() {
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok || payload?.ok === false) {
-        setError(payload?.error || payload?.message || t("profile.email_update.error_failed"));
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "profile.email_update.error_failed"
+        }));
         return;
       }
       setSubmitted(true);

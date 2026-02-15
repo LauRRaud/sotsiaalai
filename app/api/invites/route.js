@@ -24,6 +24,7 @@ function json(data, status = 200) {
 function fail(status, message) {
   const err = new Error(message);
   err.status = status;
+  err.messageKey = message;
   return err;
 }
 const rateBuckets = new Map();
@@ -39,7 +40,7 @@ function rateLimit(key, limit, windowMs) {
   }
   bucket.count += 1;
   rateBuckets.set(key, bucket);
-  if (bucket.count > limit) throw fail(429, "Liiga palju päringuid, proovi hiljem uuesti.");
+  if (bucket.count > limit) throw fail(429, "invite.error.rate_limited");
 }
 async function requireUser() {
   try {
@@ -140,8 +141,8 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName) {
   const created = await prisma.room.create({
     data: {
       ownerId: userId,
-      title: "Vestlusruum",
-      description: "Vaikimisi ruum kutsumiseks",
+      title: "Chat room",
+      description: "Default room for invites",
       members: {
         create: {
           userId,
@@ -251,23 +252,23 @@ function buildJoinLink(token) {
 function renderInviteEmail(lang, {
   to,
   token,
-  roomTitle = "Vestlusruum",
+  roomTitle = "Chat room",
   inviterName = "SotsiaalAI"
 }) {
   const mailer = getMailer("invite");
   const link = buildJoinLink(token);
   const translations = {
     et: {
-      subject: `Kutse: ${roomTitle}`,
-      text: `Tere, ${to}!
+      subject: `Invitation: ${roomTitle}`,
+      text: `Hi ${to},
 
-${inviterName} kutsub sind vestlusruumi "${roomTitle}".
+${inviterName} invited you to the chat room "${roomTitle}".
 
-Liitu: ${link}
+Join: ${link}
 
-Kui link ei tööta, kopeeri ja kleebi aadress brauserisse.
-Kui sa ei oodanud seda kirja, ignoreeri seda.`,
-      html: `<p>Tere, ${to}!</p><p>${inviterName} kutsub sind vestlusruumi <b>${roomTitle}</b>.</p><p><a href="${link}">Liitu vestlusega</a></p><p>Kui link ei tööta, kopeeri ja kleebi aadress brauserisse.</p><p>Kui sa ei oodanud seda kirja, ignoreeri seda.</p>`
+If the link does not work, copy and paste it into your browser.
+If you did not expect this email, you can ignore it.`,
+      html: `<p>Hi ${to},</p><p>${inviterName} invited you to the chat room <b>${roomTitle}</b>.</p><p><a href="${link}">Join the chat</a></p><p>If the link does not work, copy and paste it into your browser.</p><p>If you did not expect this email, you can ignore it.</p>`
     },
     en: {
       subject: `Invitation: ${roomTitle}`,
@@ -373,6 +374,7 @@ export async function GET(req) {
   } catch (err) {
     if (err?.status) return json({
       ok: false,
+      messageKey: err.messageKey || err.message,
       message: err.message
     }, err.status);
     console.error("[invites GET] failed", err);
@@ -402,7 +404,8 @@ export async function POST(req) {
   if (!emails.length) {
     return json({
       ok: false,
-      message: "Lisa vähemalt üks e-posti aadress"
+      messageKey: "invite.error.emails_required",
+      message: "invite.error.emails_required"
     }, 400);
   }
   try {
@@ -412,13 +415,15 @@ export async function POST(req) {
     if (!roomId && !roomTitle.trim()) {
       return json({
         ok: false,
-        message: "Lisa ruumile nimi enne kutsete saatmist."
+        messageKey: "invite.room_title_required",
+        message: "invite.room_title_required"
       }, 400);
     }
     if (!roomId && !hostDisplayName) {
       return json({
         ok: false,
-        message: "Lisa oma nimi enne kutsete saatmist."
+        messageKey: "invite.host_name_required",
+        message: "invite.host_name_required"
       }, 400);
     }
     const roomCheck = await requireRoomRole(auth.userId, roomId || undefined, ["OWNER", "MODERATOR"], roomTitle, hostDisplayName);
@@ -461,7 +466,8 @@ export async function POST(req) {
         if (!sponsorOk) {
           return json({
             ok: false,
-            message: "Sponsoreeritud kutseid ei saa luua: plaan puudub."
+            messageKey: "invite.error.sponsor_plan_unavailable",
+            message: "invite.error.sponsor_plan_unavailable"
           }, 409);
         }
       }
@@ -469,7 +475,8 @@ export async function POST(req) {
       if (!capacity) {
         return json({
           ok: false,
-          message: "Sponsoreeritud kohtade limiit on tais."
+          messageKey: "invite.error.sponsor_capacity_full",
+          message: "invite.error.sponsor_capacity_full"
         }, 409);
       }
     }
@@ -514,7 +521,7 @@ export async function POST(req) {
         await sendInviteEmail({
           to: email,
           token: raw,
-          roomTitle: room.title || "Vestlusruum",
+          roomTitle: room.title || "Chat room",
           inviterName: auth.email || "SotsiaalAI",
           lang
         });
@@ -533,6 +540,7 @@ export async function POST(req) {
   } catch (err) {
     if (err?.status) return json({
       ok: false,
+      messageKey: err.messageKey || err.message,
       message: err.message
     }, err.status);
     console.error("[invites POST] failed", err);

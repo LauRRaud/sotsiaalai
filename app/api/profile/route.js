@@ -1,22 +1,60 @@
 export const runtime = "nodejs";
+
+import crypto from "node:crypto";
+import { compare, hash } from "bcrypt";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import crypto from "node:crypto";
 import { authConfig } from "@/auth";
-import { prisma } from "@/lib/prisma";
-import { hash, compare } from "bcrypt";
-import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { isValidPin } from "@/lib/auth/pin-login";
-function json(data, status = 200) {
-  return NextResponse.json(data, {
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { prisma } from "@/lib/prisma";
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: NO_STORE_HEADERS
   });
 }
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function localeFromRequest(request, bodyLocale) {
+  const direct = normalizeServerLocale(bodyLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+
+  return "en";
+}
+
 async function requireUser() {
   const session = await getServerSession(authConfig);
   const userId = session?.user?.id;
@@ -26,164 +64,185 @@ async function requireUser() {
     userId
   };
 }
-function makeError(message, status = 400, extras = {}) {
-  return json({
-    ok: false,
-    message,
-    ...extras
-  }, status);
+
+function buildVerifyUrl(email, token, locale) {
+  const baseUrl = resolveBaseUrl();
+  if (!baseUrl) {
+    throw new Error("api.auth.verify.base_url_missing");
+  }
+
+  const params = new URLSearchParams({ email, token });
+  if (locale) params.set("locale", locale);
+
+  return `${baseUrl.replace(/\/$/, "")}/api/verify-email?${params.toString()}`;
 }
-async function sendVerificationEmail(email) {
+
+async function sendVerificationEmail(email, locale) {
+  const token = crypto.randomBytes(32).toString("hex");
+  const hours = Number(process.env.EMAIL_VERIFY_HOURS || 24);
+  const expires = new Date(Date.now() + hours * 60 * 60 * 1000);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.verificationToken.deleteMany({
+      where: { identifier: email }
+    });
+    await tx.verificationToken.create({
+      data: {
+        identifier: email,
+        token,
+        expires
+      }
+    });
+  });
+
+  const verifyUrl = buildVerifyUrl(email, token, locale);
+  const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+  if (!from) {
+    throw new Error("api.auth.verify.email_from_missing");
+  }
+
+  const mailer = getMailer("email-verify");
+  await mailer.sendMail({
+    to: email,
+    from,
+    subject: serverT(locale, "email.auth.verify.subject"),
+    text: serverT(locale, "email.auth.verify.text", { verifyUrl }),
+    html: serverT(locale, "email.auth.verify.html", { verifyUrl })
+  });
+
   try {
-    const token = crypto.randomBytes(32).toString("hex");
-    const hours = Number(process.env.EMAIL_VERIFY_HOURS || 24);
-    const expires = new Date(Date.now() + hours * 60 * 60 * 1000);
-    await prisma.$transaction(async tx => {
-      await tx.verificationToken.deleteMany({
-        where: {
-          identifier: email
-        }
-      });
-      await tx.verificationToken.create({
-        data: {
-          identifier: email,
-          token,
-          expires
-        }
-      });
+    await prisma.user.update({
+      where: { email },
+      data: { emailVerificationSentAt: new Date() }
     });
-    const baseUrl = resolveBaseUrl();
-    if (!baseUrl) return;
-    const verifyUrl = `${baseUrl.replace(/\/$/, "")}/api/verify-email?email=${encodeURIComponent(email)}&token=${token}`;
-    const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
-    if (!from) {
-      console.warn("[profile] EMAIL_FROM/SMTP_FROM missing – verification email skipped");
-      return;
-    }
-    const mailer = getMailer("email-verify");
-    await mailer.sendMail({
-      to: email,
-      from,
-      subject: "Kinnita oma e-posti aadress",
-      text: `Tere!\n\nPalun kinnita oma e-posti aadress, klõpsates järgneval lingil:\n${verifyUrl}\n\nKui sa ei muutnud e-posti aadressi, teavita meid palun.`,
-      html: `
-        <p>Tere!</p>
-        <p>Palun kinnita oma e-posti aadress, klõpsates järgneval lingil:</p>
-        <p><a href="${verifyUrl}">${verifyUrl}</a></p>
-        <p>Kui sa ei muutnud e-posti aadressi, teavita meid palun.</p>
-      `
-    });
-    try {
-      await prisma.user.update({
-        where: {
-          email
-        },
-        data: {
-          emailVerificationSentAt: new Date()
-        }
-      });
-    } catch {}
-  } catch (error) {
-    console.error("profile: verification email error", error);
+  } catch {
+    // do not fail profile update if metadata update fails
   }
 }
-export async function GET() {
+
+export async function GET(request) {
+  const locale = localeFromRequest(request);
   const ctx = await requireUser();
-  if (!ctx) return makeError("Unauthorized", 401);
-  const user = await prisma.user.findUnique({
-    where: {
-      id: ctx.userId
-    },
-    select: {
-      email: true,
-      role: true,
-      passwordHash: true
+  if (!ctx) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: ctx.userId },
+      select: {
+        email: true,
+        role: true,
+        passwordHash: true
+      }
+    });
+
+    if (!user) {
+      return errorJson("profile.errors.user_not_found", 404, locale);
     }
-  });
-  if (!user) return makeError("User not found", 404);
-  const {
-    email,
-    role,
-    passwordHash
-  } = user;
-  return json({
-    ok: true,
-    user: {
-      email,
-      role,
-      hasPassword: !!passwordHash
-    }
-  });
+
+    return json({
+      ok: true,
+      user: {
+        email: user.email,
+        role: user.role,
+        hasPassword: !!user.passwordHash
+      }
+    });
+  } catch (error) {
+    console.error("profile GET error", error);
+    return errorJson("profile.load_failed", 500, locale);
+  }
 }
+
 export async function PUT(request) {
   const ctx = await requireUser();
-  if (!ctx) return makeError("Unauthorized", 401);
+  const locale = localeFromRequest(request);
+
+  if (!ctx) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   try {
     const body = await request.json().catch(() => ({}));
-    const nextEmail = typeof body?.email === "string" ? body.email.trim().toLowerCase() : undefined;
-    const nextPassword = typeof body?.password === "string" ? body.password.trim() : undefined;
-    const currentPassword = typeof body?.currentPassword === "string" ? body.currentPassword : undefined;
+    const requestLocale = localeFromRequest(request, body?.locale);
+    const nextEmail =
+      typeof body?.email === "string" ? body.email.trim().toLowerCase() : undefined;
+    const nextPassword =
+      typeof body?.password === "string" ? body.password.trim() : undefined;
+    const currentPassword =
+      typeof body?.currentPassword === "string" ? body.currentPassword : undefined;
+
     if (!nextEmail && !nextPassword) {
-      return makeError("Midagi pole uuendada.", 400);
+      return errorJson("profile.errors.no_changes", 400, requestLocale);
     }
+
     const current = await prisma.user.findUnique({
-      where: {
-        id: ctx.userId
-      },
+      where: { id: ctx.userId },
       select: {
         email: true,
         passwordHash: true
       }
     });
-    if (!current) return makeError("User not found", 404);
+
+    if (!current) {
+      return errorJson("profile.errors.user_not_found", 404, requestLocale);
+    }
+
     const data = {};
     let requiresReauth = false;
     let mustCheckCurrent = false;
+
     if (nextEmail) {
       if (!nextEmail.includes("@")) {
-        return makeError("E-posti aadress pole korrektne.", 400);
+        return errorJson("profile.email_update.error_email_invalid", 400, requestLocale);
       }
+
       if (nextEmail !== current.email) {
         const exists = await prisma.user.findUnique({
-          where: {
-            email: nextEmail
-          }
+          where: { email: nextEmail }
         });
         if (exists && exists.id !== ctx.userId) {
-          return makeError("See e-post on juba kasutusel.", 409);
+          return errorJson("profile.email_update.error_email_in_use", 409, requestLocale);
         }
+
         data.email = nextEmail;
         data.emailVerified = null;
         data.emailVerificationSentAt = null;
         requiresReauth = true;
       }
     }
+
     if (nextPassword) {
       const normalizedPin = nextPassword.replace(/\s+/g, "");
       if (!isValidPin(normalizedPin)) {
-        return makeError("PIN peab olema 4–8 numbrit.", 400, {
+        return errorJson("profile.errors.pin_invalid", 400, requestLocale, {
           code: "PIN_INVALID"
         });
       }
+
       if (current.passwordHash) {
         mustCheckCurrent = true;
       }
       data.passwordHash = await hash(normalizedPin, 12);
       requiresReauth = true;
     }
+
     if (mustCheckCurrent) {
       if (!currentPassword) {
-        return makeError("Sisesta kehtiv PIN (currentPassword), et muudatus kinnitada.", 400, {
+        return errorJson("profile.errors.current_pin_required", 400, requestLocale, {
           code: "CURRENT_PASSWORD_REQUIRED"
         });
       }
-      const ok = await compare(currentPassword, current.passwordHash);
-      if (!ok) {
-        return makeError("Kehtiv PIN on vale.", 401, {
+
+      const currentOk = await compare(currentPassword, current.passwordHash);
+      if (!currentOk) {
+        return errorJson("profile.errors.current_pin_invalid", 401, requestLocale, {
           code: "CURRENT_PASSWORD_INVALID"
         });
       }
     }
+
     if (Object.keys(data).length === 0) {
       return json({
         ok: true,
@@ -194,19 +253,24 @@ export async function PUT(request) {
         requiresReauth: false
       });
     }
+
     const updated = await prisma.user.update({
-      where: {
-        id: ctx.userId
-      },
+      where: { id: ctx.userId },
       data,
       select: {
         email: true,
         role: true
       }
     });
+
     if (data.email) {
-      await sendVerificationEmail(data.email);
+      try {
+        await sendVerificationEmail(data.email, requestLocale);
+      } catch (sendError) {
+        console.error("profile verification email send failed", sendError);
+      }
     }
+
     return json({
       ok: true,
       user: updated,
@@ -214,30 +278,36 @@ export async function PUT(request) {
     });
   } catch (error) {
     if (error?.code === "P2002") {
-      return makeError("See e-post on juba kasutusel.", 409);
+      return errorJson("profile.email_update.error_email_in_use", 409, locale);
     }
+
     console.error("profile PUT error", error);
-    return makeError("Profiili uuendamine ebaõnnestus.", 500);
+    return errorJson("profile.update_failed", 500, locale);
   }
 }
-export async function DELETE() {
+
+export async function DELETE(request) {
+  const locale = localeFromRequest(request);
   const ctx = await requireUser();
-  if (!ctx) return makeError("Unauthorized", 401);
+  if (!ctx) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   try {
     await prisma.user.delete({
-      where: {
-        id: ctx.userId
-      }
+      where: { id: ctx.userId }
     });
+
     return json({
       ok: true,
       deleted: true
     });
   } catch (error) {
     if (error?.code === "P2025") {
-      return makeError("Kasutajat ei leitud.", 404);
+      return errorJson("profile.errors.user_not_found", 404, locale);
     }
+
     console.error("profile DELETE error", error);
-    return makeError("Konto kustutamine ebaõnnestus.", 500);
+    return errorJson("profile.delete_failed", 500, locale);
   }
 }

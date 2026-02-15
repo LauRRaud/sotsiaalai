@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath } from "@/lib/localizePath";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -80,6 +81,12 @@ export default function LoginModal({
     t,
     locale
   } = useI18n();
+  const resolveAuthApiMessage = useCallback((payload, fallbackKey = "auth.login.error.generic") => resolveApiMessage({
+    payload,
+    t,
+    fallbackKey,
+    fallbackText: t(fallbackKey)
+  }), [t]);
   const {
     prefs
   } = useAccessibility();
@@ -519,7 +526,7 @@ export default function LoginModal({
           setInvalidCredentials(true);
           setSubmitIconState("error");
         }
-        setError(payload?.message || t("auth.login.error.generic"));
+        setError(resolveAuthApiMessage(payload, "auth.login.error.generic"));
         return;
       }
       if (payload?.temp_login_token) setTempToken(payload.temp_login_token);
@@ -538,7 +545,7 @@ export default function LoginModal({
         return;
       }
       markPinError();
-      setError(payload?.message || t("auth.login.error.generic"));
+      setError(resolveAuthApiMessage(payload, "auth.login.error.generic"));
     } catch (err) {
       console.error("login-step1 error", err);
       markPinError();
@@ -546,7 +553,7 @@ export default function LoginModal({
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, markPinError, markPinSuccess, pinValue, resetIconState, storedEmail, t]);
+  }, [PIN_MAX, PIN_MIN, finishLogin, markPinError, markPinSuccess, pinValue, resolveAuthApiMessage, resetIconState, storedEmail, t]);
   const handlePinInputChange = useCallback(e => {
     if (step !== "pin") return;
     const raw = typeof e?.target?.value === "string" ? e.target.value : "";
@@ -732,14 +739,14 @@ export default function LoginModal({
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.message || t("auth.login.error.generic"));
+        setError(resolveAuthApiMessage(payload, "auth.login.error.generic"));
         return;
       }
       if (payload?.status === "verified") {
         await finishLogin(payload?.temp_login_token || tempToken);
         return;
       }
-      setError(payload?.message || t("auth.login.error.generic"));
+      setError(resolveAuthApiMessage(payload, "auth.login.error.generic"));
     } catch (err) {
       console.error("login-step2 error", err);
       setError(t("auth.login.error.generic"));
@@ -764,7 +771,7 @@ export default function LoginModal({
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.message || t("auth.login.error.generic"));
+        setError(resolveAuthApiMessage(payload, "auth.login.error.generic"));
         return;
       }
       setOtpExpiresAt(payload?.otp_expires_at || null);
