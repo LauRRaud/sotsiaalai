@@ -48,17 +48,27 @@
   transform-origin: center;
 }
 
-/* Register + accessibility flows use free scroll without snap-back correction. */
+/* Register flow uses stronger snap stop for keypad-like stepping. */
 .register-scroll.csp-container,
-.a11y-csp-scroll.csp-container {
+.rooms-scroll.csp-container {
   scroll-snap-type: y proximity;
   scroll-behavior: auto;
 }
 
 .register-scroll.csp-container .csp-item,
-.a11y-csp-scroll.csp-container .csp-item {
+.rooms-scroll.csp-container .csp-item {
   scroll-snap-align: center;
   scroll-snap-stop: always;
+}
+
+.a11y-csp-scroll.csp-container {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
+.a11y-csp-scroll.csp-container .csp-item {
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
 }
 .csp-step {
   min-height: clamp(6.2rem, 10.5vh, 7.8rem);

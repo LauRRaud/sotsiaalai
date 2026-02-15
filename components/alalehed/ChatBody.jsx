@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import InviteModal from "@/components/invite/InviteModal";
@@ -12,7 +12,6 @@ import ChatComposer from "./chat/ChatComposer";
 import ConversationView from "./chat/ConversationView";
 import ChatMessageItem from "./chat/ChatMessageItem";
 import ChatSourcesPanel from "./chat/ChatSourcesPanel";
-import { useRoomMessages } from "@/components/rooms/useRoomMessages";
 import { useSpeech } from "../chat/hooks/useSpeech";
 import { useChatStream } from "@/components/chat/hooks/useChatStream";
 import { useChatConversationState } from "../chat/hooks/useChatConversationState";
@@ -28,148 +27,14 @@ import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { ShowRailIcon } from "@/components/ui/icons/ChatIcons";
+import { resolveChatLayoutVars } from "./chat/chatLayoutVars";
+import { useChatMobileRail } from "./chat/hooks/useChatMobileRail";
+import { useChatProfileRoll } from "./chat/hooks/useChatProfileRoll";
+import { useChatRoomMode, useSyncRoomAssistantMessages } from "./chat/hooks/useChatRoomMode";
 const chatNoteClassName = "mt-[0.5rem] mb-[0.75rem] rounded-[10px] border border-[rgba(231,76,60,0.35)] bg-[rgba(231,76,60,0.12)] px-[0.9rem] py-[0.7rem] text-[0.9rem] text-[#ff9c9c] self-center text-center mx-auto w-full max-w-[min(38rem,100%)]";
 const aiToggleLabelClassName = "flex items-center gap-[0.6rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.8rem] py-[0.55rem] text-[0.95rem] text-[color:var(--pt-120)]";
 const aiToggleInputClassName = "h-[1.05rem] w-[1.05rem] accent-[color:var(--brand-primary)]";
-
-const CHAT_LAYOUT_BASE_VARS = Object.freeze({
-  "--chat-diameter": "var(--profile-diameter)",
-  "--chat-window-max-w": "clamp(19.4rem, 42.5vw, 28.2rem)",
-  "--chat-window-shift-x": "clamp(-0.2rem, -0.42vw, -0.08rem)",
-  "--chat-window-top-offset": "0.65rem",
-  "--chat-window-pad-top": "clamp(2.4rem, 4.8vh, 3.4rem)",
-  "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-  "--chat-window-top-safe": "clamp(4.2rem, 7.2vh, 6.6rem)",
-  "--chat-window-bottom-gap": "1.9rem",
-  "--chat-window-shift-y": "0rem",
-  "--chat-scroll-down-offset": "0.2rem",
-  "--chat-content-top-offset": "5.2rem",
-  "--chat-content-spacer": "7.4rem",
-  "--chat-content-bottom-spacer": "0.35rem",
-  "--chat-input-shift": "calc(clamp(1.5rem, 3.8dvh, 2.5rem) + 0.9rem)",
-  "--chat-input-focus-shift": "0.85rem",
-  "--chat-window-focus-shift": "0rem",
-  "--chat-inputbar-left-pull": "-1.1rem",
-  "--chat-attach-left-pull": "-1.15rem",
-  "--chat-hpad-left": "var(--chat-hpad)",
-  "--chat-hpad-right": "var(--chat-hpad)",
-  "--chat-input-max-w": "clamp(8.2rem, 23vw, 15.8rem)",
-  "--chat-ai-offset": "clamp(1.35rem, 3vw, 2.4rem)",
-  "--chat-hpad": "clamp(2.2rem, 6vw, 3.4rem)",
-  "--hud-edge": "clamp(1.05rem, 2.5vw, 1.55rem)",
-  "--hud-icon": "clamp(3rem, 5vw, 3.3rem)",
-  "--hud-edge-safe": "calc(var(--hud-edge) + env(safe-area-inset-top, 0px))",
-  "--hud-edge-left": "env(safe-area-inset-left, 0px)",
-  "--hud-edge-right": "env(safe-area-inset-right, 0px)",
-  "--glass-edge-left": "clamp(0.1rem, 1.2vw, 0.8rem)",
-  "--glass-edge-right": "clamp(0.1rem, 1.2vw, 0.8rem)",
-  "--rail-inset": "0.2rem",
-  "--chat-back-inset": "clamp(0.2rem, 1vw, 0.6rem)",
-  "--chat-nav-top": "50%",
-  "--chat-pad-top": "clamp(1.6rem, 4.2vw, 2.6rem)",
-  "--chat-pad-bottom": "clamp(3.2rem, 7vh, 5rem)",
-  "--chat-logo-height": "clamp(12rem, 32vw, 26rem)",
-  "--chat-logo-y": "clamp(5.2rem, 23vh, 12.2rem)",
-  "--chat-mobile-back-top": "calc(env(safe-area-inset-top, 0px) + 0.56rem)",
-  "--chat-mobile-back-size": "4.4rem",
-  "--chat-mobile-show-size": "4.08rem",
-  "--chat-mobile-show-icon-size": "3.34rem",
-  "--chat-mobile-rail-size": "clamp(3.1rem, 10.2vw, 3.55rem)",
-  "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
-  "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
-  "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))",
-  "--inputbar-h": "3.2rem"
-});
-
-const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
-  "--chat-window-top-offset": "0rem",
-  "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
-  "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 3.95rem)",
-  "--chat-window-top-safe": "2.4rem",
-  "--chat-window-bottom-gap": "1.35rem",
-  "--chat-window-shift-y": "clamp(2.55rem, 7.1vh, 3.7rem)",
-  "--chat-window-bottom-safe": "0rem",
-  "--chat-window-fade-top": "clamp(0.55rem, 1.8vh, 0.95rem)",
-  "--chat-window-fade-bottom": "clamp(1rem, 3.2vh, 1.7rem)",
-  "--chat-scroll-down-offset": "-1.9rem",
-  "--chat-content-top-offset": "0rem",
-  "--chat-content-spacer": "0.95rem",
-  "--chat-content-bottom-spacer": "0.55rem",
-  "--chat-input-shift": "0rem",
-  "--chat-inputbar-left-pull": "0rem",
-  "--chat-attach-left-pull": "0rem",
-  "--chat-hpad-left": "clamp(0.7rem, 3vw, 1rem)",
-  "--chat-hpad-right": "clamp(0.7rem, 3vw, 1rem)",
-  "--chat-hpad": "calc(max(var(--hud-edge-left), var(--hud-edge-right)) + var(--hud-icon) + 0.05rem)",
-  "--chat-ai-offset": "clamp(2.2rem, 8vw, 3.6rem)",
-  "--hud-edge": "clamp(0.55rem, 3vw, 0.95rem)",
-  "--hud-icon": "clamp(2.65rem, 12vw, 3rem)",
-  "--chat-nav-top": "clamp(2.8rem, 11vw, 4.2rem)",
-  "--chat-pad-top": "clamp(0.75rem, 2vh, 1.1rem)",
-  "--chat-pad-bottom": "clamp(0.5rem, 1.8vh, 0.9rem)",
-  "--chat-logo-height": "clamp(9rem, 52vw, 18rem)",
-  "--chat-logo-y": "clamp(3.6rem, 24vh, 9.4rem)",
-  "--chat-mobile-back-top": "calc(env(safe-area-inset-top, 0px) + 0.56rem)",
-  "--chat-mobile-back-size": "4.4rem",
-  "--chat-mobile-show-size": "4.08rem",
-  "--chat-mobile-show-icon-size": "3.34rem",
-  "--chat-mobile-rail-size": "clamp(3.1rem, 10.2vw, 3.55rem)",
-  "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
-  "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
-  "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))"
-});
-
-const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
-  "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
-  "--chat-content-top-offset": "0rem",
-  "--chat-content-spacer": "0.95rem",
-  "--chat-content-bottom-spacer": "0.55rem"
-});
-
-const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
-  "--chat-diameter": "max(var(--profile-diameter), var(--chat-diameter-max))",
-  "--chat-window-max-w": "clamp(20.1rem, 45.8vw, 30.9rem)",
-  "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
-  "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
-  "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",
-  "--chat-window-top-offset": "0.65rem",
-  "--chat-window-bottom-gap": "0.4rem",
-  "--chat-window-stack-shift": "calc(clamp(4rem, 7vh, 6rem) + 3.6rem)",
-  "--chat-window-bottom-extend": "calc(clamp(16rem, 26vh, 20rem) + 3.6rem)",
-  "--chat-scroll-button-shift": "calc(clamp(6rem, 10vh, 8rem) + 6.2rem)",
-  "--chat-scroll-button-lift": "clamp(0.8rem, 1.4vh, 1.2rem)",
-  "--chat-scroll-down-offset": "-1.0rem",
-  "--chat-window-fade-bottom-focus": "clamp(1.1rem, 3vh, 1.8rem)",
-  "--chat-input-row-gap": "clamp(2.6rem, 5.6vh, 3.9rem)",
-  "--chat-input-max-w": "clamp(14rem, 42vw, 26rem)",
-  "--chat-input-focus-shift": "-2.35rem",
-  "--chat-attach-left-pull": "-1.65rem",
-  "--chat-inputbar-left-pull": "-1.6rem",
-  "--chat-hpad-right": "clamp(0.5rem, 1.4vw, 1rem)",
-  "--chat-content-top-offset": "6.4rem",
-  "--chat-content-spacer": "8.6rem",
-  "--chat-content-bottom-spacer": "0.25rem"
-});
 const MOBILE_KEYBOARD_OFFSET_THRESHOLD = 96;
-const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
-
-function detectMobileViewport() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ?? window.innerWidth <= 768;
-}
-
-function resolveChatLayoutVars({
-  isMobile,
-  focusActive
-}) {
-  const vars = {
-    ...CHAT_LAYOUT_BASE_VARS,
-    ...(isMobile ? CHAT_LAYOUT_MOBILE_VARS : null),
-    ...(isMobile ? CHAT_LAYOUT_MOBILE_OVERRIDES : null),
-    ...(!isMobile && focusActive ? CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES : null)
-  };
-  return vars;
-}
 
 export default function ChatBody({
   roomId = null,
@@ -177,7 +42,6 @@ export default function ChatBody({
   embedded = false
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const {
     data: session
   } = useSession();
@@ -189,60 +53,51 @@ export default function ChatBody({
     prefs
   } = useAccessibility();
   const isLightTheme = prefs?.theme === "light";
-  const initialProfileOpen = embedded && searchParams?.get("profile") === "1";
   const extendedLabel = t("chat.analysis.extended_label");
   const contextHint = t("chat.upload.context_hint");
   const aiNote = t("chat.ai_toggle.note");
-  const isRoomMode = Boolean(roomId);
   const crisisText = t("chat.crisis.notice");
+  const sessionUserId = session?.user?.id;
+  const sessionUserRole = session?.user?.role;
   const userRole = useMemo(() => {
     const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : null);
     const up = String(raw || "").toUpperCase();
     return up || "CLIENT";
   }, [session]);
   const [inputFocused, setInputFocused] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const {
+    isMobile,
+    mobileRailVisible,
+    mobileRailInteractionLocked,
+    showMobileRail,
+    hideMobileRail
+  } = useChatMobileRail();
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
-  const [mobileRailVisible, setMobileRailVisible] = useState(false);
-  const [mobileRailInteractionLocked, setMobileRailInteractionLocked] = useState(false);
-  const mobileModeRef = useRef(null);
-  const mobileRailShowTimerRef = useRef(0);
-  const mobileRailUnlockTimerRef = useRef(0);
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
+  const {
+    isRoomMode,
+    roomMessages,
+    roomBlocked,
+    roomAuthRequired,
+    roomTitle,
+    sendToAssistant,
+    setSendToAssistant,
+    getVisibleMessages,
+    onRoomMessageSent,
+    onAssistantMessageCreated,
+    pendingRoomAiIdsRef,
+    seenRoomAiIdsRef
+  } = useChatRoomMode({
+    roomId,
+    sessionUserId,
+    t
+  });
   useEffect(() => {
     clearStaleScrollLock();
-  }, []);
-  useEffect(() => {
-    const update = () => {
-      if (typeof window === "undefined") return;
-      const nextIsMobile = detectMobileViewport();
-      setIsMobile(nextIsMobile);
-      setMobileRailVisible(prev => {
-        const prevMode = mobileModeRef.current;
-        if (prevMode === null || prevMode !== nextIsMobile) {
-          mobileModeRef.current = nextIsMobile;
-          if (mobileRailShowTimerRef.current) {
-            window.clearTimeout(mobileRailShowTimerRef.current);
-            mobileRailShowTimerRef.current = 0;
-          }
-          if (mobileRailUnlockTimerRef.current) {
-            window.clearTimeout(mobileRailUnlockTimerRef.current);
-            mobileRailUnlockTimerRef.current = 0;
-          }
-          setMobileRailInteractionLocked(false);
-          return nextIsMobile ? false : true;
-        }
-        return prev;
-      });
-    };
-    update();
-    if (typeof window === "undefined") return;
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
   }, []);
   useEffect(() => {
     const node = chatContainerRef.current;
@@ -277,26 +132,7 @@ export default function ChatBody({
   }, [inputFocused, isMobile]);
   const MAX_RENDERED_MESSAGES = 80;
   const PAGE_SIZE = 80;
-  const rollMs = 560;
   const [renderLimit, setRenderLimit] = useState(MAX_RENDERED_MESSAGES);
-  const [sendToAssistant, setSendToAssistant] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(() => initialProfileOpen);
-  const [_rollDirection, setRollDirection] = useState("right");
-  const [isRolling, setIsRolling] = useState(false);
-  const {
-    messages: roomMessages,
-    blocked: roomBlocked,
-    authRequired: roomAuthRequired,
-    roomTitle
-  } = useRoomMessages(roomId || "", 3000);
-  const aiVisibleByMessageId = useRef(new Map());
-  const pendingRoomAiIdsRef = useRef([]);
-  const seenRoomAiIdsRef = useRef(new Set());
-  useEffect(() => {
-    aiVisibleByMessageId.current = new Map();
-    pendingRoomAiIdsRef.current = [];
-    seenRoomAiIdsRef.current = new Set();
-  }, [roomId]);
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
   const isGeneratingRef = useRef(false);
@@ -310,9 +146,19 @@ export default function ChatBody({
   const inputBarRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
-  const rollTimerRef = useRef(null);
-  const rollSwapTimerRef = useRef(null);
   const maskRefreshRef = useRef(null);
+  const {
+    profileOpen,
+    closeProfile,
+    toggleProfile
+  } = useChatProfileRoll({
+    embedded,
+    router,
+    showSourcesPanel,
+    setShowSourcesPanel,
+    setInputFocused,
+    inputRef
+  });
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
@@ -323,48 +169,6 @@ export default function ChatBody({
     if (isLightTheme) return;
     maskRefreshRef.current?.();
   }, [isLightTheme]);
-  useEffect(() => {
-    if (!embedded || typeof document === "undefined") return;
-    document.body.classList.toggle("home-profile-open", profileOpen);
-    return () => document.body.classList.remove("home-profile-open");
-  }, [embedded, profileOpen]);
-  useEffect(() => {
-    if (!embedded) return;
-    const wantsProfile = searchParams?.get("profile") === "1";
-    if (wantsProfile === profileOpen || isRolling) return;
-    setProfileOpen(wantsProfile);
-  }, [embedded, isRolling, profileOpen, searchParams]);
-  const mappedRoomMessages = useMemo(() => {
-    if (!isRoomMode) return [];
-    return (roomMessages || []).map(m => {
-      const created = m?.createdAt ? new Date(m.createdAt).getTime() : Date.now();
-      const isMine = m?.authorId && session?.user?.id && m.authorId === session.user.id;
-      const isAssistant = m?.senderType === "ASSISTANT";
-      const aiSeen = isAssistant ? true : isMine ? !!aiVisibleByMessageId.current.get(m.id) : false;
-      return {
-        id: m.id,
-        role: isAssistant ? "ai" : isMine ? "user" : "member",
-        text: m.content || "",
-        authorName: isAssistant ? t("chat.aria.assistant") : m.authorName || "Liige",
-        authorRole: m.authorRole || "MEMBER",
-        createdAt: created,
-        aiVisible: aiSeen
-      };
-    });
-  }, [isRoomMode, roomMessages, session?.user?.id, t]);
-  const getVisibleMessages = useCallback(msgs => {
-    if (!isRoomMode) return msgs;
-    const withTsAi = msgs.filter(m => m.role === "ai").map(m => ({
-      ...m,
-      createdAt: m.createdAt || Date.now()
-    }));
-    return [...mappedRoomMessages, ...withTsAi].sort((a, b) => {
-      const ta = a.createdAt || 0;
-      const tb = b.createdAt || 0;
-      if (ta !== tb) return ta - tb;
-      return String(a.id || "").localeCompare(String(b.id || ""));
-    });
-  }, [isRoomMode, mappedRoomMessages]);
   const {
     convId,
     setConvId,
@@ -382,8 +186,8 @@ export default function ChatBody({
     setIsCrisis,
     t,
     locale,
-    userId: session?.user?.id,
-    userRole: session?.user?.role,
+    userId: sessionUserId,
+    userRole: sessionUserRole,
     getVisibleMessages
   });
   const visibleMessages = useMemo(() => getVisibleMessages(messages), [getVisibleMessages, messages]);
@@ -409,7 +213,7 @@ export default function ChatBody({
   const analysis = useChatAnalysisController({
     t,
     locale,
-    sessionUserId: session?.user?.id,
+    sessionUserId,
     chatWindowRef,
     visibleMessagesCount: visibleMessages.length,
     isGeneratingRef
@@ -480,62 +284,11 @@ export default function ChatBody({
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
-  const syncProfileUrl = useCallback(open => {
-    if (!embedded || typeof window === "undefined") return;
-    const url = new URL(window.location.href);
-    if (open) {
-      url.searchParams.set("profile", "1");
-    } else {
-      url.searchParams.delete("profile");
-    }
-    window.history.replaceState({
-      profileOpen: open
-    }, "", `${url.pathname}${url.search}${url.hash}`);
-  }, [embedded]);
-  const triggerRoll = useCallback((direction, open) => {
-    if (isRolling) return;
-    setRollDirection(direction);
-    setIsRolling(true);
-    if (showSourcesPanel) closeSourcesPanel();
-    setInputFocused(false);
-    try {
-      inputRef.current?.blur?.();
-    } catch {}
-    if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
-    const swapDelay = Math.round(rollMs * 0.35);
-    rollSwapTimerRef.current = window.setTimeout(() => {
-      setProfileOpen(open);
-      syncProfileUrl(open);
-    }, swapDelay);
-    if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
-    rollTimerRef.current = window.setTimeout(() => setIsRolling(false), rollMs);
-  }, [closeSourcesPanel, isRolling, rollMs, showSourcesPanel, syncProfileUrl]);
-  const openProfile = useCallback(() => {
-    if (!embedded) {
-      pushWithTransition(router, "/profiil");
-      return;
-    }
-    triggerRoll("right", true);
-  }, [embedded, router, triggerRoll]);
-  const closeProfile = useCallback(() => {
-    if (!embedded) return;
-    triggerRoll("left", false);
-  }, [embedded, triggerRoll]);
-  const toggleProfile = useCallback(() => profileOpen ? closeProfile() : openProfile(), [closeProfile, openProfile, profileOpen]);
   const requestConversationsRefresh = useCallback(() => {
     try {
       window.dispatchEvent(new CustomEvent("sotsiaalai:refresh-conversations"));
     } catch {}
   }, []);
-  const onRoomMessageSent = useCallback(msgId => {
-    try {
-      aiVisibleByMessageId.current.set(msgId, true);
-    } catch {}
-  }, []);
-  const onAssistantMessageCreated = useCallback(msgId => {
-    if (!isRoomMode || msgId == null) return;
-    pendingRoomAiIdsRef.current = [...pendingRoomAiIdsRef.current, msgId];
-  }, [isRoomMode]);
   const {
     isGenerating,
     sendMessage,
@@ -641,29 +394,14 @@ export default function ChatBody({
     requestAnimationFrame(ensureVisible);
     setTimeout(ensureVisible, 120);
   }, [analysis.showAnalysisPanel, analysis.uploadPreview, analysis.analysisPanelRef]);
-  useEffect(() => {
-    if (!isRoomMode) return;
-    const myId = session?.user?.id;
-    if (!myId || !roomMessages?.length) return;
-    const pending = pendingRoomAiIdsRef.current;
-    if (!pending.length) return;
-    const seen = seenRoomAiIdsRef.current;
-    const freshAssistant = roomMessages.filter(m => m?.senderType === "ASSISTANT" && m?.authorId === myId && !seen.has(m.id));
-    if (!freshAssistant.length) return;
-    const toRemove = [...freshAssistant];
-    freshAssistant.forEach(m => seen.add(m.id));
-    if (!toRemove.length) return;
-    setMessages(prev => {
-      let next = prev;
-      toRemove.forEach(() => {
-        const localId = pending.shift();
-        if (localId == null) return;
-        next = next.filter(msg => msg.id !== localId);
-      });
-      pendingRoomAiIdsRef.current = pending;
-      return next;
-    });
-  }, [isRoomMode, roomMessages, session?.user?.id, setMessages]);
+  useSyncRoomAssistantMessages({
+    isRoomMode,
+    roomMessages,
+    sessionUserId,
+    setMessages,
+    pendingRoomAiIdsRef,
+    seenRoomAiIdsRef
+  });
   useEffect(() => {
     if (!hasConversationSources && showSourcesPanel) {
       closeSourcesPanel();
@@ -694,43 +432,6 @@ export default function ChatBody({
       }, 220);
     }
   }, [onBackHome, router]);
-  const showMobileRail = useCallback(() => {
-    if (mobileRailInteractionLocked) return;
-    setMobileRailInteractionLocked(true);
-    if (mobileRailShowTimerRef.current) {
-      window.clearTimeout(mobileRailShowTimerRef.current);
-      mobileRailShowTimerRef.current = 0;
-    }
-    mobileRailShowTimerRef.current = window.setTimeout(() => {
-      setMobileRailVisible(true);
-      mobileRailShowTimerRef.current = 0;
-    }, 140);
-    if (mobileRailUnlockTimerRef.current) {
-      window.clearTimeout(mobileRailUnlockTimerRef.current);
-      mobileRailUnlockTimerRef.current = 0;
-    }
-    mobileRailUnlockTimerRef.current = window.setTimeout(() => {
-      setMobileRailInteractionLocked(false);
-      mobileRailUnlockTimerRef.current = 0;
-    }, 620);
-  }, [mobileRailInteractionLocked]);
-  const hideMobileRail = useCallback(() => {
-    if (!isMobile) return;
-    if (mobileRailShowTimerRef.current) {
-      window.clearTimeout(mobileRailShowTimerRef.current);
-      mobileRailShowTimerRef.current = 0;
-    }
-    if (mobileRailUnlockTimerRef.current) {
-      window.clearTimeout(mobileRailUnlockTimerRef.current);
-      mobileRailUnlockTimerRef.current = 0;
-    }
-    setMobileRailInteractionLocked(true);
-    setMobileRailVisible(false);
-    mobileRailUnlockTimerRef.current = window.setTimeout(() => {
-      setMobileRailInteractionLocked(false);
-      mobileRailUnlockTimerRef.current = 0;
-    }, 320);
-  }, [isMobile]);
   const handleComposerFocus = useCallback(() => {
     setInputFocused(true);
     if (!isMobile) return;
@@ -768,30 +469,6 @@ export default function ChatBody({
     }
   }, [prefs?.reduceMotion]);
   useEffect(() => {
-    return () => {
-      if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
-      if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
-      if (mobileRailShowTimerRef.current) {
-        window.clearTimeout(mobileRailShowTimerRef.current);
-        mobileRailShowTimerRef.current = 0;
-      }
-      if (mobileRailUnlockTimerRef.current) {
-        window.clearTimeout(mobileRailUnlockTimerRef.current);
-        mobileRailUnlockTimerRef.current = 0;
-      }
-    };
-  }, []);
-  useEffect(() => {
-    if (!embedded) return;
-    const shouldOpen = searchParams?.get("profile") === "1";
-    if (typeof shouldOpen !== "boolean") return;
-    setProfileOpen(prev => {
-      if (prev === shouldOpen) return prev;
-      return shouldOpen;
-    });
-    if (shouldOpen) setRollDirection("right");
-  }, [embedded, searchParams]);
-  useEffect(() => {
     const node = chatContainerRef.current;
     if (!node) return;
     const update = () => {
@@ -826,6 +503,30 @@ export default function ChatBody({
       isMobile,
       focusActive
     });
+    const chatAnalysisPanelProps = {
+      t,
+      analysisPanelRef: analysis.analysisPanelRef,
+      analysisPanelMode: analysis.analysisPanelMode,
+      uploadPreview: analysis.uploadPreview,
+      uploadBusy: analysis.uploadBusy,
+      uploadError: analysis.uploadError,
+      uploadUsage: analysis.uploadUsage,
+      previewText: analysis.previewText,
+      analysisCollapsed: analysis.analysisCollapsed,
+      toggleAnalysisCollapse: analysis.toggleAnalysisCollapse,
+      docOnlyMode: analysis.docOnlyMode,
+      setDocOnlyMode: analysis.setDocOnlyMode,
+      extendedLabel,
+      contextHint,
+      inputRef,
+      onPickFile: analysis.onPickFile,
+      setUploadPreview: analysis.setUploadPreview,
+      setUploadError: analysis.setUploadError,
+      setEphemeralChunks: analysis.setEphemeralChunks,
+      closeAnalysisPanel: analysis.closeAnalysisPanel,
+      isGenerating,
+      prettifyFileName
+    };
     const useMaskedChatSurface =
       !isLightTheme ||
       (analysis.analysisPanelMode === "overlay" &&
@@ -943,7 +644,7 @@ export default function ChatBody({
                 <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={PAGE_SIZE} onRevealOlder={revealOlder} canHideOlder={visibleMessages.length > MAX_RENDERED_MESSAGES && renderLimit > MAX_RENDERED_MESSAGES} onHideOlder={hideOlder} onJumpToBottom={handleJumpToBottom} messageItems={messageItems} onWindowDoubleClick={handleChatWindowDoubleClick} mainClassName={focusActive ? "mb-[clamp(0.6rem,1.6vh,1.3rem)] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} isMobile={isMobile} isLightTheme={isLightTheme} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} />
 
 
-                {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} /> : null}
+                {analysis.showAnalysisPanel && !analysis.uploadPreview ? <ChatAnalysisPanel {...chatAnalysisPanelProps} /> : null}
 
                 <ChatComposer t={t} isLightTheme={isLightTheme} acceptAttr={analysis.acceptAttr} ensureAnalysisPanelVisible={analysis.ensureAnalysisPanelVisible} fileInputRef={analysis.fileInputRef} onFileChange={analysis.onFileChange} inputBarRef={inputBarRef} inputRef={inputRef} onFocusInput={() => {
                 handleComposerFocus();
@@ -972,7 +673,7 @@ export default function ChatBody({
                   width: `${analysisPanelWidth}px`,
                   maxWidth: `${analysisPanelWidth}px`
                 } : undefined}>
-                  <ChatAnalysisPanel t={t} analysisPanelRef={analysis.analysisPanelRef} analysisPanelMode={analysis.analysisPanelMode} uploadPreview={analysis.uploadPreview} uploadBusy={analysis.uploadBusy} uploadError={analysis.uploadError} uploadUsage={analysis.uploadUsage} previewText={analysis.previewText} analysisCollapsed={analysis.analysisCollapsed} toggleAnalysisCollapse={analysis.toggleAnalysisCollapse} docOnlyMode={analysis.docOnlyMode} setDocOnlyMode={analysis.setDocOnlyMode} extendedLabel={extendedLabel} contextHint={contextHint} inputRef={inputRef} onPickFile={analysis.onPickFile} setUploadPreview={analysis.setUploadPreview} setUploadError={analysis.setUploadError} setEphemeralChunks={analysis.setEphemeralChunks} closeAnalysisPanel={analysis.closeAnalysisPanel} isGenerating={isGenerating} prettifyFileName={prettifyFileName} />
+                  <ChatAnalysisPanel {...chatAnalysisPanelProps} />
                 </div> : null}
             </div>
           </div>
