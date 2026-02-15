@@ -25,6 +25,9 @@ const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const toolbarClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2.5 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-3 shadow-[var(--admin-shadow-soft)]";
 const selectClassName = "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
 const alertErrorClassName = "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
+const alertInfoClassName = "rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color-mix(in_srgb,var(--admin-accent-cool)_15%,var(--admin-surface-2)_85%)] px-3 py-2 text-[color:var(--admin-text)]";
+const alertWarnClassName = "rounded-[12px] border border-[color:var(--admin-warning,#f59e0b)] bg-[color-mix(in_srgb,var(--admin-warning,#f59e0b)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
+const alertCriticalClassName = "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
 const refreshButtonStyle = {
   "--btn-primary-bg": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_35%,var(--admin-surface)_65%),var(--admin-surface-2))",
   "--btn-primary-bg-hover": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_42%,var(--admin-surface)_58%),var(--admin-surface-2))",
@@ -47,7 +50,16 @@ const EVENT_OPTIONS = [
   { value: "no_context", labelKey: "admin.analytics.events.no_context" },
   { value: "crisis_detected", labelKey: "admin.analytics.events.crisis_detected" },
   { value: "rag_error", labelKey: "admin.analytics.events.rag_error" },
-  { value: "openai_error", labelKey: "admin.analytics.events.openai_error" }
+  { value: "openai_error", labelKey: "admin.analytics.events.openai_error" },
+  { value: "subscription_init_started", labelKey: "admin.analytics.events.subscription_init_started" },
+  { value: "subscription_init_checkout_created", labelKey: "admin.analytics.events.subscription_init_checkout_created" },
+  { value: "subscription_init_failed", labelKey: "admin.analytics.events.subscription_init_failed" },
+  { value: "subscription_callback_redirect", labelKey: "admin.analytics.events.subscription_callback_redirect" },
+  { value: "subscription_webhook_processed", labelKey: "admin.analytics.events.subscription_webhook_processed" },
+  { value: "subscription_webhook_failed", labelKey: "admin.analytics.events.subscription_webhook_failed" },
+  { value: "payment_alert_dispatch_dry_run", labelKey: "admin.analytics.events.payment_alert_dispatch_dry_run" },
+  { value: "payment_alert_dispatched", labelKey: "admin.analytics.events.payment_alert_dispatched" },
+  { value: "payment_alert_dispatch_failed", labelKey: "admin.analytics.events.payment_alert_dispatch_failed" }
 ];
 
 const STATUS_LABEL_KEYS = {
@@ -103,6 +115,17 @@ const formatMoney = (amount, currency = "EUR", localeTag) => {
     }).format(n);
   } catch {
     return `${n.toFixed?.(2) || n} ${currency}`;
+  }
+};
+
+const formatPercent = (value, localeTag) => {
+  const n = toNumber(value);
+  try {
+    return new Intl.NumberFormat(localeTag, {
+      maximumFractionDigits: 0
+    }).format(n);
+  } catch {
+    return String(Math.round(n));
   }
 };
 
@@ -258,6 +281,9 @@ export default function AnalyticsDashboard() {
     [events, eventFilter, isCrisisFilter]
   );
 
+  const paymentPipeline = summary?.billing?.paymentPipeline30d || null;
+  const paymentAlerts = summary?.billing?.paymentAlerts30d || [];
+
   const metaSummary = useCallback(
     (data = {}) => {
       const parts = [];
@@ -279,12 +305,32 @@ export default function AnalyticsDashboard() {
       if (typeof data.hasHistory === "boolean") {
         parts.push(`${tr("admin.analytics.meta.history")}: ${data.hasHistory ? tr("admin.common.yes") : tr("admin.common.no")}`);
       }
+      if (typeof data.paymentState === "string" && data.paymentState) {
+        parts.push(`${tr("admin.analytics.meta.payment_state")}: ${data.paymentState}`);
+      }
+      if (typeof data.resultStatus === "string" && data.resultStatus) {
+        parts.push(`${tr("admin.analytics.meta.result_status")}: ${data.resultStatus}`);
+      }
+      if (typeof data.subscriptionAction === "string" && data.subscriptionAction) {
+        parts.push(`${tr("admin.analytics.meta.subscription_action")}: ${data.subscriptionAction}`);
+      }
+      if (typeof data.code === "string" && data.code) {
+        parts.push(`${tr("admin.analytics.meta.alert_code")}: ${data.code}`);
+      }
       return parts.join(" | ");
     },
     [tr]
   );
 
   const loadingLabel = tr("admin.common.loading");
+  const paymentAlertClass = useCallback(
+    severity => {
+      if (severity === "critical") return alertCriticalClassName;
+      if (severity === "warning") return alertWarnClassName;
+      return alertInfoClassName;
+    },
+    []
+  );
 
   return (
     <div className={pageClassName}>
@@ -494,7 +540,86 @@ export default function AnalyticsDashboard() {
               <div className={sectionSubClassName}>{tr("admin.analytics.billing.subtitle")}</div>
             </div>
           </div>
+          <div className="mt-3 grid gap-2">
+            {loadingSummary ? (
+              <div className={alertInfoClassName}>{loadingLabel}</div>
+            ) : paymentAlerts.length ? (
+              paymentAlerts.map((alert, idx) => (
+                <div key={`${alert.code || "alert"}_${idx}`} className={paymentAlertClass(alert.severity)}>
+                  <strong>{tr(`admin.analytics.billing.alerts.severity.${alert.severity || "info"}`)}:</strong>{" "}
+                  {tr(`admin.analytics.billing.alerts.items.${alert.code || "unknown"}`, {
+                    value: formatPercent(alert.value ?? 0, localeTag),
+                    threshold: formatPercent(alert.threshold ?? 0, localeTag)
+                  })}
+                </div>
+              ))
+            ) : (
+              <div className={alertInfoClassName}>{tr("admin.analytics.billing.alerts.none")}</div>
+            )}
+          </div>
           <div className={`${kpiGridClassName} mt-3`}>
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.billing.pipeline.checkout_ready")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingSummary ? loadingLabel : formatCount(paymentPipeline?.checkoutCreated ?? 0, localeTag)}
+                </div>
+                <div className={kpiMetaClassName}>
+                  {loadingSummary
+                    ? loadingLabel
+                    : tr("admin.analytics.billing.pipeline.from_init", {
+                        percent: formatPercent(paymentPipeline?.checkoutCreateRatePct ?? 0, localeTag)
+                      })}
+                </div>
+              </div>
+            </div>
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.billing.pipeline.webhook_paid")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingSummary ? loadingLabel : formatCount(paymentPipeline?.webhookPaid ?? 0, localeTag)}
+                </div>
+                <div className={kpiMetaClassName}>
+                  {loadingSummary
+                    ? loadingLabel
+                    : tr("admin.analytics.billing.pipeline.from_checkout", {
+                        percent: formatPercent(paymentPipeline?.paidFromCheckoutRatePct ?? 0, localeTag)
+                      })}
+                </div>
+              </div>
+            </div>
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.billing.pipeline.callback_success")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingSummary ? loadingLabel : formatCount(paymentPipeline?.callbackSuccess ?? 0, localeTag)}
+                </div>
+                <div className={kpiMetaClassName}>
+                  {loadingSummary
+                    ? loadingLabel
+                    : tr("admin.analytics.billing.pipeline.callback_share", {
+                        percent: formatPercent(paymentPipeline?.callbackSuccessFromCheckoutRatePct ?? 0, localeTag)
+                      })}
+                </div>
+              </div>
+            </div>
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.billing.pipeline.webhook_errors")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingSummary ? loadingLabel : formatCount(paymentPipeline?.webhookError ?? 0, localeTag)}
+                </div>
+                <div className={kpiMetaClassName}>
+                  {loadingSummary
+                    ? loadingLabel
+                    : tr("admin.analytics.billing.pipeline.breakdown", {
+                        failed: formatCount(paymentPipeline?.webhookFailed ?? 0, localeTag),
+                        canceled: formatCount(paymentPipeline?.webhookCanceled ?? 0, localeTag),
+                        refunded: formatCount(paymentPipeline?.webhookRefunded ?? 0, localeTag)
+                      })}
+                </div>
+              </div>
+            </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
                 <CardTitle>{tr("admin.analytics.billing.active_subscriptions")}</CardTitle>

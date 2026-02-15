@@ -12,7 +12,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/",
-    title: meta.title || "SotsiaalAI - AI for social support",
+    title: meta.title || "",
     description: meta.description || ""
   });
 }
@@ -20,3 +20,4 @@ export async function generateMetadata() {
 export default function HomeRoot() {
   return <HomePage />;
 }
+

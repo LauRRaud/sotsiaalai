@@ -16,6 +16,7 @@ import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
@@ -79,7 +80,7 @@ export default function RegistreerimineBody({
     } = e.target;
     setForm(prev => ({
       ...prev,
-      [name]: name === "pin" ? value.replace(/\\D/g, "").slice(0, PIN_MAX) : type === "checkbox" ? checked : value
+      [name]: name === "pin" ? value.replace(/\D/g, "").slice(0, PIN_MAX) : type === "checkbox" ? checked : value
     }));
   }
   async function handleSubmit(e) {
@@ -135,12 +136,17 @@ export default function RegistreerimineBody({
         body: JSON.stringify({
           email,
           pin,
-          role: form.role
+          role: form.role,
+          locale
         })
       });
       const payload = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(payload?.message || payload?.error || t("auth.register.error.failed"));
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "auth.register.error.failed"
+        }));
         return;
       }
       setSuccessMessage(t("auth.register.success_message", {

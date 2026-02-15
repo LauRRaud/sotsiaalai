@@ -10,10 +10,11 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/uuenda-pin",
-    title: meta.title || "Update PIN - SotsiaalAI",
+    title: meta.title || "",
     description: meta.description || ""
   });
 }
 export default function UuendaPinPage() {
   return <UnustasinParooliBody />;
 }
+

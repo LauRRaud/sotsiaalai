@@ -5,6 +5,7 @@ import { authConfig } from "@/auth";
 import { normalizeRole } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -23,11 +24,21 @@ function errorJson(messageKey, status, extras = {}) {
     ...extras
   }, status);
 }
-export async function GET() {
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_ANALYZE_USAGE_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_ANALYZE_USAGE_GET_MAX, 90);
+
+export async function GET(req) {
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
     return errorJson("api.common.unauthorized", 401);
   }
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "analyze_usage_get",
+    userId: session.user.id,
+    limit: CHAT_ANALYZE_USAGE_GET_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
   const pickedRole = (session.user.role || "CLIENT").toString().toUpperCase();
   const role = normalizeRole(pickedRole);
   const isAdmin = !!session.user.isAdmin || pickedRole === "ADMIN";

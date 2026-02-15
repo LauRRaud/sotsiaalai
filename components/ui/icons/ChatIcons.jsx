@@ -204,9 +204,9 @@ export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
       className={cn(className)}
       {...props}
     >
-      <rect x="8" y="0.9" width="12.2" height="2" rx="1" fill={color} />
-      <rect x="4.8" y="7.9" width="15.4" height="2" rx="1" fill={color} />
-      <rect x="8" y="14.9" width="12.2" height="2" rx="1" fill={color} />
+      <rect x="8.6" y="0.9" width="11.6" height="2" rx="1" fill={color} />
+      <rect x="5.4" y="7.9" width="11.6" height="2" rx="1" fill={color} />
+      <rect x="8.6" y="14.9" width="11.6" height="2" rx="1" fill={color} />
     </svg>
   );
 }

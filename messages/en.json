@@ -650,10 +650,13 @@
     "loading": "Loading subscription details...",
     "error": {
       "load_failed": "Failed to load subscription status.",
-      "payment_start": "Could not start the payment."
+      "payment_start": "Could not start the payment.",
+      "payment_failed": "Payment failed or was canceled."
     },
     "payment": {
-      "redirect_demo": "Redirecting to Maksekeskus payment page (demo)..."
+      "redirect_demo": "Redirecting to Maksekeskus payment page...",
+      "pending": "Payment confirmation is in progress.",
+      "confirmation_pending": "Payment was started. Access is activated after provider confirmation."
     },
     "active": {
       "summary": "Your subscription is active. Monthly price: 7.99.",
@@ -746,6 +749,18 @@
     "start": {
       "title": "Next step - SotsiaalAI",
       "description": "Choose where to continue after signing in."
+    },
+    "guide": {
+      "title": "Platform guide - SotsiaalAI",
+      "description": "Read how to use SotsiaalAI step by step."
+    },
+    "rooms": {
+      "title": "Rooms - SotsiaalAI",
+      "description": "Open and manage your group chat rooms."
+    },
+    "email_update": {
+      "title": "Update email - SotsiaalAI",
+      "description": "Change the email address linked to your SotsiaalAI account."
     }
   },
   "join": {
@@ -942,6 +957,8 @@
       "not_configured": "Speech-to-text service is not configured.",
       "rate_limited": "Too many dictation requests. Please try again later.",
       "audio_missing": "Audio input is missing.",
+      "audio_too_large": "Audio file is too large.",
+      "audio_format_unsupported": "Audio format is not supported.",
       "transcription_failed": "Dictation failed.",
       "service_error": "Speech-to-text service error."
     },
@@ -1007,7 +1024,16 @@
       "user_not_found": "User not found.",
       "load_failed": "Failed to load subscription.",
       "activate_failed": "Failed to activate subscription.",
-      "cancel_failed": "Failed to cancel subscription."
+      "cancel_failed": "Failed to cancel subscription.",
+      "already_active": "Subscription is already active.",
+      "provider_unavailable": "Payment provider is not configured.",
+      "checkout_create_failed": "Could not create payment checkout.",
+      "payment_not_found": "Payment reference was not found.",
+      "webhook_signature_unconfigured": "Webhook signature verification is not configured.",
+      "webhook_signature_invalid": "Webhook signature is invalid.",
+      "webhook_invalid_payload": "Webhook payload is invalid.",
+      "webhook_process_failed": "Could not process payment webhook.",
+      "direct_activation_disabled": "Direct activation is disabled. Start checkout first."
     },
     "invites": {
       "email_from_missing": "Sender email is not configured.",
@@ -1028,7 +1054,13 @@
     "admin": {
       "analytics": {
         "events_load_failed": "Failed to load analytics events.",
-        "summary_load_failed": "Failed to load analytics summary."
+        "summary_load_failed": "Failed to load analytics summary.",
+        "payment_alerts_not_configured": "Payment alert webhook is not configured.",
+        "payment_alerts_dispatch_failed": "Failed to dispatch payment alerts.",
+        "payment_alerts_dispatched": "Payment alerts were dispatched.",
+        "payment_alerts_no_critical": "No critical payment alerts to dispatch.",
+        "payment_alerts_deduped": "Critical payment alerts were already dispatched recently.",
+        "payment_alerts_dry_run": "Payment alerts dry-run completed."
       }
     },
     "rag": {
@@ -1083,7 +1115,16 @@
         "no_context": "No context",
         "crisis_detected": "Crisis detected",
         "rag_error": "RAG error",
-        "openai_error": "OpenAI error"
+        "openai_error": "OpenAI error",
+        "subscription_init_started": "Subscription init started",
+        "subscription_init_checkout_created": "Subscription checkout created",
+        "subscription_init_failed": "Subscription init failed",
+        "subscription_callback_redirect": "Subscription callback redirect",
+        "subscription_webhook_processed": "Subscription webhook processed",
+        "subscription_webhook_failed": "Subscription webhook failed",
+        "payment_alert_dispatch_dry_run": "Payment alert dispatch dry run",
+        "payment_alert_dispatched": "Payment alert dispatched",
+        "payment_alert_dispatch_failed": "Payment alert dispatch failed"
       },
       "status": {
         "pending": "Pending",
@@ -1102,7 +1143,11 @@
         "grounding": "grounding",
         "chosen": "chosen",
         "crisis": "crisis",
-        "history": "history"
+        "history": "history",
+        "payment_state": "payment state",
+        "result_status": "result status",
+        "subscription_action": "subscription action",
+        "alert_code": "alert code"
       },
       "kpis": {
         "requests_30d": {
@@ -1153,11 +1198,38 @@
       "billing": {
         "title": "Subscriptions and payments",
         "subtitle": "Payment flows and subscription activity over the last 30 days.",
+        "alerts": {
+          "none": "No billing alerts in the last 30 days.",
+          "severity": {
+            "info": "Info",
+            "warning": "Warning",
+            "critical": "Critical"
+          },
+          "items": {
+            "checkout_create_rate_low": "Checkout creation rate is low ({value}% vs threshold {threshold}%).",
+            "paid_conversion_low": "Paid conversion from checkout is low ({value}% vs threshold {threshold}%).",
+            "webhook_missing_after_checkout": "Checkout events exist but no webhook processing events were recorded.",
+            "callback_pending_high": "Callback pending share is high ({value}% vs threshold {threshold}%).",
+            "webhook_error_spike": "Webhook technical error count is high ({value}, threshold {threshold}).",
+            "webhook_error_rate_high": "Webhook technical error rate is high ({value}% vs threshold {threshold}%).",
+            "unknown": "Unclassified billing alert."
+          }
+        },
         "active_subscriptions": "Active subscriptions",
         "new_subscriptions_30d": "New subscriptions (30d)",
         "cancellations_30d": "Cancellations (30d)",
         "payment_statuses_30d": "Payment statuses (30d)",
         "paid_amount_30d": "Collected (PAID 30d)",
+        "pipeline": {
+          "checkout_ready": "Checkout ready (30d)",
+          "webhook_paid": "Webhook paid (30d)",
+          "callback_success": "Callback success (30d)",
+          "webhook_errors": "Webhook errors (30d)",
+          "from_init": "{percent}% from init",
+          "from_checkout": "{percent}% from checkout",
+          "callback_share": "{percent}% callback success",
+          "breakdown": "Failed {failed} | Canceled {canceled} | Refunded {refunded}"
+        },
         "table": {
           "time": "Time",
           "status": "Status",
@@ -1184,6 +1256,178 @@
           "meta": "Meta",
           "empty": "No records found."
         }
+      }
+    },
+    "rag": {
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "audience": {
+        "social_worker": "Social worker specialist",
+        "client": "Help seeker",
+        "both": "Both"
+      },
+      "common": {
+        "ok": "OK",
+        "failed": "Failed",
+        "saved": "Saved"
+      },
+      "errors": {
+        "invalid_documents_json": "Server returned invalid JSON for document list.",
+        "documents_load_failed": "Document loading failed.",
+        "pdf_required": "Select a PDF file.",
+        "meta_required": "Add metadata JSON file or paste JSON into the field.",
+        "pdf_ingest_failed": "PDF ingest failed.",
+        "meta_json_invalid": "Metadata JSON is invalid.",
+        "meta_json_must_be_object": "Metadata JSON must be an object.",
+        "url_required": "Enter URL.",
+        "url_ingest_failed": "URL ingest failed.",
+        "articles_json_required": "Add articles JSON (file or text).",
+        "articles_json_invalid": "Articles JSON is invalid.",
+        "doc_id_required": "docId is missing. Add docId in the field or JSON file.",
+        "articles_array_required": "Articles array is missing or empty.",
+        "article_item_invalid": "Each article must have title and pageRange or startPage/endPage.",
+        "articles_ingest_failed": "Articles ingest failed.",
+        "reindex_failed": "Reindex failed.",
+        "delete_failed": "Delete failed.",
+        "meta_update_failed": "Metadata update failed.",
+        "selftest_failed": "Self-test failed.",
+        "selftest_aborted": "Self-test aborted."
+      },
+      "success": {
+        "added_with_ref": "Added: {ref}",
+        "pdf_ingest_with_doc_id": "PDF ingest succeeded (docId {docId}).",
+        "pdf_ingest": "PDF ingest succeeded.",
+        "meta_looks_valid": "Metadata looks valid. Search and filtering should be fast.",
+        "url_sent": "URL was sent to RAG database.",
+        "articles_added_with_doc_id": "Articles added (docId {docId}).",
+        "reindex_started": "Reindex started.",
+        "document_deleted": "Document deleted.",
+        "meta_saved": "Metadata saved.",
+        "selftest_finished": "Self-test completed."
+      },
+      "confirm": {
+        "delete_doc": "Do you want to delete this entry? This cannot be undone."
+      },
+      "selftest": {
+        "results_title": "Self-test results",
+        "run": "Run self-test",
+        "running": "Checking..."
+      },
+      "ingest": {
+        "title": "Ingest: URL or PDF + metadata",
+        "subtitle": "Add sources and verify metadata JSON consistency.",
+        "url_section_title": "Ingest URL",
+        "url_title_placeholder": "Title (optional)",
+        "url_description_placeholder": "Description",
+        "url_tags_placeholder": "Tags (comma-separated)",
+        "sending": "Sending...",
+        "send_url": "Send URL",
+        "pdf_section_title": "PDF + metadata (JSON)",
+        "pdf_section_note": "Metadata JSON: docId, title, section, year, audience, tags.",
+        "pdf_meta_text_placeholder": "Or paste metadata JSON",
+        "send_pdf_with_meta": "Send PDF with metadata"
+      },
+      "meta": {
+        "open_templates": "Open metadata templates",
+        "hide_templates": "Hide metadata templates",
+        "check_json": "Validate metadata JSON",
+        "templates_title": "Metadata JSON templates",
+        "templates_note": "Platform expects one JSON object per ingest. Use separate JSON files for different materials. For multi-article PDFs use /ingest/articles.",
+        "open_json": "Open .json",
+        "important": "Important",
+        "recommended": "Recommended",
+        "page_range_or_pdf_pages": "pageRange or pdf_start_page/pdf_end_page",
+        "missing_required": "Missing: {fields}",
+        "missing_recommended": "Recommended: {fields}",
+        "templates": {
+          "base": "Base (general document)",
+          "periodical": "Periodical article",
+          "regulation": "Law or regulation",
+          "report": "Report or guide",
+          "web": "Web page"
+        },
+        "important_line_1": "docId, title, section",
+        "important_line_2": "year, audience, tags",
+        "recommended_line_1": "description, authors, issueLabel/issueId",
+        "recommended_line_2": "articleId, journalTitle, language",
+        "recommended_line_4": "source_type, source_url"
+      },
+      "articles": {
+        "title": "Articles ingest (same PDF)",
+        "subtitle": "Use docId returned from PDF ingest. JSON must contain articles array.",
+        "open_template": "Open articles template",
+        "doc_id_placeholder": "docId (e.g. DOC-2024-014)",
+        "send": "Send articles",
+        "added": "Articles added.",
+        "added_count": "Added {count} chunks.",
+        "default_article": "Article",
+        "page_range": " (pp {start}-{end})",
+        "json_placeholder": "{\"docId\":\"DOC-2024-014\",\"articles\":[{\"title\":\"Title\",\"pageRange\":\"12-15\"}]}"
+      },
+      "documents": {
+        "title": "Document list",
+        "summary": "Total {total} | Filtered {filtered} | Pending {pending} | Processing {processing} | Completed {completed} | Failed {failed}",
+        "quick_find_title": "Quick find",
+        "quick_find_body": "Search uses title, description, authors, tags, section, issue, year, docId, articleId, journalTitle, language.",
+        "quick_tags": "Quick tags:",
+        "search_placeholder": "Search title, author, description, docId or tag",
+        "filters": {
+          "all_sections": "All sections",
+          "all_audiences": "All audiences",
+          "all_years": "All years",
+          "all_issues": "All issues"
+        },
+        "sort": {
+          "recent": "Newest first",
+          "title": "Title A-Z",
+          "section": "Section",
+          "year": "Year",
+          "issue": "Issue"
+        },
+        "reindex_selected": "Reindex selected ({count})",
+        "select_visible": "Select visible",
+        "total": "Total {total}",
+        "filtered": "Filtered {count}",
+        "showing": "Showing {count}",
+        "selected": "Selected {count}",
+        "untitled": "(untitled)",
+        "issue_label": "issue {issue}",
+        "no_results": "No results found.",
+        "load_more": "Load more"
+      },
+      "details": {
+        "section": "Section",
+        "authors": "Authors",
+        "year_issue": "Year / issue",
+        "audience": "Audience",
+        "page": "Page",
+        "issue": "Issue",
+        "language": "Language",
+        "type": "Type",
+        "tags": "Tags",
+        "source": "Source",
+        "select_material": "Select a material to view details."
+      },
+      "actions": {
+        "edit": "Edit",
+        "reindex": "Reindex",
+        "reindexing": "Reindexing...",
+        "delete": "Delete",
+        "deleting": "Deleting...",
+        "view": "View",
+        "close": "Close",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "modal": {
+        "edit_meta": "Edit metadata",
+        "doc_id": "docId",
+        "type": "type",
+        "language": "language"
       }
     }
   }

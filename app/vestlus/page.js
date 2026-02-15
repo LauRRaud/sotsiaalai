@@ -15,8 +15,8 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/vestlus",
-    title: meta.title || "Chat / SotsiaalAI",
-    description: meta.description || "Chat with the SotsiaalAI assistant.",
+    title: meta.title || "",
+    description: meta.description || "",
     openGraph: {
       type: "article"
     }
@@ -35,5 +35,6 @@ export default async function Page({ searchParams }) {
       <ChatBody roomId={roomId} />
     </>;
 }
+
 
 

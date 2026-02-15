@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -9,6 +10,9 @@ export const fetchCache = "force-no-store";
 
 const CONVERSATION_TTL_DAYS = Number(process.env.CONVERSATION_TTL_DAYS || 90);
 const CONVERSATION_TTL_MS = Math.max(1, CONVERSATION_TTL_DAYS) * 24 * 60 * 60 * 1000;
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_CONVERSATIONS_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATIONS_GET_MAX, 90);
+const CHAT_CONVERSATIONS_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATIONS_POST_MAX, 30);
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -129,6 +133,13 @@ function isDbOffline(err) {
 export async function GET(req) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "conversations_get",
+    userId: auth.userId,
+    limit: CHAT_CONVERSATIONS_GET_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const url = new URL(req.url);
   const limitParam = Number(url.searchParams.get("limit") || 30);
@@ -253,6 +264,13 @@ export async function GET(req) {
 export async function POST(req) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "conversations_post",
+    userId: auth.userId,
+    limit: CHAT_CONVERSATIONS_POST_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   let body = {};
   try {

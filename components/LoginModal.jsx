@@ -516,7 +516,8 @@ export default function LoginModal({
         },
         body: JSON.stringify({
           email,
-          pin
+          pin,
+          locale
         })
       });
       const payload = await res.json().catch(() => ({}));
@@ -553,7 +554,7 @@ export default function LoginModal({
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, markPinError, markPinSuccess, pinValue, resolveAuthApiMessage, resetIconState, storedEmail, t]);
+  }, [PIN_MAX, PIN_MIN, finishLogin, locale, markPinError, markPinSuccess, pinValue, resolveAuthApiMessage, resetIconState, storedEmail, t]);
   const handlePinInputChange = useCallback(e => {
     if (step !== "pin") return;
     const raw = typeof e?.target?.value === "string" ? e.target.value : "";
@@ -734,7 +735,8 @@ export default function LoginModal({
         body: JSON.stringify({
           temp_login_token: tempToken,
           otp_code: cleanedOtp,
-          remember_device: rememberDevice
+          remember_device: rememberDevice,
+          locale
         })
       });
       const payload = await res.json().catch(() => ({}));
@@ -766,7 +768,8 @@ export default function LoginModal({
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          temp_login_token: tempToken
+          temp_login_token: tempToken,
+          locale
         })
       });
       const payload = await res.json().catch(() => ({}));
@@ -1208,7 +1211,7 @@ export default function LoginModal({
               </div>
 
               <div className="w-full mt-[0.75rem]">
-                <Input id="otp-code-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} className="text-center [font-variant-numeric:tabular-nums] tracking-[0.28em] font-semibold text-[1.5rem] py-[0.9rem] px-[1.15rem] rounded-[1rem] [background:var(--otp-input-bg)] [border:1.5px_solid_var(--otp-input-border)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)] placeholder:tracking-[0.24em] focus-visible:[background:var(--otp-input-bg)] focus-visible:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)]" />
+                <Input id="otp-code-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} className="text-center [font-variant-numeric:tabular-nums] tracking-[0.28em] font-semibold text-[1.5rem] py-[0.9rem] px-[1.15rem] rounded-[1rem] [background:var(--otp-input-bg)] [border:1.5px_solid_var(--otp-input-border)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)] placeholder:tracking-[0.24em] focus-visible:[background:var(--otp-input-bg)] focus-visible:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)]" />
               </div>
             </div>
 
@@ -1244,3 +1247,4 @@ export default function LoginModal({
       </div>
     </>, document.body);
   }
+

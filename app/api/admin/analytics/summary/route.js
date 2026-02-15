@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 
 import { authConfig } from "@/auth";
 import { assertAdmin } from "@/lib/authz";
+import { buildPaymentAlerts, buildPaymentPipelineFromCounts } from "@/lib/admin/payment-alerts";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
 
@@ -87,7 +88,23 @@ export async function GET(req) {
       canceledSubscriptions30d,
       paymentsByStatus30d,
       paidAmount30d,
-      recentPayments
+      recentPayments,
+      paymentEventInitStartedCount,
+      paymentEventCheckoutCreatedCount,
+      paymentEventInitFailedCount,
+      paymentEventCallbackSuccessCount,
+      paymentEventCallbackPendingCount,
+      paymentEventCallbackFailedCount,
+      paymentEventCallbackCanceledCount,
+      paymentEventWebhookProcessedCount,
+      paymentEventWebhookPaidCount,
+      paymentEventWebhookFailedStatusCount,
+      paymentEventWebhookCanceledStatusCount,
+      paymentEventWebhookRefundedStatusCount,
+      paymentEventWebhookErrorCount,
+      paymentEventWebhookInvalidSignatureCount,
+      paymentEventWebhookInvalidPayloadCount,
+      paymentEventWebhookRateLimitedCount
     ] = await Promise.all([
       prisma.chatLog.count({
         where: {
@@ -173,6 +190,134 @@ export async function GET(req) {
           createdAt: true,
           paidAt: true
         }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_init_started",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_init_checkout_created",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_init_failed",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_callback_redirect",
+          createdAt: { gte: since },
+          data: {
+            path: ["paymentState"],
+            equals: "success"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_callback_redirect",
+          createdAt: { gte: since },
+          data: {
+            path: ["paymentState"],
+            equals: "pending"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_callback_redirect",
+          createdAt: { gte: since },
+          data: {
+            path: ["paymentState"],
+            equals: "failed"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_callback_redirect",
+          createdAt: { gte: since },
+          data: {
+            path: ["paymentState"],
+            equals: "canceled"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_processed",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_processed",
+          createdAt: { gte: since },
+          data: {
+            path: ["resultStatus"],
+            equals: "PAID"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_processed",
+          createdAt: { gte: since },
+          data: {
+            path: ["resultStatus"],
+            equals: "FAILED"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_processed",
+          createdAt: { gte: since },
+          data: {
+            path: ["resultStatus"],
+            equals: "CANCELED"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_processed",
+          createdAt: { gte: since },
+          data: {
+            path: ["resultStatus"],
+            equals: "REFUNDED"
+          }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_failed",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_invalid_signature",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_invalid_payload",
+          createdAt: { gte: since }
+        }
+      }),
+      prisma.chatLog.count({
+        where: {
+          event: "subscription_webhook_rate_limited",
+          createdAt: { gte: since }
+        }
       })
     ]);
 
@@ -217,6 +362,26 @@ export async function GET(req) {
       avgChosenGroupCount /= total;
     }
 
+    const paymentPipeline30d = buildPaymentPipelineFromCounts({
+      initStarted: paymentEventInitStartedCount,
+      checkoutCreated: paymentEventCheckoutCreatedCount,
+      initFailed: paymentEventInitFailedCount,
+      callbackSuccess: paymentEventCallbackSuccessCount,
+      callbackPending: paymentEventCallbackPendingCount,
+      callbackFailed: paymentEventCallbackFailedCount,
+      callbackCanceled: paymentEventCallbackCanceledCount,
+      webhookProcessed: paymentEventWebhookProcessedCount,
+      webhookPaid: paymentEventWebhookPaidCount,
+      webhookFailed: paymentEventWebhookFailedStatusCount,
+      webhookCanceled: paymentEventWebhookCanceledStatusCount,
+      webhookRefunded: paymentEventWebhookRefundedStatusCount,
+      webhookError: paymentEventWebhookErrorCount,
+      webhookInvalidSignature: paymentEventWebhookInvalidSignatureCount,
+      webhookInvalidPayload: paymentEventWebhookInvalidPayloadCount,
+      webhookRateLimited: paymentEventWebhookRateLimitedCount
+    });
+    const paymentAlerts30d = buildPaymentAlerts(paymentPipeline30d);
+
     return json({
       ok: true,
       periodDays: 30,
@@ -239,7 +404,9 @@ export async function GET(req) {
         canceledSubscriptions30d,
         paymentsByStatus30d: toCountMap(paymentsByStatus30d, "status"),
         paidAmount30d: paidAmount30d?._sum?.amount ?? "0",
-        recentPayments
+        recentPayments,
+        paymentPipeline30d,
+        paymentAlerts30d
       },
       averages: {
         avgRagMatchCount,

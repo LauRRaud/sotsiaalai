@@ -11,7 +11,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/tellimus",
-    title: meta.title || "Halda tellimust – SotsiaalAI",
+    title: meta.title || "",
     description: meta.description || ""
   });
 }
@@ -20,3 +20,4 @@ export default function Page() {
       <TellimusBody />
     </Suspense>;
 }
+

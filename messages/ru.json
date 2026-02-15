@@ -650,10 +650,13 @@
     "loading": "Загружаем данные о подписке…",
     "error": {
       "load_failed": "Не удалось загрузить статус подписки.",
-      "payment_start": "Не удалось начать оплату."
+      "payment_start": "Не удалось начать оплату.",
+      "payment_failed": "Оплата не удалась или была отменена."
     },
     "payment": {
-      "redirect_demo": "Перенаправляем на страницу оплаты Maksekeskus (демо)…"
+      "redirect_demo": "Перенаправляем на страницу оплаты Maksekeskus…",
+      "pending": "Подтверждение платежа выполняется.",
+      "confirmation_pending": "Платеж запущен. Доступ активируется после подтверждения от платежного провайдера."
     },
     "active": {
       "summary": "Ваша подписка активна. Ежемесячная цена: 7,99 €.",
@@ -746,6 +749,18 @@
     "start": {
       "title": "Следующий шаг — SotsiaalAI",
       "description": "Выберите, каким инструментом воспользоваться после входа."
+    },
+    "guide": {
+      "title": "Platform guide - SotsiaalAI",
+      "description": "Read how to use SotsiaalAI step by step."
+    },
+    "rooms": {
+      "title": "Rooms - SotsiaalAI",
+      "description": "Open and manage your group chat rooms."
+    },
+    "email_update": {
+      "title": "Update email - SotsiaalAI",
+      "description": "Change the email address linked to your SotsiaalAI account."
     }
   },
   "join": {
@@ -888,70 +903,72 @@
   },
   "api": {
     "common": {
-      "unauthorized": "Please sign in to continue.",
-      "forbidden": "You do not have permission for this action.",
-      "invalid_request": "Invalid request.",
-      "invalid_json": "Invalid JSON payload.",
-      "missing_room_id": "Room ID is missing.",
-      "rate_limited": "Too many requests. Please try again later.",
-      "subscription_required": "An active subscription is required."
+      "unauthorized": "Для продолжения войдите в систему.",
+      "forbidden": "У вас нет прав для этого действия.",
+      "invalid_request": "Некорректный запрос.",
+      "invalid_json": "Некорректный JSON payload.",
+      "missing_room_id": "Отсутствует ID комнаты.",
+      "rate_limited": "Слишком много запросов. Повторите позже.",
+      "subscription_required": "Требуется активная подписка."
     },
     "chat": {
-      "invalid_conv_id": "Invalid conversation ID.",
-      "invalid_id": "Invalid ID.",
-      "not_found": "Conversation not found.",
-      "conversation_exists": "Conversation already exists.",
-      "db_unavailable": "Database is temporarily unavailable.",
-      "db_error_run_read": "Could not load conversation context.",
-      "db_error_analyze_usage": "Could not load analysis usage.",
-      "db_error_conversations_list": "Could not load conversations.",
-      "db_error_conversation_create": "Could not create conversation.",
-      "db_error_conversation_read": "Could not load conversation.",
-      "db_error_conversation_delete": "Could not delete conversation.",
-      "db_error_conversation_restore": "Could not restore conversation.",
-      "db_error_conversation_messages": "Could not load conversation messages.",
+      "invalid_conv_id": "Некорректный ID диалога.",
+      "invalid_id": "Некорректный ID.",
+      "not_found": "Диалог не найден.",
+      "conversation_exists": "Диалог уже существует.",
+      "db_unavailable": "База данных временно недоступна.",
+      "db_error_run_read": "Не удалось загрузить контекст диалога.",
+      "db_error_analyze_usage": "Не удалось загрузить использование анализа.",
+      "db_error_conversations_list": "Не удалось загрузить диалоги.",
+      "db_error_conversation_create": "Не удалось создать диалог.",
+      "db_error_conversation_read": "Не удалось загрузить диалог.",
+      "db_error_conversation_delete": "Не удалось удалить диалог.",
+      "db_error_conversation_restore": "Не удалось восстановить диалог.",
+      "db_error_conversation_messages": "Не удалось загрузить сообщения диалога.",
       "analyze": {
-        "multipart_required": "Request must be multipart/form-data.",
-        "file_required": "Please attach a file.",
-        "file_too_large": "File is too large.",
-        "quota_exceeded": "Analysis quota exceeded.",
-        "quota_check_failed": "Could not verify analysis quota.",
-        "rag_key_missing": "Analysis service is not configured.",
-        "rag_host_external_denied": "External analysis host is not allowed.",
-        "rag_service_failed": "Analysis service request failed.",
-        "service_unavailable": "Analysis service is currently unavailable.",
-        "privacy_ephemeral": "File is processed ephemerally and not stored."
+        "multipart_required": "Запрос должен быть в формате multipart/form-data.",
+        "file_required": "Пожалуйста, прикрепите файл.",
+        "file_too_large": "Файл слишком большой.",
+        "quota_exceeded": "Лимит анализа превышен.",
+        "quota_check_failed": "Не удалось проверить лимит анализа.",
+        "rag_key_missing": "Сервис анализа не настроен.",
+        "rag_host_external_denied": "Внешний хост анализа запрещен.",
+        "rag_service_failed": "Запрос к сервису анализа завершился ошибкой.",
+        "service_unavailable": "Сервис анализа сейчас недоступен.",
+        "privacy_ephemeral": "Файл обрабатывается временно и не сохраняется."
       }
     },
     "rooms": {
-      "not_found": "Room not found.",
-      "not_member": "You are not a member of this room.",
-      "owner_cannot_leave": "Room owner cannot leave the room.",
-      "missing_room_id_or_msg_id": "Room ID or message ID is missing.",
-      "message_not_found": "Message not found.",
-      "message_required": "Message content is required.",
-      "access_denied": "Access denied.",
-      "join_unavailable": "Joining is currently unavailable.",
-      "send_failed": "Failed to send message.",
-      "read_update_failed": "Failed to update read state.",
-      "leave_failed": "Failed to leave room.",
-      "delete_failed": "Failed to delete room.",
-      "delete_message_failed": "Failed to delete message."
+      "not_found": "Комната не найдена.",
+      "not_member": "Вы не являетесь участником этой комнаты.",
+      "owner_cannot_leave": "Владелец комнаты не может выйти из комнаты.",
+      "missing_room_id_or_msg_id": "Отсутствует ID комнаты или сообщения.",
+      "message_not_found": "Сообщение не найдено.",
+      "message_required": "Требуется текст сообщения.",
+      "access_denied": "Доступ запрещен.",
+      "join_unavailable": "Вступление сейчас недоступно.",
+      "send_failed": "Не удалось отправить сообщение.",
+      "read_update_failed": "Не удалось обновить статус прочтения.",
+      "leave_failed": "Не удалось выйти из комнаты.",
+      "delete_failed": "Не удалось удалить комнату.",
+      "delete_message_failed": "Не удалось удалить сообщение."
     },
     "stt": {
-      "not_configured": "Speech-to-text service is not configured.",
-      "rate_limited": "Too many dictation requests. Please try again later.",
-      "audio_missing": "Audio input is missing.",
-      "transcription_failed": "Dictation failed.",
-      "service_error": "Speech-to-text service error."
+      "not_configured": "Сервис распознавания речи не настроен.",
+      "rate_limited": "Слишком много запросов диктовки. Повторите позже.",
+      "audio_missing": "Отсутствует аудиовход.",
+      "audio_too_large": "Аудиофайл слишком большой.",
+      "audio_format_unsupported": "Этот формат аудио не поддерживается.",
+      "transcription_failed": "Диктовка не удалась.",
+      "service_error": "Ошибка сервиса распознавания речи."
     },
     "tts": {
-      "not_configured": "Text-to-speech service is not configured.",
-      "rate_limited": "Too many speech requests. Please try again later.",
-      "text_missing": "Text input is missing.",
-      "text_too_long": "Text is too long.",
-      "synthesis_failed": "Speech synthesis failed.",
-      "service_error": "Text-to-speech service error."
+      "not_configured": "Сервис синтеза речи не настроен.",
+      "rate_limited": "Слишком много запросов озвучивания. Повторите позже.",
+      "text_missing": "Отсутствует текстовый ввод.",
+      "text_too_long": "Текст слишком длинный.",
+      "synthesis_failed": "Синтез речи не удался.",
+      "service_error": "Ошибка сервиса синтеза речи."
     },
     "auth": {
       "reset": {
@@ -1004,50 +1021,65 @@
       }
     },
     "subscription": {
-      "user_not_found": "User not found.",
-      "load_failed": "Failed to load subscription.",
-      "activate_failed": "Failed to activate subscription.",
-      "cancel_failed": "Failed to cancel subscription."
+      "user_not_found": "Пользователь не найден.",
+      "load_failed": "Не удалось загрузить подписку.",
+      "activate_failed": "Не удалось активировать подписку.",
+      "cancel_failed": "Не удалось отменить подписку.",
+      "already_active": "Подписка уже активна.",
+      "provider_unavailable": "Платежный провайдер не настроен.",
+      "checkout_create_failed": "Не удалось создать checkout для платежа.",
+      "payment_not_found": "Платеж с таким идентификатором не найден.",
+      "webhook_signature_unconfigured": "Проверка подписи webhook не настроена.",
+      "webhook_signature_invalid": "Подпись webhook недействительна.",
+      "webhook_invalid_payload": "Некорректный payload webhook.",
+      "webhook_process_failed": "Не удалось обработать платежный webhook.",
+      "direct_activation_disabled": "Прямая активация отключена. Сначала запустите checkout оплаты."
     },
     "invites": {
-      "email_from_missing": "Sender email is not configured.",
-      "load_failed": "Failed to load invites.",
-      "create_failed": "Failed to create invites.",
-      "missing_id": "Invite ID is missing.",
-      "missing_token": "Invite token is missing.",
-      "invite_not_found": "Invite not found.",
-      "invite_expired": "Invite has expired.",
-      "invite_used": "Invite has already been used.",
-      "invite_email_mismatch": "This invite is for a different email address.",
-      "only_pending_resend": "Only pending invites can be resent.",
-      "subscription_required": "Subscription is required to join this room.",
-      "accept_failed": "Failed to accept invite.",
-      "resend_failed": "Failed to resend invite.",
-      "revoke_failed": "Failed to revoke invite."
+      "email_from_missing": "Email отправителя не настроен.",
+      "load_failed": "Не удалось загрузить приглашения.",
+      "create_failed": "Не удалось создать приглашения.",
+      "missing_id": "Отсутствует ID приглашения.",
+      "missing_token": "Отсутствует токен приглашения.",
+      "invite_not_found": "Приглашение не найдено.",
+      "invite_expired": "Срок действия приглашения истек.",
+      "invite_used": "Приглашение уже использовано.",
+      "invite_email_mismatch": "Это приглашение для другого email.",
+      "only_pending_resend": "Повторно можно отправить только приглашения в статусе ожидания.",
+      "subscription_required": "Для вступления в комнату требуется подписка.",
+      "accept_failed": "Не удалось принять приглашение.",
+      "resend_failed": "Не удалось отправить приглашение повторно.",
+      "revoke_failed": "Не удалось отозвать приглашение."
     },
     "admin": {
       "analytics": {
-        "events_load_failed": "Failed to load analytics events.",
-        "summary_load_failed": "Failed to load analytics summary."
+        "events_load_failed": "Не удалось загрузить события аналитики.",
+        "summary_load_failed": "Не удалось загрузить сводку аналитики.",
+        "payment_alerts_not_configured": "Webhook для платежных alert не настроен.",
+        "payment_alerts_dispatch_failed": "Не удалось отправить платежные alert.",
+        "payment_alerts_dispatched": "Платежные alert отправлены.",
+        "payment_alerts_no_critical": "Нет критических платежных alert для отправки.",
+        "payment_alerts_deduped": "Критические платежные alert уже были недавно отправлены.",
+        "payment_alerts_dry_run": "Dry-run отправки платежных alert завершен."
       }
     },
     "rag": {
-      "rate_limited": "Too many RAG requests. Please try again later.",
-      "service_key_missing": "RAG service API key is not configured.",
-      "external_host_not_allowed": "External RAG host is not allowed.",
-      "proxy_timeout": "RAG proxy request timed out.",
-      "proxy_error": "RAG proxy request failed.",
+      "rate_limited": "Слишком много запросов к RAG. Повторите позже.",
+      "service_key_missing": "API ключ сервиса RAG не настроен.",
+      "external_host_not_allowed": "Внешний хост RAG запрещен.",
+      "proxy_timeout": "Истекло время ожидания запроса RAG proxy.",
+      "proxy_error": "Запрос RAG proxy завершился ошибкой.",
       "selftest": {
-        "step_connection": "Checking RAG connection",
-        "step_search": "Running RAG search",
-        "step_openai": "Checking OpenAI response",
+        "step_connection": "Проверка подключения к RAG",
+        "step_search": "Запуск поиска RAG",
+        "step_openai": "Проверка ответа OpenAI",
         "step_ok": "OK",
-        "sample_query": "hello",
-        "openai_prompt": "Reply briefly: OK",
-        "openai_key_missing": "OPENAI_API_KEY is not configured.",
-        "openai_empty_response": "OpenAI did not return a response.",
-        "backend_error": "RAG service returned an error.",
-        "unknown_error": "Unknown error."
+        "sample_query": "привет",
+        "openai_prompt": "Ответь кратко: OK",
+        "openai_key_missing": "OPENAI_API_KEY не настроен.",
+        "openai_empty_response": "OpenAI не вернул ответ.",
+        "backend_error": "Сервис RAG вернул ошибку.",
+        "unknown_error": "Неизвестная ошибка."
       }
     }
   },
@@ -1083,7 +1115,16 @@
         "no_context": "No context",
         "crisis_detected": "Crisis detected",
         "rag_error": "RAG error",
-        "openai_error": "OpenAI error"
+        "openai_error": "OpenAI error",
+        "subscription_init_started": "Subscription init started",
+        "subscription_init_checkout_created": "Subscription checkout created",
+        "subscription_init_failed": "Subscription init failed",
+        "subscription_callback_redirect": "Subscription callback redirect",
+        "subscription_webhook_processed": "Subscription webhook processed",
+        "subscription_webhook_failed": "Subscription webhook failed",
+        "payment_alert_dispatch_dry_run": "Payment alert dispatch dry run",
+        "payment_alert_dispatched": "Payment alert dispatched",
+        "payment_alert_dispatch_failed": "Payment alert dispatch failed"
       },
       "status": {
         "pending": "Pending",
@@ -1102,7 +1143,11 @@
         "grounding": "grounding",
         "chosen": "chosen",
         "crisis": "crisis",
-        "history": "history"
+        "history": "history",
+        "payment_state": "payment state",
+        "result_status": "result status",
+        "subscription_action": "subscription action",
+        "alert_code": "alert code"
       },
       "kpis": {
         "requests_30d": {
@@ -1153,11 +1198,38 @@
       "billing": {
         "title": "Subscriptions and payments",
         "subtitle": "Payment flows and subscription activity over the last 30 days.",
+        "alerts": {
+          "none": "No billing alerts in the last 30 days.",
+          "severity": {
+            "info": "Info",
+            "warning": "Warning",
+            "critical": "Critical"
+          },
+          "items": {
+            "checkout_create_rate_low": "Checkout creation rate is low ({value}% vs threshold {threshold}%).",
+            "paid_conversion_low": "Paid conversion from checkout is low ({value}% vs threshold {threshold}%).",
+            "webhook_missing_after_checkout": "Checkout events exist but no webhook processing events were recorded.",
+            "callback_pending_high": "Callback pending share is high ({value}% vs threshold {threshold}%).",
+            "webhook_error_spike": "Webhook technical error count is high ({value}, threshold {threshold}).",
+            "webhook_error_rate_high": "Webhook technical error rate is high ({value}% vs threshold {threshold}%).",
+            "unknown": "Unclassified billing alert."
+          }
+        },
         "active_subscriptions": "Active subscriptions",
         "new_subscriptions_30d": "New subscriptions (30d)",
         "cancellations_30d": "Cancellations (30d)",
         "payment_statuses_30d": "Payment statuses (30d)",
         "paid_amount_30d": "Collected (PAID 30d)",
+        "pipeline": {
+          "checkout_ready": "Checkout ready (30d)",
+          "webhook_paid": "Webhook paid (30d)",
+          "callback_success": "Callback success (30d)",
+          "webhook_errors": "Webhook errors (30d)",
+          "from_init": "{percent}% from init",
+          "from_checkout": "{percent}% from checkout",
+          "callback_share": "{percent}% callback success",
+          "breakdown": "Failed {failed} | Canceled {canceled} | Refunded {refunded}"
+        },
         "table": {
           "time": "Time",
           "status": "Status",
@@ -1185,6 +1257,179 @@
           "empty": "No records found."
         }
       }
+    },
+    "rag": {
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "audience": {
+        "social_worker": "Social worker specialist",
+        "client": "Help seeker",
+        "both": "Both"
+      },
+      "common": {
+        "ok": "OK",
+        "failed": "Failed",
+        "saved": "Saved"
+      },
+      "errors": {
+        "invalid_documents_json": "Server returned invalid JSON for document list.",
+        "documents_load_failed": "Document loading failed.",
+        "pdf_required": "Select a PDF file.",
+        "meta_required": "Add metadata JSON file or paste JSON into the field.",
+        "pdf_ingest_failed": "PDF ingest failed.",
+        "meta_json_invalid": "Metadata JSON is invalid.",
+        "meta_json_must_be_object": "Metadata JSON must be an object.",
+        "url_required": "Enter URL.",
+        "url_ingest_failed": "URL ingest failed.",
+        "articles_json_required": "Add articles JSON (file or text).",
+        "articles_json_invalid": "Articles JSON is invalid.",
+        "doc_id_required": "docId is missing. Add docId in the field or JSON file.",
+        "articles_array_required": "Articles array is missing or empty.",
+        "article_item_invalid": "Each article must have title and pageRange or startPage/endPage.",
+        "articles_ingest_failed": "Articles ingest failed.",
+        "reindex_failed": "Reindex failed.",
+        "delete_failed": "Delete failed.",
+        "meta_update_failed": "Metadata update failed.",
+        "selftest_failed": "Self-test failed.",
+        "selftest_aborted": "Self-test aborted."
+      },
+      "success": {
+        "added_with_ref": "Added: {ref}",
+        "pdf_ingest_with_doc_id": "PDF ingest succeeded (docId {docId}).",
+        "pdf_ingest": "PDF ingest succeeded.",
+        "meta_looks_valid": "Metadata looks valid. Search and filtering should be fast.",
+        "url_sent": "URL was sent to RAG database.",
+        "articles_added_with_doc_id": "Articles added (docId {docId}).",
+        "reindex_started": "Reindex started.",
+        "document_deleted": "Document deleted.",
+        "meta_saved": "Metadata saved.",
+        "selftest_finished": "Self-test completed."
+      },
+      "confirm": {
+        "delete_doc": "Do you want to delete this entry? This cannot be undone."
+      },
+      "selftest": {
+        "results_title": "Self-test results",
+        "run": "Run self-test",
+        "running": "Checking..."
+      },
+      "ingest": {
+        "title": "Ingest: URL or PDF + metadata",
+        "subtitle": "Add sources and verify metadata JSON consistency.",
+        "url_section_title": "Ingest URL",
+        "url_title_placeholder": "Title (optional)",
+        "url_description_placeholder": "Description",
+        "url_tags_placeholder": "Tags (comma-separated)",
+        "sending": "Sending...",
+        "send_url": "Send URL",
+        "pdf_section_title": "PDF + metadata (JSON)",
+        "pdf_section_note": "Metadata JSON: docId, title, section, year, audience, tags.",
+        "pdf_meta_text_placeholder": "Or paste metadata JSON",
+        "send_pdf_with_meta": "Send PDF with metadata"
+      },
+      "meta": {
+        "open_templates": "Open metadata templates",
+        "hide_templates": "Hide metadata templates",
+        "check_json": "Validate metadata JSON",
+        "templates_title": "Metadata JSON templates",
+        "templates_note": "Platform expects one JSON object per ingest. Use separate JSON files for different materials. For multi-article PDFs use /ingest/articles.",
+        "open_json": "Open .json",
+        "important": "Important",
+        "recommended": "Recommended",
+        "page_range_or_pdf_pages": "pageRange or pdf_start_page/pdf_end_page",
+        "missing_required": "Missing: {fields}",
+        "missing_recommended": "Recommended: {fields}",
+        "templates": {
+          "base": "Base (general document)",
+          "periodical": "Periodical article",
+          "regulation": "Law or regulation",
+          "report": "Report or guide",
+          "web": "Web page"
+        },
+        "important_line_1": "docId, title, section",
+        "important_line_2": "year, audience, tags",
+        "recommended_line_1": "description, authors, issueLabel/issueId",
+        "recommended_line_2": "articleId, journalTitle, language",
+        "recommended_line_4": "source_type, source_url"
+      },
+      "articles": {
+        "title": "Articles ingest (same PDF)",
+        "subtitle": "Use docId returned from PDF ingest. JSON must contain articles array.",
+        "open_template": "Open articles template",
+        "doc_id_placeholder": "docId (e.g. DOC-2024-014)",
+        "send": "Send articles",
+        "added": "Articles added.",
+        "added_count": "Added {count} chunks.",
+        "default_article": "Article",
+        "page_range": " (pp {start}-{end})",
+        "json_placeholder": "{\"docId\":\"DOC-2024-014\",\"articles\":[{\"title\":\"Title\",\"pageRange\":\"12-15\"}]}"
+      },
+      "documents": {
+        "title": "Document list",
+        "summary": "Total {total} | Filtered {filtered} | Pending {pending} | Processing {processing} | Completed {completed} | Failed {failed}",
+        "quick_find_title": "Quick find",
+        "quick_find_body": "Search uses title, description, authors, tags, section, issue, year, docId, articleId, journalTitle, language.",
+        "quick_tags": "Quick tags:",
+        "search_placeholder": "Search title, author, description, docId or tag",
+        "filters": {
+          "all_sections": "All sections",
+          "all_audiences": "All audiences",
+          "all_years": "All years",
+          "all_issues": "All issues"
+        },
+        "sort": {
+          "recent": "Newest first",
+          "title": "Title A-Z",
+          "section": "Section",
+          "year": "Year",
+          "issue": "Issue"
+        },
+        "reindex_selected": "Reindex selected ({count})",
+        "select_visible": "Select visible",
+        "total": "Total {total}",
+        "filtered": "Filtered {count}",
+        "showing": "Showing {count}",
+        "selected": "Selected {count}",
+        "untitled": "(untitled)",
+        "issue_label": "issue {issue}",
+        "no_results": "No results found.",
+        "load_more": "Load more"
+      },
+      "details": {
+        "section": "Section",
+        "authors": "Authors",
+        "year_issue": "Year / issue",
+        "audience": "Audience",
+        "page": "Page",
+        "issue": "Issue",
+        "language": "Language",
+        "type": "Type",
+        "tags": "Tags",
+        "source": "Source",
+        "select_material": "Select a material to view details."
+      },
+      "actions": {
+        "edit": "Edit",
+        "reindex": "Reindex",
+        "reindexing": "Reindexing...",
+        "delete": "Delete",
+        "deleting": "Deleting...",
+        "view": "View",
+        "close": "Close",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "modal": {
+        "edit_meta": "Edit metadata",
+        "doc_id": "docId",
+        "type": "type",
+        "language": "language"
+      }
     }
   }
 }
+

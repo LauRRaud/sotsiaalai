@@ -13,6 +13,16 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_STT_MODEL = process.env.OPENAI_STT_MODEL || "gpt-4o-mini-transcribe";
 const STT_RATE_LIMIT_WINDOW_MS = Number(process.env.STT_RATE_LIMIT_WINDOW_MS || 60_000);
 const STT_RATE_LIMIT_MAX = Number(process.env.STT_RATE_LIMIT_MAX || 20);
+const STT_MAX_AUDIO_MB = Number(process.env.STT_MAX_AUDIO_MB || 12);
+const STT_MAX_AUDIO_BYTES = Math.max(1, Math.floor(STT_MAX_AUDIO_MB * 1024 * 1024));
+const STT_MAX_REQUEST_BYTES = Number(process.env.STT_MAX_REQUEST_BYTES || Math.ceil(STT_MAX_AUDIO_BYTES * 1.2));
+
+function isSupportedAudioMime(type) {
+  const normalized = String(type || "").toLowerCase().trim();
+  if (!normalized) return true;
+  if (normalized.startsWith("audio/")) return true;
+  return normalized === "video/webm" || normalized === "video/mp4";
+}
 
 function normalizeLanguage(locale) {
   const base = String(locale || "").toLowerCase().split("-")[0].trim();
@@ -56,6 +66,12 @@ export async function POST(req) {
   if (!STT_URL && !OPENAI_API_KEY) {
     return errorJson("api.stt.not_configured", 503);
   }
+  const contentLength = Number(req.headers.get("content-length") || 0);
+  if (Number.isFinite(contentLength) && contentLength > STT_MAX_REQUEST_BYTES) {
+    return errorJson("api.stt.audio_too_large", 413, {
+      maxMB: STT_MAX_AUDIO_MB
+    });
+  }
 
   let form;
   try {
@@ -66,8 +82,20 @@ export async function POST(req) {
 
   const file = form.get("audio");
   const locale = form.get("locale") || "auto";
-  if (!file) {
+  if (!file || typeof file === "string") {
     return errorJson("api.stt.audio_missing", 400);
+  }
+  if (!isSupportedAudioMime(file.type)) {
+    return errorJson("api.stt.audio_format_unsupported", 415, {
+      mimeType: file.type || null
+    });
+  }
+  const fileSize = Number(file.size || 0);
+  if (fileSize > STT_MAX_AUDIO_BYTES) {
+    return errorJson("api.stt.audio_too_large", 413, {
+      maxMB: STT_MAX_AUDIO_MB,
+      sizeMB: Number((fileSize / (1024 * 1024)).toFixed(1))
+    });
   }
 
   if (STT_URL) {

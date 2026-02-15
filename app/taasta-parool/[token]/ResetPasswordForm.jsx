@@ -12,6 +12,7 @@ import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 const pageShellClassName = glassPageShellClassName;
 const titleClassName = glassPageTitleClassName;
@@ -62,12 +63,17 @@ export default function ResetPasswordForm({
         },
         body: JSON.stringify({
           token,
-          pin
+          pin,
+          locale
         })
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        setError(payload?.error || t("auth.resetForm.errors.updateFailed"));
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "auth.resetForm.errors.updateFailed"
+        }));
         return;
       }
       setSuccess(true);

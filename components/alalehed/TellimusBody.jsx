@@ -39,6 +39,7 @@ export default function TellimusBody() {
   const [loading, setLoading] = useState(true);
   const [subActive, setSubActive] = useState(false);
   const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
   const [processing, setProcessing] = useState(false);
   const {
     t,
@@ -46,10 +47,29 @@ export default function TellimusBody() {
   } = useI18n();
   const backLabel = t("buttons.back_previous");
   const searchParams = useSearchParams();
+  const paymentState = String(searchParams?.get("payment") || "").toLowerCase();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale));
   const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
+  useEffect(() => {
+    if (paymentState === "success") {
+      setError("");
+      setInfo(t("subscription.payment.confirmation_pending"));
+      return;
+    }
+    if (paymentState === "pending") {
+      setError("");
+      setInfo(t("subscription.payment.pending"));
+      return;
+    }
+    if (paymentState === "failed" || paymentState === "canceled") {
+      setInfo("");
+      setError(t("subscription.error.payment_failed"));
+      return;
+    }
+    setInfo("");
+  }, [paymentState, t]);
   useEffect(() => {
     (async () => {
       try {
@@ -79,9 +99,34 @@ export default function TellimusBody() {
     try {
       setProcessing(true);
       setError("");
-      alert(t("subscription.payment.redirect_demo"));
-      pushWithTransition(router, localizePath("/tellimus?status=demo", locale));
-      router.refresh();
+      setInfo("");
+      const res = await fetch("/api/subscription/init", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          locale
+        })
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "subscription.error.payment_start"
+        }));
+        return;
+      }
+      const checkoutUrl = typeof payload?.checkoutUrl === "string" ? payload.checkoutUrl.trim() : "";
+      if (!checkoutUrl) {
+        setError(t("subscription.error.payment_start"));
+        return;
+      }
+      setInfo(t("subscription.payment.redirect_demo"));
+      if (typeof window !== "undefined") {
+        window.location.assign(checkoutUrl);
+      }
     } catch (err) {
       console.error("activate", err);
       setError(t("subscription.error.payment_start"));
@@ -129,6 +174,9 @@ export default function TellimusBody() {
               <div id="billing-info">
                 <RichText as="div" className={subscriptionInfoTextClassName} value={t("subscription.info")} replacements={emailReplacement} />
               </div>
+              {info && <p aria-live="polite" className="text-center max-[48em]:text-left text-[color:#a7f3d0]">
+                  {info}
+                </p>}
               {error && <p role="alert" aria-live="assertive" className="text-center max-[48em]:text-left text-[color:#fca5a5]">
                   {error}
                 </p>}

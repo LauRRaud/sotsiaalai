@@ -12,6 +12,7 @@ import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glas
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
   `${glassPageTitleClassName} max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]`;
@@ -55,12 +56,17 @@ export default function UnustasinParooliBody() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email
+          email,
+          locale
         })
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        setError(payload?.error || t("auth.reset.error.failed"));
+        setError(resolveApiMessage({
+          payload,
+          t,
+          fallbackKey: "auth.reset.error.failed"
+        }));
         return;
       }
       setSubmitted(true);

@@ -246,6 +246,7 @@ export default function ProfiilBody({
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
     !embedded && "min-[48.0625em]:sr-only",
+    "max-[48em]:sr-only",
     "max-[48em]:!text-[clamp(2.24rem,8.8vw,2.9rem)]"
   );
   const headerCenterClassName = cn(

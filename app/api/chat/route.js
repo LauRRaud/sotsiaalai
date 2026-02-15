@@ -8,11 +8,15 @@ import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
 import { logEvent } from "@/lib/chat/logger";
 import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_CTX_MAX_CHARS, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CHAT_POST_MAX, 24);
+const CHAT_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CHAT_GET_MAX, 120);
 function makeError(messageKey, status = 400, extras = {}) {
   return NextResponse.json({
     ok: false,
@@ -270,6 +274,17 @@ export async function POST(req) {
       authOptions = undefined;
     }
   }
+  let session = null;
+  try {
+    session = await getServerSession(authOptions);
+  } catch {}
+  const earlyRateLimit = enforceChatRateLimit(req, {
+    scope: "main_post",
+    userId: session?.user?.id,
+    limit: CHAT_POST_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (earlyRateLimit) return earlyRateLimit;
   let payload;
   try {
     payload = await req.json();
@@ -294,10 +309,6 @@ export async function POST(req) {
   const combineSources = payload?.combineSources === true;
   const forceSources = payload?.forceSources === true || payload?.includeSources === true || payload?.showSources === true;
   const includeSources = forceSources || detectSourcesRequest(rawHistory, message);
-  let session = null;
-  try {
-    session = await getServerSession(authOptions);
-  } catch {}
   const userId = session?.user?.id || null;
   const sessionRole = roleFromSession(session);
   const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
@@ -870,7 +881,14 @@ export async function POST(req) {
     }
   });
 }
-export async function GET() {
+export async function GET(req) {
+  const limitResponse = enforceChatRateLimit(req, {
+    scope: "main_get",
+    limit: CHAT_GET_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (limitResponse) return limitResponse;
+
   return NextResponse.json({
     ok: true,
     route: "api/chat"

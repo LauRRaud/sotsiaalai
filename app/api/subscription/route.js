@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 const ACTIVE_STATUS = SubscriptionStatus.ACTIVE;
 const CANCELED_STATUS = SubscriptionStatus.CANCELED;
 const PLAN_MAX_LEN = 80;
+const ALLOW_DIRECT_ACTIVATION = process.env.SUBSCRIPTION_ALLOW_DIRECT_ACTIVATION === "1";
 
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -152,6 +153,11 @@ export async function POST(request) {
   const session = await requireUser(request);
   if (!session) {
     return errorJson("api.common.unauthorized", 401, locale);
+  }
+  if (!ALLOW_DIRECT_ACTIVATION) {
+    return errorJson("api.subscription.direct_activation_disabled", 409, locale, {
+      initPath: "/api/subscription/init"
+    });
   }
 
   try {

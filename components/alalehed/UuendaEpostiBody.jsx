@@ -98,7 +98,8 @@ export default function UuendaEpostiBody() {
         },
         body: JSON.stringify({
           email: nextEmail,
-          currentPassword: pinClean
+          currentPassword: pinClean,
+          locale
         })
       });
       const payload = await res.json().catch(() => ({}));

@@ -1,0 +1,294 @@
+export const runtime = "nodejs";
+
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { prisma } from "@/lib/prisma";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
+import { createMaksekeskusCheckout, makeProviderPaymentId } from "@/lib/payments/maksekeskus";
+import { logPaymentEvent } from "@/lib/payments/observability";
+
+const PLAN_MAX_LEN = 80;
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+const SUBSCRIPTION_INIT_RATE_LIMIT_WINDOW_MS = Number(process.env.SUBSCRIPTION_INIT_RATE_LIMIT_WINDOW_MS || 60_000);
+const SUBSCRIPTION_INIT_RATE_LIMIT_MAX = Number(process.env.SUBSCRIPTION_INIT_RATE_LIMIT_MAX || 10);
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
+    status,
+    headers: NO_STORE_HEADERS
+  });
+}
+
+function ok(payload = {}, status = 200) {
+  return json(
+    {
+      ok: true,
+      ...payload
+    },
+    status
+  );
+}
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function localeFromRequest(request, bodyLocale) {
+  const direct = normalizeServerLocale(bodyLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+
+  return "en";
+}
+
+async function requireUser(request) {
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET
+  });
+
+  if (!token?.id) return null;
+  return {
+    token,
+    userId: String(token.id),
+    email: token.email ? String(token.email) : ""
+  };
+}
+
+function normalizePlan(value) {
+  const raw = typeof value === "string" ? value.trim() : "";
+  const fallback = String(process.env.SUBSCRIPTION_DEFAULT_PLAN || "monthly").trim();
+  const plan = raw || fallback || "monthly";
+  return plan.length > PLAN_MAX_LEN ? plan.slice(0, PLAN_MAX_LEN) : plan;
+}
+
+function normalizeCurrency(value) {
+  const normalized = String(value || "EUR")
+    .trim()
+    .toUpperCase();
+  return /^[A-Z]{3}$/.test(normalized) ? normalized : "EUR";
+}
+
+function resolveAmount() {
+  const raw = Number(process.env.SUBSCRIPTION_MONTHLY_AMOUNT || 7.99);
+  const normalized = Number.isFinite(raw) && raw > 0 ? raw : 7.99;
+  return normalized.toFixed(2);
+}
+
+function resolveUrl(request, envValue, fallbackPath) {
+  const direct = String(envValue || "").trim();
+  if (direct) {
+    try {
+      return new URL(direct).toString();
+    } catch {}
+  }
+
+  try {
+    return new URL(fallbackPath, request.url).toString();
+  } catch {
+    return "";
+  }
+}
+
+function isSubscriptionActive(subscription) {
+  if (!subscription) return false;
+  if (subscription.status !== SubscriptionStatus.ACTIVE) return false;
+  if (!subscription.validUntil) return true;
+  return new Date(subscription.validUntil).getTime() > Date.now();
+}
+
+export async function POST(request) {
+  const body = await request.json().catch(() => ({}));
+  const locale = localeFromRequest(request, body?.locale);
+
+  const session = await requireUser(request);
+  if (!session) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
+  const ip = getRequestIpFromRequest(request);
+  const limiter = consumeRateLimit(
+    `subscription:init:${session.userId}:${ip}`,
+    SUBSCRIPTION_INIT_RATE_LIMIT_MAX,
+    SUBSCRIPTION_INIT_RATE_LIMIT_WINDOW_MS
+  );
+  if (!limiter.allowed) {
+    logPaymentEvent("subscription_init_rate_limited", {
+      userId: session.userId,
+      ip
+    });
+    return json(
+      {
+        ok: false,
+        messageKey: "api.common.rate_limited",
+        message: serverT(locale, "api.common.rate_limited", undefined, "api.common.rate_limited")
+      },
+      429
+    );
+  }
+
+  const plan = normalizePlan(body?.plan);
+  const amount = resolveAmount();
+  const currency = normalizeCurrency(process.env.SUBSCRIPTION_CURRENCY || "EUR");
+
+  let paymentRecord = null;
+  try {
+    logPaymentEvent("subscription_init_started", {
+      userId: session.userId,
+      plan,
+      amount,
+      currency
+    });
+
+    const existing = await prisma.subscription.findFirst({
+      where: { userId: session.userId },
+      orderBy: [{ updatedAt: "desc" }],
+      select: {
+        id: true,
+        status: true,
+        validUntil: true,
+        plan: true
+      }
+    });
+
+    if (isSubscriptionActive(existing)) {
+      return errorJson("api.subscription.already_active", 409, locale);
+    }
+
+    const subscription =
+      existing ||
+      (await prisma.subscription.create({
+        data: {
+          userId: session.userId,
+          status: SubscriptionStatus.NONE,
+          plan
+        },
+        select: {
+          id: true,
+          status: true,
+          validUntil: true,
+          plan: true
+        }
+      }));
+
+    const providerPaymentId = makeProviderPaymentId(session.userId);
+    paymentRecord = await prisma.payment.create({
+      data: {
+        subscriptionId: subscription.id,
+        userId: session.userId,
+        provider: PaymentProvider.MAKSEKESKUS,
+        providerPaymentId,
+        amount,
+        currency,
+        status: PaymentStatus.INITIATED,
+        raw: {
+          flow: "subscription_init",
+          plan,
+          locale
+        }
+      },
+      select: {
+        id: true,
+        providerPaymentId: true,
+        status: true
+      }
+    });
+
+    const returnUrl = resolveUrl(request, process.env.MAKSEKESKUS_RETURN_URL, "/api/subscription/callback?status=success");
+    const cancelUrl = resolveUrl(request, process.env.MAKSEKESKUS_CANCEL_URL, "/api/subscription/callback?status=canceled");
+    const webhookUrl = resolveUrl(request, process.env.MAKSEKESKUS_WEBHOOK_URL, "/api/subscription/webhook");
+
+    const checkout = await createMaksekeskusCheckout({
+      providerPaymentId,
+      amount,
+      currency,
+      locale,
+      returnUrl,
+      cancelUrl,
+      webhookUrl,
+      customerEmail: session.email,
+      description: `SotsiaalAI ${plan}`
+    });
+
+    const finalProviderPaymentId = checkout.providerPaymentId || providerPaymentId;
+    await prisma.payment.update({
+      where: { id: paymentRecord.id },
+      data: {
+        providerPaymentId: finalProviderPaymentId,
+        raw: {
+          flow: "subscription_init",
+          plan,
+          locale,
+          checkout: checkout.raw || null
+        }
+      }
+    });
+
+    logPaymentEvent("subscription_init_checkout_created", {
+      userId: session.userId,
+      paymentId: paymentRecord.id,
+      providerPaymentId: finalProviderPaymentId
+    });
+
+    return ok({
+      paymentId: paymentRecord.id,
+      providerPaymentId: finalProviderPaymentId,
+      checkoutUrl: checkout.checkoutUrl
+    });
+  } catch (error) {
+    if (paymentRecord?.id) {
+      try {
+        await prisma.payment.update({
+          where: { id: paymentRecord.id },
+          data: {
+            status: PaymentStatus.FAILED,
+            raw: {
+              flow: "subscription_init",
+              error: error?.message || "init_failed"
+            }
+          }
+        });
+      } catch {}
+    }
+    console.error("subscription init error", error);
+    const messageKey = String(error?.message || "").startsWith("api.subscription.")
+      ? String(error.message)
+      : "api.subscription.checkout_create_failed";
+    const status = messageKey === "api.subscription.provider_unavailable" ? 503 : 502;
+    logPaymentEvent("subscription_init_failed", {
+      userId: session.userId,
+      paymentId: paymentRecord?.id || null,
+      messageKey,
+      status,
+      error
+    });
+    return errorJson(messageKey, status, locale);
+  }
+}

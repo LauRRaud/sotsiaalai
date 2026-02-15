@@ -10,7 +10,7 @@
     "dev:webpack": "cross-env NODE_ENV=development next dev --webpack -p 3000",
     "dev:no-turbo": "cross-env NODE_ENV=development next dev --webpack -p 3000",
     "portaal": "npm run dev",
-    "test": "npm run dev",
+    "test": "npm run i18n:check && npm run lint",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",
     "dev:create-admin:sotsiaalai": "node scripts/create-admin.mjs --email \"admin@sotsiaal.ai\" --password \"sotsiaalai1\" --role ADMIN --admin",
@@ -38,7 +38,9 @@
     "css:guard": "node scripts/check-legacy-css.mjs",
     "encoding:check": "node scripts/encoding/check.mjs",
     "encoding:fix": "node scripts/encoding/fix.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "payments:maksekeskus:e2e": "node scripts/maksekeskus-sandbox-e2e.mjs",
+    "payments:alerts:dispatch": "node scripts/payment-alert-dispatch.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",

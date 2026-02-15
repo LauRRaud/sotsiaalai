@@ -10,7 +10,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/uuenda-epost",
-    title: meta.title || "Uuenda e-post – SotsiaalAI",
+    title: meta.title || "",
     description: meta.description || ""
   });
 }

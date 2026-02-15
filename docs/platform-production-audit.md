@@ -270,11 +270,166 @@ Encoding fixes applied (BOM removed):
   - set next pass to full `RagAdminPanel` i18n + behavior review
 - Status: `MONITOR`
 
+### Admin RAG panel i18n + behavior pass
+- Scope: `components/admin/RagAdminPanel.jsx`
+- Good:
+  - large hardcoded UI copy was replaced with key-driven i18n lookups (`admin.rag.*`)
+  - API error handling now resolves `messageKey` payloads with localized fallback via `resolveApiMessage`
+  - metadata template labels are key-driven and template content is loaded from static `.json` files instead of embedded inline blocks
+  - locale-aware date formatting now follows active UI locale instead of fixed `et-EE`
+- Risk:
+  - panel remains large and dense; future changes should split ingest/list/detail subsections into smaller components
+  - newly added key set in ET/RU is currently functional but still mostly English wording
+- Action:
+  - completed `RagAdminPanel` text cleanup (no hardcoded ET copy in admin UI surface)
+  - added `admin.rag.*` namespace coverage in all locale catalogs
+  - updated tracker scope and moved next review order to remaining app routes
+- Status: `MONITOR`
+
+### App route metadata + account-flow pass
+- Scope: `app/page.js`, `app/join/page.jsx`, `app/profiil/page.js`, `app/taasta-parool/[token]/page.jsx`, `app/tellimus/page.js`, `app/ruum/page.js`, `app/kasutusjuhend/page.jsx`, `app/uuenda-epost/page.js`, `app/uuenda-pin/page.js`, `app/registreerimine/page.js`, `app/kasutustingimused/page.js`, `app/privaatsustingimused/page.js`, `components/alalehed/TellimusBody.jsx`
+- Good:
+  - route metadata fallback strings were removed from app route files and now resolve via locale catalogs (`messages/*`)
+  - reset-token route now uses the same server metadata pattern as the rest of the app routes
+  - subscription activation UI (`TellimusBody`) moved off demo-only flow to API-driven activation path
+  - missing metadata namespaces were added for `meta.guide`, `meta.rooms`, and `meta.email_update`
+- Risk:
+  - this historical step was later replaced by Maksekeskus init/callback/webhook flow (tracked below)
+  - ET/RU values for newly added meta keys are currently functional but still English wording
+- Action:
+  - completed metadata i18n cleanup for reviewed app routes
+  - updated route tracker statuses for `/`, `/join`, `/profiil`, `/taasta-parool/[token]`, `/tellimus`
+  - set next app-route review wave to remaining static content/account routes
+- Status: `MONITOR`
+
+### Registration/reset/email/legal app-route pass
+- Scope: `app/registreerimine/page.js`, `app/uuenda-pin/page.js`, `app/uuenda-epost/page.js`, `app/kasutustingimused/page.js`, `app/privaatsustingimused/page.js`, `app/kasutusjuhend/page.jsx`, `components/alalehed/RegistreerimineBody.jsx`, `components/alalehed/UnustasinParooliBody.jsx`, `components/alalehed/UuendaEpostiBody.jsx`, `app/taasta-parool/[token]/ResetPasswordForm.jsx`, `components/LoginModal.jsx`
+- Good:
+  - all remaining app routes in this group now use key-based metadata and route tracker coverage is complete
+  - registration, reset-request, reset-confirm, and email-update UIs are wired to reviewed API routes
+  - reset and profile-update forms now pass `locale` explicitly, making server-side message/email locale resolution deterministic
+  - reset and register error handling now resolve key-first API payloads consistently (`resolveApiMessage`)
+- Risk:
+  - policy/guide pages render rich HTML from locale catalogs; content remains trusted-only and should stay editor-controlled
+  - payment/subscription remains decoupled from external payment provider callback flow (tracked separately)
+- Action:
+  - fixed PIN/OTP sanitization escaped-regex regression (`/\\D/g` -> `/\D/g`) in registration and login OTP inputs
+  - aligned reset and email-update flows with locale-aware API contracts
+  - moved this app-route set to `MONITOR` in `docs/route-review-tracker.md`
+- Status: `MONITOR`
+
+### Auth modal locale hardening pass
+- Scope: `components/LoginModal.jsx`, `app/api/auth/login-step1/route.js`, `app/api/auth/login-step2/route.js`, `app/api/auth/login-resend-otp/route.js`
+- Good:
+  - login modal now sends `locale` in step1, step2 and resend OTP requests, so auth responses use selected UI language consistently
+  - auth APIs already support locale resolution from request body; no backend contract changes were needed
+- Risk:
+  - app locale still depends on explicit client propagation in multiple API callers; consider shared fetch helper to avoid drift
+- Action:
+  - added `locale` to login-step JSON payloads in `LoginModal`
+  - validated with full lint + production build
+- Status: `MONITOR`
+
+### Chat abuse-guard hardening pass
+- Scope: `app/api/chat/*`, `lib/chat-api-rate-limit.js`, `app/api/stt/route.js`, `package.json`, `app/server`
+- Good:
+  - explicit endpoint-level rate limits now apply across all active chat API routes:
+    - `app/api/chat/route.js` (`POST` + `GET`)
+    - `app/api/chat/run/route.js` (`GET`)
+    - `app/api/chat/conversations/route.js` (`GET` + `POST`)
+    - `app/api/chat/conversations/[id]/route.js` (`GET` + `PUT` + `DELETE`)
+    - `app/api/chat/conversations/[id]/messages/route.js` (`GET`)
+    - `app/api/chat/analyze-file/route.js` (`POST`)
+    - `app/api/chat/analyze-usage/route.js` (`GET`)
+  - STT endpoint now has explicit payload guards:
+    - request `content-length` cap
+    - uploaded audio size cap (`STT_MAX_AUDIO_MB`)
+    - MIME-type allowlist for audio uploads
+  - legacy artifact `app/server` was removed (was unreferenced and not part of Next runtime)
+  - `test` script now maps to real automated checks (`i18n:check + lint`) instead of starting dev server
+- Risk:
+  - chat/stt rate limits are still in-memory and therefore not shared between instances (acceptable for now, but not cluster-hard)
+  - prisma engine-level migration checks are blocked in this environment by outbound network restriction
+- Action:
+  - added shared helper `lib/chat-api-rate-limit.js` for consistent 429 handling (`Retry-After`, `api.common.rate_limited`)
+  - added new STT message keys: `api.stt.audio_too_large`, `api.stt.audio_format_unsupported`
+  - improved ET/RU wording quality for major `api.*` namespaces (`common`, `chat`, `rooms`, `stt`, `tts`, `subscription`, `invites`, `admin.analytics`, `rag`)
+  - executed validation runs: `npm test`, `npm run lint`, `npm run i18n:check`, `npm run build` (all PASS)
+  - attempted Prisma sanity commands (`prisma generate`, `prisma validate`, `prisma migrate status`) but all failed due `ECONNREFUSED 127.0.0.1:9` when downloading Prisma engine checksum
+- Status: `MONITOR`
+
+### Prisma launch sanity pass
+- Scope: `prisma/schema.prisma`, `prisma/migrations/*`, local DB migration state
+- Good:
+  - Prisma client generation succeeds
+  - schema validation passes
+  - migration history is aligned with local database after deploy
+- Risk:
+  - full migrations-directory structural diff (`migrate diff --from-migrations`) still needs a dedicated shadow DB URL in Prisma config
+- Action:
+  - executed `npm run prisma:generate` -> PASS
+  - executed `npx prisma validate --schema prisma/schema.prisma` -> PASS
+  - executed `npx prisma migrate status --schema prisma/schema.prisma` -> initially showed one unapplied migration
+  - executed `npx prisma migrate deploy --schema prisma/schema.prisma` -> applied `20260115123000_add_room_member_display_name_and_room_message_sender_type`
+  - re-ran `npx prisma migrate status --schema prisma/schema.prisma` -> `Database schema is up to date!`
+- Status: `OK`
+
+### Payment-readiness pass (Maksekeskus prep)
+- Scope: `app/api/subscription/route.js`, `app/api/subscription/init/route.js`, `app/api/subscription/callback/route.js`, `app/api/subscription/webhook/route.js`, `app/api/admin/analytics/payment-alerts/dispatch/route.js`, `lib/payments/maksekeskus.js`, `lib/payments/observability.js`, `lib/admin/payment-alerts.js`, `scripts/maksekeskus-sandbox-e2e.mjs`, `components/alalehed/TellimusBody.jsx`, `docs/payment-maksekeskus-readiness.md`, `docs/payment-maksekeskus-sandbox-e2e.md`
+- Good:
+  - Maksekeskus flow endpoints are now implemented:
+    - `POST /api/subscription/init` (payment init + checkout URL response)
+    - `GET /api/subscription/callback` (localized return redirect state)
+    - `POST /api/subscription/webhook` (signature check + idempotent payment handling)
+  - `/tellimus` UI now uses `/api/subscription/init` instead of direct activation endpoint
+  - direct activation in `POST /api/subscription` is disabled by default (env override only)
+  - payment ledger is now written in init/webhook flow and subscription activation happens from `PAID` webhook event
+  - structured payment logs are emitted from init/callback/webhook routes (`[payments]` JSON line format)
+  - payment events are now also persisted into `ChatLog` (`role=payment`) for admin analytics
+  - automated platform-side sandbox E2E script exists (`npm run payments:maksekeskus:e2e`)
+  - webhook subscription rules are now explicit and env-configurable (`SUBSCRIPTION_WEBHOOK_REFUNDED_ACTION`, `SUBSCRIPTION_WEBHOOK_CANCELED_ACTION`, `SUBSCRIPTION_WEBHOOK_FAILED_ACTION`)
+  - admin analytics now includes payment pipeline KPIs (init -> checkout -> callback -> webhook statuses)
+  - admin analytics now computes launch alert rules (`warning/critical`) for funnel drops and webhook technical-error spikes
+  - critical payment alerts can now be externally dispatched via `POST /api/admin/analytics/payment-alerts/dispatch` (admin or dispatch-key gated)
+  - dispatch supports dry-run rollout checks and optional outbound webhook signature headers
+- Risk:
+  - Maksekeskus request/response and signature contract still require validation against real sandbox payload fields
+  - callback is non-authoritative by design; launch depends on webhook delivery/verification and provider retry semantics
+  - launch env must set/confirm subscription webhook policy values per product/business rules
+- Action:
+  - added payment provider helper (`lib/payments/maksekeskus.js`)
+  - added payment observability helper (`lib/payments/observability.js`) and route-level lifecycle logs
+  - enabled DB-backed payment event logging for analytics (`ChatLog`)
+  - extended admin summary/UI with payment pipeline funnel metrics and payment event filters
+  - added threshold-driven payment alert rules in analytics summary + billing panel
+  - added external webhook dispatch endpoint for critical payment alerts with dedupe window
+  - added dispatch runbook (`docs/payment-alert-dispatch-runbook.md`) and local validation script (`npm run payments:alerts:dispatch`)
+  - added sandbox verification script (`scripts/maksekeskus-sandbox-e2e.mjs`) + runbook (`docs/payment-maksekeskus-sandbox-e2e.md`)
+  - locked subscription side-effects behind explicit webhook policy envs for `REFUNDED`/`CANCELED`/`FAILED`
+  - enforced webhook-signature configuration in production by default (`MAKSEKESKUS_WEBHOOK_SECRET`, with explicit non-prod override `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1`)
+  - added new API message keys for subscription payment lifecycle and webhook failures
+  - updated readiness document from planning to implemented-state + remaining validation checklist
+- Status: `MONITOR`
+
+### Payment alert scheduler automation pass
+- Scope: `.github/workflows/payment-alert-dispatch.yml`, `scripts/payment-alert-dispatch.mjs`, `docs/payment-alert-dispatch-runbook.md`, `docs/payment-maksekeskus-readiness.md`
+- Good:
+  - scheduler automation is now committed and versioned in repository
+  - scheduled run executes every 10 minutes with live dispatch mode (`dryRun=0`)
+  - manual workflow run supports controlled rollout flags (`dry_run`, `bypass_dedupe`, `locale`)
+  - workflow reuses existing dispatch CLI and shared-key auth path, so runtime behavior stays identical to manual API calls
+- Risk:
+  - scheduler depends on repository secrets being configured correctly
+  - live sink validation still depends on a real receiving endpoint that verifies webhook signature headers
+- Action:
+  - added GitHub Actions workflow `Payment Alert Dispatch`
+  - documented required scheduler secrets (`PAYMENT_ALERT_DISPATCH_BASE_URL`, `PAYMENT_ALERT_DISPATCH_KEY`)
+  - documented schedule/manual behavior and rollout guidance in dispatch runbook
+  - added owner-facing env decision checklist (`docs/payment-production-env-checklist.md`)
+- Status: `MONITOR`
+
 ## Open Items Queue (next passes)
 
-1. Add explicit rate limiting to chat endpoints (`app/api/chat/*`) to reduce abuse risk
-2. Add payload size caps for `app/api/stt/route.js` and consider stronger abuse guards for voice endpoints
-3. `prisma/schema.prisma` + migrations sanity pass for launch
-4. Remove or archive unclear legacy artifact `app/server` if not used
-5. Align `test` script semantics (`package.json`) with actual test strategy
-6. Improve ET/RU wording quality for newly added `api.*` entries (currently functional but mostly English)
+1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks
+2. Set final production values for webhook policy envs (`SUBSCRIPTION_WEBHOOK_REFUNDED_ACTION`, `SUBSCRIPTION_WEBHOOK_CANCELED_ACTION`, `SUBSCRIPTION_WEBHOOK_FAILED_ACTION`) and record decision
+3. Configure repository secrets for scheduler (`PAYMENT_ALERT_DISPATCH_BASE_URL`, `PAYMENT_ALERT_DISPATCH_KEY`) and validate dry-run + live webhook sink delivery

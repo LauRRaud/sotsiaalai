@@ -6,6 +6,7 @@ import { authConfig } from "@/auth";
 import { normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 const MAX_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
@@ -13,6 +14,8 @@ const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
 const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
 const LOCAL_HOST_RE = /^(127\.0\.0\.1|localhost|\[?::1\]?)(:\d+)?$/i;
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_ANALYZE_FILE_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_ANALYZE_FILE_POST_MAX, 15);
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -100,6 +103,13 @@ export async function POST(request) {
   if (!session?.user?.id) {
     return errorJson("api.common.unauthorized", 401);
   }
+  const rateLimitResponse = enforceChatRateLimit(request, {
+    scope: "analyze_file_post",
+    userId: session.user.id,
+    limit: CHAT_ANALYZE_FILE_POST_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const pickedRole = String(session.user.role || "CLIENT").toUpperCase();
   const role = normalizeRole(pickedRole);

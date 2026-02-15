@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -7,6 +8,10 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 const CONVERSATION_TTL_MS = Math.max(1, Number(process.env.CONVERSATION_TTL_DAYS || 90)) * 24 * 60 * 60 * 1000;
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_CONVERSATION_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATION_GET_MAX, 90);
+const CHAT_CONVERSATION_PUT_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATION_PUT_MAX, 30);
+const CHAT_CONVERSATION_DELETE_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATION_DELETE_MAX, 30);
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -97,9 +102,16 @@ async function requireUser() {
   }
 }
 
-export async function GET(_req, { params }) {
+export async function GET(req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "conversation_get",
+    userId: auth.userId,
+    limit: CHAT_CONVERSATION_GET_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const resolvedParams = params instanceof Promise ? await params : params;
   const id = resolvedParams?.id ? String(resolvedParams.id).trim() : "";
@@ -148,9 +160,16 @@ export async function GET(_req, { params }) {
   }
 }
 
-export async function DELETE(_req, { params }) {
+export async function DELETE(req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "conversation_delete",
+    userId: auth.userId,
+    limit: CHAT_CONVERSATION_DELETE_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const resolvedParams = params instanceof Promise ? await params : params;
   const id = resolvedParams?.id ? String(resolvedParams.id).trim() : "";
@@ -191,9 +210,16 @@ export async function DELETE(_req, { params }) {
   }
 }
 
-export async function PUT(_req, { params }) {
+export async function PUT(req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "conversation_put",
+    userId: auth.userId,
+    limit: CHAT_CONVERSATION_PUT_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const resolvedParams = params instanceof Promise ? await params : params;
   const id = resolvedParams?.id ? String(resolvedParams.id).trim() : "";

@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
+const CHAT_RUN_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_RUN_GET_MAX, 90);
 
 const noStoreHeaders = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -87,6 +90,13 @@ async function requireUser() {
 export async function GET(req) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceChatRateLimit(req, {
+    scope: "run_get",
+    userId: auth.userId,
+    limit: CHAT_RUN_GET_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
 
   const url = new URL(req.url);
   const convId = (url.searchParams.get("convId") || "").trim();

@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Modal from "@/components/ui/Modal";
-const STATUS_LABELS = {
-  PENDING: "Ootel",
-  PROCESSING: "Töötlemisel",
-  COMPLETED: "Valmis",
-  FAILED: "Ebaõnnestus"
+const STATUS_LABEL_KEYS = {
+  PENDING: "admin.rag.status.pending",
+  PROCESSING: "admin.rag.status.processing",
+  COMPLETED: "admin.rag.status.completed",
+  FAILED: "admin.rag.status.failed"
 };
 const rootClassName = "flex flex-col gap-[18px] text-[color:var(--admin-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)]";
 const rootInputVars = {
@@ -125,117 +127,22 @@ const STATUS_CLASSES = {
   COMPLETED: `${badgeBaseClassName} ${badgeGreenClassName}`,
   FAILED: `${badgeBaseClassName} ${badgeRedClassName}`
 };
-const AUDIENCE_OPTIONS = [{
-  value: "SOCIAL_WORKER",
-  label: "Sotsiaaltöö spetsialist"
-}, {
-  value: "CLIENT",
-  label: "Eluküsimusega pöörduja"
-}, {
-  value: "BOTH",
-  label: "Mõlemad"
-}];
-const AUDIENCE_LABELS = {
-  SOCIAL_WORKER: "Sotsiaaltöö spetsialist",
-  CLIENT: "Eluküsimusega pöörduja",
-  BOTH: "Mõlemad"
+const AUDIENCE_LABEL_KEYS = {
+  SOCIAL_WORKER: "admin.rag.audience.social_worker",
+  CLIENT: "admin.rag.audience.client",
+  BOTH: "admin.rag.audience.both"
 };
+const AUDIENCE_VALUES = ["SOCIAL_WORKER", "CLIENT", "BOTH"];
 const DEFAULT_POLL_MS = 15000;
 const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
 const PAGE_SIZE = 25;
-const META_TEMPLATES = [{
-  key: "base",
-  label: "Põhi (üldine dokument)",
-  file: "/rag-meta-templates/base.json",
-  content: `{
-  "docId": "DOC-2024-001",
-  "title": "Teenuse kirjeldus",
-  "description": "Lühike kokkuvõte 1-3 lauset.",
-  "authors": ["Eesnimi Perenimi"],
-  "section": "Teenused",
-  "year": 2024,
-  "audience": "BOTH",
-  "tags": ["toetus", "hooldus", "nõustamine"],
-  "language": "et",
-  "source_type": "file"
-}`
-}, {
-  key: "periodical",
-  label: "Periodika artikkel",
-  file: "/rag-meta-templates/periodical.json",
-  content: `{
-  "docId": "DOC-2024-014",
-  "title": "Koduhoolduse teenus",
-  "description": "Ülevaade koduhoolduse teenuse tingimustest.",
-  "authors": ["Eesnimi Perenimi"],
-  "section": "Teenused",
-  "year": 2024,
-  "audience": "SOCIAL_WORKER",
-  "tags": ["koduhooldus", "teenused"],
-  "language": "et",
-  "journalTitle": "Vallaleht",
-  "issueLabel": "2024-01",
-  "issueId": "VL-2024-01",
-  "articleId": "ART-014",
-  "pageRange": "12-18",
-  "pdf_start_page": 12,
-  "pdf_end_page": 18,
-  "source_type": "file"
-}`
-}, {
-  key: "regulation",
-  label: "Seadus või määrus",
-  file: "/rag-meta-templates/regulation.json",
-  content: `{
-  "docId": "LAW-2023-005",
-  "title": "Sotsiaalhoolekande seadus",
-  "description": "Seaduse lühikokkuvõte ja olulisemad punktid.",
-  "section": "Seadusandlus",
-  "year": 2023,
-  "audience": "BOTH",
-  "tags": ["seadus", "hoolekanne"],
-  "language": "et",
-  "publisher": "Riigi Teataja",
-  "regulationRefs": ["RT I, 01.01.2023, 1"],
-  "level": "seadus",
-  "source_type": "url",
-  "source_url": "https://www.riigiteataja.ee"
-}`
-}, {
-  key: "report",
-  label: "Raport või juhend",
-  file: "/rag-meta-templates/report.json",
-  content: `{
-  "docId": "REP-2024-002",
-  "title": "Teenuse kvaliteedijuhend",
-  "description": "Juhend teenuse kvaliteedi tagamiseks.",
-  "authors": ["Eesnimi Perenimi"],
-  "section": "Juhendid",
-  "year": 2024,
-  "audience": "SOCIAL_WORKER",
-  "tags": ["juhend", "kvaliteet"],
-  "language": "et",
-  "publisher": "Sotsiaalkindlustusamet",
-  "pageRange": "1-36",
-  "source_type": "file"
-}`
-}, {
-  key: "web",
-  label: "Veebileht",
-  file: "/rag-meta-templates/web.json",
-  content: `{
-  "docId": "WEB-2024-010",
-  "title": "Toetuste taotlemine",
-  "description": "Kodulehe juhis toetuse taotlemiseks.",
-  "section": "Toetused",
-  "year": 2024,
-  "audience": "CLIENT",
-  "tags": ["toetus", "taotlus"],
-  "language": "et",
-  "source_type": "url",
-  "source_url": "https://example.com/toetused"
-}`
-}];
+const META_TEMPLATES = [
+  { key: "base", labelKey: "admin.rag.meta.templates.base", file: "/rag-meta-templates/base.json" },
+  { key: "periodical", labelKey: "admin.rag.meta.templates.periodical", file: "/rag-meta-templates/periodical.json" },
+  { key: "regulation", labelKey: "admin.rag.meta.templates.regulation", file: "/rag-meta-templates/regulation.json" },
+  { key: "report", labelKey: "admin.rag.meta.templates.report", file: "/rag-meta-templates/report.json" },
+  { key: "web", labelKey: "admin.rag.meta.templates.web", file: "/rag-meta-templates/web.json" }
+];
 const META_REQUIRED_FIELDS = [{
   label: "docId",
   keys: ["docId", "doc_id"]
@@ -301,10 +208,25 @@ const validateMeta = meta => {
     missingRecommended
   };
 };
-const formatDateTime = value => {
+function formatI18n(template, values) {
+  if (typeof template !== "string") return "";
+  if (!values || typeof values !== "object") return template;
+  let out = template;
+  for (const [key, value] of Object.entries(values)) {
+    out = out.split(`{${key}}`).join(String(value));
+  }
+  return out;
+}
+function toLocaleTag(locale) {
+  const normalized = String(locale || "en").toLowerCase();
+  if (normalized.startsWith("et")) return "et-EE";
+  if (normalized.startsWith("ru")) return "ru-RU";
+  return "en-US";
+}
+const formatDateTime = (value, localeTag = "en-US") => {
   if (!value) return "-";
   try {
-    return new Intl.DateTimeFormat("et-EE", {
+    return new Intl.DateTimeFormat(localeTag, {
       dateStyle: "short",
       timeStyle: "short"
     }).format(new Date(value));
@@ -375,6 +297,34 @@ const normalizeDoc = item => {
   };
 };
 export default function RagAdminPanel() {
+  const { t, locale } = useI18n();
+  const localeTag = useMemo(() => toLocaleTag(locale), [locale]);
+  const tr = useCallback((key, values) => {
+    const raw = t(key);
+    const template = typeof raw === "string" && raw.trim() ? raw : key;
+    return formatI18n(template, values);
+  }, [t]);
+  const statusLabels = useMemo(() => ({
+    PENDING: tr(STATUS_LABEL_KEYS.PENDING),
+    PROCESSING: tr(STATUS_LABEL_KEYS.PROCESSING),
+    COMPLETED: tr(STATUS_LABEL_KEYS.COMPLETED),
+    FAILED: tr(STATUS_LABEL_KEYS.FAILED)
+  }), [tr]);
+  const audienceLabels = useMemo(() => {
+    const out = {};
+    for (const value of AUDIENCE_VALUES) {
+      out[value] = tr(AUDIENCE_LABEL_KEYS[value]);
+    }
+    return out;
+  }, [tr]);
+  const audienceSelectOptions = useMemo(() => AUDIENCE_VALUES.map(value => ({
+    value,
+    label: audienceLabels[value] || value
+  })), [audienceLabels]);
+  const metaTemplates = useMemo(() => META_TEMPLATES.map(template => ({
+    ...template,
+    label: tr(template.labelKey)
+  })), [tr]);
   const [docs, setDocs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [message, setMessage] = useState(null);
@@ -386,6 +336,7 @@ export default function RagAdminPanel() {
   const [metaCheck, setMetaCheck] = useState(null);
   const [showMetaGuide, setShowMetaGuide] = useState(false);
   const [activeMetaTemplateKey, setActiveMetaTemplateKey] = useState(META_TEMPLATES[0]?.key || "base");
+  const [activeMetaTemplateContent, setActiveMetaTemplateContent] = useState("");
   const [articlesDocId, setArticlesDocId] = useState("");
   const [articlesJson, setArticlesJson] = useState("");
   const [articlesBusy, setArticlesBusy] = useState(false);
@@ -429,7 +380,7 @@ export default function RagAdminPanel() {
   const articlesFormRef = useRef(null);
   const fetchAbortRef = useRef(null);
   const resetMessage = useCallback(() => setMessage(null), []);
-  const getAudienceLabel = useCallback(value => AUDIENCE_LABELS[value] || (value ? value : "-"), []);
+  const getAudienceLabel = useCallback(value => audienceLabels[value] || (value ? value : "-"), [audienceLabels]);
   const showError = useCallback(text => setMessage({
     type: "error",
     text
@@ -438,6 +389,12 @@ export default function RagAdminPanel() {
     type: "success",
     text
   }), []);
+  const resolveErrorText = useCallback((payload, fallbackKey) => resolveApiMessage({
+    payload,
+    t: key => tr(key),
+    fallbackKey,
+    fallbackText: tr(fallbackKey)
+  }), [tr]);
   const fetchDocuments = useCallback(async () => {
     fetchAbortRef.current?.abort?.();
     const ac = new AbortController();
@@ -453,17 +410,17 @@ export default function RagAdminPanel() {
       try {
         data = raw ? JSON.parse(raw) : null;
       } catch {
-        throw new Error("Server tagastas vigase JSON-i dokumentide loetelule.");
+        throw new Error(tr("admin.rag.errors.invalid_documents_json"));
       }
-      if (!res.ok) throw new Error(data?.message || "Dokumentide laadimine ebaõnnestus.");
+      if (!res.ok) throw new Error(resolveErrorText(data, "admin.rag.errors.documents_load_failed"));
       const list = Array.isArray(data) ? data : Array.isArray(data?.documents) ? data.documents : Array.isArray(data?.docs) ? data.docs : [];
       setDocs(list);
     } catch (err) {
-      if (err?.name !== "AbortError") showError(err?.message || "Dokumentide laadimine ebaõnnestus.");
+      if (err?.name !== "AbortError") showError(err?.message || tr("admin.rag.errors.documents_load_failed"));
     } finally {
       setLoadingList(false);
     }
-  }, [showError]);
+  }, [resolveErrorText, showError, tr]);
   useEffect(() => {
     fetchDocuments();
     return () => fetchAbortRef.current?.abort?.();
@@ -507,11 +464,11 @@ export default function RagAdminPanel() {
     const metaFile = form.pdfMetaFile?.files?.[0];
     const metaText = form.pdfMetaText?.value?.trim();
     if (!pdfFile) {
-      showError("Vali PDF-fail.");
+      showError(tr("admin.rag.errors.pdf_required"));
       return;
     }
     if (!metaFile && !metaText) {
-      showError("Lisa metaandmete JSON fail või kleebi JSON väljale.");
+      showError(tr("admin.rag.errors.meta_required"));
       return;
     }
     const formData = new FormData();
@@ -526,10 +483,10 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok || data?.ok === false) throw new Error(data?.message || "PDF ingest ebaõnnestus.");
+      if (!res.ok || data?.ok === false) throw new Error(resolveErrorText(data, "admin.rag.errors.pdf_ingest_failed"));
       const docId = data?.docId || data?.docID || data?.doc?.docId || data?.doc?.id || data?.doc?.remoteId || null;
       const shortRef = data?.shortRef || data?.short_ref || null;
-      if (shortRef) showOk(`Lisatud: ${shortRef}`);else if (docId) showOk(`PDF ingest õnnestus (docId ${docId}).`);else showOk("PDF ingest õnnestus.");
+      if (shortRef) showOk(tr("admin.rag.success.added_with_ref", { ref: shortRef }));else if (docId) showOk(tr("admin.rag.success.pdf_ingest_with_doc_id", { docId }));else showOk(tr("admin.rag.success.pdf_ingest"));
       setPdfMetaResult({
         docId,
         fileName: data?.fileName,
@@ -542,11 +499,11 @@ export default function RagAdminPanel() {
       form.reset();
       await fetchDocuments();
     } catch (err) {
-      showError(err?.message || "PDF ingest ebaõnnestus.");
+      showError(err?.message || tr("admin.rag.errors.pdf_ingest_failed"));
     } finally {
       setPdfMetaBusy(false);
     }
-  }, [fetchDocuments, resetMessage, showError, showOk, pdfMetaAudience]);
+  }, [fetchDocuments, pdfMetaAudience, resetMessage, resolveErrorText, showError, showOk, tr]);
   const handleMetaCheck = useCallback(async () => {
     const form = pdfFormRef.current;
     if (!form) return;
@@ -563,7 +520,7 @@ export default function RagAdminPanel() {
     if (!raw) {
       setMetaCheck({
         type: "error",
-        text: "Meta JSON puudub. Lisa fail või kleebi JSON."
+        text: tr("admin.rag.errors.meta_required")
       });
       return;
     }
@@ -573,14 +530,14 @@ export default function RagAdminPanel() {
     } catch {
       setMetaCheck({
         type: "error",
-        text: "Meta JSON ei ole korrektne."
+        text: tr("admin.rag.errors.meta_json_invalid")
       });
       return;
     }
     if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") {
       setMetaCheck({
         type: "error",
-        text: "Meta JSON peab olema objekt."
+        text: tr("admin.rag.errors.meta_json_must_be_object")
       });
       return;
     }
@@ -591,25 +548,29 @@ export default function RagAdminPanel() {
     if (!missingRequired.length && !missingRecommended.length) {
       setMetaCheck({
         type: "ok",
-        text: "Meta tundub korras. Otsing ja filtreerimine peaks olema kiire."
+        text: tr("admin.rag.success.meta_looks_valid")
       });
       return;
     }
     const parts = [];
-    if (missingRequired.length) parts.push(`Puudub: ${missingRequired.join(", ")}`);
-    if (missingRecommended.length) parts.push(`Soovituslik: ${missingRecommended.join(", ")}`);
+    if (missingRequired.length) parts.push(tr("admin.rag.meta.missing_required", {
+      fields: missingRequired.join(", ")
+    }));
+    if (missingRecommended.length) parts.push(tr("admin.rag.meta.missing_recommended", {
+      fields: missingRecommended.join(", ")
+    }));
     setMetaCheck({
       type: "warn",
       text: parts.join(" | ")
     });
-  }, []);
+  }, [tr]);
   const handleUrlSubmit = useCallback(async event => {
     event.preventDefault();
     resetMessage();
     const form = event.currentTarget;
     const urlValue = form.url?.value?.trim();
     if (!urlValue) {
-      showError("Sisesta URL.");
+      showError(tr("admin.rag.errors.url_required"));
       return;
     }
     const payload = {
@@ -631,8 +592,8 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok) throw new Error(data?.message || "URL lisamine ebaõnnestus.");
-      showOk("URL saadeti RAG andmebaasi.");
+      if (!res.ok) throw new Error(resolveErrorText(data, "admin.rag.errors.url_ingest_failed"));
+      showOk(tr("admin.rag.success.url_sent"));
       setUrlAudience("BOTH");
       setUrlTitle("");
       setUrlDescription("");
@@ -640,11 +601,11 @@ export default function RagAdminPanel() {
       form.reset();
       await fetchDocuments();
     } catch (err) {
-      showError(err?.message || "URL lisamine ebaõnnestus.");
+      showError(err?.message || tr("admin.rag.errors.url_ingest_failed"));
     } finally {
       setUrlBusy(false);
     }
-  }, [fetchDocuments, resetMessage, urlAudience, showError, showOk, urlTitle, urlDescription, urlTags]);
+  }, [fetchDocuments, resetMessage, resolveErrorText, showError, showOk, tr, urlAudience, urlDescription, urlTags, urlTitle]);
   const handleArticlesSubmit = useCallback(async event => {
     event.preventDefault();
     resetMessage();
@@ -662,14 +623,14 @@ export default function RagAdminPanel() {
       }
     }
     if (!raw) {
-      showError("Lisa artiklite JSON (fail või tekst).");
+      showError(tr("admin.rag.errors.articles_json_required"));
       return;
     }
     let parsed = null;
     try {
       parsed = JSON.parse(raw);
     } catch {
-      showError("Artiklite JSON ei ole korrektne.");
+      showError(tr("admin.rag.errors.articles_json_invalid"));
       return;
     }
     let payloadDocId = docIdInput;
@@ -681,11 +642,11 @@ export default function RagAdminPanel() {
       if (Array.isArray(parsed.articles)) articles = parsed.articles;
     }
     if (!payloadDocId) {
-      showError("docId puudub. Lisa docId väljale või JSON faili.");
+      showError(tr("admin.rag.errors.doc_id_required"));
       return;
     }
     if (!Array.isArray(articles) || !articles.length) {
-      showError("Artiklite massiiv puudub või on tühi.");
+      showError(tr("admin.rag.errors.articles_array_required"));
       return;
     }
     const invalid = articles.find(a => {
@@ -695,7 +656,7 @@ export default function RagAdminPanel() {
       return !hasRange;
     });
     if (invalid) {
-      showError("Igal artiklil peab olema title ja pageRange või startPage/endPage.");
+      showError(tr("admin.rag.errors.article_item_invalid"));
       return;
     }
     const payload = {
@@ -713,8 +674,10 @@ export default function RagAdminPanel() {
       });
       const rawRes = await res.text();
       const data = rawRes ? JSON.parse(rawRes) : {};
-      if (!res.ok || data?.ok === false) throw new Error(data?.message || "Artiklite ingest ebaõnnestus.");
-      showOk(`Artiklid lisatud (docId ${payloadDocId}).`);
+      if (!res.ok || data?.ok === false) throw new Error(resolveErrorText(data, "admin.rag.errors.articles_ingest_failed"));
+      showOk(tr("admin.rag.success.articles_added_with_doc_id", {
+        docId: payloadDocId
+      }));
       setArticlesResult({
         docId: payloadDocId,
         count: data?.count ?? null,
@@ -724,11 +687,11 @@ export default function RagAdminPanel() {
       form.reset();
       await fetchDocuments();
     } catch (err) {
-      showError(err?.message || "Artiklite ingest ebaõnnestus.");
+      showError(err?.message || tr("admin.rag.errors.articles_ingest_failed"));
     } finally {
       setArticlesBusy(false);
     }
-  }, [articlesDocId, fetchDocuments, resetMessage, showError, showOk]);
+  }, [articlesDocId, fetchDocuments, resetMessage, resolveErrorText, showError, showOk, tr]);
   const handleReindex = useCallback(async docId => {
     resetMessage();
     setReindexingId(docId);
@@ -738,19 +701,19 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok) throw new Error(data?.message || "Taasindekseerimine ebaõnnestus.");
-      showOk("Taasindekseerimine algatatud.");
+      if (!res.ok) throw new Error(resolveErrorText(data, "admin.rag.errors.reindex_failed"));
+      showOk(tr("admin.rag.success.reindex_started"));
       setDocs(prev => prev.map(doc => doc.id === docId ? {
         ...doc,
         ...data.doc
       } : doc));
       await fetchDocuments();
     } catch (err) {
-      showError(err?.message || "Taasindekseerimine ebaõnnestus.");
+      showError(err?.message || tr("admin.rag.errors.reindex_failed"));
     } finally {
       setReindexingId(null);
     }
-  }, [fetchDocuments, resetMessage, showError, showOk]);
+  }, [fetchDocuments, resetMessage, resolveErrorText, showError, showOk, tr]);
   const handleBulkReindex = useCallback(async () => {
     const ids = Array.from(selectedIds);
     if (!ids.length) return;
@@ -761,7 +724,7 @@ export default function RagAdminPanel() {
   const handleDelete = useCallback(async docId => {
     resetMessage();
     if (!docId) return;
-    if (!confirm("Kas soovid selle kirje kustutada? Seda ei saa tagasi võtta.")) return;
+    if (!confirm(tr("admin.rag.confirm.delete_doc"))) return;
     setDeletingId(docId);
     try {
       const res = await fetch(`/api/rag/documents/${docId}`, {
@@ -769,15 +732,15 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok) throw new Error(data?.message || "Kustutamine ebaõnnestus.");
-      showOk("Dokument kustutatud.");
+      if (!res.ok) throw new Error(resolveErrorText(data, "admin.rag.errors.delete_failed"));
+      showOk(tr("admin.rag.success.document_deleted"));
       setDocs(prev => prev.filter(d => d.id !== docId));
     } catch (err) {
-      showError(err?.message || "Kustutamine ebaõnnestus.");
+      showError(err?.message || tr("admin.rag.errors.delete_failed"));
     } finally {
       setDeletingId(null);
     }
-  }, [resetMessage, showOk, showError]);
+  }, [resetMessage, resolveErrorText, showError, showOk, tr]);
   const normalizedDocs = useMemo(() => docs.map((d, i) => ({
     ...normalizeDoc(d),
     _idx: i
@@ -797,9 +760,32 @@ export default function RagAdminPanel() {
     return Array.from(counts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 8).map(([tag]) => tag);
   }, [normalizedDocs]);
   const activeMetaTemplate = useMemo(() => {
-    const found = META_TEMPLATES.find(t => t.key === activeMetaTemplateKey);
-    return found || META_TEMPLATES[0];
-  }, [activeMetaTemplateKey]);
+    const found = metaTemplates.find(template => template.key === activeMetaTemplateKey);
+    return found || metaTemplates[0];
+  }, [activeMetaTemplateKey, metaTemplates]);
+  useEffect(() => {
+    let cancelled = false;
+    const loadTemplate = async () => {
+      const file = activeMetaTemplate?.file;
+      if (!file) {
+        setActiveMetaTemplateContent("");
+        return;
+      }
+      try {
+        const response = await fetch(file, { cache: "no-store" });
+        const text = await response.text();
+        if (cancelled) return;
+        setActiveMetaTemplateContent(text || "");
+      } catch {
+        if (cancelled) return;
+        setActiveMetaTemplateContent("");
+      }
+    };
+    loadTemplate();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeMetaTemplate]);
   const filteredDocs = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     const tagSet = new Set(filterTags);
@@ -937,8 +923,8 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok || data?.ok === false) throw new Error(data?.message || "Meta uuendamine ebaõnnestus.");
-      showOk("Meta salvestatud.");
+      if (!res.ok || data?.ok === false) throw new Error(resolveErrorText(data, "admin.rag.errors.meta_update_failed"));
+      showOk(tr("admin.rag.success.meta_saved"));
       setDocs(prev => prev.map(d => d.id === detailDoc.id ? {
         ...d,
         ...payload,
@@ -950,9 +936,9 @@ export default function RagAdminPanel() {
       closeDetail();
       await fetchDocuments();
     } catch (err) {
-      showError(err?.message || "Meta uuendamine ebaõnnestus.");
+      showError(err?.message || tr("admin.rag.errors.meta_update_failed"));
     }
-  }, [detailDoc, detailForm, closeDetail, showError, showOk, fetchDocuments, resetMessage]);
+  }, [closeDetail, detailDoc, detailForm, fetchDocuments, resetMessage, resolveErrorText, showError, showOk, tr]);
   const handleSelftest = useCallback(async () => {
     if (selftestBusy) return;
     setSelftestBusy(true);
@@ -965,22 +951,22 @@ export default function RagAdminPanel() {
       });
       const raw = await res.text();
       const data = raw ? JSON.parse(raw) : {};
-      if (!res.ok || data?.ok === false) throw new Error(data?.message || "Isetest ebaõnnestus.");
+      if (!res.ok || data?.ok === false) throw new Error(resolveErrorText(data, "admin.rag.errors.selftest_failed"));
       setSelftestSteps(Array.isArray(data?.steps) ? data.steps : []);
       setMessage({
         type: "success",
-        text: "Isetest lõpetatud."
+        text: tr("admin.rag.success.selftest_finished")
       });
       await fetchDocuments();
     } catch (err) {
       setMessage({
         type: "error",
-        text: err?.message || "Isetest katkes."
+        text: err?.message || tr("admin.rag.errors.selftest_aborted")
       });
     } finally {
       setSelftestBusy(false);
     }
-  }, [selftestBusy, fetchDocuments, resetMessage]);
+  }, [fetchDocuments, resetMessage, resolveErrorText, selftestBusy, tr]);
   const renderTags = arr => {
     if (!arr || !arr.length) return <span className="text-[color:var(--admin-muted)]">-</span>;
     const visible = arr.slice(0, 4);
@@ -1004,10 +990,10 @@ export default function RagAdminPanel() {
 
       {Array.isArray(selftestSteps) && selftestSteps.length ? <div className={cardClassName}>
           <div className={cardBodyClassName}>
-          <CardTitle>Isetesti tulemused</CardTitle>
+          <CardTitle>{tr("admin.rag.selftest.results_title")}</CardTitle>
           <ul className="m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]">
             {selftestSteps.map((s, i) => <li key={i} className={s.ok ? "text-[color:var(--admin-success)]" : "text-[color:var(--admin-danger)]"}>
-                {s.label || s.step || s.id}: {s.ok ? "OK" : "Ebaõnnestus"}
+                {s.label || s.step || s.id}: {s.ok ? tr("admin.rag.common.ok") : tr("admin.rag.common.failed")}
               </li>)}
           </ul>
           </div>
@@ -1017,60 +1003,60 @@ export default function RagAdminPanel() {
         <div className={cardBodyClassName}>
         <div className={cardHeadClassName}>
           <div>
-            <CardTitle>Ingest: URL või PDF + meta</CardTitle>
+            <CardTitle>{tr("admin.rag.ingest.title")}</CardTitle>
             <div className={cardSubClassName}>
-              Lisa allikaid ja kontrolli, et meta JSON oleks ühtne.
+              {tr("admin.rag.ingest.subtitle")}
             </div>
           </div>
           <div className={cardActionsClassName}>
 
             <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={handleSelftest} disabled={selftestBusy}>
-              {selftestBusy ? "Kontrollin..." : "Tee isetest"}
+              {selftestBusy ? tr("admin.rag.selftest.running") : tr("admin.rag.selftest.run")}
             </Button>
             <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={fetchDocuments} disabled={loadingList}>
-              {loadingList ? "Laen..." : "Värskenda"}
+              {loadingList ? tr("admin.common.loading") : tr("admin.common.refresh")}
             </Button>
           </div>
         </div>
         <div className={ingestGridClassName}>
           <form className={panelStackClassName} onSubmit={handleUrlSubmit} ref={urlFormRef}>
-            <label className={labelClassName}>Ingest URL</label>
+            <label className={labelClassName}>{tr("admin.rag.ingest.url_section_title")}</label>
             <Input name="url" placeholder="https://" size="sm" className={inputClassName} />
-            <Input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder="Pealkiri (valikuline)" size="sm" className={inputClassName} />
-            <Textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder="Kirjeldus" rows={2} size="sm" className={inputClassName} />
-            <Input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder="Sildid (komadega)" size="sm" className={inputClassName} />
+            <Input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder={tr("admin.rag.ingest.url_title_placeholder")} size="sm" className={inputClassName} />
+            <Textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder={tr("admin.rag.ingest.url_description_placeholder")} rows={2} size="sm" className={inputClassName} />
+            <Input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder={tr("admin.rag.ingest.url_tags_placeholder")} size="sm" className={inputClassName} />
             <select value={urlAudience} onChange={e => setUrlAudience(e.target.value)} className={selectClassName}>
-              {AUDIENCE_OPTIONS.map(o => <option key={o.value} value={o.value}>
+              {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
                   {o.label}
                 </option>)}
             </select>
             <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={urlBusy}>
-              {urlBusy ? "Saadan..." : "Saada URL"}
+              {urlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_url")}
             </Button>
           </form>
 
           <form className={panelStackClassName} onSubmit={handlePdfMetaSubmit} ref={pdfFormRef}>
-            <label className={labelClassName}>PDF + meta (JSON)</label>
+            <label className={labelClassName}>{tr("admin.rag.ingest.pdf_section_title")}</label>
             <div className={formNoteClassName}>
-              Meta JSON: docId, title, section, year, audience, tags.
+              {tr("admin.rag.ingest.pdf_section_note")}
             </div>
             <input name="pdfWithMetaFile" type="file" accept="application/pdf" className={selectClassName} />
             <input name="pdfMetaFile" type="file" accept="application/json" className={selectClassName} />
-            <Textarea name="pdfMetaText" placeholder="Või kleebi meta JSON" rows={3} size="sm" className={inputClassName} />
+            <Textarea name="pdfMetaText" placeholder={tr("admin.rag.ingest.pdf_meta_text_placeholder")} rows={3} size="sm" className={inputClassName} />
             <select value={pdfMetaAudience} onChange={e => setPdfMetaAudience(e.target.value)} className={selectClassName}>
-              {AUDIENCE_OPTIONS.map(o => <option key={o.value} value={o.value}>
+              {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
                   {o.label}
                 </option>)}
             </select>
             <div className="flex flex-wrap items-center gap-2">
               <Button type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} onClick={() => setShowMetaGuide(s => !s)} aria-expanded={showMetaGuide} aria-controls="rag-meta-panel">
-                {showMetaGuide ? "Peida meta mallid" : "Ava meta mallid"}
+                {showMetaGuide ? tr("admin.rag.meta.hide_templates") : tr("admin.rag.meta.open_templates")}
               </Button>
               <Button type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} onClick={handleMetaCheck}>
-                Kontrolli meta JSON
+                {tr("admin.rag.meta.check_json")}
               </Button>
               <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={pdfMetaBusy}>
-                {pdfMetaBusy ? "Saadan..." : "Saada PDF meta-ga"}
+                {pdfMetaBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_pdf_with_meta")}
               </Button>
             </div>
             {metaCheck ? <div className={`${metaCheckBaseClassName} ${metaCheck.type === "ok" ? metaCheckOkClassName : metaCheck.type === "warn" ? metaCheckWarnClassName : metaCheckErrorClassName}`}>
@@ -1078,7 +1064,7 @@ export default function RagAdminPanel() {
               </div> : null}
             {pdfMetaResult ? <div className="text-[0.95rem] text-[color:var(--admin-muted)]">
                 {pdfMetaResult.fileName ? pdfMetaResult.fileName + ": " : ""}
-                {pdfMetaResult.shortRef || pdfMetaResult.docId || "Salvestatud"}
+                {pdfMetaResult.shortRef || pdfMetaResult.docId || tr("admin.rag.common.saved")}
               </div> : null}
           </form>
         </div>
@@ -1086,32 +1072,34 @@ export default function RagAdminPanel() {
           <div className={articlesHeadClassName}>
             <div>
               <div className={articlesTitleClassName}>
-                Artiklite ingest (sama PDF)
+                {tr("admin.rag.articles.title")}
               </div>
               <div className={articlesNoteClassName}>
-                Kasuta docId, mis tuli PDF ingestist. JSON peab sisaldama
-                artiklite massiivi.
+                {tr("admin.rag.articles.subtitle")}
               </div>
             </div>
             <Button as="a" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} href="/rag-meta-templates/articles.json" target="_blank" rel="noopener noreferrer" download>
-              Ava artiklite mall
+              {tr("admin.rag.articles.open_template")}
             </Button>
           </div>
           <form className={articlesFormClassName} onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
-            <Input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder="docId (nt DOC-2024-014)" size="sm" className={inputClassName} />
+            <Input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder={tr("admin.rag.articles.doc_id_placeholder")} size="sm" className={inputClassName} />
             <input name="articlesJsonFile" type="file" accept="application/json" className={selectClassName} />
-            <Textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder='{"docId":"DOC-2024-014","articles":[{"title":"Pealkiri","pageRange":"12-15"}]}' rows={5} size="sm" className={inputClassName} />
+            <Textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder={tr("admin.rag.articles.json_placeholder")} rows={5} size="sm" className={inputClassName} />
             <div className={articlesActionsClassName}>
               <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={articlesBusy}>
-                {articlesBusy ? "Saadan..." : "Saada artiklid"}
+                {articlesBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.articles.send")}
               </Button>
             </div>
             {articlesResult ? <div className={articlesResultClassName}>
-                {articlesResult.count != null ? `Lisatud ${articlesResult.count} lõiku.` : "Artiklid lisatud."}
+                {articlesResult.count != null ? tr("admin.rag.articles.added_count", { count: articlesResult.count }) : tr("admin.rag.articles.added")}
                 {articlesResult.docId ? ` docId: ${articlesResult.docId}` : ""}
                 {articlesResult.inserted?.length ? <ul className={articlesListClassName}>
                     {articlesResult.inserted.slice(0, 4).map((item, idx) => <li key={`${item.title || "article"}-${idx}`}>
-                        {(item.title || "Artikkel") + (item.startPage && item.endPage ? ` (lk ${item.startPage}-${item.endPage})` : "")}
+                        {(item.title || tr("admin.rag.articles.default_article")) + (item.startPage && item.endPage ? tr("admin.rag.articles.page_range", {
+                    start: item.startPage,
+                    end: item.endPage
+                  }) : "")}
                       </li>)}
                   </ul> : null}
               </div> : null}
@@ -1120,41 +1108,39 @@ export default function RagAdminPanel() {
         {showMetaGuide ? <div className={metaPanelClassName} id="rag-meta-panel">
             <div className={metaPanelHeadClassName}>
               <div>
-                <div className={metaPanelTitleClassName}>Meta JSON mallid</div>
+                <div className={metaPanelTitleClassName}>{tr("admin.rag.meta.templates_title")}</div>
                 <div className={metaPanelNoteClassName}>
-                  Platvorm ootab ühte JSON objekti iga ingestimise kohta. Eri
-                  materjalidele kasuta eraldi JSON faile. Mitme artikliga PDF-i
-                  puhul kasuta /ingest/articles.
+                  {tr("admin.rag.meta.templates_note")}
                 </div>
               </div>
               {activeMetaTemplate ? <a className={metaPanelLinkClassName} href={activeMetaTemplate.file} target="_blank" rel="noopener noreferrer" download>
-                  Ava .json
+                  {tr("admin.rag.meta.open_json")}
                 </a> : null}
             </div>
             <div className={metaPanelGridClassName}>
               <div>
-                <div className={metaPanelLabelClassName}>Oluline</div>
+                <div className={metaPanelLabelClassName}>{tr("admin.rag.meta.important")}</div>
                 <ul className={metaPanelListClassName}>
-                  <li>docId, title, section</li>
-                  <li>year, audience, tags</li>
+                  <li>{tr("admin.rag.meta.important_line_1")}</li>
+                  <li>{tr("admin.rag.meta.important_line_2")}</li>
                 </ul>
               </div>
               <div>
-                <div className={metaPanelLabelClassName}>Soovituslik</div>
+                <div className={metaPanelLabelClassName}>{tr("admin.rag.meta.recommended")}</div>
                 <ul className={metaPanelListClassName}>
-                  <li>description, authors, issueLabel/issueId</li>
-                  <li>articleId, journalTitle, language</li>
-                  <li>pageRange või pdf_start_page/pdf_end_page</li>
-                  <li>source_type, source_url</li>
+                  <li>{tr("admin.rag.meta.recommended_line_1")}</li>
+                  <li>{tr("admin.rag.meta.recommended_line_2")}</li>
+                  <li>{tr("admin.rag.meta.page_range_or_pdf_pages")}</li>
+                  <li>{tr("admin.rag.meta.recommended_line_4")}</li>
                 </ul>
               </div>
             </div>
             <div className={metaTabsClassName}>
-              {META_TEMPLATES.map(t => <button type="button" key={t.key} className={`${metaTabClassName}${activeMetaTemplate?.key === t.key ? " " + metaTabActiveClassName : ""}`} onClick={() => setActiveMetaTemplateKey(t.key)}>
+              {metaTemplates.map(t => <button type="button" key={t.key} className={`${metaTabClassName}${activeMetaTemplate?.key === t.key ? " " + metaTabActiveClassName : ""}`} onClick={() => setActiveMetaTemplateKey(t.key)}>
                   {t.label}
                 </button>)}
             </div>
-            <pre className={codeBlockClassName}>{activeMetaTemplate?.content || ""}</pre>
+            <pre className={codeBlockClassName}>{activeMetaTemplateContent || ""}</pre>
           </div> : null}
         </div>
       </div>
@@ -1162,49 +1148,53 @@ export default function RagAdminPanel() {
         <div className={cardBodyClassName}>
         <div className={cardHeadClassName}>
           <div>
-            <CardTitle>Dokumentide loetelu</CardTitle>
+            <CardTitle>{tr("admin.rag.documents.title")}</CardTitle>
             <div className={cardSubClassName}>
-              Kokku {docMetrics.total} | Filtreeritud {docMetrics.filtered} |
-              Ootel {docMetrics.pending} | Töös {docMetrics.processing} | Valmis{" "}
-              {docMetrics.completed} | Veaga {docMetrics.failed}
+              {tr("admin.rag.documents.summary", {
+                total: docMetrics.total,
+                filtered: docMetrics.filtered,
+                pending: docMetrics.pending,
+                processing: docMetrics.processing,
+                completed: docMetrics.completed,
+                failed: docMetrics.failed
+              })}
             </div>
           </div>
         </div>
         <div className={hintClassName}>
-          <div className={hintTitleClassName}>Kiire leidmine</div>
+          <div className={hintTitleClassName}>{tr("admin.rag.documents.quick_find_title")}</div>
           <div className={hintBodyClassName}>
-            Otsing kasutab title, description, authors, tags, section, issue,
-            year, docId, articleId, journalTitle, language.
+            {tr("admin.rag.documents.quick_find_body")}
           </div>
         </div>
         {topTags.length ? <div className={quickTagsClassName}>
-            <span className={quickTagsLabelClassName}>Kiirsildid:</span>
+            <span className={quickTagsLabelClassName}>{tr("admin.rag.documents.quick_tags")}</span>
             {topTags.map(tag => <button type="button" className={`${tagChipBaseClassName}${filterTags.includes(tag) ? " " + tagChipActiveClassName : ""}`} onClick={() => toggleFilterTag(tag)} key={tag}>
                 {tag}
               </button>)}
           </div> : null}
         <div className={toolbarClassName}>
-          <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Otsi pealkirja, autorit, kirjeldust, docId või sildi järgi" size="sm" className={inputClassName} />
+          <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={tr("admin.rag.documents.search_placeholder")} size="sm" className={inputClassName} />
           <select value={filterSection} onChange={e => setFilterSection(e.target.value)} className={selectClassName}>
-            <option value="ALL">Kõik rubriigid</option>
+            <option value="ALL">{tr("admin.rag.documents.filters.all_sections")}</option>
             {sectionOptions.map(s => <option key={s} value={s}>
                 {s}
               </option>)}
           </select>
           <select value={filterAudience} onChange={e => setFilterAudience(e.target.value)} className={selectClassName}>
-            <option value="ALL">Kõik sihtrühmad</option>
+            <option value="ALL">{tr("admin.rag.documents.filters.all_audiences")}</option>
             {audienceOptions.map(s => <option key={s} value={s}>
                 {getAudienceLabel(s)}
               </option>)}
           </select>
           <select value={filterYear} onChange={e => setFilterYear(e.target.value)} className={selectClassName}>
-            <option value="ALL">Kõik aastad</option>
+            <option value="ALL">{tr("admin.rag.documents.filters.all_years")}</option>
             {yearOptions.map(s => <option key={s} value={s}>
                 {s}
               </option>)}
           </select>
           <select value={filterIssue} onChange={e => setFilterIssue(e.target.value)} className={selectClassName}>
-            <option value="ALL">Kõik numbrid</option>
+            <option value="ALL">{tr("admin.rag.documents.filters.all_issues")}</option>
             {issueOptions.map(s => <option key={s} value={s}>
                 {s}
               </option>)}
@@ -1215,14 +1205,14 @@ export default function RagAdminPanel() {
               </option>)}
           </select>
           <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={selectClassName}>
-            <option value="recent">Uued ees</option>
-            <option value="title">Pealkiri A-Z</option>
-            <option value="section">Rubriik</option>
-            <option value="year">Aasta</option>
-            <option value="issue">Väljaanne</option>
+            <option value="recent">{tr("admin.rag.documents.sort.recent")}</option>
+            <option value="title">{tr("admin.rag.documents.sort.title")}</option>
+            <option value="section">{tr("admin.rag.documents.sort.section")}</option>
+            <option value="year">{tr("admin.rag.documents.sort.year")}</option>
+            <option value="issue">{tr("admin.rag.documents.sort.issue")}</option>
           </select>
           {selectedIds.size ? <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={handleBulkReindex} disabled={reindexingId !== null}>
-              Reindekseeri valitud ({selectedIds.size})
+              {tr("admin.rag.documents.reindex_selected", { count: selectedIds.size })}
             </Button> : null}
         </div>
 
@@ -1230,20 +1220,20 @@ export default function RagAdminPanel() {
           <div className={docHeadClassName}>
             <label className={docCheckClassName}>
               <input type="checkbox" className="accent-[color:var(--admin-accent)]" onChange={toggleSelectAllVisible} checked={visibleDocs.length && visibleDocs.every(d => selectedIds.has(d.id))} />
-              <span>Vali nähtavad</span>
+              <span>{tr("admin.rag.documents.select_visible")}</span>
             </label>
             <div className={docSummaryClassName}>
-              <span>Kokku {docMetrics.total}</span>
+              <span>{tr("admin.rag.documents.total", { total: docMetrics.total })}</span>
               <span className={docSummaryDotClassName} aria-hidden="true">
                 |
               </span>
-              <span>Filtreeritud {filteredCount}</span>
+              <span>{tr("admin.rag.documents.filtered", { count: filteredCount })}</span>
               <span className={docSummaryDotClassName} aria-hidden="true">
                 |
               </span>
-              <span>Näitan {visibleDocs.length}</span>
+              <span>{tr("admin.rag.documents.showing", { count: visibleDocs.length })}</span>
               {selectedIds.size ? <span className={docSummarySelectedClassName}>
-                  Valitud {selectedIds.size}
+                  {tr("admin.rag.documents.selected", { count: selectedIds.size })}
                 </span> : null}
             </div>
           </div>
@@ -1267,24 +1257,24 @@ export default function RagAdminPanel() {
                     </div>
                     <div className={docItemMainClassName}>
                       <div className={docItemTitleClassName}>
-                        {doc.title || "(pealkiri puudub)"}
+                        {doc.title || tr("admin.rag.documents.untitled")}
                       </div>
                       <div className={docItemMetaClassName}>
                         <span className={STATUS_CLASSES[status] || badgeBaseClassName}>
-                          {STATUS_LABELS[status] || status}
+                          {statusLabels[status] || status}
                         </span>
                         {doc.section ? <span className={docItemMetaPillClassName}>{doc.section}</span> : null}
                         {doc.year ? <span className={docItemMetaPillClassName}>{doc.year}</span> : null}
-                        {doc.issueLabel ? <span className={docItemMetaPillClassName}>nr {doc.issueLabel}</span> : null}
+                        {doc.issueLabel ? <span className={docItemMetaPillClassName}>{tr("admin.rag.documents.issue_label", { issue: doc.issueLabel })}</span> : null}
                       </div>
                     </div>
                     {syncedAt ? <div className={docItemTimeClassName}>
-                        {formatDateTime(syncedAt)}
+                        {formatDateTime(syncedAt, localeTag)}
                       </div> : null}
                   </div>;
             })}
               {!visibleDocs.length ? <div className={docsEmptyClassName}>
-                  {loadingList ? "Laen andmeid..." : "Tulemusi ei leitud."}
+                  {loadingList ? tr("admin.common.loading_data") : tr("admin.rag.documents.no_results")}
                 </div> : null}
             </div>
             <div className={docDetailWrapperClassName}>
@@ -1298,7 +1288,7 @@ export default function RagAdminPanel() {
                       <div className={docDetailTopClassName}>
                         <div>
                           <div className={docDetailTitleClassName}>
-                            {previewDoc.title || "(pealkiri puudub)"}
+                            {previewDoc.title || tr("admin.rag.documents.untitled")}
                           </div>
                           {previewDoc.description ? <div className={docDetailDescClassName}>
                               {previewDoc.description}
@@ -1306,17 +1296,17 @@ export default function RagAdminPanel() {
                         </div>
                         <div className={docDetailStatusClassName}>
                           <span className={STATUS_CLASSES[status] || badgeBaseClassName}>
-                            {STATUS_LABELS[status] || status}
+                            {statusLabels[status] || status}
                           </span>
                           {syncedAt ? <span className={docDetailTimeClassName}>
-                              {formatDateTime(syncedAt)}
+                              {formatDateTime(syncedAt, localeTag)}
                             </span> : null}
                         </div>
                       </div>
                       <div className={docDetailMetaClassName}>
                         <div className={docDetailMetaItemClassName}>
                           <span className={docDetailMetaLabelClassName}>
-                            Rubriik
+                            {tr("admin.rag.details.section")}
                           </span>
                           <span className={docDetailMetaValueClassName}>
                             {previewDoc.section || "-"}
@@ -1324,7 +1314,7 @@ export default function RagAdminPanel() {
                         </div>
                         <div className={docDetailMetaItemClassName}>
                           <span className={docDetailMetaLabelClassName}>
-                            Autorid
+                            {tr("admin.rag.details.authors")}
                           </span>
                           <span className={docDetailMetaValueClassName}>
                             {(previewDoc.authors || []).join(", ") || "-"}
@@ -1332,7 +1322,7 @@ export default function RagAdminPanel() {
                         </div>
                         <div className={docDetailMetaItemClassName}>
                           <span className={docDetailMetaLabelClassName}>
-                            Aasta / nr
+                            {tr("admin.rag.details.year_issue")}
                           </span>
                           <span className={docDetailMetaValueClassName}>
                             {previewDoc.year || "-"}
@@ -1341,7 +1331,7 @@ export default function RagAdminPanel() {
                         </div>
                         <div className={docDetailMetaItemClassName}>
                           <span className={docDetailMetaLabelClassName}>
-                            Sihtrühm
+                            {tr("admin.rag.details.audience")}
                           </span>
                           <span className={docDetailMetaValueClassName}>
                             {getAudienceLabel(previewDoc.audience)}
@@ -1349,7 +1339,7 @@ export default function RagAdminPanel() {
                         </div>
                         <div className={docDetailMetaItemClassName}>
                           <span className={docDetailMetaLabelClassName}>
-                            Lehekülg
+                            {tr("admin.rag.details.page")}
                           </span>
                           <span className={docDetailMetaValueClassName}>
                             {pageLabel}
@@ -1365,7 +1355,7 @@ export default function RagAdminPanel() {
                         </div>
                         {previewDoc.journalTitle ? <div className={docDetailMetaItemClassName}>
                             <span className={docDetailMetaLabelClassName}>
-                              Väljaanne
+                              {tr("admin.rag.details.issue")}
                             </span>
                             <span className={docDetailMetaValueClassName}>
                               {previewDoc.journalTitle}
@@ -1373,7 +1363,7 @@ export default function RagAdminPanel() {
                           </div> : null}
                         {previewDoc.language ? <div className={docDetailMetaItemClassName}>
                             <span className={docDetailMetaLabelClassName}>
-                              Keel
+                              {tr("admin.rag.details.language")}
                             </span>
                             <span className={docDetailMetaValueClassName}>
                               {previewDoc.language}
@@ -1381,7 +1371,7 @@ export default function RagAdminPanel() {
                           </div> : null}
                         {typeLabel ? <div className={docDetailMetaItemClassName}>
                             <span className={docDetailMetaLabelClassName}>
-                              Tüüp
+                              {tr("admin.rag.details.type")}
                             </span>
                             <span className={docDetailMetaValueClassName}>
                               {typeLabel}
@@ -1398,13 +1388,13 @@ export default function RagAdminPanel() {
                       </div>
                       <div className={docDetailTagsClassName}>
                         <span className={docDetailMetaLabelClassName}>
-                          Sildid
+                          {tr("admin.rag.details.tags")}
                         </span>
                         {renderTags(previewDoc.tags)}
                       </div>
                       {source ? <div className={docDetailSourceClassName}>
                           <span className={docDetailMetaLabelClassName}>
-                            Allikas
+                            {tr("admin.rag.details.source")}
                           </span>
                           <span className={docDetailSourceTextClassName}>
                             {source}
@@ -1412,21 +1402,21 @@ export default function RagAdminPanel() {
                         </div> : null}
                       <div className={docDetailActionsClassName}>
                         <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => openDetail(previewDoc)}>
-                          Muuda
+                          {tr("admin.rag.actions.edit")}
                         </Button>
                         <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => handleReindex(previewDoc.id)} disabled={reindexingId === previewDoc.id}>
-                          {reindexingId === previewDoc.id ? "Reindekseerin..." : "Reindekseeri"}
+                          {reindexingId === previewDoc.id ? tr("admin.rag.actions.reindexing") : tr("admin.rag.actions.reindex")}
                         </Button>
                         <Button variant="danger" className={`${buttonBaseClassName} ${buttonDangerClassName} ${buttonCompactClassName}`} onClick={() => handleDelete(previewDoc.id)} disabled={deletingId === previewDoc.id}>
-                          {deletingId === previewDoc.id ? "Kustutan..." : "Kustuta"}
+                          {deletingId === previewDoc.id ? tr("admin.rag.actions.deleting") : tr("admin.rag.actions.delete")}
                         </Button>
                         <Button variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => viewSource(previewDoc)} disabled={!previewDoc.source_path && !previewDoc.url}>
-                          Vaata
+                          {tr("admin.rag.actions.view")}
                         </Button>
                       </div>
                     </div>;
             })() : <div className={docDetailEmptyClassName}>
-                  Vali materjal, et näha detaile.
+                  {tr("admin.rag.details.select_material")}
                 </div>}
             </div>
           </div>
@@ -1434,7 +1424,7 @@ export default function RagAdminPanel() {
 
         {visibleCount < filteredDocs.length ? <div className="flex flex-wrap items-center gap-2">
             <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={() => setVisibleCount(c => c + PAGE_SIZE)}>
-              Laadi veel{" "}
+              {tr("admin.rag.documents.load_more")}{" "}
               {Math.min(PAGE_SIZE, filteredDocs.length - visibleCount)}
             </Button>
           </div> : null}
@@ -1445,11 +1435,11 @@ export default function RagAdminPanel() {
           <div className={modalBodyClassName}>
             <div className={ragModalHeadClassName}>
               <div>
-                <CardTitle>Muuda meta</CardTitle>
-                <div className="text-[0.95rem] text-[color:var(--admin-muted)]">{detailDoc.title || "(pealkiri)"}</div>
+                <CardTitle>{tr("admin.rag.modal.edit_meta")}</CardTitle>
+                <div className="text-[0.95rem] text-[color:var(--admin-muted)]">{detailDoc.title || tr("admin.rag.documents.untitled")}</div>
               </div>
               <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
-                Sulge
+                {tr("admin.rag.actions.close")}
               </Button>
             </div>
             <div className={panelStackClassName}>
@@ -1504,7 +1494,7 @@ export default function RagAdminPanel() {
               ...f,
               audience: e.target.value
             }))} className={selectClassName}>
-                  {AUDIENCE_OPTIONS.map(o => <option key={o.value} value={o.value}>
+                  {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
                       {o.label}
                     </option>)}
                 </select>
@@ -1523,21 +1513,21 @@ export default function RagAdminPanel() {
               pdf_end_page: e.target.value
             }))} className={inputClassName} size="sm" />
                 <div className={readOnlyFieldClassName}>
-                  docId: {detailDoc.docId || "-"}
+                  {tr("admin.rag.modal.doc_id")}: {detailDoc.docId || "-"}
                 </div>
                 <div className={readOnlyFieldClassName}>
-                  type: {detailDoc.source_type || detailDoc.type || "-"}
+                  {tr("admin.rag.modal.type")}: {detailDoc.source_type || detailDoc.type || "-"}
                 </div>
                 <div className={readOnlyFieldClassName}>
-                  language: {detailDoc.language || "-"}
+                  {tr("admin.rag.modal.language")}: {detailDoc.language || "-"}
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={saveDetail}>
-                  Salvesta
+                  {tr("admin.rag.actions.save")}
                 </Button>
                 <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
-                  Tühista
+                  {tr("admin.rag.actions.cancel")}
                 </Button>
               </div>
             </div>

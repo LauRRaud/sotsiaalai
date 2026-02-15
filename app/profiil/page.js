@@ -10,12 +10,13 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/profiil",
-    title: meta.title || "Profile - SotsiaalAI",
+    title: meta.title || "",
     description: meta.description || ""
   });
 }
 export default function Page() {
   return <ProfiilBody />;
 }
+
 
 

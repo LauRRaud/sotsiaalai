@@ -650,10 +650,13 @@
     "loading": "Laen tellimuse infot…",
     "error": {
       "load_failed": "Tellimuse oleku laadimine ebaõnnestus.",
-      "payment_start": "Makse algatamine ebaõnnestus."
+      "payment_start": "Makse algatamine ebaõnnestus.",
+      "payment_failed": "Makse ebaõnnestus või katkestati."
     },
     "payment": {
-      "redirect_demo": "Suuname Maksekeskuse makselehele (demo)..."
+      "redirect_demo": "Suuname Maksekeskuse makselehele...",
+      "pending": "Makse kinnitamine on pooleli.",
+      "confirmation_pending": "Makse algatati. Ligipääs aktiveeritakse pärast makseteenuse kinnitust."
     },
     "active": {
       "summary": "Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.",
@@ -746,6 +749,18 @@
     "start": {
       "title": "Järgmine samm — SotsiaalAI",
       "description": "Vali, millise tööriistaga jätkad pärast sisselogimist."
+    },
+    "guide": {
+      "title": "Platform guide - SotsiaalAI",
+      "description": "Read how to use SotsiaalAI step by step."
+    },
+    "rooms": {
+      "title": "Rooms - SotsiaalAI",
+      "description": "Open and manage your group chat rooms."
+    },
+    "email_update": {
+      "title": "Update email - SotsiaalAI",
+      "description": "Change the email address linked to your SotsiaalAI account."
     }
   },
   "join": {
@@ -888,70 +903,72 @@
   },
   "api": {
     "common": {
-      "unauthorized": "Please sign in to continue.",
-      "forbidden": "You do not have permission for this action.",
-      "invalid_request": "Invalid request.",
-      "invalid_json": "Invalid JSON payload.",
-      "missing_room_id": "Room ID is missing.",
-      "rate_limited": "Too many requests. Please try again later.",
-      "subscription_required": "An active subscription is required."
+      "unauthorized": "Jatkamiseks logi sisse.",
+      "forbidden": "Sul puudub selle tegevuse jaoks oigus.",
+      "invalid_request": "Vigane paring.",
+      "invalid_json": "Vigane JSON payload.",
+      "missing_room_id": "Ruumi ID puudub.",
+      "rate_limited": "Liiga palju paringuid. Proovi hiljem uuesti.",
+      "subscription_required": "Vajalik on aktiivne tellimus."
     },
     "chat": {
-      "invalid_conv_id": "Invalid conversation ID.",
-      "invalid_id": "Invalid ID.",
-      "not_found": "Conversation not found.",
-      "conversation_exists": "Conversation already exists.",
-      "db_unavailable": "Database is temporarily unavailable.",
-      "db_error_run_read": "Could not load conversation context.",
-      "db_error_analyze_usage": "Could not load analysis usage.",
-      "db_error_conversations_list": "Could not load conversations.",
-      "db_error_conversation_create": "Could not create conversation.",
-      "db_error_conversation_read": "Could not load conversation.",
-      "db_error_conversation_delete": "Could not delete conversation.",
-      "db_error_conversation_restore": "Could not restore conversation.",
-      "db_error_conversation_messages": "Could not load conversation messages.",
+      "invalid_conv_id": "Vigane vestluse ID.",
+      "invalid_id": "Vigane ID.",
+      "not_found": "Vestlust ei leitud.",
+      "conversation_exists": "Vestlus on juba olemas.",
+      "db_unavailable": "Andmebaas ei ole ajutiselt saadaval.",
+      "db_error_run_read": "Vestluse konteksti ei saanud laadida.",
+      "db_error_analyze_usage": "Analyysi kasutust ei saanud laadida.",
+      "db_error_conversations_list": "Vestlusi ei saanud laadida.",
+      "db_error_conversation_create": "Vestlust ei saanud luua.",
+      "db_error_conversation_read": "Vestlust ei saanud laadida.",
+      "db_error_conversation_delete": "Vestlust ei saanud kustutada.",
+      "db_error_conversation_restore": "Vestlust ei saanud taastada.",
+      "db_error_conversation_messages": "Vestluse sonumeid ei saanud laadida.",
       "analyze": {
-        "multipart_required": "Request must be multipart/form-data.",
-        "file_required": "Please attach a file.",
-        "file_too_large": "File is too large.",
-        "quota_exceeded": "Analysis quota exceeded.",
-        "quota_check_failed": "Could not verify analysis quota.",
-        "rag_key_missing": "Analysis service is not configured.",
-        "rag_host_external_denied": "External analysis host is not allowed.",
-        "rag_service_failed": "Analysis service request failed.",
-        "service_unavailable": "Analysis service is currently unavailable.",
-        "privacy_ephemeral": "File is processed ephemerally and not stored."
+        "multipart_required": "Paring peab olema multipart/form-data.",
+        "file_required": "Lisa fail.",
+        "file_too_large": "Fail on liiga suur.",
+        "quota_exceeded": "Analyysi limiit on tais.",
+        "quota_check_failed": "Analyysi limiiti ei saanud kontrollida.",
+        "rag_key_missing": "Analyysi teenus ei ole seadistatud.",
+        "rag_host_external_denied": "Valise analyysi host ei ole lubatud.",
+        "rag_service_failed": "Analyysi teenuse paring ebaonnestus.",
+        "service_unavailable": "Analyysi teenus ei ole praegu saadaval.",
+        "privacy_ephemeral": "Faili toodeldakse ajutiselt ja seda ei salvestata."
       }
     },
     "rooms": {
-      "not_found": "Room not found.",
-      "not_member": "You are not a member of this room.",
-      "owner_cannot_leave": "Room owner cannot leave the room.",
-      "missing_room_id_or_msg_id": "Room ID or message ID is missing.",
-      "message_not_found": "Message not found.",
-      "message_required": "Message content is required.",
-      "access_denied": "Access denied.",
-      "join_unavailable": "Joining is currently unavailable.",
-      "send_failed": "Failed to send message.",
-      "read_update_failed": "Failed to update read state.",
-      "leave_failed": "Failed to leave room.",
-      "delete_failed": "Failed to delete room.",
-      "delete_message_failed": "Failed to delete message."
+      "not_found": "Ruumi ei leitud.",
+      "not_member": "Sa ei ole selle ruumi liige.",
+      "owner_cannot_leave": "Ruumi omanik ei saa ruumist lahkuda.",
+      "missing_room_id_or_msg_id": "Ruumi ID voi sonumi ID puudub.",
+      "message_not_found": "Sonumit ei leitud.",
+      "message_required": "Sonumi sisu on kohustuslik.",
+      "access_denied": "Ligipaas keelatud.",
+      "join_unavailable": "Liitumine ei ole praegu saadaval.",
+      "send_failed": "Sonumi saatmine ebaonnestus.",
+      "read_update_failed": "Lugemisoleku uuendamine ebaonnestus.",
+      "leave_failed": "Ruumist lahkumine ebaonnestus.",
+      "delete_failed": "Ruumi kustutamine ebaonnestus.",
+      "delete_message_failed": "Sonumi kustutamine ebaonnestus."
     },
     "stt": {
-      "not_configured": "Speech-to-text service is not configured.",
-      "rate_limited": "Too many dictation requests. Please try again later.",
-      "audio_missing": "Audio input is missing.",
-      "transcription_failed": "Dictation failed.",
-      "service_error": "Speech-to-text service error."
+      "not_configured": "Kõnest tekstiks teenus ei ole seadistatud.",
+      "rate_limited": "Liiga palju dikteerimispäringuid. Proovi hiljem uuesti.",
+      "audio_missing": "Helisisend puudub.",
+      "audio_too_large": "Dikteerimise helifail on liiga suur.",
+      "audio_format_unsupported": "Seda heliformaati ei toetata.",
+      "transcription_failed": "Dikteerimine ebaõnnestus.",
+      "service_error": "Kõnest tekstiks teenuse viga."
     },
     "tts": {
-      "not_configured": "Text-to-speech service is not configured.",
-      "rate_limited": "Too many speech requests. Please try again later.",
-      "text_missing": "Text input is missing.",
-      "text_too_long": "Text is too long.",
-      "synthesis_failed": "Speech synthesis failed.",
-      "service_error": "Text-to-speech service error."
+      "not_configured": "Tekstist kõneks teenus ei ole seadistatud.",
+      "rate_limited": "Liiga palju kõnepäringuid. Proovi hiljem uuesti.",
+      "text_missing": "Tekstisisend puudub.",
+      "text_too_long": "Tekst on liiga pikk.",
+      "synthesis_failed": "Kõnesüntees ebaõnnestus.",
+      "service_error": "Tekstist kõneks teenuse viga."
     },
     "auth": {
       "reset": {
@@ -1004,50 +1021,65 @@
       }
     },
     "subscription": {
-      "user_not_found": "User not found.",
-      "load_failed": "Failed to load subscription.",
-      "activate_failed": "Failed to activate subscription.",
-      "cancel_failed": "Failed to cancel subscription."
+      "user_not_found": "Kasutajat ei leitud.",
+      "load_failed": "Tellimuse laadimine ebaõnnestus.",
+      "activate_failed": "Tellimuse aktiveerimine ebaõnnestus.",
+      "cancel_failed": "Tellimuse tühistamine ebaõnnestus.",
+      "already_active": "Tellimus on juba aktiivne.",
+      "provider_unavailable": "Maksepakkuja ei ole seadistatud.",
+      "checkout_create_failed": "Makse checkouti loomine ebaõnnestus.",
+      "payment_not_found": "Makset ei leitud antud viitega.",
+      "webhook_signature_unconfigured": "Webhooki allkirja kontroll ei ole seadistatud.",
+      "webhook_signature_invalid": "Webhooki allkiri on vigane.",
+      "webhook_invalid_payload": "Webhooki payload on vigane.",
+      "webhook_process_failed": "Maksete webhooki töötlemine ebaõnnestus.",
+      "direct_activation_disabled": "Otse aktiveerimine on keelatud. Alusta kõigepealt makse checkoutiga."
     },
     "invites": {
-      "email_from_missing": "Sender email is not configured.",
-      "load_failed": "Failed to load invites.",
-      "create_failed": "Failed to create invites.",
-      "missing_id": "Invite ID is missing.",
-      "missing_token": "Invite token is missing.",
-      "invite_not_found": "Invite not found.",
-      "invite_expired": "Invite has expired.",
-      "invite_used": "Invite has already been used.",
-      "invite_email_mismatch": "This invite is for a different email address.",
-      "only_pending_resend": "Only pending invites can be resent.",
-      "subscription_required": "Subscription is required to join this room.",
-      "accept_failed": "Failed to accept invite.",
-      "resend_failed": "Failed to resend invite.",
-      "revoke_failed": "Failed to revoke invite."
+      "email_from_missing": "Saatja e-posti aadress ei ole seadistatud.",
+      "load_failed": "Kutseid ei saanud laadida.",
+      "create_failed": "Kutsete loomine ebaõnnestus.",
+      "missing_id": "Kutse ID puudub.",
+      "missing_token": "Kutse token puudub.",
+      "invite_not_found": "Kutset ei leitud.",
+      "invite_expired": "Kutse on aegunud.",
+      "invite_used": "Kutset on juba kasutatud.",
+      "invite_email_mismatch": "See kutse on teisele e-posti aadressile.",
+      "only_pending_resend": "Uuesti saab saata ainult ootel kutseid.",
+      "subscription_required": "Sellesse ruumi liitumiseks on vaja tellimust.",
+      "accept_failed": "Kutse vastuvõtmine ebaõnnestus.",
+      "resend_failed": "Kutse uuesti saatmine ebaõnnestus.",
+      "revoke_failed": "Kutse tühistamine ebaõnnestus."
     },
     "admin": {
       "analytics": {
-        "events_load_failed": "Failed to load analytics events.",
-        "summary_load_failed": "Failed to load analytics summary."
+        "events_load_failed": "Analüütika sündmusi ei saanud laadida.",
+        "summary_load_failed": "Analüütika kokkuvõtet ei saanud laadida.",
+        "payment_alerts_not_configured": "Maksete alert webhook ei ole seadistatud.",
+        "payment_alerts_dispatch_failed": "Maksete alertide edastamine ebaõnnestus.",
+        "payment_alerts_dispatched": "Maksete alertid edastati.",
+        "payment_alerts_no_critical": "Edastamiseks ei ole kriitilisi maksete alerte.",
+        "payment_alerts_deduped": "Kriitilised maksete alertid on hiljuti juba edastatud.",
+        "payment_alerts_dry_run": "Maksete alertide dry-run lõpetatud."
       }
     },
     "rag": {
-      "rate_limited": "Too many RAG requests. Please try again later.",
-      "service_key_missing": "RAG service API key is not configured.",
-      "external_host_not_allowed": "External RAG host is not allowed.",
-      "proxy_timeout": "RAG proxy request timed out.",
-      "proxy_error": "RAG proxy request failed.",
+      "rate_limited": "Liiga palju RAG päringuid. Proovi hiljem uuesti.",
+      "service_key_missing": "RAG teenuse API võti ei ole seadistatud.",
+      "external_host_not_allowed": "Väline RAG host ei ole lubatud.",
+      "proxy_timeout": "RAG proxy päring aegus.",
+      "proxy_error": "RAG proxy päring ebaõnnestus.",
       "selftest": {
-        "step_connection": "Checking RAG connection",
-        "step_search": "Running RAG search",
-        "step_openai": "Checking OpenAI response",
+        "step_connection": "Kontrollin RAG ühendust",
+        "step_search": "Teen RAG otsingut",
+        "step_openai": "Kontrollin OpenAI vastust",
         "step_ok": "OK",
-        "sample_query": "hello",
-        "openai_prompt": "Reply briefly: OK",
-        "openai_key_missing": "OPENAI_API_KEY is not configured.",
-        "openai_empty_response": "OpenAI did not return a response.",
-        "backend_error": "RAG service returned an error.",
-        "unknown_error": "Unknown error."
+        "sample_query": "tere",
+        "openai_prompt": "Vasta lühidalt: OK",
+        "openai_key_missing": "OPENAI_API_KEY ei ole seadistatud.",
+        "openai_empty_response": "OpenAI ei tagastanud vastust.",
+        "backend_error": "RAG teenus tagastas vea.",
+        "unknown_error": "Tundmatu viga."
       }
     }
   },
@@ -1083,7 +1115,16 @@
         "no_context": "No context",
         "crisis_detected": "Crisis detected",
         "rag_error": "RAG error",
-        "openai_error": "OpenAI error"
+        "openai_error": "OpenAI error",
+        "subscription_init_started": "Subscription init started",
+        "subscription_init_checkout_created": "Subscription checkout created",
+        "subscription_init_failed": "Subscription init failed",
+        "subscription_callback_redirect": "Subscription callback redirect",
+        "subscription_webhook_processed": "Subscription webhook processed",
+        "subscription_webhook_failed": "Subscription webhook failed",
+        "payment_alert_dispatch_dry_run": "Payment alert dispatch dry run",
+        "payment_alert_dispatched": "Payment alert dispatched",
+        "payment_alert_dispatch_failed": "Payment alert dispatch failed"
       },
       "status": {
         "pending": "Pending",
@@ -1102,7 +1143,11 @@
         "grounding": "grounding",
         "chosen": "chosen",
         "crisis": "crisis",
-        "history": "history"
+        "history": "history",
+        "payment_state": "payment state",
+        "result_status": "result status",
+        "subscription_action": "subscription action",
+        "alert_code": "alert code"
       },
       "kpis": {
         "requests_30d": {
@@ -1153,11 +1198,38 @@
       "billing": {
         "title": "Subscriptions and payments",
         "subtitle": "Payment flows and subscription activity over the last 30 days.",
+        "alerts": {
+          "none": "No billing alerts in the last 30 days.",
+          "severity": {
+            "info": "Info",
+            "warning": "Warning",
+            "critical": "Critical"
+          },
+          "items": {
+            "checkout_create_rate_low": "Checkout creation rate is low ({value}% vs threshold {threshold}%).",
+            "paid_conversion_low": "Paid conversion from checkout is low ({value}% vs threshold {threshold}%).",
+            "webhook_missing_after_checkout": "Checkout events exist but no webhook processing events were recorded.",
+            "callback_pending_high": "Callback pending share is high ({value}% vs threshold {threshold}%).",
+            "webhook_error_spike": "Webhook technical error count is high ({value}, threshold {threshold}).",
+            "webhook_error_rate_high": "Webhook technical error rate is high ({value}% vs threshold {threshold}%).",
+            "unknown": "Unclassified billing alert."
+          }
+        },
         "active_subscriptions": "Active subscriptions",
         "new_subscriptions_30d": "New subscriptions (30d)",
         "cancellations_30d": "Cancellations (30d)",
         "payment_statuses_30d": "Payment statuses (30d)",
         "paid_amount_30d": "Collected (PAID 30d)",
+        "pipeline": {
+          "checkout_ready": "Checkout ready (30d)",
+          "webhook_paid": "Webhook paid (30d)",
+          "callback_success": "Callback success (30d)",
+          "webhook_errors": "Webhook errors (30d)",
+          "from_init": "{percent}% from init",
+          "from_checkout": "{percent}% from checkout",
+          "callback_share": "{percent}% callback success",
+          "breakdown": "Failed {failed} | Canceled {canceled} | Refunded {refunded}"
+        },
         "table": {
           "time": "Time",
           "status": "Status",
@@ -1185,6 +1257,179 @@
           "empty": "No records found."
         }
       }
+    },
+    "rag": {
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "audience": {
+        "social_worker": "Social worker specialist",
+        "client": "Help seeker",
+        "both": "Both"
+      },
+      "common": {
+        "ok": "OK",
+        "failed": "Failed",
+        "saved": "Saved"
+      },
+      "errors": {
+        "invalid_documents_json": "Server returned invalid JSON for document list.",
+        "documents_load_failed": "Document loading failed.",
+        "pdf_required": "Select a PDF file.",
+        "meta_required": "Add metadata JSON file or paste JSON into the field.",
+        "pdf_ingest_failed": "PDF ingest failed.",
+        "meta_json_invalid": "Metadata JSON is invalid.",
+        "meta_json_must_be_object": "Metadata JSON must be an object.",
+        "url_required": "Enter URL.",
+        "url_ingest_failed": "URL ingest failed.",
+        "articles_json_required": "Add articles JSON (file or text).",
+        "articles_json_invalid": "Articles JSON is invalid.",
+        "doc_id_required": "docId is missing. Add docId in the field or JSON file.",
+        "articles_array_required": "Articles array is missing or empty.",
+        "article_item_invalid": "Each article must have title and pageRange or startPage/endPage.",
+        "articles_ingest_failed": "Articles ingest failed.",
+        "reindex_failed": "Reindex failed.",
+        "delete_failed": "Delete failed.",
+        "meta_update_failed": "Metadata update failed.",
+        "selftest_failed": "Self-test failed.",
+        "selftest_aborted": "Self-test aborted."
+      },
+      "success": {
+        "added_with_ref": "Added: {ref}",
+        "pdf_ingest_with_doc_id": "PDF ingest succeeded (docId {docId}).",
+        "pdf_ingest": "PDF ingest succeeded.",
+        "meta_looks_valid": "Metadata looks valid. Search and filtering should be fast.",
+        "url_sent": "URL was sent to RAG database.",
+        "articles_added_with_doc_id": "Articles added (docId {docId}).",
+        "reindex_started": "Reindex started.",
+        "document_deleted": "Document deleted.",
+        "meta_saved": "Metadata saved.",
+        "selftest_finished": "Self-test completed."
+      },
+      "confirm": {
+        "delete_doc": "Do you want to delete this entry? This cannot be undone."
+      },
+      "selftest": {
+        "results_title": "Self-test results",
+        "run": "Run self-test",
+        "running": "Checking..."
+      },
+      "ingest": {
+        "title": "Ingest: URL or PDF + metadata",
+        "subtitle": "Add sources and verify metadata JSON consistency.",
+        "url_section_title": "Ingest URL",
+        "url_title_placeholder": "Title (optional)",
+        "url_description_placeholder": "Description",
+        "url_tags_placeholder": "Tags (comma-separated)",
+        "sending": "Sending...",
+        "send_url": "Send URL",
+        "pdf_section_title": "PDF + metadata (JSON)",
+        "pdf_section_note": "Metadata JSON: docId, title, section, year, audience, tags.",
+        "pdf_meta_text_placeholder": "Or paste metadata JSON",
+        "send_pdf_with_meta": "Send PDF with metadata"
+      },
+      "meta": {
+        "open_templates": "Open metadata templates",
+        "hide_templates": "Hide metadata templates",
+        "check_json": "Validate metadata JSON",
+        "templates_title": "Metadata JSON templates",
+        "templates_note": "Platform expects one JSON object per ingest. Use separate JSON files for different materials. For multi-article PDFs use /ingest/articles.",
+        "open_json": "Open .json",
+        "important": "Important",
+        "recommended": "Recommended",
+        "page_range_or_pdf_pages": "pageRange or pdf_start_page/pdf_end_page",
+        "missing_required": "Missing: {fields}",
+        "missing_recommended": "Recommended: {fields}",
+        "templates": {
+          "base": "Base (general document)",
+          "periodical": "Periodical article",
+          "regulation": "Law or regulation",
+          "report": "Report or guide",
+          "web": "Web page"
+        },
+        "important_line_1": "docId, title, section",
+        "important_line_2": "year, audience, tags",
+        "recommended_line_1": "description, authors, issueLabel/issueId",
+        "recommended_line_2": "articleId, journalTitle, language",
+        "recommended_line_4": "source_type, source_url"
+      },
+      "articles": {
+        "title": "Articles ingest (same PDF)",
+        "subtitle": "Use docId returned from PDF ingest. JSON must contain articles array.",
+        "open_template": "Open articles template",
+        "doc_id_placeholder": "docId (e.g. DOC-2024-014)",
+        "send": "Send articles",
+        "added": "Articles added.",
+        "added_count": "Added {count} chunks.",
+        "default_article": "Article",
+        "page_range": " (pp {start}-{end})",
+        "json_placeholder": "{\"docId\":\"DOC-2024-014\",\"articles\":[{\"title\":\"Title\",\"pageRange\":\"12-15\"}]}"
+      },
+      "documents": {
+        "title": "Document list",
+        "summary": "Total {total} | Filtered {filtered} | Pending {pending} | Processing {processing} | Completed {completed} | Failed {failed}",
+        "quick_find_title": "Quick find",
+        "quick_find_body": "Search uses title, description, authors, tags, section, issue, year, docId, articleId, journalTitle, language.",
+        "quick_tags": "Quick tags:",
+        "search_placeholder": "Search title, author, description, docId or tag",
+        "filters": {
+          "all_sections": "All sections",
+          "all_audiences": "All audiences",
+          "all_years": "All years",
+          "all_issues": "All issues"
+        },
+        "sort": {
+          "recent": "Newest first",
+          "title": "Title A-Z",
+          "section": "Section",
+          "year": "Year",
+          "issue": "Issue"
+        },
+        "reindex_selected": "Reindex selected ({count})",
+        "select_visible": "Select visible",
+        "total": "Total {total}",
+        "filtered": "Filtered {count}",
+        "showing": "Showing {count}",
+        "selected": "Selected {count}",
+        "untitled": "(untitled)",
+        "issue_label": "issue {issue}",
+        "no_results": "No results found.",
+        "load_more": "Load more"
+      },
+      "details": {
+        "section": "Section",
+        "authors": "Authors",
+        "year_issue": "Year / issue",
+        "audience": "Audience",
+        "page": "Page",
+        "issue": "Issue",
+        "language": "Language",
+        "type": "Type",
+        "tags": "Tags",
+        "source": "Source",
+        "select_material": "Select a material to view details."
+      },
+      "actions": {
+        "edit": "Edit",
+        "reindex": "Reindex",
+        "reindexing": "Reindexing...",
+        "delete": "Delete",
+        "deleting": "Deleting...",
+        "view": "View",
+        "close": "Close",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "modal": {
+        "edit_meta": "Edit metadata",
+        "doc_id": "docId",
+        "type": "type",
+        "language": "language"
+      }
     }
   }
 }
+
