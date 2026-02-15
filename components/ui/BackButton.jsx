@@ -2,7 +2,7 @@ import { cn } from "@/components/ui/cn";
 import BackIcon from "@/components/ui/icons/BackIcon";
 
 const baseClassName =
-  "inline-flex h-[5.7rem] w-[5.7rem] items-center justify-center " +
+  "inline-flex h-[5.7rem] w-[5.7rem] min-[48.0625em]:h-[6.4rem] min-[48.0625em]:w-[6.4rem] items-center justify-center " +
   "bg-transparent p-0 border-0 cursor-[var(--cursor-pointer)] " +
   "group focus-visible:outline-none";
 

@@ -158,7 +158,7 @@ export function SourcesIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
-      viewBox="0 -1 119.96 131.67"
+      viewBox="-2 -1 123.96 131.67"
       fill="none"
       aria-hidden="true"
       focusable="false"

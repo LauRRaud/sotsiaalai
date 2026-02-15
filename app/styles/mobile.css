@@ -800,7 +800,7 @@
     flex-direction: row !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: clamp(0.52rem, 2.8vw, 0.92rem) !important;
+    gap: clamp(0.7rem, 3.4vw, 1.12rem) !important;
     padding-left: clamp(0.4rem, 2vw, 0.7rem) !important;
     padding-right: clamp(0.06rem, 0.8vw, 0.16rem) !important;
     padding-top: 0 !important;

@@ -70,8 +70,8 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
-  "group relative grid place-items-center h-[4.5rem] w-[4.5rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
-const logoutIconClassName = "h-[3.7rem] w-[3.7rem] max-[48em]:h-[3.85rem] max-[48em]:w-[3.85rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
+  "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[3.85rem] max-[48em]:w-[3.85rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
   "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
