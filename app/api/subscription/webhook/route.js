@@ -2,6 +2,8 @@ export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
 import { PaymentProvider, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/client";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
@@ -23,6 +25,11 @@ const REFUNDED_ACTION = normalizeSubscriptionAction(process.env.SUBSCRIPTION_WEB
 const CANCELED_ACTION = normalizeSubscriptionAction(process.env.SUBSCRIPTION_WEBHOOK_CANCELED_ACTION, "none");
 const FAILED_ACTION = normalizeSubscriptionAction(process.env.SUBSCRIPTION_WEBHOOK_FAILED_ACTION, "none");
 const FINAL_STATUSES = new Set([PaymentStatus.PAID, PaymentStatus.CANCELED, PaymentStatus.FAILED, PaymentStatus.REFUNDED]);
+const OWNER_NOTIFICATION_EMAIL = String(process.env.PAYMENT_OWNER_EMAIL || "info@sotsiaal.ai")
+  .trim()
+  .toLowerCase();
+const OWNER_NOTIFICATION_LOCALE = normalizeServerLocale(process.env.PAYMENT_OWNER_EMAIL_LOCALE) || "en";
+const ownerMailer = getMailer("payment-owner-webhook");
 
 function shouldAllowUnsignedWebhook() {
   if (WEBHOOK_ALLOW_UNSIGNED === "1" || WEBHOOK_ALLOW_UNSIGNED === "true" || WEBHOOK_ALLOW_UNSIGNED === "yes") {
@@ -86,6 +93,104 @@ function actionForStatus(status) {
   if (status === PaymentStatus.CANCELED) return CANCELED_ACTION;
   if (status === PaymentStatus.FAILED) return FAILED_ACTION;
   return "none";
+}
+
+function asIso(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toISOString();
+}
+
+function canSendOwnerNotification(result) {
+  return Boolean(result?.updated) && Boolean(result?.paymentId) && Boolean(result?.status);
+}
+
+async function sendOwnerPaymentWebhookNotification({ providerPaymentId, status, paymentId, subscriptionAction }) {
+  const to = OWNER_NOTIFICATION_EMAIL;
+  const from = String(process.env.EMAIL_FROM || process.env.SMTP_FROM || "").trim();
+  if (!to || !to.includes("@")) {
+    logPaymentEvent("subscription_webhook_owner_email_skipped", {
+      paymentId,
+      providerPaymentId,
+      status,
+      reason: "recipient_missing"
+    });
+    return;
+  }
+  if (!from) {
+    logPaymentEvent("subscription_webhook_owner_email_skipped", {
+      paymentId,
+      providerPaymentId,
+      status,
+      reason: "email_from_missing"
+    });
+    return;
+  }
+
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    select: {
+      id: true,
+      amount: true,
+      currency: true,
+      status: true,
+      createdAt: true,
+      paidAt: true,
+      user: {
+        select: {
+          id: true,
+          email: true
+        }
+      },
+      subscription: {
+        select: {
+          id: true,
+          plan: true,
+          status: true,
+          validUntil: true,
+          canceledAt: true
+        }
+      }
+    }
+  });
+
+  const adminUrl = `${(resolveBaseUrl() || "").replace(/\/+$/, "")}/admin/analytics`;
+  const values = {
+    status: String(status || payment?.status || ""),
+    providerPaymentId: String(providerPaymentId || ""),
+    paymentId: String(payment?.id || paymentId || ""),
+    userEmail: String(payment?.user?.email || ""),
+    userId: String(payment?.user?.id || ""),
+    amount: String(payment?.amount ?? ""),
+    currency: String(payment?.currency || ""),
+    paidAt: asIso(payment?.paidAt),
+    createdAt: asIso(payment?.createdAt),
+    subscriptionId: String(payment?.subscription?.id || ""),
+    subscriptionPlan: String(payment?.subscription?.plan || ""),
+    subscriptionStatus: String(payment?.subscription?.status || ""),
+    subscriptionValidUntil: asIso(payment?.subscription?.validUntil),
+    subscriptionCanceledAt: asIso(payment?.subscription?.canceledAt),
+    subscriptionAction: String(subscriptionAction || "none"),
+    eventTime: new Date().toISOString(),
+    adminUrl
+  };
+
+  await ownerMailer.sendMail({
+    to,
+    from,
+    subject: serverT(OWNER_NOTIFICATION_LOCALE, "email.payment.owner_webhook.subject", values),
+    text: serverT(OWNER_NOTIFICATION_LOCALE, "email.payment.owner_webhook.text", values),
+    html: serverT(OWNER_NOTIFICATION_LOCALE, "email.payment.owner_webhook.html", values)
+  });
+
+  logPaymentEvent("subscription_webhook_owner_email_sent", {
+    paymentId: values.paymentId,
+    providerPaymentId: values.providerPaymentId,
+    status: values.status,
+    subscriptionAction: values.subscriptionAction,
+    to
+  });
 }
 
 async function activateSubscriptionFromPayment(tx, payment) {
@@ -360,6 +465,24 @@ export async function POST(request) {
       idempotent: Boolean(result?.idempotent),
       ignored: Boolean(result?.ignored)
     });
+
+    if (canSendOwnerNotification(result)) {
+      try {
+        await sendOwnerPaymentWebhookNotification({
+          providerPaymentId,
+          status: result?.status,
+          paymentId: result?.paymentId,
+          subscriptionAction: result?.subscriptionAction
+        });
+      } catch (notifyError) {
+        logPaymentEvent("subscription_webhook_owner_email_failed", {
+          paymentId: result?.paymentId || "",
+          providerPaymentId,
+          status: result?.status || "",
+          error: notifyError
+        });
+      }
+    }
 
     return json({
       ok: true,

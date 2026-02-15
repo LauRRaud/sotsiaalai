@@ -899,6 +899,13 @@
         "text": "Hello!\n\n{inviterName} sent you a new invite link for the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
         "html": "<p>Hello!</p><p>{inviterName} sent you a new invite link for the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
       }
+    },
+    "payment": {
+      "owner_webhook": {
+        "subject": "[SotsiaalAI] Payment webhook: {status} ({providerPaymentId})",
+        "text": "Payment webhook was processed.\n\nStatus: {status}\nProvider payment ID: {providerPaymentId}\nPayment ID: {paymentId}\nAmount: {amount} {currency}\nPaid at: {paidAt}\nCreated at: {createdAt}\nUser email: {userEmail}\nUser ID: {userId}\nSubscription ID: {subscriptionId}\nSubscription plan: {subscriptionPlan}\nSubscription status: {subscriptionStatus}\nSubscription valid until: {subscriptionValidUntil}\nSubscription canceled at: {subscriptionCanceledAt}\nSubscription action: {subscriptionAction}\nEvent time: {eventTime}\n\nAdmin analytics: {adminUrl}",
+        "html": "<p>Payment webhook was processed.</p><ul><li><strong>Status:</strong> {status}</li><li><strong>Provider payment ID:</strong> {providerPaymentId}</li><li><strong>Payment ID:</strong> {paymentId}</li><li><strong>Amount:</strong> {amount} {currency}</li><li><strong>Paid at:</strong> {paidAt}</li><li><strong>Created at:</strong> {createdAt}</li><li><strong>User email:</strong> {userEmail}</li><li><strong>User ID:</strong> {userId}</li><li><strong>Subscription ID:</strong> {subscriptionId}</li><li><strong>Subscription plan:</strong> {subscriptionPlan}</li><li><strong>Subscription status:</strong> {subscriptionStatus}</li><li><strong>Subscription valid until:</strong> {subscriptionValidUntil}</li><li><strong>Subscription canceled at:</strong> {subscriptionCanceledAt}</li><li><strong>Subscription action:</strong> {subscriptionAction}</li><li><strong>Event time:</strong> {eventTime}</li></ul><p><a href=\"{adminUrl}\">Open admin analytics</a></p>"
+      }
     }
   },
   "api": {
@@ -1122,6 +1129,9 @@
         "subscription_callback_redirect": "Subscription callback redirect",
         "subscription_webhook_processed": "Subscription webhook processed",
         "subscription_webhook_failed": "Subscription webhook failed",
+        "subscription_webhook_owner_email_sent": "Subscription webhook owner email sent",
+        "subscription_webhook_owner_email_failed": "Subscription webhook owner email failed",
+        "subscription_webhook_owner_email_skipped": "Subscription webhook owner email skipped",
         "payment_alert_dispatch_dry_run": "Payment alert dispatch dry run",
         "payment_alert_dispatched": "Payment alert dispatched",
         "payment_alert_dispatch_failed": "Payment alert dispatch failed"

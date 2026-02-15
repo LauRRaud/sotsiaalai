@@ -35,6 +35,7 @@ Behavior today:
 11. Critical payment alerts can be externally dispatched via `POST /api/admin/analytics/payment-alerts/dispatch`.
 12. Payment alert dispatch supports secure webhook signatures and dry-run mode for rollout validation.
 13. Scheduler automation is configured via GitHub Actions (`.github/workflows/payment-alert-dispatch.yml`).
+14. Webhook status changes now trigger owner email notifications (default recipient `info@sotsiaal.ai`, configurable).
 
 ## Remaining Launch Risks
 
@@ -118,6 +119,9 @@ Current rule:
 
 - Verify callback/webhook signature with server-side secret.
 - Production safety: unsigned webhook processing is blocked by default in production. Temporary bypass is possible via `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1` (not recommended for launch).
+- Owner webhook mail settings:
+  - `PAYMENT_OWNER_EMAIL` (default `info@sotsiaal.ai`)
+  - `PAYMENT_OWNER_EMAIL_LOCALE` (`en|et|ru`, default `en`)
 - Add endpoint-level rate limits for new payment routes.
 - Structured logs for payment lifecycle events are now enabled (`PAYMENT_LOG_ENABLED`).
 - DB-backed payment event logging for analytics is enabled by default (`PAYMENT_DB_LOG_ENABLED`).

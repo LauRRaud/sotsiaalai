@@ -57,6 +57,9 @@ const EVENT_OPTIONS = [
   { value: "subscription_callback_redirect", labelKey: "admin.analytics.events.subscription_callback_redirect" },
   { value: "subscription_webhook_processed", labelKey: "admin.analytics.events.subscription_webhook_processed" },
   { value: "subscription_webhook_failed", labelKey: "admin.analytics.events.subscription_webhook_failed" },
+  { value: "subscription_webhook_owner_email_sent", labelKey: "admin.analytics.events.subscription_webhook_owner_email_sent" },
+  { value: "subscription_webhook_owner_email_failed", labelKey: "admin.analytics.events.subscription_webhook_owner_email_failed" },
+  { value: "subscription_webhook_owner_email_skipped", labelKey: "admin.analytics.events.subscription_webhook_owner_email_skipped" },
   { value: "payment_alert_dispatch_dry_run", labelKey: "admin.analytics.events.payment_alert_dispatch_dry_run" },
   { value: "payment_alert_dispatched", labelKey: "admin.analytics.events.payment_alert_dispatched" },
   { value: "payment_alert_dispatch_failed", labelKey: "admin.analytics.events.payment_alert_dispatch_failed" }

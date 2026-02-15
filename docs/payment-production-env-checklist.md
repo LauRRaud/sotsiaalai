@@ -21,6 +21,8 @@ Recommended:
 - `MAKSEKESKUS_TIMEOUT_MS` - provider request timeout override (default is code-level fallback)
 - `MAKSEKESKUS_CHECKOUT_URL_TEMPLATE` - only if your provider contract requires templated checkout URL
 - `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1` - temporary override for non-production testing only (production should keep this unset)
+- `PAYMENT_OWNER_EMAIL` - owner notification recipient for webhook status emails (default: `info@sotsiaal.ai`)
+- `PAYMENT_OWNER_EMAIL_LOCALE` - locale for owner webhook email template (`en|et|ru`, default `en`)
 
 ## Subscription Webhook Policy (owner decision)
 

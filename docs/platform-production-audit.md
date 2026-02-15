@@ -428,6 +428,22 @@ Encoding fixes applied (BOM removed):
   - added owner-facing env decision checklist (`docs/payment-production-env-checklist.md`)
 - Status: `MONITOR`
 
+### Payment owner notification pass
+- Scope: `app/api/subscription/webhook/route.js`, `messages/*`, `components/admin/AnalyticsDashboard.jsx`, `docs/payment-maksekeskus-readiness.md`, `docs/payment-production-env-checklist.md`
+- Good:
+  - webhook status updates now emit owner-targeted email notifications for changed payment states
+  - owner recipient defaults to `info@sotsiaal.ai` and can be overridden with `PAYMENT_OWNER_EMAIL`
+  - notification failures are non-blocking for webhook processing and are logged for monitoring
+  - admin analytics event filter now includes owner-email send/fail/skip events
+- Risk:
+  - reliable delivery depends on SMTP configuration (`EMAIL_FROM`/SMTP transport envs)
+  - locale text for new owner-email templates is currently functional and aligned, but ET/RU copy can be refined later
+- Action:
+  - added `email.payment.owner_webhook.*` templates in all locale catalogs
+  - added owner-notification env notes to payment docs
+  - added telemetry events: `subscription_webhook_owner_email_sent|failed|skipped`
+- Status: `MONITOR`
+
 ## Open Items Queue (next passes)
 
 1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks

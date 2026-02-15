@@ -70,7 +70,7 @@ Review status legend:
 | `app/api/subscription/route.js` | MONITOR | reviewed: read/cancel path stable; direct POST activation is disabled by default (`SUBSCRIPTION_ALLOW_DIRECT_ACTIVATION` override only) |
 | `app/api/subscription/init/route.js` | MONITOR | reviewed: authenticated payment init creates `Payment(INITIATED)` and returns checkout URL; emits structured lifecycle logs |
 | `app/api/subscription/callback/route.js` | MONITOR | reviewed: provider return redirect maps callback status to localized `/tellimus` state; callback event logging is enabled |
-| `app/api/subscription/webhook/route.js` | MONITOR | reviewed: signature-check + idempotent payment status updates + subscription activation on `PAID`; side-effects for `REFUNDED/CANCELED/FAILED` are explicit policy envs; production blocks unsigned webhooks unless `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1`; structured webhook event logs enabled |
+| `app/api/subscription/webhook/route.js` | MONITOR | reviewed: signature-check + idempotent payment status updates + subscription activation on `PAID`; side-effects for `REFUNDED/CANCELED/FAILED` are explicit policy envs; production blocks unsigned webhooks unless `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1`; structured webhook event logs + owner email notifications enabled (`PAYMENT_OWNER_EMAIL`) |
 | `app/api/tts/route.js` | MONITOR | - |
 | `app/api/verify-email/route.js` | MONITOR | reviewed: link verification GET + resend POST, token lifecycle cleanup, localized messageKey errors |
 

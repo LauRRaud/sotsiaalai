@@ -36,9 +36,11 @@ export default function OrbitalMenu({
   const rootRef = useRef(null);
   const hubBtnRef = useRef(null);
   const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
+  const isNarrowViewport = useMatchMedia("(max-width: 48em)", false);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
-  const useMobileOverlay = isCoarsePointer && mobileVariant === "list";
-  const useMobileStack = isCoarsePointer && mobileVariant === "stack";
+  const useMobileViewport = isCoarsePointer || isNarrowViewport;
+  const useMobileOverlay = useMobileViewport && mobileVariant === "list";
+  const useMobileStack = useMobileViewport && mobileVariant === "stack";
   const useMobileDialog = useMobileOverlay || useMobileStack;
   const useOrbitLayout = !useMobileDialog;
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
@@ -583,7 +585,7 @@ export default function OrbitalMenu({
                   </span>
                 </button>
                 <span className={cn(
-            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out max-[640px]:!opacity-100 max-[640px]:!left-1/2 max-[640px]:!bottom-[0.8rem] max-[640px]:!right-auto max-[640px]:!top-auto max-[640px]:!translate-x-1/2 max-[640px]:!translate-y-0 max-[640px]:!w-[calc(var(--orbit-item-size)-0.9rem)] max-[640px]:!max-w-none max-[640px]:!text-[clamp(0.72rem,2.8vw,0.9rem)] max-[640px]:!bg-transparent max-[640px]:!border-0 max-[640px]:!shadow-none max-[640px]:!p-0",
+            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out",
             labelPositionClass,
             labelWidthClass
           )}>{item.label}</span>
