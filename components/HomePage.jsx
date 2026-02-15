@@ -49,6 +49,8 @@ export default function HomePage() {
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showHomeBottomSections, setShowHomeBottomSections] = useState(() => initialSkipIntro);
+  const [homeBottomVisible, setHomeBottomVisible] = useState(() => initialSkipIntro);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
@@ -188,7 +190,7 @@ export default function HomePage() {
   }, []);
   const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
   const introPending = !introStart && !skipIntroAnimations;
-  const showHomeBottomSections = !isLoginOpen && !introPending;
+  const cardsIntroDone = leftFadeDone && rightFadeDone;
   const scrollCueReady = leftFadeDone && rightFadeDone;
   const showScrollCueNow =
     (isMobile ? scrollCueReady : showScrollCue && scrollCueEntered) &&
@@ -218,6 +220,24 @@ export default function HomePage() {
       if (timer) window.clearTimeout(timer);
     };
   }, [scrollCueReady]);
+  useEffect(() => {
+    const shouldShow = !isLoginOpen && cardsIntroDone;
+    if (!shouldShow) {
+      setShowHomeBottomSections(false);
+      setHomeBottomVisible(false);
+      return;
+    }
+    setShowHomeBottomSections(true);
+    if (prefs.reduceMotion) {
+      setHomeBottomVisible(true);
+      return;
+    }
+    let raf = 0;
+    raf = window.requestAnimationFrame(() => setHomeBottomVisible(true));
+    return () => {
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [cardsIntroDone, isLoginOpen, prefs.reduceMotion]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
@@ -495,8 +515,15 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        {showHomeBottomSections ? <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} /> : null}
-        {showHomeBottomSections ? <HomeFooter /> : null}
+        {showHomeBottomSections ? <div
+            className={cn(
+              "transition-[opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none",
+              homeBottomVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+            )}
+          >
+            <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
+            <HomeFooter />
+          </div> : null}
       </div>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} />

@@ -545,7 +545,9 @@ export default function ProfiilBody({
       console.error("profile logout", err);
       setError(t("profile.server_unreachable"));
     } finally {
-      setLoggingOut(false);
+      if (!logoutRedirectRef.current) {
+        setLoggingOut(false);
+      }
     }
   };
   useEffect(() => {
@@ -585,6 +587,11 @@ export default function ProfiilBody({
     })();
   }, [embedded, initialProfile, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
+    return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+        <h1 className={titleClassName}>{t("profile.title")}</h1>
+      </ProfileShell>;
+  }
+  if (logoutRedirectRef.current || loggingOut) {
     return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
       </ProfileShell>;

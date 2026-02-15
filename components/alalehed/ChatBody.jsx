@@ -70,6 +70,14 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-pad-bottom": "clamp(3.2rem, 7vh, 5rem)",
   "--chat-logo-height": "clamp(12rem, 32vw, 26rem)",
   "--chat-logo-y": "clamp(5.2rem, 23vh, 12.2rem)",
+  "--chat-mobile-back-top": "calc(env(safe-area-inset-top, 0px) + 0.56rem)",
+  "--chat-mobile-back-size": "4.4rem",
+  "--chat-mobile-show-size": "4.08rem",
+  "--chat-mobile-show-icon-size": "3.34rem",
+  "--chat-mobile-rail-size": "clamp(3.1rem, 10.2vw, 3.55rem)",
+  "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
+  "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
+  "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))",
   "--inputbar-h": "3.2rem"
 });
 
@@ -105,7 +113,7 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-mobile-back-size": "4.4rem",
   "--chat-mobile-show-size": "4.08rem",
   "--chat-mobile-show-icon-size": "3.34rem",
-  "--chat-mobile-rail-size": "clamp(2.78rem, 9.3vw, 3.18rem)",
+  "--chat-mobile-rail-size": "clamp(3.1rem, 10.2vw, 3.55rem)",
   "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
   "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
   "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))"
@@ -890,7 +898,7 @@ export default function ChatBody({
               }}
                         disabled={mobileRailInteractionLocked}
                         aria-label={t("chat.show_quick_actions")}
-                        className="chat-rail-show-btn pointer-events-auto touch-manipulation absolute z-[221] top-[var(--chat-mobile-show-top)] left-[calc(env(safe-area-inset-left,0px)+0.04rem+var(--chat-mobile-back-size)+0.08rem)] h-[var(--chat-mobile-show-size)] w-[var(--chat-mobile-show-size)] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
+                        className="chat-rail-show-btn pointer-events-auto touch-manipulation absolute z-[221] top-[var(--chat-mobile-show-top)] left-[calc(env(safe-area-inset-left,0px)+0.04rem+var(--chat-mobile-back-size)+0.08rem)] h-[var(--chat-mobile-show-size)] w-[var(--chat-mobile-show-size)] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
                       >
                         <ShowRailIcon isLightTheme={isLightTheme} className="h-[var(--chat-mobile-show-icon-size)] w-[var(--chat-mobile-show-icon-size)]" />
                       </button> : null}

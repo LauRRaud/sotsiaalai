@@ -427,7 +427,7 @@
     -webkit-mask-image: none !important;
     mask-image: none !important;
     --rail-item-size: var(--chat-mobile-rail-size);
-    --rail-icon-scale: 0.84;
+    --rail-icon-scale: 0.9;
   }
 
   .item {
