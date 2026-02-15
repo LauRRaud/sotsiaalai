@@ -62,11 +62,17 @@
 }
 
 .a11y-csp-scroll.csp-container {
-  scroll-snap-type: none;
+  scroll-snap-type: y proximity;
   scroll-behavior: auto;
 }
 
 .a11y-csp-scroll.csp-container .csp-item {
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+}
+
+/* Keep smooth pause between settings, but avoid hard snap directly onto the Save CTA. */
+.a11y-csp-scroll.csp-container .a11y-save-step {
   scroll-snap-align: none;
   scroll-snap-stop: normal;
 }

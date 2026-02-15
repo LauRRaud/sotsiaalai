@@ -80,6 +80,13 @@ Encoding fixes applied (BOM removed):
 - Action: removed unnecessary hook dependency and replaced hardcoded `0` with dynamic key rendering
 - Status: `OK`
 
+### `components/alalehed/ChatBody.jsx` -> `components/alalehed/chat/ChatBodyView.jsx`
+- Scope: chat screen composition refactor (container logic vs presentational layout)
+- Good: render tree was extracted cleanly; behavior wiring remains explicit through props
+- Risk: large prop surface can become harder to maintain and easier to break in future edits
+- Action: keep as-is for now; consider grouping related props (rail, composer, analysis) into scoped objects in next cleanup pass
+- Status: `MONITOR`
+
 ### `package.json`
 - Scope: operational scripts for CI/local workflows
 - Good: separate scripts exist for build/lint/i18n/encoding checks

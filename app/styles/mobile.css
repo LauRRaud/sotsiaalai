@@ -1068,7 +1068,7 @@
   }
 
   .a11y-csp-scroll.csp-container {
-    scroll-snap-type: none !important;
+    scroll-snap-type: y proximity !important;
     overscroll-behavior-y: contain !important;
     overscroll-behavior-x: none !important;
     overflow-x: hidden !important;
@@ -1087,6 +1087,11 @@
   }
 
   .a11y-csp-scroll.csp-container .csp-item {
+    scroll-snap-align: center !important;
+    scroll-snap-stop: normal !important;
+  }
+
+  .a11y-csp-scroll.csp-container .a11y-save-step {
     scroll-snap-align: none !important;
     scroll-snap-stop: normal !important;
   }
