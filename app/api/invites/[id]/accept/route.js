@@ -1,96 +1,111 @@
-import { NextResponse } from "next/server";
 import crypto from "node:crypto";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_ACCEPT = 20;
 const SPONSORED_MEMBER_LIMIT = 50;
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
-function json(data, status = 200) {
-  return NextResponse.json(data, {
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: NO_STORE_HEADERS
   });
 }
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function fail(messageKey, status = 400, code = "") {
+  const error = new Error(messageKey);
+  error.status = status;
+  error.messageKey = messageKey;
+  error.code = code;
+  return error;
+}
+
+function localeFromRequest(request, directLocale) {
+  const direct = normalizeServerLocale(directLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+
+  return "en";
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    if (!session?.user?.id) return null;
+
     return {
-      ok: true,
       userId: session.user.id,
       role: session.user.role,
-      isAdmin: !!session.user.isAdmin,
+      isAdmin: Boolean(session.user.isAdmin),
       email: session.user.email
     };
   } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    return null;
   }
 }
+
 function hashToken(raw) {
   return crypto.createHash("sha256").update(raw).digest("base64");
 }
-const rateBuckets = new Map();
-function rateLimit(key, limit, windowMs) {
-  const now = Date.now();
-  const bucket = rateBuckets.get(key) || {
-    count: 0,
-    reset: now + windowMs
-  };
-  if (now > bucket.reset) {
-    bucket.count = 0;
-    bucket.reset = now + windowMs;
-  }
-  bucket.count += 1;
-  rateBuckets.set(key, bucket);
-  if (bucket.count > limit) throw fail(429, "invite.error.rate_limited");
-}
-async function hasActiveSubscriptionTx(trx, userId) {
+
+async function hasActiveSubscriptionTx(tx, userId) {
   if (!userId) return false;
   const now = new Date();
-  const sub = await trx.subscription.findFirst({
+  const sub = await tx.subscription.findFirst({
     where: {
       userId,
       status: "ACTIVE",
-      OR: [{
-        validUntil: null
-      }, {
-        validUntil: {
-          gt: now
-        }
-      }]
+      OR: [{ validUntil: null }, { validUntil: { gt: now } }]
     },
-    select: {
-      id: true
-    }
+    select: { id: true }
   });
   return Boolean(sub);
 }
-function fail(status, message, code) {
-  const err = new Error(message);
-  err.status = status;
-  err.messageKey = message;
-  err.code = code;
-  return err;
-}
-async function hasSponsorCapacity(trx, roomId) {
-  const count = await trx.roomMember.count({
+
+async function hasSponsorCapacity(tx, roomId) {
+  const count = await tx.roomMember.count({
     where: {
       roomId,
       billingSource: "SPONSORED_BY_HOST",
@@ -99,87 +114,139 @@ async function hasSponsorCapacity(trx, roomId) {
   });
   return count < SPONSORED_MEMBER_LIMIT;
 }
-export async function POST(req, {
-  params
-}) {
+
+export async function POST(request, { params }) {
   const tokenRaw = params?.id;
-  if (!tokenRaw) return json({
-    ok: false,
-    message: "Missing token"
-  }, 400);
-  let payload = null;
+
+  let payload = {};
   try {
-    payload = await req.json();
-  } catch {}
-  const rawDisplayName = typeof payload?.display_name === "string" ? payload.display_name : typeof payload?.displayName === "string" ? payload.displayName : "";
-  const displayName = rawDisplayName.trim() || null;
+    payload = await request.json();
+  } catch {
+    // empty payload is allowed
+  }
+
+  const locale = localeFromRequest(request, payload?.locale || payload?.lang);
+
+  if (!tokenRaw) {
+    return errorJson("api.invites.missing_token", 400, locale, {
+      code: "MISSING_TOKEN"
+    });
+  }
+
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
+  const ip = getRequestIpFromRequest(request);
+  const limit = consumeRateLimit(
+    `invites:accept:${auth.userId}:${ip}`,
+    RATE_LIMIT_ACCEPT,
+    RATE_LIMIT_WINDOW_MS
+  );
+  if (!limit.allowed) {
+    return errorJson("invite.error.rate_limited", 429, locale, {
+      code: "RATE_LIMITED"
+    });
+  }
+
+  const displayNameRaw =
+    typeof payload?.display_name === "string"
+      ? payload.display_name
+      : typeof payload?.displayName === "string"
+        ? payload.displayName
+        : "";
+  const displayName = displayNameRaw.trim().slice(0, 80) || null;
+
   const userEmailRow = await prisma.user.findUnique({
-    where: {
-      id: auth.userId
-    },
-    select: {
-      email: true
-    }
+    where: { id: auth.userId },
+    select: { email: true }
   });
-  const userEmail = (auth.email || userEmailRow?.email || "").trim().toLowerCase();
+  const userEmail = String(auth.email || userEmailRow?.email || "")
+    .trim()
+    .toLowerCase();
+
   const tokenHash = hashToken(tokenRaw);
+
   try {
-    rateLimit(`invites:accept:${auth.userId}`, RATE_LIMIT_ACCEPT, RATE_LIMIT_WINDOW_MS);
-    const result = await prisma.$transaction(async trx => {
-      await trx.$queryRaw`SELECT 1 FROM "Invite" WHERE "tokenHash" = ${tokenHash} FOR UPDATE`;
-      const invite = await trx.invite.findUnique({
-        where: {
-          tokenHash
-        },
-        include: {
-          room: true
-        }
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`
+        SELECT 1 FROM "Invite"
+        WHERE "tokenHash" = ${tokenHash}
+        FOR UPDATE
+      `;
+
+      const invite = await tx.invite.findUnique({
+        where: { tokenHash },
+        include: { room: true }
       });
-      if (!invite) throw fail(404, "Invite not found", "INVITE_NOT_FOUND");
+
+      if (!invite) {
+        throw fail("api.invites.invite_not_found", 404, "INVITE_NOT_FOUND");
+      }
+
       const now = new Date();
       if (invite.status !== "SENT" || invite.expiresAt <= now) {
-        throw fail(410, "Invite expired", "INVITE_EXPIRED");
+        throw fail("api.invites.invite_expired", 410, "INVITE_EXPIRED");
       }
+
       if (invite.useCount >= invite.maxUses) {
-        throw fail(410, "Invite already used", "INVITE_EXHAUSTED");
+        throw fail("api.invites.invite_used", 410, "INVITE_EXHAUSTED");
       }
+
       if (invite.inviteeEmail) {
         const inviteEmail = invite.inviteeEmail.trim().toLowerCase();
         if (!userEmail || inviteEmail !== userEmail) {
-          throw fail(403, "Invite email mismatch", "INVITE_EMAIL_MISMATCH");
+          throw fail("api.invites.invite_email_mismatch", 403, "INVITE_EMAIL_MISMATCH");
         }
       }
-      const userActive = auth.role === "ADMIN" ? true : await hasActiveSubscriptionTx(trx, auth.userId);
+
+      const userActive =
+        auth.role === "ADMIN" ? true : await hasActiveSubscriptionTx(tx, auth.userId);
+
       let billingSource = "SELF";
       let sponsorUserId = null;
       let sponsorOrgId = null;
+
       if (!userActive) {
         if (invite.paymentMode === "SELF_PAID") {
-          throw fail(402, "Subscription required", "SUBSCRIPTION_REQUIRED");
+          throw fail(
+            "api.invites.subscription_required",
+            402,
+            "SUBSCRIPTION_REQUIRED"
+          );
         }
+
         if (invite.paymentMode === "SPONSORED_BY_HOST") {
           const sponsorId = invite.sponsoredByUserId || invite.room?.ownerId;
+
           if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
-            const sponsorOk = await hasActiveSubscriptionTx(trx, sponsorId);
+            const sponsorOk = await hasActiveSubscriptionTx(tx, sponsorId);
             if (!sponsorOk) {
-              throw fail(409, "Sponsor plan unavailable", "SPONSOR_NOT_AVAILABLE");
+              throw fail(
+                "invite.error.sponsor_plan_unavailable",
+                409,
+                "SPONSOR_NOT_AVAILABLE"
+              );
             }
           }
-          const capacity = await hasSponsorCapacity(trx, invite.roomId);
+
+          const capacity = await hasSponsorCapacity(tx, invite.roomId);
           if (!capacity) {
-            throw fail(409, "Sponsor capacity full", "SPONSOR_NOT_AVAILABLE");
+            throw fail(
+              "invite.error.sponsor_capacity_full",
+              409,
+              "SPONSOR_CAPACITY_FULL"
+            );
           }
+
           billingSource = "SPONSORED_BY_HOST";
           sponsorUserId = sponsorId;
           sponsorOrgId = invite.sponsoredByOrgId || null;
         }
       }
-      await trx.roomMember.upsert({
+
+      await tx.roomMember.upsert({
         where: {
           roomId_userId: {
             roomId: invite.roomId,
@@ -201,43 +268,44 @@ export async function POST(req, {
           billingSource,
           sponsorUserId,
           sponsorOrgId,
-          ...(displayName ? {
-            displayName
-          } : {})
+          ...(displayName ? { displayName } : {})
         }
       });
-      const newUse = invite.useCount + 1;
-      await trx.invite.update({
-        where: {
-          id: invite.id
-        },
+
+      const nextUseCount = invite.useCount + 1;
+      await tx.invite.update({
+        where: { id: invite.id },
         data: {
-          useCount: newUse,
-          status: newUse >= invite.maxUses ? "ACCEPTED" : "SENT",
+          useCount: nextUseCount,
+          status: nextUseCount >= invite.maxUses ? "ACCEPTED" : "SENT",
           acceptedBillingSource: billingSource,
           acceptedByUserId: auth.userId
         }
       });
+
       return {
         ok: true,
         roomId: invite.roomId,
         billing_source: billingSource
       };
     });
+
     return json(result, 200);
-  } catch (err) {
-    if (err?.status) {
-      return json({
-        ok: false,
-        messageKey: err.messageKey || err.message,
-        message: err.message,
-        code: err.code
-      }, err.status);
+  } catch (error) {
+    if (error?.status) {
+      return errorJson(
+        error.messageKey || "api.invites.accept_failed",
+        error.status,
+        locale,
+        {
+          code: error.code
+        }
+      );
     }
-    console.error("[invite accept] failed", err);
-    return json({
-      ok: false,
-      message: "Invite accept failed"
-    }, 500);
+
+    console.error("[invite accept] failed", error);
+    return errorJson("api.invites.accept_failed", 500, locale, {
+      code: "INVITE_ACCEPT_FAILED"
+    });
   }
 }

@@ -1,67 +1,114 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { prisma } from "@/lib/prisma";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-function json(data, status = 200) {
-  return NextResponse.json(data, {
+
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_REVOKE = 30;
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: NO_STORE_HEADERS
   });
 }
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function localeFromRequest(request, directLocale) {
+  const direct = normalizeServerLocale(directLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+
+  return "en";
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    if (!session?.user?.id) return null;
+
     return {
-      ok: true,
-      userId: session.user.id,
-      role: session.user.role
+      userId: session.user.id
     };
   } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    return null;
   }
 }
-export async function POST(_req, {
-  params
-}) {
+
+export async function POST(request, { params }) {
+  const locale = localeFromRequest(request);
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   const id = params?.id;
-  if (!id) return json({
-    ok: false,
-    message: "Missing id"
-  }, 400);
+  if (!id) {
+    return errorJson("api.invites.missing_id", 400, locale, {
+      code: "MISSING_ID"
+    });
+  }
+
+  const ip = getRequestIpFromRequest(request);
+  const limit = consumeRateLimit(
+    `invites:revoke:${auth.userId}:${ip}`,
+    RATE_LIMIT_REVOKE,
+    RATE_LIMIT_WINDOW_MS
+  );
+  if (!limit.allowed) {
+    return errorJson("invite.error.rate_limited", 429, locale, {
+      code: "RATE_LIMITED"
+    });
+  }
+
   try {
     const invite = await prisma.invite.findUnique({
-      where: {
-        id
-      },
-      include: {
-        room: true
-      }
+      where: { id },
+      include: { room: true }
     });
-    if (!invite) return json({
-      ok: false,
-      message: "Invite not found"
-    }, 404);
+
+    if (!invite) {
+      return errorJson("api.invites.invite_not_found", 404, locale, {
+        code: "INVITE_NOT_FOUND"
+      });
+    }
+
     const membership = await prisma.roomMember.findFirst({
       where: {
         roomId: invite.roomId,
@@ -69,30 +116,27 @@ export async function POST(_req, {
         leftAt: null
       }
     });
+
     if (!(invite.room.ownerId === auth.userId || ["OWNER", "MODERATOR"].includes(membership?.role))) {
-      return json({
-        ok: false,
-        message: "Forbidden"
-      }, 403);
+      return errorJson("api.common.forbidden", 403, locale, {
+        code: "FORBIDDEN"
+      });
     }
+
     await prisma.invite.update({
-      where: {
-        id
-      },
-      data: {
-        status: "REVOKED"
-      }
+      where: { id },
+      data: { status: "REVOKED" }
     });
+
     return json({
       ok: true,
       id,
       status: "REVOKED"
     });
-  } catch (err) {
-    console.error("[invite revoke] failed", err);
-    return json({
-      ok: false,
-      message: "Revoke failed"
-    }, 500);
+  } catch (error) {
+    console.error("[invite revoke] failed", error);
+    return errorJson("api.invites.revoke_failed", 500, locale, {
+      code: "INVITE_REVOKE_FAILED"
+    });
   }
 }

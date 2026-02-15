@@ -872,6 +872,18 @@
         "text": "Hello!\n\nPlease confirm your email address using the link below:\n{verifyUrl}\n\nIf you did not create an account, you can ignore this email.",
         "html": "<p>Hello!</p><p>Please confirm your email address using the link below:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>If you did not create an account, you can ignore this email.</p>"
       }
+    },
+    "invite": {
+      "create": {
+        "subject": "Invitation: {roomTitle}",
+        "text": "Hello!\n\n{inviterName} invited you to the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
+        "html": "<p>Hello!</p><p>{inviterName} invited you to the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
+      },
+      "resend": {
+        "subject": "Invitation reminder: {roomTitle}",
+        "text": "Hello!\n\n{inviterName} sent you a new invite link for the room \"{roomTitle}\".\n\nJoin: {joinLink}\n\nIf you did not expect this email, you can ignore it.",
+        "html": "<p>Hello!</p><p>{inviterName} sent you a new invite link for the room <strong>{roomTitle}</strong>.</p><p><a href=\"{joinLink}\">Join the room</a></p><p>If you did not expect this email, you can ignore it.</p>"
+      }
     }
   },
   "api": {
@@ -881,7 +893,8 @@
       "invalid_request": "Invalid request.",
       "invalid_json": "Invalid JSON payload.",
       "missing_room_id": "Room ID is missing.",
-      "rate_limited": "Too many requests. Please try again later."
+      "rate_limited": "Too many requests. Please try again later.",
+      "subscription_required": "An active subscription is required."
     },
     "chat": {
       "invalid_conv_id": "Invalid conversation ID.",
@@ -995,6 +1008,47 @@
       "load_failed": "Failed to load subscription.",
       "activate_failed": "Failed to activate subscription.",
       "cancel_failed": "Failed to cancel subscription."
+    },
+    "invites": {
+      "email_from_missing": "Sender email is not configured.",
+      "load_failed": "Failed to load invites.",
+      "create_failed": "Failed to create invites.",
+      "missing_id": "Invite ID is missing.",
+      "missing_token": "Invite token is missing.",
+      "invite_not_found": "Invite not found.",
+      "invite_expired": "Invite has expired.",
+      "invite_used": "Invite has already been used.",
+      "invite_email_mismatch": "This invite is for a different email address.",
+      "only_pending_resend": "Only pending invites can be resent.",
+      "subscription_required": "Subscription is required to join this room.",
+      "accept_failed": "Failed to accept invite.",
+      "resend_failed": "Failed to resend invite.",
+      "revoke_failed": "Failed to revoke invite."
+    },
+    "admin": {
+      "analytics": {
+        "events_load_failed": "Failed to load analytics events.",
+        "summary_load_failed": "Failed to load analytics summary."
+      }
+    },
+    "rag": {
+      "rate_limited": "Too many RAG requests. Please try again later.",
+      "service_key_missing": "RAG service API key is not configured.",
+      "external_host_not_allowed": "External RAG host is not allowed.",
+      "proxy_timeout": "RAG proxy request timed out.",
+      "proxy_error": "RAG proxy request failed.",
+      "selftest": {
+        "step_connection": "Checking RAG connection",
+        "step_search": "Running RAG search",
+        "step_openai": "Checking OpenAI response",
+        "step_ok": "OK",
+        "sample_query": "hello",
+        "openai_prompt": "Reply briefly: OK",
+        "openai_key_missing": "OPENAI_API_KEY is not configured.",
+        "openai_empty_response": "OpenAI did not return a response.",
+        "backend_error": "RAG service returned an error.",
+        "unknown_error": "Unknown error."
+      }
     }
   }
 }

@@ -194,10 +194,10 @@ export function SourcesIcon({ isLightTheme = false, className, ...props }) {
 }
 
 export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
-  const stroke = resolveThemeColor(isLightTheme);
+  const color = resolveThemeColor(isLightTheme);
   return (
     <svg
-      viewBox="0 0 9.6 8.6"
+      viewBox="0 0 21.17 17.8"
       fill="none"
       aria-hidden="true"
       focusable="false"
@@ -205,22 +205,30 @@ export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
       {...props}
     >
       <path
-        d="M0.6 0.6L4.2 4.3L0.6 8"
+        d="M7.5 16.7L1.1 8.9L7.5 1.1"
         fill="none"
-        stroke={stroke}
-        strokeWidth="0.9"
+        stroke={color}
+        strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        opacity="0.9"
       />
       <path
-        d="M5.4 0.6L9 4.3L5.4 8"
-        fill="none"
-        stroke={stroke}
-        strokeWidth="0.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.9"
+        d="M10.32 1.89C10.32 1.34 10.67 0.89 11.09 0.89H20.39C20.82 0.89 21.16 1.34 21.16 1.89C21.16 2.44 20.82 2.89 20.39 2.89H11.09C10.67 2.89 10.32 2.44 10.32 1.89Z"
+        fill={color}
+        fillRule="evenodd"
+        clipRule="evenodd"
+      />
+      <path
+        d="M7.95 8.89C7.95 8.34 8.19 7.89 8.49 7.89H18.25C18.55 7.89 18.79 8.34 18.79 8.89C18.79 9.44 18.55 9.89 18.25 9.89H8.49C8.19 9.89 7.95 9.44 7.95 8.89Z"
+        fill={color}
+        fillRule="evenodd"
+        clipRule="evenodd"
+      />
+      <path
+        d="M10.32 15.89C10.32 15.34 10.67 14.89 11.09 14.89H20.39C20.82 14.89 21.16 15.34 21.16 15.89C21.16 16.44 20.82 16.89 20.39 16.89H11.09C10.67 16.89 10.32 16.44 10.32 15.89Z"
+        fill={color}
+        fillRule="evenodd"
+        clipRule="evenodd"
       />
     </svg>
   );

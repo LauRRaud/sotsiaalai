@@ -16,8 +16,8 @@ Review status legend:
 | Route | File | Status | Notes |
 | --- | --- | --- | --- |
 | `/` | `app/page.js` | PENDING | - |
-| `/admin/analytics` | `app/admin/analytics/page.jsx` | PENDING | - |
-| `/admin/rag` | `app/admin/rag/page.jsx` | PENDING | - |
+| `/admin/analytics` | `app/admin/analytics/page.jsx` | MONITOR | reviewed: session+admin guard and no-store render shell; admin client still has hardcoded copy |
+| `/admin/rag` | `app/admin/rag/page.jsx` | MONITOR | reviewed: session+admin guard and RAG shell; route still includes hardcoded copy/lang lock |
 | `/join` | `app/join/page.jsx` | PENDING | - |
 | `/kasutusjuhend` | `app/kasutusjuhend/page.jsx` | PENDING | - |
 | `/kasutustingimused` | `app/kasutustingimused/page.js` | PENDING | - |
@@ -36,8 +36,8 @@ Review status legend:
 ## API Routes
 | File | Status | Notes |
 | --- | --- | --- |
-| `app/api/admin/analytics/events/route.js` | PENDING | - |
-| `app/api/admin/analytics/summary/route.js` | PENDING | - |
+| `app/api/admin/analytics/events/route.js` | MONITOR | reviewed: admin-gated event log listing, locale-aware key-first errors, guarded DB failure response |
+| `app/api/admin/analytics/summary/route.js` | MONITOR | reviewed: admin-gated KPI aggregates, locale-aware key-first errors, guarded DB failure response |
 | `app/api/auth/login-resend-otp/route.js` | MONITOR | - |
 | `app/api/auth/login-step1/route.js` | MONITOR | - |
 | `app/api/auth/login-step2/route.js` | MONITOR | - |
@@ -49,13 +49,13 @@ Review status legend:
 | `app/api/chat/conversations/route.js` | MONITOR | - |
 | `app/api/chat/route.js` | MONITOR | - |
 | `app/api/chat/run/route.js` | MONITOR | - |
-| `app/api/invites/[id]/accept/route.js` | PENDING | - |
-| `app/api/invites/[id]/resend/route.js` | PENDING | - |
-| `app/api/invites/[id]/revoke/route.js` | PENDING | - |
-| `app/api/invites/route.js` | PENDING | - |
+| `app/api/invites/[id]/accept/route.js` | MONITOR | reviewed: token accept flow, billing/sponsorship gating, room member upsert, localized key-based failures |
+| `app/api/invites/[id]/resend/route.js` | MONITOR | reviewed: moderator/owner access, token rotation resend, localized key-based failures |
+| `app/api/invites/[id]/revoke/route.js` | MONITOR | reviewed: moderator/owner revoke access, localized key-based failures |
+| `app/api/invites/route.js` | MONITOR | reviewed: invite list/create, room bootstrap path, sponsorship checks, i18n email template usage |
 | `app/api/profile/route.js` | MONITOR | reviewed: profile read/update/delete, current PIN verification path, email-verify dispatch via i18n templates |
-| `app/api/rag/[...path]/route.js` | PENDING | - |
-| `app/api/rag/selftest/route.js` | PENDING | - |
+| `app/api/rag/[...path]/route.js` | MONITOR | reviewed: proxy now admin-only, locale-aware key-first preflight errors, rate-limit + timeout/error guards |
+| `app/api/rag/selftest/route.js` | MONITOR | reviewed: admin self-test flow (RAG list/search + OpenAI check), locale-aware step labels/errors |
 | `app/api/register/route.js` | MONITOR | reviewed: rate-limited registration, PIN/email validation, verify-token + email dispatch via i18n keys |
 | `app/api/rooms/[roomId]/leave/route.js` | MONITOR | - |
 | `app/api/rooms/[roomId]/members/route.js` | MONITOR | - |
@@ -75,8 +75,10 @@ Review status legend:
 - Auth reset and OTP stack: `app/api/auth/password/reset/route.js`, `app/api/auth/login-step1/route.js`, `app/api/auth/login-step2/route.js`, `app/api/auth/login-resend-otp/route.js`
 - Registration and email verification: `app/api/register/route.js`, `app/api/verify-email/route.js`
 - Account and billing core: `app/api/profile/route.js`, `app/api/subscription/route.js`
+- Invites stack: `app/api/invites/route.js`, `app/api/invites/[id]/accept/route.js`, `app/api/invites/[id]/resend/route.js`, `app/api/invites/[id]/revoke/route.js`
+- Admin and RAG ops APIs: `app/api/admin/analytics/events/route.js`, `app/api/admin/analytics/summary/route.js`, `app/api/rag/[...path]/route.js`, `app/api/rag/selftest/route.js`
+- Admin route shells: `app/admin/analytics/page.jsx`, `app/admin/rag/page.jsx`
 - Chat frontend integration: `components/alalehed/ChatBody.jsx`, `components/alalehed/chat/ChatBodyView.jsx`, `components/chat/hooks/*`, `components/ChatSidebar.jsx`, `components/LoginModal.jsx`
 
 ## Next Review Order
-1. `app/api/invites/*`
-2. `app/api/admin/*` and `app/api/rag/*`
+1. `app/admin/*` pages + clients (`AdminAnalyticsClient`, `AnalyticsDashboard`, `RagAdminClient`, `RagAdminPanel`)

@@ -1,47 +1,83 @@
-import { NextResponse } from "next/server";
 import crypto from "node:crypto";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { prisma } from "@/lib/prisma";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-function json(data, status = 200) {
-  return NextResponse.json(data, {
+
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_RESEND = 20;
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: NO_STORE_HEADERS
   });
 }
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function localeFromRequest(request, directLocale) {
+  const direct = normalizeServerLocale(directLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
+  }
+
+  return "en";
+}
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    if (!session?.user?.id) return null;
+
     return {
-      ok: true,
       userId: session.user.id,
-      role: session.user.role,
       email: session.user.email
     };
   } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    return null;
   }
 }
+
 function hashToken(raw) {
   return crypto.createHash("sha256").update(raw).digest("base64");
 }
+
 function randomToken() {
   const raw = crypto.randomBytes(48).toString("base64url");
   return {
@@ -49,122 +85,89 @@ function randomToken() {
     hash: hashToken(raw)
   };
 }
+
 function buildJoinLink(token) {
   const base = resolveBaseUrl() || "http://localhost:3000";
   return `${base.replace(/\/+$/, "")}/join?token=${encodeURIComponent(token)}`;
 }
-function renderInviteEmail(lang, {
-  to,
-  token,
-  roomTitle = "Chat room",
-  inviterName = "SotsiaalAI"
-}) {
+
+async function sendInviteEmail({ to, token, roomTitle, inviterName, locale }) {
+  const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+  if (!from) {
+    throw new Error("api.invites.email_from_missing");
+  }
+
+  const joinLink = buildJoinLink(token);
   const mailer = getMailer("invite-resend");
-  const link = buildJoinLink(token);
-  const translations = {
-    et: {
-      subject: `Invitation: ${roomTitle}`,
-      text: `Hi ${to},
 
-${inviterName} invited you to the chat room "${roomTitle}".
-
-Join: ${link}
-
-If the link does not work, copy and paste it into your browser.
-If you did not expect this email, you can ignore it.`,
-      html: `<p>Hi ${to},</p><p>${inviterName} invited you to the chat room <b>${roomTitle}</b>.</p><p><a href="${link}">Join the chat</a></p><p>If the link does not work, copy and paste it into your browser.</p><p>If you did not expect this email, you can ignore it.</p>`
-    },
-    en: {
-      subject: `Invitation: ${roomTitle}`,
-      text: `Hi ${to},
-
-${inviterName} invited you to the chat room "${roomTitle}".
-
-Join: ${link}
-
-If the link does not work, copy and paste it into your browser.
-If you did not expect this email, you can ignore it.`,
-      html: `<p>Hi ${to},</p><p>${inviterName} invited you to the chat room <b>${roomTitle}</b>.</p><p><a href="${link}">Join the chat</a></p><p>If the link does not work, copy and paste it into your browser.</p><p>If you did not expect this email, you can ignore it.</p>`
-    },
-    ru: {
-      subject: `Приглашение: ${roomTitle}`,
-      text: `Здравствуйте, ${to}!
-
-${inviterName} пригласил вас в комнату чата «${roomTitle}».
-
-Присоединиться: ${link}
-
-Если ссылка не открывается, скопируйте и вставьте её в браузер.
-Если вы не ожидали это письмо, просто проигнорируйте его.`,
-      html: `<p>Здравствуйте, ${to}!</p><p>${inviterName} пригласил вас в комнату чата «<b>${roomTitle}</b>».</p><p><a href="${link}">Присоединиться к чату</a></p><p>Если ссылка не открывается, скопируйте и вставьте её в браузер.</p><p>Если вы не ожидали это письмо, просто проигнорируйте его.</p>`
-    }
-  };
-  const tpl = translations[lang] || translations.et;
-  return {
-    mailer,
-    subject: tpl.subject,
-    text: tpl.text,
-    html: tpl.html
-  };
-}
-async function sendInviteEmail({
-  to,
-  token,
-  roomTitle,
-  inviterName,
-  lang = "et"
-}) {
-  const {
-    mailer,
-    subject,
-    text,
-    html
-  } = renderInviteEmail(lang, {
-    to,
-    token,
-    roomTitle,
-    inviterName
-  });
   await mailer.sendMail({
     to,
-    from: process.env.EMAIL_FROM || "info@sotsiaal.ai",
-    subject,
-    text,
-    html
+    from,
+    subject: serverT(locale, "email.invite.resend.subject", { roomTitle }),
+    text: serverT(locale, "email.invite.resend.text", {
+      inviterName,
+      roomTitle,
+      joinLink
+    }),
+    html: serverT(locale, "email.invite.resend.html", {
+      inviterName,
+      roomTitle,
+      joinLink
+    })
   });
 }
-export async function POST(_req, {
-  params
-}) {
+
+export async function POST(request, { params }) {
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    // optional body
+  }
+
+  const locale = localeFromRequest(request, body?.locale || body?.lang);
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
   const id = params?.id;
-  if (!id) return json({
-    ok: false,
-    message: "Missing id"
-  }, 400);
+  if (!id) {
+    return errorJson("api.invites.missing_id", 400, locale, {
+      code: "MISSING_ID"
+    });
+  }
+
+  const ip = getRequestIpFromRequest(request);
+  const limit = consumeRateLimit(
+    `invites:resend:${auth.userId}:${ip}`,
+    RATE_LIMIT_RESEND,
+    RATE_LIMIT_WINDOW_MS
+  );
+  if (!limit.allowed) {
+    return errorJson("invite.error.rate_limited", 429, locale, {
+      code: "RATE_LIMITED"
+    });
+  }
+
   try {
     const invite = await prisma.invite.findUnique({
-      where: {
-        id
-      },
-      include: {
-        room: true
-      }
+      where: { id },
+      include: { room: true }
     });
-    if (!invite) return json({
-      ok: false,
-      message: "Invite not found"
-    }, 404);
-    if (invite.status !== "SENT") {
-      return json({
-        ok: false,
-        message: "Only pending invites can be resent"
-      }, 400);
+
+    if (!invite) {
+      return errorJson("api.invites.invite_not_found", 404, locale, {
+        code: "INVITE_NOT_FOUND"
+      });
     }
+
+    if (invite.status !== "SENT") {
+      return errorJson("api.invites.only_pending_resend", 400, locale, {
+        code: "ONLY_PENDING_RESEND"
+      });
+    }
+
     const membership = await prisma.roomMember.findFirst({
       where: {
         roomId: invite.roomId,
@@ -172,48 +175,54 @@ export async function POST(_req, {
         leftAt: null
       }
     });
+
     if (!(invite.room.ownerId === auth.userId || ["OWNER", "MODERATOR"].includes(membership?.role))) {
-      return json({
-        ok: false,
-        message: "Forbidden"
-      }, 403);
+      return errorJson("api.common.forbidden", 403, locale, {
+        code: "FORBIDDEN"
+      });
     }
-    const now = new Date();
-    if (invite.expiresAt <= now) {
-      return json({
-        ok: false,
-        message: "Invite expired"
-      }, 410);
+
+    if (invite.expiresAt <= new Date()) {
+      return errorJson("api.invites.invite_expired", 410, locale, {
+        code: "INVITE_EXPIRED"
+      });
     }
-    const {
-      raw,
-      hash
-    } = randomToken();
+
+    const { raw, hash } = randomToken();
     await prisma.invite.update({
-      where: {
-        id
-      },
+      where: { id },
       data: {
         tokenHash: hash,
         status: "SENT"
       }
     });
+
     await sendInviteEmail({
       to: invite.inviteeEmail,
       token: raw,
-      roomTitle: invite.room?.title || "Chat room",
+      roomTitle: invite.room?.title || serverT(locale, "rooms.fallback_title", undefined, "Room"),
       inviterName: auth.email || "SotsiaalAI",
-      lang: "et"
+      locale
     });
+
     return json({
       ok: true,
       id
     });
-  } catch (err) {
-    console.error("[invite resend] failed", err);
-    return json({
-      ok: false,
-      message: "Resend failed"
-    }, 500);
+  } catch (error) {
+    console.error("[invite resend] failed", error);
+
+    if (
+      typeof error?.message === "string" &&
+      error.message.startsWith("api.invites.")
+    ) {
+      return errorJson(error.message, 500, locale, {
+        code: "INVITE_RESEND_CONFIG_ERROR"
+      });
+    }
+
+    return errorJson("api.invites.resend_failed", 500, locale, {
+      code: "INVITE_RESEND_FAILED"
+    });
   }
 }

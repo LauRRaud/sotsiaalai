@@ -52,7 +52,8 @@ export default function JoinPage() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          display_name: trimmedName
+          display_name: trimmedName,
+          locale
         })
       });
       const data = await res.json().catch(() => ({}));

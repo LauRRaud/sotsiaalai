@@ -114,7 +114,7 @@ export default function InviteModal() {
     setMessage("");
     const parsed = emailsParsed;
     if (!parsed.length) {
-      setError("");
+      setError(t("invite.error.emails_required"));
       return;
     }
     const trimmedRoomTitle = roomTitle.trim();
@@ -136,6 +136,7 @@ export default function InviteModal() {
         },
         body: JSON.stringify({
           emails: parsed,
+          lang: locale,
           payment_mode: paymentMode || undefined,
           room_id: roomId || undefined,
           room_title: trimmedRoomTitle || undefined,
@@ -166,7 +167,13 @@ export default function InviteModal() {
     try {
       const url = kind === "resend" ? `/api/invites/${id}/resend` : `/api/invites/${id}/revoke`;
       const res = await fetch(url, {
-        method: "POST"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          locale
+        })
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.ok === false) {

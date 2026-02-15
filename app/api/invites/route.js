@@ -1,73 +1,106 @@
-import { NextResponse } from "next/server";
 import crypto from "node:crypto";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
+import { prisma } from "@/lib/prisma";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_INVITES = 10;
 const SPONSORED_MEMBER_LIMIT = 50;
-const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
-function json(data, status = 200) {
-  return NextResponse.json(data, {
+const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION =
+  process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
+
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0"
+};
+
+function json(payload, status = 200) {
+  return NextResponse.json(payload, {
     status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-      Pragma: "no-cache",
-      Expires: "0"
-    }
+    headers: NO_STORE_HEADERS
   });
 }
-function fail(status, message) {
-  const err = new Error(message);
-  err.status = status;
-  err.messageKey = message;
-  return err;
+
+function ok(payload = {}, status = 200) {
+  return json(
+    {
+      ok: true,
+      ...payload
+    },
+    status
+  );
 }
-const rateBuckets = new Map();
-function rateLimit(key, limit, windowMs) {
-  const now = Date.now();
-  const bucket = rateBuckets.get(key) || {
-    count: 0,
-    reset: now + windowMs
-  };
-  if (now > bucket.reset) {
-    bucket.count = 0;
-    bucket.reset = now + windowMs;
+
+function errorJson(messageKey, status = 400, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
+  return json(
+    {
+      ok: false,
+      messageKey,
+      message: translated,
+      error: translated,
+      ...extras
+    },
+    status
+  );
+}
+
+function fail(messageKey, status = 400, code = "") {
+  const error = new Error(messageKey);
+  error.status = status;
+  error.messageKey = messageKey;
+  error.code = code;
+  return error;
+}
+
+function localeFromRequest(request, directLocale) {
+  const direct = normalizeServerLocale(directLocale);
+  if (direct) return direct;
+
+  const raw = String(request?.headers?.get("accept-language") || "");
+  const parts = raw
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+
+  for (const part of parts) {
+    const normalized = normalizeServerLocale(part);
+    if (normalized) return normalized;
   }
-  bucket.count += 1;
-  rateBuckets.set(key, bucket);
-  if (bucket.count > limit) throw fail(429, "invite.error.rate_limited");
+
+  return "en";
 }
+
 async function requireUser() {
   try {
     const session = await getServerSession(authConfig);
-    if (!session?.user?.id) return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    if (!session?.user?.id) return null;
+
     return {
-      ok: true,
       userId: session.user.id,
       role: session.user.role,
-      isAdmin: !!session.user.isAdmin,
+      isAdmin: Boolean(session.user.isAdmin),
       email: session.user.email
     };
   } catch {
-    return {
-      ok: false,
-      status: 401,
-      message: "Unauthorized"
-    };
+    return null;
   }
 }
+
 function hashToken(raw) {
   return crypto.createHash("sha256").update(raw).digest("base64");
 }
+
 function randomToken() {
   const raw = crypto.randomBytes(48).toString("base64url");
   return {
@@ -75,85 +108,44 @@ function randomToken() {
     hash: hashToken(raw)
   };
 }
+
 function normalizeEmails(emails) {
   if (!emails) return [];
-  const items = Array.isArray(emails) ? emails : String(emails).split(/[,;\n\r]/);
-  return [...new Set(items.map(e => String(e || "").trim().toLowerCase()).filter(Boolean))];
+  const list = Array.isArray(emails)
+    ? emails
+    : String(emails).split(/[,;\n\r]/);
+
+  return [
+    ...new Set(
+      list
+        .map((email) => String(email || "").trim().toLowerCase())
+        .filter(Boolean)
+    )
+  ];
 }
+
 function normalizeRelationship(value) {
-  const raw = String(value || "").toUpperCase();
-  if (!raw) return null;
+  const raw = String(value || "").trim().toUpperCase();
   if (raw === "COLLEAGUE") return "COLLEAGUE";
   if (raw === "CLIENT") return "CLIENT";
   return null;
 }
+
 function normalizePaymentMode(value) {
-  const raw = String(value || "").toUpperCase();
-  if (raw === "SPONSORED_BY_HOST" || raw === "SPONSORED") return "SPONSORED_BY_HOST";
+  const raw = String(value || "").trim().toUpperCase();
+  if (raw === "SPONSORED" || raw === "SPONSORED_BY_HOST") {
+    return "SPONSORED_BY_HOST";
+  }
   if (raw === "SELF_PAID") return "SELF_PAID";
   return "SELF_PAID";
 }
+
 function normalizeDisplayName(value) {
   const trimmed = String(value || "").trim();
   if (!trimmed) return "";
   return trimmed.slice(0, 80);
 }
-async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName) {
-  if (roomId) {
-    const room = await prisma.room.findUnique({
-      where: {
-        id: roomId
-      }
-    });
-    if (!room) throw fail(404, "Room not found");
-    await ensureOwnerMembership(room.id, room.ownerId, ownerDisplayName);
-    return room;
-  }
-  const trimmedTitle = typeof roomTitle === "string" ? roomTitle.trim() : "";
-  if (trimmedTitle) {
-    const created = await prisma.room.create({
-      data: {
-        ownerId: userId,
-        title: trimmedTitle,
-        members: {
-          create: {
-            userId,
-            role: "OWNER",
-            displayName: ownerDisplayName || undefined
-          }
-        }
-      }
-    });
-    return created;
-  }
-  const existing = await prisma.room.findFirst({
-    where: {
-      ownerId: userId
-    },
-    orderBy: {
-      createdAt: "asc"
-    }
-  });
-  if (existing) {
-    await ensureOwnerMembership(existing.id, existing.ownerId, ownerDisplayName);
-    return existing;
-  }
-  const created = await prisma.room.create({
-    data: {
-      ownerId: userId,
-      title: "Chat room",
-      description: "Default room for invites",
-      members: {
-        create: {
-          userId,
-          role: "OWNER",
-          displayName: ownerDisplayName || undefined
-        }
-      }
-    }
-  });
-  return created;
-}
+
 async function ensureOwnerMembership(roomId, ownerId, ownerDisplayName) {
   try {
     await prisma.roomMember.upsert({
@@ -172,22 +164,89 @@ async function ensureOwnerMembership(roomId, ownerId, ownerDisplayName) {
       update: {
         role: "OWNER",
         leftAt: null,
-        ...(ownerDisplayName ? {
-          displayName: ownerDisplayName
-        } : {})
+        ...(ownerDisplayName ? { displayName: ownerDisplayName } : {})
       }
     });
-  } catch {}
+  } catch {
+    // non-blocking sync
+  }
 }
-async function requireRoomRole(userId, roomId, allowedRoles, roomTitle, ownerDisplayName) {
-  const room = await ensureRoom(userId, roomId, roomTitle, ownerDisplayName);
-  if (room.ownerId === userId) return {
-    ok: true,
-    room,
-    membership: {
-      role: "OWNER"
+
+async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
+  if (roomId) {
+    const room = await prisma.room.findUnique({ where: { id: roomId } });
+    if (!room) {
+      throw fail("api.rooms.not_found", 404, "ROOM_NOT_FOUND");
     }
-  };
+    await ensureOwnerMembership(room.id, room.ownerId, ownerDisplayName);
+    return room;
+  }
+
+  const trimmedTitle = typeof roomTitle === "string" ? roomTitle.trim() : "";
+  if (trimmedTitle) {
+    return prisma.room.create({
+      data: {
+        ownerId: userId,
+        title: trimmedTitle,
+        members: {
+          create: {
+            userId,
+            role: "OWNER",
+            displayName: ownerDisplayName || undefined
+          }
+        }
+      }
+    });
+  }
+
+  const existing = await prisma.room.findFirst({
+    where: { ownerId: userId },
+    orderBy: { createdAt: "asc" }
+  });
+  if (existing) {
+    await ensureOwnerMembership(existing.id, existing.ownerId, ownerDisplayName);
+    return existing;
+  }
+
+  const fallbackTitle = serverT(locale, "rooms.fallback_title", undefined, "Room");
+  return prisma.room.create({
+    data: {
+      ownerId: userId,
+      title: fallbackTitle,
+      members: {
+        create: {
+          userId,
+          role: "OWNER",
+          displayName: ownerDisplayName || undefined
+        }
+      }
+    }
+  });
+}
+
+async function requireRoomRole({
+  userId,
+  roomId,
+  allowedRoles,
+  roomTitle,
+  ownerDisplayName,
+  locale
+}) {
+  const room = await ensureRoom(
+    userId,
+    roomId,
+    roomTitle,
+    ownerDisplayName,
+    locale
+  );
+
+  if (room.ownerId === userId) {
+    return {
+      room,
+      membership: { role: "OWNER" }
+    };
+  }
+
   const membership = await prisma.roomMember.findFirst({
     where: {
       roomId: room.id,
@@ -195,25 +254,21 @@ async function requireRoomRole(userId, roomId, allowedRoles, roomTitle, ownerDis
       leftAt: null
     }
   });
-  if (membership && allowedRoles.includes(membership.role)) {
-    return {
-      ok: true,
-      room,
-      membership
-    };
+
+  if (!membership || !allowedRoles.includes(membership.role)) {
+    throw fail("api.common.forbidden", 403, "FORBIDDEN");
   }
-  return {
-    ok: false,
-    status: 403,
-    message: "Forbidden"
-  };
+
+  return { room, membership };
 }
+
 async function resolveSponsor(room) {
   return {
     userId: room.ownerId,
     orgId: null
   };
 }
+
 async function checkHostSponsorship(userId) {
   if (!userId) return false;
   const now = new Date();
@@ -221,20 +276,13 @@ async function checkHostSponsorship(userId) {
     where: {
       userId,
       status: "ACTIVE",
-      OR: [{
-        validUntil: null
-      }, {
-        validUntil: {
-          gt: now
-        }
-      }]
+      OR: [{ validUntil: null }, { validUntil: { gt: now } }]
     },
-    select: {
-      id: true
-    }
+    select: { id: true }
   });
   return Boolean(active);
 }
+
 async function hasSponsorCapacity(roomId) {
   const count = await prisma.roomMember.count({
     where: {
@@ -245,112 +293,76 @@ async function hasSponsorCapacity(roomId) {
   });
   return count < SPONSORED_MEMBER_LIMIT;
 }
+
 function buildJoinLink(token) {
   const base = resolveBaseUrl() || "http://localhost:3000";
   return `${base.replace(/\/+$/, "")}/join?token=${encodeURIComponent(token)}`;
 }
-function renderInviteEmail(lang, {
-  to,
-  token,
-  roomTitle = "Chat room",
-  inviterName = "SotsiaalAI"
-}) {
-  const mailer = getMailer("invite");
-  const link = buildJoinLink(token);
-  const translations = {
-    et: {
-      subject: `Invitation: ${roomTitle}`,
-      text: `Hi ${to},
 
-${inviterName} invited you to the chat room "${roomTitle}".
-
-Join: ${link}
-
-If the link does not work, copy and paste it into your browser.
-If you did not expect this email, you can ignore it.`,
-      html: `<p>Hi ${to},</p><p>${inviterName} invited you to the chat room <b>${roomTitle}</b>.</p><p><a href="${link}">Join the chat</a></p><p>If the link does not work, copy and paste it into your browser.</p><p>If you did not expect this email, you can ignore it.</p>`
-    },
-    en: {
-      subject: `Invitation: ${roomTitle}`,
-      text: `Hi ${to},
-
-${inviterName} invited you to the chat room "${roomTitle}".
-
-Join: ${link}
-
-If the link does not work, copy and paste it into your browser.
-If you did not expect this email, you can ignore it.`,
-      html: `<p>Hi ${to},</p><p>${inviterName} invited you to the chat room <b>${roomTitle}</b>.</p><p><a href="${link}">Join the chat</a></p><p>If the link does not work, copy and paste it into your browser.</p><p>If you did not expect this email, you can ignore it.</p>`
-    },
-    ru: {
-      subject: `Приглашение: ${roomTitle}`,
-      text: `Здравствуйте, ${to}!
-
-${inviterName} пригласил вас в комнату чата «${roomTitle}».
-
-Присоединиться: ${link}
-
-Если ссылка не открывается, скопируйте и вставьте её в браузер.
-Если вы не ожидали это письмо, просто проигнорируйте его.`,
-      html: `<p>Здравствуйте, ${to}!</p><p>${inviterName} пригласил вас в комнату чата «<b>${roomTitle}</b>».</p><p><a href="${link}">Присоединиться к чату</a></p><p>Если ссылка не открывается, скопируйте и вставьте её в браузер.</p><p>Если вы не ожидали это письмо, просто проигнорируйте его.</p>`
-    }
-  };
-  const tpl = translations[lang] || translations.et;
-  return {
-    mailer,
-    subject: tpl.subject,
-    text: tpl.text,
-    html: tpl.html
-  };
-}
 async function sendInviteEmail({
   to,
   token,
   roomTitle,
   inviterName,
-  lang = "et"
+  locale,
+  template
 }) {
-  const {
-    mailer,
-    subject,
-    text,
-    html
-  } = renderInviteEmail(lang, {
-    to,
-    token,
-    roomTitle,
-    inviterName
-  });
+  const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+  if (!from) {
+    throw fail("api.invites.email_from_missing", 500, "EMAIL_FROM_MISSING");
+  }
+
+  const joinLink = buildJoinLink(token);
+  const keyRoot = template === "resend" ? "email.invite.resend" : "email.invite.create";
+  const mailer = getMailer(template === "resend" ? "invite-resend" : "invite");
+
   await mailer.sendMail({
     to,
-    from: process.env.EMAIL_FROM || "info@sotsiaal.ai",
-    subject,
-    text,
-    html
+    from,
+    subject: serverT(locale, `${keyRoot}.subject`, { roomTitle }),
+    text: serverT(locale, `${keyRoot}.text`, {
+      inviterName,
+      roomTitle,
+      joinLink
+    }),
+    html: serverT(locale, `${keyRoot}.html`, {
+      inviterName,
+      roomTitle,
+      joinLink
+    })
   });
 }
-export async function GET(req) {
+
+export async function GET(request) {
+  const locale = localeFromRequest(request);
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
-  const url = new URL(req.url);
-  const roomId = url.searchParams.get("room_id") || url.searchParams.get("roomId");
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, locale);
+  }
+
+  const url = new URL(request.url);
+  const roomId =
+    url.searchParams.get("room_id") ||
+    url.searchParams.get("roomId") ||
+    "";
+
+  if (!roomId) {
+    return errorJson("api.common.invalid_request", 400, locale, {
+      code: "MISSING_ROOM_ID"
+    });
+  }
+
   try {
-    const roomCheck = await requireRoomRole(auth.userId, roomId || undefined, ["OWNER", "MODERATOR"]);
-    if (!roomCheck.ok) return json({
-      ok: false,
-      message: roomCheck.message
-    }, roomCheck.status || 403);
-    const room = roomCheck.room;
+    const roomCheck = await requireRoomRole({
+      userId: auth.userId,
+      roomId,
+      allowedRoles: ["OWNER", "MODERATOR"],
+      locale
+    });
+
     const invites = await prisma.invite.findMany({
-      where: {
-        roomId: room.id
-      },
-      orderBy: {
-        createdAt: "desc"
-      },
+      where: { roomId: roomCheck.room.id },
+      orderBy: { createdAt: "desc" },
       take: 100,
       select: {
         id: true,
@@ -366,72 +378,100 @@ export async function GET(req) {
         acceptedByUserId: true
       }
     });
-    return json({
-      ok: true,
-      invites,
-      roomId: room.id
+
+    return ok({
+      roomId: roomCheck.room.id,
+      invites
     });
-  } catch (err) {
-    if (err?.status) return json({
-      ok: false,
-      messageKey: err.messageKey || err.message,
-      message: err.message
-    }, err.status);
-    console.error("[invites GET] failed", err);
-    return json({
-      ok: false,
-      message: "Failed to load invites"
-    }, 500);
+  } catch (error) {
+    if (error?.status) {
+      return errorJson(
+        error.messageKey || "api.invites.load_failed",
+        error.status,
+        locale,
+        {
+          code: error.code
+        }
+      );
+    }
+
+    console.error("[invites GET] failed", error);
+    return errorJson("api.invites.load_failed", 500, locale, {
+      code: "INVITES_LOAD_FAILED"
+    });
   }
 }
-export async function POST(req) {
+
+export async function POST(request) {
   const auth = await requireUser();
-  if (!auth.ok) return json({
-    ok: false,
-    message: auth.message
-  }, auth.status);
-  rateLimit(`invites:create:${auth.userId}`, RATE_LIMIT_INVITES, RATE_LIMIT_WINDOW_MS);
+  if (!auth) {
+    return errorJson("api.common.unauthorized", 401, localeFromRequest(request));
+  }
+
   let payload;
   try {
-    payload = await req.json();
+    payload = await request.json();
   } catch {
-    return json({
-      ok: false,
-      message: "Invalid JSON"
-    }, 400);
+    return errorJson("api.common.invalid_json", 400, localeFromRequest(request), {
+      code: "INVALID_JSON"
+    });
   }
+
+  const locale = localeFromRequest(request, payload?.locale || payload?.lang);
+  const ip = getRequestIpFromRequest(request);
+  const limit = consumeRateLimit(
+    `invites:create:${auth.userId}:${ip}`,
+    RATE_LIMIT_INVITES,
+    RATE_LIMIT_WINDOW_MS
+  );
+  if (!limit.allowed) {
+    return errorJson("invite.error.rate_limited", 429, locale, {
+      code: "RATE_LIMITED"
+    });
+  }
+
   const emails = normalizeEmails(payload?.emails);
   if (!emails.length) {
-    return json({
-      ok: false,
-      messageKey: "invite.error.emails_required",
-      message: "invite.error.emails_required"
-    }, 400);
+    return errorJson("invite.error.emails_required", 400, locale, {
+      code: "EMAILS_REQUIRED"
+    });
   }
+
+  const roomId = payload?.room_id || payload?.roomId || "";
+  const roomTitle =
+    typeof payload?.room_title === "string"
+      ? payload.room_title
+      : typeof payload?.roomTitle === "string"
+        ? payload.roomTitle
+        : "";
+  const hostDisplayName = normalizeDisplayName(
+    payload?.host_display_name ?? payload?.hostDisplayName ?? ""
+  );
+
+  if (!roomId && !String(roomTitle || "").trim()) {
+    return errorJson("invite.room_title_required", 400, locale, {
+      code: "ROOM_TITLE_REQUIRED"
+    });
+  }
+
+  if (!roomId && !hostDisplayName) {
+    return errorJson("invite.host_name_required", 400, locale, {
+      code: "HOST_NAME_REQUIRED"
+    });
+  }
+
   try {
-    const roomId = payload?.room_id || payload?.roomId || null;
-    const roomTitle = typeof payload?.room_title === "string" ? payload.room_title : typeof payload?.roomTitle === "string" ? payload.roomTitle : "";
-    const hostDisplayName = normalizeDisplayName(payload?.host_display_name ?? payload?.hostDisplayName ?? "");
-    if (!roomId && !roomTitle.trim()) {
-      return json({
-        ok: false,
-        messageKey: "invite.room_title_required",
-        message: "invite.room_title_required"
-      }, 400);
-    }
-    if (!roomId && !hostDisplayName) {
-      return json({
-        ok: false,
-        messageKey: "invite.host_name_required",
-        message: "invite.host_name_required"
-      }, 400);
-    }
-    const roomCheck = await requireRoomRole(auth.userId, roomId || undefined, ["OWNER", "MODERATOR"], roomTitle, hostDisplayName);
-    if (!roomCheck.ok) return json({
-      ok: false,
-      message: roomCheck.message
-    }, roomCheck.status || 403);
+    const roomCheck = await requireRoomRole({
+      userId: auth.userId,
+      roomId: roomId || undefined,
+      roomTitle,
+      ownerDisplayName: hostDisplayName,
+      allowedRoles: ["OWNER", "MODERATOR"],
+      locale
+    });
+
     const room = roomCheck.room;
+
     if (hostDisplayName) {
       await prisma.roomMember.upsert({
         where: {
@@ -452,40 +492,53 @@ export async function POST(req) {
         }
       });
     }
-    const relationshipType = normalizeRelationship(payload?.relationship_type || payload?.relationshipType);
-    const paymentMode = normalizePaymentMode(payload?.payment_mode || payload?.paymentMode);
-    const lang = (payload?.lang || payload?.language || "et").toString().toLowerCase();
-    const expiresHours = Number(payload?.expires_in_hours ?? payload?.expiresInHours ?? 168);
-    const maxUsesInput = Number(payload?.max_uses ?? payload?.maxUses ?? 1);
-    const maxUses = Math.max(1, Number.isFinite(maxUsesInput) ? maxUsesInput : 1);
-    const expiresAt = new Date(Date.now() + Math.max(1, Number.isFinite(expiresHours) ? expiresHours : 168) * 3600 * 1000);
+
+    const relationshipType = normalizeRelationship(
+      payload?.relationship_type || payload?.relationshipType
+    );
+    const paymentMode = normalizePaymentMode(
+      payload?.payment_mode || payload?.paymentMode
+    );
+
+    const mailLocale =
+      normalizeServerLocale(payload?.lang || payload?.language || payload?.locale) ||
+      locale;
+
+    const expiresHoursRaw = Number(
+      payload?.expires_in_hours ?? payload?.expiresInHours ?? 168
+    );
+    const expiresHours = Number.isFinite(expiresHoursRaw)
+      ? Math.max(1, expiresHoursRaw)
+      : 168;
+
+    const maxUsesRaw = Number(payload?.max_uses ?? payload?.maxUses ?? 1);
+    const maxUses = Number.isFinite(maxUsesRaw) ? Math.max(1, maxUsesRaw) : 1;
+
+    const expiresAt = new Date(Date.now() + expiresHours * 3600 * 1000);
     const sponsor = await resolveSponsor(room);
+
     if (paymentMode === "SPONSORED_BY_HOST") {
       if (!ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION) {
         const sponsorOk = await checkHostSponsorship(sponsor.userId);
         if (!sponsorOk) {
-          return json({
-            ok: false,
-            messageKey: "invite.error.sponsor_plan_unavailable",
-            message: "invite.error.sponsor_plan_unavailable"
-          }, 409);
+          return errorJson("invite.error.sponsor_plan_unavailable", 409, locale, {
+            code: "SPONSOR_PLAN_UNAVAILABLE"
+          });
         }
       }
-      const capacity = await hasSponsorCapacity(room.id);
-      if (!capacity) {
-        return json({
-          ok: false,
-          messageKey: "invite.error.sponsor_capacity_full",
-          message: "invite.error.sponsor_capacity_full"
-        }, 409);
+
+      const hasCapacity = await hasSponsorCapacity(room.id);
+      if (!hasCapacity) {
+        return errorJson("invite.error.sponsor_capacity_full", 409, locale, {
+          code: "SPONSOR_CAPACITY_FULL"
+        });
       }
     }
+
     const created = [];
+
     for (const email of emails) {
-      const {
-        raw,
-        hash
-      } = randomToken();
+      const { raw, hash } = randomToken();
       const invite = await prisma.invite.create({
         data: {
           roomId: room.id,
@@ -513,40 +566,42 @@ export async function POST(req) {
           createdAt: true
         }
       });
-      created.push({
-        ...invite,
-        token: raw
-      });
+
+      created.push({ ...invite, token: raw });
+
       try {
         await sendInviteEmail({
           to: email,
           token: raw,
-          roomTitle: room.title || "Chat room",
+          roomTitle: room.title || serverT(locale, "rooms.fallback_title", undefined, "Room"),
           inviterName: auth.email || "SotsiaalAI",
-          lang
+          locale: mailLocale,
+          template: "create"
         });
-      } catch (err) {
-        console.error("[invite email] failed", err);
+      } catch (mailError) {
+        console.error("[invite email] failed", mailError);
       }
     }
-    return json({
-      ok: true,
+
+    return ok({
       roomId: room.id,
-      invites: created.map(({
-        token: _token,
-        ...rest
-      }) => rest)
+      invites: created.map(({ token: _token, ...rest }) => rest)
     });
-  } catch (err) {
-    if (err?.status) return json({
-      ok: false,
-      messageKey: err.messageKey || err.message,
-      message: err.message
-    }, err.status);
-    console.error("[invites POST] failed", err);
-    return json({
-      ok: false,
-      message: "Failed to create invites"
-    }, 500);
+  } catch (error) {
+    if (error?.status) {
+      return errorJson(
+        error.messageKey || "api.invites.create_failed",
+        error.status,
+        locale,
+        {
+          code: error.code
+        }
+      );
+    }
+
+    console.error("[invites POST] failed", error);
+    return errorJson("api.invites.create_failed", 500, locale, {
+      code: "INVITES_CREATE_FAILED"
+    });
   }
 }

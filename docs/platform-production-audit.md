@@ -212,6 +212,50 @@ Encoding fixes applied (BOM removed):
   - marked both routes as reviewed in route tracker
 - Status: `MONITOR`
 
+### Invites route pass
+- Scope: `app/api/invites/route.js`, `app/api/invites/[id]/accept/route.js`, `app/api/invites/[id]/resend/route.js`, `app/api/invites/[id]/revoke/route.js`, `components/invite/InviteModal.jsx`, `app/join/page.jsx`
+- Good:
+  - invite routes now return key-first errors (`messageKey`, localized `message/error`) consistently
+  - invite and resend email templates moved to locale catalogs (`email.invite.create.*`, `email.invite.resend.*`)
+  - invite modal and join accept now send locale explicitly so server-side text resolution is deterministic
+  - active invite flow keeps existing business behavior (sponsorship rules, capacity limit, token rotation on resend)
+- Risk:
+  - invite rate limiting remains in-memory (not cross-instance coordinated)
+  - invite creation still swallows outbound email send failures by design (invite record persists even if email send fails)
+- Action:
+  - removed hardcoded user-facing route strings and mojibake invite-email literals
+  - added `api.invites.*` key coverage in locale files
+  - fixed invite modal empty-email validation message in UI
+  - marked invites stack as reviewed in route tracker
+- Status: `MONITOR`
+
+### Admin analytics + RAG ops route pass
+- Scope: `app/api/admin/analytics/events/route.js`, `app/api/admin/analytics/summary/route.js`, `app/api/rag/[...path]/route.js`, `app/api/rag/selftest/route.js`, `lib/authz.js`
+- Good:
+  - admin analytics routes now use locale-aware key-first errors (`messageKey` + localized `message`) with explicit DB-failure fallback
+  - RAG proxy and selftest routes now use the same key-first localized error contract
+  - `lib/authz` now returns stable message keys instead of hardcoded text, improving consistency across dependent API routes
+- Risk:
+  - RAG/admin client UIs still contain large hardcoded text surfaces and should be migrated to i18n keys in a dedicated pass
+  - RAG proxy rate limiting remains in-memory (not shared between instances)
+- Action:
+  - enforced admin access in `app/api/rag/[...path]/route.js` (previously accepted any authenticated session)
+  - added `api.admin.analytics.*`, `api.rag.*`, and `api.rag.selftest.*` keys to locale catalogs
+  - added shared auth key `api.common.subscription_required` for subscription-gated helpers
+  - marked admin/rag API routes as reviewed in `docs/route-review-tracker.md`
+- Status: `MONITOR`
+
+### Admin app-route shell pass
+- Scope: `app/admin/analytics/page.jsx`, `app/admin/rag/page.jsx`
+- Good:
+  - both pages are server-rendered and force dynamic/no-store behavior for operational freshness
+  - both enforce session and admin-role gating before rendering the admin clients
+- Risk:
+  - route shells still contain hardcoded copy and locale lock details that are not key-driven yet
+- Action:
+  - marked both app routes as reviewed in route tracker; scheduled client-side admin UI i18n pass next
+- Status: `MONITOR`
+
 ## Open Items Queue (next passes)
 
 1. Add explicit rate limiting to chat endpoints (`app/api/chat/*`) to reduce abuse risk
