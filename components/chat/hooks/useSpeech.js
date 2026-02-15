@@ -24,7 +24,13 @@ export function useSpeech({
   useEffect(() => {
     onErrorRef.current = onError;
   }, [onError]);
-  const tr = useCallback((key, fallback) => typeof t === "function" ? t(key, fallback) : fallback, [t]);
+  const tr = useCallback(key => {
+    if (typeof t === "function") {
+      const value = t(key);
+      if (typeof value === "string" && value.trim()) return value;
+    }
+    return key;
+  }, [t]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     synthesisRef.current = window.speechSynthesis || null;
@@ -208,7 +214,7 @@ export function useSpeech({
     }
     setRecordingPulse(false);
     if (!navigator?.mediaDevices?.getUserMedia) {
-      setRecordingError(tr("chat.mic.unsupported", "Mikrofon pole toetatud selles brauseris."));
+      setRecordingError(tr("chat.mic.unsupported"));
       return;
     }
     try {
@@ -235,7 +241,7 @@ export function useSpeech({
         const durationMs = Math.max(0, Date.now() - recordingStartedAtRef.current);
         const maxLevel = recordingLevelRef.current;
         if (maxLevel < 3.5 && durationMs > 500) {
-          setRecordingError(tr("chat.mic.silence", "Dikteerimine: heli ei tuvastatud."));
+          setRecordingError(tr("chat.mic.silence"));
           return;
         }
         try {
@@ -248,17 +254,17 @@ export function useSpeech({
           });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || data?.ok === false || !data?.text) {
-            throw new Error(data?.message || tr("chat.mic.error", "Dikteerimine ebaƒ?tƒ¦?Ž©nnestus."));
+            throw new Error(data?.message || tr("chat.mic.error"));
           }
           onAppendText?.(data.text);
         } catch (err) {
-          setRecordingError(err?.message || tr("chat.mic.error", "Dikteerimine ebaƒ?tƒ¦?Ž©nnestus."));
+          setRecordingError(err?.message || tr("chat.mic.error"));
         }
       };
       rec.start();
       setRecording(true);
     } catch (err) {
-      setRecordingError(err?.message || tr("chat.mic.cannot_start", "Mikrofoni ei saanud avada."));
+      setRecordingError(err?.message || tr("chat.mic.cannot_start"));
       stopRecording();
       stopAudioMeter();
     }

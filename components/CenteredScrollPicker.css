@@ -73,7 +73,7 @@
 
 .a11y-csp-scroll.csp-container .a11y-save-step {
   scroll-snap-align: center;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 .csp-step {
   min-height: clamp(6.2rem, 10.5vh, 7.8rem);

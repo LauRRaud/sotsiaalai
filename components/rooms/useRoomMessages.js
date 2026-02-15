@@ -1,6 +1,36 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+
+function toMillis(value) {
+  const ms = new Date(value || 0).getTime();
+  return Number.isFinite(ms) ? ms : 0;
+}
+
+function compareRoomMessagesAsc(a, b) {
+  const ta = toMillis(a?.createdAt);
+  const tb = toMillis(b?.createdAt);
+  if (ta !== tb) return ta - tb;
+  return String(a?.id || "").localeCompare(String(b?.id || ""));
+}
+
+function mergeById(prev, incoming) {
+  const map = new Map();
+  (Array.isArray(prev) ? prev : []).forEach(msg => {
+    if (!msg?.id) return;
+    map.set(msg.id, msg);
+  });
+  (Array.isArray(incoming) ? incoming : []).forEach(msg => {
+    if (!msg?.id) return;
+    const existing = map.get(msg.id);
+    map.set(msg.id, existing ? {
+      ...existing,
+      ...msg
+    } : msg);
+  });
+  return Array.from(map.values()).sort(compareRoomMessagesAsc);
+}
+
 export function useRoomMessages(roomId, pollMs = 3000) {
   const [messages, setMessages] = useState([]);
   const [blocked, setBlocked] = useState(false);
@@ -14,7 +44,9 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const load = useCallback(async (reset = false) => {
     if (!roomId) return;
     const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
-    if (!reset && cursorRef.current) url.searchParams.set("cursor", cursorRef.current);
+    if (!reset && useSse && cursorRef.current) {
+      url.searchParams.set("cursor", cursorRef.current);
+    }
     const res = await fetch(url.toString());
     const data = await res.json().catch(() => ({}));
     if (res.status === 401) {
@@ -31,10 +63,14 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     if (!res.ok || data?.ok === false) return;
     setAuthRequired(false);
     setBlocked(false);
-    const items = data.messages || [];
-    if (reset) setMessages(items.reverse());else setMessages(prev => [...items.reverse(), ...prev]);
-    cursorRef.current = data.nextCursor || null;
-  }, [roomId]);
+    const items = Array.isArray(data.messages) ? data.messages.slice().reverse() : [];
+    if (reset) {
+      setMessages(items);
+      cursorRef.current = data.nextCursor || null;
+      return;
+    }
+    setMessages(prev => mergeById(prev, items));
+  }, [roomId, useSse]);
   const connectSse = useCallback(() => {
     if (!roomId || blocked || authRequired) return;
     if (esRef.current) esRef.current.close();
@@ -65,7 +101,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
       try {
         const data = JSON.parse(ev.data);
         if (data.type === "message" && data.message) {
-          setMessages(prev => [...prev, data.message]);
+          setMessages(prev => mergeById(prev, [data.message]));
         } else if (data.type === "delete" && data.id) {
           setMessages(prev => prev.filter(m => m.id !== data.id));
         }

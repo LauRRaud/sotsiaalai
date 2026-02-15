@@ -101,10 +101,25 @@ Encoding fixes applied (BOM removed):
 - Action: added ownership-safe writes in `persistAppend`/`persistDone`, added `convId` format validation in `app/api/chat/route.js`, hardened `analyze-file` auth/quota flow and added DB error handling in `analyze-usage`
 - Status: `OK`
 
+### Chat page end-to-end (`/vestlus`) + voice flows (`listen/speak/dictate`)
+- Scope: full chat UI logic (`ChatBody*`, sidebar, room mode), stream fallback, `stt`/`tts` integrations
+- Good: build/lint pass; chat streaming, room messaging, and voice APIs are wired coherently
+- Risk:
+  - new conversation creation did not switch active conversation due wrong callback argument
+  - room SSE stream had cleanup/recheck weaknesses (admin recheck param missing and no reliable cancel cleanup)
+  - room polling fallback could produce duplicate/out-of-order messages after SSE failure
+  - dictation fallback error text contained mojibake
+- Action:
+  - fixed `components/ChatSidebar.jsx` new-chat switch flow
+  - fixed `app/api/rooms/[roomId]/messages/stream/route.js` SSE cleanup and access recheck
+  - fixed `components/rooms/useRoomMessages.js` merge/dedupe behavior for polling fallback
+  - fixed dictation fallback copy in `components/chat/hooks/useSpeech.js`
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
 1. Add explicit rate limiting to chat endpoints (`app/api/chat/*`) to reduce abuse risk
-2. `app/api/rooms/**` real-time path review (authz + stream behavior)
+2. Add payload size caps for `app/api/stt/route.js` and consider stronger abuse guards for voice endpoints
 3. `prisma/schema.prisma` + migrations sanity pass for launch
 4. Remove or archive unclear legacy artifact `app/server` if not used
 5. Align `test` script semantics (`package.json`) with actual test strategy

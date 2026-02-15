@@ -234,6 +234,36 @@ export default function ChatSidebar() {
     if (nextPath === `${pathname}${window.location.search}`) return;
     router.replace(nextPath);
   }, [pathname, router]);
+  const activateConversation = useCallback((conversationId, {
+    force = false
+  } = {}) => {
+    const id = String(conversationId || "").trim();
+    if (!id) return;
+    if (selectMode && !force) return;
+    try {
+      window.sessionStorage.setItem("sotsiaalai:chat:convId", id);
+    } catch {}
+    try {
+      window.dispatchEvent(new CustomEvent("sotsiaalai:switch-conversation", {
+        detail: {
+          convId: id
+        }
+      }));
+    } catch {}
+    if (pathname?.startsWith("/vestlus") && searchParams?.get("roomId")) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("roomId");
+      const qs = params.toString();
+      router.replace(qs ? `/vestlus?${qs}` : "/vestlus");
+    }
+    try {
+      window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", {
+        detail: {
+          open: false
+        }
+      }));
+    } catch {}
+  }, [pathname, router, searchParams, selectMode]);
   const onPick = useCallback(item => {
     if (!item?.id) return;
     if (selectMode) return;
@@ -250,20 +280,8 @@ export default function ChatSidebar() {
       }));
       return;
     }
-    try {
-      window.sessionStorage.setItem("sotsiaalai:chat:convId", item.id);
-    } catch {}
-    window.dispatchEvent(new CustomEvent("sotsiaalai:switch-conversation", {
-      detail: {
-        convId: item.id
-      }
-    }));
-    window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", {
-      detail: {
-        open: false
-      }
-    }));
-  }, [isEmbeddedChat, router, selectMode, updateChatUrl]);
+    activateConversation(item.id);
+  }, [activateConversation, isEmbeddedChat, router, selectMode, updateChatUrl]);
   const onNew = useCallback(async () => {
     if (busy || creating) return;
     setCreating(true);
@@ -285,14 +303,16 @@ export default function ChatSidebar() {
         throw new Error(data?.message || t("chat.sidebar.error.create"));
       }
       const nextId = data?.conversation?.id || id;
-      onPick(nextId);
+      activateConversation(nextId, {
+        force: true
+      });
       refreshAll();
     } catch (e) {
       setError(e?.message || t("chat.sidebar.error.create"));
     } finally {
       setCreating(false);
     }
-  }, [busy, creating, refreshAll, onPick, t]);
+  }, [activateConversation, busy, creating, refreshAll, t]);
   const onDelete = useCallback(async id => {
     if (!id) return;
     if (!confirm(t("chat.sidebar.confirm.delete"))) return;

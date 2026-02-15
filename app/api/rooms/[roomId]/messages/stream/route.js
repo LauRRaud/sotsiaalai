@@ -107,40 +107,67 @@ export async function GET(_req, {
   if (!access.ok) return new NextResponse(null, {
     status: access.status || 403
   });
+  let cleanup = null;
   const stream = new ReadableStream({
     start(controller) {
       const encoder = new TextEncoder();
+      let cleaned = false;
+      let closed = false;
+      const safeClose = () => {
+        if (closed) return;
+        closed = true;
+        try {
+          controller.close();
+        } catch {}
+      };
       const write = data => controller.enqueue(encoder.encode(data));
-      write(": connected\n\n");
       const unsubscribe = subscribeRoom(roomId, evt => {
-        write(`data: ${JSON.stringify(evt)}\n\n`);
+        if (cleaned) return;
+        try {
+          write(`data: ${JSON.stringify(evt)}\n\n`);
+        } catch {
+          doCleanup();
+          safeClose();
+        }
       });
       const heartbeat = setInterval(() => {
+        if (cleaned) return;
         try {
           write(": keep-alive\n\n");
-        } catch {}
+        } catch {
+          doCleanup();
+          safeClose();
+        }
       }, 15000);
       const recheck = setInterval(async () => {
         try {
-          const ok = await ensureAccess(auth.userId, roomId);
+          const ok = await ensureAccess(auth.userId, roomId, auth.userRole);
           if (!ok.ok) {
-            clearInterval(heartbeat);
-            clearInterval(recheck);
-            unsubscribe();
-            controller.close();
+            doCleanup();
+            safeClose();
           }
         } catch {
-          clearInterval(heartbeat);
-          clearInterval(recheck);
-          unsubscribe();
-          controller.close();
+          doCleanup();
+          safeClose();
         }
       }, 20000);
-      controller.signal?.addEventListener("abort", () => {
+      const doCleanup = () => {
+        if (cleaned) return;
+        cleaned = true;
         clearInterval(heartbeat);
         clearInterval(recheck);
         unsubscribe();
-      });
+      };
+      cleanup = doCleanup;
+      try {
+        write(": connected\n\n");
+      } catch {
+        doCleanup();
+        safeClose();
+      }
+    },
+    cancel() {
+      cleanup?.();
     }
   });
   return new NextResponse(stream, {

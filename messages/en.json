@@ -559,7 +559,11 @@
     "show_recent": "Show fewer",
     "mic": {
       "start": "Start dictation",
-      "stop": "Stop recording"
+      "stop": "Stop recording",
+      "unsupported": "Microphone is not supported in this browser.",
+      "silence": "Dictation: no audio detected.",
+      "error": "Dictation failed.",
+      "cannot_start": "Could not open microphone."
     }
   },
   "about": {

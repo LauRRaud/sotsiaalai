@@ -189,7 +189,7 @@ export default function CenteredScrollPicker({
       const hidden = Math.abs(i - newActiveIdx) > neighborDistance;
       setHiddenStateForItem(items[i], hidden);
     }
-    if (typeof document !== "undefined") {
+    if (manageHiddenFocus && typeof document !== "undefined") {
       const activeEl = document.activeElement;
       if (isHTMLElement(activeEl)) {
         const hiddenAncestor = activeEl.closest?.(".csp-hidden");
@@ -200,7 +200,7 @@ export default function CenteredScrollPicker({
         }
       }
     }
-  }, [getItems, neighborDistance, setHiddenStateForItem, containerRef]);
+  }, [getItems, neighborDistance, setHiddenStateForItem, containerRef, manageHiddenFocus]);
   const commitActiveIndex = useCallback((idx, {
     silent = false
   } = {}) => {

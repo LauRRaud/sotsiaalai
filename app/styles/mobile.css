@@ -1093,7 +1093,7 @@
 
   .a11y-csp-scroll.csp-container .a11y-save-step {
     scroll-snap-align: center !important;
-    scroll-snap-stop: always !important;
+    scroll-snap-stop: normal !important;
   }
 
   .register-scroll.csp-container,

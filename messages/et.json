@@ -559,7 +559,11 @@
     "show_recent": "Näita vähem",
     "mic": {
       "start": "Alusta dikteerimist",
-      "stop": "Lõpeta salvestus"
+      "stop": "Lõpeta salvestus",
+      "unsupported": "Mikrofon pole selles brauseris toetatud.",
+      "silence": "Dikteerimine: heli ei tuvastatud.",
+      "error": "Dikteerimine ebaõnnestus.",
+      "cannot_start": "Mikrofoni ei saanud avada."
     }
   },
   "about": {
