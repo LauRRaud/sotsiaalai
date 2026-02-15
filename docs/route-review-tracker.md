@@ -16,8 +16,8 @@ Review status legend:
 | Route | File | Status | Notes |
 | --- | --- | --- | --- |
 | `/` | `app/page.js` | PENDING | - |
-| `/admin/analytics` | `app/admin/analytics/page.jsx` | MONITOR | reviewed: session+admin guard and no-store render shell; admin client still has hardcoded copy |
-| `/admin/rag` | `app/admin/rag/page.jsx` | MONITOR | reviewed: session+admin guard and RAG shell; route still includes hardcoded copy/lang lock |
+| `/admin/analytics` | `app/admin/analytics/page.jsx` | MONITOR | reviewed: session+admin guard + analytics dashboard i18n key migration; continue E2E verification |
+| `/admin/rag` | `app/admin/rag/page.jsx` | MONITOR | reviewed: session+admin guard + wrapper i18n cleanup; `RagAdminPanel` still has large hardcoded text surface |
 | `/join` | `app/join/page.jsx` | PENDING | - |
 | `/kasutusjuhend` | `app/kasutusjuhend/page.jsx` | PENDING | - |
 | `/kasutustingimused` | `app/kasutustingimused/page.js` | PENDING | - |
@@ -78,7 +78,8 @@ Review status legend:
 - Invites stack: `app/api/invites/route.js`, `app/api/invites/[id]/accept/route.js`, `app/api/invites/[id]/resend/route.js`, `app/api/invites/[id]/revoke/route.js`
 - Admin and RAG ops APIs: `app/api/admin/analytics/events/route.js`, `app/api/admin/analytics/summary/route.js`, `app/api/rag/[...path]/route.js`, `app/api/rag/selftest/route.js`
 - Admin route shells: `app/admin/analytics/page.jsx`, `app/admin/rag/page.jsx`
+- Admin analytics UI: `components/admin/AnalyticsDashboard.jsx`, `app/admin/analytics/AdminAnalyticsClient.jsx`
 - Chat frontend integration: `components/alalehed/ChatBody.jsx`, `components/alalehed/chat/ChatBodyView.jsx`, `components/chat/hooks/*`, `components/ChatSidebar.jsx`, `components/LoginModal.jsx`
 
 ## Next Review Order
-1. `app/admin/*` pages + clients (`AdminAnalyticsClient`, `AnalyticsDashboard`, `RagAdminClient`, `RagAdminPanel`)
+1. `components/admin/RagAdminPanel.jsx` full i18n + production behavior pass

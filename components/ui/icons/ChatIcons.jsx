@@ -197,39 +197,16 @@ export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
   const color = resolveThemeColor(isLightTheme);
   return (
     <svg
-      viewBox="0 0 21.17 17.8"
+      viewBox="0 0 24 17.8"
       fill="none"
       aria-hidden="true"
       focusable="false"
       className={cn(className)}
       {...props}
     >
-      <path
-        d="M7.5 16.7L1.1 8.9L7.5 1.1"
-        fill="none"
-        stroke={color}
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10.32 1.89C10.32 1.34 10.67 0.89 11.09 0.89H20.39C20.82 0.89 21.16 1.34 21.16 1.89C21.16 2.44 20.82 2.89 20.39 2.89H11.09C10.67 2.89 10.32 2.44 10.32 1.89Z"
-        fill={color}
-        fillRule="evenodd"
-        clipRule="evenodd"
-      />
-      <path
-        d="M7.95 8.89C7.95 8.34 8.19 7.89 8.49 7.89H18.25C18.55 7.89 18.79 8.34 18.79 8.89C18.79 9.44 18.55 9.89 18.25 9.89H8.49C8.19 9.89 7.95 9.44 7.95 8.89Z"
-        fill={color}
-        fillRule="evenodd"
-        clipRule="evenodd"
-      />
-      <path
-        d="M10.32 15.89C10.32 15.34 10.67 14.89 11.09 14.89H20.39C20.82 14.89 21.16 15.34 21.16 15.89C21.16 16.44 20.82 16.89 20.39 16.89H11.09C10.67 16.89 10.32 16.44 10.32 15.89Z"
-        fill={color}
-        fillRule="evenodd"
-        clipRule="evenodd"
-      />
+      <rect x="8" y="0.9" width="12.2" height="2" rx="1" fill={color} />
+      <rect x="4.8" y="7.9" width="15.4" height="2" rx="1" fill={color} />
+      <rect x="8" y="14.9" width="12.2" height="2" rx="1" fill={color} />
     </svg>
   );
 }

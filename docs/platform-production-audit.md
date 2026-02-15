@@ -256,6 +256,20 @@ Encoding fixes applied (BOM removed):
   - marked both app routes as reviewed in route tracker; scheduled client-side admin UI i18n pass next
 - Status: `MONITOR`
 
+### Admin analytics UI i18n pass
+- Scope: `components/admin/AnalyticsDashboard.jsx`, `app/admin/analytics/AdminAnalyticsClient.jsx`, `app/admin/rag/RagAdminClient.jsx`, `app/admin/rag/page.jsx`, `app/admin/analytics/page.jsx`
+- Good:
+  - analytics dashboard now uses i18n keys for user-facing labels, filters, table headers, and metric cards
+  - admin client loading fallbacks now read from i18n keys instead of hardcoded text
+  - admin page metadata/title/back labels are now sourced via server-side message keys
+- Risk:
+  - `components/admin/RagAdminPanel.jsx` still contains a large amount of hardcoded localized copy and needs a dedicated migration pass
+- Action:
+  - added `admin.*` key namespace coverage in `messages/en.json`, `messages/et.json`, `messages/ru.json`
+  - removed remaining hardcoded ET/mojibake copy from `AnalyticsDashboard` and admin wrappers
+  - set next pass to full `RagAdminPanel` i18n + behavior review
+- Status: `MONITOR`
+
 ## Open Items Queue (next passes)
 
 1. Add explicit rate limiting to chat endpoints (`app/api/chat/*`) to reduce abuse risk

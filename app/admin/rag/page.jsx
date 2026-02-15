@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { serverT } from "@/lib/i18n/serverMessages";
 import { unstable_noStore as noStore } from "next/cache";
 import CardTitle from "@/components/ui/CardTitle";
 import BackIcon from "@/components/ui/icons/BackIcon";
@@ -12,8 +13,13 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const revalidate = 0;
 export const metadata = {
-  title: "RAG andmebaasi haldus - SotsiaalAI",
-  description: "Laadi ules ja halda RAG materjale.",
+  title: serverT("en", "admin.pages.rag.meta_title", undefined, "RAG Admin - SotsiaalAI"),
+  description: serverT(
+    "en",
+    "admin.pages.rag.meta_description",
+    undefined,
+    "Upload and manage RAG materials."
+  ),
   robots: {
     index: false,
     follow: false,
@@ -33,13 +39,18 @@ export default async function AdminRagPage() {
   if (!isAdmin) {
     redirect("/");
   }
-  return <div className={shellClassName} aria-labelledby="rag-admin-title" lang="et">
+  return <div className={shellClassName} aria-labelledby="rag-admin-title">
       <CardTitle as="h1" id="rag-admin-title" className="text-[clamp(1.35rem,2.4vw,2rem)]">
-        RAG andmebaasi haldus
+        {serverT("en", "admin.pages.rag.heading", undefined, "RAG Admin")}
       </CardTitle>
       <RagAdminClient />
       <div className="flex justify-center">
-        <Link prefetch={false} href="/#meist" className={backButtonClassName} aria-label="Tagasi">
+        <Link
+          prefetch={false}
+          href="/#meist"
+          className={backButtonClassName}
+          aria-label={serverT("en", "admin.common.back", undefined, "Back")}
+        >
           <BackIcon className="h-[4.8rem] w-[4.8rem]" />
         </Link>
       </div>

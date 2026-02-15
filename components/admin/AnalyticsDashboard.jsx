@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import BackIcon from "@/components/ui/icons/BackIcon";
+
 const pageClassName = "flex flex-col gap-5 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
 const cardClassName = "relative overflow-hidden rounded-[18px] border border-[color:var(--admin-border)] bg-[linear-gradient(160deg,var(--admin-surface),var(--admin-surface-2))] p-4 shadow-[var(--admin-shadow-soft)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[18px] before:bg-[radial-gradient(circle_at_10%_0%,rgba(255,255,255,0.08),transparent_45%)] before:opacity-60";
 const cardBodyClassName = "relative z-[1] grid gap-1.5";
@@ -37,56 +40,64 @@ const refreshButtonStyle = {
 };
 const refreshButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.95rem] font-semibold tracking-[0.01em]";
 const backButtonClassName = "inline-flex h-[5.2rem] w-[5.2rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
-const EVENT_OPTIONS = [{
-  value: "chat_request",
-  label: "Vestluspäring"
-}, {
-  value: "rag_search",
-  label: "RAG otsing"
-}, {
-  value: "no_context",
-  label: "Ilma kontekstita"
-}, {
-  value: "crisis_detected",
-  label: "Kriis tuvastatud"
-}, {
-  value: "rag_error",
-  label: "RAG viga"
-}, {
-  value: "openai_error",
-  label: "OpenAI viga"
-}];
-const EVENT_LABELS = EVENT_OPTIONS.reduce((acc, entry) => {
-  acc[entry.value] = entry.label;
-  return acc;
-}, {});
-const STATUS_LABELS = {
-  PENDING: "Ootel",
-  PROCESSING: "Töös",
-  COMPLETED: "Valmis",
-  FAILED: "Ebaõnnestus"
+
+const EVENT_OPTIONS = [
+  { value: "chat_request", labelKey: "admin.analytics.events.chat_request" },
+  { value: "rag_search", labelKey: "admin.analytics.events.rag_search" },
+  { value: "no_context", labelKey: "admin.analytics.events.no_context" },
+  { value: "crisis_detected", labelKey: "admin.analytics.events.crisis_detected" },
+  { value: "rag_error", labelKey: "admin.analytics.events.rag_error" },
+  { value: "openai_error", labelKey: "admin.analytics.events.openai_error" }
+];
+
+const STATUS_LABEL_KEYS = {
+  PENDING: "admin.analytics.status.pending",
+  PROCESSING: "admin.analytics.status.processing",
+  COMPLETED: "admin.analytics.status.completed",
+  FAILED: "admin.analytics.status.failed"
 };
-const AUDIENCE_LABELS = {
-  SOCIAL_WORKER: "Sotsiaaltöö spetsialist",
-  CLIENT: "Eluküsimusega pöörduja",
-  BOTH: "Mõlemad"
+
+const AUDIENCE_LABEL_KEYS = {
+  SOCIAL_WORKER: "admin.analytics.audience.social_worker",
+  CLIENT: "admin.analytics.audience.client",
+  BOTH: "admin.analytics.audience.both"
 };
+
+function formatI18n(template, values) {
+  if (typeof template !== "string") return "";
+  if (!values || typeof values !== "object") return template;
+  let out = template;
+  for (const [key, value] of Object.entries(values)) {
+    out = out.split(`{${key}}`).join(String(value));
+  }
+  return out;
+}
+
+function toLocaleTag(locale) {
+  const normalized = String(locale || "en").toLowerCase();
+  if (normalized.startsWith("et")) return "et-EE";
+  if (normalized.startsWith("ru")) return "ru-RU";
+  return "en-US";
+}
+
 const toNumber = value => {
   const n = typeof value === "string" ? Number(value) : typeof value === "number" ? value : Number(value || 0);
   return Number.isFinite(n) ? n : 0;
 };
-const formatCount = value => {
+
+const formatCount = (value, localeTag) => {
   const n = toNumber(value);
   try {
-    return new Intl.NumberFormat("et-EE").format(n);
+    return new Intl.NumberFormat(localeTag).format(n);
   } catch {
     return String(n);
   }
 };
-const formatMoney = (amount, currency = "EUR") => {
+
+const formatMoney = (amount, currency = "EUR", localeTag) => {
   const n = toNumber(amount);
   try {
-    return new Intl.NumberFormat("et-EE", {
+    return new Intl.NumberFormat(localeTag, {
       style: "currency",
       currency
     }).format(n);
@@ -94,18 +105,20 @@ const formatMoney = (amount, currency = "EUR") => {
     return `${n.toFixed?.(2) || n} ${currency}`;
   }
 };
+
 const joinCounts = (obj = {}, order = [], labels = {}) => {
   const keys = order.length ? order : Object.keys(obj || {});
   const parts = [];
-  for (const k of keys) {
-    if (obj?.[k] == null) continue;
-    parts.push(`${labels[k] || k}: ${obj[k]}`);
+  for (const key of keys) {
+    if (obj?.[key] == null) continue;
+    parts.push(`${labels[key] || key}: ${obj[key]}`);
   }
   return parts.join(" | ");
 };
-const formatDate = iso => {
+
+const formatDate = (iso, localeTag) => {
   try {
-    return new Intl.DateTimeFormat("et-EE", {
+    return new Intl.DateTimeFormat(localeTag, {
       dateStyle: "short",
       timeStyle: "short"
     }).format(new Date(iso));
@@ -113,7 +126,45 @@ const formatDate = iso => {
     return iso || "-";
   }
 };
+
 export default function AnalyticsDashboard() {
+  const { t, locale } = useI18n();
+  const localeTag = useMemo(() => toLocaleTag(locale), [locale]);
+
+  const tr = useCallback(
+    (key, values) => {
+      const raw = t(key);
+      const template = typeof raw === "string" && raw.trim() ? raw : key;
+      return formatI18n(template, values);
+    },
+    [t]
+  );
+
+  const eventLabels = useMemo(() => {
+    const out = {};
+    for (const entry of EVENT_OPTIONS) out[entry.value] = tr(entry.labelKey);
+    return out;
+  }, [tr]);
+
+  const statusLabels = useMemo(
+    () => ({
+      PENDING: tr(STATUS_LABEL_KEYS.PENDING),
+      PROCESSING: tr(STATUS_LABEL_KEYS.PROCESSING),
+      COMPLETED: tr(STATUS_LABEL_KEYS.COMPLETED),
+      FAILED: tr(STATUS_LABEL_KEYS.FAILED)
+    }),
+    [tr]
+  );
+
+  const audienceLabels = useMemo(
+    () => ({
+      SOCIAL_WORKER: tr(AUDIENCE_LABEL_KEYS.SOCIAL_WORKER),
+      CLIENT: tr(AUDIENCE_LABEL_KEYS.CLIENT),
+      BOTH: tr(AUDIENCE_LABEL_KEYS.BOTH)
+    }),
+    [tr]
+  );
+
   const [summary, setSummary] = useState(null);
   const [events, setEvents] = useState([]);
   const [loadingSummary, setLoadingSummary] = useState(false);
@@ -122,26 +173,30 @@ export default function AnalyticsDashboard() {
   const [isCrisisFilter, setIsCrisisFilter] = useState("all");
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const refresh = useCallback(() => setRefreshKey(v => v + 1), []);
+
+  const refresh = useCallback(() => setRefreshKey(value => value + 1), []);
+
   useEffect(() => {
     const loadSummary = async () => {
       setLoadingSummary(true);
       setError(null);
       try {
-        const res = await fetch("/api/admin/analytics/summary", {
-          cache: "no-store"
-        });
-        const data = await res.json();
-        if (!res.ok || data?.ok === false) throw new Error(data?.message || "Summary fetch failed");
+        const res = await fetch("/api/admin/analytics/summary", { cache: "no-store" });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || tr("admin.analytics.errors.summary_fetch_failed"));
+        }
         setSummary(data);
       } catch (err) {
-        setError(err?.message || "Summary fetch failed");
+        setError(err?.message || tr("admin.analytics.errors.summary_fetch_failed"));
       } finally {
         setLoadingSummary(false);
       }
     };
+
     loadSummary();
-  }, [refreshKey]);
+  }, [refreshKey, tr]);
+
   useEffect(() => {
     const loadEvents = async () => {
       setLoadingEvents(true);
@@ -150,64 +205,92 @@ export default function AnalyticsDashboard() {
         const params = new URLSearchParams();
         params.set("limit", "100");
         if (eventFilter !== "all") params.set("event", eventFilter);
-        if (isCrisisFilter === "true" || isCrisisFilter === "false") params.set("isCrisis", isCrisisFilter);
-        const res = await fetch(`/api/admin/analytics/events?${params.toString()}`, {
-          cache: "no-store"
-        });
-        const data = await res.json();
-        if (!res.ok || data?.ok === false) throw new Error(data?.message || "Events fetch failed");
-        setEvents(data.items || []);
+        if (isCrisisFilter === "true" || isCrisisFilter === "false") {
+          params.set("isCrisis", isCrisisFilter);
+        }
+
+        const res = await fetch(`/api/admin/analytics/events?${params.toString()}`, { cache: "no-store" });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || tr("admin.analytics.errors.events_fetch_failed"));
+        }
+
+        setEvents(data?.items || []);
       } catch (err) {
-        setError(err?.message || "Events fetch failed");
+        setError(err?.message || tr("admin.analytics.errors.events_fetch_failed"));
       } finally {
         setLoadingEvents(false);
       }
     };
+
     loadEvents();
-  }, [eventFilter, isCrisisFilter, refreshKey]);
+  }, [eventFilter, isCrisisFilter, refreshKey, tr]);
+
   const groundingSummary = useMemo(() => {
     if (!summary?.averages?.groundingDistribution) return null;
     const dist = summary.averages.groundingDistribution;
     const total = (dist.weak || 0) + (dist.ok || 0) + (dist.strong || 0);
     if (!total) return null;
+
     return {
-      weak: Math.round(100 * (dist.weak || 0) / total),
-      ok: Math.round(100 * (dist.ok || 0) / total),
-      strong: Math.round(100 * (dist.strong || 0) / total)
+      weak: Math.round((100 * (dist.weak || 0)) / total),
+      ok: Math.round((100 * (dist.ok || 0)) / total),
+      strong: Math.round((100 * (dist.strong || 0)) / total)
     };
   }, [summary]);
+
   const requestSplit = useMemo(() => {
     const total = summary?.totalRequests || 0;
     if (!total) return null;
-    const rag = Math.round(100 * (summary?.ragSearchCount || 0) / total);
-    const noContext = Math.round(100 * (summary?.noContextCount || 0) / total);
-    return {
-      rag,
-      noContext
-    };
+    const rag = Math.round((100 * (summary?.ragSearchCount || 0)) / total);
+    const noContext = Math.round((100 * (summary?.noContextCount || 0)) / total);
+    return { rag, noContext };
   }, [summary]);
-  const filteredEvents = useMemo(() => {
-    return events.filter(e => {
-      if (eventFilter !== "all" && e.event !== eventFilter) return false;
-      if (isCrisisFilter === "true" && e?.data?.isCrisis !== true) return false;
-      if (isCrisisFilter === "false" && e?.data?.isCrisis === true) return false;
-      return true;
-    });
-  }, [events, eventFilter, isCrisisFilter]);
-  const metaSummary = (data = {}) => {
-    const parts = [];
-    if (typeof data.ragMatchCount === "number") parts.push(`tabamusi: ${data.ragMatchCount}`);
-    if (typeof data.groupCount === "number") parts.push(`grupid: ${data.groupCount}`);
-    if (typeof data.grounding === "string") parts.push(`grounding: ${data.grounding}`);
-    if (typeof data.chosenGroupCount === "number") parts.push(`valik: ${data.chosenGroupCount}`);
-    if (typeof data.isCrisis === "boolean") parts.push(`kriis: ${data.isCrisis ? "jah" : "ei"}`);
-    if (typeof data.hasHistory === "boolean") parts.push(`ajalugu: ${data.hasHistory ? "jah" : "ei"}`);
-    return parts.join(" | ");
-  };
-  return <div className={pageClassName}>
+
+  const filteredEvents = useMemo(
+    () =>
+      events.filter(event => {
+        if (eventFilter !== "all" && event.event !== eventFilter) return false;
+        if (isCrisisFilter === "true" && event?.data?.isCrisis !== true) return false;
+        if (isCrisisFilter === "false" && event?.data?.isCrisis === true) return false;
+        return true;
+      }),
+    [events, eventFilter, isCrisisFilter]
+  );
+
+  const metaSummary = useCallback(
+    (data = {}) => {
+      const parts = [];
+      if (typeof data.ragMatchCount === "number") {
+        parts.push(`${tr("admin.analytics.meta.hits")}: ${data.ragMatchCount}`);
+      }
+      if (typeof data.groupCount === "number") {
+        parts.push(`${tr("admin.analytics.meta.groups")}: ${data.groupCount}`);
+      }
+      if (typeof data.grounding === "string") {
+        parts.push(`${tr("admin.analytics.meta.grounding")}: ${data.grounding}`);
+      }
+      if (typeof data.chosenGroupCount === "number") {
+        parts.push(`${tr("admin.analytics.meta.chosen")}: ${data.chosenGroupCount}`);
+      }
+      if (typeof data.isCrisis === "boolean") {
+        parts.push(`${tr("admin.analytics.meta.crisis")}: ${data.isCrisis ? tr("admin.common.yes") : tr("admin.common.no")}`);
+      }
+      if (typeof data.hasHistory === "boolean") {
+        parts.push(`${tr("admin.analytics.meta.history")}: ${data.hasHistory ? tr("admin.common.yes") : tr("admin.common.no")}`);
+      }
+      return parts.join(" | ");
+    },
+    [tr]
+  );
+
+  const loadingLabel = tr("admin.common.loading");
+
+  return (
+    <div className={pageClassName}>
       <div className="flex flex-col items-center gap-2 text-center">
         <div className="grid gap-1.5 justify-items-center">
-          <h1 className="m-0 text-[2rem] font-[650] tracking-[0.02em] text-[color:var(--admin-text)]">Analüütika</h1>
+          <h1 className="m-0 text-[2rem] font-[650] tracking-[0.02em] text-[color:var(--admin-text)]">{tr("admin.analytics.title")}</h1>
         </div>
         <div className="flex flex-wrap justify-center gap-2.5">
           <Button
@@ -217,7 +300,7 @@ export default function AnalyticsDashboard() {
             onClick={refresh}
             disabled={loadingSummary || loadingEvents}
           >
-            {loadingSummary || loadingEvents ? "Laen..." : "Värskenda"}
+            {loadingSummary || loadingEvents ? loadingLabel : tr("admin.common.refresh")}
           </Button>
         </div>
       </div>
@@ -227,55 +310,57 @@ export default function AnalyticsDashboard() {
       <div className={kpiGridClassName}>
         <div className={cardClassName}>
           <div className={`${cardBodyClassName} min-h-[118px]`}>
-            <CardTitle>Päringud (30p)</CardTitle>
-            <div className={kpiValueClassName}>
-              {loadingSummary ? "Laen..." : formatCount(summary?.totalRequests ?? 0)}
-            </div>
-            <div className={kpiMetaClassName}>Kokku vestluspäringuid</div>
+            <CardTitle>{tr("admin.analytics.kpis.requests_30d.title")}</CardTitle>
+            <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.totalRequests ?? 0, localeTag)}</div>
+            <div className={kpiMetaClassName}>{tr("admin.analytics.kpis.requests_30d.meta")}</div>
           </div>
         </div>
         <div className={cardClassName}>
           <div className={`${cardBodyClassName} min-h-[118px]`}>
-            <CardTitle>RAG otsingud</CardTitle>
-            <div className={kpiValueClassName}>
-              {loadingSummary ? "Laen..." : formatCount(summary?.ragSearchCount ?? 0)}
-            </div>
+            <CardTitle>{tr("admin.analytics.kpis.rag_searches.title")}</CardTitle>
+            <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.ragSearchCount ?? 0, localeTag)}</div>
             <div className={kpiMetaClassName}>
-              {requestSplit ? `Osakaal ${requestSplit.rag}%` : "Osakaal puudub"}
+              {requestSplit
+                ? tr("admin.analytics.kpis.share", { percent: requestSplit.rag })
+                : tr("admin.analytics.kpis.share_missing")}
             </div>
           </div>
         </div>
         <div className={cardClassName}>
           <div className={`${cardBodyClassName} min-h-[118px]`}>
-            <CardTitle>Ilma kontekstita</CardTitle>
-            <div className={kpiValueClassName}>
-              {loadingSummary ? "Laen..." : formatCount(summary?.noContextCount ?? 0)}
-            </div>
+            <CardTitle>{tr("admin.analytics.kpis.no_context.title")}</CardTitle>
+            <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.noContextCount ?? 0, localeTag)}</div>
             <div className={kpiMetaClassName}>
-              {requestSplit ? `Osakaal ${requestSplit.noContext}%` : "Osakaal puudub"}
+              {requestSplit
+                ? tr("admin.analytics.kpis.share", { percent: requestSplit.noContext })
+                : tr("admin.analytics.kpis.share_missing")}
             </div>
           </div>
         </div>
         <div className={cardClassName}>
           <div className={`${cardBodyClassName} min-h-[118px]`}>
-            <CardTitle>Kriis</CardTitle>
-            <div className={kpiValueClassName}>
-              {loadingSummary ? "Laen..." : formatCount(summary?.totalCrisis ?? 0)}
-            </div>
-            <div className={kpiMetaClassName}>Kriisitugevus tuvastatud</div>
+            <CardTitle>{tr("admin.analytics.kpis.crisis.title")}</CardTitle>
+            <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.totalCrisis ?? 0, localeTag)}</div>
+            <div className={kpiMetaClassName}>{tr("admin.analytics.kpis.crisis.meta")}</div>
           </div>
         </div>
         <div className={cardClassName}>
           <div className={`${cardBodyClassName} min-h-[118px]`}>
-            <CardTitle>Keskmised (RAG)</CardTitle>
+            <CardTitle>{tr("admin.analytics.kpis.rag_averages.title")}</CardTitle>
             <div className={kpiMetaClassName}>
-              {loadingSummary ? "Laen..." : `Tabamusi ${summary?.averages?.avgRagMatchCount?.toFixed?.(1) || "0"}, grupid ${summary?.averages?.avgGroupCount?.toFixed?.(1) || "0"}, valik ${summary?.averages?.avgChosenGroupCount?.toFixed?.(1) || "0"}`}
+              {loadingSummary
+                ? loadingLabel
+                : tr("admin.analytics.kpis.rag_averages.meta", {
+                    hits: summary?.averages?.avgRagMatchCount?.toFixed?.(1) || "0",
+                    groups: summary?.averages?.avgGroupCount?.toFixed?.(1) || "0",
+                    chosen: summary?.averages?.avgChosenGroupCount?.toFixed?.(1) || "0"
+                  })}
             </div>
           </div>
         </div>
         <div className={cardClassName}>
           <div className={`${cardBodyClassName} min-h-[118px]`}>
-            <CardTitle>Grounding</CardTitle>
+            <CardTitle>{tr("admin.analytics.kpis.grounding.title")}</CardTitle>
             {groundingSummary ? (
               <>
                 <div className={barClassName}>
@@ -284,11 +369,15 @@ export default function AnalyticsDashboard() {
                   <span className="block h-full bg-[color:var(--admin-danger)]" style={{ width: `${groundingSummary.weak}%` }} />
                 </div>
                 <div className={kpiMetaClassName}>
-                  Tugev {groundingSummary.strong}% | OK {groundingSummary.ok}% | Nõrk {groundingSummary.weak}%
+                  {tr("admin.analytics.kpis.grounding.meta", {
+                    strong: groundingSummary.strong,
+                    ok: groundingSummary.ok,
+                    weak: groundingSummary.weak
+                  })}
                 </div>
               </>
             ) : (
-              <div className={kpiMetaClassName}>{loadingSummary ? "Laen..." : "-"}</div>
+              <div className={kpiMetaClassName}>{loadingSummary ? loadingLabel : "-"}</div>
             )}
           </div>
         </div>
@@ -298,58 +387,54 @@ export default function AnalyticsDashboard() {
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
-              <CardTitle>RAG dokumendibaas</CardTitle>
-              <div className={sectionSubClassName}>
-                Ülevaade indekseerimisest ja värsketest lisandustest.
-              </div>
+              <CardTitle>{tr("admin.analytics.rag_docs.title")}</CardTitle>
+              <div className={sectionSubClassName}>{tr("admin.analytics.rag_docs.subtitle")}</div>
             </div>
           </div>
           <div className={`${kpiGridClassName} mt-3`}>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Dokumente kokku</CardTitle>
-                <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.total ?? 0)}
-                </div>
+                <CardTitle>{tr("admin.analytics.rag_docs.total")}</CardTitle>
+                <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.ragDocs?.total ?? 0, localeTag)}</div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Ebaõnnestunud</CardTitle>
-                <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.failed ?? 0)}
-                </div>
+                <CardTitle>{tr("admin.analytics.rag_docs.failed")}</CardTitle>
+                <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.ragDocs?.failed ?? 0, localeTag)}</div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Veaga (30p)</CardTitle>
-                <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatCount(summary?.ragDocs?.error30d ?? 0)}
-                </div>
+                <CardTitle>{tr("admin.analytics.rag_docs.error_30d")}</CardTitle>
+                <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.ragDocs?.error30d ?? 0, localeTag)}</div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Staatused</CardTitle>
+                <CardTitle>{tr("admin.analytics.rag_docs.statuses")}</CardTitle>
                 <div className={kpiMetaClassName}>
-                  {loadingSummary ? "Laen..." : joinCounts(summary?.ragDocs?.byStatus, ["PENDING", "PROCESSING", "COMPLETED", "FAILED"], STATUS_LABELS) || "-"}
+                  {loadingSummary
+                    ? loadingLabel
+                    : joinCounts(summary?.ragDocs?.byStatus, ["PENDING", "PROCESSING", "COMPLETED", "FAILED"], statusLabels) || "-"}
                 </div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Sihtrühm</CardTitle>
+                <CardTitle>{tr("admin.analytics.rag_docs.audience")}</CardTitle>
                 <div className={kpiMetaClassName}>
-                  {loadingSummary ? "Laen..." : joinCounts(summary?.ragDocs?.byAudience, ["CLIENT", "SOCIAL_WORKER", "BOTH"], AUDIENCE_LABELS) || "-"}
+                  {loadingSummary
+                    ? loadingLabel
+                    : joinCounts(summary?.ragDocs?.byAudience, ["CLIENT", "SOCIAL_WORKER", "BOTH"], audienceLabels) || "-"}
                 </div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Tüüp</CardTitle>
+                <CardTitle>{tr("admin.analytics.rag_docs.type")}</CardTitle>
                 <div className={kpiMetaClassName}>
-                  {loadingSummary ? "Laen..." : joinCounts(summary?.ragDocs?.byType, ["FILE", "URL"]) || "-"}
+                  {loadingSummary ? loadingLabel : joinCounts(summary?.ragDocs?.byType, ["FILE", "URL"]) || "-"}
                 </div>
               </div>
             </div>
@@ -359,41 +444,39 @@ export default function AnalyticsDashboard() {
             <table className={tableClassName}>
               <thead>
                 <tr>
-                  <th className={tableHeadCellClassName}>Aeg</th>
-                  <th className={tableHeadCellClassName}>Pealkiri</th>
-                  <th className={tableHeadCellClassName}>Staatus</th>
-                  <th className={tableHeadCellClassName}>Tüüp</th>
-                  <th className={tableHeadCellClassName}>Sihtrühm</th>
-                  <th className={tableHeadCellClassName}>Allikas</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.table.time")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.table.title")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.table.status")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.table.type")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.table.audience")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.table.source")}</th>
                 </tr>
               </thead>
               <tbody>
                 {loadingSummary ? (
                   <tr>
                     <td className={tableCellClassName} colSpan={6}>
-                      Laen...
+                      {loadingLabel}
                     </td>
                   </tr>
                 ) : (summary?.ragDocs?.recent || []).length ? (
-                  (summary?.ragDocs?.recent || []).map(d => {
-                    const source = (d.sourceUrl || d.fileName || "").toString();
+                  (summary?.ragDocs?.recent || []).map(doc => {
+                    const source = (doc.sourceUrl || doc.fileName || "").toString();
                     return (
-                      <tr key={d.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                        <td className={tableCellClassName}>{formatDate(d.insertedAt || d.createdAt)}</td>
-                        <td className={`${tableCellClassName} ${cellSubClassName}`}>{d.title || "(pealkirjata)"}</td>
-                        <td className={tableCellClassName}>{STATUS_LABELS[d.status] || d.status}</td>
-                        <td className={tableCellClassName}>{d.type}</td>
-                        <td className={tableCellClassName}>{AUDIENCE_LABELS[d.audience] || d.audience || "-"}</td>
-                        <td className={`${tableCellClassName} ${cellSubClassName}`}>
-                          {source ? source.slice(0, 80) : "-"}
-                        </td>
+                      <tr key={doc.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                        <td className={tableCellClassName}>{formatDate(doc.insertedAt || doc.createdAt, localeTag)}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>{doc.title || tr("admin.analytics.table.untitled")}</td>
+                        <td className={tableCellClassName}>{statusLabels[doc.status] || doc.status}</td>
+                        <td className={tableCellClassName}>{doc.type}</td>
+                        <td className={tableCellClassName}>{audienceLabels[doc.audience] || doc.audience || "-"}</td>
+                        <td className={`${tableCellClassName} ${cellSubClassName}`}>{source ? source.slice(0, 80) : "-"}</td>
                       </tr>
                     );
                   })
                 ) : (
                   <tr>
                     <td className={tableCellClassName} colSpan={6}>
-                      Kirjeid ei leitud.
+                      {tr("admin.analytics.table.empty")}
                     </td>
                   </tr>
                 )}
@@ -407,50 +490,44 @@ export default function AnalyticsDashboard() {
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
-              <CardTitle>Tellimused ja maksed</CardTitle>
-              <div className={sectionSubClassName}>
-                Maksevood ja tellimuste aktiivsus viimase 30 päeva lõikes.
-              </div>
+              <CardTitle>{tr("admin.analytics.billing.title")}</CardTitle>
+              <div className={sectionSubClassName}>{tr("admin.analytics.billing.subtitle")}</div>
             </div>
           </div>
           <div className={`${kpiGridClassName} mt-3`}>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Aktiivsed tellimused</CardTitle>
-                <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatCount(summary?.billing?.activeSubscriptions ?? 0)}
-                </div>
+                <CardTitle>{tr("admin.analytics.billing.active_subscriptions")}</CardTitle>
+                <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.billing?.activeSubscriptions ?? 0, localeTag)}</div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Uued tellimused (30p)</CardTitle>
-                <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatCount(summary?.billing?.newSubscriptions30d ?? 0)}
-                </div>
+                <CardTitle>{tr("admin.analytics.billing.new_subscriptions_30d")}</CardTitle>
+                <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.billing?.newSubscriptions30d ?? 0, localeTag)}</div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Tühistamised (30p)</CardTitle>
-                <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatCount(summary?.billing?.canceledSubscriptions30d ?? 0)}
-                </div>
+                <CardTitle>{tr("admin.analytics.billing.cancellations_30d")}</CardTitle>
+                <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.billing?.canceledSubscriptions30d ?? 0, localeTag)}</div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Makse staatused (30p)</CardTitle>
+                <CardTitle>{tr("admin.analytics.billing.payment_statuses_30d")}</CardTitle>
                 <div className={kpiMetaClassName}>
-                  {loadingSummary ? "Laen..." : joinCounts(summary?.billing?.paymentsByStatus30d, ["PAID", "INITIATED", "FAILED", "CANCELED", "REFUNDED"]) || "-"}
+                  {loadingSummary
+                    ? loadingLabel
+                    : joinCounts(summary?.billing?.paymentsByStatus30d, ["PAID", "INITIATED", "FAILED", "CANCELED", "REFUNDED"]) || "-"}
                 </div>
               </div>
             </div>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
-                <CardTitle>Laekunud (PAID 30p)</CardTitle>
+                <CardTitle>{tr("admin.analytics.billing.paid_amount_30d")}</CardTitle>
                 <div className={kpiValueClassName}>
-                  {loadingSummary ? "Laen..." : formatMoney(summary?.billing?.paidAmount30d ?? "0", "EUR")}
+                  {loadingSummary ? loadingLabel : formatMoney(summary?.billing?.paidAmount30d ?? "0", "EUR", localeTag)}
                 </div>
               </div>
             </div>
@@ -460,34 +537,34 @@ export default function AnalyticsDashboard() {
             <table className={tableClassName}>
               <thead>
                 <tr>
-                  <th className={tableHeadCellClassName}>Aeg</th>
-                  <th className={tableHeadCellClassName}>Staatus</th>
-                  <th className={tableHeadCellClassName}>Summa</th>
-                  <th className={tableHeadCellClassName}>Provider</th>
-                  <th className={tableHeadCellClassName}>PaidAt</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.billing.table.time")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.billing.table.status")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.billing.table.amount")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.billing.table.provider")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.billing.table.paid_at")}</th>
                 </tr>
               </thead>
               <tbody>
                 {loadingSummary ? (
                   <tr>
                     <td className={tableCellClassName} colSpan={5}>
-                      Laen...
+                      {loadingLabel}
                     </td>
                   </tr>
                 ) : (summary?.billing?.recentPayments || []).length ? (
-                  (summary?.billing?.recentPayments || []).map(p => (
-                    <tr key={p.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                      <td className={tableCellClassName}>{formatDate(p.createdAt)}</td>
-                      <td className={tableCellClassName}>{p.status}</td>
-                      <td className={tableCellClassName}>{formatMoney(p.amount, p.currency || "EUR")}</td>
-                      <td className={tableCellClassName}>{p.provider}</td>
-                      <td className={tableCellClassName}>{p.paidAt ? formatDate(p.paidAt) : "-"}</td>
+                  (summary?.billing?.recentPayments || []).map(payment => (
+                    <tr key={payment.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                      <td className={tableCellClassName}>{formatDate(payment.createdAt, localeTag)}</td>
+                      <td className={tableCellClassName}>{payment.status}</td>
+                      <td className={tableCellClassName}>{formatMoney(payment.amount, payment.currency || "EUR", localeTag)}</td>
+                      <td className={tableCellClassName}>{payment.provider}</td>
+                      <td className={tableCellClassName}>{payment.paidAt ? formatDate(payment.paidAt, localeTag) : "-"}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td className={tableCellClassName} colSpan={5}>
-                      Kirjeid ei leitud.
+                      {tr("admin.analytics.billing.table.empty")}
                     </td>
                   </tr>
                 )}
@@ -501,25 +578,23 @@ export default function AnalyticsDashboard() {
         <div className={cardBodyClassName}>
           <div className={sectionHeadClassName}>
             <div>
-              <CardTitle>Logid</CardTitle>
-              <div className={sectionSubClassName}>
-                Viimased 100 sündmust koos filtritega.
-              </div>
+              <CardTitle>{tr("admin.analytics.logs.title")}</CardTitle>
+              <div className={sectionSubClassName}>{tr("admin.analytics.logs.subtitle")}</div>
             </div>
           </div>
           <div className={`${toolbarClassName} mt-2`}>
-            <select className={selectClassName} value={eventFilter} onChange={e => setEventFilter(e.target.value)}>
-              <option value="all">Kõik sündmused</option>
-              {EVENT_OPTIONS.map(ev => (
-                <option key={ev.value} value={ev.value}>
-                  {ev.label}
+            <select className={selectClassName} value={eventFilter} onChange={event => setEventFilter(event.target.value)}>
+              <option value="all">{tr("admin.analytics.logs.filter.all_events")}</option>
+              {EVENT_OPTIONS.map(event => (
+                <option key={event.value} value={event.value}>
+                  {eventLabels[event.value] || event.value}
                 </option>
               ))}
             </select>
-            <select className={selectClassName} value={isCrisisFilter} onChange={e => setIsCrisisFilter(e.target.value)}>
-              <option value="all">Kriis: kõik</option>
-              <option value="true">Kriis: jah</option>
-              <option value="false">Kriis: ei</option>
+            <select className={selectClassName} value={isCrisisFilter} onChange={event => setIsCrisisFilter(event.target.value)}>
+              <option value="all">{tr("admin.analytics.logs.filter.crisis_all")}</option>
+              <option value="true">{tr("admin.analytics.logs.filter.crisis_yes")}</option>
+              <option value="false">{tr("admin.analytics.logs.filter.crisis_no")}</option>
             </select>
           </div>
 
@@ -527,34 +602,34 @@ export default function AnalyticsDashboard() {
             <table className={tableClassName}>
               <thead>
                 <tr>
-                  <th className={tableHeadCellClassName}>Aeg</th>
-                  <th className={tableHeadCellClassName}>Sündmus</th>
-                  <th className={tableHeadCellClassName}>Roll</th>
-                  <th className={tableHeadCellClassName}>Kriis</th>
-                  <th className={tableHeadCellClassName}>Meta</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.logs.table.time")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.logs.table.event")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.logs.table.role")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.logs.table.crisis")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.logs.table.meta")}</th>
                 </tr>
               </thead>
               <tbody>
                 {loadingEvents ? (
                   <tr>
                     <td className={tableCellClassName} colSpan={5}>
-                      Laen...
+                      {loadingLabel}
                     </td>
                   </tr>
                 ) : filteredEvents.length ? (
                   filteredEvents.map(row => (
                     <tr key={row.id} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
-                      <td className={tableCellClassName}>{formatDate(row.createdAt)}</td>
-                      <td className={tableCellClassName}>{EVENT_LABELS[row.event] || row.event}</td>
+                      <td className={tableCellClassName}>{formatDate(row.createdAt, localeTag)}</td>
+                      <td className={tableCellClassName}>{eventLabels[row.event] || row.event}</td>
                       <td className={tableCellClassName}>{row.role || "-"}</td>
-                      <td className={tableCellClassName}>{row?.data?.isCrisis ? "jah" : "ei"}</td>
+                      <td className={tableCellClassName}>{row?.data?.isCrisis ? tr("admin.common.yes") : tr("admin.common.no")}</td>
                       <td className={`${tableCellClassName} ${cellSubClassName}`}>{metaSummary(row.data)}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td className={tableCellClassName} colSpan={5}>
-                      Kirjeid ei leitud.
+                      {tr("admin.analytics.logs.table.empty")}
                     </td>
                   </tr>
                 )}
@@ -563,10 +638,12 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
       </div>
+
       <div className="flex justify-center">
-        <Link prefetch={false} href="/#meist" className={backButtonClassName} aria-label="Tagasi">
+        <Link prefetch={false} href="/#meist" className={backButtonClassName} aria-label={tr("admin.common.back")}>
           <BackIcon className="h-[4.8rem] w-[4.8rem]" />
         </Link>
       </div>
-    </div>;
+    </div>
+  );
 }

@@ -1050,5 +1050,141 @@
         "unknown_error": "Unknown error."
       }
     }
+  },
+  "admin": {
+    "common": {
+      "loading": "Loading...",
+      "loading_data": "Loading data...",
+      "loading_panel": "Loading panel...",
+      "refresh": "Refresh",
+      "back": "Back",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "pages": {
+      "analytics": {
+        "meta_title": "Analytics - SotsiaalAI"
+      },
+      "rag": {
+        "meta_title": "RAG Admin - SotsiaalAI",
+        "meta_description": "Upload and manage RAG materials.",
+        "heading": "RAG Admin"
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "errors": {
+        "summary_fetch_failed": "Summary fetch failed.",
+        "events_fetch_failed": "Events fetch failed."
+      },
+      "events": {
+        "chat_request": "Chat request",
+        "rag_search": "RAG search",
+        "no_context": "No context",
+        "crisis_detected": "Crisis detected",
+        "rag_error": "RAG error",
+        "openai_error": "OpenAI error"
+      },
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "audience": {
+        "social_worker": "Social worker specialist",
+        "client": "Help seeker",
+        "both": "Both"
+      },
+      "meta": {
+        "hits": "hits",
+        "groups": "groups",
+        "grounding": "grounding",
+        "chosen": "chosen",
+        "crisis": "crisis",
+        "history": "history"
+      },
+      "kpis": {
+        "requests_30d": {
+          "title": "Requests (30d)",
+          "meta": "Total chat requests"
+        },
+        "rag_searches": {
+          "title": "RAG searches"
+        },
+        "no_context": {
+          "title": "No context"
+        },
+        "share": "Share {percent}%",
+        "share_missing": "Share unavailable",
+        "crisis": {
+          "title": "Crisis",
+          "meta": "Crisis severity detected"
+        },
+        "rag_averages": {
+          "title": "Averages (RAG)",
+          "meta": "Hits {hits}, groups {groups}, chosen {chosen}"
+        },
+        "grounding": {
+          "title": "Grounding",
+          "meta": "Strong {strong}% | OK {ok}% | Weak {weak}%"
+        }
+      },
+      "rag_docs": {
+        "title": "RAG document base",
+        "subtitle": "Overview of indexing and recent additions.",
+        "total": "Total documents",
+        "failed": "Failed",
+        "error_30d": "With error (30d)",
+        "statuses": "Statuses",
+        "audience": "Audience",
+        "type": "Type"
+      },
+      "table": {
+        "time": "Time",
+        "title": "Title",
+        "status": "Status",
+        "type": "Type",
+        "audience": "Audience",
+        "source": "Source",
+        "untitled": "(untitled)",
+        "empty": "No records found."
+      },
+      "billing": {
+        "title": "Subscriptions and payments",
+        "subtitle": "Payment flows and subscription activity over the last 30 days.",
+        "active_subscriptions": "Active subscriptions",
+        "new_subscriptions_30d": "New subscriptions (30d)",
+        "cancellations_30d": "Cancellations (30d)",
+        "payment_statuses_30d": "Payment statuses (30d)",
+        "paid_amount_30d": "Collected (PAID 30d)",
+        "table": {
+          "time": "Time",
+          "status": "Status",
+          "amount": "Amount",
+          "provider": "Provider",
+          "paid_at": "PaidAt",
+          "empty": "No records found."
+        }
+      },
+      "logs": {
+        "title": "Logs",
+        "subtitle": "Latest 100 events with filters.",
+        "filter": {
+          "all_events": "All events",
+          "crisis_all": "Crisis: all",
+          "crisis_yes": "Crisis: yes",
+          "crisis_no": "Crisis: no"
+        },
+        "table": {
+          "time": "Time",
+          "event": "Event",
+          "role": "Role",
+          "crisis": "Crisis",
+          "meta": "Meta",
+          "empty": "No records found."
+        }
+      }
+    }
   }
 }
