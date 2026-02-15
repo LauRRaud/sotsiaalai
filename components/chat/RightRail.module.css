@@ -399,7 +399,7 @@
   }
 
   .slot {
-    top: calc(env(safe-area-inset-top, 0px) + 1.08rem) !important;
+    top: var(--chat-mobile-rail-top) !important;
     left: auto !important;
     right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
     width: 100% !important;
@@ -426,7 +426,7 @@
     overflow: visible !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
-    --rail-item-size: clamp(3.15rem, 10.5vw, 3.65rem);
+    --rail-item-size: var(--chat-mobile-rail-size);
     --rail-icon-scale: 0.92;
   }
 

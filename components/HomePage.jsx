@@ -411,10 +411,9 @@ export default function HomePage() {
     const side = pendingExitSide || lastClickSideRef.current;
     if (!side) return;
     setPendingExitSide(null);
-    setIsLoginOpen(false);
-    window.setTimeout(() => startExitToChat(side, {
+    startExitToChat(side, {
       force: true
-    }), 0);
+    });
   }, [pendingExitSide, startExitToChat]);
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>

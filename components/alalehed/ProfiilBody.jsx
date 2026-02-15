@@ -74,7 +74,7 @@ const logoutButtonClassName =
 const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
-  "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
+  "text-[1.2rem] min-[48.0625em]:text-[1.36rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
   "text-[#c57171] light:text-[#7A3A38] opacity-0 -translate-y-[0.38rem] pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
   "group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0";
@@ -84,7 +84,7 @@ const profileBackButtonClassName =
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
-  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto translate-x-[-0.68rem] ` +
+  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto min-[48.0625em]:translate-x-[-0.1rem] max-[48em]:translate-x-[-0.68rem] ` +
   "max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
@@ -258,6 +258,7 @@ export default function ProfiilBody({
   const rolePillRef = useRef(null);
   const maskLayerRef = useRef(null);
   const maskRefreshRef = useRef(null);
+  const logoutRedirectRef = useRef(false);
   useLayoutEffect(() => {
     const box = profileContainerRef.current;
     const pill = rolePillRef.current;
@@ -446,6 +447,7 @@ export default function ProfiilBody({
   }, [isActive]);
   useEffect(() => {
     if (status !== "unauthenticated") return;
+    if (logoutRedirectRef.current) return;
     if (embedded && !isActive) return;
     setLoginOpen(true);
   }, [embedded, isActive, status]);
@@ -521,12 +523,25 @@ export default function ProfiilBody({
     if (loggingOut) return;
     setError("");
     setSuccess("");
+    setLoginOpen(false);
+    logoutRedirectRef.current = true;
     setLoggingOut(true);
     try {
-      await signOut({
+      const signOutResult = await signOut({
+        redirect: false,
         callbackUrl: localizePath("/", locale)
       });
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.remove("modal-open", "login-modal-open", "profile-orbit-open");
+        document.body.classList.remove("modal-open", "login-modal-open", "home-profile-open");
+      }
+      clearStaleScrollLock();
+      const redirectUrl = signOutResult?.url || localizePath("/", locale);
+      if (typeof window !== "undefined") {
+        window.location.href = redirectUrl;
+      }
     } catch (err) {
+      logoutRedirectRef.current = false;
       console.error("profile logout", err);
       setError(t("profile.server_unreachable"));
     } finally {

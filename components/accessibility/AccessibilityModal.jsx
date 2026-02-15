@@ -529,7 +529,7 @@ export default function AccessibilityModal({
             </OptionCard>
           </fieldset>
 
-          <div className={`csp-step ${getA11yStepClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[1.1rem] max-[48em]:translate-y-0`}>
+          <div className={`csp-step a11y-save-step ${getA11yStepClassName(4)} flex justify-center mt-[1.6rem] min-[48.0625em]:mt-[0.7rem] min-[48.0625em]:translate-y-[-0.7rem] max-[48em]:mt-[1.1rem] max-[48em]:translate-y-0`}>
               <Button
               type="button"
               variant="primary"

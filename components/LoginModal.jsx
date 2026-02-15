@@ -165,6 +165,8 @@ export default function LoginModal({
   const messageText = error ? error : info && !isOtpStep ? info : "";
   const showHeaderMessage = isOtpStep && hasMessage;
   const showPinMessage = !isOtpStep && hasMessage;
+  const managedByExternalAuthSuccess =
+    suppressRedirect && typeof onAuthSuccess === "function";
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-[0.38em] leading-[1.24]", "mt-[0.02rem] max-md:mt-[0rem]", "mb-[0.0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", "gap-[0.02em]", "mt-[-0.04rem]", "max-md:mt-[0.08rem]", "mb-0"].join(" ");
   const emailRowClass = ["flex", "w-full", "justify-center", "items-center", "h-[var(--login-envelope-hit)]", "mt-[-0.52rem]", "max-md:mt-[-0.3rem]", "mb-[-0.18rem]", "max-md:mb-[-0.04rem]"].join(" ");
@@ -323,13 +325,23 @@ export default function LoginModal({
   useEffect(() => {
     if (!open) return;
     if (status === "authenticated" && session) {
+      if (managedByExternalAuthSuccess) return;
       onClose?.();
       if (!suppressRedirect) {
         router.replace(nextUrl);
         router.refresh();
       }
     }
-  }, [open, status, session, nextUrl, router, onClose, suppressRedirect]);
+  }, [
+    open,
+    status,
+    session,
+    nextUrl,
+    router,
+    onClose,
+    suppressRedirect,
+    managedByExternalAuthSuccess
+  ]);
   useEffect(() => {
     if (open) return;
     setStep("pin");
@@ -426,13 +438,25 @@ export default function LoginModal({
     if (typeof onAuthSuccess === "function") {
       onAuthSuccess();
     }
-    onClose?.();
+    if (!managedByExternalAuthSuccess) {
+      onClose?.();
+    }
     if (!suppressRedirect) {
       router.replace(nextUrl);
       router.refresh();
     }
     return true;
-  }, [markPinError, markPinSuccess, nextUrl, onAuthSuccess, onClose, router, suppressRedirect, t]);
+  }, [
+    markPinError,
+    markPinSuccess,
+    nextUrl,
+    onAuthSuccess,
+    onClose,
+    router,
+    suppressRedirect,
+    t,
+    managedByExternalAuthSuccess
+  ]);
   const submitPinStep = useCallback(async () => {
     setError("");
     setInfo("");

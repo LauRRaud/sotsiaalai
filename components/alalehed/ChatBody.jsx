@@ -100,7 +100,15 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-pad-top": "clamp(0.75rem, 2vh, 1.1rem)",
   "--chat-pad-bottom": "clamp(0.5rem, 1.8vh, 0.9rem)",
   "--chat-logo-height": "clamp(9rem, 52vw, 18rem)",
-  "--chat-logo-y": "clamp(3.6rem, 24vh, 9.4rem)"
+  "--chat-logo-y": "clamp(3.6rem, 24vh, 9.4rem)",
+  "--chat-mobile-back-top": "calc(env(safe-area-inset-top, 0px) + 0.56rem)",
+  "--chat-mobile-back-size": "4.4rem",
+  "--chat-mobile-show-size": "4.08rem",
+  "--chat-mobile-show-icon-size": "3.34rem",
+  "--chat-mobile-rail-size": "clamp(3.45rem, 11.3vw, 3.95rem)",
+  "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
+  "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
+  "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))"
 });
 
 const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
@@ -882,9 +890,9 @@ export default function ChatBody({
               }}
                         disabled={mobileRailInteractionLocked}
                         aria-label={t("chat.show_quick_actions")}
-                        className="chat-rail-show-btn pointer-events-auto touch-manipulation absolute z-[221] top-[calc(env(safe-area-inset-top,0px)+0.87rem)] left-[calc(env(safe-area-inset-left,0px)+4.5rem)] h-[3.58rem] w-[3.58rem] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
+                        className="chat-rail-show-btn pointer-events-auto touch-manipulation absolute z-[221] top-[var(--chat-mobile-show-top)] left-[calc(env(safe-area-inset-left,0px)+0.04rem+var(--chat-mobile-back-size)+0.08rem)] h-[var(--chat-mobile-show-size)] w-[var(--chat-mobile-show-size)] p-0 m-0 border-0 bg-transparent inline-flex items-center justify-center text-[#c57171] light:text-[#7a3a38] opacity-90 transition-[opacity,transform] duration-180 ease-out active:scale-[0.96] focus-visible:outline-none disabled:opacity-55 disabled:pointer-events-none min-[48.0625em]:hidden"
                       >
-                        <ShowRailIcon isLightTheme={isLightTheme} className="h-[2.95rem] w-[2.95rem]" />
+                        <ShowRailIcon isLightTheme={isLightTheme} className="h-[var(--chat-mobile-show-icon-size)] w-[var(--chat-mobile-show-icon-size)]" />
                       </button> : null}
 
                 <RightRail
