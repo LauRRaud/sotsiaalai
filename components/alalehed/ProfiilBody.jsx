@@ -56,9 +56,9 @@ const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
   "min-[48.0625em]:[--orbit-item-size:clamp(4.35rem,8.4vw,5.4rem)] min-[48.0625em]:[--orbit-item-size-open:clamp(4.6rem,8.9vw,5.75rem)] " +
-  "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem] " +
+  "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:-0.06rem] " +
   "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:clamp(16.6rem,33vw,22.8rem)] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
-  "min-[48.0625em]:[--orbit-center-size:clamp(8.2rem,15vw,10.4rem)] " +
+  "min-[48.0625em]:[--orbit-center-size:clamp(8.95rem,16.2vw,11.2rem)] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
@@ -70,8 +70,8 @@ const orbitWrapperClassName =
   "min-[48.0625em]:w-[var(--orbit-size)] min-[48.0625em]:min-h-[var(--orbit-size)] " +
   "min-[48.0625em]:m-0 min-[48.0625em]:-translate-x-1/2 min-[48.0625em]:-translate-y-1/2";
 const logoutButtonClassName =
-  "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[48em]:h-[5.7rem] max-[48em]:w-[5.7rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
-const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[3.85rem] max-[48em]:w-[3.85rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
+  "group relative grid place-items-center h-[5.2rem] w-[5.2rem] max-[48em]:h-[6.2rem] max-[48em]:w-[6.2rem] rounded-full border-0 bg-transparent cursor-[var(--cursor-pointer)] pointer-events-auto focus-visible:outline-none";
+const logoutIconClassName = "h-[4.2rem] w-[4.2rem] max-[48em]:h-[4.35rem] max-[48em]:w-[4.35rem] transform-gpu will-change-transform transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] group-active:scale-[0.98]";
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
   "text-[1.2rem] max-[48em]:text-[1.08rem] font-[500] tracking-[0.06em] leading-[1.1] " +
@@ -623,7 +623,7 @@ export default function ProfiilBody({
             toggleLabelClose={t("buttons.close")}
             mobileVariant="stack"
             mobileBackItem={mobileBackItem}
-            className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:0.18rem]"
+            className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:-0.06rem]"
             onOpenChange={setOrbitOpen}
           />
         </div>

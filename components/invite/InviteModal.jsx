@@ -49,6 +49,8 @@ export default function InviteModal() {
     return `${lower.charAt(0).toLocaleUpperCase(locale || "et")}${lower.slice(1)}`;
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
+  const mobileInviteInputClassName =
+    "max-[48em]:!text-[1.16rem] max-[48em]:placeholder:!text-[1.08rem] max-[48em]:!min-h-[3.2rem] max-[48em]:!py-[0.84rem]";
   const inviteListCardClassName =
     "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(16,22,34,0.4)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
@@ -175,7 +177,7 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] [--input-text:var(--glass-modal-text)]">
+  return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[48em]:text-[1.18rem] max-[48em]:leading-[1.4] [--input-text:var(--glass-modal-text)]">
       <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.56rem)]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className={`${glassPageTitleClassName} max-[48em]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
@@ -188,13 +190,13 @@ export default function InviteModal() {
             <p>{t("invite.login_required")}</p>
           </div> : <form className="grid gap-[1rem]" onSubmit={submit}>
             {!roomId ? <>
-                <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} placeholder={t("invite.room_title")} aria-label={t("invite.room_title")} />
-                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} />
+                <Input id="invite-room-title" value={roomTitle} onChange={e => setRoomTitle(e.target.value)} disabled={busy} placeholder={t("invite.room_title")} aria-label={t("invite.room_title")} className={mobileInviteInputClassName} />
+                <Input id="invite-host-name" value={hostDisplayName} onChange={e => setHostDisplayName(e.target.value)} disabled={busy} placeholder={t("invite.host_name_ph")} aria-label={t("invite.host_name")} className={mobileInviteInputClassName} />
               </> : null}
-            <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} />
+            <Input id="invite-emails" value={emails} onChange={e => setEmails(e.target.value)} placeholder={t("invite.classic.emails_ph")} aria-label={t("invite.classic.emails")} disabled={busy} className={mobileInviteInputClassName} />
             <div className="mt-[0.6rem] grid grid-cols-2 gap-[0.6rem] max-[48em]:justify-items-center" role="radiogroup" aria-label={t("invite.pay.label")}>
               {paymentOptions.map(option => (
-                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[48em]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.02rem] !leading-[1.2] !tracking-[0.02rem] text-center justify-center max-[48em]:!min-h-[2.62rem] max-[48em]:!pt-[0.46rem] max-[48em]:!pb-[0.14rem]">
+                <OptionCard key={option.value} type="radio" name="payment" value={option.value} checked={paymentMode === option.value} onChange={e => setPaymentMode(e.target.value)} disabled={busy} className="w-full max-w-[16rem] max-[48em]:w-[min(38vw,12.2rem)] !min-h-[3.05rem] !py-[0.78rem] !text-[1.02rem] !leading-[1.2] !tracking-[0.02rem] text-center justify-center max-[48em]:!text-[1.12rem] max-[48em]:!min-h-[2.9rem] max-[48em]:!pt-[0.52rem] max-[48em]:!pb-[0.2rem]">
                   <span className="text-center [text-wrap:balance]">{option.label}</span>
                 </OptionCard>
               ))}
@@ -208,7 +210,7 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" size="md" className="!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem]" disabled={busy}>
+              <Button type="submit" variant="primary" size="md" className="!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] max-[48em]:!min-h-[3.2rem] max-[48em]:!text-[1.18rem]" disabled={busy}>
                 {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
@@ -216,18 +218,18 @@ export default function InviteModal() {
 
         <Panel variant="secondary" padding="sm" className={`${inviteListCardClassName} min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[48em]:min-h-[8rem] max-[48em]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
           <div className="flex items-center justify-between gap-[0.75rem]">
-            <span className="text-[1.05rem] font-[650] tracking-[0.02em]">
+            <span className="text-[1.05rem] font-[650] tracking-[0.02em] max-[48em]:text-[1.14rem]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" size="sm" className="!min-h-[2.05rem] !px-[0.75rem] !py-[0.3rem] !text-[0.95rem] !tracking-[0.02em]" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" size="sm" className="!min-h-[2.05rem] !px-[0.75rem] !py-[0.3rem] !text-[0.95rem] !tracking-[0.02em] max-[48em]:!min-h-[2.2rem] max-[48em]:!text-[1.04rem]" onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>
           {invites.length === 0 ? (
-            <p className="mt-[0.5rem] opacity-80">{t("invite.empty")}</p>
+            <p className="mt-[0.5rem] opacity-80 max-[48em]:text-[1.06rem]">{t("invite.empty")}</p>
           ) : (
-            <div className="mt-[0.5rem] grid gap-[0.6rem] text-[0.98rem]">
-              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.85rem] uppercase tracking-[0.08em] opacity-70">
+            <div className="mt-[0.5rem] grid gap-[0.6rem] text-[0.98rem] max-[48em]:text-[1.05rem]">
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] text-[0.85rem] uppercase tracking-[0.08em] opacity-70 max-[48em]:text-[0.94rem]">
                 <span>{t("invite.table.email")}</span>
                 <span>{t("invite.table.payer")}</span>
                 <span>{t("invite.table.status")}</span>

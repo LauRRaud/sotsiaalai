@@ -14,7 +14,7 @@ export const glassPageShellCenteredClassName =
   "mx-auto grid w-full min-h-[100dvh] place-items-center box-border";
 
 export const glassPageBackClassName =
-  "absolute left-[max(0px,calc(var(--glass-edge-left)-clamp(0.55rem,1.15vw,0.95rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2 max-[48em]:hidden min-[48em]:opacity-[0.85] light:min-[48em]:opacity-100";
+  "absolute left-[max(0px,calc(var(--glass-edge-left)-clamp(0.72rem,1.35vw,1.12rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2 min-[48em]:-translate-x-[0.42rem] max-[48em]:hidden min-[48em]:opacity-[0.85] light:min-[48em]:opacity-100";
 
 export const glassPageBackMobileCornerClassName =
   `${glassPageBackClassName} ` +
@@ -25,10 +25,10 @@ export const glassPageBackMobileCornerClassName =
 
 export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
-  "max-[48em]:!inline-flex max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.56rem)] " +
+  "max-[48em]:!inline-flex max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
   "max-[48em]:translate-x-0 max-[48em]:translate-y-0 max-[48em]:bottom-auto " +
-  "max-[48em]:h-[4.2rem] max-[48em]:w-[4.2rem] max-[48em]:z-[92] " +
-  "max-[48em]:[&>svg]:h-[4.2rem] max-[48em]:[&>svg]:w-[4.2rem]";
+  "max-[48em]:h-[4.4rem] max-[48em]:w-[4.4rem] max-[48em]:z-[92] " +
+  "max-[48em]:[&>svg]:h-[4.4rem] max-[48em]:[&>svg]:w-[4.4rem]";
 
 export const glassPageBackRightClassName =
   "absolute right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px))] -translate-y-1/2";

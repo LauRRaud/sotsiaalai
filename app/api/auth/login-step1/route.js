@@ -147,6 +147,7 @@ export async function POST(request) {
     const deviceCookie = cookieStore.get(DEVICE_COOKIE_NAME)?.value;
     const now = new Date();
     let trustedDevice = null;
+    let trustedDeviceCandidate = null;
     if (deviceCookie) {
       const deviceTokenHash = hashOpaqueToken(deviceCookie);
       const candidate = await prisma.trustedDevice.findFirst({
@@ -155,6 +156,7 @@ export async function POST(request) {
           deviceTokenHash
         }
       });
+      trustedDeviceCandidate = candidate;
       if (candidate && candidate.expiresAt > now) {
         const fingerprintMatch = !candidate.userAgentFingerprint || candidate.userAgentFingerprint === fingerprint;
         const ipMatch = !candidate.ipRange || !ipRange || candidate.ipRange === ipRange;
@@ -176,6 +178,7 @@ export async function POST(request) {
     const isBypassEmail = bypassEmails.includes((user.email || "").toLowerCase());
     const allowBypass = BYPASS_FOR_ADMINS && Boolean(user.isAdmin) || isBypassEmail;
     const requiresOtp = !trustedDevice && !allowBypass;
+    const otpReason = requiresOtp && trustedDeviceCandidate && trustedDeviceCandidate.expiresAt <= now ? "trusted_device_expired" : undefined;
     const {
       token,
       expiresAt
@@ -208,7 +211,8 @@ export async function POST(request) {
       status: "need_2fa",
       temp_login_token: token,
       email_mask: maskEmail(user.email),
-      otp_expires_at: otpExpiresAt.toISOString()
+      otp_expires_at: otpExpiresAt.toISOString(),
+      otp_reason: otpReason
     });
   } catch (error) {
     console.error("login-step1 error", error);

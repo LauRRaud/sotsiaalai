@@ -510,6 +510,7 @@ export default function LoginModal({
         setOtpValue("");
         setEmailMask(payload.email_mask || email);
         setOtpExpiresAt(payload.otp_expires_at || null);
+        setInfo(payload?.otp_reason === "trusted_device_expired" ? t("auth.login.otp_trusted_device_expired") : "");
         return;
       }
       markPinError();

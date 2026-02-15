@@ -75,6 +75,8 @@ body {
   cursor: var(--cursor-pointer);
 }
 .button {
+  appearance: none;
+  -webkit-appearance: none;
   transform: translateZ(0) scale(1);
   transition:
     transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1),

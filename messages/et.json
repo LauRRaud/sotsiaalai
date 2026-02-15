@@ -98,6 +98,7 @@
       "resending": "Saadame...",
       "otp_back": "Kasuta teist e-posti",
       "otp_invalid": "Kood on vale või aegunud.",
+      "otp_trusted_device_expired": "Usaldatud seadme 30-päevane periood lõppes. Kinnita sisselogimine koodiga.",
       "otp_resent": "Saadeti uus kood aadressile {email}.",
       "pin_hint": "Sisesta PIN. Turvalisuse huvides on sisestus peidetud ja märke ette ei loeta.",
       "key": "Number {digit}",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -10,124 +10,215 @@ import Modal from "@/components/ui/Modal";
 import InviteModal from "@/components/invite/InviteModal";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import CenteredScrollPicker from "@/components/CenteredScrollPicker";
+import ChevronIcon from "@/components/ui/icons/ChevronIcon";
+import "@/components/CenteredScrollPicker.css";
+import {
+  glassPageBackMobileBottomCenterClassName,
+  glassPageRingCenteredClassName,
+  glassPageShellCenteredClassName,
+  glassPageTitleClassName
+} from "@/components/ui/glassPageStyles";
+
 const pageShellClassName = `${glassPageShellCenteredClassName} max-md:py-0`;
-const circleClassName = `${glassPageRingCenteredClassName} glass-ring--desktop-stable flex-col gap-4 overflow-auto overflow-x-hidden p-[clamp(1.4rem,3.5vh,2.2rem)] max-[48em]:pt-[clamp(1.2rem,3vh,2rem)]`;
-const titleClassName = `${glassPageTitleClassName} w-full max-w-full`;
-const contentClassName = "flex w-full flex-1 flex-col gap-4 overflow-hidden text-center";
-const scrollAreaClassName = "flex-1 min-h-0 overflow-y-auto pb-[0.2rem] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
+const ringClassName =
+  `${glassPageRingCenteredClassName} glass-ring--desktop-stable scroll-reactive-shell flex-col gap-0 overflow-hidden md:mt-0 md:mb-0 ` +
+  `[--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] ` +
+  `max-[48em]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[48em]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[48em]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] ` +
+  `max-[48em]:[--mobile-glass-card-gap:clamp(0.26rem,1.2vw,0.4rem)] max-[48em]:[--ring-pad-x:clamp(0.44rem,2vw,0.78rem)]`;
+const titleClassName =
+  `${glassPageTitleClassName} w-full max-w-full max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
+const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(0.95rem,2.8vh,1.55rem)]";
+const scrollAreaClassName =
+  "rooms-scroll relative flex-1 w-full max-w-[clamp(17.2rem,34vw,21.5rem)] min-[48.0625em]:max-w-[clamp(17rem,31vw,20.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.58rem] min-[48.0625em]:px-[0.95rem] text-left csp-container mx-auto";
+const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
+const roomCardClassName =
+  "w-full rounded-[1.14rem] [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.95rem] text-[color:var(--input-text)] shadow-[var(--input-shadow)] " +
+  "transition-[background,border-color,box-shadow,transform] duration-200 ease-out " +
+  "hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:-translate-y-[1px] " +
+  "focus-within:[background:var(--input-bg-focus)] focus-within:shadow-[var(--input-shadow-hover,var(--input-shadow))] focus-within:-translate-y-[1px]";
+const roomMetaRowClassName =
+  "mt-[0.2rem] flex flex-wrap items-center gap-x-[0.22rem] gap-y-[0.2rem] text-[0.98rem] text-[color:var(--pt-200)]";
+const roomMetaItemClassName =
+  "before:content-['|'] before:mx-[0.42rem] first:before:content-none";
+const roomActionButtonClassName =
+  "inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.32)] px-[0.88rem] py-[0.38rem] text-[0.92rem] font-medium tracking-[0.01em] text-[color:var(--pt-120)] " +
+  "transition-[transform,border-color,background,color] duration-150 hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.55)] hover:bg-[rgba(16,22,34,0.5)] " +
+  "focus-visible:outline-none focus-visible:border-[rgba(148,163,184,0.55)] focus-visible:bg-[rgba(16,22,34,0.5)] active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed " +
+  "[.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.72)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)]";
+const roomDeleteButtonClassName =
+  "inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border border-[rgba(192,72,72,0.48)] bg-[rgba(72,24,32,0.34)] text-[#ffd6d6] " +
+  "transition-[transform,border-color,background,color] duration-150 hover:-translate-y-[1px] hover:border-[rgba(255,120,120,0.72)] hover:bg-[rgba(96,28,40,0.52)] hover:text-[#ffe6e6] " +
+  "focus-visible:outline-none focus-visible:border-[rgba(255,120,120,0.72)] focus-visible:bg-[rgba(96,28,40,0.52)] focus-visible:text-[#ffe6e6] disabled:opacity-55 disabled:cursor-not-allowed " +
+  "[.theme-light_&]:border-[rgba(192,72,72,0.52)] [.theme-light_&]:bg-[rgba(255,235,235,0.92)] [.theme-light_&]:text-[#7a2323]";
+const modalTitleClassName =
+  "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const roomChevronStrokeWidthDesktop = 0.72;
+const roomChevronStrokeWidthMobile = 1.04;
+
 export default function RoomsPage() {
   const router = useRouter();
-  const {
-    t,
-    locale
-  } = useI18n();
+  const { t, locale } = useI18n();
+
+  const scrollRef = useRef(null);
+  const initViewportModeRef = useRef(null);
+  const initialScrollTopRef = useRef(0);
+  const hasInitialScrollTopRef = useRef(false);
+
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
   const [leavingId, setLeavingId] = useState(null);
   const [confirmRoom, setConfirmRoom] = useState(null);
-  const timeFormatter = useMemo(() => new Intl.DateTimeFormat(locale || "et", {
-    dateStyle: "medium",
-    timeStyle: "short"
-  }), [locale]);
-  const roleLabel = useCallback(role => {
-    const map = {
-      OWNER: t("rooms.role.owner"),
-      MODERATOR: t("rooms.role.moderator"),
-      MEMBER: t("rooms.role.member"),
-      ADMIN: t("rooms.role.admin")
-    };
-    return map[role] || role || "";
-  }, [t]);
-  const formatTime = useCallback(value => {
-    if (!value) return "";
-    try {
-      return timeFormatter.format(new Date(value));
-    } catch {
-      return "";
-    }
-  }, [timeFormatter]);
-  const truncate = useCallback((text, max = 90) => {
+  const [scrollPad, setScrollPad] = useState(0);
+  const [scrollPadTop, setScrollPadTop] = useState(0);
+  const [scrollPadBottom, setScrollPadBottom] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+  const timeFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale || "et", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }),
+    [locale]
+  );
+
+  const roleLabel = useCallback(
+    role => {
+      const map = {
+        OWNER: t("rooms.role.owner"),
+        MODERATOR: t("rooms.role.moderator"),
+        MEMBER: t("rooms.role.member"),
+        ADMIN: t("rooms.role.admin")
+      };
+      return map[role] || role || "";
+    },
+    [t]
+  );
+
+  const formatTime = useCallback(
+    value => {
+      if (!value) return "";
+      try {
+        return timeFormatter.format(new Date(value));
+      } catch {
+        return "";
+      }
+    },
+    [timeFormatter]
+  );
+
+  const truncate = useCallback((text, max = 170) => {
     const safe = String(text || "").trim();
     if (!safe) return "";
     const suffix = "...";
-    return safe.length > max ? `${safe.slice(0, Math.max(0, max - suffix.length))}${suffix}` : safe;
+    return safe.length > max
+      ? `${safe.slice(0, Math.max(0, max - suffix.length))}${suffix}`
+      : safe;
   }, []);
-  const canInvite = useCallback(role => role === "OWNER" || role === "MODERATOR", []);
-  const canLeave = useCallback(role => role === "MEMBER" || role === "MODERATOR", []);
-  const canDelete = useCallback(role => role === "OWNER" || role === "ADMIN", []);
+
+  const canInvite = useCallback(
+    role => role === "OWNER" || role === "MODERATOR",
+    []
+  );
+  const canLeave = useCallback(
+    role => role === "MEMBER" || role === "MODERATOR",
+    []
+  );
+  const canDelete = useCallback(
+    role => role === "OWNER" || role === "ADMIN",
+    []
+  );
+
   const handleInvite = useCallback(roomId => {
     if (!roomId) return;
     try {
-      window.dispatchEvent(new CustomEvent("sotsiaalai:open-invite", {
-        detail: {
-          roomId
-        }
-      }));
+      window.dispatchEvent(
+        new CustomEvent("sotsiaalai:open-invite", {
+          detail: { roomId }
+        })
+      );
     } catch {}
   }, []);
-  const handleLeave = useCallback(async room => {
-    if (!room?.id) return;
-    setLeavingId(room.id);
-    try {
-      const res = await fetch(`/api/rooms/${encodeURIComponent(room.id)}/leave`, {
-        method: "POST"
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || t("rooms.leave_failed"));
+
+  const handleLeave = useCallback(
+    async room => {
+      if (!room?.id) return;
+      setLeavingId(room.id);
+      try {
+        const res = await fetch(
+          `/api/rooms/${encodeURIComponent(room.id)}/leave`,
+          {
+            method: "POST"
+          }
+        );
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || t("rooms.leave_failed"));
+        }
+        setRooms(prev => prev.filter(r => r.id !== room.id));
+      } catch (err) {
+        console.warn("Room leave failed:", err);
+        window.alert(err?.message || t("rooms.leave_failed"));
+      } finally {
+        setLeavingId(null);
       }
-      setRooms(prev => prev.filter(r => r.id !== room.id));
-    } catch (err) {
-      console.warn("Room leave failed:", err);
-      window.alert(err?.message || t("rooms.leave_failed"));
-    } finally {
-      setLeavingId(null);
-    }
-  }, [t]);
+    },
+    [t]
+  );
+
   const openDeleteConfirm = useCallback(room => {
     if (!room?.id) return;
     setConfirmRoom(room);
   }, []);
+
   const closeDeleteConfirm = useCallback(() => {
     if (deletingId) return;
     setConfirmRoom(null);
   }, [deletingId]);
-  const confirmDelete = useCallback(async room => {
-    const target = room?.id ? room : confirmRoom;
-    if (!target?.id) return;
-    setDeletingId(target.id);
-    try {
-      const res = await fetch(`/api/rooms/${encodeURIComponent(target.id)}`, {
-        method: "DELETE"
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data?.ok === false) {
-        throw new Error(data?.message || t("rooms.delete_failed"));
+
+  const confirmDelete = useCallback(
+    async room => {
+      const target = room?.id ? room : confirmRoom;
+      if (!target?.id) return;
+      setDeletingId(target.id);
+      try {
+        const res = await fetch(`/api/rooms/${encodeURIComponent(target.id)}`, {
+          method: "DELETE"
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || t("rooms.delete_failed"));
+        }
+        setRooms(prev => prev.filter(r => r.id !== target.id));
+      } catch (err) {
+        console.warn("Room delete failed:", err);
+        window.alert(err?.message || t("rooms.delete_failed"));
+      } finally {
+        setDeletingId(null);
+        setConfirmRoom(null);
       }
-      setRooms(prev => prev.filter(r => r.id !== target.id));
-    } catch (err) {
-      console.warn("Room delete failed:", err);
-      window.alert(err?.message || t("rooms.delete_failed"));
-    } finally {
-      setDeletingId(null);
-      setConfirmRoom(null);
-    }
-  }, [confirmRoom, t]);
+    },
+    [confirmRoom, t]
+  );
+
   useEffect(() => {
     let cancelled = false;
+
     async function load() {
       setLoading(true);
       try {
-        const res = await fetch("/api/rooms", {
-          cache: "no-store"
-        });
+        const res = await fetch("/api/rooms", { cache: "no-store" });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data?.ok === false) {
           throw new Error(data?.message || "Rooms fetch failed");
         }
-        if (!cancelled) setRooms(Array.isArray(data.rooms) ? data.rooms : []);
+        if (!cancelled) {
+          setRooms(Array.isArray(data.rooms) ? data.rooms : []);
+        }
       } catch (err) {
         if (!cancelled) setRooms([]);
         console.warn("Rooms load failed:", err);
@@ -135,118 +226,465 @@ export default function RoomsPage() {
         if (!cancelled) setLoading(false);
       }
     }
+
     load();
     return () => {
       cancelled = true;
     };
   }, []);
-  const hiddenIds = new Set(["cmiunm4we0001goud9072nb9q"]);
-  const visibleRooms = rooms.filter(room => {
-    if (!room?.id) return false;
-    if (hiddenIds.has(String(room.id))) return false;
-    const title = (room.title || "").toLowerCase();
-    const hasContent = Boolean(room?.description || room?.lastMessage?.content || room?.unreadCount);
-    if (!hasContent && (title === "vestlusruum" || title === "ruum")) return false;
-    return true;
+
+  const hiddenIds = useMemo(
+    () => new Set(["cmiunm4we0001goud9072nb9q"]),
+    []
+  );
+
+  const visibleRooms = useMemo(
+    () =>
+      rooms.filter(room => {
+        if (!room?.id) return false;
+        if (hiddenIds.has(String(room.id))) return false;
+        const title = (room.title || "").toLowerCase();
+        const hasContent = Boolean(
+          room?.description || room?.lastMessage?.content || room?.unreadCount
+        );
+        if (!hasContent && (title === "vestlusruum" || title === "ruum")) {
+          return false;
+        }
+        return true;
+      }),
+    [rooms, hiddenIds]
+  );
+
+  const effectiveRooms = useMemo(() => {
+    if (
+      visibleRooms.length === 1 &&
+      (visibleRooms[0].title || "").toLowerCase() === "vestlusruum" &&
+      !visibleRooms[0].description &&
+      !visibleRooms[0].lastMessage &&
+      !visibleRooms[0].unreadCount
+    ) {
+      return [];
+    }
+    return visibleRooms;
+  }, [visibleRooms]);
+
+  const {
+    canScrollUp,
+    canScrollDown,
+    scrollDirection,
+    getItemClassName,
+    scrollToIndex
+  } = CenteredScrollPicker({
+    containerRef: scrollRef,
+    itemSelector: ".rooms-step",
+    neighborDistance: isMobileViewport ? 2 : 1,
+    lockWheelToSteps: !isMobileViewport,
+    settleOnScroll: false,
+    enableArrowKeys: true,
+    captureArrowKeys: true,
+    settleMs: isMobileViewport ? 420 : 360,
+    maxStepPerSettle: isMobileViewport ? 99 : 1,
+    wheelCooldownMs: isMobileViewport ? 300 : 340,
+    minWheelDelta: isMobileViewport ? 10 : 16,
+    manageHiddenFocus: !isMobileViewport,
+    pauseSettleWhileTouch: isMobileViewport
   });
-  const effectiveRooms = visibleRooms.length === 1 && (visibleRooms[0].title || "").toLowerCase() === "vestlusruum" && !visibleRooms[0].description && !visibleRooms[0].lastMessage && !visibleRooms[0].unreadCount ? [] : visibleRooms;
-  const actionBaseClass = "inline-flex items-center justify-center rounded-[0.6rem] border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.35)] px-[0.65rem] py-[0.25rem] text-[0.75rem] font-semibold text-[color:var(--pt-120)] transition-[border-color,background,color,transform] duration-150 hover:border-[rgba(148,163,184,0.6)] hover:bg-[rgba(16,22,34,0.55)] focus-visible:border-[rgba(148,163,184,0.6)] focus-visible:bg-[rgba(16,22,34,0.55)] focus-visible:outline-none active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-55 [.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.7)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)] [.theme-light_&:focus-visible]:border-[rgba(148,163,184,0.7)] [.theme-light_&:focus-visible]:bg-[rgba(255,255,255,1)]";
-  const actionDangerClass = `${actionBaseClass} border-[rgba(192,72,72,0.45)] text-[#ffd1d1] hover:border-[rgba(255,120,120,0.7)] hover:bg-[rgba(48,16,20,0.5)] hover:text-[#ffe1e1] focus-visible:border-[rgba(255,120,120,0.7)] focus-visible:bg-[rgba(48,16,20,0.5)] focus-visible:text-[#ffe1e1] [.theme-light_&]:border-[rgba(192,72,72,0.4)] [.theme-light_&]:text-[#7a2323] [.theme-light_&:hover]:border-[rgba(192,72,72,0.6)] [.theme-light_&:hover]:bg-[rgba(255,235,235,0.9)] [.theme-light_&:hover]:text-[#6b1d1d] [.theme-light_&:focus-visible]:border-[rgba(192,72,72,0.6)] [.theme-light_&:focus-visible]:bg-[rgba(255,235,235,0.9)] [.theme-light_&:focus-visible]:text-[#6b1d1d]`;
-const metaItemClass = "text-[0.78rem] text-[color:var(--pt-200)] before:content-['|'] before:mx-[0.35rem] before:ml-[0.1rem] before:text-[rgba(148,163,184,0.7)] first:before:content-none [.theme-light_&]:text-[#475569]";
-const modalTitleClassName = "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
-  return <>
-    <section className={pageShellClassName}>
-      <GlassRing className={circleClassName} role="region" aria-label={t("rooms.aria")}>
-        <BackButton
-          onClick={() => pushWithTransition(router, "/vestlus")}
-          ariaLabel={t("rooms.back_to_chats")}
-          className={glassPageBackMobileBottomCenterClassName}
-        />
-        <h1 className={titleClassName}>
-          {t("rooms.title")}
-        </h1>
-          <div className={contentClassName}>
-            {loading ? <p className="mx-auto w-[min(28rem,90%)] text-center leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]" aria-busy="true">
-                {t("rooms.loading")}
-              </p> : effectiveRooms.length === 0 ? <p className="mx-auto w-[min(28rem,90%)] text-center text-[1.15rem] leading-[1.45] [.theme-light_&]:text-[color:var(--text-strong)]">
-                {t("rooms.empty")}
-              </p> : <div className={scrollAreaClassName}>
-                <ul className="mx-auto grid w-[min(30rem,88%)] list-none gap-[0.85rem] p-0 text-left" role="list">
-                  {effectiveRooms.map(room => <li key={room.id} className="m-0 p-0">
-                      <div className="flex flex-col gap-[0.6rem] rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(10,14,24,0.32)] p-[0.75rem_0.85rem] text-[color:var(--pt-120)] shadow-[0_0.4rem_1rem_rgba(0,0,0,0.25)] transition-[transform,border-color,background,box-shadow] duration-150 hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.4)] hover:bg-[rgba(16,22,34,0.4)] hover:shadow-[0_0.55rem_1.35rem_rgba(0,0,0,0.32)] focus-within:-translate-y-[1px] focus-within:border-[rgba(148,163,184,0.4)] focus-within:bg-[rgba(16,22,34,0.4)] focus-within:shadow-[0_0.55rem_1.35rem_rgba(0,0,0,0.32)] [.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[0_0.35rem_0.9rem_rgba(15,23,42,0.12)] [.theme-light_&:hover]:border-[rgba(148,163,184,0.55)] [.theme-light_&:hover]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:hover]:shadow-[0_0.5rem_1.1rem_rgba(15,23,42,0.16)] [.theme-light_&:focus-within]:border-[rgba(148,163,184,0.55)] [.theme-light_&:focus-within]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:focus-within]:shadow-[0_0.5rem_1.1rem_rgba(15,23,42,0.16)]">
-                        <Link prefetch={false} href={`/vestlus?roomId=${encodeURIComponent(room.id)}`} className="grid w-full gap-[0.45rem] text-inherit no-underline">
-                          <div className="flex items-center justify-between gap-[0.8rem]">
-                            <div className="text-[1.05rem] font-semibold text-[color:var(--pt-40)] [.theme-light_&]:text-[#0f172a]">
-                              {room.title || t("rooms.fallback_title")}
-                            </div>
-                            {room.unreadCount ? <span className="min-w-[1.6rem] rounded-full border border-[rgba(192,72,72,0.35)] bg-[rgba(192,72,72,0.25)] px-[0.45rem] py-[0.15rem] text-center text-[0.75rem] font-semibold text-[#ffd1d1]" aria-label={t("rooms.unread")}>
-                                {room.unreadCount}
-                              </span> : null}
-                          </div>
-                          {room.description ? <div className="text-[0.88rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#475569]">
-                              {room.description}
-                            </div> : null}
-                          <div className="flex flex-wrap gap-[0.45rem] text-[0.78rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#475569]">
-                            {room.role ? <span className={metaItemClass}>
-                                {t("rooms.role_label")}:{" "}
-                                {roleLabel(room.role)}
-                              </span> : null}
-                            {Number.isFinite(room.memberCount) ? <span className={metaItemClass}>
-                                {t("rooms.members_label")}:{" "}
-                                {room.memberCount}
-                              </span> : null}
-                            {room.unreadCount ? <span className={`${metaItemClass} text-[#ffd1d1]`}>
-                                {t("rooms.unread")}: {room.unreadCount}
-                              </span> : null}
-                          </div>
-                          {room.lastMessage?.content ? <div className="flex items-baseline justify-between gap-[0.75rem] text-[0.82rem] text-[color:var(--pt-180)] [.theme-light_&]:text-[#475569]">
-                              <span className="min-w-0 flex-1">
-                                {truncate(room.lastMessage.content)}
-                              </span>
-                              {room.lastMessage?.createdAt ? <span className="flex-none text-[0.75rem] text-[rgba(148,163,184,0.8)] [.theme-light_&]:text-[rgba(71,85,105,0.8)]">
-                                  {formatTime(room.lastMessage.createdAt)}
-                                </span> : null}
-                          </div> : <div className="text-[0.82rem] text-[rgba(148,163,184,0.7)]">
-                            {t("rooms.last_empty")}
-                          </div>}
-                        </Link>
-                        {canInvite(room.role) || canLeave(room.role) || canDelete(room.role) ? <div className="flex justify-end gap-[0.4rem]">
-                            {canInvite(room.role) ? <button type="button" className={actionBaseClass} onClick={() => handleInvite(room.id)}>
-                                {t("rooms.invite")}
-                              </button> : null}
-                            {canLeave(room.role) ? <button type="button" className={actionBaseClass} onClick={() => handleLeave(room)} disabled={leavingId === room.id}>
-                                {leavingId === room.id ? t("rooms.leave_busy") : t("rooms.leave")}
-                              </button> : null}
-                            {canDelete(room.role) ? <button type="button" className={actionDangerClass} onClick={() => openDeleteConfirm(room)}>
-                                {t("rooms.delete")}
-                              </button> : null}
-                          </div> : null}
-                      </div>
-                    </li>)}
-                </ul>
-              </div>}
+
+  const getRoomStepClassName = index => getItemClassName(index);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = window.matchMedia("(max-width: 48em)");
+    const apply = () => setIsMobileViewport(query.matches);
+    apply();
+    if (typeof query.addEventListener === "function") {
+      query.addEventListener("change", apply);
+      return () => query.removeEventListener("change", apply);
+    }
+    query.addListener(apply);
+    return () => query.removeListener(apply);
+  }, []);
+
+  useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+
+    const updatePad = () => {
+      const steps = Array.from(scrollEl.querySelectorAll(".rooms-step"));
+      const firstStep = steps[0] || null;
+      const lastStep = steps[steps.length - 1] || firstStep;
+      if (!firstStep || !lastStep) return;
+
+      const firstH = firstStep.getBoundingClientRect().height || 0;
+      const lastH = lastStep.getBoundingClientRect().height || 0;
+      const viewH = Math.max(0, scrollEl.clientHeight || 0);
+      if (!viewH || !firstH || !lastH) return;
+
+      const nextPadTopBase = Math.max(0, Math.floor((viewH - firstH) / 2));
+      const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
+      const nextPad = nextPadTopBase;
+      setScrollPad(prev => (prev === nextPad ? prev : nextPad));
+
+      const liftPx = isMobileViewport ? 4 : 9;
+      const nextTop = Math.max(0, nextPadTopBase - liftPx);
+      const nextBottom = Math.max(0, nextPadBottomBase + liftPx);
+      setScrollPadTop(prev => (prev === nextTop ? prev : nextTop));
+      setScrollPadBottom(prev => (prev === nextBottom ? prev : nextBottom));
+    };
+
+    updatePad();
+    const ro =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(updatePad)
+        : null;
+    ro?.observe(scrollEl);
+    window.addEventListener("resize", updatePad);
+    return () => {
+      ro?.disconnect?.();
+      window.removeEventListener("resize", updatePad);
+    };
+  }, [isMobileViewport, loading, effectiveRooms.length]);
+
+  useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+
+    const mode = isMobileViewport ? "mobile" : "desktop";
+    if (initViewportModeRef.current === mode) return;
+    initViewportModeRef.current = mode;
+
+    const resetToFirstStep = () => {
+      if (!isMobileViewport) {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
+      scrollEl.scrollTop = 0;
+      scrollToIndex(0, "auto");
+      setIsScrolled(false);
+      setHasUserStartedScroll(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
+    };
+
+    resetToFirstStep();
+    const rafA = requestAnimationFrame(resetToFirstStep);
+    const rafB = requestAnimationFrame(() =>
+      requestAnimationFrame(resetToFirstStep)
+    );
+    const settleTimer = window.setTimeout(resetToFirstStep, 120);
+    return () => {
+      cancelAnimationFrame(rafA);
+      cancelAnimationFrame(rafB);
+      window.clearTimeout(settleTimer);
+    };
+  }, [scrollToIndex, isMobileViewport]);
+
+  useEffect(() => {
+    if (hasUserStartedScroll) return;
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const alignToFirst = () => {
+      scrollToIndex(0, "auto");
+      setIsScrolled(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
+    };
+    const raf = requestAnimationFrame(alignToFirst);
+    return () => cancelAnimationFrame(raf);
+  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex]);
+
+  useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const onScroll = () => {
+      const top = scrollEl.scrollTop || 0;
+      if (!hasInitialScrollTopRef.current) {
+        hasInitialScrollTopRef.current = true;
+        initialScrollTopRef.current = top;
+      }
+      const delta = Math.abs(top - initialScrollTopRef.current);
+      const thresholdOn = isMobileViewport ? 14 : 8;
+      const thresholdOff = isMobileViewport ? 9 : 5;
+      if (delta > thresholdOn) {
+        setHasUserStartedScroll(prev => prev || true);
+      }
+      setIsScrolled(prev => {
+        const next = prev ? delta > thresholdOff : delta > thresholdOn;
+        return prev === next ? prev : next;
+      });
+    };
+    onScroll();
+    scrollEl.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      scrollEl.removeEventListener("scroll", onScroll);
+    };
+  }, [isMobileViewport]);
+
+  useEffect(() => {
+    if (loading) return;
+    const scrollEl = scrollRef.current;
+    if (!scrollEl || typeof window === "undefined") return;
+    const raf = requestAnimationFrame(() => {
+      scrollEl.scrollTop = 0;
+      scrollToIndex(0, "auto");
+      setIsScrolled(false);
+      setHasUserStartedScroll(false);
+      hasInitialScrollTopRef.current = true;
+      initialScrollTopRef.current = scrollEl.scrollTop || 0;
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [loading, effectiveRooms.length, scrollToIndex]);
+
+  return (
+    <>
+      <section className={pageShellClassName}>
+        <GlassRing
+          className={ringClassName}
+          role="region"
+          aria-label={t("rooms.aria")}
+          data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
+        >
+          <BackButton
+            onClick={() => pushWithTransition(router, "/vestlus")}
+            ariaLabel={t("rooms.back_to_chats")}
+            className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`}
+          />
+
+          <div
+            className="csp-overlayTitle [--csp-title-top:2.35rem] max-[48em]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
+            aria-hidden="true"
+          >
+            <h1 className={titleClassName}>{t("rooms.title")}</h1>
           </div>
-      </GlassRing>
-    </section>
-      <Modal open={!!confirmRoom} onClose={closeDeleteConfirm} closeOnOverlayClick={!deletingId} aria-labelledby="rooms-delete-title">
-        {confirmRoom ? <div className="flex flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]">
+
+          <div
+            className={`csp-scrim csp-scrim--wide csp-scrim--top csp-scrim--chevron is-visible ${scrollDirection === "down" ? "is-muted" : ""} ${canScrollUp ? "" : "is-hidden"}`}
+            aria-hidden="true"
+          >
+            <span className="csp-chevron-frame" aria-hidden="true">
+              <ChevronIcon
+                direction="up"
+                strokeWidth={
+                  isMobileViewport
+                    ? roomChevronStrokeWidthMobile
+                    : roomChevronStrokeWidthDesktop
+                }
+                className="csp-chevron-icon"
+              />
+            </span>
+          </div>
+          <div
+            className={`csp-scrim csp-scrim--wide csp-scrim--bottom csp-scrim--chevron is-visible ${scrollDirection === "up" ? "is-muted" : ""} ${canScrollDown ? "" : "is-hidden"}`}
+            aria-hidden="true"
+          >
+            <span className="csp-chevron-frame" aria-hidden="true">
+              <ChevronIcon
+                direction="down"
+                strokeWidth={
+                  isMobileViewport
+                    ? roomChevronStrokeWidthMobile
+                    : roomChevronStrokeWidthDesktop
+                }
+                className="csp-chevron-icon"
+              />
+            </span>
+          </div>
+
+          <div className={contentClassName}>
+            <div
+              ref={scrollRef}
+              className={`${scrollAreaClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`}
+              style={{
+                "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
+                "--csp-pad-bottom": `${Math.max(
+                  0,
+                  scrollPadBottom || scrollPad
+                )}px`,
+                "--csp-center-offset": `${isMobileViewport ? -4 : -9}px`
+              }}
+              tabIndex={0}
+              aria-label={t("rooms.title")}
+            >
+              {loading ? (
+                <div className={`${roomStepClassName} csp-item csp-active`}>
+                  <p
+                    className="mx-auto text-center text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)]"
+                    aria-busy="true"
+                  >
+                    {t("rooms.loading")}
+                  </p>
+                </div>
+              ) : effectiveRooms.length === 0 ? (
+                <div className={`${roomStepClassName} csp-item csp-active`}>
+                  <p className="mx-auto text-center text-[1.2rem] leading-[1.45] text-[color:var(--pt-120)]">
+                    {t("rooms.empty")}
+                  </p>
+                </div>
+              ) : (
+                <ul className="m-0 list-none p-0">
+                  {effectiveRooms.map((room, index) => (
+                    <li
+                      key={room.id}
+                      className={`${roomStepClassName} ${getRoomStepClassName(index)}`}
+                    >
+                      <article className={roomCardClassName}>
+                        <Link
+                          prefetch={false}
+                          href={`/vestlus?roomId=${encodeURIComponent(room.id)}`}
+                          className="grid w-full gap-[0.42rem] text-inherit no-underline"
+                        >
+                          <div className="flex items-start justify-between gap-[0.8rem]">
+                            <h2 className="m-0 text-[1.38rem] font-semibold leading-[1.15] tracking-[0.01em] text-[color:var(--pt-60)] [.theme-light_&]:text-[#0f172a]">
+                              {room.title || t("rooms.fallback_title")}
+                            </h2>
+                            {room.unreadCount ? (
+                              <span
+                                className="mt-[0.08rem] inline-flex min-w-[1.85rem] items-center justify-center rounded-full border border-[rgba(192,72,72,0.38)] bg-[rgba(192,72,72,0.24)] px-[0.48rem] py-[0.16rem] text-[0.86rem] font-semibold text-[#ffd1d1]"
+                                aria-label={t("rooms.unread")}
+                              >
+                                {room.unreadCount}
+                              </span>
+                            ) : null}
+                          </div>
+
+                          <div className={roomMetaRowClassName}>
+                            {room.role ? (
+                              <span className={roomMetaItemClassName}>
+                                {t("rooms.role_label")}: {roleLabel(room.role)}
+                              </span>
+                            ) : null}
+                            {Number.isFinite(room.memberCount) ? (
+                              <span className={roomMetaItemClassName}>
+                                {t("rooms.members_label")}: {room.memberCount}
+                              </span>
+                            ) : null}
+                          </div>
+
+                          {room.description ? (
+                            <p className="m-0 text-[1.08rem] leading-[1.35] text-[color:var(--pt-180)] [.theme-light_&]:text-[#334155]">
+                              {truncate(room.description, 190)}
+                            </p>
+                          ) : null}
+
+                          <div className="flex items-end justify-between gap-[0.7rem]">
+                            <p className="m-0 min-w-0 flex-1 text-[1.06rem] leading-[1.35] text-[color:var(--pt-160)] [.theme-light_&]:text-[#475569]">
+                              {room.lastMessage?.content
+                                ? truncate(room.lastMessage.content, 210)
+                                : t("rooms.last_empty")}
+                            </p>
+                            {room.lastMessage?.createdAt ? (
+                              <span className="shrink-0 pb-[0.02rem] text-[0.92rem] text-[color:var(--pt-300)] [.theme-light_&]:text-[#64748b]">
+                                {formatTime(room.lastMessage.createdAt)}
+                              </span>
+                            ) : null}
+                          </div>
+                        </Link>
+
+                        {canInvite(room.role) ||
+                        canLeave(room.role) ||
+                        canDelete(room.role) ? (
+                          <div className="mt-[0.62rem] flex items-center justify-end gap-[0.45rem]">
+                            {canInvite(room.role) ? (
+                              <button
+                                type="button"
+                                className={roomActionButtonClassName}
+                                onClick={() => handleInvite(room.id)}
+                              >
+                                {t("rooms.invite")}
+                              </button>
+                            ) : null}
+                            {canLeave(room.role) ? (
+                              <button
+                                type="button"
+                                className={roomActionButtonClassName}
+                                onClick={() => handleLeave(room)}
+                                disabled={leavingId === room.id}
+                              >
+                                {leavingId === room.id
+                                  ? t("rooms.leave_busy")
+                                  : t("rooms.leave")}
+                              </button>
+                            ) : null}
+                            {canDelete(room.role) ? (
+                              <button
+                                type="button"
+                                className={roomDeleteButtonClassName}
+                                onClick={() => openDeleteConfirm(room)}
+                                disabled={deletingId === room.id}
+                                aria-label={t("rooms.delete")}
+                                title={t("rooms.delete")}
+                              >
+                                <svg
+                                  className="h-[1.08rem] w-[1.08rem]"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M3 6h18" />
+                                  <path d="M8 6V4h8v2" />
+                                  <path d="M19 6l-1 14H6L5 6" />
+                                  <path d="M10 11v6" />
+                                  <path d="M14 11v6" />
+                                </svg>
+                              </button>
+                            ) : null}
+                          </div>
+                        ) : null}
+                      </article>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </GlassRing>
+      </section>
+
+      <Modal
+        open={!!confirmRoom}
+        onClose={closeDeleteConfirm}
+        closeOnOverlayClick={!deletingId}
+        aria-labelledby="rooms-delete-title"
+      >
+        {confirmRoom ? (
+          <div className="flex flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]">
             <h2 id="rooms-delete-title" className={modalTitleClassName}>
               {t("rooms.delete_title")}
             </h2>
             <p className="text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]">
-              {t("rooms.delete_confirm").replace("{name}", confirmRoom.title || t("rooms.fallback_title"))}
+              {t("rooms.delete_confirm").replace(
+                "{name}",
+                confirmRoom.title || t("rooms.fallback_title")
+              )}
             </p>
             <div className="flex flex-wrap justify-end gap-3">
-              <Button type="button" variant="secondary" onClick={closeDeleteConfirm} disabled={deletingId === confirmRoom.id}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={closeDeleteConfirm}
+                disabled={deletingId === confirmRoom.id}
+              >
                 {t("rooms.cancel")}
               </Button>
-              <Button type="button" variant="primary" onClick={() => confirmDelete(confirmRoom)} disabled={deletingId === confirmRoom.id}>
-                {deletingId === confirmRoom.id ? t("rooms.delete_busy") : t("rooms.delete")}
+              <Button
+                type="button"
+                variant="primary"
+                onClick={() => confirmDelete(confirmRoom)}
+                disabled={deletingId === confirmRoom.id}
+              >
+                {deletingId === confirmRoom.id
+                  ? t("rooms.delete_busy")
+                  : t("rooms.delete")}
               </Button>
             </div>
-          </div> : null}
+          </div>
+        ) : null}
       </Modal>
-      <InviteModal />
-    </>;
-}
 
+      <InviteModal />
+    </>
+  );
+}

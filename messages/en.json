@@ -94,6 +94,7 @@
       "resending": "Sending",
       "otp_back": "Use a different email",
       "otp_invalid": "The code is invalid or has expired.",
+      "otp_trusted_device_expired": "Your trusted device period (30 days) has ended. Confirm sign-in with a code.",
       "otp_info_sent": "Verification code sent to {email}.",
       "otp_resent": "A new code was sent to {email}.",
       "clear": "Clear PIN",
