@@ -188,6 +188,7 @@ export default function HomePage() {
   }, []);
   const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
   const introPending = !introStart && !skipIntroAnimations;
+  const showHomeBottomSections = !isLoginOpen && !introPending;
   const scrollCueReady = leftFadeDone && rightFadeDone;
   const showScrollCueNow =
     (isMobile ? scrollCueReady : showScrollCue && scrollCueEntered) &&
@@ -494,8 +495,8 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        {!isLoginOpen ? <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} /> : null}
-        {!isLoginOpen ? <HomeFooter /> : null}
+        {showHomeBottomSections ? <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} /> : null}
+        {showHomeBottomSections ? <HomeFooter /> : null}
       </div>
 
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} />

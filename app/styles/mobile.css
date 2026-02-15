@@ -1075,11 +1075,6 @@
     scroll-snap-stop: always !important;
   }
 
-  .a11y-csp-scroll.csp-container .a11y-save-step.csp-item {
-    scroll-snap-align: end !important;
-    scroll-snap-stop: normal !important;
-  }
-
   .register-scroll.csp-container,
   .rooms-scroll.csp-container {
     overflow-y: auto !important;

@@ -82,6 +82,8 @@ export default function AccessibilityModal({
   const [reduceMotion, setReduceMotion] = useState(!!prefs.reduceMotion);
   const [lang, setLang] = useState(locale || "et");
   const [scrollPad, setScrollPad] = useState(0);
+  const [scrollPadTop, setScrollPadTop] = useState(0);
+  const [scrollPadBottom, setScrollPadBottom] = useState(0);
   const [languageWraps, setLanguageWraps] = useState(false);
   const [contrastWraps, setContrastWraps] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -177,14 +179,24 @@ export default function AccessibilityModal({
       return Number.isFinite(value) ? value : 0;
     };
     const updatePad = () => {
-      const snapEl = scrollEl.querySelector(".csp-step");
-      if (!snapEl) return;
-      const itemH = snapEl.getBoundingClientRect().height || 0;
+      const steps = Array.from(scrollEl.querySelectorAll(".csp-step"));
+      const firstStep = steps[0] || null;
+      const lastStep = steps[steps.length - 1] || firstStep;
+      if (!firstStep || !lastStep) return;
+      const firstH = firstStep.getBoundingClientRect().height || 0;
+      const lastH = lastStep.getBoundingClientRect().height || 0;
       const titleOffset = getCssPx(scrollEl, "--csp-title-offset");
       const viewH = Math.max(0, (scrollEl.clientHeight || 0) - titleOffset);
-      if (!viewH || !itemH) return;
-      const nextPad = Math.max(0, Math.floor((viewH - itemH) / 2));
+      if (!viewH || !firstH || !lastH) return;
+      const nextPadTopBase = Math.max(0, Math.floor((viewH - firstH) / 2));
+      const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
+      const nextPad = nextPadTopBase;
       setScrollPad(prev => prev === nextPad ? prev : nextPad);
+      const liftPx = isMobileViewport ? 5 : 11;
+      const nextTop = Math.max(0, nextPadTopBase - liftPx);
+      const nextBottom = Math.max(0, nextPadBottomBase + liftPx);
+      setScrollPadTop(prev => prev === nextTop ? prev : nextTop);
+      setScrollPadBottom(prev => prev === nextBottom ? prev : nextBottom);
     };
     updatePad();
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updatePad) : null;
@@ -194,7 +206,7 @@ export default function AccessibilityModal({
       ro?.disconnect?.();
       window.removeEventListener("resize", updatePad);
     };
-  }, []);
+  }, [isMobileViewport]);
   const {
     canScrollUp,
     canScrollDown,
@@ -269,7 +281,7 @@ export default function AccessibilityModal({
     };
     const raf = requestAnimationFrame(alignToFirst);
     return () => cancelAnimationFrame(raf);
-  }, [scrollPad, hasUserStartedScroll, scrollToIndex]);
+  }, [scrollPadTop, scrollPadBottom, hasUserStartedScroll, scrollToIndex]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || isMobileViewport) return;
@@ -441,8 +453,9 @@ export default function AccessibilityModal({
 
         <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`.trim()} style={{
         "--csp-pad": `${scrollPad + padOffset}px`,
-        "--csp-pad-top": `${Math.max(0, scrollPad + padOffset)}px`,
-        "--csp-pad-bottom": `${Math.max(0, scrollPad + padOffset)}px`
+        "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
+        "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + padOffset)}px`,
+        "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>
             <legend className={`${legendClassName} ${languageLegendClassName} ${languageShiftClassName}`.trim()}>

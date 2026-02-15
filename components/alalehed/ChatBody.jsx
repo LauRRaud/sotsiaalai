@@ -105,7 +105,7 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
   "--chat-mobile-back-size": "4.4rem",
   "--chat-mobile-show-size": "4.08rem",
   "--chat-mobile-show-icon-size": "3.34rem",
-  "--chat-mobile-rail-size": "clamp(3.45rem, 11.3vw, 3.95rem)",
+  "--chat-mobile-rail-size": "clamp(2.78rem, 9.3vw, 3.18rem)",
   "--chat-mobile-hud-center-y": "calc(var(--chat-mobile-back-top) + (var(--chat-mobile-back-size) / 2))",
   "--chat-mobile-show-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-show-size) / 2))",
   "--chat-mobile-rail-top": "calc(var(--chat-mobile-hud-center-y) - (var(--chat-mobile-rail-size) / 2))"
