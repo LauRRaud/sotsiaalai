@@ -28,22 +28,30 @@ export async function GET() {
   const isAdmin = !!session.user.isAdmin || pickedRole === "ADMIN";
   const limit = getAnalyzeLimit(role, isAdmin);
   const day = utcDayStart();
-  const record = await prisma.analyzeUsage.findUnique({
-    where: {
-      userId_day: {
-        userId: session.user.id,
-        day
+  try {
+    const record = await prisma.analyzeUsage.findUnique({
+      where: {
+        userId_day: {
+          userId: session.user.id,
+          day
+        }
+      },
+      select: {
+        count: true
       }
-    },
-    select: {
-      count: true
-    }
-  });
-  const used = record?.count || 0;
-  return json({
-    ok: true,
-    used,
-    limit,
-    resetSeconds: secondsUntilUtcMidnight()
-  });
+    });
+    const used = record?.count || 0;
+    return json({
+      ok: true,
+      used,
+      limit,
+      resetSeconds: secondsUntilUtcMidnight()
+    });
+  } catch (err) {
+    return json({
+      ok: false,
+      message: "Database error while reading analyze usage",
+      error: err?.message
+    }, 500);
+  }
 }

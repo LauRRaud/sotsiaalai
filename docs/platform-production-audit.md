@@ -94,9 +94,16 @@ Encoding fixes applied (BOM removed):
 - Action: decide whether to wire `test` to real automated tests or rename script usage in pipelines
 - Status: `MONITOR`
 
+### `app/api/chat/*` and `lib/chat/persistence.js`
+- Scope: chat runtime API, analyze quota path, persistence safety
+- Good: auth gates and ownership checks are already present on conversation read/list endpoints
+- Risk: persistence layer accepted `convId` updates without ownership guard; analyze quota flow allowed DB-check bypass on non-quota errors
+- Action: added ownership-safe writes in `persistAppend`/`persistDone`, added `convId` format validation in `app/api/chat/route.js`, hardened `analyze-file` auth/quota flow and added DB error handling in `analyze-usage`
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
-1. `app/api/chat/route.js` and related chat routes (error handling, rate limits, observability)
+1. Add explicit rate limiting to chat endpoints (`app/api/chat/*`) to reduce abuse risk
 2. `app/api/rooms/**` real-time path review (authz + stream behavior)
 3. `prisma/schema.prisma` + migrations sanity pass for launch
 4. Remove or archive unclear legacy artifact `app/server` if not used

@@ -180,9 +180,8 @@ export default function AccessibilityModal({
     };
     const updatePad = () => {
       const steps = Array.from(scrollEl.querySelectorAll(".csp-step"));
-      const snapSteps = steps.filter(step => !step.classList.contains("a11y-save-step"));
-      const firstStep = snapSteps[0] || steps[0] || null;
-      const lastStep = snapSteps[snapSteps.length - 1] || firstStep;
+      const firstStep = steps[0] || null;
+      const lastStep = steps[steps.length - 1] || firstStep;
       if (!firstStep || !lastStep) return;
       const firstH = firstStep.getBoundingClientRect().height || 0;
       const lastH = lastStep.getBoundingClientRect().height || 0;
@@ -455,7 +454,7 @@ export default function AccessibilityModal({
         <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`.trim()} style={{
         "--csp-pad": `${scrollPad + padOffset}px`,
         "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
-        "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + padOffset)}px`,
+        "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
         "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>

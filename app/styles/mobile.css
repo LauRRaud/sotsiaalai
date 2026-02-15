@@ -1092,8 +1092,8 @@
   }
 
   .a11y-csp-scroll.csp-container .a11y-save-step {
-    scroll-snap-align: none !important;
-    scroll-snap-stop: normal !important;
+    scroll-snap-align: center !important;
+    scroll-snap-stop: always !important;
   }
 
   .register-scroll.csp-container,

@@ -185,6 +185,11 @@ function normalizeRoomId(roomIdRaw) {
   const maybe = Number(roomIdRaw);
   return Number.isFinite(maybe) ? maybe : roomIdRaw;
 }
+function isPlausibleConversationId(id) {
+  if (!id || typeof id !== "string") return false;
+  if (id.length < 8 || id.length > 200) return false;
+  return /^[A-Za-z0-9._\-:+]+$/.test(id);
+}
 async function getRoomMembership(userId, roomId) {
   if (!userId || !roomId) return null;
   return prisma.roomMember.findFirst({
@@ -267,7 +272,11 @@ export async function POST(req) {
   const history = toOpenAiMessages(rawHistory);
   const wantStream = !!payload?.stream;
   const persist = !!payload?.persist;
-  const convId = payload?.convId && String(payload.convId) || null;
+  const convIdRaw = payload?.convId && String(payload.convId) || "";
+  const convId = convIdRaw.trim() || null;
+  if (persist && convId && !isPlausibleConversationId(convId)) {
+    return makeError("convId on vigane.");
+  }
   const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined;
   const roomId = normalizeRoomId(payload?.roomId ?? payload?.room_id);
   const ephemeralChunks = Array.isArray(payload?.ephemeralChunks) ? payload.ephemeralChunks.filter(s => typeof s === "string" && s.trim()).map(s => s.trim()) : [];

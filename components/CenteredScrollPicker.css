@@ -71,10 +71,9 @@
   scroll-snap-stop: normal;
 }
 
-/* Keep smooth pause between settings, but avoid hard snap directly onto the Save CTA. */
 .a11y-csp-scroll.csp-container .a11y-save-step {
-  scroll-snap-align: none;
-  scroll-snap-stop: normal;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 .csp-step {
   min-height: clamp(6.2rem, 10.5vh, 7.8rem);
