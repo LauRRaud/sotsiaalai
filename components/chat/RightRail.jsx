@@ -5,6 +5,7 @@ import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AddPersonIcon, ChatBubbleIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { createPortal } from "react-dom";
 import { cn } from "@/components/ui/cn";
 
@@ -17,6 +18,7 @@ function detectMobileViewport() {
 
 export default function RightRail({
   t,
+  locale = "et",
   roomId,
   isLightTheme,
   inputFocused,
@@ -60,6 +62,10 @@ export default function RightRail({
   const [isMobile, setIsMobile] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
+  const normalizedPathname = useMemo(
+    () => stripLocaleFromPath(pathname || "/"),
+    [pathname]
+  );
   const setTooltipFromRail = useCallback(() => {
     const rail = railRef.current;
     if (!rail) return;
@@ -192,7 +198,7 @@ export default function RightRail({
   }, []);
 
   const openChatsDrawer = e => {
-    if (embedded || pathname && pathname.startsWith("/vestlus")) {
+    if (embedded || normalizedPathname.startsWith("/vestlus")) {
       e?.preventDefault?.();
       try {
         window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", {
@@ -201,11 +207,11 @@ export default function RightRail({
       } catch {}
       return;
     }
-    pushWithTransition(router, "/vestlus");
+    pushWithTransition(router, localizePath("/vestlus", locale));
   };
 
   const openRooms = () => {
-    pushWithTransition(router, "/ruum");
+    pushWithTransition(router, localizePath("/ruum", locale));
   };
 
   const openInvite = () => {
@@ -252,15 +258,15 @@ export default function RightRail({
 
   useEffect(() => {
     const idx = (() => {
-      if (!pathname) return 1;
-      if (pathname.startsWith("/profiil")) return 0;
-      if (pathname.startsWith("/ruum")) return 2;
-      if (pathname.startsWith("/vestlus")) return 1;
+      if (!normalizedPathname) return 1;
+      if (normalizedPathname.startsWith("/profiil")) return 0;
+      if (normalizedPathname.startsWith("/ruum")) return 2;
+      if (normalizedPathname.startsWith("/vestlus")) return 1;
       return 1;
     })();
     setActiveIndex(idx);
     clearArmed();
-  }, [pathname, clearArmed]);
+  }, [normalizedPathname, clearArmed]);
 
   useEffect(() => {
     const shouldTrackTooltip = !isMobile;
@@ -523,7 +529,7 @@ export default function RightRail({
               onProfileToggle();
               return;
             }
-            pushWithTransition(router, "/profiil");
+            pushWithTransition(router, localizePath("/profiil", locale));
             return;
           }
           if (it.key === "chats") {

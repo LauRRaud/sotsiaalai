@@ -43,20 +43,21 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const retryRef = useRef(2000);
   const reconnectTimerRef = useRef(null);
   const lastReadMarkAtRef = useRef(0);
+  const roomPathId = encodeURIComponent(String(roomId || ""));
   const markRead = useCallback(async (force = false) => {
     if (!roomId || blocked || authRequired) return;
     const now = Date.now();
     if (!force && now - lastReadMarkAtRef.current < 5000) return;
     lastReadMarkAtRef.current = now;
     try {
-      await fetch(`/api/rooms/${roomId}/read`, {
+      await fetch(`/api/rooms/${roomPathId}/read`, {
         method: "PUT"
       });
     } catch {}
-  }, [roomId, blocked, authRequired]);
+  }, [roomId, roomPathId, blocked, authRequired]);
   const load = useCallback(async (reset = false) => {
     if (!roomId) return;
-    const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
+    const url = new URL(`/api/rooms/${roomPathId}/messages`, window.location.origin);
     if (!reset && useSse && cursorRef.current) {
       url.searchParams.set("cursor", cursorRef.current);
     }
@@ -85,7 +86,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     }
     setMessages(prev => mergeById(prev, items));
     void markRead(false);
-  }, [roomId, useSse, markRead]);
+  }, [roomId, roomPathId, useSse, markRead]);
   const connectSse = useCallback(() => {
     if (!roomId || blocked || authRequired) return;
     if (reconnectTimerRef.current) {
@@ -93,7 +94,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
       reconnectTimerRef.current = null;
     }
     if (esRef.current) esRef.current.close();
-    const es = new EventSource(`/api/rooms/${roomId}/messages/stream`);
+    const es = new EventSource(`/api/rooms/${roomPathId}/messages/stream`);
     esRef.current = es;
     es.onopen = () => {
       setUseSse(true);
@@ -130,7 +131,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         }
       } catch {}
     };
-  }, [roomId, blocked, authRequired, load, pollMs, markRead]);
+  }, [roomId, roomPathId, blocked, authRequired, load, pollMs, markRead]);
   useEffect(() => {
     lastReadMarkAtRef.current = 0;
   }, [roomId]);
@@ -142,7 +143,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         return;
       }
       try {
-        const res = await fetch(`/api/rooms/${roomId}/members`, {
+        const res = await fetch(`/api/rooms/${roomPathId}/members`, {
           cache: "no-store"
         });
         const data = await res.json().catch(() => ({}));
@@ -164,7 +165,7 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         reconnectTimerRef.current = null;
       }
     };
-  }, [roomId, pollMs, load, connectSse]);
+  }, [roomId, roomPathId, pollMs, load, connectSse]);
   return {
     messages,
     blocked,

@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { publishRoomEvent } from "@/lib/roomStream";
+import { consumeRateLimit } from "@/lib/rate-limit";
+import { getRequestIpFromRequest } from "@/lib/request-ip";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,9 +12,8 @@ export const revalidate = 0;
 
 const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION !== "false";
 const PAGE_SIZE = 50;
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_POST = 20;
-const rateBuckets = new Map();
+const RATE_LIMIT_WINDOW_MS = Number(process.env.ROOM_MESSAGES_POST_RATE_LIMIT_WINDOW_MS || 60_000);
+const RATE_LIMIT_POST = Number(process.env.ROOM_MESSAGES_POST_RATE_LIMIT_MAX || 20);
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -107,6 +108,16 @@ async function getMemberDisplayNames(roomId, authorIds) {
 }
 
 async function ensureAccess(userId, roomId, userRole) {
+  const room = await prisma.room.findUnique({
+    where: { id: roomId },
+    select: { id: true }
+  });
+  if (!room) return {
+    ok: false,
+    status: 404,
+    message: "api.rooms.not_found"
+  };
+
   const isAdminRole = userRole === "ADMIN";
   if (isAdminRole) return {
     ok: true,
@@ -171,30 +182,9 @@ function makeCursor(row) {
   return `${ms}_${row.id}`;
 }
 
-function rateLimit(key, limit, windowMs) {
-  const now = Date.now();
-  const bucket = rateBuckets.get(key) || {
-    count: 0,
-    reset: now + windowMs
-  };
-  if (now > bucket.reset) {
-    bucket.count = 0;
-    bucket.reset = now + windowMs;
-  }
-  bucket.count += 1;
-  rateBuckets.set(key, bucket);
-  if (bucket.count > limit) {
-    const err = new Error("api.common.rate_limited");
-    err.status = 429;
-    throw err;
-  }
-}
-
 export async function GET(req, { params }) {
-  const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) return errorJson("api.common.missing_room_id", 400);
-
-  const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
+  const roomId = String(params?.roomId || "").trim();
+  if (!roomId) return errorJson("api.common.missing_room_id", 400);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
@@ -275,10 +265,8 @@ export async function GET(req, { params }) {
 }
 
 export async function POST(req, { params }) {
-  const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) return errorJson("api.common.missing_room_id", 400);
-
-  const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
+  const roomId = String(params?.roomId || "").trim();
+  if (!roomId) return errorJson("api.common.missing_room_id", 400);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
@@ -294,8 +282,20 @@ export async function POST(req, { params }) {
   const content = String(payload?.content || "").trim();
   if (!content) return errorJson("api.rooms.message_required", 400);
 
+  const ip = getRequestIpFromRequest(req);
+  const limiter = consumeRateLimit(`roommsg:${roomId}:${auth.userId}:${ip}`, RATE_LIMIT_POST, RATE_LIMIT_WINDOW_MS);
+  if (!limiter.allowed) {
+    return json(
+      {
+        ok: false,
+        messageKey: "api.common.rate_limited",
+        message: "api.common.rate_limited"
+      },
+      429
+    );
+  }
+
   try {
-    rateLimit(`roommsg:${roomId}:${auth.userId}`, RATE_LIMIT_POST, RATE_LIMIT_WINDOW_MS);
     const msg = await prisma.roomMessage.create({
       data: {
         roomId,
@@ -349,7 +349,6 @@ export async function POST(req, { params }) {
     } catch {}
     return json(responsePayload);
   } catch (err) {
-    if (err?.status === 429) return errorJson("api.common.rate_limited", 429);
     console.error("[room message POST] failed", err);
     return errorJson("api.rooms.send_failed", 500);
   }

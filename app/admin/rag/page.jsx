@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
 import { authConfig } from "@/auth";
 import { serverT } from "@/lib/i18n/serverMessages";
+import { getLocaleFromCookies } from "@/lib/i18n";
+import { localizePath } from "@/lib/localizePath";
 import { unstable_noStore as noStore } from "next/cache";
 import CardTitle from "@/components/ui/CardTitle";
 import BackIcon from "@/components/ui/icons/BackIcon";
@@ -28,16 +31,18 @@ export const metadata = {
 };
 export default async function AdminRagPage() {
   noStore();
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
   const session = await getServerSession(authConfig);
   if (!session) {
     const params = new URLSearchParams({
-      callbackUrl: "/admin/rag"
+      callbackUrl: localizePath("/admin/rag", locale)
     });
     redirect(`/api/auth/signin?${params.toString()}`);
   }
   const isAdmin = session.user?.isAdmin === true || String(session.user?.role || "").toUpperCase() === "ADMIN";
   if (!isAdmin) {
-    redirect("/");
+    redirect(localizePath("/", locale));
   }
   return <div className={shellClassName} aria-labelledby="rag-admin-title">
       <CardTitle as="h1" id="rag-admin-title" className="text-[clamp(1.35rem,2.4vw,2rem)]">
@@ -47,7 +52,7 @@ export default async function AdminRagPage() {
       <div className="flex justify-center">
         <Link
           prefetch={false}
-          href="/#meist"
+          href={localizePath("/#meist", locale)}
           className={backButtonClassName}
           aria-label={serverT("en", "admin.common.back", undefined, "Back")}
         >

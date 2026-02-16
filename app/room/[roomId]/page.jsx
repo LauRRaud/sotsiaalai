@@ -1,13 +1,16 @@
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-export default function RoomPage({
+import { getLocaleFromCookies } from "@/lib/i18n";
+import { localizePath } from "@/lib/localizePath";
+export default async function RoomPage({
   params
 }) {
-  const roomId = params?.roomId ? String(params.roomId) : "";
-  if (roomId === "cmiunm4we0001goud9072nb9q") {
-    redirect("/vestlus");
-  }
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
+  const chatPath = localizePath("/vestlus", locale);
+  const roomId = params?.roomId ? String(params.roomId).trim() : "";
   if (roomId) {
-    redirect(`/vestlus?roomId=${encodeURIComponent(roomId)}`);
+    redirect(`${chatPath}?roomId=${encodeURIComponent(roomId)}`);
   }
-  redirect("/vestlus");
+  redirect(chatPath);
 }

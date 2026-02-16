@@ -110,6 +110,11 @@ export default function LoginModal({
     }
   };
   const nextUrl = toRelative(searchParams?.get("next") || defaultNextUrl);
+  const resetRequestPath = useMemo(() => {
+    const raw = String(t("routes.password_reset_path") || "").trim();
+    const base = raw.startsWith("/") ? raw : "/taasta-parool";
+    return localizePath(base || "/taasta-parool", locale);
+  }, [locale, t]);
   const PIN_MIN = 4;
   const PIN_MAX = 8;
   const LOGIN_EMAIL_KEY = "sotsiaalai:lastLoginEmail";
@@ -285,6 +290,38 @@ export default function LoginModal({
     return () => {
       document.body.classList.remove("login-modal-open");
       root.classList.remove("login-modal-open");
+    };
+  }, [open]);
+  useEffect(() => {
+    if (typeof document === "undefined" || !open) return;
+    const main = document.getElementById("main");
+    const bg = document.querySelector("[data-bg-layer]");
+    const prevMainAriaHidden = main?.getAttribute("aria-hidden") ?? null;
+    const prevMainInert = main ? Boolean(main.inert) : false;
+    const prevBgAriaHidden = bg?.getAttribute("aria-hidden") ?? null;
+    if (main) {
+      main.setAttribute("aria-hidden", "true");
+      main.inert = true;
+    }
+    if (bg) {
+      bg.setAttribute("aria-hidden", "true");
+    }
+    return () => {
+      if (main) {
+        if (prevMainAriaHidden == null) {
+          main.removeAttribute("aria-hidden");
+        } else {
+          main.setAttribute("aria-hidden", prevMainAriaHidden);
+        }
+        main.inert = prevMainInert;
+      }
+      if (bg) {
+        if (prevBgAriaHidden == null) {
+          bg.removeAttribute("aria-hidden");
+        } else {
+          bg.setAttribute("aria-hidden", prevBgAriaHidden);
+        }
+      }
     };
   }, [open]);
   useEffect(() => {
@@ -1041,14 +1078,7 @@ export default function LoginModal({
             ? "min(94vw, 36rem)"
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
-      }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside} onMouseLeave={() => {
-      if (step !== "pin") return;
-      if (emailRevealed && emailInputRef.current) {
-        emailInputRef.current.focus();
-        return;
-      }
-      if (!emailRevealed && emailIconButtonRef.current) emailIconButtonRef.current.focus();
-    }}>
+      }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
         <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] ${
         isOtpStep
           ? "!pb-[clamp(1.55rem,3.6vw,2.35rem)] max-md:!pb-[clamp(1.18rem,3.2vw,1.62rem)]"
@@ -1103,10 +1133,10 @@ export default function LoginModal({
             </div>
 
             {}
-            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={-1} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
+            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={-1} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-hidden="true" />}
 
             {}
-            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" enterKeyHint="go" onChange={handlePinInputChange} onInput={handlePinInputChange} onKeyDown={e => {
+            {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" enterKeyHint="go" tabIndex={-1} aria-hidden="true" onChange={handlePinInputChange} onInput={handlePinInputChange} onKeyDown={e => {
           if (e.key === "Enter") {
             e.preventDefault();
             suppressNativeBlurSubmitRef.current = true;
@@ -1149,7 +1179,7 @@ export default function LoginModal({
           "--pin-gloss-bg": isLightTheme ? "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.22) 32%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.14) 74%, rgba(0, 0, 0, 0.1) 100%), radial-gradient(120% 110% at 18% 16%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 64%), radial-gradient(120% 120% at 84% 90%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 56%)" : "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 74%, rgba(0, 0, 0, 0.16) 100%)",
           "--pin-gloss-op": isLightTheme ? "0.42" : "0.2"
         }} aria-hidden="false" onTouchStart={handleKeypadTouchStart} onTouchEnd={handleKeypadTouchEnd} onTouchCancel={handleKeypadTouchEnd}>
-                <div className="grid justify-center [grid-template-columns:repeat(3,var(--pin-btn))] [grid-auto-rows:var(--pin-btn)] gap-x-[var(--pin-gap-x)] gap-y-[var(--pin-gap-y)] w-full max-w-[calc((3*var(--pin-btn))+(2*var(--pin-gap-x)))]" role="group" aria-label={t("auth.login.title")}>
+                <div className="grid justify-center [grid-template-columns:repeat(3,var(--pin-btn))] [grid-auto-rows:var(--pin-btn)] gap-x-[var(--pin-gap-x)] gap-y-[var(--pin-gap-y)] w-full max-w-[calc((3*var(--pin-btn))+(2*var(--pin-gap-x)))]" role="group" aria-label={t("auth.pin_placeholder")}>
                   {keypadKeys.map((key, idx) => {
               if (key === "blank") {
                 return <span key={"blank-" + String(idx)} className="inline-block w-[var(--pin-btn)] h-[var(--pin-btn)]" aria-hidden="true" />;
@@ -1286,7 +1316,7 @@ export default function LoginModal({
                         {t("auth.login.help_wrong_pin_note")}
                       </div>
 
-                      <AppLink href="/uuenda-pin" variant="brand" className="mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap" onClick={() => setHelpOpen(false)}>
+                      <AppLink href={resetRequestPath} variant="brand" className="mt-[0.58rem] self-start text-[1.16rem] font-[500] no-underline whitespace-nowrap" onClick={() => setHelpOpen(false)}>
                         {t("auth.login.forgot")}
                       </AppLink>
                     </div>

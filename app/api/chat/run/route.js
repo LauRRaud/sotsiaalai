@@ -186,8 +186,9 @@ export async function GET(req) {
         degraded: true
       });
     }
+    console.error("[chat run GET] failed", err);
     return errorJson("api.chat.db_error_run_read", 500, {
-      error: err?.message
+      code: "DB_ERROR_RUN_READ"
     });
   }
 }

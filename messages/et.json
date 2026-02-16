@@ -633,7 +633,7 @@
         },
         "signin": {
           "title": "4. Sisselogimine ja rolli alusel liikumine",
-          "body": "<p>Sisselogimine algab avalehelt, kus on kaks rollikaarti: \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\".</p>\n<ul>\n<li>Klõpsa sobival rollikaardil ja sisesta e-posti aadress koos PIN-koodiga (4–8 numbrit).</li>\n<li>Varem usaldatud seadmes või brauseris piisab tavaliselt ainult PIN-ist.</li>\n<li>Kui logid sisse uuest või ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi; sisesta see vastavasse väljale.</li>\n<li>Soovi korral märgi \"Mäleta seda seadet 30 päeva\", et järgmistel kordadel piisaks PIN-ist.</li>\n<li>Kui PIN on ununenud, kasuta linki <a href=\"/uuenda-pin\">Unustasin PIN-i</a> ja järgi juhiseid.</li>\n<li>Edukalt sisenedes avatakse sinu rolli vestlusvaade; kui ligipääs on piiratud (nt tellimus puudub või on aegunud), kuvatakse teavitus ja järgmised sammud.</li>\n</ul>"
+          "body": "<p>Sisselogimine algab avalehelt, kus on kaks rollikaarti: \"Sotsiaaltöö spetsialistile\" ja \"Eluküsimusega pöördujale\".</p>\n<ul>\n<li>Klõpsa sobival rollikaardil ja sisesta e-posti aadress koos PIN-koodiga (4–8 numbrit).</li>\n<li>Varem usaldatud seadmes või brauseris piisab tavaliselt ainult PIN-ist.</li>\n<li>Kui logid sisse uuest või ebatavalisest keskkonnast, saadame e-postile 6-kohalise kinnituskoodi; sisesta see vastavasse väljale.</li>\n<li>Soovi korral märgi \"Mäleta seda seadet 30 päeva\", et järgmistel kordadel piisaks PIN-ist.</li>\n<li>Kui PIN on ununenud, kasuta linki <a href=\"/taasta-parool\">Unustasin PIN-i</a> ja järgi juhiseid.</li>\n<li>Edukalt sisenedes avatakse sinu rolli vestlusvaade; kui ligipääs on piiratud (nt tellimus puudub või on aegunud), kuvatakse teavitus ja järgmised sammud.</li>\n</ul>"
         },
         "chat": {
           "title": "5. Vestlusleht",
@@ -930,7 +930,8 @@
       "invalid_json": "Vigane JSON payload.",
       "missing_room_id": "Ruumi ID puudub.",
       "rate_limited": "Liiga palju paringuid. Proovi hiljem uuesti.",
-      "subscription_required": "Vajalik on aktiivne tellimus."
+      "subscription_required": "Vajalik on aktiivne tellimus.",
+      "monthly_budget_exceeded": "Kuu kasutuseelarve on täis. Jätka järgmisel kuul või uuenda paketti."
     },
     "chat": {
       "invalid_conv_id": "Vigane vestluse ID.",
@@ -1077,6 +1078,7 @@
       "analytics": {
         "events_load_failed": "Analüütika sündmusi ei saanud laadida.",
         "summary_load_failed": "Analüütika kokkuvõtet ei saanud laadida.",
+        "users_load_failed": "Kasutajate analüütikat ei saanud laadida.",
         "payment_alerts_not_configured": "Maksete alert webhook ei ole seadistatud.",
         "payment_alerts_dispatch_failed": "Maksete alertide edastamine ebaõnnestus.",
         "payment_alerts_dispatched": "Maksete alertid edastati.",
@@ -1129,13 +1131,16 @@
       "title": "Analytics",
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
-        "events_fetch_failed": "Events fetch failed."
+        "events_fetch_failed": "Events fetch failed.",
+        "users_fetch_failed": "Users analytics fetch failed."
       },
       "events": {
         "chat_request": "Chat request",
         "rag_search": "RAG search",
         "no_context": "No context",
         "crisis_detected": "Crisis detected",
+        "stt_request": "STT request",
+        "tts_request": "TTS request",
         "rag_error": "RAG error",
         "openai_error": "OpenAI error",
         "subscription_init_started": "Subscription init started",
@@ -1263,6 +1268,42 @@
           "paid_at": "PaidAt",
           "empty": "No records found."
         }
+      },
+      "users": {
+        "title": "Kasutajad, kulud ja limiidid",
+        "subtitle": "Kasutajapõhine 30 päeva kasutus, hinnanguline kulu ja kehtivad limiidid.",
+        "summary": {
+          "users": "Kasutajaid tabelis",
+          "estimated_cost": "Hinnanguline kulu (30p)",
+          "paid_amount": "Laekunud summa (30p)"
+        },
+        "active": "Aktiivne",
+        "inactive": "Mitteaktiivne",
+        "usage": {
+          "chat": "Vestlus",
+          "rag": "RAG",
+          "stt": "Dikteerimine",
+          "tts": "Kõne",
+          "analyze": "Analüüsid"
+        },
+        "limits": {
+          "analyze_daily": "Analüüs/päev",
+          "monthly_budget": "Kuueelarve",
+          "remaining_budget": "Järelejäänud eelarve",
+          "utilization": "Eelarve kasutus"
+        },
+        "table": {
+          "user": "Kasutaja",
+          "role": "Roll",
+          "admin": "Admin",
+          "subscription": "Tellimus",
+          "usage_30d": "Kasutus (30p)",
+          "cost_30d": "Kulu hinnang (30p)",
+          "limits": "Limiidid",
+          "paid_30d": "Laekunud (30p)",
+          "empty": "Kasutajaid ei leitud."
+        },
+        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/MB {stt}, kõne/1k tähemärki {tts}, kuueelarve {budget}. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust."
       },
       "logs": {
         "title": "Logs",

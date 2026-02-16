@@ -35,10 +35,14 @@ export async function GET(req) {
   const paymentState = mapCallbackState(rawStatus);
 
   const ref =
-    url.searchParams.get("reference") ||
-    url.searchParams.get("providerPaymentId") ||
-    url.searchParams.get("transaction_id") ||
-    "";
+    String(
+      url.searchParams.get("reference") ||
+        url.searchParams.get("providerPaymentId") ||
+        url.searchParams.get("transaction_id") ||
+        ""
+    )
+      .trim()
+      .slice(0, 180);
 
   const target = new URL(localizePath("/tellimus", locale), req.url);
   target.searchParams.set("payment", paymentState);

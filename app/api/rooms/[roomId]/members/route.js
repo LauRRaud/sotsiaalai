@@ -49,14 +49,9 @@ async function requireUser() {
   }
 }
 
-function normalizeRoomId(roomId) {
-  const maybe = Number(roomId);
-  return Number.isFinite(maybe) ? maybe : roomId;
-}
-
 export async function GET(_req, { params }) {
-  const roomIdRaw = params?.roomId;
-  const roomId = normalizeRoomId(roomIdRaw);
+  const roomId = String(params?.roomId || "").trim();
+  if (!roomId) return errorJson("api.common.missing_room_id", 400);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
@@ -103,6 +98,7 @@ export async function GET(_req, { params }) {
       orderBy: { role: "asc" }
     })
   ]);
+  if (!room) return errorJson("api.rooms.not_found", 404);
 
   return json({
     ok: true,

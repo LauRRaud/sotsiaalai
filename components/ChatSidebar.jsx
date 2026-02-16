@@ -5,7 +5,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import Button from "@/components/ui/Button";
+import ModalConfirm from "@/components/ui/ModalConfirm";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 function uuid() {
   const rnd = typeof window !== "undefined" && window.crypto?.randomUUID?.() || null;
@@ -41,6 +43,9 @@ export default function ChatSidebar() {
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(() => new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [confirmState, setConfirmState] = useState(null);
+  const [confirmBusy, setConfirmBusy] = useState(false);
+  const isActionBusy = busy || creating || bulkDeleting;
   const abortRef = useRef(null);
   const cursorRef = useRef(null);
   const roomsAbortRef = useRef(null);
@@ -49,8 +54,10 @@ export default function ChatSidebar() {
     last: 0
   });
   const {
-    t
+    t,
+    locale
   } = useI18n();
+  const normalizedPathname = useMemo(() => stripLocaleFromPath(pathname || "/"), [pathname]);
   const resolveErrorMessage = useCallback((payload, fallbackKey) => resolveApiMessage({
     payload,
     t,
@@ -267,11 +274,11 @@ export default function ChatSidebar() {
         }
       }));
     } catch {}
-    if (pathname?.startsWith("/vestlus") && searchParams?.get("roomId")) {
+    if (normalizedPathname.startsWith("/vestlus") && searchParams?.get("roomId")) {
       const params = new URLSearchParams(searchParams.toString());
       params.delete("roomId");
       const qs = params.toString();
-      router.replace(qs ? `/vestlus?${qs}` : "/vestlus");
+      router.replace(localizePath(qs ? `/vestlus?${qs}` : "/vestlus", locale));
     }
     try {
       window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", {
@@ -280,16 +287,16 @@ export default function ChatSidebar() {
         }
       }));
     } catch {}
-  }, [pathname, router, searchParams, selectMode]);
+  }, [locale, normalizedPathname, router, searchParams, selectMode]);
   const onPick = useCallback(item => {
     if (!item?.id) return;
     if (selectMode) return;
-    if (item.kind === "room") {
-      if (isEmbeddedChat) {
-        updateChatUrl(String(item.id));
-      } else {
-        router.push(`/vestlus?roomId=${encodeURIComponent(item.id)}`);
-      }
+      if (item.kind === "room") {
+        if (isEmbeddedChat) {
+          updateChatUrl(String(item.id));
+        } else {
+          router.push(localizePath(`/vestlus?roomId=${encodeURIComponent(item.id)}`, locale));
+        }
       window.dispatchEvent(new CustomEvent("sotsiaalai:toggle-conversations", {
         detail: {
           open: false
@@ -298,7 +305,7 @@ export default function ChatSidebar() {
       return;
     }
     activateConversation(item.id);
-  }, [activateConversation, isEmbeddedChat, router, selectMode, updateChatUrl]);
+  }, [activateConversation, isEmbeddedChat, locale, router, selectMode, updateChatUrl]);
   const onNew = useCallback(async () => {
     if (busy || creating) return;
     setCreating(true);
@@ -330,9 +337,8 @@ export default function ChatSidebar() {
       setCreating(false);
     }
   }, [activateConversation, busy, conversationRole, creating, refreshAll, resolveErrorMessage, t]);
-  const onDelete = useCallback(async id => {
+  const deleteConversationById = useCallback(async id => {
     if (!id) return;
-    if (!confirm(t("chat.sidebar.confirm.delete"))) return;
     setBusy(true);
     setError("");
     try {
@@ -356,6 +362,13 @@ export default function ChatSidebar() {
       setBusy(false);
     }
   }, [refreshAll, resolveErrorMessage, t]);
+  const onDelete = useCallback(id => {
+    if (!id || isActionBusy) return;
+    setConfirmState({
+      kind: "single",
+      id
+    });
+  }, [isActionBusy]);
   const fetchAllConversationIds = useCallback(async () => {
     const ids = [];
     let nextCursor = null;
@@ -425,34 +438,61 @@ export default function ChatSidebar() {
       failed: failures.length
     };
   }, [refreshAll, resolveErrorMessage, t]);
-  const handleDeleteSelected = useCallback(async () => {
-    if (!selectedIds.size) return;
-    if (!confirm(t("chat.sidebar.confirm.delete_selected"))) {
-      return;
-    }
-    const ids = Array.from(selectedIds);
-    const result = await deleteConversationIds(ids);
-    if (result.failed === 0) {
-      setSelectedIds(new Set());
-    }
-  }, [deleteConversationIds, selectedIds, t]);
-  const handleDeleteAll = useCallback(async () => {
-    if (!confirm(t("chat.sidebar.confirm.delete_all"))) {
-      return;
-    }
-    let ids = [];
+  const handleDeleteSelected = useCallback(() => {
+    if (!selectedIds.size || isActionBusy) return;
+    setConfirmState({
+      kind: "selected"
+    });
+  }, [isActionBusy, selectedIds]);
+  const handleDeleteAll = useCallback(() => {
+    if (isActionBusy) return;
+    setConfirmState({
+      kind: "all"
+    });
+  }, [isActionBusy]);
+  const handleConfirmDelete = useCallback(async () => {
+    if (!confirmState || confirmBusy) return;
+    setConfirmBusy(true);
     try {
-      ids = await fetchAllConversationIds();
-    } catch (e) {
-      setError(e?.message || t("chat.sidebar.error.delete"));
-      return;
+      if (confirmState.kind === "single") {
+        await deleteConversationById(confirmState.id);
+        return;
+      }
+      if (confirmState.kind === "selected") {
+        const ids = Array.from(selectedIds);
+        const result = await deleteConversationIds(ids);
+        if (result.failed === 0) {
+          setSelectedIds(new Set());
+        }
+        return;
+      }
+      let ids = [];
+      try {
+        ids = await fetchAllConversationIds();
+      } catch (e) {
+        setError(e?.message || t("chat.sidebar.error.delete"));
+        return;
+      }
+      const result = await deleteConversationIds(ids);
+      if (result.failed === 0) {
+        setSelectedIds(new Set());
+        setSelectMode(false);
+      }
+    } finally {
+      setConfirmBusy(false);
+      setConfirmState(null);
     }
-    const result = await deleteConversationIds(ids);
-    if (result.failed === 0) {
-      setSelectedIds(new Set());
-      setSelectMode(false);
-    }
-  }, [deleteConversationIds, fetchAllConversationIds, t]);
+  }, [confirmBusy, confirmState, deleteConversationById, deleteConversationIds, fetchAllConversationIds, selectedIds, t]);
+  const handleConfirmCancel = useCallback(() => {
+    if (confirmBusy) return;
+    setConfirmState(null);
+  }, [confirmBusy]);
+  const confirmMessage = useMemo(() => {
+    if (!confirmState) return "";
+    if (confirmState.kind === "single") return t("chat.sidebar.confirm.delete");
+    if (confirmState.kind === "selected") return t("chat.sidebar.confirm.delete_selected");
+    return t("chat.sidebar.confirm.delete_all");
+  }, [confirmState, t]);
   const safeDate = v => {
     const t = new Date(v).getTime();
     return Number.isFinite(t) ? t : 0;
@@ -466,7 +506,6 @@ export default function ChatSidebar() {
   }, [items, roomItems]);
   const sorted = useMemo(() => [...combinedItems].sort((a, b) => safeDate(b?.lastActivityAt) - safeDate(a?.lastActivityAt)), [combinedItems]);
   const isLoading = busy || roomsBusy;
-  const isActionBusy = busy || creating || bulkDeleting;
   const selectedCount = selectedIds.size;
   const messageCardClassNameCommon =
     "drawer-chat-card flex w-full flex-col gap-[0.6rem] rounded-[1rem] border border-[rgba(255,255,255,0.08)] " +
@@ -494,7 +533,8 @@ export default function ChatSidebar() {
   const compactRefreshBtnClassName =
     "px-[0.82rem] max-[48em]:!px-[1.18rem] max-[48em]:!min-h-[3.36rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[48em]:max-w-none mx-auto";
-  return <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-[0.7rem] max-[48em]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
+  return <>
+    <nav className="drawer-chat-sidebar flex h-full flex-1 flex-col items-center gap-3 px-[0.35rem] pb-[0.4rem] pt-[0.7rem] max-[48em]:pt-[0.9rem] text-[color:var(--pt-100)] light:text-[#1f2937]" aria-label={t("chat.sidebar.aria_list")} aria-busy={isLoading || creating ? "true" : "false"}>
       <div className={`${sidebarContentWidthClassName} flex flex-nowrap items-center justify-center gap-2 max-[48em]:gap-[0.72rem]`}>
         <Button variant="primary" size="sm" className={compactActionBtnClassName} onClick={onNew} disabled={busy || creating} aria-busy={creating ? "true" : "false"}>
           {creating ? t("chat.sidebar.button.creating") : <>
@@ -601,6 +641,8 @@ export default function ChatSidebar() {
             <ChevronIcon direction="down" className="h-[1rem] w-[1.68rem]" />
           </button>
         </div> : null}
-    </nav>;
+    </nav>
+    {confirmState ? <ModalConfirm message={confirmMessage} confirmLabel={t("buttons.delete")} cancelLabel={t("buttons.cancel")} busy={confirmBusy} busyLabel={t("chat.sidebar.deleting_status", "Kustutamine")} onConfirm={handleConfirmDelete} onCancel={handleConfirmCancel} disabled={confirmBusy} /> : null}
+  </>;
 
 }

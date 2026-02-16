@@ -140,8 +140,14 @@ Result: no extra click is required after pressing "new conversation".
 
 - `POST /api/chat/analyze-file`
   - quota checked in DB (`analyzeUsage`)
-  - forwards file to RAG analyze service
+  - forwards file to RAG analyze service with bounded `maxChunks`
   - returns ephemeral chunks/preview for the current chat context
+- `POST /api/chat`
+  - when ephemeral chunks are present, server builds document context by relevance to current question (not document prefix only)
+  - applies role-aware char/chunk budgets:
+    - `CLIENT`: smaller context budget by default
+    - `SOCIAL_WORKER`: larger context budget by default
+  - in extended mode (`combineSources=true`) document budget is reduced to leave room for RAG context
 
 ## Storage and State
 

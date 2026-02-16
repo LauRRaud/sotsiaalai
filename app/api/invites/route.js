@@ -341,10 +341,11 @@ export async function GET(request) {
   }
 
   const url = new URL(request.url);
-  const roomId =
+  const roomId = String(
     url.searchParams.get("room_id") ||
-    url.searchParams.get("roomId") ||
-    "";
+      url.searchParams.get("roomId") ||
+      ""
+  ).trim();
 
   if (!roomId) {
     return errorJson("api.common.invalid_request", 400, locale, {
@@ -437,7 +438,7 @@ export async function POST(request) {
     });
   }
 
-  const roomId = payload?.room_id || payload?.roomId || "";
+  const roomId = String(payload?.room_id ?? payload?.roomId ?? "").trim();
   const roomTitle =
     typeof payload?.room_title === "string"
       ? payload.room_title

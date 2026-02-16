@@ -8,6 +8,7 @@ import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { serverT, normalizeServerLocale } from "@/lib/i18n/serverMessages";
+import { localizePath } from "@/lib/localizePath";
 
 const TOKEN_EXPIRY_MINUTES = Number(process.env.RESET_TOKEN_MINUTES || 60);
 const RESET_RATE_LIMIT_WINDOW_MS = Number(
@@ -50,7 +51,7 @@ function err(messageKey, status = 400, locale = "en", extras = {}) {
     {
       ok: false,
       messageKey,
-      message: messageKey,
+      message: translated,
       error: translated,
       ...extras
     },
@@ -82,16 +83,20 @@ function localeFromRequest(request, bodyLocale) {
   return "en";
 }
 
-function buildResetUrl(token) {
+function buildResetUrl(token, locale = "en") {
   const baseUrl = resolveBaseUrl();
   if (!baseUrl) {
     throw new Error("api.auth.reset.base_url_missing");
   }
-  const resetPath = serverT("en", "routes.password_reset_path", undefined, "/reset-password");
-  const normalizedPath = String(resetPath || "/reset-password").startsWith("/")
-    ? String(resetPath || "/reset-password")
-    : `/${String(resetPath || "reset-password")}`;
-  return `${baseUrl.replace(/\/$/, "")}${normalizedPath}/${token}`;
+  const resetPath = serverT(locale, "routes.password_reset_path", undefined, "/taasta-parool");
+  const normalizedPath = String(resetPath || "/taasta-parool").startsWith("/")
+    ? String(resetPath || "/taasta-parool")
+    : `/${String(resetPath || "taasta-parool")}`;
+  const tokenPath = normalizedPath.endsWith("/")
+    ? `${normalizedPath}${token}`
+    : `${normalizedPath}/${token}`;
+  const localized = localizePath(tokenPath, locale);
+  return `${baseUrl.replace(/\/$/, "")}${localized}`;
 }
 
 async function sendResetEmail(to, resetUrl, locale) {
@@ -119,7 +124,7 @@ async function sendResetEmail(to, resetUrl, locale) {
 
 export async function POST(request) {
   const body = await request.json().catch(() => ({}));
-  const locale = localeFromRequest(request, body?.locale);
+  const locale = localeFromRequest(request, body?.locale || body?.lang);
 
   try {
     const email = normalizeEmail(body?.email);
@@ -168,7 +173,7 @@ export async function POST(request) {
       });
     });
 
-    const resetUrl = buildResetUrl(token);
+    const resetUrl = buildResetUrl(token, locale);
     try {
       await sendResetEmail(email, resetUrl, locale);
     } catch (sendError) {
@@ -184,7 +189,7 @@ export async function POST(request) {
 
 export async function PUT(request) {
   const body = await request.json().catch(() => ({}));
-  const locale = localeFromRequest(request, body?.locale);
+  const locale = localeFromRequest(request, body?.locale || body?.lang);
 
   try {
     const token = String(body?.token || "").trim();

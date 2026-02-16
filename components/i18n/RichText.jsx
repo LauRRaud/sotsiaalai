@@ -1,12 +1,21 @@
 "use client";
 
+import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
+
 export default function RichText({
   value,
   as: Component = "span",
   className,
-  replacements = {}
+  replacements = {},
+  locale
 }) {
   if (!value) return null;
+  const resolvedLocale =
+    typeof locale === "string" && locale.trim()
+      ? locale.trim()
+      : typeof document !== "undefined" && document?.documentElement?.lang
+        ? String(document.documentElement.lang).trim()
+        : "et";
   let html = value;
   Object.entries(replacements).forEach(([tag, replacement]) => {
     if (!replacement) return;
@@ -21,6 +30,7 @@ export default function RichText({
     const closeRe = new RegExp(`</${tag}>`, "g");
     html = html.replace(openRe, open).replace(closeRe, close);
   });
+  html = localizeInternalHtmlLinks(html, resolvedLocale);
   return <Component className={className} dangerouslySetInnerHTML={{
     __html: html
   }} />;

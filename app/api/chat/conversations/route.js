@@ -40,6 +40,12 @@ function normalizeRole(role) {
   return r === "SOCIAL_WORKER" || r === "CLIENT" ? r : "CLIENT";
 }
 
+function isPlausibleConversationId(id) {
+  if (!id || typeof id !== "string") return false;
+  if (id.length < 8 || id.length > 200) return false;
+  return /^[A-Za-z0-9._\-:+]+$/.test(id);
+}
+
 function encodeCursor(row) {
   try {
     const pin = row.isPinned ? 1 : 0;
@@ -53,13 +59,20 @@ function encodeCursor(row) {
 
 function parseCursor(token) {
   if (!token || typeof token !== "string") return null;
-  const [pinPart, msPart, id] = token.split(":");
-  if (!id) return null;
+  const firstSep = token.indexOf(":");
+  if (firstSep <= 0) return null;
+  const secondSep = token.indexOf(":", firstSep + 1);
+  if (secondSep <= firstSep + 1) return null;
+  const pinPart = token.slice(0, firstSep);
+  const msPart = token.slice(firstSep + 1, secondSep);
+  const id = token.slice(secondSep + 1);
+  if (!isPlausibleConversationId(id)) return null;
   const ms = Number(msPart);
   if (!Number.isFinite(ms)) return null;
   const date = new Date(ms);
   if (Number.isNaN(date.getTime())) return null;
-  const isPinned = pinPart === "1";
+  const isPinned = pinPart === "1" ? true : pinPart === "0" ? false : null;
+  if (isPinned === null) return null;
   return {
     isPinned,
     date,
@@ -115,7 +128,8 @@ async function requireUser() {
     return {
       ok: true,
       userId: session.user.id,
-      isAdmin: !!session.user.isAdmin
+      isAdmin: !!session.user.isAdmin,
+      role: normalizeRole(session?.user?.role || (session?.user?.isAdmin ? "SOCIAL_WORKER" : "CLIENT"))
     };
   } catch {
     return {
@@ -256,7 +270,7 @@ export async function GET(req) {
       });
     }
     return errorJson("api.chat.db_error_conversations_list", 500, {
-      error: err?.message
+      code: "DB_ERROR_CONVERSATIONS_LIST"
     });
   }
 }
@@ -280,6 +294,9 @@ export async function POST(req) {
   }
 
   let convId = String(body?.id || "").trim();
+  if (convId && !isPlausibleConversationId(convId)) {
+    return errorJson("api.chat.invalid_conv_id", 400);
+  }
   if (!convId) {
     try {
       convId = randomUUID();
@@ -288,7 +305,8 @@ export async function POST(req) {
     }
   }
 
-  const role = normalizeRole(body?.role);
+  const requestedRole = normalizeRole(body?.role);
+  const role = auth.isAdmin ? requestedRole : auth.role;
   const title = typeof body?.title === "string" && body.title.trim() ? body.title.trim().slice(0, 160) : null;
 
   try {
@@ -350,7 +368,7 @@ export async function POST(req) {
   } catch (err) {
     console.error("[chat/conversations POST] failed", err);
     return errorJson("api.chat.db_error_conversation_create", 500, {
-      error: err?.message
+      code: "DB_ERROR_CONVERSATION_CREATE"
     });
   }
 }

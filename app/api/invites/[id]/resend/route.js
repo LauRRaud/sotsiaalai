@@ -131,7 +131,7 @@ export async function POST(request, { params }) {
     return errorJson("api.common.unauthorized", 401, locale);
   }
 
-  const id = params?.id;
+  const id = String(params?.id || "").trim();
   if (!id) {
     return errorJson("api.invites.missing_id", 400, locale, {
       code: "MISSING_ID"

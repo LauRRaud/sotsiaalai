@@ -12,6 +12,7 @@ Thumbs.db
 **/.env
 **/.env.*
 !.env.example
+.env.production
 
 # Logid
 *.log
@@ -86,6 +87,7 @@ rag.env.*
 .env.production
 .env.local
 .env.development
+production.env
 .venv/
 backups/
 rag-service/storage

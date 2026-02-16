@@ -51,33 +51,35 @@ async function requireUser() {
 }
 
 async function canDelete(userId, roomId, authorId, userRole) {
-  if (userRole === "OWNER" || userRole === "MODERATOR") return true;
+  if (userRole === "ADMIN" || userRole === "OWNER" || userRole === "MODERATOR") return true;
   return userRole === "MEMBER" && userId === authorId;
 }
 
 export async function DELETE(_req, { params }) {
-  const roomId = params?.roomId;
-  const msgId = params?.msgId;
+  const roomId = String(params?.roomId || "").trim();
+  const msgId = String(params?.msgId || "").trim();
   if (!roomId || !msgId) return errorJson("api.rooms.missing_room_id_or_msg_id", 400);
 
-  const roomIdNormalized = Number.isNaN(Number(roomId)) ? roomId : Number(roomId);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
   try {
-    const membership = await prisma.roomMember.findFirst({
-      where: {
-        roomId: roomIdNormalized,
-        userId: auth.userId,
-        leftAt: null
-      }
-    });
+    const membership =
+      auth.role === "ADMIN"
+        ? { role: "ADMIN" }
+        : await prisma.roomMember.findFirst({
+            where: {
+              roomId,
+              userId: auth.userId,
+              leftAt: null
+            }
+          });
     if (!membership) return errorJson("api.common.forbidden", 403);
 
     const message = await prisma.roomMessage.findFirst({
       where: {
         id: msgId,
-        roomId: roomIdNormalized
+        roomId
       },
       select: {
         id: true,

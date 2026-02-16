@@ -7,8 +7,9 @@ import { collapsePages, groupMatches, diversifyGroupsMMR, buildContextWithBudget
 import { detectCrisis, isGreeting, groundingStrength } from "@/lib/chat/safety";
 import { persistInit, persistAppend, persistDone } from "@/lib/chat/persistence";
 import { logEvent } from "@/lib/chat/logger";
-import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_CTX_MAX_CHARS, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
+import { RAG_TOP_K, CONTEXT_GROUPS_MAX, DIVERSIFY_LAMBDA, RAG_BASE, RAG_KEY } from "@/lib/chat/settings";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -17,6 +18,18 @@ const ALLOW_SPONSORED_WITHOUT_SUBSCRIPTION = process.env.ALLOW_SPONSORED_WITHOUT
 const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const CHAT_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CHAT_POST_MAX, 24);
 const CHAT_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CHAT_GET_MAX, 120);
+const CHAT_HISTORY_MAX_ITEMS = readChatRateLimit(process.env.CHAT_HISTORY_MAX_ITEMS, 8, 1);
+const CHAT_HISTORY_MAX_CHARS = readChatRateLimit(process.env.CHAT_HISTORY_MAX_CHARS, 2000, 200);
+const CHAT_HISTORY_WITH_DOC_MAX_ITEMS = readChatRateLimit(process.env.CHAT_HISTORY_WITH_DOC_MAX_ITEMS, 6, 1);
+const CHAT_HISTORY_WITH_DOC_MAX_CHARS = readChatRateLimit(process.env.CHAT_HISTORY_WITH_DOC_MAX_CHARS, 1200, 200);
+const CHAT_EPHEMERAL_CHUNKS_MAX = readChatRateLimit(process.env.CHAT_EPHEMERAL_CHUNKS_MAX, 80, 1);
+const CHAT_EPHEMERAL_CHUNK_CHARS_MAX = readChatRateLimit(process.env.CHAT_EPHEMERAL_CHUNK_CHARS_MAX, 1800, 200);
+const CHAT_DOC_CONTEXT_CLIENT_CHARS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_CLIENT_CHARS, 1800, 300);
+const CHAT_DOC_CONTEXT_CLIENT_COMBINED_CHARS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_CLIENT_COMBINED_CHARS, 1200, 300);
+const CHAT_DOC_CONTEXT_WORKER_CHARS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_WORKER_CHARS, 2600, 300);
+const CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS, 1600, 300);
+const CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS, 4, 1);
+const CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS = readChatRateLimit(process.env.CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS, 6, 1);
 function makeError(messageKey, status = 400, extras = {}) {
   return NextResponse.json({
     ok: false,
@@ -37,12 +50,134 @@ const logError = (event, payload = {}) => {
     console.error("[chat]", event, payload);
   } catch {}
 };
-function toOpenAiMessages(history) {
+function toOpenAiMessages(history, options = {}) {
   if (!Array.isArray(history) || history.length === 0) return [];
-  return history.filter(msg => msg && typeof msg.text === "string").slice(-8).map(msg => ({
+  const maxItems = Math.max(1, Number(options.maxItems) || CHAT_HISTORY_MAX_ITEMS);
+  const maxChars = Math.max(200, Number(options.maxChars) || CHAT_HISTORY_MAX_CHARS);
+  return history.filter(msg => msg && typeof msg.text === "string").slice(-maxItems).map(msg => ({
     role: msg.role === "ai" ? "assistant" : "user",
-    content: String(msg.text).slice(0, 2000)
+    content: String(msg.text).slice(0, maxChars)
   }));
+}
+function normalizeEphemeralChunk(text, maxChars = CHAT_EPHEMERAL_CHUNK_CHARS_MAX) {
+  const normalized = String(text || "").replace(/\r\n?/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  if (!normalized) return "";
+  if (normalized.length <= maxChars) return normalized;
+  return `${normalized.slice(0, Math.max(1, maxChars - 3)).trimEnd()}...`;
+}
+function tokenizeForChunkSearch(text = "") {
+  const tokens = String(text || "").toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(token => token.length >= 3);
+  return Array.from(new Set(tokens)).slice(0, 28);
+}
+function extractQueryPhrases(text = "") {
+  const parts = String(text || "").toLowerCase().split(/[.?!\n;:]+/).map(s => s.trim()).filter(s => s.length >= 16);
+  return Array.from(new Set(parts)).slice(0, 4);
+}
+function extractRecentUserText(history = [], maxItems = 2) {
+  if (!Array.isArray(history) || !history.length) return [];
+  const picked = [];
+  for (let i = history.length - 1; i >= 0 && picked.length < maxItems; i -= 1) {
+    const msg = history[i];
+    const role = String(msg?.role || "").toLowerCase();
+    if (!(role === "user" || role === "client")) continue;
+    const text = String(msg?.text || msg?.content || "").trim();
+    if (!text) continue;
+    picked.push(text.slice(0, 700));
+  }
+  return picked.reverse();
+}
+function getDocContextBudget(role = "CLIENT", combineSources = false) {
+  const worker = role === "SOCIAL_WORKER";
+  return {
+    charBudget: worker
+      ? combineSources
+        ? CHAT_DOC_CONTEXT_WORKER_COMBINED_CHARS
+        : CHAT_DOC_CONTEXT_WORKER_CHARS
+      : combineSources
+        ? CHAT_DOC_CONTEXT_CLIENT_COMBINED_CHARS
+        : CHAT_DOC_CONTEXT_CLIENT_CHARS,
+    maxChunks: worker ? CHAT_DOC_CONTEXT_WORKER_MAX_CHUNKS : CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS
+  };
+}
+function buildEphemeralDocContext(ephemeralChunks = [], options = {}) {
+  const chunks = Array.isArray(ephemeralChunks) ? ephemeralChunks : [];
+  if (!chunks.length) return {
+    text: "",
+    usedChars: 0,
+    usedChunks: 0
+  };
+  const maxChunks = Math.max(1, Number(options.maxChunks) || CHAT_DOC_CONTEXT_CLIENT_MAX_CHUNKS);
+  const charBudget = Math.max(300, Number(options.charBudget) || CHAT_DOC_CONTEXT_CLIENT_CHARS);
+  const normalized = [];
+  const seen = new Set();
+  for (const raw of chunks.slice(0, CHAT_EPHEMERAL_CHUNKS_MAX)) {
+    const cleaned = normalizeEphemeralChunk(raw, CHAT_EPHEMERAL_CHUNK_CHARS_MAX);
+    if (!cleaned) continue;
+    const dedupeKey = cleaned.slice(0, 180).toLowerCase();
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    normalized.push(cleaned);
+  }
+  if (!normalized.length) return {
+    text: "",
+    usedChars: 0,
+    usedChunks: 0
+  };
+  const queryText = String(options.queryText || "").trim().toLowerCase();
+  const queryTokens = tokenizeForChunkSearch(queryText);
+  const queryPhrases = extractQueryPhrases(queryText);
+  const queryNumbers = Array.from(new Set((queryText.match(/\d+/g) || []).slice(0, 5)));
+  const scored = normalized.map((chunk, index) => {
+    const lower = chunk.toLowerCase();
+    let tokenHits = 0;
+    for (const token of queryTokens) {
+      if (lower.includes(token)) tokenHits += 1;
+    }
+    let phraseHits = 0;
+    for (const phrase of queryPhrases) {
+      if (lower.includes(phrase)) phraseHits += 1;
+    }
+    let numberHits = 0;
+    for (const numberToken of queryNumbers) {
+      if (lower.includes(numberToken)) numberHits += 1;
+    }
+    const score = tokenHits * 1.5 + phraseHits * 2.1 + numberHits * 1.1 + (index === 0 ? 0.1 : 0);
+    return {
+      index,
+      chunk,
+      score
+    };
+  });
+  const ranked = [...scored].sort((a, b) => b.score - a.score || a.index - b.index);
+  let usedChars = 0;
+  const selected = [];
+  for (const entry of ranked) {
+    if (selected.length >= maxChunks) break;
+    const remaining = charBudget - usedChars;
+    if (remaining < 120) break;
+    const piece = entry.chunk.length > remaining ? entry.chunk.slice(0, remaining).trimEnd() : entry.chunk;
+    if (!piece) continue;
+    selected.push({
+      index: entry.index,
+      text: piece
+    });
+    usedChars += piece.length + 8;
+  }
+  if (!selected.length) {
+    const fallback = normalized[0].slice(0, charBudget).trim();
+    return {
+      text: fallback,
+      usedChars: fallback.length,
+      usedChunks: fallback ? 1 : 0
+    };
+  }
+  selected.sort((a, b) => a.index - b.index);
+  const text = selected.map((entry, idx) => `[DOC ${idx + 1}]\n${entry.text}`).join("\n\n---\n\n").trim();
+  return {
+    text,
+    usedChars: Math.min(charBudget, text.length),
+    usedChunks: selected.length
+  };
 }
 function detectSourcesRequest(history = [], message = "") {
   const sourcesText = [];
@@ -195,9 +330,8 @@ function normalizePageRangeString(s = "") {
   return s.replace(/\s*[-\u2010-\u2015]\s*/g, "-").trim();
 }
 function normalizeRoomId(roomIdRaw) {
-  if (!roomIdRaw) return null;
-  const maybe = Number(roomIdRaw);
-  return Number.isFinite(maybe) ? maybe : roomIdRaw;
+  const value = String(roomIdRaw || "").trim();
+  return value || null;
 }
 function isPlausibleConversationId(id) {
   if (!id || typeof id !== "string") return false;
@@ -294,7 +428,6 @@ export async function POST(req) {
   const message = String(payload?.message || "").trim();
   if (!message) return makeError("chat.error.message_required");
   const rawHistory = Array.isArray(payload?.history) ? payload.history : [];
-  const history = toOpenAiMessages(rawHistory);
   const wantStream = !!payload?.stream;
   const persist = !!payload?.persist;
   const convIdRaw = payload?.convId && String(payload.convId) || "";
@@ -304,7 +437,9 @@ export async function POST(req) {
   }
   const uiLocale = typeof payload?.uiLocale === "string" ? payload.uiLocale : undefined;
   const roomId = normalizeRoomId(payload?.roomId ?? payload?.room_id);
-  const ephemeralChunks = Array.isArray(payload?.ephemeralChunks) ? payload.ephemeralChunks.filter(s => typeof s === "string" && s.trim()).map(s => s.trim()) : [];
+  const ephemeralChunks = Array.isArray(payload?.ephemeralChunks)
+    ? payload.ephemeralChunks.filter(s => typeof s === "string" && s.trim()).slice(0, CHAT_EPHEMERAL_CHUNKS_MAX).map(s => normalizeEphemeralChunk(s, CHAT_EPHEMERAL_CHUNK_CHARS_MAX)).filter(Boolean)
+    : [];
   const ephemeralSource = payload?.ephemeralSource && typeof payload.ephemeralSource === "object" ? payload.ephemeralSource : null;
   const combineSources = payload?.combineSources === true;
   const forceSources = payload?.forceSources === true || payload?.includeSources === true || payload?.showSources === true;
@@ -314,6 +449,15 @@ export async function POST(req) {
   const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
   const pickedRole = sessionRole || payloadRole || "CLIENT";
   const normalizedRole = normalizeRole(pickedRole);
+  const history = toOpenAiMessages(rawHistory, ephemeralChunks.length
+    ? {
+        maxItems: CHAT_HISTORY_WITH_DOC_MAX_ITEMS,
+        maxChars: CHAT_HISTORY_WITH_DOC_MAX_CHARS
+      }
+    : {
+        maxItems: CHAT_HISTORY_MAX_ITEMS,
+        maxChars: CHAT_HISTORY_MAX_CHARS
+      });
   const adminUser = isAdmin(session?.user);
   let roomMembership = null;
   if (roomId && userId && !adminUser) {
@@ -337,12 +481,23 @@ export async function POST(req) {
   if (!gate.ok) {
     return NextResponse.json({
       ok: false,
+      messageKey: gate.message,
       message: gate.message,
       requireSubscription: gate.requireSubscription,
       redirect: gate.redirect
     }, {
       status: gate.status
     });
+  }
+  if (userId) {
+    const budgetCheck = await canSpendMonthlyBudget(userId, { chatRequests: 1 });
+    if (!budgetCheck.allowed) {
+      return makeError("api.common.monthly_budget_exceeded", 429, {
+        budgetEur: budgetCheck.budgetEur,
+        usedEur: budgetCheck.usedEur,
+        remainingEur: budgetCheck.remainingEur
+      });
+    }
   }
   const replyLang = pickReplyLang({
     userMessage: message,
@@ -487,12 +642,14 @@ export async function POST(req) {
     budgeted = buildContextWithBudget(chosen);
   }
   const ragContext = budgeted.text;
-  let docContext = "";
-  if (ephemeralChunks && ephemeralChunks.length) {
-    const joined = ephemeralChunks.join("\n---\n");
-    const maxEphemeral = Math.max(500, Math.floor(RAG_CTX_MAX_CHARS * 0.35));
-    docContext = joined.slice(0, maxEphemeral).trim();
-  }
+  const docBudget = getDocContextBudget(normalizedRole, combineSources);
+  const docQueryText = [message, ...extractRecentUserText(rawHistory, 2)].filter(Boolean).join("\n");
+  const docContextResult = buildEphemeralDocContext(ephemeralChunks, {
+    queryText: docQueryText,
+    charBudget: docBudget.charBudget,
+    maxChunks: docBudget.maxChunks
+  });
+  const docContext = docContextResult.text;
   const contextParts = [];
   if (docContext) {
     contextParts.push(`USER DOCUMENT:\n${docContext}`);
@@ -510,7 +667,10 @@ export async function POST(req) {
     rawMatches: matches.length,
     groups: groupedMatches.length,
     grounding,
-    mmrSelected: chosen.length
+    mmrSelected: chosen.length,
+    docChunkInputCount: ephemeralChunks.length,
+    docChunkUsedCount: docContextResult.usedChunks,
+    docContextChars: docContextResult.usedChars
   });
   await logEvent("rag_search", {
     userId,
@@ -520,6 +680,9 @@ export async function POST(req) {
     groupCount: groupedMatches.length,
     chosenGroupCount: chosen.length,
     grounding,
+    docChunkInputCount: ephemeralChunks.length,
+    docChunkUsedCount: docContextResult.usedChunks,
+    docContextChars: docContextResult.usedChars,
     hadDocContext,
     hadRagContext
   });
@@ -716,9 +879,12 @@ export async function POST(req) {
         convId: convId || undefined
       });
     } catch (err) {
-      const errMessage = (err?.response?.data?.error?.message || err?.error?.message || err?.message) ?? "chat.error.openai_request_failed";
+      const rawErrMessage = (err?.response?.data?.error?.message || err?.error?.message || err?.message) ?? "chat.error.openai_request_failed";
+      const safeMessageKey = typeof rawErrMessage === "string" && rawErrMessage.startsWith("chat.")
+        ? rawErrMessage
+        : "chat.error.openai_request_failed";
       logError("openai.call.error", {
-        err: errMessage,
+        err: rawErrMessage,
         stack: err?.stack,
         userId,
         role: normalizedRole,
@@ -729,7 +895,7 @@ export async function POST(req) {
         userId,
         role: normalizedRole,
         isCrisis,
-        message: errMessage,
+        message: rawErrMessage,
         messageLength: message.length
       });
       if (persist && convId && userId) await persistDone({
@@ -737,7 +903,7 @@ export async function POST(req) {
         userId,
         status: "ERROR"
       });
-      return makeError(errMessage, 502, {
+      return makeError(safeMessageKey, 502, {
         code: err?.name
       });
     }
@@ -832,10 +998,11 @@ export async function POST(req) {
           }
         }
       } catch (e) {
+        const streamSafeMessage = "chat.error.openai_request_failed";
         if (!clientGone) {
           try {
             controller.enqueue(enc.encode(`event: error\ndata: ${JSON.stringify({
-              message: e?.message || "stream error"
+              message: streamSafeMessage
             })}\n\n`));
           } catch {}
         }

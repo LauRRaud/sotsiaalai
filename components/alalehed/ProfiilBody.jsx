@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
@@ -8,7 +8,7 @@ import { useAccessibility } from "@/components/accessibility/AccessibilityProvid
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
-import { localizePath } from "@/lib/localizePath";
+import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { cn } from "@/components/ui/cn";
@@ -120,6 +120,31 @@ const noteClassName =
 const noteRowClassName = "mt-[0.75rem]";
 const noteCenterClassName = "w-[min(32rem,100%)] mx-auto";
 const errorStateClassName = "flex-1 w-full flex items-center justify-center";
+const PROFILE_FOOTER_SHINE_VARIANT = "wide";
+const PROFILE_FOOTER_SHINE_GRADIENTS = {
+  soft:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.92) 50%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%)",
+  narrow:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 55%, rgba(255,255,255,0) 100%)",
+  medium:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0) 58%, rgba(255,255,255,0) 100%)",
+  wide:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)",
+  dual:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.68) 33%, rgba(255,255,255,0) 44%, rgba(255,255,255,0.96) 50%, rgba(255,255,255,0) 56%, rgba(255,255,255,0.68) 67%, rgba(255,255,255,0) 100%)"
+};
+const PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT = {
+  soft:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(58,38,30,0.9) 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%)",
+  narrow:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, rgba(48,30,24,0.96) 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0) 100%)",
+  medium:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 42%, rgba(56,36,28,0.94) 50%, rgba(0,0,0,0) 58%, rgba(0,0,0,0) 100%)",
+  wide:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)",
+  dual:
+    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.56) 33%, rgba(0,0,0,0) 44%, rgba(56,36,28,0.92) 50%, rgba(0,0,0,0) 56%, rgba(72,46,36,0.56) 67%, rgba(0,0,0,0) 100%)"
+};
 function ProfileShell({
   locale,
   children,
@@ -132,7 +157,11 @@ function ProfileShell({
   maskLayerRef,
   footerNote
 }) {
-  const footerCurveId = useId().replace(/[:]/g, "");
+  const footerShineBackgroundImage =
+    (theme === "light"
+      ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT[PROFILE_FOOTER_SHINE_VARIANT]
+      : PROFILE_FOOTER_SHINE_GRADIENTS[PROFILE_FOOTER_SHINE_VARIANT]) ||
+    (theme === "light" ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT.soft : PROFILE_FOOTER_SHINE_GRADIENTS.soft);
   const containerClass = cn(
     containerBaseClassName,
     embedded ? "profile-container glass-ring glass-ring--desktop-stable" : "profile-container glass-ring glass-ring--desktop-stable",
@@ -164,25 +193,19 @@ function ProfileShell({
         <footer
           aria-hidden={orbitOpen ? "true" : undefined}
           className={cn(
-            "profile-footer-note pointer-events-none absolute inset-x-0 top-[86%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-[88%] max-[48em]:text-[1.62rem]",
+            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-[84%] max-[48em]:text-[1.62rem]",
             orbitOpen ? "opacity-0" : "opacity-[0.3]"
           )}
         >
-          <svg
+          <span
             aria-hidden="true"
-            className="mx-auto block h-[11.2rem] w-[min(58rem,100%)] overflow-visible max-[48em]:h-[11.8rem]"
-            viewBox="0 0 320 210"
-            preserveAspectRatio="xMidYMid meet"
+            className="inline-block whitespace-pre [font:inherit] tracking-[0.012em] text-transparent [background-repeat:no-repeat] [background-size:220%_100%] [background-position:150%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite]"
+            style={{
+              backgroundImage: footerShineBackgroundImage
+            }}
           >
-            <defs>
-              <path id={footerCurveId} d="M 14 86 Q 160 112 306 86" />
-            </defs>
-            <text className="fill-current [font:inherit] tracking-[0.012em]" textAnchor="middle" fontSize="168">
-              <textPath href={`#${footerCurveId}`} startOffset="50%">
-                {footerNote}
-              </textPath>
-            </text>
-          </svg>
+            {footerNote}
+          </span>
           <span className="sr-only">{footerNote}</span>
         </footer>
       ) : null}
@@ -573,16 +596,13 @@ export default function ProfiilBody({
       onBack();
       return;
     }
-    pushWithTransition(router, "/vestlus");
-  }, [onBack, router]);
-  const handleMobileOrbitBack = useCallback(() => {
-    pushWithTransition(router, localizePath("/profiil", locale));
-  }, [locale, router]);
+    pushWithTransition(router, localizePath("/vestlus", locale));
+  }, [locale, onBack, router]);
   const mobileBackItem = {
     key: "back",
     icon: <BackIcon className="profile-orbit-back-icon h-full w-full" />,
     label: t("buttons.back"),
-    onClick: handleMobileOrbitBack
+    onClick: handleBack
   };
   const handleLogout = async () => {
     if (loggingOut) return;
@@ -616,7 +636,7 @@ export default function ProfiilBody({
       pushWithTransition(router, targetHref);
       if (typeof window !== "undefined") {
         window.setTimeout(() => {
-          if (!window.location.pathname.startsWith("/profiil")) return;
+          if (!stripLocaleFromPath(window.location.pathname).startsWith("/profiil")) return;
           window.location.assign(redirectUrl);
         }, 420);
       }

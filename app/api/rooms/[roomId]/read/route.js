@@ -75,12 +75,18 @@ async function hasActiveSubscription(userId) {
 }
 
 export async function PUT(_req, { params }) {
-  const roomIdRaw = params?.roomId;
-  const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
+  const roomId = String(params?.roomId || "").trim();
+  if (!roomId) return errorJson("api.common.missing_room_id", 400);
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
   try {
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+      select: { id: true }
+    });
+    if (!room) return errorJson("api.rooms.not_found", 404);
+
     if (auth.userRole === "ADMIN") {
       return json({
         ok: true

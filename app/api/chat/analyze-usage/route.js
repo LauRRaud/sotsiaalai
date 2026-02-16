@@ -6,6 +6,7 @@ import { normalizeRole } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 function json(data, status = 200) {
   return NextResponse.json(data, {
     status,
@@ -16,11 +17,23 @@ function json(data, status = 200) {
     }
   });
 }
-function errorJson(messageKey, status, extras = {}) {
+function localeFromRequest(req) {
+  const url = new URL(req.url);
+  const fromQuery = normalizeServerLocale(url.searchParams.get("locale") || url.searchParams.get("lang"));
+  if (fromQuery) return fromQuery;
+  const fromHeader =
+    normalizeServerLocale(req.headers.get("x-ui-locale")) ||
+    normalizeServerLocale(req.headers.get("x-locale")) ||
+    normalizeServerLocale(req.headers.get("accept-language"));
+  return fromHeader || "en";
+}
+
+function errorJson(messageKey, status, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
   return json({
     ok: false,
     messageKey,
-    message: messageKey,
+    message: translated,
     ...extras
   }, status);
 }
@@ -28,9 +41,10 @@ const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_
 const CHAT_ANALYZE_USAGE_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_ANALYZE_USAGE_GET_MAX, 90);
 
 export async function GET(req) {
+  const locale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
-    return errorJson("api.common.unauthorized", 401);
+    return errorJson("api.common.unauthorized", 401, locale);
   }
   const rateLimitResponse = enforceChatRateLimit(req, {
     scope: "analyze_usage_get",
@@ -64,8 +78,9 @@ export async function GET(req) {
       resetSeconds: secondsUntilUtcMidnight()
     });
   } catch (err) {
-    return errorJson("api.chat.db_error_analyze_usage", 500, {
-      error: err?.message
+    console.error("[chat/analyze-usage GET] failed", err);
+    return errorJson("api.chat.db_error_analyze_usage", 500, locale, {
+      code: "DB_ERROR_ANALYZE_USAGE"
     });
   }
 }

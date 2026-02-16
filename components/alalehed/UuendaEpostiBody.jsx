@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
@@ -24,6 +26,7 @@ const primaryActionButtonClassName =
   "max-[48em]:!min-h-[3.42rem] max-[48em]:!px-[1.7rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem]";
 export default function UuendaEpostiBody() {
   const router = useRouter();
+  const { status } = useSession();
   const {
     t,
     locale
@@ -36,6 +39,7 @@ export default function UuendaEpostiBody() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [loginOpen, setLoginOpen] = useState(false);
   const errorId = error ? "update-email-error" : undefined;
   const backLabel = t("buttons.back_previous");
   const pinPlaceholder = t("profile.email_update.pin_placeholder");
@@ -45,6 +49,7 @@ export default function UuendaEpostiBody() {
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/profiil", locale));
   const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
   useEffect(() => {
+    if (status !== "authenticated") return;
     let isActive = true;
     const loadCurrentEmail = async () => {
       try {
@@ -64,10 +69,19 @@ export default function UuendaEpostiBody() {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [status]);
+  useEffect(() => {
+    if (status !== "unauthenticated") return;
+    setError("");
+  }, [status]);
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    if (status !== "authenticated") {
+      setError(t("profile.login_to_view"));
+      setLoginOpen(true);
+      return;
+    }
     const nextEmail = email.trim().toLowerCase();
     const pinClean = pin.replace(/\D/g, "");
     if (!nextEmail) {
@@ -119,6 +133,7 @@ export default function UuendaEpostiBody() {
       setLoading(false);
     }
   }
+  const unauthenticated = status === "unauthenticated";
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
@@ -127,7 +142,14 @@ export default function UuendaEpostiBody() {
           {t("profile.email_update.title")}
         </h1>
         <div className={contentClassName}>
-          {submitted ? <div className="flex flex-col gap-4 text-center">
+          {unauthenticated ? <div className="flex w-full flex-col items-center gap-6 text-center">
+              <p className="text-[color:#fca5a5]">
+                {t("profile.login_to_view")}
+              </p>
+              <Button type="button" variant="primary" className={primaryActionButtonClassName} onClick={() => setLoginOpen(true)}>
+                <span>{t("auth.login.title")}</span>
+              </Button>
+            </div> : submitted ? <div className="flex flex-col gap-4 text-center">
               <p className="text-[color:#a7f3d0]">
                 {t("profile.email_update.success")}
               </p>
@@ -157,5 +179,9 @@ export default function UuendaEpostiBody() {
             </form>}
         </div>
       </GlassRing>
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} suppressRedirect onAuthSuccess={() => {
+      setLoginOpen(false);
+      router.refresh();
+    }} />
     </section>;
 }

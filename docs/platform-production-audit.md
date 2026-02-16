@@ -813,6 +813,279 @@ Encoding fixes applied (BOM removed):
   - fixed follow-up: added throttled read-marker updates in `useRoomMessages` on initial room load, polling merge, and SSE incoming message
 - Status: `OK`
 
+### Chat capability verification - Point 8 (chat-page icon rail destinations)
+- Scope: `components/chat/RightRail.jsx`, `components/alalehed/chat/ChatBodyView.jsx`, `components/alalehed/ConversationDrawer.jsx`, `components/ChatSidebar.jsx`, `components/invite/InviteModal.jsx`, `components/alalehed/ProfiilBody.jsx`, `app/ruum/page.js`
+- Good:
+  - `Vestlused` icon opens conversation drawer (`sotsiaalai:toggle-conversations`) on `/vestlus`
+  - `Allikad` icon opens sources dialog and is properly disabled when no sources exist
+  - `Ruumid` icon routes to `/ruum`
+  - `Lisa inimene` icon opens invite modal (`sotsiaalai:open-invite`) with current `roomId` context when present
+  - `Profiil` icon opens in-chat profile face toggle (or routes to `/profiil` when toggle callback is absent)
+- Risk:
+  - no production-blocking functional issue found in this pass
+- Action:
+  - verification-only pass completed for point 8 (no code changes required)
+- Status: `OK`
+
+### Chat capability verification - Point 9 (icon-opened pages + route files audit)
+- Scope:
+  - app routes: `app/vestlus/page.js`, `app/ruum/page.js`, `app/profiil/page.js`
+  - chat/history routes: `app/api/chat/conversations/route.js`, `app/api/chat/conversations/[id]/route.js`, `app/api/chat/run/route.js`
+  - room routes: `app/api/rooms/route.js`, `app/api/rooms/[roomId]/route.js`, `app/api/rooms/[roomId]/members/route.js`
+  - invite routes: `app/api/invites/route.js`, `app/api/invites/[id]/accept/route.js`, `app/api/invites/[id]/resend/route.js`, `app/api/invites/[id]/revoke/route.js`
+  - profile route: `app/api/profile/route.js`
+- Good:
+  - icon-opened page routes are mapped correctly and metadata/auth guards are coherent for production flow
+  - conversation/room/invite/profile APIs are ownership-gated and no-store headers are consistently applied
+- Risk:
+  - revoke-invite route ignored explicit UI locale payload, causing language drift when UI locale differs from browser `Accept-Language`
+  - room-members route did not guard missing `roomId` explicitly and could return ambiguous response for non-existent room
+- Action:
+  - fixed `/api/invites/[id]/revoke` to consume optional request body locale (`locale` / `lang`) for deterministic i18n
+  - fixed `/api/rooms/[roomId]/members` to return `api.common.missing_room_id` on missing param and `api.rooms.not_found` when room does not exist
+- Status: `OK`
+
+### Chat capability verification - Point 10 (conversations route hardening)
+- Scope: `app/api/chat/conversations/route.js`, `app/api/chat/conversations/[id]/route.js`
+- Good:
+  - ownership checks and archive semantics were already in place for conversation read/delete/restore
+  - route-level chat rate limits are enforced for list/create/read/update/delete paths
+- Risk:
+  - conversation ID validation rules were not aligned across endpoints; some routes accepted IDs that stricter chat endpoints would reject later
+- Action:
+  - aligned conversation ID validation to strict shared pattern (`[A-Za-z0-9._\\-:+]`, 8..200 chars) in:
+    - `POST /api/chat/conversations` (user-provided ID path)
+    - `/api/chat/conversations/[id]` param guard
+  - kept existing response contract (`api.chat.invalid_conv_id` / `api.chat.invalid_id`) unchanged
+- Status: `OK`
+
+### Chat capability verification - Point 11 (roomId type normalization)
+- Scope:
+  - `app/api/chat/route.js`
+  - `app/api/rooms/[roomId]/route.js`
+  - `app/api/rooms/[roomId]/read/route.js`
+  - `app/api/rooms/[roomId]/leave/route.js`
+  - `app/api/rooms/[roomId]/members/route.js`
+  - `app/api/rooms/[roomId]/messages/route.js`
+  - `app/api/rooms/[roomId]/messages/stream/route.js`
+  - `app/api/rooms/[roomId]/messages/[msgId]/route.js`
+- Good:
+  - route params now use a single canonical room-id path: trimmed string IDs only (aligned with Prisma `Room.id: String`)
+  - missing/blank `roomId` is explicitly guarded with existing API error keys
+- Risk:
+  - previous numeric coercion (`Number(roomId)`) could silently switch ID type and cause false not-found / access-denied behavior when room IDs are CUID strings
+- Action:
+  - removed numeric fallback normalization for `roomId` across chat + room routes
+  - kept response contracts and error keys stable
+- Status: `OK`
+
+### Chat capability verification - Point 12 (admin parity for room-message delete)
+- Scope: `app/api/rooms/[roomId]/messages/[msgId]/route.js`
+- Good:
+  - admin role already had elevated read/send access in room-message routes
+- Risk:
+  - delete route still required room membership, so admin could not delete messages in rooms they did not explicitly join
+- Action:
+  - aligned delete permissions with admin semantics by allowing `ADMIN` role to bypass room-member lookup and delete check
+  - kept existing forbidden/error behavior for non-admin roles unchanged
+- Status: `OK`
+
+### Chat capability verification - Point 13 (invite route param hardening)
+- Scope:
+  - `app/api/invites/route.js`
+  - `app/api/invites/[id]/accept/route.js`
+  - `app/api/invites/[id]/resend/route.js`
+  - `app/api/invites/[id]/revoke/route.js`
+- Good:
+  - invite flows already had ownership/rate-limit checks and stable error contracts
+- Risk:
+  - untrimmed `id/token/roomId` params could yield avoidable false negatives (`missing`, `not_found`, `invalid_request`) on whitespace-tainted inputs
+- Action:
+  - normalized invite route identifiers to trimmed strings before validation/use
+  - retained existing response keys and status codes
+- Status: `OK`
+
+### Chat capability verification - Point 14 (rooms list endpoint query pressure)
+- Scope: `app/api/rooms/route.js`
+- Good:
+  - endpoint already returned correct room payload contract for admin and member views
+- Risk:
+  - list flow used per-room `roomMember.count` and per-room `roomMessage.count`, creating avoidable N+1 pressure as room count grows
+- Action:
+  - refactored membership count to a single grouped query (`roomMember.groupBy`)
+  - for admin view, refactored unread count to a single grouped query (`roomMessage.groupBy`)
+  - preserved non-admin unread semantics (`lastReadAt`-based), response shape, and sort behavior
+- Status: `OK`
+
+### Chat capability verification - Point 15 (chat-run error response hardening)
+- Scope: `app/api/chat/run/route.js`
+- Good:
+  - route already handled DB-offline path with explicit degraded response (`503`)
+- Risk:
+  - generic DB error branch returned raw `err.message` to client payload, which may expose internal details
+- Action:
+  - removed raw error-message echo from response body
+  - added explicit server-side error logging and stable error code payload (`DB_ERROR_RUN_READ`)
+- Status: `OK`
+
+### Chat capability verification - Point 16 (room existence semantics in message/read routes)
+- Scope:
+  - `app/api/rooms/[roomId]/messages/route.js`
+  - `app/api/rooms/[roomId]/messages/stream/route.js`
+  - `app/api/rooms/[roomId]/read/route.js`
+- Good:
+  - membership/subscription access control was already enforced
+- Risk:
+  - admin path could bypass room existence checks, causing inconsistent outcomes for non-existent room IDs (`200`/empty or generic `500` instead of `404`)
+- Action:
+  - added explicit room-existence checks before admin bypass in message + stream access guards
+  - added room-existence check in read route before returning success for admin
+  - aligned missing-room behavior to `api.rooms.not_found` semantics
+- Status: `OK`
+
+### Chat capability verification - Point 17 (internal error-detail leak hardening)
+- Scope:
+  - `app/api/chat/analyze-usage/route.js`
+  - `app/api/chat/conversations/route.js`
+  - `app/api/chat/conversations/[id]/route.js`
+  - `app/api/chat/conversations/[id]/messages/route.js`
+- Good:
+  - offline/degraded DB branches were already present and returned stable API keys
+- Risk:
+  - multiple DB error branches returned raw `err.message` to clients
+- Action:
+  - replaced raw error text payloads with stable error codes
+  - added explicit server-side logging in each affected catch branch
+  - kept existing `messageKey` contracts intact
+- Status: `OK`
+
+### Chat capability verification - Point 18 (OpenAI error exposure in chat route)
+- Scope: `app/api/chat/route.js`
+- Good:
+  - detailed provider errors were already logged server-side for diagnostics
+- Risk:
+  - non-stream and stream branches could forward raw provider/internal error text directly to client
+- Action:
+  - introduced safe client-facing error key fallback (`chat.error.openai_request_failed`) for non-stream and stream paths
+  - kept raw error detail in server logs/telemetry only
+  - retained existing status-code behavior (`502`) and response contract shape
+- Status: `OK`
+
+### Chat capability verification - Point 19 (cursor parsing and id-validation alignment)
+- Scope:
+  - `app/api/chat/conversations/route.js`
+  - `app/api/chat/conversations/[id]/messages/route.js`
+- Good:
+  - pagination cursor protocol existed and was functionally working for common UUID/CUID-like IDs
+- Risk:
+  - cursor parsing relied on naive `split(':')`, which can truncate IDs containing `:`
+  - message-list route used weaker ID validation than other chat endpoints
+- Action:
+  - refactored cursor parsing to split only on structural separators and preserve the full trailing ID payload
+  - added strict ID-pattern validation in messages route (`[A-Za-z0-9._\\-:+]`, 8..200 chars) to align with other chat routes
+  - kept pagination response contract unchanged (`nextCursor`)
+- Status: `OK`
+
+### Chat capability verification - Point 20 (route-input normalization + auth guard robustness)
+- Scope:
+  - `app/vestlus/page.js`
+  - `app/api/profile/route.js`
+- Good:
+  - chat page and profile API were functionally working in normal flows
+- Risk:
+  - whitespace-tainted `roomId` query could trigger unintended room-mode state on chat page
+  - profile API `requireUser` could throw unhandled auth-session errors (unexpected `500` path)
+- Action:
+  - normalized chat-page `roomId` query input to trimmed string/null before passing to `ChatBody`
+  - wrapped profile `requireUser` session read in try/catch and fallbacked to `null` (existing unauthorized behavior path)
+- Status: `OK`
+
+### Chat capability verification - Point 21 (profile locale-input consistency)
+- Scope: `app/api/profile/route.js`
+- Good:
+  - profile i18n handling already resolved locale via body/header fallback
+- Risk:
+  - `PUT /api/profile` consumed only `body.locale`; clients sending `lang` (used elsewhere in API) could get inconsistent language fallback
+- Action:
+  - aligned locale input parsing in profile PUT to accept both `locale` and `lang`
+  - left response contract and status codes unchanged
+- Status: `OK`
+
+### Chat capability verification - Point 22 (rooms list deterministic visibility)
+- Scope: `components/rooms/RoomsPage.jsx`
+- Good:
+  - room visibility already had semantic filtering for empty default-title rooms
+- Risk:
+  - hardcoded hidden-ID set (`hiddenIds`) could silently hide a real room in production if IDs matched, creating non-deterministic UI behavior across environments
+- Action:
+  - removed hardcoded ID-based room suppression
+  - retained existing semantic visibility rules (fallback-title + empty-content guard)
+- Status: `OK`
+
+### Chat capability verification - Point 23 (client room-route path safety)
+- Scope:
+  - `components/rooms/useRoomMessages.js`
+  - `components/chat/hooks/useChatStream.js`
+- Good:
+  - room mode data flow and API wiring were working for standard CUID/UUID room IDs
+- Risk:
+  - some client-side room API paths interpolated raw `roomId` without URI encoding, which can break route matching when IDs contain reserved URL characters
+- Action:
+  - normalized room path segment construction with `encodeURIComponent(...)` in read/messages/stream/members calls
+  - kept request/response contracts unchanged
+- Status: `OK`
+
+### Chat capability verification - Point 24 (legacy room redirect determinism)
+- Scope: `app/room/[roomId]/page.jsx`
+- Good:
+  - legacy room path correctly redirects into canonical chat route (`/vestlus?roomId=...`)
+- Risk:
+  - route contained a hardcoded special-case room ID redirect, creating environment-specific hidden behavior
+- Action:
+  - removed hardcoded room-ID exception and kept uniform redirect logic for any non-empty `roomId`
+  - normalized legacy route param with trim before redirect composition
+- Status: `OK`
+
+### Chat capability verification - Point 25 (subscription route guard consistency)
+- Scope:
+  - `app/api/subscription/route.js`
+  - `app/api/subscription/init/route.js`
+  - `app/api/subscription/callback/route.js`
+- Good:
+  - subscription endpoints already enforced auth + localized error responses and callback redirect flow
+- Risk:
+  - `getToken` exceptions could surface as unexpected server errors without explicit guard fallback
+  - locale body parsing in subscription POST/init accepted only `locale`, not `lang` (inconsistent with other API routes)
+  - callback `ref` param was forwarded without normalization/length bound
+- Action:
+  - wrapped subscription auth token extraction in try/catch with safe `null` fallback
+  - aligned locale parsing to accept both `locale` and `lang`
+  - normalized callback reference value (`trim` + max length)
+- Status: `OK`
+
+### Chat capability verification - Point 26 (rooms page error UX hardening)
+- Scope: `components/rooms/RoomsPage.jsx`
+- Good:
+  - room actions and loading flow already had localized error resolution
+- Risk:
+  - failures in room leave/delete were surfaced via blocking browser `window.alert`, and room-list load failure had no on-page user feedback
+- Action:
+  - replaced alert-based error reporting with in-page localized error banner (`role="alert"`, `aria-live="assertive"`)
+  - wired load/leave/delete failure paths to the shared page error state
+  - preserved existing API calls and success flow behavior
+- Status: `OK`
+
+### Chat capability verification - Point 27 (subscription active-shape consistency)
+- Scope: `app/api/subscription/route.js`
+- Good:
+  - subscription GET endpoint already returned normalized shape payload for UI consumption
+- Risk:
+  - `shape()` marked `isActive=false` when `status=ACTIVE` and `validUntil=null`, while other subscription logic treats no-expiry active subscriptions as active
+- Action:
+  - aligned `shape()` active computation to treat `ACTIVE + validUntil=null` as active
+  - kept response contract unchanged (`isActive`, `daysLeft`, etc.)
+- Status: `OK`
+
 ### Guide content correction (chat/profile sections, ET)
 - Scope: `messages/et.json`
 - Good:
@@ -840,7 +1113,541 @@ Encoding fixes applied (BOM removed):
   - increased profile footer note font size for stronger readability on desktop and mobile
   - moved profile footer note significantly upward (desktop/mobile) per final visual preference
   - increased profile footer note size further and added slight transparency for softer integration with glass background
-  - reduced profile footer note opacity further and hide it automatically while orbital menu is open
+- reduced profile footer note opacity further and hide it automatically while orbital menu is open
+- Status: `OK`
+
+### Chat capability verification - Point 28 (confirmation modal consistency in sidebar actions)
+- Scope: `components/ChatSidebar.jsx`
+- Good:
+  - delete actions were already localized and functionally correct (single, selected, all)
+- Risk:
+  - browser-native `confirm(...)` was used in user chat sidebar actions, creating inconsistent UI/UX and weaker accessibility compared to existing modal patterns used elsewhere in the app
+- Action:
+  - replaced native confirms with shared `ModalConfirm` flow for:
+    - single conversation delete
+    - selected delete
+    - delete all
+  - added unified confirm state + busy state for modal-driven destructive actions
+- kept existing API calls and delete semantics unchanged
+- Status: `OK`
+
+### Chat capability verification - Point 29 (rooms unread-count query consolidation)
+- Scope: `app/api/rooms/route.js`
+- Good:
+  - room list endpoint already used grouped queries for member count and admin unread count
+- Risk:
+  - non-admin unread counts were still fetched via per-room `roomMessage.count` inside loop (N+1), which can degrade room list latency as room count grows
+- Action:
+  - replaced per-room unread counting with one grouped `roomMessage.groupBy` query using per-room `lastReadAt` OR predicates
+  - unified unread-map handling for admin and non-admin paths
+- preserved response contract and unread semantics
+- Status: `OK`
+
+### Chat capability verification - Point 30 (locale-safe chat icon navigation)
+- Scope:
+  - `components/chat/RightRail.jsx`
+  - `components/alalehed/ChatBody.jsx`
+  - `components/alalehed/chat/ChatBodyView.jsx`
+  - `components/alalehed/chat/hooks/useChatProfileRoll.js`
+- Good:
+  - chat icon rail and profile toggle already routed users to the correct feature pages in default-locale paths
+- Risk:
+  - hardcoded paths (`/vestlus`, `/ruum`, `/profiil`, `/`) could drop active locale prefix (`/en`, `/ru`) during navigation
+  - path checks for active rail state and drawer behavior relied on raw pathname startsWith checks, which can fail on localized paths
+- Action:
+  - switched icon/navigation pushes to `localizePath(...)`
+  - normalized pathname checks with `stripLocaleFromPath(...)` in right rail logic
+  - propagated current `locale` through chat view props and profile-roll hook so route transitions remain locale-stable
+- kept existing UX behavior (drawer open, profile toggle, room jump) unchanged
+- Status: `OK`
+
+### Admin panel verification - Point 31 (RAG delete confirmation consistency)
+- Scope: `components/admin/RagAdminPanel.jsx`
+- Good:
+  - RAG document delete flow already had correct backend call and localized messaging
+- Risk:
+  - delete action still relied on native browser `confirm(...)`, diverging from platform modal UX/accessibility pattern
+- Action:
+  - replaced native confirm with shared `ModalConfirm`
+  - added explicit pending-delete state and guarded close behavior while delete is in-flight
+- retained existing delete API flow, success/error handling, and labels
+- Status: `OK`
+
+### Chat routing verification - Point 32 (locale-safe server redirects)
+- Scope:
+  - `app/vestlus/page.js`
+  - `app/room/[roomId]/page.jsx`
+- Good:
+  - chat/profile redirect flows already worked in default locale and preserved room-id handoff
+- Risk:
+  - server redirects used hardcoded paths, which could drop active locale prefix in SSR transitions
+- Action:
+  - localized `/vestlus?profile=1 -> /profiil` redirect with `localizePath(...)` using cookie locale
+- localized legacy `/room/[roomId]` redirect target (`/vestlus`) and preserved encoded `roomId`
+- kept existing redirect behavior and query semantics unchanged
+- Status: `OK`
+
+### Profile/chat navigation verification - Point 33 (locale-safe back/fallback checks)
+- Scope:
+  - `components/alalehed/ProfiilBody.jsx`
+  - `components/alalehed/ChatBody.jsx`
+- Good:
+  - profile/chat navigation already used localized paths in most forward transitions
+- Risk:
+  - profile back action still used hardcoded `/vestlus`
+  - profile/chat fallback safety checks used raw pathname `startsWith(...)`, which can miss localized paths (`/en/...`, `/ru/...`)
+- Action:
+  - localized profile back target via `localizePath("/vestlus", locale)`
+- normalized fallback checks via `stripLocaleFromPath(...)` for both profile logout fallback and chat-home back fallback
+- kept all existing navigation semantics unchanged
+- Status: `OK`
+
+### Auth/profile flow verification - Point 34 (separate forgot-PIN vs profile PIN-change routes)
+- Scope:
+  - `app/uuenda-pin/page.js`
+  - `components/alalehed/UuendaPinBody.jsx`
+  - `app/taasta-parool/page.jsx`
+  - `components/LoginModal.jsx`
+  - `messages/et.json`
+  - `messages/en.json`
+- Good:
+  - password-reset token flow (`/taasta-parool/[token]`) was already implemented and working
+- Risk:
+  - `/uuenda-pin` was still bound to forgot-PIN reset-email flow, while profile orbital action expected authenticated in-session PIN change
+  - login modal forgot-PIN entry pointed to `/uuenda-pin`, mixing two distinct intents
+- Action:
+  - repointed `/uuenda-pin` to a new authenticated PIN-change form (`current PIN + new PIN + confirm`) using `PUT /api/profile`
+  - added dedicated reset-request route `/taasta-parool` for forgot-PIN email flow (still backed by `/api/auth/password/reset`)
+  - updated login modal forgot-PIN link to localized `routes.password_reset_path` path
+  - updated usage-guide login text links (ET/EN) from `/uuenda-pin` to `/taasta-parool`
+- Status: `OK`
+
+### Profile mobile navigation verification - Point 35 (orbital back consistency in embedded mode)
+- Scope:
+  - `components/alalehed/ProfiilBody.jsx`
+  - `docs/route-review-tracker.md`
+- Good:
+  - profile orbital actions were already localized and functionally wired
+- Risk:
+  - mobile orbital `back` item always routed to `/profiil`, which breaks embedded profile flow (`/vestlus` profile panel) by forcing full-page navigation instead of using profile back semantics
+- Action:
+  - switched orbital mobile `back` action to reuse `handleBack` (same behavior as profile back button)
+  - keeps embedded mode returning to chat panel (`onBack`) and page mode returning to chat route
+  - updated route tracker notes for `/profiil` and `/uuenda-pin` to match current implementation
+- Status: `OK`
+
+### Route coverage verification - Point 36 (new forgot-PIN request route tracked)
+- Scope:
+  - `docs/route-review-tracker.md`
+- Good:
+  - password-reset token route (`/taasta-parool/[token]`) was already tracked and reviewed
+- Risk:
+  - newly introduced reset-request route (`/taasta-parool`) was not yet listed in the route coverage tracker, reducing audit completeness
+- Action:
+  - added `/taasta-parool -> app/taasta-parool/page.jsx` row with review note
+  - updated reviewed scope list to include `app/taasta-parool/page.jsx`
+- Status: `OK`
+
+### Locale navigation verification - Point 37 (join/rooms locale prefix preservation)
+- Scope:
+  - `app/join/page.jsx`
+  - `components/rooms/RoomsPage.jsx`
+  - `docs/route-review-tracker.md`
+- Good:
+  - join accept flow and rooms UI logic were functionally correct
+- Risk:
+  - some client navigations still used hardcoded `/vestlus...` targets, which can drop active locale prefix (`/en`, `/ru`)
+- Action:
+  - localized join success redirects to chat (`/vestlus` and `/vestlus?roomId=...`) via `localizePath(...)`
+  - localized rooms-page back button target and room-card chat links via `localizePath(...)`
+  - updated route tracker notes for `/join` and `/rooms`
+- Status: `OK`
+
+### Profile auth-gate verification - Point 38 (direct-entry guard for PIN/email update pages)
+- Scope:
+  - `components/alalehed/UuendaEpostiBody.jsx`
+  - `components/alalehed/UuendaPinBody.jsx`
+  - `docs/route-review-tracker.md`
+- Good:
+  - backend security was already enforced by `/api/profile` auth checks
+- Risk:
+  - direct unauthenticated entry to `/uuenda-epost` and `/uuenda-pin` exposed editable forms before API rejection, creating inconsistent UX versus other guarded profile routes
+- Action:
+  - added explicit unauthenticated gate view on both pages with clear login CTA
+  - wired `LoginModal` with `suppressRedirect` and in-place `router.refresh()` after successful auth, so users continue same route
+  - kept authenticated form flows and `?return=profile` behavior unchanged
+  - updated route tracker notes for `/uuenda-epost` and `/uuenda-pin`
+- Status: `OK`
+
+### Metadata verification - Point 39 (`/uuenda-pin` title/description semantics)
+- Scope:
+  - `app/uuenda-pin/page.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - route and UI flow for in-session PIN update were already corrected
+- Risk:
+  - page metadata still inherited reset-request semantics (`meta.reset`), which can mismatch the actual page intent (authenticated PIN change)
+- Action:
+  - updated `/uuenda-pin` metadata selection to prefer `meta.pin_update` and fallback to profile PIN-update copy (`profile.change_password_cta`, `profile.pin_help`)
+  - kept existing localized metadata builder/path behavior unchanged
+  - updated route tracker note for `/uuenda-pin`
+- Status: `OK`
+
+### Locale navigation verification - Point 40 (home/sidebar/auth callback locale retention)
+- Scope:
+  - `components/HomePage.jsx`
+  - `components/ChatSidebar.jsx`
+  - `components/chat/hooks/useChatStream.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - chat entry and sidebar behavior worked functionally in default locale
+- Risk:
+  - hardcoded `/vestlus` navigation points could drop active locale prefix during home-card entry, sidebar room open, roomId-clearing replace, and auth redirect callback
+- Action:
+  - localized home-card chat entry path via `localizePath("/vestlus", locale)`
+  - localized chat sidebar room-open and roomId-clearing replace paths via `localizePath(...)`, with locale-safe pathname check via `stripLocaleFromPath(...)`
+  - localized 401 sign-in callback path in chat stream hook (`callbackUrl`) via `localizePath(...)`
+  - updated route tracker notes for `/` and `/vestlus`
+- Status: `OK`
+
+### Locale content-link verification - Point 41 (HTML rich-text internal href localization)
+- Scope:
+  - `lib/localizeHtmlLinks.js`
+  - `components/i18n/RichText.jsx`
+  - `components/alalehed/KasutusjuhendBody.jsx`
+  - `docs/route-review-tracker.md`
+- Good:
+  - legal/guide content rendering already used controlled rich-text HTML blocks
+- Risk:
+  - internal links embedded in translated HTML (e.g. `/profiil`, `/tellimus`, `/registreerimine`) could drop active locale prefix on EN/RU pages
+- Action:
+  - added shared HTML helper to localize internal `href="/..."` links while leaving external/API links untouched
+  - applied helper in shared `RichText` renderer (covers legal/about/register/subscription rich-text content)
+  - applied helper in guide body renderer (`dangerouslySetInnerHTML` section content)
+  - updated route tracker notes for `/kasutusjuhend`, `/kasutustingimused`, `/privaatsustingimused`
+- Status: `OK`
+
+### SEO crawl verification - Point 42 (robots/sitemap private-route exposure)
+- Scope:
+  - `app/robots.js`
+  - `app/sitemap.js`
+- Good:
+  - sitemap already emitted localized alternates across supported locales
+- Risk:
+  - sitemap included private/auth-gated routes (`/vestlus`, `/profiil`, `/tellimus`, `/uuenda-*`), which should not be indexed
+  - robots disallow rules only covered default-locale paths and did not block `/en/...` or `/ru/...` private equivalents
+- Action:
+  - restricted sitemap to public routes only (`/`, `/registreerimine`, `/taasta-parool`, `/kasutusjuhend`, `/kasutustingimused`, `/privaatsustingimused`)
+  - expanded robots disallow list to include localized private-route variants for EN/RU prefixes
+- Status: `OK`
+
+### Admin route verification - Point 43 (locale-safe auth callback/fallback redirects)
+- Scope:
+  - `app/admin/analytics/page.jsx`
+  - `app/admin/rag/page.jsx`
+  - `docs/route-review-tracker.md`
+- Good:
+  - admin session/role guards were already present and blocking non-admin access
+- Risk:
+  - unauthenticated sign-in callback targets and non-admin fallback redirects used hardcoded non-localized paths, which can drop active locale prefix
+- Action:
+  - localized admin sign-in callback URLs via cookie locale (`localizePath("/admin/...", locale)`)
+  - localized non-admin fallback redirects to localized home path
+  - localized admin RAG back-link target (`/#meist`) for locale-aware return
+  - updated route tracker notes for `/admin/analytics` and `/admin/rag`
+- Status: `OK`
+
+### Build verification - Point 44 (production compile + i18n parity)
+- Scope:
+  - full app build pipeline (`npm run build`)
+- Good:
+  - lint + i18n parity + Next production build complete successfully after recent route/navigation/crawl updates
+- Result:
+  - `npm run build` completed with successful app route generation and no compile/type failures
+- Status: `OK`
+
+### Locale redirect verification - Point 45 (`/rooms` server redirect locale retention)
+- Scope:
+  - `app/rooms/page.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - `/rooms` was already redirecting users into canonical rooms entry route (`/ruum`)
+- Risk:
+  - redirect target was hardcoded (`/ruum`) and could drop active locale prefix
+- Action:
+  - switched `/rooms` server redirect to cookie-locale-aware `localizePath("/ruum", locale)`
+  - updated route tracker note for `/rooms`
+- Status: `OK`
+
+### Route inventory sync - Point 46 (`docs/routes.txt` completeness)
+- Scope:
+  - `docs/routes.txt`
+- Good:
+  - route inventory file was mostly aligned with app routes
+- Risk:
+  - new forgot-PIN request route (`/taasta-parool`) was missing from inventory list
+- Action:
+  - added `/taasta-parool -> app/taasta-parool/page.jsx` entry to route inventory
+- Status: `OK`
+
+### Auth reset verification - Point 47 (locale-safe reset-link generation + response consistency)
+- Scope:
+  - `app/api/auth/password/reset/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - reset request/update flow already enforced token + IP rate limits and key-based error payloads
+- Risk:
+  - reset-link URL generation used fixed EN route lookup and did not preserve requested locale in link path, so EN/RU users could lose locale context when opening token links
+  - locale parsing accepted only `locale` body field (not `lang`), which was inconsistent with other API routes
+  - error payload `message` field returned raw key instead of translated text
+- Action:
+  - switched reset-link path generation to locale-aware route lookup + `localizePath(...)` (`/en|/ru` prefix when applicable)
+  - aligned locale parsing to accept `body.locale || body.lang` for both POST and PUT handlers
+  - aligned API error payload shape so `message` returns translated text (matching other routes)
+  - updated route tracker note for `app/api/auth/password/reset/route.js`
+- Status: `OK`
+
+### Chat analysis API verification - Point 48 (localized key-first errors for file/usage endpoints)
+- Scope:
+  - `app/api/chat/analyze-file/route.js`
+  - `app/api/chat/analyze-usage/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - file-analyze endpoint already enforced auth + subscription, MIME allowlist, file-size cap, and daily quota with atomic DB increment
+  - analyze-usage endpoint already enforced auth + rate limits and returned daily usage shape
+- Risk:
+  - both endpoints returned raw message keys in `message` field for several error paths, which was inconsistent with broader API contract (key-first + localized message fallback)
+- Action:
+  - added locale resolution from query/header (`locale|lang`, `x-ui-locale`, `accept-language`) in both routes
+  - aligned `errorJson` and quota/subscription failure payloads to return translated `message` while preserving `messageKey`
+  - updated route tracker notes for both analyze endpoints
+- Status: `OK`
+
+### Payment env compatibility verification - Point 49 (Maksekeskus legacy env alias safety)
+- Scope:
+  - `lib/payments/maksekeskus.js`
+  - `docs/payment-production-env-checklist.md`
+- Good:
+  - payment init already used centralized provider helper with clear required env contract
+- Risk:
+  - existing environment templates still contained legacy Maksekeskus variable names (`MAKSEKESKUS_API_URL`, `MAKSEKESKUS_SECRET_KEY`, `MAKSEKESKUS_MERCHANT_ID`), while runtime expected newer names only
+  - mismatch could cause checkout init failures (`provider_unavailable`) despite seemingly configured secrets
+- Action:
+  - added backward-compatible runtime aliases in payment helper:
+    - `API_BASE` falls back to `MAKSEKESKUS_API_URL`
+    - `API_KEY` falls back to `MAKSEKESKUS_SECRET_KEY`
+    - `SHOP_ID` falls back to `MAKSEKESKUS_MERCHANT_ID`
+  - documented alias compatibility and migration note in payment production checklist
+- Status: `OK`
+
+### Voice API verification - Point 50 (STT/TTS subscription enforcement + localized errors)
+- Scope:
+  - `app/api/stt/route.js`
+  - `app/api/tts/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - voice routes already required authenticated session and had request rate limits
+  - STT had file-size and MIME checks; TTS had max-length checks and provider fallback
+- Risk:
+  - STT/TTS endpoints were not enforcing active subscription, enabling paid-capability API access for logged-in users without active plan
+  - several voice error payloads returned raw keys in `message` field
+- Action:
+  - added `requireSubscription(...)` gate to both STT and TTS routes (aligned with chat capability protection)
+  - aligned rate-limit and error responses to include localized `message` (while preserving `messageKey`)
+  - updated route tracker notes for both voice routes
+- Status: `OK`
+
+### Chat conversation API verification - Point 51 (server-side role spoofing guard)
+- Scope:
+  - `app/api/chat/conversations/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - conversations list/create flow already enforced auth, ownership scope, and request rate limits
+- Risk:
+  - create/update logic accepted `role` directly from request body, allowing non-admin clients to spoof conversation role (`SOCIAL_WORKER`) via direct API call
+- Action:
+  - enforced role source on server:
+    - non-admin: conversation role now comes from authenticated session role
+    - admin: still allowed to set requested role intentionally
+  - updated route tracker note for `app/api/chat/conversations/route.js`
+- Status: `OK`
+
+### Chat conversation detail APIs verification - Point 52 (ownership/pagination/archive safeguards)
+- Scope:
+  - `app/api/chat/conversations/[id]/route.js`
+  - `app/api/chat/conversations/[id]/messages/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - conversation read/archive/restore route enforces ownership/admin checks and explicit archived-state behavior
+  - conversation messages route enforces ownership/admin checks, excludes archived conversations, and uses bounded cursor pagination
+  - both routes include chat rate limits and DB-offline degraded/error handling patterns
+- Risk:
+  - no new blocking issue found in this pass
+- Action:
+  - updated tracker notes for both conversation-detail endpoints to close missing review annotations
+- Status: `OK`
+
+### Chat core/run APIs verification - Point 53 (gate contract consistency + run-state audit)
+- Scope:
+  - `app/api/chat/route.js`
+  - `app/api/chat/run/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - chat core route already enforces auth/subscription gate, room-membership constraints, and route-level rate limits for stream/non-stream flows
+  - run-state route already enforces ownership/admin access and returns bounded history payload with DB-offline fallback
+- Risk:
+  - chat core gate error payload lacked explicit `messageKey`, relying only on `message` key string (contract drift risk for frontend resolvers)
+- Action:
+  - added `messageKey` to `requireSubscription` failure response in `app/api/chat/route.js`
+  - updated tracker notes for both core chat endpoints
+- Status: `OK`
+
+### Rooms API verification - Point 54 (route coverage + message POST limiter hardening)
+- Scope:
+  - `app/api/rooms/route.js`
+  - `app/api/rooms/[roomId]/route.js`
+  - `app/api/rooms/[roomId]/read/route.js`
+  - `app/api/rooms/[roomId]/messages/route.js`
+  - `app/api/rooms/[roomId]/messages/[msgId]/route.js`
+  - `app/api/rooms/[roomId]/messages/stream/route.js`
+  - `app/api/rooms/[roomId]/members/route.js`
+  - `app/api/rooms/[roomId]/leave/route.js`
+  - `docs/route-review-tracker.md`
+- Good:
+  - room routes already enforced membership/admin ownership constraints and sponsored-membership subscription rules
+  - message list pagination, read-marker updates, soft delete, and SSE stream rechecks were already in place
+- Risk:
+  - room message POST route used isolated ad-hoc in-memory limiter implementation (separate from shared limiter utility), increasing behavior drift risk across APIs
+- Action:
+  - replaced ad-hoc POST limiter in `app/api/rooms/[roomId]/messages/route.js` with shared `consumeRateLimit(...)` pattern (`room + user + ip` key)
+  - added env-configurable limiter knobs:
+    - `ROOM_MESSAGES_POST_RATE_LIMIT_WINDOW_MS`
+    - `ROOM_MESSAGES_POST_RATE_LIMIT_MAX`
+  - updated tracker notes for all previously unannotated rooms routes
+- Status: `OK`
+
+### Accessibility verification - Point 55 (homepage + login modal screen-reader pass)
+- Scope:
+  - `components/HomePage.jsx`
+  - `components/LoginModal.jsx`
+- Good:
+  - home role-card actions already had concise action-style `aria-label` values
+  - login modal already had `role="dialog"`, `aria-modal="true"` and keyboard tab-loop focus trapping
+- Risk:
+  - homepage lacked a single explicit SR-first page intro (`h1` + short intro), increasing chance that SR users hear fragmented card/UI labels first
+  - scroll-cue anchor was icon-only without an explicit accessible label
+  - login modal did not mark background main content inert/hidden, so SR virtual navigation could still discover background content while dialog was open
+  - hidden PIN capture inputs were still exposed to assistive tech
+- Action:
+  - added SR-only homepage heading + intro using localized home metadata keys (`meta.home.title`, `meta.home.description`)
+  - marked card front faces as decorative (`aria-hidden="true"`) and added `preventDefault()` on card back `Space/Enter` keyboard activation
+  - labeled scroll cue link explicitly and added SR-only text
+  - added login-modal background isolation: set `#main` inert + `aria-hidden`, and restore prior state on close
+  - hid hidden PIN capture inputs from assistive tech (`aria-hidden="true"`, mobile input `tabIndex={-1}`)
+  - removed mouse-leave forced focus jump from modal to reduce unexpected SR focus churn
+- Status: `OK`
+
+### Document analysis token-budget hardening - Point 56 (role-aware quality/cost balance)
+- Scope:
+  - `app/api/chat/route.js`
+  - `app/api/chat/analyze-file/route.js`
+  - `components/chat/hooks/useChatAnalysisController.js`
+  - `lib/chat/promptBuilder.js`
+- Good:
+  - document upload already had quota + subscription gate
+  - extended mode (`combineSources`) already existed for combining uploaded document and RAG sources
+- Risk:
+  - chat context previously used uploaded-document prefix only (`slice(...)`), which is cheap but can miss relevant sections deeper in document
+  - no strict server-side cap for forwarded `maxChunks` (client could request too many chunks)
+  - output token cap could stay effectively uncapped if `OPENAI_MAX_OUTPUT_TOKENS` was not set
+- Action:
+  - replaced prefix-only document context with query-aware chunk selection:
+    - scores chunks against current question + recent user turns
+    - applies hard chunk count and character budgets
+    - keeps selected chunks in source order for coherence
+  - added role/mode budgets:
+    - separate document-context budgets for `CLIENT` vs `SOCIAL_WORKER`
+    - tighter history window when document chunks are present
+  - added hard server clamp for analyze upload chunks (`CHAT_ANALYZE_MAX_CHUNKS`) and always forwards bounded `maxChunks`
+  - frontend now sends explicit bounded `maxChunks` when uploading document (`NEXT_PUBLIC_CHAT_ANALYZE_MAX_CHUNKS`)
+  - added role-based output token fallback caps in prompt builder:
+    - `OPENAI_MAX_OUTPUT_TOKENS_CLIENT` (default 650)
+    - `OPENAI_MAX_OUTPUT_TOKENS_WORKER` (default 900)
+- Status: `OK`
+
+### Admin user-cost analytics expansion - Point 57 (per-user usage, limits, estimated cost)
+- Scope:
+  - `app/api/admin/analytics/users/route.js`
+  - `components/admin/AnalyticsDashboard.jsx`
+  - `app/api/stt/route.js`
+  - `app/api/tts/route.js`
+  - `messages/en.json`
+  - `messages/et.json`
+  - `messages/ru.json`
+  - `docs/route-review-tracker.md`
+- Good:
+  - admin analytics already exposed global KPIs and payment pipeline cards
+  - chat telemetry (`chatLog`) already contained user-linked events for chat/RAG flows
+- Risk:
+  - admin lacked per-user cost visibility (usage + estimated spend + limits) for pricing/ops decisions
+  - STT/TTS usage was not logged into `chatLog`, so voice-cost estimation was impossible historically
+- Action:
+  - added new admin-only endpoint `GET /api/admin/analytics/users`:
+    - returns per-user 30d usage, estimated costs, analyze limit, subscription snapshot, and paid amount
+    - supports period/limit pagination params and localized key-first error payloads
+  - added STT/TTS usage logging events:
+    - `stt_request` (provider, locale, file size, text length)
+    - `tts_request` (provider, locale, text length)
+  - extended analytics dashboard:
+    - new per-user table (`users, costs, limits`) with usage and cost breakdown
+    - added summary cards for users count, estimated cost, and paid amount
+    - added event-filter labels for STT/TTS logs
+  - added i18n keys for new analytics section and API/UI errors (EN/ET/RU)
+- Status: `OK`
+
+### Monthly dynamic usage-budget enforcement - Point 58 (shared budget across chat/rag/stt/tts)
+- Scope:
+  - `lib/usageBudget.js`
+  - `app/api/chat/route.js`
+  - `app/api/stt/route.js`
+  - `app/api/tts/route.js`
+  - `messages/en.json`
+  - `messages/et.json`
+  - `messages/ru.json`
+- Good:
+  - analytics now reports per-user estimated costs and usage components
+  - cost model envs are centralized for admin view and operations
+- Risk:
+  - without hard enforcement, high-frequency users could exceed target monthly cost envelope
+  - fixed per-feature quotas cannot rebalance automatically when users skip voice features
+- Action:
+  - added shared monthly budget utility (`lib/usageBudget.js`) with env-driven pricing:
+    - `MONTHLY_COST_BUDGET_EUR_PER_USER` (default `4`)
+    - `ANALYTICS_COST_*` unit costs for chat/rag/stt/tts
+  - added monthly budget checks:
+    - chat: blocks new request when monthly budget is reached
+    - STT: blocks transcription before provider call if budget would be exceeded by uploaded audio
+    - TTS: blocks synthesis before provider call if budget would be exceeded by text length
+  - this model is dynamic by design:
+    - if user does not use STT/TTS, more budget remains for chat/RAG
+    - if user uses more voice features, remaining chat/RAG capacity decreases
+  - added localized API key `api.common.monthly_budget_exceeded` in EN/ET/RU
+- Status: `OK`
+
+### Production env template hardening - Point 59 (safe server secret bootstrap file)
+- Scope:
+  - `production.env`
+  - `.gitignore`
+- Good:
+  - runtime now has explicit monthly budget/cost env keys and webhook policy keys to configure
+- Risk:
+  - production secret setup can drift when no single template includes all required operational keys
+- Action:
+  - added `production.env` template with placeholders for:
+    - core app/auth/database/openai/rag/email settings
+    - maksekeskus + webhook policy settings
+    - monthly dynamic budget and unit cost settings
+  - added `production.env` to `.gitignore` to avoid accidental secret commits
 - Status: `OK`
 
 ## Open Items Queue (next passes)

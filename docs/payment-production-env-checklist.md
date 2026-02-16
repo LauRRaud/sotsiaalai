@@ -16,6 +16,13 @@ Required:
 - `MAKSEKESKUS_CANCEL_URL` - user return URL after cancel/failure
 - `MAKSEKESKUS_WEBHOOK_URL` - provider webhook target URL (`/api/subscription/webhook`)
 
+Compatibility note:
+- Runtime now also accepts legacy aliases for smoother migration:
+  - `MAKSEKESKUS_API_URL` -> `MAKSEKESKUS_API_BASE`
+  - `MAKSEKESKUS_SECRET_KEY` -> `MAKSEKESKUS_API_KEY`
+  - `MAKSEKESKUS_MERCHANT_ID` -> `MAKSEKESKUS_SHOP_ID`
+- Keep only the new names in production secrets long-term to avoid ambiguity.
+
 Recommended:
 - `MAKSEKESKUS_WEBHOOK_SECRET` - signature secret used by webhook verification
 - `MAKSEKESKUS_TIMEOUT_MS` - provider request timeout override (default is code-level fallback)

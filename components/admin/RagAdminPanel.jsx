@@ -8,6 +8,7 @@ import CardTitle from "@/components/ui/CardTitle";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Modal from "@/components/ui/Modal";
+import ModalConfirm from "@/components/ui/ModalConfirm";
 const STATUS_LABEL_KEYS = {
   PENDING: "admin.rag.status.pending",
   PROCESSING: "admin.rag.status.processing",
@@ -375,6 +376,7 @@ export default function RagAdminPanel() {
   });
   const [reindexingId, setReindexingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [deleteConfirmDocId, setDeleteConfirmDocId] = useState(null);
   const urlFormRef = useRef(null);
   const pdfFormRef = useRef(null);
   const articlesFormRef = useRef(null);
@@ -721,10 +723,19 @@ export default function RagAdminPanel() {
       await handleReindex(id);
     }
   }, [selectedIds, handleReindex]);
-  const handleDelete = useCallback(async docId => {
+  const handleDelete = useCallback(docId => {
     resetMessage();
+    if (!docId || deletingId) return;
+    setDeleteConfirmDocId(docId);
+  }, [deletingId, resetMessage]);
+  const closeDeleteConfirm = useCallback(() => {
+    if (deletingId) return;
+    setDeleteConfirmDocId(null);
+  }, [deletingId]);
+  const confirmDelete = useCallback(async () => {
+    const docId = deleteConfirmDocId;
     if (!docId) return;
-    if (!confirm(tr("admin.rag.confirm.delete_doc"))) return;
+    resetMessage();
     setDeletingId(docId);
     try {
       const res = await fetch(`/api/rag/documents/${docId}`, {
@@ -739,8 +750,9 @@ export default function RagAdminPanel() {
       showError(err?.message || tr("admin.rag.errors.delete_failed"));
     } finally {
       setDeletingId(null);
+      setDeleteConfirmDocId(null);
     }
-  }, [resetMessage, resolveErrorText, showError, showOk, tr]);
+  }, [deleteConfirmDocId, resetMessage, resolveErrorText, showError, showOk, tr]);
   const normalizedDocs = useMemo(() => docs.map((d, i) => ({
     ...normalizeDoc(d),
     _idx: i
@@ -1430,6 +1442,8 @@ export default function RagAdminPanel() {
           </div> : null}
         </div>
       </div>
+
+      {deleteConfirmDocId ? <ModalConfirm message={tr("admin.rag.confirm.delete_doc")} confirmLabel={tr("admin.rag.actions.delete")} cancelLabel={tr("admin.rag.actions.cancel")} onConfirm={confirmDelete} onCancel={closeDeleteConfirm} disabled={deletingId === deleteConfirmDocId} busy={deletingId === deleteConfirmDocId} busyLabel={tr("admin.rag.actions.deleting")} /> : null}
 
       {detailDoc ? <Modal open={true} variant="glass" onClose={closeDetail} closeOnOverlayClick>
           <div className={modalBodyClassName}>

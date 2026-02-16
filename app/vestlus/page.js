@@ -7,6 +7,7 @@ import ChatBody from "@/components/alalehed/ChatBody";
 import ConversationDrawer from "@/components/alalehed/ConversationDrawer";
 import ChatSidebar from "@/components/ChatSidebar";
 import { redirect } from "next/navigation";
+import { localizePath } from "@/lib/localizePath";
 export async function generateMetadata() {
   const cookieStore = await cookies();
   const locale = getLocaleFromCookies(cookieStore);
@@ -23,11 +24,14 @@ export async function generateMetadata() {
   });
 }
 export default async function Page({ searchParams }) {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookies(cookieStore);
   const resolvedSearchParams = await searchParams;
   if (resolvedSearchParams?.profile === "1") {
-    redirect("/profiil");
+    redirect(localizePath("/profiil", locale));
   }
-  const roomId = resolvedSearchParams?.roomId || null;
+  const roomIdRaw = resolvedSearchParams?.roomId;
+  const roomId = typeof roomIdRaw === "string" ? roomIdRaw.trim() || null : null;
   return <>
       <ConversationDrawer>
         <ChatSidebar />

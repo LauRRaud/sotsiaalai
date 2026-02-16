@@ -12,6 +12,7 @@ import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glas
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
+import { localizeInternalHtmlLinks } from "@/lib/localizeHtmlLinks";
 import { pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
@@ -65,7 +66,10 @@ export default function KasutusjuhendBody() {
   const guideSections = SECTION_KEYS.map(key => ({
     key,
     title: t(`about.guide.sections_v2.${key}.title`),
-    body: t(`about.guide.sections_v2.${key}.body`)
+    body: localizeInternalHtmlLinks(
+      t(`about.guide.sections_v2.${key}.body`),
+      locale
+    )
   }));
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">

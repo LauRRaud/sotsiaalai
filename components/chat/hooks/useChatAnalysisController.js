@@ -190,6 +190,10 @@ export function useChatAnalysisController({
     const v = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
     return Number.isFinite(v) && v > 0 ? v : 50;
   }, []);
+  const MAX_ANALYZE_CHUNKS = useMemo(() => {
+    const v = Number(process.env.NEXT_PUBLIC_CHAT_ANALYZE_MAX_CHUNKS || 80);
+    return Number.isFinite(v) && v > 0 ? Math.floor(v) : 80;
+  }, []);
   const RAW_ALLOWED_MIME = String(process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME || "application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document");
   const ALLOWED_MIME_LIST = useMemo(() => {
     const out = RAW_ALLOWED_MIME.split(",").map(s => s.trim()).filter(Boolean);
@@ -266,6 +270,7 @@ export function useChatAnalysisController({
       const fd = new FormData();
       fd.append("file", file, file.name || "file");
       fd.append("mimeType", file.type || "");
+      fd.append("maxChunks", String(MAX_ANALYZE_CHUNKS));
       const res = await fetch("/api/chat/analyze-file", {
         method: "POST",
         body: fd
@@ -318,7 +323,7 @@ export function useChatAnalysisController({
       setUploadBusy(false);
       e.target.value = "";
     }
-  }, [MAX_UPLOAD_MB, refreshUsage, scrollAnalysisPanelIntoView, t]);
+  }, [MAX_ANALYZE_CHUNKS, MAX_UPLOAD_MB, refreshUsage, scrollAnalysisPanelIntoView, t]);
   return {
     analysisPanelRef,
     fileInputRef,

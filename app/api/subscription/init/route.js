@@ -69,17 +69,21 @@ function localeFromRequest(request, bodyLocale) {
 }
 
 async function requireUser(request) {
-  const token = await getToken({
-    req: request,
-    secret: process.env.NEXTAUTH_SECRET
-  });
+  try {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET
+    });
 
-  if (!token?.id) return null;
-  return {
-    token,
-    userId: String(token.id),
-    email: token.email ? String(token.email) : ""
-  };
+    if (!token?.id) return null;
+    return {
+      token,
+      userId: String(token.id),
+      email: token.email ? String(token.email) : ""
+    };
+  } catch {
+    return null;
+  }
 }
 
 function normalizePlan(value) {
@@ -126,7 +130,7 @@ function isSubscriptionActive(subscription) {
 
 export async function POST(request) {
   const body = await request.json().catch(() => ({}));
-  const locale = localeFromRequest(request, body?.locale);
+  const locale = localeFromRequest(request, body?.locale || body?.lang);
 
   const session = await requireUser(request);
   if (!session) {

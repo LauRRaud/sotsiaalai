@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { normalizeRole, requireSubscription } from "@/lib/authz";
+import { logEvent } from "@/lib/chat/logger";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,11 +35,20 @@ function normalizeLanguage(locale) {
   return undefined;
 }
 
-function errorJson(messageKey, status, extras = {}) {
+function localeFromRequest(req, fallback = "en") {
+  const fromHeader =
+    normalizeServerLocale(req.headers.get("x-ui-locale")) ||
+    normalizeServerLocale(req.headers.get("x-locale")) ||
+    normalizeServerLocale(req.headers.get("accept-language"));
+  return fromHeader || fallback;
+}
+
+function errorJson(messageKey, status, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
   return NextResponse.json({
     ok: false,
     messageKey,
-    message: messageKey,
+    message: translated,
     ...extras
   }, {
     status
@@ -43,9 +56,25 @@ function errorJson(messageKey, status, extras = {}) {
 }
 
 export async function POST(req) {
+  const uiLocale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
-    return errorJson("api.common.unauthorized", 401);
+    return errorJson("api.common.unauthorized", 401, uiLocale);
+  }
+
+  const pickedRole = String(session.user.role || "CLIENT").toUpperCase();
+  const role = normalizeRole(pickedRole);
+  const gate = await requireSubscription(session, role);
+  if (!gate.ok) {
+    return NextResponse.json({
+      ok: false,
+      messageKey: gate.message,
+      message: serverT(uiLocale, gate.message, undefined, gate.message),
+      redirect: gate.redirect,
+      requireSubscription: gate.requireSubscription
+    }, {
+      status: gate.status
+    });
   }
 
   const ip = getRequestIpFromRequest(req);
@@ -54,7 +83,7 @@ export async function POST(req) {
     return NextResponse.json({
       ok: false,
       messageKey: "api.stt.rate_limited",
-      message: "api.stt.rate_limited"
+      message: serverT(uiLocale, "api.stt.rate_limited", undefined, "api.stt.rate_limited")
     }, {
       status: 429,
       headers: {
@@ -64,11 +93,11 @@ export async function POST(req) {
   }
 
   if (!STT_URL && !OPENAI_API_KEY) {
-    return errorJson("api.stt.not_configured", 503);
+    return errorJson("api.stt.not_configured", 503, uiLocale);
   }
   const contentLength = Number(req.headers.get("content-length") || 0);
   if (Number.isFinite(contentLength) && contentLength > STT_MAX_REQUEST_BYTES) {
-    return errorJson("api.stt.audio_too_large", 413, {
+    return errorJson("api.stt.audio_too_large", 413, uiLocale, {
       maxMB: STT_MAX_AUDIO_MB
     });
   }
@@ -77,24 +106,35 @@ export async function POST(req) {
   try {
     form = await req.formData();
   } catch {
-    return errorJson("api.common.invalid_request", 400);
+    return errorJson("api.common.invalid_request", 400, uiLocale);
   }
 
   const file = form.get("audio");
   const locale = form.get("locale") || "auto";
   if (!file || typeof file === "string") {
-    return errorJson("api.stt.audio_missing", 400);
+    return errorJson("api.stt.audio_missing", 400, uiLocale);
   }
   if (!isSupportedAudioMime(file.type)) {
-    return errorJson("api.stt.audio_format_unsupported", 415, {
+    return errorJson("api.stt.audio_format_unsupported", 415, uiLocale, {
       mimeType: file.type || null
     });
   }
   const fileSize = Number(file.size || 0);
   if (fileSize > STT_MAX_AUDIO_BYTES) {
-    return errorJson("api.stt.audio_too_large", 413, {
+    return errorJson("api.stt.audio_too_large", 413, uiLocale, {
       maxMB: STT_MAX_AUDIO_MB,
       sizeMB: Number((fileSize / (1024 * 1024)).toFixed(1))
+    });
+  }
+  const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
+    sttRequests: 1,
+    sttAudioBytes: fileSize
+  });
+  if (!budgetCheck.allowed) {
+    return errorJson("api.common.monthly_budget_exceeded", 429, uiLocale, {
+      budgetEur: budgetCheck.budgetEur,
+      usedEur: budgetCheck.usedEur,
+      remainingEur: budgetCheck.remainingEur
     });
   }
 
@@ -112,6 +152,15 @@ export async function POST(req) {
       if (!res.ok || data?.ok === false || !data?.text) {
         throw new Error(data?.message || "api.stt.transcription_failed");
       }
+      await logEvent("stt_request", {
+        userId: session.user.id,
+        role,
+        provider: "external",
+        locale: String(locale || "auto"),
+        fileSizeBytes: fileSize,
+        mimeType: file.type || null,
+        textLength: String(data.text || "").length
+      });
 
       return NextResponse.json({
         ok: true,
@@ -120,7 +169,7 @@ export async function POST(req) {
         provider: "external"
       });
     } catch (err) {
-      return errorJson(err?.message || "api.stt.service_error", 502);
+      return errorJson(err?.message || "api.stt.service_error", 502, uiLocale);
     }
   }
 
@@ -138,6 +187,15 @@ export async function POST(req) {
     });
     const text = String(transcription?.text || "").trim();
     if (!text) throw new Error("api.stt.transcription_failed");
+    await logEvent("stt_request", {
+      userId: session.user.id,
+      role,
+      provider: "openai",
+      locale: String(language || locale || "auto"),
+      fileSizeBytes: fileSize,
+      mimeType: file.type || null,
+      textLength: text.length
+    });
 
     return NextResponse.json({
       ok: true,
@@ -146,6 +204,6 @@ export async function POST(req) {
       provider: "openai"
     });
   } catch (err) {
-    return errorJson(err?.message || "api.stt.service_error", 502);
+    return errorJson(err?.message || "api.stt.service_error", 502, uiLocale);
   }
 }

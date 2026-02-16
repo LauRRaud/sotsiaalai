@@ -16,6 +16,7 @@ import { ChatRecordingNotice, ChatTopNotices } from "./view/ChatNotices";
 export default function ChatBodyView({
   embedded,
   t,
+  locale,
   profileOpen,
   closeProfile,
   isEntering,
@@ -95,7 +96,7 @@ export default function ChatBodyView({
               {!profileOpen ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} /> : null}
               {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}
 
-              <RightRail t={t} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} suppressTooltip={analysis.showAnalysisPanel} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} />
+              <RightRail t={t} locale={locale} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} suppressTooltip={analysis.showAnalysisPanel} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} />
 
               <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} />
 

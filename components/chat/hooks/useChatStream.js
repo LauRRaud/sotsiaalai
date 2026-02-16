@@ -1,6 +1,7 @@
 import { startTransition, useCallback, useEffect, useRef, useState } from "react";
 import { createSSEReader as defaultCreateSSEReader } from "../utils/sse";
 import { normalizeSources as defaultNormalizeSources } from "../utils/sources";
+import { localizePath } from "@/lib/localizePath";
 
 function formatI18n(template, values) {
   if (!values) return template;
@@ -69,7 +70,8 @@ export function useChatStream(config) {
       }
 
       try {
-        const res = await fetch(`/api/rooms/${cfg.roomId}/messages`, {
+        const roomPathId = encodeURIComponent(String(cfg.roomId || ""));
+        const res = await fetch(`/api/rooms/${roomPathId}/messages`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -255,8 +257,9 @@ export function useChatStream(config) {
           if (cfg.onAuthRedirect) {
             cfg.onAuthRedirect();
           } else if (typeof window !== "undefined") {
+            const callbackUrl = localizePath("/vestlus", cfg.locale || "et");
             const params = new URLSearchParams({
-              callbackUrl: "/vestlus"
+              callbackUrl
             });
             window.location.href = `/api/auth/signin?${params.toString()}`;
           }

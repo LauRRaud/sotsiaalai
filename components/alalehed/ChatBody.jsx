@@ -21,6 +21,7 @@ import { useChatMobileRail } from "./chat/hooks/useChatMobileRail";
 import { useChatProfileRoll } from "./chat/hooks/useChatProfileRoll";
 import { useChatRoomMode, useSyncRoomAssistantMessages } from "./chat/hooks/useChatRoomMode";
 import ChatBodyView from "./chat/ChatBodyView";
+import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 const MOBILE_KEYBOARD_OFFSET_THRESHOLD = 96;
 
 export default function ChatBody({
@@ -141,6 +142,7 @@ export default function ChatBody({
   } = useChatProfileRoll({
     embedded,
     router,
+    locale,
     showSourcesPanel,
     setShowSourcesPanel,
     setInputFocused,
@@ -410,15 +412,16 @@ export default function ChatBody({
       onBackHome();
       return;
     }
-    pushWithTransition(router, "/");
+    const homePath = localizePath("/", locale);
+    pushWithTransition(router, homePath);
     if (typeof window !== "undefined") {
       window.setTimeout(() => {
-        if (window.location.pathname.startsWith("/vestlus")) {
-          window.location.assign("/");
+        if (stripLocaleFromPath(window.location.pathname).startsWith("/vestlus")) {
+          window.location.assign(homePath);
         }
       }, 220);
     }
-  }, [onBackHome, router]);
+  }, [locale, onBackHome, router]);
   const handleComposerFocus = useCallback(() => {
     setInputFocused(true);
     if (!isMobile) return;
@@ -550,6 +553,7 @@ export default function ChatBody({
   return <ChatBodyView
     embedded={embedded}
     t={t}
+    locale={locale}
     profileOpen={profileOpen}
     closeProfile={closeProfile}
     isEntering={isEntering}

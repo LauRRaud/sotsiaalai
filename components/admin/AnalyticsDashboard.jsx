@@ -49,6 +49,8 @@ const EVENT_OPTIONS = [
   { value: "rag_search", labelKey: "admin.analytics.events.rag_search" },
   { value: "no_context", labelKey: "admin.analytics.events.no_context" },
   { value: "crisis_detected", labelKey: "admin.analytics.events.crisis_detected" },
+  { value: "stt_request", labelKey: "admin.analytics.events.stt_request" },
+  { value: "tts_request", labelKey: "admin.analytics.events.tts_request" },
   { value: "rag_error", labelKey: "admin.analytics.events.rag_error" },
   { value: "openai_error", labelKey: "admin.analytics.events.openai_error" },
   { value: "subscription_init_started", labelKey: "admin.analytics.events.subscription_init_started" },
@@ -193,8 +195,10 @@ export default function AnalyticsDashboard() {
 
   const [summary, setSummary] = useState(null);
   const [events, setEvents] = useState([]);
+  const [usersAnalytics, setUsersAnalytics] = useState(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [loadingEvents, setLoadingEvents] = useState(false);
+  const [loadingUsers, setLoadingUsers] = useState(false);
   const [eventFilter, setEventFilter] = useState("all");
   const [isCrisisFilter, setIsCrisisFilter] = useState("all");
   const [error, setError] = useState(null);
@@ -251,6 +255,30 @@ export default function AnalyticsDashboard() {
 
     loadEvents();
   }, [eventFilter, isCrisisFilter, refreshKey, tr]);
+
+  useEffect(() => {
+    const loadUsersAnalytics = async () => {
+      setLoadingUsers(true);
+      setError(null);
+      try {
+        const params = new URLSearchParams();
+        params.set("limit", "200");
+        params.set("days", "30");
+        const res = await fetch(`/api/admin/analytics/users?${params.toString()}`, { cache: "no-store" });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || tr("admin.analytics.errors.users_fetch_failed"));
+        }
+        setUsersAnalytics(data);
+      } catch (err) {
+        setError(err?.message || tr("admin.analytics.errors.users_fetch_failed"));
+      } finally {
+        setLoadingUsers(false);
+      }
+    };
+
+    loadUsersAnalytics();
+  }, [refreshKey, tr]);
 
   const groundingSummary = useMemo(() => {
     if (!summary?.averages?.groundingDistribution) return null;
@@ -347,9 +375,9 @@ export default function AnalyticsDashboard() {
             className={refreshButtonClassName}
             style={refreshButtonStyle}
             onClick={refresh}
-            disabled={loadingSummary || loadingEvents}
+            disabled={loadingSummary || loadingEvents || loadingUsers}
           >
-            {loadingSummary || loadingEvents ? loadingLabel : tr("admin.common.refresh")}
+            {loadingSummary || loadingEvents || loadingUsers ? loadingLabel : tr("admin.common.refresh")}
           </Button>
         </div>
       </div>
@@ -698,6 +726,155 @@ export default function AnalyticsDashboard() {
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+          <div className={sectionHeadClassName}>
+            <div>
+              <CardTitle>{tr("admin.analytics.users.title")}</CardTitle>
+              <div className={sectionSubClassName}>{tr("admin.analytics.users.subtitle")}</div>
+            </div>
+          </div>
+          <div className="mt-3 grid [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] gap-3">
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.users.summary.users")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingUsers ? loadingLabel : formatCount(usersAnalytics?.items?.length ?? 0, localeTag)}
+                </div>
+              </div>
+            </div>
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.users.summary.estimated_cost")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingUsers ? loadingLabel : formatMoney(usersAnalytics?.totals?.estimatedCostEur ?? 0, "EUR", localeTag)}
+                </div>
+              </div>
+            </div>
+            <div className={cardClassName}>
+              <div className={cardBodyClassName}>
+                <CardTitle>{tr("admin.analytics.users.summary.paid_amount")}</CardTitle>
+                <div className={kpiValueClassName}>
+                  {loadingUsers ? loadingLabel : formatMoney(usersAnalytics?.totals?.paidAmountEur ?? 0, "EUR", localeTag)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`${tableWrapClassName} mt-3.5`}>
+            <table className={tableClassName}>
+              <thead>
+                <tr>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.user")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.role")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.subscription")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.usage_30d")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.cost_30d")}</th>
+                  <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.limits")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loadingUsers ? (
+                  <tr>
+                    <td className={tableCellClassName} colSpan={6}>
+                      {loadingLabel}
+                    </td>
+                  </tr>
+                ) : (usersAnalytics?.items || []).length ? (
+                  (usersAnalytics?.items || []).map(row => (
+                    <tr key={row.userId} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                      <td className={tableCellClassName}>
+                        <div>{row.email || row.userId}</div>
+                        <div className={cellSubClassName}>{row.userId}</div>
+                      </td>
+                      <td className={tableCellClassName}>
+                        <div>{row.role}</div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.table.admin")}: {row.isAdmin ? tr("admin.common.yes") : tr("admin.common.no")}
+                        </div>
+                      </td>
+                      <td className={tableCellClassName}>
+                        <div>{row?.subscription?.status || "-"}</div>
+                        <div className={cellSubClassName}>
+                          {row?.subscription?.isActive ? tr("admin.analytics.users.active") : tr("admin.analytics.users.inactive")}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.table.paid_30d")}: {formatMoney(row?.paidAmount30dEur ?? 0, "EUR", localeTag)}
+                        </div>
+                      </td>
+                      <td className={tableCellClassName}>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.chat")}: {formatCount(row?.usage?.chatRequests ?? 0, localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.rag")}: {formatCount(row?.usage?.ragSearches ?? 0, localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.stt")}: {formatCount(row?.usage?.sttRequests ?? 0, localeTag)} /{" "}
+                          {formatCount(row?.usage?.sttAudioMb ?? 0, localeTag)} MB
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.tts")}: {formatCount(row?.usage?.ttsRequests ?? 0, localeTag)} /{" "}
+                          {formatCount(row?.usage?.ttsChars ?? 0, localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.analyze")}: {formatCount(row?.usage?.analyses ?? 0, localeTag)}
+                        </div>
+                      </td>
+                      <td className={tableCellClassName}>
+                        <div>{formatMoney(row?.costs?.totalEur ?? 0, "EUR", localeTag)}</div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.chat")}: {formatMoney(row?.costs?.chatEur ?? 0, "EUR", localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.rag")}: {formatMoney(row?.costs?.ragEur ?? 0, "EUR", localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.stt")}: {formatMoney(row?.costs?.sttEur ?? 0, "EUR", localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.usage.tts")}: {formatMoney(row?.costs?.ttsEur ?? 0, "EUR", localeTag)}
+                        </div>
+                      </td>
+                      <td className={tableCellClassName}>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.limits.analyze_daily")}: {formatCount(row?.limits?.analyzeDaily ?? 0, localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.limits.monthly_budget")}: {formatMoney(row?.budget?.monthlyEur ?? 0, "EUR", localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.limits.remaining_budget")}: {formatMoney(row?.budget?.remainingEur ?? 0, "EUR", localeTag)}
+                        </div>
+                        <div className={cellSubClassName}>
+                          {tr("admin.analytics.users.limits.utilization")}: {toNumber(row?.budget?.utilizationPct ?? 0).toFixed(1)}%
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td className={tableCellClassName} colSpan={6}>
+                      {tr("admin.analytics.users.table.empty")}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          <div className={`${cellSubClassName} mt-2`}>
+            {tr("admin.analytics.users.note", {
+              chat: toNumber(usersAnalytics?.costModel?.chatRequestEur ?? 0).toFixed(4),
+              rag: toNumber(usersAnalytics?.costModel?.ragSearchEur ?? 0).toFixed(4),
+              stt: toNumber(usersAnalytics?.costModel?.sttPerAudioMbEur ?? 0).toFixed(4),
+              tts: toNumber(usersAnalytics?.costModel?.ttsPer1kCharsEur ?? 0).toFixed(4),
+              budget: toNumber(usersAnalytics?.costModel?.monthlyBudgetEur ?? 0).toFixed(2)
+            })}
           </div>
         </div>
       </div>

@@ -50,6 +50,14 @@ async function hasActiveSubscription(userId) {
   return Boolean(sub);
 }
 async function ensureAccess(userId, roomId, userRole) {
+  const room = await prisma.room.findUnique({
+    where: { id: roomId },
+    select: { id: true }
+  });
+  if (!room) return {
+    ok: false,
+    status: 404
+  };
   if (userRole === "ADMIN") return {
     ok: true
   };
@@ -92,13 +100,12 @@ function sseHeaders() {
 export async function GET(_req, {
   params
 }) {
-  const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) {
+  const roomId = String(params?.roomId || "").trim();
+  if (!roomId) {
     return new NextResponse("api.common.missing_room_id", {
       status: 400
     });
   }
-  const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
   const auth = await requireUser();
   if (!auth.ok) return new NextResponse(null, {
     status: auth.status

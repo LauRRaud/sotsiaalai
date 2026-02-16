@@ -72,13 +72,20 @@ async function requireUser() {
 }
 
 export async function POST(request, { params }) {
-  const locale = localeFromRequest(request);
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    // optional body
+  }
+
+  const locale = localeFromRequest(request, body?.locale || body?.lang);
   const auth = await requireUser();
   if (!auth) {
     return errorJson("api.common.unauthorized", 401, locale);
   }
 
-  const id = params?.id;
+  const id = String(params?.id || "").trim();
   if (!id) {
     return errorJson("api.invites.missing_id", 400, locale, {
       code: "MISSING_ID"

@@ -9,6 +9,7 @@ import Input from "@/components/ui/Input";
 import LoginModal from "@/components/LoginModal";
 import GlassRing from "@/components/ui/GlassRing";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
@@ -68,9 +69,12 @@ export default function JoinPage() {
       }
       setStatusMsg(t("join.success"));
       if (data?.roomId) {
-        pushWithTransition(router, `/vestlus?roomId=${encodeURIComponent(data.roomId)}`);
+        pushWithTransition(
+          router,
+          localizePath(`/vestlus?roomId=${encodeURIComponent(data.roomId)}`, locale)
+        );
       } else {
-        pushWithTransition(router, "/vestlus");
+        pushWithTransition(router, localizePath("/vestlus", locale));
       }
     } catch (err) {
       setError(err?.message || joinErrorText);

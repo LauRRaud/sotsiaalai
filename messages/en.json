@@ -633,7 +633,7 @@
         },
         "signin": {
           "title": "4. Sign-in and navigation by role",
-          "body": "<p>Sign-in starts on the home page, which shows two role cards: \"For social work professionals\" and \"For people seeking help\".</p>\n<ul>\n<li>Click the relevant role card to open the sign-in dialog.</li>\n<li>Enter your email address and PIN (4-8 digit numeric access code).</li>\n<li>On the same previously trusted device/browser, the PIN is usually sufficient.</li>\n<li>If you sign in from a new or unusual environment, we send a 6-digit verification code to your email. Enter the code in the input field.</li>\n<li>Optionally select \"Remember this device for 30 days\" so that on this device you will usually only need your PIN next time.</li>\n<li>If you forgot your PIN, use the <a href=\"/uuenda-pin\">Forgot PIN</a> link to set a new PIN by following the instructions.</li>\n<li>After a successful sign-in the chat view for your role opens. If access is limited (e.g. subscription is missing or expired), a notice and next steps are shown.</li>\n</ul>"
+          "body": "<p>Sign-in starts on the home page, which shows two role cards: \"For social work professionals\" and \"For people seeking help\".</p>\n<ul>\n<li>Click the relevant role card to open the sign-in dialog.</li>\n<li>Enter your email address and PIN (4-8 digit numeric access code).</li>\n<li>On the same previously trusted device/browser, the PIN is usually sufficient.</li>\n<li>If you sign in from a new or unusual environment, we send a 6-digit verification code to your email. Enter the code in the input field.</li>\n<li>Optionally select \"Remember this device for 30 days\" so that on this device you will usually only need your PIN next time.</li>\n<li>If you forgot your PIN, use the <a href=\"/taasta-parool\">Forgot PIN</a> link to set a new PIN by following the instructions.</li>\n<li>After a successful sign-in the chat view for your role opens. If access is limited (e.g. subscription is missing or expired), a notice and next steps are shown.</li>\n</ul>"
         },
         "chat": {
           "title": "5. Chat page",
@@ -930,7 +930,8 @@
       "invalid_json": "Invalid JSON payload.",
       "missing_room_id": "Room ID is missing.",
       "rate_limited": "Too many requests. Please try again later.",
-      "subscription_required": "An active subscription is required."
+      "subscription_required": "An active subscription is required.",
+      "monthly_budget_exceeded": "Monthly usage budget is reached. Please continue next month or upgrade your plan."
     },
     "chat": {
       "invalid_conv_id": "Invalid conversation ID.",
@@ -1077,6 +1078,7 @@
       "analytics": {
         "events_load_failed": "Failed to load analytics events.",
         "summary_load_failed": "Failed to load analytics summary.",
+        "users_load_failed": "Failed to load users analytics.",
         "payment_alerts_not_configured": "Payment alert webhook is not configured.",
         "payment_alerts_dispatch_failed": "Failed to dispatch payment alerts.",
         "payment_alerts_dispatched": "Payment alerts were dispatched.",
@@ -1129,13 +1131,16 @@
       "title": "Analytics",
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
-        "events_fetch_failed": "Events fetch failed."
+        "events_fetch_failed": "Events fetch failed.",
+        "users_fetch_failed": "Users analytics fetch failed."
       },
       "events": {
         "chat_request": "Chat request",
         "rag_search": "RAG search",
         "no_context": "No context",
         "crisis_detected": "Crisis detected",
+        "stt_request": "STT request",
+        "tts_request": "TTS request",
         "rag_error": "RAG error",
         "openai_error": "OpenAI error",
         "subscription_init_started": "Subscription init started",
@@ -1263,6 +1268,42 @@
           "paid_at": "PaidAt",
           "empty": "No records found."
         }
+      },
+      "users": {
+        "title": "Users, costs and limits",
+        "subtitle": "Per-user 30 day usage, estimated cost and current limits.",
+        "summary": {
+          "users": "Users in table",
+          "estimated_cost": "Estimated cost (30d)",
+          "paid_amount": "Paid amount (30d)"
+        },
+        "active": "Active",
+        "inactive": "Inactive",
+        "usage": {
+          "chat": "Chat",
+          "rag": "RAG",
+          "stt": "STT",
+          "tts": "TTS",
+          "analyze": "Analyses"
+        },
+        "limits": {
+          "analyze_daily": "Analyze/day",
+          "monthly_budget": "Monthly budget",
+          "remaining_budget": "Remaining budget",
+          "utilization": "Budget use"
+        },
+        "table": {
+          "user": "User",
+          "role": "Role",
+          "admin": "Admin",
+          "subscription": "Subscription",
+          "usage_30d": "Usage (30d)",
+          "cost_30d": "Cost estimate (30d)",
+          "limits": "Limits",
+          "paid_30d": "Paid (30d)",
+          "empty": "No users found."
+        },
+        "note": "Estimate model (EUR): chat/request {chat}, rag/search {rag}, stt/MB {stt}, tts/1k chars {tts}, monthly budget {budget}. STT/TTS historical cost appears from event logging onwards."
       },
       "logs": {
         "title": "Logs",

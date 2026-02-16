@@ -9,7 +9,8 @@ import { cn } from "@/components/ui/cn";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
-import useT from "@/components/i18n/useT";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import { localizePath } from "@/lib/localizePath";
 import AivalgeLogo from "@/public/logo/aivalge.svg";
 import SaimustLogo from "@/public/logo/saimust.svg";
 import SmustLogo from "@/public/logo/smust.svg";
@@ -29,7 +30,12 @@ export default function HomePage() {
     prefs,
     hydrated: prefsHydrated
   } = useAccessibility();
-  const t = useT();
+  const { t, locale } = useI18n();
+  const homeA11yTitle = t("meta.home.title", "SotsiaalAI");
+  const homeA11yIntro = t(
+    "meta.home.description",
+    "SotsiaalAI pakub rollipohist tehisintellekti tuge spetsialistidele ja abi otsijatele."
+  );
   const [hasSeenIntro] = useState(() => homeIntroSeen);
   const initialSkipIntro = hasSeenIntro;
   const [leftFadeDone, setLeftFadeDone] = useState(() => initialSkipIntro);
@@ -101,8 +107,8 @@ export default function HomePage() {
     }
     markChatEnterFromHome();
     suppressFlipRef.current = true;
-    router.push("/vestlus");
-  }, [isAuthed, isLoginOpen, markChatEnterFromHome, router, status]);
+    router.push(localizePath("/vestlus", locale));
+  }, [isAuthed, isLoginOpen, locale, markChatEnterFromHome, router, status]);
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
     check();
@@ -472,13 +478,17 @@ export default function HomePage() {
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
+          <div className="sr-only">
+            <h1>{homeA11yTitle}</h1>
+            <p>{homeA11yIntro}</p>
+          </div>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[48em]:flex-col max-[48em]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[48em]:px-[clamp(1rem,4vw,1.5rem)] max-[48em]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[48em]:pb-[clamp(5rem,12vw,7rem)] max-[48em]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[48em]:min-h-[auto] max-[48em]:w-full max-[48em]:px-4 max-[48em]:py-4", "side")}>
               <div ref={leftCardWrapRef} className={leftCardClassName} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
                       <span className={cn("card-blur-layer absolute inset-0 rounded-full pointer-events-none z-0 [clip-path:circle(50%_at_50%_50%)] [transform:translateZ(0)_scale(1)] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", blurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
-                      <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")}>
+                      <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
                         <div ref={setLeftCardEl} className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-0 before:bg-[url('/logo/kerahele.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeIn ? "fade-in opacity-0 [animation:cardFadeIn_2.4s_cubic-bezier(0.61,0,0.19,1)_0.5s_forwards]" : null, leftFadeDone ? "fade-in-done" : null)}>
                           <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
                           <AivalgeLogo className={cn("absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
@@ -487,7 +497,10 @@ export default function HomePage() {
 
                       <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} role="button" aria-label={t("home.card.specialist.aria")} aria-disabled={!leftBackInteractive} aria-busy={!leftBackInteractive} tabIndex={leftBackInteractive ? 0 : -1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
                     if (!leftBackInteractive) return;
-                    if (e.key === "Enter" || e.key === " ") startExitToChat("left");
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      startExitToChat("left");
+                    }
                   }} style={!leftBackInteractive ? {
                     pointerEvents: "none"
                   } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
@@ -508,7 +521,7 @@ export default function HomePage() {
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
                       <span className={cn("card-blur-layer absolute inset-0 rounded-full pointer-events-none z-0 [clip-path:circle(50%_at_50%_50%)] [transform:translateZ(0)_scale(1)] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", blurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
-                      <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")}>
+                      <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
                         <div ref={setRightCardEl} className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-0 before:bg-[url('/logo/keratume.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeIn ? "fade-in opacity-0 [animation:cardFadeIn_2.4s_cubic-bezier(0.61,0,0.19,1)_0.5s_forwards]" : null, rightFadeDone ? "fade-in-done" : null)}>
                           <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />
                           <SmustLogo className={cn("absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
@@ -517,7 +530,10 @@ export default function HomePage() {
 
                       <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] pointer-events-none")} role="button" aria-label={t("home.card.client.aria")} aria-disabled={!rightBackInteractive} aria-busy={!rightBackInteractive} tabIndex={rightBackInteractive ? 0 : -1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
                     if (!rightBackInteractive) return;
-                    if (e.key === "Enter" || e.key === " ") startExitToChat("right");
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      startExitToChat("right");
+                    }
                   }} style={!rightBackInteractive ? {
                     pointerEvents: "none"
                   } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
@@ -535,7 +551,8 @@ export default function HomePage() {
           </div>
 
           {scrollCueReady ? <div className={cn("home-scroll-cue", "absolute left-1/2 bottom-[clamp(-0.6rem,1.2vh,0.3rem)] max-[48em]:bottom-[clamp(1rem,4.4vh,2.2rem)] -translate-x-1/2 translate-y-2 z-[20] pointer-events-none opacity-0 transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none", showScrollCueNow ? "opacity-100 translate-y-0" : null)} aria-hidden={!showScrollCueNow}>
-              <a className={cn("home-scroll-cue-link", "inline-flex flex-col items-center gap-0 px-[0.35rem] py-[0.4rem] max-[48em]:px-[0.35rem] max-[48em]:py-[0.2rem] max-[768px]:p-0 max-[768px]:tracking-[0.06em] rounded-full border-0 bg-transparent leading-[1] no-underline pointer-events-auto backdrop-filter-none [-webkit-backdrop-filter:none] text-[color:var(--home-scroll-cue-color)] hover:text-[color:var(--home-scroll-cue-color)] focus-visible:text-[color:var(--home-scroll-cue-color)]")} href="#meist" onClick={handleScrollCueClick}>
+              <a className={cn("home-scroll-cue-link", "inline-flex flex-col items-center gap-0 px-[0.35rem] py-[0.4rem] max-[48em]:px-[0.35rem] max-[48em]:py-[0.2rem] max-[768px]:p-0 max-[768px]:tracking-[0.06em] rounded-full border-0 bg-transparent leading-[1] no-underline pointer-events-auto backdrop-filter-none [-webkit-backdrop-filter:none] text-[color:var(--home-scroll-cue-color)] hover:text-[color:var(--home-scroll-cue-color)] focus-visible:text-[color:var(--home-scroll-cue-color)]")} href="#meist" onClick={handleScrollCueClick} aria-label={t("home.nav.about")}>
+                <span className="sr-only">{t("home.nav.about")}</span>
                 <span className={cn("home-scroll-cue-mouse", "inline-flex w-[2.6rem] h-[2.5rem] text-[color:inherit] opacity-80 max-[768px]:hidden max-[768px]:opacity-0 max-[768px]:invisible")} aria-hidden="true">
                   <svg viewBox="0 0 24 36" role="presentation" className="w-full h-full fill-none stroke-current [stroke-width:2] [stroke-linecap:round] [stroke-linejoin:round] [transform:scaleX(1.2)] [transform-origin:center]">
                     <rect x="5.5" y="2.5" width="13" height="31" rx="6.5" />

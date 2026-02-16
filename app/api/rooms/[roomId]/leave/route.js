@@ -52,10 +52,8 @@ export async function POST(_req, { params }) {
   const auth = await requireUser();
   if (!auth.ok) return errorJson(auth.message, auth.status);
 
-  const roomIdRaw = params?.roomId;
-  if (!roomIdRaw) return errorJson("api.common.missing_room_id", 400);
-
-  const roomId = Number.isNaN(Number(roomIdRaw)) ? roomIdRaw : Number(roomIdRaw);
+  const roomId = String(params?.roomId || "").trim();
+  if (!roomId) return errorJson("api.common.missing_room_id", 400);
   try {
     const membership = await prisma.roomMember.findFirst({
       where: {

@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import textToSpeech from "@google-cloud/text-to-speech";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import { normalizeRole, requireSubscription } from "@/lib/authz";
+import { logEvent } from "@/lib/chat/logger";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { canSpendMonthlyBudget } from "@/lib/usageBudget";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,11 +27,20 @@ function pickGoogleVoice(locale) {
   return { languageCode: "et-EE", name: "et-EE-Standard-A" };
 }
 
-function errorJson(messageKey, status, extras = {}) {
+function localeFromRequest(req, fallback = "en") {
+  const fromHeader =
+    normalizeServerLocale(req.headers.get("x-ui-locale")) ||
+    normalizeServerLocale(req.headers.get("x-locale")) ||
+    normalizeServerLocale(req.headers.get("accept-language"));
+  return fromHeader || fallback;
+}
+
+function errorJson(messageKey, status, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
   return NextResponse.json({
     ok: false,
     messageKey,
-    message: messageKey,
+    message: translated,
     ...extras
   }, {
     status
@@ -81,9 +94,25 @@ async function synthOpenAI({ text }) {
 }
 
 export async function POST(req) {
+  const uiLocale = localeFromRequest(req);
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
-    return errorJson("api.common.unauthorized", 401);
+    return errorJson("api.common.unauthorized", 401, uiLocale);
+  }
+
+  const pickedRole = String(session.user.role || "CLIENT").toUpperCase();
+  const role = normalizeRole(pickedRole);
+  const gate = await requireSubscription(session, role);
+  if (!gate.ok) {
+    return NextResponse.json({
+      ok: false,
+      messageKey: gate.message,
+      message: serverT(uiLocale, gate.message, undefined, gate.message),
+      redirect: gate.redirect,
+      requireSubscription: gate.requireSubscription
+    }, {
+      status: gate.status
+    });
   }
 
   const ip = getRequestIpFromRequest(req);
@@ -92,7 +121,7 @@ export async function POST(req) {
     return NextResponse.json({
       ok: false,
       messageKey: "api.tts.rate_limited",
-      message: "api.tts.rate_limited"
+      message: serverT(uiLocale, "api.tts.rate_limited", undefined, "api.tts.rate_limited")
     }, {
       status: 429,
       headers: {
@@ -104,33 +133,51 @@ export async function POST(req) {
   const googleEnabled = !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
   const openaiEnabled = !!OPENAI_API_KEY;
   if (!googleEnabled && !openaiEnabled) {
-    return errorJson("api.tts.not_configured", 503);
+    return errorJson("api.tts.not_configured", 503, uiLocale);
   }
 
   let payload;
   try {
     payload = await req.json();
   } catch {
-    return errorJson("api.common.invalid_request", 400);
+    return errorJson("api.common.invalid_request", 400, uiLocale);
   }
 
   const text = String(payload?.text || "").trim();
   const locale = String(payload?.locale || "et");
-  if (!text) return errorJson("api.tts.text_missing", 400);
+  if (!text) return errorJson("api.tts.text_missing", 400, localeFromRequest(req, locale));
 
   const maxLen = googleEnabled ? 4500 : 4096;
   if (text.length > maxLen) {
-    return errorJson("api.tts.text_too_long", 413, {
+    return errorJson("api.tts.text_too_long", 413, localeFromRequest(req, locale), {
       maxLen,
       length: text.length
+    });
+  }
+  const budgetCheck = await canSpendMonthlyBudget(session.user.id, {
+    ttsRequests: 1,
+    ttsChars: text.length
+  });
+  if (!budgetCheck.allowed) {
+    return errorJson("api.common.monthly_budget_exceeded", 429, localeFromRequest(req, locale), {
+      budgetEur: budgetCheck.budgetEur,
+      usedEur: budgetCheck.usedEur,
+      remainingEur: budgetCheck.remainingEur
     });
   }
 
   try {
     const result = googleEnabled ? await synthGoogle({ text, locale }) : await synthOpenAI({ text });
     if (!result.ok) {
-      return errorJson(result.messageKey || "api.tts.synthesis_failed", 502);
+      return errorJson(result.messageKey || "api.tts.synthesis_failed", 502, localeFromRequest(req, locale));
     }
+    await logEvent("tts_request", {
+      userId: session.user.id,
+      role,
+      provider: result.provider || (googleEnabled ? "google" : "openai"),
+      locale,
+      textLength: text.length
+    });
     return NextResponse.json({
       ok: true,
       audioContent: result.audioContent,
@@ -139,6 +186,6 @@ export async function POST(req) {
     });
   } catch (err) {
     console.error("tts", err);
-    return errorJson("api.tts.service_error", 500);
+    return errorJson("api.tts.service_error", 500, localeFromRequest(req, locale));
   }
 }

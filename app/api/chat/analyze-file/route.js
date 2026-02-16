@@ -7,6 +7,7 @@ import { normalizeRole, requireSubscription } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/analyzeQuota";
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
+import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 
 const MAX_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
 const RAW_ALLOWED_MIME = String(
@@ -25,6 +26,7 @@ const ALLOW_EXTERNAL = process.env.ALLOW_EXTERNAL_RAG === "1";
 const LOCAL_HOST_RE = /^(127\.0\.0\.1|localhost|\[?::1\]?)(:\d+)?$/i;
 const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const CHAT_ANALYZE_FILE_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_ANALYZE_FILE_POST_MAX, 15);
+const CHAT_ANALYZE_MAX_CHUNKS = readChatRateLimit(process.env.CHAT_ANALYZE_MAX_CHUNKS, 80, 1);
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -37,11 +39,23 @@ function json(data, status = 200) {
   });
 }
 
-function errorJson(messageKey, status, extras = {}) {
+function localeFromRequest(req) {
+  const url = new URL(req.url);
+  const fromQuery = normalizeServerLocale(url.searchParams.get("locale") || url.searchParams.get("lang"));
+  if (fromQuery) return fromQuery;
+  const fromHeader =
+    normalizeServerLocale(req.headers.get("x-ui-locale")) ||
+    normalizeServerLocale(req.headers.get("x-locale")) ||
+    normalizeServerLocale(req.headers.get("accept-language"));
+  return fromHeader || "en";
+}
+
+function errorJson(messageKey, status, locale = "en", extras = {}) {
+  const translated = serverT(locale, messageKey, undefined, messageKey);
   return json({
     ok: false,
     messageKey,
-    message: messageKey,
+    message: translated,
     ...extras
   }, status);
 }
@@ -121,9 +135,10 @@ async function callRagAnalyze(formData) {
 }
 
 export async function POST(request) {
+  const locale = localeFromRequest(request);
   const session = await getServerSession(authConfig).catch(() => null);
   if (!session?.user?.id) {
-    return errorJson("api.common.unauthorized", 401);
+    return errorJson("api.common.unauthorized", 401, locale);
   }
   const rateLimitResponse = enforceChatRateLimit(request, {
     scope: "analyze_file_post",
@@ -140,7 +155,7 @@ export async function POST(request) {
     return json({
       ok: false,
       messageKey: gate.message,
-      message: gate.message,
+      message: serverT(locale, gate.message, undefined, gate.message),
       redirect: gate.redirect,
       requireSubscription: gate.requireSubscription
     }, gate.status);
@@ -150,17 +165,17 @@ export async function POST(request) {
   try {
     fd = await request.formData();
   } catch {
-    return errorJson("api.chat.analyze.multipart_required", 400);
+    return errorJson("api.chat.analyze.multipart_required", 400, locale);
   }
 
   const file = fd.get("file");
   if (!file || typeof file === "string") {
-    return errorJson("api.chat.analyze.file_required", 400);
+    return errorJson("api.chat.analyze.file_required", 400, locale);
   }
 
   const sizeMB = (file.size || 0) / (1024 * 1024);
   if (sizeMB > MAX_MB) {
-    return errorJson("api.chat.analyze.file_too_large", 413, {
+    return errorJson("api.chat.analyze.file_too_large", 413, locale, {
       sizeMB: Number(sizeMB.toFixed(1)),
       maxMB: MAX_MB
     });
@@ -174,7 +189,7 @@ export async function POST(request) {
     mime => mime && ALLOWED_MIME.has(mime)
   );
   if (!resolvedMimeType) {
-    return errorJson("api.chat.analyze.mime_not_allowed", 415);
+    return errorJson("api.chat.analyze.mime_not_allowed", 415, locale);
   }
 
   const userId = String(session.user.id);
@@ -213,7 +228,7 @@ export async function POST(request) {
       return new NextResponse(JSON.stringify({
         ok: false,
         messageKey: "api.chat.analyze.quota_exceeded",
-        message: "api.chat.analyze.quota_exceeded"
+        message: serverT(locale, "api.chat.analyze.quota_exceeded", undefined, "api.chat.analyze.quota_exceeded")
       }), {
         status: 429,
         headers: {
@@ -224,7 +239,7 @@ export async function POST(request) {
     }
 
     console.error("[analyze-file] quota check failed:", e);
-    return errorJson("api.chat.analyze.quota_check_failed", 503);
+    return errorJson("api.chat.analyze.quota_check_failed", 503, locale);
   }
 
   const forward = new FormData();
@@ -232,10 +247,15 @@ export async function POST(request) {
 
   forward.append("mimeType", resolvedMimeType);
 
-  const maxChunks = fd.get("maxChunks");
-  if (maxChunks && typeof maxChunks === "string") {
-    forward.append("maxChunks", maxChunks);
+  const maxChunksRaw = fd.get("maxChunks");
+  let maxChunks = CHAT_ANALYZE_MAX_CHUNKS;
+  if (typeof maxChunksRaw === "string" && maxChunksRaw.trim()) {
+    const parsed = Number(maxChunksRaw);
+    if (Number.isFinite(parsed) && parsed > 0) {
+      maxChunks = Math.min(Math.floor(parsed), CHAT_ANALYZE_MAX_CHUNKS);
+    }
   }
+  forward.append("maxChunks", String(maxChunks));
 
   try {
     const data = await callRagAnalyze(forward);
@@ -250,6 +270,6 @@ export async function POST(request) {
   } catch (e) {
     console.error("[analyze-file] RAG analyze error:", e);
     const status = Number(e?.status) || 502;
-    return errorJson(e?.message || "api.chat.analyze.service_unavailable", status);
+    return errorJson(e?.message || "api.chat.analyze.service_unavailable", status, locale);
   }
 }

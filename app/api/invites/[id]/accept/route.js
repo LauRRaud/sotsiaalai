@@ -116,7 +116,7 @@ async function hasSponsorCapacity(tx, roomId) {
 }
 
 export async function POST(request, { params }) {
-  const tokenRaw = params?.id;
+  const tokenRaw = String(params?.id || "").trim();
 
   let payload = {};
   try {

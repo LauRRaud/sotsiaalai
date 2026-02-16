@@ -54,7 +54,8 @@ function conversationExpiryDate() {
 
 function isPlausibleId(id) {
   if (!id || typeof id !== "string") return false;
-  return id.length >= 8 && id.length <= 200;
+  if (id.length < 8 || id.length > 200) return false;
+  return /^[A-Za-z0-9._\-:+]+$/.test(id);
 }
 
 function ensureOwnedOrAdmin(row, auth) {
@@ -154,8 +155,9 @@ export async function GET(req, { params }) {
         degraded: true
       });
     }
+    console.error("[chat/conversations/:id GET] failed", err);
     return errorJson("api.chat.db_error_conversation_read", 500, {
-      error: err?.message
+      code: "DB_ERROR_CONVERSATION_READ"
     });
   }
 }
@@ -204,8 +206,9 @@ export async function DELETE(req, { params }) {
         degraded: true
       });
     }
+    console.error("[chat/conversations/:id DELETE] failed", err);
     return errorJson("api.chat.db_error_conversation_delete", 500, {
-      error: err?.message
+      code: "DB_ERROR_CONVERSATION_DELETE"
     });
   }
 }
@@ -272,8 +275,9 @@ export async function PUT(req, { params }) {
         degraded: true
       });
     }
+    console.error("[chat/conversations/:id PUT] failed", err);
     return errorJson("api.chat.db_error_conversation_restore", 500, {
-      error: err?.message
+      code: "DB_ERROR_CONVERSATION_RESTORE"
     });
   }
 }

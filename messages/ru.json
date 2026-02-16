@@ -930,7 +930,8 @@
       "invalid_json": "Некорректный JSON payload.",
       "missing_room_id": "Отсутствует ID комнаты.",
       "rate_limited": "Слишком много запросов. Повторите позже.",
-      "subscription_required": "Требуется активная подписка."
+      "subscription_required": "Требуется активная подписка.",
+      "monthly_budget_exceeded": "Достигнут месячный бюджет использования. Продолжите в следующем месяце или обновите тариф."
     },
     "chat": {
       "invalid_conv_id": "Некорректный ID диалога.",
@@ -1077,6 +1078,7 @@
       "analytics": {
         "events_load_failed": "Не удалось загрузить события аналитики.",
         "summary_load_failed": "Не удалось загрузить сводку аналитики.",
+        "users_load_failed": "Не удалось загрузить аналитику пользователей.",
         "payment_alerts_not_configured": "Webhook для платежных alert не настроен.",
         "payment_alerts_dispatch_failed": "Не удалось отправить платежные alert.",
         "payment_alerts_dispatched": "Платежные alert отправлены.",
@@ -1129,13 +1131,16 @@
       "title": "Analytics",
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
-        "events_fetch_failed": "Events fetch failed."
+        "events_fetch_failed": "Events fetch failed.",
+        "users_fetch_failed": "Users analytics fetch failed."
       },
       "events": {
         "chat_request": "Chat request",
         "rag_search": "RAG search",
         "no_context": "No context",
         "crisis_detected": "Crisis detected",
+        "stt_request": "STT request",
+        "tts_request": "TTS request",
         "rag_error": "RAG error",
         "openai_error": "OpenAI error",
         "subscription_init_started": "Subscription init started",
@@ -1263,6 +1268,42 @@
           "paid_at": "PaidAt",
           "empty": "No records found."
         }
+      },
+      "users": {
+        "title": "Пользователи, затраты и лимиты",
+        "subtitle": "Использование за 30 дней по пользователям, оценка затрат и текущие лимиты.",
+        "summary": {
+          "users": "Пользователи в таблице",
+          "estimated_cost": "Оценка затрат (30д)",
+          "paid_amount": "Оплачено (30д)"
+        },
+        "active": "Активна",
+        "inactive": "Неактивна",
+        "usage": {
+          "chat": "Чат",
+          "rag": "RAG",
+          "stt": "Диктовка",
+          "tts": "Озвучивание",
+          "analyze": "Анализы"
+        },
+        "limits": {
+          "analyze_daily": "Анализ/день",
+          "monthly_budget": "Месячный бюджет",
+          "remaining_budget": "Остаток бюджета",
+          "utilization": "Использование бюджета"
+        },
+        "table": {
+          "user": "Пользователь",
+          "role": "Роль",
+          "admin": "Админ",
+          "subscription": "Подписка",
+          "usage_30d": "Использование (30д)",
+          "cost_30d": "Оценка затрат (30д)",
+          "limits": "Лимиты",
+          "paid_30d": "Оплачено (30д)",
+          "empty": "Пользователи не найдены."
+        },
+        "note": "Модель оценки (EUR): чат/запрос {chat}, rag/поиск {rag}, диктовка/MB {stt}, озвучивание/1k символов {tts}, месячный бюджет {budget}. Исторические затраты STT/TTS видны с момента включения логирования событий."
       },
       "logs": {
         "title": "Logs",

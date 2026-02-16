@@ -56,13 +56,17 @@ function localeFromRequest(request, bodyLocale) {
 }
 
 async function requireUser() {
-  const session = await getServerSession(authConfig);
-  const userId = session?.user?.id;
-  if (!userId) return null;
-  return {
-    session,
-    userId
-  };
+  try {
+    const session = await getServerSession(authConfig);
+    const userId = session?.user?.id;
+    if (!userId) return null;
+    return {
+      session,
+      userId
+    };
+  } catch {
+    return null;
+  }
 }
 
 function buildVerifyUrl(email, token, locale) {
@@ -181,7 +185,7 @@ export async function PUT(request) {
 
   try {
     const body = await request.json().catch(() => ({}));
-    const requestLocale = localeFromRequest(request, body?.locale);
+    const requestLocale = localeFromRequest(request, body?.locale || body?.lang);
     const nextEmail =
       typeof body?.email === "string" ? body.email.trim().toLowerCase() : undefined;
     const nextPassword =

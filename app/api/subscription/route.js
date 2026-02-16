@@ -67,22 +67,27 @@ function localeFromRequest(request, bodyLocale) {
 }
 
 async function requireUser(request) {
-  const token = await getToken({
-    req: request,
-    secret: process.env.NEXTAUTH_SECRET
-  });
+  try {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET
+    });
 
-  if (!token?.id) return null;
-  return {
-    token,
-    userId: String(token.id)
-  };
+    if (!token?.id) return null;
+    return {
+      token,
+      userId: String(token.id)
+    };
+  } catch {
+    return null;
+  }
 }
 
 function shape(subscription) {
   if (!subscription) return null;
 
   const now = Date.now();
+  const hasNoExpiry = subscription.validUntil == null;
   const validUntilTs = subscription.validUntil
     ? new Date(subscription.validUntil).getTime()
     : null;
@@ -90,7 +95,9 @@ function shape(subscription) {
     validUntilTs && validUntilTs > now
       ? Math.ceil((validUntilTs - now) / (1000 * 60 * 60 * 24))
       : 0;
-  const isActive = subscription.status === ACTIVE_STATUS && daysLeft > 0;
+  const isActive =
+    subscription.status === ACTIVE_STATUS &&
+    (hasNoExpiry || daysLeft > 0);
 
   return {
     id: subscription.id,
@@ -149,7 +156,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   const body = await request.json().catch(() => ({}));
-  const locale = localeFromRequest(request, body?.locale);
+  const locale = localeFromRequest(request, body?.locale || body?.lang);
   const session = await requireUser(request);
   if (!session) {
     return errorJson("api.common.unauthorized", 401, locale);

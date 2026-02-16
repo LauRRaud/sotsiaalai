@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { localizePath } from "@/lib/localizePath";
 
 const ROLL_MS = 560;
 
 export function useChatProfileRoll({
   embedded,
   router,
+  locale,
   showSourcesPanel,
   setShowSourcesPanel,
   setInputFocused,
@@ -61,11 +63,11 @@ export function useChatProfileRoll({
 
   const openProfile = useCallback(() => {
     if (!embedded) {
-      pushWithTransition(router, "/profiil");
+      pushWithTransition(router, localizePath("/profiil", locale));
       return;
     }
     triggerRoll("right", true);
-  }, [embedded, router, triggerRoll]);
+  }, [embedded, locale, router, triggerRoll]);
 
   const closeProfile = useCallback(() => {
     if (!embedded) return;
