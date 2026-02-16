@@ -15,20 +15,20 @@ Review status legend:
 ## App Routes
 | Route | File | Status | Notes |
 | --- | --- | --- | --- |
-| `/` | `app/page.js` | MONITOR | reviewed: home route metadata key-based; role-card/login gate flow in `HomePage` is stable but animation-heavy; `LoginModal` tab focus is trapped inside modal; root metadata description copy aligned to two-assistant wording; footer logos marked decorative for SR and card aria labels shortened |
+| `/` | `app/page.js` | MONITOR | reviewed: home route metadata key-based; role-card/login gate flow in `HomePage` is stable but animation-heavy; `LoginModal` tab focus is trapped inside modal; root metadata description copy aligned to two-assistant wording; footer logos marked decorative for SR and card aria labels shortened; OTP step visual layout simplified (no nested inner panels, compact code input, improved CTA/link spacing); OTP expiry error now renders below code input |
 | `/admin/analytics` | `app/admin/analytics/page.jsx` | MONITOR | reviewed: session+admin guard + analytics dashboard i18n key migration; continue E2E verification |
 | `/admin/rag` | `app/admin/rag/page.jsx` | MONITOR | reviewed: session+admin guard + wrapper + `RagAdminPanel` key-based i18n pass; continue E2E ingest/admin checks |
 | `/join` | `app/join/page.jsx` | MONITOR | reviewed: invite accept flow, auth gate, localized API error resolving via `resolveApiMessage` |
 | `/kasutusjuhend` | `app/kasutusjuhend/page.jsx` | MONITOR | reviewed: policy-layout guide page with localized section content; uses trusted HTML content from locale catalogs |
 | `/kasutustingimused` | `app/kasutustingimused/page.js` | MONITOR | reviewed: metadata key-based + policy body from i18n rich text sections |
 | `/privaatsustingimused` | `app/privaatsustingimused/page.js` | MONITOR | reviewed: metadata key-based + legal links rendered via controlled rich-text replacements |
-| `/profiil` | `app/profiil/page.js` | MONITOR | reviewed: metadata key-based + profile shell/orbital actions delegate to `/api/profile` with key-resolved errors |
-| `/registreerimine` | `app/registreerimine/page.js` | MONITOR | reviewed: registration wizard flow + `/api/register` integration; fixed PIN input sanitization regex and locale-aware API error resolving; submit loading moved to separate on-page loader and submit-step status card text sizing increased |
+| `/profiil` | `app/profiil/page.js` | MONITOR | reviewed: metadata key-based + profile shell/orbital actions delegate to `/api/profile` with key-resolved errors; unauth profile no longer auto-opens login modal when arriving from email verification success (`reason=email-verified`) |
+| `/registreerimine` | `app/registreerimine/page.js` | MONITOR | reviewed: registration wizard flow + `/api/register` integration; fixed PIN input sanitization regex and locale-aware API error resolving; submit loading moved to separate on-page loader and submit-step status card text sizing increased; submitting loader now uses compact glass-style card (loader above text) for visual consistency with login modal; ET verification-email body copy corrected in locale catalog |
 | `/room/[roomId]` | `app/room/[roomId]/page.jsx` | MONITOR | room-mode behavior reviewed; continue E2E checks |
 | `/rooms` | `app/rooms/page.js` | MONITOR | room list UI/flow reviewed; continue E2E checks |
 | `/ruum` | `app/ruum/page.js` | MONITOR | rooms redirect/entry path reviewed; continue E2E checks |
 | `/taasta-parool/[token]` | `app/taasta-parool/[token]/page.jsx` | MONITOR | reviewed: metadata moved to locale key lookup; reset form validates PIN and calls password reset PUT route |
-| `/tellimus` | `app/tellimus/page.js` | MONITOR | reviewed: activation now calls `/api/subscription/init` and redirects to provider checkout; callback-state UX is in place |
+| `/tellimus` | `app/tellimus/page.js` | MONITOR | reviewed: activation now calls `/api/subscription/init` and redirects to provider checkout; callback-state UX is in place; unauthenticated mode now supports verification-entry flow (`reason=email-verified`) with login modal over subscription page |
 | `/uuenda-epost` | `app/uuenda-epost/page.js` | MONITOR | reviewed: profile email update flow via `/api/profile` with current PIN verification and localized API error handling |
 | `/uuenda-pin` | `app/uuenda-pin/page.js` | MONITOR | reviewed: reset request UI -> `/api/auth/password/reset`; aligned locale propagation and key-based error resolving |
 | `/vestlus` | `app/vestlus/page.js` | MONITOR | chat page behavior reviewed; keep regression checks active |
@@ -72,7 +72,7 @@ Review status legend:
 | `app/api/subscription/callback/route.js` | MONITOR | reviewed: provider return redirect maps callback status to localized `/tellimus` state; callback event logging is enabled |
 | `app/api/subscription/webhook/route.js` | MONITOR | reviewed: signature-check + idempotent payment status updates + subscription activation on `PAID`; side-effects for `REFUNDED/CANCELED/FAILED` are explicit policy envs; production blocks unsigned webhooks unless `SUBSCRIPTION_WEBHOOK_ALLOW_UNSIGNED=1`; structured webhook event logs + owner email notifications enabled (`PAYMENT_OWNER_EMAIL`) |
 | `app/api/tts/route.js` | MONITOR | - |
-| `app/api/verify-email/route.js` | MONITOR | reviewed: link verification GET + resend POST, token lifecycle cleanup, localized messageKey errors |
+| `app/api/verify-email/route.js` | MONITOR | reviewed: link verification GET + resend POST, token lifecycle cleanup, localized messageKey errors; success redirect now uses localized `/tellimus?reason=email-verified` UX flow |
 
 ## Reviewed Scope So Far
 - Chat stack: `app/api/chat/*`, `app/api/rooms/*`, `app/api/stt/route.js`, `app/api/tts/route.js`

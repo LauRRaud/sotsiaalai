@@ -380,6 +380,7 @@ Encoding fixes applied (BOM removed):
 - Action:
   - updated home footer logo and shared page footer logo to decorative-only semantics
   - updated `home.card.specialist.aria` and `home.card.client.aria` wording in ET/EN locale catalogs
+  - updated EN home client-card title copy to `FOR PEOPLE SEEKING HELP` (owner-preferred wording)
   - executed validation run: `npm run lint` (PASS)
 - Status: `MONITOR`
 
@@ -396,6 +397,79 @@ Encoding fixes applied (BOM removed):
   - kept submit button label stable (`auth.register.submit`) during loading
   - increased submit-step status card text sizing/padding for better readability
   - added fallback loading text for missing i18n key (`auth.register.loading_status` -> `Konto loomine`)
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Registration loading glass-card visual pass
+- Scope: `components/alalehed/RegistreerimineBody.jsx`
+- Good:
+  - submitting-state loader is now rendered inside a compact glass-style card, aligned with login modal visual direction
+  - loader and loading label are stacked vertically with explicit spacing, so text does not overlap the logo/loader
+  - loading card keeps compact footprint and grows downward for text content
+- Risk:
+  - this visual pattern is currently registration-specific; other loading surfaces may still look inconsistent
+- Action:
+  - replaced plain loader row with a bordered, blurred, gradient-backed glass loader card
+  - increased loading label emphasis (`font-medium`, larger size) while keeping ARIA status semantics
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Verification email locale-copy correction pass
+- Scope: `messages/et.json`
+- Good:
+  - Estonian verification email subject/body language is now consistent for register and resend verification flows
+- Risk:
+  - inbox placement (Spam vs Inbox) is still primarily controlled by sender-domain reputation and DNS auth setup (SPF/DKIM/DMARC), not template language alone
+- Action:
+  - replaced `email.auth.verify.text` and `email.auth.verify.html` ET templates from English copy to Estonian copy
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Mailer deliverability hardening pass
+- Scope: `lib/mailer.js`
+- Good:
+  - MIME message generation now creates safer `Message-ID` domain values based on extracted sender address
+  - optional `Reply-To` header is now supported in outbound messages
+  - SMTP DATA payload now applies dot-stuffing to avoid edge-case message truncation on dot-prefixed lines
+- Risk:
+  - inbox placement still depends mostly on domain reputation and DNS authentication (SPF/DKIM/DMARC), not only message formatting
+- Action:
+  - added sender header formatting helper (`EMAIL_FROM_NAME` support for display name when `from` is a bare address)
+  - added `X-Auto-Response-Suppress: All` header and robust `Message-ID` domain extraction
+  - added DATA payload dot-stuffing before SMTP terminator write
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Email-verify redirect UX pass
+- Scope: `app/api/verify-email/route.js`, `components/alalehed/ProfiilBody.jsx`
+- Good:
+  - verification-link success redirect now lands on subscription page with explicit reason flag (`/tellimus?reason=email-verified`)
+  - unauthenticated subscription view now opens login modal for verification-success reason over the subscription background
+  - verification-entry login modal disables stored-email prefill to avoid showing stale previous-user email
+- Risk:
+  - this UX path depends on unauthenticated `/tellimus` rendering and session refresh timing after successful login
+- Action:
+  - changed verify GET success redirect to localized subscription path + `reason=email-verified`
+  - added unauthenticated branch to `TellimusBody` with login CTA and reason-specific message
+  - added auto-open login modal on `/tellimus` verification-entry reason
+  - added `LoginModal` prop `prefillStoredEmail` and disabled email prefill persistence behavior for verification-entry subscription login
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Login modal OTP visual simplification pass
+- Scope: `components/LoginModal.jsx`, `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - OTP view no longer uses stacked inner panel boxes; content now sits directly in modal body
+  - OTP input now uses compact rounded field style, with smaller typography and left-to-right numeric entry
+  - remember-device row styling is simplified and no longer wrapped in extra decorative panel
+  - primary action button is narrower and links below it have increased spacing and clearer visual hierarchy
+- Risk:
+  - OTP visual tuning remains heavily class-driven inside one large component; future style changes should be regression-checked on mobile
+- Action:
+  - redesigned OTP section layout and spacing in `LoginModal` (text, input, checkbox row, action/link stack)
+  - added locale key `auth.login.otp_short_placeholder` in ET/EN/RU catalogs
+  - moved OTP-step error text under code input field (instead of header area)
+  - updated ET `api.auth.login.token_expired` text to `Kinnituskood on aegunud.`
   - executed validation run: `npm run lint` (PASS)
 - Status: `MONITOR`
 
@@ -511,6 +585,37 @@ Encoding fixes applied (BOM removed):
   - added `email.payment.owner_webhook.*` templates in all locale catalogs
   - added owner-notification env notes to payment docs
   - added telemetry events: `subscription_webhook_owner_email_sent|failed|skipped`
+- Status: `MONITOR`
+
+### Profile role-pill two-line layout fix
+- Scope: `components/alalehed/ProfiilBody.jsx`, `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - long role labels in profile now render on two lines for `SOCIAL_WORKER` and `CLIENT`
+  - role pill now keeps visible horizontal padding and better-fit capsule size for long labels
+- Risk:
+  - visual balance still depends on locale-specific role wording lengths
+- Action:
+  - changed profile role-pill long-label class to explicit multiline rendering (`whitespace-pre-line`) with tuned padding/line-height
+  - added two-line display transform in profile role label rendering (balanced split by words for long roles)
+  - updated ET role text `role.worker` from `Spetsialist` to `Sotsiaaltöö spetsialist`
+  - updated EN `role.worker` to `Social worker` and RU `role.worker` to `Социальный работник` for consistent two-line profile pill behavior
+  - moved profile role-pill labels to dedicated keys (`profile.role_short.*`) so profile now shows compact labels (ET: `Spetsialist`, `Pöörduja`) while global role names remain long-form
+  - adjusted profile short client labels by locale: EN `Seeker`, RU `Ищущий` (ET remains `Pöörduja`)
+- Status: `MONITOR`
+
+### Profile account-delete loader + confirmation email pass
+- Scope: `components/ui/ModalConfirm.jsx`, `components/alalehed/ProfiilBody.jsx`, `app/api/profile/route.js`, `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - account delete confirm now switches into dedicated loader state (glass card + `SotsiaalAILoader`) instead of only button text change
+  - loader text is localized via `profile.delete_loading_status` and requested ET wording is available (`Konto kustutamine`)
+  - backend now sends account-deleted confirmation email after successful user deletion
+- Risk:
+  - account-deleted email delivery still depends on active SMTP configuration; deletion itself remains non-blocking if email send fails
+- Action:
+  - added `busy` mode support in `ModalConfirm` with reusable loader UI
+  - wired profile delete flow to show loader state and pass locale on `DELETE /api/profile`
+  - added `sendAccountDeletedEmail` in profile API delete path with safe error handling
+  - added `email.auth.account_deleted.*` keys to ET/EN/RU locales
 - Status: `MONITOR`
 
 ## Open Items Queue (next passes)

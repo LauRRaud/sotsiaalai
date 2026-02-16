@@ -3,6 +3,7 @@ export const runtime = "nodejs";
 import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { localizePath } from "@/lib/localizePath";
 import { getMailer, resolveBaseUrl } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
@@ -164,7 +165,10 @@ export async function GET(request) {
 
     try {
       const redirectBase = resolveBaseUrl() || url.origin;
-      return NextResponse.redirect(new URL("/profiil", redirectBase));
+      const subscriptionPath = localizePath("/tellimus", locale);
+      return NextResponse.redirect(
+        new URL(`${subscriptionPath}?reason=email-verified`, redirectBase)
+      );
     } catch {
       return json({ verified: true });
     }

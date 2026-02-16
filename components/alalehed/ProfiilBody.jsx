@@ -19,10 +19,34 @@ import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const ROLE_KEYS = {
-  ADMIN: "role.admin",
-  SOCIAL_WORKER: "role.worker",
-  CLIENT: "role.client"
+  ADMIN: "profile.role_short.admin",
+  SOCIAL_WORKER: "profile.role_short.worker",
+  CLIENT: "profile.role_short.client"
 };
+
+function splitRoleLabelToTwoLines(label) {
+  if (typeof label !== "string" || !label.trim()) return label;
+  if (label.includes("\n")) return label;
+  const words = label.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 1) return label;
+  if (words.length === 2) return `${words[0]}\n${words[1]}`;
+
+  // Pick the split point that keeps line lengths as balanced as possible.
+  let bestIndex = 1;
+  let bestDelta = Number.POSITIVE_INFINITY;
+  for (let i = 1; i < words.length; i += 1) {
+    const left = words.slice(0, i).join(" ");
+    const right = words.slice(i).join(" ");
+    const delta = Math.abs(left.length - right.length);
+    if (delta < bestDelta) {
+      bestDelta = delta;
+      bestIndex = i;
+    }
+  }
+
+  return `${words.slice(0, bestIndex).join(" ")}\n${words.slice(bestIndex).join(" ")}`;
+}
+
 const pageShellClassName =
   `${glassPageShellCenteredClassName} max-md:py-0`;
 const containerBaseClassName =
@@ -47,9 +71,9 @@ const rolePillClassName =
   "bg-transparent border-none " +
   "leading-[3.2rem] h-[3.2rem] whitespace-nowrap";
 const rolePillMultiLineClassName =
-  "h-auto min-h-[4.5rem] max-w-[19.5rem] px-[1.05em] py-[0.5rem] " +
-  "leading-[1.24] whitespace-normal text-center [text-wrap:balance] " +
-  "max-[48em]:max-w-[min(84vw,16.2rem)] " +
+  "h-auto px-[1.15em] py-[0.44rem] " +
+  "leading-[1.16] whitespace-pre-line text-center [text-wrap:initial] " +
+  "max-w-[19.5rem] max-[48em]:max-w-[min(84vw,16.2rem)] " +
   "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
@@ -241,6 +265,7 @@ export default function ProfiilBody({
   }, []);
   const searchParams = useSearchParams();
   const registrationReason = searchParams?.get("reason");
+  const suppressAutoLoginModal = registrationReason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
   const isLightTheme = prefs?.theme === "light";
   const titleClassName = cn(
@@ -254,7 +279,8 @@ export default function ProfiilBody({
     !embedded && headerCenterPageClassName
   );
   const isLongRoleLabel = session?.user?.role === "SOCIAL_WORKER" || session?.user?.role === "CLIENT";
-  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "role.unknown");
+  const roleLabel = t(ROLE_KEYS[session?.user?.role] || "profile.role_short.unknown");
+  const roleLabelDisplay = isLongRoleLabel ? splitRoleLabelToTwoLines(roleLabel) : roleLabel;
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -451,8 +477,9 @@ export default function ProfiilBody({
     if (status !== "unauthenticated") return;
     if (logoutRedirectRef.current) return;
     if (embedded && !isActive) return;
+    if (suppressAutoLoginModal) return;
     setLoginOpen(true);
-  }, [embedded, isActive, status]);
+  }, [embedded, isActive, status, suppressAutoLoginModal]);
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
@@ -617,7 +644,15 @@ export default function ProfiilBody({
       return null;
     }
     const reason = registrationReason || "not-logged-in";
-    const reasonText = reason === "no-sub" ? t("profile.login_to_manage_sub") : t("profile.login_to_view");
+    const reasonText =
+      reason === "email-verified"
+        ? t(
+            "profile.login_after_email_verify",
+            "E-post on kinnitatud. Palun logi sisse, et jatkata."
+          )
+        : reason === "no-sub"
+          ? t("profile.login_to_manage_sub")
+          : t("profile.login_to_view");
     return <>
         <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
           <h1 className={titleClassName}>{t("profile.title")}</h1>
@@ -651,7 +686,7 @@ export default function ProfiilBody({
           className={cn(rolePillClassName, isLongRoleLabel ? rolePillMultiLineClassName : null, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
-          {roleLabel}
+          {roleLabelDisplay}
         </span>
       </div>
 
@@ -694,14 +729,17 @@ export default function ProfiilBody({
           </div>}
       </div>
 
-      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={deleting ? t("profile.deleting") : t("profile.delete_account")} cancelLabel={t("buttons.cancel")} onConfirm={async () => {
+      {showDelete && <ModalConfirm message={t("profile.delete_confirm")} confirmLabel={t("profile.delete_account")} cancelLabel={t("buttons.cancel")} busy={deleting} busyLabel={t("profile.delete_loading_status", "Konto kustutamine")} onConfirm={async () => {
       if (deleting) return;
       setError("");
       setSuccess("");
       setDeleting(true);
       try {
         const res = await fetch("/api/profile", {
-          method: "DELETE"
+          method: "DELETE",
+          headers: {
+            "Accept-Language": locale
+          }
         });
         const payload = await res.json().catch(() => ({}));
         if (!res.ok) {

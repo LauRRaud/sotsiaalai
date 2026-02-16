@@ -77,7 +77,8 @@ export default function LoginModal({
   open,
   onClose,
   suppressRedirect = false,
-  onAuthSuccess
+  onAuthSuccess,
+  prefillStoredEmail = true
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -193,8 +194,9 @@ export default function LoginModal({
   const isOtpStep = step === "otp";
   const hasMessage = Boolean(error || info && !isOtpStep);
   const messageText = error ? error : info && !isOtpStep ? info : "";
-  const showHeaderMessage = isOtpStep && hasMessage;
+  const showHeaderMessage = false;
   const showPinMessage = !isOtpStep && hasMessage;
+  const otpInlineError = isOtpStep && error ? error : "";
   const managedByExternalAuthSuccess =
     suppressRedirect && typeof onAuthSuccess === "function";
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-[0.38em] leading-[1.24]", "mt-[0.02rem] max-md:mt-[0rem]", "mb-[0.0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
@@ -268,6 +270,7 @@ export default function LoginModal({
       return "";
     }
   }, [otpExpiresAt, locale]);
+  const otpInputDescribedBy = [otpDeadlineLabel ? "otp-deadline" : null, otpInlineError ? "otp-inline-error" : null].filter(Boolean).join(" ") || undefined;
   useEffect(() => {
     if (!open) {
       setHelpOpen(false);
@@ -468,13 +471,19 @@ export default function LoginModal({
   }, [open]);
   useEffect(() => {
     if (!open || isOtpStep) return;
+    if (!prefillStoredEmail) {
+      setStoredEmail("");
+      setEmailValue("");
+      if (emailInputRef.current) emailInputRef.current.value = "";
+      return;
+    }
     try {
       const stored = window.localStorage.getItem(LOGIN_EMAIL_KEY) || "";
       setStoredEmail(stored);
       setEmailValue(stored);
       if (emailInputRef.current) emailInputRef.current.value = stored;
     } catch {}
-  }, [open, isOtpStep]);
+  }, [open, isOtpStep, prefillStoredEmail]);
   useEffect(() => {
     if (!open) return;
     if (step !== "pin") return;
@@ -597,11 +606,16 @@ export default function LoginModal({
     setPinLoading(true);
     setPinValue("");
     try {
-      try {
-        window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
-        setStoredEmail(email);
-        setEmailValue(email);
-      } catch {}
+      if (prefillStoredEmail) {
+        try {
+          window.localStorage.setItem(LOGIN_EMAIL_KEY, email);
+          setStoredEmail(email);
+          setEmailValue(email);
+        } catch {}
+      } else {
+        setStoredEmail("");
+        setEmailValue("");
+      }
       const res = await fetch("/api/auth/login-step1", {
         method: "POST",
         headers: {
@@ -647,7 +661,7 @@ export default function LoginModal({
     } finally {
       setPinLoading(false);
     }
-  }, [PIN_MAX, PIN_MIN, finishLogin, locale, markPinError, markPinSuccess, pinValue, resolveAuthApiMessage, resetIconState, storedEmail, t]);
+  }, [PIN_MAX, PIN_MIN, finishLogin, locale, markPinError, markPinSuccess, pinValue, prefillStoredEmail, resolveAuthApiMessage, resetIconState, storedEmail, t]);
   const handlePinInputChange = useCallback(e => {
     if (step !== "pin") return;
     const raw = typeof e?.target?.value === "string" ? e.target.value : "";
@@ -1282,45 +1296,49 @@ export default function LoginModal({
             </div>
           </form>}
 
-        {isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center gap-[0.9rem]" onSubmit={e => {
+        {isOtpStep && <form className="w-full max-w-full mx-auto flex flex-col items-center" onSubmit={e => {
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className="w-full max-w-[30rem] rounded-[1.2rem] border border-solid border-[color:var(--otp-panel-border)] [background:linear-gradient(180deg,rgba(16,20,32,0.7),rgba(10,14,24,0.56)),var(--otp-panel-bg)] shadow-[var(--otp-panel-shadow)] px-[1.35rem] pt-[1.1rem] pb-[1.2rem] light:[background:linear-gradient(180deg,rgba(255,255,255,0.86),rgba(250,251,253,0.78))]">
-              <div className="flex flex-col gap-[0.35rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
-                {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)]">
+            <div className="w-full max-w-[30rem] flex flex-col gap-[0.48rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
+                {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)] text-[1.04rem]">
                     {info}
                   </p>}
-                <p className="m-0 leading-[1.45]">
+                <p className="m-0 leading-[1.45] text-[1.02rem] max-md:text-[1.09rem]">
                   {t("auth.login.otp_description", {
                 email: emailMask || ""
               })}
                 </p>
-                {otpDeadlineLabel && <p className="mt-[0.35rem] inline-flex items-center self-start rounded-full border border-solid border-[color:color-mix(in_srgb,var(--otp-accent)_45%,transparent)] bg-[color:color-mix(in_srgb,var(--otp-accent)_18%,transparent)] px-[0.6rem] py-[0.22rem] font-semibold tracking-[0.02em] text-[color:var(--pt-30)] light:border-[rgba(197,113,113,0.32)] light:bg-[rgba(197,113,113,0.14)] light:text-[rgba(31,41,55,0.92)]" id="otp-deadline">
+                {otpDeadlineLabel && <p className="mt-[0.25rem] inline-flex items-center self-start rounded-full border border-solid border-[color:color-mix(in_srgb,var(--otp-accent)_45%,transparent)] bg-[color:color-mix(in_srgb,var(--otp-accent)_18%,transparent)] px-[0.6rem] py-[0.22rem] font-semibold tracking-[0.015em] text-[0.98rem] text-[color:var(--pt-30)] light:border-[rgba(197,113,113,0.32)] light:bg-[rgba(197,113,113,0.14)] light:text-[rgba(31,41,55,0.92)]" id="otp-deadline">
                     {t("auth.login.otp_expires", {
                 time: otpDeadlineLabel
               })}
                   </p>}
-              </div>
+            </div>
 
-              <div className="w-full mt-[0.75rem]">
-                <Input id="otp-code-input" ref={otpInputRef} type="text" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpDeadlineLabel ? "otp-deadline" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_placeholder")} className="text-center [font-variant-numeric:tabular-nums] tracking-[0.28em] font-semibold text-[1.5rem] py-[0.9rem] px-[1.15rem] rounded-[1rem] [background:var(--otp-input-bg)] [border:1.5px_solid_var(--otp-input-border)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)] placeholder:tracking-[0.24em] focus-visible:[background:var(--otp-input-bg)] focus-visible:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_10px_20px_rgba(0,0,0,0.24)]" />
+            <div className="w-full mt-[0.96rem] flex justify-center">
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] tracking-[0.06em] font-semibold text-[1.1rem] py-[0.75rem] px-[1.15rem] min-h-[3.15rem] rounded-full" />
+            </div>
+            {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
+                {otpInlineError}
+              </p> : null}
+
+            <div className="w-full mt-[0.95rem] flex justify-center">
+              <div className="w-full max-w-[21.8rem]">
+                <FancyCheckbox id="remember-device" checked={rememberDevice} onChange={checked => setRememberDevice(checked)} label={t("auth.login.remember_device")} />
               </div>
             </div>
 
-            <div className="w-full max-w-[30rem] rounded-[1rem] border border-solid border-[rgba(148,163,184,0.32)] bg-[rgba(10,14,24,0.4)] px-[0.95rem] py-[0.7rem] transition-[border-color,background,box-shadow,color] duration-200 ease-out hover:bg-[rgba(16,20,30,0.5)] hover:border-[rgba(170,190,215,0.4)] light:bg-[rgba(255,255,255,0.78)] light:border-[rgba(148,163,184,0.35)] [--pt:var(--pt-150)] light:[--pt:rgba(31,41,55,0.86)]">
-              <FancyCheckbox id="remember-device" checked={rememberDevice} onChange={checked => setRememberDevice(checked)} label={t("auth.login.remember_device")} />
-            </div>
-
-            <div className="w-full max-w-[30rem] flex flex-col gap-[0.65rem] mt-[0.15rem]">
-              <Button type="submit" variant="primary" className="w-full max-w-[18rem] mx-auto text-[1.05rem] normal-case tracking-[0.04em] rounded-[1rem] py-[0.7rem] px-[1.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
+            <div className="w-full max-w-[30rem] flex flex-col items-center mt-[1.1rem]">
+              <Button type="submit" variant="primary" className="w-auto min-w-[12.1rem] text-[1.22rem] normal-case tracking-[0.02em] rounded-[1rem] py-[0.82rem] px-[2.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
-              <div className="w-full flex flex-col items-center gap-[0.35rem]">
-                <Button type="button" variant="linkBrand" className="text-[1.05rem] tracking-[0.03em]" onClick={handleResendOtp} disabled={resendLoading}>
+
+              <div className="w-full flex flex-col items-center gap-[0.62rem] mt-[0.84rem]">
+                <Button type="button" variant="linkBrand" className="text-[1.14rem] tracking-[0.02em] !py-[0.14rem]" onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </Button>
-                <Button type="button" variant="linkBrand" className="text-[1.05rem] tracking-[0.03em]" onClick={resetToPinStep}>
+                <Button type="button" variant="linkBrand" className="text-[1.14rem] tracking-[0.02em] !py-[0.14rem]" onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
                 </Button>
               </div>

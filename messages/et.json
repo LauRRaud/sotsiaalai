@@ -94,6 +94,7 @@
       "otp_description": "Saadsime kinnituskoodi aadressile {email}. Sisesta see 10 minuti jooksul.",
       "otp_expires": "Kood aegub kell {time}.",
       "otp_placeholder": "Kinnituskood (6 numbrit)",
+      "otp_short_placeholder": "Kinnituskood",
       "remember_device": "Jäta see seade 30 päevaks meelde",
       "otp_submit": "Kinnitan",
       "otp_submitting": "Kontrollime...",
@@ -209,12 +210,19 @@
     "delete_confirm": "Kas oled kindel, et soovid oma konto jäädavalt kustutada? Seda toimingut ei saa tagasi võtta.",
     "deleting": "Kustutan…",
     "delete_account": "Kustuta konto",
+    "delete_loading_status": "Konto kustutamine",
     "load_failed": "Profiili laadimine ebaõnnestus.",
     "update_failed": "Profiili uuendamine ebaõnnestus.",
     "delete_failed": "Konto kustutamine ebaõnnestus.",
     "saved_ok": "Muudatused salvestatud.",
     "server_unreachable": "Server ei vasta. Palun proovi uuesti.",
     "footer_brand": "SotsiaalAI ©",
+    "role_short": {
+      "admin": "Administraator",
+      "worker": "Spetsialist",
+      "client": "Pöörduja",
+      "unknown": ""
+    },
     "preferences": {
       "title": "Keel ja ligipääsetavus",
       "title_line1": "Keel ja",
@@ -705,7 +713,7 @@
   },
   "role": {
     "admin": "Administraator",
-    "worker": "Spetsialist",
+    "worker": "Sotsiaaltöö spetsialist",
     "client": "Eluküsimusega pöörduja",
     "unknown": "—"
   },
@@ -884,8 +892,13 @@
       },
       "verify": {
         "subject": "Kinnita oma e-posti aadress",
-        "text": "Hello!\n\nPlease confirm your email address using the link below:\n{verifyUrl}\n\nIf you did not create an account, you can ignore this email.",
-        "html": "<p>Hello!</p><p>Please confirm your email address using the link below:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>If you did not create an account, you can ignore this email.</p>"
+        "text": "Tere!\n\nPalun kinnita oma e-posti aadress alloleva lingi kaudu:\n{verifyUrl}\n\nKui sa ei loonud kontot, siis voi selle kirja eirata.",
+        "html": "<p>Tere!</p><p>Palun kinnita oma e-posti aadress alloleva lingi kaudu:</p><p><a href=\"{verifyUrl}\">{verifyUrl}</a></p><p>Kui sa ei loonud kontot, siis voi selle kirja eirata.</p>"
+      },
+      "account_deleted": {
+        "subject": "SotsiaalAI konto on kustutatud",
+        "text": "Tere!\n\nTeie SotsiaalAI konto on kustutatud.\n\nKui te ei algatanud seda tegevust, palun kirjutage kohe aadressile info@sotsiaal.ai.",
+        "html": "<p>Tere!</p><p>Teie SotsiaalAI konto on kustutatud.</p><p>Kui te ei algatanud seda tegevust, palun kirjutage kohe aadressile <a href=\"mailto:info@sotsiaal.ai\">info@sotsiaal.ai</a>.</p>"
       }
     },
     "invite": {
@@ -997,7 +1010,7 @@
         "invalid_credentials": "Vale e-post või PIN.",
         "missing_fields": "Puudub vajalik teave.",
         "token_invalid": "Sisselogimise token on vigane.",
-        "token_expired": "Sisselogimise token on aegunud.",
+        "token_expired": "Kinnituskood on aegunud.",
         "otp_invalid": "Kood on vale või aegunud.",
         "step1_failed": "Sisselogimine ebaõnnestus. Palun proovi uuesti.",
         "verify_failed": "Koodi kontroll ebaõnnestus. Palun proovi uuesti.",
@@ -1442,4 +1455,3 @@
     }
   }
 }
-

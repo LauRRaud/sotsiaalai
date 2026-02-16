@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
@@ -36,11 +38,13 @@ const subscriptionActionClassName =
   "max-[48em]:w-full max-[48em]:min-w-0 max-[48em]:whitespace-normal max-[48em]:!px-[1rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
 export default function TellimusBody() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [subActive, setSubActive] = useState(false);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [processing, setProcessing] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const {
     t,
     locale
@@ -49,9 +53,17 @@ export default function TellimusBody() {
   const searchParams = useSearchParams();
   const paymentState = String(searchParams?.get("payment") || "").toLowerCase();
   const returnToProfile = searchParams?.get("return") === "profile";
+  const reason = String(searchParams?.get("reason") || "").toLowerCase();
+  const isVerifiedEntry = reason === "email-verified";
+  const isAuthed = status === "authenticated" || !!session?.user;
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale));
   const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
+  useEffect(() => {
+    if (status !== "unauthenticated") return;
+    if (!isVerifiedEntry) return;
+    setLoginOpen(true);
+  }, [isVerifiedEntry, status]);
   useEffect(() => {
     if (paymentState === "success") {
       setError("");
@@ -71,6 +83,12 @@ export default function TellimusBody() {
     setInfo("");
   }, [paymentState, t]);
   useEffect(() => {
+    if (status === "loading") return;
+    if (!isAuthed) {
+      setLoading(false);
+      setSubActive(false);
+      return;
+    }
     (async () => {
       try {
         const res = await fetch("/api/subscription", {
@@ -94,7 +112,7 @@ export default function TellimusBody() {
         setLoading(false);
       }
     })();
-  }, [t]);
+  }, [isAuthed, status, t]);
   async function handleActivate() {
     try {
       setProcessing(true);
@@ -148,6 +166,44 @@ export default function TellimusBody() {
             </p>
           </div>
         </GlassRing>
+      </section>;
+  }
+  if (!isAuthed) {
+    const reasonText = isVerifiedEntry
+      ? t(
+          "subscription.login_after_email_verify",
+          "E-post on kinnitatud. Logi sisse, et jatkata tellimuse aktiveerimisega."
+        )
+      : t("profile.login_to_manage_sub");
+    return <section lang={locale} className={pageShellClassName}>
+        <GlassRing className={ringClassName}>
+          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
+          <h1 className={titleClassName}>
+            {t("subscription.title")}
+          </h1>
+          <div className={contentClassName}>
+            <p className={subscriptionCopyClassName}>
+              {reasonText}
+            </p>
+            <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[48em]:w-full">
+              <Button type="button" variant="primary" className={subscriptionActionClassName} onClick={() => setLoginOpen(true)}>
+                {t("auth.login.title")}
+              </Button>
+            </div>
+          </div>
+        </GlassRing>
+
+        <LoginModal
+          open={loginOpen}
+          onClose={() => setLoginOpen(false)}
+          suppressRedirect
+          onAuthSuccess={() => {
+            setLoginOpen(false);
+            router.refresh();
+          }}
+          prefillStoredEmail={!isVerifiedEntry}
+        />
       </section>;
   }
   return <section lang={locale} className={pageShellClassName}>

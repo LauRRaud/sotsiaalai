@@ -120,6 +120,22 @@ async function sendVerificationEmail(email, locale) {
   }
 }
 
+async function sendAccountDeletedEmail(email, locale) {
+  const from = process.env.EMAIL_FROM || process.env.SMTP_FROM;
+  if (!from) {
+    throw new Error("api.auth.account_deleted.email_from_missing");
+  }
+
+  const mailer = getMailer("account-deleted");
+  await mailer.sendMail({
+    to: email,
+    from,
+    subject: serverT(locale, "email.auth.account_deleted.subject"),
+    text: serverT(locale, "email.auth.account_deleted.text"),
+    html: serverT(locale, "email.auth.account_deleted.html")
+  });
+}
+
 export async function GET(request) {
   const locale = localeFromRequest(request);
   const ctx = await requireUser();
@@ -294,9 +310,26 @@ export async function DELETE(request) {
   }
 
   try {
+    const current = await prisma.user.findUnique({
+      where: { id: ctx.userId },
+      select: { email: true }
+    });
+
+    if (!current) {
+      return errorJson("profile.errors.user_not_found", 404, locale);
+    }
+
     await prisma.user.delete({
       where: { id: ctx.userId }
     });
+
+    if (current.email) {
+      try {
+        await sendAccountDeletedEmail(current.email, locale);
+      } catch (sendError) {
+        console.error("profile account-deleted email send failed", sendError);
+      }
+    }
 
     return json({
       ok: true,
