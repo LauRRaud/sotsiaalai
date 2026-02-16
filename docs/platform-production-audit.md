@@ -1650,6 +1650,21 @@ Encoding fixes applied (BOM removed):
   - added `production.env` to `.gitignore` to avoid accidental secret commits
 - Status: `OK`
 
+### Admin analytics PII minimization - Point 60 (email masking by default)
+- Scope:
+  - `app/api/admin/analytics/users/route.js`
+  - `production.env`
+  - `docs/route-review-tracker.md`
+- Good:
+  - per-user analytics provides operational visibility for costs/limits
+- Risk:
+  - full email addresses in analytics are personal data and exceed minimum-necessary display for many admin tasks
+- Action:
+  - enabled email masking by default in users analytics response
+  - added explicit env toggle `ADMIN_ANALYTICS_SHOW_FULL_EMAILS` for exceptional support-only use
+  - set `ADMIN_ANALYTICS_SHOW_FULL_EMAILS=false` in production template
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
 1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks

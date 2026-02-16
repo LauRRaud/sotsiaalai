@@ -22,6 +22,16 @@ const DEFAULT_PERIOD_DAYS = 30;
 const MAX_PERIOD_DAYS = 180;
 const DEFAULT_LIMIT = 100;
 const MAX_LIMIT = 500;
+const ADMIN_ANALYTICS_SHOW_FULL_EMAILS =
+  String(process.env.ADMIN_ANALYTICS_SHOW_FULL_EMAILS || "")
+    .trim()
+    .toLowerCase() === "true" ||
+  String(process.env.ADMIN_ANALYTICS_SHOW_FULL_EMAILS || "")
+    .trim()
+    .toLowerCase() === "1" ||
+  String(process.env.ADMIN_ANALYTICS_SHOW_FULL_EMAILS || "")
+    .trim()
+    .toLowerCase() === "yes";
 
 function localeFromRequest(req) {
   const url = new URL(req.url);
@@ -80,6 +90,32 @@ function buildUsageSeed() {
     ttsChars: 0,
     analyses: 0
   };
+}
+
+function maskEmail(email) {
+  const value = String(email || "").trim();
+  if (!value || !value.includes("@")) return null;
+
+  const [localRaw, domainRaw] = value.split("@");
+  const local = String(localRaw || "");
+  const domain = String(domainRaw || "");
+  if (!local || !domain) return null;
+
+  const localMasked =
+    local.length <= 2
+      ? `${local.slice(0, 1)}***`
+      : `${local.slice(0, 1)}${"*".repeat(Math.min(8, Math.max(2, local.length - 2)))}${local.slice(-1)}`;
+
+  const domainParts = domain.split(".");
+  const host = String(domainParts.shift() || "");
+  const tld = domainParts.join(".");
+  const hostMasked =
+    host.length <= 2
+      ? `${host.slice(0, 1)}***`
+      : `${host.slice(0, 1)}***${host.slice(-1)}`;
+
+  if (!tld) return `${localMasked}@${hostMasked}`;
+  return `${localMasked}@${hostMasked}.${tld}`;
 }
 
 function toActiveSubscription(subscription, now = new Date()) {
@@ -295,7 +331,7 @@ export async function GET(req) {
 
       return {
         userId: user.id,
-        email: user.email || null,
+        email: ADMIN_ANALYTICS_SHOW_FULL_EMAILS ? user.email || null : maskEmail(user.email),
         role: user.role,
         isAdmin: !!user.isAdmin,
         createdAt: user.createdAt,

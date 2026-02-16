@@ -39,7 +39,7 @@ Review status legend:
 | --- | --- | --- |
 | `app/api/admin/analytics/events/route.js` | MONITOR | reviewed: admin-gated event log listing, locale-aware key-first errors, guarded DB failure response |
 | `app/api/admin/analytics/summary/route.js` | MONITOR | reviewed: admin-gated KPI aggregates, locale-aware key-first errors, guarded DB failure response; includes payment pipeline KPI summary + threshold-based billing alerts from payment events |
-| `app/api/admin/analytics/users/route.js` | MONITOR | reviewed: admin-gated per-user analytics (usage, estimated cost, limits, paid amount) using chat logs + analyze usage + subscription/payment joins |
+| `app/api/admin/analytics/users/route.js` | MONITOR | reviewed: admin-gated per-user analytics (usage, estimated cost, limits, paid amount) using chat logs + analyze usage + subscription/payment joins; user email is masked by default (`ADMIN_ANALYTICS_SHOW_FULL_EMAILS=false`) |
 | `app/api/admin/analytics/payment-alerts/dispatch/route.js` | MONITOR | reviewed: admin/cron-key gated external dispatch for critical payment alerts with dedupe, optional dry-run, and signed webhook delivery |
 | `app/api/auth/login-resend-otp/route.js` | MONITOR | reviewed: resend flow uses token+IP rate limits and key-first localized errors; behavior remains dependent on in-memory limiter |
 | `app/api/auth/login-step1/route.js` | MONITOR | reviewed: invalid credentials now return aligned `401` for both missing-user and wrong-PIN paths (reduced enumeration signal); locale-aware key-first errors |
