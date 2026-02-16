@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import InviteModal from "@/components/invite/InviteModal";
 import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
@@ -80,6 +81,30 @@ export default function ChatBodyView({
   closeSourcesPanel,
   analysisPanelWidth
 }) {
+  const [entrySettleActive, setEntrySettleActive] = useState(() => !embedded);
+
+  useEffect(() => {
+    if (embedded) {
+      setEntrySettleActive(false);
+      return;
+    }
+    let timeoutId = 0;
+    const motionReduced =
+      document?.documentElement?.dataset?.reduceMotion === "1" ||
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (motionReduced) {
+      setEntrySettleActive(false);
+      return;
+    }
+    setEntrySettleActive(true);
+    timeoutId = window.setTimeout(() => {
+      setEntrySettleActive(false);
+    }, 760);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [embedded]);
+
   const showChatFace = !profileOpen;
   const showProfileFace = profileOpen;
   const chatFaceClass = null;
@@ -91,7 +116,7 @@ export default function ChatBodyView({
       <>
         {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
           <div className="relative overflow-visible">
-            <GlassRing className={chatContainerClassName} style={chatRingStyle} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef} data-chat-container="true" data-chat-theme={isLightTheme ? "light" : "dark"} data-chat-layout={isMobile ? "mobile" : "desktop"} data-chat-layout-focus={focusActive ? "true" : "false"}>
+            <GlassRing className={cn(chatContainerClassName, entrySettleActive ? "glass-content-settle" : null)} style={chatRingStyle} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef} data-chat-container="true" data-chat-theme={isLightTheme ? "light" : "dark"} data-chat-layout={isMobile ? "mobile" : "desktop"} data-chat-layout-focus={focusActive ? "true" : "false"}>
               {useMaskedChatSurface ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
               {!profileOpen ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} /> : null}
               {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}

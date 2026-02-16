@@ -161,6 +161,30 @@ function ProfileShell({
   maskLayerRef,
   footerNote
 }) {
+  const [entrySettleActive, setEntrySettleActive] = useState(() => !embedded);
+
+  useEffect(() => {
+    if (embedded) {
+      setEntrySettleActive(false);
+      return;
+    }
+    let timeoutId = 0;
+    const motionReduced =
+      document?.documentElement?.dataset?.reduceMotion === "1" ||
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (motionReduced) {
+      setEntrySettleActive(false);
+      return;
+    }
+    setEntrySettleActive(true);
+    timeoutId = window.setTimeout(() => {
+      setEntrySettleActive(false);
+    }, 760);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [embedded]);
+
   const footerShineBackgroundImage =
     (theme === "light"
       ? PROFILE_FOOTER_SHINE_GRADIENTS_LIGHT[PROFILE_FOOTER_SHINE_VARIANT]
@@ -178,7 +202,8 @@ function ProfileShell({
       "data-[theme=light]:[--profile-role-text-color:#2b2620] " +
       "data-[theme=light]:[--profile-role-hole-shadow:0_4px_12px_rgba(0,0,0,0.12)] " +
       "max-[48em]:border max-[48em]:border-[var(--glass-border-color)] max-[48em]:shadow-[var(--glass-shell-shadow,var(--glass-shadow-glow,none))]",
-    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,4.4vw,1.7rem)]"
+    !embedded && "max-md:[--glass-ring-pad-top:clamp(1.1rem,4.4vw,1.7rem)]",
+    entrySettleActive && "glass-content-settle"
   );
   const ringSurfaceStyle = {
     background: "transparent",
@@ -197,7 +222,7 @@ function ProfileShell({
         <footer
           aria-hidden={orbitOpen ? "true" : undefined}
           className={cn(
-            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-[84%] max-[48em]:text-[1.62rem]",
+            "profile-footer-note pointer-events-none absolute inset-x-0 top-[82%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-auto max-[48em]:bottom-[calc(env(safe-area-inset-bottom,0px)+clamp(0.35rem,1.8vw,0.7rem))] max-[48em]:translate-y-0 max-[48em]:text-[1.62rem]",
             orbitOpen ? "opacity-0" : "opacity-[0.3]"
           )}
         >
