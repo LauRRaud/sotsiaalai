@@ -199,7 +199,7 @@ function ProfileShell({
         >
           <span
             aria-hidden="true"
-            className="inline-block whitespace-pre [font:inherit] tracking-[0.012em] text-transparent [background-repeat:no-repeat] [background-size:220%_100%] [background-position:150%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite]"
+            className="inline-block whitespace-pre [font:inherit] tracking-[0.012em] text-transparent [background-repeat:no-repeat] [background-size:220%_100%] [background-position:150%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:-2500ms]"
             style={{
               backgroundImage: footerShineBackgroundImage
             }}

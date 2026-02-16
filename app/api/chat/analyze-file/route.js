@@ -9,10 +9,14 @@ import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/ana
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
 
-const MAX_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
+const MAX_MB = Number(
+  process.env.RAG_SERVER_MAX_MB || process.env.RAG_MAX_UPLOAD_MB || process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 25
+);
 const RAW_ALLOWED_MIME = String(
-  process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
-    "application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  process.env.RAG_ALLOWED_MIME ||
+    process.env.RAG_SERVER_ALLOWED_MIME ||
+    process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
+    "application/pdf,text/plain,text/markdown,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 );
 const ALLOWED_MIME = new Set(
   RAW_ALLOWED_MIME.split(",")

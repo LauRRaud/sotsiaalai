@@ -39,7 +39,7 @@ Review status legend:
 | --- | --- | --- |
 | `app/api/admin/analytics/events/route.js` | MONITOR | reviewed: admin-gated event log listing, locale-aware key-first errors, guarded DB failure response |
 | `app/api/admin/analytics/summary/route.js` | MONITOR | reviewed: admin-gated KPI aggregates, locale-aware key-first errors, guarded DB failure response; includes payment pipeline KPI summary + threshold-based billing alerts from payment events |
-| `app/api/admin/analytics/users/route.js` | MONITOR | reviewed: admin-gated per-user analytics (usage, estimated cost, limits, paid amount) using chat logs + analyze usage + subscription/payment joins; user email is masked by default (`ADMIN_ANALYTICS_SHOW_FULL_EMAILS=false`) |
+| `app/api/admin/analytics/users/route.js` | MONITOR | reviewed: admin-gated per-user analytics (usage, estimated cost, limits, paid amount) using chat logs + analyze usage + subscription/payment joins; user email is masked by default (`ADMIN_ANALYTICS_SHOW_FULL_EMAILS=false`); supports admin bulk actions: selected-user delete (self/admin protected) and bulk email send (selected/all) |
 | `app/api/admin/analytics/payment-alerts/dispatch/route.js` | MONITOR | reviewed: admin/cron-key gated external dispatch for critical payment alerts with dedupe, optional dry-run, and signed webhook delivery |
 | `app/api/auth/login-resend-otp/route.js` | MONITOR | reviewed: resend flow uses token+IP rate limits and key-first localized errors; behavior remains dependent on in-memory limiter |
 | `app/api/auth/login-step1/route.js` | MONITOR | reviewed: invalid credentials now return aligned `401` for both missing-user and wrong-PIN paths (reduced enumeration signal); locale-aware key-first errors |
@@ -84,7 +84,7 @@ Review status legend:
 - Invites stack: `app/api/invites/route.js`, `app/api/invites/[id]/accept/route.js`, `app/api/invites/[id]/resend/route.js`, `app/api/invites/[id]/revoke/route.js`
 - Admin and RAG ops APIs: `app/api/admin/analytics/events/route.js`, `app/api/admin/analytics/summary/route.js`, `app/api/admin/analytics/users/route.js`, `app/api/admin/analytics/payment-alerts/dispatch/route.js`, `app/api/rag/[...path]/route.js`, `app/api/rag/selftest/route.js`
 - Admin route shells: `app/admin/analytics/page.jsx`, `app/admin/rag/page.jsx`
-- Admin analytics UI: `components/admin/AnalyticsDashboard.jsx`, `app/admin/analytics/AdminAnalyticsClient.jsx` (includes payment pipeline KPI cards + payment event filters + per-user cost/limit table)
+- Admin analytics UI: `components/admin/AnalyticsDashboard.jsx`, `app/admin/analytics/AdminAnalyticsClient.jsx` (includes payment pipeline KPI cards + payment event filters + per-user cost/limit table + user selection/delete + bulk email composer)
 - Admin RAG UI: `components/admin/RagAdminPanel.jsx`, `app/admin/rag/RagAdminClient.jsx`
 - Chat frontend integration: `components/alalehed/ChatBody.jsx`, `components/alalehed/chat/ChatBodyView.jsx`, `components/chat/hooks/*`, `components/ChatSidebar.jsx`, `components/LoginModal.jsx`
 - App route pass (home/invite/profile/reset/subscription): `app/page.js`, `app/join/page.jsx`, `app/profiil/page.js`, `app/taasta-parool/[token]/page.jsx`, `app/tellimus/page.js`, `components/HomePage.jsx`, `components/alalehed/ProfiilBody.jsx`, `components/alalehed/UnustasinParooliBody.jsx`, `app/taasta-parool/[token]/ResetPasswordForm.jsx`, `components/alalehed/TellimusBody.jsx`

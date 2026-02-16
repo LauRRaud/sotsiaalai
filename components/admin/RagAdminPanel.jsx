@@ -15,7 +15,7 @@ const STATUS_LABEL_KEYS = {
   COMPLETED: "admin.rag.status.completed",
   FAILED: "admin.rag.status.failed"
 };
-const rootClassName = "flex flex-col gap-[18px] text-[color:var(--admin-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)]";
+const rootClassName = "flex flex-col gap-2 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)] [--rag-muted:var(--admin-muted)]";
 const rootInputVars = {
   "--input-bg": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
   "--input-bg-hover": "linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))",
@@ -27,16 +27,20 @@ const rootInputVars = {
   "--input-shadow": "inset 0 1px 0 rgba(255,255,255,0.04)",
   "--input-radius": "12px"
 };
-const cardClassName = "relative overflow-hidden rounded-[18px] border border-[color:var(--admin-border)] bg-[linear-gradient(160deg,var(--admin-surface),var(--admin-surface-2))] p-4 shadow-[var(--admin-shadow-soft)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[18px] before:bg-[radial-gradient(circle_at_10%_0%,rgba(255,255,255,0.08),transparent_45%)] before:opacity-60";
+const cardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
 const cardBodyClassName = "relative z-[1] grid gap-2";
-const cardHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const cardHeadClassName = "flex flex-wrap items-start justify-between gap-2";
 const cardSubClassName = "text-[0.95rem] text-[color:var(--admin-muted)] max-w-[56ch]";
-const cardActionsClassName = "flex flex-wrap gap-2.5";
+const cardActionsClassName = "flex flex-wrap items-center justify-start gap-2";
 const inputClassName = "rounded-[12px] text-[0.95rem]";
 const selectClassName = "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+const compactSelectClassName = `${selectClassName} w-auto min-w-[11rem] max-w-full self-start text-left pr-9`;
 const formNoteClassName = "text-[0.84rem] text-[color:var(--admin-muted)]";
-const ingestGridClassName = "grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]";
-const panelStackClassName = "flex flex-col gap-2 rounded-[16px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-[14px] text-[color:var(--admin-text)]";
+const ingestGridClassName = "grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(340px,1fr))] items-start";
+const ingestMainGridClassName = "grid gap-2 [grid-template-columns:minmax(0,1fr)]";
+const ingestSupportStackClassName = "grid gap-2";
+const panelStackClassName = "flex flex-col gap-[0.55rem] rounded-[16px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-[14px] text-[color:var(--admin-text)]";
+const metaActionsClassName = "flex flex-wrap items-center justify-start gap-2";
 const labelClassName = "text-[0.95rem] font-semibold text-[color:var(--admin-text)]";
 const badgeBaseClassName = "inline-flex items-center rounded-full border px-2 py-[2px] text-[12px] font-semibold";
 const badgeYellowClassName = "border-[#f59e0b] bg-[color-mix(in_srgb,#f59e0b_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#f59e0b_78%,var(--admin-text)_22%)]";
@@ -44,7 +48,8 @@ const badgeBlueClassName = "border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_18%,v
 const badgeGreenClassName = "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#22c55e_78%,var(--admin-text)_22%)]";
 const badgeRedClassName = "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#ef4444_78%,var(--admin-text)_22%)]";
 const badgeGhostClassName = "border-transparent bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)] text-[color:var(--admin-accent)]";
-const toolbarClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2.5 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-3 shadow-[var(--admin-shadow-soft)]";
+const toolbarPrimaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
+const toolbarSecondaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] p-2";
 const metaCheckBaseClassName = "rounded-[10px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2.5 py-2 text-[0.86rem] leading-[1.4]";
 const metaCheckOkClassName = "border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_12%,var(--admin-surface-3)_88%)]";
 const metaCheckWarnClassName = "border-[color:var(--admin-accent)] bg-[color-mix(in_srgb,var(--admin-accent)_12%,var(--admin-surface-3)_88%)]";
@@ -84,12 +89,12 @@ const docHeadClassName = "flex flex-wrap items-center justify-between gap-3";
 const docSummaryClassName = "flex flex-wrap items-center gap-2 text-[0.92rem] text-[color:var(--admin-muted)]";
 const docSummaryDotClassName = "text-[color:var(--admin-muted)]";
 const docSummarySelectedClassName = "font-semibold text-[color:var(--admin-accent)]";
-const docsClassName = "flex flex-col gap-3";
+const docsClassName = "flex flex-col gap-1.5";
 const docCheckClassName = "inline-flex items-center gap-2 font-semibold text-[color:var(--admin-text)]";
-const docsLayoutClassName = "grid gap-4 [grid-template-columns:minmax(240px,0.9fr)_minmax(0,1.6fr)] items-start";
-const docsListClassName = "grid gap-2 max-h-[620px] overflow-auto pr-1";
+const docsLayoutClassName = "grid gap-4 [grid-template-columns:minmax(260px,0.95fr)_minmax(0,1.45fr)] items-start max-lg:[grid-template-columns:minmax(0,1fr)]";
+const docsListClassName = "grid gap-2 max-h-[560px] overflow-auto pr-1";
 const docsEmptyClassName = "text-center rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3 text-[color:var(--admin-muted)]";
-const docDetailWrapperClassName = "sticky top-3 self-start";
+const docDetailWrapperClassName = "sticky top-3 self-start max-lg:static";
 const docDetailEmptyClassName = "text-center rounded-[12px] border border-dashed border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-4 text-[color:var(--admin-muted)]";
 const docSelectClassName = "flex items-center";
 const docItemBaseClassName = "grid cursor-pointer items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface)] p-[10px_12px] [grid-template-columns:auto_1fr_auto] transition-[border-color,background,box-shadow,transform] duration-150 ease-out hover:border-[color:var(--admin-border-strong)] hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,var(--admin-surface))] hover:-translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--admin-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
@@ -995,21 +1000,11 @@ export default function RagAdminPanel() {
     if (!href) return;
     window.open(href, "_blank", "noopener,noreferrer");
   };
+  const hasIngestAside = Boolean(showMetaGuide || Array.isArray(selftestSteps) && selftestSteps.length);
   return <div className={rootClassName} style={rootInputVars}>
       {message && <div className={`${alertBaseClassName} ${message.type === "error" ? alertErrorClassName : alertOkClassName}`} onClick={resetMessage}>
           {message.text}
         </div>}
-
-      {Array.isArray(selftestSteps) && selftestSteps.length ? <div className={cardClassName}>
-          <div className={cardBodyClassName}>
-          <CardTitle>{tr("admin.rag.selftest.results_title")}</CardTitle>
-          <ul className="m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]">
-            {selftestSteps.map((s, i) => <li key={i} className={s.ok ? "text-[color:var(--admin-success)]" : "text-[color:var(--admin-danger)]"}>
-                {s.label || s.step || s.id}: {s.ok ? tr("admin.rag.common.ok") : tr("admin.rag.common.failed")}
-              </li>)}
-          </ul>
-          </div>
-        </div> : null}
 
       <div className={cardClassName}>
         <div className={cardBodyClassName}>
@@ -1022,138 +1017,155 @@ export default function RagAdminPanel() {
           </div>
           <div className={cardActionsClassName}>
 
-            <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={handleSelftest} disabled={selftestBusy}>
+            <Button size="sm" variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`} onClick={handleSelftest} disabled={selftestBusy}>
               {selftestBusy ? tr("admin.rag.selftest.running") : tr("admin.rag.selftest.run")}
             </Button>
-            <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={fetchDocuments} disabled={loadingList}>
+            <Button size="sm" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`} onClick={fetchDocuments} disabled={loadingList}>
               {loadingList ? tr("admin.common.loading") : tr("admin.common.refresh")}
             </Button>
           </div>
         </div>
-        <div className={ingestGridClassName}>
-          <form className={panelStackClassName} onSubmit={handleUrlSubmit} ref={urlFormRef}>
-            <label className={labelClassName}>{tr("admin.rag.ingest.url_section_title")}</label>
-            <Input name="url" placeholder="https://" size="sm" className={inputClassName} />
-            <Input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder={tr("admin.rag.ingest.url_title_placeholder")} size="sm" className={inputClassName} />
-            <Textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder={tr("admin.rag.ingest.url_description_placeholder")} rows={2} size="sm" className={inputClassName} />
-            <Input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder={tr("admin.rag.ingest.url_tags_placeholder")} size="sm" className={inputClassName} />
-            <select value={urlAudience} onChange={e => setUrlAudience(e.target.value)} className={selectClassName}>
-              {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>)}
-            </select>
-            <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={urlBusy}>
-              {urlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_url")}
-            </Button>
-          </form>
+        <div className={`${ingestMainGridClassName}${hasIngestAside ? " xl:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]" : ""}`}>
+          <div className={ingestSupportStackClassName}>
+            <div className={ingestGridClassName}>
+              <form className={panelStackClassName} onSubmit={handleUrlSubmit} ref={urlFormRef}>
+                <label className={labelClassName}>{tr("admin.rag.ingest.url_section_title")}</label>
+                <Input name="url" placeholder="https://" size="sm" className={inputClassName} />
+                <Input value={urlTitle} onChange={e => setUrlTitle(e.target.value)} placeholder={tr("admin.rag.ingest.url_title_placeholder")} size="sm" className={inputClassName} />
+                <Textarea value={urlDescription} onChange={e => setUrlDescription(e.target.value)} placeholder={tr("admin.rag.ingest.url_description_placeholder")} rows={2} size="sm" className={inputClassName} />
+                <Input value={urlTags} onChange={e => setUrlTags(e.target.value)} placeholder={tr("admin.rag.ingest.url_tags_placeholder")} size="sm" className={inputClassName} />
+                <select value={urlAudience} onChange={e => setUrlAudience(e.target.value)} className={compactSelectClassName}>
+                  {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>)}
+                </select>
+                <Button size="sm" type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`} disabled={urlBusy}>
+                  {urlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_url")}
+                </Button>
+              </form>
 
-          <form className={panelStackClassName} onSubmit={handlePdfMetaSubmit} ref={pdfFormRef}>
-            <label className={labelClassName}>{tr("admin.rag.ingest.pdf_section_title")}</label>
-            <div className={formNoteClassName}>
-              {tr("admin.rag.ingest.pdf_section_note")}
-            </div>
-            <input name="pdfWithMetaFile" type="file" accept="application/pdf" className={selectClassName} />
-            <input name="pdfMetaFile" type="file" accept="application/json" className={selectClassName} />
-            <Textarea name="pdfMetaText" placeholder={tr("admin.rag.ingest.pdf_meta_text_placeholder")} rows={3} size="sm" className={inputClassName} />
-            <select value={pdfMetaAudience} onChange={e => setPdfMetaAudience(e.target.value)} className={selectClassName}>
-              {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>)}
-            </select>
-            <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} onClick={() => setShowMetaGuide(s => !s)} aria-expanded={showMetaGuide} aria-controls="rag-meta-panel">
-                {showMetaGuide ? tr("admin.rag.meta.hide_templates") : tr("admin.rag.meta.open_templates")}
-              </Button>
-              <Button type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} onClick={handleMetaCheck}>
-                {tr("admin.rag.meta.check_json")}
-              </Button>
-              <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={pdfMetaBusy}>
-                {pdfMetaBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_pdf_with_meta")}
-              </Button>
-            </div>
-            {metaCheck ? <div className={`${metaCheckBaseClassName} ${metaCheck.type === "ok" ? metaCheckOkClassName : metaCheck.type === "warn" ? metaCheckWarnClassName : metaCheckErrorClassName}`}>
-                {metaCheck.text}
-              </div> : null}
-            {pdfMetaResult ? <div className="text-[0.95rem] text-[color:var(--admin-muted)]">
-                {pdfMetaResult.fileName ? pdfMetaResult.fileName + ": " : ""}
-                {pdfMetaResult.shortRef || pdfMetaResult.docId || tr("admin.rag.common.saved")}
-              </div> : null}
-          </form>
-        </div>
-        <div className={articlesClassName}>
-          <div className={articlesHeadClassName}>
-            <div>
-              <div className={articlesTitleClassName}>
-                {tr("admin.rag.articles.title")}
-              </div>
-              <div className={articlesNoteClassName}>
-                {tr("admin.rag.articles.subtitle")}
-              </div>
-            </div>
-            <Button as="a" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} href="/rag-meta-templates/articles.json" target="_blank" rel="noopener noreferrer" download>
-              {tr("admin.rag.articles.open_template")}
-            </Button>
-          </div>
-          <form className={articlesFormClassName} onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
-            <Input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder={tr("admin.rag.articles.doc_id_placeholder")} size="sm" className={inputClassName} />
-            <input name="articlesJsonFile" type="file" accept="application/json" className={selectClassName} />
-            <Textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder={tr("admin.rag.articles.json_placeholder")} rows={5} size="sm" className={inputClassName} />
-            <div className={articlesActionsClassName}>
-              <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={articlesBusy}>
-                {articlesBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.articles.send")}
-              </Button>
-            </div>
-            {articlesResult ? <div className={articlesResultClassName}>
-                {articlesResult.count != null ? tr("admin.rag.articles.added_count", { count: articlesResult.count }) : tr("admin.rag.articles.added")}
-                {articlesResult.docId ? ` docId: ${articlesResult.docId}` : ""}
-                {articlesResult.inserted?.length ? <ul className={articlesListClassName}>
-                    {articlesResult.inserted.slice(0, 4).map((item, idx) => <li key={`${item.title || "article"}-${idx}`}>
-                        {(item.title || tr("admin.rag.articles.default_article")) + (item.startPage && item.endPage ? tr("admin.rag.articles.page_range", {
-                    start: item.startPage,
-                    end: item.endPage
-                  }) : "")}
-                      </li>)}
-                  </ul> : null}
-              </div> : null}
-          </form>
-        </div>
-        {showMetaGuide ? <div className={metaPanelClassName} id="rag-meta-panel">
-            <div className={metaPanelHeadClassName}>
-              <div>
-                <div className={metaPanelTitleClassName}>{tr("admin.rag.meta.templates_title")}</div>
-                <div className={metaPanelNoteClassName}>
-                  {tr("admin.rag.meta.templates_note")}
+              <form className={panelStackClassName} onSubmit={handlePdfMetaSubmit} ref={pdfFormRef}>
+                <label className={labelClassName}>{tr("admin.rag.ingest.pdf_section_title")}</label>
+                <div className={formNoteClassName}>
+                  {tr("admin.rag.ingest.pdf_section_note")}
                 </div>
-              </div>
-              {activeMetaTemplate ? <a className={metaPanelLinkClassName} href={activeMetaTemplate.file} target="_blank" rel="noopener noreferrer" download>
-                  {tr("admin.rag.meta.open_json")}
-                </a> : null}
+                <input name="pdfWithMetaFile" type="file" accept="application/pdf" className={selectClassName} />
+                <input name="pdfMetaFile" type="file" accept="application/json" className={selectClassName} />
+                <Textarea name="pdfMetaText" placeholder={tr("admin.rag.ingest.pdf_meta_text_placeholder")} rows={3} size="sm" className={inputClassName} />
+                <select value={pdfMetaAudience} onChange={e => setPdfMetaAudience(e.target.value)} className={compactSelectClassName}>
+                  {audienceSelectOptions.map(o => <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>)}
+                </select>
+                <div className={metaActionsClassName}>
+                  <Button size="sm" type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={() => setShowMetaGuide(s => !s)} aria-expanded={showMetaGuide} aria-controls="rag-meta-panel">
+                    {showMetaGuide ? tr("admin.rag.meta.hide_templates") : tr("admin.rag.meta.open_templates")}
+                  </Button>
+                  <Button size="sm" type="button" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`} onClick={handleMetaCheck}>
+                    {tr("admin.rag.meta.check_json")}
+                  </Button>
+                  <Button size="sm" type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`} disabled={pdfMetaBusy}>
+                    {pdfMetaBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_pdf_with_meta")}
+                  </Button>
+                </div>
+                {metaCheck ? <div className={`${metaCheckBaseClassName} ${metaCheck.type === "ok" ? metaCheckOkClassName : metaCheck.type === "warn" ? metaCheckWarnClassName : metaCheckErrorClassName}`}>
+                    {metaCheck.text}
+                  </div> : null}
+                {pdfMetaResult ? <div className="text-[0.95rem] text-[color:var(--admin-muted)]">
+                    {pdfMetaResult.fileName ? pdfMetaResult.fileName + ": " : ""}
+                    {pdfMetaResult.shortRef || pdfMetaResult.docId || tr("admin.rag.common.saved")}
+                  </div> : null}
+              </form>
             </div>
-            <div className={metaPanelGridClassName}>
-              <div>
-                <div className={metaPanelLabelClassName}>{tr("admin.rag.meta.important")}</div>
-                <ul className={metaPanelListClassName}>
-                  <li>{tr("admin.rag.meta.important_line_1")}</li>
-                  <li>{tr("admin.rag.meta.important_line_2")}</li>
+
+            <div className={articlesClassName}>
+              <div className={articlesHeadClassName}>
+                <div>
+                  <div className={articlesTitleClassName}>
+                    {tr("admin.rag.articles.title")}
+                  </div>
+                  <div className={articlesNoteClassName}>
+                    {tr("admin.rag.articles.subtitle")}
+                  </div>
+                </div>
+                <Button as="a" variant="ghost" className={`${buttonBaseClassName} ${buttonGhostClassName}`} href="/rag-meta-templates/articles.json" target="_blank" rel="noopener noreferrer" download>
+                  {tr("admin.rag.articles.open_template")}
+                </Button>
+              </div>
+              <form className={articlesFormClassName} onSubmit={handleArticlesSubmit} ref={articlesFormRef}>
+                <Input name="articlesDocId" value={articlesDocId} onChange={e => setArticlesDocId(e.target.value)} placeholder={tr("admin.rag.articles.doc_id_placeholder")} size="sm" className={inputClassName} />
+                <input name="articlesJsonFile" type="file" accept="application/json" className={selectClassName} />
+                <Textarea name="articlesJsonText" value={articlesJson} onChange={e => setArticlesJson(e.target.value)} placeholder={tr("admin.rag.articles.json_placeholder")} rows={5} size="sm" className={inputClassName} />
+                <div className={articlesActionsClassName}>
+                  <Button type="submit" variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} disabled={articlesBusy}>
+                    {articlesBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.articles.send")}
+                  </Button>
+                </div>
+                {articlesResult ? <div className={articlesResultClassName}>
+                    {articlesResult.count != null ? tr("admin.rag.articles.added_count", { count: articlesResult.count }) : tr("admin.rag.articles.added")}
+                    {articlesResult.docId ? ` docId: ${articlesResult.docId}` : ""}
+                    {articlesResult.inserted?.length ? <ul className={articlesListClassName}>
+                        {articlesResult.inserted.slice(0, 4).map((item, idx) => <li key={`${item.title || "article"}-${idx}`}>
+                            {(item.title || tr("admin.rag.articles.default_article")) + (item.startPage && item.endPage ? tr("admin.rag.articles.page_range", {
+                        start: item.startPage,
+                        end: item.endPage
+                      }) : "")}
+                          </li>)}
+                      </ul> : null}
+                  </div> : null}
+              </form>
+            </div>
+          </div>
+
+          <div className={ingestSupportStackClassName}>
+            {Array.isArray(selftestSteps) && selftestSteps.length ? <div className={panelStackClassName}>
+                <CardTitle>{tr("admin.rag.selftest.results_title")}</CardTitle>
+                <ul className="m-0 grid gap-1 pl-4 text-[color:var(--admin-text)]">
+                  {selftestSteps.map((s, i) => <li key={i} className={s.ok ? "text-[color:var(--admin-success)]" : "text-[color:var(--admin-danger)]"}>
+                      {s.label || s.step || s.id}: {s.ok ? tr("admin.rag.common.ok") : tr("admin.rag.common.failed")}
+                    </li>)}
                 </ul>
-              </div>
-              <div>
-                <div className={metaPanelLabelClassName}>{tr("admin.rag.meta.recommended")}</div>
-                <ul className={metaPanelListClassName}>
-                  <li>{tr("admin.rag.meta.recommended_line_1")}</li>
-                  <li>{tr("admin.rag.meta.recommended_line_2")}</li>
-                  <li>{tr("admin.rag.meta.page_range_or_pdf_pages")}</li>
-                  <li>{tr("admin.rag.meta.recommended_line_4")}</li>
-                </ul>
-              </div>
-            </div>
-            <div className={metaTabsClassName}>
-              {metaTemplates.map(t => <button type="button" key={t.key} className={`${metaTabClassName}${activeMetaTemplate?.key === t.key ? " " + metaTabActiveClassName : ""}`} onClick={() => setActiveMetaTemplateKey(t.key)}>
-                  {t.label}
-                </button>)}
-            </div>
-            <pre className={codeBlockClassName}>{activeMetaTemplateContent || ""}</pre>
-          </div> : null}
+              </div> : null}
+
+            {showMetaGuide ? <div className={metaPanelClassName} id="rag-meta-panel">
+                <div className={metaPanelHeadClassName}>
+                  <div>
+                    <div className={metaPanelTitleClassName}>{tr("admin.rag.meta.templates_title")}</div>
+                    <div className={metaPanelNoteClassName}>
+                      {tr("admin.rag.meta.templates_note")}
+                    </div>
+                  </div>
+                  {activeMetaTemplate ? <a className={metaPanelLinkClassName} href={activeMetaTemplate.file} target="_blank" rel="noopener noreferrer" download>
+                      {tr("admin.rag.meta.open_json")}
+                    </a> : null}
+                </div>
+                <div className={metaPanelGridClassName}>
+                  <div>
+                    <div className={metaPanelLabelClassName}>{tr("admin.rag.meta.important")}</div>
+                    <ul className={metaPanelListClassName}>
+                      <li>{tr("admin.rag.meta.important_line_1")}</li>
+                      <li>{tr("admin.rag.meta.important_line_2")}</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className={metaPanelLabelClassName}>{tr("admin.rag.meta.recommended")}</div>
+                    <ul className={metaPanelListClassName}>
+                      <li>{tr("admin.rag.meta.recommended_line_1")}</li>
+                      <li>{tr("admin.rag.meta.recommended_line_2")}</li>
+                      <li>{tr("admin.rag.meta.page_range_or_pdf_pages")}</li>
+                      <li>{tr("admin.rag.meta.recommended_line_4")}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className={metaTabsClassName}>
+                  {metaTemplates.map(t => <button type="button" key={t.key} className={`${metaTabClassName}${activeMetaTemplate?.key === t.key ? " " + metaTabActiveClassName : ""}`} onClick={() => setActiveMetaTemplateKey(t.key)}>
+                      {t.label}
+                    </button>)}
+                </div>
+                <pre className={codeBlockClassName}>{activeMetaTemplateContent || ""}</pre>
+              </div> : null}
+          </div>
+        </div>
         </div>
       </div>
       <div className={cardClassName}>
@@ -1185,7 +1197,7 @@ export default function RagAdminPanel() {
                 {tag}
               </button>)}
           </div> : null}
-        <div className={toolbarClassName}>
+        <div className={toolbarPrimaryClassName}>
           <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={tr("admin.rag.documents.search_placeholder")} size="sm" className={inputClassName} />
           <select value={filterSection} onChange={e => setFilterSection(e.target.value)} className={selectClassName}>
             <option value="ALL">{tr("admin.rag.documents.filters.all_sections")}</option>
@@ -1205,6 +1217,15 @@ export default function RagAdminPanel() {
                 {s}
               </option>)}
           </select>
+          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={selectClassName}>
+            <option value="recent">{tr("admin.rag.documents.sort.recent")}</option>
+            <option value="title">{tr("admin.rag.documents.sort.title")}</option>
+            <option value="section">{tr("admin.rag.documents.sort.section")}</option>
+            <option value="year">{tr("admin.rag.documents.sort.year")}</option>
+            <option value="issue">{tr("admin.rag.documents.sort.issue")}</option>
+          </select>
+        </div>
+        <div className={toolbarSecondaryClassName}>
           <select value={filterIssue} onChange={e => setFilterIssue(e.target.value)} className={selectClassName}>
             <option value="ALL">{tr("admin.rag.documents.filters.all_issues")}</option>
             {issueOptions.map(s => <option key={s} value={s}>
@@ -1215,13 +1236,6 @@ export default function RagAdminPanel() {
             {allTags.map(t => <option key={t} value={t}>
                 {t}
               </option>)}
-          </select>
-          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={selectClassName}>
-            <option value="recent">{tr("admin.rag.documents.sort.recent")}</option>
-            <option value="title">{tr("admin.rag.documents.sort.title")}</option>
-            <option value="section">{tr("admin.rag.documents.sort.section")}</option>
-            <option value="year">{tr("admin.rag.documents.sort.year")}</option>
-            <option value="issue">{tr("admin.rag.documents.sort.issue")}</option>
           </select>
           {selectedIds.size ? <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={handleBulkReindex} disabled={reindexingId !== null}>
               {tr("admin.rag.documents.reindex_selected", { count: selectedIds.size })}

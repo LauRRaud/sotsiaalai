@@ -1084,7 +1084,16 @@
         "payment_alerts_dispatched": "Maksete alertid edastati.",
         "payment_alerts_no_critical": "Edastamiseks ei ole kriitilisi maksete alerte.",
         "payment_alerts_deduped": "Kriitilised maksete alertid on hiljuti juba edastatud.",
-        "payment_alerts_dry_run": "Maksete alertide dry-run lõpetatud."
+        "payment_alerts_dry_run": "Maksete alertide dry-run lõpetatud.",
+        "users_delete_invalid_payload": "Kustutamiseks ei valitud sobivaid kasutajaid.",
+        "users_delete_not_found": "Valitud kasutajaid ei leitud.",
+        "users_delete_forbidden_targets": "Valitud kasutajaid ei saa kustutada (iseenda/admin piirang).",
+        "users_delete_failed": "Valitud kasutajate kustutamine ebaõnnestus.",
+        "users_email_invalid_payload": "E-kirja pealkiri ja sisu on kohustuslikud.",
+        "users_email_too_large": "E-kirja pealkiri või sisu on liiga pikk.",
+        "users_email_no_recipients": "Valitud sihtgrupis ei leitud saajaid.",
+        "users_email_send_failed": "Hulgie-kirja saatmine ebaõnnestus.",
+        "email_from_missing": "Saatja e-posti aadress ei ole seadistatud."
       }
     },
     "rag": {
@@ -1112,7 +1121,7 @@
       "loading": "Loading...",
       "loading_data": "Loading data...",
       "loading_panel": "Loading panel...",
-      "refresh": "Refresh",
+      "refresh": "Värskenda",
       "back": "Back",
       "yes": "Yes",
       "no": "No"
@@ -1124,15 +1133,18 @@
       "rag": {
         "meta_title": "RAG Admin - SotsiaalAI",
         "meta_description": "Upload and manage RAG materials.",
-        "heading": "RAG Admin"
+        "heading": "RAG haldus"
       }
     },
     "analytics": {
-      "title": "Analytics",
+      "title": "Analüütika",
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
         "events_fetch_failed": "Events fetch failed.",
-        "users_fetch_failed": "Users analytics fetch failed."
+        "users_fetch_failed": "Users analytics fetch failed.",
+        "users_delete_failed": "Valitud kasutajate kustutamine ebaõnnestus.",
+        "users_email_send_failed": "Hulgie-kirja saatmine ebaõnnestus.",
+        "users_email_invalid_payload": "E-kirja pealkiri ja sisu on kohustuslikud."
       },
       "events": {
         "chat_request": "Chat request",
@@ -1181,39 +1193,39 @@
       },
       "kpis": {
         "requests_30d": {
-          "title": "Requests (30d)",
-          "meta": "Total chat requests"
+          "title": "Päringud (30p)",
+          "meta": "Vestluspäringuid kokku"
         },
         "rag_searches": {
-          "title": "RAG searches"
+          "title": "RAG otsingud"
         },
         "no_context": {
-          "title": "No context"
+          "title": "Kontekstita"
         },
         "share": "Share {percent}%",
         "share_missing": "Share unavailable",
         "crisis": {
-          "title": "Crisis",
-          "meta": "Crisis severity detected"
+          "title": "Kriis",
+          "meta": "Tuvastatud kriisirisk"
         },
         "rag_averages": {
-          "title": "Averages (RAG)",
+          "title": "Keskmised (RAG)",
           "meta": "Hits {hits}, groups {groups}, chosen {chosen}"
         },
         "grounding": {
-          "title": "Grounding",
+          "title": "Põhistatus",
           "meta": "Strong {strong}% | OK {ok}% | Weak {weak}%"
         }
       },
       "rag_docs": {
-        "title": "RAG document base",
-        "subtitle": "Overview of indexing and recent additions.",
-        "total": "Total documents",
-        "failed": "Failed",
-        "error_30d": "With error (30d)",
-        "statuses": "Statuses",
-        "audience": "Audience",
-        "type": "Type"
+        "title": "RAG dokumendibaas",
+        "subtitle": "Ülevaade indekseerimisest ja viimastest lisandustest.",
+        "total": "Dokumente kokku",
+        "failed": "Vigased",
+        "error_30d": "Veaga (30p)",
+        "statuses": "Olekud",
+        "audience": "Sihtrühm",
+        "type": "Tüüp"
       },
       "table": {
         "time": "Time",
@@ -1226,47 +1238,47 @@
         "empty": "No records found."
       },
       "billing": {
-        "title": "Subscriptions and payments",
-        "subtitle": "Payment flows and subscription activity over the last 30 days.",
+        "title": "Tellimused ja maksed",
+        "subtitle": "Maksevood ja tellimuste aktiivsus viimase 30 päeva jooksul.",
         "alerts": {
-          "none": "No billing alerts in the last 30 days.",
+          "none": "Viimase 30 päeva jooksul pole maksehoiatusi.",
           "severity": {
             "info": "Info",
-            "warning": "Warning",
-            "critical": "Critical"
+            "warning": "Hoiatus",
+            "critical": "Kriitiline"
           },
           "items": {
-            "checkout_create_rate_low": "Checkout creation rate is low ({value}% vs threshold {threshold}%).",
-            "paid_conversion_low": "Paid conversion from checkout is low ({value}% vs threshold {threshold}%).",
-            "webhook_missing_after_checkout": "Checkout events exist but no webhook processing events were recorded.",
-            "callback_pending_high": "Callback pending share is high ({value}% vs threshold {threshold}%).",
-            "webhook_error_spike": "Webhook technical error count is high ({value}, threshold {threshold}).",
-            "webhook_error_rate_high": "Webhook technical error rate is high ({value}% vs threshold {threshold}%).",
-            "unknown": "Unclassified billing alert."
+            "checkout_create_rate_low": "Checkouti loomise määr on madal ({value}% vs lävi {threshold}%).",
+            "paid_conversion_low": "Tasuliste maksete konversioon checkoutist on madal ({value}% vs lävi {threshold}%).",
+            "webhook_missing_after_checkout": "Checkout sündmused on olemas, kuid webhooki töötlemise sündmusi ei leitud.",
+            "callback_pending_high": "Tagasisuunamise ootel osakaal on kõrge ({value}% vs lävi {threshold}%).",
+            "webhook_error_spike": "Webhooki tehniliste vigade arv on kõrge ({value}, lävi {threshold}).",
+            "webhook_error_rate_high": "Webhooki tehniliste vigade määr on kõrge ({value}% vs lävi {threshold}%).",
+            "unknown": "Liigitamata maksehoiatus."
           }
         },
-        "active_subscriptions": "Active subscriptions",
-        "new_subscriptions_30d": "New subscriptions (30d)",
-        "cancellations_30d": "Cancellations (30d)",
-        "payment_statuses_30d": "Payment statuses (30d)",
-        "paid_amount_30d": "Collected (PAID 30d)",
+        "active_subscriptions": "Aktiivsed tellimused",
+        "new_subscriptions_30d": "Uued tellimused (30p)",
+        "cancellations_30d": "Tühistamised (30p)",
+        "payment_statuses_30d": "Maksete olekud (30p)",
+        "paid_amount_30d": "Laekunud summa (PAID, 30p)",
         "pipeline": {
-          "checkout_ready": "Checkout ready (30d)",
-          "webhook_paid": "Webhook paid (30d)",
-          "callback_success": "Callback success (30d)",
-          "webhook_errors": "Webhook errors (30d)",
-          "from_init": "{percent}% from init",
-          "from_checkout": "{percent}% from checkout",
-          "callback_share": "{percent}% callback success",
-          "breakdown": "Failed {failed} | Canceled {canceled} | Refunded {refunded}"
+          "checkout_ready": "Checkout valmis (30p)",
+          "webhook_paid": "Webhookiga kinnitatud maksed (30p)",
+          "callback_success": "Tagasisuunamine õnnestus (30p)",
+          "webhook_errors": "Webhooki vead (30p)",
+          "from_init": "{percent}% initsialiseeritud maksetest",
+          "from_checkout": "{percent}% checkoutidest",
+          "callback_share": "{percent}% õnnestunud tagasisuunamisi",
+          "breakdown": "Ebaõnnestunud {failed} | Tühistatud {canceled} | Tagastatud {refunded}"
         },
         "table": {
-          "time": "Time",
-          "status": "Status",
-          "amount": "Amount",
-          "provider": "Provider",
-          "paid_at": "PaidAt",
-          "empty": "No records found."
+          "time": "Aeg",
+          "status": "Olek",
+          "amount": "Summa",
+          "provider": "Teenusepakkuja",
+          "paid_at": "Tasutud",
+          "empty": "Kirjeid ei leitud."
         }
       },
       "users": {
@@ -1303,16 +1315,38 @@
           "paid_30d": "Laekunud (30p)",
           "empty": "Kasutajaid ei leitud."
         },
-        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/MB {stt}, kõne/1k tähemärki {tts}, kuueelarve {budget}. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust."
+        "note": "Hinnangumudel (EUR): vestlus/päring {chat}, rag/otsing {rag}, dikteerimine/MB {stt}, kõne/1k tähemärki {tts}, kuueelarve {budget}. STT/TTS ajalooline kulu kuvatakse alates event-logimise kasutuselevõtust.",
+        "actions": {
+          "selected_count": "Valitud: {count}",
+          "select_visible": "Vali nähtavad",
+          "clear_visible": "Tühista valik nähtavatelt",
+          "delete_selected": "Kustuta valitud",
+          "deleting": "Kustutan...",
+          "delete_confirm": "Kas kustutada {count} valitud kasutajat? Toimingut ei saa tagasi võtta.",
+          "delete_done": "Kustutatud: {deleted}. Blokeeritud: {blocked}.",
+          "select_users_first": "Vali enne vähemalt üks kasutaja.",
+          "email_target": "E-kirja sihtgrupp",
+          "email_selected": "Valitud kasutajad",
+          "email_all": "Kõik kasutajad",
+          "email_subject": "E-kirja pealkiri",
+          "email_subject_ph": "Sisesta pealkiri",
+          "email_text": "E-kirja sisu",
+          "email_text_ph": "Kirjuta teade...",
+          "email_target_hint": "Praegune sihtgrupp: {mode}",
+          "send_email": "Saada e-kiri",
+          "sending": "Saadan...",
+          "email_done": "Saadetud: {sent}. Ebaõnnestus: {failed}.",
+          "select_user": "Vali kasutaja {user}"
+        }
       },
       "logs": {
-        "title": "Logs",
-        "subtitle": "Latest 100 events with filters.",
+        "title": "Logid",
+        "subtitle": "Viimased 100 sündmust filtritega.",
         "filter": {
-          "all_events": "All events",
-          "crisis_all": "Crisis: all",
-          "crisis_yes": "Crisis: yes",
-          "crisis_no": "Crisis: no"
+          "all_events": "Kõik sündmused",
+          "crisis_all": "Kriis: kõik",
+          "crisis_yes": "Kriis: jah",
+          "crisis_no": "Kriis: ei"
         },
         "table": {
           "time": "Time",
@@ -1384,18 +1418,18 @@
         "running": "Checking..."
       },
       "ingest": {
-        "title": "Ingest: URL or PDF + metadata",
-        "subtitle": "Add sources and verify metadata JSON consistency.",
-        "url_section_title": "Ingest URL",
-        "url_title_placeholder": "Title (optional)",
-        "url_description_placeholder": "Description",
-        "url_tags_placeholder": "Tags (comma-separated)",
-        "sending": "Sending...",
-        "send_url": "Send URL",
-        "pdf_section_title": "PDF + metadata (JSON)",
-        "pdf_section_note": "Metadata JSON: docId, title, section, year, audience, tags.",
-        "pdf_meta_text_placeholder": "Or paste metadata JSON",
-        "send_pdf_with_meta": "Send PDF with metadata"
+        "title": "Andmete lisamine: URL või PDF + metaandmed",
+        "subtitle": "Lisa allikad ja kontrolli metaandmete JSON-i korrektsust.",
+        "url_section_title": "URL-i lisamine",
+        "url_title_placeholder": "Pealkiri (valikuline)",
+        "url_description_placeholder": "Kirjeldus",
+        "url_tags_placeholder": "Sildid (komaga eraldatud)",
+        "sending": "Saadan...",
+        "send_url": "Saada URL",
+        "pdf_section_title": "PDF + metaandmed (JSON)",
+        "pdf_section_note": "Metaandmete JSON: docId, title, section, year, audience, tags.",
+        "pdf_meta_text_placeholder": "Või kleebi metaandmete JSON",
+        "send_pdf_with_meta": "Saada PDF metaandmetega"
       },
       "meta": {
         "open_templates": "Open metadata templates",
@@ -1423,71 +1457,71 @@
         "recommended_line_4": "source_type, source_url"
       },
       "articles": {
-        "title": "Articles ingest (same PDF)",
-        "subtitle": "Use docId returned from PDF ingest. JSON must contain articles array.",
-        "open_template": "Open articles template",
-        "doc_id_placeholder": "docId (e.g. DOC-2024-014)",
-        "send": "Send articles",
-        "added": "Articles added.",
-        "added_count": "Added {count} chunks.",
-        "default_article": "Article",
-        "page_range": " (pp {start}-{end})",
+        "title": "Artiklite lisamine (sama PDF)",
+        "subtitle": "Kasuta docId-d, mis tagastati PDF ingestist. JSON peab sisaldama articles massiivi.",
+        "open_template": "Ava artiklite mall",
+        "doc_id_placeholder": "docId (nt DOC-2024-014)",
+        "send": "Saada artiklid",
+        "added": "Artiklid lisatud.",
+        "added_count": "Lisatud {count} tükki.",
+        "default_article": "Artikkel",
+        "page_range": " (lk {start}-{end})",
         "json_placeholder": "{\"docId\":\"DOC-2024-014\",\"articles\":[{\"title\":\"Title\",\"pageRange\":\"12-15\"}]}"
       },
       "documents": {
-        "title": "Document list",
-        "summary": "Total {total} | Filtered {filtered} | Pending {pending} | Processing {processing} | Completed {completed} | Failed {failed}",
-        "quick_find_title": "Quick find",
-        "quick_find_body": "Search uses title, description, authors, tags, section, issue, year, docId, articleId, journalTitle, language.",
-        "quick_tags": "Quick tags:",
-        "search_placeholder": "Search title, author, description, docId or tag",
+        "title": "Dokumentide nimekiri",
+        "summary": "Kokku {total} | Filtreeritud {filtered} | Ootel {pending} | Töötluses {processing} | Valmis {completed} | Vigased {failed}",
+        "quick_find_title": "Kiirotsing",
+        "quick_find_body": "Otsing kasutab väljaid: pealkiri, kirjeldus, autorid, sildid, jaotis, number, aasta, docId, articleId, journalTitle, language.",
+        "quick_tags": "Kiirsildid:",
+        "search_placeholder": "Otsi pealkirja, autori, kirjelduse, docId või sildi järgi",
         "filters": {
-          "all_sections": "All sections",
-          "all_audiences": "All audiences",
-          "all_years": "All years",
-          "all_issues": "All issues"
+          "all_sections": "Kõik jaotised",
+          "all_audiences": "Kõik sihtrühmad",
+          "all_years": "Kõik aastad",
+          "all_issues": "Kõik numbrid"
         },
         "sort": {
-          "recent": "Newest first",
-          "title": "Title A-Z",
-          "section": "Section",
-          "year": "Year",
-          "issue": "Issue"
+          "recent": "Uuemad enne",
+          "title": "Pealkiri A-Z",
+          "section": "Jaotis",
+          "year": "Aasta",
+          "issue": "Number"
         },
-        "reindex_selected": "Reindex selected ({count})",
-        "select_visible": "Select visible",
-        "total": "Total {total}",
-        "filtered": "Filtered {count}",
-        "showing": "Showing {count}",
-        "selected": "Selected {count}",
-        "untitled": "(untitled)",
-        "issue_label": "issue {issue}",
-        "no_results": "No results found.",
-        "load_more": "Load more"
+        "reindex_selected": "Indekseeri valitud uuesti ({count})",
+        "select_visible": "Vali nähtavad",
+        "total": "Kokku {total}",
+        "filtered": "Filtreeritud {count}",
+        "showing": "Näidatud {count}",
+        "selected": "Valitud {count}",
+        "untitled": "(pealkirjata)",
+        "issue_label": "number {issue}",
+        "no_results": "Tulemusi ei leitud.",
+        "load_more": "Lae rohkem"
       },
       "details": {
-        "section": "Section",
-        "authors": "Authors",
-        "year_issue": "Year / issue",
-        "audience": "Audience",
-        "page": "Page",
-        "issue": "Issue",
-        "language": "Language",
-        "type": "Type",
-        "tags": "Tags",
-        "source": "Source",
-        "select_material": "Select a material to view details."
+        "section": "Jaotis",
+        "authors": "Autorid",
+        "year_issue": "Aasta / number",
+        "audience": "Sihtrühm",
+        "page": "Leht",
+        "issue": "Väljaanne",
+        "language": "Keel",
+        "type": "Tüüp",
+        "tags": "Sildid",
+        "source": "Allikas",
+        "select_material": "Vali detailide vaatamiseks materjal."
       },
       "actions": {
-        "edit": "Edit",
-        "reindex": "Reindex",
-        "reindexing": "Reindexing...",
-        "delete": "Delete",
-        "deleting": "Deleting...",
-        "view": "View",
-        "close": "Close",
-        "save": "Save",
-        "cancel": "Cancel"
+        "edit": "Muuda",
+        "reindex": "Indekseeri uuesti",
+        "reindexing": "Indekseerin...",
+        "delete": "Kustuta",
+        "deleting": "Kustutan...",
+        "view": "Ava",
+        "close": "Sulge",
+        "save": "Salvesta",
+        "cancel": "Tühista"
       },
       "modal": {
         "edit_meta": "Edit metadata",

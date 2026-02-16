@@ -5,6 +5,7 @@ import { authConfig } from "@/auth";
 import { assertAdmin } from "@/lib/authz";
 import { getAnalyzeLimit, utcDayStart } from "@/lib/analyzeQuota";
 import { normalizeServerLocale, serverT } from "@/lib/i18n/serverMessages";
+import { getMailer } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
 import {
   MONTHLY_COST_BUDGET_EUR_PER_USER,
@@ -22,6 +23,9 @@ const DEFAULT_PERIOD_DAYS = 30;
 const MAX_PERIOD_DAYS = 180;
 const DEFAULT_LIMIT = 100;
 const MAX_LIMIT = 500;
+const MAX_BULK_USER_IDS = 500;
+const MAX_BULK_SUBJECT_LEN = 180;
+const MAX_BULK_BODY_LEN = 8000;
 const ADMIN_ANALYTICS_SHOW_FULL_EMAILS =
   String(process.env.ADMIN_ANALYTICS_SHOW_FULL_EMAILS || "")
     .trim()
@@ -123,6 +127,40 @@ function toActiveSubscription(subscription, now = new Date()) {
   if (String(subscription.status || "").toUpperCase() !== "ACTIVE") return false;
   if (!subscription.validUntil) return true;
   return new Date(subscription.validUntil).getTime() > now.getTime();
+}
+
+function normalizeIds(value) {
+  const list = Array.isArray(value) ? value : [];
+  const out = [];
+  const seen = new Set();
+  for (const raw of list) {
+    const id = String(raw || "").trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    out.push(id);
+    if (out.length >= MAX_BULK_USER_IDS) break;
+  }
+  return out;
+}
+
+function normalizeBulkTarget(value) {
+  return String(value || "").trim().toLowerCase() === "all" ? "all" : "selected";
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function textToHtml(value) {
+  const lines = String(value || "")
+    .split(/\r?\n/)
+    .map(line => escapeHtml(line.trimEnd()));
+  return `<div>${lines.map(line => (line ? `<p>${line}</p>` : "<p>&nbsp;</p>")).join("")}</div>`;
 }
 
 export async function GET(req) {
@@ -399,6 +437,178 @@ export async function GET(req) {
   } catch {
     return errorJson("api.admin.analytics.users_load_failed", 500, locale, {
       debugCode: "ADMIN_ANALYTICS_USERS_GET_FAILED"
+    });
+  }
+}
+
+export async function DELETE(req) {
+  const locale = localeFromRequest(req);
+  const session = await getServerSession(authConfig).catch(() => null);
+  const authz = assertAdmin(session);
+
+  if (!authz.ok) {
+    return errorJson(authz.message || "api.common.forbidden", authz.status || 403, locale);
+  }
+
+  try {
+    const body = await req.json().catch(() => ({}));
+    const userIds = normalizeIds(body?.userIds);
+    if (!userIds.length) {
+      return errorJson("api.admin.analytics.users_delete_invalid_payload", 400, locale);
+    }
+
+    const selectedUsers = await prisma.user.findMany({
+      where: { id: { in: userIds } },
+      select: { id: true, email: true, isAdmin: true }
+    });
+
+    if (!selectedUsers.length) {
+      return errorJson("api.admin.analytics.users_delete_not_found", 404, locale);
+    }
+
+    const ownUserId = String(session?.user?.id || "");
+    const selfSelected = ownUserId ? userIds.includes(ownUserId) : false;
+    const protectedAdminIds = new Set(
+      selectedUsers.filter(user => user.isAdmin || user.id === ownUserId).map(user => user.id)
+    );
+    const deletableUsers = selectedUsers.filter(user => !protectedAdminIds.has(user.id));
+    if (!deletableUsers.length) {
+      return errorJson("api.admin.analytics.users_delete_forbidden_targets", 409, locale, {
+        blocked: {
+          self: selfSelected,
+          admins: selectedUsers.filter(user => user.isAdmin).map(user => user.id)
+        }
+      });
+    }
+
+    const deletableIds = deletableUsers.map(user => user.id);
+    const emailsToCleanup = deletableUsers
+      .map(user => String(user.email || "").trim().toLowerCase())
+      .filter(Boolean);
+
+    await prisma.$transaction(async tx => {
+      if (emailsToCleanup.length) {
+        await tx.verificationToken.deleteMany({
+          where: { identifier: { in: emailsToCleanup } }
+        });
+      }
+      await tx.chatLog.deleteMany({
+        where: { userId: { in: deletableIds } }
+      });
+      await tx.user.deleteMany({
+        where: { id: { in: deletableIds } }
+      });
+    });
+
+    return json({
+      ok: true,
+      deletedCount: deletableIds.length,
+      deletedIds: deletableIds,
+      blocked: {
+        self: selfSelected,
+        admins: selectedUsers.filter(user => user.isAdmin).map(user => user.id)
+      }
+    });
+  } catch (error) {
+    console.error("admin analytics users DELETE failed", error);
+    return errorJson("api.admin.analytics.users_delete_failed", 500, locale, {
+      debugCode: "ADMIN_ANALYTICS_USERS_DELETE_FAILED"
+    });
+  }
+}
+
+export async function POST(req) {
+  const locale = localeFromRequest(req);
+  const session = await getServerSession(authConfig).catch(() => null);
+  const authz = assertAdmin(session);
+
+  if (!authz.ok) {
+    return errorJson(authz.message || "api.common.forbidden", authz.status || 403, locale);
+  }
+
+  try {
+    const body = await req.json().catch(() => ({}));
+    const target = normalizeBulkTarget(body?.target);
+    const subject = String(body?.subject || "").trim();
+    const text = String(body?.text || "").trim();
+    const selectedIds = normalizeIds(body?.userIds);
+
+    if (!subject || !text) {
+      return errorJson("api.admin.analytics.users_email_invalid_payload", 400, locale);
+    }
+    if (subject.length > MAX_BULK_SUBJECT_LEN || text.length > MAX_BULK_BODY_LEN) {
+      return errorJson("api.admin.analytics.users_email_too_large", 400, locale, {
+        limits: {
+          subject: MAX_BULK_SUBJECT_LEN,
+          text: MAX_BULK_BODY_LEN
+        }
+      });
+    }
+    if (target === "selected" && !selectedIds.length) {
+      return errorJson("api.admin.analytics.users_email_no_recipients", 400, locale);
+    }
+
+    const where =
+      target === "all"
+        ? { email: { not: null } }
+        : { id: { in: selectedIds }, email: { not: null } };
+
+    const recipients = await prisma.user.findMany({
+      where,
+      select: { id: true, email: true }
+    });
+
+    const recipientEmails = [];
+    const seen = new Set();
+    for (const row of recipients) {
+      const email = String(row?.email || "").trim().toLowerCase();
+      if (!email || seen.has(email)) continue;
+      seen.add(email);
+      recipientEmails.push(email);
+      if (recipientEmails.length >= MAX_BULK_USER_IDS) break;
+    }
+
+    if (!recipientEmails.length) {
+      return errorJson("api.admin.analytics.users_email_no_recipients", 404, locale);
+    }
+
+    const from = String(process.env.EMAIL_FROM || process.env.SMTP_FROM || "").trim();
+    if (!from) {
+      return errorJson("api.admin.analytics.email_from_missing", 500, locale);
+    }
+
+    const mailer = getMailer("admin-analytics-bulk");
+    const failed = [];
+
+    for (const to of recipientEmails) {
+      try {
+        await mailer.sendMail({
+          to,
+          from,
+          subject,
+          text,
+          html: textToHtml(text)
+        });
+      } catch (error) {
+        failed.push({
+          email: to,
+          error: String(error?.message || "send_failed")
+        });
+      }
+    }
+
+    return json({
+      ok: true,
+      target,
+      requestedCount: recipientEmails.length,
+      sentCount: recipientEmails.length - failed.length,
+      failedCount: failed.length,
+      failed
+    });
+  } catch (error) {
+    console.error("admin analytics users POST failed", error);
+    return errorJson("api.admin.analytics.users_email_send_failed", 500, locale, {
+      debugCode: "ADMIN_ANALYTICS_USERS_EMAIL_FAILED"
     });
   }
 }

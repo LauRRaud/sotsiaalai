@@ -1084,7 +1084,16 @@
         "payment_alerts_dispatched": "Платежные alert отправлены.",
         "payment_alerts_no_critical": "Нет критических платежных alert для отправки.",
         "payment_alerts_deduped": "Критические платежные alert уже были недавно отправлены.",
-        "payment_alerts_dry_run": "Dry-run отправки платежных alert завершен."
+        "payment_alerts_dry_run": "Dry-run отправки платежных alert завершен.",
+        "users_delete_invalid_payload": "No valid users were selected for deletion.",
+        "users_delete_not_found": "Selected users were not found.",
+        "users_delete_forbidden_targets": "Selected users cannot be deleted (self/admin restriction).",
+        "users_delete_failed": "Failed to delete selected users.",
+        "users_email_invalid_payload": "Email subject and message are required.",
+        "users_email_too_large": "Email subject or body is too long.",
+        "users_email_no_recipients": "No recipients found for the selected target.",
+        "users_email_send_failed": "Failed to send bulk email.",
+        "email_from_missing": "Email sender is not configured."
       }
     },
     "rag": {
@@ -1132,7 +1141,10 @@
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
         "events_fetch_failed": "Events fetch failed.",
-        "users_fetch_failed": "Users analytics fetch failed."
+        "users_fetch_failed": "Users analytics fetch failed.",
+        "users_delete_failed": "Failed to delete selected users.",
+        "users_email_send_failed": "Failed to send bulk email.",
+        "users_email_invalid_payload": "Email subject and message are required."
       },
       "events": {
         "chat_request": "Chat request",
@@ -1303,7 +1315,29 @@
           "paid_30d": "Оплачено (30д)",
           "empty": "Пользователи не найдены."
         },
-        "note": "Модель оценки (EUR): чат/запрос {chat}, rag/поиск {rag}, диктовка/MB {stt}, озвучивание/1k символов {tts}, месячный бюджет {budget}. Исторические затраты STT/TTS видны с момента включения логирования событий."
+        "note": "Модель оценки (EUR): чат/запрос {chat}, rag/поиск {rag}, диктовка/MB {stt}, озвучивание/1k символов {tts}, месячный бюджет {budget}. Исторические затраты STT/TTS видны с момента включения логирования событий.",
+        "actions": {
+          "selected_count": "Selected: {count}",
+          "select_visible": "Select visible",
+          "clear_visible": "Clear visible",
+          "delete_selected": "Delete selected",
+          "deleting": "Deleting...",
+          "delete_confirm": "Delete {count} selected users? This cannot be undone.",
+          "delete_done": "Deleted {deleted} users. Blocked: {blocked}.",
+          "select_users_first": "Select at least one user first.",
+          "email_target": "Email target",
+          "email_selected": "Selected users",
+          "email_all": "All users",
+          "email_subject": "Email subject",
+          "email_subject_ph": "Enter subject",
+          "email_text": "Email text",
+          "email_text_ph": "Write message...",
+          "email_target_hint": "Current target: {mode}",
+          "send_email": "Send email",
+          "sending": "Sending...",
+          "email_done": "Email sent: {sent}. Failed: {failed}.",
+          "select_user": "Select user {user}"
+        }
       },
       "logs": {
         "title": "Logs",
@@ -1498,4 +1532,3 @@
     }
   }
 }
-

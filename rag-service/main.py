@@ -80,8 +80,6 @@ _DEFAULT_ALLOWED = (
     "application/pdf,"
     "text/plain,"
     "text/markdown,"
-    "text/html,"
-    "application/msword,"
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 )
 ALLOWED_MIME = set(

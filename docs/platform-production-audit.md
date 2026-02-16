@@ -1665,6 +1665,41 @@ Encoding fixes applied (BOM removed):
   - set `ADMIN_ANALYTICS_SHOW_FULL_EMAILS=false` in production template
 - Status: `OK`
 
+### Env hardening + fail-fast checks - Point 61 (pre-launch env safety rail)
+- Scope:
+  - `production.env`
+  - `.env.production`
+  - `scripts/check-env.mjs`
+  - `package.json`
+  - `app/api/chat/analyze-file/route.js`
+  - `rag-service/main.py`
+  - `auth.js`
+  - `lib/mailer.js`
+- Good:
+  - baseline env templates already had explicit auth/RAG/subscription knobs
+- Risk:
+  - upload limits and MIME policy were too permissive for hardened production profile
+  - env placeholders/drift can slip into deploys without a dedicated preflight validator
+  - SMTP on port 587 could silently continue without STARTTLS if provider misconfiguration occurs
+- Action:
+  - hardened upload profile:
+    - reduced max upload to `25MB` in production env templates
+    - removed `text/html` and `application/msword` from allowed upload MIME list
+    - aligned API route to prefer server-only vars (`RAG_SERVER_MAX_MB`, `RAG_ALLOWED_MIME`) over `NEXT_PUBLIC_*`
+  - clarified chunking profile:
+    - kept token-mode vars in production template
+    - removed char-mode vars from production token profile
+  - added fail-fast env validator script:
+    - `scripts/check-env.mjs` (`npm run env:check`)
+    - checks placeholders, required keys, URL shape/HTTPS, external DB TLS mode, `NEXT_PUBLIC_*` secret leakage, chunking-mode conflicts, and hardened upload policy
+  - wired fail-fast into production start:
+    - `npm start` now runs `npm run env:check` before `next start`
+  - SMTP hardening:
+    - added `SMTP_REQUIRE_TLS=true` env and enforcement in mailer
+  - auth alias compatibility:
+    - `auth.js` now accepts `AUTH_SECRET` fallback to `NEXTAUTH_SECRET`
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
 1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks

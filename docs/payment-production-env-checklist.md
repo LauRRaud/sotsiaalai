@@ -6,6 +6,19 @@ Date: 2026-02-15
 
 One owner-facing checklist for Maksekeskus launch configuration, webhook policy decisions, and payment alert dispatch scheduling.
 
+## Preflight Guard
+
+Before starting production app process, run:
+- `npm run env:check`
+
+What it validates (fail-fast):
+- required core keys are present (auth/db/openai/rag/email)
+- placeholder values (`<...>`) are not left in active env
+- URL shape and HTTPS requirements
+- external DB requires `sslmode=verify-full`
+- upload hardening profile (`25MB`, no `text/html` / `application/msword`)
+- chunking config conflict checks (tokens vs chars mode)
+
 ## Maksekeskus Provider Config
 
 Required:

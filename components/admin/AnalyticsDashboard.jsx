@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -7,14 +7,17 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import BackIcon from "@/components/ui/icons/BackIcon";
+import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 
-const pageClassName = "flex flex-col gap-5 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
-const cardClassName = "relative overflow-hidden rounded-[18px] border border-[color:var(--admin-border)] bg-[linear-gradient(160deg,var(--admin-surface),var(--admin-surface-2))] p-4 shadow-[var(--admin-shadow-soft)] before:pointer-events-none before:absolute before:inset-0 before:rounded-[18px] before:bg-[radial-gradient(circle_at_10%_0%,rgba(255,255,255,0.08),transparent_45%)] before:opacity-60";
+const pageClassName = "flex flex-col gap-2 text-[color:var(--admin-text)] [--rag-text:var(--admin-text)]";
+const pageHeaderClassName = "flex flex-col items-start gap-2 text-left";
+const pageTitleClassName = `${glassPageTitleClassName} !mt-0 !mb-1 !px-0 !text-left !whitespace-normal !text-[clamp(1.55rem,2.5vw,2.1rem)] !tracking-[0.02em] max-[48em]:!text-[clamp(1.72rem,7vw,2.35rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0`;
+const cardClassName = "relative overflow-hidden rounded-[1rem] border border-[color:var(--glass-border-color,var(--admin-border))] bg-[linear-gradient(160deg,color-mix(in_srgb,var(--admin-surface)_78%,var(--glass-surface-bg)_22%),color-mix(in_srgb,var(--admin-surface-2)_84%,transparent))] p-[clamp(0.72rem,1.9vw,0.95rem)] shadow-[var(--glass-shell-shadow,var(--admin-shadow-soft))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-[radial-gradient(circle_at_12%_-4%,rgba(255,255,255,0.11),transparent_44%)] before:opacity-65";
 const cardBodyClassName = "relative z-[1] grid gap-1.5";
-const kpiGridClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-3";
+const kpiGridClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-2";
 const kpiValueClassName = "text-[1.6rem] font-[700] text-[color:var(--admin-text)]";
 const kpiMetaClassName = "text-[0.9rem] leading-[1.4] text-[color:var(--admin-muted)]";
-const sectionHeadClassName = "flex flex-wrap items-start justify-between gap-3";
+const sectionHeadClassName = "flex flex-wrap items-start justify-between gap-2";
 const sectionSubClassName = "text-[0.95rem] text-[color:var(--admin-muted)] max-w-[56ch]";
 const barClassName = "flex h-2 overflow-hidden rounded-full border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)]";
 const tableWrapClassName = "overflow-x-auto rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)]";
@@ -22,12 +25,22 @@ const tableClassName = "w-full border-collapse text-[color:var(--admin-text)]";
 const tableHeadCellClassName = "border-b border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-2 py-1.5 text-left text-[0.82rem] uppercase tracking-[0.02em] text-[color:var(--admin-muted)]";
 const tableCellClassName = "border-b border-[color:var(--admin-border)] px-2 py-1.5 text-left text-[0.9rem] align-top";
 const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
-const toolbarClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2.5 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-3 shadow-[var(--admin-shadow-soft)]";
+const toolbarPrimaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
+const toolbarSecondaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] p-2";
+const usersSelectBarClassName = "grid gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2";
+const usersSelectActionsClassName = "flex flex-wrap items-center gap-2";
+const usersSelectCountClassName = "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
+const emailSendBarClassName = "grid gap-2 rounded-[14px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-2";
+const emailSendHeadClassName = "flex flex-wrap items-center justify-between gap-2";
+const emailSendHintClassName = "text-[0.86rem] text-[color:var(--admin-muted)]";
 const selectClassName = "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+const inputClassName = "w-full rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.6rem] text-[0.95rem] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
+const textAreaClassName = "w-full min-h-[120px] rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-3)_86%,transparent),var(--admin-surface-3))] px-3 py-[0.7rem] text-[0.95rem] leading-[1.45] text-[color:var(--admin-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none focus-visible:border-[color:var(--admin-accent)] focus-visible:shadow-[0_0_0_3px_var(--admin-accent-soft)]";
 const alertErrorClassName = "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
 const alertInfoClassName = "rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color-mix(in_srgb,var(--admin-accent-cool)_15%,var(--admin-surface-2)_85%)] px-3 py-2 text-[color:var(--admin-text)]";
 const alertWarnClassName = "rounded-[12px] border border-[color:var(--admin-warning,#f59e0b)] bg-[color-mix(in_srgb,var(--admin-warning,#f59e0b)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
 const alertCriticalClassName = "rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)]";
+const alertSuccessClassName = "rounded-[12px] border border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)]";
 const refreshButtonStyle = {
   "--btn-primary-bg": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_35%,var(--admin-surface)_65%),var(--admin-surface-2))",
   "--btn-primary-bg-hover": "linear-gradient(135deg,color-mix(in_srgb,var(--admin-accent)_42%,var(--admin-surface)_58%),var(--admin-surface-2))",
@@ -42,6 +55,7 @@ const refreshButtonStyle = {
   "--btn-primary-focus-ring-color": "var(--admin-accent-soft)"
 };
 const refreshButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.95rem] font-semibold tracking-[0.01em]";
+const actionButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.92rem] font-semibold tracking-[0.01em]";
 const backButtonClassName = "inline-flex h-[5.2rem] w-[5.2rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
 
 const EVENT_OPTIONS = [
@@ -203,8 +217,29 @@ export default function AnalyticsDashboard() {
   const [isCrisisFilter, setIsCrisisFilter] = useState("all");
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [usersActionNotice, setUsersActionNotice] = useState(null);
+  const [deletingUsers, setDeletingUsers] = useState(false);
+  const [sendingUsersEmail, setSendingUsersEmail] = useState(false);
+  const [emailTarget, setEmailTarget] = useState("selected");
+  const [bulkEmailSubject, setBulkEmailSubject] = useState("");
+  const [bulkEmailText, setBulkEmailText] = useState("");
 
   const refresh = useCallback(() => setRefreshKey(value => value + 1), []);
+
+  const visibleUserRows = useMemo(() => usersAnalytics?.items || [], [usersAnalytics?.items]);
+  const visibleUserIds = useMemo(() => visibleUserRows.map(row => row.userId), [visibleUserRows]);
+  const visibleUserIdSet = useMemo(() => new Set(visibleUserIds), [visibleUserIds]);
+  const selectedVisibleCount = useMemo(
+    () => selectedUserIds.filter(id => visibleUserIdSet.has(id)).length,
+    [selectedUserIds, visibleUserIdSet]
+  );
+  const allVisibleSelected = visibleUserIds.length > 0 && selectedVisibleCount === visibleUserIds.length;
+  const selectedCount = selectedUserIds.length;
+
+  useEffect(() => {
+    setSelectedUserIds(prev => prev.filter(id => visibleUserIdSet.has(id)));
+  }, [visibleUserIdSet]);
 
   useEffect(() => {
     const loadSummary = async () => {
@@ -363,13 +398,131 @@ export default function AnalyticsDashboard() {
     []
   );
 
+  const toggleUserSelection = useCallback(userId => {
+    setSelectedUserIds(prev => (prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]));
+  }, []);
+
+  const toggleAllVisibleUsers = useCallback(() => {
+    setSelectedUserIds(prev => {
+      const prevSet = new Set(prev);
+      if (allVisibleSelected) {
+        return prev.filter(id => !visibleUserIdSet.has(id));
+      }
+      for (const id of visibleUserIds) prevSet.add(id);
+      return Array.from(prevSet);
+    });
+  }, [allVisibleSelected, visibleUserIds, visibleUserIdSet]);
+
+  const clearUsersActionNotice = useCallback(() => setUsersActionNotice(null), []);
+
+  const onDeleteSelectedUsers = useCallback(async () => {
+    if (!selectedUserIds.length || deletingUsers || sendingUsersEmail) return;
+    const confirmed = window.confirm(tr("admin.analytics.users.actions.delete_confirm", { count: selectedUserIds.length }));
+    if (!confirmed) return;
+
+    setDeletingUsers(true);
+    setUsersActionNotice(null);
+    try {
+      const res = await fetch("/api/admin/analytics/users", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          locale,
+          userIds: selectedUserIds
+        })
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || data?.ok === false) {
+        throw new Error(data?.message || tr("admin.analytics.errors.users_delete_failed"));
+      }
+
+      const deletedCount = toNumber(data?.deletedCount || 0);
+      const blockedAdmins = Array.isArray(data?.blocked?.admins) ? data.blocked.admins.length : 0;
+      const blockedSelf = data?.blocked?.self ? 1 : 0;
+
+      setSelectedUserIds(prev => prev.filter(id => !(Array.isArray(data?.deletedIds) && data.deletedIds.includes(id))));
+      setUsersActionNotice({
+        type: "success",
+        message: tr("admin.analytics.users.actions.delete_done", {
+          deleted: deletedCount,
+          blocked: blockedAdmins + blockedSelf
+        })
+      });
+      refresh();
+    } catch (err) {
+      setUsersActionNotice({
+        type: "error",
+        message: err?.message || tr("admin.analytics.errors.users_delete_failed")
+      });
+    } finally {
+      setDeletingUsers(false);
+    }
+  }, [deletingUsers, locale, refresh, selectedUserIds, sendingUsersEmail, tr]);
+
+  const onSendBulkEmail = useCallback(async () => {
+    if (sendingUsersEmail || deletingUsers) return;
+    const subject = String(bulkEmailSubject || "").trim();
+    const text = String(bulkEmailText || "").trim();
+    if (!subject || !text) {
+      setUsersActionNotice({
+        type: "error",
+        message: tr("admin.analytics.errors.users_email_invalid_payload")
+      });
+      return;
+    }
+    if (emailTarget === "selected" && !selectedUserIds.length) {
+      setUsersActionNotice({
+        type: "error",
+        message: tr("admin.analytics.users.actions.select_users_first")
+      });
+      return;
+    }
+
+    setSendingUsersEmail(true);
+    setUsersActionNotice(null);
+    try {
+      const res = await fetch("/api/admin/analytics/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          locale,
+          target: emailTarget,
+          userIds: emailTarget === "selected" ? selectedUserIds : [],
+          subject,
+          text
+        })
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || data?.ok === false) {
+        throw new Error(data?.message || tr("admin.analytics.errors.users_email_send_failed"));
+      }
+
+      setUsersActionNotice({
+        type: data?.failedCount ? "warn" : "success",
+        message: tr("admin.analytics.users.actions.email_done", {
+          sent: toNumber(data?.sentCount || 0),
+          failed: toNumber(data?.failedCount || 0)
+        })
+      });
+      if (!data?.failedCount) {
+        setBulkEmailSubject("");
+        setBulkEmailText("");
+      }
+    } catch (err) {
+      setUsersActionNotice({
+        type: "error",
+        message: err?.message || tr("admin.analytics.errors.users_email_send_failed")
+      });
+    } finally {
+      setSendingUsersEmail(false);
+    }
+  }, [bulkEmailSubject, bulkEmailText, deletingUsers, emailTarget, locale, selectedUserIds, sendingUsersEmail, tr]);
+
   return (
     <div className={pageClassName}>
-      <div className="flex flex-col items-center gap-2 text-center">
-        <div className="grid gap-1.5 justify-items-center">
-          <h1 className="m-0 text-[2rem] font-[650] tracking-[0.02em] text-[color:var(--admin-text)]">{tr("admin.analytics.title")}</h1>
-        </div>
-        <div className="flex flex-wrap justify-center gap-2.5">
+      <div className={pageHeaderClassName}>
+        <h1 className={pageTitleClassName}>{tr("admin.analytics.title")}</h1>
+        <div className="flex flex-wrap gap-2.5">
           <Button
             variant="primary"
             className={refreshButtonClassName}
@@ -386,14 +539,14 @@ export default function AnalyticsDashboard() {
 
       <div className={kpiGridClassName}>
         <div className={cardClassName}>
-          <div className={`${cardBodyClassName} min-h-[118px]`}>
+          <div className={`${cardBodyClassName} min-h-[96px]`}>
             <CardTitle>{tr("admin.analytics.kpis.requests_30d.title")}</CardTitle>
             <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.totalRequests ?? 0, localeTag)}</div>
             <div className={kpiMetaClassName}>{tr("admin.analytics.kpis.requests_30d.meta")}</div>
           </div>
         </div>
         <div className={cardClassName}>
-          <div className={`${cardBodyClassName} min-h-[118px]`}>
+          <div className={`${cardBodyClassName} min-h-[96px]`}>
             <CardTitle>{tr("admin.analytics.kpis.rag_searches.title")}</CardTitle>
             <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.ragSearchCount ?? 0, localeTag)}</div>
             <div className={kpiMetaClassName}>
@@ -404,7 +557,7 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
         <div className={cardClassName}>
-          <div className={`${cardBodyClassName} min-h-[118px]`}>
+          <div className={`${cardBodyClassName} min-h-[96px]`}>
             <CardTitle>{tr("admin.analytics.kpis.no_context.title")}</CardTitle>
             <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.noContextCount ?? 0, localeTag)}</div>
             <div className={kpiMetaClassName}>
@@ -415,14 +568,14 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
         <div className={cardClassName}>
-          <div className={`${cardBodyClassName} min-h-[118px]`}>
+          <div className={`${cardBodyClassName} min-h-[96px]`}>
             <CardTitle>{tr("admin.analytics.kpis.crisis.title")}</CardTitle>
             <div className={kpiValueClassName}>{loadingSummary ? loadingLabel : formatCount(summary?.totalCrisis ?? 0, localeTag)}</div>
             <div className={kpiMetaClassName}>{tr("admin.analytics.kpis.crisis.meta")}</div>
           </div>
         </div>
         <div className={cardClassName}>
-          <div className={`${cardBodyClassName} min-h-[118px]`}>
+          <div className={`${cardBodyClassName} min-h-[96px]`}>
             <CardTitle>{tr("admin.analytics.kpis.rag_averages.title")}</CardTitle>
             <div className={kpiMetaClassName}>
               {loadingSummary
@@ -436,7 +589,7 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
         <div className={cardClassName}>
-          <div className={`${cardBodyClassName} min-h-[118px]`}>
+          <div className={`${cardBodyClassName} min-h-[96px]`}>
             <CardTitle>{tr("admin.analytics.kpis.grounding.title")}</CardTitle>
             {groundingSummary ? (
               <>
@@ -468,7 +621,7 @@ export default function AnalyticsDashboard() {
               <div className={sectionSubClassName}>{tr("admin.analytics.rag_docs.subtitle")}</div>
             </div>
           </div>
-          <div className={`${kpiGridClassName} mt-3`}>
+          <div className={`${kpiGridClassName} mt-2`}>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
                 <CardTitle>{tr("admin.analytics.rag_docs.total")}</CardTitle>
@@ -517,7 +670,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
-          <div className={`${tableWrapClassName} mt-3.5`}>
+          <div className={`${tableWrapClassName} mt-2`}>
             <table className={tableClassName}>
               <thead>
                 <tr>
@@ -571,7 +724,7 @@ export default function AnalyticsDashboard() {
               <div className={sectionSubClassName}>{tr("admin.analytics.billing.subtitle")}</div>
             </div>
           </div>
-          <div className="mt-3 grid gap-2">
+          <div className="mt-2 grid gap-2">
             {loadingSummary ? (
               <div className={alertInfoClassName}>{loadingLabel}</div>
             ) : paymentAlerts.length ? (
@@ -588,7 +741,7 @@ export default function AnalyticsDashboard() {
               <div className={alertInfoClassName}>{tr("admin.analytics.billing.alerts.none")}</div>
             )}
           </div>
-          <div className={`${kpiGridClassName} mt-3`}>
+          <div className={`${kpiGridClassName} mt-2`}>
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
                 <CardTitle>{tr("admin.analytics.billing.pipeline.checkout_ready")}</CardTitle>
@@ -689,7 +842,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
-          <div className={`${tableWrapClassName} mt-3.5`}>
+          <div className={`${tableWrapClassName} mt-2`}>
             <table className={tableClassName}>
               <thead>
                 <tr>
@@ -737,8 +890,13 @@ export default function AnalyticsDashboard() {
               <CardTitle>{tr("admin.analytics.users.title")}</CardTitle>
               <div className={sectionSubClassName}>{tr("admin.analytics.users.subtitle")}</div>
             </div>
+            <div className={cellSubClassName}>
+              {tr("admin.analytics.users.actions.selected_count", { count: selectedCount })}
+            </div>
           </div>
-          <div className="mt-3 grid [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] gap-3">
+
+
+          <div className="mt-2 grid [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] gap-2">
             <div className={cardClassName}>
               <div className={cardBodyClassName}>
                 <CardTitle>{tr("admin.analytics.users.summary.users")}</CardTitle>
@@ -765,10 +923,144 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
-          <div className={`${tableWrapClassName} mt-3.5`}>
+          <div className={`${toolbarSecondaryClassName} mt-2`}>
+            <div className="grid gap-2 [grid-column:1/-1]">
+              <label className={cellSubClassName} htmlFor="analytics-bulk-email-subject">
+                {tr("admin.analytics.users.actions.email_subject")}
+              </label>
+              <input
+                id="analytics-bulk-email-subject"
+                className={inputClassName}
+                value={bulkEmailSubject}
+                onChange={event => {
+                  setBulkEmailSubject(event.target.value);
+                  clearUsersActionNotice();
+                }}
+                disabled={sendingUsersEmail || deletingUsers}
+                placeholder={tr("admin.analytics.users.actions.email_subject_ph")}
+                maxLength={180}
+              />
+            </div>
+
+            <div className="grid gap-2 [grid-column:1/-1]">
+              <label className={cellSubClassName} htmlFor="analytics-bulk-email-text">
+                {tr("admin.analytics.users.actions.email_text")}
+              </label>
+              <textarea
+                id="analytics-bulk-email-text"
+                className={textAreaClassName}
+                value={bulkEmailText}
+                onChange={event => {
+                  setBulkEmailText(event.target.value);
+                  clearUsersActionNotice();
+                }}
+                disabled={sendingUsersEmail || deletingUsers}
+                placeholder={tr("admin.analytics.users.actions.email_text_ph")}
+                maxLength={8000}
+              />
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 [grid-column:1/-1]">
+              <div className={emailSendHintClassName}>
+                {tr("admin.analytics.users.actions.email_target_hint", {
+                  mode:
+                    emailTarget === "all"
+                      ? tr("admin.analytics.users.actions.email_all")
+                      : tr("admin.analytics.users.actions.email_selected")
+                })}
+              </div>
+              <Button
+                variant="primary"
+                className={actionButtonClassName}
+                onClick={onSendBulkEmail}
+                disabled={loadingUsers || sendingUsersEmail || deletingUsers}
+              >
+                {sendingUsersEmail ? tr("admin.analytics.users.actions.sending") : tr("admin.analytics.users.actions.send_email")}
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-2">
+            <div className={usersSelectBarClassName}>
+              <div className="grid gap-2 md:grid-cols-[1fr_auto] md:items-end">
+                <div className="grid gap-2">
+                  <label className={cellSubClassName} htmlFor="analytics-bulk-email-target">
+                    {tr("admin.analytics.users.actions.email_target")}
+                  </label>
+                  <select
+                    id="analytics-bulk-email-target"
+                    className={selectClassName}
+                    value={emailTarget}
+                    onChange={event => {
+                      setEmailTarget(event.target.value === "all" ? "all" : "selected");
+                      clearUsersActionNotice();
+                    }}
+                    disabled={sendingUsersEmail || deletingUsers}
+                  >
+                    <option value="selected">{tr("admin.analytics.users.actions.email_selected")}</option>
+                    <option value="all">{tr("admin.analytics.users.actions.email_all")}</option>
+                  </select>
+                </div>
+                <div className={usersSelectActionsClassName}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className={actionButtonClassName}
+                    onClick={toggleAllVisibleUsers}
+                    disabled={loadingUsers || deletingUsers || sendingUsersEmail || !visibleUserIds.length}
+                  >
+                    {allVisibleSelected
+                      ? tr("admin.analytics.users.actions.clear_visible")
+                      : tr("admin.analytics.users.actions.select_visible")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    className={actionButtonClassName}
+                    onClick={onDeleteSelectedUsers}
+                    disabled={loadingUsers || deletingUsers || sendingUsersEmail || !selectedCount}
+                  >
+                    {deletingUsers ? tr("admin.analytics.users.actions.deleting") : tr("admin.analytics.users.actions.delete_selected")}
+                  </Button>
+                </div>
+              </div>
+              <div className={usersSelectActionsClassName}>
+                <span className={usersSelectCountClassName}>
+                  {tr("admin.analytics.users.actions.selected_count", { count: selectedCount })}
+                </span>
+                <span className={usersSelectCountClassName}>
+                  Nahtavates valitud: {selectedVisibleCount}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {usersActionNotice ? (
+            <div
+              className={
+                usersActionNotice.type === "success"
+                  ? `${alertSuccessClassName} mt-2`
+                  : usersActionNotice.type === "warn"
+                    ? `${alertWarnClassName} mt-2`
+                    : `${alertErrorClassName} mt-2`
+              }
+            >
+              {usersActionNotice.message}
+            </div>
+          ) : null}
+
+          <div className={`${tableWrapClassName} mt-2`}>
             <table className={tableClassName}>
               <thead>
                 <tr>
+                  <th className={tableHeadCellClassName}>
+                    <input
+                      type="checkbox"
+                      aria-label={tr("admin.analytics.users.actions.select_visible")}
+                      checked={allVisibleSelected}
+                      onChange={toggleAllVisibleUsers}
+                      disabled={loadingUsers || !visibleUserIds.length}
+                    />
+                  </th>
                   <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.user")}</th>
                   <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.role")}</th>
                   <th className={tableHeadCellClassName}>{tr("admin.analytics.users.table.subscription")}</th>
@@ -780,13 +1072,21 @@ export default function AnalyticsDashboard() {
               <tbody>
                 {loadingUsers ? (
                   <tr>
-                    <td className={tableCellClassName} colSpan={6}>
+                    <td className={tableCellClassName} colSpan={7}>
                       {loadingLabel}
                     </td>
                   </tr>
                 ) : (usersAnalytics?.items || []).length ? (
                   (usersAnalytics?.items || []).map(row => (
                     <tr key={row.userId} className="hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_70%,transparent)]">
+                      <td className={tableCellClassName}>
+                        <input
+                          type="checkbox"
+                          aria-label={tr("admin.analytics.users.actions.select_user", { user: row.email || row.userId })}
+                          checked={selectedUserIds.includes(row.userId)}
+                          onChange={() => toggleUserSelection(row.userId)}
+                        />
+                      </td>
                       <td className={tableCellClassName}>
                         <div>{row.email || row.userId}</div>
                         <div className={cellSubClassName}>{row.userId}</div>
@@ -858,7 +1158,7 @@ export default function AnalyticsDashboard() {
                   ))
                 ) : (
                   <tr>
-                    <td className={tableCellClassName} colSpan={6}>
+                    <td className={tableCellClassName} colSpan={7}>
                       {tr("admin.analytics.users.table.empty")}
                     </td>
                   </tr>
@@ -887,7 +1187,7 @@ export default function AnalyticsDashboard() {
               <div className={sectionSubClassName}>{tr("admin.analytics.logs.subtitle")}</div>
             </div>
           </div>
-          <div className={`${toolbarClassName} mt-2`}>
+          <div className={`${toolbarPrimaryClassName} mt-2`}>
             <select className={selectClassName} value={eventFilter} onChange={event => setEventFilter(event.target.value)}>
               <option value="all">{tr("admin.analytics.logs.filter.all_events")}</option>
               {EVENT_OPTIONS.map(event => (
