@@ -59,7 +59,7 @@ export default function RightRail({
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => detectMobileViewport());
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
   const normalizedPathname = useMemo(

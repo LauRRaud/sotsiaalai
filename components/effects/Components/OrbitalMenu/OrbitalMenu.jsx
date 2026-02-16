@@ -4,8 +4,18 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import SmustCenterLogo from "@/public/logo/smust-center.svg";
 import { cn } from "@/components/ui/cn";
 import "./OrbitalMenu.css";
+
+function matchMediaNow(query, fallback = false) {
+  if (typeof window === "undefined" || !window.matchMedia) return fallback;
+  try {
+    return Boolean(window.matchMedia(query).matches);
+  } catch {
+    return fallback;
+  }
+}
+
 function useMatchMedia(query, defaultValue = false) {
-  const [matches, setMatches] = useState(defaultValue);
+  const [matches, setMatches] = useState(() => matchMediaNow(query, defaultValue));
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia(query);
