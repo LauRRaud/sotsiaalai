@@ -36,6 +36,8 @@ const subscriptionInfoTextClassName =
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
   "max-[48em]:w-full max-[48em]:min-w-0 max-[48em]:whitespace-normal max-[48em]:!px-[1rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
+const subscriptionStatusClassName =
+  "text-center max-[48em]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
 export default function TellimusBody() {
@@ -58,6 +60,7 @@ export default function TellimusBody() {
   const reason = String(searchParams?.get("reason") || "").toLowerCase();
   const isVerifiedEntry = reason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
+  const hasPaymentNotice = Boolean(info || error);
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale));
   const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
@@ -233,13 +236,13 @@ export default function TellimusBody() {
               <div id="billing-info">
                 <RichText as="div" className={subscriptionInfoTextClassName} value={t("subscription.info")} replacements={emailReplacement} />
               </div>
-              {info && <p aria-live="polite" className="text-center max-[48em]:text-left text-[color:#a7f3d0]">
+              {info && <p aria-live="polite" className={cn(subscriptionStatusClassName, "text-[color:#a7f3d0]")}>
                   {info}
                 </p>}
-              {error && <p role="alert" aria-live="assertive" className="text-center max-[48em]:text-left text-[color:#fca5a5]">
+              {error && <p role="alert" aria-live="assertive" className={cn(subscriptionStatusClassName, "text-[color:#fca5a5]")}>
                   {error}
                 </p>}
-              <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[48em]:w-full">
+              <div className={cn("flex justify-center max-[48em]:w-full", hasPaymentNotice ? "mt-[clamp(0.9rem,2.2vh,1.4rem)]" : "mt-[clamp(1.6rem,4vh,2.6rem)]")}>
                 <Button type="button" variant="primary" className={subscriptionActionClassName} disabled={processing} aria-disabled={processing} aria-busy={processing} aria-describedby="billing-info cancel-note" onClick={handleActivate}>
                   {processing ? t("subscription.button.processing") : t("subscription.button.activate")}
                 </Button>

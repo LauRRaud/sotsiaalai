@@ -657,6 +657,36 @@ Encoding fixes applied (BOM removed):
   - kept two-line styling only for labels that are truly split onto two lines
 - Status: `OK`
 
+### Profile role-short copy update
+- Scope: `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - profile role labels now match requested wording for seeker-role in all active locales
+- Action:
+  - ET `profile.role_short.client` -> `Eluküsimusega pöörduja`
+  - EN `profile.role_short.client` -> `Life-question seeker`
+  - RU `profile.role_short.client` -> `Ищущих помощи` (normal casing, not uppercase)
+- Status: `OK`
+
+### Subscription error-note readability/spacing polish
+- Scope: `components/alalehed/TellimusBody.jsx`
+- Good:
+  - subscription status/error copy is now more legible in the ring layout
+- Risk:
+  - previously status/error note text rendered too small and left excessive vertical gap before the activate button, making the CTA appear pushed down
+- Action:
+  - introduced shared status/error typography class with larger responsive size and stronger line-height/weight
+  - reduced button top margin when status/error notice is visible (`hasPaymentNotice`-based spacing)
+- Status: `OK`
+
+### Registration success spam-folder hint
+- Scope: `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - post-registration success notice now includes explicit spam-folder guidance to reduce first-time verification confusion
+- Action:
+  - updated `auth.register.success_message` in ET/EN/RU with confirmation-email spam-folder hint
+  - corrected ET casing from `SPAM` to `Spam` in the same success notice
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
 1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks

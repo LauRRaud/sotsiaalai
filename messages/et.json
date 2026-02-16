@@ -130,7 +130,7 @@
       },
       "submit": "Registreeru",
       "submitting": "Loome kontot…",
-      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga."
+      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga. Kinnituse kiri võib olla e-posti Rämpspost (Spam) kaustas."
     },
     "reset": {
       "title": "Uuenda PIN",
@@ -220,7 +220,7 @@
     "role_short": {
       "admin": "Administraator",
       "worker": "Spetsialist",
-      "client": "Pöörduja",
+      "client": "Eluküsimusega pöörduja",
       "unknown": ""
     },
     "preferences": {

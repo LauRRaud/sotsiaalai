@@ -130,7 +130,7 @@
       },
       "submit": "Create account",
       "submitting": "Creating account",
-      "success_message": "Account created! Please confirm your email and log in with your PIN."
+      "success_message": "Account created! Please confirm your email and log in with your PIN. The confirmation email may be in your Spam folder."
     },
     "reset": {
       "title": "Update PIN",
@@ -220,7 +220,7 @@
     "role_short": {
       "admin": "Administrator",
       "worker": "Specialist",
-      "client": "Seeker",
+      "client": "Life-question seeker",
       "unknown": ""
     },
     "preferences": {
