@@ -278,9 +278,10 @@ export default function ProfiilBody({
     headerCenterBaseClassName,
     !embedded && headerCenterPageClassName
   );
-  const isLongRoleLabel = session?.user?.role === "SOCIAL_WORKER" || session?.user?.role === "CLIENT";
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "profile.role_short.unknown");
-  const roleLabelDisplay = isLongRoleLabel ? splitRoleLabelToTwoLines(roleLabel) : roleLabel;
+  const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
+  const roleLabelIsMultiLine =
+    typeof roleLabelDisplay === "string" && roleLabelDisplay.includes("\n");
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -683,7 +684,12 @@ export default function ProfiilBody({
       <div className={cn(headerCenterClassName, "profile-role-row")}>
         <span
           ref={rolePillRef}
-          className={cn(rolePillClassName, isLongRoleLabel ? rolePillMultiLineClassName : null, "shadow-[var(--profile-role-hole-shadow,none)]", orbitOpen ? "opacity-0 pointer-events-none" : null)}
+          className={cn(
+            rolePillClassName,
+            roleLabelIsMultiLine ? rolePillMultiLineClassName : null,
+            "shadow-[var(--profile-role-hole-shadow,none)]",
+            orbitOpen ? "opacity-0 pointer-events-none" : null
+          )}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
           {roleLabelDisplay}

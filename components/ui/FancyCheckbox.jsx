@@ -81,6 +81,33 @@ const Label = styled.label`
   .a11y-modal & .text {
     font-size: 1.3rem;
   }
+
+  &.fancy-checkbox--top {
+    align-items: flex-start;
+  }
+
+  &.fancy-checkbox--top .box {
+    margin-top: 0.08rem;
+    flex-shrink: 0;
+  }
+
+  &.fancy-checkbox--otp .box {
+    background: var(--otp-check-bg, rgba(255, 255, 255, 0.04));
+    border-color: var(--otp-check-border, rgba(255, 255, 255, 0.28));
+  }
+
+  &.fancy-checkbox--otp .shape {
+    stroke: var(--otp-check-shape, var(--pt-200, #e0e0e0));
+  }
+
+  &.fancy-checkbox--otp .tick {
+    stroke: var(--otp-check-tick, var(--brand-primary, #ffd24d));
+  }
+
+  &.fancy-checkbox--otp .text {
+    color: var(--otp-check-text, var(--pt, #c9c7c2));
+    line-height: 1.24;
+  }
 `;
 const FancyCheckbox = forwardRef(function FancyCheckbox({
   id,
@@ -88,9 +115,10 @@ const FancyCheckbox = forwardRef(function FancyCheckbox({
   checked,
   onChange,
   disabled,
-  name
+  name,
+  className
 }, ref) {
-  return <Label>
+  return <Label className={className}>
       <input ref={ref} id={id} name={name} type="checkbox" className="visually-hidden" checked={!!checked} onChange={e => onChange?.(e.target.checked, e)} onKeyDown={e => {
       if (e.key === "Enter") {
         e.preventDefault();

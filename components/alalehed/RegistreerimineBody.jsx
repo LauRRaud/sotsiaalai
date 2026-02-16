@@ -409,10 +409,12 @@ export default function RegistreerimineBody({
                     {successMessage}
                   </div>}
                 {submitting ? <div className="flex justify-center py-[0.12rem]" role="status" aria-live="polite" aria-atomic="true">
-                    <div className="relative w-fit min-w-[clamp(9.2rem,17vw,11rem)] rounded-[1.32rem] border border-[rgba(226,232,240,0.2)] bg-[linear-gradient(150deg,rgba(255,255,255,0.11)_0%,rgba(255,255,255,0.035)_38%,rgba(4,8,15,0.22)_100%),var(--glass-modal-bg,rgba(0,0,0,0.25))] px-[0.92rem] pt-[0.8rem] pb-[0.76rem] shadow-[0_14px_30px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.11)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.35)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.76)_0%,rgba(255,255,255,0.54)_42%,rgba(238,242,247,0.42)_100%),var(--glass-modal-bg,rgba(255,255,255,0.52))] light:shadow-[0_12px_26px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.72)]">
-                      <div className="flex flex-col items-center gap-[0.64rem]">
-                        <SotsiaalAILoader size="clamp(3.1rem,6vw,3.6rem)" ariaHidden />
-                        <span className="text-center text-[1.16rem] leading-[1.2] font-medium tracking-[0.01em] text-[color:var(--pt-30)] light:text-[color:var(--input-text)]">
+                    <div className="relative w-fit min-w-[clamp(9.2rem,17vw,11rem)] rounded-[1.32rem] bg-[linear-gradient(150deg,rgba(255,255,255,0.11)_0%,rgba(255,255,255,0.035)_38%,rgba(4,8,15,0.22)_100%),var(--glass-modal-bg,rgba(0,0,0,0.25))] px-[0.96rem] pt-[0.92rem] pb-[0.88rem] shadow-[0_14px_30px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.11)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.76)_0%,rgba(255,255,255,0.54)_42%,rgba(238,242,247,0.42)_100%),var(--glass-modal-bg,rgba(255,255,255,0.52))] light:shadow-[0_12px_26px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.72)]">
+                      <div className="flex flex-col items-center gap-[0.82rem]">
+                        <div className="grid min-h-[clamp(4.8rem,9.4vw,5.7rem)] place-items-center">
+                          <SotsiaalAILoader size="clamp(3.35rem,6.4vw,3.95rem)" ariaHidden />
+                        </div>
+                        <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:var(--pt-30)] light:text-[color:var(--input-text)]">
                           {t("auth.register.loading_status", "Konto loomine")}
                         </span>
                       </div>

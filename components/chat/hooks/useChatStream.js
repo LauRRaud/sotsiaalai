@@ -399,11 +399,21 @@ export function useChatStream(config) {
             });
           }
         } else {
-          const errText = err?.chatKey ? tr(err.chatKey, err.chatValues) : tr("chat.error.generic");
-          cfg.setErrorBanner?.(errText);
-          const errWithPrefix = tr("chat.error.with_detail", {
-            message: errText
-          });
+          const isSubscriptionRequired = err?.chatKey === "api.common.subscription_required";
+          const errText = isSubscriptionRequired
+            ? tr("chat.error.subscription_required_profile")
+            : err?.chatKey
+              ? tr(err.chatKey, err.chatValues)
+              : tr("chat.error.generic");
+          const showTopErrorBanner = !isSubscriptionRequired;
+          if (showTopErrorBanner) {
+            cfg.setErrorBanner?.(errText);
+          }
+          const errWithPrefix = isSubscriptionRequired
+            ? errText
+            : tr("chat.error.with_detail", {
+                message: errText
+              });
 
           if (streamingMessageId != null) {
             cfg.mutateMessage?.(streamingMessageId, msg => ({

@@ -438,6 +438,7 @@
       "interrupted": "Генерация ответа остановлена.",
       "interrupted_suffix": "(Генерация ответа остановлена.)",
       "generic": "Не удалось получить ответ.",
+      "subscription_required_profile": "Нет активной подписки. Чтобы продолжить, откройте страницу Профиль и оформите подписку.",
       "with_detail": "Ошибка: {message}",
       "invalid_json": "Invalid JSON body.",
       "message_required": "Message is required.",

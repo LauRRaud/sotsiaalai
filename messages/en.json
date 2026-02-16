@@ -438,6 +438,7 @@
       "interrupted": "Answer generation was stopped.",
       "interrupted_suffix": "(Answer generation was stopped.)",
       "generic": "Sorry, something went wrong while getting the answer.",
+      "subscription_required_profile": "No active subscription. To continue, open the Profile page and complete a subscription.",
       "with_detail": "Error: {message}",
       "invalid_json": "Invalid JSON body.",
       "message_required": "Message is required.",

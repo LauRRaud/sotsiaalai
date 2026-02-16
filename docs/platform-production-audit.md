@@ -409,7 +409,8 @@ Encoding fixes applied (BOM removed):
 - Risk:
   - this visual pattern is currently registration-specific; other loading surfaces may still look inconsistent
 - Action:
-  - replaced plain loader row with a bordered, blurred, gradient-backed glass loader card
+  - replaced plain loader row with a blurred gradient glass loader card (no visible border stroke)
+  - enforced stable vertical stack for loader icon + label with dedicated icon area to keep label always below icon
   - increased loading label emphasis (`font-medium`, larger size) while keeping ARIA status semantics
   - executed validation run: `npm run lint` (PASS)
 - Status: `MONITOR`
@@ -452,7 +453,9 @@ Encoding fixes applied (BOM removed):
   - changed verify GET success redirect to localized subscription path + `reason=email-verified`
   - added unauthenticated branch to `TellimusBody` with login CTA and reason-specific message
   - added auto-open login modal on `/tellimus` verification-entry reason
+  - when `/tellimus` login modal is open, page glass-ring content is now visually hidden and blocked behind a dedicated dim/blur backdrop layer
   - added `LoginModal` prop `prefillStoredEmail` and disabled email prefill persistence behavior for verification-entry subscription login
+  - updated login envelope-status icon logic: shows red error mark when no email is available, green check only when a known email value exists
   - executed validation run: `npm run lint` (PASS)
 - Status: `MONITOR`
 
@@ -470,6 +473,9 @@ Encoding fixes applied (BOM removed):
   - added locale key `auth.login.otp_short_placeholder` in ET/EN/RU catalogs
   - moved OTP-step error text under code input field (instead of header area)
   - updated ET `api.auth.login.token_expired` text to `Kinnituskood on aegunud.`
+  - narrowed OTP content column and disabled hyphenation in description text to avoid broken words
+  - wrapped remember-device row in dedicated bordered glass block and fixed checkbox top alignment for multiline label
+  - updated OTP link actions to consistent dark/light theme styling with explicit rounded border treatment
   - executed validation run: `npm run lint` (PASS)
 - Status: `MONITOR`
 
@@ -617,6 +623,39 @@ Encoding fixes applied (BOM removed):
   - added `sendAccountDeletedEmail` in profile API delete path with safe error handling
   - added `email.auth.account_deleted.*` keys to ET/EN/RU locales
 - Status: `MONITOR`
+
+### Chat subscription-error deduplication pass
+- Scope: `components/chat/hooks/useChatStream.js`
+- Good:
+  - subscription-required failure is still shown in chat message stream (`chat.error.with_detail`) so user gets clear inline feedback
+- Risk:
+  - previously the same subscription error was rendered twice (top banner + chat message), creating noisy/awkward UI on `/vestlus`
+- Action:
+  - suppressed top `errorBanner` only for `api.common.subscription_required`, while keeping banner behavior unchanged for other errors
+- Status: `OK`
+
+### Chat subscription guidance copy pass
+- Scope: `components/chat/hooks/useChatStream.js`, `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - users without active subscription can still move to profile/subscription flow without being blocked by profile access
+- Risk:
+  - previous chat error copy (`Vajalik on aktiivne tellimus.`) did not explain where to complete the subscription, which caused dead-end confusion after back-navigation
+- Action:
+  - added dedicated chat copy key `chat.error.subscription_required_profile`
+  - for `api.common.subscription_required`, chat now shows explicit profile guidance text and skips generic `Viga:` prefix
+  - top banner suppression for this specific key remains in place to avoid duplicate notices
+- Status: `OK`
+
+### Profile role-pill single-line sizing fix
+- Scope: `components/alalehed/ProfiilBody.jsx`
+- Good:
+  - role pill hole now tracks actual text layout instead of role-code assumptions
+- Risk:
+  - previously `CLIENT`/`SOCIAL_WORKER` always used multiline pill styles even when label was one line (`Pöörduja`, `Spetsialist`), causing oversized hole/capsule height
+- Action:
+  - switched multiline style trigger to content-based detection (`roleLabelDisplay.includes("\\n")`)
+  - kept two-line styling only for labels that are truly split onto two lines
+- Status: `OK`
 
 ## Open Items Queue (next passes)
 

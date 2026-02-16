@@ -438,6 +438,7 @@
       "interrupted": "Vastuse genereerimine peatati.",
       "interrupted_suffix": "(Vastuse genereerimine peatati.)",
       "generic": "Vabandust, vastust ei õnnestunud saada.",
+      "subscription_required_profile": "Aktiivne tellimus puudub. Jätkamiseks ava Profiili leht ja vormista tellimus.",
       "with_detail": "Viga: {message}",
       "invalid_json": "Invalid JSON body.",
       "message_required": "Message is required.",

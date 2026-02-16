@@ -138,7 +138,7 @@ export default function LoginModal({
   const [_invalidCredentials, setInvalidCredentials] = useState(false);
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
-  const [_emailValue, setEmailValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
   const [emailErrorVisual, setEmailErrorVisual] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const helpButtonRef = useRef(null);
@@ -983,7 +983,16 @@ export default function LoginModal({
   if (!open) return null;
   const isLightTheme = prefs?.theme === "light";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
-  const emailIconStatus = showEmailErrorIcon ? "error" : "success";
+  const currentEmailValue = String(
+    (emailRevealed ? emailInputRef.current?.value : "") ||
+      emailValue ||
+      storedEmail ||
+      ""
+  )
+    .trim()
+    .toLowerCase();
+  const hasKnownEmail = Boolean(currentEmailValue);
+  const emailIconStatus = showEmailErrorIcon || !hasKnownEmail ? "error" : "success";
   const stopInside = e => e.stopPropagation();
   return createPortal(<>
       <style jsx global>{`
@@ -1300,11 +1309,11 @@ export default function LoginModal({
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className="w-full max-w-[30rem] flex flex-col gap-[0.48rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
+            <div className="w-full max-w-[25.6rem] flex flex-col gap-[0.48rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
                 {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)] text-[1.04rem]">
                     {info}
                   </p>}
-                <p className="m-0 leading-[1.45] text-[1.02rem] max-md:text-[1.09rem]">
+                <p className="m-0 leading-[1.45] text-[1.02rem] max-md:text-[1.09rem] [overflow-wrap:normal] [word-break:normal] hyphens-none">
                   {t("auth.login.otp_description", {
                 email: emailMask || ""
               })}
@@ -1323,22 +1332,22 @@ export default function LoginModal({
                 {otpInlineError}
               </p> : null}
 
-            <div className="w-full mt-[0.95rem] flex justify-center">
-              <div className="w-full max-w-[21.8rem]">
-                <FancyCheckbox id="remember-device" checked={rememberDevice} onChange={checked => setRememberDevice(checked)} label={t("auth.login.remember_device")} />
+            <div className="w-full mt-[1rem] flex justify-center">
+              <div className="w-full max-w-[22.8rem] rounded-[1.08rem] border border-[rgba(148,163,184,0.34)] bg-[rgba(10,14,24,0.46)] px-[0.82rem] py-[0.66rem] shadow-[0_10px_24px_rgba(0,0,0,0.2)] light:border-[rgba(148,163,184,0.36)] light:bg-[rgba(255,255,255,0.62)] light:shadow-[0_8px_18px_rgba(15,23,42,0.08)]">
+                <FancyCheckbox id="remember-device" checked={rememberDevice} onChange={checked => setRememberDevice(checked)} label={t("auth.login.remember_device")} className="fancy-checkbox--otp fancy-checkbox--top" />
               </div>
             </div>
 
-            <div className="w-full max-w-[30rem] flex flex-col items-center mt-[1.1rem]">
+            <div className="w-full max-w-[25.6rem] flex flex-col items-center mt-[1.28rem]">
               <Button type="submit" variant="primary" className="w-auto min-w-[12.1rem] text-[1.22rem] normal-case tracking-[0.02em] rounded-[1rem] py-[0.82rem] px-[2.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
 
-              <div className="w-full flex flex-col items-center gap-[0.62rem] mt-[0.84rem]">
-                <Button type="button" variant="linkBrand" className="text-[1.14rem] tracking-[0.02em] !py-[0.14rem]" onClick={handleResendOtp} disabled={resendLoading}>
+              <div className="w-full flex flex-col items-center gap-[0.74rem] mt-[1.24rem]">
+                <Button type="button" variant="linkBrand" className="text-[1.12rem] tracking-[0.02em] !rounded-full !px-[0.88rem] !py-[0.26rem] !border !border-[rgba(197,113,113,0.4)] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.28)] light:[--link-color:#7A3A38] light:!border-[rgba(122,58,56,0.42)]" onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </Button>
-                <Button type="button" variant="linkBrand" className="text-[1.14rem] tracking-[0.02em] !py-[0.14rem]" onClick={resetToPinStep}>
+                <Button type="button" variant="linkBrand" className="text-[1.12rem] tracking-[0.02em] !rounded-full !px-[0.88rem] !py-[0.26rem] !border !border-[rgba(197,113,113,0.4)] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.28)] light:[--link-color:#7A3A38] light:!border-[rgba(122,58,56,0.42)]" onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
                 </Button>
               </div>

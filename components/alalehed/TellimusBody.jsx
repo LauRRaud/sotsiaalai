@@ -36,6 +36,8 @@ const subscriptionInfoTextClassName =
 const subscriptionActionClassName =
   "min-w-[9.5rem] whitespace-nowrap px-[1.35rem] py-[0.8rem] text-[1.2rem] leading-[1.2] " +
   "max-[48em]:w-full max-[48em]:min-w-0 max-[48em]:whitespace-normal max-[48em]:!px-[1rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
+const authModalBackdropClassName =
+  "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
 export default function TellimusBody() {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -176,7 +178,7 @@ export default function TellimusBody() {
         )
       : t("profile.login_to_manage_sub");
     return <section lang={locale} className={pageShellClassName}>
-        <GlassRing className={ringClassName}>
+        <GlassRing className={cn(ringClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
           <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
           <h1 className={titleClassName}>
@@ -193,6 +195,7 @@ export default function TellimusBody() {
             </div>
           </div>
         </GlassRing>
+        {loginOpen ? <div className={authModalBackdropClassName} aria-hidden="true" /> : null}
 
         <LoginModal
           open={loginOpen}
