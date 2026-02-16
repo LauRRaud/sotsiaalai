@@ -696,6 +696,10 @@ Encoding fixes applied (BOM removed):
 - Action:
   - split role-pill styles into explicit base + single-line + multiline classes (no conflicting `leading`/`height` utilities)
   - tuned multiline rhythm to tighter spacing (`py` and `leading`) for balanced two-line labels across locales
+- Follow-up:
+  - aligned multiline pill baseline with single-line/admin pill by removing multiline upward translate offset
+  - increased multiline pill physical height (`min-h` + `py`) so two-line labels expand the hole instead of being compressed
+  - restored moderate inter-line spacing (`leading`) to avoid text collision
 - Status: `OK`
 
 ## Open Items Queue (next passes)

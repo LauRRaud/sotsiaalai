@@ -72,10 +72,10 @@ const rolePillBaseClassName =
 const rolePillSingleLineClassName =
   "px-[0.75em] h-[3.2rem] leading-[3.2rem] whitespace-nowrap";
 const rolePillMultiLineClassName =
-  "h-auto px-[1.15em] py-[0.38rem] " +
-  "leading-[1.02] whitespace-pre-line text-center [text-wrap:initial] " +
+  "h-auto min-h-[3.95rem] px-[1.15em] py-[0.52rem] " +
+  "leading-[1.14] whitespace-pre-line text-center [text-wrap:initial] " +
   "max-w-[19.5rem] max-[48em]:max-w-[min(84vw,16.2rem)] " +
-  "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
+  "translate-y-0";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
