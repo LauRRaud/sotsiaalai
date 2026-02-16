@@ -701,6 +701,7 @@ Encoding fixes applied (BOM removed):
   - increased multiline pill physical height (`min-h` + `py`) so two-line labels expand the hole instead of being compressed
   - restored moderate inter-line spacing (`leading`) to avoid text collision
   - replaced `whitespace-pre-line` rendering with explicit multi-line row rendering to avoid inherited/global `line-height` overrides compressing role text
+  - increased multi-line row gap and vertical capsule space slightly (`gap`, `min-h`, `py`) per visual QA feedback
 - Status: `OK`
 
 ### Subscription active-state UI refresh + cancel-policy text update
