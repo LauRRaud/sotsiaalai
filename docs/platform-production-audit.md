@@ -687,6 +687,17 @@ Encoding fixes applied (BOM removed):
   - corrected ET casing from `SPAM` to `Spam` in the same success notice
 - Status: `OK`
 
+### Profile role-pill multiline spacing correction
+- Scope: `components/alalehed/ProfiilBody.jsx`
+- Good:
+  - multiline role labels now use compact line spacing without oversized visual hole
+- Risk:
+  - role-pill base styles previously conflicted between single-line and multiline variants (`leading/h`), causing excessive vertical gap between lines
+- Action:
+  - split role-pill styles into explicit base + single-line + multiline classes (no conflicting `leading`/`height` utilities)
+  - tuned multiline rhythm to tighter spacing (`py` and `leading`) for balanced two-line labels across locales
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
 1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks

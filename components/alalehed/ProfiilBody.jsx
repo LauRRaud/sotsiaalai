@@ -64,15 +64,16 @@ const headerCenterBaseClassName =
 const headerCenterPageClassName =
   "mt-[clamp(0rem,0.8vh,0.4rem)] translate-y-[clamp(2.4rem,5.6vh,4.2rem)] " +
   "max-[48em]:mt-[clamp(0.72rem,3.2vw,1.02rem)] max-[48em]:translate-y-[clamp(0.02rem,0.25vw,0.16rem)]";
-const rolePillClassName =
-  "inline-flex items-center justify-center rounded-full px-[0.75em] " +
+const rolePillBaseClassName =
+  "inline-flex items-center justify-center rounded-full " +
   "text-[1.2rem] font-[600] uppercase tracking-[0.06em] " +
   "text-[color:var(--profile-role-text-color,rgba(232,232,232,0.8))] " +
-  "bg-transparent border-none " +
-  "leading-[3.2rem] h-[3.2rem] whitespace-nowrap";
+  "bg-transparent border-none";
+const rolePillSingleLineClassName =
+  "px-[0.75em] h-[3.2rem] leading-[3.2rem] whitespace-nowrap";
 const rolePillMultiLineClassName =
-  "h-auto px-[1.15em] py-[0.44rem] " +
-  "leading-[1.16] whitespace-pre-line text-center [text-wrap:initial] " +
+  "h-auto px-[1.15em] py-[0.38rem] " +
+  "leading-[1.02] whitespace-pre-line text-center [text-wrap:initial] " +
   "max-w-[19.5rem] max-[48em]:max-w-[min(84vw,16.2rem)] " +
   "min-[48.0625em]:-translate-y-[0.34rem] max-[48em]:-translate-y-[0.14rem]";
 const orbitLayerClassName =
@@ -685,8 +686,8 @@ export default function ProfiilBody({
         <span
           ref={rolePillRef}
           className={cn(
-            rolePillClassName,
-            roleLabelIsMultiLine ? rolePillMultiLineClassName : null,
+            rolePillBaseClassName,
+            roleLabelIsMultiLine ? rolePillMultiLineClassName : rolePillSingleLineClassName,
             "shadow-[var(--profile-role-hole-shadow,none)]",
             orbitOpen ? "opacity-0 pointer-events-none" : null
           )}
