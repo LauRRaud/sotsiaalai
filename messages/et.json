@@ -379,7 +379,7 @@
     "section5": {
       "heading": "5. Tellimus, maksed ja tühistamine",
       "paragraph1": "<p>Platvormi tasulised funktsioonid põhinevad kuupõhisel tellimusel (näiteks 7,99 € kuus või muu Platvormil märgitud hinnastuse alusel). Makseid vahendab Maksekeskus AS kasutaja valitud makseviisi alusel.</p>",
-      "paragraph2": "<p>Tellimust saab hallata Platvormi profiilivaates (\"Halda tellimust\") või pöördudes aadressil <aEmail>info@sotsiaal.ai</aEmail>. Tellimuse tühistamine jõustub järgmise arveldusperioodi algusest. Juba tasutud perioodi eest tasu ei tagastata, välja arvatud seaduses sätestatud juhtudel.</p>",
+      "paragraph2": "<p>Tellimust saab hallata Platvormi sinu Profiili lehel, avades <a href=\"/tellimus\">Halda tellimust</a>. Tellimuse tühistamine jõustub järgmise arveldusperioodi algusest. Juba tasutud perioodi eest tasu ei tagastata, välja arvatud seaduses sätestatud juhtudel.</p>",
       "paragraph3": "<p>SotsiaalAI võib hinnakirja ja tellimustingimusi muuta, avaldades vastava info Platvormil ning teavitades aktiivseid tellijaid mõistliku etteteatamisega.</p>"
     },
     "section6": {
@@ -669,7 +669,7 @@
     },
     "active": {
       "summary": "Sinu tellimus on aktiivne. Kuutasu: 7,99 € / kuu.",
-      "cancel_note": "Tellimuse saad igal ajal tühistada oma profiililehelt või kirjutades aadressile <email>info@sotsiaal.ai</email>."
+      "cancel_note": "Tellimuse saad igal ajal tühistada oma profiililehelt."
     },
     "button": {
       "open_profile": "Ava profiil",

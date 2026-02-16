@@ -38,6 +38,14 @@ const subscriptionActionClassName =
   "max-[48em]:w-full max-[48em]:min-w-0 max-[48em]:whitespace-normal max-[48em]:!px-[1rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem] max-[48em]:!min-h-[3.42rem]";
 const subscriptionStatusClassName =
   "text-center max-[48em]:text-left text-[clamp(1.08rem,1.55vw,1.24rem)] leading-[1.36] font-[500]";
+const subscriptionActivePanelClassName =
+  "mx-auto w-full max-w-[min(30rem,100%)] rounded-[1.1rem] border border-[rgba(125,211,252,0.22)] " +
+  "bg-[linear-gradient(170deg,rgba(16,30,56,0.7),rgba(6,12,26,0.56))] " +
+  "px-[1.05rem] py-[0.95rem] shadow-[0_10px_30px_rgba(7,15,35,0.35)]";
+const subscriptionActiveSummaryClassName =
+  "text-center max-[48em]:text-left text-[clamp(1.08rem,1.48vw,1.2rem)] leading-[1.42] font-[600] text-[color:#d7f8ea]";
+const subscriptionActiveNoteClassName =
+  "mt-[0.52rem] text-center max-[48em]:text-left text-[clamp(0.96rem,1.2vw,1.06rem)] leading-[1.4] opacity-85";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
 export default function TellimusBody() {
@@ -221,13 +229,15 @@ export default function TellimusBody() {
         </h1>
         <div className={contentClassName}>
           {subActive ? <>
-              <p className={subscriptionCopyClassName}>
-                {t("subscription.active.summary")}
-              </p>
-              <p className={subscriptionCopyClassName} id="cancel-note">
-                <RichText value={t("subscription.active.cancel_note")} replacements={emailReplacement} />
-              </p>
-              <div className="mt-[clamp(1.6rem,4vh,2.6rem)] flex justify-center max-[48em]:w-full">
+              <div className={subscriptionActivePanelClassName} id="cancel-note">
+                <p className={subscriptionActiveSummaryClassName}>
+                  {t("subscription.active.summary")}
+                </p>
+                <p className={subscriptionActiveNoteClassName}>
+                  {t("subscription.active.cancel_note")}
+                </p>
+              </div>
+              <div className="mt-[clamp(1rem,2.5vh,1.6rem)] flex justify-center max-[48em]:w-full">
                 <Button as="a" href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note">
                   {t("subscription.button.open_profile")}
                 </Button>

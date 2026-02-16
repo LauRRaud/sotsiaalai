@@ -700,6 +700,24 @@ Encoding fixes applied (BOM removed):
   - aligned multiline pill baseline with single-line/admin pill by removing multiline upward translate offset
   - increased multiline pill physical height (`min-h` + `py`) so two-line labels expand the hole instead of being compressed
   - restored moderate inter-line spacing (`leading`) to avoid text collision
+  - replaced `whitespace-pre-line` rendering with explicit multi-line row rendering to avoid inherited/global `line-height` overrides compressing role text
+- Status: `OK`
+
+### Subscription active-state UI refresh + cancel-policy text update
+- Scope: `components/alalehed/TellimusBody.jsx`, `messages/et.json`, `messages/en.json`, `messages/ru.json`
+- Good:
+  - active subscription state now has clearer visual hierarchy (dedicated glass status panel + tighter CTA spacing)
+  - cancellation wording now consistently points to profile-based management only
+- Risk:
+  - previous active-state looked text-heavy and visually dated compared to newer login/registration components
+  - previous copy still mentioned cancellation by email in active-state note and terms text
+- Action:
+  - redesigned active state in subscription page with dedicated panel styles (`subscriptionActive*` classes)
+  - updated `subscription.active.cancel_note` in ET/EN/RU to profile-only cancellation wording
+  - updated Terms section 5 paragraph 2 in ET/EN/RU to remove email-based cancellation instruction
+- Follow-up:
+  - updated ET Terms section 5 paragraph 2 wording to include direct clickable `/tellimus` link with label `Halda tellimust`
+  - adjusted ET phrasing per product copy preference: `Platvormi sinu Profiili lehel`
 - Status: `OK`
 
 ## Open Items Queue (next passes)

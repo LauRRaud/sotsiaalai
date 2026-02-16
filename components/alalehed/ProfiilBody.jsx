@@ -73,9 +73,11 @@ const rolePillSingleLineClassName =
   "px-[0.75em] h-[3.2rem] leading-[3.2rem] whitespace-nowrap";
 const rolePillMultiLineClassName =
   "h-auto min-h-[3.95rem] px-[1.15em] py-[0.52rem] " +
-  "leading-[1.14] whitespace-pre-line text-center [text-wrap:initial] " +
+  "text-center [text-wrap:initial] " +
   "max-w-[19.5rem] max-[48em]:max-w-[min(84vw,16.2rem)] " +
   "translate-y-0";
+const rolePillMultiLineTextClassName =
+  "flex flex-col items-center justify-center gap-[0.18rem] leading-[1] text-inherit";
 const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
@@ -283,6 +285,9 @@ export default function ProfiilBody({
   const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
   const roleLabelIsMultiLine =
     typeof roleLabelDisplay === "string" && roleLabelDisplay.includes("\n");
+  const roleLabelLines = roleLabelIsMultiLine
+    ? roleLabelDisplay.split("\n").map(line => line.trim()).filter(Boolean)
+    : [];
   const profileContainerRef = useRef(null);
   const profileFormRef = useRef(null);
   const rolePillRef = useRef(null);
@@ -693,7 +698,17 @@ export default function ProfiilBody({
           )}
           aria-hidden={orbitOpen ? "true" : undefined}
         >
-          {roleLabelDisplay}
+          {roleLabelIsMultiLine ? (
+            <span className={rolePillMultiLineTextClassName}>
+              {roleLabelLines.map((line, index) => (
+                <span key={`role-line-${index}`} className="block">
+                  {line}
+                </span>
+              ))}
+            </span>
+          ) : (
+            roleLabelDisplay
+          )}
         </span>
       </div>
 

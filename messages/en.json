@@ -379,7 +379,7 @@
     "section5": {
       "heading": "5. Subscription, Payments and Cancellation",
       "paragraph1": "<p>The service is provided on a monthly subscription basis (monthly fee ā‚¬7.99). Payments are processed by Maksekeskus AS via the payment method selected by the user.</p>",
-      "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\") or by emailing <aEmail>info@sotsiaal.ai</aEmail>. When cancelled, billing stops from the next billing period.</p>",
+      "paragraph2": "<p>The subscription can be managed at any time on the profile page (\"Manage subscription\"). When cancelled, billing stops from the next billing period.</p>",
       "paragraph3": "<p>SotsiaalAI may change pricing and subscription terms by publishing the information on the Platform and notifying active subscribers with reasonable prior notice.</p>"
     },
     "section6": {
@@ -669,7 +669,7 @@
     },
     "active": {
       "summary": "Your subscription is active. Monthly price: 7.99.",
-      "cancel_note": "You can cancel your subscription any time on the profile page or by emailing <email>info@sotsiaal.ai</email>."
+      "cancel_note": "You can cancel your subscription at any time on the profile page."
     },
     "button": {
       "open_profile": "Open profile",
