@@ -179,7 +179,7 @@ function ProfileShell({
     setEntrySettleActive(true);
     timeoutId = window.setTimeout(() => {
       setEntrySettleActive(false);
-    }, 760);
+    }, 900);
     return () => {
       window.clearTimeout(timeoutId);
     };
@@ -228,7 +228,7 @@ function ProfileShell({
         >
           <span
             aria-hidden="true"
-            className="inline-block whitespace-pre [font:inherit] tracking-[0.012em] text-transparent [background-repeat:no-repeat] [background-size:220%_100%] [background-position:150%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:-2500ms]"
+            className="inline-block whitespace-pre [font:inherit] tracking-[0.012em] text-transparent [background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:700ms] [animation-fill-mode:both]"
             style={{
               backgroundImage: footerShineBackgroundImage
             }}
@@ -669,7 +669,7 @@ export default function ProfiilBody({
           if (document?.documentElement?.dataset?.reduceMotion === "1") return 0;
           if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return 0;
         } catch {}
-        return 620;
+        return 600;
       })();
       if (tiltDelayMs > 0) {
         triggerRouteTransition({
@@ -705,7 +705,7 @@ export default function ProfiilBody({
         window.setTimeout(() => {
           if (!stripLocaleFromPath(window.location.pathname).startsWith("/profiil")) return;
           window.location.assign(redirectUrl);
-        }, 620);
+        }, 600);
       }
     } catch (err) {
       logoutRedirectRef.current = false;

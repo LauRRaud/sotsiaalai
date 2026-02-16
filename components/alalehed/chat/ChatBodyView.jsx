@@ -99,7 +99,7 @@ export default function ChatBodyView({
     setEntrySettleActive(true);
     timeoutId = window.setTimeout(() => {
       setEntrySettleActive(false);
-    }, 760);
+    }, 900);
     return () => {
       window.clearTimeout(timeoutId);
     };

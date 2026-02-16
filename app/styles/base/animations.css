@@ -249,11 +249,8 @@
   0% {
     transform: perspective(1800px) rotateY(0deg);
   }
-  48% {
-    transform: perspective(1800px) rotateY(9deg);
-  }
-  78% {
-    transform: perspective(1800px) rotateY(-1.4deg);
+  50% {
+    transform: perspective(1800px) rotateY(8.2deg);
   }
   100% {
     transform: perspective(1800px) rotateY(0deg);
@@ -264,11 +261,8 @@
   0% {
     transform: perspective(1800px) rotateY(0deg);
   }
-  48% {
-    transform: perspective(1800px) rotateY(-9deg);
-  }
-  78% {
-    transform: perspective(1800px) rotateY(1.4deg);
+  50% {
+    transform: perspective(1800px) rotateY(-8.2deg);
   }
   100% {
     transform: perspective(1800px) rotateY(0deg);
@@ -277,8 +271,8 @@
 
 @keyframes glassContentSettleIn {
   0% {
-    opacity: 0.74;
-    filter: blur(4.4px);
+    opacity: 0.72;
+    filter: blur(4.2px);
   }
   62% {
     opacity: 0.94;
