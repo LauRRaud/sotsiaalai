@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import Button from "@/components/ui/Button";
@@ -29,6 +30,7 @@ export default function ChatSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
   const [items, setItems] = useState([]);
   const [roomItems, setRoomItems] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -59,6 +61,14 @@ export default function ChatSidebar() {
     if (typeof window === "undefined") return 30;
     return window.innerWidth < 640 ? 15 : 30;
   }, []);
+  const conversationRole = useMemo(() => {
+    const raw = session?.user?.role ?? (session?.user?.isAdmin ? "ADMIN" : "CLIENT");
+    const normalized = String(raw || "CLIENT").toUpperCase().trim();
+    if (normalized === "SOCIAL_WORKER" || normalized === "CLIENT" || normalized === "ADMIN") {
+      return normalized;
+    }
+    return "CLIENT";
+  }, [session]);
   const fetchList = useCallback(async ({
     reset
   } = {
@@ -302,7 +312,7 @@ export default function ChatSidebar() {
         },
         body: JSON.stringify({
           id,
-          role: "CLIENT"
+          role: conversationRole
         })
       });
       const data = await r.json().catch(() => ({}));
@@ -319,7 +329,7 @@ export default function ChatSidebar() {
     } finally {
       setCreating(false);
     }
-  }, [activateConversation, busy, creating, refreshAll, resolveErrorMessage, t]);
+  }, [activateConversation, busy, conversationRole, creating, refreshAll, resolveErrorMessage, t]);
   const onDelete = useCallback(async id => {
     if (!id) return;
     if (!confirm(t("chat.sidebar.confirm.delete"))) return;

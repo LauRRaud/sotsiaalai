@@ -112,7 +112,7 @@ export default function KasutusjuhendBody() {
               }} />
                 </article>)}
             </div>
-            <footer className="mt-[1.2rem] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]">
+            <footer className="mt-[1.2rem] mb-[clamp(1.45rem,4vh,2.3rem)] max-[48em]:mb-[clamp(1.7rem,5vh,2.6rem)] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]">
               {t("about.footer.note")}
             </footer>
           </div>

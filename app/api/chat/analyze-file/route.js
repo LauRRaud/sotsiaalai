@@ -9,6 +9,15 @@ import { getAnalyzeLimit, utcDayStart, secondsUntilUtcMidnight } from "@/lib/ana
 import { enforceChatRateLimit, readChatRateLimit } from "@/lib/chat-api-rate-limit";
 
 const MAX_MB = Number(process.env.NEXT_PUBLIC_RAG_MAX_UPLOAD_MB || 50);
+const RAW_ALLOWED_MIME = String(
+  process.env.NEXT_PUBLIC_RAG_ALLOWED_MIME ||
+    "application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+);
+const ALLOWED_MIME = new Set(
+  RAW_ALLOWED_MIME.split(",")
+    .map(v => v.trim().toLowerCase())
+    .filter(Boolean)
+);
 const RAW_RAG_HOST = (process.env.RAG_INTERNAL_HOST || "127.0.0.1:8000").trim();
 const RAG_KEY = (process.env.RAG_SERVICE_API_KEY || process.env.RAG_API_KEY || "").trim();
 const RAG_TIMEOUT_MS = Number(process.env.RAG_TIMEOUT_MS || 30_000);
@@ -51,6 +60,19 @@ function isLocalBaseUrl(url) {
   } catch {
     return false;
   }
+}
+
+function inferMimeFromFileName(fileName) {
+  const name = String(fileName || "").trim().toLowerCase();
+  if (!name) return "";
+  if (name.endsWith(".pdf")) return "application/pdf";
+  if (name.endsWith(".txt")) return "text/plain";
+  if (name.endsWith(".md") || name.endsWith(".markdown")) return "text/markdown";
+  if (name.endsWith(".html") || name.endsWith(".htm")) return "text/html";
+  if (name.endsWith(".docx")) {
+    return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  }
+  return "";
 }
 
 async function callRagAnalyze(formData) {
@@ -144,6 +166,17 @@ export async function POST(request) {
     });
   }
 
+  const mimeTypeRaw = fd.get("mimeType");
+  const mimeTypeFromRequest = typeof mimeTypeRaw === "string" ? mimeTypeRaw.trim().toLowerCase() : "";
+  const mimeTypeFromFile = String(file?.type || "").trim().toLowerCase();
+  const mimeTypeInferred = inferMimeFromFileName(file?.name || "");
+  const resolvedMimeType = [mimeTypeFromRequest, mimeTypeFromFile, mimeTypeInferred].find(
+    mime => mime && ALLOWED_MIME.has(mime)
+  );
+  if (!resolvedMimeType) {
+    return errorJson("api.chat.analyze.mime_not_allowed", 415);
+  }
+
   const userId = String(session.user.id);
   const day = utcDayStart();
   const isAdmin = !!session.user.isAdmin || pickedRole === "ADMIN";
@@ -197,10 +230,7 @@ export async function POST(request) {
   const forward = new FormData();
   forward.append("file", file, file.name || "file");
 
-  const mimeType = fd.get("mimeType");
-  if (mimeType && typeof mimeType === "string") {
-    forward.append("mimeType", mimeType);
-  }
+  forward.append("mimeType", resolvedMimeType);
 
   const maxChunks = fd.get("maxChunks");
   if (maxChunks && typeof maxChunks === "string") {

@@ -42,6 +42,18 @@ export function useRoomMessages(roomId, pollMs = 3000) {
   const esRef = useRef(null);
   const retryRef = useRef(2000);
   const reconnectTimerRef = useRef(null);
+  const lastReadMarkAtRef = useRef(0);
+  const markRead = useCallback(async (force = false) => {
+    if (!roomId || blocked || authRequired) return;
+    const now = Date.now();
+    if (!force && now - lastReadMarkAtRef.current < 5000) return;
+    lastReadMarkAtRef.current = now;
+    try {
+      await fetch(`/api/rooms/${roomId}/read`, {
+        method: "PUT"
+      });
+    } catch {}
+  }, [roomId, blocked, authRequired]);
   const load = useCallback(async (reset = false) => {
     if (!roomId) return;
     const url = new URL(`/api/rooms/${roomId}/messages`, window.location.origin);
@@ -68,10 +80,12 @@ export function useRoomMessages(roomId, pollMs = 3000) {
     if (reset) {
       setMessages(items);
       cursorRef.current = data.nextCursor || null;
+      void markRead(true);
       return;
     }
     setMessages(prev => mergeById(prev, items));
-  }, [roomId, useSse]);
+    void markRead(false);
+  }, [roomId, useSse, markRead]);
   const connectSse = useCallback(() => {
     if (!roomId || blocked || authRequired) return;
     if (reconnectTimerRef.current) {
@@ -110,12 +124,16 @@ export function useRoomMessages(roomId, pollMs = 3000) {
         const data = JSON.parse(ev.data);
         if (data.type === "message" && data.message) {
           setMessages(prev => mergeById(prev, [data.message]));
+          void markRead(false);
         } else if (data.type === "delete" && data.id) {
           setMessages(prev => prev.filter(m => m.id !== data.id));
         }
       } catch {}
     };
-  }, [roomId, blocked, authRequired, load, pollMs]);
+  }, [roomId, blocked, authRequired, load, pollMs, markRead]);
+  useEffect(() => {
+    lastReadMarkAtRef.current = 0;
+  }, [roomId]);
   useEffect(() => {
     let cancelled = false;
     async function loadRoomTitle() {

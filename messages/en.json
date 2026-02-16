@@ -950,6 +950,7 @@
         "multipart_required": "Request must be multipart/form-data.",
         "file_required": "Please attach a file.",
         "file_too_large": "File is too large.",
+        "mime_not_allowed": "This file format is not supported.",
         "quota_exceeded": "Analysis quota exceeded.",
         "quota_check_failed": "Could not verify analysis quota.",
         "rag_key_missing": "Analysis service is not configured.",

@@ -568,7 +568,7 @@ export default function RightRail({
         };
 
         const ariaLabel = it?.key === "sources" ? sourcesLabel : it?.label || "";
-        const isDisabled = false;
+        const isDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const displayLabel = it?.label || "";
 

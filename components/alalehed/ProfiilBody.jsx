@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
@@ -52,8 +52,8 @@ const pageShellClassName =
 const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[clamp(1.4rem,3.2vh,2.3rem)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)] " +
-  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay)]:relative " +
-  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay)]:z-[1]";
+  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:relative " +
+  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:z-[1]";
 const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
@@ -129,8 +129,10 @@ function ProfileShell({
   embedded = false,
   theme = "dark",
   orbitOpen = false,
-  maskLayerRef
+  maskLayerRef,
+  footerNote
 }) {
+  const footerCurveId = useId().replace(/[:]/g, "");
   const containerClass = cn(
     containerBaseClassName,
     embedded ? "profile-container glass-ring glass-ring--desktop-stable" : "profile-container glass-ring glass-ring--desktop-stable",
@@ -158,6 +160,32 @@ function ProfileShell({
         data-orbit-open={orbitOpen ? "true" : "false"}
       />
       {children}
+      {footerNote ? (
+        <footer
+          aria-hidden={orbitOpen ? "true" : undefined}
+          className={cn(
+            "profile-footer-note pointer-events-none absolute inset-x-0 top-[86%] -translate-y-1/2 z-[1] text-center text-[1.52rem] leading-[1.25] tracking-[0.012em] text-[#d08963] light:text-[#7A3A38] transition-opacity duration-200 max-[48em]:top-[88%] max-[48em]:text-[1.62rem]",
+            orbitOpen ? "opacity-0" : "opacity-[0.3]"
+          )}
+        >
+          <svg
+            aria-hidden="true"
+            className="mx-auto block h-[11.2rem] w-[min(58rem,100%)] overflow-visible max-[48em]:h-[11.8rem]"
+            viewBox="0 0 320 210"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <defs>
+              <path id={footerCurveId} d="M 14 86 Q 160 112 306 86" />
+            </defs>
+            <text className="fill-current [font:inherit] tracking-[0.012em]" textAnchor="middle" fontSize="168">
+              <textPath href={`#${footerCurveId}`} startOffset="50%">
+                {footerNote}
+              </textPath>
+            </text>
+          </svg>
+          <span className="sr-only">{footerNote}</span>
+        </footer>
+      ) : null}
     </GlassRing>;
   if (embedded) {
     return container;
@@ -282,6 +310,7 @@ export default function ProfiilBody({
     !embedded && headerCenterPageClassName
   );
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "profile.role_short.unknown");
+  const footerNote = t("about.footer.note");
   const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
   const roleLabelIsMultiLine =
     typeof roleLabelDisplay === "string" && roleLabelDisplay.includes("\n");
@@ -642,7 +671,7 @@ export default function ProfiilBody({
     })();
   }, [embedded, initialProfile, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
-    return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+    return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"} footerNote={footerNote}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
       </ProfileShell>;
   }
@@ -661,7 +690,7 @@ export default function ProfiilBody({
           ? t("profile.login_to_manage_sub")
           : t("profile.login_to_view");
     return <>
-        <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+        <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"} footerNote={footerNote}>
           <h1 className={titleClassName}>{t("profile.title")}</h1>
           <p className={noteClassName}>{reasonText}</p>
           <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={profileBackButtonClassName} />
@@ -671,7 +700,7 @@ export default function ProfiilBody({
       </>;
   }
   if (loadFailed) {
-    return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={isLightTheme ? "light" : "dark"}>
+    return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={isLightTheme ? "light" : "dark"} footerNote={footerNote}>
         <h1 id="profile-title" className={titleClassName}>
           {t("profile.title")}
         </h1>
@@ -682,7 +711,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef}>
+  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef} footerNote={footerNote}>
       <h1 id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)}>
         {t("profile.title")}
       </h1>

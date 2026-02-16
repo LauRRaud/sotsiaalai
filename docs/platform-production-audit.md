@@ -721,6 +721,128 @@ Encoding fixes applied (BOM removed):
   - adjusted ET phrasing per product copy preference: `Platvormi sinu Profiili lehel`
 - Status: `OK`
 
+### Chat capability verification - Point 1 (message send/stream/stop)
+- Scope: `components/alalehed/chat/ChatComposer.jsx`, `components/chat/hooks/useChatStream.js`, `app/api/chat/route.js`
+- Good:
+  - message send works via Enter and submit button (`ChatComposer` submit + key handlers)
+  - duplicate-send guard is present (`submitInFlightRef` + `isGenerating` checks)
+  - streaming pipeline is wired (`/api/chat` SSE `meta/delta/done`)
+  - stop flow is wired with `AbortController` and interrupted-message fallback
+- Risk:
+  - no functional blocker found in this pass
+- Action:
+  - verification-only pass completed for point 1
+- Status: `OK`
+
+### Chat capability verification - Point 2 (conversation history sidebar)
+- Scope: `components/ChatSidebar.jsx`, `components/chat/hooks/useChatConversationState.js`, `app/api/chat/conversations/route.js`, `app/api/chat/conversations/[id]/route.js`, `app/api/chat/run/route.js`
+- Good:
+  - previous conversations load via paginated endpoint with cursor support
+  - opening a conversation dispatches switch event and hydrates full message history from server (`/api/chat/run`)
+  - new-conversation, single-delete, bulk-delete, refresh, and load-more flows are wired and guarded with loading states
+  - ownership/auth guards are enforced server-side for conversation read/delete
+- Action:
+  - verification-only pass completed for point 2
+  - fixed follow-up: new conversation now posts role from session/user context instead of fixed `CLIENT`
+- Status: `OK`
+
+### Chat capability verification - Point 3 (sources panel + right-rail source action)
+- Scope: `components/chat/hooks/useConversationSources.js`, `components/chat/RightRail.jsx`, `components/alalehed/chat/ChatSourcesPanel.jsx`, `components/alalehed/ChatBody.jsx`
+- Good:
+  - sources are aggregated from conversation messages and deduplicated by stable key; transient upload-only sources are filtered out
+  - sources-panel open/close flow is wired from chat body and right-rail icon, including focus return behavior
+  - sources dialog includes keyboard handling (`Esc`, `Tab` trap) and overlay close
+- Risk:
+  - source icon was previously still technically clickable when no sources existed (action no-op), which is weak affordance/accessibility signaling
+- Action:
+  - verification pass completed for point 3
+  - fixed follow-up: right-rail `sources` action is now truly disabled when no conversation sources are available
+- Status: `OK`
+
+### Chat capability verification - Point 4 (document upload + analysis mode)
+- Scope: `components/chat/hooks/useChatAnalysisController.js`, `components/alalehed/chat/ChatAnalysisPanel.jsx`, `components/alalehed/chat/ChatComposer.jsx`, `app/api/chat/analyze-file/route.js`, `app/api/chat/analyze-usage/route.js`
+- Good:
+  - upload flow is wired end-to-end (`paperclip` -> analysis panel -> file picker -> `/api/chat/analyze-file`)
+  - usage/quota counter is fetched from `/api/chat/analyze-usage` and shown in panel
+  - document-context mode toggle (`docOnlyMode`) is correctly propagated into chat request payload (`combineSources`)
+- Risk:
+  - server previously relied on UI accept-filter and did not enforce allowed MIME list on upload endpoint
+- Action:
+  - verification pass completed for point 4
+  - fixed follow-up: added server-side MIME allowlist validation in `/api/chat/analyze-file` (with extension-based fallback inference)
+  - added API i18n key for unsupported file format: `api.chat.analyze.mime_not_allowed` (ET/EN/RU)
+- Status: `OK`
+
+### Chat capability verification - Point 5 (dictation / microphone / STT)
+- Scope: `components/chat/hooks/useSpeech.js`, `components/alalehed/chat/ChatComposer.jsx`, `components/alalehed/chat/view/ChatNotices.jsx`, `app/api/stt/route.js`
+- Good:
+  - dictation button flow is wired end-to-end (`mic` button -> browser `MediaRecorder` -> `/api/stt` -> recognized text appended to composer)
+  - STT endpoint enforces auth, request/file size limits, supported audio mime checks, and rate limiting
+  - recording-state UX is wired (`recording`, completion pulse, error notice in chat notice area)
+  - backend error keys are mapped to localized UI messages via `resolveApiMessage` fallback path
+- Risk:
+  - dictation availability still depends on browser/device microphone APIs and user permission; unsupported devices fall back to error notice only
+- Action:
+  - verification-only pass completed for point 5 (no code changes required)
+- Status: `OK`
+
+### Chat capability verification - Point 6 (read-aloud / TTS)
+- Scope: `components/chat/hooks/useSpeech.js`, `components/alalehed/chat/ChatComposer.jsx`, `app/api/tts/route.js`
+- Good:
+  - read-aloud is wired with provider fallback path:
+    - RU/EN locale path uses browser speech synthesis
+    - ET (and other locales) path uses `/api/tts` with backend provider fallback
+  - `/api/tts` enforces auth, rate limit, payload validation, and text length caps
+- Risk:
+  - read-aloud action did not truly act as a stop-toggle while already speaking (second click restarted playback path)
+- Action:
+  - verification pass completed for point 6
+  - fixed follow-up: same read-aloud button now stops playback immediately when already speaking
+- Status: `OK`
+
+### Chat capability verification - Point 7 (room access, join gating, unread state)
+- Scope: `app/api/chat/route.js`, `app/api/rooms/[roomId]/messages/route.js`, `app/api/rooms/[roomId]/messages/stream/route.js`, `app/api/invites/[id]/accept/route.js`, `components/rooms/useRoomMessages.js`, `components/chat/hooks/useChatStream.js`
+- Good:
+  - room-mode messaging is access-gated server-side by membership + subscription rules (including sponsored-host path)
+  - invite accept flow enforces token validity, email match, payment mode rules, and room-member upsert atomically in transaction
+  - chat room-mode handles `401/403` and blocks sending when room access is not valid
+- Risk:
+  - room unread-state endpoint (`PUT /api/rooms/[roomId]/read`) existed but was not called from client flow, so unread counters could remain stale
+- Action:
+  - verification pass completed for point 7
+  - fixed follow-up: added throttled read-marker updates in `useRoomMessages` on initial room load, polling merge, and SSE incoming message
+- Status: `OK`
+
+### Guide content correction (chat/profile sections, ET)
+- Scope: `messages/et.json`
+- Good:
+  - usage-guide chat/profile descriptions now match actual UI placement and interaction model
+- Action:
+  - updated chat section to explicitly mention scrollable message list/scrollbar behavior
+  - corrected `Allikad` wording from footer placement to right-side shortcuts icon rail placement
+  - added dedicated shortcut-icons subsection (Vestlused, Allikad, Ruumid, Lisa inimene, Profiil) with what each icon opens
+  - updated profile section to describe center orbital menu and list main actions exposed by its icons
+- Status: `OK`
+
+### Footer note visibility polish (guide + profile card)
+- Scope: `components/alalehed/KasutusjuhendBody.jsx`, `components/alalehed/ProfiilBody.jsx`
+- Good:
+  - `SotsiaalAI © 2025` stays readable above bottom fade/mask zone on the usage guide
+  - profile glass card now shows the same footer note in its lower area across profile states
+- Action:
+  - added extra bottom breathing room under usage-guide footer note so it does not sit inside the fade zone
+  - added shared profile-card footer note rendering in `ProfileShell` with responsive bottom offsets
+- Follow-up:
+  - excluded profile footer note from generic child `position: relative` rule so it can stay absolutely anchored to the card bottom edge
+  - reduced mobile/desktop bottom offsets to keep the note visually at the lower edge of the glass card
+  - moved profile footer note upward from absolute bottom per visual QA
+  - applied theme-specific brand tones for footer note (`dark`: orange-leaning, `light`: dark red brand tone)
+  - increased profile footer note font size for stronger readability on desktop and mobile
+  - moved profile footer note significantly upward (desktop/mobile) per final visual preference
+  - increased profile footer note size further and added slight transparency for softer integration with glass background
+  - reduced profile footer note opacity further and hide it automatically while orbital menu is open
+- Status: `OK`
+
 ## Open Items Queue (next passes)
 
 1. Execute Maksekeskus sandbox E2E with real provider payloads/signatures and capture evidence from `npm run payments:maksekeskus:e2e` + provider callbacks

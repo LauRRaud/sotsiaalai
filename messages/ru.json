@@ -950,6 +950,7 @@
         "multipart_required": "Запрос должен быть в формате multipart/form-data.",
         "file_required": "Пожалуйста, прикрепите файл.",
         "file_too_large": "Файл слишком большой.",
+        "mime_not_allowed": "Этот формат файла не поддерживается.",
         "quota_exceeded": "Лимит анализа превышен.",
         "quota_check_failed": "Не удалось проверить лимит анализа.",
         "rag_key_missing": "Сервис анализа не настроен.",

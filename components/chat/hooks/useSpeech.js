@@ -107,6 +107,10 @@ export function useSpeech({
   }, [locale]);
   const speakLatestReply = useCallback(async () => {
     if (typeof window === "undefined") return;
+    if (isSpeaking) {
+      stopSpeaking();
+      return;
+    }
     const text = latestAiText;
     if (!text) return;
     const base = (locale || "").toLowerCase().split("-")[0];
@@ -147,7 +151,7 @@ export function useSpeech({
     } catch {}
     stopSpeaking();
     speakWithBrowser(text);
-  }, [latestAiText, locale, speakWithBrowser, stopSpeaking]);
+  }, [isSpeaking, latestAiText, locale, speakWithBrowser, stopSpeaking]);
   const triggerRecordingPulse = useCallback(() => {
     if (recordingPulseTimerRef.current) {
       clearTimeout(recordingPulseTimerRef.current);
