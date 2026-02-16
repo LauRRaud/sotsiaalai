@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import AccessibilityProvider from "@/components/accessibility/AccessibilityProvider";
@@ -29,7 +29,9 @@ export default function Providers({
   return <SessionProvider session={session} refetchOnWindowFocus={false}>
       <I18nProvider initialLocale={initialLocale} messages={messages}>
         <AccessibilityProvider initialPrefs={initialA11yPrefs}>
-          <RouteScrollReset />
+          <Suspense fallback={null}>
+            <RouteScrollReset />
+          </Suspense>
           {children}
         </AccessibilityProvider>
       </I18nProvider>

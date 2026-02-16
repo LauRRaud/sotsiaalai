@@ -529,7 +529,11 @@ export default function RightRail({
               onProfileToggle();
               return;
             }
-            pushWithTransition(router, localizePath("/profiil", locale));
+            pushWithTransition(router, localizePath("/profiil", locale), {
+              glassRingTilt: "right",
+              waitForGlassRingTilt: true,
+              persistGlassRingTilt: false
+            });
             return;
           }
           if (it.key === "chats") {

@@ -245,6 +245,36 @@
   }
 }
 
+@keyframes glassRingTiltFromRight {
+  0% {
+    transform: perspective(1800px) rotateY(0deg);
+  }
+  48% {
+    transform: perspective(1800px) rotateY(9deg);
+  }
+  78% {
+    transform: perspective(1800px) rotateY(-1.4deg);
+  }
+  100% {
+    transform: perspective(1800px) rotateY(0deg);
+  }
+}
+
+@keyframes glassRingTiltFromLeft {
+  0% {
+    transform: perspective(1800px) rotateY(0deg);
+  }
+  48% {
+    transform: perspective(1800px) rotateY(-9deg);
+  }
+  78% {
+    transform: perspective(1800px) rotateY(1.4deg);
+  }
+  100% {
+    transform: perspective(1800px) rotateY(0deg);
+  }
+}
+
 .defer-fade {
   --end-op: 1;
   --fade-dur: 1700ms;

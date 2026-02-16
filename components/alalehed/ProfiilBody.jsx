@@ -9,7 +9,7 @@ import ModalConfirm from "@/components/ui/ModalConfirm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OrbitalMenu from "@/components/effects/Components/OrbitalMenu/OrbitalMenu";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { pushWithTransition, triggerRouteTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
@@ -18,6 +18,10 @@ import BackButton from "@/components/ui/BackButton";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+
+const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+
 const ROLE_KEYS = {
   ADMIN: "profile.role_short.admin",
   SOCIAL_WORKER: "profile.role_short.worker",
@@ -377,6 +381,9 @@ export default function ProfiilBody({
     let raf = 0;
     let rafLoop = 0;
     let loopUntil = 0;
+    let pendingAfterTilt = false;
+    const isTiltActive = () =>
+      typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -391,6 +398,10 @@ export default function ProfiilBody({
       return encodeSvgMask(svg);
     };
     const updateMask = () => {
+      if (isTiltActive()) {
+        pendingAfterTilt = true;
+        return;
+      }
       if (box.dataset?.orbitOpen === "true") {
         if (maskLayer) {
           maskLayer.style.setProperty("-webkit-mask-image", "none");
@@ -429,6 +440,7 @@ export default function ProfiilBody({
         }
         lastMask = mask;
       }
+      pendingAfterTilt = false;
     };
     const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
     const tick = (ts) => {
@@ -447,17 +459,26 @@ export default function ProfiilBody({
       }
     };
     const scheduleUpdate = () => {
+      if (isTiltActive()) {
+        pendingAfterTilt = true;
+        return;
+      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask();
         startLoop();
       });
     };
+    const onTiltState = event => {
+      if (event?.detail?.active) return;
+      if (pendingAfterTilt) scheduleUpdate();
+    };
     maskRefreshRef.current = scheduleUpdate;
     scheduleUpdate();
     const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
       window.setTimeout(scheduleUpdate, delay)
     );
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
     box.addEventListener("scroll", scheduleUpdate);
     box.addEventListener("transitionend", scheduleUpdate);
@@ -483,6 +504,7 @@ export default function ProfiilBody({
       window.cancelAnimationFrame(raf);
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
       settleTimers.forEach(timer => window.clearTimeout(timer));
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
       box.removeEventListener("scroll", scheduleUpdate);
       box.removeEventListener("transitionend", scheduleUpdate);
@@ -596,7 +618,11 @@ export default function ProfiilBody({
       onBack();
       return;
     }
-    pushWithTransition(router, localizePath("/vestlus", locale));
+    pushWithTransition(router, localizePath("/vestlus", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
   }, [locale, onBack, router]);
   const mobileBackItem = {
     key: "back",
@@ -612,6 +638,22 @@ export default function ProfiilBody({
     logoutRedirectRef.current = true;
     setLoggingOut(true);
     try {
+      const tiltDelayMs = (() => {
+        if (typeof window === "undefined") return 0;
+        try {
+          if (document?.documentElement?.dataset?.reduceMotion === "1") return 0;
+          if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return 0;
+        } catch {}
+        return 620;
+      })();
+      if (tiltDelayMs > 0) {
+        triggerRouteTransition({
+          glassRingTilt: "right",
+          persistGlassRingTilt: false
+        });
+        await new Promise(resolve => window.setTimeout(resolve, tiltDelayMs));
+      }
+
       const signOutResult = await signOut({
         redirect: false,
         callbackUrl: localizePath("/", locale)
@@ -638,7 +680,7 @@ export default function ProfiilBody({
         window.setTimeout(() => {
           if (!stripLocaleFromPath(window.location.pathname).startsWith("/profiil")) return;
           window.location.assign(redirectUrl);
-        }, 420);
+        }, 620);
       }
     } catch (err) {
       logoutRedirectRef.current = false;

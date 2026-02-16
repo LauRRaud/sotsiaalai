@@ -1,4 +1,8 @@
 import { useLayoutEffect } from "react";
+
+const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+
 export function useChatInputHoleMask({
   containerRef,
   inputBarRef,
@@ -37,6 +41,9 @@ export function useChatInputHoleMask({
     let raf = 0;
     let rafLoop = 0;
     let loopUntil = 0;
+    let pendingAfterTilt = false;
+    const isTiltActive = () =>
+      typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -56,6 +63,10 @@ export function useChatInputHoleMask({
       return encodeSvgMask(svg);
     };
     const updateMask = () => {
+      if (isTiltActive()) {
+        pendingAfterTilt = true;
+        return;
+      }
       const boxRect = box.getBoundingClientRect();
       const boxW = boxRect.width;
       const boxH = boxRect.height;
@@ -69,6 +80,7 @@ export function useChatInputHoleMask({
         box.style.setProperty("--chat-input-hole-mask", mask);
         lastMask = mask;
       }
+      pendingAfterTilt = false;
     };
     const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
     const tick = (ts) => {
@@ -87,16 +99,25 @@ export function useChatInputHoleMask({
       }
     };
     const scheduleUpdate = () => {
+      if (isTiltActive()) {
+        pendingAfterTilt = true;
+        return;
+      }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
         updateMask();
         startLoop();
       });
     };
+    const onTiltState = event => {
+      if (event?.detail?.active) return;
+      if (pendingAfterTilt) scheduleUpdate();
+    };
     if (refreshRef) {
       refreshRef.current = scheduleUpdate;
     }
     scheduleUpdate();
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
     window.addEventListener("scroll", scheduleUpdate, true);
     box.addEventListener("scroll", scheduleUpdate);
@@ -124,6 +145,7 @@ export function useChatInputHoleMask({
     return () => {
       window.cancelAnimationFrame(raf);
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("scroll", scheduleUpdate, true);
       box.removeEventListener("scroll", scheduleUpdate);

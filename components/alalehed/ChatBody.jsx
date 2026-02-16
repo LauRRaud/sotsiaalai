@@ -413,13 +413,17 @@ export default function ChatBody({
       return;
     }
     const homePath = localizePath("/", locale);
-    pushWithTransition(router, homePath);
+    pushWithTransition(router, homePath, {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
     if (typeof window !== "undefined") {
       window.setTimeout(() => {
         if (stripLocaleFromPath(window.location.pathname).startsWith("/vestlus")) {
           window.location.assign(homePath);
         }
-      }, 220);
+      }, 760);
     }
   }, [locale, onBackHome, router]);
   const handleComposerFocus = useCallback(() => {

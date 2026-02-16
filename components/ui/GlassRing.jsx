@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
 
 const baseStyles =
@@ -28,15 +28,167 @@ const baseStyles =
   "[--glass-edge-left:calc(var(--hud-edge-left,0px)+clamp(0.1rem,1.2vw,0.8rem))] " +
   "[--glass-edge-right:calc(var(--hud-edge-right,0px)+clamp(0.1rem,1.2vw,0.8rem))]";
 
+const ROUTE_TILT_EVENT = "sotsiaalai:route-transition";
+const ROUTE_TILT_KEY = "sotsiaalai:glass-ring-tilt";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+const ROUTE_TILT_MS = 620;
+const ROUTE_TILT_MAX_AGE_MS = 1800;
+const TILT_ACTIVE_COUNT_KEY = "__SOTSIAALAI_GLASS_RING_TILT_COUNT";
+const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+
+function updateGlobalTiltState(windowRef, activate) {
+  if (!windowRef) return false;
+  const currentCount = Number(windowRef[TILT_ACTIVE_COUNT_KEY]) || 0;
+  const nextCount = activate
+    ? currentCount + 1
+    : Math.max(0, currentCount - 1);
+  windowRef[TILT_ACTIVE_COUNT_KEY] = nextCount;
+  const isActive = nextCount > 0;
+  windowRef[TILT_ACTIVE_FLAG_KEY] = isActive;
+  try {
+    windowRef.dispatchEvent(
+      new CustomEvent(ROUTE_TILT_STATE_EVENT, {
+        detail: { active: isActive }
+      })
+    );
+  } catch {}
+  return isActive;
+}
+
 const GlassRing = forwardRef(function GlassRing(
-  { as: Component = "div", className, children, ...props },
+  { as: Component = "div", className, children, style, ...props },
   ref
 ) {
-  return (
-    <Component ref={ref} className={cn(baseStyles, className)} {...props}>
+  const [tiltDirection, setTiltDirection] = useState(null);
+  const clearTimerRef = useRef(null);
+  const localRef = useRef(null);
+  const tiltLeaseActiveRef = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const motionReduced =
+      document?.documentElement?.dataset?.reduceMotion === "1" ||
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (motionReduced) return;
+
+    const clearTimer = () => {
+      if (clearTimerRef.current) {
+        window.clearTimeout(clearTimerRef.current);
+        clearTimerRef.current = null;
+      }
+    };
+
+    const startTilt = direction => {
+      if (direction !== "left" && direction !== "right") return;
+      clearTimer();
+      setTiltDirection(null);
+      if (!tiltLeaseActiveRef.current) {
+        tiltLeaseActiveRef.current = true;
+        updateGlobalTiltState(window, true);
+      }
+      window.requestAnimationFrame(() => {
+        setTiltDirection(direction);
+        clearTimerRef.current = window.setTimeout(() => {
+          setTiltDirection(null);
+          if (tiltLeaseActiveRef.current) {
+            tiltLeaseActiveRef.current = false;
+            updateGlobalTiltState(window, false);
+          }
+          clearTimerRef.current = null;
+        }, ROUTE_TILT_MS);
+      });
+    };
+
+    const readPendingTilt = () => {
+      try {
+        const raw = window.sessionStorage.getItem(ROUTE_TILT_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        const direction = parsed?.direction;
+        const ts = Number(parsed?.ts);
+        if (direction !== "left" && direction !== "right") {
+          window.sessionStorage.removeItem(ROUTE_TILT_KEY);
+          return null;
+        }
+        if (!Number.isFinite(ts) || Date.now() - ts > ROUTE_TILT_MAX_AGE_MS) {
+          window.sessionStorage.removeItem(ROUTE_TILT_KEY);
+          return null;
+        }
+        window.sessionStorage.removeItem(ROUTE_TILT_KEY);
+        return direction;
+      } catch {
+        return null;
+      }
+    };
+    const onRouteTransition = event => {
+      const detail = event?.detail ?? {};
+      const nextDirection = detail?.glassRingTilt;
+      startTilt(nextDirection);
+    };
+
+    // Route dispatch may happen before this component is mounted on the next page.
+    // Read the latest short-lived direction marker so the tilt is still guaranteed.
+    startTilt(readPendingTilt());
+
+    window.addEventListener(ROUTE_TILT_EVENT, onRouteTransition);
+    return () => {
+      window.removeEventListener(ROUTE_TILT_EVENT, onRouteTransition);
+      clearTimer();
+      if (tiltLeaseActiveRef.current) {
+        tiltLeaseActiveRef.current = false;
+        updateGlobalTiltState(window, false);
+      }
+    };
+  }, []);
+
+  const incomingStyle = style;
+  const animationName =
+    tiltDirection === "right"
+      ? "glassRingTiltFromRight"
+      : tiltDirection === "left"
+        ? "glassRingTiltFromLeft"
+        : null;
+  const animations = [];
+  if (animationName) {
+    animations.push(
+      `${animationName} ${ROUTE_TILT_MS}ms cubic-bezier(0.22,0.61,0.36,1) both`
+    );
+  }
+  const mergedStyle =
+    animations.length > 0
+      ? {
+          ...(incomingStyle || {}),
+          animation: animations.join(", "),
+          transformOrigin: "50% 50%",
+          transformStyle: "preserve-3d",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden"
+        }
+      : incomingStyle;
+
+  const setRefs = node => {
+    localRef.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+      return;
+    }
+    if (ref && typeof ref === "object") {
+      ref.current = node;
+    }
+  };
+
+  const content = (
+    <Component
+      ref={setRefs}
+      className={cn(baseStyles, className)}
+      style={mergedStyle}
+      {...props}
+    >
       {children}
     </Component>
   );
+
+  return content;
 });
 
 export default GlassRing;

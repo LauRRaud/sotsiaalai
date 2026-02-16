@@ -63,7 +63,11 @@ export function useChatProfileRoll({
 
   const openProfile = useCallback(() => {
     if (!embedded) {
-      pushWithTransition(router, localizePath("/profiil", locale));
+      pushWithTransition(router, localizePath("/profiil", locale), {
+        glassRingTilt: "right",
+        waitForGlassRingTilt: true,
+        persistGlassRingTilt: false
+      });
       return;
     }
     triggerRoll("right", true);
