@@ -169,10 +169,12 @@ function ProfileShell({
       return;
     }
     let timeoutId = 0;
+    const isMobileViewport =
+      window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
     const motionReduced =
       document?.documentElement?.dataset?.reduceMotion === "1" ||
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    if (motionReduced) {
+    if (motionReduced || isMobileViewport) {
       setEntrySettleActive(false);
       return;
     }
