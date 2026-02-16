@@ -2,10 +2,8 @@
 
 import Logomust from "@/public/logo/logomust.svg";
 import { cn } from "@/components/ui/cn";
-import useT from "@/components/i18n/useT";
 
 export default function HomeFooter({ className, logoClassName }) {
-  const t = useT();
   return (
     <footer
       className={cn(
@@ -23,8 +21,8 @@ export default function HomeFooter({ className, logoClassName }) {
             "home-footer-logo pointer-events-none w-[clamp(18rem,34vw,28rem)] h-auto opacity-[0.8] mt-[2.6rem]",
             logoClassName
           )}
-          role="img"
-          aria-label={t("home.footer.logo_alt")}
+          aria-hidden="true"
+          focusable="false"
           style={{ "--end-op": "0.8" }}
         />
       </div>

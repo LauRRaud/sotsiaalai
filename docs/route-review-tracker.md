@@ -15,7 +15,7 @@ Review status legend:
 ## App Routes
 | Route | File | Status | Notes |
 | --- | --- | --- | --- |
-| `/` | `app/page.js` | MONITOR | reviewed: home route metadata key-based; role-card/login gate flow in `HomePage` is stable but animation-heavy |
+| `/` | `app/page.js` | MONITOR | reviewed: home route metadata key-based; role-card/login gate flow in `HomePage` is stable but animation-heavy; `LoginModal` tab focus is trapped inside modal; root metadata description copy aligned to two-assistant wording; footer logos marked decorative for SR and card aria labels shortened |
 | `/admin/analytics` | `app/admin/analytics/page.jsx` | MONITOR | reviewed: session+admin guard + analytics dashboard i18n key migration; continue E2E verification |
 | `/admin/rag` | `app/admin/rag/page.jsx` | MONITOR | reviewed: session+admin guard + wrapper + `RagAdminPanel` key-based i18n pass; continue E2E ingest/admin checks |
 | `/join` | `app/join/page.jsx` | MONITOR | reviewed: invite accept flow, auth gate, localized API error resolving via `resolveApiMessage` |
@@ -23,7 +23,7 @@ Review status legend:
 | `/kasutustingimused` | `app/kasutustingimused/page.js` | MONITOR | reviewed: metadata key-based + policy body from i18n rich text sections |
 | `/privaatsustingimused` | `app/privaatsustingimused/page.js` | MONITOR | reviewed: metadata key-based + legal links rendered via controlled rich-text replacements |
 | `/profiil` | `app/profiil/page.js` | MONITOR | reviewed: metadata key-based + profile shell/orbital actions delegate to `/api/profile` with key-resolved errors |
-| `/registreerimine` | `app/registreerimine/page.js` | MONITOR | reviewed: registration wizard flow + `/api/register` integration; fixed PIN input sanitization regex and locale-aware API error resolving |
+| `/registreerimine` | `app/registreerimine/page.js` | MONITOR | reviewed: registration wizard flow + `/api/register` integration; fixed PIN input sanitization regex and locale-aware API error resolving; submit loading moved to separate on-page loader and submit-step status card text sizing increased |
 | `/room/[roomId]` | `app/room/[roomId]/page.jsx` | MONITOR | room-mode behavior reviewed; continue E2E checks |
 | `/rooms` | `app/rooms/page.js` | MONITOR | room list UI/flow reviewed; continue E2E checks |
 | `/ruum` | `app/ruum/page.js` | MONITOR | rooms redirect/entry path reviewed; continue E2E checks |
@@ -39,9 +39,9 @@ Review status legend:
 | `app/api/admin/analytics/events/route.js` | MONITOR | reviewed: admin-gated event log listing, locale-aware key-first errors, guarded DB failure response |
 | `app/api/admin/analytics/summary/route.js` | MONITOR | reviewed: admin-gated KPI aggregates, locale-aware key-first errors, guarded DB failure response; includes payment pipeline KPI summary + threshold-based billing alerts from payment events |
 | `app/api/admin/analytics/payment-alerts/dispatch/route.js` | MONITOR | reviewed: admin/cron-key gated external dispatch for critical payment alerts with dedupe, optional dry-run, and signed webhook delivery |
-| `app/api/auth/login-resend-otp/route.js` | MONITOR | - |
-| `app/api/auth/login-step1/route.js` | MONITOR | - |
-| `app/api/auth/login-step2/route.js` | MONITOR | - |
+| `app/api/auth/login-resend-otp/route.js` | MONITOR | reviewed: resend flow uses token+IP rate limits and key-first localized errors; behavior remains dependent on in-memory limiter |
+| `app/api/auth/login-step1/route.js` | MONITOR | reviewed: invalid credentials now return aligned `401` for both missing-user and wrong-PIN paths (reduced enumeration signal); locale-aware key-first errors |
+| `app/api/auth/login-step2/route.js` | MONITOR | reviewed: OTP verification + trusted-device cookie issuance + token/IP rate limits; locale-aware key-first errors |
 | `app/api/auth/password/reset/route.js` | MONITOR | - |
 | `app/api/chat/analyze-file/route.js` | MONITOR | - |
 | `app/api/chat/analyze-usage/route.js` | MONITOR | - |

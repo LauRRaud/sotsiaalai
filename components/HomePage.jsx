@@ -18,6 +18,7 @@ import HomeAboutSection from "@/components/HomeSections/HomeAboutSection";
 import HomeFooter from "@/components/HomeSections/HomeFooter";
 let homeIntroSeen = false;
 const INTRO_ANIMATION_DELAY_MS = 1500;
+const BLUR_REVEAL_DELAY_MS = 1850;
 export default function HomePage() {
   const {
     data: session,
@@ -45,6 +46,7 @@ export default function HomePage() {
   const [pendingExitSide, setPendingExitSide] = useState(null);
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
+  const [blurRevealReady, setBlurRevealReady] = useState(() => initialSkipIntro);
   const [showScrollCue, setShowScrollCue] = useState(true);
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
@@ -57,6 +59,21 @@ export default function HomePage() {
   const rightCardWrapRef = useRef(null);
   const suppressFlipRef = useRef(false);
   const lastClickSideRef = useRef(null);
+  const timeoutIdsRef = useRef(new Set());
+  const registerTimeout = useCallback((callback, delay) => {
+    if (typeof window === "undefined") return null;
+    const timeoutId = window.setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId);
+      callback();
+    }, delay);
+    timeoutIdsRef.current.add(timeoutId);
+    return timeoutId;
+  }, []);
+  const clearRegisteredTimeout = useCallback(timeoutId => {
+    if (timeoutId == null || typeof window === "undefined") return;
+    window.clearTimeout(timeoutId);
+    timeoutIdsRef.current.delete(timeoutId);
+  }, []);
   const isAuthed = status === "authenticated" && !!session;
   const isAdmin = useMemo(() => {
     const u = session?.user;
@@ -111,29 +128,45 @@ export default function HomePage() {
     homeIntroSeen = true;
   }, []);
   useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current;
+    return () => {
+      timeoutIds.forEach(timeoutId => {
+        window.clearTimeout(timeoutId);
+      });
+      timeoutIds.clear();
+    };
+  }, []);
+  useEffect(() => {
     if (!introStart || initialSkipIntro) return;
     const fadeTotalMs = 2950;
-    const doneTimer = window.setTimeout(() => {
+    const blurTimer = registerTimeout(() => {
+      setBlurRevealReady(true);
+    }, BLUR_REVEAL_DELAY_MS);
+    const doneTimer = registerTimeout(() => {
       setLeftFadeDone(true);
       setRightFadeDone(true);
     }, fadeTotalMs);
-    return () => window.clearTimeout(doneTimer);
-  }, [introStart, initialSkipIntro]);
+    return () => {
+      clearRegisteredTimeout(blurTimer);
+      clearRegisteredTimeout(doneTimer);
+    };
+  }, [clearRegisteredTimeout, initialSkipIntro, introStart, registerTimeout]);
   useEffect(() => {
     if (prefs.reduceMotion) {
       setLeftFadeDone(true);
       setRightFadeDone(true);
+      setBlurRevealReady(true);
       setMagnetReady(false);
       setIntroStart(true);
     }
   }, [prefs.reduceMotion]);
   useEffect(() => {
     if (leftFadeDone && rightFadeDone) {
-      const tt = setTimeout(() => setMagnetReady(true), 150);
-      return () => clearTimeout(tt);
+      const tt = registerTimeout(() => setMagnetReady(true), 150);
+      return () => clearRegisteredTimeout(tt);
     }
     setMagnetReady(false);
-  }, [leftFadeDone, rightFadeDone]);
+  }, [clearRegisteredTimeout, leftFadeDone, registerTimeout, rightFadeDone]);
   useEffect(() => {
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", isLoginOpen);
@@ -183,8 +216,8 @@ export default function HomePage() {
     if (isLoginOpen) setIsLoginOpen(false);
     const side = pendingExitSide;
     setPendingExitSide(null);
-    window.setTimeout(() => startExitToChat(side), 0);
-  }, [isLoginOpen, pendingExitSide, session, startExitToChat, status]);
+    registerTimeout(() => startExitToChat(side), 0);
+  }, [isLoginOpen, pendingExitSide, registerTimeout, session, startExitToChat, status]);
   useEffect(() => {
     suppressFlipRef.current = false;
   }, []);
@@ -202,24 +235,24 @@ export default function HomePage() {
       setIntroStart(true);
       return;
     }
-    const delayTimer = window.setTimeout(() => setIntroStart(true), INTRO_ANIMATION_DELAY_MS);
-    return () => window.clearTimeout(delayTimer);
-  }, [prefsHydrated, skipIntroAnimations]);
+    const delayTimer = registerTimeout(() => setIntroStart(true), INTRO_ANIMATION_DELAY_MS);
+    return () => clearRegisteredTimeout(delayTimer);
+  }, [clearRegisteredTimeout, prefsHydrated, registerTimeout, skipIntroAnimations]);
   useEffect(() => {
     if (!scrollCueReady) {
       setScrollCueEntered(false);
       return;
     }
     let raf = 0;
-    let timer = 0;
+    let timer = null;
     raf = window.requestAnimationFrame(() => {
-      timer = window.setTimeout(() => setScrollCueEntered(true), 120);
+      timer = registerTimeout(() => setScrollCueEntered(true), 120);
     });
     return () => {
       if (raf) window.cancelAnimationFrame(raf);
-      if (timer) window.clearTimeout(timer);
+      clearRegisteredTimeout(timer);
     };
-  }, [scrollCueReady]);
+  }, [clearRegisteredTimeout, registerTimeout, scrollCueReady]);
   useEffect(() => {
     const shouldShow = !isLoginOpen && cardsIntroDone;
     if (!shouldShow) {
@@ -263,7 +296,7 @@ export default function HomePage() {
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToBack");
-      setTimeout(() => setLeftFlipping(false), flipToBackMs);
+      registerTimeout(() => setLeftFlipping(false), flipToBackMs);
     }
   };
   const onLeftLeave = () => {
@@ -272,7 +305,7 @@ export default function HomePage() {
     if (!isMobile) {
       setLeftFlipping(true);
       setLeftPhase("flippingToFront");
-      setTimeout(() => setLeftFlipping(false), flipToFrontMs);
+      registerTimeout(() => setLeftFlipping(false), flipToFrontMs);
     }
   };
   const onRightEnter = () => {
@@ -281,7 +314,7 @@ export default function HomePage() {
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToBack");
-      setTimeout(() => setRightFlipping(false), flipToBackMs);
+      registerTimeout(() => setRightFlipping(false), flipToBackMs);
     }
   };
   const onRightLeave = () => {
@@ -290,7 +323,7 @@ export default function HomePage() {
     if (!isMobile) {
       setRightFlipping(true);
       setRightPhase("flippingToFront");
-      setTimeout(() => setRightFlipping(false), flipToFrontMs);
+      registerTimeout(() => setRightFlipping(false), flipToFrontMs);
     }
   };
   const handleCardBackClick = side => e => {
@@ -333,7 +366,7 @@ export default function HomePage() {
     const setFlip = side === "left" ? setLeftFlipping : setRightFlipping;
     const flipDuration = flipToBackMs;
     setFlip(true);
-    setTimeout(() => setFlip(false), flipDuration);
+    registerTimeout(() => setFlip(false), flipDuration);
     setMobileFlipReady(prev => {
       const next = !prev[side] ? {
         left: side === "left",
@@ -444,7 +477,7 @@ export default function HomePage() {
               <div ref={leftCardWrapRef} className={leftCardClassName} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || leftFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={leftPhase} onTransitionEnd={onLeftTransitionEnd} onClick={handleCardClick("left")}>
-                      <span className={cn("card-blur-layer absolute inset-0 rounded-full pointer-events-none z-0 [clip-path:circle(50%_at_50%_50%)] [transform:translateZ(0)_scale(1)] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
+                      <span className={cn("card-blur-layer absolute inset-0 rounded-full pointer-events-none z-0 [clip-path:circle(50%_at_50%_50%)] [transform:translateZ(0)_scale(1)] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", blurRevealReady || leftFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                       <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")}>
                         <div ref={setLeftCardEl} className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-0 before:bg-[url('/logo/kerahele.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeIn ? "fade-in opacity-0 [animation:cardFadeIn_2.4s_cubic-bezier(0.61,0,0.19,1)_0.5s_forwards]" : null, leftFadeDone ? "fade-in-done" : null)}>
                           <CircularRingLeft className={isMobile || leftFadeDone ? "is-visible" : ""} />
@@ -474,7 +507,7 @@ export default function HomePage() {
               <div ref={rightCardWrapRef} className={rightCardClassName} onMouseEnter={onRightEnter} onMouseLeave={onRightLeave} onClick={handleCardTap("right")}>
                 <Magnet padding={80} magnetStrength={18} disabled={prefs.reduceMotion || isLoginOpen || !magnetReady || rightFlipping}>
                     {({ isActive: _isActive }) => <div className={cn(cardWrapClassName, _isActive ? "magnet-active" : null)} data-phase={rightPhase} onTransitionEnd={onRightTransitionEnd} onClick={handleCardClick("right")}>
-                      <span className={cn("card-blur-layer absolute inset-0 rounded-full pointer-events-none z-0 [clip-path:circle(50%_at_50%_50%)] [transform:translateZ(0)_scale(1)] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
+                      <span className={cn("card-blur-layer absolute inset-0 rounded-full pointer-events-none z-0 [clip-path:circle(50%_at_50%_50%)] [transform:translateZ(0)_scale(1)] [backface-visibility:visible] [-webkit-backface-visibility:visible] [backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [-webkit-backdrop-filter:blur(var(--home-card-blur,0.75rem))_saturate(var(--home-card-saturate,120%))] [transition:opacity_600ms_cubic-bezier(0.22,0.61,0.36,1),transform_var(--flip-ms,1100ms)_var(--flip-ease,cubic-bezier(0.22,0.61,0.36,1))]", blurRevealReady || rightFadeDone ? "opacity-100" : "opacity-0", introPending ? "!opacity-0 invisible" : null)} aria-hidden="true" />
                       <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] isolate [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")}>
                         <div ref={setRightCardEl} className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_0.28s_ease] before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-0 before:bg-[url('/logo/keratume.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeIn ? "fade-in opacity-0 [animation:cardFadeIn_2.4s_cubic-bezier(0.61,0,0.19,1)_0.5s_forwards]" : null, rightFadeDone ? "fade-in-done" : null)}>
                           <CircularRingRight className={isMobile || rightFadeDone ? "is-visible" : ""} />

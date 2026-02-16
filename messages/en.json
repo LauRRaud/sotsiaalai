@@ -170,11 +170,11 @@
     },
     "card": {
       "specialist": {
-        "aria": "Sign in as specialist",
+        "aria": "Open specialist sign-in",
         "title": "FOR SOCIAL WORKERS"
       },
       "client": {
-        "aria": "Sign in as citizen",
+        "aria": "Open help-seeker sign-in",
         "title": "FOR PEOPLE SEEKING HELP"
       }
     },

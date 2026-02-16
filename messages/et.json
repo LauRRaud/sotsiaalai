@@ -170,11 +170,11 @@
     },
     "card": {
       "specialist": {
-        "aria": "Logi sisse spetsialistina",
+        "aria": "Ava spetsialisti sisselogimine",
         "title": "SOTSIAALTÖÖ SPETSIALISTILE"
       },
       "client": {
-        "aria": "Logi sisse pöördujana",
+        "aria": "Ava eluküsimusega pöörduja sisselogimine",
         "title": "ELUKÜSIMUSEGA PÖÖRDUJALE"
       }
     },

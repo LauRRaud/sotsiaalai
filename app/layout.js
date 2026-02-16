@@ -1,4 +1,4 @@
-import "./styles/globals.css";
+﻿import "./styles/globals.css";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
@@ -10,7 +10,7 @@ import { authConfig } from "@/auth";
 const ICON_VERSION = "v20260214";
 export const metadata = {
   title: "SotsiaalAI",
-  description: "SotsiaalAI platvorm",
+  description: "Platvormil on kaks rollipõhist tehisintellekti assistenti: üks sotsiaalvaldkonna spetsialistidele ja teine eluküsimusega pöördujatele.",
   manifest: `/site.webmanifest?${ICON_VERSION}`,
   icons: {
     icon: [{
@@ -97,7 +97,7 @@ export default async function RootLayout({
   } catch {}
   const session = await getServerSession(authConfig);
   const initialA11yPrefs = parseA11yPrefs(jar);
-  const skipText = messages?.common?.skip_to_content ?? (locale === "ru" ? "Перейти к содержимому" : locale === "en" ? "Skip to content" : "Jätka sisuni");
+  const skipText = messages?.common?.skip_to_content ?? (locale === "ru" ? "ŠŠµŃ€ŠµŠ¹Ń‚Šø Šŗ ŃŠ¾Š´ŠµŃ€Š¶ŠøŠ¼Š¾Š¼Ń" : locale === "en" ? "Skip to content" : "JĆ¤tka sisuni");
   return <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" ? "theme-light" : ""}`.trim()} suppressHydrationWarning>
       <head>
         {}

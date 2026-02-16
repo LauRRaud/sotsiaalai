@@ -20,6 +20,14 @@ const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
 const inlineLinkClassName = `${linkBrandInlineClass} text-[1.35rem] max-md:text-[1.55rem] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.35)] light:[--link-color:#7A3A38] [--link-brand-shadow-hover:transparent]`;
 const modalTitleClassName = "!mb-0 !mt-0 !text-[clamp(2.05rem,1.5rem+1.6vw,2.6rem)] !leading-[1.05] tracking-[0.01em] max-md:!text-[clamp(2.5rem,10.5vw,3.55rem)] max-md:!leading-[1.03] max-md:translate-y-[0.28rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const MODAL_FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled]):not([type='hidden'])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])"
+].join(", ");
 function SubmitInnerEdgeDotsProgress({
   filled = 0,
   max = 8,
@@ -166,6 +174,21 @@ export default function LoginModal({
   const zeroRepeatTimerRef = useRef(null);
   const zeroRepeatIntervalRef = useRef(null);
   const zeroLongPressFiredRef = useRef(false);
+  const timeoutIdsRef = useRef(new Set());
+  const registerTimeout = useCallback((callback, delay = 0) => {
+    if (typeof window === "undefined") return null;
+    const timeoutId = window.setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId);
+      callback();
+    }, delay);
+    timeoutIdsRef.current.add(timeoutId);
+    return timeoutId;
+  }, []);
+  const clearRegisteredTimeout = useCallback(timeoutId => {
+    if (timeoutId == null || typeof window === "undefined") return;
+    window.clearTimeout(timeoutId);
+    timeoutIdsRef.current.delete(timeoutId);
+  }, []);
   const [zeroKeyMode, setZeroKeyMode] = useState("digit");
   const isOtpStep = step === "otp";
   const hasMessage = Boolean(error || info && !isOtpStep);
@@ -190,6 +213,15 @@ export default function LoginModal({
     }
     query.addListener(apply);
     return () => query.removeListener(apply);
+  }, []);
+  useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current;
+    return () => {
+      timeoutIds.forEach(timeoutId => {
+        window.clearTimeout(timeoutId);
+      });
+      timeoutIds.clear();
+    };
   }, []);
   const modalClasses = [
     "login-modal-root",
@@ -274,6 +306,67 @@ export default function LoginModal({
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [helpOpen]);
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = e => {
+      if (e.key !== "Escape") return;
+      if (helpOpen) return;
+      e.preventDefault();
+      onClose?.();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [helpOpen, onClose, open]);
+  const getModalFocusableElements = useCallback(() => {
+    const modal = boxRef.current;
+    if (!modal) return [];
+    const elements = Array.from(modal.querySelectorAll(MODAL_FOCUSABLE_SELECTOR));
+    return elements.filter(el => {
+      if (!(el instanceof HTMLElement)) return false;
+      if (el.getAttribute("aria-hidden") === "true") return false;
+      if (el.hasAttribute("inert")) return false;
+      const style = window.getComputedStyle(el);
+      if (style.display === "none" || style.visibility === "hidden") return false;
+      return true;
+    });
+  }, []);
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = e => {
+      if (e.key !== "Tab") return;
+      const modal = boxRef.current;
+      if (!modal) return;
+      const focusable = getModalFocusableElements();
+      if (focusable.length === 0) {
+        e.preventDefault();
+        modal.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (!modal.contains(active)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+        return;
+      }
+      if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+        return;
+      }
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [getModalFocusableElements, open]);
   const resetIconState = useCallback(() => {
     setSubmitIconState("idle");
     setInvalidCredentials(false);
@@ -414,17 +507,17 @@ export default function LoginModal({
     if (!open) return;
     if (isOtpStep) {
       const target = otpInputRef.current;
-      if (target && typeof target.focus === "function") setTimeout(() => target.focus(), 0);
+      if (target && typeof target.focus === "function") registerTimeout(() => target.focus(), 0);
       return;
     }
     if (!emailRevealed) {
       const target = emailIconButtonRef.current;
-      if (target && typeof target.focus === "function") setTimeout(() => target.focus(), 0);
+      if (target && typeof target.focus === "function") registerTimeout(() => target.focus(), 0);
       return;
     }
     const target = emailInputRef.current;
-    if (target && typeof target.focus === "function") setTimeout(() => target.focus(), 0);
-  }, [open, isOtpStep, emailRevealed]);
+    if (target && typeof target.focus === "function") registerTimeout(() => target.focus(), 0);
+  }, [open, isOtpStep, emailRevealed, registerTimeout]);
   const finishLogin = useCallback(async token => {
     if (!token) {
       markPinError();
@@ -592,7 +685,7 @@ export default function LoginModal({
   useEffect(() => {
     if (!open || step !== "pin") return;
     if (isMobile) return;
-    const tid = setTimeout(() => {
+    const tid = registerTimeout(() => {
       if (!emailRevealed) return;
       const emailField = emailInputRef.current;
       if (emailField && document.activeElement === emailField) return;
@@ -611,10 +704,10 @@ export default function LoginModal({
     };
     window.addEventListener("keydown", keyListener);
     return () => {
-      clearTimeout(tid);
+      clearRegisteredTimeout(tid);
       window.removeEventListener("keydown", keyListener);
     };
-  }, [open, step, emailRevealed, onHiddenKeyDown, isMobile]);
+  }, [clearRegisteredTimeout, emailRevealed, isMobile, onHiddenKeyDown, open, registerTimeout, step]);
   const appendDigit = digit => {
     if (step !== "pin") return;
     setPinValue(p => p.length >= PIN_MAX ? p : `${p}${digit}`);
@@ -805,14 +898,14 @@ export default function LoginModal({
     if (emailRevealed) return;
     setEmailRevealed(true);
     setError("");
-    setTimeout(() => {
+    registerTimeout(() => {
       const node = emailInputRef.current;
       if (!node) return;
       if (!node.value && storedEmail) node.value = storedEmail;
       setEmailValue(node.value || "");
       node.focus();
     }, 0);
-  }, [emailRevealed, storedEmail]);
+  }, [emailRevealed, registerTimeout, storedEmail]);
   const focusMobilePinInput = useCallback(() => {
     if (!isMobile) return;
     const node = mobilePinInputRef.current;
@@ -834,8 +927,8 @@ export default function LoginModal({
     };
     runFocus();
     requestAnimationFrame(runFocus);
-    setTimeout(runFocus, 80);
-  }, [isMobile]);
+    registerTimeout(runFocus, 80);
+  }, [isMobile, registerTimeout]);
   const toggleKeypad = () => {
     if (isMobile) {
       const nextUseNativeKeyboard = !useNativeKeyboard;
@@ -847,7 +940,7 @@ export default function LoginModal({
         try {
           suppressNativeBlurSubmitRef.current = true;
           mobilePinInputRef.current?.blur?.();
-          setTimeout(() => {
+          registerTimeout(() => {
             suppressNativeBlurSubmitRef.current = false;
           }, 120);
         } catch {}
@@ -987,14 +1080,14 @@ export default function LoginModal({
             </div>
 
             {}
-            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={0} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
+            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={-1} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-live="off" />}
 
             {}
             {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" enterKeyHint="go" onChange={handlePinInputChange} onInput={handlePinInputChange} onKeyDown={e => {
           if (e.key === "Enter") {
             e.preventDefault();
             suppressNativeBlurSubmitRef.current = true;
-            setTimeout(() => {
+            registerTimeout(() => {
               suppressNativeBlurSubmitRef.current = false;
             }, 220);
             submitPinStep();
@@ -1004,7 +1097,7 @@ export default function LoginModal({
           if (step !== "pin" || !isMobile || !useNativeKeyboard || pinLoading) return;
           const pin = pinValue.replace(/\s+/g, "");
           if (!new RegExp(`^\\d{${PIN_MIN},${PIN_MAX}}$`).test(pin)) return;
-          setTimeout(() => {
+          registerTimeout(() => {
             if (suppressNativeBlurSubmitRef.current) return;
             if (typeof document !== "undefined" && document.activeElement === mobilePinInputRef.current) return;
             submitPinStep();

@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import Logomust from "@/public/logo/logomust.svg";
-import useT from "@/components/i18n/useT";
 import { cn } from "@/components/ui/cn";
 
 const HIDE_PREFIXES = ["/admin"];
@@ -14,7 +13,6 @@ function shouldHideFooter(pathname) {
 
 export default function PageFooter({ className }) {
   const pathname = usePathname();
-  const t = useT();
 
   if (shouldHideFooter(pathname)) return null;
 
@@ -23,8 +21,8 @@ export default function PageFooter({ className }) {
       <div className="site-footer-inner">
         <Logomust
           className="site-footer-logo"
-          role="img"
-          aria-label={t?.("home.footer.logo_alt") || "SotsiaalAI"}
+          aria-hidden="true"
+          focusable="false"
         />
       </div>
     </footer>

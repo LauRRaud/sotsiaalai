@@ -205,7 +205,7 @@ export async function POST(request) {
     });
 
     if (!user?.passwordHash) {
-      return errorJson("api.auth.login.invalid_credentials", 400, locale, {
+      return errorJson("api.auth.login.invalid_credentials", 401, locale, {
         code: "INVALID_CREDENTIALS"
       });
     }

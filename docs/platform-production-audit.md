@@ -330,6 +330,75 @@ Encoding fixes applied (BOM removed):
   - validated with full lint + production build
 - Status: `MONITOR`
 
+### Auth login hardening pass (enumeration + modal robustness)
+- Scope: `components/LoginModal.jsx`, `app/api/auth/login-step1/route.js`
+- Good:
+  - login-step1 invalid-credentials response is now status-aligned (`401`) for both "user missing" and "wrong PIN" paths, reducing user-enumeration signal
+  - login modal now supports `Escape` close behavior while preserving help-popover handling
+  - modal timeout usage was centralized with registered timeout cleanup on unmount, reducing stale focus/state callbacks during fast navigation
+- Risk:
+  - auth rate limiting remains in-memory and is not cross-instance coordinated
+  - modal remains a large component with dense UI state (future refactor candidate)
+- Action:
+  - changed `app/api/auth/login-step1/route.js` missing-user invalid-credentials status from `400` -> `401`
+  - added `Escape` close listener in `components/LoginModal.jsx` (skips close when help-popover is open)
+  - added timeout registry helpers and replaced non-cleanup modal `setTimeout` usages with registered timeouts
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Login modal accessibility focus-trap pass
+- Scope: `components/LoginModal.jsx`
+- Good:
+  - keyboard tab navigation is now contained inside the open login modal (`Tab`/`Shift+Tab` loop)
+  - when focus is outside the modal during tab navigation, focus is brought back into modal controls
+  - hidden desktop PIN capture input is no longer part of normal tab order
+- Risk:
+  - full focus-management remains state-heavy due custom keypad/native keyboard split and should stay under regression checks
+- Action:
+  - added modal focusable-element resolver and `Tab` key trap listener bound to modal open state
+  - changed hidden PIN input `tabIndex` from `0` to `-1`
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Home metadata copy alignment pass (screen-reader duplicate reduction)
+- Scope: `app/layout.js`
+- Good:
+  - root metadata description now uses explicit two-assistant wording (specialists + eluküsimusega pöördujad) and avoids short repetitive label-style phrasing
+- Risk:
+  - some screen reader/browser combinations may still announce page title + metadata + first content block separately by design
+- Action:
+  - updated `metadata.description` text to: `Platvormil on kaks rollipõhist tehisintellekti assistenti: üks sotsiaalvaldkonna spetsialistidele ja teine eluküsimusega pöördujatele.`
+- Status: `MONITOR`
+
+### Home screen-reader dedupe pass (labels + decorative logos)
+- Scope: `components/HomeSections/HomeFooter.jsx`, `components/PageFooter.jsx`, `messages/et.json`, `messages/en.json`
+- Good:
+  - decorative footer logos are now hidden from assistive tech (`aria-hidden`, no `role="img"`), reducing repeated brand announcements
+  - home role-card `aria` labels are now short action labels instead of descriptive phrasing
+- Risk:
+  - screen reader verbosity still depends on browser/SR combination and document metadata announcement behavior
+- Action:
+  - updated home footer logo and shared page footer logo to decorative-only semantics
+  - updated `home.card.specialist.aria` and `home.card.client.aria` wording in ET/EN locale catalogs
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
+### Registration submit UX pass (loader + status readability)
+- Scope: `components/alalehed/RegistreerimineBody.jsx`
+- Good:
+  - register submit button no longer switches to ellipsis-style loading copy while submitting
+  - loading feedback is now shown as a separate on-page loader block with status text
+  - success/info and error status cards in submit step now render with larger, more readable text sizing
+- Risk:
+  - same loading-copy pattern still exists in other forms and should be normalized in a dedicated global UX pass
+- Action:
+  - added `SotsiaalAILoader` block in register submit step during `submitting` state
+  - kept submit button label stable (`auth.register.submit`) during loading
+  - increased submit-step status card text sizing/padding for better readability
+  - added fallback loading text for missing i18n key (`auth.register.loading_status` -> `Konto loomine`)
+  - executed validation run: `npm run lint` (PASS)
+- Status: `MONITOR`
+
 ### Chat abuse-guard hardening pass
 - Scope: `app/api/chat/*`, `lib/chat-api-rate-limit.js`, `app/api/stt/route.js`, `package.json`, `app/server`
 - Good:

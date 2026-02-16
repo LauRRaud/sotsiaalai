@@ -15,6 +15,7 @@ import { localizePath } from "@/lib/localizePath";
 import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
+import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
@@ -401,16 +402,22 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`${registerStepClassName} ${getRegisterStepClassName(5)}`}>
-                {error && <div role="alert" className="rounded-[0.85rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#fca5a5]">
+                {error && <div role="alert" className="w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
                     {error}
                   </div>}
-                {successMessage && <div role="status" className="rounded-[0.85rem] border border-[rgba(110,231,183,0.35)] bg-[rgba(16,185,129,0.12)] px-[0.85rem] py-[0.65rem] text-[color:#a7f3d0]">
+                {successMessage && <div role="status" className="w-full rounded-[0.95rem] border border-[rgba(110,231,183,0.35)] bg-[rgba(16,185,129,0.12)] px-[0.95rem] py-[0.82rem] text-[color:#a7f3d0] text-[1.2rem] max-[48em]:text-[1.34rem] leading-[1.38] font-medium">
                     {successMessage}
                   </div>}
+                {submitting ? <div className="flex flex-col items-center gap-[0.55rem] py-[0.2rem]" role="status" aria-live="polite" aria-atomic="true">
+                    <SotsiaalAILoader size="clamp(3.1rem,6vw,3.6rem)" ariaHidden />
+                    <span className="text-[1.08rem] text-[color:var(--pt-120)] light:text-[color:var(--input-text)]">
+                      {t("auth.register.loading_status", "Konto loomine")}
+                    </span>
+                  </div> : null}
                 <div className="flex justify-center">
                   <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting}>
                     <span className="register-submit-label">
-                      {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
+                      {t("auth.register.submit")}
                     </span>
                   </Button>
                 </div>
