@@ -196,7 +196,7 @@ export default function InviteModal() {
   }
   if (!open) return null;
   return <Modal open={open} variant="glass" onClose={() => setOpen(false)} closeOnOverlayClick aria-label={t("invite.title")} className={open ? "invite-modal-overlay max-[48em]:p-0 max-[48em]:items-stretch" : undefined} contentClassName="invite-modal-content relative overflow-x-hidden overflow-y-auto overscroll-contain pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[48em]:text-[1.18rem] max-[48em]:leading-[1.4] [--input-text:var(--glass-modal-text)]">
-      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.56rem)]" />
+      <BackButton onClick={() => setOpen(false)} ariaLabel={t("buttons.back")} className="absolute top-[0.55rem] left-[0.55rem] translate-x-0 translate-y-0 bottom-auto !h-[4rem] !w-[4rem] z-[92] [&>svg]:!h-[4rem] [&>svg]:!w-[4rem] max-[48em]:top-[calc(env(safe-area-inset-top,0px)+0.56rem)] max-[48em]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] max-[48em]:!h-[4.4rem] max-[48em]:!w-[4.4rem] max-[48em]:[&>svg]:!h-[4.4rem] max-[48em]:[&>svg]:!w-[4.4rem]" />
       <header className="mb-[0.35rem] flex items-start justify-center gap-[0.75rem]">
         <h2 className={`${glassPageTitleClassName} max-[48em]:!mt-[calc(env(safe-area-inset-top,0px)+2.55rem)]`}>
           {t("invite.eyebrow")}

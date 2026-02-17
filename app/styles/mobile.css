@@ -307,7 +307,7 @@
     font-size: clamp(0.98rem, 3.8vw, 1.22rem);
     max-width: 9rem;
   }
-  .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
+  .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
     transform: translateY(-0.95rem) translateZ(0) scale(1) !important;
   }
   .profile-orbit-menu.is-mobile
@@ -557,8 +557,8 @@
     transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
   }
 
-  html[data-display-mode="standalone"] .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
-  body[data-display-mode="standalone"] .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
+  html[data-display-mode="standalone"] .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center,
+  body[data-display-mode="standalone"] .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center {
     transform: translateY(-1.2rem) translateZ(0) scale(1) !important;
   }
 
