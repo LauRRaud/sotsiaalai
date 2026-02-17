@@ -37,11 +37,9 @@ export default function OrbitalMenu({
   const rootRef = useRef(null);
   const hubBtnRef = useRef(null);
   const isCoarsePointer = useMatchMedia("(hover: none) and (pointer: coarse)", false);
-  const isNarrowViewport = useMatchMedia("(max-width: 48em)", false);
   const prefersReducedMotion = useMatchMedia("(prefers-reduced-motion: reduce)", false);
-  const useMobileViewport = isCoarsePointer || isNarrowViewport;
-  const useMobileOverlay = useMobileViewport && mobileVariant === "list";
-  const useMobileStack = useMobileViewport && mobileVariant === "stack";
+  const useMobileOverlay = isCoarsePointer && mobileVariant === "list";
+  const useMobileStack = isCoarsePointer && mobileVariant === "stack";
   const useMobileDialog = useMobileOverlay || useMobileStack;
   const useOrbitLayout = !useMobileDialog;
   const [isPinnedOpen, setIsPinnedOpen] = useState(false);
@@ -176,12 +174,8 @@ export default function OrbitalMenu({
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
     if (typeof window === "undefined" || typeof document === "undefined") return;
-    // Stack variant lives inside the existing glass card; locking body can cause
-    // a visual vertical jump on mobile, so only lock for overlay/list mode.
-    if (!useMobileOverlay) return;
     const body = document.body;
     const scrollY = window.scrollY || 0;
-    const freezeBodyPosition = true;
     const prev = {
       overflow: body.style.overflow,
       position: body.style.position,
@@ -191,13 +185,11 @@ export default function OrbitalMenu({
       width: body.style.width
     };
     body.style.overflow = "hidden";
-    if (freezeBodyPosition) {
-      body.style.position = "fixed";
-      body.style.top = `-${scrollY}px`;
-      body.style.left = "0";
-      body.style.right = "0";
-      body.style.width = "100%";
-    }
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
     return () => {
       body.style.overflow = prev.overflow;
       body.style.position = prev.position;
@@ -205,9 +197,9 @@ export default function OrbitalMenu({
       body.style.left = prev.left;
       body.style.right = prev.right;
       body.style.width = prev.width;
-      if (freezeBodyPosition) window.scrollTo(0, scrollY);
+      window.scrollTo(0, scrollY);
     };
-  }, [isOpen, useMobileDialog, useMobileOverlay]);
+  }, [isOpen, useMobileDialog]);
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
     const prevActive = typeof document !== "undefined" ? document.activeElement : null;
@@ -215,8 +207,7 @@ export default function OrbitalMenu({
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
       if (useMobileStack) {
-        // Avoid auto-focus scroll jump on mobile Safari when stack menu opens.
-        return;
+        stackItemRefs.current?.[0]?.focus?.();
       } else {
         closeEl?.focus?.();
       }

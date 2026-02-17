@@ -307,9 +307,6 @@
     font-size: clamp(0.98rem, 3.8vw, 1.22rem);
     max-width: 9rem;
   }
-  .profile-orbit-menu .profile-orbit-menu__center {
-    transform: translateY(-0.95rem) translateZ(0) scale(1) !important;
-  }
   .profile-orbit-menu.is-mobile
     :is(.profile-orbit-menu__item, .profile-orbit-menu__center).dock-item::before,
   .profile-orbit-menu.is-mobile
@@ -323,7 +320,7 @@
     .profile-orbit-menu__center {
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-0.95rem) translateZ(0) scale(0.7);
+    transform: scale(0.7);
   }
   .profile-orbit-stack-backdrop {
     background: transparent;
@@ -534,7 +531,7 @@
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(0.75rem, 3.4vw, 1.15rem) !important;
-    transform: translateY(clamp(1.15rem, 5.2vw, 1.8rem)) !important;
+    transform: translateY(clamp(0.55rem, 2.6vw, 0.92rem)) !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
@@ -542,16 +539,15 @@
     bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.75rem, 3.8vw, 1.35rem)) !important;
   }
 
+  html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    transform: translateY(clamp(0.55rem, 2.6vw, 0.92rem)) !important;
+  }
+
 }
 
 @media (max-width: 48em) {
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row {
     transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
-  }
-
-  html[data-display-mode="standalone"] .profile-orbit-menu .profile-orbit-menu__center,
-  body[data-display-mode="standalone"] .profile-orbit-menu .profile-orbit-menu__center {
-    transform: translateY(-1.2rem) translateZ(0) scale(1) !important;
   }
 
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
