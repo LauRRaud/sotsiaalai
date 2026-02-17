@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
@@ -55,14 +55,34 @@ export default function UuendaPinBody() {
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
   const handleBack = () =>
     returnToProfile
-      ? pushWithTransition(router, profileReturnPath)
+      ? pushWithTransition(router, profileReturnPath, {
+          glassRingTilt: "left",
+          waitForGlassRingTilt: true,
+          persistGlassRingTilt: false
+        })
       : typeof window !== "undefined" && window.history.length > 1
-        ? router.back()
-        : pushWithTransition(router, localizePath("/profiil", locale));
+        ? backWithTransition(router, {
+            glassRingTilt: "left",
+            waitForGlassRingTilt: true,
+            persistGlassRingTilt: false
+          })
+        : pushWithTransition(router, localizePath("/profiil", locale), {
+            glassRingTilt: "left",
+            waitForGlassRingTilt: true,
+            persistGlassRingTilt: false
+          });
   const handleClose = () =>
     returnToProfile
-      ? pushWithTransition(router, profileReturnPath)
-      : pushWithTransition(router, localizePath("/profiil", locale));
+      ? pushWithTransition(router, profileReturnPath, {
+          glassRingTilt: "left",
+          waitForGlassRingTilt: true,
+          persistGlassRingTilt: false
+        })
+      : pushWithTransition(router, localizePath("/profiil", locale), {
+          glassRingTilt: "left",
+          waitForGlassRingTilt: true,
+          persistGlassRingTilt: false
+        });
 
   const pinLabel = t("profile.new_pin_label");
   const currentPinLabel = t("profile.current_pin_label");

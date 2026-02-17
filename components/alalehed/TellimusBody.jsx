@@ -13,7 +13,7 @@ import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const linkClassName = "inline-flex items-center gap-[0.35rem] underline underline-offset-4 decoration-[color:currentColor] text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
 const emailReplacement = {
@@ -70,8 +70,28 @@ export default function TellimusBody() {
   const isAuthed = status === "authenticated" || !!session?.user;
   const hasPaymentNotice = Boolean(info || error);
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
-  const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale));
-  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
+  const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  }) : typeof window !== "undefined" && window.history.length > 1 ? backWithTransition(router, {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  }) : pushWithTransition(router, localizePath("/", locale), {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  });
+  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  }) : pushWithTransition(router, localizePath("/profiil", locale), {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  });
   useEffect(() => {
     if (status !== "unauthenticated") return;
     if (!isVerifiedEntry) return;
@@ -238,7 +258,11 @@ export default function TellimusBody() {
                 </p>
               </div>
               <div className="mt-[clamp(1rem,2.5vh,1.6rem)] flex justify-center max-[48em]:w-full">
-                <Button as="a" href={localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale)} variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note">
+                <Button type="button" variant="primary" className={subscriptionActionClassName} aria-describedby="cancel-note" onClick={() => pushWithTransition(router, localizePath(returnToProfile ? "/vestlus?profile=1" : "/profiil", locale), {
+                glassRingTilt: "left",
+                waitForGlassRingTilt: true,
+                persistGlassRingTilt: false
+              })}>
                   {t("subscription.button.open_profile")}
                 </Button>
               </div>

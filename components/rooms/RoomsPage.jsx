@@ -458,7 +458,11 @@ export default function RoomsPage() {
           data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
         >
           <BackButton
-            onClick={() => pushWithTransition(router, localizePath("/vestlus", locale))}
+            onClick={() => pushWithTransition(router, localizePath("/vestlus", locale), {
+              glassRingTilt: "left",
+              waitForGlassRingTilt: true,
+              persistGlassRingTilt: false
+            })}
             ariaLabel={t("rooms.back_to_chats")}
             className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`}
           />
@@ -556,6 +560,24 @@ export default function RoomsPage() {
                             `/vestlus?roomId=${encodeURIComponent(room.id)}`,
                             locale
                           )}
+                          onClick={event => {
+                            if (event.defaultPrevented) return;
+                            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                            if (event.button !== 0) return;
+                            event.preventDefault();
+                            pushWithTransition(
+                              router,
+                              localizePath(
+                                `/vestlus?roomId=${encodeURIComponent(room.id)}`,
+                                locale
+                              ),
+                              {
+                                glassRingTilt: "right",
+                                waitForGlassRingTilt: true,
+                                persistGlassRingTilt: false
+                              }
+                            );
+                          }}
                           className="grid w-full gap-[0.42rem] text-inherit no-underline"
                         >
                           <div className="flex items-start justify-between gap-[0.8rem]">

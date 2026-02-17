@@ -11,7 +11,7 @@ import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
@@ -39,8 +39,28 @@ export default function UnustasinParooliBody() {
   const searchParams = useSearchParams();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
-  const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : typeof window !== "undefined" && window.history.length > 1 ? router.back() : pushWithTransition(router, localizePath("/", locale));
-  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath) : pushWithTransition(router, localizePath("/profiil", locale));
+  const handleBack = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  }) : typeof window !== "undefined" && window.history.length > 1 ? backWithTransition(router, {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  }) : pushWithTransition(router, localizePath("/", locale), {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  });
+  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  }) : pushWithTransition(router, localizePath("/profiil", locale), {
+    glassRingTilt: "left",
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  });
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");

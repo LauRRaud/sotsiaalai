@@ -118,10 +118,13 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
 });
 
 const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
 function detectMobileViewport() {
   if (typeof window === "undefined") return false;
-  return window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ?? window.innerWidth <= 768;
+  const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
+  const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
+  return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
 }
 
 function resolveChatLayoutVars({

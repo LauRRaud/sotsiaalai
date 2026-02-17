@@ -13,7 +13,7 @@ import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glas
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
@@ -127,28 +127,31 @@ export default function PrivaatsusBody() {
       value: t("privacy.section11.body")
     }]
   }];
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      backWithTransition(router, {
+        glassRingTilt: "left",
+        waitForGlassRingTilt: true,
+        persistGlassRingTilt: false
+      });
+      return;
+    }
+    pushWithTransition(router, localizePath("/", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
         <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", glassPolicyRingClassName, "policy-mobile-lower", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
         <CloseButton
-          onClick={() => {
-            if (typeof window !== "undefined" && window.history.length > 1) {
-              router.back();
-            } else {
-              pushWithTransition(router, localizePath("/", locale));
-            }
-          }}
+          onClick={handleBack}
           ariaLabel={t("buttons.close")}
           className={cn(glassPageCloseClassName, "max-[48em]:hidden")}
         />
         <BackButton
-          onClick={() => {
-            if (typeof window !== "undefined" && window.history.length > 1) {
-              router.back();
-            } else {
-              pushWithTransition(router, localizePath("/", locale));
-            }
-          }}
+          onClick={handleBack}
           ariaLabel={t("buttons.back_home")}
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
         />

@@ -21,6 +21,7 @@ import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, 
 
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+const ENTRY_SETTLE_MS = 620;
 
 const ROLE_KEYS = {
   ADMIN: "profile.role_short.admin",
@@ -161,7 +162,7 @@ function ProfileShell({
   maskLayerRef,
   footerNote
 }) {
-  const [entrySettleActive, setEntrySettleActive] = useState(() => !embedded);
+  const [entrySettleActive, setEntrySettleActive] = useState(false);
 
   useEffect(() => {
     if (embedded) {
@@ -181,7 +182,7 @@ function ProfileShell({
     setEntrySettleActive(true);
     timeoutId = window.setTimeout(() => {
       setEntrySettleActive(false);
-    }, 900);
+    }, ENTRY_SETTLE_MS);
     return () => {
       window.clearTimeout(timeoutId);
     };
@@ -609,13 +610,21 @@ export default function ProfiilBody({
     icon: <PinDockIcon />,
     label: t("profile.change_password_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
   }, {
     key: "email",
     icon: <EmailDockIcon />,
     label: t("profile.update_email_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
   }, {
     key: "delete",
     icon: <DeleteDockIcon />,
@@ -632,7 +641,11 @@ export default function ProfiilBody({
     icon: <SubscriptionDockIcon />,
     label: t("profile.manage_subscription"),
     labelPos: "down",
-    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
   }, {
     key: "preferences",
     icon: <PreferencesDockIcon />,

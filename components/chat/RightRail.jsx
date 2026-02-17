@@ -6,14 +6,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { AddPersonIcon, ChatBubbleIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
-import { createPortal } from "react-dom";
 import { cn } from "@/components/ui/cn";
 
 const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
 function detectMobileViewport() {
   if (typeof window === "undefined") return false;
-  return window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ?? window.innerWidth <= 768;
+  const matchWidth = window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches;
+  const matchCoarse = window.matchMedia?.(COARSE_POINTER_QUERY)?.matches;
+  return Boolean(matchWidth || matchCoarse || window.innerWidth <= 768);
 }
 
 export default function RightRail({
@@ -36,6 +38,7 @@ export default function RightRail({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const slotRef = useRef(null);
   const railRef = useRef(null);
   const itemRefs = useRef([]);
   const tooltipRafRef = useRef(0);
@@ -59,26 +62,37 @@ export default function RightRail({
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const [stepPx, setStepPx] = useState(56);
-  const [isMobile, setIsMobile] = useState(() => detectMobileViewport());
+  const [isMobile, setIsMobile] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
   );
+  const viewportIsMobile = isMounted ? isMobile : false;
   const setTooltipFromRail = useCallback(() => {
     const rail = railRef.current;
-    if (!rail) return;
-    const rect = rail.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    const slot = slotRef.current;
+    if (!rail || !slot) return;
+    const railRect = rail.getBoundingClientRect();
+    const slotRect = slot.getBoundingClientRect();
+    if (!railRect.width || !railRect.height || !slotRect.width) return;
     const style = window.getComputedStyle(rail);
     const itemSizeRaw = Number.parseFloat(style.getPropertyValue("--rail-item-size"));
     const edgeOffsetRaw = Number.parseFloat(style.getPropertyValue("--rail-edge-offset"));
     const itemSize = Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 48;
     const edgeOffset = Number.isFinite(edgeOffsetRaw) && edgeOffsetRaw > 0 ? edgeOffsetRaw : itemSize * 0.5;
     // Keep tooltip anchored to the rail center slot so it does not track moving icons during scroll transitions.
-    const anchorLeft = rect.left + rect.width - edgeOffset - itemSize * 0.5;
-    const anchorTop = rect.top + rect.height * 0.5;
+    const anchorLeft =
+      railRect.left -
+      slotRect.left +
+      railRect.width -
+      edgeOffset -
+      itemSize * 0.5;
+    const anchorTop =
+      railRect.top -
+      slotRect.top +
+      railRect.height * 0.5;
     setTooltipRect({
       top: anchorTop - itemSize * 0.5,
       left: anchorLeft,
@@ -154,7 +168,7 @@ export default function RightRail({
   }, []);
 
   const showTooltipTemporarily = useCallback((index, durationMs = 980) => {
-    if (isMobile || suspendPointerEvents || suppressTooltip) return;
+    if (viewportIsMobile || suspendPointerEvents || suppressTooltip) return;
     if (!Number.isFinite(index)) return;
     if (tooltipSwitchTimerRef.current) {
       window.clearTimeout(tooltipSwitchTimerRef.current);
@@ -176,7 +190,7 @@ export default function RightRail({
       setIsTooltipVisible(false);
       tooltipHideTimerRef.current = 0;
     }, durationMs);
-  }, [isMobile, suspendPointerEvents, suppressTooltip]);
+  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip]);
 
   useEffect(() => {
     tooltipVisibleRef.current = isTooltipVisible;
@@ -211,7 +225,11 @@ export default function RightRail({
   };
 
   const openRooms = () => {
-    pushWithTransition(router, localizePath("/ruum", locale));
+    pushWithTransition(router, localizePath("/ruum", locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
   };
 
   const openInvite = () => {
@@ -438,7 +456,8 @@ export default function RightRail({
     !mobileVisible ? styles.mobileRailHidden : null,
     mobileVisible ? styles.mobileRailVisible : null,
     suspendPointerEvents ? styles.pointerBlocked : null,
-    "max-[48em]:absolute max-[48em]:top-[var(--chat-mobile-rail-top)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto"
+    "max-[48em]:absolute max-[48em]:top-[var(--chat-mobile-rail-top)] max-[48em]:left-0 max-[48em]:right-0 max-[48em]:h-auto",
+    !isMounted ? "opacity-0 pointer-events-none" : null
   );
 
   const railClassName = cn(
@@ -454,16 +473,16 @@ export default function RightRail({
 
   const mobileLabelClassName =
     "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-visible max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
-  const shouldShowDesktopTooltip = !isMobile &&
+  const showDesktopTooltip = !viewportIsMobile &&
     !suspendPointerEvents &&
     !suppressTooltip &&
     !!tooltipRect &&
     tooltipLabelIndex >= 0 &&
     tooltipLabelIndex < items.length;
 
-  return <div className={slotClassName}>
-      <nav className={cn(railClassName, isMobile && !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={isMobile && !mobileVisible ? -1 : 0} inert={isMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown}>
-        {(isMobile ? mobileSlots : [-2, -1, 0, 1, 2].map(slotOffset => {
+  return <div ref={slotRef} className={slotClassName}>
+      <nav className={cn(railClassName, !mobileVisible ? styles.navHiddenMobile : styles.navVisibleMobile)} ref={railRef} tabIndex={viewportIsMobile && !mobileVisible ? -1 : 0} inert={viewportIsMobile && !mobileVisible ? true : undefined} aria-label={t("chat.right_rail")} onKeyDown={onKeyDown}>
+        {(viewportIsMobile ? mobileSlots : [-2, -1, 0, 1, 2].map(slotOffset => {
         const itemIndex = activeIndex + slotOffset;
         if (itemIndex < 0 || itemIndex >= items.length) return null;
         return {
@@ -505,13 +524,13 @@ export default function RightRail({
           ref: setRailRef,
           className: cn(
             styles.item,
-            isMobile && armedKey === it?.key ? styles.isArmed : null,
-            !isMobile && slotOffset === 0 ? styles.isActive : null,
+            viewportIsMobile && armedKey === it?.key ? styles.isArmed : null,
+            !viewportIsMobile && slotOffset === 0 ? styles.isActive : null,
             it?.key === "sources" && showSourcesPanel ? styles.iconBtnActive : null,
             it?.key === "sources" && sourcesPulse ? styles.isPulse : null,
             mobileItemClassName
           ),
-          style: isMobile ? undefined : {
+          style: viewportIsMobile ? undefined : {
             transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
             opacity: opacity.toFixed(3),
             zIndex
@@ -520,7 +539,7 @@ export default function RightRail({
 
         const performActivate = event => {
           if (!it) return;
-          if (!isMobile) {
+          if (!viewportIsMobile) {
             setActiveIndex(itemIndex);
           }
 
@@ -556,7 +575,7 @@ export default function RightRail({
 
         const onActivate = event => {
           if (!it) return;
-          if (!isMobile) {
+          if (!viewportIsMobile) {
             performActivate(event);
             return;
           }
@@ -582,13 +601,13 @@ export default function RightRail({
         const isAriaDisabled = it?.key === "sources" ? !hasConversationSources : false;
         const displayLabel = it?.label || "";
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!isMobile ? () => {
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
         showTooltipTemporarily(activeIndex, 1800);
-      } : undefined} onFocus={!isMobile ? () => {
+      } : undefined} onFocus={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
         showTooltipTemporarily(activeIndex, 1800);
-      } : undefined} onDoubleClick={isMobile ? event => {
+      } : undefined} onDoubleClick={viewportIsMobile ? event => {
         event.preventDefault();
         event.stopPropagation();
         clearArmed();
@@ -601,12 +620,12 @@ export default function RightRail({
             </button>;
       })}
 
-        {isMounted && shouldShowDesktopTooltip ? createPortal(<div className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)} style={{
-        top: tooltipRect.top + tooltipRect.height / 2,
-        left: tooltipRect.left - 2
-      }} role="tooltip">
-                {items[tooltipLabelIndex]?.label || ""}
-              </div>, document.body) : null}
       </nav>
+      {isMounted && showDesktopTooltip ? <div className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)} style={{
+      top: tooltipRect.top + tooltipRect.height / 2,
+      left: tooltipRect.left - 2
+    }} role="tooltip">
+          {items[tooltipLabelIndex]?.label || ""}
+        </div> : null}
     </div>;
 }

@@ -14,6 +14,8 @@ import ChatMobileRailButton from "./view/ChatMobileRailButton";
 import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
 import { ChatRecordingNotice, ChatTopNotices } from "./view/ChatNotices";
 
+const ENTRY_SETTLE_MS = 620;
+
 export default function ChatBodyView({
   embedded,
   t,
@@ -81,7 +83,7 @@ export default function ChatBodyView({
   closeSourcesPanel,
   analysisPanelWidth
 }) {
-  const [entrySettleActive, setEntrySettleActive] = useState(() => !embedded);
+  const [entrySettleActive, setEntrySettleActive] = useState(false);
 
   useEffect(() => {
     if (embedded) {
@@ -101,7 +103,7 @@ export default function ChatBodyView({
     setEntrySettleActive(true);
     timeoutId = window.setTimeout(() => {
       setEntrySettleActive(false);
-    }, 900);
+    }, ENTRY_SETTLE_MS);
     return () => {
       window.clearTimeout(timeoutId);
     };

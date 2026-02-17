@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
+import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import BackButton from "@/components/ui/BackButton";
@@ -35,7 +35,23 @@ export default function ResetPasswordForm({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const backLabel = t("buttons.back_home");
-  const handleClose = () => pushWithTransition(router, localizePath("/", locale));
+  const handleClose = () =>
+    pushWithTransition(router, localizePath("/", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      backWithTransition(router, {
+        glassRingTilt: "left",
+        waitForGlassRingTilt: true,
+        persistGlassRingTilt: false
+      });
+      return;
+    }
+    handleClose();
+  };
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -92,7 +108,7 @@ export default function ResetPasswordForm({
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
         <BackButton
-          onClick={handleClose}
+          onClick={handleBack}
           ariaLabel={backLabel}
           className={glassPageBackClassName}
         />
@@ -103,7 +119,12 @@ export default function ResetPasswordForm({
               <p className="text-center text-[1.05rem] leading-[1.6] opacity-80">
                 {t("auth.resetForm.success")}
               </p>
-              <Button as="a" href={localizePath("/", locale)} variant="primary" size="lg">
+              <Button
+                type="button"
+                onClick={handleClose}
+                variant="primary"
+                size="lg"
+              >
                 {t("buttons.back_home")}
               </Button>
             </div>

@@ -6,6 +6,7 @@
   align-self: stretch;
   z-index: 70;
   pointer-events: none;
+  overflow: visible;
 }
 .pointerBlocked {
   pointer-events: none;
@@ -223,7 +224,7 @@
 }
 
 .tooltip {
-  position: fixed;
+  position: absolute;
   transform: translate(calc(-100% - 0.22rem), -50%);
   opacity: 0;
   padding: 0.26rem 0.66rem;

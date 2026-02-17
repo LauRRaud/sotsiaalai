@@ -66,6 +66,7 @@ export default function ChatBody({
   const [isEntering, setIsEntering] = useState(false);
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
+  const [hasHydrated, setHasHydrated] = useState(false);
   const {
     isRoomMode,
     roomMessages,
@@ -86,6 +87,9 @@ export default function ChatBody({
   });
   useEffect(() => {
     clearStaleScrollLock();
+  }, []);
+  useEffect(() => {
+    setHasHydrated(true);
   }, []);
   useEffect(() => {
     const node = chatContainerRef.current;
@@ -482,7 +486,8 @@ export default function ChatBody({
       ro?.disconnect?.();
     };
   }, []);
-  const focusActive = inputFocused && !profileOpen && !isMobile;
+  const viewportIsMobile = hasHydrated ? isMobile : false;
+  const focusActive = inputFocused && !profileOpen && !viewportIsMobile;
   const handleChatWindowDoubleClick = useCallback(() => {
     setInputFocused(false);
     try {
@@ -490,7 +495,7 @@ export default function ChatBody({
     } catch {}
   }, []);
   const chatVars = resolveChatLayoutVars({
-    isMobile,
+    isMobile: viewportIsMobile,
     focusActive
   });
   const chatAnalysisPanelProps = {
@@ -552,7 +557,7 @@ export default function ChatBody({
       focusActive
         ? "chat-container--input-focus"
         : null,
-      isMobile ? "chat-layout-mobile" : "chat-layout-desktop"
+      viewportIsMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );
   return <ChatBodyView
     embedded={embedded}
@@ -573,7 +578,7 @@ export default function ChatBody({
     isLightTheme={isLightTheme}
     roomId={roomId}
     inputFocused={inputFocused}
-    isMobile={isMobile}
+    isMobile={viewportIsMobile}
     sourcesButtonRef={sourcesButtonRef}
     toggleSourcesPanel={toggleSourcesPanel}
     showSourcesPanel={showSourcesPanel}

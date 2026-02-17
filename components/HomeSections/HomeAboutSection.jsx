@@ -1,18 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import AppLink from "@/components/ui/Link";
 import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
 import { cn } from "@/components/ui/cn";
 import useT from "@/components/i18n/useT";
+import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import { localizePath } from "@/lib/localizePath";
+import { pushWithTransition } from "@/lib/routeTransition";
 
 const homeCircleLinkClassName =
   "home-link inline-flex w-fit flex-none items-center justify-center whitespace-nowrap text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
 
 export default function HomeAboutSection({ id = "meist", className, showAdminLinks = false }) {
+  const router = useRouter();
   const t = useT();
+  const { locale } = useI18n();
   const ctaTitle = t("about.cta.title");
   const beforeCardRef = useRef(null);
   const beforeContentRef = useRef(null);
@@ -73,6 +79,17 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
       );
     }
     return normalized;
+  };
+  const openGlassPage = (event, pathname) => {
+    if (event.defaultPrevented) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (event.button !== 0) return;
+    event.preventDefault();
+    pushWithTransition(router, localizePath(pathname, locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
   };
 
   return (
@@ -135,6 +152,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               <li className="w-fit flex-none">
                 <AppLink
                   href="/kasutusjuhend"
+                  onClick={(event) => openGlassPage(event, "/kasutusjuhend")}
                   className={cn(
                     homeCircleLinkClassName,
                     linkBrandInlineClass
@@ -146,6 +164,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               <li className="w-fit flex-none">
                 <AppLink
                   href="/kasutustingimused"
+                  onClick={(event) => openGlassPage(event, "/kasutustingimused")}
                   className={cn(
                     homeCircleLinkClassName,
                     linkBrandInlineClass
@@ -157,6 +176,7 @@ export default function HomeAboutSection({ id = "meist", className, showAdminLin
               <li className="w-fit flex-none">
                 <AppLink
                   href="/privaatsustingimused"
+                  onClick={(event) => openGlassPage(event, "/privaatsustingimused")}
                   className={cn(
                     homeCircleLinkClassName,
                     linkBrandInlineClass
