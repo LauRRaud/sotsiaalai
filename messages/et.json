@@ -858,7 +858,7 @@
     "room_title": "Ruumi nimi",
     "room_title_required": "Lisa ruumile nimi enne kutsete saatmist.",
     "host_name": "Sinu nimi vestluses",
-    "host_name_ph": "",
+    "host_name_ph": "Sinu nimi",
     "host_name_required": "Lisa oma nimi enne kutsete saatmist.",
     "send_failed": "Kutse saatmine ebaõnnestus.",
     "action_failed": "Tegevus ebaõnnestus.",
