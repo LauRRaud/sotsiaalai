@@ -48,6 +48,7 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
 });
 
 const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
+  "--chat-window-shift-x": "clamp(0.2rem, 0.8vw, 0.38rem)",
   "--chat-window-top-offset": "0rem",
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
   "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 3.95rem)",
