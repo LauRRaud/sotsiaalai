@@ -271,12 +271,12 @@
 
 @keyframes glassContentSettleIn {
   0% {
-    opacity: 0.72;
-    filter: blur(4.2px);
+    opacity: 0.88;
+    filter: blur(1.8px);
   }
   62% {
-    opacity: 0.94;
-    filter: blur(1.2px);
+    opacity: 0.96;
+    filter: blur(0.7px);
   }
   100% {
     opacity: 1;
@@ -285,7 +285,7 @@
 }
 
 .glass-content-settle > :not(.chat-mask-layer):not(.profile-mask-layer) {
-  animation: glassContentSettleIn 420ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
+  animation: glassContentSettleIn 300ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
   will-change: filter, opacity;
 }
 

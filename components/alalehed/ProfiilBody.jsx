@@ -683,7 +683,7 @@ export default function ProfiilBody({
           if (document?.documentElement?.dataset?.reduceMotion === "1") return 0;
           if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return 0;
         } catch {}
-        return 600;
+        return 540;
       })();
       if (tiltDelayMs > 0) {
         triggerRouteTransition({
@@ -719,7 +719,7 @@ export default function ProfiilBody({
         window.setTimeout(() => {
           if (!stripLocaleFromPath(window.location.pathname).startsWith("/profiil")) return;
           window.location.assign(redirectUrl);
-        }, 600);
+        }, 540);
       }
     } catch (err) {
       logoutRedirectRef.current = false;
