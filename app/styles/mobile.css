@@ -530,8 +530,8 @@
   body[data-display-mode="browser"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   html:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body:not([data-display-mode="standalone"]) .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    margin-top: clamp(0.75rem, 3.4vw, 1.15rem) !important;
-    transform: translateY(clamp(0.55rem, 2.6vw, 0.92rem)) !important;
+    margin-top: clamp(1.3rem, 6vw, 2.07rem) !important;
+    transform: none !important;
   }
 
   html[data-display-mode="browser"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
@@ -540,7 +540,8 @@
   }
 
   html[data-display-mode="browser"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-    transform: translateY(clamp(0.55rem, 2.6vw, 0.92rem)) !important;
+    margin-top: clamp(1.3rem, 6vw, 2.07rem) !important;
+    transform: none !important;
   }
 
 }
