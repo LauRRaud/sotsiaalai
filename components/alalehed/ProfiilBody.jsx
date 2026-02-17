@@ -667,8 +667,7 @@ export default function ProfiilBody({
   const mobileBackItem = {
     key: "back",
     icon: <BackIcon className="profile-orbit-back-icon h-full w-full" />,
-    label: t("buttons.back"),
-    onClick: handleBack
+    label: t("buttons.back")
   };
   const handleLogout = async () => {
     if (loggingOut) return;
