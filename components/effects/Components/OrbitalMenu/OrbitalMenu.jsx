@@ -178,6 +178,7 @@ export default function OrbitalMenu({
     if (typeof window === "undefined" || typeof document === "undefined") return;
     const body = document.body;
     const scrollY = window.scrollY || 0;
+    const freezeBodyPosition = useMobileOverlay;
     const prev = {
       overflow: body.style.overflow,
       position: body.style.position,
@@ -187,11 +188,13 @@ export default function OrbitalMenu({
       width: body.style.width
     };
     body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
+    if (freezeBodyPosition) {
+      body.style.position = "fixed";
+      body.style.top = `-${scrollY}px`;
+      body.style.left = "0";
+      body.style.right = "0";
+      body.style.width = "100%";
+    }
     return () => {
       body.style.overflow = prev.overflow;
       body.style.position = prev.position;
@@ -199,9 +202,9 @@ export default function OrbitalMenu({
       body.style.left = prev.left;
       body.style.right = prev.right;
       body.style.width = prev.width;
-      window.scrollTo(0, scrollY);
+      if (freezeBodyPosition) window.scrollTo(0, scrollY);
     };
-  }, [isOpen, useMobileDialog]);
+  }, [isOpen, useMobileDialog, useMobileOverlay]);
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
     const prevActive = typeof document !== "undefined" ? document.activeElement : null;
