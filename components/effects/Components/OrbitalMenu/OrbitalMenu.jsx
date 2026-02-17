@@ -176,9 +176,12 @@ export default function OrbitalMenu({
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
     if (typeof window === "undefined" || typeof document === "undefined") return;
+    // Stack variant lives inside the existing glass card; locking body can cause
+    // a visual vertical jump on mobile, so only lock for overlay/list mode.
+    if (!useMobileOverlay) return;
     const body = document.body;
     const scrollY = window.scrollY || 0;
-    const freezeBodyPosition = useMobileOverlay;
+    const freezeBodyPosition = true;
     const prev = {
       overflow: body.style.overflow,
       position: body.style.position,
@@ -212,7 +215,8 @@ export default function OrbitalMenu({
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
       if (useMobileStack) {
-        stackItemRefs.current?.[0]?.focus?.();
+        // Avoid auto-focus scroll jump on mobile Safari when stack menu opens.
+        return;
       } else {
         closeEl?.focus?.();
       }
