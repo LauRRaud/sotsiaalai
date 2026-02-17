@@ -220,16 +220,6 @@
     var(--orbit-ring-glow),
     0 12px 20px rgba(0, 0, 0, 0.16);
 }
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:hover,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:active,
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__center.dock-item:focus-visible {
-  transform: none !important;
-}
-
-
 @keyframes orbit-item-pulse {
   0% {
     transform: scale(var(--item-scale));

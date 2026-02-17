@@ -336,29 +336,48 @@ body.login-modal-open {
 }
 
 @media (min-width: 48em) {
+  .glass-policy-content.glass-ring-content {
+    padding-bottom: clamp(0.34rem, 0.95vh, 0.7rem);
+  }
+
+  .glass-policy-content.glass-ring-content--open {
+    padding-bottom: clamp(0.08rem, 0.32vh, 0.22rem);
+  }
+
+  .glass-policy-scroll-bottom-arc.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    padding-bottom: clamp(0.34rem, 0.95vh, 0.7rem);
+    --glass-policy-scroll-corner: clamp(0.78rem, 1.9vw, 1.2rem);
+    --glass-policy-scroll-curve-x-right: 52%;
+    --glass-policy-scroll-curve-x-left: 46%;
+    --glass-policy-scroll-curve-y-right: 34%;
+    --glass-policy-scroll-curve-y-left: 30%;
+    border-radius: var(--glass-policy-scroll-corner)
+      var(--glass-policy-scroll-corner)
+      var(--glass-policy-scroll-curve-x-right)
+      var(--glass-policy-scroll-curve-x-left) / var(--glass-policy-scroll-corner)
+      var(--glass-policy-scroll-corner)
+      var(--glass-policy-scroll-curve-y-right)
+      var(--glass-policy-scroll-curve-y-left);
+  }
+
   .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    max-height: calc(100% - clamp(1.45rem, 3vh, 2rem));
     padding-top: clamp(0.8rem, 1.8vh, 1.25rem);
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.16) 3%,
-      rgba(0, 0, 0, 0.28) 6%,
-      #000 9%,
-      #000 92%,
-      rgba(0, 0, 0, 0.24) 95%,
-      rgba(0, 0, 0, 0.12) 98%,
-      rgba(0, 0, 0, 0) 100%
+      rgba(0, 0, 0, 0.16) 2.5%,
+      rgba(0, 0, 0, 0.3) 5%,
+      #000 8%,
+      #000 100%
     );
     -webkit-mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.16) 3%,
-      rgba(0, 0, 0, 0.28) 6%,
-      #000 9%,
-      #000 92%,
-      rgba(0, 0, 0, 0.24) 95%,
-      rgba(0, 0, 0, 0.12) 98%,
-      rgba(0, 0, 0, 0) 100%
+      rgba(0, 0, 0, 0.16) 2.5%,
+      rgba(0, 0, 0, 0.3) 5%,
+      #000 8%,
+      #000 100%
     );
   }
 
@@ -367,23 +386,21 @@ body.login-modal-open {
     mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.14) 3%,
-      rgba(0, 0, 0, 0.24) 6%,
+      rgba(0, 0, 0, 0.16) 3%,
+      rgba(0, 0, 0, 0.28) 6%,
       #000 9%,
       #000 92%,
-      rgba(0, 0, 0, 0.2) 95%,
-      rgba(0, 0, 0, 0.1) 98%,
+      rgba(0, 0, 0, 0.2) 96%,
       rgba(0, 0, 0, 0) 100%
     );
     -webkit-mask-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.14) 3%,
-      rgba(0, 0, 0, 0.24) 6%,
+      rgba(0, 0, 0, 0.16) 3%,
+      rgba(0, 0, 0, 0.28) 6%,
       #000 9%,
       #000 92%,
-      rgba(0, 0, 0, 0.2) 95%,
-      rgba(0, 0, 0, 0.1) 98%,
+      rgba(0, 0, 0, 0.2) 96%,
       rgba(0, 0, 0, 0) 100%
     );
   }
@@ -514,6 +531,7 @@ body.login-modal-open {
   .glass-ring-expandable--open {
     --glass-ring-br-bottom: clamp(1.6rem, 3.5vw, 2.4rem);
   }
+
 }
 
 

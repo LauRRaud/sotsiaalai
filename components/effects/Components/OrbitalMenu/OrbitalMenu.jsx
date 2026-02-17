@@ -69,10 +69,19 @@ export default function OrbitalMenu({
   const [stackFocusIndex, setStackFocusIndex] = useState(null);
   const closeMenu = useCallback(() => {
     setIsPinnedOpen(false);
+    if (isCoarsePointer) return;
     requestAnimationFrame(() => {
-      hubBtnRef.current?.focus?.();
+      const hubEl = hubBtnRef.current;
+      if (!hubEl?.focus) return;
+      try {
+        hubEl.focus({
+          preventScroll: true
+        });
+      } catch {
+        hubEl.focus();
+      }
     });
-  }, []);
+  }, [isCoarsePointer]);
   const stackItems = useMemo(() => {
     if (!useMobileStack) return items;
     if (!mobileBackItem) return items;
@@ -202,8 +211,6 @@ export default function OrbitalMenu({
   }, [isOpen, useMobileDialog]);
   useEffect(() => {
     if (!isOpen || !useMobileDialog) return;
-    const prevActive = typeof document !== "undefined" ? document.activeElement : null;
-    const hubEl = hubBtnRef.current;
     const closeEl = overlayCloseBtnRef.current;
     const raf = requestAnimationFrame(() => {
       if (useMobileStack) {
@@ -212,14 +219,7 @@ export default function OrbitalMenu({
         closeEl?.focus?.();
       }
     });
-    return () => {
-      cancelAnimationFrame(raf);
-      if (hubEl?.focus) {
-        hubEl.focus();
-        return;
-      }
-      if (prevActive && prevActive instanceof HTMLElement) prevActive.focus();
-    };
+    return () => cancelAnimationFrame(raf);
   }, [isOpen, useMobileDialog, useMobileStack]);
   useLayoutEffect(() => {
     if (!useOrbitLayout) return;
