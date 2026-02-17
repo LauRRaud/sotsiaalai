@@ -6,8 +6,6 @@ export function useChatMobileRail() {
   const [mobileRailVisible, setMobileRailVisible] = useState(false);
   const [mobileRailInteractionLocked, setMobileRailInteractionLocked] = useState(false);
   const mobileModeRef = useRef(null);
-  const mobileRailShowTimerRef = useRef(0);
-  const mobileRailUnlockTimerRef = useRef(0);
 
   useEffect(() => {
     const update = () => {
@@ -18,14 +16,6 @@ export function useChatMobileRail() {
         const prevMode = mobileModeRef.current;
         if (prevMode === null || prevMode !== nextIsMobile) {
           mobileModeRef.current = nextIsMobile;
-          if (mobileRailShowTimerRef.current) {
-            window.clearTimeout(mobileRailShowTimerRef.current);
-            mobileRailShowTimerRef.current = 0;
-          }
-          if (mobileRailUnlockTimerRef.current) {
-            window.clearTimeout(mobileRailUnlockTimerRef.current);
-            mobileRailUnlockTimerRef.current = 0;
-          }
           setMobileRailInteractionLocked(false);
           return nextIsMobile ? false : true;
         }
@@ -40,56 +30,15 @@ export function useChatMobileRail() {
   }, []);
 
   const showMobileRail = useCallback(() => {
-    if (mobileRailInteractionLocked) return;
-    setMobileRailInteractionLocked(true);
-    if (mobileRailShowTimerRef.current) {
-      window.clearTimeout(mobileRailShowTimerRef.current);
-      mobileRailShowTimerRef.current = 0;
-    }
-    mobileRailShowTimerRef.current = window.setTimeout(() => {
-      setMobileRailVisible(true);
-      mobileRailShowTimerRef.current = 0;
-    }, 140);
-    if (mobileRailUnlockTimerRef.current) {
-      window.clearTimeout(mobileRailUnlockTimerRef.current);
-      mobileRailUnlockTimerRef.current = 0;
-    }
-    mobileRailUnlockTimerRef.current = window.setTimeout(() => {
-      setMobileRailInteractionLocked(false);
-      mobileRailUnlockTimerRef.current = 0;
-    }, 620);
-  }, [mobileRailInteractionLocked]);
+    setMobileRailInteractionLocked(false);
+    setMobileRailVisible(true);
+  }, []);
 
   const hideMobileRail = useCallback(() => {
     if (!isMobile) return;
-    if (mobileRailShowTimerRef.current) {
-      window.clearTimeout(mobileRailShowTimerRef.current);
-      mobileRailShowTimerRef.current = 0;
-    }
-    if (mobileRailUnlockTimerRef.current) {
-      window.clearTimeout(mobileRailUnlockTimerRef.current);
-      mobileRailUnlockTimerRef.current = 0;
-    }
-    setMobileRailInteractionLocked(true);
+    setMobileRailInteractionLocked(false);
     setMobileRailVisible(false);
-    mobileRailUnlockTimerRef.current = window.setTimeout(() => {
-      setMobileRailInteractionLocked(false);
-      mobileRailUnlockTimerRef.current = 0;
-    }, 320);
   }, [isMobile]);
-
-  useEffect(() => {
-    return () => {
-      if (mobileRailShowTimerRef.current) {
-        window.clearTimeout(mobileRailShowTimerRef.current);
-        mobileRailShowTimerRef.current = 0;
-      }
-      if (mobileRailUnlockTimerRef.current) {
-        window.clearTimeout(mobileRailUnlockTimerRef.current);
-        mobileRailUnlockTimerRef.current = 0;
-      }
-    };
-  }, []);
 
   return {
     isMobile,
