@@ -784,7 +784,7 @@
     "login_required": "Sign in to send invites.",
     "classic": {
       "emails": "Invite people to the conversation",
-      "emails_ph": "Emails (comma separated)",
+      "emails_ph": "Who are you inviting? (separate emails with commas)",
       "emails_help": "Separate with commas",
       "relationship": "Who are you inviting?",
       "payment": "Subscription status"

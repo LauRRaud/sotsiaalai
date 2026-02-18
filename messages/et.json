@@ -824,7 +824,7 @@
     "login_required": "Kutsumiseks logi sisse.",
     "classic": {
       "emails": "Kutsu inimesi vestlusesse",
-      "emails_ph": "E-post (eralda komaga)",
+      "emails_ph": "Keda kutsud? (eralda e-postid komaga)",
       "emails_help": "Eralda komaga",
       "relationship": "Kellega on tegu?",
       "payment": "Tellimuse olemasolu"

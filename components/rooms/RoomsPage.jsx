@@ -32,15 +32,15 @@ const titleClassName =
   `${glassPageTitleClassName} w-full max-w-full max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(0.95rem,2.8vh,1.55rem)]";
 const scrollAreaClassName =
-  "rooms-scroll relative flex-1 w-full max-w-[clamp(17.2rem,34vw,21.5rem)] min-[48.0625em]:max-w-[clamp(17rem,31vw,20.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.58rem] min-[48.0625em]:px-[0.95rem] text-left csp-container mx-auto";
+  "rooms-scroll relative flex-1 w-full max-w-[clamp(20.4rem,43vw,26.5rem)] min-[48.0625em]:max-w-[clamp(20.2rem,40vw,25.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.7rem] min-[48.0625em]:px-[1.08rem] text-left csp-container mx-auto";
 const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
-  "w-full rounded-[1.14rem] [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.95rem] text-[color:var(--input-text)] shadow-[var(--input-shadow)] " +
+  "w-full rounded-[1.2rem] [border:var(--input-border)] [background:var(--input-bg)] px-[1.14rem] py-[1.02rem] text-[color:var(--input-text)] shadow-[var(--input-shadow)] " +
   "transition-[background,border-color,box-shadow,transform] duration-200 ease-out " +
   "hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:-translate-y-[1px] " +
   "focus-within:[background:var(--input-bg-focus)] focus-within:shadow-[var(--input-shadow-hover,var(--input-shadow))] focus-within:-translate-y-[1px]";
 const roomMetaRowClassName =
-  "mt-[0.2rem] flex flex-wrap items-center gap-x-[0.22rem] gap-y-[0.2rem] text-[0.98rem] text-[color:var(--pt-200)]";
+  "mt-[0.24rem] flex flex-wrap items-center gap-x-[0.22rem] gap-y-[0.2rem] text-[0.98rem] text-[color:var(--pt-200)] [.theme-light_&]:text-[#334155]";
 const roomMetaItemClassName =
   "before:content-['|'] before:mx-[0.42rem] first:before:content-none";
 const roomActionButtonClassName =
@@ -53,6 +53,9 @@ const roomDeleteButtonClassName =
   "transition-[transform,border-color,background,color] duration-150 hover:-translate-y-[1px] hover:border-[rgba(255,120,120,0.72)] hover:bg-[rgba(96,28,40,0.52)] hover:text-[#ffe6e6] " +
   "focus-visible:outline-none focus-visible:border-[rgba(255,120,120,0.72)] focus-visible:bg-[rgba(96,28,40,0.52)] focus-visible:text-[#ffe6e6] disabled:opacity-55 disabled:cursor-not-allowed " +
   "[.theme-light_&]:border-[rgba(192,72,72,0.52)] [.theme-light_&]:bg-[rgba(255,235,235,0.92)] [.theme-light_&]:text-[#7a2323]";
+const roomUnreadBadgeClassName =
+  "mt-[0.08rem] inline-flex items-center gap-[0.32rem] rounded-full border border-[rgba(212,94,94,0.58)] bg-[rgba(126,36,48,0.44)] px-[0.48rem] py-[0.14rem] text-[0.8rem] font-semibold tracking-[0.01em] text-[#ffe8e8] " +
+  "[.theme-light_&]:border-[rgba(198,74,90,0.62)] [.theme-light_&]:bg-[rgba(255,223,230,0.98)] [.theme-light_&]:text-[#7f1d2d]";
 const modalTitleClassName =
   "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const roomChevronStrokeWidthDesktop = 0.72;
@@ -123,15 +126,6 @@ export default function RoomsPage() {
     },
     [timeFormatter]
   );
-
-  const truncate = useCallback((text, max = 170) => {
-    const safe = String(text || "").trim();
-    if (!safe) return "";
-    const suffix = "...";
-    return safe.length > max
-      ? `${safe.slice(0, Math.max(0, max - suffix.length))}${suffix}`
-      : safe;
-  }, []);
 
   const canInvite = useCallback(
     role => role === "OWNER" || role === "MODERATOR",
@@ -519,7 +513,7 @@ export default function RoomsPage() {
             ) : null}
             <div
               ref={scrollRef}
-              className={`${scrollAreaClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : "[--csp-active-scale:1] [--csp-neighbor-scale:0.92] [--csp-hidden-scale:0.86] [--csp-neighbor-opacity:0.15] [--csp-hidden-opacity:0]"}`}
+              className={`${scrollAreaClassName} ${isMobileViewport ? "" : "csp-no-neighbor-click"} ${isMobileViewport ? "[--csp-active-scale:1.035] [--csp-neighbor-scale:0.95] [--csp-hidden-scale:0.9] [--csp-neighbor-opacity:0.26] [--csp-hidden-opacity:0.08]" : "[--csp-active-scale:1.04] [--csp-neighbor-scale:0.9] [--csp-hidden-scale:0.82] [--csp-neighbor-opacity:0.1] [--csp-hidden-opacity:0]"}`}
               style={{
                 "--csp-pad-top": `${Math.max(0, scrollPadTop || scrollPad)}px`,
                 "--csp-pad-bottom": `${Math.max(
@@ -586,10 +580,13 @@ export default function RoomsPage() {
                             </h2>
                             {room.unreadCount ? (
                               <span
-                                className="mt-[0.08rem] inline-flex min-w-[1.85rem] items-center justify-center rounded-full border border-[rgba(192,72,72,0.38)] bg-[rgba(192,72,72,0.24)] px-[0.48rem] py-[0.16rem] text-[0.86rem] font-semibold text-[#ffd1d1]"
-                                aria-label={t("rooms.unread")}
+                                className={roomUnreadBadgeClassName}
+                                aria-label={`${t("rooms.unread")}: ${room.unreadCount}`}
                               >
-                                {room.unreadCount}
+                                <span>{t("rooms.unread")}</span>
+                                <span className="inline-flex min-w-[1.2rem] items-center justify-center rounded-full bg-[rgba(255,255,255,0.15)] px-[0.34rem] py-[0.06rem] text-[0.76rem] leading-[1.05] [.theme-light_&]:bg-[rgba(127,29,45,0.1)]">
+                                  {room.unreadCount}
+                                </span>
                               </span>
                             ) : null}
                           </div>
@@ -607,24 +604,13 @@ export default function RoomsPage() {
                             ) : null}
                           </div>
 
-                          {room.description ? (
-                            <p className="m-0 text-[1.08rem] leading-[1.35] text-[color:var(--pt-180)] [.theme-light_&]:text-[#334155]">
-                              {truncate(room.description, 190)}
-                            </p>
-                          ) : null}
-
-                          <div className="flex items-end justify-between gap-[0.7rem]">
-                            <p className="m-0 min-w-0 flex-1 text-[1.06rem] leading-[1.35] text-[color:var(--pt-160)] [.theme-light_&]:text-[#475569]">
-                              {room.lastMessage?.content
-                                ? truncate(room.lastMessage.content, 210)
-                                : t("rooms.last_empty")}
-                            </p>
-                            {room.lastMessage?.createdAt ? (
-                              <span className="shrink-0 pb-[0.02rem] text-[0.92rem] text-[color:var(--pt-300)] [.theme-light_&]:text-[#64748b]">
+                          {room.lastMessage?.createdAt ? (
+                            <div className="mt-[0.08rem] flex items-center justify-end">
+                              <span className="text-[0.94rem] text-[color:var(--pt-280)] [.theme-light_&]:text-[#334155]">
                                 {formatTime(room.lastMessage.createdAt)}
                               </span>
-                            ) : null}
-                          </div>
+                            </div>
+                          ) : null}
                         </Link>
 
                         {canInvite(room.role) ||
