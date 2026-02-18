@@ -234,7 +234,9 @@
   font-size: 1.42rem;
   letter-spacing: 0.05em;
   color: #c57171;
-  background: rgba(18, 24, 36, 0.18);
+  background: rgba(18, 24, 36, 0.24);
+  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
+  backdrop-filter: blur(20px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   pointer-events: none;
@@ -254,24 +256,10 @@
   transform: translate(calc(-100% - 0.22rem), -50%);
 }
 .tooltip::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: rgba(18, 24, 36, 0.24);
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-  backdrop-filter: blur(24px) saturate(170%);
-  z-index: -1;
+  content: none;
 }
 .tooltip::after {
-  content: "";
-  position: absolute;
-  inset: -0.22rem;
-  border-radius: inherit;
-  background: inherit;
-  filter: blur(16px);
-  opacity: 0.58;
-  z-index: -2;
+  content: none;
 }
 .label {
   display: none;
@@ -281,12 +269,12 @@
   color: #7a3a38;
   font-size: 1.2rem;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.34);
   border-color: rgba(122, 58, 56, 0.28);
 }
 
 :global(:root.theme-light) .tooltip::before {
-  background: rgba(255, 255, 255, 0.28);
+  content: none;
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

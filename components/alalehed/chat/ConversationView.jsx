@@ -64,37 +64,36 @@ const ConversationView = memo(function ConversationView({
     "mt-[var(--chat-window-top-offset,0rem)] max-[48em]:flex-none max-[48em]:h-[calc(100%-var(--chat-window-bottom-gap,0rem)-var(--chat-vk-offset,0px))] max-[48em]:mb-[calc(var(--chat-window-bottom-gap,0rem)+var(--chat-vk-offset,0px))] max-h-[calc(100%-var(--chat-window-top-offset,0rem)-var(--chat-window-bottom-gap,0rem))] " +
     "[--chat-window-corner:clamp(0.9rem,2.2vw,1.4rem)] [--chat-window-curve-x:100%] [--chat-window-curve-y:72%] " +
     "[--chat-window-pad-x:var(--chat-window-pad-x,clamp(0.6rem,1.8vw,1.35rem))] [--chat-window-pad-top:var(--chat-window-pad-top,clamp(1.8rem,4vh,3rem))] " +
-    "[--chat-window-bottom-safe:clamp(1.2rem,2.8vh,2.4rem)] [--chat-window-fade-top:clamp(1.2rem,4vh,2.4rem)] " +
-    "[--chat-window-fade-top-focus:clamp(1.8rem,5.6vh,3.4rem)] [--chat-window-fade-top-active:var(--chat-window-fade-top)] " +
+    "[--chat-window-bottom-safe:clamp(1.2rem,2.8vh,2.4rem)] [--chat-window-fade-top:1.35rem] " +
+    "[--chat-window-fade-top-focus:2.1rem] [--chat-window-fade-top-active:var(--chat-window-fade-top)] " +
     "[--chat-window-fade-bottom:clamp(2.2rem,7vh,4rem)] [--chat-window-fade-bottom-focus:clamp(3rem,9vh,5rem)] [--chat-window-fade-bottom-active:var(--chat-window-fade-bottom)] " +
     "[--chat-window-top-glaze-h:clamp(5rem,14vh,9rem)] [--chat-window-top-glaze-alpha:0.6] " +
     "[--chat-window-side-fade-in:18%] [--chat-window-side-fade-band:clamp(3.2rem,11vh,7rem)] " +
     "[--chat-arc-fade-width:84%] [--chat-arc-fade-depth:74%] [--chat-arc-rgb:14_18_28] [--chat-arc-center-alpha:0.14] [--chat-arc-side-alpha:0.3] [--chat-arc-mid-alpha:0.11] " +
-    "[--chat-window-top-text-fade:calc(var(--chat-window-fade-top-active)+clamp(1.4rem,2.8vh,2.2rem))] " +
+    "[--chat-window-top-text-fade:calc(var(--chat-window-fade-top-active)+5.6rem)] " +
     "[border-radius:var(--chat-window-curve-x)_var(--chat-window-curve-x)_var(--chat-window-corner)_var(--chat-window-corner)_/_var(--chat-window-curve-y)_var(--chat-window-curve-y)_var(--chat-window-corner)_var(--chat-window-corner)] " +
-    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.72)_calc(var(--chat-window-top-text-fade)*0.45),#000_var(--chat-window-top-text-fade),#000_100%)] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.72)_calc(var(--chat-window-top-text-fade)*0.45),#000_var(--chat-window-top-text-fade),#000_100%)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.34)_calc(var(--chat-window-top-text-fade)*0.52),rgba(0,0,0,0.84)_calc(var(--chat-window-top-text-fade)*0.86),#000_var(--chat-window-top-text-fade),#000_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.34)_calc(var(--chat-window-top-text-fade)*0.52),rgba(0,0,0,0.84)_calc(var(--chat-window-top-text-fade)*0.86),#000_var(--chat-window-top-text-fade),#000_100%)] " +
     "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] " +
     "bg-transparent border-0 shadow-none isolate overflow-hidden " +
     "w-full max-w-[var(--chat-window-max-w,calc(100%-var(--right-rail-width,clamp(4.6rem,8vw,5.8rem))-clamp(1.4rem,3vw,2.2rem)))] mx-auto " +
     "[transform:translateX(var(--chat-window-shift-x,0rem))_translateY(var(--chat-window-shift-y,0rem))] " +
     "max-[48em]:[--chat-window-curve-x:var(--chat-window-corner)] max-[48em]:[--chat-window-curve-y:var(--chat-window-corner)] " +
-    "max-[48em]:[mask-image:none] max-[48em]:[-webkit-mask-image:none] " +
     "light:[--chat-arc-rgb:210_214_222] light:[--chat-arc-center-alpha:0.1] light:[--chat-arc-side-alpha:0.24] light:[--chat-arc-mid-alpha:0.09] " +
     "transition-[padding-top,padding-bottom,margin-top,max-height,max-width,transform] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "max-[48em]:max-w-full";
   const scrollClassName =
     "chat-window__scroll relative z-[1] h-full flex flex-col items-stretch gap-[0.75rem] flex-1 min-h-0 overflow-y-auto overscroll-contain " +
     "[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [scrollbar-color:transparent_transparent] " +
-    "[mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
-    "[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
+    "[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.34)_calc(var(--chat-window-fade-top-active)*0.44+1.5rem),rgba(0,0,0,0.86)_calc(var(--chat-window-fade-top-active)*0.9+2.9rem),#000_calc(var(--chat-window-fade-top-active)+4.5rem),#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
+    "[-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.34)_calc(var(--chat-window-fade-top-active)*0.44+1.5rem),rgba(0,0,0,0.86)_calc(var(--chat-window-fade-top-active)*0.9+2.9rem),#000_calc(var(--chat-window-fade-top-active)+4.5rem),#000_calc(100%-var(--chat-window-fade-bottom-active)),transparent_100%)] " +
     "[mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] " +
     "[&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
     "[&::-webkit-scrollbar-thumb]:bg-[linear-gradient(135deg,var(--pt-400),var(--pt-200))] [&::-webkit-scrollbar-thumb]:rounded-[0.625rem] [&::-webkit-scrollbar-thumb]:border-[0.1875rem] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent " +
     "[&::-webkit-scrollbar-track]:bg-transparent " +
     "transition-[padding] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
-    "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] " +
-    "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)+var(--chat-content-top-offset,0rem))] " +
+    "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] " +
+    "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))] " +
     "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px))] ";
   const mergedWindowClassName = windowClassNameProp ? `${windowClassName} ${windowClassNameProp}` : windowClassName;
   const scrollButtonClassName =

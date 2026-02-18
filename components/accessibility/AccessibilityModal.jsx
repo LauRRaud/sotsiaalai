@@ -10,7 +10,7 @@ import OptionCard from "@/components/ui/OptionCard";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const titleClassName =
-  `${glassPageTitleClassName} glass-title-register !text-[clamp(1.58rem,3.35vw,2.12rem)] max-[48em]:!text-[clamp(2rem,7.9vw,2.75rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0 max-[48em]:!whitespace-normal`;
+  `${glassPageTitleClassName} glass-title-register !text-[clamp(1.58rem,3.35vw,2.12rem)] min-[48.0625em]:!mt-0 min-[48.0625em]:!mb-0 max-[48em]:!text-[clamp(2rem,7.9vw,2.75rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0 max-[48em]:!whitespace-normal`;
 const modalBackdropClassName =
   "fixed inset-0 z-[49] bg-transparent backdrop-blur-0";
 const modalRootClassName =

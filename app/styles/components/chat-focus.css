@@ -130,6 +130,27 @@ body.invite-modal-open .chat-page-shell {
   }
 }
 
+@media (min-width: 48em) and (max-width: 90em) and (max-height: 840px) {
+  .chat-page-shell .chat-container.chat-container--round,
+  .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
+    --chat-window-top-offset: -1.9rem !important;
+    --chat-window-pad-top: 0.42rem !important;
+    --chat-window-top-safe: 1.25rem !important;
+    --chat-content-top-offset: 0rem !important;
+    --chat-window-fade-top: clamp(1.55rem, 3vh, 2.1rem) !important;
+    --chat-window-fade-top-focus: clamp(1.55rem, 3vh, 2.1rem) !important;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round .chat-window {
+    --chat-window-max-w: clamp(19rem, 43vw, 27rem) !important;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window {
+    --chat-window-max-w: clamp(18.4rem, 42.5vw, 27.4rem) !important;
+    --chat-window-fade-top-active: var(--chat-window-fade-top) !important;
+  }
+}
+
 .chat-analysis-overlay .chat-analysis-overlay-card {
   position: relative;
   overflow: hidden;

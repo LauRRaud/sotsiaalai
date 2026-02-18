@@ -1,11 +1,11 @@
 const CHAT_LAYOUT_BASE_VARS = Object.freeze({
   "--chat-diameter": "var(--profile-diameter)",
-  "--chat-window-max-w": "clamp(19.4rem, 42.5vw, 28.2rem)",
+  "--chat-window-max-w": "28.2rem",
   "--chat-window-shift-x": "clamp(-0.2rem, -0.42vw, -0.08rem)",
   "--chat-window-top-offset": "0.65rem",
-  "--chat-window-pad-top": "clamp(2.4rem, 4.8vh, 3.4rem)",
+  "--chat-window-pad-top": "1.25rem",
   "--chat-window-pad-bottom": "calc(clamp(2.2rem, 4.5dvh, 3.4rem) + 2.35rem)",
-  "--chat-window-top-safe": "clamp(4.2rem, 7.2vh, 6.6rem)",
+  "--chat-window-top-safe": "5.35rem",
   "--chat-window-bottom-gap": "1.9rem",
   "--chat-window-shift-y": "0rem",
   "--chat-scroll-down-offset": "0.2rem",
@@ -95,7 +95,7 @@ const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
 
 const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--chat-diameter": "max(var(--profile-diameter), var(--chat-diameter-max))",
-  "--chat-window-max-w": "clamp(20.1rem, 45.8vw, 30.9rem)",
+  "--chat-window-max-w": "30.9rem",
   "--chat-window-shift-x": "clamp(-0.18rem, -0.36vw, -0.06rem)",
   "--chat-window-pad-top": "clamp(3.6rem, 6.4vh, 4.8rem)",
   "--chat-window-pad-bottom": "calc(clamp(1.6rem, 3.2dvh, 2.4rem) + 1.1rem)",

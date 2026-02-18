@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AddPersonIcon, ChatBubbleIcon, ProfileIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
@@ -10,6 +11,8 @@ import { cn } from "@/components/ui/cn";
 
 const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 
 function detectMobileViewport() {
   if (typeof window === "undefined") return false;
@@ -64,6 +67,7 @@ export default function RightRail({
   const [stepPx, setStepPx] = useState(56);
   const [isMobile, setIsMobile] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [isRouteTilting, setIsRouteTilting] = useState(false);
   const [armedKey, setArmedKey] = useState(null);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
@@ -75,24 +79,15 @@ export default function RightRail({
     const slot = slotRef.current;
     if (!rail || !slot) return;
     const railRect = rail.getBoundingClientRect();
-    const slotRect = slot.getBoundingClientRect();
-    if (!railRect.width || !railRect.height || !slotRect.width) return;
+    if (!railRect.width || !railRect.height) return;
     const style = window.getComputedStyle(rail);
     const itemSizeRaw = Number.parseFloat(style.getPropertyValue("--rail-item-size"));
     const edgeOffsetRaw = Number.parseFloat(style.getPropertyValue("--rail-edge-offset"));
     const itemSize = Number.isFinite(itemSizeRaw) && itemSizeRaw > 0 ? itemSizeRaw : 48;
     const edgeOffset = Number.isFinite(edgeOffsetRaw) && edgeOffsetRaw > 0 ? edgeOffsetRaw : itemSize * 0.5;
-    // Keep tooltip anchored to the rail center slot so it does not track moving icons during scroll transitions.
-    const anchorLeft =
-      railRect.left -
-      slotRect.left +
-      railRect.width -
-      edgeOffset -
-      itemSize * 0.5;
-    const anchorTop =
-      railRect.top -
-      slotRect.top +
-      railRect.height * 0.5;
+    // Tooltip is rendered via portal with `position: fixed`, so anchor in viewport coordinates.
+    const anchorLeft = railRect.left + railRect.width - edgeOffset - itemSize * 0.5;
+    const anchorTop = railRect.top + railRect.height * 0.5;
     setTooltipRect({
       top: anchorTop - itemSize * 0.5,
       left: anchorLeft,
@@ -167,8 +162,25 @@ export default function RightRail({
     }
   }, []);
 
+  const hideTooltipImmediately = useCallback(() => {
+    if (tooltipHideTimerRef.current) {
+      window.clearTimeout(tooltipHideTimerRef.current);
+      tooltipHideTimerRef.current = 0;
+    }
+    if (tooltipSwitchTimerRef.current) {
+      window.clearTimeout(tooltipSwitchTimerRef.current);
+      tooltipSwitchTimerRef.current = 0;
+    }
+    if (tooltipRevealRafRef.current) {
+      cancelAnimationFrame(tooltipRevealRafRef.current);
+      tooltipRevealRafRef.current = 0;
+    }
+    tooltipVisibleRef.current = false;
+    setIsTooltipVisible(false);
+  }, []);
+
   const showTooltipTemporarily = useCallback((index, durationMs = 980) => {
-    if (viewportIsMobile || suspendPointerEvents || suppressTooltip) return;
+    if (viewportIsMobile || suspendPointerEvents || suppressTooltip || isRouteTilting) return;
     if (!Number.isFinite(index)) return;
     if (tooltipSwitchTimerRef.current) {
       window.clearTimeout(tooltipSwitchTimerRef.current);
@@ -190,7 +202,24 @@ export default function RightRail({
       setIsTooltipVisible(false);
       tooltipHideTimerRef.current = 0;
     }, durationMs);
-  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip]);
+  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip, isRouteTilting]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setIsRouteTilting(Boolean(window[TILT_ACTIVE_FLAG_KEY]));
+    const onTiltState = event => {
+      setIsRouteTilting(Boolean(event?.detail?.active));
+    };
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
+    return () => {
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isRouteTilting) return;
+    hideTooltipImmediately();
+  }, [isRouteTilting, hideTooltipImmediately]);
 
   useEffect(() => {
     tooltipVisibleRef.current = isTooltipVisible;
@@ -369,25 +398,12 @@ export default function RightRail({
   }, [isMobile, mobileVisible, clearArmed]);
 
   useEffect(() => {
-    if (!(isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible)) return;
-    if (tooltipHideTimerRef.current) {
-      window.clearTimeout(tooltipHideTimerRef.current);
-      tooltipHideTimerRef.current = 0;
-    }
-    if (tooltipSwitchTimerRef.current) {
-      window.clearTimeout(tooltipSwitchTimerRef.current);
-      tooltipSwitchTimerRef.current = 0;
-    }
-    if (tooltipRevealRafRef.current) {
-      cancelAnimationFrame(tooltipRevealRafRef.current);
-      tooltipRevealRafRef.current = 0;
-    }
-    tooltipVisibleRef.current = false;
-    setIsTooltipVisible(false);
-  }, [isMobile, suspendPointerEvents, suppressTooltip, mobileVisible]);
+    if (!(isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible || isRouteTilting)) return;
+    hideTooltipImmediately();
+  }, [isMobile, suspendPointerEvents, suppressTooltip, mobileVisible, isRouteTilting, hideTooltipImmediately]);
 
   useEffect(() => {
-    if (isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible) {
+    if (isMobile || suspendPointerEvents || suppressTooltip || !mobileVisible || isRouteTilting) {
       didInitDesktopActiveRef.current = false;
       return;
     }
@@ -424,7 +440,7 @@ export default function RightRail({
       return;
     }
     showTooltipTemporarily(activeIndex, 900);
-  }, [activeIndex, isMobile, mobileVisible, showTooltipTemporarily, suppressTooltip, suspendPointerEvents]);
+  }, [activeIndex, isMobile, mobileVisible, showTooltipTemporarily, suppressTooltip, suspendPointerEvents, isRouteTilting]);
 
   useEffect(() => {
     if (!isMobile || !armedKey) return;
@@ -476,6 +492,7 @@ export default function RightRail({
   const showDesktopTooltip = !viewportIsMobile &&
     !suspendPointerEvents &&
     !suppressTooltip &&
+    !isRouteTilting &&
     !!tooltipRect &&
     tooltipLabelIndex >= 0 &&
     tooltipLabelIndex < items.length;
@@ -621,11 +638,21 @@ export default function RightRail({
       })}
 
       </nav>
-      {isMounted && showDesktopTooltip ? <div className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)} style={{
-      top: tooltipRect.top + tooltipRect.height / 2,
-      left: tooltipRect.left - 2
-    }} role="tooltip">
-          {items[tooltipLabelIndex]?.label || ""}
-        </div> : null}
+      {isMounted && showDesktopTooltip && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              className={cn(styles.tooltip, isTooltipVisible ? styles.tooltipVisible : styles.tooltipHidden)}
+              style={{
+                position: "fixed",
+                top: tooltipRect.top + tooltipRect.height / 2,
+                left: tooltipRect.left - 2
+              }}
+              role="tooltip"
+            >
+              {items[tooltipLabelIndex]?.label || ""}
+            </div>,
+            document.body
+          )
+        : null}
     </div>;
 }

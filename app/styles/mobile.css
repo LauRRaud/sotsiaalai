@@ -551,6 +551,11 @@
     transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
   }
 
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-orbit-menu.is-mobile:not(.is-open) .profile-orbit-menu__center {
+    transform: translate3d(0, clamp(-0.28rem, -1.3vw, -0.18rem), 0) scale(1) !important;
+  }
+
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;
