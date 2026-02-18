@@ -32,7 +32,7 @@ const titleClassName =
   `${glassPageTitleClassName} w-full max-w-full max-[48em]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[48em]:!leading-[1.06] max-[48em]:!mt-0 max-[48em]:!mb-0 max-[48em]:!px-0`;
 const contentClassName = "mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(0.95rem,2.8vh,1.55rem)]";
 const scrollAreaClassName =
-  "rooms-scroll relative flex-1 w-full max-w-[clamp(20.4rem,43vw,26.5rem)] min-[48.0625em]:max-w-[clamp(20.2rem,40vw,25.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.7rem] min-[48.0625em]:px-[1.08rem] text-left csp-container mx-auto";
+  "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[48.0625em]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.62rem] min-[48.0625em]:px-[0.95rem] text-left csp-container mx-auto";
 const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
   "w-full rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(10,14,24,0.32)] px-[1.14rem] py-[1.02rem] text-[color:var(--pt-120)] shadow-[var(--input-shadow)] " +
@@ -57,7 +57,7 @@ const roomDeleteButtonClassName =
   "focus-visible:outline-none focus-visible:border-[rgba(255,120,120,0.72)] focus-visible:bg-[rgba(96,28,40,0.52)] focus-visible:text-[#ffe6e6] disabled:opacity-55 disabled:cursor-not-allowed " +
   "[.theme-light_&]:border-[rgba(192,72,72,0.52)] [.theme-light_&]:bg-[rgba(255,235,235,0.92)] [.theme-light_&]:text-[#7a2323]";
 const roomUnreadBadgeClassName =
-  "mt-[0.08rem] inline-flex items-center gap-[0.32rem] rounded-full border border-[rgba(212,94,94,0.58)] bg-[rgba(126,36,48,0.44)] px-[0.48rem] py-[0.14rem] text-[0.8rem] font-semibold tracking-[0.01em] text-[#ffe8e8] " +
+  "mt-[0.08rem] inline-flex items-center rounded-full border border-[rgba(212,94,94,0.58)] bg-[rgba(126,36,48,0.44)] px-[0.56rem] py-[0.14rem] text-[0.8rem] font-semibold tracking-[0.01em] text-[#ffe8e8] " +
   "[.theme-light_&]:border-[rgba(198,74,90,0.62)] [.theme-light_&]:bg-[rgba(255,223,230,0.98)] [.theme-light_&]:text-[#7f1d2d]";
 const modalTitleClassName =
   "text-center text-[1.45rem] leading-[1.2] tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
@@ -545,134 +545,155 @@ export default function RoomsPage() {
                 </div>
               ) : (
                 <ul className="m-0 list-none p-0">
-                  {effectiveRooms.map((room, index) => (
-                    <li
-                      key={room.id}
-                      className={`${roomStepClassName} ${getRoomStepClassName(index)}`}
-                    >
-                      <article className={roomCardClassName}>
-                        <Link
-                          prefetch={false}
-                          href={localizePath(
-                            `/vestlus?roomId=${encodeURIComponent(room.id)}`,
-                            locale
-                          )}
-                          onClick={event => {
-                            if (event.defaultPrevented) return;
-                            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                            if (event.button !== 0) return;
-                            event.preventDefault();
-                            pushWithTransition(
-                              router,
-                              localizePath(
-                                `/vestlus?roomId=${encodeURIComponent(room.id)}`,
-                                locale
-                              ),
-                              {
-                                glassRingTilt: "right",
-                                waitForGlassRingTilt: true,
-                                persistGlassRingTilt: false
+                  {effectiveRooms.map((room, index) => {
+                    const canInviteRoom = canInvite(room.role);
+                    const canLeaveRoom = canLeave(room.role);
+                    const canDeleteRoom = canDelete(room.role);
+                    const hasRoomActions =
+                      canInviteRoom || canLeaveRoom || canDeleteRoom;
+                    const formattedLastActivity = room.lastMessage?.createdAt
+                      ? formatTime(room.lastMessage.createdAt)
+                      : "";
+
+                    return (
+                      <li
+                        key={room.id}
+                        className={`${roomStepClassName} ${getRoomStepClassName(index)}`}
+                      >
+                        <article className={roomCardClassName}>
+                          <Link
+                            prefetch={false}
+                            href={localizePath(
+                              `/vestlus?roomId=${encodeURIComponent(room.id)}`,
+                              locale
+                            )}
+                            onClick={event => {
+                              if (event.defaultPrevented) return;
+                              if (
+                                event.metaKey ||
+                                event.ctrlKey ||
+                                event.shiftKey ||
+                                event.altKey
+                              ) {
+                                return;
                               }
-                            );
-                          }}
-                          className="grid w-full gap-[0.42rem] text-inherit no-underline"
-                        >
-                          <div className="flex items-start justify-between gap-[0.8rem]">
-                            <h2 className="m-0 text-[1.38rem] font-semibold leading-[1.15] tracking-[0.01em] text-[color:var(--pt-60)] [.theme-light_&]:text-[#0f172a]">
-                              {room.title || t("rooms.fallback_title")}
-                            </h2>
-                            {room.unreadCount ? (
-                              <span
-                                className={roomUnreadBadgeClassName}
-                                aria-label={`${t("rooms.unread")}: ${room.unreadCount}`}
-                              >
-                                <span>{t("rooms.unread")}</span>
-                                <span className="inline-flex min-w-[1.2rem] items-center justify-center rounded-full bg-[rgba(255,255,255,0.15)] px-[0.34rem] py-[0.06rem] text-[0.76rem] leading-[1.05] [.theme-light_&]:bg-[rgba(127,29,45,0.1)]">
-                                  {room.unreadCount}
+                              if (event.button !== 0) return;
+                              event.preventDefault();
+                              pushWithTransition(
+                                router,
+                                localizePath(
+                                  `/vestlus?roomId=${encodeURIComponent(room.id)}`,
+                                  locale
+                                ),
+                                {
+                                  glassRingTilt: "right",
+                                  waitForGlassRingTilt: true,
+                                  persistGlassRingTilt: false
+                                }
+                              );
+                            }}
+                            className="grid w-full gap-[0.42rem] text-inherit no-underline"
+                          >
+                            <div className="flex items-start justify-between gap-[0.8rem]">
+                              <h2 className="m-0 text-[1.38rem] font-semibold leading-[1.15] tracking-[0.01em] text-[color:var(--pt-60)] [.theme-light_&]:text-[#0f172a]">
+                                {room.title || t("rooms.fallback_title")}
+                              </h2>
+                              {room.unreadCount ? (
+                                <span
+                                  className={roomUnreadBadgeClassName}
+                                  aria-label={`${t("rooms.unread")}: ${room.unreadCount}`}
+                                >
+                                  <span>
+                                    {t("rooms.unread")} {room.unreadCount}
+                                  </span>
                                 </span>
-                              </span>
-                            ) : null}
-                          </div>
+                              ) : null}
+                            </div>
 
-                          <div className={roomMetaRowClassName}>
-                            {room.role ? (
-                              <span className={roomMetaItemClassName}>
-                                {t("rooms.role_label")}: {roleLabel(room.role)}
-                              </span>
-                            ) : null}
-                            {Number.isFinite(room.memberCount) ? (
-                              <span className={roomMetaItemClassName}>
-                                {t("rooms.members_label")}: {room.memberCount}
-                              </span>
-                            ) : null}
-                          </div>
+                            <div className={roomMetaRowClassName}>
+                              {room.role ? (
+                                <span className={roomMetaItemClassName}>
+                                  {t("rooms.role_label")}: {roleLabel(room.role)}
+                                </span>
+                              ) : null}
+                              {Number.isFinite(room.memberCount) ? (
+                                <span className={roomMetaItemClassName}>
+                                  {t("rooms.members_label")}: {room.memberCount}
+                                </span>
+                              ) : null}
+                            </div>
+                          </Link>
 
-                          {room.lastMessage?.createdAt ? (
-                            <div className="mt-[0.08rem] flex items-center justify-end">
-                              <span className="text-[0.94rem] text-[color:var(--pt-280)] [.theme-light_&]:text-[#334155]">
-                                {formatTime(room.lastMessage.createdAt)}
-                              </span>
+                          {formattedLastActivity || hasRoomActions ? (
+                            <div
+                              className={`mt-[0.62rem] flex items-end gap-[0.45rem] ${
+                                hasRoomActions ? "justify-between" : "justify-end"
+                              }`}
+                            >
+                              {formattedLastActivity ? (
+                                <span className="pb-[0.02rem] text-[0.94rem] text-[color:var(--pt-280)] [.theme-light_&]:text-[#334155]">
+                                  {formattedLastActivity}
+                                </span>
+                              ) : null}
+
+                              {hasRoomActions ? (
+                                <div className="flex items-center justify-end gap-[0.45rem]">
+                                  {canInviteRoom ? (
+                                    <button
+                                      type="button"
+                                      className={roomActionButtonClassName}
+                                      onClick={() => handleInvite(room.id)}
+                                    >
+                                      {t("rooms.invite")}
+                                    </button>
+                                  ) : null}
+                                  {canLeaveRoom ? (
+                                    <button
+                                      type="button"
+                                      className={roomActionButtonClassName}
+                                      onClick={() => handleLeave(room)}
+                                      disabled={leavingId === room.id}
+                                    >
+                                      {leavingId === room.id
+                                        ? t("rooms.leave_busy")
+                                        : t("rooms.leave")}
+                                    </button>
+                                  ) : null}
+                                  {canDeleteRoom ? (
+                                    <button
+                                      type="button"
+                                      className={roomDeleteButtonClassName}
+                                      onClick={() => openDeleteConfirm(room)}
+                                      disabled={deletingId === room.id}
+                                      aria-label={t("rooms.delete")}
+                                      title={t("rooms.delete")}
+                                    >
+                                      <svg
+                                        className="h-[1.08rem] w-[1.08rem]"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        aria-hidden="true"
+                                      >
+                                        <path d="M3 6h18" />
+                                        <path d="M8 6V4h8v2" />
+                                        <path d="M19 6l-1 14H6L5 6" />
+                                        <path d="M10 11v6" />
+                                        <path d="M14 11v6" />
+                                      </svg>
+                                    </button>
+                                  ) : null}
+                                </div>
+                              ) : null}
                             </div>
                           ) : null}
-                        </Link>
-
-                        {canInvite(room.role) ||
-                        canLeave(room.role) ||
-                        canDelete(room.role) ? (
-                          <div className="mt-[0.62rem] flex items-center justify-end gap-[0.45rem]">
-                            {canInvite(room.role) ? (
-                              <button
-                                type="button"
-                                className={roomActionButtonClassName}
-                                onClick={() => handleInvite(room.id)}
-                              >
-                                {t("rooms.invite")}
-                              </button>
-                            ) : null}
-                            {canLeave(room.role) ? (
-                              <button
-                                type="button"
-                                className={roomActionButtonClassName}
-                                onClick={() => handleLeave(room)}
-                                disabled={leavingId === room.id}
-                              >
-                                {leavingId === room.id
-                                  ? t("rooms.leave_busy")
-                                  : t("rooms.leave")}
-                              </button>
-                            ) : null}
-                            {canDelete(room.role) ? (
-                              <button
-                                type="button"
-                                className={roomDeleteButtonClassName}
-                                onClick={() => openDeleteConfirm(room)}
-                                disabled={deletingId === room.id}
-                                aria-label={t("rooms.delete")}
-                                title={t("rooms.delete")}
-                              >
-                                <svg
-                                  className="h-[1.08rem] w-[1.08rem]"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  aria-hidden="true"
-                                >
-                                  <path d="M3 6h18" />
-                                  <path d="M8 6V4h8v2" />
-                                  <path d="M19 6l-1 14H6L5 6" />
-                                  <path d="M10 11v6" />
-                                  <path d="M14 11v6" />
-                                </svg>
-                              </button>
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </article>
-                    </li>
-                  ))}
+                        </article>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>

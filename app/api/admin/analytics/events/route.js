@@ -106,3 +106,44 @@ export async function GET(req) {
     });
   }
 }
+
+export async function DELETE(req) {
+  const locale = localeFromRequest(req);
+  const session = await getServerSession(authConfig).catch(() => null);
+  const authz = assertAdmin(session);
+
+  if (!authz.ok) {
+    return errorJson(authz.message || "api.common.forbidden", authz.status || 403, locale);
+  }
+
+  try {
+    const body = await req.json().catch(() => ({}));
+    const event = String(body?.event || "").trim();
+    const crisisParam = String(body?.isCrisis || "all").trim().toLowerCase();
+    const deleteAll = body?.all === true;
+
+    if (!deleteAll && !event && crisisParam === "all") {
+      return errorJson("api.admin.analytics.events_delete_invalid_payload", 400, locale);
+    }
+
+    const where = {};
+    if (event) where.event = event;
+    if (crisisParam === "true" || crisisParam === "false") {
+      where.data = {
+        path: ["isCrisis"],
+        equals: crisisParam === "true"
+      };
+    }
+
+    const result = await prisma.chatLog.deleteMany({ where });
+    return json({
+      ok: true,
+      deletedCount: Number(result?.count || 0)
+    });
+  } catch (error) {
+    console.error("admin analytics events DELETE failed", error);
+    return errorJson("api.admin.analytics.events_delete_failed", 500, locale, {
+      debugCode: "ADMIN_ANALYTICS_EVENTS_DELETE_FAILED"
+    });
+  }
+}

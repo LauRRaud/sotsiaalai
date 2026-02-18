@@ -129,7 +129,8 @@
       "submitting": "Создаём аккаунт…",
       "success_message": "Аккаунт создан! Подтвердите email и войдите с помощью PIN-кода. Письмо с подтверждением может быть в папке Спам.",
       "role_hint": "Выберите роль стрелками. Варианты: специалист по социальной работе или человек, ищущий помощь.",
-      "pin_placeholder": "PIN (4-8 цифр)"
+      "pin_placeholder": "PIN (4-8 цифр)",
+      "closed_notice": "Регистрация временно приостановлена. Попробуйте снова немного позже."
     },
     "reset": {
       "title": "Обновление PIN",
@@ -1028,7 +1029,8 @@
         "invalid_email": "Please enter a valid email address.",
         "pin_invalid": "PIN must be between 4 and 8 digits.",
         "email_in_use": "This email address is already in use.",
-        "failed": "Registration failed. Please try again."
+        "failed": "Registration failed. Please try again.",
+        "closed": "Регистрация временно закрыта."
       },
       "verify": {
         "invalid_link": "The verification link is invalid or incomplete.",
@@ -1077,6 +1079,10 @@
     "admin": {
       "analytics": {
         "events_load_failed": "Не удалось загрузить события аналитики.",
+        "events_delete_invalid_payload": "Choose a filter or confirm deleting all logs.",
+        "events_delete_failed": "Failed to delete analytics logs.",
+        "reset_invalid_action": "Invalid reset action.",
+        "reset_failed": "Failed to run reset action.",
         "summary_load_failed": "Не удалось загрузить сводку аналитики.",
         "users_load_failed": "Не удалось загрузить аналитику пользователей.",
         "payment_alerts_not_configured": "Webhook для платежных alert не настроен.",
@@ -1141,6 +1147,8 @@
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
         "events_fetch_failed": "Events fetch failed.",
+        "logs_delete_failed": "Failed to delete logs.",
+        "reset_failed": "Failed to run reset action.",
         "users_fetch_failed": "Users analytics fetch failed.",
         "users_delete_failed": "Failed to delete selected users.",
         "users_email_send_failed": "Failed to send bulk email.",
@@ -1342,6 +1350,14 @@
       "logs": {
         "title": "Logs",
         "subtitle": "Latest 100 events with filters.",
+        "actions": {
+          "delete_filtered": "Delete filtered logs",
+          "delete_all": "Delete all logs",
+          "deleting": "Deleting...",
+          "delete_filtered_confirm": "Delete logs matching current filters? This cannot be undone.",
+          "delete_all_confirm": "Delete ALL analytics logs? This cannot be undone.",
+          "delete_done": "Deleted logs: {count}."
+        },
         "filter": {
           "all_events": "All events",
           "crisis_all": "Crisis: all",
@@ -1355,6 +1371,23 @@
           "crisis": "Crisis",
           "meta": "Meta",
           "empty": "No records found."
+        }
+      },
+      "reset": {
+        "title": "Pre-launch reset",
+        "subtitle": "Run targeted cleanup actions before launch. Each action asks for two confirmations.",
+        "running": "Running...",
+        "confirm": "Run reset action: {action}?",
+        "confirm_with_count": "Action \"{action}\" will delete about {count} rows. Continue?",
+        "cancelled": "Reset action was cancelled.",
+        "done": "Done: {action}. Deleted rows: {count}.",
+        "actions": {
+          "clear_logs": "Clear analytics logs",
+          "clear_conversations": "Clear conversations",
+          "clear_rooms": "Clear rooms data",
+          "clear_auth_tokens": "Clear auth tokens",
+          "clear_usage_metrics": "Clear usage metrics",
+          "clear_billing": "Clear billing data"
         }
       }
     },

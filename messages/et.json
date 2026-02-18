@@ -130,7 +130,8 @@
       },
       "submit": "Registreeru",
       "submitting": "Loome kontot…",
-      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga. Kinnituse kiri võib olla e-posti Rämpspost (Spam) kaustas."
+      "success_message": "Konto loodud! Kinnita oma e-post ja logi sisse PIN-koodiga. Kinnituse kiri võib olla e-posti Rämpspost (Spam) kaustas.",
+      "closed_notice": "Registreerimine on ajutiselt peatatud. Palun proovi uuesti peagi."
     },
     "reset": {
       "title": "Uuenda PIN",
@@ -1028,7 +1029,8 @@
         "invalid_email": "Palun sisesta korrektne e-posti aadress.",
         "pin_invalid": "PIN peab olema 4-8 numbrit.",
         "email_in_use": "See e-posti aadress on juba kasutusel.",
-        "failed": "Registration failed. Please try again."
+        "failed": "Registration failed. Please try again.",
+        "closed": "Registreerimine on ajutiselt suletud."
       },
       "verify": {
         "invalid_link": "The verification link is invalid or incomplete.",
@@ -1077,6 +1079,10 @@
     "admin": {
       "analytics": {
         "events_load_failed": "Analüütika sündmusi ei saanud laadida.",
+        "events_delete_invalid_payload": "Vali filter või kinnita kõigi logide kustutamine.",
+        "events_delete_failed": "Analüütika logide kustutamine ebaõnnestus.",
+        "reset_invalid_action": "Vigane reset-toiming.",
+        "reset_failed": "Reset-toimingu käivitamine ebaõnnestus.",
         "summary_load_failed": "Analüütika kokkuvõtet ei saanud laadida.",
         "users_load_failed": "Kasutajate analüütikat ei saanud laadida.",
         "payment_alerts_not_configured": "Maksete alert webhook ei ole seadistatud.",
@@ -1141,6 +1147,8 @@
       "errors": {
         "summary_fetch_failed": "Summary fetch failed.",
         "events_fetch_failed": "Events fetch failed.",
+        "logs_delete_failed": "Logide kustutamine ebaõnnestus.",
+        "reset_failed": "Reset-toimingu käivitamine ebaõnnestus.",
         "users_fetch_failed": "Users analytics fetch failed.",
         "users_delete_failed": "Valitud kasutajate kustutamine ebaõnnestus.",
         "users_email_send_failed": "Hulgie-kirja saatmine ebaõnnestus.",
@@ -1342,6 +1350,14 @@
       "logs": {
         "title": "Logid",
         "subtitle": "Viimased 100 sündmust filtritega.",
+        "actions": {
+          "delete_filtered": "Kustuta filtritud logid",
+          "delete_all": "Kustuta kõik logid",
+          "deleting": "Kustutan...",
+          "delete_filtered_confirm": "Kas kustutada praeguse filtriga logid? Seda ei saa tagasi võtta.",
+          "delete_all_confirm": "Kas kustutada KÕIK analüütika logid? Seda ei saa tagasi võtta.",
+          "delete_done": "Kustutatud logisid: {count}."
+        },
         "filter": {
           "all_events": "Kõik sündmused",
           "crisis_all": "Kriis: kõik",
@@ -1355,6 +1371,23 @@
           "crisis": "Crisis",
           "meta": "Meta",
           "empty": "No records found."
+        }
+      },
+      "reset": {
+        "title": "Launchi-eelne reset",
+        "subtitle": "Käivita sihitud puhastused enne launchi. Iga tegevus küsib kaks kinnitust.",
+        "running": "Käivitan...",
+        "confirm": "Käivitan reset-toimingu: {action}?",
+        "confirm_with_count": "Toiming \"{action}\" kustutab umbes {count} rida. Jätkan?",
+        "cancelled": "Reset-toiming katkestati.",
+        "done": "Valmis: {action}. Kustutatud ridu: {count}.",
+        "actions": {
+          "clear_logs": "Kustuta analüütika logid",
+          "clear_conversations": "Kustuta vestlused",
+          "clear_rooms": "Kustuta ruumide andmed",
+          "clear_auth_tokens": "Kustuta autentimise tokenid",
+          "clear_usage_metrics": "Kustuta kasutusmõõdikud",
+          "clear_billing": "Kustuta makseandmed"
         }
       }
     },

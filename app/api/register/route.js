@@ -34,6 +34,9 @@ const REGISTER_RATE_LIMIT_PER_IP = Number(process.env.REGISTER_RATE_LIMIT_PER_IP
 const REGISTER_RATE_LIMIT_PER_EMAIL = Number(
   process.env.REGISTER_RATE_LIMIT_PER_EMAIL || 4
 );
+const REGISTRATION_OPEN = !["false", "0", "off"].includes(
+  String(process.env.REGISTRATION_OPEN || "true").trim().toLowerCase()
+);
 
 function json(payload = {}, status = 200) {
   return NextResponse.json(
@@ -141,6 +144,12 @@ export async function POST(request) {
   const locale = localeFromRequest(request, body?.locale);
 
   try {
+    if (!REGISTRATION_OPEN) {
+      return errorJson("api.auth.register.closed", 403, locale, {
+        code: "REGISTER_DISABLED"
+      });
+    }
+
     const email = normalizeEmail(body?.email);
     const pin = normalizePin(body?.pin ?? body?.password);
     const role = normalizeRole(body?.role);

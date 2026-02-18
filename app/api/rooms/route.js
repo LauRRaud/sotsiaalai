@@ -100,7 +100,7 @@ export async function GET() {
         orderBy: { joinedAt: "asc" }
       });
 
-  const normalizedMemberships = isAdmin
+  const rawMemberships = isAdmin
     ? memberships.map(r => ({
         roomId: r.id,
         room: r,
@@ -108,6 +108,13 @@ export async function GET() {
         lastReadAt: new Date(0)
       }))
     : memberships;
+  const normalizedMemberships = rawMemberships
+    .map(m => ({
+      ...m,
+      roomId: String(m?.roomId || "").trim()
+    }))
+    .filter(m => m.roomId);
+
   if (!normalizedMemberships.length) {
     return json({
       ok: true,

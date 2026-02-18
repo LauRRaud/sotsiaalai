@@ -34,6 +34,9 @@ const registerStepClassName = "register-step csp-step !min-h-0 !py-[0.6rem]";
 const registerChevronStrokeWidthDesktop = 0.72;
 const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName = "register-input w-full min-[48.0625em]:w-[calc(100%-clamp(0.95rem,1.5vw,1.4rem))] min-[48.0625em]:mx-auto rounded-full [border:var(--input-border)] [background:var(--input-bg)] px-[1rem] py-[0.78rem] text-[1.05rem] text-[color:var(--input-text)] caret-[color:var(--input-caret)] shadow-[var(--input-shadow)] min-h-[3.05rem] transition-[background,border-color,box-shadow,color] duration-150 ease-out placeholder:text-[color:var(--input-placeholder)] placeholder:[font-size:1.02em] placeholder:opacity-100 focus-visible:outline-none focus-visible:[background:var(--input-bg-focus)] focus-visible:shadow-[var(--input-shadow-hover,var(--input-shadow))] hover:[background:var(--input-bg-hover)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] disabled:opacity-[var(--input-disabled-opacity)] disabled:cursor-not-allowed aria-disabled:opacity-[var(--input-disabled-opacity)] aria-disabled:cursor-not-allowed py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const isRegistrationOpen = !["false", "0", "off"].includes(
+  String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true").trim().toLowerCase()
+);
 export default function RegistreerimineBody({
   openLoginModal = null
 }) {
@@ -88,6 +91,10 @@ export default function RegistreerimineBody({
     e.preventDefault();
     setError("");
     setSuccessMessage("");
+    if (!isRegistrationOpen) {
+      setError(t("auth.register.closed_notice"));
+      return;
+    }
     const email = form.email.trim().toLowerCase();
     const pin = form.pin.replace(/\D/g, "");
     const jumpToStep = index => {
@@ -402,6 +409,9 @@ export default function RegistreerimineBody({
               </section>
 
               <section className={`${registerStepClassName} ${getRegisterStepClassName(5)}`}>
+                {!isRegistrationOpen && <div role="status" className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]">
+                    {t("auth.register.closed_notice")}
+                  </div>}
                 {error && <div role="alert" className="w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
                     {error}
                   </div>}
@@ -421,7 +431,7 @@ export default function RegistreerimineBody({
                     </div>
                   </div> : null}
                 <div className="flex justify-center">
-                  <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting}>
+                  <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting || !isRegistrationOpen}>
                     <span className="register-submit-label">
                       {t("auth.register.submit")}
                     </span>

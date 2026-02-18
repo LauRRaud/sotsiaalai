@@ -81,6 +81,15 @@ const EVENT_OPTIONS = [
   { value: "payment_alert_dispatch_failed", labelKey: "admin.analytics.events.payment_alert_dispatch_failed" }
 ];
 
+const PRELAUNCH_RESET_ACTIONS = [
+  { value: "clear_logs", labelKey: "admin.analytics.reset.actions.clear_logs" },
+  { value: "clear_conversations", labelKey: "admin.analytics.reset.actions.clear_conversations" },
+  { value: "clear_rooms", labelKey: "admin.analytics.reset.actions.clear_rooms" },
+  { value: "clear_auth_tokens", labelKey: "admin.analytics.reset.actions.clear_auth_tokens" },
+  { value: "clear_usage_metrics", labelKey: "admin.analytics.reset.actions.clear_usage_metrics" },
+  { value: "clear_billing", labelKey: "admin.analytics.reset.actions.clear_billing" }
+];
+
 const STATUS_LABEL_KEYS = {
   PENDING: "admin.analytics.status.pending",
   PROCESSING: "admin.analytics.status.processing",
@@ -219,7 +228,11 @@ export default function AnalyticsDashboard() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [usersActionNotice, setUsersActionNotice] = useState(null);
+  const [logsActionNotice, setLogsActionNotice] = useState(null);
   const [deletingUsers, setDeletingUsers] = useState(false);
+  const [deletingLogs, setDeletingLogs] = useState(false);
+  const [runningResetAction, setRunningResetAction] = useState("");
+  const [resetActionNotice, setResetActionNotice] = useState(null);
   const [sendingUsersEmail, setSendingUsersEmail] = useState(false);
   const [emailTarget, setEmailTarget] = useState("selected");
   const [bulkEmailSubject, setBulkEmailSubject] = useState("");
@@ -414,6 +427,7 @@ export default function AnalyticsDashboard() {
   }, [allVisibleSelected, visibleUserIds, visibleUserIdSet]);
 
   const clearUsersActionNotice = useCallback(() => setUsersActionNotice(null), []);
+  const clearLogsActionNotice = useCallback(() => setLogsActionNotice(null), []);
 
   const onDeleteSelectedUsers = useCallback(async () => {
     if (!selectedUserIds.length || deletingUsers || sendingUsersEmail) return;
@@ -518,6 +532,118 @@ export default function AnalyticsDashboard() {
     }
   }, [bulkEmailSubject, bulkEmailText, deletingUsers, emailTarget, locale, selectedUserIds, sendingUsersEmail, tr]);
 
+  const onDeleteLogs = useCallback(
+    async mode => {
+      if (deletingLogs) return;
+      const deleteAll = mode === "all";
+      const confirmMessage = deleteAll
+        ? tr("admin.analytics.logs.actions.delete_all_confirm")
+        : tr("admin.analytics.logs.actions.delete_filtered_confirm");
+      if (!window.confirm(confirmMessage)) return;
+
+      setDeletingLogs(true);
+      setLogsActionNotice(null);
+      try {
+        const res = await fetch("/api/admin/analytics/events", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            locale,
+            all: deleteAll,
+            event: deleteAll || eventFilter === "all" ? null : eventFilter,
+            isCrisis: deleteAll ? "all" : isCrisisFilter
+          })
+        });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || tr("admin.analytics.errors.logs_delete_failed"));
+        }
+
+        setLogsActionNotice({
+          type: "success",
+          message: tr("admin.analytics.logs.actions.delete_done", {
+            count: toNumber(data?.deletedCount || 0)
+          })
+        });
+        refresh();
+      } catch (err) {
+        setLogsActionNotice({
+          type: "error",
+          message: err?.message || tr("admin.analytics.errors.logs_delete_failed")
+        });
+      } finally {
+        setDeletingLogs(false);
+      }
+    },
+    [deletingLogs, eventFilter, isCrisisFilter, locale, refresh, tr]
+  );
+
+  const onRunPrelaunchReset = useCallback(
+    async action => {
+      if (!action || runningResetAction) return;
+      const actionLabel = tr(`admin.analytics.reset.actions.${action}`);
+      const confirmed = window.confirm(
+        tr("admin.analytics.reset.confirm", { action: actionLabel })
+      );
+      if (!confirmed) return;
+
+      setRunningResetAction(action);
+      setResetActionNotice(null);
+      try {
+        const dryRes = await fetch("/api/admin/analytics/reset", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ locale, action, dryRun: true })
+        });
+        const dryData = await dryRes.json().catch(() => null);
+        if (!dryRes.ok || dryData?.ok === false) {
+          throw new Error(dryData?.message || tr("admin.analytics.errors.reset_failed"));
+        }
+
+        const finalConfirmed = window.confirm(
+          tr("admin.analytics.reset.confirm_with_count", {
+            action: actionLabel,
+            count: toNumber(dryData?.total || 0)
+          })
+        );
+        if (!finalConfirmed) {
+          setResetActionNotice({
+            type: "warn",
+            message: tr("admin.analytics.reset.cancelled")
+          });
+          return;
+        }
+
+        const res = await fetch("/api/admin/analytics/reset", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ locale, action, dryRun: false })
+        });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || data?.ok === false) {
+          throw new Error(data?.message || tr("admin.analytics.errors.reset_failed"));
+        }
+
+        setResetActionNotice({
+          type: "success",
+          message: tr("admin.analytics.reset.done", {
+            action: actionLabel,
+            count: toNumber(data?.total || 0)
+          })
+        });
+        refresh();
+      } catch (err) {
+        setResetActionNotice({
+          type: "error",
+          message: err?.message || tr("admin.analytics.errors.reset_failed")
+        });
+      } finally {
+        setRunningResetAction("");
+      }
+    },
+    [locale, refresh, runningResetAction, tr]
+  );
+
   return (
     <div className={pageClassName}>
       <div className={pageHeaderClassName}>
@@ -610,6 +736,48 @@ export default function AnalyticsDashboard() {
               <div className={kpiMetaClassName}>{loadingSummary ? loadingLabel : "-"}</div>
             )}
           </div>
+        </div>
+      </div>
+
+      <div className={cardClassName}>
+        <div className={cardBodyClassName}>
+          <div className={sectionHeadClassName}>
+            <div>
+              <CardTitle>{tr("admin.analytics.reset.title")}</CardTitle>
+              <div className={sectionSubClassName}>{tr("admin.analytics.reset.subtitle")}</div>
+            </div>
+          </div>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+            {PRELAUNCH_RESET_ACTIONS.map(item => {
+              const action = item.value;
+              const isRunning = runningResetAction === action;
+              return (
+                <Button
+                  key={action}
+                  size="sm"
+                  variant="danger"
+                  className={actionButtonClassName}
+                  onClick={() => onRunPrelaunchReset(action)}
+                  disabled={Boolean(runningResetAction) || loadingSummary || loadingEvents || loadingUsers}
+                >
+                  {isRunning ? tr("admin.analytics.reset.running") : tr(item.labelKey)}
+                </Button>
+              );
+            })}
+          </div>
+          {resetActionNotice ? (
+            <div
+              className={
+                resetActionNotice.type === "success"
+                  ? `${alertSuccessClassName} mt-2`
+                  : resetActionNotice.type === "warn"
+                    ? `${alertWarnClassName} mt-2`
+                    : `${alertErrorClassName} mt-2`
+              }
+            >
+              {resetActionNotice.message}
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -1188,7 +1356,14 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           <div className={`${toolbarPrimaryClassName} mt-2`}>
-            <select className={selectClassName} value={eventFilter} onChange={event => setEventFilter(event.target.value)}>
+            <select
+              className={selectClassName}
+              value={eventFilter}
+              onChange={event => {
+                setEventFilter(event.target.value);
+                clearLogsActionNotice();
+              }}
+            >
               <option value="all">{tr("admin.analytics.logs.filter.all_events")}</option>
               {EVENT_OPTIONS.map(event => (
                 <option key={event.value} value={event.value}>
@@ -1196,12 +1371,44 @@ export default function AnalyticsDashboard() {
                 </option>
               ))}
             </select>
-            <select className={selectClassName} value={isCrisisFilter} onChange={event => setIsCrisisFilter(event.target.value)}>
+            <select
+              className={selectClassName}
+              value={isCrisisFilter}
+              onChange={event => {
+                setIsCrisisFilter(event.target.value);
+                clearLogsActionNotice();
+              }}
+            >
               <option value="all">{tr("admin.analytics.logs.filter.crisis_all")}</option>
               <option value="true">{tr("admin.analytics.logs.filter.crisis_yes")}</option>
               <option value="false">{tr("admin.analytics.logs.filter.crisis_no")}</option>
             </select>
+            <Button
+              size="sm"
+              variant="danger"
+              className={actionButtonClassName}
+              onClick={() => onDeleteLogs("filtered")}
+              disabled={loadingEvents || deletingLogs}
+            >
+              {deletingLogs
+                ? tr("admin.analytics.logs.actions.deleting")
+                : tr("admin.analytics.logs.actions.delete_filtered")}
+            </Button>
+            <Button
+              size="sm"
+              variant="danger"
+              className={actionButtonClassName}
+              onClick={() => onDeleteLogs("all")}
+              disabled={loadingEvents || deletingLogs}
+            >
+              {deletingLogs ? tr("admin.analytics.logs.actions.deleting") : tr("admin.analytics.logs.actions.delete_all")}
+            </Button>
           </div>
+          {logsActionNotice ? (
+            <div className={logsActionNotice.type === "success" ? `${alertSuccessClassName} mt-2` : `${alertErrorClassName} mt-2`}>
+              {logsActionNotice.message}
+            </div>
+          ) : null}
 
           <div className={tableWrapClassName}>
             <table className={tableClassName}>
