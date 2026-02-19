@@ -10,7 +10,7 @@ export const glassPolicyContentClassName =
   "glass-policy-content mt-[clamp(0.4rem,1.6vh,1.1rem)] flex w-full flex-1 flex-col items-center max-[48em]:w-full max-[48em]:max-w-full max-[48em]:px-[clamp(0rem,1vw,0.25rem)] max-[48em]:pt-[clamp(0.25rem,1.1vh,0.65rem)] max-[48em]:pb-[clamp(0.05rem,0.45vh,0.25rem)]";
 
 export const glassPolicyScrollClassName =
-  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[clamp(18.8rem,48.5vw,33rem)] translate-x-[clamp(0.14rem,0.45vw,0.36rem)] overflow-y-auto pr-[0.1rem] pt-[clamp(1rem,2.4vh,1.6rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[48em]:max-h-[calc(100%-0.35rem)] max-[48em]:translate-x-0 max-[48em]:w-full max-[48em]:max-w-full max-[48em]:px-[clamp(0rem,1vw,0.25rem)] max-[48em]:pt-[clamp(0.5rem,1.8vh,1.05rem)] max-[48em]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
+  "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[clamp(18.8rem,48.5vw,33rem)] overflow-y-auto pr-[0.1rem] pt-[clamp(1rem,2.4vh,1.6rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[48em]:max-h-[calc(100%-0.35rem)] max-[48em]:translate-x-0 max-[48em]:w-full max-[48em]:max-w-full max-[48em]:px-[clamp(0rem,1vw,0.25rem)] max-[48em]:pt-[clamp(0.5rem,1.8vh,1.05rem)] max-[48em]:pb-[clamp(0.02rem,0.35vh,0.18rem)]";
 
 export const glassPolicyExpandToggleClassName =
   "glass-ring-expand-toggle glass-ring-expand-toggle--overlay max-[48em]:hidden";
