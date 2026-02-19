@@ -2,6 +2,8 @@ import { useLayoutEffect } from "react";
 
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
+const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
 export function useChatInputHoleMask({
   containerRef,
@@ -17,6 +19,12 @@ export function useChatInputHoleMask({
       box.style.removeProperty("--chat-input-hole-mask");
       return;
     }
+    const isMobileViewport =
+      Boolean(window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches) ||
+      Boolean(window.matchMedia?.(COARSE_POINTER_QUERY)?.matches) ||
+      window.innerWidth <= 768;
+    const snapStep = isMobileViewport ? 1 : 0.5;
+    const snap = value => Math.round(value / snapStep) * snapStep;
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = svg => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     const getLocalRect = (el, root) => {
@@ -31,10 +39,10 @@ export function useChatInputHoleMask({
       }
       if (!w || !h) return null;
       return {
-        x: rect.left - rootRect.left,
-        y: rect.top - rootRect.top,
-        w,
-        h
+        x: snap(rect.left - rootRect.left),
+        y: snap(rect.top - rootRect.top),
+        w: snap(w),
+        h: snap(h)
       };
     };
     let lastMask = "";
@@ -68,13 +76,13 @@ export function useChatInputHoleMask({
         return;
       }
       const boxRect = box.getBoundingClientRect();
-      const boxW = boxRect.width;
-      const boxH = boxRect.height;
+      const boxW = snap(boxRect.width);
+      const boxH = snap(boxRect.height);
       if (!boxW || !boxH) return;
       const inputLocal = getLocalRect(inputBar, box);
       if (!inputLocal) return;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
-      const radius = Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2;
+      const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
       const mask = buildMask(boxW, boxH, inputLocal, radius);
       if (mask && mask !== lastMask) {
         box.style.setProperty("--chat-input-hole-mask", mask);
@@ -92,6 +100,7 @@ export function useChatInputHoleMask({
       rafLoop = window.requestAnimationFrame(tick);
     };
     const startLoop = () => {
+      if (isMobileViewport) return;
       const until = nowMs() + 760;
       loopUntil = Math.max(loopUntil, until);
       if (!rafLoop) {
@@ -116,11 +125,18 @@ export function useChatInputHoleMask({
     if (refreshRef) {
       refreshRef.current = scheduleUpdate;
     }
+    const vv = window.visualViewport;
     scheduleUpdate();
     window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
-    window.addEventListener("scroll", scheduleUpdate, true);
-    box.addEventListener("scroll", scheduleUpdate);
+    vv?.addEventListener("resize", scheduleUpdate);
+    vv?.addEventListener("scroll", scheduleUpdate);
+    window.addEventListener("focusin", scheduleUpdate);
+    window.addEventListener("focusout", scheduleUpdate);
+    if (!isMobileViewport) {
+      window.addEventListener("scroll", scheduleUpdate, true);
+      box.addEventListener("scroll", scheduleUpdate);
+    }
     box.addEventListener("transitionend", scheduleUpdate);
     inputBar.addEventListener("transitionend", scheduleUpdate);
     box.addEventListener("transitionrun", scheduleUpdate);
@@ -134,7 +150,7 @@ export function useChatInputHoleMask({
       ro.observe(box);
       ro.observe(inputBar);
     }
-    if (typeof MutationObserver !== "undefined") {
+    if (!isMobileViewport && typeof MutationObserver !== "undefined") {
       mo = new MutationObserver(scheduleUpdate);
       mo.observe(box, {
         childList: true,
@@ -147,8 +163,14 @@ export function useChatInputHoleMask({
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
       window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
-      window.removeEventListener("scroll", scheduleUpdate, true);
-      box.removeEventListener("scroll", scheduleUpdate);
+      vv?.removeEventListener("resize", scheduleUpdate);
+      vv?.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("focusin", scheduleUpdate);
+      window.removeEventListener("focusout", scheduleUpdate);
+      if (!isMobileViewport) {
+        window.removeEventListener("scroll", scheduleUpdate, true);
+        box.removeEventListener("scroll", scheduleUpdate);
+      }
       box.removeEventListener("transitionend", scheduleUpdate);
       inputBar.removeEventListener("transitionend", scheduleUpdate);
       box.removeEventListener("transitionrun", scheduleUpdate);

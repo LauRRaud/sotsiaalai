@@ -129,6 +129,7 @@ export default function ChatBody({
       if (offset === lastAppliedOffset) return;
       lastAppliedOffset = offset;
       node.style.setProperty("--chat-vk-offset", `${offset}px`);
+      maskRefreshRef.current?.();
     };
     const updateKeyboardOffset = () => {
       if (rafId) return;
