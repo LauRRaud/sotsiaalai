@@ -38,6 +38,12 @@
   }
 }
 
+.homepage-root .card-blur-layer {
+  --home-card-blur-inset: 0px;
+  --home-card-blur-radius: 50%;
+  --home-card-blur-scale: 1;
+}
+
 .homepage-root .home-card-pattern-layer {
   position: absolute;
   inset: 0;

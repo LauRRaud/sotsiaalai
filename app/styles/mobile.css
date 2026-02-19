@@ -136,7 +136,9 @@
     touch-action: manipulation;
   }
   .homepage-root .three-d-card .card-blur-layer {
-    inset: clamp(0.28rem, 1.25vw, 0.46rem);
+    --home-card-blur-inset: 0px;
+    --home-card-blur-radius: 50%;
+    --home-card-blur-scale: 1;
     border-radius: 999px;
   }
   .centered-back-left,
