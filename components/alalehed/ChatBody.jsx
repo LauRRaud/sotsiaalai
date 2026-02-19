@@ -22,7 +22,15 @@ import { useChatProfileRoll } from "./chat/hooks/useChatProfileRoll";
 import { useChatRoomMode, useSyncRoomAssistantMessages } from "./chat/hooks/useChatRoomMode";
 import ChatBodyView from "./chat/ChatBodyView";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
-const MOBILE_KEYBOARD_OFFSET_THRESHOLD = 96;
+const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
+const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
+const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
+
+function isEditableElement(node) {
+  if (!(node instanceof Element)) return false;
+  const tag = node.tagName;
+  return tag === "TEXTAREA" || tag === "INPUT" || node.isContentEditable;
+}
 
 export default function ChatBody({
   roomId = null,
@@ -99,26 +107,51 @@ export default function ChatBody({
       return;
     }
     const vv = window.visualViewport;
-    const readKeyboardOffset = () => {
-      const rawOffset = vv
+    let rafId = 0;
+    let lastAppliedOffset = Number.NaN;
+    let lastResolvedOffset = 0;
+    const readKeyboardOffset = () =>
+      vv
         ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
         : 0;
-      return rawOffset > MOBILE_KEYBOARD_OFFSET_THRESHOLD ? rawOffset : 0;
+    const resolveKeyboardOffset = () => {
+      const rawOffset = readKeyboardOffset();
+      if (lastResolvedOffset > 0) {
+        lastResolvedOffset =
+          rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD ? rawOffset : 0;
+        return lastResolvedOffset;
+      }
+      lastResolvedOffset =
+        rawOffset > MOBILE_KEYBOARD_OPEN_THRESHOLD ? rawOffset : 0;
+      return lastResolvedOffset;
+    };
+    const applyKeyboardOffset = offset => {
+      if (offset === lastAppliedOffset) return;
+      lastAppliedOffset = offset;
+      node.style.setProperty("--chat-vk-offset", `${offset}px`);
     };
     const updateKeyboardOffset = () => {
-      const offset = readKeyboardOffset();
-      node.style.setProperty("--chat-vk-offset", `${offset}px`);
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        applyKeyboardOffset(resolveKeyboardOffset());
+      });
     };
     updateKeyboardOffset();
     vv?.addEventListener("resize", updateKeyboardOffset);
     vv?.addEventListener("scroll", updateKeyboardOffset);
     window.addEventListener("orientationchange", updateKeyboardOffset);
     window.addEventListener("resize", updateKeyboardOffset);
+    window.addEventListener("focusin", updateKeyboardOffset);
+    window.addEventListener("focusout", updateKeyboardOffset);
     return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
       vv?.removeEventListener("resize", updateKeyboardOffset);
       vv?.removeEventListener("scroll", updateKeyboardOffset);
       window.removeEventListener("orientationchange", updateKeyboardOffset);
       window.removeEventListener("resize", updateKeyboardOffset);
+      window.removeEventListener("focusin", updateKeyboardOffset);
+      window.removeEventListener("focusout", updateKeyboardOffset);
       node.style.setProperty("--chat-vk-offset", "0px");
     };
   }, [inputFocused, isMobile]);
@@ -128,11 +161,31 @@ export default function ChatBody({
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
   const isGeneratingRef = useRef(false);
-  const handleInputBlur = event => {
+  const blurTimerRef = useRef(0);
+  const handleInputBlur = useCallback(event => {
+    const node = chatContainerRef.current;
     const next = event?.relatedTarget || document.activeElement;
-    if (next && chatContainerRef.current?.contains(next)) return;
-    setInputFocused(false);
-  };
+    if (next && node?.contains(next)) return;
+    if (!isMobile) {
+      setInputFocused(false);
+      return;
+    }
+    if (blurTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(blurTimerRef.current);
+      blurTimerRef.current = 0;
+    }
+    blurTimerRef.current = window.setTimeout(() => {
+      const active = document.activeElement;
+      if (node?.contains(active) && isEditableElement(active)) return;
+      const vv = window.visualViewport;
+      const rawOffset = vv
+        ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
+        : 0;
+      if (rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD) return;
+      setInputFocused(false);
+      blurTimerRef.current = 0;
+    }, MOBILE_KEYBOARD_BLUR_SETTLE_MS);
+  }, [isMobile]);
   const inputRef = useRef(null);
   const composerDraftApiRef = useRef(null);
   const inputBarRef = useRef(null);
@@ -431,6 +484,10 @@ export default function ChatBody({
     }
   }, [locale, onBackHome, router]);
   const handleComposerFocus = useCallback(() => {
+    if (blurTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(blurTimerRef.current);
+      blurTimerRef.current = 0;
+    }
     setInputFocused(true);
     if (!isMobile) return;
     hideMobileRail();
@@ -443,6 +500,14 @@ export default function ChatBody({
     setTimeout(keepConversationAtBottom, 90);
     setTimeout(keepConversationAtBottom, 190);
   }, [hideMobileRail, isMobile]);
+  useEffect(() => {
+    return () => {
+      if (blurTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(blurTimerRef.current);
+        blurTimerRef.current = 0;
+      }
+    };
+  }, []);
   const handleJumpToBottom = useCallback(() => {
     if (renderLimit > MAX_RENDERED_MESSAGES) {
       setRenderLimit(Math.min(visibleMessages.length, MAX_RENDERED_MESSAGES));
