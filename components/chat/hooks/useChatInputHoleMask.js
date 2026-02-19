@@ -4,6 +4,7 @@ const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const MOBILE_VIEWPORT_QUERY = "(max-width: 48em)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
+const MOBILE_MASK_UPDATE_INTERVAL_MS = 48;
 
 export function useChatInputHoleMask({
   containerRef,
@@ -50,6 +51,7 @@ export function useChatInputHoleMask({
     let rafLoop = 0;
     let loopUntil = 0;
     let pendingAfterTilt = false;
+    let lastMaskRunAt = 0;
     const isTiltActive = () =>
       typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
     const roundedRectPath = (x, y, width, height, radius) => {
@@ -75,6 +77,14 @@ export function useChatInputHoleMask({
         pendingAfterTilt = true;
         return;
       }
+      const ts = nowMs();
+      if (
+        isMobileViewport &&
+        ts - lastMaskRunAt < MOBILE_MASK_UPDATE_INTERVAL_MS
+      ) {
+        return;
+      }
+      lastMaskRunAt = ts;
       const boxRect = box.getBoundingClientRect();
       const boxW = snap(boxRect.width);
       const boxH = snap(boxRect.height);
@@ -130,10 +140,10 @@ export function useChatInputHoleMask({
     window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
     vv?.addEventListener("resize", scheduleUpdate);
-    vv?.addEventListener("scroll", scheduleUpdate);
-    window.addEventListener("focusin", scheduleUpdate);
-    window.addEventListener("focusout", scheduleUpdate);
     if (!isMobileViewport) {
+      vv?.addEventListener("scroll", scheduleUpdate);
+      window.addEventListener("focusin", scheduleUpdate);
+      window.addEventListener("focusout", scheduleUpdate);
       window.addEventListener("scroll", scheduleUpdate, true);
       box.addEventListener("scroll", scheduleUpdate);
     }
@@ -164,10 +174,10 @@ export function useChatInputHoleMask({
       window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
       vv?.removeEventListener("resize", scheduleUpdate);
-      vv?.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("focusin", scheduleUpdate);
-      window.removeEventListener("focusout", scheduleUpdate);
       if (!isMobileViewport) {
+        vv?.removeEventListener("scroll", scheduleUpdate);
+        window.removeEventListener("focusin", scheduleUpdate);
+        window.removeEventListener("focusout", scheduleUpdate);
         window.removeEventListener("scroll", scheduleUpdate, true);
         box.removeEventListener("scroll", scheduleUpdate);
       }

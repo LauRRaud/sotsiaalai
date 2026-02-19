@@ -25,6 +25,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
 const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
+const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
@@ -110,10 +111,26 @@ export default function ChatBody({
     let rafId = 0;
     let lastAppliedOffset = Number.NaN;
     let lastResolvedOffset = 0;
-    const readKeyboardOffset = () =>
-      vv
-        ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
-        : 0;
+    const now = () =>
+      typeof performance !== "undefined" ? performance.now() : Date.now();
+    const readViewportExtent = () =>
+      vv ? Math.max(0, vv.height + vv.offsetTop) : Math.max(0, window.innerHeight);
+    let baselineViewportExtent = readViewportExtent();
+    const baselineCaptureUntil = now() + MOBILE_KEYBOARD_BASELINE_CAPTURE_MS;
+    const readKeyboardOffset = () => {
+      const currentExtent = readViewportExtent();
+      if (now() <= baselineCaptureUntil) {
+        baselineViewportExtent = Math.max(baselineViewportExtent, currentExtent);
+      }
+      const rawOffset = Math.max(
+        0,
+        Math.round(baselineViewportExtent - currentExtent)
+      );
+      const maxReasonable = Math.round(
+        Math.max(baselineViewportExtent, window.innerHeight || 0) * 0.55
+      );
+      return Math.min(rawOffset, Math.max(0, maxReasonable));
+    };
     const resolveKeyboardOffset = () => {
       const rawOffset = readKeyboardOffset();
       if (lastResolvedOffset > 0) {

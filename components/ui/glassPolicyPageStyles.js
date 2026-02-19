@@ -16,4 +16,9 @@ export const glassPolicyExpandToggleClassName =
   "glass-ring-expand-toggle glass-ring-expand-toggle--overlay max-[48em]:hidden";
 
 export const glassPolicyBackButtonClassName =
-  "glass-policy-back hidden min-[48.0625em]:inline-flex";
+  "glass-policy-back hidden min-[48.0625em]:inline-flex " +
+  "min-[48.0625em]:left-[max(0px,calc(var(--glass-edge-left)-clamp(1.18rem,2.4vw,1.9rem)))] " +
+  "min-[48.0625em]:-translate-x-[0.72rem] " +
+  "min-[48.0625em]:h-[5.45rem] min-[48.0625em]:w-[5.45rem] " +
+  "min-[48.0625em]:opacity-[0.74] hover:min-[48.0625em]:opacity-[0.9] focus-visible:min-[48.0625em]:opacity-[0.9] " +
+  "min-[48.0625em]:[&>svg]:scale-[0.9] hover:min-[48.0625em]:[&>svg]:scale-[1] focus-visible:min-[48.0625em]:[&>svg]:scale-[1]";
