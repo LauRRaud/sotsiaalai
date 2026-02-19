@@ -433,19 +433,14 @@ body.login-modal-open {
   }
 
   .glass-policy-back.glass-policy-back--compact {
-    left: max(
-      0px,
-      calc(var(--glass-edge-left) - clamp(2.2rem, 3.6vw, 3rem))
-    ) !important;
-    transform: translate(-1.28rem, -50%) !important;
-    width: 4.35rem !important;
-    height: 4.35rem !important;
-    opacity: 0.66 !important;
+    width: 5.05rem !important;
+    height: 5.05rem !important;
+    opacity: 0.72 !important;
   }
 
   .glass-policy-back.glass-policy-back--compact > svg {
-    width: 4.05rem !important;
-    height: 4.05rem !important;
+    width: 4.6rem !important;
+    height: 4.6rem !important;
   }
 
   .glass-policy-back.glass-policy-back--compact:hover,
