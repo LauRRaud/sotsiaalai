@@ -415,22 +415,22 @@ export default function RegistreerimineBody({
                 {error && <div role="alert" className="w-full rounded-[0.95rem] border border-[rgba(248,113,113,0.45)] bg-[rgba(248,113,113,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fca5a5] text-[1.12rem] leading-[1.4]">
                     {error}
                   </div>}
-                {successMessage && <div role="status" className="w-full rounded-[0.95rem] border border-[rgba(110,231,183,0.35)] bg-[rgba(16,185,129,0.12)] px-[0.95rem] py-[0.82rem] text-[color:#a7f3d0] text-[1.2rem] max-[48em]:text-[1.34rem] leading-[1.38] font-medium">
+                {successMessage && <div role="status" className="w-full rounded-[1.02rem] border border-[rgba(52,211,153,0.45)] bg-[linear-gradient(145deg,rgba(6,78,59,0.58)_0%,rgba(6,95,70,0.4)_56%,rgba(16,185,129,0.24)_100%)] px-[1rem] py-[0.9rem] text-[color:#d1fae5] text-[1.2rem] max-[48em]:text-[1.34rem] leading-[1.38] font-medium shadow-[0_12px_22px_rgba(4,42,30,0.28)] light:border-[rgba(16,185,129,0.44)] light:bg-[linear-gradient(135deg,rgba(236,253,245,0.96)_0%,rgba(209,250,229,0.9)_56%,rgba(167,243,208,0.72)_100%)] light:text-[color:#065f46] light:shadow-[0_10px_18px_rgba(6,95,70,0.14)]">
                     {successMessage}
                   </div>}
                 {submitting ? <div className="flex justify-center py-[0.12rem]" role="status" aria-live="polite" aria-atomic="true">
-                    <div className="relative w-fit min-w-[clamp(9.2rem,17vw,11rem)] rounded-[1.32rem] bg-[linear-gradient(150deg,rgba(255,255,255,0.11)_0%,rgba(255,255,255,0.035)_38%,rgba(4,8,15,0.22)_100%),var(--glass-modal-bg,rgba(0,0,0,0.25))] px-[0.96rem] pt-[0.92rem] pb-[0.88rem] shadow-[0_14px_30px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.11)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.76)_0%,rgba(255,255,255,0.54)_42%,rgba(238,242,247,0.42)_100%),var(--glass-modal-bg,rgba(255,255,255,0.52))] light:shadow-[0_12px_26px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.72)]">
+                    <div className="relative w-fit min-w-[clamp(9.5rem,17vw,11.1rem)] rounded-[1.34rem] border border-[rgba(255,255,255,0.18)] bg-[linear-gradient(153deg,rgba(255,255,255,0.14)_0%,rgba(30,41,59,0.36)_55%,rgba(8,14,24,0.46)_100%)] px-[1rem] pt-[0.95rem] pb-[0.92rem] shadow-[0_15px_30px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[var(--glass-modal-blur,1rem)] backdrop-saturate-[var(--glass-modal-saturate,100%)] light:border-[rgba(148,163,184,0.36)] light:bg-[linear-gradient(150deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.92)_58%,rgba(226,232,240,0.84)_100%)] light:shadow-[0_12px_24px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.82)]">
                       <div className="flex flex-col items-center gap-[0.82rem]">
                         <div className="grid min-h-[clamp(4.8rem,9.4vw,5.7rem)] place-items-center">
                           <SotsiaalAILoader size="clamp(3.35rem,6.4vw,3.95rem)" ariaHidden />
                         </div>
-                        <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:var(--pt-30)] light:text-[color:var(--input-text)]">
+                        <span className="block text-center text-[1.16rem] leading-[1.16] font-medium tracking-[0.01em] text-[color:#e2e8f0] light:text-[color:#334155]">
                           {t("auth.register.loading_status", "Konto loomine")}
                         </span>
                       </div>
                     </div>
                   </div> : null}
-                <div className="flex justify-center">
+                <div className={`flex justify-center ${submitting ? "mt-[0.8rem]" : ""}`}>
                   <Button type="submit" variant="primary" className={registerButtonClassName} disabled={submitting || !isRegistrationOpen}>
                     <span className="register-submit-label">
                       {t("auth.register.submit")}
