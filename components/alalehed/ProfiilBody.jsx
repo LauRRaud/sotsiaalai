@@ -57,8 +57,8 @@ const pageShellClassName =
 const containerBaseClassName =
   "relative z-[21] flex flex-col items-stretch justify-start gap-[clamp(1.4rem,3.2vh,2.3rem)] " +
   "box-border text-[color:var(--glass-surface-text,#f2f2f2)] " +
-  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:relative " +
-  "[&>*:not(.profile-mask-layer):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:z-[1]";
+  "[&>*:not(.profile-mask-layer):not(.profile-mask-tilt-fallback):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:relative " +
+  "[&>*:not(.profile-mask-layer):not(.profile-mask-tilt-fallback):not(.profile-orbit-layer):not(.profile-nav-overlay):not(.profile-footer-note)]:z-[1]";
 const titleBaseClassName =
   "text-center text-[clamp(1.9rem,1.5rem+1.7vw,2.5rem)] leading-[1.15] tracking-[0.03em] " +
   "mt-[clamp(1.6rem,3.6vh,2.6rem)] mb-[clamp(1.1rem,3.2vh,2rem)] " +
@@ -232,6 +232,12 @@ function ProfileShell({
         aria-hidden="true"
         data-orbit-open={orbitOpen ? "true" : "false"}
       />
+      <div className="profile-mask-tilt-fallback absolute inset-0 z-0 rounded-[inherit] pointer-events-none" aria-hidden="true">
+        <div className="mask-pane mask-pane--top" />
+        <div className="mask-pane mask-pane--bottom" />
+        <div className="mask-pane mask-pane--left" />
+        <div className="mask-pane mask-pane--right" />
+      </div>
       {children}
       {footerNote ? (
         <footer
@@ -396,6 +402,12 @@ export default function ProfiilBody({
     const form = profileFormRef.current;
     if (!box || !pill) return;
     const maskLayer = maskLayerRef.current;
+    const clearHoleGeometryVars = () => {
+      box.style.removeProperty("--profile-hole-x");
+      box.style.removeProperty("--profile-hole-y");
+      box.style.removeProperty("--profile-hole-w");
+      box.style.removeProperty("--profile-hole-h");
+    };
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const encodeSvgMask = svg => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     const getLocalRect = (el, root) => {
@@ -467,6 +479,10 @@ export default function ProfiilBody({
         }
         return;
       }
+      box.style.setProperty("--profile-hole-x", `${pillLocal.x}px`);
+      box.style.setProperty("--profile-hole-y", `${pillLocal.y}px`);
+      box.style.setProperty("--profile-hole-w", `${pillLocal.w}px`);
+      box.style.setProperty("--profile-hole-h", `${pillLocal.h}px`);
       retryCount = 0;
       const pillRadiusRaw = Number.parseFloat(window.getComputedStyle(pill).borderTopLeftRadius);
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
@@ -556,6 +572,7 @@ export default function ProfiilBody({
       if (maskRefreshRef.current === scheduleUpdate) {
         maskRefreshRef.current = null;
       }
+      clearHoleGeometryVars();
     };
   }, [embedded, isActive, prefs?.theme, roleLabel, loading, loadFailed, isAuthed]);
   useEffect(() => {
@@ -569,6 +586,10 @@ export default function ProfiilBody({
     if (typeof window === "undefined") return;
     const maskLayer = maskLayerRef.current;
     if (orbitOpen) {
+      profileContainerRef.current?.style?.removeProperty("--profile-hole-x");
+      profileContainerRef.current?.style?.removeProperty("--profile-hole-y");
+      profileContainerRef.current?.style?.removeProperty("--profile-hole-w");
+      profileContainerRef.current?.style?.removeProperty("--profile-hole-h");
       if (maskLayer) {
         maskLayer.style.setProperty("-webkit-mask-image", "none");
         maskLayer.style.setProperty("mask-image", "none");
@@ -605,6 +626,7 @@ export default function ProfiilBody({
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
+  const orbitNavTransitionOptions = {};
   const themeActionLabel = isLightTheme ? t("accessibility.options.theme.dark") : t("accessibility.options.theme.light");
   const orbitItems = [{
     key: "theme",
@@ -623,21 +645,13 @@ export default function ProfiilBody({
     icon: <PinDockIcon />,
     label: t("profile.change_password_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    })
+    onClick: () => pushWithTransition(router, localizePath(`/uuenda-pin${embedded ? "?return=profile" : ""}`, locale), orbitNavTransitionOptions)
   }, {
     key: "email",
     icon: <EmailDockIcon />,
     label: t("profile.update_email_cta"),
     labelPos: "up",
-    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    })
+    onClick: () => pushWithTransition(router, localizePath(`/uuenda-epost${embedded ? "?return=profile" : ""}`, locale), orbitNavTransitionOptions)
   }, {
     key: "delete",
     icon: <DeleteDockIcon />,
@@ -654,11 +668,7 @@ export default function ProfiilBody({
     icon: <SubscriptionDockIcon />,
     label: t("profile.manage_subscription"),
     labelPos: "down",
-    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    })
+    onClick: () => pushWithTransition(router, localizePath(`/tellimus${embedded ? "?return=profile" : ""}`, locale), orbitNavTransitionOptions)
   }, {
     key: "preferences",
     icon: <PreferencesDockIcon />,

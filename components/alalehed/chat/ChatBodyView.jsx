@@ -137,6 +137,14 @@ export default function ChatBodyView({
           <div className="relative overflow-visible">
             <GlassRing className={cn(chatContainerClassName, entrySettleActive ? "glass-content-settle" : null)} style={chatRingStyle} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef} data-chat-container="true" data-chat-theme={isLightTheme ? "light" : "dark"} data-chat-layout={isMobile ? "mobile" : "desktop"} data-chat-layout-focus={focusActive ? "true" : "false"}>
               {useMaskedChatSurface ? <div ref={maskLayerRef} className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
+              {useMaskedChatSurface ? (
+                <div className="chat-mask-tilt-fallback absolute inset-0 z-0 rounded-[inherit] pointer-events-none" aria-hidden="true">
+                  <div className="mask-pane mask-pane--top" />
+                  <div className="mask-pane mask-pane--bottom" />
+                  <div className="mask-pane mask-pane--left" />
+                  <div className="mask-pane mask-pane--right" />
+                </div>
+              ) : null}
               {!profileOpen ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} /> : null}
               {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}
 

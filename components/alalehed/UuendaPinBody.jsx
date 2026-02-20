@@ -171,6 +171,7 @@ export default function UuendaPinBody() {
         <BackButton
           onClick={handleBack}
           ariaLabel={backLabel}
+          holdPressedVisualDisabled
           className={glassPageBackMobileBottomCenterClassName}
         />
         <h1 className={titleClassName}>{t("profile.change_password_cta")}</h1>

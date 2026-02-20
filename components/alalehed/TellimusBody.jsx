@@ -189,7 +189,7 @@ export default function TellimusBody() {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={ringClassName}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
           </h1>
@@ -211,7 +211,7 @@ export default function TellimusBody() {
     return <section lang={locale} className={pageShellClassName}>
         <GlassRing className={cn(ringClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
+          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
           <h1 className={titleClassName}>
             {t("subscription.title")}
           </h1>
@@ -243,7 +243,7 @@ export default function TellimusBody() {
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[48em]:hidden")} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
         <h1 className={titleClassName}>
           {t("subscription.title")}
         </h1>

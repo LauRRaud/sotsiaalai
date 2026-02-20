@@ -644,7 +644,7 @@ export default function ChatBody({
         "relative z-[21] min-h-0 [overflow-anchor:none] light:text-[#1f2937] " +
         "[scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 " +
         "[&::-webkit-scrollbar-track]:bg-transparent " +
-        "[&>:not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +
+        "[&>:not(.chat-mask-layer):not(.chat-mask-tilt-fallback):not(.top-nav--chat):not(.chat-right-actions):not(.chat-nav-overlay):not(.chat-back-button):not(.chat-analysis-overlay)]:z-[1] " +
         "gap-[0.4rem] pt-[var(--chat-pad-top)] pb-[var(--chat-pad-bottom)] " +
         "overflow-hidden [--ring-pad-top:0px] [--ring-pad-x:0px] [--ring-ui-reserve:var(--ring-ui-reserve-page)] " +
         "max-[48em]:gap-[0.35rem] max-[48em]:flex-[1_1_auto] max-[48em]:min-h-0 max-[48em]:mx-auto " +

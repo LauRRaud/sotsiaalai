@@ -22,6 +22,7 @@ export default function BackButton({
   ariaLabel,
   className,
   iconClassName: iconClassNameProp,
+  holdPressedVisualDisabled = false,
   onPointerDown,
   onKeyDown,
   ...props
@@ -38,6 +39,7 @@ export default function BackButton({
   }, []);
 
   const lockPressedState = useCallback((durationMs = PRESS_LOCK_MS) => {
+    if (holdPressedVisualDisabled) return;
     setIsPressLocked(true);
     if (typeof window === "undefined") return;
     clearPressLockTimer();
@@ -45,10 +47,10 @@ export default function BackButton({
       pressLockTimerRef.current = null;
       setIsPressLocked(false);
     }, durationMs);
-  }, [clearPressLockTimer]);
+  }, [clearPressLockTimer, holdPressedVisualDisabled]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (holdPressedVisualDisabled || typeof window === "undefined") return;
     const onTiltState = event => {
       setIsRouteTilting(Boolean(event?.detail?.active));
     };
@@ -56,7 +58,7 @@ export default function BackButton({
     return () => {
       window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     };
-  }, []);
+  }, [holdPressedVisualDisabled]);
 
   useEffect(
     () => () => {
@@ -65,7 +67,8 @@ export default function BackButton({
     [clearPressLockTimer]
   );
 
-  const holdPressedVisual = isRouteTilting || isPressLocked;
+  const holdPressedVisual =
+    !holdPressedVisualDisabled && (isRouteTilting || isPressLocked);
 
   const handlePointerDown = event => {
     lockPressedState();
