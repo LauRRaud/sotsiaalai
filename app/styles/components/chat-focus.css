@@ -11,6 +11,12 @@
   --chat-window-focus-shift: 0rem;
 }
 
+@media (min-width: 48em) {
+  .chat-page-shell {
+    overflow: visible !important;
+  }
+}
+
 body.invite-modal-open .chat-page-shell {
   opacity: 0 !important;
   visibility: hidden !important;

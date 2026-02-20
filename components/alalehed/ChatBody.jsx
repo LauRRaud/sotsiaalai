@@ -224,6 +224,7 @@ export default function ChatBody({
   const inputRef = useRef(null);
   const composerDraftApiRef = useRef(null);
   const inputBarRef = useRef(null);
+  const maskLayerRef = useRef(null);
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const maskRefreshRef = useRef(null);
@@ -243,6 +244,7 @@ export default function ChatBody({
   useChatInputHoleMask({
     containerRef: chatContainerRef,
     inputBarRef: inputBarRef,
+    maskLayerRef,
     enabled: !isLightTheme && !profileOpen,
     refreshRef: maskRefreshRef
   });
@@ -725,6 +727,7 @@ export default function ChatBody({
     recordingError={recordingError}
     closeSourcesPanel={closeSourcesPanel}
     analysisPanelWidth={analysisPanelWidth}
+    maskLayerRef={maskLayerRef}
   />;
 }
 

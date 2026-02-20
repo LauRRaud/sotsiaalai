@@ -15,6 +15,8 @@ import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
 import { ChatRecordingNotice, ChatTopNotices } from "./view/ChatNotices";
 
 const ENTRY_SETTLE_MS = 620;
+const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
+const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 
 export default function ChatBodyView({
   embedded,
@@ -81,7 +83,8 @@ export default function ChatBodyView({
   aiNote,
   recordingError,
   closeSourcesPanel,
-  analysisPanelWidth
+  analysisPanelWidth,
+  maskLayerRef
 }) {
   const [entrySettleActive, setEntrySettleActive] = useState(false);
 
@@ -91,6 +94,16 @@ export default function ChatBodyView({
       return;
     }
     let timeoutId = 0;
+    const handleTiltState = event => {
+      if (event?.detail?.active) {
+        setEntrySettleActive(false);
+      }
+    };
+    if (Boolean(window[TILT_ACTIVE_FLAG_KEY])) {
+      setEntrySettleActive(false);
+      return;
+    }
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
     const isMobileViewport =
       window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
     const motionReduced =
@@ -98,6 +111,7 @@ export default function ChatBodyView({
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (motionReduced || isMobileViewport) {
       setEntrySettleActive(false);
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
       return;
     }
     setEntrySettleActive(true);
@@ -105,6 +119,7 @@ export default function ChatBodyView({
       setEntrySettleActive(false);
     }, ENTRY_SETTLE_MS);
     return () => {
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
       window.clearTimeout(timeoutId);
     };
   }, [embedded]);
@@ -116,12 +131,12 @@ export default function ChatBodyView({
 
   return <>
     <InviteModal />
-    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-hidden [overflow-anchor:none] max-[48em]:overscroll-none max-[48em]:place-items-stretch", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
+    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[48em]:overflow-hidden [overflow-anchor:none] max-[48em]:overscroll-none max-[48em]:place-items-stretch", isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
       <>
         {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
           <div className="relative overflow-visible">
             <GlassRing className={cn(chatContainerClassName, entrySettleActive ? "glass-content-settle" : null)} style={chatRingStyle} role="region" aria-label={t("chat.page_label")} ref={chatContainerRef} data-chat-container="true" data-chat-theme={isLightTheme ? "light" : "dark"} data-chat-layout={isMobile ? "mobile" : "desktop"} data-chat-layout-focus={focusActive ? "true" : "false"}>
-              {useMaskedChatSurface ? <div className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
+              {useMaskedChatSurface ? <div ref={maskLayerRef} className="chat-mask-layer absolute inset-0 z-0 rounded-[inherit] pointer-events-none bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] [mask-image:var(--chat-input-hole-mask,none)] [-webkit-mask-image:var(--chat-input-hole-mask,none)] [mask-size:100%_100%] [-webkit-mask-size:100%_100%] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" aria-hidden="true" /> : null}
               {!profileOpen ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} /> : null}
               {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}
 

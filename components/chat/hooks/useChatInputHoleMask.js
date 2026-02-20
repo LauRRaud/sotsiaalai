@@ -9,15 +9,22 @@ const MOBILE_MASK_UPDATE_INTERVAL_MS = 48;
 export function useChatInputHoleMask({
   containerRef,
   inputBarRef,
+  maskLayerRef,
   enabled,
   refreshRef
 }) {
   useLayoutEffect(() => {
     const box = containerRef?.current;
     const inputBar = inputBarRef?.current;
+    const maskLayer = maskLayerRef?.current;
     if (!box || !inputBar) return;
     if (!enabled) {
       box.style.removeProperty("--chat-input-hole-mask");
+      if (maskLayer) {
+        maskLayer.style.removeProperty("--chat-input-hole-mask");
+        maskLayer.style.setProperty("-webkit-mask-image", "none");
+        maskLayer.style.setProperty("mask-image", "none");
+      }
       return;
     }
     const isMobileViewport =
@@ -52,6 +59,7 @@ export function useChatInputHoleMask({
     let loopUntil = 0;
     let mobileThrottleTimer = 0;
     let pendingAfterTilt = false;
+    let retryCount = 0;
     let lastMaskRunAt = 0;
     let lastGeometry = "";
     const isTiltActive = () =>
@@ -90,8 +98,18 @@ export function useChatInputHoleMask({
         });
       }, wait);
     };
+    const scheduleGeometryRetry = () => {
+      if (retryCount >= 12) return;
+      retryCount += 1;
+      window.setTimeout(() => {
+        scheduleUpdate({
+          force: true,
+          loop: false
+        });
+      }, 120);
+    };
     const updateMask = ({ force = false } = {}) => {
-      if (isTiltActive()) {
+      if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
       }
@@ -112,20 +130,32 @@ export function useChatInputHoleMask({
       const boxRect = box.getBoundingClientRect();
       const boxW = snap(boxRect.width);
       const boxH = snap(boxRect.height);
-      if (!boxW || !boxH) return;
+      if (!boxW || !boxH) {
+        scheduleGeometryRetry();
+        return;
+      }
       const inputLocal = getLocalRect(inputBar, box);
-      if (!inputLocal) return;
+      if (!inputLocal) {
+        scheduleGeometryRetry();
+        return;
+      }
+      retryCount = 0;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
       const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
       const geometryKey = `${boxW}|${boxH}|${inputLocal.x}|${inputLocal.y}|${inputLocal.w}|${inputLocal.h}|${radius}`;
-      if (geometryKey === lastGeometry) {
+      if (geometryKey === lastGeometry && !force) {
         pendingAfterTilt = false;
         return;
       }
       lastGeometry = geometryKey;
       const mask = buildMask(boxW, boxH, inputLocal, radius);
-      if (mask && mask !== lastMask) {
+      if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--chat-input-hole-mask", mask);
+        if (maskLayer) {
+          maskLayer.style.setProperty("--chat-input-hole-mask", mask);
+          maskLayer.style.setProperty("-webkit-mask-image", mask);
+          maskLayer.style.setProperty("mask-image", mask);
+        }
         lastMask = mask;
       }
       pendingAfterTilt = false;
@@ -147,7 +177,7 @@ export function useChatInputHoleMask({
       }
     };
     const scheduleUpdate = ({ force = false, loop = true } = {}) => {
-      if (isTiltActive()) {
+      if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
       }
@@ -177,6 +207,7 @@ export function useChatInputHoleMask({
       refreshRef.current = refreshHandler;
     }
     const vv = window.visualViewport;
+    updateMask({ force: true });
     scheduleUpdate();
     window.addEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
     window.addEventListener("resize", scheduleUpdate);
@@ -233,9 +264,12 @@ export function useChatInputHoleMask({
       inputBar.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
+      if (maskLayer) {
+        maskLayer.style.removeProperty("--chat-input-hole-mask");
+      }
       if (refreshRef?.current === refreshHandler) {
         refreshRef.current = null;
       }
     };
-  }, [containerRef, inputBarRef, enabled, refreshRef]);
+  }, [containerRef, inputBarRef, maskLayerRef, enabled, refreshRef]);
 }

@@ -170,6 +170,16 @@ function ProfileShell({
       return;
     }
     let timeoutId = 0;
+    const handleTiltState = event => {
+      if (event?.detail?.active) {
+        setEntrySettleActive(false);
+      }
+    };
+    if (Boolean(window[TILT_ACTIVE_FLAG_KEY])) {
+      setEntrySettleActive(false);
+      return;
+    }
+    window.addEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
     const isMobileViewport =
       window.matchMedia?.("(max-width: 48em)")?.matches ?? window.innerWidth <= 768;
     const motionReduced =
@@ -177,6 +187,7 @@ function ProfileShell({
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (motionReduced || isMobileViewport) {
       setEntrySettleActive(false);
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
       return;
     }
     setEntrySettleActive(true);
@@ -184,6 +195,7 @@ function ProfileShell({
       setEntrySettleActive(false);
     }, ENTRY_SETTLE_MS);
     return () => {
+      window.removeEventListener(ROUTE_TILT_STATE_EVENT, handleTiltState);
       window.clearTimeout(timeoutId);
     };
   }, [embedded]);
@@ -425,8 +437,8 @@ export default function ProfiilBody({
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${rootW} ${rootH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
       return encodeSvgMask(svg);
     };
-    const updateMask = () => {
-      if (isTiltActive()) {
+    const updateMask = ({ force = false } = {}) => {
+      if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
       }
@@ -459,7 +471,7 @@ export default function ProfiilBody({
       const pillRadiusRaw = Number.parseFloat(window.getComputedStyle(pill).borderTopLeftRadius);
       const pillRadius = Number.isFinite(pillRadiusRaw) ? pillRadiusRaw : pillLocal.h / 2;
       const mask = buildMask(boxW, boxH, pillLocal, pillRadius);
-      if (mask && mask !== lastMask) {
+      if (mask && (mask !== lastMask || force)) {
         box.style.setProperty("--profile-role-hole-mask", mask);
         if (maskLayer) {
           maskLayer.style.setProperty("--profile-role-hole-mask", mask);
@@ -486,22 +498,23 @@ export default function ProfiilBody({
         rafLoop = window.requestAnimationFrame(tick);
       }
     };
-    const scheduleUpdate = () => {
-      if (isTiltActive()) {
+    const scheduleUpdate = ({ force = false } = {}) => {
+      if (isTiltActive() && lastMask) {
         pendingAfterTilt = true;
         return;
       }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
-        updateMask();
+        updateMask({ force });
         startLoop();
       });
     };
     const onTiltState = event => {
       if (event?.detail?.active) return;
-      if (pendingAfterTilt) scheduleUpdate();
+      if (pendingAfterTilt) scheduleUpdate({ force: true });
     };
     maskRefreshRef.current = scheduleUpdate;
+    updateMask({ force: true });
     scheduleUpdate();
     const settleTimers = [0, 60, 160, 320, 600, 900, 1400].map(delay =>
       window.setTimeout(scheduleUpdate, delay)
