@@ -50,10 +50,14 @@ export function useChatInputHoleMask({
     let raf = 0;
     let rafLoop = 0;
     let loopUntil = 0;
+    let mobileThrottleTimer = 0;
     let pendingAfterTilt = false;
     let lastMaskRunAt = 0;
+    let lastGeometry = "";
     const isTiltActive = () =>
       typeof window !== "undefined" && Boolean(window[TILT_ACTIVE_FLAG_KEY]);
+    const nowMs = () =>
+      typeof performance !== "undefined" ? performance.now() : Date.now();
     const roundedRectPath = (x, y, width, height, radius) => {
       const r = clamp(radius, 0, Math.min(width, height) / 2);
       const right = x + width;
@@ -72,17 +76,37 @@ export function useChatInputHoleMask({
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${rootW} ${rootH}" preserveAspectRatio="none"><path fill="white" fill-rule="evenodd" d="${outerPath} ${holePath}"/></svg>`;
       return encodeSvgMask(svg);
     };
-    const updateMask = () => {
+    const scheduleMobileCatchup = () => {
+      if (!isMobileViewport || mobileThrottleTimer) return;
+      const wait = Math.max(
+        0,
+        MOBILE_MASK_UPDATE_INTERVAL_MS - (nowMs() - lastMaskRunAt)
+      );
+      mobileThrottleTimer = window.setTimeout(() => {
+        mobileThrottleTimer = 0;
+        scheduleUpdate({
+          force: true,
+          loop: false
+        });
+      }, wait);
+    };
+    const updateMask = ({ force = false } = {}) => {
       if (isTiltActive()) {
         pendingAfterTilt = true;
         return;
       }
       const ts = nowMs();
       if (
+        !force &&
         isMobileViewport &&
         ts - lastMaskRunAt < MOBILE_MASK_UPDATE_INTERVAL_MS
       ) {
+        scheduleMobileCatchup();
         return;
+      }
+      if (mobileThrottleTimer) {
+        window.clearTimeout(mobileThrottleTimer);
+        mobileThrottleTimer = 0;
       }
       lastMaskRunAt = ts;
       const boxRect = box.getBoundingClientRect();
@@ -93,6 +117,12 @@ export function useChatInputHoleMask({
       if (!inputLocal) return;
       const radiusRaw = Number.parseFloat(window.getComputedStyle(inputBar).borderTopLeftRadius);
       const radius = snap(Number.isFinite(radiusRaw) ? radiusRaw : inputLocal.h / 2);
+      const geometryKey = `${boxW}|${boxH}|${inputLocal.x}|${inputLocal.y}|${inputLocal.w}|${inputLocal.h}|${radius}`;
+      if (geometryKey === lastGeometry) {
+        pendingAfterTilt = false;
+        return;
+      }
+      lastGeometry = geometryKey;
       const mask = buildMask(boxW, boxH, inputLocal, radius);
       if (mask && mask !== lastMask) {
         box.style.setProperty("--chat-input-hole-mask", mask);
@@ -100,7 +130,6 @@ export function useChatInputHoleMask({
       }
       pendingAfterTilt = false;
     };
-    const nowMs = () => typeof performance !== "undefined" ? performance.now() : Date.now();
     const tick = (ts) => {
       if (ts > loopUntil) {
         rafLoop = 0;
@@ -117,23 +146,35 @@ export function useChatInputHoleMask({
         rafLoop = window.requestAnimationFrame(tick);
       }
     };
-    const scheduleUpdate = () => {
+    const scheduleUpdate = ({ force = false, loop = true } = {}) => {
       if (isTiltActive()) {
         pendingAfterTilt = true;
         return;
       }
       window.cancelAnimationFrame(raf);
       raf = window.requestAnimationFrame(() => {
-        updateMask();
-        startLoop();
+        updateMask({
+          force
+        });
+        if (loop) startLoop();
       });
     };
     const onTiltState = event => {
       if (event?.detail?.active) return;
-      if (pendingAfterTilt) scheduleUpdate();
+      if (pendingAfterTilt) {
+        scheduleUpdate({
+          force: true
+        });
+      }
+    };
+    const refreshHandler = () => {
+      scheduleUpdate({
+        force: true,
+        loop: false
+      });
     };
     if (refreshRef) {
-      refreshRef.current = scheduleUpdate;
+      refreshRef.current = refreshHandler;
     }
     const vv = window.visualViewport;
     scheduleUpdate();
@@ -171,6 +212,9 @@ export function useChatInputHoleMask({
     return () => {
       window.cancelAnimationFrame(raf);
       if (rafLoop) window.cancelAnimationFrame(rafLoop);
+      if (mobileThrottleTimer) {
+        window.clearTimeout(mobileThrottleTimer);
+      }
       window.removeEventListener(ROUTE_TILT_STATE_EVENT, onTiltState);
       window.removeEventListener("resize", scheduleUpdate);
       vv?.removeEventListener("resize", scheduleUpdate);
@@ -189,7 +233,7 @@ export function useChatInputHoleMask({
       inputBar.removeEventListener("transitionstart", scheduleUpdate);
       ro?.disconnect?.();
       mo?.disconnect?.();
-      if (refreshRef?.current === scheduleUpdate) {
+      if (refreshRef?.current === refreshHandler) {
         refreshRef.current = null;
       }
     };

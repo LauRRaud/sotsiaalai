@@ -115,21 +115,38 @@ export default function ChatBody({
       typeof performance !== "undefined" ? performance.now() : Date.now();
     const readViewportExtent = () =>
       vv ? Math.max(0, vv.height + vv.offsetTop) : Math.max(0, window.innerHeight);
+    const readContainerHeight = () => {
+      const h = node.getBoundingClientRect().height;
+      return Math.max(0, Math.round(h || 0));
+    };
     let baselineViewportExtent = readViewportExtent();
+    let baselineContainerHeight = readContainerHeight();
     const baselineCaptureUntil = now() + MOBILE_KEYBOARD_BASELINE_CAPTURE_MS;
     const readKeyboardOffset = () => {
       const currentExtent = readViewportExtent();
+      const currentContainerHeight = readContainerHeight();
       if (now() <= baselineCaptureUntil) {
         baselineViewportExtent = Math.max(baselineViewportExtent, currentExtent);
+        if (currentContainerHeight > 0) {
+          baselineContainerHeight = Math.max(
+            baselineContainerHeight,
+            currentContainerHeight
+          );
+        }
       }
       const rawOffset = Math.max(
         0,
         Math.round(baselineViewportExtent - currentExtent)
       );
+      const layoutHandledOffset =
+        baselineContainerHeight > 0 && currentContainerHeight > 0
+          ? Math.max(0, baselineContainerHeight - currentContainerHeight)
+          : 0;
+      const compensatedOffset = Math.max(0, rawOffset - layoutHandledOffset);
       const maxReasonable = Math.round(
         Math.max(baselineViewportExtent, window.innerHeight || 0) * 0.55
       );
-      return Math.min(rawOffset, Math.max(0, maxReasonable));
+      return Math.min(compensatedOffset, Math.max(0, maxReasonable));
     };
     const resolveKeyboardOffset = () => {
       const rawOffset = readKeyboardOffset();
