@@ -9,15 +9,15 @@
 
     <radialGradient id="gLightSweep" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(162 150) rotate(-12) scale(206 148)">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.58"/>
-      <stop offset="0.52" stop-color="#fffdf7" stop-opacity="0.20"/>
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.84"/>
+      <stop offset="0.52" stop-color="#fffdf7" stop-opacity="0.42"/>
       <stop offset="1" stop-color="#fff7eb" stop-opacity="0"/>
     </radialGradient>
 
     <radialGradient id="gHotspot" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(132 128) rotate(0) scale(74 54)">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.72"/>
-      <stop offset="0.46" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.46" stop-color="#ffffff" stop-opacity="0.50"/>
       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
 
@@ -29,17 +29,18 @@
 
     <radialGradient id="gRightLift" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(286 142) rotate(-12) scale(118 92)">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.42"/>
-      <stop offset="0.5" stop-color="#f4f8ff" stop-opacity="0.20"/>
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.70"/>
+      <stop offset="0.5" stop-color="#f4f8ff" stop-opacity="0.42"/>
       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
 
     <radialGradient id="gTopRightHot" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(290 126) rotate(-16) scale(66 46)">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.62"/>
-      <stop offset="0.48" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.94"/>
+      <stop offset="0.48" stop-color="#ffffff" stop-opacity="0.52"/>
       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
+
 
     <linearGradient id="gBottomFade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
@@ -64,7 +65,7 @@
 
     <radialGradient id="gEdgeSoft" gradientUnits="userSpaceOnUse" cx="200" cy="200" r="188">
       <stop offset="0.83" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="1" stop-color="#000000" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.05"/>
     </radialGradient>
 
     <clipPath id="clipSphere">
@@ -104,6 +105,30 @@
       <rect x="0" y="0" width="400" height="400" fill="url(#gMaskTopRight)"/>
     </mask>
 
+    <radialGradient id="gMaskTopLeftDark" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(112 136) rotate(-18) scale(142 88)">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.58" stop-color="#ffffff" stop-opacity="0.62"/>
+      <stop offset="0.82" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="maskTopLeftDark" maskUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="400" height="400" fill="#000000"/>
+      <rect x="0" y="0" width="400" height="400" fill="url(#gMaskTopLeftDark)"/>
+    </mask>
+
+    <radialGradient id="gMaskTopRightDark" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(304 134) rotate(16) scale(138 86)">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.56" stop-color="#ffffff" stop-opacity="0.60"/>
+      <stop offset="0.80" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="maskTopRightDark" maskUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="400" height="400" fill="#000000"/>
+      <rect x="0" y="0" width="400" height="400" fill="url(#gMaskTopRightDark)"/>
+    </mask>
+
 
     <linearGradient id="gMaskBottom" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#000000"/>
@@ -140,6 +165,10 @@
       <feGaussianBlur stdDeviation="1.25" result="sb"/>
       <feMerge><feMergeNode in="sb"/></feMerge>
     </filter>
+    <filter id="fEdgeDarkSoft" filterUnits="userSpaceOnUse" x="-140" y="-140" width="680" height="680" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="3.2" result="ed"/>
+      <feMerge><feMergeNode in="ed"/></feMerge>
+    </filter>
 
     <filter id="fNoise" filterUnits="userSpaceOnUse" x="-140" y="-140" width="680" height="680" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.30" numOctaves="2" stitchTiles="noStitch" seed="11" result="n"/>
@@ -169,31 +198,62 @@
     <g>
       <circle cx="200" cy="200" r="188" fill="#000000" filter="url(#fNoise)" opacity="0.024"/>
 
+      <!-- Global 360 edge lift -->
+      <circle cx="200" cy="200" r="186.5" fill="none"
+              stroke="#ffffff" stroke-opacity="0.28" stroke-width="3.8"
+              filter="url(#fSoft)"/>
+      <circle cx="200" cy="200" r="186.5" fill="none"
+              stroke="#e9f2ff" stroke-opacity="0.18" stroke-width="2"
+              filter="url(#fGlow)"/>
+
       <!-- Strong top-left rim highlight -->
       <g mask="url(#maskTopLeft)">
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#ffffff" stroke-opacity="0.92" stroke-width="16"
+                stroke="#ffffff" stroke-opacity="1" stroke-width="18"
                 filter="url(#fGlow)"/>
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#ffffff" stroke-opacity="0.58" stroke-width="7"
+                stroke="#ffffff" stroke-opacity="0.82" stroke-width="10"
                 filter="url(#fSoft)"/>
+      </g>
+      <g mask="url(#maskTopLeftDark)">
+        <circle cx="200" cy="200" r="186.5" fill="none"
+                stroke="#000000" stroke-opacity="0.40" stroke-width="8.4"
+                filter="url(#fEdgeDarkSoft)"/>
+        <circle cx="200" cy="200" r="186.5" fill="none"
+                stroke="#000000" stroke-opacity="0.24" stroke-width="5.2"
+                filter="url(#fGlow)"/>
       </g>
 
       <!-- Broad top gloss band -->
       <g mask="url(#maskTopBand)">
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#ffffff" stroke-opacity="0.22" stroke-width="10"
+                stroke="#ffffff" stroke-opacity="0.62" stroke-width="14.5"
                 filter="url(#fSoft)"/>
       </g>
 
       <!-- Upper-right rim response to balance lighting -->
       <g mask="url(#maskTopRight)">
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#ffffff" stroke-opacity="0.66" stroke-width="13"
+                stroke="#ffffff" stroke-opacity="0.94" stroke-width="18"
                 filter="url(#fGlow)"/>
         <circle cx="200" cy="200" r="184" fill="none"
-                stroke="#f4f8ff" stroke-opacity="0.42" stroke-width="6.4"
+                stroke="#f4f8ff" stroke-opacity="0.72" stroke-width="9.2"
                 filter="url(#fGlow)"/>
+      </g>
+      <g mask="url(#maskTopRightDark)">
+        <circle cx="200" cy="200" r="186.5" fill="none"
+                stroke="#000000" stroke-opacity="0.38" stroke-width="8"
+                filter="url(#fEdgeDarkSoft)"/>
+        <circle cx="200" cy="200" r="186.5" fill="none"
+                stroke="#000000" stroke-opacity="0.22" stroke-width="5"
+                filter="url(#fGlow)"/>
+      </g>
+
+      <!-- Subtle lower-edge light so the bright rim runs around the sphere -->
+      <g mask="url(#maskBottom)">
+        <circle cx="200" cy="200" r="184" fill="none"
+                stroke="#ffffff" stroke-opacity="0.16" stroke-width="5.6"
+                filter="url(#fSoft)"/>
       </g>
 
       <!-- Pronounced lower hemisphere depth -->
