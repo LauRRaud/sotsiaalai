@@ -116,12 +116,19 @@
 .iconBack {
   width: calc(100% * (var(--rail-icon-scale) + 0.62)) !important;
   height: calc(100% * (var(--rail-icon-scale) + 0.62)) !important;
-  transform: translateY(-0.1rem);
+  transform: translateY(-0.1rem) scale(1);
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .iconBtn:hover .iconBack,
 .iconBtn:focus-visible .iconBack {
-  transform: translateY(-0.1rem) !important;
+  transform: translateY(-0.1rem) scale(1.08) !important;
+}
+
+.iconBtn:active .iconBack {
+  transform: translateY(-0.1rem) scale(0.98) !important;
 }
 
 .iconBack :global(.back-icon-arrow),
