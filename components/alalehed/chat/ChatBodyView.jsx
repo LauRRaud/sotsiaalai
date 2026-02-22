@@ -4,6 +4,7 @@ import ProfiilBody from "@/components/alalehed/ProfiilBody";
 import BackButton from "@/components/ui/BackButton";
 import GlassRing from "@/components/ui/GlassRing";
 import RightRail from "@/components/chat/RightRail";
+import LeftRail from "@/components/chat/LeftRail";
 import ChatAnalysisPanel from "./ChatAnalysisPanel";
 import ChatComposer from "./ChatComposer";
 import ConversationView from "./ConversationView";
@@ -145,9 +146,10 @@ export default function ChatBodyView({
                   <div className="mask-pane mask-pane--right" />
                 </div>
               ) : null}
-              {!profileOpen ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} /> : null}
+              {!profileOpen && isMobile ? <BackButton onClick={handleBackHome} ariaLabel={t("chat.back_to_home")} className={cn(glassPageBackMobileBottomCenterClassName, "chat-back-button pointer-events-auto z-[120] touch-manipulation max-[48em]:!z-[95]")} /> : null}
               {!profileOpen && !mobileRailVisible ? <ChatMobileRailButton isLightTheme={isLightTheme} onShowMobileRail={showMobileRail} disabled={mobileRailInteractionLocked} ariaLabel={t("chat.show_quick_actions")} /> : null}
 
+              <LeftRail t={t} locale={locale} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onBackHome={handleBackHome} embedded={embedded} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} />
               <RightRail t={t} locale={locale} roomId={roomId} isLightTheme={isLightTheme} inputFocused={profileOpen ? false : (isMobile ? inputFocused : focusActive)} sourcesButtonRef={sourcesButtonRef} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} conversationSources={conversationSources} hasConversationSources={hasConversationSources} onProfileToggle={toggleProfile} embedded={embedded} suppressTooltip={analysis.showAnalysisPanel} suspendPointerEvents={analysis.showAnalysisPanel && analysis.analysisPanelMode === "overlay" || mobileRailInteractionLocked} mobileVisible={mobileRailVisible} />
 
               <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} />

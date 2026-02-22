@@ -60,7 +60,7 @@ export default function RightRail({
     at: 0
   });
 
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [tooltipLabelIndex, setTooltipLabelIndex] = useState(1);
   const [tooltipRect, setTooltipRect] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -271,7 +271,20 @@ export default function RightRail({
 
   const sourcesLabel = t("chat.sources.button").replace("{count}", String(conversationSources.length));
 
-  const items = useMemo(() => {
+  const desktopItems = useMemo(() => {
+    return [{
+      key: "profile",
+      label: t("nav.profile")
+    }, {
+      key: "rooms",
+      label: t("nav.rooms")
+    }, {
+      key: "invite",
+      label: t("nav.add_person")
+    }];
+  }, [t]);
+
+  const mobileItems = useMemo(() => {
     return [{
       key: "profile",
       label: t("nav.profile")
@@ -289,22 +302,28 @@ export default function RightRail({
       label: t("nav.sources")
     }];
   }, [t]);
+  const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
     const order = ["chats", "sources", "rooms", "invite", "profile"];
     return order.map(key => {
-      const itemIndex = items.findIndex(item => item.key === key);
+      const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
       return {
-        it: items[itemIndex],
+        it: mobileItems[itemIndex],
         itemIndex,
         slotOffset: 0
       };
     }).filter(Boolean);
-  }, [items]);
+  }, [mobileItems]);
 
   useEffect(() => {
     const idx = (() => {
+      if (!viewportIsMobile) {
+        if (normalizedPathname.startsWith("/profiil")) return 0;
+        if (normalizedPathname.startsWith("/ruum")) return 1;
+        return 0;
+      }
       if (!normalizedPathname) return 1;
       if (normalizedPathname.startsWith("/profiil")) return 0;
       if (normalizedPathname.startsWith("/ruum")) return 2;
@@ -313,7 +332,7 @@ export default function RightRail({
     })();
     setActiveIndex(idx);
     clearArmed();
-  }, [normalizedPathname, clearArmed]);
+  }, [normalizedPathname, clearArmed, viewportIsMobile]);
 
   useEffect(() => {
     const shouldTrackTooltip = !isMobile;
