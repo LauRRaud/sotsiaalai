@@ -124,7 +124,7 @@
 
 .iconBtn:hover .iconBack,
 .iconBtn:focus-visible .iconBack {
-  transform: translateY(-0.1rem) scale(1.08) !important;
+  transform: translateY(-0.1rem) scale(1.16) !important;
 }
 
 .iconBtn:active .iconBack {
