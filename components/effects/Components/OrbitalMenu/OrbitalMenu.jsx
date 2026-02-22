@@ -142,7 +142,7 @@ export default function OrbitalMenu({
       };
       if (d === 1) return {
         scale: 0.92,
-        opacity: 0.32,
+        opacity: 0.45,
         blur: 0.8,
         hide: false
       };
@@ -271,7 +271,7 @@ export default function OrbitalMenu({
         hide: false
       };else if (d === 1) next[i] = {
         scale: 0.92,
-        opacity: 0.32,
+        opacity: 0.45,
         blur: 0.8,
         hide: false
       };else next[i] = {

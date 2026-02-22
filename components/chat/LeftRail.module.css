@@ -110,11 +110,18 @@
 .iconSvgSources {
   width: calc(100% * (var(--rail-icon-scale) - 0.07));
   height: calc(100% * (var(--rail-icon-scale) - 0.07));
+  transform: translateY(-0.12rem);
 }
 
 .iconBack {
-  width: calc(100% * (var(--rail-icon-scale) + 0.38)) !important;
-  height: calc(100% * (var(--rail-icon-scale) + 0.38)) !important;
+  width: calc(100% * (var(--rail-icon-scale) + 0.62)) !important;
+  height: calc(100% * (var(--rail-icon-scale) + 0.62)) !important;
+  transform: translateY(-0.1rem);
+}
+
+.iconBtn:hover .iconBack,
+.iconBtn:focus-visible .iconBack {
+  transform: translateY(-0.1rem) !important;
 }
 
 .iconBack :global(.back-icon-arrow),

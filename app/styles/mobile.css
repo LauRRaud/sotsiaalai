@@ -441,7 +441,7 @@
     text-align: center;
   }
   .profile-orbit-stack-item {
-    opacity: 0.84;
+    opacity: 0.9;
     transition: opacity 120ms ease;
     scroll-snap-align: center;
     scroll-snap-stop: normal;

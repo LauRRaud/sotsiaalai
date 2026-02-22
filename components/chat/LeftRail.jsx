@@ -463,7 +463,7 @@ export default function LeftRail({
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(
                     2
-                  )}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
+                  )}px) translateY(${offsetY.toFixed(2)}px) scale(${scale.toFixed(3)})`,
                   opacity: opacity.toFixed(3),
                   zIndex
                 }}
