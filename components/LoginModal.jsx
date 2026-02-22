@@ -11,7 +11,6 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath } from "@/lib/localizePath";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import AppLink from "@/components/ui/Link";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
@@ -1344,12 +1343,12 @@ export default function LoginModal({
                 {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)] text-[1.04rem]">
                     {info}
                   </p>}
-                <p className="m-0 leading-[1.45] text-[1.02rem] max-md:text-[1.09rem] [overflow-wrap:normal] [word-break:normal] hyphens-none">
+                <p className="m-0 leading-[1.45] text-[1rem] max-md:text-[1.04rem] [overflow-wrap:normal] [word-break:normal] hyphens-none">
                   {t("auth.login.otp_description", {
                 email: emailMask || ""
               })}
                 </p>
-                {otpDeadlineLabel && <p className="mt-[0.25rem] inline-flex items-center self-start rounded-full border border-solid border-[color:color-mix(in_srgb,var(--otp-accent)_45%,transparent)] bg-[color:color-mix(in_srgb,var(--otp-accent)_18%,transparent)] px-[0.6rem] py-[0.22rem] font-semibold tracking-[0.015em] text-[0.98rem] text-[color:var(--pt-30)] light:border-[rgba(197,113,113,0.32)] light:bg-[rgba(197,113,113,0.14)] light:text-[rgba(31,41,55,0.92)]" id="otp-deadline">
+                {otpDeadlineLabel && <p className="mt-[0.25rem] inline-flex items-center self-start rounded-full border border-solid border-[color:color-mix(in_srgb,var(--otp-accent)_45%,transparent)] bg-[color:color-mix(in_srgb,var(--otp-accent)_18%,transparent)] px-[0.6rem] py-[0.22rem] font-semibold tracking-[0.01em] text-[0.95rem] text-[color:var(--pt-30)] light:border-[rgba(197,113,113,0.32)] light:bg-[rgba(197,113,113,0.14)] light:text-[rgba(31,41,55,0.92)]" id="otp-deadline">
                     {t("auth.login.otp_expires", {
                 time: otpDeadlineLabel
               })}
@@ -1357,28 +1356,31 @@ export default function LoginModal({
             </div>
 
             <div className="w-full mt-[0.96rem] flex justify-center">
-              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] tracking-[0.06em] font-semibold text-[1.1rem] py-[0.75rem] px-[1.15rem] min-h-[3.15rem] rounded-full" />
+              <Input id="otp-code-input" ref={otpInputRef} type="text" dir="ltr" inputMode="numeric" autoComplete="one-time-code" aria-label={t("auth.login.otp_placeholder")} aria-describedby={otpInputDescribedBy} aria-invalid={otpInlineError ? "true" : undefined} maxLength={6} value={otpValue} onChange={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} onInput={e => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder={t("auth.login.otp_short_placeholder", "Kinnituskood")} className="!w-[min(100%,17.4rem)] !max-w-[17.4rem] text-left placeholder:text-center [font-variant-numeric:tabular-nums] tracking-[0.03em] font-semibold text-[1.06rem] py-[0.75rem] px-[1.15rem] min-h-[3.15rem] rounded-[0.88rem]" />
             </div>
             {otpInlineError ? <p id="otp-inline-error" role="alert" className="mt-[0.38rem] text-[1.03rem] leading-[1.35] text-center text-[#fca5a5] light:text-[#b44a4a]">
                 {otpInlineError}
               </p> : null}
 
             <div className="w-full mt-[1rem] flex justify-center">
-              <div className="w-full max-w-[22.8rem] rounded-[1.08rem] border border-[rgba(148,163,184,0.34)] bg-[rgba(10,14,24,0.46)] px-[0.82rem] py-[0.66rem] shadow-[0_10px_24px_rgba(0,0,0,0.2)] light:border-[rgba(148,163,184,0.36)] light:bg-[rgba(255,255,255,0.62)] light:shadow-[0_8px_18px_rgba(15,23,42,0.08)]">
-                <FancyCheckbox id="remember-device" checked={rememberDevice} onChange={checked => setRememberDevice(checked)} label={t("auth.login.remember_device")} className="fancy-checkbox--otp fancy-checkbox--top" />
-              </div>
+              <label htmlFor="remember-device" className="w-full max-w-[22.8rem] flex items-start gap-[0.72rem] cursor-pointer text-[color:var(--pt-120)] light:text-[rgba(31,41,55,0.9)]">
+                <input id="remember-device" type="checkbox" checked={rememberDevice} onChange={e => setRememberDevice(e.target.checked)} className="mt-[0.2rem] h-[1.38rem] w-[1.38rem] shrink-0 rounded-[0.33rem] border border-[rgba(148,163,184,0.5)] bg-[rgba(8,12,20,0.55)] accent-[#c57171] light:bg-[rgba(255,255,255,0.88)] light:border-[rgba(148,163,184,0.6)]" />
+                <span className="text-[1.01rem] font-medium leading-[1.34]">
+                  {t("auth.login.remember_device")}
+                </span>
+              </label>
             </div>
 
             <div className="w-full max-w-[25.6rem] flex flex-col items-center mt-[1.28rem]">
-              <Button type="submit" variant="primary" className="w-auto min-w-[12.1rem] text-[1.22rem] normal-case tracking-[0.02em] rounded-[1rem] py-[0.82rem] px-[2.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
+              <Button type="submit" variant="primary" className="w-auto min-w-[12.1rem] text-[1.06rem] font-semibold normal-case tracking-[0.01em] rounded-[0.88rem] py-[0.78rem] px-[2.1rem] [--glow-rgb:225,160,160]" disabled={otpLoading}>
                 {otpLoading ? t("auth.login.otp_submitting") : t("auth.login.otp_submit")}
               </Button>
 
               <div className="w-full flex flex-col items-center gap-[0.74rem] mt-[1.24rem]">
-                <Button type="button" variant="linkBrand" className="text-[1.12rem] tracking-[0.02em] !rounded-full !px-[0.88rem] !py-[0.26rem] !border !border-[rgba(197,113,113,0.4)] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.28)] light:[--link-color:#7A3A38] light:!border-[rgba(122,58,56,0.42)]" onClick={handleResendOtp} disabled={resendLoading}>
+                <Button type="button" variant="linkBrand" className="text-[1.02rem] font-medium tracking-[0.01em] !rounded-full !px-[0.88rem] !py-[0.26rem] !border !border-[rgba(197,113,113,0.4)] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.28)] light:[--link-color:#7A3A38] light:!border-[rgba(122,58,56,0.42)]" onClick={handleResendOtp} disabled={resendLoading}>
                   {resendLoading ? t("auth.login.resending") : t("auth.login.resend")}
                 </Button>
-                <Button type="button" variant="linkBrand" className="text-[1.12rem] tracking-[0.02em] !rounded-full !px-[0.88rem] !py-[0.26rem] !border !border-[rgba(197,113,113,0.4)] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.28)] light:[--link-color:#7A3A38] light:!border-[rgba(122,58,56,0.42)]" onClick={resetToPinStep}>
+                <Button type="button" variant="linkBrand" className="text-[1.02rem] font-medium tracking-[0.01em] !rounded-full !px-[0.88rem] !py-[0.26rem] !border !border-[rgba(197,113,113,0.4)] [--link-brand-text:#c57171] [--link-brand-border-hover:#c57171] [--link-brand-shadow-hover:rgba(197,113,113,0.28)] light:[--link-color:#7A3A38] light:!border-[rgba(122,58,56,0.42)]" onClick={resetToPinStep}>
                   {t("auth.login.otp_back")}
                 </Button>
               </div>
