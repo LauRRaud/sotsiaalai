@@ -345,7 +345,7 @@ export default function RegistreerimineBody({
           "--csp-pad-bottom": `${Math.max(0, scrollPadBottom || scrollPad)}px`,
           "--csp-center-offset": `${isMobileViewport ? -5 : -11}px`
         }} tabIndex={0} aria-label={t("auth.register.title")}>
-            <form className="register-form flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="off" noValidate>
+            <form className="register-form flex flex-col gap-[2rem]" onSubmit={handleSubmit} autoComplete="on" noValidate>
               <section className={`${registerStepClassName} ${getRegisterStepClassName(0)}`}>
                 <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.email_placeholder")} value={form.email} onChange={handleChange} required autoComplete="username" />
               </section>
@@ -354,7 +354,7 @@ export default function RegistreerimineBody({
                 <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName}`.trim()} placeholder={t("auth.register.pin_placeholder", {
                 min: PIN_MIN,
                 max: PIN_MAX
-              })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="off" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
+              })} value={form.pin} onChange={handleChange} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="new-password" inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} />
               </section>
 
               <section className={`${registerStepClassName} ${getRegisterStepClassName(2)}`}>

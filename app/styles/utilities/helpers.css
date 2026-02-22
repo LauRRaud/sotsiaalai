@@ -445,16 +445,16 @@ body.login-modal-open {
   }
 
   .glass-policy-back.glass-policy-back--compact {
-    width: 5.4rem !important;
-    height: 5.4rem !important;
+    width: 6rem !important;
+    height: 6rem !important;
     opacity: 0.72 !important;
     transition:
       opacity 220ms ease-out;
   }
 
   .glass-policy-back.glass-policy-back--compact > svg {
-    width: 5rem !important;
-    height: 5rem !important;
+    width: 5.6rem !important;
+    height: 5.6rem !important;
   }
 
   .glass-policy-back.glass-policy-back--compact:hover,
@@ -466,6 +466,18 @@ body.login-modal-open {
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
+  }
+}
+
+@media (max-width: 48em) {
+  .glass-policy-back.glass-policy-back--compact {
+    width: 4.9rem !important;
+    height: 4.9rem !important;
+  }
+
+  .glass-policy-back.glass-policy-back--compact > svg {
+    width: 4.9rem !important;
+    height: 4.9rem !important;
   }
 }
 

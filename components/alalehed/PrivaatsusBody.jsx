@@ -154,6 +154,7 @@ export default function PrivaatsusBody() {
           onClick={handleBack}
           ariaLabel={t("buttons.back_home")}
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
+          iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
         <h1 id="privacy-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("privacy.title")}

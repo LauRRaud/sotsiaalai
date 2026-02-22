@@ -1102,6 +1102,7 @@ export default function LoginModal({
             <div id={emailHintIdRef.current} className="sr-only">
               {t("auth.email_icon_hint")}
             </div>
+            <input aria-label={t("profile.email")} name="username" type="email" autoComplete="username" value={currentEmailValue} readOnly tabIndex={-1} className="sr-only" />
 
             <div className={emailRowClass}>
               {!emailRevealed ? <button type="button" ref={emailIconButtonRef} className={emailIconClass} style={{
@@ -1133,7 +1134,7 @@ export default function LoginModal({
             </div>
 
             {}
-            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={-1} type="password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-hidden="true" />}
+            {!isMobile && <input aria-label={t("auth.pin_placeholder")} ref={hiddenInputRef} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} className="fixed left-[-10000px] top-0 h-px w-px opacity-0 caret-transparent" tabIndex={-1} type="password" autoComplete="current-password" onKeyDown={onHiddenKeyDown} onInput={handlePinInputChange} onChange={handlePinInputChange} aria-describedby={pinHintIdRef.current} aria-hidden="true" />}
 
             {}
             {isMobile && <input ref={mobilePinInputRef} aria-label={t("auth.pin_placeholder")} value={pinValue} inputMode="numeric" pattern={`\\d{${PIN_MIN},${PIN_MAX}}`} maxLength={PIN_MAX} type="tel" autoComplete="off" enterKeyHint="go" tabIndex={-1} aria-hidden="true" onChange={handlePinInputChange} onInput={handlePinInputChange} onKeyDown={e => {

@@ -37,7 +37,7 @@ const primaryActionButtonClassName =
 export default function UuendaPinBody() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const { t, locale } = useI18n();
 
   const PIN_MIN = 4;
@@ -87,6 +87,8 @@ export default function UuendaPinBody() {
   const pinLabel = t("profile.new_pin_label");
   const currentPinLabel = t("profile.current_pin_label");
   const confirmPinLabel = t("profile.confirm_pin_label");
+  const usernameLabel = t("profile.email");
+  const usernameAutoFill = session?.user?.email || "";
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -183,7 +185,11 @@ export default function UuendaPinBody() {
               <Button type="button" variant="primary" className={primaryActionButtonClassName} onClick={() => setLoginOpen(true)}>
                 <span>{t("auth.login.title")}</span>
               </Button>
-            </div> : <form className="flex w-full flex-col items-center gap-7 text-center" onSubmit={handleSubmit} autoComplete="off" aria-busy={loading ? "true" : "false"}>
+            </div> : <form className="flex w-full flex-col items-center gap-7 text-center" onSubmit={handleSubmit} autoComplete="on" aria-busy={loading ? "true" : "false"}>
+              <label htmlFor="pin-username" className="sr-only">
+                {usernameLabel}
+              </label>
+              <input id="pin-username" name="username" type="text" autoComplete="username" value={usernameAutoFill} readOnly tabIndex={-1} className="sr-only" />
               <label htmlFor="current-pin" className="sr-only">
                 {currentPinLabel}
               </label>

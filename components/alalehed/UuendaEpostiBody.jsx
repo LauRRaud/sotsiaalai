@@ -26,7 +26,7 @@ const primaryActionButtonClassName =
   "max-[48em]:!min-h-[3.42rem] max-[48em]:!px-[1.7rem] max-[48em]:!py-[0.98rem] max-[48em]:!text-[1.32rem]";
 export default function UuendaEpostiBody() {
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const {
     t,
     locale
@@ -43,6 +43,9 @@ export default function UuendaEpostiBody() {
   const errorId = error ? "update-email-error" : undefined;
   const backLabel = t("buttons.back_previous");
   const pinPlaceholder = t("profile.email_update.pin_placeholder");
+  const usernameLabel = t("profile.email");
+  const usernameAutoFill =
+    (currentEmail || session?.user?.email || email || "").trim().toLowerCase();
   const searchParams = useSearchParams();
   const returnToProfile = searchParams?.get("return") === "profile";
   const profileReturnPath = localizePath("/vestlus?profile=1", locale);
@@ -173,11 +176,12 @@ export default function UuendaEpostiBody() {
               <p className="text-[color:#a7f3d0]">
                 {t("profile.email_update.success")}
               </p>
-            </div> : <form className="flex w-full flex-col items-center gap-7 text-center" onSubmit={handleSubmit} autoComplete="off" aria-busy={loading ? "true" : "false"}>
+            </div> : <form className="flex w-full flex-col items-center gap-7 text-center" onSubmit={handleSubmit} autoComplete="on" aria-busy={loading ? "true" : "false"}>
+              <input aria-label={usernameLabel} id="email-username" name="username" type="email" autoComplete="username" value={usernameAutoFill} readOnly tabIndex={-1} className="sr-only" />
               <label htmlFor="current-email" className="sr-only">
                 {t("profile.email_update.current_placeholder")}
               </label>
-              <input type="email" id="current-email" name="current-email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.current_placeholder")} value={currentEmail} readOnly aria-readonly="true" autoComplete="email" inputMode="email" />
+              <input type="email" id="current-email" name="current-email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.current_placeholder")} value={currentEmail} readOnly aria-readonly="true" autoComplete="username" inputMode="email" />
               <label htmlFor="email" className="sr-only">
                 {t("profile.email_update.new_placeholder")}
               </label>

@@ -74,7 +74,7 @@ export default function InstallAppLink({
     }
 
     const onBeforeInstall = e => {
-      e.preventDefault();
+      if (!e.defaultPrevented) e.preventDefault();
       try {
         window.__deferredPWAInstallPrompt = e;
       } catch {}
@@ -83,6 +83,9 @@ export default function InstallAppLink({
     };
 
     const onInstalled = () => {
+      try {
+        window.__deferredPWAInstallPrompt = null;
+      } catch {}
       setCanInstall(false);
       setDeferredPrompt(null);
     };
@@ -104,6 +107,9 @@ export default function InstallAppLink({
         try {
           await deferredPrompt.userChoice;
         } finally {
+          try {
+            window.__deferredPWAInstallPrompt = null;
+          } catch {}
           setDeferredPrompt(null);
           setCanInstall(false);
         }

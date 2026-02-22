@@ -98,6 +98,7 @@ export default function KasutusjuhendBody() {
           onClick={handleBack}
           ariaLabel={t("buttons.back_home")}
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
+          iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
         <h1 id="kasutusjuhend-title" className={`${titleClassName} ${glassPolicyTitleOffsetClassName}`}>
           {t("about.guide.short_title")}
