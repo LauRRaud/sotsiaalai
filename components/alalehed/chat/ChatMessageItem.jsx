@@ -15,9 +15,9 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const isOwn = role === "user";
   const authorLabel = isAssistant ? t("chat.aria.assistant") : isOwn ? t("chat.aria.user") : authorName || t("chat.aria.user");
   const messageBaseClassName =
-    "max-w-full leading-[1.45] mb-[1em] self-start";
+    "max-w-full leading-[1.45] mb-[0.35em] self-start";
   const messageWrapClassName =
-    "flex flex-col self-start mb-[1em] gap-[0.35em]";
+    "flex flex-col self-start mb-[0.35em] gap-[0.16em]";
   const nameClassName =
     "text-[0.95rem] tracking-[0.05em] text-[rgba(197,113,113,0.9)]";
   const userBubbleClassName =

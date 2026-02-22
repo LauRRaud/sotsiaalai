@@ -49,20 +49,26 @@ const CHAT_LAYOUT_BASE_VARS = Object.freeze({
 });
 
 const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
-  "--chat-window-shift-x": "clamp(0.2rem, 0.8vw, 0.38rem)",
+  "--chat-window-shift-x": "clamp(-0.34rem, -0.14vw, -0.12rem)",
   "--chat-window-top-offset": "0rem",
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
   "--chat-window-pad-bottom": "calc(env(safe-area-inset-bottom, 0px) + 3.95rem)",
-  "--chat-window-top-safe": "2.4rem",
-  "--chat-window-bottom-gap": "1.35rem",
-  "--chat-window-shift-y": "clamp(2.55rem, 7.1vh, 3.7rem)",
+  "--chat-window-top-safe": "3.85rem",
+  "--chat-window-bottom-gap": "0.45rem",
+  "--chat-window-shift-y": "clamp(2.05rem, 5.8vh, 3.1rem)",
+  "--chat-window-mobile-extra-height": "0.9rem",
+  "--chat-window-mobile-width-right": "0.28rem",
   "--chat-window-bottom-safe": "0rem",
-  "--chat-window-fade-top": "clamp(0.55rem, 1.8vh, 0.95rem)",
-  "--chat-window-fade-bottom": "clamp(1rem, 3.2vh, 1.7rem)",
-  "--chat-scroll-down-offset": "-1.9rem",
-  "--chat-content-top-offset": "0rem",
-  "--chat-content-spacer": "0.95rem",
-  "--chat-content-bottom-spacer": "0.55rem",
+  "--chat-window-fade-top": "clamp(0.3rem, 1.1vh, 0.62rem)",
+  "--chat-window-top-text-fade-extra": "3.7rem",
+  "--chat-window-scroll-top-fade-start": "0.62rem",
+  "--chat-window-scroll-top-fade-mid": "1.22rem",
+  "--chat-window-scroll-top-fade-end": "2.05rem",
+  "--chat-window-fade-bottom": "clamp(3.9rem, 10.5vh, 5.8rem)",
+  "--chat-scroll-down-offset": "-2.6rem",
+  "--chat-content-top-offset": "2.45rem",
+  "--chat-content-spacer": "3.15rem",
+  "--chat-content-bottom-spacer": "1.05rem",
   "--chat-input-shift": "0rem",
   "--chat-inputbar-left-pull": "0rem",
   "--chat-attach-left-pull": "0rem",
@@ -89,9 +95,9 @@ const CHAT_LAYOUT_MOBILE_VARS = Object.freeze({
 
 const CHAT_LAYOUT_MOBILE_OVERRIDES = Object.freeze({
   "--chat-window-pad-top": "clamp(0.32rem, 1vh, 0.65rem)",
-  "--chat-content-top-offset": "0rem",
-  "--chat-content-spacer": "0.95rem",
-  "--chat-content-bottom-spacer": "0.55rem"
+  "--chat-content-top-offset": "2.45rem",
+  "--chat-content-spacer": "3.15rem",
+  "--chat-content-bottom-spacer": "1.05rem"
 });
 
 const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
