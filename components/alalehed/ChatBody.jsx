@@ -8,6 +8,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import ChatMessageItem from "./chat/ChatMessageItem";
 import { useSpeech } from "../chat/hooks/useSpeech";
 import { useChatStream } from "@/components/chat/hooks/useChatStream";
+import { useDeepResearchStream } from "@/components/chat/hooks/useDeepResearchStream";
 import { useChatConversationState } from "../chat/hooks/useChatConversationState";
 import { prettifyFileName } from "@/components/chat/utils/sources";
 import { useChatInputHoleMask } from "@/components/chat/hooks/useChatInputHoleMask";
@@ -27,6 +28,10 @@ const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
+const DEEP_RESEARCH_ARMED_TEXT =
+  "S\u00fcvauuring on valitud ja ootel. Kirjuta oma uurimisk\u00fcsimus ning soovi korral t\u00e4psusta piirkond (KOV/linnaosa) v\u00f5i tasand (riiklik/kohalik). Seej\u00e4rel vajuta Enter v\u00f5i Saada. T\u00fchistamiseks vajuta s\u00fcvauuringu ikooni.";
+const DEEP_RESEARCH_EMPTY_QUERY_HINT = "Kirjuta uurimisk\u00fcsimus.";
+const DEEP_RESEARCH_MODE_ENDED_TEXT = "S\u00fcvauuringu re\u017eiim l\u00f5petatud.";
 
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
@@ -77,6 +82,7 @@ export default function ChatBody({
   const [isGeneratingForSave, setIsGeneratingForSave] = useState(false);
   const [analysisPanelWidth, setAnalysisPanelWidth] = useState(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const deepResearchHintMessageIdRef = useRef(null);
   const {
     isRoomMode,
     roomMessages,
@@ -358,9 +364,6 @@ export default function ChatBody({
       el.scrollTop = prevScrollTop + delta;
     });
   }, [visibleMessages.length]);
-  const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
-  }, [renderedMessages, isRoomMode, t]);
   const {
     conversationSources,
     hasConversationSources,
@@ -397,9 +400,9 @@ export default function ChatBody({
     } catch {}
   }, []);
   const {
-    isGenerating,
+    isGenerating: isChatGenerating,
     sendMessage,
-    stop
+    stop: stopChatStream
   } = useChatStream({
     convId,
     historyPayload,
@@ -424,6 +427,82 @@ export default function ChatBody({
     onFocusInput: focusInput,
     onAuthRedirect: null
   });
+  const {
+    isResearching,
+    runDeepResearch,
+    stopResearch
+  } = useDeepResearchStream({
+    convId,
+    userRole,
+    locale,
+    t,
+    appendMessage,
+    mutateMessage,
+    onFocusInput: focusInput,
+    setErrorBanner,
+    requestConversationsRefresh
+  });
+  const isGenerating = isChatGenerating || isResearching;
+  const stop = useCallback(() => {
+    stopChatStream();
+    void stopResearch();
+  }, [stopChatStream, stopResearch]);
+  const handleArmDeepResearch = useCallback(() => {
+    const activeMessageId = deepResearchHintMessageIdRef.current;
+    if (activeMessageId != null) {
+      mutateMessage(activeMessageId, msg => ({
+        ...msg,
+        role: "ai",
+        text: DEEP_RESEARCH_ARMED_TEXT,
+        aiVisible: true
+      }));
+      return;
+    }
+    const createdId = appendMessage({
+      role: "ai",
+      text: DEEP_RESEARCH_ARMED_TEXT,
+      aiVisible: true
+    });
+    deepResearchHintMessageIdRef.current = createdId;
+  }, [appendMessage, mutateMessage]);
+  const handleCancelDeepResearchMode = useCallback(() => {
+    const messageId = deepResearchHintMessageIdRef.current;
+    if (messageId != null) {
+      mutateMessage(messageId, msg => ({
+        ...msg,
+        text: t("chat.deep_research.scope_cancelled"),
+        meta: null
+      }));
+      deepResearchHintMessageIdRef.current = null;
+    }
+  }, [mutateMessage, t]);
+  const handleConsumeDeepResearchMode = useCallback(payload => {
+    const started = Boolean(payload?.started);
+    const messageId = deepResearchHintMessageIdRef.current;
+    if (messageId != null) {
+      mutateMessage(messageId, msg => ({
+        ...msg,
+        text: started
+          ? t("chat.deep_research.scope_started")
+          : DEEP_RESEARCH_MODE_ENDED_TEXT,
+        meta: null
+      }));
+      deepResearchHintMessageIdRef.current = null;
+    }
+  }, [mutateMessage, t]);
+  const handleDeepResearchEmptySubmit = useCallback(() => {
+    appendMessage({
+      role: "ai",
+      text: DEEP_RESEARCH_EMPTY_QUERY_HINT,
+      aiVisible: true
+    });
+  }, [appendMessage]);
+  const handleSendDeepResearchFromComposer = useCallback((query) => {
+    return runDeepResearch(query);
+  }, [runDeepResearch]);
+  const messageItems = useMemo(() => {
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+  }, [isRoomMode, renderedMessages, t]);
   const isStreamingAny = useMemo(() => isGenerating || visibleMessages.some(m => m.role === "ai" && m.isStreaming), [isGenerating, visibleMessages]);
   useEffect(() => {
     setIsGeneratingForSave(isGenerating);
@@ -739,6 +818,11 @@ export default function ChatBody({
     isGenerating={isGenerating}
     onStop={stop}
     onSend={sendMessage}
+    onSendDeepResearch={handleSendDeepResearchFromComposer}
+    onArmDeepResearch={handleArmDeepResearch}
+    onCancelDeepResearchMode={handleCancelDeepResearchMode}
+    onConsumeDeepResearchMode={handleConsumeDeepResearchMode}
+    onDeepResearchEmptySubmit={handleDeepResearchEmptySubmit}
     speakLatestReply={speakLatestReply}
     canSpeakLatest={canSpeakLatest}
     isSpeaking={isSpeaking}

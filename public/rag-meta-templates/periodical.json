@@ -1,7 +1,8 @@
 {
   "docId": "DOC-2024-014",
+  "collection_id": "active_workspace_default",
   "title": "Koduhoolduse teenus",
-  "description": "Ülevaade koduhoolduse teenuse tingimustest.",
+  "description": "Ulevaade koduhoolduse teenuse tingimustest.",
   "authors": ["Eesnimi Perenimi"],
   "section": "Teenused",
   "year": 2024,
@@ -15,5 +16,11 @@
   "pageRange": "12-18",
   "pdf_start_page": 12,
   "pdf_end_page": 18,
+  "country": "EE",
+  "jurisdiction_level": "MUNICIPALITY",
+  "municipality_name": "Tallinn",
+  "municipality_id": null,
+  "district_name": null,
+  "district_id": null,
   "source_type": "file"
 }

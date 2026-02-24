@@ -774,7 +774,7 @@
     position: absolute !important;
     top: var(--chat-mobile-rail-top) !important;
     left: auto !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.12rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.02rem) !important;
     width: auto !important;
     height: auto !important;
     z-index: 94 !important;

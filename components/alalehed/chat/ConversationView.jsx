@@ -113,7 +113,7 @@ const ConversationView = memo(function ConversationView({
   return <main className={mergedMainClassName}>
       <div id="chat-window" className={mergedWindowClassName} onDoubleClick={onWindowDoubleClick}>
         <div id="chat-window-scroll" className={scrollClassName} ref={chatWindowRef} role="region" aria-label={t("chat.aria.messages")} aria-live="polite" aria-busy={isStreamingAny ? "true" : "false"}>
-          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)]" : "shrink-0 h-[var(--chat-content-spacer,1.6rem)]"} />
+          <div aria-hidden="true" className={isMobile ? "shrink-0 h-[var(--chat-content-spacer,0.55rem)]" : "shrink-0 h-[calc(var(--chat-content-spacer,1.6rem)+0.8rem)]"} />
 
           {hiddenCount > 0 ? <div className="flex justify-center">
               <button type="button" onClick={onRevealOlder} className={buttonClassName}>

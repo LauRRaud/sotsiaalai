@@ -103,15 +103,6 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "max-[48em]:w-[min(88vw,24rem)]";
   const cardOverlayClassName =
     "chat-analysis-overlay-card !isolation-auto !border-0";
-  const overlayCloseStyle =
-    analysisPanelMode === "overlay"
-      ? {
-          top: "0.6rem",
-          right: "0.6rem",
-          left: "auto",
-          inset: "0.6rem 0.6rem auto auto"
-        }
-      : undefined;
   const cardClassName =
     "w-full max-w-none rounded-[1.5em] border-0 " +
     "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] text-[color:var(--glass-surface-text,#f2f2f2)] " +
@@ -127,19 +118,16 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
   const headerClassName =
     "flex flex-col items-center justify-center gap-[0.6rem] flex-wrap relative z-[60] " +
     "pt-[0.15rem] mb-[0.6rem]";
-  const closeRowClassName = "w-full flex justify-end";
   const titleBlockClassName =
-    "w-full min-w-0 text-center pt-[0.1rem] px-[0.2rem]";
+    "w-full min-w-0 text-center pt-[0.1rem] px-[0.2rem] pr-[3rem]";
   const fileNameClassName =
     "text-[1.25rem] font-[600] leading-[1.28] tracking-[0.04em] [overflow-wrap:anywhere] break-words " +
     "text-[rgba(226,232,240,0.96)] " +
     "light:text-[#111827]";
   const closeClassName =
-    "grid place-items-center z-[220] rounded-[0.75rem] border-0 bg-transparent " +
-    "h-[2.35rem] w-[2.35rem] text-[2.25rem] leading-none text-[#c57171] light:text-[#7a3a38] " +
-    "pointer-events-auto max-[48em]:h-[2.65rem] max-[48em]:w-[2.65rem] max-[48em]:text-[2.5rem]";
-  const closeOverlayPositionClassName =
-    "absolute top-[0.6rem] right-[0.6rem]";
+    "absolute top-[0.18rem] right-[0.18rem] grid place-items-center z-[220] rounded-[0.75rem] border-0 bg-transparent " +
+    "h-[2.1rem] w-[2.1rem] text-[2.2rem] leading-none text-[#c57171] light:text-[#7a3a38] " +
+    "pointer-events-auto max-[48em]:h-[2.45rem] max-[48em]:w-[2.45rem] max-[48em]:text-[2.35rem]";
   const bodyClassName =
     "relative z-[120] flex flex-col gap-[0.95rem] text-[1.08rem] leading-[1.85] " +
     "tracking-[0.02em] text-[rgba(226,232,240,0.92)] " +
@@ -234,32 +222,15 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
           analysisPanelMode === "overlay" ? cardOverlayClassName : null
         )}
       >
+        <button
+          type="button"
+          className={closeClassName}
+          onClick={handleClose}
+          aria-label={t("buttons.close")}
+        >
+          x
+        </button>
         <header className={headerClassName}>
-          {uploadPreview ? (
-            <div className={closeRowClassName}>
-              <button
-                type="button"
-                className={closeClassName}
-                onClick={handleClose}
-                aria-label={t("buttons.close")}
-              >
-                x
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              className={cn(
-                closeClassName,
-                closeOverlayPositionClassName
-              )}
-              style={overlayCloseStyle}
-              onClick={handleClose}
-              aria-label={t("buttons.close")}
-            >
-              x
-            </button>
-          )}
           {uploadPreview ? (
             <div className={titleBlockClassName}>
               <div className={fileNameClassName}>

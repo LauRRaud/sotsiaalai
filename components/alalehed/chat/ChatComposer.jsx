@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { PaperclipIcon } from "@/components/ui/icons/ChatIcons";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
 import Button from "@/components/ui/Button";
 export default function ChatComposer({
@@ -22,6 +21,11 @@ export default function ChatComposer({
   roomAuthRequired,
   onStop,
   onSend,
+  onSendDeepResearch,
+  onArmDeepResearch,
+  onCancelDeepResearchMode,
+  onConsumeDeepResearchMode,
+  onDeepResearchEmptySubmit,
   speakLatestReply,
   canSpeakLatest,
   isSpeaking,
@@ -33,7 +37,46 @@ export default function ChatComposer({
   isMobile = false
 }) {
   const [draft, setDraft] = useState("");
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [composerMode, setComposerMode] = useState("chat");
   const submitInFlightRef = useRef(false);
+  const toolsButtonRef = useRef(null);
+  const toolsMenuRef = useRef(null);
+  const deepResearchDisabled = Boolean(isRoomMode);
+  const canRunDeepResearch = !deepResearchDisabled && typeof onSendDeepResearch === "function";
+
+  useEffect(() => {
+    if (!toolsOpen) return;
+    const onPointerDown = event => {
+      const target = event?.target;
+      if (!(target instanceof Node)) return;
+      if (toolsButtonRef.current?.contains(target)) return;
+      if (toolsMenuRef.current?.contains(target)) return;
+      setToolsOpen(false);
+    };
+    const onKeyDown = event => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setToolsOpen(false);
+      toolsButtonRef.current?.focus();
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [toolsOpen]);
+
+  useEffect(() => {
+    if (!isRoomMode) return;
+    setToolsOpen(false);
+    if (composerMode === "deep_research") {
+      setComposerMode("chat");
+      onCancelDeepResearchMode?.();
+    }
+  }, [composerMode, isRoomMode, onCancelDeepResearchMode]);
+
   useEffect(() => {
     if (!draftApiRef) return;
     draftApiRef.current = {
@@ -49,6 +92,29 @@ export default function ChatComposer({
     };
   }, [draftApiRef]);
   const hasInput = Boolean(draft.trim());
+  const isDeepResearchMode = composerMode === "deep_research";
+  const closeToolsMenu = useCallback(() => {
+    setToolsOpen(false);
+  }, []);
+  const exitDeepResearchMode = useCallback(() => {
+    setComposerMode("chat");
+    onCancelDeepResearchMode?.();
+  }, [onCancelDeepResearchMode]);
+  const openDocumentAnalysis = useCallback(() => {
+    ensureAnalysisPanelVisible?.();
+    exitDeepResearchMode();
+    closeToolsMenu();
+  }, [ensureAnalysisPanelVisible, exitDeepResearchMode, closeToolsMenu]);
+  const handleDeepResearchSelect = useCallback(() => {
+    if (!canRunDeepResearch) return;
+    setComposerMode("deep_research");
+    onArmDeepResearch?.();
+    closeToolsMenu();
+    requestAnimationFrame(() => inputRef.current?.focus?.());
+  }, [canRunDeepResearch, closeToolsMenu, inputRef, onArmDeepResearch]);
+  const handleAgentModeSelect = useCallback(() => {
+    closeToolsMenu();
+  }, [closeToolsMenu]);
   const submitSend = useCallback(async () => {
     if (submitInFlightRef.current) return false;
     const trimmed = draft.trim();
@@ -63,32 +129,88 @@ export default function ChatComposer({
       submitInFlightRef.current = false;
     }
   }, [draft, isGenerating, onSend]);
+  const submitDeepResearch = useCallback(async () => {
+    if (submitInFlightRef.current) return false;
+    if (!canRunDeepResearch) return false;
+    const trimmed = draft.trim();
+    if (!trimmed) {
+      onDeepResearchEmptySubmit?.();
+      return false;
+    }
+    if (isGenerating) return false;
+    submitInFlightRef.current = true;
+    let attempted = false;
+    let started = false;
+    try {
+      attempted = true;
+      const ok = await onSendDeepResearch(trimmed);
+      started = Boolean(ok);
+      if (ok) setDraft("");
+      return ok;
+    } finally {
+      submitInFlightRef.current = false;
+      if (attempted) {
+        setComposerMode("chat");
+        onConsumeDeepResearchMode?.({
+          started
+        });
+      }
+    }
+  }, [canRunDeepResearch, draft, isGenerating, onConsumeDeepResearchMode, onDeepResearchEmptySubmit, onSendDeepResearch]);
+  const handleToolsButtonClick = useCallback(() => {
+    if (isDeepResearchMode) {
+      exitDeepResearchMode();
+      closeToolsMenu();
+      return;
+    }
+    setToolsOpen(prev => !prev);
+  }, [closeToolsMenu, exitDeepResearchMode, isDeepResearchMode]);
   const handleSubmit = useCallback(e => {
     e.preventDefault();
+    closeToolsMenu();
     if (isGenerating) {
       onStop?.(e);
       return;
     }
+    if (composerMode === "deep_research") {
+      void submitDeepResearch();
+      return;
+    }
     void submitSend();
-  }, [isGenerating, onStop, submitSend]);
+  }, [closeToolsMenu, composerMode, isGenerating, onStop, submitDeepResearch, submitSend]);
   const handleKeyDown = useCallback(e => {
+    if (e.key === "Escape" && composerMode === "deep_research") {
+      e.preventDefault();
+      exitDeepResearchMode();
+      return;
+    }
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (!isGenerating && draft.trim()) {
+      closeToolsMenu();
+      if (isGenerating) return;
+      if (composerMode === "deep_research") {
+        void submitDeepResearch();
+        return;
+      }
+      if (draft.trim()) {
         void submitSend();
       }
     }
-  }, [draft, isGenerating, submitSend]);
+  }, [closeToolsMenu, composerMode, draft, exitDeepResearchMode, isGenerating, submitDeepResearch, submitSend]);
   const handleSendPointerDown = useCallback(e => {
     if (!isMobile) return;
     if (isGenerating) return;
     if (!draft.trim()) return;
     e.preventDefault();
     e.stopPropagation();
+    if (composerMode === "deep_research") {
+      void submitDeepResearch();
+      return;
+    }
     void submitSend();
-  }, [draft, isGenerating, isMobile, submitSend]);
+  }, [composerMode, draft, isGenerating, isMobile, submitDeepResearch, submitSend]);
   const inputRowClassName =
-    "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.1rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
+    "chat-input-row z-[80] flex w-full items-center justify-center gap-[0.02rem] pl-[var(--chat-hpad-left,var(--chat-hpad))] pr-[var(--chat-hpad-right,var(--chat-hpad))] " +
     "transition-[transform,margin-top] duration-[400ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform max-[48em]:transition-none";
   const inputRowModeClassName =
     "relative mt-[clamp(0.6rem,1.8vh,1.1rem)] " +
@@ -126,12 +248,49 @@ export default function ChatComposer({
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   const inputRowTransformClassName = `${inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[48em]:[transform:none]`;
+  const toolItemBaseClassName =
+    "w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
+    "text-[1.12rem] leading-[1.2] tracking-[0.01em] transition-colors duration-150 " +
+    "rounded-[0.5rem] flex items-center gap-[0.44rem] " +
+    "hover:bg-[rgba(255,255,255,0.08)] focus-visible:bg-[rgba(255,255,255,0.08)] " +
+    "light:hover:bg-[rgba(122,58,56,0.1)] light:focus-visible:bg-[rgba(122,58,56,0.1)]";
+  const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
   return <form className={`${inputRowClassName} ${inputRowModeClassName} ${inputRowTransformClassName}`} onSubmit={handleSubmit} autoComplete="off">
-      <button type="button" className="chat-attach-btn group h-[3.2rem] w-[3.2rem] min-h-[3.2rem] min-w-[3.2rem] flex-[0_0_3.2rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none translate-x-[var(--chat-attach-left-pull,0rem)] max-[48em]:translate-x-0 max-[48em]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[48em]:mr-[clamp(0.02rem,0.4vw,0.12rem)]" aria-label={t("chat.upload.aria")} title={t("chat.upload.tooltip")} onClick={() => {
-      ensureAnalysisPanelVisible?.();
-    }}>
-        <PaperclipIcon isLightTheme={isLightTheme} className="h-[2rem] w-[2rem] opacity-85 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110" />
-      </button>
+      <div className="relative h-[2.9rem] w-[2.9rem] min-h-[2.9rem] min-w-[2.9rem] flex-[0_0_2.9rem] translate-x-[var(--chat-attach-left-pull,0rem)] max-[48em]:translate-x-0 max-[48em]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[48em]:mr-[clamp(0.02rem,0.4vw,0.12rem)]">
+        <button ref={toolsButtonRef} type="button" className="chat-attach-btn group h-[2.9rem] w-[2.9rem] min-h-[2.9rem] min-w-[2.9rem] flex-[0_0_2.9rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none" aria-label={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.aria")} title={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={isDeepResearchMode ? undefined : "menu"} aria-expanded={isDeepResearchMode ? undefined : toolsOpen ? "true" : "false"} onClick={handleToolsButtonClick}>
+          {isDeepResearchMode ? <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
+              <circle cx="17.8" cy="17.8" r="8.8" stroke={isLightTheme ? "#7A3A38" : "#c57171"} strokeWidth="2.8" />
+              <path d="M24.2 24.2L31.5 31.5" stroke={isLightTheme ? "#7A3A38" : "#c57171"} strokeWidth="2.8" strokeLinecap="round" />
+            </svg> : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
+              <path d="M21 8.75v24.5M8.75 21h24.5" stroke={isLightTheme ? "#7A3A38" : "#c57171"} strokeWidth="3.1" strokeLinecap="round" />
+            </svg>}
+        </button>
+        {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] bg-[rgba(11,14,20,0.96)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:bg-[rgba(255,255,255,0.96)]">
+            <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
+              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
+                <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M16 3v5h5" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>{t("chat.tools.document_analysis")}</span>
+            </button>
+            <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
+              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-90"}`}>
+                <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth="1.85" />
+                <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" />
+              </svg>
+              <span>{t("chat.tools.deep_research")}</span>
+            </button>
+            <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
+              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
+                <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth="1.85" />
+                <path d="M12 4.3v2.6M9.2 18.4v1.7M14.8 18.4v1.7" stroke={iconStroke} strokeWidth="1.75" strokeLinecap="round" />
+                <circle cx="10" cy="12" r="1.05" fill={iconStroke} />
+                <circle cx="14" cy="12" r="1.05" fill={iconStroke} />
+              </svg>
+              <span>{t("chat.tools.agent_mode")}</span>
+            </button>
+          </div> : null}
+      </div>
 
       <input ref={fileInputRef} type="file" accept={acceptAttr} onChange={onFileChange} className="hidden" />
 

@@ -198,6 +198,21 @@ const META_RECOMMENDED_FIELDS = [{
 }, {
   label: "source_url",
   keys: ["source_url", "sourceUrl", "url"]
+}, {
+  label: "collection_id",
+  keys: ["collection_id", "collectionId"]
+}, {
+  label: "country",
+  keys: ["country"]
+}, {
+  label: "jurisdiction_level",
+  keys: ["jurisdiction_level", "jurisdictionLevel"]
+}, {
+  label: "municipality_name",
+  keys: ["municipality_name", "municipalityName"]
+}, {
+  label: "district_name",
+  keys: ["district_name", "districtName"]
 }];
 const hasMetaValue = (meta, keys = []) => keys.some(key => {
   const value = meta?.[key];

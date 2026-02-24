@@ -12,6 +12,7 @@ import mimetypes
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 # --- optional libmagic (fall back if missing) ---
 try:
@@ -146,6 +147,7 @@ async def handle_request_validation_error(request: Request, exc: RequestValidati
 # Utils
 # --------------------
 AUDIENCE_VALUES = {"SOCIAL_WORKER", "CLIENT", "BOTH"}
+JURISDICTION_VALUES = {"NATIONAL", "MUNICIPALITY", "CITY_GOVERNMENT", "UNKNOWN"}
 
 def normalize_audience(value: Optional[str]) -> Optional[str]:
     if not value:
@@ -257,6 +259,21 @@ def normalize_pages(value) -> List[int]:
             except (TypeError, ValueError):
                 continue
     return out[:50]
+
+def normalize_country(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    v = str(value).strip().upper()
+    if not v:
+        return None
+    # Keep ISO-like compact values as-is, otherwise cap length for safety.
+    return v if len(v) <= 6 else v[:6]
+
+def normalize_jurisdiction(value: Optional[str]) -> str:
+    if not value:
+        return "UNKNOWN"
+    v = str(value).strip().upper()
+    return v if v in JURISDICTION_VALUES else "UNKNOWN"
 
 def _stringify_meta(value) -> Optional[str]:
     """
@@ -409,6 +426,81 @@ def _clean_text(s: str) -> str:
     # 4) mitmik-tühikud üheks
     s = re.sub(r"[ \t]+", " ", s)
     return s.strip()
+
+ESTONIA_NATIONAL_HOSTS = {
+    "riigiteataja.ee",
+    "eesti.ee",
+    "valitsus.ee",
+    "riigikogu.ee",
+    "sm.ee",
+    "sotsiaalkindlustusamet.ee",
+    "tootukassa.ee",
+}
+ESTONIA_NATIONAL_HOST_SUFFIXES = (".riik.ee",)
+ESTONIA_GENERIC_SUBDOMAINS = {"www", "www2", "m", "admin", "portal"}
+
+def _host_without_www(host: str) -> str:
+    host = (host or "").strip().lower()
+    if host.startswith("www."):
+        return host[4:]
+    return host
+
+def _guess_municipality_name(host: str, text: str) -> Optional[str]:
+    # Prefer explicit "X linna/vallavalitsus" mention from page text.
+    match = re.search(r"\b([A-Za-zÕÄÖÜõäöü\-]{3,})\s+(linna|valla)\s*valitsus\b", text, flags=re.IGNORECASE)
+    if match:
+        return match.group(1).replace("-", " ").strip().title()
+
+    labels = [lbl for lbl in _host_without_www(host).split(".") if lbl]
+    if not labels:
+        return None
+    first = labels[0]
+    if first in ESTONIA_GENERIC_SUBDOMAINS and len(labels) > 1:
+        first = labels[1]
+    first = first.replace("-", " ").strip()
+    if not first:
+        return None
+    return first.title()
+
+def infer_url_geo_metadata(url: str, title: Optional[str], extracted_text: str) -> Dict[str, Optional[str]]:
+    parsed = urlparse(url)
+    host = _host_without_www(parsed.hostname or "")
+    scan_text = f"{title or ''} {extracted_text[:6000]}".lower()
+
+    country = "EE" if host.endswith(".ee") else None
+    jurisdiction = "UNKNOWN"
+    confidence = "low"
+
+    if host in ESTONIA_NATIONAL_HOSTS or any(host.endswith(sfx) for sfx in ESTONIA_NATIONAL_HOST_SUFFIXES):
+        jurisdiction = "NATIONAL"
+        confidence = "high"
+    elif "linnavalitsus" in host or " linnavalitsus" in scan_text:
+        jurisdiction = "CITY_GOVERNMENT"
+        confidence = "high"
+    elif (
+        "vallavalitsus" in host
+        or "omavalitsus" in host
+        or " vallavalitsus" in scan_text
+        or " kohalik omavalitsus" in scan_text
+        or " omavalitsus" in scan_text
+    ):
+        jurisdiction = "MUNICIPALITY"
+        confidence = "medium"
+    elif " ministeerium" in scan_text or " vabariigi valitsus" in scan_text:
+        jurisdiction = "NATIONAL"
+        confidence = "medium"
+
+    municipality_name = None
+    if jurisdiction in {"MUNICIPALITY", "CITY_GOVERNMENT"}:
+        municipality_name = _guess_municipality_name(host, extracted_text)
+
+    return {
+        "country": country,
+        "jurisdiction_level": jurisdiction,
+        "municipality_name": municipality_name,
+        "geo_detection_method": "url_heuristic",
+        "geo_detection_confidence": confidence,
+    }
 
 # --- PDF / DOCX / HTML extractors ---
 def _extract_text_from_pdf(buff: bytes) -> List[Tuple[int, str]]:
@@ -579,6 +671,15 @@ class RagMetadata(BaseModel):
     url: Optional[str] = None
     level: Optional[str] = None
     importance: Optional[str] = None
+    collection_id: Optional[str] = None
+    country: Optional[str] = None
+    jurisdiction_level: Optional[str] = "UNKNOWN"
+    municipality_name: Optional[str] = None
+    municipality_id: Optional[str] = None
+    district_name: Optional[str] = None
+    district_id: Optional[str] = None
+    geo_detection_method: Optional[str] = None
+    geo_detection_confidence: Optional[str] = None
 
     @field_validator("authors", mode="before")
     @classmethod
@@ -605,6 +706,16 @@ class RagMetadata(BaseModel):
     def _validate_language(cls, value):
         return (str(value or "et").strip() or "et").lower()
 
+    @field_validator("country", mode="before")
+    @classmethod
+    def _validate_country(cls, value):
+        return normalize_country(value)
+
+    @field_validator("jurisdiction_level", mode="before")
+    @classmethod
+    def _validate_jurisdiction(cls, value):
+        return normalize_jurisdiction(value)
+
     @field_validator("year", mode="before")
     @classmethod
     def _validate_year(cls, value):
@@ -629,6 +740,15 @@ class RagMetadata(BaseModel):
         "url",
         "level",
         "importance",
+        "collection_id",
+        "country",
+        "jurisdiction_level",
+        "municipality_name",
+        "municipality_id",
+        "district_name",
+        "district_id",
+        "geo_detection_method",
+        "geo_detection_confidence",
         mode="before",
     )
     @classmethod
@@ -667,6 +787,15 @@ def build_rag_metadata(meta_common: Dict, doc_id: Optional[str] = None) -> RagMe
         url=meta.get("url"),
         level=meta.get("level"),
         importance=meta.get("importance"),
+        collection_id=meta.get("collection_id") or meta.get("collectionId"),
+        country=meta.get("country"),
+        jurisdiction_level=meta.get("jurisdiction_level") or meta.get("jurisdictionLevel"),
+        municipality_name=meta.get("municipality_name") or meta.get("municipalityName"),
+        municipality_id=meta.get("municipality_id") or meta.get("municipalityId"),
+        district_name=meta.get("district_name") or meta.get("districtName"),
+        district_id=meta.get("district_id") or meta.get("districtId"),
+        geo_detection_method=meta.get("geo_detection_method") or meta.get("geoDetectionMethod"),
+        geo_detection_confidence=meta.get("geo_detection_confidence") or meta.get("geoDetectionConfidence"),
     )
 
 class IngestFile(BaseModel):
@@ -687,9 +816,17 @@ class IngestFile(BaseModel):
     pageRange: Optional[str] = None
     journalTitle: Optional[str] = None  # UUS
     tags: Optional[List[str]] = None
+    language: Optional[str] = None
+    collection_id: Optional[str] = None
+    country: Optional[str] = None
+    jurisdiction_level: Optional[str] = None
+    municipality_name: Optional[str] = None
+    municipality_id: Optional[str] = None
+    district_name: Optional[str] = None
+    district_id: Optional[str] = None
 
 class IngestURL(BaseModel):
-    docId: str
+    docId: Optional[str] = None
     url: str
     title: Optional[str] = None
     description: Optional[str] = None
@@ -704,6 +841,14 @@ class IngestURL(BaseModel):
     pageRange: Optional[str] = None
     journalTitle: Optional[str] = None  # UUS
     tags: Optional[List[str]] = None
+    language: Optional[str] = None
+    collection_id: Optional[str] = None
+    country: Optional[str] = None
+    jurisdiction_level: Optional[str] = None
+    municipality_name: Optional[str] = None
+    municipality_id: Optional[str] = None
+    district_name: Optional[str] = None
+    district_id: Optional[str] = None
 
 class IngestArticle(BaseModel):
     title: str
@@ -720,6 +865,13 @@ class IngestArticle(BaseModel):
     articleId: Optional[str] = None
     audience: Optional[str] = None
     tags: Optional[List[str]] = None
+    collection_id: Optional[str] = None
+    country: Optional[str] = None
+    jurisdiction_level: Optional[str] = None
+    municipality_name: Optional[str] = None
+    municipality_id: Optional[str] = None
+    district_name: Optional[str] = None
+    district_id: Optional[str] = None
 
 class IngestArticlesIn(BaseModel):
     docId: Optional[str] = None
@@ -741,6 +893,13 @@ class UpdateMetadata(BaseModel):
     pdf_start_page: Optional[int] = None
     pdf_end_page: Optional[int] = None
     tags: Optional[List[str] | str] = None
+    collection_id: Optional[str] = None
+    country: Optional[str] = None
+    jurisdiction_level: Optional[str] = None
+    municipality_name: Optional[str] = None
+    municipality_id: Optional[str] = None
+    district_name: Optional[str] = None
+    district_id: Optional[str] = None
 
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
 
@@ -803,6 +962,15 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
     journal_title = (meta.journalTitle or "").strip() or None
     language = (meta.language or "et").strip() or "et"
     audience = normalize_audience(meta.audience)
+    collection_id = (meta.collection_id or "").strip() or None
+    country = normalize_country(meta.country)
+    jurisdiction_level = normalize_jurisdiction(meta.jurisdiction_level)
+    municipality_name = (meta.municipality_name or "").strip() or None
+    municipality_id = (meta.municipality_id or "").strip() or None
+    district_name = (meta.district_name or "").strip() or None
+    district_id = (meta.district_id or "").strip() or None
+    geo_detection_method = (meta.geo_detection_method or "").strip() or None
+    geo_detection_confidence = (meta.geo_detection_confidence or "").strip() or None
 
     # PREFIKS – lisame chunk’i teksti ette (autor/pealkiri/jne saavad embeddingusse)
     prefix_lines: List[str] = []
@@ -904,6 +1072,15 @@ def _ingest_text(doc_id: str, text_or_pages, meta_common: Dict) -> int:
             "pdf_start_page": meta.pdf_start_page,
             "pdf_end_page": meta.pdf_end_page,
             "page": page_nums[i],
+            "collection_id": collection_id,
+            "country": country,
+            "jurisdiction_level": jurisdiction_level,
+            "municipality_name": municipality_name,
+            "municipality_id": municipality_id,
+            "district_name": district_name,
+            "district_id": district_id,
+            "geo_detection_method": geo_detection_method,
+            "geo_detection_confidence": geo_detection_confidence,
             "createdAt": now_iso(),
         }
         cleaned = {}
@@ -1092,6 +1269,15 @@ def _process_ingest_file(
         "journalTitle": (meta.get("journal_title") or meta.get("journalTitle") or None),
         "tags": normalize_tags(meta.get("tags")),
         "language": (meta.get("language") or "et"),
+        "collection_id": (meta.get("collection_id") or meta.get("collectionId") or None),
+        "country": normalize_country(meta.get("country")),
+        "jurisdiction_level": normalize_jurisdiction(meta.get("jurisdiction_level") or meta.get("jurisdictionLevel")),
+        "municipality_name": (meta.get("municipality_name") or meta.get("municipalityName") or None),
+        "municipality_id": (meta.get("municipality_id") or meta.get("municipalityId") or None),
+        "district_name": (meta.get("district_name") or meta.get("districtName") or None),
+        "district_id": (meta.get("district_id") or meta.get("districtId") or None),
+        "geo_detection_method": (meta.get("geo_detection_method") or meta.get("geoDetectionMethod") or None),
+        "geo_detection_confidence": (meta.get("geo_detection_confidence") or meta.get("geoDetectionConfidence") or None),
     }
     _register(doc_id, reg_entry)
 
@@ -1144,6 +1330,14 @@ def ingest_file(payload: _IngestFileModel):
             "audience": payload.audience,
             "journal_title": payload.journalTitle,
             "journalTitle": payload.journalTitle,
+            "language": payload.language,
+            "collection_id": payload.collection_id,
+            "country": payload.country,
+            "jurisdiction_level": payload.jurisdiction_level,
+            "municipality_name": payload.municipality_name,
+            "municipality_id": payload.municipality_id,
+            "district_name": payload.district_name,
+            "district_id": payload.district_id,
         },
     )
 
@@ -1164,6 +1358,14 @@ async def upload(
     pageRange: Optional[str] = Form(None),
     journalTitle: Optional[str] = Form(None),
     tags: Optional[str] = Form(None),
+    language: Optional[str] = Form(None),
+    collection_id: Optional[str] = Form(None),
+    country: Optional[str] = Form(None),
+    jurisdiction_level: Optional[str] = Form(None),
+    municipality_name: Optional[str] = Form(None),
+    municipality_id: Optional[str] = Form(None),
+    district_name: Optional[str] = Form(None),
+    district_id: Optional[str] = Form(None),
     docId: Optional[str] = Form(None),
     fileName: Optional[str] = Form(None),
     mimeType: Optional[str] = Form(None),
@@ -1203,6 +1405,14 @@ async def upload(
             "audience": audience,
             "journal_title": journalTitle,
             "journalTitle": journalTitle,
+            "language": language,
+            "collection_id": collection_id,
+            "country": country,
+            "jurisdiction_level": jurisdiction_level,
+            "municipality_name": municipality_name,
+            "municipality_id": municipality_id,
+            "district_name": district_name,
+            "district_id": district_id,
         },
     )
 
@@ -1299,13 +1509,24 @@ def ingest_url(payload: IngestURL):
 
     html = r.text
     text = _extract_text_from_html(html)
+    doc_id = (payload.docId or str(uuid.uuid4())).strip()
+    if not doc_id:
+        doc_id = str(uuid.uuid4())
+    detected_geo = infer_url_geo_metadata(payload.url, payload.title, text)
 
-    d = _doc_dir(payload.docId)
+    country = normalize_country(payload.country) or detected_geo.get("country")
+    jurisdiction_level = normalize_jurisdiction(payload.jurisdiction_level or detected_geo.get("jurisdiction_level"))
+    municipality_name = (payload.municipality_name or detected_geo.get("municipality_name") or "").strip() or None
+    municipality_id = (payload.municipality_id or "").strip() or None
+    district_name = (payload.district_name or "").strip() or None
+    district_id = (payload.district_id or "").strip() or None
+
+    d = _doc_dir(doc_id)
     html_path = d / "source.html"
     html_path.write_text(html, encoding="utf-8")
 
     inserted = _ingest_text(
-        payload.docId,
+        doc_id,
         text,
         meta_common={
             "title": payload.title,
@@ -1326,6 +1547,16 @@ def ingest_url(payload: IngestURL):
             "source_path": str(html_path),
             "mimeType": "text/html",
             "audience": normalize_audience(payload.audience),
+            "language": payload.language or "et",
+            "collection_id": payload.collection_id,
+            "country": country,
+            "jurisdiction_level": jurisdiction_level,
+            "municipality_name": municipality_name,
+            "municipality_id": municipality_id,
+            "district_name": district_name,
+            "district_id": district_id,
+            "geo_detection_method": detected_geo.get("geo_detection_method"),
+            "geo_detection_confidence": detected_geo.get("geo_detection_confidence"),
         },
     )
 
@@ -1347,11 +1578,20 @@ def ingest_url(payload: IngestURL):
         "pageRange": (payload.pageRange or "").strip() or None,
         "journalTitle": payload.journalTitle,
         "tags": normalize_tags(payload.tags),
-        "language": (payload.language or "et") if hasattr(payload, "language") else "et",
+        "language": payload.language or "et",
+        "collection_id": (payload.collection_id or "").strip() or None,
+        "country": country,
+        "jurisdiction_level": jurisdiction_level,
+        "municipality_name": municipality_name,
+        "municipality_id": municipality_id,
+        "district_name": district_name,
+        "district_id": district_id,
+        "geo_detection_method": detected_geo.get("geo_detection_method"),
+        "geo_detection_confidence": detected_geo.get("geo_detection_confidence"),
     }
-    _register(payload.docId, reg_entry)
+    _register(doc_id, reg_entry)
 
-    return {"ok": True, "inserted": inserted, "docId": payload.docId}
+    return {"ok": True, "inserted": inserted, "docId": doc_id}
 
 # ------------- Ingest ARTICLES (magazine workflow) ----------------
 def _parse_range(range_str: str) -> Optional[Tuple[int, int]]:
@@ -1413,6 +1653,13 @@ def _article_meta_common(entry: Dict, a: IngestArticle) -> Dict:
         "audience": normalize_audience(a.audience or entry.get("audience")),
         "tags": normalize_tags(a.tags or entry.get("tags")),
         "language": entry.get("language") or "et",
+        "collection_id": (a.collection_id or entry.get("collection_id") or None),
+        "country": normalize_country(a.country or entry.get("country")),
+        "jurisdiction_level": normalize_jurisdiction(a.jurisdiction_level or entry.get("jurisdiction_level")),
+        "municipality_name": (a.municipality_name or entry.get("municipality_name") or None),
+        "municipality_id": (a.municipality_id or entry.get("municipality_id") or None),
+        "district_name": (a.district_name or entry.get("district_name") or None),
+        "district_id": (a.district_id or entry.get("district_id") or None),
     }
 
 @app.post("/ingest/articles", dependencies=[Depends(_require_key)])
@@ -1587,6 +1834,15 @@ def reindex(doc_id: str):
             "source_path": entry.get("path"),
             "mimeType": mime,
             "audience": normalize_audience(entry.get("audience")),
+            "collection_id": entry.get("collection_id"),
+            "country": entry.get("country"),
+            "jurisdiction_level": entry.get("jurisdiction_level"),
+            "municipality_name": entry.get("municipality_name"),
+            "municipality_id": entry.get("municipality_id"),
+            "district_name": entry.get("district_name"),
+            "district_id": entry.get("district_id"),
+            "geo_detection_method": entry.get("geo_detection_method"),
+            "geo_detection_confidence": entry.get("geo_detection_confidence"),
         })
         entry["lastIngested"] = now_iso()
         _register(doc_id, entry)
@@ -1616,6 +1872,15 @@ def reindex(doc_id: str):
             "source_path": entry.get("path"),
             "mimeType": "text/html",
             "audience": normalize_audience(entry.get("audience")),
+            "collection_id": entry.get("collection_id"),
+            "country": entry.get("country"),
+            "jurisdiction_level": entry.get("jurisdiction_level"),
+            "municipality_name": entry.get("municipality_name"),
+            "municipality_id": entry.get("municipality_id"),
+            "district_name": entry.get("district_name"),
+            "district_id": entry.get("district_id"),
+            "geo_detection_method": entry.get("geo_detection_method"),
+            "geo_detection_confidence": entry.get("geo_detection_confidence"),
         })
         entry["lastIngested"] = now_iso()
         _register(doc_id, entry)
@@ -1665,6 +1930,13 @@ def update_document_metadata(doc_id: str, payload: UpdateMetadata):
         "audience": normalize_audience(_pick(payload.audience, entry.get("audience"))),
         "journal_title": _pick(payload.journalTitle, entry.get("journalTitle")),
         "journalTitle": _pick(payload.journalTitle, entry.get("journalTitle")),
+        "collection_id": _pick(payload.collection_id, entry.get("collection_id")),
+        "country": _pick(payload.country, entry.get("country")),
+        "jurisdiction_level": _pick(payload.jurisdiction_level, entry.get("jurisdiction_level")),
+        "municipality_name": _pick(payload.municipality_name, entry.get("municipality_name")),
+        "municipality_id": _pick(payload.municipality_id, entry.get("municipality_id")),
+        "district_name": _pick(payload.district_name, entry.get("district_name")),
+        "district_id": _pick(payload.district_id, entry.get("district_id")),
         "source_type": "file",
         "source_path": entry.get("path"),
         "mimeType": mime,
@@ -1738,6 +2010,25 @@ def search(payload: SearchIn):
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:
             md_where["tags"] = payload.where["tags"]
+        if "collection_id" in payload.where and isinstance(payload.where["collection_id"], str):
+            md_where["collection_id"] = payload.where["collection_id"].strip()
+        if "country" in payload.where and isinstance(payload.where["country"], str):
+            normalized_country = normalize_country(payload.where["country"])
+            if normalized_country:
+                md_where["country"] = normalized_country
+        jurisdiction = payload.where.get("jurisdiction_level")
+        if isinstance(jurisdiction, dict) and "$in" in jurisdiction:
+            md_where["jurisdiction_level"] = {"$in": [normalize_jurisdiction(v) for v in list(jurisdiction["$in"])]}
+        elif isinstance(jurisdiction, str):
+            md_where["jurisdiction_level"] = normalize_jurisdiction(jurisdiction)
+        if "municipality_name" in payload.where and isinstance(payload.where["municipality_name"], str):
+            md_where["municipality_name"] = payload.where["municipality_name"].strip()
+        if "municipality_id" in payload.where and isinstance(payload.where["municipality_id"], str):
+            md_where["municipality_id"] = payload.where["municipality_id"].strip()
+        if "district_name" in payload.where and isinstance(payload.where["district_name"], str):
+            md_where["district_name"] = payload.where["district_name"].strip()
+        if "district_id" in payload.where and isinstance(payload.where["district_id"], str):
+            md_where["district_id"] = payload.where["district_id"].strip()
 
     q_embeds = _embed_batch([payload.query])
     if not q_embeds:
@@ -1792,6 +2083,13 @@ def search(payload: SearchIn):
             "pages": md.get("pages"),
             "pageRange": md.get("pageRange"),
             "journalTitle": md.get("journal_title") or md.get("journalTitle"),
+            "collection_id": md.get("collection_id"),
+            "country": md.get("country"),
+            "jurisdiction_level": md.get("jurisdiction_level"),
+            "municipality_name": md.get("municipality_name"),
+            "municipality_id": md.get("municipality_id"),
+            "district_name": md.get("district_name"),
+            "district_id": md.get("district_id"),
             "tags": tags_val,
             "language": md.get("language"),
             "chunk": ch,
@@ -1824,6 +2122,13 @@ def search(payload: SearchIn):
                 "section": r.get("section"),
                 "articleId": r.get("articleId"),
                 "journalTitle": r.get("journalTitle"),
+                "collection_id": r.get("collection_id"),
+                "country": r.get("country"),
+                "jurisdiction_level": r.get("jurisdiction_level"),
+                "municipality_name": r.get("municipality_name"),
+                "municipality_id": r.get("municipality_id"),
+                "district_name": r.get("district_name"),
+                "district_id": r.get("district_id"),
                 "tags": r.get("tags"),
                 "language": r.get("language"),
                 "pages_all": [],
@@ -1891,6 +2196,13 @@ def search(payload: SearchIn):
             "section": g["section"],
             "articleId": g["articleId"],
             "journalTitle": g["journalTitle"],
+            "collection_id": g.get("collection_id"),
+            "country": g.get("country"),
+            "jurisdiction_level": g.get("jurisdiction_level"),
+            "municipality_name": g.get("municipality_name"),
+            "municipality_id": g.get("municipality_id"),
+            "district_name": g.get("district_name"),
+            "district_id": g.get("district_id"),
             "tags": g.get("tags"),
             "language": g.get("language"),
             "pages": pages_compact,

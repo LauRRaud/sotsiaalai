@@ -22,6 +22,14 @@ export function useChatProfileRoll({
   const rollTimerRef = useRef(null);
   const rollSwapTimerRef = useRef(null);
 
+  const prepareForProfileTransition = useCallback(() => {
+    if (showSourcesPanel) setShowSourcesPanel(false);
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+  }, [inputRef, setInputFocused, setShowSourcesPanel, showSourcesPanel]);
+
   const syncProfileUrl = useCallback(open => {
     if (!embedded || typeof window === "undefined") return;
     const url = new URL(window.location.href);
@@ -39,11 +47,7 @@ export function useChatProfileRoll({
     if (isRolling) return;
     setRollDirection(direction);
     setIsRolling(true);
-    if (showSourcesPanel) setShowSourcesPanel(false);
-    setInputFocused(false);
-    try {
-      inputRef.current?.blur?.();
-    } catch {}
+    prepareForProfileTransition();
     if (rollSwapTimerRef.current) window.clearTimeout(rollSwapTimerRef.current);
     const swapDelay = Math.round(ROLL_MS * 0.35);
     rollSwapTimerRef.current = window.setTimeout(() => {
@@ -52,17 +56,11 @@ export function useChatProfileRoll({
     }, swapDelay);
     if (rollTimerRef.current) window.clearTimeout(rollTimerRef.current);
     rollTimerRef.current = window.setTimeout(() => setIsRolling(false), ROLL_MS);
-  }, [
-    inputRef,
-    isRolling,
-    setInputFocused,
-    setShowSourcesPanel,
-    showSourcesPanel,
-    syncProfileUrl
-  ]);
+  }, [isRolling, prepareForProfileTransition, syncProfileUrl]);
 
   const openProfile = useCallback(() => {
     if (!embedded) {
+      prepareForProfileTransition();
       pushWithTransition(router, localizePath("/profiil", locale), {
         glassRingTilt: "right",
         waitForGlassRingTilt: true,
@@ -71,7 +69,7 @@ export function useChatProfileRoll({
       return;
     }
     triggerRoll("right", true);
-  }, [embedded, locale, router, triggerRoll]);
+  }, [embedded, locale, prepareForProfileTransition, router, triggerRoll]);
 
   const closeProfile = useCallback(() => {
     if (!embedded) return;

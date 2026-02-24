@@ -564,8 +564,44 @@
       "error_status": "Document analysis failed ({status}).",
       "error_generic": "Document analysis failed."
     },
+    "tools": {
+      "aria": "Open tools",
+      "tooltip": "Tools",
+      "menu_aria": "Chat tools",
+      "document_analysis": "Document analysis",
+      "deep_research": "Deep research",
+      "deep_research_room_only": "Deep research is available only in 1:1 chat.",
+      "agent_mode": "Agent mode"
+    },
     "analysis": {
       "extended_label": "Extended analysis"
+    },
+    "deep_research": {
+      "mode_label": "Deep research",
+      "exit_mode_aria": "Exit deep research mode",
+      "running": "Deep research in progress…",
+      "stage_planning": "Planning subquestions…",
+      "stage_retrieving": "Searching evidence in the database…",
+      "stage_synthesizing": "Composing report…",
+      "cancelled": "Deep research was stopped.",
+      "error_generic": "Deep research failed.",
+      "scope_title": "Deep research",
+      "scope_topic_label": "Topic",
+      "scope_topic_missing": "Topic is missing. Type your question and open Deep research again.",
+      "scope_output_label": "Response format",
+      "scope_output_worker": "For specialist",
+      "scope_output_client": "For help-seeker",
+      "scope_geo_label": "Region",
+      "scope_geo_all": "All",
+      "scope_geo_national": "National",
+      "scope_geo_municipality": "Municipality",
+      "scope_geo_district": "District",
+      "scope_geo_kov_optional": "Municipality (optional)",
+      "scope_geo_district_optional": "District (optional)",
+      "scope_start": "Start",
+      "scope_cancel": "Cancel",
+      "scope_started": "Deep research started.",
+      "scope_cancelled": "Deep research cancelled."
     },
     "ai_toggle": {
       "label": "Send to assistant",
@@ -585,6 +621,17 @@
       "silence": "Dictation: no audio detected.",
       "error": "Dictation failed.",
       "cannot_start": "Could not open microphone."
+    }
+  },
+  "research": {
+    "error": {
+      "failed": "Deep research failed.",
+      "cancelled": "Deep research was stopped.",
+      "timeout": "Deep research exceeded the time budget.",
+      "not_found": "Research job was not found.",
+      "room_not_supported": "Deep research is available only in 1:1 chat.",
+      "query_too_long": "Research query is too long.",
+      "openai_key_missing": "Research service is not configured."
     }
   },
   "about": {

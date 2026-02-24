@@ -504,7 +504,7 @@ export default function RightRail({
     "max-[48em]:static max-[48em]:left-auto max-[48em]:top-auto max-[48em]:[transform:none] max-[48em]:w-[var(--rail-item-size)] max-[48em]:h-auto max-[48em]:opacity-100 max-[48em]:transition-[transform,opacity]";
 
   const mobileIconButtonClassName =
-    "max-[48em]:flex max-[48em]:flex-col max-[48em]:items-center max-[48em]:justify-center max-[48em]:gap-[0.22rem] max-[48em]:leading-[1]";
+    "max-[48em]:grid max-[48em]:place-items-center max-[48em]:leading-none";
 
   const mobileLabelClassName =
     "max-[48em]:block max-[48em]:tracking-[0.035em] max-[48em]:text-[#c57171] light:max-[48em]:text-[#7a3a38] max-[48em]:text-center max-[48em]:[text-wrap:balance] max-[48em]:opacity-0 max-[48em]:overflow-visible max-[48em]:transition-[opacity,transform] max-[48em]:duration-160 max-[48em]:ease-out";
