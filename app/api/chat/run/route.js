@@ -49,6 +49,26 @@ function normalizeSources(s) {
   return [s];
 }
 
+function normalizeAttachments(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter(item => item && typeof item === "object")
+    .map(item => {
+      const label = String(item.label || "").trim();
+      const url = String(item.url || "").trim();
+      const fileName = String(item.fileName || "").trim();
+      const format = String(item.format || "").trim();
+      if (!url) return null;
+      return {
+        label: label || "Download file",
+        url,
+        ...(fileName ? { fileName } : {}),
+        ...(format ? { format } : {})
+      };
+    })
+    .filter(Boolean);
+}
+
 async function getAuthOptions() {
   try {
     const mod = await import("@/pages/api/auth/[...nextauth]");
@@ -162,6 +182,7 @@ export async function GET(req) {
               role: normalizedRole,
               text: msg.content || "",
               sources: normalizedRole === "ai" ? normalizeSources(msg.metadata?.sources || []) : [],
+              attachments: normalizedRole === "ai" ? normalizeAttachments(msg.metadata?.attachments) : [],
               createdAt: msg.createdAt
             };
           })
@@ -175,6 +196,7 @@ export async function GET(req) {
       role: conversation.role,
       text: latestAssistant?.content || conversation.summary || "",
       sources: normalizeSources(latestAssistant?.metadata?.sources || []),
+      attachments: normalizeAttachments(latestAssistant?.metadata?.attachments),
       isCrisis: !!latestAssistant?.metadata?.isCrisis,
       updatedAt: conversation.lastActivityAt,
       createdAt: conversation.createdAt,

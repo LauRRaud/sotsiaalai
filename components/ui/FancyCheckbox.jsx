@@ -92,21 +92,51 @@ const Label = styled.label`
   }
 
   &.fancy-checkbox--otp .box {
-    background: var(--otp-check-bg, rgba(255, 255, 255, 0.04));
-    border-color: var(--otp-check-border, rgba(255, 255, 255, 0.28));
+    background: transparent;
+    border: 0;
+    width: 1.82rem;
+    height: 1.82rem;
+    border-radius: 0.44rem;
+    flex-shrink: 0;
+  }
+
+  &.fancy-checkbox--otp .svg {
+    width: 1.46rem;
+    height: 1.46rem;
   }
 
   &.fancy-checkbox--otp .shape {
     stroke: var(--otp-check-shape, var(--pt-200, #e0e0e0));
+    stroke-width: 2.2;
   }
 
   &.fancy-checkbox--otp .tick {
     stroke: var(--otp-check-tick, var(--brand-primary, #ffd24d));
+    stroke-width: 2.5;
+    transform: scale(0.86);
+    transform-origin: center;
   }
 
   &.fancy-checkbox--otp .text {
-    color: var(--otp-check-text, var(--pt, #c9c7c2));
+    color: var(--otp-check-text, var(--pt-150, #c9c7c2));
+    font-size: 1.3rem;
+    font-weight: 500;
     line-height: 1.24;
+    white-space: nowrap;
+  }
+
+  &.fancy-checkbox--otp {
+    align-items: center;
+    gap: 0.42rem;
+  }
+
+  &.fancy-checkbox--otp .box {
+    transform: translate(0.08rem, -0.08rem);
+  }
+
+  &.fancy-checkbox--otp:focus-within .box {
+    outline: none;
+    box-shadow: none;
   }
 `;
 const FancyCheckbox = forwardRef(function FancyCheckbox({

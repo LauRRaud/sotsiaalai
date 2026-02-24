@@ -235,6 +235,9 @@ export function useChatConversationState({
       const serverText = String(data.text || "");
       const serverTextTrim = serverText.trim();
       const serverSources = typeof normalizeSources === "function" ? normalizeSources(data.sources ?? []) : [];
+      const serverAttachments = Array.isArray(data.attachments)
+        ? data.attachments
+        : [];
       const serverCrisis = !!data.isCrisis;
       const serverMessages = Array.isArray(data.messages) ? data.messages : [];
       setIsCrisis?.(serverCrisis);
@@ -250,6 +253,10 @@ export function useChatConversationState({
               role: normalizedRole,
               text: typeof msg.text === "string" ? msg.text : "",
               sources: normalizedRole === "ai" ? typeof normalizeSources === "function" ? normalizeSources(msg.sources ?? []) : undefined : undefined,
+              attachments:
+                normalizedRole === "ai" && Array.isArray(msg.attachments)
+                  ? msg.attachments
+                  : undefined,
               isStreaming: false,
               ...(Number.isFinite(rawCreatedAt) ? {
                 createdAt: rawCreatedAt
@@ -289,6 +296,7 @@ export function useChatConversationState({
             role: "ai",
             text: serverTextTrim,
             sources: serverSources,
+            attachments: serverAttachments,
             isStreaming: false
           });
         } else {
@@ -298,6 +306,7 @@ export function useChatConversationState({
               ...cur,
               text: serverTextTrim,
               sources: serverSources,
+              attachments: serverAttachments,
               isStreaming: false
             };
           }

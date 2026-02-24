@@ -5,6 +5,7 @@ import { cn } from "@/components/ui/cn";
 const ChatMessageItem = memo(function ChatMessageItem({
   role,
   text,
+  attachments,
   aiVisible: _aiVisible,
   authorName,
   authorRole: _authorRole,
@@ -39,6 +40,24 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "chat-msg-ai w-full bg-transparent border-0 shadow-none py-[0.25em] " +
     "text-[color:var(--pt-150)] text-left text-[1.16rem] leading-[1.32] tracking-[0.03em] font-[500] " +
     "light:text-[color:var(--input-text)]";
+  const normalizedAttachments = Array.isArray(attachments)
+    ? attachments
+        .filter(item => item && typeof item === "object")
+        .map(item => ({
+          label: String(item.label || "").trim() || "Download file",
+          url: String(item.url || "").trim(),
+          fileName: String(item.fileName || "").trim()
+        }))
+        .filter(item => !!item.url)
+    : [];
+  const showAttachments = isAssistant && normalizedAttachments.length > 0;
+  const attachmentsWrapClassName = "mt-[0.45rem] flex flex-wrap gap-[0.45rem]";
+  const attachmentLinkClassName =
+    "inline-flex items-center justify-center rounded-full border border-[rgba(240,240,240,0.45)] " +
+    "bg-[rgba(14,20,32,0.3)] px-[0.75rem] py-[0.3rem] text-[0.88rem] leading-[1.2] " +
+    "text-[color:var(--pt-150)] no-underline transition-colors duration-150 " +
+    "hover:bg-[rgba(14,20,32,0.45)] focus-visible:bg-[rgba(14,20,32,0.45)] " +
+    "light:border-[rgba(15,23,42,0.2)] light:bg-[rgba(255,255,255,0.75)] light:text-[color:var(--input-text)]";
   if (!isAssistant && !isOwn) {
     return <div className={messageWrapClassName} role="article" tabIndex={0}>
         {authorName ? <div className={nameClassName}>{authorName}</div> : null}
@@ -58,6 +77,20 @@ const ChatMessageItem = memo(function ChatMessageItem({
       </span>
 
       <div className="whitespace-pre-wrap">{text}</div>
+      {showAttachments ? (
+        <div className={attachmentsWrapClassName}>
+          {normalizedAttachments.map((item, idx) => (
+            <a
+              key={`${item.url}-${idx}`}
+              href={item.url}
+              className={attachmentLinkClassName}
+              download={item.fileName || undefined}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      ) : null}
     </div>;
 });
 export default ChatMessageItem;

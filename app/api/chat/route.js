@@ -202,6 +202,62 @@ function detectSourcesRequest(history = [], message = "") {
   ];
   return tokens.some(token => txt.includes(token));
 }
+function shouldOfferDocumentDownload(message = "") {
+  const lower = String(message || "").toLowerCase();
+  const hasPdf = /\bpdf\b/.test(lower);
+  const hasDocx = /\bdocx?\b/.test(lower);
+  const hasWord = /\bms\s*word\b/.test(lower) || /\bwordi?\b/.test(lower);
+  const hasFileIntent = /(allalaad|download|fail|file|dokument|document|export|eksport|laadi)/.test(lower);
+  if (hasPdf || hasDocx) return true;
+  if (hasWord && hasFileIntent) return true;
+  return false;
+}
+function inferDocumentFormats(message = "") {
+  const lower = String(message || "").toLowerCase();
+  const wantsPdf = /\bpdf\b/.test(lower);
+  const wantsWord = /\bdocx?\b/.test(lower) || /\bms\s*word\b/.test(lower) || /\bwordi?\b/.test(lower);
+  if (wantsPdf && wantsWord) return ["pdf", "word"];
+  if (wantsWord) return ["word"];
+  return ["pdf"];
+}
+function buildDownloadAttachments({
+  convId,
+  assistantMessageId,
+  message,
+  replyLang
+}) {
+  if (!convId || !assistantMessageId) return [];
+  const labels =
+    replyLang === "et"
+      ? {
+          pdf: "Laadi PDF alla",
+          word: "Laadi Word alla"
+        }
+      : replyLang === "ru"
+        ? {
+            pdf: "Скачать PDF",
+            word: "Скачать Word"
+          }
+        : {
+            pdf: "Download PDF",
+            word: "Download Word"
+          };
+  const formats = inferDocumentFormats(message);
+  return formats.map(format => {
+    const qs = new URLSearchParams({
+      convId: String(convId),
+      messageId: String(assistantMessageId),
+      format
+    });
+    const ext = format === "word" ? "doc" : "pdf";
+    return {
+      label: labels[format] || labels.pdf,
+      fileName: `sotsiaalai-summary.${ext}`,
+      format,
+      url: `/api/chat/export?${qs.toString()}`
+    };
+  });
+}
 async function searchRagDirect({
   query,
   topK = RAG_TOP_K,
@@ -391,6 +447,36 @@ async function saveAssistantRoomMessage({
   } catch {}
   return payload;
 }
+async function persistDownloadAttachments(assistantMessageId, attachments) {
+  if (!assistantMessageId || !Array.isArray(attachments) || !attachments.length) return;
+  try {
+    const existing = await prisma.conversationMessage.findUnique({
+      where: {
+        id: assistantMessageId
+      },
+      select: {
+        metadata: true
+      }
+    });
+    const baseMeta = existing?.metadata && typeof existing.metadata === "object" ? existing.metadata : {};
+    await prisma.conversationMessage.update({
+      where: {
+        id: assistantMessageId
+      },
+      data: {
+        metadata: {
+          ...baseMeta,
+          attachments
+        }
+      }
+    });
+  } catch (err) {
+    logError("persist.attachments.failed", {
+      assistantMessageId,
+      err: err?.message || String(err)
+    });
+  }
+}
 export async function POST(req) {
   const {
     getServerSession
@@ -444,6 +530,7 @@ export async function POST(req) {
   const combineSources = payload?.combineSources === true;
   const forceSources = payload?.forceSources === true || payload?.includeSources === true || payload?.showSources === true;
   const includeSources = forceSources || detectSourcesRequest(rawHistory, message);
+  const wantsDocumentDownload = shouldOfferDocumentDownload(message);
   const userId = session?.user?.id || null;
   const sessionRole = roleFromSession(session);
   const payloadRole = typeof payload?.role === "string" ? payload.role.toUpperCase().trim() : "";
@@ -533,6 +620,7 @@ export async function POST(req) {
   const greeting = isGreeting(message);
   if (greeting && !isCrisis && !hasHistory) {
     const reply = normalizedRole === "SOCIAL_WORKER" ? L.greetingWorker : L.greetingClient;
+    let attachments = [];
     if (persist && convId && userId) {
       await persistInit({
         convId,
@@ -547,14 +635,24 @@ export async function POST(req) {
         userId,
         fullText: reply
       });
-      await persistDone({
+      const persistResult = await persistDone({
         convId,
         userId,
         status: "COMPLETED",
         finalText: reply,
         sources: [],
+        attachments: [],
         isCrisis
       });
+      if (wantsDocumentDownload) {
+        attachments = buildDownloadAttachments({
+          convId,
+          assistantMessageId: persistResult?.assistantMessageId,
+          message,
+          replyLang
+        });
+        await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+      }
     }
     if (roomId && userId) {
       await saveAssistantRoomMessage({
@@ -569,6 +667,7 @@ export async function POST(req) {
         reply,
         answer: reply,
         sources: [],
+        attachments,
         isCrisis,
         convId: convId || undefined
       });
@@ -584,7 +683,9 @@ export async function POST(req) {
           controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
             t: reply
           })}\n\n`));
-          controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
+          controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
+            attachments
+          })}\n\n`));
         } finally {
           try {
             controller.close();
@@ -745,6 +846,7 @@ export async function POST(req) {
   }
   if (!context || !context.trim()) {
     const out = isCrisis ? L.crisisNoCtx : L.noContext;
+    let attachments = [];
     logInfo("branch.noContext", {
       role: normalizedRole,
       isCrisis,
@@ -772,14 +874,24 @@ export async function POST(req) {
         userId,
         fullText: out
       });
-      await persistDone({
+      const persistResult = await persistDone({
         convId,
         userId,
         status: "COMPLETED",
         finalText: out,
         sources,
+        attachments: [],
         isCrisis
       });
+      if (wantsDocumentDownload) {
+        attachments = buildDownloadAttachments({
+          convId,
+          assistantMessageId: persistResult?.assistantMessageId,
+          message,
+          replyLang
+        });
+        await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+      }
     }
     if (roomId && userId) {
       await saveAssistantRoomMessage({
@@ -794,6 +906,7 @@ export async function POST(req) {
         reply: out,
         answer: out,
         sources,
+        attachments,
         isCrisis,
         convId: convId || undefined
       });
@@ -809,7 +922,9 @@ export async function POST(req) {
           controller.enqueue(enc.encode(`event: delta\ndata: ${JSON.stringify({
             t: out
           })}\n\n`));
-          controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
+          controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
+            attachments
+          })}\n\n`));
         } finally {
           try {
             controller.close();
@@ -848,20 +963,31 @@ export async function POST(req) {
         replyLang,
         isCrisis
       });
+      let attachments = [];
       if (persist && convId && userId) {
         await persistAppend({
           convId,
           userId,
           fullText: aiResult.reply
         });
-        await persistDone({
+        const persistResult = await persistDone({
           convId,
           userId,
           status: "COMPLETED",
           finalText: aiResult.reply,
           sources,
+          attachments: [],
           isCrisis
         });
+        if (wantsDocumentDownload) {
+          attachments = buildDownloadAttachments({
+            convId,
+            assistantMessageId: persistResult?.assistantMessageId,
+            message,
+            replyLang
+          });
+          await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+        }
       }
       if (roomId && userId) {
         await saveAssistantRoomMessage({
@@ -875,6 +1001,7 @@ export async function POST(req) {
         reply: aiResult.reply,
         answer: aiResult.reply,
         sources,
+        attachments,
         isCrisis,
         convId: convId || undefined
       });
@@ -968,20 +1095,31 @@ export async function POST(req) {
               }
             }
           } else if (ev.type === "done") {
+            let attachments = [];
             if (persist && convId && userId) {
               await persistAppend({
                 convId,
                 userId,
                 fullText: accumulated
               });
-              await persistDone({
+              const persistResult = await persistDone({
                 convId,
                 userId,
                 status: "COMPLETED",
                 finalText: accumulated,
                 sources,
+                attachments: [],
                 isCrisis
               });
+              if (wantsDocumentDownload) {
+                attachments = buildDownloadAttachments({
+                  convId,
+                  assistantMessageId: persistResult?.assistantMessageId,
+                  message,
+                  replyLang
+                });
+                await persistDownloadAttachments(persistResult?.assistantMessageId, attachments);
+              }
             }
             if (roomId && userId) {
               await saveAssistantRoomMessage({
@@ -992,7 +1130,9 @@ export async function POST(req) {
             }
             if (!clientGone) {
               try {
-                controller.enqueue(enc.encode(`event: done\ndata: {}\n\n`));
+                controller.enqueue(enc.encode(`event: done\ndata: ${JSON.stringify({
+                  attachments
+                })}\n\n`));
               } catch {}
             }
           }

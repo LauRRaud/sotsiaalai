@@ -26,6 +26,7 @@ const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
 const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
+const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
 
 function isEditableElement(node) {
   if (!(node instanceof Element)) return false;
@@ -111,6 +112,8 @@ export default function ChatBody({
     let rafId = 0;
     let lastAppliedOffset = Number.NaN;
     let lastResolvedOffset = 0;
+    let pendingOpenSince = 0;
+    let pendingOpenOffset = 0;
     const now = () =>
       typeof performance !== "undefined" ? performance.now() : Date.now();
     const readViewportExtent = () =>
@@ -151,12 +154,33 @@ export default function ChatBody({
     const resolveKeyboardOffset = () => {
       const rawOffset = readKeyboardOffset();
       if (lastResolvedOffset > 0) {
-        lastResolvedOffset =
-          rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD ? rawOffset : 0;
+        if (rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD) {
+          lastResolvedOffset = rawOffset;
+          return lastResolvedOffset;
+        }
+        lastResolvedOffset = 0;
+        pendingOpenSince = 0;
+        pendingOpenOffset = 0;
         return lastResolvedOffset;
       }
-      lastResolvedOffset =
-        rawOffset > MOBILE_KEYBOARD_OPEN_THRESHOLD ? rawOffset : 0;
+      if (rawOffset <= MOBILE_KEYBOARD_OPEN_THRESHOLD) {
+        pendingOpenSince = 0;
+        pendingOpenOffset = 0;
+        return 0;
+      }
+      const ts = now();
+      if (!pendingOpenSince) {
+        pendingOpenSince = ts;
+        pendingOpenOffset = rawOffset;
+        return 0;
+      }
+      pendingOpenOffset = Math.max(pendingOpenOffset, rawOffset);
+      if (ts - pendingOpenSince < MOBILE_KEYBOARD_OPEN_STABLE_MS) {
+        return 0;
+      }
+      lastResolvedOffset = pendingOpenOffset;
+      pendingOpenSince = 0;
+      pendingOpenOffset = 0;
       return lastResolvedOffset;
     };
     const applyKeyboardOffset = offset => {
@@ -335,7 +359,7 @@ export default function ChatBody({
     });
   }, [visibleMessages.length]);
   const messageItems = useMemo(() => {
-    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
+    return renderedMessages.map(msg => <ChatMessageItem key={msg.id} role={msg.role} text={msg.text} attachments={msg.attachments} aiVisible={!!msg.aiVisible} authorName={msg.authorName} authorRole={msg.authorRole} isRoomMode={isRoomMode} t={t} />);
   }, [renderedMessages, isRoomMode, t]);
   const {
     conversationSources,

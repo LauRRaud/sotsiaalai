@@ -28,7 +28,7 @@ const cellSubClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
 const toolbarPrimaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2 shadow-[var(--admin-shadow-soft)]";
 const toolbarSecondaryClassName = "grid [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] items-center gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_80%,transparent)] p-2";
 const usersSelectBarClassName = "grid gap-2 rounded-[14px] border border-[color:var(--admin-border)] bg-[linear-gradient(180deg,var(--admin-surface-2),var(--admin-surface-3))] p-2";
-const usersSelectActionsClassName = "flex flex-wrap items-center gap-2";
+const usersSelectActionsClassName = "flex flex-wrap items-center gap-2 max-[48em]:items-start max-[48em]:gap-1.5";
 const usersSelectCountClassName = "inline-flex items-center rounded-full border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-2.5 py-1 text-[0.82rem] text-[color:var(--admin-muted)]";
 const emailSendBarClassName = "grid gap-2 rounded-[14px] border border-[color:var(--admin-border-strong)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--admin-surface-2)_90%,transparent),color-mix(in_srgb,var(--admin-surface-3)_92%,transparent))] p-2";
 const emailSendHeadClassName = "flex flex-wrap items-center justify-between gap-2";
@@ -54,8 +54,10 @@ const refreshButtonStyle = {
   "--btn-primary-shadow-active": "var(--admin-shadow-soft)",
   "--btn-primary-focus-ring-color": "var(--admin-accent-soft)"
 };
-const refreshButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.95rem] font-semibold tracking-[0.01em]";
-const actionButtonClassName = "min-h-[2.2rem] rounded-[0.9rem] px-[0.95rem] py-[0.45rem] text-[0.92rem] font-semibold tracking-[0.01em]";
+const refreshButtonClassName = "!justify-self-start !self-start !w-auto !min-h-[2.34rem] !rounded-[0.86rem] !px-[1.05rem] !py-[0.42rem] !text-[0.96rem] !leading-[1.12] !font-semibold !tracking-[0.01em]";
+const actionButtonClassName = "!justify-self-start !self-start !w-auto !min-h-[2.18rem] !rounded-[0.86rem] !px-[0.98rem] !py-[0.38rem] !text-[0.92rem] !leading-[1.1] !font-semibold !tracking-[0.01em]";
+const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 xl:grid-cols-3";
+const resetActionButtonClassName = `${actionButtonClassName} !w-full !justify-start !min-h-[2.38rem] !px-[1.1rem] !py-[0.56rem] !text-[0.97rem] !leading-[1.15]`;
 const backButtonClassName = "inline-flex h-[5.2rem] w-[5.2rem] items-center justify-center bg-transparent p-0 transition-transform duration-150 ease-out hover:scale-[1.12] focus-visible:outline-none active:scale-[0.98]";
 
 const EVENT_OPTIONS = [
@@ -747,7 +749,7 @@ export default function AnalyticsDashboard() {
               <div className={sectionSubClassName}>{tr("admin.analytics.reset.subtitle")}</div>
             </div>
           </div>
-          <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          <div className={resetActionGridClassName}>
             {PRELAUNCH_RESET_ACTIONS.map(item => {
               const action = item.value;
               const isRunning = runningResetAction === action;
@@ -756,7 +758,7 @@ export default function AnalyticsDashboard() {
                   key={action}
                   size="sm"
                   variant="danger"
-                  className={actionButtonClassName}
+                  className={resetActionButtonClassName}
                   onClick={() => onRunPrelaunchReset(action)}
                   disabled={Boolean(runningResetAction) || loadingSummary || loadingEvents || loadingUsers}
                 >
@@ -1127,7 +1129,7 @@ export default function AnalyticsDashboard() {
                 maxLength={8000}
               />
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 [grid-column:1/-1]">
+            <div className="flex flex-wrap items-center justify-between gap-2 [grid-column:1/-1] max-[48em]:flex-col max-[48em]:items-start">
               <div className={emailSendHintClassName}>
                 {tr("admin.analytics.users.actions.email_target_hint", {
                   mode:

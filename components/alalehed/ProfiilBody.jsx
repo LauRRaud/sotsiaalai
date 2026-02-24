@@ -95,7 +95,7 @@ const orbitWrapperClassName =
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
-  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(7.6rem,36vw,9.6rem)] " +
+  "max-[48em]:[--orbit-size:clamp(14.8rem,70vw,18.8rem)] max-[48em]:[--orbit-center-size:clamp(6.8rem,31vw,8.6rem)] " +
   "max-[48em]:[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.44)] max-[48em]:mt-[clamp(0.9rem,4.1vw,1.25rem)] max-[48em]:mb-[clamp(0.15rem,0.9vw,0.3rem)] " +
   "max-w-[min(100%,32rem)] min-h-[var(--orbit-size)] w-full flex items-center justify-center " +
   "cursor-[var(--cursor-default)] " +

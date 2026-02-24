@@ -475,7 +475,21 @@
     .dock-icon
     .profile-orbit-back-icon {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 88%;
+    height: 88%;
+  }
+
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-mobile-action
+    .dock-icon
+    .profile-orbit-back-icon {
+    width: 88%;
+    height: 88%;
+  }
+
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-back-icon
+    .back-icon-arrow {
+    stroke-width: 2.4;
   }
 }

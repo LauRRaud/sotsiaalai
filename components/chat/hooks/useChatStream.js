@@ -19,6 +19,26 @@ function createLocalizedError(key, values) {
   return err;
 }
 
+function normalizeAttachments(payload) {
+  if (!Array.isArray(payload)) return [];
+  return payload
+    .filter(item => item && typeof item === "object")
+    .map(item => {
+      const label = String(item.label || "").trim();
+      const url = String(item.url || "").trim();
+      const fileName = String(item.fileName || "").trim();
+      const format = String(item.format || "").trim();
+      if (!url) return null;
+      return {
+        label: label || "Download file",
+        url,
+        ...(fileName ? { fileName } : {}),
+        ...(format ? { format } : {})
+      };
+    })
+    .filter(Boolean);
+}
+
 export function useChatStream(config) {
   const cfgRef = useRef(config);
 
@@ -129,6 +149,7 @@ export function useChatStream(config) {
     let pendingText = "";
     let visibleText = "";
     let sources = [];
+    let attachments = [];
     let streamTimer = null;
     let pushTimer = null;
 
@@ -298,6 +319,7 @@ export function useChatStream(config) {
           const replyText = (data?.answer ?? data?.reply) || tr("chat.error.no_answer");
           const normalize = cfg.normalizeSources || defaultNormalizeSources;
           const normSources = normalize(data?.sources);
+          const attachments = normalizeAttachments(data?.attachments);
 
           cfg.setIsCrisis?.(!!data?.isCrisis);
 
@@ -305,6 +327,7 @@ export function useChatStream(config) {
             role: "ai",
             text: replyText,
             sources: normSources,
+            attachments,
             aiVisible: true
           });
 
@@ -365,6 +388,10 @@ export function useChatStream(config) {
           } else if (ev.event === "error") {
             throw createLocalizedError("chat.error.stream_failed");
           } else if (ev.event === "done") {
+            try {
+              const payload = ev?.data ? JSON.parse(ev.data) : {};
+              attachments = normalizeAttachments(payload?.attachments);
+            } catch {}
             break;
           }
         }
@@ -375,6 +402,7 @@ export function useChatStream(config) {
           ...msg,
           text: (visibleText || "").trim() || tr("chat.error.no_answer"),
           sources,
+          attachments,
           isStreaming: false
         }));
 

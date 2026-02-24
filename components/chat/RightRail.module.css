@@ -378,13 +378,22 @@
     height: calc(100% * (var(--rail-icon-scale) + 0.05)) !important;
   }
   .iconInvite {
-    width: calc(100% * (var(--rail-icon-scale) + 0.11)) !important;
-    height: calc(100% * (var(--rail-icon-scale) + 0.11)) !important;
+    width: calc(100% * (var(--rail-icon-scale) + 0.09)) !important;
+    height: calc(100% * (var(--rail-icon-scale) + 0.09)) !important;
   }
   .iconRooms {
     width: calc(100% * (var(--rail-icon-scale) + 0.08)) !important;
     height: calc(100% * (var(--rail-icon-scale) + 0.08)) !important;
     transform: none !important;
+  }
+
+  .item[data-key="invite"] {
+    margin-left: -0.05rem;
+    margin-right: -0.05rem;
+  }
+
+  .item[data-key="profile"] {
+    margin-left: -0.14rem;
   }
 
   .slot {

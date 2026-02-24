@@ -1,0 +1,101 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 1891 >>
+stream
+q
+BT
+/F2 16 Tf
+54 770 Td
+(SotsiaalAI App Summary - Repo Evidence) Tj
+/F1 9 Tf
+0 -14 Td
+(Evidence date: 2026-02-24) Tj
+
+/F2 11 Tf
+0 -24 Td
+(WHAT IT IS) Tj
+/F1 10 Tf
+0 -13 Td
+(- SotsiaalAI is a Next.js web platform for AI-assisted social-sector support.) Tj
+0 -13 Td
+(- It combines chat, document context, voice tools, rooms, and subscription-gated access.) Tj
+
+/F2 11 Tf
+0 -22 Td
+(WHO IT IS FOR) Tj
+/F1 10 Tf
+0 -13 Td
+(- Primary persona: social work professionals.) Tj
+0 -13 Td
+(- Also supports people seeking help \(client role\).) Tj
+
+/F2 11 Tf
+0 -22 Td
+(WHAT IT DOES) Tj
+/F1 10 Tf
+0 -13 Td
+(- Role-based sign-in with email+PIN, OTP, and trusted device flow.) Tj
+0 -13 Td
+(- Personal AI chat with SSE streaming and persisted conversations.) Tj
+0 -13 Td
+(- Group rooms with membership roles, invites, and real-time message streams.) Tj
+0 -13 Td
+(- File analysis sends uploads to a RAG service for ephemeral chat context.) Tj
+0 -13 Td
+(- Voice dictation and playback via STT and TTS APIs.) Tj
+0 -13 Td
+(- Subscription billing via Maksekeskus checkout init, callback, and webhook.) Tj
+0 -13 Td
+(- Admin analytics and RAG admin tooling for usage, costs, and content ops.) Tj
+
+/F2 11 Tf
+0 -22 Td
+(HOW IT WORKS - ARCHITECTURE) Tj
+/F1 10 Tf
+0 -13 Td
+(- Frontend: Next.js App Router pages and React components/hooks.) Tj
+0 -13 Td
+(- Auth/access: next-auth credentials login, role checks, and subscription gates.) Tj
+0 -13 Td
+(- APIs: app/api routes handle chat, rooms, profile, invites, billing, and admin.) Tj
+0 -13 Td
+(- Data: Prisma + PostgreSQL store users, chats, rooms, invites, and payments.) Tj
+0 -13 Td
+(- AI: /api/chat uses OpenAI; a separate FastAPI RAG service uses Chroma+embeddings.) Tj
+0 -13 Td
+(- Realtime: SSE for chat/rooms; optional Redis pub/sub fanout via lib/roomStream.js.) Tj
+0 -13 Td
+(- Not found in repo: dedicated background worker or queue processing service.) Tj
+ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000057 00000 n 
+0000000114 00000 n 
+0000000250 00000 n 
+0000000320 00000 n 
+0000000395 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2337
+%%EOF
