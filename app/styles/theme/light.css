@@ -35,6 +35,7 @@
   --glass-input-bg-active: rgba(18, 20, 32, 0.24);
   --glass-blur-radius: 1rem;
   --glass-surface-bg: rgba(255, 255, 255, 0.52);
+  --glass-ring-surface-bg: rgba(252, 251, 248, 0.74);
   --glass-surface-text: #2b2620;
   --glass-analysis-bg: rgba(255, 255, 255, 0.18);
   --glass-analysis-border: rgba(255, 255, 255, 0.28);
@@ -182,10 +183,9 @@
   --home-card-light-opacity: 0.68;
   --home-card-dark-opacity: 0.8;
   --home-scroll-cue-color: #7a3a38;
-  --home-panel-bg: color-mix(
-    in srgb,
-    var(--glass-surface-bg, rgba(255, 255, 255, 0.52)) 70%,
-    rgba(255, 255, 255, 0.95) 30%
+  --home-panel-bg: var(
+    --glass-ring-surface-bg,
+    rgba(252, 251, 248, 0.74)
   );
   --home-panel-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
   --home-before-shadow: 0 12px 22px rgba(0, 0, 0, 0.2);

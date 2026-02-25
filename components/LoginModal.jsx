@@ -1020,6 +1020,8 @@ export default function LoginModal({
   }, [prefs?.reduceMotion]);
   if (!open) return null;
   const isLightTheme = prefs?.theme === "light";
+  const otpTextColor = isLightTheme ? "#1f2937" : "var(--pt-150)";
+  const otpInfoTextColor = isLightTheme ? "#111827" : "var(--pt-100)";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;
   const currentEmailValue = String(
     (emailRevealed ? emailInputRef.current?.value : "") ||
@@ -1341,8 +1343,12 @@ export default function LoginModal({
         e.preventDefault();
         submitOtpStep();
       }}>
-            <div className="w-full max-w-[23.6rem] flex flex-col gap-[0.48rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]">
-                {info && <p role="status" className="m-0 font-semibold text-[color:var(--pt-30)] light:text-[rgba(31,41,55,0.92)] text-[1.04rem]">
+            <div className="w-full max-w-[23.6rem] flex flex-col gap-[0.48rem]" style={{
+          color: otpTextColor
+        }}>
+                {info && <p role="status" className="m-0 font-semibold text-[1.04rem]" style={{
+              color: otpInfoTextColor
+            }}>
                     {info}
                   </p>}
                 <p className="m-0 leading-[1.45] text-[1rem] max-md:text-[1.04rem] [overflow-wrap:normal] [word-break:normal] hyphens-none">
@@ -1350,7 +1356,9 @@ export default function LoginModal({
                 email: emailMask || ""
               })}
                 </p>
-                {otpDeadlineLabel && <p className="mt-[0.22rem] translate-y-[0.32rem] w-full text-center font-medium tracking-[0.01em] text-[1.04rem] text-[color:var(--pt-150)] light:text-[rgba(31,41,55,0.86)]" id="otp-deadline">
+                {otpDeadlineLabel && <p className="mt-[0.22rem] translate-y-[0.32rem] w-full text-center font-medium tracking-[0.01em] text-[1.04rem]" id="otp-deadline" style={{
+              color: otpTextColor
+            }}>
                     {t("auth.login.otp_expires", {
                 time: otpDeadlineLabel
               })}
@@ -1371,7 +1379,7 @@ export default function LoginModal({
                 checked={rememberDevice}
                 onChange={next => setRememberDevice(next)}
                 label={t("auth.login.remember_device")}
-                className="fancy-checkbox--otp w-full max-w-[23.6rem] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:rgba(31,41,55,0.86)] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:rgba(31,41,55,0.86)]"
+                className="fancy-checkbox--otp w-full max-w-[23.6rem] justify-center [--otp-check-shape:var(--pt-150)] [--otp-check-tick:#c57171] [--otp-check-text:var(--pt-150)] light:[--otp-check-shape:#1f2937] light:[--otp-check-tick:#7A3A38] light:[--otp-check-text:#1f2937]"
               />
             </div>
 

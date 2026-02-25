@@ -329,6 +329,9 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
                     className={previewClassName}
                     tabIndex={0}
                     aria-label={t("chat.upload.preview")}
+                    style={{
+                      paddingTop: "clamp(2rem,4.2vh,2.9rem)"
+                    }}
                     onScroll={() => {
                       const node = previewRef.current;
                       if (!node) return;

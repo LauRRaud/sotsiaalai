@@ -2,9 +2,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 400 400" fill="none" shape-rendering="auto">
   <defs>
     <radialGradient id="gBase" cx="36%" cy="24%" r="92%">
-      <stop offset="0%" stop-color="#fffefc"/>
-      <stop offset="48%" stop-color="#f3f0e7"/>
-      <stop offset="100%" stop-color="#d9d4c8"/>
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="48%" stop-color="#fcfbf7"/>
+      <stop offset="100%" stop-color="#f3f0e8"/>
     </radialGradient>
 
     <radialGradient id="gLightSweep" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"

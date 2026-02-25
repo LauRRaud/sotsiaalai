@@ -6,7 +6,7 @@ const baseStyles =
   "min-w-[var(--profile-diameter)] min-h-[var(--profile-diameter)] " +
   "max-w-[var(--profile-diameter)] max-h-[var(--profile-diameter)] " +
   "flex-col items-center rounded-[var(--glass-ring-radius,9999px)] " +
-  "bg-[color:var(--glass-surface-bg,rgba(0,0,0,0.25))] " +
+  "bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] " +
   "text-[color:var(--glass-surface-text,#f2f2f2)] " +
   "shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-blur-radius,1rem)] " +
   "overflow-hidden " +

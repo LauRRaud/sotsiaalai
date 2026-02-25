@@ -274,18 +274,18 @@ export default function ChatComposer({
               <span>{t("chat.tools.document_analysis")}</span>
             </button>
             <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-90"}`}>
-                <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth="1.85" />
-                <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" />
+              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
+                <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth="1.7" />
+                <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth="1.7" strokeLinecap="round" />
               </svg>
               <span>{t("chat.tools.deep_research")}</span>
             </button>
             <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
-              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
-                <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth="1.85" />
-                <path d="M12 4.3v2.6M9.2 18.4v1.7M14.8 18.4v1.7" stroke={iconStroke} strokeWidth="1.75" strokeLinecap="round" />
-                <circle cx="10" cy="12" r="1.05" fill={iconStroke} />
-                <circle cx="14" cy="12" r="1.05" fill={iconStroke} />
+              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-95">
+                <rect x="6.1" y="7.2" width="11.8" height="9.6" rx="2.6" stroke={iconStroke} strokeWidth="1.7" />
+                <path d="M12 4.3v2.6" stroke={iconStroke} strokeWidth="1.65" strokeLinecap="round" />
+                <circle cx="10" cy="12" r="0.9" fill={iconStroke} />
+                <circle cx="14" cy="12" r="0.9" fill={iconStroke} />
               </svg>
               <span>{t("chat.tools.agent_mode")}</span>
             </button>
