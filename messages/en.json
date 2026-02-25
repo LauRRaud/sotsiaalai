@@ -119,9 +119,9 @@
       "pin_placeholder": "PIN (4-8 digits)",
       "role_label_question": "Who are you?",
       "role_label": "Role:",
-      "role_hint": "Choose a role with arrow keys. Options: Social work professional or Person seeking help.",
-      "agreement": "I agree to the <terms>Terms of Use</terms> and the <privacy>Privacy Policy</privacy>.",
-      "guide_ack": "I have read the <guide1>platform</guide1> <guide2>guide</guide2>.",
+      "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist or Person seeking help.",
+      "agreement": "I agree to the <terms>Terms&nbsp;of&nbsp;Use</terms> and the <privacy>Privacy&nbsp;Policy</privacy>.",
+      "guide_ack": "I have read the <guide>platform guide</guide>.",
       "error": {
         "role_required": "Please choose a role.",
         "agree_required": "You must agree to the terms of use and privacy policy.",
@@ -319,7 +319,7 @@
     "title": "Privacy Policy",
     "section1": {
       "heading": "1. General Provisions",
-      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OĆ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
+      "paragraph1": "<p>These Privacy Terms apply when using the web platform operated by <strong>SotsiaalAI OÜ</strong> (hereinafter <strong>SotsiaalAI</strong> or the <strong>Platform</strong>). The policy explains how SotsiaalAI collects, uses and protects personal data in line with Estonian and EU law.</p>",
       "paragraph2": "<p>SotsiaalAI processes personal data in accordance with the Estonian Personal Data Protection <aLawEst>Act</aLawEst> and the EU General Data Protection <aGdpr>Regulation</aGdpr>.</p>"
     },
     "section2": {
@@ -369,7 +369,7 @@
     "title": "Terms of Use",
     "section1": {
       "heading": "1. General Provisions",
-      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OĆ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
+      "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform (operator: <strong>SotsiaalAI OÜ</strong>; hereinafter the <strong>Platform</strong>). By using the Platform you confirm that you have read these Terms and agree with them.</p>"
     },
     "section2": {
       "heading": "2. Service Description",
@@ -414,7 +414,7 @@
     },
     "section11": {
       "heading": "11. Intellectual Property",
-      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OĆ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
+      "body": "<p>The Platform's trademarks, design, software, technical solution and other content (except for user-submitted data and public source materials) belong to <strong>SotsiaalAI OÜ</strong> or its partners.</p><p>You may use the Platform and its outputs only for personal purposes or for performing your work duties within a reasonable scope. Without SotsiaalAI's written consent, it is prohibited to systematically copy, distribute or use the Platform or its outputs in a way that exceeds normal use or infringes intellectual property rights.</p>"
     },
     "section12": {
       "heading": "12. Termination of the Agreement",
@@ -646,7 +646,7 @@
       "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered platform designed to provide reliable and easy-to-understand support for both social-sector professionals and people seeking help with everyday social questions.</p>",
       "paragraph2": "<p>The platform offers two role-based AI assistants: one for professionals and one for people reaching out with personal matters. Both are built to deliver needs-based assistance - whether it concerns legislation, benefits, services, or work-related situations. The answers draw on trusted sources, simplified explanations, and practical guidance.</p>",
       "paragraph3": "<p>The social sector is characterised by heavy workloads, fragmented information, and a complex system landscape - something also confirmed by <oska>the OSKA report (2025)</oska>. Our aim is to bring clarity, simplify daily work, and support both professionals and people seeking help.</p>",
-      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OĆ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
+      "paragraph4": "<p>The platform is developed and operated by SotsiaalAI OÜ. We are a social enterprise whose goal is not to maximise profit, but to solve a societal challenge and create positive impact. Social entrepreneurship combines business activity with a social mission: we generate revenue, but reinvest it into improving the service, expanding access, and strengthening the social sector.</p>",
       "paragraph5": "<p>We continuously enhance the service to ensure a timely and practical experience for everyone.</p>"
     },
     "contact": {
@@ -768,7 +768,7 @@
   },
   "role": {
     "admin": "Administrator",
-    "worker": "Social worker",
+    "worker": "Social work specialist",
     "client": "Citizen seeking help",
     "unknown": ""
   },

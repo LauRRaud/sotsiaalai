@@ -130,7 +130,7 @@
 
 .register-agree-card > span:last-child,
 .register-guide-card > span:last-child {
-  text-wrap: balance;
+  text-wrap: pretty;
   white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
