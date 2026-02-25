@@ -174,13 +174,14 @@ export default function LeftRail({
   }, []);
 
   const showTooltipTemporarily = useCallback(
-    (index, durationMs = 980) => {
+    (index, durationMs = 1300) => {
       if (isMobile || suspendPointerEvents) return;
       if (!Number.isFinite(index)) return;
       if (items[index]?.key === "back") {
         hideTooltipImmediately();
         return;
       }
+      setTooltipFromRail();
       if (tooltipSwitchTimerRef.current) {
         window.clearTimeout(tooltipSwitchTimerRef.current);
         tooltipSwitchTimerRef.current = 0;
@@ -202,7 +203,7 @@ export default function LeftRail({
         tooltipHideTimerRef.current = 0;
       }, durationMs);
     },
-    [hideTooltipImmediately, isMobile, items, suspendPointerEvents]
+    [hideTooltipImmediately, isMobile, items, setTooltipFromRail, suspendPointerEvents]
   );
 
   useEffect(() => {
@@ -228,7 +229,7 @@ export default function LeftRail({
     };
     const tick = () => {
       update();
-      if (performance.now() < tooltipTrackUntilRef.current) {
+      if (isTooltipVisible || performance.now() < tooltipTrackUntilRef.current) {
         tooltipRafRef.current = requestAnimationFrame(tick);
       } else {
         tooltipRafRef.current = 0;
@@ -248,7 +249,7 @@ export default function LeftRail({
         tooltipRafRef.current = 0;
       }
     };
-  }, [isMobile, setTooltipFromRail]);
+  }, [isMobile, isTooltipVisible, setTooltipFromRail]);
 
   useEffect(() => {
     const rail = railRef.current;
@@ -302,28 +303,11 @@ export default function LeftRail({
       cancelAnimationFrame(tooltipRevealRafRef.current);
       tooltipRevealRafRef.current = 0;
     }
-    if (
-      tooltipVisibleRef.current &&
-      tooltipLabelIndexRef.current !== activeIndex
-    ) {
-      tooltipVisibleRef.current = false;
-      setIsTooltipVisible(false);
-      tooltipSwitchTimerRef.current = window.setTimeout(() => {
-        tooltipLabelIndexRef.current = activeIndex;
-        setTooltipLabelIndex(activeIndex);
-        tooltipRevealRafRef.current = requestAnimationFrame(() => {
-          tooltipRevealRafRef.current = 0;
-          showTooltipTemporarily(activeIndex, 900);
-        });
-        tooltipSwitchTimerRef.current = 0;
-      }, 120);
-      return;
-    }
     if (items[activeIndex]?.key === "back") {
       hideTooltipImmediately();
       return;
     }
-    showTooltipTemporarily(activeIndex, 900);
+    showTooltipTemporarily(activeIndex, 1300);
   }, [activeIndex, hideTooltipImmediately, isMobile, items, showTooltipTemporarily, suspendPointerEvents]);
 
   const openChatsDrawer = useCallback(

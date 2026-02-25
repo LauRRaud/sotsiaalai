@@ -52,8 +52,12 @@ export default function InviteModal() {
   const sendLabel = formatSentenceCase(t("invite.send"));
   const mobileInviteInputClassName =
     "max-[48em]:!text-[1.16rem] max-[48em]:placeholder:!text-[1.08rem] max-[48em]:!min-h-[3.2rem] max-[48em]:!py-[0.84rem]";
+  const invitePrimaryButtonClassName =
+    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] max-[48em]:!min-h-[3.2rem] max-[48em]:!text-[1.18rem]";
+  const inviteRefreshButtonClassName =
+    "!min-h-[2rem] !px-[0.82rem] !py-[0.22rem] !text-[0.94rem] !tracking-[0.01em] max-[48em]:!min-h-[2.08rem] max-[48em]:!px-[0.88rem] max-[48em]:!py-[0.24rem] max-[48em]:!text-[0.98rem]";
   const inviteListCardClassName =
-    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(16,22,34,0.4)] " +
+    "rounded-[1rem] border-[var(--chat-invite-list-border,rgba(248,253,255,0.16))] bg-[rgba(30,32,38,0.42)] [.theme-night_&]:bg-[rgba(16,22,34,0.4)] " +
     "text-[color:var(--pt-120)] shadow-[var(--chat-invite-shadow,var(--input-shadow))] " +
     "[.theme-light_&]:border-transparent [.theme-light_&]:bg-[rgba(255,255,255,0.58)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)]";
   useEffect(() => {
@@ -228,18 +232,18 @@ export default function InviteModal() {
               </p> : null}
 
             <div className="mt-[0.65rem] mb-[1rem] flex justify-center">
-              <Button type="submit" variant="primary" size="md" className="!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] max-[48em]:!min-h-[3.2rem] max-[48em]:!text-[1.18rem]" disabled={busy}>
+              <Button type="submit" variant="primary" size="md" className={`${invitePrimaryButtonClassName} invite-primary-btn`} disabled={busy}>
                 {busy ? t("invite.sending") : sendLabel}
               </Button>
             </div>
           </form>}
 
-        <Panel variant="secondary" padding="sm" className={`${inviteListCardClassName} min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[48em]:min-h-[8rem] max-[48em]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
+        <Panel variant="secondary" padding="sm" className={`invite-list-panel ${inviteListCardClassName} min-h-[9.5rem] max-h-[min(48dvh,24rem)] max-[48em]:min-h-[8rem] max-[48em]:max-h-[min(32dvh,18rem)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}>
           <div className="flex items-center justify-between gap-[0.75rem]">
             <span className="text-[1.05rem] font-[650] tracking-[0.02em] max-[48em]:text-[1.14rem]">
               {t("invite.list")}
             </span>
-            <Button type="button" variant="primary" size="sm" className="!min-h-[2.05rem] !px-[0.75rem] !py-[0.3rem] !text-[0.95rem] !tracking-[0.02em] max-[48em]:!min-h-[2.2rem] max-[48em]:!text-[1.04rem]" onClick={loadInvites} disabled={loadingList}>
+            <Button type="button" variant="primary" size="sm" className={`${inviteRefreshButtonClassName} invite-refresh-btn`} onClick={loadInvites} disabled={loadingList}>
               {loadingList ? t("invite.loading") : t("invite.refresh")}
             </Button>
           </div>

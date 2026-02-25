@@ -68,18 +68,34 @@ const MESSAGES = {
   ru: () => import("@/messages/ru.json"),
   en: () => import("@/messages/en.json")
 };
+function normalizeColorTheme(colorTheme) {
+  const allowed = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
+  return allowed.has(colorTheme) ? colorTheme : "default";
+}
 function parseA11yPrefs(jar) {
   const raw = jar.get("a11y_prefs")?.value;
   if (!raw) return null;
   try {
     const obj = JSON.parse(raw);
     const contrast = obj?.contrast;
-    const theme = obj?.theme === "light" ? "light" : "dark";
+    const rawTheme = obj?.theme;
+    const theme =
+      rawTheme === "light" ||
+      rawTheme === "mid" ||
+      rawTheme === "dark" ||
+      rawTheme === "night"
+        ? rawTheme
+        : rawTheme === "light-mono"
+          ? "light"
+          : rawTheme === "dark-mono" || rawTheme === "monochrome"
+            ? "dark"
+          : "dark";
     return {
       textScale: obj?.textScale,
       contrast,
       reduceMotion: !!obj?.reduceMotion,
-      theme: contrast === "hc" ? "dark" : theme
+      theme: contrast === "hc" ? "dark" : theme,
+      colorTheme: normalizeColorTheme(obj?.colorTheme)
     };
   } catch {
     return null;
@@ -98,7 +114,7 @@ export default async function RootLayout({
   const session = await getServerSession(authConfig);
   const initialA11yPrefs = parseA11yPrefs(jar);
   const skipText = messages?.common?.skip_to_content ?? (locale === "ru" ? "ŠŠµŃ€ŠµŠ¹Ń‚Šø Šŗ ŃŠ¾Š´ŠµŃ€Š¶ŠøŠ¼Š¾Š¼Ń" : locale === "en" ? "Skip to content" : "JĆ¤tka sisuni");
-  return <html lang={locale} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" ? "theme-light" : ""}`.trim()} suppressHydrationWarning>
+  return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""}`.trim()} suppressHydrationWarning>
       <head>
         {}
       </head>

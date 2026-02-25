@@ -1019,7 +1019,7 @@ export default function LoginModal({
     } catch {}
   }, [prefs?.reduceMotion]);
   if (!open) return null;
-  const isLightTheme = prefs?.theme === "light";
+  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
   const otpTextColor = isLightTheme ? "#1f2937" : "var(--pt-150)";
   const otpInfoTextColor = isLightTheme ? "#111827" : "var(--pt-100)";
   const showEmailErrorIcon = Boolean(error) || emailErrorVisual;

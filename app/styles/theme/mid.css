@@ -1,0 +1,373 @@
+:root.theme-mid {
+  --mid-bg-top: #936f69;
+  --mid-bg-mid: #7a5650;
+  --mid-bg-bottom: #5f3d38;
+  --glass-surface-bg: rgba(250, 246, 245, 0.42);
+  --glass-ring-surface-bg: rgba(248, 242, 240, 0.46);
+  --glass-modal-bg: rgba(250, 246, 245, 0.42);
+  --home-panel-bg: rgba(248, 242, 240, 0.46);
+  --drawer-glass-bg: linear-gradient(
+    135deg,
+    rgba(252, 248, 247, 0.42),
+    rgba(250, 244, 243, 0.42) 58%,
+    rgba(248, 239, 238, 0.42)
+  );
+  --input-bg: rgba(252, 248, 247, 0.48);
+  --input-bg-hover: rgba(253, 250, 249, 0.54);
+  --input-bg-focus: rgba(253, 250, 249, 0.56);
+  --input-text: #2f3a4a;
+  --input-caret: #2f3a4a;
+  --input-border: 1px solid rgba(255, 255, 255, 0.34);
+  --input-placeholder: rgba(55, 65, 81, 0.82);
+  --input-shadow: 0 6px 14px rgba(20, 12, 10, 0.16);
+  --input-shadow-hover: 0 7px 16px rgba(20, 12, 10, 0.18);
+  --btn-primary-bg: linear-gradient(
+      145deg,
+      rgba(253, 250, 249, 0.44) 0%,
+      rgba(247, 238, 236, 0.34) 100%
+    ),
+    rgba(248, 239, 237, 0.3);
+  --btn-primary-bg-hover: linear-gradient(
+      145deg,
+      rgba(253, 250, 249, 0.5) 0%,
+      rgba(248, 240, 238, 0.38) 100%
+    ),
+    rgba(249, 241, 239, 0.34);
+  --btn-primary-bg-active: linear-gradient(
+      145deg,
+      rgba(251, 247, 246, 0.38) 0%,
+      rgba(244, 234, 232, 0.3) 100%
+    ),
+    rgba(244, 234, 232, 0.26);
+  --btn-primary-text: #2f3a4a;
+  --btn-primary-border: 1px solid rgba(255, 255, 255, 0.42);
+  --btn-primary-border-hover: 1px solid rgba(255, 255, 255, 0.52);
+  --btn-primary-border-active: 1px solid rgba(255, 255, 255, 0.36);
+  --btn-primary-shadow: 0 5px 12px rgba(20, 12, 10, 0.14);
+  --btn-primary-shadow-hover: 0 7px 14px rgba(20, 12, 10, 0.16);
+  --btn-primary-shadow-active: 0 4px 10px rgba(20, 12, 10, 0.14);
+  --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
+  --btn-primary-shadow-focus:
+    0 8px 16px rgba(20, 12, 10, 0.16),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+  --seg-card-bg: rgba(252, 248, 247, 0.46);
+  --seg-card-bg-hover: rgba(253, 250, 249, 0.52);
+  --seg-card-bg-selected: rgba(253, 250, 249, 0.56);
+  --seg-card-text: #2f3a4a;
+  --seg-card-text-hover: #2f3a4a;
+  --seg-card-text-selected: #7a3a38;
+  --seg-card-border: rgba(255, 255, 255, 0.34);
+  --seg-card-shadow: 0 5px 12px rgba(20, 12, 10, 0.14);
+  --seg-card-shadow-hover: 0 7px 14px rgba(20, 12, 10, 0.16);
+  --seg-card-shadow-selected: 0 7px 14px rgba(20, 12, 10, 0.16);
+  --panel-secondary-bg: rgba(252, 248, 247, 0.44);
+  --panel-secondary-border: rgba(255, 255, 255, 0.34);
+  --panel-secondary-shadow: 0 6px 16px rgba(20, 12, 10, 0.12);
+}
+
+:root.theme-mid .space-backdrop[data-mode="light"] {
+  background: linear-gradient(
+    180deg,
+    var(--mid-bg-top) 0%,
+    var(--mid-bg-mid) 58%,
+    var(--mid-bg-bottom) 100%
+  );
+}
+
+/* Keep conversation drawer cards in mid transparent, including hover/active states. */
+:root.theme-mid .drawer-panel .drawer-chat-card,
+:root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li,
+:root.theme-mid .drawer-chat-card {
+  background: rgba(252, 248, 247, 0.42) !important;
+}
+
+:root.theme-mid .drawer-panel .drawer-chat-card:hover,
+:root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li:hover,
+:root.theme-mid .drawer-chat-card:hover,
+:root.theme-mid .drawer-chat-card:focus-within {
+  background: rgba(253, 250, 249, 0.48) !important;
+}
+
+:root.theme-mid .drawer-panel .drawer-chat-card.drawer-chat-card--active,
+:root.theme-mid
+  .drawer-panel
+  .drawer-chat-sidebar__list
+  > li.drawer-chat-card--active,
+:root.theme-mid .drawer-chat-card.drawer-chat-card--active {
+  background: rgba(253, 250, 249, 0.52) !important;
+}
+
+/* Login modal and OTP panel in mid use the same transparent glass level. */
+:root.theme-mid .login-modal-box {
+  --otp-panel-bg: rgba(252, 248, 247, 0.44);
+  --otp-input-bg: rgba(252, 248, 247, 0.48);
+}
+
+/* Keep light-mode hardcoded chat surfaces from becoming fully white in mid mode. */
+:root.theme-mid .chat-inputbar,
+:root.theme-mid .chat-inputbar .chat-listen-btn,
+:root.theme-mid .chat-inputbar .chat-send-btn {
+  color: #2f3a4a;
+  background: rgba(252, 248, 247, 0.44);
+  border: 0;
+  box-shadow: 0 5px 14px rgba(20, 12, 10, 0.16);
+}
+
+:root.theme-mid .chat-inputbar {
+  border: 0;
+}
+
+:root.theme-mid .chat-inputbar:hover:not(:focus-within),
+:root.theme-mid .chat-inputbar:focus-within {
+  background: rgba(253, 250, 249, 0.5);
+  border-color: transparent;
+  box-shadow: 0 7px 16px rgba(20, 12, 10, 0.18);
+}
+
+:root.theme-mid .chat-inputbar .chat-listen-btn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(251, 245, 243, 0.34) 0%,
+      rgba(244, 234, 232, 0.24) 100%
+    ),
+    rgba(244, 234, 232, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.12) !important;
+}
+
+:root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(252, 247, 245, 0.4) 0%,
+      rgba(246, 237, 234, 0.3) 100%
+    ),
+    rgba(246, 237, 234, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn:hover,
+:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(252, 247, 245, 0.42) 0%,
+      rgba(246, 237, 234, 0.32) 100%
+    ),
+    rgba(246, 237, 234, 0.26) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  box-shadow: 0 6px 12px rgba(20, 12, 10, 0.14) !important;
+  color: #2f3a4a;
+}
+
+:root.theme-mid .chat-msg-user {
+  background: rgba(253, 250, 249, 0.54);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  color: #2f3a4a;
+  box-shadow: 0 5px 12px rgba(20, 12, 10, 0.13);
+}
+
+:root.theme-mid .chat-msg-user:hover,
+:root.theme-mid .chat-msg-user:focus-within {
+  background: rgba(254, 251, 250, 0.58);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
+:root.theme-mid .chat-tools-menu {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(251, 246, 245, 0.78) 0%,
+      rgba(244, 235, 233, 0.68) 100%
+    ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.34) !important;
+  box-shadow: 0 10px 22px rgba(20, 12, 10, 0.2) !important;
+}
+
+:root.theme-mid .chat-tools-menu .chat-tools-item {
+  color: #3f241f !important;
+}
+
+:root.theme-mid .chat-tools-menu .chat-tools-item:hover,
+:root.theme-mid .chat-tools-menu .chat-tools-item:focus-visible {
+  background: rgba(122, 58, 56, 0.12) !important;
+}
+
+:root.theme-mid .chat-tools-menu .chat-tools-item.chat-tools-item-disabled {
+  color: rgba(63, 36, 31, 0.52) !important;
+}
+
+:root.theme-mid .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:hover,
+:root.theme-mid .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:focus-visible {
+  background: transparent !important;
+}
+
+/* Orbital menu bubbles: keep them glassy in mid instead of near-white light bubbles. */
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(
+    .profile-orbit-menu__item,
+    .profile-orbit-menu__center,
+    .profile-orbit-stack-bubble
+  ).dock-item {
+  color: rgba(47, 58, 74, 0.92);
+  background:
+    radial-gradient(
+      120% 120% at 18% 16%,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.1) 62%
+    ),
+    radial-gradient(
+      120% 120% at 86% 90%,
+      rgba(0, 0, 0, 0.04) 0%,
+      rgba(0, 0, 0, 0) 64%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(252, 247, 245, 0.34) 0%,
+      rgba(246, 236, 233, 0.24) 56%,
+      rgba(241, 229, 226, 0.16) 100%
+    ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow:
+    0 7px 14px rgba(20, 12, 10, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
+  --pin-gloss-op: 0.16;
+}
+
+:root.theme-mid
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__center.dock-item {
+  filter: none;
+}
+
+/* Keep dictate/send stable in mid mode across focus/hydration class toggles. */
+:root.theme-mid .chat-inputbar .chat-send-btn,
+:root.theme-mid .chat-inputbar:focus-within .chat-send-btn,
+:root.theme-mid .chat-inputbar .chat-send-btn:hover,
+:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(251, 245, 243, 0.34) 0%,
+      rgba(244, 234, 232, 0.24) 100%
+    ),
+    rgba(244, 234, 232, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.32) !important;
+  box-shadow: 0 5px 11px rgba(20, 12, 10, 0.13) !important;
+}
+
+/* Invite list card in mid should not jump to bright white due light modifiers. */
+:root.theme-light.theme-mid .invite-list-panel {
+  border-color: rgba(255, 255, 255, 0.34) !important;
+  background: rgba(252, 248, 247, 0.42) !important;
+  color: #2f3a4a !important;
+}
+
+/* Invite modal primary actions in mid: keep same material, less white. */
+:root.theme-light.theme-mid .invite-modal-content .invite-primary-btn {
+  background: rgba(252, 248, 247, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.44) !important;
+  color: #2f3a4a !important;
+  box-shadow: 0 5px 12px rgba(20, 12, 10, 0.14) !important;
+}
+
+:root.theme-light.theme-mid .invite-modal-content .invite-primary-btn:hover,
+:root.theme-light.theme-mid .invite-modal-content .invite-primary-btn:focus-visible {
+  background: rgba(253, 250, 249, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.54) !important;
+  color: #2f3a4a !important;
+  box-shadow: 0 7px 14px rgba(20, 12, 10, 0.16) !important;
+}
+
+:root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(247, 238, 236, 0.42) 0%,
+      rgba(239, 227, 224, 0.34) 100%
+    ),
+    rgba(241, 230, 227, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  color: #3a4658 !important;
+  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.12) !important;
+}
+
+:root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn:hover,
+:root.theme-light.theme-mid .invite-modal-content .invite-refresh-btn:focus-visible {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(250, 242, 240, 0.48) 0%,
+      rgba(243, 231, 228, 0.38) 100%
+    ),
+    rgba(244, 233, 230, 0.34) !important;
+  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+  color: #2f3a4a !important;
+  box-shadow: 0 6px 12px rgba(20, 12, 10, 0.14) !important;
+}
+
+/* Conversation drawer trash button: avoid bright white chip in mid mode. */
+:root.theme-light.theme-mid .drawer-panel .cs-delete {
+  background: rgba(252, 248, 247, 0.42) !important;
+  border-color: rgba(255, 255, 255, 0.42) !important;
+  color: rgba(47, 58, 74, 0.86) !important;
+  box-shadow: 0 2px 6px rgba(20, 12, 10, 0.1) !important;
+}
+
+:root.theme-light.theme-mid .drawer-panel .cs-delete:hover,
+:root.theme-light.theme-mid .drawer-panel .cs-delete:focus-visible {
+  background: rgba(253, 250, 249, 0.5) !important;
+  border-color: rgba(122, 58, 56, 0.5) !important;
+  color: #7a3a38 !important;
+  box-shadow: 0 4px 10px rgba(20, 12, 10, 0.14) !important;
+}
+
+/* Rooms page cards and controls in mid: same glass tone, less white. */
+:root.theme-light.theme-mid .rooms-card {
+  border-color: rgba(255, 255, 255, 0.36) !important;
+  background: rgba(252, 248, 247, 0.44) !important;
+  color: #2f3a4a !important;
+  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.14) !important;
+}
+
+:root.theme-light.theme-mid .rooms-card:hover,
+:root.theme-light.theme-mid .rooms-card:focus-within {
+  border-color: rgba(255, 255, 255, 0.48) !important;
+  background: rgba(253, 250, 249, 0.5) !important;
+  box-shadow: 0 8px 16px rgba(20, 12, 10, 0.16) !important;
+}
+
+:root.theme-light.theme-mid .rooms-action-btn {
+  border-color: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(252, 248, 247, 0.42) !important;
+  color: #2f3a4a !important;
+}
+
+:root.theme-light.theme-mid .rooms-action-btn:hover,
+:root.theme-light.theme-mid .rooms-action-btn:focus-visible {
+  border-color: rgba(255, 255, 255, 0.54) !important;
+  background: rgba(253, 250, 249, 0.5) !important;
+  color: #2f3a4a !important;
+}
+
+:root.theme-light.theme-mid .rooms-delete-btn {
+  border-color: rgba(192, 72, 72, 0.48) !important;
+  background: rgba(255, 240, 240, 0.54) !important;
+  color: #7a2323 !important;
+}
+
+:root.theme-light.theme-mid .rooms-unread-badge {
+  border-color: rgba(198, 74, 90, 0.52) !important;
+  background: rgba(255, 228, 233, 0.74) !important;
+  color: #7f1d2d !important;
+}

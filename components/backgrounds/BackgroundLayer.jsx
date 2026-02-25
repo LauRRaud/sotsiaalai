@@ -62,7 +62,8 @@ const BackgroundContent = memo(function BackgroundContent({
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
   const [colorBendsReady, setColorBendsReady] = useState(false);
-  const [mobileLike, setMobileLike] = useState(() => detectMobileLikeDevice());
+  // Keep initial server/client render identical; compute real value after mount.
+  const [mobileLike, setMobileLike] = useState(false);
   const allowParticles = !reduceMotion;
   const allowColorBends = !reduceMotion;
   const parallaxActive = !reduceMotion && !mobileLike;
@@ -199,7 +200,10 @@ function BackgroundLayer() {
     hydrated
   } = useAccessibility();
   const reduceMotion = !!prefs?.reduceMotion;
-  const isLightTheme = typeof document !== "undefined" ? document.documentElement.classList.contains("theme-light") : prefs?.theme === "light";
+  const isLightTheme =
+    prefs?.theme === "light" ||
+    prefs?.theme === "light-mono" ||
+    prefs?.theme === "mid";
   return <BackgroundContent reduceMotion={reduceMotion} isLightTheme={isLightTheme} prefsHydrated={!!hydrated} />;
 }
 export default memo(BackgroundLayer);

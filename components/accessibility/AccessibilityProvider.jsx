@@ -9,8 +9,40 @@ const DEFAULT_PREFS = {
   textScale: "md",
   contrast: "normal",
   reduceMotion: false,
-  theme: "dark"
+  theme: "dark",
+  colorTheme: "default"
 };
+const COLOR_THEME_KEYS = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
+function normalizeTheme(theme) {
+  if (theme === "light" || theme === "mid" || theme === "dark" || theme === "night") return theme;
+  if (theme === "light-mono") return "light";
+  if (theme === "dark-mono" || theme === "monochrome") return "dark";
+  return DEFAULT_PREFS.theme;
+}
+function normalizeColorTheme(colorTheme) {
+  if (COLOR_THEME_KEYS.has(colorTheme)) return colorTheme;
+  return DEFAULT_PREFS.colorTheme;
+}
+function isLightBaseTheme(theme) {
+  return theme === "light" || theme === "mid";
+}
+function resolveThemeFromDom(html) {
+  const hasMid = html.classList.contains("theme-mid");
+  const hasNight = html.classList.contains("theme-night");
+  const hasLight = html.classList.contains("theme-light");
+  if (hasMid) return "mid";
+  if (hasNight) return "night";
+  if (hasLight) return "light";
+  return "dark";
+}
+function matchesThemeClasses(html, prefs) {
+  const forceDark = prefs?.contrast === "hc";
+  const theme = normalizeTheme(prefs?.theme);
+  const shouldBeLight = !forceDark && isLightBaseTheme(theme);
+  const shouldBeMid = !forceDark && theme === "mid";
+  const shouldBeNight = !forceDark && theme === "night";
+  return html.classList.contains("theme-light") === shouldBeLight && html.classList.contains("theme-mid") === shouldBeMid && html.classList.contains("theme-night") === shouldBeNight;
+}
 const DEV = process.env.NODE_ENV !== "production";
 const A11Y_DEBUG = process.env.NEXT_PUBLIC_A11Y_DEBUG === "1";
 function getCookie(name) {
@@ -31,13 +63,15 @@ function readPrefsFromCookie() {
     const textScale = obj?.textScale || DEFAULT_PREFS.textScale;
     const contrast = obj?.contrast || DEFAULT_PREFS.contrast;
     const reduceMotion = !!obj?.reduceMotion;
-    let theme = obj?.theme === "light" ? "light" : DEFAULT_PREFS.theme;
+    let theme = normalizeTheme(obj?.theme);
+    const colorTheme = normalizeColorTheme(obj?.colorTheme);
     if (contrast === "hc") theme = "dark";
     return {
       textScale,
       contrast,
       reduceMotion,
-      theme
+      theme,
+      colorTheme
     };
   } catch {
     return null;
@@ -49,12 +83,12 @@ function readInitialPrefsFromDom() {
   };
   const html = document.documentElement;
   const contrast = html.getAttribute("data-contrast") || DEFAULT_PREFS.contrast;
-  let theme = html.classList.contains("theme-light") ? "light" : DEFAULT_PREFS.theme;
+  let theme = resolveThemeFromDom(html);
   if (contrast !== "hc") {
     try {
       const storedTheme = window.localStorage.getItem("theme");
-      if (storedTheme === "light" || storedTheme === "dark") {
-        theme = storedTheme;
+      if (storedTheme === "light" || storedTheme === "mid" || storedTheme === "dark" || storedTheme === "night" || storedTheme === "light-mono" || storedTheme === "dark-mono" || storedTheme === "monochrome") {
+        theme = normalizeTheme(storedTheme);
       }
     } catch {}
   } else {
@@ -64,7 +98,8 @@ function readInitialPrefsFromDom() {
     textScale: html.getAttribute("data-text-scale") || DEFAULT_PREFS.textScale,
     contrast,
     reduceMotion: html.getAttribute("data-reduce-motion") === "1",
-    theme
+    theme,
+    colorTheme: normalizeColorTheme(html.getAttribute("data-color-theme"))
   };
   const hasCookie = !!getCookie("a11y_prefs");
   if (!hasCookie) {
@@ -81,21 +116,27 @@ function applyPrefsToDom(prefs) {
   html.setAttribute("data-text-scale", prefs.textScale || DEFAULT_PREFS.textScale);
   html.setAttribute("data-contrast", prefs.contrast || DEFAULT_PREFS.contrast);
   html.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
+  html.setAttribute("data-color-theme", normalizeColorTheme(prefs.colorTheme));
+  const theme = normalizeTheme(prefs.theme);
   const forceDark = prefs.contrast === "hc";
-  const shouldBeLight = !forceDark && prefs.theme === "light";
-  const currentlyLight = html.classList.contains("theme-light");
-  if (shouldBeLight !== currentlyLight) {
-    html.classList.toggle("theme-light", shouldBeLight);
-  }
+  const shouldBeLight = !forceDark && isLightBaseTheme(theme);
+  const shouldBeMid = !forceDark && theme === "mid";
+  const shouldBeNight = !forceDark && theme === "night";
+  html.classList.toggle("theme-light", shouldBeLight);
+  html.classList.toggle("theme-mid", shouldBeMid);
+  html.classList.toggle("theme-night", shouldBeNight);
 }
 function buildInitialPrefs(initialPrefs) {
   if (initialPrefs) {
     const contrast = initialPrefs.contrast || DEFAULT_PREFS.contrast;
+    const theme = normalizeTheme(initialPrefs.theme);
+    const colorTheme = normalizeColorTheme(initialPrefs.colorTheme);
     return {
       ...DEFAULT_PREFS,
       ...initialPrefs,
       contrast,
-      theme: contrast === "hc" ? "dark" : initialPrefs.theme === "light" ? "light" : DEFAULT_PREFS.theme
+      theme: contrast === "hc" ? "dark" : theme,
+      colorTheme
     };
   }
   return {
@@ -255,9 +296,8 @@ function AccessibilityProvider({
   useLayoutEffect(() => {
     if (!hydratedRef.current) return;
     if (typeof document === "undefined") return;
-    const shouldBeLight = prefs.contrast !== "hc" && prefs.theme === "light";
-    const hasLight = document.documentElement.classList.contains("theme-light");
-    if (hasLight === shouldBeLight) return;
+    const hasExpectedThemeClasses = matchesThemeClasses(document.documentElement, prefs);
+    if (hasExpectedThemeClasses) return;
     safeApplyPrefsToDom(prefs, "prefs-route-sync");
   }, [prefs, pathname, safeApplyPrefsToDom]);
   useEffect(() => {
@@ -281,11 +321,11 @@ function AccessibilityProvider({
       if (applyingRef.current) return;
       const snapshot = prefsRef.current;
       if (snapshot) {
-        const shouldBeLight = snapshot.contrast !== "hc" && snapshot.theme === "light";
-        if (shouldBeLight !== hasLight) {
+        const hasExpectedThemeClasses = matchesThemeClasses(html, snapshot);
+        if (!hasExpectedThemeClasses) {
           logDev("html.className mismatch", {
             pathname: pathnameRef.current,
-            expectedThemeLight: shouldBeLight,
+            expectedTheme: snapshot.contrast === "hc" ? "dark" : snapshot.theme,
             actualThemeLight: hasLight
           });
           const apply = () => {
@@ -339,6 +379,8 @@ function AccessibilityProvider({
       ...prefs,
       ...next
     };
+    merged.theme = normalizeTheme(merged.theme);
+    merged.colorTheme = normalizeColorTheme(merged.colorTheme);
     if (merged.contrast === "hc") {
       merged.theme = "dark";
     }
@@ -352,7 +394,12 @@ function AccessibilityProvider({
       setCookie("a11y_prefs", JSON.stringify(merged));
     } catch {}
     try {
-      if (merged.theme === "light" || merged.theme === "dark") {
+      if (
+        merged.theme === "light" ||
+        merged.theme === "mid" ||
+        merged.theme === "dark" ||
+        merged.theme === "night"
+      ) {
         localStorage.setItem("theme", merged.theme);
       }
     } catch {}
@@ -364,6 +411,8 @@ function AccessibilityProvider({
       ...prefs,
       ...partial
     };
+    preview.theme = normalizeTheme(preview.theme);
+    preview.colorTheme = normalizeColorTheme(preview.colorTheme);
     if (preview.contrast === "hc") {
       preview.theme = "dark";
     }

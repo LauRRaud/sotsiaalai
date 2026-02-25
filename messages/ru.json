@@ -273,7 +273,13 @@
       "current_pin_invalid": "Current PIN is invalid.",
       "user_not_found": "User not found."
     },
-    "logout_short": "Выйти"
+    "logout_short": "Выйти",
+    "theme_mode": {
+      "light": "Светлый",
+      "mid": "Сумерки",
+      "dark": "Тёмный",
+      "night": "Ночной"
+    }
   },
   "accessibility": {
     "title": "Настройки доступности",

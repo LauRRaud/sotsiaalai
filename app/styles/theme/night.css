@@ -1,0 +1,86 @@
+:root.theme-night .space-backdrop[data-mode="dark"] {
+  background: radial-gradient(
+    ellipse at top,
+    #1b2735 0%,
+    #090a0f 100%
+  );
+}
+
+:root.theme-night {
+  --btn-base-bg-dark: linear-gradient(
+    180deg,
+    rgba(34, 48, 68, 0.94) 0%,
+    rgba(15, 24, 38, 0.94) 100%
+  );
+  --btn-primary-bg: linear-gradient(
+      135deg,
+      rgba(222, 236, 255, 0.1) 0%,
+      rgba(222, 236, 255, 0.02) 50%,
+      rgba(222, 236, 255, 0) 100%
+    ),
+    rgba(15, 27, 46, 0.58);
+  --btn-primary-bg-hover: linear-gradient(
+      135deg,
+      rgba(222, 236, 255, 0.14) 0%,
+      rgba(222, 236, 255, 0.03) 50%,
+      rgba(222, 236, 255, 0) 100%
+    ),
+    rgba(18, 31, 52, 0.64);
+  --btn-primary-bg-active: linear-gradient(
+      135deg,
+      rgba(222, 236, 255, 0.08) 0%,
+      rgba(222, 236, 255, 0.02) 50%,
+      rgba(222, 236, 255, 0) 100%
+    ),
+    rgba(12, 24, 42, 0.54);
+  --btn-primary-border: 1px solid rgba(170, 204, 245, 0.24);
+  --btn-primary-border-hover: 1px solid rgba(188, 220, 255, 0.34);
+  --btn-primary-border-active: 1px solid rgba(150, 190, 236, 0.2);
+  --btn-primary-shadow:
+    inset 0 1px 0 rgba(220, 236, 255, 0.2),
+    0 6px 14px rgba(2, 6, 16, 0.3);
+  --btn-primary-shadow-hover:
+    inset 0 1px 0 rgba(220, 236, 255, 0.28),
+    0 8px 16px rgba(2, 6, 16, 0.34);
+  --btn-primary-shadow-active:
+    inset 0 1px 0 rgba(220, 236, 255, 0.16),
+    0 4px 12px rgba(2, 6, 16, 0.28);
+  --btn-primary-shadow-focus:
+    inset 0 1px 0 rgba(220, 236, 255, 0.28),
+    0 8px 18px rgba(2, 6, 16, 0.36),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+  --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
+
+  --form-surface: radial-gradient(
+      65% 60% at 50% -12%,
+      rgba(248, 253, 255, 0.38) 0%,
+      rgba(248, 253, 255, 0.22) 22%,
+      rgba(248, 253, 255, 0.11) 36%,
+      rgba(248, 253, 255, 0.04) 48%,
+      rgba(248, 253, 255, 0.018) 56%,
+      rgba(248, 253, 255, 0.006) 66%,
+      rgba(248, 253, 255, 0) 74%
+    ),
+    rgba(20, 28, 42, 0.72);
+  --form-surface-hover: radial-gradient(
+      65% 60% at 50% -12%,
+      rgba(248, 253, 255, 0.44) 0%,
+      rgba(248, 253, 255, 0.26) 22%,
+      rgba(248, 253, 255, 0.13) 36%,
+      rgba(248, 253, 255, 0.05) 48%,
+      rgba(248, 253, 255, 0.022) 56%,
+      rgba(248, 253, 255, 0.008) 66%,
+      rgba(248, 253, 255, 0) 74%
+    ),
+    rgba(24, 34, 50, 0.76);
+  --form-surface-active: var(--form-surface-hover);
+
+  --input-shadow:
+    0 5.5px 15px rgba(0, 0, 0, 0.22),
+    0 10px 18px -14px rgba(248, 253, 255, 0.5),
+    0 21px 32px -22px rgba(248, 253, 255, 0.3);
+  --input-shadow-hover:
+    0 6px 16px rgba(0, 0, 0, 0.22),
+    0 11px 20px -14px rgba(248, 253, 255, 0.62),
+    0 23px 34px -22px rgba(248, 253, 255, 0.4);
+}

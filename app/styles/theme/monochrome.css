@@ -1,0 +1,14 @@
+:root.theme-monochrome {
+  color-scheme: dark;
+}
+
+:root.theme-monochrome::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483646;
+  background: rgba(0, 0, 0, 0.001);
+  -webkit-backdrop-filter: grayscale(1) saturate(0);
+  backdrop-filter: grayscale(1) saturate(0);
+}

@@ -76,8 +76,7 @@ export default function RightRail({
   const viewportIsMobile = isMounted ? isMobile : false;
   const setTooltipFromRail = useCallback(() => {
     const rail = railRef.current;
-    const slot = slotRef.current;
-    if (!rail || !slot) return;
+    if (!rail) return;
     const railRect = rail.getBoundingClientRect();
     if (!railRect.width || !railRect.height) return;
     const style = window.getComputedStyle(rail);
@@ -179,9 +178,10 @@ export default function RightRail({
     setIsTooltipVisible(false);
   }, []);
 
-  const showTooltipTemporarily = useCallback((index, durationMs = 980) => {
+  const showTooltipTemporarily = useCallback((index, durationMs = 1300) => {
     if (viewportIsMobile || suspendPointerEvents || suppressTooltip || isRouteTilting) return;
     if (!Number.isFinite(index)) return;
+    setTooltipFromRail();
     if (tooltipSwitchTimerRef.current) {
       window.clearTimeout(tooltipSwitchTimerRef.current);
       tooltipSwitchTimerRef.current = 0;
@@ -202,7 +202,7 @@ export default function RightRail({
       setIsTooltipVisible(false);
       tooltipHideTimerRef.current = 0;
     }, durationMs);
-  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip, isRouteTilting]);
+  }, [viewportIsMobile, suspendPointerEvents, suppressTooltip, isRouteTilting, setTooltipFromRail]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -349,7 +349,7 @@ export default function RightRail({
     };
     const tick = () => {
       update();
-      if (performance.now() < tooltipTrackUntilRef.current) {
+      if (isTooltipVisible || performance.now() < tooltipTrackUntilRef.current) {
         tooltipRafRef.current = requestAnimationFrame(tick);
       } else {
         tooltipRafRef.current = 0;
@@ -369,7 +369,7 @@ export default function RightRail({
         tooltipRafRef.current = 0;
       }
     };
-  }, [isMobile, setTooltipFromRail]);
+  }, [isMobile, isTooltipVisible, setTooltipFromRail]);
 
   useEffect(() => {
     const rail = railRef.current;
@@ -444,21 +444,7 @@ export default function RightRail({
       cancelAnimationFrame(tooltipRevealRafRef.current);
       tooltipRevealRafRef.current = 0;
     }
-    if (tooltipVisibleRef.current && tooltipLabelIndexRef.current !== activeIndex) {
-      tooltipVisibleRef.current = false;
-      setIsTooltipVisible(false);
-      tooltipSwitchTimerRef.current = window.setTimeout(() => {
-        tooltipLabelIndexRef.current = activeIndex;
-        setTooltipLabelIndex(activeIndex);
-        tooltipRevealRafRef.current = requestAnimationFrame(() => {
-          tooltipRevealRafRef.current = 0;
-          showTooltipTemporarily(activeIndex, 900);
-        });
-        tooltipSwitchTimerRef.current = 0;
-      }, 120);
-      return;
-    }
-    showTooltipTemporarily(activeIndex, 900);
+    showTooltipTemporarily(activeIndex, 1300);
   }, [activeIndex, isMobile, mobileVisible, showTooltipTemporarily, suppressTooltip, suspendPointerEvents, isRouteTilting]);
 
   useEffect(() => {

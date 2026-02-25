@@ -35,10 +35,10 @@ const scrollAreaClassName =
   "rooms-scroll relative flex-1 w-full max-w-[clamp(18.2rem,37vw,23.2rem)] min-[48.0625em]:max-w-[clamp(18rem,35vw,22.8rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[48.0625em]:overflow-x-visible px-[0.62rem] min-[48.0625em]:px-[0.95rem] text-left csp-container mx-auto";
 const roomStepClassName = "rooms-step csp-step !min-h-0 !py-[0.48rem]";
 const roomCardClassName =
-  "w-full rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(10,14,24,0.32)] px-[1.14rem] py-[1.02rem] text-[color:var(--pt-120)] shadow-[var(--input-shadow)] " +
+  "w-full rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(22,24,30,0.38)] [.theme-night_&]:bg-[rgba(10,14,24,0.32)] px-[1.14rem] py-[1.02rem] text-[color:var(--pt-120)] shadow-[var(--input-shadow)] " +
   "transition-[background,border-color,box-shadow,transform] duration-200 ease-out " +
-  "hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.4)] hover:bg-[rgba(16,22,34,0.4)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
-  "focus-within:-translate-y-[1px] focus-within:border-[rgba(148,163,184,0.4)] focus-within:bg-[rgba(16,22,34,0.4)] focus-within:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
+  "hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.4)] hover:bg-[rgba(30,32,38,0.44)] [.theme-night_&:hover]:bg-[rgba(16,22,34,0.4)] hover:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
+  "focus-within:-translate-y-[1px] focus-within:border-[rgba(148,163,184,0.4)] focus-within:bg-[rgba(30,32,38,0.44)] [.theme-night_&:focus-within]:bg-[rgba(16,22,34,0.4)] focus-within:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
   "[.theme-light_&]:border-[rgba(148,163,184,0.35)] [.theme-light_&]:bg-[rgba(255,255,255,0.85)] [.theme-light_&]:text-[#1f2937] [.theme-light_&]:shadow-[var(--input-shadow)] " +
   "[.theme-light_&:hover]:border-[rgba(148,163,184,0.55)] [.theme-light_&:hover]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:hover]:shadow-[var(--input-shadow-hover,var(--input-shadow))] " +
   "[.theme-light_&:focus-within]:border-[rgba(148,163,184,0.55)] [.theme-light_&:focus-within]:bg-[rgba(255,255,255,0.96)] [.theme-light_&:focus-within]:shadow-[var(--input-shadow-hover,var(--input-shadow))]";
@@ -47,9 +47,9 @@ const roomMetaRowClassName =
 const roomMetaItemClassName =
   "before:content-['|'] before:mx-[0.42rem] first:before:content-none";
 const roomActionButtonClassName =
-  "inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[rgba(10,14,24,0.32)] px-[0.88rem] py-[0.38rem] text-[0.92rem] font-medium tracking-[0.01em] text-[color:var(--pt-120)] " +
-  "transition-[transform,border-color,background,color] duration-150 hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.55)] hover:bg-[rgba(16,22,34,0.5)] " +
-  "focus-visible:outline-none focus-visible:border-[rgba(148,163,184,0.55)] focus-visible:bg-[rgba(16,22,34,0.5)] active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed " +
+  "inline-flex items-center justify-center rounded-full border border-[rgba(148,163,184,0.35)] bg-[rgba(26,28,34,0.38)] [.theme-night_&]:bg-[rgba(10,14,24,0.32)] px-[0.88rem] py-[0.38rem] text-[0.92rem] font-medium tracking-[0.01em] text-[color:var(--pt-120)] " +
+  "transition-[transform,border-color,background,color] duration-150 hover:-translate-y-[1px] hover:border-[rgba(148,163,184,0.55)] hover:bg-[rgba(34,36,42,0.52)] [.theme-night_&:hover]:bg-[rgba(16,22,34,0.5)] " +
+  "focus-visible:outline-none focus-visible:border-[rgba(148,163,184,0.55)] focus-visible:bg-[rgba(34,36,42,0.52)] [.theme-night_&:focus-visible]:bg-[rgba(16,22,34,0.5)] active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed " +
   "[.theme-light_&]:border-[rgba(148,163,184,0.5)] [.theme-light_&]:bg-[rgba(255,255,255,0.9)] [.theme-light_&]:text-[#1f2937] [.theme-light_&:hover]:border-[rgba(148,163,184,0.72)] [.theme-light_&:hover]:bg-[rgba(255,255,255,1)]";
 const roomDeleteButtonClassName =
   "inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border border-[rgba(192,72,72,0.48)] bg-[rgba(72,24,32,0.34)] text-[#ffd6d6] " +
@@ -560,7 +560,7 @@ export default function RoomsPage() {
                         key={room.id}
                         className={`${roomStepClassName} ${getRoomStepClassName(index)}`}
                       >
-                        <article className={roomCardClassName}>
+                        <article className={`${roomCardClassName} rooms-card`}>
                           <Link
                             prefetch={false}
                             href={localizePath(
@@ -600,7 +600,7 @@ export default function RoomsPage() {
                               </h2>
                               {room.unreadCount ? (
                                 <span
-                                  className={roomUnreadBadgeClassName}
+                                  className={`${roomUnreadBadgeClassName} rooms-unread-badge`}
                                   aria-label={`${t("rooms.unread")}: ${room.unreadCount}`}
                                 >
                                   <span>
@@ -641,7 +641,7 @@ export default function RoomsPage() {
                                   {canInviteRoom ? (
                                     <button
                                       type="button"
-                                      className={roomActionButtonClassName}
+                                      className={`${roomActionButtonClassName} rooms-action-btn`}
                                       onClick={() => handleInvite(room.id)}
                                     >
                                       {t("rooms.invite")}
@@ -650,7 +650,7 @@ export default function RoomsPage() {
                                   {canLeaveRoom ? (
                                     <button
                                       type="button"
-                                      className={roomActionButtonClassName}
+                                      className={`${roomActionButtonClassName} rooms-action-btn`}
                                       onClick={() => handleLeave(room)}
                                       disabled={leavingId === room.id}
                                     >
@@ -662,7 +662,7 @@ export default function RoomsPage() {
                                   {canDeleteRoom ? (
                                     <button
                                       type="button"
-                                      className={roomDeleteButtonClassName}
+                                      className={`${roomDeleteButtonClassName} rooms-delete-btn`}
                                       onClick={() => openDeleteConfirm(room)}
                                       disabled={deletingId === room.id}
                                       aria-label={t("rooms.delete")}

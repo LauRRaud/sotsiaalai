@@ -55,7 +55,7 @@ export default function ChatBody({
   const {
     prefs
   } = useAccessibility();
-  const isLightTheme = prefs?.theme === "light";
+  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
   const extendedLabel = t("chat.analysis.extended_label");
   const contextHint = t("chat.upload.context_hint");
   const aiNote = t("chat.ai_toggle.note");

@@ -87,11 +87,12 @@ const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
+  "[--label-gap-side:0.34rem] min-[48.0625em]:[--label-gap-side:0.58rem] " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
   "min-[48.0625em]:[--orbit-item-size:5.4rem] min-[48.0625em]:[--orbit-item-size-open:5.75rem] " +
-  "min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:-0.06rem] " +
+  "min-[48.0625em]:[--label-gap:0.95rem] " +
   "[--orbit-size:clamp(17.4rem,35vw,23.8rem)] min-[48.0625em]:[--orbit-size:22.8rem] [--orbit-center-size:clamp(9.4rem,17vw,11.8rem)] " +
-  "min-[48.0625em]:[--orbit-center-size:11.2rem] " +
+  "min-[48.0625em]:[--orbit-center-size:10.6rem] " +
   "[--orbit-center-icon-size:calc(var(--orbit-center-size)*0.46)] [--pin-border-w:1.45px] [--pin-shadow:0.11] " +
   "mx-auto mt-[clamp(0.8rem,2.4vh,1.8rem)] mb-[clamp(0.2rem,0.6vh,0.5rem)] " +
   "max-[48em]:[--orbit-item-size:clamp(3.9rem,16.8vw,4.9rem)] max-[48em]:[--orbit-item-size-open:clamp(4.2rem,17.8vw,5.2rem)] " +
@@ -334,6 +335,21 @@ function ThemeMoonDockIcon({
       <path d="M15.8 3.7a8.7 8.7 0 1 0 4.5 14.6A7.9 7.9 0 0 1 15.8 3.7z" />
     </svg>;
 }
+function ThemeMidDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <defs>
+        <clipPath id="mid-sun-disc-clip">
+          <circle cx="12" cy="12" r="3.7" />
+        </clipPath>
+      </defs>
+      <circle cx="12" cy="12" r="3.7" />
+      <rect x="8.3" y="12" width="7.4" height="3.8" fill="currentColor" stroke="none" clipPath="url(#mid-sun-disc-clip)" />
+      <path d="M12 2.6v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M18.2 5.8l-1.5 1.5" />
+    </svg>;
+}
 export default function ProfiilBody({
   initialProfile = null,
   embedded = false,
@@ -371,7 +387,16 @@ export default function ProfiilBody({
   const registrationReason = searchParams?.get("reason");
   const suppressAutoLoginModal = registrationReason === "email-verified";
   const isAuthed = status === "authenticated" || !!session?.user;
-  const isLightTheme = prefs?.theme === "light";
+  const currentTheme =
+    prefs?.theme === "light" ||
+    prefs?.theme === "mid" ||
+    prefs?.theme === "night" ||
+    prefs?.theme === "dark"
+      ? prefs.theme
+      : "dark";
+  const isLightTheme =
+    currentTheme === "light" || currentTheme === "mid";
+  const profileShellTheme = isLightTheme ? "light" : "dark";
   const titleClassName = cn(
     embedded ? titleBaseClassName : glassPageTitleClassName,
     !embedded && "min-[48.0625em]:sr-only",
@@ -627,19 +652,29 @@ export default function ProfiilBody({
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
   const orbitNavTransitionOptions = {};
-  const themeActionLabel = isLightTheme ? t("accessibility.options.theme.dark") : t("accessibility.options.theme.light");
+  const modeSequence = ["light", "mid", "dark", "night"];
+  const currentModeIndex = modeSequence.indexOf(currentTheme);
+  const nextMode = modeSequence[(currentModeIndex + 1 + modeSequence.length) % modeSequence.length];
+  const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
+  const nextModeIcon =
+    nextMode === "mid"
+      ? <ThemeMidDockIcon width={30} height={30} className="scale-[1.12]" />
+      : nextMode === "light"
+        ? <ThemeSunDockIcon width={26} height={26} />
+        : <ThemeMoonDockIcon width={26} height={26} />;
+  const handleModeSwitch = () => {
+    setPrefs?.({
+      theme: nextMode,
+      colorTheme: "default"
+    });
+  };
   const orbitItems = [{
     key: "theme",
-    icon: isLightTheme ? <ThemeMoonDockIcon width={26} height={26} /> : <ThemeSunDockIcon width={26} height={26} />,
-    label: themeActionLabel,
+    icon: nextModeIcon,
+    label: nextModeLabel,
     labelPos: "left",
     keepOpen: true,
-    onClick: () => {
-      const nextTheme = isLightTheme ? "dark" : "light";
-      setPrefs?.({
-        theme: nextTheme
-      });
-    }
+    onClick: handleModeSwitch
   }, {
     key: "pin",
     icon: <PinDockIcon />,
@@ -795,7 +830,7 @@ export default function ProfiilBody({
     })();
   }, [embedded, initialProfile, isActive, status, t]);
   if (isAuthed && (status === "loading" && !initialProfile || loading)) {
-    return <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"} footerNote={footerNote}>
+    return <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
         <h1 className={titleClassName}>{t("profile.title")}</h1>
       </ProfileShell>;
   }
@@ -814,7 +849,7 @@ export default function ProfiilBody({
           ? t("profile.login_to_manage_sub")
           : t("profile.login_to_view");
     return <>
-        <ProfileShell locale={locale} embedded={embedded} theme={isLightTheme ? "light" : "dark"} footerNote={footerNote}>
+        <ProfileShell locale={locale} embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
           <h1 className={titleClassName}>{t("profile.title")}</h1>
           <p className={noteClassName}>{reasonText}</p>
           <BackButton onClick={embedded ? handleBack : () => setLoginOpen(true)} ariaLabel={embedded ? t("profile.back_to_chat") : t("auth.login.title")} className={profileBackButtonClassName} />
@@ -824,7 +859,7 @@ export default function ProfiilBody({
       </>;
   }
   if (loadFailed) {
-    return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={isLightTheme ? "light" : "dark"} footerNote={footerNote}>
+    return <ProfileShell locale={locale} ariaLabelledby="profile-title" embedded={embedded} theme={profileShellTheme} footerNote={footerNote}>
         <h1 id="profile-title" className={titleClassName}>
           {t("profile.title")}
         </h1>
@@ -835,7 +870,7 @@ export default function ProfiilBody({
         </div>
       </ProfileShell>;
   }
-  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={isLightTheme ? "light" : "dark"} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef} footerNote={footerNote}>
+  return <ProfileShell locale={locale} ariaLabelledby="profile-title" innerRef={profileContainerRef} embedded={embedded} theme={profileShellTheme} orbitOpen={orbitOpen} maskLayerRef={maskLayerRef} footerNote={footerNote}>
       <h1 id="profile-title" className={cn(titleClassName, "profile-title", orbitOpen ? "opacity-0 pointer-events-none" : null)}>
         {t("profile.title")}
       </h1>
@@ -874,7 +909,7 @@ export default function ProfiilBody({
             toggleLabelClose={t("buttons.close")}
             mobileVariant="stack"
             mobileBackItem={mobileBackItem}
-            className="min-[48.0625em]:[--label-gap:0.95rem] min-[48.0625em]:[--label-gap-side:-0.06rem]"
+            className="min-[48.0625em]:[--label-gap:0.95rem]"
             onOpenChange={setOrbitOpen}
           />
         </div>
@@ -944,3 +979,7 @@ export default function ProfiilBody({
     }} disabled={deleting} />}
     </ProfileShell>;
 }
+
+
+
+

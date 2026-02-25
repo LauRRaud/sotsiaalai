@@ -88,10 +88,10 @@ body {
   transform-origin: center;
 }
 .button:hover {
-  transform: translateZ(0) scale(1.02);
+  transform: translateZ(0) scale(1.008);
 }
 .button:active {
-  transform: translateZ(0) scale(0.98);
+  transform: translateZ(0) scale(0.995);
 }
 :where(
   input:not([type="button"]):not([type="submit"]):not([type="reset"]),

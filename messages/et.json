@@ -273,6 +273,12 @@
       "no_changes": "Midagi pole uuendada.",
       "current_pin_invalid": "Current PIN is invalid.",
       "user_not_found": "User not found."
+    },
+    "theme_mode": {
+      "light": "Hele",
+      "mid": "Hämar",
+      "dark": "Tume",
+      "night": "Öö"
     }
   },
   "accessibility": {

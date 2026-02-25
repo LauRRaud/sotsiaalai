@@ -224,6 +224,12 @@
       "client": "Life-question seeker",
       "unknown": ""
     },
+    "theme_mode": {
+      "light": "Light",
+      "mid": "Dim",
+      "dark": "Dark",
+      "night": "Night"
+    },
     "preferences": {
       "title": "Language & accessibility",
       "title_line1": "Language &",

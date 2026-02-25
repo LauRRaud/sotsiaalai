@@ -58,7 +58,6 @@ export default function HomePage() {
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showHomeBottomSections, setShowHomeBottomSections] = useState(() => initialSkipIntro);
-  const [homeBottomVisible, setHomeBottomVisible] = useState(() => initialSkipIntro);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
@@ -261,22 +260,8 @@ export default function HomePage() {
   }, [clearRegisteredTimeout, registerTimeout, scrollCueReady]);
   useEffect(() => {
     const shouldShow = !isLoginOpen && cardsIntroDone;
-    if (!shouldShow) {
-      setShowHomeBottomSections(false);
-      setHomeBottomVisible(false);
-      return;
-    }
-    setShowHomeBottomSections(true);
-    if (prefs.reduceMotion) {
-      setHomeBottomVisible(true);
-      return;
-    }
-    let raf = 0;
-    raf = window.requestAnimationFrame(() => setHomeBottomVisible(true));
-    return () => {
-      if (raf) window.cancelAnimationFrame(raf);
-    };
-  }, [cardsIntroDone, isLoginOpen, prefs.reduceMotion]);
+    setShowHomeBottomSections(shouldShow);
+  }, [cardsIntroDone, isLoginOpen]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const leftInteractive = flipAllowed && !leftFlipping && !isLoginOpen;
   const rightInteractive = flipAllowed && !rightFlipping && !isLoginOpen;
@@ -482,7 +467,7 @@ export default function HomePage() {
             className={cn(
               "pointer-events-none absolute left-1/2 top-[clamp(0.3rem,0.9vh,0.7rem)] z-[30] -translate-x-1/2",
               "w-[min(94vw,56rem)] px-4 text-center font-bold uppercase tracking-[0.04em]",
-              "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:var(--brand-primary)]"
+              "text-[clamp(0.95rem,1.3vw,1.9rem)] text-[color:var(--home-title-color,var(--brand-primary))]"
             )}
           >
             AVAME 17.03, SOTSIAALTÖÖ PÄEVAL!
@@ -547,7 +532,7 @@ export default function HomePage() {
                     pointerEvents: "none"
                   } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
                         <div className={cn("centered-back-right", "relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent isolate overflow-hidden [box-shadow:none] transition-[box-shadow] duration-[280ms] ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-0 before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]", introPending ? "opacity-0" : null, shouldFadeIn ? "fade-in" : null)}>
-                          <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[color:var(--brand-primary)] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[48em]:-translate-y-[0.45em]")}>
+                          <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[4] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[48em]:-translate-y-[0.45em]")}>
                             {t("home.card.client.title")}
                           </h2>
                           <SaivalgeLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu z-[3]")} aria-hidden="true" />
@@ -574,12 +559,7 @@ export default function HomePage() {
               </a>
             </div> : null}
         </section>
-        {showHomeBottomSections ? <div
-            className={cn(
-              "transition-[opacity,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none",
-              homeBottomVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
-            )}
-          >
+        {showHomeBottomSections ? <div>
             <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
             <HomeFooter />
           </div> : null}

@@ -235,8 +235,8 @@ export default function ChatComposer({
     "chat-listen-btn relative z-[2] h-[48px] w-[48px] min-h-[48px] min-w-[48px] flex-[0_0_48px] rounded-full " +
     "flex items-center justify-center " +
     "pointer-events-auto !translate-y-0 hover:!translate-y-0 active:!translate-y-0 " +
-    "![background:transparent] ![border:0] !shadow-none " +
-    "hover:![background:transparent] focus-visible:![background:transparent] " +
+    "!bg-transparent !border-0 !shadow-none " +
+    "hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent " +
     "data-[speaking=true]:shadow-[0_0_0_1px_rgba(148,163,184,0.22),0_0_6px_rgba(84,95,115,0.45)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendButtonClassName =
@@ -249,7 +249,7 @@ export default function ChatComposer({
   const sendButtonLoaderClassName = `${sendButtonClassName} !grid !place-items-center !p-0`;
   const inputRowTransformClassName = `${inputFocused ? "[transform:translateY(calc(var(--chat-input-focus-shift,0.94rem)+clamp(0.6rem,2dvh,1.2rem)))]" : "[transform:translateY(calc(-1*var(--chat-input-shift,0rem)))]"} max-[48em]:[transform:none]`;
   const toolItemBaseClassName =
-    "w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
+    "chat-tools-item w-full appearance-none border-0 bg-transparent px-[0.38rem] py-[0.36rem] text-left " +
     "text-[1.12rem] leading-[1.2] tracking-[0.01em] transition-colors duration-150 " +
     "rounded-[0.5rem] flex items-center gap-[0.44rem] " +
     "hover:bg-[rgba(255,255,255,0.08)] focus-visible:bg-[rgba(255,255,255,0.08)] " +
@@ -259,13 +259,13 @@ export default function ChatComposer({
       <div className="relative h-[2.9rem] w-[2.9rem] min-h-[2.9rem] min-w-[2.9rem] flex-[0_0_2.9rem] translate-x-[var(--chat-attach-left-pull,0rem)] max-[48em]:translate-x-0 max-[48em]:ml-[clamp(-0.52rem,-1.6vw,-0.3rem)] max-[48em]:mr-[clamp(0.02rem,0.4vw,0.12rem)]">
         <button ref={toolsButtonRef} type="button" className="chat-attach-btn group h-[2.9rem] w-[2.9rem] min-h-[2.9rem] min-w-[2.9rem] flex-[0_0_2.9rem] appearance-none border-0 bg-transparent p-0 shadow-none outline-none transition-none" aria-label={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.aria")} title={isDeepResearchMode ? t("chat.deep_research.exit_mode_aria") : t("chat.tools.tooltip")} aria-haspopup={isDeepResearchMode ? undefined : "menu"} aria-expanded={isDeepResearchMode ? undefined : toolsOpen ? "true" : "false"} onClick={handleToolsButtonClick}>
           {isDeepResearchMode ? <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
-              <circle cx="17.8" cy="17.8" r="8.8" stroke={isLightTheme ? "#7A3A38" : "#c57171"} strokeWidth="2.8" />
-              <path d="M24.2 24.2L31.5 31.5" stroke={isLightTheme ? "#7A3A38" : "#c57171"} strokeWidth="2.8" strokeLinecap="round" />
+              <circle cx="17.8" cy="17.8" r="8.8" stroke={iconStroke} strokeWidth="2.8" />
+              <path d="M24.2 24.2L31.5 31.5" stroke={iconStroke} strokeWidth="2.8" strokeLinecap="round" />
             </svg> : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className="opacity-95 transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110">
-              <path d="M21 8.75v24.5M8.75 21h24.5" stroke={isLightTheme ? "#7A3A38" : "#c57171"} strokeWidth="3.1" strokeLinecap="round" />
+              <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth="3.1" strokeLinecap="round" />
             </svg>}
         </button>
-        {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] bg-[rgba(11,14,20,0.96)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:bg-[rgba(255,255,255,0.96)]">
+        {toolsOpen ? <div ref={toolsMenuRef} role="menu" aria-label={t("chat.tools.menu_aria")} className="chat-tools-menu absolute left-0 bottom-[calc(100%+0.45rem)] z-[120] w-max min-w-[11.4rem] rounded-[0.88rem] bg-[rgba(24,26,32,0.96)] [.theme-night_&]:bg-[rgba(11,14,20,0.96)] p-[0.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.34)] backdrop-blur-[10px] light:bg-[rgba(255,255,255,0.96)]">
             <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
               <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-90">
                 <path d="M8 3h8l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke={iconStroke} strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" />
@@ -273,7 +273,7 @@ export default function ChatComposer({
               </svg>
               <span>{t("chat.tools.document_analysis")}</span>
             </button>
-            <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
+            <button type="button" role="menuitem" className={`${toolItemBaseClassName} ${!canRunDeepResearch ? "chat-tools-item-disabled text-[rgba(203,213,225,0.58)] light:text-[rgba(63,36,31,0.45)] cursor-not-allowed hover:bg-transparent focus-visible:bg-transparent" : "text-[color:var(--pt-100)] light:text-[#3f241f]"}`} onClick={handleDeepResearchSelect} disabled={!canRunDeepResearch} title={!canRunDeepResearch ? t("chat.tools.deep_research_room_only") : undefined}>
               <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" className={`shrink-0 ${!canRunDeepResearch ? "opacity-55" : "opacity-95"}`}>
                 <circle cx="10.5" cy="10.5" r="5.4" stroke={iconStroke} strokeWidth="1.7" />
                 <path d="M14.6 14.6 19.3 19.3" stroke={iconStroke} strokeWidth="1.7" strokeLinecap="round" />
@@ -302,7 +302,7 @@ export default function ChatComposer({
         <div className={inputFieldWrapClassName}>
           <textarea id="chat-input" ref={inputRef} value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={onFocusInput} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
         </div>
-        <Button type="button" variant="primary" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
+        <Button type="button" variant="linkBrand" className={actionButtonClassName} aria-label={t("chat.listen.last_reply")} title={t("chat.listen.title")} onClick={speakLatestReply} disabled={!canSpeakLatest} data-speaking={isSpeaking ? "true" : "false"}>
           <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[1.7rem] w-[1.7rem] text-[#c57171] light:text-[#7a3a38]">
             <path d="M11 5L6 9H2v6h4l5 4z" />
             <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />

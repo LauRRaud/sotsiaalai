@@ -549,7 +549,7 @@ export default function OrbitalMenu({
       className={cn(
       "profile-orbit-menu relative grid place-items-center w-[var(--orbit-size)] h-[var(--orbit-size)] " +
         "[--item-opacity:0] [--item-scale:0.9] [--item-scale-hover:0.885] " +
-        "[--label-gap:0.5rem] [--label-gap-side:0.01rem] [--label-nudge:0.3rem]",
+        "[--label-gap:0.5rem] [--label-nudge:0.3rem]",
       isOpen && "is-open [--item-opacity:1]",
       isClosing && "is-closing",
       isExpanded && "is-expanded [--item-scale:1.06] [--item-scale-hover:1.03] [--orbit-item-size:var(--orbit-item-size-open)]",
@@ -566,26 +566,30 @@ export default function OrbitalMenu({
         const orbitX = Math.round(Math.sin(angleRad) * orbitRadius * orbitRadiusBoost);
         const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
         const labelPos = item.labelPos || "up";
-        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
-        const labelWidthClass = item.key === "theme" || item.key === "subscription" ? "max-w-[5.8rem]" : labelPos === "left" || labelPos === "right" ? "max-w-[7rem] [overflow-wrap:break-word]" : "max-w-[12rem]";
+        const isSideLabel = labelPos === "left" || labelPos === "right";
+        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side,var(--label-gap)))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side,var(--label-gap)))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
+        const labelWidthClass = item.key === "subscription" ? "max-w-[5.8rem] w-max" : isSideLabel ? "w-[var(--label-side-width,4.9rem)] max-w-[var(--label-side-width,4.9rem)] [overflow-wrap:anywhere] [text-wrap:balance]" : "max-w-[12rem] w-max";
+        const labelAlignClass = isSideLabel ? "text-center [text-align-last:center]" : "text-center [text-align-last:center]";
         return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
-          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
-          "--label-gap-side": item.key === "theme" || item.key === "delete" ? "-0.18rem" : undefined
+          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`
         }}>
-                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={() => {
+                <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={event => {
             item.onClick?.();
+            // Prevent sticky hover-label after pointer clicks while preserving keyboard focus behavior.
+            if ((event?.detail || 0) > 0) event.currentTarget?.blur?.();
             if (!item.keepOpen) closeMenu();
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:h-[clamp(2.5rem,2.9vw,3.1rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
+                  <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[clamp(2.9rem,3.4vw,3.8rem)] [&>svg]:h-[clamp(2.9rem,3.4vw,3.8rem)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
                   </span>
                 </button>
                 <span className={cn(
-            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out",
+            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] antialiased z-[20] transition-opacity duration-[260ms] ease-out",
             labelPositionClass,
+            labelAlignClass,
             labelWidthClass
           )}>{item.label}</span>
               </div>;
