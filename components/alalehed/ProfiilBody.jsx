@@ -87,7 +87,10 @@ const orbitLayerClassName =
   "profile-orbit-layer absolute inset-0 z-[2] flex items-center justify-center pointer-events-none";
 const orbitWrapperClassName =
   "profile-email-dock-wrapper profile-orbit-menu-wrapper pointer-events-auto " +
-  "[--label-gap-side:0.34rem] min-[48.0625em]:[--label-gap-side:0.58rem] " +
+  "[--label-gap-side-left:0.46rem] [--label-gap-side-right:0.02rem] " +
+  "[--label-side-nudge-left:-0.1rem] [--label-side-nudge-right:-0.12rem] " +
+  "min-[48.0625em]:[--label-gap-side-left:0.72rem] min-[48.0625em]:[--label-gap-side-right:0.1rem] " +
+  "min-[48.0625em]:[--label-side-nudge-left:-0.14rem] min-[48.0625em]:[--label-side-nudge-right:-0.16rem] " +
   "[--orbit-item-size:clamp(4.6rem,9.2vw,5.8rem)] [--orbit-item-size-open:clamp(4.9rem,9.8vw,6.2rem)] " +
   "min-[48.0625em]:[--orbit-item-size:5.4rem] min-[48.0625em]:[--orbit-item-size-open:5.75rem] " +
   "min-[48.0625em]:[--label-gap:0.95rem] " +

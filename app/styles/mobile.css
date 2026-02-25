@@ -559,6 +559,18 @@
     transform: translateY(clamp(0.32rem, 1.45vw, 0.52rem)) !important;
   }
 
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(0.45rem, 2.2vw, 0.8rem) !important;
+    transform: translateY(clamp(-0.42rem, -1.9vw, -0.24rem)) !important;
+  }
+
+  html[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-display-mode="standalone"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(0.45rem, 2.2vw, 0.8rem) !important;
+    transform: translateY(clamp(-0.42rem, -1.9vw, -0.24rem)) !important;
+  }
+
   html[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap,
   body[data-display-mode="standalone"] .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
     top: auto !important;

@@ -5,7 +5,8 @@ import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import SotsiaalAILoader from "@/components/ui/SotsiaalAILoader";
-const modalContentClassName = "flex w-full max-w-[28rem] flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]";
+const modalOverlayClassName = "modal-confirm-overlay";
+const modalContentClassName = "modal-confirm-content flex w-full max-w-[28rem] flex-col gap-4 text-[color:var(--pt-50)] light:text-[color:var(--text-strong)]";
 const modalMessageClassName = "text-[1.05rem] leading-[1.5] text-[color:var(--pt-120)] light:text-[color:var(--text-strong)]";
 const modalActionsClassName = "flex flex-wrap justify-center gap-3";
 const modalBusyWrapClassName = "flex justify-center py-[0.12rem]";
@@ -41,7 +42,7 @@ export default function ModalConfirm({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onCancel, disabled]);
-  const modal = <Modal open onClose={onCancel} closeOnOverlayClick={false} aria-label={typeof message === "string" ? message : "Confirm dialog"} contentClassName={modalContentClassName}>
+  const modal = <Modal open onClose={onCancel} closeOnOverlayClick={false} aria-label={typeof message === "string" ? message : "Confirm dialog"} className={modalOverlayClassName} contentClassName={modalContentClassName}>
       {!busy ? <p className={modalMessageClassName}>{message}</p> : null}
       {busy ? <div className={modalBusyWrapClassName} role="status" aria-live="polite" aria-atomic="true">
           <div className={modalBusyCardClassName}>

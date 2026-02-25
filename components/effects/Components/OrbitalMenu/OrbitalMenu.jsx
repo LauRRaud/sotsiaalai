@@ -567,14 +567,32 @@ export default function OrbitalMenu({
         const orbitY = Math.round(-Math.cos(angleRad) * orbitRadius * orbitRadiusBoost);
         const labelPos = item.labelPos || "up";
         const isSideLabel = labelPos === "left" || labelPos === "right";
-        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side,var(--label-gap)))] top-1/2 -translate-y-1/2" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side,var(--label-gap)))] top-1/2 -translate-y-1/2" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
-        const labelWidthClass = item.key === "subscription" ? "max-w-[5.8rem] w-max" : isSideLabel ? "w-[var(--label-side-width,4.9rem)] max-w-[var(--label-side-width,4.9rem)] [overflow-wrap:anywhere] [text-wrap:balance]" : "max-w-[12rem] w-max";
-        const labelAlignClass = isSideLabel ? "text-center [text-align-last:center]" : "text-center [text-align-last:center]";
+        const labelPositionClass = labelPos === "down" ? "left-1/2 top-[calc(100%+var(--label-gap))] -translate-x-1/2" : labelPos === "left" ? "right-[calc(100%+var(--label-gap-side-left,var(--label-gap-side,var(--label-gap)))+var(--label-gap-dynamic,0rem))] top-1/2 [transform:translateY(-50%)_translateX(var(--label-side-nudge-left,0rem))]" : labelPos === "right" ? "left-[calc(100%+var(--label-gap-side-right,var(--label-gap-side,var(--label-gap)))+var(--label-gap-dynamic,0rem))] top-1/2 [transform:translateY(-50%)_translateX(var(--label-side-nudge-right,0rem))]" : "left-1/2 bottom-[calc(100%+var(--label-gap))] -translate-x-1/2";
+        const labelWidthClass = item.key === "subscription" ? "w-[7.8rem] max-w-[7.8rem]" : isSideLabel ? "w-max max-w-[var(--label-side-width,7.2rem)] [overflow-wrap:normal] [word-break:normal] [text-wrap:pretty]" : "max-w-[12rem] w-max";
+        const labelAlignClass = "text-center [text-align-last:center]";
+        const sideLabelLength = String(item.label || "").replace(/\s+/g, "").length;
+        const labelTypographyClass = !isSideLabel
+          ? "leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)]"
+          : "leading-[1.02] text-[clamp(1.08rem,2.3vw,1.24rem)]";
+        const labelGapDynamic = !isSideLabel
+          ? 0
+          : sideLabelLength <= 3
+            ? 0.12
+            : sideLabelLength <= 6
+              ? 0.04
+              : sideLabelLength <= 10
+                ? -0.06
+                : sideLabelLength <= 14
+                  ? -0.18
+                  : sideLabelLength <= 20
+                    ? -0.28
+                    : -0.36;
         return <div key={item.key || index} className={cn("profile-orbit-menu__slot group absolute top-1/2 left-1/2 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] [transform:translate3d(var(--orbit-x,0px),var(--orbit-y,0px),0)_translate(-50%,-50%)] opacity-[var(--item-opacity)] transition-opacity [transition-duration:200ms] [transition-timing-function:ease] z-[1]", isOpen && "animate-[orbit-item-reveal_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]", !isOpen && isClosing && "animate-[orbit-item-hide_0.38s_cubic-bezier(0.2,0.8,0.2,1)_both]")} data-key={item.key || index} data-label-pos={labelPos} style={{
           "--orbit-x": `${orbitX}px`,
           "--orbit-y": `${orbitY}px`,
           "--orbit-hide-x": `${Math.round(orbitX * orbitHideScale)}px`,
-          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`
+          "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
+          "--label-gap-dynamic": `${labelGapDynamic}rem`
         }}>
                 <button type="button" className="profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-size)] h-[var(--orbit-item-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:transform_0.22s_ease,box-shadow_0.28s_ease,border-color_0.18s_ease,background_0.18s_ease]" onClick={event => {
             item.onClick?.();
@@ -587,9 +605,10 @@ export default function OrbitalMenu({
                   </span>
                 </button>
                 <span className={cn(
-            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] antialiased z-[20] transition-opacity duration-[260ms] ease-out",
+            "dock-label profile-orbit-item-label absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none whitespace-normal break-normal hyphens-none tracking-[0.02em] antialiased z-[20] transition-opacity duration-[260ms] ease-out",
             labelPositionClass,
             labelAlignClass,
+            labelTypographyClass,
             labelWidthClass
           )}>{item.label}</span>
               </div>;

@@ -74,6 +74,12 @@
   );
 }
 
+/* Home/footer brand marks in mid: keep softer presence over warm backdrop. */
+:root.theme-mid .site-footer-logo,
+:root.theme-mid .home-footer-logo {
+  opacity: 0.58 !important;
+}
+
 /* Keep conversation drawer cards in mid transparent, including hover/active states. */
 :root.theme-mid .drawer-panel .drawer-chat-card,
 :root.theme-mid .drawer-panel .drawer-chat-sidebar__list > li,
@@ -101,6 +107,59 @@
 :root.theme-mid .login-modal-box {
   --otp-panel-bg: rgba(252, 248, 247, 0.44);
   --otp-input-bg: rgba(252, 248, 247, 0.48);
+}
+
+/* OTP step in mid: keep shell, input and controls on same glass material. */
+:root.theme-mid .login-modal-box.login-modal--otp .login-modal-shell {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(252, 248, 247, 0.56) 0%,
+      rgba(245, 236, 234, 0.42) 56%,
+      rgba(239, 228, 225, 0.34) 100%
+    ),
+    rgba(249, 243, 241, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  box-shadow:
+    0 10px 22px rgba(20, 12, 10, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+:root.theme-mid .login-modal-box.login-modal--otp #otp-code-input {
+  background: rgba(252, 248, 247, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
+  color: #2f3a4a !important;
+}
+
+:root.theme-mid .login-modal-box.login-modal--otp #otp-code-input::placeholder {
+  color: rgba(55, 65, 81, 0.84) !important;
+}
+
+:root.theme-mid .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {
+  background: rgba(252, 248, 247, 0.46) !important;
+  border-color: rgba(255, 255, 255, 0.42) !important;
+}
+
+:root.theme-mid .login-modal-box.login-modal--otp .button,
+:root.theme-mid .login-modal-box.login-modal--otp .button:hover,
+:root.theme-mid .login-modal-box.login-modal--otp .button:focus-visible {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(252, 247, 246, 0.5) 0%,
+      rgba(246, 237, 235, 0.36) 100%
+    ),
+    rgba(247, 238, 236, 0.32) !important;
+  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+  color: #2f3a4a !important;
+  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
+}
+
+:root.theme-mid .login-modal-box.login-modal--otp .home-link {
+  --link-brand-text: #7a3a38;
+  --link-brand-border-hover: #7a3a38;
+  --link-brand-shadow-hover: rgba(122, 58, 56, 0.26);
 }
 
 /* Keep light-mode hardcoded chat surfaces from becoming fully white in mid mode. */
@@ -370,4 +429,56 @@
   border-color: rgba(198, 74, 90, 0.52) !important;
   background: rgba(255, 228, 233, 0.74) !important;
   color: #7f1d2d !important;
+}
+
+/* Confirm dialog in mid: avoid plain white card, keep same glass language. */
+:root.theme-mid .modal-confirm-overlay {
+  background: rgba(60, 36, 34, 0.34) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(108%);
+  backdrop-filter: blur(8px) saturate(108%);
+}
+
+:root.theme-mid .modal-confirm-content {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(252, 248, 247, 0.56) 0%,
+      rgba(245, 236, 234, 0.42) 58%,
+      rgba(239, 228, 225, 0.34) 100%
+    ),
+    rgba(249, 243, 241, 0.4) !important;
+  color: #2f3a4a !important;
+  box-shadow:
+    0 14px 28px rgba(20, 12, 10, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52) !important;
+}
+
+:root.theme-mid .modal-confirm-content p {
+  color: #2f3a4a !important;
+}
+
+:root.theme-mid .modal-confirm-content .button {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(252, 247, 246, 0.5) 0%,
+      rgba(246, 237, 235, 0.36) 100%
+    ),
+    rgba(247, 238, 236, 0.32) !important;
+  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+  color: #2f3a4a !important;
+  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
+}
+
+:root.theme-mid .modal-confirm-content .button:hover,
+:root.theme-mid .modal-confirm-content .button:focus-visible {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(253, 250, 249, 0.58) 0%,
+      rgba(247, 239, 237, 0.42) 100%
+    ),
+    rgba(249, 241, 239, 0.36) !important;
+  border: 1px solid rgba(255, 255, 255, 0.56) !important;
 }
