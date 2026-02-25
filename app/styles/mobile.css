@@ -774,7 +774,9 @@
   .chat-right-actions {
     position: absolute !important;
     top: var(--chat-mobile-rail-top) !important;
-    left: auto !important;
+    left: calc(
+      env(safe-area-inset-left, 0px) + 0.04rem + 3.85rem + clamp(0.42rem, 1.9vw, 0.58rem)
+    ) !important;
     right: calc(env(safe-area-inset-right, 0px) + 0.02rem) !important;
     width: auto !important;
     height: auto !important;
@@ -793,14 +795,14 @@
   }
 
   .chat-right-actions > nav {
-    width: auto !important;
+    width: 100% !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: clamp(0.7rem, 3.4vw, 1.12rem) !important;
-    padding-left: clamp(0.4rem, 2vw, 0.7rem) !important;
-    padding-right: clamp(0.06rem, 0.8vw, 0.16rem) !important;
+    gap: clamp(0.62rem, 2.8vw, 0.94rem) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     overflow: visible !important;
@@ -812,6 +814,18 @@
     margin: 0 !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .chat-right-actions > nav button[data-key="profile"] {
+    margin-right: 0.24rem !important;
+  }
+
+  .chat-right-actions > nav button[data-key="chats"] {
+    margin-right: 0.46rem !important;
+  }
+
+  .chat-right-actions > nav button[data-key="sources"] {
+    margin-right: 0.44rem !important;
   }
 
   .chat-input-row {

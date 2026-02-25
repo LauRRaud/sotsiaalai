@@ -526,7 +526,7 @@ export default function RightRail({
           itemIndex,
           slotOffset
         };
-      }).filter(Boolean)).map(slot => {
+      }).filter(Boolean)).map((slot, renderIndex) => {
         const {
           it,
           itemIndex,
@@ -556,6 +556,7 @@ export default function RightRail({
           }
         };
 
+        const mobileRevealDelay = viewportIsMobile ? (Math.max(0, mobileSlots.length - 1 - renderIndex) * 48) : 0;
         const commonProps = {
           ref: setRailRef,
           className: cn(
@@ -564,9 +565,12 @@ export default function RightRail({
             !viewportIsMobile && slotOffset === 0 ? styles.isActive : null,
             it?.key === "sources" && showSourcesPanel ? styles.iconBtnActive : null,
             it?.key === "sources" && sourcesPulse ? styles.isPulse : null,
+            viewportIsMobile && mobileVisible ? styles.mobileReveal : null,
             mobileItemClassName
           ),
-          style: viewportIsMobile ? undefined : {
+          style: viewportIsMobile ? {
+            "--mobile-reveal-delay": `${mobileRevealDelay}ms`
+          } : {
             transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(2)}px) translateY(${offsetY}px) scale(${scale.toFixed(3)})`,
             opacity: opacity.toFixed(3),
             zIndex
