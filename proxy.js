@@ -1,8 +1,4 @@
 import { NextResponse } from "next/server";
-const ALLOWED_REDIRECT_HOSTS = String(process.env.ALLOWED_REDIRECT_HOSTS || "")
-  .split(",")
-  .map(h => h.trim().toLowerCase())
-  .filter(Boolean);
 
 function getForwardedHeader(req, name) {
   const raw = req.headers.get(name);
@@ -38,14 +34,6 @@ function sanitizeRedirectHost(host) {
   return hostWithoutPort(host);
 }
 
-function canUseForwardedHost(forwardedHost, fallbackHost) {
-  if (!forwardedHost) return false;
-  if (fallbackHost && forwardedHost === fallbackHost) return true;
-  if (!ALLOWED_REDIRECT_HOSTS.length) return false;
-  const forwardedBase = hostWithoutPort(forwardedHost);
-  return ALLOWED_REDIRECT_HOSTS.includes(forwardedHost) || ALLOWED_REDIRECT_HOSTS.includes(forwardedBase);
-}
-
 export async function proxy(req) {
   const {
     pathname
@@ -60,7 +48,9 @@ export async function proxy(req) {
     const forwardedHost = normalizeHost(getForwardedHeader(req, "x-forwarded-host"));
     const fallbackHost = normalizeHost(req.headers.get("host"));
     if (forwardedProto) dest.protocol = `${forwardedProto}:`;
-    if (canUseForwardedHost(forwardedHost, fallbackHost)) {
+    // Behind reverse proxies, req.headers.host can be the internal upstream host.
+    // Prefer forwarded host to keep public redirects stable.
+    if (forwardedHost) {
       dest.host = sanitizeRedirectHost(forwardedHost);
     } else if (fallbackHost) {
       dest.host = sanitizeRedirectHost(fallbackHost);
