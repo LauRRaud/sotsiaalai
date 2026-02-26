@@ -25,6 +25,14 @@ function hostWithoutPort(host) {
   return host.replace(/:\d+$/, "");
 }
 
+function sanitizeRedirectHost(host) {
+  if (!host) return null;
+  // In production we should never leak internal upstream ports (e.g. :3000)
+  // to browser redirects.
+  if (process.env.NODE_ENV === "production") return hostWithoutPort(host);
+  return host;
+}
+
 function canUseForwardedHost(forwardedHost, fallbackHost) {
   if (!forwardedHost) return false;
   if (fallbackHost && forwardedHost === fallbackHost) return true;
@@ -48,9 +56,9 @@ export async function proxy(req) {
     const fallbackHost = normalizeHost(req.headers.get("host"));
     if (forwardedProto) dest.protocol = `${forwardedProto}:`;
     if (canUseForwardedHost(forwardedHost, fallbackHost)) {
-      dest.host = forwardedHost;
+      dest.host = sanitizeRedirectHost(forwardedHost);
     } else if (fallbackHost) {
-      dest.host = fallbackHost;
+      dest.host = sanitizeRedirectHost(fallbackHost);
     }
     dest.pathname = rest;
     const res = NextResponse.redirect(dest, 308);
