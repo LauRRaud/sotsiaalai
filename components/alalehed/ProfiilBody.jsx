@@ -14,6 +14,7 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { cn } from "@/components/ui/cn";
 import GlassRing from "@/components/ui/GlassRing";
 import { clearStaleScrollLock } from "@/lib/scrollLock";
+import { getFooterNote } from "@/lib/footerNote";
 import BackButton from "@/components/ui/BackButton";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
@@ -411,7 +412,7 @@ export default function ProfiilBody({
     !embedded && headerCenterPageClassName
   );
   const roleLabel = t(ROLE_KEYS[session?.user?.role] || "profile.role_short.unknown");
-  const footerNote = t("about.footer.note");
+  const footerNote = getFooterNote();
   const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
   const roleLabelIsMultiLine =
     typeof roleLabelDisplay === "string" && roleLabelDisplay.includes("\n");

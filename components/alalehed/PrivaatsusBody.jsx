@@ -13,6 +13,7 @@ import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glas
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
+import { getFooterNote } from "@/lib/footerNote";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
@@ -168,7 +169,7 @@ export default function PrivaatsusBody() {
                 </div>
               </div>)}
             <footer className="mt-[1.6rem] text-center text-[1.05rem] max-[48em]:text-[1.12rem] text-[#d7cfd3] light:text-[#4a413a]">
-              {t("about.footer.note")}
+              {getFooterNote()}
             </footer>
           </div>
         </div>

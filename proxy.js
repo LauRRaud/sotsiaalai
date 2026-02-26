@@ -25,12 +25,17 @@ function hostWithoutPort(host) {
   return host.replace(/:\d+$/, "");
 }
 
+function isLocalHost(host) {
+  const base = hostWithoutPort(host || "");
+  return base === "localhost" || base === "127.0.0.1" || base === "::1" || base === "[::1]";
+}
+
 function sanitizeRedirectHost(host) {
   if (!host) return null;
-  // In production we should never leak internal upstream ports (e.g. :3000)
-  // to browser redirects.
-  if (process.env.NODE_ENV === "production") return hostWithoutPort(host);
-  return host;
+  // Never expose internal upstream ports (e.g. :3000) to public browser redirects.
+  // Keep ports only for local development hosts.
+  if (isLocalHost(host)) return host;
+  return hostWithoutPort(host);
 }
 
 function canUseForwardedHost(forwardedHost, fallbackHost) {

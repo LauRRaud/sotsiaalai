@@ -13,6 +13,7 @@ import GlassRing from "@/components/ui/GlassRing";
 import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+import { getFooterNote } from "@/lib/footerNote";
 
 const pageShellClassName = glassPageShellClassName;
 const titleClassName = glassPageTitleClassName;
@@ -176,7 +177,7 @@ export default function ResetPasswordForm({
               </div>
             </form>
           )}
-          <footer className="pt-3 text-center opacity-80">{t("about.footer.note")}</footer>
+          <footer className="pt-3 text-center opacity-80">{getFooterNote()}</footer>
         </div>
       </GlassRing>
     </section>
