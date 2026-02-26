@@ -10,6 +10,7 @@
   --home-panel-bg: rgba(252, 248, 247, 0.53);
   --home-panel-shadow: 0 12px 22px rgba(20, 12, 10, 0.2);
   --home-before-shadow: 0 10px 20px rgba(20, 12, 10, 0.18);
+  --bg-bends-opacity: 0.76;
   --drawer-glass-bg: linear-gradient(
     135deg,
     rgba(253, 250, 249, 0.58),

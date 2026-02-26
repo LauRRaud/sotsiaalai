@@ -116,7 +116,7 @@
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  opacity: 0.9;
+  opacity: var(--bg-bends-opacity, 0.9);
 }
 [data-bg-layer] .space-backdrop {
   position: absolute;
