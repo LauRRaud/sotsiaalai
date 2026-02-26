@@ -1,5 +1,25 @@
 import { NextResponse } from "next/server";
 
+function resolvePublicOrigin() {
+  const candidates = [
+    process.env.APP_BASE_URL,
+    process.env.NEXT_PUBLIC_APP_URL,
+    process.env.NEXTAUTH_URL,
+    process.env.SITE_URL,
+    "https://sotsiaal.ai"
+  ];
+  for (const raw of candidates) {
+    if (!raw) continue;
+    try {
+      const u = new URL(String(raw));
+      return `${u.protocol}//${u.host}`;
+    } catch {}
+  }
+  return "https://sotsiaal.ai";
+}
+
+const PUBLIC_ORIGIN = resolvePublicOrigin();
+
 export async function proxy(req) {
   const {
     pathname
@@ -8,11 +28,9 @@ export async function proxy(req) {
   if (m) {
     const locale = m[1];
     const rest = m[2] || "/";
-    const rewriteUrl = req.nextUrl.clone();
-    rewriteUrl.pathname = rest;
-    // Internal rewrite avoids absolute redirect URL construction and
-    // therefore cannot leak internal upstream ports (e.g. :3000).
-    const res = NextResponse.rewrite(rewriteUrl);
+    const search = req.nextUrl.search || "";
+    const dest = new URL(`${rest}${search}`, PUBLIC_ORIGIN);
+    const res = NextResponse.redirect(dest, 308);
     res.cookies.set("NEXT_LOCALE", locale, {
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
