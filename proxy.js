@@ -8,10 +8,11 @@ export async function proxy(req) {
   if (m) {
     const locale = m[1];
     const rest = m[2] || "/";
-    const location = `${rest}${req.nextUrl.search || ""}`;
-    const res = new NextResponse(null, { status: 308 });
-    // Use relative Location so internal upstream host/port can never leak.
-    res.headers.set("Location", location);
+    const rewriteUrl = req.nextUrl.clone();
+    rewriteUrl.pathname = rest;
+    // Internal rewrite avoids absolute redirect URL construction and
+    // therefore cannot leak internal upstream ports (e.g. :3000).
+    const res = NextResponse.rewrite(rewriteUrl);
     res.cookies.set("NEXT_LOCALE", locale, {
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
